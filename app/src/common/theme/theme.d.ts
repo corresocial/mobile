@@ -4,12 +4,15 @@ import 'styled-components';
 declare module 'styled-components' {
   export interface DefaultTheme {
     background: {
-        primary: string,
+        primary: string
         secondary: string
+        tertiary: string
+        quaternary: string
     },
 
     font: {
         primary: string
+        secondary: string
     }
   }
 }

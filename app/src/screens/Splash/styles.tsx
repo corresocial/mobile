@@ -1,8 +1,8 @@
 import styled from 'styled-components/native'
 import {Animated} from 'react-native'
 
-import { theme } from '../../commonStyles/theme/theme'
-import { screenHeight } from '../../commonStyles/screenDimensions'
+import { theme } from '../../common/theme'
+import { screenHeight } from '../../common/screenDimensions'
 
 export const Container = styled.View`
     flex: 1;
@@ -25,5 +25,5 @@ export const BottomLine = styled.View`
     bottom: 0;
     height: ${screenHeight * 0.004}px;
     width: 100%;
-    background-color: ${theme.background.secondary};
+    background-color: ${theme.background.quaternary};
 `

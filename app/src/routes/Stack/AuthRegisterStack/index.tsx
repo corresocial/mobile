@@ -4,7 +4,7 @@ import { createStackNavigator, TransitionPresets } from "@react-navigation/stack
 import 'react-native-gesture-handler'
 
 import { Splash } from '../../../screens/Splash';
-const AcceptAndContinue = () => <View><Text>This is Accept and Contunue</Text></View>
+import {AcceptAndContinue} from './../../../screens/AcceptAndContinue'
 
 export type AuthRegisterStackParamList = {
     Splash: undefined

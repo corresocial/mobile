@@ -10,7 +10,7 @@ import {
 
 import BuildingsSVG from './../../assets/svgs/buildings.svg'
 import LogoSVG from './../../assets/svgs/logo.svg'
-import { screenHeight, screenWidth } from '../../commonStyles/screenDimensions';
+import { screenHeight, screenWidth } from '../../common/screenDimensions';
 import { SplashScreenProps } from '../../routes/Stack/screenProps';
 
 function Splash({navigation}: SplashScreenProps) {
