@@ -11,9 +11,9 @@ import {
 import BuildingsSVG from './../../assets/svgs/buildings.svg'
 import LogoSVG from './../../assets/svgs/logo.svg'
 import { screenHeight, screenWidth } from '../../commonStyles/screenDimensions';
+import { SplashScreenProps } from '../../routes/Stack/screenProps';
 
-
-function Splash() {
+function Splash({navigation}: SplashScreenProps) {
     const [imagesSvgOpacity, setImagesSvgOpacity] = useState(new Animated.Value(0))
 
     useEffect(() => {
@@ -22,6 +22,10 @@ function Splash() {
             duration: 1000,
             useNativeDriver: true
         }).start()
+
+        setTimeout(() => {
+            navigation.navigate('AcceptAndContinue')
+        }, 2000)
     })
 
     return (
