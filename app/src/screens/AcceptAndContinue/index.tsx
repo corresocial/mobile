@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import {  Alert } from 'react-native';
 
 import {
     Container,
@@ -75,6 +74,7 @@ function AcceptAndContinue() {
                     iconName={'arrow-right'}
                     color={theme.background.primary}
                     highlightedWords={['continuar']}
+                    onPress={() =>{}}
                 />
             </TermsButtonContainer>
         </Container>
