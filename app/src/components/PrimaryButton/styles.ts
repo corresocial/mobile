@@ -11,6 +11,7 @@ export const Container= styled.TouchableOpacity`
     border-radius: 10px;
     border: 2px solid black;
     border-right-width: 5px;
+    padding-horizontal: 20px;
 `
 
 export const ButtonLabel = styled.Text`

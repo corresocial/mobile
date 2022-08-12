@@ -18,6 +18,7 @@ import { screenHeight, screenWidth } from '../../common/screenDimensions';
 import { CustomCarousel } from './../../components/CustomCarousel'
 import { InstructionCard } from '../../components/InstructionCard';
 import { PrimaryButton } from '../../components/PrimaryButton';
+import { TermsOfServiceModal } from '../../components/TermsOfServiceModal';
 
 const presentationTexts = [
     'rede social, de verdade',
@@ -31,15 +32,15 @@ function AcceptAndContinue() {
 
     const showTermsOfServiceModal = () => {
         setTermsVisibility(true)
-        Alert.alert('Ops!', 'Logo vai estar funfando, aguenta aí!')
     }
 
     const hideTermsOfServiceModal = () => {
-
+        setTermsVisibility(false)
     }
 
     return (
         <Container >
+            <TermsOfServiceModal visibility={termsVisibility} closeModal={hideTermsOfServiceModal}/>
             <CarouselContainer>
                 <CustomCarousel>
                     <CarouselItemContainer >
@@ -71,6 +72,7 @@ function AcceptAndContinue() {
                 <PrimaryButton
                     label='aceitar e continuar'
                     labelColor={theme.font.primary}
+                    iconName={'arrow-right'}
                     color={theme.background.primary}
                     highlightedWords={['continuar']}
                 />
