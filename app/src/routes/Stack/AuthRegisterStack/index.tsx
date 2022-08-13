@@ -4,29 +4,32 @@ import { createStackNavigator, TransitionPresets } from "@react-navigation/stack
 import 'react-native-gesture-handler'
 
 import { Splash } from '../../../screens/Splash';
-import {AcceptAndContinue} from './../../../screens/AcceptAndContinue'
+import { AcceptAndContinue } from './../../../screens/AcceptAndContinue'
+import { InsertPhone } from '../../../screens/InsertPhone';
 
 export type AuthRegisterStackParamList = {
     Splash: undefined
     AcceptAndContinue: undefined
+    InsertPhone: undefined
 };
 
 const Stack = createStackNavigator<AuthRegisterStackParamList>()
 
 export function AuthRegisterStack() {
     return (
-        <Stack.Navigator initialRouteName='AcceptAndContinue'
+        <Stack.Navigator initialRouteName='Splash'
             screenOptions={{
                 headerShown: false,
                 gestureEnabled: true,
                 ...TransitionPresets.SlideFromRightIOS,
             }}
         >
-            <Stack.Screen name={'Splash'} component={Splash}  />
-            <Stack.Screen name={'AcceptAndContinue'} component={AcceptAndContinue} 
-            options={{
-                ...TransitionPresets.FadeFromBottomAndroid
-            }}/>
+            <Stack.Screen name={'Splash'} component={Splash} />
+            <Stack.Screen name={'AcceptAndContinue'} component={AcceptAndContinue}
+                options={{
+                    ...TransitionPresets.FadeFromBottomAndroid
+                }} />
+            <Stack.Screen name={'InsertPhone'} component={InsertPhone} />
         </Stack.Navigator>
     )
 }

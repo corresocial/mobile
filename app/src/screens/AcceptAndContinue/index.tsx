@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 
 import {
     Container,
-    CarouselContainer,
     TermsButtonContainer,
     CarouselItemContainer,
     Slogan,
@@ -14,6 +13,8 @@ import Logo from './../../assets/svgs/logo.svg'
 import { theme } from '../../common/theme';
 import { screenHeight, screenWidth } from '../../common/screenDimensions';
 
+import { AcceptAndContinueScreenProps } from '../../routes/Stack/screenProps';
+import { DefaultHeaderContainer } from '../../components/DefaultHeaderContainer';
 import { CustomCarousel } from './../../components/CustomCarousel'
 import { InstructionCard } from '../../components/InstructionCard';
 import { PrimaryButton } from '../../components/PrimaryButton';
@@ -25,7 +26,7 @@ const presentationTexts = [
     'além disso, quando você usa o corre, você ajuda outras pessoas com nossas iniciativas sociais.',
 ];
 
-function AcceptAndContinue() {
+function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
 
     const [termsVisibility, setTermsVisibility] = useState<boolean>(false)
 
@@ -37,10 +38,14 @@ function AcceptAndContinue() {
         setTermsVisibility(false)
     }
 
+    const navigateToInsertPhoneScreen = () => {
+        navigation.navigate('InsertPhone')
+    }
+
     return (
         <Container >
-            <TermsOfServiceModal visibility={termsVisibility} closeModal={hideTermsOfServiceModal}/>
-            <CarouselContainer>
+            <TermsOfServiceModal visibility={termsVisibility} closeModal={hideTermsOfServiceModal} />
+            <DefaultHeaderContainer relativeHeight='55%' backgroundColor={theme.background.secondary} withoutPadding>
                 <CustomCarousel>
                     <CarouselItemContainer >
                         <Logo height={screenHeight * 0.07} width={screenWidth * 0.5} />
@@ -49,17 +54,17 @@ function AcceptAndContinue() {
                     <CarouselItemContainer>
                         <InstructionCard
                             message={presentationTexts[1]}
-                            highlightedWords={['anunciar', 'vender','encontrar','fazer', 'um', 'dinheiro.']}
+                            highlightedWords={['anunciar', 'vender', 'encontrar', 'fazer', 'um', 'dinheiro.']}
                         />
                     </CarouselItemContainer>
                     <CarouselItemContainer>
                         <InstructionCard
-                         message={presentationTexts[2]} 
-                         highlightedWords={['usa', 'o', 'corre,', 'ajuda', 'iniciativas','sociais.']}
-                         />
+                            message={presentationTexts[2]}
+                            highlightedWords={['usa', 'o', 'corre,', 'ajuda', 'iniciativas', 'sociais.']}
+                        />
                     </CarouselItemContainer>
                 </CustomCarousel>
-            </CarouselContainer>
+            </DefaultHeaderContainer>
             <TermsButtonContainer>
                 <TermsLabel>
                     ao clicar em "aceitar e continuar" você aceita com os
@@ -74,7 +79,7 @@ function AcceptAndContinue() {
                     iconName={'arrow-right'}
                     color={theme.background.primary}
                     highlightedWords={['continuar']}
-                    onPress={() =>{}}
+                    onPress={navigateToInsertPhoneScreen}
                 />
             </TermsButtonContainer>
         </Container>

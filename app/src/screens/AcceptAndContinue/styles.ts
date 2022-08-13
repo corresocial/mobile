@@ -5,11 +5,6 @@ export const Container = styled.View`
     flex: 1;
 `
 
-export const CarouselContainer = styled.View`
-    height: ${screenHeight * 0.55}px;
-    background-color: ${({ theme }) => theme.background.secondary};
-`
-
 export const CarouselItemContainer = styled.View`
     align-items: center;
     justify-content: center;
@@ -24,9 +19,7 @@ export const Slogan = styled.Text`
 
 export const TermsButtonContainer = styled.View`
     flex: 1;
-    background-color: ${({ theme }) => theme.background.tertiary};
-    border-top-width: 5px;   
-    border-top-color:  ${({ theme }) => theme.background.quaternary};   
+    background-color: ${({ theme }) => theme.background.tertiary};  
     align-items: center;
     justify-content: center;
     padding:  ${screenWidth * 0.08}px;

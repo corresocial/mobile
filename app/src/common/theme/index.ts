@@ -7,6 +7,15 @@ export const theme: DefaultTheme = {
         tertiary: '#FFFFFF',  // White
         quaternary: '#000000',// Black
 
+        fifth: '#4D2476',   // Purple Darkness 
+        sixth: '#9947EB',   // Purple Dark
+        seventh: '#B274F0',   // Purple Medium 
+        eighth: '#CCA3F5', // Purple Light 
+
+        ninth: '#742818',  // Red Dark
+        tenth: '#EE7A63',   // Red Medium
+        eleventh: '#F3A797',   // Red Light
+
         success: 'green', // Green
         error: '#E84F30', // Red
         info: 'blue',     // Blue

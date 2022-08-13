@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text } from 'react-native'
 
-export const showMessageWithHighlight = (message: string, highlightedWords?: string[]) => {
+const showMessageWithHighlight = (message: string, highlightedWords?: string[]) => {
     if (!highlightedWords) return message
 
     const words = message.split(' ')
@@ -16,4 +16,14 @@ export const showMessageWithHighlight = (message: string, highlightedWords?: str
     })
 
     return messageHighlighted
+}
+
+const filterLeavingOnlyNumbers = (dirtyText: string) => {
+    const cleanText =  dirtyText.match(/[0-9]/ig)?.join('')
+    return cleanText
+}
+
+export {
+    showMessageWithHighlight,
+    filterLeavingOnlyNumbers
 }

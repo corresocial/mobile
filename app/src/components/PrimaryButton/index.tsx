@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { FontAwesome5 as Icon, Ionicons as IonicIcon } from '@expo/vector-icons';
+import { FontAwesome5 as Icon} from '@expo/vector-icons';
 
-import { Container, ButtonLabel, TouchableContainer, ContainerSurface, ContainerBottom } from './styles';
+import {  ButtonLabel, TouchableContainer, ContainerSurface, ContainerBottom } from './styles';
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions';
 
 interface PrimaryButtonProps {
@@ -58,7 +57,7 @@ function PrimaryButton({
                         marginRight: buttonPressed ? -3 : 0
                     }}>
                     <ButtonLabel style={{ color: labelColor }}>
-                        {label}
+                        {showMessageWithHighlight(label, highlightedWords)}
                     </ButtonLabel>
                     <Icon
                         name={iconName || 'question'}
