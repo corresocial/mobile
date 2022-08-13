@@ -23,7 +23,7 @@ function DefaultHeaderContainer({
             height: relativeHeight || '55%',
             alignItems: centralized ? 'center' : 'flex-start',
             justifyContent: centralized ? 'center' : 'flex-start',
-            backgroundColor: backgroundColor as string,
+            backgroundColor: backgroundColor,
             padding: withoutPadding ? 0 : screenWidth * 0.08
         }}>
             {children}

@@ -1,4 +1,4 @@
-import { Alert } from 'react-native';
+import { Alert, Animated, TouchableOpacity } from 'react-native';
 import React, { useRef, useState } from 'react'
 
 import { Container, InputsContainer } from './styles';
@@ -18,8 +18,8 @@ export function InsertPhone() {
 	const [invalidPhoneAfterSubmit, setInvalidPhoneAfterSubmit] = useState<boolean>(false)
 
 	const inputRefs = {
-		DDDInput: useRef<any>(null),   // TODO Type
-		phoneInput: useRef<any>(null)
+		DDDInput: useRef<React.MutableRefObject<any>>(null),
+		phoneInput: useRef<React.MutableRefObject<any>>(null)
 	}
 
 	const validateDDD = (text: string) => {
@@ -55,12 +55,29 @@ export function InsertPhone() {
 		}
 	}
 
+	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
+	const animateDefaultHeaderBackgound = () => {
+		const existsError = invalidDDDAfterSubmit || invalidPhoneAfterSubmit
+
+		Animated.timing(headerBackgroundAnimatedValue.current, {
+			toValue: existsError ? 1 : 0,
+			duration: 1500,
+			useNativeDriver: false,
+		}).start()
+
+		return headerBackgroundAnimatedValue.current.interpolate({
+			inputRange: [0, 1],
+			outputRange: [theme.background.seventh, theme.background.tenth],
+		})
+	}
+
 	return (
 		<Container >
 			<DefaultHeaderContainer
 				relativeHeight='55%'
-				backgroundColor={invalidDDDAfterSubmit || invalidPhoneAfterSubmit ? theme.background.tenth : theme.background.seventh}
 				centralized
+				backgroundColor={animateDefaultHeaderBackgound()}
+
 			>
 				<InstructionCard
 					message={
