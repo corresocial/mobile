@@ -45,7 +45,7 @@ function TermsOfServiceModal({ visibility, closeModal}: TermsOfServiceModalProps
                     />
                 </LinkButtonsContainer>
                 <PrimaryButton
-                    color={theme.background.error}
+                    color={theme.background.tenth}
                     label={'fechar'}
                     highlightedWords={['fechar']}
                     labelColor={theme.font.tertiary}

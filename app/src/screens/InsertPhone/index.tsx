@@ -51,7 +51,10 @@ export function InsertPhone({navigation}: InsertPhoneScreenProps) {
 		const phoneIsValid = validatePhone(phone)
 
 		if (DDDIsValid && phoneIsValid) {
-			navigation.navigate('InsertPassword', {userPhone: phone})
+			if(DDD === '00') {// TODO Dev Only
+				return navigation.navigate('InsertPassword', {userPhone: `${DDD}${phone}`})
+			}
+			return navigation.navigate('InsertConfirmationCode', {userPhone: `${DDD}${phone}`})
 
 		} else {
 			!DDDIsValid && setInvalidDDDAfterSubmit(true)
@@ -71,7 +74,7 @@ export function InsertPhone({navigation}: InsertPhoneScreenProps) {
 
 		return headerBackgroundAnimatedValue.current.interpolate({
 			inputRange: [0, 1],
-			outputRange: [theme.background.seventh, theme.background.tenth],
+			outputRange: [theme.background.seventh, theme.background.eleventh],
 		})
 	}
 
@@ -105,10 +108,10 @@ export function InsertPhone({navigation}: InsertPhoneScreenProps) {
 						defaultBorderBottomColor={theme.background.quaternary}
 						validBackgroundColor={theme.background.eighth}
 						validBorderBottomColor={theme.background.fifth}
-						invalidBackgroundColor={theme.background.eleventh}
+						invalidBackgroundColor={theme.background.twelfth}
 						invalidBorderBottomColor={theme.background.ninth}
 						maxLength={2}
-						invalidTextAfterSubmit={invalidDDDAfterSubmit}
+						invalidTextAfterSubmit={invalidDDDAfterSubmit} 
 						placeholder={'22'}
 						keyboardType={'decimal-pad'}
 						filterText={filterLeavingOnlyNumbers as any} // TODO Type
@@ -124,7 +127,7 @@ export function InsertPhone({navigation}: InsertPhoneScreenProps) {
 						defaultBorderBottomColor={theme.background.quaternary}
 						validBackgroundColor={theme.background.eighth}
 						validBorderBottomColor={theme.background.fifth}
-						invalidBackgroundColor={theme.background.eleventh}
+						invalidBackgroundColor={theme.background.twelfth}
 						invalidBorderBottomColor={theme.background.ninth}
 						maxLength={9}
 						invalidTextAfterSubmit={invalidPhoneAfterSubmit}

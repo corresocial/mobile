@@ -11,16 +11,6 @@ interface InstructionCardProps {
 }
 
 function InstructionCard({ message, highlightedWords }: InstructionCardProps) {
-    const opacity = useRef(new Animated.Value(0))
-
-    useEffect(() => {
-        Animated.timing(opacity.current, {
-            toValue: 1,
-            duration: 1000,
-            useNativeDriver: false,
-        }).start()
-    })
-
     return (
         <Container>
                 <Message>{showMessageWithHighlight(message, highlightedWords)}</Message>

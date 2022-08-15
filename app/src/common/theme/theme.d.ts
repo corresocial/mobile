@@ -12,16 +12,22 @@ declare module 'styled-components' {
       fifth: string,
       sixth: string,
       seventh: string,
-
       eighth: string
+
       ninth: string
       tenth: string
       eleventh: string
-
       twelfth: string
+
       thirteenth: string
       fourteenth: string
       fifteenth: string
+      sixteenth: string
+
+      seventeenth: string
+      eighteenth: string
+      nineteenth: string
+      twentieth: string
 
       success: string
       error: string

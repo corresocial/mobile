@@ -3,7 +3,7 @@ import { screenWidth } from "../../common/screenDimensions";
 
 export const Container = styled.TouchableHighlight`
     min-height: 52px;
-    min-width: 65px;
+    min-width: 42px;
     height: ${screenWidth * 0.127}px;
     width: ${screenWidth * 0.127}px;
     border-bottom-width: 2.5px;

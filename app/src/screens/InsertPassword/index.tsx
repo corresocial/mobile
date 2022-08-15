@@ -14,7 +14,7 @@ import { PrimaryButton } from '../../components/PrimaryButton';
 function InsertPassword({ navigation, route }: InsertPasswordScreenProps) {
 
 	const [password, setPassword] = useState<string>('')
-	const [invalidPasswordAfterSubmit, setInvaliPasswordAAfterSubmit] = useState<boolean>(false)
+	const [invalidPasswordAfterSubmit, setInvaliPasswordAfterSubmit] = useState<boolean>(false)
 
 	const inputRefs = {
 		passwordInput: useRef<React.MutableRefObject<any>>(null),
@@ -23,7 +23,7 @@ function InsertPassword({ navigation, route }: InsertPasswordScreenProps) {
 	const validatePassword = (text: string) => {
 		const isValid = text.length >= 8
 		if (isValid) {
-			setInvaliPasswordAAfterSubmit(false)
+			setInvaliPasswordAfterSubmit(false)
 			return true
 		}
 		return false
@@ -36,11 +36,11 @@ function InsertPassword({ navigation, route }: InsertPasswordScreenProps) {
 		console.log(userPhone)
 		
 		if (passwordIsValid) {
-			// navigation.navigate('InsertPassword', { phone }) // Navigation to this screen
+			// navigation.navigate('InsertPassword', { userPhone }) // Navigation to this screen
 			Alert.alert('Signin!', `User: ${userPhone}\nPassword: ${password}`)
 
 		} else {
-			!passwordIsValid && setInvaliPasswordAAfterSubmit(true)
+			!passwordIsValid && setInvaliPasswordAfterSubmit(true)
 		}
 	}
 
@@ -60,7 +60,7 @@ function InsertPassword({ navigation, route }: InsertPasswordScreenProps) {
 
 		return headerBackgroundAnimatedValue.current.interpolate({
 			inputRange: [0, 1],
-			outputRange: [theme.background.fourteenth, theme.background.tenth],
+			outputRange: [theme.background.fifteenth, theme.background.eleventh],
 		})
 	}
 
@@ -93,9 +93,9 @@ function InsertPassword({ navigation, route }: InsertPasswordScreenProps) {
 						// lastInput={true}
 						defaultBackgroundColor={theme.background.tertiary}
 						defaultBorderBottomColor={theme.background.quaternary}
-						validBackgroundColor={theme.background.fifteenth}
-						validBorderBottomColor={theme.background.twelfth}
-						invalidBackgroundColor={theme.background.eleventh}
+						validBackgroundColor={theme.background.sixteenth}
+						validBorderBottomColor={theme.background.thirteenth}
+						invalidBackgroundColor={theme.background.twelfth}
 						invalidBorderBottomColor={theme.background.ninth}
 						maxLength={16}
 						secureTextEntry
@@ -107,7 +107,7 @@ function InsertPassword({ navigation, route }: InsertPasswordScreenProps) {
 					/>
 				</InputsContainer>
 				<PrimaryButton
-					color={theme.background.thirteenth}
+					color={theme.background.fourteenth}
 					iconName={'arrow-right'}
 					iconColor={theme.font.tertiary}
 					label='continuar'

@@ -5,6 +5,7 @@ export type SplashScreenProps = NativeStackScreenProps<AuthRegisterStackParamLis
 export type AcceptAndContinueScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'AcceptAndContinue'>
 export type InsertPhoneScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'InsertPhone'>
 export type InsertPasswordScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'InsertPassword'>
+export type InsertConfirmationCodeScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'InsertConfirmationCode'>
 
 
  
