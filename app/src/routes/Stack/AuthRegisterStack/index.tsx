@@ -1,23 +1,24 @@
 import React from 'react'
-import { View, Text } from 'react-native';
 import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 import 'react-native-gesture-handler'
 
 import { Splash } from '../../../screens/Splash';
 import { AcceptAndContinue } from './../../../screens/AcceptAndContinue'
 import { InsertPhone } from '../../../screens/InsertPhone';
+import { InsertPassword } from '../../../screens/InsertPassword';
 
 export type AuthRegisterStackParamList = {
     Splash: undefined
     AcceptAndContinue: undefined
     InsertPhone: undefined
+    InsertPassword: { userPhone: string }
 };
 
 const Stack = createStackNavigator<AuthRegisterStackParamList>()
 
 export function AuthRegisterStack() {
     return (
-        <Stack.Navigator initialRouteName='Splash'
+        <Stack.Navigator initialRouteName='InsertPhone'
             screenOptions={{
                 headerShown: false,
                 gestureEnabled: true,
@@ -30,6 +31,7 @@ export function AuthRegisterStack() {
                     ...TransitionPresets.FadeFromBottomAndroid
                 }} />
             <Stack.Screen name={'InsertPhone'} component={InsertPhone} />
+            <Stack.Screen name={'InsertPassword'} component={InsertPassword} />
         </Stack.Navigator>
     )
 }

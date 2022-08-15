@@ -18,10 +18,11 @@ const showMessageWithHighlight = (message: string, highlightedWords?: string[]) 
     return messageHighlighted
 }
 
-const filterLeavingOnlyNumbers = (dirtyText: string) => {
+const filterLeavingOnlyNumbers = (dirtyText: string ) => {
+    if(!dirtyText.length) return ''
     const cleanText =  dirtyText.match(/[0-9]/ig)?.join('')
     return cleanText
-}
+} 
 
 export {
     showMessageWithHighlight,

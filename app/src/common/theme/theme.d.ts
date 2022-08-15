@@ -18,6 +18,11 @@ declare module 'styled-components' {
       tenth: string
       eleventh: string
 
+      twelfth: string
+      thirteenth: string
+      fourteenth: string
+      fifteenth: string
+
       success: string
       error: string
       info: string

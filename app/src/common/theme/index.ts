@@ -16,6 +16,11 @@ export const theme: DefaultTheme = {
         tenth: '#EE7A63',   // Red Medium
         eleventh: '#F3A797',   // Red Light
 
+        twelfth: '#09512D',     // Green Darkness
+        thirteenth: '#12A159',  // Green Dark
+        fourteenth: '#4DB882',  // Green Medium
+        fifteenth : '#88D0AC',  // Green Light
+
         success: 'green', // Green
         error: '#E84F30', // Red
         info: 'blue',     // Blue

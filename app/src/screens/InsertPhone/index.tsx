@@ -3,14 +3,16 @@ import React, { useRef, useState } from 'react'
 
 import { Container, InputsContainer } from './styles';
 
+import { InsertPhoneScreenProps } from '../../routes/Stack/screenProps';
 import { DefaultHeaderContainer } from '../../components/DefaultHeaderContainer';
 import { FormContainer } from '../../components/FormContainer';
 import { InstructionCard } from '../../components/InstructionCard';
 import { LineInput } from '../../components/LineInput';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { theme } from '../../common/theme';
+import { filterLeavingOnlyNumbers } from '../../common/auxiliaryFunctions';
 
-export function InsertPhone() {
+export function InsertPhone({navigation}: InsertPhoneScreenProps) {
 
 	const [DDD, setDDD] = useState<string>('')
 	const [phone, setPhone] = useState<string>('')
@@ -40,14 +42,16 @@ export function InsertPhone() {
 		return false
 	}
 
-	const sendCompletePhone = () => {
+	const someInvalidFieldSubimitted = () => {
+		return invalidDDDAfterSubmit || invalidPhoneAfterSubmit
+	}
+
+	const sendCompletePhoneToNextScreen = () => {
 		const DDDIsValid = validateDDD(DDD)
 		const phoneIsValid = validatePhone(phone)
 
 		if (DDDIsValid && phoneIsValid) {
-			Alert.alert('Go!', 'Going to next Screen!')
-			console.log(phone)
-			// Navigate to InsertPassword or InserCode
+			navigation.navigate('InsertPassword', {userPhone: phone})
 
 		} else {
 			!DDDIsValid && setInvalidDDDAfterSubmit(true)
@@ -57,11 +61,11 @@ export function InsertPhone() {
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
-		const existsError = invalidDDDAfterSubmit || invalidPhoneAfterSubmit
+		const existsError = someInvalidFieldSubimitted()
 
 		Animated.timing(headerBackgroundAnimatedValue.current, {
 			toValue: existsError ? 1 : 0,
-			duration: 1500,
+			duration: 300,
 			useNativeDriver: false,
 		}).start()
 
@@ -81,11 +85,11 @@ export function InsertPhone() {
 			>
 				<InstructionCard
 					message={
-						invalidDDDAfterSubmit || invalidPhoneAfterSubmit
+						someInvalidFieldSubimitted()
 							? 'ih, parece que o seu telefone não é válido'
 							: 'passa o seu telefone aí pra gente'}
 					highlightedWords={
-						invalidDDDAfterSubmit || invalidPhoneAfterSubmit
+						someInvalidFieldSubimitted()
 							? ['telefone', 'não', 'é', 'válido']
 							: ['telefone']}
 				/>
@@ -107,6 +111,7 @@ export function InsertPhone() {
 						invalidTextAfterSubmit={invalidDDDAfterSubmit}
 						placeholder={'22'}
 						keyboardType={'decimal-pad'}
+						filterText={filterLeavingOnlyNumbers as any} // TODO Type
 						validateText={(text: string) => validateDDD(text)}
 						onChangeText={(text: string) => setDDD(text)}
 					/>
@@ -126,6 +131,7 @@ export function InsertPhone() {
 						placeholder={'984848484'}
 						keyboardType={'decimal-pad'}
 						lastInput={true}
+						filterText={filterLeavingOnlyNumbers as any} // TODO Type
 						validateText={(text: string) => validatePhone(text)}
 						onChangeText={(text: string) => setPhone(text)}
 					/>
@@ -137,7 +143,7 @@ export function InsertPhone() {
 					label='continuar'
 					labelColor={theme.font.tertiary}
 					highlightedWords={['continuar']}
-					onPress={sendCompletePhone}
+					onPress={sendCompletePhoneToNextScreen}
 				/>
 			</FormContainer>
 		</Container>

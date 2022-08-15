@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { KeyboardTypeOptions, NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-native';
-import { filterLeavingOnlyNumbers } from '../../common/auxiliaryFunctions';
 
 import { Container, TextInput } from './styles';
 
@@ -17,10 +16,12 @@ interface LineInputProps {
     invalidBackgroundColor: string
     invalidBorderBottomColor: string
     maxLength: number
+    secureTextEntry?: boolean
     invalidTextAfterSubmit: boolean
     placeholder?: string
     keyboardType?: KeyboardTypeOptions
     lastInput?: boolean
+    filterText?: (text: string) => string
     validateText: (text: string) => boolean
     onChangeText: (text: string) => void
 }
@@ -38,10 +39,12 @@ function LineInput({
     invalidBackgroundColor,
     invalidBorderBottomColor,
     maxLength,
+    secureTextEntry,
     invalidTextAfterSubmit,
     placeholder,
     keyboardType,
     lastInput,
+    filterText,
     validateText,
     onChangeText
 }: LineInputProps) {
@@ -50,7 +53,8 @@ function LineInput({
     const [validated, setValidated] = useState<boolean>(false)
 
     const ValidateAndChange = (text: string) => {
-        const filtredText = filterLeavingOnlyNumbers(text) || ''
+        let filtredText = filterText ? filterText(text) : text
+        
         if (validateText(filtredText)) {
             nextInputRef && setFocusToNextInput()
             lastInput && closeKeyboard()
@@ -62,7 +66,7 @@ function LineInput({
     }
 
     const performKeyPress = ({ nativeEvent }: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
-        if (nativeEvent.key === 'Backspace' && value == '') setFocusToPreviousInput()
+        if (nativeEvent.key === 'Backspace' && !value.length && previousInputRef) setFocusToPreviousInput()
     }
 
     const setFocusToNextInput = () => {
@@ -113,6 +117,7 @@ function LineInput({
                 ref={textInputRef}
                 value={value}
                 maxLength={maxLength}
+                secureTextEntry={secureTextEntry}
                 //  placeholder={placeholder} // TODO placeholder align pipe to end when delete all text
                 keyboardType={keyboardType || 'ascii-capable'}
 
