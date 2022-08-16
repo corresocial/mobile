@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 
 import { Container, Message } from './styles';
 
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions';
-import { Animated } from 'react-native';
 
 interface InstructionCardProps {
     message: string

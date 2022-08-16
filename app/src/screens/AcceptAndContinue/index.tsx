@@ -45,7 +45,7 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
     return (
         <Container >
             <TermsOfServiceModal visibility={termsVisibility} closeModal={hideTermsOfServiceModal} />
-            <DefaultHeaderContainer relativeHeight='55%' backgroundColor={theme.background.secondary} withoutPadding>
+            <DefaultHeaderContainer relativeHeight='55%' backgroundColor={theme.orange2} withoutPadding>
                 <CustomCarousel>
                     <CarouselItemContainer >
                         <Logo height={screenHeight * 0.07} width={screenWidth * 0.5} />
@@ -75,9 +75,9 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
                 </TermsLabel>
                 <PrimaryButton
                     label='aceitar e continuar'
-                    labelColor={theme.font.primary}
+                    labelColor={theme.black4}
                     iconName={'arrow-right'}
-                    color={theme.background.primary}
+                    color={theme.orange3}
                     highlightedWords={['continuar']}
                     onPress={navigateToInsertPhoneScreen}
                 />

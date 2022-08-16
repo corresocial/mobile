@@ -19,14 +19,13 @@ export const Slogan = styled.Text`
 
 export const TermsButtonContainer = styled.View`
     flex: 1;
-    background-color: ${({ theme }) => theme.background.tertiary};  
     align-items: center;
     justify-content: center;
     padding:  ${screenWidth * 0.08}px;
 `
 
 export const TermsLabel = styled.Text`
-    color: ${({theme}) => theme.font.primary};    
+    color: ${({theme}) => theme.black4};    
     font-size: 18px;
     text-align: center;
     font-family: Arvo_400Regular;
@@ -34,7 +33,7 @@ export const TermsLabel = styled.Text`
 `
 
 export const TermsLabelHighlight = styled.Text`
-    color: ${({theme}) => theme.font.secondary};    
+    color: ${({theme}) => theme.orange4};    
     font-size: 18px;
     text-align: center;
     font-family: Arvo_700Bold;

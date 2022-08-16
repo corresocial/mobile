@@ -74,7 +74,7 @@ export function InsertPhone({navigation}: InsertPhoneScreenProps) {
 
 		return headerBackgroundAnimatedValue.current.interpolate({
 			inputRange: [0, 1],
-			outputRange: [theme.background.seventh, theme.background.eleventh],
+			outputRange: [theme.purple2, theme.red2],
 		})
 	}
 
@@ -97,19 +97,19 @@ export function InsertPhone({navigation}: InsertPhoneScreenProps) {
 							: ['telefone']}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.background.tertiary}>
+			<FormContainer backgroundColor={theme.white2}>
 				<InputsContainer>
 					<LineInput
 						value={DDD}
 						relativeWidth={'18%'}
 						textInputRef={inputRefs.DDDInput}
 						nextInputRef={inputRefs.phoneInput}
-						defaultBackgroundColor={theme.background.tertiary}
-						defaultBorderBottomColor={theme.background.quaternary}
-						validBackgroundColor={theme.background.eighth}
-						validBorderBottomColor={theme.background.fifth}
-						invalidBackgroundColor={theme.background.twelfth}
-						invalidBorderBottomColor={theme.background.ninth}
+						defaultBackgroundColor={theme.white2}
+						defaultBorderBottomColor={theme.black4}
+						validBackgroundColor={theme.purple1}
+						validBorderBottomColor={theme.purple5}
+						invalidBackgroundColor={theme.red1}
+						invalidBorderBottomColor={theme.red5}
 						maxLength={2}
 						invalidTextAfterSubmit={invalidDDDAfterSubmit} 
 						placeholder={'22'}
@@ -123,12 +123,12 @@ export function InsertPhone({navigation}: InsertPhoneScreenProps) {
 						relativeWidth={'77%'}
 						textInputRef={inputRefs.phoneInput}
 						previousInputRef={inputRefs.DDDInput}
-						defaultBackgroundColor={theme.background.tertiary}
-						defaultBorderBottomColor={theme.background.quaternary}
-						validBackgroundColor={theme.background.eighth}
-						validBorderBottomColor={theme.background.fifth}
-						invalidBackgroundColor={theme.background.twelfth}
-						invalidBorderBottomColor={theme.background.ninth}
+						defaultBackgroundColor={theme.white2}
+						defaultBorderBottomColor={theme.black4}
+						validBackgroundColor={theme.purple1}
+						validBorderBottomColor={theme.purple5}
+						invalidBackgroundColor={theme.red1}
+						invalidBorderBottomColor={theme.red5}
 						maxLength={9}
 						invalidTextAfterSubmit={invalidPhoneAfterSubmit}
 						placeholder={'984848484'}
@@ -140,11 +140,11 @@ export function InsertPhone({navigation}: InsertPhoneScreenProps) {
 					/>
 				</InputsContainer>
 				<PrimaryButton
-					color={theme.background.sixth}
+					color={theme.purple3}
 					iconName={'arrow-right'}
-					iconColor={theme.font.tertiary}
+					iconColor={theme.white3}
 					label='continuar'
-					labelColor={theme.font.tertiary}
+					labelColor={theme.white3}
 					highlightedWords={['continuar']}
 					onPress={sendCompletePhoneToNextScreen}
 				/>

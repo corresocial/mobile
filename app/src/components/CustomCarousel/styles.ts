@@ -16,8 +16,8 @@ export const CarouselActiveIndicatorItem = styled.View`
     border-radius: 10px;
     border-width: 1px;
 
-    border-color: ${({ theme }) => theme.background.quaternary};
-    background-color: ${({ theme }) => theme.background.primary};
+    border-color: ${({ theme }) => theme.black4};
+    background-color: ${({ theme }) => theme.orange2};
     margin-horizontal: 2px;
 `
 
@@ -26,7 +26,7 @@ export const CarouselInactiveIndicatorItem = styled.View`
     width: 6px;
     border-radius: 10px;
     border-width: 2px;
-    border-color: ${({ theme }) => theme.background.quaternary};
-    background-color: ${({ theme }) => theme.background.quaternary};
+    border-color: ${({ theme }) => theme.black4};
+    background-color: ${({ theme }) => theme.black4};
     margin-horizontal: 2px;
 `

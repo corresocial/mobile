@@ -1,4 +1,4 @@
-import { Alert, Animated, TouchableOpacity } from 'react-native';
+import { Alert, Animated } from 'react-native';
 import React, { useRef, useState } from 'react'
 
 import { Container, InputsContainer } from './styles';
@@ -108,7 +108,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 
 		return headerBackgroundAnimatedValue.current.interpolate({
 			inputRange: [0, 1],
-			outputRange: [theme.background.nineteenth, theme.background.eleventh],
+			outputRange: [theme.blue2, theme.red2],
 		})
 	}
 
@@ -132,7 +132,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 					}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.background.tertiary}>
+			<FormContainer backgroundColor={theme.white2}>
 				<InputsContainer>
 					{
 						inputsConfig.map((inputConfig, index) => {
@@ -146,12 +146,12 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 									lastInput={isLastInput}
 									previousInputRef={!isFirstInput && inputsConfig[index - 1].ref}
 									nextInputRef={!isLastInput && inputsConfig[index + 1].ref}
-									defaultBackgroundColor={theme.background.tertiary}
-									defaultBorderBottomColor={theme.background.quaternary}
-									validBackgroundColor={theme.background.twentieth}
-									validBorderBottomColor={theme.background.seventeenth}
-									invalidBackgroundColor={theme.background.twelfth}
-									invalidBorderBottomColor={theme.background.ninth}
+									defaultBackgroundColor={theme.white2}
+									defaultBorderBottomColor={theme.black4}
+									validBackgroundColor={theme.blue1}
+									validBorderBottomColor={theme.blue5}
+									invalidBackgroundColor={theme.red1}
+									invalidBorderBottomColor={theme.red5}
 									maxLength={1}
 									invalidTextAfterSubmit={invalidCodeAfterSubmit}
 									placeholder={'0'}
@@ -165,11 +165,11 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 					}
 				</InputsContainer>
 				<PrimaryButton
-					color={theme.background.eighteenth}
+					color={theme.blue3}
 					iconName={'arrow-right'}
-					iconColor={theme.font.tertiary}
+					iconColor={theme.white3}
 					label='continuar'
-					labelColor={theme.font.tertiary}
+					labelColor={theme.white3}
 					highlightedWords={['continuar']}
 					onPress={performSignin}
 				/>

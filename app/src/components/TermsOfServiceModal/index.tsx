@@ -24,20 +24,20 @@ function TermsOfServiceModal({ visibility, closeModal}: TermsOfServiceModalProps
             <Container >
                 <LinkButtonsContainer>
                     <PrimaryButton
-                        color={theme.background.tertiary}
+                        color={theme.white3}
                         label={'termos de serviço'}
                         highlightedWords={['termos', 'de', 'serviço']}
-                        labelColor={theme.font.primary}
+                        labelColor={theme.black4}
                         iconName={'plus'}
                         iconSize={24}
                         justifyContent={'space-between'}
                         onPress={() => redirectToUrl('https://www.google.com.br')}
                     />
                     <PrimaryButton
-                        color={theme.background.tertiary}
+                        color={theme.white3}
                         label={'termos de privacidade'}
                         highlightedWords={['termos', 'privacidade']}
-                        labelColor={theme.font.primary}
+                        labelColor={theme.black4}
                         iconName={'plus'}
                         iconSize={24}
                         justifyContent={'space-between'}
@@ -45,10 +45,10 @@ function TermsOfServiceModal({ visibility, closeModal}: TermsOfServiceModalProps
                     />
                 </LinkButtonsContainer>
                 <PrimaryButton
-                    color={theme.background.tenth}
+                    color={theme.red3}
                     label={'fechar'}
                     highlightedWords={['fechar']}
-                    labelColor={theme.font.tertiary}
+                    labelColor={theme.white3}
                     iconName={'window-close'}
                     iconSize={24}
                     onPress={closeModal}

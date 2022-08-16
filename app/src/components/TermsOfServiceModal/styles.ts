@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import { screenHeight } from '../../common/screenDimensions';
 
 export const Container = styled.View`
-    background-color: ${({theme}) => theme.transparence.primary};
+    background-color: ${({theme}) => theme.transparence.orange1};
     flex: 1;
     flex-direction: column;
     align-items: center;

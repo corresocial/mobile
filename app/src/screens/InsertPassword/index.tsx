@@ -60,7 +60,7 @@ function InsertPassword({ navigation, route }: InsertPasswordScreenProps) {
 
 		return headerBackgroundAnimatedValue.current.interpolate({
 			inputRange: [0, 1],
-			outputRange: [theme.background.fifteenth, theme.background.eleventh],
+			outputRange: [theme.blue2  , theme.red2],
 		})
 	}
 
@@ -84,19 +84,19 @@ function InsertPassword({ navigation, route }: InsertPasswordScreenProps) {
 					}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.background.tertiary}>
+			<FormContainer backgroundColor={theme.white2}>
 				<InputsContainer>
 					<LineInput
 						value={password}
 						relativeWidth={'100%'}
 						textInputRef={inputRefs.passwordInput}
 						// lastInput={true}
-						defaultBackgroundColor={theme.background.tertiary}
-						defaultBorderBottomColor={theme.background.quaternary}
-						validBackgroundColor={theme.background.sixteenth}
-						validBorderBottomColor={theme.background.thirteenth}
-						invalidBackgroundColor={theme.background.twelfth}
-						invalidBorderBottomColor={theme.background.ninth}
+						defaultBackgroundColor={theme.white2}
+						defaultBorderBottomColor={theme.black4}
+						validBackgroundColor={theme.blue1}
+						validBorderBottomColor={theme.blue5}
+						invalidBackgroundColor={theme.red1}
+						invalidBorderBottomColor={theme.red5}
 						maxLength={16}
 						secureTextEntry
 						invalidTextAfterSubmit={invalidPasswordAfterSubmit}
@@ -107,11 +107,11 @@ function InsertPassword({ navigation, route }: InsertPasswordScreenProps) {
 					/>
 				</InputsContainer>
 				<PrimaryButton
-					color={theme.background.fourteenth}
+					color={theme.blue3}
 					iconName={'arrow-right'}
-					iconColor={theme.font.tertiary}
+					iconColor={theme.black4}
 					label='continuar'
-					labelColor={theme.font.tertiary}
+					labelColor={theme.black4}
 					highlightedWords={['continuar']}
 					onPress={performSignin}
 				/>

@@ -1,45 +1,59 @@
 import { DefaultTheme } from "styled-components";
 
-export const theme: DefaultTheme = {
-    background: {
-        primary: '#FA9938',   // Orange Medium
-        secondary: '#FBB068', // Orange Light
-        tertiary: '#FFFFFF',  // White
-        quaternary: '#000000',// Black
+export const theme: DefaultTheme = {  // NOTE: Instale a extenção Color Highlight pra facilitar sua vida
+    white1: '#D0CECE',
+    white2: '#F2F2F2',
+    white3: '#FFFFFF',
 
-        fifth: '#4D2476',   // Purple Darkness 
-        sixth: '#9947EB',   // Purple Dark
-        seventh: '#B274F0',   // Purple Medium 
-        eighth: '#CCA3F5', // Purple Light 
+    black1: '#7A7474',
+    black2: '#4D4847',
+    black3: '#262626',
+    black4: '#000000',
 
-        ninth: '#742818',  // Red Darkness
-        tenth: '#E84F30', // Red Dark
-        eleventh: '#EE7A63',   // Red Medium
-        twelfth: '#F3A797',   // Red Light
+    orange1: '#FDC895',
+    orange2: '#FBB068',
+    orange3: '#FA9938',
+    orange4: '#C9731D',
+    orange5: '#664019',
 
-        thirteenth: '#09512D',     // Green Darkness
-        fourteenth: '#12A159',  // Green Dark
-        fifteenth: '#4DB882',  // Green Medium
-        sixteenth: '#88D0AC',  // Green Light
+    purple1: '#CCA3F5',
+    purple2: '#B274F0',
+    purple3: '#9947EB',
+    purple4: '#7335B1',
+    purple5: '#4D2476',
 
-        seventeenth: '#184674',   // Blue Darkness
-        eighteenth: '#308CE8', // Blue Dark
-        nineteenth: '#63A8EE',  // Blue Medium
-        twentieth: '#97C5F3',  // Blue Light
-        
-        error: 'red',
-        success: 'green',
-        info: 'blue',     // Blue
-        warning: 'yellow' // Yellow
-    },
+    red1: '#F3A797',
+    red2: '#EE7A63',
+    red3: '#E84F30',
+    red4: '#AF3B24',
+    red5: '#742818',
 
-    font: {
-        primary: '#000000',  // Black
-        secondary: '#FA9938',// Orange
-        tertiary: '#FFFFFF'  // White
-    },
+    pink1: '#F397B6',
+    pink2: '#EE6392',
+    pink3: '#E8306E',
+    pink4: '#AF2453',
+    pink5: '#741837',
+
+    blue1: '#97C5F3',
+    blue2: '#63A8EE',
+    blue3: '#308CE8',
+    blue4: '#2469AF',
+    blue5: '#184674',
+
+    yellow1: '#FDE69B',
+    yellow2: '#FCDA69',
+    yellow3: '#FBCE37',
+    yellow4: '#BC9A29',
+    yellow5: '#7E671C',
+
+    green1: '#88D0AC',
+    green2: '#4DB882',
+    green3: '#12A159',
+    green4: '#0E7943',
+    green5: '#09512D',
+
 
     transparence: {
-        primary: 'rgba(250, 153, 56, 0.9)' //Orange Lignt
-    },
+        orange1: 'rgba(250, 153, 56, 0.9)' //Orange Lignt
+    }
 }
