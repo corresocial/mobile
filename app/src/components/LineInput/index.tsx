@@ -53,8 +53,11 @@ function LineInput({
     const [validated, setValidated] = useState<boolean>(false)
 
     const ValidateAndChange = (text: string) => {
-        let filtredText = filterText ? filterText(text) : text
+        const a = filterText && filterText(text)
+        console.log(a)
         
+        let filtredText = filterText ? filterText(text) : text
+
         if (validateText(filtredText)) {
             nextInputRef && setFocusToNextInput()
             lastInput && closeKeyboard()

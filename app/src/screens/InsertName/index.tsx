@@ -1,51 +1,48 @@
-import { Alert, Animated, TouchableOpacity } from 'react-native';
+import { Alert, Animated } from 'react-native';
 import React, { useRef, useState } from 'react'
 
 import { Container, InputsContainer } from './styles';
 
 import { theme } from '../../common/theme';
-import { InsertPasswordScreenProps } from '../../routes/Stack/screenProps';
+import { InsertNameScreenProps } from '../../routes/Stack/screenProps';
 import { DefaultHeaderContainer } from '../../components/DefaultHeaderContainer';
 import { FormContainer } from '../../components/FormContainer';
 import { InstructionCard } from '../../components/InstructionCard';
 import { LineInput } from '../../components/LineInput';
 import { PrimaryButton } from '../../components/PrimaryButton';
 
-function InsertPassword({ navigation, route }: InsertPasswordScreenProps) {
+function InsertName({ navigation, route }: InsertNameScreenProps) {
 
-	const [password, setPassword] = useState<string>('')
-	const [invalidPasswordAfterSubmit, setInvaliPasswordAfterSubmit] = useState<boolean>(false)
+	const [name, setName] = useState<string>('')
+	const [invalidNameAfterSubmit, setInvaliNameAfterSubmit] = useState<boolean>(false)
 
 	const inputRefs = {
-		passwordInput: useRef<React.MutableRefObject<any>>(null),
+		nameInput: useRef<React.MutableRefObject<any>>(null),
 	}
 
-	const validatePassword = (text: string) => {
-		const isValid = text.length >= 8
+	const validateName = (text: string) => {
+		const isValid = text.length >= 10
 		if (isValid) {
-			setInvaliPasswordAfterSubmit(false)
+			setInvaliNameAfterSubmit(false)
 			return true
 		}
 		return false
 	}
 
-	const performSignin = () => {
-		const passwordIsValid = validatePassword(password)
+	const sendUserDataToNextScreen = () => {
+		const nameIsValid = validateName(name)
 		const userPhone= route.params.userPhone
 
-		console.log(userPhone)
-		
-		if (passwordIsValid) {
-			// navigation.navigate('InsertPassword', { userPhone }) // Navigation to this screen
-			Alert.alert('Signin!', `Phone: ${userPhone}\nPassword: ${password}`)
-
+		if (nameIsValid) {
+			// navigation.navigate('InsertName', { userPhone }) // Navigation to this screen
+			Alert.alert('Signin!', `Phone: ${userPhone}\nName: ${name}`)
 		} else {
-			!passwordIsValid && setInvaliPasswordAfterSubmit(true)
+			!nameIsValid && setInvaliNameAfterSubmit(true)
 		}
 	}
 
 	const someInvalidFieldSubimitted = () => {
-		return invalidPasswordAfterSubmit
+		return invalidNameAfterSubmit
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -60,7 +57,7 @@ function InsertPassword({ navigation, route }: InsertPasswordScreenProps) {
 
 		return headerBackgroundAnimatedValue.current.interpolate({
 			inputRange: [0, 1],
-			outputRange: [theme.blue2  , theme.red2],
+			outputRange: [theme.green2  , theme.red2],
 		})
 	}
 
@@ -74,49 +71,48 @@ function InsertPassword({ navigation, route }: InsertPasswordScreenProps) {
 				<InstructionCard
 					message={
 						someInvalidFieldSubimitted()
-							? 'não deu!\n\nparece que a senha tá errada'
-							: 'bom ter você de volta!\n\nmanda tua senha aí'
+							? 'não deu!\nparece que este nome não é válido '
+							: 'boa!\n\nagora vamos \ncriar o seu perfil'
 					}
 					highlightedWords={
 						someInvalidFieldSubimitted()
 							? ['senha', 'tá', 'errada']
-							: ['senha']
+							: ['\ncriar', 'o', 'seu', 'perfil']
 					}
 				/>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
 				<InputsContainer>
 					<LineInput
-						value={password}
+						value={name}
 						relativeWidth={'100%'}
-						textInputRef={inputRefs.passwordInput}
+						textInputRef={inputRefs.nameInput}
 						defaultBackgroundColor={theme.white2}
 						defaultBorderBottomColor={theme.black4}
-						validBackgroundColor={theme.blue1}
-						validBorderBottomColor={theme.blue5}
+						validBackgroundColor={theme.green1}
+						validBorderBottomColor={theme.green5}
 						invalidBackgroundColor={theme.red1}
 						invalidBorderBottomColor={theme.red5}
-						maxLength={16}
-						secureTextEntry
-						invalidTextAfterSubmit={invalidPasswordAfterSubmit}
-						placeholder={'22'}
+						maxLength={50}
+						invalidTextAfterSubmit={invalidNameAfterSubmit}
+						placeholder={'qual é o seu nome?'}
 						keyboardType={'default'}
-						validateText={(text: string) => validatePassword(text)}
-						onChangeText={(text: string) => setPassword(text)}
+						validateText={(text: string) => validateName(text)}
+						onChangeText={(text: string) => setName(text)}
 					/>
 				</InputsContainer>
 				<PrimaryButton
-					color={theme.blue3}
+					color={theme.green3}
 					iconName={'arrow-right'}
 					iconColor={theme.white3}
 					label='continuar'
 					labelColor={theme.white3}
 					highlightedWords={['continuar']}
-					onPress={performSignin}
+					onPress={sendUserDataToNextScreen}
 				/>
 			</FormContainer>
 		</Container>
 	);
 }
 
-export { InsertPassword }
+export { InsertName }

@@ -74,7 +74,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		return false
 	}
 
-	const performSignin = () => {
+	const sendCompletePhoneToNextScreen = () => {
 		const completeCode = mergeAllInputCodes()
 		const completeCodeIsValid = completeCode.length == 6 // Need server side validation
 		const userPhone = route.params.userPhone
@@ -82,6 +82,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		if (completeCodeIsValid) {
 			// navigation.navigate('InsertConfirmationCode', { userPhone }) // Navigation to this screen
 			Alert.alert('Confrimed!', `User: ${userPhone}\nConfirmationCode: ${completeCode}`)
+			navigation.navigate('InsertName', {userPhone})
 
 		} else {
 			!completeCodeIsValid && setInvaliCodeAfterSubmit(true)
@@ -122,7 +123,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				<InstructionCard
 					message={
 						someInvalidFieldSubimitted()
-							? 'opa!\nparece que o \ncódigo tá errado'
+							? 'opa! parece que o \ncódigo tá errado'
 							: 'passa o código que\nte mandamos aí'
 					}
 					highlightedWords={
@@ -171,7 +172,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 					label='continuar'
 					labelColor={theme.white3}
 					highlightedWords={['continuar']}
-					onPress={performSignin}
+					onPress={sendCompletePhoneToNextScreen}
 				/>
 			</FormContainer>
 		</Container>

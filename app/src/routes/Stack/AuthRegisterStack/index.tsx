@@ -5,6 +5,7 @@ import 'react-native-gesture-handler'
 import { Splash } from '../../../screens/Splash';
 import { AcceptAndContinue } from './../../../screens/AcceptAndContinue'
 import { InsertPhone } from '../../../screens/InsertPhone';
+import { InsertName } from '../../../screens/InsertName';
 import { InsertPassword } from '../../../screens/InsertPassword';
 import { InsertConfirmationCode } from '../../../screens/InsertConfirmationCode';
 
@@ -12,8 +13,9 @@ export type AuthRegisterStackParamList = {
     Splash: undefined
     AcceptAndContinue: undefined
     InsertPhone: undefined
-    InsertPassword: { userPhone: string }
     InsertConfirmationCode: { userPhone: string }
+    InsertPassword: { userPhone: string }
+    InsertName: { userPhone: string }
 };
 
 const Stack = createStackNavigator<AuthRegisterStackParamList>()
@@ -33,8 +35,9 @@ export function AuthRegisterStack() {
                     ...TransitionPresets.FadeFromBottomAndroid
                 }} />
             <Stack.Screen name={'InsertPhone'} component={InsertPhone} />
-            <Stack.Screen name={'InsertPassword'} component={InsertPassword} />
             <Stack.Screen name={'InsertConfirmationCode'} component={InsertConfirmationCode} />
+            <Stack.Screen name={'InsertPassword'} component={InsertPassword} />
+            <Stack.Screen name={'InsertName'} component={InsertName} />
         </Stack.Navigator>
     )
 }
