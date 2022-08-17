@@ -23,7 +23,7 @@ export const ContainerBottom = styled(Animatable.View)`
     background-color: ${({ theme }) => theme.black4};
 `
 
-export const ContainerSurface = styled(Animatable.View)`
+export const ContainerSurface = styled.View`
 flex-direction: row;
     align-items: center;
     justify-content: center;

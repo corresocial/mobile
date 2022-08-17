@@ -37,7 +37,6 @@ function PrimaryButton({
 
     useEffect(() => {
         if (!keyboardHideButton) return
-        console.log('Mounted')
         Keyboard.addListener('keyboardDidShow', () => hideButton())
         Keyboard.addListener('keyboardDidHide', () => showButton())
     },[])
