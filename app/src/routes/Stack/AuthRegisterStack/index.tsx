@@ -22,7 +22,7 @@ const Stack = createStackNavigator<AuthRegisterStackParamList>()
 
 export function AuthRegisterStack() {
     return (
-        <Stack.Navigator initialRouteName='Splash'
+        <Stack.Navigator initialRouteName='InsertPhone'
             screenOptions={{
                 headerShown: false,
                 gestureEnabled: true,

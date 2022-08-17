@@ -1,3 +1,4 @@
+import * as Animatable from 'react-native-animatable';
 import styled from "styled-components/native";
 import { screenHeight } from "../../common/screenDimensions";
 
@@ -5,10 +6,11 @@ export const Container = styled.TouchableWithoutFeedback`
    width: 100%;
 `
 export const TouchableContainer = styled.TouchableWithoutFeedback`
-    width: 100%
+    width: 100%;
+    background-color: ${({theme}) => theme.white2}
 `
 
-export const ContainerBottom = styled.View`
+export const ContainerBottom = styled(Animatable.View)`
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -21,7 +23,7 @@ export const ContainerBottom = styled.View`
     background-color: ${({ theme }) => theme.black4};
 `
 
-export const ContainerSurface = styled.View`
+export const ContainerSurface = styled(Animatable.View)`
 flex-direction: row;
     align-items: center;
     justify-content: center;

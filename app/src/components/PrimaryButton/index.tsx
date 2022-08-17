@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
-import { FontAwesome5 as Icon} from '@expo/vector-icons';
+import React, { useEffect, useRef, useState } from 'react'
+import { FontAwesome5 as Icon } from '@expo/vector-icons';
 
-import {  ButtonLabel, TouchableContainer, ContainerSurface, ContainerBottom } from './styles';
+import { ButtonLabel, TouchableContainer, ContainerSurface, ContainerBottom } from './styles';
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions';
+import { Keyboard } from 'react-native';
 
 interface PrimaryButtonProps {
     color: string
@@ -11,6 +12,7 @@ interface PrimaryButtonProps {
     iconName: string
     iconSize?: number
     iconColor?: string
+    keyboardHideButton?: boolean // TODO Type
     highlightedWords?: string[]
     justifyContent?: string
     onPress: () => void
@@ -24,10 +26,32 @@ function PrimaryButton({
     iconName,
     iconSize,
     iconColor,
+    keyboardHideButton = true,
     justifyContent,
     onPress
 }: PrimaryButtonProps) {
     const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
+    const [buttonVisibility, setButtonVisibility] = useState<boolean>(true)
+
+    const buttonRef = useRef<any>(null) // TODO Type
+
+    useEffect(() => {
+        if (!keyboardHideButton) return
+        console.log('Mounted')
+        Keyboard.addListener('keyboardDidShow', () => hideButton())
+        Keyboard.addListener('keyboardDidHide', () => showButton())
+    },[])
+
+    const hideButton = async () => {
+        if (!buttonRef.current) return
+        buttonRef.current.fadeOutDown(400).then((endState: any) => endState.finished && setButtonVisibility(false))
+    }
+
+    const showButton = () => {
+        if (!buttonRef.current) return
+        setButtonVisibility(true)
+        buttonRef.current.fadeInUp(400)
+    }
 
     function pressingButton() {
         setButtomPressed(true)
@@ -44,17 +68,19 @@ function PrimaryButton({
 
     return (
         <TouchableContainer
-
             onPressIn={pressingButton}
             onPressOut={notPressingButton}
             onPress={releaseButton}
         >
-            <ContainerBottom>
+            <ContainerBottom
+                ref={buttonRef}
+                style={{ display: buttonVisibility ? 'flex' : 'none' }}
+            >
                 <ContainerSurface
                     style={{
                         backgroundColor: color,
                         justifyContent: justifyContent as any || 'center', // TODO Type
-                        marginRight: buttonPressed ? -3 : 0
+                        marginRight: buttonPressed ? -3 : 0,
                     }}>
                     <ButtonLabel style={{ color: labelColor }}>
                         {showMessageWithHighlight(label, highlightedWords)}
@@ -71,58 +97,3 @@ function PrimaryButton({
 }
 
 export { PrimaryButton }
-
-/* LEGADO
-
-import React from 'react'
-import { FontAwesome5 as Icon, Ionicons as IonicIcon } from '@expo/vector-icons';
-
-import { Container, ButtonLabel } from './styles';
-import { showMessageWithHighlight } from '../../common/auxiliaryFunctions';
-
-interface PrimaryButtonProps {
-    color: string
-    label: string
-    labelColor?: string
-    iconName: string
-    iconSize?: number
-    iconColor?: string
-    highlightedWords?: string[]
-    justifyContent?: string
-    onPress?: () => void
-}
-
-function PrimaryButton({
-    color,
-    labelColor,
-    label,
-    highlightedWords,
-    iconName,
-    iconSize,
-    iconColor,
-    justifyContent,
-    onPress
-}: PrimaryButtonProps) {
-    return (
-        <Container
-            style={{
-                backgroundColor: color,
-                justifyContent: justifyContent as any || 'center' // TODO Type
-            }}
-            onPress={onPress}
-        >
-            <ButtonLabel style={{ color: labelColor }}>
-                {showMessageWithHighlight(label, highlightedWords)}
-            </ButtonLabel>
-            <Icon
-                name={iconName || 'question'}
-                size={iconSize || 22}
-                color={iconColor || labelColor}
-            />
-        </Container>
-    );
-}
-
-export { PrimaryButton }
-
-*/

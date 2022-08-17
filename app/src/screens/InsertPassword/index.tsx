@@ -106,7 +106,7 @@ function InsertPassword({ navigation, route }: InsertPasswordScreenProps) {
 					/>
 				</InputsContainer>
 				<PrimaryButton
-					color={theme.blue3}
+					color={someInvalidFieldSubimitted() ? theme.red3 : theme.yellow3}
 					iconName={'arrow-right'}
 					iconColor={theme.white3}
 					label='continuar'

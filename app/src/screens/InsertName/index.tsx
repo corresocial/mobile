@@ -21,7 +21,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 	}
 
 	const validateName = (text: string) => {
-		const isValid = text.length >= 10
+		const isValid = text.length >= 5
 		if (isValid) {
 			setInvaliNameAfterSubmit(false)
 			return true
@@ -71,12 +71,12 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 				<InstructionCard
 					message={
 						someInvalidFieldSubimitted()
-							? 'não deu!\nparece que este nome não é válido '
+							? 'não deu!\nparece que este nome é \nmuito curto '
 							: 'boa!\n\nagora vamos \ncriar o seu perfil'
 					}
 					highlightedWords={
 						someInvalidFieldSubimitted()
-							? ['senha', 'tá', 'errada']
+							? ['\nmuito', 'curto']
 							: ['\ncriar', 'o', 'seu', 'perfil']
 					}
 				/>
@@ -102,7 +102,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 					/>
 				</InputsContainer>
 				<PrimaryButton
-					color={theme.green3}
+					color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
 					iconName={'arrow-right'}
 					iconColor={theme.white3}
 					label='continuar'

@@ -166,7 +166,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 					}
 				</InputsContainer>
 				<PrimaryButton
-					color={theme.blue3}
+					color={someInvalidFieldSubimitted() ? theme.red3 : theme.blue3}
 					iconName={'arrow-right'}
 					iconColor={theme.white3}
 					label='continuar'

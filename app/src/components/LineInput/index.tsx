@@ -53,9 +53,6 @@ function LineInput({
     const [validated, setValidated] = useState<boolean>(false)
 
     const ValidateAndChange = (text: string) => {
-        const a = filterText && filterText(text)
-        console.log(a)
-        
         let filtredText = filterText ? filterText(text) : text
 
         if (validateText(filtredText)) {

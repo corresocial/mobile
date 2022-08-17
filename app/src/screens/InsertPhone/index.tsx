@@ -1,5 +1,6 @@
-import { Alert, Animated, TouchableOpacity } from 'react-native';
-import React, { useRef, useState } from 'react'
+import { Animated, Keyboard, TouchableOpacity } from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import React, { useEffect, useRef, useState } from 'react'
 
 import { Container, InputsContainer } from './styles';
 
@@ -12,7 +13,7 @@ import { PrimaryButton } from '../../components/PrimaryButton';
 import { theme } from '../../common/theme';
 import { filterLeavingOnlyNumbers } from '../../common/auxiliaryFunctions';
 
-export function InsertPhone({navigation}: InsertPhoneScreenProps) {
+export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 
 	const [DDD, setDDD] = useState<string>('')
 	const [phone, setPhone] = useState<string>('')
@@ -51,10 +52,10 @@ export function InsertPhone({navigation}: InsertPhoneScreenProps) {
 		const phoneIsValid = validatePhone(phone)
 
 		if (DDDIsValid && phoneIsValid) {
-			if(DDD === '00') {// TODO Dev Only
-				return navigation.navigate('InsertPassword', {userPhone: `${DDD}${phone}`})
+			if (DDD === '00') {// TODO Dev Only
+				return navigation.navigate('InsertPassword', { userPhone: `${DDD}${phone}` })
 			}
-			return navigation.navigate('InsertConfirmationCode', {userPhone: `${DDD}${phone}`})
+			return navigation.navigate('InsertConfirmationCode', { userPhone: `${DDD}${phone}` })
 
 		} else {
 			!DDDIsValid && setInvalidDDDAfterSubmit(true)
@@ -111,7 +112,7 @@ export function InsertPhone({navigation}: InsertPhoneScreenProps) {
 						invalidBackgroundColor={theme.red1}
 						invalidBorderBottomColor={theme.red5}
 						maxLength={2}
-						invalidTextAfterSubmit={invalidDDDAfterSubmit} 
+						invalidTextAfterSubmit={invalidDDDAfterSubmit}
 						placeholder={'22'}
 						keyboardType={'decimal-pad'}
 						filterText={filterLeavingOnlyNumbers as any} // TODO Type
@@ -140,7 +141,7 @@ export function InsertPhone({navigation}: InsertPhoneScreenProps) {
 					/>
 				</InputsContainer>
 				<PrimaryButton
-					color={theme.purple3}
+					color={someInvalidFieldSubimitted() ? theme.red3 : theme.purple3}
 					iconName={'arrow-right'}
 					iconColor={theme.white3}
 					label='continuar'

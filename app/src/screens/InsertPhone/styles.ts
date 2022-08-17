@@ -11,7 +11,6 @@ export const InputsContainer = styled.View`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: ${screenHeight * 0.1}px
 `
 
 
