@@ -7,6 +7,8 @@ export type InsertPhoneScreenProps = NativeStackScreenProps<AuthRegisterStackPar
 export type InsertConfirmationCodeScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'InsertConfirmationCode'>
 export type InsertPasswordScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'InsertPassword'>
 export type InsertNameScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'InsertName'>
+export type InsertProfilePictureScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'InsertProfilePicture'>
+export type CustomCameraScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'CustomCamera'>
 
 
  

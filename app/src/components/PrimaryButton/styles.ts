@@ -7,7 +7,7 @@ export const Container = styled.TouchableWithoutFeedback`
 `
 export const TouchableContainer = styled.TouchableWithoutFeedback`
     width: 100%;
-    background-color: ${({theme}) => theme.white2}
+    background-color: ${({ theme }) => theme.white2}
 `
 
 export const ContainerBottom = styled(Animatable.View)`
@@ -15,8 +15,8 @@ export const ContainerBottom = styled(Animatable.View)`
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 52px;
-    height: ${screenHeight * 0.07}px;
+    min-height: 55px;
+    height: ${screenHeight * 0.073}px;
     border-radius: 10px;
     
     position: relative;
@@ -28,8 +28,8 @@ flex-direction: row;
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 52px;
-    height: ${screenHeight * 0.07}px;
+    min-height: 55px;
+    height: ${screenHeight * 0.073}px;
     border-radius: 10px;
     border: 2px solid black;
     padding-horizontal: 20px;

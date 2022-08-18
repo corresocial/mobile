@@ -1,4 +1,4 @@
-import { Alert, Animated, Keyboard, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Alert, Animated, Keyboard } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react'
 
 import { Container, InputsContainer } from './styles';
@@ -15,16 +15,10 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 
 	const [name, setName] = useState<string>('')
 	const [invalidNameAfterSubmit, setInvaliNameAfterSubmit] = useState<boolean>(false)
-	const [keyboardIsOpen, setKeyboardIsOpen] = useState<boolean>(false)
 
 	const inputRefs = {
 		nameInput: useRef<React.MutableRefObject<any>>(null),
 	}
-
-	useEffect(() => {
-        Keyboard.addListener('keyboardDidShow', () => setKeyboardIsOpen(true))
-        Keyboard.addListener('keyboardDidHide', () => setKeyboardIsOpen(false))
-	})
 
 	const validateName = (text: string) => {
 		const isValid = text.length >= 5
@@ -42,6 +36,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 		if (nameIsValid) {
 			// navigation.navigate('InsertName', { userPhone }) // Navigation to this screen
 			Alert.alert('Signin!', `Phone: ${userPhone}\nName: ${name}`)
+			navigation.navigate('InsertProfilePicture', { userPhone, userName: name })
 		} else {
 			!nameIsValid && setInvaliNameAfterSubmit(true)
 		}
@@ -69,13 +64,6 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 
 	return (
 		<Container >
-			<View onTouchMove={() => {
-				console.log('Movi')
-			}}>
-
-			</View>
-
-			
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized

@@ -5,9 +5,11 @@ import 'react-native-gesture-handler'
 import { Splash } from '../../../screens/Splash';
 import { AcceptAndContinue } from './../../../screens/AcceptAndContinue'
 import { InsertPhone } from '../../../screens/InsertPhone';
-import { InsertName } from '../../../screens/InsertName';
-import { InsertPassword } from '../../../screens/InsertPassword';
 import { InsertConfirmationCode } from '../../../screens/InsertConfirmationCode';
+import { InsertPassword } from '../../../screens/InsertPassword';
+import { InsertName } from '../../../screens/InsertName';
+import { InsertProfilePicture } from '../../../screens/InsertProfilePicture';
+import { CustomCamera } from '../../../screens/CustomCamera';
 
 export type AuthRegisterStackParamList = {
     Splash: undefined
@@ -16,13 +18,15 @@ export type AuthRegisterStackParamList = {
     InsertConfirmationCode: { userPhone: string }
     InsertPassword: { userPhone: string }
     InsertName: { userPhone: string }
+    InsertProfilePicture: { userPhone: string, userName: string }
+    CustomCamera: {userPhone: string, userName: string}
 };
 
 const Stack = createStackNavigator<AuthRegisterStackParamList>()
 
 export function AuthRegisterStack() {
     return (
-        <Stack.Navigator initialRouteName='InsertPhone'
+        <Stack.Navigator initialRouteName='InsertProfilePicture'
             screenOptions={{
                 headerShown: false,
                 gestureEnabled: true,
@@ -38,6 +42,8 @@ export function AuthRegisterStack() {
             <Stack.Screen name={'InsertConfirmationCode'} component={InsertConfirmationCode} />
             <Stack.Screen name={'InsertPassword'} component={InsertPassword} />
             <Stack.Screen name={'InsertName'} component={InsertName} />
+            <Stack.Screen name={'InsertProfilePicture'} component={InsertProfilePicture} />
+            <Stack.Screen name={'CustomCamera'} component={CustomCamera} />
         </Stack.Navigator>
     )
 }
