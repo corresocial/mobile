@@ -3,7 +3,8 @@ import { screenWidth } from "../../common/screenDimensions";
 
 export const Container = styled.View`
     flex: 1;
-    padding:  ${screenWidth * 0.07}px;
+    padding-horizontal:  ${screenWidth * 0.07}px;
+    padding-vertical:  ${screenWidth * 0.15}px;
     align-items: center;
     justify-content: space-around;
 `

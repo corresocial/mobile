@@ -4,7 +4,7 @@ import { Text } from 'react-native'
 const showMessageWithHighlight = (message: string, highlightedWords?: string[]) => {
     if (!highlightedWords) return message
 
-    const words = message.split(' ')
+    const words = message.split(/\s/gi)
     
     const messageHighlighted = words.map((word: string) => {
         if (highlightedWords.includes(word as never)) return (

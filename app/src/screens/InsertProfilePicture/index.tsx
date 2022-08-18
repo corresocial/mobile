@@ -12,7 +12,7 @@ import { PrimaryButton } from '../../components/PrimaryButton';
 
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
 
-	const openCustomCamera = () => {
+	const navigateToCustomCamera = () => {
 		const userData = {
 			...route.params,
 		}
@@ -20,10 +20,9 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		navigation.navigate('CustomCamera', userData)
 	}
 
-	const navigateToHome = () => {
-		Alert.alert('Aoba!', 'Tô indo pro home hein?!')
+	const navigateToNextScreen = () => {
+		navigation.navigate('NextScreen')
 	}
-
 
 	return (
 		<Container >
@@ -40,12 +39,12 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 			<FormContainer backgroundColor={theme.white2}>
 				<PrimaryButton
 					color={theme.green3}
-					iconName={'image'}
+					iconName={'images'}
 					iconColor={theme.white3}
 					label='claro, vou adicionar'
 					labelColor={theme.white3}
 					highlightedWords={['vou', 'adicionar']}
-					onPress={openCustomCamera}
+					onPress={navigateToCustomCamera}
 				/>
 				<PrimaryButton
 					color={theme.red3}
@@ -54,7 +53,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 					label='nem quero, valew'
 					labelColor={theme.white3}
 					highlightedWords={['nem', 'quero,']}
-					onPress={navigateToHome}
+					onPress={navigateToNextScreen}
 				/>
 			</FormContainer>
 		</Container>

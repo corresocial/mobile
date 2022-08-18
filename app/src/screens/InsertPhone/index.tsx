@@ -52,9 +52,6 @@ export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 		const phoneIsValid = validatePhone(phone)
 
 		if (DDDIsValid && phoneIsValid) {
-			if (DDD === '00') {// TODO Dev Only
-				return navigation.navigate('InsertPassword', { userPhone: `${DDD}${phone}` })
-			}
 			return navigation.navigate('InsertConfirmationCode', { userPhone: `${DDD}${phone}` })
 
 		} else {

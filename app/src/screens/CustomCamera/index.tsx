@@ -1,13 +1,24 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, Alert } from 'react-native';
+import { View, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker'
 import { Camera, CameraType, FlashMode } from 'expo-camera'
-import { Entypo, FontAwesome5, Ionicons } from '@expo/vector-icons';
+import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 
-import { CameraContainer, CameraControlsContainer, CameraTypeButton, Container, FlashButton, FlashButtonContainer, Footer, GaleryButton, TakePictureButton } from './styles';
+import {
+    CameraContainer,
+    CameraControlsContainer,
+    CameraTypeButton, Container,
+    FlashButton,
+    FlashButtonContainer,
+    Footer, GaleryButton,
+    TakePictureButton
+} from './styles';
+
 import { theme } from '../../common/theme';
+import { CustomCameraScreenProps } from '../../routes/Stack/screenProps';
 
-function CustomCamera() {
+function CustomCamera({ navigation, route }: CustomCameraScreenProps) {
+    const [cameraReady, setCameraReady] = useState(false)
     const [pictureUri, setPictureUri] = useState<string>('')
     const [cameraType, setCameraType] = useState(CameraType.back)
     const [flashMode, setFlashMode] = useState(FlashMode.off)
@@ -19,6 +30,10 @@ function CustomCamera() {
             const { status } = await Camera.requestCameraPermissionsAsync()
             setHasPermission(status === 'granted')
         })
+        /*   navigation.addListener('focus', () => {
+              setPictureUri('')
+              console.log('I am back!')
+          }); */
     }, [])
 
     const toggleFlashMode = () => {
@@ -45,7 +60,7 @@ function CustomCamera() {
         if (cameraRef) {
             const data = await cameraRef.current.takePictureAsync()
             console.log(data)
-            setPictureUri(data)
+            setPictureUri(data.uri)
         }
     }
 
@@ -53,12 +68,18 @@ function CustomCamera() {
         setCameraType(cameraType == CameraType.back ? CameraType.front : CameraType.back)
     }
 
-    const goToImageImagePreview = () => {
-        Alert.alert('Going To image Preview!')
+    const navigateToProfilePicturePreview = () => {
+        const userData = {
+            ...route.params,
+            profilePictureUri: pictureUri
+        }
+        navigation.navigate('ProfilePicturePreview', userData)
     }
 
+
     if (pictureUri) {
-        goToImageImagePreview()
+        setPictureUri('')
+        navigateToProfilePicturePreview()
     }
 
     if (hasPermission) {
@@ -74,33 +95,36 @@ function CustomCamera() {
                     type={cameraType}
                     flashMode={flashMode}
                     ratio={'1:1'}
+                    onCameraReady={() => setCameraReady(true)}
                 >
                 </Camera>
             </CameraContainer>
-            <FlashButtonContainer>
-                <FlashButton onPress={toggleFlashMode}>
-                    <Ionicons name='md-flash-sharp' size={25} color={flashMode == FlashMode.on ? theme.orange3 : theme.black4} />
-                </FlashButton>
-            </FlashButtonContainer>
-            <Footer>
-                <CameraControlsContainer>
-                    <GaleryButton onPress={openGalery} >
-                        <FontAwesome5 name='images' size={25} color={theme.black4} />
-                    </GaleryButton>
+            {
+                cameraReady
+                    ? <>
+                        <FlashButtonContainer>
+                            <FlashButton onPress={toggleFlashMode}>
+                                <Ionicons name='md-flash-sharp' size={25} color={flashMode == FlashMode.on ? theme.orange3 : theme.black4} />
+                            </FlashButton>
+                        </FlashButtonContainer>
+                        <Footer>
+                            <CameraControlsContainer>
+                                <GaleryButton onPress={openGalery} >
+                                    <FontAwesome5 name='images' size={25} color={theme.black4} />
+                                </GaleryButton>
 
-                    <TakePictureButton onPress={takePicture}>
-                    </TakePictureButton>
+                                <TakePictureButton onPress={takePicture}>
+                                </TakePictureButton>
 
-                    <CameraTypeButton onPress={toggleCameraType} >
-                        {/* <Entypo name='camera' size={27} color={theme.black4} /> */}
-                        <Ionicons name='camera-reverse' size={27} color={theme.black4} />
-                    </CameraTypeButton>
-
-                </CameraControlsContainer>
-            </Footer>
-
-
-
+                                <CameraTypeButton onPress={toggleCameraType} >
+                                    {/* <Entypo name='camera' size={27} color={theme.black4} /> */}
+                                    <Ionicons name='camera-reverse' size={27} color={theme.black4} />
+                                </CameraTypeButton>
+                            </CameraControlsContainer>
+                        </Footer>
+                    </>
+                    : <></>
+            }
         </Container >
     );
 }
