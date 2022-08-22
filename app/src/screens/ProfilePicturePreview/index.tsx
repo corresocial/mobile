@@ -11,7 +11,6 @@ import { InstructionCard } from '../../components/InstructionCard';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { PhotoPortrait } from '../../components/PhotoPortrait';
 
-import { StackActions, NavigationActions } from 'react-navigation';
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
 
@@ -22,7 +21,8 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 	const backToCustomCamera = () => {
 		// navigation.goBack()
-		navigation.navigate('InsertProfilePicture', {userPhone: 'any',userName: 'any'})
+		navigation.navigate('InsertProfilePicture', {userPhone: 'any', userName: 'any'})
+		navigation.navigate('CustomCamera', {userPhone: 'any', userName: 'any'})
 	}
 
 	return (

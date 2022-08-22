@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { BackHandler } from 'react-native';
 
 import {
     Container,
@@ -29,6 +30,11 @@ const presentationTexts = [
 function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
 
     const [termsVisibility, setTermsVisibility] = useState<boolean>(false)
+
+    useEffect(() => {
+        BackHandler.addEventListener('hardwareBackPress', () => false)
+        return () => BackHandler.removeEventListener('hardwareBackPress', () => false)
+      }, [])
 
     const showTermsOfServiceModal = () => {
         setTermsVisibility(true)
