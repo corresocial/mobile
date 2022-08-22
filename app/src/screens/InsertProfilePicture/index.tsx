@@ -21,7 +21,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 	}
 
 	const navigateToNextScreen = () => {
-		navigation.navigate('NextScreen')
+		navigation.navigate('WelcomeNewUser', {userName: route.params.userName})
 	}
 
 	return (

@@ -34,7 +34,7 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
     useEffect(() => {
         BackHandler.addEventListener('hardwareBackPress', () => false)
         return () => BackHandler.removeEventListener('hardwareBackPress', () => false)
-      }, [])
+    }, [])
 
     const showTermsOfServiceModal = () => {
         setTermsVisibility(true)

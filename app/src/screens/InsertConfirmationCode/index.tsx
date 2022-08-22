@@ -1,4 +1,4 @@
-import { Alert, Animated } from 'react-native';
+import {  Animated } from 'react-native';
 import React, { useRef, useState } from 'react'
 
 import { Container, InputsContainer } from './styles';
@@ -81,7 +81,6 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 
 		if (completeCodeIsValid) {
 			// navigation.navigate('InsertConfirmationCode', { userPhone }) // Navigation to this screen
-			Alert.alert('Confrimed!', `User: ${userPhone}\nConfirmationCode: ${completeCode}`)
 			navigation.navigate('InsertName', {userPhone})
 
 		} else {

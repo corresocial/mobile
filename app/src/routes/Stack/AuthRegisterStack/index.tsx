@@ -10,7 +10,7 @@ import { InsertName } from '../../../screens/InsertName';
 import { InsertProfilePicture } from '../../../screens/InsertProfilePicture';
 import { CustomCamera } from '../../../screens/CustomCamera';
 import { ProfilePicturePreview } from '../../../screens/ProfilePicturePreview';
-import { NextScreen } from '../../../screens/NextScreen';
+import { WelcomeNewUser } from '../../../screens/WelcomeNewUser';
 
 export type AuthRegisterStackParamList = {
     Splash: undefined
@@ -21,7 +21,7 @@ export type AuthRegisterStackParamList = {
     InsertProfilePicture: { userPhone: string, userName: string }
     CustomCamera: {userPhone: string, userName: string}
     ProfilePicturePreview: {userPhone: string, userName: string, profilePictureUri: string}
-    NextScreen: undefined
+    WelcomeNewUser: {userName: string}
 };
 
 const Stack = createStackNavigator<AuthRegisterStackParamList>()
@@ -46,7 +46,7 @@ export function AuthRegisterStack() {
             <Stack.Screen name={'InsertProfilePicture'} component={InsertProfilePicture} />
             <Stack.Screen name={'CustomCamera'} component={CustomCamera} />
             <Stack.Screen name={'ProfilePicturePreview'} component={ProfilePicturePreview} />
-            <Stack.Screen name={'NextScreen'} component={NextScreen} />
+            <Stack.Screen name={'WelcomeNewUser'} component={WelcomeNewUser} />
         </Stack.Navigator>
     )
 }

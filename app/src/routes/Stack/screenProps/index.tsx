@@ -9,7 +9,7 @@ export type InsertNameScreenProps = NativeStackScreenProps<AuthRegisterStackPara
 export type InsertProfilePictureScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'InsertProfilePicture'>
 export type CustomCameraScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'CustomCamera'>
 export type ProfilePicturePreviewScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'ProfilePicturePreview'>
-export type NextScreenScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'NextScreen'>
+export type WelcomeNewUserScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'WelcomeNewUser'>
 
 
  

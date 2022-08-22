@@ -1,5 +1,5 @@
-import { Alert, Animated, Keyboard } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react'
+import { Animated } from 'react-native';
+import React, { useRef, useState } from 'react'
 
 import { Container, InputsContainer } from './styles';
 
@@ -35,7 +35,6 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 
 		if (nameIsValid) {
 			// navigation.navigate('InsertName', { userPhone }) // Navigation to this screen
-			Alert.alert('Signin!', `Phone: ${userPhone}\nName: ${name}`)
 			navigation.navigate('InsertProfilePicture', { userPhone, userName: name })
 		} else {
 			!nameIsValid && setInvaliNameAfterSubmit(true)

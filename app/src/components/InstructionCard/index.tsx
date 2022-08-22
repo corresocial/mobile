@@ -7,12 +7,24 @@ import { showMessageWithHighlight } from '../../common/auxiliaryFunctions';
 interface InstructionCardProps {
     message: string
     highlightedWords?: string[]
+    fontSize?: number
+    lineHeight?: number
 }
 
-function InstructionCard({ message, highlightedWords }: InstructionCardProps) {
+function InstructionCard({
+    message,
+    highlightedWords,
+    fontSize,
+    lineHeight
+}: InstructionCardProps) {
     return (
         <Container>
-                <Message>{showMessageWithHighlight(message, highlightedWords)}</Message>
+            <Message
+                style={{
+                    fontSize: fontSize ? fontSize : 20,
+                    lineHeight: lineHeight ? lineHeight : 22
+                }}
+            >{showMessageWithHighlight(message, highlightedWords)}</Message>
         </Container>
     )
 }

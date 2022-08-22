@@ -15,8 +15,8 @@ import { PhotoPortrait } from '../../components/PhotoPortrait';
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
 
 	const navigateToNextScreen = () => {
-		// User params
-		navigation.navigate('NextScreen')
+		// Save on DB
+		navigation.navigate('WelcomeNewUser', {userName: route.params.userName})
 	}
 
 	const backToCustomCamera = () => {
