@@ -7,9 +7,9 @@ import { Container } from './styles'
 interface DefaultHeaderContainerProps {
     children: ReactElement | ReactElement[]
     backgroundColor: string | Animated.AnimatedInterpolation
-    relativeHeight?:  string | Animated.AnimatedInterpolation
+    relativeHeight?: string | Animated.AnimatedInterpolation
     centralized?: boolean
-    justifyContent?: any //TODO Type
+    justifyContent?: { [key: string]: React.CSSProperties } 
     withoutPadding?: boolean
 }
 
@@ -28,7 +28,7 @@ function DefaultHeaderContainer({
                 justifyContent: justifyContent ? justifyContent : (centralized ? 'center' : 'flex-start'),
                 backgroundColor: backgroundColor,
                 padding: withoutPadding ? 0 : screenWidth * 0.08
-            }}
+            } as { [key: string]: React.CSSProperties }}
         >
             {children}
         </Container >

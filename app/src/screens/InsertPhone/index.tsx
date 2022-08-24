@@ -112,7 +112,7 @@ export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 						invalidTextAfterSubmit={invalidDDDAfterSubmit}
 						placeholder={'22'}
 						keyboardType={'decimal-pad'}
-						filterText={filterLeavingOnlyNumbers as any} // TODO Type
+						filterText={filterLeavingOnlyNumbers}
 						validateText={(text: string) => validateDDD(text)}
 						onChangeText={(text: string) => setDDD(text)}
 					/>
@@ -132,7 +132,7 @@ export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 						placeholder={'984848484'}
 						keyboardType={'decimal-pad'}
 						lastInput={true}
-						filterText={filterLeavingOnlyNumbers as any} // TODO Type
+						filterText={filterLeavingOnlyNumbers}
 						validateText={(text: string) => validatePhone(text)}
 						onChangeText={(text: string) => setPhone(text)}
 					/>

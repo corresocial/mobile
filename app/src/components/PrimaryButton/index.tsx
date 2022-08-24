@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { View, Keyboard } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import { FontAwesome5 as Icon } from '@expo/vector-icons';
 
 import { ButtonLabel, TouchableContainer, ContainerSurface, ContainerBottom } from './styles';
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions';
-import { Keyboard } from 'react-native';
 
 interface PrimaryButtonProps {
     color: string
@@ -12,7 +13,7 @@ interface PrimaryButtonProps {
     iconName: string
     iconSize?: number
     iconColor?: string
-    keyboardHideButton?: boolean // TODO Type
+    keyboardHideButton?: boolean
     highlightedWords?: string[]
     justifyContent?: string
     onPress: () => void
@@ -33,13 +34,13 @@ function PrimaryButton({
     const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
     const [buttonVisibility, setButtonVisibility] = useState<boolean>(true)
 
-    const buttonRef = useRef<any>(null) // TODO Type
+    const buttonRef = useRef<any>()
 
     useEffect(() => {
         if (!keyboardHideButton) return
         Keyboard.addListener('keyboardDidShow', () => hideButton())
         Keyboard.addListener('keyboardDidHide', () => showButton())
-    },[])
+    }, [])
 
     const hideButton = async () => {
         if (!buttonRef.current) return
@@ -78,9 +79,9 @@ function PrimaryButton({
                 <ContainerSurface
                     style={{
                         backgroundColor: color,
-                        justifyContent: justifyContent as any || 'center', // TODO Type
+                        justifyContent: justifyContent || 'center',
                         marginRight: buttonPressed ? -3 : 0,
-                    }}>
+                    } as { [key: string]: React.CSSProperties }}>
                     <ButtonLabel style={{ color: labelColor }}>
                         {showMessageWithHighlight(label, highlightedWords)}
                     </ButtonLabel>

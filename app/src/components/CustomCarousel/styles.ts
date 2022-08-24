@@ -8,7 +8,6 @@ export const CarouselIndicatorContainer = styled.View`
     bottom: 30px;
     width: 100%;
 `
-//TODO box-shadow not suported
 export const CarouselActiveIndicatorItem = styled.View` 
     height: 15px;
     width: 16px;

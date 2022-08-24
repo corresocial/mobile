@@ -1,18 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { FontAwesome5 as Icon } from '@expo/vector-icons';
+import React, {  useRef, useState } from 'react'
 
 import { ButtonLabel, TouchableContainer, ContainerSurface, ContainerBottom } from './styles';
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions';
 import { SvgProps } from 'react-native-svg';
-import { screenHeight, screenWidth } from '../../common/screenDimensions';
 
 interface OptionButtonProps {
     color: string
     label: string
     labelColor?: string
-    SvgIcon?: any // TODO Type
+    SvgIcon?: React.FC<SvgProps> 
     highlightedWords?: string[]
-    justifyContent?: string
+    justifyContent?: { [key: string]: React.CSSProperties }
     onPress: () => void
 }
 
@@ -28,7 +26,7 @@ function OptionButton({
     const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
     const [buttonVisibility, setButtonVisibility] = useState<boolean>(true)
 
-    const buttonRef = useRef<any>(null) // TODO Type
+    const buttonRef = useRef<any>()
 
     function pressingButton() {
         setButtomPressed(true)
@@ -56,10 +54,11 @@ function OptionButton({
                 <ContainerSurface
                     style={{
                         backgroundColor: color,
-                        justifyContent: justifyContent as any || 'center', // TODO Type
+                        justifyContent: justifyContent || 'center',
                         marginRight: buttonPressed ? -3 : 0,
-                    }}>
-                    <SvgIcon height={'40%'} width={'25%'}/>
+                    } as { [key: string]: React.CSSProperties }}
+                >
+                    {SvgIcon && <SvgIcon height={'40%'} width={'25%'} />}
                     <ButtonLabel style={{ color: labelColor }}>
                         {showMessageWithHighlight(label, highlightedWords)}
                     </ButtonLabel>

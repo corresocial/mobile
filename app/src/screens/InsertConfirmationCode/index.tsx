@@ -156,7 +156,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 									invalidTextAfterSubmit={invalidCodeAfterSubmit}
 									placeholder={'0'}
 									keyboardType={'decimal-pad'}
-									filterText={filterLeavingOnlyNumbers as any} //TODO Type
+									filterText={filterLeavingOnlyNumbers} 
 									validateText={(text: string) => validateCode(text)}
 									onChangeText={(text: string) => inputConfig.set(text)}
 								/>

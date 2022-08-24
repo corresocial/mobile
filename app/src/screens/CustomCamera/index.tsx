@@ -23,7 +23,7 @@ function CustomCamera({ navigation, route }: CustomCameraScreenProps) {
     const [cameraType, setCameraType] = useState(CameraType.back)
     const [flashMode, setFlashMode] = useState(FlashMode.off)
     const [hasPermission, setHasPermission] = useState(false)
-    const cameraRef = useRef<any>() // TODO Type
+    const cameraRef = useRef<Camera>(null)
 
     useEffect(() => {
         (async () => {
@@ -57,7 +57,7 @@ function CustomCamera({ navigation, route }: CustomCameraScreenProps) {
     }
 
     const takePicture = async () => {
-        if (cameraRef) {
+        if (cameraRef.current !== null) {
             const data = await cameraRef.current.takePictureAsync()
             console.log(data)
             setPictureUri(data.uri)
@@ -73,12 +73,13 @@ function CustomCamera({ navigation, route }: CustomCameraScreenProps) {
             ...route.params,
             profilePictureUri: pictureUri
         }
+
         navigation.navigate('ProfilePicturePreview', userData)
     }
 
-
     if (pictureUri) {
         setPictureUri('')
+
         navigateToProfilePicturePreview()
     }
 

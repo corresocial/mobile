@@ -6,7 +6,7 @@ import { Container, TextInput } from './styles';
 interface LineInputProps {
     value: string
     relativeWidth: string
-    textInputRef?: any // TODO Type
+    textInputRef?: any
     previousInputRef?: any
     nextInputRef?: any
     defaultBackgroundColor: string
@@ -118,7 +118,6 @@ function LineInput({
                 value={value}
                 maxLength={maxLength}
                 secureTextEntry={secureTextEntry}
-                //  placeholder={placeholder} // TODO placeholder align pipe to end when delete all text
                 keyboardType={keyboardType || 'ascii-capable'}
 
                 onChangeText={(text) => ValidateAndChange(text)}

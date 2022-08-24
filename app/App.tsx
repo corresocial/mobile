@@ -8,16 +8,19 @@ import {
 	Arvo_700Bold,
 } from '@expo-google-fonts/arvo';
 
-import { Splash } from './src/screens/Splash';
 import { theme } from './src/common/theme';
 import { AuthRegisterStack } from './src/routes/Stack/AuthRegisterStack';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 
 export default function App() {
 
 	const [fontsLoaded]: boolean[] = useFonts({ Arvo_400Regular, Arvo_700Bold });
 
-	if(!fontsLoaded) return <ActivityIndicator size={'large'}/> // TODO Temporary
+	if(!fontsLoaded) return (
+		<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+			<ActivityIndicator size={'large'} color={theme.orange3}/>
+		</View>
+	) // TODO Temporary
 	
 	return (
 		<NavigationContainer>

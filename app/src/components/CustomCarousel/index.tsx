@@ -36,7 +36,7 @@ function CustomCarousel(props: CustomCarousel) {
                 height={screenHeight}
                 autoPlayInterval={3000}
                 loop={true}
-                renderItem={({ _, index }: any) => ( // TODO Tipar
+                renderItem={({ item, index }) => (
                     <View >
                         {props.children[index]}
                     </View>
