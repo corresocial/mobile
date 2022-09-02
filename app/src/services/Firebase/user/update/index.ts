@@ -1,0 +1,24 @@
+import { doc, setDoc } from 'firebase/firestore';
+import { firestore } from '../../Firebase';
+import { UserCollection } from '../types';
+
+async function updateUser(docId: string, data: UserCollection) {
+	try {
+		const documentReference = doc(firestore, 'users', docId);
+		const finished = setDoc(
+			documentReference,
+			{ ...data, updated_at: new Date() },
+			{ merge: true },
+		)
+			.then(() => true)
+			.catch(err => false) // TODO Error Handling
+
+		console.log('finished')
+		return finished;
+
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+export default updateUser

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Animated } from 'react-native';
 
 import {
@@ -12,9 +12,11 @@ import BuildingsSVG from './../../assets/svgs/buildings.svg'
 import LogoSVG from './../../assets/svgs/logo.svg'
 import { screenHeight, screenWidth } from '../../common/screenDimensions';
 import { SplashScreenProps } from '../../routes/Stack/screenProps';
+import { AuthContext } from '../../contexts/AuthContext';
 
-function Splash({navigation}: SplashScreenProps) {
-    const [imagesSvgOpacity, setImagesSvgOpacity] = useState(new Animated.Value(0))
+function Splash({ navigation }: SplashScreenProps) {
+    const { getDataFromSecureStore } = useContext(AuthContext)
+    const [imagesSvgOpacity] = useState(new Animated.Value(0))
 
     useEffect(() => {
         Animated.timing(imagesSvgOpacity, {
@@ -24,9 +26,19 @@ function Splash({navigation}: SplashScreenProps) {
         }).start()
 
         setTimeout(() => {
-            navigation.navigate('AcceptAndContinue')
+            redirectToApp()
         }, 2000)
     })
+
+    const redirectToApp = async() => {
+        const user = await getDataFromSecureStore('corre.userx') 
+        console.log(user)
+        if(user){
+            navigation.navigate('Home')
+        }else{
+            navigation.navigate('AcceptAndContinue')
+        }
+    }
 
     return (
         <Container>

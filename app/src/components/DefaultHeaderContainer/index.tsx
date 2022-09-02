@@ -9,7 +9,7 @@ interface DefaultHeaderContainerProps {
     backgroundColor: string | Animated.AnimatedInterpolation
     relativeHeight?: string | Animated.AnimatedInterpolation
     centralized?: boolean
-    justifyContent?: { [key: string]: React.CSSProperties } 
+    justifyContent?: string
     withoutPadding?: boolean
 }
 

@@ -11,24 +11,47 @@ import { InsertProfilePicture } from '../../../screens/InsertProfilePicture';
 import { CustomCamera } from '../../../screens/CustomCamera';
 import { ProfilePicturePreview } from '../../../screens/ProfilePicturePreview';
 import { WelcomeNewUser } from '../../../screens/WelcomeNewUser';
+import { Home } from '../../../screens/Home';
+import { UserIdentification } from '../../../screens/InsertConfirmationCode/types';
 
 export type AuthRegisterStackParamList = {
     Splash: undefined
     AcceptAndContinue: undefined
     InsertPhone: undefined
-    InsertConfirmationCode: { userPhone: string }
-    InsertName: { userPhone: string }
-    InsertProfilePicture: { userPhone: string, userName: string }
-    CustomCamera: {userPhone: string, userName: string}
-    ProfilePicturePreview: {userPhone: string, userName: string, profilePictureUri: string}
-    WelcomeNewUser: {userName: string}
+    InsertConfirmationCode: {
+        userPhone: string,
+        verificationCodeId: string | void
+    }
+    InsertName: {
+        userPhone: string
+        userIdentification: UserIdentification
+    }
+    InsertProfilePicture: {
+        userPhone: string,
+        userName: string,
+        userIdentification: UserIdentification
+    }
+    CustomCamera: {
+        userPhone: string,
+        userName: string,
+        userIdentification: UserIdentification
+    }
+    ProfilePicturePreview: {
+        userPhone: string,
+        userName: string,
+        profilePictureUri: string,
+        userIdentification: UserIdentification
+    }
+
+    WelcomeNewUser: { userName: string }
+    Home: undefined
 };
 
 const Stack = createStackNavigator<AuthRegisterStackParamList>()
 
 export function AuthRegisterStack() {
     return (
-        <Stack.Navigator initialRouteName='Splash'
+        <Stack.Navigator initialRouteName='InsertProfilePicture'
             screenOptions={{
                 headerShown: false,
                 gestureEnabled: true,
@@ -47,6 +70,8 @@ export function AuthRegisterStack() {
             <Stack.Screen name={'CustomCamera'} component={CustomCamera} />
             <Stack.Screen name={'ProfilePicturePreview'} component={ProfilePicturePreview} />
             <Stack.Screen name={'WelcomeNewUser'} component={WelcomeNewUser} />
+
+            <Stack.Screen name={'Home'} component={Home} />
         </Stack.Navigator>
     )
 }

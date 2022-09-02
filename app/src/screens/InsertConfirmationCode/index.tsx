@@ -1,18 +1,24 @@
-import {  Animated } from 'react-native';
-import React, { useRef, useState } from 'react'
+import { Animated } from 'react-native';
+import React, { useContext, useRef, useState } from 'react'
+import { UserCredential } from 'firebase/auth';
 
 import { Container, InputsContainer } from './styles';
-
 import { theme } from '../../common/theme';
+
+import { UserIdentification } from './types';
+import { filterLeavingOnlyNumbers } from '../../common/auxiliaryFunctions';
+
 import { InsertConfirmationCodeScreenProps } from '../../routes/Stack/screenProps';
 import { DefaultHeaderContainer } from '../../components/DefaultHeaderContainer';
 import { FormContainer } from '../../components/FormContainer';
 import { InstructionCard } from '../../components/InstructionCard';
 import { LineInput } from '../../components/LineInput';
 import { PrimaryButton } from '../../components/PrimaryButton';
-import { filterLeavingOnlyNumbers } from '../../common/auxiliaryFunctions';
+import { AuthContext } from '../../contexts/AuthContext';
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
+
+	const { validateVerificationCode } = useContext(AuthContext)
 
 	const [inputCode01, setInputCode01] = useState<string>('')
 	const [inputCode02, setInputCode02] = useState<string>('')
@@ -77,15 +83,36 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 	const sendCompletePhoneToNextScreen = () => {
 		const completeCode = mergeAllInputCodes()
 		const completeCodeIsValid = completeCode.length == 6 // Need server side validation
-		const userPhone = route.params.userPhone
 
 		if (completeCodeIsValid) {
-			// navigation.navigate('InsertConfirmationCode', { userPhone }) // Navigation to this screen
-			navigation.navigate('InsertName', {userPhone})
+			const userPhone = route.params.userPhone
+			const verificationCodeId = route.params.verificationCodeId as string
 
+			validateVerificationCode(verificationCodeId, completeCode).then(async (userCredential: UserCredential) => {
+				if (typeof userCredential !== 'string') {
+					return navigation.navigate('InsertName', {
+						userPhone,
+						userIdentification: await extractUserIdentification(userCredential)
+					})
+				} else {
+					setInvaliCodeAfterSubmit(true)
+				}
+			})
 		} else {
 			!completeCodeIsValid && setInvaliCodeAfterSubmit(true)
 		}
+	}
+
+	const extractUserIdentification  = async ({ user }: UserCredential) => {
+		const userIdentification: UserIdentification = {
+			uid: user.uid,
+			authTime: (await user.getIdTokenResult()).authTime,
+			accessToken: (await user.getIdTokenResult()).token,
+			tokenExpirationTime: (await user.getIdTokenResult()).expirationTime,
+			refreshToken: user.refreshToken
+		}
+
+		return userIdentification
 	}
 
 	const mergeAllInputCodes = () => {
@@ -156,7 +183,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 									invalidTextAfterSubmit={invalidCodeAfterSubmit}
 									placeholder={'0'}
 									keyboardType={'decimal-pad'}
-									filterText={filterLeavingOnlyNumbers} 
+									filterText={filterLeavingOnlyNumbers}
 									validateText={(text: string) => validateCode(text)}
 									onChangeText={(text: string) => inputConfig.set(text)}
 								/>
@@ -179,3 +206,36 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 }
 
 export { InsertConfirmationCode }
+
+/*   // UserCredentials
+{
+  "_redirectEventId": undefined,
+  "apiKey": "AIzaSyDbh8TC2OOx2Cqw8cwOC80kOwrLy8kbBHA",
+  "appName": "[DEFAULT]",
+  "createdAt": "1648148841053",
+  "displayName": undefined,
+  "email": undefined,
+  "emailVerified": false,
+  "isAnonymous": false,
+  "lastLoginAt": "1662071675223",
+  "phoneNumber": "+5512123451234",
+  "photoURL": undefined,
+  "providerData": Array [
+	Object {
+	  "displayName": null,
+	  "email": null,
+	  "phoneNumber": "+5512123451234",
+	  "photoURL": null,
+	  "providerId": "phone",
+	  "uid": "+5512123451234",
+	},
+  ],
+  "stsTokenManager": Object {
+	"accessToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjUyZmEwZjE2NmJmZjZiODU5N2FjMGFlMDRlNTllZmYxOTk1N2MyYmIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY29ycmVzb2NpYWwtNjY4NDAiLCJhdWQiOiJjb3JyZXNvY2lhbC02Njg0MCIsImF1dGhfdGltZSI6MTY2MjA3MTY3NSwidXNlcl9pZCI6IlJNQ0pBdVVoTGpTbUF1M2tnalR6UmpqWjJqQjIiLCJzdWIiOiJSTUNKQXVVaExqU21BdTNrZ2pUelJqaloyakIyIiwiaWF0IjoxNjYyMDcxNjc1LCJleHAiOjE2NjIwNzUyNzUsInBob25lX251bWJlciI6Iis1NTEyMTIzNDUxMjM0IiwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJwaG9uZSI6WyIrNTUxMjEyMzQ1MTIzNCJdfSwic2lnbl9pbl9wcm92aWRlciI6InBob25lIn19.e4ATxiRKeNmQj-gZxfe83KLiIcaMy4Ryx3vHYJVyJiofmw86k8f11gY-LRQhhOo5m7GLLS-cmSCy496Zdtxh7iDSFBMQgSiv-Sm-TBDb6ueen8ZFOR2uym2ibMvlBeE9pVXimbGZE6s1hBS7jKlw1Ao7ouLvAOcT7WvSdqjrQidtrREuvSUrqelo-UqHQjAY8qfJIXlCn_yVYY3kHHKFZgGuzA2m2wm-CegFRo3yEDTSwaC8QpZVxog4G6KTATV5GsYMxTVZMySgqglYSxikHE6GKzmoPqd9b9bk0tg641b81NvIj6VBEDwIiq7jdbfsmX8PB2bv7_ss7j3rluQD2w",
+	"expirationTime": 1662075262057,
+	"refreshToken": "AOEOulZKLwcD2xls_qCm5Gkvnj4fWYTdkafLe96D2BIK_rV6k2Dqru0xxebEnbw7vCE4MnNM4goueLxjoBaZtwMPdB4rO8mhFpmy8OVNN6csgb4CqqfFXi7e9BCKdVYgnY8tiCTDLj5kITMWf4VH3k1veIekp8koUiVzTJsX6vNIrmEHcv4nSqDDBmDJHwXxJlRCy22A98AN2y5vKtkVMcYTpXIPLmSv1A",
+  },
+  "tenantId": undefined,
+  "uid": "RMCJAuUhLjSmAu3kgjTzRjjZ2jB2",
+}
+ */

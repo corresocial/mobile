@@ -1,9 +1,13 @@
-import React from 'react'
-import { Alert } from 'react-native';
+import React, { useContext } from 'react'
 
 import { Container } from './styles';
 
 import { theme } from '../../common/theme';
+
+import updateUser from '../../services/Firebase/user/update';
+import { AuthContext } from '../../contexts/AuthContext';
+import { RegisterUserData } from '../ProfilePicturePreview/types';
+
 import { InsertProfilePictureScreenProps } from '../../routes/Stack/screenProps';
 import { DefaultHeaderContainer } from '../../components/DefaultHeaderContainer';
 import { FormContainer } from '../../components/FormContainer';
@@ -12,16 +16,37 @@ import { PrimaryButton } from '../../components/PrimaryButton';
 
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
 
-	const navigateToCustomCamera = () => {
-		const userData = {
-			...route.params,
-		}
+	const { setDataOnSecureStore } = useContext(AuthContext)
 
+	const getRouteParams = () => {
+		return { ...route.params }
+	}
+
+	const navigateToCustomCamera = () => {
+		const userData = getRouteParams()
 		navigation.navigate('CustomCamera', userData)
 	}
 
+	const saveUserData = async () => {
+		const userData = getRouteParams()
+
+		await saveInFirebase(userData)
+		await saveInSecureStore(userData)
+		navigateToNextScreen()
+	}
+
+	const saveInFirebase = async (userData: RegisterUserData) => {
+		updateUser(userData.userIdentification.uid, {
+			name: userData.userName,
+		})
+	}
+
+	const saveInSecureStore = async (userData: RegisterUserData) => {
+		await setDataOnSecureStore('corre.user', userData)
+	}
+
 	const navigateToNextScreen = () => {
-		navigation.navigate('WelcomeNewUser', {userName: route.params.userName})
+		navigation.navigate('WelcomeNewUser', { userName: route.params.userName })
 	}
 
 	return (
@@ -53,7 +78,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 					label='nem quero, valew'
 					labelColor={theme.white3}
 					highlightedWords={['nem', 'quero,']}
-					onPress={navigateToNextScreen}
+					onPress={saveUserData}
 				/>
 			</FormContainer>
 		</Container>

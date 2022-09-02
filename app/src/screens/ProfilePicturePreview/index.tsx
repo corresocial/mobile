@@ -1,9 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Alert } from 'react-native';
 
 import { Container } from './styles';
 
 import { theme } from '../../common/theme';
+
+import updateUser from '../../services/Firebase/user/update';
+import { AuthContext } from '../../contexts/AuthContext';
+import { RegisterUserData } from './types';
+
 import { ProfilePicturePreviewScreenProps } from '../../routes/Stack/screenProps';
 import { DefaultHeaderContainer } from '../../components/DefaultHeaderContainer';
 import { FormContainer } from '../../components/FormContainer';
@@ -11,18 +16,43 @@ import { InstructionCard } from '../../components/InstructionCard';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { PhotoPortrait } from '../../components/PhotoPortrait';
 
-
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
 
+	const { setDataOnSecureStore } = useContext(AuthContext)
+
+	const getRouteParams = () => {
+		return { ...route.params }
+	}
+
+	const saveUserData = async () => {
+		const userData = getRouteParams()
+
+		await saveInFirebase(userData)
+		await saveInSecureStore(userData)
+		navigateToNextScreen()
+	}
+
+	const saveInFirebase = async (userData: RegisterUserData) => {
+		await updateUser(userData.userIdentification.uid, {
+			name: userData.userName,
+			profile_url: [userData.profilePictureUri as any]
+		})
+	}
+
+	const saveInSecureStore = async (userData: RegisterUserData) => {
+		await setDataOnSecureStore('corre.user', userData)
+	}
+
 	const navigateToNextScreen = () => {
-		// Save on DB
-		navigation.navigate('WelcomeNewUser', {userName: route.params.userName})
+		return navigation.navigate('WelcomeNewUser', { userName: route.params.userName })
 	}
 
 	const backToCustomCamera = () => {
-		// navigation.goBack()
-		navigation.navigate('InsertProfilePicture', {userPhone: 'any', userName: 'any'})
-		navigation.navigate('CustomCamera', {userPhone: 'any', userName: 'any'})
+		const userData = {
+			...route.params,
+		}
+		navigation.navigate('InsertProfilePicture', userData) //TODO navigation.goBack() do not working
+		navigation.navigate('CustomCamera', userData)
 	}
 
 	return (
@@ -47,7 +77,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 					label='tá ótima, continuar'
 					labelColor={theme.white3}
 					highlightedWords={['continuar']}
-					onPress={navigateToNextScreen}
+					onPress={saveUserData}
 				/>
 				<PrimaryButton
 					color={theme.yellow3}

@@ -11,5 +11,7 @@ export type CustomCameraScreenProps = NativeStackScreenProps<AuthRegisterStackPa
 export type ProfilePicturePreviewScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'ProfilePicturePreview'>
 export type WelcomeNewUserScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'WelcomeNewUser'>
 
+export type HomeScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'Home'>
+
 
  

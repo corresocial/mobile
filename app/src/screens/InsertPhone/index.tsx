@@ -1,19 +1,27 @@
-import { Animated, Keyboard, TouchableOpacity } from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import React, { useEffect, useRef, useState } from 'react'
+import { Alert, Animated } from 'react-native';
+import React, { useContext, useRef, useState } from 'react'
+
 
 import { Container, InputsContainer } from './styles';
+import { theme } from '../../common/theme';
 
+import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
+import Firebase from '../../services/Firebase/Firebase';
+const firebaseConfig = Firebase ? Firebase.options : undefined;
+import { AuthContext } from '../../contexts/AuthContext';
+
+import { filterLeavingOnlyNumbers } from '../../common/auxiliaryFunctions';
 import { InsertPhoneScreenProps } from '../../routes/Stack/screenProps';
 import { DefaultHeaderContainer } from '../../components/DefaultHeaderContainer';
 import { FormContainer } from '../../components/FormContainer';
 import { InstructionCard } from '../../components/InstructionCard';
 import { LineInput } from '../../components/LineInput';
 import { PrimaryButton } from '../../components/PrimaryButton';
-import { theme } from '../../common/theme';
-import { filterLeavingOnlyNumbers } from '../../common/auxiliaryFunctions';
 
-export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
+export function InsertPhone({ navigation, route }: InsertPhoneScreenProps) {
+	
+	const { sendSMS } = useContext(AuthContext); 
+	const recaptchaVerifier = React.useRef(null); 
 
 	const [DDD, setDDD] = useState<string>('')
 	const [phone, setPhone] = useState<string>('')
@@ -47,13 +55,20 @@ export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 		return invalidDDDAfterSubmit || invalidPhoneAfterSubmit
 	}
 
-	const sendCompletePhoneToNextScreen = () => {
+	const sendCompletePhoneToNextScreen = async () => {
 		const DDDIsValid = validateDDD(DDD)
 		const phoneIsValid = validatePhone(phone)
 
-		if (DDDIsValid && phoneIsValid) {
-			return navigation.navigate('InsertConfirmationCode', { userPhone: `${DDD}${phone}` })
+		const completePhone = `+55${DDD}${phone}`
 
+		if (DDDIsValid && phoneIsValid) {
+			await sendSMS(completePhone, recaptchaVerifier.current)
+				.then(verificationCodeId => {
+					return navigation.navigate('InsertConfirmationCode', { userPhone: completePhone, verificationCodeId: verificationCodeId })
+				})
+				.catch(errorMessage => {
+					Alert.alert('ops!', errorMessage)
+				})
 		} else {
 			!DDDIsValid && setInvalidDDDAfterSubmit(true)
 			!phoneIsValid && setInvalidPhoneAfterSubmit(true)
@@ -78,6 +93,12 @@ export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 
 	return (
 		<Container >
+			<FirebaseRecaptchaVerifierModal
+				ref={recaptchaVerifier}
+				firebaseConfig={firebaseConfig}
+				languageCode="pt-BR"
+				attemptInvisibleVerification
+			/>
 			<DefaultHeaderContainer
 				relativeHeight='55%'
 				centralized

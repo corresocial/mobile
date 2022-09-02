@@ -13,8 +13,8 @@ import {
     Footer, GaleryButton,
     TakePictureButton
 } from './styles';
-
 import { theme } from '../../common/theme';
+
 import { CustomCameraScreenProps } from '../../routes/Stack/screenProps';
 
 function CustomCamera({ navigation, route }: CustomCameraScreenProps) {
@@ -27,18 +27,19 @@ function CustomCamera({ navigation, route }: CustomCameraScreenProps) {
 
     useEffect(() => {
         (async () => {
-            const { status } = await Camera.requestCameraPermissionsAsync()
+            const { status } = await Camera.getCameraPermissionsAsync()
+            console.log('status')
             setHasPermission(status === 'granted')
         })
-        /*   navigation.addListener('focus', () => {
-              setPictureUri('')
-              console.log('I am back!')
-          }); */
     }, [])
 
     const toggleFlashMode = () => {
         console.log(flashMode == FlashMode.on ? FlashMode.off : FlashMode.on)
         setFlashMode(flashMode == FlashMode.on ? FlashMode.off : FlashMode.on)
+    }
+
+    const toggleCameraType = () => {
+        setCameraType(cameraType == CameraType.back ? CameraType.front : CameraType.back)
     }
 
     const openGalery = async () => {
@@ -62,10 +63,6 @@ function CustomCamera({ navigation, route }: CustomCameraScreenProps) {
             console.log(data)
             setPictureUri(data.uri)
         }
-    }
-
-    const toggleCameraType = () => {
-        setCameraType(cameraType == CameraType.back ? CameraType.front : CameraType.back)
     }
 
     const navigateToProfilePicturePreview = () => {
@@ -97,8 +94,7 @@ function CustomCamera({ navigation, route }: CustomCameraScreenProps) {
                     flashMode={flashMode}
                     ratio={'1:1'}
                     onCameraReady={() => setCameraReady(true)}
-                >
-                </Camera>
+                />
             </CameraContainer>
             {
                 cameraReady
