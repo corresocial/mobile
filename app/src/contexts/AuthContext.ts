@@ -1,5 +1,4 @@
 import React from "react";
-// import AsyncStorage from '@react-native-async-storage/async-storage'
 import {
     ApplicationVerifier,
     PhoneAuthProvider,
@@ -32,7 +31,7 @@ export const authentication = {
         }
     },
 
-    async sendSMS(completeNumber: string, recaptchaVerifier: any) { // TODO Type
+    async sendSMS(completeNumber: string, recaptchaVerifier: any) { 
         const verificationCodeId = await phoneAuth.verifyPhoneNumber(
             completeNumber,
             recaptchaVerifier,
@@ -57,7 +56,7 @@ export const authentication = {
             const userCredential = await signInWithCredential(auth, credential);
             return userCredential;
 
-        } catch (err: any) { // TODO Type
+        } catch (err: any) { 
             switch (err.code) {
                 case 'auth/invalid-verification-code':
                     return 'Código de verificação inválido';

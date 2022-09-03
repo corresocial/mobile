@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { BackHandler } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react'
+import { Alert, BackHandler } from 'react-native';
 
 import {
     Container,
@@ -20,6 +20,7 @@ import { CustomCarousel } from './../../components/CustomCarousel'
 import { InstructionCard } from '../../components/InstructionCard';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { TermsOfServiceModal } from '../../components/TermsOfServiceModal';
+import { useIsFocused } from '@react-navigation/native';
 
 const presentationTexts = [
     'rede social, de verdade',
@@ -31,10 +32,10 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
 
     const [termsVisibility, setTermsVisibility] = useState<boolean>(false)
 
-    useEffect(() => {
-        BackHandler.addEventListener('hardwareBackPress', () => false)
-        return () => BackHandler.removeEventListener('hardwareBackPress', () => false)
-    }, [])
+   /*  useEffect(() => {
+        BackHandler.addEventListener('hardwareBackPress', () => true) // TODO Do not work
+        return () => BackHandler.removeEventListener('hardwareBackPress', () => true);
+    }, []) */
 
     const showTermsOfServiceModal = () => {
         setTermsVisibility(true)
@@ -49,7 +50,7 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
     }
 
     return (
-        <Container >
+        <Container>
             <TermsOfServiceModal visibility={termsVisibility} closeModal={hideTermsOfServiceModal} />
             <DefaultHeaderContainer relativeHeight='55%' backgroundColor={theme.orange2} withoutPadding>
                 <CustomCarousel>

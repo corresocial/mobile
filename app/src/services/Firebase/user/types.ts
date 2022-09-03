@@ -15,7 +15,7 @@ export type UserCollection = {
     ads?: any[] // TODO Type
     created_at?: Date
     description?: string
-    profile_url?: string[]
+    img_url?: string[]
     mobility?: string
     name: string
     posts?: any[] // TODO Type

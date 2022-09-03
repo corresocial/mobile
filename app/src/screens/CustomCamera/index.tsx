@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { View, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker'
-import { Camera, CameraType, FlashMode } from 'expo-camera'
+import { Camera, CameraType, FlashMode, getCameraPermissionsAsync } from 'expo-camera'
 import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 
 import {
@@ -27,11 +27,15 @@ function CustomCamera({ navigation, route }: CustomCameraScreenProps) {
 
     useEffect(() => {
         (async () => {
-            const { status } = await Camera.getCameraPermissionsAsync()
-            console.log('status')
-            setHasPermission(status === 'granted')
+            getCameraPermissions()
         })
-    }, [])
+
+    })
+
+    const getCameraPermissions = async () => {
+        const { status } = await Camera.requestCameraPermissionsAsync()
+        setHasPermission(status === 'granted')
+    }
 
     const toggleFlashMode = () => {
         console.log(flashMode == FlashMode.on ? FlashMode.off : FlashMode.on)
@@ -76,7 +80,6 @@ function CustomCamera({ navigation, route }: CustomCameraScreenProps) {
 
     if (pictureUri) {
         setPictureUri('')
-
         navigateToProfilePicturePreview()
     }
 

@@ -15,6 +15,9 @@ import { FormContainer } from '../../components/FormContainer';
 import { InstructionCard } from '../../components/InstructionCard';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { PhotoPortrait } from '../../components/PhotoPortrait';
+import uploadImage from '../../services/Firebase/user/upload';
+import { getDownloadURL, UploadTask } from 'firebase/storage';
+import { UserCollection } from '../../services/Firebase/user/types';
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
 
@@ -27,19 +30,41 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	const saveUserData = async () => {
 		const userData = getRouteParams()
 
-		await saveInFirebase(userData)
-		await saveInSecureStore(userData)
-		navigateToNextScreen()
+		if (!userData.profilePictureUri) return
+
+		await uploadImage(userData.profilePictureUri, 'users', userData.userIdentification.uid)
+			.then(
+				({ uploadTask, blob }: any) => { // TODO Type
+					uploadTask.on(
+						'state_change', () => {console.log('Mudando...')}, // Set default load
+						(error: any) => { console.log(error) },
+						async () => {
+							blob.close()
+							getDownloadURL(uploadTask.snapshot.ref)
+								.then(async (profilePictureURL) => {
+									await updateUser(userData.userIdentification.uid, {
+										name: userData.userName,
+										img_url: [profilePictureURL as string]
+									})
+
+									await saveInSecureStore({
+										name: userData.userName,
+										img_url: [profilePictureURL],
+									})
+
+									navigateToNextScreen()
+
+								})
+								.catch(err => console.log(err))
+						},
+					);
+				},
+			)
+			.catch(err => console.log(err))
+
 	}
 
-	const saveInFirebase = async (userData: RegisterUserData) => {
-		await updateUser(userData.userIdentification.uid, {
-			name: userData.userName,
-			profile_url: [userData.profilePictureUri as any]
-		})
-	}
-
-	const saveInSecureStore = async (userData: RegisterUserData) => {
+	const saveInSecureStore = async (userData: UserCollection) => {
 		await setDataOnSecureStore('corre.user', userData)
 	}
 

@@ -1,10 +1,9 @@
 import { Animated } from 'react-native';
-import React, {  useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 import { Container, InputsContainer } from './styles';
 import { theme } from '../../common/theme';
 
-import { getUser } from '../../services/Firebase/user/get';
 import { InsertNameScreenProps } from '../../routes/Stack/screenProps';
 import { DefaultHeaderContainer } from '../../components/DefaultHeaderContainer';
 import { FormContainer } from '../../components/FormContainer';
@@ -21,18 +20,6 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 		nameInput: useRef<React.MutableRefObject<any>>(null),
 	}
 
-	useEffect(() => {
-		getRemoteUserData()
-	}, [])
-
-	const getRemoteUserData = async () => {
-		const uid = route.params.userIdentification.uid
-		const remoteUser = await getUser(uid)
-		if(!remoteUser) return
-
-		setName(remoteUser.name)
-	}
-
 	const validateName = (text: string) => {
 		const isValid = text.length >= 5
 		if (isValid) {
@@ -42,22 +29,25 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 		return false
 	}
 
+	const getRouteParams = () => {
+		return { ...route.params }
+	}
+
 	const sendUserDataToNextScreen = () => {
 		const nameIsValid = validateName(name)
 		const userPhone = route.params.userPhone
-		const userIdentification = route.params.userIdentification
 
 		if (nameIsValid) {
-			// navigation.navigate('InsertName', { userPhone }) // Navigation to this screen
+			const userData = getRouteParams()
 			navigation.navigate('InsertProfilePicture', {
-				userName: name,
-				userPhone,
-				userIdentification
+				...userData,
+				userName: name
 			})
 		} else {
 			!nameIsValid && setInvaliNameAfterSubmit(true)
 		}
 	}
+	
 
 	const someInvalidFieldSubimitted = () => {
 		return invalidNameAfterSubmit

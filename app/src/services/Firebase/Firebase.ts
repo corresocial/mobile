@@ -1,6 +1,5 @@
 // Initialize Cloud Firestore through Firebase
-import 'firebase/compat/auth'
-import 'firebase/compat/firestore'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';

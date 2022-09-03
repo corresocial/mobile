@@ -51,7 +51,7 @@ const Stack = createStackNavigator<AuthRegisterStackParamList>()
 
 export function AuthRegisterStack() {
     return (
-        <Stack.Navigator initialRouteName='InsertProfilePicture'
+        <Stack.Navigator initialRouteName='Splash'
             screenOptions={{
                 headerShown: false,
                 gestureEnabled: true,
