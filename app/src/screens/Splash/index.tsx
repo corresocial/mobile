@@ -31,7 +31,7 @@ function Splash({ navigation }: SplashScreenProps) {
     })
 
     const redirectToApp = async() => {
-        const user = await getDataFromSecureStore('corre.userx') 
+        const user = await getDataFromSecureStore('corre.user') 
         console.log(user)
         if(user){
             navigation.navigate('Home')
