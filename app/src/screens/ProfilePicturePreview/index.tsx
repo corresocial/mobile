@@ -1,14 +1,14 @@
-import React, { useContext, useEffect } from 'react'
-import { Alert } from 'react-native';
+import React, { useContext, useRef, useState } from 'react'
+import { Animated } from 'react-native';
+import { getDownloadURL } from 'firebase/storage';
 
 import { Container } from './styles';
-
 import { theme } from '../../common/theme';
 
 import updateUser from '../../services/Firebase/user/update';
 import { AuthContext } from '../../contexts/AuthContext';
-import { RegisterUserData } from './types';
 
+import { UserCollection } from '../../services/Firebase/user/types';
 import { ProfilePicturePreviewScreenProps } from '../../routes/Stack/screenProps';
 import { DefaultHeaderContainer } from '../../components/DefaultHeaderContainer';
 import { FormContainer } from '../../components/FormContainer';
@@ -16,12 +16,23 @@ import { InstructionCard } from '../../components/InstructionCard';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { PhotoPortrait } from '../../components/PhotoPortrait';
 import uploadImage from '../../services/Firebase/user/upload';
-import { getDownloadURL, UploadTask } from 'firebase/storage';
-import { UserCollection } from '../../services/Firebase/user/types';
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
 
 	const { setDataOnSecureStore } = useContext(AuthContext)
+
+	const [hasServerSideError, setHasServerSideError] = useState(false)
+
+	const headerMessages = {
+		instruction: {
+			text: 'ficou boa ?',
+			highlightedWords: ['boa']
+		},
+		serverSideError: {
+			text: 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
+			highlightedWords: ['do', 'nosso', 'lado,']
+		}
+	}
 
 	const getRouteParams = () => {
 		return { ...route.params }
@@ -36,8 +47,8 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 			.then(
 				({ uploadTask, blob }: any) => { // TODO Type
 					uploadTask.on(
-						'state_change', () => {console.log('Mudando...')}, // Set default load
-						(error: any) => { console.log(error) },
+						'state_change', () => { console.log('Uploading...') }, // Set default load
+						(err: any) => { throwServerSideError(err) },
 						async () => {
 							blob.close()
 							getDownloadURL(uploadTask.snapshot.ref)
@@ -53,15 +64,18 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 									})
 
 									navigateToNextScreen()
-
 								})
-								.catch(err => console.log(err))
+								.catch(err => throwServerSideError(err))
 						},
 					);
 				},
 			)
-			.catch(err => console.log(err))
+			.catch(err => throwServerSideError(err))
+	}
 
+	const throwServerSideError = (err: any) => {
+		console.log(err)
+		setHasServerSideError(true)
 	}
 
 	const saveInSecureStore = async (userData: UserCollection) => {
@@ -69,6 +83,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	}
 
 	const navigateToNextScreen = () => {
+		setHasServerSideError(false)
 		return navigation.navigate('WelcomeNewUser', { userName: route.params.userName })
 	}
 
@@ -80,18 +95,44 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		navigation.navigate('CustomCamera', userData)
 	}
 
+	const getHeaderMessage = () => {
+		if (hasServerSideError) return headerMessages.serverSideError.text
+		return headerMessages.instruction.text
+	}
+
+	const getHeaderHighlightedWords = () => {
+		if (hasServerSideError) return headerMessages.serverSideError.highlightedWords
+		return headerMessages.instruction.highlightedWords
+	}
+
+	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
+	const animateDefaultHeaderBackgound = () => {
+		const existsError = hasServerSideError
+
+		Animated.timing(headerBackgroundAnimatedValue.current, {
+			toValue: existsError ? 1 : 0,
+			duration: 300,
+			useNativeDriver: false,
+		}).start()
+
+		return headerBackgroundAnimatedValue.current.interpolate({
+			inputRange: [0, 1],
+			outputRange: [theme.green2, theme.red2],
+		})
+	}
+
 	return (
 		<Container >
 			<DefaultHeaderContainer
-				relativeHeight={'65%'}
+				relativeHeight={!hasServerSideError ? '65%' : '68%'} 
 				centralized
 				justifyContent={'flex-end'}
-				backgroundColor={theme.green2}
+				backgroundColor={animateDefaultHeaderBackgound()}
 			>
 				<PhotoPortrait pictureUri={route.params.profilePictureUri} />
 				<InstructionCard
-					message={'ficou boa ?'}
-					highlightedWords={['boa']}
+					message={getHeaderMessage()}
+					highlightedWords={getHeaderHighlightedWords()}
 				/>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>

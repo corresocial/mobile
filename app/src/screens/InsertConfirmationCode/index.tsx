@@ -1,4 +1,4 @@
-import { Animated } from 'react-native';
+import { Alert, Animated } from 'react-native';
 import React, { useContext, useRef, useState } from 'react'
 import { UserCredential } from 'firebase/auth';
 
@@ -28,6 +28,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 	const [inputCode06, setInputCode06] = useState<string>('')
 
 	const [invalidCodeAfterSubmit, setInvaliCodeAfterSubmit] = useState<boolean>(false)
+	const [hasServerSideError, setHasServerSideError] = useState(false)
 
 	const inputRefs = {
 		inputCodeRef01: useRef<React.MutableRefObject<any>>(null),
@@ -71,6 +72,21 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		},
 	]
 
+	const headerMessages = {
+		instruction: {
+			text: 'passa o código que\nte mandamos aí',
+			highlightedWords: ['código']
+		},
+		clientSideError: {
+			text: 'opa! parece que o \ncódigo tá errado',
+			highlightedWords: ['\ncódigo', 'tá', 'errado']
+		},
+		serverSideError: {
+			text: 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
+			highlightedWords: ['do', 'nosso', 'lado,']
+		}
+	}
+
 	const validateCode = (text: string) => {
 		const isValid = text.length == 1
 		if (isValid) {
@@ -88,22 +104,37 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 			const userPhone = route.params.userPhone
 			const verificationCodeId = route.params.verificationCodeId as string
 
-			validateVerificationCode(verificationCodeId, completeCode).then(async (userCredential: UserCredential) => {
-				if (typeof userCredential !== 'string') {
+			validateVerificationCode(verificationCodeId, completeCode)
+				.then(async (userCredential: UserCredential) => {
 					return navigation.navigate('InsertName', {
 						userPhone,
 						userIdentification: await extractUserIdentification(userCredential)
 					})
-				} else {
-					setInvaliCodeAfterSubmit(true)
-				}
-			})
+				})
+				.catch(err => {
+					console.log(err.code)
+					verificationCodeErrorTreatment(err.code)
+				})
 		} else {
 			!completeCodeIsValid && setInvaliCodeAfterSubmit(true)
 		}
 	}
 
-	const extractUserIdentification  = async ({ user }: UserCredential) => {
+	const verificationCodeErrorTreatment = (errorCode: string) => {
+		if (errorCode == 'auth/code-expired') {
+			Alert.alert('ops!', 'Seu código de verificação expirou, solicite novamente', [
+				{ text: 'OK', onPress: () => navigation.goBack() }
+			])
+		}
+
+		if (errorCode === 'auth/invalid-verification-code') {
+			setInvaliCodeAfterSubmit(true)
+		} else {
+			setHasServerSideError(true)
+		}
+	}
+
+	const extractUserIdentification = async ({ user }: UserCredential) => {
 		const userIdentification: UserIdentification = {
 			uid: user.uid,
 			authTime: (await user.getIdTokenResult()).authTime,
@@ -123,9 +154,21 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		return invalidCodeAfterSubmit
 	}
 
+	const getHeaderMessage = () => {
+		if (someInvalidFieldSubimitted()) return headerMessages.clientSideError.text
+		if (hasServerSideError) return headerMessages.serverSideError.text
+		return headerMessages.instruction.text
+	}
+
+	const getHeaderHighlightedWords = () => {
+		if (someInvalidFieldSubimitted()) return headerMessages.clientSideError.highlightedWords
+		if (hasServerSideError) return headerMessages.serverSideError.highlightedWords
+		return headerMessages.instruction.highlightedWords
+	}
+
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
-		const existsError = someInvalidFieldSubimitted()
+		const existsError = someInvalidFieldSubimitted() || hasServerSideError
 
 		Animated.timing(headerBackgroundAnimatedValue.current, {
 			toValue: existsError ? 1 : 0,
@@ -147,16 +190,8 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
 				<InstructionCard
-					message={
-						someInvalidFieldSubimitted()
-							? 'opa! parece que o \ncódigo tá errado'
-							: 'passa o código que\nte mandamos aí'
-					}
-					highlightedWords={
-						someInvalidFieldSubimitted()
-							? ['\ncódigo', 'tá', 'errado']
-							: ['código']
-					}
+					message={getHeaderMessage()}
+					highlightedWords={getHeaderHighlightedWords()}
 				/>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
@@ -183,6 +218,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 									invalidTextAfterSubmit={invalidCodeAfterSubmit}
 									placeholder={'0'}
 									keyboardType={'decimal-pad'}
+									error={hasServerSideError}
 									filterText={filterLeavingOnlyNumbers}
 									validateText={(text: string) => validateCode(text)}
 									onChangeText={(text: string) => inputConfig.set(text)}
@@ -192,7 +228,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 					}
 				</InputsContainer>
 				<PrimaryButton
-					color={someInvalidFieldSubimitted() ? theme.red3 : theme.blue3}
+					color={someInvalidFieldSubimitted() || hasServerSideError ? theme.red3 : theme.blue3}
 					iconName={'arrow-right'}
 					iconColor={theme.white3}
 					label='continuar'

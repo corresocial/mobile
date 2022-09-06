@@ -48,26 +48,12 @@ export const authentication = {
     },
 
     async validateVerificationCode(verificationCodeId: string, verificationCode: string) {
-        try {
             const credential = PhoneAuthProvider.credential(
                 verificationCodeId,
                 verificationCode,
             );
             const userCredential = await signInWithCredential(auth, credential);
             return userCredential;
-
-        } catch (err: any) { 
-            switch (err.code) {
-                case 'auth/invalid-verification-code':
-                    return 'Código de verificação inválido';
-                case 'auth/invalid-verification-id':
-                    return 'algo deu errado, por favor tente novamente';
-                case 'auth/code-expired':
-                    return 'seu código expirou, solicite novamente';
-                default:
-                    return err.message;
-            }
-        }
     }
 
 

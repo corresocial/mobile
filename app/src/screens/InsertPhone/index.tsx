@@ -19,21 +19,39 @@ import { LineInput } from '../../components/LineInput';
 import { PrimaryButton } from '../../components/PrimaryButton';
 
 export function InsertPhone({ navigation, route }: InsertPhoneScreenProps) {
-	
-	const { sendSMS } = useContext(AuthContext); 
-	const recaptchaVerifier = React.useRef(null); 
+
+	const { sendSMS } = useContext(AuthContext);
+	const recaptchaVerifier = React.useRef(null);
 
 	const [DDD, setDDD] = useState<string>('')
 	const [phone, setPhone] = useState<string>('')
 	const [invalidDDDAfterSubmit, setInvalidDDDAfterSubmit] = useState<boolean>(false)
 	const [invalidPhoneAfterSubmit, setInvalidPhoneAfterSubmit] = useState<boolean>(false)
+	const [hasServerSideError, setHasServerSideError] = useState(false)
 
 	const inputRefs = {
 		DDDInput: useRef<React.MutableRefObject<any>>(null),
 		phoneInput: useRef<React.MutableRefObject<any>>(null)
 	}
 
+	const headerMessages = {
+		instruction: {
+			text: 'passa o seu telefone aí pra gente',
+			highlightedWords: ['telefone']
+		},
+		clientSideError: {
+			text: 'ih, parece que o seu telefone não é válido',
+			highlightedWords: ['telefone', 'não', 'é', 'válido']
+		},
+		serverSideError: {
+			text: 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
+			highlightedWords: ['do', 'nosso', 'lado,']
+		}
+	}
+
 	const validateDDD = (text: string) => {
+		setHasServerSideError(false)
+
 		const isValid = text.length == 2
 		if (isValid) {
 			setInvalidDDDAfterSubmit(false)
@@ -43,6 +61,8 @@ export function InsertPhone({ navigation, route }: InsertPhoneScreenProps) {
 	}
 
 	const validatePhone = (text: string) => {
+		setHasServerSideError(false)
+
 		const isValid = text.length == 9
 		if (isValid) {
 			setInvalidPhoneAfterSubmit(false)
@@ -55,19 +75,20 @@ export function InsertPhone({ navigation, route }: InsertPhoneScreenProps) {
 		return invalidDDDAfterSubmit || invalidPhoneAfterSubmit
 	}
 
-	const sendCompletePhoneToNextScreen = async () => {
+	const getVeficationCode = async () => {
 		const DDDIsValid = validateDDD(DDD)
 		const phoneIsValid = validatePhone(phone)
 
 		const completePhone = `+55${DDD}${phone}`
 
 		if (DDDIsValid && phoneIsValid) {
-			await sendSMS(completePhone, recaptchaVerifier.current)
+			await sendSMS(completePhone, recaptchaVerifier.current) 
 				.then(verificationCodeId => {
 					return navigation.navigate('InsertConfirmationCode', { userPhone: completePhone, verificationCodeId: verificationCodeId })
 				})
-				.catch(errorMessage => {
-					Alert.alert('ops!', errorMessage)
+				.catch((err) => {
+					console.log(err)
+					setHasServerSideError(true)
 				})
 		} else {
 			!DDDIsValid && setInvalidDDDAfterSubmit(true)
@@ -75,9 +96,21 @@ export function InsertPhone({ navigation, route }: InsertPhoneScreenProps) {
 		}
 	}
 
+	const getHeaderMessage = () => {
+		if (someInvalidFieldSubimitted()) return headerMessages.clientSideError.text
+		if (hasServerSideError) return headerMessages.serverSideError.text
+		return headerMessages.instruction.text
+	}
+
+	const getHeaderHighlightedWords = () => {
+		if (someInvalidFieldSubimitted()) return headerMessages.clientSideError.highlightedWords
+		if (hasServerSideError) return headerMessages.serverSideError.highlightedWords
+		return headerMessages.instruction.highlightedWords
+	}
+
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
-		const existsError = someInvalidFieldSubimitted()
+		const existsError = someInvalidFieldSubimitted() || hasServerSideError
 
 		Animated.timing(headerBackgroundAnimatedValue.current, {
 			toValue: existsError ? 1 : 0,
@@ -103,17 +136,10 @@ export function InsertPhone({ navigation, route }: InsertPhoneScreenProps) {
 				relativeHeight='55%'
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
-
 			>
 				<InstructionCard
-					message={
-						someInvalidFieldSubimitted()
-							? 'ih, parece que o seu telefone não é válido'
-							: 'passa o seu telefone aí pra gente'}
-					highlightedWords={
-						someInvalidFieldSubimitted()
-							? ['telefone', 'não', 'é', 'válido']
-							: ['telefone']}
+					message={getHeaderMessage()}
+					highlightedWords={getHeaderHighlightedWords()}
 				/>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
@@ -133,6 +159,7 @@ export function InsertPhone({ navigation, route }: InsertPhoneScreenProps) {
 						invalidTextAfterSubmit={invalidDDDAfterSubmit}
 						placeholder={'22'}
 						keyboardType={'decimal-pad'}
+						error={hasServerSideError}
 						filterText={filterLeavingOnlyNumbers}
 						validateText={(text: string) => validateDDD(text)}
 						onChangeText={(text: string) => setDDD(text)}
@@ -152,6 +179,7 @@ export function InsertPhone({ navigation, route }: InsertPhoneScreenProps) {
 						invalidTextAfterSubmit={invalidPhoneAfterSubmit}
 						placeholder={'984848484'}
 						keyboardType={'decimal-pad'}
+						error={hasServerSideError}
 						lastInput={true}
 						filterText={filterLeavingOnlyNumbers}
 						validateText={(text: string) => validatePhone(text)}
@@ -159,13 +187,13 @@ export function InsertPhone({ navigation, route }: InsertPhoneScreenProps) {
 					/>
 				</InputsContainer>
 				<PrimaryButton
-					color={someInvalidFieldSubimitted() ? theme.red3 : theme.purple3}
+					color={someInvalidFieldSubimitted() || hasServerSideError ? theme.red3 : theme.purple3}
 					iconName={'arrow-right'}
 					iconColor={theme.white3}
 					label='continuar'
 					labelColor={theme.white3}
 					highlightedWords={['continuar']}
-					onPress={sendCompletePhoneToNextScreen}
+					onPress={getVeficationCode}
 				/>
 			</FormContainer>
 		</Container>

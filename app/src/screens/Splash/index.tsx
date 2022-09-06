@@ -14,8 +14,9 @@ import { screenHeight, screenWidth } from '../../common/screenDimensions';
 import { SplashScreenProps } from '../../routes/Stack/screenProps';
 import { AuthContext } from '../../contexts/AuthContext';
 
-function Splash({ navigation }: SplashScreenProps) {
+function Splash({ navigation, route }: SplashScreenProps) {
     const { getDataFromSecureStore } = useContext(AuthContext)
+
     const [imagesSvgOpacity] = useState(new Animated.Value(0))
 
     useEffect(() => {

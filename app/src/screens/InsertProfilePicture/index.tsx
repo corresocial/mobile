@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import React, {useContext, useRef, useState } from 'react'
+import { Animated } from 'react-native';
 
 import { Container } from './styles';
 
@@ -18,21 +19,40 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 
 	const { setDataOnSecureStore } = useContext(AuthContext)
 
+	const [hasServerSideError, setHasServerSideError] = useState(false)
+
+	const headerMessages = {
+		instruction: {
+			text: 'que tal uma foto de perfil?',
+			highlightedWords: ['foto', 'de', 'perfil?']
+		},
+		serverSideError: {
+			text: 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
+			highlightedWords: ['do', 'nosso', 'lado,']
+		}
+	}
+
 	const getRouteParams = () => {
 		return { ...route.params }
 	}
 
 	const navigateToCustomCamera = () => {
 		const userData = getRouteParams()
+		setHasServerSideError(false)
 		navigation.navigate('CustomCamera', userData)
 	}
 
 	const saveUserData = async () => {
 		const userData = getRouteParams()
 
-		await saveInFirebase(userData)
-		await saveInSecureStore(userData)
-		navigateToNextScreen()
+		try {
+			await saveInFirebase(userData)
+			await saveInSecureStore(userData)
+			navigateToNextScreen()
+		} catch (err) {
+			console.log(err)
+			setHasServerSideError(true)
+		}
 	}
 
 	const saveInFirebase = async (userData: RegisterUserData) => {
@@ -49,16 +69,42 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		navigation.navigate('WelcomeNewUser', { userName: route.params.userName })
 	}
 
+	const getHeaderMessage = () => {
+		if (hasServerSideError) return headerMessages.serverSideError.text
+		return headerMessages.instruction.text
+	}
+
+	const getHeaderHighlightedWords = () => {
+		if (hasServerSideError) return headerMessages.serverSideError.highlightedWords
+		return headerMessages.instruction.highlightedWords
+	}
+
+	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
+	const animateDefaultHeaderBackgound = () => {
+		const existsError = hasServerSideError
+
+		Animated.timing(headerBackgroundAnimatedValue.current, {
+			toValue: existsError ? 1 : 0,
+			duration: 300,
+			useNativeDriver: false,
+		}).start()
+
+		return headerBackgroundAnimatedValue.current.interpolate({
+			inputRange: [0, 1],
+			outputRange: [theme.green2, theme.red2],
+		})
+	}
+
 	return (
 		<Container >
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized
-				backgroundColor={theme.green2}
+				backgroundColor={animateDefaultHeaderBackgound()}
 			>
 				<InstructionCard
-					message={'que tal uma foto de perfil?'}
-					highlightedWords={['foto', 'de', 'perfil?']}
+					message={getHeaderMessage()}
+					highlightedWords={getHeaderHighlightedWords()}
 				/>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>

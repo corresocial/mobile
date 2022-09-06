@@ -27,9 +27,8 @@ function CustomCamera({ navigation, route }: CustomCameraScreenProps) {
 
     useEffect(() => {
         (async () => {
-            getCameraPermissions()
+            await getCameraPermissions()
         })
-
     })
 
     const getCameraPermissions = async () => {
@@ -38,8 +37,8 @@ function CustomCamera({ navigation, route }: CustomCameraScreenProps) {
     }
 
     const toggleFlashMode = () => {
-        console.log(flashMode == FlashMode.on ? FlashMode.off : FlashMode.on)
-        setFlashMode(flashMode == FlashMode.on ? FlashMode.off : FlashMode.on)
+        console.log(flashMode == FlashMode.torch ? FlashMode.off : FlashMode.torch)
+        setFlashMode(flashMode == FlashMode.torch ? FlashMode.off : FlashMode.torch)
     }
 
     const toggleCameraType = () => {
@@ -104,7 +103,7 @@ function CustomCamera({ navigation, route }: CustomCameraScreenProps) {
                     ? <>
                         <FlashButtonContainer>
                             <FlashButton onPress={toggleFlashMode}>
-                                <Ionicons name='md-flash-sharp' size={25} color={flashMode == FlashMode.on ? theme.orange3 : theme.black4} />
+                                <Ionicons name='md-flash-sharp' size={25} color={flashMode == FlashMode.torch ? theme.orange3 : theme.black4} />
                             </FlashButton>
                         </FlashButtonContainer>
                         <Footer>

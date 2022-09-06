@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Alert, BackHandler } from 'react-native';
+import React, { useState, useEffect } from 'react'
 
 import {
     Container,
@@ -20,7 +19,6 @@ import { CustomCarousel } from './../../components/CustomCarousel'
 import { InstructionCard } from '../../components/InstructionCard';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { TermsOfServiceModal } from '../../components/TermsOfServiceModal';
-import { useIsFocused } from '@react-navigation/native';
 
 const presentationTexts = [
     'rede social, de verdade',
@@ -28,14 +26,9 @@ const presentationTexts = [
     'além disso, quando você usa o corre, você ajuda outras pessoas com nossas iniciativas sociais.',
 ];
 
-function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
+function AcceptAndContinue({ route, navigation }: AcceptAndContinueScreenProps) {
 
     const [termsVisibility, setTermsVisibility] = useState<boolean>(false)
-
-   /*  useEffect(() => {
-        BackHandler.addEventListener('hardwareBackPress', () => true) // TODO Do not work
-        return () => BackHandler.removeEventListener('hardwareBackPress', () => true);
-    }, []) */
 
     const showTermsOfServiceModal = () => {
         setTermsVisibility(true)

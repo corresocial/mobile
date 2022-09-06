@@ -20,6 +20,7 @@ interface LineInputProps {
     invalidTextAfterSubmit: boolean
     placeholder?: string
     keyboardType?: KeyboardTypeOptions
+    error?: boolean
     lastInput?: boolean
     filterText?: (text: string) => string
     validateText: (text: string) => boolean
@@ -43,6 +44,7 @@ function LineInput({
     invalidTextAfterSubmit,
     placeholder,
     keyboardType,
+    error,
     lastInput,
     filterText,
     validateText,
@@ -82,7 +84,7 @@ function LineInput({
     }
 
     const generateInputContainerStyle = () => {
-        if (invalidTextAfterSubmit) return {
+        if (invalidTextAfterSubmit || error) return {
             borderBottomColor: invalidBorderBottomColor,
             backgroundColor: invalidBackgroundColor
         }
@@ -98,6 +100,15 @@ function LineInput({
         ...generateInputContainerStyle()
     }
 
+    const getTextInputStyle = () => {
+        if (error) return { color: invalidBorderBottomColor }
+        return {
+            color: invalidTextAfterSubmit
+                ? invalidBorderBottomColor
+                : validated ? validBorderBottomColor : defaultBorderBottomColor
+        }
+    }
+
     return (
         <Container
             style={{
@@ -109,11 +120,7 @@ function LineInput({
             onPress={() => textInputRef.current.focus()}
         >
             <TextInput
-                style={{
-                    color: invalidTextAfterSubmit
-                        ? (validated ? validBorderBottomColor : invalidBorderBottomColor)
-                        : (validated ? validBorderBottomColor : defaultBorderBottomColor)
-                }}
+                style={getTextInputStyle()}
                 ref={textInputRef}
                 value={value}
                 maxLength={maxLength}
