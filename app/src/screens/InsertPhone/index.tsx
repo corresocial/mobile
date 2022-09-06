@@ -18,7 +18,7 @@ import { InstructionCard } from '../../components/InstructionCard';
 import { LineInput } from '../../components/LineInput';
 import { PrimaryButton } from '../../components/PrimaryButton';
 
-export function InsertPhone({ navigation, route }: InsertPhoneScreenProps) {
+export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 
 	const { sendSMS } = useContext(AuthContext);
 	const recaptchaVerifier = React.useRef(null);

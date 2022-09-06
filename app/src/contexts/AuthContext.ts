@@ -11,10 +11,16 @@ import * as SecureStore from 'expo-secure-store';
 
 const phoneAuth = new PhoneAuthProvider(auth)
 
+const secureStoreOptions = {
+    keychainAccessible: SecureStore.AFTER_FIRST_UNLOCK_THIS_DEVICE_ONLY, // TODO
+    authenticationPrompt: 'Não autorizado',
+    requireAuthentication: true,
+}
+
 export const authentication = {
     async getDataFromSecureStore(key: string) {
         try {
-            const user = await SecureStore.getItemAsync(key)
+            const user = await SecureStore.getItemAsync(key, secureStoreOptions)
             return user
         } catch (err) {
             console.log('Error: ' + err) // TODO Define ErrorBoundary
@@ -24,14 +30,14 @@ export const authentication = {
 
     async setDataOnSecureStore(key: string, userData: any) {
         try {
-            await SecureStore.setItemAsync(key, JSON.stringify(userData))
+            await SecureStore.setItemAsync(key, JSON.stringify(userData), secureStoreOptions)
         } catch (err) {
             console.log('Error: ' + err) // TODO Define ErrorBoundary
             return false
         }
     },
 
-    async sendSMS(completeNumber: string, recaptchaVerifier: any) { 
+    async sendSMS(completeNumber: string, recaptchaVerifier: any) {
         const verificationCodeId = await phoneAuth.verifyPhoneNumber(
             completeNumber,
             recaptchaVerifier,
@@ -48,12 +54,12 @@ export const authentication = {
     },
 
     async validateVerificationCode(verificationCodeId: string, verificationCode: string) {
-            const credential = PhoneAuthProvider.credential(
-                verificationCodeId,
-                verificationCode,
-            );
-            const userCredential = await signInWithCredential(auth, credential);
-            return userCredential;
+        const credential = PhoneAuthProvider.credential(
+            verificationCodeId,
+            verificationCode,
+        );
+        const userCredential = await signInWithCredential(auth, credential);
+        return userCredential;
     }
 
 

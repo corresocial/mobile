@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
     Container,
@@ -19,16 +19,30 @@ import { CustomCarousel } from './../../components/CustomCarousel'
 import { InstructionCard } from '../../components/InstructionCard';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { TermsOfServiceModal } from '../../components/TermsOfServiceModal';
+import { BackHandler } from 'react-native';
 
 const presentationTexts = [
     'rede social, de verdade',
     'aqui você pode anunciar seu trampo, vender coisas usadas e encontrar novas oportunidades para fazer um dinheiro.',
     'além disso, quando você usa o corre, você ajuda outras pessoas com nossas iniciativas sociais.',
-];
+]
 
-function AcceptAndContinue({ route, navigation }: AcceptAndContinueScreenProps) {
+function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
 
     const [termsVisibility, setTermsVisibility] = useState<boolean>(false)
+
+    useEffect(() => {
+        BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
+    })
+
+    const onPressBackHandler = () => {
+        if (navigation.isFocused()) {
+            BackHandler.exitApp()
+            return true
+        } else {
+            return false
+        }
+    }
 
     const showTermsOfServiceModal = () => {
         setTermsVisibility(true)
