@@ -21,7 +21,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 	}
 
 	const validateName = (text: string) => {
-		const isValid = text.length >= 5
+		const isValid = (text).trim().length >= 5
 		if (isValid) {
 			setInvaliNameAfterSubmit(false)
 			return true
@@ -35,7 +35,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 
 	const sendUserDataToNextScreen = () => {
 		const nameIsValid = validateName(name)
-		const userPhone = route.params.userPhone
+		// const userPhone = route.params.userPhone
 
 		if (nameIsValid) {
 			const userData = getRouteParams()
@@ -48,7 +48,6 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 		}
 	}
 	
-
 	const someInvalidFieldSubimitted = () => {
 		return invalidNameAfterSubmit
 	}

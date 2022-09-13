@@ -8,19 +8,36 @@ import {
 import { auth } from "../services/Firebase/Firebase";
 
 import * as SecureStore from 'expo-secure-store';
+import * as LocalAuthentication from 'expo-local-authentication';
 
 const phoneAuth = new PhoneAuthProvider(auth)
 
 const secureStoreOptions = {
-    keychainAccessible: SecureStore.AFTER_FIRST_UNLOCK_THIS_DEVICE_ONLY, // TODO
-    authenticationPrompt: 'Não autorizado',
-    requireAuthentication: true,
+    /* requireAuthentication: true,
+    keychainAccessible: SecureStore.AFTER_FIRST_UNLOCK, 
+    authenticationPrompt: 'Digita a senha aí poha!' */
+}
+
+const LocalAuthenticationOptions: LocalAuthentication.LocalAuthenticationOptions = {
+    promptMessage: 'Confirme sua identidade',
+    cancelLabel: 'USAR PADRÃO',
+    requireConfirmation: true,
+    disableDeviceFallback: false,
 }
 
 export const authentication = {
     async getDataFromSecureStore(key: string) {
         try {
+            // await SecureStore.deleteItemAsync('corre.user') // Tests
+
             const user = await SecureStore.getItemAsync(key, secureStoreOptions)
+            
+            if (user != null) {
+                await LocalAuthentication.isEnrolledAsync()
+                const result = await LocalAuthentication.authenticateAsync(LocalAuthenticationOptions)
+                if (!result.success) throw 'Não foi possível identificar usuário'
+            }
+
             return user
         } catch (err) {
             console.log('Error: ' + err) // TODO Define ErrorBoundary
@@ -29,6 +46,7 @@ export const authentication = {
     },
 
     async setDataOnSecureStore(key: string, userData: any) {
+        console.log(userData)
         try {
             await SecureStore.setItemAsync(key, JSON.stringify(userData), secureStoreOptions)
         } catch (err) {

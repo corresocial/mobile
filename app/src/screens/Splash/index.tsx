@@ -26,18 +26,30 @@ function Splash({ navigation, route }: SplashScreenProps) {
             useNativeDriver: true
         }).start()
 
+
         setTimeout(() => {
             redirectToApp()
         }, 2000)
     })
 
-    const redirectToApp = async() => {
-        const user = await getDataFromSecureStore('corre.user') 
-        console.log(user)
-        if(user){
-            navigation.navigate('Home')
-        }else{
-            navigation.navigate('AcceptAndContinue')
+    const redirectToApp = async () => {
+        try {
+            const user = await getDataFromSecureStore('corre.user')
+            console.log(user)
+
+            if (user) {
+                navigation.navigate('Home')
+            } else {
+                if (user == null) {
+                    navigation.navigate('AcceptAndContinue')
+                } else {
+                    throw 'Usuário não authenticado localmente!'
+                }
+            }
+        } catch (err) {
+            setTimeout(() => {
+                redirectToApp()
+            }, 3000)
         }
     }
 

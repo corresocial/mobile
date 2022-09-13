@@ -11,6 +11,8 @@ import {
     FlashButton,
     FlashButtonContainer,
     Footer, GaleryButton,
+    NotPermissionContainer,
+    NotPermissionText,
     TakePictureButton
 } from './styles';
 import { theme } from '../../common/theme';
@@ -26,9 +28,9 @@ function CustomCamera({ navigation, route }: CustomCameraScreenProps) {
     const cameraRef = useRef<Camera>(null)
 
     useEffect(() => {
-        (async () => {
-            await getCameraPermissions()
-        })
+        setTimeout(() => {
+            getCameraPermissions()
+        }, 500)
     })
 
     const getCameraPermissions = async () => {
@@ -82,8 +84,15 @@ function CustomCamera({ navigation, route }: CustomCameraScreenProps) {
         navigateToProfilePicturePreview()
     }
 
-    if (hasPermission) {
-        return (<View><Text>You do not have permissions!</Text></View>)
+    if (!hasPermission) {
+        return (
+            <NotPermissionContainer onPress={getCameraPermissions}
+                activeOpacity={0.9}
+            >
+                    <NotPermissionText>Você NÃO TEM PERMISSÃO!</NotPermissionText>
+                    <NotPermissionText>Deve conceder PERMISSÂO para utilizar a CÂMERA!</NotPermissionText>
+            </NotPermissionContainer>
+        )
     }
 
     return (

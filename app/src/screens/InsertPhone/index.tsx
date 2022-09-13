@@ -157,7 +157,7 @@ export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 						invalidBorderBottomColor={theme.red5}
 						maxLength={2}
 						invalidTextAfterSubmit={invalidDDDAfterSubmit}
-						placeholder={'22'}
+						placeholder={'12'}
 						keyboardType={'decimal-pad'}
 						error={hasServerSideError}
 						filterText={filterLeavingOnlyNumbers}
@@ -177,7 +177,7 @@ export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 						invalidBorderBottomColor={theme.red5}
 						maxLength={9}
 						invalidTextAfterSubmit={invalidPhoneAfterSubmit}
-						placeholder={'984848484'}
+						placeholder={'123451234'}
 						keyboardType={'decimal-pad'}
 						error={hasServerSideError}
 						lastInput={true}

@@ -76,7 +76,7 @@ export const TakePictureButton = styled.TouchableOpacity`
 `
 
 export const CameraTypeButton = styled.TouchableOpacity`
-    background-color: ${({theme}) => theme.white3};
+    background-color: ${({ theme }) => theme.white3};
     min-width: 35px;
     width: ${screenWidth * 0.09}px;
     min-height: 35px;
@@ -84,4 +84,19 @@ export const CameraTypeButton = styled.TouchableOpacity`
     border-radius: 5px;
     align-items: center;
     justify-content: center;
+`
+
+export const NotPermissionContainer = styled.TouchableOpacity`
+    flex: 1;
+    align-Items: center;
+    justify-content: center;
+    background-color: ${({ theme }) => theme.black4};
+    padding: 28px;
+`
+
+export const NotPermissionText = styled.Text`
+    color:  ${({ theme }) => theme.white1};
+   font-size: 17px;
+   text-align: center;
+   margin-top: 20px;
 `

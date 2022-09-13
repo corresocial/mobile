@@ -126,7 +126,7 @@ function LineInput({
                 maxLength={maxLength}
                 secureTextEntry={secureTextEntry}
                 keyboardType={keyboardType || 'ascii-capable'}
-
+                placeholder={placeholder}
                 onChangeText={(text) => ValidateAndChange(text)}
                 returnKeyType={lastInput ? 'done' : 'next'}
                 onFocus={(() => setFocused(true))}
