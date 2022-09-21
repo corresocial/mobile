@@ -17,7 +17,7 @@ import {
 } from './styles';
 import { theme } from '../../common/theme';
 
-import { CustomCameraScreenProps } from '../../routes/Stack/screenProps';
+import { CustomCameraScreenProps } from '../../routes/Stack/stackScreenProps';
 
 function CustomCamera({ navigation, route }: CustomCameraScreenProps) {
     const [cameraReady, setCameraReady] = useState(false)

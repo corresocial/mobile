@@ -1,6 +1,6 @@
-import React, {  useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 
-import { ButtonLabel, TouchableContainer, ContainerSurface, ContainerBottom } from './styles';
+import { ButtonLabel, TouchableContainer, ContainerSurface, ContainerBottom, IconArea, LabelDescriptionArea, ButtonDescription } from './styles';
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions';
 import { SvgProps } from 'react-native-svg';
 
@@ -8,9 +8,9 @@ interface OptionButtonProps {
     color: string
     label: string
     labelColor?: string
-    SvgIcon?: React.FC<SvgProps> 
+    SvgIcon?: React.FC<SvgProps>
     highlightedWords?: string[]
-    justifyContent?: { [key: string]: React.CSSProperties }
+    description: string
     onPress: () => void
 }
 
@@ -20,7 +20,7 @@ function OptionButton({
     label,
     highlightedWords,
     SvgIcon,
-    justifyContent,
+    description,
     onPress
 }: OptionButtonProps) {
     const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
@@ -54,14 +54,20 @@ function OptionButton({
                 <ContainerSurface
                     style={{
                         backgroundColor: color,
-                        justifyContent: justifyContent || 'center',
                         marginRight: buttonPressed ? -3 : 0,
                     } as { [key: string]: React.CSSProperties }}
                 >
-                    {SvgIcon && <SvgIcon height={'40%'} width={'25%'} />}
-                    <ButtonLabel style={{ color: labelColor }}>
-                        {showMessageWithHighlight(label, highlightedWords)}
-                    </ButtonLabel>
+                    <IconArea>
+                        {SvgIcon && <SvgIcon height={'60%'} width={'60%'} />}
+                    </IconArea>
+                    <LabelDescriptionArea>
+                        <ButtonLabel style={{ color: labelColor }}>
+                            {showMessageWithHighlight(label, highlightedWords)}
+                        </ButtonLabel>
+                        <ButtonDescription>
+                            {description}
+                        </ButtonDescription>
+                    </LabelDescriptionArea>
                 </ContainerSurface>
             </ContainerBottom>
         </TouchableContainer>

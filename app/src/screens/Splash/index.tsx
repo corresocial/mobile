@@ -11,7 +11,7 @@ import {
 import BuildingsSVG from './../../assets/svgs/buildings.svg'
 import LogoSVG from './../../assets/svgs/logo.svg'
 import { screenHeight, screenWidth } from '../../common/screenDimensions';
-import { SplashScreenProps } from '../../routes/Stack/screenProps';
+import { SplashScreenProps } from '../../routes/Stack/stackScreenProps';
 import { AuthContext } from '../../contexts/AuthContext';
 
 function Splash({ navigation, route }: SplashScreenProps) {
@@ -34,7 +34,7 @@ function Splash({ navigation, route }: SplashScreenProps) {
 
     const redirectToApp = async () => {
         try {
-            const user = await getDataFromSecureStore('corre.user')
+            const user = await getDataFromSecureStore('corre.userx')
             console.log(user)
 
             if (user) {

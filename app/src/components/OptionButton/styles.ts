@@ -15,7 +15,7 @@ export const ContainerBottom = styled(Animatable.View)`
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: ${screenHeight * 0.09}px;
+    height: ${screenHeight * 0.16}px;
     border-radius: 10px;
     
     position: relative;
@@ -23,22 +23,48 @@ export const ContainerBottom = styled(Animatable.View)`
 `
 
 export const ContainerSurface = styled.View`
-flex-direction: row;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     width: 100%;
-    height: ${screenHeight * 0.09}px;
+    height: ${screenHeight * 0.16}px;
     border-radius: 10px;
     border: 2px solid black;
-    padding-horizontal: 20px;
     
     position: absolute;
 	right: 4px;
+
+    background-color: ${({ theme }) => theme.white3};
+`
+
+export const IconArea = styled.View`
+    background-color: ${({ theme }) => theme.orange3}
+    width: 25%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 6 px;
+    border-bottom-left-radius: 5px;
+`
+
+export const LabelDescriptionArea = styled.View`
+    padding-vertical: 15px;
+    padding-horizontal: 25px;
+    width: 75%;
+    height: 100%;
+    justify-content: space-around;
 `
 
 export const ButtonLabel = styled.Text`
     color: ${({ theme }) => theme.black4};
-    font-size: 20px;
+    font-size: 24px;
+    font-family: Arvo_400Regular;
+    margin-right: 15px;
+`
+
+export const ButtonDescription = styled.Text`
+    color: ${({ theme }) => theme.black4};
+    font-size: 13px;
     font-family: Arvo_400Regular;
     margin-right: 15px;
 `

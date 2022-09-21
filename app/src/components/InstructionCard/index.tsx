@@ -9,13 +9,15 @@ interface InstructionCardProps {
     highlightedWords?: string[]
     fontSize?: number
     lineHeight?: number
+    backButton?: boolean
 }
 
-function InstructionCard({
+function  InstructionCard({
     message,
     highlightedWords,
     fontSize,
-    lineHeight
+    lineHeight,
+    backButton
 }: InstructionCardProps) {
     return (
         <Container>

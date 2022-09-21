@@ -11,7 +11,7 @@ const firebaseConfig = Firebase ? Firebase.options : undefined;
 import { AuthContext } from '../../contexts/AuthContext';
 
 import { filterLeavingOnlyNumbers } from '../../common/auxiliaryFunctions';
-import { InsertPhoneScreenProps } from '../../routes/Stack/screenProps';
+import { InsertPhoneScreenProps } from '../../routes/Stack/stackScreenProps';
 import { DefaultHeaderContainer } from '../../components/DefaultHeaderContainer';
 import { FormContainer } from '../../components/FormContainer';
 import { InstructionCard } from '../../components/InstructionCard';

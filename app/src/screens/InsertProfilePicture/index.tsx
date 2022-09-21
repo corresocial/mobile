@@ -9,7 +9,7 @@ import updateUser from '../../services/Firebase/user/update';
 import { AuthContext } from '../../contexts/AuthContext';
 import { RegisterUserData } from '../ProfilePicturePreview/types';
 
-import { InsertProfilePictureScreenProps } from '../../routes/Stack/screenProps';
+import { InsertProfilePictureScreenProps } from '../../routes/Stack/stackScreenProps';
 import { DefaultHeaderContainer } from '../../components/DefaultHeaderContainer';
 import { FormContainer } from '../../components/FormContainer';
 import { InstructionCard } from '../../components/InstructionCard';
@@ -66,7 +66,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 	}
 
 	const navigateToNextScreen = () => {
-		navigation.navigate('WelcomeNewUser', { userName: route.params.userName })
+		navigation.navigate('HomeTab', {firstAccess: true})
 	}
 
 	const getHeaderMessage = () => {

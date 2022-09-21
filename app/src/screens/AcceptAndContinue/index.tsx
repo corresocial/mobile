@@ -13,7 +13,7 @@ import Logo from './../../assets/svgs/logo.svg'
 import { theme } from '../../common/theme';
 import { screenHeight, screenWidth } from '../../common/screenDimensions';
 
-import { AcceptAndContinueScreenProps } from '../../routes/Stack/screenProps';
+import { AcceptAndContinueScreenProps } from '../../routes/Stack/stackScreenProps';
 import { DefaultHeaderContainer } from '../../components/DefaultHeaderContainer';
 import { CustomCarousel } from './../../components/CustomCarousel'
 import { InstructionCard } from '../../components/InstructionCard';

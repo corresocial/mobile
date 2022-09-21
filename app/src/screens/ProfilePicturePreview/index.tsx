@@ -9,7 +9,7 @@ import updateUser from '../../services/Firebase/user/update';
 import { AuthContext } from '../../contexts/AuthContext';
 
 import { UserCollection } from '../../services/Firebase/user/types';
-import { ProfilePicturePreviewScreenProps } from '../../routes/Stack/screenProps';
+import { ProfilePicturePreviewScreenProps } from '../../routes/Stack/stackScreenProps';
 import { DefaultHeaderContainer } from '../../components/DefaultHeaderContainer';
 import { FormContainer } from '../../components/FormContainer';
 import { InstructionCard } from '../../components/InstructionCard';
@@ -39,7 +39,8 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	}
 
 	const saveUserData = async () => {
-		const userData = getRouteParams()
+		
+		const userData = getRouteParams() // TODO uncoment
 
 		if (!userData.profilePictureUri) return
 
@@ -84,7 +85,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 	const navigateToNextScreen = () => {
 		setHasServerSideError(false)
-		return navigation.navigate('WelcomeNewUser', { userName: route.params.userName })
+		return navigation.navigate('HomeTab', {firstAccess: true})
 	}
 
 	const backToCustomCamera = () => {
@@ -129,7 +130,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 				justifyContent={'flex-end'}
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
-				<PhotoPortrait pictureUri={route.params.profilePictureUri} />
+				 <PhotoPortrait pictureUri={route.params.profilePictureUri} />
 				<InstructionCard
 					message={getHeaderMessage()}
 					highlightedWords={getHeaderHighlightedWords()}

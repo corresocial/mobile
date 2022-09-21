@@ -26,13 +26,13 @@ const LocalAuthenticationOptions: LocalAuthentication.LocalAuthenticationOptions
 }
 
 export const authentication = {
-    async getDataFromSecureStore(key: string) {
+    async getDataFromSecureStore(key: string, requireAuthentication?: boolean) {
         try {
             // await SecureStore.deleteItemAsync('corre.user') // Tests
 
             const user = await SecureStore.getItemAsync(key, secureStoreOptions)
             
-            if (user != null) {
+            if (user != null && requireAuthentication) {
                 await LocalAuthentication.isEnrolledAsync()
                 const result = await LocalAuthentication.authenticateAsync(LocalAuthenticationOptions)
                 if (!result.success) throw 'Não foi possível identificar usuário'
