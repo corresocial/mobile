@@ -19,7 +19,7 @@ import uploadImage from '../../services/Firebase/user/upload';
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
 
-	const { setDataOnSecureStore } = useContext(AuthContext)
+	const { setDataOnSecureStore, getDataFromSecureStore } = useContext(AuthContext)
 
 	const [hasServerSideError, setHasServerSideError] = useState(false)
 
@@ -39,7 +39,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	}
 
 	const saveUserData = async () => {
-		
+		//navigateToNextScreen()
 		const userData = getRouteParams() // TODO uncoment
 
 		if (!userData.profilePictureUri) return
@@ -75,23 +75,28 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	}
 
 	const throwServerSideError = (err: any) => {
-		console.log(err)
 		setHasServerSideError(true)
 	}
 
 	const saveInSecureStore = async (userData: UserCollection) => {
-		await setDataOnSecureStore('corre.user', userData)
+		const localUser = await getObjectLocalUser()
+		await setDataOnSecureStore('corre.user', {...localUser, ...userData})
 	}
 
-	const navigateToNextScreen = () => {
+	const getObjectLocalUser = async () => {
+		const userJSON = await getDataFromSecureStore('corre.user')
+		if (!userJSON) return false
+		const userObject = await JSON.parse(userJSON)
+		return userObject
+	}
+
+	const navigateToNextScreen = async () => {
 		setHasServerSideError(false)
-		return navigation.navigate('HomeTab', {firstAccess: true})
+		return navigation.navigate('UserStack')
 	}
 
 	const backToCustomCamera = () => {
-		const userData = {
-			...route.params,
-		}
+		const userData = getRouteParams()
 		navigation.navigate('InsertProfilePicture', userData) //TODO navigation.goBack() do not working
 		navigation.navigate('CustomCamera', userData)
 	}
@@ -125,12 +130,12 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	return (
 		<Container >
 			<DefaultHeaderContainer
-				relativeHeight={!hasServerSideError ? '65%' : '68%'} 
+				relativeHeight={!hasServerSideError ? '65%' : '68%'}
 				centralized
 				justifyContent={'flex-end'}
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
-				 <PhotoPortrait pictureUri={route.params.profilePictureUri} />
+				{/*  <PhotoPortrait pictureUri={route.params.profilePictureUri} /> */}
 				<InstructionCard
 					message={getHeaderMessage()}
 					highlightedWords={getHeaderHighlightedWords()}

@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import { View, Text, BackHandler } from 'react-native';
 
-import { HomeTabScreenProps } from '../../routes/Tabs/tabScreenProps';
-
-
-function Home({ navigation }: HomeTabScreenProps) {
-	useEffect(() => {
+function Home() {
+	/* useEffect(() => {
 		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
 	})
 
@@ -16,7 +13,7 @@ function Home({ navigation }: HomeTabScreenProps) {
 		} else {
 			return false
 		}
-	}
+	} */
 
 	return (
 		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

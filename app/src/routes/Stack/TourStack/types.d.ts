@@ -1,7 +1,3 @@
-export type TourStackParamList = {
-    WelcomeNewUser: { userName: string }
-    Home: undefined
-    Profile: {firstAccess?: boolean, tourType?: TourTypes}
+export type UserStackParamList = {
+    PostCategory: undefined
 }
-
-export type TourTypes = 'find' | 'post'

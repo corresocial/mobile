@@ -62,11 +62,15 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 	}
 
 	const saveInSecureStore = async (userData: RegisterUserData) => {
-		await setDataOnSecureStore('corre.user', userData)
+		await setDataOnSecureStore('corre.user', {
+			name: userData.userName,
+			// phone: userData.userPhone,
+			identification: userData.userIdentification,
+		})
 	}
 
 	const navigateToNextScreen = () => {
-		navigation.navigate('HomeTab', {firstAccess: true})
+		navigation.navigate('UserStack')
 	}
 
 	const getHeaderMessage = () => {

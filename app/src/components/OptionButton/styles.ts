@@ -43,7 +43,7 @@ export const IconArea = styled.View`
     height: 100%;
     align-items: center;
     justify-content: center;
-    border-top-left-radius: 6 px;
+    border-top-left-radius: 6px;
     border-bottom-left-radius: 5px;
 `
 

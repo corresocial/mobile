@@ -1,5 +1,7 @@
 export type HomeTabParamList = {
     Home: undefined
-    TourStack: undefined
-    Profile: {firstAccess?: boolean}
+    Catalog: undefined
+    Post: undefined
+    Chat: undefined
+    Profile: undefined
 }

@@ -34,11 +34,10 @@ function Splash({ navigation, route }: SplashScreenProps) {
 
     const redirectToApp = async () => {
         try {
-            const user = await getDataFromSecureStore('corre.user')
+            const user = await getDataFromSecureStore('corre.userx', true)
             console.log(user)
-
             if (user) {
-                navigation.navigate('HomeTab', {})
+                navigation.navigate('UserStack')
             } else {
                 if (user == null) {
                     navigation.navigate('AcceptAndContinue')

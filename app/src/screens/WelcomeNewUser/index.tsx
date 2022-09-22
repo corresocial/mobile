@@ -6,13 +6,12 @@ import SalesCart from './../../assets/icons/salesCart.svg'
 import { Container } from './styles';
 import { theme } from '../../common/theme';
 
+import { WelcomeNewUserScreenProps } from '../../routes/Stack/stackScreenProps';
 import { DefaultHeaderContainer } from '../../components/DefaultHeaderContainer';
 import { FormContainer } from '../../components/FormContainer';
 import { InstructionCard } from '../../components/InstructionCard';
 import { OptionButton } from '../../components/OptionButton';
-import { WelcomeNewUserScreenProps } from '../../routes/Stack/stackScreenProps';
 import { AuthContext } from '../../contexts/AuthContext';
-import { TourTypes } from '../../routes/Stack/TourStack/types';
 
 function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 
@@ -21,15 +20,20 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 	const [userName, setUserName] = useState('amigo')
 
 	useEffect(() => {
-		 getUserNameFromSecureStore()
-	})
+		getUserNameFromSecureStore()
+	},[])
 
 	const getUserNameFromSecureStore = async () => {
-		const userJSON = await getDataFromSecureStore('corre.user', false)
-		if (!userJSON) return
-		const user = JSON.parse(userJSON)
-		if(!user.userName.length) return
-		return setUserName(user.userName)
+		const localUser = await getObjectLocalUser()
+		if (!localUser.name.length) return
+		return setUserName(localUser.name)
+	}
+
+	const getObjectLocalUser = async () => {
+		const userJSON = await getDataFromSecureStore('corre.user')
+		if (!userJSON) return false
+		const userObject = await JSON.parse(userJSON)
+		return userObject
 	}
 
 	const buy = () => {
@@ -37,8 +41,8 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 		getUserNameFromSecureStore()
 	}
 
-	const goToProfile = (firstAccess: boolean, tourType: TourTypes) => {
-		return  navigation.navigate('Profile',{})
+	const goToProfile = () => {
+		return navigation.navigate('HomeTab')
 	}
 
 
@@ -50,7 +54,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 				relativeHeight={'30%'}
 			>
 				<InstructionCard
-					message={`olá, ${ userName.split(' ')[0]} \nporque você \ntá no corre. ?`}
+					message={`olá, ${userName.split(' ')[0]} \nporque você \ntá no corre. ?`}
 					highlightedWords={[userName.split(' ')[0], '\ntá', 'no', 'corre.']}
 					fontSize={24}
 					lineHeight={30}
@@ -71,7 +75,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 					description={'quero postar vendas, serviços, vagas, iniciativas sociais ou cultura'}
 					highlightedWords={['para', 'postar']}
 					SvgIcon={SalesCart}
-					onPress={() => goToProfile(true, 'post')}
+					onPress={goToProfile}
 				/>
 			</FormContainer>
 		</Container>

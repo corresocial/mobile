@@ -14,12 +14,14 @@ import { CustomCamera } from '../../../screens/CustomCamera';
 import { ProfilePicturePreview } from '../../../screens/ProfilePicturePreview';
 import { Home } from '../../../screens/Home';
 import { HomeTab } from '../../Tabs/HomeTab';
+import { WelcomeNewUser } from '../../../screens/WelcomeNewUser';
+import { UserStack } from '../UserStack';
 
 const Stack = createStackNavigator<AuthRegisterStackParamList>()
 
 export function AuthRegisterStack() {
     return (
-        <Stack.Navigator initialRouteName='HomeTab'
+        <Stack.Navigator initialRouteName='Splash'
             screenOptions={{
                 headerShown: false,
                 gestureEnabled: false,
@@ -37,8 +39,9 @@ export function AuthRegisterStack() {
             <Stack.Screen name={'InsertProfilePicture'} component={InsertProfilePicture} />
             <Stack.Screen name={'CustomCamera'} component={CustomCamera} />
             <Stack.Screen name={'ProfilePicturePreview'} component={ProfilePicturePreview} />
+            {/* <Stack.Screen name={'WelcomeNewUser'} component={WelcomeNewUser} /> */}
 
-            <Stack.Screen name={'HomeTab'} component={HomeTab} />
+            <Stack.Screen name={'UserStack'} component={UserStack} />
         </Stack.Navigator>
     )
 }

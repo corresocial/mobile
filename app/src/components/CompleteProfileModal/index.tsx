@@ -16,6 +16,7 @@ function CompleteProfileModal({ visibility, closeModal, navigateToTour }: Comple
             transparent={true}
             visible={visibility}
             animationType='fade'
+            
             onRequestClose={closeModal}
         >
             <Container>
@@ -24,9 +25,7 @@ function CompleteProfileModal({ visibility, closeModal, navigateToTour }: Comple
                 </TouchCloseArea>
                 <Content>
                     <TouchableOpacity onPress={navigateToTour}>
-                        <Text>CompleteModalProfile</Text>
-                        <Text>CompleteModalProfile</Text>
-                        <Text>CompleteModalProfile</Text>
+                        <Text>Click to enter on the tour</Text>
                     </TouchableOpacity>
                 </Content>
                 <TouchCloseArea onPress={closeModal} >

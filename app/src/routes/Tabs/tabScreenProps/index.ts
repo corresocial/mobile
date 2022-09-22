@@ -3,6 +3,5 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'; // TODO
 
 import { HomeTabParamList } from "../HomeTab/types";
 
-export type HomeTabScreenProps = BottomTabNavigationProp<HomeTabParamList, 'Home'>
-export type ProfileTabScreenProps = BottomTabNavigationProp<HomeTabParamList, 'Profile'>
+
 

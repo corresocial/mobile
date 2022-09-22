@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler'
-import React, { useState } from 'react'
+import React from 'react'
 
 import HomeTabIconActive from './../../../assets/icons/homeTabIconActive.svg'
 import HomeTabIconInactive from './../../../assets/icons/homeTabIconInactive.svg'
@@ -16,27 +16,17 @@ import { HomeTabParamList } from './types';
 
 import { Home } from '../../../screens/Home';
 import { Profile } from '../../../screens/Profile';
-import { HomeTabScreenProps } from '../../Stack/stackScreenProps';
 
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs' // TODO type
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs' //
 import { screenHeight } from '../../../common/screenDimensions';
-import { TourStack } from '../../Stack/TourStack'
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
-export function HomeTab({ route }: HomeTabScreenProps) {
-	const [firstAccessPerformed, setFirstAccessPerformed] = useState(false)
-
-	const CustomProfile = () => <Profile
-		firstAccess={true && !firstAccessPerformed} // TODO route.params.firstAccess
-		firstAccessPerformed={() => setFirstAccessPerformed(true)}
-	/>
-
+export function HomeTab() {
 	return (
-		<Tab.Navigator initialRouteName={true ? 'Profile' : 'Home'} // TODO route.params.firstAccess
+		<Tab.Navigator initialRouteName={'Profile'} 
 			screenOptions={{
 				headerShown: false,
-				gestureEnabled: false,
 				tabBarShowLabel: false,
 				tabBarStyle: {
 					position: 'absolute',
@@ -80,7 +70,7 @@ export function HomeTab({ route }: HomeTabScreenProps) {
 					)
 				}}
 			/>
-			<Tab.Screen name='Profile' component={TourStack} //CustomProfile
+			<Tab.Screen name='Profile' component={Profile}
 				options={{
 					tabBarIcon: ({ focused }: { focused: boolean }) => (
 						focused

@@ -31,8 +31,8 @@ export const authentication = {
             // await SecureStore.deleteItemAsync('corre.user') // Tests
 
             const user = await SecureStore.getItemAsync(key, secureStoreOptions)
-            
-            if (user != null && requireAuthentication) {
+
+            if (user != null && !!requireAuthentication) {
                 await LocalAuthentication.isEnrolledAsync()
                 const result = await LocalAuthentication.authenticateAsync(LocalAuthenticationOptions)
                 if (!result.success) throw 'Não foi possível identificar usuário'
@@ -45,10 +45,10 @@ export const authentication = {
         }
     },
 
-    async setDataOnSecureStore(key: string, userData: any) {
-        console.log(userData)
+    async setDataOnSecureStore(key: string, data: any) {
+        console.log(data)
         try {
-            await SecureStore.setItemAsync(key, JSON.stringify(userData), secureStoreOptions)
+            await SecureStore.setItemAsync(key, JSON.stringify(data), secureStoreOptions)
         } catch (err) {
             console.log('Error: ' + err) // TODO Define ErrorBoundary
             return false

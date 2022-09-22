@@ -27,6 +27,5 @@ export type AuthRegisterStackParamList = {
         userIdentification: UserIdentification
     }
 
-    HomeTab: {firstAccess?: boolean}
-    Home: undefined
+    UserStack: undefined
 };
