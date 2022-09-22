@@ -20,5 +20,6 @@ export type HomeScreenProps = NativeStackScreenProps<AuthRegisterStackParamList,
 // export type ProfileStackScreenProps = NativeStackScreenProps<UserStackParamList, 'Profile'>
 
 export type WelcomeNewUserScreenProps = NativeStackScreenProps<TourStackParamList, 'WelcomeNewUser'>
+export type ProfileScreenProps = NativeStackScreenProps<TourStackParamList, 'Profile'>
 
  

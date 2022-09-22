@@ -1,6 +1,5 @@
 import 'react-native-gesture-handler'
 import React, { useState } from 'react'
-import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 
 import HomeTabIconActive from './../../../assets/icons/homeTabIconActive.svg'
 import HomeTabIconInactive from './../../../assets/icons/homeTabIconInactive.svg'
@@ -21,6 +20,7 @@ import { HomeTabScreenProps } from '../../Stack/stackScreenProps';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs' // TODO type
 import { screenHeight } from '../../../common/screenDimensions';
+import { TourStack } from '../../Stack/TourStack'
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
@@ -28,22 +28,22 @@ export function HomeTab({ route }: HomeTabScreenProps) {
 	const [firstAccessPerformed, setFirstAccessPerformed] = useState(false)
 
 	const CustomProfile = () => <Profile
-		firstAccess={route.params.firstAccess && !firstAccessPerformed}
+		firstAccess={true && !firstAccessPerformed} // TODO route.params.firstAccess
 		firstAccessPerformed={() => setFirstAccessPerformed(true)}
 	/>
 
 	return (
-		<Tab.Navigator initialRouteName={route.params.firstAccess ? 'Profile' : 'Home'}
+		<Tab.Navigator initialRouteName={true ? 'Profile' : 'Home'} // TODO route.params.firstAccess
 			screenOptions={{
 				headerShown: false,
 				gestureEnabled: false,
-				...TransitionPresets.SlideFromRightIOS,
 				tabBarShowLabel: false,
 				tabBarStyle: {
 					position: 'absolute',
 					height: screenHeight * 0.08
 				}
-			}}>
+			}}
+		>
 			<Tab.Screen name='Home' component={Home}
 				options={{
 					tabBarIcon: ({ focused }: { focused: boolean }) => (
@@ -80,7 +80,7 @@ export function HomeTab({ route }: HomeTabScreenProps) {
 					)
 				}}
 			/>
-			<Tab.Screen name='Profile' component={CustomProfile}
+			<Tab.Screen name='Profile' component={TourStack} //CustomProfile
 				options={{
 					tabBarIcon: ({ focused }: { focused: boolean }) => (
 						focused
@@ -89,6 +89,6 @@ export function HomeTab({ route }: HomeTabScreenProps) {
 					)
 				}}
 			/>
-		</Tab.Navigator>
+		</ Tab.Navigator>
 	);
 }
