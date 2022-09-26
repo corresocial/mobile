@@ -8,25 +8,31 @@ interface InstructionCardProps {
     message: string
     highlightedWords?: string[]
     fontSize?: number
+    fontSizeHighlighted?: number
     lineHeight?: number
     backButton?: boolean
+    borderLeftWidth?: number
 }
 
-function  InstructionCard({
+function InstructionCard({
     message,
     highlightedWords,
     fontSize,
+    fontSizeHighlighted,
     lineHeight,
-    backButton
+    backButton,
+    borderLeftWidth
 }: InstructionCardProps) {
     return (
-        <Container>
+        <Container
+            style={{ borderLeftWidth: borderLeftWidth ? borderLeftWidth : 5 }}
+        >
             <Message
                 style={{
                     fontSize: fontSize ? fontSize : 20,
-                    lineHeight: lineHeight ? lineHeight : 22
+                    lineHeight: lineHeight ? lineHeight : 22,
                 }}
-            >{showMessageWithHighlight(message, highlightedWords)}</Message>
+            >{showMessageWithHighlight(message, highlightedWords, fontSizeHighlighted)}</Message>
         </Container>
     )
 }

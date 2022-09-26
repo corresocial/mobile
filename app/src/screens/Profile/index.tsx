@@ -9,19 +9,15 @@ function Profile({ navigation }: HomeTabScreenProps) {
 
 	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
 
-	const [tourModalVisibility, setTourModalVisibility] = useState(false)
+	const [tourModalVisibility, setTourModalVisibility] = useState(true)
 
 	useEffect(() => {
 		initializeUserTour()
-		setTourModalVisibility(true)
 	}, [])
 
 
 	const initializeUserTour = async () => {
 		const userTourPerformed = await checkUserTourPerformed()
-
-		console.log(userTourPerformed)
-
 		if (!userTourPerformed) {
 			setTourModalVisibility(true)
 		}
@@ -29,7 +25,6 @@ function Profile({ navigation }: HomeTabScreenProps) {
 
 	const checkUserTourPerformed = async () => {
 		const localUser = await getObjectLocalUser()
-		console.log(localUser.name)
 		return !!localUser.tourPerformed
 	}
 

@@ -19,6 +19,7 @@ import { Profile } from '../../../screens/Profile';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs' //
 import { screenHeight } from '../../../common/screenDimensions';
+import { theme } from '../../../common/theme'
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
@@ -30,7 +31,9 @@ export function HomeTab() {
 				tabBarShowLabel: false,
 				tabBarStyle: {
 					position: 'absolute',
-					height: screenHeight * 0.08
+					height: screenHeight * 0.08,
+					borderTopColor: theme.black3,
+					borderTopWidth: 5
 				}
 			}}
 		>

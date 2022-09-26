@@ -1,7 +1,20 @@
 import React from 'react'
-import { Modal, Text, TouchableOpacity } from 'react-native'
+import { Modal } from 'react-native'
 
-import { Container, Content, TouchCloseArea } from './styles'
+import { theme } from '../../common/theme'
+import Check from './../../assets/icons/check.svg'
+
+import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
+import { PrimaryButton } from '../PrimaryButton'
+
+import {
+    Container,
+    Content,
+    Description,
+    Question,
+    Title,
+    TouchCloseArea
+} from './styles'
 
 interface CompleteProfileModalProps {
     visibility: boolean
@@ -16,21 +29,38 @@ function CompleteProfileModal({ visibility, closeModal, navigateToTour }: Comple
             transparent={true}
             visible={visibility}
             animationType='fade'
-            
+
             onRequestClose={closeModal}
         >
             <Container>
-                <TouchCloseArea onPress={closeModal} >
-                    <Text>1</Text>
-                </TouchCloseArea>
+                <TouchCloseArea onPress={closeModal} ></TouchCloseArea>
                 <Content>
-                    <TouchableOpacity onPress={navigateToTour}>
-                        <Text>Click to enter on the tour</Text>
-                    </TouchableOpacity>
-                </Content>
-                <TouchCloseArea onPress={closeModal} >
+                    <Title>legal!</Title>
+                    <Description>
+                        {showMessageWithHighlight(
+                            'primeiro precisamos preencher seu perfil, para que outros possam te encontrar',
+                            ['primeiro', 'preencher', 'seu', 'perfil,', 'te', 'encontrar']
+                        )}
+                    </Description>
+                    <Question>
+                        {showMessageWithHighlight(
+                            'demora 5 minutos, bora?',
+                            ['5', 'minutos,']
+                        )}
 
-                </TouchCloseArea>
+                    </Question>
+                    <PrimaryButton
+                        color={theme.green3}
+                        labelColor={theme.white3}
+                        label={'bora!'}
+                        highlightedWords={['bora!']}
+                        fontSize={22}
+                        iconName={'user'}
+                        SvgIcon={Check}
+                        onPress={navigateToTour}
+                    />
+                </Content>
+                <TouchCloseArea onPress={closeModal} ></TouchCloseArea>
             </Container>
         </Modal >
     )

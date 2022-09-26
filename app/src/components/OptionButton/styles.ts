@@ -29,12 +29,11 @@ export const ContainerSurface = styled.View`
     width: 100%;
     height: ${screenHeight * 0.16}px;
     border-radius: 10px;
-    border: 2px solid black;
-    
+    border: 3px solid black;
     position: absolute;
-	right: 4px;
-
+	right: 5px;
     background-color: ${({ theme }) => theme.white3};
+    overflow: hidden;
 `
 
 export const IconArea = styled.View`
@@ -43,8 +42,6 @@ export const IconArea = styled.View`
     height: 100%;
     align-items: center;
     justify-content: center;
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 5px;
 `
 
 export const LabelDescriptionArea = styled.View`
@@ -57,7 +54,7 @@ export const LabelDescriptionArea = styled.View`
 
 export const ButtonLabel = styled.Text`
     color: ${({ theme }) => theme.black4};
-    font-size: 24px;
+    font-size: 20px;
     font-family: Arvo_400Regular;
     margin-right: 15px;
 `

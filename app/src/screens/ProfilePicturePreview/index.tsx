@@ -135,7 +135,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 				justifyContent={'flex-end'}
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
-				{/*  <PhotoPortrait pictureUri={route.params.profilePictureUri} /> */}
+				 <PhotoPortrait pictureUri={route.params.profilePictureUri} />
 				<InstructionCard
 					message={getHeaderMessage()}
 					highlightedWords={getHeaderHighlightedWords()}

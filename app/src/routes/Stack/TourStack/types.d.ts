@@ -1,3 +1,4 @@
-export type UserStackParamList = {
-    PostCategory: undefined
+export type TourStackParamList = {
+    SelectPostType: undefined
+    InsertProfileDescription: undefined
 }

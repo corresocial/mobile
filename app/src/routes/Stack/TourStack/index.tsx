@@ -2,23 +2,25 @@ import 'react-native-gesture-handler'
 import React from 'react'
 import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 
-import { UserStackParamList } from './types';
-import { PostCategory } from '../../../screens/PostCategory';
+import { TourStackParamList } from './types';
+import { SelectPostType } from '../../../screens/SelectPostType';
+import { InsertProfileDescription } from '../../../screens/InsertProfileDescription';
 
 
-const Stack = createStackNavigator<UserStackParamList>()
+const Stack = createStackNavigator<TourStackParamList>()
 
 export function TourStack() {
 
     return (
-        <Stack.Navigator initialRouteName='PostCategory'
+        <Stack.Navigator initialRouteName='SelectPostType'
             screenOptions={{
                 headerShown: false,
                 gestureEnabled: false,
                 ...TransitionPresets.SlideFromRightIOS,
             }}
         >
-            <Stack.Screen name={'PostCategory'} component={PostCategory} />
+            <Stack.Screen name={'SelectPostType'} component={SelectPostType} />
+            <Stack.Screen name={'InsertProfileDescription'} component={InsertProfileDescription} />
         </Stack.Navigator>
     )
 }

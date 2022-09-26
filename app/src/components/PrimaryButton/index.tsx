@@ -5,14 +5,17 @@ import { FontAwesome5 as Icon } from '@expo/vector-icons';
 
 import { ButtonLabel, TouchableContainer, ContainerSurface, ContainerBottom } from './styles';
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions';
+import { SvgProps } from 'react-native-svg';
 
 interface PrimaryButtonProps {
     color: string
     label: string
     labelColor?: string
     iconName: string
-    iconSize?: number
     iconColor?: string
+    iconSize?: number
+    SvgIcon?: React.FC<SvgProps>
+    fontSize?: number
     keyboardHideButton?: boolean
     highlightedWords?: string[]
     justifyContent?: string
@@ -25,8 +28,10 @@ function PrimaryButton({
     label,
     highlightedWords,
     iconName,
+    fontSize,
     iconSize,
     iconColor,
+    SvgIcon,
     keyboardHideButton = true,
     justifyContent,
     onPress
@@ -82,14 +87,20 @@ function PrimaryButton({
                         justifyContent: justifyContent || 'center',
                         marginRight: buttonPressed ? -3 : 0,
                     } as { [key: string]: React.CSSProperties }}>
-                    <ButtonLabel style={{ color: labelColor }}>
+                    <ButtonLabel style={{
+                        color: labelColor,
+                        fontSize: fontSize ? fontSize : 18
+                    }}>
                         {showMessageWithHighlight(label, highlightedWords)}
                     </ButtonLabel>
-                    <Icon
-                        name={iconName || 'question'}
-                        size={iconSize || 22}
-                        color={iconColor || labelColor}
-                    />
+                    {!!SvgIcon
+                        ? <SvgIcon height={'30%'} width={'11%'} />
+                        : <Icon
+                            name={iconName || 'question'}
+                            size={iconSize || 22}
+                            color={iconColor || labelColor}
+                        />
+                    }
                 </ContainerSurface>
             </ContainerBottom>
         </TouchableContainer>

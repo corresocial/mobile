@@ -12,16 +12,13 @@ import { InsertName } from '../../../screens/InsertName';
 import { InsertProfilePicture } from '../../../screens/InsertProfilePicture';
 import { CustomCamera } from '../../../screens/CustomCamera';
 import { ProfilePicturePreview } from '../../../screens/ProfilePicturePreview';
-import { Home } from '../../../screens/Home';
-import { HomeTab } from '../../Tabs/HomeTab';
-import { WelcomeNewUser } from '../../../screens/WelcomeNewUser';
 import { UserStack } from '../UserStack';
 
 const Stack = createStackNavigator<AuthRegisterStackParamList>()
 
 export function AuthRegisterStack() {
     return (
-        <Stack.Navigator initialRouteName='Splash'
+        <Stack.Navigator initialRouteName='UserStack'
             screenOptions={{
                 headerShown: false,
                 gestureEnabled: false,
