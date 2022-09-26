@@ -55,8 +55,8 @@ function CompleteProfileModal({ visibility, closeModal, navigateToTour }: Comple
                         label={'bora!'}
                         highlightedWords={['bora!']}
                         fontSize={22}
-                        iconName={'user'}
                         SvgIcon={Check}
+                        svgIconScale={['30%', '11%']}
                         onPress={navigateToTour}
                     />
                 </Content>

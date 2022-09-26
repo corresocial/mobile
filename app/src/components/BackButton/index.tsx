@@ -11,7 +11,7 @@ interface BackButtonProps{
 function BackButton({onPress} : BackButtonProps){
     return (
         <Container onPress={onPress}>
-            <AngleLeft height={'100%'} width={'100%'}/>
+            <AngleLeft height={25} width={25}/>
         </Container>
     )
 

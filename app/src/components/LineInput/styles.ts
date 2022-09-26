@@ -13,7 +13,9 @@ export const Container = styled.TouchableHighlight`
 `
 
 export const TextInput = styled.TextInput`
+    height: 100%;
     font-size: 20px;
     font-family: Arvo_400Regular;
     text-align: center;
+    padding: 15px;
 `

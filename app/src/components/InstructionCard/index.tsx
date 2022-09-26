@@ -10,8 +10,8 @@ interface InstructionCardProps {
     fontSize?: number
     fontSizeHighlighted?: number
     lineHeight?: number
-    backButton?: boolean
     borderLeftWidth?: number
+    children?: React.ReactElement
 }
 
 function InstructionCard({
@@ -20,8 +20,8 @@ function InstructionCard({
     fontSize,
     fontSizeHighlighted,
     lineHeight,
-    backButton,
-    borderLeftWidth
+    borderLeftWidth,
+    children
 }: InstructionCardProps) {
     return (
         <Container
@@ -32,7 +32,10 @@ function InstructionCard({
                     fontSize: fontSize ? fontSize : 20,
                     lineHeight: lineHeight ? lineHeight : 22,
                 }}
-            >{showMessageWithHighlight(message, highlightedWords, fontSizeHighlighted)}</Message>
+            >{
+                    showMessageWithHighlight(message, highlightedWords, fontSizeHighlighted)}
+            </Message>
+            {children}
         </Container>
     )
 }

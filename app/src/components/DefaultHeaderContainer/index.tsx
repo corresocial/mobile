@@ -10,6 +10,7 @@ interface DefaultHeaderContainerProps {
     relativeHeight?: string | Animated.AnimatedInterpolation
     centralized?: boolean
     justifyContent?: string
+    minHeight?:number
     withoutPadding?: boolean
 }
 
@@ -19,15 +20,17 @@ function DefaultHeaderContainer({
     centralized,
     justifyContent,
     backgroundColor,
+    minHeight,
     withoutPadding }: DefaultHeaderContainerProps) {
     return (
         <Container
             style={{
+                minHeight: minHeight,
                 height: relativeHeight || '55%',
                 alignItems: centralized ? 'center' : 'flex-start',
                 justifyContent: justifyContent ? justifyContent : (centralized ? 'center' : 'flex-start'),
                 backgroundColor: backgroundColor,
-                padding: withoutPadding ? 0 : screenWidth * 0.08
+                padding: withoutPadding ? 0 : screenWidth * 0.08,
             } as { [key: string]: React.CSSProperties }}
         >
             {children}

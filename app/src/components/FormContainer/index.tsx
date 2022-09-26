@@ -3,12 +3,16 @@ import { Container } from './styles';
 
 interface FormContainerProps {
     children: ReactElement | ReactElement[]
-    backgroundColor: string
+    backgroundColor: string,
+    justifyContent? : any // TODO type
 }
 
-function FormContainer({ children, backgroundColor }: FormContainerProps) {
+function FormContainer({ children, backgroundColor, justifyContent }: FormContainerProps) {
     return (
-        <Container style={{backgroundColor}}>
+        <Container style={{
+            backgroundColor,
+            justifyContent: justifyContent || 'space-around'
+        }}>
             {children}
         </Container>
     );

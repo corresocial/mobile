@@ -8,21 +8,25 @@ import { showMessageWithHighlight } from '../../common/auxiliaryFunctions';
 import { SvgProps } from 'react-native-svg';
 
 interface PrimaryButtonProps {
+    relativeWidth?: string
     color: string
-    label: string
+    label?: string
     labelColor?: string
-    iconName: string
+    iconName?: string
     iconColor?: string
     iconSize?: number
     SvgIcon?: React.FC<SvgProps>
+    svgIconScale?: [height: string, width: string]
     fontSize?: number
     keyboardHideButton?: boolean
+    startsHidden?: boolean
     highlightedWords?: string[]
-    justifyContent?: string
+    justifyContent?:string
     onPress: () => void
 }
 
 function PrimaryButton({
+    relativeWidth,
     color,
     labelColor,
     label,
@@ -32,7 +36,9 @@ function PrimaryButton({
     iconSize,
     iconColor,
     SvgIcon,
+    svgIconScale,
     keyboardHideButton = true,
+    startsHidden = false,
     justifyContent,
     onPress
 }: PrimaryButtonProps) {
@@ -42,10 +48,14 @@ function PrimaryButton({
     const buttonRef = useRef<any>()
 
     useEffect(() => {
+        if (startsHidden && keyboardHideButton) {
+            hideButton()
+        }
         if (!keyboardHideButton) return
         Keyboard.addListener('keyboardDidShow', () => hideButton())
         Keyboard.addListener('keyboardDidHide', () => showButton())
-    }, [])
+
+    },[])
 
     const hideButton = async () => {
         if (!buttonRef.current) return
@@ -79,7 +89,11 @@ function PrimaryButton({
         >
             <ContainerBottom
                 ref={buttonRef}
-                style={{ display: buttonVisibility ? 'flex' : 'none' }}
+                style={{
+                    display: buttonVisibility ? 'flex' : 'none',
+                    width: relativeWidth || '100%',
+                    justifyContent: justifyContent
+                } as { [key: string]: React.CSSProperties }}
             >
                 <ContainerSurface
                     style={{
@@ -87,14 +101,16 @@ function PrimaryButton({
                         justifyContent: justifyContent || 'center',
                         marginRight: buttonPressed ? -3 : 0,
                     } as { [key: string]: React.CSSProperties }}>
-                    <ButtonLabel style={{
-                        color: labelColor,
-                        fontSize: fontSize ? fontSize : 18
-                    }}>
-                        {showMessageWithHighlight(label, highlightedWords)}
-                    </ButtonLabel>
+                    {!!label
+                        && <ButtonLabel style={{
+                            color: labelColor,
+                            fontSize: fontSize ? fontSize : 18
+                        }}>
+                            {showMessageWithHighlight(label, highlightedWords)}
+                        </ButtonLabel>
+                    }
                     {!!SvgIcon
-                        ? <SvgIcon height={'30%'} width={'11%'} />
+                        ? <SvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />
                         : <Icon
                             name={iconName || 'question'}
                             size={iconSize || 22}
