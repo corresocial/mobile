@@ -37,7 +37,7 @@ function InsertServiceName({ navigation, route }: InsertServiceNameScreenProps) 
         const serviceNameIsValid = validateServiceName(serviceName)
         if (serviceNameIsValid) {
             // Save on store
-            navigation.navigate('SelectServiceCategory')
+            navigation.navigate('InsertServicePicture')
         } else {
             !serviceNameIsValid && setInvaliServiceNameAfterSubmit(true)
         }

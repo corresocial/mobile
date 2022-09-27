@@ -129,8 +129,8 @@ function LineInput({
         >
             <TextInput
                 style={[getTextInputStyle(), {
-                    fontSize: fontSize,
-                    textAlign: textAlign as any //TODO Type
+                    fontSize: fontSize || 20,
+                    textAlign: textAlign as any || 'center' //TODO Type
                 }]}
                 ref={textInputRef}
                 value={value}

@@ -193,6 +193,7 @@ export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 					label='continuar'
 					labelColor={theme.white3}
 					highlightedWords={['continuar']}
+					startsHidden
 					onPress={getVeficationCode}
 				/>
 			</FormContainer>

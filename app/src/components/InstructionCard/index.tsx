@@ -11,6 +11,7 @@ interface InstructionCardProps {
     fontSizeHighlighted?: number
     lineHeight?: number
     borderLeftWidth?: number
+    flex?: number
     children?: React.ReactElement
 }
 
@@ -21,11 +22,15 @@ function InstructionCard({
     fontSizeHighlighted,
     lineHeight,
     borderLeftWidth,
+    flex = 1,
     children
 }: InstructionCardProps) {
     return (
         <Container
-            style={{ borderLeftWidth: borderLeftWidth ? borderLeftWidth : 5 }}
+            style={{
+                borderLeftWidth: borderLeftWidth ? borderLeftWidth : 5,
+                flex: flex
+            }}
         >
             <Message
                 style={{

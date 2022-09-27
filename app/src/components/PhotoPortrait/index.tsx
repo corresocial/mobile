@@ -1,7 +1,8 @@
 import React from 'react';
 import { Image, SafeAreaView } from 'react-native';
-import { screenHeight } from '../../common/screenDimensions';
-import { Container } from './styles';
+
+import { Container, DeleteItemArea } from './styles';
+import TrashIcon from './../../assets/icons/trash.svg'
 
 interface PhotoPortraitProps {
     width: number
@@ -9,6 +10,7 @@ interface PhotoPortraitProps {
     borderWidth?: number
     borderRightWidth?: number
     pictureUri: string
+    deleteCurrentPicture?: () => void
 }
 
 function PhotoPortrait({
@@ -16,7 +18,8 @@ function PhotoPortrait({
     height,
     borderWidth,
     borderRightWidth,
-    pictureUri
+    pictureUri,
+    deleteCurrentPicture
 }: PhotoPortraitProps) {
 
     return (
@@ -26,9 +29,9 @@ function PhotoPortrait({
                 width: width,
                 borderWidth: borderWidth || 5,
                 borderRightWidth: borderRightWidth || 10
-            } }
+            }}
         >
-            <Image source={{ uri: pictureUri ? pictureUri : 'https://media.istockphoto.com/vectors/profile-placeholder-image-gray-silhouette-no-photo-vector-id1016744034?k=20&m=1016744034&s=170667a&w=0&h=JlerB4H3IeLolDMQOYiAF9uLuZeW0bs4jH6NdrNPDtE=' }}
+            <Image source={{ uri: pictureUri ? pictureUri : 'https://triunfo.pe.gov.br/pm_tr430/wp-content/uploads/2018/03/sem-foto.jpg' }}
                 width={0}
                 height={0}
                 style={{
@@ -38,6 +41,13 @@ function PhotoPortrait({
                     borderRadius: 10,
                 }}
             />
+            {
+                deleteCurrentPicture && pictureUri
+                    ? <DeleteItemArea onPress={deleteCurrentPicture}>
+                        <TrashIcon width={'100%'} height={'100%'} />
+                    </DeleteItemArea>
+                    : <></>
+            }
         </Container>
     );
 }

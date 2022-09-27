@@ -115,6 +115,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 					label='continuar'
 					labelColor={theme.white3}
 					highlightedWords={['continuar']}
+					startsHidden
 					onPress={sendUserDataToNextScreen}
 				/>
 			</FormContainer>

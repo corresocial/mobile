@@ -19,6 +19,8 @@ export type TourScreenProps = NativeStackScreenProps<UserStackParamList, 'TourSt
 export type SelectPostTypeScreenProps = NativeStackScreenProps<TourStackParamList, 'SelectPostType'>
 export type InsertProfileDescriptionScreenProps = NativeStackScreenProps<TourStackParamList, 'InsertProfileDescription'>
 export type InsertServiceNameScreenProps = NativeStackScreenProps<TourStackParamList, 'InsertServiceName'>
+export type InsertServicePictureScreenProps = NativeStackScreenProps<TourStackParamList, 'InsertServicePicture'>
+export type ServicePicturePreviewScreenProps = NativeStackScreenProps<TourStackParamList, 'ServicePicturePreview'>
 export type SelectServiceCategoryScreenProps = NativeStackScreenProps<TourStackParamList, 'SelectServiceCategory'>
 
 

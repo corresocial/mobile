@@ -15,7 +15,7 @@ export const ContainerBottom = styled(Animatable.View)`
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 55px;
+    min-height: 65px;
     height: ${screenHeight * 0.073}px;
     border-radius: 10px;
     
@@ -29,7 +29,7 @@ flex-direction: row;
     justify-content: center;
     width: 100%;
     min-height: 55px;
-    height: ${screenHeight * 0.073}px;
+    height: 100%;
     border-radius: 10px;
     border: 2px solid black;
     padding-horizontal: 20px;

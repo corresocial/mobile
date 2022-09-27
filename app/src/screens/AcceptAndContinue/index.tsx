@@ -75,6 +75,7 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
                         <InstructionCard
                             message={presentationTexts[2]}
                             highlightedWords={['usa', 'o', 'corre,', 'ajuda', 'iniciativas', 'sociais.']}
+                            flex={0}
                         />
                     </CarouselItemContainer>
                 </CustomCarousel>

@@ -7,6 +7,8 @@ import { SelectPostType } from '../../../screens/SelectPostType';
 import { InsertProfileDescription } from '../../../screens/InsertProfileDescription';
 import { InsertServiceName } from '../../../screens/InsertServiceName';
 import { SelectServiceCategory } from '../../../screens/SelectServiceCategory';
+import { InsertServicePicture } from '../../../screens/InsertServicePicture';
+import { ServicePicturePreview } from '../../../screens/ServicePicturePreview';
 
 
 const Stack = createStackNavigator<TourStackParamList>()
@@ -24,6 +26,8 @@ export function TourStack() {
             <Stack.Screen name={'SelectPostType'} component={SelectPostType} />
             <Stack.Screen name={'InsertProfileDescription'} component={InsertProfileDescription} />
             <Stack.Screen name={'InsertServiceName'} component={InsertServiceName} />
+            <Stack.Screen name={'InsertServicePicture'} component={InsertServicePicture} />
+            <Stack.Screen name={'ServicePicturePreview'} component={ServicePicturePreview} />
             <Stack.Screen name={'SelectServiceCategory'} component={SelectServiceCategory} />
         </Stack.Navigator>
     )

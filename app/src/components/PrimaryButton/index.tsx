@@ -6,9 +6,11 @@ import { FontAwesome5 as Icon } from '@expo/vector-icons';
 import { ButtonLabel, TouchableContainer, ContainerSurface, ContainerBottom } from './styles';
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions';
 import { SvgProps } from 'react-native-svg';
+import { screenHeight } from '../../common/screenDimensions';
 
 interface PrimaryButtonProps {
     relativeWidth?: string
+    relativeHeight?: string
     color: string
     label?: string
     labelColor?: string
@@ -28,6 +30,7 @@ interface PrimaryButtonProps {
 
 function  PrimaryButton({
     relativeWidth,
+    relativeHeight,
     color,
     labelColor,
     label,
@@ -95,6 +98,7 @@ function  PrimaryButton({
                     display: buttonVisibility ? 'flex' : 'none',
                     opacity: buttonVisibility ? 1 : 0, // TODO Bug point
                     width: relativeWidth || '100%',
+                    height: relativeHeight || screenHeight * 0.073,
                     justifyContent: justifyContent
                 } as { [key: string]: React.CSSProperties }}
             >
