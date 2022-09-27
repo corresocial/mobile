@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { View, Keyboard } from 'react-native';
+import {  Keyboard } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { FontAwesome5 as Icon } from '@expo/vector-icons';
 
@@ -22,10 +22,11 @@ interface PrimaryButtonProps {
     startsHidden?: boolean
     highlightedWords?: string[]
     justifyContent?:string
+    flexDirection?:string
     onPress: () => void
 }
 
-function PrimaryButton({
+function  PrimaryButton({
     relativeWidth,
     color,
     labelColor,
@@ -40,6 +41,7 @@ function PrimaryButton({
     keyboardHideButton = true,
     startsHidden = false,
     justifyContent,
+    flexDirection,
     onPress
 }: PrimaryButtonProps) {
     const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
@@ -49,7 +51,7 @@ function PrimaryButton({
 
     useEffect(() => {
         if (startsHidden && keyboardHideButton) {
-            hideButton()
+            setButtonVisibility(false)
         }
         if (!keyboardHideButton) return
         Keyboard.addListener('keyboardDidShow', () => hideButton())
@@ -91,6 +93,7 @@ function PrimaryButton({
                 ref={buttonRef}
                 style={{
                     display: buttonVisibility ? 'flex' : 'none',
+                    opacity: buttonVisibility ? 1 : 0, // TODO Bug point
                     width: relativeWidth || '100%',
                     justifyContent: justifyContent
                 } as { [key: string]: React.CSSProperties }}
@@ -98,6 +101,7 @@ function PrimaryButton({
                 <ContainerSurface
                     style={{
                         backgroundColor: color,
+                        flexDirection: flexDirection || 'row',
                         justifyContent: justifyContent || 'center',
                         marginRight: buttonPressed ? -3 : 0,
                     } as { [key: string]: React.CSSProperties }}>

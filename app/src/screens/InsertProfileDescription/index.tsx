@@ -4,7 +4,6 @@ import React, { useRef, useState } from 'react'
 import { ButtonsContainer, Container, InputsContainer } from './styles';
 import { screenHeight } from '../../common/screenDimensions';
 import { theme } from '../../common/theme';
-import Uncheck from './../../assets/icons/uncheck.svg'
 import Check from './../../assets/icons/check.svg'
 
 import { InsertProfileDescriptionScreenProps } from '../../routes/Stack/stackScreenProps';
@@ -122,11 +121,12 @@ function InsertProfileDescription({ navigation, route }: InsertProfileDescriptio
                 />
                 <ButtonsContainer>
                     <PrimaryButton
-                        color={someInvalidFieldSubimitted() ? theme.red3: theme.green3}
+                        flexDirection={'row-reverse'}
+                        color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
                         label={'continuar'}
                         labelColor={theme.white3}
                         SvgIcon={Check}
-                        svgIconScale={['30%', '10%']}
+                        svgIconScale={['30%', '15%']}
                         startsHidden={true}
                         onPress={saveProfileDescription}
                     />
