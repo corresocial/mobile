@@ -38,8 +38,8 @@ export const ContainerSurface = styled.View`
 
 export const IconArea = styled.View`
     background-color: ${({ theme }) => theme.orange3}
-    width: 25%;
-    height: 100%;
+    width: 30%;
+    height: 101%; 
     align-items: center;
     justify-content: center;
 `
@@ -47,7 +47,7 @@ export const IconArea = styled.View`
 export const LabelDescriptionArea = styled.View`
     padding-vertical: 15px;
     padding-horizontal: 25px;
-    width: 75%;
+    width: 70%;
     height: 100%;
     justify-content: space-around;
 `

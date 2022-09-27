@@ -2,11 +2,11 @@ import React from 'react'
 
 import { theme } from '../../common/theme'
 import { Container } from './styles'
-import ToolBox from './../../assets/icons/toolBox.svg'
-import SalesCart from './../../assets/icons/salesCart.svg'
-import Suitcase from './../../assets/icons/suitcase.svg'
-import Heart from './../../assets/icons/heart.svg'
-import SoundTools from './../../assets/icons/soundTools.svg'
+import ToolBox from './../../assets/icons/toolBox-purple.svg'
+import SalesCart from './../../assets/icons/salesCart-green.svg'
+import Suitcase from './../../assets/icons/suitcase-yellow.svg'
+import Heart from './../../assets/icons/heart-red.svg'
+import SoundTools from './../../assets/icons/soundTools-blue.svg'
 
 
 import { DefaultHeaderContainer } from '../../components/DefaultHeaderContainer'
@@ -16,18 +16,18 @@ import { OptionButton } from '../../components/OptionButton'
 import { BackButton } from '../../components/BackButton'
 import { SelectPostTypeScreenProps } from '../../routes/Stack/stackScreenProps'
 
-function SelectPostType ({route, navigation}: SelectPostTypeScreenProps){
+function SelectPostType({ route, navigation }: SelectPostTypeScreenProps) {
     return (
         <Container>
             <DefaultHeaderContainer
                 backgroundColor={theme.white3}
                 relativeHeight={'25%'}
-                centralized 
+                centralized
             >
-                <BackButton onPress={() => navigation.goBack()}/>
+                <BackButton onPress={() => navigation.goBack()} />
                 <InstructionCard
                     message={'o que você vai \nanunciar?'}
-                    highlightedWords={['\nanunciar?']} 
+                    highlightedWords={['\nanunciar?']}
                     borderLeftWidth={3}
                     lineHeight={35}
                     fontSize={22}
@@ -43,6 +43,7 @@ function SelectPostType ({route, navigation}: SelectPostTypeScreenProps){
                     highlightedWords={['um', 'serviço']}
                     labelColor={theme.black3}
                     SvgIcon={ToolBox}
+                    leftSideColor={theme.purple2}
                     onPress={() => navigation.navigate('InsertProfileDescription')}
                 />
                 <OptionButton
@@ -51,7 +52,8 @@ function SelectPostType ({route, navigation}: SelectPostTypeScreenProps){
                     highlightedWords={['uma', 'venda']}
                     labelColor={theme.black3}
                     SvgIcon={SalesCart}
-                    onPress={() => {}}
+                    leftSideColor={theme.green2}
+                    onPress={() => { }}
                 />
                 <OptionButton
                     color={theme.white3}
@@ -59,7 +61,8 @@ function SelectPostType ({route, navigation}: SelectPostTypeScreenProps){
                     highlightedWords={['uma', 'vaga']}
                     labelColor={theme.black3}
                     SvgIcon={Suitcase}
-                    onPress={() => {}}
+                    leftSideColor={theme.yellow2}
+                    onPress={() => { }}
                 />
                 <OptionButton
                     color={theme.white3}
@@ -67,7 +70,8 @@ function SelectPostType ({route, navigation}: SelectPostTypeScreenProps){
                     highlightedWords={['iniciativa', 'social']}
                     labelColor={theme.black3}
                     SvgIcon={Heart}
-                    onPress={() => {}}
+                    leftSideColor={theme.red2}
+                    onPress={() => { }}
                 />
                 <OptionButton
                     color={theme.white3}
@@ -75,11 +79,12 @@ function SelectPostType ({route, navigation}: SelectPostTypeScreenProps){
                     highlightedWords={['cultura']}
                     labelColor={theme.black3}
                     SvgIcon={SoundTools}
-                    onPress={() => {}}
+                    leftSideColor={theme.blue2}
+                    onPress={() => { }}
                 />
             </FormContainer>
         </Container>
     )
 }
 
-export { SelectPostType}
+export { SelectPostType }

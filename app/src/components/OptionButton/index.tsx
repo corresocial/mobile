@@ -4,12 +4,14 @@ import { ButtonLabel, TouchableContainer, ContainerSurface, ContainerBottom, Ico
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions';
 import { SvgProps } from 'react-native-svg';
 import { screenHeight } from '../../common/screenDimensions';
+import { theme } from '../../common/theme';
 
 interface OptionButtonProps {
     color: string
     label: string
     labelColor?: string
     SvgIcon?: React.FC<SvgProps>
+    leftSideColor?: string
     highlightedWords?: string[]
     description?: string
     onPress: () => void
@@ -21,6 +23,7 @@ function OptionButton({
     label,
     highlightedWords,
     SvgIcon,
+    leftSideColor = theme.orange2,
     description,
     onPress
 }: OptionButtonProps) {
@@ -64,7 +67,11 @@ function OptionButton({
                         height: description ? screenHeight * 0.16 : heightWithoutDescription
                     } as { [key: string]: React.CSSProperties }}
                 >
-                    <IconArea>
+                    <IconArea
+                        style={{
+                            backgroundColor: leftSideColor
+                        }}
+                    >
                         {SvgIcon && <SvgIcon height={'60%'} width={'60%'} />}
                     </IconArea>
                     <LabelDescriptionArea>
