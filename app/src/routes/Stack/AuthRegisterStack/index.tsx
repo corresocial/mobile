@@ -5,20 +5,20 @@ import 'react-native-gesture-handler'
 import { AuthRegisterStackParamList } from './types';
 
 import { Splash } from '../../../screens/Splash';
-import { AcceptAndContinue } from './../../../screens/AcceptAndContinue'
-import { InsertPhone } from '../../../screens/InsertPhone';
-import { InsertConfirmationCode } from '../../../screens/InsertConfirmationCode';
-import { InsertName } from '../../../screens/InsertName';
-import { InsertProfilePicture } from '../../../screens/InsertProfilePicture';
-import { CustomCamera } from '../../../screens/CustomCamera';
-import { ProfilePicturePreview } from '../../../screens/ProfilePicturePreview';
+import { AcceptAndContinue } from '../../../screens/authRegisterScreens/AcceptAndContinue'
+import { InsertPhone } from '../../../screens/authRegisterScreens/InsertPhone';
+import { InsertConfirmationCode } from '../../../screens/authRegisterScreens/InsertConfirmationCode';
+import { InsertName } from '../../../screens/authRegisterScreens/InsertName';
+import { InsertProfilePicture } from '../../../screens/authRegisterScreens/InsertProfilePicture';
+import { CustomCamera } from '../../../screens/authRegisterScreens/CustomCamera';
+import { ProfilePicturePreview } from '../../../screens/authRegisterScreens/ProfilePicturePreview';
 import { UserStack } from '../UserStack';
 
 const Stack = createStackNavigator<AuthRegisterStackParamList>()
 
 export function AuthRegisterStack() {
     return (
-        <Stack.Navigator initialRouteName='UserStack'
+        <Stack.Navigator initialRouteName='Splash'
             screenOptions={{
                 headerShown: false,
                 gestureEnabled: false,
@@ -36,7 +36,6 @@ export function AuthRegisterStack() {
             <Stack.Screen name={'InsertProfilePicture'} component={InsertProfilePicture} />
             <Stack.Screen name={'CustomCamera'} component={CustomCamera} />
             <Stack.Screen name={'ProfilePicturePreview'} component={ProfilePicturePreview} />
-            {/* <Stack.Screen name={'WelcomeNewUser'} component={WelcomeNewUser} /> */}
 
             <Stack.Screen name={'UserStack'} component={UserStack} />
         </Stack.Navigator>

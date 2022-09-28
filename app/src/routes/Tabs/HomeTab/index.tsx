@@ -14,8 +14,8 @@ import ProfileTabIconInactive from './../../../assets/icons/profileTabIconInacti
 
 import { HomeTabParamList } from './types';
 
-import { Home } from '../../../screens/Home';
-import { Profile } from '../../../screens/Profile';
+import { Home } from '../../../screens/homeScreens/Home';
+import { Profile } from '../../../screens/homeScreens/Profile';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs' //
 import { screenHeight } from '../../../common/screenDimensions';

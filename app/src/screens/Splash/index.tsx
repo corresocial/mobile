@@ -7,14 +7,14 @@ import {
     BottomLine,
     LogoContainer
 } from './styles'
-
-import BuildingsSVG from './../../assets/svgs/buildings.svg'
-import LogoSVG from './../../assets/svgs/logo.svg'
 import { screenHeight, screenWidth } from '../../common/screenDimensions';
-import { SplashScreenProps } from '../../routes/Stack/stackScreenProps';
+import BuildingsSVG from './../../assets/icons/buildings.svg'
+import LogoSVG from './../../assets/icons/logo.svg'
+
+import { SplashScreenProps } from '../../routes/Stack/_stackScreenProps';
 import { AuthContext } from '../../contexts/AuthContext';
 
-function Splash({ navigation, route }: SplashScreenProps) {
+function Splash({ navigation }: SplashScreenProps) {
     const { getDataFromSecureStore } = useContext(AuthContext)
 
     const [imagesSvgOpacity] = useState(new Animated.Value(0))
