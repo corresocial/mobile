@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement, useState } from 'react'
 
 import { Container } from './styles'
 
@@ -12,8 +12,42 @@ import { theme } from '../../common/theme'
 import { screenHeight, statusBarHeight } from '../../common/screenDimensions'
 import { ProgressBar } from '../../components/ProgressBar'
 import { OptionButton } from '../../components/OptionButton'
+import { SelectButton } from '../../components/SelectButton'
+import { SelectButtonsContainer } from '../../components/SelectButtonsContainer'
+
+const categories = ['casa', 'saúde', 'lazer', 'transporte', 'esporte', 'arte', 'comida e bebida', 'educação', 'outros']
 
 function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps) {
+
+    const renderSelectOptionsButtons = () => {
+        return categories.map((category, index) => {
+            if (category == 'outros') {
+                return (
+                    <SelectButton
+                        key={99}
+                        width={'96%'}
+                        height={'18%'}
+                        label={'outros'}
+                        onSelectCategory={() => onSelectCategory(index)}
+                    />
+                )
+            }
+
+            return (
+                <SelectButton
+                    key={index}
+                    width={'46%'}
+                    height={'18%'}
+                    label={category}
+                    onSelectCategory={() => onSelectCategory(index)}
+                />
+            )
+        })
+    }
+
+    const onSelectCategory = (categoryIndex: number) => {
+        navigation.navigate('SelectServiceTags')
+    }
 
     return (
         <Container>
@@ -36,11 +70,11 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
-            <FormContainer
+            <SelectButtonsContainer
                 backgroundColor={theme.purple2}
             >
-               
-            </FormContainer>
+                {renderSelectOptionsButtons()}
+            </SelectButtonsContainer>
         </Container>
     )
 }

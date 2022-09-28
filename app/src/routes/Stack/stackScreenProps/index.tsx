@@ -22,6 +22,7 @@ export type InsertServiceNameScreenProps = NativeStackScreenProps<TourStackParam
 export type InsertServicePictureScreenProps = NativeStackScreenProps<TourStackParamList, 'InsertServicePicture'>
 export type ServicePicturePreviewScreenProps = NativeStackScreenProps<TourStackParamList, 'ServicePicturePreview'>
 export type SelectServiceCategoryScreenProps = NativeStackScreenProps<TourStackParamList, 'SelectServiceCategory'>
+export type SelectServiceTagsScreenProps = NativeStackScreenProps<TourStackParamList, 'SelectServiceTags'>
 
 
  

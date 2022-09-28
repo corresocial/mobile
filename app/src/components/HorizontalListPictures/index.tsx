@@ -27,6 +27,7 @@ function HorizontalListPictures({ picturesUri, pictureUriSelected, onSelectPictu
         return picturesUri.map((pictureUri, index) => {
             return (
                 <PictureItemButtom
+                    key={index}
                     onPress={() => onSelectPicture(index)}
                 >
                     <PicturePortrait

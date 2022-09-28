@@ -5,4 +5,5 @@ export type TourStackParamList = {
     InsertServicePicture: undefined
     ServicePicturePreview: undefined
     SelectServiceCategory: undefined
+    SelectServiceTags: undefined
 }

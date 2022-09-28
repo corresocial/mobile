@@ -9,6 +9,7 @@ import { InsertServiceName } from '../../../screens/InsertServiceName';
 import { SelectServiceCategory } from '../../../screens/SelectServiceCategory';
 import { InsertServicePicture } from '../../../screens/InsertServicePicture';
 import { ServicePicturePreview } from '../../../screens/ServicePicturePreview';
+import { SelectServiceTags } from '../../../screens/SelectServiceTags';
 
 
 const Stack = createStackNavigator<TourStackParamList>()
@@ -16,7 +17,7 @@ const Stack = createStackNavigator<TourStackParamList>()
 export function TourStack() {
 
     return (
-        <Stack.Navigator initialRouteName='SelectPostType'
+        <Stack.Navigator initialRouteName='SelectServiceCategory'
             screenOptions={{
                 headerShown: false,
                 gestureEnabled: false,
@@ -29,6 +30,7 @@ export function TourStack() {
             <Stack.Screen name={'InsertServicePicture'} component={InsertServicePicture} />
             <Stack.Screen name={'ServicePicturePreview'} component={ServicePicturePreview} />
             <Stack.Screen name={'SelectServiceCategory'} component={SelectServiceCategory} />
+            <Stack.Screen name={'SelectServiceTags'} component={SelectServiceTags} />
         </Stack.Navigator>
     )
 }

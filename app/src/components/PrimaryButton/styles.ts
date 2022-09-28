@@ -24,7 +24,7 @@ export const ContainerBottom = styled(Animatable.View)`
 `
 
 export const ContainerSurface = styled.View`
-flex-direction: row;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     width: 100%;
