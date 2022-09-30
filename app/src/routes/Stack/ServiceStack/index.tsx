@@ -4,13 +4,16 @@ import { createStackNavigator, TransitionPresets } from "@react-navigation/stack
 
 import { ServiceStackParamList } from './types';
 import { SelectPostType } from '../../../screens/homeScreens/SelectPostType';
-import { InsertProfileDescription } from '../../../screens/saleScreens/InsertProfileDescription';
-import { InsertServiceName } from '../../../screens/saleScreens/InsertServiceName';
-import { SelectServiceCategory } from '../../../screens/saleScreens/SelectServiceCategory';
-import { InsertServicePicture } from '../../../screens/saleScreens/InsertServicePicture';
-import { ServicePicturePreview } from '../../../screens/saleScreens/ServicePicturePreview';
-import { SelectServiceTags } from '../../../screens/saleScreens/SelectServiceTags';
-import { SelectSaleOrExchange } from '../../../screens/saleScreens/SelectSaleOrExchange';
+import { InsertProfileDescription } from '../../../screens/serviceScreens/InsertProfileDescription';
+import { InsertServiceName } from '../../../screens/serviceScreens/InsertServiceName';
+import { SelectServiceCategory } from '../../../screens/serviceScreens/SelectServiceCategory';
+import { InsertServicePicture } from '../../../screens/serviceScreens/InsertServicePicture';
+import { ServicePicturePreview } from '../../../screens/serviceScreens/ServicePicturePreview';
+import { SelectServiceTags } from '../../../screens/serviceScreens/SelectServiceTags';
+import { SelectSaleOrExchange } from '../../../screens/serviceScreens/SelectSaleOrExchange';
+import { InsertExchangeValue } from '../../../screens/serviceScreens/InsertExchangeValue';
+import { InsertServicePrestationLocation } from '../../../screens/serviceScreens/InsertServicePrestationLocation';
+import { InsertSaleValue } from '../../../screens/serviceScreens/InsertSaleValue';
 
 
 const Stack = createStackNavigator<ServiceStackParamList>()
@@ -33,6 +36,9 @@ export function ServiceStack() {
             <Stack.Screen name={'SelectServiceCategory'} component={SelectServiceCategory} />
             <Stack.Screen name={'SelectServiceTags'} component={SelectServiceTags} />
             <Stack.Screen name={'SelectSaleOrExchange'} component={SelectSaleOrExchange} />
+            <Stack.Screen name={'InsertExchangeValue'} component={InsertExchangeValue} />
+            <Stack.Screen name={'InsertSaleValue'} component={InsertSaleValue} />
+            <Stack.Screen name={'InsertServicePrestationLocation'} component={InsertServicePrestationLocation} />
         </Stack.Navigator>
     )
 }

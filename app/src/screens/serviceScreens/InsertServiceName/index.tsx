@@ -19,7 +19,7 @@ import { ProgressBar } from '../../../components/ProgressBar';
 function InsertServiceName({ navigation, route }: InsertServiceNameScreenProps) {
 
     const [serviceName, setServiceName] = useState<string>('')
-    const [invalidServiceNameAfterSubmit, setInvaliServiceNameAfterSubmit] = useState<boolean>(false)
+    const [invalidServiceNameAfterSubmit, setInvalidServiceNameAfterSubmit] = useState<boolean>(false)
 
     const inputRefs = {
         descriptionInput: useRef<React.MutableRefObject<any>>(null),
@@ -28,7 +28,7 @@ function InsertServiceName({ navigation, route }: InsertServiceNameScreenProps) 
     const validateServiceName = (text: string) => {
         const isValid = (text).trim().length >= 10
         if (isValid) {
-            setInvaliServiceNameAfterSubmit(false)
+            setInvalidServiceNameAfterSubmit(false)
             return true
         }
         return false
@@ -40,7 +40,7 @@ function InsertServiceName({ navigation, route }: InsertServiceNameScreenProps) 
             // Save on store
             navigation.navigate('InsertServicePicture')
         } else {
-            !serviceNameIsValid && setInvaliServiceNameAfterSubmit(true)
+            !serviceNameIsValid && setInvalidServiceNameAfterSubmit(true)
         }
     }
 

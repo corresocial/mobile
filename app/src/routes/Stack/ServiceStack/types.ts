@@ -1,4 +1,4 @@
-import { ServiceCategories } from "../../../screens/saleScreens/types"
+import { PaymentType, ServiceCategories } from "../../../screens/serviceScreens/types"
 
 export type ServiceStackParamList = {
     SelectPostType: undefined
@@ -9,4 +9,7 @@ export type ServiceStackParamList = {
     SelectServiceCategory: undefined
     SelectServiceTags: {categorySelected: ServiceCategories}
     SelectSaleOrExchange: undefined
+    InsertExchangeValue: undefined
+    InsertSaleValue: {anyPaymentType?: boolean}
+    InsertServicePrestationLocation: undefined
 }

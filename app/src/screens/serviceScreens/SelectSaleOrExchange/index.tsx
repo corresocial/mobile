@@ -14,8 +14,27 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
+import { PaymentType } from '../types'
 
 function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
+
+    const savePaymentType = (paymentType: PaymentType) => {
+        //save
+        switch (paymentType) {
+            case 'sale': {
+                navigation.navigate('InsertSaleValue', {})
+                break
+            }
+            case 'exchange': {
+                navigation.navigate('InsertExchangeValue')
+                break
+            }
+            case 'any': {
+                navigation.navigate('InsertSaleValue', {anyPaymentType: true})
+                break
+            }
+        }
+    }
 
     return (
         <Container>
@@ -30,7 +49,7 @@ function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
                     borderLeftWidth={3}
                     fontSize={18}
                     message={'você vende, aceita troca ou os dois ?'}
-                    highlightedWords={['vende,', 'aceita', 'troca', 'os','dois']}
+                    highlightedWords={['vende,', 'aceita', 'troca', 'os', 'dois']}
                 >
                     <ProgressBar
                         range={4}
@@ -53,11 +72,11 @@ function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
                         highlightedWords={['venda']}
                         SvgIcon={SalesCartO}
                         svgIconScale={['35%', '18%']}
-                        onPress={() => {}}
+                        onPress={() => savePaymentType('sale')}
                     />
                     <PrimaryButton
                         flexDirection={'row-reverse'}
-                         justifyContent={'space-around'}
+                        justifyContent={'space-around'}
                         color={theme.white3}
                         relativeHeight={'21%'}
                         labelColor={theme.black4}
@@ -66,7 +85,7 @@ function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
                         highlightedWords={['troca']}
                         SvgIcon={Exchange}
                         svgIconScale={['35%', '18%']}
-                        onPress={() => {}}
+                        onPress={() => savePaymentType('exchange')}
                     />
                     <PrimaryButton
                         justifyContent={'space-around'}
@@ -79,7 +98,7 @@ function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
                         SvgIcon={Exchange}
                         SecondSvgIcon={SalesCartO}
                         svgIconScale={['35%', '18%']}
-                        onPress={() => {}}
+                        onPress={() => savePaymentType('any')}
                     />
                 </ButtonsContainer>
             </FormContainer>

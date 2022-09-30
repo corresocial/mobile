@@ -32,7 +32,6 @@ function Profile({ navigation }: HomeTabScreenProps) {
 		initializeUserTour()
 	}, [])
 
-
 	const initializeUserTour = async () => {
 		const userTourPerformed = await checkUserTourPerformed()
 		if (!userTourPerformed) {

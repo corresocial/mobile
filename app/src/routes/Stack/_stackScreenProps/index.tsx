@@ -24,6 +24,9 @@ export type ServicePicturePreviewScreenProps = NativeStackScreenProps<ServiceSta
 export type SelectServiceCategoryScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectServiceCategory'>
 export type SelectServiceTagsScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectServiceTags'>
 export type SelectSaleOrExchangeScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectSaleOrExchange'>
+export type InsertExchangeValueScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertExchangeValue'>
+export type InsertSaleValueScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertSaleValue'>
+export type InsertServicePrestationLocationScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertServicePrestationLocation'>
 
 
  
