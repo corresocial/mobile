@@ -2,7 +2,6 @@ import styled from 'styled-components/native'
 import { screenWidth } from '../../../common/screenDimensions'
 
 export const ContainerBottom  = styled.View`
-    margin: ${screenWidth * 0.015}px;
     background-color: ${({theme}) => theme.black4};
     border-radius: 15px;
     position: relative;
@@ -23,6 +22,6 @@ export const ContainerSurface  = styled.View`
 export const Label = styled.Text`
     font-size: 16px;
     font-family: Arvo_700Bold;
-    padding: 10px;
+    padding: 20px;
     text-align:center;
 `

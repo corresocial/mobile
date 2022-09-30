@@ -119,7 +119,7 @@ function LineInput({
     return (
         <Container
             style={{
-                height: screenWidth * 0.17,
+                height: multiline ? screenWidth * 0.2 : screenWidth * 0.17,
                 width: relativeWidth,
                 ...inputContainerStyle
             }}
@@ -130,7 +130,7 @@ function LineInput({
             <TextInput
                 style={[getTextInputStyle(), {
                     fontSize: fontSize || 20,
-                    textAlign: textAlign as any || 'center' //TODO Type
+                    textAlign: textAlign as any || 'center', //TODO Type
                 }]}
                 ref={textInputRef}
                 value={value}

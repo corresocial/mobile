@@ -1,3 +1,5 @@
+import { ServiceCategories } from "../../../screens/saleScreens/types"
+
 export type ServiceStackParamList = {
     SelectPostType: undefined
     InsertProfileDescription: undefined
@@ -5,5 +7,6 @@ export type ServiceStackParamList = {
     InsertServicePicture: undefined
     ServicePicturePreview: undefined
     SelectServiceCategory: undefined
-    SelectServiceTags: undefined
+    SelectServiceTags: {categorySelected: ServiceCategories}
+    SelectSaleOrExchange: undefined
 }

@@ -8,19 +8,23 @@ import { ContainerBottom, ContainerSurface, Label } from './styles'
 interface SelectButtonProps {
     width?: string | number
     height?: string | number
+    margin?: number
     backgroundColor?: string
+    backgroundSelected?: string
     label?: string
     selected?: boolean
-    onSelectCategory?: () => void
+    onSelect?: () => void
 }
 
 function SelectButton({
     width = screenWidth * 0.39,
     height = screenHeight * 0.09,
+    margin = screenWidth * 0.015,
     backgroundColor = theme.white3,
+    backgroundSelected,
     label,
     selected = false,
-    onSelectCategory
+    onSelect
 }: SelectButtonProps) {
 
     const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
@@ -35,9 +39,8 @@ function SelectButton({
 
     function releaseButton() {
         setButtomPressed(false)
-        onSelectCategory && onSelectCategory()
+        onSelect && onSelect()
     }
-
 
     return (
         <TouchableWithoutFeedback
@@ -49,12 +52,13 @@ function SelectButton({
                 style={{
                     width: width,
                     height: height,
+                    margin: margin
                 }}
             >
                 <ContainerSurface
                 style={{
-                    backgroundColor: backgroundColor,
-                    marginRight: buttonPressed ? -4 : 0
+                    backgroundColor: selected ? backgroundSelected : backgroundColor,
+                    marginRight: buttonPressed || selected? -4 : 0
                 }}
                 >
                     <Label>

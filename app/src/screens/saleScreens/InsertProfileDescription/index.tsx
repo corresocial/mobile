@@ -118,7 +118,6 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
                     keyboardType={'default'}
                     validateText={(text: string) => validateProfileDescription(text)}
                     onChangeText={(text: string) => setProfileDescription(text)}
-
                 />
                 <ButtonsContainer>
                     <PrimaryButton

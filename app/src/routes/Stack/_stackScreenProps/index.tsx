@@ -23,6 +23,7 @@ export type InsertServicePictureScreenProps = NativeStackScreenProps<ServiceStac
 export type ServicePicturePreviewScreenProps = NativeStackScreenProps<ServiceStackParamList, 'ServicePicturePreview'>
 export type SelectServiceCategoryScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectServiceCategory'>
 export type SelectServiceTagsScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectServiceTags'>
+export type SelectSaleOrExchangeScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectSaleOrExchange'>
 
 
  

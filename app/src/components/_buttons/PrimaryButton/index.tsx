@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {  Keyboard } from 'react-native';
+import { Keyboard } from 'react-native';
 import { FontAwesome5 as Icon } from '@expo/vector-icons';
 import { SvgProps } from 'react-native-svg';
 
@@ -18,17 +18,18 @@ interface PrimaryButtonProps {
     iconColor?: string
     iconSize?: number
     SvgIcon?: React.FC<SvgProps>
+    SecondSvgIcon?: React.FC<SvgProps>
     svgIconScale?: [height: string, width: string]
     fontSize?: number
     keyboardHideButton?: boolean
     startsHidden?: boolean
     highlightedWords?: string[]
-    justifyContent?:string
-    flexDirection?:string
+    justifyContent?: string
+    flexDirection?: string
     onPress: () => void
 }
 
-function  PrimaryButton({
+function PrimaryButton({
     relativeWidth,
     relativeHeight,
     color,
@@ -40,6 +41,7 @@ function  PrimaryButton({
     iconSize,
     iconColor,
     SvgIcon,
+    SecondSvgIcon,
     svgIconScale,
     keyboardHideButton = true,
     startsHidden = false,
@@ -60,7 +62,7 @@ function  PrimaryButton({
         Keyboard.addListener('keyboardDidShow', () => hideButton())
         Keyboard.addListener('keyboardDidHide', () => showButton())
 
-    },[])
+    }, [])
 
     const hideButton = async () => {
         if (!buttonRef.current) return
@@ -109,6 +111,9 @@ function  PrimaryButton({
                         justifyContent: justifyContent || 'center',
                         marginRight: buttonPressed ? -3 : 0,
                     } as { [key: string]: React.CSSProperties }}>
+                    {
+                        !!SecondSvgIcon && <SecondSvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />
+                    }
                     {!!label
                         && <ButtonLabel style={{
                             color: labelColor,

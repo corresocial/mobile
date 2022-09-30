@@ -5,6 +5,7 @@ import { theme } from '../../../common/theme'
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 
 import { SelectServiceCategoryScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { serviceCategories } from '../serviceCategories'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -12,21 +13,20 @@ import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
-
-const categories = ['casa', 'saúde', 'lazer', 'transporte', 'esporte', 'arte', 'comida e bebida', 'educação', 'outros']
+import { ServiceCategories } from '../types'
 
 function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps) {
 
     const renderSelectOptionsButtons = () => {
-        return categories.map((category, index) => {
-            if (category == 'outros') {
+        return Object.entries(serviceCategories).map((category, index) => {
+            if (category[0] == 'others') {
                 return (
                     <SelectButton
-                        key={99}
+                        key={index}
                         width={'96%'}
-                        height={'18%'}
+                        height={'17%'}
                         label={'outros'}
-                        onSelectCategory={() => onSelectCategory(index)}
+                        onSelect={() => onSelectCategory(index)}
                     />
                 )
             }
@@ -35,16 +35,17 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
                 <SelectButton
                     key={index}
                     width={'46%'}
-                    height={'18%'}
-                    label={category}
-                    onSelectCategory={() => onSelectCategory(index)}
+                    height={'17%'}
+                    label={category[1].label}
+                    onSelect={() => onSelectCategory(index)}
                 />
             )
         })
     }
 
     const onSelectCategory = (categoryIndex: number) => {
-        navigation.navigate('SelectServiceTags')
+        const categoryName = Object.keys(serviceCategories)[categoryIndex] as ServiceCategories
+        navigation.navigate('SelectServiceTags', {categorySelected: categoryName})
     }
 
     return (

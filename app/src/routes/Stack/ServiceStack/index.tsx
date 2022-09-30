@@ -10,6 +10,7 @@ import { SelectServiceCategory } from '../../../screens/saleScreens/SelectServic
 import { InsertServicePicture } from '../../../screens/saleScreens/InsertServicePicture';
 import { ServicePicturePreview } from '../../../screens/saleScreens/ServicePicturePreview';
 import { SelectServiceTags } from '../../../screens/saleScreens/SelectServiceTags';
+import { SelectSaleOrExchange } from '../../../screens/saleScreens/SelectSaleOrExchange';
 
 
 const Stack = createStackNavigator<ServiceStackParamList>()
@@ -31,6 +32,7 @@ export function ServiceStack() {
             <Stack.Screen name={'ServicePicturePreview'} component={ServicePicturePreview} />
             <Stack.Screen name={'SelectServiceCategory'} component={SelectServiceCategory} />
             <Stack.Screen name={'SelectServiceTags'} component={SelectServiceTags} />
+            <Stack.Screen name={'SelectSaleOrExchange'} component={SelectSaleOrExchange} />
         </Stack.Navigator>
     )
 }

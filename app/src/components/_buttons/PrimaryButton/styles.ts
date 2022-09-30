@@ -17,7 +17,7 @@ export const ContainerBottom = styled(Animatable.View)`
     width: 100%;
     min-height: 65px;
     height: ${screenHeight * 0.073}px;
-    border-radius: 10px;
+    border-radius: 15px;
     
     position: relative;
     background-color: ${({ theme }) => theme.black4};
@@ -30,7 +30,7 @@ export const ContainerSurface = styled.View`
     width: 100%;
     min-height: 55px;
     height: 100%;
-    border-radius: 10px;
+    border-radius: 15px;
     border: 2px solid black;
     padding-horizontal: 20px;
     
@@ -43,4 +43,5 @@ export const ButtonLabel = styled.Text`
     font-size: 18px;
     font-family: Arvo_400Regular;
     margin-right: 15px;
+    text-align: center;
 `
