@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { KeyboardTypeOptions, NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-native';
+import { KeyboardTypeOptions, NativeSyntheticEvent, ReturnKeyTypeOptions, TextInputKeyPressEventData, View } from 'react-native';
+import { SvgProps } from 'react-native-svg';
 import { screenWidth } from '../../common/screenDimensions';
 
 import { Container, TextInput } from './styles';
@@ -23,9 +24,11 @@ interface LineInputProps {
     textAlign?: string
     multiline?: boolean
     placeholder?: string
-    keyboardType?: KeyboardTypeOptions
     error?: boolean
     lastInput?: boolean
+    keyboardType?: KeyboardTypeOptions
+    returnKeyType?: ReturnKeyTypeOptions 
+    onPressKeyboardSubmit?: () => void
     filterText?: (text: string) => string
     validateText: (text: string) => boolean
     onChangeText: (text: string) => void
@@ -51,6 +54,8 @@ function LineInput({
     multiline,
     placeholder,
     keyboardType,
+    returnKeyType,
+    onPressKeyboardSubmit,
     error,
     lastInput,
     filterText,
@@ -127,6 +132,7 @@ function LineInput({
             underlayColor={validated ? validBackgroundColor : defaultBackgroundColor}
             onPress={() => textInputRef.current.focus()}
         >
+
             <TextInput
                 style={[getTextInputStyle(), {
                     fontSize: fontSize || 20,
@@ -139,8 +145,9 @@ function LineInput({
                 secureTextEntry={secureTextEntry}
                 keyboardType={keyboardType || 'ascii-capable'}
                 placeholder={placeholder}
+                returnKeyType={returnKeyType ? returnKeyType : lastInput ? 'done' : 'next'}
+                onSubmitEditing={onPressKeyboardSubmit}
                 onChangeText={(text) => ValidateAndChange(text)}
-                returnKeyType={lastInput ? 'done' : 'next'}
                 onFocus={(() => setFocused(true))}
                 onBlur={() => setFocused(false)}
                 onKeyPress={(key: NativeSyntheticEvent<TextInputKeyPressEventData>) => performKeyPress(key)}

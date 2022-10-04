@@ -64,6 +64,7 @@ function Profile({ navigation }: HomeTabScreenProps) {
 
 	const navigateToTour = async () => {
 		await setUserTourPerformed()
+		setTourModalVisibility(false)
 		navigation.navigate('ServiceStack')
 	}
 

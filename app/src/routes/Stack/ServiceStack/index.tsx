@@ -21,7 +21,7 @@ const Stack = createStackNavigator<ServiceStackParamList>()
 export function ServiceStack() {
 
     return (
-        <Stack.Navigator initialRouteName='SelectPostType'
+        <Stack.Navigator initialRouteName='InsertServicePrestationLocation'
             screenOptions={{
                 headerShown: false,
                 gestureEnabled: false,

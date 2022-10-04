@@ -11,6 +11,7 @@ import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions';
 interface PrimaryButtonProps {
     relativeWidth?: string
     relativeHeight?: string
+    minHeight?: number
     color: string
     label?: string
     labelColor?: string
@@ -32,6 +33,7 @@ interface PrimaryButtonProps {
 function PrimaryButton({
     relativeWidth,
     relativeHeight,
+    minHeight = 65,
     color,
     labelColor,
     label,
@@ -101,6 +103,7 @@ function PrimaryButton({
                     opacity: buttonVisibility ? 1 : 0, // TODO Bug point
                     width: relativeWidth || '100%',
                     height: relativeHeight || screenHeight * 0.073,
+                    minHeight: minHeight,
                     justifyContent: justifyContent
                 } as { [key: string]: React.CSSProperties }}
             >
@@ -109,6 +112,7 @@ function PrimaryButton({
                         backgroundColor: color,
                         flexDirection: flexDirection || 'row',
                         justifyContent: justifyContent || 'center',
+                        minHeight: minHeight,
                         marginRight: buttonPressed ? -3 : 0,
                     } as { [key: string]: React.CSSProperties }}>
                     {

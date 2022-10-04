@@ -12,6 +12,7 @@ interface DefaultHeaderContainerProps {
     flexDirection?: string
     justifyContent?: string
     minHeight?:number
+    borderBottomWidth?: number
     withoutPadding?: boolean
 }
 
@@ -23,6 +24,7 @@ function DefaultHeaderContainer({
     justifyContent,
     backgroundColor,
     minHeight,
+    borderBottomWidth = 5,
     withoutPadding }: DefaultHeaderContainerProps) {
     return (
         <Container
@@ -33,6 +35,7 @@ function DefaultHeaderContainer({
                 justifyContent: justifyContent ? justifyContent : (centralized ? 'center' : 'flex-start'),
                 flexDirection: flexDirection,
                 backgroundColor: backgroundColor,
+                borderBottomWidth: borderBottomWidth,
                 padding: withoutPadding ? 0 : screenWidth * 0.08,
             } as { [key: string]: React.CSSProperties }}
         >
