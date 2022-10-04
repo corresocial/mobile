@@ -142,6 +142,11 @@ function InsertServicePrestationLocation({ navigation, route }: InsertServicePre
         return `${street ? street + ',' : ''} ${streetNumber ? streetNumber + ',' : name ? name + ',' : ''} ${district ? district + ' -' : ''} ${city ? city + ' -' : (subregion ? subregion + ' -' : '')} ${region ? region + ',' : ' -'} ${postalCode}`
     }
 
+    const saveLocation = () => {
+        //save
+        navigation.navigate('SelectLocationView')
+    }
+
     const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
     const animateDefaultHeaderBackgound = () => {
         const existsError = someInvalidFieldSubimitted()
@@ -261,7 +266,7 @@ function InsertServicePrestationLocation({ navigation, route }: InsertServicePre
                         SvgIcon={Check}
                         svgIconScale={['30%', '15%']}
                         startsHidden={false}
-                        onPress={() => { }}
+                        onPress={saveLocation}
                     />
                 </ButtonContainerBottom>
             }

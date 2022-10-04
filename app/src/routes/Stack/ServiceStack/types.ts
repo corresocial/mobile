@@ -12,4 +12,5 @@ export type ServiceStackParamList = {
     InsertExchangeValue: undefined
     InsertSaleValue: {anyPaymentType?: boolean}
     InsertServicePrestationLocation: undefined
+    SelectLocationView: undefined
 }

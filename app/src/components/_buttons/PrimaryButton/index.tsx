@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Keyboard } from 'react-native';
+import { Keyboard, TextStyle } from 'react-native';
 import { FontAwesome5 as Icon } from '@expo/vector-icons';
 import { SvgProps } from 'react-native-svg';
 
@@ -22,6 +22,7 @@ interface PrimaryButtonProps {
     SecondSvgIcon?: React.FC<SvgProps>
     svgIconScale?: [height: string, width: string]
     fontSize?: number
+    textAlign?: TextStyle['textAlign']
     keyboardHideButton?: boolean
     startsHidden?: boolean
     highlightedWords?: string[]
@@ -40,6 +41,7 @@ function PrimaryButton({
     highlightedWords,
     iconName,
     fontSize,
+    textAlign = 'center',
     iconSize,
     iconColor,
     SvgIcon,
@@ -121,14 +123,17 @@ function PrimaryButton({
                     {!!label
                         && <ButtonLabel style={{
                             color: labelColor,
-                            fontSize: fontSize ? fontSize : 18
+                            fontSize: fontSize ? fontSize : 18,
+                            textAlign: textAlign 
                         }}>
                             {showMessageWithHighlight(label, highlightedWords)}
                         </ButtonLabel>
                     }
-                    {!!SvgIcon
-                        ? <SvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />
-                        : <Icon
+                    {!!SvgIcon &&
+                        <SvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />
+                    }
+                    {!!iconName &&
+                        <Icon
                             name={iconName || 'question'}
                             size={iconSize || 22}
                             color={iconColor || labelColor}

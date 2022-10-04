@@ -26,7 +26,7 @@ function Profile({ navigation }: HomeTabScreenProps) {
 
 	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
 
-	const [tourModalVisibility, setTourModalVisibility] = useState(true)
+	const [tourModalVisibility, setTourModalVisibility] = useState(true)// TODO Development  only
 
 	useEffect(() => {
 		initializeUserTour()
