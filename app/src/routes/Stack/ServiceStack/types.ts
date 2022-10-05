@@ -1,4 +1,4 @@
-import { PaymentType, ServiceCategories } from "../../../screens/serviceScreens/types"
+import { LocationViewType, PaymentType, ServiceCategories } from "../../../screens/serviceScreens/types"
 
 export type ServiceStackParamList = {
     SelectPostType: undefined
@@ -13,4 +13,5 @@ export type ServiceStackParamList = {
     InsertSaleValue: {anyPaymentType?: boolean}
     InsertServicePrestationLocation: undefined
     SelectLocationView: undefined
+    LocationViewPreview: {locationView: LocationViewType}
 }

@@ -28,6 +28,7 @@ export type InsertExchangeValueScreenProps = NativeStackScreenProps<ServiceStack
 export type InsertSaleValueScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertSaleValue'>
 export type InsertServicePrestationLocationScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertServicePrestationLocation'>
 export type SelectLocationViewScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectLocationView'>
+export type LocationViewPreviewScreenProps = NativeStackScreenProps<ServiceStackParamList, 'LocationViewPreview'>
 
 
  

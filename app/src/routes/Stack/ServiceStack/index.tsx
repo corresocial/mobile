@@ -15,6 +15,7 @@ import { InsertExchangeValue } from '../../../screens/serviceScreens/InsertExcha
 import { InsertServicePrestationLocation } from '../../../screens/serviceScreens/InsertServicePrestationLocation';
 import { InsertSaleValue } from '../../../screens/serviceScreens/InsertSaleValue';
 import { SelectLocationView } from '../../../screens/serviceScreens/SelectLocationView';
+import { LocationViewPreview } from '../../../screens/serviceScreens/LocationViewPreview';
 
 
 const Stack = createStackNavigator<ServiceStackParamList>()
@@ -22,7 +23,7 @@ const Stack = createStackNavigator<ServiceStackParamList>()
 export function ServiceStack() {
 
     return (
-        <Stack.Navigator initialRouteName='InsertServicePrestationLocation'
+        <Stack.Navigator initialRouteName='SelectPostType'
             screenOptions={{
                 headerShown: false,
                 gestureEnabled: false,
@@ -41,6 +42,7 @@ export function ServiceStack() {
             <Stack.Screen name={'InsertSaleValue'} component={InsertSaleValue} />
             <Stack.Screen name={'InsertServicePrestationLocation'} component={InsertServicePrestationLocation} />
             <Stack.Screen name={'SelectLocationView'} component={SelectLocationView} />
+            <Stack.Screen name={'LocationViewPreview'} component={LocationViewPreview} />
         </Stack.Navigator>
     )
 }

@@ -19,20 +19,7 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
 
     const saveTypeLocationView = (typeLocationView: LocationViewType) => {
         //save
-        switch (typeLocationView) {
-            case 'private': {
-                // navigation.navigate('InsertSaleValue', {})
-                break
-            }
-            case 'approximate': {
-                // navigation.navigate('InsertExchangeValue')
-                break
-            }
-            case 'public': {
-                // navigation.navigate('InsertSaleValue', { anyPaymentType: true })
-                break
-            }
-        }
+        navigation.navigate('LocationViewPreview', {locationView: typeLocationView})
     }
 
     return (
@@ -64,7 +51,7 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
 
                         justifyContent={'flex-start'}
                         color={theme.white3}
-                        relativeHeight={'21%'}
+                        relativeHeight={'23%'}
                         labelColor={theme.black4}
                         fontSize={24}
                         textAlign={'left'}
@@ -77,7 +64,7 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
                     <PrimaryButton
                         justifyContent={'flex-start'}
                         color={theme.white3}
-                        relativeHeight={'21%'}
+                        relativeHeight={'23%'}
                         labelColor={theme.black4}
                         fontSize={24}
                         textAlign={'left'}
@@ -91,7 +78,7 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
 
                         justifyContent={'flex-start'}
                         color={theme.white3}
-                        relativeHeight={'21%'}
+                        relativeHeight={'23%'}
                         labelColor={theme.black4}
                         fontSize={24}
                         textAlign={'left'}

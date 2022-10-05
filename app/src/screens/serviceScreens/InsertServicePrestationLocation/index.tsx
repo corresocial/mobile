@@ -24,8 +24,8 @@ import { MapEvent } from 'react-native-maps';
 const initialRegion = {
     latitude: -11.70721,
     longitude: -61.99830300000001,
-    latitudeDelta: 0.00222,
-    longitudeDelta: 0.00221,
+    latitudeDelta: 0.00322,
+    longitudeDelta: 0.00321,
 }
 
 function InsertServicePrestationLocation({ navigation, route }: InsertServicePrestationLocationScreenProps) {
@@ -250,7 +250,6 @@ function InsertServicePrestationLocation({ navigation, route }: InsertServicePre
                         labelColor={theme.white3}
                         SvgIcon={Check}
                         svgIconScale={['30%', '15%']}
-                        startsHidden={false}
                         onPress={saveLocation}
                     />
                 </ButtonContainerBottom>

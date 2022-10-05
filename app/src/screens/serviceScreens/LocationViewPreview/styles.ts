@@ -10,17 +10,11 @@ export const MapContainer = styled.View`
     position: relative;
 `
 
-export const ButtonContainer = styled.View`
-    padding-horizontal: 40px;
-    width: 100%;
-    position: absolute;
-    top: 10px;
-    z-index: 1;
-`
-
 export const ButtonContainerBottom = styled.View`
-    padding-horizontal: 30px;
+    height: 18%;
     width: 100%;
+    justify-content: space-around;
+    padding-horizontal: 30px;
     position: absolute;
     bottom: 20px;
     z-index: 1;
