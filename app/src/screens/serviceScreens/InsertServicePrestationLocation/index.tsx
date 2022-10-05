@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native';
-import MapView, { MapEvent, Marker } from 'react-native-maps'
 import * as Location from 'expo-location'
 
 import { theme } from '../../../common/theme';
@@ -19,6 +18,8 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { InstructionCard } from '../../../components/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
+import { CustomMapView } from '../../../components/CustomMapView';
+import { MapEvent } from 'react-native-maps';
 
 const initialRegion = {
     latitude: -11.70721,
@@ -31,16 +32,16 @@ function InsertServicePrestationLocation({ navigation, route }: InsertServicePre
 
     const [status, requestPermission] = Location.useForegroundPermissions()
     const [region, setRegion] = useState<Coordinates>(initialRegion)
-    const [geolocation, setGeolocation] = useState<Coordinates | null>(null)
+    const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(null)
     const [address, setAddress] = useState('')
     const [validAddress, setValidAddress] = useState(false)
     const [invalidAddressAfterSubmit, setInvalidAddressAfterSubmit] = useState<boolean>(false)
 
     useEffect(() => {
-        if (geolocation) {
-            setRegion(geolocation)
+        if (markerCoordinate) {
+            setRegion(markerCoordinate)
         }
-    }, [geolocation])
+    }, [markerCoordinate])
 
     const someInvalidFieldSubimitted = () => {
         return invalidAddressAfterSubmit
@@ -53,13 +54,13 @@ function InsertServicePrestationLocation({ navigation, route }: InsertServicePre
     }
 
     const getCurrentPositionCoordinated = async () => {
-        const geoLocation = await Location.getCurrentPositionAsync()
+        const currentPositionCoordinate = await Location.getCurrentPositionAsync()
         const geolocationCoordinates = {
-            latitude: geoLocation.coords.latitude,
-            longitude: geoLocation.coords.longitude
+            latitude: currentPositionCoordinate.coords.latitude,
+            longitude: currentPositionCoordinate.coords.longitude
         }
 
-        setGeolocation({
+        setMarkerCoordinate({
             ...region,
             ...geolocationCoordinates,
         })
@@ -76,33 +77,33 @@ function InsertServicePrestationLocation({ navigation, route }: InsertServicePre
         const locationPermission = await requestPermission()
         if (!locationPermission?.granted || address.length < 1) return
 
-        const geoLocation = await Location.geocodeAsync(address)
+        const addressGeolocation = await Location.geocodeAsync(address)
 
-        if (!geoLocation.length) {
+        if (!addressGeolocation.length) {
             setInvalidAddressAfterSubmit(true)
-            setGeolocation(null)
+            setMarkerCoordinate(null)
             return
         }
 
         const geolocationCoordinates = {
-            latitude: geoLocation[0].latitude,
-            longitude: geoLocation[0].longitude,
+            latitude: addressGeolocation[0].latitude,
+            longitude: addressGeolocation[0].longitude,
         }
 
-        setGeolocation({
+        setMarkerCoordinate({
             ...region,
             ...geolocationCoordinates,
         })
 
         convertGeocodeToAddress({
             ...region,
-            latitude: geoLocation[0].latitude,
-            longitude: geoLocation[0].longitude
+            latitude: addressGeolocation[0].latitude,
+            longitude: addressGeolocation[0].longitude
         })
     }
 
     const setRegionOnTouchMap = ({ nativeEvent }: MapEvent<{}>) => {
-        setGeolocation({
+        setMarkerCoordinate({
             ...region,
             latitude: nativeEvent.coordinate.latitude,
             longitude: nativeEvent.coordinate.longitude
@@ -232,31 +233,15 @@ function InsertServicePrestationLocation({ navigation, route }: InsertServicePre
                         onPress={getCurrentPositionCoordinated}
                     />
                 </ButtonContainer>
-                <MapView
-                    style={{ flex: 1, position: 'relative' }}
-                    cacheEnabled={false}
-                    region={region}
-                    mapType='standard'
-                    initialRegion={region}
-                    // loadingEnabled={false}
-                    // onRegionChange={(newRegion) => updateDeltaCoordinates(newRegion)}
-                    onLongPress={(event) => setRegionOnTouchMap(event)}
-                >
-                    {
-                        geolocation &&
-                        <Marker
-                            coordinate={{ latitude: geolocation.latitude, longitude: geolocation.longitude }}
-                            title={'seu local'}
-                            draggable={true}
-                        >
-
-                            <MapPointOrange width={40} height={40} />
-                        </Marker>
-                    }
-                </MapView>
+                <CustomMapView
+                    regionCoordinate={region}
+                    markerCoordinate={markerCoordinate}
+                    CustomMarker={MapPointOrange}
+                    onLongPressMap={setRegionOnTouchMap}
+                />
             </MapContainer>
             {
-                geolocation && validAddress &&
+                markerCoordinate && validAddress &&
                 <ButtonContainerBottom>
                     <PrimaryButton
                         flexDirection={'row-reverse'}

@@ -22,7 +22,7 @@ const Stack = createStackNavigator<ServiceStackParamList>()
 export function ServiceStack() {
 
     return (
-        <Stack.Navigator initialRouteName='SelectLocationView'
+        <Stack.Navigator initialRouteName='InsertServicePrestationLocation'
             screenOptions={{
                 headerShown: false,
                 gestureEnabled: false,
