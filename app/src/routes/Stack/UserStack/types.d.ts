@@ -1,5 +1,5 @@
 export type UserStackParamList = {
     WelcomeNewUser: undefined
-    HomeTab: undefined
+    HomeTab: {TourCompleted?: boolean}
     ServiceStack: undefined
 }

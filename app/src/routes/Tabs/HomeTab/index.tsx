@@ -24,6 +24,7 @@ import { theme } from '../../../common/theme'
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
 export function HomeTab() {
+
 	return (
 		<Tab.Navigator initialRouteName={'Profile'} 
 			screenOptions={{

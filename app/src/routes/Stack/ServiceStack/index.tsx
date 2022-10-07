@@ -19,6 +19,8 @@ import { LocationViewPreview } from '../../../screens/serviceScreens/LocationVie
 import { SelectDeliveryMethod } from '../../../screens/serviceScreens/SelectDeliveryMethod';
 import { SelectServiceFrequency } from '../../../screens/serviceScreens/SelectServiceFrequency';
 import { SelectDaysOfWeek } from '../../../screens/serviceScreens/SelectDaysOfWeek';
+import { InsertOpeningHour } from '../../../screens/serviceScreens/InsertOpeningHour';
+import { InsertClosingHour } from '../../../screens/serviceScreens/InsertClosingHour';
 
 
 const Stack = createStackNavigator<ServiceStackParamList>()
@@ -49,7 +51,8 @@ export function ServiceStack() {
             <Stack.Screen name={'SelectDeliveryMethod'} component={SelectDeliveryMethod} />
             <Stack.Screen name={'SelectServiceFrequency'} component={SelectServiceFrequency} />
             <Stack.Screen name={'SelectDaysOfWeek'} component={SelectDaysOfWeek} />
-            <Stack.Screen name={'InsertOpeningHour'} component={() => <></>}/>
+            <Stack.Screen name={'InsertOpeningHour'} component={InsertOpeningHour} />
+            <Stack.Screen name={'InsertClosingHour'} component={InsertClosingHour} />
         </Stack.Navigator>
     )
 }

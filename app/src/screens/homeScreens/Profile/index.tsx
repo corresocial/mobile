@@ -21,9 +21,7 @@ import {
 	UserName
 } from './styles'
 
-
-function Profile({ navigation }: HomeTabScreenProps) {
-
+function Profile({ navigation,  }: HomeTabScreenProps) {
 	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
 	const [tourModalVisibility, setTourModalVisibility] = useState(true)// TODO Development  only
 

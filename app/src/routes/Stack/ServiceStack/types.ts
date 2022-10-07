@@ -18,4 +18,5 @@ export type ServiceStackParamList = {
     SelectServiceFrequency: undefined
     SelectDaysOfWeek: undefined
     InsertOpeningHour: undefined
+    InsertClosingHour: undefined
 }
