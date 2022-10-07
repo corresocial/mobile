@@ -26,6 +26,7 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
                         width={'96%'}
                         height={'17%'}
                         label={'outros'}
+                        boldLabel={true}
                         onSelect={() => onSelectCategory(index)}
                     />
                 )
@@ -37,6 +38,7 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
                     width={'46%'}
                     height={'17%'}
                     label={category[1].label}
+                     boldLabel={true}
                     onSelect={() => onSelectCategory(index)}
                 />
             )

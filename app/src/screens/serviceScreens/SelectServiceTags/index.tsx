@@ -45,6 +45,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
                     height={screenHeight * 0.1}
                     margin={screenWidth * 0.025}
                     label={tagName}
+                    boldLabel={true}
                     backgroundSelected={theme.purple1}
                     selected={true}
                     onSelect={() => onSelectTag(tagName)}
@@ -64,6 +65,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
                     height={screenHeight * 0.1}
                     margin={screenWidth * 0.025}
                     label={tagName}
+                    boldLabel={true}
                     backgroundSelected={theme.purple1}
                     selected={false}
                     onSelect={() => onSelectTag(tagName)}
@@ -143,7 +145,6 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
                     !keyboardOpened &&
                     <SelectButtonsContainer
                         backgroundColor={theme.white2}
-                        scrollable={true}
                     >
                         <ScrollView
                             showsVerticalScrollIndicator={false}

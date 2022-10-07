@@ -16,4 +16,6 @@ export type ServiceStackParamList = {
     LocationViewPreview: {locationView: LocationViewType}
     SelectDeliveryMethod: undefined
     SelectServiceFrequency: undefined
+    SelectDaysOfWeek: undefined
+    InsertOpeningHour: undefined
 }

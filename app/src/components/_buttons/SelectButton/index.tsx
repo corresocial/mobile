@@ -12,6 +12,8 @@ interface SelectButtonProps {
     backgroundColor?: string
     backgroundSelected?: string
     label?: string
+    boldLabel?: boolean
+    fontSize?: number
     selected?: boolean
     onSelect?: () => void
 }
@@ -23,6 +25,8 @@ function SelectButton({
     backgroundColor = theme.white3,
     backgroundSelected,
     label,
+    boldLabel = false,
+    fontSize = 16,
     selected = false,
     onSelect
 }: SelectButtonProps) {
@@ -56,12 +60,17 @@ function SelectButton({
                 }}
             >
                 <ContainerSurface
-                style={{
-                    backgroundColor: selected ? backgroundSelected : backgroundColor,
-                    marginRight: buttonPressed || selected? -4 : 0
-                }}
+                    style={{
+                        backgroundColor: selected ? backgroundSelected : backgroundColor,
+                        marginRight: buttonPressed || selected ? -4 : 0
+                    }}
                 >
-                    <Label>
+                    <Label
+                        style={{
+                            fontSize: fontSize,
+                            fontFamily: selected || boldLabel ? 'Arvo_700Bold' : 'Arvo_400Regular'
+                        }}
+                    >
                         {label}
                     </Label>
                 </ContainerSurface>

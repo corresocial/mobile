@@ -9,6 +9,7 @@ import CalendarSomeday from './../../../assets/icons/calendarSomeday.svg'
 import CalendarBusinessDay from './../../../assets/icons/calendarBusinessDay.svg'
 
 import { SelectServiceFrequencyScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { ServiceFrequency } from '../types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -19,9 +20,13 @@ import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProps) {
 
-    const saveServiceFrequency = () => {
+    const saveServiceFrequency = (serviceFrequency: ServiceFrequency) => {
         //save
-        // navigation.navigate('LocationViewPreview', { locationView: typeLocationView })
+        if(serviceFrequency == 'someday'){
+            navigation.navigate('SelectDaysOfWeek')
+        }else{
+            navigation.navigate('InsertOpeningHour')
+        }
     }
 
     return (
@@ -59,7 +64,7 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
                     svgIconScale={['50%', '50%']}
                     leftSideWidth={'20%'}
                     leftSideColor={theme.orange2}
-                    onPress={saveServiceFrequency}
+                    onPress={() => saveServiceFrequency('today')}
                 />
                 <OptionButton
                     color={theme.white3}
@@ -72,7 +77,7 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
                     svgIconScale={['50%', '50%']}
                     leftSideWidth={'20%'}
                     leftSideColor={theme.red2}
-                    onPress={saveServiceFrequency}
+                    onPress={() => saveServiceFrequency('everyday')}
                 />
                 <OptionButton
                     color={theme.white3}
@@ -85,7 +90,7 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
                     svgIconScale={['50%', '50%']}
                     leftSideWidth={'20%'}
                     leftSideColor={theme.yellow2}
-                    onPress={saveServiceFrequency}
+                    onPress={() => saveServiceFrequency('someday')}
                 />
                 <OptionButton
                     color={theme.white3}
@@ -98,7 +103,7 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
                     svgIconScale={['50%', '50%']}
                     leftSideWidth={'20%'}
                     leftSideColor={theme.green2}
-                    onPress={saveServiceFrequency}
+                    onPress={() => saveServiceFrequency('businessDay')}
                 />
 
             </FormContainer>

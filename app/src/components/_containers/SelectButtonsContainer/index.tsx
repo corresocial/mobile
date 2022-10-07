@@ -5,12 +5,11 @@ import { screenHeight, screenWidth } from '../../../common/screenDimensions'
 import { Container } from './styles'
 
 interface SelectButtonsContainerProps {
-    scrollable?: boolean
     backgroundColor: string
     children: any | any[]// TODO Type
 }
 
-function SelectButtonsContainer({ backgroundColor, children, scrollable = false }: SelectButtonsContainerProps) {
+function SelectButtonsContainer({ backgroundColor, children }: SelectButtonsContainerProps) {
     return (
             <Container
                 style={{
