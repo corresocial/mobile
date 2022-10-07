@@ -11,8 +11,12 @@ interface OptionButtonProps {
     color: string
     label: string
     labelColor?: string
+    labelSize?: number
+    labelAlign?: any // TODO Type
     SvgIcon?: React.FC<SvgProps>
+    svgIconScale?: [height: string, width: string]
     leftSideColor?: string
+    leftSideWidth?: string | number
     highlightedWords?: string[]
     description?: string
     onPress: () => void
@@ -20,18 +24,19 @@ interface OptionButtonProps {
 
 function OptionButton({
     color,
-    labelColor,
     label,
+    labelColor,
+    labelSize,
+    labelAlign,
     highlightedWords,
     SvgIcon,
+    svgIconScale,
     leftSideColor = theme.orange2,
+    leftSideWidth,
     description,
     onPress
 }: OptionButtonProps) {
     const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
-    const [buttonVisibility, setButtonVisibility] = useState<boolean>(true)
-
-    const buttonRef = useRef<any>()
 
     function pressingButton() {
         setButtomPressed(true)
@@ -55,9 +60,7 @@ function OptionButton({
             onPress={releaseButton}
         >
             <ContainerBottom
-                ref={buttonRef}
                 style={{
-                    display: buttonVisibility ? 'flex' : 'none',
                     height: description ? screenHeight * 0.16 : heightWithoutDescription
                 }}
             >
@@ -70,30 +73,31 @@ function OptionButton({
                 >
                     <IconArea
                         style={{
-                            backgroundColor: leftSideColor
+                            backgroundColor: leftSideColor,
+                            width: leftSideWidth
                         }}
                     >
-                        {SvgIcon && <SvgIcon height={'60%'} width={'60%'} />}
+                        {SvgIcon && <SvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />}
                     </IconArea>
                     <LabelDescriptionArea>
                         <ButtonLabel style={{
                             color: labelColor,
-                            textAlign: !description ? 'center' : 'left'
+                            textAlign: labelAlign ? labelAlign : 'center',
+                            fontSize: labelSize || 20,
                         }}>
                             {showMessageWithHighlight(label, highlightedWords)}
                         </ButtonLabel>
                         {
-                            description
-                                ? <ButtonDescription>
-                                    {description}
-                                </ButtonDescription>
-                                : <></>
+                            description &&
+                            <ButtonDescription>
+                                {description}
+                            </ButtonDescription>
                         }
                     </LabelDescriptionArea>
                 </ContainerSurface>
             </ContainerBottom>
         </TouchableContainer >
-    );
+    )
 }
 
 export { OptionButton }

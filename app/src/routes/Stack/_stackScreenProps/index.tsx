@@ -30,6 +30,7 @@ export type InsertServicePrestationLocationScreenProps = NativeStackScreenProps<
 export type SelectLocationViewScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectLocationView'>
 export type LocationViewPreviewScreenProps = NativeStackScreenProps<ServiceStackParamList, 'LocationViewPreview'>
 export type SelectDeliveryMethodScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectDeliveryMethod'>
+export type SelectServiceFrequencyScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectServiceFrequency'>
 
 
  

@@ -64,17 +64,23 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 				<OptionButton
 					color={theme.white3}
 					label={'para encontrar'}
+					labelAlign={'left'}
 					description={'quero encontrar um serviço, item para compra e/ou troca ou uma vaga de emprego'}
 					highlightedWords={['para', 'encontrar']}
 					SvgIcon={ShoppingBag}
+					svgIconScale={['60%', '60%']}
+					leftSideWidth={'30%'}
 					onPress={buy}
 				/>
 				<OptionButton
 					color={theme.white3}
 					label={'para postar'}
+					labelAlign={'left'}
 					description={'quero postar vendas, serviços, vagas, iniciativas sociais ou cultura'}
 					highlightedWords={['para', 'postar']}
 					SvgIcon={SalesCart}
+					svgIconScale={['60%', '60%']}
+					leftSideWidth={'30%'}
 					onPress={goToProfile}
 				/>
 			</FormContainer>

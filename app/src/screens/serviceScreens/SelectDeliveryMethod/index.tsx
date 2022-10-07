@@ -3,10 +3,8 @@ import React from 'react'
 import { Container, ButtonsContainer } from './styles'
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import SalesCartO from './../../../assets/icons/salesCart-o.svg'
 
 import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/_stackScreenProps'
-import { LocationViewType } from '../types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -19,7 +17,7 @@ function SelectDeliveryMethod({ navigation }: SelectDeliveryMethodScreenProps) {
 
     const saveDeliveryMethod = () => {
         //save
-        // navigation.navigate('LocationViewPreview', { locationView: typeLocationView })
+        navigation.navigate('SelectServiceFrequency')
     }
 
     return (

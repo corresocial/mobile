@@ -45,9 +45,9 @@ export const IconArea = styled.View`
 `
 
 export const LabelDescriptionArea = styled.View`
+    flex: 1;
     padding-vertical: 15px;
     padding-horizontal: 25px;
-    width: 70%;
     height: 100%;
     justify-content: space-around;
 `
