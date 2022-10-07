@@ -80,7 +80,7 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
 
     const saveLocation = () => {
         //save
-        // navigation.navigate('SelectLocationView')
+        navigation.navigate('SelectDeliveryMethod')
     }
 
     return (

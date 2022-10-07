@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { ButtonsContainer, Container } from './styles'
+import { Container, ButtonsContainer } from './styles'
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import SalesCartO from './../../../assets/icons/salesCart-o.svg'
 
-import { SelectLocationViewScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/_stackScreenProps'
 import { LocationViewType } from '../types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -15,11 +15,11 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
+function SelectDeliveryMethod({ navigation }: SelectDeliveryMethodScreenProps) {
 
-    const saveTypeLocationView = (typeLocationView: LocationViewType) => {
+    const saveDeliveryMethod = () => {
         //save
-        navigation.navigate('LocationViewPreview', { locationView: typeLocationView })
+        // navigation.navigate('LocationViewPreview', { locationView: typeLocationView })
     }
 
     return (
@@ -34,8 +34,8 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'como você prefere que outros usuários vejam sua localização ?'}
-                    highlightedWords={['como,', 'você', 'prefere', 'vejam', 'sua', 'localização']}
+                    message={'você entrega ou atende à distância?'}
+                    highlightedWords={['entrega','distância?                             ']}
                 >
                     <ProgressBar
                         range={4}
@@ -48,42 +48,53 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
             >
                 <ButtonsContainer>
                     <PrimaryButton
-
                         justifyContent={'flex-start'}
                         color={theme.white3}
-                        relativeHeight={'23%'}
+                        relativeHeight={'20%'}
                         labelColor={theme.black4}
                         fontSize={24}
                         textAlign={'left'}
-                        labelMarginLeft={30}
-                        label={'localização \nprivada'}
-                        highlightedWords={[`\nprivada`]}
-                        onPress={() => saveTypeLocationView('private')}
+                        labelMarginLeft={'10%'}
+                        label={'não entrego'}
+                        highlightedWords={[`não`]}
+                        onPress={saveDeliveryMethod}
                     />
                     <PrimaryButton
                         justifyContent={'flex-start'}
                         color={theme.white3}
-                        relativeHeight={'23%'}
+                        relativeHeight={'20%'}
                         labelColor={theme.black4}
                         fontSize={24}
                         textAlign={'left'}
-                        labelMarginLeft={30}
-                        label={'localização \naproximada'}
-                        highlightedWords={[`\naproximada`]}
-                        onPress={() => saveTypeLocationView('approximate')}
+                        labelMarginLeft={'10%'}
+                        label={'entrego \nperto de mim'}
+                        highlightedWords={['\nperto', 'de', 'mim']}
+                        onPress={saveDeliveryMethod}
+                    />
+                    <PrimaryButton
+                        justifyContent={'flex-start'}
+                        color={theme.white3}
+                        relativeHeight={'20%'}
+                        labelColor={theme.black4}
+                        fontSize={24}
+                        textAlign={'left'}
+                        labelMarginLeft={'10%'}
+                        label={'entrego \nna cidade'}
+                        highlightedWords={['\nna', 'cidade']}
+                        onPress={saveDeliveryMethod}
                     />
                     <PrimaryButton
 
                         justifyContent={'flex-start'}
                         color={theme.white3}
-                        relativeHeight={'23%'}
+                        relativeHeight={'20%'}
                         labelColor={theme.black4}
                         fontSize={24}
                         textAlign={'left'}
-                        labelMarginLeft={30}
-                        label={'localização \npública'}
-                        highlightedWords={[`\npública`]}
-                        onPress={() => saveTypeLocationView('public')}
+                        labelMarginLeft={'10%'}
+                        label={'entrego no \nbrasil inteiro'}
+                        highlightedWords={['\nbrasil', 'inteiro']}
+                        onPress={saveDeliveryMethod}
                     />
                 </ButtonsContainer>
             </FormContainer>
@@ -91,4 +102,4 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
     )
 }
 
-export { SelectLocationView }
+export { SelectDeliveryMethod }

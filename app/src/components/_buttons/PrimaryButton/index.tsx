@@ -15,6 +15,7 @@ interface PrimaryButtonProps {
     color: string
     label?: string
     labelColor?: string
+    labelMarginLeft?: number | string
     iconName?: string
     iconColor?: string
     iconSize?: number
@@ -38,6 +39,7 @@ function PrimaryButton({
     color,
     labelColor,
     label,
+    labelMarginLeft,
     highlightedWords,
     iconName,
     fontSize,
@@ -124,7 +126,8 @@ function PrimaryButton({
                         && <ButtonLabel style={{
                             color: labelColor,
                             fontSize: fontSize ? fontSize : 18,
-                            textAlign: textAlign 
+                            textAlign: textAlign ,
+                            marginLeft: labelMarginLeft || 0
                         }}>
                             {showMessageWithHighlight(label, highlightedWords)}
                         </ButtonLabel>

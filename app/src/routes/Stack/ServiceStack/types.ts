@@ -14,4 +14,5 @@ export type ServiceStackParamList = {
     InsertServicePrestationLocation: undefined
     SelectLocationView: undefined
     LocationViewPreview: {locationView: LocationViewType}
+    SelectDeliveryMethod: undefined
 }
