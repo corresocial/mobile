@@ -1,5 +1,5 @@
 import { Animated, StatusBar } from 'react-native';
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles';
 import { screenHeight } from '../../../common/screenDimensions';
@@ -7,6 +7,7 @@ import { theme } from '../../../common/theme';
 import Check from './../../../assets/icons/check.svg'
 
 import { InsertProfileDescriptionScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { ServiceContext } from '../../../contexts/ServiceContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -18,9 +19,11 @@ import { LineInput } from '../../../components/LineInput';
 
 function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreenProps) {
 
+    const {setServiceDataOnContext} = useContext(ServiceContext)
+
     const [profileDescription, setProfileDescription] = useState<string>('')
     const [invalidProfileDescriptionAfterSubmit, setInvaliProfileDescriptionAfterSubmit] = useState<boolean>(false)
-
+    
     const inputRefs = {
         descriptionInput: useRef<React.MutableRefObject<any>>(null),
     }
@@ -36,8 +39,9 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
 
     const saveProfileDescription = () => {
         const profileDescriptionIsValid = validateProfileDescription(profileDescription)
+        
         if (profileDescriptionIsValid) {
-            // Save on store
+            setServiceDataOnContext({profileDescription})
             navigation.navigate('InsertServiceName')
         } else {
             !profileDescriptionIsValid && setInvaliProfileDescriptionAfterSubmit(true)
@@ -109,7 +113,6 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
                     validBorderBottomColor={theme.purple5}
                     invalidBackgroundColor={theme.red1}
                     invalidBorderBottomColor={theme.red5}
-                    // maxLength={0}
                     multiline
                     textAlign={'left'}
                     invalidTextAfterSubmit={invalidProfileDescriptionAfterSubmit}

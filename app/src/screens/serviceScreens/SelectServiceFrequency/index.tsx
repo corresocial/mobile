@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { Container } from './styles'
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
@@ -10,6 +10,7 @@ import CalendarBusinessDay from './../../../assets/icons/calendarBusinessDay.svg
 
 import { SelectServiceFrequencyScreenProps } from '../../../routes/Stack/_stackScreenProps'
 import { ServiceFrequency } from '../types'
+import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -20,11 +21,14 @@ import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProps) {
 
+    const { setServiceDataOnContext } = useContext(ServiceContext)
+
     const saveServiceFrequency = (serviceFrequency: ServiceFrequency) => {
-        //save
-        if(serviceFrequency == 'someday'){
+        if (serviceFrequency == 'someday') {
+            setServiceDataOnContext({ serviceFrequency })
             navigation.navigate('SelectDaysOfWeek')
-        }else{
+        } else {
+            setServiceDataOnContext({ serviceFrequency })
             navigation.navigate('InsertOpeningHour')
         }
     }

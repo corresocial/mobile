@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { ScrollView } from 'react-native'
 
 import {
@@ -12,6 +12,7 @@ import { screenHeight, screenWidth, statusBarHeight } from '../../../common/scre
 import Check from './../../../assets/icons/check.svg'
 
 import { SelectDaysOfWeekScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -21,8 +22,10 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectDaysOfWeek({ route, navigation }: SelectDaysOfWeekScreenProps) {
+function SelectDaysOfWeek({  navigation }: SelectDaysOfWeekScreenProps) {
 
+    const { setServiceDataOnContext } = useContext(ServiceContext)
+    
     const [selectedDays, setSelectedDays] = useState<string[]>([])
     const daysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom']
 
@@ -57,7 +60,9 @@ function SelectDaysOfWeek({ route, navigation }: SelectDaysOfWeekScreenProps) {
     }
 
     const saveDaysOfWeek = () => {
-        //save
+        setServiceDataOnContext({
+            weekdaysService: selectedDays
+        })
           navigation.navigate('InsertOpeningHour')
     }
 

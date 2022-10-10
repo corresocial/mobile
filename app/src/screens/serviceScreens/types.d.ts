@@ -8,6 +8,8 @@ export type LocationViewType = 'private' | 'approximate' | 'public'
 
 export type ServiceFrequency = 'today' | 'everyday' | 'someday' | 'businessDay'
 
+export type DeliveryMethod = 'unavailable' | 'near' | 'city' | 'country'
+
 export type Coordinates = {
     latitude: number
     longitude: number

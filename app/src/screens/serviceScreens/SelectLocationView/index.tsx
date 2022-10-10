@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { ButtonsContainer, Container } from './styles'
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
@@ -7,6 +7,7 @@ import SalesCartO from './../../../assets/icons/salesCart-o.svg'
 
 import { SelectLocationViewScreenProps } from '../../../routes/Stack/_stackScreenProps'
 import { LocationViewType } from '../types'
+import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -17,9 +18,11 @@ import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
 
-    const saveTypeLocationView = (typeLocationView: LocationViewType) => {
-        //save
-        navigation.navigate('LocationViewPreview', { locationView: typeLocationView })
+    const { setServiceDataOnContext } = useContext(ServiceContext)
+
+    const saveLocationViewType = (locationViewType: LocationViewType) => {
+        setServiceDataOnContext({ locationViewType })
+        navigation.navigate('LocationViewPreview', { locationView: locationViewType })
     }
 
     return (
@@ -48,7 +51,6 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
             >
                 <ButtonsContainer>
                     <PrimaryButton
-
                         justifyContent={'flex-start'}
                         color={theme.white3}
                         relativeHeight={'23%'}
@@ -58,7 +60,7 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
                         labelMarginLeft={30}
                         label={'localização \nprivada'}
                         highlightedWords={[`\nprivada`]}
-                        onPress={() => saveTypeLocationView('private')}
+                        onPress={() => saveLocationViewType('private')}
                     />
                     <PrimaryButton
                         justifyContent={'flex-start'}
@@ -70,7 +72,7 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
                         labelMarginLeft={30}
                         label={'localização \naproximada'}
                         highlightedWords={[`\naproximada`]}
-                        onPress={() => saveTypeLocationView('approximate')}
+                        onPress={() => saveLocationViewType('approximate')}
                     />
                     <PrimaryButton
 
@@ -83,7 +85,7 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
                         labelMarginLeft={30}
                         label={'localização \npública'}
                         highlightedWords={[`\npública`]}
-                        onPress={() => saveTypeLocationView('public')}
+                        onPress={() => saveLocationViewType('public')}
                     />
                 </ButtonsContainer>
             </FormContainer>

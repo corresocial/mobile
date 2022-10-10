@@ -1,16 +1,11 @@
-import { Alert, Animated } from 'react-native';
 import React, { useContext, useRef, useState } from 'react'
-import { Text } from 'react-native';
 
 import { Container, InputsContainer, TwoPoints } from './styles';
 import { theme } from '../../../common/theme';
 
-import Firebase from '../../../services/Firebase/Firebase';
-const firebaseConfig = Firebase ? Firebase.options : undefined;
-import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
-import { AuthContext } from '../../../contexts/AuthContext';
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
 import { InsertOpeningHourScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { ServiceContext } from '../../../contexts/ServiceContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -23,6 +18,7 @@ import { ProgressBar } from '../../../components/ProgressBar';
 
 function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
 
+    const { setServiceDataOnContext } = useContext(ServiceContext)
 
     const [hours, setHours] = useState<string>('')
     const [minutes, setMinutes] = useState<string>('')
@@ -53,7 +49,9 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
     }
 
     const saveOppeningHour = () => {
-        //save
+        setServiceDataOnContext({
+            openingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
+        })
         navigation.navigate('InsertClosingHour')
     }
 

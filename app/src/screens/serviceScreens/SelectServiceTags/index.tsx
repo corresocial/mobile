@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, ScrollView } from 'react-native'
 
 import {
@@ -15,6 +15,7 @@ import Check from './../../../assets/icons/check.svg'
 
 import { SelectServiceTagsScreenProps } from '../../../routes/Stack/_stackScreenProps'
 import { serviceCategories } from '../serviceCategories'
+import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -26,6 +27,8 @@ import { ProgressBar } from '../../../components/ProgressBar'
 import { LineInput } from '../../../components/LineInput'
 
 function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) {
+
+    const { setServiceDataOnContext } = useContext(ServiceContext)
 
     const [textTag, setTextTag] = useState('')
     const [keyboardOpened, setKeyboardOpened] = useState(false)
@@ -93,6 +96,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
     }
 
     const saveTags = () => {
+        setServiceDataOnContext({ serviceTags: selectedTags })
         navigation.navigate('SelectSaleOrExchange')
     }
 

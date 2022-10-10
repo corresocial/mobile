@@ -1,5 +1,5 @@
 import { Animated, StatusBar } from 'react-native';
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles';
 import { theme } from '../../../common/theme';
@@ -7,6 +7,7 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import Check from './../../../assets/icons/check.svg'
 
 import { InsertServiceNameScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { ServiceContext } from '../../../contexts/ServiceContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -17,6 +18,8 @@ import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
 
 function InsertServiceName({ navigation, route }: InsertServiceNameScreenProps) {
+
+    const {setServiceDataOnContext} = useContext(ServiceContext)
 
     const [serviceName, setServiceName] = useState<string>('')
     const [invalidServiceNameAfterSubmit, setInvalidServiceNameAfterSubmit] = useState<boolean>(false)
@@ -37,7 +40,7 @@ function InsertServiceName({ navigation, route }: InsertServiceNameScreenProps) 
     const saveServiceName = () => {
         const serviceNameIsValid = validateServiceName(serviceName)
         if (serviceNameIsValid) {
-            // Save on store
+            setServiceDataOnContext({serviceName})
             navigation.navigate('InsertServicePicture')
         } else {
             !serviceNameIsValid && setInvalidServiceNameAfterSubmit(true)

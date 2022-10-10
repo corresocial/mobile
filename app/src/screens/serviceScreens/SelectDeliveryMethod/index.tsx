@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { Container, ButtonsContainer } from './styles'
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 
 import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { DeliveryMethod } from '../types'
+import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -15,8 +17,10 @@ import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectDeliveryMethod({ navigation }: SelectDeliveryMethodScreenProps) {
 
-    const saveDeliveryMethod = () => {
-        //save
+    const {setServiceDataOnContext} = useContext(ServiceContext)
+    
+    const saveDeliveryMethod = (deliveryMethod: DeliveryMethod) => {
+        setServiceDataOnContext({deliveryMethod})
         navigation.navigate('SelectServiceFrequency')
     }
 
@@ -55,7 +59,7 @@ function SelectDeliveryMethod({ navigation }: SelectDeliveryMethodScreenProps) {
                         labelMarginLeft={'10%'}
                         label={'não entrego'}
                         highlightedWords={[`não`]}
-                        onPress={saveDeliveryMethod}
+                        onPress={() => saveDeliveryMethod('unavailable')}
                     />
                     <PrimaryButton
                         justifyContent={'flex-start'}
@@ -67,7 +71,7 @@ function SelectDeliveryMethod({ navigation }: SelectDeliveryMethodScreenProps) {
                         labelMarginLeft={'10%'}
                         label={'entrego \nperto de mim'}
                         highlightedWords={['\nperto', 'de', 'mim']}
-                        onPress={saveDeliveryMethod}
+                        onPress={() => saveDeliveryMethod('near')}
                     />
                     <PrimaryButton
                         justifyContent={'flex-start'}
@@ -79,7 +83,7 @@ function SelectDeliveryMethod({ navigation }: SelectDeliveryMethodScreenProps) {
                         labelMarginLeft={'10%'}
                         label={'entrego \nna cidade'}
                         highlightedWords={['\nna', 'cidade']}
-                        onPress={saveDeliveryMethod}
+                        onPress={() => saveDeliveryMethod('city')}
                     />
                     <PrimaryButton
 
@@ -92,7 +96,7 @@ function SelectDeliveryMethod({ navigation }: SelectDeliveryMethodScreenProps) {
                         labelMarginLeft={'10%'}
                         label={'entrego no \nbrasil inteiro'}
                         highlightedWords={['\nbrasil', 'inteiro']}
-                        onPress={saveDeliveryMethod}
+                        onPress={() => saveDeliveryMethod('country')}
                     />
                 </ButtonsContainer>
             </FormContainer>

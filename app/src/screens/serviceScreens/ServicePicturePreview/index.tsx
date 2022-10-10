@@ -1,4 +1,4 @@
-import React, {  useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 import { Container } from './styles';
 import { screenWidth } from '../../../common/screenDimensions';
@@ -6,6 +6,7 @@ import { theme } from '../../../common/theme';
 import CheckIcon from './../../../assets/icons/check.svg'
 
 import { ServicePicturePreviewScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { ServiceContext } from '../../../contexts/ServiceContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -16,28 +17,27 @@ import { PhotoPortrait } from '../../../components/PhotoPortrait';
 import { HorizontalListPictures } from '../../../components/HorizontalListPictures';
 
 function ServicePicturePreview({ navigation, route }: ServicePicturePreviewScreenProps) {
+	const { setServiceDataOnContext } = useContext(ServiceContext)
+
 	const [picturesPack, setPicturesPack] = useState<string[]>([])
 	const [pictureIndexSelected, setPictureIndexSelected] = useState<number>(0)
-	const [cameraOpened, setCameraOpened] = useState<boolean>(false)
+	const [cameraOpened, setCameraOpened] = useState<boolean>(true)
 
 	const setPictureUri = (uri: string) => {
-		console.log(uri)
-		console.log(picturesPack)
 		const currentPictures = [...picturesPack]
 		currentPictures.push(uri)
+		setPictureIndexSelected(picturesPack.length)
 		setPicturesPack(currentPictures)
 	}
 
-	const deleteCurrentPicture= () => {
-		console.log(picturesPack)
-		const picturesAfterDelete = picturesPack.filter((_ ,index) => index !== pictureIndexSelected)
-		console.log('before')
-		console.log(picturesAfterDelete)
+	const deleteCurrentPicture = () => {
+		const picturesAfterDelete = picturesPack.filter((_, index) => index !== pictureIndexSelected)
+		setPictureIndexSelected(picturesPack.length - 2)
 		setPicturesPack(picturesAfterDelete)
-		setPictureIndexSelected(0)
 	}
 
 	const savePictures = () => {
+		setServiceDataOnContext({ servicePictures: picturesPack })
 		navigation.navigate('SelectServiceCategory')
 	}
 

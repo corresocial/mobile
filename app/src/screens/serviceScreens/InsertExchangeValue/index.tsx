@@ -1,5 +1,5 @@
 import { Animated } from 'react-native';
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 
 import { theme } from '../../../common/theme';
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions';
@@ -7,6 +7,7 @@ import { ButtonsContainer, Container } from './styles';
 import Check from './../../../assets/icons/check.svg'
 
 import { InsertExchangeValueScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { ServiceContext } from '../../../contexts/ServiceContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -18,6 +19,8 @@ import { ProgressBar } from '../../../components/ProgressBar';
 
 function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
 
+    const {setServiceDataOnContext} = useContext(ServiceContext)
+    
     const [exchangeValue, setExchangeValue] = useState<string>('')
     const [invalidExchangeValueAfterSubmit, setInvalidExchangeValueAfterSubmit] = useState<boolean>(false)
 
@@ -37,7 +40,7 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
     const saveExchangeValue = () => {
         const exchangeValueIsValid = validateExchangeValue(exchangeValue)
         if (exchangeValueIsValid) {
-            // Save on store
+            setServiceDataOnContext({exchangeValue})
             navigation.navigate('InsertServicePrestationLocation')
         } else {
             !exchangeValueIsValid && setInvalidExchangeValueAfterSubmit(true)

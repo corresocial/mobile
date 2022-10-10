@@ -1,29 +1,24 @@
-import { Alert, Animated } from 'react-native';
 import React, { useContext, useRef, useState } from 'react'
-import { Text } from 'react-native';
 
 import { Container, InputsContainer, TwoPoints } from './styles';
 import { theme } from '../../../common/theme';
 
-import Firebase from '../../../services/Firebase/Firebase';
-const firebaseConfig = Firebase ? Firebase.options : undefined;
-import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
-import { AuthContext } from '../../../contexts/AuthContext';
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
 import { InsertClosingHourScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { ServiceContext } from '../../../contexts/ServiceContext';
+import { screenHeight, statusBarHeight } from '../../../common/screenDimensions';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
+import { BackButton } from '../../../components/_buttons/BackButton';
 import { InstructionCard } from '../../../components/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions';
-import { BackButton } from '../../../components/_buttons/BackButton';
 import { ProgressBar } from '../../../components/ProgressBar';
-import { UserStackParamList } from '../../../routes/Stack/UserStack/types';
 
 function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
+    const { setServiceDataOnContext , serviceData} = useContext(ServiceContext)
 
     const [hours, setHours] = useState<string>('')
     const [minutes, setMinutes] = useState<string>('')
@@ -53,9 +48,12 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
         return false
     }
 
-    const saveOppeningHour = () => {
-        //save
-        navigation.navigate('HomeTab' as any, {TourCompleted: true}) // TODO type
+    const saveClosingHour = () => {
+        console.log(serviceData)
+        setServiceDataOnContext({
+            closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
+        })
+        navigation.navigate('HomeTab' as any, { TourCompleted: true }) // TODO type
     }
 
     return (
@@ -134,7 +132,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     labelColor={theme.white3}
                     highlightedWords={['continuar']}
                     startsHidden
-                    onPress={saveOppeningHour}
+                    onPress={saveClosingHour}
                 />
             </FormContainer>
         </Container>

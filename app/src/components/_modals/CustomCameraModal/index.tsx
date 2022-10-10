@@ -68,8 +68,8 @@ function CustomCameraModal({ cameraOpened, onClose,setPictureUri }: CustomCamera
     const takePicture = async () => {
         if (cameraRef.current !== null) {
             const data = await cameraRef.current.takePictureAsync()
-            console.log(data)
             setPictureUri(data.uri)
+            onClose()
         }
     }
 
@@ -90,7 +90,6 @@ function CustomCameraModal({ cameraOpened, onClose,setPictureUri }: CustomCamera
             onRequestClose={onClose}
         >
             <Container>
-                <StatusBar hidden/>
                 <CameraContainer>
                     <Camera
                         ref={cameraRef}

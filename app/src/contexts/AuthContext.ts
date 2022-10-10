@@ -80,7 +80,6 @@ export const authentication = {
         return userCredential;
     }
 
-
 }
 
 export const AuthContext = React.createContext(authentication);

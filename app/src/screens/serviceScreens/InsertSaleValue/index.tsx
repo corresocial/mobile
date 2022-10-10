@@ -1,5 +1,5 @@
 import { Animated } from 'react-native';
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 
 import { theme } from '../../../common/theme';
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions';
@@ -7,6 +7,7 @@ import { ButtonsContainer, Container } from './styles';
 import Check from './../../../assets/icons/check.svg'
 
 import { InsertSaleValueScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { ServiceContext } from '../../../contexts/ServiceContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -18,6 +19,8 @@ import { ProgressBar } from '../../../components/ProgressBar';
 
 function InsertSaleValue({ navigation, route}: InsertSaleValueScreenProps) {
 
+    const {setServiceDataOnContext} = useContext(ServiceContext)
+    
     const [saleValue, setSaleValue] = useState<string>('')
     const [invalidSaleValueAfterSubmit, setInvalidSaleValueAfterSubmit] = useState<boolean>(false)
 
@@ -42,7 +45,7 @@ function InsertSaleValue({ navigation, route}: InsertSaleValueScreenProps) {
     const saveSaleValue = () => {
         const saleValueIsValid = validateSaleValue(saleValue)
         if (saleValueIsValid) {
-            // Save on store
+            setServiceDataOnContext({saleValue})
             if(route.params.anyPaymentType){
                 navigation.navigate('InsertExchangeValue')
             }else{

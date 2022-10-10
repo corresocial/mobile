@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native';
 import * as Location from 'expo-location'
 
@@ -20,15 +20,18 @@ import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
 import { CustomMapView } from '../../../components/CustomMapView';
 import { MapEvent } from 'react-native-maps';
+import { ServiceContext } from '../../../contexts/ServiceContext';
 
 const initialRegion = {
-    latitude: -11.70721,
-    longitude: -61.99830300000001,
-    latitudeDelta: 0.00322,
-    longitudeDelta: 0.00321,
+    latitude: -14.235004,
+    longitude: -51.92528,
+    latitudeDelta: -0.000001,
+    longitudeDelta: -0.000001,
 }
 
-function InsertServicePrestationLocation({ navigation, route }: InsertServicePrestationLocationScreenProps) {
+function InsertServicePrestationLocation({ navigation }: InsertServicePrestationLocationScreenProps) {
+
+    const { setServiceDataOnContext } = useContext(ServiceContext)
 
     const [status, requestPermission] = Location.useForegroundPermissions()
     const [region, setRegion] = useState<Coordinates>(initialRegion)
@@ -90,6 +93,8 @@ function InsertServicePrestationLocation({ navigation, route }: InsertServicePre
             longitude: addressGeolocation[0].longitude,
         }
 
+        console.log(geolocationCoordinates)
+
         setMarkerCoordinate({
             ...region,
             ...geolocationCoordinates,
@@ -144,7 +149,10 @@ function InsertServicePrestationLocation({ navigation, route }: InsertServicePre
     }
 
     const saveLocation = () => {
-        //save
+        setServiceDataOnContext({
+            coordinates: markerCoordinate,
+            address
+        })
         navigation.navigate('SelectLocationView')
     }
 

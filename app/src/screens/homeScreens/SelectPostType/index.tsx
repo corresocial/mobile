@@ -43,7 +43,9 @@ function SelectPostType({ route, navigation }: SelectPostTypeScreenProps) {
                     highlightedWords={['um', 'serviço']}
                     labelColor={theme.black3}
                     SvgIcon={ToolBox}
+                    svgIconScale={['60%','60%']}
                     leftSideColor={theme.purple2}
+                    leftSideWidth={'30%'}
                     onPress={() => navigation.navigate('InsertProfileDescription')}
                 />
                 <OptionButton
@@ -52,7 +54,9 @@ function SelectPostType({ route, navigation }: SelectPostTypeScreenProps) {
                     highlightedWords={['uma', 'venda']}
                     labelColor={theme.black3}
                     SvgIcon={SalesCart}
+                    svgIconScale={['60%','60%']}
                     leftSideColor={theme.green2}
+                    leftSideWidth={'30%'}
                     onPress={() => { }}
                 />
                 <OptionButton
@@ -61,7 +65,9 @@ function SelectPostType({ route, navigation }: SelectPostTypeScreenProps) {
                     highlightedWords={['uma', 'vaga']}
                     labelColor={theme.black3}
                     SvgIcon={Suitcase}
+                    svgIconScale={['60%','60%']}
                     leftSideColor={theme.yellow2}
+                    leftSideWidth={'30%'}
                     onPress={() => { }}
                 />
                 <OptionButton
@@ -70,7 +76,9 @@ function SelectPostType({ route, navigation }: SelectPostTypeScreenProps) {
                     highlightedWords={['iniciativa', 'social']}
                     labelColor={theme.black3}
                     SvgIcon={Heart}
+                    svgIconScale={['60%','60%']}
                     leftSideColor={theme.red2}
+                    leftSideWidth={'30%'}
                     onPress={() => { }}
                 />
                 <OptionButton
@@ -79,7 +87,9 @@ function SelectPostType({ route, navigation }: SelectPostTypeScreenProps) {
                     highlightedWords={['cultura']}
                     labelColor={theme.black3}
                     SvgIcon={SoundTools}
+                    svgIconScale={['60%','60%']}
                     leftSideColor={theme.blue2}
+                    leftSideWidth={'30%'}
                     onPress={() => { }}
                 />
             </FormContainer>

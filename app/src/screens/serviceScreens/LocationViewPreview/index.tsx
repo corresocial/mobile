@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { theme } from '../../../common/theme';
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions';
@@ -12,6 +12,7 @@ import EyeTraced from './../../../assets/icons/eyeTraced.svg'
 
 import { LocationViewPreviewScreenProps } from '../../../routes/Stack/_stackScreenProps';
 import { Coordinates, LocationViewType } from '../types';
+import { ServiceContext } from '../../../contexts/ServiceContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
@@ -21,11 +22,13 @@ import { InfoCard } from '../../../components/_cards/InfoCard';
 const initialRegion = {
     latitude: -11.70721,
     longitude: -61.99830300000001,
-    latitudeDelta: 0.00322,
-    longitudeDelta: 0.00321,
+    latitudeDelta: 0.0001,
+    longitudeDelta: 0.0001
 }
 
 function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenProps) {
+
+    const {setServiceDataOnContext} = useContext(ServiceContext)
 
     const [locationViewSelected, setLocationViewSelected] = useState<LocationViewType>()
     const [regionCoordinate, setRegionCoordinate] = useState<Coordinates>(initialRegion)
@@ -79,7 +82,9 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
     }
 
     const saveLocation = () => {
-        //save
+        setServiceDataOnContext({
+
+        })
         navigation.navigate('SelectDeliveryMethod')
     }
 

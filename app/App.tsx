@@ -12,6 +12,7 @@ import {
 import { theme } from './src/common/theme';
 import { AuthRegisterStack } from './src/routes/Stack/AuthRegisterStack';
 import { AuthContext, authentication } from './src/contexts/AuthContext';
+import { ServiceContext, serviceContext } from './src/contexts/ServiceContext';
 
 export default function App() {
 
