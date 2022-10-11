@@ -2,14 +2,16 @@ import React from 'react'
 import MapView, { Circle, Marker } from 'react-native-maps'
 import { SvgProps } from 'react-native-svg'
 
+import { screenWidth } from '../../common/screenDimensions'
+
 import { Coordinates, LocationViewType } from '../../screens/serviceScreens/types'
 
 interface CustomMapViewProops {
-    regionCoordinate: Coordinates
-    markerCoordinate: Coordinates | null
+    regionCoordinate: Coordinates | any
+    markerCoordinate: Coordinates | any
     CustomMarker: React.FC<SvgProps>
     locationView?: LocationViewType
-    onLongPressMap: (event: any) => void
+    updateMarkerPosition?: (event: any) => void
 }
 
 function CustomMapView({
@@ -17,7 +19,7 @@ function CustomMapView({
     markerCoordinate,
     CustomMarker,
     locationView,
-    onLongPressMap,
+    updateMarkerPosition
 
 }: CustomMapViewProops) {
 
@@ -41,8 +43,8 @@ function CustomMapView({
         const binaryRandom = Math.round(Math.random())
         const detachmentRandom = Math.round(Math.random() * (55 - 10) + 10) / 10000000
 
-        console.log('binaryRandom: ' + binaryRandom)
-        console.log('detachmentRandom: ' + detachmentRandom)
+        /* console.log('binaryRandom: ' + binaryRandom)
+        console.log('detachmentRandom: ' + detachmentRandom) */
 
         if (binaryRandom) {
             return (approximateRadius * detachmentRandom)
@@ -51,38 +53,37 @@ function CustomMapView({
         }
     }
 
-    let randomCoordinate = generateRandomCoordinateOnRadius()
+    const randomCoordinate = generateRandomCoordinateOnRadius()
 
     return (
         <MapView
             style={{ flex: 1, position: 'relative' }}
             cacheEnabled={false}
-            region={locationView == 'approximate' ? randomCoordinate as Coordinates : regionCoordinate }
+            region={locationView == 'approximate' ? randomCoordinate as Coordinates : regionCoordinate}
             mapType='standard'
-            initialRegion={randomCoordinate ? randomCoordinate : regionCoordinate}
-            // loadingEnabled={false}
-            // onRegionChange={(newRegion) => updateDeltaCoordinates(newRegion)}
-            onLongPress={(event) => onLongPressMap(event)}
+            onRegionChangeComplete={(coordinates) => updateMarkerPosition && updateMarkerPosition(coordinates)}
         >
             {
                 markerCoordinate &&
                 <>
                     {
                         locationView == 'approximate' &&
-                        <Circle
-                            center={randomCoordinate as Coordinates}
-                            radius={approximateRadius}
-                            strokeWidth={4}
-
-                        >
-                        </Circle>
+                            <Circle
+                                center={{
+                                    latitude: randomCoordinate?.latitude || 0,
+                                    longitude: randomCoordinate?.longitude || 0
+                                }}
+                                radius={approximateRadius}
+                                strokeWidth={4}
+                                fillColor={'rgba(250, 153, 56, 0.25)'}
+                            >
+                            </Circle>
                     }
                     <Marker
-                        coordinate={locationView == 'approximate' ? randomCoordinate as Coordinates : markerCoordinate}
+                        coordinate={locationView == 'approximate' ? randomCoordinate : markerCoordinate}
                         title={'seu local'}
-                        draggable={true}
                     >
-                        <CustomMarker width={40} height={40} />
+                        <CustomMarker width={screenWidth * 0.0972} height={screenWidth * 0.0972} />
                     </Marker>
                 </>
 

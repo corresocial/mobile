@@ -11,7 +11,7 @@ import EyeHalfTraced from './../../../assets/icons/eyeHalfTraced.svg'
 import EyeTraced from './../../../assets/icons/eyeTraced.svg'
 
 import { LocationViewPreviewScreenProps } from '../../../routes/Stack/_stackScreenProps';
-import { Coordinates, LocationViewType } from '../types';
+import {  LocationViewType } from '../types';
 import { ServiceContext } from '../../../contexts/ServiceContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
@@ -20,26 +20,31 @@ import { CustomMapView } from '../../../components/CustomMapView';
 import { InfoCard } from '../../../components/_cards/InfoCard';
 
 const initialRegion = {
-    latitude: -11.70721,
-    longitude: -61.99830300000001,
-    latitudeDelta: 0.0001,
-    longitudeDelta: 0.0001
+    latitude: -14.235004,
+    longitude: -51.92528,
+    latitudeDelta: 50,
+    longitudeDelta: 50,
+}
+
+const defaultDeltaCoordinates = {
+    latitudeDelta: 0.003,
+    longitudeDelta: 0.003
 }
 
 function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenProps) {
 
-    const {setServiceDataOnContext} = useContext(ServiceContext)
+    const { serviceData, setServiceDataOnContext } = useContext(ServiceContext)
 
     const [locationViewSelected, setLocationViewSelected] = useState<LocationViewType>()
-    const [regionCoordinate, setRegionCoordinate] = useState<Coordinates>(initialRegion)
-    const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(initialRegion)
+    const [markerCoordinate, setMarkerCoordinate] = useState({
+        ...serviceData.completeAddress.coordinates,
+        ...defaultDeltaCoordinates
+    })
 
     useEffect(() => {
-        if (!locationViewSelected) {
-            const locationView = getLocationViewFromRouteParams()
-            setLocationViewSelected(locationView)
-        }
-    })
+        const locationView = getLocationViewFromRouteParams()
+        setLocationViewSelected(locationView)
+    }, [])
 
     const getLocationViewFromRouteParams = () => {
         return route.params.locationView
@@ -82,9 +87,7 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
     }
 
     const saveLocation = () => {
-        setServiceDataOnContext({
-
-        })
+        setServiceDataOnContext({locationView: locationViewSelected})
         navigation.navigate('SelectDeliveryMethod')
     }
 
@@ -107,10 +110,9 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
             </DefaultHeaderContainer>
             <MapContainer>
                 <CustomMapView
-                    regionCoordinate={regionCoordinate}
+                    regionCoordinate={markerCoordinate}
                     markerCoordinate={markerCoordinate}
                     CustomMarker={getLocationViewIcon()}
-                    onLongPressMap={() => { }}
                     locationView={locationViewSelected}
                 />
             </MapContainer>

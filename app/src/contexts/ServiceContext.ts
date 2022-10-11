@@ -1,9 +1,9 @@
 import React from "react";
+import { ServiceData } from "./types";
 
 export const serviceContext = {
-    serviceData: {}
-    ,
-    setServiceDataOnContext: (serviceDataValue: any) => {
+    serviceData: {} as ServiceData,
+    setServiceDataOnContext: (serviceDataValue: {}) => {
         serviceContext.serviceData = {
             ...serviceContext.serviceData,
             ...serviceDataValue

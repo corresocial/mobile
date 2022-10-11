@@ -16,3 +16,13 @@ export type Coordinates = {
     latitudeDelta: number
     longitudeDelta: number
 }
+
+export type CompleteAddress = {
+    street?: string | null;
+    streetNumber?: string | null;
+    district?: string | null;
+    postalCode?: string | null;
+    city?: string | null;
+    subregion?: string | null;
+    country?: string | null;
+}

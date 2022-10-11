@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated } from 'react-native';
+import { Animated, LayoutRectangle, View } from 'react-native';
 import * as Location from 'expo-location'
 
 import { theme } from '../../../common/theme';
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions';
+import { screenHeight, screenWidth, statusBarHeight } from '../../../common/screenDimensions';
 import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from './styles';
 import Check from './../../../assets/icons/check.svg'
 import MapPointPurble from './../../../assets/icons/mapPoint-purple.svg'
 import MapPointOrange from './../../../assets/icons/mapPoint-orange.svg'
 
 import { InsertServicePrestationLocationScreenProps } from '../../../routes/Stack/_stackScreenProps';
-import { Coordinates } from '../types';
+import { CompleteAddress, Coordinates } from '../types';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { BackButton } from '../../../components/_buttons/BackButton';
@@ -19,32 +19,38 @@ import { InstructionCard } from '../../../components/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
 import { CustomMapView } from '../../../components/CustomMapView';
-import { MapEvent } from 'react-native-maps';
 import { ServiceContext } from '../../../contexts/ServiceContext';
 
 const initialRegion = {
     latitude: -14.235004,
     longitude: -51.92528,
-    latitudeDelta: -0.000001,
-    longitudeDelta: -0.000001,
+    latitudeDelta: 50,
+    longitudeDelta: 50,
+}
+
+const defaultDeltaCoordinates = {
+    latitudeDelta: 0.003,
+    longitudeDelta: 0.003
 }
 
 function InsertServicePrestationLocation({ navigation }: InsertServicePrestationLocationScreenProps) {
 
     const { setServiceDataOnContext } = useContext(ServiceContext)
 
-    const [status, requestPermission] = Location.useForegroundPermissions()
-    const [region, setRegion] = useState<Coordinates>(initialRegion)
+    const [hasPermission, setHasPermission] = useState(false)
     const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(null)
     const [address, setAddress] = useState('')
+    const [completeAddress, setCompleteAddress] = useState<CompleteAddress>({})
+
+    const [mapContainerDimensions, setMapContainerDimensions] = useState<LayoutRectangle>({ width: 0, height: 0, x: 0, y: 0 })
     const [validAddress, setValidAddress] = useState(false)
     const [invalidAddressAfterSubmit, setInvalidAddressAfterSubmit] = useState<boolean>(false)
 
-    useEffect(() => {
-        if (markerCoordinate) {
-            setRegion(markerCoordinate)
-        }
-    }, [markerCoordinate])
+    const requestLocationPermission = async () => {
+        const locationPermission = await Location.requestForegroundPermissionsAsync()
+        setHasPermission(locationPermission.granted)
+        return locationPermission.granted || hasPermission
+    }
 
     const someInvalidFieldSubimitted = () => {
         return invalidAddressAfterSubmit
@@ -57,6 +63,9 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
     }
 
     const getCurrentPositionCoordinated = async () => {
+        const permission = await requestLocationPermission()
+        if (!permission) return
+
         const currentPositionCoordinate = await Location.getCurrentPositionAsync()
         const geolocationCoordinates = {
             latitude: currentPositionCoordinate.coords.latitude,
@@ -64,21 +73,21 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
         }
 
         setMarkerCoordinate({
-            ...region,
+            ...defaultDeltaCoordinates,
             ...geolocationCoordinates,
         })
-        setValidAddress(true)
+        setValidAddress(false)
+        setAddress('')
 
-        convertGeocodeToAddress({
-            ...region,
-            latitude: geolocationCoordinates.latitude,
-            longitude: geolocationCoordinates.longitude
-        })
+        convertGeocodeToAddress(
+            geolocationCoordinates.latitude,
+            geolocationCoordinates.longitude
+        )
     }
 
     const getAddressCoordinates = async () => {
-        const locationPermission = await requestPermission()
-        if (!locationPermission?.granted || address.length < 1) return
+        const permission = await requestLocationPermission()
+        if (!permission) return
 
         const addressGeolocation = await Location.geocodeAsync(address)
 
@@ -93,48 +102,37 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
             longitude: addressGeolocation[0].longitude,
         }
 
-        console.log(geolocationCoordinates)
-
         setMarkerCoordinate({
-            ...region,
+            ...defaultDeltaCoordinates,
             ...geolocationCoordinates,
         })
 
-        convertGeocodeToAddress({
-            ...region,
-            latitude: addressGeolocation[0].latitude,
-            longitude: addressGeolocation[0].longitude
-        })
-    }
+        convertGeocodeToAddress(
+            addressGeolocation[0].latitude,
+            addressGeolocation[0].longitude
+        )
 
-    const setRegionOnTouchMap = ({ nativeEvent }: MapEvent<{}>) => {
-        setMarkerCoordinate({
-            ...region,
-            latitude: nativeEvent.coordinate.latitude,
-            longitude: nativeEvent.coordinate.longitude
-        })
-
-        convertGeocodeToAddress({
-            ...region,
-            latitude: nativeEvent.coordinate.latitude,
-            longitude: nativeEvent.coordinate.longitude
-        })
-    }
-
-    const convertGeocodeToAddress = async (coordinates: Coordinates) => {
-        const geocodeAddress = await Location.reverseGeocodeAsync({
-            latitude: coordinates.latitude,
-            longitude: coordinates.longitude
-        })
-
-        const formatedAddress = formatAddress(geocodeAddress)
         setValidAddress(true)
+    }
+
+    const convertGeocodeToAddress = async (latitude: number, longitude: number) => {
+        const geocodeAddress = await Location.reverseGeocodeAsync({
+            latitude: latitude,
+            longitude: longitude
+        })
+
+        const structuredAddress = structureAddress(geocodeAddress)
+        // const formatedAddress = formatAddress(geocodeAddress)
+
+        setCompleteAddress(structuredAddress)
+        //  setAddress(formatedAddress)
+
         setInvalidAddressAfterSubmit(false)
-        setAddress(formatedAddress)
+
+        return structuredAddress
     }
 
     const formatAddress = (geocodeAddress: Location.LocationGeocodedAddress[]) => {
-        // console.log(geocodeAddress)
         const {
             street,
             streetNumber,
@@ -148,12 +146,37 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
         return `${street ? street + ',' : ''} ${streetNumber ? streetNumber + ',' : name ? name + ',' : ''} ${district ? district + ' -' : ''} ${city ? city + ' -' : (subregion ? subregion + ' -' : '')} ${region ? region + ',' : ' -'} ${postalCode}`
     }
 
-    const saveLocation = () => {
-        setServiceDataOnContext({
-            coordinates: markerCoordinate,
-            address
-        })
+    const structureAddress = (geocodeAddress: Location.LocationGeocodedAddress[]) => {
+        return {
+            street: geocodeAddress[0].street,
+            streetNumber: geocodeAddress[0].streetNumber || geocodeAddress[0].name,
+            district: geocodeAddress[0].district == geocodeAddress[0].subregion ? 'Centro' : geocodeAddress[0].district,
+            postalCode: geocodeAddress[0].postalCode,
+            city: geocodeAddress[0].city || geocodeAddress[0].subregion,
+            subregion: geocodeAddress[0].region,
+            country: geocodeAddress[0].country,
+            coordinates: {
+                latitude: markerCoordinate?.latitude,
+                longitude: markerCoordinate?.longitude
+            }
+        }
+    }
+
+    const updateMarkerPosition = async (coordinates: Coordinates) => { // TODO  type
+        setMarkerCoordinate(coordinates) // TODO Timeout
+        markerCoordinate && setInvalidAddressAfterSubmit(false)
+    }
+
+    const saveLocation = async () => {
+        if (!markerCoordinateIsAccuracy()) return
+        const completeAddress = await convertGeocodeToAddress(markerCoordinate?.latitude as number, markerCoordinate?.longitude as number)
+        console.log(completeAddress)
+        setServiceDataOnContext({ completeAddress })
         navigation.navigate('SelectLocationView')
+    }
+
+    const markerCoordinateIsAccuracy = () => {
+        return markerCoordinate?.latitudeDelta as number < 0.0065
     }
 
     const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -224,8 +247,15 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
                     invalidAddressAfterSubmit && setInvalidAddressAfterSubmit(false)
                 }}
             />
-            {/* <SearchAddressInput /> */}
-            <MapContainer>
+            <MapContainer onLayout={(event) => !mapContainerDimensions.width && setMapContainerDimensions(event.nativeEvent.layout)}>
+                <View style={{
+                    position: 'absolute',
+                    top: mapContainerDimensions.height / 2 - (screenWidth * 0.0972),
+                    left: mapContainerDimensions.width / 2 - (screenWidth * 0.0972 / 2),
+                    zIndex: 3
+                }}>
+                    <MapPointOrange width={screenWidth * 0.0972} height={screenWidth * 0.0972} />
+                </View>
                 <ButtonContainer>
                     <PrimaryButton
                         relativeHeight='10%'
@@ -242,14 +272,14 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
                     />
                 </ButtonContainer>
                 <CustomMapView
-                    regionCoordinate={region}
-                    markerCoordinate={markerCoordinate}
+                    regionCoordinate={markerCoordinate || initialRegion}
+                    markerCoordinate={null}
                     CustomMarker={MapPointOrange}
-                    onLongPressMap={setRegionOnTouchMap}
+                    updateMarkerPosition={updateMarkerPosition}
                 />
             </MapContainer>
             {
-                markerCoordinate && validAddress &&
+                markerCoordinate && markerCoordinateIsAccuracy() && //&& validAddress
                 <ButtonContainerBottom>
                     <PrimaryButton
                         flexDirection={'row-reverse'}

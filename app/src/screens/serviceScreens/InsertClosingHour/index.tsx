@@ -49,7 +49,6 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
     }
 
     const saveClosingHour = () => {
-        console.log(serviceData)
         setServiceDataOnContext({
             closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
         })

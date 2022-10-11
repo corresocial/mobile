@@ -33,7 +33,7 @@ export function ServiceStack() {
             <Stack.Navigator initialRouteName='SelectPostType'
                 screenOptions={{
                     headerShown: false,
-                    gestureEnabled: false,
+                    gestureEnabled: true,
                     ...TransitionPresets.SlideFromRightIOS,
                 }}
             >
