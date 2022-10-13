@@ -25,10 +25,13 @@ import {
 
 function Profile({ navigation, }: HomeTabScreenProps) {
 	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
+	
+	const [profilePicture, setProfilePicture] = useState<string[]>([])
 	const [tourModalVisibility, setTourModalVisibility] = useState(true)// TODO Development  only
 
 	useEffect(() => {
 		initializeUserTour()
+		getProflePicture()
 	}, [])
 
 	const initializeUserTour = async () => {
@@ -67,6 +70,12 @@ function Profile({ navigation, }: HomeTabScreenProps) {
 		navigation.navigate('ServiceStack')
 	}
 
+	const getProflePicture = async () => {
+		const localUser = await getObjectLocalUser()
+		const {img_url} = localUser
+		setProfilePicture(img_url)
+	}
+
 	return (
 		<Container style={{ flex: 1 }}>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -86,7 +95,7 @@ function Profile({ navigation, }: HomeTabScreenProps) {
 						width={RFValue(100)}
 						borderWidth={3}
 						borderRightWidth={8}
-						pictureUri='https://firebasestorage.googleapis.com/v0/b/corresocial-66840.appspot.com/o/imagens%2Fusers%2F7ertzEsACZM7zeScfy6YEKW1zWg2.jpg?alt=media&token=85fc30b5-eeec-4165-8527-f4f5b905062b'
+						pictureUri={profilePicture[0]}
 					/>
 					<InfoArea>
 						<UserName>João Pedro Megid Carrilho</UserName>

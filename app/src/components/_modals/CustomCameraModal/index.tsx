@@ -89,6 +89,7 @@ function CustomCameraModal({ cameraOpened, onClose,setPictureUri }: CustomCamera
             visible={cameraOpened}
             onRequestClose={onClose}
         >
+            <StatusBar backgroundColor={theme.black4} barStyle={'dark-content'}/>
             <Container>
                 <CameraContainer>
                     <Camera

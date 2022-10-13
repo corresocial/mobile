@@ -13,6 +13,7 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { FormContainer } from '../../../components/_containers/FormContainer';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { InstructionCard } from '../../../components/InstructionCard';
+import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal';
 
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
 
@@ -35,15 +36,14 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		return { ...route.params }
 	}
 
-	const navigateToCustomCamera = () => {
+	const navigateToProfilePicture = () => {
 		const userData = getRouteParams()
 		setHasServerSideError(false)
-		navigation.navigate('CustomCamera', userData)
+		navigation.navigate('ProfilePicturePreview', userData)
 	}
 
 	const saveUserData = async () => {
 		const userData = getRouteParams()
-
 		try {
 			await saveInFirebase(userData)
 			await saveInSecureStore(userData)
@@ -118,7 +118,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 					label='claro, vou adicionar'
 					labelColor={theme.white3}
 					highlightedWords={['vou', 'adicionar']}
-					onPress={navigateToCustomCamera}
+					onPress={navigateToProfilePicture}
 				/>
 				<PrimaryButton
 					color={theme.red3}

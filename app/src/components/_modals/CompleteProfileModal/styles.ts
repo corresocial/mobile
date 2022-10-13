@@ -32,7 +32,7 @@ export const Title = styled.Text`
 `
 export const Description = styled.Text`
     font-family: Arvo_400Regular;
-    font-size: ${RFValue(20)};
+    font-size: ${RFValue(20)}px;
     color: ${({ theme }) => theme.black3}
 `
 

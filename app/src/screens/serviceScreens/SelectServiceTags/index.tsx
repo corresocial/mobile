@@ -103,6 +103,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
         <Container>
             <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'}/>
             <DefaultHeaderContainer
+                minHeight={screenHeight * 0.26}
                 relativeHeight={'30%'}
                 centralized
                 backgroundColor={theme.purple2}

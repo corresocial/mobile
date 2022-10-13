@@ -10,7 +10,6 @@ import { InsertPhone } from '../../../screens/authRegisterScreens/InsertPhone';
 import { InsertConfirmationCode } from '../../../screens/authRegisterScreens/InsertConfirmationCode';
 import { InsertName } from '../../../screens/authRegisterScreens/InsertName';
 import { InsertProfilePicture } from '../../../screens/authRegisterScreens/InsertProfilePicture';
-import { CustomCamera } from '../../../screens/authRegisterScreens/CustomCamera';
 import { ProfilePicturePreview } from '../../../screens/authRegisterScreens/ProfilePicturePreview';
 import { UserStack } from '../UserStack';
 
@@ -34,7 +33,6 @@ export function AuthRegisterStack() {
             <Stack.Screen name={'InsertConfirmationCode'} component={InsertConfirmationCode} />
             <Stack.Screen name={'InsertName'} component={InsertName} />
             <Stack.Screen name={'InsertProfilePicture'} component={InsertProfilePicture} />
-            <Stack.Screen name={'CustomCamera'} component={CustomCamera} />
             <Stack.Screen name={'ProfilePicturePreview'} component={ProfilePicturePreview} />
 
             <Stack.Screen name={'UserStack'} component={UserStack} />

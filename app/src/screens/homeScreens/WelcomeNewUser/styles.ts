@@ -5,8 +5,6 @@ export const Container = styled.View`
     flex: 1;
 `
 
-console.log(RFValue(40))
-
 export const ContainerButtons = styled.View`
     flex: 1;
     justify-content: space-around;

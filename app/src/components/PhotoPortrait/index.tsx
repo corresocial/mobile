@@ -1,9 +1,10 @@
 import React from 'react';
-import { Image, SafeAreaView } from 'react-native';
+import { Image } from 'react-native';
 
+import { RFValue } from 'react-native-responsive-fontsize';
 import { Container, DeleteItemArea } from './styles';
 import TrashIcon from './../../assets/icons/trash.svg'
-import { RFValue } from 'react-native-responsive-fontsize';
+import NoPhoto from './../../assets/imgs/noPhoto.svg'
 
 interface PhotoPortraitProps {
     width: number
@@ -32,16 +33,21 @@ function PhotoPortrait({
                 borderRightWidth: RFValue(borderRightWidth),
             }}
         >
-            <Image source={{ uri: pictureUri ? pictureUri : 'https://triunfo.pe.gov.br/pm_tr430/wp-content/uploads/2018/03/sem-foto.jpg' }}
-                width={0}
-                height={0}
-                style={{
-                    width: '100%',
-                    height: '100%',
-                    resizeMode: 'contain',
-                    borderRadius: RFValue(7),
-                }}
-            />
+            {
+                pictureUri
+                    ? <Image source={{ uri: pictureUri  }}
+                        width={0}
+                        height={0}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            resizeMode: 'contain',
+                            borderRadius: RFValue(7),
+                        }}
+                    />
+                    : <NoPhoto />
+            }
+
             {
                 deleteCurrentPicture && pictureUri
                     ? <DeleteItemArea onPress={deleteCurrentPicture}>

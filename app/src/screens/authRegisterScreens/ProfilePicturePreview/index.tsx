@@ -1,8 +1,8 @@
 import React, { useContext, useRef, useState } from 'react'
-import { Animated } from 'react-native';
+import { Animated, StatusBar } from 'react-native';
 import { getDownloadURL } from 'firebase/storage';
 
-import { Container } from './styles';
+import { Container, InstructionCardContainer } from './styles';
 import { theme } from '../../../common/theme';
 
 import updateUser from '../../../services/Firebase/user/update';
@@ -16,11 +16,14 @@ import { FormContainer } from '../../../components/_containers/FormContainer';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { InstructionCard } from '../../../components/InstructionCard';
 import { PhotoPortrait } from '../../../components/PhotoPortrait';
+import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal';
+import { screenHeight, screenWidth } from '../../../common/screenDimensions';
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
 
 	const { setDataOnSecureStore, getDataFromSecureStore } = useContext(AuthContext)
 
+	const [profilePicutresPack, setProfilePicturesPack] = useState<string[]>([])
 	const [hasServerSideError, setHasServerSideError] = useState(false)
 
 	const headerMessages = {
@@ -39,12 +42,12 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	}
 
 	const saveUserData = async () => {
-		//navigateToNextScreen()
 		const userData = getRouteParams() // TODO uncoment
 
-		if (!userData.profilePictureUri) return
+		if (!profilePicutresPack.length) return
+		console.log('válido')
 
-		await uploadImage(userData.profilePictureUri, 'users', userData.userIdentification.uid)
+		await uploadImage(profilePicutresPack[0], 'users', userData.userIdentification.uid)
 			.then(
 				({ uploadTask, blob }: any) => { // TODO Type
 					uploadTask.on(
@@ -80,7 +83,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 	const saveInSecureStore = async (userData: UserCollection) => {
 		const localUser = await getObjectLocalUser()
-		await setDataOnSecureStore('corre.user', {...localUser, ...userData})
+		await setDataOnSecureStore('corre.user', { ...localUser, ...userData })
 	}
 
 	const getObjectLocalUser = async () => {
@@ -96,9 +99,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	}
 
 	const backToCustomCamera = () => {
-		const userData = getRouteParams()
-		navigation.navigate('InsertProfilePicture', userData) //TODO navigation.goBack() do not working
-		navigation.navigate('CustomCamera', userData)
+		setProfilePicturesPack([])
 	}
 
 	const getHeaderMessage = () => {
@@ -109,6 +110,12 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	const getHeaderHighlightedWords = () => {
 		if (hasServerSideError) return headerMessages.serverSideError.highlightedWords
 		return headerMessages.instruction.highlightedWords
+	}
+
+	const setPictureUri = (uri: string) => {
+		const currentPictures = [...profilePicutresPack]
+		currentPictures.push(uri)
+		setProfilePicturesPack(currentPictures)
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -129,17 +136,29 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 	return (
 		<Container >
+			<StatusBar backgroundColor={hasServerSideError ? theme.red2 :theme.green2} barStyle={'dark-content'} />
+			<CustomCameraModal
+				cameraOpened={!profilePicutresPack.length}
+				onClose={() => { }}
+				setPictureUri={setPictureUri}
+
+			/>
 			<DefaultHeaderContainer
-				relativeHeight={!hasServerSideError ? '65%' : '68%'}
+				relativeHeight={!hasServerSideError ? '70%' : '68%'}
 				centralized
-				justifyContent={'flex-end'}
+				withoutPadding
+				flexDirection='column'
+				justifyContent={'space-around'}
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
-				 <PhotoPortrait pictureUri={route.params.profilePictureUri} width={0} height={0} />
-				<InstructionCard
-					message={getHeaderMessage()}
-					highlightedWords={getHeaderHighlightedWords()}
-				/>
+				<PhotoPortrait pictureUri={profilePicutresPack[0]} width={screenWidth} height={screenWidth} />
+				<InstructionCardContainer>
+					<InstructionCard
+						flex={0}
+						message={getHeaderMessage()}
+						highlightedWords={getHeaderHighlightedWords()}
+					/>
+				</InstructionCardContainer>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
 				<PrimaryButton

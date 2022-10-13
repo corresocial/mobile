@@ -15,15 +15,9 @@ export type AuthRegisterStackParamList = {
         userName: string,
         userIdentification: UserIdentification
     }
-    CustomCamera: {
-        userPhone: string,
-        userName: string,
-        userIdentification: UserIdentification
-    }
     ProfilePicturePreview: {
         userPhone: string,
         userName: string,
-        profilePictureUri: string,
         userIdentification: UserIdentification
     }
 
