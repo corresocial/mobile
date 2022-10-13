@@ -9,8 +9,8 @@ import {
     Picture,
 } from './styles'
 import AddPictureIcon from './../../assets/icons/addPicture.svg'
-import { Image } from 'react-native'
 import { screenWidth } from '../../common/screenDimensions'
+import { RFValue } from 'react-native-responsive-fontsize'
 
 interface HorizontalListPicturesProps {
     picturesUri: string[]
@@ -35,11 +35,8 @@ function HorizontalListPictures({ picturesUri, pictureUriSelected, onSelectPictu
                             borderRightWidth: pictureUriSelected == index ? 4 : 3
                         }}>
                         <Picture
-                            style={{
-                                resizeMode: 'contain'
-                            }}
                             source={{ uri: pictureUri }}
-                            width={screenWidth * 0.16} height={screenWidth * 0.16}
+                            width={100} height={100}
                         />
                     </PicturePortrait>
                 </PictureItemButtom>
@@ -48,14 +45,16 @@ function HorizontalListPictures({ picturesUri, pictureUriSelected, onSelectPictu
     }
 
     return (
-        <ScrollView horizontal>
-            <Container >
-                <AddNewPicturesButton onPress={openCamera}>
-                    <AddPictureIcon width={'50%'} height={'50%'} />
-                </AddNewPicturesButton>
-                {renderPictures()}
-            </Container>
-        </ScrollView>
+        <Container >
+            <ScrollView horizontal>
+                <Container>
+                    <AddNewPicturesButton onPress={openCamera}>
+                        <AddPictureIcon width={'50%'} height={'50%'} />
+                    </AddNewPicturesButton>
+                    {renderPictures()}
+                </Container>
+            </ScrollView>
+        </Container>
     )
 }
 

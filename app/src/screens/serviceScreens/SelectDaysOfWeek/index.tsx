@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react'
-import { ScrollView } from 'react-native'
+import {  StatusBar } from 'react-native'
 
 import {
     Container,
     FloatButtonContainer,
-    Sigh,
-    TagsSelectedArea
+    Row,
+    WeekdaysSelectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
 import { screenHeight, screenWidth, statusBarHeight } from '../../../common/screenDimensions'
@@ -22,21 +22,37 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectDaysOfWeek({  navigation }: SelectDaysOfWeekScreenProps) {
+function SelectDaysOfWeek({ navigation }: SelectDaysOfWeekScreenProps) {
 
     const { setServiceDataOnContext } = useContext(ServiceContext)
-    
+
     const [selectedDays, setSelectedDays] = useState<string[]>([])
     const daysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom']
 
     const renderDaysOfWeek = () => {
         return daysOfWeek.map((dayOfWeek, index) => {
+            if (dayOfWeek == 'dom') {
+                return <Row>
+                    <SelectButton
+                        key={index}
+                        width={screenWidth * 0.41}
+                        height={screenHeight * 0.11}
+                        marginVertical={10}
+                        label={dayOfWeek}
+                        fontSize={24}
+                        backgroundSelected={theme.purple1}
+                        selected={selectedDays.includes(dayOfWeek)}
+                        onSelect={() => onSelectDay(dayOfWeek)}
+                    />
+                </Row>
+            }
+
             return (
                 <SelectButton
                     key={index}
-                    width={screenWidth * 0.38}
-                    height={screenHeight * 0.1}
-                    margin={screenWidth * 0.025}
+                    width={screenWidth * 0.41}
+                    height={screenHeight * 0.11}
+                    marginVertical={10}
                     label={dayOfWeek}
                     fontSize={24}
                     backgroundSelected={theme.purple1}
@@ -63,13 +79,13 @@ function SelectDaysOfWeek({  navigation }: SelectDaysOfWeekScreenProps) {
         setServiceDataOnContext({
             weekdaysService: selectedDays
         })
-          navigation.navigate('InsertOpeningHour')
+        navigation.navigate('InsertOpeningHour')
     }
 
     return (
         <Container>
+            <StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={(screenHeight + statusBarHeight) * 0.01}
                 relativeHeight={'22%'}
                 centralized
                 backgroundColor={theme.white3}
@@ -82,17 +98,17 @@ function SelectDaysOfWeek({  navigation }: SelectDaysOfWeekScreenProps) {
                     highlightedWords={['que', 'dias']}
                 >
                     <ProgressBar
-                        range={4}
-                        value={4}
+                        range={5}
+                        value={5}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
             <SelectButtonsContainer
                 backgroundColor={theme.purple2}
             >
-                <TagsSelectedArea>
+                <WeekdaysSelectedArea>
                     {renderDaysOfWeek()}
-                </TagsSelectedArea>
+                </WeekdaysSelectedArea>
             </SelectButtonsContainer>
             {
                 !!selectedDays.length &&

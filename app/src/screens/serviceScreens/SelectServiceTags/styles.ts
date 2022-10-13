@@ -1,3 +1,4 @@
+import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 import { screenHeight } from '../../../common/screenDimensions';
 
@@ -15,11 +16,21 @@ export const InputTagArea = styled.View`
     padding: 20px;
 `
 
-// TODO Break
+
 export const TagsSelectedArea = styled.View` 
+    padding-horizontal: ${RFValue(10)}px;
     width: 100%;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-bottom: 30px;
+    flexWrap: wrap;
+`
+export const TagsUnselectedArea = styled.View` 
+    padding-horizontal: ${RFValue(10)}px;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
     flex-direction: row;
     margin-bottom: 30px;
     flexWrap: wrap;
@@ -32,7 +43,7 @@ export const FloatButtonContainer = styled.View`
     width: 85%;
     height: 15%;
     position: absolute;
-    bottom: 0;
+    bottom: ${RFValue(10)}px;
 `
 
 export const Sigh = styled.View`

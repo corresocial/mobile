@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 
-import { Container } from './styles';
-import { screenWidth } from '../../../common/screenDimensions';
+import { Container, PicturePreviewContainer } from './styles';
+import { screenHeight, screenWidth } from '../../../common/screenDimensions';
 import { theme } from '../../../common/theme';
 import CheckIcon from './../../../assets/icons/check.svg'
 
@@ -15,13 +15,14 @@ import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal
 import { InstructionCard } from '../../../components/InstructionCard';
 import { PhotoPortrait } from '../../../components/PhotoPortrait';
 import { HorizontalListPictures } from '../../../components/HorizontalListPictures';
+import { StatusBar } from 'react-native';
 
 function ServicePicturePreview({ navigation, route }: ServicePicturePreviewScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
 
 	const [picturesPack, setPicturesPack] = useState<string[]>([])
 	const [pictureIndexSelected, setPictureIndexSelected] = useState<number>(0)
-	const [cameraOpened, setCameraOpened] = useState<boolean>(true)
+	const [cameraOpened, setCameraOpened] = useState<boolean>(false)
 
 	const setPictureUri = (uri: string) => {
 		const currentPictures = [...picturesPack]
@@ -43,35 +44,36 @@ function ServicePicturePreview({ navigation, route }: ServicePicturePreviewScree
 
 	return (
 		<Container>
+			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'}/>
 			<CustomCameraModal
 				setPictureUri={setPictureUri}
 				onClose={() => setCameraOpened(false)}
 				cameraOpened={cameraOpened}
 			/>
 			<DefaultHeaderContainer
-				relativeHeight={'80%'}
-				flexDirection={'column'}
-				centralized
-				justifyContent={'flex-end'}
+				relativeHeight={'85%'}
 				backgroundColor={theme.purple2}
+				withoutPadding={true}
 			>
-				<PhotoPortrait
-					pictureUri={picturesPack[pictureIndexSelected]}
-					width={screenWidth * 0.85}
-					height={screenWidth * 0.85}
-					deleteCurrentPicture={deleteCurrentPicture}
-				/>
-				<HorizontalListPictures
-					picturesUri={picturesPack}
-					pictureUriSelected={pictureIndexSelected}
-					openCamera={() => setCameraOpened(true)}
-					onSelectPicture={setPictureIndexSelected}
-				/>
-				<InstructionCard
-					message={'ficaram boas?'}
-					highlightedWords={['boas?']}
-					flex={0}
-				/>
+				<PicturePreviewContainer>
+					<PhotoPortrait
+						pictureUri={picturesPack[pictureIndexSelected]}
+						width={screenWidth * 0.90}
+						height={screenWidth * 0.90}
+						deleteCurrentPicture={deleteCurrentPicture}
+					/>
+					<HorizontalListPictures
+						picturesUri={picturesPack}
+						pictureUriSelected={pictureIndexSelected}
+						openCamera={() => setCameraOpened(true)}
+						onSelectPicture={setPictureIndexSelected}
+					/>
+					<InstructionCard
+						message={'ficaram boas?'}
+						highlightedWords={['boas?']}
+						flex={0}
+					/>
+				</PicturePreviewContainer>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
 				<PrimaryButton
@@ -79,7 +81,7 @@ function ServicePicturePreview({ navigation, route }: ServicePicturePreviewScree
 					color={theme.green3}
 					label='sim, continuar'
 					labelColor={theme.white3}
-					fontSize={20}
+					fontSize={18}
 					SvgIcon={CheckIcon}
 					svgIconScale={['30%', '18%']}
 					highlightedWords={['continuar']}

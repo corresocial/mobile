@@ -1,4 +1,4 @@
-import { Animated } from 'react-native';
+import { Animated, StatusBar } from 'react-native';
 import React, { useContext, useRef, useState } from 'react'
 
 import { theme } from '../../../common/theme';
@@ -19,8 +19,8 @@ import { ProgressBar } from '../../../components/ProgressBar';
 
 function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
 
-    const {setServiceDataOnContext} = useContext(ServiceContext)
-    
+    const { setServiceDataOnContext } = useContext(ServiceContext)
+
     const [exchangeValue, setExchangeValue] = useState<string>('')
     const [invalidExchangeValueAfterSubmit, setInvalidExchangeValueAfterSubmit] = useState<boolean>(false)
 
@@ -40,7 +40,7 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
     const saveExchangeValue = () => {
         const exchangeValueIsValid = validateExchangeValue(exchangeValue)
         if (exchangeValueIsValid) {
-            setServiceDataOnContext({exchangeValue})
+            setServiceDataOnContext({ exchangeValue })
             navigation.navigate('InsertServicePrestationLocation')
         } else {
             !exchangeValueIsValid && setInvalidExchangeValueAfterSubmit(true)
@@ -69,9 +69,10 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
 
     return (
         <Container >
+            <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={(screenHeight + statusBarHeight) * 0.26}
-                relativeHeight={'22%'}
+                minHeight={screenHeight * 0.28}
+                relativeHeight={'28%'}
                 centralized
                 backgroundColor={animateDefaultHeaderBackgound()}
             >
@@ -121,10 +122,10 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
                     onChangeText={(text: string) => setExchangeValue(text)}
 
                 />
-                <ButtonsContainer> 
+                <ButtonsContainer>
                     <PrimaryButton
                         flexDirection={'row-reverse'}
-                        color={someInvalidFieldSubimitted() ? theme.red3: theme.green3}
+                        color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
                         label={'continuar'}
                         labelColor={theme.white3}
                         SvgIcon={Check}

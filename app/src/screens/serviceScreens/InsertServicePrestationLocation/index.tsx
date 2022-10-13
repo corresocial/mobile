@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, LayoutRectangle, View } from 'react-native';
+import { Animated, LayoutRectangle, StatusBar, View } from 'react-native';
 import * as Location from 'expo-location'
 
 import { theme } from '../../../common/theme';
@@ -197,8 +197,9 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
 
     return (
         <Container >
+            <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={(screenHeight + statusBarHeight) * 0.26}
+                minHeight={screenHeight * 0.26}
                 relativeHeight={'22%'}
                 centralized
                 backgroundColor={animateDefaultHeaderBackgound()}
@@ -220,8 +221,8 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
                     }
                 >
                     <ProgressBar
-                        range={4}
-                        value={3}
+                        range={5}
+                        value={4}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>

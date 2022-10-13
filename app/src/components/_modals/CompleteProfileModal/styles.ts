@@ -1,3 +1,4 @@
+import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 export const Container = styled.View`
@@ -13,30 +14,30 @@ export const TouchCloseArea = styled.TouchableOpacity`
 `
 
 export const Content = styled.View`
-    height: 400px;
-    width: 80%;
+    height: ${RFValue(400)}px;
+    width: 88%;
     background-color: ${({ theme }) => theme.white3}
-    padding: 30px;
+    padding: ${RFValue(25)}px;
+    border-radius: ${RFValue(10)}px;
+    border-width: ${RFValue(5)}px;
     justify-content: space-between;
-    border-radius: 10px;
-    border-color: ${({theme}) => theme.black3}
-    border-width: 5px;
-    border-right-width: 11px;
-`
+    border-color: ${({ theme }) => theme.black3}
+    border-right-width: ${RFValue(11)}px;
+    `
 
 export const Title = styled.Text`
     font-family: Arvo_400Regular;
-    font-size: 24px;
-    color: ${({theme}) => theme.black3}
+    font-size: ${RFValue(24)}px;
+    color: ${({ theme }) => theme.black3}
 `
 export const Description = styled.Text`
     font-family: Arvo_400Regular;
-    font-size: 20px;
-      color: ${({theme}) => theme.black3}
+    font-size: ${RFValue(20)};
+    color: ${({ theme }) => theme.black3}
 `
 
 export const Question = styled.Text`
     font-family: Arvo_400Regular;
-    font-size: 20px;
-      color: ${({theme}) => theme.black3}
+    font-size: ${RFValue(20)}px;
+    color: ${({ theme }) => theme.black3}
 `

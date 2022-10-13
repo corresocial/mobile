@@ -19,7 +19,7 @@ import { ProgressBar } from '../../../components/ProgressBar';
 
 function InsertServiceName({ navigation, route }: InsertServiceNameScreenProps) {
 
-    const {setServiceDataOnContext} = useContext(ServiceContext)
+    const { setServiceDataOnContext } = useContext(ServiceContext)
 
     const [serviceName, setServiceName] = useState<string>('')
     const [invalidServiceNameAfterSubmit, setInvalidServiceNameAfterSubmit] = useState<boolean>(false)
@@ -40,7 +40,7 @@ function InsertServiceName({ navigation, route }: InsertServiceNameScreenProps) 
     const saveServiceName = () => {
         const serviceNameIsValid = validateServiceName(serviceName)
         if (serviceNameIsValid) {
-            setServiceDataOnContext({serviceName})
+            setServiceDataOnContext({ serviceName })
             navigation.navigate('InsertServicePicture')
         } else {
             !serviceNameIsValid && setInvalidServiceNameAfterSubmit(true)
@@ -69,8 +69,9 @@ function InsertServiceName({ navigation, route }: InsertServiceNameScreenProps) 
 
     return (
         <Container >
+            <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={(screenHeight + statusBarHeight) * 0.26}
+                minHeight={screenHeight * 0.26}
                 relativeHeight={'22%'}
                 centralized
                 backgroundColor={animateDefaultHeaderBackgound()}
@@ -91,8 +92,8 @@ function InsertServiceName({ navigation, route }: InsertServiceNameScreenProps) 
                     }
                 >
                     <ProgressBar
-                        range={4}
-                        value={2}
+                        range={5}
+                        value={1}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -121,10 +122,10 @@ function InsertServiceName({ navigation, route }: InsertServiceNameScreenProps) 
                     onChangeText={(text: string) => setServiceName(text)}
 
                 />
-                <ButtonsContainer> 
+                <ButtonsContainer>
                     <PrimaryButton
                         flexDirection={'row-reverse'}
-                        color={someInvalidFieldSubimitted() ? theme.red3: theme.green3}
+                        color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
                         label={'continuar'}
                         labelColor={theme.white3}
                         SvgIcon={Check}

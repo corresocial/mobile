@@ -4,6 +4,7 @@ import { SvgProps } from 'react-native-svg';
 import { ButtonLabel, TouchableContainer, ContainerSurface, ContainerBottom, IconArea, LabelDescriptionArea, ButtonDescription } from './styles';
 import { theme } from '../../../common/theme';
 import { screenHeight } from '../../../common/screenDimensions';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions';
 
@@ -26,8 +27,8 @@ function OptionButton({
     color,
     label,
     labelColor,
-    labelSize,
-    labelAlign,
+    labelSize = 20,
+    labelAlign = 'center',
     highlightedWords,
     SvgIcon,
     svgIconScale,
@@ -51,7 +52,7 @@ function OptionButton({
         onPress()
     }
 
-    const heightWithoutDescription = screenHeight * 0.1
+    const heightWithoutDescription = RFValue(75)
 
     return (
         <TouchableContainer
@@ -61,14 +62,14 @@ function OptionButton({
         >
             <ContainerBottom
                 style={{
-                    height: description ? screenHeight * 0.16 : heightWithoutDescription
+                    height: description ? RFValue(137): heightWithoutDescription
                 }}
             >
                 <ContainerSurface
                     style={{
                         backgroundColor: color,
-                        marginRight: buttonPressed ? -4 : 0,
-                        height: description ? screenHeight * 0.16 : heightWithoutDescription
+                        marginRight: buttonPressed ? RFValue(-7) : 0,
+                        height: description ? RFValue(137) : heightWithoutDescription
                     } as { [key: string]: React.CSSProperties }}
                 >
                     <IconArea
@@ -82,8 +83,8 @@ function OptionButton({
                     <LabelDescriptionArea>
                         <ButtonLabel style={{
                             color: labelColor,
-                            textAlign: labelAlign ? labelAlign : 'center',
-                            fontSize: labelSize || 20,
+                            textAlign: labelAlign ,
+                            fontSize: RFValue(labelSize),
                         }}>
                             {showMessageWithHighlight(label, highlightedWords)}
                         </ButtonLabel>

@@ -3,11 +3,13 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 import { ButtonLabel, ContainerBottom, ContainerSurface, TouchableContainer } from './styles';
 import { theme } from '../../../common/theme';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 interface ShareButtonProps {
     color: string
     fontSize: number
     relativeWidth: string
+    height: number
     onPress: () => void
 }
 
@@ -15,6 +17,7 @@ function ShareButton({
     color,
     fontSize,
     relativeWidth,
+    height,
     onPress }: ShareButtonProps) {
     const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
 
@@ -40,12 +43,14 @@ function ShareButton({
             <ContainerBottom
                 style={{
                     width: relativeWidth,
+                    height: RFValue(height)
                 }}
             >
                 <ContainerSurface
                     style={{
                         backgroundColor: color,
-                        marginRight: buttonPressed ? -3 : 0,
+                        marginRight: buttonPressed ? RFValue(-4) : 0,
+                        height: RFValue(height)
                     } as { [key: string]: React.CSSProperties }}>
                     <FontAwesome5
                         name={'share'}

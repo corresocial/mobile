@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
+import { StatusBar } from 'react-native'
 
 import { Container, ButtonsContainer } from './styles'
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 
 import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/_stackScreenProps'
@@ -26,9 +26,9 @@ function SelectDeliveryMethod({ navigation }: SelectDeliveryMethodScreenProps) {
 
     return (
         <Container>
+              <StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={(screenHeight + statusBarHeight) * 0.26}
-                relativeHeight={'22%'}
+                relativeHeight={'27%'}
                 centralized
                 backgroundColor={theme.white3}
             >
@@ -40,8 +40,8 @@ function SelectDeliveryMethod({ navigation }: SelectDeliveryMethodScreenProps) {
                     highlightedWords={['entrega','distância?                             ']}
                 >
                     <ProgressBar
-                        range={4}
-                        value={3}
+                        range={5}
+                        value={4}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>

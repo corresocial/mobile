@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Container } from './styles'
+import { RFValue } from 'react-native-responsive-fontsize'
 
 import AngleLeft from './../../../assets/icons/angleLeft.svg'
 
@@ -11,7 +12,7 @@ interface BackButtonProps{
 function BackButton({onPress} : BackButtonProps){
     return (
         <Container onPress={onPress}>
-            <AngleLeft height={25} width={25}/>
+            <AngleLeft height={RFValue(25)} width={RFValue(25)}/>
         </Container>
     )
 

@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import MapView from 'react-native-maps';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 export const Container = styled.View`
     flex: 1;
@@ -11,10 +12,10 @@ export const MapContainer = styled.View`
 `
 
 export const ButtonContainerBottom = styled.View`
-    height: 18%;
+    height: ${RFValue(150)}px; 
     width: 100%;
     justify-content: space-around;
-    padding-horizontal: 30px;
+    padding-horizontal: ${RFValue(20)}px;
     position: absolute;
     bottom: 20px;
     z-index: 1;

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Container, Message } from './styles';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions';
 
@@ -34,8 +35,8 @@ function InstructionCard({
         >
             <Message
                 style={{
-                    fontSize: fontSize ? fontSize : 20,
-                    lineHeight: lineHeight ? lineHeight : 22,
+                    fontSize: fontSize ? RFValue(fontSize) : RFValue(20),
+                    lineHeight: lineHeight ? RFValue(lineHeight) : RFValue(22),
                 }}
             >{
                     showMessageWithHighlight(message, highlightedWords, fontSizeHighlighted)}

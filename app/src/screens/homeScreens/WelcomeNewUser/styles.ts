@@ -1,13 +1,16 @@
+import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
-import { screenHeight } from '../../../common/screenDimensions';
 
 export const Container = styled.View`
     flex: 1;
 `
 
-export const Text = styled.Text`
+console.log(RFValue(40))
 
+export const ContainerButtons = styled.View`
+    flex: 1;
+    justify-content: space-around;
+    padding-vertical: ${RFValue(40)}px;
 `
-
 
 

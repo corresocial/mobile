@@ -1,4 +1,5 @@
 import React, { useContext, useRef, useState } from 'react'
+import { StatusBar } from 'react-native';
 
 import { Container, InputsContainer, TwoPoints } from './styles';
 import { theme } from '../../../common/theme';
@@ -18,7 +19,7 @@ import { ProgressBar } from '../../../components/ProgressBar';
 
 function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
-    const { setServiceDataOnContext , serviceData} = useContext(ServiceContext)
+    const { setServiceDataOnContext, serviceData } = useContext(ServiceContext)
 
     const [hours, setHours] = useState<string>('')
     const [minutes, setMinutes] = useState<string>('')
@@ -57,6 +58,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
     return (
         <Container >
+            <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={(screenHeight + statusBarHeight) * 0.26}
                 relativeHeight={'22%'}

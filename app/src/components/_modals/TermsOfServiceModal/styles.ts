@@ -1,3 +1,4 @@
+import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 import { screenHeight } from '../../../common/screenDimensions';
 
@@ -7,13 +8,13 @@ export const Container = styled.View`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 30px;
+    padding: ${RFValue(25)}px;
     overflow: hidden;
 `
 
 export const LinkButtonsContainer = styled.View`
     width: 100%;
-    height: ${screenHeight * 0.18}px;
+    height: ${RFValue(150)}px;
     justify-content: space-around;
-    margin-bottom: ${screenHeight * 0.07}px
+    margin-bottom: ${RFValue(30)}px;
 `

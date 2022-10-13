@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 
-import { screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { screenHeight } from '../../../common/screenDimensions'
+import { RFValue } from 'react-native-responsive-fontsize'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 import { HomeTabScreenProps } from '../../../routes/Stack/_stackScreenProps'
@@ -21,7 +23,7 @@ import {
 	UserName
 } from './styles'
 
-function Profile({ navigation,  }: HomeTabScreenProps) {
+function Profile({ navigation, }: HomeTabScreenProps) {
 	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
 	const [tourModalVisibility, setTourModalVisibility] = useState(true)// TODO Development  only
 
@@ -67,6 +69,7 @@ function Profile({ navigation,  }: HomeTabScreenProps) {
 
 	return (
 		<Container style={{ flex: 1 }}>
+			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<CompleteProfileModal
 				visibility={tourModalVisibility}
 				closeModal={closeTourModal}
@@ -77,13 +80,10 @@ function Profile({ navigation,  }: HomeTabScreenProps) {
 				centralized={true}
 				relativeHeight={'22%'}
 			>
-				<ProfileHeader 
-				style={{
-					height: screenWidth * 0.27
-				}}>
+				<ProfileHeader>
 					<PhotoPortrait
-						height={screenWidth * 0.27}
-						width={screenWidth * 0.27}
+						height={RFValue(100)}
+						width={RFValue(100)}
 						borderWidth={3}
 						borderRightWidth={8}
 						pictureUri='https://firebasestorage.googleapis.com/v0/b/corresocial-66840.appspot.com/o/imagens%2Fusers%2F7ertzEsACZM7zeScfy6YEKW1zWg2.jpg?alt=media&token=85fc30b5-eeec-4165-8527-f4f5b905062b'
@@ -95,12 +95,13 @@ function Profile({ navigation,  }: HomeTabScreenProps) {
 								color={theme.orange3}
 								fontSize={13}
 								relativeWidth={'70%'}
+								height={30}
 								onPress={() => { }}
 							/>
 							<MoreOptionsButton
 								color={theme.white3}
-								height={screenHeight * 0.04}
-								width={screenHeight * 0.04}
+								height={30}
+								width={30}
 								onPress={() => { }}
 							/>
 						</OptionsArea>

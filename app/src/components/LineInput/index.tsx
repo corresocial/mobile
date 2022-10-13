@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { KeyboardTypeOptions, NativeSyntheticEvent, ReturnKeyTypeOptions, TextInputKeyPressEventData, View } from 'react-native';
-import { SvgProps } from 'react-native-svg';
 import { screenWidth } from '../../common/screenDimensions';
 
 import { Container, TextInput } from './styles';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 interface LineInputProps {
     value: string
@@ -27,7 +27,7 @@ interface LineInputProps {
     error?: boolean
     lastInput?: boolean
     keyboardType?: KeyboardTypeOptions
-    returnKeyType?: ReturnKeyTypeOptions 
+    returnKeyType?: ReturnKeyTypeOptions
     onPressKeyboardSubmit?: () => void
     filterText?: (text: string) => string
     validateText: (text: string) => boolean
@@ -49,7 +49,7 @@ function LineInput({
     maxLength,
     secureTextEntry,
     invalidTextAfterSubmit,
-    fontSize,
+    fontSize = 20,
     textAlign,
     multiline,
     placeholder,
@@ -135,7 +135,7 @@ function LineInput({
 
             <TextInput
                 style={[getTextInputStyle(), {
-                    fontSize: fontSize || 20,
+                    fontSize: RFValue(fontSize),
                     textAlign: textAlign as any || 'center', //TODO Type
                 }]}
                 ref={textInputRef}

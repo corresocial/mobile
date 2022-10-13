@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
+import { StatusBar } from 'react-native';
 
 import { theme } from '../../../common/theme';
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions';
 import { ButtonContainerBottom, Container, MapContainer } from './styles';
 import Uncheck from './../../../assets/icons/uncheck.svg'
 import Check from './../../../assets/icons/check.svg'
@@ -11,7 +11,7 @@ import EyeHalfTraced from './../../../assets/icons/eyeHalfTraced.svg'
 import EyeTraced from './../../../assets/icons/eyeTraced.svg'
 
 import { LocationViewPreviewScreenProps } from '../../../routes/Stack/_stackScreenProps';
-import {  LocationViewType } from '../types';
+import { LocationViewType } from '../types';
 import { ServiceContext } from '../../../contexts/ServiceContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
@@ -19,16 +19,9 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { CustomMapView } from '../../../components/CustomMapView';
 import { InfoCard } from '../../../components/_cards/InfoCard';
 
-const initialRegion = {
-    latitude: -14.235004,
-    longitude: -51.92528,
-    latitudeDelta: 50,
-    longitudeDelta: 50,
-}
-
 const defaultDeltaCoordinates = {
-    latitudeDelta: 0.003,
-    longitudeDelta: 0.003
+    latitudeDelta: 0.004,
+    longitudeDelta: 0.004
 }
 
 function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenProps) {
@@ -87,21 +80,21 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
     }
 
     const saveLocation = () => {
-        setServiceDataOnContext({locationView: locationViewSelected})
+        setServiceDataOnContext({ locationView: locationViewSelected })
         navigation.navigate('SelectDeliveryMethod')
     }
 
     return (
         <Container >
+            <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={(screenHeight + statusBarHeight) * 0.26}
-                relativeHeight={'22%'}
+                relativeHeight={'27%'}
                 centralized
                 backgroundColor={theme.purple2}
                 borderBottomWidth={0}
             >
                 <InfoCard
-                    height={'95%'}
+                    height={'100%'}
                     color={theme.white3}
                     title={getLocationViewTitle()}
                     description={getLocationViewDescription()}

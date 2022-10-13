@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
-import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
-import { screenHeight, screenWidth } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
+import { TouchableWithoutFeedback } from 'react-native'
 
 import { ContainerBottom, ContainerSurface, Label } from './styles'
+import { RFValue } from 'react-native-responsive-fontsize'
+import { screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 
 interface SelectButtonProps {
     width?: string | number
     height?: string | number
-    margin?: number
+    marginVertical?: number
     backgroundColor?: string
     backgroundSelected?: string
     label?: string
@@ -21,7 +22,7 @@ interface SelectButtonProps {
 function SelectButton({
     width = screenWidth * 0.39,
     height = screenHeight * 0.09,
-    margin = screenWidth * 0.015,
+    marginVertical = RFValue(5),
     backgroundColor = theme.white3,
     backgroundSelected,
     label,
@@ -56,13 +57,13 @@ function SelectButton({
                 style={{
                     width: width,
                     height: height,
-                    margin: margin
+                    marginVertical: RFValue(marginVertical)
                 }}
             >
                 <ContainerSurface
                     style={{
                         backgroundColor: selected ? backgroundSelected : backgroundColor,
-                        marginRight: buttonPressed || selected ? -4 : 0
+                        marginRight: selected ? RFValue(-4) : buttonPressed ? RFValue(-7) : 0
                     }}
                 >
                     <Label

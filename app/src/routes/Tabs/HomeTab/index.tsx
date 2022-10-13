@@ -11,6 +11,7 @@ import ChatTabIconActive from './../../../assets/icons/chatTabIconActive.svg'
 import ChatTabIconInactive from './../../../assets/icons/chatTabIconInactive.svg'
 import ProfileTabIconActive from './../../../assets/icons/profileTabIconActive.svg'
 import ProfileTabIconInactive from './../../../assets/icons/profileTabIconInactive.svg'
+import { RFValue } from 'react-native-responsive-fontsize'
 
 import { HomeTabParamList } from './types';
 
@@ -25,6 +26,8 @@ const Tab = createBottomTabNavigator<HomeTabParamList>();
 
 export function HomeTab() {
 
+	console.log(RFValue(64))
+	
 	return (
 		<Tab.Navigator initialRouteName={'Profile'} 
 			screenOptions={{
@@ -32,7 +35,7 @@ export function HomeTab() {
 				tabBarShowLabel: false,
 				tabBarStyle: {
 					position: 'absolute',
-					height: screenHeight * 0.08,
+					height: RFValue(64),
 					borderTopColor: theme.black3,
 					borderTopWidth: 5
 				}

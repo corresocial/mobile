@@ -3,6 +3,7 @@ import { Image, SafeAreaView } from 'react-native';
 
 import { Container, DeleteItemArea } from './styles';
 import TrashIcon from './../../assets/icons/trash.svg'
+import { RFValue } from 'react-native-responsive-fontsize';
 
 interface PhotoPortraitProps {
     width: number
@@ -16,8 +17,8 @@ interface PhotoPortraitProps {
 function PhotoPortrait({
     width,
     height,
-    borderWidth,
-    borderRightWidth,
+    borderWidth = 5,
+    borderRightWidth = 10,
     pictureUri,
     deleteCurrentPicture
 }: PhotoPortraitProps) {
@@ -27,8 +28,8 @@ function PhotoPortrait({
             style={{
                 height: height,
                 width: width,
-                borderWidth: borderWidth || 5,
-                borderRightWidth: borderRightWidth || 10
+                borderWidth: RFValue(borderWidth),
+                borderRightWidth: RFValue(borderRightWidth),
             }}
         >
             <Image source={{ uri: pictureUri ? pictureUri : 'https://triunfo.pe.gov.br/pm_tr430/wp-content/uploads/2018/03/sem-foto.jpg' }}
@@ -38,7 +39,7 @@ function PhotoPortrait({
                     width: '100%',
                     height: '100%',
                     resizeMode: 'contain',
-                    borderRadius: 10,
+                    borderRadius: RFValue(7),
                 }}
             />
             {

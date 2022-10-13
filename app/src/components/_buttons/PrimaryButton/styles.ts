@@ -1,4 +1,5 @@
 import * as Animatable from 'react-native-animatable';
+import { RFValue } from 'react-native-responsive-fontsize';
 import styled from "styled-components/native";
 import { screenHeight } from "../../../common/screenDimensions";
 
@@ -15,10 +16,7 @@ export const ContainerBottom = styled(Animatable.View)`
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 65px;
-    height: ${screenHeight * 0.073}px;
     border-radius: 15px;
-    
     position: relative;
     background-color: ${({ theme }) => theme.black4};
 `
@@ -28,20 +26,17 @@ export const ContainerSurface = styled.View`
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 55px;
     height: 100%;
     border-radius: 15px;
-    border: 2px solid black;
-    padding-horizontal: 20px;
-    
+    border: ${RFValue(2)}px solid black;
+    padding-horizontal: ${RFValue(20)}px;
     position: absolute;
-	right: 4px;
+	right: ${RFValue(8)}px;
 `
 
 export const ButtonLabel = styled.Text`
     color: ${({ theme }) => theme.black4};
-    font-size: 18px;
     font-family: Arvo_400Regular;
-    margin-right: 15px;
+    margin-right:  ${RFValue(15)}px;
     text-align: center;
 `

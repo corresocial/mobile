@@ -1,4 +1,5 @@
 import React from 'react'
+import { StatusBar } from 'react-native'
 
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
@@ -15,12 +16,14 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/InstructionCard'
+import { RFValue } from 'react-native-responsive-fontsize'
 
 function SelectPostType({ route, navigation }: SelectPostTypeScreenProps) {
     return (
         <Container>
+            <StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'}/>
             <DefaultHeaderContainer
-                backgroundColor={theme.white3}
+                backgroundColor={theme.orange2}
                 relativeHeight={'25%'}
                 centralized
             >
@@ -31,17 +34,18 @@ function SelectPostType({ route, navigation }: SelectPostTypeScreenProps) {
                     borderLeftWidth={3}
                     lineHeight={35}
                     fontSize={22}
-                    fontSizeHighlighted={32}
+                    fontSizeHighlighted={RFValue(32)}
                 />
             </DefaultHeaderContainer>
             <FormContainer
-                backgroundColor={theme.orange2}
+                backgroundColor={theme.white2}
             >
                 <OptionButton
                     color={theme.white3}
                     label={'um serviço'}
                     highlightedWords={['um', 'serviço']}
                     labelColor={theme.black3}
+                    labelSize={18}
                     SvgIcon={ToolBox}
                     svgIconScale={['60%','60%']}
                     leftSideColor={theme.purple2}
@@ -53,6 +57,7 @@ function SelectPostType({ route, navigation }: SelectPostTypeScreenProps) {
                     label={'uma venda'}
                     highlightedWords={['uma', 'venda']}
                     labelColor={theme.black3}
+                    labelSize={18}
                     SvgIcon={SalesCart}
                     svgIconScale={['60%','60%']}
                     leftSideColor={theme.green2}
@@ -64,6 +69,7 @@ function SelectPostType({ route, navigation }: SelectPostTypeScreenProps) {
                     label={'uma vaga'}
                     highlightedWords={['uma', 'vaga']}
                     labelColor={theme.black3}
+                    labelSize={18}
                     SvgIcon={Suitcase}
                     svgIconScale={['60%','60%']}
                     leftSideColor={theme.yellow2}
@@ -75,6 +81,7 @@ function SelectPostType({ route, navigation }: SelectPostTypeScreenProps) {
                     label={'iniciativa social'}
                     highlightedWords={['iniciativa', 'social']}
                     labelColor={theme.black3}
+                    labelSize={18}
                     SvgIcon={Heart}
                     svgIconScale={['60%','60%']}
                     leftSideColor={theme.red2}
@@ -86,6 +93,7 @@ function SelectPostType({ route, navigation }: SelectPostTypeScreenProps) {
                     label={'cultura'}
                     highlightedWords={['cultura']}
                     labelColor={theme.black3}
+                    labelSize={18}
                     SvgIcon={SoundTools}
                     svgIconScale={['60%','60%']}
                     leftSideColor={theme.blue2}

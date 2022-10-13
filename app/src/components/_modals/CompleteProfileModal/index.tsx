@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal } from 'react-native'
+import { Modal, StatusBar } from 'react-native'
 
 import {
     Container,
@@ -10,6 +10,7 @@ import {
     TouchCloseArea
 } from './styles'
 import { theme } from '../../../common/theme'
+import { RFValue } from 'react-native-responsive-fontsize'
 import Check from './../../../assets/icons/check.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
@@ -29,9 +30,9 @@ function CompleteProfileModal({ visibility, closeModal, navigateToTour }: Comple
             transparent={true}
             visible={visibility}
             animationType='fade'
-
             onRequestClose={closeModal}
         >
+            <StatusBar backgroundColor={'rgba(0,0,0,0.5)'} barStyle={'dark-content'} />
             <Container>
                 <TouchCloseArea onPress={closeModal} ></TouchCloseArea>
                 <Content>
@@ -47,7 +48,6 @@ function CompleteProfileModal({ visibility, closeModal, navigateToTour }: Comple
                             'demora 5 minutos, bora?',
                             ['5', 'minutos,']
                         )}
-
                     </Question>
                     <PrimaryButton
                         color={theme.green3}

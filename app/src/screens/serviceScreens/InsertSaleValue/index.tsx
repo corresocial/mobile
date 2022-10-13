@@ -1,8 +1,8 @@
-import { Animated } from 'react-native';
+import { Animated, StatusBar } from 'react-native';
 import React, { useContext, useRef, useState } from 'react'
 
 import { theme } from '../../../common/theme';
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions';
+import { screenHeight } from '../../../common/screenDimensions';
 import { ButtonsContainer, Container } from './styles';
 import Check from './../../../assets/icons/check.svg'
 
@@ -17,10 +17,10 @@ import { InstructionCard } from '../../../components/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
 
-function InsertSaleValue({ navigation, route}: InsertSaleValueScreenProps) {
+function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 
-    const {setServiceDataOnContext} = useContext(ServiceContext)
-    
+    const { setServiceDataOnContext } = useContext(ServiceContext)
+
     const [saleValue, setSaleValue] = useState<string>('')
     const [invalidSaleValueAfterSubmit, setInvalidSaleValueAfterSubmit] = useState<boolean>(false)
 
@@ -40,15 +40,14 @@ function InsertSaleValue({ navigation, route}: InsertSaleValueScreenProps) {
     const someInvalidFieldSubimitted = () => {
         return invalidSaleValueAfterSubmit
     }
-    console.log(route.params.anyPaymentType)
 
     const saveSaleValue = () => {
         const saleValueIsValid = validateSaleValue(saleValue)
         if (saleValueIsValid) {
-            setServiceDataOnContext({saleValue})
-            if(route.params.anyPaymentType){
+            setServiceDataOnContext({ saleValue })
+            if (route.params.anyPaymentType) {
                 navigation.navigate('InsertExchangeValue')
-            }else{
+            } else {
                 navigation.navigate('InsertServicePrestationLocation')
             }
         } else {
@@ -75,8 +74,9 @@ function InsertSaleValue({ navigation, route}: InsertSaleValueScreenProps) {
 
     return (
         <Container >
+            <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={(screenHeight + statusBarHeight) * 0.26}
+                minHeight={screenHeight * 0.28}
                 relativeHeight={'22%'}
                 centralized
                 backgroundColor={animateDefaultHeaderBackgound()}
@@ -126,10 +126,10 @@ function InsertSaleValue({ navigation, route}: InsertSaleValueScreenProps) {
                     onChangeText={(text: string) => setSaleValue(text)}
 
                 />
-                <ButtonsContainer> 
+                <ButtonsContainer>
                     <PrimaryButton
                         flexDirection={'row-reverse'}
-                        color={someInvalidFieldSubimitted() ? theme.red3: theme.green3}
+                        color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
                         label={'continuar'}
                         labelColor={theme.white3}
                         SvgIcon={Check}

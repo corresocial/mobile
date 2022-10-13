@@ -1,3 +1,4 @@
+import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 import { screenHeight, screenWidth } from '../../../common/screenDimensions'
 
@@ -9,11 +10,11 @@ export const CarouselItemContainer = styled.View`
     align-items: center;
     justify-content: center;
     height: ${screenHeight * 0.55}px;
-    padding: 40px;
+    padding:  ${RFValue(30)}px;
 `
 
 export const Slogan = styled.Text`
-    font-size: 20px;
+    font-size: ${RFValue(20)}px;
     font-family: Arvo_400Regular;
 `
 
@@ -25,16 +26,16 @@ export const TermsButtonContainer = styled.View`
 `
 
 export const TermsLabel = styled.Text`
-    color: ${({theme}) => theme.black4};    
-    font-size: 18px;
+    color: ${({ theme }) => theme.black4};    
+    font-size: ${RFValue(18)}px;
     text-align: center;
     font-family: Arvo_400Regular;
-    margin-bottom: 30px;
+    margin-bottom:  ${RFValue(30)}px;
 `
 
 export const TermsLabelHighlight = styled.Text`
-    color: ${({theme}) => theme.orange4};    
-    font-size: 18px;
+    color: ${({ theme }) => theme.orange4};    
+    font-size:${RFValue(18)}px;
     text-align: center;
     font-family: Arvo_700Bold;
     font-weight: bold;

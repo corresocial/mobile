@@ -1,9 +1,8 @@
 import React, { useContext } from 'react'
+import { StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import SalesCartO from './../../../assets/icons/salesCart-o.svg'
 
 import { SelectLocationViewScreenProps } from '../../../routes/Stack/_stackScreenProps'
 import { LocationViewType } from '../types'
@@ -27,9 +26,9 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
 
     return (
         <Container>
+               <StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={(screenHeight + statusBarHeight) * 0.26}
-                relativeHeight={'22%'}
+                relativeHeight={'28%'}
                 centralized
                 backgroundColor={theme.white3}
             >
@@ -41,8 +40,8 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
                     highlightedWords={['como,', 'você', 'prefere', 'vejam', 'sua', 'localização']}
                 >
                     <ProgressBar
-                        range={4}
-                        value={3}
+                        range={5}
+                        value={4}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -75,7 +74,6 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
                         onPress={() => saveLocationViewType('approximate')}
                     />
                     <PrimaryButton
-
                         justifyContent={'flex-start'}
                         color={theme.white3}
                         relativeHeight={'23%'}

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Keyboard, ScrollView } from 'react-native'
+import { Keyboard, ScrollView, StatusBar } from 'react-native'
 
 import {
     Container,
@@ -7,7 +7,8 @@ import {
     FloatButtonContainer,
     InputTagArea,
     Sigh,
-    TagsSelectedArea
+    TagsSelectedArea,
+    TagsUnselectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
 import { screenHeight, screenWidth, statusBarHeight } from '../../../common/screenDimensions'
@@ -46,7 +47,6 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
                     key={index}
                     width={screenWidth * 0.38}
                     height={screenHeight * 0.1}
-                    margin={screenWidth * 0.025}
                     label={tagName}
                     boldLabel={true}
                     backgroundSelected={theme.purple1}
@@ -66,7 +66,6 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
                     key={index}
                     width={screenWidth * 0.38}
                     height={screenHeight * 0.1}
-                    margin={screenWidth * 0.025}
                     label={tagName}
                     boldLabel={true}
                     backgroundSelected={theme.purple1}
@@ -102,9 +101,9 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 
     return (
         <Container>
+            <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'}/>
             <DefaultHeaderContainer
-                minHeight={(screenHeight + statusBarHeight) * 0.28}
-                relativeHeight={'28%'}
+                relativeHeight={'30%'}
                 centralized
                 backgroundColor={theme.purple2}
             >
@@ -116,7 +115,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
                     highlightedWords={[`${serviceCategories[getServiceCategorySelected()].label},`, 'tem', 'a', 'ver']}
                 >
                     <ProgressBar
-                        range={4}
+                        range={5}
                         value={2}
                     />
                 </InstructionCard>
@@ -165,7 +164,9 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
                             <TagsSelectedArea>
                                 {renderSelectedTags()}
                             </TagsSelectedArea>
-                            {renderUnselectedTags()}
+                            <TagsUnselectedArea>
+                                {renderUnselectedTags()}
+                            </TagsUnselectedArea>
                             <Sigh />
                         </ScrollView>
                     </SelectButtonsContainer>

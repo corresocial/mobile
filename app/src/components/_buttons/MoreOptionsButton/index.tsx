@@ -3,6 +3,7 @@ import { Entypo } from '@expo/vector-icons';
 
 import { ContainerBottom, ContainerSurface, TouchableContainer } from './styles';
 import { theme } from '../../../common/theme';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 interface MoreOptionsButtonProps {
     color: string
@@ -39,18 +40,19 @@ function MoreOptionsButton({
         >
             <ContainerBottom
                 style={{
-                    width: width,
-                    height: height
+                    width: RFValue(width),
+                    height: RFValue(height)
                 }}
             >
                 <ContainerSurface
                     style={{
                         backgroundColor: color,
-                        marginRight: buttonPressed ? -2 : 0,
+                        marginRight: buttonPressed ? RFValue(-4) : 0,
+                        height: RFValue(height)
                     } as { [key: string]: React.CSSProperties }}>
                     <Entypo
                         name={'dots-three-vertical'}
-                        size={20}
+                        size={RFValue(20)}
                         color={theme.black3}
                     />
                 </ContainerSurface>

@@ -1,7 +1,8 @@
 import React from 'react'
+import { StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
+import { screenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import SalesCartO from './../../../assets/icons/salesCart-o.svg'
 import Exchange from './../../../assets/icons/exchange.svg'
@@ -19,7 +20,6 @@ import { PaymentType } from '../types'
 function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
 
     const savePaymentType = (paymentType: PaymentType) => {
-        //save
         switch (paymentType) {
             case 'sale': {
                 navigation.navigate('InsertSaleValue', {})
@@ -38,8 +38,8 @@ function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
 
     return (
         <Container>
+            <StatusBar backgroundColor={theme.white3} barStyle={'dark-content'}/>
             <DefaultHeaderContainer
-                minHeight={(screenHeight + statusBarHeight) * 0.26}
                 relativeHeight={'22%'}
                 centralized
                 backgroundColor={theme.white3}
@@ -52,8 +52,8 @@ function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
                     highlightedWords={['vende,', 'aceita', 'troca', 'os', 'dois']}
                 >
                     <ProgressBar
-                        range={4}
-                        value={2}
+                        range={5}
+                        value={3}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -67,7 +67,7 @@ function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
                         color={theme.white3}
                         relativeHeight={'21%'}
                         labelColor={theme.black4}
-                        fontSize={24}
+                        fontSize={20}
                         label={'somente venda'}
                         highlightedWords={['venda']}
                         SvgIcon={SalesCartO}
@@ -80,7 +80,7 @@ function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
                         color={theme.white3}
                         relativeHeight={'21%'}
                         labelColor={theme.black4}
-                        fontSize={24}
+                        fontSize={20}
                         label={'somente troca'}
                         highlightedWords={['troca']}
                         SvgIcon={Exchange}
@@ -92,7 +92,7 @@ function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
                         color={theme.white3}
                         relativeHeight={'21%'}
                         labelColor={theme.black4}
-                        fontSize={24}
+                        fontSize={20}
                         label={'venda \nou troca'}
                         highlightedWords={['venda', 'troca']}
                         SvgIcon={Exchange}

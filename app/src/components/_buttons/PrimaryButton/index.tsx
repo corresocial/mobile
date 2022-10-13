@@ -7,6 +7,7 @@ import { ButtonLabel, TouchableContainer, ContainerSurface, ContainerBottom } fr
 import { screenHeight } from '../../../common/screenDimensions';
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 interface PrimaryButtonProps {
     relativeWidth?: string
@@ -42,7 +43,7 @@ function PrimaryButton({
     labelMarginLeft,
     highlightedWords,
     iconName,
-    fontSize,
+    fontSize = 18,
     textAlign = 'center',
     iconSize,
     iconColor,
@@ -106,8 +107,8 @@ function PrimaryButton({
                     display: buttonVisibility ? 'flex' : 'none',
                     opacity: buttonVisibility ? 1 : 0, // TODO Bug point
                     width: relativeWidth || '100%',
-                    height: relativeHeight || screenHeight * 0.073,
-                    minHeight: minHeight,
+                    height: relativeHeight || RFValue(65),
+                    minHeight: RFValue(minHeight),
                     justifyContent: justifyContent
                 } as { [key: string]: React.CSSProperties }}
             >
@@ -116,8 +117,8 @@ function PrimaryButton({
                         backgroundColor: color,
                         flexDirection: flexDirection || 'row',
                         justifyContent: justifyContent || 'center',
-                        minHeight: minHeight,
-                        marginRight: buttonPressed ? -3 : 0,
+                        minHeight: RFValue(minHeight),
+                        marginRight: buttonPressed ? RFValue(-7) : 0,
                     } as { [key: string]: React.CSSProperties }}>
                     {
                         !!SecondSvgIcon && <SecondSvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />
@@ -125,8 +126,8 @@ function PrimaryButton({
                     {!!label
                         && <ButtonLabel style={{
                             color: labelColor,
-                            fontSize: fontSize ? fontSize : 18,
-                            textAlign: textAlign ,
+                            fontSize: RFValue(fontSize),
+                            textAlign: textAlign,
                             marginLeft: labelMarginLeft || 0
                         }}>
                             {showMessageWithHighlight(label, highlightedWords)}

@@ -18,6 +18,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
+import { StatusBar } from 'react-native'
 
 function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProps) {
 
@@ -35,9 +36,9 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
 
     return (
         <Container>
+            <StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={(screenHeight + statusBarHeight) * 0.26}
-                relativeHeight={'22%'}
+                relativeHeight={'27%'}
                 centralized
                 backgroundColor={theme.white3}
             >
@@ -49,8 +50,8 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
                     highlightedWords={['com', 'que', 'frequência', 'seu', 'serviço?']}
                 >
                     <ProgressBar
-                        range={4}
-                        value={4}
+                        range={5}
+                        value={5}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -62,7 +63,7 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
                     label={'só hoje'}
                     highlightedWords={['hoje']}
                     labelColor={theme.black3}
-                    labelSize={24}
+                    labelSize={20}
                     labelAlign={'left'}
                     SvgIcon={CalendarToday}
                     svgIconScale={['50%', '50%']}
@@ -75,7 +76,7 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
                     label={'todos os dias'}
                     highlightedWords={['todos']}
                     labelColor={theme.black3}
-                    labelSize={24}
+                    labelSize={20}
                     labelAlign={'left'}
                     SvgIcon={CalendarEveryday}
                     svgIconScale={['50%', '50%']}
@@ -88,7 +89,7 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
                     label={'alguns dias'}
                     highlightedWords={['alguns']}
                     labelColor={theme.black3}
-                    labelSize={24}
+                    labelSize={20}
                     labelAlign={'left'}
                     SvgIcon={CalendarSomeday}
                     svgIconScale={['50%', '50%']}
@@ -101,7 +102,7 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
                     label={'dias comerciais'}
                     highlightedWords={['dias', 'comerciais']}
                     labelColor={theme.black3}
-                    labelSize={24}
+                    labelSize={20}
                     labelAlign={'left'}
                     SvgIcon={CalendarBusinessDay}
                     svgIconScale={['50%', '50%']}

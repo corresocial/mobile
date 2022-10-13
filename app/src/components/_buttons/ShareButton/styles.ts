@@ -1,5 +1,6 @@
 import * as Animatable from 'react-native-animatable';
 import styled from "styled-components/native";
+import { RFValue } from 'react-native-responsive-fontsize';
 import { screenHeight } from "../../../common/screenDimensions";
 
 export const Container = styled.TouchableWithoutFeedback`
@@ -10,13 +11,11 @@ export const TouchableContainer = styled.TouchableWithoutFeedback`
 `
 
 export const ContainerBottom = styled(Animatable.View)`
-    margin-left: 4px;
-    flex-direction: row;
+flex-direction: row;
     align-items: center;
     justify-content: center;
-    min-height: 25px;
-    height: ${screenHeight * 0.04}px;
-    border-radius: 5px;
+    margin-left: ${RFValue(6)}px;
+    border-radius: ${RFValue(5)}px;
     position: relative;
     background-color: ${({ theme }) => theme.black4};
 `
@@ -26,16 +25,14 @@ export const ContainerSurface = styled.View`
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 25px;
-    height: ${screenHeight * 0.04}px;
-    border-radius: 5px;
-    border: 1.5px solid black;
+    border-radius: ${RFValue(5)}px;
+    border: ${RFValue(1.5)}px solid black;
     position: absolute;
-	right: 4px;
+	right: ${RFValue(5)}px;
 `
 
 export const ButtonLabel = styled.Text`
-    margin-left: 10px;
+    margin-left: ${RFValue(10)}px;
     color: ${({ theme }) => theme.black4};
     font-family: Arvo_400Regular;
 `

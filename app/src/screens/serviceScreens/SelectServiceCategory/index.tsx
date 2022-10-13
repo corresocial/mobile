@@ -1,4 +1,5 @@
-import React, { ReactElement, useState } from 'react'
+import React from 'react'
+import { ScrollView, StatusBar } from 'react-native'
 
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
@@ -23,7 +24,7 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
                 return (
                     <SelectButton
                         key={index}
-                        width={'96%'}
+                        width={'100%'}
                         height={'17%'}
                         label={'outros'}
                         boldLabel={true}
@@ -35,10 +36,10 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
             return (
                 <SelectButton
                     key={index}
-                    width={'46%'}
+                    width={'45%'}
                     height={'17%'}
                     label={category[1].label}
-                     boldLabel={true}
+                    boldLabel={true}
                     onSelect={() => onSelectCategory(index)}
                 />
             )
@@ -47,13 +48,13 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
 
     const onSelectCategory = (categoryIndex: number) => {
         const categoryName = Object.keys(serviceCategories)[categoryIndex] as ServiceCategories
-        navigation.navigate('SelectServiceTags', {categorySelected: categoryName})
+        navigation.navigate('SelectServiceTags', { categorySelected: categoryName })
     }
 
     return (
         <Container>
+            <StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={(screenHeight + statusBarHeight) * 0.26}
                 relativeHeight={'22%'}
                 centralized
                 backgroundColor={theme.white3}
@@ -66,16 +67,16 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
                     highlightedWords={['categoria']}
                 >
                     <ProgressBar
-                        range={4}
+                        range={5}
                         value={2}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
-            <SelectButtonsContainer
-                backgroundColor={theme.purple2}
-            >
-                {renderSelectOptionsButtons()}
-            </SelectButtonsContainer>
+                <SelectButtonsContainer
+                    backgroundColor={theme.purple2}
+                >
+                    {renderSelectOptionsButtons()}
+                </SelectButtonsContainer>
         </Container>
     )
 }

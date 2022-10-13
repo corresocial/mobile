@@ -1,3 +1,4 @@
+import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 export const Container = styled.TouchableOpacity`
@@ -5,5 +6,5 @@ export const Container = styled.TouchableOpacity`
     justify-content: center;
     height: 100%;
     width: 10%;
-    padding-right: 20px;
+    padding-right: ${RFValue(20)}px;
 `

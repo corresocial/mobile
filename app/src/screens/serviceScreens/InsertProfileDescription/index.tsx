@@ -19,11 +19,11 @@ import { LineInput } from '../../../components/LineInput';
 
 function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreenProps) {
 
-    const {setServiceDataOnContext} = useContext(ServiceContext)
+    const { setServiceDataOnContext } = useContext(ServiceContext)
 
     const [profileDescription, setProfileDescription] = useState<string>('')
     const [invalidProfileDescriptionAfterSubmit, setInvaliProfileDescriptionAfterSubmit] = useState<boolean>(false)
-    
+
     const inputRefs = {
         descriptionInput: useRef<React.MutableRefObject<any>>(null),
     }
@@ -39,9 +39,9 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
 
     const saveProfileDescription = () => {
         const profileDescriptionIsValid = validateProfileDescription(profileDescription)
-        
+
         if (profileDescriptionIsValid) {
-            setServiceDataOnContext({profileDescription})
+            setServiceDataOnContext({ profileDescription })
             navigation.navigate('InsertServiceName')
         } else {
             !profileDescriptionIsValid && setInvaliProfileDescriptionAfterSubmit(true)
@@ -72,6 +72,7 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
 
     return (
         <Container >
+            <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={(screenHeight + statusBarHeight) * 0.26}
                 relativeHeight={'26%'}
@@ -94,7 +95,7 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
                     }
                 >
                     <ProgressBar
-                        range={4}
+                        range={5}
                         value={1}
                     />
                 </InstructionCard>
@@ -130,7 +131,6 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
                         labelColor={theme.white3}
                         SvgIcon={Check}
                         svgIconScale={['30%', '15%']}
-                        startsHidden={true}
                         onPress={saveProfileDescription}
                     />
                 </ButtonsContainer>
