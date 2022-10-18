@@ -1,4 +1,4 @@
-import { Alert, Animated } from 'react-native';
+import { Alert, Animated, StatusBar } from 'react-native';
 import React, { useContext, useRef, useState } from 'react'
 import { UserCredential } from 'firebase/auth';
 
@@ -184,6 +184,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 
 	return (
 		<Container >
+			<StatusBar backgroundColor={hasServerSideError ? theme.red2 :theme.blue2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight='55%'
 				centralized

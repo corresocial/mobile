@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { BackHandler } from 'react-native';
+import { BackHandler, StatusBar } from 'react-native';
 
 import {
     Container,
@@ -57,6 +57,7 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
 
     return (
         <Container>
+            <StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'}/>
             <TermsOfServiceModal visibility={termsVisibility} closeModal={hideTermsOfServiceModal} />
             <DefaultHeaderContainer relativeHeight='55%' backgroundColor={theme.orange2} withoutPadding>
                 <CustomCarousel>

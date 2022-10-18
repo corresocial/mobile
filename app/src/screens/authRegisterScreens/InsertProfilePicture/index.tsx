@@ -1,5 +1,5 @@
 import React, {useContext, useRef, useState } from 'react'
-import { Animated } from 'react-native';
+import { Animated, StatusBar } from 'react-native';
 
 import { Container } from './styles';
 import { theme } from '../../../common/theme';
@@ -100,6 +100,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 
 	return (
 		<Container >
+			<StatusBar backgroundColor={hasServerSideError ? theme.red2 :theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized

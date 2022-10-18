@@ -16,8 +16,6 @@ export const ProfileHeader = styled.View`
     flex-direction: row;
 `
 
-console.log(RFValue(18))
-
 export const InfoArea = styled.View`
     flex: 1;
     justify-content: space-between;

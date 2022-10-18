@@ -1,5 +1,5 @@
-import React, { useContext, useRef, useState } from 'react'
-import { StatusBar } from 'react-native';
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Keyboard, StatusBar } from 'react-native';
 
 import { Container, InputsContainer, TwoPoints } from './styles';
 import { theme } from '../../../common/theme';
@@ -23,6 +23,10 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
     const [hours, setHours] = useState<string>('')
     const [minutes, setMinutes] = useState<string>('')
+    const [hoursIsValid, setHoursIsValid] = useState<boolean>(false)
+    const [minutesIsValid, setMinutesIsValid] = useState<boolean>(false)
+    const [keyboardIsOpen, setKeyboardIsOpen] = useState<boolean>(false)
+
     const [invalidHourAfterSubmit, setInvalidHourAfterSubmit] = useState<boolean>(false)
     const [invalidMinutesAfterSubmit, setInvalidMinutesAfterSubmit] = useState<boolean>(false)
 
@@ -31,9 +35,19 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
         minutesInput: useRef<React.MutableRefObject<any>>(null)
     }
 
+    useEffect(() => {
+        Keyboard.addListener('keyboardDidShow', () => setKeyboardIsOpen(true))
+        Keyboard.addListener('keyboardDidHide', () => setKeyboardIsOpen(false))
+
+        const hoursValidation = validateHours(hours)
+        const minutesValidation = validateMinutes(minutes)
+        setHoursIsValid(hoursValidation)
+        setMinutesIsValid(minutesValidation)
+    }, [hours, minutes, keyboardIsOpen])
+
     const validateHours = (text: string) => {
         const isValid = text.length == 2 && parseInt(text) < 24
-        if (isValid) {
+        if (isValid && closingTimeIsAfterOpening()) {
             setInvalidHourAfterSubmit(false)
             return true
         }
@@ -42,19 +56,38 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
     const validateMinutes = (text: string) => {
         const isValid = text.length == 2 && parseInt(text) < 60
-        if (isValid) {
+        if (isValid && closingTimeIsAfterOpening()) {
             setInvalidMinutesAfterSubmit(false)
             return true
         }
         return false
     }
 
+    const closingTimeIsAfterOpening = () => {
+       /*  const openingHour = new Date(serviceData.openingHour as string).getUTCHours()
+        const openingMinutes = new Date(serviceData.openingHour as string).getUTCMinutes()
+
+        const closingHour = parseInt(hours) || 23
+        const closingMinutes = parseInt(minutes) || 60
+
+        console.log(`${openingHour}:${openingMinutes}`)
+        console.log(openingHour <= closingHour)
+        console.log(openingMinutes < closingMinutes)
+        console.log(openingHour <= closingHour && openingMinutes < closingMinutes)
+        return !!(openingHour <= closingHour && openingMinutes < closingMinutes) */
+        return true
+    }
+
     const saveClosingHour = () => {
         setServiceDataOnContext({
             closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
         })
-        navigation.navigate('HomeTab' as any, { TourCompleted: true }) // TODO type
+        console.log(serviceData)
+        
+        // navigation.navigate('HomeTab' as any, { TourCompleted: true }) // TODO type
     }
+
+
 
     return (
         <Container >
@@ -73,8 +106,8 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     highlightedWords={['que', 'horas', 'fecha?']}
                 >
                     <ProgressBar
-                        range={4}
-                        value={4}
+                        range={5}
+                        value={5}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -96,7 +129,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                         maxLength={2}
                         fontSize={26}
                         invalidTextAfterSubmit={invalidHourAfterSubmit}
-                        placeholder={'horas'}
+                        placeholder={'14'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
                         validateText={(text: string) => validateHours(text)}
@@ -117,7 +150,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                         maxLength={2}
                         fontSize={26}
                         invalidTextAfterSubmit={invalidMinutesAfterSubmit}
-                        placeholder={'minutos'}
+                        placeholder={'30'}
                         keyboardType={'decimal-pad'}
                         lastInput={true}
                         filterText={filterLeavingOnlyNumbers}
@@ -125,16 +158,19 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                         onChangeText={(text: string) => setMinutes(text)}
                     />
                 </InputsContainer>
-                <PrimaryButton
-                    color={theme.purple3}
-                    iconName={'arrow-right'}
-                    iconColor={theme.white3}
-                    label='continuar'
-                    labelColor={theme.white3}
-                    highlightedWords={['continuar']}
-                    startsHidden
-                    onPress={saveClosingHour}
-                />
+                <>
+                    {
+                        hoursIsValid && minutesIsValid && !keyboardIsOpen &&
+                        <PrimaryButton
+                            color={theme.purple3}
+                            iconName={'arrow-right'}
+                            iconColor={theme.white3}
+                            label='continuar'
+                            labelColor={theme.white3}
+                            highlightedWords={['continuar']}
+                            onPress={saveClosingHour}
+                        />
+                    }</>
             </FormContainer>
         </Container>
     );

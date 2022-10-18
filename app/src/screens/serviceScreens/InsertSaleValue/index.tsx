@@ -1,5 +1,5 @@
-import { Animated, StatusBar } from 'react-native';
-import React, { useContext, useRef, useState } from 'react'
+import { Animated, Keyboard, StatusBar } from 'react-native';
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { theme } from '../../../common/theme';
 import { screenHeight } from '../../../common/screenDimensions';
@@ -22,27 +22,30 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
     const { setServiceDataOnContext } = useContext(ServiceContext)
 
     const [saleValue, setSaleValue] = useState<string>('')
-    const [invalidSaleValueAfterSubmit, setInvalidSaleValueAfterSubmit] = useState<boolean>(false)
+    const [saleValueIsValid, setSaleValueIsValid] = useState<boolean>(false)
+    const [keyboardIsOpen, setKeyboardIsOpen] = useState<boolean>(false)
 
     const inputRefs = {
         saleValueInput: useRef<React.MutableRefObject<any>>(null),
     }
 
+    useEffect(() => {
+        Keyboard.addListener('keyboardDidShow', () => setKeyboardIsOpen(true))
+        Keyboard.addListener('keyboardDidHide', () => setKeyboardIsOpen(false))
+
+        const validation = validateSaleValue(saleValue)
+        setSaleValueIsValid(validation)
+    }, [saleValue, keyboardIsOpen])
+
     const validateSaleValue = (text: string) => {
-        const isValid = (text).trim().length >= 5
-        if (isValid) {
-            setInvalidSaleValueAfterSubmit(false)
+        const isValid = (text).trim().length >= 1
+        if (isValid && !keyboardIsOpen) {
             return true
         }
         return false
     }
 
-    const someInvalidFieldSubimitted = () => {
-        return invalidSaleValueAfterSubmit
-    }
-
     const saveSaleValue = () => {
-        const saleValueIsValid = validateSaleValue(saleValue)
         if (saleValueIsValid) {
             setServiceDataOnContext({ saleValue })
             if (route.params.anyPaymentType) {
@@ -51,25 +54,8 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
                 navigation.navigate('InsertServicePrestationLocation')
             }
         } else {
-            !saleValueIsValid && setInvalidSaleValueAfterSubmit(true)
+            !saleValueIsValid
         }
-    }
-
-
-    const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
-    const animateDefaultHeaderBackgound = () => {
-        const existsError = someInvalidFieldSubimitted()
-
-        Animated.timing(headerBackgroundAnimatedValue.current, {
-            toValue: existsError ? 1 : 0,
-            duration: 300,
-            useNativeDriver: false,
-        }).start()
-
-        return headerBackgroundAnimatedValue.current.interpolate({
-            inputRange: [0, 1],
-            outputRange: [theme.purple2, theme.red2],
-        })
     }
 
     return (
@@ -79,26 +65,18 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
                 minHeight={screenHeight * 0.28}
                 relativeHeight={'22%'}
                 centralized
-                backgroundColor={animateDefaultHeaderBackgound()}
+                backgroundColor={theme.purple2}
             >
                 <BackButton onPress={() => navigation.goBack()} />
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={
-                        someInvalidFieldSubimitted()
-                            ? 'não deu!\nparece este valor não é válido'
-                            : 'por quanto você vende?'
-                    }
-                    highlightedWords={
-                        someInvalidFieldSubimitted()
-                            ? ['não', 'é', 'válido']
-                            : ['quanto']
-                    }
+                    message={'por quanto você vende?'}
+                    highlightedWords={['quanto']}
                 >
                     <ProgressBar
-                        range={4}
-                        value={2}
+                        range={5}
+                        value={3}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -116,27 +94,29 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
                     validBorderBottomColor={theme.purple5}
                     invalidBackgroundColor={theme.red1}
                     invalidBorderBottomColor={theme.red5}
+                    lastInput={true}
                     maxLength={100}
                     textAlign={'left'}
-                    invalidTextAfterSubmit={invalidSaleValueAfterSubmit}
                     fontSize={20}
-                    placeholder={'ex: troco por uma marmita'}
-                    keyboardType={'default'}
+                    placeholder={'ex: 100'}
+                    keyboardType={'numeric'}
+                    textIsValid={saleValueIsValid && !keyboardIsOpen}
                     validateText={(text: string) => validateSaleValue(text)}
                     onChangeText={(text: string) => setSaleValue(text)}
-
                 />
                 <ButtonsContainer>
-                    <PrimaryButton
-                        flexDirection={'row-reverse'}
-                        color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
-                        label={'continuar'}
-                        labelColor={theme.white3}
-                        SvgIcon={Check}
-                        svgIconScale={['30%', '15%']}
-                        startsHidden={true}
-                        onPress={saveSaleValue}
-                    />
+                    {
+                        saleValueIsValid && !keyboardIsOpen &&
+                        <PrimaryButton
+                            flexDirection={'row-reverse'}
+                            color={theme.green3}
+                            label={'continuar'}
+                            labelColor={theme.white3}
+                            SvgIcon={Check}
+                            svgIconScale={['30%', '15%']}
+                            onPress={saveSaleValue}
+                        />
+                    }
                 </ButtonsContainer>
             </FormContainer>
         </Container>

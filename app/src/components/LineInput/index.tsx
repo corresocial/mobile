@@ -4,6 +4,7 @@ import { screenWidth } from '../../common/screenDimensions';
 
 import { Container, TextInput } from './styles';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { theme } from '../../common/theme';
 
 interface LineInputProps {
     value: string
@@ -15,22 +16,23 @@ interface LineInputProps {
     defaultBorderBottomColor: string
     validBackgroundColor: string
     validBorderBottomColor: string
-    invalidBackgroundColor: string
-    invalidBorderBottomColor: string
+    invalidBackgroundColor?: string
+    invalidBorderBottomColor?: string
     maxLength?: number
     secureTextEntry?: boolean
-    invalidTextAfterSubmit: boolean
+    invalidTextAfterSubmit?: boolean
     fontSize?: number
     textAlign?: string
     multiline?: boolean
     placeholder?: string
     error?: boolean
+    textIsValid?: boolean
     lastInput?: boolean
     keyboardType?: KeyboardTypeOptions
     returnKeyType?: ReturnKeyTypeOptions
     onPressKeyboardSubmit?: () => void
     filterText?: (text: string) => string
-    validateText: (text: string) => boolean
+    validateText?: (text: string) => boolean
     onChangeText: (text: string) => void
 }
 
@@ -44,11 +46,11 @@ function LineInput({
     defaultBorderBottomColor,
     validBackgroundColor,
     validBorderBottomColor,
-    invalidBackgroundColor,
-    invalidBorderBottomColor,
+    invalidBackgroundColor = theme.red1,
+    invalidBorderBottomColor = theme.red5,
     maxLength,
     secureTextEntry,
-    invalidTextAfterSubmit,
+    invalidTextAfterSubmit = false,
     fontSize = 20,
     textAlign,
     multiline,
@@ -58,8 +60,9 @@ function LineInput({
     onPressKeyboardSubmit,
     error,
     lastInput,
+    textIsValid = false,
     filterText,
-    validateText,
+    validateText = () => false,
     onChangeText
 }: LineInputProps) {
 
@@ -69,7 +72,7 @@ function LineInput({
     const ValidateAndChange = (text: string) => {
         let filtredText = filterText ? filterText(text) : text
 
-        if (validateText(filtredText)) {
+        if (validateText(filtredText) || textIsValid) {
             nextInputRef && setFocusToNextInput()
             lastInput && closeKeyboard()
             setValidated(true)
@@ -79,7 +82,11 @@ function LineInput({
         onChangeText(filtredText)
     }
 
-    const performKeyPress = ({ nativeEvent }: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+    const performKeyPress = ({ nativeEvent, preventDefault, defaultPrevented }: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+        /* console.log(nativeEvent.key === undefined)
+        if (nativeEvent.key === 'Enter' && lastInput) {
+            closeKeyboard()
+        } */
         if (nativeEvent.key === 'Backspace' && !value.length && previousInputRef) setFocusToPreviousInput()
     }
 
@@ -102,8 +109,8 @@ function LineInput({
         }
 
         return {
-            borderBottomColor: validated ? validBorderBottomColor : defaultBorderBottomColor,
-            backgroundColor: validated ? validBackgroundColor : defaultBackgroundColor
+            borderBottomColor: validated || textIsValid ? validBorderBottomColor : defaultBorderBottomColor,
+            backgroundColor: validated || textIsValid ? validBackgroundColor : defaultBackgroundColor
         }
     }
 
@@ -146,7 +153,7 @@ function LineInput({
                 keyboardType={keyboardType || 'ascii-capable'}
                 placeholder={placeholder}
                 returnKeyType={returnKeyType ? returnKeyType : lastInput ? 'done' : 'next'}
-                onSubmitEditing={onPressKeyboardSubmit}
+                onSubmitEditing={nextInputRef ? setFocusToNextInput : onPressKeyboardSubmit  }
                 onChangeText={(text) => ValidateAndChange(text)}
                 onFocus={(() => setFocused(true))}
                 onBlur={() => setFocused(false)}

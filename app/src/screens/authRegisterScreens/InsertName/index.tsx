@@ -1,4 +1,4 @@
-import { Animated } from 'react-native';
+import { Animated, StatusBar } from 'react-native';
 import React, { useRef, useState } from 'react'
 
 import { Container, InputsContainer } from './styles';
@@ -71,6 +71,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 
 	return (
 		<Container >
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'}/>
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized

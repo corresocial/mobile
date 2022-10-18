@@ -1,4 +1,4 @@
-import { Alert, Animated } from 'react-native';
+import { Alert, Animated, StatusBar } from 'react-native';
 import React, { useContext, useRef, useState } from 'react'
 
 import { Container, InputsContainer } from './styles';
@@ -81,7 +81,7 @@ export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 		const completePhone = `+55${DDD}${phone}`
 
 		if (DDDIsValid && phoneIsValid) {
-			await sendSMS(completePhone, recaptchaVerifier.current) 
+			await sendSMS(completePhone, recaptchaVerifier.current)
 				.then(verificationCodeId => {
 					return navigation.navigate('InsertConfirmationCode', { userPhone: completePhone, verificationCodeId: verificationCodeId })
 				})
@@ -125,6 +125,7 @@ export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 
 	return (
 		<Container >
+			<StatusBar backgroundColor={hasServerSideError ? theme.red2 :theme.purple2} barStyle={'dark-content'} />
 			<FirebaseRecaptchaVerifierModal
 				ref={recaptchaVerifier}
 				firebaseConfig={firebaseConfig}

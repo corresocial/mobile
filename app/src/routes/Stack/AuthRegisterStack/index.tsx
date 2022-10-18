@@ -20,7 +20,7 @@ export function AuthRegisterStack() {
         <Stack.Navigator initialRouteName='Splash'
             screenOptions={{
                 headerShown: false,
-                gestureEnabled: false,
+                gestureEnabled: true,
                 ...TransitionPresets.SlideFromRightIOS,
             }}
         >

@@ -1,5 +1,5 @@
-import React, { useContext, useRef, useState } from 'react'
-import { StatusBar } from 'react-native';
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Keyboard, StatusBar } from 'react-native';
 
 import { Container, InputsContainer, TwoPoints } from './styles';
 import { theme } from '../../../common/theme';
@@ -23,18 +23,28 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
 
     const [hours, setHours] = useState<string>('')
     const [minutes, setMinutes] = useState<string>('')
-    const [invalidHourAfterSubmit, setInvalidHourAfterSubmit] = useState<boolean>(false)
-    const [invalidMinutesAfterSubmit, setInvalidMinutesAfterSubmit] = useState<boolean>(false)
+    const [hoursIsValid, setHoursIsValid] = useState<boolean>(false)
+    const [minutesIsValid, setMinutesIsValid] = useState<boolean>(false)
+    const [keyboardIsOpen, setKeyboardIsOpen] = useState<boolean>(false)
 
     const inputRefs = {
         hoursInput: useRef<React.MutableRefObject<any>>(null),
         minutesInput: useRef<React.MutableRefObject<any>>(null)
     }
 
+    useEffect(() => {
+        Keyboard.addListener('keyboardDidShow', () => setKeyboardIsOpen(true))
+        Keyboard.addListener('keyboardDidHide', () => setKeyboardIsOpen(false))
+
+        const hoursValidation = validateHours(hours)
+        const minutesValidation = validateMinutes(minutes)
+        setHoursIsValid(hoursValidation)
+        setMinutesIsValid(minutesValidation)
+    }, [hours, minutes, keyboardIsOpen])
+
     const validateHours = (text: string) => {
         const isValid = text.length == 2 && parseInt(text) < 24
         if (isValid) {
-            setInvalidHourAfterSubmit(false)
             return true
         }
         return false
@@ -43,7 +53,6 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
     const validateMinutes = (text: string) => {
         const isValid = text.length == 2 && parseInt(text) < 60
         if (isValid) {
-            setInvalidMinutesAfterSubmit(false)
             return true
         }
         return false
@@ -73,8 +82,8 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
                     highlightedWords={['que', 'horas', 'abre?']}
                 >
                     <ProgressBar
-                        range={4}
-                        value={4}
+                        range={5}
+                        value={5}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -95,8 +104,7 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
                         fontSize={26}
-                        invalidTextAfterSubmit={invalidHourAfterSubmit}
-                        placeholder={'horas'}
+                        placeholder={'07'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
                         validateText={(text: string) => validateHours(text)}
@@ -116,25 +124,29 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
                         fontSize={26}
-                        invalidTextAfterSubmit={invalidMinutesAfterSubmit}
-                        placeholder={'minutos'}
+                        placeholder={'30'}
                         keyboardType={'decimal-pad'}
                         lastInput={true}
                         filterText={filterLeavingOnlyNumbers}
                         validateText={(text: string) => validateMinutes(text)}
                         onChangeText={(text: string) => setMinutes(text)}
                     />
+
                 </InputsContainer>
-                <PrimaryButton
-                    color={theme.purple3}
-                    iconName={'arrow-right'}
-                    iconColor={theme.white3}
-                    label='continuar'
-                    labelColor={theme.white3}
-                    highlightedWords={['continuar']}
-                    startsHidden
-                    onPress={saveOppeningHour}
-                />
+                <>
+                    {
+                        hoursIsValid && minutesIsValid && !keyboardIsOpen &&
+                        <PrimaryButton
+                            color={theme.purple3}
+                            iconName={'arrow-right'}
+                            iconColor={theme.white3}
+                            label='continuar'
+                            labelColor={theme.white3}
+                            highlightedWords={['continuar']}
+                            onPress={saveOppeningHour}
+                        />
+                    }
+                </>
             </FormContainer>
         </Container>
     );

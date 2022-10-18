@@ -1,3 +1,5 @@
+import { DaysOfWeek, DeliveryMethod, LocationViewType, ServiceFrequency } from "../screens/serviceScreens/types"
+
 export type ServiceData = {
     completeAddress: {
         city?: string
@@ -12,7 +14,13 @@ export type ServiceData = {
         streetNumber?: string
         subregion?: string
     }
-    locationViewType?: string
     saleValue?: string
+    exchangeValue?: string
+    locationViewType?: LocationViewType
+    deliveryMethod?: DeliveryMethod
+    serviceFrequency?: ServiceFrequency
+    weekdayService?: DaysOfWeek[]
+    openingHour?: string
+    closingHour?: string
 }
 

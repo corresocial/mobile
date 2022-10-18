@@ -27,11 +27,12 @@ function Profile({ navigation, }: HomeTabScreenProps) {
 	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
 	
 	const [profilePicture, setProfilePicture] = useState<string[]>([])
+	const [userName, setUserName] = useState<string>('')
 	const [tourModalVisibility, setTourModalVisibility] = useState(true)// TODO Development  only
 
 	useEffect(() => {
 		initializeUserTour()
-		getProflePicture()
+		getProfileData()
 	}, [])
 
 	const initializeUserTour = async () => {
@@ -70,10 +71,11 @@ function Profile({ navigation, }: HomeTabScreenProps) {
 		navigation.navigate('ServiceStack')
 	}
 
-	const getProflePicture = async () => {
+	const getProfileData = async () => {
 		const localUser = await getObjectLocalUser()
-		const {img_url} = localUser
-		setProfilePicture(img_url)
+		const {img_url, name} = localUser
+		setProfilePicture(img_url || [])
+		setUserName(name)
 	}
 
 	return (
@@ -95,10 +97,10 @@ function Profile({ navigation, }: HomeTabScreenProps) {
 						width={RFValue(100)}
 						borderWidth={3}
 						borderRightWidth={8}
-						pictureUri={profilePicture[0]}
+						pictureUri={profilePicture[0] || ''}
 					/>
 					<InfoArea>
-						<UserName>João Pedro Megid Carrilho</UserName>
+						<UserName>{userName}</UserName>
 						<OptionsArea>
 							<ShareButton
 								color={theme.orange3}

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import {  StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 
 import {
     Container,
@@ -8,7 +8,7 @@ import {
     WeekdaysSelectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight, screenWidth, statusBarHeight } from '../../../common/screenDimensions'
+import { screenHeight, screenWidth } from '../../../common/screenDimensions'
 import Check from './../../../assets/icons/check.svg'
 
 import { SelectDaysOfWeekScreenProps } from '../../../routes/Stack/_stackScreenProps'
@@ -21,20 +21,20 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
+import { DaysOfWeek } from '../types'
 
 function SelectDaysOfWeek({ navigation }: SelectDaysOfWeekScreenProps) {
 
     const { setServiceDataOnContext } = useContext(ServiceContext)
 
     const [selectedDays, setSelectedDays] = useState<string[]>([])
-    const daysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom']
+    const daysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
 
     const renderDaysOfWeek = () => {
         return daysOfWeek.map((dayOfWeek, index) => {
             if (dayOfWeek == 'dom') {
-                return <Row>
+                return <Row key={index}>
                     <SelectButton
-                        key={index}
                         width={screenWidth * 0.41}
                         height={screenHeight * 0.11}
                         marginVertical={10}

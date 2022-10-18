@@ -1,8 +1,8 @@
-import { Animated, StatusBar } from 'react-native';
-import React, { useContext, useRef, useState } from 'react'
+import { Animated, Keyboard, StatusBar } from 'react-native';
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { theme } from '../../../common/theme';
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions';
+import { screenHeight } from '../../../common/screenDimensions';
 import { ButtonsContainer, Container } from './styles';
 import Check from './../../../assets/icons/check.svg'
 
@@ -22,16 +22,24 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
     const { setServiceDataOnContext } = useContext(ServiceContext)
 
     const [exchangeValue, setExchangeValue] = useState<string>('')
-    const [invalidExchangeValueAfterSubmit, setInvalidExchangeValueAfterSubmit] = useState<boolean>(false)
+    const [exchangeValueIsValid, setExchangeValueIsValid] = useState<boolean>(false)
+    const [keyboardIsOpen, setKeyboardIsOpen] = useState<boolean>(false)
 
     const inputRefs = {
         exchangeValueInput: useRef<React.MutableRefObject<any>>(null),
     }
 
+    useEffect(() => {
+        Keyboard.addListener('keyboardDidShow', () => setKeyboardIsOpen(true))
+        Keyboard.addListener('keyboardDidHide', () => setKeyboardIsOpen(false))
+
+        const validation = validateExchangeValue(exchangeValue)
+        setExchangeValueIsValid(validation)
+    }, [exchangeValue, keyboardIsOpen])
+
     const validateExchangeValue = (text: string) => {
-        const isValid = (text).trim().length >= 5
-        if (isValid) {
-            setInvalidExchangeValueAfterSubmit(false)
+        const isValid = (text).trim().length >= 1
+        if (isValid && !keyboardIsOpen) {
             return true
         }
         return false
@@ -43,28 +51,8 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
             setServiceDataOnContext({ exchangeValue })
             navigation.navigate('InsertServicePrestationLocation')
         } else {
-            !exchangeValueIsValid && setInvalidExchangeValueAfterSubmit(true)
+            !exchangeValueIsValid
         }
-    }
-
-    const someInvalidFieldSubimitted = () => {
-        return invalidExchangeValueAfterSubmit
-    }
-
-    const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
-    const animateDefaultHeaderBackgound = () => {
-        const existsError = someInvalidFieldSubimitted()
-
-        Animated.timing(headerBackgroundAnimatedValue.current, {
-            toValue: existsError ? 1 : 0,
-            duration: 300,
-            useNativeDriver: false,
-        }).start()
-
-        return headerBackgroundAnimatedValue.current.interpolate({
-            inputRange: [0, 1],
-            outputRange: [theme.purple2, theme.red2],
-        })
     }
 
     return (
@@ -74,26 +62,18 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
                 minHeight={screenHeight * 0.28}
                 relativeHeight={'28%'}
                 centralized
-                backgroundColor={animateDefaultHeaderBackgound()}
+                backgroundColor={theme.purple2}
             >
                 <BackButton onPress={() => navigation.goBack()} />
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={
-                        someInvalidFieldSubimitted()
-                            ? 'não deu!\nparece esta descrição é \nmuito curta '
-                            : 'o que você aceita em troca ?'
-                    }
-                    highlightedWords={
-                        someInvalidFieldSubimitted()
-                            ? ['\nmuito', 'curta']
-                            : ['o', 'que', 'em', 'troca']
-                    }
+                    message={'o que você aceita em troca ?'}
+                    highlightedWords={['o', 'que', 'em', 'troca']}
                 >
                     <ProgressBar
-                        range={4}
-                        value={2}
+                        range={5}
+                        value={3}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -112,27 +92,29 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
                     invalidBackgroundColor={theme.red1}
                     invalidBorderBottomColor={theme.red5}
                     maxLength={100}
-                    // multiline
-                    textAlign={'left'}
-                    invalidTextAfterSubmit={invalidExchangeValueAfterSubmit}
                     fontSize={20}
+                    lastInput={true}
+                    textAlign={'left'}
                     placeholder={'ex: troco por uma marmita'}
                     keyboardType={'default'}
+                    textIsValid={exchangeValueIsValid && !keyboardIsOpen}
                     validateText={(text: string) => validateExchangeValue(text)}
                     onChangeText={(text: string) => setExchangeValue(text)}
 
                 />
                 <ButtonsContainer>
-                    <PrimaryButton
-                        flexDirection={'row-reverse'}
-                        color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
-                        label={'continuar'}
-                        labelColor={theme.white3}
-                        SvgIcon={Check}
-                        svgIconScale={['30%', '15%']}
-                        startsHidden={true}
-                        onPress={saveExchangeValue}
-                    />
+                    {
+                        exchangeValueIsValid && !keyboardIsOpen &&
+                        <PrimaryButton
+                            flexDirection={'row-reverse'}
+                            color={theme.green3}
+                            label={'continuar'}
+                            labelColor={theme.white3}
+                            SvgIcon={Check}
+                            svgIconScale={['30%', '15%']}
+                            onPress={saveExchangeValue}
+                        />
+                    }
                 </ButtonsContainer>
             </FormContainer>
         </Container>
@@ -140,3 +122,11 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
 }
 
 export { InsertExchangeValue }
+
+function validateServiceName(serviceName: any) {
+    throw new Error('Function not implemented.');
+}
+function setServiceNameIsValid(validation: void) {
+    throw new Error('Function not implemented.');
+}
+

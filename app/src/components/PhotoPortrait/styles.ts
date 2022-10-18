@@ -9,8 +9,8 @@ export const Container = styled.View`
     border-right-width:  ${RFValue(8)}px;
     border-radius: 10px;
     position: relative;
-    max-width: ${screenWidth * 0.9};
-    max-height: ${screenWidth * 0.9}
+    max-width: ${screenWidth * 0.9}px;
+    max-height: ${screenWidth * 0.9}px;
     overflow: hidden;
 `
 

@@ -35,8 +35,8 @@ function InsertServicePicture({ navigation }: InsertServicePictureScreenProps) {
                     highlightedWords={['adicionar', 'algumas', 'fotos']}
                 >
                     <ProgressBar
-                        range={4}
-                        value={2}
+                        range={5}
+                        value={1}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>

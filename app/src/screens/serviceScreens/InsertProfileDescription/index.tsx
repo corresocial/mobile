@@ -1,5 +1,5 @@
-import { Animated, StatusBar } from 'react-native';
-import React, { useContext, useRef, useState } from 'react'
+import { Keyboard, StatusBar } from 'react-native';
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles';
 import { screenHeight } from '../../../common/screenDimensions';
@@ -22,50 +22,36 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
     const { setServiceDataOnContext } = useContext(ServiceContext)
 
     const [profileDescription, setProfileDescription] = useState<string>('')
-    const [invalidProfileDescriptionAfterSubmit, setInvaliProfileDescriptionAfterSubmit] = useState<boolean>(false)
+    const [profileDescriptionIsValid, setProfileDescriptionIsValid] = useState<boolean>(false)
+    const [keyboardIsOpen, setKeyboardIsOpen] = useState<boolean>(false)
 
     const inputRefs = {
         descriptionInput: useRef<React.MutableRefObject<any>>(null),
     }
 
+    useEffect(() => {
+        Keyboard.addListener('keyboardDidShow', () => setKeyboardIsOpen(true))
+        Keyboard.addListener('keyboardDidHide', () => setKeyboardIsOpen(false))
+
+        const validation = validateProfileDescription(profileDescription)
+        setProfileDescriptionIsValid(validation)
+    }, [profileDescription, keyboardIsOpen])
+
     const validateProfileDescription = (text: string) => {
-        const isValid = (text).trim().length >= 10
-        if (isValid) {
-            setInvaliProfileDescriptionAfterSubmit(false)
+        const isValid = (text).trim().length >= 1
+        if (isValid && !keyboardIsOpen) {
             return true
         }
         return false
     }
 
     const saveProfileDescription = () => {
-        const profileDescriptionIsValid = validateProfileDescription(profileDescription)
-
         if (profileDescriptionIsValid) {
             setServiceDataOnContext({ profileDescription })
             navigation.navigate('InsertServiceName')
         } else {
-            !profileDescriptionIsValid && setInvaliProfileDescriptionAfterSubmit(true)
+            !profileDescriptionIsValid
         }
-    }
-
-    const someInvalidFieldSubimitted = () => {
-        return invalidProfileDescriptionAfterSubmit
-    }
-
-    const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
-    const animateDefaultHeaderBackgound = () => {
-        const existsError = someInvalidFieldSubimitted()
-
-        Animated.timing(headerBackgroundAnimatedValue.current, {
-            toValue: existsError ? 1 : 0,
-            duration: 300,
-            useNativeDriver: false,
-        }).start()
-
-        return headerBackgroundAnimatedValue.current.interpolate({
-            inputRange: [0, 1],
-            outputRange: [theme.purple2, theme.red2],
-        })
     }
 
     const statusBarHeight = StatusBar.currentHeight || 0
@@ -77,22 +63,14 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
                 minHeight={(screenHeight + statusBarHeight) * 0.26}
                 relativeHeight={'26%'}
                 centralized
-                backgroundColor={animateDefaultHeaderBackgound()}
+                backgroundColor={theme.purple2}
             >
                 <BackButton onPress={() => navigation.goBack()} />
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={
-                        someInvalidFieldSubimitted()
-                            ? 'não deu!\nparece esta descrição é \nmuito curta '
-                            : 'escreva uma descrição para o seu perfil'
-                    }
-                    highlightedWords={
-                        someInvalidFieldSubimitted()
-                            ? ['\nmuito', 'curta']
-                            : ['descrição', 'seu', 'perfil']
-                    }
+                    message={'escreva uma descrição para o seu perfil'}
+                    highlightedWords={['descrição', 'seu', 'perfil']}
                 >
                     <ProgressBar
                         range={5}
@@ -112,27 +90,29 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
                     defaultBorderBottomColor={theme.black4}
                     validBackgroundColor={theme.purple1}
                     validBorderBottomColor={theme.purple5}
-                    invalidBackgroundColor={theme.red1}
-                    invalidBorderBottomColor={theme.red5}
                     multiline
+                    lastInput={true}
                     textAlign={'left'}
-                    invalidTextAfterSubmit={invalidProfileDescriptionAfterSubmit}
                     fontSize={16}
                     placeholder={'ex: trabalho de mecânico, tenho 33 anos, etc...'}
                     keyboardType={'default'}
+                    textIsValid={profileDescriptionIsValid && !keyboardIsOpen}
                     validateText={(text: string) => validateProfileDescription(text)}
                     onChangeText={(text: string) => setProfileDescription(text)}
                 />
                 <ButtonsContainer>
-                    <PrimaryButton
-                        flexDirection={'row-reverse'}
-                        color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
-                        label={'continuar'}
-                        labelColor={theme.white3}
-                        SvgIcon={Check}
-                        svgIconScale={['30%', '15%']}
-                        onPress={saveProfileDescription}
-                    />
+                    {
+                        profileDescriptionIsValid && !keyboardIsOpen &&
+                        <PrimaryButton
+                            flexDirection={'row-reverse'}
+                            color={theme.green3}
+                            label={'continuar'}
+                            labelColor={theme.white3}
+                            SvgIcon={Check}
+                            svgIconScale={['30%', '15%']}
+                            onPress={saveProfileDescription}
+                        />
+                    }
                 </ButtonsContainer>
             </FormContainer>
         </Container>
