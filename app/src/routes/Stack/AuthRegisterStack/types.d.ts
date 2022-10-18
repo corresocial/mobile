@@ -13,11 +13,13 @@ export type AuthRegisterStackParamList = {
     InsertProfilePicture: {
         userPhone: string,
         userName: string,
+        profilePictureUrl?: string[]
         userIdentification: UserIdentification
     }
     ProfilePicturePreview: {
         userPhone: string,
         userName: string,
+        profilePictureUrl?: string[]
         userIdentification: UserIdentification
     }
 

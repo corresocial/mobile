@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Animated, StatusBar } from 'react-native';
 import { getDownloadURL } from 'firebase/storage';
 
@@ -17,13 +17,13 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { InstructionCard } from '../../../components/InstructionCard';
 import { PhotoPortrait } from '../../../components/PhotoPortrait';
 import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal';
-import { screenHeight, screenWidth } from '../../../common/screenDimensions';
+import { screenWidth } from '../../../common/screenDimensions';
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
 
 	const { setDataOnSecureStore, getDataFromSecureStore } = useContext(AuthContext)
-
-	const [profilePicutresPack, setProfilePicturesPack] = useState<string[]>([])
+	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(true)
+	const [profilePicturesPack, setProfilePicturesPack] = useState<string[]>([])
 	const [hasServerSideError, setHasServerSideError] = useState(false)
 
 	const headerMessages = {
@@ -37,6 +37,11 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		}
 	}
 
+	useEffect(() => {
+		const user = getRouteParams()
+		setProfilePicturesPack(user.profilePictureUrl as string[] || [])
+	}, [])
+
 	const getRouteParams = () => {
 		return { ...route.params }
 	}
@@ -44,10 +49,10 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	const saveUserData = async () => {
 		const userData = getRouteParams() // TODO uncoment
 
-		if (!profilePicutresPack.length) return
+		if (!profilePicturesPack.length) return
 		console.log('válido')
 
-		await uploadImage(profilePicutresPack[0], 'users', userData.userIdentification.uid)
+		await uploadImage(profilePicturesPack[0], 'users', userData.userIdentification.uid)
 			.then(
 				({ uploadTask, blob }: any) => { // TODO Type
 					uploadTask.on(
@@ -99,6 +104,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	}
 
 	const backToCustomCamera = () => {
+		setCameraModalVisibility(true)
 		setProfilePicturesPack([])
 	}
 
@@ -112,10 +118,8 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		return headerMessages.instruction.highlightedWords
 	}
 
-	const setPictureUri = (uri: string) => {
-		const currentPictures = [...profilePicutresPack]
-		currentPictures.push(uri)
-		setProfilePicturesPack(currentPictures)
+	const setPictureUri = (pictureUri: string) => {
+		setProfilePicturesPack([pictureUri])
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -134,14 +138,19 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		})
 	}
 
+	if (!profilePicturesPack.length && !cameraModalVisibility) {
+		navigation.goBack()
+	}
+
 	return (
 		<Container >
-			<StatusBar backgroundColor={hasServerSideError ? theme.red2 :theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={hasServerSideError ? theme.red2 : theme.green2} barStyle={'dark-content'} />
 			<CustomCameraModal
-				cameraOpened={!profilePicutresPack.length}
-				onClose={() => { }}
+				cameraOpened={cameraModalVisibility && !profilePicturesPack.length}
+				onClose={() => {
+					setCameraModalVisibility(false)
+				}}
 				setPictureUri={setPictureUri}
-
 			/>
 			<DefaultHeaderContainer
 				relativeHeight={!hasServerSideError ? '70%' : '68%'}
@@ -151,7 +160,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 				justifyContent={'space-around'}
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
-				<PhotoPortrait pictureUri={profilePicutresPack[0]} width={screenWidth} height={screenWidth} />
+				<PhotoPortrait pictureUri={profilePicturesPack[0]} width={screenWidth} height={screenWidth} />
 				<InstructionCardContainer>
 					<InstructionCard
 						flex={0}

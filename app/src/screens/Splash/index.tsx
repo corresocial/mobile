@@ -15,7 +15,7 @@ import { SplashScreenProps } from '../../routes/Stack/_stackScreenProps';
 import { AuthContext } from '../../contexts/AuthContext';
 
 function Splash({ navigation }: SplashScreenProps) {
-    const { getDataFromSecureStore } = useContext(AuthContext)
+    const { getDataFromSecureStore} = useContext(AuthContext)
 
     const [imagesSvgOpacity] = useState(new Animated.Value(0))
 
@@ -34,7 +34,8 @@ function Splash({ navigation }: SplashScreenProps) {
 
     const redirectToApp = async () => {
         try {
-            const user = await getDataFromSecureStore('corre.userx', true)
+            const user = await getDataFromSecureStore('corre.userteste', true)
+            
             console.log(user)
             if (user) {
                 navigation.navigate('UserStack')

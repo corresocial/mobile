@@ -9,6 +9,7 @@ import { auth } from "../services/Firebase/Firebase";
 
 import * as SecureStore from 'expo-secure-store';
 import * as LocalAuthentication from 'expo-local-authentication';
+import { getUser } from "../services/Firebase/user/get";
 
 const phoneAuth = new PhoneAuthProvider(auth)
 
@@ -55,6 +56,24 @@ export const authentication = {
         }
     },
 
+    async setRemoteUserOnLocal(uid?: string) {
+        if (uid) {
+            const currentUser = await getUser(uid);
+            console.log(currentUser)
+            await authentication.setDataOnSecureStore('corre.user', currentUser)
+        } else {
+            const localUserJSON = await authentication.getDataFromSecureStore('corre.user');
+            if (!!localUserJSON) {
+                const localUser = JSON.parse(localUserJSON)
+                const currentUser = await getUser(localUser.identification.uid);
+                console.log(currentUser)
+                await authentication.setDataOnSecureStore('corre.user', currentUser)
+            } else {
+                console.log('Nenhum usuário local localizado')
+            }
+        }
+    },
+
     async sendSMS(completeNumber: string, recaptchaVerifier: any) {
         const verificationCodeId = await phoneAuth.verifyPhoneNumber(
             completeNumber,
@@ -79,7 +98,6 @@ export const authentication = {
         const userCredential = await signInWithCredential(auth, credential);
         return userCredential;
     }
-
 }
 
 export const AuthContext = React.createContext(authentication);

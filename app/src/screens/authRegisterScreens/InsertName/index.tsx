@@ -1,28 +1,67 @@
-import { Animated, StatusBar } from 'react-native';
-import React, { useRef, useState } from 'react'
+import { Animated, Keyboard, StatusBar } from 'react-native';
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { Container, InputsContainer } from './styles';
 import { theme } from '../../../common/theme';
 
 import { InsertNameScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { InstructionCard } from '../../../components/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
+import { async } from '@firebase/util';
 
 function InsertName({ navigation, route }: InsertNameScreenProps) {
 
-	const [name, setName] = useState<string>('')
-	const [invalidNameAfterSubmit, setInvaliNameAfterSubmit] = useState<boolean>(false)
+	const { getDataFromSecureStore } = useContext(AuthContext)
 
+	const [name, setName] = useState<string>('')
+	const [nameIsValid, setNameIsValid] = useState<boolean>(false)
+	const [keyboardIsOpen, setKeyboardIsOpen] = useState<boolean>(false)
+	const [invalidNameAfterSubmit, setInvaliNameAfterSubmit] = useState<boolean>(false)
+	const [alreadyLoaded, setAlreadyLoaded] = useState<boolean>(false)
 	const inputRefs = {
 		nameInput: useRef<React.MutableRefObject<any>>(null),
 	}
 
+	useEffect(() => {
+		Keyboard.addListener('keyboardDidShow', () => setKeyboardIsOpen(true))
+		Keyboard.addListener('keyboardDidHide', () => setKeyboardIsOpen(false))
+	}, [])
+
+	useEffect(() => {
+			if (!alreadyLoaded) {
+				const localUserName =  getUserName()
+				setAlreadyLoaded(true)
+			}
+
+		const validation = validateName(name)
+		setNameIsValid(validation)
+	}, [name])
+
+	const getUserName = async () => {
+		const localUser = await getObjectLocalUser()
+		const { name } = localUser
+		setName(name)
+	}
+
+	const getUserProfilePicture = async () => {
+		const localUser = await getObjectLocalUser()
+		return localUser?.img_url || []
+	}
+
+	const getObjectLocalUser = async () => {
+		const userJSON = await getDataFromSecureStore('corre.user')
+		if (!userJSON) return false
+		const userObject = await JSON.parse(userJSON)
+		return userObject
+	}
+
 	const validateName = (text: string) => {
-		const isValid = (text).trim().length >= 5
+		const isValid = (text).trim().length >= 1
 		if (isValid) {
 			setInvaliNameAfterSubmit(false)
 			return true
@@ -34,21 +73,36 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 		return { ...route.params }
 	}
 
-	const sendUserDataToNextScreen = () => {
+	const sendUserDataToNextScreen = async () => {
 		const nameIsValid = validateName(name)
 		// const userPhone = route.params.userPhone
 
 		if (nameIsValid) {
 			const userData = getRouteParams()
-			navigation.navigate('InsertProfilePicture', {
-				...userData,
-				userName: name
-			})
+			const profilePictureUrl = await getUserProfilePicture()
+
+			if (!!profilePictureUrl.length) {
+				navigation.navigate('InsertProfilePicture', {
+					...userData,
+					userName: name,
+					profilePictureUrl
+				})
+				return navigation.navigate('ProfilePicturePreview', {
+					...userData,
+					userName: name,
+					profilePictureUrl
+				})
+			} else {
+				navigation.navigate('InsertProfilePicture', {
+					...userData,
+					userName: name
+				})
+			}
 		} else {
 			!nameIsValid && setInvaliNameAfterSubmit(true)
 		}
 	}
-	
+
 	const someInvalidFieldSubimitted = () => {
 		return invalidNameAfterSubmit
 	}
@@ -71,7 +125,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 
 	return (
 		<Container >
-			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'}/>
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized
@@ -103,10 +157,11 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 						invalidBackgroundColor={theme.red1}
 						invalidBorderBottomColor={theme.red5}
 						maxLength={50}
+						lastInput
 						invalidTextAfterSubmit={invalidNameAfterSubmit}
 						placeholder={'qual é o seu nome?'}
 						keyboardType={'default'}
-						validateText={(text: string) => validateName(text)}
+						textIsValid={nameIsValid && !keyboardIsOpen}
 						onChangeText={(text: string) => setName(text)}
 					/>
 				</InputsContainer>
@@ -117,7 +172,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 					label='continuar'
 					labelColor={theme.white3}
 					highlightedWords={['continuar']}
-					startsHidden
+					startsHidden={false}
 					onPress={sendUserDataToNextScreen}
 				/>
 			</FormContainer>

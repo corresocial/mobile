@@ -23,7 +23,7 @@ interface CustomCameraModalProps {
     setPictureUri: (uri: string) => void
 }
 
-function CustomCameraModal({ cameraOpened, onClose,setPictureUri }: CustomCameraModalProps) {
+function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCameraModalProps) {
     const [cameraReady, setCameraReady] = useState(false)
     const [cameraType, setCameraType] = useState(CameraType.back)
     const [flashMode, setFlashMode] = useState(FlashMode.off)
@@ -89,7 +89,7 @@ function CustomCameraModal({ cameraOpened, onClose,setPictureUri }: CustomCamera
             visible={cameraOpened}
             onRequestClose={onClose}
         >
-            <StatusBar backgroundColor={theme.black4} barStyle={'dark-content'}/>
+            <StatusBar backgroundColor={theme.black4} barStyle={'dark-content'} />
             <Container>
                 <CameraContainer>
                     <Camera

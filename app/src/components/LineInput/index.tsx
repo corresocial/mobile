@@ -124,7 +124,7 @@ function LineInput({
         return {
             color: invalidTextAfterSubmit
                 ? invalidBorderBottomColor
-                : validated ? validBorderBottomColor : defaultBorderBottomColor
+                : validated || textIsValid? validBorderBottomColor : defaultBorderBottomColor
         }
     }
 

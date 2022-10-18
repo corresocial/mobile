@@ -125,7 +125,7 @@ export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 
 	return (
 		<Container >
-			<StatusBar backgroundColor={hasServerSideError ? theme.red2 :theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError? theme.red2 :theme.purple2} barStyle={'dark-content'} />
 			<FirebaseRecaptchaVerifierModal
 				ref={recaptchaVerifier}
 				firebaseConfig={firebaseConfig}

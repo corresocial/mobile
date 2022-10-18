@@ -18,7 +18,7 @@ import { LineInput } from '../../../components/LineInput';
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
 
-	const { validateVerificationCode } = useContext(AuthContext)
+	const { validateVerificationCode, setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [inputCode01, setInputCode01] = useState<string>('')
 	const [inputCode02, setInputCode02] = useState<string>('')
@@ -96,9 +96,9 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		return false
 	}
 
-	const sendCompletePhoneToNextScreen = () => {
+	const sendConfirmationCode = () => {
 		const completeCode = mergeAllInputCodes()
-		const completeCodeIsValid = completeCode.length == 6 // Need server side validation
+		const completeCodeIsValid = completeCode.length == 6
 
 		if (completeCodeIsValid) {
 			const userPhone = route.params.userPhone
@@ -106,9 +106,11 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 
 			validateVerificationCode(verificationCodeId, completeCode)
 				.then(async (userCredential: UserCredential) => {
+					const userIdentification = await extractUserIdentification(userCredential)
+					await setRemoteUserOnLocal(userIdentification.uid)
 					return navigation.navigate('InsertName', {
 						userPhone,
-						userIdentification: await extractUserIdentification(userCredential)
+						userIdentification: userIdentification
 					})
 				})
 				.catch(err => {
@@ -184,7 +186,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 
 	return (
 		<Container >
-			<StatusBar backgroundColor={hasServerSideError ? theme.red2 :theme.blue2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight='55%'
 				centralized
@@ -236,7 +238,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 					labelColor={theme.white3}
 					highlightedWords={['continuar']}
 					startsHidden
-					onPress={sendCompletePhoneToNextScreen}
+					onPress={sendConfirmationCode}
 				/>
 			</FormContainer>
 		</Container>
