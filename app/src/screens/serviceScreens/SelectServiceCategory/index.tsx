@@ -5,7 +5,7 @@ import { Container } from './styles'
 import { theme } from '../../../common/theme'
 
 import { SelectServiceCategoryScreenProps } from '../../../routes/Stack/_stackScreenProps'
-import { ServiceCategories } from '../types'
+import { ServiceCategories, ServiceCategory } from '../types'
 import { serviceCategories } from '../serviceCategories'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -19,22 +19,29 @@ import { screenHeight } from '../../../common/screenDimensions'
 function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps) {
 
     const renderSelectOptionsButtons = () => {
-        return Object.entries(serviceCategories).map((category, index) => {
+        const ordenedServicesCategories = Object.values(serviceCategories).sort(sortServiceCategories)
+
+        return ordenedServicesCategories.map((category, index) => {
             return (
                 <SelectButton
                     key={index}
                     width={'45%'}
                     height={screenHeight * 0.11}
-                    label={category[1].label}
+                    label={category.label}
                     boldLabel={true}
-                    onSelect={() => onSelectCategory(index)}
+                    onSelect={() => onSelectCategory(category.value as ServiceCategories)}
                 />
             )
         })
     }
 
-    const onSelectCategory = (categoryIndex: number) => {
-        const categoryName = Object.keys(serviceCategories)[categoryIndex] as ServiceCategories
+    const sortServiceCategories = (a: ServiceCategory, b: ServiceCategory) => {
+        if (a.label < b.label) return -1;
+        if (a.label > b.label) return 1;
+        return 0;
+    }
+
+    const onSelectCategory = (categoryName: ServiceCategories) => {
         navigation.navigate('SelectServiceTags', { categorySelected: categoryName })
     }
 
