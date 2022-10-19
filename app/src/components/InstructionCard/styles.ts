@@ -5,7 +5,7 @@ export const Container = styled.View`
     background-color: ${({theme}) => theme.white3};
     border-left-width: 5px;
     border-left-color: ${({theme}) => theme.black4};
-    padding: ${RFValue(20)}px;
+    padding: ${RFValue(15)}px;
     width: 100%;
 `
 
