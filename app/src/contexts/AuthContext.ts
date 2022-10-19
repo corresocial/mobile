@@ -29,7 +29,7 @@ const LocalAuthenticationOptions: LocalAuthentication.LocalAuthenticationOptions
 export const authentication = {
     async getDataFromSecureStore(key: string, requireAuthentication?: boolean) {
         try {
-            // await SecureStore.deleteItemAsync('corre.user') // Tests
+            // await SecureStore.deleteItemAsync('corre.user') // Tests only
 
             const user = await SecureStore.getItemAsync(key, secureStoreOptions)
 
@@ -66,7 +66,6 @@ export const authentication = {
             if (!!localUserJSON) {
                 const localUser = JSON.parse(localUserJSON)
                 const currentUser = await getUser(localUser.identification.uid);
-                console.log(currentUser)
                 await authentication.setDataOnSecureStore('corre.user', currentUser)
             } else {
                 console.log('Nenhum usuário local localizado')

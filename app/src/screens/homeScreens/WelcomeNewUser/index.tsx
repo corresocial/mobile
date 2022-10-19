@@ -24,16 +24,10 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 	}, [])
 
 	const getUserNameFromSecureStore = async () => {
-		const localUser = await getObjectLocalUser()
-		if (!localUser.name.length) return
-		return setUserName(localUser.name)
-	}
-
-	const getObjectLocalUser = async () => {
 		const userJSON = await getDataFromSecureStore('corre.user')
 		if (!userJSON) return false
 		const userObject = await JSON.parse(userJSON)
-		return userObject
+		setUserName(userObject.name)
 	}
 
 	const buy = () => {

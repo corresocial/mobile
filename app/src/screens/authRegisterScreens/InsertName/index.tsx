@@ -61,7 +61,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 	}
 
 	const validateName = (text: string) => {
-		const isValid = (text).trim().length >= 1
+		const isValid = (text)?.trim().length >= 1
 		if (isValid) {
 			setInvaliNameAfterSubmit(false)
 			return true

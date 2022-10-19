@@ -10,6 +10,7 @@ interface SelectButtonProps {
     width?: string | number
     height?: string | number
     marginVertical?: number
+    marginHorizontal?: number
     backgroundColor?: string
     backgroundSelected?: string
     label?: string
@@ -23,6 +24,7 @@ function SelectButton({
     width = screenWidth * 0.39,
     height = screenHeight * 0.09,
     marginVertical = RFValue(5),
+    marginHorizontal = 0,
     backgroundColor = theme.white3,
     backgroundSelected,
     label,
@@ -57,7 +59,8 @@ function SelectButton({
                 style={{
                     width: width,
                     height: height,
-                    marginVertical: RFValue(marginVertical)
+                    marginVertical: RFValue(marginVertical),
+                    marginHorizontal: RFValue(marginHorizontal),
                 }}
             >
                 <ContainerSurface

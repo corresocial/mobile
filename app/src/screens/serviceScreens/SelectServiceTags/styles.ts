@@ -13,18 +13,26 @@ export const ContainerBottom = styled.View`
 
 export const InputTagArea = styled.View`
     width: 100%;
-    padding: 20px;
+    padding-horizontal: ${RFValue(16)}px;
+    padding-top: ${RFValue(10)}px;
 `
 
-
-export const TagsSelectedArea = styled.View` 
+/* export const TagsFiltredArea = styled.View` 
     padding-horizontal: ${RFValue(10)}px;
     width: 100%;
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
     margin-bottom: 30px;
-    flexWrap: wrap;
+` */
+
+export const TagsSelectedArea = styled.View` 
+    padding-horizontal: ${RFValue(0)}px;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-bottom: 30px;
 `
 export const TagsUnselectedArea = styled.View` 
     padding-horizontal: ${RFValue(10)}px;

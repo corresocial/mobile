@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Keyboard, ScrollView, StatusBar } from 'react-native'
 
 import {
@@ -15,7 +15,7 @@ import { screenHeight, screenWidth, statusBarHeight } from '../../../common/scre
 import Check from './../../../assets/icons/check.svg'
 
 import { SelectServiceTagsScreenProps } from '../../../routes/Stack/_stackScreenProps'
-import { serviceCategories } from '../serviceCategories'
+import { serviceCategories, updateServiceTags } from '../serviceCategories'
 import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -35,10 +35,37 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
     const [keyboardOpened, setKeyboardOpened] = useState(false)
     const [selectedTags, setSelectedTags] = useState<string[]>([])
 
+    const tagsSelectedRef = useRef() as any // TODO Type
+
     useEffect(() => {
         Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
         Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
     }, [])
+
+    /*  const renderFiltredTags = () => {
+         if (textTag.length < 1) return
+ 
+         let filterTagsRenderized = 0
+ 
+         return serviceCategories[getServiceCategorySelected()].tags.map((tagName, index) => {
+             if (tagName.indexOf(textTag) !== -1 && !selectedTags.includes(tagName)) {
+                 if (filterTagsRenderized >= 2) return
+                 filterTagsRenderized += 1
+                 return (
+                     <SelectButton
+                         key={index}
+                         width={screenWidth * 0.38}
+                         height={screenHeight * 0.1}
+                         label={tagName}
+                         boldLabel={true}
+                         backgroundSelected={theme.purple1}
+                         selected={false}
+                         onSelect={() => onSelectTag(tagName)}
+                     />
+                 )
+             }
+         })
+     } */
 
     const renderSelectedTags = () => {
         return selectedTags.map((tagName, index) => {
@@ -49,6 +76,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
                     height={screenHeight * 0.1}
                     label={tagName}
                     boldLabel={true}
+                    marginHorizontal={10}
                     backgroundSelected={theme.purple1}
                     selected={true}
                     onSelect={() => onSelectTag(tagName)}
@@ -60,19 +88,20 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
     const renderUnselectedTags = () => {
         return serviceCategories[getServiceCategorySelected()].tags.map((tagName, index) => {
             if (selectedTags.includes(tagName)) return
-
-            return (
-                <SelectButton
-                    key={index}
-                    width={screenWidth * 0.38}
-                    height={screenHeight * 0.1}
-                    label={tagName}
-                    boldLabel={true}
-                    backgroundSelected={theme.purple1}
-                    selected={false}
-                    onSelect={() => onSelectTag(tagName)}
-                />
-            )
+            if (tagName.indexOf(textTag.toLowerCase()) !== -1 && !selectedTags.includes(tagName)) {
+                return (
+                    <SelectButton
+                        key={index}
+                        width={screenWidth * 0.38}
+                        height={screenHeight * 0.1}
+                        label={tagName}
+                        boldLabel={true}
+                        backgroundSelected={theme.purple1}
+                        fontSize={18}
+                        onSelect={() => onSelectTag(tagName)}
+                    />
+                )
+            }
         })
     }
 
@@ -85,13 +114,31 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
             selectedCategoriesCurrent.push(tagName)
             setSelectedTags(selectedCategoriesCurrent)
         }
-
         return
+    }
+
+    const scrollToEnd = () => {
+        tagsSelectedRef.current.scrollToEnd({ animated: true })
     }
 
     const getServiceCategorySelected = () => {
         const { categorySelected } = route.params
         return categorySelected
+    }
+
+    const addNewTag = () => {
+        const lowerCaseTag = textTag.toLowerCase()
+
+        if (!lowerCaseTag.length) return
+        if (!!serviceCategories[getServiceCategorySelected()].tags.includes(lowerCaseTag)) {
+            return onSelectTag(lowerCaseTag)
+        }
+        const selectedCategoriesCurrent = [...selectedTags]
+        selectedCategoriesCurrent.push(lowerCaseTag)
+
+        setSelectedTags(selectedCategoriesCurrent)
+        updateServiceTags(getServiceCategorySelected(), lowerCaseTag)
+        setTextTag('')
     }
 
     const saveTags = () => {
@@ -101,7 +148,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 
     return (
         <Container>
-            <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'}/>
+            <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={screenHeight * 0.26}
                 relativeHeight={'30%'}
@@ -136,42 +183,48 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
                         validBorderBottomColor={theme.purple5}
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
-                        multiline
                         textAlign={'left'}
+                        lastInput
+                        fontSize={18}
                         invalidTextAfterSubmit={false}
-                        placeholder={'digite ou escolha alguma das palavras abaixo'}
+                        placeholder={'pesquise ou adicione'}
                         keyboardType={'default'}
-                        validateText={(text: string) => false} //validateProfileDescription(text)
+                        onPressKeyboardSubmit={addNewTag}
                         onChangeText={(text: string) => setTextTag(text)}
                     />
                 </InputTagArea>
-                {
-                    !keyboardOpened &&
-                    <SelectButtonsContainer
-                        backgroundColor={theme.white2}
+                <SelectButtonsContainer
+                    backgroundColor={theme.white2}
+                >
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        style={{ height: '100%', flex: 1 }}
+                        contentContainerStyle={{
+                            flexDirection: 'row',
+                            flexWrap: 'wrap',
+                            overflow: 'scroll',
+                        }}
                     >
-                        <ScrollView
-                            showsVerticalScrollIndicator={false}
-                            contentContainerStyle={{
-                                flexDirection: 'row',
-                                flexWrap: 'wrap',
-                                overflow: 'scroll',
-                            }}
-                            style={{
-                                height: '100%',
-                                flex: 1
-                            }}
-                        >
+                        {
+                            !keyboardOpened &&
                             <TagsSelectedArea>
-                                {renderSelectedTags()}
+                                <ScrollView
+                                    ref={tagsSelectedRef} onContentSizeChange={scrollToEnd}
+                                    horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    scrollsToTop={true}
+                                >
+                                    {renderSelectedTags()}
+                                </ScrollView>
                             </TagsSelectedArea>
-                            <TagsUnselectedArea>
-                                {renderUnselectedTags()}
-                            </TagsUnselectedArea>
-                            <Sigh />
-                        </ScrollView>
-                    </SelectButtonsContainer>
-                }
+                        }
+                        <TagsUnselectedArea>
+                            {renderUnselectedTags()}
+                        </TagsUnselectedArea>
+
+                        <Sigh />
+                    </ScrollView>
+                </SelectButtonsContainer>
                 {
                     !!selectedTags.length &&
                     <FloatButtonContainer>
