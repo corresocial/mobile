@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { KeyboardTypeOptions, NativeSyntheticEvent, ReturnKeyTypeOptions, TextInputKeyPressEventData, View } from 'react-native';
-import { screenWidth } from '../../common/screenDimensions';
+import { screenHeight, screenWidth } from '../../common/screenDimensions';
 
 import { Container, TextInput } from './styles';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -130,7 +130,7 @@ function LineInput({
     return (
         <Container
             style={{
-                height: multiline ? screenWidth * 0.25 : screenWidth * 0.17,
+                height: multiline ? screenHeight * 0.25 : screenHeight * 0.085,
                 width: relativeWidth,
                 ...inputContainerStyle
             }}
@@ -138,7 +138,6 @@ function LineInput({
             underlayColor={validated ? validBackgroundColor : defaultBackgroundColor}
             onPress={() => textInputRef.current.focus()}
         >
-
             <TextInput
                 style={[getTextInputStyle(), {
                     fontSize: RFValue(fontSize),
@@ -148,6 +147,8 @@ function LineInput({
                 value={value}
                 maxLength={maxLength}
                 multiline={multiline}
+                numberOfLines={5}
+                blurOnSubmit={true}
                 secureTextEntry={secureTextEntry}
                 keyboardType={keyboardType || 'ascii-capable'}
                 placeholder={placeholder}
