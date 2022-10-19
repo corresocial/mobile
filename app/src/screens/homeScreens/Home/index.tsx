@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { View, Text, BackHandler } from 'react-native';
+import { HomeTabScreenProps } from '../../../routes/Stack/_stackScreenProps';
 
-function Home() {
+function Home({navigation}: HomeTabScreenProps) {
 	/* useEffect(() => { //TODO Comment to tests only
 		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
 	})

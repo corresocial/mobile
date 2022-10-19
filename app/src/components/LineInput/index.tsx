@@ -147,12 +147,12 @@ function LineInput({
                 value={value}
                 maxLength={maxLength}
                 multiline={multiline}
-                numberOfLines={5}
-                blurOnSubmit={true}
+                numberOfLines={7}
                 secureTextEntry={secureTextEntry}
                 keyboardType={keyboardType || 'ascii-capable'}
                 placeholder={placeholder}
                 returnKeyType={returnKeyType ? returnKeyType : lastInput ? 'done' : 'next'}
+                blurOnSubmit={true}
                 onSubmitEditing={nextInputRef ? setFocusToNextInput : onPressKeyboardSubmit  }
                 onChangeText={(text) => ValidateAndChange(text)}
                 onFocus={(() => setFocused(true))}
