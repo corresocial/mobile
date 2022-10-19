@@ -71,7 +71,6 @@ function LineInput({
 
     const ValidateAndChange = (text: string) => {
         let filtredText = filterText ? filterText(text) : text
-
         if (validateText(filtredText) || textIsValid) {
             nextInputRef && setFocusToNextInput()
             lastInput && closeKeyboard()

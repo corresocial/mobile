@@ -47,47 +47,35 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
     const validateHours = (text: string) => {
         const isValid = text.length == 2 && parseInt(text) < 24
-        if (isValid && closingTimeIsAfterOpening()) {
-            setInvalidHourAfterSubmit(false)
+        if (isValid && closingTimeIsAfterOpening(text)) {
             return true
+        } else {
+            return false
         }
-        return false
+
     }
 
     const validateMinutes = (text: string) => {
-        const isValid = text.length == 2 && parseInt(text) < 60
-        if (isValid && closingTimeIsAfterOpening()) {
-            setInvalidMinutesAfterSubmit(false)
+        const isValid = text.length == 2 && parseInt(text) <= 59
+        if (isValid && closingTimeIsAfterOpening('', text)) {
             return true
         }
         return false
     }
 
-    const closingTimeIsAfterOpening = () => {
-       /*  const openingHour = new Date(serviceData.openingHour as string).getUTCHours()
-        const openingMinutes = new Date(serviceData.openingHour as string).getUTCMinutes()
-
-        const closingHour = parseInt(hours) || 23
-        const closingMinutes = parseInt(minutes) || 60
-
-        console.log(`${openingHour}:${openingMinutes}`)
-        console.log(openingHour <= closingHour)
-        console.log(openingMinutes < closingMinutes)
-        console.log(openingHour <= closingHour && openingMinutes < closingMinutes)
-        return !!(openingHour <= closingHour && openingMinutes < closingMinutes) */
-        return true
+    const closingTimeIsAfterOpening = (hoursValidation?: string, minutesValidation?: string) => {
+        const openingHour = new Date(serviceData.openingHour as string)
+        const closingHour = new Date(Date.UTC(2022, 1, 1, parseInt(!!hoursValidation ? hoursValidation : hours), parseInt(!!minutesValidation ? minutesValidation : '59'), 0, 0))
+        return openingHour < closingHour
     }
 
     const saveClosingHour = () => {
         setServiceDataOnContext({
             closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
         })
-        console.log(serviceData)
-        
+        console.log({...serviceData, closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))})
         // navigation.navigate('HomeTab' as any, { TourCompleted: true }) // TODO type
     }
-
-
 
     return (
         <Container >

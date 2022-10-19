@@ -30,7 +30,7 @@ export function ServiceStack() {
 
     return (
         <ServiceContext.Provider value={serviceContext}>
-            <Stack.Navigator initialRouteName='SelectPostType'
+            <Stack.Navigator initialRouteName='SelectDaysOfWeek'
                 screenOptions={{
                     headerShown: false,
                     gestureEnabled: true,
