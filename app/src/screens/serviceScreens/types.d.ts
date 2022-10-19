@@ -28,3 +28,9 @@ export type CompleteAddress = {
     subregion?: string | null;
     country?: string | null;
 }
+
+export type ServiceCategory = {
+    label: string
+    value: string
+    tags: string[]
+}

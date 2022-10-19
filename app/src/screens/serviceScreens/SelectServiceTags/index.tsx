@@ -41,32 +41,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
         Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
         Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
     }, [])
-
-    /*  const renderFiltredTags = () => {
-         if (textTag.length < 1) return
- 
-         let filterTagsRenderized = 0
- 
-         return serviceCategories[getServiceCategorySelected()].tags.map((tagName, index) => {
-             if (tagName.indexOf(textTag) !== -1 && !selectedTags.includes(tagName)) {
-                 if (filterTagsRenderized >= 2) return
-                 filterTagsRenderized += 1
-                 return (
-                     <SelectButton
-                         key={index}
-                         width={screenWidth * 0.38}
-                         height={screenHeight * 0.1}
-                         label={tagName}
-                         boldLabel={true}
-                         backgroundSelected={theme.purple1}
-                         selected={false}
-                         onSelect={() => onSelectTag(tagName)}
-                     />
-                 )
-             }
-         })
-     } */
-
+  
     const renderSelectedTags = () => {
         return selectedTags.map((tagName, index) => {
             return (
@@ -86,7 +61,9 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
     }
 
     const renderUnselectedTags = () => {
-        return serviceCategories[getServiceCategorySelected()].tags.map((tagName, index) => {
+        const ordenedServiceTags = serviceCategories[getServiceCategorySelected()].tags.sort(sortServiceTags)
+
+        return ordenedServiceTags.map((tagName, index) => {
             if (selectedTags.includes(tagName)) return
             if (tagName.indexOf(textTag.toLowerCase()) !== -1 && !selectedTags.includes(tagName)) {
                 return (
@@ -103,6 +80,12 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
                 )
             }
         })
+    }
+
+    const sortServiceTags = (a: string, b: string) => {
+        if (a < b) return -1;
+        if (a > b) return 1;
+        return 0;
     }
 
     const onSelectTag = (tagName: string) => {
@@ -124,6 +107,16 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
     const getServiceCategorySelected = () => {
         const { categorySelected } = route.params
         return categorySelected
+    }
+
+    const getCurrentCategoryLabelHightlighted = () => {
+        const highlightedWords = serviceCategories[getServiceCategorySelected()].label.split(' ')
+        highlightedWords[highlightedWords.length - 1] = highlightedWords[highlightedWords.length - 1] + ','
+        return highlightedWords
+    }
+
+    const getCurrentCategoryLabel = () => {
+        return serviceCategories[getServiceCategorySelected()].label
     }
 
     const addNewTag = () => {
@@ -159,8 +152,8 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={`dentro de ${serviceCategories[getServiceCategorySelected()].label}, quais palavras tem a ver com seu serviço?`}
-                    highlightedWords={[`${serviceCategories[getServiceCategorySelected()].label},`, 'tem', 'a', 'ver']}
+                    message={`dentro de ${getCurrentCategoryLabel()}, quais palavras tem a ver com seu serviço?`}
+                    highlightedWords={[...getCurrentCategoryLabelHightlighted(), 'tem', 'a', 'ver']}
                 >
                     <ProgressBar
                         range={5}

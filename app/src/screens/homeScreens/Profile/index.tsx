@@ -88,7 +88,7 @@ function Profile({ navigation, }: HomeTabScreenProps) {
 			/>
 			<DefaultHeaderContainer
 				backgroundColor={theme.white3}
-				centralized={true}
+				centralized={false}
 				relativeHeight={'22%'}
 			>
 				<ProfileHeader>
