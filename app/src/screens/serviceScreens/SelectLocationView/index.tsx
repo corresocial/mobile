@@ -17,10 +17,7 @@ import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
 
-    const { setServiceDataOnContext } = useContext(ServiceContext)
-
     const saveLocationViewType = (locationViewType: LocationViewType) => {
-        setServiceDataOnContext({ locationViewType })
         navigation.navigate('LocationViewPreview', { locationView: locationViewType })
     }
 

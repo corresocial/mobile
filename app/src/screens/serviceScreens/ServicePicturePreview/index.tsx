@@ -38,7 +38,7 @@ function ServicePicturePreview({ navigation, route }: ServicePicturePreviewScree
 	}
 
 	const savePictures = () => {
-		setServiceDataOnContext({ servicePictures: picturesPack })
+		setServiceDataOnContext({ picturesUrl: picturesPack })
 		navigation.navigate('SelectServiceCategory')
 	}
 
@@ -59,7 +59,7 @@ function ServicePicturePreview({ navigation, route }: ServicePicturePreviewScree
 					<PhotoPortrait
 						pictureUri={picturesPack[pictureIndexSelected]}
 						width={screenWidth * 0.90}
-						height={screenWidth * 0.90}
+						height={screenWidth * 0.89}
 						deleteCurrentPicture={deleteCurrentPicture}
 					/>
 					<HorizontalListPictures

@@ -20,6 +20,8 @@ import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
 import { CustomMapView } from '../../../components/CustomMapView';
 import { ServiceContext } from '../../../contexts/ServiceContext';
+import Geohash from 'latlon-geohash';
+import generateGeohashes from '../../../common/generateGeohashes';
 
 const initialRegion = {
     latitude: -14.235004,
@@ -162,16 +164,22 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
         }
     }
 
-    const updateMarkerPosition = async (coordinates: Coordinates) => { // TODO  type
-        setMarkerCoordinate(coordinates) // TODO Timeout
+    const updateMarkerPosition = async (coordinates: Coordinates) => {
+        setMarkerCoordinate(coordinates)
         markerCoordinate && setInvalidAddressAfterSubmit(false)
     }
 
     const saveLocation = async () => {
         if (!markerCoordinateIsAccuracy()) return
+
+        const geohashObject = generateGeohashes(-23.29534144, -51.15897534)
         const completeAddress = await convertGeocodeToAddress(markerCoordinate?.latitude as number, markerCoordinate?.longitude as number)
-        console.log(completeAddress)
-        setServiceDataOnContext({ completeAddress })
+        // console.log(completeAddress)
+
+        setServiceDataOnContext({
+            completeAddress,
+            ...geohashObject,
+        })
         navigation.navigate('SelectLocationView')
     }
 

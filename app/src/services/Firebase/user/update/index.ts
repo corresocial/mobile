@@ -1,6 +1,6 @@
 import { doc, setDoc } from 'firebase/firestore';
 import { firestore } from '../../Firebase';
-import { UserCollection } from '../types';
+import { UserCollection } from '../../types';
 
 async function updateUser(docId: string, data: UserCollection) {
 	try {
@@ -11,7 +11,10 @@ async function updateUser(docId: string, data: UserCollection) {
 			{ merge: true },
 		)
 			.then(() => true)
-			.catch(err => false) // TODO Error Handling
+			.catch(err => {
+				console.log(err)
+				return err
+			}) // TODO Error Handling
 
 		console.log('finished')
 		return finished;

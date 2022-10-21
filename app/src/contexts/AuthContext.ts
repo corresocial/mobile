@@ -59,14 +59,19 @@ export const authentication = {
     async setRemoteUserOnLocal(uid?: string) {
         if (uid) {
             const currentUser = await getUser(uid);
-            console.log(currentUser)
-            await authentication.setDataOnSecureStore('corre.user', currentUser)
+            await authentication.setDataOnSecureStore('corre.user', {
+                ...currentUser,
+                userId: uid
+            })
         } else {
             const localUserJSON = await authentication.getDataFromSecureStore('corre.user');
             if (!!localUserJSON) {
                 const localUser = JSON.parse(localUserJSON)
                 const currentUser = await getUser(localUser.identification.uid);
-                await authentication.setDataOnSecureStore('corre.user', currentUser)
+                await authentication.setDataOnSecureStore('corre.user', {
+                    ...localUser,
+                    currentUser
+                })
             } else {
                 console.log('Nenhum usuário local localizado')
             }

@@ -26,8 +26,6 @@ const Tab = createBottomTabNavigator<HomeTabParamList>();
 
 export function HomeTab() {
 
-	console.log(RFValue(64))
-	
 	return (
 		<Tab.Navigator initialRouteName={'Profile'} 
 			screenOptions={{

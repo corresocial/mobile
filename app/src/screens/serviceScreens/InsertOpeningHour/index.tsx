@@ -40,6 +40,11 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
         const minutesValidation = validateMinutes(minutes)
         setHoursIsValid(hoursValidation)
         setMinutesIsValid(minutesValidation)
+
+        return () => {
+            Keyboard.removeAllListeners('keyboardDidShow')
+            Keyboard.removeAllListeners('keyboardDidHide')
+        }
     }, [hours, minutes, keyboardIsOpen])
 
     const validateHours = (text: string) => {

@@ -13,9 +13,10 @@ import LogoSVG from './../../assets/icons/logo.svg'
 
 import { SplashScreenProps } from '../../routes/Stack/_stackScreenProps';
 import { AuthContext } from '../../contexts/AuthContext';
+import { UserCollection } from '../../services/Firebase/types';
 
 function Splash({ navigation }: SplashScreenProps) {
-    const { getDataFromSecureStore} = useContext(AuthContext)
+    const { getDataFromSecureStore } = useContext(AuthContext)
 
     const [imagesSvgOpacity] = useState(new Animated.Value(0))
 
@@ -34,13 +35,14 @@ function Splash({ navigation }: SplashScreenProps) {
 
     const redirectToApp = async () => {
         try {
-            const user = await getDataFromSecureStore('corre.user.teste', true) // Remove ".teste" to run correctly
-            
-            console.log(user)
-            if (user) {
-                navigation.navigate('UserStack')
+            const userJSON = await getDataFromSecureStore('corre.user', true) // Remove ".teste" to run correctly
+
+            if (userJSON) {
+                const userObject: UserCollection = JSON.parse(userJSON)
+                console.log(userObject.tourPerformed)
+                navigation.navigate('UserStack', { tourPerformed: false }) //!!userObject.tourPerformed
             } else {
-                if (user == null) {
+                if (userJSON == null) {
                     navigation.navigate('AcceptAndContinue')
                 } else {
                     throw 'Usuário não authenticado localmente!'

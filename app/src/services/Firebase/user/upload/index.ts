@@ -5,7 +5,7 @@ export default async function uploadImage(
     localPath: string,
     collection: string,
     uid: string,
-    index?: string
+    index?: number
 ) {
     try {
         const blob = await new Promise((resolve, reject) => {

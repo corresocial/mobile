@@ -10,10 +10,9 @@ import { ServiceStack } from '../ServiceStack';
 
 const Stack = createStackNavigator<UserStackParamList>()
 
-export function UserStack() {
-
+export function UserStack({route}: any) {
     return (
-        <Stack.Navigator initialRouteName='WelcomeNewUser'
+        <Stack.Navigator initialRouteName={route.params.tourPerformed ? 'HomeTab' : 'WelcomeNewUser'}
             screenOptions={{
                 headerShown: false,
                 gestureEnabled: false,

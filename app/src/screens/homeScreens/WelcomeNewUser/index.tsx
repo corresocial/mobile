@@ -27,7 +27,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 		const userJSON = await getDataFromSecureStore('corre.user')
 		if (!userJSON) return false
 		const userObject = await JSON.parse(userJSON)
-		setUserName(userObject.name)
+		setUserName(userObject.name || 'amigo')
 	}
 
 	const buy = () => {

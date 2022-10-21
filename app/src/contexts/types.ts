@@ -20,7 +20,8 @@ export type ServiceData = {
     deliveryMethod?: DeliveryMethod
     serviceFrequency?: ServiceFrequency
     weekdayService?: DaysOfWeek[]
-    openingHour?: string
-    closingHour?: string
+    openingHour?: Date
+    closingHour?: Date
+    picturesUrl?: string[]
 }
 

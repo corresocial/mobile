@@ -35,17 +35,17 @@ function PhotoPortrait({
         >
             {
                 pictureUri
-                    ? <Image source={{ uri: pictureUri  }}
+                    ? <Image source={{ uri: pictureUri }}
                         width={0}
                         height={0}
                         style={{
                             width: '100%',
                             height: '100%',
                             resizeMode: 'contain',
-                            borderRadius: RFValue(7),
+                            borderRadius: 5,
                         }}
                     />
-                    : <NoPhoto />
+                    : <NoPhoto width={'100%'} height={'100%'} />
             }
 
             {

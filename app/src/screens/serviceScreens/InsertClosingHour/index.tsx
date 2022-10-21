@@ -1,25 +1,33 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Keyboard, StatusBar } from 'react-native';
+import { Animated, Keyboard, StatusBar } from 'react-native'
 
-import { Container, InputsContainer, TwoPoints } from './styles';
-import { theme } from '../../../common/theme';
+import { Container, InputsContainer, TwoPoints } from './styles'
+import { theme } from '../../../common/theme'
+import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
-import { InsertClosingHourScreenProps } from '../../../routes/Stack/_stackScreenProps';
-import { ServiceContext } from '../../../contexts/ServiceContext';
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions';
+import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
+import { InsertClosingHourScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { ServiceContext } from '../../../contexts/ServiceContext'
+import { AuthContext } from '../../../contexts/AuthContext'
+import uploadImage from '../../../services/Firebase/user/upload'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { BackButton } from '../../../components/_buttons/BackButton';
-import { InstructionCard } from '../../../components/InstructionCard';
-import { LineInput } from '../../../components/LineInput';
-import { ProgressBar } from '../../../components/ProgressBar';
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { InstructionCard } from '../../../components/InstructionCard'
+import { LineInput } from '../../../components/LineInput'
+import { ProgressBar } from '../../../components/ProgressBar'
+import { getDownloadURL } from 'firebase/storage'
+import createPost from '../../../services/Firebase/createPost'
+import updateDoc from '../../../services/Firebase/updateDoc'
+import { UserCollection } from '../../../services/Firebase/types'
+import { ServiceData } from '../../../contexts/types'
 
 function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
     const { setServiceDataOnContext, serviceData } = useContext(ServiceContext)
+    const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
 
     const [hours, setHours] = useState<string>('')
     const [minutes, setMinutes] = useState<string>('')
@@ -63,35 +71,159 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
         return false
     }
 
+    const someInvalidFieldSubimitted = () => {
+        return invalidHourAfterSubmit && invalidHourAfterSubmit
+    }
+
     const closingTimeIsAfterOpening = (hoursValidation?: string, minutesValidation?: string) => {
-        const openingHour = new Date(serviceData.openingHour as string)
+        const openingHour = new Date(serviceData.openingHour as Date)
         const closingHour = new Date(Date.UTC(2022, 1, 1, parseInt(!!hoursValidation ? hoursValidation : hours), parseInt(!!minutesValidation ? minutesValidation : '59'), 0, 0))
         return openingHour < closingHour
     }
 
-    const saveClosingHour = () => {
+    const saveServicePost = async () => {
         setServiceDataOnContext({
             closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
         })
-        console.log({...serviceData, closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))})
-        // navigation.navigate('HomeTab' as any, { TourCompleted: true }) // TODO type
+        /*  console.log({
+             ...serviceData,
+             closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
+         }) */
+
+        const completeServiceData = {
+            ...serviceData,
+            closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
+        }
+
+        try {
+            const localUser = JSON.parse(await getDataFromSecureStore('corre.user') || '')
+            const pictures = completeServiceData.picturesUrl as string[] || []
+            const postId = await createPost(completeServiceData, localUser).then((postId) => postId)
+
+            if (!postId) {
+                throw 'postId inválido'
+            }
+
+            const picturePostsUrls: string[] = []
+
+            if (!pictures.length) {
+                updateUserPost(
+                    localUser,
+                    postId,
+                    completeServiceData,
+                    picturePostsUrls
+                )
+            }
+
+            pictures.forEach(async (servicePicture, index) => {
+                uploadImage(servicePicture, 'posts', postId, index).then(
+                    ({ uploadTask, blob }: any) => {
+                        uploadTask.on(
+                            'state_change',
+                            () => { },
+                            (err: any) => {
+                                throw err
+                            },
+                            () => {
+                                getDownloadURL(uploadTask.snapshot.ref).then(
+                                    (downloadURL) => {
+                                        blob.close()
+                                        picturePostsUrls.push(downloadURL)
+                                        if (picturePostsUrls.length === pictures.length) {
+                                            updateUserPost(
+                                                localUser,
+                                                postId,
+                                                completeServiceData,
+                                                picturePostsUrls
+                                            )
+                                        }
+                                    },
+                                )
+                            },
+                        )
+                    },
+                )
+            })
+        } catch (err) {
+            console.log(err)
+            setInvalidHourAfterSubmit(true)
+            setInvalidMinutesAfterSubmit(true)
+        }
+    }
+
+    const updateUserPost = (
+        localUser: UserCollection,
+        postId: string,
+        completeServiceData: ServiceData,
+        picturePostsUrls: string[],
+    ) => {
+        updateDoc(
+            'users',
+            localUser.userId,
+            'posts',
+            {
+                ...completeServiceData,
+                postType: 'service',
+                picturesUrl: picturePostsUrls,
+            },
+            true,
+        )
+            .then(() => {
+                setDataOnSecureStore('corre.user', {
+                    ...localUser,
+                    posts: [
+                        ...localUser.posts as any, // TODO Type
+                        {
+                            ...completeServiceData,
+                            postId: postId,
+                            postType: 'service',
+                        },
+                    ],
+                })
+                console.log('Naviguei')
+                // navigation.navigate('HomeTab' as any, { TourCompleted: true }) // TODO type
+            })
+    }
+
+    const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
+    const animateDefaultHeaderBackgound = () => {
+        const existsError = someInvalidFieldSubimitted()
+
+        Animated.timing(headerBackgroundAnimatedValue.current, {
+            toValue: existsError ? 1 : 0,
+            duration: 300,
+            useNativeDriver: false,
+        }).start()
+
+        return headerBackgroundAnimatedValue.current.interpolate({
+            inputRange: [0, 1],
+            outputRange: [theme.purple2, theme.red2],
+        })
     }
 
     return (
         <Container >
-            <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={(screenHeight + statusBarHeight) * 0.26}
+                minHeight={(screenHeight + statusBarHeight) * 0.27}
                 relativeHeight={'22%'}
                 centralized
-                backgroundColor={theme.purple2}
+                backgroundColor={animateDefaultHeaderBackgound()}
             >
                 <BackButton onPress={() => navigation.goBack()} />
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'que horas sua loja fecha?'}
-                    highlightedWords={['que', 'horas', 'fecha?']}
+                    message={
+                        someInvalidFieldSubimitted()
+                            ? 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes'
+                            : 'que horas sua loja fecha?'
+                    }
+                    highlightedWords={
+                        someInvalidFieldSubimitted()
+                            ? ['do', 'nosso', 'lado,']
+                            : ['que', 'horas', 'fecha?']
+                    }
                 >
                     <ProgressBar
                         range={5}
@@ -150,18 +282,18 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     {
                         hoursIsValid && minutesIsValid && !keyboardIsOpen &&
                         <PrimaryButton
-                            color={theme.purple3}
+                            color={someInvalidFieldSubimitted() ? theme.red3 : theme.purple3}
                             iconName={'arrow-right'}
                             iconColor={theme.white3}
                             label='continuar'
                             labelColor={theme.white3}
                             highlightedWords={['continuar']}
-                            onPress={saveClosingHour}
+                            onPress={saveServicePost}
                         />
                     }</>
             </FormContainer>
         </Container>
-    );
+    )
 }
 
 export { InsertClosingHour }

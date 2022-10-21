@@ -93,7 +93,7 @@ function Profile({ navigation, }: HomeTabScreenProps) {
 			>
 				<ProfileHeader>
 					<PhotoPortrait
-						height={RFValue(100)}
+						height={RFValue(95)}
 						width={RFValue(100)}
 						borderWidth={3}
 						borderRightWidth={8}

@@ -7,7 +7,6 @@ export const Container = styled.View`
     border-left-color: ${({theme}) => theme.black4};
     padding: ${RFValue(15)}px;
     width: 100%;
-    flex: 1;
 `
 
 export const Message = styled.Text`

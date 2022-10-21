@@ -33,10 +33,10 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 	}, [])
 
 	useEffect(() => {
-			if (!alreadyLoaded) {
-				const localUserName =  getUserName()
-				setAlreadyLoaded(true)
-			}
+		if (!alreadyLoaded) {
+			getUserName()
+			setAlreadyLoaded(true)
+		}
 
 		const validation = validateName(name)
 		setNameIsValid(validation)

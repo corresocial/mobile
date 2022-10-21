@@ -8,7 +8,7 @@ import { theme } from '../../../common/theme';
 import updateUser from '../../../services/Firebase/user/update';
 import uploadImage from '../../../services/Firebase/user/upload';
 import { AuthContext } from '../../../contexts/AuthContext';
-import { UserCollection } from '../../../services/Firebase/user/types';
+import { UserCollection } from '../../../services/Firebase/types';
 import { ProfilePicturePreviewScreenProps } from '../../../routes/Stack/_stackScreenProps';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
@@ -41,6 +41,41 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		const user = getRouteParams()
 		setProfilePicturesPack(user.profilePictureUrl as string[] || [])
 	}, [])
+
+	const throwServerSideError = (err: any) => {
+		setHasServerSideError(true)
+	}
+
+	const getObjectLocalUser = async () => {
+		const userJSON = await getDataFromSecureStore('corre.user')
+		if (!userJSON) return false
+		const userObject = await JSON.parse(userJSON)
+		return userObject
+	}
+
+	const navigateToNextScreen = async () => {
+		setHasServerSideError(false)
+		return navigation.navigate('UserStack')
+	}
+
+	const backToCustomCamera = () => {
+		setCameraModalVisibility(true)
+		setProfilePicturesPack([])
+	}
+
+	const getHeaderMessage = () => {
+		if (hasServerSideError) return headerMessages.serverSideError.text
+		return headerMessages.instruction.text
+	}
+
+	const getHeaderHighlightedWords = () => {
+		if (hasServerSideError) return headerMessages.serverSideError.highlightedWords
+		return headerMessages.instruction.highlightedWords
+	}
+
+	const setPictureUri = (pictureUri: string) => {
+		setProfilePicturesPack([pictureUri])
+	}
 
 	const getRouteParams = () => {
 		return { ...route.params }
@@ -81,45 +116,10 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 			)
 			.catch(err => throwServerSideError(err))
 	}
-
-	const throwServerSideError = (err: any) => {
-		setHasServerSideError(true)
-	}
-
+	
 	const saveInSecureStore = async (userData: UserCollection) => {
 		const localUser = await getObjectLocalUser()
 		await setDataOnSecureStore('corre.user', { ...localUser, ...userData })
-	}
-
-	const getObjectLocalUser = async () => {
-		const userJSON = await getDataFromSecureStore('corre.user')
-		if (!userJSON) return false
-		const userObject = await JSON.parse(userJSON)
-		return userObject
-	}
-
-	const navigateToNextScreen = async () => {
-		setHasServerSideError(false)
-		return navigation.navigate('UserStack')
-	}
-
-	const backToCustomCamera = () => {
-		setCameraModalVisibility(true)
-		setProfilePicturesPack([])
-	}
-
-	const getHeaderMessage = () => {
-		if (hasServerSideError) return headerMessages.serverSideError.text
-		return headerMessages.instruction.text
-	}
-
-	const getHeaderHighlightedWords = () => {
-		if (hasServerSideError) return headerMessages.serverSideError.highlightedWords
-		return headerMessages.instruction.highlightedWords
-	}
-
-	const setPictureUri = (pictureUri: string) => {
-		setProfilePicturesPack([pictureUri])
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))

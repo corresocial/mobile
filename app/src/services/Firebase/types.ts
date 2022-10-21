@@ -1,4 +1,6 @@
 export type UserCollection = {
+    userId: string
+    tourPerformed: boolean 
     address?: {
         map: {
             coordinates: { map: { lat: number, lng: number } }
