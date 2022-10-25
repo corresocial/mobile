@@ -47,7 +47,6 @@ export const authentication = {
     },
 
     async setDataOnSecureStore(key: string, data: any) {
-        console.log(data)
         try {
             await SecureStore.setItemAsync(key, JSON.stringify(data), secureStoreOptions)
         } catch (err) {

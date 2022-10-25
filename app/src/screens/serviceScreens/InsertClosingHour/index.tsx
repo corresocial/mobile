@@ -10,6 +10,11 @@ import { InsertClosingHourScreenProps } from '../../../routes/Stack/_stackScreen
 import { ServiceContext } from '../../../contexts/ServiceContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 import uploadImage from '../../../services/Firebase/user/upload'
+import { getDownloadURL } from 'firebase/storage'
+import createPost from '../../../services/Firebase/createPost'
+import updateDoc from '../../../services/Firebase/updateDoc'
+import { UserCollection } from '../../../services/Firebase/types'
+import { ServiceData } from '../../../contexts/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -18,11 +23,6 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
-import { getDownloadURL } from 'firebase/storage'
-import createPost from '../../../services/Firebase/createPost'
-import updateDoc from '../../../services/Firebase/updateDoc'
-import { UserCollection } from '../../../services/Firebase/types'
-import { ServiceData } from '../../../contexts/types'
 
 function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
@@ -76,12 +76,14 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
     }
 
     const closingTimeIsAfterOpening = (hoursValidation?: string, minutesValidation?: string) => {
+        // return true // DevOnly
         const openingHour = new Date(serviceData.openingHour as Date)
         const closingHour = new Date(Date.UTC(2022, 1, 1, parseInt(!!hoursValidation ? hoursValidation : hours), parseInt(!!minutesValidation ? minutesValidation : '59'), 0, 0))
         return openingHour < closingHour
     }
 
     const saveServicePost = async () => {
+        // navigation.navigate('HomeTab' as any, {showShareModal: true})// DevOnly
         setServiceDataOnContext({
             closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
         })
@@ -159,18 +161,20 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
     ) => {
         updateDoc(
             'users',
-            localUser.userId,
+            localUser.userId as string,
             'posts',
             {
                 ...completeServiceData,
                 postType: 'service',
                 picturesUrl: picturePostsUrls,
+                tourPerformed: true,
             },
             true,
         )
             .then(() => {
                 setDataOnSecureStore('corre.user', {
                     ...localUser,
+                    tourPerformed: true,
                     posts: [
                         ...localUser.posts as any, // TODO Type
                         {
@@ -181,7 +185,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     ],
                 })
                 console.log('Naviguei')
-                // navigation.navigate('HomeTab' as any, { TourCompleted: true }) // TODO type
+                // navigation.navigate('HomeTab' as any, { TourCompleted: true }) // 
             })
     }
 

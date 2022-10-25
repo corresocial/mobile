@@ -1,4 +1,4 @@
-import React, {useContext, useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { Animated, StatusBar } from 'react-native';
 
 import { Container } from './styles';
@@ -14,10 +14,11 @@ import { FormContainer } from '../../../components/_containers/FormContainer';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { InstructionCard } from '../../../components/InstructionCard';
 import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal';
+import { UserCollection } from '../../../services/Firebase/types';
 
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
 
-	const { setDataOnSecureStore } = useContext(AuthContext)
+	const { setDataOnSecureStore, getDataFromSecureStore } = useContext(AuthContext)
 
 	const [hasServerSideError, setHasServerSideError] = useState(false)
 
@@ -38,38 +39,45 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 
 	const navigateToProfilePicture = () => {
 		const userData = getRouteParams()
+
 		setHasServerSideError(false)
 		navigation.navigate('ProfilePicturePreview', userData)
 	}
 
 	const saveUserData = async () => {
 		const userData = getRouteParams()
+		const localUserJSON = await getDataFromSecureStore('corre.user')
+		const localUser = JSON.parse(localUserJSON as string) || {}
+
 		try {
-			await saveInFirebase(userData)
-			await saveInSecureStore(userData)
-			navigateToNextScreen()
+			await saveInFirebase(userData, localUser.tourPerformed)
+			await saveInSecureStore(userData, localUser)
+			navigateToNextScreen(localUser.tourPerformed)
 		} catch (err) {
 			console.log(err)
 			setHasServerSideError(true)
 		}
 	}
 
-	const saveInFirebase = async (userData: RegisterUserData) => {
-		updateUser(userData.userIdentification.uid, {
+	const saveInFirebase = async (userData: RegisterUserData, tourPerformed: boolean) => {
+		await updateUser(userData.userIdentification.uid, {
 			name: userData.userName,
+			img_url: [],
+			tourPerformed: !!tourPerformed
 		})
 	}
 
-	const saveInSecureStore = async (userData: RegisterUserData) => {
+	const saveInSecureStore = async (userData: RegisterUserData, localUser: UserCollection) => {
 		await setDataOnSecureStore('corre.user', {
+			...localUser,
 			name: userData.userName,
-			// phone: userData.userPhone,
+			img_url: [],
 			identification: userData.userIdentification,
 		})
 	}
 
-	const navigateToNextScreen = () => {
-		navigation.navigate('UserStack')
+	const navigateToNextScreen = (tourPerformed: boolean) => {
+		navigation.navigate('UserStack', { tourPerformed })
 	}
 
 	const getHeaderMessage = () => {
@@ -100,7 +108,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 
 	return (
 		<Container >
-			<StatusBar backgroundColor={hasServerSideError ? theme.red2 :theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={hasServerSideError ? theme.red2 : theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized

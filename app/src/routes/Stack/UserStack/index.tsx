@@ -10,9 +10,11 @@ import { ServiceStack } from '../ServiceStack';
 
 const Stack = createStackNavigator<UserStackParamList>()
 
-export function UserStack({route}: any) {
+export function UserStack({ route }: any) { // TODO Type
+    const tourPerformed = route.params && route.params.tourPerformed || false
+
     return (
-        <Stack.Navigator initialRouteName={route.params.tourPerformed ? 'HomeTab' : 'WelcomeNewUser'}
+        <Stack.Navigator initialRouteName={tourPerformed ? 'HomeTab' : 'WelcomeNewUser'}
             screenOptions={{
                 headerShown: false,
                 gestureEnabled: false,

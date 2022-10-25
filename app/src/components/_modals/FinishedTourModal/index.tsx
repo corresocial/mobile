@@ -10,21 +10,17 @@ import {
     TouchCloseArea
 } from './styles'
 import { theme } from '../../../common/theme'
-import { RFValue } from 'react-native-responsive-fontsize'
-import Check from './../../../assets/icons/check.svg'
-
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import RightCurvedArrow from './../../../assets/icons/right-curved-arrow.svg'
 
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 
-interface CompleteProfileModalProps {
+interface FinishedTourModalProps {
     visibility: boolean
     closeModal: () => void
-    navigateToTour: () => void
+    onPressButton: () => void
 }
 
-function CompleteProfileModal({ visibility, closeModal, navigateToTour }: CompleteProfileModalProps) {
-
+function FinishedTourModal({ visibility, closeModal, onPressButton }: FinishedTourModalProps) {
     return (
         <Modal
             transparent={true}
@@ -36,28 +32,22 @@ function CompleteProfileModal({ visibility, closeModal, navigateToTour }: Comple
             <Container>
                 <TouchCloseArea onPress={closeModal} ></TouchCloseArea>
                 <Content>
-                    <Title>legal!</Title>
+                    <Title>pronto!</Title>
                     <Description>
-                        {showMessageWithHighlight(
-                            'primeiro precisamos preencher seu perfil, para que outros possam te encontrar',
-                            ['primeiro', 'preencher', 'seu', 'perfil,', 'te', 'encontrar']
-                        )}
+                        agora outros clientes e pessoas podem encontrar seu perfil e o que você vende!
                     </Description>
                     <Question>
-                        {showMessageWithHighlight(
-                            'demora 5 minutos, bora?',
-                            ['5', 'minutos,']
-                        )}
+                        que tal começar compartilhando, para ainda mais pessoas comprarem de você!?
                     </Question>
                     <PrimaryButton
                         color={theme.green3}
                         labelColor={theme.white3}
-                        label={'bora!'}
-                        highlightedWords={['bora!']}
-                        fontSize={22}
-                        SvgIcon={Check}
-                        svgIconScale={['30%', '11%']}
-                        onPress={navigateToTour}
+                        label={'compartilhar!'}
+                        highlightedWords={['compartilhar!']}
+                        fontSize={18}
+                        SvgIcon={RightCurvedArrow}
+                        svgIconScale={['40%', '16%']}
+                        onPress={onPressButton}
                     />
                 </Content>
                 <TouchCloseArea onPress={closeModal} ></TouchCloseArea>
@@ -66,4 +56,4 @@ function CompleteProfileModal({ visibility, closeModal, navigateToTour }: Comple
     )
 }
 
-export { CompleteProfileModal }
+export { FinishedTourModal }

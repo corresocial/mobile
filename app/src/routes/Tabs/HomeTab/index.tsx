@@ -19,13 +19,12 @@ import { Home } from '../../../screens/homeScreens/Home';
 import { Profile } from '../../../screens/homeScreens/Profile';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs' //
-import { screenHeight } from '../../../common/screenDimensions';
 import { theme } from '../../../common/theme'
+import { HomeTabScreenProps } from '../../Stack/_stackScreenProps'
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
-export function HomeTab() {
-
+export function HomeTab(props: HomeTabScreenProps) {
 	return (
 		<Tab.Navigator initialRouteName={'Profile'} 
 			screenOptions={{

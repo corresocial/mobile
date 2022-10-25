@@ -1,16 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StatusBar } from 'react-native'
+import { Alert, StatusBar } from 'react-native'
 
-import { theme } from '../../../common/theme'
-
-import { screenHeight } from '../../../common/screenDimensions'
-import { RFValue } from 'react-native-responsive-fontsize'
-
-import { AuthContext } from '../../../contexts/AuthContext'
-import { HomeTabScreenProps } from '../../../routes/Stack/_stackScreenProps'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { CompleteProfileModal } from '../../../components/_modals/CompleteProfileModal'
+import { TourModal } from '../../../components/_modals/TourModal'
 import { MoreOptionsButton } from '../../../components/_buttons/MoreOptionsButton'
 import { ShareButton } from '../../../components/_buttons/ShareButton'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
@@ -22,13 +15,21 @@ import {
 	ProfileHeader,
 	UserName
 } from './styles'
+import { theme } from '../../../common/theme'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-function Profile({ navigation, }: HomeTabScreenProps) {
+import { AuthContext } from '../../../contexts/AuthContext'
+import { HomeTabScreenProps } from '../../../routes/Stack/_stackScreenProps'
+
+import { FinishedTourModal } from '../../../components/_modals/FinishedTourModal'
+
+function Profile({navigation}: HomeTabScreenProps) {
 	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
-	
+
 	const [profilePicture, setProfilePicture] = useState<string[]>([])
 	const [userName, setUserName] = useState<string>('')
-	const [tourModalVisibility, setTourModalVisibility] = useState(true)// TODO Development  only
+	const [tourModalVisibility, setTourModalVisibility] = useState(true)// TODO DevOnly, default(false)
+	const [finishedTourModalVisibility, setFinishedTourModalVisibility] = useState(false)// TODO DevOnly, default(false)
 
 	useEffect(() => {
 		initializeUserTour()
@@ -73,18 +74,27 @@ function Profile({ navigation, }: HomeTabScreenProps) {
 
 	const getProfileData = async () => {
 		const localUser = await getObjectLocalUser()
-		const {img_url, name} = localUser
+		const { img_url, name } = localUser
 		setProfilePicture(img_url || [])
 		setUserName(name)
+	}
+
+	const sharePost = () => {
+		Alert.alert('Opa!', 'Compatilhar')
 	}
 
 	return (
 		<Container style={{ flex: 1 }}>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-			<CompleteProfileModal
+			<TourModal
 				visibility={tourModalVisibility}
 				closeModal={closeTourModal}
-				navigateToTour={navigateToTour}
+				onPressButton={navigateToTour}
+			/>
+			<FinishedTourModal
+				visibility={finishedTourModalVisibility}
+				closeModal={() => setFinishedTourModalVisibility(false)}
+				onPressButton={sharePost}
 			/>
 			<DefaultHeaderContainer
 				backgroundColor={theme.white3}

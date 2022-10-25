@@ -53,9 +53,9 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		return userObject
 	}
 
-	const navigateToNextScreen = async () => {
+	const navigateToNextScreen = async (tourPerformed: boolean) => {
 		setHasServerSideError(false)
-		return navigation.navigate('UserStack')
+		return navigation.navigate('UserStack', {tourPerformed})
 	}
 
 	const backToCustomCamera = () => {
@@ -82,10 +82,12 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	}
 
 	const saveUserData = async () => {
-		const userData = getRouteParams() // TODO uncoment
+		const userData = getRouteParams() 
+		const localUserJSON = await getDataFromSecureStore('corre.user')
 
 		if (!profilePicturesPack.length) return
-		console.log('válido')
+
+		const localUser = JSON.parse(localUserJSON as string)
 
 		await uploadImage(profilePicturesPack[0], 'users', userData.userIdentification.uid)
 			.then(
@@ -99,15 +101,18 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 								.then(async (profilePictureURL) => {
 									await updateUser(userData.userIdentification.uid, {
 										name: userData.userName,
-										img_url: [profilePictureURL as string]
+										img_url: [profilePictureURL as string],
+										tourPerformed: !!localUser.tourPerformed
 									})
 
 									await saveInSecureStore({
+										...localUser,
 										name: userData.userName,
 										img_url: [profilePictureURL],
+										tourPerformed: !!localUser.tourPerformed,
 									})
 
-									navigateToNextScreen()
+									navigateToNextScreen(localUser.tourPerformed)
 								})
 								.catch(err => throwServerSideError(err))
 						},

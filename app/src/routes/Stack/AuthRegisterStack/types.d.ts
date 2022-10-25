@@ -23,5 +23,5 @@ export type AuthRegisterStackParamList = {
         userIdentification: UserIdentification
     }
 
-    UserStack: {tourPerformed: boolean}
+    UserStack: {tourPerformed?: boolean}
 };

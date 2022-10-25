@@ -32,7 +32,6 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 
 	const buy = () => {
 		Alert.alert('Right!', 'Find!')
-		getUserNameFromSecureStore()
 	}
 
 	const goToProfile = () => {

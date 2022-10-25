@@ -25,3 +25,8 @@ export type ServiceData = {
     picturesUrl?: string[]
 }
 
+export type UserData = {
+    tourStarted: boolean
+    showFinishedTourModal: boolean
+}
+

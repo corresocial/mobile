@@ -2,7 +2,7 @@ import { serviceCategories } from './serviceCategories';
 
 export type ServiceCategories = keyof typeof serviceCategories
 
-export type PaymentType = 'exchange' | 'sale' | 'any'
+export type PaymentType = 'exchange' | 'sale' | 'any' | 'both' // both TODO remove any
 
 export type LocationViewType = 'private' | 'approximate' | 'public'
 

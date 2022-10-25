@@ -1,5 +1,5 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'; 
-import { NativeStackScreenProps } from '@react-navigation/native-stack'; // TODO change to bottomTab
+import { NativeStackScreenProps } from '@react-navigation/native-stack'; 
 
 import { HomeTabParamList } from "../HomeTab/types";
 
