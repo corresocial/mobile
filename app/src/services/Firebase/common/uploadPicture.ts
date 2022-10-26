@@ -1,5 +1,5 @@
 import { ref, uploadBytesResumable } from 'firebase/storage';
-import { storage } from './../../Firebase';
+import { storage } from '../Firebase';
 
 export default async function uploadImage(
     localPath: string,

@@ -1,26 +1,46 @@
+import { LocationViewType } from "../../@types/types"
+
 export type UserCollection = {
-    userId?: string
-    tourPerformed?: boolean
-    completeAddress?: {
-        coordinates: { map: { lat: number, lng: number } }
-        city: string
-        number: number
-        reference: string
-        street: string
-        state: string
-        country: string
-        geohashNear: string[]
-        geohashCity: string[]
+    userId?: string, // localOnly
+
+    name?: string,
+    description?: string,
+    profilePictureUrl?: string[],
+    tourPerformed?: boolean,
+    tags?: string[],
+    createdAt?: Date,
+    updatedAt?: Date,
+    posts?: PostCollection[],
+    ads?: AdsCollection[],
+    locationView?: LocationViewType,
+    cellNumber?: string, // private
+    address?: {          // private
+        country?: string,
+        state?: string,
+        city?: string,
+        district?: 'string',
+        street?: string,
+        residenceNumber?: number,
+        reference?: string,
+        coordinates?: { lat: number, lng: number },
+        geohash?: string,
+        geohashNear?: string[],
+        geohashCity?: string[],
     }
-    ads?: any[] // TODO Type
-    created_at?: Date
-    description?: string
-    img_url?: string[]
-    mobility?: string
-    name?: string
-    posts?: any[] // TODO Type
-    range?: string
-    tags?: string[]
-    visibility?: string
-    updated_at?: Date
+}
+
+export type PostCollection = {
+    // All post types
+}
+
+export type PostCollectionType = 'services' | 'sales'
+    // Post type title
+
+
+export type ServiceCollection = {
+
+}
+
+export type AdsCollection = {
+
 }

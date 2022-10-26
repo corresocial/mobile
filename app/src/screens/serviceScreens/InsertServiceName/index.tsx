@@ -47,7 +47,7 @@ function InsertServiceName({ navigation }: InsertServiceNameScreenProps) {
 
     const saveServiceName = () => {
         if (serviceNameIsValid) {
-            setServiceDataOnContext({ serviceName })
+            setServiceDataOnContext({ title: serviceName })
             navigation.navigate('InsertServicePicture')
         } else {
             !serviceNameIsValid

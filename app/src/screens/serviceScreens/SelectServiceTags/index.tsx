@@ -135,7 +135,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
     }
 
     const saveTags = () => {
-        setServiceDataOnContext({ serviceTags: selectedTags })
+        setServiceDataOnContext({ tags: selectedTags })
         navigation.navigate('SelectSaleOrExchange')
     }
 

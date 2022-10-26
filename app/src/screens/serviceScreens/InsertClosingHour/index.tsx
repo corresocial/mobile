@@ -9,12 +9,12 @@ import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 import { InsertClosingHourScreenProps } from '../../../routes/Stack/_stackScreenProps'
 import { ServiceContext } from '../../../contexts/ServiceContext'
 import { AuthContext } from '../../../contexts/AuthContext'
-import uploadImage from '../../../services/Firebase/user/upload'
+import uploadImage from '../../../services/Firebase/common/uploadPicture'
 import { getDownloadURL } from 'firebase/storage'
-import createPost from '../../../services/Firebase/createPost'
-import updateDoc from '../../../services/Firebase/updateDoc'
+import createPost from '../../../services/Firebase/post/createPost'
+import updateDoc from '../../../services/Firebase/common/updateDoc'
 import { UserCollection } from '../../../services/Firebase/types'
-import { ServiceData } from '../../../contexts/types'
+import { ServiceData, UserData } from '../../../contexts/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -23,6 +23,8 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
+import updateUser from '../../../services/Firebase/user/updateUser'
+import updatePostPrivateData from '../../../services/Firebase/post/updatePostPrivateData'
 
 function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
@@ -76,48 +78,88 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
     }
 
     const closingTimeIsAfterOpening = (hoursValidation?: string, minutesValidation?: string) => {
-        // return true // DevOnly
         const openingHour = new Date(serviceData.openingHour as Date)
         const closingHour = new Date(Date.UTC(2022, 1, 1, parseInt(!!hoursValidation ? hoursValidation : hours), parseInt(!!minutesValidation ? minutesValidation : '59'), 0, 0))
         return openingHour < closingHour
     }
 
-    const saveServicePost = async () => {
-        // navigation.navigate('HomeTab' as any, {showShareModal: true})// DevOnly
-        setServiceDataOnContext({
-            closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
-        })
-        /*  console.log({
-             ...serviceData,
-             closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
-         }) */
-
-        const completeServiceData = {
+    const getCompleteServiceDataFromContext = () => {
+        return {
             ...serviceData,
             closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
         }
+    }
+
+    const extractServiceAddress = (serviceData: ServiceData) => {
+        return { ...serviceData.address }
+    }
+
+    const extractUserData = (serviceData: ServiceData) => {
+        return { description: serviceData.profileDescription }
+    }
+
+    const extractServiceDataPost = (serviceData: ServiceData) => {
+        const currentServiceData = { ...serviceData }
+        delete currentServiceData.address
+        delete currentServiceData.profileDescription
+
+        return { ...currentServiceData }
+    }
+
+    const extractServicePictures = (serviceData: ServiceData) => {
+        return serviceData.picturesUrl as string[] || []
+    }
+
+    const getLocalUser = async () => {
+        return JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
+    }
+
+    const updateUserData = async (userId: string, userData: UserCollection) => {
+        await updateUser(userId, {
+            ...userData,
+            tourPerformed: true
+        })
+    }
+
+    const saveServicePost = async () => {
+        const completeServiceData = getCompleteServiceDataFromContext()
+        setServiceDataOnContext({ ...completeServiceData })
+
+        const serviceAddress = extractServiceAddress(completeServiceData)
+        const userData = extractUserData(completeServiceData)
+        const serviceDataPost = extractServiceDataPost(completeServiceData)
+        const servicePictures = extractServicePictures(completeServiceData)
 
         try {
-            const localUser = JSON.parse(await getDataFromSecureStore('corre.user') || '')
-            const pictures = completeServiceData.picturesUrl as string[] || []
-            const postId = await createPost(completeServiceData, localUser).then((postId) => postId)
+            const localUser = await getLocalUser()
+            localUser.userId = 'RMCJAuUhLjSmAu3kgjTzRjjZ2jB2'
+            console.log(localUser)
+            if (!localUser.userId) throw 'Não foi possível identificar o usuário'
 
-            if (!postId) {
-                throw 'postId inválido'
+            const postId = await createPost(serviceDataPost, localUser, 'services')
+            if (!postId) throw 'Não foi possível identificar o post'
+
+            if (!servicePictures.length) {
+                await updateUserPost(
+                    localUser,
+                    postId,
+                    serviceDataPost,
+                    servicePictures
+                )
+
+                await updatePostPrivateData(
+                    serviceAddress,
+                    postId,
+                    'services',
+                    'address'
+                )
+
+                await updateUserData(localUser.userId, userData)
+                return
             }
 
             const picturePostsUrls: string[] = []
-
-            if (!pictures.length) {
-                updateUserPost(
-                    localUser,
-                    postId,
-                    completeServiceData,
-                    picturePostsUrls
-                )
-            }
-
-            pictures.forEach(async (servicePicture, index) => {
+            servicePictures.forEach(async (servicePicture, index) => {
                 uploadImage(servicePicture, 'posts', postId, index).then(
                     ({ uploadTask, blob }: any) => {
                         uploadTask.on(
@@ -127,20 +169,30 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                                 throw err
                             },
                             () => {
-                                getDownloadURL(uploadTask.snapshot.ref).then(
-                                    (downloadURL) => {
-                                        blob.close()
-                                        picturePostsUrls.push(downloadURL)
-                                        if (picturePostsUrls.length === pictures.length) {
-                                            updateUserPost(
-                                                localUser,
-                                                postId,
-                                                completeServiceData,
-                                                picturePostsUrls
-                                            )
-                                        }
-                                    },
-                                )
+                                getDownloadURL(uploadTask.snapshot.ref)
+                                    .then(
+                                        async (downloadURL) => {
+                                            blob.close()
+                                            picturePostsUrls.push(downloadURL)
+                                            if (picturePostsUrls.length === servicePictures.length) {
+                                                await updateUserPost(
+                                                    localUser,
+                                                    postId,
+                                                    serviceDataPost,
+                                                    picturePostsUrls
+                                                )
+
+                                                await updatePostPrivateData(
+                                                    serviceAddress,
+                                                    postId,
+                                                    'services',
+                                                    'address'
+                                                )
+
+                                                await updateUserData(localUser.userId, userData)
+                                            }
+                                        },
+                                    )
                             },
                         )
                     },
@@ -153,22 +205,24 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
         }
     }
 
-    const updateUserPost = (
+    const updateUserPost = async (
         localUser: UserCollection,
         postId: string,
-        completeServiceData: ServiceData,
+        serviceDataPost: ServiceData,
         picturePostsUrls: string[],
     ) => {
-        updateDoc(
+        const postData = {
+            ...serviceDataPost,
+            postId: postId,
+            postType: 'service',
+            picturesUrl: picturePostsUrls,
+        }
+
+        await updateDoc(
             'users',
             localUser.userId as string,
             'posts',
-            {
-                ...completeServiceData,
-                postType: 'service',
-                picturesUrl: picturePostsUrls,
-                tourPerformed: true,
-            },
+            postData,
             true,
         )
             .then(() => {
@@ -176,16 +230,16 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     ...localUser,
                     tourPerformed: true,
                     posts: [
-                        ...localUser.posts as any, // TODO Type
-                        {
-                            ...completeServiceData,
+                        // ...localUser.posts as any, // TODO Type
+                        /* {  // TODO very large
+                            ...serviceDataPost,
                             postId: postId,
                             postType: 'service',
-                        },
+                        }, */
                     ],
                 })
                 console.log('Naviguei')
-                // navigation.navigate('HomeTab' as any, { TourCompleted: true }) // 
+                navigation.navigate('HomeTab' as any, { TourCompleted: true }) 
             })
     }
 

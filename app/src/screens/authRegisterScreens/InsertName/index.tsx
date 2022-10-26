@@ -50,7 +50,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 
 	const getUserProfilePicture = async () => {
 		const localUser = await getObjectLocalUser()
-		return localUser?.img_url || []
+		return localUser?.profilePictureUrl || []
 	}
 
 	const getObjectLocalUser = async () => {

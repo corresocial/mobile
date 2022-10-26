@@ -1,11 +1,11 @@
 import { doc, setDoc } from 'firebase/firestore';
-import { firestore } from '../../Firebase';
-import { UserCollection } from '../../types';
+import { firestore } from '../Firebase';
+import { UserCollection } from '../types';
 
 async function updateUser(docId: string, data: UserCollection) {
 	try {
 		const documentReference = doc(firestore, 'users', docId);
-		const finished = setDoc(
+		const finished = await setDoc(
 			documentReference,
 			{ ...data, updated_at: new Date() },
 			{ merge: true },
@@ -16,7 +16,6 @@ async function updateUser(docId: string, data: UserCollection) {
 				return err
 			}) // TODO Error Handling
 
-		console.log('finished')
 		return finished;
 
 	} catch (error) {

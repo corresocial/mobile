@@ -9,7 +9,7 @@ import CalendarSomeday from './../../../assets/icons/calendarSomeday.svg'
 import CalendarBusinessDay from './../../../assets/icons/calendarBusinessDay.svg'
 
 import { SelectServiceFrequencyScreenProps } from '../../../routes/Stack/_stackScreenProps'
-import { ServiceFrequency } from '../types'
+import { DaysOfWeek, ServiceFrequency } from '../types'
 import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -25,12 +25,39 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
     const { setServiceDataOnContext } = useContext(ServiceContext)
 
     const saveServiceFrequency = (serviceFrequency: ServiceFrequency) => {
-        if (serviceFrequency == 'someday') {
-            setServiceDataOnContext({ serviceFrequency })
-            navigation.navigate('SelectDaysOfWeek')
-        } else {
-            setServiceDataOnContext({ serviceFrequency })
-            navigation.navigate('InsertOpeningHour')
+        const daysOfWeek = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'] as DaysOfWeek[]
+
+        switch (serviceFrequency) {
+            case 'today': {
+                setServiceDataOnContext({
+                    attendanceFrequency: serviceFrequency,
+                    attendanceWeekDays: [daysOfWeek[new Date().getDay()]]
+                })
+                navigation.navigate('InsertOpeningHour')
+                break
+            }
+            case 'everyday': {
+                setServiceDataOnContext({
+                    attendanceFrequency: serviceFrequency,
+                    attendanceWeekDays: [...daysOfWeek]
+                })
+                navigation.navigate('InsertOpeningHour')
+                break
+            }
+            case 'someday': {
+                setServiceDataOnContext({ attendanceFrequency: serviceFrequency })
+                navigation.navigate('SelectDaysOfWeek')
+                break
+            }
+            case 'businessDay': {
+                setServiceDataOnContext({
+                    attendanceFrequency: serviceFrequency,
+                    attendanceWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
+                })
+                navigation.navigate('InsertOpeningHour')
+                break
+            }
+
         }
     }
 

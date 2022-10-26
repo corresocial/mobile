@@ -30,7 +30,7 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
 
     const [locationViewSelected, setLocationViewSelected] = useState<LocationViewType>()
     const [markerCoordinate, setMarkerCoordinate] = useState({
-        ...serviceData.completeAddress.coordinates,
+        ...serviceData.address?.coordinates,
         ...defaultDeltaCoordinates
     })
 

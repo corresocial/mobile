@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { BackHandler, StatusBar } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react'
+import { Alert, BackHandler, StatusBar } from 'react-native';
 
 import {
     Container,
@@ -12,6 +12,8 @@ import {
 import { theme } from '../../../common/theme';
 import { screenHeight, screenWidth } from '../../../common/screenDimensions';
 import Logo from './../../../assets/icons/logo.svg'
+
+import { AuthContext } from '../../../contexts/AuthContext';
 
 import { AcceptAndContinueScreenProps } from '../../../routes/Stack/_stackScreenProps';
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
@@ -27,6 +29,8 @@ const presentationTexts = [
 ]
 
 function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
+
+    const { deleteLocaluser } = useContext(AuthContext)
 
     const [termsVisibility, setTermsVisibility] = useState<boolean>(false)
 
@@ -55,9 +59,14 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
         navigation.navigate('InsertPhone')
     }
 
+    const cleanLocalStorage = async () => { // TODO DevOnly
+        await deleteLocaluser()
+        Alert.alert('Certo!', 'Dados do local storage apagados, recarregue a aplicação!')
+    }
+
     return (
         <Container>
-            <StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'}/>
+            <StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
             <TermsOfServiceModal visibility={termsVisibility} closeModal={hideTermsOfServiceModal} />
             <DefaultHeaderContainer relativeHeight='55%' backgroundColor={theme.orange2} withoutPadding>
                 <CustomCarousel>
@@ -84,7 +93,7 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
             <TermsButtonContainer>
                 <TermsLabel>
                     ao clicar em "aceitar e continuar" você aceita com os
-                    <TermsLabelHighlight onPress={showTermsOfServiceModal}>
+                    <TermsLabelHighlight onPress={showTermsOfServiceModal} onLongPress={cleanLocalStorage}>
                         {' '}termos de serviço e privacidade{' '}
                     </TermsLabelHighlight>
                     do corre.social

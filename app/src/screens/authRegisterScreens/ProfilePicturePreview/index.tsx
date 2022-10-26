@@ -5,11 +5,12 @@ import { getDownloadURL } from 'firebase/storage';
 import { Container, InstructionCardContainer } from './styles';
 import { theme } from '../../../common/theme';
 
-import updateUser from '../../../services/Firebase/user/update';
-import uploadImage from '../../../services/Firebase/user/upload';
+import updateUser from '../../../services/Firebase/user/updateUser';
+import uploadImage from '../../../services/Firebase/common/uploadPicture';
 import { AuthContext } from '../../../contexts/AuthContext';
 import { UserCollection } from '../../../services/Firebase/types';
 import { ProfilePicturePreviewScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import updateUserPrivateData from '../../../services/Firebase/user/updateUserPrivateData';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -55,7 +56,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 	const navigateToNextScreen = async (tourPerformed: boolean) => {
 		setHasServerSideError(false)
-		return navigation.navigate('UserStack', {tourPerformed})
+		return navigation.navigate('UserStack', { tourPerformed })
 	}
 
 	const backToCustomCamera = () => {
@@ -82,7 +83,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	}
 
 	const saveUserData = async () => {
-		const userData = getRouteParams() 
+		const userData = getRouteParams()
 		const localUserJSON = await getDataFromSecureStore('corre.user')
 
 		if (!profilePicturesPack.length) return
@@ -98,18 +99,25 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 						async () => {
 							blob.close()
 							getDownloadURL(uploadTask.snapshot.ref)
-								.then(async (profilePictureURL) => {
+								.then(async (profilePictureUrl) => {
 									await updateUser(userData.userIdentification.uid, {
 										name: userData.userName,
-										img_url: [profilePictureURL as string],
+										profilePictureUrl: [profilePictureUrl as string],
 										tourPerformed: !!localUser.tourPerformed
 									})
 
+									await updateUserPrivateData(
+										{ cellNumber: userData.userPhone },
+										userData.userIdentification.uid,
+										'contacts',
+									)
+
 									await saveInSecureStore({
-										...localUser,
+										userId: userData.userIdentification.uid,
 										name: userData.userName,
-										img_url: [profilePictureURL],
+										profilePictureUrl: [profilePictureUrl],
 										tourPerformed: !!localUser.tourPerformed,
+										userIdentification: userData.userIdentification
 									})
 
 									navigateToNextScreen(localUser.tourPerformed)
@@ -121,10 +129,10 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 			)
 			.catch(err => throwServerSideError(err))
 	}
-	
-	const saveInSecureStore = async (userData: UserCollection) => {
-		const localUser = await getObjectLocalUser()
-		await setDataOnSecureStore('corre.user', { ...localUser, ...userData })
+
+	const saveInSecureStore = async (userData: any) => { //TODO Type
+		// const localUser = await getObjectLocalUser()
+		await setDataOnSecureStore('corre.user', { ...userData })
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))

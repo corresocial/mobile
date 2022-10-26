@@ -35,23 +35,29 @@ function Splash({ navigation }: SplashScreenProps) {
 
     const redirectToApp = async () => {
         try {
-            const userJSON = await getDataFromSecureStore('corre.user.teste', true) // Remove ".teste" to run correctly
-            console.log(userJSON)
-            if (userJSON) {
-                const userObject: UserCollection = JSON.parse(userJSON)
-                console.log(userObject.tourPerformed)
+            const userJSON = await getDataFromSecureStore('corre.user', true) // Remove ".teste" to run correctly
+
+            if (localUserIsValid(userJSON)) {
+                const userObject: UserCollection = JSON.parse(userJSON as string)
                 navigation.navigate('UserStack', { tourPerformed: userObject.tourPerformed }) //userObject.tourPerformed
             } else {
-                if (userJSON == null) {
-                    navigation.navigate('AcceptAndContinue')
-                } else {
-                    throw 'Usuário não authenticado localmente!'
-                }
+                navigation.navigate('AcceptAndContinue')
             }
         } catch (err) {
             setTimeout(() => {
                 redirectToApp()
             }, 3000)
+        }
+    }
+
+    const localUserIsValid = (userJSON: any) => {
+        try {
+            if (!userJSON) return false
+            const userObject: UserCollection = JSON.parse(userJSON as string)
+            return Object.keys(userObject).includes('userId') && Object.keys(userObject).includes('name')
+        } catch (err) {
+            console.log(err)
+            return false
         }
     }
 

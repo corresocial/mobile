@@ -4,7 +4,7 @@ import { Animated, StatusBar } from 'react-native';
 import { Container } from './styles';
 import { theme } from '../../../common/theme';
 
-import updateUser from '../../../services/Firebase/user/update';
+import updateUser from '../../../services/Firebase/user/updateUser';
 import { AuthContext } from '../../../contexts/AuthContext';
 import { RegisterUserData } from '../types';
 
@@ -13,8 +13,8 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { FormContainer } from '../../../components/_containers/FormContainer';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { InstructionCard } from '../../../components/InstructionCard';
-import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal';
 import { UserCollection } from '../../../services/Firebase/types';
+import updateUserPrivateData from '../../../services/Firebase/user/updateUserPrivateData';
 
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
 
@@ -52,7 +52,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		try {
 			await saveInFirebase(userData, localUser.tourPerformed)
 			await saveInSecureStore(userData, localUser)
-			navigateToNextScreen(localUser.tourPerformed)
+			// navigateToNextScreen(localUser.tourPerformed)
 		} catch (err) {
 			console.log(err)
 			setHasServerSideError(true)
@@ -62,16 +62,23 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 	const saveInFirebase = async (userData: RegisterUserData, tourPerformed: boolean) => {
 		await updateUser(userData.userIdentification.uid, {
 			name: userData.userName,
-			img_url: [],
-			tourPerformed: !!tourPerformed
+			profilePictureUrl: [],
+			tourPerformed: !!tourPerformed,
 		})
+
+		await updateUserPrivateData(
+			{ cellNumber: userData.userPhone },
+			userData.userIdentification.uid,
+			'contacts',
+		)
 	}
 
 	const saveInSecureStore = async (userData: RegisterUserData, localUser: UserCollection) => {
 		await setDataOnSecureStore('corre.user', {
-			...localUser,
+			// ...localUser,
+			userId: userData.userIdentification.uid,
 			name: userData.userName,
-			img_url: [],
+			profilePictureUrl: [],
 			identification: userData.userIdentification,
 		})
 	}

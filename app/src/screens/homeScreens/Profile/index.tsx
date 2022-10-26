@@ -28,7 +28,7 @@ function Profile({navigation}: HomeTabScreenProps) {
 
 	const [profilePicture, setProfilePicture] = useState<string[]>([])
 	const [userName, setUserName] = useState<string>('')
-	const [tourModalVisibility, setTourModalVisibility] = useState(true)// TODO DevOnly, default(false)
+	const [tourModalVisibility, setTourModalVisibility] = useState(false)// TODO DevOnly, default(false)
 	const [finishedTourModalVisibility, setFinishedTourModalVisibility] = useState(false)// TODO DevOnly, default(false)
 
 	useEffect(() => {
@@ -74,8 +74,8 @@ function Profile({navigation}: HomeTabScreenProps) {
 
 	const getProfileData = async () => {
 		const localUser = await getObjectLocalUser()
-		const { img_url, name } = localUser
-		setProfilePicture(img_url || [])
+		const { profilePictureUrl, name } = localUser
+		setProfilePicture(profilePictureUrl || [])
 		setUserName(name)
 	}
 

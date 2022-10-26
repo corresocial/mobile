@@ -150,13 +150,13 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
 
     const structureAddress = (geocodeAddress: Location.LocationGeocodedAddress[]) => {
         return {
-            street: geocodeAddress[0].street,
-            streetNumber: geocodeAddress[0].streetNumber || geocodeAddress[0].name,
-            district: geocodeAddress[0].district == geocodeAddress[0].subregion ? 'Centro' : geocodeAddress[0].district,
-            postalCode: geocodeAddress[0].postalCode,
-            city: geocodeAddress[0].city || geocodeAddress[0].subregion,
-            subregion: geocodeAddress[0].region,
             country: geocodeAddress[0].country,
+            state: geocodeAddress[0].region,
+            city: geocodeAddress[0].city || geocodeAddress[0].subregion,
+            postalCode: geocodeAddress[0].postalCode,
+            street: geocodeAddress[0].street,
+            number: geocodeAddress[0].streetNumber || geocodeAddress[0].name,
+            district: geocodeAddress[0].district == geocodeAddress[0].subregion ? 'Centro' : geocodeAddress[0].district,
             coordinates: {
                 latitude: markerCoordinate?.latitude,
                 longitude: markerCoordinate?.longitude
@@ -172,13 +172,14 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
     const saveLocation = async () => {
         if (!markerCoordinateIsAccuracy()) return
 
-        const geohashObject = generateGeohashes(-23.29534144, -51.15897534)
         const completeAddress = await convertGeocodeToAddress(markerCoordinate?.latitude as number, markerCoordinate?.longitude as number)
-        // console.log(completeAddress)
+        const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
         setServiceDataOnContext({
-            completeAddress,
-            ...geohashObject,
+            address: {// Private collection
+                ...completeAddress,
+                ...geohashObject
+            }
         })
         navigation.navigate('SelectLocationView')
     }

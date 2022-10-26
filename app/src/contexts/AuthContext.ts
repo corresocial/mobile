@@ -9,7 +9,8 @@ import { auth } from "../services/Firebase/Firebase";
 
 import * as SecureStore from 'expo-secure-store';
 import * as LocalAuthentication from 'expo-local-authentication';
-import { getUser } from "../services/Firebase/user/get";
+import { getUser } from "../services/Firebase/user/getUser";
+import { UserCollection } from "../services/Firebase/types";
 
 const phoneAuth = new PhoneAuthProvider(auth)
 
@@ -26,6 +27,23 @@ const LocalAuthenticationOptions: LocalAuthentication.LocalAuthenticationOptions
     disableDeviceFallback: false,
 }
 
+const localUserIsValidToLogin = (userJSON: any, requireAuthentication?: boolean) => {
+    if (!requireAuthentication) return false
+    try {
+        if (!userJSON) return false
+        const userObject: UserCollection = JSON.parse(userJSON as string)
+        if (Object.keys(userObject).includes('userId') && Object.keys(userObject).includes('name')) {
+            return true
+        } else {
+            console.log('Os dados presentes no secure storage não são suficientes para realizar login')
+        }
+        return
+    } catch (err) {
+        console.log(err)
+        return false
+    }
+}
+
 export const authentication = {
     async getDataFromSecureStore(key: string, requireAuthentication?: boolean) {
         try {
@@ -33,7 +51,7 @@ export const authentication = {
 
             const user = await SecureStore.getItemAsync(key, secureStoreOptions)
 
-            if (user != null && !!requireAuthentication) {
+            if (localUserIsValidToLogin(user, requireAuthentication) && !!requireAuthentication) {
                 await LocalAuthentication.isEnrolledAsync()
                 const result = await LocalAuthentication.authenticateAsync(LocalAuthenticationOptions)
                 if (!result.success) throw 'Não foi possível identificar usuário'
@@ -53,6 +71,10 @@ export const authentication = {
             console.log('Error: ' + err) // TODO Define ErrorBoundary
             return false
         }
+    },
+
+    async deleteLocaluser() {
+        await SecureStore.deleteItemAsync('corre.user')
     },
 
     async setRemoteUserOnLocal(uid?: string) {

@@ -1,7 +1,7 @@
 import { doc, getDoc } from 'firebase/firestore';
-import { UserCollection } from '../../types';
+import { UserCollection } from '../types';
 
-import { firestore } from './../../Firebase';
+import { firestore } from '../Firebase';
 
 async function getUser(userId: string) {
     try {

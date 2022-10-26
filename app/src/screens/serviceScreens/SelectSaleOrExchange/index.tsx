@@ -2,7 +2,6 @@ import React from 'react'
 import { StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
-import { screenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import SalesCartO from './../../../assets/icons/salesCart-o.svg'
 import Exchange from './../../../assets/icons/exchange.svg'

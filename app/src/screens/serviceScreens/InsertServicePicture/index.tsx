@@ -54,7 +54,7 @@ function InsertServicePicture({ navigation }: InsertServicePictureScreenProps) {
                         SvgIcon={Uncheck}
                         svgIconScale={['22%', '18%']}
                         onPress={() => navigation.navigate('SelectServiceCategory')}
-                    />
+                    /> 
                     <PrimaryButton
                         flexDirection={'row-reverse'}
                         color={theme.green3}

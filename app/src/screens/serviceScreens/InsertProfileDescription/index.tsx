@@ -47,7 +47,7 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
 
     const saveProfileDescription = () => {
         if (profileDescriptionIsValid) {
-            setServiceDataOnContext({ profileDescription })
+            setServiceDataOnContext({ profileDescription: profileDescription })
             navigation.navigate('InsertServiceName')
         } else {
             !profileDescriptionIsValid
