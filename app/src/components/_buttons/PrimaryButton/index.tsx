@@ -8,6 +8,7 @@ import { screenHeight } from '../../../common/screenDimensions';
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 
 interface PrimaryButtonProps {
     relativeWidth?: string
@@ -66,9 +67,13 @@ function PrimaryButton({
             setButtonVisibility(false)
         }
         if (!keyboardHideButton) return
-        Keyboard.addListener('keyboardDidShow', () => hideButton())
-        Keyboard.addListener('keyboardDidHide', () => showButton())
+        const unsubscribeShow = Keyboard.addListener('keyboardDidShow', () => hideButton())
+        const unsubscribeHide = Keyboard.addListener('keyboardDidHide', () => showButton())
 
+        return () => {
+            unsubscribeShow.remove()
+            unsubscribeHide.remove()
+        }
     }, [])
 
     const hideButton = async () => {

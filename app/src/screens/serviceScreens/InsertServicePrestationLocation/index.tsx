@@ -20,14 +20,13 @@ import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
 import { CustomMapView } from '../../../components/CustomMapView';
 import { ServiceContext } from '../../../contexts/ServiceContext';
-import Geohash from 'latlon-geohash';
 import generateGeohashes from '../../../common/generateGeohashes';
 
 const initialRegion = {
-    latitude: -14.235004,
-    longitude: -51.92528,
-    latitudeDelta: 50,
-    longitudeDelta: 50,
+    latitude: -13.890303625634541,
+    latitudeDelta: 55.54596047458735,
+    longitude: -51.92523987963795,
+    longitudeDelta: 49.99996047466992,
 }
 
 const defaultDeltaCoordinates = {
@@ -176,7 +175,7 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
         const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
         setServiceDataOnContext({
-            address: {// Private collection
+            address: {
                 ...completeAddress,
                 ...geohashObject
             }
@@ -206,7 +205,7 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
 
     return (
         <Container >
-            <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={screenHeight * 0.26}
                 relativeHeight={'22%'}
@@ -251,10 +250,11 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
                 keyboardType={'default'}
                 returnKeyType={'search'}
                 onPressKeyboardSubmit={getAddressCoordinates}
+                textIsValid={validAddress}
                 validateText={(text: string) => validateAddress(text)}
                 onChangeText={(text: string) => {
                     setAddress(text)
-                    invalidAddressAfterSubmit && setInvalidAddressAfterSubmit(false)
+                    setInvalidAddressAfterSubmit(false)
                 }}
             />
             <MapContainer onLayout={(event) => !mapContainerDimensions.width && setMapContainerDimensions(event.nativeEvent.layout)}>
@@ -289,7 +289,7 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
                 />
             </MapContainer>
             {
-                markerCoordinate && markerCoordinateIsAccuracy() && //&& validAddress
+                markerCoordinate && markerCoordinateIsAccuracy() &&
                 <ButtonContainerBottom>
                     <PrimaryButton
                         flexDirection={'row-reverse'}

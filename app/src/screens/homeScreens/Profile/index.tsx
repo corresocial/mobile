@@ -23,12 +23,12 @@ import { HomeTabScreenProps } from '../../../routes/Stack/_stackScreenProps'
 
 import { FinishedTourModal } from '../../../components/_modals/FinishedTourModal'
 
-function Profile({navigation}: HomeTabScreenProps) {
-	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
+function Profile({ navigation }: HomeTabScreenProps) {
+	const { getDataFromSecureStore, setDataOnSecureStore, deleteLocaluser } = useContext(AuthContext)
 
 	const [profilePicture, setProfilePicture] = useState<string[]>([])
 	const [userName, setUserName] = useState<string>('')
-	const [tourModalVisibility, setTourModalVisibility] = useState(false)// TODO DevOnly, default(false)
+	const [tourModalVisibility, setTourModalVisibility] = useState(true)// TODO DevOnly, default(false)
 	const [finishedTourModalVisibility, setFinishedTourModalVisibility] = useState(false)// TODO DevOnly, default(false)
 
 	useEffect(() => {
@@ -83,6 +83,12 @@ function Profile({navigation}: HomeTabScreenProps) {
 		Alert.alert('Opa!', 'Compatilhar')
 	}
 
+	const cleanLocalStorage = async () => { // TODO DevOnly
+		await deleteLocaluser()
+		Alert.alert('Certo!', 'Dados do local storage apagados, recarregue a aplicação!')
+	}
+
+
 	return (
 		<Container style={{ flex: 1 }}>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -123,7 +129,7 @@ function Profile({navigation}: HomeTabScreenProps) {
 								color={theme.white3}
 								height={30}
 								width={30}
-								onPress={() => { }}
+								onPress={cleanLocalStorage}
 							/>
 						</OptionsArea>
 					</InfoArea>

@@ -81,11 +81,7 @@ function LineInput({
         onChangeText(filtredText)
     }
 
-    const performKeyPress = ({ nativeEvent, preventDefault, defaultPrevented }: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
-        /* console.log(nativeEvent.key === undefined)
-        if (nativeEvent.key === 'Enter' && lastInput) {
-            closeKeyboard()
-        } */
+    const performKeyPress = ({ nativeEvent }: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
         if (nativeEvent.key === 'Backspace' && !value.length && previousInputRef) setFocusToPreviousInput()
     }
 
@@ -123,7 +119,10 @@ function LineInput({
         return {
             color: invalidTextAfterSubmit
                 ? invalidBorderBottomColor
-                : validated || textIsValid? validBorderBottomColor : defaultBorderBottomColor
+                : validated || textIsValid ? validBorderBottomColor : defaultBorderBottomColor,
+            fontFamily: invalidTextAfterSubmit
+                ? 'Arvo_400Regular'
+                : validated || textIsValid ? 'Arvo_700Bold' : 'Arvo_400Regular'
         }
     }
 
@@ -153,7 +152,7 @@ function LineInput({
                 placeholder={placeholder}
                 returnKeyType={returnKeyType ? returnKeyType : lastInput ? 'done' : 'next'}
                 blurOnSubmit={true}
-                onSubmitEditing={nextInputRef ? setFocusToNextInput : onPressKeyboardSubmit  }
+                onSubmitEditing={nextInputRef ? setFocusToNextInput : onPressKeyboardSubmit}
                 onChangeText={(text) => ValidateAndChange(text)}
                 onFocus={(() => setFocused(true))}
                 onBlur={() => setFocused(false)}

@@ -22,6 +22,7 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
         const ordenedServicesCategories = Object.values(serviceCategories).sort(sortServiceCategories)
 
         return ordenedServicesCategories.map((category, index) => {
+            if (category.label === 'outros') return
             return (
                 <SelectButton
                     key={index}
@@ -71,6 +72,14 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
                     backgroundColor={theme.purple2}
                 >
                     {renderSelectOptionsButtons()}
+                    <SelectButton
+                        key={'others'}
+                        width={'100%'}
+                        height={screenHeight * 0.11}
+                        label={'outros'}
+                        boldLabel={true}
+                        onSelect={() => onSelectCategory('others' as ServiceCategories)}
+                    />
                 </SelectButtonsContainer>
             </ScrollView>
         </Container>

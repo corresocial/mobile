@@ -325,6 +325,13 @@ let serviceCategories = {
         ]
     },
 
+    others: {
+        label: 'outros',
+        value: 'others',
+        tags: [
+            'severino'
+        ]
+    },
 }
 
 export { serviceCategories }

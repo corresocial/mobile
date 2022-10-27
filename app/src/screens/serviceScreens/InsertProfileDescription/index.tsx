@@ -8,6 +8,7 @@ import Check from './../../../assets/icons/check.svg'
 
 import { InsertProfileDescriptionScreenProps } from '../../../routes/Stack/_stackScreenProps';
 import { ServiceContext } from '../../../contexts/ServiceContext';
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -23,23 +24,30 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
 
     const [profileDescription, setProfileDescription] = useState<string>('')
     const [profileDescriptionIsValid, setProfileDescriptionIsValid] = useState<boolean>(false)
-    const [keyboardIsOpen, setKeyboardIsOpen] = useState<boolean>(false)
+    const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
         descriptionInput: useRef<React.MutableRefObject<any>>(null),
     }
 
     useEffect(() => {
-        Keyboard.addListener('keyboardDidShow', () => setKeyboardIsOpen(true))
-        Keyboard.addListener('keyboardDidHide', () => setKeyboardIsOpen(false))
+        const unsubscribe = navigation.addListener('focus', () => {
+            removeAllKeyboardEventListeners()
+            Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+            Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+        });
+        return unsubscribe;
+    }, [navigation])
 
+    useEffect(() => {
         const validation = validateProfileDescription(profileDescription)
         setProfileDescriptionIsValid(validation)
-    }, [profileDescription, keyboardIsOpen])
+
+    }, [profileDescription, keyboardOpened])
 
     const validateProfileDescription = (text: string) => {
         const isValid = (text).trim().length >= 1
-        if (isValid && !keyboardIsOpen) {
+        if (isValid && !keyboardOpened) {
             return true
         }
         return false
@@ -96,13 +104,13 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
                     fontSize={16}
                     placeholder={'ex: trabalho de mecânico, tenho 33 anos, etc...'}
                     keyboardType={'default'}
-                    textIsValid={profileDescriptionIsValid && !keyboardIsOpen}
+                    textIsValid={profileDescriptionIsValid && !keyboardOpened}
                     validateText={(text: string) => validateProfileDescription(text)}
                     onChangeText={(text: string) => setProfileDescription(text)}
                 />
                 <ButtonsContainer>
                     {
-                        profileDescriptionIsValid && !keyboardIsOpen &&
+                        profileDescriptionIsValid && !keyboardOpened &&
                         <PrimaryButton
                             flexDirection={'row-reverse'}
                             color={theme.green3}

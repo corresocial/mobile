@@ -6,6 +6,7 @@ import { theme } from '../../../common/theme'
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 import { InsertClosingHourScreenProps } from '../../../routes/Stack/_stackScreenProps'
 import { ServiceContext } from '../../../contexts/ServiceContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -35,7 +36,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
     const [minutes, setMinutes] = useState<string>('')
     const [hoursIsValid, setHoursIsValid] = useState<boolean>(false)
     const [minutesIsValid, setMinutesIsValid] = useState<boolean>(false)
-    const [keyboardIsOpen, setKeyboardIsOpen] = useState<boolean>(false)
+    const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const [invalidHourAfterSubmit, setInvalidHourAfterSubmit] = useState<boolean>(false)
     const [invalidMinutesAfterSubmit, setInvalidMinutesAfterSubmit] = useState<boolean>(false)
@@ -46,14 +47,20 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
     }
 
     useEffect(() => {
-        Keyboard.addListener('keyboardDidShow', () => setKeyboardIsOpen(true))
-        Keyboard.addListener('keyboardDidHide', () => setKeyboardIsOpen(false))
-
+        const unsubscribe = navigation.addListener('focus', () => {
+            removeAllKeyboardEventListeners()
+            Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+            Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+        });
+        return unsubscribe;
+    }, [navigation])
+    
+    useEffect(() => {
         const hoursValidation = validateHours(hours)
         const minutesValidation = validateMinutes(minutes)
         setHoursIsValid(hoursValidation)
         setMinutesIsValid(minutesValidation)
-    }, [hours, minutes, keyboardIsOpen])
+    }, [hours, minutes, keyboardOpened])
 
     const validateHours = (text: string) => {
         const isValid = text.length == 2 && parseInt(text) < 24
@@ -343,7 +350,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                 </InputsContainer>
                 <>
                     {
-                        hoursIsValid && minutesIsValid && !keyboardIsOpen &&
+                        hoursIsValid && minutesIsValid && !keyboardOpened &&
                         <PrimaryButton
                             color={someInvalidFieldSubimitted() ? theme.red3 : theme.purple3}
                             iconName={'arrow-right'}

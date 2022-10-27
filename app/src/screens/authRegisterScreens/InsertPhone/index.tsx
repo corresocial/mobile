@@ -17,6 +17,21 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { InstructionCard } from '../../../components/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
 
+const headerMessages = {
+	instruction: {
+		text: 'passa o seu telefone aí pra gente',
+		highlightedWords: ['telefone']
+	},
+	clientSideError: {
+		text: 'ih, parece que o seu telefone não é válido',
+		highlightedWords: ['telefone', 'não', 'é', 'válido']
+	},
+	serverSideError: {
+		text: 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
+		highlightedWords: ['do', 'nosso', 'lado,']
+	}
+}
+
 export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 
 	const { sendSMS } = useContext(AuthContext);
@@ -31,21 +46,6 @@ export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 	const inputRefs = {
 		DDDInput: useRef<React.MutableRefObject<any>>(null),
 		phoneInput: useRef<React.MutableRefObject<any>>(null)
-	}
-
-	const headerMessages = {
-		instruction: {
-			text: 'passa o seu telefone aí pra gente',
-			highlightedWords: ['telefone']
-		},
-		clientSideError: {
-			text: 'ih, parece que o seu telefone não é válido',
-			highlightedWords: ['telefone', 'não', 'é', 'válido']
-		},
-		serverSideError: {
-			text: 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
-			highlightedWords: ['do', 'nosso', 'lado,']
-		}
 	}
 
 	const validateDDD = (text: string) => {

@@ -16,6 +16,7 @@ import Check from './../../../assets/icons/check.svg'
 
 import { SelectServiceTagsScreenProps } from '../../../routes/Stack/_stackScreenProps'
 import { serviceCategories, updateServiceTags } from '../serviceCategories'
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -38,10 +39,14 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
     const tagsSelectedRef = useRef() as any // TODO Type
 
     useEffect(() => {
-        Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-        Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-    }, [])
-  
+        const unsubscribe = navigation.addListener('focus', () => {
+            removeAllKeyboardEventListeners()
+            Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+            Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+        });
+        return unsubscribe;
+    }, [navigation])
+    
     const renderSelectedTags = () => {
         return selectedTags.map((tagName, index) => {
             return (

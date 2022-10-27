@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Container, InputsContainer } from './styles';
 import { theme } from '../../../common/theme';
 
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 import { InsertNameScreenProps } from '../../../routes/Stack/_stackScreenProps';
 import { AuthContext } from '../../../contexts/AuthContext';
 
@@ -20,7 +21,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 
 	const [name, setName] = useState<string>('')
 	const [nameIsValid, setNameIsValid] = useState<boolean>(false)
-	const [keyboardIsOpen, setKeyboardIsOpen] = useState<boolean>(false)
+	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 	const [invalidNameAfterSubmit, setInvaliNameAfterSubmit] = useState<boolean>(false)
 	const [alreadyLoaded, setAlreadyLoaded] = useState<boolean>(false)
 	const inputRefs = {
@@ -28,9 +29,13 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 	}
 
 	useEffect(() => {
-		Keyboard.addListener('keyboardDidShow', () => setKeyboardIsOpen(true))
-		Keyboard.addListener('keyboardDidHide', () => setKeyboardIsOpen(false))
-	}, [])
+        const unsubscribe = navigation.addListener('focus', () => {
+            removeAllKeyboardEventListeners()
+            Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+            Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+        });
+        return unsubscribe;
+    }, [navigation])
 
 	useEffect(() => {
 		if (!alreadyLoaded) {
@@ -161,7 +166,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 						invalidTextAfterSubmit={invalidNameAfterSubmit}
 						placeholder={'qual é o seu nome?'}
 						keyboardType={'default'}
-						textIsValid={nameIsValid && !keyboardIsOpen}
+						textIsValid={nameIsValid && !keyboardOpened}
 						onChangeText={(text: string) => setName(text)}
 					/>
 				</InputsContainer>

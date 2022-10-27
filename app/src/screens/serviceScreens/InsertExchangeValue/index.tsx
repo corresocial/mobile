@@ -8,6 +8,7 @@ import Check from './../../../assets/icons/check.svg'
 
 import { InsertExchangeValueScreenProps } from '../../../routes/Stack/_stackScreenProps';
 import { ServiceContext } from '../../../contexts/ServiceContext';
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -23,23 +24,29 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
 
     const [exchangeValue, setExchangeValue] = useState<string>('')
     const [exchangeValueIsValid, setExchangeValueIsValid] = useState<boolean>(false)
-    const [keyboardIsOpen, setKeyboardIsOpen] = useState<boolean>(false)
+    const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
         exchangeValueInput: useRef<React.MutableRefObject<any>>(null),
     }
 
     useEffect(() => {
-        Keyboard.addListener('keyboardDidShow', () => setKeyboardIsOpen(true))
-        Keyboard.addListener('keyboardDidHide', () => setKeyboardIsOpen(false))
+        const unsubscribe = navigation.addListener('focus', () => {
+            removeAllKeyboardEventListeners()
+            Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+            Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+        });
+        return unsubscribe;
+    }, [navigation])
 
+    useEffect(() => {
         const validation = validateExchangeValue(exchangeValue)
         setExchangeValueIsValid(validation)
-    }, [exchangeValue, keyboardIsOpen])
+    }, [exchangeValue, keyboardOpened])
 
     const validateExchangeValue = (text: string) => {
         const isValid = (text).trim().length >= 1
-        if (isValid && !keyboardIsOpen) {
+        if (isValid && !keyboardOpened) {
             return true
         }
         return false
@@ -59,7 +66,7 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
         <Container >
             <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={screenHeight * 0.28}
+                minHeight={screenHeight * 0.26}
                 relativeHeight={'28%'}
                 centralized
                 backgroundColor={theme.purple2}
@@ -97,14 +104,13 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
                     textAlign={'left'}
                     placeholder={'ex: troco por uma marmita'}
                     keyboardType={'default'}
-                    textIsValid={exchangeValueIsValid && !keyboardIsOpen}
+                    textIsValid={exchangeValueIsValid && !keyboardOpened}
                     validateText={(text: string) => validateExchangeValue(text)}
                     onChangeText={(text: string) => setExchangeValue(text)}
-
                 />
                 <ButtonsContainer>
                     {
-                        exchangeValueIsValid && !keyboardIsOpen &&
+                        exchangeValueIsValid && !keyboardOpened &&
                         <PrimaryButton
                             flexDirection={'row-reverse'}
                             color={theme.green3}

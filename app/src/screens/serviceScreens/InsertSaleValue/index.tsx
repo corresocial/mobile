@@ -8,6 +8,7 @@ import Check from './../../../assets/icons/check.svg'
 
 import { InsertSaleValueScreenProps } from '../../../routes/Stack/_stackScreenProps';
 import { ServiceContext } from '../../../contexts/ServiceContext';
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -16,6 +17,7 @@ import { BackButton } from '../../../components/_buttons/BackButton';
 import { InstructionCard } from '../../../components/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
+import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
 
 function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 
@@ -23,23 +25,29 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 
     const [saleValue, setSaleValue] = useState<string>('')
     const [saleValueIsValid, setSaleValueIsValid] = useState<boolean>(false)
-    const [keyboardIsOpen, setKeyboardIsOpen] = useState<boolean>(false)
+    const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
         saleValueInput: useRef<React.MutableRefObject<any>>(null),
     }
 
     useEffect(() => {
-        Keyboard.addListener('keyboardDidShow', () => setKeyboardIsOpen(true))
-        Keyboard.addListener('keyboardDidHide', () => setKeyboardIsOpen(false))
+        const unsubscribe = navigation.addListener('focus', () => {
+            removeAllKeyboardEventListeners()
+            Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+            Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+        });
+        return unsubscribe;
+    }, [navigation])
 
+    useEffect(() => {
         const validation = validateSaleValue(saleValue)
         setSaleValueIsValid(validation)
-    }, [saleValue, keyboardIsOpen])
+    }, [saleValue, keyboardOpened])
 
     const validateSaleValue = (text: string) => {
         const isValid = (text).trim().length >= 1
-        if (isValid && !keyboardIsOpen) {
+        if (isValid && !keyboardOpened) {
             return true
         }
         return false
@@ -62,7 +70,7 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
         <Container >
             <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={screenHeight * 0.28}
+                minHeight={screenHeight * 0.26}
                 relativeHeight={'22%'}
                 centralized
                 backgroundColor={theme.purple2}
@@ -100,13 +108,14 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
                     fontSize={20}
                     placeholder={'ex: 100'}
                     keyboardType={'numeric'}
-                    textIsValid={saleValueIsValid && !keyboardIsOpen}
+                    filterText={filterLeavingOnlyNumbers}
+                    textIsValid={saleValueIsValid && !keyboardOpened}
                     validateText={(text: string) => validateSaleValue(text)}
                     onChangeText={(text: string) => setSaleValue(text)}
                 />
                 <ButtonsContainer>
                     {
-                        saleValueIsValid && !keyboardIsOpen &&
+                        saleValueIsValid && !keyboardOpened &&
                         <PrimaryButton
                             flexDirection={'row-reverse'}
                             color={theme.green3}

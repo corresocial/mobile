@@ -1,4 +1,4 @@
-import {  Keyboard, StatusBar } from 'react-native';
+import { Keyboard, StatusBar } from 'react-native';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles';
@@ -8,6 +8,7 @@ import Check from './../../../assets/icons/check.svg'
 
 import { InsertServiceNameScreenProps } from '../../../routes/Stack/_stackScreenProps';
 import { ServiceContext } from '../../../contexts/ServiceContext';
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -23,23 +24,29 @@ function InsertServiceName({ navigation }: InsertServiceNameScreenProps) {
 
     const [serviceName, setServiceName] = useState<string>('')
     const [serviceNameIsValid, setServiceNameIsValid] = useState<boolean>(false)
-    const [keyboardIsOpen, setKeyboardIsOpen] = useState<boolean>(false)
+    const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
         descriptionInput: useRef<React.MutableRefObject<any>>(null),
     }
 
     useEffect(() => {
-        Keyboard.addListener('keyboardDidShow', () => setKeyboardIsOpen(true))
-        Keyboard.addListener('keyboardDidHide', () => setKeyboardIsOpen(false))
+        const unsubscribe = navigation.addListener('focus', () => {
+            removeAllKeyboardEventListeners()
+            Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+            Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+        });
+        return unsubscribe;
+    }, [navigation])
 
+    useEffect(() => {
         const validation = validateServiceName(serviceName)
         setServiceNameIsValid(validation)
-    }, [serviceName, keyboardIsOpen])
+    }, [serviceName, keyboardOpened])
 
     const validateServiceName = (text: string) => {
         const isValid = (text).trim().length >= 1
-        if (isValid && !keyboardIsOpen) {
+        if (isValid && !keyboardOpened) {
             return true
         }
         return false
@@ -96,13 +103,13 @@ function InsertServiceName({ navigation }: InsertServiceNameScreenProps) {
                     fontSize={16}
                     placeholder={'motoboy para entregas'}
                     keyboardType={'default'}
-                    textIsValid={serviceNameIsValid && !keyboardIsOpen}
+                    textIsValid={serviceNameIsValid && !keyboardOpened}
                     validateText={(text: string) => validateServiceName(text)}
                     onChangeText={(text: string) => setServiceName(text)}
                 />
                 <ButtonsContainer>
                     {
-                        serviceNameIsValid && !keyboardIsOpen &&
+                        serviceNameIsValid && !keyboardOpened &&
                         <PrimaryButton
                             flexDirection={'row-reverse'}
                             color={theme.green3}
