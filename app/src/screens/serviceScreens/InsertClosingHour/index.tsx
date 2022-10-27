@@ -12,7 +12,7 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import uploadImage from '../../../services/Firebase/common/uploadPicture'
 import { getDownloadURL } from 'firebase/storage'
 import createPost from '../../../services/Firebase/post/createPost'
-import updateDoc from '../../../services/Firebase/common/updateDoc'
+import updateDocField from '../../../services/Firebase/common/updateDocField'
 import { UserCollection } from '../../../services/Firebase/types'
 import { ServiceData, UserData } from '../../../contexts/types'
 
@@ -132,8 +132,6 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
         try {
             const localUser = await getLocalUser()
-            localUser.userId = 'RMCJAuUhLjSmAu3kgjTzRjjZ2jB2'
-            console.log(localUser)
             if (!localUser.userId) throw 'Não foi possível identificar o usuário'
 
             const postId = await createPost(serviceDataPost, localUser, 'services')
@@ -160,7 +158,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
             const picturePostsUrls: string[] = []
             servicePictures.forEach(async (servicePicture, index) => {
-                uploadImage(servicePicture, 'posts', postId, index).then(
+                uploadImage(servicePicture, 'services', postId, index).then(
                     ({ uploadTask, blob }: any) => {
                         uploadTask.on(
                             'state_change',
@@ -180,6 +178,13 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                                                     postId,
                                                     serviceDataPost,
                                                     picturePostsUrls
+                                                )
+
+                                                await updateDocField( // Update pictureUrl
+                                                    'services',
+                                                    postId,
+                                                    'picturesUrl',
+                                                    {...picturePostsUrls},
                                                 )
 
                                                 await updatePostPrivateData(
@@ -218,7 +223,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
             picturesUrl: picturePostsUrls,
         }
 
-        await updateDoc(
+        await updateDocField(
             'users',
             localUser.userId as string,
             'posts',

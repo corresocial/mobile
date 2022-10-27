@@ -29,12 +29,12 @@ function DefaultHeaderContainer({
     return (
         <Container
             style={{
-                minHeight: RFValue(minHeight ),
+                minHeight: RFValue(minHeight),
                 height: relativeHeight,
                 flexDirection: flexDirection,
                 backgroundColor: backgroundColor,
                 borderBottomWidth: RFValue(borderBottomWidth),
-                padding: withoutPadding ? 0 : RFValue(25),
+                padding: withoutPadding ? 0 : RFValue(20),
                 alignItems: centralized ? 'center' : 'flex-start',
                 justifyContent: justifyContent ? justifyContent : (centralized ? 'center' : 'flex-start'),
             } as { [key: string]: React.CSSProperties }}

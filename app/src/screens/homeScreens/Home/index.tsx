@@ -3,7 +3,7 @@ import { View, Text, BackHandler } from 'react-native';
 import { HomeTabScreenProps } from '../../../routes/Stack/_stackScreenProps';
 
 function Home({navigation}: HomeTabScreenProps) {
-	/* useEffect(() => { //TODO Comment to tests only
+	useEffect(() => { //TODO TestsOnly
 		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
 	})
 
@@ -14,7 +14,7 @@ function Home({navigation}: HomeTabScreenProps) {
 		} else {
 			return false
 		}
-	} */
+	}
 
 	return (
 		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

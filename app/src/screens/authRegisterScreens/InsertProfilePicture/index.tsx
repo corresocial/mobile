@@ -52,7 +52,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		try {
 			await saveInFirebase(userData, localUser.tourPerformed)
 			await saveInSecureStore(userData, localUser)
-			// navigateToNextScreen(localUser.tourPerformed)
+			navigateToNextScreen(localUser.tourPerformed)
 		} catch (err) {
 			console.log(err)
 			setHasServerSideError(true)
