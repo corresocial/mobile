@@ -30,7 +30,7 @@ export function ServiceStack() {
 
     return (
         <ServiceContext.Provider value={serviceContext}>
-            <Stack.Navigator initialRouteName='SelectServiceCategory'
+            <Stack.Navigator initialRouteName='SelectPostType'
                 screenOptions={{
                     headerShown: false,
                     gestureEnabled: true,

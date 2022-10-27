@@ -17,7 +17,7 @@ import { PhotoPortrait } from '../../../components/PhotoPortrait';
 import { HorizontalListPictures } from '../../../components/HorizontalListPictures';
 import { StatusBar } from 'react-native';
 
-function ServicePicturePreview({ navigation, route }: ServicePicturePreviewScreenProps) {
+function ServicePicturePreview({ navigation }: ServicePicturePreviewScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
 
 	const [picturesPack, setPicturesPack] = useState<string[]>([])

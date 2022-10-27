@@ -23,13 +23,13 @@ interface SelectButtonProps {
 function SelectButton({
     width = screenWidth * 0.39,
     height = screenHeight * 0.09,
-    marginVertical = RFValue(5),
+    marginVertical = RFValue(6),
     marginHorizontal = 0,
     backgroundColor = theme.white3,
     backgroundSelected,
     label,
     boldLabel = false,
-    fontSize = 16,
+    fontSize = 15,
     selected = false,
     onSelect
 }: SelectButtonProps) {
@@ -71,7 +71,7 @@ function SelectButton({
                 >
                     <Label
                         style={{
-                            fontSize: fontSize,
+                            fontSize: RFValue(fontSize),
                             fontFamily: selected || boldLabel ? 'Arvo_700Bold' : 'Arvo_400Regular'
                         }}
                     >

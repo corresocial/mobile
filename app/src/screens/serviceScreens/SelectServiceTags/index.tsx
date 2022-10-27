@@ -77,9 +77,9 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
                         width={screenWidth * 0.38}
                         height={screenHeight * 0.1}
                         label={tagName}
+                        fontSize={15}
                         boldLabel={true}
                         backgroundSelected={theme.purple1}
-                        fontSize={18}
                         onSelect={() => onSelectTag(tagName)}
                     />
                 )
@@ -148,7 +148,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
         <Container>
             <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={screenHeight * 0.26}
+                minHeight={screenHeight * 0.30}
                 relativeHeight={'30%'}
                 centralized
                 backgroundColor={theme.purple2}

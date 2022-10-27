@@ -8,7 +8,6 @@ import Check from './../../../assets/icons/check.svg'
 
 import { InsertProfileDescriptionScreenProps } from '../../../routes/Stack/_stackScreenProps';
 import { ServiceContext } from '../../../contexts/ServiceContext';
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -17,6 +16,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { InstructionCard } from '../../../components/InstructionCard';
 import { ProgressBar } from '../../../components/ProgressBar';
 import { LineInput } from '../../../components/LineInput';
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 
 function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreenProps) {
 
@@ -68,7 +68,7 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
         <Container >
             <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={(screenHeight + statusBarHeight) * 0.26}
+                minHeight={(screenHeight + statusBarHeight) * 0.28}
                 relativeHeight={'26%'}
                 centralized
                 backgroundColor={theme.purple2}

@@ -16,7 +16,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { UserCollection } from '../../services/Firebase/types';
 
 function Splash({ navigation }: SplashScreenProps) {
-    const { getDataFromSecureStore } = useContext(AuthContext)
+    const { getDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
 
     const [imagesSvgOpacity] = useState(new Animated.Value(0))
 
@@ -35,10 +35,11 @@ function Splash({ navigation }: SplashScreenProps) {
 
     const redirectToApp = async () => {
         try {
-            const userJSON = await getDataFromSecureStore('corre.user.teste', true) // Remove ".teste" to run correctly
+            const userJSON = await getDataFromSecureStore('corre.user', true) // Remove ".teste" to run correctly
 
             if (localUserIsValid(userJSON)) {
                 const userObject: UserCollection = JSON.parse(userJSON as string)
+                await setRemoteUserOnLocal(userObject.userId)
                 navigation.navigate('UserStack', { tourPerformed: userObject.tourPerformed }) //userObject.tourPerformed
             } else {
                 navigation.navigate('AcceptAndContinue')
