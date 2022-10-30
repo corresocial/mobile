@@ -68,6 +68,7 @@ function LineInput({
 
     const [focused, setFocused] = useState<boolean>(false)
     const [validated, setValidated] = useState<boolean>(false)
+    const [multilineInputHeight, setMultilineInputHeight] = useState(screenHeight * 0.1)
 
     const ValidateAndChange = (text: string) => {
         let filtredText = filterText ? filterText(text) : text
@@ -95,6 +96,13 @@ function LineInput({
 
     const closeKeyboard = () => {
         textInputRef.current.blur()
+    }
+
+    const resizeMultilineInput = (height: number) => {
+        if (!multiline) return
+        if (height >= screenHeight * 0.1 && height < screenHeight * 0.25) {
+            setMultilineInputHeight(height)
+        }
     }
 
     const generateInputContainerStyle = () => {
@@ -129,7 +137,7 @@ function LineInput({
     return (
         <Container
             style={{
-                height: multiline ? screenHeight * 0.25 : screenHeight * 0.1,
+                height: multiline ? multilineInputHeight : screenHeight * 0.1,// 0.25
                 width: relativeWidth,
                 ...inputContainerStyle
             }}
@@ -147,6 +155,7 @@ function LineInput({
                 maxLength={maxLength}
                 multiline={multiline}
                 numberOfLines={7}
+                onContentSizeChange={({ nativeEvent: { contentSize: { width, height } } }) => resizeMultilineInput(height)}
                 secureTextEntry={secureTextEntry}
                 keyboardType={keyboardType || 'ascii-capable'}
                 placeholder={placeholder}
@@ -154,8 +163,6 @@ function LineInput({
                 blurOnSubmit={true}
                 onSubmitEditing={nextInputRef ? setFocusToNextInput : onPressKeyboardSubmit}
                 onChangeText={(text) => ValidateAndChange(text)}
-                onFocus={(() => setFocused(true))}
-                onBlur={() => setFocused(false)}
                 onKeyPress={(key: NativeSyntheticEvent<TextInputKeyPressEventData>) => performKeyPress(key)}
             />
         </Container>

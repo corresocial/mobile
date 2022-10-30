@@ -29,13 +29,13 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 	}
 
 	useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            removeAllKeyboardEventListeners()
-            Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-            Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-        });
-        return unsubscribe;
-    }, [navigation])
+		const unsubscribe = navigation.addListener('focus', () => {
+			removeAllKeyboardEventListeners()
+			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		});
+		return unsubscribe;
+	}, [navigation])
 
 	useEffect(() => {
 		if (!alreadyLoaded) {
@@ -170,16 +170,19 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 						onChangeText={(text: string) => setName(text)}
 					/>
 				</InputsContainer>
-				<PrimaryButton
-					color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
-					iconName={'arrow-right'}
-					iconColor={theme.white3}
-					label='continuar'
-					labelColor={theme.white3}
-					highlightedWords={['continuar']}
-					startsHidden={false}
-					onPress={sendUserDataToNextScreen}
-				/>
+				{nameIsValid && !keyboardOpened
+					? <PrimaryButton
+						color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
+						iconName={'arrow-right'}
+						iconColor={theme.white3}
+						label='continuar'
+						labelColor={theme.white3}
+						highlightedWords={['continuar']}
+						startsHidden={false}
+						onPress={sendUserDataToNextScreen}
+					/>
+					: <></>
+				}
 			</FormContainer>
 		</Container>
 	);

@@ -27,7 +27,11 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 		const userJSON = await getDataFromSecureStore('corre.user')
 		if (!userJSON) return false
 		const userObject = await JSON.parse(userJSON)
+
 		console.log(userObject)
+		if(!userObject.userId) {
+			navigation.navigate('InsertPhone' as any)
+		}
 		setUserName(userObject.name || 'amigo')
 	}
 

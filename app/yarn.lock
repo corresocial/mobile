@@ -4948,7 +4948,7 @@
   "resolved" "https://registry.npmjs.org/expo-permissions/-/expo-permissions-13.2.0.tgz"
   "version" "13.2.0"
 
-"expo-secure-store@~11.2.0":
+"expo-secure-store@11.2.0":
   "integrity" "sha512-PlmDplx9QNqaTVKNLgqSurRhzYf6YbVTTiSKX5JlEMWgOiBTz77Nh6mpMMjI1jwrvtz9grD+CT2AlDEGXe+Ovg=="
   "resolved" "https://registry.npmjs.org/expo-secure-store/-/expo-secure-store-11.2.0.tgz"
   "version" "11.2.0"

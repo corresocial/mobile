@@ -1,6 +1,6 @@
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
-import { screenWidth } from "../../common/screenDimensions";
+import { screenHeight, screenWidth } from "../../common/screenDimensions";
 
 export const Container = styled.TouchableHighlight`
     min-height: ${RFValue(52)}px;
@@ -19,5 +19,6 @@ export const TextInput = styled.TextInput`
     font-family: Arvo_400Regular;
     text-align: center;
     padding: 15px;
+    max-Height: ${screenHeight * 0.25}px;
 
 `

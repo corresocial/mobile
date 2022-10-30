@@ -25,6 +25,7 @@ import { HomeTabScreenProps } from '../../Stack/_stackScreenProps'
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
 export function HomeTab(props: HomeTabScreenProps) {
+	const CustonProfile = () => <Profile {...props}/>
 	return (
 		<Tab.Navigator initialRouteName={'Profile'} 
 			screenOptions={{
@@ -74,7 +75,7 @@ export function HomeTab(props: HomeTabScreenProps) {
 					)
 				}}
 			/>
-			<Tab.Screen name='Profile' component={Profile}
+			<Tab.Screen name='Profile' component={CustonProfile}
 				options={{
 					tabBarIcon: ({ focused }: { focused: boolean }) => (
 						focused

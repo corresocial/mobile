@@ -54,7 +54,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
         });
         return unsubscribe;
     }, [navigation])
-    
+
     useEffect(() => {
         const hoursValidation = validateHours(hours)
         const minutesValidation = validateMinutes(minutes)
@@ -191,7 +191,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                                                     'services',
                                                     postId,
                                                     'picturesUrl',
-                                                    {...picturePostsUrls},
+                                                    { ...picturePostsUrls },
                                                 )
 
                                                 await updatePostPrivateData(
@@ -251,7 +251,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     ],
                 })
                 console.log('Naviguei')
-                navigation.navigate('HomeTab' as any, { TourCompleted: true }) 
+                navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
             })
     }
 

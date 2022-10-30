@@ -40,9 +40,10 @@ function Splash({ navigation }: SplashScreenProps) {
             if (localUserIsValid(userJSON)) {
                 const userObject: UserCollection = JSON.parse(userJSON as string)
                 await setRemoteUserOnLocal(userObject.userId)
-                navigation.navigate('UserStack', { tourPerformed: userObject.tourPerformed }) //userObject.tourPerformed
+                navigation.navigate('UserStack', { tourPerformed: userObject.tourPerformed }) 
             } else {
-                navigation.navigate('AcceptAndContinue')
+                // navigation.navigate('AcceptAndContinue')
+                throw 'Usuário não authenticado localmente!' // Faz com que o usuário fique em loop
             }
         } catch (err) {
             setTimeout(() => {

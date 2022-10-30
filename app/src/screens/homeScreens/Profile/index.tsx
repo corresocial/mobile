@@ -23,13 +23,21 @@ import { HomeTabScreenProps } from '../../../routes/Stack/_stackScreenProps'
 
 import { FinishedTourModal } from '../../../components/_modals/FinishedTourModal'
 
-function Profile({ navigation }: HomeTabScreenProps) {
+function Profile({ navigation, route }: HomeTabScreenProps) {
 	const { getDataFromSecureStore, setDataOnSecureStore, deleteLocaluser } = useContext(AuthContext)
 
 	const [profilePicture, setProfilePicture] = useState<string[]>([])
 	const [userName, setUserName] = useState<string>('')
 	const [tourModalVisibility, setTourModalVisibility] = useState(false)// TODO DevOnly, default(false)
 	const [finishedTourModalVisibility, setFinishedTourModalVisibility] = useState(false)// TODO DevOnly, default(false)
+
+	useEffect(() => {
+		const unsubscribe = navigation.addListener('focus', () => {
+			checkEndingTour()  
+		});
+		return unsubscribe;
+	}, [navigation])
+
 
 	useEffect(() => {
 		initializeUserTour()
@@ -40,6 +48,12 @@ function Profile({ navigation }: HomeTabScreenProps) {
 		const userTourPerformed = await checkUserTourPerformed()
 		if (!userTourPerformed) {
 			setTourModalVisibility(true)
+		}
+	}
+
+	const checkEndingTour = () => {
+		if (route.params && route.params.showShareModal) {
+			setFinishedTourModalVisibility(true)
 		}
 	}
 
