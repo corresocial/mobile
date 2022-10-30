@@ -36,7 +36,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
     const [keyboardOpened, setKeyboardOpened] = useState(false)
     const [selectedTags, setSelectedTags] = useState<string[]>([])
 
-    const tagsSelectedRef = useRef() as any // TODO Type
+    const tagsSelectedRef = useRef() as any
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {

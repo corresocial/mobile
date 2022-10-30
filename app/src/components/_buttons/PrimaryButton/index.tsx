@@ -110,7 +110,7 @@ function PrimaryButton({
                 ref={buttonRef}
                 style={{
                     display: buttonVisibility ? 'flex' : 'none',
-                    opacity: buttonVisibility ? 1 : 0, // TODO Bug point
+                    opacity: buttonVisibility ? 1 : 0, 
                     width: relativeWidth || '100%',
                     height: relativeHeight || RFValue(65),
                     minHeight: RFValue(minHeight),

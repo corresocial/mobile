@@ -36,7 +36,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 	}
 
 	const goToProfile = () => {
-		return navigation.navigate('HomeTab' as any) //TODO Type
+		return navigation.navigate('HomeTab' as any) 
 	}
 
 	return (

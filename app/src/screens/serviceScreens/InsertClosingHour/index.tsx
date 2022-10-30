@@ -242,8 +242,8 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     ...localUser,
                     tourPerformed: true,
                     posts: [
-                        // ...localUser.posts as any, // TODO Type
-                        /* {  // TODO very large
+                        // ...localUser.posts as any,
+                        /* {  
                             ...serviceDataPost,
                             postId: postId,
                             postType: 'service',

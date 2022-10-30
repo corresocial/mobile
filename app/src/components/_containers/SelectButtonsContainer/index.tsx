@@ -6,7 +6,7 @@ import { Container } from './styles'
 
 interface SelectButtonsContainerProps {
     backgroundColor: string
-    children: any | any[]// TODO Type
+    children: JSX.Element | JSX.Element[]
 }
 
 function SelectButtonsContainer({ backgroundColor, children }: SelectButtonsContainerProps) {

@@ -22,7 +22,7 @@ interface LineInputProps {
     secureTextEntry?: boolean
     invalidTextAfterSubmit?: boolean
     fontSize?: number
-    textAlign?: string
+    textAlign?: 'auto' | 'left' | 'right' | 'center' | 'justify' | undefined;
     multiline?: boolean
     placeholder?: string
     error?: boolean
@@ -140,7 +140,7 @@ function LineInput({
             <TextInput
                 style={[getTextInputStyle(), {
                     fontSize: RFValue(fontSize),
-                    textAlign: textAlign as any || 'center', //TODO Type
+                    textAlign: textAlign || 'center'
                 }]}
                 ref={textInputRef}
                 value={value}

@@ -22,7 +22,7 @@ export default function App() {
 		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 			<ActivityIndicator size={'large'} color={theme.orange3} />
 		</View>
-	) // TODO Temporary
+	) 
 
 	return (
 		<NavigationContainer>

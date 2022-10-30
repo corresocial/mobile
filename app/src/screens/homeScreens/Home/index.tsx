@@ -3,7 +3,7 @@ import { View, Text, BackHandler } from 'react-native';
 import { HomeTabScreenProps } from '../../../routes/Stack/_stackScreenProps';
 
 function Home({navigation}: HomeTabScreenProps) {
-	/* useEffect(() => { //TODO TestsOnly
+	/* useEffect(() => { //TODO DevOnly
 		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
 	})
 

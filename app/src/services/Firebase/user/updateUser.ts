@@ -14,7 +14,7 @@ async function updateUser(docId: string, data: UserCollection) {
 			.catch(err => {
 				console.log(err)
 				return err
-			}) // TODO Error Handling
+			})
 
 		return finished;
 

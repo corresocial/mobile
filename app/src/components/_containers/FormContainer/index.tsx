@@ -4,7 +4,7 @@ import { Container } from './styles';
 interface FormContainerProps {
     children: ReactElement | ReactElement[]
     backgroundColor: string,
-    justifyContent?: any // TODO type
+    justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | undefined;
 }
 
 function FormContainer({

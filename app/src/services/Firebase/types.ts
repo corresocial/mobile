@@ -1,4 +1,5 @@
 import { LocationViewType } from "../../@types/types"
+import { UserIdentification } from "../../screens/authRegisterScreens/types"
 
 export type UserCollection = {
     userId?: string, // localOnly
@@ -27,6 +28,10 @@ export type UserCollection = {
         geohashNear?: string[],
         geohashCity?: string[],
     }
+}
+
+export interface LocalUserData extends UserCollection {
+    userIdentification: UserIdentification
 }
 
 export type PostCollection = {

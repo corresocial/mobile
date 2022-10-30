@@ -59,7 +59,7 @@ export const authentication = {
 
             return user
         } catch (err) {
-            console.log('Error: ' + err) // TODO Define ErrorBoundary
+            console.log('Error: ' + err) 
             return false
         }
     },
@@ -68,7 +68,7 @@ export const authentication = {
         try {
             await SecureStore.setItemAsync(key, JSON.stringify(data), secureStoreOptions)
         } catch (err) {
-            console.log('Error: ' + err) // TODO Define ErrorBoundary
+            console.log('Error: ' + err) 
             return false
         }
     },

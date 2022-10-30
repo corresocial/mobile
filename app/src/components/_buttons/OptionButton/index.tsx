@@ -13,7 +13,7 @@ interface OptionButtonProps {
     label: string
     labelColor?: string
     labelSize?: number
-    labelAlign?: any // TODO Type
+    labelAlign?: 'auto' | 'left' | 'right' | 'center' | 'justify' | undefined;
     SvgIcon?: React.FC<SvgProps>
     svgIconScale?: [height: string, width: string]
     leftSideColor?: string

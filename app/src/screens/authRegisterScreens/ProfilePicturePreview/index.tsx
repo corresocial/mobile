@@ -8,7 +8,7 @@ import { theme } from '../../../common/theme';
 import updateUser from '../../../services/Firebase/user/updateUser';
 import uploadImage from '../../../services/Firebase/common/uploadPicture';
 import { AuthContext } from '../../../contexts/AuthContext';
-import { UserCollection } from '../../../services/Firebase/types';
+import { LocalUserData, UserCollection } from '../../../services/Firebase/types';
 import { ProfilePicturePreviewScreenProps } from '../../../routes/Stack/_stackScreenProps';
 import updateUserPrivateData from '../../../services/Firebase/user/updateUserPrivateData';
 
@@ -92,7 +92,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 		await uploadImage(profilePicturesPack[0], 'users', userData.userIdentification.uid)
 			.then(
-				({ uploadTask, blob }: any) => { // TODO Type
+				({ uploadTask, blob }: any) => { 
 					uploadTask.on(
 						'state_change', () => { console.log('Uploading...') }, // Set default load
 						(err: any) => { throwServerSideError(err) },
@@ -130,7 +130,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 			.catch(err => throwServerSideError(err))
 	}
 
-	const saveInSecureStore = async (userData: any) => { //TODO Type
+	const saveInSecureStore = async (userData: LocalUserData) => { 
 		// const localUser = await getObjectLocalUser()
 		await setDataOnSecureStore('corre.user', { ...userData })
 	}

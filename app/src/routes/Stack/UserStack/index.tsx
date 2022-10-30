@@ -10,7 +10,7 @@ import { ServiceStack } from '../ServiceStack';
 
 const Stack = createStackNavigator<UserStackParamList>()
 
-export function UserStack({ route }: any) { // TODO Type
+export function UserStack({ route }: any) { 
     const tourPerformed = route.params && route.params.tourPerformed || false
 
     return (
