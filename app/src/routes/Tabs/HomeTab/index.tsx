@@ -21,6 +21,7 @@ import { Profile } from '../../../screens/homeScreens/Profile';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs' //
 import { theme } from '../../../common/theme'
 import { HomeTabScreenProps } from '../../Stack/_stackScreenProps'
+import { SelectPostType } from '../../../screens/homeScreens/SelectPostType'
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
@@ -57,7 +58,7 @@ export function HomeTab(props: HomeTabScreenProps) {
 					)
 				}}
 			/>
-			<Tab.Screen name='Post' component={Home}
+			<Tab.Screen name='Post' component={SelectPostType}
 				options={{
 					tabBarIcon: ({ focused }: { focused: boolean }) => (
 						focused

@@ -328,9 +328,7 @@ let serviceCategories = {
     others: {
         label: 'outros',
         value: 'others',
-        tags: [
-            'severino'
-        ]
+        tags: []
     },
 }
 

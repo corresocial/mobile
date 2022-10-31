@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 import { screenHeight } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
-    width: 100%;
+    flex: 1;
     height:${screenHeight * 0.1}px;
     background-color: ${({ theme }) => theme.white3};
     border-radius: 15px;
@@ -22,7 +22,7 @@ export const Title = styled.Text`
 `
 
 export const Description = styled.Text`
-width: 100%;
+    width: 100%;
     font-family: Arvo_400Regular;
     font-size:  ${RFValue(16)}px;
     color: ${({ theme }) => theme.black3}

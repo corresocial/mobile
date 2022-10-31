@@ -4,9 +4,9 @@ import { ScrollView, StatusBar } from 'react-native'
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
 
-import { SelectServiceCategoryScreenProps } from '../../../routes/Stack/_stackScreenProps'
-import { ServiceCategories, ServiceCategory } from '../types'
-import { serviceCategories } from '../serviceCategories'
+import { SelectSaleCategoryScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { SaleCategories, SaleCategory } from '../types'
+import { saleCategories } from '../saleCategories'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -16,12 +16,12 @@ import { InstructionCard } from '../../../components/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { screenHeight } from '../../../common/screenDimensions'
 
-function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps) {
+function SelectSaleCategory({ navigation }: SelectSaleCategoryScreenProps) {
 
     const renderSelectOptionsButtons = () => {
-        const ordenedServicesCategories = Object.values(serviceCategories).sort(sortServiceCategories)
+        const ordenedSaleCategories = Object.values(saleCategories).sort(sortSaleCategories)
 
-        return ordenedServicesCategories.map((category, index) => {
+        return ordenedSaleCategories.map((category, index) => {
             if (category.label === 'outros') return
             return (
                 <SelectButton
@@ -30,20 +30,20 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
                     height={screenHeight * 0.11}
                     label={category.label}
                     boldLabel={true}
-                    onSelect={() => onSelectCategory(category.value as ServiceCategories)}
+                    onSelect={() => onSelectCategory(category.value as SaleCategories)}
                 />
             )
         })
     }
 
-    const sortServiceCategories = (a: ServiceCategory, b: ServiceCategory) => {
+    const sortSaleCategories = (a: SaleCategory, b: SaleCategory) => {
         if (a.label < b.label) return -1;
         if (a.label > b.label) return 1;
-        return 0;
+        return 0
     }
 
-    const onSelectCategory = (categoryName: ServiceCategories) => {
-        navigation.navigate('SelectServiceTags', { categorySelected: categoryName })
+    const onSelectCategory = (categoryName: SaleCategories) => {
+        navigation.navigate('SelectSaleTags', { categorySelected: categoryName })
     }
 
     return (
@@ -58,18 +58,18 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'em qual categoria seu serviço se encaixa?'}
-                    highlightedWords={['categoria', 'seu', 'serviço']}
+                    message={'em qual categoria seu item se encaixa?'}
+                    highlightedWords={['categoria', 'seu','item']}
                 >
                     <ProgressBar
                         range={5}
-                        value={2}
+                        value={1}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
             <ScrollView>
                 <SelectButtonsContainer
-                    backgroundColor={theme.purple2}
+                    backgroundColor={theme.green2}
                 >
                     {renderSelectOptionsButtons() as any}
                     <SelectButton
@@ -78,7 +78,7 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
                         height={screenHeight * 0.11}
                         label={'outros'}
                         boldLabel={true}
-                        onSelect={() => onSelectCategory('others' as ServiceCategories)}
+                        onSelect={() => onSelectCategory('others' as SaleCategories)}
                     />
                 </SelectButtonsContainer>
             </ScrollView>
@@ -86,4 +86,4 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
     )
 }
 
-export { SelectServiceCategory }
+export { SelectSaleCategory }

@@ -29,6 +29,7 @@ interface LineInputProps {
     textIsValid?: boolean
     lastInput?: boolean
     keyboardType?: KeyboardTypeOptions
+    blurOnSubmit?: boolean
     returnKeyType?: ReturnKeyTypeOptions
     onPressKeyboardSubmit?: () => void
     filterText?: (text: string) => string
@@ -57,6 +58,7 @@ function LineInput({
     placeholder,
     keyboardType,
     returnKeyType,
+    blurOnSubmit = true,
     onPressKeyboardSubmit,
     error,
     lastInput,
@@ -160,7 +162,7 @@ function LineInput({
                 keyboardType={keyboardType || 'ascii-capable'}
                 placeholder={placeholder}
                 returnKeyType={returnKeyType ? returnKeyType : lastInput ? 'done' : 'next'}
-                blurOnSubmit={true}
+                blurOnSubmit={blurOnSubmit}
                 onSubmitEditing={nextInputRef ? setFocusToNextInput : onPressKeyboardSubmit}
                 onChangeText={(text) => ValidateAndChange(text)}
                 onKeyPress={(key: NativeSyntheticEvent<TextInputKeyPressEventData>) => performKeyPress(key)}

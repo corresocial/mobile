@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AuthRegisterStackParamList } from "../AuthRegisterStack/types";
+import { SaleStackParamList } from "../SaleStack/types";
 import { ServiceStackParamList } from "../ServiceStack/types";
 import { UserStackParamList } from "../UserStack/types";
 
@@ -13,9 +14,10 @@ export type ProfilePicturePreviewScreenProps = NativeStackScreenProps<AuthRegist
 
 export type WelcomeNewUserScreenProps = NativeStackScreenProps<UserStackParamList, 'WelcomeNewUser'>
 export type HomeTabScreenProps = NativeStackScreenProps<UserStackParamList, 'HomeTab'>
+export type SelectPostTypeScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectPostType'>
 export type TourScreenProps = NativeStackScreenProps<UserStackParamList, 'ServiceStack'>
+export type SaleStackScreenProps = NativeStackScreenProps<UserStackParamList, 'SaleStack'>
 
-export type SelectPostTypeScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectPostType'>
 export type InsertProfileDescriptionScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertProfileDescription'>
 export type InsertServiceNameScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertServiceName'>
 export type InsertServicePictureScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertServicePicture'>
@@ -33,6 +35,9 @@ export type SelectServiceFrequencyScreenProps = NativeStackScreenProps<ServiceSt
 export type SelectDaysOfWeekScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectDaysOfWeek'>
 export type InsertOpeningHourScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertOpeningHour'>
 export type InsertClosingHourScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertClosingHour'>
+
+export type SelectSaleCategoryScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectSaleCategory'>
+export type SelectSaleTagsScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectSaleTags'>
 
 
  

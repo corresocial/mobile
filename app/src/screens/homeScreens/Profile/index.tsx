@@ -83,7 +83,7 @@ function Profile({ navigation, route }: HomeTabScreenProps) {
 	const navigateToTour = async () => {
 		await setUserTourPerformed()
 		setTourModalVisibility(false)
-		navigation.navigate('ServiceStack')
+		navigation.navigate('SelectPostType')
 	}
 
 	const getProfileData = async () => {

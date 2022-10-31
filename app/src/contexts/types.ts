@@ -3,7 +3,6 @@ import { DaysOfWeek, DeliveryMethod, LocationViewType, ServiceFrequency } from "
 
 export type ServiceData = {
     profileDescription?: string // on context
-    
     address?: {
         country?: string
         state?: string
@@ -34,6 +33,10 @@ export type ServiceData = {
     picturesUrl?: string[]
 }
 
+export type SaleData = {
+    
+}
+
 /* export type PostData {
     localUser,
     postId,
@@ -41,8 +44,4 @@ export type ServiceData = {
     picturePostsUrls
 }
  */
-export type UserData = {
-    tourStarted: boolean
-    showFinishedTourModal: boolean
-}
 

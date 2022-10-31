@@ -30,14 +30,13 @@ export function ServiceStack() {
 
     return (
         <ServiceContext.Provider value={serviceContext}>
-            <Stack.Navigator initialRouteName='SelectPostType'
+            <Stack.Navigator initialRouteName='InsertProfileDescription'
                 screenOptions={{
                     headerShown: false,
                     gestureEnabled: true,
                     ...TransitionPresets.SlideFromRightIOS,
                 }}
             >
-                <Stack.Screen name={'SelectPostType'} component={SelectPostType} />
                 <Stack.Screen name={'InsertProfileDescription'} component={InsertProfileDescription} />
                 <Stack.Screen name={'InsertServiceName'} component={InsertServiceName} />
                 <Stack.Screen name={'InsertServicePicture'} component={InsertServicePicture} />

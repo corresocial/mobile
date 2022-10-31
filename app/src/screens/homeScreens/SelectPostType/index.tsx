@@ -50,7 +50,7 @@ function SelectPostType({ route, navigation }: SelectPostTypeScreenProps) {
                     svgIconScale={['60%','60%']}
                     leftSideColor={theme.purple2}
                     leftSideWidth={'30%'}
-                    onPress={() => navigation.navigate('InsertProfileDescription')}
+                    onPress={() => navigation.navigate('ServiceStack')}
                 />
                 <OptionButton
                     color={theme.white3}
@@ -62,7 +62,7 @@ function SelectPostType({ route, navigation }: SelectPostTypeScreenProps) {
                     svgIconScale={['60%','60%']}
                     leftSideColor={theme.green2}
                     leftSideWidth={'30%'}
-                    onPress={() => { }}
+                    onPress={() => navigation.navigate('SaleStack')}
                 />
                 <OptionButton
                     color={theme.white3}

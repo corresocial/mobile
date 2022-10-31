@@ -113,8 +113,8 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
                 <PrimaryButton
                     flexDirection={'row-reverse'}
                     color={theme.red3}
-                    label={'voltar, escolher outra'}
-                    highlightedWords={['voltar,']}
+                    label={'não curti, voltar'}
+                    highlightedWords={['não', 'curti,']}
                     labelColor={theme.white3}
                     fontSize={16}
                     SvgIcon={Uncheck}
