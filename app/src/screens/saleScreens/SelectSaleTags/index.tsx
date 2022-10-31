@@ -147,7 +147,7 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 
     const saveTags = () => {
         setSaleDataOnContext({ tags: selectedTags })
-        // Navigate
+        navigation.navigate('InsertSaleTitle')
     }
 
     return (
