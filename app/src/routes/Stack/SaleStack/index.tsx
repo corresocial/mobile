@@ -9,6 +9,7 @@ import { SelectSaleCategory } from '../../../screens/saleScreens/SelectSaleCateg
 import { SelectSaleTags } from '../../../screens/saleScreens/SelectSaleTags';
 import { InsertSaleTitle } from '../../../screens/saleScreens/InsertSaleTitle';
 import { InsertItemName } from '../../../screens/saleScreens/InsertItemName';
+import { InsertItemDescription } from '../../../screens/saleScreens/InsertItemDescription';
 
 
 const Stack = createStackNavigator<SaleStackParamList>()
@@ -28,6 +29,7 @@ export function SaleStack() {
                 <Stack.Screen name={'SelectSaleTags'} component={SelectSaleTags} />
                 <Stack.Screen name={'InsertSaleTitle'} component={InsertSaleTitle} />
                 <Stack.Screen name={'InsertItemName'} component={InsertItemName} />
+                <Stack.Screen name={'InsertItemDescription'} component={InsertItemDescription} />
             </Stack.Navigator>
         </SaleContext.Provider>
     )

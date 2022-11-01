@@ -2,28 +2,28 @@ import { Keyboard, StatusBar } from 'react-native';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles';
-import { theme } from '../../../common/theme';
 import { screenHeight } from '../../../common/screenDimensions';
+import { theme } from '../../../common/theme';
 import Check from './../../../assets/icons/check.svg'
 
-import { InsertItemNameScreenProps } from '../../../routes/Stack/_stackScreenProps';
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { SaleContext } from '../../../contexts/SaleContext';
+import { InsertItemDescriptionScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { ServiceContext } from '../../../contexts/ServiceContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { BackButton } from '../../../components/_buttons/BackButton';
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { InstructionCard } from '../../../components/InstructionCard';
-import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
+import { LineInput } from '../../../components/LineInput';
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 
-function InsertItemName({ navigation }: InsertItemNameScreenProps) {
+function InsertItemDescription({ navigation }: InsertItemDescriptionScreenProps) {
 
-    const { setSaleDataOnContext , saleData} = useContext(SaleContext)
+    const { setServiceDataOnContext } = useContext(ServiceContext)
 
-    const [itemName, setItemName] = useState<string>('')
-    const [itemNameIsValid, setItemNameIsValid] = useState<boolean>(false)
+    const [itemDescription, setItemDescription] = useState<string>('')
+    const [itemDescriptionIsValid, setItemDescriptionIsValid] = useState<boolean>(false)
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
@@ -40,11 +40,12 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
     }, [navigation])
 
     useEffect(() => {
-        const validation = validateItemName(itemName)
-        setItemNameIsValid(validation)
-    }, [itemName, keyboardOpened])
+        const validation = validateItemDescription(itemDescription)
+        setItemDescriptionIsValid(validation)
 
-    const validateItemName = (text: string) => {
+    }, [itemDescription, keyboardOpened])
+
+    const validateItemDescription = (text: string) => {
         const isValid = (text).trim().length >= 1
         if (isValid && !keyboardOpened) {
             return true
@@ -52,19 +53,21 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
         return false
     }
 
-    const saveItemName = () => {
-        if (itemNameIsValid) {
-            setSaleDataOnContext({ itemName: itemName })
-            navigation.navigate('InsertItemDescription')
-        } 
+    const saveItemDescription = () => {
+        if (itemDescriptionIsValid) {
+            setServiceDataOnContext({ itemDescription: itemDescription })
+            // TODO Navigate
+        }
     }
+
+    const statusBarHeight = StatusBar.currentHeight || 0
 
     return (
         <Container >
             <StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={screenHeight * 0.26}
-                relativeHeight={'22%'}
+                minHeight={(screenHeight + statusBarHeight) * 0.28}
+                relativeHeight={'26%'}
                 centralized
                 backgroundColor={theme.green2}
             >
@@ -72,8 +75,8 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'que item você vai anunciar?'}
-                    highlightedWords={['item']}
+                    message={'escreva uma descrição para o seu item'}
+                    highlightedWords={['descrição', 'seu', 'item']}
                 >
                     <ProgressBar
                         range={5}
@@ -86,28 +89,26 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
                 justifyContent={'center'}
             >
                 <LineInput
-                    value={itemName}
+                    value={itemDescription}
                     relativeWidth={'100%'}
                     textInputRef={inputRefs.descriptionInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}
                     validBackgroundColor={theme.green1}
                     validBorderBottomColor={theme.green5}
-                    invalidBackgroundColor={theme.red1}
-                    invalidBorderBottomColor={theme.red5}
-                    maxLength={100}
+                    multiline
                     lastInput={true}
                     textAlign={'left'}
                     fontSize={16}
-                    placeholder={'ex: televisão 40"'}
+                    placeholder={'ex: trabalho de mecânico, tenho 33 anos, etc...'}
                     keyboardType={'default'}
-                    textIsValid={itemNameIsValid && !keyboardOpened}
-                    validateText={(text: string) => validateItemName(text)}
-                    onChangeText={(text: string) => setItemName(text)}
+                    textIsValid={itemDescriptionIsValid && !keyboardOpened}
+                    validateText={(text: string) => validateItemDescription(text)}
+                    onChangeText={(text: string) => setItemDescription(text)}
                 />
                 <ButtonsContainer>
                     {
-                        itemNameIsValid && !keyboardOpened &&
+                        itemDescriptionIsValid && !keyboardOpened &&
                         <PrimaryButton
                             flexDirection={'row-reverse'}
                             color={theme.green3}
@@ -115,7 +116,7 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
                             labelColor={theme.white3}
                             SvgIcon={Check}
                             svgIconScale={['30%', '15%']}
-                            onPress={saveItemName}
+                            onPress={saveItemDescription}
                         />
                     }
                 </ButtonsContainer>
@@ -124,4 +125,4 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
     );
 }
 
-export { InsertItemName }
+export { InsertItemDescription }
