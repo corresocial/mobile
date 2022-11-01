@@ -32,7 +32,7 @@ function SelectSaleFrequency({ navigation }: SelectSaleFrequencyScreenProps) {
                     attendanceFrequency: saleFrequency,
                     attendanceWeekDays: [daysOfWeek[new Date().getDay()]]
                 })
-                /* navigation.navigate('InsertOpeningHour') */
+                navigation.navigate('InsertOpeningHour')
                 break
             }
             case 'everyday': {
@@ -40,7 +40,7 @@ function SelectSaleFrequency({ navigation }: SelectSaleFrequencyScreenProps) {
                     attendanceFrequency: saleFrequency,
                     attendanceWeekDays: [...daysOfWeek]
                 })
-                /* navigation.navigate('InsertOpeningHour') */
+                navigation.navigate('InsertOpeningHour')
                 break
             }
             case 'someday': {
@@ -53,7 +53,7 @@ function SelectSaleFrequency({ navigation }: SelectSaleFrequencyScreenProps) {
                     attendanceFrequency: saleFrequency,
                     attendanceWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
                 })
-                /* navigation.navigate('InsertOpeningHour') */
+                navigation.navigate('InsertOpeningHour')
                 break
             }
 

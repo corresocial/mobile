@@ -79,7 +79,7 @@ function SelectDaysOfWeek({ navigation }: SelectDaysOfWeekScreenProps) {
         setSaleDataOnContext({
             attendanceWeekDays: selectedDays
         })
-        // navigation.navigate('InsertOpeningHour')
+        navigation.navigate('InsertOpeningHour')
     }
 
     return (

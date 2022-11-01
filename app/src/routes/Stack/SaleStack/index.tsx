@@ -21,6 +21,8 @@ import { LocationViewPreview } from '../../../screens/saleScreens/LocationViewPr
 import { SelectDeliveryMethod } from '../../../screens/saleScreens/SelectDeliveryMethod';
 import { SelectSaleFrequency } from '../../../screens/saleScreens/selectSaleFrequency';
 import { SelectDaysOfWeek } from '../../../screens/saleScreens/SelectDaysOfWeek';
+import { InsertOpeningHour } from '../../../screens/saleScreens/InsertOpeningHour';
+import { InsertClosingHour } from '../../../screens/saleScreens/InsertClosingHour';
 
 
 const Stack = createStackNavigator<SaleStackParamList>()
@@ -52,6 +54,8 @@ export function SaleStack() {
                 <Stack.Screen name={'SelectDeliveryMethod'} component={SelectDeliveryMethod} />
                 <Stack.Screen name={'SelectSaleFrequency'} component={SelectSaleFrequency} />
                 <Stack.Screen name={'SelectDaysOfWeek'} component={SelectDaysOfWeek} />
+                <Stack.Screen name={'InsertOpeningHour'} component={InsertOpeningHour} />
+                <Stack.Screen name={'InsertClosingHour'} component={InsertClosingHour} />
             </Stack.Navigator>
         </SaleContext.Provider>
     )

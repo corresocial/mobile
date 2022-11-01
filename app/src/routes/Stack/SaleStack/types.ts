@@ -17,4 +17,6 @@ export type SaleStackParamList = {
     SelectDeliveryMethod: undefined
     SelectSaleFrequency: undefined
     SelectDaysOfWeek: undefined
+    InsertOpeningHour: undefined
+    InsertClosingHour: undefined
 }

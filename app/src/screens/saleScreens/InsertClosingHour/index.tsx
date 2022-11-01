@@ -8,14 +8,14 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 import { InsertClosingHourScreenProps } from '../../../routes/Stack/_stackScreenProps'
-import { ServiceContext } from '../../../contexts/ServiceContext'
+import { SaleContext } from '../../../contexts/SaleContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 import uploadImage from '../../../services/Firebase/common/uploadPicture'
 import { getDownloadURL } from 'firebase/storage'
 import createPost from '../../../services/Firebase/post/createPost'
 import updateDocField from '../../../services/Firebase/common/updateDocField'
 import { UserCollection } from '../../../services/Firebase/types'
-import { ServiceData } from '../../../contexts/types'
+import { SaleData } from '../../../contexts/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -29,7 +29,7 @@ import updatePostPrivateData from '../../../services/Firebase/post/updatePostPri
 
 function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
-    const { setServiceDataOnContext, serviceData } = useContext(ServiceContext)
+    const { setSaleDataOnContext, saleData } = useContext(SaleContext)
     const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
 
     const [hours, setHours] = useState<string>('')
@@ -70,6 +70,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
         } else {
             return false
         }
+
     }
 
     const validateMinutes = (text: string) => {
@@ -86,36 +87,36 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
     }
 
     const closingTimeIsAfterOpening = (hoursValidation?: string, minutesValidation?: string) => {
-        const openingHour = new Date(serviceData.openingHour as Date)
+        const openingHour = new Date(saleData.openingHour as Date)
         const closingHour = new Date(Date.UTC(2022, 1, 1, parseInt(!!hoursValidation ? hoursValidation : hours), parseInt(!!minutesValidation ? minutesValidation : '59'), 0, 0))
         return openingHour < closingHour
     }
 
-    const getCompleteServiceDataFromContext = () => {
+    const getCompleteSaleDataFromContext = () => {
         return {
-            ...serviceData,
+            ...saleData,
             closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
         }
     }
 
-    const extractServiceAddress = (serviceData: ServiceData) => {
-        return { ...serviceData.address }
+    const extractServiceAddress = (saleData: SaleData) => {
+        return { ...saleData.address }
     }
 
-    const extractUserData = (serviceData: ServiceData) => {
-        return { description: serviceData.profileDescription }
+    const extractUserData = (saleData: SaleData) => {
+        return { description: saleData.profileDescription }
     }
 
-    const extractServiceDataPost = (serviceData: ServiceData) => {
-        const currentServiceData = { ...serviceData }
-        delete currentServiceData.address
-        delete currentServiceData.profileDescription
+    const extractSaleDataPost = (saleData: SaleData) => {
+        const currentSaleData = { ...saleData }
+        delete currentSaleData.address
+        delete currentSaleData.profileDescription
 
-        return { ...currentServiceData }
+        return { ...currentSaleData }
     }
 
-    const extractServicePictures = (serviceData: ServiceData) => {
-        return serviceData.picturesUrl as string[] || []
+    const extractServicePictures = (saleData: SaleData) => {
+        return saleData.picturesUrl as string[] || []
     }
 
     const getLocalUser = async () => {
@@ -129,99 +130,14 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
         })
     }
 
-    const saveServicePost = async () => {
-        const completeServiceData = getCompleteServiceDataFromContext()
-        setServiceDataOnContext({ ...completeServiceData })
-
-        const serviceAddress = extractServiceAddress(completeServiceData)
-        const userData = extractUserData(completeServiceData)
-        const serviceDataPost = extractServiceDataPost(completeServiceData)
-        const servicePictures = extractServicePictures(completeServiceData)
-
-        try {
-            const localUser = await getLocalUser()
-            if (!localUser.userId) throw 'Não foi possível identificar o usuário'
-
-            const postId = await createPost(serviceDataPost, localUser, 'services')
-            if (!postId) throw 'Não foi possível identificar o post'
-
-            if (!servicePictures.length) {
-                await updateUserPost(
-                    localUser,
-                    postId,
-                    serviceDataPost,
-                    servicePictures
-                )
-
-                await updatePostPrivateData(
-                    serviceAddress,
-                    postId,
-                    'services',
-                    'address'
-                )
-
-                await updateUserData(localUser.userId, userData)
-                return
-            }
-
-            const picturePostsUrls: string[] = []
-            servicePictures.forEach(async (servicePicture, index) => {
-                uploadImage(servicePicture, 'services', postId, index).then(
-                    ({ uploadTask, blob }: any) => {
-                        uploadTask.on(
-                            'state_change',
-                            () => { },
-                            (err: any) => {
-                                throw err
-                            },
-                            () => {
-                                getDownloadURL(uploadTask.snapshot.ref)
-                                    .then(
-                                        async (downloadURL) => {
-                                            blob.close()
-                                            picturePostsUrls.push(downloadURL)
-                                            if (picturePostsUrls.length === servicePictures.length) {
-                                                await updateUserPost(
-                                                    localUser,
-                                                    postId,
-                                                    serviceDataPost,
-                                                    picturePostsUrls
-                                                )
-
-                                                await updateDocField( // Update pictureUrl
-                                                    'services',
-                                                    postId,
-                                                    'picturesUrl',
-                                                    { ...picturePostsUrls },
-                                                )
-
-                                                await updatePostPrivateData(
-                                                    serviceAddress,
-                                                    postId,
-                                                    'services',
-                                                    'address'
-                                                )
-
-                                                await updateUserData(localUser.userId, userData)
-                                            }
-                                        },
-                                    )
-                            },
-                        )
-                    },
-                )
-            })
-        } catch (err) {
-            console.log(err)
-            setInvalidHourAfterSubmit(true)
-            setInvalidMinutesAfterSubmit(true)
-        }
+    const saveSalePost = async () => {
+        
     }
 
     const updateUserPost = async (
         localUser: UserCollection,
         postId: string,
-        serviceDataPost: ServiceData,
+        serviceDataPost: SaleData,
         picturePostsUrls: string[],
     ) => {
         const postData = {
@@ -268,13 +184,13 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
         return headerBackgroundAnimatedValue.current.interpolate({
             inputRange: [0, 1],
-            outputRange: [theme.purple2, theme.red2],
+            outputRange: [theme.green2, theme.red2],
         })
     }
 
     return (
         <Container >
-            <StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.green2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={(screenHeight + statusBarHeight) * 0.27}
                 relativeHeight={'22%'}
@@ -288,12 +204,12 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     message={
                         someInvalidFieldSubimitted()
                             ? 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes'
-                            : 'que horas sua loja fecha?'
+                            : 'que horas você \npara de vender?'
                     }
                     highlightedWords={
                         someInvalidFieldSubimitted()
                             ? ['do', 'nosso', 'lado,']
-                            : ['que', 'horas', 'fecha?']
+                            : ['que', 'horas', 'vender?']
                     }
                 >
                     <ProgressBar
@@ -313,14 +229,14 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                         nextInputRef={inputRefs.minutesInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
-                        validBackgroundColor={theme.purple1}
-                        validBorderBottomColor={theme.purple5}
+                        validBackgroundColor={theme.green1}
+                        validBorderBottomColor={theme.green5}
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
                         fontSize={26}
                         invalidTextAfterSubmit={invalidHourAfterSubmit}
-                        placeholder={'14'}
+                        placeholder={'17'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
                         validateText={(text: string) => validateHours(text)}
@@ -334,14 +250,14 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                         previousInputRef={inputRefs.hoursInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
-                        validBackgroundColor={theme.purple1}
-                        validBorderBottomColor={theme.purple5}
+                        validBackgroundColor={theme.green1}
+                        validBorderBottomColor={theme.green5}
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
                         fontSize={26}
                         invalidTextAfterSubmit={invalidMinutesAfterSubmit}
-                        placeholder={'30'}
+                        placeholder={'00'}
                         keyboardType={'decimal-pad'}
                         lastInput={true}
                         filterText={filterLeavingOnlyNumbers}
@@ -353,13 +269,13 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     {
                         hoursIsValid && minutesIsValid && !keyboardOpened &&
                         <PrimaryButton
-                            color={someInvalidFieldSubimitted() ? theme.red3 : theme.purple3}
+                            color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
                             iconName={'arrow-right'}
                             iconColor={theme.white3}
                             label='continuar'
                             labelColor={theme.white3}
                             highlightedWords={['continuar']}
-                            onPress={saveServicePost}
+                            onPress={saveSalePost}
                         />
                     }</>
             </FormContainer>
