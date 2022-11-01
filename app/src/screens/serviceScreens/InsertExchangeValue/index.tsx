@@ -128,11 +128,3 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
 }
 
 export { InsertExchangeValue }
-
-function validateServiceName(serviceName: any) {
-    throw new Error('Function not implemented.');
-}
-function setServiceNameIsValid(validation: void) {
-    throw new Error('Function not implemented.');
-}
-

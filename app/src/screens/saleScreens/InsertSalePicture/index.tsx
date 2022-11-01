@@ -7,7 +7,7 @@ import { theme } from '../../../common/theme'
 import Uncheck from './../../../assets/icons/uncheck.svg'
 import Check from './../../../assets/icons/check.svg'
 
-import { InsertSalePictureScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { InsertSalePictureScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -53,7 +53,7 @@ function InsertSalePicture({ navigation }: InsertSalePictureScreenProps) {
                         highlightedWords={['não', 'precisa,']}
                         SvgIcon={Uncheck}
                         svgIconScale={['22%', '18%']}
-                        onPress={() => {}}
+                        onPress={() => navigation.navigate('SelectPaymentType')}
                     /> 
                     <PrimaryButton
                         flexDirection={'row-reverse'}

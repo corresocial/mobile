@@ -6,7 +6,7 @@ import { theme } from '../../../common/theme'
 import SalesCartO from './../../../assets/icons/salesCart-o.svg'
 import Exchange from './../../../assets/icons/exchange.svg'
 
-import { SelectPaymentTypeScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { SelectPaymentTypeScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
 import { PaymentType } from '../types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -21,15 +21,15 @@ function SelectPaymentType({ navigation }: SelectPaymentTypeScreenProps) {
     const savePaymentType = (paymentType: PaymentType) => {
         switch (paymentType) {
             case 'sale': {
-               /*  navigation.navigate('InsertSaleValue', {}) */
+                navigation.navigate('InsertSaleValue', {})
                 break
             }
             case 'exchange': {
-               /*  navigation.navigate('InsertExchangeValue') */
+                 navigation.navigate('InsertExchangeValue')
                 break
             }
             case 'both': {
-                /* navigation.navigate('InsertSaleValue', {anyPaymentType: true}) */
+                navigation.navigate('InsertSaleValue', { bothPaymentType: true })
                 break
             }
         }
@@ -37,7 +37,7 @@ function SelectPaymentType({ navigation }: SelectPaymentTypeScreenProps) {
 
     return (
         <Container>
-            <StatusBar backgroundColor={theme.white3} barStyle={'dark-content'}/>
+            <StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 relativeHeight={'22%'}
                 centralized

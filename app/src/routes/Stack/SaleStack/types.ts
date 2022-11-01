@@ -9,4 +9,6 @@ export type SaleStackParamList = {
     InsertSalePicture: undefined
     SalePicturePreview: undefined
     SelectPaymentType: undefined
+    InsertSaleValue: {bothPaymentType?: boolean}
+    InsertExchangeValue: undefined
 }

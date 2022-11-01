@@ -6,8 +6,8 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme';
 import Check from './../../../assets/icons/check.svg'
 
-import { InsertItemDescriptionScreenProps } from '../../../routes/Stack/_stackScreenProps';
 import { SaleContext } from '../../../contexts/SaleContext';
+import { InsertItemDescriptionScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -20,7 +20,7 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 function InsertItemDescription({ navigation }: InsertItemDescriptionScreenProps) {
 
-    const { setSaleDataOnContext, saleData } = useContext(SaleContext)
+    const { setSaleDataOnContext } = useContext(SaleContext)
 
     const [itemDescription, setItemDescription] = useState<string>('')
     const [itemDescriptionIsValid, setItemDescriptionIsValid] = useState<boolean>(false)
@@ -55,7 +55,7 @@ function InsertItemDescription({ navigation }: InsertItemDescriptionScreenProps)
 
     const saveItemDescription = () => {
         if (itemDescriptionIsValid) {
-            setSaleDataOnContext({ itemDescription: itemDescription })
+            setSaleDataOnContext({ itemDescription })
             navigation.navigate('InsertSalePicture')
         }
     }

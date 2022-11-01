@@ -1,14 +1,14 @@
-import { Keyboard, StatusBar } from 'react-native';
+import { Animated, Keyboard, StatusBar } from 'react-native';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-import { ButtonsContainer, Container } from './styles';
 import { theme } from '../../../common/theme';
 import { screenHeight } from '../../../common/screenDimensions';
+import { ButtonsContainer, Container } from './styles';
 import Check from './../../../assets/icons/check.svg'
 
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 import { SaleContext } from '../../../contexts/SaleContext';
-import { InsertItemNameScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps';
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
+import { InsertSaleValueScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -17,17 +17,18 @@ import { BackButton } from '../../../components/_buttons/BackButton';
 import { InstructionCard } from '../../../components/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
+import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
 
-function InsertItemName({ navigation }: InsertItemNameScreenProps) {
+function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 
-    const { setSaleDataOnContext} = useContext(SaleContext)
+    const { setSaleDataOnContext } = useContext(SaleContext)
 
-    const [itemName, setItemName] = useState<string>('')
-    const [itemNameIsValid, setItemNameIsValid] = useState<boolean>(false)
+    const [saleValue, setSaleValue] = useState<string>('')
+    const [saleValueIsValid, setSaleValueIsValid] = useState<boolean>(false)
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
-        descriptionInput: useRef<React.MutableRefObject<any>>(null),
+        saleValueInput: useRef<React.MutableRefObject<any>>(null),
     }
 
     useEffect(() => {
@@ -40,11 +41,11 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
     }, [navigation])
 
     useEffect(() => {
-        const validation = validateItemName(itemName)
-        setItemNameIsValid(validation)
-    }, [itemName, keyboardOpened])
+        const validation = validateSaleValue(saleValue)
+        setSaleValueIsValid(validation)
+    }, [saleValue, keyboardOpened])
 
-    const validateItemName = (text: string) => {
+    const validateSaleValue = (text: string) => {
         const isValid = (text).trim().length >= 1
         if (isValid && !keyboardOpened) {
             return true
@@ -52,10 +53,14 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
         return false
     }
 
-    const saveItemName = () => {
-        if (itemNameIsValid) {
-            setSaleDataOnContext({ itemName: itemName })
-            navigation.navigate('InsertItemDescription')
+    const saveSaleValue = () => {
+        if (saleValueIsValid) {
+            setSaleDataOnContext({ saleValue })
+            if (route.params.bothPaymentType) {
+                 navigation.navigate('InsertExchangeValue')
+            } else {
+                // navigation.navigate('InsertServicePrestationLocation')
+            }
         } 
     }
 
@@ -72,12 +77,12 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'que item você vai anunciar?'}
-                    highlightedWords={['item']}
+                    message={'por quanto você vende?'}
+                    highlightedWords={['quanto']}
                 >
                     <ProgressBar
                         range={5}
-                        value={2}
+                        value={3}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -86,28 +91,29 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
                 justifyContent={'center'}
             >
                 <LineInput
-                    value={itemName}
+                    value={saleValue}
                     relativeWidth={'100%'}
-                    textInputRef={inputRefs.descriptionInput}
+                    textInputRef={inputRefs.saleValueInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}
                     validBackgroundColor={theme.green1}
                     validBorderBottomColor={theme.green5}
                     invalidBackgroundColor={theme.red1}
                     invalidBorderBottomColor={theme.red5}
-                    maxLength={100}
                     lastInput={true}
+                    maxLength={100}
                     textAlign={'left'}
-                    fontSize={16}
-                    placeholder={'ex: televisão 40"'}
-                    keyboardType={'default'}
-                    textIsValid={itemNameIsValid && !keyboardOpened}
-                    validateText={(text: string) => validateItemName(text)}
-                    onChangeText={(text: string) => setItemName(text)}
+                    fontSize={20}
+                    placeholder={'ex: 100'}
+                    keyboardType={'numeric'}
+                    filterText={filterLeavingOnlyNumbers}
+                    textIsValid={saleValueIsValid && !keyboardOpened}
+                    validateText={(text: string) => validateSaleValue(text)}
+                    onChangeText={(text: string) => setSaleValue(text)}
                 />
                 <ButtonsContainer>
                     {
-                        itemNameIsValid && !keyboardOpened &&
+                        saleValueIsValid && !keyboardOpened &&
                         <PrimaryButton
                             flexDirection={'row-reverse'}
                             color={theme.green3}
@@ -115,7 +121,7 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
                             labelColor={theme.white3}
                             SvgIcon={Check}
                             svgIconScale={['30%', '15%']}
-                            onPress={saveItemName}
+                            onPress={saveSaleValue}
                         />
                     }
                 </ButtonsContainer>
@@ -124,4 +130,4 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
     );
 }
 
-export { InsertItemName }
+export { InsertSaleValue }

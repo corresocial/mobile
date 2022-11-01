@@ -1,14 +1,13 @@
-import { Keyboard, StatusBar } from 'react-native';
+import { Animated, Keyboard, StatusBar } from 'react-native';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-import { ButtonsContainer, Container } from './styles';
 import { theme } from '../../../common/theme';
 import { screenHeight } from '../../../common/screenDimensions';
+import { ButtonsContainer, Container } from './styles';
 import Check from './../../../assets/icons/check.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 import { SaleContext } from '../../../contexts/SaleContext';
-import { InsertItemNameScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -17,17 +16,18 @@ import { BackButton } from '../../../components/_buttons/BackButton';
 import { InstructionCard } from '../../../components/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
+import { InsertExchangeValueScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps';
 
-function InsertItemName({ navigation }: InsertItemNameScreenProps) {
+function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
 
-    const { setSaleDataOnContext} = useContext(SaleContext)
+    const { setSaleDataOnContext } = useContext(SaleContext)
 
-    const [itemName, setItemName] = useState<string>('')
-    const [itemNameIsValid, setItemNameIsValid] = useState<boolean>(false)
+    const [exchangeValue, setExchangeValue] = useState<string>('')
+    const [exchangeValueIsValid, setExchangeValueIsValid] = useState<boolean>(false)
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
-        descriptionInput: useRef<React.MutableRefObject<any>>(null),
+        exchangeValueInput: useRef<React.MutableRefObject<any>>(null),
     }
 
     useEffect(() => {
@@ -40,11 +40,11 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
     }, [navigation])
 
     useEffect(() => {
-        const validation = validateItemName(itemName)
-        setItemNameIsValid(validation)
-    }, [itemName, keyboardOpened])
+        const validation = validateExchangeValue(exchangeValue)
+        setExchangeValueIsValid(validation)
+    }, [exchangeValue, keyboardOpened])
 
-    const validateItemName = (text: string) => {
+    const validateExchangeValue = (text: string) => {
         const isValid = (text).trim().length >= 1
         if (isValid && !keyboardOpened) {
             return true
@@ -52,11 +52,14 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
         return false
     }
 
-    const saveItemName = () => {
-        if (itemNameIsValid) {
-            setSaleDataOnContext({ itemName: itemName })
-            navigation.navigate('InsertItemDescription')
-        } 
+    const saveExchangeValue = () => {
+        const exchangeValueIsValid = validateExchangeValue(exchangeValue)
+        if (exchangeValueIsValid) {
+            setSaleDataOnContext({ exchangeValue })
+            // navigation.navigate('InsertServicePrestationLocation')
+        } else {
+            !exchangeValueIsValid
+        }
     }
 
     return (
@@ -64,7 +67,7 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
             <StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={screenHeight * 0.26}
-                relativeHeight={'22%'}
+                relativeHeight={'28%'}
                 centralized
                 backgroundColor={theme.green2}
             >
@@ -72,12 +75,12 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'que item você vai anunciar?'}
-                    highlightedWords={['item']}
+                    message={'o que você aceita em troca ?'}
+                    highlightedWords={['o', 'que', 'em', 'troca']}
                 >
                     <ProgressBar
                         range={5}
-                        value={2}
+                        value={3}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -86,9 +89,9 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
                 justifyContent={'center'}
             >
                 <LineInput
-                    value={itemName}
+                    value={exchangeValue}
                     relativeWidth={'100%'}
-                    textInputRef={inputRefs.descriptionInput}
+                    textInputRef={inputRefs.exchangeValueInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}
                     validBackgroundColor={theme.green1}
@@ -96,18 +99,18 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
                     invalidBackgroundColor={theme.red1}
                     invalidBorderBottomColor={theme.red5}
                     maxLength={100}
+                    fontSize={20}
                     lastInput={true}
                     textAlign={'left'}
-                    fontSize={16}
-                    placeholder={'ex: televisão 40"'}
+                    placeholder={'ex: troco por uma marmita'}
                     keyboardType={'default'}
-                    textIsValid={itemNameIsValid && !keyboardOpened}
-                    validateText={(text: string) => validateItemName(text)}
-                    onChangeText={(text: string) => setItemName(text)}
+                    textIsValid={exchangeValueIsValid && !keyboardOpened}
+                    validateText={(text: string) => validateExchangeValue(text)}
+                    onChangeText={(text: string) => setExchangeValue(text)}
                 />
                 <ButtonsContainer>
                     {
-                        itemNameIsValid && !keyboardOpened &&
+                        exchangeValueIsValid && !keyboardOpened &&
                         <PrimaryButton
                             flexDirection={'row-reverse'}
                             color={theme.green3}
@@ -115,7 +118,7 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
                             labelColor={theme.white3}
                             SvgIcon={Check}
                             svgIconScale={['30%', '15%']}
-                            onPress={saveItemName}
+                            onPress={saveExchangeValue}
                         />
                     }
                 </ButtonsContainer>
@@ -124,4 +127,4 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
     );
 }
 
-export { InsertItemName }
+export { InsertExchangeValue }

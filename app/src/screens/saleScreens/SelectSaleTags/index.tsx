@@ -14,7 +14,7 @@ import { theme } from '../../../common/theme'
 import { screenHeight, screenWidth } from '../../../common/screenDimensions'
 import Check from './../../../assets/icons/check.svg'
 
-import { SelectSaleTagsScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { SelectSaleTagsScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
 import { saleCategories, updateSaleTags } from '../saleCategories'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 import { SaleContext } from '../../../contexts/SaleContext'

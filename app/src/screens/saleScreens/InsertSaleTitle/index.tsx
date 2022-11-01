@@ -6,7 +6,7 @@ import { theme } from '../../../common/theme';
 import { screenHeight } from '../../../common/screenDimensions';
 import Check from './../../../assets/icons/check.svg'
 
-import { InsertSaleTitleScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { InsertSaleTitleScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps';
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 import { SaleContext } from '../../../contexts/SaleContext';
 

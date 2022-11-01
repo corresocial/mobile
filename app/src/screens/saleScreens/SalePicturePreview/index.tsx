@@ -5,7 +5,7 @@ import { screenWidth } from '../../../common/screenDimensions';
 import { theme } from '../../../common/theme';
 import CheckIcon from './../../../assets/icons/check.svg'
 
-import { SalePicturePreviewScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { SalePicturePreviewScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps';
 import { SaleContext } from '../../../contexts/SaleContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
