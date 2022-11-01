@@ -10,7 +10,7 @@ export type ServiceStackParamList = {
     SelectServiceTags: {categorySelected: ServiceCategories}
     SelectSaleOrExchange: undefined
     InsertExchangeValue: undefined
-    InsertSaleValue: {anyPaymentType?: boolean}
+    InsertSaleValue: {bothPaymentType?: boolean}
     InsertServicePrestationLocation: undefined
     SelectLocationView: undefined
     LocationViewPreview: {locationView: LocationViewType}

@@ -15,6 +15,7 @@ import { SalePicturePreview } from '../../../screens/saleScreens/SalePicturePrev
 import { SelectPaymentType } from '../../../screens/saleScreens/SelectPaymentType';
 import { InsertSaleValue } from '../../../screens/saleScreens/InsertSaleValue';
 import { InsertExchangeValue } from '../../../screens/saleScreens/InsertExchangeValue';
+import { InsertSaleLocation } from '../../../screens/saleScreens/InsertSaleLocation';
 
 
 const Stack = createStackNavigator<SaleStackParamList>()
@@ -40,6 +41,7 @@ export function SaleStack() {
                 <Stack.Screen name={'SelectPaymentType'} component={SelectPaymentType} />
                 <Stack.Screen name={'InsertSaleValue'} component={InsertSaleValue} />
                 <Stack.Screen name={'InsertExchangeValue'} component={InsertExchangeValue} />
+                <Stack.Screen name={'InsertSaleLocation'} component={InsertSaleLocation} />
             </Stack.Navigator>
         </SaleContext.Provider>
     )

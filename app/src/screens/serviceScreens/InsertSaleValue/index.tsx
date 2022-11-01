@@ -56,7 +56,7 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
     const saveSaleValue = () => {
         if (saleValueIsValid) {
             setServiceDataOnContext({ saleValue })
-            if (route.params.anyPaymentType) {
+            if (route.params.bothPaymentType) {
                 navigation.navigate('InsertExchangeValue')
             } else {
                 navigation.navigate('InsertServicePrestationLocation')

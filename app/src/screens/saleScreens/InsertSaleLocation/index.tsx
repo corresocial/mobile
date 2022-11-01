@@ -6,11 +6,11 @@ import { theme } from '../../../common/theme';
 import { screenHeight, screenWidth, statusBarHeight } from '../../../common/screenDimensions';
 import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from './styles';
 import Check from './../../../assets/icons/check.svg'
-import MapPointPurble from './../../../assets/icons/mapPoint-purple.svg'
 import MapPointOrange from './../../../assets/icons/mapPoint-orange.svg'
 
-import { InsertServicePrestationLocationScreenProps } from '../../../routes/Stack/_stackScreenProps';
-import {  Coordinates } from '../types';
+import { InsertSaleLocationScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps';
+import { SaleContext } from '../../../contexts/SaleContext';
+import { Coordinates } from '../types';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { BackButton } from '../../../components/_buttons/BackButton';
@@ -19,7 +19,6 @@ import { InstructionCard } from '../../../components/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
 import { CustomMapView } from '../../../components/CustomMapView';
-import { ServiceContext } from '../../../contexts/ServiceContext';
 import generateGeohashes from '../../../common/generateGeohashes';
 
 const initialRegion = {
@@ -34,9 +33,9 @@ const defaultDeltaCoordinates = {
     longitudeDelta: 0.003
 }
 
-function InsertServicePrestationLocation({ navigation }: InsertServicePrestationLocationScreenProps) {
+function InsertSaleLocation({ navigation }: InsertSaleLocationScreenProps) {
 
-    const { setServiceDataOnContext } = useContext(ServiceContext)
+    const { setSaleDataOnContext } = useContext(SaleContext)
 
     const [hasPermission, setHasPermission] = useState(false)
     const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(null)
@@ -122,7 +121,7 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
         })
 
         const structuredAddress = structureAddress(geocodeAddress)
-        // const formatedAddress = formatAddress(geocodeAddress) //Address por extenso
+        // const formatedAddress = formatAddress(geocodeAddress) // Address por extenso
         setInvalidAddressAfterSubmit(false)
 
         return structuredAddress
@@ -169,13 +168,13 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
         const completeAddress = await convertGeocodeToAddress(markerCoordinate?.latitude as number, markerCoordinate?.longitude as number)
         const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
-        setServiceDataOnContext({
+        setSaleDataOnContext({
             address: {
                 ...completeAddress,
                 ...geohashObject
             }
         })
-        navigation.navigate('SelectLocationView')
+        // TODO Navigate
     }
 
     const markerCoordinateIsAccuracy = () => {
@@ -194,13 +193,13 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
 
         return headerBackgroundAnimatedValue.current.interpolate({
             inputRange: [0, 1],
-            outputRange: [theme.purple2, theme.red2],
+            outputRange: [theme.green2, theme.red2],
         })
     }
 
     return (
         <Container >
-            <StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.green2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={screenHeight * 0.26}
                 relativeHeight={'22%'}
@@ -215,12 +214,12 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
                     message={
                         someInvalidFieldSubimitted()
                             ? 'não foi possível localizar este endereço'
-                            : 'onde você oferece seu serviço?'
+                            : 'onde você vende seu item?'
                     }
                     highlightedWords={
                         someInvalidFieldSubimitted()
                             ? ['não', 'endereço', 'válido']
-                            : ['onde', 'seu', 'seu', 'serviço?']
+                            : ['onde', 'seu', 'seu', 'item?']
                     }
                 >
                     <ProgressBar
@@ -232,10 +231,10 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
             <LineInput
                 value={address}
                 relativeWidth={'100%'}
-                defaultBackgroundColor={validAddress ? theme.purple1 : theme.white3}
-                defaultBorderBottomColor={validAddress ? theme.purple5 : theme.black4}
-                validBackgroundColor={theme.purple1}
-                validBorderBottomColor={theme.purple5}
+                defaultBackgroundColor={validAddress ? theme.green1 : theme.white3}
+                defaultBorderBottomColor={validAddress ? theme.green5 : theme.black4}
+                validBackgroundColor={theme.green1}
+                validBorderBottomColor={theme.green5}
                 invalidBackgroundColor={theme.red1}
                 invalidBorderBottomColor={theme.red5}
                 textAlign={'left'}
@@ -271,7 +270,7 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
                         highlightedWords={['minha', 'localização']}
                         labelColor={theme.black4}
                         fontSize={16}
-                        SvgIcon={MapPointPurble}
+                        SvgIcon={MapPointOrange}
                         svgIconScale={['60%', '15%']}
                         onPress={getCurrentPositionCoordinated}
                     />
@@ -301,4 +300,4 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
     )
 }
 
-export { InsertServicePrestationLocation }
+export { InsertSaleLocation }

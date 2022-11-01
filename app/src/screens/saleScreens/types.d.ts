@@ -10,3 +10,20 @@ export type SaleCategory = {
 }
 
 export type PaymentType = 'exchange' | 'sale' | 'both' 
+
+export type Coordinates = {
+    latitude: number
+    longitude: number
+    latitudeDelta: number
+    longitudeDelta: number
+}
+
+export type CompleteAddress = {
+    street?: string | null;
+    streetNumber?: string | null;
+    district?: string | null;
+    postalCode?: string | null;
+    city?: string | null;
+    subregion?: string | null;
+    country?: string | null;
+}

@@ -56,9 +56,7 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
         const exchangeValueIsValid = validateExchangeValue(exchangeValue)
         if (exchangeValueIsValid) {
             setSaleDataOnContext({ exchangeValue })
-            // navigation.navigate('InsertServicePrestationLocation')
-        } else {
-            !exchangeValueIsValid
+             navigation.navigate('InsertSaleLocation')
         }
     }
 

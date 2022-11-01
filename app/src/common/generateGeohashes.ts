@@ -9,7 +9,7 @@ export default function generateGeohashes(latitude: number = 0, longitude: numbe
     neighbors(encode(latitude, longitude, 5)),
   );
   return {
-    geohash,
+    // geohash,
     geohashNearby,
     geohashCity,
   };

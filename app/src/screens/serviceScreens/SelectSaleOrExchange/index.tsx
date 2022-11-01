@@ -29,7 +29,7 @@ function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
                 break
             }
             case 'both': {
-                navigation.navigate('InsertSaleValue', {anyPaymentType: true})
+                navigation.navigate('InsertSaleValue', {bothPaymentType: true})
                 break
             }
         }

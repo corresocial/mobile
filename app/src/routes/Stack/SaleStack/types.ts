@@ -11,4 +11,5 @@ export type SaleStackParamList = {
     SelectPaymentType: undefined
     InsertSaleValue: {bothPaymentType?: boolean}
     InsertExchangeValue: undefined
+    InsertSaleLocation: undefined
 }
