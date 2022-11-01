@@ -62,13 +62,11 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
         }
     }
 
-    const statusBarHeight = StatusBar.currentHeight || 0
-
     return (
         <Container >
             <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={(screenHeight + statusBarHeight) * 0.28}
+                minHeight={screenHeight * 0.28}
                 relativeHeight={'26%'}
                 centralized
                 backgroundColor={theme.purple2}

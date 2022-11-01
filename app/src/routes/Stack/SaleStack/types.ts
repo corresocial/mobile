@@ -6,4 +6,5 @@ export type SaleStackParamList = {
     InsertSaleTitle: undefined
     InsertItemName: undefined
     InsertItemDescription: undefined
+    InsertSalePicture: undefined
 }

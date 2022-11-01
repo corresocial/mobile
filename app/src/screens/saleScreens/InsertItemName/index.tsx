@@ -20,7 +20,7 @@ import { ProgressBar } from '../../../components/ProgressBar';
 
 function InsertItemName({ navigation }: InsertItemNameScreenProps) {
 
-    const { setSaleDataOnContext , saleData} = useContext(SaleContext)
+    const { setSaleDataOnContext} = useContext(SaleContext)
 
     const [itemName, setItemName] = useState<string>('')
     const [itemNameIsValid, setItemNameIsValid] = useState<boolean>(false)

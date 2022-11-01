@@ -2,12 +2,12 @@ import { Keyboard, StatusBar } from 'react-native';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles';
-import { screenHeight } from '../../../common/screenDimensions';
+import { screenHeight, statusBarHeight } from '../../../common/screenDimensions';
 import { theme } from '../../../common/theme';
 import Check from './../../../assets/icons/check.svg'
 
 import { InsertItemDescriptionScreenProps } from '../../../routes/Stack/_stackScreenProps';
-import { ServiceContext } from '../../../contexts/ServiceContext';
+import { SaleContext } from '../../../contexts/SaleContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -20,7 +20,7 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 function InsertItemDescription({ navigation }: InsertItemDescriptionScreenProps) {
 
-    const { setServiceDataOnContext } = useContext(ServiceContext)
+    const { setSaleDataOnContext, saleData } = useContext(SaleContext)
 
     const [itemDescription, setItemDescription] = useState<string>('')
     const [itemDescriptionIsValid, setItemDescriptionIsValid] = useState<boolean>(false)
@@ -55,18 +55,16 @@ function InsertItemDescription({ navigation }: InsertItemDescriptionScreenProps)
 
     const saveItemDescription = () => {
         if (itemDescriptionIsValid) {
-            setServiceDataOnContext({ itemDescription: itemDescription })
-            // TODO Navigate
+            setSaleDataOnContext({ itemDescription: itemDescription })
+            navigation.navigate('InsertSalePicture')
         }
     }
-
-    const statusBarHeight = StatusBar.currentHeight || 0
 
     return (
         <Container >
             <StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={(screenHeight + statusBarHeight) * 0.28}
+                minHeight={screenHeight * 0.28}
                 relativeHeight={'26%'}
                 centralized
                 backgroundColor={theme.green2}

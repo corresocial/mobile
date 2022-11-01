@@ -20,7 +20,7 @@ import { ProgressBar } from '../../../components/ProgressBar';
 
 function InsertSaleTitle({ navigation }: InsertSaleTitleScreenProps) {
 
-    const { setSaleDataOnContext, saleData } = useContext(SaleContext)
+    const { setSaleDataOnContext } = useContext(SaleContext)
 
     const [saleTitle, setSaleTitle] = useState<string>('')
     const [saleTitleIsValid, setSaleTitleIsValid] = useState<boolean>(false)
