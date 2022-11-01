@@ -243,12 +243,13 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     ...localUser,
                     tourPerformed: true,
                     posts: [
-                        // ...localUser.posts as any,
-                        /* {  
+                        ...localUser.posts as any, // TODO type
+                        {  
                             ...serviceDataPost,
                             postId: postId,
                             postType: 'service',
-                        }, */
+                            picturesUrl: picturePostsUrls
+                        },
                     ],
                 })
                 console.log('Naviguei')

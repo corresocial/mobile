@@ -31,7 +31,7 @@ export function SaleStack() {
 
     return (
         <SaleContext.Provider value={saleContext}>
-            <Stack.Navigator initialRouteName='SelectDeliveryMethod'
+            <Stack.Navigator initialRouteName='SelectSaleCategory'
                 screenOptions={{
                     headerShown: false,
                     gestureEnabled: true,

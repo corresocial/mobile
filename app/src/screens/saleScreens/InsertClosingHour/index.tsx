@@ -99,7 +99,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
         }
     }
 
-    const extractServiceAddress = (saleData: SaleData) => {
+    const extractSaleAddress = (saleData: SaleData) => {
         return { ...saleData.address }
     }
 
@@ -115,7 +115,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
         return { ...currentSaleData }
     }
 
-    const extractServicePictures = (saleData: SaleData) => {
+    const extractSalePictures = (saleData: SaleData) => {
         return saleData.picturesUrl as string[] || []
     }
 
@@ -123,27 +123,103 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
         return JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
     }
 
-    const updateUserData = async (userId: string, userData: UserCollection) => {
-        await updateUser(userId, {
-            ...userData,
-            tourPerformed: true
-        })
-    }
-
     const saveSalePost = async () => {
-        
+        const completeSaleData = getCompleteSaleDataFromContext()
+        setSaleDataOnContext({ ...completeSaleData })
+
+        console.log(saleData)
+
+        const saleAddress = extractSaleAddress(completeSaleData)
+        const saleDataPost = extractSaleDataPost(completeSaleData)
+        const salePictures = extractSalePictures(completeSaleData)
+
+        try {
+            const localUser = await getLocalUser()
+            if (!localUser.userId) throw 'Não foi possível identificar o usuário'
+
+            const postId = await createPost(saleDataPost, localUser, 'sales')
+            if (!postId) throw 'Não foi possível identificar o post'
+
+            if (!salePictures.length) {
+                await updateUserPost(
+                    localUser,
+                    postId,
+                    saleDataPost,
+                    salePictures
+                )
+
+                await updatePostPrivateData(
+                    saleAddress,
+                    postId,
+                    'sales',
+                    'address'
+                )
+
+                return
+            }
+
+            const picturePostsUrls: string[] = []
+            salePictures.forEach(async (salePicture, index) => {
+                uploadImage(salePicture, 'sales', postId, index).then(
+                    ({ uploadTask, blob }: any) => {
+                        uploadTask.on(
+                            'state_change',
+                            () => { },
+                            (err: any) => {
+                                throw err
+                            },
+                            () => {
+                                getDownloadURL(uploadTask.snapshot.ref)
+                                    .then(
+                                        async (downloadURL) => {
+                                            blob.close()
+                                            picturePostsUrls.push(downloadURL)
+                                            if (picturePostsUrls.length === salePictures.length) {
+                                                await updateUserPost(
+                                                    localUser,
+                                                    postId,
+                                                    saleDataPost,
+                                                    picturePostsUrls
+                                                )
+
+                                                await updateDocField( // Update pictureUrl
+                                                    'sales',
+                                                    postId,
+                                                    'picturesUrl',
+                                                    { ...picturePostsUrls },
+                                                )
+
+                                                await updatePostPrivateData(
+                                                    saleAddress,
+                                                    postId,
+                                                    'sales',
+                                                    'address'
+                                                )
+                                            }
+                                        },
+                                    )
+                            },
+                        )
+                    },
+                )
+            })
+        } catch (err) {
+            console.log(err)
+            setInvalidHourAfterSubmit(true)
+            setInvalidMinutesAfterSubmit(true)
+        }
     }
 
     const updateUserPost = async (
         localUser: UserCollection,
         postId: string,
-        serviceDataPost: SaleData,
+        saleDataPost: SaleData,
         picturePostsUrls: string[],
     ) => {
         const postData = {
-            ...serviceDataPost,
+            ...saleDataPost,
             postId: postId,
-            postType: 'service',
+            postType: 'sale',
             picturesUrl: picturePostsUrls,
         }
 
@@ -159,16 +235,16 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     ...localUser,
                     tourPerformed: true,
                     posts: [
-                        // ...localUser.posts as any,
-                        /* {  
-                            ...serviceDataPost,
+                        ...localUser.posts as any, //TODO Type
+                        {  
+                            ...saleDataPost,
                             postId: postId,
-                            postType: 'service',
-                        }, */
+                            picturesUrl: picturePostsUrls,
+                        },
                     ],
                 })
                 console.log('Naviguei')
-                navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
+                 navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
             })
     }
 

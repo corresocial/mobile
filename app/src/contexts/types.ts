@@ -33,7 +33,7 @@ export type ServiceData = {
     picturesUrl?: string[]
 }
 
-export type SaleData = any
+export type SaleData = any //TODO Type
 
 /* export type PostData {
     localUser,
