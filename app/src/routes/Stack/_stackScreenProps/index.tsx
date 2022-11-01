@@ -42,6 +42,7 @@ export type InsertSaleTitleScreenProps = NativeStackScreenProps<SaleStackParamLi
 export type InsertItemNameScreenProps = NativeStackScreenProps<SaleStackParamList, 'InsertItemName'>
 export type InsertItemDescriptionScreenProps = NativeStackScreenProps<SaleStackParamList, 'InsertItemDescription'>
 export type InsertSalePictureScreenProps = NativeStackScreenProps<SaleStackParamList, 'InsertSalePicture'>
+export type SalePicturePreviewScreenProps = NativeStackScreenProps<SaleStackParamList, 'SalePicturePreview'>
 
 
  

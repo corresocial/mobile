@@ -64,7 +64,7 @@ function InsertSalePicture({ navigation }: InsertSalePictureScreenProps) {
                         highlightedWords={['vou', 'adicionar']}
                         SvgIcon={Check}
                         svgIconScale={['22%', '18%']}
-                        onPress={() => {}}
+                        onPress={() => navigation.navigate('SalePicturePreview')}
                     />
                 </ButtonsContainer>
             </FormContainer>
