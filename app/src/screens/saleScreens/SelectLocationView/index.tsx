@@ -17,7 +17,7 @@ import { ProgressBar } from '../../../components/ProgressBar'
 function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
 
     const saveLocationViewType = (locationViewType: LocationViewType) => {
-        // navigation.navigate('LocationViewPreview', { locationView: locationViewType })
+        navigation.navigate('LocationViewPreview', { locationView: locationViewType })
     }
 
     return (

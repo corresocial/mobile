@@ -34,7 +34,7 @@ export type ServiceData = {
 }
 
 export type SaleData = {
-    
+    address?: any // TODO Remove
 }
 
 /* export type PostData {

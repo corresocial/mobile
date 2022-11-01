@@ -2,16 +2,16 @@ import { LocationViewType, SaleCategories } from "../../../screens/saleScreens/t
 
 export type SaleStackParamList = {
     SelectSaleCategory: undefined
-    SelectSaleTags: {categorySelected: SaleCategories}
+    SelectSaleTags: { categorySelected: SaleCategories }
     InsertSaleTitle: undefined
     InsertItemName: undefined
     InsertItemDescription: undefined
     InsertSalePicture: undefined
     SalePicturePreview: undefined
     SelectPaymentType: undefined
-    InsertSaleValue: {bothPaymentType?: boolean}
+    InsertSaleValue: { bothPaymentType?: boolean }
     InsertExchangeValue: undefined
     InsertSaleLocation: undefined
     SelectLocationView: undefined
-    // LocationViewPreview: {locationView?: LocationViewType}
+    LocationViewPreview: { locationView?: LocationViewType }
 }

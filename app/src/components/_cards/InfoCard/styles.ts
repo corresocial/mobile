@@ -24,6 +24,6 @@ export const Title = styled.Text`
 export const Description = styled.Text`
     width: 100%;
     font-family: Arvo_400Regular;
-    font-size:  ${RFValue(16)}px;
+    font-size:  ${RFValue(14)}px;
     color: ${({ theme }) => theme.black3}
 `

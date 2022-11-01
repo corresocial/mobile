@@ -10,9 +10,9 @@ import Eye from './../../../assets/icons/eye.svg'
 import EyeHalfTraced from './../../../assets/icons/eyeHalfTraced.svg'
 import EyeTraced from './../../../assets/icons/eyeTraced.svg'
 
-import { LocationViewPreviewScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { LocationViewPreviewScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps';
 import { LocationViewType } from '../types';
-import { ServiceContext } from '../../../contexts/ServiceContext';
+import { SaleContext } from '../../../contexts/SaleContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
@@ -26,11 +26,11 @@ const defaultDeltaCoordinates = {
 
 function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenProps) {
 
-    const { serviceData, setServiceDataOnContext } = useContext(ServiceContext)
+    const { saleData, setSaleDataOnContext } = useContext(SaleContext)
 
     const [locationViewSelected, setLocationViewSelected] = useState<LocationViewType>()
     const [markerCoordinate, setMarkerCoordinate] = useState({
-        ...serviceData.address?.coordinates,
+        ...saleData.address?.coordinates,
         ...defaultDeltaCoordinates
     })
 
@@ -45,7 +45,7 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
 
     const getLocationViewTitle = () => {
         switch (locationViewSelected as LocationViewType) {
-            case 'private': return ' localização \nprivada'
+            case 'private': return 'localização \nprivada'
             case 'approximate': return 'localização \naproximada'
             case 'public': return 'localização \npública'
             default: return 'switch option unfount'
@@ -80,17 +80,17 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
     }
 
     const saveLocation = () => {
-        setServiceDataOnContext({ locationView: locationViewSelected })
-        navigation.navigate('SelectDeliveryMethod')
+        setSaleDataOnContext({ locationView: locationViewSelected })
+        // navigation.navigate('SelectDeliveryMethod')
     }
 
     return (
         <Container >
-            <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 relativeHeight={'25%'}
                 centralized
-                backgroundColor={theme.purple2}
+                backgroundColor={theme.green2}
                 borderBottomWidth={0}
             >
                 <InfoCard
@@ -131,7 +131,6 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
                     SvgIcon={Check}
                     svgIconScale={['30%', '20%']}
                     onPress={saveLocation}
-
                 />
             </ButtonContainerBottom>
         </Container>
