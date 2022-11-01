@@ -16,7 +16,7 @@ export const ContainerBottom = styled(Animatable.View)`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    border-radius: ${RFValue(12)}px;
+    border-radius: ${RFValue(13)}px;
     position: relative;
     background-color: ${({ theme }) => theme.black4};
 `
@@ -26,7 +26,7 @@ export const ContainerSurface = styled.View`
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    border-radius:${RFValue(10)}px;
+    border-radius:${RFValue(13)}px;
     border: ${RFValue(2)}px solid black;
     background-color: ${({ theme }) => theme.white3};
     overflow: hidden;

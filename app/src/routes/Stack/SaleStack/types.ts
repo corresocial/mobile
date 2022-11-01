@@ -15,4 +15,5 @@ export type SaleStackParamList = {
     SelectLocationView: undefined
     LocationViewPreview: { locationView?: LocationViewType }
     SelectDeliveryMethod: undefined
+    SelectSaleFrequency: undefined
 }

@@ -15,3 +15,4 @@ export type InsertSaleLocationScreenProps = NativeStackScreenProps<SaleStackPara
 export type SelectLocationViewScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectLocationView'>
 export type LocationViewPreviewScreenProps = NativeStackScreenProps<SaleStackParamList, 'LocationViewPreview'>
 export type SelectDeliveryMethodScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectDeliveryMethod'>
+export type SelectSaleFrequencyScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectSaleFrequency'>

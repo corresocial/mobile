@@ -7,9 +7,9 @@ import CalendarEveryday from './../../../assets/icons/calendarEveryday.svg'
 import CalendarSomeday from './../../../assets/icons/calendarSomeday.svg'
 import CalendarBusinessDay from './../../../assets/icons/calendarBusinessDay.svg'
 
-import { SelectServiceFrequencyScreenProps } from '../../../routes/Stack/_stackScreenProps'
-import { DaysOfWeek, ServiceFrequency } from '../types'
-import { ServiceContext } from '../../../contexts/ServiceContext'
+import { SelectSaleFrequencyScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
+import { DaysOfWeek, SaleFrequency } from '../types'
+import { SaleContext } from '../../../contexts/SaleContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -19,41 +19,41 @@ import { ProgressBar } from '../../../components/ProgressBar'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { StatusBar } from 'react-native'
 
-function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProps) {
+function SelectSaleFrequency({ navigation }: SelectSaleFrequencyScreenProps) {
 
-    const { setServiceDataOnContext } = useContext(ServiceContext)
+    const { setSaleDataOnContext } = useContext(SaleContext)
 
-    const saveServiceFrequency = (serviceFrequency: ServiceFrequency) => {
+    const saveSaleFrequency = (saleFrequency: SaleFrequency) => {
         const daysOfWeek = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'] as DaysOfWeek[]
 
-        switch (serviceFrequency) {
+        switch (saleFrequency) {
             case 'today': {
-                setServiceDataOnContext({
-                    attendanceFrequency: serviceFrequency,
+                setSaleDataOnContext({
+                    attendanceFrequency: saleFrequency,
                     attendanceWeekDays: [daysOfWeek[new Date().getDay()]]
                 })
-                navigation.navigate('InsertOpeningHour')
+                /* navigation.navigate('InsertOpeningHour') */
                 break
             }
             case 'everyday': {
-                setServiceDataOnContext({
-                    attendanceFrequency: serviceFrequency,
+                setSaleDataOnContext({
+                    attendanceFrequency: saleFrequency,
                     attendanceWeekDays: [...daysOfWeek]
                 })
-                navigation.navigate('InsertOpeningHour')
+                /* navigation.navigate('InsertOpeningHour') */
                 break
             }
             case 'someday': {
-                setServiceDataOnContext({ attendanceFrequency: serviceFrequency })
-                navigation.navigate('SelectDaysOfWeek')
+                setSaleDataOnContext({ attendanceFrequency: saleFrequency })
+                /* navigation.navigate('SelectDaysOfWeek') */
                 break
             }
             case 'businessDay': {
-                setServiceDataOnContext({
-                    attendanceFrequency: serviceFrequency,
+                setSaleDataOnContext({
+                    attendanceFrequency: saleFrequency,
                     attendanceWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
                 })
-                navigation.navigate('InsertOpeningHour')
+                /* navigation.navigate('InsertOpeningHour') */
                 break
             }
 
@@ -72,8 +72,8 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'com que frequência você vende/vai vender seu serviço?'}
-                    highlightedWords={['com', 'que', 'frequência', 'seu', 'serviço?']}
+                    message={'com que frequência você está aberto a vender seu item?'}
+                    highlightedWords={['com', 'que', 'frequência', 'vender','seu', 'item?']}
                 >
                     <ProgressBar
                         range={5}
@@ -82,7 +82,7 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
                 </InstructionCard>
             </DefaultHeaderContainer>
             <FormContainer
-                backgroundColor={theme.purple2}
+                backgroundColor={theme.green2}
             >
                 <ButtonsContainer>
                     <OptionButton
@@ -96,7 +96,7 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
                         svgIconScale={['50%', '50%']}
                         leftSideWidth={'20%'}
                         leftSideColor={theme.orange2}
-                        onPress={() => saveServiceFrequency('today')}
+                        onPress={() => saveSaleFrequency('today')}
                     />
                     <OptionButton
                         color={theme.white3}
@@ -109,7 +109,7 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
                         svgIconScale={['50%', '50%']}
                         leftSideWidth={'20%'}
                         leftSideColor={theme.red2}
-                        onPress={() => saveServiceFrequency('everyday')}
+                        onPress={() => saveSaleFrequency('everyday')}
                     />
                     <OptionButton
                         color={theme.white3}
@@ -122,7 +122,7 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
                         svgIconScale={['50%', '50%']}
                         leftSideWidth={'20%'}
                         leftSideColor={theme.yellow2}
-                        onPress={() => saveServiceFrequency('someday')}
+                        onPress={() => saveSaleFrequency('someday')}
                     />
                     <OptionButton
                         color={theme.white3}
@@ -135,7 +135,7 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
                         svgIconScale={['50%', '50%']}
                         leftSideWidth={'20%'}
                         leftSideColor={theme.green2}
-                        onPress={() => saveServiceFrequency('businessDay')}
+                        onPress={() => saveSaleFrequency('businessDay')}
                     />
                 </ButtonsContainer>
             </FormContainer>
@@ -143,4 +143,4 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
     )
 }
 
-export { SelectServiceFrequency }
+export { SelectSaleFrequency }

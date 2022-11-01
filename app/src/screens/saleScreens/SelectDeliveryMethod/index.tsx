@@ -21,7 +21,7 @@ function SelectDeliveryMethod({ navigation }: SelectDeliveryMethodScreenProps) {
     
     const saveDeliveryMethod = (deliveryMethod: DeliveryMethod) => {
         setSaleDataOnContext({deliveryMethod})
-        // navigation.navigate('SelectServiceFrequency')
+        navigation.navigate('SelectSaleFrequency')
     }
 
     return (

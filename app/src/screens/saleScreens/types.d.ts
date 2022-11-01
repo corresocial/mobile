@@ -30,7 +30,7 @@ export type CompleteAddress = {
 
 export type LocationViewType = 'private' | 'approximate' | 'public'
 
-export type ServiceFrequency = 'today' | 'everyday' | 'someday' | 'businessDay'
+export type SaleFrequency = 'today' | 'everyday' | 'someday' | 'businessDay'
 
 export type DeliveryMethod = 'unavailable' | 'near' | 'city' | 'country'
 
