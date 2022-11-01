@@ -30,7 +30,7 @@ export function ServiceStack() {
 
     return (
         <ServiceContext.Provider value={serviceContext}>
-            <Stack.Navigator initialRouteName='InsertProfileDescription'
+            <Stack.Navigator initialRouteName='SelectDeliveryMethod'
                 screenOptions={{
                     headerShown: false,
                     gestureEnabled: true,

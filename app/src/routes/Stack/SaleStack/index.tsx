@@ -18,6 +18,7 @@ import { InsertExchangeValue } from '../../../screens/saleScreens/InsertExchange
 import { InsertSaleLocation } from '../../../screens/saleScreens/InsertSaleLocation';
 import { SelectLocationView } from '../../../screens/saleScreens/SelectLocationView';
 import { LocationViewPreview } from '../../../screens/saleScreens/LocationViewPreview';
+import { SelectDeliveryMethod } from '../../../screens/saleScreens/SelectDeliveryMethod';
 
 
 const Stack = createStackNavigator<SaleStackParamList>()
@@ -26,7 +27,7 @@ export function SaleStack() {
 
     return (
         <SaleContext.Provider value={saleContext}>
-            <Stack.Navigator initialRouteName='SelectSaleCategory'
+            <Stack.Navigator initialRouteName='SelectDeliveryMethod'
                 screenOptions={{
                     headerShown: false,
                     gestureEnabled: true,
@@ -46,6 +47,7 @@ export function SaleStack() {
                 <Stack.Screen name={'InsertSaleLocation'} component={InsertSaleLocation} />
                 <Stack.Screen name={'SelectLocationView'} component={SelectLocationView} />
                 <Stack.Screen name={'LocationViewPreview'} component={LocationViewPreview} />
+                <Stack.Screen name={'SelectDeliveryMethod'} component={SelectDeliveryMethod} />
             </Stack.Navigator>
         </SaleContext.Provider>
     )

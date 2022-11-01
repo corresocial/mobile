@@ -81,7 +81,7 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
 
     const saveLocation = () => {
         setSaleDataOnContext({ locationView: locationViewSelected })
-        // navigation.navigate('SelectDeliveryMethod')
+        navigation.navigate('SelectDeliveryMethod')
     }
 
     return (
