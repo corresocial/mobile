@@ -12,6 +12,7 @@ import { InsertItemName } from '../../../screens/saleScreens/InsertItemName';
 import { InsertItemDescription } from '../../../screens/saleScreens/InsertItemDescription';
 import { InsertSalePicture } from '../../../screens/saleScreens/InsertSalePicture';
 import { SalePicturePreview } from '../../../screens/saleScreens/SalePicturePreview';
+import { SelectPaymentType } from '../../../screens/saleScreens/SelectPaymentType';
 
 
 const Stack = createStackNavigator<SaleStackParamList>()
@@ -34,6 +35,7 @@ export function SaleStack() {
                 <Stack.Screen name={'InsertItemDescription'} component={InsertItemDescription} />
                 <Stack.Screen name={'InsertSalePicture'} component={InsertSalePicture} />
                 <Stack.Screen name={'SalePicturePreview'} component={SalePicturePreview} />
+                <Stack.Screen name={'SelectPaymentType'} component={SelectPaymentType} />
             </Stack.Navigator>
         </SaleContext.Provider>
     )

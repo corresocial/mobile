@@ -39,8 +39,7 @@ function SalePicturePreview({ navigation }: SalePicturePreviewScreenProps) {
 
 	const savePictures = () => {
 		setSaleDataOnContext({ picturesUrl: picturesPack })
-
-		// navigation.navigate('SelectServiceCategory')
+		 navigation.navigate('SelectPaymentType')
 	}
 
 	return (

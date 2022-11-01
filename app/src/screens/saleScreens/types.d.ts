@@ -8,3 +8,5 @@ export type SaleCategory = {
     value: string
     tags: string[]
 }
+
+export type PaymentType = 'exchange' | 'sale' | 'both' 

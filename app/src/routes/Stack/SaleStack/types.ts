@@ -8,4 +8,5 @@ export type SaleStackParamList = {
     InsertItemDescription: undefined
     InsertSalePicture: undefined
     SalePicturePreview: undefined
+    SelectPaymentType: undefined
 }

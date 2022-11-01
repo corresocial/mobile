@@ -6,7 +6,8 @@ import { theme } from '../../../common/theme'
 import SalesCartO from './../../../assets/icons/salesCart-o.svg'
 import Exchange from './../../../assets/icons/exchange.svg'
 
-import { SelectSaleOrExchangeScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { SelectPaymentTypeScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { PaymentType } from '../types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -14,22 +15,21 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
-import { PaymentType } from '../types'
 
-function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
+function SelectPaymentType({ navigation }: SelectPaymentTypeScreenProps) {
 
     const savePaymentType = (paymentType: PaymentType) => {
         switch (paymentType) {
             case 'sale': {
-                navigation.navigate('InsertSaleValue', {})
+               /*  navigation.navigate('InsertSaleValue', {}) */
                 break
             }
             case 'exchange': {
-                navigation.navigate('InsertExchangeValue')
+               /*  navigation.navigate('InsertExchangeValue') */
                 break
             }
             case 'both': {
-                navigation.navigate('InsertSaleValue', {anyPaymentType: true})
+                /* navigation.navigate('InsertSaleValue', {anyPaymentType: true}) */
                 break
             }
         }
@@ -57,7 +57,7 @@ function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
                 </InstructionCard>
             </DefaultHeaderContainer>
             <FormContainer
-                backgroundColor={theme.purple2}
+                backgroundColor={theme.green2}
             >
                 <ButtonsContainer>
                     <PrimaryButton
@@ -105,4 +105,4 @@ function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
     )
 }
 
-export { SelectSaleOrExchange }
+export { SelectPaymentType }
