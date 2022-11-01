@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
 
-import { SelectLocationViewScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { SelectLocationViewScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
 import { LocationViewType } from '../types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -17,12 +17,12 @@ import { ProgressBar } from '../../../components/ProgressBar'
 function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
 
     const saveLocationViewType = (locationViewType: LocationViewType) => {
-        navigation.navigate('LocationViewPreview', { locationView: locationViewType })
+        // navigation.navigate('LocationViewPreview', { locationView: locationViewType })
     }
 
     return (
         <Container>
-            <StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+               <StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 relativeHeight={'28%'}
                 centralized
@@ -42,7 +42,7 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
                 </InstructionCard>
             </DefaultHeaderContainer>
             <FormContainer
-                backgroundColor={theme.purple2}
+                backgroundColor={theme.green2}
             >
                 <ButtonsContainer>
                     <PrimaryButton
@@ -50,7 +50,7 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
                         color={theme.white3}
                         relativeHeight={'18%'}
                         labelColor={theme.black4}
-                        fontSize={18}
+                        fontSize={18 }
                         textAlign={'left'}
                         label={'localização privada'}
                         highlightedWords={[`privada`]}

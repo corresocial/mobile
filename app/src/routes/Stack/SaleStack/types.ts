@@ -1,4 +1,4 @@
-import { SaleCategories } from "../../../screens/saleScreens/types"
+import { LocationViewType, SaleCategories } from "../../../screens/saleScreens/types"
 
 export type SaleStackParamList = {
     SelectSaleCategory: undefined
@@ -12,4 +12,6 @@ export type SaleStackParamList = {
     InsertSaleValue: {bothPaymentType?: boolean}
     InsertExchangeValue: undefined
     InsertSaleLocation: undefined
+    SelectLocationView: undefined
+    // LocationViewPreview: {locationView?: LocationViewType}
 }

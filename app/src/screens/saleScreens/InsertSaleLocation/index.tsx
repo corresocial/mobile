@@ -174,7 +174,7 @@ function InsertSaleLocation({ navigation }: InsertSaleLocationScreenProps) {
                 ...geohashObject
             }
         })
-        // TODO Navigate
+        navigation.navigate('SelectLocationView')
     }
 
     const markerCoordinateIsAccuracy = () => {

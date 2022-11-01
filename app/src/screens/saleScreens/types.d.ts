@@ -27,3 +27,11 @@ export type CompleteAddress = {
     subregion?: string | null;
     country?: string | null;
 }
+
+export type LocationViewType = 'private' | 'approximate' | 'public'
+
+export type ServiceFrequency = 'today' | 'everyday' | 'someday' | 'businessDay'
+
+export type DeliveryMethod = 'unavailable' | 'near' | 'city' | 'country'
+
+export type DaysOfWeek = 'seg' | 'ter' | 'qua' | 'qui' | 'sex' | 'sab' | 'dom' 

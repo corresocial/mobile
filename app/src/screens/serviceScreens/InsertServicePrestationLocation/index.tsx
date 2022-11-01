@@ -6,7 +6,6 @@ import { theme } from '../../../common/theme';
 import { screenHeight, screenWidth, statusBarHeight } from '../../../common/screenDimensions';
 import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from './styles';
 import Check from './../../../assets/icons/check.svg'
-import MapPointPurble from './../../../assets/icons/mapPoint-purple.svg'
 import MapPointOrange from './../../../assets/icons/mapPoint-orange.svg'
 
 import { InsertServicePrestationLocationScreenProps } from '../../../routes/Stack/_stackScreenProps';
@@ -271,7 +270,7 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
                         highlightedWords={['minha', 'localização']}
                         labelColor={theme.black4}
                         fontSize={16}
-                        SvgIcon={MapPointPurble}
+                        SvgIcon={MapPointOrange}
                         svgIconScale={['60%', '15%']}
                         onPress={getCurrentPositionCoordinated}
                     />

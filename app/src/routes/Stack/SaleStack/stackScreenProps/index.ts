@@ -12,3 +12,4 @@ export type SelectPaymentTypeScreenProps = NativeStackScreenProps<SaleStackParam
 export type InsertSaleValueScreenProps = NativeStackScreenProps<SaleStackParamList, 'InsertSaleValue'>
 export type InsertExchangeValueScreenProps = NativeStackScreenProps<SaleStackParamList, 'InsertExchangeValue'>
 export type InsertSaleLocationScreenProps = NativeStackScreenProps<SaleStackParamList, 'InsertSaleLocation'>
+export type SelectLocationViewScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectLocationView'>
