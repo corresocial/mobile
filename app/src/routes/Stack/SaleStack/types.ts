@@ -16,4 +16,5 @@ export type SaleStackParamList = {
     LocationViewPreview: { locationView?: LocationViewType }
     SelectDeliveryMethod: undefined
     SelectSaleFrequency: undefined
+    SelectDaysOfWeek: undefined
 }

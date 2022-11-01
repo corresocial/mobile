@@ -16,3 +16,4 @@ export type SelectLocationViewScreenProps = NativeStackScreenProps<SaleStackPara
 export type LocationViewPreviewScreenProps = NativeStackScreenProps<SaleStackParamList, 'LocationViewPreview'>
 export type SelectDeliveryMethodScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectDeliveryMethod'>
 export type SelectSaleFrequencyScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectSaleFrequency'>
+export type SelectDaysOfWeekScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectDaysOfWeek'>

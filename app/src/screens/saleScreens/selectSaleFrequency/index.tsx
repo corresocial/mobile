@@ -45,7 +45,7 @@ function SelectSaleFrequency({ navigation }: SelectSaleFrequencyScreenProps) {
             }
             case 'someday': {
                 setSaleDataOnContext({ attendanceFrequency: saleFrequency })
-                /* navigation.navigate('SelectDaysOfWeek') */
+                navigation.navigate('SelectDaysOfWeek')
                 break
             }
             case 'businessDay': {
