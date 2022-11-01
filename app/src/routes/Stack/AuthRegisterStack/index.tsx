@@ -17,7 +17,7 @@ const Stack = createStackNavigator<AuthRegisterStackParamList>()
 
 export function AuthRegisterStack() {
     return (
-        <Stack.Navigator initialRouteName='Splash'
+        <Stack.Navigator initialRouteName='UserStack'
             screenOptions={{
                 headerShown: false,
                 gestureEnabled: true,

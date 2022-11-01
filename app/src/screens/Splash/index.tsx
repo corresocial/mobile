@@ -42,13 +42,13 @@ function Splash({ navigation }: SplashScreenProps) {
                 await setRemoteUserOnLocal(userObject.userId)
                 navigation.navigate('UserStack', { tourPerformed: userObject.tourPerformed }) 
             } else {
-                // navigation.navigate('AcceptAndContinue')
-                throw 'Usuário não authenticado localmente!' // Faz com que o usuário fique em loop
+                navigation.navigate('AcceptAndContinue')
+                // throw 'Usuário não authenticado localmente!' // Faz com que o usuário fique em loop
             }
         } catch (err) {
-            setTimeout(() => {
+            /* setTimeout(() => { // Faz com que o usuário fique em loop
                 redirectToApp()
-            }, 3000)
+            }, 3000) */
         }
     }
 

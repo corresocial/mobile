@@ -6,7 +6,7 @@ import { theme } from '../../../common/theme';
 import { screenHeight } from '../../../common/screenDimensions';
 import Check from './../../../assets/icons/check.svg'
 
-import { InsertSaleTitleScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { InsertItemNameScreenProps } from '../../../routes/Stack/_stackScreenProps';
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 import { SaleContext } from '../../../contexts/SaleContext';
 
@@ -18,12 +18,12 @@ import { InstructionCard } from '../../../components/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
 
-function InsertSaleTitle({ navigation }: InsertSaleTitleScreenProps) {
+function InsertItemName({ navigation }: InsertItemNameScreenProps) {
 
-    const { setSaleDataOnContext, saleData } = useContext(SaleContext)
+    const { setSaleDataOnContext , saleData} = useContext(SaleContext)
 
-    const [saleTitle, setSaleTitle] = useState<string>('')
-    const [saleTitleIsValid, setSaleTitleIsValid] = useState<boolean>(false)
+    const [itemName, setItemName] = useState<string>('')
+    const [itemNameIsValid, setItemNameIsValid] = useState<boolean>(false)
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
@@ -40,11 +40,11 @@ function InsertSaleTitle({ navigation }: InsertSaleTitleScreenProps) {
     }, [navigation])
 
     useEffect(() => {
-        const validation = validateSaleTitle(saleTitle)
-        setSaleTitleIsValid(validation)
-    }, [saleTitle, keyboardOpened])
+        const validation = validateItemName(itemName)
+        setItemNameIsValid(validation)
+    }, [itemName, keyboardOpened])
 
-    const validateSaleTitle = (text: string) => {
+    const validateItemName = (text: string) => {
         const isValid = (text).trim().length >= 1
         if (isValid && !keyboardOpened) {
             return true
@@ -52,11 +52,12 @@ function InsertSaleTitle({ navigation }: InsertSaleTitleScreenProps) {
         return false
     }
 
-    const saveSaleTitle = () => {
-        if (saleTitleIsValid) {
-            setSaleDataOnContext({ title: saleTitle })
-            navigation.navigate('InsertItemName')
-        }
+    const saveItemName = () => {
+        if (itemNameIsValid) {
+            setSaleDataOnContext({ itemName: itemName })
+            console.log(saleData)
+            // TODO Navigate 
+        } 
     }
 
     return (
@@ -72,8 +73,8 @@ function InsertSaleTitle({ navigation }: InsertSaleTitleScreenProps) {
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'qual vai ser o título do seu anúncio?'}
-                    highlightedWords={['título', 'anúncio?']}
+                    message={'que item você vai anunciar?'}
+                    highlightedWords={['item']}
                 >
                     <ProgressBar
                         range={5}
@@ -86,7 +87,7 @@ function InsertSaleTitle({ navigation }: InsertSaleTitleScreenProps) {
                 justifyContent={'center'}
             >
                 <LineInput
-                    value={saleTitle}
+                    value={itemName}
                     relativeWidth={'100%'}
                     textInputRef={inputRefs.descriptionInput}
                     defaultBackgroundColor={theme.white2}
@@ -101,13 +102,13 @@ function InsertSaleTitle({ navigation }: InsertSaleTitleScreenProps) {
                     fontSize={16}
                     placeholder={'ex: televisão 40"'}
                     keyboardType={'default'}
-                    textIsValid={saleTitleIsValid && !keyboardOpened}
-                    validateText={(text: string) => validateSaleTitle(text)}
-                    onChangeText={(text: string) => setSaleTitle(text)}
+                    textIsValid={itemNameIsValid && !keyboardOpened}
+                    validateText={(text: string) => validateItemName(text)}
+                    onChangeText={(text: string) => setItemName(text)}
                 />
                 <ButtonsContainer>
                     {
-                        saleTitleIsValid && !keyboardOpened &&
+                        itemNameIsValid && !keyboardOpened &&
                         <PrimaryButton
                             flexDirection={'row-reverse'}
                             color={theme.green3}
@@ -115,7 +116,7 @@ function InsertSaleTitle({ navigation }: InsertSaleTitleScreenProps) {
                             labelColor={theme.white3}
                             SvgIcon={Check}
                             svgIconScale={['30%', '15%']}
-                            onPress={saveSaleTitle}
+                            onPress={saveItemName}
                         />
                     }
                 </ButtonsContainer>
@@ -124,4 +125,4 @@ function InsertSaleTitle({ navigation }: InsertSaleTitleScreenProps) {
     );
 }
 
-export { InsertSaleTitle }
+export { InsertItemName }

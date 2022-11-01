@@ -39,6 +39,7 @@ export type InsertClosingHourScreenProps = NativeStackScreenProps<ServiceStackPa
 export type SelectSaleCategoryScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectSaleCategory'>
 export type SelectSaleTagsScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectSaleTags'>
 export type InsertSaleTitleScreenProps = NativeStackScreenProps<SaleStackParamList, 'InsertSaleTitle'>
+export type InsertItemNameScreenProps = NativeStackScreenProps<SaleStackParamList, 'InsertItemName'>
 
 
  

@@ -4,4 +4,5 @@ export type SaleStackParamList = {
     SelectSaleCategory: undefined
     SelectSaleTags: {categorySelected: SaleCategories}
     InsertSaleTitle: undefined
+    InsertItemName: undefined
 }
