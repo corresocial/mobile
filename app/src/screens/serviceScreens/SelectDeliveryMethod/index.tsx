@@ -4,8 +4,8 @@ import { StatusBar } from 'react-native'
 import { Container, ButtonsContainer } from './styles'
 import { theme } from '../../../common/theme'
 
-import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/_stackScreenProps'
-import { DeliveryMethod } from '../types'
+import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
+import { DeliveryMethod } from '../../../services/Firebase/types'
 import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'

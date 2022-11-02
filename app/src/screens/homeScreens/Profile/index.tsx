@@ -19,7 +19,7 @@ import { theme } from '../../../common/theme'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { AuthContext } from '../../../contexts/AuthContext'
-import { HomeTabScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { FinishedTourModal } from '../../../components/_modals/FinishedTourModal'
 

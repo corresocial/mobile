@@ -14,7 +14,7 @@ import {
   FIREBASE_messagingSenderId,
   FIREBASE_appId,
   FIREBASE_measurementId
-} from '@env'; 
+} from '@env' 
 
 const firebaseConfig = {
   apiKey: FIREBASE_apiKey,

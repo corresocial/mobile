@@ -14,7 +14,7 @@ import { theme } from '../../../common/theme'
 import { screenHeight, screenWidth, statusBarHeight } from '../../../common/screenDimensions'
 import Check from './../../../assets/icons/check.svg'
 
-import { SelectServiceTagsScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { SelectServiceTagsScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { serviceCategories, updateServiceTags } from '../serviceCategories'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 import { ServiceContext } from '../../../contexts/ServiceContext'

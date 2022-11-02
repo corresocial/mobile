@@ -9,8 +9,8 @@ import Check from './../../../assets/icons/check.svg'
 import MapPointOrange from './../../../assets/icons/mapPoint-orange.svg'
 
 import { InsertSaleLocationScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps';
+import { Coordinates } from '../../../services/Firebase/types';
 import { SaleContext } from '../../../contexts/SaleContext';
-import { Coordinates } from '../types';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { BackButton } from '../../../components/_buttons/BackButton';

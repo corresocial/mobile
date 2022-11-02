@@ -5,10 +5,10 @@ import { Container } from './styles';
 import { theme } from '../../../common/theme';
 
 import updateUser from '../../../services/Firebase/user/updateUser';
+import { RegisterUserData } from '../../../contexts/types';
 import { AuthContext } from '../../../contexts/AuthContext';
-import { RegisterUserData } from '../types';
 
-import { InsertProfilePictureScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { InsertProfilePictureScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps';
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';

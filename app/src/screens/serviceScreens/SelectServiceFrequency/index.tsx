@@ -7,8 +7,8 @@ import CalendarEveryday from './../../../assets/icons/calendarEveryday.svg'
 import CalendarSomeday from './../../../assets/icons/calendarSomeday.svg'
 import CalendarBusinessDay from './../../../assets/icons/calendarBusinessDay.svg'
 
-import { SelectServiceFrequencyScreenProps } from '../../../routes/Stack/_stackScreenProps'
-import { DaysOfWeek, ServiceFrequency } from '../types'
+import { SelectServiceFrequencyScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
+import { DaysOfWeek, WeekdaysFrequency } from '../../../services/Firebase/types'
 import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -23,7 +23,7 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
 
     const { setServiceDataOnContext } = useContext(ServiceContext)
 
-    const saveServiceFrequency = (serviceFrequency: ServiceFrequency) => {
+    const saveServiceFrequency = (serviceFrequency: WeekdaysFrequency) => {
         const daysOfWeek = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'] as DaysOfWeek[]
 
         switch (serviceFrequency) {

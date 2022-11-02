@@ -6,7 +6,7 @@ import { theme } from '../../../common/theme';
 import ShoppingBag from './../../../assets/icons/shoppingBag.svg'
 import SalesCart from './../../../assets/icons/salesCart.svg'
 
-import { WelcomeNewUserScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { WelcomeNewUserScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps';
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
 import { InstructionCard } from '../../../components/InstructionCard';

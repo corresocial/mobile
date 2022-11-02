@@ -7,7 +7,7 @@ import SalesCartO from './../../../assets/icons/salesCart-o.svg'
 import Exchange from './../../../assets/icons/exchange.svg'
 
 import { SelectPaymentTypeScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
-import { PaymentType } from '../types'
+import { PaymentType } from './../../../services/Firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'

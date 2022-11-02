@@ -6,7 +6,7 @@ import { theme } from '../../../common/theme';
 import { screenHeight } from '../../../common/screenDimensions';
 import Check from './../../../assets/icons/check.svg'
 
-import { InsertServiceNameScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { InsertServiceNameScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps';
 import { ServiceContext } from '../../../contexts/ServiceContext';
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 

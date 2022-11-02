@@ -8,7 +8,7 @@ import CalendarSomeday from './../../../assets/icons/calendarSomeday.svg'
 import CalendarBusinessDay from './../../../assets/icons/calendarBusinessDay.svg'
 
 import { SelectSaleFrequencyScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
-import { DaysOfWeek, SaleFrequency } from '../types'
+import { DaysOfWeek, WeekdaysFrequency } from './../../../services/Firebase/types'
 import { SaleContext } from '../../../contexts/SaleContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -23,7 +23,7 @@ function SelectSaleFrequency({ navigation }: SelectSaleFrequencyScreenProps) {
 
     const { setSaleDataOnContext } = useContext(SaleContext)
 
-    const saveSaleFrequency = (saleFrequency: SaleFrequency) => {
+    const saveSaleFrequency = (saleFrequency: WeekdaysFrequency) => {
         const daysOfWeek = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'] as DaysOfWeek[]
 
         switch (saleFrequency) {

@@ -9,7 +9,7 @@ import Suitcase from './../../../assets/icons/suitcase-yellow.svg'
 import Heart from './../../../assets/icons/heart-red.svg'
 import SoundTools from './../../../assets/icons/soundTools-blue.svg'
 
-import { SelectPostTypeScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { SelectPostTypeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'

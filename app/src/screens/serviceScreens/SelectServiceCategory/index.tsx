@@ -4,8 +4,8 @@ import { ScrollView, StatusBar } from 'react-native'
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
 
-import { SelectServiceCategoryScreenProps } from '../../../routes/Stack/_stackScreenProps'
-import { ServiceCategories, ServiceCategory } from '../types'
+import { SelectServiceCategoryScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
+import { ServiceCategories, MacroCategory } from '../../../services/Firebase/types'
 import { serviceCategories } from '../serviceCategories'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -36,7 +36,7 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
         })
     }
 
-    const sortServiceCategories = (a: ServiceCategory, b: ServiceCategory) => {
+    const sortServiceCategories = (a: MacroCategory, b: MacroCategory) => {
         if (a.label < b.label) return -1;
         if (a.label > b.label) return 1;
         return 0;

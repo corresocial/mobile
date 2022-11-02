@@ -7,7 +7,7 @@ import { theme } from '../../../common/theme'
 import Uncheck from './../../../assets/icons/uncheck.svg'
 import Check from './../../../assets/icons/check.svg'
 
-import { InsertServicePictureScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { InsertServicePictureScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'

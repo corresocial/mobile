@@ -10,8 +10,8 @@ import Eye from './../../../assets/icons/eye.svg'
 import EyeHalfTraced from './../../../assets/icons/eyeHalfTraced.svg'
 import EyeTraced from './../../../assets/icons/eyeTraced.svg'
 
-import { LocationViewPreviewScreenProps } from '../../../routes/Stack/_stackScreenProps';
-import { LocationViewType } from '../types';
+import { LocationViewPreviewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps';
+import { LocationViewType } from './../../../services/Firebase/types'
 import { ServiceContext } from '../../../contexts/ServiceContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';

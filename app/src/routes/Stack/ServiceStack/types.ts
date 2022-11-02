@@ -1,4 +1,4 @@
-import { LocationViewType,  ServiceCategories } from "../../../screens/serviceScreens/types"
+import { LocationViewType, ServiceCategories } from '../../../services/Firebase/types'
 
 export type ServiceStackParamList = {
     SelectPostType: undefined

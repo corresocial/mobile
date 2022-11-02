@@ -4,8 +4,8 @@ import { ScrollView, StatusBar } from 'react-native'
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
 
-import { SelectSaleCategoryScreenProps } from '../../../routes/Stack/_stackScreenProps'
-import { SaleCategories, SaleCategory } from '../types'
+import { SelectSaleCategoryScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
+import { SaleCategories, MacroCategory } from './../../../services/Firebase/types'
 import { saleCategories } from '../saleCategories'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -36,7 +36,7 @@ function SelectSaleCategory({ navigation }: SelectSaleCategoryScreenProps) {
         })
     }
 
-    const sortSaleCategories = (a: SaleCategory, b: SaleCategory) => {
+    const sortSaleCategories = (a: MacroCategory, b: MacroCategory) => {
         if (a.label < b.label) return -1;
         if (a.label > b.label) return 1;
         return 0

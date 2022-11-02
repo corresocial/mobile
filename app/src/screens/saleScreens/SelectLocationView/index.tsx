@@ -5,7 +5,7 @@ import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
 
 import { SelectLocationViewScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
-import { LocationViewType } from '../types'
+import { LocationViewType } from './../../../services/Firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'

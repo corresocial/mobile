@@ -15,7 +15,7 @@ import Logo from './../../../assets/icons/logo.svg'
 
 import { AuthContext } from '../../../contexts/AuthContext';
 
-import { AcceptAndContinueScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { AcceptAndContinueScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps';
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { TermsOfServiceModal } from '../../../components/_modals/TermsOfServiceModal';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';

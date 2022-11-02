@@ -1,4 +1,4 @@
-import { serviceCategories } from './serviceCategories';
+/* import { serviceCategories } from './serviceCategories';
 
 export type ServiceCategories = keyof typeof serviceCategories
 
@@ -33,4 +33,4 @@ export type ServiceCategory = {
     label: string
     value: string
     tags: string[]
-}
+} */

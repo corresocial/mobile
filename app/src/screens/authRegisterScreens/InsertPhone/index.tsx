@@ -1,4 +1,4 @@
-import { Alert, Animated, StatusBar } from 'react-native';
+import {  Animated, StatusBar } from 'react-native';
 import React, { useContext, useRef, useState } from 'react'
 
 import { Container, InputsContainer } from './styles';
@@ -9,7 +9,7 @@ const firebaseConfig = Firebase ? Firebase.options : undefined;
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
 import { AuthContext } from '../../../contexts/AuthContext';
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
-import { InsertPhoneScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { InsertPhoneScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';

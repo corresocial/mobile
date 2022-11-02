@@ -4,8 +4,8 @@ import { StatusBar } from 'react-native'
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
 
-import { SelectLocationViewScreenProps } from '../../../routes/Stack/_stackScreenProps'
-import { LocationViewType } from '../types'
+import { SelectLocationViewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
+import { LocationViewType } from '../../../services/Firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'

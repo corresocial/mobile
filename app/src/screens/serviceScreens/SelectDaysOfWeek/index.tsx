@@ -11,8 +11,9 @@ import { theme } from '../../../common/theme'
 import { screenHeight, screenWidth } from '../../../common/screenDimensions'
 import Check from './../../../assets/icons/check.svg'
 
-import { SelectDaysOfWeekScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { SelectDaysOfWeekScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { ServiceContext } from '../../../contexts/ServiceContext'
+import { DaysOfWeek } from '../../../services/Firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -21,7 +22,6 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
-import { DaysOfWeek } from '../types'
 
 function SelectDaysOfWeek({ navigation }: SelectDaysOfWeekScreenProps) {
 

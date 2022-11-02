@@ -6,7 +6,8 @@ import { theme } from '../../../common/theme'
 import SalesCartO from './../../../assets/icons/salesCart-o.svg'
 import Exchange from './../../../assets/icons/exchange.svg'
 
-import { SelectSaleOrExchangeScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { SelectSaleOrExchangeScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
+import { PaymentType } from '../../../services/Firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -14,7 +15,6 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
-import { PaymentType } from '../types'
 
 function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
 

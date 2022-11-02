@@ -21,7 +21,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
-import { DaysOfWeek } from '../types'
+import { DaysOfWeek } from './../../../services/Firebase/types'
 
 function SelectDaysOfWeek({ navigation }: SelectDaysOfWeekScreenProps) {
 

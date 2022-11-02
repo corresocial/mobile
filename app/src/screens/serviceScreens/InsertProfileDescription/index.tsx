@@ -6,7 +6,7 @@ import { screenHeight } from '../../../common/screenDimensions';
 import { theme } from '../../../common/theme';
 import Check from './../../../assets/icons/check.svg'
 
-import { InsertProfileDescriptionScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { InsertProfileDescriptionScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps';
 import { ServiceContext } from '../../../contexts/ServiceContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';

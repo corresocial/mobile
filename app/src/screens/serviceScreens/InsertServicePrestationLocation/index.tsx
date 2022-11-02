@@ -8,8 +8,8 @@ import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from 
 import Check from './../../../assets/icons/check.svg'
 import MapPointOrange from './../../../assets/icons/mapPoint-orange.svg'
 
-import { InsertServicePrestationLocationScreenProps } from '../../../routes/Stack/_stackScreenProps';
-import {  Coordinates } from '../types';
+import { InsertServicePrestationLocationScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps';
+import {  Coordinates } from './../../../services/Firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { BackButton } from '../../../components/_buttons/BackButton';

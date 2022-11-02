@@ -8,8 +8,8 @@ import { theme } from '../../../common/theme';
 import updateUser from '../../../services/Firebase/user/updateUser';
 import uploadImage from '../../../services/Firebase/common/uploadPicture';
 import { AuthContext } from '../../../contexts/AuthContext';
-import { LocalUserData, UserCollection } from '../../../services/Firebase/types';
-import { ProfilePicturePreviewScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { ProfilePicturePreviewScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps';
+import { LocalUserData } from '../../../contexts/types';
 import updateUserPrivateData from '../../../services/Firebase/user/updateUserPrivateData';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';

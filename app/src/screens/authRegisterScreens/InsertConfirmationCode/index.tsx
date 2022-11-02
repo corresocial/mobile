@@ -5,9 +5,9 @@ import { UserCredential } from 'firebase/auth';
 import { Container, InputsContainer } from './styles';
 import { theme } from '../../../common/theme';
 
-import { UserIdentification } from '../types';
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
-import { InsertConfirmationCodeScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { InsertConfirmationCodeScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps';
+import { UserIdentification } from '../../../contexts/types';
 import { AuthContext } from '../../../contexts/AuthContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';

@@ -7,15 +7,14 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { InsertClosingHourScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { InsertClosingHourScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 import { SaleContext } from '../../../contexts/SaleContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 import uploadImage from '../../../services/Firebase/common/uploadPicture'
 import { getDownloadURL } from 'firebase/storage'
 import createPost from '../../../services/Firebase/post/createPost'
 import updateDocField from '../../../services/Firebase/common/updateDocField'
-import { UserCollection } from '../../../services/Firebase/types'
-import { SaleData } from '../../../contexts/types'
+import { LocalUserData, SaleData } from '../../../contexts/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -26,6 +25,7 @@ import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 import updateUser from '../../../services/Firebase/user/updateUser'
 import updatePostPrivateData from '../../../services/Firebase/post/updatePostPrivateData'
+import { PrivateAddress } from '../../../services/Firebase/types'
 
 function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
@@ -100,17 +100,12 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
     }
 
     const extractSaleAddress = (saleData: SaleData) => {
-        return { ...saleData.address }
-    }
-
-    const extractUserData = (saleData: SaleData) => {
-        return { description: saleData.profileDescription }
+        return { ...saleData.address } as PrivateAddress
     }
 
     const extractSaleDataPost = (saleData: SaleData) => {
         const currentSaleData = { ...saleData }
         delete currentSaleData.address
-        delete currentSaleData.profileDescription
 
         return { ...currentSaleData }
     }
@@ -211,7 +206,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
     }
 
     const updateUserPost = async (
-        localUser: UserCollection,
+        localUser: LocalUserData,
         postId: string,
         saleDataPost: SaleData,
         picturePostsUrls: string[],

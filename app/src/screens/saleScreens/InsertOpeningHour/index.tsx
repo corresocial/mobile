@@ -6,7 +6,7 @@ import { theme } from '../../../common/theme';
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { InsertOpeningHourScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { InsertOpeningHourScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps';
 import { SaleContext } from '../../../contexts/SaleContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';

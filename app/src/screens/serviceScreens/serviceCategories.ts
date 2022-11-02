@@ -1,4 +1,4 @@
-import { ServiceCategories } from "./types"
+import { ServiceCategories } from './../../services/Firebase/types'
 
 export const updateServiceTags = (category: ServiceCategories, tag: string) => {
     serviceCategories[category].tags = [...serviceCategories[category].tags, tag]

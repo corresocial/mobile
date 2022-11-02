@@ -5,7 +5,7 @@ import { Container, InputsContainer } from './styles';
 import { theme } from '../../../common/theme';
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { InsertNameScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { InsertNameScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps';
 import { AuthContext } from '../../../contexts/AuthContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
@@ -13,7 +13,6 @@ import { FormContainer } from '../../../components/_containers/FormContainer';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { InstructionCard } from '../../../components/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
-import { async } from '@firebase/util';
 
 function InsertName({ navigation, route }: InsertNameScreenProps) {
 

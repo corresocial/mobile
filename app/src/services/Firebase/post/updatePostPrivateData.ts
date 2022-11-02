@@ -4,9 +4,9 @@ import {
     setDoc
 } from 'firebase/firestore';
 import { firestore } from '../Firebase';
-import { PostCollection, PostCollectionType } from '../types';
+import { PostCollection, PostCollectionType, PrivateAddress } from '../types';
 
-async function updatePostPrivateData(data: PostCollection, postId: string, postCollection: PostCollectionType, privateField: string = '') {
+async function updatePostPrivateData(data: PrivateAddress, postId: string, postCollection: PostCollectionType, privateField: string = '') {
     try {
         try {
             const docRef = doc(firestore, postCollection, postId, 'private', privateField)

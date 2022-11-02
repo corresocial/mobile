@@ -11,13 +11,13 @@ import EyeHalfTraced from './../../../assets/icons/eyeHalfTraced.svg'
 import EyeTraced from './../../../assets/icons/eyeTraced.svg'
 
 import { LocationViewPreviewScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps';
-import { LocationViewType } from '../types';
 import { SaleContext } from '../../../contexts/SaleContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { CustomMapView } from '../../../components/CustomMapView';
 import { InfoCard } from '../../../components/_cards/InfoCard';
+import { LocationViewType } from '../../../services/Firebase/types';
 
 const defaultDeltaCoordinates = {
     latitudeDelta: 0.004,

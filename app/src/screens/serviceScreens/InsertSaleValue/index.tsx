@@ -6,7 +6,7 @@ import { screenHeight } from '../../../common/screenDimensions';
 import { ButtonsContainer, Container } from './styles';
 import Check from './../../../assets/icons/check.svg'
 
-import { InsertSaleValueScreenProps } from '../../../routes/Stack/_stackScreenProps';
+import { InsertSaleValueScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps';
 import { ServiceContext } from '../../../contexts/ServiceContext';
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 

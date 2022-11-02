@@ -7,15 +7,15 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { InsertClosingHourScreenProps } from '../../../routes/Stack/_stackScreenProps'
+import { InsertClosingHourScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { ServiceContext } from '../../../contexts/ServiceContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 import uploadImage from '../../../services/Firebase/common/uploadPicture'
 import { getDownloadURL } from 'firebase/storage'
 import createPost from '../../../services/Firebase/post/createPost'
 import updateDocField from '../../../services/Firebase/common/updateDocField'
-import { UserCollection } from '../../../services/Firebase/types'
-import { ServiceData } from '../../../contexts/types'
+import { PrivateAddress, ServiceCollection, UserCollection } from '../../../services/Firebase/types'
+import { LocalUserData, ServiceData } from '../../../contexts/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -99,7 +99,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
     }
 
     const extractServiceAddress = (serviceData: ServiceData) => {
-        return { ...serviceData.address }
+        return { ...serviceData.address } as PrivateAddress
     }
 
     const extractUserData = (serviceData: ServiceData) => {
@@ -111,7 +111,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
         delete currentServiceData.address
         delete currentServiceData.profileDescription
 
-        return { ...currentServiceData }
+        return { ...currentServiceData } as ServiceCollection
     }
 
     const extractServicePictures = (serviceData: ServiceData) => {
@@ -219,7 +219,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
     }
 
     const updateUserPost = async (
-        localUser: UserCollection,
+        localUser: LocalUserData,
         postId: string,
         serviceDataPost: ServiceData,
         picturePostsUrls: string[],
