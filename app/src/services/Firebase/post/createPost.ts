@@ -6,7 +6,7 @@ import { LocalUserData } from '../../../contexts/types';
 import { firestore } from '../Firebase';
 import { PostCollectionType ,PostCollection} from '../types';
 
-export default async function createPost(post: PostCollection, user: LocalUserData, postCollection: PostCollectionType) { // TODO Type
+export default async function createPost(post: PostCollection, user: LocalUserData, postCollection: PostCollectionType) { 
     try {
         const docRef = await addDoc(collection(firestore, postCollection), {
             ...post,

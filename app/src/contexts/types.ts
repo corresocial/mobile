@@ -20,6 +20,10 @@ export interface LocalUserData extends UserCollection {
     userIdentification: UserIdentification
 }
 
+export type LocalUserPost = {
+    
+}
+
 export type ServiceData = {
     profileDescription?: string // on context
     address?: {

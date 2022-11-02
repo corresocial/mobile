@@ -15,6 +15,7 @@ import { getDownloadURL } from 'firebase/storage'
 import createPost from '../../../services/Firebase/post/createPost'
 import updateDocField from '../../../services/Firebase/common/updateDocField'
 import { LocalUserData, SaleData } from '../../../contexts/types'
+import { PostCollection, PrivateAddress } from '../../../services/Firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -25,7 +26,6 @@ import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 import updateUser from '../../../services/Firebase/user/updateUser'
 import updatePostPrivateData from '../../../services/Firebase/post/updatePostPrivateData'
-import { PrivateAddress } from '../../../services/Firebase/types'
 
 function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
@@ -230,7 +230,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     ...localUser,
                     tourPerformed: true,
                     posts: [
-                        ...localUser.posts as any, //TODO Type
+                        ...localUser.posts as PostCollection[], //TODO Type
                         {  
                             ...saleDataPost,
                             postId: postId,

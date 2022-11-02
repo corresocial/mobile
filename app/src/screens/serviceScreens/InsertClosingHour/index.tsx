@@ -14,7 +14,7 @@ import uploadImage from '../../../services/Firebase/common/uploadPicture'
 import { getDownloadURL } from 'firebase/storage'
 import createPost from '../../../services/Firebase/post/createPost'
 import updateDocField from '../../../services/Firebase/common/updateDocField'
-import { PrivateAddress, ServiceCollection, UserCollection } from '../../../services/Firebase/types'
+import { PostCollection, PrivateAddress, ServiceCollection, UserCollection } from '../../../services/Firebase/types'
 import { LocalUserData, ServiceData } from '../../../contexts/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -243,7 +243,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     ...localUser,
                     tourPerformed: true,
                     posts: [
-                        ...localUser.posts as any, // TODO type
+                        ...localUser.posts as PostCollection[],
                         {  
                             ...serviceDataPost,
                             postId: postId,

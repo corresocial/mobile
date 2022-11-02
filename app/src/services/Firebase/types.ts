@@ -45,7 +45,7 @@ export type UserCollection = {
     tags?: string[]
     createdAt?: Date
     updatedAt?: Date
-    posts?: ServiceCollection | SaleCollection
+    posts?: PostCollection[]
     ads?: AdsCollection[]
     locationView?: LocationViewType
     cellNumber?: string // private
