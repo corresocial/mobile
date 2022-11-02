@@ -112,6 +112,7 @@ export type ServiceCollection = {
     openingHour?: Date
     closingHour?: Date
     picturesUrl?: string[]
+    createdAt?: Date
 }
 
 export type SaleCollection = {
@@ -146,6 +147,7 @@ export type SaleCollection = {
     openingHour?: Date
     closingHour?: Date
     picturesUrl?: string[]
+    createdAt?: Date
 }
 
 export type AdsCollection = {
