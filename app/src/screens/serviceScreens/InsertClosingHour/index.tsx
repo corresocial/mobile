@@ -289,12 +289,12 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     message={
                         someInvalidFieldSubimitted()
                             ? 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes'
-                            : 'que horas sua loja fecha?'
+                            : 'que horas você para de trabalhar?'
                     }
                     highlightedWords={
                         someInvalidFieldSubimitted()
                             ? ['do', 'nosso', 'lado,']
-                            : ['que', 'horas', 'fecha?']
+                            : ['que', 'horas', 'para', 'de', 'trabalhar?']
                     }
                 >
                     <ProgressBar
