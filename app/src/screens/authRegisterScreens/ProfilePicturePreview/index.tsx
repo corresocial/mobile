@@ -107,7 +107,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 									})
 
 									await updateUserPrivateData(
-										{ cellNumber: userData.userPhone },
+										{ cellNumber: userData.cellNumber },
 										userData.userIdentification.uid,
 										'contacts',
 									)

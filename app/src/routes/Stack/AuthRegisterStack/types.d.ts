@@ -1,23 +1,23 @@
 export type AuthRegisterStackParamList = {
     Splash: undefined
     AcceptAndContinue: undefined
-    InsertPhone: undefined
+    InsertCellNumber: undefined
     InsertConfirmationCode: {
-        userPhone: string,
+        cellNumber: string,
         verificationCodeId: string | void
     }
     InsertName: {
-        userPhone: string
+        cellNumber: string
         userIdentification: UserIdentification
     }
     InsertProfilePicture: {
-        userPhone: string,
+        cellNumber: string,
         userName: string,
         profilePictureUrl?: string[]
         userIdentification: UserIdentification
     }
     ProfilePicturePreview: {
-        userPhone: string,
+        cellNumber: string,
         userName: string,
         profilePictureUrl?: string[]
         userIdentification: UserIdentification

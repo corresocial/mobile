@@ -1,4 +1,4 @@
-import {  Animated, StatusBar } from 'react-native';
+import { Animated, StatusBar } from 'react-native';
 import React, { useContext, useRef, useState } from 'react'
 
 import { Container, InputsContainer } from './styles';
@@ -7,9 +7,9 @@ import { theme } from '../../../common/theme';
 import Firebase from '../../../services/Firebase/Firebase';
 const firebaseConfig = Firebase ? Firebase.options : undefined;
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
-import { AuthContext } from '../../../contexts/AuthContext';
+import { AuthContext, useAuth } from '../../../contexts/AuthContext';
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
-import { InsertPhoneScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps';
+import { InsertCellNumberScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -32,20 +32,21 @@ const headerMessages = {
 	}
 }
 
-export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
+export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 
-	const { sendSMS } = useContext(AuthContext);
+	const { sendSMS, setUserDataOnContext } = useContext(AuthContext);
+
 	const recaptchaVerifier = React.useRef(null);
 
 	const [DDD, setDDD] = useState<string>('')
-	const [phone, setPhone] = useState<string>('')
+	const [cellNumber, setCellNumber] = useState<string>('')
 	const [invalidDDDAfterSubmit, setInvalidDDDAfterSubmit] = useState<boolean>(false)
-	const [invalidPhoneAfterSubmit, setInvalidPhoneAfterSubmit] = useState<boolean>(false)
+	const [invalidCellNumberAfterSubmit, setInvalidCellNumberAfterSubmit] = useState<boolean>(false)
 	const [hasServerSideError, setHasServerSideError] = useState(false)
 
 	const inputRefs = {
 		DDDInput: useRef<React.MutableRefObject<any>>(null),
-		phoneInput: useRef<React.MutableRefObject<any>>(null)
+		cellNumberInput: useRef<React.MutableRefObject<any>>(null)
 	}
 
 	const validateDDD = (text: string) => {
@@ -59,31 +60,32 @@ export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 		return false
 	}
 
-	const validatePhone = (text: string) => {
+	const validateCellNumber = (text: string) => {
 		setHasServerSideError(false)
 
 		const isValid = text.length == 9
 		if (isValid) {
-			setInvalidPhoneAfterSubmit(false)
+			setInvalidCellNumberAfterSubmit(false)
 			return true
 		}
 		return false
 	}
 
 	const someInvalidFieldSubimitted = () => {
-		return invalidDDDAfterSubmit || invalidPhoneAfterSubmit
+		return invalidDDDAfterSubmit || invalidCellNumberAfterSubmit
 	}
 
 	const getVeficationCode = async () => {
 		const DDDIsValid = validateDDD(DDD)
-		const phoneIsValid = validatePhone(phone)
+		const cellNumberIsValid = validateCellNumber(cellNumber)
 
-		const completePhone = `+55${DDD}${phone}`
+		const completeCellNumber = `+55${DDD}${cellNumber}`
 
-		if (DDDIsValid && phoneIsValid) {
-			await sendSMS(completePhone, recaptchaVerifier.current)
+		if (DDDIsValid && cellNumberIsValid) {
+			await sendSMS(completeCellNumber, recaptchaVerifier.current)
 				.then(verificationCodeId => {
-					return navigation.navigate('InsertConfirmationCode', { userPhone: completePhone, verificationCodeId: verificationCodeId })
+					//  setUserDataOnContext({ cellNumber: completeCellNumber, verificationCodeId: verificationCodeId })
+					navigation.navigate('InsertConfirmationCode', { cellNumber: completeCellNumber, verificationCodeId: verificationCodeId })
 				})
 				.catch((err) => {
 					console.log(err)
@@ -91,7 +93,7 @@ export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 				})
 		} else {
 			!DDDIsValid && setInvalidDDDAfterSubmit(true)
-			!phoneIsValid && setInvalidPhoneAfterSubmit(true)
+			!cellNumberIsValid && setInvalidCellNumberAfterSubmit(true)
 		}
 	}
 
@@ -125,7 +127,7 @@ export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 
 	return (
 		<Container >
-			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError? theme.red2 :theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
 			<FirebaseRecaptchaVerifierModal
 				ref={recaptchaVerifier}
 				firebaseConfig={firebaseConfig}
@@ -148,7 +150,7 @@ export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 						value={DDD}
 						relativeWidth={'18%'}
 						textInputRef={inputRefs.DDDInput}
-						nextInputRef={inputRefs.phoneInput}
+						nextInputRef={inputRefs.cellNumberInput}
 						defaultBackgroundColor={theme.white2}
 						defaultBorderBottomColor={theme.black4}
 						validBackgroundColor={theme.purple1}
@@ -165,9 +167,9 @@ export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 						onChangeText={(text: string) => setDDD(text)}
 					/>
 					<LineInput
-						value={phone}
+						value={cellNumber}
 						relativeWidth={'77%'}
-						textInputRef={inputRefs.phoneInput}
+						textInputRef={inputRefs.cellNumberInput}
 						previousInputRef={inputRefs.DDDInput}
 						defaultBackgroundColor={theme.white2}
 						defaultBorderBottomColor={theme.black4}
@@ -176,14 +178,14 @@ export function InsertPhone({ navigation }: InsertPhoneScreenProps) {
 						invalidBackgroundColor={theme.red1}
 						invalidBorderBottomColor={theme.red5}
 						maxLength={9}
-						invalidTextAfterSubmit={invalidPhoneAfterSubmit}
+						invalidTextAfterSubmit={invalidCellNumberAfterSubmit}
 						placeholder={'123451234'}
 						keyboardType={'decimal-pad'}
 						error={hasServerSideError}
 						lastInput={true}
 						filterText={filterLeavingOnlyNumbers}
-						validateText={(text: string) => validatePhone(text)}
-						onChangeText={(text: string) => setPhone(text)}
+						validateText={(text: string) => validateCellNumber(text)}
+						onChangeText={(text: string) => setCellNumber(text)}
 					/>
 				</InputsContainer>
 				<PrimaryButton

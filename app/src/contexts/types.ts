@@ -9,7 +9,7 @@ export type UserIdentification = {
 }
 
 export type RegisterUserData = {
-    userPhone: string
+    cellNumber: string
     userName: string
     profilePictureUri?: string
     userIdentification: UserIdentification
@@ -17,7 +17,14 @@ export type RegisterUserData = {
 
 export interface LocalUserData extends UserCollection {
     userId?: string,
-    userIdentification: UserIdentification
+    userIdentification?: UserIdentification
+}
+
+export interface UserData extends UserCollection {
+    userId?: string,
+    userIdentification?: UserIdentification,
+    verificationCodeId?: string,
+    cellNumber?: string
 }
 
 export type LocalUserPost = { //TODO Posts locais do usuario

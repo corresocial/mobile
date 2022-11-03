@@ -13,7 +13,7 @@ import LogoSVG from './../../assets/icons/logo.svg'
 
 import { SplashScreenProps } from '../../routes/Stack/AuthRegisterStack/stackScreenProps';
 import { AuthContext } from '../../contexts/AuthContext';
-import { LocalUserData } from '../../contexts/types';
+import { UserData } from '../../contexts/types';
 
 function Splash({ navigation }: SplashScreenProps) {
     const { getDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
@@ -38,7 +38,7 @@ function Splash({ navigation }: SplashScreenProps) {
             const userJSON = await getDataFromSecureStore('corre.user', true) // Remove ".teste" to run correctly
 
             if (localUserIsValid(userJSON)) {
-                const userObject: LocalUserData = JSON.parse(userJSON as string)
+                const userObject: UserData = JSON.parse(userJSON as string)
                 await setRemoteUserOnLocal(userObject.userId)
                 navigation.navigate('UserStack', { tourPerformed: userObject.tourPerformed }) 
             } else {
@@ -46,6 +46,7 @@ function Splash({ navigation }: SplashScreenProps) {
                 // throw 'Usuário não authenticado localmente!' // Faz com que o usuário fique em loop
             }
         } catch (err) {
+            // navigation.navigate('AcceptAndContinue')
             /* setTimeout(() => { // Faz com que o usuário fique em loop
                 redirectToApp()
             }, 3000) */
@@ -55,7 +56,7 @@ function Splash({ navigation }: SplashScreenProps) {
     const localUserIsValid = (userJSON: any) => {
         try {
             if (!userJSON) return false
-            const userObject: LocalUserData = JSON.parse(userJSON as string)
+            const userObject: UserData = JSON.parse(userJSON as string)
             return Object.keys(userObject).includes('userId') && Object.keys(userObject).includes('name')
         } catch (err) {
             console.log(err)

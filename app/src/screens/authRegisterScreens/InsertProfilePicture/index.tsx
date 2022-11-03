@@ -67,7 +67,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		})
 
 		await updateUserPrivateData(
-			{ cellNumber: userData.userPhone },
+			{ cellNumber: userData.cellNumber },
 			userData.userIdentification.uid,
 			'contacts',
 		)

@@ -79,7 +79,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 
 	const sendUserDataToNextScreen = async () => {
 		const nameIsValid = validateName(name)
-		// const userPhone = route.params.userPhone
+		// const cellNumber = route.params.cellNumber
 
 		if (nameIsValid) {
 			const userData = getRouteParams()

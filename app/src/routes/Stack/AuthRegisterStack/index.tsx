@@ -6,36 +6,39 @@ import { AuthRegisterStackParamList } from './types';
 
 import { Splash } from '../../../screens/Splash';
 import { AcceptAndContinue } from '../../../screens/authRegisterScreens/AcceptAndContinue'
-import { InsertPhone } from '../../../screens/authRegisterScreens/InsertPhone';
+import { InsertCellNumber } from '../../../screens/authRegisterScreens/InsertCellNumber';
 import { InsertConfirmationCode } from '../../../screens/authRegisterScreens/InsertConfirmationCode';
 import { InsertName } from '../../../screens/authRegisterScreens/InsertName';
 import { InsertProfilePicture } from '../../../screens/authRegisterScreens/InsertProfilePicture';
 import { ProfilePicturePreview } from '../../../screens/authRegisterScreens/ProfilePicturePreview';
 import { UserStack } from '../UserStack';
+import { AuthProvider } from '../../../contexts/AuthContext';
 
 const Stack = createStackNavigator<AuthRegisterStackParamList>()
 
 export function AuthRegisterStack() {
     return (
-        <Stack.Navigator initialRouteName='Splash'
-            screenOptions={{
-                headerShown: false,
-                gestureEnabled: true,
-                ...TransitionPresets.SlideFromRightIOS,
-            }}
-        >
-            <Stack.Screen name={'Splash'} component={Splash} />
-            <Stack.Screen name={'AcceptAndContinue'} component={AcceptAndContinue}
-                options={{
-                    ...TransitionPresets.FadeFromBottomAndroid
-                }} />
-            <Stack.Screen name={'InsertPhone'} component={InsertPhone} />
-            <Stack.Screen name={'InsertConfirmationCode'} component={InsertConfirmationCode} />
-            <Stack.Screen name={'InsertName'} component={InsertName} />
-            <Stack.Screen name={'InsertProfilePicture'} component={InsertProfilePicture} />
-            <Stack.Screen name={'ProfilePicturePreview'} component={ProfilePicturePreview} />
+        <AuthProvider>
+            <Stack.Navigator initialRouteName='Splash'
+                screenOptions={{
+                    headerShown: false,
+                    gestureEnabled: true,
+                    ...TransitionPresets.SlideFromRightIOS,
+                }}
+            >
+                <Stack.Screen name={'Splash'} component={Splash} />
+                <Stack.Screen name={'AcceptAndContinue'} component={AcceptAndContinue}
+                    options={{
+                        ...TransitionPresets.FadeFromBottomAndroid
+                    }} />
+                <Stack.Screen name={'InsertCellNumber'} component={InsertCellNumber} />
+                <Stack.Screen name={'InsertConfirmationCode'} component={InsertConfirmationCode} />
+                <Stack.Screen name={'InsertName'} component={InsertName} />
+                <Stack.Screen name={'InsertProfilePicture'} component={InsertProfilePicture} />
+                <Stack.Screen name={'ProfilePicturePreview'} component={ProfilePicturePreview} />
 
-            <Stack.Screen name={'UserStack'} component={UserStack} />
-        </Stack.Navigator>
+                <Stack.Screen name={'UserStack'} component={UserStack} />
+            </Stack.Navigator>
+        </AuthProvider>
     )
 }

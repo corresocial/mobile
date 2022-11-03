@@ -18,8 +18,8 @@ import { LineInput } from '../../../components/LineInput';
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
 
-	const { validateVerificationCode, setRemoteUserOnLocal } = useContext(AuthContext)
-
+	const { userDataContext, setUserDataOnContext, validateVerificationCode, setRemoteUserOnLocal } = useContext(AuthContext)
+	
 	const [inputCode01, setInputCode01] = useState<string>('')
 	const [inputCode02, setInputCode02] = useState<string>('')
 	const [inputCode03, setInputCode03] = useState<string>('')
@@ -101,15 +101,18 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		const completeCodeIsValid = completeCode.length == 6
 
 		if (completeCodeIsValid) {
-			const userPhone = route.params.userPhone
-			const verificationCodeId = route.params.verificationCodeId as string
+			/* const cellNumber = userDataContext.cellNumber
+			const verificationCodeId = userDataContext.verificationCodeId as string */
+			const cellNumber = route.params.cellNumber
+			const verificationCodeId = route.params.verificationCodeId as string 
 
 			validateVerificationCode(verificationCodeId, completeCode)
 				.then(async (userCredential: UserCredential) => {
 					const userIdentification = await extractUserIdentification(userCredential)
 					await setRemoteUserOnLocal(userIdentification.uid)
+					// setUserDataOnContext({ userIdentification })
 					return navigation.navigate('InsertName', {
-						userPhone,
+						cellNumber: cellNumber ,
 						userIdentification: userIdentification
 					})
 				})

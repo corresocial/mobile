@@ -56,7 +56,7 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
     }
 
     const navigateToInsertPhoneScreen = () => {
-        navigation.navigate('InsertPhone')
+        navigation.navigate('InsertCellNumber')
     }
 
     const cleanLocalStorage = async () => { // TODO DevOnly
