@@ -15,7 +15,7 @@ import { getDownloadURL } from 'firebase/storage'
 import createPost from '../../../services/Firebase/post/createPost'
 import updateDocField from '../../../services/Firebase/common/updateDocField'
 import { LocalUserData, SaleData } from '../../../contexts/types'
-import { PostCollection, PrivateAddress } from '../../../services/Firebase/types'
+import { PostCollection, PrivateAddress, SaleCollection } from '../../../services/Firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -29,7 +29,7 @@ import updatePostPrivateData from '../../../services/Firebase/post/updatePostPri
 
 function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
-    const { setSaleDataOnContext, saleData } = useContext(SaleContext)
+    const { setSaleDataOnContext, saleDataContext } = useContext(SaleContext)
     const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
 
     const [hours, setHours] = useState<string>('')
@@ -87,14 +87,14 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
     }
 
     const closingTimeIsAfterOpening = (hoursValidation?: string, minutesValidation?: string) => {
-        const openingHour = new Date(saleData.openingHour as Date)
+        const openingHour = new Date(saleDataContext.openingHour as Date)
         const closingHour = new Date(Date.UTC(2022, 1, 1, parseInt(!!hoursValidation ? hoursValidation : hours), parseInt(!!minutesValidation ? minutesValidation : '59'), 0, 0))
         return openingHour < closingHour
     }
 
     const getCompleteSaleDataFromContext = () => {
         return {
-            ...saleData,
+            ...saleDataContext,
             closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
         }
     }
@@ -107,7 +107,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
         const currentSaleData = { ...saleData }
         delete currentSaleData.address
 
-        return { ...currentSaleData }
+        return { ...currentSaleData as SaleCollection}
     }
 
     const extractSalePictures = (saleData: SaleData) => {
@@ -121,8 +121,6 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
     const saveSalePost = async () => {
         const completeSaleData = getCompleteSaleDataFromContext()
         setSaleDataOnContext({ ...completeSaleData })
-
-        console.log(saleData)
 
         const saleAddress = extractSaleAddress(completeSaleData)
         const saleDataPost = extractSaleDataPost(completeSaleData)
@@ -231,7 +229,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     tourPerformed: true,
                     posts: [
                         ...localUser.posts as PostCollection[], //TODO Type
-                        {  
+                        {
                             ...saleDataPost,
                             postId: postId,
                             picturesUrl: picturePostsUrls,
@@ -239,7 +237,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     ],
                 })
                 console.log('Naviguei')
-                 navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
+                navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
             })
     }
 

@@ -1,4 +1,4 @@
-import { Animated, Keyboard, StatusBar } from 'react-native';
+import {  Keyboard, StatusBar } from 'react-native';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { theme } from '../../../common/theme';

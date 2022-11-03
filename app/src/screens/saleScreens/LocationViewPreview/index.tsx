@@ -26,11 +26,11 @@ const defaultDeltaCoordinates = {
 
 function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenProps) {
 
-    const { saleData, setSaleDataOnContext } = useContext(SaleContext)
+    const { saleDataContext, setSaleDataOnContext } = useContext(SaleContext)
 
     const [locationViewSelected, setLocationViewSelected] = useState<LocationViewType>()
     const [markerCoordinate, setMarkerCoordinate] = useState({
-        ...saleData.address?.coordinates,
+        ...saleDataContext.address?.coordinates,
         ...defaultDeltaCoordinates
     })
 

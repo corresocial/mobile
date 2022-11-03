@@ -42,7 +42,7 @@ export type ServiceData = {
         geohash?: string
         geohashNear?: string[]
         geohashCity?: string[]
-    } ,
+    },
     title?: string
     tags?: string[]
     paymentType?: PaymentType
@@ -67,19 +67,19 @@ export type SaleData = {
         street?: string
         number?: string
         reference?: string
-        coordinates: {
-            latitude: number
-            longitude: number
+        coordinates?: {
+            latitude?: number
+            longitude?: number
         }
-        geohash: string
-        geohashNear: string[]
-        geohashCity: string[]
+        geohash?: string
+        geohashNear?: string[]
+        geohashCity?: string[]
     },
-    title: string
-    itemName: string
-    itemDescription: string
-    tags: string[]
-    paymentType: PaymentType
+    title?: string
+    itemName?: string
+    itemDescription?: string
+    tags?: string[]
+    paymentType?: PaymentType
     saleValue?: string
     exchangeValue?: string
     locationView?: LocationViewType

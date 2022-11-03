@@ -3,7 +3,7 @@ import React from 'react'
 import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 
 import { SaleStackParamList } from './types';
-import { saleContext, SaleContext } from '../../../contexts/SaleContext';
+import { SaleProvider } from '../../../contexts/SaleContext';
 
 import { SelectSaleCategory } from '../../../screens/saleScreens/SelectSaleCategory';
 import { SelectSaleTags } from '../../../screens/saleScreens/SelectSaleTags';
@@ -30,7 +30,7 @@ const Stack = createStackNavigator<SaleStackParamList>()
 export function SaleStack() {
 
     return (
-        <SaleContext.Provider value={saleContext}>
+        <SaleProvider>
             <Stack.Navigator initialRouteName='SelectSaleCategory'
                 screenOptions={{
                     headerShown: false,
@@ -57,6 +57,6 @@ export function SaleStack() {
                 <Stack.Screen name={'InsertOpeningHour'} component={InsertOpeningHour} />
                 <Stack.Screen name={'InsertClosingHour'} component={InsertClosingHour} />
             </Stack.Navigator>
-        </SaleContext.Provider>
+        </SaleProvider>
     )
 }

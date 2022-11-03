@@ -13,6 +13,7 @@ import Check from './../../../assets/icons/check.svg'
 
 import { SelectDaysOfWeekScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
 import { SaleContext } from '../../../contexts/SaleContext'
+import { DaysOfWeek } from './../../../services/Firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -21,13 +22,12 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
-import { DaysOfWeek } from './../../../services/Firebase/types'
 
 function SelectDaysOfWeek({ navigation }: SelectDaysOfWeekScreenProps) {
 
     const { setSaleDataOnContext } = useContext(SaleContext)
 
-    const [selectedDays, setSelectedDays] = useState<string[]>([])
+    const [selectedDays, setSelectedDays] = useState<DaysOfWeek[]>([])
     const daysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
 
     const renderDaysOfWeek = () => {
@@ -63,7 +63,7 @@ function SelectDaysOfWeek({ navigation }: SelectDaysOfWeekScreenProps) {
         })
     }
 
-    const onSelectDay = (dayOfWeek: string) => {
+    const onSelectDay = (dayOfWeek: DaysOfWeek) => {
         const selectedDaysOfWeek = [...selectedDays]
         if (selectedDays.includes(dayOfWeek)) {
             const selectedDaysFiltred = selectedDaysOfWeek.filter((day) => day != dayOfWeek)
