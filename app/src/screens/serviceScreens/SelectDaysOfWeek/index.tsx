@@ -27,7 +27,7 @@ function SelectDaysOfWeek({ navigation }: SelectDaysOfWeekScreenProps) {
 
     const { setServiceDataOnContext } = useContext(ServiceContext)
 
-    const [selectedDays, setSelectedDays] = useState<string[]>([])
+    const [selectedDays, setSelectedDays] = useState<DaysOfWeek[]>([])
     const daysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
 
     const renderDaysOfWeek = () => {
@@ -63,7 +63,7 @@ function SelectDaysOfWeek({ navigation }: SelectDaysOfWeekScreenProps) {
         })
     }
 
-    const onSelectDay = (dayOfWeek: string) => {
+    const onSelectDay = (dayOfWeek: DaysOfWeek) => {
         const selectedDaysOfWeek = [...selectedDays]
         if (selectedDays.includes(dayOfWeek)) {
             const selectedDaysFiltred = selectedDaysOfWeek.filter((day) => day != dayOfWeek)

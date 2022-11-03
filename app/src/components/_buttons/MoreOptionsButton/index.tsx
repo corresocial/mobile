@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Entypo } from '@expo/vector-icons';
 
 import { ContainerBottom, ContainerSurface, TouchableContainer } from './styles';
 import { theme } from '../../../common/theme';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { VacancyContext } from '../../../contexts/VacancyContext';
+import { LoaderContext } from '../../../contexts/LoaderContext';
 
 interface MoreOptionsButtonProps {
     color: string
@@ -17,9 +19,10 @@ function MoreOptionsButton({
     height,
     width,
     onPress }: MoreOptionsButtonProps) {
+
     const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
 
-    function pressingButton() {
+    function pressingButton() { 
         setButtomPressed(true)
     }
 

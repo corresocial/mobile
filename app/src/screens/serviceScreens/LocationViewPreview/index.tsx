@@ -26,11 +26,11 @@ const defaultDeltaCoordinates = {
 
 function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenProps) {
 
-    const { serviceData, setServiceDataOnContext } = useContext(ServiceContext)
+    const { serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
 
     const [locationViewSelected, setLocationViewSelected] = useState<LocationViewType>()
     const [markerCoordinate, setMarkerCoordinate] = useState({
-        ...serviceData.address?.coordinates,
+        ...serviceDataContext?.address?.coordinates,
         ...defaultDeltaCoordinates
     })
 
@@ -63,7 +63,7 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
 
     const getLocationViewHighlightedWords = () => {
         switch (locationViewSelected as LocationViewType) {
-            case 'private': return ['\nprivada', 'não', 'tem','acesso','a', 'sua', 'localização.']
+            case 'private': return ['\nprivada', 'não', 'tem', 'acesso', 'a', 'sua', 'localização.']
             case 'approximate': return ['\naproximada', 'a', 'sua', 'região', 'aproximada.']
             case 'public': return ['\npública', 'exatamente', 'onde', 'você', 'está.']
             default: return []

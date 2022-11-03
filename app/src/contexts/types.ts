@@ -11,17 +11,17 @@ export type UserIdentification = {
 export type RegisterUserData = {
     userPhone: string
     userName: string
-    profilePictureUri?: string 
+    profilePictureUri?: string
     userIdentification: UserIdentification
 }
 
 export interface LocalUserData extends UserCollection {
-    userId?: string, 
+    userId?: string,
     userIdentification: UserIdentification
 }
 
-export type LocalUserPost = {
-    
+export type LocalUserPost = { //TODO Posts locais do usuario
+
 }
 
 export type ServiceData = {
@@ -35,16 +35,17 @@ export type ServiceData = {
         street?: string
         number?: string
         reference?: string
-        coordinates: {
-            latitude: number
-            longitude: number
-        } 
-        geohash: string
-        geohashNear: string[]
-        geohashCity: string[]
-    },
-    tags: string[]
-    paymentType: PaymentType
+        coordinates?: {
+            latitude?: number
+            longitude?: number
+        }
+        geohash?: string
+        geohashNear?: string[]
+        geohashCity?: string[]
+    } ,
+    title?: string
+    tags?: string[]
+    paymentType?: PaymentType
     saleValue?: string
     exchangeValue?: string
     locationView?: LocationViewType
@@ -69,7 +70,7 @@ export type SaleData = {
         coordinates: {
             latitude: number
             longitude: number
-        } 
+        }
         geohash: string
         geohashNear: string[]
         geohashCity: string[]
@@ -88,4 +89,8 @@ export type SaleData = {
     openingHour?: Date
     closingHour?: Date
     picturesUrl?: string[]
+}
+
+export type VacancyData = {
+
 }

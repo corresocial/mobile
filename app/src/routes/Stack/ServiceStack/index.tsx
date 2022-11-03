@@ -21,7 +21,7 @@ import { SelectServiceFrequency } from '../../../screens/serviceScreens/SelectSe
 import { SelectDaysOfWeek } from '../../../screens/serviceScreens/SelectDaysOfWeek';
 import { InsertOpeningHour } from '../../../screens/serviceScreens/InsertOpeningHour';
 import { InsertClosingHour } from '../../../screens/serviceScreens/InsertClosingHour';
-import { serviceContext, ServiceContext } from '../../../contexts/ServiceContext';
+import { ServiceProvider, ServiceContext } from '../../../contexts/ServiceContext';
 
 
 const Stack = createStackNavigator<ServiceStackParamList>()
@@ -29,7 +29,7 @@ const Stack = createStackNavigator<ServiceStackParamList>()
 export function ServiceStack() {
 
     return (
-        <ServiceContext.Provider value={serviceContext}>
+        <ServiceProvider>
             <Stack.Navigator initialRouteName='InsertProfileDescription'
                 screenOptions={{
                     headerShown: false,
@@ -55,6 +55,6 @@ export function ServiceStack() {
                 <Stack.Screen name={'InsertOpeningHour'} component={InsertOpeningHour} />
                 <Stack.Screen name={'InsertClosingHour'} component={InsertClosingHour} />
             </Stack.Navigator>
-        </ServiceContext.Provider>
+        </ServiceProvider>
     )
 }

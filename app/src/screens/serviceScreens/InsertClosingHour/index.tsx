@@ -29,7 +29,7 @@ import updatePostPrivateData from '../../../services/Firebase/post/updatePostPri
 
 function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
-    const { setServiceDataOnContext, serviceData } = useContext(ServiceContext)
+    const { setServiceDataOnContext, serviceDataContext } = useContext(ServiceContext)
     const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
 
     const [hours, setHours] = useState<string>('')
@@ -86,14 +86,14 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
     }
 
     const closingTimeIsAfterOpening = (hoursValidation?: string, minutesValidation?: string) => {
-        const openingHour = new Date(serviceData.openingHour as Date)
+        const openingHour = new Date(serviceDataContext.openingHour as Date)
         const closingHour = new Date(Date.UTC(2022, 1, 1, parseInt(!!hoursValidation ? hoursValidation : hours), parseInt(!!minutesValidation ? minutesValidation : '59'), 0, 0))
         return openingHour < closingHour
     }
 
     const getCompleteServiceDataFromContext = () => {
         return {
-            ...serviceData,
+            ...serviceDataContext,
             closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
         }
     }
@@ -137,7 +137,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
         const userData = extractUserData(completeServiceData)
         const serviceDataPost = extractServiceDataPost(completeServiceData)
         const servicePictures = extractServicePictures(completeServiceData)
-
+        
         try {
             const localUser = await getLocalUser()
             if (!localUser.userId) throw 'Não foi possível identificar o usuário'

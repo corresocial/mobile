@@ -9,7 +9,7 @@ import Check from './../../../assets/icons/check.svg'
 import MapPointOrange from './../../../assets/icons/mapPoint-orange.svg'
 
 import { InsertServicePrestationLocationScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps';
-import {  Coordinates } from './../../../services/Firebase/types'
+import { Coordinates } from './../../../services/Firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { BackButton } from '../../../components/_buttons/BackButton';
@@ -143,13 +143,13 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
 
     const structureAddress = (geocodeAddress: Location.LocationGeocodedAddress[]) => {
         return {
-            country: geocodeAddress[0].country,
-            state: geocodeAddress[0].region,
-            city: geocodeAddress[0].city || geocodeAddress[0].subregion,
-            postalCode: geocodeAddress[0].postalCode,
-            street: geocodeAddress[0].street,
-            number: geocodeAddress[0].streetNumber || geocodeAddress[0].name,
-            district: geocodeAddress[0].district == geocodeAddress[0].subregion ? 'Centro' : geocodeAddress[0].district,
+            country: geocodeAddress[0].country || '',
+            state: geocodeAddress[0].region || '',
+            city: geocodeAddress[0].city || geocodeAddress[0].subregion || '',
+            postalCode: geocodeAddress[0].postalCode || '',
+            street: geocodeAddress[0].street || '',
+            number: geocodeAddress[0].streetNumber || geocodeAddress[0].name || '',
+            district: geocodeAddress[0].district == geocodeAddress[0].subregion ? 'Centro' : geocodeAddress[0].district || '',
             coordinates: {
                 latitude: markerCoordinate?.latitude,
                 longitude: markerCoordinate?.longitude

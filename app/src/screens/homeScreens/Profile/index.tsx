@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Alert, StatusBar } from 'react-native'
 
-
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { TourModal } from '../../../components/_modals/TourModal'
 import { MoreOptionsButton } from '../../../components/_buttons/MoreOptionsButton'
@@ -33,7 +32,7 @@ function Profile({ navigation, route }: HomeTabScreenProps) {
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
-			checkEndingTour()  
+			checkEndingTour()
 		});
 		return unsubscribe;
 	}, [navigation])
