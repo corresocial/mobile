@@ -27,7 +27,7 @@ function InsertServiceName({ navigation }: InsertServiceNameScreenProps) {
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
-        descriptionInput: useRef<React.MutableRefObject<any>>(null),
+        serviceNameInput: useRef<React.MutableRefObject<any>>(null),
     }
 
     useEffect(() => {
@@ -88,7 +88,7 @@ function InsertServiceName({ navigation }: InsertServiceNameScreenProps) {
                 <LineInput
                     value={serviceName}
                     relativeWidth={'100%'}
-                    textInputRef={inputRefs.descriptionInput}
+                    textInputRef={inputRefs.serviceNameInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}
                     validBackgroundColor={theme.purple1}

@@ -27,7 +27,7 @@ function InsertSaleTitle({ navigation }: InsertSaleTitleScreenProps) {
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
-        descriptionInput: useRef<React.MutableRefObject<any>>(null),
+        titleInput: useRef<React.MutableRefObject<any>>(null),
     }
 
     useEffect(() => {
@@ -88,7 +88,7 @@ function InsertSaleTitle({ navigation }: InsertSaleTitleScreenProps) {
                 <LineInput
                     value={saleTitle}
                     relativeWidth={'100%'}
-                    textInputRef={inputRefs.descriptionInput}
+                    textInputRef={inputRefs.titleInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}
                     validBackgroundColor={theme.green1}

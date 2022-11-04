@@ -6,6 +6,7 @@ import { VacancyStackParamList } from './types';
 import { VacancyProvider } from '../../../contexts/VacancyContext';
 
 import { InsertVacancyTitle } from '../../../screens/vacancyScreens/InsertVacancyTitle';
+import { InsertVacancyDescription } from '../../../screens/vacancyScreens/InsertVacancyDescription';
 
 const Stack = createStackNavigator<VacancyStackParamList>()
 
@@ -21,6 +22,7 @@ export function VacancyStack() {
                 }}
             >
                 <Stack.Screen name={'InsertVacancyTitle'} component={InsertVacancyTitle} />
+                <Stack.Screen name={'InsertVacancyDescription'} component={InsertVacancyDescription} />
             </Stack.Navigator>
         </VacancyProvider>
     )

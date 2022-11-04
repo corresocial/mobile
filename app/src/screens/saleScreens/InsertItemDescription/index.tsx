@@ -2,7 +2,7 @@ import { Keyboard, StatusBar } from 'react-native';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles';
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions';
+import { screenHeight } from '../../../common/screenDimensions';
 import { theme } from '../../../common/theme';
 import Check from './../../../assets/icons/check.svg'
 
@@ -27,7 +27,7 @@ function InsertItemDescription({ navigation }: InsertItemDescriptionScreenProps)
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
-        descriptionInput: useRef<React.MutableRefObject<any>>(null),
+        itemDescriptionInput: useRef<React.MutableRefObject<any>>(null),
     }
 
     useEffect(() => {
@@ -89,7 +89,7 @@ function InsertItemDescription({ navigation }: InsertItemDescriptionScreenProps)
                 <LineInput
                     value={itemDescription}
                     relativeWidth={'100%'}
-                    textInputRef={inputRefs.descriptionInput}
+                    textInputRef={inputRefs.itemDescriptionInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}
                     validBackgroundColor={theme.green1}
@@ -98,7 +98,7 @@ function InsertItemDescription({ navigation }: InsertItemDescriptionScreenProps)
                     lastInput={true}
                     textAlign={'left'}
                     fontSize={16}
-                    placeholder={'ex: trabalho de mecânico, tenho 33 anos, etc...'}
+                    placeholder={'ex: sofá azul, 1 ano de uso, possui uma mancha na parte de trás, etc...'}
                     keyboardType={'default'}
                     textIsValid={itemDescriptionIsValid && !keyboardOpened}
                     validateText={(text: string) => validateItemDescription(text)}

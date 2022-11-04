@@ -27,7 +27,7 @@ function InsertVacancyTitle({ navigation }: InsertVacancyTitleScreenProps) {
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
-        descriptionInput: useRef<React.MutableRefObject<any>>(null),
+        vacancyTitleInput: useRef<React.MutableRefObject<any>>(null),
     }
 
     useEffect(() => {
@@ -55,7 +55,7 @@ function InsertVacancyTitle({ navigation }: InsertVacancyTitleScreenProps) {
     const saveVacancyTitle = () => {
         if (vacancyTitleIsValid) {
             setVacancyDataOnContext({ title: vacancyTitle })
-            // navigate
+            navigation.navigate('InsertVacancyDescription')
         }
     }
 
@@ -88,7 +88,7 @@ function InsertVacancyTitle({ navigation }: InsertVacancyTitleScreenProps) {
                 <LineInput
                     value={vacancyTitle}
                     relativeWidth={'100%'}
-                    textInputRef={inputRefs.descriptionInput}
+                    textInputRef={inputRefs.vacancyTitleInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}
                     validBackgroundColor={theme.yellow1}
@@ -110,7 +110,7 @@ function InsertVacancyTitle({ navigation }: InsertVacancyTitleScreenProps) {
                         vacancyTitleIsValid && !keyboardOpened &&
                         <PrimaryButton
                             flexDirection={'row-reverse'}
-                            color={theme.yellow3}
+                            color={theme.green3}
                             label={'continuar'}
                             labelColor={theme.white3}
                             SvgIcon={Check}

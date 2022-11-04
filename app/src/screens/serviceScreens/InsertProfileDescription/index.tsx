@@ -27,7 +27,7 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
-        descriptionInput: useRef<React.MutableRefObject<any>>(null),
+        profileDescriptionInput: useRef<React.MutableRefObject<any>>(null),
     }
 
     useEffect(() => {
@@ -91,7 +91,7 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
                 <LineInput
                     value={profileDescription}
                     relativeWidth={'100%'}
-                    textInputRef={inputRefs.descriptionInput}
+                    textInputRef={inputRefs.profileDescriptionInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}
                     validBackgroundColor={theme.purple1}
