@@ -74,7 +74,7 @@ function SelectPostType({ route, navigation }: SelectPostTypeScreenProps) {
                     svgIconScale={['60%','60%']}
                     leftSideColor={theme.yellow2}
                     leftSideWidth={'30%'}
-                    onPress={() => { }}
+                    onPress={() => navigation.navigate('VacancyStack')}
                 />
                 <OptionButton
                     color={theme.white3}
@@ -86,7 +86,7 @@ function SelectPostType({ route, navigation }: SelectPostTypeScreenProps) {
                     svgIconScale={['60%','60%']}
                     leftSideColor={theme.red2}
                     leftSideWidth={'30%'}
-                    onPress={() => { }}
+                    onPress={() => {}}
                 />
                 <OptionButton
                     color={theme.white3}

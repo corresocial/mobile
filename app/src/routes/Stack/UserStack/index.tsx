@@ -9,6 +9,7 @@ import { HomeTab } from '../../Tabs/HomeTab';
 import { ServiceStack } from '../ServiceStack';
 import { SelectPostType } from '../../../screens/homeScreens/SelectPostType';
 import { SaleStack } from '../SaleStack';
+import { VacancyStack } from '../VacancyStack';
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -28,6 +29,7 @@ export function UserStack({ route }: any) {
                 <Stack.Screen name={'SelectPostType'} component={SelectPostType} />
                 <Stack.Screen name={'ServiceStack'} component={ServiceStack} />
                 <Stack.Screen name={'SaleStack'} component={SaleStack} />
+                <Stack.Screen name={'VacancyStack'} component={VacancyStack} />
             </Stack.Navigator>
     )
 }

@@ -1,3 +1,3 @@
 export type VacancyStackParamList = {
-    FirstScreen: undefined
+    InsertVacancyTitle: undefined
 }

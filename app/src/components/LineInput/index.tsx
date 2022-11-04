@@ -120,7 +120,7 @@ function LineInput({
     }
 
     const inputContainerStyle = {
-        borderBottomWidth: focused || validated ? 5 : 2.5,
+        borderBottomWidth: focused || validated || textIsValid ? 5 : 2.5,
         ...generateInputContainerStyle()
     }
 
