@@ -1,8 +1,10 @@
 import { saleCategories } from "../../screens/saleScreens/saleCategories"
 import { serviceCategories } from "../../screens/serviceScreens/serviceCategories"
+import { vacancyCategories } from "../../screens/vacancyScreens/vacancyCategories"
 
 export type SaleCategories = keyof typeof saleCategories
 export type ServiceCategories = keyof typeof serviceCategories
+export type VacancyCategories = keyof typeof vacancyCategories
 
 export type LocationViewType = 'private' | 'approximate' | 'public'
 
