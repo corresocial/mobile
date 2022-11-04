@@ -19,10 +19,11 @@ const VacancyContext = createContext<VacancyContextType>(initialValue)
 
 function VacancyProvider({children}:VacancyProviderProps ) {
 
-    const [vacancyDataContext, setVacancyData] = useState(initialValue.vacancyDataContext)
+    const [vacancyDataContext, setVacancyDataContext] = useState(initialValue.vacancyDataContext)
 
     const setVacancyDataOnContext = async (data: VacancyData) => {
-        setVacancyData({ ...vacancyDataContext, ...data })
+        console.log({ ...vacancyDataContext, ...data })
+        setVacancyDataContext({ ...vacancyDataContext, ...data })
     }
 
     const value = {

@@ -2,32 +2,33 @@ import { Keyboard, StatusBar } from 'react-native';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles';
-import { screenHeight } from '../../../common/screenDimensions';
 import { theme } from '../../../common/theme';
-import Check from './../../../assets/icons/check.svg'
+import { screenHeight } from '../../../common/screenDimensions';
+import Uncheck from './../../../assets/icons/uncheck.svg'
 
+import { InsertVacancyQuestionsScreenProps } from '../../../routes/Stack/vacancyStack/stackScreenProps';
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 import { VacancyContext } from '../../../contexts/VacancyContext';
-import { InsertVacancyDescriptionScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
-import { BackButton } from '../../../components/_buttons/BackButton';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
+import { BackButton } from '../../../components/_buttons/BackButton';
 import { InstructionCard } from '../../../components/InstructionCard';
-import { ProgressBar } from '../../../components/ProgressBar';
 import { LineInput } from '../../../components/LineInput';
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
+import { ProgressBar } from '../../../components/ProgressBar';
 
-function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreenProps) {
+function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProps) {
 
-    const { setVacancyDataOnContext } = useContext(VacancyContext)
+    const {  setVacancyDataOnContext } = useContext(VacancyContext)
 
-    const [vacancyDescription, setVacancyDescription] = useState<string>('')
-    const [vacancyDescriptionIsValid, setVacancyDescriptionIsValid] = useState<boolean>(false)
+    const [vacancyQuestion, setVacancyQuestion] = useState<string>('')
+    const [vacancyQuestions, setVacancyQuestions] = useState<string[]>([])
+    const [vacancyQuestionIsValid, setVacancyQuestionIsValid] = useState<boolean>(false)
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
-        vacancyDescriptionInput: useRef<React.MutableRefObject<any>>(null),
+        vacancyQuestionInput: useRef<React.MutableRefObject<any>>(null),
     }
 
     useEffect(() => {
@@ -40,12 +41,11 @@ function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreen
     }, [navigation])
 
     useEffect(() => {
-        const validation = validateVacancyDescription(vacancyDescription)
-        setVacancyDescriptionIsValid(validation)
+        const validation = validateVacancyQuestions(vacancyQuestion)
+        setVacancyQuestionIsValid(validation)
+    }, [vacancyQuestion, keyboardOpened])
 
-    }, [vacancyDescription, keyboardOpened])
-
-    const validateVacancyDescription = (text: string) => {
+    const validateVacancyQuestions = (text: string) => {
         const isValid = (text).trim().length >= 1
         if (isValid && !keyboardOpened) {
             return true
@@ -53,19 +53,22 @@ function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreen
         return false
     }
 
-    const saveVacancyDescription = () => {
-        if (vacancyDescriptionIsValid) {
-            setVacancyDataOnContext({ description: vacancyDescription })
-            navigation.navigate('InsertVacancyQuestions')
-        }
+    const addNewQuestion = () => {
+        setVacancyQuestions([...vacancyQuestions, vacancyQuestion])
+        setVacancyQuestion('')
+    }
+
+    const saveVacancyQuestions = () => {
+        setVacancyDataOnContext({ questions: vacancyQuestions })
+        // navigate
     }
 
     return (
         <Container >
             <StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={screenHeight * 0.28}
-                relativeHeight={'26%'}
+                minHeight={screenHeight * 0.26}
+                relativeHeight={'22%'}
                 centralized
                 backgroundColor={theme.yellow2}
             >
@@ -73,8 +76,8 @@ function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreen
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'escreva uma descrição sobre a vaga'}
-                    highlightedWords={['descrição', 'vaga']}
+                    message={'quer adicionar pergunta(s) para os candidatos?'}
+                    highlightedWords={['adicionar', 'pergunta(s)']}
                 >
                     <ProgressBar
                         range={3}
@@ -87,34 +90,38 @@ function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreen
                 justifyContent={'center'}
             >
                 <LineInput
-                    value={vacancyDescription}
+                    value={vacancyQuestion}
                     relativeWidth={'100%'}
-                    textInputRef={inputRefs.vacancyDescriptionInput}
+                    textInputRef={inputRefs.vacancyQuestionInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}
                     validBackgroundColor={theme.yellow1}
                     validBorderBottomColor={theme.yellow5}
-                    multiline
+                    invalidBackgroundColor={theme.red1}
+                    invalidBorderBottomColor={theme.red5}
+                    maxLength={100}
                     lastInput={true}
                     textAlign={'left'}
                     fontSize={16}
-                    placeholder={'ex: descreva o que o funcionário terá que fazer, benefícios, etc...'}
+                    placeholder={'+ pergunta'}
                     keyboardType={'default'}
-                    textIsValid={vacancyDescriptionIsValid && !keyboardOpened}
-                    validateText={(text: string) => validateVacancyDescription(text)}
-                    onChangeText={(text: string) => setVacancyDescription(text)}
+                    textIsValid={vacancyQuestionIsValid && !keyboardOpened}
+                    onPressKeyboardSubmit={addNewQuestion}
+                    validateText={(text: string) => validateVacancyQuestions(text)}
+                    onChangeText={(text: string) => setVacancyQuestion(text)}
                 />
                 <ButtonsContainer>
                     {
-                        vacancyDescriptionIsValid && !keyboardOpened &&
+                        !keyboardOpened &&
                         <PrimaryButton
                             flexDirection={'row-reverse'}
-                            color={theme.green3}
-                            label={'continuar'}
+                            color={theme.red3}
+                            label={'não precisa, continuar'}
+                            highlightedWords={['não', 'precisa,']}
                             labelColor={theme.white3}
-                            SvgIcon={Check}
+                            SvgIcon={Uncheck}
                             svgIconScale={['30%', '15%']}
-                            onPress={saveVacancyDescription}
+                            onPress={saveVacancyQuestions}
                         />
                     }
                 </ButtonsContainer>
@@ -123,4 +130,4 @@ function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreen
     );
 }
 
-export { InsertVacancyDescription }
+export { InsertVacancyQuestions }

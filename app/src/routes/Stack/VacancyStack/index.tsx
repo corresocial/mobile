@@ -7,6 +7,7 @@ import { VacancyProvider } from '../../../contexts/VacancyContext';
 
 import { InsertVacancyTitle } from '../../../screens/vacancyScreens/InsertVacancyTitle';
 import { InsertVacancyDescription } from '../../../screens/vacancyScreens/InsertVacancyDescription';
+import { InsertVacancyQuestions } from '../../../screens/vacancyScreens/InsertVacancyQuestions';
 
 const Stack = createStackNavigator<VacancyStackParamList>()
 
@@ -23,6 +24,7 @@ export function VacancyStack() {
             >
                 <Stack.Screen name={'InsertVacancyTitle'} component={InsertVacancyTitle} />
                 <Stack.Screen name={'InsertVacancyDescription'} component={InsertVacancyDescription} />
+                <Stack.Screen name={'InsertVacancyQuestions'} component={InsertVacancyQuestions} />
             </Stack.Navigator>
         </VacancyProvider>
     )
