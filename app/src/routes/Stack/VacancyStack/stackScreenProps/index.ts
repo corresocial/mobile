@@ -3,4 +3,5 @@ import { VacancyStackParamList } from "../types"
 
 export type InsertVacancyTitleScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertVacancyTitle'>
 export type InsertVacancyDescriptionScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertVacancyDescription'>
-export type InsertVacancyQuestionsScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertVacancyDescription'>
+export type InsertVacancyQuestionsScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertVacancyQuestions'>
+export type InsertCompanyDescriptionScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertCompanyDescription'>

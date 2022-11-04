@@ -20,7 +20,7 @@ import { ProgressBar } from '../../../components/ProgressBar';
 
 function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProps) {
 
-    const {  setVacancyDataOnContext } = useContext(VacancyContext)
+    const { setVacancyDataOnContext } = useContext(VacancyContext)
 
     const [vacancyQuestion, setVacancyQuestion] = useState<string>('')
     const [vacancyQuestions, setVacancyQuestions] = useState<string[]>([])
@@ -60,7 +60,7 @@ function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProp
 
     const saveVacancyQuestions = () => {
         setVacancyDataOnContext({ questions: vacancyQuestions })
-        // navigate
+        navigation.navigate('InsertCompanyDescription')
     }
 
     return (

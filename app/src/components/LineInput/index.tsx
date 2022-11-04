@@ -9,6 +9,7 @@ import { theme } from '../../common/theme';
 interface LineInputProps {
     value: string
     relativeWidth: string
+    relativeHeight?: number
     textInputRef?: any
     previousInputRef?: any
     nextInputRef?: any
@@ -40,6 +41,7 @@ interface LineInputProps {
 function LineInput({
     value,
     relativeWidth,
+    relativeHeight,
     textInputRef,
     previousInputRef,
     nextInputRef,
@@ -70,7 +72,7 @@ function LineInput({
 
     const [focused, setFocused] = useState<boolean>(false)
     const [validated, setValidated] = useState<boolean>(false)
-    const [multilineInputHeight, setMultilineInputHeight] = useState(screenHeight * 0.1)
+    const [multilineInputHeight, setMultilineInputHeight] = useState(relativeHeight ? relativeHeight:  screenHeight * 0.1)
 
     const ValidateAndChange = (text: string) => {
         let filtredText = filterText ? filterText(text) : text
@@ -110,7 +112,7 @@ function LineInput({
     const generateInputContainerStyle = () => {
         if (invalidTextAfterSubmit || error) return {
             borderBottomColor: invalidBorderBottomColor,
-            backgroundColor: invalidBackgroundColor
+            backgroundColor: invalidBackgroundColor,
         }
 
         return {
@@ -139,9 +141,9 @@ function LineInput({
     return (
         <Container
             style={{
-                height: multiline ? multilineInputHeight : screenHeight * 0.1,// 0.25
+                height: multiline ? multilineInputHeight : screenHeight * 0.1, // 0.25
                 width: relativeWidth,
-                ...inputContainerStyle
+                ...inputContainerStyle,
             }}
             activeOpacity={0}
             underlayColor={validated ? validBackgroundColor : defaultBackgroundColor}
@@ -150,7 +152,8 @@ function LineInput({
             <TextInput
                 style={[getTextInputStyle(), {
                     fontSize: RFValue(fontSize),
-                    textAlign: textAlign || 'center'
+                    textAlign: textAlign || 'center',
+                    textAlignVertical: multiline ? 'top' : 'center'
                 }]}
                 ref={textInputRef}
                 value={value}

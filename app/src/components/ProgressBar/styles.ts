@@ -17,7 +17,7 @@ export const IndicatorLabel = styled.Text`
 export const IndicatorBarBottom = styled.View`
     background-color: ${({ theme }) => theme.white3}
     width: 100%;
-    height: ${RFValue(12)}px;
+    height: ${RFValue(9)}px;
     border: ${RFValue(2)}px solid ${({ theme }) => theme.black3}
     border-right-width: ${RFValue(8)}px;
     overflow: hidden;
@@ -25,5 +25,5 @@ export const IndicatorBarBottom = styled.View`
 
 export const IndicatorBarSurface = styled.View`
     background-color: ${({ theme }) => theme.orange3}
-    height: ${RFValue(8)}px;
+    height: ${RFValue(5)}px;
 `

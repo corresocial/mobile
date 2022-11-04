@@ -6,8 +6,8 @@ import { screenHeight } from '../../../common/screenDimensions';
 import { theme } from '../../../common/theme';
 import Check from './../../../assets/icons/check.svg'
 
+import { InsertCompanyDescriptionScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
 import { VacancyContext } from '../../../contexts/VacancyContext';
-import { InsertVacancyDescriptionScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -18,16 +18,16 @@ import { ProgressBar } from '../../../components/ProgressBar';
 import { LineInput } from '../../../components/LineInput';
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 
-function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreenProps) {
+function InsertCompanyDescription({ navigation }: InsertCompanyDescriptionScreenProps) {
 
     const { setVacancyDataOnContext } = useContext(VacancyContext)
 
-    const [vacancyDescription, setVacancyDescription] = useState<string>('')
-    const [vacancyDescriptionIsValid, setVacancyDescriptionIsValid] = useState<boolean>(false)
+    const [companyDescription, setCompanyDescription] = useState<string>('')
+    const [companyDescriptionIsValid, setCompanyDescriptionIsValid] = useState<boolean>(false)
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
-        vacancyDescriptionInput: useRef<React.MutableRefObject<any>>(null),
+        companyDescriptionInput: useRef<React.MutableRefObject<any>>(null),
     }
 
     useEffect(() => {
@@ -40,12 +40,12 @@ function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreen
     }, [navigation])
 
     useEffect(() => {
-        const validation = validateVacancyDescription(vacancyDescription)
-        setVacancyDescriptionIsValid(validation)
+        const validation = validateCompanyDescription(companyDescription)
+        setCompanyDescriptionIsValid(validation)
 
-    }, [vacancyDescription, keyboardOpened])
+    }, [companyDescription, keyboardOpened])
 
-    const validateVacancyDescription = (text: string) => {
+    const validateCompanyDescription = (text: string) => {
         const isValid = (text).trim().length >= 1
         if (isValid && !keyboardOpened) {
             return true
@@ -53,11 +53,11 @@ function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreen
         return false
     }
 
-    const saveVacancyDescription = () => {
-        if (vacancyDescriptionIsValid) {
-            setVacancyDataOnContext({ description: vacancyDescription })
-            navigation.navigate('InsertVacancyQuestions')
-        }
+    const saveCompanyDescription = () => {
+        if (companyDescriptionIsValid) {
+            setVacancyDataOnContext({companyDescription})
+            // navigate
+        } 
     }
 
     return (
@@ -73,12 +73,12 @@ function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreen
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'escreva uma descrição sobre a vaga'}
-                    highlightedWords={['descrição', 'vaga']}
+                    message={'boa! \n\nagora fala um pouco sobre a sua empresa'}
+                    highlightedWords={['fala', 'sobre', 'a', 'sua', 'empresa']}
                 >
                     <ProgressBar
                         range={3}
-                        value={1}
+                        value={2}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -87,10 +87,10 @@ function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreen
                 justifyContent={'center'}
             >
                 <LineInput
-                    value={vacancyDescription}
+                    value={companyDescription}
                     relativeWidth={'100%'}
                     relativeHeight={screenHeight * 0.125}
-                    textInputRef={inputRefs.vacancyDescriptionInput}
+                    textInputRef={inputRefs.companyDescriptionInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}
                     validBackgroundColor={theme.yellow1}
@@ -99,15 +99,15 @@ function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreen
                     lastInput={true}
                     textAlign={'left'}
                     fontSize={16}
-                    placeholder={'ex: descreva a vaga, o que o funcionário terá que fazer, benefícios, etc...'}
+                    placeholder={'ex: simples descrição da empresa, há quanto tempo ela existe, area de atuação, etc...'}
                     keyboardType={'default'}
-                    textIsValid={vacancyDescriptionIsValid && !keyboardOpened}
-                    validateText={(text: string) => validateVacancyDescription(text)}
-                    onChangeText={(text: string) => setVacancyDescription(text)}
+                    textIsValid={companyDescriptionIsValid && !keyboardOpened}
+                    validateText={(text: string) => validateCompanyDescription(text)}
+                    onChangeText={(text: string) => setCompanyDescription(text)}
                 />
                 <ButtonsContainer>
                     {
-                        vacancyDescriptionIsValid && !keyboardOpened &&
+                        companyDescriptionIsValid && !keyboardOpened &&
                         <PrimaryButton
                             flexDirection={'row-reverse'}
                             color={theme.green3}
@@ -115,7 +115,7 @@ function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreen
                             labelColor={theme.white3}
                             SvgIcon={Check}
                             svgIconScale={['30%', '15%']}
-                            onPress={saveVacancyDescription}
+                            onPress={saveCompanyDescription}
                         />
                     }
                 </ButtonsContainer>
@@ -124,4 +124,4 @@ function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreen
     );
 }
 
-export { InsertVacancyDescription }
+export { InsertCompanyDescription }
