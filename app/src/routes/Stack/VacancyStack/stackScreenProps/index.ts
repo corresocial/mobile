@@ -6,3 +6,4 @@ export type InsertVacancyDescriptionScreenProps = NativeStackScreenProps<Vacancy
 export type InsertVacancyQuestionsScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertVacancyQuestions'>
 export type InsertCompanyDescriptionScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertCompanyDescription'>
 export type SelectWorkplaceScreenProps = NativeStackScreenProps<VacancyStackParamList, 'SelectWorkplace'>
+export type InsertWorkplaceLocationScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertWorkplaceLocation'>

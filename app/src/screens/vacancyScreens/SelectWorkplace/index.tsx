@@ -21,7 +21,11 @@ function SelectWorkplace({ navigation }: SelectWorkplaceScreenProps) {
     
     const saveWorkplaceType = (workplace: WorkplaceType) => {
         setVacancyDataOnContext({workplace})
-        // navigate
+        if(workplace === 'homeoffice'){
+            // navigation.navigate('InsertWorkplaceOnMap', {workplace})
+        }else{
+            navigation.navigate('InsertWorkplaceLocation', {workplace})
+        }
     }
 
     return (

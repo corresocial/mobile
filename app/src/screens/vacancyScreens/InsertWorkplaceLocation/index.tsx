@@ -8,8 +8,9 @@ import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from 
 import Check from './../../../assets/icons/check.svg'
 import MapPointOrange from './../../../assets/icons/mapPoint-orange.svg'
 
-import { InsertServicePrestationLocationScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps';
-import { Coordinates } from './../../../services/Firebase/types'
+import { InsertWorkplaceLocationScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
+import { Coordinates } from '../../../services/Firebase/types'
+import { VacancyContext } from '../../../contexts/VacancyContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { BackButton } from '../../../components/_buttons/BackButton';
@@ -18,8 +19,8 @@ import { InstructionCard } from '../../../components/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
 import { CustomMapView } from '../../../components/CustomMapView';
-import { ServiceContext } from '../../../contexts/ServiceContext';
 import generateGeohashes from '../../../common/generateGeohashes';
+import { InfoCard } from '../../../components/_cards/InfoCard';
 
 const initialRegion = {
     latitude: -13.890303625634541,
@@ -33,9 +34,9 @@ const defaultDeltaCoordinates = {
     longitudeDelta: 0.003
 }
 
-function InsertServicePrestationLocation({ navigation }: InsertServicePrestationLocationScreenProps) {
+function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationScreenProps) {
 
-    const { setServiceDataOnContext } = useContext(ServiceContext)
+    const { setVacancyDataOnContext } = useContext(VacancyContext)
 
     const [hasPermission, setHasPermission] = useState(false)
     const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(null)
@@ -162,23 +163,28 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
         markerCoordinate && setInvalidAddressAfterSubmit(false)
     }
 
-    const saveLocation = async () => {
+    const saveWorkplaceLocation = async () => {
         if (!markerCoordinateIsAccuracy()) return
 
         const completeAddress = await convertGeocodeToAddress(markerCoordinate?.latitude as number, markerCoordinate?.longitude as number)
         const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
-        setServiceDataOnContext({
+        setVacancyDataOnContext({
             address: {
                 ...completeAddress,
                 ...geohashObject
             }
         })
-        navigation.navigate('SelectLocationView')
+        // navigate
     }
 
     const markerCoordinateIsAccuracy = () => {
         return markerCoordinate?.latitudeDelta as number < 0.0065
+    }
+
+    const getTitleFromRouteParams = () => {
+        if (route.params.workplace == 'presential') return 'presencial'
+        else return 'híbrido'
     }
 
     const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -193,22 +199,38 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
 
         return headerBackgroundAnimatedValue.current.interpolate({
             inputRange: [0, 1],
-            outputRange: [theme.purple2, theme.red2],
+            outputRange: [theme.yellow2, theme.red2],
         })
     }
 
     return (
         <Container >
-            <StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.yellow2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={screenHeight * 0.26}
+                minHeight={screenHeight * 0.20}
                 relativeHeight={'22%'}
                 centralized
                 backgroundColor={animateDefaultHeaderBackgound()}
                 borderBottomWidth={0}
             >
                 <BackButton onPress={() => navigation.goBack()} />
-                <InstructionCard
+                <InfoCard
+                    title={getTitleFromRouteParams()}
+                    titleFontSize={26}
+                    description={
+                        someInvalidFieldSubimitted()
+                            ? 'não foi possível localizar este endereço'
+                            : 'qual é o local de trabalho?'
+                    }
+                    highlightedWords={
+                        someInvalidFieldSubimitted()
+                            ? ['não', 'endereço',  getTitleFromRouteParams()]
+                            : ['local', 'de', 'trabalho?', getTitleFromRouteParams()]
+                    }
+                    height={'100%'}
+                    color={theme.white3}
+                />
+                {/* <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
                     message={
@@ -218,7 +240,7 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
                     }
                     highlightedWords={
                         someInvalidFieldSubimitted()
-                            ? ['não', 'endereço']
+                            ? ['não', 'endereço', 'válido']
                             : ['onde', 'seu', 'seu', 'serviço?']
                     }
                 >
@@ -226,15 +248,15 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
                         range={5}
                         value={4}
                     />
-                </InstructionCard>
+                </InstructionCard> */}
             </DefaultHeaderContainer>
             <LineInput
                 value={address}
                 relativeWidth={'100%'}
-                defaultBackgroundColor={validAddress ? theme.purple1 : theme.white3}
-                defaultBorderBottomColor={validAddress ? theme.purple5 : theme.black4}
-                validBackgroundColor={theme.purple1}
-                validBorderBottomColor={theme.purple5}
+                defaultBackgroundColor={validAddress ? theme.yellow1 : theme.white3}
+                defaultBorderBottomColor={validAddress ? theme.yellow5 : theme.black4}
+                validBackgroundColor={theme.yellow1}
+                validBorderBottomColor={theme.yellow5}
                 invalidBackgroundColor={theme.red1}
                 invalidBorderBottomColor={theme.red5}
                 textAlign={'left'}
@@ -292,7 +314,7 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
                         labelColor={theme.white3}
                         SvgIcon={Check}
                         svgIconScale={['30%', '15%']}
-                        onPress={saveLocation}
+                        onPress={saveWorkplaceLocation}
                     />
                 </ButtonContainerBottom>
             }
@@ -300,4 +322,4 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
     )
 }
 
-export { InsertServicePrestationLocation }
+export { InsertWorkplaceLocation }
