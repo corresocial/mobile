@@ -18,6 +18,8 @@ export type PaymentType = 'exchange' | 'sale' | 'both'
 
 export type WorkplaceType = 'homeoffice' | 'presential' | 'hybrid'
 
+export type VacancyType = 'professional' | 'temporary' | 'beak'
+
 export type MacroCategory = {
     label: string
     value: string

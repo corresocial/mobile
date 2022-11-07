@@ -9,4 +9,5 @@ export type VacancyStackParamList = {
     InsertWorkplaceLocation: {workplace: WorkplaceType}
     SelectVacancyCategory: undefined
     SelectVacancyTags: {categorySelected: VacancyCategories}
+    SelectVacancyType: undefined
 }

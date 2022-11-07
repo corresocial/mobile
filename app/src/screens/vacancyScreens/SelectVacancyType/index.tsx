@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
 
-import { SelectLocationViewScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
-import { LocationViewType } from './../../../services/Firebase/types'
+import { SelectVacancyTypeScreenProps } from '../../../routes/Stack/vacancyStack/stackScreenProps'
+import { VacancyType } from './../../../services/Firebase/types'
+import { VacancyContext } from '../../../contexts/VacancyContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -14,15 +15,31 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
+function SelectVacancyType({ navigation }: SelectVacancyTypeScreenProps) {
 
-    const saveLocationViewType = (locationViewType: LocationViewType) => {
-        navigation.navigate('LocationViewPreview', { locationView: locationViewType })
+    const { setVacancyDataOnContext } = useContext(VacancyContext)
+
+    const saveVacancyType = (vacancyType: VacancyType) => {
+        setVacancyDataOnContext({ vacancyType })
+        switch (vacancyType) {
+            case 'professional': {
+                //navigate
+                break
+            }
+            case 'temporary': {
+                //navigate
+                break
+            }
+            case 'beak': {
+                //navigate
+                break
+            }
+        }
     }
 
     return (
         <Container>
-               <StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 relativeHeight={'28%'}
                 centralized
@@ -32,17 +49,17 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'como você prefere que outros usuários vejam sua localização ?'}
-                    highlightedWords={['como,', 'você', 'prefere', 'vejam', 'sua', 'localização']}
+                    message={'que tipo de vaga?'}
+                    highlightedWords={['tipo', 'vaga?']}
                 >
                     <ProgressBar
-                        range={5}
-                        value={4}
-                    />
+                        range={3}
+                        value={3}
+                    /> 
                 </InstructionCard>
             </DefaultHeaderContainer>
             <FormContainer
-                backgroundColor={theme.green2}
+                backgroundColor={theme.yellow2}
             >
                 <ButtonsContainer>
                     <PrimaryButton
@@ -50,34 +67,36 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
                         color={theme.white3}
                         relativeHeight={'18%'}
                         labelColor={theme.black4}
-                        fontSize={18 }
+                        labelMarginLeft={'5%'}
+                        fontSize={18}
                         textAlign={'left'}
-                        label={'localização privada'}
-                        highlightedWords={[`privada`]}
-                        onPress={() => saveLocationViewType('private')}
+                        label={'vaga profissional'}
+                        highlightedWords={[`profissional`]}
+                        onPress={() => saveVacancyType('professional')}
                     />
                     <PrimaryButton
                         justifyContent={'flex-start'}
                         color={theme.white3}
                         relativeHeight={'18%'}
                         labelColor={theme.black4}
+                        labelMarginLeft={'5%'}
                         fontSize={18}
                         textAlign={'left'}
-                        label={'localização aproximada'}
-                        highlightedWords={[`aproximada`]}
-                        onPress={() => saveLocationViewType('approximate')}
+                        label={'vaga temporária'}
+                        highlightedWords={[`temporária`]}
+                        onPress={() => saveVacancyType('temporary')}
                     />
                     <PrimaryButton
                         justifyContent={'flex-start'}
                         color={theme.white3}
                         relativeHeight={'18%'}
                         labelColor={theme.black4}
-                        
+                        labelMarginLeft={'5%'}
                         fontSize={18}
                         textAlign={'left'}
-                        label={'localização pública'}
-                        highlightedWords={[`pública`]}
-                        onPress={() => saveLocationViewType('public')}
+                        label={'um bico'}
+                        highlightedWords={[`bico`]}
+                        onPress={() => saveVacancyType('beak')}
                     />
                 </ButtonsContainer>
             </FormContainer>
@@ -85,4 +104,4 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
     )
 }
 
-export { SelectLocationView }
+export { SelectVacancyType }

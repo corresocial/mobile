@@ -58,6 +58,7 @@ function SelectWorkplace({ navigation }: SelectWorkplaceScreenProps) {
                         color={theme.white3}
                         relativeHeight={'18%'}
                         labelColor={theme.black4}
+                        labelMarginLeft={'5%'}
                         fontSize={18 }
                         textAlign={'left'}
                         label={'vaga homeoffice'}
@@ -69,6 +70,7 @@ function SelectWorkplace({ navigation }: SelectWorkplaceScreenProps) {
                         color={theme.white3}
                         relativeHeight={'18%'}
                         labelColor={theme.black4}
+                        labelMarginLeft={'5%'}
                         fontSize={18}
                         textAlign={'left'}
                         label={'vaga presencial'}
@@ -80,6 +82,7 @@ function SelectWorkplace({ navigation }: SelectWorkplaceScreenProps) {
                         color={theme.white3}
                         relativeHeight={'18%'}
                         labelColor={theme.black4}
+                        labelMarginLeft={'5%'}
                         fontSize={18}
                         textAlign={'left'}
                         label={'vaga híbrida'}

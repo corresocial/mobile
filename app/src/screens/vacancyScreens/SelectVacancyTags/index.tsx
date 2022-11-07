@@ -142,7 +142,7 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
 
     const saveTags = () => {
         setVacancyDataOnContext({ tags: selectedTags })
-        // navigation.navigate('SelectSaleOrExchange')
+         navigation.navigate('SelectVacancyType')
     }
 
     return (

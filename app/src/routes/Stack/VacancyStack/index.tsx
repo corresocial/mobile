@@ -13,6 +13,7 @@ import { SelectWorkplace } from '../../../screens/vacancyScreens/SelectWorkplace
 import {  InsertWorkplaceLocation } from '../../../screens/vacancyScreens/InsertWorkplaceLocation';
 import { SelectVacancyCategory } from '../../../screens/vacancyScreens/SelectVacancyCategory';
 import { SelectVacancyTags } from '../../../screens/vacancyScreens/SelectVacancyTags';
+import { SelectVacancyType } from '../../../screens/vacancyScreens/SelectVacancyType';
 
 const Stack = createStackNavigator<VacancyStackParamList>()
 
@@ -35,6 +36,7 @@ export function VacancyStack() {
                 <Stack.Screen name={'InsertWorkplaceLocation'} component={InsertWorkplaceLocation} />
                 <Stack.Screen name={'SelectVacancyCategory'} component={SelectVacancyCategory} />
                 <Stack.Screen name={'SelectVacancyTags'} component={SelectVacancyTags} />
+                <Stack.Screen name={'SelectVacancyType'} component={SelectVacancyType} />
             </Stack.Navigator>
         </VacancyProvider>
     )
