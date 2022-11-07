@@ -11,3 +11,4 @@ export type SelectVacancyCategoryScreenProps = NativeStackScreenProps<VacancySta
 export type SelectVacancyTagsScreenProps = NativeStackScreenProps<VacancyStackParamList, 'SelectVacancyTags'>
 export type SelectVacancyTypeScreenProps = NativeStackScreenProps<VacancyStackParamList, 'SelectVacancyType'>
 export type SelectWorkWeekdaysScreenProps = NativeStackScreenProps<VacancyStackParamList, 'SelectWorkWeekdays'>
+export type InsertStartWorkHourScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertStartWorkHour'>

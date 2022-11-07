@@ -11,4 +11,5 @@ export type VacancyStackParamList = {
     SelectVacancyTags: {categorySelected: VacancyCategories}
     SelectVacancyType: undefined
     SelectWorkWeekdays: undefined
+    InsertStartWorkHour: undefined
 }

@@ -23,7 +23,8 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectWorkWeekdays({ navigation }: SelectWorkWeekdaysScreenProps) { {/* TODO Transform in component */}
+function SelectWorkWeekdays({ navigation }: SelectWorkWeekdaysScreenProps) {
+    {/* TODO Transform in component */ }
 
     const { setVacancyDataOnContext } = useContext(VacancyContext)
 
@@ -79,7 +80,7 @@ function SelectWorkWeekdays({ navigation }: SelectWorkWeekdaysScreenProps) { {/*
         setVacancyDataOnContext({
             workWeekdays: selectedDays
         })
-        // navigation.navigate('InsertOpeningHour')
+        navigation.navigate('InsertStartWorkHour')
     }
 
     return (

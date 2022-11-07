@@ -72,7 +72,7 @@ function SelectButton({
                     <Label
                         style={{
                             fontSize: RFValue(fontSize),
-                            fontFamily: selected || boldLabel ? 'Arvo_400Regular' : 'Arvo_700Bold'
+                            fontFamily: selected || boldLabel ? 'Arvo_700Bold' : 'Arvo_400Regular'
                         }}
                     >
                         {label}
