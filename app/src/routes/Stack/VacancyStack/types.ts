@@ -3,4 +3,5 @@ export type VacancyStackParamList = {
     InsertVacancyDescription: undefined
     InsertVacancyQuestions: undefined
     InsertCompanyDescription: undefined
+    SelectWorkplace: undefined
 }

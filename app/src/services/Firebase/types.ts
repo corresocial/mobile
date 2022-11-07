@@ -16,6 +16,8 @@ export type DaysOfWeek = 'seg' | 'ter' | 'qua' | 'qui' | 'sex' | 'sab' | 'dom'
 
 export type PaymentType = 'exchange' | 'sale' | 'both'
 
+export type WorkplaceType = 'homeoffice' | 'presential' | 'hybrid'
+
 export type MacroCategory = {
     label: string
     value: string

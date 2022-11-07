@@ -56,7 +56,7 @@ function InsertCompanyDescription({ navigation }: InsertCompanyDescriptionScreen
     const saveCompanyDescription = () => {
         if (companyDescriptionIsValid) {
             setVacancyDataOnContext({companyDescription})
-            // navigate
+           navigation.navigate('SelectWorkplace')
         } 
     }
 
