@@ -12,4 +12,5 @@ export type VacancyStackParamList = {
     SelectVacancyType: undefined
     SelectWorkWeekdays: undefined
     InsertStartWorkHour: undefined
+    InsertEndWorkHour: undefined
 }

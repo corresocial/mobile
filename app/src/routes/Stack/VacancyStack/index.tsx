@@ -16,6 +16,7 @@ import { SelectVacancyTags } from '../../../screens/vacancyScreens/SelectVacancy
 import { SelectVacancyType } from '../../../screens/vacancyScreens/SelectVacancyType';
 import {  SelectWorkWeekdays } from '../../../screens/vacancyScreens/SelectWorkWeekdays';
 import { InsertStartWorkHour } from '../../../screens/vacancyScreens/InsertStartWorkHour';
+import { InsertEndWorkHour } from '../../../screens/vacancyScreens/InsertEndWorkHour';
 
 const Stack = createStackNavigator<VacancyStackParamList>()
 
@@ -41,6 +42,7 @@ export function VacancyStack() {
                 <Stack.Screen name={'SelectVacancyType'} component={SelectVacancyType} />
                 <Stack.Screen name={'SelectWorkWeekdays'} component={SelectWorkWeekdays} /> 
                 <Stack.Screen name={'InsertStartWorkHour'} component={InsertStartWorkHour} /> 
+                <Stack.Screen name={'InsertEndWorkHour'} component={InsertEndWorkHour} /> 
             </Stack.Navigator>
         </VacancyProvider>
     )
