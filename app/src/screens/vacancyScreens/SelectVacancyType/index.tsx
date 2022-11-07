@@ -23,7 +23,7 @@ function SelectVacancyType({ navigation }: SelectVacancyTypeScreenProps) {
         setVacancyDataOnContext({ vacancyType })
         switch (vacancyType) {
             case 'professional': {
-                //navigate
+               navigation.navigate('SelectWorkWeekdays')
                 break
             }
             case 'temporary': {
