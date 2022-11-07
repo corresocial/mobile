@@ -98,6 +98,4 @@ export type SaleData = {
     picturesUrl?: string[]
 }
 
-export type VacancyData = {
-
-}
+export type VacancyData = any

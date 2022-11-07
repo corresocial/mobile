@@ -84,7 +84,7 @@ export type PrivateAddress = {
     geohashCity?: string[]
 }
 
-export type PostCollectionType = 'services' | 'sales' // Post type title
+export type PostCollectionType = 'services' | 'sales' | 'vacancies' // Post type title
 
 export type PostCollection = ServiceCollection | SaleCollection
 
@@ -155,6 +155,8 @@ export type SaleCollection = {
     picturesUrl?: string[]
     createdAt?: Date
 }
+
+export type VacancyCollection = any
 
 export type AdsCollection = {
 

@@ -23,7 +23,7 @@ export function VacancyStack() {
 
     return (
         <VacancyProvider>
-            <Stack.Navigator initialRouteName='InsertVacancyTitle'
+            <Stack.Navigator initialRouteName='InsertStartWorkHour'
                 screenOptions={{
                     headerShown: false,
                     gestureEnabled: true,
