@@ -190,6 +190,7 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
                         invalidTextAfterSubmit={false}
                         placeholder={'pesquise ou adicione'}
                         keyboardType={'default'}
+                        textIsValid={saleCategories[getSaleCategorySelected()].tags.includes(textTag as never)}
                         onPressKeyboardSubmit={addNewTag}
                         onChangeText={(text: string) => setTextTag(text)}
                     />

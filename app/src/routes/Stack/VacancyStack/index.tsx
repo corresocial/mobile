@@ -11,6 +11,8 @@ import { InsertVacancyQuestions } from '../../../screens/vacancyScreens/InsertVa
 import { InsertCompanyDescription } from '../../../screens/vacancyScreens/InsertCompanyDescriptions';
 import { SelectWorkplace } from '../../../screens/vacancyScreens/SelectWorkplace';
 import {  InsertWorkplaceLocation } from '../../../screens/vacancyScreens/InsertWorkplaceLocation';
+import { SelectVacancyCategory } from '../../../screens/vacancyScreens/SelectVacancyCategory';
+import { SelectVacancyTags } from '../../../screens/vacancyScreens/SelectVacancyTags';
 
 const Stack = createStackNavigator<VacancyStackParamList>()
 
@@ -18,7 +20,7 @@ export function VacancyStack() {
 
     return (
         <VacancyProvider>
-            <Stack.Navigator initialRouteName='InsertVacancyTitle'
+            <Stack.Navigator initialRouteName='SelectVacancyCategory'
                 screenOptions={{
                     headerShown: false,
                     gestureEnabled: true,
@@ -31,6 +33,8 @@ export function VacancyStack() {
                 <Stack.Screen name={'InsertCompanyDescription'} component={InsertCompanyDescription} />
                 <Stack.Screen name={'SelectWorkplace'} component={SelectWorkplace} />
                 <Stack.Screen name={'InsertWorkplaceLocation'} component={InsertWorkplaceLocation} />
+                <Stack.Screen name={'SelectVacancyCategory'} component={SelectVacancyCategory} />
+                <Stack.Screen name={'SelectVacancyTags'} component={SelectVacancyTags} />
             </Stack.Navigator>
         </VacancyProvider>
     )

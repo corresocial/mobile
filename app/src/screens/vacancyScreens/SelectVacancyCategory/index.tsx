@@ -1,0 +1,89 @@
+import React from 'react'
+import { ScrollView, StatusBar } from 'react-native'
+
+import { Container } from './styles'
+import { theme } from '../../../common/theme'
+
+import { SelectVacancyCategoryScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
+import { VacancyCategories, MacroCategory } from '../../../services/Firebase/types'
+import { vacancyCategories } from '../vacancyCategories'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
+import { SelectButton } from '../../../components/_buttons/SelectButton'
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { InstructionCard } from '../../../components/InstructionCard'
+import { ProgressBar } from '../../../components/ProgressBar'
+import { screenHeight } from '../../../common/screenDimensions'
+
+function SelectVacancyCategory({ navigation }: SelectVacancyCategoryScreenProps) {
+
+    const renderSelectOptionsButtons = () => {
+        const ordenedVacancysCategories = Object.values(vacancyCategories).sort(sortVacancyCategories)
+
+        return ordenedVacancysCategories.map((category, index) => {
+            if (category.label === 'outros') return
+            return (
+                <SelectButton
+                    key={index}
+                    width={'45%'}
+                    height={screenHeight * 0.11}
+                    label={category.label}
+                    boldLabel={true}
+                    onSelect={() => onSelectCategory(category.value as VacancyCategories)}
+                />
+            )
+        })
+    }
+
+    const sortVacancyCategories = (a: MacroCategory, b: MacroCategory) => {
+        if (a.label < b.label) return -1;
+        if (a.label > b.label) return 1;
+        return 0;
+    }
+
+    const onSelectCategory = (categoryName: VacancyCategories) => {
+        navigation.navigate('SelectVacancyTags', { categorySelected: categoryName })
+    }
+
+    return (
+        <Container>
+            <StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+            <DefaultHeaderContainer
+                relativeHeight={'22%'}
+                centralized
+                backgroundColor={theme.white3}
+            >
+                <BackButton onPress={() => navigation.goBack()} />
+                <InstructionCard
+                    borderLeftWidth={3}
+                    fontSize={18}
+                    message={'em qual categoria essa vaga se encaixa?'}
+                    highlightedWords={['categoria', 'essa', 'vaga']}
+                >
+                    <ProgressBar
+                        range={3}
+                        value={3}
+                    />
+                </InstructionCard>
+            </DefaultHeaderContainer>
+            <ScrollView>
+                <SelectButtonsContainer
+                    backgroundColor={theme.yellow2}
+                >
+                    {renderSelectOptionsButtons() as any}
+                    <SelectButton
+                        key={'others'}
+                        width={'100%'}
+                        height={screenHeight * 0.11}
+                        label={'outros'}
+                        boldLabel={true}
+                        onSelect={() => onSelectCategory('others' as VacancyCategories)}
+                    />
+                </SelectButtonsContainer>
+            </ScrollView>
+        </Container>
+    )
+}
+
+export { SelectVacancyCategory }

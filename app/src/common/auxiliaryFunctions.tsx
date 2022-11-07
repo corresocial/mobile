@@ -6,14 +6,14 @@ const showMessageWithHighlight = (message: string, highlightedWords?: string[], 
 
     const words = message.split(/ /gi)
 
-    const messageHighlighted = words.map((word: string) => {
+    const messageHighlighted = words.map((word: string, index: number) => {
         if (highlightedWords.includes(word as never)) return (
             <Text
                 style={{
                     fontFamily: 'Arvo_700Bold',
                     fontSize: fontSizeHighlighted
                 }}
-                key={word} >
+                key={index} >
                 {`${word} `}
             </Text >
         )

@@ -1,6 +1,6 @@
 import { VacancyCategories } from './../../services/Firebase/types'
 
-export const updateServiceTags = (category: VacancyCategories, tag: string) => {
+export const updateVacancyTags = (category: VacancyCategories, tag: string) => {
     vacancyCategories[category].tags = [...vacancyCategories[category].tags, tag]
 }
 

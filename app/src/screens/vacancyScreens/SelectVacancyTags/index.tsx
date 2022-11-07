@@ -11,13 +11,13 @@ import {
     TagsUnselectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight, screenWidth, statusBarHeight } from '../../../common/screenDimensions'
+import { screenHeight, screenWidth } from '../../../common/screenDimensions'
 import Check from './../../../assets/icons/check.svg'
 
-import { SelectServiceTagsScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-import { serviceCategories, updateServiceTags } from '../serviceCategories'
+import { SelectVacancyTagsScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
+import { vacancyCategories, updateVacancyTags } from '../vacancyCategories'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { ServiceContext } from '../../../contexts/ServiceContext'
+import { VacancyContext } from '../../../contexts/VacancyContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -28,9 +28,9 @@ import { InstructionCard } from '../../../components/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { LineInput } from '../../../components/LineInput'
 
-function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) {
+function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) {
 
-    const { setServiceDataOnContext } = useContext(ServiceContext)
+    const { setVacancyDataOnContext } = useContext(VacancyContext)
 
     const [textTag, setTextTag] = useState('')
     const [keyboardOpened, setKeyboardOpened] = useState(false)
@@ -57,7 +57,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
                     label={tagName}
                     boldLabel={true}
                     marginHorizontal={10}
-                    backgroundSelected={theme.purple1}
+                    backgroundSelected={theme.yellow1}
                     selected={true}
                     onSelect={() => onSelectTag(tagName)}
                 />
@@ -66,9 +66,9 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
     }
 
     const renderUnselectedTags = () => {
-        const ordenedServiceTags = serviceCategories[getServiceCategorySelected()].tags.sort(sortServiceTags)
+        const ordenedVacancyTags = vacancyCategories[getVacancyCategorySelected()].tags.sort(sortVacancyTags)
 
-        return ordenedServiceTags.map((tagName, index) => {
+        return ordenedVacancyTags.map((tagName, index) => {
             if (selectedTags.includes(tagName)) return
             if (tagName.indexOf(textTag.toLowerCase()) !== -1 && !selectedTags.includes(tagName)) {
                 return (
@@ -79,7 +79,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
                         label={tagName}
                         fontSize={15}
                         boldLabel={true}
-                        backgroundSelected={theme.purple1}
+                        backgroundSelected={theme.yellow1}
                         onSelect={() => onSelectTag(tagName)}
                     />
                 )
@@ -87,7 +87,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
         })
     }
 
-    const sortServiceTags = (a: string, b: string) => {
+    const sortVacancyTags = (a: string, b: string) => {
         if (a < b) return -1;
         if (a > b) return 1;
         return 0;
@@ -109,26 +109,26 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
         tagsSelectedRef.current.scrollToEnd({ animated: true })
     }
 
-    const getServiceCategorySelected = () => {
+    const getVacancyCategorySelected = () => {
         const { categorySelected } = route.params
         return categorySelected
     }
 
     const getCurrentCategoryLabelHightlighted = () => {
-        const highlightedWords = serviceCategories[getServiceCategorySelected()].label.split(' ')
+        const highlightedWords = vacancyCategories[getVacancyCategorySelected()].label.split(' ')
         highlightedWords[highlightedWords.length - 1] = highlightedWords[highlightedWords.length - 1] + ','
         return highlightedWords
     }
 
     const getCurrentCategoryLabel = () => {
-        return serviceCategories[getServiceCategorySelected()].label
+        return vacancyCategories[getVacancyCategorySelected()].label
     }
 
     const addNewTag = () => {
         const lowerCaseTag = textTag.toLowerCase()
 
         if (!lowerCaseTag.length) return
-        if (!!serviceCategories[getServiceCategorySelected()].tags.includes(lowerCaseTag as never)) {
+        if (!!vacancyCategories[getVacancyCategorySelected()].tags.includes(lowerCaseTag as never)) {
             setTextTag('')
             return onSelectTag(lowerCaseTag)
         }
@@ -136,34 +136,34 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
         selectedCategoriesCurrent.push(lowerCaseTag)
 
         setSelectedTags(selectedCategoriesCurrent)
-        updateServiceTags(getServiceCategorySelected(), lowerCaseTag)
+        updateVacancyTags(getVacancyCategorySelected(), lowerCaseTag)
         setTextTag('')
     }
 
     const saveTags = () => {
-        setServiceDataOnContext({ tags: selectedTags })
-        navigation.navigate('SelectSaleOrExchange')
+        setVacancyDataOnContext({ tags: selectedTags })
+        // navigation.navigate('SelectSaleOrExchange')
     }
 
     return (
         <Container>
-            <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={screenHeight * 0.30}
                 relativeHeight={'30%'}
                 centralized
-                backgroundColor={theme.purple2}
+                backgroundColor={theme.yellow2}
             >
-                <BackButton onPress={() => navigation.goBack()} />
-                <InstructionCard
+                <BackButton onPress={() => navigation.goBack()} />  
+                <InstructionCard 
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={`dentro de ${getCurrentCategoryLabel()}, quais palavras tem a ver com seu serviço?`}
+                    message={`dentro de ${getCurrentCategoryLabel()}, quais palavras tem a ver com a vaga?`}
                     highlightedWords={[...getCurrentCategoryLabelHightlighted(), 'tem', 'a', 'ver']}
                 >
                     <ProgressBar
-                        range={5}
-                        value={2}
+                        range={3}
+                        value={3}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -178,8 +178,8 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
                         relativeWidth={'100%'}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
-                        validBackgroundColor={theme.purple1}
-                        validBorderBottomColor={theme.purple5}
+                        validBackgroundColor={theme.yellow1}
+                        validBorderBottomColor={theme.yellow5}
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         textAlign={'left'}
@@ -189,7 +189,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
                         invalidTextAfterSubmit={false}
                         placeholder={'pesquise ou adicione'}
                         keyboardType={'default'}
-                        textIsValid={serviceCategories[getServiceCategorySelected()].tags.includes(textTag as never)}
+                        textIsValid={vacancyCategories[getVacancyCategorySelected()].tags.includes(textTag as never)}
                         onPressKeyboardSubmit={addNewTag}
                         onChangeText={(text: string) => setTextTag(text)}
                     />
@@ -246,4 +246,4 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
     )
 }
 
-export { SelectServiceTags }
+export { SelectVacancyTags }

@@ -240,7 +240,7 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
                 textAlign={'left'}
                 invalidTextAfterSubmit={invalidAddressAfterSubmit}
                 fontSize={16}
-                placeholder={'ex: rua josé de oliveira, londrina'}
+                placeholder={'ex: rua, bairro, cidade, etc...'}
                 keyboardType={'default'}
                 returnKeyType={'search'}
                 onPressKeyboardSubmit={getAddressCoordinates}

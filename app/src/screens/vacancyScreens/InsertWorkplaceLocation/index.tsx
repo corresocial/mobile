@@ -175,7 +175,7 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
                 ...geohashObject
             }
         })
-        // navigate
+        navigation.navigate('SelectVacancyCategory')
     }
 
     const markerCoordinateIsAccuracy = () => {
@@ -262,7 +262,7 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
                 textAlign={'left'}
                 invalidTextAfterSubmit={invalidAddressAfterSubmit}
                 fontSize={16}
-                placeholder={'ex: rua josé de oliveira, londrina'}
+                placeholder={'ex: rua, bairro, cidade, etc...'}
                 keyboardType={'default'}
                 returnKeyType={'search'}
                 onPressKeyboardSubmit={getAddressCoordinates}
