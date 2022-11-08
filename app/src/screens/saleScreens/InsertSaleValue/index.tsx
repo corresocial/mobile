@@ -14,7 +14,7 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { FormContainer } from '../../../components/_containers/FormContainer';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { BackButton } from '../../../components/_buttons/BackButton';
-import { InstructionCard } from '../../../components/InstructionCard';
+import { InstructionCard } from '../../../components/_cards/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';

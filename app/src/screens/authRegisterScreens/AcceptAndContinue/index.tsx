@@ -20,7 +20,7 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { TermsOfServiceModal } from '../../../components/_modals/TermsOfServiceModal';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { CustomCarousel } from '../../../components/CustomCarousel'
-import { InstructionCard } from '../../../components/InstructionCard';
+import { InstructionCard } from '../../../components/_cards/InstructionCard';
 
 const presentationTexts = [
     'rede social, de verdade',

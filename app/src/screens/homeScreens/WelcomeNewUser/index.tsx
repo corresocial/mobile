@@ -9,7 +9,7 @@ import SalesCart from './../../../assets/icons/salesCart.svg'
 import { WelcomeNewUserScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps';
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
-import { InstructionCard } from '../../../components/InstructionCard';
+import { InstructionCard } from '../../../components/_cards/InstructionCard';
 import { OptionButton } from '../../../components/_buttons/OptionButton';
 import { AuthContext } from '../../../contexts/AuthContext';
 

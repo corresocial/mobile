@@ -15,7 +15,7 @@ import updateUserPrivateData from '../../../services/Firebase/user/updateUserPri
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { InstructionCard } from '../../../components/InstructionCard';
+import { InstructionCard } from '../../../components/_cards/InstructionCard';
 import { PhotoPortrait } from '../../../components/PhotoPortrait';
 import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal';
 import { screenWidth } from '../../../common/screenDimensions';

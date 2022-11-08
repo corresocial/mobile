@@ -24,7 +24,7 @@ import { SelectButtonsContainer } from '../../../components/_containers/SelectBu
 import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/InstructionCard'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { LineInput } from '../../../components/LineInput'
 

@@ -15,7 +15,7 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
-import { InstructionCard } from '../../../components/InstructionCard'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 function SelectPostType({ route, navigation }: SelectPostTypeScreenProps) {

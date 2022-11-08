@@ -12,7 +12,7 @@ import { SaleContext } from '../../../contexts/SaleContext';
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { InstructionCard } from '../../../components/InstructionCard';
+import { InstructionCard } from '../../../components/_cards/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions';
 import { BackButton } from '../../../components/_buttons/BackButton';

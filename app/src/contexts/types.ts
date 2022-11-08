@@ -105,7 +105,7 @@ export type VacancyData = {
     workplace?: WorkplaceType
     companyDescription?: string
     questions?: string[]
-    workWeekdays?: []
+    workWeekdays?: DaysOfWeek[]
     startWorkHour?: Date
     endWorkHour?: Date
     tags?: string[]

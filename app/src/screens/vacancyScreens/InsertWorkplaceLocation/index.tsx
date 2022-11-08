@@ -15,7 +15,7 @@ import { VacancyContext } from '../../../contexts/VacancyContext';
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { BackButton } from '../../../components/_buttons/BackButton';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { InstructionCard } from '../../../components/InstructionCard';
+import { InstructionCard } from '../../../components/_cards/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
 import { CustomMapView } from '../../../components/CustomMapView';

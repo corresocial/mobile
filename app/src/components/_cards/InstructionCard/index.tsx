@@ -3,7 +3,7 @@ import React from 'react';
 import { Container, Message } from './styles';
 import { RFValue } from 'react-native-responsive-fontsize';
 
-import { showMessageWithHighlight } from '../../common/auxiliaryFunctions';
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions';
 
 interface InstructionCardProps {
     message: string

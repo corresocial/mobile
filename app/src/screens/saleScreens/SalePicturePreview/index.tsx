@@ -12,7 +12,7 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { FormContainer } from '../../../components/_containers/FormContainer';
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal';
-import { InstructionCard } from '../../../components/InstructionCard';
+import { InstructionCard } from '../../../components/_cards/InstructionCard';
 import { PhotoPortrait } from '../../../components/PhotoPortrait';
 import { HorizontalListPictures } from '../../../components/HorizontalListPictures';
 import { StatusBar } from 'react-native';

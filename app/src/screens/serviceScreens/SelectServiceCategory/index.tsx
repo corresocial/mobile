@@ -12,7 +12,7 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
 import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
-import { InstructionCard } from '../../../components/InstructionCard'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { screenHeight } from '../../../common/screenDimensions'
 
