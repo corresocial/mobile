@@ -87,14 +87,14 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
 
     const closingTimeIsAfterOpening = (hoursValidation?: string, minutesValidation?: string) => {
         const startWorkHour = new Date(vacancyDataContext.startWorkHour as Date)
-        const closingHour = new Date(Date.UTC(2022, 1, 1, parseInt(!!hoursValidation ? hoursValidation : hours), parseInt(!!minutesValidation ? minutesValidation : '59'), 0, 0))
-        return startWorkHour < closingHour
+        const endWorkHour = new Date(Date.UTC(2022, 1, 1, parseInt(!!hoursValidation ? hoursValidation : hours), parseInt(!!minutesValidation ? minutesValidation : '59'), 0, 0))
+        return startWorkHour < endWorkHour
     }
 
     const getCompleteVacancyDataFromContext = () => {
         return {
             ...vacancyDataContext,
-            closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
+            endWorkHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
         }
     }
 
@@ -105,36 +105,21 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
     const extractVacancyDataPost = (vacancyData: VacancyData) => {
         const currentVacancyData = { ...vacancyData }
         delete currentVacancyData.address
-        delete currentVacancyData.profileDescription
 
         return { ...currentVacancyData } as VacancyCollection
-    }
-
-    const extractVacancyPictures = (vacancyData: VacancyData) => {
-        return vacancyData.picturesUrl as string[] || []
     }
 
     const getLocalUser = async () => {
         return JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
     }
 
-    const updateUserData = async (userId: string, userData: UserCollection) => {
-        await updateUser(userId, {
-            ...userData,
-            tourPerformed: true
-        })
-    }
-
     const saveVacancyPost = async () => {
-        const  completeVacancyData = getCompleteVacancyDataFromContext()
-        console.log(completeVacancyData)
-        /* const completeVacancyData = getCompleteVacancyDataFromContext()
+        const completeVacancyData = getCompleteVacancyDataFromContext()
         setVacancyDataOnContext({ ...completeVacancyData })
 
         const vacancyAddress = extractVacancyAddress(completeVacancyData)
         const vacancyDataPost = extractVacancyDataPost(completeVacancyData)
-        const vacancyPictures = extractVacancyPictures(completeVacancyData)
-        
+
         try {
             const localUser = await getLocalUser()
             if (!localUser.userId) throw 'Não foi possível identificar o usuário'
@@ -142,86 +127,36 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
             const postId = await createPost(vacancyDataPost, localUser, 'vacancies')
             if (!postId) throw 'Não foi possível identificar o post'
 
-            if (!vacancyPictures.length) {
-                await updateUserPost(
-                    localUser,
-                    postId,
-                    vacancyDataPost,
-                    vacancyPictures
-                )
+            await updateUserPost(
+                localUser,
+                postId,
+                vacancyDataPost,
+            )
 
-                await updatePostPrivateData(
-                    vacancyAddress,
-                    postId,
-                    'vacancies',
-                    'address'
-                )
-                return
-            }
+            await updatePostPrivateData(
+                vacancyAddress,
+                postId,
+                'vacancies',
+                'address'
+            )
+            return
 
-            const picturePostsUrls: string[] = []
-            vacancyPictures.forEach(async (vacancyPicture, index) => {
-                uploadImage(vacancyPicture, 'vacancys', postId, index).then(
-                    ({ uploadTask, blob }: any) => {
-                        uploadTask.on(
-                            'state_change',
-                            () => { },
-                            (err: any) => {
-                                throw err
-                            },
-                            () => {
-                                getDownloadURL(uploadTask.snapshot.ref)
-                                    .then(
-                                        async (downloadURL) => {
-                                            blob.close()
-                                            picturePostsUrls.push(downloadURL)
-                                            if (picturePostsUrls.length === vacancyPictures.length) {
-                                                await updateUserPost(
-                                                    localUser,
-                                                    postId,
-                                                    vacancyDataPost,
-                                                    picturePostsUrls
-                                                )
-
-                                                await updateDocField( // Update pictureUrl
-                                                    'vacancys',
-                                                    postId,
-                                                    'picturesUrl',
-                                                    { ...picturePostsUrls },
-                                                )
-
-                                                await updatePostPrivateData(
-                                                    vacancyAddress,
-                                                    postId,
-                                                    'vacancies',
-                                                    'address'
-                                                )
-                                            }
-                                        },
-                                    )
-                            },
-                        )
-                    },
-                )
-            })
         } catch (err) {
             console.log(err)
             setInvalidHourAfterSubmit(true)
             setInvalidMinutesAfterSubmit(true)
-        } */
+        }
     }
 
     const updateUserPost = async (
         localUser: LocalUserData,
         postId: string,
         vacancyDataPost: VacancyData,
-        picturePostsUrls: string[],
     ) => {
         const postData = {
             ...vacancyDataPost,
             postId: postId,
             postType: 'vacancy',
-            picturesUrl: picturePostsUrls,
         }
 
         await updateDocField(
@@ -237,16 +172,15 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
                     tourPerformed: true,
                     posts: [
                         ...localUser.posts as PostCollection[],
-                        {  
+                        {
                             ...vacancyDataPost,
                             postId: postId,
                             postType: 'vacancy',
-                            picturesUrl: picturePostsUrls
                         },
                     ],
                 })
                 console.log('Naviguei')
-                navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
+                // navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
             })
     }
 
@@ -262,13 +196,13 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
 
         return headerBackgroundAnimatedValue.current.interpolate({
             inputRange: [0, 1],
-            outputRange: [theme.purple2, theme.red2],
+            outputRange: [theme.yellow2, theme.red2],
         })
     }
 
     return (
         <Container >
-            <StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.yellow2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={(screenHeight + statusBarHeight) * 0.27}
                 relativeHeight={'22%'}
@@ -291,8 +225,8 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
                     }
                 >
                     <ProgressBar
-                        range={5}
-                        value={5}
+                        range={3}
+                        value={3}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -307,8 +241,8 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
                         nextInputRef={inputRefs.minutesInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
-                        validBackgroundColor={theme.purple1}
-                        validBorderBottomColor={theme.purple5}
+                        validBackgroundColor={theme.yellow1}
+                        validBorderBottomColor={theme.yellow5}
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
@@ -328,8 +262,8 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
                         previousInputRef={inputRefs.hoursInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
-                        validBackgroundColor={theme.purple1}
-                        validBorderBottomColor={theme.purple5}
+                        validBackgroundColor={theme.yellow1}
+                        validBorderBottomColor={theme.yellow5}
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
@@ -347,7 +281,7 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
                     {
                         hoursIsValid && minutesIsValid && !keyboardOpened &&
                         <PrimaryButton
-                            color={someInvalidFieldSubimitted() ? theme.red3 : theme.purple3}
+                            color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
                             iconName={'arrow-right'}
                             iconColor={theme.white3}
                             label='continuar'

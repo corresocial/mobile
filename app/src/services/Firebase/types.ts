@@ -86,7 +86,7 @@ export type PrivateAddress = {
 
 export type PostCollectionType = 'services' | 'sales' | 'vacancies' // Post type title
 
-export type PostCollection = ServiceCollection | SaleCollection
+export type PostCollection = ServiceCollection | SaleCollection | VacancyCollection
 
 export type ServiceCollection = {
     address?: {
@@ -156,7 +156,36 @@ export type SaleCollection = {
     createdAt?: Date
 }
 
-export type VacancyCollection = any
+export type VacancyCollection = {
+    title?: string
+    description?: string
+    vacancyType?: string
+    workplace?: string
+    companyDescription?: string
+    questions?: string[]
+    workWeekdays?: []
+    startWorkHour?: Date
+    endWorkHour?: Date
+    tags?: string[]
+    createdAt?: Date
+    address?: {
+        country?: string
+        state?: string
+        city?: string
+        postalCode?: string
+        district?: string
+        street?: string
+        number?: string
+        reference?: string
+        coordinates?: {
+            latitude?: number
+            longitude?: number
+        }
+        geohash?: string
+        geohashNear?: string[]
+        geohashCity?: string[]
+    }
+}
 
 export type AdsCollection = {
 

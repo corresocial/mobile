@@ -69,7 +69,7 @@ function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
         setVacancyDataOnContext({
             startWorkHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
         })
-        // navigation.navigate('InsertClosingHour')
+        navigation.navigate('InsertEndWorkHour')
     }
 
     return (

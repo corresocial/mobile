@@ -33,23 +33,6 @@ export type LocalUserPost = { //TODO Posts locais do usuario
 
 export type ServiceData = {
     profileDescription?: string // on context
-    address?: {
-        country?: string
-        state?: string
-        city?: string
-        postalCode?: string
-        district?: string
-        street?: string
-        number?: string
-        reference?: string
-        coordinates?: {
-            latitude?: number
-            longitude?: number
-        }
-        geohash?: string
-        geohashNear?: string[]
-        geohashCity?: string[]
-    },
     title?: string
     tags?: string[]
     paymentType?: PaymentType
@@ -62,9 +45,6 @@ export type ServiceData = {
     openingHour?: Date
     closingHour?: Date
     picturesUrl?: string[]
-}
-
-export type SaleData = {
     address?: {
         country?: string
         state?: string
@@ -81,7 +61,10 @@ export type SaleData = {
         geohash?: string
         geohashNear?: string[]
         geohashCity?: string[]
-    },
+    }
+}
+
+export type SaleData = {
     title?: string
     itemName?: string
     itemDescription?: string
@@ -96,6 +79,51 @@ export type SaleData = {
     openingHour?: Date
     closingHour?: Date
     picturesUrl?: string[]
+    address?: {
+        country?: string
+        state?: string
+        city?: string
+        postalCode?: string
+        district?: string
+        street?: string
+        number?: string
+        reference?: string
+        coordinates?: {
+            latitude?: number
+            longitude?: number
+        }
+        geohash?: string
+        geohashNear?: string[]
+        geohashCity?: string[]
+    }
 }
 
-export type VacancyData = any
+export type VacancyData = {
+    title?: string
+    description?: string
+    vacancyType?: string
+    workplace?: string
+    companyDescription?: string
+    questions?: string[]
+    workWeekdays?: []
+    startWorkHour?: Date
+    endWorkHour?: Date
+    tags?: string[]
+    address?: {
+        country?: string
+        state?: string
+        city?: string
+        postalCode?: string
+        district?: string
+        street?: string
+        number?: string
+        reference?: string
+        coordinates?: {
+            latitude?: number
+            longitude?: number
+        }
+        geohash?: string
+        geohashNear?: string[]
+        geohashCity?: string[]
+    }
+}
