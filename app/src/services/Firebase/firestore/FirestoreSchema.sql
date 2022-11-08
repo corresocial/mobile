@@ -99,3 +99,39 @@ saleCollection = {
         profilePictureUrl: 'array[string]'
 	},
 }
+
+vacancyCollection = {
+    title?: string
+    description?: string
+    vacancyType?: enum('professional' | 'temporary' | 'beak')
+    workplace?: enum('homeoffice' | 'presential' | 'hybrid')
+    companyDescription?: string
+    questions?: string[]
+    workWeekdays?: DaysOfWeek[]
+    startWorkHour?: 'date'
+    endWorkHour?: 'date'
+    tags?: string[]
+    createdAt?: 'date'
+    private address: {
+            country: 'string',
+            state: 'string',
+            city: 'string',
+            postalCode: 'string',
+            district: 'string',
+            street: 'string',
+            number: 'string',
+            reference: 'string',
+            coordinates: {
+                latitude: 'float',
+                longitude: 'float',
+            }
+            geohash: 'string'
+            geohashNear: 'array[string]',
+            geohashCity: 'array[string]',
+    }
+    owner: {
+        userId: 'string',
+        name: 'string',
+        profilePictureUrl: 'array[string]'
+	},
+}

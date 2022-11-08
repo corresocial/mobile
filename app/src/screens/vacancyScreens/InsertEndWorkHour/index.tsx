@@ -106,7 +106,7 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
         const currentVacancyData = { ...vacancyData }
         delete currentVacancyData.address
 
-        return { ...currentVacancyData } as VacancyCollection
+        return { ...currentVacancyData } as VacancyData
     }
 
     const getLocalUser = async () => {
@@ -180,7 +180,7 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
                     ],
                 })
                 console.log('Naviguei')
-                // navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
+                navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
             })
     }
 
@@ -216,12 +216,12 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
                     message={
                         someInvalidFieldSubimitted()
                             ? 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes'
-                            : 'que horas você para de trabalhar?'
+                            : 'que horas termina?'
                     }
                     highlightedWords={
                         someInvalidFieldSubimitted()
                             ? ['do', 'nosso', 'lado,']
-                            : ['que', 'horas', 'para', 'de', 'trabalhar?']
+                            : ['que', 'horas']
                     }
                 >
                     <ProgressBar

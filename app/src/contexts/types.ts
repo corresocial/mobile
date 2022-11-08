@@ -1,4 +1,4 @@
-import { DaysOfWeek, DeliveryMethod, LocationViewType, PaymentType, UserCollection, WeekdaysFrequency } from "../services/Firebase/types";
+import { DaysOfWeek, DeliveryMethod, LocationViewType, PaymentType, UserCollection, VacancyType, WeekdaysFrequency, WorkplaceType } from "../services/Firebase/types";
 
 export type UserIdentification = {
     uid: string;
@@ -101,8 +101,8 @@ export type SaleData = {
 export type VacancyData = {
     title?: string
     description?: string
-    vacancyType?: string
-    workplace?: string
+    vacancyType?: VacancyType
+    workplace?: WorkplaceType
     companyDescription?: string
     questions?: string[]
     workWeekdays?: []

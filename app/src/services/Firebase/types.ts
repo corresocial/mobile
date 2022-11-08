@@ -119,6 +119,11 @@ export type ServiceCollection = {
     closingHour?: Date
     picturesUrl?: string[]
     createdAt?: Date
+    owner?: {
+        userId?: string
+        name?: string
+        profilePictureUrl?: string[]
+    }
 }
 
 export type SaleCollection = {
@@ -154,16 +159,21 @@ export type SaleCollection = {
     closingHour?: Date
     picturesUrl?: string[]
     createdAt?: Date
+    owner?: {
+        userId?: string
+        name?: string
+        profilePictureUrl?: string[]
+    }
 }
 
 export type VacancyCollection = {
     title?: string
     description?: string
-    vacancyType?: string
-    workplace?: string
+    vacancyType?: VacancyType
+    workplace?: WorkplaceType
     companyDescription?: string
     questions?: string[]
-    workWeekdays?: []
+    workWeekdays?: DaysOfWeek[]
     startWorkHour?: Date
     endWorkHour?: Date
     tags?: string[]
@@ -184,6 +194,11 @@ export type VacancyCollection = {
         geohash?: string
         geohashNear?: string[]
         geohashCity?: string[]
+    }
+    owner?: {
+        userId?: string
+        name?: string
+        profilePictureUrl?: string[]
     }
 }
 
