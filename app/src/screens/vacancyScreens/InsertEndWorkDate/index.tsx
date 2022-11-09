@@ -6,7 +6,7 @@ import { theme } from '../../../common/theme';
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { InsertStartWorkDateScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
+import { InsertEndWorkDateScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
 import { VacancyContext } from '../../../contexts/VacancyContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
@@ -18,9 +18,9 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton';
 import { ProgressBar } from '../../../components/ProgressBar';
 
-function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
+function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
 
-    const { setVacancyDataOnContext } = useContext(VacancyContext)
+    const {vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 
     const [day, setDay] = useState<string>('')
     const [month, setMonth] = useState<string>('')
@@ -72,15 +72,26 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
     }
 
     const validateYear = (text: string) => {
-        const isValid = text.length == 4 && insertedYearIsBiggerThenCurrentYear(text)
+        const isValid = text.length == 4 && insertedYearIsBiggerThenCurrentYear(text) && currentDateIsBiggerThenStartDate
         if (isValid) {
             return true
         }
         return false
     }
 
+    const currentDateIsBiggerThenStartDate = () => {
+        const currentDate = new Date(`${year}-${month}-${day}T00:00:00`)
+        return vacancyDataContext.startWorkDate || currentDate <=  currentDate
+    }
+    
     const allFiedsIsValid = () => {
-        return dayIsValid && monthIsValid && yearIsValid && insertedYearIsBiggerThenCurrentYear(year)
+        return (
+            dayIsValid && 
+            monthIsValid && 
+            yearIsValid && 
+            insertedYearIsBiggerThenCurrentYear(year) &&
+            currentDateIsBiggerThenStartDate()
+        )
     }
 
     const insertedYearIsBiggerThenCurrentYear = (insertedYear: string) => {
@@ -91,9 +102,9 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
 
     const saveOppeningHour = () => {
         setVacancyDataOnContext({
-            startWorkDate: new Date(`${year}-${month}-${day}T00:00:00`)
+            endWorkDate: new Date(`${year}-${month}-${day}T00:00:00`)
         })
-        navigation.navigate('InsertStartWorkHour')
+        navigation.navigate('InsertEndWorkHour')
     }
 
     return (
@@ -109,8 +120,8 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'quando começa?'}
-                    highlightedWords={['quando']}
+                    message={'até quando?'}
+                    highlightedWords={['quando?']}
                 >
                     <ProgressBar
                         range={3}
@@ -204,4 +215,4 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
     );
 }
 
-export { InsertStartWorkDate }
+export { InsertEndWorkDate }

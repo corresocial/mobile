@@ -20,7 +20,7 @@ import { ProgressBar } from '../../../components/ProgressBar';
 
 function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
 
-    const { setVacancyDataOnContext } = useContext(VacancyContext)
+    const { vacancyDataContext,setVacancyDataOnContext } = useContext(VacancyContext)
 
     const [hours, setHours] = useState<string>('')
     const [minutes, setMinutes] = useState<string>('')
@@ -69,7 +69,11 @@ function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
         setVacancyDataOnContext({
             startWorkHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
         })
-        navigation.navigate('InsertEndWorkHour')
+        if(vacancyDataContext.vacancyType == 'professional'){
+            navigation.navigate('InsertEndWorkHour')
+        }else{
+            navigation.navigate('InsertEndWorkDate')
+        }
     }
 
     return (
