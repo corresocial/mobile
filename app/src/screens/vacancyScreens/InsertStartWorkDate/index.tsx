@@ -6,7 +6,7 @@ import { theme } from '../../../common/theme';
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { InsertStartWorkHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
+import { InsertStartWorkDateScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
 import { VacancyContext } from '../../../contexts/VacancyContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
@@ -18,19 +18,23 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton';
 import { ProgressBar } from '../../../components/ProgressBar';
 
-function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
+function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
 
     const { setVacancyDataOnContext } = useContext(VacancyContext)
 
-    const [hours, setHours] = useState<string>('')
-    const [minutes, setMinutes] = useState<string>('')
-    const [hoursIsValid, setHoursIsValid] = useState<boolean>(false)
-    const [minutesIsValid, setMinutesIsValid] = useState<boolean>(false)
+    const [day, setDay] = useState<string>('')
+    const [month, setMonth] = useState<string>('')
+    const [year, setYear] = useState<string>('')
+
+    const [dayIsValid, setDayIsValid] = useState<boolean>(false)
+    const [monthIsValid, setMonthIsValid] = useState<boolean>(false)
+    const [yearIsValid, setYearIsValid] = useState<boolean>(false)
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
-        hoursInput: useRef<React.MutableRefObject<any>>(null),
-        minutesInput: useRef<React.MutableRefObject<any>>(null)
+        dayInput: useRef<React.MutableRefObject<any>>(null),
+        monthInput: useRef<React.MutableRefObject<any>>(null),
+        yearInput: useRef<React.MutableRefObject<any>>(null)
     }
 
     useEffect(() => {
@@ -43,33 +47,53 @@ function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
     }, [navigation])
 
     useEffect(() => {
-        const hoursValidation = validateHours(hours)
-        const minutesValidation = validateMinutes(minutes)
-        setHoursIsValid(hoursValidation)
-        setMinutesIsValid(minutesValidation)
-    }, [hours, minutes, keyboardOpened])
+        const dayValidation = validateDay(day)
+        const monthValidation = validateMonth(month)
+        const yearValidation = validateYear(year)
+        setDayIsValid(dayValidation)
+        setMonthIsValid(monthValidation)
+        setYearIsValid(yearValidation)
+    }, [day, month, year, keyboardOpened])
 
-    const validateHours = (text: string) => {
-        const isValid = text.length == 2 && parseInt(text) < 24
+    const validateDay = (text: string) => {
+        const isValid = text.length == 2 && parseInt(text) <= 31 && parseInt(text) > 0
         if (isValid) {
             return true
         }
         return false
     }
 
-    const validateMinutes = (text: string) => {
-        const isValid = text.length == 2 && parseInt(text) < 60
+    const validateMonth = (text: string) => {
+        const isValid = text.length == 2 && parseInt(text) <= 12 && parseInt(text) > 0
         if (isValid) {
             return true
         }
         return false
+    }
+
+    const validateYear = (text: string) => {
+        const isValid = text.length == 4 && insertedYearIsBiggerThenCurrentYear(text)
+        if (isValid) {
+            return true
+        }
+        return false
+    }
+
+    const allFiedsIsValid = () => {
+        return dayIsValid && monthIsValid && yearIsValid && insertedYearIsBiggerThenCurrentYear(year)
+    }
+
+    const insertedYearIsBiggerThenCurrentYear = (insertedYear: string) => {
+        const insertedDate = new Date(Date.UTC(parseInt(insertedYear), parseInt(month) - 1, parseInt(day), 0, 0, 0, 0))
+        const currentDate = new Date()
+        return insertedDate.getTime() - (insertedDate.getTimezoneOffset() * 60) >= currentDate.getTime() - (currentDate.getTimezoneOffset() * 60) - 55002000
     }
 
     const saveOppeningHour = () => {
         setVacancyDataOnContext({
-            startWorkHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
+            startWorkDate: new Date(`${year}-${month}-${day}T00:00:00`)
         })
-        navigation.navigate('InsertEndWorkHour')
+        // navigation.navigate('InsertStartWorkHour')
     }
 
     return (
@@ -85,8 +109,8 @@ function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'que horas começa?'}
-                    highlightedWords={['que', 'horas']}
+                    message={'quando começa?'}
+                    highlightedWords={['quando']}
                 >
                     <ProgressBar
                         range={3}
@@ -99,10 +123,10 @@ function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
             >
                 <InputsContainer>
                     <LineInput
-                        value={hours}
-                        relativeWidth={'40%'}
-                        textInputRef={inputRefs.hoursInput}
-                        nextInputRef={inputRefs.minutesInput}
+                        value={day}
+                        relativeWidth={'30%'}
+                        textInputRef={inputRefs.dayInput}
+                        nextInputRef={inputRefs.monthInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
                         validBackgroundColor={theme.yellow1}
@@ -111,18 +135,19 @@ function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
                         fontSize={26}
-                        placeholder={'07'}
+                        placeholder={'dia'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
-                        validateText={(text: string) => validateHours(text)}
-                        onChangeText={(text: string) => setHours(text)}
+                        textIsValid={allFiedsIsValid() && !keyboardOpened}
+                        validateText={(text: string) => validateDay(text)}
+                        onChangeText={(text: string) => setDay(text)}
                     />
-                    <TwoPoints>:</TwoPoints>
                     <LineInput
-                        value={minutes}
-                        relativeWidth={'40%'}
-                        textInputRef={inputRefs.minutesInput}
-                        previousInputRef={inputRefs.hoursInput}
+                        value={month}
+                        relativeWidth={'30%'}
+                        previousInputRef={inputRefs.dayInput}
+                        textInputRef={inputRefs.monthInput}
+                        nextInputRef={inputRefs.yearInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
                         validBackgroundColor={theme.yellow1}
@@ -131,17 +156,38 @@ function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
                         fontSize={26}
-                        placeholder={'30'}
+                        placeholder={'mês'}
+                        keyboardType={'decimal-pad'}
+                        filterText={filterLeavingOnlyNumbers}
+                        textIsValid={allFiedsIsValid() && !keyboardOpened}
+                        validateText={(text: string) => validateMonth(text)}
+                        onChangeText={(text: string) => setMonth(text)}
+                    />
+                    <LineInput
+                        value={year}
+                        relativeWidth={'30%'}
+                        previousInputRef={inputRefs.monthInput}
+                        textInputRef={inputRefs.yearInput}
+                        defaultBackgroundColor={theme.white2}
+                        defaultBorderBottomColor={theme.black4}
+                        validBackgroundColor={theme.yellow1}
+                        validBorderBottomColor={theme.yellow5}
+                        invalidBackgroundColor={theme.red1}
+                        invalidBorderBottomColor={theme.red5}
+                        maxLength={4}
+                        fontSize={26}
+                        placeholder={'ano'}
                         keyboardType={'decimal-pad'}
                         lastInput={true}
                         filterText={filterLeavingOnlyNumbers}
-                        validateText={(text: string) => validateMinutes(text)}
-                        onChangeText={(text: string) => setMinutes(text)}
+                        textIsValid={allFiedsIsValid() && !keyboardOpened}
+                        validateText={(text: string) => validateYear(text)}
+                        onChangeText={(text: string) => setYear(text)}
                     />
                 </InputsContainer>
                 <>
                     {
-                        hoursIsValid && minutesIsValid && !keyboardOpened &&
+                        allFiedsIsValid() && !keyboardOpened &&
                         <PrimaryButton
                             color={theme.green3}
                             iconName={'arrow-right'}
@@ -158,4 +204,4 @@ function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
     );
 }
 
-export { InsertStartWorkHour }
+export { InsertStartWorkDate }

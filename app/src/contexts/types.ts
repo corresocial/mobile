@@ -106,6 +106,8 @@ export type VacancyData = {
     companyDescription?: string
     questions?: string[]
     workWeekdays?: DaysOfWeek[]
+    startWorkDate?: Date //Added
+    endWorkDate?: Date //Added
     startWorkHour?: Date
     endWorkHour?: Date
     tags?: string[]
