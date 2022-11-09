@@ -174,6 +174,8 @@ export type VacancyCollection = {
     companyDescription?: string
     questions?: string[]
     workWeekdays?: DaysOfWeek[]
+    startWorkDate?: Date
+    endWorkDate?: Date
     startWorkHour?: Date
     endWorkHour?: Date
     tags?: string[]

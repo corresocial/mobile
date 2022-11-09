@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { KeyboardTypeOptions, NativeSyntheticEvent, ReturnKeyTypeOptions, TextInputKeyPressEventData, View } from 'react-native';
+import { KeyboardTypeOptions, NativeSyntheticEvent, ReturnKeyTypeOptions, Text, TouchableOpacity, TextInputKeyPressEventData, View } from 'react-native';
 import { screenHeight, screenWidth } from '../../common/screenDimensions';
 
 import { Container, TextInput } from './styles';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { theme } from '../../common/theme';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 interface LineInputProps {
     value: string
@@ -25,6 +26,7 @@ interface LineInputProps {
     fontSize?: number
     textAlign?: 'auto' | 'left' | 'right' | 'center' | 'justify' | undefined;
     multiline?: boolean
+    editable?: boolean
     placeholder?: string
     error?: boolean
     textIsValid?: boolean
@@ -32,6 +34,7 @@ interface LineInputProps {
     keyboardType?: KeyboardTypeOptions
     blurOnSubmit?: boolean
     returnKeyType?: ReturnKeyTypeOptions
+    onIconPress?: () => void
     onPressKeyboardSubmit?: () => void
     filterText?: (text: string) => string
     validateText?: (text: string) => boolean
@@ -57,10 +60,12 @@ function LineInput({
     fontSize = 20,
     textAlign,
     multiline,
+    editable,
     placeholder,
     keyboardType,
     returnKeyType,
     blurOnSubmit = true,
+    onIconPress,
     onPressKeyboardSubmit,
     error,
     lastInput,
@@ -72,7 +77,7 @@ function LineInput({
 
     const [focused, setFocused] = useState<boolean>(false)
     const [validated, setValidated] = useState<boolean>(false)
-    const [multilineInputHeight, setMultilineInputHeight] = useState(relativeHeight ? relativeHeight:  screenHeight * 0.1)
+    const [multilineInputHeight, setMultilineInputHeight] = useState(relativeHeight ? relativeHeight : screenHeight * 0.1)
 
     const ValidateAndChange = (text: string) => {
         let filtredText = filterText ? filterText(text) : text
@@ -149,27 +154,42 @@ function LineInput({
             underlayColor={validated ? validBackgroundColor : defaultBackgroundColor}
             onPress={() => textInputRef.current.focus()}
         >
-            <TextInput
-                style={[getTextInputStyle(), {
-                    fontSize: RFValue(fontSize),
-                    textAlign: textAlign || 'center',
-                    textAlignVertical: multiline ? 'top' : 'center'
-                }]}
-                ref={textInputRef}
-                value={value}
-                maxLength={maxLength}
-                multiline={multiline}
-                numberOfLines={7}
-                onContentSizeChange={({ nativeEvent: { contentSize: { width, height } } }) => resizeMultilineInput(height)}
-                secureTextEntry={secureTextEntry}
-                keyboardType={keyboardType || 'ascii-capable'}
-                placeholder={placeholder}
-                returnKeyType={returnKeyType ? returnKeyType : lastInput ? 'done' : 'next'}
-                blurOnSubmit={blurOnSubmit}
-                onSubmitEditing={nextInputRef ? setFocusToNextInput : onPressKeyboardSubmit}
-                onChangeText={(text) => ValidateAndChange(text)}
-                onKeyPress={(key: NativeSyntheticEvent<TextInputKeyPressEventData>) => performKeyPress(key)}
-            />
+            <View
+                style={onIconPress && {
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                }}>
+                <TextInput
+                    style={[getTextInputStyle(), {
+                        fontSize: RFValue(fontSize),
+                        textAlign: textAlign || 'center',
+                        textAlignVertical: multiline ? 'top' : 'center',
+                        width: onIconPress ? '85%' : '100%'
+                    }]}
+                    ref={textInputRef}
+                    value={value}
+                    maxLength={maxLength}
+                    editable={editable}
+                    multiline={multiline}
+                    numberOfLines={7}
+                    onContentSizeChange={({ nativeEvent: { contentSize: { width, height } } }) => resizeMultilineInput(height)}
+                    secureTextEntry={secureTextEntry}
+                    keyboardType={keyboardType || 'ascii-capable'}
+                    placeholder={placeholder}
+                    returnKeyType={returnKeyType ? returnKeyType : lastInput ? 'done' : 'next'}
+                    blurOnSubmit={blurOnSubmit}
+                    onSubmitEditing={nextInputRef ? setFocusToNextInput : onPressKeyboardSubmit}
+                    onChangeText={(text) => ValidateAndChange(text)}
+                    onKeyPress={(key: NativeSyntheticEvent<TextInputKeyPressEventData>) => performKeyPress(key)}
+                />
+                {
+                    onIconPress &&
+                    <TouchableOpacity onPress={onIconPress}>
+                        <FontAwesome5 name={'minus'} size={RFValue(20)} color={validBorderBottomColor} style={{ padding: 15 }} />
+                    </TouchableOpacity>
+                }
+            </View>
         </Container>
     );
 }

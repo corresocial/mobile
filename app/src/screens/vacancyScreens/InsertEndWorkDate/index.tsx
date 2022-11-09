@@ -78,11 +78,6 @@ function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
         }
         return false
     }
-
-    const currentDateIsBiggerThenStartDate = () => {
-        const currentDate = new Date(`${year}-${month}-${day}T00:00:00`)
-        return vacancyDataContext.startWorkDate || currentDate <=  currentDate
-    }
     
     const allFiedsIsValid = () => {
         return (
@@ -100,11 +95,19 @@ function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
         return insertedDate.getTime() - (insertedDate.getTimezoneOffset() * 60) >= currentDate.getTime() - (currentDate.getTimezoneOffset() * 60) - 55002000
     }
 
+    
+    const currentDateIsBiggerThenStartDate = () => {
+        const currentDate = new Date(`${year}-${month}-${day}T00:00:00`)
+        console.log('currentDate: '+ currentDate)
+        console.log('contextDate: '+ vacancyDataContext.startWorkDate)
+        return vacancyDataContext.startWorkDate || currentDate <=  currentDate
+    }
+
     const saveOppeningHour = () => {
         setVacancyDataOnContext({
             endWorkDate: new Date(`${year}-${month}-${day}T00:00:00`)
         })
-        navigation.navigate('InsertEndWorkHour')
+         navigation.navigate('InsertEndWorkHour')
     }
 
     return (
