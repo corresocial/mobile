@@ -22,7 +22,7 @@ import { InfoCard } from '../../../components/_cards/InfoCard';
 const defaultDeltaCoordinates = {
     latitudeDelta: 0.004,
     longitudeDelta: 0.004
-}
+}  
 
 function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenProps) {
 

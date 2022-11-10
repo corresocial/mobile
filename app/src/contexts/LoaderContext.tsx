@@ -1,7 +1,5 @@
 import React, { createContext, useState } from 'react'
 import { LoaderModal } from '../components/_modals/LoaderModal'
-import { VacancyData } from './types'
-
 
 type LoaderContextType = {
     loaderIsVisible: boolean,

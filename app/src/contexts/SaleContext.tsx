@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react";
 import { SaleData } from "./types";
 
 type SaleContextType = {
-    saleDataContext: SaleData | {} | any; // TODO LocationView address warn
+    saleDataContext: SaleData 
     setSaleDataOnContext: (data: SaleData) => void
 }
 

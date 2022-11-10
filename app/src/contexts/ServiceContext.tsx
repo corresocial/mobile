@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react";
 import { ServiceData } from "./types";
 
 type ServiceContextType = {
-    serviceDataContext: ServiceData | {} | any; // TODO LocationView address warn
+    serviceDataContext: ServiceData; 
     setServiceDataOnContext: (data: ServiceData) => void
 }
 
