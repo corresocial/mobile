@@ -38,8 +38,8 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
     const [minutesIsValid, setMinutesIsValid] = useState<boolean>(false)
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
-    const [invalidHourAfterSubmit, setInvalidHourAfterSubmit] = useState<boolean>(false)
-    const [invalidMinutesAfterSubmit, setInvalidMinutesAfterSubmit] = useState<boolean>(false)
+    const [invalidTimeAfterSubmit, setInvalidTimeAfterSubmit] = useState<boolean>(false)
+    const [hasServerSideError, setHasServerSideError] = useState<boolean>(false)
 
     const inputRefs = {
         hoursInput: useRef<React.MutableRefObject<any>>(null),
@@ -64,8 +64,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
     const validateHours = (text: string) => {
         const isValid = text.length == 2 && parseInt(text) < 24
-        if (isValid && closingTimeIsAfterOpening(text)) {
-            setInvalidHourAfterSubmit(false)
+        if (isValid) {
             return true
         } else {
             return false
@@ -74,27 +73,22 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
     const validateMinutes = (text: string) => {
         const isValid = text.length == 2 && parseInt(text) <= 59
-        if (isValid && closingTimeIsAfterOpening('', text)) {
-            setInvalidMinutesAfterSubmit(false)
+        if (isValid) {
             return true
         }
         return false
     }
 
-    const someInvalidFieldSubimitted = () => {
-        return invalidHourAfterSubmit && invalidHourAfterSubmit
-    }
-
-    const closingTimeIsAfterOpening = (hoursValidation?: string, minutesValidation?: string) => {
+    const closingTimeIsAfterOpening = () => {
         const openingHour = new Date(serviceDataContext.openingHour as Date)
-        const closingHour = new Date(Date.UTC(2022, 1, 1, parseInt(!!hoursValidation ? hoursValidation : hours), parseInt(!!minutesValidation ? minutesValidation : '59'), 0, 0))
-        return openingHour < closingHour
+        const closingHour = new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
+        return openingHour.getTime() < closingHour.getTime()
     }
 
     const getCompleteServiceDataFromContext = () => {
         return {
             ...serviceDataContext,
-            closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
+            closingHour: new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
         }
     }
 
@@ -130,6 +124,11 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
     }
 
     const saveServicePost = async () => {
+        if (!closingTimeIsAfterOpening()) {
+            setInvalidTimeAfterSubmit(true)
+            return
+        }
+
         const completeServiceData = getCompleteServiceDataFromContext()
         setServiceDataOnContext({ ...completeServiceData })
 
@@ -213,8 +212,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
             })
         } catch (err) {
             console.log(err)
-            setInvalidHourAfterSubmit(true)
-            setInvalidMinutesAfterSubmit(true)
+            setInvalidTimeAfterSubmit(true)
         }
     }
 
@@ -244,7 +242,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     tourPerformed: true,
                     posts: [
                         ...localUser.posts as PostCollection[],
-                        {  
+                        {
                             ...serviceDataPost,
                             postId: postId,
                             postType: 'service',
@@ -257,9 +255,27 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
             })
     }
 
+    const getHeaderMessage = () => {
+        if (hasServerSideError) {
+            return 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes'
+        }
+        return invalidTimeAfterSubmit
+            ? 'O horário de início informado é superior ao horário de encerramento'
+            : 'que horas você para de trabalhar?'
+    }
+
+    const getHighlightedHeaderMessage = () => {
+        if (hasServerSideError) {
+            return ['do', 'nosso', 'lado,']
+        }
+        return invalidTimeAfterSubmit
+            ? ['horário', 'de', 'início', 'encerramento']
+            : ['que', 'horas', 'para', 'de', 'trabalhar?']
+    }
+
     const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
     const animateDefaultHeaderBackgound = () => {
-        const existsError = someInvalidFieldSubimitted()
+        const existsError = invalidTimeAfterSubmit
 
         Animated.timing(headerBackgroundAnimatedValue.current, {
             toValue: existsError ? 1 : 0,
@@ -275,7 +291,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
     return (
         <Container >
-            <StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={invalidTimeAfterSubmit ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={(screenHeight + statusBarHeight) * 0.27}
                 relativeHeight={'22%'}
@@ -286,16 +302,8 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={
-                        someInvalidFieldSubimitted()
-                            ? 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes'
-                            : 'que horas você para de trabalhar?'
-                    }
-                    highlightedWords={
-                        someInvalidFieldSubimitted()
-                            ? ['do', 'nosso', 'lado,']
-                            : ['que', 'horas', 'para', 'de', 'trabalhar?']
-                    }
+                    message={getHeaderMessage()}
+                    highlightedWords={getHighlightedHeaderMessage()}
                 >
                     <ProgressBar
                         range={5}
@@ -320,12 +328,16 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
                         fontSize={26}
-                        invalidTextAfterSubmit={invalidHourAfterSubmit}
+                        invalidTextAfterSubmit={invalidTimeAfterSubmit}
                         placeholder={'14'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
                         validateText={(text: string) => validateHours(text)}
-                        onChangeText={(text: string) => setHours(text)}
+                        onChangeText={(text: string) => {
+                            setHours(text)
+                            invalidTimeAfterSubmit && setInvalidTimeAfterSubmit(false)
+                            hasServerSideError && setHasServerSideError(false)
+                        }}
                     />
                     <TwoPoints>:</TwoPoints>
                     <LineInput
@@ -341,20 +353,24 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
                         fontSize={26}
-                        invalidTextAfterSubmit={invalidMinutesAfterSubmit}
+                        invalidTextAfterSubmit={invalidTimeAfterSubmit}
                         placeholder={'30'}
                         keyboardType={'decimal-pad'}
                         lastInput={true}
                         filterText={filterLeavingOnlyNumbers}
                         validateText={(text: string) => validateMinutes(text)}
-                        onChangeText={(text: string) => setMinutes(text)}
+                        onChangeText={(text: string) => {
+                            setMinutes(text)
+                            invalidTimeAfterSubmit && setInvalidTimeAfterSubmit(false)
+                            hasServerSideError && setHasServerSideError(false)
+                        }}
                     />
                 </InputsContainer>
                 <>
                     {
                         hoursIsValid && minutesIsValid && !keyboardOpened &&
                         <PrimaryButton
-                            color={someInvalidFieldSubimitted() ? theme.red3 : theme.purple3}
+                            color={invalidTimeAfterSubmit ? theme.red3 : theme.purple3}
                             iconName={'arrow-right'}
                             iconColor={theme.white3}
                             label='continuar'

@@ -9,7 +9,7 @@ import uploadImage from '../../../services/Firebase/common/uploadPicture'
 import { getDownloadURL } from 'firebase/storage'
 import createPost from '../../../services/Firebase/post/createPost'
 import updateDocField from '../../../services/Firebase/common/updateDocField'
-import { PostCollection, PrivateAddress, VacancyCollection, UserCollection } from '../../../services/Firebase/types'
+import { PostCollection, PrivateAddress} from '../../../services/Firebase/types'
 import { LocalUserData, VacancyData } from '../../../contexts/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -19,7 +19,6 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
-import updateUser from '../../../services/Firebase/user/updateUser'
 import updatePostPrivateData from '../../../services/Firebase/post/updatePostPrivateData'
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
@@ -60,7 +59,6 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
         const minutesValidation = validateMinutes(minutes)
         setHoursIsValid(hoursValidation)
         setMinutesIsValid(minutesValidation)
-        hasServerSideError && setHasServerSideError(false)
     }, [hours, minutes, keyboardOpened])
 
     const validateHours = (text: string) => {
@@ -80,12 +78,10 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
         return false
     }
 
-    const closingTimeIsAfterOpening = (hoursValidation?: string, minutesValidation?: string) => {
+    const closingTimeIsAfterOpening = () => {
         const startWorkHour = new Date(vacancyDataContext.startWorkHour as Date)
-        const endWorkHour = new Date(Date.UTC(2022, 1, 1, parseInt(!!hours ? hours : hours), parseInt(!!minutes ? minutes : '59'), 0, 0))
-        console.log(startWorkHour)
-        console.log(endWorkHour)
-        return startWorkHour < endWorkHour
+        const endWorkHour = new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
+        return startWorkHour.getTime() < endWorkHour.getTime()
     }
 
     const getCompleteVacancyDataFromContext = () => {
@@ -115,6 +111,7 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
             setInvalidTimeAfterSubmit(true)
             return
         }
+
 
         const completeVacancyData = getCompleteVacancyDataFromContext()
         setVacancyDataOnContext({ ...completeVacancyData })
@@ -267,6 +264,7 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
                         onChangeText={(text: string) => {
                             setHours(text)
                             invalidTimeAfterSubmit && setInvalidTimeAfterSubmit(false)
+                            hasServerSideError && setHasServerSideError(false)
                         }}
                     />
                     <TwoPoints>:</TwoPoints>
@@ -289,7 +287,11 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
                         lastInput={true}
                         filterText={filterLeavingOnlyNumbers}
                         validateText={(text: string) => validateMinutes(text)}
-                        onChangeText={(text: string) => setMinutes(text)}
+                        onChangeText={(text: string) => {
+                            setMinutes(text)
+                            invalidTimeAfterSubmit && setInvalidTimeAfterSubmit(false)
+                            hasServerSideError && setHasServerSideError(false)
+                        }}
                     />
                 </InputsContainer>
                 <>

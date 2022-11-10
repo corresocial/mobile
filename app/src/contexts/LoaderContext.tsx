@@ -14,7 +14,7 @@ interface LoaderProviderProps {
 }
 
 const initialValue = {
-    loaderIsVisible: true,
+    loaderIsVisible: false,
     setLoaderIsVisible: (visibility: boolean) => { }
 }
 

@@ -26,7 +26,7 @@ export function VacancyStack() {
 
     return (
         <VacancyProvider>
-            <Stack.Navigator initialRouteName='SelectVacancyType'
+            <Stack.Navigator initialRouteName='InsertVacancyTitle'
                 screenOptions={{
                     headerShown: false,
                     gestureEnabled: true,

@@ -3,7 +3,6 @@ import React from 'react'
 import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 
 import { ServiceStackParamList } from './types';
-import { SelectPostType } from '../../../screens/homeScreens/SelectPostType';
 import { InsertProfileDescription } from '../../../screens/serviceScreens/InsertProfileDescription';
 import { InsertServiceName } from '../../../screens/serviceScreens/InsertServiceName';
 import { SelectServiceCategory } from '../../../screens/serviceScreens/SelectServiceCategory';
@@ -21,7 +20,7 @@ import { SelectServiceFrequency } from '../../../screens/serviceScreens/SelectSe
 import { SelectDaysOfWeek } from '../../../screens/serviceScreens/SelectDaysOfWeek';
 import { InsertOpeningHour } from '../../../screens/serviceScreens/InsertOpeningHour';
 import { InsertClosingHour } from '../../../screens/serviceScreens/InsertClosingHour';
-import { ServiceProvider, ServiceContext } from '../../../contexts/ServiceContext';
+import { ServiceProvider } from '../../../contexts/ServiceContext';
 
 
 const Stack = createStackNavigator<ServiceStackParamList>()

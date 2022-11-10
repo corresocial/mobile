@@ -22,6 +22,7 @@ function ServiceProvider({ children }: ServiceProviderProps) {
     const [serviceDataContext, setServiceDataContext] = useState(initialValue.serviceDataContext)
 
     const setServiceDataOnContext = async (data: ServiceData) => {
+        console.log({ ...serviceDataContext, ...data })
         setServiceDataContext({ ...serviceDataContext, ...data })
     }
 

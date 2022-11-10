@@ -18,7 +18,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-function SelectPostType({ route, navigation }: SelectPostTypeScreenProps) {
+function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
     return (
         <Container>
             <StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'}/>

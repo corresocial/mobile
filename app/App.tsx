@@ -12,6 +12,7 @@ import { theme } from './src/common/theme';
 
 import { AuthRegisterStack } from './src/routes/Stack/AuthRegisterStack';
 import { ignoredLogs } from './ignoredLogs';
+import { LoaderProvider } from './src/contexts/LoaderContext';
 
 export default function App() {
 
@@ -30,7 +31,9 @@ export default function App() {
 	return (
 		<NavigationContainer>
 			<ThemeProvider theme={theme}>
+				<LoaderProvider>
 				<AuthRegisterStack />
+				</LoaderProvider>
 			</ThemeProvider>
 		</NavigationContainer>
 	);

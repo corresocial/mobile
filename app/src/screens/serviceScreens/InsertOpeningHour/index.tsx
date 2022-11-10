@@ -67,7 +67,7 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
 
     const saveOppeningHour = () => {
         setServiceDataOnContext({
-            openingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
+            openingHour: new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
         })
         navigation.navigate('InsertClosingHour')
     }

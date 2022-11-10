@@ -146,7 +146,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         return userCredential;
     }
 
-    const setUserDataOnContext = (data: UserData) => { // TODO This function perform reload every request
+    const setUserDataOnContext = (data: UserData) => { // TODO This function reload application on every request
         setUserDataContext({ ...userDataContext, ...data })
     }
 

@@ -83,7 +83,7 @@ function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProp
                     textIsValid={true && !keyboardOpened}
                     onIconPress={() => removeQuestion(index)}
                     validateText={(text: string) => validateVacancyQuestions(text)}
-                    onChangeText={(text: string) => { }}/* editQuestion(text, index) */
+                    onChangeText={(text: string) => { }}/* editQuestion(text, index) In case edit cardQuestion*/ 
                 />
             )
         })
@@ -93,20 +93,18 @@ function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProp
 
     const addNewQuestion = () => {
         if (vacancyLength() == 3 || vacancyQuestion == '') return
-        console.log([...vacancyQuestions, vacancyQuestion])
         setVacancyQuestions([...vacancyQuestions, vacancyQuestion])
         setVacancyQuestion('')
     }
 
-    const editQuestion = (question: string, index: number) => {
+    /* const editQuestion = (question: string, index: number) => {
         const questions = [...vacancyQuestions]
         questions[index] = question
         setVacancyQuestions(questions)
-    }
+    } */
 
     const removeQuestion = (index: number) => {
         const questions = [...vacancyQuestions]
-        console.log(questions[index])
         delete questions[index]
         setVacancyQuestions(questions.filter(question => question != undefined))
     }

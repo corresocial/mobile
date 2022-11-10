@@ -24,7 +24,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectWorkWeekdays({ navigation }: SelectWorkWeekdaysScreenProps) {
-    {/* TODO Transform in component */ }
+    {/* TODO Transform in component ?*/ }
 
     const { setVacancyDataOnContext } = useContext(VacancyContext)
 

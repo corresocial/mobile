@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Alert, Animated, Keyboard, StatusBar } from 'react-native';
+import {  Animated, Keyboard, StatusBar } from 'react-native';
 
 import { Container, InputsContainer, TwoPoints } from './styles';
 import { theme } from '../../../common/theme';
