@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Alert, Keyboard, StatusBar } from 'react-native';
+import { Alert, Animated, Keyboard, StatusBar } from 'react-native';
 
 import { Container, InputsContainer, TwoPoints } from './styles';
 import { theme } from '../../../common/theme';
@@ -30,6 +30,7 @@ function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
     const [monthIsValid, setMonthIsValid] = useState<boolean>(false)
     const [yearIsValid, setYearIsValid] = useState<boolean>(false)
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+    const [invalidDateAfterSubmit, setInvalidDateAfterSubmit] = useState<boolean>(false)
 
     const inputRefs = {
         dayInput: useRef<React.MutableRefObject<any>>(null),
@@ -56,7 +57,7 @@ function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
     }, [day, month, year, keyboardOpened])
 
     const validateDay = (text: string) => {
-        const isValid = text.length == 2 && parseInt(text) <= 31 && parseInt(text) > 0 && insertedDayIsBiggerThenCurrentDay(text)
+        const isValid = text.length == 2 && parseInt(text) <= 31 && parseInt(text) > 0
         if (isValid) {
             return true
         }
@@ -64,7 +65,7 @@ function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
     }
 
     const validateMonth = (text: string) => {
-        const isValid = text.length == 2 && parseInt(text) <= 12 && parseInt(text) > 0 && insertedMonthIsBiggerThenCurrentMonth(text)
+        const isValid = text.length == 2 && parseInt(text) <= 12 && parseInt(text) > 0
         if (isValid) {
             return true
         }
@@ -72,55 +73,36 @@ function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
     }
 
     const validateYear = (text: string) => {
-        const isValid = text.length == 4 && insertedYearIsBiggerThenCurrentYear(text)
+        const isValid = text.length == 4
         if (isValid) {
             return true
         }
         return false
     }
 
-    const insertedDayIsBiggerThenCurrentDay = (insertedDay: string = day) => {
-        const insertedDate = new Date(`${year || '2050'}-${month || '12'}-${insertedDay}T23:59:59`)
-        const currentDate = new Date()
-        const currentDateWithoutTimezone = new Date(`${currentDate.getUTCFullYear()}-${currentDate.getUTCMonth() + 1}-${currentDate.getUTCDate()}`)
-        return insertedDate.getTime() > currentDateWithoutTimezone.getTime()
-    }
-
-    const insertedMonthIsBiggerThenCurrentMonth = (insertedMonth: string = month) => {
-        const insertedDate = new Date(`${year || '2050'}-${insertedMonth}-${day || '31'}T23:59:59`)
-        const currentDate = new Date()
-        const currentDateWithoutTimezone = new Date(`${currentDate.getUTCFullYear()}-${currentDate.getUTCMonth() + 1}-${currentDate.getUTCDate()}`)
-        return insertedDate.getTime() >= currentDateWithoutTimezone.getTime()
-    }
-
-    const insertedYearIsBiggerThenCurrentYear = (insertedYear: string = year) => {
-        const insertedDate = new Date(`${insertedYear || '2050'}-${month || '12'}-${day || '31'}T23:59:59`)
-        const currentDate = new Date()
-        const currentDateWithoutTimezone = new Date(`${currentDate.getUTCFullYear()}-${currentDate.getUTCMonth() + 1}-${currentDate.getUTCDate()}`)
-        return insertedDate.getTime() >= currentDateWithoutTimezone.getTime()
-    }
-
     const allFiedsIsValid = () => {
-        return (
-            dayIsValid &&
-            monthIsValid &&
-            yearIsValid
-        )
+        return (dayIsValid && monthIsValid && yearIsValid)
+    }
+
+    const existsThisDayOnMonth = () => {
+        if (!allFiedsIsValid()) return true
+        return numberOfDaysOfMonth() >= parseInt(day)
+    }
+
+    const numberOfDaysOfMonth = () => {
+        var data = new Date(parseInt(year), parseInt(month), 0);
+        return data.getDate()
     }
 
     const endDateIsBiggerOfStartDate = () => {
         const insertedDate = new Date(`${year}-${month}-${day}T23:59:59`)
         const vacancyContextStartDate = vacancyDataContext.startWorkDate || new Date()
         return vacancyContextStartDate.getTime() > insertedDate.getTime()
-
     }
 
     const saveOppeningHour = () => {
         if (endDateIsBiggerOfStartDate()) {
-            Alert.alert('Ops! (Temporário)', `A data de início informada é superior à data de encerramento!\n
-Data de início: ${vacancyDataContext.startWorkDate}
-Data de encerramento: ${new Date(`${year}-${month}-${day}T23:59:59`)}
-            `)
+            setInvalidDateAfterSubmit(true)
             return
         }
 
@@ -130,21 +112,45 @@ Data de encerramento: ${new Date(`${year}-${month}-${day}T23:59:59`)}
         navigation.navigate('InsertEndWorkHour')
     }
 
+    const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
+    const animateDefaultHeaderBackgound = () => {
+        const existsError = invalidDateAfterSubmit
+
+        Animated.timing(headerBackgroundAnimatedValue.current, {
+            toValue: existsError ? 1 : 0,
+            duration: 300,
+            useNativeDriver: false,
+        }).start()
+
+        return headerBackgroundAnimatedValue.current.interpolate({
+            inputRange: [0, 1],
+            outputRange: [theme.yellow2, theme.red2],
+        })
+    }
+
     return (
         <Container >
-            <StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={invalidDateAfterSubmit ? theme.red2 : theme.yellow2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={(screenHeight + statusBarHeight) * 0.26}
                 relativeHeight={'22%'}
                 centralized
-                backgroundColor={theme.yellow2}
+                backgroundColor={animateDefaultHeaderBackgound()}
             >
                 <BackButton onPress={() => navigation.goBack()} />
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'até quando?'}
-                    highlightedWords={['quando?']}
+                    message={
+                        invalidDateAfterSubmit
+                            ? 'A data de encerramento informada antecede a data de início'
+                            : 'até quando?'
+                    }
+                    highlightedWords={
+                        invalidDateAfterSubmit
+                            ? ['data', 'de', 'encerramento', 'data', 'início']
+                            : ['quando?']
+                    }
                 >
                     <ProgressBar
                         range={3}
@@ -160,7 +166,7 @@ Data de encerramento: ${new Date(`${year}-${month}-${day}T23:59:59`)}
                         value={day}
                         relativeWidth={'30%'}
                         textInputRef={inputRefs.dayInput}
-                        nextInputRef={month == '' && inputRefs.monthInput}
+                        nextInputRef={inputRefs.monthInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
                         validBackgroundColor={theme.yellow1}
@@ -172,16 +178,19 @@ Data de encerramento: ${new Date(`${year}-${month}-${day}T23:59:59`)}
                         placeholder={'dia'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
-                        textIsValid={allFiedsIsValid() || insertedDayIsBiggerThenCurrentDay()}
+                        invalidTextAfterSubmit={invalidDateAfterSubmit || !existsThisDayOnMonth()}
                         validateText={(text: string) => validateDay(text)}
-                        onChangeText={(text: string) => setDay(text)}
+                        onChangeText={(text: string) => {
+                            setDay(text)
+                            invalidDateAfterSubmit && setInvalidDateAfterSubmit(false)
+                        }}
                     />
                     <LineInput
                         value={month}
                         relativeWidth={'30%'}
                         previousInputRef={inputRefs.dayInput}
                         textInputRef={inputRefs.monthInput}
-                        nextInputRef={year == '' && inputRefs.yearInput}
+                        nextInputRef={inputRefs.yearInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
                         validBackgroundColor={theme.yellow1}
@@ -193,9 +202,12 @@ Data de encerramento: ${new Date(`${year}-${month}-${day}T23:59:59`)}
                         placeholder={'mês'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
-                        textIsValid={allFiedsIsValid() || insertedMonthIsBiggerThenCurrentMonth()}
+                        invalidTextAfterSubmit={invalidDateAfterSubmit}
                         validateText={(text: string) => validateMonth(text)}
-                        onChangeText={(text: string) => setMonth(text)}
+                        onChangeText={(text: string) => {
+                            setMonth(text)
+                            invalidDateAfterSubmit && setInvalidDateAfterSubmit(false)
+                        }}
                     />
                     <LineInput
                         value={year}
@@ -213,17 +225,20 @@ Data de encerramento: ${new Date(`${year}-${month}-${day}T23:59:59`)}
                         placeholder={'ano'}
                         keyboardType={'decimal-pad'}
                         lastInput={true}
+                        invalidTextAfterSubmit={invalidDateAfterSubmit}
                         filterText={filterLeavingOnlyNumbers}
-                        textIsValid={allFiedsIsValid()}
                         validateText={(text: string) => validateYear(text)}
-                        onChangeText={(text: string) => setYear(text)}
+                        onChangeText={(text: string) => {
+                            setYear(text)
+                            invalidDateAfterSubmit && setInvalidDateAfterSubmit(false)
+                        }}
                     />
                 </InputsContainer>
                 <>
                     {
-                        allFiedsIsValid() && !keyboardOpened &&
+                        allFiedsIsValid() && !keyboardOpened && existsThisDayOnMonth() &&
                         <PrimaryButton
-                            color={theme.green3}
+                            color={invalidDateAfterSubmit ? theme.red3 : theme.green3}
                             iconName={'arrow-right'}
                             iconColor={theme.white3}
                             label='continuar'
@@ -234,7 +249,7 @@ Data de encerramento: ${new Date(`${year}-${month}-${day}T23:59:59`)}
                     }
                 </>
             </FormContainer>
-        </Container>
+        </Container >
     );
 }
 
