@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native';
 
-import { Container, InputsContainer, TwoPoints } from './styles';
+import { Container, InputsContainer } from './styles';
 import { theme } from '../../../common/theme';
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
@@ -56,7 +56,8 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
     }, [day, month, year, keyboardOpened])
 
     const validateDay = (text: string) => {
-        const isValid = text.length == 2 && parseInt(text) <= 31 && parseInt(text) > 0
+        const isValid = text.length == 2 && parseInt(text) <= 31 && parseInt(text) > 0 && insertedDayIsBiggerThenCurrentDay(text)
+
         if (isValid) {
             return true
         }
@@ -64,7 +65,10 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
     }
 
     const validateMonth = (text: string) => {
-        const isValid = text.length == 2 && parseInt(text) <= 12 && parseInt(text) > 0
+        const isValid = text.length == 2
+            && parseInt(text) <= 12 && parseInt(text) > 0
+            && insertedMonthIsBiggerThenCurrentMonth(text)
+
         if (isValid) {
             return true
         }
@@ -72,21 +76,40 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
     }
 
     const validateYear = (text: string) => {
-        const isValid = text.length == 4 && insertedYearIsBiggerThenCurrentYear(text)
+        const isValid = text.length == 4
+            && insertedYearIsBiggerThenCurrentYear(text)
         if (isValid) {
             return true
         }
         return false
     }
 
-    const allFiedsIsValid = () => {
-        return dayIsValid && monthIsValid && yearIsValid && insertedYearIsBiggerThenCurrentYear(year)
+    const insertedDayIsBiggerThenCurrentDay = (insertedDay: string = day) => {
+        const insertedDate = new Date(`${year || '2050'}-${month || '12'}-${insertedDay}T23:59:59`)
+        const currentDate = new Date()
+        const currentDateWithoutTimezone = new Date(`${currentDate.getUTCFullYear()}-${currentDate.getUTCMonth() + 1}-${currentDate.getUTCDate()}`)
+        return insertedDate.getTime() > currentDateWithoutTimezone.getTime()
     }
 
-    const insertedYearIsBiggerThenCurrentYear = (insertedYear: string) => {
-        const insertedDate = new Date(Date.UTC(parseInt(insertedYear), parseInt(month) - 1, parseInt(day), 0, 0, 0, 0))
+    const insertedMonthIsBiggerThenCurrentMonth = (insertedMonth: string = month) => {
+        const insertedDate = new Date(`${year || '2050'}-${insertedMonth}-${day || '31'}T23:59:59`)
         const currentDate = new Date()
-        return insertedDate.getTime() - (insertedDate.getTimezoneOffset() * 60) >= currentDate.getTime() - (currentDate.getTimezoneOffset() * 60) - 55002000
+        const currentDateWithoutTimezone = new Date(`${currentDate.getUTCFullYear()}-${currentDate.getUTCMonth() + 1}-${currentDate.getUTCDate()}`)
+        return insertedDate.getTime() >= currentDateWithoutTimezone.getTime()
+    }
+
+    const insertedYearIsBiggerThenCurrentYear = (insertedYear: string = year) => {
+        const insertedDate = new Date(`${insertedYear || '2050'}-${month || '12'}-${day || '31'}T23:59:59`)
+        const currentDate = new Date()
+        const currentDateWithoutTimezone = new Date(`${currentDate.getUTCFullYear()}-${currentDate.getUTCMonth() + 1}-${currentDate.getUTCDate()}`)
+        return insertedDate.getTime() >= currentDateWithoutTimezone.getTime()
+    }
+
+    const allFiedsIsValid = () => {
+        return dayIsValid
+            && monthIsValid
+            && yearIsValid
+            && insertedYearIsBiggerThenCurrentYear(year)
     }
 
     const saveOppeningHour = () => {
@@ -126,7 +149,7 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
                         value={day}
                         relativeWidth={'30%'}
                         textInputRef={inputRefs.dayInput}
-                        nextInputRef={inputRefs.monthInput}
+                        nextInputRef={month == '' && inputRefs.monthInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
                         validBackgroundColor={theme.yellow1}
@@ -138,7 +161,7 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
                         placeholder={'dia'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
-                        textIsValid={allFiedsIsValid() && !keyboardOpened}
+                        textIsValid={allFiedsIsValid() || insertedDayIsBiggerThenCurrentDay()}
                         validateText={(text: string) => validateDay(text)}
                         onChangeText={(text: string) => setDay(text)}
                     />
@@ -147,7 +170,7 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
                         relativeWidth={'30%'}
                         previousInputRef={inputRefs.dayInput}
                         textInputRef={inputRefs.monthInput}
-                        nextInputRef={inputRefs.yearInput}
+                        nextInputRef={year == '' && inputRefs.yearInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
                         validBackgroundColor={theme.yellow1}
@@ -159,7 +182,7 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
                         placeholder={'mês'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
-                        textIsValid={allFiedsIsValid() && !keyboardOpened}
+                        textIsValid={allFiedsIsValid() || insertedMonthIsBiggerThenCurrentMonth()}
                         validateText={(text: string) => validateMonth(text)}
                         onChangeText={(text: string) => setMonth(text)}
                     />
@@ -180,7 +203,7 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
                         keyboardType={'decimal-pad'}
                         lastInput={true}
                         filterText={filterLeavingOnlyNumbers}
-                        textIsValid={allFiedsIsValid() && !keyboardOpened}
+                        textIsValid={allFiedsIsValid()}
                         validateText={(text: string) => validateYear(text)}
                         onChangeText={(text: string) => setYear(text)}
                     />

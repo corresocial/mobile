@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, Keyboard, StatusBar } from 'react-native'
+import { Alert, Animated, Keyboard, StatusBar } from 'react-native'
 
 import { Container, InputsContainer, TwoPoints } from './styles'
 import { theme } from '../../../common/theme'
@@ -64,7 +64,7 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
 
     const validateHours = (text: string) => {
         const isValid = text.length == 2 && parseInt(text) < 24
-        if (isValid && closingTimeIsAfterOpening(text)) {
+        if (isValid) {
             setInvalidHourAfterSubmit(false)
             return true
         } else {
@@ -74,7 +74,7 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
 
     const validateMinutes = (text: string) => {
         const isValid = text.length == 2 && parseInt(text) <= 59
-        if (isValid && closingTimeIsAfterOpening('', text)) {
+        if (isValid) {
             setInvalidMinutesAfterSubmit(false)
             return true
         }
@@ -87,7 +87,9 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
 
     const closingTimeIsAfterOpening = (hoursValidation?: string, minutesValidation?: string) => {
         const startWorkHour = new Date(vacancyDataContext.startWorkHour as Date)
-        const endWorkHour = new Date(Date.UTC(2022, 1, 1, parseInt(!!hoursValidation ? hoursValidation : hours), parseInt(!!minutesValidation ? minutesValidation : '59'), 0, 0))
+        const endWorkHour = new Date(Date.UTC(2022, 1, 1, parseInt(!!hours ? hours : hours), parseInt(!!minutes ? minutes : '59'), 0, 0))
+        console.log(startWorkHour)
+        console.log(endWorkHour)
         return startWorkHour < endWorkHour
     }
 
@@ -114,6 +116,14 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
     }
 
     const saveVacancyPost = async () => {
+        if (!closingTimeIsAfterOpening()) {
+            Alert.alert('Ops! (Temporário)', `O horário de início informada é superior ao horário de encerramento!\n
+Horário de início: ${vacancyDataContext.startWorkHour?.getUTCHours()}:${vacancyDataContext.startWorkHour?.getUTCMinutes()}
+Horário de encerramento: ${hours}:${minutes}
+            `)
+            return
+        }
+        /* 
         const completeVacancyData = getCompleteVacancyDataFromContext()
         setVacancyDataOnContext({ ...completeVacancyData })
 
@@ -145,7 +155,7 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
             console.log(err)
             setInvalidHourAfterSubmit(true)
             setInvalidMinutesAfterSubmit(true)
-        }
+        } */
     }
 
     const updateUserPost = async (
