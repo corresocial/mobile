@@ -7,10 +7,11 @@ import { theme } from '../../../common/theme';
 
 import updateUser from '../../../services/Firebase/user/updateUser';
 import uploadImage from '../../../services/Firebase/common/uploadPicture';
-import { AuthContext } from '../../../contexts/AuthContext';
 import { ProfilePicturePreviewScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps';
 import { LocalUserData } from '../../../contexts/types';
 import updateUserPrivateData from '../../../services/Firebase/user/updateUserPrivateData';
+import { AuthContext } from '../../../contexts/AuthContext';
+import { LoaderContext } from '../../../contexts/LoaderContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -23,6 +24,8 @@ import { screenWidth } from '../../../common/screenDimensions';
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
 
 	const { setDataOnSecureStore, getDataFromSecureStore } = useContext(AuthContext)
+	const { setLoaderIsVisible } = useContext(LoaderContext)
+
 	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(true)
 	const [profilePicturesPack, setProfilePicturesPack] = useState<string[]>([])
 	const [hasServerSideError, setHasServerSideError] = useState(false)
@@ -44,14 +47,8 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	}, [])
 
 	const throwServerSideError = (err: any) => {
+		setLoaderIsVisible(false)
 		setHasServerSideError(true)
-	}
-
-	const getObjectLocalUser = async () => {
-		const userJSON = await getDataFromSecureStore('corre.user')
-		if (!userJSON) return false
-		const userObject = await JSON.parse(userJSON)
-		return userObject
 	}
 
 	const navigateToNextScreen = async (tourPerformed: boolean) => {
@@ -87,12 +84,12 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		const localUserJSON = await getDataFromSecureStore('corre.user')
 
 		if (!profilePicturesPack.length) return
-
 		const localUser = JSON.parse(localUserJSON as string)
+		setLoaderIsVisible(true)
 
 		await uploadImage(profilePicturesPack[0], 'users', userData.userIdentification.uid)
 			.then(
-				({ uploadTask, blob }: any) => { 
+				({ uploadTask, blob }: any) => {
 					uploadTask.on(
 						'state_change', () => { console.log('Uploading...') }, // Set default load
 						(err: any) => { throwServerSideError(err) },
@@ -120,6 +117,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 										userIdentification: userData.userIdentification
 									})
 
+									setLoaderIsVisible(false)
 									navigateToNextScreen(localUser.tourPerformed)
 								})
 								.catch(err => throwServerSideError(err))
@@ -130,8 +128,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 			.catch(err => throwServerSideError(err))
 	}
 
-	const saveInSecureStore = async (userData: LocalUserData) => { 
-		// const localUser = await getObjectLocalUser()
+	const saveInSecureStore = async (userData: LocalUserData) => {
 		await setDataOnSecureStore('corre.user', { ...userData })
 	}
 

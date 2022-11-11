@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react";
 import { ServiceData } from "./types";
 
 type ServiceContextType = {
-    serviceDataContext: ServiceData; 
+    serviceDataContext: ServiceData | any 
     setServiceDataOnContext: (data: ServiceData) => void
 }
 

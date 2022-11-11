@@ -7,6 +7,7 @@ import { theme } from '../../../common/theme';
 import updateUser from '../../../services/Firebase/user/updateUser';
 import { RegisterUserData } from '../../../contexts/types';
 import { AuthContext } from '../../../contexts/AuthContext';
+import { LoaderContext } from '../../../contexts/LoaderContext';
 
 import { InsertProfilePictureScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps';
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
@@ -19,7 +20,8 @@ import updateUserPrivateData from '../../../services/Firebase/user/updateUserPri
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
 
 	const { setDataOnSecureStore, getDataFromSecureStore } = useContext(AuthContext)
-
+	const {setLoaderIsVisible} = useContext(LoaderContext)
+	
 	const [hasServerSideError, setHasServerSideError] = useState(false)
 
 	const headerMessages = {
@@ -50,11 +52,14 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		const localUser = JSON.parse(localUserJSON as string) || {}
 
 		try {
+			setLoaderIsVisible(true)
 			await saveInFirebase(userData, localUser.tourPerformed)
 			await saveInSecureStore(userData, localUser)
+			setLoaderIsVisible(false)
 			navigateToNextScreen(localUser.tourPerformed)
 		} catch (err) {
 			console.log(err)
+			setLoaderIsVisible(false)
 			setHasServerSideError(true)
 		}
 	}

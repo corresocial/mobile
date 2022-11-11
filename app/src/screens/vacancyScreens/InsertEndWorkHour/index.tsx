@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Alert, Animated, Keyboard, StatusBar } from 'react-native'
+import {  Animated, Keyboard, StatusBar } from 'react-native'
 
 import { Container, InputsContainer, TwoPoints } from './styles'
 import { theme } from '../../../common/theme'
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
-import { AuthContext } from '../../../contexts/AuthContext'
-import uploadImage from '../../../services/Firebase/common/uploadPicture'
-import { getDownloadURL } from 'firebase/storage'
 import createPost from '../../../services/Firebase/post/createPost'
 import updateDocField from '../../../services/Firebase/common/updateDocField'
 import { PostCollection, PrivateAddress} from '../../../services/Firebase/types'
 import { LocalUserData, VacancyData } from '../../../contexts/types'
+import { AuthContext } from '../../../contexts/AuthContext'
+import { VacancyContext } from '../../../contexts/VacancyContext'
+import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -23,20 +23,19 @@ import updatePostPrivateData from '../../../services/Firebase/post/updatePostPri
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 import { InsertEndWorkHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
-import { VacancyContext } from '../../../contexts/VacancyContext'
 
 
 function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
 
-    const { setVacancyDataOnContext, vacancyDataContext } = useContext(VacancyContext)
     const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
+    const { setVacancyDataOnContext, vacancyDataContext } = useContext(VacancyContext)
+    const {setLoaderIsVisible} = useContext(LoaderContext)
 
     const [hours, setHours] = useState<string>('')
     const [minutes, setMinutes] = useState<string>('')
     const [hoursIsValid, setHoursIsValid] = useState<boolean>(false)
     const [minutesIsValid, setMinutesIsValid] = useState<boolean>(false)
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
-
     const [invalidTimeAfterSubmit, setInvalidTimeAfterSubmit] = useState<boolean>(false)
     const [hasServerSideError, setHasServerSideError] = useState<boolean>(false)
 
@@ -111,7 +110,7 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
             setInvalidTimeAfterSubmit(true)
             return
         }
-
+        setLoaderIsVisible(true)
 
         const completeVacancyData = getCompleteVacancyDataFromContext()
         setVacancyDataOnContext({ ...completeVacancyData })
@@ -142,6 +141,7 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
 
         } catch (err) {
             console.log(err)
+            setLoaderIsVisible(false)
             setInvalidTimeAfterSubmit(true)
             setHasServerSideError(true)
         }
@@ -179,6 +179,7 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
                     ],
                 })
                 console.log('Naviguei')
+                setLoaderIsVisible(false)
                 navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
             })
     }

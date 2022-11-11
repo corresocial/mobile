@@ -15,6 +15,7 @@ import { getDownloadURL } from 'firebase/storage'
 import createPost from '../../../services/Firebase/post/createPost'
 import updateDocField from '../../../services/Firebase/common/updateDocField'
 import { LocalUserData, SaleData } from '../../../contexts/types'
+import { LoaderContext } from '../../../contexts/LoaderContext'
 import { PostCollection, PrivateAddress, SaleCollection } from '../../../services/Firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -28,8 +29,9 @@ import updatePostPrivateData from '../../../services/Firebase/post/updatePostPri
 
 function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
-    const { setSaleDataOnContext, saleDataContext } = useContext(SaleContext)
     const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
+    const { setSaleDataOnContext, saleDataContext } = useContext(SaleContext)
+    const {setLoaderIsVisible} = useContext(LoaderContext)
 
     const [hours, setHours] = useState<string>('')
     const [minutes, setMinutes] = useState<string>('')
@@ -115,6 +117,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
             setInvalidTimeAfterSubmit(true)
             return
         }
+        setLoaderIsVisible(true)
 
         const completeSaleData = getCompleteSaleDataFromContext()
         setSaleDataOnContext({ ...completeSaleData })
@@ -197,6 +200,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
             console.log(err)
             setInvalidTimeAfterSubmit(true)
             setHasServerSideError(true)
+            setLoaderIsVisible(false)
         }
     }
 
@@ -234,6 +238,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     ],
                 })
                 console.log('Naviguei')
+                setLoaderIsVisible(false)
                 navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
             })
     }

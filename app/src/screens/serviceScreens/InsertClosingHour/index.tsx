@@ -15,6 +15,7 @@ import { getDownloadURL } from 'firebase/storage'
 import createPost from '../../../services/Firebase/post/createPost'
 import updateDocField from '../../../services/Firebase/common/updateDocField'
 import { PostCollection, PrivateAddress, ServiceCollection, UserCollection } from '../../../services/Firebase/types'
+import { LoaderContext } from '../../../contexts/LoaderContext'
 import { LocalUserData, ServiceData } from '../../../contexts/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -29,8 +30,9 @@ import updatePostPrivateData from '../../../services/Firebase/post/updatePostPri
 
 function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
-    const { setServiceDataOnContext, serviceDataContext } = useContext(ServiceContext)
     const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
+    const { setServiceDataOnContext, serviceDataContext } = useContext(ServiceContext)
+    const {setLoaderIsVisible} = useContext(LoaderContext)
 
     const [hours, setHours] = useState<string>('')
     const [minutes, setMinutes] = useState<string>('')
@@ -129,6 +131,8 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
             return
         }
 
+        setLoaderIsVisible(true)
+
         const completeServiceData = getCompleteServiceDataFromContext()
         setServiceDataOnContext({ ...completeServiceData })
 
@@ -213,6 +217,8 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
         } catch (err) {
             console.log(err)
             setInvalidTimeAfterSubmit(true)
+            setHasServerSideError(true)
+            setLoaderIsVisible(false)
         }
     }
 
@@ -251,6 +257,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     ],
                 })
                 console.log('Naviguei')
+                setLoaderIsVisible(false)
                 navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
             })
     }

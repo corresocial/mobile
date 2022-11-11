@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react";
 import { SaleData } from "./types";
 
 type SaleContextType = {
-    saleDataContext: SaleData 
+    saleDataContext: SaleData | any 
     setSaleDataOnContext: (data: SaleData) => void
 }
 

@@ -21,8 +21,8 @@ export default function App() {
 	useEffect(() => {
 		LogBox.ignoreLogs(ignoredLogs)
 	})
-	
-	if (!fontsLoaded) return (
+
+	if (!fontsLoaded) return ( // Temporary
 		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 			<ActivityIndicator size={'large'} color={theme.orange3} />
 		</View>
@@ -32,7 +32,7 @@ export default function App() {
 		<NavigationContainer>
 			<ThemeProvider theme={theme}>
 				<LoaderProvider>
-				<AuthRegisterStack />
+					<AuthRegisterStack />
 				</LoaderProvider>
 			</ThemeProvider>
 		</NavigationContainer>

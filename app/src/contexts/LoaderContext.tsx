@@ -1,11 +1,14 @@
 import React, { createContext, useState } from 'react'
+import { StatusBar } from 'react-native'
+
+import { theme } from '../common/theme'
+
 import { LoaderModal } from '../components/_modals/LoaderModal'
 
 type LoaderContextType = {
     loaderIsVisible: boolean,
     setLoaderIsVisible: (visibility: boolean) => void
 }
-
 
 interface LoaderProviderProps {
     children: React.ReactNode
@@ -29,8 +32,9 @@ function LoaderProvider({ children }: LoaderProviderProps) {
 
     return (
         <LoaderContext.Provider value={value}>
+            {/* <StatusBar barStyle={'dark-content'} backgroundColor={theme.transparence.orange1}/> */}
             {children}
-            <LoaderModal visible={loaderIsVisible} />
+            <LoaderModal visible={loaderIsVisible} closeModal={ () => setLoaderIsVisible(false)}/>
         </LoaderContext.Provider>
     )
 }
