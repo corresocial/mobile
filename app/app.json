@@ -1,12 +1,13 @@
 {
   "expo": {
-    "name": "app",
-    "slug": "app",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "name": "corre.",
     "owner": "corresocial",
+    "scheme": "corre",
+    "slug": "corresocial",
+    "version": "1.2.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "icon": "./assets/adaptive-icon.png",
     "plugins": [
       "expo-image-picker"
     ],
@@ -18,17 +19,18 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.wellingtonsouzaabreu.app"
+      "bundleIdentifier": "corre"
     },
     "android": {
+      "versionCode": 6,
+      "package": "com.corresocial.corresocial",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#FB9C37"
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"
-      ],
-      "package": "com.wellingtonsouzaabreu.app"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

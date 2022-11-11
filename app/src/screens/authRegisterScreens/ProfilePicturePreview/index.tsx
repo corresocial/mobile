@@ -47,7 +47,6 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	}, [])
 
 	const throwServerSideError = (err: any) => {
-		setLoaderIsVisible(false)
 		setHasServerSideError(true)
 	}
 
@@ -125,7 +124,10 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 					);
 				},
 			)
-			.catch(err => throwServerSideError(err))
+			.catch(err => {
+				setLoaderIsVisible(false)
+				throwServerSideError(err)
+			})
 	}
 
 	const saveInSecureStore = async (userData: LocalUserData) => {
