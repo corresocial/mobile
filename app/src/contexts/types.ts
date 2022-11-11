@@ -129,3 +129,5 @@ export type VacancyData = {
         geohashCity?: string[]
     }
 }
+
+export type CultureData = any
