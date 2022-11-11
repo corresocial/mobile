@@ -98,7 +98,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
                     svgIconScale={['60%','60%']}
                     leftSideColor={theme.blue2}
                     leftSideWidth={'30%'}
-                    onPress={() => { }}
+                    onPress={() => navigation.navigate('CultureStack')}
                 />
             </FormContainer>
         </Container>
