@@ -1,0 +1,151 @@
+ import { CultureCategories } from '../../services/Firebase/types'
+
+export const updateSaleTags = (category: CultureCategories, tag: string) => {
+    cultureCategories[category].tags = [...cultureCategories[category].tags, tag]
+}
+
+let cultureCategories = {
+    música: {
+        label: 'música',
+        value: 'music',
+        tags: [
+            'rap',
+            'banda',
+            'solo',
+            'acustico',
+            'hiphop',
+            'rock',
+            'sertanejo',
+            'eletronico',
+            'reggae',
+            'axé',
+            'forró',
+            'funk',
+            'gospel',
+            'cantor',
+            'clássica',
+            'samba',
+            'folclore',
+            'soul',
+            'pop',
+            'heavy metal',
+            'MPB',
+            'Jazz',
+            'punk',
+            'cover',
+            'autoral'
+        ]
+    },
+
+    dance: {
+        label: 'dança',
+        value: 'dance',
+        tags: [
+            'balé',
+            'axé',
+            'forró',
+            'rua',
+            'break',
+            'samba',
+            'salão',
+            'sertanejo',
+            'tango',
+            'funk',
+            'indígena',
+            'zumba'
+        ]
+    },
+
+    painting: {
+        label: 'pintura',
+        value: 'painting',
+        tags: [
+            'óleo',
+            'aquarela',
+            'mural',
+            'moderna',
+            'digital',
+            'abstrata'
+        ]
+    },
+
+    audiovisual: {
+        label: 'audiovisual',
+        value: 'audiovisual',
+        tags: [
+            'captacao',
+            'animação',
+            'cenografia',
+            'direção',
+            'iluminação',
+            'montagem',
+            'roteiro',
+            'produção',
+            'edição'
+        ]
+    },
+
+    scenic: {
+        label: 'cênicas',
+        value: 'scenic',
+        tags: [
+            'ator',
+            'teatro',
+            'direção',
+            'dança',
+            'direção',
+            'cenografia',
+            'ator',
+            'cinema',
+            'tv',
+            'escritor'
+        ]
+    },
+
+    tattooAndPiercing: {
+        label: 'tattoo e piercing',
+        value: 'tattooAndPiercing',
+        tags: [
+            'blackwork',
+            'aquarela',
+            'studio',
+            'colorida',
+            'bodypiercing',
+            'oldschool',
+            'pontilismo',
+            'minimalista',
+            'geométrico',
+            'septo',
+            'sobrancelha',
+            'coverup'
+        ]
+    },
+
+    craftsmanship: {
+        label: 'artesanato',
+        value: 'craftsmanship',
+        tags: [
+            'crochê',
+            'tear',
+            'bordado',
+            'patchwork',
+            'reciclado',
+            'ceramica',
+            'renda',
+            'cestas',
+            'madeira',
+            'sustentavel'
+        ]
+    },
+
+    others: {
+        label: 'outros',
+        value: 'others',
+        tags: [
+
+        ]
+    }
+}
+
+
+export { cultureCategories }
