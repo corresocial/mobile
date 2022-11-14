@@ -8,6 +8,7 @@ import { CultureProvider } from '../../../contexts/CultureContext';
 import { SelectCultureType } from '../../../screens/cultureScreens/SelectCultureType';
 import { InsertCultureTitle } from '../../../screens/cultureScreens/InsertCultureTitle';
 import { InsertCultureDescription } from '../../../screens/cultureScreens/InsertCultureDescription';
+import { InsertCulturePicture } from '../../../screens/cultureScreens/InsertCulturePicture';
 
 const Stack = createStackNavigator<CultureStackParamList>()
 
@@ -25,6 +26,7 @@ export function CultureStack() {
                 <Stack.Screen name={'SelectCultureType'} component={SelectCultureType} />
                 <Stack.Screen name={'InsertCultureTitle'} component={InsertCultureTitle} />
                 <Stack.Screen name={'InsertCultureDescription'} component={InsertCultureDescription} />
+                <Stack.Screen name={'InsertCulturePicture'} component={InsertCulturePicture} />
             </Stack.Navigator>
         </CultureProvider>
     )

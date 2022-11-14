@@ -56,7 +56,7 @@ function InsertCultureDescription({ navigation }: InsertCultureDescriptionScreen
     const saveCultureDescription = () => {
         if (cultureDescriptionIsValid) {
             setCultureDataOnContext({ description: cultureDescription })
-            //    navigation.navigate('SelectWorkplace')
+             navigation.navigate('InsertCulturePicture')
         }
     }
 
