@@ -2,32 +2,32 @@ import { Keyboard, StatusBar } from 'react-native';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles';
-import { theme } from '../../../common/theme';
 import { screenHeight } from '../../../common/screenDimensions';
+import { theme } from '../../../common/theme';
 import Check from './../../../assets/icons/check.svg'
 
-import { InsertCultureTitleScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps';
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
+import { InsertCultureDescriptionScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps';
 import { CultureContext } from '../../../contexts/CultureContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { BackButton } from '../../../components/_buttons/BackButton';
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
+import { LineInput } from '../../../components/LineInput';
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 
-function InsertCultureTitle({ navigation }: InsertCultureTitleScreenProps) {
+function InsertCultureDescription({ navigation }: InsertCultureDescriptionScreenProps) {
 
     const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 
-    const [cultureTitle, setCultureTitle] = useState<string>('')
-    const [cultureTitleIsValid, setCultureTitleIsValid] = useState<boolean>(false)
+    const [cultureDescription, setCultureDescription] = useState<string>('')
+    const [cultureDescriptionIsValid, setCultureDescriptionIsValid] = useState<boolean>(false)
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
-        cultureTitleInput: useRef<React.MutableRefObject<any>>(null),
+        cultureDescriptionInput: useRef<React.MutableRefObject<any>>(null),
     }
 
     useEffect(() => {
@@ -40,11 +40,12 @@ function InsertCultureTitle({ navigation }: InsertCultureTitleScreenProps) {
     }, [navigation])
 
     useEffect(() => {
-        const validation = validateCultureTitle(cultureTitle)
-        setCultureTitleIsValid(validation)
-    }, [cultureTitle, keyboardOpened])
+        const validation = validateCultureDescription(cultureDescription)
+        setCultureDescriptionIsValid(validation)
 
-    const validateCultureTitle = (text: string) => {
+    }, [cultureDescription, keyboardOpened])
+
+    const validateCultureDescription = (text: string) => {
         const isValid = (text).trim().length >= 1
         if (isValid && !keyboardOpened) {
             return true
@@ -52,10 +53,10 @@ function InsertCultureTitle({ navigation }: InsertCultureTitleScreenProps) {
         return false
     }
 
-    const saveCultureTitle = () => {
-        if (cultureTitleIsValid) {
-            setCultureDataOnContext({ title: cultureTitle })
-            navigation.navigate('InsertCultureDescription')
+    const saveCultureDescription = () => {
+        if (cultureDescriptionIsValid) {
+            setCultureDataOnContext({ description: cultureDescription })
+            //    navigation.navigate('SelectWorkplace')
         }
     }
 
@@ -63,8 +64,8 @@ function InsertCultureTitle({ navigation }: InsertCultureTitleScreenProps) {
         <Container >
             <StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={screenHeight * 0.26}
-                relativeHeight={'22%'}
+                minHeight={screenHeight * 0.28}
+                relativeHeight={'26%'}
                 centralized
                 backgroundColor={theme.blue2}
             >
@@ -74,17 +75,17 @@ function InsertCultureTitle({ navigation }: InsertCultureTitleScreenProps) {
                     fontSize={18}
                     message={
                         cultureDataContext.cultureType === 'artistProfile'
-                            ? 'que arte você cria?'
-                            : 'qual o nome do evento?'
+                            ? 'fala um pouco \nsobre a sua arte'
+                            : 'fala um pouco \nsobre esse role'
                     }
                     highlightedWords={
                         cultureDataContext.cultureType === 'artistProfile'
-                            ? ['arte']
-                            : ['nome']
+                            ? ['fala', 'sua', 'arte']
+                            : ['fala', 'esse', 'role']
                     }
                 >
                     <ProgressBar
-                        range={4}
+                        range={3}
                         value={1}
                     />
                 </InstructionCard>
@@ -94,32 +95,31 @@ function InsertCultureTitle({ navigation }: InsertCultureTitleScreenProps) {
                 justifyContent={'center'}
             >
                 <LineInput
-                    value={cultureTitle}
+                    value={cultureDescription}
                     relativeWidth={'100%'}
-                    textInputRef={inputRefs.cultureTitleInput}
+                    relativeHeight={screenHeight * 0.125}
+                    textInputRef={inputRefs.cultureDescriptionInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}
                     validBackgroundColor={theme.blue1}
                     validBorderBottomColor={theme.blue5}
-                    invalidBackgroundColor={theme.red1}
-                    invalidBorderBottomColor={theme.red5}
-                    maxLength={100}
+                    multiline
                     lastInput={true}
                     textAlign={'left'}
                     fontSize={16}
                     placeholder={
-                        cultureDataContext.cultureType === 'artistProfile'
-                            ? 'ex: componho músicas'
-                            : 'ex: bazar de livros'
+                        cultureDataContext.cultureType === 'artistProfile' 
+                        ? 'ex: o que você faz, qual o seu estilo, há quanto tempo você faz, se faz sozinho ou em grupo, etc.'
+                        : 'ex: vai ter muita gente, qual o objetivo desse role, se precisa levar algo'
                     }
                     keyboardType={'default'}
-                    textIsValid={cultureTitleIsValid && !keyboardOpened}
-                    validateText={(text: string) => validateCultureTitle(text)}
-                    onChangeText={(text: string) => setCultureTitle(text)}
+                    textIsValid={cultureDescriptionIsValid && !keyboardOpened}
+                    validateText={(text: string) => validateCultureDescription(text)}
+                    onChangeText={(text: string) => setCultureDescription(text)}
                 />
                 <ButtonsContainer>
                     {
-                        cultureTitleIsValid && !keyboardOpened &&
+                        cultureDescriptionIsValid && !keyboardOpened &&
                         <PrimaryButton
                             flexDirection={'row-reverse'}
                             color={theme.green3}
@@ -127,7 +127,7 @@ function InsertCultureTitle({ navigation }: InsertCultureTitleScreenProps) {
                             labelColor={theme.white3}
                             SvgIcon={Check}
                             svgIconScale={['30%', '15%']}
-                            onPress={saveCultureTitle}
+                            onPress={saveCultureDescription}
                         />
                     }
                 </ButtonsContainer>
@@ -136,4 +136,4 @@ function InsertCultureTitle({ navigation }: InsertCultureTitleScreenProps) {
     );
 }
 
-export { InsertCultureTitle }
+export { InsertCultureDescription }

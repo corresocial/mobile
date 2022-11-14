@@ -77,7 +77,7 @@ function LineInput({
 
     const [focused, setFocused] = useState<boolean>(false)
     const [validated, setValidated] = useState<boolean>(false)
-    const [multilineInputHeight, setMultilineInputHeight] = useState(relativeHeight ? relativeHeight : screenHeight * 0.1)
+    const [multilineInputHeight, setMultilineInputHeight] = useState(relativeHeight ? relativeHeight : screenHeight * 0.12)
 
     const ValidateAndChange = (text: string) => {
         let filtredText = filterText ? filterText(text) : text

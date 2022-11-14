@@ -3,3 +3,4 @@ import { CultureStackParamList } from "../types"
 
 export type SelectCultureTypeScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureType'>
 export type InsertCultureTitleScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertCultureTitle'>
+export type InsertCultureDescriptionScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertCultureDescription'>

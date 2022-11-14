@@ -8,7 +8,7 @@ import { VacancyProvider } from '../../../contexts/VacancyContext';
 import { InsertVacancyTitle } from '../../../screens/vacancyScreens/InsertVacancyTitle';
 import { InsertVacancyDescription } from '../../../screens/vacancyScreens/InsertVacancyDescription';
 import { InsertVacancyQuestions } from '../../../screens/vacancyScreens/InsertVacancyQuestions';
-import { InsertCompanyDescription } from '../../../screens/vacancyScreens/InsertCompanyDescriptions';
+import { InsertCompanyDescription } from '../../../screens/vacancyScreens/InsertCompanyDescription';
 import { SelectWorkplace } from '../../../screens/vacancyScreens/SelectWorkplace';
 import {  InsertWorkplaceLocation } from '../../../screens/vacancyScreens/InsertWorkplaceLocation';
 import { SelectVacancyCategory } from '../../../screens/vacancyScreens/SelectVacancyCategory';
