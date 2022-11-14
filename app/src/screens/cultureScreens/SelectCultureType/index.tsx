@@ -20,11 +20,11 @@ function SelectCultureType({ navigation }: SelectCultureTypeScreenProps) {
 
     const saveCultureType = (cultureType: CultureType) => {
         setCultureDataOnContext({ cultureType })
-        /* if(cultureType === 'artistProfile'){
-            navigation.navigate('SelectCultureCategory')
+         if(cultureType === 'artistProfile'){
+            navigation.navigate('InsertCultureTitle')
         }else{
-            navigation.navigate('InsertWorkplaceLocation', {workplace})
-        } */
+            navigation.navigate('InsertCultureTitle')
+        }
     }
 
     return (
