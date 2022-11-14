@@ -5,3 +5,4 @@ export type SelectCultureTypeScreenProps = NativeStackScreenProps<CultureStackPa
 export type InsertCultureTitleScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertCultureTitle'>
 export type InsertCultureDescriptionScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertCultureDescription'>
 export type InsertCulturePictureScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertCulturePicture'>
+export type CulturePicturePreviewScreenProps = NativeStackScreenProps<CultureStackParamList, 'CulturePicturePreview'>

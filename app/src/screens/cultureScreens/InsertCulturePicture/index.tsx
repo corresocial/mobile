@@ -75,7 +75,7 @@ function InsertCulturePicture({ navigation }: InsertCulturePictureScreenProps) {
                         highlightedWords={['vou', 'adicionar']}
                         SvgIcon={Check}
                         svgIconScale={['22%', '18%']}
-                        onPress={() => {}}
+                        onPress={() => navigation.navigate('CulturePicturePreview')}
                     />
                 </ButtonsContainer>
             </FormContainer>

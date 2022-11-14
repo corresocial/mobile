@@ -62,6 +62,7 @@ function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCamer
 
         if (!result.cancelled) {
             setPictureUri(result.uri);
+            onClose()
         }
     }
 

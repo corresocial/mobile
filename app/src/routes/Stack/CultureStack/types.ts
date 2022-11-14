@@ -4,4 +4,5 @@ export type CultureStackParamList = {
     InsertCultureTitle: undefined
     InsertCultureDescription: undefined
     InsertCulturePicture: undefined
+    CulturePicturePreview: undefined
 }
