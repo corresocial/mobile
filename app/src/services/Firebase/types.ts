@@ -22,6 +22,8 @@ export type WorkplaceType = 'homeoffice' | 'presential' | 'hybrid'
 
 export type VacancyType = 'professional' | 'temporary' | 'beak'
 
+export type CultureType = 'artistProfile' | 'eventPost'
+
 export type MacroCategory = {
     label: string
     value: string

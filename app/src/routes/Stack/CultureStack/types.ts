@@ -1,4 +1,4 @@
 
 export type CultureStackParamList = {
-    FirstScreen: undefined
+    SelectCultureType: undefined
 }

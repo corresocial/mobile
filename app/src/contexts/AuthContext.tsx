@@ -17,7 +17,7 @@ import { UserCollection } from "../services/Firebase/types";
 const phoneAuth = new PhoneAuthProvider(auth)
 
 type AuthContextType = {
-    userDataContext: UserData;
+    userDataContext: UserData
     setUserDataOnContext: (data: UserData) => void
     getDataFromSecureStore: (key: string, requireAuthentication?: boolean) => Promise<string | false | null>
     localUserIsValidToLogin: (userJSON: any, requireAuthentication?: boolean) => boolean | undefined
