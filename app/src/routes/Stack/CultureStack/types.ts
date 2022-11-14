@@ -8,4 +8,5 @@ export type CultureStackParamList = {
     CulturePicturePreview: undefined
     SelectCultureCategory: undefined
     SelectCultureTags: {categorySelected: CultureCategories}
+    InsertEntryValue: undefined
 }

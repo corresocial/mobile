@@ -6,8 +6,8 @@ import { screenHeight } from '../../../common/screenDimensions';
 import { ButtonsContainer, Container } from './styles';
 import Check from './../../../assets/icons/check.svg'
 
-import { InsertExchangeValueScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps';
-import { ServiceContext } from '../../../contexts/ServiceContext';
+import { InsertEntryValueScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps';
+import { CultureContext } from '../../../contexts/CultureContext';
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
@@ -18,16 +18,16 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
 
-function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
+function InsertEntryValue({ navigation }: InsertEntryValueScreenProps) {
 
-    const { setServiceDataOnContext } = useContext(ServiceContext)
+    const { setCultureDataOnContext } = useContext(CultureContext)
 
-    const [exchangeValue, setExchangeValue] = useState<string>('')
-    const [exchangeValueIsValid, setExchangeValueIsValid] = useState<boolean>(false)
+    const [entryValue, setEntryValue] = useState<string>('')
+    const [entryValueIsValid, setEntryValueIsValid] = useState<boolean>(false)
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
-        exchangeValueInput: useRef<React.MutableRefObject<any>>(null),
+        entryValueInput: useRef<React.MutableRefObject<any>>(null),
     }
 
     useEffect(() => {
@@ -40,11 +40,11 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
     }, [navigation])
 
     useEffect(() => {
-        const validation = validateExchangeValue(exchangeValue)
-        setExchangeValueIsValid(validation)
-    }, [exchangeValue, keyboardOpened])
+        const validation = validateEntryValue(entryValue)
+        setEntryValueIsValid(validation)
+    }, [entryValue, keyboardOpened])
 
-    const validateExchangeValue = (text: string) => {
+    const validateEntryValue = (text: string) => {
         const isValid = (text).trim().length >= 1
         if (isValid && !keyboardOpened) {
             return true
@@ -52,33 +52,33 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
         return false
     }
 
-    const saveExchangeValue = () => {
-        const exchangeValueIsValid = validateExchangeValue(exchangeValue)
-        if (exchangeValueIsValid) {
-            setServiceDataOnContext({ exchangeValue })
-            navigation.navigate('InsertServicePrestationLocation')
-        } 
+    const saveEntryValue = () => {
+        const entryValueIsValid = validateEntryValue(entryValue)
+        if (entryValueIsValid) {
+            setCultureDataOnContext({ entryValue })
+            // navigation.navigate('InsertCulturePrestationLocation')
+        }
     }
 
     return (
         <Container >
-            <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={screenHeight * 0.26}
                 relativeHeight={'28%'}
                 centralized
-                backgroundColor={theme.purple2}
+                backgroundColor={theme.blue2}
             >
                 <BackButton onPress={() => navigation.goBack()} />
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'o que você aceita em troca?'}
-                    highlightedWords={['o', 'que', 'em', 'troca?']}
+                    message={'quanto custa para entrar?'}
+                    highlightedWords={['quanto', 'custa']}
                 >
                     <ProgressBar
-                        range={5}
-                        value={3}
+                        range={3}
+                        value={2}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -87,28 +87,28 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
                 justifyContent={'center'}
             >
                 <LineInput
-                    value={exchangeValue}
+                    value={entryValue}
                     relativeWidth={'100%'}
-                    textInputRef={inputRefs.exchangeValueInput}
+                    textInputRef={inputRefs.entryValueInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}
-                    validBackgroundColor={theme.purple1}
-                    validBorderBottomColor={theme.purple5}
+                    validBackgroundColor={theme.blue1}
+                    validBorderBottomColor={theme.blue5}
                     invalidBackgroundColor={theme.red1}
                     invalidBorderBottomColor={theme.red5}
                     maxLength={100}
                     fontSize={20}
                     lastInput={true}
                     textAlign={'left'}
-                    placeholder={'ex: troco por uma marmita'}
+                    placeholder={'ex: 20 reais + 1kg de alimento'}
                     keyboardType={'default'}
-                    textIsValid={exchangeValueIsValid && !keyboardOpened}
-                    validateText={(text: string) => validateExchangeValue(text)}
-                    onChangeText={(text: string) => setExchangeValue(text)}
+                    textIsValid={entryValueIsValid && !keyboardOpened}
+                    validateText={(text: string) => validateEntryValue(text)}
+                    onChangeText={(text: string) => setEntryValue(text)}
                 />
                 <ButtonsContainer>
                     {
-                        exchangeValueIsValid && !keyboardOpened &&
+                        entryValueIsValid && !keyboardOpened &&
                         <PrimaryButton
                             flexDirection={'row-reverse'}
                             color={theme.green3}
@@ -116,7 +116,7 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
                             labelColor={theme.white3}
                             SvgIcon={Check}
                             svgIconScale={['30%', '15%']}
-                            onPress={saveExchangeValue}
+                            onPress={saveEntryValue}
                         />
                     }
                 </ButtonsContainer>
@@ -125,4 +125,4 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
     );
 }
 
-export { InsertExchangeValue }
+export { InsertEntryValue }

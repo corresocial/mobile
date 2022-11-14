@@ -29,7 +29,7 @@ import { InfoCard } from '../../../components/_cards/InfoCard'
 
 function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) {
 
-    const { setCultureDataOnContext } = useContext(CultureContext)
+    const { cultureDataContext,setCultureDataOnContext } = useContext(CultureContext)
 
     const [textTag, setTextTag] = useState('')
     const [keyboardOpened, setKeyboardOpened] = useState(false)
@@ -145,7 +145,11 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
 
     const saveTags = () => {
         setCultureDataOnContext({ tags: selectedTags })
-        // navigation.navigate('InsertCultureTitle')
+         if(cultureDataContext.cultureType === 'eventPost'){
+            navigation.navigate('InsertEntryValue')
+         }else{
+            // navigation.navigate('')
+         }
     }
 
     return (

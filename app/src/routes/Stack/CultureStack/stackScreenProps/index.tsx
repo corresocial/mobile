@@ -8,3 +8,4 @@ export type InsertCulturePictureScreenProps = NativeStackScreenProps<CultureStac
 export type CulturePicturePreviewScreenProps = NativeStackScreenProps<CultureStackParamList, 'CulturePicturePreview'>
 export type SelectCultureCategoryScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureCategory'>
 export type SelectCultureTagsScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureTags'>
+export type InsertEntryValueScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertEntryValue'>

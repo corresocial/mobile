@@ -12,6 +12,7 @@ import { InsertCulturePicture } from '../../../screens/cultureScreens/InsertCult
 import { CulturePicturePreview } from '../../../screens/cultureScreens/CulturePicturePreview';
 import { SelectCultureCategory } from '../../../screens/cultureScreens/SelectCultureCategory';
 import { SelectCultureTags } from '../../../screens/cultureScreens/SelectCultureTags';
+import { InsertEntryValue } from '../../../screens/cultureScreens/InsertEntryValue';
 
 const Stack = createStackNavigator<CultureStackParamList>()
 
@@ -33,6 +34,7 @@ export function CultureStack() {
                 <Stack.Screen name={'CulturePicturePreview'} component={CulturePicturePreview} />
                 <Stack.Screen name={'SelectCultureCategory'} component={SelectCultureCategory} />
                 <Stack.Screen name={'SelectCultureTags'} component={SelectCultureTags} />
+                <Stack.Screen name={'InsertEntryValue'} component={InsertEntryValue} />
             </Stack.Navigator>
         </CultureProvider>
     )
