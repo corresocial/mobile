@@ -19,7 +19,7 @@ import { InsertSaleLocation } from '../../../screens/saleScreens/InsertSaleLocat
 import { SelectLocationView } from '../../../screens/saleScreens/SelectLocationView';
 import { LocationViewPreview } from '../../../screens/saleScreens/LocationViewPreview';
 import { SelectDeliveryMethod } from '../../../screens/saleScreens/SelectDeliveryMethod';
-import { SelectSaleFrequency } from '../../../screens/saleScreens/selectSaleFrequency';
+import { SelectSaleFrequency } from '../../../screens/saleScreens/SelectSaleFrequency';
 import { SelectDaysOfWeek } from '../../../screens/saleScreens/SelectDaysOfWeek';
 import { InsertOpeningHour } from '../../../screens/saleScreens/InsertOpeningHour';
 import { InsertClosingHour } from '../../../screens/saleScreens/InsertClosingHour';

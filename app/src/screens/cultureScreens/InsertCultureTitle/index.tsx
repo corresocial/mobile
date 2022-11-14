@@ -84,7 +84,7 @@ function InsertCultureTitle({ navigation }: InsertCultureTitleScreenProps) {
                     }
                 >
                     <ProgressBar
-                        range={4}
+                        range={3}
                         value={1}
                     />
                 </InstructionCard>

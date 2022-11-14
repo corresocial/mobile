@@ -1,3 +1,4 @@
+import { CultureCategories } from "../../../services/Firebase/types"
 
 export type CultureStackParamList = {
     SelectCultureType: undefined
@@ -5,4 +6,6 @@ export type CultureStackParamList = {
     InsertCultureDescription: undefined
     InsertCulturePicture: undefined
     CulturePicturePreview: undefined
+    SelectCultureCategory: undefined
+    SelectCultureTags: {categorySelected: CultureCategories}
 }

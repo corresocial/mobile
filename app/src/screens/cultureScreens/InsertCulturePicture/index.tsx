@@ -64,7 +64,7 @@ function InsertCulturePicture({ navigation }: InsertCulturePictureScreenProps) {
                         highlightedWords={['não', 'precisa,']}
                         SvgIcon={Uncheck}
                         svgIconScale={['22%', '18%']}
-                        onPress={() => {}}
+                        onPress={() => navigation.navigate('SelectCultureCategory')}
                     /> 
                     <PrimaryButton
                         flexDirection={'row-reverse'}

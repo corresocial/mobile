@@ -8,7 +8,7 @@ import CalendarSomeday from './../../../assets/icons/calendarSomeday.svg'
 import CalendarBusinessDay from './../../../assets/icons/calendarBusinessDay.svg'
 
 import { SelectSaleFrequencyScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
-import { DaysOfWeek, WeekdaysFrequency } from './../../../services/Firebase/types'
+import { DaysOfWeek, WeekdaysFrequency } from '../../../services/Firebase/types'
 import { SaleContext } from '../../../contexts/SaleContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'

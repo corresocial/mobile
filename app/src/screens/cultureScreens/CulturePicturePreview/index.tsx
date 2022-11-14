@@ -39,7 +39,7 @@ function CulturePicturePreview({ navigation }: CulturePicturePreviewScreenProps)
 
 	const savePictures = () => {
 		setCultureDataOnContext({ picturesUrl: picturesPack })
-		//  navigation.navigate('SelectPaymentType')
+		navigation.navigate('SelectCultureCategory')
 	}
 
 	return (

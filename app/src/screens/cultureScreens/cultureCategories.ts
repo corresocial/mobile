@@ -1,11 +1,11 @@
  import { CultureCategories } from '../../services/Firebase/types'
 
-export const updateSaleTags = (category: CultureCategories, tag: string) => {
+export const updateCultureTags = (category: CultureCategories, tag: string) => {
     cultureCategories[category].tags = [...cultureCategories[category].tags, tag]
 }
 
 let cultureCategories = {
-    música: {
+    music: {
         label: 'música',
         value: 'music',
         tags: [
