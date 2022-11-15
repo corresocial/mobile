@@ -24,6 +24,8 @@ export type VacancyType = 'professional' | 'temporary' | 'beak'
 
 export type CultureType = 'artistProfile' | 'eventPost'
 
+export type ExhibitionPlaceType = 'near' | 'city' | 'country'
+
 export type MacroCategory = {
     label: string
     value: string
@@ -88,7 +90,7 @@ export type PrivateAddress = {
     geohashCity?: string[]
 }
 
-export type PostCollectionType = 'services' | 'sales' | 'vacancies' // Post type title
+export type PostCollectionType = 'services' | 'sales' | 'vacancies' | 'cultures' // Post type title
 
 export type PostCollection = ServiceCollection | SaleCollection | VacancyCollection
 

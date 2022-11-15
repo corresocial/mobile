@@ -148,7 +148,7 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
          if(cultureDataContext.cultureType === 'eventPost'){
             navigation.navigate('InsertEntryValue')
          }else{
-            // navigation.navigate('')
+             navigation.navigate('SelectExhibitionPlace')
          }
     }
 
