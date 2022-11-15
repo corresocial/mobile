@@ -1,4 +1,4 @@
-import React, { useContext,  useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { Animated, LayoutRectangle, StatusBar, View } from 'react-native';
 import * as Location from 'expo-location'
 
@@ -8,7 +8,7 @@ import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from 
 import Check from './../../../assets/icons/check.svg'
 import MapPointOrange from './../../../assets/icons/mapPoint-orange.svg'
 
-import { InsertServicePrestationLocationScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps';
+import { InsertCultureLocationScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps';
 import { Coordinates } from './../../../services/Firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
@@ -18,7 +18,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
 import { CustomMapView } from '../../../components/CustomMapView';
-import { ServiceContext } from '../../../contexts/ServiceContext';
+import { CultureContext } from '../../../contexts/CultureContext';
 import generateGeohashes from '../../../common/generateGeohashes';
 
 const initialRegion = {
@@ -33,9 +33,9 @@ const defaultDeltaCoordinates = {
     longitudeDelta: 0.003
 }
 
-function InsertServicePrestationLocation({ navigation }: InsertServicePrestationLocationScreenProps) {
+function InsertCultureLocation({ navigation }: InsertCultureLocationScreenProps) {
 
-    const { setServiceDataOnContext } = useContext(ServiceContext)
+    const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 
     const [hasPermission, setHasPermission] = useState(false)
     const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(null)
@@ -168,17 +168,30 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
         const completeAddress = await convertGeocodeToAddress(markerCoordinate?.latitude as number, markerCoordinate?.longitude as number)
         const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
-        setServiceDataOnContext({
+        setCultureDataOnContext({
             address: {
                 ...completeAddress,
                 ...geohashObject
             }
         })
-        navigation.navigate('SelectLocationView')
+        //     navigation.navigate('SelectLocationView')
     }
 
     const markerCoordinateIsAccuracy = () => {
         return markerCoordinate?.latitudeDelta as number < 0.0065
+    }
+
+    const getMessage = () => {
+        return cultureDataContext.cultureType === 'artistProfile'
+            ? 'adiciona o endereço aí!'
+            : 'qual o endereço do role?'
+    }
+
+    const getHightlightedWords = () => {
+        return cultureDataContext.cultureType === 'artistProfile'
+            ? ['endereço']
+            : ['endereço', 'do', 'role?']
+
     }
 
     const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -193,13 +206,13 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
 
         return headerBackgroundAnimatedValue.current.interpolate({
             inputRange: [0, 1],
-            outputRange: [theme.purple2, theme.red2],
+            outputRange: [theme.blue2, theme.red2],
         })
     }
 
     return (
         <Container >
-            <StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={screenHeight * 0.26}
                 relativeHeight={'22%'}
@@ -214,27 +227,27 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
                     message={
                         someInvalidFieldSubimitted()
                             ? 'não foi possível localizar este endereço'
-                            : 'onde você oferece seu serviço?'
+                            : getMessage()
                     }
                     highlightedWords={
                         someInvalidFieldSubimitted()
                             ? ['não', 'endereço']
-                            : ['onde', 'seu', 'seu', 'serviço?']
+                            : getHightlightedWords()
                     }
                 >
                     <ProgressBar
-                        range={5}
-                        value={4}
+                        range={3}
+                        value={3}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
             <LineInput
                 value={address}
                 relativeWidth={'100%'}
-                defaultBackgroundColor={validAddress ? theme.purple1 : theme.white3}
-                defaultBorderBottomColor={validAddress ? theme.purple5 : theme.black4}
-                validBackgroundColor={theme.purple1}
-                validBorderBottomColor={theme.purple5}
+                defaultBackgroundColor={validAddress ? theme.blue1 : theme.white3}
+                defaultBorderBottomColor={validAddress ? theme.blue5 : theme.black4}
+                validBackgroundColor={theme.blue1}
+                validBorderBottomColor={theme.blue5}
                 invalidBackgroundColor={theme.red1}
                 invalidBorderBottomColor={theme.red5}
                 textAlign={'left'}
@@ -300,4 +313,4 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
     )
 }
 
-export { InsertServicePrestationLocation }
+export { InsertCultureLocation }

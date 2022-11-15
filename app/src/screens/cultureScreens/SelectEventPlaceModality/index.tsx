@@ -21,7 +21,7 @@ function SelectEventPlaceModality({ navigation }: SelectEventPlaceModalityScreen
 
     const saveEventPlaceModality = (eventPlaceModality: PlaceModalityType) => {
         setCultureDataOnContext({ eventPlaceModality })
-        // navigation.navigate('InsertCultureLocation')
+         navigation.navigate('InsertCultureLocation')
     }
 
     return (

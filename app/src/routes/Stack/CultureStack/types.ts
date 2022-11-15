@@ -11,4 +11,5 @@ export type CultureStackParamList = {
     InsertEntryValue: undefined
     SelectExhibitionPlace: undefined
     SelectEventPlaceModality: undefined
+    InsertCultureLocation: undefined
 }
