@@ -14,6 +14,7 @@ import { SelectCultureCategory } from '../../../screens/cultureScreens/SelectCul
 import { SelectCultureTags } from '../../../screens/cultureScreens/SelectCultureTags';
 import { InsertEntryValue } from '../../../screens/cultureScreens/InsertEntryValue';
 import { SelectExhibitionPlace } from '../../../screens/cultureScreens/SelectExhibitionPlace';
+import { SelectEventPlaceModality } from '../../../screens/cultureScreens/SelectEventPlaceModality';
 
 const Stack = createStackNavigator<CultureStackParamList>()
 
@@ -37,6 +38,7 @@ export function CultureStack() {
                 <Stack.Screen name={'SelectCultureTags'} component={SelectCultureTags} />
                 <Stack.Screen name={'InsertEntryValue'} component={InsertEntryValue} />
                 <Stack.Screen name={'SelectExhibitionPlace'} component={SelectExhibitionPlace} />
+                <Stack.Screen name={'SelectEventPlaceModality'} component={SelectEventPlaceModality} />
             </Stack.Navigator>
         </CultureProvider>
     )

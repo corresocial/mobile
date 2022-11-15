@@ -56,7 +56,7 @@ function InsertEntryValue({ navigation }: InsertEntryValueScreenProps) {
         const entryValueIsValid = validateEntryValue(entryValue)
         if (entryValueIsValid) {
             setCultureDataOnContext({ entryValue })
-            //  navigation.navigate('InsertCulturePrestationLocation')
+            navigation.navigate('SelectEventPlaceModality')
         }
     }
 

@@ -4,8 +4,8 @@ import { StatusBar } from 'react-native'
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
 
-import { SelectExhibitionPlaceScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
-import { ExhibitionPlaceType } from './../../../services/Firebase/types'
+import { SelectEventPlaceModalityScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
+import { PlaceModalityType } from '../../../services/Firebase/types'
 import { CultureContext } from '../../../contexts/CultureContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -15,13 +15,13 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectExhibitionPlace({ navigation }: SelectExhibitionPlaceScreenProps) {
+function SelectEventPlaceModality({ navigation }: SelectEventPlaceModalityScreenProps) {
 
     const { setCultureDataOnContext } = useContext(CultureContext)
 
-    const saveExhibitionPlace = (exhibitionPlace: ExhibitionPlaceType) => {
-        setCultureDataOnContext({ exhibitionPlace })
-         navigation.navigate('SelectEventPlaceModality')
+    const saveEventPlaceModality = (eventPlaceModality: PlaceModalityType) => {
+        setCultureDataOnContext({ eventPlaceModality })
+        // navigation.navigate('InsertCultureLocation')
     }
 
     return (
@@ -36,8 +36,8 @@ function SelectExhibitionPlace({ navigation }: SelectExhibitionPlaceScreenProps)
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'onde você expõe sua arte?'}
-                    highlightedWords={['expõe']}
+                    message={'onde esse role vai acontecer?'}
+                    highlightedWords={['onde']}
                 >
                     <ProgressBar
                         range={3}
@@ -57,9 +57,9 @@ function SelectExhibitionPlace({ navigation }: SelectExhibitionPlaceScreenProps)
                         labelMarginLeft={'5%'}
                         fontSize={18}
                         textAlign={'left'}
-                        label={'só perto de mim'}
-                        highlightedWords={[`perto`]}
-                        onPress={() => saveExhibitionPlace('near')}
+                        label={'presencial'}
+                        highlightedWords={[`presencial`]}
+                        onPress={() => saveEventPlaceModality('presential')}
                     />
                     <PrimaryButton
                         justifyContent={'flex-start'}
@@ -69,9 +69,9 @@ function SelectExhibitionPlace({ navigation }: SelectExhibitionPlaceScreenProps)
                         labelMarginLeft={'5%'}
                         fontSize={18}
                         textAlign={'left'}
-                        label={'na minha cidade'}
-                        highlightedWords={[`cidade`]}
-                        onPress={() => saveExhibitionPlace('city')}
+                        label={'presencial + online'}
+                        highlightedWords={[`presencial`, '+', 'online']}
+                        onPress={() => saveEventPlaceModality('both')}
                     />
                     <PrimaryButton
                         justifyContent={'flex-start'}
@@ -81,9 +81,9 @@ function SelectExhibitionPlace({ navigation }: SelectExhibitionPlaceScreenProps)
                         labelMarginLeft={'5%'}
                         fontSize={18}
                         textAlign={'left'}
-                        label={'no país inteiro'}
-                        highlightedWords={[`país`]}
-                        onPress={() => saveExhibitionPlace('country')}
+                        label={'online'}
+                        highlightedWords={[`online`]}
+                        onPress={() => saveEventPlaceModality('online')}
                     />
                 </ButtonsContainer>
             </FormContainer>
@@ -91,4 +91,4 @@ function SelectExhibitionPlace({ navigation }: SelectExhibitionPlaceScreenProps)
     )
 }
 
-export { SelectExhibitionPlace }
+export { SelectEventPlaceModality }
