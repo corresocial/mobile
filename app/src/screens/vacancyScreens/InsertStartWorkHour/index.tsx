@@ -162,4 +162,4 @@ function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
     );
 }
 
-export { InsertStartWorkHour } // TODO Mudar nomenclatura para WorkStartHour
+export { InsertStartWorkHour } // TODO Mudar nomenclatura para WorkStartHour no DB tambem

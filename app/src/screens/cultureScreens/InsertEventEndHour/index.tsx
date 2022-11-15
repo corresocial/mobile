@@ -1,24 +1,26 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Keyboard, StatusBar } from 'react-native';
+import { Animated, Keyboard, StatusBar } from 'react-native'
 
-import { Container, InputsContainer, TwoPoints } from './styles';
-import { theme } from '../../../common/theme';
+import { Container, InputsContainer, TwoPoints } from './styles'
+import { theme } from '../../../common/theme'
+import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
+import { AuthContext } from '../../../contexts/AuthContext'
+import { CultureContext } from '../../../contexts/CultureContext'
+import { LoaderContext } from '../../../contexts/LoaderContext'
 
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { InsertEventStartHourScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps';
-import { CultureContext } from '../../../contexts/CultureContext';
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { LineInput } from '../../../components/LineInput'
+import { ProgressBar } from '../../../components/ProgressBar'
+import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+import { InsertEventEndHourScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { LineInput } from '../../../components/LineInput';
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions';
-import { BackButton } from '../../../components/_buttons/BackButton';
-import { ProgressBar } from '../../../components/ProgressBar';
 
-function InsertEventStartHour({ navigation }: InsertEventStartHourScreenProps) {
+function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
 
     const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 
@@ -27,6 +29,8 @@ function InsertEventStartHour({ navigation }: InsertEventStartHourScreenProps) {
     const [hoursIsValid, setHoursIsValid] = useState<boolean>(false)
     const [minutesIsValid, setMinutesIsValid] = useState<boolean>(false)
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+    const [invalidTimeAfterSubmit, setInvalidTimeAfterSubmit] = useState<boolean>(false)
+    const [hasServerSideError, setHasServerSideError] = useState<boolean>(false)
 
     const inputRefs = {
         hoursInput: useRef<React.MutableRefObject<any>>(null),
@@ -53,40 +57,86 @@ function InsertEventStartHour({ navigation }: InsertEventStartHourScreenProps) {
         const isValid = text.length == 2 && parseInt(text) < 24
         if (isValid) {
             return true
+        } else {
+            return false
         }
-        return false
     }
 
     const validateMinutes = (text: string) => {
-        const isValid = text.length == 2 && parseInt(text) < 60
+        const isValid = text.length == 2 && parseInt(text) <= 59
         if (isValid) {
             return true
         }
         return false
     }
 
-    const saveEventStartHour = () => {
+    const closingTimeIsAfterOpening = () => {
+        const eventStartHour = new Date(cultureDataContext.eventStartHour as Date)
+        const eventEndHour = new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
+        return eventStartHour.getTime() < eventEndHour.getTime()
+    }
+
+    const saveCulturePost = async () => {
+        if (!closingTimeIsAfterOpening()) {
+            setInvalidTimeAfterSubmit(true)
+            return
+        }
+
         setCultureDataOnContext({
-            eventStartHour: new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
+            eventEndHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
         })
-        navigation.navigate('InsertEventEndDate')
+        // navigation.navigate()
+    }
+
+    const getHeaderMessage = () => {
+        if (hasServerSideError) {
+            return 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes'
+        }
+        return invalidTimeAfterSubmit
+            ? 'O horário de início informado é superior ao horário de encerramento'
+            : 'que horas termina?'
+    }
+
+    const getHighlightedHeaderMessage = () => {
+        if (hasServerSideError) {
+            return ['do', 'nosso', 'lado,']
+        }
+        return invalidTimeAfterSubmit
+            ? ['horário', 'de', 'início', 'encerramento']
+            : ['que', 'horas']
+    }
+
+    const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
+    const animateDefaultHeaderBackgound = () => {
+        const existsError = invalidTimeAfterSubmit
+
+        Animated.timing(headerBackgroundAnimatedValue.current, {
+            toValue: existsError ? 1 : 0,
+            duration: 300,
+            useNativeDriver: false,
+        }).start()
+
+        return headerBackgroundAnimatedValue.current.interpolate({
+            inputRange: [0, 1],
+            outputRange: [theme.blue2, theme.red2],
+        })
     }
 
     return (
         <Container >
-            <StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={invalidTimeAfterSubmit ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={(screenHeight + statusBarHeight) * 0.26}
+                minHeight={(screenHeight + statusBarHeight) * 0.27}
                 relativeHeight={'22%'}
                 centralized
-                backgroundColor={theme.blue2}
+                backgroundColor={animateDefaultHeaderBackgound()}
             >
                 <BackButton onPress={() => navigation.goBack()} />
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'que horas começa?'}
-                    highlightedWords={['que', 'horas']}
+                    message={getHeaderMessage()}
+                    highlightedWords={getHighlightedHeaderMessage()}
                 >
                     <ProgressBar
                         range={3}
@@ -111,11 +161,16 @@ function InsertEventStartHour({ navigation }: InsertEventStartHourScreenProps) {
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
                         fontSize={26}
-                        placeholder={'07'}
+                        invalidTextAfterSubmit={invalidTimeAfterSubmit}
+                        placeholder={'14'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
                         validateText={(text: string) => validateHours(text)}
-                        onChangeText={(text: string) => setHours(text)}
+                        onChangeText={(text: string) => {
+                            setHours(text)
+                            invalidTimeAfterSubmit && setInvalidTimeAfterSubmit(false)
+                            hasServerSideError && setHasServerSideError(false)
+                        }}
                     />
                     <TwoPoints>:</TwoPoints>
                     <LineInput
@@ -131,31 +186,35 @@ function InsertEventStartHour({ navigation }: InsertEventStartHourScreenProps) {
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
                         fontSize={26}
+                        invalidTextAfterSubmit={invalidTimeAfterSubmit}
                         placeholder={'30'}
                         keyboardType={'decimal-pad'}
                         lastInput={true}
                         filterText={filterLeavingOnlyNumbers}
                         validateText={(text: string) => validateMinutes(text)}
-                        onChangeText={(text: string) => setMinutes(text)}
+                        onChangeText={(text: string) => {
+                            setMinutes(text)
+                            invalidTimeAfterSubmit && setInvalidTimeAfterSubmit(false)
+                            hasServerSideError && setHasServerSideError(false)
+                        }}
                     />
                 </InputsContainer>
                 <>
                     {
                         hoursIsValid && minutesIsValid && !keyboardOpened &&
                         <PrimaryButton
-                            color={theme.green3}
+                            color={invalidTimeAfterSubmit ? theme.red3 : theme.green3}
                             iconName={'arrow-right'}
                             iconColor={theme.white3}
                             label='continuar'
                             labelColor={theme.white3}
                             highlightedWords={['continuar']}
-                            onPress={saveEventStartHour}
+                            onPress={saveCulturePost}
                         />
-                    }
-                </>
+                    }</>
             </FormContainer>
         </Container>
-    );
+    )
 }
 
-export { InsertEventStartHour }
+export { InsertEventEndHour }

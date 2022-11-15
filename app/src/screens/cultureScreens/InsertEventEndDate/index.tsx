@@ -6,8 +6,8 @@ import { theme } from '../../../common/theme';
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { InsertEndWorkDateScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
-import { VacancyContext } from '../../../contexts/VacancyContext';
+import { InsertEventEndDateScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps';
+import { CultureContext } from '../../../contexts/CultureContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -18,9 +18,9 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton';
 import { ProgressBar } from '../../../components/ProgressBar';
 
-function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
+function InsertEventEndDate({ navigation }: InsertEventEndDateScreenProps) {
 
-    const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
+    const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 
     const [day, setDay] = useState<string>('')
     const [month, setMonth] = useState<string>('')
@@ -96,20 +96,20 @@ function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
 
     const endDateIsBiggerOfStartDate = () => {
         const insertedDate = new Date(`${year}-${month}-${day}T23:59:59`)
-        const vacancyContextStartDate = vacancyDataContext.startWorkDate || new Date()
-        return vacancyContextStartDate.getTime() > insertedDate.getTime()
+        const cultureContextStartDate = cultureDataContext.eventStartDate || new Date()
+        return cultureContextStartDate.getTime() > insertedDate.getTime()
     }
 
-    const saveEventEndDate = () => {
+    const saveOppeningHour = () => {
         if (endDateIsBiggerOfStartDate()) {
             setInvalidDateAfterSubmit(true)
             return
         }
 
-        setVacancyDataOnContext({
-            endWorkDate: new Date(`${year}-${month}-${day}T00:00:00`)
+        setCultureDataOnContext({
+            eventEndDate: new Date(`${year}-${month}-${day}T00:00:00`)
         })
-        navigation.navigate('InsertEndWorkHour')
+        navigation.navigate('InsertEventEndHour')
     }
 
     const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -124,13 +124,13 @@ function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
 
         return headerBackgroundAnimatedValue.current.interpolate({
             inputRange: [0, 1],
-            outputRange: [theme.yellow2, theme.red2],
+            outputRange: [theme.blue2, theme.red2],
         })
     }
 
     return (
         <Container >
-            <StatusBar backgroundColor={invalidDateAfterSubmit ? theme.red2 : theme.yellow2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={invalidDateAfterSubmit ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={(screenHeight + statusBarHeight) * 0.26}
                 relativeHeight={'22%'}
@@ -144,12 +144,12 @@ function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
                     message={
                         invalidDateAfterSubmit
                             ? 'A data de encerramento informada antecede a data de início'
-                            : 'até quando?'
+                            : 'quando termina?'
                     }
                     highlightedWords={
                         invalidDateAfterSubmit
                             ? ['data', 'de', 'encerramento', 'data', 'início']
-                            : ['quando?']
+                            : ['termina?']
                     }
                 >
                     <ProgressBar
@@ -169,8 +169,8 @@ function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
                         nextInputRef={inputRefs.monthInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
-                        validBackgroundColor={theme.yellow1}
-                        validBorderBottomColor={theme.yellow5}
+                        validBackgroundColor={theme.blue1}
+                        validBorderBottomColor={theme.blue5}
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
@@ -193,8 +193,8 @@ function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
                         nextInputRef={inputRefs.yearInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
-                        validBackgroundColor={theme.yellow1}
-                        validBorderBottomColor={theme.yellow5}
+                        validBackgroundColor={theme.blue1}
+                        validBorderBottomColor={theme.blue5}
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
@@ -216,8 +216,8 @@ function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
                         textInputRef={inputRefs.yearInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
-                        validBackgroundColor={theme.yellow1}
-                        validBorderBottomColor={theme.yellow5}
+                        validBackgroundColor={theme.blue1}
+                        validBorderBottomColor={theme.blue5}
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={4}
@@ -244,7 +244,7 @@ function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
                             label='continuar'
                             labelColor={theme.white3}
                             highlightedWords={['continuar']}
-                            onPress={saveEventEndDate}
+                            onPress={saveOppeningHour}
                         />
                     }
                 </>
@@ -253,4 +253,4 @@ function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
     );
 }
 
-export { InsertEndWorkDate }
+export { InsertEventEndDate }

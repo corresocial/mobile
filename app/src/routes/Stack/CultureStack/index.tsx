@@ -20,6 +20,8 @@ import { SelectCultureLocationView } from '../../../screens/cultureScreens/Selec
 import { CultureLocationViewPreview } from '../../../screens/cultureScreens/CultureLocationViewPreview';
 import { InsertEventStartDate } from '../../../screens/cultureScreens/InsertEventStartDate';
 import { InsertEventStartHour } from '../../../screens/cultureScreens/InsertEventStartHour';
+import { InsertEventEndDate } from '../../../screens/cultureScreens/InsertEventEndDate';
+import { InsertEventEndHour } from '../../../screens/cultureScreens/InsertEventEndHour';
 
 const Stack = createStackNavigator<CultureStackParamList>()
 
@@ -27,7 +29,7 @@ export function CultureStack() {
 
     return (
         <CultureProvider>
-            <Stack.Navigator initialRouteName='SelectCultureType'
+            <Stack.Navigator initialRouteName='InsertEventEndHour'
                 screenOptions={{
                     headerShown: false,
                     gestureEnabled: true,
@@ -49,6 +51,8 @@ export function CultureStack() {
                 <Stack.Screen name={'CultureLocationViewPreview'} component={CultureLocationViewPreview} />
                 <Stack.Screen name={'InsertEventStartDate'} component={InsertEventStartDate} />
                 <Stack.Screen name={'InsertEventStartHour'} component={InsertEventStartHour} />
+                <Stack.Screen name={'InsertEventEndDate'} component={InsertEventEndDate} />
+                <Stack.Screen name={'InsertEventEndHour'} component={InsertEventEndHour} />
             </Stack.Navigator>
         </CultureProvider>
     )
