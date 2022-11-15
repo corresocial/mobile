@@ -81,7 +81,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 
     const saveLocation = () => {
         setCultureDataOnContext({ locationView: locationViewSelected })
-        // navigation.navigate('insertEventStartDate')
+         navigation.navigate('InsertEventStartDate')
     }
 
     return (

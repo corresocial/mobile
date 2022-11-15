@@ -14,3 +14,5 @@ export type SelectEventPlaceModalityScreenProps = NativeStackScreenProps<Culture
 export type InsertCultureLocationScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertCultureLocation'>
 export type SelectCultureLocationViewScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureLocationView'>
 export type CultureLocationViewPreviewScreenProps = NativeStackScreenProps<CultureStackParamList, 'CultureLocationViewPreview'>
+export type InsertEventStartDateScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertEventStartDate'>
+export type InsertEventStartHourScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertEventStartHour'>

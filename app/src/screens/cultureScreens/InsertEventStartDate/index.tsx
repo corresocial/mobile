@@ -6,8 +6,8 @@ import { theme } from '../../../common/theme';
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { InsertStartWorkDateScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
-import { VacancyContext } from '../../../contexts/VacancyContext';
+import { InsertEventStartDateScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps';
+import { CultureContext } from '../../../contexts/CultureContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -18,9 +18,9 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton';
 import { ProgressBar } from '../../../components/ProgressBar';
 
-function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
+function InsertEventStartDate({ navigation }: InsertEventStartDateScreenProps) {
 
-    const { setVacancyDataOnContext } = useContext(VacancyContext)
+    const { setCultureDataOnContext } = useContext(CultureContext)
 
     const [day, setDay] = useState<string>('')
     const [month, setMonth] = useState<string>('')
@@ -101,16 +101,16 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
         return insertedDate >= currentDateWithoutTimezone
     }
 
-    const saveStartWorkDate = () => {
+    const saveEventStartDate = () => {
         if (!insertedDateIsAfterCurrentDate()) {
             setInvalidDateAfterSubmit(true)
             return
         }
 
-        setVacancyDataOnContext({
-            startWorkDate: new Date(`${year}-${month}-${day}T00:00:00`)
+        setCultureDataOnContext({
+            eventStartDate: new Date(`${year}-${month}-${day}T00:00:00`)
         })
-        navigation.navigate('InsertStartWorkHour')
+        navigation.navigate('InsertEventStartHour')
     }
 
     const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -125,13 +125,13 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
 
         return headerBackgroundAnimatedValue.current.interpolate({
             inputRange: [0, 1],
-            outputRange: [theme.yellow2, theme.red2],
+            outputRange: [theme.blue2, theme.red2],
         })
     }
 
     return (
         <Container >
-            <StatusBar backgroundColor={invalidDateAfterSubmit ? theme.red2 : theme.yellow2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={invalidDateAfterSubmit ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={(screenHeight + statusBarHeight) * 0.26}
                 relativeHeight={'22%'}
@@ -170,8 +170,8 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
                         nextInputRef={inputRefs.monthInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
-                        validBackgroundColor={theme.yellow1}
-                        validBorderBottomColor={theme.yellow5}
+                        validBackgroundColor={theme.blue1}
+                        validBorderBottomColor={theme.blue5}
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
@@ -194,8 +194,8 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
                         nextInputRef={inputRefs.yearInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
-                        validBackgroundColor={theme.yellow1}
-                        validBorderBottomColor={theme.yellow5}
+                        validBackgroundColor={theme.blue1}
+                        validBorderBottomColor={theme.blue5}
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
@@ -217,8 +217,8 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
                         textInputRef={inputRefs.yearInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
-                        validBackgroundColor={theme.yellow1}
-                        validBorderBottomColor={theme.yellow5}
+                        validBackgroundColor={theme.blue1}
+                        validBorderBottomColor={theme.blue5}
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={4}
@@ -245,7 +245,7 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
                             label='continuar'
                             labelColor={theme.white3}
                             highlightedWords={['continuar']}
-                            onPress={saveStartWorkDate}
+                            onPress={saveEventStartDate}
                         />
                     }
                 </>
@@ -254,4 +254,4 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
     );
 }
 
-export { InsertStartWorkDate }
+export { InsertEventStartDate }

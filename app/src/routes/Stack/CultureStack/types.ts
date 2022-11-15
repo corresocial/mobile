@@ -14,4 +14,6 @@ export type CultureStackParamList = {
     InsertCultureLocation: undefined
     SelectCultureLocationView: undefined
     CultureLocationViewPreview: {locationView?: LocationViewType}
+    InsertEventStartDate: undefined
+    InsertEventStartHour: undefined
 }

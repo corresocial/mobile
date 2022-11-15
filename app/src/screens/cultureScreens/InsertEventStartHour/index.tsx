@@ -6,8 +6,8 @@ import { theme } from '../../../common/theme';
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { InsertStartWorkHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
-import { VacancyContext } from '../../../contexts/VacancyContext';
+import { InsertEventStartHourScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps';
+import { CultureContext } from '../../../contexts/CultureContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -18,9 +18,9 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton';
 import { ProgressBar } from '../../../components/ProgressBar';
 
-function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
+function InsertEventStartHour({ navigation }: InsertEventStartHourScreenProps) {
 
-    const { vacancyDataContext,setVacancyDataOnContext } = useContext(VacancyContext)
+    const { cultureDataContext,setCultureDataOnContext } = useContext(CultureContext)
 
     const [hours, setHours] = useState<string>('')
     const [minutes, setMinutes] = useState<string>('')
@@ -65,25 +65,25 @@ function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
         return false
     }
  
-    const saveWorkStartHour = () => { 
-        setVacancyDataOnContext({
-            startWorkHour: new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
+    const saveEventStartHour = () => { 
+        setCultureDataOnContext({
+            eventStartHour: new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
         })
-        if(vacancyDataContext.vacancyType == 'professional'){
+        /* if(vacancyDataContext.vacancyType == 'professional'){
             navigation.navigate('InsertEndWorkHour')
         }else{
             navigation.navigate('InsertEndWorkDate')
-        }
+        } */
     }
 
     return (
         <Container >
-            <StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={(screenHeight + statusBarHeight) * 0.26}
                 relativeHeight={'22%'}
                 centralized
-                backgroundColor={theme.yellow2}
+                backgroundColor={theme.blue2}
             >
                 <BackButton onPress={() => navigation.goBack()} />
                 <InstructionCard
@@ -109,8 +109,8 @@ function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
                         nextInputRef={inputRefs.minutesInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
-                        validBackgroundColor={theme.yellow1}
-                        validBorderBottomColor={theme.yellow5}
+                        validBackgroundColor={theme.blue1}
+                        validBorderBottomColor={theme.blue5}
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
@@ -129,8 +129,8 @@ function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
                         previousInputRef={inputRefs.hoursInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
-                        validBackgroundColor={theme.yellow1}
-                        validBorderBottomColor={theme.yellow5}
+                        validBackgroundColor={theme.blue1}
+                        validBorderBottomColor={theme.blue5}
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
@@ -153,7 +153,7 @@ function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
                             label='continuar'
                             labelColor={theme.white3}
                             highlightedWords={['continuar']}
-                            onPress={saveWorkStartHour}
+                            onPress={saveEventStartHour}
                         />
                     }
                 </>
@@ -162,4 +162,4 @@ function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
     );
 }
 
-export { InsertStartWorkHour } // TODO Mudar nomenclatura para WorkStartHour
+export { InsertEventStartHour }

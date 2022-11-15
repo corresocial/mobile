@@ -4,7 +4,7 @@ import { SvgProps } from 'react-native-svg'
 
 import { screenWidth } from '../../common/screenDimensions'
 
-import { Coordinates, LocationViewType } from '../../screens/serviceScreens/types'
+import { Coordinates, LocationViewType } from '../../services/Firebase/types'
 
 interface CustomMapViewProops {
     regionCoordinate: Coordinates | any
@@ -68,16 +68,16 @@ function CustomMapView({
                 <>
                     {
                         locationView == 'approximate' &&
-                            <Circle
-                                center={{
-                                    latitude: randomCoordinate?.latitude || 0,
-                                    longitude: randomCoordinate?.longitude || 0
-                                }}
-                                radius={approximateRadius}
-                                strokeWidth={4}
-                                fillColor={'rgba(250, 153, 56, 0.25)'}
-                            >
-                            </Circle>
+                        <Circle
+                            center={{
+                                latitude: randomCoordinate?.latitude || 0,
+                                longitude: randomCoordinate?.longitude || 0
+                            }}
+                            radius={approximateRadius}
+                            strokeWidth={4}
+                            fillColor={'rgba(250, 153, 56, 0.25)'}
+                        >
+                        </Circle>
                     }
                     <Marker
                         coordinate={locationView == 'approximate' ? randomCoordinate : markerCoordinate}
