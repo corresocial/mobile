@@ -18,3 +18,4 @@ export type InsertEventStartDateScreenProps = NativeStackScreenProps<CultureStac
 export type InsertEventStartHourScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertEventStartHour'>
 export type InsertEventEndDateScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertEventEndDate'>
 export type InsertEventEndHourScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertEventEndHour'>
+export type SelectEventRepeatScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectEventRepeat'>

@@ -18,4 +18,5 @@ export type CultureStackParamList = {
     InsertEventStartHour: undefined
     InsertEventEndDate: undefined
     InsertEventEndHour: undefined
+    SelectEventRepeat: undefined
 }

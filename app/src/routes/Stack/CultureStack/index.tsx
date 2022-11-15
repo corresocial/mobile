@@ -22,6 +22,7 @@ import { InsertEventStartDate } from '../../../screens/cultureScreens/InsertEven
 import { InsertEventStartHour } from '../../../screens/cultureScreens/InsertEventStartHour';
 import { InsertEventEndDate } from '../../../screens/cultureScreens/InsertEventEndDate';
 import { InsertEventEndHour } from '../../../screens/cultureScreens/InsertEventEndHour';
+import { SelectEventRepeat } from '../../../screens/cultureScreens/SelectEventRepeat';
 
 const Stack = createStackNavigator<CultureStackParamList>()
 
@@ -53,6 +54,7 @@ export function CultureStack() {
                 <Stack.Screen name={'InsertEventStartHour'} component={InsertEventStartHour} />
                 <Stack.Screen name={'InsertEventEndDate'} component={InsertEventEndDate} />
                 <Stack.Screen name={'InsertEventEndHour'} component={InsertEventEndHour} />
+                <Stack.Screen name={'SelectEventRepeat'} component={SelectEventRepeat} />
             </Stack.Navigator>
         </CultureProvider>
     )

@@ -77,7 +77,7 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
     }
 
     const saveCulturePost = async () => {
-        if (!closingTimeIsAfterOpening()) {
+        if (!closingTimeIsAfterOpening()) { // TODO Uncoment
             setInvalidTimeAfterSubmit(true)
             return
         }
@@ -85,7 +85,7 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
         setCultureDataOnContext({
             eventEndHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
         })
-        // navigation.navigate()
+         navigation.navigate('SelectEventRepeat')
     }
 
     const getHeaderMessage = () => {

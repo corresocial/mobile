@@ -28,6 +28,8 @@ export type ExhibitionPlaceType = 'near' | 'city' | 'country'
 
 export type PlaceModalityType = 'presential' | 'online' | 'both'
 
+export type EventRepeatType = 'unrepeatable' | 'weekly' | 'biweekly' | 'monthly'
+
 export type MacroCategory = {
     label: string
     value: string
