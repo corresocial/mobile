@@ -12,3 +12,4 @@ export type InsertEntryValueScreenProps = NativeStackScreenProps<CultureStackPar
 export type SelectExhibitionPlaceScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectExhibitionPlace'>
 export type SelectEventPlaceModalityScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectEventPlaceModality'>
 export type InsertCultureLocationScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertCultureLocation'>
+export type SelectCultureLocationViewScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureLocationView'>

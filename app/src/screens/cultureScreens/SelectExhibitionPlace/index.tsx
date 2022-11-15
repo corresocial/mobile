@@ -21,7 +21,7 @@ function SelectExhibitionPlace({ navigation }: SelectExhibitionPlaceScreenProps)
 
     const saveExhibitionPlace = (exhibitionPlace: ExhibitionPlaceType) => {
         setCultureDataOnContext({ exhibitionPlace })
-        //  navigation.navigate('InsertCultureLocation')
+        navigation.navigate('InsertCultureLocation')
     }
 
     return (

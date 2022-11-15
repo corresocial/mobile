@@ -1,12 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
 
-import { SelectEventPlaceModalityScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
-import { PlaceModalityType } from '../../../services/Firebase/types'
-import { CultureContext } from '../../../contexts/CultureContext'
+import { SelectCultureLocationViewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
+import { LocationViewType } from '../../../services/Firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -15,17 +14,10 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectEventPlaceModality({ navigation }: SelectEventPlaceModalityScreenProps) {
+function SelectCultureLocationView({ navigation }: SelectCultureLocationViewScreenProps) {
 
-    const { setCultureDataOnContext } = useContext(CultureContext)
-
-    const saveEventPlaceModality = (eventPlaceModality: PlaceModalityType) => {
-        setCultureDataOnContext({ eventPlaceModality })
-        if(eventPlaceModality !== 'online'){
-            navigation.navigate('InsertCultureLocation')
-        }else{
-            // navigation.navigate('InsertStartDate')
-        }
+    const saveLocationViewType = (locationViewType: LocationViewType) => {
+        // navigation.navigate('LocationViewPreview', { locationView: locationViewType })
     }
 
     return (
@@ -40,8 +32,8 @@ function SelectEventPlaceModality({ navigation }: SelectEventPlaceModalityScreen
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'onde esse role vai acontecer?'}
-                    highlightedWords={['onde']}
+                    message={'como você prefere que outros usuários vejam sua localização ?'}
+                    highlightedWords={['como', 'você', 'prefere', 'vejam', 'sua', 'localização']}
                 >
                     <ProgressBar
                         range={3}
@@ -58,36 +50,33 @@ function SelectEventPlaceModality({ navigation }: SelectEventPlaceModalityScreen
                         color={theme.white3}
                         relativeHeight={'18%'}
                         labelColor={theme.black4}
-                        labelMarginLeft={'5%'}
                         fontSize={18}
                         textAlign={'left'}
-                        label={'presencial'}
-                        highlightedWords={[`presencial`]}
-                        onPress={() => saveEventPlaceModality('presential')}
+                        label={'localização privada'}
+                        highlightedWords={[`privada`]}
+                        onPress={() => saveLocationViewType('private')}
                     />
                     <PrimaryButton
                         justifyContent={'flex-start'}
                         color={theme.white3}
                         relativeHeight={'18%'}
                         labelColor={theme.black4}
-                        labelMarginLeft={'5%'}
                         fontSize={18}
                         textAlign={'left'}
-                        label={'presencial + online'}
-                        highlightedWords={[`presencial`, '+', 'online']}
-                        onPress={() => saveEventPlaceModality('both')}
+                        label={'localização aproximada'}
+                        highlightedWords={[`aproximada`]}
+                        onPress={() => saveLocationViewType('approximate')}
                     />
                     <PrimaryButton
                         justifyContent={'flex-start'}
                         color={theme.white3}
                         relativeHeight={'18%'}
                         labelColor={theme.black4}
-                        labelMarginLeft={'5%'}
                         fontSize={18}
                         textAlign={'left'}
-                        label={'online'}
-                        highlightedWords={[`online`]}
-                        onPress={() => saveEventPlaceModality('online')}
+                        label={'localização pública'}
+                        highlightedWords={[`pública`]}
+                        onPress={() => saveLocationViewType('public')}
                     />
                 </ButtonsContainer>
             </FormContainer>
@@ -95,4 +84,4 @@ function SelectEventPlaceModality({ navigation }: SelectEventPlaceModalityScreen
     )
 }
 
-export { SelectEventPlaceModality }
+export { SelectCultureLocationView }

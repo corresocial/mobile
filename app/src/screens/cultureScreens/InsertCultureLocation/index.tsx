@@ -174,7 +174,7 @@ function InsertCultureLocation({ navigation }: InsertCultureLocationScreenProps)
                 ...geohashObject
             }
         })
-        //     navigation.navigate('SelectLocationView')
+          navigation.navigate('SelectCultureLocationView')
     }
 
     const markerCoordinateIsAccuracy = () => {
