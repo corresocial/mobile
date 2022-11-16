@@ -6,7 +6,7 @@ import { theme } from '../../../common/theme';
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { InsertStartWorkDateScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
+import { InsertWorkStartDateScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
 import { VacancyContext } from '../../../contexts/VacancyContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
@@ -18,7 +18,7 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton';
 import { ProgressBar } from '../../../components/ProgressBar';
 
-function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
+function InsertWorkStartDate({ navigation }: InsertWorkStartDateScreenProps) {
 
     const { setVacancyDataOnContext } = useContext(VacancyContext)
 
@@ -108,9 +108,9 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
         }
 
         setVacancyDataOnContext({
-            startWorkDate: new Date(`${year}-${month}-${day}T00:00:00`)
+            workStartDate: new Date(`${year}-${month}-${day}T00:00:00`)
         })
-        navigation.navigate('InsertStartWorkHour')
+        navigation.navigate('InsertWorkStartHour')
     }
 
     const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -254,4 +254,4 @@ function InsertStartWorkDate({ navigation }: InsertStartWorkDateScreenProps) {
     );
 }
 
-export { InsertStartWorkDate }
+export { InsertWorkStartDate }

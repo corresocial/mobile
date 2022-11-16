@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { Modal } from 'react-native'
-import LottieView from 'lottie-react-native' // TODO Type
+import LottieView from 'lottie-react-native' 
 
 import { AnimationContainer, Container } from './styles'
 
@@ -12,7 +12,7 @@ interface LoaderModalProps {
 }
 
 function LoaderModal({ visible,closeModal }: LoaderModalProps) {
-	const animation = useRef<React.MutableRefObject<any>>(null)
+	const animation = useRef<any>(null)
 
 	return (
 		<Modal

@@ -170,7 +170,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                     ...localUser,
                     tourPerformed: true,
                     posts: [
-                        ...localUser.posts as PostCollection[], //TODO Type
+                        ...localUser.posts as PostCollection[], 
                         {
                             ...cultureDataPost,
                             postId: postId,

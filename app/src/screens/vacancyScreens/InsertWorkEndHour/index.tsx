@@ -8,6 +8,10 @@ import createPost from '../../../services/Firebase/post/createPost'
 import updateDocField from '../../../services/Firebase/common/updateDocField'
 import { PostCollection, PrivateAddress} from '../../../services/Firebase/types'
 import { LocalUserData, VacancyData } from '../../../contexts/types'
+import updatePostPrivateData from '../../../services/Firebase/post/updatePostPrivateData'
+import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+import { InsertWorkEndHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { VacancyContext } from '../../../contexts/VacancyContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
@@ -19,13 +23,10 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
-import updatePostPrivateData from '../../../services/Firebase/post/updatePostPrivateData'
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { InsertEndWorkHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 
-function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
+
+function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 
     const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
     const { setVacancyDataOnContext, vacancyDataContext } = useContext(VacancyContext)
@@ -78,15 +79,15 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
     }
 
     const closingTimeIsAfterOpening = () => {
-        const startWorkHour = new Date(vacancyDataContext.startWorkHour as Date)
-        const endWorkHour = new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
-        return startWorkHour.getTime() < endWorkHour.getTime()
+        const workStartHour = new Date(vacancyDataContext.workStartHour as Date)
+        const workEndHour = new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
+        return workStartHour.getTime() < workEndHour.getTime()
     }
 
     const getCompleteVacancyDataFromContext = () => {
         return {
             ...vacancyDataContext,
-            endWorkHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
+            workEndHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
         }
     }
 
@@ -313,4 +314,4 @@ function InsertEndWorkHour({ navigation }: InsertEndWorkHourScreenProps) {
     )
 }
 
-export { InsertEndWorkHour }
+export { InsertWorkEndHour }

@@ -6,7 +6,7 @@ import { theme } from '../../../common/theme';
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { InsertEndWorkDateScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
+import { InsertWorkEndDateScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
 import { VacancyContext } from '../../../contexts/VacancyContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
@@ -18,7 +18,7 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton';
 import { ProgressBar } from '../../../components/ProgressBar';
 
-function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
+function InsertWorkEndDate({ navigation }: InsertWorkEndDateScreenProps) {
 
     const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 
@@ -96,7 +96,7 @@ function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
 
     const endDateIsBiggerOfStartDate = () => {
         const insertedDate = new Date(`${year}-${month}-${day}T23:59:59`)
-        const vacancyContextStartDate = vacancyDataContext.startWorkDate || new Date()
+        const vacancyContextStartDate = vacancyDataContext.workStartDate || new Date()
         return vacancyContextStartDate.getTime() > insertedDate.getTime()
     }
 
@@ -107,9 +107,9 @@ function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
         }
 
         setVacancyDataOnContext({
-            endWorkDate: new Date(`${year}-${month}-${day}T00:00:00`)
+            workEndDate: new Date(`${year}-${month}-${day}T00:00:00`)
         })
-        navigation.navigate('InsertEndWorkHour')
+        navigation.navigate('InsertWorkEndHour')
     }
 
     const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -253,4 +253,4 @@ function InsertEndWorkDate({ navigation }: InsertEndWorkDateScreenProps) {
     );
 }
 
-export { InsertEndWorkDate }
+export { InsertWorkEndDate }

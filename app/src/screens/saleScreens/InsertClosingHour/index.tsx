@@ -229,7 +229,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     ...localUser,
                     tourPerformed: true,
                     posts: [
-                        ...localUser.posts as PostCollection[], //TODO Type
+                        ...localUser.posts as PostCollection[],
                         {
                             ...saleDataPost,
                             postId: postId,

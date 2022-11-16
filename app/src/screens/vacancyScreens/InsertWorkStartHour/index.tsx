@@ -6,7 +6,7 @@ import { theme } from '../../../common/theme';
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { InsertStartWorkHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
+import { InsertWorkStartHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
 import { VacancyContext } from '../../../contexts/VacancyContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
@@ -18,7 +18,7 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton';
 import { ProgressBar } from '../../../components/ProgressBar';
 
-function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
+function InsertWorkStartHour({ navigation }: InsertWorkStartHourScreenProps) {
 
     const { vacancyDataContext,setVacancyDataOnContext } = useContext(VacancyContext)
 
@@ -67,12 +67,12 @@ function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
  
     const saveWorkStartHour = () => { 
         setVacancyDataOnContext({
-            startWorkHour: new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
+            workStartHour: new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
         })
         if(vacancyDataContext.vacancyType == 'professional'){
-            navigation.navigate('InsertEndWorkHour')
+            navigation.navigate('InsertWorkEndHour')
         }else{
-            navigation.navigate('InsertEndWorkDate')
+            navigation.navigate('InsertWorkEndDate')
         }
     }
 
@@ -162,4 +162,4 @@ function InsertStartWorkHour({ navigation }: InsertStartWorkHourScreenProps) {
     );
 }
 
-export { InsertStartWorkHour } // TODO Mudar nomenclatura para WorkStartHour no DB tambem
+export { InsertWorkStartHour }

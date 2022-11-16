@@ -27,7 +27,7 @@ export interface UserData extends UserCollection {
     cellNumber?: string
 }
 
-export type LocalUserPost = { //TODO Posts locais do usuario
+export type LocalUserPost = { // Posts locais do usuario
 
 }
 
@@ -106,10 +106,10 @@ export type VacancyData = {
     companyDescription?: string
     questions?: string[]
     workWeekdays?: DaysOfWeek[]
-    startWorkDate?: Date
-    endWorkDate?: Date 
-    startWorkHour?: Date
-    endWorkHour?: Date
+    workStartDate?: Date
+    workEndDate?: Date 
+    workStartHour?: Date
+    workEndHour?: Date
     tags?: string[]
     address?: {
         country?: string

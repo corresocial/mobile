@@ -10,15 +10,15 @@ import { InsertVacancyDescription } from '../../../screens/vacancyScreens/Insert
 import { InsertVacancyQuestions } from '../../../screens/vacancyScreens/InsertVacancyQuestions';
 import { InsertCompanyDescription } from '../../../screens/vacancyScreens/InsertCompanyDescription';
 import { SelectWorkplace } from '../../../screens/vacancyScreens/SelectWorkplace';
-import {  InsertWorkplaceLocation } from '../../../screens/vacancyScreens/InsertWorkplaceLocation';
+import { InsertWorkplaceLocation } from '../../../screens/vacancyScreens/InsertWorkplaceLocation';
 import { SelectVacancyCategory } from '../../../screens/vacancyScreens/SelectVacancyCategory';
 import { SelectVacancyTags } from '../../../screens/vacancyScreens/SelectVacancyTags';
 import { SelectVacancyType } from '../../../screens/vacancyScreens/SelectVacancyType';
-import {  SelectWorkWeekdays } from '../../../screens/vacancyScreens/SelectWorkWeekdays';
-import { InsertStartWorkHour } from '../../../screens/vacancyScreens/InsertStartWorkHour';
-import { InsertEndWorkHour } from '../../../screens/vacancyScreens/InsertEndWorkHour';
-import { InsertStartWorkDate } from '../../../screens/vacancyScreens/InsertStartWorkDate';
-import { InsertEndWorkDate } from '../../../screens/vacancyScreens/InsertEndWorkDate';
+import { SelectWorkWeekdays } from '../../../screens/vacancyScreens/SelectWorkWeekdays';
+import { InsertWorkStartDate } from '../../../screens/vacancyScreens/InsertWorkStartDate';
+import { InsertWorkStartHour } from '../../../screens/vacancyScreens/InsertWorkStartHour';
+import { InsertWorkEndDate } from '../../../screens/vacancyScreens/InsertWorkEndDate';
+import { InsertWorkEndHour } from '../../../screens/vacancyScreens/InsertWorkEndHour';
 
 const Stack = createStackNavigator<VacancyStackParamList>()
 
@@ -42,11 +42,11 @@ export function VacancyStack() {
                 <Stack.Screen name={'SelectVacancyCategory'} component={SelectVacancyCategory} />
                 <Stack.Screen name={'SelectVacancyTags'} component={SelectVacancyTags} />
                 <Stack.Screen name={'SelectVacancyType'} component={SelectVacancyType} />
-                <Stack.Screen name={'SelectWorkWeekdays'} component={SelectWorkWeekdays} /> 
-                <Stack.Screen name={'InsertStartWorkHour'} component={InsertStartWorkHour} /> 
-                <Stack.Screen name={'InsertEndWorkHour'} component={InsertEndWorkHour} /> 
-                <Stack.Screen name={'InsertStartWorkDate'} component={InsertStartWorkDate} /> 
-                <Stack.Screen name={'InsertEndWorkDate'} component={InsertEndWorkDate} /> 
+                <Stack.Screen name={'SelectWorkWeekdays'} component={SelectWorkWeekdays} />
+                <Stack.Screen name={'InsertWorkStartDate'} component={InsertWorkStartDate} />
+                <Stack.Screen name={'InsertWorkStartHour'} component={InsertWorkStartHour} />
+                <Stack.Screen name={'InsertWorkEndDate'} component={InsertWorkEndDate} />
+                <Stack.Screen name={'InsertWorkEndHour'} component={InsertWorkEndHour} />
             </Stack.Navigator>
         </VacancyProvider>
     )

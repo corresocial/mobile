@@ -77,7 +77,7 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
     }
 
     const saveCulturePost = async () => {
-        if (!closingTimeIsAfterOpening()) { // TODO Uncoment
+        if (!closingTimeIsAfterOpening()) { 
             setInvalidTimeAfterSubmit(true)
             return
         }

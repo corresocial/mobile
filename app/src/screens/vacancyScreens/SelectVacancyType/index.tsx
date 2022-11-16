@@ -27,11 +27,11 @@ function SelectVacancyType({ navigation }: SelectVacancyTypeScreenProps) {
                 break
             }
             case 'temporary': {
-                 navigation.navigate('InsertStartWorkDate')
+                 navigation.navigate('InsertWorkStartDate')
                 break
             }
             case 'beak': {
-                 navigation.navigate('InsertStartWorkDate')
+                 navigation.navigate('InsertWorkStartDate')
                 break
             }
         }
