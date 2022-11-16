@@ -94,28 +94,14 @@ export type PrivateAddress = {
     geohashCity?: string[]
 }
 
+export type PostType = 'service' | 'sale' | 'vacancy' | 'socialImpact' | 'culture'
+
 export type PostCollectionType = 'services' | 'sales' | 'vacancies' | 'cultures' // Post type title
 
 export type PostCollection = ServiceCollection | SaleCollection | VacancyCollection | CultureCollection
 
 export type ServiceCollection = {
-    address?: {
-        country?: string
-        state?: string
-        city?: string
-        postalCode?: string
-        district?: string
-        street?: string
-        number?: string
-        reference?: string
-        coordinates: {
-            latitude: number
-            longitude: number
-        }
-        geohash: string
-        geohashNear: string[]
-        geohashCity: string[]
-    }
+    postType?: PostType
     title: string
     tags: string[]
     paymentType: PaymentType
@@ -129,14 +115,6 @@ export type ServiceCollection = {
     closingHour?: Date
     picturesUrl?: string[]
     createdAt?: Date
-    owner?: {
-        userId?: string
-        name?: string
-        profilePictureUrl?: string[]
-    }
-}
-
-export type SaleCollection = {
     address?: {
         country?: string
         state?: string
@@ -154,6 +132,15 @@ export type SaleCollection = {
         geohashNear: string[]
         geohashCity: string[]
     }
+    owner?: {
+        userId?: string
+        name?: string
+        profilePictureUrl?: string[]
+    }
+}
+
+export type SaleCollection = {
+    postType?: PostType
     title: string
     itemName: string
     itemDescription: string
@@ -169,6 +156,23 @@ export type SaleCollection = {
     closingHour?: Date
     picturesUrl?: string[]
     createdAt?: Date
+    address?: {
+        country?: string
+        state?: string
+        city?: string
+        postalCode?: string
+        district?: string
+        street?: string
+        number?: string
+        reference?: string
+        coordinates: {
+            latitude: number
+            longitude: number
+        }
+        geohash: string
+        geohashNear: string[]
+        geohashCity: string[]
+    }
     owner?: {
         userId?: string
         name?: string
@@ -177,6 +181,7 @@ export type SaleCollection = {
 }
 
 export type VacancyCollection = {
+    postType?: PostType
     title?: string
     description?: string
     vacancyType?: VacancyType
@@ -214,6 +219,46 @@ export type VacancyCollection = {
     }
 }
 
+export type CultureCollection = {
+    postType?: PostType
+    title?: string
+    description?: string
+    cultureType?: CultureType
+    locationView?: LocationViewType
+    exhibitionPlace?: ExhibitionPlaceType
+    eventPlaceModality?: PlaceModalityType
+    eventRepeat?: EventRepeatType
+    entryValue?: string
+    eventStartDate?: Date
+    eventEndDate?: Date
+    eventStartHour?: Date
+    eventEndHour?: Date
+    picturesUrl?: string[]
+    tags?: string[]
+    createdAt?: Date
+    address?: {
+        country?: string
+        state?: string
+        city?: string
+        postalCode?: string
+        district?: string
+        street?: string
+        number?: string
+        reference?: string
+        coordinates?: {
+            latitude?: number
+            longitude?: number
+        }
+        geohash?: string
+        geohashNear?: string[]
+        geohashCity?: string[]
+    }
+    owner?: {
+        userId?: string
+        name?: string
+        profilePictureUrl?: string[]
+    }
+}
+
 export type AdsCollection = any
 
-export type CultureCollection = any

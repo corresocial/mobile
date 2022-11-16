@@ -1,4 +1,4 @@
-import { DaysOfWeek, DeliveryMethod, LocationViewType, PaymentType, UserCollection, VacancyType, WeekdaysFrequency, WorkplaceType } from "../services/Firebase/types";
+import { CultureType, DaysOfWeek, DeliveryMethod, EventRepeatType, ExhibitionPlaceType, LocationViewType, PaymentType, PlaceModalityType, UserCollection, VacancyType, WeekdaysFrequency, WorkplaceType } from "../services/Firebase/types";
 
 export type UserIdentification = {
     uid: string;
@@ -130,4 +130,36 @@ export type VacancyData = {
     }
 }
 
-export type CultureData = any
+export type CultureData = {
+    title?: string
+    description?: string
+    cultureType?: CultureType
+    locationView?: LocationViewType
+    exhibitionPlace?: ExhibitionPlaceType
+    eventPlaceModality?: PlaceModalityType
+    eventRepeat?: EventRepeatType
+    entryValue?: string
+    eventStartDate?: Date
+    eventEndDate?: Date 
+    eventStartHour?: Date
+    eventEndHour?: Date
+    picturesUrl?: string[]
+    tags?: string[]
+    address?: {
+        country?: string
+        state?: string
+        city?: string
+        postalCode?: string
+        district?: string
+        street?: string
+        number?: string
+        reference?: string
+        coordinates?: {
+            latitude?: number
+            longitude?: number
+        }
+        geohash?: string
+        geohashNear?: string[]
+        geohashCity?: string[]
+    }
+}

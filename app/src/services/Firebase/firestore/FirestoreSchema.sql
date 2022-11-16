@@ -101,17 +101,57 @@ saleCollection = {
 }
 
 vacancyCollection = {
-    title?: string
-    description?: string
-    vacancyType?: enum('professional' | 'temporary' | 'beak')
-    workplace?: enum('homeoffice' | 'presential' | 'hybrid')
-    companyDescription?: string
-    questions?: string[]
-    workWeekdays?: DaysOfWeek[]
-    startWorkHour?: 'date'
-    endWorkHour?: 'date'
-    tags?: string[]
-    createdAt?: 'date'
+    title: 'string'
+    description: 'string'
+    vacancyType: enum('professional' | 'temporary' | 'beak')
+    workplace: enum('homeoffice' | 'presential' | 'hybrid')
+    companyDescription: 'string'
+    questions: string[]
+    workWeekdays: DaysOfWeek[]
+    startWorkHour: 'date'
+    endWorkHour: 'date'
+    tags: string[]
+    createdAt: 'date'
+    private address: {
+            country: 'string',
+            state: 'string',
+            city: 'string',
+            postalCode: 'string',
+            district: 'string',
+            street: 'string',
+            number: 'string',
+            reference: 'string',
+            coordinates: {
+                latitude: 'float',
+                longitude: 'float',
+            }
+            geohash: 'string'
+            geohashNear: 'array[string]',
+            geohashCity: 'array[string]',
+    }
+    owner: {
+        userId: 'string',
+        name: 'string',
+        profilePictureUrl: 'array[string]'
+	},
+}
+
+cultureCollection = {
+    title: 'string',
+    description: 'string',
+    cultureType: enum('artistProfile' | 'eventPost'),
+    locationView: enum('private' | 'approximate' | 'public'),
+    exhibitionPlace: enum('near' | 'city' | 'country'),
+    eventPlaceModality: enum('online' | 'both' | 'presential'),
+    eventRepeat: enum('unrepeatable' | 'weekly' | 'biweekly' | 'monthly'),
+    entryValue: 'string',
+    eventStartDate: 'date',
+    eventEndDate: 'date',
+    eventStartHour: 'date',
+    eventEndHour: 'date',
+    picturesUrl: 'array[string]',
+    tags: 'array[string]',
+    createdAt: 'date',
     private address: {
             country: 'string',
             state: 'string',

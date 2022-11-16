@@ -145,7 +145,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
             const localUser = await getLocalUser()
             if (!localUser.userId) throw 'Não foi possível identificar o usuário'
 
-            const postId = await createPost(serviceDataPost, localUser, 'services')
+            const postId = await createPost(serviceDataPost, localUser, 'services', 'service')
             if (!postId) throw 'Não foi possível identificar o post'
 
             if (!servicePictures.length) {
@@ -258,7 +258,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                 })
                 console.log('Naviguei')
                 setLoaderIsVisible(false)
-                navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
+                 navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
             })
     }
 

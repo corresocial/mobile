@@ -71,7 +71,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
             const localUser = await getLocalUser()
             if (!localUser.userId) throw 'Não foi possível identificar o usuário'
 
-            const postId = await createPost(cultureDataPost, localUser, 'cultures')
+            const postId = await createPost(cultureDataPost, localUser, 'cultures', 'culture')
             if (!postId) throw 'Não foi possível identificar o post'
 
             if (!culturePictures.length) {

@@ -11,7 +11,7 @@ import EyeHalfTraced from './../../../assets/icons/eyeHalfTraced.svg'
 import EyeTraced from './../../../assets/icons/eyeTraced.svg'
 
 import { CultureLocationViewPreviewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps';
-import { CultureCollection, EventRepeatType, LocationViewType, PostCollection, PrivateAddress } from './../../../services/Firebase/types'
+import { CultureCollection, LocationViewType, PostCollection, PrivateAddress } from './../../../services/Firebase/types'
 import createPost from '../../../services/Firebase/post/createPost'
 import updateDocField from '../../../services/Firebase/common/updateDocField'
 import { LoaderContext } from '../../../contexts/LoaderContext';
@@ -149,7 +149,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
               const localUser = await getLocalUser()
               if (!localUser.userId) throw 'Não foi possível identificar o usuário'
   
-              const postId = await createPost(cultureDataPost, localUser, 'cultures')
+              const postId = await createPost(cultureDataPost, localUser, 'cultures', 'culture')
               if (!postId) throw 'Não foi possível identificar o post'
   
               if (!culturePictures.length) {

@@ -130,7 +130,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
             const localUser = await getLocalUser()
             if (!localUser.userId) throw 'Não foi possível identificar o usuário'
 
-            const postId = await createPost(saleDataPost, localUser, 'sales')
+            const postId = await createPost(saleDataPost, localUser, 'sales', 'sale')
             if (!postId) throw 'Não foi possível identificar o post'
 
             if (!salePictures.length) {
