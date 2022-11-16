@@ -96,7 +96,7 @@ export type PrivateAddress = {
 
 export type PostCollectionType = 'services' | 'sales' | 'vacancies' | 'cultures' // Post type title
 
-export type PostCollection = ServiceCollection | SaleCollection | VacancyCollection
+export type PostCollection = ServiceCollection | SaleCollection | VacancyCollection | CultureCollection
 
 export type ServiceCollection = {
     address?: {
@@ -214,6 +214,6 @@ export type VacancyCollection = {
     }
 }
 
-export type AdsCollection = {
+export type AdsCollection = any
 
-}
+export type CultureCollection = any
