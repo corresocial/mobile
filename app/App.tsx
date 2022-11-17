@@ -29,7 +29,7 @@ export default function App() {
 	)
 
 	return (
-		<NavigationContainer>
+			<NavigationContainer>
 			<ThemeProvider theme={theme}>
 				<LoaderProvider>
 					<AuthRegisterStack />

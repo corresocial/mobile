@@ -101,6 +101,10 @@ function Profile({ navigation, route }: HomeTabScreenProps) {
 		Alert.alert('Certo!', 'Dados do local storage apagados, recarregue a aplicação!')
 	}
 
+	const lauchError = () => { //TODO TestsOnly
+		 throw new Error('Testing error boundary')
+	}
+	
 	return (
 		<Container style={{ flex: 1 }}>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
