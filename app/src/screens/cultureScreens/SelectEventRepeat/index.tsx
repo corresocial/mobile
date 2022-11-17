@@ -68,7 +68,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
         const culturePictures = extractCulturePictures(completeCultureData)
 
         try {
-            const localUser = await getLocalUser()
+            /* const localUser = await getLocalUser()
             if (!localUser.userId) throw 'Não foi possível identificar o usuário'
 
             const postId = await createPost(cultureDataPost, localUser, 'cultures', 'culture')
@@ -136,7 +136,9 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                         )
                     },
                 )
-            })
+            }) */
+
+            throw 'sfdoi'
         } catch (err) {
             console.log(err)
             setHasServerSideError(true)
@@ -170,7 +172,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                     ...localUser,
                     tourPerformed: true,
                     posts: [
-                        ...localUser.posts as PostCollection[], 
+                        ...localUser.posts as PostCollection[],
                         {
                             ...cultureDataPost,
                             postId: postId,
@@ -180,7 +182,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                 })
                 console.log('Naviguei')
                 setLoaderIsVisible(false)
-                navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
+                // navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
             })
     }
 
@@ -188,7 +190,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
         <Container>
             <StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                relativeHeight={'27%'}
+                relativeHeight={!hasServerSideError ? '27%' : '32%'}
                 centralized
                 backgroundColor={theme.white3}
             >
@@ -196,8 +198,17 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'esse role se repete?'}
-                    highlightedWords={['repete?']}
+                    message={
+                        !hasServerSideError
+                            ? 'esse role se repete?'
+                            : 'ops, parece que algo deu errado do nosso lado! \n\npor favor tente novamente em alguns instantes'
+                    }
+                    highlightedWords={
+                        !hasServerSideError
+                            ? ['repete?']
+                            : ['ops,','parece', 'que', 'algo', 'deu', 'errado', 'do', 'nosso', 'lado!']
+
+                    }
                 >
                     <ProgressBar
                         range={5}
@@ -206,7 +217,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                 </InstructionCard>
             </DefaultHeaderContainer>
             <FormContainer
-                backgroundColor={theme.blue2}
+                backgroundColor={hasServerSideError ? theme.red2 : theme.blue2}
             >
                 <ButtonsContainer>
                     <PrimaryButton
@@ -250,7 +261,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                         fontSize={18}
                         textAlign={'left'}
                         label={'não se repete'}
-                        highlightedWords={['não','se', 'repete']}
+                        highlightedWords={['não', 'se', 'repete']}
                         onPress={() => saveCulturePost('unrepeatable')}
                     />
                 </ButtonsContainer>
