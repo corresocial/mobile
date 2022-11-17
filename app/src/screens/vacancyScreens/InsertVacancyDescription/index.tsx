@@ -89,7 +89,7 @@ function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreen
                 <LineInput
                     value={vacancyDescription}
                     relativeWidth={'100%'}
-                    initialNumberOfLines={3}
+                    initialNumberOfLines={2}
                     textInputRef={inputRefs.vacancyDescriptionInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}
@@ -99,7 +99,7 @@ function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreen
                     lastInput={true}
                     textAlign={'left'}
                     fontSize={16}
-                    placeholder={'ex: descreva a vaga, o que o funcionário terá que fazer, benefícios, etc...'}
+                    placeholder={'ex: descreva a vaga, atividades, benefícios, etc...'}
                     keyboardType={'default'}
                     textIsValid={vacancyDescriptionIsValid && !keyboardOpened}
                     validateText={(text: string) => validateVacancyDescription(text)}

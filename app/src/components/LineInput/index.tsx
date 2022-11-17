@@ -77,13 +77,13 @@ function LineInput({
     onChangeText
 }: LineInputProps) {
 
-    const lineHeight = screenHeight * 0.042
-    const minLineHeight = initialNumberOfLines * (screenHeight * 0.042)
+    const lineHeight = screenHeight * 0.039
+    const minLineHeight = initialNumberOfLines * (screenHeight * (initialNumberOfLines <= 2 ? 0.05 : 0.042))
     const maxLineHeight = screenHeight * 0.25
 
     const [focused, setFocused] = useState<boolean>(false)
     const [validated, setValidated] = useState<boolean>(false)
-    const [multilineInputHeight, setMultilineInputHeight] = useState(initialNumberOfLines * lineHeight)
+    const [multilineInputHeight, setMultilineInputHeight] = useState(minLineHeight)
 
     const ValidateAndChange = (text: string) => {
         let filtredText = filterText ? filterText(text) : text
@@ -115,8 +115,8 @@ function LineInput({
 
     const resizeMultilineInput = (height: number) => {
         if (!multiline) return
-        if (height >= (minLineHeight) && height < maxLineHeight) {
-            setMultilineInputHeight(height + 3)
+        if (height >= (initialNumberOfLines * lineHeight) && height < maxLineHeight) {
+            setMultilineInputHeight(height + 3) // borderBottom
         }
     }
 

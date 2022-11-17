@@ -56,7 +56,7 @@ function InsertCultureDescription({ navigation }: InsertCultureDescriptionScreen
     const saveCultureDescription = () => {
         if (cultureDescriptionIsValid) {
             setCultureDataOnContext({ description: cultureDescription })
-             navigation.navigate('InsertCulturePicture')
+            navigation.navigate('InsertCulturePicture')
         }
     }
 
@@ -108,15 +108,38 @@ function InsertCultureDescription({ navigation }: InsertCultureDescriptionScreen
                     textAlign={'left'}
                     fontSize={16}
                     placeholder={
-                        cultureDataContext.cultureType === 'artistProfile' 
-                        ? 'ex: o que você faz, qual o seu estilo, há quanto tempo você faz, se faz sozinho ou em grupo, etc.'
-                        : 'ex: vai ter muita gente, qual o objetivo desse role, se precisa levar algo'
+                        cultureDataContext.cultureType === 'artistProfile'
+                            ? 'ex: o que você faz, qual o seu estilo, há quanto tempo você faz, se faz sozinho ou em grupo, etc.'
+                            : 'ex: vai ter muita gente, qual o objetivo desse role, se precisa levar algo'
                     }
                     keyboardType={'default'}
                     textIsValid={cultureDescriptionIsValid && !keyboardOpened}
                     validateText={(text: string) => validateCultureDescription(text)}
                     onChangeText={(text: string) => setCultureDescription(text)}
                 />
+              {/*   <LineInput
+                    value={cultureDescription}
+                    relativeWidth={'100%'}
+                    initialNumberOfLines={2}
+                    textInputRef={inputRefs.cultureDescriptionInput}
+                    defaultBackgroundColor={theme.white2}
+                    defaultBorderBottomColor={theme.black4}
+                    validBackgroundColor={theme.blue1}
+                    validBorderBottomColor={theme.blue5}
+                    multiline
+                    lastInput={true}
+                    textAlign={'left'}
+                    fontSize={16}
+                    placeholder={
+                        cultureDataContext.cultureType === 'artistProfile'
+                            ? 'ex: o que você faz, qual o seu estilo, há quanto tempo você faz, se faz sozinho ou em grupo, etc.'
+                            : 'ex: vai ter muita gente, qual o objetivo desse role, se precisa levar algo'
+                    }
+                    keyboardType={'default'}
+                    textIsValid={cultureDescriptionIsValid && !keyboardOpened}
+                    validateText={(text: string) => validateCultureDescription(text)}
+                    onChangeText={(text: string) => setCultureDescription(text)}
+                /> */}
                 <ButtonsContainer>
                     {
                         cultureDescriptionIsValid && !keyboardOpened &&
