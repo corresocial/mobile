@@ -74,7 +74,7 @@ function InsertItemDescription({ navigation }: InsertItemDescriptionScreenProps)
                     borderLeftWidth={3}
                     fontSize={18}
                     message={'escreva uma descrição para o seu item'}
-                    highlightedWords={['descrição', 'seu', 'item']}
+                    highlightedWords={['descrição', 'o', 'seu', 'item']}
                 >
                     <ProgressBar
                         range={5}
@@ -89,6 +89,7 @@ function InsertItemDescription({ navigation }: InsertItemDescriptionScreenProps)
                 <LineInput
                     value={itemDescription}
                     relativeWidth={'100%'}
+                    initialNumberOfLines={2}
                     textInputRef={inputRefs.itemDescriptionInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}
@@ -98,7 +99,7 @@ function InsertItemDescription({ navigation }: InsertItemDescriptionScreenProps)
                     lastInput={true}
                     textAlign={'left'}
                     fontSize={16}
-                    placeholder={'ex: sofá azul, 1 ano de uso, possui uma mancha na parte de trás, etc...'}
+                    placeholder={'ex: sofá azul, 1 ano de uso, manchado na parte de trás, etc...'}
                     keyboardType={'default'}
                     textIsValid={itemDescriptionIsValid && !keyboardOpened}
                     validateText={(text: string) => validateItemDescription(text)}

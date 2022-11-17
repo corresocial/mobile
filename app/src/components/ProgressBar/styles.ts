@@ -25,5 +25,5 @@ export const IndicatorBarBottom = styled.View`
 
 export const IndicatorBarSurface = styled.View`
     background-color: ${({ theme }) => theme.orange3}
-    height: ${RFValue(5)}px;
+    height: ${RFValue(10)}px;
 `

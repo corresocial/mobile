@@ -334,9 +334,9 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
-                        fontSize={26}
+                        fontSize={22}
                         invalidTextAfterSubmit={invalidTimeAfterSubmit}
-                        placeholder={'14'}
+                        placeholder={'horas'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
                         validateText={(text: string) => validateHours(text)}
@@ -359,9 +359,9 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
-                        fontSize={26}
+                        fontSize={22}
                         invalidTextAfterSubmit={invalidTimeAfterSubmit}
-                        placeholder={'30'}
+                        placeholder={'minutos'}
                         keyboardType={'decimal-pad'}
                         lastInput={true}
                         filterText={filterLeavingOnlyNumbers}

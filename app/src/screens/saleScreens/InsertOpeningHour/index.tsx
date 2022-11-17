@@ -110,8 +110,8 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
-                        fontSize={26}
-                        placeholder={'07'}
+                        fontSize={22}
+                        placeholder={'horas'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
                         validateText={(text: string) => validateHours(text)}
@@ -130,8 +130,8 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
-                        fontSize={26}
-                        placeholder={'30'}
+                        fontSize={22}
+                        placeholder={'minutos'}
                         keyboardType={'decimal-pad'}
                         lastInput={true}
                         filterText={filterLeavingOnlyNumbers}

@@ -84,7 +84,7 @@ function InsertCultureTitle({ navigation }: InsertCultureTitleScreenProps) {
                     }
                 >
                     <ProgressBar
-                        range={3}
+                        range={cultureDataContext.cultureType === 'artistProfile' ? 3 : 5}
                         value={1}
                     />
                 </InstructionCard>
@@ -106,7 +106,7 @@ function InsertCultureTitle({ navigation }: InsertCultureTitleScreenProps) {
                     maxLength={100}
                     lastInput={true}
                     textAlign={'left'}
-                    fontSize={16}
+                    fontSize={16} 
                     placeholder={
                         cultureDataContext.cultureType === 'artistProfile'
                             ? 'ex: componho músicas'

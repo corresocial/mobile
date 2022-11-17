@@ -20,7 +20,7 @@ import { ProgressBar } from '../../../components/ProgressBar';
 
 function InsertEntryValue({ navigation }: InsertEntryValueScreenProps) {
 
-    const { setCultureDataOnContext } = useContext(CultureContext)
+    const { cultureDataContext,setCultureDataOnContext } = useContext(CultureContext)
 
     const [entryValue, setEntryValue] = useState<string>('')
     const [entryValueIsValid, setEntryValueIsValid] = useState<boolean>(false)
@@ -77,7 +77,7 @@ function InsertEntryValue({ navigation }: InsertEntryValueScreenProps) {
                     highlightedWords={['quanto', 'custa']}
                 >
                     <ProgressBar
-                        range={3}
+                        range={cultureDataContext.cultureType == 'artistProfile' ? 3 : 5}
                         value={2}
                     />
                 </InstructionCard>
@@ -97,7 +97,7 @@ function InsertEntryValue({ navigation }: InsertEntryValueScreenProps) {
                     invalidBackgroundColor={theme.red1}
                     invalidBorderBottomColor={theme.red5}
                     maxLength={100}
-                    fontSize={20}
+                    fontSize={16}
                     lastInput={true}
                     textAlign={'left'}
                     placeholder={'ex: 20 reais + 1kg de alimento'}

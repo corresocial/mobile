@@ -85,7 +85,7 @@ function InsertCultureDescription({ navigation }: InsertCultureDescriptionScreen
                     }
                 >
                     <ProgressBar
-                        range={3}
+                        range={cultureDataContext.cultureType === 'artistProfile' ? 3 : 5}
                         value={1}
                     />
                 </InstructionCard>
@@ -97,7 +97,7 @@ function InsertCultureDescription({ navigation }: InsertCultureDescriptionScreen
                 <LineInput
                     value={cultureDescription}
                     relativeWidth={'100%'}
-                    relativeHeight={screenHeight * 0.125}
+                    initialNumberOfLines={3}
                     textInputRef={inputRefs.cultureDescriptionInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}

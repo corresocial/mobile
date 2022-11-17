@@ -77,8 +77,8 @@ function InsertCompanyDescription({ navigation }: InsertCompanyDescriptionScreen
                     highlightedWords={['fala', 'sobre', 'a', 'sua', 'empresa']}
                 >
                     <ProgressBar
-                        range={3}
-                        value={2}
+                        range={5}
+                        value={3}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -89,7 +89,7 @@ function InsertCompanyDescription({ navigation }: InsertCompanyDescriptionScreen
                 <LineInput
                     value={companyDescription}
                     relativeWidth={'100%'}
-                    relativeHeight={screenHeight * 0.125}
+                    initialNumberOfLines={3}
                     textInputRef={inputRefs.companyDescriptionInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}

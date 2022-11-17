@@ -53,8 +53,8 @@ function SelectVacancyType({ navigation }: SelectVacancyTypeScreenProps) {
                     highlightedWords={['tipo', 'vaga?']}
                 >
                     <ProgressBar
-                        range={3}
-                        value={3}
+                        range={5}
+                        value={4}
                     /> 
                 </InstructionCard>
             </DefaultHeaderContainer>

@@ -236,8 +236,8 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
                     highlightedWords={getHighlightedHeaderMessage()}
                 >
                     <ProgressBar
-                        range={3}
-                        value={3}
+                        range={5}
+                        value={5}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -257,9 +257,9 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
-                        fontSize={26}
+                        fontSize={22}
                         invalidTextAfterSubmit={invalidTimeAfterSubmit}
-                        placeholder={'14'}
+                        placeholder={'horas'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
                         validateText={(text: string) => validateHours(text)}
@@ -282,9 +282,9 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
-                        fontSize={26}
+                        fontSize={22}
                         invalidTextAfterSubmit={invalidTimeAfterSubmit}
-                        placeholder={'30'}
+                        placeholder={'minutos'}
                         keyboardType={'decimal-pad'}
                         lastInput={true}
                         filterText={filterLeavingOnlyNumbers}

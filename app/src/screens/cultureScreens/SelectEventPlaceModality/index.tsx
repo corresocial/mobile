@@ -17,14 +17,14 @@ import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectEventPlaceModality({ navigation }: SelectEventPlaceModalityScreenProps) {
 
-    const { setCultureDataOnContext } = useContext(CultureContext)
+    const { cultureDataContext,setCultureDataOnContext } = useContext(CultureContext)
 
     const saveEventPlaceModality = (eventPlaceModality: PlaceModalityType) => {
         setCultureDataOnContext({ eventPlaceModality })
         if(eventPlaceModality !== 'online'){
             navigation.navigate('InsertCultureLocation')
         }else{
-            // navigation.navigate('InsertStartDate')
+             navigation.navigate('InsertEventStartDate')
         }
     }
 
@@ -44,7 +44,7 @@ function SelectEventPlaceModality({ navigation }: SelectEventPlaceModalityScreen
                     highlightedWords={['onde']}
                 >
                     <ProgressBar
-                        range={3}
+                        range={cultureDataContext.cultureType == 'artistProfile' ? 3 : 5}
                         value={3}
                     />
                 </InstructionCard>

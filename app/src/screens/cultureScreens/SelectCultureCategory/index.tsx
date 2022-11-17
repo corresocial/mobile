@@ -69,11 +69,11 @@ function SelectCultureCategory({ navigation }: SelectCultureCategoryScreenProps)
                     highlightedWords={
                         cultureDataContext.cultureType === 'artistProfile'
                             ? ['categoria', 'sua', 'arte']
-                            : ['categoria', 'set', 'role']
+                            : ['categoria', 'seu', 'role']
                     }
                 >
                     <ProgressBar
-                        range={3}
+                        range={cultureDataContext.cultureType == 'artistProfile' ? 3 : 5}
                         value={2}
                     />
                 </InstructionCard>

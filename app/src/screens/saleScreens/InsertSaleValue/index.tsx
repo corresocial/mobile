@@ -103,7 +103,7 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
                     lastInput={true}
                     maxLength={100}
                     textAlign={'left'}
-                    fontSize={20}
+                    fontSize={18}
                     placeholder={'ex: 100'}
                     keyboardType={'numeric'}
                     filterText={filterLeavingOnlyNumbers}

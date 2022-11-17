@@ -139,8 +139,8 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
                     highlightedWords={getHighlightedHeaderMessage()}
                 >
                     <ProgressBar
-                        range={3}
-                        value={3}
+                        range={5}
+                        value={4}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -160,9 +160,9 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
-                        fontSize={26}
+                        fontSize={22}
                         invalidTextAfterSubmit={invalidTimeAfterSubmit}
-                        placeholder={'14'}
+                        placeholder={'horas'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
                         validateText={(text: string) => validateHours(text)}
@@ -185,9 +185,9 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
-                        fontSize={26}
+                        fontSize={22}
                         invalidTextAfterSubmit={invalidTimeAfterSubmit}
-                        placeholder={'30'}
+                        placeholder={'minutos'}
                         keyboardType={'decimal-pad'}
                         lastInput={true}
                         filterText={filterLeavingOnlyNumbers}

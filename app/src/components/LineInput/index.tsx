@@ -11,6 +11,7 @@ interface LineInputProps {
     value: string
     relativeWidth: string
     relativeHeight?: number
+    initialNumberOfLines?: number
     textInputRef?: any
     previousInputRef?: any
     nextInputRef?: any
@@ -45,6 +46,7 @@ function LineInput({
     value,
     relativeWidth,
     relativeHeight,
+    initialNumberOfLines = 2,
     textInputRef,
     previousInputRef,
     nextInputRef,
@@ -75,9 +77,13 @@ function LineInput({
     onChangeText
 }: LineInputProps) {
 
+    const lineHeight = screenHeight * 0.042
+    const minLineHeight = initialNumberOfLines * (screenHeight * 0.042)
+    const maxLineHeight = screenHeight * 0.25
+
     const [focused, setFocused] = useState<boolean>(false)
     const [validated, setValidated] = useState<boolean>(false)
-    const [multilineInputHeight, setMultilineInputHeight] = useState(relativeHeight ? relativeHeight : screenHeight * 0.12)
+    const [multilineInputHeight, setMultilineInputHeight] = useState(initialNumberOfLines * lineHeight)
 
     const ValidateAndChange = (text: string) => {
         let filtredText = filterText ? filterText(text) : text
@@ -109,8 +115,8 @@ function LineInput({
 
     const resizeMultilineInput = (height: number) => {
         if (!multiline) return
-        if (height >= screenHeight * 0.1 && height < screenHeight * 0.25) {
-            setMultilineInputHeight(height)
+        if (height >= (minLineHeight) && height < maxLineHeight) {
+            setMultilineInputHeight(height + 3)
         }
     }
 
@@ -179,6 +185,8 @@ function LineInput({
                     placeholder={placeholder}
                     returnKeyType={returnKeyType ? returnKeyType : lastInput ? 'done' : 'next'}
                     blurOnSubmit={blurOnSubmit}
+                    onFocus={() => setFocused(true)}
+                    onBlur={() => setFocused(false)}
                     onSubmitEditing={nextInputRef ? setFocusToNextInput : onPressKeyboardSubmit}
                     onChangeText={(text) => ValidateAndChange(text)}
                     onKeyPress={(key: NativeSyntheticEvent<TextInputKeyPressEventData>) => performKeyPress(key)}

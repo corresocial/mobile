@@ -99,7 +99,7 @@ function InsertItemName({ navigation }: InsertItemNameScreenProps) {
                     lastInput={true}
                     textAlign={'left'}
                     fontSize={16}
-                    placeholder={'ex: televisão 40"'}
+                    placeholder={'ex: sofá quatro lugares usado'}
                     keyboardType={'default'}
                     textIsValid={itemNameIsValid && !keyboardOpened}
                     validateText={(text: string) => validateItemName(text)}

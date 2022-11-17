@@ -44,8 +44,8 @@ function SelectWorkplace({ navigation }: SelectWorkplaceScreenProps) {
                     highlightedWords={['local,', 'de', 'trabalho?']}
                 >
                     <ProgressBar
-                        range={3}
-                        value={2}
+                        range={5}
+                        value={3}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -53,6 +53,18 @@ function SelectWorkplace({ navigation }: SelectWorkplaceScreenProps) {
                 backgroundColor={theme.yellow2}
             >
                 <ButtonsContainer>
+                       <PrimaryButton
+                        justifyContent={'flex-start'}
+                        color={theme.white3}
+                        relativeHeight={'18%'}
+                        labelColor={theme.black4}
+                        labelMarginLeft={'5%'}
+                        fontSize={18}
+                        textAlign={'left'}
+                        label={'vaga presencial'}
+                        highlightedWords={[`presencial`]}
+                        onPress={() => saveWorkplaceType('presential')}
+                    />
                     <PrimaryButton
                         justifyContent={'flex-start'}
                         color={theme.white3}
@@ -64,18 +76,6 @@ function SelectWorkplace({ navigation }: SelectWorkplaceScreenProps) {
                         label={'vaga homeoffice'}
                         highlightedWords={[`homeoffice`]}
                         onPress={() => saveWorkplaceType('homeoffice')}
-                    />
-                    <PrimaryButton
-                        justifyContent={'flex-start'}
-                        color={theme.white3}
-                        relativeHeight={'18%'}
-                        labelColor={theme.black4}
-                        labelMarginLeft={'5%'}
-                        fontSize={18}
-                        textAlign={'left'}
-                        label={'vaga presencial'}
-                        highlightedWords={[`presencial`]}
-                        onPress={() => saveWorkplaceType('presential')}
                     />
                     <PrimaryButton
                         justifyContent={'flex-start'}

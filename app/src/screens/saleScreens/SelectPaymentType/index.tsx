@@ -47,8 +47,8 @@ function SelectPaymentType({ navigation }: SelectPaymentTypeScreenProps) {
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'você vende, aceita troca ou os dois ?'}
-                    highlightedWords={['vende,', 'aceita', 'troca', 'os', 'dois']}
+                    message={'você vende, aceita troca ou os dois?'}
+                    highlightedWords={['vende,', 'aceita', 'troca', 'os', 'dois?']}
                 >
                     <ProgressBar
                         range={5}

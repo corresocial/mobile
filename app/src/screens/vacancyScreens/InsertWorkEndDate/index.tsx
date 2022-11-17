@@ -144,17 +144,17 @@ function InsertWorkEndDate({ navigation }: InsertWorkEndDateScreenProps) {
                     message={
                         invalidDateAfterSubmit
                             ? 'A data de encerramento informada antecede a data de início'
-                            : 'até quando?'
+                            : 'quando termina?'
                     }
                     highlightedWords={
                         invalidDateAfterSubmit
                             ? ['data', 'de', 'encerramento', 'data', 'início']
-                            : ['quando?']
+                            : ['termina?']
                     }
                 >
                     <ProgressBar
-                        range={3}
-                        value={3}
+                        range={5}
+                        value={5}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -174,7 +174,7 @@ function InsertWorkEndDate({ navigation }: InsertWorkEndDateScreenProps) {
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
-                        fontSize={26}
+                        fontSize={22}
                         placeholder={'dia'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
@@ -198,7 +198,7 @@ function InsertWorkEndDate({ navigation }: InsertWorkEndDateScreenProps) {
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
-                        fontSize={26}
+                        fontSize={22}
                         placeholder={'mês'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
@@ -221,7 +221,7 @@ function InsertWorkEndDate({ navigation }: InsertWorkEndDateScreenProps) {
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={4}
-                        fontSize={26}
+                        fontSize={22}
                         placeholder={'ano'}
                         keyboardType={'decimal-pad'}
                         lastInput={true}

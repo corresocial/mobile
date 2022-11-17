@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
@@ -6,6 +6,7 @@ import { theme } from '../../../common/theme'
 
 import { SelectCultureLocationViewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { LocationViewType } from '../../../services/Firebase/types'
+import { CultureContext } from '../../../contexts/CultureContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -15,6 +16,8 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectCultureLocationView({ navigation }: SelectCultureLocationViewScreenProps) {
+
+    const { cultureDataContext } = useContext(CultureContext)
 
     const saveLocationViewType = (locationViewType: LocationViewType) => {
         navigation.navigate('CultureLocationViewPreview', { locationView: locationViewType })
@@ -32,11 +35,11 @@ function SelectCultureLocationView({ navigation }: SelectCultureLocationViewScre
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'como você prefere que outros usuários vejam sua localização ?'}
-                    highlightedWords={['como', 'você', 'prefere', 'vejam', 'sua', 'localização']}
+                    message={'como você prefere que outros usuários vejam a localização do role?'}
+                    highlightedWords={['como', 'você', 'prefere', 'vejam', 'a', 'localização', 'do', 'role?']}
                 >
                     <ProgressBar
-                        range={3}
+                        range={cultureDataContext.cultureType == 'artistProfile' ? 3 : 5}
                         value={3}
                     />
                 </InstructionCard>

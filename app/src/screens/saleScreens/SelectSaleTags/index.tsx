@@ -52,11 +52,12 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
             return (
                 <SelectButton
                     key={index}
-                    width={screenWidth * 0.38}
-                    height={screenHeight * 0.1}
+                    width={screenWidth * 0.24}
+                    height={screenHeight * 0.07}
                     label={tagName}
+                    fontSize={12}
                     boldLabel={true}
-                    marginHorizontal={10}
+                    marginHorizontal={6}
                     backgroundSelected={theme.green1}
                     selected={true}
                     onSelect={() => onSelectTag(tagName)}
@@ -186,9 +187,9 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
                         textAlign={'left'}
                         lastInput
                         blurOnSubmit={false}
-                        fontSize={18}
+                        fontSize={16}
                         invalidTextAfterSubmit={false}
-                        placeholder={'pesquise ou adicione'}
+                        placeholder={'digite ou escolha alguma das opções'}
                         keyboardType={'default'}
                         textIsValid={saleCategories[getSaleCategorySelected()].tags.includes(textTag as never)}
                         onPressKeyboardSubmit={addNewTag}

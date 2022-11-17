@@ -150,12 +150,12 @@ function InsertEventStartDate({ navigation }: InsertEventStartDateScreenProps) {
                     highlightedWords={
                         invalidDateAfterSubmit
                             ? ['data', 'de', 'início', 'data', 'atual']
-                            : ['quando']
+                            : ['começa?']
                     }
                 >
                     <ProgressBar
-                        range={3}
-                        value={3}
+                        range={5}
+                        value={4}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -175,7 +175,7 @@ function InsertEventStartDate({ navigation }: InsertEventStartDateScreenProps) {
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
-                        fontSize={26}
+                        fontSize={22}
                         placeholder={'dia'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
@@ -199,7 +199,7 @@ function InsertEventStartDate({ navigation }: InsertEventStartDateScreenProps) {
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
-                        fontSize={26}
+                        fontSize={22}
                         placeholder={'mês'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
@@ -222,7 +222,7 @@ function InsertEventStartDate({ navigation }: InsertEventStartDateScreenProps) {
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={4}
-                        fontSize={26}
+                        fontSize={22}
                         placeholder={'ano'}
                         keyboardType={'decimal-pad'}
                         lastInput={true}

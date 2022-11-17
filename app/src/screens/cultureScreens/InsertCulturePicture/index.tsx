@@ -46,8 +46,8 @@ function InsertCulturePicture({ navigation }: InsertCulturePictureScreenProps) {
                     }
                 >
                     <ProgressBar
-                        range={3}
-                        value={2}
+                        range={cultureDataContext.cultureType == 'artistProfile' ? 3 : 5}
+                        value={1}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>

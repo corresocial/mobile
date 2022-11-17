@@ -97,7 +97,7 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
                     invalidBackgroundColor={theme.red1}
                     invalidBorderBottomColor={theme.red5}
                     maxLength={100}
-                    fontSize={20}
+                    fontSize={18}
                     lastInput={true}
                     textAlign={'left'}
                     placeholder={'ex: troco por uma marmita'}

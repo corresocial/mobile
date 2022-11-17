@@ -52,11 +52,12 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
             return (
                 <SelectButton
                     key={index}
-                    width={screenWidth * 0.38}
-                    height={screenHeight * 0.1}
+                    width={screenWidth * 0.24}
+                    height={screenHeight * 0.07}
                     label={tagName}
+                    fontSize={12}
                     boldLabel={true}
-                    marginHorizontal={10}
+                    marginHorizontal={6}
                     backgroundSelected={theme.purple1}
                     selected={true}
                     onSelect={() => onSelectTag(tagName)}
@@ -184,10 +185,10 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
                         invalidBorderBottomColor={theme.red5}
                         textAlign={'left'}
                         lastInput
-                        fontSize={18}
+                        fontSize={16}
                         blurOnSubmit={false}
                         invalidTextAfterSubmit={false}
-                        placeholder={'pesquise ou adicione'}
+                        placeholder={'digite ou escolha alguma das opções'}
                         keyboardType={'default'}
                         textIsValid={serviceCategories[getServiceCategorySelected()].tags.includes(textTag as never)}
                         onPressKeyboardSubmit={addNewTag}

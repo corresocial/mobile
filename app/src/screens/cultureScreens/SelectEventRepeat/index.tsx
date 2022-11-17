@@ -200,8 +200,8 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                     highlightedWords={['repete?']}
                 >
                     <ProgressBar
-                        range={3}
-                        value={3}
+                        range={5}
+                        value={5}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>

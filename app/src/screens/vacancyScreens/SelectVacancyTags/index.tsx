@@ -52,11 +52,12 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
             return (
                 <SelectButton
                     key={index}
-                    width={screenWidth * 0.38}
-                    height={screenHeight * 0.1}
+                    width={screenWidth * 0.24}
+                    height={screenHeight * 0.07}
                     label={tagName}
                     boldLabel={true}
-                    marginHorizontal={10}
+                    fontSize={12}
+                    marginHorizontal={6}
                     backgroundSelected={theme.yellow1}
                     selected={true}
                     onSelect={() => onSelectTag(tagName)}
@@ -162,8 +163,8 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
                     highlightedWords={[...getCurrentCategoryLabelHightlighted(), 'tem', 'a', 'ver']}
                 >
                     <ProgressBar
-                        range={3}
-                        value={3}
+                        range={5}
+                        value={4}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -184,10 +185,10 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
                         invalidBorderBottomColor={theme.red5}
                         textAlign={'left'}
                         lastInput
-                        fontSize={18}
+                        fontSize={16}
                         blurOnSubmit={false}
                         invalidTextAfterSubmit={false}
-                        placeholder={'pesquise ou adicione'}
+                        placeholder={'digite ou escolha alguma das opções'}
                         keyboardType={'default'}
                         textIsValid={vacancyCategories[getVacancyCategorySelected()].tags.includes(textTag as never)}
                         onPressKeyboardSubmit={addNewTag}

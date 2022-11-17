@@ -99,7 +99,7 @@ function InsertServiceName({ navigation }: InsertServiceNameScreenProps) {
                     lastInput={true}
                     textAlign={'left'}
                     fontSize={16}
-                    placeholder={'motoboy para entregas'}
+                    placeholder={'ex: motoboy para entregas'}
                     keyboardType={'default'}
                     textIsValid={serviceNameIsValid && !keyboardOpened}
                     validateText={(text: string) => validateServiceName(text)}

@@ -89,6 +89,7 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
                 <LineInput
                     value={profileDescription}
                     relativeWidth={'100%'}
+                    initialNumberOfLines={2}
                     textInputRef={inputRefs.profileDescriptionInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}

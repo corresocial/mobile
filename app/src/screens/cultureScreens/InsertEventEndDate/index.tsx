@@ -132,7 +132,7 @@ function InsertEventEndDate({ navigation }: InsertEventEndDateScreenProps) {
         <Container >
             <StatusBar backgroundColor={invalidDateAfterSubmit ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={(screenHeight + statusBarHeight) * 0.26}
+                minHeight={(screenHeight + statusBarHeight) * 0.22}
                 relativeHeight={'22%'}
                 centralized
                 backgroundColor={animateDefaultHeaderBackgound()}
@@ -153,8 +153,8 @@ function InsertEventEndDate({ navigation }: InsertEventEndDateScreenProps) {
                     }
                 >
                     <ProgressBar
-                        range={3}
-                        value={3}
+                        range={5}
+                        value={4}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -174,7 +174,7 @@ function InsertEventEndDate({ navigation }: InsertEventEndDateScreenProps) {
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
-                        fontSize={26}
+                        fontSize={22}
                         placeholder={'dia'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
@@ -198,7 +198,7 @@ function InsertEventEndDate({ navigation }: InsertEventEndDateScreenProps) {
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
-                        fontSize={26}
+                        fontSize={22}
                         placeholder={'mês'}
                         keyboardType={'decimal-pad'}
                         filterText={filterLeavingOnlyNumbers}
@@ -221,7 +221,7 @@ function InsertEventEndDate({ navigation }: InsertEventEndDateScreenProps) {
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={4}
-                        fontSize={26}
+                        fontSize={22}
                         placeholder={'ano'}
                         keyboardType={'decimal-pad'}
                         lastInput={true}

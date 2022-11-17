@@ -17,6 +17,7 @@ import { BackButton } from '../../../components/_buttons/BackButton';
 import { InstructionCard } from '../../../components/_cards/InstructionCard';
 import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 function InsertVacancyTitle({ navigation }: InsertVacancyTitleScreenProps) {
 
@@ -76,7 +77,7 @@ function InsertVacancyTitle({ navigation }: InsertVacancyTitleScreenProps) {
                     highlightedWords={['vaga']}
                 >
                     <ProgressBar
-                        range={3}
+                        range={5}
                         value={1}
                     />
                 </InstructionCard>

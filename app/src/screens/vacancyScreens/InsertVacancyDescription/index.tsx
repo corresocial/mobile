@@ -77,7 +77,7 @@ function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreen
                     highlightedWords={['descrição', 'vaga']}
                 >
                     <ProgressBar
-                        range={3}
+                        range={5}
                         value={1}
                     />
                 </InstructionCard>
@@ -89,7 +89,7 @@ function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreen
                 <LineInput
                     value={vacancyDescription}
                     relativeWidth={'100%'}
-                    relativeHeight={screenHeight * 0.125}
+                    initialNumberOfLines={3}
                     textInputRef={inputRefs.vacancyDescriptionInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}

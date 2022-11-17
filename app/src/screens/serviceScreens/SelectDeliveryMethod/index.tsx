@@ -36,12 +36,12 @@ function SelectDeliveryMethod({ navigation }: SelectDeliveryMethodScreenProps) {
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'você entrega ou atende à distância?'}
-                    highlightedWords={['entrega','distância?                             ']}
+                    message={'você entrega seu serviço?'}
+                    highlightedWords={['entrega','seu','serviço?']}
                 >
                     <ProgressBar
                         range={5}
-                        value={4}
+                        value={5}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>

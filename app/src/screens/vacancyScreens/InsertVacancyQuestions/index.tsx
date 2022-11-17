@@ -83,7 +83,7 @@ function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProp
                     textIsValid={true && !keyboardOpened}
                     onIconPress={() => removeQuestion(index)}
                     validateText={(text: string) => validateVacancyQuestions(text)}
-                    onChangeText={(text: string) => { }}/* editQuestion(text, index) In case edit cardQuestion*/ 
+                    onChangeText={(text: string) => { }}/* editQuestion(text, index) In case edit cardQuestion*/
                 />
             )
         })
@@ -111,18 +111,18 @@ function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProp
 
     const saveVacancyQuestions = () => {
         setVacancyDataOnContext({ questions: vacancyQuestions })
-         navigation.navigate('InsertCompanyDescription')
+        navigation.navigate('InsertCompanyDescription')
     }
-    
+
     const getPlaceholder = () => {
-        switch(vacancyLength()){
-            case 0 : {
+        switch (vacancyLength()) {
+            case 0: {
                 return '+ pergunta'
             }
-            case 1 : {
+            case 1: {
                 return '+ segunda pergunta'
             }
-            case 2 : {
+            case 2: {
                 return '+ terceira pergunta'
             }
         }
@@ -141,12 +141,12 @@ function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProp
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'quer adicionar pergunta(s) para os candidatos?'}
-                    highlightedWords={['adicionar', 'pergunta(s)']}
+                    message={'quer adicionar até 3 perguntas para os candidatos?'}
+                    highlightedWords={['adicionar', 'até', '3', 'perguntas']}
                 >
                     <ProgressBar
-                        range={3}
-                        value={1}
+                        range={5}
+                        value={2}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -193,7 +193,7 @@ function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProp
                             label={vacancyLength() < 1 ? 'não precisa, continuar' : 'continuar'}
                             highlightedWords={['não', 'precisa,']}
                             labelColor={theme.white3}
-                            SvgIcon={vacancyLength() < 1 ?  Uncheck: Check}
+                            SvgIcon={vacancyLength() < 1 ? Uncheck : Check}
                             svgIconScale={['30%', '15%']}
                             onPress={saveVacancyQuestions}
                         />

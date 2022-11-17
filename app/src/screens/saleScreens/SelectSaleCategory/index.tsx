@@ -57,7 +57,7 @@ function SelectSaleCategory({ navigation }: SelectSaleCategoryScreenProps) {
                 <BackButton onPress={() => navigation.goBack()} />
                 <InstructionCard
                     borderLeftWidth={3}
-                    fontSize={18}
+                    fontSize={18} 
                     message={'em qual categoria seu item se encaixa?'}
                     highlightedWords={['categoria', 'seu','item']}
                 >
