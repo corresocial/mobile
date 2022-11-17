@@ -59,6 +59,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
 
     const saveCulturePost = async (eventRepeat: EventRepeatType) => {
         setLoaderIsVisible(true)
+        setHasServerSideError(false)
 
         const completeCultureData = getCompleteCultureDataFromContext(eventRepeat)
         setCultureDataOnContext({ ...completeCultureData })
@@ -68,7 +69,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
         const culturePictures = extractCulturePictures(completeCultureData)
 
         try {
-            /* const localUser = await getLocalUser()
+            const localUser = await getLocalUser()
             if (!localUser.userId) throw 'Não foi possível identificar o usuário'
 
             const postId = await createPost(cultureDataPost, localUser, 'cultures', 'culture')
@@ -136,7 +137,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                         )
                     },
                 )
-            }) */
+            })
 
             throw 'sfdoi'
         } catch (err) {
@@ -182,7 +183,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                 })
                 console.log('Naviguei')
                 setLoaderIsVisible(false)
-                // navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
+                navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
             })
     }
 
