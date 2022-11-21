@@ -174,7 +174,7 @@ function InsertSocialImpactLocation({ navigation }: InsertSocialImpactLocationSc
                 ...geohashObject
             }
         })
-        // navigation.navigate('SelectLocationView')
+         navigation.navigate('SelectSocialImpactLocationView')
     }
 
     const markerCoordinateIsAccuracy = () => {

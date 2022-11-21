@@ -13,6 +13,7 @@ import { SelectSocialImpactCategory } from '../../../screens/socialImpactScreens
 import { SelectSocialImpactTags } from '../../../screens/socialImpactScreens/SelectSocialImpactTags';
 import { SelectSocialImpactExhibitionRange } from '../../../screens/socialImpactScreens/SelectSocialImpactExhibitionRange';
 import { InsertSocialImpactLocation } from '../../../screens/socialImpactScreens/InsertSocialImpactLocation';
+import { SelectSocialImpactLocationView } from '../../../screens/socialImpactScreens/SelectSocialImpactLocationView';
 
 const Stack = createStackNavigator<SocialImpactStackParamList>()
 
@@ -35,6 +36,7 @@ export function SocialImpactStack() {
                 <Stack.Screen name={'SelectSocialImpactTags'} component={SelectSocialImpactTags} />
                 <Stack.Screen name={'SelectSocialImpactExhibitionRange'} component={SelectSocialImpactExhibitionRange} />
                 <Stack.Screen name={'InsertSocialImpactLocation'} component={InsertSocialImpactLocation} />
+                <Stack.Screen name={'SelectSocialImpactLocationView'} component={SelectSocialImpactLocationView} />
             </Stack.Navigator>
         </SocialImpactProvider>
     )

@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
 
-import { SelectLocationViewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
+import { SelectSocialImpactLocationViewScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 import { LocationViewType } from '../../../services/Firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -14,10 +14,10 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
+function SelectSocialImpactLocationView({ navigation }: SelectSocialImpactLocationViewScreenProps) {
 
     const saveLocationViewType = (locationViewType: LocationViewType) => {
-        navigation.navigate('LocationViewPreview', { locationView: locationViewType })
+        // navigation.navigate('LocationViewPreview', { locationView: locationViewType })
     }
 
     return (
@@ -32,17 +32,17 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'como você prefere que outros usuários vejam sua localização?'}
-                    highlightedWords={['como', 'você', 'prefere', 'vejam', 'sua', 'localização?']}
+                    message={'como você prefere que outros usuários vejam a localização?'}
+                    highlightedWords={['como', 'você', 'prefere', 'vejam', 'a', 'localização']}
                 >
                     <ProgressBar
                         range={5}
-                        value={4}
+                        value={3}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
             <FormContainer
-                backgroundColor={theme.purple2}
+                backgroundColor={theme.pink2}
             >
                 <ButtonsContainer>
                     <PrimaryButton
@@ -84,4 +84,4 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
     )
 }
 
-export { SelectLocationView }
+export { SelectSocialImpactLocationView }

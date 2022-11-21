@@ -9,4 +9,5 @@ export type SocialImpactStackParamList = {
     SelectSocialImpactTags: {categorySelected: SocialImpactCategories}
     SelectSocialImpactExhibitionRange: undefined
     InsertSocialImpactLocation: undefined
+    SelectSocialImpactLocationView: undefined
 }
