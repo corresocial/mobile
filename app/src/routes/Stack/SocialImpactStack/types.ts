@@ -1,4 +1,4 @@
-import { SocialImpactCategories } from "../../../services/Firebase/types"
+import { SocialImpactCategories, LocationViewType } from "../../../services/Firebase/types"
 
 export type SocialImpactStackParamList = {
     InsertSocialImpactTitle: undefined
@@ -10,4 +10,5 @@ export type SocialImpactStackParamList = {
     SelectSocialImpactExhibitionRange: undefined
     InsertSocialImpactLocation: undefined
     SelectSocialImpactLocationView: undefined
+    SocialImpactLocationViewPreview: { locationView: LocationViewType }
 }

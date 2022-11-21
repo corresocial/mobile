@@ -17,7 +17,7 @@ import { ProgressBar } from '../../../components/ProgressBar'
 function SelectSocialImpactLocationView({ navigation }: SelectSocialImpactLocationViewScreenProps) {
 
     const saveLocationViewType = (locationViewType: LocationViewType) => {
-        // navigation.navigate('LocationViewPreview', { locationView: locationViewType })
+        navigation.navigate('SocialImpactLocationViewPreview', { locationView: locationViewType })
     }
 
     return (
