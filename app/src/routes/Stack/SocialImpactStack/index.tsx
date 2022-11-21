@@ -6,6 +6,7 @@ import { SocialImpactStackParamList } from './types';
 import { SocialImpactProvider } from '../../../contexts/SocialImpactContext';
 
 import { InsertSocialImpactTitle } from '../../../screens/socialImpactScreens/InsertSocialImpactTitle';
+import { InsertSocialImpactDescription } from '../../../screens/socialImpactScreens/InsertSocialImpactDescription';
 
 const Stack = createStackNavigator<SocialImpactStackParamList>()
 
@@ -21,6 +22,7 @@ export function SocialImpactStack() {
                 }}
             >
                 <Stack.Screen name={'InsertSocialImpactTitle'} component={InsertSocialImpactTitle} />
+                <Stack.Screen name={'InsertSocialImpactDescription'} component={InsertSocialImpactDescription} />
             </Stack.Navigator>
         </SocialImpactProvider>
     )

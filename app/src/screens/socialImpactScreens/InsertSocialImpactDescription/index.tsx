@@ -2,32 +2,32 @@ import { Keyboard, StatusBar } from 'react-native';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles';
-import { theme } from '../../../common/theme';
 import { screenHeight } from '../../../common/screenDimensions';
+import { theme } from '../../../common/theme';
 import Check from './../../../assets/icons/check.svg'
 
-import { InsertSocialImpactTitleScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps';
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext';
+import { InsertSocialImpactDescriptionScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { BackButton } from '../../../components/_buttons/BackButton';
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
 import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { LineInput } from '../../../components/LineInput';
 import { ProgressBar } from '../../../components/ProgressBar';
+import { LineInput } from '../../../components/LineInput';
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
 
-function InsertSocialImpactTitle({ navigation }: InsertSocialImpactTitleScreenProps) {
+function InsertSocialImpactDescription({ navigation }: InsertSocialImpactDescriptionScreenProps) {
 
     const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 
-    const [socialImpactTitle, setSocialImpactTitle] = useState<string>('')
-    const [socialImpactTitleIsValid, setSocialImpactTitleIsValid] = useState<boolean>(false)
+    const [socialImpactDescription, setSocialImpactDescription] = useState<string>('')
+    const [socialImpactDescriptionIsValid, setSocialImpactDescriptionIsValid] = useState<boolean>(false)
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
     const inputRefs = {
-        socialImpactTitleInput: useRef<React.MutableRefObject<any>>(null),
+        socialImpactDescriptionInput: useRef<React.MutableRefObject<any>>(null),
     }
 
     useEffect(() => {
@@ -40,11 +40,12 @@ function InsertSocialImpactTitle({ navigation }: InsertSocialImpactTitleScreenPr
     }, [navigation])
 
     useEffect(() => {
-        const validation = validateSocialImpactTitle(socialImpactTitle)
-        setSocialImpactTitleIsValid(validation)
-    }, [socialImpactTitle, keyboardOpened])
+        const validation = validateSocialImpactDescription(socialImpactDescription)
+        setSocialImpactDescriptionIsValid(validation)
 
-    const validateSocialImpactTitle = (text: string) => {
+    }, [socialImpactDescription, keyboardOpened])
+
+    const validateSocialImpactDescription = (text: string) => {
         const isValid = (text).trim().length >= 1
         if (isValid && !keyboardOpened) {
             return true
@@ -52,10 +53,10 @@ function InsertSocialImpactTitle({ navigation }: InsertSocialImpactTitleScreenPr
         return false
     }
 
-    const saveSocialImpactTitle = () => {
-        if (socialImpactTitleIsValid) {
-            setSocialImpactDataOnContext({ title: socialImpactTitle })
-           navigation.navigate('InsertSocialImpactDescription')
+    const saveSocialImpactDescription = () => {
+        if (socialImpactDescriptionIsValid) {
+            setSocialImpactDataOnContext({ description: socialImpactDescription })
+            // navigation.navigate('InsertSocialImpactQuestions')
         }
     }
 
@@ -63,8 +64,8 @@ function InsertSocialImpactTitle({ navigation }: InsertSocialImpactTitleScreenPr
         <Container >
             <StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
-                minHeight={screenHeight * 0.26}
-                relativeHeight={'22%'}
+                minHeight={screenHeight * 0.28}
+                relativeHeight={'26%'}
                 centralized
                 backgroundColor={theme.pink2}
             >
@@ -72,8 +73,8 @@ function InsertSocialImpactTitle({ navigation }: InsertSocialImpactTitleScreenPr
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'qual é o nome da sua iniciativa?'}
-                    highlightedWords={['nome', 'sua', 'iniciativa?']}
+                    message={'fala um pouco mais sobre a sua iniciativa'}
+                    highlightedWords={['fala', 'um', 'pouco','sua', 'iniciativa']}
                 >
                     <ProgressBar
                         range={5}
@@ -86,28 +87,27 @@ function InsertSocialImpactTitle({ navigation }: InsertSocialImpactTitleScreenPr
                 justifyContent={'center'}
             >
                 <LineInput
-                    value={socialImpactTitle}
+                    value={socialImpactDescription}
                     relativeWidth={'100%'}
-                    textInputRef={inputRefs.socialImpactTitleInput}
+                    initialNumberOfLines={2}
+                    textInputRef={inputRefs.socialImpactDescriptionInput}
                     defaultBackgroundColor={theme.white2}
                     defaultBorderBottomColor={theme.black4}
                     validBackgroundColor={theme.pink1}
                     validBorderBottomColor={theme.pink5}
-                    invalidBackgroundColor={theme.red1}
-                    invalidBorderBottomColor={theme.red5}
-                    maxLength={100}
+                    multiline
                     lastInput={true}
                     textAlign={'left'}
                     fontSize={16}
-                    placeholder={'ex: projeto criança vive'}
+                    placeholder={'ex: descreva o que será feito, qual o objetivo, metas, etc...'}
                     keyboardType={'default'}
-                    textIsValid={socialImpactTitleIsValid && !keyboardOpened}
-                    validateText={(text: string) => validateSocialImpactTitle(text)}
-                    onChangeText={(text: string) => setSocialImpactTitle(text)}
+                    textIsValid={socialImpactDescriptionIsValid && !keyboardOpened}
+                    validateText={(text: string) => validateSocialImpactDescription(text)}
+                    onChangeText={(text: string) => setSocialImpactDescription(text)}
                 />
                 <ButtonsContainer>
                     {
-                        socialImpactTitleIsValid && !keyboardOpened &&
+                        socialImpactDescriptionIsValid && !keyboardOpened &&
                         <PrimaryButton
                             flexDirection={'row-reverse'}
                             color={theme.green3}
@@ -115,7 +115,7 @@ function InsertSocialImpactTitle({ navigation }: InsertSocialImpactTitleScreenPr
                             labelColor={theme.white3}
                             SvgIcon={Check}
                             svgIconScale={['30%', '15%']}
-                            onPress={saveSocialImpactTitle}
+                            onPress={saveSocialImpactDescription}
                         />
                     }
                 </ButtonsContainer>
@@ -124,4 +124,4 @@ function InsertSocialImpactTitle({ navigation }: InsertSocialImpactTitleScreenPr
     );
 }
 
-export { InsertSocialImpactTitle }
+export { InsertSocialImpactDescription }
