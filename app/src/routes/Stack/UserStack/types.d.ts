@@ -6,4 +6,5 @@ export type UserStackParamList = {
     SaleStack: undefined
     VacancyStack: undefined
     CultureStack: undefined
+    SocialImpactStack: undefined
 }

@@ -2,11 +2,13 @@ import { cultureCategories } from "../../screens/cultureScreens/cultureCategorie
 import { saleCategories } from "../../screens/saleScreens/saleCategories"
 import { serviceCategories } from "../../screens/serviceScreens/serviceCategories"
 import { vacancyCategories } from "../../screens/vacancyScreens/vacancyCategories"
+import { socialImpactCategories } from "../../screens/socialImpactScreens/socialImpactCategories"
 
 export type SaleCategories = keyof typeof saleCategories
 export type ServiceCategories = keyof typeof serviceCategories
 export type VacancyCategories = keyof typeof vacancyCategories
 export type CultureCategories = keyof typeof cultureCategories
+export type SocialImpactCategories = keyof typeof socialImpactCategories
 
 export type LocationViewType = 'private' | 'approximate' | 'public'
 

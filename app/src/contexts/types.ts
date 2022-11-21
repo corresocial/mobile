@@ -163,3 +163,5 @@ export type CultureData = {
         geohashCity?: string[]
     }
 }
+
+export type SocialImpactData = any

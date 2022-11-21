@@ -86,7 +86,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
                     svgIconScale={['60%','60%']}
                     leftSideColor={theme.pink2}
                     leftSideWidth={'30%'}
-                    onPress={() => {}}
+                    onPress={() => navigation.navigate('SocialImpactStack')}
                 />
                 <OptionButton
                     color={theme.white3}
