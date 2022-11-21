@@ -1,4 +1,4 @@
 
 export type SocialImpactStackParamList = {
-    FirstScreen: undefined
+    InsertSocialImpactTitle: undefined
 }
