@@ -64,7 +64,7 @@ function InsertSocialImpactPicture({ navigation }: InsertSocialImpactPictureScre
                         highlightedWords={['vou', 'adicionar']}
                         SvgIcon={Check}
                         svgIconScale={['22%', '18%']}
-                        onPress={() => {}}
+                        onPress={() => navigation.navigate('SocialImpactPicturePreview')}
                     />
                 </ButtonsContainer>
             </FormContainer>
