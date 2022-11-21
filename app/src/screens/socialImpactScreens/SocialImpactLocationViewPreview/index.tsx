@@ -81,7 +81,7 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 
     const saveLocation = () => {
         setSocialImpactDataOnContext({ locationView: locationViewSelected })
-        // navigation.navigate('SelectDeliveryMethod')
+         navigation.navigate('SelectDaysOfWeek')
     }
 
     return (

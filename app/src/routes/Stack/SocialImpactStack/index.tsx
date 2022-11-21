@@ -15,6 +15,7 @@ import { SelectSocialImpactExhibitionRange } from '../../../screens/socialImpact
 import { InsertSocialImpactLocation } from '../../../screens/socialImpactScreens/InsertSocialImpactLocation';
 import { SelectSocialImpactLocationView } from '../../../screens/socialImpactScreens/SelectSocialImpactLocationView';
 import { SocialImpactLocationViewPreview } from '../../../screens/socialImpactScreens/SocialImpactLocationViewPreview';
+import { SelectDaysOfWeek } from '../../../screens/socialImpactScreens/SelectDaysOfWeek';
 
 const Stack = createStackNavigator<SocialImpactStackParamList>()
 
@@ -39,6 +40,7 @@ export function SocialImpactStack() {
                 <Stack.Screen name={'InsertSocialImpactLocation'} component={InsertSocialImpactLocation} />
                 <Stack.Screen name={'SelectSocialImpactLocationView'} component={SelectSocialImpactLocationView} />
                 <Stack.Screen name={'SocialImpactLocationViewPreview'} component={SocialImpactLocationViewPreview} />
+                <Stack.Screen name={'SelectDaysOfWeek'} component={SelectDaysOfWeek} />
             </Stack.Navigator>
         </SocialImpactProvider>
     )
