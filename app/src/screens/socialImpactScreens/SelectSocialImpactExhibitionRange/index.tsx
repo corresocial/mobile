@@ -21,7 +21,7 @@ function SelectSocialImpactExhibitionRange({ navigation }: SelectSocialImpactExh
     
     const saveSocialImpactExhibitionRange = (exhibitionRange: ExhibitionPlaceType) => {
         setSocialImpactDataOnContext({exhibitionRange})
-        // navigation.navigate('SelectSocialImpactFrequency')
+         navigation.navigate('InsertSocialImpactLocation')
     }
 
     return (

@@ -8,9 +8,9 @@ import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from 
 import Check from './../../../assets/icons/check.svg'
 import MapPointOrange from './../../../assets/icons/mapPoint-orange.svg'
 
-import { InsertSaleLocationScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps';
+import { InsertSocialImpactLocationScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps';
 import { Coordinates } from '../../../services/Firebase/types';
-import { SaleContext } from '../../../contexts/SaleContext';
+import { SocialImpactContext } from '../../../contexts/SocialImpactContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { BackButton } from '../../../components/_buttons/BackButton';
@@ -33,9 +33,9 @@ const defaultDeltaCoordinates = {
     longitudeDelta: 0.003
 }
 
-function InsertSaleLocation({ navigation }: InsertSaleLocationScreenProps) {
+function InsertSocialImpactLocation({ navigation }: InsertSocialImpactLocationScreenProps) {
 
-    const { setSaleDataOnContext } = useContext(SaleContext)
+    const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 
     const [hasPermission, setHasPermission] = useState(false)
     const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(null)
@@ -168,13 +168,13 @@ function InsertSaleLocation({ navigation }: InsertSaleLocationScreenProps) {
         const completeAddress = await convertGeocodeToAddress(markerCoordinate?.latitude as number, markerCoordinate?.longitude as number)
         const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
-        setSaleDataOnContext({
+        setSocialImpactDataOnContext({
             address: {
                 ...completeAddress,
                 ...geohashObject
             }
         })
-        navigation.navigate('SelectLocationView')
+        // navigation.navigate('SelectLocationView')
     }
 
     const markerCoordinateIsAccuracy = () => {
@@ -193,13 +193,13 @@ function InsertSaleLocation({ navigation }: InsertSaleLocationScreenProps) {
 
         return headerBackgroundAnimatedValue.current.interpolate({
             inputRange: [0, 1],
-            outputRange: [theme.green2, theme.red2],
+            outputRange: [theme.pink2, theme.red2],
         })
     }
 
     return (
         <Container >
-            <StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.green2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.pink2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={screenHeight * 0.26}
                 relativeHeight={'22%'}
@@ -214,27 +214,27 @@ function InsertSaleLocation({ navigation }: InsertSaleLocationScreenProps) {
                     message={
                         someInvalidFieldSubimitted()
                             ? 'não foi possível localizar este endereço'
-                            : 'onde você vende seu item?'
+                            : 'qual o endereço de atuação?'
                     }
                     highlightedWords={
                         someInvalidFieldSubimitted()
                             ? ['não', 'endereço', 'válido']
-                            : ['onde', 'seu', 'seu', 'item?']
+                            : ['endereço']
                     }
                 >
                     <ProgressBar
                         range={5}
-                        value={4}
+                        value={3}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
             <LineInput
                 value={address}
                 relativeWidth={'100%'}
-                defaultBackgroundColor={validAddress ? theme.green1 : theme.white3}
-                defaultBorderBottomColor={validAddress ? theme.green5 : theme.black4}
-                validBackgroundColor={theme.green1}
-                validBorderBottomColor={theme.green5}
+                defaultBackgroundColor={validAddress ? theme.pink1 : theme.white3}
+                defaultBorderBottomColor={validAddress ? theme.pink5 : theme.black4}
+                validBackgroundColor={theme.pink1}
+                validBorderBottomColor={theme.pink5}
                 invalidBackgroundColor={theme.red1}
                 invalidBorderBottomColor={theme.red5}
                 textAlign={'left'}
@@ -300,4 +300,4 @@ function InsertSaleLocation({ navigation }: InsertSaleLocationScreenProps) {
     )
 }
 
-export { InsertSaleLocation }
+export { InsertSocialImpactLocation }
