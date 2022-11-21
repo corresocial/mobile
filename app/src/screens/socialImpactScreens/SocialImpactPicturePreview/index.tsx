@@ -39,7 +39,7 @@ function SocialImpactPicturePreview({ navigation }: SocialImpactPicturePreviewSc
 
     const savePictures = () => {
         setSocialImpactDataOnContext({ picturesUrl: picturesPack })
-        //  navigation.navigate('SelectPaymentType')
+        navigation.navigate('SelectSocialImpactCategory')
     }
 
     return (

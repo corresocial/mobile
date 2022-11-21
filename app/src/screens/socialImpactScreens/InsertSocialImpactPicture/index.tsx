@@ -53,7 +53,7 @@ function InsertSocialImpactPicture({ navigation }: InsertSocialImpactPictureScre
                         highlightedWords={['não', 'precisa,']}
                         SvgIcon={Uncheck}
                         svgIconScale={['22%', '18%']}
-                        onPress={() => {}}
+                        onPress={() => navigation.navigate('SelectSocialImpactCategory')}
                     /> 
                     <PrimaryButton
                         flexDirection={'row-reverse'}

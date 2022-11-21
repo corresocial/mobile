@@ -5,3 +5,5 @@ export type InsertSocialImpactTitleScreenProps = NativeStackScreenProps<SocialIm
 export type InsertSocialImpactDescriptionScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactDescription'>
 export type InsertSocialImpactPictureScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactPicture'>
 export type SocialImpactPicturePreviewScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SocialImpactPicturePreview'>
+export type SelectSocialImpactCategoryScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactCategory'>
+export type SelectSocialImpactTagsScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactTags'>
