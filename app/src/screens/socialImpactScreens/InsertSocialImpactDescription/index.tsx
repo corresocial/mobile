@@ -56,7 +56,7 @@ function InsertSocialImpactDescription({ navigation }: InsertSocialImpactDescrip
     const saveSocialImpactDescription = () => {
         if (socialImpactDescriptionIsValid) {
             setSocialImpactDataOnContext({ description: socialImpactDescription })
-            // navigation.navigate('InsertSocialImpactQuestions')
+             navigation.navigate('InsertSocialImpactPicture')
         }
     }
 

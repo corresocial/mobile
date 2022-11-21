@@ -3,3 +3,4 @@ import { SocialImpactStackParamList } from "../types"
 
 export type InsertSocialImpactTitleScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactTitle'>
 export type InsertSocialImpactDescriptionScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactDescription'>
+export type InsertSocialImpactPictureScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactPicture'>
