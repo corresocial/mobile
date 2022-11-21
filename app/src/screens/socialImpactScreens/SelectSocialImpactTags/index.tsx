@@ -146,7 +146,7 @@ function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScr
 
     const saveTags = () => {
         setSocialImpactDataOnContext({ tags: selectedTags })
-        // navigation.navigate('InsertSocialImpactTitle')
+        navigation.navigate('SelectSocialImpactExhibitionRange')
     }
 
     return (

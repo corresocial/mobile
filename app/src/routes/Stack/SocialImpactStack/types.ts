@@ -7,4 +7,5 @@ export type SocialImpactStackParamList = {
     SocialImpactPicturePreview: undefined
     SelectSocialImpactCategory: undefined
     SelectSocialImpactTags: {categorySelected: SocialImpactCategories}
+    SelectSocialImpactExhibitionRange: undefined
 }
