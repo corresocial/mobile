@@ -62,6 +62,7 @@ serviceCollection: {
 
 saleCollection = {
     title: 'string',
+    postType: enum('service' | 'sale' | 'vacancy' | 'socialImpact' | 'culture'),
     itemName: 'string',
     itemDescription: 'string',
     tags: 'array[string]',
@@ -102,6 +103,7 @@ saleCollection = {
 
 vacancyCollection = {
     title: 'string'
+    postType: enum('service' | 'sale' | 'vacancy' | 'socialImpact' | 'culture'),
     description: 'string'
     vacancyType: enum('professional' | 'temporary' | 'beak')
     workplace: enum('homeoffice' | 'presential' | 'hybrid')
@@ -138,12 +140,13 @@ vacancyCollection = {
 
 cultureCollection = {
     title: 'string',
+    postType: enum('service' | 'sale' | 'vacancy' | 'socialImpact' | 'culture'),
     description: 'string',
     cultureType: enum('artistProfile' | 'eventPost'),
     locationView: enum('private' | 'approximate' | 'public'),
     exhibitionPlace: enum('near' | 'city' | 'country'),
     eventPlaceModality: enum('online' | 'both' | 'presential'),
-    eventRepeat: enum('unrepeatable' | 'weekly' | 'biweekly' | 'monthly'),
+    eventRepeat: enum('unrepeatable' | 'weekly' | 'everyDay' | 'biweekly' | 'monthly'),
     entryValue: 'string',
     eventStartDate: 'date',
     eventEndDate: 'date',
@@ -170,6 +173,43 @@ cultureCollection = {
             geohashCity: 'array[string]',
     }
     owner: {
+        userId: 'string',
+        name: 'string',
+        profilePictureUrl: 'array[string]'
+	},
+}
+
+    socialImpactCollection: {
+        title: 'string',
+        postType: enum('service' | 'sale' | 'vacancy' | 'socialImpact' | 'culture'),
+        description: 'string',
+        tags: 'array[string]',
+        locationView: enum('private' | 'approximate' | 'public'), 
+        exhibitionRange: enum('near' | 'city' | 'country'),
+        exhibitionWeekDays: 'array[string]',
+        socialImpactRepeat: enum('unrepeatable' | 'weekly' | 'everyDay' | 'biweekly' | 'monthly'),
+        openingHour: 'date',
+        closingHour: 'date',
+        picturesUrl: 'array[string]',
+        createdAt: 'date',
+        private address: {
+            country: 'string',
+            state: 'string',
+            city: 'string',
+            postalCode: 'string',
+            district: 'string',
+            street: 'string',
+            number: 'string',
+            reference: 'string',
+            coordinates: {
+                latitude: 'float',
+                longitude: 'float',
+            }
+            geohash: 'string'
+            geohashNear: 'array[string]',
+            geohashCity: 'array[string]',
+        }
+        owner: {
         userId: 'string',
         name: 'string',
         profilePictureUrl: 'array[string]'

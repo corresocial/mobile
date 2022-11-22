@@ -57,6 +57,7 @@ function CustomMapView({
 
     return (
         <MapView
+
             style={{ flex: 1, position: 'relative' }}
             cacheEnabled={false}
             region={locationView == 'approximate' ? randomCoordinate as Coordinates : regionCoordinate}

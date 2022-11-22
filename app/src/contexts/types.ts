@@ -165,12 +165,13 @@ export type CultureData = {
 }
 
 export type SocialImpactData = {
-    title: string
-    description: string
-    tags: string[]
+    title?: string
+    description?: string
+    tags?: string[]
     locationView?: LocationViewType
     exhibitionRange?: ExhibitionPlaceType
     exhibitionWeekDays?: DaysOfWeek[]
+    socialImpactRepeat?: EventRepeatType 
     openingHour?: Date
     closingHour?: Date
     picturesUrl?: string[]

@@ -240,7 +240,7 @@ function InsertSocialImpactLocation({ navigation }: InsertSocialImpactLocationSc
                 textAlign={'left'}
                 invalidTextAfterSubmit={invalidAddressAfterSubmit}
                 fontSize={16}
-                placeholder={'ex: av. josé de oliveira 5767, londrina'}
+                placeholder={'ex: rua, bairro, cidade, etc...'}
                 keyboardType={'default'}
                 returnKeyType={'search'}
                 onPressKeyboardSubmit={getAddressCoordinates}

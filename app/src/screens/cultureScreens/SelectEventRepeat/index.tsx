@@ -221,7 +221,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                     <PrimaryButton
                         justifyContent={'flex-start'}
                         color={theme.white3}
-                        relativeHeight={'18%'}
+                        relativeHeight={'16%'}
                         labelColor={theme.black4}
                         fontSize={18}
                         textAlign={'left'}
@@ -232,7 +232,18 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                     <PrimaryButton
                         justifyContent={'flex-start'}
                         color={theme.white3}
-                        relativeHeight={'18%'}
+                        relativeHeight={'16%'}
+                        labelColor={theme.black4}
+                        fontSize={18}
+                        textAlign={'left'}
+                        label={'todos os dias'}
+                        highlightedWords={['todos', 'os', 'dias']}
+                        onPress={() => saveEventRepeat('everyDay')}
+                    />
+                    <PrimaryButton
+                        justifyContent={'flex-start'}
+                        color={theme.white3}
+                        relativeHeight={'16%'}
                         labelColor={theme.black4}
                         fontSize={18}
                         textAlign={'left'}
@@ -243,7 +254,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                     <PrimaryButton
                         justifyContent={'flex-start'}
                         color={theme.white3}
-                        relativeHeight={'18%'}
+                        relativeHeight={'16%'}
                         labelColor={theme.black4}
                         fontSize={18}
                         textAlign={'left'}
@@ -254,7 +265,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                     <PrimaryButton
                         justifyContent={'flex-start'}
                         color={theme.white3}
-                        relativeHeight={'18%'}
+                        relativeHeight={'16%'}
                         labelColor={theme.black4}
                         fontSize={18}
                         textAlign={'left'}

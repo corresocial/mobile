@@ -270,6 +270,7 @@ export type SocialImpactCollection = {
     locationView?: LocationViewType
     exhibitionRange?: ExhibitionPlaceType
     exhibitionWeekDays?: DaysOfWeek[]
+    socialImpactRepeat?: EventRepeatType,
     openingHour?: Date
     closingHour?: Date
     picturesUrl?: string[]
