@@ -21,6 +21,8 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { FinishedTourModal } from '../../../components/_modals/FinishedTourModal'
+import updateUser from '../../../services/Firebase/user/updateUser'
+import { UserCollection } from '../../../services/Firebase/types'
 
 function Profile({ navigation, route }: HomeTabScreenProps) {
 	const { getDataFromSecureStore, setDataOnSecureStore, deleteLocaluser } = useContext(AuthContext)
@@ -76,8 +78,15 @@ function Profile({ navigation, route }: HomeTabScreenProps) {
 	const setUserTourPerformed = async () => {
 		const localUser = await getObjectLocalUser()
 		const newLocalUser = { ...localUser, tourPerformed: true }
+		await updateUserData(localUser.userId, {})
 		setDataOnSecureStore('corre.user', newLocalUser)
 	}
+
+	const updateUserData = async (userId: string, userData: UserCollection) => {
+        await updateUser(userId, {
+            tourPerformed: true
+        })
+    }
 
 	const navigateToTour = async () => {
 		await setUserTourPerformed()

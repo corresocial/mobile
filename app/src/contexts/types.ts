@@ -164,4 +164,31 @@ export type CultureData = {
     }
 }
 
-export type SocialImpactData = any
+export type SocialImpactData = {
+    title: string
+    description: string
+    tags: string[]
+    locationView?: LocationViewType
+    exhibitionRange?: ExhibitionPlaceType
+    exhibitionWeekDays?: DaysOfWeek[]
+    openingHour?: Date
+    closingHour?: Date
+    picturesUrl?: string[]
+    address?: {
+        country?: string
+        state?: string
+        city?: string
+        postalCode?: string
+        district?: string
+        street?: string
+        number?: string
+        reference?: string
+        coordinates?: {
+            latitude?: number
+            longitude?: number
+        }
+        geohash?: string
+        geohashNear?: string[]
+        geohashCity?: string[]
+    }
+}

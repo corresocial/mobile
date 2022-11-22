@@ -30,7 +30,7 @@ export type ExhibitionPlaceType = 'near' | 'city' | 'country'
 
 export type PlaceModalityType = 'presential' | 'online' | 'both'
 
-export type EventRepeatType = 'unrepeatable' | 'weekly' | 'biweekly' | 'monthly'
+export type EventRepeatType = 'unrepeatable' | 'everyDay' | 'weekly' | 'biweekly' | 'monthly'
 
 export type MacroCategory = {
     label: string
@@ -98,9 +98,9 @@ export type PrivateAddress = {
 
 export type PostType = 'service' | 'sale' | 'vacancy' | 'socialImpact' | 'culture'
 
-export type PostCollectionType = 'services' | 'sales' | 'vacancies' | 'cultures' // Post type title
+export type PostCollectionType = 'services' | 'sales' | 'vacancies' | 'cultures' | 'socialImpacts' // Post type title
 
-export type PostCollection = ServiceCollection | SaleCollection | VacancyCollection | CultureCollection
+export type PostCollection = ServiceCollection | SaleCollection | VacancyCollection | CultureCollection | SocialImpactCollection
 
 export type ServiceCollection = {
     postType?: PostType
@@ -262,7 +262,41 @@ export type CultureCollection = {
     }
 }
 
-export type SocialImpactCollection = any
+export type SocialImpactCollection = {
+    postType?: PostType
+    title: string
+    description: string
+    tags: string[]
+    locationView?: LocationViewType
+    exhibitionRange?: ExhibitionPlaceType
+    exhibitionWeekDays?: DaysOfWeek[]
+    openingHour?: Date
+    closingHour?: Date
+    picturesUrl?: string[]
+    createdAt?: Date
+    address?: {
+        country?: string
+        state?: string
+        city?: string
+        postalCode?: string
+        district?: string
+        street?: string
+        number?: string
+        reference?: string
+        coordinates?: {
+            latitude?: number
+            longitude?: number
+        }
+        geohash?: string
+        geohashNear?: string[]
+        geohashCity?: string[]
+    }
+    owner?: {
+        userId?: string
+        name?: string
+        profilePictureUrl?: string[]
+    }
+}
 
 
 export type AdsCollection = any

@@ -138,8 +138,6 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                     },
                 )
             })
-
-            throw 'sfdoi'
         } catch (err) {
             console.log(err)
             setHasServerSideError(true)

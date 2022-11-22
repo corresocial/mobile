@@ -5,14 +5,14 @@ import { Container, ButtonsContainer } from './styles'
 import { theme } from '../../../common/theme'
 
 import { SelectSocialImpactRepeatScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
-import { EventRepeatType, PrivateAddress, CultureCollection, PostCollection } from './../../../services/Firebase/types'
-import { CultureContext } from '../../../contexts/CultureContext'
+import { EventRepeatType, PrivateAddress, SocialImpactCollection, PostCollection } from './../../../services/Firebase/types'
+import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import updateDocField from '../../../services/Firebase/common/updateDocField'
 import createPost from '../../../services/Firebase/post/createPost'
 import updatePostPrivateData from '../../../services/Firebase/post/updatePostPrivateData'
 import uploadImage from '../../../services/Firebase/common/uploadPicture'
 import { getDownloadURL } from 'firebase/storage'
-import { CultureData, LocalUserData } from '../../../contexts/types'
+import { SocialImpactData, LocalUserData } from '../../../contexts/types'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
 
@@ -25,68 +25,69 @@ import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreenProps) {
 
-    const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+    const { socialImpactDataContext, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
     const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
     const { setLoaderIsVisible } = useContext(LoaderContext)
 
     const [hasServerSideError, setHasServerSideError] = useState(false)
 
-    /* const getCompleteCultureDataFromContext = (socialImpactRepeat: EventRepeatType) => {
+    const getCompleteSocialImpactDataFromContext = (socialImpactRepeat: EventRepeatType) => {
         return {
-            ...cultureDataContext,
+            ...socialImpactDataContext,
             socialImpactRepeat
         }
     }
 
-    const extractCultureAddress = (cultureData: CultureData) => {
-        return { ...cultureData.address } as PrivateAddress
+    const extractSocialImpactAddress = (socialImpactData: SocialImpactData) => {
+        return { ...socialImpactData.address } as PrivateAddress
     }
 
-    const extractCultureDataPost = (cultureData: CultureData) => {
-        const currentCultureData = { ...cultureData }
-        delete currentCultureData.address
+    const extractSocialImpactDataPost = (socialImpactData: SocialImpactData) => {
+        const currentSocialImpactData = { ...socialImpactData }
+        delete currentSocialImpactData.address
 
-        return { ...currentCultureData as CultureCollection }
+        return { ...currentSocialImpactData } as SocialImpactCollection
     }
 
-    const extractCulturePictures = (cultureData: CultureData) => {
-        return cultureData.picturesUrl as string[] || []
+    const extractSocialImpactPictures = (socialImpactData: SocialImpactData) => {
+        return socialImpactData.picturesUrl as string[] || []
     }
 
     const getLocalUser = async () => {
+        console.log(JSON.parse(await getDataFromSecureStore('corre.user') || '{}'))
         return JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
     }
 
-    const saveCulturePost = async (socialImpactRepeat: EventRepeatType) => {
+    const saveSocialImpactPost = async (socialImpactRepeat: EventRepeatType) => {
         setLoaderIsVisible(true)
         setHasServerSideError(false)
 
-        const completeCultureData = getCompleteCultureDataFromContext(socialImpactRepeat)
-        setCultureDataOnContext({ ...completeCultureData })
+        const completeSocialImpactData = getCompleteSocialImpactDataFromContext(socialImpactRepeat)
+        setSocialImpactDataOnContext({ ...completeSocialImpactData })
 
-        const cultureAddress = extractCultureAddress(completeCultureData)
-        const cultureDataPost = extractCultureDataPost(completeCultureData)
-        const culturePictures = extractCulturePictures(completeCultureData)
+        const socialImpactAddress = extractSocialImpactAddress(completeSocialImpactData)
+        const socialImpactDataPost = extractSocialImpactDataPost(completeSocialImpactData)
+        const socialImpactPictures = extractSocialImpactPictures(completeSocialImpactData)
 
         try {
             const localUser = await getLocalUser()
             if (!localUser.userId) throw 'Não foi possível identificar o usuário'
 
-            const postId = await createPost(cultureDataPost, localUser, 'cultures', 'culture')
+            const postId = await createPost(socialImpactDataPost, localUser, 'socialImpacts', 'socialImpact')
             if (!postId) throw 'Não foi possível identificar o post'
 
-            if (!culturePictures.length) {
+            if (!socialImpactPictures.length) {
                 await updateUserPost(
                     localUser,
                     postId,
-                    cultureDataPost,
-                    culturePictures
+                    socialImpactDataPost,
+                    socialImpactPictures
                 )
 
                 await updatePostPrivateData(
-                    cultureAddress,
+                    socialImpactAddress,
                     postId,
-                    'cultures',
+                    'socialImpacts',
                     'address'
                 )
 
@@ -94,8 +95,8 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
             }
 
             const picturePostsUrls: string[] = []
-            culturePictures.forEach(async (culturePicture, index) => {
-                uploadImage(culturePicture, 'cultures', postId, index).then(
+            socialImpactPictures.forEach(async (socialImpactPicture, index) => {
+                uploadImage(socialImpactPicture, 'socialImpacts', postId, index).then(
                     ({ uploadTask, blob }: any) => {
                         uploadTask.on(
                             'state_change',
@@ -109,25 +110,25 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
                                         async (downloadURL) => {
                                             blob.close()
                                             picturePostsUrls.push(downloadURL)
-                                            if (picturePostsUrls.length === culturePictures.length) {
+                                            if (picturePostsUrls.length === socialImpactPictures.length) {
                                                 await updateUserPost(
                                                     localUser,
                                                     postId,
-                                                    cultureDataPost,
+                                                    socialImpactDataPost,
                                                     picturePostsUrls
                                                 )
 
                                                 await updateDocField( // Update pictureUrl
-                                                    'cultures',
+                                                    'socialImpacts',
                                                     postId,
                                                     'picturesUrl',
                                                     { ...picturePostsUrls },
                                                 )
 
                                                 await updatePostPrivateData(
-                                                    cultureAddress,
+                                                    socialImpactAddress,
                                                     postId,
-                                                    'cultures',
+                                                    'socialImpacts',
                                                     'address'
                                                 )
                                             }
@@ -138,25 +139,23 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
                     },
                 )
             })
-
-            throw 'sfdoi'
         } catch (err) {
             console.log(err)
-            setHasServerSideError(true)
             setLoaderIsVisible(false)
+            setHasServerSideError(true)
         }
     }
 
     const updateUserPost = async (
         localUser: LocalUserData,
         postId: string,
-        cultureDataPost: CultureData,
+        socialImpactDataPost: SocialImpactData,
         picturePostsUrls: string[],
     ) => {
         const postData = {
-            ...cultureDataPost,
+            ...socialImpactDataPost,
             postId: postId,
-            postType: 'culture',
+            postType: 'socialImpact',
             picturesUrl: picturePostsUrls,
         }
 
@@ -168,14 +167,13 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
             true,
         )
             .then(() => {
-                console.log(localUser.posts)
                 setDataOnSecureStore('corre.user', {
                     ...localUser,
                     tourPerformed: true,
                     posts: [
-                        ...localUser.posts as PostCollection[],
+                        localUser.posts ? [...localUser.posts] as PostCollection[] : [],
                         {
-                            ...cultureDataPost,
+                            ...socialImpactDataPost,
                             postId: postId,
                             picturesUrl: picturePostsUrls,
                         },
@@ -185,15 +183,12 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
                 setLoaderIsVisible(false)
                 navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
             })
-    } */
-
-    // perform 
-    //git commit -m "feat(screen): Implements InsertOpeningHour and InsertClosingHour screens on social impact flow"
-
-    // after
-    // git add .
-    // git commit... SelectSocialImpactRepeat
-    
+            .catch(err => {
+                console.log(err)
+                setLoaderIsVisible(false)
+                setHasServerSideError(true)
+            })
+    }
 
     return (
         <Container>
@@ -215,7 +210,7 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
                     highlightedWords={
                         !hasServerSideError
                             ? ['repete?']
-                            : ['ops,','parece', 'que', 'algo', 'deu', 'errado', 'do', 'nosso', 'lado!']
+                            : ['ops,', 'parece', 'que', 'algo', 'deu', 'errado', 'do', 'nosso', 'lado!']
                     }
                 >
                     <ProgressBar
@@ -231,46 +226,57 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
                     <PrimaryButton
                         justifyContent={'flex-start'}
                         color={theme.white3}
-                        relativeHeight={'18%'}
+                        relativeHeight={'16%'}
                         labelColor={theme.black4}
                         fontSize={18}
                         textAlign={'left'}
                         label={'1 vez por semana'}
                         highlightedWords={['1', 'vez', 'por', 'semana']}
-                        onPress={() => {}}
+                        onPress={() => saveSocialImpactPost('weekly')}
                     />
                     <PrimaryButton
                         justifyContent={'flex-start'}
                         color={theme.white3}
-                        relativeHeight={'18%'}
+                        relativeHeight={'16%'}
+                        labelColor={theme.black4}
+                        fontSize={18}
+                        textAlign={'left'}
+                        label={'todos os dias'}
+                        highlightedWords={['todos', 'os', 'dias']}
+                        onPress={() => saveSocialImpactPost('everyDay')}
+                    />
+                    <PrimaryButton
+                        justifyContent={'flex-start'}
+                        color={theme.white3}
+                        relativeHeight={'16%'}
                         labelColor={theme.black4}
                         fontSize={18}
                         textAlign={'left'}
                         label={'a cada 15 dias'}
                         highlightedWords={['a', 'cada', '15', 'dias']}
-                        onPress={() => {}}
+                        onPress={() => saveSocialImpactPost('biweekly')}
                     />
                     <PrimaryButton
                         justifyContent={'flex-start'}
                         color={theme.white3}
-                        relativeHeight={'18%'}
+                        relativeHeight={'16%'}
                         labelColor={theme.black4}
                         fontSize={18}
                         textAlign={'left'}
                         label={'1 vez no mês'}
                         highlightedWords={['1', 'vez', 'no', 'mês']}
-                        onPress={() => {}}
+                        onPress={() => saveSocialImpactPost('monthly')}
                     />
                     <PrimaryButton
                         justifyContent={'flex-start'}
                         color={theme.white3}
-                        relativeHeight={'18%'}
+                        relativeHeight={'16%'}
                         labelColor={theme.black4}
                         fontSize={18}
                         textAlign={'left'}
                         label={'não se repete'}
                         highlightedWords={['não', 'se', 'repete']}
-                        onPress={() => {}}
+                        onPress={() => saveSocialImpactPost('unrepeatable')}
                     />
                 </ButtonsContainer>
             </FormContainer>
