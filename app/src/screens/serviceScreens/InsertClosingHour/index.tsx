@@ -377,7 +377,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     {
                         hoursIsValid && minutesIsValid && !keyboardOpened &&
                         <PrimaryButton
-                            color={invalidTimeAfterSubmit ? theme.red3 : theme.purple3}
+                            color={invalidTimeAfterSubmit ? theme.red3 : theme.green3}
                             iconName={'arrow-right'}
                             iconColor={theme.white3}
                             label='continuar'

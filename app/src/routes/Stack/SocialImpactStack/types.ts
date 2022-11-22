@@ -12,4 +12,6 @@ export type SocialImpactStackParamList = {
     SelectSocialImpactLocationView: undefined
     SocialImpactLocationViewPreview: { locationView: LocationViewType }
     SelectDaysOfWeek: undefined
+    InsertOpeningHour: undefined
+    InsertClosingHour: undefined
 }

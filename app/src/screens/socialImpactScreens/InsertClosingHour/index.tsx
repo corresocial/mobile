@@ -4,8 +4,12 @@ import { Animated, Keyboard, StatusBar } from 'react-native'
 import { Container, InputsContainer, TwoPoints } from './styles'
 import { theme } from '../../../common/theme'
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
+
+import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+import { InsertClosingHourScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
+import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { AuthContext } from '../../../contexts/AuthContext'
-import { CultureContext } from '../../../contexts/CultureContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -15,22 +19,18 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { InsertEventEndHourScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
+function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
-function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
-
-    const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+    const { setSocialImpactDataOnContext, socialImpactDataContext } = useContext(SocialImpactContext)
 
     const [hours, setHours] = useState<string>('')
     const [minutes, setMinutes] = useState<string>('')
     const [hoursIsValid, setHoursIsValid] = useState<boolean>(false)
     const [minutesIsValid, setMinutesIsValid] = useState<boolean>(false)
     const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+
     const [invalidTimeAfterSubmit, setInvalidTimeAfterSubmit] = useState<boolean>(false)
-    const [hasServerSideError, setHasServerSideError] = useState<boolean>(false)
 
     const inputRefs = {
         hoursInput: useRef<React.MutableRefObject<any>>(null),
@@ -71,39 +71,22 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
     }
 
     const closingTimeIsAfterOpening = () => {
-        const eventStartHour = new Date(cultureDataContext.eventStartHour as Date)
-        const eventEndHour = new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
-        return eventStartHour.getTime() < eventEndHour.getTime()
+        const openingHour = new Date(socialImpactDataContext.openingHour as Date)
+        const closingHour = new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
+        return openingHour.getTime() < closingHour.getTime()
     }
 
-    const saveEventEndHour = async () => {
-        if (!closingTimeIsAfterOpening()) { 
+    const saveSocialImpactPost = async () => {
+        if (!closingTimeIsAfterOpening()) {
             setInvalidTimeAfterSubmit(true)
             return
         }
 
-        setCultureDataOnContext({
-            eventEndHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
+        setSocialImpactDataOnContext({
+            closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
         })
-         navigation.navigate('SelectEventRepeat')
-    }
+        // navigation.navigate('SelectSocialImpactRepeat')
 
-    const getHeaderMessage = () => {
-        if (hasServerSideError) {
-            return 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes'
-        }
-        return invalidTimeAfterSubmit
-            ? 'O horário de início informado é superior ao horário de encerramento'
-            : 'que horas termina?'
-    }
-
-    const getHighlightedHeaderMessage = () => {
-        if (hasServerSideError) {
-            return ['do', 'nosso', 'lado,']
-        }
-        return invalidTimeAfterSubmit
-            ? ['horário', 'de', 'início', 'encerramento']
-            : ['que', 'horas']
     }
 
     const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -118,13 +101,13 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
 
         return headerBackgroundAnimatedValue.current.interpolate({
             inputRange: [0, 1],
-            outputRange: [theme.blue2, theme.red2],
+            outputRange: [theme.pink2, theme.red2],
         })
     }
 
     return (
         <Container >
-            <StatusBar backgroundColor={invalidTimeAfterSubmit ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={invalidTimeAfterSubmit ? theme.red2 : theme.pink2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={(screenHeight + statusBarHeight) * 0.27}
                 relativeHeight={'22%'}
@@ -135,8 +118,16 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={getHeaderMessage()}
-                    highlightedWords={getHighlightedHeaderMessage()}
+                    message={
+                        invalidTimeAfterSubmit
+                            ? 'O horário de início informado é superior ao horário de encerramento'
+                            : 'que horas termina?'
+                    }
+                    highlightedWords={
+                        invalidTimeAfterSubmit
+                            ? ['horário', 'de', 'início', 'encerramento']
+                            : ['que', 'horas']
+                    }
                 >
                     <ProgressBar
                         range={5}
@@ -155,8 +146,8 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
                         nextInputRef={inputRefs.minutesInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
-                        validBackgroundColor={theme.blue1}
-                        validBorderBottomColor={theme.blue5}
+                        validBackgroundColor={theme.pink1}
+                        validBorderBottomColor={theme.pink5}
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
@@ -169,7 +160,6 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
                         onChangeText={(text: string) => {
                             setHours(text)
                             invalidTimeAfterSubmit && setInvalidTimeAfterSubmit(false)
-                            hasServerSideError && setHasServerSideError(false)
                         }}
                     />
                     <TwoPoints>:</TwoPoints>
@@ -180,8 +170,8 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
                         previousInputRef={inputRefs.hoursInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
-                        validBackgroundColor={theme.blue1}
-                        validBorderBottomColor={theme.blue5}
+                        validBackgroundColor={theme.pink1}
+                        validBorderBottomColor={theme.pink5}
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
@@ -195,7 +185,6 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
                         onChangeText={(text: string) => {
                             setMinutes(text)
                             invalidTimeAfterSubmit && setInvalidTimeAfterSubmit(false)
-                            hasServerSideError && setHasServerSideError(false)
                         }}
                     />
                 </InputsContainer>
@@ -209,7 +198,7 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
                             label='continuar'
                             labelColor={theme.white3}
                             highlightedWords={['continuar']}
-                            onPress={saveEventEndHour}
+                            onPress={saveSocialImpactPost}
                         />
                     }</>
             </FormContainer>
@@ -217,4 +206,4 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
     )
 }
 
-export { InsertEventEndHour }
+export { InsertClosingHour }

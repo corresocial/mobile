@@ -6,8 +6,8 @@ import { theme } from '../../../common/theme';
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { InsertOpeningHourScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps';
-import { ServiceContext } from '../../../contexts/ServiceContext';
+import { InsertOpeningHourScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps';
+import { SocialImpactContext } from '../../../contexts/SocialImpactContext';
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
 import { FormContainer } from '../../../components/_containers/FormContainer';
@@ -20,7 +20,7 @@ import { ProgressBar } from '../../../components/ProgressBar';
 
 function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
 
-    const { setServiceDataOnContext } = useContext(ServiceContext)
+    const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 
     const [hours, setHours] = useState<string>('')
     const [minutes, setMinutes] = useState<string>('')
@@ -66,7 +66,7 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
     }
 
     const saveOppeningHour = () => {
-        setServiceDataOnContext({
+        setSocialImpactDataOnContext({
             openingHour: new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
         })
         navigation.navigate('InsertClosingHour')
@@ -74,23 +74,23 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
 
     return (
         <Container >
-            <StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+            <StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
             <DefaultHeaderContainer
                 minHeight={(screenHeight + statusBarHeight) * 0.26}
                 relativeHeight={'22%'}
                 centralized
-                backgroundColor={theme.purple2}
+                backgroundColor={theme.pink2}
             >
                 <BackButton onPress={() => navigation.goBack()} />
                 <InstructionCard
                     borderLeftWidth={3}
                     fontSize={18}
-                    message={'que horas você começa a trabalhar?'}
-                    highlightedWords={['que', 'horas', 'começa', 'a', 'trabalhar?']}
+                    message={'que horas começa?'}
+                    highlightedWords={['que', 'horas']}
                 >
                     <ProgressBar
                         range={5}
-                        value={5}
+                        value={4}
                     />
                 </InstructionCard>
             </DefaultHeaderContainer>
@@ -105,8 +105,8 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
                         nextInputRef={inputRefs.minutesInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
-                        validBackgroundColor={theme.purple1}
-                        validBorderBottomColor={theme.purple5}
+                        validBackgroundColor={theme.pink1}
+                        validBorderBottomColor={theme.pink5}
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}
@@ -125,8 +125,8 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
                         previousInputRef={inputRefs.hoursInput}
                         defaultBackgroundColor={theme.white2}
                         defaultBorderBottomColor={theme.black4}
-                        validBackgroundColor={theme.purple1}
-                        validBorderBottomColor={theme.purple5}
+                        validBackgroundColor={theme.pink1}
+                        validBorderBottomColor={theme.pink5}
                         invalidBackgroundColor={theme.red1}
                         invalidBorderBottomColor={theme.red5}
                         maxLength={2}

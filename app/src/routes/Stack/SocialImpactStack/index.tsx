@@ -16,6 +16,8 @@ import { InsertSocialImpactLocation } from '../../../screens/socialImpactScreens
 import { SelectSocialImpactLocationView } from '../../../screens/socialImpactScreens/SelectSocialImpactLocationView';
 import { SocialImpactLocationViewPreview } from '../../../screens/socialImpactScreens/SocialImpactLocationViewPreview';
 import { SelectDaysOfWeek } from '../../../screens/socialImpactScreens/SelectDaysOfWeek';
+import { InsertOpeningHour } from '../../../screens/socialImpactScreens/InsertOpeningHour';
+import { InsertClosingHour } from '../../../screens/socialImpactScreens/InsertClosingHour';
 
 const Stack = createStackNavigator<SocialImpactStackParamList>()
 
@@ -41,6 +43,8 @@ export function SocialImpactStack() {
                 <Stack.Screen name={'SelectSocialImpactLocationView'} component={SelectSocialImpactLocationView} />
                 <Stack.Screen name={'SocialImpactLocationViewPreview'} component={SocialImpactLocationViewPreview} />
                 <Stack.Screen name={'SelectDaysOfWeek'} component={SelectDaysOfWeek} />
+                <Stack.Screen name={'InsertOpeningHour'} component={InsertOpeningHour} />
+                <Stack.Screen name={'InsertClosingHour'} component={InsertClosingHour} />
             </Stack.Navigator>
         </SocialImpactProvider>
     )

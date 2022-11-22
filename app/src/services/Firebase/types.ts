@@ -262,5 +262,8 @@ export type CultureCollection = {
     }
 }
 
+export type SocialImpactCollection = any
+
+
 export type AdsCollection = any
 
