@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
-
-import { ContainerBottom, ContainerSurface, Label } from './styles'
 import { RFValue } from 'react-native-responsive-fontsize'
+
 import { screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { ContainerBottom, ContainerSurface, Label } from './styles'
 import { theme } from '../../../common/theme'
 
 interface SelectButtonProps {

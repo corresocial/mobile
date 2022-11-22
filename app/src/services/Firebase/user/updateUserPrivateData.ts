@@ -1,10 +1,7 @@
-import {
-    doc,
-    updateDoc,
-    setDoc
-} from 'firebase/firestore';
-import { firestore } from '../Firebase';
-import { UserCollection } from '../types';
+import { doc, updateDoc, setDoc } from 'firebase/firestore'
+import { firestore } from '..'
+
+import { UserCollection } from '../types'
 
 async function updateUserPrivateData(data: UserCollection, userId: string, privateField: string = '') {
     try {
@@ -21,10 +18,9 @@ async function updateUserPrivateData(data: UserCollection, userId: string, priva
                 { ...data },
             )
         }
-
     } catch (err) {
         console.log(err)
     }
 }
 
-export default updateUserPrivateData
+export { updateUserPrivateData }

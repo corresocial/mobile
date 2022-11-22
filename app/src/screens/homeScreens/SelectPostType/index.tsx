@@ -1,5 +1,6 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
@@ -16,7 +17,6 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
     return (

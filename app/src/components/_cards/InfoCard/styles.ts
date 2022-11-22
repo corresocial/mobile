@@ -1,5 +1,6 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+
 import { screenHeight } from '../../../common/screenDimensions'
 
 export const Container = styled.View`

@@ -4,9 +4,10 @@ import { ScrollView, StatusBar } from 'react-native'
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
 
+import { vacancyCategories } from '../vacancyCategories'
+
 import { SelectVacancyCategoryScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { VacancyCategories, MacroCategory } from '../../../services/Firebase/types'
-import { vacancyCategories } from '../vacancyCategories'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -37,9 +38,9 @@ function SelectVacancyCategory({ navigation }: SelectVacancyCategoryScreenProps)
     }
 
     const sortVacancyCategories = (a: MacroCategory, b: MacroCategory) => {
-        if (a.label < b.label) return -1;
-        if (a.label > b.label) return 1;
-        return 0;
+        if (a.label < b.label) return -1
+        if (a.label > b.label) return 1
+        return 0
     }
 
     const onSelectCategory = (categoryName: VacancyCategories) => {

@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { StatusBar } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react'
+import { StatusBar } from 'react-native'
 
-import { theme } from '../../../common/theme';
-import { ButtonContainerBottom, Container, MapContainer } from './styles';
+import { theme } from '../../../common/theme'
+import { ButtonContainerBottom, Container, MapContainer } from './styles'
 import Uncheck from './../../../assets/icons/uncheck.svg'
 import Check from './../../../assets/icons/check.svg'
 import MapPointOrange from './../../../assets/icons/mapPoint-orange.svg'
@@ -10,14 +10,15 @@ import Eye from './../../../assets/icons/eye.svg'
 import EyeHalfTraced from './../../../assets/icons/eyeHalfTraced.svg'
 import EyeTraced from './../../../assets/icons/eyeTraced.svg'
 
-import { SocialImpactLocationViewPreviewScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps';
+import { SocialImpactLocationViewPreviewScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 import { LocationViewType } from './../../../services/Firebase/types'
-import { SocialImpactContext } from '../../../contexts/SocialImpactContext';
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { CustomMapView } from '../../../components/CustomMapView';
-import { InfoCard } from '../../../components/_cards/InfoCard';
+import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { CustomMapView } from '../../../components/CustomMapView'
+import { InfoCard } from '../../../components/_cards/InfoCard'
 
 const defaultDeltaCoordinates = {
     latitudeDelta: 0.004,

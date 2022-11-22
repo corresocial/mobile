@@ -6,6 +6,7 @@ import { theme } from '../../../common/theme'
 
 import { SelectExhibitionPlaceScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
 import { ExhibitionPlaceType } from './../../../services/Firebase/types'
+
 import { CultureContext } from '../../../contexts/CultureContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'

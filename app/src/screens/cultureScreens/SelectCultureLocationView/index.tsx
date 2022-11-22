@@ -6,6 +6,7 @@ import { theme } from '../../../common/theme'
 
 import { SelectCultureLocationViewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { LocationViewType } from '../../../services/Firebase/types'
+
 import { CultureContext } from '../../../contexts/CultureContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'

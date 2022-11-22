@@ -14,9 +14,11 @@ import { theme } from '../../../common/theme'
 import { screenHeight, screenWidth } from '../../../common/screenDimensions'
 import Check from './../../../assets/icons/check.svg'
 
-import { SelectCultureTagsScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
 import { cultureCategories, updateCultureTags } from '../cultureCategories'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+
+import { SelectCultureTagsScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
+
 import { CultureContext } from '../../../contexts/CultureContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -43,8 +45,8 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
             removeAllKeyboardEventListeners()
             Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
             Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-        });
-        return unsubscribe;
+        })
+        return unsubscribe
     }, [navigation])
 
     const renderSelectedTags = () => {
@@ -89,9 +91,9 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
     }
 
     const sortCultureTags = (a: string, b: string) => {
-        if (a < b) return -1;
-        if (a > b) return 1;
-        return 0;
+        if (a < b) return -1
+        if (a > b) return 1
+        return 0
     }
 
     const onSelectTag = (tagName: string) => {

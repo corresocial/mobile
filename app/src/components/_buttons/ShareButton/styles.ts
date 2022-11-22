@@ -1,7 +1,6 @@
-import * as Animatable from 'react-native-animatable';
-import styled from "styled-components/native";
-import { RFValue } from 'react-native-responsive-fontsize';
-import { screenHeight } from "../../../common/screenDimensions";
+import * as Animatable from 'react-native-animatable'
+import styled from 'styled-components/native'
+import { RFValue } from 'react-native-responsive-fontsize'
 
 export const Container = styled.TouchableWithoutFeedback`
    width: 100%;

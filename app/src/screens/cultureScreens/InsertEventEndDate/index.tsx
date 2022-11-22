@@ -1,22 +1,24 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import {  Animated, Keyboard, StatusBar } from 'react-native';
+import {  Animated, Keyboard, StatusBar } from 'react-native'
 
-import { Container, InputsContainer } from './styles';
-import { theme } from '../../../common/theme';
+import { Container, InputsContainer } from './styles'
+import { theme } from '../../../common/theme'
 
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { InsertEventEndDateScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps';
-import { CultureContext } from '../../../contexts/CultureContext';
+import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { LineInput } from '../../../components/LineInput';
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions';
-import { BackButton } from '../../../components/_buttons/BackButton';
-import { ProgressBar } from '../../../components/ProgressBar';
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+import { InsertEventEndDateScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
+
+import { CultureContext } from '../../../contexts/CultureContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { LineInput } from '../../../components/LineInput'
+import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { ProgressBar } from '../../../components/ProgressBar'
 
 function InsertEventEndDate({ navigation }: InsertEventEndDateScreenProps) {
 
@@ -43,8 +45,8 @@ function InsertEventEndDate({ navigation }: InsertEventEndDateScreenProps) {
             removeAllKeyboardEventListeners()
             Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
             Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-        });
-        return unsubscribe;
+        })
+        return unsubscribe
     }, [navigation])
 
     useEffect(() => {
@@ -90,7 +92,7 @@ function InsertEventEndDate({ navigation }: InsertEventEndDateScreenProps) {
     }
 
     const numberOfDaysOfMonth = () => {
-        var data = new Date(parseInt(year), parseInt(month), 0);
+        var data = new Date(parseInt(year), parseInt(month), 0)
         return data.getDate()
     }
 
@@ -250,7 +252,7 @@ function InsertEventEndDate({ navigation }: InsertEventEndDateScreenProps) {
                 </>
             </FormContainer>
         </Container >
-    );
+    )
 }
 
 export { InsertEventEndDate }

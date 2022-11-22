@@ -1,6 +1,9 @@
 import 'react-native-gesture-handler'
 import React from 'react'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs' 
+import { RFValue } from 'react-native-responsive-fontsize'
 
+import { theme } from '../../../common/theme'
 import HomeTabIconActive from './../../../assets/icons/homeTabIconActive.svg'
 import HomeTabIconInactive from './../../../assets/icons/homeTabIconInactive.svg'
 import LoupTabIconActive from './../../../assets/icons/loupTabIconActive.svg'
@@ -11,19 +14,15 @@ import ChatTabIconActive from './../../../assets/icons/chatTabIconActive.svg'
 import ChatTabIconInactive from './../../../assets/icons/chatTabIconInactive.svg'
 import ProfileTabIconActive from './../../../assets/icons/profileTabIconActive.svg'
 import ProfileTabIconInactive from './../../../assets/icons/profileTabIconInactive.svg'
-import { RFValue } from 'react-native-responsive-fontsize'
 
-import { HomeTabParamList } from './types';
-
-import { Home } from '../../../screens/homeScreens/Home';
-import { Profile } from '../../../screens/homeScreens/Profile';
-
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs' //
+import { HomeTabParamList } from './types'
 import { HomeTabScreenProps } from '../../Stack/UserStack/stackScreenProps'
-import { theme } from '../../../common/theme'
+
+import { Home } from '../../../screens/homeScreens/Home'
+import { Profile } from '../../../screens/homeScreens/Profile'
 import { SelectPostType } from '../../../screens/homeScreens/SelectPostType'
 
-const Tab = createBottomTabNavigator<HomeTabParamList>();
+const Tab = createBottomTabNavigator<HomeTabParamList>()
 
 export function HomeTab(props: HomeTabScreenProps) {
 	const CustonProfile = () => <Profile {...props}/>
@@ -86,5 +85,5 @@ export function HomeTab(props: HomeTabScreenProps) {
 				}}
 			/>
 		</ Tab.Navigator>
-	);
+	)
 }

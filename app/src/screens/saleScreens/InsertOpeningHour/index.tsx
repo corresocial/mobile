@@ -1,22 +1,24 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Keyboard, StatusBar } from 'react-native';
+import { Keyboard, StatusBar } from 'react-native'
 
-import { Container, InputsContainer, TwoPoints } from './styles';
-import { theme } from '../../../common/theme';
+import { Container, InputsContainer, TwoPoints } from './styles'
+import { theme } from '../../../common/theme'
 
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { InsertOpeningHourScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps';
-import { SaleContext } from '../../../contexts/SaleContext';
+import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { LineInput } from '../../../components/LineInput';
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions';
-import { BackButton } from '../../../components/_buttons/BackButton';
-import { ProgressBar } from '../../../components/ProgressBar';
+import { InsertOpeningHourScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
+
+import { SaleContext } from '../../../contexts/SaleContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { LineInput } from '../../../components/LineInput'
+import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { ProgressBar } from '../../../components/ProgressBar'
 
 function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
 
@@ -38,8 +40,8 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
             removeAllKeyboardEventListeners()
             Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
             Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-        });
-        return unsubscribe;
+        })
+        return unsubscribe
     }, [navigation])
 
     useEffect(() => {
@@ -156,7 +158,7 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
                 </>
             </FormContainer>
         </Container>
-    );
+    )
 }
 
 export { InsertOpeningHour }

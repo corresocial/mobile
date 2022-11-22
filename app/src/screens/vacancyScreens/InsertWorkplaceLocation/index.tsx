@@ -1,24 +1,26 @@
 import React, { useContext,  useRef, useState } from 'react'
-import { Animated, LayoutRectangle, StatusBar, View } from 'react-native';
+import { Animated, LayoutRectangle, StatusBar, View } from 'react-native'
 import * as Location from 'expo-location'
 
-import { theme } from '../../../common/theme';
-import { screenHeight, screenWidth } from '../../../common/screenDimensions';
-import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from './styles';
+import { theme } from '../../../common/theme'
+import { screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from './styles'
 import Check from './../../../assets/icons/check.svg'
 import MapPointOrange from './../../../assets/icons/mapPoint-orange.svg'
 
-import { InsertWorkplaceLocationScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
-import { Coordinates } from '../../../services/Firebase/types'
-import { VacancyContext } from '../../../contexts/VacancyContext';
+import {generateGeohashes} from '../../../common/generateGeohashes'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { BackButton } from '../../../components/_buttons/BackButton';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { LineInput } from '../../../components/LineInput';
-import { CustomMapView } from '../../../components/CustomMapView';
-import generateGeohashes from '../../../common/generateGeohashes';
-import { InfoCard } from '../../../components/_cards/InfoCard';
+import { InsertWorkplaceLocationScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
+import { Coordinates } from '../../../services/Firebase/types'
+
+import { VacancyContext } from '../../../contexts/VacancyContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { LineInput } from '../../../components/LineInput'
+import { CustomMapView } from '../../../components/CustomMapView'
+import { InfoCard } from '../../../components/_cards/InfoCard'
 
 const initialRegion = {
     latitude: -13.890303625634541,
@@ -120,25 +122,10 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
         })
 
         const structuredAddress = structureAddress(geocodeAddress)
-        // const formatedAddress = formatAddress(geocodeAddress) //Address por extenso
         setInvalidAddressAfterSubmit(false)
 
         return structuredAddress
     }
-
-    /* const formatAddress = (geocodeAddress: Location.LocationGeocodedAddress[]) => {
-        const {
-            street,
-            streetNumber,
-            name,
-            district,
-            city,
-            subregion,
-            region,
-            postalCode
-        } = geocodeAddress[0]
-        return `${street ? street + ',' : ''} ${streetNumber ? streetNumber + ',' : name ? name + ',' : ''} ${district ? district + ' -' : ''} ${city ? city + ' -' : (subregion ? subregion + ' -' : '')} ${region ? region + ',' : ' -'} ${postalCode}`
-    } */
 
     const structureAddress = (geocodeAddress: Location.LocationGeocodedAddress[]) => {
         return {

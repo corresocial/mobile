@@ -12,8 +12,9 @@ import { screenHeight, screenWidth } from '../../../common/screenDimensions'
 import Check from './../../../assets/icons/check.svg'
 
 import { SelectDaysOfWeekScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
-import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { DaysOfWeek } from '../../../services/Firebase/types'
+
+import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'

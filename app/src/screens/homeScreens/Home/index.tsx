@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
-import { View, Text, BackHandler } from 'react-native';
-import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps';
+import React, { useEffect } from 'react'
+import { View, Text, BackHandler } from 'react-native'
+
+import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function Home({navigation}: HomeTabScreenProps) {
 	useEffect(() => {
@@ -19,9 +20,9 @@ function Home({navigation}: HomeTabScreenProps) {
 	return (
 		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 			<Text>Você está logado!</Text>
-			<Text>Bem vindo a home!!</Text>
+			<Text>Bem vindo!!</Text>
 		</View>
-	);
+	)
 }
 
 export { Home }

@@ -1,10 +1,11 @@
-import { doc, setDoc } from 'firebase/firestore';
-import { firestore } from '../Firebase';
-import { UserCollection } from '../types';
+import { doc, setDoc } from 'firebase/firestore'
+import { firestore } from '..'
+
+import { UserCollection } from '../types'
 
 async function updateUser(docId: string, data: UserCollection) {
 	try {
-		const documentReference = doc(firestore, 'users', docId);
+		const documentReference = doc(firestore, 'users', docId)
 		const finished = await setDoc(
 			documentReference,
 			{ ...data, updated_at: new Date() },
@@ -16,11 +17,11 @@ async function updateUser(docId: string, data: UserCollection) {
 				return err
 			})
 
-		return finished;
+		return finished
 
 	} catch (error) {
 		console.log(error)
 	}
 }
 
-export default updateUser
+export { updateUser }

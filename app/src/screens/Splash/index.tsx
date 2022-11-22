@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Animated } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react'
+import { Animated } from 'react-native'
 
 import {
     Container,
@@ -7,13 +7,15 @@ import {
     BottomLine,
     LogoContainer
 } from './styles'
-import { screenHeight, screenWidth } from '../../common/screenDimensions';
+import { screenHeight, screenWidth } from '../../common/screenDimensions'
 import BuildingsSVG from './../../assets/icons/buildings.svg'
 import LogoSVG from './../../assets/icons/logo.svg'
 
-import { SplashScreenProps } from '../../routes/Stack/AuthRegisterStack/stackScreenProps';
-import { AuthContext } from '../../contexts/AuthContext';
-import { UserData } from '../../contexts/types';
+import { SplashScreenProps } from '../../routes/Stack/AuthRegisterStack/stackScreenProps'
+
+import { UserData } from '../../contexts/types'
+
+import { AuthContext } from '../../contexts/AuthContext'
 
 function Splash({ navigation }: SplashScreenProps) {
     const { getDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
@@ -74,7 +76,7 @@ function Splash({ navigation }: SplashScreenProps) {
             </BuildingsContainer>
             <BottomLine />
         </Container>
-    );
+    )
 }
 
 export { Splash }

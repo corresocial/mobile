@@ -1,4 +1,4 @@
-import 'styled-components';
+import 'styled-components'
 
 // and extend it
 declare module 'styled-components' {

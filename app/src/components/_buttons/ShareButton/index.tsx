@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import { ButtonLabel, ContainerBottom, ContainerSurface, TouchableContainer } from './styles';
-import { theme } from '../../../common/theme';
-import { RFValue } from 'react-native-responsive-fontsize';
+import {
+    ButtonLabel,
+    ContainerBottom,
+    ContainerSurface,
+    TouchableContainer
+} from './styles'
+import { theme } from '../../../common/theme'
 
 interface ShareButtonProps {
     color: string
@@ -18,7 +23,9 @@ function ShareButton({
     fontSize,
     relativeWidth,
     height,
-    onPress }: ShareButtonProps) {
+    onPress
+}: ShareButtonProps) {
+
     const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
 
     function pressingButton() {
@@ -67,7 +74,7 @@ function ShareButton({
                 </ContainerSurface>
             </ContainerBottom>
         </TouchableContainer>
-    );
+    )
 }
 
 export { ShareButton }

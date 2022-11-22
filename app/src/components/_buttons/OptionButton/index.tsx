@@ -1,19 +1,26 @@
-import React, { useRef, useState } from 'react'
-import { SvgProps } from 'react-native-svg';
+import React, { useState } from 'react'
+import { SvgProps } from 'react-native-svg'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import { ButtonLabel, TouchableContainer, ContainerSurface, ContainerBottom, IconArea, LabelDescriptionArea, ButtonDescription } from './styles';
-import { theme } from '../../../common/theme';
-import { screenHeight } from '../../../common/screenDimensions';
-import { RFValue } from 'react-native-responsive-fontsize';
+import {
+    ButtonLabel,
+    TouchableContainer,
+    ContainerSurface,
+    ContainerBottom,
+    IconArea,
+    LabelDescriptionArea,
+    ButtonDescription
+} from './styles'
+import { theme } from '../../../common/theme'
 
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions';
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 interface OptionButtonProps {
     color: string
     label: string
     labelColor?: string
     labelSize?: number
-    labelAlign?: 'auto' | 'left' | 'right' | 'center' | 'justify' | undefined;
+    labelAlign?: 'auto' | 'left' | 'right' | 'center' | 'justify' | undefined
     SvgIcon?: React.FC<SvgProps>
     svgIconScale?: [height: string, width: string]
     leftSideColor?: string
@@ -62,7 +69,7 @@ function OptionButton({
         >
             <ContainerBottom
                 style={{
-                    height: description ? RFValue(137): heightWithoutDescription
+                    height: description ? RFValue(137) : heightWithoutDescription
                 }}
             >
                 <ContainerSurface
@@ -83,7 +90,7 @@ function OptionButton({
                     <LabelDescriptionArea>
                         <ButtonLabel style={{
                             color: labelColor,
-                            textAlign: labelAlign ,
+                            textAlign: labelAlign,
                             fontSize: RFValue(labelSize),
                         }}>
                             {showMessageWithHighlight(label, highlightedWords)}

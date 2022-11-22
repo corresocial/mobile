@@ -1,24 +1,25 @@
 import 'react-native-gesture-handler'
 import React from 'react'
-import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 
-import { VacancyStackParamList } from './types';
-import { VacancyProvider } from '../../../contexts/VacancyContext';
+import { VacancyStackParamList } from './types'
 
-import { InsertVacancyTitle } from '../../../screens/vacancyScreens/InsertVacancyTitle';
-import { InsertVacancyDescription } from '../../../screens/vacancyScreens/InsertVacancyDescription';
-import { InsertVacancyQuestions } from '../../../screens/vacancyScreens/InsertVacancyQuestions';
-import { InsertCompanyDescription } from '../../../screens/vacancyScreens/InsertCompanyDescription';
-import { SelectWorkplace } from '../../../screens/vacancyScreens/SelectWorkplace';
-import { InsertWorkplaceLocation } from '../../../screens/vacancyScreens/InsertWorkplaceLocation';
-import { SelectVacancyCategory } from '../../../screens/vacancyScreens/SelectVacancyCategory';
-import { SelectVacancyTags } from '../../../screens/vacancyScreens/SelectVacancyTags';
-import { SelectVacancyType } from '../../../screens/vacancyScreens/SelectVacancyType';
-import { SelectWorkWeekdays } from '../../../screens/vacancyScreens/SelectWorkWeekdays';
-import { InsertWorkStartDate } from '../../../screens/vacancyScreens/InsertWorkStartDate';
-import { InsertWorkStartHour } from '../../../screens/vacancyScreens/InsertWorkStartHour';
-import { InsertWorkEndDate } from '../../../screens/vacancyScreens/InsertWorkEndDate';
-import { InsertWorkEndHour } from '../../../screens/vacancyScreens/InsertWorkEndHour';
+import { VacancyProvider } from '../../../contexts/VacancyContext'
+
+import { InsertVacancyTitle } from '../../../screens/vacancyScreens/InsertVacancyTitle'
+import { InsertVacancyDescription } from '../../../screens/vacancyScreens/InsertVacancyDescription'
+import { InsertVacancyQuestions } from '../../../screens/vacancyScreens/InsertVacancyQuestions'
+import { InsertCompanyDescription } from '../../../screens/vacancyScreens/InsertCompanyDescription'
+import { SelectWorkplace } from '../../../screens/vacancyScreens/SelectWorkplace'
+import { InsertWorkplaceLocation } from '../../../screens/vacancyScreens/InsertWorkplaceLocation'
+import { SelectVacancyCategory } from '../../../screens/vacancyScreens/SelectVacancyCategory'
+import { SelectVacancyTags } from '../../../screens/vacancyScreens/SelectVacancyTags'
+import { SelectVacancyType } from '../../../screens/vacancyScreens/SelectVacancyType'
+import { SelectWorkWeekdays } from '../../../screens/vacancyScreens/SelectWorkWeekdays'
+import { InsertWorkStartDate } from '../../../screens/vacancyScreens/InsertWorkStartDate'
+import { InsertWorkStartHour } from '../../../screens/vacancyScreens/InsertWorkStartHour'
+import { InsertWorkEndDate } from '../../../screens/vacancyScreens/InsertWorkEndDate'
+import { InsertWorkEndHour } from '../../../screens/vacancyScreens/InsertWorkEndHour'
 
 const Stack = createStackNavigator<VacancyStackParamList>()
 

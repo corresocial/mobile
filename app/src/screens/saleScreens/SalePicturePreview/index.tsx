@@ -1,21 +1,22 @@
 import React, { useContext, useState } from 'react'
 
-import { Container, PicturePreviewContainer } from './styles';
-import { screenWidth } from '../../../common/screenDimensions';
-import { theme } from '../../../common/theme';
+import { Container, PicturePreviewContainer } from './styles'
+import { screenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 import CheckIcon from './../../../assets/icons/check.svg'
 
-import { SalePicturePreviewScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps';
-import { SaleContext } from '../../../contexts/SaleContext';
+import { SalePicturePreviewScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { PhotoPortrait } from '../../../components/PhotoPortrait';
-import { HorizontalListPictures } from '../../../components/HorizontalListPictures';
-import { StatusBar } from 'react-native';
+import { SaleContext } from '../../../contexts/SaleContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { PhotoPortrait } from '../../../components/PhotoPortrait'
+import { HorizontalListPictures } from '../../../components/HorizontalListPictures'
+import { StatusBar } from 'react-native'
 
 function SalePicturePreview({ navigation }: SalePicturePreviewScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
@@ -89,7 +90,7 @@ function SalePicturePreview({ navigation }: SalePicturePreviewScreenProps) {
 				/>
 			</FormContainer>
 		</Container>
-	);
+	)
 }
 
 export { SalePicturePreview }

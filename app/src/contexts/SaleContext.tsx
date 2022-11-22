@@ -1,8 +1,9 @@
-import React, { createContext, useState } from "react";
-import { SaleData } from "./types";
+import React, { createContext, useState } from 'react'
+
+import { SaleData } from './types'
 
 type SaleContextType = {
-    saleDataContext: SaleData | any 
+    saleDataContext: SaleData
     setSaleDataOnContext: (data: SaleData) => void
 }
 

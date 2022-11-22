@@ -1,8 +1,8 @@
-import React from 'react';
-import { Image } from 'react-native';
+import React from 'react'
+import { Image } from 'react-native'
 
-import { RFValue } from 'react-native-responsive-fontsize';
-import { Container, DeleteItemArea } from './styles';
+import { RFValue } from 'react-native-responsive-fontsize'
+import { Container, DeleteItemArea } from './styles'
 import TrashIcon from './../../assets/icons/trash.svg'
 import NoPhoto from './../../assets/imgs/noPhoto.svg'
 
@@ -56,7 +56,7 @@ function PhotoPortrait({
                     : <></>
             }
         </Container>
-    );
+    )
 }
 
 export { PhotoPortrait }

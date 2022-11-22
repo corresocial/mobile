@@ -6,6 +6,7 @@ import { theme } from '../../../common/theme'
 
 import { SelectCultureTypeScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
 import { CultureType } from './../../../services/Firebase/types'
+
 import { CultureContext } from '../../../contexts/CultureContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'

@@ -1,6 +1,6 @@
-import { RFValue } from "react-native-responsive-fontsize";
-import styled from "styled-components/native";
-import { screenHeight, screenWidth } from "../../common/screenDimensions";
+import { RFValue } from 'react-native-responsive-fontsize'
+import styled from 'styled-components/native'
+import { screenHeight, screenWidth } from '../../common/screenDimensions'
 
 export const Container = styled.TouchableHighlight`
     min-height: ${RFValue(52)}px;

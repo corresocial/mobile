@@ -1,22 +1,24 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, Keyboard, StatusBar } from 'react-native';
+import { Animated, Keyboard, StatusBar } from 'react-native'
 
-import { Container, InputsContainer } from './styles';
-import { theme } from '../../../common/theme';
+import { Container, InputsContainer } from './styles'
+import { theme } from '../../../common/theme'
+import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { InsertWorkStartDateScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps';
-import { VacancyContext } from '../../../contexts/VacancyContext';
+import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { LineInput } from '../../../components/LineInput';
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions';
-import { BackButton } from '../../../components/_buttons/BackButton';
-import { ProgressBar } from '../../../components/ProgressBar';
+import { InsertWorkStartDateScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
+
+import { VacancyContext } from '../../../contexts/VacancyContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { LineInput } from '../../../components/LineInput'
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { ProgressBar } from '../../../components/ProgressBar'
 
 function InsertWorkStartDate({ navigation }: InsertWorkStartDateScreenProps) {
 
@@ -43,8 +45,8 @@ function InsertWorkStartDate({ navigation }: InsertWorkStartDateScreenProps) {
             removeAllKeyboardEventListeners()
             Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
             Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-        });
-        return unsubscribe;
+        })
+        return unsubscribe
     }, [navigation])
 
     useEffect(() => {
@@ -90,7 +92,7 @@ function InsertWorkStartDate({ navigation }: InsertWorkStartDateScreenProps) {
     }
 
     const numberOfDaysOfMonth = () => {
-        var data = new Date(parseInt(year), parseInt(month), 0);
+        var data = new Date(parseInt(year), parseInt(month), 0)
         return data.getDate()
     }
 
@@ -251,7 +253,7 @@ function InsertWorkStartDate({ navigation }: InsertWorkStartDateScreenProps) {
                 </>
             </FormContainer>
         </Container>
-    );
+    )
 }
 
 export { InsertWorkStartDate }

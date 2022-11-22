@@ -1,25 +1,27 @@
 import React, { useContext,  useRef, useState } from 'react'
-import { Animated, LayoutRectangle, StatusBar, View } from 'react-native';
+import { Animated, LayoutRectangle, StatusBar, View } from 'react-native'
 import * as Location from 'expo-location'
 
-import { theme } from '../../../common/theme';
-import { screenHeight, screenWidth } from '../../../common/screenDimensions';
-import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from './styles';
+import { theme } from '../../../common/theme'
+import { screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from './styles'
 import Check from './../../../assets/icons/check.svg'
 import MapPointOrange from './../../../assets/icons/mapPoint-orange.svg'
 
-import { InsertServicePrestationLocationScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps';
+import {generateGeohashes} from '../../../common/generateGeohashes'
+
+import { InsertServicePrestationLocationScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { Coordinates } from './../../../services/Firebase/types'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { BackButton } from '../../../components/_buttons/BackButton';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { LineInput } from '../../../components/LineInput';
-import { ProgressBar } from '../../../components/ProgressBar';
-import { CustomMapView } from '../../../components/CustomMapView';
-import { ServiceContext } from '../../../contexts/ServiceContext';
-import generateGeohashes from '../../../common/generateGeohashes';
+import { ServiceContext } from '../../../contexts/ServiceContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { LineInput } from '../../../components/LineInput'
+import { ProgressBar } from '../../../components/ProgressBar'
+import { CustomMapView } from '../../../components/CustomMapView'
 
 const initialRegion = {
     latitude: -13.890303625634541,

@@ -1,12 +1,10 @@
 import styled from 'styled-components/native'
-import {Animated} from 'react-native'
-
-import { theme } from '../../common/theme'
+import { Animated } from 'react-native'
 import { screenHeight } from '../../common/screenDimensions'
 
 export const Container = styled.View`
     flex: 1;
-    background-color: ${({theme}) => theme.orange3 };
+    background-color: ${({ theme }) => theme.orange3};
     align-items: center;
     justify-content: center;
     position: relative;
@@ -25,5 +23,5 @@ export const BottomLine = styled.View`
     bottom: 0;
     height: ${screenHeight * 0.004}px;
     width: 100%;
-    background-color: ${theme.black4};
+    background-color: ${({ theme }) => theme.black4};
 `

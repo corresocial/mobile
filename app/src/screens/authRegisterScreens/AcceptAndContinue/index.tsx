@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, BackHandler, StatusBar } from 'react-native';
+import { Alert, BackHandler, StatusBar } from 'react-native'
 
 import {
     Container,
@@ -8,19 +8,20 @@ import {
     Slogan,
     TermsLabel,
     TermsLabelHighlight
-} from './styles';
-import { theme } from '../../../common/theme';
-import { screenHeight, screenWidth } from '../../../common/screenDimensions';
+} from './styles'
+import { theme } from '../../../common/theme'
+import { screenHeight, screenWidth } from '../../../common/screenDimensions'
 import Logo from './../../../assets/icons/logo.svg'
 
-import { AuthContext } from '../../../contexts/AuthContext';
+import { AcceptAndContinueScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
-import { AcceptAndContinueScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps';
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { TermsOfServiceModal } from '../../../components/_modals/TermsOfServiceModal';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
+import { AuthContext } from '../../../contexts/AuthContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { TermsOfServiceModal } from '../../../components/_modals/TermsOfServiceModal'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { CustomCarousel } from '../../../components/CustomCarousel'
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
 
 const presentationTexts = [
     'rede social, de verdade',
@@ -108,7 +109,7 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
                 />
             </TermsButtonContainer>
         </Container>
-    );
+    )
 }
 
 export { AcceptAndContinue }

@@ -14,9 +14,11 @@ import { theme } from '../../../common/theme'
 import { screenHeight, screenWidth } from '../../../common/screenDimensions'
 import Check from './../../../assets/icons/check.svg'
 
-import { SelectSaleTagsScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
-import { saleCategories, updateSaleTags } from '../saleCategories'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+import { saleCategories, updateSaleTags } from '../saleCategories'
+
+import { SelectSaleTagsScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
+
 import { SaleContext } from '../../../contexts/SaleContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -43,8 +45,8 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
             removeAllKeyboardEventListeners()
             Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
             Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-        });
-        return unsubscribe;
+        })
+        return unsubscribe
     }, [navigation])
 
     const renderSelectedTags = () => {
@@ -89,9 +91,9 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
     }
 
     const sortSaleTags = (a: string, b: string) => {
-        if (a < b) return -1;
-        if (a > b) return 1;
-        return 0;
+        if (a < b) return -1
+        if (a > b) return 1
+        return 0
     }
 
     const onSelectTag = (tagName: string) => {

@@ -1,8 +1,9 @@
 import React, { createContext, useState } from 'react'
+
 import { VacancyData } from './types'
 
 type VacancyContextType = {
-    vacancyDataContext: VacancyData | any 
+    vacancyDataContext: VacancyData 
     setVacancyDataOnContext: (data: VacancyData) => void
 }
 

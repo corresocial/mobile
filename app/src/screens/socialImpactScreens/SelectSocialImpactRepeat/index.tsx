@@ -4,17 +4,19 @@ import { StatusBar } from 'react-native'
 import { Container, ButtonsContainer } from './styles'
 import { theme } from '../../../common/theme'
 
+import { updateDocField } from '../../../services/Firebase/common/updateDocField'
+import { createPost } from '../../../services/Firebase/post/createPost'
+import { updatePostPrivateData } from '../../../services/Firebase/post/updatePostPrivateData'
+import { uploadImage } from '../../../services/Firebase/common/uploadPicture'
+import { getDownloadURL } from 'firebase/storage'
+
 import { SelectSocialImpactRepeatScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
 import { EventRepeatType, PrivateAddress, SocialImpactCollection, PostCollection } from './../../../services/Firebase/types'
-import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
-import updateDocField from '../../../services/Firebase/common/updateDocField'
-import createPost from '../../../services/Firebase/post/createPost'
-import updatePostPrivateData from '../../../services/Firebase/post/updatePostPrivateData'
-import uploadImage from '../../../services/Firebase/common/uploadPicture'
-import { getDownloadURL } from 'firebase/storage'
 import { SocialImpactData, LocalUserData } from '../../../contexts/types'
+
 import { AuthContext } from '../../../contexts/AuthContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
+import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -118,7 +120,7 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
                                                     picturePostsUrls
                                                 )
 
-                                                await updateDocField( // Update pictureUrl
+                                                await updateDocField( 
                                                     'socialImpacts',
                                                     postId,
                                                     'picturesUrl',
@@ -183,7 +185,7 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
                 setLoaderIsVisible(false)
                 navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
             })
-            .catch(err => {
+            .catch((err: any) => {
                 console.log(err)
                 setLoaderIsVisible(false)
                 setHasServerSideError(true)

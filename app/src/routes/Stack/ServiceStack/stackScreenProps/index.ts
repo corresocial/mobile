@@ -1,5 +1,6 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { ServiceStackParamList } from "../types"
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+
+import { ServiceStackParamList } from '../types'
 
 export type InsertProfileDescriptionScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertProfileDescription'>
 export type InsertServiceNameScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertServiceName'>

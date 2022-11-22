@@ -1,8 +1,8 @@
-import styled from "styled-components/native";
+import styled from 'styled-components/native'
 import { Animated } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import { statusBarHeight } from "../../../common/screenDimensions";
-import { RFValue } from "react-native-responsive-fontsize";
+import { statusBarHeight } from '../../../common/screenDimensions'
 
 export const Container = styled(Animated.View)`
     padding-top: ${statusBarHeight}px;

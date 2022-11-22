@@ -1,10 +1,7 @@
-import {
-    doc,
-    updateDoc,
-    setDoc
-} from 'firebase/firestore';
-import { firestore } from '../Firebase';
-import { PostCollection, PostCollectionType, PrivateAddress } from '../types';
+import { doc, updateDoc, setDoc } from 'firebase/firestore'
+import { firestore } from '..'
+
+import { PostCollectionType, PrivateAddress } from '../types'
 
 async function updatePostPrivateData(data: PrivateAddress, postId: string, postCollection: PostCollectionType, privateField: string = '') {
     try {
@@ -21,10 +18,9 @@ async function updatePostPrivateData(data: PrivateAddress, postId: string, postC
                 { ...data },
             )
         }
-
     } catch (err) {
         console.log(err)
     }
 }
 
-export default updatePostPrivateData
+export { updatePostPrivateData }

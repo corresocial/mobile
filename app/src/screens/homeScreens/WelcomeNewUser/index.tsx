@@ -1,17 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, StatusBar } from 'react-native';
+import { Alert, StatusBar } from 'react-native'
 
-import { Container, ContainerButtons } from './styles';
-import { theme } from '../../../common/theme';
+import { Container, ContainerButtons } from './styles'
+import { theme } from '../../../common/theme'
 import ShoppingBag from './../../../assets/icons/shoppingBag.svg'
 import SalesCart from './../../../assets/icons/salesCart.svg'
 
-import { WelcomeNewUserScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps';
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { OptionButton } from '../../../components/_buttons/OptionButton';
-import { AuthContext } from '../../../contexts/AuthContext';
+import { WelcomeNewUserScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+
+import { AuthContext } from '../../../contexts/AuthContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 
@@ -29,7 +31,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 		const userObject = await JSON.parse(userJSON)
 
 		console.log(userObject)
-		if(!userObject.userId) {
+		if (!userObject.userId) {
 			navigation.navigate('InsertPhone' as any)
 		}
 		setUserName(userObject.name || 'amigo')
@@ -40,7 +42,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 	}
 
 	const goToProfile = () => {
-		return navigation.navigate('HomeTab' as any) 
+		return navigation.navigate('HomeTab' as any)
 	}
 
 	return (
@@ -85,7 +87,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 				</FormContainer>
 			</ContainerButtons>
 		</Container>
-	);
+	)
 }
 
 export { WelcomeNewUser }

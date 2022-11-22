@@ -1,11 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Alert, StatusBar } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { TourModal } from '../../../components/_modals/TourModal'
-import { MoreOptionsButton } from '../../../components/_buttons/MoreOptionsButton'
-import { ShareButton } from '../../../components/_buttons/ShareButton'
-import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import {
 	Body,
 	Container,
@@ -15,14 +11,20 @@ import {
 	UserName
 } from './styles'
 import { theme } from '../../../common/theme'
-import { RFValue } from 'react-native-responsive-fontsize'
+
+import {updateUser} from '../../../services/Firebase/user/updateUser'
+
+import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { UserCollection } from '../../../services/Firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
-import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FinishedTourModal } from '../../../components/_modals/FinishedTourModal'
-import updateUser from '../../../services/Firebase/user/updateUser'
-import { UserCollection } from '../../../services/Firebase/types'
+import { TourModal } from '../../../components/_modals/TourModal'
+import { MoreOptionsButton } from '../../../components/_buttons/MoreOptionsButton'
+import { ShareButton } from '../../../components/_buttons/ShareButton'
+import { PhotoPortrait } from '../../../components/PhotoPortrait'
 
 function Profile({ navigation, route }: HomeTabScreenProps) {
 	const { getDataFromSecureStore, setDataOnSecureStore, deleteLocaluser } = useContext(AuthContext)
@@ -35,8 +37,8 @@ function Profile({ navigation, route }: HomeTabScreenProps) {
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
 			checkEndingTour()
-		});
-		return unsubscribe;
+		})
+		return unsubscribe
 	}, [navigation])
 
 
@@ -110,7 +112,7 @@ function Profile({ navigation, route }: HomeTabScreenProps) {
 		Alert.alert('Certo!', 'Dados do local storage apagados, recarregue a aplicação!')
 	}
 
-	const lauchError = () => { //TODO TestsOnly
+	const lauchError = () => { //TODO DevOnly
 		 throw new Error('Testing error boundary')
 	}
 	

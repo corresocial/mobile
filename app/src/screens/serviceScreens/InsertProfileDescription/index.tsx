@@ -1,22 +1,24 @@
-import { Keyboard, StatusBar } from 'react-native';
+import { Keyboard, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-import { ButtonsContainer, Container } from './styles';
-import { screenHeight } from '../../../common/screenDimensions';
-import { theme } from '../../../common/theme';
+import { ButtonsContainer, Container } from './styles'
+import { screenHeight } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 import Check from './../../../assets/icons/check.svg'
 
-import { InsertProfileDescriptionScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps';
-import { ServiceContext } from '../../../contexts/ServiceContext';
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { BackButton } from '../../../components/_buttons/BackButton';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { ProgressBar } from '../../../components/ProgressBar';
-import { LineInput } from '../../../components/LineInput';
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
+import { InsertProfileDescriptionScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
+
+import { ServiceContext } from '../../../contexts/ServiceContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { ProgressBar } from '../../../components/ProgressBar'
+import { LineInput } from '../../../components/LineInput'
 
 function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreenProps) {
 
@@ -35,8 +37,8 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
             removeAllKeyboardEventListeners()
             Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
             Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-        });
-        return unsubscribe;
+        })
+        return unsubscribe
     }, [navigation])
 
     useEffect(() => {
@@ -121,7 +123,7 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
                 </ButtonsContainer>
             </FormContainer>
         </Container>
-    );
+    )
 }
 
 export { InsertProfileDescription }

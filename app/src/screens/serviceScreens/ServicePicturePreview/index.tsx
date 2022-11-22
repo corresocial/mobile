@@ -1,21 +1,22 @@
 import React, { useContext, useState } from 'react'
+import { StatusBar } from 'react-native'
 
-import { Container, PicturePreviewContainer } from './styles';
-import { screenHeight, screenWidth } from '../../../common/screenDimensions';
-import { theme } from '../../../common/theme';
+import { Container, PicturePreviewContainer } from './styles'
+import { screenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 import CheckIcon from './../../../assets/icons/check.svg'
 
-import { ServicePicturePreviewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps';
-import { ServiceContext } from '../../../contexts/ServiceContext';
+import { ServicePicturePreviewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { PhotoPortrait } from '../../../components/PhotoPortrait';
-import { HorizontalListPictures } from '../../../components/HorizontalListPictures';
-import { StatusBar } from 'react-native';
+import { ServiceContext } from '../../../contexts/ServiceContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { PhotoPortrait } from '../../../components/PhotoPortrait'
+import { HorizontalListPictures } from '../../../components/HorizontalListPictures'
 
 function ServicePicturePreview({ navigation }: ServicePicturePreviewScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
@@ -89,7 +90,7 @@ function ServicePicturePreview({ navigation }: ServicePicturePreviewScreenProps)
 				/>
 			</FormContainer>
 		</Container>
-	);
+	)
 }
 
 export { ServicePicturePreview }

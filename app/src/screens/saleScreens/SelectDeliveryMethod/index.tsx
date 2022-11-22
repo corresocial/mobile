@@ -6,6 +6,7 @@ import { theme } from '../../../common/theme'
 
 import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
 import { DeliveryMethod } from './../../../services/Firebase/types'
+
 import { SaleContext } from '../../../contexts/SaleContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'

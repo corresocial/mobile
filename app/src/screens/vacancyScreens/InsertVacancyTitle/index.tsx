@@ -1,23 +1,23 @@
-import { Keyboard, StatusBar } from 'react-native';
+import { Keyboard, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-import { ButtonsContainer, Container } from './styles';
-import { theme } from '../../../common/theme';
-import { screenHeight } from '../../../common/screenDimensions';
+import { ButtonsContainer, Container } from './styles'
+import { theme } from '../../../common/theme'
+import { screenHeight } from '../../../common/screenDimensions'
 import Check from './../../../assets/icons/check.svg'
 
-import { InsertVacancyTitleScreenProps } from '../../../routes/Stack/vacancyStack/stackScreenProps';
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { VacancyContext } from '../../../contexts/VacancyContext';
+import { InsertVacancyTitleScreenProps } from '../../../routes/Stack/vacancyStack/stackScreenProps'
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { BackButton } from '../../../components/_buttons/BackButton';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { LineInput } from '../../../components/LineInput';
-import { ProgressBar } from '../../../components/ProgressBar';
-import { RFValue } from 'react-native-responsive-fontsize';
+import { VacancyContext } from '../../../contexts/VacancyContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { LineInput } from '../../../components/LineInput'
+import { ProgressBar } from '../../../components/ProgressBar'
 
 function InsertVacancyTitle({ navigation }: InsertVacancyTitleScreenProps) {
 
@@ -36,8 +36,8 @@ function InsertVacancyTitle({ navigation }: InsertVacancyTitleScreenProps) {
             removeAllKeyboardEventListeners()
             Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
             Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-        });
-        return unsubscribe;
+        })
+        return unsubscribe
     }, [navigation])
 
     useEffect(() => {
@@ -122,7 +122,7 @@ function InsertVacancyTitle({ navigation }: InsertVacancyTitleScreenProps) {
                 </ButtonsContainer>
             </FormContainer>
         </Container>
-    );
+    )
 }
 
 export { InsertVacancyTitle }

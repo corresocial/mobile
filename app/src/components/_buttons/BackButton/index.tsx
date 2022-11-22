@@ -1,8 +1,7 @@
 import React from 'react'
-
-import { Container } from './styles'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { Container } from './styles'
 import AngleLeft from './../../../assets/icons/angleLeft.svg'
 
 interface BackButtonProps{

@@ -9,8 +9,6 @@ import {
     Picture,
 } from './styles'
 import AddPictureIcon from './../../assets/icons/addPicture.svg'
-import { screenWidth } from '../../common/screenDimensions'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 interface HorizontalListPicturesProps {
     picturesUri: string[]

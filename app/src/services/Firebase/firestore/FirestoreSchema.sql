@@ -19,7 +19,7 @@ usersCollection: {
                 number: 'int',
                  reference: 'string',
                 coordinates: { lat: 'float', lng: 'float' },
-                geohash: 'string', /* Salvar hash point */
+                geohash: 'string',
                 geohashNear: 'array[string]',
                 geohashCity: 'array[string]',
     }
@@ -210,8 +210,8 @@ cultureCollection = {
             geohashCity: 'array[string]',
         }
         owner: {
-        userId: 'string',
-        name: 'string',
-        profilePictureUrl: 'array[string]'
+            userId: 'string',
+            name: 'string',
+            profilePictureUrl: 'array[string]'
 	},
 }

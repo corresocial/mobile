@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react'
 import { Animated } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container } from './styles'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 interface DefaultHeaderContainerProps {
     children: ReactElement | ReactElement[]

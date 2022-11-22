@@ -4,15 +4,17 @@ import { StatusBar } from 'react-native'
 import { Container, ButtonsContainer } from './styles'
 import { theme } from '../../../common/theme'
 
+import { updateDocField } from '../../../services/Firebase/common/updateDocField'
+import { createPost } from '../../../services/Firebase/post/createPost'
+import { updatePostPrivateData } from '../../../services/Firebase/post/updatePostPrivateData'
+import { uploadImage } from '../../../services/Firebase/common/uploadPicture'
+import { getDownloadURL } from 'firebase/storage'
+
 import { SelectEventRepeatScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
 import { EventRepeatType, PrivateAddress, CultureCollection, PostCollection } from './../../../services/Firebase/types'
-import { CultureContext } from '../../../contexts/CultureContext'
-import updateDocField from '../../../services/Firebase/common/updateDocField'
-import createPost from '../../../services/Firebase/post/createPost'
-import updatePostPrivateData from '../../../services/Firebase/post/updatePostPrivateData'
-import uploadImage from '../../../services/Firebase/common/uploadPicture'
-import { getDownloadURL } from 'firebase/storage'
 import { CultureData, LocalUserData } from '../../../contexts/types'
+
+import { CultureContext } from '../../../contexts/CultureContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
 
@@ -171,7 +173,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                     ...localUser,
                     tourPerformed: true,
                     posts: [
-                        ...localUser.posts as PostCollection[],
+                        localUser.posts ? [...localUser.posts] as PostCollection[] : [],
                         {
                             ...cultureDataPost,
                             postId: postId,
@@ -182,6 +184,11 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                 console.log('Naviguei')
                 setLoaderIsVisible(false)
                 navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
+            })
+            .catch((err: any) => {
+                console.log(err)
+                setLoaderIsVisible(false)
+                setHasServerSideError(true)
             })
     }
 
@@ -205,7 +212,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                     highlightedWords={
                         !hasServerSideError
                             ? ['repete?']
-                            : ['ops,','parece', 'que', 'algo', 'deu', 'errado', 'do', 'nosso', 'lado!']
+                            : ['ops,', 'parece', 'que', 'algo', 'deu', 'errado', 'do', 'nosso', 'lado!']
                     }
                 >
                     <ProgressBar

@@ -1,7 +1,9 @@
 import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+
 import { Container, Description, Title } from './styles'
+
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 interface InfoCardProps {
     height: string | number

@@ -1,24 +1,25 @@
 import 'react-native-gesture-handler'
 import React from 'react'
-import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 
-import { SocialImpactStackParamList } from './types';
-import { SocialImpactProvider } from '../../../contexts/SocialImpactContext';
+import { SocialImpactStackParamList } from './types'
 
-import { InsertSocialImpactTitle } from '../../../screens/socialImpactScreens/InsertSocialImpactTitle';
-import { InsertSocialImpactDescription } from '../../../screens/socialImpactScreens/InsertSocialImpactDescription';
-import { InsertSocialImpactPicture } from '../../../screens/socialImpactScreens/InsertSocialImpactPicture';
-import { SocialImpactPicturePreview } from '../../../screens/socialImpactScreens/SocialImpactPicturePreview';
-import { SelectSocialImpactCategory } from '../../../screens/socialImpactScreens/SelectSocialImpactCategory';
-import { SelectSocialImpactTags } from '../../../screens/socialImpactScreens/SelectSocialImpactTags';
-import { SelectSocialImpactExhibitionRange } from '../../../screens/socialImpactScreens/SelectSocialImpactExhibitionRange';
-import { InsertSocialImpactLocation } from '../../../screens/socialImpactScreens/InsertSocialImpactLocation';
-import { SelectSocialImpactLocationView } from '../../../screens/socialImpactScreens/SelectSocialImpactLocationView';
-import { SocialImpactLocationViewPreview } from '../../../screens/socialImpactScreens/SocialImpactLocationViewPreview';
-import { SelectDaysOfWeek } from '../../../screens/socialImpactScreens/SelectDaysOfWeek';
-import { InsertOpeningHour } from '../../../screens/socialImpactScreens/InsertOpeningHour';
-import { InsertClosingHour } from '../../../screens/socialImpactScreens/InsertClosingHour';
-import { SelectSocialImpactRepeat } from '../../../screens/socialImpactScreens/SelectSocialImpactRepeat';
+import { SocialImpactProvider } from '../../../contexts/SocialImpactContext'
+
+import { InsertSocialImpactTitle } from '../../../screens/socialImpactScreens/InsertSocialImpactTitle'
+import { InsertSocialImpactDescription } from '../../../screens/socialImpactScreens/InsertSocialImpactDescription'
+import { InsertSocialImpactPicture } from '../../../screens/socialImpactScreens/InsertSocialImpactPicture'
+import { SocialImpactPicturePreview } from '../../../screens/socialImpactScreens/SocialImpactPicturePreview'
+import { SelectSocialImpactCategory } from '../../../screens/socialImpactScreens/SelectSocialImpactCategory'
+import { SelectSocialImpactTags } from '../../../screens/socialImpactScreens/SelectSocialImpactTags'
+import { SelectSocialImpactExhibitionRange } from '../../../screens/socialImpactScreens/SelectSocialImpactExhibitionRange'
+import { InsertSocialImpactLocation } from '../../../screens/socialImpactScreens/InsertSocialImpactLocation'
+import { SelectSocialImpactLocationView } from '../../../screens/socialImpactScreens/SelectSocialImpactLocationView'
+import { SocialImpactLocationViewPreview } from '../../../screens/socialImpactScreens/SocialImpactLocationViewPreview'
+import { SelectDaysOfWeek } from '../../../screens/socialImpactScreens/SelectDaysOfWeek'
+import { InsertOpeningHour } from '../../../screens/socialImpactScreens/InsertOpeningHour'
+import { InsertClosingHour } from '../../../screens/socialImpactScreens/InsertClosingHour'
+import { SelectSocialImpactRepeat } from '../../../screens/socialImpactScreens/SelectSocialImpactRepeat'
 
 const Stack = createStackNavigator<SocialImpactStackParamList>()
 

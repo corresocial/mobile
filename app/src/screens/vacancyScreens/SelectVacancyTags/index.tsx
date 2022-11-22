@@ -14,9 +14,11 @@ import { theme } from '../../../common/theme'
 import { screenHeight, screenWidth } from '../../../common/screenDimensions'
 import Check from './../../../assets/icons/check.svg'
 
-import { SelectVacancyTagsScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { vacancyCategories, updateVacancyTags } from '../vacancyCategories'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+
+import { SelectVacancyTagsScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
+
 import { VacancyContext } from '../../../contexts/VacancyContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -89,9 +91,9 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
     }
 
     const sortVacancyTags = (a: string, b: string) => {
-        if (a < b) return -1;
-        if (a > b) return 1;
-        return 0;
+        if (a < b) return -1
+        if (a > b) return 1
+        return 0
     }
 
     const onSelectTag = (tagName: string) => {

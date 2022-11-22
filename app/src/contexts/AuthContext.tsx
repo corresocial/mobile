@@ -1,20 +1,18 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import * as SecureStore from 'expo-secure-store';
-import * as LocalAuthentication from 'expo-local-authentication';
+import React, { createContext, useContext, useState } from 'react'
+import * as SecureStore from 'expo-secure-store'
+import * as LocalAuthentication from 'expo-local-authentication'
 
 import {
     PhoneAuthProvider,
     signInWithCredential,
     UserCredential,
-} from 'firebase/auth';
-
-import { auth } from "../services/Firebase/Firebase";
-import { UserData } from './types'
-
-import { getUser } from "../services/Firebase/user/getUser";
-import { UserCollection } from "../services/Firebase/types";
-
+} from 'firebase/auth'
+import { auth } from '../services/Firebase'
+import { getUser } from '../services/Firebase/user/getUser'
 const phoneAuth = new PhoneAuthProvider(auth)
+
+import { UserData } from './types'
+import { UserCollection } from '../services/Firebase/types'
 
 type AuthContextType = {
     userDataContext: UserData
@@ -100,16 +98,16 @@ function AuthProvider({ children }: AuthProviderProps) {
 
     const setRemoteUserOnLocal = async (uid?: string) => {
         if (uid) {
-            const currentUser = await getUser(uid);
+            const currentUser = await getUser(uid)
             await setDataOnSecureStore('corre.user', {
                 ...currentUser,
                 userId: uid
             })
         } else {
-            const localUserJSON = await getDataFromSecureStore('corre.user');
+            const localUserJSON = await getDataFromSecureStore('corre.user')
             if (!!localUserJSON) {
                 const localUser = JSON.parse(localUserJSON)
-                const currentUser = await getUser(localUser.identification.uid);
+                const currentUser = await getUser(localUser.identification.uid)
                 await setDataOnSecureStore('corre.user', {
                     ...localUser,
                     currentUser
@@ -141,9 +139,9 @@ function AuthProvider({ children }: AuthProviderProps) {
         const credential = PhoneAuthProvider.credential(
             verificationCodeId,
             verificationCode,
-        );
-        const userCredential = await signInWithCredential(auth, credential);
-        return userCredential;
+        )
+        const userCredential = await signInWithCredential(auth, credential)
+        return userCredential
     }
 
     const setUserDataOnContext = (data: UserData) => { // TODO BUG This function reload application on every request

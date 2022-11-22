@@ -1,4 +1,4 @@
-import { VacancyCategories, WorkplaceType } from "../../../services/Firebase/types"
+import { VacancyCategories, WorkplaceType } from '../../../services/Firebase/types'
 
 export type VacancyStackParamList = {
     InsertVacancyTitle: undefined

@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Container, IndicatorBarBottom, IndicatorBarSurface, IndicatorLabel } from './styles'
 
 interface ProgressBarProps {

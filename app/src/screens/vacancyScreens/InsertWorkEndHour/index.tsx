@@ -1,20 +1,23 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import {  Animated, Keyboard, StatusBar } from 'react-native'
+import { Animated, Keyboard, StatusBar } from 'react-native'
 
 import { Container, InputsContainer, TwoPoints } from './styles'
 import { theme } from '../../../common/theme'
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
-import createPost from '../../../services/Firebase/post/createPost'
-import updateDocField from '../../../services/Firebase/common/updateDocField'
-import { PostCollection, PrivateAddress} from '../../../services/Firebase/types'
-import { LocalUserData, VacancyData } from '../../../contexts/types'
-import updatePostPrivateData from '../../../services/Firebase/post/updatePostPrivateData'
+
+import { createPost } from '../../../services/Firebase/post/createPost'
+import { updateDocField } from '../../../services/Firebase/common/updateDocField'
+import { updatePostPrivateData } from '../../../services/Firebase/post/updatePostPrivateData'
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+
 import { InsertWorkEndHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
+import { PostCollection, PrivateAddress } from '../../../services/Firebase/types'
+import { LocalUserData, VacancyData } from '../../../contexts/types'
+
 import { AuthContext } from '../../../contexts/AuthContext'
-import { VacancyContext } from '../../../contexts/VacancyContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
+import { VacancyContext } from '../../../contexts/VacancyContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -24,13 +27,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-
-
 function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 
     const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
     const { setVacancyDataOnContext, vacancyDataContext } = useContext(VacancyContext)
-    const {setLoaderIsVisible} = useContext(LoaderContext)
+    const { setLoaderIsVisible } = useContext(LoaderContext)
 
     const [hours, setHours] = useState<string>('')
     const [minutes, setMinutes] = useState<string>('')
@@ -50,8 +51,8 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
             removeAllKeyboardEventListeners()
             Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
             Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-        });
-        return unsubscribe;
+        })
+        return unsubscribe
     }, [navigation])
 
     useEffect(() => {
@@ -143,7 +144,6 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
         } catch (err) {
             console.log(err)
             setLoaderIsVisible(false)
-            setInvalidTimeAfterSubmit(true)
             setHasServerSideError(true)
         }
     }
@@ -171,7 +171,7 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
                     ...localUser,
                     tourPerformed: true,
                     posts: [
-                        ...localUser.posts as PostCollection[],
+                        localUser.posts ? [...localUser.posts] as PostCollection[] : [],
                         {
                             ...vacancyDataPost,
                             postId: postId,
@@ -182,6 +182,11 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
                 console.log('Naviguei')
                 setLoaderIsVisible(false)
                 navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
+            })
+            .catch((err: any) => {
+                console.log(err)
+                setLoaderIsVisible(false)
+                setHasServerSideError(true)
             })
     }
 

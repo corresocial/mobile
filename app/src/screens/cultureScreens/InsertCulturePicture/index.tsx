@@ -8,6 +8,7 @@ import Uncheck from './../../../assets/icons/uncheck.svg'
 import Check from './../../../assets/icons/check.svg'
 
 import { InsertCulturePictureScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
+
 import { CultureContext } from '../../../contexts/CultureContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'

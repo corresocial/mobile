@@ -6,6 +6,7 @@ import { theme } from '../../../common/theme'
 
 import { SelectVacancyTypeScreenProps } from '../../../routes/Stack/vacancyStack/stackScreenProps'
 import { VacancyType } from './../../../services/Firebase/types'
+
 import { VacancyContext } from '../../../contexts/VacancyContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'

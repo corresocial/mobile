@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, Modal, StatusBar } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react'
+import {   Modal, StatusBar } from 'react-native'
+import { Camera, CameraType, FlashMode } from 'expo-camera'
+import { FontAwesome5, Ionicons } from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker'
-import { Camera, CameraType, FlashMode, getCameraPermissionsAsync } from 'expo-camera'
-import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 
 import {
     CameraContainer,
@@ -14,8 +14,8 @@ import {
     NotPermissionContainer,
     NotPermissionText,
     TakePictureButton
-} from './styles';
-import { theme } from '../../../common/theme';
+} from './styles'
+import { theme } from '../../../common/theme'
 
 interface CustomCameraModalProps {
     cameraOpened: boolean
@@ -56,12 +56,12 @@ function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCamer
             allowsEditing: true,
             aspect: [1, 1],
             quality: 1,
-        });
+        })
 
-        console.log(result);
+        console.log(result)
 
         if (!result.cancelled) {
-            setPictureUri(result.uri);
+            setPictureUri(result.uri)
             onClose()
         }
     }

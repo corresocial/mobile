@@ -1,26 +1,25 @@
-import React from 'react';
-import {
-    Modal
-} from 'react-native';
+import React from 'react'
+import { Modal } from 'react-native'
 import * as Linking from 'expo-linking'
 
-import { theme } from '../../../common/theme';
-import { PrimaryButton } from '../../_buttons/PrimaryButton';
-import { Container, LinkButtonsContainer } from './styles';
+import { theme } from '../../../common/theme'
+import { Container, LinkButtonsContainer } from './styles'
 
-interface TermsOfServiceModalProps{
+import { PrimaryButton } from '../../_buttons/PrimaryButton'
+
+interface TermsOfServiceModalProps {
     visibility: boolean
     closeModal: () => void
 }
 
-function TermsOfServiceModal({ visibility, closeModal}: TermsOfServiceModalProps) {
+function TermsOfServiceModal({ visibility, closeModal }: TermsOfServiceModalProps) {
 
     const redirectToUrl = (url: string) => {
-        Linking.openURL(url);
+        Linking.openURL(url)
     }
-    
+
     return (
-        <Modal visible={visibility} transparent animationType="fade">
+        <Modal visible={visibility} transparent animationType='fade'>
             <Container >
                 <LinkButtonsContainer>
                     <PrimaryButton
@@ -58,7 +57,7 @@ function TermsOfServiceModal({ visibility, closeModal}: TermsOfServiceModalProps
                 />
             </Container>
         </Modal>
-    );
+    )
 }
 
 export { TermsOfServiceModal }

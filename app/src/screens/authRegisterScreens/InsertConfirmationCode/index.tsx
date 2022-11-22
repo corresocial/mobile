@@ -1,24 +1,26 @@
-import { Alert, Animated, StatusBar } from 'react-native';
+import { Alert, Animated, StatusBar } from 'react-native'
 import React, { useContext, useRef, useState } from 'react'
-import { UserCredential } from 'firebase/auth';
+import { UserCredential } from 'firebase/auth'
 
-import { Container, InputsContainer } from './styles';
-import { theme } from '../../../common/theme';
+import { Container, InputsContainer } from './styles'
+import { theme } from '../../../common/theme'
 
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
-import { InsertConfirmationCodeScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps';
-import { UserIdentification } from '../../../contexts/types';
-import { AuthContext } from '../../../contexts/AuthContext';
+import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { LineInput } from '../../../components/LineInput';
+import { InsertConfirmationCodeScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
+import { UserIdentification } from '../../../contexts/types'
+
+import { AuthContext } from '../../../contexts/AuthContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { LineInput } from '../../../components/LineInput'
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
 
-	const { userDataContext, setUserDataOnContext, validateVerificationCode, setRemoteUserOnLocal } = useContext(AuthContext)
+	const { validateVerificationCode, setRemoteUserOnLocal } = useContext(AuthContext)
 	
 	const [inputCode01, setInputCode01] = useState<string>('')
 	const [inputCode02, setInputCode02] = useState<string>('')
@@ -101,8 +103,6 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		const completeCodeIsValid = completeCode.length == 6
 
 		if (completeCodeIsValid) {
-			/* const cellNumber = userDataContext.cellNumber
-			const verificationCodeId = userDataContext.verificationCodeId as string */
 			const cellNumber = route.params.cellNumber
 			const verificationCodeId = route.params.verificationCodeId as string 
 
@@ -245,7 +245,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				/>
 			</FormContainer>
 		</Container>
-	);
+	)
 }
 
 export { InsertConfirmationCode }

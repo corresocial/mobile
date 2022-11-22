@@ -1,28 +1,29 @@
 import 'react-native-gesture-handler'
 import React from 'react'
-import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 
-import { CultureStackParamList } from './types';
-import { CultureProvider } from '../../../contexts/CultureContext';
+import { CultureStackParamList } from './types'
 
-import { SelectCultureType } from '../../../screens/cultureScreens/SelectCultureType';
-import { InsertCultureTitle } from '../../../screens/cultureScreens/InsertCultureTitle';
-import { InsertCultureDescription } from '../../../screens/cultureScreens/InsertCultureDescription';
-import { InsertCulturePicture } from '../../../screens/cultureScreens/InsertCulturePicture';
-import { CulturePicturePreview } from '../../../screens/cultureScreens/CulturePicturePreview';
-import { SelectCultureCategory } from '../../../screens/cultureScreens/SelectCultureCategory';
-import { SelectCultureTags } from '../../../screens/cultureScreens/SelectCultureTags';
-import { InsertEntryValue } from '../../../screens/cultureScreens/InsertEntryValue';
-import { SelectExhibitionPlace } from '../../../screens/cultureScreens/SelectExhibitionPlace';
-import { SelectEventPlaceModality } from '../../../screens/cultureScreens/SelectEventPlaceModality';
-import { InsertCultureLocation } from '../../../screens/cultureScreens/InsertCultureLocation';
-import { SelectCultureLocationView } from '../../../screens/cultureScreens/SelectCultureLocationView';
-import { CultureLocationViewPreview } from '../../../screens/cultureScreens/CultureLocationViewPreview';
-import { InsertEventStartDate } from '../../../screens/cultureScreens/InsertEventStartDate';
-import { InsertEventStartHour } from '../../../screens/cultureScreens/InsertEventStartHour';
-import { InsertEventEndDate } from '../../../screens/cultureScreens/InsertEventEndDate';
-import { InsertEventEndHour } from '../../../screens/cultureScreens/InsertEventEndHour';
-import { SelectEventRepeat } from '../../../screens/cultureScreens/SelectEventRepeat';
+import { CultureProvider } from '../../../contexts/CultureContext'
+
+import { SelectCultureType } from '../../../screens/cultureScreens/SelectCultureType'
+import { InsertCultureTitle } from '../../../screens/cultureScreens/InsertCultureTitle'
+import { InsertCultureDescription } from '../../../screens/cultureScreens/InsertCultureDescription'
+import { InsertCulturePicture } from '../../../screens/cultureScreens/InsertCulturePicture'
+import { CulturePicturePreview } from '../../../screens/cultureScreens/CulturePicturePreview'
+import { SelectCultureCategory } from '../../../screens/cultureScreens/SelectCultureCategory'
+import { SelectCultureTags } from '../../../screens/cultureScreens/SelectCultureTags'
+import { InsertEntryValue } from '../../../screens/cultureScreens/InsertEntryValue'
+import { SelectExhibitionPlace } from '../../../screens/cultureScreens/SelectExhibitionPlace'
+import { SelectEventPlaceModality } from '../../../screens/cultureScreens/SelectEventPlaceModality'
+import { InsertCultureLocation } from '../../../screens/cultureScreens/InsertCultureLocation'
+import { SelectCultureLocationView } from '../../../screens/cultureScreens/SelectCultureLocationView'
+import { CultureLocationViewPreview } from '../../../screens/cultureScreens/CultureLocationViewPreview'
+import { InsertEventStartDate } from '../../../screens/cultureScreens/InsertEventStartDate'
+import { InsertEventStartHour } from '../../../screens/cultureScreens/InsertEventStartHour'
+import { InsertEventEndDate } from '../../../screens/cultureScreens/InsertEventEndDate'
+import { InsertEventEndHour } from '../../../screens/cultureScreens/InsertEventEndHour'
+import { SelectEventRepeat } from '../../../screens/cultureScreens/SelectEventRepeat'
 
 const Stack = createStackNavigator<CultureStackParamList>()
 

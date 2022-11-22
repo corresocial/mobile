@@ -1,11 +1,24 @@
-import { CultureType, DaysOfWeek, DeliveryMethod, EventRepeatType, ExhibitionPlaceType, LocationViewType, PaymentType, PlaceModalityType, UserCollection, VacancyType, WeekdaysFrequency, WorkplaceType } from "../services/Firebase/types";
+import {
+    CultureType,
+    DaysOfWeek,
+    DeliveryMethod,
+    EventRepeatType,
+    ExhibitionPlaceType,
+    LocationViewType,
+    PaymentType,
+    PlaceModalityType,
+    UserCollection,
+    VacancyType,
+    WeekdaysFrequency,
+    WorkplaceType
+} from "../services/Firebase/types"
 
 export type UserIdentification = {
-    uid: string;
-    authTime: string;
-    accessToken: string;
-    tokenExpirationTime: string;
-    refreshToken: string;
+    uid: string
+    authTime: string
+    accessToken: string
+    tokenExpirationTime: string
+    refreshToken: string
 }
 
 export type RegisterUserData = {
@@ -107,7 +120,7 @@ export type VacancyData = {
     questions?: string[]
     workWeekdays?: DaysOfWeek[]
     workStartDate?: Date
-    workEndDate?: Date 
+    workEndDate?: Date
     workStartHour?: Date
     workEndHour?: Date
     tags?: string[]
@@ -140,7 +153,7 @@ export type CultureData = {
     eventRepeat?: EventRepeatType
     entryValue?: string
     eventStartDate?: Date
-    eventEndDate?: Date 
+    eventEndDate?: Date
     eventStartHour?: Date
     eventEndHour?: Date
     picturesUrl?: string[]
@@ -171,7 +184,7 @@ export type SocialImpactData = {
     locationView?: LocationViewType
     exhibitionRange?: ExhibitionPlaceType
     exhibitionWeekDays?: DaysOfWeek[]
-    socialImpactRepeat?: EventRepeatType 
+    socialImpactRepeat?: EventRepeatType
     openingHour?: Date
     closingHour?: Date
     picturesUrl?: string[]

@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Container, Message } from './styles';
-import { RFValue } from 'react-native-responsive-fontsize';
+import { Container, Message } from './styles'
 
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions';
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 interface InstructionCardProps {
     message: string
@@ -38,8 +38,8 @@ function InstructionCard({
                     fontSize: fontSize ? RFValue(fontSize) : RFValue(20),
                     lineHeight: lineHeight ? RFValue(lineHeight) : RFValue(22),
                 }}
-            >{
-                    showMessageWithHighlight(message, highlightedWords, fontSizeHighlighted)}
+            >
+                {showMessageWithHighlight(message, highlightedWords, fontSizeHighlighted)}
             </Message>
             {children}
         </Container>

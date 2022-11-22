@@ -1,21 +1,22 @@
 import React, { useContext, useState } from 'react'
+import { StatusBar } from 'react-native'
 
-import { Container, PicturePreviewContainer } from './styles';
-import { screenWidth } from '../../../common/screenDimensions';
-import { theme } from '../../../common/theme';
+import { Container, PicturePreviewContainer } from './styles'
+import { screenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 import CheckIcon from './../../../assets/icons/check.svg'
 
-import { SocialImpactPicturePreviewScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps';
-import { SocialImpactContext } from '../../../contexts/SocialImpactContext';
+import { SocialImpactPicturePreviewScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { PhotoPortrait } from '../../../components/PhotoPortrait';
-import { HorizontalListPictures } from '../../../components/HorizontalListPictures';
-import { StatusBar } from 'react-native';
+import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { PhotoPortrait } from '../../../components/PhotoPortrait'
+import { HorizontalListPictures } from '../../../components/HorizontalListPictures'
 
 function SocialImpactPicturePreview({ navigation }: SocialImpactPicturePreviewScreenProps) {
     const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
@@ -89,7 +90,7 @@ function SocialImpactPicturePreview({ navigation }: SocialImpactPicturePreviewSc
                 />
             </FormContainer>
         </Container>
-    );
+    )
 }
 
 export { SocialImpactPicturePreview }

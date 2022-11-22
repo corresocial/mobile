@@ -1,22 +1,24 @@
-import { Keyboard, StatusBar } from 'react-native';
+import { Keyboard, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-import { ButtonsContainer, Container } from './styles';
-import { theme } from '../../../common/theme';
-import { screenHeight } from '../../../common/screenDimensions';
+import { ButtonsContainer, Container } from './styles'
+import { theme } from '../../../common/theme'
+import { screenHeight } from '../../../common/screenDimensions'
 import Check from './../../../assets/icons/check.svg'
 
-import { InsertSocialImpactTitleScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps';
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { SocialImpactContext } from '../../../contexts/SocialImpactContext';
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { BackButton } from '../../../components/_buttons/BackButton';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { LineInput } from '../../../components/LineInput';
-import { ProgressBar } from '../../../components/ProgressBar';
+import { InsertSocialImpactTitleScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
+
+import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { LineInput } from '../../../components/LineInput'
+import { ProgressBar } from '../../../components/ProgressBar'
 
 function InsertSocialImpactTitle({ navigation }: InsertSocialImpactTitleScreenProps) {
 
@@ -35,8 +37,8 @@ function InsertSocialImpactTitle({ navigation }: InsertSocialImpactTitleScreenPr
             removeAllKeyboardEventListeners()
             Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
             Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-        });
-        return unsubscribe;
+        })
+        return unsubscribe
     }, [navigation])
 
     useEffect(() => {
@@ -121,7 +123,7 @@ function InsertSocialImpactTitle({ navigation }: InsertSocialImpactTitleScreenPr
                 </ButtonsContainer>
             </FormContainer>
         </Container>
-    );
+    )
 }
 
 export { InsertSocialImpactTitle }

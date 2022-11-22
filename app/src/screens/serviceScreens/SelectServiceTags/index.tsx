@@ -11,12 +11,14 @@ import {
     TagsUnselectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight, screenWidth, statusBarHeight } from '../../../common/screenDimensions'
+import { screenHeight, screenWidth } from '../../../common/screenDimensions'
 import Check from './../../../assets/icons/check.svg'
 
-import { SelectServiceTagsScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { serviceCategories, updateServiceTags } from '../serviceCategories'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+
+import { SelectServiceTagsScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
+
 import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -43,8 +45,8 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
             removeAllKeyboardEventListeners()
             Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
             Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-        });
-        return unsubscribe;
+        })
+        return unsubscribe
     }, [navigation])
 
     const renderSelectedTags = () => {
@@ -89,9 +91,9 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
     }
 
     const sortServiceTags = (a: string, b: string) => {
-        if (a < b) return -1;
-        if (a > b) return 1;
-        return 0;
+        if (a < b) return -1
+        if (a > b) return 1
+        return 0
     }
 
     const onSelectTag = (tagName: string) => {

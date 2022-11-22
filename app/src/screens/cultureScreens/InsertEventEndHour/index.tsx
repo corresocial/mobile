@@ -4,9 +4,13 @@ import { Animated, Keyboard, StatusBar } from 'react-native'
 import { Container, InputsContainer, TwoPoints } from './styles'
 import { theme } from '../../../common/theme'
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
-import { AuthContext } from '../../../contexts/AuthContext'
+
+import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+
+import { InsertEventEndHourScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
+
 import { CultureContext } from '../../../contexts/CultureContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -15,9 +19,6 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { InsertEventEndHourScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 
 function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
@@ -42,8 +43,8 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
             removeAllKeyboardEventListeners()
             Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
             Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-        });
-        return unsubscribe;
+        })
+        return unsubscribe
     }, [navigation])
 
     useEffect(() => {

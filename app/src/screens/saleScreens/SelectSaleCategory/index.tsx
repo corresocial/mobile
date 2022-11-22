@@ -3,10 +3,12 @@ import { ScrollView, StatusBar } from 'react-native'
 
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
+import { screenHeight } from '../../../common/screenDimensions'
+
+import { saleCategories } from '../saleCategories'
 
 import { SelectSaleCategoryScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 import { SaleCategories, MacroCategory } from './../../../services/Firebase/types'
-import { saleCategories } from '../saleCategories'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -14,7 +16,6 @@ import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
-import { screenHeight } from '../../../common/screenDimensions'
 
 function SelectSaleCategory({ navigation }: SelectSaleCategoryScreenProps) {
 
@@ -37,8 +38,8 @@ function SelectSaleCategory({ navigation }: SelectSaleCategoryScreenProps) {
     }
 
     const sortSaleCategories = (a: MacroCategory, b: MacroCategory) => {
-        if (a.label < b.label) return -1;
-        if (a.label > b.label) return 1;
+        if (a.label < b.label) return -1
+        if (a.label > b.label) return 1
         return 0
     }
 

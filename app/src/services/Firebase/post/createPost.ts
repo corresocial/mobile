@@ -1,12 +1,11 @@
-import {
-    addDoc,
-    collection,
-} from 'firebase/firestore';
-import { LocalUserData } from '../../../contexts/types';
-import { firestore } from '../Firebase';
-import { PostCollectionType, PostCollection, PostType } from '../types';
+import { addDoc, collection } from 'firebase/firestore'
+import { firestore } from '..'
 
-export default async function createPost(post: PostCollection, user: LocalUserData, postCollection: PostCollectionType, postType: PostType) {
+import { PostCollectionType, PostCollection, PostType } from '../types'
+
+import { LocalUserData } from '../../../contexts/types'
+
+async function createPost(post: PostCollection, user: LocalUserData, postCollection: PostCollectionType, postType: PostType) {
     try {
         const docRef = await addDoc(collection(firestore, postCollection), {
             ...post,
@@ -17,9 +16,11 @@ export default async function createPost(post: PostCollection, user: LocalUserDa
                 name: user.name,
                 profilePictureUrl: user.profilePictureUrl ? user.profilePictureUrl : [],
             },
-        });
-        return docRef.id;
+        })
+        return docRef.id
     } catch (err) {
-        console.log(err);
+        console.log(err)
     }
 }
+
+export { createPost }

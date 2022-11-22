@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, StatusBar } from 'react-native';
+import { Animated, StatusBar } from 'react-native'
 
-import { theme } from '../../../common/theme';
-import { ButtonContainerBottom, Container, MapContainer } from './styles';
+import { theme } from '../../../common/theme'
+import { ButtonContainerBottom, Container, MapContainer } from './styles'
 import Uncheck from './../../../assets/icons/uncheck.svg'
 import Check from './../../../assets/icons/check.svg'
 import MapPointOrange from './../../../assets/icons/mapPoint-orange.svg'
@@ -10,23 +10,24 @@ import Eye from './../../../assets/icons/eye.svg'
 import EyeHalfTraced from './../../../assets/icons/eyeHalfTraced.svg'
 import EyeTraced from './../../../assets/icons/eyeTraced.svg'
 
-import { CultureLocationViewPreviewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps';
+import {createPost} from '../../../services/Firebase/post/createPost'
+import {updateDocField} from '../../../services/Firebase/common/updateDocField'
+import {updatePostPrivateData} from '../../../services/Firebase/post/updatePostPrivateData'
+import { getDownloadURL } from 'firebase/storage'
+import {uploadImage} from '../../../services/Firebase/common/uploadPicture'
+
+import { CultureLocationViewPreviewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { CultureCollection, LocationViewType, PostCollection, PrivateAddress } from './../../../services/Firebase/types'
-import createPost from '../../../services/Firebase/post/createPost'
-import updateDocField from '../../../services/Firebase/common/updateDocField'
-import { LoaderContext } from '../../../contexts/LoaderContext';
-import { CultureContext } from '../../../contexts/CultureContext';
-import { AuthContext } from '../../../contexts/AuthContext';
+import { CultureData, LocalUserData } from '../../../contexts/types'
 
-import updatePostPrivateData from '../../../services/Firebase/post/updatePostPrivateData';
-import { CultureData, LocalUserData } from '../../../contexts/types';
-import { getDownloadURL } from 'firebase/storage';
-import uploadImage from '../../../services/Firebase/common/uploadPicture';
+import { LoaderContext } from '../../../contexts/LoaderContext'
+import { CultureContext } from '../../../contexts/CultureContext'
+import { AuthContext } from '../../../contexts/AuthContext'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { CustomMapView } from '../../../components/CustomMapView';
-import { InfoCard } from '../../../components/_cards/InfoCard';
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { CustomMapView } from '../../../components/CustomMapView'
+import { InfoCard } from '../../../components/_cards/InfoCard'
 
 const defaultDeltaCoordinates = {
     latitudeDelta: 0.004,
@@ -215,11 +216,10 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
                       },
                   )
               })
-            throw 'err'
         } catch (err) {
             console.log(err)
-            setHasServerSideError(true)
             setLoaderIsVisible(false)
+            setHasServerSideError(true)
         }
     }
 
@@ -249,7 +249,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
                     ...localUser,
                     tourPerformed: true,
                     posts: [
-                        ...localUser.posts as PostCollection[], 
+                        localUser.posts ? [...localUser.posts] as PostCollection[] : [], 
                         {
                             ...cultureDataPost,
                             postId: postId,
@@ -260,6 +260,11 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
                 console.log('Naviguei')
                 setLoaderIsVisible(false)
                  navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
+            })
+            .catch((err: any) => {
+                console.log(err)
+                setLoaderIsVisible(false)
+                setHasServerSideError(true)
             })
     }
 

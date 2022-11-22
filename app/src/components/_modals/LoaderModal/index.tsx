@@ -6,6 +6,7 @@ import { AnimationContainer, Container } from './styles'
 
 import buildingColorPassingDark from './../../../assets/animations/buildingColorPassingLight.json'
 
+
 interface LoaderModalProps {
 	visible: boolean
 	closeModal: () => void

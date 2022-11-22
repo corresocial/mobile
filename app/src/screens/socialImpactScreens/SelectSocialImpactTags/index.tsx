@@ -14,9 +14,11 @@ import { theme } from '../../../common/theme'
 import { screenHeight, screenWidth } from '../../../common/screenDimensions'
 import Check from './../../../assets/icons/check.svg'
 
-import { SelectSocialImpactTagsScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
 import { socialImpactCategories, updateSocialImpactTags } from '../socialImpactCategories'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+
+import { SelectSocialImpactTagsScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
+
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -43,8 +45,8 @@ function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScr
             removeAllKeyboardEventListeners()
             Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
             Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-        });
-        return unsubscribe;
+        })
+        return unsubscribe
     }, [navigation])
 
     const renderSelectedTags = () => {
@@ -89,9 +91,9 @@ function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScr
     }
 
     const sortSocialImpactTags = (a: string, b: string) => {
-        if (a < b) return -1;
-        if (a > b) return 1;
-        return 0;
+        if (a < b) return -1
+        if (a > b) return 1
+        return 0
     }
 
     const onSelectTag = (tagName: string) => {

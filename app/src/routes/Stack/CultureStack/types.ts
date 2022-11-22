@@ -1,4 +1,4 @@
-import { CultureCategories, LocationViewType } from "../../../services/Firebase/types"
+import { CultureCategories, LocationViewType } from '../../../services/Firebase/types'
 
 export type CultureStackParamList = {
     SelectCultureType: undefined

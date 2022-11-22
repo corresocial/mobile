@@ -1,18 +1,20 @@
-import { Animated, Keyboard, StatusBar } from 'react-native';
+import { Animated, Keyboard, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-import { Container, InputsContainer } from './styles';
-import { theme } from '../../../common/theme';
+import { Container, InputsContainer } from './styles'
+import { theme } from '../../../common/theme'
 
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
-import { InsertNameScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps';
-import { AuthContext } from '../../../contexts/AuthContext';
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { LineInput } from '../../../components/LineInput';
+import { InsertNameScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
+
+import { AuthContext } from '../../../contexts/AuthContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { LineInput } from '../../../components/LineInput'
 
 function InsertName({ navigation, route }: InsertNameScreenProps) {
 
@@ -32,8 +34,8 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 			removeAllKeyboardEventListeners()
 			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
 			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		});
-		return unsubscribe;
+		})
+		return unsubscribe
 	}, [navigation])
 
 	useEffect(() => {
@@ -79,8 +81,6 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 
 	const sendUserDataToNextScreen = async () => {
 		const nameIsValid = validateName(name)
-		// const cellNumber = route.params.cellNumber
-
 		if (nameIsValid) {
 			const userData = getRouteParams()
 			const profilePictureUrl = await getUserProfilePicture()
@@ -169,22 +169,23 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 						onChangeText={(text: string) => setName(text)}
 					/>
 				</InputsContainer>
-				{nameIsValid && !keyboardOpened
-					? <PrimaryButton
-						color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
-						iconName={'arrow-right'}
-						iconColor={theme.white3}
-						label='continuar'
-						labelColor={theme.white3}
-						highlightedWords={['continuar']}
-						startsHidden={false}
-						onPress={sendUserDataToNextScreen}
-					/>
-					: <></>
+				{
+					nameIsValid && !keyboardOpened
+						? <PrimaryButton
+							color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
+							iconName={'arrow-right'}
+							iconColor={theme.white3}
+							label='continuar'
+							labelColor={theme.white3}
+							highlightedWords={['continuar']}
+							startsHidden={false}
+							onPress={sendUserDataToNextScreen}
+						/>
+						: <></>
 				}
 			</FormContainer>
 		</Container>
-	);
+	)
 }
 
 export { InsertName }

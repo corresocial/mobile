@@ -6,6 +6,7 @@ import { theme } from '../../../common/theme'
 
 import { SelectSocialImpactExhibitionRangeScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
 import {  ExhibitionPlaceType } from './../../../services/Firebase/types'
+
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'

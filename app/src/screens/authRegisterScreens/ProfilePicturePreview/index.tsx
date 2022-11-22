@@ -1,25 +1,27 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, StatusBar } from 'react-native';
-import { getDownloadURL } from 'firebase/storage';
+import { Animated, StatusBar } from 'react-native'
+import { getDownloadURL } from 'firebase/storage'
 
-import { Container, InstructionCardContainer } from './styles';
-import { theme } from '../../../common/theme';
+import { Container, InstructionCardContainer } from './styles'
+import { screenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 
-import updateUser from '../../../services/Firebase/user/updateUser';
-import uploadImage from '../../../services/Firebase/common/uploadPicture';
-import { ProfilePicturePreviewScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps';
-import { LocalUserData } from '../../../contexts/types';
-import updateUserPrivateData from '../../../services/Firebase/user/updateUserPrivateData';
-import { AuthContext } from '../../../contexts/AuthContext';
-import { LoaderContext } from '../../../contexts/LoaderContext';
+import {updateUser} from '../../../services/Firebase/user/updateUser'
+import {uploadImage} from '../../../services/Firebase/common/uploadPicture'
+import {updateUserPrivateData} from '../../../services/Firebase/user/updateUserPrivateData'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { PhotoPortrait } from '../../../components/PhotoPortrait';
-import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal';
-import { screenWidth } from '../../../common/screenDimensions';
+import { ProfilePicturePreviewScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
+
+import { LocalUserData } from '../../../contexts/types'
+import { AuthContext } from '../../../contexts/AuthContext'
+import { LoaderContext } from '../../../contexts/LoaderContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { PhotoPortrait } from '../../../components/PhotoPortrait'
+import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal'
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
 
@@ -121,7 +123,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 								})
 								.catch(err => throwServerSideError(err))
 						},
-					);
+					)
 				},
 			)
 			.catch(err => {
@@ -202,7 +204,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 				/>
 			</FormContainer>
 		</Container>
-	);
+	)
 }
 
 export { ProfilePicturePreview }

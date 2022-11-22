@@ -1,28 +1,29 @@
 import 'react-native-gesture-handler'
 import React from 'react'
-import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 
-import { SaleStackParamList } from './types';
-import { SaleProvider } from '../../../contexts/SaleContext';
+import { SaleStackParamList } from './types'
 
-import { SelectSaleCategory } from '../../../screens/saleScreens/SelectSaleCategory';
-import { SelectSaleTags } from '../../../screens/saleScreens/SelectSaleTags';
-import { InsertSaleTitle } from '../../../screens/saleScreens/InsertSaleTitle';
-import { InsertItemName } from '../../../screens/saleScreens/InsertItemName';
-import { InsertItemDescription } from '../../../screens/saleScreens/InsertItemDescription';
-import { InsertSalePicture } from '../../../screens/saleScreens/InsertSalePicture';
-import { SalePicturePreview } from '../../../screens/saleScreens/SalePicturePreview';
-import { SelectPaymentType } from '../../../screens/saleScreens/SelectPaymentType';
-import { InsertSaleValue } from '../../../screens/saleScreens/InsertSaleValue';
-import { InsertExchangeValue } from '../../../screens/saleScreens/InsertExchangeValue';
-import { InsertSaleLocation } from '../../../screens/saleScreens/InsertSaleLocation';
-import { SelectLocationView } from '../../../screens/saleScreens/SelectLocationView';
-import { LocationViewPreview } from '../../../screens/saleScreens/LocationViewPreview';
-import { SelectDeliveryMethod } from '../../../screens/saleScreens/SelectDeliveryMethod';
-import { SelectSaleFrequency } from '../../../screens/saleScreens/SelectSaleFrequency';
-import { SelectDaysOfWeek } from '../../../screens/saleScreens/SelectDaysOfWeek';
-import { InsertOpeningHour } from '../../../screens/saleScreens/InsertOpeningHour';
-import { InsertClosingHour } from '../../../screens/saleScreens/InsertClosingHour';
+import { SaleProvider } from '../../../contexts/SaleContext'
+
+import { SelectSaleCategory } from '../../../screens/saleScreens/SelectSaleCategory'
+import { SelectSaleTags } from '../../../screens/saleScreens/SelectSaleTags'
+import { InsertSaleTitle } from '../../../screens/saleScreens/InsertSaleTitle'
+import { InsertItemName } from '../../../screens/saleScreens/InsertItemName'
+import { InsertItemDescription } from '../../../screens/saleScreens/InsertItemDescription'
+import { InsertSalePicture } from '../../../screens/saleScreens/InsertSalePicture'
+import { SalePicturePreview } from '../../../screens/saleScreens/SalePicturePreview'
+import { SelectPaymentType } from '../../../screens/saleScreens/SelectPaymentType'
+import { InsertSaleValue } from '../../../screens/saleScreens/InsertSaleValue'
+import { InsertExchangeValue } from '../../../screens/saleScreens/InsertExchangeValue'
+import { InsertSaleLocation } from '../../../screens/saleScreens/InsertSaleLocation'
+import { SelectLocationView } from '../../../screens/saleScreens/SelectLocationView'
+import { LocationViewPreview } from '../../../screens/saleScreens/LocationViewPreview'
+import { SelectDeliveryMethod } from '../../../screens/saleScreens/SelectDeliveryMethod'
+import { SelectSaleFrequency } from '../../../screens/saleScreens/SelectSaleFrequency'
+import { SelectDaysOfWeek } from '../../../screens/saleScreens/SelectDaysOfWeek'
+import { InsertOpeningHour } from '../../../screens/saleScreens/InsertOpeningHour'
+import { InsertClosingHour } from '../../../screens/saleScreens/InsertClosingHour'
 
 
 const Stack = createStackNavigator<SaleStackParamList>()

@@ -1,22 +1,24 @@
-import { Keyboard, StatusBar } from 'react-native';
+import { Keyboard, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-import { ButtonsContainer, Container } from './styles';
-import { screenHeight } from '../../../common/screenDimensions';
-import { theme } from '../../../common/theme';
+import { ButtonsContainer, Container } from './styles'
+import { screenHeight } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 import Check from './../../../assets/icons/check.svg'
 
-import { InsertCultureDescriptionScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps';
-import { CultureContext } from '../../../contexts/CultureContext';
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { BackButton } from '../../../components/_buttons/BackButton';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { ProgressBar } from '../../../components/ProgressBar';
-import { LineInput } from '../../../components/LineInput';
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
+import { InsertCultureDescriptionScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
+
+import { CultureContext } from '../../../contexts/CultureContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { ProgressBar } from '../../../components/ProgressBar'
+import { LineInput } from '../../../components/LineInput'
 
 function InsertCultureDescription({ navigation }: InsertCultureDescriptionScreenProps) {
 
@@ -35,8 +37,8 @@ function InsertCultureDescription({ navigation }: InsertCultureDescriptionScreen
             removeAllKeyboardEventListeners()
             Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
             Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-        });
-        return unsubscribe;
+        })
+        return unsubscribe
     }, [navigation])
 
     useEffect(() => {
@@ -117,29 +119,6 @@ function InsertCultureDescription({ navigation }: InsertCultureDescriptionScreen
                     validateText={(text: string) => validateCultureDescription(text)}
                     onChangeText={(text: string) => setCultureDescription(text)}
                 />
-              {/*   <LineInput
-                    value={cultureDescription}
-                    relativeWidth={'100%'}
-                    initialNumberOfLines={2}
-                    textInputRef={inputRefs.cultureDescriptionInput}
-                    defaultBackgroundColor={theme.white2}
-                    defaultBorderBottomColor={theme.black4}
-                    validBackgroundColor={theme.blue1}
-                    validBorderBottomColor={theme.blue5}
-                    multiline
-                    lastInput={true}
-                    textAlign={'left'}
-                    fontSize={16}
-                    placeholder={
-                        cultureDataContext.cultureType === 'artistProfile'
-                            ? 'ex: o que você faz, qual o seu estilo, há quanto tempo você faz, se faz sozinho ou em grupo, etc.'
-                            : 'ex: vai ter muita gente, qual o objetivo desse role, se precisa levar algo'
-                    }
-                    keyboardType={'default'}
-                    textIsValid={cultureDescriptionIsValid && !keyboardOpened}
-                    validateText={(text: string) => validateCultureDescription(text)}
-                    onChangeText={(text: string) => setCultureDescription(text)}
-                /> */}
                 <ButtonsContainer>
                     {
                         cultureDescriptionIsValid && !keyboardOpened &&
@@ -156,7 +135,7 @@ function InsertCultureDescription({ navigation }: InsertCultureDescriptionScreen
                 </ButtonsContainer>
             </FormContainer>
         </Container>
-    );
+    )
 }
 
 export { InsertCultureDescription }

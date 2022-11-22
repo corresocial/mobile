@@ -1,4 +1,4 @@
-import { DefaultTheme } from "styled-components";
+import { DefaultTheme } from 'styled-components'
 
 export const theme: DefaultTheme = {  // NOTE: Instale a extenção Color Highlight pra facilitar sua vida
     white1: '#D0CECE',

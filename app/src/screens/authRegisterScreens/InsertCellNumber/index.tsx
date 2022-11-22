@@ -1,21 +1,23 @@
-import { Animated, StatusBar } from 'react-native';
+import { Animated, StatusBar } from 'react-native'
 import React, { useContext, useRef, useState } from 'react'
 
-import { Container, InputsContainer } from './styles';
-import { theme } from '../../../common/theme';
+import { Container, InputsContainer } from './styles'
+import { theme } from '../../../common/theme'
 
-import Firebase from '../../../services/Firebase/Firebase';
-const firebaseConfig = Firebase ? Firebase.options : undefined;
-import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
-import { AuthContext, useAuth } from '../../../contexts/AuthContext';
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions';
-import { InsertCellNumberScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps';
+import Firebase from '../../../services/Firebase'
+const firebaseConfig = Firebase ? Firebase.options : undefined
+import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
+import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { LineInput } from '../../../components/LineInput';
+import { InsertCellNumberScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
+
+import { AuthContext } from '../../../contexts/AuthContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { LineInput } from '../../../components/LineInput'
 
 const headerMessages = {
 	instruction: {
@@ -34,9 +36,9 @@ const headerMessages = {
 
 export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 
-	const { sendSMS, setUserDataOnContext } = useContext(AuthContext);
+	const { sendSMS } = useContext(AuthContext)
 
-	const recaptchaVerifier = React.useRef(null);
+	const recaptchaVerifier = React.useRef(null)
 
 	const [DDD, setDDD] = useState<string>('')
 	const [cellNumber, setCellNumber] = useState<string>('')
@@ -200,5 +202,5 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 				/>
 			</FormContainer>
 		</Container>
-	);
+	)
 }

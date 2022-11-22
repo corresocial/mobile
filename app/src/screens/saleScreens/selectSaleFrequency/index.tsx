@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
@@ -9,6 +10,7 @@ import CalendarBusinessDay from './../../../assets/icons/calendarBusinessDay.svg
 
 import { SelectSaleFrequencyScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
 import { DaysOfWeek, WeekdaysFrequency } from '../../../services/Firebase/types'
+
 import { SaleContext } from '../../../contexts/SaleContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -17,7 +19,6 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
-import { StatusBar } from 'react-native'
 
 function SelectSaleFrequency({ navigation }: SelectSaleFrequencyScreenProps) {
 

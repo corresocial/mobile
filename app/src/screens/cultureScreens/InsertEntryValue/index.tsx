@@ -1,22 +1,23 @@
-import { Animated, Keyboard, StatusBar } from 'react-native';
+import { Keyboard, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-import { theme } from '../../../common/theme';
-import { screenHeight } from '../../../common/screenDimensions';
-import { ButtonsContainer, Container } from './styles';
+import { theme } from '../../../common/theme'
+import { screenHeight } from '../../../common/screenDimensions'
+import { ButtonsContainer, Container } from './styles'
 import Check from './../../../assets/icons/check.svg'
 
-import { InsertEntryValueScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps';
-import { CultureContext } from '../../../contexts/CultureContext';
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
+import { InsertEntryValueScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { BackButton } from '../../../components/_buttons/BackButton';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { LineInput } from '../../../components/LineInput';
-import { ProgressBar } from '../../../components/ProgressBar';
+import { CultureContext } from '../../../contexts/CultureContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { LineInput } from '../../../components/LineInput'
+import { ProgressBar } from '../../../components/ProgressBar'
 
 function InsertEntryValue({ navigation }: InsertEntryValueScreenProps) {
 
@@ -35,8 +36,8 @@ function InsertEntryValue({ navigation }: InsertEntryValueScreenProps) {
             removeAllKeyboardEventListeners()
             Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
             Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-        });
-        return unsubscribe;
+        })
+        return unsubscribe
     }, [navigation])
 
     useEffect(() => {
@@ -122,7 +123,7 @@ function InsertEntryValue({ navigation }: InsertEntryValueScreenProps) {
                 </ButtonsContainer>
             </FormContainer>
         </Container>
-    );
+    )
 }
 
 export { InsertEntryValue }

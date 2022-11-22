@@ -1,14 +1,13 @@
-import React, { ReactElement, useState } from 'react';
-import { View } from 'react-native';
-import Carousel from 'react-native-reanimated-carousel';
+import React, { ReactElement, useState } from 'react'
+import { View } from 'react-native'
+import Carousel from 'react-native-reanimated-carousel'
 
 import {
     CarouselActiveIndicatorItem,
     CarouselInactiveIndicatorItem,
     CarouselIndicatorContainer
-} from './styles';
-
-import { screenHeight, screenWidth } from '../../common/screenDimensions';
+} from './styles'
+import { screenHeight, screenWidth } from '../../common/screenDimensions'
 
 interface CustomCarousel {
     children: ReactElement[]
@@ -48,7 +47,7 @@ function CustomCarousel(props: CustomCarousel) {
             </CarouselIndicatorContainer>
         </>
 
-    );
+    )
 }
 
 export { CustomCarousel }

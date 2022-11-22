@@ -1,14 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Keyboard, TextStyle } from 'react-native';
-import { FontAwesome5 as Icon } from '@expo/vector-icons';
-import { SvgProps } from 'react-native-svg';
+import { Keyboard, TextStyle } from 'react-native'
+import { FontAwesome5 as Icon } from '@expo/vector-icons'
+import { SvgProps } from 'react-native-svg'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import { ButtonLabel, TouchableContainer, ContainerSurface, ContainerBottom } from './styles';
-import { screenHeight } from '../../../common/screenDimensions';
+import { 
+    ButtonLabel,
+     TouchableContainer,
+      ContainerSurface, 
+      ContainerBottom 
+    } from './styles'
 
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions';
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 interface PrimaryButtonProps {
     relativeWidth?: string
@@ -151,7 +154,7 @@ function PrimaryButton({
                 </ContainerSurface>
             </ContainerBottom>
         </TouchableContainer>
-    );
+    )
 }
 
 export { PrimaryButton }

@@ -1,8 +1,9 @@
-import React, { createContext, useState } from "react";
-import { ServiceData } from "./types";
+import React, { createContext, useState } from 'react'
+
+import { ServiceData } from './types'
 
 type ServiceContextType = {
-    serviceDataContext: ServiceData | any 
+    serviceDataContext: ServiceData 
     setServiceDataOnContext: (data: ServiceData) => void
 }
 

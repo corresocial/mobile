@@ -1,7 +1,4 @@
 import React, { createContext, useState } from 'react'
-import { StatusBar } from 'react-native'
-
-import { theme } from '../common/theme'
 
 import { LoaderModal } from '../components/_modals/LoaderModal'
 

@@ -7,7 +7,9 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+
 import { InsertClosingHourScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
+
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -40,8 +42,8 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
             removeAllKeyboardEventListeners()
             Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
             Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-        });
-        return unsubscribe;
+        })
+        return unsubscribe
     }, [navigation])
 
     useEffect(() => {

@@ -3,10 +3,12 @@ import { ScrollView, StatusBar } from 'react-native'
 
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
+import { screenHeight } from '../../../common/screenDimensions'
+
+import { socialImpactCategories } from '../socialImpactCategories'
 
 import { SelectSocialImpactCategoryScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 import { SocialImpactCategories, MacroCategory } from '../../../services/Firebase/types'
-import { socialImpactCategories } from '../socialImpactCategories'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -14,7 +16,6 @@ import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
-import { screenHeight } from '../../../common/screenDimensions'
 
 function SelectSocialImpactCategory({ navigation }: SelectSocialImpactCategoryScreenProps) {
 
@@ -37,9 +38,9 @@ function SelectSocialImpactCategory({ navigation }: SelectSocialImpactCategorySc
     }
 
     const sortSocialImpactCategories = (a: MacroCategory, b: MacroCategory) => {
-        if (a.label < b.label) return -1;
-        if (a.label > b.label) return 1;
-        return 0;
+        if (a.label < b.label) return -1
+        if (a.label > b.label) return 1
+        return 0
     }
 
     const onSelectCategory = (categoryName: SocialImpactCategories) => {

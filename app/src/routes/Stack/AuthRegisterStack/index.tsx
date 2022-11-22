@@ -1,18 +1,19 @@
 import React from 'react'
-import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import 'react-native-gesture-handler'
 
-import { AuthRegisterStackParamList } from './types';
+import { AuthRegisterStackParamList } from './types'
 
-import { Splash } from '../../../screens/Splash';
+import { AuthProvider } from '../../../contexts/AuthContext'
+
+import { Splash } from '../../../screens/Splash'
 import { AcceptAndContinue } from '../../../screens/authRegisterScreens/AcceptAndContinue'
-import { InsertCellNumber } from '../../../screens/authRegisterScreens/InsertCellNumber';
-import { InsertConfirmationCode } from '../../../screens/authRegisterScreens/InsertConfirmationCode';
-import { InsertName } from '../../../screens/authRegisterScreens/InsertName';
-import { InsertProfilePicture } from '../../../screens/authRegisterScreens/InsertProfilePicture';
-import { ProfilePicturePreview } from '../../../screens/authRegisterScreens/ProfilePicturePreview';
-import { UserStack } from '../UserStack';
-import { AuthProvider } from '../../../contexts/AuthContext';
+import { InsertCellNumber } from '../../../screens/authRegisterScreens/InsertCellNumber'
+import { InsertConfirmationCode } from '../../../screens/authRegisterScreens/InsertConfirmationCode'
+import { InsertName } from '../../../screens/authRegisterScreens/InsertName'
+import { InsertProfilePicture } from '../../../screens/authRegisterScreens/InsertProfilePicture'
+import { ProfilePicturePreview } from '../../../screens/authRegisterScreens/ProfilePicturePreview'
+import { UserStack } from '../UserStack'
 
 const Stack = createStackNavigator<AuthRegisterStackParamList>()
 

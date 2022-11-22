@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled from 'styled-components/native'
 
 export const Container = styled.View`
     flex: 1;
@@ -12,10 +12,3 @@ export const InputsContainer = styled.View`
     align-items: center;
     margin-bottom: 50px;
 `
-
-export const TwoPoints = styled.Text`
-    font-size: 40px;
-    font-family: Arvo_700Bold;
-`
-
-

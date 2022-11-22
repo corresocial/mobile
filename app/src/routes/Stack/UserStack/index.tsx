@@ -1,17 +1,17 @@
 import 'react-native-gesture-handler'
-import React, { useContext } from 'react'
-import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
+import React from 'react'
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 
-import { UserStackParamList } from './types';
+import { UserStackParamList } from './types'
 
-import { WelcomeNewUser } from '../../../screens/homeScreens/WelcomeNewUser';
-import { HomeTab } from '../../Tabs/HomeTab';
-import { ServiceStack } from '../ServiceStack';
-import { SelectPostType } from '../../../screens/homeScreens/SelectPostType';
-import { SaleStack } from '../SaleStack';
-import { VacancyStack } from '../VacancyStack';
-import { CultureStack } from '../CultureStack';
-import { SocialImpactStack } from '../SocialImpactStack';
+import { WelcomeNewUser } from '../../../screens/homeScreens/WelcomeNewUser'
+import { SelectPostType } from '../../../screens/homeScreens/SelectPostType'
+import { HomeTab } from '../../Tabs/HomeTab'
+import { ServiceStack } from '../ServiceStack'
+import { SaleStack } from '../SaleStack'
+import { VacancyStack } from '../VacancyStack'
+import { SocialImpactStack } from '../SocialImpactStack'
+import { CultureStack } from '../CultureStack'
 
 const Stack = createStackNavigator<UserStackParamList>()
 

@@ -1,21 +1,23 @@
 import React, { useContext, useRef, useState } from 'react'
-import { Animated, StatusBar } from 'react-native';
+import { Animated, StatusBar } from 'react-native'
 
-import { Container } from './styles';
-import { theme } from '../../../common/theme';
+import { Container } from './styles'
+import { theme } from '../../../common/theme'
 
-import updateUser from '../../../services/Firebase/user/updateUser';
-import { RegisterUserData } from '../../../contexts/types';
-import { AuthContext } from '../../../contexts/AuthContext';
-import { LoaderContext } from '../../../contexts/LoaderContext';
+import {updateUserPrivateData} from '../../../services/Firebase/user/updateUserPrivateData'
+import {updateUser} from '../../../services/Firebase/user/updateUser'
 
-import { InsertProfilePictureScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps';
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer';
-import { FormContainer } from '../../../components/_containers/FormContainer';
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton';
-import { InstructionCard } from '../../../components/_cards/InstructionCard';
-import { UserCollection } from '../../../services/Firebase/types';
-import updateUserPrivateData from '../../../services/Firebase/user/updateUserPrivateData';
+import { RegisterUserData } from '../../../contexts/types'
+
+import { AuthContext } from '../../../contexts/AuthContext'
+import { LoaderContext } from '../../../contexts/LoaderContext'
+
+import { InsertProfilePictureScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { UserCollection } from '../../../services/Firebase/types'
 
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
 
@@ -80,7 +82,6 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 
 	const saveInSecureStore = async (userData: RegisterUserData, localUser: UserCollection) => {
 		await setDataOnSecureStore('corre.user', {
-			// ...localUser,
 			userId: userData.userIdentification.uid,
 			name: userData.userName,
 			profilePictureUrl: [],
@@ -152,7 +153,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 				/>
 			</FormContainer>
 		</Container>
-	);
+	)
 }
 
 export { InsertProfilePicture }

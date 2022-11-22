@@ -1,7 +1,7 @@
 import { arrayUnion, doc, setDoc } from 'firebase/firestore'
-import { firestore } from '../Firebase'
+import { firestore } from '../index'
 
-export default async function updateDocField(collection: string, docId: string, field: string, value: {}, union?: boolean) {
+ async function updateDocField(collection: string, docId: string, field: string, value: {}, union?: boolean) {
     const ref = doc(firestore, collection, docId)
     if (union) {
         const finished = await setDoc(
@@ -20,3 +20,5 @@ export default async function updateDocField(collection: string, docId: string, 
         { merge: true })
     return finished
 }
+
+export {updateDocField}

@@ -1,11 +1,19 @@
 import React, { useState } from 'react'
-import { KeyboardTypeOptions, NativeSyntheticEvent, ReturnKeyTypeOptions, Text, TouchableOpacity, TextInputKeyPressEventData, View } from 'react-native';
-import { screenHeight, screenWidth } from '../../common/screenDimensions';
+import { RFValue } from 'react-native-responsive-fontsize'
+import { FontAwesome5 } from '@expo/vector-icons'
+import {
+    KeyboardTypeOptions,
+    NativeSyntheticEvent,
+    ReturnKeyTypeOptions,
+    Text,
+    TouchableOpacity,
+    TextInputKeyPressEventData,
+    View
+} from 'react-native'
 
-import { Container, TextInput } from './styles';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { theme } from '../../common/theme';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { Container, TextInput } from './styles'
+import { screenHeight } from '../../common/screenDimensions'
+import { theme } from '../../common/theme'
 
 interface LineInputProps {
     value: string
@@ -25,7 +33,7 @@ interface LineInputProps {
     secureTextEntry?: boolean
     invalidTextAfterSubmit?: boolean
     fontSize?: number
-    textAlign?: 'auto' | 'left' | 'right' | 'center' | 'justify' | undefined;
+    textAlign?: 'auto' | 'left' | 'right' | 'center' | 'justify' | undefined
     multiline?: boolean
     editable?: boolean
     placeholder?: string
@@ -199,7 +207,7 @@ function LineInput({
                 }
             </View>
         </Container>
-    );
+    )
 }
 
 export { LineInput }

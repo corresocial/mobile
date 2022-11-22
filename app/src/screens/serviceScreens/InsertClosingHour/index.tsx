@@ -7,16 +7,20 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { InsertClosingHourScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-import { ServiceContext } from '../../../contexts/ServiceContext'
-import { AuthContext } from '../../../contexts/AuthContext'
-import uploadImage from '../../../services/Firebase/common/uploadPicture'
+import { uploadImage } from '../../../services/Firebase/common/uploadPicture'
 import { getDownloadURL } from 'firebase/storage'
-import createPost from '../../../services/Firebase/post/createPost'
-import updateDocField from '../../../services/Firebase/common/updateDocField'
+import { createPost } from '../../../services/Firebase/post/createPost'
+import { updateDocField } from '../../../services/Firebase/common/updateDocField'
+import { updateUser } from '../../../services/Firebase/user/updateUser'
+import { updatePostPrivateData } from '../../../services/Firebase/post/updatePostPrivateData'
+
+import { InsertClosingHourScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { PostCollection, PrivateAddress, ServiceCollection, UserCollection } from '../../../services/Firebase/types'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 import { LocalUserData, ServiceData } from '../../../contexts/types'
+
+import { AuthContext } from '../../../contexts/AuthContext'
+import { LoaderContext } from '../../../contexts/LoaderContext'
+import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -25,14 +29,12 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
-import updateUser from '../../../services/Firebase/user/updateUser'
-import updatePostPrivateData from '../../../services/Firebase/post/updatePostPrivateData'
 
 function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
     const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
     const { setServiceDataOnContext, serviceDataContext } = useContext(ServiceContext)
-    const {setLoaderIsVisible} = useContext(LoaderContext)
+    const { setLoaderIsVisible } = useContext(LoaderContext)
 
     const [hours, setHours] = useState<string>('')
     const [minutes, setMinutes] = useState<string>('')
@@ -53,8 +55,8 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
             removeAllKeyboardEventListeners()
             Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
             Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-        });
-        return unsubscribe;
+        })
+        return unsubscribe
     }, [navigation])
 
     useEffect(() => {
@@ -140,7 +142,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
         const userData = extractUserData(completeServiceData)
         const serviceDataPost = extractServiceDataPost(completeServiceData)
         const servicePictures = extractServicePictures(completeServiceData)
-        
+
         try {
             const localUser = await getLocalUser()
             if (!localUser.userId) throw 'Não foi possível identificar o usuário'
@@ -247,7 +249,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                     ...localUser,
                     tourPerformed: true,
                     posts: [
-                        ...localUser.posts as PostCollection[],
+                        localUser.posts ? [...localUser.posts] as PostCollection[] : [],
                         {
                             ...serviceDataPost,
                             postId: postId,
@@ -258,7 +260,12 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
                 })
                 console.log('Naviguei')
                 setLoaderIsVisible(false)
-                 navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
+                navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
+            })
+            .catch((err: any) => {
+                console.log(err)
+                setLoaderIsVisible(false)
+                setHasServerSideError(true)
             })
     }
 
