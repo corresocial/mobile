@@ -14,4 +14,5 @@ export type SocialImpactStackParamList = {
     SelectDaysOfWeek: undefined
     InsertOpeningHour: undefined
     InsertClosingHour: undefined
+    SelectSocialImpactRepeat: undefined
 }

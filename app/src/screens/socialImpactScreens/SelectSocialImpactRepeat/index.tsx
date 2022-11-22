@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { Container, ButtonsContainer } from './styles'
 import { theme } from '../../../common/theme'
 
-import { SelectEventRepeatScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
+import { SelectSocialImpactRepeatScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
 import { EventRepeatType, PrivateAddress, CultureCollection, PostCollection } from './../../../services/Firebase/types'
 import { CultureContext } from '../../../contexts/CultureContext'
 import updateDocField from '../../../services/Firebase/common/updateDocField'
@@ -23,7 +23,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
+function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreenProps) {
 
     const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
     const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
@@ -31,10 +31,10 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
 
     const [hasServerSideError, setHasServerSideError] = useState(false)
 
-    const getCompleteCultureDataFromContext = (eventRepeat: EventRepeatType) => {
+    /* const getCompleteCultureDataFromContext = (socialImpactRepeat: EventRepeatType) => {
         return {
             ...cultureDataContext,
-            eventRepeat
+            socialImpactRepeat
         }
     }
 
@@ -57,11 +57,11 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
         return JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
     }
 
-    const saveEventRepeat = async (eventRepeat: EventRepeatType) => {
+    const saveCulturePost = async (socialImpactRepeat: EventRepeatType) => {
         setLoaderIsVisible(true)
         setHasServerSideError(false)
 
-        const completeCultureData = getCompleteCultureDataFromContext(eventRepeat)
+        const completeCultureData = getCompleteCultureDataFromContext(socialImpactRepeat)
         setCultureDataOnContext({ ...completeCultureData })
 
         const cultureAddress = extractCultureAddress(completeCultureData)
@@ -185,7 +185,15 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                 setLoaderIsVisible(false)
                 navigation.navigate('HomeTab' as any, { tourCompleted: true, showShareModal: true })
             })
-    }
+    } */
+
+    // perform 
+    //git commit -m "feat(screen): Implements InsertOpeningHour and InsertClosingHour screens on social impact flow"
+
+    // after
+    // git add .
+    // git commit... SelectSocialImpactRepeat
+    
 
     return (
         <Container>
@@ -201,7 +209,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                     fontSize={18}
                     message={
                         !hasServerSideError
-                            ? 'esse role se repete?'
+                            ? 'esse iniciativa se repete?'
                             : 'ops, parece que algo deu errado do nosso lado! \n\npor favor tente novamente em alguns instantes'
                     }
                     highlightedWords={
@@ -217,7 +225,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                 </InstructionCard>
             </DefaultHeaderContainer>
             <FormContainer
-                backgroundColor={hasServerSideError ? theme.red2 : theme.blue2}
+                backgroundColor={hasServerSideError ? theme.red2 : theme.pink2}
             >
                 <ButtonsContainer>
                     <PrimaryButton
@@ -229,7 +237,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                         textAlign={'left'}
                         label={'1 vez por semana'}
                         highlightedWords={['1', 'vez', 'por', 'semana']}
-                        onPress={() => saveEventRepeat('weekly')}
+                        onPress={() => {}}
                     />
                     <PrimaryButton
                         justifyContent={'flex-start'}
@@ -240,7 +248,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                         textAlign={'left'}
                         label={'a cada 15 dias'}
                         highlightedWords={['a', 'cada', '15', 'dias']}
-                        onPress={() => saveEventRepeat('biweekly')}
+                        onPress={() => {}}
                     />
                     <PrimaryButton
                         justifyContent={'flex-start'}
@@ -251,7 +259,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                         textAlign={'left'}
                         label={'1 vez no mês'}
                         highlightedWords={['1', 'vez', 'no', 'mês']}
-                        onPress={() => saveEventRepeat('monthly')}
+                        onPress={() => {}}
                     />
                     <PrimaryButton
                         justifyContent={'flex-start'}
@@ -262,7 +270,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
                         textAlign={'left'}
                         label={'não se repete'}
                         highlightedWords={['não', 'se', 'repete']}
-                        onPress={() => saveEventRepeat('unrepeatable')}
+                        onPress={() => {}}
                     />
                 </ButtonsContainer>
             </FormContainer>
@@ -270,4 +278,4 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
     )
 }
 
-export { SelectEventRepeat }
+export { SelectSocialImpactRepeat }

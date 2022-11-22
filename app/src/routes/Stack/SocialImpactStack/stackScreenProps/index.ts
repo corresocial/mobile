@@ -14,3 +14,4 @@ export type SocialImpactLocationViewPreviewScreenProps = NativeStackScreenProps<
 export type SelectDaysOfWeekScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectDaysOfWeek'>
 export type InsertOpeningHourScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertOpeningHour'>
 export type InsertClosingHourScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertClosingHour'>
+export type SelectSocialImpactRepeatScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactRepeat'>
