@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react";
 import { SocialImpactData } from "./types";
 
 type SocialImpactContextType = {
-    socialImpactDataContext: SocialImpactData | any
+    socialImpactDataContext: SocialImpactData 
     setSocialImpactDataOnContext: (data: SocialImpactData) => void
 }
 

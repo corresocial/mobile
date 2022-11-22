@@ -2,7 +2,7 @@ import React, { createContext, useState } from 'react'
 import { CultureData } from './types'
 
 type CultureContextType = {
-    cultureDataContext: CultureData /* | any  */ // TODO remove
+    cultureDataContext: CultureData 
     setCultureDataOnContext: (data: CultureData) => void
 }
 

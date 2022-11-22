@@ -9,8 +9,6 @@ import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 import { InsertClosingHourScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
-import { AuthContext } from '../../../contexts/AuthContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
