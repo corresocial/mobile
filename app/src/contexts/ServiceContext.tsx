@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useMemo, useState } from 'react'
 
 import { ServiceData } from './types'
 
@@ -31,13 +31,13 @@ function ServiceProvider({ children }: ServiceProviderProps) {
 		})
 	}
 
-	const value = {
+	const serviceProviderData = useMemo(() => ({
 		serviceDataContext,
 		setServiceDataOnContext
-	}
+	}), [serviceDataContext])
 
 	return (
-		<ServiceContext.Provider value={value} >
+		<ServiceContext.Provider value={serviceProviderData} >
 			{children}
 		</ServiceContext.Provider>
 	)

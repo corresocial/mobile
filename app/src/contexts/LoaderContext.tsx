@@ -22,8 +22,9 @@ function LoaderProvider({ children }: LoaderProviderProps) {
 	const [loaderIsVisible, setLoaderIsVisible] = useState(initialValue.loaderIsVisible)
 
 	const loaderDataProvider = useMemo(() => ({
-		loaderIsVisible, setLoaderIsVisible
-	}), [])
+		loaderIsVisible,
+		setLoaderIsVisible
+	}), [loaderIsVisible])
 
 	return (
 		<LoaderContext.Provider value={loaderDataProvider}>

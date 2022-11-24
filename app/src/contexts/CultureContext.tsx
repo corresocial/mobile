@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useMemo, useState } from 'react'
 
 import { CultureData } from './types'
 
@@ -31,13 +31,13 @@ function CultureProvider({ children }: CultureProviderProps) {
 		})
 	}
 
-	const value = {
+	const cultureProviderData = useMemo(() => ({
 		cultureDataContext,
 		setCultureDataOnContext
-	}
+	}), [cultureDataContext])
 
 	return (
-		<CultureContext.Provider value={value}>
+		<CultureContext.Provider value={cultureProviderData}>
 			{children}
 		</CultureContext.Provider>
 	)

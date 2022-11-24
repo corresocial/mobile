@@ -1,14 +1,14 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useMemo, useState } from 'react'
 
 import { SocialImpactData } from './types'
 
 type SocialImpactContextType = {
-    socialImpactDataContext: SocialImpactData 
-    setSocialImpactDataOnContext: (data: SocialImpactData) => void
+	socialImpactDataContext: SocialImpactData
+	setSocialImpactDataOnContext: (data: SocialImpactData) => void
 }
 
 interface SocialImpactProviderProps {
-    children: React.ReactNode
+	children: React.ReactNode
 }
 
 const initialValue = {
@@ -24,20 +24,20 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 
 	const setSocialImpactDataOnContext = async (data: SocialImpactData) => {
 		console.log({
-			...socialImpactDataContext, ...data 
+			...socialImpactDataContext, ...data
 		})
 		setSocialImpactDataContext({
-			...socialImpactDataContext, ...data 
+			...socialImpactDataContext, ...data
 		})
 	}
 
-	const value = {
+	const socialImpactProviderData = useMemo(() => ({
 		socialImpactDataContext,
 		setSocialImpactDataOnContext
-	}
+	}), [socialImpactDataContext])
 
 	return (
-		<SocialImpactContext.Provider value={value} >
+		<SocialImpactContext.Provider value={socialImpactProviderData} >
 			{children}
 		</SocialImpactContext.Provider>
 	)

@@ -123,7 +123,7 @@
 		"react/jsx-no-bind": "off",
 		"react/state-in-constructor": "off",
 		"consistent-return": "off",
-		"react/jsx-no-constructed-context-values": "off", // Exclude this row
+		"react/jsx-no-constructed-context-values": "off",
 		"react/require-default-props": "off", // Exclude this row
 		"no-nested-ternary": "off", // Exclude this row
 		"react/no-unstable-nested-components": "off", // Exclude this row

@@ -1,14 +1,14 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useMemo, useState } from 'react'
 
 import { VacancyData } from './types'
 
 type VacancyContextType = {
-    vacancyDataContext: VacancyData 
-    setVacancyDataOnContext: (data: VacancyData) => void
+	vacancyDataContext: VacancyData
+	setVacancyDataOnContext: (data: VacancyData) => void
 }
 
 interface VacancyProviderProps {
-    children: React.ReactNode
+	children: React.ReactNode
 }
 
 const initialValue = {
@@ -19,25 +19,25 @@ const initialValue = {
 
 const VacancyContext = createContext<VacancyContextType>(initialValue)
 
-function VacancyProvider({ children }:VacancyProviderProps) {
+function VacancyProvider({ children }: VacancyProviderProps) {
 	const [vacancyDataContext, setVacancyDataContext] = useState(initialValue.vacancyDataContext)
 
 	const setVacancyDataOnContext = async (data: VacancyData) => {
 		console.log({
-			...vacancyDataContext, ...data 
+			...vacancyDataContext, ...data
 		})
 		setVacancyDataContext({
-			...vacancyDataContext, ...data 
+			...vacancyDataContext, ...data
 		})
 	}
 
-	const value = {
+	const vacanyDataProvider = useMemo(() => ({
 		vacancyDataContext,
 		setVacancyDataOnContext
-	}
+	}), [vacancyDataContext])
 
 	return (
-		<VacancyContext.Provider value={value}>
+		<VacancyContext.Provider value={vacanyDataProvider}>
 			{children}
 		</VacancyContext.Provider>
 	)

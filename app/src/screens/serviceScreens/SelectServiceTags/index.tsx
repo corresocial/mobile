@@ -72,7 +72,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 			if (tagName.indexOf(textTag.toLowerCase()) !== -1 && !selectedTags.includes(tagName)) {
 				return (
 					<SelectButton
-						key={`#${tagName}`}
+						key={uuid()}
 						width={screenWidth * 0.38}
 						height={screenHeight * 0.1}
 						label={tagName}

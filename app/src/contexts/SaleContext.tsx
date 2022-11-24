@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useMemo, useState } from 'react'
 
 import { SaleData } from './types'
 
@@ -31,13 +31,13 @@ function SaleProvider({ children }: SaleProviderProps) {
 		})
 	}
 
-	const value = {
+	const saleProviderData = useMemo(() => ({
 		saleDataContext,
 		setSaleDataOnContext
-	}
+	}), [saleDataContext])
 
 	return (
-		<SaleContext.Provider value={value} >
+		<SaleContext.Provider value={saleProviderData} >
 			{children}
 		</SaleContext.Provider>
 	)
