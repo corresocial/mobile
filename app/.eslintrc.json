@@ -65,7 +65,7 @@
 			"tab"
 		],
 		"no-unused-vars": [
-			"error",
+			"warn",
 			{
 				"args": "none",
 				"caughtErrors": "none"

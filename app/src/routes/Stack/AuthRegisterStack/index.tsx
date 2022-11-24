@@ -42,7 +42,13 @@ export function AuthRegisterStack() {
 				<Stack.Screen name={'InsertProfilePicture'} component={InsertProfilePicture} />
 				<Stack.Screen name={'ProfilePicturePreview'} component={ProfilePicturePreview} />
 
-				<Stack.Screen name={'UserStack'} component={UserStack} />
+				<Stack.Screen
+					name={'UserStack'}
+					component={UserStack}
+					options={{
+						gestureEnabled: false
+					}}
+				/>
 			</Stack.Navigator>
 		</AuthProvider>
 	)

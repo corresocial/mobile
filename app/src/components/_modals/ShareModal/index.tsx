@@ -14,13 +14,13 @@ import RightCurvedArrow from '../../../assets/icons/right-curved-arrow.svg'
 
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 
-interface FinishedTourModalProps {
-    visibility: boolean
-    closeModal: () => void
-    onPressButton: () => void
+interface ShareModalProps {
+	visibility: boolean
+	closeModal: () => void
+	onPressButton: () => void
 }
 
-function FinishedTourModal({ visibility, closeModal, onPressButton }: FinishedTourModalProps) {
+function ShareModal({ visibility, closeModal, onPressButton }: ShareModalProps) {
 	return (
 		<Modal
 			transparent
@@ -56,4 +56,4 @@ function FinishedTourModal({ visibility, closeModal, onPressButton }: FinishedTo
 	)
 }
 
-export { FinishedTourModal }
+export { ShareModal }

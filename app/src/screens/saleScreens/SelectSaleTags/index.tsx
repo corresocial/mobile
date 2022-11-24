@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Keyboard, ScrollView, StatusBar } from 'react-native'
+import uuid from 'react-uuid'
 
 import {
 	Container,
@@ -50,7 +51,7 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 
 	const renderSelectedTags = () => selectedTags.map((tagName, index) => (
 		<SelectButton
-			key={tagName}
+			key={uuid()}
 			width={screenWidth * 0.24}
 			height={screenHeight * 0.07}
 			label={tagName}
@@ -71,7 +72,7 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 			if (tagName.indexOf(textTag.toLowerCase()) !== -1 && !selectedTags.includes(tagName)) {
 				return (
 					<SelectButton
-						key={tagName}
+						key={uuid()}
 						width={screenWidth * 0.38}
 						height={screenHeight * 0.1}
 						label={tagName}

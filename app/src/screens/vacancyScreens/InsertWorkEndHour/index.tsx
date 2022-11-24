@@ -16,6 +16,7 @@ import { PostCollection, PrivateAddress } from '../../../services/firebase/types
 import { LocalUserData, VacancyData } from '../../../contexts/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
+import { StateContext } from '../../../contexts/StateContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
 import { VacancyContext } from '../../../contexts/VacancyContext'
 
@@ -29,6 +30,7 @@ import { ProgressBar } from '../../../components/ProgressBar'
 
 function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
+	const { setStateDataOnContext } = useContext(StateContext)
 	const { setVacancyDataOnContext, vacancyDataContext } = useContext(VacancyContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
@@ -105,6 +107,12 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 
 	const getLocalUser = async () => JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
 
+	const showShareModal = (visibility: boolean) => {
+		setStateDataOnContext({
+			showShareModal: visibility
+		})
+	}
+
 	const saveVacancyPost = async () => {
 		if (!closingTimeIsAfterOpening()) {
 			setInvalidTimeAfterSubmit(true)
@@ -180,9 +188,8 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 				})
 				console.log('Naviguei')
 				setLoaderIsVisible(false)
-				navigation.navigate('HomeTab' as any, {
-					tourCompleted: true, showShareModal: true
-				})
+				showShareModal(true)
+				navigation.navigate('HomeTab' as any)
 			})
 			.catch((err: any) => {
 				console.log(err)

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, StatusBar } from 'react-native'
+import { Alert, BackHandler, StatusBar } from 'react-native'
 
 import { Container, ContainerButtons } from './styles'
 import { theme } from '../../../common/theme'
@@ -9,6 +9,7 @@ import SalesCart from '../../../assets/icons/salesCart.svg'
 import { WelcomeNewUserScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
+import { StateContext } from '../../../contexts/StateContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -17,8 +18,21 @@ import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 	const { getDataFromSecureStore } = useContext(AuthContext)
+	const { setStateDataOnContext } = useContext(StateContext)
 
 	const [userName, setUserName] = useState('amigo')
+
+	useEffect(() => {
+		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
+	})
+
+	const onPressBackHandler = () => {
+		if (navigation.isFocused()) {
+			BackHandler.exitApp()
+			return true
+		}
+		return false
+	}
 
 	useEffect(() => {
 		getUserNameFromSecureStore()
@@ -40,7 +54,12 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 		Alert.alert('Right!', 'Find!')
 	}
 
-	const goToProfile = () => navigation.navigate('HomeTab' as any)
+	const goToProfile = () => {
+		setStateDataOnContext({
+			showTourModal: true
+		})
+		navigation.navigate('HomeTab' as any)
+	}
 
 	return (
 		<Container >

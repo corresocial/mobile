@@ -15,6 +15,7 @@ import { EventRepeatType, PrivateAddress, SocialImpactCollection, PostCollection
 import { SocialImpactData, LocalUserData } from '../../../contexts/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
+import { StateContext } from '../../../contexts/StateContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 
@@ -26,8 +27,9 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreenProps) {
-	const { socialImpactDataContext, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
+	const { setStateDataOnContext } = useContext(StateContext)
+	const { socialImpactDataContext, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [hasServerSideError, setHasServerSideError] = useState(false)
@@ -57,6 +59,12 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 	const getLocalUser = async () => {
 		console.log(JSON.parse(await getDataFromSecureStore('corre.user') || '{}'))
 		return JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
+	}
+
+	const showShareModal = (visibility: boolean) => {
+		setStateDataOnContext({
+			showShareModal: visibility
+		})
 	}
 
 	const saveSocialImpactPost = async (socialImpactRepeat: EventRepeatType) => {
@@ -186,9 +194,8 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 				})
 				console.log('Naviguei')
 				setLoaderIsVisible(false)
-				navigation.navigate('HomeTab' as any, {
-					tourCompleted: true, showShareModal: true
-				})
+				showShareModal(true)
+				navigation.navigate('HomeTab' as any) // TODO Type
 			})
 			.catch((err: any) => {
 				console.log(err)

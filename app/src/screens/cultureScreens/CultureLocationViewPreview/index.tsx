@@ -20,9 +20,10 @@ import { CultureLocationViewPreviewScreenProps } from '../../../routes/Stack/Cul
 import { CultureCollection, LocationViewType, PostCollection, PrivateAddress } from '../../../services/firebase/types'
 import { CultureData, LocalUserData } from '../../../contexts/types'
 
+import { AuthContext } from '../../../contexts/AuthContext'
+import { StateContext } from '../../../contexts/StateContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
 import { CultureContext } from '../../../contexts/CultureContext'
-import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
@@ -35,8 +36,9 @@ const defaultDeltaCoordinates = {
 }
 
 function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPreviewScreenProps) {
-	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
+	const { setStateDataOnContext } = useContext(StateContext)
+	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [locationViewSelected, setLocationViewSelected] = useState<LocationViewType>()
@@ -132,6 +134,12 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 	const extractCulturePictures = (cultureData: CultureData) => cultureData.picturesUrl as string[] || []
 
 	const getLocalUser = async () => JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
+
+	const showShareModal = (visibility: boolean) => {
+		setStateDataOnContext({
+			showShareModal: visibility
+		})
+	}
 
 	const saveCulturePost = async () => {
 		setLoaderIsVisible(true)
@@ -260,9 +268,8 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 				})
 				console.log('Naviguei')
 				setLoaderIsVisible(false)
-				navigation.navigate('HomeTab' as any, {
-					tourCompleted: true, showShareModal: true
-				})
+				showShareModal(true)
+				navigation.navigate('HomeTab' as any)
 			})
 			.catch((err: any) => {
 				console.log(err)

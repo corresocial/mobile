@@ -19,6 +19,7 @@ import { PostCollection, PrivateAddress, ServiceCollection, UserCollection } fro
 import { LocalUserData, ServiceData } from '../../../contexts/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
+import { StateContext } from '../../../contexts/StateContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
 import { ServiceContext } from '../../../contexts/ServiceContext'
 
@@ -32,6 +33,7 @@ import { ProgressBar } from '../../../components/ProgressBar'
 
 function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
+	const { setStateDataOnContext } = useContext(StateContext)
 	const { setServiceDataOnContext, serviceDataContext } = useContext(ServiceContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
@@ -120,6 +122,12 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 		await updateUser(userId, {
 			...userData,
 			tourPerformed: true
+		})
+	}
+
+	const showShareModal = (visibility: boolean) => {
+		setStateDataOnContext({
+			showShareModal: visibility
 		})
 	}
 
@@ -260,9 +268,8 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 				})
 				console.log('Naviguei')
 				setLoaderIsVisible(false)
-				navigation.navigate('HomeTab' as any, {
-					tourCompleted: true, showShareModal: true
-				})
+				showShareModal(true)
+				navigation.navigate('HomeTab' as any)
 			})
 			.catch((err: any) => {
 				console.log(err)

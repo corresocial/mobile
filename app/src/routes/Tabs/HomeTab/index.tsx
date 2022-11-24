@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler'
-import React from 'react'
+import React, { useContext } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { useFocusEffect } from '@react-navigation/native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { theme } from '../../../common/theme'
@@ -21,10 +22,25 @@ import { HomeTabScreenProps } from '../../Stack/UserStack/stackScreenProps'
 import { Home } from '../../../screens/homeScreens/Home'
 import { Profile } from '../../../screens/homeScreens/Profile'
 import { SelectPostType } from '../../../screens/homeScreens/SelectPostType'
+import { StateContext } from '../../../contexts/StateContext'
 
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
-export function HomeTab(props: HomeTabScreenProps) {
+export function HomeTab({ route, navigation }: HomeTabScreenProps) {
+	const { stateDataContext, toggleTourModalVisibility, toggleShareModalVisibility } = useContext(StateContext)
+
+	useFocusEffect(() => {
+		const unsubscribe = navigation.addListener('focus', () => {
+			stateDataContext.showTourModal && toggleTourModalVisibility(true, handlerTourButton)
+			stateDataContext.showShareModal && toggleShareModalVisibility(true)
+		})
+		return unsubscribe
+	})
+
+	const handlerTourButton = {
+		navigation
+	}
+
 	const renderHomeIcon = (focused: boolean) => (
 		focused
 			? <HomeTabIconActive height={'60%'} width={'60%'} />

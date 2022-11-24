@@ -12,13 +12,13 @@ function Home({ navigation }: HomeTabScreenProps) {
 		if (navigation.isFocused()) {
 			BackHandler.exitApp()
 			return true
-		} 
+		}
 		return false
 	}
 
 	return (
 		<View style={{
-			flex: 1, alignItems: 'center', justifyContent: 'center' 
+			flex: 1, alignItems: 'center', justifyContent: 'center'
 		}}
 		>
 			<Text>{'Você está logado!'}</Text>

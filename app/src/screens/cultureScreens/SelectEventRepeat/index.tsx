@@ -14,8 +14,9 @@ import { SelectEventRepeatScreenProps } from '../../../routes/Stack/cultureStack
 import { EventRepeatType, PrivateAddress, CultureCollection, PostCollection } from '../../../services/firebase/types'
 import { CultureData, LocalUserData } from '../../../contexts/types'
 
-import { CultureContext } from '../../../contexts/CultureContext'
 import { AuthContext } from '../../../contexts/AuthContext'
+import { StateContext } from '../../../contexts/StateContext'
+import { CultureContext } from '../../../contexts/CultureContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -26,8 +27,9 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
-	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
+	const { setStateDataOnContext } = useContext(StateContext)
+	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [hasServerSideError, setHasServerSideError] = useState(false)
@@ -55,6 +57,12 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
 	const extractCulturePictures = (cultureData: CultureData) => cultureData.picturesUrl as string[] || []
 
 	const getLocalUser = async () => JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
+
+	const showShareModal = (visibility: boolean) => {
+		setStateDataOnContext({
+			showShareModal: visibility
+		})
+	}
 
 	const saveEventRepeat = async (eventRepeat: EventRepeatType) => {
 		setLoaderIsVisible(true)
@@ -184,9 +192,8 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
 				})
 				console.log('Naviguei')
 				setLoaderIsVisible(false)
-				navigation.navigate('HomeTab' as any, {
-					tourCompleted: true, showShareModal: true
-				})
+				showShareModal(true)
+				navigation.navigate('HomeTab' as any)
 			})
 			.catch((err: any) => {
 				console.log(err)

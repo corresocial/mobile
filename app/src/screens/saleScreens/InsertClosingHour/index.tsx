@@ -18,6 +18,7 @@ import { InsertClosingHourScreenProps } from '../../../routes/Stack/SaleStack/st
 import { PostCollection, PrivateAddress, SaleCollection } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
+import { StateContext } from '../../../contexts/StateContext'
 import { SaleContext } from '../../../contexts/SaleContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
 
@@ -31,6 +32,7 @@ import { ProgressBar } from '../../../components/ProgressBar'
 
 function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
+	const { setStateDataOnContext } = useContext(StateContext)
 	const { setSaleDataOnContext, saleDataContext } = useContext(SaleContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
@@ -109,6 +111,12 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 	const extractSalePictures = (saleData: SaleData) => saleData.picturesUrl as string[] || []
 
 	const getLocalUser = async () => JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
+
+	const showShareModal = (visibility: boolean) => {
+		setStateDataOnContext({
+			showShareModal: visibility
+		})
+	}
 
 	const saveSalePost = async () => {
 		if (!closingTimeIsAfterOpening()) {
@@ -241,9 +249,8 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 				})
 				console.log('Naviguei')
 				setLoaderIsVisible(false)
-				navigation.navigate('HomeTab' as any, {
-					tourCompleted: true, showShareModal: true
-				})
+				showShareModal(true)
+				navigation.navigate('HomeTab' as any)
 			})
 			.catch((err: any) => {
 				console.log(err)

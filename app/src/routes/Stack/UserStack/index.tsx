@@ -12,6 +12,7 @@ import { SaleStack } from '../SaleStack'
 import { VacancyStack } from '../VacancyStack'
 import { SocialImpactStack } from '../SocialImpactStack'
 import { CultureStack } from '../CultureStack'
+import { StateProvider } from '../../../contexts/StateContext'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -19,22 +20,24 @@ export function UserStack({ route }: any) {
 	const tourPerformed = (route.params && route.params.tourPerformed) || false
 
 	return (
-		<Stack.Navigator
-			initialRouteName={tourPerformed ? 'HomeTab' : 'WelcomeNewUser'}
-			screenOptions={{
-				headerShown: false,
-				gestureEnabled: false,
-				...TransitionPresets.SlideFromRightIOS,
-			}}
-		>
-			<Stack.Screen name={'WelcomeNewUser'} component={WelcomeNewUser} />
-			<Stack.Screen name={'HomeTab'} component={HomeTab} />
-			<Stack.Screen name={'SelectPostType'} component={SelectPostType} />
-			<Stack.Screen name={'ServiceStack'} component={ServiceStack} />
-			<Stack.Screen name={'SaleStack'} component={SaleStack} />
-			<Stack.Screen name={'VacancyStack'} component={VacancyStack} />
-			<Stack.Screen name={'CultureStack'} component={CultureStack} />
-			<Stack.Screen name={'SocialImpactStack'} component={SocialImpactStack} />
-		</Stack.Navigator>
+		<StateProvider>
+			<Stack.Navigator
+				initialRouteName={tourPerformed ? 'HomeTab' : 'WelcomeNewUser'}
+				screenOptions={{
+					headerShown: false,
+					gestureEnabled: false,
+					...TransitionPresets.SlideFromRightIOS,
+				}}
+			>
+				<Stack.Screen name={'WelcomeNewUser'} component={WelcomeNewUser} />
+				<Stack.Screen name={'HomeTab'} component={HomeTab} />
+				<Stack.Screen name={'SelectPostType'} component={SelectPostType} />
+				<Stack.Screen name={'ServiceStack'} component={ServiceStack} />
+				<Stack.Screen name={'SaleStack'} component={SaleStack} />
+				<Stack.Screen name={'VacancyStack'} component={VacancyStack} />
+				<Stack.Screen name={'CultureStack'} component={CultureStack} />
+				<Stack.Screen name={'SocialImpactStack'} component={SocialImpactStack} />
+			</Stack.Navigator>
+		</StateProvider>
 	)
 }

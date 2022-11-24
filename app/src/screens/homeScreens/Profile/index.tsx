@@ -12,91 +12,24 @@ import {
 } from './styles'
 import { theme } from '../../../common/theme'
 
-import { updateUser } from '../../../services/firebase/user/updateUser'
-
 import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { UserCollection } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FinishedTourModal } from '../../../components/_modals/FinishedTourModal'
-import { TourModal } from '../../../components/_modals/TourModal'
 import { MoreOptionsButton } from '../../../components/_buttons/MoreOptionsButton'
 import { ShareButton } from '../../../components/_buttons/ShareButton'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
 
-function Profile({ navigation, route }: HomeTabScreenProps) {
-	const { getDataFromSecureStore, setDataOnSecureStore, deleteLocaluser } = useContext(AuthContext)
+function Profile({ navigation }: HomeTabScreenProps) {
+	const { getDataFromSecureStore, deleteLocaluser } = useContext(AuthContext)
 
 	const [profilePicture, setProfilePicture] = useState<string[]>([])
 	const [userName, setUserName] = useState<string>('')
-	const [tourModalVisibility, setTourModalVisibility] = useState(false)// TODO DevOnly, default(false)
-	const [finishedTourModalVisibility, setFinishedTourModalVisibility] = useState(false)// TODO DevOnly, default(false)
 
 	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			checkEndingTour()
-		})
-		return unsubscribe
-	}, [navigation])
-
-	useEffect(() => {
-		initializeUserTour()
 		getProfileData()
 	}, [])
-
-	const initializeUserTour = async () => {
-		const userTourPerformed = await checkUserTourPerformed()
-		if (!userTourPerformed) {
-			setTourModalVisibility(true)
-		}
-	}
-
-	const checkEndingTour = () => {
-		if (route.params && route.params.showShareModal) {
-			setFinishedTourModalVisibility(true)
-		}
-	}
-
-	const checkUserTourPerformed = async () => {
-		const localUser = await getObjectLocalUser()
-		return !!localUser.tourPerformed
-	}
-
-	const getObjectLocalUser = async () => {
-		const userJSON = await getDataFromSecureStore('corre.user')
-		if (!userJSON) return false
-		const userObject = await JSON.parse(userJSON)
-		return userObject
-	}
-
-	const closeTourModal = async () => {
-		await setUserTourPerformed()
-		setTourModalVisibility(false)
-	}
-
-	const setUserTourPerformed = async () => {
-		const localUser = await getObjectLocalUser()
-		const newLocalUser = {
-			...localUser, tourPerformed: true
-		}
-		await updateUserData(localUser.userId, {
-		})
-		setDataOnSecureStore('corre.user', newLocalUser)
-	}
-
-	const updateUserData = async (userId: string, userData: UserCollection) => {
-		await updateUser(userId, {
-			tourPerformed: true
-		})
-	}
-
-	const navigateToTour = async () => {
-		await setUserTourPerformed()
-		setTourModalVisibility(false)
-		navigation.navigate('SelectPostType')
-	}
 
 	const getProfileData = async () => {
 		const localUser = await getObjectLocalUser()
@@ -105,8 +38,11 @@ function Profile({ navigation, route }: HomeTabScreenProps) {
 		setUserName(name)
 	}
 
-	const sharePost = () => {
-		Alert.alert('Opa!', 'Compatilhar')
+	const getObjectLocalUser = async () => {
+		const userJSON = await getDataFromSecureStore('corre.user')
+		if (!userJSON) return false
+		const userObject = await JSON.parse(userJSON)
+		return userObject
 	}
 
 	const cleanLocalStorage = async () => { // TODO DevOnly
@@ -120,16 +56,6 @@ function Profile({ navigation, route }: HomeTabScreenProps) {
 		}}
 		>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-			<TourModal
-				visibility={tourModalVisibility}
-				closeModal={closeTourModal}
-				onPressButton={navigateToTour}
-			/>
-			<FinishedTourModal
-				visibility={finishedTourModalVisibility}
-				closeModal={() => setFinishedTourModalVisibility(false)}
-				onPressButton={sharePost}
-			/>
 			<DefaultHeaderContainer
 				backgroundColor={theme.white3}
 				centralized={false}
