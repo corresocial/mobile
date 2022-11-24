@@ -2,7 +2,7 @@ import { Alert, Animated, StatusBar } from 'react-native'
 import React, { useContext, useRef, useState } from 'react'
 import { UserCredential } from 'firebase/auth'
 
-import { Container, InputsContainer } from './styles'
+import { ButtonContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
@@ -19,9 +19,8 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
-
 	const { validateVerificationCode, setRemoteUserOnLocal } = useContext(AuthContext)
-	
+
 	const [inputCode01, setInputCode01] = useState<string>('')
 	const [inputCode02, setInputCode02] = useState<string>('')
 	const [inputCode03, setInputCode03] = useState<string>('')
@@ -43,31 +42,37 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 
 	const inputsConfig = [
 		{
+			key: 'ic01',
 			field: inputCode01,
 			set: setInputCode01,
 			ref: inputRefs.inputCodeRef01
 		},
 		{
+			key: 'ic02',
 			field: inputCode02,
 			set: setInputCode02,
 			ref: inputRefs.inputCodeRef02
 		},
 		{
+			key: 'ic03',
 			field: inputCode03,
 			set: setInputCode03,
 			ref: inputRefs.inputCodeRef03
 		},
 		{
+			key: 'ic04',
 			field: inputCode04,
 			set: setInputCode04,
 			ref: inputRefs.inputCodeRef04
 		},
 		{
+			key: 'ic05',
 			field: inputCode05,
 			set: setInputCode05,
 			ref: inputRefs.inputCodeRef05
 		},
 		{
+			key: 'ic06',
 			field: inputCode06,
 			set: setInputCode06,
 			ref: inputRefs.inputCodeRef06
@@ -90,7 +95,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 	}
 
 	const validateCode = (text: string) => {
-		const isValid = text.length == 1
+		const isValid = text.length === 1
 		if (isValid) {
 			setInvaliCodeAfterSubmit(false)
 			return true
@@ -100,11 +105,11 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 
 	const sendConfirmationCode = () => {
 		const completeCode = mergeAllInputCodes()
-		const completeCodeIsValid = completeCode.length == 6
+		const completeCodeIsValid = completeCode.length === 6
 
 		if (completeCodeIsValid) {
-			const cellNumber = route.params.cellNumber
-			const verificationCodeId = route.params.verificationCodeId as string 
+			const { cellNumber } = route.params
+			const verificationCodeId = route.params.verificationCodeId as string
 
 			validateVerificationCode(verificationCodeId, completeCode)
 				.then(async (userCredential: UserCredential) => {
@@ -112,11 +117,11 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 					await setRemoteUserOnLocal(userIdentification.uid)
 					// setUserDataOnContext({ userIdentification })
 					return navigation.navigate('InsertName', {
-						cellNumber: cellNumber ,
-						userIdentification: userIdentification
+						cellNumber,
+						userIdentification
 					})
 				})
-				.catch(err => {
+				.catch((err) => {
 					console.log(err.code)
 					verificationCodeErrorTreatment(err.code)
 				})
@@ -126,9 +131,11 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 	}
 
 	const verificationCodeErrorTreatment = (errorCode: string) => {
-		if (errorCode == 'auth/code-expired') {
+		if (errorCode === 'auth/code-expired') {
 			Alert.alert('ops!', 'Seu código de verificação expirou, solicite novamente', [
-				{ text: 'OK', onPress: () => navigation.goBack() }
+				{
+					text: 'OK', onPress: () => navigation.goBack()
+				}
 			])
 		}
 
@@ -151,13 +158,14 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		return userIdentification
 	}
 
-	const mergeAllInputCodes = () => {
-		return inputsConfig.reduce((amount, current) => amount + current.field, '')
+	const allInputCodesIsValid = () => {
+		const inputCodeLength = mergeAllInputCodes().length || 0
+		return inputCodeLength === 6
 	}
 
-	const someInvalidFieldSubimitted = () => {
-		return invalidCodeAfterSubmit
-	}
+	const mergeAllInputCodes = () => inputsConfig.reduce((amount, current) => amount + current.field, '')
+
+	const someInvalidFieldSubimitted = () => invalidCodeAfterSubmit
 
 	const getHeaderMessage = () => {
 		if (someInvalidFieldSubimitted()) return headerMessages.clientSideError.text
@@ -191,7 +199,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		<Container >
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight='55%'
+				relativeHeight={'55%'}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
@@ -204,10 +212,11 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				<InputsContainer>
 					{
 						inputsConfig.map((inputConfig, index) => {
-							const isFirstInput = index == 0
-							const isLastInput = index == inputsConfig.length - 1 && true
+							const isFirstInput = index === 0
+							const isLastInput = index === inputsConfig.length - 1 && true
 							return (
-								<LineInput key={index}
+								<LineInput
+									key={inputConfig.key}
 									value={inputConfig.field}
 									relativeWidth={'14%'}
 									textInputRef={inputConfig.ref}
@@ -233,16 +242,23 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 						})
 					}
 				</InputsContainer>
-				<PrimaryButton
-					color={someInvalidFieldSubimitted() || hasServerSideError ? theme.red3 : theme.blue3}
-					iconName={'arrow-right'}
-					iconColor={theme.white3}
-					label='continuar'
-					labelColor={theme.white3}
-					highlightedWords={['continuar']}
-					startsHidden
-					onPress={sendConfirmationCode}
-				/>
+				<ButtonContainer>
+					{
+						allInputCodesIsValid()
+						&& (
+							<PrimaryButton
+								color={someInvalidFieldSubimitted() || hasServerSideError ? theme.red3 : theme.blue3}
+								iconName={'arrow-right'}
+								iconColor={theme.white3}
+								label={'continuar'}
+								labelColor={theme.white3}
+								highlightedWords={['continuar']}
+								startsHidden
+								onPress={sendConfirmationCode}
+							/>
+						)
+					}
+				</ButtonContainer>
 			</FormContainer>
 		</Container>
 	)

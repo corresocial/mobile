@@ -1,4 +1,4 @@
-import { CultureCategories, LocationViewType } from '../../../services/Firebase/types'
+import { CultureCategories, LocationViewType } from '../../../services/firebase/types'
 
 export type CultureStackParamList = {
     SelectCultureType: undefined
@@ -7,13 +7,13 @@ export type CultureStackParamList = {
     InsertCulturePicture: undefined
     CulturePicturePreview: undefined
     SelectCultureCategory: undefined
-    SelectCultureTags: {categorySelected: CultureCategories}
+    SelectCultureTags: { categorySelected: CultureCategories }
     InsertEntryValue: undefined
     SelectExhibitionPlace: undefined
     SelectEventPlaceModality: undefined
     InsertCultureLocation: undefined
     SelectCultureLocationView: undefined
-    CultureLocationViewPreview: {locationView?: LocationViewType}
+    CultureLocationViewPreview: { locationView?: LocationViewType }
     InsertEventStartDate: undefined
     InsertEventStartHour: undefined
     InsertEventEndDate: undefined

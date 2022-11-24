@@ -1,0 +1,11 @@
+/src/@types/**/*
+/src/assets/**/*
+/src/tests/**/*
+/src/services/firebase/index.ts
+
+# /src/common/**/*
+# /src/components/**/*
+# /src/contexts/**/*
+# /src/routes/**/*
+# /src/screens/**/*
+# /src/services/**/*

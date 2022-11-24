@@ -18,4 +18,6 @@ export const TwoPoints = styled.Text`
     font-family: Arvo_700Bold;
 `
 
-
+export const ButtonContainer = styled.View`
+    width: 100%;
+`

@@ -12,7 +12,7 @@ export const Body = styled.View`
 `
 
 export const ProfileHeader = styled.View`
-    margin-top: ${-statusBarHeight/2}px;
+    margin-top: ${-statusBarHeight / 2}px;
     width: 100%;
     height: 100%;
     flex-direction: row;

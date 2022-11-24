@@ -12,3 +12,7 @@ export const InputsContainer = styled.View`
     align-items: center;
     margin-bottom: 50px;
 `
+
+export const ButtonContainer = styled.View`
+    width: 100%;
+`

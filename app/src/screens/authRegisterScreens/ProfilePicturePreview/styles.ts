@@ -10,4 +10,3 @@ export const InstructionCardContainer = styled.View`
     margin-bottom: ${RFValue(30)}px;
     margin-top: ${RFValue(60)}px;
 `
-

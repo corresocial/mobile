@@ -4,23 +4,30 @@ import { firestore } from '..'
 import { PostCollectionType, PrivateAddress } from '../types'
 
 async function updatePostPrivateData(data: PrivateAddress, postId: string, postCollection: PostCollectionType, privateField: string = '') {
-    try {
-        try {
-            const docRef = doc(firestore, postCollection, postId, 'private', privateField)
-            await updateDoc(
-                docRef,
-                { ...data }),
-                { merge: true }
-        } catch (err) {
-            const collectionRef = doc(firestore, postCollection, postId, 'private', privateField)
-            await setDoc(
-                collectionRef,
-                { ...data },
-            )
-        }
-    } catch (err) {
-        console.log(err)
-    }
+	try {
+		try {
+			const docRef = doc(firestore, postCollection, postId, 'private', privateField)
+			await updateDoc(
+				docRef,
+				{
+					...data
+				}
+			)/* ,
+			{
+				merge: true // TODO Check this
+			} */
+		} catch (err) {
+			const collectionRef = doc(firestore, postCollection, postId, 'private', privateField)
+			await setDoc(
+				collectionRef,
+				{
+					...data
+				},
+			)
+		}
+	} catch (err) {
+		console.log(err)
+	}
 }
 
 export { updatePostPrivateData }

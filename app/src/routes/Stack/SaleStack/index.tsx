@@ -25,39 +25,38 @@ import { SelectDaysOfWeek } from '../../../screens/saleScreens/SelectDaysOfWeek'
 import { InsertOpeningHour } from '../../../screens/saleScreens/InsertOpeningHour'
 import { InsertClosingHour } from '../../../screens/saleScreens/InsertClosingHour'
 
-
 const Stack = createStackNavigator<SaleStackParamList>()
 
 export function SaleStack() {
-
-    return (
-        <SaleProvider>
-            <Stack.Navigator initialRouteName='SelectSaleCategory'
-                screenOptions={{
-                    headerShown: false,
-                    gestureEnabled: true,
-                    ...TransitionPresets.SlideFromRightIOS,
-                }}
-            >
-                <Stack.Screen name={'SelectSaleCategory'} component={SelectSaleCategory} />
-                <Stack.Screen name={'SelectSaleTags'} component={SelectSaleTags} />
-                <Stack.Screen name={'InsertSaleTitle'} component={InsertSaleTitle} />
-                <Stack.Screen name={'InsertItemName'} component={InsertItemName} />
-                <Stack.Screen name={'InsertItemDescription'} component={InsertItemDescription} />
-                <Stack.Screen name={'InsertSalePicture'} component={InsertSalePicture} />
-                <Stack.Screen name={'SalePicturePreview'} component={SalePicturePreview} />
-                <Stack.Screen name={'SelectPaymentType'} component={SelectPaymentType} />
-                <Stack.Screen name={'InsertSaleValue'} component={InsertSaleValue} />
-                <Stack.Screen name={'InsertExchangeValue'} component={InsertExchangeValue} />
-                <Stack.Screen name={'InsertSaleLocation'} component={InsertSaleLocation} />
-                <Stack.Screen name={'SelectLocationView'} component={SelectLocationView} />
-                <Stack.Screen name={'LocationViewPreview'} component={LocationViewPreview} />
-                <Stack.Screen name={'SelectDeliveryMethod'} component={SelectDeliveryMethod} />
-                <Stack.Screen name={'SelectSaleFrequency'} component={SelectSaleFrequency} />
-                <Stack.Screen name={'SelectDaysOfWeek'} component={SelectDaysOfWeek} />
-                <Stack.Screen name={'InsertOpeningHour'} component={InsertOpeningHour} />
-                <Stack.Screen name={'InsertClosingHour'} component={InsertClosingHour} />
-            </Stack.Navigator>
-        </SaleProvider>
-    )
+	return (
+		<SaleProvider>
+			<Stack.Navigator
+				initialRouteName={'SelectSaleCategory'}
+				screenOptions={{
+					headerShown: false,
+					gestureEnabled: true,
+					...TransitionPresets.SlideFromRightIOS,
+				}}
+			>
+				<Stack.Screen name={'SelectSaleCategory'} component={SelectSaleCategory} />
+				<Stack.Screen name={'SelectSaleTags'} component={SelectSaleTags} />
+				<Stack.Screen name={'InsertSaleTitle'} component={InsertSaleTitle} />
+				<Stack.Screen name={'InsertItemName'} component={InsertItemName} />
+				<Stack.Screen name={'InsertItemDescription'} component={InsertItemDescription} />
+				<Stack.Screen name={'InsertSalePicture'} component={InsertSalePicture} />
+				<Stack.Screen name={'SalePicturePreview'} component={SalePicturePreview} />
+				<Stack.Screen name={'SelectPaymentType'} component={SelectPaymentType} />
+				<Stack.Screen name={'InsertSaleValue'} component={InsertSaleValue} />
+				<Stack.Screen name={'InsertExchangeValue'} component={InsertExchangeValue} />
+				<Stack.Screen name={'InsertSaleLocation'} component={InsertSaleLocation} />
+				<Stack.Screen name={'SelectLocationView'} component={SelectLocationView} />
+				<Stack.Screen name={'LocationViewPreview'} component={LocationViewPreview} />
+				<Stack.Screen name={'SelectDeliveryMethod'} component={SelectDeliveryMethod} />
+				<Stack.Screen name={'SelectSaleFrequency'} component={SelectSaleFrequency} />
+				<Stack.Screen name={'SelectDaysOfWeek'} component={SelectDaysOfWeek} />
+				<Stack.Screen name={'InsertOpeningHour'} component={InsertOpeningHour} />
+				<Stack.Screen name={'InsertClosingHour'} component={InsertClosingHour} />
+			</Stack.Navigator>
+		</SaleProvider>
+	)
 }

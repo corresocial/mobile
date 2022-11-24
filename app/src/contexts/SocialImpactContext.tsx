@@ -12,31 +12,35 @@ interface SocialImpactProviderProps {
 }
 
 const initialValue = {
-    socialImpactDataContext: {},
-    setSocialImpactDataOnContext: (data: SocialImpactData) => { }
+	socialImpactDataContext: {
+	},
+	setSocialImpactDataOnContext: (data: SocialImpactData) => { }
 }
 
 const SocialImpactContext = createContext<SocialImpactContextType>(initialValue)
 
 function SocialImpactProvider({ children }: SocialImpactProviderProps) {
+	const [socialImpactDataContext, setSocialImpactDataContext] = useState(initialValue.socialImpactDataContext)
 
-    const [socialImpactDataContext, setSocialImpactDataContext] = useState(initialValue.socialImpactDataContext)
+	const setSocialImpactDataOnContext = async (data: SocialImpactData) => {
+		console.log({
+			...socialImpactDataContext, ...data 
+		})
+		setSocialImpactDataContext({
+			...socialImpactDataContext, ...data 
+		})
+	}
 
-    const setSocialImpactDataOnContext = async (data: SocialImpactData) => {
-        console.log({ ...socialImpactDataContext, ...data })
-        setSocialImpactDataContext({ ...socialImpactDataContext, ...data })
-    }
+	const value = {
+		socialImpactDataContext,
+		setSocialImpactDataOnContext
+	}
 
-    const value = {
-        socialImpactDataContext,
-        setSocialImpactDataOnContext
-    }
-
-    return (
-        <SocialImpactContext.Provider value={value} >
-            {children}
-        </SocialImpactContext.Provider>
-    )
+	return (
+		<SocialImpactContext.Provider value={value} >
+			{children}
+		</SocialImpactContext.Provider>
+	)
 }
 
 export { SocialImpactProvider, SocialImpactContext }

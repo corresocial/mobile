@@ -21,66 +21,65 @@ interface SelectButtonProps {
 }
 
 function SelectButton({
-    width = screenWidth * 0.39,
-    height = screenHeight * 0.09,
-    marginVertical = RFValue(6),
-    marginHorizontal = 0,
-    backgroundColor = theme.white3,
-    backgroundSelected,
-    label,
-    boldLabel = false,
-    fontSize = 15,
-    selected = false,
-    onSelect
+	width = screenWidth * 0.39,
+	height = screenHeight * 0.09,
+	marginVertical = RFValue(6),
+	marginHorizontal = 0,
+	backgroundColor = theme.white3,
+	backgroundSelected,
+	label,
+	boldLabel = false,
+	fontSize = 15,
+	selected = false,
+	onSelect
 }: SelectButtonProps) {
+	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
 
-    const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
+	function pressingButton() {
+		setButtomPressed(true)
+	}
 
-    function pressingButton() {
-        setButtomPressed(true)
-    }
+	function notPressingButton() {
+		setButtomPressed(false)
+	}
 
-    function notPressingButton() {
-        setButtomPressed(false)
-    }
+	function releaseButton() {
+		setButtomPressed(false)
+		onSelect && onSelect()
+	}
 
-    function releaseButton() {
-        setButtomPressed(false)
-        onSelect && onSelect()
-    }
-
-    return (
-        <TouchableWithoutFeedback
-            onPressIn={pressingButton}
-            onPressOut={notPressingButton}
-            onPress={releaseButton}
-        >
-            <ContainerBottom
-                style={{
-                    width: width,
-                    height: height,
-                    marginVertical: RFValue(marginVertical),
-                    marginHorizontal: RFValue(marginHorizontal),
-                }}
-            >
-                <ContainerSurface
-                    style={{
-                        backgroundColor: selected ? backgroundSelected : backgroundColor,
-                        marginRight: selected ? RFValue(-4) : buttonPressed ? RFValue(-7) : 0
-                    }}
-                >
-                    <Label
-                        style={{
-                            fontSize: RFValue(fontSize),
-                            fontFamily: selected || boldLabel ? 'Arvo_700Bold' : 'Arvo_400Regular'
-                        }}
-                    >
-                        {label}
-                    </Label>
-                </ContainerSurface>
-            </ContainerBottom>
-        </TouchableWithoutFeedback>
-    )
+	return (
+		<TouchableWithoutFeedback
+			onPressIn={pressingButton}
+			onPressOut={notPressingButton}
+			onPress={releaseButton}
+		>
+			<ContainerBottom
+				style={{
+					width,
+					height,
+					marginVertical: RFValue(marginVertical),
+					marginHorizontal: RFValue(marginHorizontal),
+				}}
+			>
+				<ContainerSurface
+					style={{
+						backgroundColor: selected ? backgroundSelected : backgroundColor,
+						marginRight: selected ? RFValue(-4) : buttonPressed ? RFValue(-7) : 0
+					}}
+				>
+					<Label
+						style={{
+							fontSize: RFValue(fontSize),
+							fontFamily: selected || boldLabel ? 'Arvo_700Bold' : 'Arvo_400Regular'
+						}}
+					>
+						{label}
+					</Label>
+				</ContainerSurface>
+			</ContainerBottom>
+		</TouchableWithoutFeedback>
+	)
 }
 
 export { SelectButton }

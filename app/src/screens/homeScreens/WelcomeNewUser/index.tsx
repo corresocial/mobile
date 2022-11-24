@@ -3,8 +3,8 @@ import { Alert, StatusBar } from 'react-native'
 
 import { Container, ContainerButtons } from './styles'
 import { theme } from '../../../common/theme'
-import ShoppingBag from './../../../assets/icons/shoppingBag.svg'
-import SalesCart from './../../../assets/icons/salesCart.svg'
+import ShoppingBag from '../../../assets/icons/shoppingBag.svg'
+import SalesCart from '../../../assets/icons/salesCart.svg'
 
 import { WelcomeNewUserScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -16,7 +16,6 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
-
 	const { getDataFromSecureStore } = useContext(AuthContext)
 
 	const [userName, setUserName] = useState('amigo')
@@ -41,9 +40,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 		Alert.alert('Right!', 'Find!')
 	}
 
-	const goToProfile = () => {
-		return navigation.navigate('HomeTab' as any)
-	}
+	const goToProfile = () => navigation.navigate('HomeTab' as any)
 
 	return (
 		<Container >

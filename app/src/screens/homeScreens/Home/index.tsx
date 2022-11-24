@@ -3,7 +3,7 @@ import { View, Text, BackHandler } from 'react-native'
 
 import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
-function Home({navigation}: HomeTabScreenProps) {
+function Home({ navigation }: HomeTabScreenProps) {
 	useEffect(() => {
 		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
 	})
@@ -12,15 +12,17 @@ function Home({navigation}: HomeTabScreenProps) {
 		if (navigation.isFocused()) {
 			BackHandler.exitApp()
 			return true
-		} else {
-			return false
-		}
+		} 
+		return false
 	}
 
 	return (
-		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-			<Text>Você está logado!</Text>
-			<Text>Bem vindo!!</Text>
+		<View style={{
+			flex: 1, alignItems: 'center', justifyContent: 'center' 
+		}}
+		>
+			<Text>{'Você está logado!'}</Text>
+			<Text>{'Bem vindo!!'}</Text>
 		</View>
 	)
 }

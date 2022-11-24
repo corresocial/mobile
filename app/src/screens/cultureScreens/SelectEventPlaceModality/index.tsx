@@ -5,7 +5,7 @@ import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
 
 import { SelectEventPlaceModalityScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
-import { PlaceModalityType } from '../../../services/Firebase/types'
+import { PlaceModalityType } from '../../../services/firebase/types'
 
 import { CultureContext } from '../../../contexts/CultureContext'
 
@@ -17,83 +17,84 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectEventPlaceModality({ navigation }: SelectEventPlaceModalityScreenProps) {
+	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 
-    const { cultureDataContext,setCultureDataOnContext } = useContext(CultureContext)
+	const saveEventPlaceModality = (eventPlaceModality: PlaceModalityType) => {
+		setCultureDataOnContext({
+			eventPlaceModality
+		})
+		if (eventPlaceModality !== 'online') {
+			navigation.navigate('InsertCultureLocation')
+		} else {
+			navigation.navigate('InsertEventStartDate')
+		}
+	}
 
-    const saveEventPlaceModality = (eventPlaceModality: PlaceModalityType) => {
-        setCultureDataOnContext({ eventPlaceModality })
-        if(eventPlaceModality !== 'online'){
-            navigation.navigate('InsertCultureLocation')
-        }else{
-             navigation.navigate('InsertEventStartDate')
-        }
-    }
-
-    return (
-        <Container>
-            <StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-            <DefaultHeaderContainer
-                relativeHeight={'28%'}
-                centralized
-                backgroundColor={theme.white3}
-            >
-                <BackButton onPress={() => navigation.goBack()} />
-                <InstructionCard
-                    borderLeftWidth={3}
-                    fontSize={18}
-                    message={'onde esse role vai acontecer?'}
-                    highlightedWords={['onde']}
-                >
-                    <ProgressBar
-                        range={cultureDataContext.cultureType == 'artistProfile' ? 3 : 5}
-                        value={3}
-                    />
-                </InstructionCard>
-            </DefaultHeaderContainer>
-            <FormContainer
-                backgroundColor={theme.blue2}
-            >
-                <ButtonsContainer>
-                    <PrimaryButton
-                        justifyContent={'flex-start'}
-                        color={theme.white3}
-                        relativeHeight={'18%'}
-                        labelColor={theme.black4}
-                        labelMarginLeft={'5%'}
-                        fontSize={18}
-                        textAlign={'left'}
-                        label={'presencial'}
-                        highlightedWords={[`presencial`]}
-                        onPress={() => saveEventPlaceModality('presential')}
-                    />
-                    <PrimaryButton
-                        justifyContent={'flex-start'}
-                        color={theme.white3}
-                        relativeHeight={'18%'}
-                        labelColor={theme.black4}
-                        labelMarginLeft={'5%'}
-                        fontSize={18}
-                        textAlign={'left'}
-                        label={'presencial + online'}
-                        highlightedWords={[`presencial`, '+', 'online']}
-                        onPress={() => saveEventPlaceModality('both')}
-                    />
-                    <PrimaryButton
-                        justifyContent={'flex-start'}
-                        color={theme.white3}
-                        relativeHeight={'18%'}
-                        labelColor={theme.black4}
-                        labelMarginLeft={'5%'}
-                        fontSize={18}
-                        textAlign={'left'}
-                        label={'online'}
-                        highlightedWords={[`online`]}
-                        onPress={() => saveEventPlaceModality('online')}
-                    />
-                </ButtonsContainer>
-            </FormContainer>
-        </Container>
-    )
+	return (
+		<Container>
+			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<DefaultHeaderContainer
+				relativeHeight={'28%'}
+				centralized
+				backgroundColor={theme.white3}
+			>
+				<BackButton onPress={() => navigation.goBack()} />
+				<InstructionCard
+					borderLeftWidth={3}
+					fontSize={18}
+					message={'onde esse role vai acontecer?'}
+					highlightedWords={['onde']}
+				>
+					<ProgressBar
+						range={cultureDataContext.cultureType === 'artistProfile' ? 3 : 5}
+						value={3}
+					/>
+				</InstructionCard>
+			</DefaultHeaderContainer>
+			<FormContainer
+				backgroundColor={theme.blue2}
+			>
+				<ButtonsContainer>
+					<PrimaryButton
+						justifyContent={'flex-start'}
+						color={theme.white3}
+						relativeHeight={'18%'}
+						labelColor={theme.black4}
+						labelMarginLeft={'5%'}
+						fontSize={18}
+						textAlign={'left'}
+						label={'presencial'}
+						highlightedWords={['presencial']}
+						onPress={() => saveEventPlaceModality('presential')}
+					/>
+					<PrimaryButton
+						justifyContent={'flex-start'}
+						color={theme.white3}
+						relativeHeight={'18%'}
+						labelColor={theme.black4}
+						labelMarginLeft={'5%'}
+						fontSize={18}
+						textAlign={'left'}
+						label={'presencial + online'}
+						highlightedWords={['presencial', '+', 'online']}
+						onPress={() => saveEventPlaceModality('both')}
+					/>
+					<PrimaryButton
+						justifyContent={'flex-start'}
+						color={theme.white3}
+						relativeHeight={'18%'}
+						labelColor={theme.black4}
+						labelMarginLeft={'5%'}
+						fontSize={18}
+						textAlign={'left'}
+						label={'online'}
+						highlightedWords={['online']}
+						onPress={() => saveEventPlaceModality('online')}
+					/>
+				</ButtonsContainer>
+			</FormContainer>
+		</Container>
+	)
 }
 
 export { SelectEventPlaceModality }

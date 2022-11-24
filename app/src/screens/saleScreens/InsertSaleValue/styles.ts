@@ -8,6 +8,3 @@ export const ButtonsContainer = styled.View`
     margin-top: 40px;
     width: 100%;
 `
-
-
-

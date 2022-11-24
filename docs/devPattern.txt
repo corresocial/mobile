@@ -1,0 +1,25 @@
+
+*** Convenções gerais *** 
+
+    * Não utilizar ponto e vírgula
+    * Utilizar somente aspas simples
+    * Componentes funcionais, classes, ícones SVG, styled-components e contexts devem seguir o padrão PascalCase
+    * Funções, arquivos de configuração e indexes devem seguir o padrão camelCase
+
+Ordem das Importações:
+  
+1º : Importações de dependências e módulos não autorais(react, react-native, expo-image, jest, etc)
+2º : Importações de estilos(styled-components, temas, dimensões)
+3º : Importações de funções auxiliares autorais, configurações e funções do banco de dados
+4º : Importação de tipagem 
+5º : Importações dos contextos
+6º : Importação de componentes visuais autorais
+
+Formato das Importações:
+
+    * Quebrar importações ao ficar muito extenso para uma linha
+
+Exportaççoes: 
+
+     * Sempre que possível, utilizar o export e não o export default
+     * Exportar do módulo sempre ao final do arquivo, com exceção de tipagens

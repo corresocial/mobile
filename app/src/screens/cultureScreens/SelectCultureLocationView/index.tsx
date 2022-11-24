@@ -5,7 +5,7 @@ import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
 
 import { SelectCultureLocationViewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
-import { LocationViewType } from '../../../services/Firebase/types'
+import { LocationViewType } from '../../../services/firebase/types'
 
 import { CultureContext } from '../../../contexts/CultureContext'
 
@@ -17,75 +17,76 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectCultureLocationView({ navigation }: SelectCultureLocationViewScreenProps) {
+	const { cultureDataContext } = useContext(CultureContext)
 
-    const { cultureDataContext } = useContext(CultureContext)
+	const saveLocationViewType = (locationViewType: LocationViewType) => {
+		navigation.navigate('CultureLocationViewPreview', {
+			locationView: locationViewType
+		})
+	}
 
-    const saveLocationViewType = (locationViewType: LocationViewType) => {
-        navigation.navigate('CultureLocationViewPreview', { locationView: locationViewType })
-    }
-
-    return (
-        <Container>
-            <StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-            <DefaultHeaderContainer
-                relativeHeight={'28%'}
-                centralized
-                backgroundColor={theme.white3}
-            >
-                <BackButton onPress={() => navigation.goBack()} />
-                <InstructionCard
-                    borderLeftWidth={3}
-                    fontSize={18}
-                    message={'como você prefere que outros usuários vejam a localização do role?'}
-                    highlightedWords={['como', 'você', 'prefere', 'vejam', 'a', 'localização', 'do', 'role?']}
-                >
-                    <ProgressBar
-                        range={cultureDataContext.cultureType == 'artistProfile' ? 3 : 5}
-                        value={3}
-                    />
-                </InstructionCard>
-            </DefaultHeaderContainer>
-            <FormContainer
-                backgroundColor={theme.blue2}
-            >
-                <ButtonsContainer>
-                    <PrimaryButton
-                        justifyContent={'flex-start'}
-                        color={theme.white3}
-                        relativeHeight={'18%'}
-                        labelColor={theme.black4}
-                        fontSize={18}
-                        textAlign={'left'}
-                        label={'localização privada'}
-                        highlightedWords={[`privada`]}
-                        onPress={() => saveLocationViewType('private')}
-                    />
-                    <PrimaryButton
-                        justifyContent={'flex-start'}
-                        color={theme.white3}
-                        relativeHeight={'18%'}
-                        labelColor={theme.black4}
-                        fontSize={18}
-                        textAlign={'left'}
-                        label={'localização aproximada'}
-                        highlightedWords={[`aproximada`]}
-                        onPress={() => saveLocationViewType('approximate')}
-                    />
-                    <PrimaryButton
-                        justifyContent={'flex-start'}
-                        color={theme.white3}
-                        relativeHeight={'18%'}
-                        labelColor={theme.black4}
-                        fontSize={18}
-                        textAlign={'left'}
-                        label={'localização pública'}
-                        highlightedWords={[`pública`]}
-                        onPress={() => saveLocationViewType('public')}
-                    />
-                </ButtonsContainer>
-            </FormContainer>
-        </Container>
-    )
+	return (
+		<Container>
+			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<DefaultHeaderContainer
+				relativeHeight={'28%'}
+				centralized
+				backgroundColor={theme.white3}
+			>
+				<BackButton onPress={() => navigation.goBack()} />
+				<InstructionCard
+					borderLeftWidth={3}
+					fontSize={18}
+					message={'como você prefere que outros usuários vejam a localização do role?'}
+					highlightedWords={['como', 'você', 'prefere', 'vejam', 'a', 'localização', 'do', 'role?']}
+				>
+					<ProgressBar
+						range={cultureDataContext.cultureType === 'artistProfile' ? 3 : 5}
+						value={3}
+					/>
+				</InstructionCard>
+			</DefaultHeaderContainer>
+			<FormContainer
+				backgroundColor={theme.blue2}
+			>
+				<ButtonsContainer>
+					<PrimaryButton
+						justifyContent={'flex-start'}
+						color={theme.white3}
+						relativeHeight={'18%'}
+						labelColor={theme.black4}
+						fontSize={18}
+						textAlign={'left'}
+						label={'localização privada'}
+						highlightedWords={['privada']}
+						onPress={() => saveLocationViewType('private')}
+					/>
+					<PrimaryButton
+						justifyContent={'flex-start'}
+						color={theme.white3}
+						relativeHeight={'18%'}
+						labelColor={theme.black4}
+						fontSize={18}
+						textAlign={'left'}
+						label={'localização aproximada'}
+						highlightedWords={['aproximada']}
+						onPress={() => saveLocationViewType('approximate')}
+					/>
+					<PrimaryButton
+						justifyContent={'flex-start'}
+						color={theme.white3}
+						relativeHeight={'18%'}
+						labelColor={theme.black4}
+						fontSize={18}
+						textAlign={'left'}
+						label={'localização pública'}
+						highlightedWords={['pública']}
+						onPress={() => saveLocationViewType('public')}
+					/>
+				</ButtonsContainer>
+			</FormContainer>
+		</Container>
+	)
 }
 
 export { SelectCultureLocationView }

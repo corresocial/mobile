@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react'
 
+import { StatusBar } from 'react-native'
 import { Container, PicturePreviewContainer } from './styles'
 import { screenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import CheckIcon from './../../../assets/icons/check.svg'
+import CheckIcon from '../../../assets/icons/check.svg'
 
 import { SalePicturePreviewScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
 
@@ -16,7 +17,6 @@ import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { HorizontalListPictures } from '../../../components/HorizontalListPictures'
-import { StatusBar } from 'react-native'
 
 function SalePicturePreview({ navigation }: SalePicturePreviewScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
@@ -39,13 +39,15 @@ function SalePicturePreview({ navigation }: SalePicturePreviewScreenProps) {
 	}
 
 	const savePictures = () => {
-		setSaleDataOnContext({ picturesUrl: picturesPack })
-		 navigation.navigate('SelectPaymentType')
+		setSaleDataOnContext({
+			picturesUrl: picturesPack
+		})
+		navigation.navigate('SelectPaymentType')
 	}
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'}/>
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<CustomCameraModal
 				setPictureUri={setPictureUri}
 				onClose={() => setCameraOpened(false)}
@@ -54,7 +56,7 @@ function SalePicturePreview({ navigation }: SalePicturePreviewScreenProps) {
 			<DefaultHeaderContainer
 				relativeHeight={'85%'}
 				backgroundColor={theme.green2}
-				withoutPadding={true}
+				withoutPadding
 			>
 				<PicturePreviewContainer>
 					<PhotoPortrait
@@ -78,9 +80,9 @@ function SalePicturePreview({ navigation }: SalePicturePreviewScreenProps) {
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
 				<PrimaryButton
-					flexDirection='row-reverse'
+					flexDirection={'row-reverse'}
 					color={theme.green3}
-					label='sim, continuar'
+					label={'sim, continuar'}
 					labelColor={theme.white3}
 					fontSize={18}
 					SvgIcon={CheckIcon}

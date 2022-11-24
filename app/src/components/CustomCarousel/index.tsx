@@ -1,53 +1,50 @@
 import React, { ReactElement, useState } from 'react'
 import { View } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
+import uuid from 'react-uuid'
 
 import {
-    CarouselActiveIndicatorItem,
-    CarouselInactiveIndicatorItem,
-    CarouselIndicatorContainer
+	CarouselActiveIndicatorItem,
+	CarouselInactiveIndicatorItem,
+	CarouselIndicatorContainer
 } from './styles'
 import { screenHeight, screenWidth } from '../../common/screenDimensions'
 
-interface CustomCarousel {
-    children: ReactElement[]
+interface CustomCarouselProps {
+	children: ReactElement[]
 }
 
-function CustomCarousel(props: CustomCarousel) {
-    const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
+function CustomCarousel({ children }: CustomCarouselProps) {
+	const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
 
-    const renderCarouselIndicators = () => {
-        return [...props.children].map((_, index) => {
-            return (
-                index == currentCarouselIndex
-                    ? <CarouselActiveIndicatorItem key={index}></CarouselActiveIndicatorItem>
-                    : <CarouselInactiveIndicatorItem key={index}></CarouselInactiveIndicatorItem>
-            )
-        })
-    }
+	const renderCarouselIndicators = () => children.map((_, index) => (
+		index === currentCarouselIndex
+			? <CarouselActiveIndicatorItem key={uuid()}></CarouselActiveIndicatorItem>
+			: <CarouselInactiveIndicatorItem key={uuid()}></CarouselInactiveIndicatorItem>
+	))
 
-    return (
-        <>
-            <Carousel
-                data={props.children}
-                autoPlay={true}
-                width={screenWidth}
-                height={screenHeight}
-                autoPlayInterval={3000}
-                loop={true}
-                renderItem={({ item, index }) => (
-                    <View >
-                        {props.children[index]}
-                    </View>
-                )}
-                onSnapToItem={(index: number) => setCurrentCarouselIndex(index)}
-            />
-            <CarouselIndicatorContainer>
-                {renderCarouselIndicators()}
-            </CarouselIndicatorContainer>
-        </>
+	return (
+		<>
+			<Carousel
+				data={children}
+				autoPlay
+				width={screenWidth}
+				height={screenHeight}
+				autoPlayInterval={3000}
+				loop
+				renderItem={({ item, index }) => (
+					<View >
+						{children[index]}
+					</View>
+				)}
+				onSnapToItem={(index: number) => setCurrentCarouselIndex(index)}
+			/>
+			<CarouselIndicatorContainer>
+				{renderCarouselIndicators()}
+			</CarouselIndicatorContainer>
+		</>
 
-    )
+	)
 }
 
 export { CustomCarousel }

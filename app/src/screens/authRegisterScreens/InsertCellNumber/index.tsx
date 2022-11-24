@@ -1,12 +1,11 @@
 import { Animated, StatusBar } from 'react-native'
 import React, { useContext, useRef, useState } from 'react'
 
+import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
 import { Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
 
-import Firebase from '../../../services/Firebase'
-const firebaseConfig = Firebase ? Firebase.options : undefined
-import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
+import Firebase from '../../../services/firebase'
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 
 import { InsertCellNumberScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
@@ -18,6 +17,8 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
+
+const firebaseConfig = Firebase ? Firebase.options : undefined
 
 const headerMessages = {
 	instruction: {
@@ -35,7 +36,6 @@ const headerMessages = {
 }
 
 export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
-
 	const { sendSMS } = useContext(AuthContext)
 
 	const recaptchaVerifier = React.useRef(null)
@@ -54,7 +54,7 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 	const validateDDD = (text: string) => {
 		setHasServerSideError(false)
 
-		const isValid = text.length == 2
+		const isValid = text.length === 2
 		if (isValid) {
 			setInvalidDDDAfterSubmit(false)
 			return true
@@ -65,7 +65,7 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 	const validateCellNumber = (text: string) => {
 		setHasServerSideError(false)
 
-		const isValid = text.length == 9
+		const isValid = text.length === 9
 		if (isValid) {
 			setInvalidCellNumberAfterSubmit(false)
 			return true
@@ -73,9 +73,7 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 		return false
 	}
 
-	const someInvalidFieldSubimitted = () => {
-		return invalidDDDAfterSubmit || invalidCellNumberAfterSubmit
-	}
+	const someInvalidFieldSubimitted = () => invalidDDDAfterSubmit || invalidCellNumberAfterSubmit
 
 	const getVeficationCode = async () => {
 		const DDDIsValid = validateDDD(DDD)
@@ -85,9 +83,13 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 
 		if (DDDIsValid && cellNumberIsValid) {
 			await sendSMS(completeCellNumber, recaptchaVerifier.current)
-				.then(verificationCodeId => {
-					//  setUserDataOnContext({ cellNumber: completeCellNumber, verificationCodeId: verificationCodeId })
-					navigation.navigate('InsertConfirmationCode', { cellNumber: completeCellNumber, verificationCodeId: verificationCodeId })
+				.then((verificationCodeId) => {
+					/* setUserDataOnContext({
+						cellNumber: completeCellNumber, verificationCodeId
+					}) */
+					navigation.navigate('InsertConfirmationCode', {
+						cellNumber: completeCellNumber, verificationCodeId
+					})
 				})
 				.catch((err) => {
 					console.log(err)
@@ -133,11 +135,11 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 			<FirebaseRecaptchaVerifierModal
 				ref={recaptchaVerifier}
 				firebaseConfig={firebaseConfig}
-				languageCode="pt-BR"
+				languageCode={'pt-BR'}
 				attemptInvisibleVerification
 			/>
 			<DefaultHeaderContainer
-				relativeHeight='55%'
+				relativeHeight={'55%'}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
@@ -184,7 +186,7 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 						placeholder={'123451234'}
 						keyboardType={'decimal-pad'}
 						error={hasServerSideError}
-						lastInput={true}
+						lastInput
 						filterText={filterLeavingOnlyNumbers}
 						validateText={(text: string) => validateCellNumber(text)}
 						onChangeText={(text: string) => setCellNumber(text)}
@@ -194,7 +196,7 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 					color={someInvalidFieldSubimitted() || hasServerSideError ? theme.red3 : theme.purple3}
 					iconName={'arrow-right'}
 					iconColor={theme.white3}
-					label='continuar'
+					label={'continuar'}
 					labelColor={theme.white3}
 					highlightedWords={['continuar']}
 					startsHidden

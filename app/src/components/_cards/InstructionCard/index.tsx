@@ -17,33 +17,33 @@ interface InstructionCardProps {
 }
 
 function InstructionCard({
-    message,
-    highlightedWords,
-    fontSize,
-    fontSizeHighlighted,
-    lineHeight,
-    borderLeftWidth,
-    flex = 1,
-    children
+	message,
+	highlightedWords,
+	fontSize,
+	fontSizeHighlighted,
+	lineHeight,
+	borderLeftWidth,
+	flex = 1,
+	children
 }: InstructionCardProps) {
-    return (
-        <Container
-            style={{
-                borderLeftWidth: borderLeftWidth ? borderLeftWidth : 5,
-                flex: flex
-            }}
-        >
-            <Message
-                style={{
-                    fontSize: fontSize ? RFValue(fontSize) : RFValue(20),
-                    lineHeight: lineHeight ? RFValue(lineHeight) : RFValue(22),
-                }}
-            >
-                {showMessageWithHighlight(message, highlightedWords, fontSizeHighlighted)}
-            </Message>
-            {children}
-        </Container>
-    )
+	return (
+		<Container
+			style={{
+				borderLeftWidth: borderLeftWidth || 5,
+				flex
+			}}
+		>
+			<Message
+				style={{
+					fontSize: fontSize ? RFValue(fontSize) : RFValue(20),
+					lineHeight: lineHeight ? RFValue(lineHeight) : RFValue(22),
+				}}
+			>
+				{showMessageWithHighlight(message, highlightedWords, fontSizeHighlighted)}
+			</Message>
+			{children}
+		</Container>
+	)
 }
 
 export { InstructionCard }

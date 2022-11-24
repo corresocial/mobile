@@ -6,9 +6,9 @@ import { Container, InstructionCardContainer } from './styles'
 import { screenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 
-import {updateUser} from '../../../services/Firebase/user/updateUser'
-import {uploadImage} from '../../../services/Firebase/common/uploadPicture'
-import {updateUserPrivateData} from '../../../services/Firebase/user/updateUserPrivateData'
+import { updateUser } from '../../../services/firebase/user/updateUser'
+import { uploadImage } from '../../../services/firebase/common/uploadPicture'
+import { updateUserPrivateData } from '../../../services/firebase/user/updateUserPrivateData'
 
 import { ProfilePicturePreviewScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
@@ -24,7 +24,6 @@ import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal'
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
-
 	const { setDataOnSecureStore, getDataFromSecureStore } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
@@ -54,7 +53,9 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 	const navigateToNextScreen = async (tourPerformed: boolean) => {
 		setHasServerSideError(false)
-		return navigation.navigate('UserStack', { tourPerformed })
+		return navigation.navigate('UserStack', {
+			tourPerformed
+		})
 	}
 
 	const backToCustomCamera = () => {
@@ -76,9 +77,9 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		setProfilePicturesPack([pictureUri])
 	}
 
-	const getRouteParams = () => {
-		return { ...route.params }
-	}
+	const getRouteParams = () => ({
+		...route.params
+	})
 
 	const saveUserData = async () => {
 		const userData = getRouteParams()
@@ -92,7 +93,8 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 			.then(
 				({ uploadTask, blob }: any) => {
 					uploadTask.on(
-						'state_change', () => { console.log('Uploading...') }, // Set default load
+						'state_change',
+						() => { console.log('Uploading...') }, // Set default load
 						(err: any) => { throwServerSideError(err) },
 						async () => {
 							blob.close()
@@ -105,7 +107,9 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 									})
 
 									await updateUserPrivateData(
-										{ cellNumber: userData.cellNumber },
+										{
+											cellNumber: userData.cellNumber
+										},
 										userData.userIdentification.uid,
 										'contacts',
 									)
@@ -121,19 +125,21 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 									setLoaderIsVisible(false)
 									navigateToNextScreen(localUser.tourPerformed)
 								})
-								.catch(err => throwServerSideError(err))
+								.catch((err) => throwServerSideError(err))
 						},
 					)
 				},
 			)
-			.catch(err => {
+			.catch((err) => {
 				setLoaderIsVisible(false)
 				throwServerSideError(err)
 			})
 	}
 
 	const saveInSecureStore = async (userData: LocalUserData) => {
-		await setDataOnSecureStore('corre.user', { ...userData })
+		await setDataOnSecureStore('corre.user', {
+			...userData
+		})
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -170,7 +176,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 				relativeHeight={!hasServerSideError ? '70%' : '68%'}
 				centralized
 				withoutPadding
-				flexDirection='column'
+				flexDirection={'column'}
 				justifyContent={'space-around'}
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
@@ -188,7 +194,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 					color={theme.green3}
 					iconName={'arrow-right'}
 					iconColor={theme.white3}
-					label='tá ótima, continuar'
+					label={'tá ótima, continuar'}
 					labelColor={theme.white3}
 					highlightedWords={['continuar']}
 					onPress={saveUserData}
@@ -197,7 +203,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 					color={theme.yellow3}
 					iconName={'images'}
 					iconColor={theme.black4}
-					label='nem, escolher outra'
+					label={'nem, escolher outra'}
 					labelColor={theme.black4}
 					highlightedWords={['escolher', 'outra']}
 					onPress={backToCustomCamera}

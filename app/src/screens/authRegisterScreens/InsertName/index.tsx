@@ -1,7 +1,7 @@
 import { Animated, Keyboard, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-import { Container, InputsContainer } from './styles'
+import { ButtonContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
@@ -17,11 +17,10 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 
 function InsertName({ navigation, route }: InsertNameScreenProps) {
-
 	const { getDataFromSecureStore } = useContext(AuthContext)
 
-	const [name, setName] = useState<string>('')
-	const [nameIsValid, setNameIsValid] = useState<boolean>(false)
+	const [inputName, setInputName] = useState<string>('')
+	const [nameIsValid, setInputNameIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 	const [invalidNameAfterSubmit, setInvaliNameAfterSubmit] = useState<boolean>(false)
 	const [alreadyLoaded, setAlreadyLoaded] = useState<boolean>(false)
@@ -44,14 +43,14 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 			setAlreadyLoaded(true)
 		}
 
-		const validation = validateName(name)
-		setNameIsValid(validation)
-	}, [name])
+		const validation = validateName(inputName)
+		setInputNameIsValid(validation)
+	}, [inputName])
 
 	const getUserName = async () => {
 		const localUser = await getObjectLocalUser()
 		const { name } = localUser
-		setName(name)
+		setInputName(name)
 	}
 
 	const getUserProfilePicture = async () => {
@@ -75,41 +74,38 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 		return false
 	}
 
-	const getRouteParams = () => {
-		return { ...route.params }
-	}
+	const getRouteParams = () => ({
+		...route.params
+	})
 
 	const sendUserDataToNextScreen = async () => {
-		const nameIsValid = validateName(name)
-		if (nameIsValid) {
+		const userNameIsValid = validateName(inputName)
+		if (userNameIsValid) {
 			const userData = getRouteParams()
 			const profilePictureUrl = await getUserProfilePicture()
 
-			if (!!profilePictureUrl.length) {
+			if (profilePictureUrl.length) {
 				navigation.navigate('InsertProfilePicture', {
 					...userData,
-					userName: name,
+					userName: inputName,
 					profilePictureUrl
 				})
 				return navigation.navigate('ProfilePicturePreview', {
 					...userData,
-					userName: name,
+					userName: inputName,
 					profilePictureUrl
 				})
-			} else {
-				navigation.navigate('InsertProfilePicture', {
-					...userData,
-					userName: name
-				})
 			}
+			navigation.navigate('InsertProfilePicture', {
+				...userData,
+				userName: inputName
+			})
 		} else {
-			!nameIsValid && setInvaliNameAfterSubmit(true)
+			!userNameIsValid && setInvaliNameAfterSubmit(true)
 		}
 	}
 
-	const someInvalidFieldSubimitted = () => {
-		return invalidNameAfterSubmit
-	}
+	const someInvalidFieldSubimitted = () => invalidNameAfterSubmit
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
@@ -151,7 +147,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 			<FormContainer backgroundColor={theme.white2}>
 				<InputsContainer>
 					<LineInput
-						value={name}
+						value={inputName}
 						relativeWidth={'100%'}
 						textInputRef={inputRefs.nameInput}
 						defaultBackgroundColor={theme.white2}
@@ -166,23 +162,27 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 						placeholder={'qual é o seu nome?'}
 						keyboardType={'default'}
 						textIsValid={nameIsValid && !keyboardOpened}
-						onChangeText={(text: string) => setName(text)}
+						onChangeText={(text: string) => setInputName(text)}
 					/>
 				</InputsContainer>
-				{
-					nameIsValid && !keyboardOpened
-						? <PrimaryButton
-							color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
-							iconName={'arrow-right'}
-							iconColor={theme.white3}
-							label='continuar'
-							labelColor={theme.white3}
-							highlightedWords={['continuar']}
-							startsHidden={false}
-							onPress={sendUserDataToNextScreen}
-						/>
-						: <></>
-				}
+				<ButtonContainer>
+					{
+						nameIsValid && !keyboardOpened
+						&& (
+							<PrimaryButton
+								color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
+								iconName={'arrow-right'}
+								iconColor={theme.white3}
+								label={'continuar'}
+								labelColor={theme.white3}
+								highlightedWords={['continuar']}
+								startsHidden={false}
+								onPress={sendUserDataToNextScreen}
+							/>
+						)
+
+					}
+				</ButtonContainer>
 			</FormContainer>
 		</Container>
 	)

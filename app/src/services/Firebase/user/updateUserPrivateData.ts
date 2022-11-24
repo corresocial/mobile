@@ -4,23 +4,24 @@ import { firestore } from '..'
 import { UserCollection } from '../types'
 
 async function updateUserPrivateData(data: UserCollection, userId: string, privateField: string = '') {
-    try {
-        try {
-            const docRef = doc(firestore, 'users', userId, 'private', privateField)
-            await updateDoc(
-                docRef,
-                { ...data }),
-                { merge: true }
-        } catch (err) {
-            const collectionRef = doc(firestore, 'users', userId, 'private', privateField)
-            await setDoc(
-                collectionRef,
-                { ...data },
-            )
-        }
-    } catch (err) {
-        console.log(err)
-    }
+	try {
+		try {
+			const docRef = doc(firestore, 'users', userId, 'private', privateField)
+			await updateDoc(docRef, {
+				...data
+			})/* ,
+			{
+				merge: true  //TODO Check this
+			} */
+		} catch (err) {
+			const collectionRef = doc(firestore, 'users', userId, 'private', privateField)
+			await setDoc(collectionRef, {
+				...data
+			},)
+		}
+	} catch (err) {
+		console.log(err)
+	}
 }
 
 export { updateUserPrivateData }

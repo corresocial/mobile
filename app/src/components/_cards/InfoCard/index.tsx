@@ -15,31 +15,32 @@ interface InfoCardProps {
 }
 
 function InfoCard({
-    height,
-    color,
-    title,
-    titleFontSize = 22,
-    description,
-    highlightedWords
+	height,
+	color,
+	title,
+	titleFontSize = 22,
+	description,
+	highlightedWords
 }: InfoCardProps) {
-    return (
-        <Container
-            style={{
-                height: height,
-                backgroundColor: color
-            }}>
-            <Title
-                style={{
-                    fontSize: RFValue(titleFontSize)
-                }}
-            >
-                {showMessageWithHighlight(title, highlightedWords)}
-            </Title>
-            <Description>
-                {showMessageWithHighlight(description, highlightedWords)}
-            </Description>
-        </Container>
-    )
+	return (
+		<Container
+			style={{
+				height,
+				backgroundColor: color
+			}}
+		>
+			<Title
+				style={{
+					fontSize: RFValue(titleFontSize)
+				}}
+			>
+				{showMessageWithHighlight(title, highlightedWords)}
+			</Title>
+			<Description>
+				{showMessageWithHighlight(description, highlightedWords)}
+			</Description>
+		</Container>
+	)
 }
 
 export { InfoCard }

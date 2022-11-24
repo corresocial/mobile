@@ -1,8 +1,8 @@
-import { cultureCategories } from "../../screens/cultureScreens/cultureCategories"
-import { saleCategories } from "../../screens/saleScreens/saleCategories"
-import { serviceCategories } from "../../screens/serviceScreens/serviceCategories"
-import { vacancyCategories } from "../../screens/vacancyScreens/vacancyCategories"
-import { socialImpactCategories } from "../../screens/socialImpactScreens/socialImpactCategories"
+import { cultureCategories } from '../../screens/cultureScreens/cultureCategories'
+import { saleCategories } from '../../screens/saleScreens/saleCategories'
+import { serviceCategories } from '../../screens/serviceScreens/serviceCategories'
+import { vacancyCategories } from '../../screens/vacancyScreens/vacancyCategories'
+import { socialImpactCategories } from '../../screens/socialImpactScreens/socialImpactCategories'
 
 export type SaleCategories = keyof typeof saleCategories
 export type ServiceCategories = keyof typeof serviceCategories
@@ -67,7 +67,7 @@ export type UserCollection = {
     ads?: AdsCollection[]
     locationView?: LocationViewType
     cellNumber?: string // private
-    address?: {          // private
+    address?: { // private
         country?: string
         state?: string
         city?: string
@@ -299,6 +299,4 @@ export type SocialImpactCollection = {
     }
 }
 
-
 export type AdsCollection = any
-

@@ -1,4 +1,4 @@
-import { LocationViewType, ServiceCategories } from '../../../services/Firebase/types'
+import { LocationViewType, ServiceCategories } from '../../../services/firebase/types'
 
 export type ServiceStackParamList = {
     SelectPostType: undefined
@@ -7,13 +7,13 @@ export type ServiceStackParamList = {
     InsertServicePicture: undefined
     ServicePicturePreview: undefined
     SelectServiceCategory: undefined
-    SelectServiceTags: {categorySelected: ServiceCategories}
+    SelectServiceTags: { categorySelected: ServiceCategories }
     SelectSaleOrExchange: undefined
     InsertExchangeValue: undefined
-    InsertSaleValue: {bothPaymentType?: boolean}
+    InsertSaleValue: { bothPaymentType?: boolean }
     InsertServicePrestationLocation: undefined
     SelectLocationView: undefined
-    LocationViewPreview: {locationView: LocationViewType}
+    LocationViewPreview: { locationView: LocationViewType }
     SelectDeliveryMethod: undefined
     SelectServiceFrequency: undefined
     SelectDaysOfWeek: undefined

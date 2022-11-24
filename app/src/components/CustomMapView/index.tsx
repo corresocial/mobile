@@ -4,94 +4,99 @@ import { SvgProps } from 'react-native-svg'
 
 import { screenWidth } from '../../common/screenDimensions'
 
-import { Coordinates, LocationViewType } from '../../services/Firebase/types'
+import { Coordinates, LocationViewType } from '../../services/firebase/types'
 
 interface CustomMapViewProops {
-    regionCoordinate: Coordinates | any
-    markerCoordinate: Coordinates | any
-    CustomMarker: React.FC<SvgProps>
-    locationView?: LocationViewType
-    updateMarkerPosition?: (event: any) => void
+	regionCoordinate: Coordinates | any
+	markerCoordinate: Coordinates | any
+	CustomMarker: React.FC<SvgProps>
+	locationView?: LocationViewType
+	updateMarkerPosition?: (event: any) => void
 }
 
 function CustomMapView({
-    regionCoordinate,
-    markerCoordinate,
-    CustomMarker,
-    locationView,
-    updateMarkerPosition
+	regionCoordinate,
+	markerCoordinate,
+	CustomMarker,
+	locationView,
+	updateMarkerPosition
 
 }: CustomMapViewProops) {
+	const approximateRadius = 125
 
-    const approximateRadius = 125
+	const generateRandomCoordinateOnRadius = () => {
+		if (!locationView) return null
 
-    const generateRandomCoordinateOnRadius = () => {
-        if (!locationView) return null
+		const realCoordinates = {
+			...markerCoordinate
+		} as Coordinates
 
-        const realCoordinates = { ...markerCoordinate } as Coordinates
+		const newCoordinates = {
+			...realCoordinates,
+			latitude: realCoordinates.latitude + getRandomDetachment(),
+			longitude: realCoordinates.longitude + getRandomDetachment()
+		}
 
-        const newCoordinates = {
-            ...realCoordinates,
-            latitude: realCoordinates.latitude + getRandomDetachment(),
-            longitude: realCoordinates.longitude + getRandomDetachment()
-        }
+		return newCoordinates as Coordinates
+	}
 
-        return newCoordinates as Coordinates
-    }
+	const getRandomDetachment = () => {
+		const binaryRandom = Math.round(Math.random())
+		const detachmentRandom = Math.round(Math.random() * (55 - 10) + 10) / 10000000
 
-    const getRandomDetachment = () => {
-        const binaryRandom = Math.round(Math.random())
-        const detachmentRandom = Math.round(Math.random() * (55 - 10) + 10) / 10000000
+		/* console.log('binaryRandom: ' + binaryRandom)
+		console.log('detachmentRandom: ' + detachmentRandom) */
 
-        /* console.log('binaryRandom: ' + binaryRandom)
-        console.log('detachmentRandom: ' + detachmentRandom) */
+		if (binaryRandom) {
+			return (approximateRadius * detachmentRandom)
+		}
+		return -(approximateRadius * detachmentRandom)
+	}
 
-        if (binaryRandom) {
-            return (approximateRadius * detachmentRandom)
-        } else {
-            return -(approximateRadius * detachmentRandom)
-        }
-    }
+	const randomCoordinate = generateRandomCoordinateOnRadius()
 
-    const randomCoordinate = generateRandomCoordinateOnRadius()
+	return (
+		<MapView
+			style={{
+				flex: 1,
+				position: 'relative'
+			}}
+			cacheEnabled={false}
+			region={locationView === 'approximate' ? randomCoordinate as Coordinates : regionCoordinate}
+			mapType={'standard'}
+			onRegionChangeComplete={(coordinates) => updateMarkerPosition && updateMarkerPosition(coordinates)}
+		>
+			{
+				markerCoordinate
+				&& (
+					<>
+						{
+							locationView === 'approximate'
+							&& (
+								<Circle
+									center={{
+										latitude: randomCoordinate?.latitude || 0,
+										longitude: randomCoordinate?.longitude || 0
+									}}
+									radius={approximateRadius}
+									strokeWidth={4}
+									fillColor={'rgba(250, 153, 56, 0.25)'}
+								>
+								</Circle>
+							)
+						}
+						<Marker
+							coordinate={locationView === 'approximate' ? randomCoordinate : markerCoordinate}
+							title={'seu local'}
+						>
+							<CustomMarker width={screenWidth * 0.0972} height={screenWidth * 0.0972} />
+						</Marker>
+					</>
+				)
 
-    return (
-        <MapView
-
-            style={{ flex: 1, position: 'relative' }}
-            cacheEnabled={false}
-            region={locationView == 'approximate' ? randomCoordinate as Coordinates : regionCoordinate}
-            mapType='standard'
-            onRegionChangeComplete={(coordinates) => updateMarkerPosition && updateMarkerPosition(coordinates)}
-        >
-            {
-                markerCoordinate &&
-                <>
-                    {
-                        locationView == 'approximate' &&
-                        <Circle
-                            center={{
-                                latitude: randomCoordinate?.latitude || 0,
-                                longitude: randomCoordinate?.longitude || 0
-                            }}
-                            radius={approximateRadius}
-                            strokeWidth={4}
-                            fillColor={'rgba(250, 153, 56, 0.25)'}
-                        >
-                        </Circle>
-                    }
-                    <Marker
-                        coordinate={locationView == 'approximate' ? randomCoordinate : markerCoordinate}
-                        title={'seu local'}
-                    >
-                        <CustomMarker width={screenWidth * 0.0972} height={screenWidth * 0.0972} />
-                    </Marker>
-                </>
-
-
-            }
-        </MapView>
-    )
+			}
+		</MapView>
+	)
 }
 
 export { CustomMapView }

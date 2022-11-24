@@ -2,17 +2,17 @@ import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
 import {
-    Container,
-    FloatButtonContainer,
-    Row,
-    WeekdaysSelectedArea
+	Container,
+	FloatButtonContainer,
+	Row,
+	WeekdaysSelectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
 import { screenHeight, screenWidth } from '../../../common/screenDimensions'
-import Check from './../../../assets/icons/check.svg'
+import Check from '../../../assets/icons/check.svg'
 
 import { SelectDaysOfWeekScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
-import { DaysOfWeek } from '../../../services/Firebase/types'
+import { DaysOfWeek } from '../../../services/firebase/types'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 
@@ -25,108 +25,108 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectDaysOfWeek({ navigation }: SelectDaysOfWeekScreenProps) {
+	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 
-    const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const [selectedDays, setSelectedDays] = useState<DaysOfWeek[]>([])
+	const daysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
 
-    const [selectedDays, setSelectedDays] = useState<DaysOfWeek[]>([])
-    const daysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
+	const renderDaysOfWeek = () => daysOfWeek.map((dayOfWeek) => {
+		if (dayOfWeek === 'dom') {
+			return (
+				<Row key={dayOfWeek}>
+					<SelectButton
+						width={screenWidth * 0.41}
+						height={screenHeight * 0.11}
+						marginVertical={10}
+						label={dayOfWeek}
+						fontSize={24}
+						backgroundSelected={theme.pink1}
+						selected={selectedDays.includes(dayOfWeek)}
+						onSelect={() => onSelectDay(dayOfWeek)}
+					/>
+				</Row>
+			)
+		}
 
-    const renderDaysOfWeek = () => {
-        return daysOfWeek.map((dayOfWeek, index) => {
-            if (dayOfWeek == 'dom') {
-                return <Row key={index}>
-                    <SelectButton
-                        width={screenWidth * 0.41}
-                        height={screenHeight * 0.11}
-                        marginVertical={10}
-                        label={dayOfWeek}
-                        fontSize={24}
-                        backgroundSelected={theme.pink1}
-                        selected={selectedDays.includes(dayOfWeek)}
-                        onSelect={() => onSelectDay(dayOfWeek)}
-                    />
-                </Row>
-            }
+		return (
+			<SelectButton
+				key={dayOfWeek}
+				width={screenWidth * 0.41}
+				height={screenHeight * 0.11}
+				marginVertical={10}
+				label={dayOfWeek}
+				fontSize={24}
+				backgroundSelected={theme.pink1}
+				selected={selectedDays.includes(dayOfWeek)}
+				onSelect={() => onSelectDay(dayOfWeek)}
+			/>
+		)
+	})
 
-            return (
-                <SelectButton
-                    key={index}
-                    width={screenWidth * 0.41}
-                    height={screenHeight * 0.11}
-                    marginVertical={10}
-                    label={dayOfWeek}
-                    fontSize={24}
-                    backgroundSelected={theme.pink1}
-                    selected={selectedDays.includes(dayOfWeek)}
-                    onSelect={() => onSelectDay(dayOfWeek)}
-                />
-            )
-        })
-    }
+	const onSelectDay = (dayOfWeek: DaysOfWeek) => {
+		const selectedDaysOfWeek = [...selectedDays]
+		if (selectedDays.includes(dayOfWeek)) {
+			const selectedDaysFiltred = selectedDaysOfWeek.filter((day) => day !== dayOfWeek)
+			setSelectedDays(selectedDaysFiltred)
+		} else {
+			selectedDaysOfWeek.push(dayOfWeek)
+			setSelectedDays(selectedDaysOfWeek)
+		}
+	}
 
-    const onSelectDay = (dayOfWeek: DaysOfWeek) => {
-        const selectedDaysOfWeek = [...selectedDays]
-        if (selectedDays.includes(dayOfWeek)) {
-            const selectedDaysFiltred = selectedDaysOfWeek.filter((day) => day != dayOfWeek)
-            setSelectedDays(selectedDaysFiltred)
-        } else {
-            selectedDaysOfWeek.push(dayOfWeek)
-            setSelectedDays(selectedDaysOfWeek)
-        }
-        return
-    }
+	const saveDaysOfWeek = () => {
+		setSocialImpactDataOnContext({
+			exhibitionWeekDays: selectedDays
+		})
+		navigation.navigate('InsertOpeningHour')
+	}
 
-    const saveDaysOfWeek = () => {
-        setSocialImpactDataOnContext({
-            exhibitionWeekDays: selectedDays
-        })
-        navigation.navigate('InsertOpeningHour')
-    }
-
-    return (
-        <Container>
-            <StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-            <DefaultHeaderContainer
-                relativeHeight={'22%'}
-                centralized
-                backgroundColor={theme.white3}
-            >
-                <BackButton onPress={() => navigation.goBack()} />
-                <InstructionCard
-                    borderLeftWidth={3}
-                    fontSize={18}
-                    message={`que dias da semana?`}
-                    highlightedWords={['que', 'dias']}
-                >
-                    <ProgressBar
-                        range={5}
-                        value={4}
-                    />
-                </InstructionCard>
-            </DefaultHeaderContainer>
-            <SelectButtonsContainer
-                backgroundColor={theme.pink2}
-            >
-                <WeekdaysSelectedArea>
-                    {renderDaysOfWeek()}
-                </WeekdaysSelectedArea>
-            </SelectButtonsContainer>
-            {
-                !!selectedDays.length &&
-                <FloatButtonContainer>
-                    <PrimaryButton
-                        flexDirection={'row-reverse'}
-                        color={theme.green3}
-                        label={'continuar'}
-                        labelColor={theme.white3}
-                        SvgIcon={Check}
-                        svgIconScale={['30%', '15%']}
-                        onPress={saveDaysOfWeek}
-                    />
-                </FloatButtonContainer>
-            }
-        </Container >
-    )
+	return (
+		<Container>
+			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<DefaultHeaderContainer
+				relativeHeight={'22%'}
+				centralized
+				backgroundColor={theme.white3}
+			>
+				<BackButton onPress={() => navigation.goBack()} />
+				<InstructionCard
+					borderLeftWidth={3}
+					fontSize={18}
+					message={'que dias da semana?'}
+					highlightedWords={['que', 'dias']}
+				>
+					<ProgressBar
+						range={5}
+						value={4}
+					/>
+				</InstructionCard>
+			</DefaultHeaderContainer>
+			<SelectButtonsContainer
+				backgroundColor={theme.pink2}
+			>
+				<WeekdaysSelectedArea>
+					{renderDaysOfWeek()}
+				</WeekdaysSelectedArea>
+			</SelectButtonsContainer>
+			{
+				!!selectedDays.length
+				&& (
+					<FloatButtonContainer>
+						<PrimaryButton
+							flexDirection={'row-reverse'}
+							color={theme.green3}
+							label={'continuar'}
+							labelColor={theme.white3}
+							SvgIcon={Check}
+							svgIconScale={['30%', '15%']}
+							onPress={saveDaysOfWeek}
+						/>
+					</FloatButtonContainer>
+				)
+			}
+		</Container >
+	)
 }
 
 export { SelectDaysOfWeek }

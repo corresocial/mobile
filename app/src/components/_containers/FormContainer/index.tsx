@@ -9,18 +9,19 @@ interface FormContainerProps {
 }
 
 function FormContainer({
-    children,
-    backgroundColor,
-    justifyContent = 'space-around'
+	children,
+	backgroundColor,
+	justifyContent = 'space-around'
 }: FormContainerProps) {
-    return (
-        <Container style={{
-            backgroundColor,
-            justifyContent: justifyContent
-        }}>
-            {children}
-        </Container>
-    )
+	return (
+		<Container style={{
+			backgroundColor,
+			justifyContent
+		}}
+		>
+			{children}
+		</Container>
+	)
 }
 
 export { FormContainer }

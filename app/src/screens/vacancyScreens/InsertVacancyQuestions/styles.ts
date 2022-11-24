@@ -1,21 +1,11 @@
+import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 export const Container = styled.View`
     flex: 1;
 `
 
-export const InputsContainer = styled.View`
-    width: 100%;
-    min-height: 52px;
-    flex-direction: column;
-    justify-content:center;
-    align-items: center;
-`
-
 export const ButtonsContainer = styled.View`
-    margin-top: 60px;
+    margin-top: ${RFValue(60)}px;
     width: 100%;
 `
-
-
-

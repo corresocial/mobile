@@ -4,8 +4,8 @@ import { Animated, StatusBar } from 'react-native'
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
 
-import {updateUserPrivateData} from '../../../services/Firebase/user/updateUserPrivateData'
-import {updateUser} from '../../../services/Firebase/user/updateUser'
+import { updateUserPrivateData } from '../../../services/firebase/user/updateUserPrivateData'
+import { updateUser } from '../../../services/firebase/user/updateUser'
 
 import { RegisterUserData } from '../../../contexts/types'
 
@@ -17,13 +17,12 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { UserCollection } from '../../../services/Firebase/types'
+import { UserCollection } from '../../../services/firebase/types'
 
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
-
 	const { setDataOnSecureStore, getDataFromSecureStore } = useContext(AuthContext)
-	const {setLoaderIsVisible} = useContext(LoaderContext)
-	
+	const { setLoaderIsVisible } = useContext(LoaderContext)
+
 	const [hasServerSideError, setHasServerSideError] = useState(false)
 
 	const headerMessages = {
@@ -37,9 +36,9 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		}
 	}
 
-	const getRouteParams = () => {
-		return { ...route.params }
-	}
+	const getRouteParams = () => ({
+		...route.params
+	})
 
 	const navigateToProfilePicture = () => {
 		const userData = getRouteParams()
@@ -51,7 +50,8 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 	const saveUserData = async () => {
 		const userData = getRouteParams()
 		const localUserJSON = await getDataFromSecureStore('corre.user')
-		const localUser = JSON.parse(localUserJSON as string) || {}
+		const localUser = JSON.parse(localUserJSON as string) || {
+		}
 
 		try {
 			setLoaderIsVisible(true)
@@ -74,7 +74,9 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		})
 
 		await updateUserPrivateData(
-			{ cellNumber: userData.cellNumber },
+			{
+				cellNumber: userData.cellNumber
+			},
 			userData.userIdentification.uid,
 			'contacts',
 		)
@@ -90,7 +92,9 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 	}
 
 	const navigateToNextScreen = (tourPerformed: boolean) => {
-		navigation.navigate('UserStack', { tourPerformed })
+		navigation.navigate('UserStack', {
+			tourPerformed
+		})
 	}
 
 	const getHeaderMessage = () => {
@@ -137,7 +141,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 					color={theme.green3}
 					iconName={'images'}
 					iconColor={theme.white3}
-					label='claro, vou adicionar'
+					label={'claro, vou adicionar'}
 					labelColor={theme.white3}
 					highlightedWords={['vou', 'adicionar']}
 					onPress={navigateToProfilePicture}
@@ -146,7 +150,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 					color={theme.red3}
 					iconName={'arrow-right'}
 					iconColor={theme.white3}
-					label='nem quero, valew'
+					label={'nem quero, valew'}
 					labelColor={theme.white3}
 					highlightedWords={['nem', 'quero,']}
 					onPress={saveUserData}

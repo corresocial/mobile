@@ -5,7 +5,7 @@ import { Container, ButtonsContainer } from './styles'
 import { theme } from '../../../common/theme'
 
 import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
-import { DeliveryMethod } from './../../../services/Firebase/types'
+import { DeliveryMethod } from '../../../services/firebase/types'
 
 import { SaleContext } from '../../../contexts/SaleContext'
 
@@ -17,88 +17,88 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectDeliveryMethod({ navigation }: SelectDeliveryMethodScreenProps) {
+	const { setSaleDataOnContext } = useContext(SaleContext)
 
-    const {setSaleDataOnContext} = useContext(SaleContext)
-    
-    const saveDeliveryMethod = (deliveryMethod: DeliveryMethod) => {
-        setSaleDataOnContext({deliveryMethod})
-        navigation.navigate('SelectSaleFrequency')
-    }
+	const saveDeliveryMethod = (deliveryMethod: DeliveryMethod) => {
+		setSaleDataOnContext({
+			deliveryMethod
+		})
+		navigation.navigate('SelectSaleFrequency')
+	}
 
-    return (
-        <Container>
-              <StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-            <DefaultHeaderContainer
-                relativeHeight={'27%'}
-                centralized
-                backgroundColor={theme.white3}
-            >
-                <BackButton onPress={() => navigation.goBack()} />
-                <InstructionCard
-                    borderLeftWidth={3}
-                    fontSize={18}
-                    message={'você pretende entregar seu item?'}
-                    highlightedWords={['entregar','seu','item?']}
-                >
-                    <ProgressBar
-                        range={5}
-                        value={5}
-                    />
-                </InstructionCard>
-            </DefaultHeaderContainer>
-            <FormContainer
-                backgroundColor={theme.green2}
-            >
-                <ButtonsContainer>
-                    <PrimaryButton
-                        justifyContent={'flex-start'}
-                        color={theme.white3}
-                        relativeHeight={'18%'}
-                        labelColor={theme.black4}
-                        fontSize={18}
-                        textAlign={'left'}
-                        label={'comprador busca'}
-                        highlightedWords={[`comprador`]}
-                        onPress={() => saveDeliveryMethod('unavailable')}
-                    />
-                    <PrimaryButton
-                        justifyContent={'flex-start'}
-                        color={theme.white3}
-                        relativeHeight={'18%'}
-                        labelColor={theme.black4}
-                        fontSize={18}
-                        textAlign={'left'}
-                        label={'entrego perto de mim'}
-                        highlightedWords={['perto', 'de', 'mim']}
-                        onPress={() => saveDeliveryMethod('near')}
-                    />
-                    <PrimaryButton
-                        justifyContent={'flex-start'}
-                        color={theme.white3}
-                        relativeHeight={'18%'}
-                        labelColor={theme.black4}
-                        fontSize={18}
-                        textAlign={'left'}
-                        label={'entrego na cidade'}
-                        highlightedWords={['na', 'cidade']}
-                        onPress={() => saveDeliveryMethod('city')}
-                    />
-                    <PrimaryButton
-
-                        justifyContent={'flex-start'}
-                        color={theme.white3}
-                        relativeHeight={'18%'}
-                        labelColor={theme.black4}
-                        fontSize={18}
-                        textAlign={'left'}
-                        label={'entrego no brasil inteiro'}
-                        highlightedWords={['brasil', 'inteiro']}
-                        onPress={() => saveDeliveryMethod('country')}
-                    />
-                </ButtonsContainer>
-            </FormContainer>
-        </Container>
-    )
+	return (
+		<Container>
+			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<DefaultHeaderContainer
+				relativeHeight={'27%'}
+				centralized
+				backgroundColor={theme.white3}
+			>
+				<BackButton onPress={() => navigation.goBack()} />
+				<InstructionCard
+					borderLeftWidth={3}
+					fontSize={18}
+					message={'você pretende entregar seu item?'}
+					highlightedWords={['entregar', 'seu', 'item?']}
+				>
+					<ProgressBar
+						range={5}
+						value={5}
+					/>
+				</InstructionCard>
+			</DefaultHeaderContainer>
+			<FormContainer
+				backgroundColor={theme.green2}
+			>
+				<ButtonsContainer>
+					<PrimaryButton
+						justifyContent={'flex-start'}
+						color={theme.white3}
+						relativeHeight={'18%'}
+						labelColor={theme.black4}
+						fontSize={18}
+						textAlign={'left'}
+						label={'comprador busca'}
+						highlightedWords={['comprador']}
+						onPress={() => saveDeliveryMethod('unavailable')}
+					/>
+					<PrimaryButton
+						justifyContent={'flex-start'}
+						color={theme.white3}
+						relativeHeight={'18%'}
+						labelColor={theme.black4}
+						fontSize={18}
+						textAlign={'left'}
+						label={'entrego perto de mim'}
+						highlightedWords={['perto', 'de', 'mim']}
+						onPress={() => saveDeliveryMethod('near')}
+					/>
+					<PrimaryButton
+						justifyContent={'flex-start'}
+						color={theme.white3}
+						relativeHeight={'18%'}
+						labelColor={theme.black4}
+						fontSize={18}
+						textAlign={'left'}
+						label={'entrego na cidade'}
+						highlightedWords={['na', 'cidade']}
+						onPress={() => saveDeliveryMethod('city')}
+					/>
+					<PrimaryButton
+						justifyContent={'flex-start'}
+						color={theme.white3}
+						relativeHeight={'18%'}
+						labelColor={theme.black4}
+						fontSize={18}
+						textAlign={'left'}
+						label={'entrego no brasil inteiro'}
+						highlightedWords={['brasil', 'inteiro']}
+						onPress={() => saveDeliveryMethod('country')}
+					/>
+				</ButtonsContainer>
+			</FormContainer>
+		</Container>
+	)
 }
 
 export { SelectDeliveryMethod }

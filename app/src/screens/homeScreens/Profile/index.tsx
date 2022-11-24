@@ -12,10 +12,10 @@ import {
 } from './styles'
 import { theme } from '../../../common/theme'
 
-import {updateUser} from '../../../services/Firebase/user/updateUser'
+import { updateUser } from '../../../services/firebase/user/updateUser'
 
 import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { UserCollection } from '../../../services/Firebase/types'
+import { UserCollection } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
@@ -40,7 +40,6 @@ function Profile({ navigation, route }: HomeTabScreenProps) {
 		})
 		return unsubscribe
 	}, [navigation])
-
 
 	useEffect(() => {
 		initializeUserTour()
@@ -79,16 +78,19 @@ function Profile({ navigation, route }: HomeTabScreenProps) {
 
 	const setUserTourPerformed = async () => {
 		const localUser = await getObjectLocalUser()
-		const newLocalUser = { ...localUser, tourPerformed: true }
-		await updateUserData(localUser.userId, {})
+		const newLocalUser = {
+			...localUser, tourPerformed: true
+		}
+		await updateUserData(localUser.userId, {
+		})
 		setDataOnSecureStore('corre.user', newLocalUser)
 	}
 
 	const updateUserData = async (userId: string, userData: UserCollection) => {
-        await updateUser(userId, {
-            tourPerformed: true
-        })
-    }
+		await updateUser(userId, {
+			tourPerformed: true
+		})
+	}
 
 	const navigateToTour = async () => {
 		await setUserTourPerformed()
@@ -112,12 +114,15 @@ function Profile({ navigation, route }: HomeTabScreenProps) {
 		Alert.alert('Certo!', 'Dados do local storage apagados, recarregue a aplicação!')
 	}
 
-	const lauchError = () => { //TODO DevOnly
-		 throw new Error('Testing error boundary')
-	}
-	
+	/* const lauchError = () => { // TODO DevOnly
+		throw new Error('Testing error boundary')
+	} */
+
 	return (
-		<Container style={{ flex: 1 }}>
+		<Container style={{
+			flex: 1
+		}}
+		>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<TourModal
 				visibility={tourModalVisibility}

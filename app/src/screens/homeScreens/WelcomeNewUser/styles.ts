@@ -10,5 +10,3 @@ export const ContainerButtons = styled.View`
     justify-content: space-around;
     padding-vertical: ${RFValue(40)}px;
 `
-
-

@@ -1,0 +1,20 @@
+Mensagem de erro na tela de repetição
+
+
+Mudançar não realizadas no design
+	Reduzi label do insert tag = muito apertado
+	Lupa de localização - deixa pouco espaço para o endereço
+	Previzualização - não tem como fazer a borda e centralizar
+	
+
+
+Refactor 
+
+extrair método de estruturar endereço()
+extrair função de ordenação de categorias()
+atualizar o diretorio firebase para camelCame
+	
+	
+
+
+

@@ -1,4 +1,4 @@
-import { LocationViewType, SaleCategories } from '../../../services/Firebase/types'
+import { LocationViewType, SaleCategories } from '../../../services/firebase/types'
 
 export type SaleStackParamList = {
     SelectSaleCategory: undefined

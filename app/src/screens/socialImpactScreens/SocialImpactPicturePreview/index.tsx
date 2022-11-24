@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { Container, PicturePreviewContainer } from './styles'
 import { screenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import CheckIcon from './../../../assets/icons/check.svg'
+import CheckIcon from '../../../assets/icons/check.svg'
 
 import { SocialImpactPicturePreviewScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
 
@@ -19,78 +19,80 @@ import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { HorizontalListPictures } from '../../../components/HorizontalListPictures'
 
 function SocialImpactPicturePreview({ navigation }: SocialImpactPicturePreviewScreenProps) {
-    const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 
-    const [picturesPack, setPicturesPack] = useState<string[]>([])
-    const [pictureIndexSelected, setPictureIndexSelected] = useState<number>(0)
-    const [cameraOpened, setCameraOpened] = useState<boolean>(true)
+	const [picturesPack, setPicturesPack] = useState<string[]>([])
+	const [pictureIndexSelected, setPictureIndexSelected] = useState<number>(0)
+	const [cameraOpened, setCameraOpened] = useState<boolean>(true)
 
-    const setPictureUri = (uri: string) => {
-        const currentPictures = [...picturesPack]
-        currentPictures.push(uri)
-        setPictureIndexSelected(picturesPack.length)
-        setPicturesPack(currentPictures)
-    }
+	const setPictureUri = (uri: string) => {
+		const currentPictures = [...picturesPack]
+		currentPictures.push(uri)
+		setPictureIndexSelected(picturesPack.length)
+		setPicturesPack(currentPictures)
+	}
 
-    const deleteCurrentPicture = () => {
-        const picturesAfterDelete = picturesPack.filter((_, index) => index !== pictureIndexSelected)
-        setPictureIndexSelected(picturesPack.length - 2)
-        setPicturesPack(picturesAfterDelete)
-    }
+	const deleteCurrentPicture = () => {
+		const picturesAfterDelete = picturesPack.filter((_, index) => index !== pictureIndexSelected)
+		setPictureIndexSelected(picturesPack.length - 2)
+		setPicturesPack(picturesAfterDelete)
+	}
 
-    const savePictures = () => {
-        setSocialImpactDataOnContext({ picturesUrl: picturesPack })
-        navigation.navigate('SelectSocialImpactCategory')
-    }
+	const savePictures = () => {
+		setSocialImpactDataOnContext({
+			picturesUrl: picturesPack 
+		})
+		navigation.navigate('SelectSocialImpactCategory')
+	}
 
-    return (
-        <Container>
-            <StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
-            <CustomCameraModal
-                setPictureUri={setPictureUri}
-                onClose={() => setCameraOpened(false)}
-                cameraOpened={cameraOpened}
-            />
-            <DefaultHeaderContainer
-                relativeHeight={'85%'}
-                backgroundColor={theme.pink2}
-                withoutPadding={true}
-            >
-                <PicturePreviewContainer>
-                    <PhotoPortrait
-                        pictureUri={picturesPack[pictureIndexSelected]}
-                        width={screenWidth * 0.90}
-                        height={screenWidth * 0.89}
-                        deleteCurrentPicture={deleteCurrentPicture}
-                    />
-                    <HorizontalListPictures
-                        picturesUri={picturesPack}
-                        pictureUriSelected={pictureIndexSelected}
-                        openCamera={() => setCameraOpened(true)}
-                        onSelectPicture={setPictureIndexSelected}
-                    />
-                    <InstructionCard
-                        message={'ficaram boas?'}
-                        highlightedWords={['boas?']}
-                        flex={0}
-                    />
-                </PicturePreviewContainer>
-            </DefaultHeaderContainer>
-            <FormContainer backgroundColor={theme.white2}>
-                <PrimaryButton
-                    flexDirection='row-reverse'
-                    color={theme.green3}
-                    label='sim, continuar'
-                    labelColor={theme.white3}
-                    fontSize={18}
-                    SvgIcon={CheckIcon}
-                    svgIconScale={['30%', '18%']}
-                    highlightedWords={['continuar']} 
-                    onPress={savePictures}
-                />
-            </FormContainer>
-        </Container>
-    )
+	return (
+		<Container>
+			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
+			<CustomCameraModal
+				setPictureUri={setPictureUri}
+				onClose={() => setCameraOpened(false)}
+				cameraOpened={cameraOpened}
+			/>
+			<DefaultHeaderContainer
+				relativeHeight={'85%'}
+				backgroundColor={theme.pink2}
+				withoutPadding
+			>
+				<PicturePreviewContainer>
+					<PhotoPortrait
+						pictureUri={picturesPack[pictureIndexSelected]}
+						width={screenWidth * 0.90}
+						height={screenWidth * 0.89}
+						deleteCurrentPicture={deleteCurrentPicture}
+					/>
+					<HorizontalListPictures
+						picturesUri={picturesPack}
+						pictureUriSelected={pictureIndexSelected}
+						openCamera={() => setCameraOpened(true)}
+						onSelectPicture={setPictureIndexSelected}
+					/>
+					<InstructionCard
+						message={'ficaram boas?'}
+						highlightedWords={['boas?']}
+						flex={0}
+					/>
+				</PicturePreviewContainer>
+			</DefaultHeaderContainer>
+			<FormContainer backgroundColor={theme.white2}>
+				<PrimaryButton
+					flexDirection={'row-reverse'}
+					color={theme.green3}
+					label={'sim, continuar'}
+					labelColor={theme.white3}
+					fontSize={18}
+					SvgIcon={CheckIcon}
+					svgIconScale={['30%', '18%']}
+					highlightedWords={['continuar']} 
+					onPress={savePictures}
+				/>
+			</FormContainer>
+		</Container>
+	)
 }
 
 export { SocialImpactPicturePreview }

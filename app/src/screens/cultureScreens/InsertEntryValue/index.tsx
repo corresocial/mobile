@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { theme } from '../../../common/theme'
 import { screenHeight } from '../../../common/screenDimensions'
 import { ButtonsContainer, Container } from './styles'
-import Check from './../../../assets/icons/check.svg'
+import Check from '../../../assets/icons/check.svg'
 
 import { InsertEntryValueScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
@@ -20,110 +20,113 @@ import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function InsertEntryValue({ navigation }: InsertEntryValueScreenProps) {
+	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 
-    const { cultureDataContext,setCultureDataOnContext } = useContext(CultureContext)
+	const [entryValue, setEntryValue] = useState<string>('')
+	const [entryValueIsValid, setEntryValueIsValid] = useState<boolean>(false)
+	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
-    const [entryValue, setEntryValue] = useState<string>('')
-    const [entryValueIsValid, setEntryValueIsValid] = useState<boolean>(false)
-    const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+	const inputRefs = {
+		entryValueInput: useRef<React.MutableRefObject<any>>(null),
+	}
 
-    const inputRefs = {
-        entryValueInput: useRef<React.MutableRefObject<any>>(null),
-    }
+	useEffect(() => {
+		const unsubscribe = navigation.addListener('focus', () => {
+			removeAllKeyboardEventListeners()
+			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		})
+		return unsubscribe
+	}, [navigation])
 
-    useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            removeAllKeyboardEventListeners()
-            Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-            Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-        })
-        return unsubscribe
-    }, [navigation])
+	useEffect(() => {
+		const validation = validateEntryValue(entryValue)
+		setEntryValueIsValid(validation)
+	}, [entryValue, keyboardOpened])
 
-    useEffect(() => {
-        const validation = validateEntryValue(entryValue)
-        setEntryValueIsValid(validation)
-    }, [entryValue, keyboardOpened])
+	const validateEntryValue = (text: string) => {
+		const isValid = (text).trim().length >= 1
+		if (isValid && !keyboardOpened) {
+			return true
+		}
+		return false
+	}
 
-    const validateEntryValue = (text: string) => {
-        const isValid = (text).trim().length >= 1
-        if (isValid && !keyboardOpened) {
-            return true
-        }
-        return false
-    }
+	const saveEntryValue = () => {
+		const valueIsValid = validateEntryValue(entryValue)
+		if (valueIsValid) {
+			setCultureDataOnContext({
+				entryValue
+			})
+			navigation.navigate('SelectEventPlaceModality')
+		}
+	}
 
-    const saveEntryValue = () => {
-        const entryValueIsValid = validateEntryValue(entryValue)
-        if (entryValueIsValid) {
-            setCultureDataOnContext({ entryValue })
-            navigation.navigate('SelectEventPlaceModality')
-        }
-    }
-
-    return (
-        <Container >
-            <StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
-            <DefaultHeaderContainer
-                minHeight={screenHeight * 0.26}
-                relativeHeight={'28%'}
-                centralized
-                backgroundColor={theme.blue2}
-            >
-                <BackButton onPress={() => navigation.goBack()} />
-                <InstructionCard
-                    borderLeftWidth={3}
-                    fontSize={18}
-                    message={'quanto custa para entrar?'}
-                    highlightedWords={['quanto', 'custa']}
-                >
-                    <ProgressBar
-                        range={cultureDataContext.cultureType == 'artistProfile' ? 3 : 5}
-                        value={2}
-                    />
-                </InstructionCard>
-            </DefaultHeaderContainer>
-            <FormContainer
-                backgroundColor={theme.white2}
-                justifyContent={'center'}
-            >
-                <LineInput
-                    value={entryValue}
-                    relativeWidth={'100%'}
-                    textInputRef={inputRefs.entryValueInput}
-                    defaultBackgroundColor={theme.white2}
-                    defaultBorderBottomColor={theme.black4}
-                    validBackgroundColor={theme.blue1}
-                    validBorderBottomColor={theme.blue5}
-                    invalidBackgroundColor={theme.red1}
-                    invalidBorderBottomColor={theme.red5}
-                    maxLength={100}
-                    fontSize={16}
-                    lastInput={true}
-                    textAlign={'left'}
-                    placeholder={'ex: 20 reais + 1kg de alimento'}
-                    keyboardType={'default'}
-                    textIsValid={entryValueIsValid && !keyboardOpened}
-                    validateText={(text: string) => validateEntryValue(text)}
-                    onChangeText={(text: string) => setEntryValue(text)}
-                />
-                <ButtonsContainer>
-                    {
-                        entryValueIsValid && !keyboardOpened &&
-                        <PrimaryButton
-                            flexDirection={'row-reverse'}
-                            color={theme.green3}
-                            label={'continuar'}
-                            labelColor={theme.white3}
-                            SvgIcon={Check}
-                            svgIconScale={['30%', '15%']}
-                            onPress={saveEntryValue}
-                        />
-                    }
-                </ButtonsContainer>
-            </FormContainer>
-        </Container>
-    )
+	return (
+		<Container >
+			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+			<DefaultHeaderContainer
+				minHeight={screenHeight * 0.26}
+				relativeHeight={'28%'}
+				centralized
+				backgroundColor={theme.blue2}
+			>
+				<BackButton onPress={() => navigation.goBack()} />
+				<InstructionCard
+					borderLeftWidth={3}
+					fontSize={18}
+					message={'quanto custa para entrar?'}
+					highlightedWords={['quanto', 'custa']}
+				>
+					<ProgressBar
+						range={cultureDataContext.cultureType === 'artistProfile' ? 3 : 5}
+						value={2}
+					/>
+				</InstructionCard>
+			</DefaultHeaderContainer>
+			<FormContainer
+				backgroundColor={theme.white2}
+				justifyContent={'center'}
+			>
+				<LineInput
+					value={entryValue}
+					relativeWidth={'100%'}
+					textInputRef={inputRefs.entryValueInput}
+					defaultBackgroundColor={theme.white2}
+					defaultBorderBottomColor={theme.black4}
+					validBackgroundColor={theme.blue1}
+					validBorderBottomColor={theme.blue5}
+					invalidBackgroundColor={theme.red1}
+					invalidBorderBottomColor={theme.red5}
+					maxLength={100}
+					fontSize={16}
+					lastInput
+					textAlign={'left'}
+					placeholder={'ex: 20 reais + 1kg de alimento'}
+					keyboardType={'default'}
+					textIsValid={entryValueIsValid && !keyboardOpened}
+					validateText={(text: string) => validateEntryValue(text)}
+					onChangeText={(text: string) => setEntryValue(text)}
+				/>
+				<ButtonsContainer>
+					{
+						entryValueIsValid && !keyboardOpened
+						&& (
+							<PrimaryButton
+								flexDirection={'row-reverse'}
+								color={theme.green3}
+								label={'continuar'}
+								labelColor={theme.white3}
+								SvgIcon={Check}
+								svgIconScale={['30%', '15%']}
+								onPress={saveEntryValue}
+							/>
+						)
+					}
+				</ButtonsContainer>
+			</FormContainer>
+		</Container>
+	)
 }
 
 export { InsertEntryValue }

@@ -24,31 +24,31 @@ import { InsertWorkEndHour } from '../../../screens/vacancyScreens/InsertWorkEnd
 const Stack = createStackNavigator<VacancyStackParamList>()
 
 export function VacancyStack() {
-
-    return (
-        <VacancyProvider>
-            <Stack.Navigator initialRouteName='InsertVacancyTitle'
-                screenOptions={{
-                    headerShown: false,
-                    gestureEnabled: true,
-                    ...TransitionPresets.SlideFromRightIOS,
-                }}
-            >
-                <Stack.Screen name={'InsertVacancyTitle'} component={InsertVacancyTitle} />
-                <Stack.Screen name={'InsertVacancyDescription'} component={InsertVacancyDescription} />
-                <Stack.Screen name={'InsertVacancyQuestions'} component={InsertVacancyQuestions} />
-                <Stack.Screen name={'InsertCompanyDescription'} component={InsertCompanyDescription} />
-                <Stack.Screen name={'SelectWorkplace'} component={SelectWorkplace} />
-                <Stack.Screen name={'InsertWorkplaceLocation'} component={InsertWorkplaceLocation} />
-                <Stack.Screen name={'SelectVacancyCategory'} component={SelectVacancyCategory} />
-                <Stack.Screen name={'SelectVacancyTags'} component={SelectVacancyTags} />
-                <Stack.Screen name={'SelectVacancyType'} component={SelectVacancyType} />
-                <Stack.Screen name={'SelectWorkWeekdays'} component={SelectWorkWeekdays} />
-                <Stack.Screen name={'InsertWorkStartDate'} component={InsertWorkStartDate} />
-                <Stack.Screen name={'InsertWorkStartHour'} component={InsertWorkStartHour} />
-                <Stack.Screen name={'InsertWorkEndDate'} component={InsertWorkEndDate} />
-                <Stack.Screen name={'InsertWorkEndHour'} component={InsertWorkEndHour} />
-            </Stack.Navigator>
-        </VacancyProvider>
-    )
+	return (
+		<VacancyProvider>
+			<Stack.Navigator
+				initialRouteName={'InsertVacancyTitle'}
+				screenOptions={{
+					headerShown: false,
+					gestureEnabled: true,
+					...TransitionPresets.SlideFromRightIOS,
+				}}
+			>
+				<Stack.Screen name={'InsertVacancyTitle'} component={InsertVacancyTitle} />
+				<Stack.Screen name={'InsertVacancyDescription'} component={InsertVacancyDescription} />
+				<Stack.Screen name={'InsertVacancyQuestions'} component={InsertVacancyQuestions} />
+				<Stack.Screen name={'InsertCompanyDescription'} component={InsertCompanyDescription} />
+				<Stack.Screen name={'SelectWorkplace'} component={SelectWorkplace} />
+				<Stack.Screen name={'InsertWorkplaceLocation'} component={InsertWorkplaceLocation} />
+				<Stack.Screen name={'SelectVacancyCategory'} component={SelectVacancyCategory} />
+				<Stack.Screen name={'SelectVacancyTags'} component={SelectVacancyTags} />
+				<Stack.Screen name={'SelectVacancyType'} component={SelectVacancyType} />
+				<Stack.Screen name={'SelectWorkWeekdays'} component={SelectWorkWeekdays} />
+				<Stack.Screen name={'InsertWorkStartDate'} component={InsertWorkStartDate} />
+				<Stack.Screen name={'InsertWorkStartHour'} component={InsertWorkStartHour} />
+				<Stack.Screen name={'InsertWorkEndDate'} component={InsertWorkEndDate} />
+				<Stack.Screen name={'InsertWorkEndHour'} component={InsertWorkEndHour} />
+			</Stack.Navigator>
+		</VacancyProvider>
+	)
 }

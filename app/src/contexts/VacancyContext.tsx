@@ -12,31 +12,35 @@ interface VacancyProviderProps {
 }
 
 const initialValue = {
-    vacancyDataContext: {},
-    setVacancyDataOnContext: (data: VacancyData) => { }
+	vacancyDataContext: {
+	},
+	setVacancyDataOnContext: (data: VacancyData) => { }
 }
 
 const VacancyContext = createContext<VacancyContextType>(initialValue)
 
-function VacancyProvider({children}:VacancyProviderProps ) {
+function VacancyProvider({ children }:VacancyProviderProps) {
+	const [vacancyDataContext, setVacancyDataContext] = useState(initialValue.vacancyDataContext)
 
-    const [vacancyDataContext, setVacancyDataContext] = useState(initialValue.vacancyDataContext)
+	const setVacancyDataOnContext = async (data: VacancyData) => {
+		console.log({
+			...vacancyDataContext, ...data 
+		})
+		setVacancyDataContext({
+			...vacancyDataContext, ...data 
+		})
+	}
 
-    const setVacancyDataOnContext = async (data: VacancyData) => {
-        console.log({ ...vacancyDataContext, ...data })
-        setVacancyDataContext({ ...vacancyDataContext, ...data })
-    }
+	const value = {
+		vacancyDataContext,
+		setVacancyDataOnContext
+	}
 
-    const value = {
-        vacancyDataContext,
-        setVacancyDataOnContext
-    }
-
-    return (
-        <VacancyContext.Provider value={value}>
-            {children}
-        </VacancyContext.Provider>
-    )
+	return (
+		<VacancyContext.Provider value={value}>
+			{children}
+		</VacancyContext.Provider>
+	)
 }
 
 export { VacancyProvider, VacancyContext }

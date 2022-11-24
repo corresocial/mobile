@@ -3,40 +3,44 @@ import React, { createContext, useState } from 'react'
 import { CultureData } from './types'
 
 type CultureContextType = {
-    cultureDataContext: CultureData 
-    setCultureDataOnContext: (data: CultureData) => void
+	cultureDataContext: CultureData
+	setCultureDataOnContext: (data: CultureData) => void
 }
 
 interface CultureProviderProps {
-    children: React.ReactNode
+	children: React.ReactNode
 }
 
 const initialValue = {
-    cultureDataContext: {},
-    setCultureDataOnContext: (data: CultureData) => { }
+	cultureDataContext: {
+	},
+	setCultureDataOnContext: (data: CultureData) => { }
 }
 
 const CultureContext = createContext<CultureContextType>(initialValue)
 
-function CultureProvider({children}:CultureProviderProps ) {
+function CultureProvider({ children }: CultureProviderProps) {
+	const [cultureDataContext, setCultureDataContext] = useState(initialValue.cultureDataContext)
 
-    const [cultureDataContext, setCultureDataContext] = useState(initialValue.cultureDataContext)
+	const setCultureDataOnContext = async (data: CultureData) => {
+		console.log({
+			...cultureDataContext, ...data
+		})
+		setCultureDataContext({
+			...cultureDataContext, ...data
+		})
+	}
 
-    const setCultureDataOnContext = async (data: CultureData) => {
-        console.log({ ...cultureDataContext, ...data })
-        setCultureDataContext({ ...cultureDataContext, ...data })
-    }
+	const value = {
+		cultureDataContext,
+		setCultureDataOnContext
+	}
 
-    const value = {
-        cultureDataContext,
-        setCultureDataOnContext
-    }
-
-    return (
-        <CultureContext.Provider value={value}>
-            {children}
-        </CultureContext.Provider>
-    )
+	return (
+		<CultureContext.Provider value={value}>
+			{children}
+		</CultureContext.Provider>
+	)
 }
 
 export { CultureProvider, CultureContext }

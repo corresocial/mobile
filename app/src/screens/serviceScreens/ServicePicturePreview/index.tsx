@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { Container, PicturePreviewContainer } from './styles'
 import { screenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import CheckIcon from './../../../assets/icons/check.svg'
+import CheckIcon from '../../../assets/icons/check.svg'
 
 import { ServicePicturePreviewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
@@ -39,7 +39,9 @@ function ServicePicturePreview({ navigation }: ServicePicturePreviewScreenProps)
 	}
 
 	const savePictures = () => {
-		setServiceDataOnContext({ picturesUrl: picturesPack })
+		setServiceDataOnContext({
+			picturesUrl: picturesPack 
+		})
 		navigation.navigate('SelectServiceCategory')
 	}
 
@@ -54,7 +56,7 @@ function ServicePicturePreview({ navigation }: ServicePicturePreviewScreenProps)
 			<DefaultHeaderContainer
 				relativeHeight={'85%'}
 				backgroundColor={theme.purple2}
-				withoutPadding={true}
+				withoutPadding
 			>
 				<PicturePreviewContainer>
 					<PhotoPortrait
@@ -78,9 +80,9 @@ function ServicePicturePreview({ navigation }: ServicePicturePreviewScreenProps)
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
 				<PrimaryButton
-					flexDirection='row-reverse'
+					flexDirection={'row-reverse'}
 					color={theme.green3}
-					label='sim, continuar'
+					label={'sim, continuar'}
 					labelColor={theme.white3}
 					fontSize={18}
 					SvgIcon={CheckIcon}

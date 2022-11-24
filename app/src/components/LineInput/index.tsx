@@ -2,13 +2,12 @@ import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { FontAwesome5 } from '@expo/vector-icons'
 import {
-    KeyboardTypeOptions,
-    NativeSyntheticEvent,
-    ReturnKeyTypeOptions,
-    Text,
-    TouchableOpacity,
-    TextInputKeyPressEventData,
-    View
+	KeyboardTypeOptions,
+	NativeSyntheticEvent,
+	ReturnKeyTypeOptions,
+	TouchableOpacity,
+	TextInputKeyPressEventData,
+	View
 } from 'react-native'
 
 import { Container, TextInput } from './styles'
@@ -16,198 +15,213 @@ import { screenHeight } from '../../common/screenDimensions'
 import { theme } from '../../common/theme'
 
 interface LineInputProps {
-    value: string
-    relativeWidth: string
-    relativeHeight?: number
-    initialNumberOfLines?: number
-    textInputRef?: any
-    previousInputRef?: any
-    nextInputRef?: any
-    defaultBackgroundColor: string
-    defaultBorderBottomColor: string
-    validBackgroundColor: string
-    validBorderBottomColor: string
-    invalidBackgroundColor?: string
-    invalidBorderBottomColor?: string
-    maxLength?: number
-    secureTextEntry?: boolean
-    invalidTextAfterSubmit?: boolean
-    fontSize?: number
-    textAlign?: 'auto' | 'left' | 'right' | 'center' | 'justify' | undefined
-    multiline?: boolean
-    editable?: boolean
-    placeholder?: string
-    error?: boolean
-    textIsValid?: boolean
-    lastInput?: boolean
-    keyboardType?: KeyboardTypeOptions
-    blurOnSubmit?: boolean
-    returnKeyType?: ReturnKeyTypeOptions
-    onIconPress?: () => void
-    onPressKeyboardSubmit?: () => void
-    filterText?: (text: string) => string
-    validateText?: (text: string) => boolean
-    onChangeText: (text: string) => void
+	value: string
+	relativeWidth: string
+	relativeHeight?: number
+	initialNumberOfLines?: number
+	textInputRef?: any
+	previousInputRef?: any
+	nextInputRef?: any
+	defaultBackgroundColor: string
+	defaultBorderBottomColor: string
+	validBackgroundColor: string
+	validBorderBottomColor: string
+	invalidBackgroundColor?: string
+	invalidBorderBottomColor?: string
+	maxLength?: number
+	secureTextEntry?: boolean
+	invalidTextAfterSubmit?: boolean
+	fontSize?: number
+	textAlign?: 'auto' | 'left' | 'right' | 'center' | 'justify' | undefined
+	multiline?: boolean
+	editable?: boolean
+	placeholder?: string
+	error?: boolean
+	textIsValid?: boolean
+	lastInput?: boolean
+	keyboardType?: KeyboardTypeOptions
+	blurOnSubmit?: boolean
+	returnKeyType?: ReturnKeyTypeOptions
+	onIconPress?: () => void
+	onPressKeyboardSubmit?: () => void
+	filterText?: (text: string) => string
+	validateText?: (text: string) => boolean
+	onChangeText: (text: string) => void
 }
 
 function LineInput({
-    value,
-    relativeWidth,
-    relativeHeight,
-    initialNumberOfLines = 2,
-    textInputRef,
-    previousInputRef,
-    nextInputRef,
-    defaultBackgroundColor,
-    defaultBorderBottomColor,
-    validBackgroundColor,
-    validBorderBottomColor,
-    invalidBackgroundColor = theme.red1,
-    invalidBorderBottomColor = theme.red5,
-    maxLength,
-    secureTextEntry,
-    invalidTextAfterSubmit = false,
-    fontSize = 20,
-    textAlign,
-    multiline,
-    editable,
-    placeholder,
-    keyboardType,
-    returnKeyType,
-    blurOnSubmit = true,
-    onIconPress,
-    onPressKeyboardSubmit,
-    error,
-    lastInput,
-    textIsValid = false,
-    filterText,
-    validateText = () => false,
-    onChangeText
+	value,
+	relativeWidth,
+	relativeHeight,
+	initialNumberOfLines = 2,
+	textInputRef,
+	previousInputRef,
+	nextInputRef,
+	defaultBackgroundColor,
+	defaultBorderBottomColor,
+	validBackgroundColor,
+	validBorderBottomColor,
+	invalidBackgroundColor = theme.red1,
+	invalidBorderBottomColor = theme.red5,
+	maxLength,
+	secureTextEntry,
+	invalidTextAfterSubmit = false,
+	fontSize = 20,
+	textAlign,
+	multiline,
+	editable,
+	placeholder,
+	keyboardType,
+	returnKeyType,
+	blurOnSubmit = true,
+	onIconPress,
+	onPressKeyboardSubmit,
+	error,
+	lastInput,
+	textIsValid = false,
+	filterText,
+	validateText = () => false,
+	onChangeText
 }: LineInputProps) {
+	const lineHeight = screenHeight * 0.039
+	const minLineHeight = initialNumberOfLines * (screenHeight * (initialNumberOfLines <= 2 ? 0.05 : 0.042))
+	const maxLineHeight = screenHeight * 0.25
 
-    const lineHeight = screenHeight * 0.039
-    const minLineHeight = initialNumberOfLines * (screenHeight * (initialNumberOfLines <= 2 ? 0.05 : 0.042))
-    const maxLineHeight = screenHeight * 0.25
+	const [focused, setFocused] = useState<boolean>(false)
+	const [validated, setValidated] = useState<boolean>(false)
+	const [multilineInputHeight, setMultilineInputHeight] = useState(minLineHeight)
 
-    const [focused, setFocused] = useState<boolean>(false)
-    const [validated, setValidated] = useState<boolean>(false)
-    const [multilineInputHeight, setMultilineInputHeight] = useState(minLineHeight)
+	const ValidateAndChange = (text: string) => {
+		const filtredText = filterText ? filterText(text) : text
+		if (validateText(filtredText) || textIsValid) {
+			nextInputRef && setFocusToNextInput()
+			lastInput && closeKeyboard()
+			setValidated(true)
+		} else {
+			setValidated(false)
+		}
+		onChangeText(filtredText)
+	}
 
-    const ValidateAndChange = (text: string) => {
-        let filtredText = filterText ? filterText(text) : text
-        if (validateText(filtredText) || textIsValid) {
-            nextInputRef && setFocusToNextInput()
-            lastInput && closeKeyboard()
-            setValidated(true)
-        } else {
-            setValidated(false)
-        }
-        onChangeText(filtredText)
-    }
+	const performKeyPress = ({ nativeEvent }: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+		if (nativeEvent.key === 'Backspace' && !value.length && previousInputRef) setFocusToPreviousInput()
+	}
 
-    const performKeyPress = ({ nativeEvent }: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
-        if (nativeEvent.key === 'Backspace' && !value.length && previousInputRef) setFocusToPreviousInput()
-    }
+	const setFocusToNextInput = () => {
+		nextInputRef.current.focus()
+	}
 
-    const setFocusToNextInput = () => {
-        nextInputRef.current.focus()
-    }
+	const setFocusToPreviousInput = () => {
+		previousInputRef.current.focus()
+	}
 
-    const setFocusToPreviousInput = () => {
-        previousInputRef.current.focus()
-    }
+	const closeKeyboard = () => {
+		textInputRef.current.blur()
+	}
 
-    const closeKeyboard = () => {
-        textInputRef.current.blur()
-    }
+	const resizeMultilineInput = (height: number) => {
+		if (!multiline) return
+		if (height >= (initialNumberOfLines * lineHeight) && height < maxLineHeight) {
+			setMultilineInputHeight(height + 3) // borderBottom
+		}
+	}
 
-    const resizeMultilineInput = (height: number) => {
-        if (!multiline) return
-        if (height >= (initialNumberOfLines * lineHeight) && height < maxLineHeight) {
-            setMultilineInputHeight(height + 3) // borderBottom
-        }
-    }
+	const generateInputContainerStyle = () => {
+		if (invalidTextAfterSubmit || error) {
+			return {
+				borderBottomColor: invalidBorderBottomColor,
+				backgroundColor: invalidBackgroundColor,
+			}
+		}
 
-    const generateInputContainerStyle = () => {
-        if (invalidTextAfterSubmit || error) return {
-            borderBottomColor: invalidBorderBottomColor,
-            backgroundColor: invalidBackgroundColor,
-        }
+		return {
+			borderBottomColor: validated || textIsValid ? validBorderBottomColor : defaultBorderBottomColor,
+			backgroundColor: validated || textIsValid ? validBackgroundColor : defaultBackgroundColor
+		}
+	}
 
-        return {
-            borderBottomColor: validated || textIsValid ? validBorderBottomColor : defaultBorderBottomColor,
-            backgroundColor: validated || textIsValid ? validBackgroundColor : defaultBackgroundColor
-        }
-    }
+	const inputContainerStyle = {
+		borderBottomWidth: focused || validated || textIsValid ? 5 : 2.5,
+		...generateInputContainerStyle()
+	}
 
-    const inputContainerStyle = {
-        borderBottomWidth: focused || validated || textIsValid ? 5 : 2.5,
-        ...generateInputContainerStyle()
-    }
+	const getTextInputStyle = () => {
+		if (error) {
+			return {
+				color: invalidBorderBottomColor
+			}
+		}
+		return {
+			color: invalidTextAfterSubmit
+				? invalidBorderBottomColor
+				: validated || textIsValid ? validBorderBottomColor : defaultBorderBottomColor,
+			fontFamily: invalidTextAfterSubmit
+				? 'Arvo_400Regular'
+				: validated || textIsValid ? 'Arvo_700Bold' : 'Arvo_400Regular'
+		}
+	}
 
-    const getTextInputStyle = () => {
-        if (error) return { color: invalidBorderBottomColor }
-        return {
-            color: invalidTextAfterSubmit
-                ? invalidBorderBottomColor
-                : validated || textIsValid ? validBorderBottomColor : defaultBorderBottomColor,
-            fontFamily: invalidTextAfterSubmit
-                ? 'Arvo_400Regular'
-                : validated || textIsValid ? 'Arvo_700Bold' : 'Arvo_400Regular'
-        }
-    }
-
-    return (
-        <Container
-            style={{
-                height: multiline ? multilineInputHeight : screenHeight * 0.1, // 0.25
-                width: relativeWidth,
-                ...inputContainerStyle,
-            }}
-            activeOpacity={0}
-            underlayColor={validated ? validBackgroundColor : defaultBackgroundColor}
-            onPress={() => textInputRef.current.focus()}
-        >
-            <View
-                style={onIconPress && {
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                }}>
-                <TextInput
-                    style={[getTextInputStyle(), {
-                        fontSize: RFValue(fontSize),
-                        textAlign: textAlign || 'center',
-                        textAlignVertical: multiline ? 'top' : 'center',
-                        width: onIconPress ? '85%' : '100%'
-                    }]}
-                    ref={textInputRef}
-                    value={value}
-                    maxLength={maxLength}
-                    editable={editable}
-                    multiline={multiline}
-                    numberOfLines={7}
-                    onContentSizeChange={({ nativeEvent: { contentSize: { width, height } } }) => resizeMultilineInput(height)}
-                    secureTextEntry={secureTextEntry}
-                    keyboardType={keyboardType || 'ascii-capable'}
-                    placeholder={placeholder}
-                    returnKeyType={returnKeyType ? returnKeyType : lastInput ? 'done' : 'next'}
-                    blurOnSubmit={blurOnSubmit}
-                    onFocus={() => setFocused(true)}
-                    onBlur={() => setFocused(false)}
-                    onSubmitEditing={nextInputRef ? setFocusToNextInput : onPressKeyboardSubmit}
-                    onChangeText={(text) => ValidateAndChange(text)}
-                    onKeyPress={(key: NativeSyntheticEvent<TextInputKeyPressEventData>) => performKeyPress(key)}
-                />
-                {
-                    onIconPress &&
-                    <TouchableOpacity onPress={onIconPress}>
-                        <FontAwesome5 name={'minus'} size={RFValue(20)} color={validBorderBottomColor} style={{ padding: 15 }} />
-                    </TouchableOpacity>
-                }
-            </View>
-        </Container>
-    )
+	return (
+		<Container
+			style={{
+				height: multiline ? multilineInputHeight : screenHeight * 0.1, // 0.25
+				width: relativeWidth,
+				...inputContainerStyle,
+			}}
+			activeOpacity={0}
+			underlayColor={validated ? validBackgroundColor : defaultBackgroundColor}
+			onPress={() => textInputRef.current.focus()}
+		>
+			<View
+				style={onIconPress && {
+					flexDirection: 'row',
+					alignItems: 'center',
+					justifyContent: 'space-between',
+				}}
+			>
+				<TextInput
+					style={[getTextInputStyle(), {
+						fontSize: RFValue(fontSize),
+						textAlign: textAlign || 'center',
+						textAlignVertical: multiline ? 'top' : 'center',
+						width: onIconPress ? '85%' : '100%'
+					}]}
+					ref={textInputRef}
+					value={value}
+					maxLength={maxLength}
+					editable={editable}
+					multiline={multiline}
+					numberOfLines={7}
+					onContentSizeChange={({ nativeEvent: { contentSize: { width, height } } }) => resizeMultilineInput(height)}
+					secureTextEntry={secureTextEntry}
+					keyboardType={keyboardType || 'ascii-capable'}
+					placeholder={placeholder}
+					returnKeyType={returnKeyType || (lastInput ? 'done' : 'next')}
+					blurOnSubmit={blurOnSubmit}
+					onFocus={() => setFocused(true)}
+					onBlur={() => setFocused(false)}
+					onSubmitEditing={nextInputRef ? setFocusToNextInput : onPressKeyboardSubmit}
+					onChangeText={(text) => ValidateAndChange(text)}
+					onKeyPress={(key: NativeSyntheticEvent<TextInputKeyPressEventData>) => performKeyPress(key)}
+				/>
+				{
+					onIconPress
+					&& (
+						<TouchableOpacity onPress={onIconPress}>
+							<FontAwesome5
+								name={'minus'}
+								size={RFValue(20)}
+								color={validBorderBottomColor}
+								style={{
+									padding: 15
+								}}
+							/>
+						</TouchableOpacity>
+					)
+				}
+			</View>
+		</Container>
+	)
 }
 
 export { LineInput }

@@ -8,17 +8,20 @@ async function updateUser(docId: string, data: UserCollection) {
 		const documentReference = doc(firestore, 'users', docId)
 		const finished = await setDoc(
 			documentReference,
-			{ ...data, updated_at: new Date() },
-			{ merge: true },
+			{
+				...data, updated_at: new Date() 
+			},
+			{
+				merge: true 
+			},
 		)
 			.then(() => true)
-			.catch(err => {
+			.catch((err) => {
 				console.log(err)
 				return err
 			})
 
 		return finished
-
 	} catch (error) {
 		console.log(error)
 	}

@@ -16,7 +16,7 @@ export const WeekdaysSelectedArea = styled.View`
     flexWrap: wrap;
 `
 
-export  const Row = styled.View`
+export const Row = styled.View`
     align-items: center;
     width: 100%;
 `
