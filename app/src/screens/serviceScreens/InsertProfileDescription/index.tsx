@@ -54,6 +54,9 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
 	}
 
 	const saveProfileDescription = () => {
+		/* navigation.navigate('HomeTab' as any, {
+			tourCompleted: true, showShareModal: true
+		}) */
 		if (profileDescriptionIsValid) {
 			setServiceDataOnContext({
 				profileDescription

@@ -18,7 +18,7 @@ function CustomMapView({
 	regionCoordinate,
 	markerCoordinate,
 	CustomMarker,
-	locationView,
+	locationView = 'private',
 	updateMarkerPosition
 
 }: CustomMapViewProops) {

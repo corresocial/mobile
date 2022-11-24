@@ -21,7 +21,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'}/>
+			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				backgroundColor={theme.orange2}
 				relativeHeight={'25%'}

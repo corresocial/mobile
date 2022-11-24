@@ -25,9 +25,35 @@ import { SelectPostType } from '../../../screens/homeScreens/SelectPostType'
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
 export function HomeTab(props: HomeTabScreenProps) {
-	function CustonProfile() {
-		return <Profile {...props} />
-	}
+	const renderHomeIcon = (focused: boolean) => (
+		focused
+			? <HomeTabIconActive height={'60%'} width={'60%'} />
+			: <HomeTabIconInactive height={'40%'} width={'40%'} />
+	)
+
+	const renderLoupIcon = (focused: boolean) => (
+		focused
+			? <LoupTabIconActive height={'60%'} width={'60%'} />
+			: <LoupTabIconInactive height={'40%'} width={'40%'} />
+	)
+
+	const renderPlusIcon = (focused: boolean) => (
+		focused
+			? <PlusTabIconActive height={'60%'} width={'60%'} />
+			: <PlusTabIconInactive height={'40%'} width={'40%'} />
+	)
+
+	const renderChatIcon = (focused: boolean) => (
+		focused
+			? <ChatTabIconActive height={'60%'} width={'60%'} />
+			: <ChatTabIconInactive height={'40%'} width={'40%'} />
+	)
+
+	const renderProfileIcon = (focused: boolean) => (
+		focused
+			? <ProfileTabIconActive height={'60%'} width={'60%'} />
+			: <ProfileTabIconInactive height={'40%'} width={'40%'} />
+	)
 
 	return (
 		<Tab.Navigator
@@ -47,55 +73,39 @@ export function HomeTab(props: HomeTabScreenProps) {
 				name={'Home'}
 				component={Home}
 				options={{
-					tabBarIcon: ({ focused }) => (
-						focused
-							? <HomeTabIconActive height={'60%'} width={'60%'} />
-							: <HomeTabIconInactive height={'40%'} width={'40%'} />
-					)
+					tabBarIcon: ({ focused }) => renderHomeIcon(focused)
 				}}
 			/>
 			<Tab.Screen
 				name={'Catalog'}
 				component={Home}
 				options={{
-					tabBarIcon: ({ focused }) => (
-						focused
-							? <LoupTabIconActive height={'60%'} width={'60%'} />
-							: <LoupTabIconInactive height={'40%'} width={'40%'} />
-					)
+					tabBarIcon: ({ focused }) => renderLoupIcon(focused)
 				}}
 			/>
 			<Tab.Screen
 				name={'Post'}
 				component={SelectPostType}
 				options={{
-					tabBarIcon: ({ focused }) => (
-						focused
-							? <PlusTabIconActive height={'60%'} width={'60%'} />
-							: <PlusTabIconInactive height={'40%'} width={'40%'} />
-					)
+					tabBarIcon: ({ focused }) => renderPlusIcon(focused)
 				}}
 			/>
 			<Tab.Screen
 				name={'Chat'}
 				component={Home}
 				options={{
-					tabBarIcon: ({ focused }) => (
-						focused
-							? <ChatTabIconActive height={'60%'} width={'60%'} />
-							: <ChatTabIconInactive height={'40%'} width={'40%'} />
-					)
+					tabBarIcon: ({ focused }) => renderChatIcon(focused)
 				}}
 			/>
 			<Tab.Screen
 				name={'Profile'}
-				component={CustonProfile}
+				component={Profile}
+				initialParams={{
+					teste: 'teste'
+				}}
 				options={{
-					tabBarIcon: ({ focused }) => (
-						focused
-							? <ProfileTabIconActive height={'60%'} width={'60%'} />
-							: <ProfileTabIconInactive height={'40%'} width={'40%'} />
-					)
+					headerTransparent: true,
+					tabBarIcon: ({ focused }) => renderProfileIcon(focused)
 				}}
 			/>
 		</ Tab.Navigator>

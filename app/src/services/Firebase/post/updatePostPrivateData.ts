@@ -12,10 +12,7 @@ async function updatePostPrivateData(data: PrivateAddress, postId: string, postC
 				{
 					...data
 				}
-			)/* ,
-			{
-				merge: true // TODO Check this
-			} */
+			)
 		} catch (err) {
 			const collectionRef = doc(firestore, postCollection, postId, 'private', privateField)
 			await setDoc(

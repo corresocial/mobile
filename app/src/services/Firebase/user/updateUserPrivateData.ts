@@ -9,10 +9,7 @@ async function updateUserPrivateData(data: UserCollection, userId: string, priva
 			const docRef = doc(firestore, 'users', userId, 'private', privateField)
 			await updateDoc(docRef, {
 				...data
-			})/* ,
-			{
-				merge: true  //TODO Check this
-			} */
+			})
 		} catch (err) {
 			const collectionRef = doc(firestore, 'users', userId, 'private', privateField)
 			await setDoc(collectionRef, {
