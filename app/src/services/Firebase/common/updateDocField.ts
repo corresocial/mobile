@@ -8,10 +8,10 @@ async function updateDocField(collection: string, docId: string, field: string, 
 			ref,
 			{
 				[field]: arrayUnion(value),
-				updated_at: new Date()
+				updatedAt: new Date()
 			},
 			{
-				merge: true 
+				merge: true
 			},
 		)
 		return finished
@@ -19,10 +19,10 @@ async function updateDocField(collection: string, docId: string, field: string, 
 	const finished = await setDoc(
 		ref,
 		{
-			[field]: value 
+			[field]: value
 		},
 		{
-			merge: true 
+			merge: true
 		}
 	)
 	return finished

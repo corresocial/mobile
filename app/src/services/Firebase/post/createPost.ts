@@ -10,7 +10,7 @@ async function createPost(post: PostCollection, user: LocalUserData, postCollect
 		const docRef = await addDoc(collection(firestore, postCollection), {
 			...post,
 			postType,
-			created_at: new Date(),
+			createdAt: new Date(),
 			owner: {
 				userId: user.userId,
 				name: user.name,

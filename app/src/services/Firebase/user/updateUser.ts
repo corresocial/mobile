@@ -9,10 +9,10 @@ async function updateUser(docId: string, data: UserCollection) {
 		const finished = await setDoc(
 			documentReference,
 			{
-				...data, updated_at: new Date() 
+				...data, updatedAt: new Date()
 			},
 			{
-				merge: true 
+				merge: true
 			},
 		)
 			.then(() => true)

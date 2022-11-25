@@ -11,6 +11,7 @@
 	"ignorePatterns": [
 		"assets/**/**",
 		"services/firebase/index.ts",
+		"ignoredLogs.ts",
 		"*.d.ts",
 		"*.json",
 		"*.svg",
@@ -104,14 +105,15 @@
 			"error",
 			"always"
 		],
-		/* "camelcase": [
+		"camelcase": [
 			"error",
 			{
-				"ignoreImports": true,
-				"ignoreGlobals": true,
-				"ignoreProperts": true
+				"allow": [
+					"Arvo_400Regular",
+					"Arvo_700Bold"
+				]
 			}
-		], */
+		],
 		"react/self-closing-comp": "off",
 		"no-tabs": "off",
 		"no-console": "off",

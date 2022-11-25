@@ -83,6 +83,7 @@
 		"@typescript-eslint/eslint-plugin": "^5.44.0",
 		"@typescript-eslint/parser": "^5.44.0",
 		"babel-eslint": "^10.1.0",
+		"deprecated-react-native-prop-types": "^2.3.0",
 		"eslint": "^8.28.0",
 		"eslint-config-airbnb": "^19.0.4",
 		"eslint-plugin-import": "^2.26.0",

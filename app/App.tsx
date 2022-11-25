@@ -2,7 +2,7 @@ import 'react-native-gesture-handler'
 import { ThemeProvider } from 'styled-components'
 import { NavigationContainer } from '@react-navigation/native'
 import { ActivityIndicator, LogBox, View } from 'react-native'
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
 	useFonts,
 	Arvo_400Regular,
@@ -11,17 +11,19 @@ import {
 import { theme } from './src/common/theme'
 
 import { AuthRegisterStack } from './src/routes/Stack/AuthRegisterStack'
-import { ignoredLogs } from './ignoredLogs'
 import { LoaderProvider } from './src/contexts/LoaderContext'
 
-export default function App() {
+function App() {
 	const [fontsLoaded]: boolean[] = useFonts({
 		Arvo_400Regular, Arvo_700Bold
 	})
 
-	useEffect(() => {
-		LogBox.ignoreLogs(ignoredLogs)
-	})
+	// Do not working
+	LogBox.ignoreLogs([
+		'Warning: Async Storage has been extracted from react-native core',
+		'ViewPropTypes will be removed from React Native.Migrate to ViewPropTypes exported from \'deprecated-react-native-prop-types\''
+	])
+	LogBox.ignoreAllLogs()
 
 	if (!fontsLoaded) {
 		return ( // Temporary
@@ -44,3 +46,5 @@ export default function App() {
 		</NavigationContainer>
 	)
 }
+
+export { App }
