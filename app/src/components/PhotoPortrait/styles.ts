@@ -11,7 +11,6 @@ export const Container = styled.View`
     position: relative;
     max-width: ${screenWidth * 0.9}px;
     max-height: ${screenWidth * 0.9}px;
-    overflow: hidden;
 `
 
 export const DeleteItemArea = styled.TouchableOpacity`
@@ -23,4 +22,12 @@ export const DeleteItemArea = styled.TouchableOpacity`
     padding: 10px;
     bottom: 5px;
     right: 5px;
+`
+
+export const CheckArea = styled.View`
+	position: absolute;
+	width: ${RFValue(35)}px;
+    height: ${RFValue(35)}px;
+	bottom: ${RFValue(-12)}px;
+	right: ${RFValue(-20)}px;
 `

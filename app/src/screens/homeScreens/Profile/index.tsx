@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import {
@@ -8,24 +8,44 @@ import {
 	InfoArea,
 	OptionsArea,
 	ProfileHeader,
-	UserName
+	ProfileInfoContainer,
+	UserDescription,
+	UserName,
+	FlatList,
+	Sigh,
+	FooterSigh
 } from './styles'
 import { theme } from '../../../common/theme'
+import ChatIcon from '../../../assets/icons/chat.svg'
+import ShareIcon from '../../../assets/icons/share.svg'
+import ThreeDotsIcon from '../../../assets/icons/three-dots.svg'
 
 import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+
+import { LocalUserData } from '../../../contexts/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { MoreOptionsButton } from '../../../components/_buttons/MoreOptionsButton'
-import { ShareButton } from '../../../components/_buttons/ShareButton'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
+import { SmallButton } from '../../../components/_buttons/SmallButton'
+import { screenHeight } from '../../../common/screenDimensions'
+import { HorizontalTagList } from '../../../components/HorizontalTagList'
+import { PostCard } from '../../../components/_cards/PostCard'
 
 function Profile({ navigation }: HomeTabScreenProps) {
-	const { getDataFromSecureStore, deleteLocaluser } = useContext(AuthContext)
+	const { getDataFromSecureStore } = useContext(AuthContext)
 
-	const [profilePicture, setProfilePicture] = useState<string[]>([])
-	const [userName, setUserName] = useState<string>('')
+	const [user, setUser] = useState<LocalUserData>({})
+	const [userPosts, setUserPosts] = useState([])
+	const [selectedTags, setSelectedTags] = useState<string[]>([])
+
+	useEffect(() => {
+		const unsubscribe = navigation.addListener('focus', () => {
+			getProfileData()
+		})
+		return unsubscribe
+	}, [navigation])
 
 	useEffect(() => {
 		getProfileData()
@@ -33,9 +53,13 @@ function Profile({ navigation }: HomeTabScreenProps) {
 
 	const getProfileData = async () => {
 		const localUser = await getObjectLocalUser()
-		const { profilePictureUrl, name } = localUser
-		setProfilePicture(profilePictureUrl || [])
-		setUserName(name)
+		const { profilePictureUrl, name, posts, description } = localUser as LocalUserData
+		setUser({
+			name,
+			description,
+			profilePictureUrl: profilePictureUrl || [],
+		})
+		setUserPosts(posts as never)
 	}
 
 	const getObjectLocalUser = async () => {
@@ -45,9 +69,15 @@ function Profile({ navigation }: HomeTabScreenProps) {
 		return userObject
 	}
 
-	const cleanLocalStorage = async () => { // TODO DevOnly
-		await deleteLocaluser()
-		Alert.alert('Certo!', 'Dados do local storage apagados, recarregue a aplicação!')
+	const onSelectTag = (tagName: string) => {
+		const currentSelectedTags = [...selectedTags]
+		if (currentSelectedTags.includes(tagName)) {
+			const selectedTagsFiltred = currentSelectedTags.filter((tag) => tag !== tagName)
+			setSelectedTags(selectedTagsFiltred)
+		} else {
+			currentSelectedTags.push(tagName)
+			setSelectedTags(currentSelectedTags)
+		}
 	}
 
 	return (
@@ -59,38 +89,70 @@ function Profile({ navigation }: HomeTabScreenProps) {
 			<DefaultHeaderContainer
 				backgroundColor={theme.white3}
 				centralized={false}
-				relativeHeight={'19%'}
+				relativeHeight={'25%'}
+				borderBottomWidth={0}
 			>
 				<ProfileHeader>
-					<PhotoPortrait
-						height={RFValue(95)}
-						width={RFValue(100)}
-						borderWidth={3}
-						borderRightWidth={8}
-						pictureUri={profilePicture[0] || ''}
-					/>
-					<InfoArea>
-						<UserName>{userName}</UserName>
-						<OptionsArea>
-							<ShareButton
-								color={theme.orange3}
-								fontSize={13}
-								relativeWidth={'70%'}
-								height={30}
-								onPress={() => { }}
-							/>
-							<MoreOptionsButton
-								color={theme.white3}
-								height={30}
-								width={30}
-								onPress={cleanLocalStorage}
-							/>
-						</OptionsArea>
-					</InfoArea>
+					<ProfileInfoContainer>
+						<PhotoPortrait
+							height={RFValue(95)}
+							width={RFValue(100)}
+							borderWidth={3}
+							borderRightWidth={8}
+							pictureUri={user.profilePictureUrl ? user.profilePictureUrl[0] : ''}
+							checked
+						/>
+						<InfoArea>
+							<UserName numberOfLines={1}>{user.name}</UserName>
+							<UserDescription numberOfLines={3} >
+								{user.description}
+							</UserDescription>
+						</InfoArea>
+					</ProfileInfoContainer>
+					<OptionsArea>
+						<SmallButton
+							color={theme.white3}
+							label={'chat'}
+							fontSize={14}
+							SvgIcon={ChatIcon}
+							relativeWidth={'30%'}
+							height={screenHeight * 0.050}
+							onPress={() => { }}
+						/>
+						<SmallButton
+							color={theme.orange3}
+							label={'compartilhar'}
+							fontSize={14}
+							SvgIcon={ShareIcon}
+							relativeWidth={'45%'}
+							height={screenHeight * 0.050}
+							onPress={() => { }}
+						/>
+						<SmallButton
+							color={theme.white3}
+							fontSize={14}
+							SvgIcon={ThreeDotsIcon}
+							relativeWidth={screenHeight * 0.050}
+							height={screenHeight * 0.050}
+							onPress={() => { }}
+						/>
+					</OptionsArea>
 				</ProfileHeader>
+
 			</DefaultHeaderContainer>
 			<Body>
-				{/* Implements */}
+				<HorizontalTagList
+					tags={['aula', 'música', 'guitarra']}
+					selectedTags={selectedTags}
+					onSelectTag={onSelectTag}
+				/>
+				<FlatList
+					data={userPosts}
+					renderItem={({ item }) => <PostCard post={item} owner={user} />}
+					showsVerticalScrollIndicator={false}
+					ItemSeparatorComponent={() => <Sigh />}
+					ListFooterComponent={() => <FooterSigh />}
+				/>
 			</Body>
 		</Container>
 	)

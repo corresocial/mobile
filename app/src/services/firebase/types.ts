@@ -104,8 +104,8 @@ export type PostCollection = ServiceCollection | SaleCollection | VacancyCollect
 
 export type ServiceCollection = {
 	postType?: PostType
-	title: string
-	tags: string[]
+	title?: string
+	tags?: string[]
 	paymentType: PaymentType
 	saleValue?: string
 	exchangeValue?: string
@@ -143,11 +143,11 @@ export type ServiceCollection = {
 
 export type SaleCollection = {
 	postType?: PostType
-	title: string
-	itemName: string
-	itemDescription: string
-	tags: string[]
-	paymentType: PaymentType
+	title?: string
+	itemName?: string
+	itemDescription?: string
+	tags?: string[]
+	paymentType?: PaymentType
 	saleValue?: string
 	exchangeValue?: string
 	locationView?: LocationViewType
@@ -264,9 +264,9 @@ export type CultureCollection = {
 
 export type SocialImpactCollection = {
 	postType?: PostType
-	title: string
-	description: string
-	tags: string[]
+	title?: string
+	description?: string
+	tags?: string[]
 	locationView?: LocationViewType
 	exhibitionRange?: ExhibitionPlaceType
 	exhibitionWeekDays?: DaysOfWeek[]

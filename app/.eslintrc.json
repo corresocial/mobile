@@ -34,6 +34,7 @@
 		],
 		"linebreak-style": "off",
 		"no-trailing-spaces": "off",
+		"no-multiple-empty-lines": "warn",
 		"max-len": "off",
 		"semi": [
 			"error",
@@ -83,10 +84,10 @@
 			"error",
 			"tab"
 		],
-		"object-curly-newline": [
+		"object-curly-newline": "off", /* [
 			"error",
 			{
-				"ObjectExpression": "always",
+				"ObjectExpression": "never",
 				"ObjectPattern": {
 					"multiline": true,
 					"minProperties": 5
@@ -100,7 +101,7 @@
 					"minProperties": 5
 				}
 			}
-		],
+		] */
 		"eqeqeq": [
 			"error",
 			"always"

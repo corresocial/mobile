@@ -1,30 +1,29 @@
 import React, { useState } from 'react'
-import { FontAwesome5 } from '@expo/vector-icons'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import {
-	ButtonLabel,
-	ContainerBottom,
-	ContainerSurface,
-	TouchableContainer
-} from './styles'
+import { SvgProps } from 'react-native-svg'
+import { ButtonLabel, ContainerBottom, ContainerSurface, TouchableContainer } from './styles'
 import { theme } from '../../../common/theme'
 
-interface ShareButtonProps {
-    color: string
-    fontSize: number
-    relativeWidth: string
-    height: number
-    onPress: () => void
+interface SmallButtonProps {
+	color: string
+	label?: string
+	fontSize: number
+	SvgIcon?: React.FC<SvgProps>
+	relativeWidth: string | number
+	height: number
+	onPress: () => void
 }
 
-function ShareButton({
+function SmallButton({
 	color,
+	label = '',
 	fontSize,
+	SvgIcon,
 	relativeWidth,
 	height,
 	onPress
-}: ShareButtonProps) {
+}: SmallButtonProps) {
 	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
 
 	function pressingButton() {
@@ -48,7 +47,7 @@ function ShareButton({
 		>
 			<ContainerBottom
 				style={{
-					width: relativeWidth,
+					width: typeof (relativeWidth) === 'string' ? relativeWidth : RFValue(relativeWidth),
 					height: RFValue(height)
 				}}
 			>
@@ -59,17 +58,21 @@ function ShareButton({
 						height: RFValue(height)
 					} as { [key: string]: React.CSSProperties }}
 				>
-					<FontAwesome5
-						name={'share'}
-						size={13}
-						color={theme.black3}
-					/>
+					{
+						!!SvgIcon && (
+							<SvgIcon
+								height={RFValue(22)}
+								width={RFValue(22)}
+							/>
+						)
+					}
 					<ButtonLabel
 						style={{
 							fontSize,
+							marginLeft: label ? RFValue(8) : 0
 						}}
 					>
-						{'compartilhar\r'}
+						{label}
 					</ButtonLabel>
 				</ContainerSurface>
 			</ContainerBottom>
@@ -77,4 +80,4 @@ function ShareButton({
 	)
 }
 
-export { ShareButton }
+export { SmallButton }

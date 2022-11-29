@@ -2,9 +2,10 @@ import React from 'react'
 import { Image } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
-import { Container, DeleteItemArea } from './styles'
+import { CheckArea, Container, DeleteItemArea } from './styles'
 import TrashIcon from '../../assets/icons/trash.svg'
 import NoPhoto from '../../assets/imgs/noPhoto.svg'
+import CheckOrange from '../../assets/icons/check-orange.svg'
 
 interface PhotoPortraitProps {
 	width: number
@@ -12,6 +13,7 @@ interface PhotoPortraitProps {
 	borderWidth?: number
 	borderRightWidth?: number
 	pictureUri: string
+	checked: boolean
 	deleteCurrentPicture?: () => void
 }
 
@@ -21,6 +23,7 @@ function PhotoPortrait({
 	borderWidth = 5,
 	borderRightWidth = 10,
 	pictureUri,
+	checked = false,
 	deleteCurrentPicture
 }: PhotoPortraitProps) {
 	return (
@@ -60,6 +63,9 @@ function PhotoPortrait({
 					)
 					: null
 			}
+			<CheckArea>
+				<CheckOrange width={'100%'} height={'100%'} />
+			</CheckArea>
 		</Container>
 	)
 }

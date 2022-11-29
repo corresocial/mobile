@@ -262,7 +262,12 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 							...serviceDataPost,
 							postId,
 							postType: 'service',
-							picturesUrl: picturePostsUrls
+							picturesUrl: picturePostsUrls,
+							owner: {
+								userId: localUser.userId,
+								name: localUser.name,
+								profilePictureUrl: localUser.profilePictureUrl
+							}
 						},
 					],
 				})
