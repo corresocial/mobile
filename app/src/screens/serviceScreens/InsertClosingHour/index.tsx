@@ -196,16 +196,14 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 													localUser,
 													postId,
 													serviceDataPost,
-													picturePostsUrls
+													picturePostsUrls,
 												)
 
 												await updateDocField( // Update pictureUrl
 													'services',
 													postId,
 													'picturesUrl',
-													{
-														...picturePostsUrls
-													},
+													picturePostsUrls, // TODO, remove object in another flows
 												)
 
 												await updatePostPrivateData(
@@ -243,6 +241,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 			postId,
 			postType: 'service',
 			picturesUrl: picturePostsUrls,
+			createdAt: new Date()
 		}
 
 		await updateDocField(
@@ -263,6 +262,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 							postId,
 							postType: 'service',
 							picturesUrl: picturePostsUrls,
+							createdAt: new Date(),
 							owner: {
 								userId: localUser.userId,
 								name: localUser.name,

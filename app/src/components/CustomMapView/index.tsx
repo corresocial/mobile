@@ -87,7 +87,6 @@ function CustomMapView({
 						}
 						<Marker
 							coordinate={locationView === 'approximate' ? randomCoordinate : markerCoordinate}
-							title={'seu local'}
 						>
 							<CustomMarker width={screenWidth * 0.0972} height={screenWidth * 0.0972} />
 						</Marker>

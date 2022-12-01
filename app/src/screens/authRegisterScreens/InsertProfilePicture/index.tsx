@@ -20,7 +20,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { UserCollection } from '../../../services/firebase/types'
 
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
-	const { setDataOnSecureStore, getDataFromSecureStore } = useContext(AuthContext)
+	const { setDataOnSecureStore, getDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [hasServerSideError, setHasServerSideError] = useState(false)
@@ -57,6 +57,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 			setLoaderIsVisible(true)
 			await saveInFirebase(userData, localUser.tourPerformed)
 			await saveInSecureStore(userData, localUser)
+			await setRemoteUserOnLocal(userData.userIdentification.uid)
 			setLoaderIsVisible(false)
 			navigateToNextScreen(localUser.tourPerformed)
 		} catch (err) {

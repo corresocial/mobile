@@ -13,7 +13,7 @@ export const ContainerBottom = styled.View`
     align-items: center;
     justify-content: center;
     margin-left: ${RFValue(6)}px;
-    border-radius: ${RFValue(10)}px;
+    border-radius: ${RFValue(12)}px;
     position: relative;
     background-color: ${({ theme }) => theme.black4};
 `
@@ -23,7 +23,7 @@ export const ContainerSurface = styled.View`
     align-items: center;
     justify-content: center;
     width: 100%;
-    border-radius: ${RFValue(10)}px;
+    border-radius: ${RFValue(12)}px;
     border: ${RFValue(1.5)}px solid black;
     position: absolute;
 	right: ${RFValue(5)}px;

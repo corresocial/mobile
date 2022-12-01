@@ -37,7 +37,7 @@
 		"no-multiple-empty-lines": "warn",
 		"max-len": "off",
 		"semi": [
-			"error",
+			"warn",
 			"never"
 		],
 		"quotes": [
@@ -84,7 +84,10 @@
 			"error",
 			"tab"
 		],
-		"object-curly-newline": "off", /* [
+		"object-curly-spacing": "warn",
+		"object-curly-newline": "off",
+		"arrow-body-style": "off",
+		/* [
 			"error",
 			{
 				"ObjectExpression": "never",

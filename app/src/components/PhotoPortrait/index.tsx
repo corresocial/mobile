@@ -6,14 +6,17 @@ import { CheckArea, Container, DeleteItemArea } from './styles'
 import TrashIcon from '../../assets/icons/trash.svg'
 import NoPhoto from '../../assets/imgs/noPhoto.svg'
 import CheckOrange from '../../assets/icons/check-orange.svg'
+import { screenWidth } from '../../common/screenDimensions'
 
 interface PhotoPortraitProps {
-	width: number
-	height: number
+	width: number | string
+	height: number | string
 	borderWidth?: number
 	borderRightWidth?: number
+	resizeMode?: any // TODO Type
 	pictureUri: string
-	checked: boolean
+	maxWidth?: number
+	checked?: boolean
 	deleteCurrentPicture?: () => void
 }
 
@@ -23,6 +26,8 @@ function PhotoPortrait({
 	borderWidth = 5,
 	borderRightWidth = 10,
 	pictureUri,
+	resizeMode = 'contain',
+	maxWidth = screenWidth * 0.9,
 	checked = false,
 	deleteCurrentPicture
 }: PhotoPortraitProps) {
@@ -31,6 +36,7 @@ function PhotoPortrait({
 			style={{
 				height,
 				width,
+				maxWidth,
 				borderWidth: RFValue(borderWidth),
 				borderRightWidth: RFValue(borderRightWidth),
 			}}
@@ -45,9 +51,9 @@ function PhotoPortrait({
 							width={0}
 							height={0}
 							style={{
+								resizeMode,
 								width: '100%',
 								height: '100%',
-								resizeMode: 'contain',
 								borderRadius: 5,
 							}}
 						/>
@@ -63,9 +69,14 @@ function PhotoPortrait({
 					)
 					: null
 			}
-			<CheckArea>
-				<CheckOrange width={'100%'} height={'100%'} />
-			</CheckArea>
+			{
+				checked
+				&& (
+					<CheckArea>
+						<CheckOrange width={'100%'} height={'100%'} />
+					</CheckArea>
+				)
+			}
 		</Container>
 	)
 }

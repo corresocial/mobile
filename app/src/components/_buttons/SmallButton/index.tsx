@@ -3,15 +3,14 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { SvgProps } from 'react-native-svg'
 import { ButtonLabel, ContainerBottom, ContainerSurface, TouchableContainer } from './styles'
-import { theme } from '../../../common/theme'
 
 interface SmallButtonProps {
 	color: string
 	label?: string
-	fontSize: number
+	fontSize?: number
 	SvgIcon?: React.FC<SvgProps>
-	relativeWidth: string | number
-	height: number
+	relativeWidth?: string | number
+	height?: number
 	onPress: () => void
 }
 
@@ -20,8 +19,8 @@ function SmallButton({
 	label = '',
 	fontSize,
 	SvgIcon,
-	relativeWidth,
-	height,
+	relativeWidth = '100%',
+	height = 30,
 	onPress
 }: SmallButtonProps) {
 	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)

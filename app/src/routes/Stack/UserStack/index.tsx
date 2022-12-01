@@ -4,15 +4,17 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 
 import { UserStackParamList } from './types'
 
+import { StateProvider } from '../../../contexts/StateContext'
+
 import { WelcomeNewUser } from '../../../screens/homeScreens/WelcomeNewUser'
 import { SelectPostType } from '../../../screens/homeScreens/SelectPostType'
+import { ViewServicePost } from '../../../screens/homeScreens/ViewServicePost'
 import { HomeTab } from '../../Tabs/HomeTab'
 import { ServiceStack } from '../ServiceStack'
 import { SaleStack } from '../SaleStack'
 import { VacancyStack } from '../VacancyStack'
 import { SocialImpactStack } from '../SocialImpactStack'
 import { CultureStack } from '../CultureStack'
-import { StateProvider } from '../../../contexts/StateContext'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -37,6 +39,7 @@ export function UserStack({ route }: any) {
 				<Stack.Screen name={'VacancyStack'} component={VacancyStack} />
 				<Stack.Screen name={'CultureStack'} component={CultureStack} />
 				<Stack.Screen name={'SocialImpactStack'} component={SocialImpactStack} />
+				<Stack.Screen name={'ViewServicePost'} component={ViewServicePost} />
 			</Stack.Navigator>
 		</StateProvider>
 	)

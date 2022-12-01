@@ -18,11 +18,12 @@ import {
 import { theme } from '../../../common/theme'
 import ChatIcon from '../../../assets/icons/chat.svg'
 import ShareIcon from '../../../assets/icons/share.svg'
-import ThreeDotsIcon from '../../../assets/icons/three-dots.svg'
+import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
 import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { LocalUserData } from '../../../contexts/types'
+import { PostType } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
@@ -32,6 +33,7 @@ import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { screenHeight } from '../../../common/screenDimensions'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { PostCard } from '../../../components/_cards/PostCard'
+import { TextGradient } from '../../../components/TextGradient'
 
 function Profile({ navigation }: HomeTabScreenProps) {
 	const { getDataFromSecureStore } = useContext(AuthContext)
@@ -80,6 +82,16 @@ function Profile({ navigation }: HomeTabScreenProps) {
 		}
 	}
 
+	const goToPostView = (postType: PostType) => {
+		switch (postType) {
+			case 'service': {
+				navigation.navigate('ViewServicePost', { postId: 'C0jpk2gmPL3mRUNprFor' })
+				break
+			}
+			default: return false
+		}
+	}
+
 	return (
 		<Container style={{
 			flex: 1
@@ -104,9 +116,13 @@ function Profile({ navigation }: HomeTabScreenProps) {
 						/>
 						<InfoArea>
 							<UserName numberOfLines={1}>{user.name}</UserName>
-							<UserDescription numberOfLines={3} >
-								{user.description}
-							</UserDescription>
+							<TextGradient >
+								{(styles: any) => (
+									<UserDescription numberOfLines={3} style={styles}>
+										{user.description}
+									</UserDescription>
+								)}
+							</TextGradient>
 						</InfoArea>
 					</ProfileInfoContainer>
 					<OptionsArea>
@@ -130,7 +146,6 @@ function Profile({ navigation }: HomeTabScreenProps) {
 						/>
 						<SmallButton
 							color={theme.white3}
-							fontSize={14}
 							SvgIcon={ThreeDotsIcon}
 							relativeWidth={screenHeight * 0.050}
 							height={screenHeight * 0.050}
@@ -148,7 +163,9 @@ function Profile({ navigation }: HomeTabScreenProps) {
 				/>
 				<FlatList
 					data={userPosts}
-					renderItem={({ item }) => <PostCard post={item} owner={user} />}
+					renderItem={({ item }: any) => ( // TODO type
+						<PostCard post={item} owner={user} onPress={() => goToPostView(item.postType)} /> // TODO Type
+					)}
 					showsVerticalScrollIndicator={false}
 					ItemSeparatorComponent={() => <Sigh />}
 					ListFooterComponent={() => <FooterSigh />}

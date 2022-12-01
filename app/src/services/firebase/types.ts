@@ -48,11 +48,14 @@ export type Coordinates = {
 export type CompleteAddress = {
 	street?: string | null
 	streetNumber?: string | null
+	number?: string | null
 	district?: string | null
 	postalCode?: string | null
 	city?: string | null
 	subregion?: string | null
+	state?: string | null
 	country?: string | null
+	coordinates?: Coordinates
 }
 
 export type UserCollection = {
@@ -106,7 +109,7 @@ export type ServiceCollection = {
 	postType?: PostType
 	title?: string
 	tags?: string[]
-	paymentType: PaymentType
+	paymentType?: PaymentType
 	saleValue?: string
 	exchangeValue?: string
 	locationView?: LocationViewType
@@ -137,6 +140,45 @@ export type ServiceCollection = {
 	owner?: {
 		userId?: string
 		name?: string
+		profilePictureUrl?: string[]
+	}
+}
+
+export type ServiceCollectionRemote = {
+	postType: PostType
+	title: string
+	tags: string[]
+	paymentType: PaymentType
+	saleValue?: string
+	exchangeValue?: string
+	locationView: LocationViewType
+	deliveryMethod: DeliveryMethod
+	attendanceFrequency: WeekdaysFrequency
+	attendanceWeekDays?: DaysOfWeek[]
+	openingHour: Date
+	closingHour: Date
+	picturesUrl?: string[]
+	createdAt: Date
+	address: {
+		country?: string
+		state?: string
+		city?: string
+		postalCode?: string
+		district?: string
+		street?: string
+		number?: string
+		reference?: string
+		coordinates: {
+			latitude: number
+			longitude: number
+		}
+		geohash: string
+		geohashNear: string[]
+		geohashCity: string[]
+	}
+	owner: {
+		userId: string
+		name: string
 		profilePictureUrl?: string[]
 	}
 }

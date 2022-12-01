@@ -24,7 +24,7 @@ import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal'
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
-	const { setDataOnSecureStore, getDataFromSecureStore } = useContext(AuthContext)
+	const { setRemoteUserOnLocal, setDataOnSecureStore, getDataFromSecureStore } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(true)
@@ -121,6 +121,8 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 										tourPerformed: !!localUser.tourPerformed,
 										userIdentification: userData.userIdentification
 									})
+
+									await setRemoteUserOnLocal(userData.userIdentification.uid)
 
 									setLoaderIsVisible(false)
 									navigateToNextScreen(localUser.tourPerformed)

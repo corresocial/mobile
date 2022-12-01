@@ -6,13 +6,6 @@ export const Container = styled.View`
     flex: 1;
 `
 
-export const Body = styled.View`
-    flex: 1;
-    background-color: ${({ theme }) => theme.orange2};
-	padding: ${RFValue(12)}px;
-	overflow: visible;
-`
-
 export const ProfileHeader = styled.View`
     margin-top: ${-statusBarHeight / 2}px;
     width: 100%;
@@ -23,7 +16,7 @@ export const ProfileInfoContainer = styled.View`
 `
 
 export const InfoArea = styled.View`
-	justify-content: space-around;
+	justify-content: center;
     flex: 1;
     padding-horizontal: ${RFValue(16)}px;
     padding-vertical: ${RFValue(2)}px;
@@ -44,6 +37,13 @@ export const OptionsArea = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+`
+
+export const Body = styled.View`
+    flex: 1;
+    background-color: ${({ theme }) => theme.orange2};
+	padding: ${RFValue(12)}px;
+	overflow: visible;
 `
 
 export const FlatList = styled.FlatList`

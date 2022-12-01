@@ -117,7 +117,6 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 
 	const getCurrentCategoryLabelHightlighted = () => {
 		const highlightedWords = serviceCategories[getServiceCategorySelected()].label.split(' ')
-		highlightedWords[highlightedWords.length - 1] = `${highlightedWords[highlightedWords.length - 1]},`
 		return highlightedWords
 	}
 

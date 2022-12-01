@@ -10,7 +10,7 @@ import {
 	TouchCloseArea
 } from './styles'
 import { theme } from '../../../common/theme'
-import RightCurvedArrow from '../../../assets/icons/right-curved-arrow.svg'
+import RightCurvedArrow from '../../../assets/icons/rightCurvedArrow.svg'
 
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 
