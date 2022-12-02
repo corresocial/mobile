@@ -84,14 +84,16 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
 	const closingTimeIsAfterOpening = () => {
 		const openingHour = new Date(saleDataContext.openingHour as Date)
-		const closingHour = new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
+		const closingHour = new Date()
+		closingHour.setHours(parseInt(hours), parseInt(minutes))
 		return openingHour.getTime() < closingHour.getTime()
 	}
 
-	const getCompleteSaleDataFromContext = () => ({
-		...saleDataContext,
-		closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
-	})
+	const getCompleteSaleDataFromContext = () => {
+		const closingHour = new Date()
+		closingHour.setHours(parseInt(hours), parseInt(minutes))
+		return { ...saleDataContext, closingHour }
+	}
 
 	const extractSaleAddress = (saleData: SaleData) => ({
 		...saleData.address
@@ -187,9 +189,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 													'sales',
 													postId,
 													'picturesUrl',
-													{
-														...picturePostsUrls
-													},
+													picturePostsUrls
 												)
 
 												await updatePostPrivateData(
@@ -235,15 +235,23 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 			true,
 		)
 			.then(() => {
+				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollection[] : []
 				setDataOnSecureStore('corre.user', {
 					...localUser,
 					tourPerformed: true,
 					posts: [
-						localUser.posts ? [...localUser.posts] as PostCollection[] : [],
+						...localUserPosts,
 						{
 							...saleDataPost,
 							postId,
+							postType: 'sale',
 							picturesUrl: picturePostsUrls,
+							createdAt: new Date(),
+							owner: {
+								userId: localUser.userId,
+								name: localUser.name,
+								profilePictureUrl: localUser.profilePictureUrl
+							}
 						},
 					],
 				})

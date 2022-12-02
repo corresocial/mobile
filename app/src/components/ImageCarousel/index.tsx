@@ -17,7 +17,7 @@ interface ImageCarouselProps {
 	picturesUrl: string[] | undefined
 }
 
-function ImageCarousel({ marginVertical, picturesUrl = ['https://cdn-icons-png.flaticon.com/512/1695/1695213.png'] }: ImageCarouselProps) {
+function ImageCarousel({ marginVertical = 0, picturesUrl = ['https://cdn-icons-png.flaticon.com/512/1695/1695213.png'] }: ImageCarouselProps) {
 	const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
 
 	const renderCarouselIndicators = () => picturesUrl.map((_, index) => (
@@ -50,7 +50,7 @@ function ImageCarousel({ marginVertical, picturesUrl = ['https://cdn-icons-png.f
 			style={{
 				width: '100%',
 				height: screenHeight * 0.28,
-				marginVertical: RFValue(marginVertical || 0)
+				marginVertical: RFValue(marginVertical)
 			}}
 		>
 			<Carousel

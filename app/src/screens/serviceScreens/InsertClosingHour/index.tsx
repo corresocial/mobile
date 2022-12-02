@@ -85,14 +85,16 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
 	const closingTimeIsAfterOpening = () => {
 		const openingHour = new Date(serviceDataContext.openingHour as Date)
-		const closingHour = new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
+		const closingHour = new Date()
+		closingHour.setHours(parseInt(hours), parseInt(minutes))
 		return openingHour.getTime() < closingHour.getTime()
 	}
 
-	const getCompleteServiceDataFromContext = () => ({
-		...serviceDataContext,
-		closingHour: new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
-	})
+	const getCompleteServiceDataFromContext = () => {
+		const closingHour = new Date()
+		closingHour.setHours(parseInt(hours), parseInt(minutes))
+		return { ...serviceDataContext, closingHour }
+	}
 
 	const extractServiceAddress = (serviceData: ServiceData) => ({
 		...serviceData.address
@@ -252,11 +254,12 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 			true,
 		)
 			.then(() => {
+				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollection[] : []
 				setDataOnSecureStore('corre.user', {
 					...localUser,
 					tourPerformed: true,
 					posts: [
-						localUser.posts ? [...localUser.posts] as PostCollection[] : [],
+						...localUserPosts, // TODO Update requests in another flows
 						{
 							...serviceDataPost,
 							postId,

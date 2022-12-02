@@ -70,7 +70,8 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
 
 	const closingTimeIsAfterOpening = () => {
 		const eventStartHour = new Date(cultureDataContext.eventStartHour as Date)
-		const eventEndHour = new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
+		const eventEndHour = new Date()
+		eventEndHour.setHours(parseInt(hours), parseInt(minutes))
 		return eventStartHour.getTime() < eventEndHour.getTime()
 	}
 
@@ -80,9 +81,9 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
 			return
 		}
 
-		setCultureDataOnContext({
-			eventEndHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
-		})
+		const eventEndHour = new Date()
+		eventEndHour.setHours(parseInt(hours), parseInt(minutes))
+		setCultureDataOnContext({ eventEndHour })
 		navigation.navigate('SelectEventRepeat')
 	}
 

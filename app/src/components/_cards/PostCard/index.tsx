@@ -33,13 +33,10 @@ function PostCard({ post, owner, onPress }: PostCardProps) {
 	}
 
 	const renderFormatedPostDateTime = () => {
-		if (!post.createdAt) return '...'
-		const { seconds } = post.createdAt as any
-		const formatedDate = formatRelativeDate((seconds * 1000))
+		if (!post.createdAt) return '---'
+		const formatedDate = formatRelativeDate(post.createdAt)
 		return formatedDate
 	}
-
-	// console.log(post)
 
 	return (
 		<Container activeOpacity={0.7} onPress={onPress}>

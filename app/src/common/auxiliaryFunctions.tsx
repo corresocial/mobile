@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text } from 'react-native'
 import uuid from 'react-uuid'
-import { formatDistance, formatRelative, isValid, format } from 'date-fns'
+import { formatDistance, formatRelative, isValid, format, parseISO } from 'date-fns'
 import brasilLocale from 'date-fns/locale/pt-BR'
 
 const showMessageWithHighlight = (message: string, highlightedWords?: string[], fontSizeHighlighted?: number) => {
@@ -50,22 +50,21 @@ const filterLeavingOnlyNumbers = (dirtyText: string) => {
 	return cleanText
 }
 
-const formatDate = (date: Date) => {
-	if (!date) return '---'
-	if (Object.keys(date).includes('seconds')) {
-		const { seconds } = date as any // TODO Type
-		const dateObject = new Date(seconds * 1000)
-		if (!isValid(new Date(dateObject))) return '---'
-		return format(dateObject, 'HH:mm')
-	}
-	return '---'
+const formatHour = (initialDate: Date) => {
+	if (!initialDate) return '...'
+
+	const date = getNewDate(initialDate)
+	if (!isValid(date)) return '...'
+	console.log(date)
+	return format(date, 'HH:mm', { locale: brasilLocale })
 }
 
-const formatRelativeDate = (initialDate: Date | string | number) => {
-	if (!isValid(new Date(initialDate))) return '---'
+const formatRelativeDate = (initialDate: any) => {
+	if (!initialDate) return '...'
 
-	const date = new Date(initialDate)
 	const currentDate = new Date()
+	const date = getNewDate(initialDate)
+	if (!isValid(date)) return '...'
 
 	const distance = formatDistance(date, currentDate, { locale: brasilLocale })
 	const relative = formatRelative(date, currentDate, { locale: brasilLocale })
@@ -77,9 +76,17 @@ const formatRelativeDate = (initialDate: Date | string | number) => {
 	return relative
 }
 
+const getNewDate = (date: any) => {
+	if (Object.keys(date).includes('seconds')) {
+		const { seconds } = date as any // TODO Type
+		return new Date(seconds * 1000)
+	}
+	return new Date(date)
+}
+
 export {
 	showMessageWithHighlight,
 	filterLeavingOnlyNumbers,
-	formatDate,
+	formatHour,
 	formatRelativeDate
 }

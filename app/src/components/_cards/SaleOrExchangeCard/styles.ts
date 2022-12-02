@@ -3,9 +3,6 @@ import styled from 'styled-components/native'
 
 export const SaleValueArea = styled.View`
 	padding-vertical: ${RFValue(10)}px;
-`
-
-export const InCashValue = styled.View`
 	flex-direction: row;
 	align-items: flex-end;
 `

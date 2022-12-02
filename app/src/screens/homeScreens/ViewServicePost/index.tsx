@@ -106,23 +106,29 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 				<ScrollView showsVerticalScrollIndicator={false} >
 					<DescriptionCard
 						title={'descrição do serviço'}
-						text={'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic'}
+						text={'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centurie.'}
 						textFontSize={14}
 					/>
-					<ImageCarousel
-						marginVertical={10}
-						picturesUrl={postData.picturesUrl && postData.picturesUrl}
-					/>
+					<Sigh />
+					{
+						postData.picturesUrl && postData.picturesUrl.length && (
+							<>
+								<ImageCarousel
+									picturesUrl={postData.picturesUrl && postData.picturesUrl}
+								/>
+								<Sigh />
+							</>
+						)
+					}
 					<SaleOrExchangeCard
 						title={'venda ou troca'}
 						saleValue={postData.saleValue}
 						exchangeValue={postData.exchangeValue}
-						timesOnCard={'5x'}
 					/>
 					<Sigh />
 					<LocationViewCard
 						title={'localização'}
-						locationView={'approximate'}
+						locationView={postData.locationView}
 						postType={postData.postType}
 						postId={route.params.postId}
 						textFontSize={16}

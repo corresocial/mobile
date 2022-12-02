@@ -8,7 +8,6 @@ import {
 	SaleValueArea,
 	ExchangeArea,
 	ExchangeText,
-	InCashValue,
 } from './styles'
 import DollarIcon from '../../../assets/icons/dollar.svg'
 
@@ -20,10 +19,9 @@ interface SaleOrExchangeCardProps {
 	title: string
 	saleValue?: string | number
 	exchangeValue?: string
-	timesOnCard?: string
 }
 
-function SaleOrExchangeCard({ title, saleValue, exchangeValue, timesOnCard = '' }: SaleOrExchangeCardProps) {
+function SaleOrExchangeCard({ title, saleValue, exchangeValue }: SaleOrExchangeCardProps) {
 	return (
 		<DefaultCardContainer>
 			<DefaultHeaderTitle
@@ -34,51 +32,37 @@ function SaleOrExchangeCard({ title, saleValue, exchangeValue, timesOnCard = '' 
 			{
 				saleValue && (
 					<SaleValueArea>
-						<InCashValue>
-							<SmallFont>
-								{'r$'}
-							</SmallFont>
-							<LargeFont>
-								{saleValue}
-							</LargeFont>
-							<Decimals>
-								{',00'}
-							</Decimals>
-						</InCashValue>
-						{
-							timesOnCard
-								? (
-									<SmallFont>
-										{showMessageWithHighlight(
-											`até ${timesOnCard} no cartão`,
-											[timesOnCard]
-										)}
-									</SmallFont>
-								)
-								: null
-						}
+						<SmallFont>
+							{'r$'}
+						</SmallFont>
+						<LargeFont>
+							{saleValue}
+						</LargeFont>
+						<Decimals>
+							{',00'}
+						</Decimals>
 					</SaleValueArea>
 				)
 			}
 			{
+				!!saleValue && !!exchangeValue && (
+					<SmallFont>
+						{'ou'}
+					</SmallFont>
+				)
+			}
+			{
 				!!exchangeValue && (
-					<>
-						<SmallFont>
-							{'ou'}
-						</SmallFont>
-						<ExchangeArea>
-							<ExchangeText>
-								{showMessageWithHighlight(
-									'troca por item de valor equivalente',
-									['troca', 'valor', 'equivalente']
-								)}
-								{/* {showMessageWithHighlight(
-										`troca por ${exchangeValue}`,
-										['troca', ...exchangeValue.split(' ')]
-									)} */}
-							</ExchangeText>
-						</ExchangeArea>
-					</>
+
+					<ExchangeArea>
+						<ExchangeText>
+							{showMessageWithHighlight(
+								`troca por ${exchangeValue}`,
+								['troca', ...exchangeValue.split(' ')]
+							)}
+						</ExchangeText>
+					</ExchangeArea>
+
 				)
 			}
 		</DefaultCardContainer>

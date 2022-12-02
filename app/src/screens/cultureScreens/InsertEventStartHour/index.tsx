@@ -67,9 +67,9 @@ function InsertEventStartHour({ navigation }: InsertEventStartHourScreenProps) {
 	}
 
 	const saveEventStartHour = () => {
-		setCultureDataOnContext({
-			eventStartHour: new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
-		})
+		const eventStartHour = new Date()
+		eventStartHour.setHours(parseInt(hours), parseInt(minutes))
+		setCultureDataOnContext({ eventStartHour })
 		navigation.navigate('InsertEventEndDate')
 	}
 

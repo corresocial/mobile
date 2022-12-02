@@ -66,8 +66,7 @@ function LocationViewCard({
 
 	const goToGoogleMapsApp = async () => {
 		if (Object.keys(completeAddress).length < 1) return false
-		const googleMapsUrl = `https://www.google.com/maps/@?api=1&map_action=map&origin=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}&destination=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}`
-		console.log(googleMapsUrl)
+		const googleMapsUrl = `https://www.google.com/maps/search/?api=1&travelmode=driving&query=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}&waypoints=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}&zoom=21`
 		const supportedLink = await Linking.canOpenURL(googleMapsUrl)
 		if (!supportedLink) {
 			console.log('localização inválida')
@@ -78,7 +77,7 @@ function LocationViewCard({
 
 	const goToWazeApp = async () => {
 		if (Object.keys(completeAddress).length < 1) return false
-		const wazeUrl = `https://waze.com/ul?ll=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}&z=10`
+		const wazeUrl = `https://waze.com/ul?ll=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}&z=17`
 		const supportedLink = await Linking.canOpenURL(wazeUrl)
 		if (!supportedLink) {
 			console.log('localização inválida')
@@ -99,32 +98,36 @@ function LocationViewCard({
 					{renderFormatedAddress()}
 				</TextAddress>
 			</CardHeader>
-			<MapArea >
-				<CustomMapView
-					regionCoordinate={{
-						latitude: -23.318759913934052,
-						longitude: -51.16604430601001,
-						latitudeDelta: 0.0065,
-						longitudeDelta: 0.0065
-					}}
-					markerCoordinate={{
-						latitude: -23.318759913934052,
-						longitude: -51.16604430601001,
-						latitudeDelta: 0.0028,
-						longitudeDelta: 0.0028
-					}}
-					CustomMarker={MapPointOrangeIcon}
-					locationView={locationView}
-				/>
-				<NavigationApps >
-					<TouchableApp onPress={goToGoogleMapsApp}>
-						<GoogleMapsIcon width={RFValue(30)} height={RFValue(30)} />
-					</TouchableApp>
-					<TouchableApp onPress={goToWazeApp} >
-						<WazeIcon width={RFValue(40)} height={RFValue(40)} />
-					</TouchableApp>
-				</NavigationApps>
-			</MapArea>
+			{
+				locationView !== 'private' && (
+					<MapArea >
+						<CustomMapView
+							regionCoordinate={{
+								latitude: -23.318759913934052,
+								longitude: -51.16604430601001,
+								latitudeDelta: 0.0065,
+								longitudeDelta: 0.0065
+							}}
+							markerCoordinate={{
+								latitude: -23.318759913934052,
+								longitude: -51.16604430601001,
+								latitudeDelta: 0.0028,
+								longitudeDelta: 0.0028
+							}}
+							CustomMarker={MapPointOrangeIcon}
+							locationView={locationView}
+						/>
+						<NavigationApps >
+							<TouchableApp onPress={goToGoogleMapsApp}>
+								<GoogleMapsIcon width={RFValue(30)} height={RFValue(30)} />
+							</TouchableApp>
+							<TouchableApp onPress={goToWazeApp} >
+								<WazeIcon width={RFValue(40)} height={RFValue(40)} />
+							</TouchableApp>
+						</NavigationApps>
+					</MapArea>
+				)
+			}
 		</DefaultCardContainer>
 	)
 }

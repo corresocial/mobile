@@ -82,10 +82,10 @@ function Profile({ navigation }: HomeTabScreenProps) {
 		}
 	}
 
-	const goToPostView = (postType: PostType) => {
+	const goToPostView = (postType: PostType, postId: string) => {
 		switch (postType) {
 			case 'service': {
-				navigation.navigate('ViewServicePost', { postId: 'C0jpk2gmPL3mRUNprFor' })
+				navigation.navigate('ViewServicePost', { postId })
 				break
 			}
 			default: return false
@@ -164,7 +164,7 @@ function Profile({ navigation }: HomeTabScreenProps) {
 				<FlatList
 					data={userPosts}
 					renderItem={({ item }: any) => ( // TODO type
-						<PostCard post={item} owner={user} onPress={() => goToPostView(item.postType)} /> // TODO Type
+						<PostCard post={item} owner={user} onPress={() => goToPostView(item.postType, item.postId)} /> // TODO Type
 					)}
 					showsVerticalScrollIndicator={false}
 					ItemSeparatorComponent={() => <Sigh />}
