@@ -106,6 +106,7 @@ export type PostCollectionType = 'services' | 'sales' | 'vacancies' | 'cultures'
 export type PostCollection = ServiceCollection | SaleCollection | VacancyCollection | CultureCollection | SocialImpactCollection
 
 export type ServiceCollection = {
+	postId?: string
 	postType?: PostType
 	title?: string
 	tags?: string[]
@@ -145,6 +146,7 @@ export type ServiceCollection = {
 }
 
 export type ServiceCollectionRemote = {
+	postId?: string
 	postType: PostType
 	title: string
 	tags: string[]
@@ -184,6 +186,7 @@ export type ServiceCollectionRemote = {
 }
 
 export type SaleCollection = {
+	postId?: string
 	postType?: PostType
 	title?: string
 	itemName?: string
@@ -225,6 +228,7 @@ export type SaleCollection = {
 }
 
 export type VacancyCollection = {
+	postId?: string
 	postType?: PostType
 	title?: string
 	description?: string
@@ -264,6 +268,7 @@ export type VacancyCollection = {
 }
 
 export type CultureCollection = {
+	postId?: string
 	postType?: PostType
 	title?: string
 	description?: string
@@ -305,6 +310,7 @@ export type CultureCollection = {
 }
 
 export type SocialImpactCollection = {
+	postId?: string
 	postType?: PostType
 	title?: string
 	description?: string

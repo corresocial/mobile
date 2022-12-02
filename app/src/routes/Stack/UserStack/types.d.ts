@@ -1,3 +1,5 @@
+import { PostCollection } from "../../../services/firebase/types"
+
 export type UserStackParamList = {
 	WelcomeNewUser: undefined
 	HomeTab: { tourCompleted?: boolean, showShareModal?: boolean }
@@ -7,5 +9,5 @@ export type UserStackParamList = {
 	VacancyStack: undefined
 	CultureStack: undefined
 	SocialImpactStack: undefined
-	ViewServicePost: { postId: string }
+	ViewServicePost: { postData: PostCollection }
 }

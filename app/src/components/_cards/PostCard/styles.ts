@@ -38,8 +38,6 @@ export const LeftAreaLimits = styled.View`
 export const Title = styled.Text`
 	font-family: Arvo_700Bold;
 	font-size: ${RFValue(16)}px;
-	height: 17%;
-	overflow: hidden;
 `
 
 export const RightArea = styled.View`

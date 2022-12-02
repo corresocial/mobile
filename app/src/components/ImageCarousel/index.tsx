@@ -1,5 +1,5 @@
-import React, { ReactElement, useState } from 'react'
-import { View, Image } from 'react-native'
+import React, { useState } from 'react'
+import { View } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
 import uuid from 'react-uuid'
 

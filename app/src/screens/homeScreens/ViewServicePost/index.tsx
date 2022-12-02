@@ -8,7 +8,7 @@ import ShareIcon from '../../../assets/icons/share.svg'
 import ChatIcon from '../../../assets/icons/chat.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
-import { getPostById } from '../../../services/firebase/post/getPostById'
+// import { getPostById } from '../../../services/firebase/post/getPostById'
 import { formatRelativeDate } from '../../../common/auxiliaryFunctions'
 
 import { ViewServicePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -29,17 +29,21 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	const [postData, setPostData] = useState({} as ServiceCollectionRemote)
 
 	useEffect(() => {
-		const successGettingPostData = async () => {
-			await getPostData()
-		}
-		successGettingPostData()
+		setPostDataFromRoute()
+		// getPostData()
 	}, [])
 
-	const getPostData = async () => {
-		const postDataFromDb = await getPostById(route.params.postId, 'services')
-		setPostData(postDataFromDb as any)
+	const setPostDataFromRoute = async () => {
+		const postDataFromRoute = { ...route.params.postData }
+		setPostData(postDataFromRoute as any) // TODO any
 		return true
 	}
+
+	/* const getPostData = async () => {
+		const postDataFromDb = await getPostById(route.params.postData.postId as string, 'services')
+		setPostData(postDataFromDb as any)
+		return true
+	} */
 
 	const renderFormatedPostDateTime = () => {
 		if (!postData.createdAt) return '---'
@@ -130,7 +134,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						title={'localização'}
 						locationView={postData.locationView}
 						postType={postData.postType}
-						postId={route.params.postId}
+						postId={route.params.postData.postId as string}
 						textFontSize={16}
 					/>
 					<Sigh />

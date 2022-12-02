@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -23,9 +23,9 @@ import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { LocalUserData } from '../../../contexts/types'
-import { PostType } from '../../../services/firebase/types'
+import { PostCollection } from '../../../services/firebase/types'
 
-import { AuthContext } from '../../../contexts/AuthContext'
+// import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
@@ -34,9 +34,10 @@ import { screenHeight } from '../../../common/screenDimensions'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { TextGradient } from '../../../components/TextGradient'
+import { getUser } from '../../../services/firebase/user/getUser'
 
-function Profile({ navigation }: HomeTabScreenProps) {
-	const { getDataFromSecureStore } = useContext(AuthContext)
+function PublicProfile({ navigation }: HomeTabScreenProps) {
+	// const { getDataFromSecureStore } = useContext(AuthContext)
 
 	const [user, setUser] = useState<LocalUserData>({})
 	const [userPosts, setUserPosts] = useState([])
@@ -44,16 +45,31 @@ function Profile({ navigation }: HomeTabScreenProps) {
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
-			getProfileData()
+			// getProfileDataFromLocal()
+			getProfileDataFromRemote()
 		})
 		return unsubscribe
 	}, [navigation])
 
 	useEffect(() => {
-		getProfileData()
+		// getProfileDataFromLocal()
+		getProfileDataFromRemote()
 	}, [])
 
-	const getProfileData = async () => {
+	const getProfileDataFromRemote = async () => {
+		const userId = 'RMCJAuUhLjSmAu3kgjTzRjjZ2jB2'
+		const remoteUser = await getUser(userId)
+		const { profilePictureUrl, name, posts, description } = remoteUser as LocalUserData
+		setUser({
+			userId,
+			name,
+			description,
+			profilePictureUrl: profilePictureUrl || [],
+		})
+		setUserPosts(posts as never)
+	}
+
+	/* const getProfileDataFromLocal = async () => {
 		const localUser = await getObjectLocalUser()
 		const { profilePictureUrl, name, posts, description } = localUser as LocalUserData
 		setUser({
@@ -62,14 +78,14 @@ function Profile({ navigation }: HomeTabScreenProps) {
 			profilePictureUrl: profilePictureUrl || [],
 		})
 		setUserPosts(posts as never)
-	}
+	} */
 
-	const getObjectLocalUser = async () => {
+	/* const getObjectLocalUser = async () => {
 		const userJSON = await getDataFromSecureStore('corre.user')
 		if (!userJSON) return false
 		const userObject = await JSON.parse(userJSON)
 		return userObject
-	}
+	} */
 
 	const onSelectTag = (tagName: string) => {
 		const currentSelectedTags = [...selectedTags]
@@ -82,10 +98,10 @@ function Profile({ navigation }: HomeTabScreenProps) {
 		}
 	}
 
-	const goToPostView = (postType: PostType, postId: string) => {
-		switch (postType) {
+	const goToPostView = (item: PostCollection) => { // TODO type
+		switch (item.postType) {
 			case 'service': {
-				navigation.navigate('ViewServicePost', { postId })
+				navigation.navigate('ViewServicePost', { postData: { ...item, owner: user } })
 				break
 			}
 			default: return false
@@ -164,7 +180,7 @@ function Profile({ navigation }: HomeTabScreenProps) {
 				<FlatList
 					data={userPosts}
 					renderItem={({ item }: any) => ( // TODO type
-						<PostCard post={item} owner={user} onPress={() => goToPostView(item.postType, item.postId)} /> // TODO Type
+						<PostCard post={item} owner={user} onPress={() => goToPostView(item)} /> // TODO Type
 					)}
 					showsVerticalScrollIndicator={false}
 					ItemSeparatorComponent={() => <Sigh />}
@@ -175,4 +191,4 @@ function Profile({ navigation }: HomeTabScreenProps) {
 	)
 }
 
-export { Profile }
+export { PublicProfile }

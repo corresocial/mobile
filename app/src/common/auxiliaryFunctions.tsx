@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text } from 'react-native'
 import uuid from 'react-uuid'
-import { formatDistance, formatRelative, isValid, format, parseISO } from 'date-fns'
+import { formatDistance, formatRelative, isValid, format } from 'date-fns'
 import brasilLocale from 'date-fns/locale/pt-BR'
 
 const showMessageWithHighlight = (message: string, highlightedWords?: string[], fontSizeHighlighted?: number) => {
