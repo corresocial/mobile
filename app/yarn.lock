@@ -9662,6 +9662,19 @@
     "@types/geojson" "^7946.0.7"
     "deprecated-react-native-prop-types" "^2.3.0"
 
+"react-native-popover-view@^5.1.7":
+  "integrity" "sha512-Xa+zKYp9x62UNezT8o9SnqQaBQEHdGwGHZnFnA2bsXLneVRvvlBopNwMNj+p7N65qnPf3mmzWj+57ThtM1qFuw=="
+  "resolved" "https://registry.npmjs.org/react-native-popover-view/-/react-native-popover-view-5.1.7.tgz"
+  "version" "5.1.7"
+  dependencies:
+    "deprecated-react-native-prop-types" "^2.3.0"
+    "prop-types" "^15.8.1"
+
+"react-native-popup-menu@^0.16.1":
+  "integrity" "sha512-xRS7mRh0exwu7Iw8PPVHdM11d13A/KzYjy0/fZx3zVtxISxPkNaDGayau6oa7HqO3Nj0oS9ulFCYjcQfG6vahA=="
+  "resolved" "https://registry.npmjs.org/react-native-popup-menu/-/react-native-popup-menu-0.16.1.tgz"
+  "version" "0.16.1"
+
 "react-native-reanimated-carousel@^3.0.3":
   "integrity" "sha512-KdidXIBNQb4F/JmXn4tV+2yr/6BhYUQCii0QwBtv64QYiYiBIn+3K8yKJpLTOoy7e3dB3HFKD69VwCCw8ujd2w=="
   "resolved" "https://registry.npmjs.org/react-native-reanimated-carousel/-/react-native-reanimated-carousel-3.0.3.tgz"

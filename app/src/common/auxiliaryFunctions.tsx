@@ -55,7 +55,6 @@ const formatHour = (initialDate: Date) => {
 
 	const date = getNewDate(initialDate)
 	if (!isValid(date)) return '...'
-	console.log(date)
 	return format(date, 'HH:mm', { locale: brasilLocale })
 }
 
@@ -73,7 +72,7 @@ const formatRelativeDate = (initialDate: any) => {
 		const hourAndMinutes = `${date.getUTCHours()}:${date.getUTCMinutes()}`
 		return `${relative} às ${hourAndMinutes}`
 	}
-	return relative
+	return relative.replace('-feira', '')
 }
 
 const getNewDate = (date: any) => {

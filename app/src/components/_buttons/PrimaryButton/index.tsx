@@ -15,7 +15,7 @@ import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 interface PrimaryButtonProps {
 	relativeWidth?: string
-	relativeHeight?: string
+	relativeHeight?: string | number
 	minHeight?: number
 	color: string
 	label?: string

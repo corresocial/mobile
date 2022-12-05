@@ -35,6 +35,7 @@ import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { TextGradient } from '../../../components/TextGradient'
 import { getUser } from '../../../services/firebase/user/getUser'
+import { ProfilePopOver } from '../../../components/ProfilePopOver'
 
 function PublicProfile({ navigation }: HomeTabScreenProps) {
 	// const { getDataFromSecureStore } = useContext(AuthContext)
@@ -42,6 +43,7 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 	const [user, setUser] = useState<LocalUserData>({})
 	const [userPosts, setUserPosts] = useState([])
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
+	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -160,16 +162,22 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 							height={screenHeight * 0.050}
 							onPress={() => { }}
 						/>
-						<SmallButton
-							color={theme.white3}
-							SvgIcon={ThreeDotsIcon}
-							relativeWidth={screenHeight * 0.050}
-							height={screenHeight * 0.050}
-							onPress={() => { }}
-						/>
+						<ProfilePopOver
+							userName={user.name}
+							userId={user.userId}
+							popoverVisibility={profileOptionsIsOpen}
+							closePopover={() => setProfileOptionsIsOpen(false)}
+						>
+							<SmallButton
+								color={theme.white3}
+								SvgIcon={ThreeDotsIcon}
+								relativeWidth={screenHeight * 0.050}
+								height={screenHeight * 0.050}
+								onPress={() => setProfileOptionsIsOpen(true)}
+							/>
+						</ProfilePopOver>
 					</OptionsArea>
 				</ProfileHeader>
-
 			</DefaultHeaderContainer>
 			<Body>
 				<HorizontalTagList

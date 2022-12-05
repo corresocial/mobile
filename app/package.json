@@ -59,6 +59,8 @@
 		"react-native-keyboard-avoiding-scroll-view": "^1.0.1",
 		"react-native-keyboard-aware-scroll-view": "^0.9.5",
 		"react-native-maps": "0.30.2",
+		"react-native-popover-view": "^5.1.7",
+		"react-native-popup-menu": "^0.16.1",
 		"react-native-reanimated": "~2.8.0",
 		"react-native-reanimated-carousel": "^3.0.3",
 		"react-native-responsive-fontsize": "^0.5.1",
