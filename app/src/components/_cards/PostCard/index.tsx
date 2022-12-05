@@ -10,7 +10,7 @@ import {
 	LeftAreaLimits
 } from './styles'
 
-import { formatRelativeDate } from '../../../common/auxiliaryFunctions'
+import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 
 import { PostCollection } from '../../../services/firebase/types'
 
@@ -27,6 +27,7 @@ interface PostCardProps {
 
 function PostCard({ post, owner, onPress }: PostCardProps) {
 	const renderShortName = () => {
+		if (arrayIsEmpty(post.picturesUrl)) return owner.name
 		const names = owner?.name && (owner.name.split(' ') || [])
 		if (!names) return 'usuário do corre.'
 		return `${names[0]} ${names[1]}`
@@ -38,10 +39,12 @@ function PostCard({ post, owner, onPress }: PostCardProps) {
 		return formatedDate
 	}
 
+	console.log()
+
 	return (
 		<Container activeOpacity={0.7} onPress={onPress}>
 			<ContainerInner>
-				<LeftArea style={{ width: (post.picturesUrl && post.picturesUrl.length) ? '65%' : '100%' }}>
+				<LeftArea style={{ width: !arrayIsEmpty(post.picturesUrl) ? '65%' : '100%' }}>
 					<LeftAreaLimits>
 						<Title
 							numberOfLines={post.description || post.itemDescription ? 1 : 2}
@@ -51,6 +54,7 @@ function PostCard({ post, owner, onPress }: PostCardProps) {
 						<SmallUserIdentification
 							userName={renderShortName()}
 							postDate={renderFormatedPostDateTime()}
+						// pictureUrl={post.picturesUrl}
 						/>
 						{
 							(post.description || post.itemDescription)
@@ -69,10 +73,10 @@ function PostCard({ post, owner, onPress }: PostCardProps) {
 						/>
 					</LeftAreaLimits>
 				</LeftArea>
-				<RightArea style={{ width: !post.picturesUrl.lenght ? '35%' : 0 }}>
+				<RightArea style={{ width: !arrayIsEmpty(post.picturesUrl) ? '35%' : 0 }}>
 					<SidePicture
 						source={{
-							uri: !post.picturesUrl.lenght && post.picturesUrl[0],
+							uri: !arrayIsEmpty(post.picturesUrl) && post.picturesUrl[0],
 						}}
 					/>
 				</RightArea>

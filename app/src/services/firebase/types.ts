@@ -309,6 +309,46 @@ export type VacancyCollection = {
 	}
 }
 
+export type VacancyCollectionRemote = {
+	postId?: string
+	postType: PostType
+	title: string
+	description: string
+	vacancyType: VacancyType
+	workplace: WorkplaceType
+	companyDescription: string
+	questions?: string[]
+	workWeekdays: DaysOfWeek[]
+	startWorkDate: Date
+	endWorkDate: Date
+	startWorkHour: Date
+	endWorkHour: Date
+	tags: string[]
+	createdAt: Date
+	address?: {
+		country?: string
+		state?: string
+		city?: string
+		postalCode?: string
+		district?: string
+		street?: string
+		number?: string
+		reference?: string
+		coordinates?: {
+			latitude?: number
+			longitude?: number
+		}
+		geohash?: string
+		geohashNear?: string[]
+		geohashCity?: string[]
+	}
+	owner: {
+		userId: string
+		name: string
+		profilePictureUrl?: string[]
+	}
+}
+
 export type CultureCollection = {
 	postId?: string
 	postType?: PostType

@@ -80,15 +80,17 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 	}
 
 	const closingTimeIsAfterOpening = () => {
-		const workStartHour = new Date(vacancyDataContext.workStartHour as Date)
-		const workEndHour = new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
-		return workStartHour.getTime() < workEndHour.getTime()
+		const startWorkHour = new Date(vacancyDataContext.startWorkHour as Date)
+		const endWorkHour = new Date()
+		endWorkHour.setHours(parseInt(hours), parseInt(minutes))
+		return startWorkHour.getTime() < endWorkHour.getTime()
 	}
 
-	const getCompleteVacancyDataFromContext = () => ({
-		...vacancyDataContext,
-		workEndHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
-	})
+	const getCompleteVacancyDataFromContext = () => {
+		const endWorkHour = new Date()
+		endWorkHour.setHours(parseInt(hours), parseInt(minutes))
+		return ({ ...vacancyDataContext, endWorkHour })
+	}
 
 	const extractVacancyAddress = (vacancyData: VacancyData) => ({
 		...vacancyData.address
@@ -164,6 +166,7 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 			...vacancyDataPost,
 			postId,
 			postType: 'vacancy',
+			createdAt: new Date()
 		}
 
 		await updateDocField(

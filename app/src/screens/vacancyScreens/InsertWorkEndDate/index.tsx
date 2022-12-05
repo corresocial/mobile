@@ -95,7 +95,7 @@ function InsertWorkEndDate({ navigation }: InsertWorkEndDateScreenProps) {
 
 	const endDateIsBiggerOfStartDate = () => {
 		const insertedDate = new Date(`${year}-${month}-${day}T23:59:59`)
-		const vacancyContextStartDate = vacancyDataContext.workStartDate || new Date()
+		const vacancyContextStartDate = vacancyDataContext.startWorkDate || new Date()
 		return vacancyContextStartDate.getTime() > insertedDate.getTime()
 	}
 
@@ -106,7 +106,7 @@ function InsertWorkEndDate({ navigation }: InsertWorkEndDateScreenProps) {
 		}
 
 		setVacancyDataOnContext({
-			workEndDate: new Date(`${year}-${month}-${day}T00:00:00`)
+			endWorkDate: new Date(`${year}-${month}-${day}T12:00:00`)
 		})
 		navigation.navigate('InsertWorkEndHour')
 	}

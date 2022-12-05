@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { StatusBar, ScrollView, Alert } from 'react-native'
 
-import { Body, Container, Header, OptionsArea, Sigh, UserAndValueContainer } from './styles'
+import {
+	Body,
+	Container,
+	Header,
+	OptionsArea,
+	Sigh,
+	UserAndValueContainer,
+	VacancyDetails,
+	VacancyDetailsItem
+} from './styles'
 import { theme } from '../../../common/theme'
 import { screenHeight } from '../../../common/screenDimensions'
 import ShareIcon from '../../../assets/icons/share.svg'
@@ -9,12 +18,12 @@ import ChatIcon from '../../../assets/icons/chat.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
 // import { getPostById } from '../../../services/firebase/post/getPostById'
-import { formatRelativeDate } from '../../../common/auxiliaryFunctions'
+import { formatRelativeDate, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
-import { ViewSalePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { ViewVacancyPostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { SaleCollectionRemote } from '../../../services/firebase/types'
+import { VacancyCollectionRemote } from '../../../services/firebase/types'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
 import { SaleExchangeValue } from '../../../components/SaleExchangeValue'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
@@ -26,8 +35,8 @@ import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCar
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
 
-function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
-	const [postData, setPostData] = useState({} as SaleCollectionRemote)
+function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
+	const [postData, setPostData] = useState({} as VacancyCollectionRemote)
 	const [profileOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
 	useEffect(() => {
@@ -37,8 +46,48 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 
 	const setPostDataFromRoute = async () => {
 		const postDataFromRoute = { ...route.params.postData }
-		setPostData(postDataFromRoute as any) // TODO any
+		setPostData(postDataFromRoute as any)
 		return true
+	}
+
+	/* const getPostData = async () => {
+		const postDataFromDb = await getPostById(route.params.postData.postId as string, 'services')
+		setPostData(postDataFromDb as any)
+		return true
+	} */
+
+	const getVacancyDetails = () => {
+		const vacancyType = getRelativeVacancyType()
+		const workplace = getRelativeWorkPlace()
+
+		return (
+			<VacancyDetails>
+				<VacancyDetailsItem>
+					{showMessageWithHighlight(`●  vaga ${vacancyType}`, [vacancyType])}
+				</VacancyDetailsItem>
+				<VacancyDetailsItem>
+					{showMessageWithHighlight(`●  vaga ${workplace}`, [workplace])}
+				</VacancyDetailsItem>
+			</VacancyDetails>
+		)
+	}
+
+	const getRelativeVacancyType = () => {
+		switch (postData.vacancyType) {
+			case 'beak': return 'bico'
+			case 'temporary': return 'temporária'
+			case 'professional': return 'profissional'
+			default: return '---'
+		}
+	}
+
+	const getRelativeWorkPlace = () => {
+		switch (postData.workplace) {
+			case 'homeoffice': return 'home-office'
+			case 'presential': return 'presencial'
+			case 'hybrid': return 'híbrida'
+			default: return '---'
+		}
 	}
 
 	const renderFormatedPostDateTime = () => {
@@ -64,14 +113,6 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						pictureDimensions={45}
 						width={'60%'}
 					/>
-					<SaleExchangeValue
-						saleValue={postData.saleValue}
-						exchangeValue={postData.exchangeValue}
-						breakRow
-						smallFontSize={14}
-						largeFontSize={25}
-						exchanveFontSize={14}
-					/>
 				</UserAndValueContainer>
 				<OptionsArea>
 					<SmallButton
@@ -84,7 +125,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					/>
 					<SmallButton
 						color={theme.green2}
-						label={'comprar'}
+						label={'me candidatar'}
 						fontSize={14}
 						SvgIcon={ChatIcon}
 						relativeWidth={'63%'}
@@ -112,54 +153,49 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 			<Body>
 				<ScrollView showsVerticalScrollIndicator={false} >
 					<DescriptionCard
-						title={'descrição do produto'}
-						text={postData.itemDescription}
+						title={'descrição da vaga'}
+						text={postData.description}
 						textFontSize={14}
-					/>
-					<Sigh />
-					{
-						postData.picturesUrl && postData.picturesUrl.length && (
-							<>
-								<ImageCarousel
-									picturesUrl={postData.picturesUrl && postData.picturesUrl}
-								/>
-								<Sigh />
-							</>
-						)
-					}
-					<SaleOrExchangeCard
-						title={'venda ou troca'}
-						saleValue={postData.saleValue}
-						exchangeValue={postData.exchangeValue}
-					/>
-					<Sigh />
-					<LocationViewCard
-						title={'local de trabalho'}
-						locationView={postData.locationView}
-						postType={postData.postType}
-						postId={route.params.postData.postId as string}
-						textFontSize={16}
-					/>
+					>
+						{getVacancyDetails()}
+					</DescriptionCard>
 					<Sigh />
 					<DateTimeCard
 						title={'dias e horários'}
-						weekDaysfrequency={postData.attendanceFrequency}
-						daysOfWeek={postData.attendanceWeekDays}
-						openingTime={postData.openingHour}
-						closingTime={postData.closingHour}
+						weekDaysfrequency={'someday'}
+						daysOfWeek={postData.workWeekdays}
+						openingTime={postData.startWorkHour}
+						closingTime={postData.endWorkHour}
+						startDate={postData.startWorkDate}
+						endDate={postData.endWorkDate}
 						textFontSize={14}
 					/>
+					{
+						postData.workplace !== 'homeoffice' && (
+							<>
+								<Sigh />
+								<LocationViewCard
+									title={'local de trabalho'}
+									locationView={'public'}
+									postType={postData.postType}
+									postId={route.params.postData.postId as string}
+									textFontSize={16}
+								/>
+							</>
+						)
+					}
 					<Sigh />
-					<DeliveryMethodCard
-						title={'entrega'}
-						deliveryMethod={postData.deliveryMethod}
-						textFontSize={16}
+					<DescriptionCard
+						title={'sobre a empresa'}
+						text={postData.companyDescription}
+						textFontSize={14}
+						company
 					/>
 					<Sigh />
 				</ScrollView>
 			</Body>
-		</Container >
+		</Container>
 	)
 }
 
-export { ViewSalePost }
+export { ViewVacancyPost }

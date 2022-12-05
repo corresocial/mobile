@@ -124,10 +124,10 @@ export type VacancyData = {
 	companyDescription?: string
 	questions?: string[]
 	workWeekdays?: DaysOfWeek[]
-	workStartDate?: Date
-	workEndDate?: Date
-	workStartHour?: Date
-	workEndHour?: Date
+	startWorkDate?: Date
+	endWorkDate?: Date
+	startWorkHour?: Date
+	endWorkHour?: Date
 	tags?: string[]
 	address?: {
 		country?: string

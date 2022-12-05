@@ -32,9 +32,10 @@ function PostPopOver({ postTitle,
 }: PostPopOverProps) {
 	return (
 		<Popover
-			popoverStyle={{ backgroundColor: 'transparent' }}
 			isVisible={popoverVisibility}
 			onRequestClose={closePopover}
+			animationConfig={{ delay: 0, duration: 300 }}
+			popoverStyle={{ backgroundColor: theme.black4, borderRadius: RFValue(8) }}
 			from={(sourceRef, showPopover) => (
 				<TouchableOpacity onPress={showPopover} >
 					<View ref={sourceRef} >

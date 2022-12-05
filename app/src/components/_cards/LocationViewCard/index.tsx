@@ -10,7 +10,7 @@ import GoogleMapsIcon from '../../../assets/icons/googleMaps.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
-import { CompleteAddress, LocationViewType, PostType } from '../../../services/firebase/types'
+import { CompleteAddress, LocationViewType, PostType, WorkplaceType } from '../../../services/firebase/types'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'

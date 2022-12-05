@@ -1,10 +1,10 @@
 import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { DateTimeContainer, OpeningAndClosingTime, WeekDaysFrequency } from './styles'
+import { DateTimeContainer, OpeningAndClosingTime, InfoRow } from './styles'
 import ClockIcon from '../../../assets/icons/clock.svg'
 
-import { formatHour, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { formatDate, formatHour, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 import { DaysOfWeek, WeekdaysFrequency } from '../../../services/firebase/types'
 
@@ -17,6 +17,8 @@ interface DateTimeCardProps {
 	daysOfWeek?: DaysOfWeek[]
 	openingTime: Date
 	closingTime: Date
+	startDate?: Date
+	endDate?: Date
 	textFontSize?: number
 }
 
@@ -26,6 +28,8 @@ function DateTimeCard({
 	daysOfWeek,
 	openingTime,
 	closingTime,
+	startDate,
+	endDate,
 	textFontSize = 12
 }: DateTimeCardProps) {
 	const getRelativeWeekDaysfrequency = () => {
@@ -62,6 +66,14 @@ function DateTimeCard({
 		)
 	}
 
+	const renderStartDate = () => {
+		return showMessageWithHighlight(`●  começa dia ${formatDate(startDate as any)}`, [formatDate(startDate as any)])
+	}
+
+	const renderEndDate = () => {
+		return showMessageWithHighlight(`●  termina dia ${formatDate(endDate as any)}`, [formatDate(endDate as any)])
+	}
+
 	const renderOpeningAndClosingTime = () => {
 		return showMessageWithHighlight(
 			`●  das ${formatHour(openingTime)} as ${formatHour(closingTime)} `,
@@ -77,14 +89,29 @@ function DateTimeCard({
 				dimensions={35}
 			/>
 			<DateTimeContainer>
-				<WeekDaysFrequency style={{ fontSize: RFValue(textFontSize) }}>
-					{renderWeekDayFrequency()}
-				</WeekDaysFrequency>
+				{
+					startDate && endDate
+						? (
+							<>
+								< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
+									{renderStartDate()}
+								</InfoRow>
+								< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
+									{renderEndDate()}
+								</InfoRow>
+							</>
+						)
+						: (
+							< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
+								{renderWeekDayFrequency()}
+							</InfoRow>
+						)
+				}
 				<OpeningAndClosingTime style={{ fontSize: RFValue(textFontSize) }}>
 					{renderOpeningAndClosingTime()}
 				</OpeningAndClosingTime>
 			</DateTimeContainer>
-		</DefaultCardContainer>
+		</DefaultCardContainer >
 	)
 }
 

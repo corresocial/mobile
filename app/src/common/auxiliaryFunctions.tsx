@@ -4,6 +4,16 @@ import uuid from 'react-uuid'
 import { formatDistance, formatRelative, isValid, format } from 'date-fns'
 import brasilLocale from 'date-fns/locale/pt-BR'
 
+const arrayIsEmpty = (array: any) => {
+	try {
+		if (!Array.isArray(array)) return true
+		if (array.length < 1) return true
+		return false
+	} catch (err) {
+		return true
+	}
+}
+
 const showMessageWithHighlight = (message: string, highlightedWords?: string[], fontSizeHighlighted?: number) => {
 	if (!highlightedWords) return message
 
@@ -50,6 +60,14 @@ const filterLeavingOnlyNumbers = (dirtyText: string) => {
 	return cleanText
 }
 
+const formatDate = (initialDate: Date) => {
+	if (!initialDate) return '...'
+
+	const date = getNewDate(initialDate)
+	if (!isValid(date)) return '...'
+	return format(date, 'dd/MM/yyyy', { locale: brasilLocale })
+}
+
 const formatHour = (initialDate: Date) => {
 	if (!initialDate) return '...'
 
@@ -84,8 +102,10 @@ const getNewDate = (date: any) => {
 }
 
 export {
+	arrayIsEmpty,
 	showMessageWithHighlight,
 	filterLeavingOnlyNumbers,
+	formatDate,
 	formatHour,
 	formatRelativeDate
 }

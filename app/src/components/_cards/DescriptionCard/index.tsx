@@ -13,9 +13,10 @@ interface DescriptionCardProps {
 	text: string
 	textFontSize: number
 	company?: boolean
+	children?: React.ReactChild
 }
 
-function DescriptionCard({ title, text, textFontSize, company }: DescriptionCardProps) {
+function DescriptionCard({ title, text, textFontSize, company, children }: DescriptionCardProps) {
 	return (
 		<DefaultCardContainer>
 			<DefaultHeaderTitle
@@ -26,6 +27,7 @@ function DescriptionCard({ title, text, textFontSize, company }: DescriptionCard
 			<LongText style={{ fontSize: RFValue(textFontSize) }}>
 				{text}
 			</LongText>
+			{children}
 		</DefaultCardContainer>
 	)
 }

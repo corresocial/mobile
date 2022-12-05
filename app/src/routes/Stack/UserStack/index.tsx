@@ -16,6 +16,7 @@ import { VacancyStack } from '../VacancyStack'
 import { SocialImpactStack } from '../SocialImpactStack'
 import { CultureStack } from '../CultureStack'
 import { ViewSalePost } from '../../../screens/homeScreens/ViewSalePost'
+import { ViewVacancyPost } from '../../../screens/homeScreens/ViewVacancyPost'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -42,6 +43,7 @@ export function UserStack({ route }: any) {
 				<Stack.Screen name={'SocialImpactStack'} component={SocialImpactStack} />
 				<Stack.Screen name={'ViewServicePost'} component={ViewServicePost} />
 				<Stack.Screen name={'ViewSalePost'} component={ViewSalePost} />
+				<Stack.Screen name={'ViewVacancyPost'} component={ViewVacancyPost} />
 			</Stack.Navigator>
 		</StateProvider>
 	)

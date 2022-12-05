@@ -110,6 +110,10 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 				navigation.navigate('ViewSalePost', { postData: { ...item, owner: user } })
 				break
 			}
+			case 'vacancy': {
+				navigation.navigate('ViewVacancyPost', { postData: { ...item, owner: user } })
+				break
+			}
 			default: return false
 		}
 	}
@@ -119,7 +123,7 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 			flex: 1
 		}}
 		>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={profileOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				backgroundColor={theme.white3}
 				centralized={false}

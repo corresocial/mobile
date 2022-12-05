@@ -5,12 +5,12 @@ export const DateTimeContainer = styled.View`
 	padding: ${RFValue(10)}px;
 `
 
-export const WeekDaysFrequency = styled.Text`
-	font-size: ${RFValue(12)};
+export const InfoRow = styled.Text`
+	font-size: ${RFValue(12)}px;
 	font-family: Arvo_400Regular;
 `
 
 export const OpeningAndClosingTime = styled.Text`
-	font-size: ${RFValue(12)};
+	font-size: ${RFValue(12)}px;
 	font-family: Arvo_400Regular;
 `

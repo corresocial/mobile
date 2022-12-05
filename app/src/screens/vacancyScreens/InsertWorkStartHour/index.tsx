@@ -67,9 +67,9 @@ function InsertWorkStartHour({ navigation }: InsertWorkStartHourScreenProps) {
 	}
 
 	const saveWorkStartHour = () => {
-		setVacancyDataOnContext({
-			workStartHour: new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
-		})
+		const startWorkHour = new Date()
+		startWorkHour.setHours(parseInt(hours), parseInt(minutes))
+		setVacancyDataOnContext({ startWorkHour })
 		if (vacancyDataContext.vacancyType === 'professional') {
 			navigation.navigate('InsertWorkEndHour')
 		} else {
