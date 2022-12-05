@@ -35,10 +35,10 @@ function LocationViewCard({
 	const [completeAddress, setCompleteAddress] = useState<CompleteAddress>({})
 
 	useEffect(() => {
-		if (locationView !== 'private') {
+		if (locationView !== 'private' && postType) {
 			loadRemotePrivateAddress()
 		}
-	}, [])
+	}, [postType])
 
 	const loadRemotePrivateAddress = async () => {
 		const address = await getPrivateAddress(postType, postId)

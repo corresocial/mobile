@@ -3,29 +3,33 @@ import { TouchableOpacity, View } from 'react-native'
 import Popover from 'react-native-popover-view'
 
 import { RFValue } from 'react-native-responsive-fontsize'
-import { CloseIcon, Container, ContainerInner, UserName } from './styles'
+import { CloseIcon, Container, ContainerInner, PostTitle } from './styles'
 import { screenHeight } from '../../common/screenDimensions'
 import { theme } from '../../common/theme'
 import XIcon from '../../assets/icons/x.svg'
 
+import { PostType } from '../../services/firebase/types'
+
 import { PrimaryButton } from '../_buttons/PrimaryButton'
 
-interface ProfilePopOverProps {
-	userName?: string
-	userId?: string
+interface PostPopOverProps {
+	postTitle?: string
+	postId?: string
+	postType?: PostType
 	popoverVisibility: boolean
 	children: React.ReactChild
 	onPress?: () => void
 	closePopover: () => void
 }
 
-function ProfilePopOver({ userName,
-	userId,
+function PostPopOver({ postTitle,
+	postId,
+	postType,
 	popoverVisibility,
 	children,
 	onPress,
 	closePopover
-}: ProfilePopOverProps) {
+}: PostPopOverProps) {
 	return (
 		<Popover
 			popoverStyle={{ backgroundColor: 'transparent' }}
@@ -44,7 +48,7 @@ function ProfilePopOver({ userName,
 					<CloseIcon onPress={closePopover}>
 						<XIcon width={RFValue(25)} height={RFValue(25)} />
 					</CloseIcon>
-					<UserName>{userName}</UserName>
+					<PostTitle>{postTitle}</PostTitle>
 					<PrimaryButton
 						color={theme.red3}
 						onPress={!!onPress && onPress as any} // TODO Type
@@ -61,4 +65,4 @@ function ProfilePopOver({ userName,
 	)
 }
 
-export { ProfilePopOver }
+export { PostPopOver }

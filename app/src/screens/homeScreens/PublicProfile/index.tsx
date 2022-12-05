@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StatusBar } from 'react-native'
+import { Alert, StatusBar } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import {
@@ -171,6 +171,7 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 							userId={user.userId}
 							popoverVisibility={profileOptionsIsOpen}
 							closePopover={() => setProfileOptionsIsOpen(false)}
+							onPress={() => Alert.alert('go to complaint')}
 						>
 							<SmallButton
 								color={theme.white3}

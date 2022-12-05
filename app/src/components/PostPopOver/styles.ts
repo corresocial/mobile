@@ -20,13 +20,14 @@ export const ContainerInner = styled.View`
 	border: ${RFValue(3)}px solid ${({ theme }) => theme.black4};
 	border-radius: ${RFValue(8)}px;
 `
+
 export const CloseIcon = styled.TouchableOpacity`
 	position: absolute;
 	top: ${RFValue(5)};
 	right: ${RFValue(5)};
 `
 
-export const UserName = styled.Text`
+export const PostTitle = styled.Text`
 	font-family: Arvo_700Bold;
 	font-size: ${RFValue(16)}px;
 	width: 92%;

@@ -33,7 +33,6 @@ function PostCard({ post, owner, onPress }: PostCardProps) {
 	}
 
 	const renderFormatedPostDateTime = () => {
-		console.log(post)
 		if (!post.createdAt) return '---'
 		const formatedDate = formatRelativeDate(post.createdAt)
 		return formatedDate

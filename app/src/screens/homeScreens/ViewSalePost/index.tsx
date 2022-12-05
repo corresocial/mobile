@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StatusBar, ScrollView } from 'react-native'
+import { StatusBar, ScrollView, Alert } from 'react-native'
 
 import { Body, Container, Header, OptionsArea, Sigh, UserAndValueContainer } from './styles'
 import { theme } from '../../../common/theme'
@@ -24,9 +24,11 @@ import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCar
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
+import { PostPopOver } from '../../../components/PostPopOver'
 
 function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	const [postData, setPostData] = useState({} as SaleCollectionRemote)
+	const [profileOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
 	useEffect(() => {
 		setPostDataFromRoute()
@@ -89,13 +91,22 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						height={screenHeight * 0.05}
 						onPress={() => { }}
 					/>
-					<SmallButton
-						color={theme.white3}
-						SvgIcon={ThreeDotsIcon}
-						relativeWidth={screenHeight * 0.05}
-						height={screenHeight * 0.05}
-						onPress={() => { }}
-					/>
+					<PostPopOver
+						postTitle={postData.title || 'publicação no corre.'}
+						postId={postData.postId}
+						postType={postData.postType}
+						popoverVisibility={profileOptionsIsOpen}
+						closePopover={() => setPostOptionsIsOpen(false)}
+						onPress={() => Alert.alert('go to complaint')}
+					>
+						<SmallButton
+							color={theme.white3}
+							SvgIcon={ThreeDotsIcon}
+							relativeWidth={screenHeight * 0.05}
+							height={screenHeight * 0.05}
+							onPress={() => setPostOptionsIsOpen(true)}
+						/>
+					</PostPopOver>
 				</OptionsArea>
 			</Header>
 			<Body>
@@ -147,7 +158,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					<Sigh />
 				</ScrollView>
 			</Body>
-		</Container>
+		</Container >
 	)
 }
 
