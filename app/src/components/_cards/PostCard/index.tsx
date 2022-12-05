@@ -33,6 +33,7 @@ function PostCard({ post, owner, onPress }: PostCardProps) {
 	}
 
 	const renderFormatedPostDateTime = () => {
+		console.log(post)
 		if (!post.createdAt) return '---'
 		const formatedDate = formatRelativeDate(post.createdAt)
 		return formatedDate
@@ -44,7 +45,7 @@ function PostCard({ post, owner, onPress }: PostCardProps) {
 				<LeftArea style={{ width: (post.picturesUrl && post.picturesUrl.length) ? '65%' : '100%' }}>
 					<LeftAreaLimits>
 						<Title
-							numberOfLines={post.description ? 1 : 2}
+							numberOfLines={post.description || post.itemDescription ? 1 : 2}
 						>
 							{post.title}
 						</Title>

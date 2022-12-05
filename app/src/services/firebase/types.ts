@@ -227,6 +227,48 @@ export type SaleCollection = {
 	}
 }
 
+export type SaleCollectionRemote = {
+	postId?: string
+	postType: PostType
+	title: string
+	itemName: string
+	itemDescription: string
+	tags: string[]
+	paymentType: PaymentType
+	saleValue: string
+	exchangeValue?: string
+	locationView: LocationViewType
+	deliveryMethod: DeliveryMethod
+	attendanceFrequency: WeekdaysFrequency
+	attendanceWeekDays: DaysOfWeek[]
+	openingHour: Date
+	closingHour: Date
+	picturesUrl?: string[]
+	createdAt?: Date
+	address?: {
+		country?: string
+		state?: string
+		city?: string
+		postalCode?: string
+		district?: string
+		street?: string
+		number?: string
+		reference?: string
+		coordinates: {
+			latitude: number
+			longitude: number
+		}
+		geohash: string
+		geohashNear: string[]
+		geohashCity: string[]
+	}
+	owner?: {
+		userId?: string
+		name?: string
+		profilePictureUrl?: string[]
+	}
+}
+
 export type VacancyCollection = {
 	postId?: string
 	postType?: PostType

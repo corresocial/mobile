@@ -106,6 +106,10 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 				navigation.navigate('ViewServicePost', { postData: { ...item, owner: user } })
 				break
 			}
+			case 'sale': {
+				navigation.navigate('ViewSalePost', { postData: { ...item, owner: user } })
+				break
+			}
 			default: return false
 		}
 	}

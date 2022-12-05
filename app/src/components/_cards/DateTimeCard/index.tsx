@@ -2,7 +2,7 @@ import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { DateTimeContainer, OpeningAndClosingTime, WeekDaysFrequency } from './styles'
-import DescriptionIcon from '../../../assets/icons/description.svg'
+import ClockIcon from '../../../assets/icons/clock.svg'
 
 import { formatHour, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
@@ -73,7 +73,7 @@ function DateTimeCard({
 		<DefaultCardContainer>
 			<DefaultHeaderTitle
 				title={title}
-				SvgIcon={DescriptionIcon}
+				SvgIcon={ClockIcon}
 				dimensions={35}
 			/>
 			<DateTimeContainer>

@@ -100,9 +100,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 	} as PrivateAddress)
 
 	const extractSaleDataPost = (saleData: SaleData) => {
-		const currentSaleData = {
-			...saleData
-		}
+		const currentSaleData = { ...saleData }
 		delete currentSaleData.address
 
 		return {
@@ -225,6 +223,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 			postId,
 			postType: 'sale',
 			picturesUrl: picturePostsUrls,
+			createdAt: new Date(),
 		}
 
 		await updateDocField(

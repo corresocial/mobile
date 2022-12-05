@@ -41,7 +41,7 @@ function LocationViewCard({
 	}, [])
 
 	const loadRemotePrivateAddress = async () => {
-		const address = await getPrivateAddress('service', postId)
+		const address = await getPrivateAddress(postType, postId)
 		setCompleteAddress(address)
 	}
 

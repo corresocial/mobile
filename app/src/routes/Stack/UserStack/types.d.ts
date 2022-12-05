@@ -10,4 +10,5 @@ export type UserStackParamList = {
 	CultureStack: undefined
 	SocialImpactStack: undefined
 	ViewServicePost: { postData: PostCollection }
+	ViewSalePost: { postData: PostCollection }
 }
