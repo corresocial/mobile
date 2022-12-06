@@ -61,7 +61,7 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 		return JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
 	}
 
-	const showShareModal = (visibility: boolean, postTitle: string) => {
+	const showShareModal = (visibility: boolean, postTitle?: string) => {
 		setStateDataOnContext({
 			showShareModal: visibility,
 			lastPostTitle: postTitle
@@ -134,9 +134,7 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 													'socialImpacts',
 													postId,
 													'picturesUrl',
-													{
-														...picturePostsUrls
-													},
+													picturePostsUrls,
 												)
 
 												await updatePostPrivateData(
@@ -182,15 +180,19 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 			true,
 		)
 			.then(() => {
+				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollection[] : []
 				setDataOnSecureStore('corre.user', {
 					...localUser,
 					tourPerformed: true,
 					posts: [
-						localUser.posts ? [...localUser.posts] as PostCollection[] : [],
+						...localUserPosts,
 						{
-							...socialImpactDataPost,
-							postId,
-							picturesUrl: picturePostsUrls,
+							...postData,
+							owner: {
+								userId: localUser.userId,
+								name: localUser.name,
+								profilePictureUrl: localUser.profilePictureUrl
+							}
 						},
 					],
 				})
@@ -225,7 +227,7 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 					}
 					highlightedWords={
 						!hasServerSideError
-							? ['repete?']
+							? ['repete']
 							: ['ops,', 'parece', 'que', 'algo', 'deu', 'errado', 'do', 'nosso', 'lado!']
 					}
 				>

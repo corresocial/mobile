@@ -34,7 +34,7 @@ function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
 					borderLeftWidth={3}
 					fontSize={18}
 					message={'como você prefere que outros usuários vejam sua localização?'}
-					highlightedWords={['como', 'você', 'prefere', 'vejam', 'sua', 'localização?']}
+					highlightedWords={['como', 'você', 'prefere', 'vejam', 'sua', 'localização']}
 				>
 					<ProgressBar
 						range={5}

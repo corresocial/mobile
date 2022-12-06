@@ -40,7 +40,7 @@ function SocialImpactPicturePreview({ navigation }: SocialImpactPicturePreviewSc
 
 	const savePictures = () => {
 		setSocialImpactDataOnContext({
-			picturesUrl: picturesPack 
+			picturesUrl: picturesPack
 		})
 		navigation.navigate('SelectSocialImpactCategory')
 	}
@@ -73,7 +73,7 @@ function SocialImpactPicturePreview({ navigation }: SocialImpactPicturePreviewSc
 					/>
 					<InstructionCard
 						message={'ficaram boas?'}
-						highlightedWords={['boas?']}
+						highlightedWords={['boas']}
 						flex={0}
 					/>
 				</PicturePreviewContainer>
@@ -87,7 +87,7 @@ function SocialImpactPicturePreview({ navigation }: SocialImpactPicturePreviewSc
 					fontSize={18}
 					SvgIcon={CheckIcon}
 					svgIconScale={['30%', '18%']}
-					highlightedWords={['continuar']} 
+					highlightedWords={['continuar']}
 					onPress={savePictures}
 				/>
 			</FormContainer>

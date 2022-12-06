@@ -28,7 +28,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 	const headerMessages = {
 		instruction: {
 			text: 'que tal uma foto de perfil?',
-			highlightedWords: ['foto', 'de', 'perfil?']
+			highlightedWords: ['foto', 'de', 'perfil']
 		},
 		serverSideError: {
 			text: 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
@@ -153,7 +153,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 					iconColor={theme.white3}
 					label={'nem quero, valew'}
 					labelColor={theme.white3}
-					highlightedWords={['nem', 'quero,']}
+					highlightedWords={['nem', 'quero']}
 					onPress={saveUserData}
 				/>
 			</FormContainer>

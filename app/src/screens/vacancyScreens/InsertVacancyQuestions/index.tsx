@@ -192,7 +192,7 @@ function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProp
 								flexDirection={'row-reverse'}
 								color={vacancyLength() < 1 ? theme.red3 : theme.green3}
 								label={vacancyLength() < 1 ? 'não precisa, continuar' : 'continuar'}
-								highlightedWords={['não', 'precisa,']}
+								highlightedWords={['não', 'precisa']}
 								labelColor={theme.white3}
 								SvgIcon={vacancyLength() < 1 ? Uncheck : Check}
 								svgIconScale={['30%', '15%']}

@@ -76,14 +76,14 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
 					<CarouselItemContainer>
 						<InstructionCard
 							message={presentationTexts[1]}
-							highlightedWords={['anunciar', 'vender', 'encontrar', 'fazer', 'um', 'dinheiro.']}
+							highlightedWords={['anunciar', 'vender', 'encontrar', 'fazer', 'um', 'dinheiro']}
 							flex={0}
 						/>
 					</CarouselItemContainer>
 					<CarouselItemContainer>
 						<InstructionCard
 							message={presentationTexts[2]}
-							highlightedWords={['usa', 'o', 'corre,', 'ajuda', 'iniciativas', 'sociais.']}
+							highlightedWords={['usa', 'o', 'corre', 'ajuda', 'iniciativas', 'sociais']}
 							flex={0}
 						/>
 					</CarouselItemContainer>

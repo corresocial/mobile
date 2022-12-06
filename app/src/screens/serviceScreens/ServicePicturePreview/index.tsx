@@ -40,14 +40,14 @@ function ServicePicturePreview({ navigation }: ServicePicturePreviewScreenProps)
 
 	const savePictures = () => {
 		setServiceDataOnContext({
-			picturesUrl: picturesPack 
+			picturesUrl: picturesPack
 		})
 		navigation.navigate('SelectServiceCategory')
 	}
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'}/>
+			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<CustomCameraModal
 				setPictureUri={setPictureUri}
 				onClose={() => setCameraOpened(false)}
@@ -73,7 +73,7 @@ function ServicePicturePreview({ navigation }: ServicePicturePreviewScreenProps)
 					/>
 					<InstructionCard
 						message={'ficaram boas?'}
-						highlightedWords={['boas?']}
+						highlightedWords={['boas']}
 						flex={0}
 					/>
 				</PicturePreviewContainer>

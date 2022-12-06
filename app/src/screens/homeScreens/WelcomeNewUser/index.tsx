@@ -70,7 +70,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 				relativeHeight={'30%'}
 			>
 				<InstructionCard
-					message={`olá, ${userName.split(' ')[0]} \npor que você \ntá no corre. ?`}
+					message={`olá, ${userName.split(' ')[0]} \npor que você \ntá no corre.?`}
 					highlightedWords={[userName.split(' ')[0], '\ntá', 'no', 'corre.']}
 					fontSize={24}
 					lineHeight={30}
@@ -80,6 +80,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 				<FormContainer backgroundColor={theme.white2} >
 					<OptionButton
 						color={theme.white3}
+						leftSideColor={theme.orange3}
 						label={'para encontrar'}
 						labelAlign={'left'}
 						description={'quero encontrar um serviço, item para compra e/ou troca ou uma vaga de emprego'}
@@ -91,6 +92,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 					/>
 					<OptionButton
 						color={theme.white3}
+						leftSideColor={theme.orange3}
 						label={'para postar'}
 						labelAlign={'left'}
 						description={'quero postar vendas, serviços, vagas, iniciativas sociais ou cultura'}

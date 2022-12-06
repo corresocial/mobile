@@ -117,7 +117,7 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
 
 	const getCurrentCategoryLabelHightlighted = () => {
 		const highlightedWords = vacancyCategories[getVacancyCategorySelected()].label.split(' ')
-		highlightedWords[highlightedWords.length - 1] = `${highlightedWords[highlightedWords.length - 1]},`
+		highlightedWords[highlightedWords.length - 1] = `${highlightedWords[highlightedWords.length - 1]}`
 		return highlightedWords
 	}
 

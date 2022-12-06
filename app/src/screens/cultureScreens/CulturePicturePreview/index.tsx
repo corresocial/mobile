@@ -40,14 +40,14 @@ function CulturePicturePreview({ navigation }: CulturePicturePreviewScreenProps)
 
 	const savePictures = () => {
 		setCultureDataOnContext({
-			picturesUrl: picturesPack 
+			picturesUrl: picturesPack
 		})
 		navigation.navigate('SelectCultureCategory')
 	}
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'}/>
+			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
 			<CustomCameraModal
 				setPictureUri={setPictureUri}
 				onClose={() => setCameraOpened(false)}
@@ -73,7 +73,7 @@ function CulturePicturePreview({ navigation }: CulturePicturePreviewScreenProps)
 					/>
 					<InstructionCard
 						message={'ficaram boas?'}
-						highlightedWords={['boas?']}
+						highlightedWords={['boas']}
 						flex={0}
 					/>
 				</PicturePreviewContainer>

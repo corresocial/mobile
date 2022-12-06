@@ -58,9 +58,10 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
 
 	const getLocalUser = async () => JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
 
-	const showShareModal = (visibility: boolean) => {
+	const showShareModal = (visibility: boolean, postTitle?: string) => {
 		setStateDataOnContext({
-			showShareModal: visibility
+			showShareModal: visibility,
+			lastPostTitle: postTitle
 		})
 	}
 
@@ -126,7 +127,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
 													picturePostsUrls
 												)
 
-												await updateDocField( // Update pictureUrl
+												await updateDocField(
 													'cultures',
 													postId,
 													'picturesUrl',
@@ -176,22 +177,25 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
 			true,
 		)
 			.then(() => {
-				console.log(localUser.posts)
+				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollection[] : []
 				setDataOnSecureStore('corre.user', {
 					...localUser,
 					tourPerformed: true,
 					posts: [
-						localUser.posts ? [...localUser.posts] as PostCollection[] : [],
+						...localUserPosts,
 						{
-							...cultureDataPost,
-							postId,
-							picturesUrl: picturePostsUrls,
+							...postData,
+							owner: {
+								userId: localUser.userId,
+								name: localUser.name,
+								profilePictureUrl: localUser.profilePictureUrl
+							}
 						},
 					],
 				})
 				console.log('Naviguei')
 				setLoaderIsVisible(false)
-				showShareModal(true)
+				showShareModal(true, postData.title)
 				navigation.navigate('HomeTab' as any)
 			})
 			.catch((err: any) => {
@@ -220,7 +224,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
 					}
 					highlightedWords={
 						!hasServerSideError
-							? ['repete?']
+							? ['repete']
 							: ['ops,', 'parece', 'que', 'algo', 'deu', 'errado', 'do', 'nosso', 'lado!']
 					}
 				>

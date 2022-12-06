@@ -3,5 +3,5 @@ export type HomeTabParamList = {
 	Catalog: undefined
 	Post: undefined
 	Chat: undefined
-	Profile: { teste?: string }
+	ProfileStack: { teste?: string }
 }

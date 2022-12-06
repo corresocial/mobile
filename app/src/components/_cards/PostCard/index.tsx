@@ -54,6 +54,7 @@ function PostCard({ post, owner, onPress }: PostCardProps) {
 						<SmallUserIdentification
 							userName={renderShortName()}
 							postDate={renderFormatedPostDateTime()}
+							profilePictureUrl={!arrayIsEmpty(owner.profilePictureUrl) && !!owner.profilePictureUrl && owner.profilePictureUrl[0]}
 						// pictureUrl={post.picturesUrl}
 						/>
 						{

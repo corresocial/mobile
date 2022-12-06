@@ -18,7 +18,7 @@ import ShareIcon from '../../../assets/icons/share.svg'
 import ChatIcon from '../../../assets/icons/chat.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
-import { formatRelativeDate, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { arrayIsEmpty, formatRelativeDate, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 import { ViewVacancyPostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -80,10 +80,14 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	}
 
 	const renderFormatedPostDateTime = () => {
-		if (!postData.createdAt) return '---'
-		const { seconds } = postData.createdAt as any
-		const formatedDate = formatRelativeDate((seconds * 1000))
+		const formatedDate = formatRelativeDate(postData.createdAt)
 		return formatedDate
+	}
+
+	const getProfilePictureUrl = () => {
+		if (!postData || !postData.owner || !postData.owner.profilePictureUrl) return null
+		if (arrayIsEmpty(postData.owner.profilePictureUrl)) return null
+		return postData.owner.profilePictureUrl[0]
 	}
 
 	return (
@@ -99,6 +103,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						userName={postData.owner ? postData.owner.name : 'usuário do corre.'}
 						postDate={renderFormatedPostDateTime()}
 						userNameFontSize={14}
+						profilePictureUrl={getProfilePictureUrl()}
 						pictureDimensions={45}
 						width={'60%'}
 					/>

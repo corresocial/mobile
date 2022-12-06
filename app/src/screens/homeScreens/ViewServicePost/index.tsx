@@ -40,13 +40,15 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	}
 
 	const renderFormatedPostDateTime = () => {
-		if (!postData.createdAt) return '---'
-		const { seconds } = postData.createdAt as any
-		const formatedDate = formatRelativeDate((seconds * 1000))
+		const formatedDate = formatRelativeDate(postData.createdAt)
 		return formatedDate
 	}
 
-	console.log(postData)
+	const getProfilePictureUrl = () => {
+		if (!postData || !postData.owner || !postData.owner.profilePictureUrl) return null
+		if (arrayIsEmpty(postData.owner.profilePictureUrl)) return null
+		return postData.owner.profilePictureUrl[0]
+	}
 
 	return (
 		<Container>
@@ -62,6 +64,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						postDate={renderFormatedPostDateTime()}
 						userNameFontSize={14}
 						pictureDimensions={45}
+						profilePictureUrl={getProfilePictureUrl()}
 						width={'60%'}
 					/>
 					<SaleExchangeValue

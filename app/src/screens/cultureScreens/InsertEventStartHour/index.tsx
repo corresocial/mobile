@@ -90,8 +90,8 @@ function InsertEventStartHour({ navigation }: InsertEventStartHourScreenProps) {
 					highlightedWords={['que', 'horas']}
 				>
 					<ProgressBar
-						range={4}
-						value={5}
+						range={5}
+						value={4}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>

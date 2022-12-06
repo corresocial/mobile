@@ -148,7 +148,7 @@ function InsertEventEndDate({ navigation }: InsertEventEndDateScreenProps) {
 					highlightedWords={
 						invalidDateAfterSubmit
 							? ['data', 'de', 'encerramento', 'data', 'início']
-							: ['termina?']
+							: ['termina']
 					}
 				>
 					<ProgressBar

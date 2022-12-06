@@ -26,7 +26,7 @@ export const Content = styled.View`
     `
 
 export const Title = styled.Text`
-    font-family: Arvo_400Regular;
+    font-family: Arvo_700Bold;
     font-size: ${RFValue(24)}px;
     color: ${({ theme }) => theme.black3}
 `

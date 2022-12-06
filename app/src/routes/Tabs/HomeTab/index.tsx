@@ -73,7 +73,7 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 
 	return (
 		<Tab.Navigator
-			initialRouteName={'Profile'}
+			initialRouteName={'ProfileStack'}
 			screenOptions={{
 				headerShown: false,
 				tabBarShowLabel: false,
@@ -114,7 +114,7 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 				}}
 			/>
 			<Tab.Screen
-				name={'Profile'}
+				name={'ProfileStack'}
 				component={ProfileStack}
 				initialParams={{
 					teste: 'teste'

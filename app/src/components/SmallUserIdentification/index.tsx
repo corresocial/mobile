@@ -15,6 +15,7 @@ interface SmallUserIdentificationProps {
 	height?: string | number
 	userName: string | undefined
 	postDate: string
+	profilePictureUrl?: string | any // TODO  Type
 	pictureDimensions?: number
 	userNameFontSize?: number
 	postDateFontSize?: number
@@ -25,6 +26,7 @@ function SmallUserIdentification({
 	height,
 	userName = 'usuário do corre.',
 	postDate,
+	profilePictureUrl = 'https://www.softdownload.com.br/wp-content/uploads/2018/03/como_trocar_foto_perfil_facebook.jpg',
 	pictureDimensions = 35,
 	userNameFontSize = 12,
 	postDateFontSize = 12
@@ -44,7 +46,7 @@ function SmallUserIdentification({
 			>
 				<MiniaturePortrait
 					source={{
-						uri: 'https://firebasestorage.googleapis.com/v0/b/corresocial-66840.appspot.com/o/imagens%2Fservices%2F3Hiwe1CX0VQtiHmQ5laH.jpg?alt=media&token=10d039b5-6109-4f6c-89c2-2060b22d505d',
+						uri: profilePictureUrl,
 					}}
 				/>
 			</UserPictureArea>

@@ -26,7 +26,7 @@ export const TermsButtonContainer = styled.View`
 `
 
 export const TermsLabel = styled.Text`
-    color: ${({ theme }) => theme.black4};    
+    color: ${({ theme }) => theme.black4};
     font-size: ${RFValue(18)}px;
     text-align: center;
     font-family: Arvo_400Regular;
@@ -34,7 +34,7 @@ export const TermsLabel = styled.Text`
 `
 
 export const TermsLabelHighlight = styled.Text`
-    color: ${({ theme }) => theme.orange4};    
+    color: ${({ theme }) => theme.orange4};
     font-size:${RFValue(18)}px;
     text-align: center;
     font-family: Arvo_700Bold;

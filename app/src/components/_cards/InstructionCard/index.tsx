@@ -6,14 +6,14 @@ import { Container, Message } from './styles'
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 interface InstructionCardProps {
-    message: string
-    highlightedWords?: string[]
-    fontSize?: number
-    fontSizeHighlighted?: number
-    lineHeight?: number
-    borderLeftWidth?: number
-    flex?: number
-    children?: React.ReactElement
+	message: string
+	highlightedWords?: string[]
+	fontSize?: number
+	fontSizeHighlighted?: number
+	lineHeight?: number
+	borderLeftWidth?: number
+	flex?: number
+	children?: React.ReactElement
 }
 
 function InstructionCard({

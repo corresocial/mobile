@@ -75,7 +75,7 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
 					borderLeftWidth={3}
 					fontSize={18}
 					message={'com que frequência você vende/vai vender seu serviço?'}
-					highlightedWords={['com', 'que', 'frequência', 'seu', 'serviço?']}
+					highlightedWords={['com', 'que', 'frequência', 'seu', 'serviço']}
 				>
 					<ProgressBar
 						range={5}
@@ -129,7 +129,7 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
 					<OptionButton
 						color={theme.white3}
 						label={'dias comerciais'}
-						highlightedWords={['dias', 'comerciais']}
+						highlightedWords={['comerciais']}
 						labelColor={theme.black3}
 						labelSize={20}
 						labelAlign={'left'}

@@ -205,7 +205,7 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 					highlightedWords={
 						someInvalidFieldSubimitted()
 							? ['não', 'endereço', getTitleFromRouteParams()]
-							: ['local', 'de', 'trabalho?', getTitleFromRouteParams()]
+							: ['local', 'de', 'trabalho', getTitleFromRouteParams()]
 					}
 					height={'100%'}
 					color={theme.white3}

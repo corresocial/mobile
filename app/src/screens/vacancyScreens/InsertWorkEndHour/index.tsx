@@ -109,9 +109,10 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 
 	const getLocalUser = async () => JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
 
-	const showShareModal = (visibility: boolean) => {
+	const showShareModal = (visibility: boolean, postTitle?: string) => {
 		setStateDataOnContext({
-			showShareModal: visibility
+			showShareModal: visibility,
+			lastPostTitle: postTitle
 		})
 	}
 
@@ -177,21 +178,25 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 			true,
 		)
 			.then(() => {
+				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollection[] : []
 				setDataOnSecureStore('corre.user', {
 					...localUser,
 					tourPerformed: true,
 					posts: [
-						localUser.posts ? [...localUser.posts] as PostCollection[] : [],
+						...localUserPosts,
 						{
-							...vacancyDataPost,
-							postId,
-							postType: 'vacancy',
+							...postData,
+							owner: {
+								userId: localUser.userId,
+								name: localUser.name,
+								profilePictureUrl: localUser.profilePictureUrl
+							}
 						},
 					],
 				})
 				console.log('Naviguei')
 				setLoaderIsVisible(false)
-				showShareModal(true)
+				showShareModal(true, vacancyDataPost.title)
 				navigation.navigate('HomeTab' as any)
 			})
 			.catch((err: any) => {
@@ -212,7 +217,7 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 
 	const getHighlightedHeaderMessage = () => {
 		if (hasServerSideError) {
-			return ['do', 'nosso', 'lado,']
+			return ['do', 'nosso', 'lado']
 		}
 		return invalidTimeAfterSubmit
 			? ['horário', 'de', 'início', 'encerramento']

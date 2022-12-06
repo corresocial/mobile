@@ -87,7 +87,7 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
 					borderLeftWidth={3}
 					fontSize={18}
 					message={'que horas você começa a trabalhar?'}
-					highlightedWords={['que', 'horas', 'começa', 'a', 'trabalhar?']}
+					highlightedWords={['que', 'horas', 'começa', 'a', 'trabalhar']}
 				>
 					<ProgressBar
 						range={5}

@@ -75,7 +75,7 @@ function SelectSaleFrequency({ navigation }: SelectSaleFrequencyScreenProps) {
 					borderLeftWidth={3}
 					fontSize={18}
 					message={'com que frequência você está aberto a vender seu item?'}
-					highlightedWords={['com', 'que', 'frequência', 'vender', 'seu', 'item?']}
+					highlightedWords={['com', 'que', 'frequência', 'vender', 'seu', 'item']}
 				>
 					<ProgressBar
 						range={5}
@@ -129,7 +129,7 @@ function SelectSaleFrequency({ navigation }: SelectSaleFrequencyScreenProps) {
 					<OptionButton
 						color={theme.white3}
 						label={'dias comerciais'}
-						highlightedWords={['dias', 'comerciais']}
+						highlightedWords={['comerciais']}
 						labelColor={theme.black3}
 						labelSize={20}
 						labelAlign={'left'}

@@ -76,7 +76,7 @@ function InsertSaleTitle({ navigation }: InsertSaleTitleScreenProps) {
 					borderLeftWidth={3}
 					fontSize={18}
 					message={'qual vai ser o título do seu anúncio?'}
-					highlightedWords={['título', 'anúncio?']}
+					highlightedWords={['título', 'anúnciow']}
 				>
 					<ProgressBar
 						range={5}

@@ -39,7 +39,7 @@ function SelectDeliveryMethod({ navigation }: SelectDeliveryMethodScreenProps) {
 					borderLeftWidth={3}
 					fontSize={18}
 					message={'você pretende entregar seu item?'}
-					highlightedWords={['entregar', 'seu', 'item?']}
+					highlightedWords={['entregar', 'seu', 'item']}
 				>
 					<ProgressBar
 						range={5}

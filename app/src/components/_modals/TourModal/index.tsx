@@ -17,9 +17,9 @@ import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 
 interface TourModalProps {
-    visibility: boolean
-    closeModal: () => void
-    onPressButton: () => void
+	visibility: boolean
+	closeModal: () => void
+	onPressButton: () => void
 }
 
 function TourModal({ visibility, closeModal, onPressButton }: TourModalProps) {
@@ -38,13 +38,13 @@ function TourModal({ visibility, closeModal, onPressButton }: TourModalProps) {
 					<Description>
 						{showMessageWithHighlight(
 							'primeiro precisamos preencher seu perfil, para que outros possam te encontrar',
-							['primeiro', 'preencher', 'seu', 'perfil,', 'te', 'encontrar']
+							['primeiro', 'preencher', 'seu', 'perfil', 'te', 'encontrar']
 						)}
 					</Description>
 					<Question>
 						{showMessageWithHighlight(
 							'demora 5 minutos, bora?',
-							['5', 'minutos,']
+							['5', 'minutos']
 						)}
 					</Question>
 					<PrimaryButton

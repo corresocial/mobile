@@ -33,12 +33,12 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 	const headerMessages = {
 		instruction: {
-			text: 'ficou boa ?',
+			text: 'ficou boa?',
 			highlightedWords: ['boa']
 		},
 		serverSideError: {
 			text: 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
-			highlightedWords: ['do', 'nosso', 'lado,']
+			highlightedWords: ['do', 'nosso', 'lado']
 		}
 	}
 

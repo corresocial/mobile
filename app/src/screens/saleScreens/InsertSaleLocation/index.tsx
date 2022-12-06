@@ -201,7 +201,7 @@ function InsertSaleLocation({ navigation }: InsertSaleLocationScreenProps) {
 					highlightedWords={
 						someInvalidFieldSubimitted()
 							? ['não', 'endereço', 'válido']
-							: ['onde', 'seu', 'seu', 'item?']
+							: ['onde', 'seu', 'seu', 'item']
 					}
 				>
 					<ProgressBar

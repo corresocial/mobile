@@ -60,9 +60,9 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 			return 'ops!'
 		}
 		switch (locationViewSelected as LocationViewType) {
-			case 'private': return ' localização \nprivada'
-			case 'approximate': return 'localização \naproximada'
-			case 'public': return 'localização \npública'
+			case 'private': return ' localização\n privada'
+			case 'approximate': return 'localização\n aproximada'
+			case 'public': return 'localização\n pública'
 			default: return 'switch option unfount'
 		}
 	}
@@ -85,9 +85,9 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 		}
 
 		switch (locationViewSelected as LocationViewType) {
-			case 'private': return ['\nprivada', 'não', 'tem', 'acesso', 'a', 'sua', 'localização.']
-			case 'approximate': return ['\naproximada', 'a', 'sua', 'região', 'aproximada.']
-			case 'public': return ['\npública', 'exatamente', 'onde', 'você', 'está.']
+			case 'private': return ['privada', 'não', 'tem', 'acesso', 'a', 'sua', 'localização']
+			case 'approximate': return ['aproximada', 'a', 'sua', 'região', 'aproximada']
+			case 'public': return ['pública', 'exatamente', 'onde', 'você', 'está']
 			default: return []
 		}
 	}
@@ -133,9 +133,10 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 
 	const getLocalUser = async () => JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
 
-	const showShareModal = (visibility: boolean) => {
+	const showShareModal = (visibility: boolean, postTitle?: string) => {
 		setStateDataOnContext({
-			showShareModal: visibility
+			showShareModal: visibility,
+			lastPostTitle: postTitle
 		})
 	}
 
@@ -249,22 +250,25 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 			true,
 		)
 			.then(() => {
-				console.log(localUser.posts)
+				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollection[] : []
 				setDataOnSecureStore('corre.user', {
 					...localUser,
 					tourPerformed: true,
 					posts: [
-						localUser.posts ? [...localUser.posts] as PostCollection[] : [],
+						...localUserPosts,
 						{
-							...cultureDataPost,
-							postId,
-							picturesUrl: picturePostsUrls,
+							...postData,
+							owner: {
+								userId: localUser.userId,
+								name: localUser.name,
+								profilePictureUrl: localUser.profilePictureUrl
+							}
 						},
 					],
 				})
 				console.log('Naviguei')
 				setLoaderIsVisible(false)
-				showShareModal(true)
+				showShareModal(true, postData.title)
 				navigation.navigate('HomeTab' as any)
 			})
 			.catch((err: any) => {
@@ -320,7 +324,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 					flexDirection={'row-reverse'}
 					color={theme.red3}
 					label={'não curti, voltar'}
-					highlightedWords={['não', 'curti,']}
+					highlightedWords={['não', 'curti']}
 					labelColor={theme.white3}
 					fontSize={16}
 					SvgIcon={Uncheck}
@@ -331,7 +335,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 					flexDirection={'row-reverse'}
 					color={theme.green3}
 					label={'isso mesmo, continuar'}
-					highlightedWords={['isso', 'mesmo,']}
+					highlightedWords={['isso', 'mesmo']}
 					fontSize={16}
 					labelColor={theme.white3}
 					SvgIcon={Check}

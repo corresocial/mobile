@@ -149,7 +149,7 @@ function InsertEventStartDate({ navigation }: InsertEventStartDateScreenProps) {
 					highlightedWords={
 						invalidDateAfterSubmit
 							? ['data', 'de', 'início', 'data', 'atual']
-							: ['começa?']
+							: ['começa']
 					}
 				>
 					<ProgressBar

@@ -42,7 +42,7 @@ function SelectCultureType({ navigation }: SelectCultureTypeScreenProps) {
 					title={'cultura'}
 					titleFontSize={26}
 					description={'o que você quer fazer?'}
-					highlightedWords={['cultura', 'o', 'que', 'fazer?']}
+					highlightedWords={['cultura', 'o', 'que', 'fazer']}
 					height={'100%'}
 					color={theme.white3}
 				/>

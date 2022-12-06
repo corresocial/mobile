@@ -43,9 +43,9 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
 
 	const getLocationViewTitle = () => {
 		switch (locationViewSelected as LocationViewType) {
-			case 'private': return 'localização \nprivada'
-			case 'approximate': return 'localização \naproximada'
-			case 'public': return 'localização \npública'
+			case 'private': return 'localização\n privada'
+			case 'approximate': return 'localização\n aproximada'
+			case 'public': return 'localização\n pública'
 			default: return 'switch option unfount'
 		}
 	}
@@ -61,9 +61,9 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
 
 	const getLocationViewHighlightedWords = () => {
 		switch (locationViewSelected as LocationViewType) {
-			case 'private': return ['\nprivada', 'não', 'tem', 'acesso', 'a', 'sua', 'localização.']
-			case 'approximate': return ['\naproximada', 'a', 'sua', 'região', 'aproximada.']
-			case 'public': return ['\npública', 'exatamente', 'onde', 'você', 'está.']
+			case 'private': return ['privada', 'não', 'tem', 'acesso', 'a', 'sua', 'localização']
+			case 'approximate': return ['aproximada', 'a', 'sua', 'região', 'aproximada']
+			case 'public': return ['pública', 'exatamente', 'onde', 'você', 'está']
 			default: return []
 		}
 	}
@@ -114,7 +114,7 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
 					flexDirection={'row-reverse'}
 					color={theme.red3}
 					label={'não curti, voltar'}
-					highlightedWords={['não', 'curti,']}
+					highlightedWords={['não', 'curti']}
 					labelColor={theme.white3}
 					fontSize={16}
 					SvgIcon={Uncheck}
@@ -125,7 +125,7 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
 					flexDirection={'row-reverse'}
 					color={theme.green3}
 					label={'isso mesmo, continuar'}
-					highlightedWords={['isso', 'mesmo,']}
+					highlightedWords={['isso', 'mesmo']}
 					fontSize={16}
 					labelColor={theme.white3}
 					SvgIcon={Check}

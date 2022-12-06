@@ -73,7 +73,7 @@ function SalePicturePreview({ navigation }: SalePicturePreviewScreenProps) {
 					/>
 					<InstructionCard
 						message={'ficaram boas?'}
-						highlightedWords={['boas?']}
+						highlightedWords={['boas']}
 						flex={0}
 					/>
 				</PicturePreviewContainer>

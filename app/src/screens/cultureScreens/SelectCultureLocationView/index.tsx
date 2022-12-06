@@ -37,8 +37,16 @@ function SelectCultureLocationView({ navigation }: SelectCultureLocationViewScre
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={18}
-					message={'como você prefere que outros usuários vejam a localização do role?'}
-					highlightedWords={['como', 'você', 'prefere', 'vejam', 'a', 'localização', 'do', 'role?']}
+					message={
+						cultureDataContext.cultureType === 'artistProfile'
+							? 'como você prefere que outros usuários vejam a sua localização?'
+							: 'como você prefere que outros usuários vejam a localização do role?'
+					}
+					highlightedWords={
+						cultureDataContext.cultureType === 'artistProfile'
+							? ['como', 'você', 'prefere', 'vejam', 'a', 'localização', 'sua']
+							: ['como', 'você', 'prefere', 'vejam', 'a', 'localização', 'do', 'role']
+					}
 				>
 					<ProgressBar
 						range={cultureDataContext.cultureType === 'artistProfile' ? 3 : 5}

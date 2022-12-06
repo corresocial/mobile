@@ -201,7 +201,7 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
 					highlightedWords={
 						someInvalidFieldSubimitted()
 							? ['não', 'endereço']
-							: ['onde', 'seu', 'seu', 'serviço?']
+							: ['onde', 'seu', 'seu', 'serviço']
 					}
 				>
 					<ProgressBar

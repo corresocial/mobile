@@ -112,9 +112,10 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
 	const getLocalUser = async () => JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
 
-	const showShareModal = (visibility: boolean) => {
+	const showShareModal = (visibility: boolean, postTitle?: string) => {
 		setStateDataOnContext({
-			showShareModal: visibility
+			showShareModal: visibility,
+			lastPostTitle: postTitle
 		})
 	}
 
@@ -241,11 +242,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 					posts: [
 						...localUserPosts,
 						{
-							...saleDataPost,
-							postId,
-							postType: 'sale',
-							picturesUrl: picturePostsUrls,
-							createdAt: new Date(),
+							...postData,
 							owner: {
 								userId: localUser.userId,
 								name: localUser.name,
@@ -256,7 +253,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 				})
 				console.log('Naviguei')
 				setLoaderIsVisible(false)
-				showShareModal(true)
+				showShareModal(true, saleDataPost.title)
 				navigation.navigate('HomeTab' as any)
 			})
 			.catch((err: any) => {
@@ -277,11 +274,11 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
 	const getHighlightedHeaderMessage = () => {
 		if (hasServerSideError) {
-			return ['do', 'nosso', 'lado,']
+			return ['do', 'nosso', 'lado']
 		}
 		return invalidTimeAfterSubmit
 			? ['horário', 'de', 'início', 'encerramento']
-			: ['que', 'horas', 'vender?']
+			: ['que', 'horas', 'vender']
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))

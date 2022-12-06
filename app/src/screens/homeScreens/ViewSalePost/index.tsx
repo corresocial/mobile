@@ -40,10 +40,14 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	}
 
 	const renderFormatedPostDateTime = () => {
-		if (!postData.createdAt) return '---'
-		const { seconds } = postData.createdAt as any
-		const formatedDate = formatRelativeDate((seconds * 1000))
+		const formatedDate = formatRelativeDate(postData.createdAt)
 		return formatedDate
+	}
+
+	const getProfilePictureUrl = () => {
+		if (!postData || !postData.owner || !postData.owner.profilePictureUrl) return null
+		if (arrayIsEmpty(postData.owner.profilePictureUrl)) return null
+		return postData.owner.profilePictureUrl[0]
 	}
 
 	return (
@@ -59,6 +63,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						userName={postData.owner ? postData.owner.name : 'usuário do corre.'}
 						postDate={renderFormatedPostDateTime()}
 						userNameFontSize={14}
+						profilePictureUrl={getProfilePictureUrl()}
 						pictureDimensions={45}
 						width={'60%'}
 					/>

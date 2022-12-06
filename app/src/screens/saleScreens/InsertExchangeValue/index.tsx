@@ -76,7 +76,7 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={18}
-					message={'o que você aceita em troca ?'}
+					message={'o que você aceita em troca?'}
 					highlightedWords={['o', 'que', 'em', 'troca']}
 				>
 					<ProgressBar

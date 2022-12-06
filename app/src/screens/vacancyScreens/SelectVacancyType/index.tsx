@@ -53,7 +53,7 @@ function SelectVacancyType({ navigation }: SelectVacancyTypeScreenProps) {
 					borderLeftWidth={3}
 					fontSize={18}
 					message={'que tipo de vaga?'}
-					highlightedWords={['tipo', 'vaga?']}
+					highlightedWords={['tipo', 'vaga']}
 				>
 					<ProgressBar
 						range={5}

@@ -30,7 +30,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					message={'o que você vai \nanunciar?'}
-					highlightedWords={['\nanunciar?']}
+					highlightedWords={['\nanunciar']}
 					borderLeftWidth={3}
 					lineHeight={35}
 					fontSize={22}
@@ -47,7 +47,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					labelColor={theme.black3}
 					labelSize={18}
 					SvgIcon={ToolBox}
-					svgIconScale={['60%', '60%']}
+					svgIconScale={['70%', '70%']}
 					leftSideColor={theme.purple2}
 					leftSideWidth={'30%'}
 					onPress={() => navigation.navigate('ServiceStack')}

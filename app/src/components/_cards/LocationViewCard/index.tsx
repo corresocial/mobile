@@ -80,6 +80,23 @@ function LocationViewCard({
 		return `${street}, ${number}, ${city}, ${state}`
 	}
 
+	const getAddressCoordinates = () => {
+		if (!Object.keys(completeAddress).length) {
+			return ({ // TODO Eart
+				latitude: -23.318759913934052,
+				longitude: -51.16604430601001,
+				latitudeDelta: 0.0065,
+				longitudeDelta: 0.0065
+			})
+		}
+		return {
+			latitude: completeAddress.coordinates?.latitude,
+			longitude: completeAddress.coordinates?.longitude,
+			latitudeDelta: 0.0028,
+			longitudeDelta: 0.0028
+		}
+	}
+
 	const goToGoogleMapsApp = async () => {
 		if (Object.keys(completeAddress).length < 1) return false
 		const googleMapsUrl = getGoogleMapUrl()
@@ -134,18 +151,8 @@ function LocationViewCard({
 				(locationView !== 'private' && locationView !== undefined) && (
 					<MapArea >
 						<CustomMapView
-							regionCoordinate={{
-								latitude: -23.318759913934052,
-								longitude: -51.16604430601001,
-								latitudeDelta: 0.0065,
-								longitudeDelta: 0.0065
-							}}
-							markerCoordinate={{
-								latitude: -23.318759913934052,
-								longitude: -51.16604430601001,
-								latitudeDelta: 0.0028,
-								longitudeDelta: 0.0028
-							}}
+							regionCoordinate={getAddressCoordinates()}
+							markerCoordinate={getAddressCoordinates()}
 							CustomMarker={locationView === 'public' ? MapPointOrangeIcon : undefined}
 							locationView={locationView}
 						/>

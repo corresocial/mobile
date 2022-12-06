@@ -76,7 +76,7 @@ function InsertServiceName({ navigation }: InsertServiceNameScreenProps) {
 					borderLeftWidth={3}
 					fontSize={18}
 					message={'que serviço você vende?'}
-					highlightedWords={['que', 'serviço', 'vende?']}
+					highlightedWords={['que', 'serviço', 'vende']}
 				>
 					<ProgressBar
 						range={5}

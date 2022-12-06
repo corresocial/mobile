@@ -41,8 +41,8 @@ function InsertCulturePicture({ navigation }: InsertCulturePictureScreenProps) {
 					}
 					highlightedWords={
 						cultureDataContext.cultureType === 'artistProfile'
-							? ['adicionar', 'algumas', 'fotos', 'sua', 'arte?']
-							: ['adicionar', 'algumas', 'fotos', 'seu', 'role?']
+							? ['adicionar', 'algumas', 'fotos', 'sua', 'arte']
+							: ['adicionar', 'algumas', 'fotos', 'seu', 'role']
 					}
 				>
 					<ProgressBar
@@ -61,7 +61,7 @@ function InsertCulturePicture({ navigation }: InsertCulturePictureScreenProps) {
 						relativeHeight={'30%'}
 						labelColor={theme.white3}
 						label={'não precisa, valew'}
-						highlightedWords={['não', 'precisa,']}
+						highlightedWords={['não', 'precisa']}
 						SvgIcon={Uncheck}
 						svgIconScale={['22%', '18%']}
 						onPress={() => navigation.navigate('SelectCultureCategory')}

@@ -169,7 +169,7 @@ function InsertCultureLocation({ navigation }: InsertCultureLocationScreenProps)
 
 	const getHightlightedWords = () => (cultureDataContext.cultureType === 'artistProfile'
 		? ['endereço']
-		: ['endereço', 'do', 'role?'])
+		: ['endereço', 'do', 'role'])
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {

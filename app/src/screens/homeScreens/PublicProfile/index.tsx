@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Alert, StatusBar } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -26,7 +26,7 @@ import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenP
 import { LocalUserData } from '../../../contexts/types'
 import { PostCollection } from '../../../services/firebase/types'
 
-// import { AuthContext } from '../../../contexts/AuthContext'
+import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
@@ -35,11 +35,11 @@ import { screenHeight } from '../../../common/screenDimensions'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { TextGradient } from '../../../components/TextGradient'
-import { getUser } from '../../../services/firebase/user/getUser'
+// import { getUser } from '../../../services/firebase/user/getUser'
 import { ProfilePopOver } from '../../../components/ProfilePopOver'
 
 function PublicProfile({ navigation }: HomeTabScreenProps) {
-	// const { getDataFromSecureStore } = useContext(AuthContext)
+	const { getDataFromSecureStore } = useContext(AuthContext)
 
 	const [user, setUser] = useState<LocalUserData>({})
 	const [userPosts, setUserPosts] = useState([])
@@ -48,18 +48,18 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
-			// getProfileDataFromLocal()
-			getProfileDataFromRemote()
+			getProfileDataFromLocal()
+			// getProfileDataFromRemote()
 		})
 		return unsubscribe
 	}, [navigation])
 
 	useEffect(() => {
-		// getProfileDataFromLocal()
-		getProfileDataFromRemote()
+		getProfileDataFromLocal()
+		// getProfileDataFromRemote()
 	}, [])
 
-	const getProfileDataFromRemote = async () => {
+	/* const getProfileDataFromRemote = async () => {
 		const userId = 'RMCJAuUhLjSmAu3kgjTzRjjZ2jB2'
 		const remoteUser = await getUser(userId)
 		const { profilePictureUrl, name, posts, description } = remoteUser as LocalUserData
@@ -70,9 +70,9 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 			profilePictureUrl: profilePictureUrl || [],
 		})
 		setUserPosts(posts as never)
-	}
+	} */
 
-	/* const getProfileDataFromLocal = async () => {
+	const getProfileDataFromLocal = async () => {
 		const localUser = await getObjectLocalUser()
 		const { profilePictureUrl, name, posts, description } = localUser as LocalUserData
 		setUser({
@@ -81,14 +81,14 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 			profilePictureUrl: profilePictureUrl || [],
 		})
 		setUserPosts(posts as never)
-	} */
+	}
 
-	/* const getObjectLocalUser = async () => {
+	const getObjectLocalUser = async () => {
 		const userJSON = await getDataFromSecureStore('corre.user')
 		if (!userJSON) return false
 		const userObject = await JSON.parse(userJSON)
 		return userObject
-	} */
+	}
 
 	const onSelectTag = (tagName: string) => {
 		const currentSelectedTags = [...selectedTags]

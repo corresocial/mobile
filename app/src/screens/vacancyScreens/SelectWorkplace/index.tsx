@@ -45,7 +45,7 @@ function SelectWorkplace({ navigation }: SelectWorkplaceScreenProps) {
 					borderLeftWidth={3}
 					fontSize={18}
 					message={'qual é o local de trabalho?'}
-					highlightedWords={['local,', 'de', 'trabalho?']}
+					highlightedWords={['local,', 'de', 'trabalho']}
 				>
 					<ProgressBar
 						range={5}

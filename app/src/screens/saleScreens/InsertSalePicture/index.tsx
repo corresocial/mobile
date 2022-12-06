@@ -49,11 +49,11 @@ function InsertSalePicture({ navigation }: InsertSalePictureScreenProps) {
 						relativeHeight={'30%'}
 						labelColor={theme.white3}
 						label={'não precisa, valew'}
-						highlightedWords={['não', 'precisa,']}
+						highlightedWords={['não', 'precisa']}
 						SvgIcon={Uncheck}
 						svgIconScale={['22%', '18%']}
 						onPress={() => navigation.navigate('SelectPaymentType')}
-					/> 
+					/>
 					<PrimaryButton
 						flexDirection={'row-reverse'}
 						color={theme.green3}

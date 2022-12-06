@@ -127,9 +127,10 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 		})
 	}
 
-	const showShareModal = (visibility: boolean) => {
+	const showShareModal = (visibility: boolean, postTitle?: string) => {
 		setStateDataOnContext({
-			showShareModal: visibility
+			showShareModal: visibility,
+			lastPostTitle: postTitle
 		})
 	}
 
@@ -152,7 +153,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 		const servicePictures = extractServicePictures(completeServiceData)
 
 		try {
-			const localUser = await getLocalUser()
+			const localUser = { ...await getLocalUser(), description: userData.description }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
 			const postId = await createPost(serviceDataPost, localUser, 'services', 'service')
@@ -261,11 +262,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 					posts: [
 						...localUserPosts, // TODO Update requests in another flows
 						{
-							...serviceDataPost,
-							postId,
-							postType: 'service',
-							picturesUrl: picturePostsUrls,
-							createdAt: new Date(),
+							...postData,
 							owner: {
 								userId: localUser.userId,
 								name: localUser.name,
@@ -276,7 +273,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 				})
 				console.log('Naviguei')
 				setLoaderIsVisible(false)
-				showShareModal(true)
+				showShareModal(true, serviceDataPost.title)
 				navigation.navigate('HomeTab' as any)
 			})
 			.catch((err: any) => {
@@ -301,7 +298,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 		}
 		return invalidTimeAfterSubmit
 			? ['horário', 'de', 'início', 'encerramento']
-			: ['que', 'horas', 'para', 'de', 'trabalhar?']
+			: ['que', 'horas', 'para', 'de', 'trabalhar']
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))

@@ -18,7 +18,7 @@ const showMessageWithHighlight = (message: string, highlightedWords?: string[], 
 	if (!highlightedWords) return message
 
 	const words = message.split(/ /gi)
-	const commonSymbols = [',', '.']
+	const commonSymbols = [',', '.', '?']
 
 	const messageHighlighted = words.map((word: string, index: number) => {
 		let wordWithoutSymbols = word
@@ -61,27 +61,27 @@ const filterLeavingOnlyNumbers = (dirtyText: string) => {
 }
 
 const formatDate = (initialDate: Date) => {
-	if (!initialDate) return '...'
+	if (!initialDate) return '---'
 
 	const date = getNewDate(initialDate)
-	if (!isValid(date)) return '...'
+	if (!isValid(date)) return '---'
 	return format(date, 'dd/MM/yyyy', { locale: brasilLocale })
 }
 
 const formatHour = (initialDate: Date) => {
-	if (!initialDate) return '...'
+	if (!initialDate) return '---'
 
 	const date = getNewDate(initialDate)
-	if (!isValid(date)) return '...'
+	if (!isValid(date)) return '---'
 	return format(date, 'HH:mm', { locale: brasilLocale })
 }
 
 const formatRelativeDate = (initialDate: any) => {
-	if (!initialDate) return '...'
+	if (!initialDate) return '---'
 
 	const currentDate = new Date()
 	const date = getNewDate(initialDate)
-	if (!isValid(date)) return '...'
+	if (!isValid(date)) return '---'
 
 	const distance = formatDistance(date, currentDate, { locale: brasilLocale })
 	const relative = formatRelative(date, currentDate, { locale: brasilLocale })
