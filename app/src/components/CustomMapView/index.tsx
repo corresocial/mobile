@@ -43,10 +43,6 @@ function CustomMapView({
 	const getRandomDetachment = () => {
 		const binaryRandom = Math.round(Math.random())
 		const detachmentRandom = Math.round(Math.random() * (55 - 10) + 10) / 10000000
-
-		/* console.log('binaryRandom: ' + binaryRandom)
-		console.log('detachmentRandom: ' + detachmentRandom) */
-
 		if (binaryRandom) {
 			return (approximateRadius * detachmentRandom)
 		}

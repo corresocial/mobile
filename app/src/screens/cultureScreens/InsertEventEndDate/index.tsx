@@ -106,7 +106,7 @@ function InsertEventEndDate({ navigation }: InsertEventEndDateScreenProps) {
 		}
 
 		setCultureDataOnContext({
-			eventEndDate: new Date(`${year}-${month}-${day}T00:00:00`)
+			eventEndDate: new Date(`${year}-${month}-${day}T12:00:00`)
 		})
 		navigation.navigate('InsertEventEndHour')
 	}

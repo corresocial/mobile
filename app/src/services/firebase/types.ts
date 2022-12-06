@@ -391,6 +391,48 @@ export type CultureCollection = {
 	}
 }
 
+export type CultureCollectionRemote = {
+	postId: string
+	postType: PostType
+	title: string
+	description: string
+	cultureType: CultureType
+	locationView: LocationViewType
+	exhibitionPlace: ExhibitionPlaceType
+	eventPlaceModality?: PlaceModalityType
+	eventRepeat: EventRepeatType
+	entryValue: string
+	eventStartDate: Date
+	eventEndDate: Date
+	eventStartHour: Date
+	eventEndHour: Date
+	picturesUrl: string[]
+	tags: string[]
+	createdAt: Date
+	address?: {
+		country?: string
+		state?: string
+		city?: string
+		postalCode?: string
+		district?: string
+		street?: string
+		number?: string
+		reference?: string
+		coordinates?: {
+			latitude?: number
+			longitude?: number
+		}
+		geohash?: string
+		geohashNear?: string[]
+		geohashCity?: string[]
+	}
+	owner: {
+		userId: string
+		name: string
+		profilePictureUrl?: string[]
+	}
+}
+
 export type SocialImpactCollection = {
 	postId?: string
 	postType?: PostType

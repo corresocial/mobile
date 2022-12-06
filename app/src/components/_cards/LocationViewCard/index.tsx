@@ -35,7 +35,7 @@ function LocationViewCard({
 	const [completeAddress, setCompleteAddress] = useState<CompleteAddress>({})
 
 	useEffect(() => {
-		if (locationView !== 'private' && postType) {
+		if (locationView !== 'private' && postType && locationView) {
 			loadRemotePrivateAddress()
 		}
 	}, [postType])
@@ -46,6 +46,14 @@ function LocationViewCard({
 	}
 
 	const renderFormatedAddress = () => {
+		if (!locationView) {
+			return (
+				<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+					{showMessageWithHighlight('localização indisponível', ['indisponível'])}
+				</TextAddress>
+			)
+		}
+
 		if (locationView === 'private') {
 			return (
 				<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
@@ -54,11 +62,10 @@ function LocationViewCard({
 			)
 		}
 
-		if (locationView === 'approximate') return null
-		const textAddress = formatAddress()
+		if (locationView === 'approximate') return
 		return (
 			<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
-				{textAddress}
+				{formatAddress()}
 			</TextAddress>
 		)
 	}
@@ -67,7 +74,6 @@ function LocationViewCard({
 		const {
 			street,
 			number,
-			district,
 			city,
 			state,
 		} = completeAddress
@@ -87,9 +93,20 @@ function LocationViewCard({
 
 	const getGoogleMapUrl = () => {
 		if (locationView === 'approximate') {
-			return `https://www.google.com/maps/search/?api=1&map_action=map&center=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}&zoom=21`
+			return `https://www.google.com/maps/@?api=1&map_action=map&center=${completeAddress.coordinates?.latitude || 0 + getRandomDetachment()},${completeAddress.coordinates?.longitude || 0 + getRandomDetachment()}&zoom=17`
 		}
-		return `https://www.google.com/maps/search/?api=1&travelmode=driving&query=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}&waypoints=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}&zoom=21`
+		return `https://www.google.com/maps/search/?api=1&travelmode=driving&query=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}&waypoints=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}&zoom=17`
+	}
+
+	const getRandomDetachment = () => {
+		const approximateRadius = 125
+
+		const binaryRandom = Math.round(Math.random())
+		const detachmentRandom = Math.round(Math.random() * (55 - 10) + 10) / 10000000
+		if (binaryRandom) {
+			return (approximateRadius * detachmentRandom)
+		}
+		return -(approximateRadius * detachmentRandom)
 	}
 
 	const goToWazeApp = async () => {
@@ -114,7 +131,7 @@ function LocationViewCard({
 				{renderFormatedAddress()}
 			</CardHeader>
 			{
-				locationView !== 'private' && (
+				(locationView !== 'private' && locationView !== undefined) && (
 					<MapArea >
 						<CustomMapView
 							regionCoordinate={{

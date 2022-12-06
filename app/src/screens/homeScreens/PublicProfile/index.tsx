@@ -101,7 +101,7 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 		}
 	}
 
-	const goToPostView = (item: PostCollection) => { // TODO type
+	const goToPostView = (item: PostCollection) => {
 		switch (item.postType) {
 			case 'service': {
 				navigation.navigate('ViewServicePost', { postData: { ...item, owner: user } })
@@ -117,6 +117,10 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 			}
 			case 'socialImpact': {
 				navigation.navigate('ViewSocialImpactPost', { postData: { ...item, owner: user } })
+				break
+			}
+			case 'culture': {
+				navigation.navigate('ViewCulturePost', { postData: { ...item, owner: user } })
 				break
 			}
 			default: return false

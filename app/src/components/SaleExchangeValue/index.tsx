@@ -4,8 +4,8 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { Container, Decimals, LargeFont, SmallFont, ValueArea, ExchangeArea, ExchangeWord } from './styles'
 
 interface SaleExchangeValueProps {
-	saleValue: string | undefined
-	exchangeValue: string | undefined
+	saleValue?: string | undefined
+	exchangeValue?: string | undefined
 	breakRow?: boolean
 	smallFontSize?: number,
 	largeFontSize?: number

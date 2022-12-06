@@ -96,7 +96,7 @@ function InsertEventStartDate({ navigation }: InsertEventStartDateScreenProps) {
 	const insertedDateIsAfterCurrentDate = (insertedYear: string = year) => {
 		const insertedDate = new Date(`${insertedYear}-${month}-${day}T23:59:59`)
 		const currentDate = new Date()
-		const currentDateWithoutTimezone = new Date(`${currentDate.getUTCFullYear()}-${currentDate.getUTCMonth() + 1}-${currentDate.getUTCDate()}`)
+		const currentDateWithoutTimezone = new Date(`${currentDate.getUTCFullYear()}-${(currentDate.getUTCMonth() + 1 < 10) ? `0${currentDate.getUTCMonth() + 1}` : currentDate.getUTCMonth() + 1}-${(currentDate.getUTCDate() < 10) ? `0${currentDate.getUTCDate()}` : currentDate.getUTCDate()}`)
 		return insertedDate >= currentDateWithoutTimezone
 	}
 
@@ -107,7 +107,7 @@ function InsertEventStartDate({ navigation }: InsertEventStartDateScreenProps) {
 		}
 
 		setCultureDataOnContext({
-			eventStartDate: new Date(`${year}-${month}-${day}T00:00:00`)
+			eventStartDate: new Date(`${year}-${month}-${day}T12:00:00`)
 		})
 		navigation.navigate('InsertEventStartHour')
 	}

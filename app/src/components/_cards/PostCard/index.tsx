@@ -47,7 +47,7 @@ function PostCard({ post, owner, onPress }: PostCardProps) {
 				<LeftArea style={{ width: !arrayIsEmpty(post.picturesUrl) ? '65%' : '100%' }}>
 					<LeftAreaLimits>
 						<Title
-							numberOfLines={post.description || post.itemDescription ? 1 : 2}
+							numberOfLines={(post.description && post.saleValue) || post.itemDescription ? 1 : 2}
 						>
 							{post.title}
 						</Title>

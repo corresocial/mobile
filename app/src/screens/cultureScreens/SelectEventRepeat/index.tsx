@@ -130,9 +130,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
 													'cultures',
 													postId,
 													'picturesUrl',
-													{
-														...picturePostsUrls
-													},
+													picturePostsUrls,
 												)
 
 												await updatePostPrivateData(
@@ -167,6 +165,7 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
 			postId,
 			postType: 'culture',
 			picturesUrl: picturePostsUrls,
+			createdAt: new Date()
 		}
 
 		await updateDocField(

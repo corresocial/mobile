@@ -121,9 +121,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 	} as PrivateAddress)
 
 	const extractCultureDataPost = (cultureData: CultureData) => {
-		const currentCultureData = {
-			...cultureData
-		}
+		const currentCultureData = { ...cultureData, locationView: locationViewSelected }
 		delete currentCultureData.address
 
 		return {
@@ -174,7 +172,6 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 					'cultures',
 					'address'
 				)
-
 				return
 			}
 
@@ -202,13 +199,11 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 													picturePostsUrls
 												)
 
-												await updateDocField( // Update pictureUrl
+												await updateDocField(
 													'cultures',
 													postId,
 													'picturesUrl',
-													{
-														...picturePostsUrls
-													},
+													picturePostsUrls,
 												)
 
 												await updatePostPrivateData(
@@ -243,6 +238,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 			postId,
 			postType: 'culture',
 			picturesUrl: picturePostsUrls,
+			createdAt: new Date()
 		}
 
 		await updateDocField(

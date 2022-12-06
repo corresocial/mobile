@@ -19,9 +19,10 @@ interface SaleOrExchangeCardProps {
 	title: string
 	saleValue?: string | number
 	exchangeValue?: string
+	withoutExchangePresentation?: boolean
 }
 
-function SaleOrExchangeCard({ title, saleValue, exchangeValue }: SaleOrExchangeCardProps) {
+function SaleOrExchangeCard({ title, saleValue, exchangeValue, withoutExchangePresentation }: SaleOrExchangeCardProps) {
 	return (
 		<DefaultCardContainer>
 			<DefaultHeaderTitle
@@ -53,11 +54,10 @@ function SaleOrExchangeCard({ title, saleValue, exchangeValue }: SaleOrExchangeC
 			}
 			{
 				!!exchangeValue && (
-
 					<ExchangeArea>
 						<ExchangeText>
 							{showMessageWithHighlight(
-								`troca por ${exchangeValue}`,
+								withoutExchangePresentation ? exchangeValue : `troca por ${exchangeValue}`,
 								['troca', ...exchangeValue.split(' ')]
 							)}
 						</ExchangeText>
