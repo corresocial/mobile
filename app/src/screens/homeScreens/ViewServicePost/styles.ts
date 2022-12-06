@@ -38,3 +38,8 @@ export const Sigh = styled.View`
 	width: 100%;
 	height: ${RFValue(10)}px;
 `
+
+export const LastSigh = styled.View`
+	width: 100%;
+	height: ${RFValue(80)}px;
+`

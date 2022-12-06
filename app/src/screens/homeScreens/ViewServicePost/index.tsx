@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { StatusBar, ScrollView, Alert } from 'react-native'
 
-import { Body, Container, Header, OptionsArea, Sigh, UserAndValueContainer } from './styles'
+import { Body, Container, Header, LastSigh, OptionsArea, Sigh, UserAndValueContainer } from './styles'
 import { theme } from '../../../common/theme'
 import { screenHeight } from '../../../common/screenDimensions'
 import ShareIcon from '../../../assets/icons/share.svg'
@@ -155,7 +155,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						deliveryMethod={postData.deliveryMethod}
 						textFontSize={16}
 					/>
-					<Sigh />
+					<LastSigh />
 				</ScrollView>
 			</Body>
 		</Container>

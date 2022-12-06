@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { StatusBar, ScrollView, Alert } from 'react-native'
 
-import { Body, Container, Header, OptionsArea, Sigh, UserAndValueContainer } from './styles'
+import { Body, Container, Header, LastSigh, OptionsArea, Sigh, UserAndValueContainer } from './styles'
 import { theme } from '../../../common/theme'
 import { screenHeight } from '../../../common/screenDimensions'
 import ShareIcon from '../../../assets/icons/share.svg'
@@ -136,11 +136,11 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						postId={route.params.postData.postId as string}
 						textFontSize={16}
 					/>
-					<Sigh />
 					{
 						postData.eventStartDate && postData.eventEndDate
 						&& (
 							<>
+								<Sigh />
 								<DateTimeCard
 									title={'dias e horários'}
 									openingTime={postData.eventStartHour}
@@ -149,10 +149,10 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 									endDate={postData.eventEndDate}
 									textFontSize={14}
 								/>
-								<Sigh />
 							</>
 						)
 					}
+					<LastSigh />
 				</ScrollView>
 			</Body>
 		</Container>

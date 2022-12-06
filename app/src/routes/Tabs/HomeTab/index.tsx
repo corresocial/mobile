@@ -20,9 +20,9 @@ import { HomeTabParamList } from './types'
 import { HomeTabScreenProps } from '../../Stack/UserStack/stackScreenProps'
 
 import { Home } from '../../../screens/homeScreens/Home'
-import { PublicProfile } from '../../../screens/homeScreens/PublicProfile'
 import { SelectPostType } from '../../../screens/homeScreens/SelectPostType'
 import { StateContext } from '../../../contexts/StateContext'
+import { ProfileStack } from '../../Stack/ProfileStack'
 
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
@@ -115,7 +115,7 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 			/>
 			<Tab.Screen
 				name={'Profile'}
-				component={PublicProfile}
+				component={ProfileStack}
 				initialParams={{
 					teste: 'teste'
 				}}

@@ -48,3 +48,8 @@ export const VacancyDetailsItem = styled.Text`
 	font-family: Arvo_400Regular;
 	font-size: ${RFValue(14)}px;
 `
+
+export const LastSigh = styled.View`
+	width: 100%;
+	height: ${RFValue(80)}px;
+`

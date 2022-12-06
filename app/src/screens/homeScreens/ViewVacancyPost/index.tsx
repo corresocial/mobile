@@ -5,6 +5,7 @@ import {
 	Body,
 	Container,
 	Header,
+	LastSigh,
 	OptionsArea,
 	Sigh,
 	UserAndValueContainer,
@@ -179,7 +180,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						textFontSize={14}
 						company
 					/>
-					<Sigh />
+					<LastSigh />
 				</ScrollView>
 			</Body>
 		</Container>
