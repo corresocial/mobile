@@ -9,7 +9,7 @@ import { Coordinates, LocationViewType } from '../../services/firebase/types'
 interface CustomMapViewProops {
 	regionCoordinate: Coordinates | any
 	markerCoordinate: Coordinates | any
-	CustomMarker: React.FC<SvgProps>
+	CustomMarker?: React.FC<SvgProps>
 	locationView?: LocationViewType
 	updateMarkerPosition?: (event: any) => void
 }
@@ -85,11 +85,15 @@ function CustomMapView({
 								</Circle>
 							)
 						}
-						<Marker
-							coordinate={locationView === 'approximate' ? randomCoordinate : markerCoordinate}
-						>
-							<CustomMarker width={screenWidth * 0.0972} height={screenWidth * 0.0972} />
-						</Marker>
+						{
+							CustomMarker && (
+								<Marker
+									coordinate={locationView === 'approximate' ? randomCoordinate : markerCoordinate}
+								>
+									{<CustomMarker width={screenWidth * 0.0972} height={screenWidth * 0.0972} />}
+								</Marker>
+							)
+						}
 					</>
 				)
 

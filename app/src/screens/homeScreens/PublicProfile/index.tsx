@@ -20,8 +20,9 @@ import ChatIcon from '../../../assets/icons/chat.svg'
 import ShareIcon from '../../../assets/icons/share.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
-import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { share } from '../../../common/share'
 
+import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { LocalUserData } from '../../../contexts/types'
 import { PostCollection } from '../../../services/firebase/types'
 
@@ -114,6 +115,10 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 				navigation.navigate('ViewVacancyPost', { postData: { ...item, owner: user } })
 				break
 			}
+			case 'socialImpact': {
+				navigation.navigate('ViewSocialImpactPost', { postData: { ...item, owner: user } })
+				break
+			}
 			default: return false
 		}
 	}
@@ -168,7 +173,7 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 							SvgIcon={ShareIcon}
 							relativeWidth={'45%'}
 							height={screenHeight * 0.050}
-							onPress={() => { }}
+							onPress={() => share('dados do perfil')}
 						/>
 						<ProfilePopOver
 							userName={user.name}

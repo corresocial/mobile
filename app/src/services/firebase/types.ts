@@ -429,4 +429,42 @@ export type SocialImpactCollection = {
 	}
 }
 
+export type SocialImpactCollectionRemote = {
+	postId: string
+	postType: PostType
+	title: string
+	description: string
+	tags: string[]
+	locationView: LocationViewType
+	exhibitionRange: ExhibitionPlaceType
+	exhibitionWeekDays: DaysOfWeek[]
+	socialImpactRepeat: EventRepeatType,
+	openingHour: Date
+	closingHour: Date
+	picturesUrl: string[]
+	createdAt: Date
+	address: {
+		country?: string
+		state?: string
+		city?: string
+		postalCode?: string
+		district?: string
+		street?: string
+		number?: string
+		reference?: string
+		coordinates?: {
+			latitude?: number
+			longitude?: number
+		}
+		geohash?: string
+		geohashNear?: string[]
+		geohashCity?: string[]
+	}
+	owner: {
+		userId: string
+		name: string
+		profilePictureUrl?: string[]
+	}
+}
+
 export type AdsCollection = any

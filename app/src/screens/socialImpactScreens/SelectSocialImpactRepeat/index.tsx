@@ -61,9 +61,10 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 		return JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
 	}
 
-	const showShareModal = (visibility: boolean) => {
+	const showShareModal = (visibility: boolean, postTitle: string) => {
 		setStateDataOnContext({
-			showShareModal: visibility
+			showShareModal: visibility,
+			lastPostTitle: postTitle
 		})
 	}
 
@@ -170,6 +171,7 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 			postId,
 			postType: 'socialImpact',
 			picturesUrl: picturePostsUrls,
+			createdAt: new Date()
 		}
 
 		await updateDocField(
@@ -194,7 +196,7 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 				})
 				console.log('Naviguei')
 				setLoaderIsVisible(false)
-				showShareModal(true)
+				showShareModal(true, socialImpactDataPost.title)
 				navigation.navigate('HomeTab' as any) // TODO Type
 			})
 			.catch((err: any) => {

@@ -17,7 +17,6 @@ import ShareIcon from '../../../assets/icons/share.svg'
 import ChatIcon from '../../../assets/icons/chat.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
-// import { getPostById } from '../../../services/firebase/post/getPostById'
 import { formatRelativeDate, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 import { ViewVacancyPostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -25,13 +24,9 @@ import { ViewVacancyPostScreenProps } from '../../../routes/Stack/UserStack/stac
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { VacancyCollectionRemote } from '../../../services/firebase/types'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
-import { SaleExchangeValue } from '../../../components/SaleExchangeValue'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
-import { ImageCarousel } from '../../../components/ImageCarousel'
-import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
-import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
 
@@ -41,7 +36,6 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 
 	useEffect(() => {
 		setPostDataFromRoute()
-		// getPostData()
 	}, [])
 
 	const setPostDataFromRoute = async () => {
@@ -49,12 +43,6 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		setPostData(postDataFromRoute as any)
 		return true
 	}
-
-	/* const getPostData = async () => {
-		const postDataFromDb = await getPostById(route.params.postData.postId as string, 'services')
-		setPostData(postDataFromDb as any)
-		return true
-	} */
 
 	const getVacancyDetails = () => {
 		const vacancyType = getRelativeVacancyType()

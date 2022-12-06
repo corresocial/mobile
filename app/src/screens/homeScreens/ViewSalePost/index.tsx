@@ -8,8 +8,7 @@ import ShareIcon from '../../../assets/icons/share.svg'
 import ChatIcon from '../../../assets/icons/chat.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
-// import { getPostById } from '../../../services/firebase/post/getPostById'
-import { formatRelativeDate } from '../../../common/auxiliaryFunctions'
+import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 
 import { ViewSalePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -32,7 +31,6 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 
 	useEffect(() => {
 		setPostDataFromRoute()
-		// getPostData()
 	}, [])
 
 	const setPostDataFromRoute = async () => {
@@ -118,7 +116,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					/>
 					<Sigh />
 					{
-						postData.picturesUrl && postData.picturesUrl.length && (
+						!arrayIsEmpty(postData.picturesUrl) && (
 							<>
 								<ImageCarousel
 									picturesUrl={postData.picturesUrl && postData.picturesUrl}

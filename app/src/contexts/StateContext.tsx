@@ -2,6 +2,7 @@ import React, { createContext, useContext, useMemo, useState } from 'react'
 import { Alert } from 'react-native'
 
 import { updateUser } from '../services/firebase/user/updateUser'
+import { share } from '../common/share'
 
 import { StateData } from './types'
 
@@ -53,7 +54,8 @@ function StateProvider({ children }: StateProviderProps) {
 	}
 
 	const sharePost = () => {
-		Alert.alert('Opa!', 'Compartilhanado........ hahaha!')
+		const { lastPostTitle } = stateDataContext
+		share(`tô anunciando *${lastPostTitle}* lá no corre.\n\nhttps://corre.social`)
 	}
 
 	const toggleTourModalVisibility = (visibility: boolean, tourHandler?: any) => {

@@ -10,23 +10,20 @@ import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 
-import { ViewServicePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { ViewSocialImpactPostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { ServiceCollectionRemote } from '../../../services/firebase/types'
+import { SocialImpactCollectionRemote } from '../../../services/firebase/types'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
-import { SaleExchangeValue } from '../../../components/SaleExchangeValue'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { ImageCarousel } from '../../../components/ImageCarousel'
-import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
-import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
 
-function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
-	const [postData, setPostData] = useState({} as ServiceCollectionRemote)
+function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
+	const [postData, setPostData] = useState({} as SocialImpactCollectionRemote)
 	const [profileOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
 	useEffect(() => {
@@ -64,14 +61,6 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						pictureDimensions={45}
 						width={'60%'}
 					/>
-					<SaleExchangeValue
-						saleValue={postData.saleValue}
-						exchangeValue={postData.exchangeValue}
-						breakRow
-						smallFontSize={14}
-						largeFontSize={25}
-						exchanveFontSize={14}
-					/>
 				</UserAndValueContainer>
 				<OptionsArea>
 					<SmallButton
@@ -84,7 +73,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					/>
 					<SmallButton
 						color={theme.green2}
-						label={'contratar'}
+						label={'fortalecer'}
 						fontSize={14}
 						SvgIcon={ChatIcon}
 						relativeWidth={'63%'}
@@ -112,8 +101,8 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 			<Body>
 				<ScrollView showsVerticalScrollIndicator={false} >
 					<DescriptionCard
-						title={'descrição do serviço'}
-						text={'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centurie.'}
+						title={'descrição da iniciativa'}
+						text={postData.description}
 						textFontSize={14}
 					/>
 					<Sigh />
@@ -127,15 +116,10 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 							</>
 						)
 					}
-					<SaleOrExchangeCard
-						title={'venda ou troca'}
-						saleValue={postData.saleValue}
-						exchangeValue={postData.exchangeValue}
-					/>
 					<Sigh />
 					<LocationViewCard
-						title={'localização'}
-						locationView={postData.locationView}
+						title={'local da iniciativa'}
+						locationView={'approximate'}
 						postType={postData.postType}
 						postId={route.params.postData.postId as string}
 						textFontSize={16}
@@ -143,17 +127,12 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					<Sigh />
 					<DateTimeCard
 						title={'dias e horários'}
-						weekDaysfrequency={postData.attendanceFrequency}
-						daysOfWeek={postData.attendanceWeekDays}
+						weekDaysfrequency={'someday'}
+						daysOfWeek={postData.exhibitionWeekDays}
 						openingTime={postData.openingHour}
 						closingTime={postData.closingHour}
+						repetition={postData.socialImpactRepeat}
 						textFontSize={14}
-					/>
-					<Sigh />
-					<DeliveryMethodCard
-						title={'entrega'}
-						deliveryMethod={postData.deliveryMethod}
-						textFontSize={16}
 					/>
 					<Sigh />
 				</ScrollView>
@@ -162,4 +141,4 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	)
 }
 
-export { ViewServicePost }
+export { ViewSocialImpactPost }

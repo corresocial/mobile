@@ -13,3 +13,4 @@ export type SocialImpactStackScreenProps = NativeStackScreenProps<UserStackParam
 export type ViewServicePostScreenProps = NativeStackScreenProps<UserStackParamList, 'ViewServicePost'>
 export type ViewSalePostScreenProps = NativeStackScreenProps<UserStackParamList, 'ViewSalePost'>
 export type ViewVacancyPostScreenProps = NativeStackScreenProps<UserStackParamList, 'ViewVacancyPost'>
+export type ViewSocialImpactPostScreenProps = NativeStackScreenProps<UserStackParamList, 'ViewSocialImpactPost'>

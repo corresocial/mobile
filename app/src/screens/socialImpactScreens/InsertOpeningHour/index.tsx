@@ -67,9 +67,9 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
 	}
 
 	const saveOppeningHour = () => {
-		setSocialImpactDataOnContext({
-			openingHour: new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
-		})
+		const openingHour = new Date()
+		openingHour.setHours(parseInt(hours), parseInt(minutes))
+		setSocialImpactDataOnContext({ openingHour })
 		navigation.navigate('InsertClosingHour')
 	}
 

@@ -47,10 +47,20 @@ function LocationViewCard({
 
 	const renderFormatedAddress = () => {
 		if (locationView === 'private') {
-			return showMessageWithHighlight('localização privada', ['privada'])
+			return (
+				<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+					{showMessageWithHighlight('localização privada', ['privada'])}
+				</TextAddress>
+			)
 		}
+
+		if (locationView === 'approximate') return null
 		const textAddress = formatAddress()
-		return textAddress
+		return (
+			<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+				{textAddress}
+			</TextAddress>
+		)
 	}
 
 	const formatAddress = () => {
@@ -66,13 +76,20 @@ function LocationViewCard({
 
 	const goToGoogleMapsApp = async () => {
 		if (Object.keys(completeAddress).length < 1) return false
-		const googleMapsUrl = `https://www.google.com/maps/search/?api=1&travelmode=driving&query=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}&waypoints=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}&zoom=21`
+		const googleMapsUrl = getGoogleMapUrl()
 		const supportedLink = await Linking.canOpenURL(googleMapsUrl)
 		if (!supportedLink) {
 			console.log('localização inválida')
 			return false
 		}
 		await Linking.openURL(googleMapsUrl)
+	}
+
+	const getGoogleMapUrl = () => {
+		if (locationView === 'approximate') {
+			return `https://www.google.com/maps/search/?api=1&map_action=map&center=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}&zoom=21`
+		}
+		return `https://www.google.com/maps/search/?api=1&travelmode=driving&query=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}&waypoints=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}&zoom=21`
 	}
 
 	const goToWazeApp = async () => {
@@ -94,9 +111,7 @@ function LocationViewCard({
 					SvgIcon={MapPointIcon}
 					dimensions={30}
 				/>
-				<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
-					{renderFormatedAddress()}
-				</TextAddress>
+				{renderFormatedAddress()}
 			</CardHeader>
 			{
 				locationView !== 'private' && (
@@ -114,7 +129,7 @@ function LocationViewCard({
 								latitudeDelta: 0.0028,
 								longitudeDelta: 0.0028
 							}}
-							CustomMarker={MapPointOrangeIcon}
+							CustomMarker={locationView === 'public' ? MapPointOrangeIcon : undefined}
 							locationView={locationView}
 						/>
 						<NavigationApps >

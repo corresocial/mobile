@@ -12,4 +12,5 @@ export type UserStackParamList = {
 	ViewServicePost: { postData: PostCollection }
 	ViewSalePost: { postData: PostCollection }
 	ViewVacancyPost: { postData: PostCollection }
+	ViewSocialImpactPost: { postData: PostCollection }
 }

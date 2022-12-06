@@ -47,6 +47,7 @@ export interface UserData extends UserCollection {
 export interface StateData {
 	showTourModal?: boolean
 	showShareModal?: boolean
+	lastPostTitle?: string
 }
 
 export type ServiceData = {

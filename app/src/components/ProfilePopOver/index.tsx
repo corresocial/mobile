@@ -19,7 +19,8 @@ interface ProfilePopOverProps {
 	closePopover: () => void
 }
 
-function ProfilePopOver({ userName,
+function ProfilePopOver({
+	userName,
 	userId,
 	popoverVisibility,
 	children,

@@ -70,7 +70,8 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
 	const closingTimeIsAfterOpening = () => {
 		const openingHour = new Date(socialImpactDataContext.openingHour as Date)
-		const closingHour = new Date(Date.UTC(0, 0, 0, parseInt(hours), parseInt(minutes), 0, 0))
+		const closingHour = new Date()
+		closingHour.setHours(parseInt(hours), parseInt(minutes))
 		return openingHour.getTime() < closingHour.getTime()
 	}
 
@@ -80,9 +81,9 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 			return
 		}
 
-		setSocialImpactDataOnContext({
-			closingHour: new Date(Date.UTC(2022, 1, 1, parseInt(hours), parseInt(minutes), 0, 0))
-		})
+		const closingHour = new Date()
+		closingHour.setHours(parseInt(hours), parseInt(minutes))
+		setSocialImpactDataOnContext({ closingHour })
 		navigation.navigate('SelectSocialImpactRepeat')
 	}
 

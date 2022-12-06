@@ -6,7 +6,7 @@ import ClockIcon from '../../../assets/icons/clock.svg'
 
 import { formatDate, formatHour, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
-import { DaysOfWeek, WeekdaysFrequency } from '../../../services/firebase/types'
+import { DaysOfWeek, EventRepeatType, WeekdaysFrequency } from '../../../services/firebase/types'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
@@ -20,6 +20,7 @@ interface DateTimeCardProps {
 	startDate?: Date
 	endDate?: Date
 	textFontSize?: number
+	repetition?: EventRepeatType
 }
 
 function DateTimeCard({
@@ -30,7 +31,8 @@ function DateTimeCard({
 	closingTime,
 	startDate,
 	endDate,
-	textFontSize = 12
+	textFontSize = 12,
+	repetition
 }: DateTimeCardProps) {
 	const getRelativeWeekDaysfrequency = () => {
 		console.log()
@@ -81,6 +83,17 @@ function DateTimeCard({
 		)
 	}
 
+	const renderRepetition = () => {
+		switch (repetition) {
+			case 'unrepeatable': return showMessageWithHighlight('●  não se repete', ['repete'])
+			case 'everyDay': return showMessageWithHighlight('●  repete todos os dias', ['todos', 'os', 'dias'])
+			case 'weekly': return showMessageWithHighlight('●  repete semanalmente', ['semanalmente'])
+			case 'biweekly': return showMessageWithHighlight('●  repete a cada 15 dias', ['15', 'dias'])
+			case 'monthly': return showMessageWithHighlight('●  repete mensalmnte', ['mensalmnte'])
+			default: return false
+		}
+	}
+
 	return (
 		<DefaultCardContainer>
 			<DefaultHeaderTitle
@@ -110,6 +123,14 @@ function DateTimeCard({
 				<OpeningAndClosingTime style={{ fontSize: RFValue(textFontSize) }}>
 					{renderOpeningAndClosingTime()}
 				</OpeningAndClosingTime>
+				{
+					repetition
+					&& (
+						<OpeningAndClosingTime style={{ fontSize: RFValue(textFontSize) }}>
+							{renderRepetition()}
+						</OpeningAndClosingTime>
+					)
+				}
 			</DateTimeContainer>
 		</DefaultCardContainer >
 	)
