@@ -42,7 +42,7 @@ import { PostCard } from '../../../components/_cards/PostCard'
 import { TextGradient } from '../../../components/TextGradient'
 import { ProfilePopOver } from '../../../components/ProfilePopOver'
 
-function PublicProfile({ route, navigation }: ProfileScreenProps) {
+function Profile({ route, navigation }: ProfileScreenProps) {
 	const { getDataFromSecureStore, deleteLocaluser } = useContext(AuthContext)
 
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
@@ -264,4 +264,4 @@ function PublicProfile({ route, navigation }: ProfileScreenProps) {
 	)
 }
 
-export { PublicProfile }
+export { Profile }

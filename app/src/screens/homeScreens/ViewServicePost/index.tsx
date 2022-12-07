@@ -98,9 +98,9 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						postTitle={postData.title || 'publicação no corre.'}
 						postId={postData.postId}
 						postType={postData.postType}
-						isAuthor={route.params.isAuthor || false}
 						popoverVisibility={profileOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
+						isAuthor={route.params.isAuthor || false}
 						goToComplaint={() => Alert.alert('go to complaint')}
 						editPost={() => Alert.alert('edit post')}
 						deletePost={() => Alert.alert('delete post')}
