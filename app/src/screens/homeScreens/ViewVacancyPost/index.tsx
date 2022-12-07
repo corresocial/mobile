@@ -20,7 +20,7 @@ import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
 import { arrayIsEmpty, formatRelativeDate, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
-import { ViewVacancyPostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { ViewVacancyPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { VacancyCollectionRemote } from '../../../services/firebase/types'
@@ -132,7 +132,10 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						postType={postData.postType}
 						popoverVisibility={profileOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
-						onPress={() => Alert.alert('go to complaint')}
+						isAuthor={route.params.isAuthor || false}
+						goToComplaint={() => Alert.alert('go to complaint')}
+						editPost={() => Alert.alert('edit post')}
+						deletePost={() => Alert.alert('delete post')}
 					>
 						<SmallButton
 							color={theme.white3}

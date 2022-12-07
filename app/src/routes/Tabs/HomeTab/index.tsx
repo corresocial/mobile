@@ -101,7 +101,7 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 			/>
 			<Tab.Screen
 				name={'Post'}
-				component={SelectPostType}
+				component={Home}
 				options={{
 					tabBarIcon: ({ focused }) => renderPlusIcon(focused)
 				}}

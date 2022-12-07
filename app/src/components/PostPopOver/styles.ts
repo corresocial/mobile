@@ -12,7 +12,7 @@ export const Container = styled.View`
 
 export const ContainerInner = styled.View`
 	background-color: ${({ theme }) => theme.white3}
-	width:100%;
+	width: 100%;
 	height: 100%;
 	padding: ${RFValue(20)}px;
 	justify-content: space-between;
@@ -23,8 +23,8 @@ export const ContainerInner = styled.View`
 
 export const CloseIcon = styled.TouchableOpacity`
 	position: absolute;
-	top: ${RFValue(5)};
-	right: ${RFValue(5)};
+	top: ${RFValue(5)}px;
+	right: ${RFValue(5)}px;
 `
 
 export const PostTitle = styled.Text`
@@ -32,4 +32,7 @@ export const PostTitle = styled.Text`
 	font-size: ${RFValue(16)}px;
 	width: 92%;
 	margin-bottom: ${RFValue(15)}px;
+`
+export const Sigh = styled.View`
+	padding-vertical: ${RFValue(8)}px;
 `

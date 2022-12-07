@@ -10,5 +10,5 @@ export const Container = styled.View`
     width: 100%;
     flex-direction: row;
     align-items: center;
-	margin-left: ${RFValue(4)}px;
+	margin-left: ${RFValue(5)}px;
 `

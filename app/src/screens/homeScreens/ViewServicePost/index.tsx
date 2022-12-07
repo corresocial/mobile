@@ -10,7 +10,7 @@ import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 
-import { ViewServicePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { ViewServicePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { ServiceCollectionRemote } from '../../../services/firebase/types'
@@ -98,9 +98,12 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						postTitle={postData.title || 'publicação no corre.'}
 						postId={postData.postId}
 						postType={postData.postType}
+						isAuthor={route.params.isAuthor || false}
 						popoverVisibility={profileOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
-						onPress={() => Alert.alert('go to complaint')}
+						goToComplaint={() => Alert.alert('go to complaint')}
+						editPost={() => Alert.alert('edit post')}
+						deletePost={() => Alert.alert('delete post')}
 					>
 						<SmallButton
 							color={theme.white3}

@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from 'react'
-import { Animated, LayoutRectangle, StatusBar, View } from 'react-native'
+import { Animated, LayoutRectangle, PermissionsAndroid, StatusBar, View } from 'react-native'
 import * as Location from 'expo-location'
 
 import { theme } from '../../../common/theme'
@@ -49,9 +49,19 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
 	const [invalidAddressAfterSubmit, setInvalidAddressAfterSubmit] = useState<boolean>(false)
 
 	const requestLocationPermission = async () => {
-		const locationPermission = await Location.requestForegroundPermissionsAsync()
-		setHasPermission(locationPermission.granted)
-		return locationPermission.granted || hasPermission
+		if (hasPermission) return hasPermission
+
+		const granted = await PermissionsAndroid.request(
+			PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+		)
+		if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+			console.log('Permissão concedida!')
+			setHasPermission(true)
+			return true
+		}
+		console.log('Não foi possível conceder permissão para acessar a localização!')
+		setHasPermission(false)
+		return false
 	}
 
 	const someInvalidFieldSubimitted = () => invalidAddressAfterSubmit

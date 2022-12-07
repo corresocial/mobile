@@ -1,4 +1,5 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
+import { PermissionsAndroid } from 'react-native'
 import * as SecureStore from 'expo-secure-store'
 import * as LocalAuthentication from 'expo-local-authentication'
 
@@ -31,13 +32,28 @@ interface AuthProviderProps {
 }
 
 function AuthProvider({ children }: AuthProviderProps) {
-	const [userDataContext, setUserDataContext] = useState({
-	})
+	useEffect(() => {
+		requestLocationPermission()
+	}, [])
 
-	const secureStoreOptions = {
-		/* requireAuthentication: true,
-		keychainAccessible: SecureStore.AFTER_FIRST_UNLOCK,
-		authenticationPrompt: 'Digita a senha aí poha!' */
+	const [userDataContext, setUserDataContext] = useState({})
+	const [hasPermission, setHasPermission] = useState(false)
+
+	const requestLocationPermission = async () => {
+		const writeGranted = await PermissionsAndroid.request(
+			PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
+		)
+		const readGranted = await PermissionsAndroid.request(
+			PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
+		)
+		if (writeGranted === PermissionsAndroid.RESULTS.GRANTED && readGranted === PermissionsAndroid.RESULTS.GRANTED) {
+			console.log('Permissão concedida!')
+			setHasPermission(true)
+			return true
+		}
+		console.log('Não foi possível conceder permissão para acessar o armazenamento!')
+		setHasPermission(false)
+		return false
 	}
 
 	const LocalAuthenticationOptions: LocalAuthentication.LocalAuthenticationOptions = {
@@ -48,8 +64,9 @@ function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	const getDataFromSecureStore = async (key: string, requireAuthentication?: boolean) => {
+		if (!hasPermission) return false
 		try {
-			const user = await SecureStore.getItemAsync(key, secureStoreOptions)
+			const user = await SecureStore.getItemAsync(key)
 
 			if (localUserIsValidToLogin(user, requireAuthentication) && !!requireAuthentication) {
 				await LocalAuthentication.isEnrolledAsync()
@@ -65,6 +82,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	const localUserIsValidToLogin = (userJSON: any, requireAuthentication?: boolean) => {
+		if (!hasPermission) return false
 		if (!requireAuthentication) return false
 		try {
 			if (!userJSON) return false
@@ -81,8 +99,9 @@ function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	const setDataOnSecureStore = async (key: string, data: any) => {
+		if (!hasPermission) return false
 		try {
-			await SecureStore.setItemAsync(key, JSON.stringify(data), secureStoreOptions)
+			await SecureStore.setItemAsync(key, JSON.stringify(data))
 			return true
 		} catch (err) {
 			console.log(`Error: ${err}`)
@@ -91,10 +110,12 @@ function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	const deleteLocaluser = async () => {
+		if (!hasPermission) return
 		await SecureStore.deleteItemAsync('corre.user')
 	}
 
 	const setRemoteUserOnLocal = async (uid?: string) => {
+		if (!hasPermission) return
 		if (uid) {
 			const currentUser = await getUser(uid)
 			await setDataOnSecureStore('corre.user', {

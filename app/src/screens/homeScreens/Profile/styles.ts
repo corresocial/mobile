@@ -19,11 +19,10 @@ export const InfoArea = styled.View`
 	justify-content: center;
     flex: 1;
     padding-horizontal: ${RFValue(16)}px;
-    padding-vertical: ${RFValue(2)}px;
 `
 
 export const UserName = styled.Text`
-    font-size: ${RFValue(20)}px;
+    font-size: ${RFValue(14)}px;
     font-family: Arvo_700Bold;
 `
 
@@ -44,6 +43,12 @@ export const Body = styled.View`
     background-color: ${({ theme }) => theme.orange2};
 	padding: ${RFValue(12)}px;
 	overflow: visible;
+`
+
+export const NewPostButtonArea = styled.View`
+	width: 100%;
+	justify-content: center;
+	align-items: center;
 `
 
 export const FlatList = styled.FlatList`

@@ -13,16 +13,21 @@ import {
 	UserName,
 	FlatList,
 	Sigh,
-	FooterSigh
+	FooterSigh,
+	NewPostButtonArea
 } from './styles'
 import { theme } from '../../../common/theme'
 import ChatIcon from '../../../assets/icons/chat.svg'
 import ShareIcon from '../../../assets/icons/share.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
+import PencilIcon from '../../../assets/icons/pencil.svg'
+import GearIcon from '../../../assets/icons/gear.svg'
+import PlusIcon from '../../../assets/icons/plusTabIconInactive.svg'
 
 import { share } from '../../../common/share'
+import { getUser } from '../../../services/firebase/user/getUser'
 
-import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { ProfileScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { LocalUserData } from '../../../contexts/types'
 import { PostCollection } from '../../../services/firebase/types'
 
@@ -35,12 +40,12 @@ import { screenHeight } from '../../../common/screenDimensions'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { TextGradient } from '../../../components/TextGradient'
-// import { getUser } from '../../../services/firebase/user/getUser'
 import { ProfilePopOver } from '../../../components/ProfilePopOver'
 
-function PublicProfile({ navigation }: HomeTabScreenProps) {
-	const { getDataFromSecureStore } = useContext(AuthContext)
+function PublicProfile({ route, navigation }: ProfileScreenProps) {
+	const { getDataFromSecureStore, deleteLocaluser } = useContext(AuthContext)
 
+	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [user, setUser] = useState<LocalUserData>({})
 	const [userPosts, setUserPosts] = useState([])
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
@@ -48,19 +53,26 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
-			getProfileDataFromLocal()
-			// getProfileDataFromRemote()
+			if (route.params && route.params.userId) {
+				getProfileDataFromRemote(route.params.userId)
+			} else {
+				getProfileDataFromLocal()
+			}
 		})
 		return unsubscribe
 	}, [navigation])
 
 	useEffect(() => {
-		getProfileDataFromLocal()
-		// getProfileDataFromRemote()
+		if (route.params && route.params.userId) {
+			setIsLoggedUser(false)
+			getProfileDataFromRemote(route.params.userId)
+		} else {
+			setIsLoggedUser(true)
+			getProfileDataFromLocal()
+		}
 	}, [])
 
-	/* const getProfileDataFromRemote = async () => {
-		const userId = 'RMCJAuUhLjSmAu3kgjTzRjjZ2jB2'
+	const getProfileDataFromRemote = async (userId: string) => {
 		const remoteUser = await getUser(userId)
 		const { profilePictureUrl, name, posts, description } = remoteUser as LocalUserData
 		setUser({
@@ -70,7 +82,7 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 			profilePictureUrl: profilePictureUrl || [],
 		})
 		setUserPosts(posts as never)
-	} */
+	}
 
 	const getProfileDataFromLocal = async () => {
 		const localUser = await getObjectLocalUser()
@@ -104,27 +116,54 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 	const goToPostView = (item: PostCollection) => {
 		switch (item.postType) {
 			case 'service': {
-				navigation.navigate('ViewServicePost', { postData: { ...item, owner: user } })
+				navigation.navigate('ViewServicePost', { postData: { ...item, owner: user }, isAuthor: isLoggedUser })
 				break
 			}
 			case 'sale': {
-				navigation.navigate('ViewSalePost', { postData: { ...item, owner: user } })
+				navigation.navigate('ViewSalePost', { postData: { ...item, owner: user }, isAuthor: isLoggedUser })
 				break
 			}
 			case 'vacancy': {
-				navigation.navigate('ViewVacancyPost', { postData: { ...item, owner: user } })
+				navigation.navigate('ViewVacancyPost', { postData: { ...item, owner: user }, isAuthor: isLoggedUser })
 				break
 			}
 			case 'socialImpact': {
-				navigation.navigate('ViewSocialImpactPost', { postData: { ...item, owner: user } })
+				navigation.navigate('ViewSocialImpactPost', { postData: { ...item, owner: user }, isAuthor: isLoggedUser })
 				break
 			}
 			case 'culture': {
-				navigation.navigate('ViewCulturePost', { postData: { ...item, owner: user } })
+				navigation.navigate('ViewCulturePost', { postData: { ...item, owner: user }, isAuthor: isLoggedUser })
 				break
 			}
 			default: return false
 		}
+	}
+
+	const performLogout = () => {
+		deleteLocaluser()
+		setProfileOptionsIsOpen(false)
+		navigation.navigate('AcceptAndContinue' as any)
+	}
+
+	const goToComplaint = () => {
+		Alert.alert('Ops!', 'Navegação para tela de denúncia ainda não implementada!')
+	}
+
+	const renderNewPostButton = () => {
+		return (
+			<NewPostButtonArea>
+				<SmallButton
+					label={'novo post'}
+					highlightedWords={['post']}
+					fontSize={18}
+					color={theme.white3}
+					onPress={() => navigation.navigate('SelectPostType' as any)} // TODO Type
+					height={screenHeight * 0.06}
+					relativeWidth={'85%'}
+					SvgIcon={PlusIcon}
+				/>
+			</NewPostButtonArea>
+		)
 	}
 
 	return (
@@ -147,10 +186,10 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 							borderWidth={3}
 							borderRightWidth={8}
 							pictureUri={user.profilePictureUrl ? user.profilePictureUrl[0] : ''}
-							checked
+							checked={!isLoggedUser}
 						/>
 						<InfoArea>
-							<UserName numberOfLines={1}>{user.name}</UserName>
+							<UserName numberOfLines={3} >{user.name}</UserName>
 							<TextGradient >
 								{(styles: any) => (
 									<UserDescription numberOfLines={3} style={styles}>
@@ -163,32 +202,34 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 					<OptionsArea>
 						<SmallButton
 							color={theme.white3}
-							label={'chat'}
-							fontSize={14}
-							SvgIcon={ChatIcon}
-							relativeWidth={'30%'}
+							label={isLoggedUser ? '' : 'chat'}
+							fontSize={13}
+							SvgIcon={isLoggedUser ? PencilIcon : ChatIcon}
+							relativeWidth={isLoggedUser ? screenHeight * 0.050 : '30%'}
 							height={screenHeight * 0.050}
 							onPress={() => { }}
 						/>
 						<SmallButton
 							color={theme.orange3}
-							label={'compartilhar'}
-							fontSize={14}
+							label={`compartilhar${isLoggedUser ? ' perfil' : ''}`}
+							highlightedWords={isLoggedUser ? ['compartilhar'] : []}
+							fontSize={13}
 							SvgIcon={ShareIcon}
-							relativeWidth={'45%'}
+							relativeWidth={isLoggedUser ? '60%' : '45%'}
 							height={screenHeight * 0.050}
 							onPress={() => share('dados do perfil')}
 						/>
 						<ProfilePopOver
 							userName={user.name}
 							userId={user.userId}
+							buttonLabel={isLoggedUser ? 'sair' : 'denunciar'}
 							popoverVisibility={profileOptionsIsOpen}
 							closePopover={() => setProfileOptionsIsOpen(false)}
-							onPress={() => Alert.alert('go to complaint')}
+							onPress={isLoggedUser ? performLogout : goToComplaint}
 						>
 							<SmallButton
 								color={theme.white3}
-								SvgIcon={ThreeDotsIcon}
+								SvgIcon={isLoggedUser ? GearIcon : ThreeDotsIcon}
 								relativeWidth={screenHeight * 0.050}
 								height={screenHeight * 0.050}
 								onPress={() => setProfileOptionsIsOpen(true)}
@@ -206,10 +247,16 @@ function PublicProfile({ navigation }: HomeTabScreenProps) {
 				<FlatList
 					data={userPosts}
 					renderItem={({ item }: any) => ( // TODO type
-						<PostCard post={item} owner={user} onPress={() => goToPostView(item)} /> // TODO Type
+						<PostCard
+							post={item}
+							owner={user}
+							onPress={() => goToPostView(item)}
+						/> // TODO Type
 					)}
 					showsVerticalScrollIndicator={false}
 					ItemSeparatorComponent={() => <Sigh />}
+					ListHeaderComponent={isLoggedUser ? renderNewPostButton() : null}
+					ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
 					ListFooterComponent={() => <FooterSigh />}
 				/>
 			</Body>

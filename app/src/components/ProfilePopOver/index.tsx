@@ -14,6 +14,7 @@ interface ProfilePopOverProps {
 	userName?: string
 	userId?: string
 	popoverVisibility: boolean
+	buttonLabel: string
 	children: React.ReactChild
 	onPress?: () => void
 	closePopover: () => void
@@ -23,6 +24,7 @@ function ProfilePopOver({
 	userName,
 	userId,
 	popoverVisibility,
+	buttonLabel,
 	children,
 	onPress,
 	closePopover
@@ -50,8 +52,8 @@ function ProfilePopOver({
 					<PrimaryButton
 						color={theme.red3}
 						onPress={!!onPress && onPress as any} // TODO Type
-						label={'denunciar'}
-						highlightedWords={['denunciar']}
+						label={buttonLabel}
+						highlightedWords={[buttonLabel]}
 						labelColor={theme.white3}
 						fontSize={14}
 						minHeight={20}

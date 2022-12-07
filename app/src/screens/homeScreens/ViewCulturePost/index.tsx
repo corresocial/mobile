@@ -10,7 +10,7 @@ import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 
-import { ViewCulturePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { ViewCulturePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { CultureCollectionRemote } from '../../../services/firebase/types'
@@ -90,7 +90,10 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						postType={postData.postType}
 						popoverVisibility={profileOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
-						onPress={() => Alert.alert('go to complaint')}
+						isAuthor={route.params.isAuthor || false}
+						goToComplaint={() => Alert.alert('go to complaint')}
+						editPost={() => Alert.alert('edit post')}
+						deletePost={() => Alert.alert('delete post')}
 					>
 						<SmallButton
 							color={theme.white3}

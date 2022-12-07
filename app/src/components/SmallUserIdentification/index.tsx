@@ -26,7 +26,7 @@ function SmallUserIdentification({
 	height,
 	userName = 'usuário do corre.',
 	postDate,
-	profilePictureUrl = 'https://www.softdownload.com.br/wp-content/uploads/2018/03/como_trocar_foto_perfil_facebook.jpg',
+	profilePictureUrl,
 	pictureDimensions = 35,
 	userNameFontSize = 12,
 	postDateFontSize = 12
@@ -46,7 +46,7 @@ function SmallUserIdentification({
 			>
 				<MiniaturePortrait
 					source={{
-						uri: profilePictureUrl,
+						uri: profilePictureUrl || 'https://www.softdownload.com.br/wp-content/uploads/2018/03/como_trocar_foto_perfil_facebook.jpg',
 					}}
 				/>
 			</UserPictureArea>

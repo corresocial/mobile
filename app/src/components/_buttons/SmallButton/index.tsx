@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
-
 import { SvgProps } from 'react-native-svg'
+
 import { ButtonLabel, ContainerBottom, ContainerSurface, TouchableContainer } from './styles'
+
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 interface SmallButtonProps {
 	color: string
 	label?: string
+	highlightedWords?: string[]
 	fontSize?: number
 	SvgIcon?: React.FC<SvgProps>
 	relativeWidth?: string | number
@@ -17,6 +20,7 @@ interface SmallButtonProps {
 function SmallButton({
 	color,
 	label = '',
+	highlightedWords = [],
 	fontSize,
 	SvgIcon,
 	relativeWidth = '100%',
@@ -68,10 +72,11 @@ function SmallButton({
 					<ButtonLabel
 						style={{
 							fontSize,
-							marginLeft: label ? RFValue(8) : 0
+							marginLeft: label ? RFValue(8) : 0,
+							fontFamily: highlightedWords?.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold'
 						}}
 					>
-						{label}
+						{showMessageWithHighlight(label, highlightedWords)}
 					</ButtonLabel>
 				</ContainerSurface>
 			</ContainerBottom>

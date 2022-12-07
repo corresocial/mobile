@@ -27,8 +27,8 @@ interface PostCardProps {
 
 function PostCard({ post, owner, onPress }: PostCardProps) {
 	const renderShortName = () => {
-		if (arrayIsEmpty(post.picturesUrl)) return owner.name
-		const names = owner?.name && (owner.name.split(' ') || [])
+		if (owner.name && owner.name.split(' ').length < 3) return owner.name
+		const names = owner.name && (owner.name.split(' ') || [])
 		if (!names) return 'usuário do corre.'
 		return `${names[0]} ${names[1]}`
 	}
@@ -39,7 +39,11 @@ function PostCard({ post, owner, onPress }: PostCardProps) {
 		return formatedDate
 	}
 
-	console.log()
+	const getProfilePictureUrl = () => {
+		if (!owner || !owner.profilePictureUrl) return null
+		if (arrayIsEmpty(owner.profilePictureUrl)) return null
+		return owner.profilePictureUrl[0]
+	}
 
 	return (
 		<Container activeOpacity={0.7} onPress={onPress}>
@@ -54,8 +58,7 @@ function PostCard({ post, owner, onPress }: PostCardProps) {
 						<SmallUserIdentification
 							userName={renderShortName()}
 							postDate={renderFormatedPostDateTime()}
-							profilePictureUrl={!arrayIsEmpty(owner.profilePictureUrl) && !!owner.profilePictureUrl && owner.profilePictureUrl[0]}
-						// pictureUrl={post.picturesUrl}
+							profilePictureUrl={getProfilePictureUrl()}
 						/>
 						{
 							(post.description || post.itemDescription)

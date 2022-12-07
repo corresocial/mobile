@@ -10,7 +10,7 @@ import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 
-import { ViewSocialImpactPostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { ViewSocialImpactPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SocialImpactCollectionRemote } from '../../../services/firebase/types'
@@ -89,7 +89,10 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						postType={postData.postType}
 						popoverVisibility={profileOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
-						onPress={() => Alert.alert('go to complaint')}
+						isAuthor={route.params.isAuthor || false}
+						goToComplaint={() => Alert.alert('go to complaint')}
+						editPost={() => Alert.alert('edit post')}
+						deletePost={() => Alert.alert('delete post')}
 					>
 						<SmallButton
 							color={theme.white3}

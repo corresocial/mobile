@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { Modal, StatusBar } from 'react-native'
+import { Modal, PermissionsAndroid, StatusBar } from 'react-native'
 import { Camera, CameraType, FlashMode } from 'expo-camera'
 import { FontAwesome5, Ionicons } from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker'
@@ -32,13 +32,20 @@ function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCamer
 
 	useEffect(() => {
 		setTimeout(() => {
-			getCameraPermissions()
+			requestCameraPermission()
 		}, 500)
-	})
+	}, [])
 
-	const getCameraPermissions = async () => {
-		const { status } = await Camera.requestCameraPermissionsAsync()
-		setHasPermission(status === 'granted')
+	const requestCameraPermission = async () => {
+		const granted = await PermissionsAndroid.request(
+			PermissionsAndroid.PERMISSIONS.CAMERA
+		)
+		if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+			setHasPermission(true)
+		} else {
+			setHasPermission(false)
+			console.log('Não foi possível conceder permissão para acessar a câmera')
+		}
 	}
 
 	const toggleFlashMode = () => {
@@ -58,8 +65,6 @@ function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCamer
 			quality: 1,
 		})
 
-		console.log(result)
-
 		if (!result.cancelled) {
 			setPictureUri(result.uri)
 			onClose()
@@ -74,66 +79,69 @@ function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCamer
 		}
 	}
 
-	if (!hasPermission) {
-		return (
-			<NotPermissionContainer
-				onPress={getCameraPermissions}
-				activeOpacity={0.9}
-			>
-				<NotPermissionText>{'Você NÃO TEM PERMISSÃO!'}</NotPermissionText>
-				<NotPermissionText>{'Deve conceder PERMISSÂO para utilizar a CÂMERA!'}</NotPermissionText>
-			</NotPermissionContainer>
-		)
-	}
-
 	return (
 		<Modal
 			visible={cameraOpened}
 			onRequestClose={onClose}
 		>
 			<StatusBar backgroundColor={theme.black4} barStyle={'dark-content'} />
-			<Container>
-				<CameraContainer>
-					<Camera
-						ref={cameraRef}
-						style={{
-							flex: 1
-						}}
-						type={cameraType}
-						flashMode={flashMode}
-						ratio={'1:1'}
-						onCameraReady={() => setCameraReady(true)}
-					/>
-				</CameraContainer>
-				{
-					cameraReady
-						? (
-							<>
-								<FlashButtonContainer>
-									<FlashButton onPress={toggleFlashMode}>
-										<Ionicons name={'md-flash-sharp'} size={25} color={flashMode === FlashMode.torch ? theme.orange3 : theme.black4} />
-									</FlashButton>
-								</FlashButtonContainer>
-								<Footer>
-									<CameraControlsContainer>
-										<GaleryButton onPress={openGalery} >
-											<FontAwesome5 name={'images'} size={25} color={theme.black4} />
-										</GaleryButton>
+			{
+				!hasPermission
+					? (
+						<NotPermissionContainer
+							onPress={requestCameraPermission}
+							activeOpacity={0.9}
+						>
+							<NotPermissionText>{'Você NÃO TEM PERMISSÃO!'}</NotPermissionText>
+							<NotPermissionText>{'Deve conceder PERMISSÂO para utilizar a CÂMERA!'}</NotPermissionText>
+						</NotPermissionContainer>
+					)
+					: (
+						<Container>
+							<CameraContainer>
+								<Camera
+									ref={cameraRef}
+									style={{
+										flex: 1
+									}}
+									type={cameraType}
+									flashMode={flashMode}
+									ratio={'1:1'}
+									onCameraReady={() => setCameraReady(true)}
+								/>
+							</CameraContainer>
+							{
+								cameraReady
+									? (
+										<>
+											<FlashButtonContainer>
+												<FlashButton onPress={toggleFlashMode}>
+													<Ionicons name={'md-flash-sharp'} size={25} color={flashMode === FlashMode.torch ? theme.orange3 : theme.black4} />
+												</FlashButton>
+											</FlashButtonContainer>
+											<Footer>
+												<CameraControlsContainer>
+													<GaleryButton onPress={openGalery} >
+														<FontAwesome5 name={'images'} size={25} color={theme.black4} />
+													</GaleryButton>
 
-										<TakePictureButton onPress={takePicture}>
-										</TakePictureButton>
+													<TakePictureButton onPress={takePicture}>
+													</TakePictureButton>
 
-										<CameraTypeButton onPress={toggleCameraType} >
-											{/* <Entypo name='camera' size={27} color={theme.black4} /> */}
-											<Ionicons name={'camera-reverse'} size={27} color={theme.black4} />
-										</CameraTypeButton>
-									</CameraControlsContainer>
-								</Footer>
-							</>
-						)
-						: null
-				}
-			</Container >
+													<CameraTypeButton onPress={toggleCameraType} >
+														{/* <Entypo name='camera' size={27} color={theme.black4} /> */}
+														<Ionicons name={'camera-reverse'} size={27} color={theme.black4} />
+													</CameraTypeButton>
+												</CameraControlsContainer>
+											</Footer>
+										</>
+									)
+									: null
+							}
+						</Container >
+					)
+			}
+
 		</Modal>
 	)
 }

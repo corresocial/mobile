@@ -36,7 +36,7 @@ function Splash({ navigation }: SplashScreenProps) {
 
 	const redirectToApp = async () => {
 		try {
-			const userJSON = await getDataFromSecureStore('corre.user', true) // Remove ".teste" to run correctly
+			const userJSON = await getDataFromSecureStore('corre.user', true)
 
 			if (localUserIsValid(userJSON)) {
 				const userObject: UserData = JSON.parse(userJSON as string)

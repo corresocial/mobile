@@ -8,3 +8,4 @@ export type ViewSalePostScreenProps = NativeStackScreenProps<ProfileStackParamLi
 export type ViewVacancyPostScreenProps = NativeStackScreenProps<ProfileStackParamList, 'ViewVacancyPost'>
 export type ViewSocialImpactPostScreenProps = NativeStackScreenProps<ProfileStackParamList, 'ViewSocialImpactPost'>
 export type ViewCulturePostScreenProps = NativeStackScreenProps<ProfileStackParamList, 'ViewCulturePost'>
+export type ProfileScreenProps = NativeStackScreenProps<ProfileStackParamList, 'Profile'>

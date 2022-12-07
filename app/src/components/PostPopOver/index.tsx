@@ -3,7 +3,7 @@ import { TouchableOpacity, View } from 'react-native'
 import Popover from 'react-native-popover-view'
 
 import { RFValue } from 'react-native-responsive-fontsize'
-import { CloseIcon, Container, ContainerInner, PostTitle } from './styles'
+import { CloseIcon, Container, ContainerInner, PostTitle, Sigh } from './styles'
 import { screenHeight } from '../../common/screenDimensions'
 import { theme } from '../../common/theme'
 import XIcon from '../../assets/icons/x.svg'
@@ -16,18 +16,24 @@ interface PostPopOverProps {
 	postTitle?: string
 	postId?: string
 	postType?: PostType
+	isAuthor?: boolean
 	popoverVisibility: boolean
 	children: React.ReactChild
-	onPress?: () => void
+	goToComplaint?: () => void
+	editPost?: () => void
+	deletePost?: () => void
 	closePopover: () => void
 }
 
 function PostPopOver({ postTitle,
 	postId,
 	postType,
+	isAuthor = false,
 	popoverVisibility,
 	children,
-	onPress,
+	goToComplaint,
+	editPost,
+	deletePost,
 	closePopover
 }: PostPopOverProps) {
 	return (
@@ -50,16 +56,46 @@ function PostPopOver({ postTitle,
 						<XIcon width={RFValue(25)} height={RFValue(25)} />
 					</CloseIcon>
 					<PostTitle>{postTitle}</PostTitle>
-					<PrimaryButton
-						color={theme.red3}
-						onPress={!!onPress && onPress as any} // TODO Type
-						label={'denunciar'}
-						highlightedWords={['denunciar']}
-						labelColor={theme.white3}
-						fontSize={14}
-						minHeight={20}
-						relativeHeight={screenHeight * 0.08}
-					/>
+					{
+						isAuthor
+							? (
+								<>
+									<PrimaryButton
+										color={theme.green3}
+										onPress={editPost && editPost as any} // TODO Type
+										label={'editar post'}
+										highlightedWords={['editar', 'post']}
+										labelColor={theme.white3}
+										fontSize={14}
+										minHeight={20}
+										relativeHeight={screenHeight * 0.08}
+									/>
+									<Sigh />
+									<PrimaryButton
+										color={theme.red3}
+										onPress={deletePost && deletePost as any} // TODO Type
+										label={'apagar post'}
+										highlightedWords={['apagar', 'post']}
+										labelColor={theme.white3}
+										fontSize={14}
+										minHeight={20}
+										relativeHeight={screenHeight * 0.08}
+									/>
+								</>
+							)
+							: (
+								<PrimaryButton
+									color={theme.red3}
+									onPress={goToComplaint && goToComplaint as any} // TODO Type
+									label={'denunciar'}
+									highlightedWords={['denunciar']}
+									labelColor={theme.white3}
+									fontSize={14}
+									minHeight={20}
+									relativeHeight={screenHeight * 0.08}
+								/>
+							)
+					}
 				</ContainerInner>
 			</Container>
 		</Popover>
