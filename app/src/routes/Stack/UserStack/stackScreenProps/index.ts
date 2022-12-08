@@ -10,3 +10,4 @@ export type SaleStackScreenProps = NativeStackScreenProps<UserStackParamList, 'S
 export type VacancyStackScreenProps = NativeStackScreenProps<UserStackParamList, 'VacancyStack'>
 export type CultureStackScreenProps = NativeStackScreenProps<UserStackParamList, 'CultureStack'>
 export type SocialImpactStackScreenProps = NativeStackScreenProps<UserStackParamList, 'SocialImpactStack'>
+export type EditProfileScreenProps = NativeStackScreenProps<UserStackParamList, 'EditProfile'>

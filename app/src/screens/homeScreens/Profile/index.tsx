@@ -207,7 +207,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 							SvgIcon={isLoggedUser ? PencilIcon : ChatIcon}
 							relativeWidth={isLoggedUser ? screenHeight * 0.050 : '30%'}
 							height={screenHeight * 0.050}
-							onPress={() => { }}
+							onPress={() => navigation.navigate('EditProfile' as any, { user })} // TODO Type
 						/>
 						<SmallButton
 							color={theme.orange3}

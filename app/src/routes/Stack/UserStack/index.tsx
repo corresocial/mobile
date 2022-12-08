@@ -8,17 +8,13 @@ import { StateProvider } from '../../../contexts/StateContext'
 
 import { WelcomeNewUser } from '../../../screens/homeScreens/WelcomeNewUser'
 import { SelectPostType } from '../../../screens/homeScreens/SelectPostType'
-import { ViewServicePost } from '../../../screens/homeScreens/ViewServicePost'
 import { HomeTab } from '../../Tabs/HomeTab'
 import { ServiceStack } from '../ServiceStack'
 import { SaleStack } from '../SaleStack'
 import { VacancyStack } from '../VacancyStack'
 import { SocialImpactStack } from '../SocialImpactStack'
 import { CultureStack } from '../CultureStack'
-import { ViewSalePost } from '../../../screens/homeScreens/ViewSalePost'
-import { ViewVacancyPost } from '../../../screens/homeScreens/ViewVacancyPost'
-import { ViewSocialImpactPost } from '../../../screens/homeScreens/ViewSocialImpactPost'
-import { ViewCulturePost } from '../../../screens/homeScreens/ViewCulturePost'
+import { EditProfile } from '../../../screens/homeScreens/EditProfile'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -43,11 +39,7 @@ export function UserStack({ route }: any) {
 				<Stack.Screen name={'VacancyStack'} component={VacancyStack} />
 				<Stack.Screen name={'CultureStack'} component={CultureStack} />
 				<Stack.Screen name={'SocialImpactStack'} component={SocialImpactStack} />
-				<Stack.Screen name={'ViewServicePost'} component={ViewServicePost} />
-				<Stack.Screen name={'ViewSalePost'} component={ViewSalePost} />
-				<Stack.Screen name={'ViewVacancyPost'} component={ViewVacancyPost} />
-				<Stack.Screen name={'ViewSocialImpactPost'} component={ViewSocialImpactPost} />
-				<Stack.Screen name={'ViewCulturePost'} component={ViewCulturePost} />
+				<Stack.Screen name={'EditProfile'} component={EditProfile} />
 			</Stack.Navigator>
 		</StateProvider>
 	)

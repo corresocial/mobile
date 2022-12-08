@@ -9,9 +9,5 @@ export type UserStackParamList = {
 	VacancyStack: undefined
 	CultureStack: undefined
 	SocialImpactStack: undefined
-	ViewServicePost: { postData: PostCollection }
-	ViewSalePost: { postData: PostCollection }
-	ViewVacancyPost: { postData: PostCollection }
-	ViewSocialImpactPost: { postData: PostCollection }
-	ViewCulturePost: { postData: PostCollection }
+	EditProfile: { user: LocalUserData }
 }

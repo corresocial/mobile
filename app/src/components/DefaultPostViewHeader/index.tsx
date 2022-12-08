@@ -5,13 +5,15 @@ import { Container, Title } from './styles'
 import AngleLeftThin from '../../assets/icons/angleLeftThin.svg'
 
 import { SmallButton } from '../_buttons/SmallButton'
+import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
 
 interface DefaultPostViewHeaderProps {
 	text?: string
+	highlightedWords?: string[]
 	onBackPress: () => void
 }
 
-function DefaultPostViewHeader({ text = '', onBackPress }: DefaultPostViewHeaderProps) {
+function DefaultPostViewHeader({ text = '', highlightedWords = [], onBackPress }: DefaultPostViewHeaderProps) {
 	return (
 		<Container>
 			<SmallButton
@@ -23,8 +25,9 @@ function DefaultPostViewHeader({ text = '', onBackPress }: DefaultPostViewHeader
 			/>
 			<Title
 				numberOfLines={2}
+				style={{ fontFamily: highlightedWords.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold' }}
 			>
-				{text}
+				{showMessageWithHighlight(text, highlightedWords)}
 			</Title>
 		</Container>
 	)
