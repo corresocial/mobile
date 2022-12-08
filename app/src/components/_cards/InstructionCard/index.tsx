@@ -13,7 +13,7 @@ interface InstructionCardProps {
 	lineHeight?: number
 	borderLeftWidth?: number
 	flex?: number
-	children?: React.ReactElement
+	children?: React.ReactElement | never[]
 }
 
 function InstructionCard({

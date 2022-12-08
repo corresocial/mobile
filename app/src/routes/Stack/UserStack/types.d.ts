@@ -11,4 +11,5 @@ export type UserStackParamList = {
 	SocialImpactStack: undefined
 	EditProfile: { user: LocalUserData }
 	EditUserName: { userName: string, userId: string }
+	EditUserDescription: { userDescription: string, userId: string }
 }

@@ -1,6 +1,8 @@
 import { Animated, Keyboard, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
+import { updateDocField } from '../../../services/firebase/common/updateDocField'
+
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
 
@@ -13,7 +15,6 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
-import { updateDocField } from '../../../services/firebase/common/updateDocField'
 
 function EditUserName({ navigation, route }: EditUserNameScreenProps) {
 	const [inputName, setInputName] = useState<string>(route.params.userName)

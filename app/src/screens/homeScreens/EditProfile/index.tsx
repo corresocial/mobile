@@ -12,24 +12,21 @@ import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader
 import { EditCard } from '../../../components/_cards/EditCard'
 
 function EditProfile({ route, navigation }: EditProfileScreenProps) {
-	const [user, setUser] = useState<LocalUserData>({})
+	const [user, setUser] = useState<LocalUserData>(route.params.user)
+	const [descriptionInput, setDescriptionInput] = useState('')
 
 	const { getDataFromSecureStore } = useContext(AuthContext)
 
 	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
+		navigation.addListener('focus', () => {
 			getUserDataFromLocal()
 		})
-		return unsubscribe
 	}, [navigation])
-
-	useEffect(() => {
-		getRouteParams()
-	}, [])
 
 	const getUserDataFromLocal = async () => {
 		const localUser = await getObjectLocalUser()
 		const { userId, name, description, profilePictureUrl } = localUser as LocalUserData
+		setDescriptionInput(description as string)
 		setUser({
 			userId,
 			name,
@@ -45,16 +42,30 @@ function EditProfile({ route, navigation }: EditProfileScreenProps) {
 		return userObject
 	}
 
-	const getRouteParams = () => {
-		const userFromRoute = { ...route.params.user }
-		setUser(userFromRoute)
-	}
-
 	const goToEditScreen = (screenName: keyof UserStackParamList) => {
-		navigation.navigate(screenName, {
-			userName: user.name || '',
-			userId: user.userId || ''
-		})
+		switch (screenName) {
+			case 'EditUserName': {
+				navigation.navigate('EditUserName', {
+					userName: user.name || '',
+					userId: user.userId || ''
+				})
+				break
+			}
+			case 'EditUserDescription': {
+				navigation.navigate('EditUserDescription', {
+					userDescription: user.description || '',
+					userId: user.userId || ''
+				})
+				break
+			}
+			/* case 'EditUserName': {
+				navigation.navigate(screenName, {
+					userName: user.name || '',
+					userId: user.userId || ''
+				})
+			} */
+			default: return false
+		}
 	}
 
 	return (
@@ -84,7 +95,7 @@ function EditProfile({ route, navigation }: EditProfileScreenProps) {
 				<EditCard
 					title={'sua descrição'}
 					highlightedWords={['descrição']}
-					value={user.description}
+					value={descriptionInput}
 					onEdit={() => goToEditScreen('EditUserDescription')}
 				/>
 				<LastSigh />

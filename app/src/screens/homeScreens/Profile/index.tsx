@@ -190,13 +190,13 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 						/>
 						<InfoArea>
 							<UserName numberOfLines={3} >{user.name}</UserName>
-							<TextGradient >
-								{(styles: any) => (
-									<UserDescription numberOfLines={3} style={styles}>
-										{user.description}
-									</UserDescription>
-								)}
-							</TextGradient>
+							{/* <TextGradient > */}
+							{/* {(styles: any) => ( */}
+							<UserDescription numberOfLines={3}/*  style={styles} */>
+								{user.description}
+							</UserDescription>
+							{/* 	)} */}
+							{/* </TextGradient> */}
 						</InfoArea>
 					</ProfileInfoContainer>
 					<OptionsArea>

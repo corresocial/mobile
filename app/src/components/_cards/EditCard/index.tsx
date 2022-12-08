@@ -23,6 +23,14 @@ function EditCard({
 	profilePictureUrl,
 	onEdit,
 }: EditCardProps) {
+	/* <TextGradient > // Gradient não estava permitindo a renderização
+		{(styles: any) => (
+			<Text numberOfLines={4} style={styles}>
+				{value}
+			</Text>
+		)}
+	</TextGradient> */
+
 	return (
 		<DefaultCardContainer withoutPadding={!!profilePictureUrl}>
 			<CardHeader
@@ -53,13 +61,7 @@ function EditCard({
 										</Text>
 									)
 									: (
-										<TextGradient >
-											{(styles: any) => (
-												<Text numberOfLines={4} style={styles}>
-													{value}
-												</Text>
-											)}
-										</TextGradient>
+										< Text numberOfLines={4}>{value}</Text>
 									)
 							}
 						</ValueContainer>
@@ -67,12 +69,16 @@ function EditCard({
 					: (
 						<PictureArea >
 							<ProfilePicture
-								source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/corresocial-66840.appspot.com/o/imagens%2Fservices%2Ff7Y8KPRDeGQSudLlfCxg1.jpg?alt=media&token=ae9b1266-a2a0-442b-845a-fefda213bbba' }}
+								source={{
+									uri: 'https://firebasestorage.googleapis.com/v0/b/corresocial-66840.appspot.com/o/imagens%2Fservices%2Ff7Y8KPRDeGQSudLlfCxg1.jpg?alt=media&token=ae9b1266-a2a0-442b-845a-fefda213bbba'
+								}}
+								width={0}
+								height={0}
 							/>
 						</PictureArea>
 					)
 			}
-		</DefaultCardContainer>
+		</DefaultCardContainer >
 	)
 }
 
