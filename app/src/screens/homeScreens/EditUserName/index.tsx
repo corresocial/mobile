@@ -1,0 +1,166 @@
+import { Animated, Keyboard, StatusBar } from 'react-native'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+
+import { ButtonContainer, Container, InputsContainer } from './styles'
+import { theme } from '../../../common/theme'
+
+import { EditUserNameScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+
+import { AuthContext } from '../../../contexts/AuthContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { LineInput } from '../../../components/LineInput'
+import { updateDocField } from '../../../services/firebase/common/updateDocField'
+
+function EditUserName({ navigation, route }: EditUserNameScreenProps) {
+	const [inputName, setInputName] = useState<string>(route.params.userName)
+	const [nameIsValid, setInputNameIsValid] = useState<boolean>(false)
+	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+	const [invalidNameAfterSubmit, setInvaliNameAfterSubmit] = useState<boolean>(false)
+	const inputRefs = {
+		nameInput: useRef<React.MutableRefObject<any>>(null),
+	}
+
+	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
+
+	useEffect(() => {
+		const unsubscribe = navigation.addListener('focus', () => {
+			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		})
+		return unsubscribe
+	}, [navigation])
+
+	useEffect(() => {
+		const validation = validateName(inputName)
+		setInputNameIsValid(validation)
+	}, [inputName])
+
+	const validateName = (text: string) => {
+		const isValid = (text)?.trim().length >= 1
+		if (isValid) {
+			setInvaliNameAfterSubmit(false)
+			return true
+		}
+		return false
+	}
+
+	const someInvalidFieldSubimitted = () => invalidNameAfterSubmit
+
+	const saveUserName = async () => {
+		try {
+			await updateRemoteUser()
+			await updateLocalUser()
+			navigation.goBack()
+		} catch (err) {
+			console.log(err)
+			setInvaliNameAfterSubmit(true)
+		}
+	}
+
+	const updateRemoteUser = async () => {
+		await updateDocField(
+			'users',
+			route.params.userId,
+			'name',
+			inputName
+		)
+			.then(() => true)
+			.catch((err) => {
+				console.log(err)
+				throw new Error('erro ao atualizar nome remotamente')
+			})
+	}
+
+	const updateLocalUser = async () => {
+		const currentLocalUserJSON = await getDataFromSecureStore('corre.user')
+		if (!currentLocalUserJSON) throw new Error('erro ao atualizar nome no local')
+		const currentLocalUser = JSON.parse(currentLocalUserJSON as string)
+		await setDataOnSecureStore('corre.user', { ...currentLocalUser, name: inputName })
+	}
+
+	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
+	const animateDefaultHeaderBackgound = () => {
+		const existsError = someInvalidFieldSubimitted()
+
+		Animated.timing(headerBackgroundAnimatedValue.current, {
+			toValue: existsError ? 1 : 0,
+			duration: 300,
+			useNativeDriver: false,
+		}).start()
+
+		return headerBackgroundAnimatedValue.current.interpolate({
+			inputRange: [0, 1],
+			outputRange: [theme.green2, theme.red2],
+		})
+	}
+
+	return (
+		<Container >
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.green2} barStyle={'dark-content'} />
+			<DefaultHeaderContainer
+				relativeHeight={'55%'}
+				centralized
+				backgroundColor={animateDefaultHeaderBackgound()}
+			>
+				<InstructionCard
+					message={
+						someInvalidFieldSubimitted()
+							? 'ops! \nparece que algo deu errado do nosso lado! \npor favor tente novamente em alguns instantes'
+							: 'edite o seu nome'
+					}
+					highlightedWords={
+						someInvalidFieldSubimitted()
+							? ['ops,', '\nparece', 'que', 'algo', 'deu', 'errado', 'do', 'nosso', 'lado!']
+							: ['nome']
+					}
+				/>
+			</DefaultHeaderContainer>
+			<FormContainer backgroundColor={theme.white2}>
+				<InputsContainer>
+					<LineInput
+						value={inputName}
+						relativeWidth={'100%'}
+						textInputRef={inputRefs.nameInput}
+						defaultBackgroundColor={theme.white2}
+						defaultBorderBottomColor={theme.black4}
+						validBackgroundColor={theme.green1}
+						validBorderBottomColor={theme.green5}
+						invalidBackgroundColor={theme.red1}
+						invalidBorderBottomColor={theme.red5}
+						maxLength={50}
+						lastInput
+						invalidTextAfterSubmit={invalidNameAfterSubmit}
+						placeholder={'qual é o seu nome?'}
+						keyboardType={'default'}
+						textIsValid={nameIsValid && !keyboardOpened}
+						onChangeText={(text: string) => setInputName(text)}
+					/>
+				</InputsContainer>
+				<ButtonContainer>
+					{
+						nameIsValid && !keyboardOpened
+						&& (
+							<PrimaryButton
+								color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
+								iconName={'arrow-right'}
+								iconColor={theme.white3}
+								label={'salvar'}
+								labelColor={theme.white3}
+								highlightedWords={['salvar']}
+								startsHidden={false}
+								onPress={saveUserName}
+							/>
+						)
+
+					}
+				</ButtonContainer>
+			</FormContainer>
+		</Container>
+	)
+}
+
+export { EditUserName }

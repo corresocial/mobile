@@ -29,6 +29,5 @@ export const ProfilePicture = styled.Image`
 	overflow: hidden;
 	flex: 1;
 	resize-mode: cover;
-	resize-method: scale;
 	overflow: hidden;
 `
