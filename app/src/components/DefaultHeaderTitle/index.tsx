@@ -8,7 +8,7 @@ import { Container, Title } from './styles'
 
 interface DefaultHeaderTitleProps {
 	title: string
-	highlightedWords: string[]
+	highlightedWords?: string[]
 	SvgIcon?: React.FC<SvgProps> | any // TODO Type Remove any
 	dimensions?: number
 	invertTextAndIcon?: boolean
@@ -55,7 +55,7 @@ function DefaultHeaderTitle({
 			}
 			<Title style={{
 				marginLeft: invertTextAndIcon ? 0 : RFValue(10),
-				fontFamily: highlightedWords ? 'Arvo_400Regular' : 'Arvo_700Bold'
+				fontFamily: highlightedWords.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold'
 			}}
 			>
 				{showMessageWithHighlight(title, highlightedWords)}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Alert, StatusBar } from 'react-native'
+import { Alert, ScrollView, StatusBar, Touchable, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import {
@@ -14,7 +14,9 @@ import {
 	FlatList,
 	Sigh,
 	FooterSigh,
-	NewPostButtonArea
+	NewPostButtonArea,
+	ExpandedUserDescription,
+	ExpandedUserDescriptionArea
 } from './styles'
 import { theme } from '../../../common/theme'
 import ChatIcon from '../../../assets/icons/chat.svg'
@@ -46,6 +48,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 	const { getDataFromSecureStore, deleteLocaluser } = useContext(AuthContext)
 
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
+	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
 	const [user, setUser] = useState<LocalUserData>({})
 	const [userPosts, setUserPosts] = useState([])
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
@@ -149,23 +152,6 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 		Alert.alert('Ops!', 'Navegação para tela de denúncia ainda não implementada!')
 	}
 
-	const renderNewPostButton = () => {
-		return (
-			<NewPostButtonArea>
-				<SmallButton
-					label={'novo post'}
-					highlightedWords={['post']}
-					fontSize={18}
-					color={theme.white3}
-					onPress={() => navigation.navigate('SelectPostType' as any)} // TODO Type
-					height={screenHeight * 0.06}
-					relativeWidth={'85%'}
-					SvgIcon={PlusIcon}
-				/>
-			</NewPostButtonArea>
-		)
-	}
-
 	return (
 		<Container style={{
 			flex: 1
@@ -175,7 +161,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 			<DefaultHeaderContainer
 				backgroundColor={theme.white3}
 				centralized={false}
-				relativeHeight={'25%'}
+				relativeHeight={!userDescriptionIsExpanded ? '25%' : '37%'}
 				borderBottomWidth={0}
 			>
 				<ProfileHeader>
@@ -192,13 +178,32 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 							<UserName numberOfLines={3} >{user.name}</UserName>
 							{/* <TextGradient > */}
 							{/* {(styles: any) => ( */}
-							<UserDescription numberOfLines={3}/*  style={styles} */>
-								{user.description}
-							</UserDescription>
+							{
+								!userDescriptionIsExpanded && (
+									<TouchableOpacity onPress={() => setUserDescriptionIsExpanded(true)}>
+										<UserDescription numberOfLines={3}/*  style={styles} */>
+											{user.description}
+										</UserDescription>
+									</TouchableOpacity>
+								)
+							}
 							{/* 	)} */}
 							{/* </TextGradient> */}
 						</InfoArea>
 					</ProfileInfoContainer>
+					{
+						userDescriptionIsExpanded && (
+							<ExpandedUserDescriptionArea>
+								<ScrollView showsVerticalScrollIndicator={false}>
+									<TouchableOpacity onPress={() => setUserDescriptionIsExpanded(false)}>
+										<ExpandedUserDescription >
+											{user.description}
+										</ExpandedUserDescription>
+									</TouchableOpacity>
+								</ScrollView>
+							</ExpandedUserDescriptionArea>
+						)
+					}
 					<OptionsArea>
 						<SmallButton
 							color={theme.white3}
@@ -251,11 +256,10 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 							post={item}
 							owner={user}
 							onPress={() => goToPostView(item)}
-						/> // TODO Type
+						/>
 					)}
 					showsVerticalScrollIndicator={false}
 					ItemSeparatorComponent={() => <Sigh />}
-					ListHeaderComponent={isLoggedUser ? renderNewPostButton() : null}
 					ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
 					ListFooterComponent={() => <FooterSigh />}
 				/>

@@ -12,7 +12,7 @@ interface EditCardProps {
 	title: string
 	highlightedWords?: string[]
 	value?: string
-	profilePictureUrl?: string
+	profilePictureUrl?: string | null
 	onEdit?: () => void
 }
 
@@ -20,7 +20,7 @@ function EditCard({
 	title,
 	highlightedWords = [],
 	value = '',
-	profilePictureUrl,
+	profilePictureUrl = '',
 	onEdit,
 }: EditCardProps) {
 	/* <TextGradient > // Gradient não estava permitindo a renderização
@@ -35,8 +35,8 @@ function EditCard({
 		<DefaultCardContainer withoutPadding={!!profilePictureUrl}>
 			<CardHeader
 				style={{
-					paddingHorizontal: profilePictureUrl && RFValue(15),
-					paddingVertical: profilePictureUrl && RFValue(10)
+					paddingHorizontal: profilePictureUrl ? RFValue(15) : 0,
+					paddingVertical: profilePictureUrl ? RFValue(10) : 0
 				}}
 			>
 				<DefaultHeaderTitle
@@ -70,7 +70,7 @@ function EditCard({
 						<PictureArea >
 							<ProfilePicture
 								source={{
-									uri: 'https://firebasestorage.googleapis.com/v0/b/corresocial-66840.appspot.com/o/imagens%2Fservices%2Ff7Y8KPRDeGQSudLlfCxg1.jpg?alt=media&token=ae9b1266-a2a0-442b-845a-fefda213bbba'
+									uri: profilePictureUrl || 'https://www.softdownload.com.br/wp-content/uploads/2018/03/como_trocar_foto_perfil_facebook.jpg'
 								}}
 								width={0}
 								height={0}

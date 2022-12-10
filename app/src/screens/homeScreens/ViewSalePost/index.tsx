@@ -77,20 +77,24 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					/>
 				</UserAndValueContainer>
 				<OptionsArea>
-					<SmallButton
-						color={theme.white3}
-						fontSize={14}
-						SvgIcon={ShareIcon}
-						relativeWidth={screenHeight * 0.05}
-						height={screenHeight * 0.05}
-						onPress={() => { }}
-					/>
+					{
+						!!route.params.isAuthor && (
+							<SmallButton
+								color={theme.white3}
+								fontSize={14}
+								SvgIcon={ShareIcon}
+								relativeWidth={screenHeight * 0.05}
+								height={screenHeight * 0.05}
+								onPress={() => { }}
+							/>
+						)
+					}
 					<SmallButton
 						color={theme.green2}
-						label={'comprar'}
+						label={!route.params.isAuthor ? 'compartilhar' : 'comprar'}
 						fontSize={14}
-						SvgIcon={ChatIcon}
-						relativeWidth={'63%'}
+						SvgIcon={!route.params.isAuthor ? ShareIcon : ChatIcon}
+						relativeWidth={!route.params.isAuthor ? '80%' : '63%'}
 						height={screenHeight * 0.05}
 						onPress={() => { }}
 					/>
@@ -100,7 +104,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						postType={postData.postType}
 						popoverVisibility={profileOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
-						isAuthor={route.params.isAuthor || false}
+						isAuthor={!route.params.isAuthor || false}
 						goToComplaint={() => Alert.alert('go to complaint')}
 						editPost={() => Alert.alert('edit post')}
 						deletePost={() => Alert.alert('delete post')}

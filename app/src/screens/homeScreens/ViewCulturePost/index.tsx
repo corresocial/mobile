@@ -9,6 +9,7 @@ import ChatIcon from '../../../assets/icons/chat.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
+import { deletePost } from '../../../services/firebase/post/deletePost'
 
 import { ViewCulturePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
@@ -67,20 +68,24 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					/>
 				</UserAndValueContainer>
 				<OptionsArea>
-					<SmallButton
-						color={theme.white3}
-						fontSize={14}
-						SvgIcon={ShareIcon}
-						relativeWidth={screenHeight * 0.05}
-						height={screenHeight * 0.05}
-						onPress={() => { }}
-					/>
+					{
+						!route.params.isAuthor && (
+							<SmallButton
+								color={theme.white3}
+								fontSize={14}
+								SvgIcon={ShareIcon}
+								relativeWidth={screenHeight * 0.05}
+								height={screenHeight * 0.05}
+								onPress={() => { }}
+							/>
+						)
+					}
 					<SmallButton
 						color={theme.green2}
-						label={'contratar'}
+						label={route.params.isAuthor ? 'compartilhar' : 'conversar'}
 						fontSize={14}
-						SvgIcon={ChatIcon}
-						relativeWidth={'63%'}
+						SvgIcon={route.params.isAuthor ? ShareIcon : ChatIcon}
+						relativeWidth={route.params.isAuthor ? '80%' : '63%'}
 						height={screenHeight * 0.05}
 						onPress={() => { }}
 					/>
@@ -93,7 +98,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						isAuthor={route.params.isAuthor || false}
 						goToComplaint={() => Alert.alert('go to complaint')}
 						editPost={() => Alert.alert('edit post')}
-						deletePost={() => Alert.alert('delete post')}
+						deletePost={() => deletePost(postData.postId, postData.owner.userId)}
 					>
 						<SmallButton
 							color={theme.white3}

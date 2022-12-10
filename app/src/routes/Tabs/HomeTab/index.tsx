@@ -93,24 +93,10 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 				}}
 			/>
 			<Tab.Screen
-				name={'Catalog'}
-				component={Home}
-				options={{
-					tabBarIcon: ({ focused }) => renderLoupIcon(focused)
-				}}
-			/>
-			<Tab.Screen
 				name={'Post'}
 				component={Home}
 				options={{
 					tabBarIcon: ({ focused }) => renderPlusIcon(focused)
-				}}
-			/>
-			<Tab.Screen
-				name={'Chat'}
-				component={Home}
-				options={{
-					tabBarIcon: ({ focused }) => renderChatIcon(focused)
 				}}
 			/>
 			<Tab.Screen

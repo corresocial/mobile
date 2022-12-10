@@ -66,20 +66,24 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					/>
 				</UserAndValueContainer>
 				<OptionsArea>
-					<SmallButton
-						color={theme.white3}
-						fontSize={14}
-						SvgIcon={ShareIcon}
-						relativeWidth={screenHeight * 0.05}
-						height={screenHeight * 0.05}
-						onPress={() => { }}
-					/>
+					{
+						!route.params.isAuthor && (
+							<SmallButton
+								color={theme.white3}
+								fontSize={14}
+								SvgIcon={ShareIcon}
+								relativeWidth={screenHeight * 0.05}
+								height={screenHeight * 0.05}
+								onPress={() => { }}
+							/>
+						)
+					}
 					<SmallButton
 						color={theme.green2}
-						label={'fortalecer'}
+						label={route.params.isAuthor ? 'compartilhar' : 'fortalecer'}
 						fontSize={14}
-						SvgIcon={ChatIcon}
-						relativeWidth={'63%'}
+						SvgIcon={route.params.isAuthor ? ShareIcon : ChatIcon}
+						relativeWidth={route.params.isAuthor ? '80%' : '63%'}
 						height={screenHeight * 0.05}
 						onPress={() => { }}
 					/>

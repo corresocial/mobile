@@ -12,4 +12,5 @@ export type UserStackParamList = {
 	EditProfile: { user: LocalUserData }
 	EditUserName: { userName: string, userId: string }
 	EditUserDescription: { userDescription: string, userId: string }
+	EditUserPicture: { profilePictureUrl: string, userId: string }
 }

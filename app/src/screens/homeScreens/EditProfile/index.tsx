@@ -10,6 +10,7 @@ import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { EditCard } from '../../../components/_cards/EditCard'
+import { arrayIsEmpty } from '../../../common/auxiliaryFunctions'
 
 function EditProfile({ route, navigation }: EditProfileScreenProps) {
 	const [user, setUser] = useState<LocalUserData>(route.params.user)
@@ -58,14 +59,21 @@ function EditProfile({ route, navigation }: EditProfileScreenProps) {
 				})
 				break
 			}
-			/* case 'EditUserName': {
+			case 'EditUserPicture': {
 				navigation.navigate(screenName, {
-					userName: user.name || '',
+					profilePictureUrl: getProfilePictureUrl(),
 					userId: user.userId || ''
 				})
-			} */
+				break
+			}
 			default: return false
 		}
+	}
+
+	const getProfilePictureUrl = () => {
+		if (!user || !user.profilePictureUrl) return ''
+		if (arrayIsEmpty(user.profilePictureUrl)) return ''
+		return user.profilePictureUrl[0]
 	}
 
 	return (
@@ -81,7 +89,7 @@ function EditProfile({ route, navigation }: EditProfileScreenProps) {
 				<EditCard
 					title={'sua foto'}
 					highlightedWords={['foto']}
-					profilePictureUrl={'something'}
+					profilePictureUrl={getProfilePictureUrl()}
 					onEdit={() => goToEditScreen('EditUserPicture')}
 				/>
 				<Sigh />
