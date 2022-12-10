@@ -42,7 +42,7 @@ export const ExpandedUserDescription = styled.Text`
 	font-family: Arvo_400Regular;
 `
 export const OptionsArea = styled.View`
-	padding-vertical: ${RFValue(15)}px;
+	padding-bottom: ${RFValue(15)}px;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;

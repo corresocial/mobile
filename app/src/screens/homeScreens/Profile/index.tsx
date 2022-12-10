@@ -43,6 +43,7 @@ import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { TextGradient } from '../../../components/TextGradient'
 import { ProfilePopOver } from '../../../components/ProfilePopOver'
+import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 
 function Profile({ route, navigation }: ProfileScreenProps) {
 	const { getDataFromSecureStore, deleteLocaluser } = useContext(AuthContext)
@@ -161,7 +162,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 			<DefaultHeaderContainer
 				backgroundColor={theme.white3}
 				centralized={false}
-				relativeHeight={!userDescriptionIsExpanded ? '25%' : '37%'}
+				relativeHeight={!userDescriptionIsExpanded ? '31%' : '43%'}
 				borderBottomWidth={0}
 			>
 				<ProfileHeader>
@@ -204,6 +205,22 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 							</ExpandedUserDescriptionArea>
 						)
 					}
+					<HorizontalSocialMediaList socialMedias={[
+						{ title: 'linkedin', link: 'linkedin.com' },
+						{ title: 'facebook', link: 'facebook.com' },
+						{ title: 'instagram', link: 'instagram.com' },
+						{ title: 'twiter', link: 'twiter.com' },
+						{ title: 'whatsapp', link: 'whatsapp.com' },
+						{ title: 'spotify', link: 'spotify.com' },
+						{ title: 'tiktok', link: 'tiktok.com' },
+						{ title: 'soundcloud', link: 'soundcloud.com' },
+						{ title: 'loja', link: 'loja.com' },
+						{ title: 'teste', link: 'teste.com' },
+						{ title: 'singedstremer', link: 'singedstremer.com' },
+						{ title: 'loja da dona maria', link: 'lojadadonamaria.com' },
+					]}
+					/>
+
 					<OptionsArea>
 						<SmallButton
 							color={theme.white3}
