@@ -6,8 +6,8 @@ export const Container = styled.TouchableWithoutFeedback`
    width: 100%;
 `
 export const TouchableContainer = styled.TouchableWithoutFeedback`
-    width: 100%;
-    background-color: ${({ theme }) => theme.white2}
+	width: 100%;
+	background-color: ${({ theme }) => theme.white2}
 `
 
 export const ContainerBottom = styled(Animatable.View)`

@@ -25,7 +25,7 @@ function Splash({ navigation }: SplashScreenProps) {
 	useEffect(() => {
 		Animated.timing(imagesSvgOpacity, {
 			toValue: 1,
-			duration: 1000,
+			duration: 2000,
 			useNativeDriver: true
 		}).start()
 

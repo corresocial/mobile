@@ -12,7 +12,9 @@ interface SmallButtonProps {
 	highlightedWords?: string[]
 	fontSize?: number
 	SvgIcon?: React.FC<SvgProps>
+	svgScale?: number
 	relativeWidth?: string | number
+	flexDirection?: string
 	height?: number
 	onPress: () => void
 }
@@ -23,8 +25,10 @@ function SmallButton({
 	highlightedWords = [],
 	fontSize,
 	SvgIcon,
+	svgScale = RFValue(22),
 	relativeWidth = '100%',
 	height = 30,
+	flexDirection = 'row',
 	onPress
 }: SmallButtonProps) {
 	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
@@ -58,21 +62,22 @@ function SmallButton({
 					style={{
 						backgroundColor: color,
 						marginRight: buttonPressed ? RFValue(-4) : 0,
-						height: RFValue(height)
+						height: RFValue(height),
+						flexDirection,
 					} as { [key: string]: React.CSSProperties }}
 				>
 					{
 						!!SvgIcon && (
 							<SvgIcon
-								height={RFValue(22)}
-								width={RFValue(22)}
+								height={svgScale}
+								width={svgScale}
 							/>
 						)
 					}
 					<ButtonLabel
 						style={{
 							fontSize,
-							marginLeft: label ? RFValue(8) : 0,
+							marginLeft: label && flexDirection === 'row' ? RFValue(8) : 0,
 							fontFamily: highlightedWords?.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold'
 						}}
 					>

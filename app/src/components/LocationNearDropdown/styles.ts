@@ -1,0 +1,71 @@
+import { Animated } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
+import styled from 'styled-components/native'
+import { screenHeight } from '../../common/screenDimensions'
+
+export const Container = styled(Animated.View)`
+	width: 100%;
+	background-color: ${({ theme }) => theme.black4};
+	border: ${RFValue(2.5)}px solid black;
+	border-right-width: ${RFValue(6)}px;
+	border-radius: ${RFValue(15)}px;
+	z-index: 10;
+	overflow: hidden;
+`
+
+export const ContainerInner = styled(Animated.View)`
+	flex: 1;
+	background-color: ${({ theme }) => theme.white3};
+	border-radius: ${RFValue(13)}px;
+`
+
+export const DropdownHeaderContainer = styled.View`
+	z-index: 20;
+	background-color: ${({ theme }) => theme.white3};
+	width: 100%;
+	height: ${screenHeight * 0.08}px;
+	padding-horizontal: ${RFValue(15)}px;
+`
+
+export const DropdownHeader = styled.View`
+	height: 100%;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	border-width-color: ${({ theme }) => theme.black4};
+	border-bottom-width: ${RFValue(3)}px;
+`
+
+export const SearchInput = styled.TextInput`
+	width: 85%;
+	height: 100%;
+	font-size: ${RFValue(15)}px;
+	font-family: Arvo_400Regular;
+	text-align: left;
+`
+
+export const IconArea = styled.TouchableOpacity`
+	align-items: center;
+	justify-content: center;
+	width: 10%;
+	height: 100%;
+`
+
+export const DropdownBody = styled.View`
+	padding: ${RFValue(10)}px;
+`
+
+export const Sigh = styled.View`
+	width: 100%;
+	margin-vertical: ${RFValue(5)}px;
+`
+
+export const BigSigh = styled.View`
+	width: 100%;
+	margin-vertical: ${screenHeight * 0.2}px;
+`
+
+export const MyLocationButtonContainer = styled.View`
+	width: 100%;
+	padding-left: ${RFValue(7)}px;
+`
