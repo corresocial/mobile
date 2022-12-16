@@ -8,7 +8,7 @@ async function getPrivateAddress(postType: PostType, postId: string) {
 	const postCollection = getPostCollectionName(postType)
 
 	try {
-		const docRef = doc(firestore, postCollection, postId, 'private', 'address')
+		const docRef = doc(firestore, postCollection, postId, 'private', `address${postId}`)
 		const docSnap = await getDoc(docRef)
 		if (docSnap.exists()) {
 			return {

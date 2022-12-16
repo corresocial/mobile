@@ -33,6 +33,8 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 		setPostDataFromRoute()
 	}, [])
 
+	console.log(route.params.postData.postId)
+
 	const setPostDataFromRoute = async () => {
 		const postDataFromRoute = { ...route.params.postData }
 		setPostData(postDataFromRoute as any) // TODO any

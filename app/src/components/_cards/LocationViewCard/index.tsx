@@ -81,7 +81,7 @@ function LocationViewCard({
 	}
 
 	const getAddressCoordinates = () => {
-		if (!Object.keys(completeAddress).length) {
+		if (!completeAddress || !Object.keys(completeAddress).length) {
 			return ({ // TODO Eart
 				latitude: -23.318759913934052,
 				longitude: -51.16604430601001,
