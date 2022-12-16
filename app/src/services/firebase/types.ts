@@ -86,16 +86,21 @@ export type UserCollection = {
 }
 
 export type PrivateAddress = {
+	postType?: string
+	locationView?: LocationViewType
 	country?: string
 	state?: string
 	city?: string
 	district?: string
 	street?: string
 	residenceNumber?: number
+	postalCode?: string
+	number?: number
 	reference?: string
 	coordinates?: { lat: number, lng: number }
 	geohash?: string
 	geohashNear?: string[]
+	geohashes?: string[]
 	geohashCity?: string[]
 }
 
@@ -107,7 +112,7 @@ export type PostCollection = ServiceCollection | SaleCollection | VacancyCollect
 
 export type ServiceCollection = {
 	postId?: string
-	postType?: PostType
+	postType: PostType
 	title?: string
 	tags?: string[]
 	paymentType?: PaymentType

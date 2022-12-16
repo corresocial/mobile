@@ -8,10 +8,12 @@ import { theme } from '../../common/theme'
 
 interface DropdownItemProps {
 	selected?: boolean
+	dropdownData?: any // TODO Type
 	recent?: boolean
+	findNearPosts?: () => void
 }
 
-function DropdownItem({ selected, recent }: DropdownItemProps) {
+function DropdownItem({ selected, dropdownData, recent, findNearPosts }: DropdownItemProps) {
 	const getRelativeWidth = () => {
 		if (selected) return '100%'
 		if (recent) return '70%'
@@ -23,7 +25,9 @@ function DropdownItem({ selected, recent }: DropdownItemProps) {
 			style={{
 				backgroundColor: !selected ? theme.white3 : theme.orange1,
 				borderLeftColor: !selected ? theme.black4 : theme.orange5,
+				borderLeftWidth: !selected ? RFValue(2.5) : RFValue(5),
 			}}
+			onPress={() => findNearPosts && findNearPosts()}
 		>
 			{
 				recent && (
@@ -43,7 +47,7 @@ function DropdownItem({ selected, recent }: DropdownItemProps) {
 						color: !selected ? theme.black4 : theme.orange5
 					}}
 				>
-					{'R. Guarapuava, 90 - Jardim Santo Antonio asd asd asd as dasdas da d'}
+					{dropdownData && dropdownData.addressHighlighted}
 				</HighlightedAddress>
 				<Address
 					numberOfLines={1}
@@ -51,7 +55,7 @@ function DropdownItem({ selected, recent }: DropdownItemProps) {
 						color: !selected ? theme.black4 : theme.orange5
 					}}
 				>
-					{'Londrina - PR, 76956-000'}
+					{dropdownData && dropdownData.addressThin}
 				</Address>
 			</AddressArea>
 			<IconArea>

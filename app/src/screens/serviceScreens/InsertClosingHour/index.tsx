@@ -168,7 +168,11 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 				)
 
 				await updatePostPrivateData(
-					serviceAddress,
+					{
+						...serviceAddress,
+						locationView: serviceDataPost.locationView,
+						postType: serviceDataPost.postType,
+					},
 					postId,
 					'services',
 					'address'
@@ -202,15 +206,19 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 													picturePostsUrls,
 												)
 
-												await updateDocField( // Update pictureUrl
+												await updateDocField(
 													'services',
 													postId,
 													'picturesUrl',
-													picturePostsUrls, // TODO, remove object in another flows
+													picturePostsUrls,
 												)
 
 												await updatePostPrivateData(
-													serviceAddress,
+													{
+														...serviceAddress,
+														locationView: serviceDataPost.locationView,
+														postType: serviceDataPost.postType,
+													},
 													postId,
 													'services',
 													'address'
@@ -260,7 +268,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 					...localUser,
 					tourPerformed: true,
 					posts: [
-						...localUserPosts, // TODO Update requests in another flows
+						...localUserPosts,
 						{
 							...postData,
 							owner: {

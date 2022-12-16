@@ -1,4 +1,4 @@
-import { postsIndex } from './index'
+import { servicesIndex } from './index'
 
 async function searchPosts(text: string, searchParams: any) {
 	let geoKey: string
@@ -46,10 +46,10 @@ async function searchPosts(text: string, searchParams: any) {
 
 	if (searchConfig.range !== 'country') {
 		const results = await Promise.all([
-			postsIndex.search(text, {
+			servicesIndex.search(text, {
 				filters: geohashFilter + searchConfig.typeFilter,
 			}),
-			postsIndex.search(text, {
+			servicesIndex.search(text, {
 				filters: searchConfig.rangeFilter + searchConfig.typeFilter,
 			}),
 		]).then((responses) => responses.reduce((acc: any, result: any) => {
@@ -63,7 +63,7 @@ async function searchPosts(text: string, searchParams: any) {
 		return results
 	}
 	return Promise.all([
-		postsIndex.search(text, {
+		servicesIndex.search(text, {
 			filters: searchConfig.rangeFilter,
 		}),
 	]).then((responses) => responses[0].hits)

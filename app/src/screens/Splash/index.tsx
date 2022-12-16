@@ -25,13 +25,13 @@ function Splash({ navigation }: SplashScreenProps) {
 	useEffect(() => {
 		Animated.timing(imagesSvgOpacity, {
 			toValue: 1,
-			duration: 2000,
+			duration: 1000,
 			useNativeDriver: true
 		}).start()
 
 		setTimeout(() => {
 			redirectToApp()
-		}, 2000)
+		}, 1000)
 	})
 
 	const redirectToApp = async () => {

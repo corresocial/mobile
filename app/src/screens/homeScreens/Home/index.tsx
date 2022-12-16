@@ -1,8 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { BackHandler, FlatList, StatusBar } from 'react-native'
 import * as Location from 'expo-location'
-
 import { RFValue } from 'react-native-responsive-fontsize'
+
+import {
+	Container,
+	DropdownContainer,
+	FooterSigh,
+	HorizontalPostTypes,
+	RecentPostsContainer,
+	RecentPostsHeader,
+	Sigh,
+	Title
+} from './styles'
 import { theme } from '../../../common/theme'
 import HeartPinkIcon from '../../../assets/icons/heart-pink.svg'
 import SalesCartIcon from '../../../assets/icons/salesCart-green.svg'
@@ -10,76 +20,60 @@ import SoundToolsIcon from '../../../assets/icons/soundTools-blue.svg'
 import ToolBoxIcon from '../../../assets/icons/toolBox-purple.svg'
 import SuitcaseIcon from '../../../assets/icons/suitcase-yellow.svg'
 import AngleRightIcon from '../../../assets/icons/angleRight-shadow.svg'
+import { screenWidth } from '../../../common/screenDimensions'
 
+import { searchPosts } from '../../../services/algolia/searchPost'
+import { getListOfPosts } from '../../../services/firebase/post/getListOfPosts'
+import { generateGeohashes } from '../../../common/generateGeohashes'
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { searchAddressByText } from '../../../services/maps/searchAddressByText'
+import { structureAddress } from '../../../services/maps/addressFormatter'
+import { getRecentAddressFromStorage } from '../../../services/maps/recentAddresses'
+
+import { AlgoliaSearchParams, LatLong, AddressSearchResult, SelectedAddressRender } from '../../../services/maps/types'
 import { PostCollection } from '../../../services/firebase/types'
+import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { LocationNearDropdown } from '../../../components/LocationNearDropdown'
-import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { Container, DropdownContainer, FooterSigh, HorizontalPostTypes, RecentPostsContainer, RecentPostsHeader, Sigh, Title } from './styles'
-import { SmallButton } from '../../../components/_buttons/SmallButton'
-import { screenWidth } from '../../../common/screenDimensions'
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-import { RequestLocation } from '../../../components/RequestLocation'
 import { PostCard } from '../../../components/_cards/PostCard'
-import { searchPosts } from '../../../services/algolia/searchPost'
+import { SmallButton } from '../../../components/_buttons/SmallButton'
+import { RequestLocation } from '../../../components/RequestLocation'
+import { LoaderContext } from '../../../contexts/LoaderContext'
 
-const data = ['avenina A', 'avenida B', 'avenida C', 'avenida D', 'avenida E', 'avenida F', 'avenida G', 'avenida H', 'avenida I']
+const initialSelectedAddress = {
+	addressHighlighted: '',
+	addressThin: ''
+}
 
-const near = [
-	{
-		attendanceFrequency: 'someday',
-		attendanceWeekDays: [
-			'ter',
-			'sab',
-		],
-		closingHour: {
-			nanoseconds: 891000000,
-			seconds: 1669984208,
-		},
-		createdAt: {
-			nanoseconds: 13000000,
-			seconds: 1669996577,
-		},
-		deliveryMethod: 'unavailable',
-		locationView: 'approximate',
-		openingHour: {
-			nanoseconds: 933000000,
-			seconds: 1669977053,
-		},
-		owner: {
-			description: 'Olá! sou doutor e de assistente junior em treinament coisas que estão no meu coração e o que eu não sei se vou conseguir ir aí amanhã cedo e talvez eu vou aí buscar o jaleco e ver se tem alguma coisa pra faze',
-			name: 'Wellington Souza Abreu',
-			profilePictureUrl: [
-				'https://firebasestorage.googleapis.com/v0/b/corresocial-66840.appspot.com/o/imagens%2Fusers%2FRMCJAuUhLjSmAu3kgjTzRjjZ2jB2.jpg?alt=media&token=bdad07e2-9969-44bb-8444-665eb87e98de',
-			],
-		},
-		picturesUrl: [
-			'https://firebasestorage.googleapis.com/v0/b/corresocial-66840.appspot.com/o/imagens%2Fservices%2Ff7Y8KPRDeGQSudLlfCxg1.jpg?alt=media&token=ae9b1266-a2a0-442b-845a-fefda213bbba',
-			'https://firebasestorage.googleapis.com/v0/b/corresocial-66840.appspot.com/o/imagens%2Fservices%2Ff7Y8KPRDeGQSudLlfCxg.jpg?alt=media&token=64afd287-a219-402d-9c49-4b5e21ce99cc',
-		],
-		postId: 'f7Y8KPRDeGQSudLlfCxg',
-		postType: 'service',
-		saleValue: 326,
-		tags: [
-			'agrupecuaria',
-		],
-		title: 'teste de cadastro de serviço',
-	}
-]
+function Home({ navigation }: HomeTabScreenProps) {
+	const { setLoaderIsVisible } = useContext(LoaderContext)
 
-function Home({ navigation, route }: HomeTabScreenProps) {
-	const [recentLocations, setRecentLocations] = useState<PostCollection[]>(data as any)
-	const [nearPosts, setNearPosts] = useState<PostCollection[]>(near as any)
-
+	const [selectedAddress, setSelectedAddress] = useState<SelectedAddressRender>(initialSelectedAddress)
+	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])
+	const [nearPosts, setNearPosts] = useState<PostCollection[]>([])
+	const [addressSuggestions, setAddressSuggestions] = useState<AddressSearchResult[]>([])
 	const [hasLocationPermission, setHasLocationPermission] = useState(false)
 
 	useEffect(() => {
 		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
 	})
 
+	const onPressBackHandler = () => {
+		if (navigation.isFocused()) {
+			BackHandler.exitApp()
+			return true
+		}
+		return false
+	}
+
 	useEffect(() => {
 		requestPermissions()
+		getRecentAddresses()
 	}, [])
+
+	useEffect(() => {
+		findNearPosts('', true)
+	}, [hasLocationPermission])
 
 	const requestPermissions = async () => {
 		const { status } = await Location.requestForegroundPermissionsAsync()
@@ -90,18 +84,94 @@ function Home({ navigation, route }: HomeTabScreenProps) {
 		}
 	}
 
-	const onPressBackHandler = () => {
-		if (navigation.isFocused()) {
-			BackHandler.exitApp()
-			return true
-		}
-		return false
+	const getRecentAddresses = async () => {
+		const addresses = await getRecentAddressFromStorage()
+		setRecentAddresses(addresses)
 	}
 
-	const findNearPosts = async (searchText: string) => {
-		console.log(searchText)
-		const posts = await searchPosts(searchText, {})
-		console.log(posts)
+	const findNearPosts = async (searchText: string, currentPosition?: boolean, alternativeCoordinates?: LatLong) => { // TODO Type
+		try {
+			setLoaderIsVisible(true)
+			let searchParams = {}
+			if (currentPosition) {
+				const coordinates = await getCurrentPositionCoordinates()
+				searchParams = await getSearchParams(coordinates)
+			} else {
+				const coordinates = alternativeCoordinates || await getSearchedAddressCoordinates(searchText)
+				searchParams = await getSearchParams(coordinates as LatLong) // address converter
+			}
+
+			const postIds = await searchPosts(searchText, searchParams)
+			const posts = await getListOfPosts(postIds) as PostCollection[]
+			setNearPosts(posts)
+			setLoaderIsVisible(false)
+		} catch (err) {
+			console.log(err)
+			setLoaderIsVisible(false)
+		}
+	}
+
+	const getCurrentPositionCoordinates = async () => {
+		const currentPositionCoordinate = await Location.getCurrentPositionAsync()
+		return {
+			lat: currentPositionCoordinate.coords.latitude,
+			lon: currentPositionCoordinate.coords.longitude
+		} as LatLong
+	}
+
+	const getSearchedAddressCoordinates = async (searchText: string) => {
+		const addressGeolocation = await Location.geocodeAsync(searchText)
+		if (!addressGeolocation.length) {
+			console.log('invalid text address')
+			return false
+		}
+		return {
+			lat: addressGeolocation[0].latitude,
+			lon: addressGeolocation[0].longitude,
+		} as LatLong
+	}
+
+	const getSearchParams = async (coordinates: LatLong) => {
+		const address = await convertGeocodeToAddress(coordinates.lat, coordinates.lon)
+		const structuredAddress = structureAddress(address)
+		const geohashObject = generateGeohashes(coordinates.lat, coordinates.lon)
+
+		setSelectedAddress({
+			addressHighlighted: `${structuredAddress.street}, ${structuredAddress.number} - ${structuredAddress.district}`,
+			addressThin: `${structuredAddress.city} - ${structuredAddress.state}, ${structuredAddress.postalCode}`
+		})
+
+		return {
+			range: 'nearby',
+			city: structuredAddress.city,
+			country: structuredAddress.country,
+			postType: 'any',
+			geohashes: geohashObject.geohashNearby
+		} as AlgoliaSearchParams
+	}
+
+	const convertGeocodeToAddress = async (latitude: number, longitude: number) => {
+		const geocodeAddress = await Location.reverseGeocodeAsync({
+			latitude,
+			longitude
+		})
+		return geocodeAddress
+	}
+
+	const findAddressSuggestions = async (searchText: string) => {
+		try {
+			setLoaderIsVisible(true)
+			const addresses = await searchAddressByText(searchText, true)
+			setAddressSuggestions(addresses)
+			setLoaderIsVisible(false)
+		} catch (err) {
+			console.log('deu ruim')
+			setLoaderIsVisible(false)
+		}
+	}
+
+	const clearAddressSuggestions = () => {
+		setAddressSuggestions([])
 	}
 
 	return (
@@ -109,9 +179,13 @@ function Home({ navigation, route }: HomeTabScreenProps) {
 			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<DropdownContainer>
 				<LocationNearDropdown
-					recentLocations={recentLocations}
-					nearPosts={nearPosts}
+					selectedAddress={selectedAddress}
+					recentAddresses={recentAddresses}
+					addressSuggestions={addressSuggestions}
+					selectAddress={setSelectedAddress}
+					clearAddressSuggestions={clearAddressSuggestions}
 					findNearPosts={findNearPosts}
+					findAddressSuggestions={findAddressSuggestions}
 				/>
 			</DropdownContainer>
 			<HorizontalPostTypes>
@@ -177,28 +251,30 @@ function Home({ navigation, route }: HomeTabScreenProps) {
 					<AngleRightIcon width={RFValue(20)} height={RFValue(20)} />
 				</RecentPostsHeader>
 				{
-					(!recentLocations.length || !nearPosts.length) && (
-						<RequestLocation getLocationPermissions={() => { }} />
+					(!hasLocationPermission) && (
+						<RequestLocation getLocationPermissions={() => findNearPosts('', true)} />
 					)
 				}
 				{
-					nearPosts.length && (
-						<FlatList
-							data={nearPosts}
-							renderItem={({ item }: any) => ( // TODO type
-								<PostCard
-									post={item}
-									owner={item.owner}
-									onPress={() => { }}
-								/>
-							)}
-							showsVerticalScrollIndicator={false}
-							contentContainerStyle={{ padding: RFValue(10) }}
-							ItemSeparatorComponent={() => <Sigh />}
-							ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
-							ListFooterComponent={() => <FooterSigh />}
-						/>
-					)
+					nearPosts.length
+						? (
+							<FlatList
+								data={nearPosts}
+								renderItem={({ item }) => (
+									<PostCard
+										post={item}
+										owner={item.owner}
+										onPress={() => { }}
+									/>
+								)}
+								showsVerticalScrollIndicator={false}
+								contentContainerStyle={{ padding: RFValue(10) }}
+								ItemSeparatorComponent={() => <Sigh />}
+								ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
+								ListFooterComponent={<FooterSigh />}
+							/>
+						)
+						: null
 				}
 			</RecentPostsContainer>
 		</Container >

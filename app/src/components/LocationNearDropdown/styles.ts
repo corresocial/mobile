@@ -13,7 +13,7 @@ export const Container = styled(Animated.View)`
 	overflow: hidden;
 `
 
-export const ContainerInner = styled(Animated.View)`
+export const ContainerInner = styled.View`
 	flex: 1;
 	background-color: ${({ theme }) => theme.white3};
 	border-radius: ${RFValue(13)}px;

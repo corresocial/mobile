@@ -19,7 +19,7 @@ type AuthContextType = {
 	localUserIsValidToLogin: (userJSON: any, requireAuthentication?: boolean) => boolean | undefined
 	setDataOnSecureStore: (key: string, data: any) => Promise<boolean>
 	deleteLocaluser: () => Promise<void>
-	setRemoteUserOnLocal: (uid?: string) => Promise<void>
+	setRemoteUserOnLocal: (uid?: string) => Promise<boolean | undefined>
 	sendSMS: (completeNumber: string, recaptchaVerifier: any) => Promise<string>
 	validateVerificationCode: (verificationCodeId: string, verificationCode: string) => Promise<UserCredential>
 }
@@ -133,8 +133,9 @@ function AuthProvider({ children }: AuthProviderProps) {
 				})
 			} else {
 				console.log('Nenhum usuário local localizado')
-				throw new Error('Nenhum usuário localizado')
+				return false
 			}
+			return true
 		}
 	}
 

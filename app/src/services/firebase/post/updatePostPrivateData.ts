@@ -6,20 +6,16 @@ import { PostCollectionType, PrivateAddress } from '../types'
 async function updatePostPrivateData(data: PrivateAddress, postId: string, postCollection: PostCollectionType, privateField: string = '') {
 	try {
 		try {
-			const docRef = doc(firestore, postCollection, postId, 'private', privateField)
+			const docRef = doc(firestore, postCollection, postId, 'private', `${privateField}${postId}`)
 			await updateDoc(
 				docRef,
-				{
-					...data
-				}
+				{ ...data }
 			)
 		} catch (err) {
-			const collectionRef = doc(firestore, postCollection, postId, 'private', privateField)
+			const collectionRef = doc(firestore, postCollection, postId, 'private', `${privateField}${postId}`)
 			await setDoc(
 				collectionRef,
-				{
-					...data
-				},
+				{ ...data },
 			)
 		}
 	} catch (err) {

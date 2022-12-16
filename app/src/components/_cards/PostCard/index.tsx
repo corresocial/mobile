@@ -21,7 +21,7 @@ import { SaleExchangeValue } from '../../SaleExchangeValue'
 
 interface PostCardProps {
 	post: PostCollection | any
-	owner: LocalUserData
+	owner: LocalUserData | any
 	onPress: () => void
 }
 

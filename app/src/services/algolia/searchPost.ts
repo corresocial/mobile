@@ -1,72 +1,80 @@
-import { postsIndex } from './index'
+import { servicesIndex } from './index'
+import { PostIdentification } from './types'
 
-async function searchPosts(text: string, searchParams: any) {
-	let geoKey: string
-
-	const searchConfig = {
+async function searchPosts(searchText: string, searchParams: any, searchOnly?: boolean) {
+	/* const searchParams = {
 		range: 'nearby',
-		rangeFilter: '',
-		type: 'service',
-		typeFilter: '',
 		city: 'Londrina',
 		country: 'Brasil',
-		geohashNearby: ['6gge7d', '6gge7e', '6gge7g', '6gge7f', '6gge7c', '6gge79', '6gge73', '6gge76', '6gge77']
+		postType: 'any',
+		geohashes: ['6gge7d', '6gge7e', '6gge7g', '6gge7f', '6gge7c', '6gge79', '6gge73', '6gge76', '6gge77']
+	} */ // TODO Tests only
+
+	const searchFilters = {
+		rangeFilter: '',
+		postTypeFilter: '',
+		geohashFilter: '',
+		locationViewFilter: ''
 	}
 
-	if (searchConfig.range === 'nearby') {
-		geoKey = 'geohashNearby'
-		searchConfig.rangeFilter = `(locationView:public AND owner.address.city:${searchConfig.city})`
-	} else if (searchConfig.range === 'city') {
-		geoKey = 'geohashCity'
-		searchConfig.rangeFilter = `(locationView:public AND owner.address.city:${searchConfig.city})`
-	} else if (searchConfig.range === 'country') {
-		geoKey = 'geohashCountry'
-		searchConfig.rangeFilter = `(locationView:public AND owner.address.country:${searchConfig.country})`
+	if (!searchOnly) {
+		const geoKey = searchParams.range === 'nearby' ? 'geohashNearby' : 'geohashCity'
+		searchFilters.locationViewFilter = ' AND locationView:public OR locationView:approximate'
+		searchFilters.rangeFilter = getRangeFilter(searchParams.range, searchParams.city, searchParams.country)
+		searchFilters.postTypeFilter = getPostTypeFilter(searchParams.postType)
+		searchFilters.geohashFilter = getGeohashFilter(searchParams.geohashes, geoKey)
 	}
 
-	if (searchConfig.type === 'job') {
-		searchConfig.typeFilter = 'AND postType:job'
-	} else if (searchConfig.type === 'service') {
-		searchConfig.typeFilter = 'AND postType:service'
-	} else if (searchConfig.type === 'commerce') {
-		searchConfig.typeFilter = 'AND postType:commerce'
-	} else {
-		searchConfig.typeFilter = ''
-	}
+	if (searchParams.range !== 'country') {
+		const results = await servicesIndex.search(searchText, {
+			filters: searchOnly
+				? ''
+				: `${searchFilters.rangeFilter}${searchFilters.postTypeFilter}${searchFilters.locationViewFilter}`
+		})
 
-	const geohashFilter = searchConfig.geohashNearby?.reduce((aux, geohash) => {
-		if (aux === searchConfig.geohashNearby[0]) {
-			return `private.address.${geoKey}:${aux} OR`
+		if (results.hits.length > 0) {
+			// console.log(results.hits[0])
+			const records = results.hits.map((record: any, index: number) => { // TODO Type
+				return {
+					collection: record.path.split('/')[0],
+					postId: record.objectID.replace('address', '')
+				} as PostIdentification
+			})
+
+			const filtredRecords = filterInvalidArrayItems(records)
+			return filtredRecords
 		}
-		if (geohash === searchConfig.geohashNearby[searchConfig.geohashNearby.length - 1]) {
-			return `(${aux} private.address.${geoKey}:${geohash})`
-		}
-		return `${aux} private.address.${geoKey}:${geohash} OR`
-	})
-
-	if (searchConfig.range !== 'country') {
-		const results = await Promise.all([
-			postsIndex.search(text, {
-				filters: geohashFilter + searchConfig.typeFilter,
-			}),
-			postsIndex.search(text, {
-				filters: searchConfig.rangeFilter + searchConfig.typeFilter,
-			}),
-		]).then((responses) => responses.reduce((acc: any, result: any) => {
-			if (result.hits.length > 0) {
-				return [...acc, ...result.hits].filter(
-					(item, index, self) => index === self.findIndex((t) => t.objectID === item.objectID),
-				)
-			}
-			return acc
-		}, []))
-		return results
+		return [] as PostIdentification[]
 	}
-	return Promise.all([
-		postsIndex.search(text, {
-			filters: searchConfig.rangeFilter,
-		}),
-	]).then((responses) => responses[0].hits)
+	console.log('Busca por localização de país não implementada')
+	return []
+}
+
+const getRangeFilter = (range: string, city: string, country: string) => {
+	if (range === 'nearby' || range === 'city') return `city:"${city}"`
+	if (range === 'country') return `country:"${country}"`
+	return ''
+}
+
+const getPostTypeFilter = (postType: string) => {
+	switch (postType) {
+		case 'service': return ' AND postType:service '
+		case 'any': return ' AND postType:service '
+		default: return ''
+	}
+}
+
+const getGeohashFilter = (geohashes: string[], geoKey: string) => {
+	return geohashes.reduce((query, geohash) => {
+		if (geohash === geohashes[geohashes.length - 1]) {
+			return `AND (${query} ${geoKey}:${geohash})`
+		}
+		return `${query} ${geoKey}:${geohash} OR`
+	}, '')
+}
+
+const filterInvalidArrayItems = (records: PostIdentification[]) => {
+	return records.filter((record) => !!record)
 }
 
 export { searchPosts }

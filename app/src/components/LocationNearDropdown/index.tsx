@@ -1,34 +1,87 @@
 import React, { useEffect, useState } from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
-import * as Location from 'expo-location'
 import { Animated, FlatList, KeyboardAvoidingView } from 'react-native'
-
 import uuid from 'react-uuid'
-import { Container, ContainerInner, DropdownBody, DropdownHeader, DropdownHeaderContainer, Sigh, IconArea, SearchInput, MyLocationButtonContainer, BigSigh } from './styles'
-import { screenHeight, screenWidth } from '../../common/screenDimensions'
-import LoupIcon from '../../assets/icons/loup.svg'
-import AngleUpIcon from '../../assets/icons/angleUp.svg'
-import XIcon from '../../assets/icons/x-thin.svg'
+import { RFValue } from 'react-native-responsive-fontsize'
 
+import {
+	Container,
+	ContainerInner,
+	DropdownBody,
+	DropdownHeader,
+	DropdownHeaderContainer,
+	Sigh,
+	IconArea,
+	SearchInput,
+	MyLocationButtonContainer,
+	BigSigh
+} from './styles'
+import { theme } from '../../common/theme'
+import { screenHeight } from '../../common/screenDimensions'
+import LoupIcon from '../../assets/icons/loup.svg'
+import XIcon from '../../assets/icons/x-thin.svg'
 import MapIcon from '../../assets/icons/map.svg'
+
+import { setRecentAddressOnStorage } from '../../services/maps/recentAddresses'
+
+import { AddressSearchResult, LatLong, SelectedAddressRender } from '../../services/maps/types'
 
 import { DropdownItem } from '../DropdownItem'
 import { SmallButton } from '../_buttons/SmallButton'
-import { theme } from '../../common/theme'
 import { PrimaryButton } from '../_buttons/PrimaryButton'
 import { DefaultDropdownHeader } from '../DefaultDropdownHeader'
-import { PostCollection } from '../../services/firebase/types'
 
 interface LocationNearDropdownProps {
-	recentLocations: PostCollection[]
-	nearPosts: PostCollection[]
-	findNearPosts: (text: string) => void
+	selectedAddress: SelectedAddressRender
+	recentAddresses: AddressSearchResult[]
+	addressSuggestions: AddressSearchResult[]
+	clearAddressSuggestions: () => void
+	selectAddress: (address: SelectedAddressRender) => void
+	findAddressSuggestions: (text: string) => void
+	findNearPosts: (text: string, currentPosition: boolean, searchOptions?: LatLong) => void
 }
 
-function LocationNearDropdown({ recentLocations, nearPosts, findNearPosts }: LocationNearDropdownProps) {
-	const [locationSelected, setLocationSelected] = useState('Rua Adenilson barreira da silva porto velho')
+function LocationNearDropdown({
+	selectedAddress,
+	recentAddresses,
+	addressSuggestions,
+	selectAddress,
+	clearAddressSuggestions,
+	findNearPosts,
+	findAddressSuggestions
+}: LocationNearDropdownProps) {
 	const [searchText, setSearchText] = useState('')
 	const [dropdownIsVisible, setDropdownIsVisible] = useState(false)
+
+	const getFormattedAddress = (address: AddressSearchResult) => {
+		const greaterThanThree = address.formattedAddress.split(',').length > 3
+		if (Object.keys(address).length < 1) {
+			return {
+				addressHighlighted: '',
+				addressThin: '',
+			}
+		}
+		return {
+			addressHighlighted: `${address.formattedAddress.split(',')[0].trim()}${greaterThanThree ? `, ${address.formattedAddress.split(',')[1].trim()}` : ''}`,
+			addressThin: `${greaterThanThree ? address.formattedAddress.split(',')[2].trim() : address.formattedAddress.split(',')[1].trim()}${greaterThanThree ? ` - ${address.formattedAddress.split(',')[3].trim()}` : ''}`,
+		}
+	}
+
+	const findNearPostsByAddress = async (address: AddressSearchResult) => {
+		setDropdownIsVisible(false)
+		if (!address.recent) {
+			await setRecentAddressOnStorage(address)
+		}
+
+		const greaterThanThree = address.formattedAddress.split(',').length > 3
+		selectAddress({
+			addressHighlighted: `${address.formattedAddress.split(',')[0].trim()}${greaterThanThree ? `, ${address.formattedAddress.split(',')[1].trim()}` : ''}`,
+			addressThin: `${greaterThanThree ? address.formattedAddress.split(',')[2].trim() : address.formattedAddress.split(',')[1].trim()}${greaterThanThree ? ` - ${address.formattedAddress.split(',')[3].trim()}` : ''}`,
+		})
+		findNearPosts('', false, {
+			lat: address.lat,
+			lon: address.lon
+		})
+	}
 
 	const animatedHeight = React.useRef(
 		new Animated.Value(screenHeight * 0.1),
@@ -69,7 +122,10 @@ function LocationNearDropdown({ recentLocations, nearPosts, findNearPosts }: Loc
 															relativeWidth={screenHeight * 0.04}
 															svgScale={13}
 															color={theme.white3}
-															onPress={() => setSearchText('')}
+															onPress={() => {
+																clearAddressSuggestions()
+																setSearchText('')
+															}}
 															SvgIcon={XIcon}
 														/>
 													)
@@ -79,41 +135,67 @@ function LocationNearDropdown({ recentLocations, nearPosts, findNearPosts }: Loc
 											value={searchText}
 											placeholder={'onde você tá?'}
 											returnKeyType={'search'}
-											onChangeText={(text: string) => setSearchText(text)}
-											onSubmitEditing={() => findNearPosts(searchText)}
+											onChangeText={(text: string) => {
+												setSearchText(text)
+												clearAddressSuggestions()
+											}}
+											onSubmitEditing={() => {
+												findAddressSuggestions(searchText)
+											}}
 										/>
 									</DropdownHeader>
 								</DropdownHeaderContainer>
 							)
 							: (
 								<DefaultDropdownHeader
-									text={locationSelected}
+									text={selectedAddress.addressHighlighted || 'não encontramos sua localização'}
 									openDropDown={() => setDropdownIsVisible(true)}
 									closeDropDown={() => setDropdownIsVisible(false)}
 								/>
 							)
 					}
 					<DropdownBody >
-						<DropdownItem selected />
+						{
+							selectedAddress.addressHighlighted.length > 0 && (
+								<DropdownItem
+									selected
+									dropdownData={selectedAddress}
+								/>
+							)
+						}
 						<Sigh />
-						<MyLocationButtonContainer>
-							<PrimaryButton
-								startsHidden={false}
-								color={theme.green3}
-								label={'usar minha localização'}
-								highlightedWords={['minha', 'localização']}
-								labelColor={theme.white3}
-								fontSize={16}
-								SecondSvgIcon={MapIcon}
-								svgIconScale={['50%', '30%']}
-								onPress={() => { }}
-							/>
-						</MyLocationButtonContainer>
+						{
+							searchText.length < 1 && (
+								<MyLocationButtonContainer>
+									<PrimaryButton
+										keyboardHideButton={false}
+										color={theme.green3}
+										label={'usar minha localização'}
+										highlightedWords={['minha', 'localização']}
+										labelColor={theme.white3}
+										fontSize={16}
+										SecondSvgIcon={MapIcon}
+										svgIconScale={['50%', '30%']}
+										onPress={() => {
+											setDropdownIsVisible(false)
+											findNearPosts('', true)
+										}}
+									/>
+								</MyLocationButtonContainer>
+							)
+						}
 						<Sigh />
 						<FlatList
-							data={searchText.length > 0 ? nearPosts : recentLocations}
-							showsVerticalScrollIndicator={false}
-							renderItem={() => <DropdownItem key={uuid()} />}
+							data={searchText.length < 1 ? recentAddresses : addressSuggestions}
+							showsVerticalScrollIndicator={false} // Item
+							renderItem={({ item }) => (
+								<DropdownItem
+									key={uuid()}
+									dropdownData={getFormattedAddress(item)}
+									findNearPosts={() => findNearPostsByAddress(item)}
+									recent={item.recent}
+								/>
+							)}
 							ItemSeparatorComponent={() => <Sigh />}
 							ListFooterComponent={() => <BigSigh />}
 						/>
@@ -121,7 +203,7 @@ function LocationNearDropdown({ recentLocations, nearPosts, findNearPosts }: Loc
 					{
 						dropdownIsVisible && (
 							<DefaultDropdownHeader
-								text={locationSelected}
+								text={selectedAddress.addressHighlighted || 'não encontramos sua localização'}
 								absolute
 								openDropDown={() => setDropdownIsVisible(true)}
 								closeDropDown={() => setDropdownIsVisible(false)}
