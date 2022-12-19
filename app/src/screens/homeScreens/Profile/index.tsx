@@ -212,6 +212,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 						{ title: 'twiter', link: 'twiter.com' },
 						{ title: 'whatsapp', link: 'whatsapp.com' },
 						{ title: 'spotify', link: 'spotify.com' },
+						{ title: 'youtube', link: 'youtube.com' },
 						{ title: 'tiktok', link: 'tiktok.com' },
 						{ title: 'soundcloud', link: 'soundcloud.com' },
 						{ title: 'loja', link: 'loja.com' },

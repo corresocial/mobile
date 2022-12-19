@@ -171,11 +171,11 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 					{
 						...serviceAddress,
 						locationView: serviceDataPost.locationView,
-						postType: serviceDataPost.postType,
+						postType: 'service',
 					},
 					postId,
 					'services',
-					'address'
+					`address${postId}`
 				)
 
 				await updateUserData(localUser.userId, userData)
@@ -217,7 +217,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 													{
 														...serviceAddress,
 														locationView: serviceDataPost.locationView,
-														postType: serviceDataPost.postType,
+														postType: 'service',
 													},
 													postId,
 													'services',
@@ -279,7 +279,6 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 						},
 					],
 				})
-				console.log('Naviguei')
 				setLoaderIsVisible(false)
 				showShareModal(true, serviceDataPost.title)
 				navigation.navigate('HomeTab' as any)

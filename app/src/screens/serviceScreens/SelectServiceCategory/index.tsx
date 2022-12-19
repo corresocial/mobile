@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { ScrollView, StatusBar } from 'react-native'
 import uuid from 'react-uuid'
 
@@ -7,6 +7,8 @@ import { theme } from '../../../common/theme'
 import { screenHeight } from '../../../common/screenDimensions'
 
 import { serviceCategories } from '../serviceCategories'
+
+import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { SelectServiceCategoryScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { ServiceCategories, MacroCategory } from '../../../services/firebase/types'
@@ -19,10 +21,12 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps) {
+	const { setServiceDataOnContext } = useContext(ServiceContext)
+
 	const renderSelectOptionsButtons = () => {
 		const ordenedServicesCategories = Object.values(serviceCategories).sort(sortServiceCategories)
 
-		return ordenedServicesCategories.map((category, index) => {
+		return ordenedServicesCategories.map((category) => {
 			if (category.label === 'outros') return
 			return (
 				<SelectButton
@@ -44,6 +48,9 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
 	}
 
 	const onSelectCategory = (categoryName: ServiceCategories) => {
+		setServiceDataOnContext({
+			category: categoryName
+		})
 		navigation.navigate('SelectServiceTags', {
 			categorySelected: categoryName
 		})

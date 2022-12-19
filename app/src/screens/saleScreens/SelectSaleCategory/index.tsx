@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { ScrollView, StatusBar } from 'react-native'
 import uuid from 'react-uuid'
 
@@ -8,8 +8,10 @@ import { screenHeight } from '../../../common/screenDimensions'
 
 import { saleCategories } from '../saleCategories'
 
-import { SelectSaleCategoryScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 import { SaleCategories, MacroCategory } from '../../../services/firebase/types'
+import { SelectSaleCategoryScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
+
+import { SaleContext } from '../../../contexts/SaleContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -19,6 +21,8 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectSaleCategory({ navigation }: SelectSaleCategoryScreenProps) {
+	const { setSaleDataOnContext } = useContext(SaleContext)
+
 	const renderSelectOptionsButtons = () => {
 		const ordenedSaleCategories = Object.values(saleCategories).sort(sortSaleCategories)
 
@@ -44,6 +48,9 @@ function SelectSaleCategory({ navigation }: SelectSaleCategoryScreenProps) {
 	}
 
 	const onSelectCategory = (categoryName: SaleCategories) => {
+		setSaleDataOnContext({
+			category: categoryName
+		})
 		navigation.navigate('SelectSaleTags', {
 			categorySelected: categoryName
 		})

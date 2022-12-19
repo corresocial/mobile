@@ -53,6 +53,7 @@ export interface StateData {
 export type ServiceData = {
 	profileDescription?: string // on context
 	title?: string
+	category?: string
 	tags?: string[]
 	paymentType?: PaymentType
 	saleValue?: string
@@ -88,6 +89,7 @@ export type SaleData = {
 	itemName?: string
 	itemDescription?: string
 	tags?: string[]
+	category?: string
 	paymentType?: PaymentType
 	saleValue?: string
 	exchangeValue?: string
@@ -130,6 +132,7 @@ export type VacancyData = {
 	startWorkHour?: Date
 	endWorkHour?: Date
 	tags?: string[]
+	category?: string
 	address?: {
 		country?: string
 		state?: string
@@ -164,6 +167,7 @@ export type CultureData = {
 	eventEndHour?: Date
 	picturesUrl?: string[]
 	tags?: string[]
+	category?: string
 	address?: {
 		country?: string
 		state?: string
@@ -187,6 +191,7 @@ export type SocialImpactData = {
 	title?: string
 	description?: string
 	tags?: string[]
+	category?: string
 	locationView?: LocationViewType
 	exhibitionRange?: ExhibitionPlaceType
 	exhibitionWeekDays?: DaysOfWeek[]

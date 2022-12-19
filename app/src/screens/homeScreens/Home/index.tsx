@@ -39,6 +39,7 @@ import { PostCard } from '../../../components/_cards/PostCard'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { RequestLocation } from '../../../components/RequestLocation'
 import { LoaderContext } from '../../../contexts/LoaderContext'
+import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -53,10 +54,18 @@ function Home({ navigation }: HomeTabScreenProps) {
 	const [nearPosts, setNearPosts] = useState<PostCollection[]>([])
 	const [addressSuggestions, setAddressSuggestions] = useState<AddressSearchResult[]>([])
 	const [hasLocationPermission, setHasLocationPermission] = useState(false)
+	const [hasLocationEnable, setHasLocationEnable] = useState(false)
 
 	useEffect(() => {
 		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
+		locationIsEnable()
 	})
+
+	useEffect(() => {
+		navigation.addListener('focus', () => {
+			findNearPosts('', true)
+		})
+	}, [navigation])
 
 	const onPressBackHandler = () => {
 		if (navigation.isFocused()) {
@@ -84,6 +93,11 @@ function Home({ navigation }: HomeTabScreenProps) {
 		}
 	}
 
+	const locationIsEnable = async () => {
+		const locationEnabled = await Location.hasServicesEnabledAsync()
+		setHasLocationEnable(locationEnabled)
+	}
+
 	const getRecentAddresses = async () => {
 		const addresses = await getRecentAddressFromStorage()
 		setRecentAddresses(addresses)
@@ -91,7 +105,7 @@ function Home({ navigation }: HomeTabScreenProps) {
 
 	const findNearPosts = async (searchText: string, currentPosition?: boolean, alternativeCoordinates?: LatLong) => { // TODO Type
 		try {
-			setLoaderIsVisible(true)
+			// setLoaderIsVisible(true)
 			let searchParams = {}
 			if (currentPosition) {
 				const coordinates = await getCurrentPositionCoordinates()
@@ -101,7 +115,7 @@ function Home({ navigation }: HomeTabScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong) // address converter
 			}
 
-			const postIds = await searchPosts(searchText, searchParams)
+			const postIds = await searchPosts(searchText, searchParams) /* await getPostsByLocation() */
 			const posts = await getListOfPosts(postIds) as PostCollection[]
 			setNearPosts(posts)
 			setLoaderIsVisible(false)
@@ -172,6 +186,32 @@ function Home({ navigation }: HomeTabScreenProps) {
 
 	const clearAddressSuggestions = () => {
 		setAddressSuggestions([])
+	}
+
+	const goToPostView = (item: PostCollection) => {
+		switch (item.postType) {
+			case 'service': {
+				navigation.navigate('ViewServicePost' as any, { postData: { ...item }, isAuthor: false })
+				break
+			}
+			case 'sale': {
+				navigation.navigate('ViewSalePost' as any, { postData: { ...item }, isAuthor: false })
+				break
+			}
+			case 'vacancy': {
+				navigation.navigate('ViewVacancyPost' as any, { postData: { ...item }, isAuthor: false })
+				break
+			}
+			case 'socialImpact': {
+				navigation.navigate('ViewSocialImpactPost' as any, { postData: { ...item }, isAuthor: false })
+				break
+			}
+			case 'culture': {
+				navigation.navigate('ViewCulturePost' as any, { postData: { ...item }, isAuthor: false })
+				break
+			}
+			default: return false
+		}
 	}
 
 	return (
@@ -251,7 +291,7 @@ function Home({ navigation }: HomeTabScreenProps) {
 					<AngleRightIcon width={RFValue(20)} height={RFValue(20)} />
 				</RecentPostsHeader>
 				{
-					(!hasLocationPermission) && (
+					(!hasLocationEnable) && (
 						<RequestLocation getLocationPermissions={() => findNearPosts('', true)} />
 					)
 				}
@@ -264,7 +304,7 @@ function Home({ navigation }: HomeTabScreenProps) {
 									<PostCard
 										post={item}
 										owner={item.owner}
-										onPress={() => { }}
+										onPress={() => goToPostView(item)}// TODO structure
 									/>
 								)}
 								showsVerticalScrollIndicator={false}

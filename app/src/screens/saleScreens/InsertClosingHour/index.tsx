@@ -151,10 +151,14 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 				)
 
 				await updatePostPrivateData(
-					saleAddress,
+					{
+						...saleAddress,
+						locationView: saleDataPost.locationView,
+						postType: 'sale'
+					},
 					postId,
 					'sales',
-					'address'
+					`address${postId}`
 				)
 
 				return
@@ -192,10 +196,14 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 												)
 
 												await updatePostPrivateData(
-													saleAddress,
+													{
+														...saleAddress,
+														locationView: saleDataPost.locationView,
+														postType: 'sale'
+													},
 													postId,
 													'sales',
-													'address'
+													`address${postId}`
 												)
 											}
 										},

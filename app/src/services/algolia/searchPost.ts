@@ -1,15 +1,7 @@
-import { servicesIndex } from './index'
+import { servicesIndex, salesIndex } from './index'
 import { PostIdentification } from './types'
 
 async function searchPosts(searchText: string, searchParams: any, searchOnly?: boolean) {
-	/* const searchParams = {
-		range: 'nearby',
-		city: 'Londrina',
-		country: 'Brasil',
-		postType: 'any',
-		geohashes: ['6gge7d', '6gge7e', '6gge7g', '6gge7f', '6gge7c', '6gge79', '6gge73', '6gge76', '6gge77']
-	} */ // TODO Tests only
-
 	const searchFilters = {
 		rangeFilter: '',
 		postTypeFilter: '',
@@ -29,7 +21,7 @@ async function searchPosts(searchText: string, searchParams: any, searchOnly?: b
 		const results = await servicesIndex.search(searchText, {
 			filters: searchOnly
 				? ''
-				: `${searchFilters.rangeFilter}${searchFilters.postTypeFilter}${searchFilters.locationViewFilter}`
+				: `${searchFilters.rangeFilter}${searchFilters.postTypeFilter}${searchFilters.geohashFilter}${searchFilters.locationViewFilter}`
 		})
 
 		if (results.hits.length > 0) {
@@ -58,8 +50,8 @@ const getRangeFilter = (range: string, city: string, country: string) => {
 
 const getPostTypeFilter = (postType: string) => {
 	switch (postType) {
-		case 'service': return ' AND postType:service '
-		case 'any': return ' AND postType:service '
+		case 'service': return ' ' /* AND postType:service */
+		case 'any': return ' '
 		default: return ''
 	}
 }

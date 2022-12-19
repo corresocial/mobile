@@ -8,6 +8,7 @@ function generateGeohashes(latitude: number = 0, longitude: number = 0) {
 	const geohashCity = [geohash.substring(0, 5)].concat(
 		neighbors(encode(latitude, longitude, 5)),
 	)
+
 	return {
 		// geohash,
 		geohashNearby,

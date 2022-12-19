@@ -12,8 +12,7 @@ interface ServiceProviderProps {
 }
 
 const initialValue = {
-	serviceDataContext: {
-	},
+	serviceDataContext: {},
 	setServiceDataOnContext: (data: ServiceData) => { }
 }
 
