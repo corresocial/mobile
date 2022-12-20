@@ -12,6 +12,7 @@ import { ViewVacancyPost } from '../../../screens/homeScreens/ViewVacancyPost'
 import { ViewSocialImpactPost } from '../../../screens/homeScreens/ViewSocialImpactPost'
 import { ViewCulturePost } from '../../../screens/homeScreens/ViewCulturePost'
 import { Home } from '../../../screens/homeScreens/Home'
+import { PostCategories } from '../../../screens/homeScreens/PostCategories'
 
 const Stack = createStackNavigator<HomeStackParamList>()
 
@@ -32,6 +33,7 @@ export function HomeStack({ route }: any) {
 				<Stack.Screen name={'ViewVacancyPostHome'} component={ViewVacancyPost} />
 				<Stack.Screen name={'ViewSocialImpactPostHome'} component={ViewSocialImpactPost} />
 				<Stack.Screen name={'ViewCulturePostHome'} component={ViewCulturePost} />
+				<Stack.Screen name={'PostCategories'} component={PostCategories} />
 			</Stack.Navigator>
 		</StateProvider>
 	)

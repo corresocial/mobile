@@ -1,13 +1,10 @@
 import React, { useEffect } from 'react'
 import { View, BackHandler } from 'react-native'
-
-import { theme } from '../../../common/theme'
-import PlusIcon from '../../../assets/icons/plusTabIconInactive.svg'
+import { RFValue } from 'react-native-responsive-fontsize'
 
 import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
-import { SmallButton } from '../../../components/_buttons/SmallButton'
-import { screenHeight } from '../../../common/screenDimensions'
+import { SelectPostType } from '../SelectPostType'
 
 function Post({ navigation, route }: HomeTabScreenProps) {
 	useEffect(() => {
@@ -21,22 +18,16 @@ function Post({ navigation, route }: HomeTabScreenProps) {
 		}
 		return false
 	}
-
+	/* // TODO structure */
 	return (
 		<View style={{
-			flex: 1, alignItems: 'center', justifyContent: 'center'
+			flex: 1,
+			marginBottom: RFValue(64)
 		}}
 		>
-			<SmallButton
-				label={'novo post'}
-				highlightedWords={['post']}
-				fontSize={20}
-				color={theme.white3}
-				onPress={() => navigation.navigate('SelectPostType')}
-				height={screenHeight * 0.1}
-				relativeWidth={'70%'}
-				SvgIcon={PlusIcon}
-			/>
+			<SelectPostType navigation={undefined as any} route={undefined as any} />
+			{' '}
+
 		</View >
 	)
 }

@@ -60,7 +60,7 @@ function PrimaryButton({
 	flexDirection,
 	onPress
 }: PrimaryButtonProps) {
-	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
+	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 	const [buttonVisibility, setButtonVisibility] = useState<boolean>(true)
 
 	const buttonRef = useRef<any>()

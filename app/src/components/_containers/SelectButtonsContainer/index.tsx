@@ -1,17 +1,20 @@
 import React from 'react'
+import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container } from './styles'
 
 interface SelectButtonsContainerProps {
 	backgroundColor: string
-	children: React.ReactChild | React.ReactChild[]
+	noPadding?: boolean
+	children: React.ReactChild | React.ReactChild[] | (React.ReactElement | null)[]
 }
 
-function SelectButtonsContainer({ backgroundColor, children }: SelectButtonsContainerProps) {
+function SelectButtonsContainer({ backgroundColor, noPadding, children }: SelectButtonsContainerProps) {
 	return (
 		<Container
 			style={{
 				backgroundColor,
+				padding: noPadding ? 0 : RFValue(20)
 			}}
 		>
 			{children}

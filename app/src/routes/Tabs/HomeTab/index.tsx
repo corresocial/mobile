@@ -4,7 +4,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useFocusEffect } from '@react-navigation/native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { TurboModuleRegistry } from 'react-native'
 import { theme } from '../../../common/theme'
 import HomeTabIconActive from '../../../assets/icons/homeTabIconActive.svg'
 import HomeTabIconInactive from '../../../assets/icons/homeTabIconInactive.svg'
@@ -20,7 +19,6 @@ import ProfileTabIconInactive from '../../../assets/icons/profileTabIconInactive
 import { HomeTabParamList } from './types'
 import { HomeTabScreenProps } from '../../Stack/UserStack/stackScreenProps'
 
-import { Home } from '../../../screens/homeScreens/Home'
 import { Post } from '../../../screens/homeScreens/Post'
 import { StateContext } from '../../../contexts/StateContext'
 import { ProfileStack } from '../../Stack/ProfileStack'

@@ -22,7 +22,6 @@ import SuitcaseIcon from '../../../assets/icons/suitcase-yellow.svg'
 import AngleRightIcon from '../../../assets/icons/angleRight-shadow.svg'
 import { screenWidth } from '../../../common/screenDimensions'
 
-import { searchPosts } from '../../../services/algolia/searchPost'
 import { getListOfPosts } from '../../../services/firebase/post/getListOfPosts'
 import { generateGeohashes } from '../../../common/generateGeohashes'
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
@@ -239,7 +238,7 @@ function Home({ navigation }: HomeScreenProps) {
 					relativeWidth={screenWidth * 0.13}
 					color={'white'}
 					fontSize={8}
-					onPress={() => findNearPosts('')}
+					onPress={() => navigation.navigate('PostCategories', { title: 'impacto social' })}
 					label={'impacto'}
 					SvgIcon={HeartPinkIcon}
 					svgScale={35}
@@ -250,7 +249,7 @@ function Home({ navigation }: HomeScreenProps) {
 					relativeWidth={screenWidth * 0.13}
 					color={'white'}
 					fontSize={8}
-					onPress={() => { }}
+					onPress={() => navigation.navigate('PostCategories', { title: 'vendas' })}
 					label={'comércio'}
 					SvgIcon={SalesCartIcon}
 					svgScale={30}
@@ -261,7 +260,7 @@ function Home({ navigation }: HomeScreenProps) {
 					relativeWidth={screenWidth * 0.13}
 					color={'white'}
 					fontSize={8}
-					onPress={() => { }}
+					onPress={() => navigation.navigate('PostCategories', { title: 'culturas' })}
 					label={'cultura'}
 					SvgIcon={SoundToolsIcon}
 					svgScale={35}
@@ -272,7 +271,7 @@ function Home({ navigation }: HomeScreenProps) {
 					relativeWidth={screenWidth * 0.13}
 					color={'white'}
 					fontSize={8}
-					onPress={() => { }}
+					onPress={() => navigation.navigate('PostCategories', { title: 'serviços' })}
 					label={'serviços'}
 					SvgIcon={ToolBoxIcon}
 					svgScale={35}
@@ -283,7 +282,7 @@ function Home({ navigation }: HomeScreenProps) {
 					relativeWidth={screenWidth * 0.13}
 					color={'white'}
 					fontSize={8}
-					onPress={() => { }}
+					onPress={() => navigation.navigate('PostCategories', { title: 'vagas' })}
 					label={'vagas'}
 					SvgIcon={SuitcaseIcon}
 					svgScale={35}

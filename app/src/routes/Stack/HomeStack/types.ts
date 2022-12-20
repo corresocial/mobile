@@ -7,4 +7,5 @@ export type HomeStackParamList = {
 	ViewVacancyPostHome: { postData: PostCollection, isAuthor: boolean }
 	ViewSocialImpactPostHome: { postData: PostCollection, isAuthor: boolean }
 	ViewCulturePostHome: { postData: PostCollection, isAuthor: boolean }
+	PostCategories: { title: string }
 }
