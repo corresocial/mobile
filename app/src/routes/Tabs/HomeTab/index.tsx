@@ -24,6 +24,7 @@ import { Home } from '../../../screens/homeScreens/Home'
 import { Post } from '../../../screens/homeScreens/Post'
 import { StateContext } from '../../../contexts/StateContext'
 import { ProfileStack } from '../../Stack/ProfileStack'
+import { HomeStack } from '../../Stack/HomeStack'
 
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
@@ -89,7 +90,7 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 		>
 			<Tab.Screen
 				name={'Home'}
-				component={Home}
+				component={HomeStack}
 				options={{
 					tabBarIcon: ({ focused }) => renderHomeIcon(focused)
 				}}

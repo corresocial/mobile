@@ -14,8 +14,12 @@ const getRecentAddressFromStorage = async () => {
 const setRecentAddressOnStorage = async (data: any) => { // TODO type
 	const storedAddresses = await getRecentAddressFromStorage()
 
-	const filtredAddress = storedAddresses.filter((address: any) => data.formatedAddress !== address.formatedAddress)
+	const filtredAddress = storedAddresses.filter((address: any) => address.formattedAddress !== data.formattedAddress)
 	const allAddresses = [...filtredAddress, { ...data, recent: true }]
+
+	if (allAddresses.length > 10) {
+		allAddresses.shift()
+	}
 
 	await AsyncStorage.setItem('corre.addresses', JSON.stringify(allAddresses))
 	return true

@@ -94,10 +94,14 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
 				)
 
 				await updatePostPrivateData(
-					cultureAddress,
+					{
+						...cultureAddress,
+						postType: 'culture',
+						locationView: cultureDataPost.locationView
+					},
 					postId,
 					'cultures',
-					'address'
+					`address${postId}`
 				)
 
 				return
@@ -135,10 +139,14 @@ function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
 												)
 
 												await updatePostPrivateData(
-													cultureAddress,
+													{
+														...cultureAddress,
+														postType: 'culture',
+														locationView: cultureDataPost.locationView
+													},
 													postId,
 													'cultures',
-													'address'
+													`address${postId}`
 												)
 											}
 										},

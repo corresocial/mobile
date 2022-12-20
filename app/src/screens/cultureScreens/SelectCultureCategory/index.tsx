@@ -21,7 +21,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectCultureCategory({ navigation }: SelectCultureCategoryScreenProps) {
-	const { cultureDataContext } = useContext(CultureContext)
+	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 
 	const renderSelectOptionsButtons = () => {
 		const ordenedCultureCategories = Object.values(cultureCategories).sort(sortCultureCategories)
@@ -48,6 +48,9 @@ function SelectCultureCategory({ navigation }: SelectCultureCategoryScreenProps)
 	}
 
 	const onSelectCategory = (categoryName: CultureCategories) => {
+		setCultureDataOnContext({
+			category: categoryName
+		})
 		navigation.navigate('SelectCultureTags', {
 			categorySelected: categoryName
 		})

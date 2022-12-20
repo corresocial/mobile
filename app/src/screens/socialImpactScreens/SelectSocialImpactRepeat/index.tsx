@@ -97,10 +97,14 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 				)
 
 				await updatePostPrivateData(
-					socialImpactAddress,
+					{
+						...socialImpactAddress,
+						postType: 'socialImpact',
+						locationView: socialImpactDataPost.locationView
+					},
 					postId,
 					'socialImpacts',
-					'address'
+					`address${postId}`
 				)
 
 				return
@@ -138,10 +142,14 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 												)
 
 												await updatePostPrivateData(
-													socialImpactAddress,
+													{
+														...socialImpactAddress,
+														postType: 'socialImpact',
+														locationView: socialImpactDataPost.locationView
+													},
 													postId,
 													'socialImpacts',
-													'address'
+													`address${postId}`
 												)
 											}
 										},
@@ -196,7 +204,6 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 						},
 					],
 				})
-				console.log('Naviguei')
 				setLoaderIsVisible(false)
 				showShareModal(true, socialImpactDataPost.title)
 				navigation.navigate('HomeTab' as any) // TODO Type

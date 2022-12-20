@@ -7,7 +7,7 @@ import { theme } from '../../../common/theme'
 import ToolBox from '../../../assets/icons/toolBox-purple.svg'
 import SalesCart from '../../../assets/icons/salesCart-green.svg'
 import Suitcase from '../../../assets/icons/suitcase-yellow.svg'
-import Heart from '../../../assets/icons/heart-pink.svg'
+import Heart from '../../../assets/icons/heart-pink-light.svg'
 import SoundTools from '../../../assets/icons/soundTools-blue.svg'
 
 import { SelectPostTypeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'

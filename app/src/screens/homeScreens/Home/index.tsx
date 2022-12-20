@@ -32,7 +32,7 @@ import { getRecentAddressFromStorage } from '../../../services/maps/recentAddres
 
 import { AlgoliaSearchParams, LatLong, AddressSearchResult, SelectedAddressRender } from '../../../services/maps/types'
 import { PostCollection } from '../../../services/firebase/types'
-import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { HomeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 import { LocationNearDropdown } from '../../../components/LocationNearDropdown'
 import { PostCard } from '../../../components/_cards/PostCard'
@@ -46,7 +46,7 @@ const initialSelectedAddress = {
 	addressThin: ''
 }
 
-function Home({ navigation }: HomeTabScreenProps) {
+function Home({ navigation }: HomeScreenProps) {
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [selectedAddress, setSelectedAddress] = useState<SelectedAddressRender>(initialSelectedAddress)
@@ -61,11 +61,11 @@ function Home({ navigation }: HomeTabScreenProps) {
 		locationIsEnable()
 	})
 
-	useEffect(() => {
+	/* useEffect(() => {
 		navigation.addListener('focus', () => {
 			findNearPosts('', true)
 		})
-	}, [navigation])
+	}, [navigation]) */
 
 	const onPressBackHandler = () => {
 		if (navigation.isFocused()) {
@@ -117,7 +117,7 @@ function Home({ navigation }: HomeTabScreenProps) {
 
 			const postsIds = await getPostsByLocation(searchParams as AlgoliaSearchParams)
 			const posts = await getListOfPosts(postsIds)
-			setNearPosts(posts[0] as any) // TODO type
+			setNearPosts(posts[0] as any || []) // TODO type
 			setLoaderIsVisible(false)
 		} catch (err) {
 			console.log(err)
@@ -188,26 +188,31 @@ function Home({ navigation }: HomeTabScreenProps) {
 		setAddressSuggestions([])
 	}
 
+	const saveRecentAddresses = (newAddress: AddressSearchResult) => {
+		const filtredRecentAddress = recentAddresses.filter((address) => address.formattedAddress !== newAddress.formattedAddress)
+		setRecentAddresses([...filtredRecentAddress, { ...newAddress, recent: true }])
+	}
+
 	const goToPostView = (item: PostCollection) => {
 		switch (item.postType) {
 			case 'service': {
-				navigation.navigate('ViewServicePost' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewServicePostHome' as any, { postData: { ...item }, isAuthor: false })
 				break
 			}
 			case 'sale': {
-				navigation.navigate('ViewSalePost' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewSalePostHome' as any, { postData: { ...item }, isAuthor: false })
 				break
 			}
 			case 'vacancy': {
-				navigation.navigate('ViewVacancyPost' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewVacancyPostHome' as any, { postData: { ...item }, isAuthor: false })
 				break
 			}
 			case 'socialImpact': {
-				navigation.navigate('ViewSocialImpactPost' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewSocialImpactPostHome' as any, { postData: { ...item }, isAuthor: false })
 				break
 			}
 			case 'culture': {
-				navigation.navigate('ViewCulturePost' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewCulturePostHome' as any, { postData: { ...item }, isAuthor: false })
 				break
 			}
 			default: return false
@@ -223,6 +228,7 @@ function Home({ navigation }: HomeTabScreenProps) {
 					recentAddresses={recentAddresses}
 					addressSuggestions={addressSuggestions}
 					selectAddress={setSelectedAddress}
+					saveRecentAddresses={saveRecentAddresses}
 					clearAddressSuggestions={clearAddressSuggestions}
 					findNearPosts={findNearPosts}
 					findAddressSuggestions={findAddressSuggestions}
@@ -245,7 +251,7 @@ function Home({ navigation }: HomeTabScreenProps) {
 					color={'white'}
 					fontSize={8}
 					onPress={() => { }}
-					label={'impacto'}
+					label={'comércio'}
 					SvgIcon={SalesCartIcon}
 					svgScale={30}
 					height={screenWidth * 0.13}
@@ -256,7 +262,7 @@ function Home({ navigation }: HomeTabScreenProps) {
 					color={'white'}
 					fontSize={8}
 					onPress={() => { }}
-					label={'impacto'}
+					label={'cultura'}
 					SvgIcon={SoundToolsIcon}
 					svgScale={35}
 					height={screenWidth * 0.13}
@@ -267,7 +273,7 @@ function Home({ navigation }: HomeTabScreenProps) {
 					color={'white'}
 					fontSize={8}
 					onPress={() => { }}
-					label={'impacto'}
+					label={'serviços'}
 					SvgIcon={ToolBoxIcon}
 					svgScale={35}
 					height={screenWidth * 0.13}
@@ -278,7 +284,7 @@ function Home({ navigation }: HomeTabScreenProps) {
 					color={'white'}
 					fontSize={8}
 					onPress={() => { }}
-					label={'impacto'}
+					label={'vagas'}
 					SvgIcon={SuitcaseIcon}
 					svgScale={35}
 					height={screenWidth * 0.13}

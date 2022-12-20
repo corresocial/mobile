@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { ScrollView, StatusBar } from 'react-native'
 import uuid from 'react-uuid'
 
@@ -11,6 +11,8 @@ import { socialImpactCategories } from '../socialImpactCategories'
 import { SelectSocialImpactCategoryScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 import { SocialImpactCategories, MacroCategory } from '../../../services/firebase/types'
 
+import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
 import { SelectButton } from '../../../components/_buttons/SelectButton'
@@ -19,6 +21,8 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectSocialImpactCategory({ navigation }: SelectSocialImpactCategoryScreenProps) {
+	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+
 	const renderSelectOptionsButtons = () => {
 		const ordenedSocialImpactCategories = Object.values(socialImpactCategories).sort(sortSocialImpactCategories)
 
@@ -44,6 +48,9 @@ function SelectSocialImpactCategory({ navigation }: SelectSocialImpactCategorySc
 	}
 
 	const onSelectCategory = (categoryName: SocialImpactCategories) => {
+		setSocialImpactDataOnContext({
+			category: categoryName
+		})
 		navigation.navigate('SelectSocialImpactTags', {
 			categorySelected: categoryName
 		})

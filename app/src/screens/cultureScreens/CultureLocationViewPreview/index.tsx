@@ -168,10 +168,14 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 				)
 
 				await updatePostPrivateData(
-					cultureAddress,
+					{
+						...cultureAddress,
+						postType: 'culture',
+						locationView: cultureDataPost.locationView
+					},
 					postId,
 					'cultures',
-					'address'
+					`address${postId}`
 				)
 				return
 			}
@@ -208,10 +212,14 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 												)
 
 												await updatePostPrivateData(
-													cultureAddress,
+													{
+														...cultureAddress,
+														postType: 'culture',
+														locationView: cultureDataPost.locationView
+													},
 													postId,
 													'cultures',
-													'address'
+													`address${postId}`
 												)
 											}
 										},
@@ -266,7 +274,6 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 						},
 					],
 				})
-				console.log('Naviguei')
 				setLoaderIsVisible(false)
 				showShareModal(true, postData.title)
 				navigation.navigate('HomeTab' as any)

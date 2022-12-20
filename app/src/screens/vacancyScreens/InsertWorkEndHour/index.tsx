@@ -145,10 +145,14 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 			)
 
 			await updatePostPrivateData(
-				vacancyAddress,
+				{
+					...vacancyAddress,
+					postType: 'vacancy',
+					locationView: 'public'
+				},
 				postId,
 				'vacancies',
-				'address'
+				`address${postId}`
 			)
 			return
 		} catch (err) {

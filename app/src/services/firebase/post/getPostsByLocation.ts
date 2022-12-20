@@ -25,44 +25,51 @@ export type PostIdentification = {
 }
 
 async function getPostsByLocation(searchParams: AlgoliaSearchParams) {
-	const privateAddresses = query(
-		collectionGroup(firestore, 'private'),
-		where(
-			'geohashNearby',
-			'array-contains-any',
-			searchParams.geohashes,
+	try {
+		const privateAddresses = query(
+			collectionGroup(firestore, 'private'),
+			where(
+				'geohashNearby',
+				'array-contains-any',
+				searchParams.geohashes,
+			)
 		)
-	)
-	const querySnapshot = await getDocs(privateAddresses)
-	const posts: PostIdentification = {
-		service: {
-			collection: 'services',
-			postIds: []
-		},
-		sale: {
-			collection: 'sales',
-			postIds: []
-		},
-		vacancy: {
-			collection: 'vacancies',
-			postIds: []
-		},
-		socialImpact: {
-			collection: 'socialImpacts',
-			postIds: []
-		},
-		culture: {
-			collection: 'cultures',
-			postIds: []
-		},
+		const querySnapshot = await getDocs(privateAddresses)
+		const posts: PostIdentification = {
+			service: {
+				collection: 'services',
+				postIds: []
+			},
+			sale: {
+				collection: 'sales',
+				postIds: []
+			},
+			vacancy: {
+				collection: 'vacancies',
+				postIds: []
+			},
+			socialImpact: {
+				collection: 'socialImpacts',
+				postIds: []
+			},
+			culture: {
+				collection: 'cultures',
+				postIds: []
+			},
+		}
+
+		querySnapshot.forEach((doc) => {
+			const { postType } = doc.data()
+			if (Object.keys(posts).includes(postType)) {
+				posts[postType as PostType].postIds.push(doc.id.replace('address', ''))
+			}
+		})
+
+		return Object.values(posts).filter((post: PostIdentificationItem) => !!post.postIds.length) as any[]
+	} catch (err) {
+		console.log(err)
+		return []
 	}
-
-	querySnapshot.forEach((doc) => {
-		const { postType } = doc.data()
-		posts[postType as PostType].postIds.push(doc.id.replace('address', ''))
-	})
-
-	return Object.values(posts).filter((post: PostIdentificationItem) => !!post.postIds.length) as any[]
 }
 
 export { getPostsByLocation }

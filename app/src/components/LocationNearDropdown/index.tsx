@@ -34,6 +34,7 @@ interface LocationNearDropdownProps {
 	selectedAddress: SelectedAddressRender
 	recentAddresses: AddressSearchResult[]
 	addressSuggestions: AddressSearchResult[]
+	saveRecentAddresses: (address: AddressSearchResult) => void
 	clearAddressSuggestions: () => void
 	selectAddress: (address: SelectedAddressRender) => void
 	findAddressSuggestions: (text: string) => void
@@ -45,6 +46,7 @@ function LocationNearDropdown({
 	recentAddresses,
 	addressSuggestions,
 	selectAddress,
+	saveRecentAddresses,
 	clearAddressSuggestions,
 	findNearPosts,
 	findAddressSuggestions
@@ -70,6 +72,7 @@ function LocationNearDropdown({
 		setDropdownIsVisible(false)
 		if (!address.recent) {
 			await setRecentAddressOnStorage(address)
+			saveRecentAddresses(address)
 		}
 
 		const greaterThanThree = address.formattedAddress.split(',').length > 3
