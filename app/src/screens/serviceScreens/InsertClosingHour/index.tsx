@@ -221,7 +221,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 													},
 													postId,
 													'services',
-													'address'
+													`address${postId}`
 												)
 
 												await updateUserData(localUser.userId, userData)

@@ -5,75 +5,64 @@ import {
 	orderBy,
 	limit,
 	getDocs,
+	collectionGroup,
 } from 'firebase/firestore'
-import firebase, { firestore } from '..'
+import Firebase, { firestore } from '..'
+import { AlgoliaSearchParams } from '../../maps/types'
+import { PostType } from '../types'
 
-async function getPostsByLocation() {
-	const searchParams = {
-		range: 'nearby',
-		city: 'Novo Horizonte do Oeste',
-		country: 'Brasil',
-		postType: 'any',
-		geohashes: ['6tgvmh', '6tgvmj', '6tgvmm', '6tgvmk', '6tgvm7', '6tgvm5', '6tgvkg', '6tgvku', '6tgvkv']
-	}
+export type PostIdentificationItem = {
+	collection: string
+	postIds: string[]
+}
 
-	const collectionRef = collection(firestore, 'services', 'U9nNCcxORWgVQnGl1XSj', 'private')
-	const subCollectionQuery = query(
-		collectionRef,
+export type PostIdentification = {
+	service: PostIdentificationItem
+	sale: PostIdentificationItem
+	vacancy: PostIdentificationItem
+	socialImpact: PostIdentificationItem
+	culture: PostIdentificationItem
+}
+
+async function getPostsByLocation(searchParams: AlgoliaSearchParams) {
+	const privateAddresses = query(
+		collectionGroup(firestore, 'private'),
 		where(
 			'geohashNearby',
 			'array-contains-any',
 			searchParams.geohashes,
-		),
-		limit(10),
+		)
 	)
+	const querySnapshot = await getDocs(privateAddresses)
+	const posts: PostIdentification = {
+		service: {
+			collection: 'services',
+			postIds: []
+		},
+		sale: {
+			collection: 'sales',
+			postIds: []
+		},
+		vacancy: {
+			collection: 'vacancies',
+			postIds: []
+		},
+		socialImpact: {
+			collection: 'socialImpacts',
+			postIds: []
+		},
+		culture: {
+			collection: 'cultures',
+			postIds: []
+		},
+	}
 
-	const allSubCollectionDocs = await getDocs(subCollectionQuery)
-
-	allSubCollectionDocs.forEach((doc) => {
-		console.log(doc.id)
+	querySnapshot.forEach((doc) => {
+		const { postType } = doc.data()
+		posts[postType as PostType].postIds.push(doc.id.replace('address', ''))
 	})
 
-	/* const collections = ['services', 'sales', 'vacancies', 'cultures', 'socialImpacts']
-	const docsIdentification = collections.map(async (collectionName) => {
-		const docCollections = collection(firestore, collectionName)
-		const collectionsQuery = query(
-			docCollections,
-			where('locationView', '!=', 'private')
-		)
-		const allCollectionDocs = await performQuery(collectionsQuery)
-
-		allCollectionDocs.forEach(async (doc: any) => {
-			const collectionRef = collection(firestore, collectionName, `${doc.id}`, 'private')
-			const subCollectionQuery = query(
-				collectionRef,
-				where(
-					'geohashNearby',
-					'array-contains-any',
-					searchParams.geohashes,
-				),
-				limit(10),
-			)
-
-			const allSubCollectionDocs = await getDocs(subCollectionQuery)
-			const docIds = []
-			allSubCollectionDocs.forEach((doc: any) => {
-				docIds.push({
-					docId: doc.id,
-					collection: collectionName
-				})
-			})
-
-			return docIds
-		})
-	}) */
-
-	return []
-}
-
-const performQuery = async (q: any) => {
-	const allCollectionDocs = await getDocs(q)
-	return allCollectionDocs
+	return Object.values(posts).filter((post: PostIdentificationItem) => !!post.postIds.length) as any[]
 }
 
 export { getPostsByLocation }

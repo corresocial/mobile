@@ -105,7 +105,7 @@ function Home({ navigation }: HomeTabScreenProps) {
 
 	const findNearPosts = async (searchText: string, currentPosition?: boolean, alternativeCoordinates?: LatLong) => { // TODO Type
 		try {
-			// setLoaderIsVisible(true)
+			setLoaderIsVisible(true)
 			let searchParams = {}
 			if (currentPosition) {
 				const coordinates = await getCurrentPositionCoordinates()
@@ -115,9 +115,9 @@ function Home({ navigation }: HomeTabScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong) // address converter
 			}
 
-			const postIds = await searchPosts(searchText, searchParams) /* await getPostsByLocation() */
-			const posts = await getListOfPosts(postIds) as PostCollection[]
-			setNearPosts(posts)
+			const postsIds = await getPostsByLocation(searchParams as AlgoliaSearchParams)
+			const posts = await getListOfPosts(postsIds)
+			setNearPosts(posts[0] as any) // TODO type
 			setLoaderIsVisible(false)
 		} catch (err) {
 			console.log(err)
@@ -233,7 +233,7 @@ function Home({ navigation }: HomeTabScreenProps) {
 					relativeWidth={screenWidth * 0.13}
 					color={'white'}
 					fontSize={8}
-					onPress={() => { }}
+					onPress={() => findNearPosts('')}
 					label={'impacto'}
 					SvgIcon={HeartPinkIcon}
 					svgScale={35}

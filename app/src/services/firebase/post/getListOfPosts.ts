@@ -1,13 +1,22 @@
-import { PostCollection } from '../types'
-import { getPostById } from './getPostById'
+import { collection, documentId, getDocs, query, where } from 'firebase/firestore'
+import { firestore } from '..'
 
-async function getListOfPosts(postsList: any) { // TODO Type
+import { PostCollection } from '../types'
+import { PostIdentification } from './getPostsByLocation'
+
+async function getListOfPosts(postsIdentification: PostIdentification[]) { // TODO Type
 	try {
-		const promisses = postsList.map(async ({ postId, collection }: any) => {
-			const posts = await getPostById(postId, collection) // TODO Type
-			return posts as PostCollection
+		const allPosts = postsIdentification.map(async (post: any) => { // TODO type
+			const queryList = query(collection(firestore, post.collection), where(documentId(), 'in', post.postIds))
+			const allCollectionDocs = await getDocs(queryList)
+
+			const postsOfCurrentCollection = [] as any // TODO type
+			allCollectionDocs.forEach((doc) => {
+				postsOfCurrentCollection.push({ ...doc.data(), postId: doc.id })
+			})
+			return postsOfCurrentCollection as PostCollection[]
 		})
-		return Promise.all(promisses)
+		return Promise.all(allPosts)
 	} catch (e) {
 		console.log(e)
 		return [] as PostCollection[]
