@@ -116,7 +116,10 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 					const userIdentification = await extractUserIdentification(userCredential)
 					await setRemoteUserOnLocal(userIdentification.uid)
 					// setUserDataOnContext({ userIdentification })
-					return navigation.navigate('InsertName', {
+					return userIdentification
+				})
+				.then((userIdentification) => {
+					navigation.navigate('InsertName', {
 						cellNumber,
 						userIdentification
 					})

@@ -64,10 +64,8 @@ function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	const getDataFromSecureStore = async (key: string, requireAuthentication?: boolean) => {
-		if (!hasPermission) return false
 		try {
 			const user = await SecureStore.getItemAsync(key)
-
 			if (localUserIsValidToLogin(user, requireAuthentication) && !!requireAuthentication) {
 				await LocalAuthentication.isEnrolledAsync()
 				const result = await LocalAuthentication.authenticateAsync(LocalAuthenticationOptions)
@@ -82,7 +80,6 @@ function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	const localUserIsValidToLogin = (userJSON: any, requireAuthentication?: boolean) => {
-		if (!hasPermission) return false
 		if (!requireAuthentication) return false
 		try {
 			if (!userJSON) return false
@@ -99,7 +96,6 @@ function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	const setDataOnSecureStore = async (key: string, data: any) => {
-		if (!hasPermission) return false
 		try {
 			await SecureStore.setItemAsync(key, JSON.stringify(data))
 			return true
@@ -110,12 +106,10 @@ function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	const deleteLocaluser = async () => {
-		if (!hasPermission) return
 		await SecureStore.deleteItemAsync('corre.user')
 	}
 
 	const setRemoteUserOnLocal = async (uid?: string) => {
-		if (!hasPermission) return
 		if (uid) {
 			const currentUser = await getUser(uid)
 			await setDataOnSecureStore('corre.user', {

@@ -34,7 +34,7 @@
 		"expo-camera": "~12.2.0",
 		"expo-firebase-recaptcha": "~2.2.0",
 		"expo-image-picker": "~13.1.1",
-		"expo-linear-gradient": "^12.0.1",
+		"expo-linear-gradient": "~11.3.0",
 		"expo-linking": "~3.1.0",
 		"expo-local-authentication": "~12.2.0",
 		"expo-location": "~14.2.2",

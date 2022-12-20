@@ -25,9 +25,7 @@ function Post({ navigation, route }: HomeTabScreenProps) {
 			marginBottom: RFValue(64)
 		}}
 		>
-			<SelectPostType navigation={undefined as any} route={undefined as any} />
-			{' '}
-
+			<SelectPostType navigation={navigation as any} route={route as any} />
 		</View >
 	)
 }

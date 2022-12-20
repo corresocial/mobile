@@ -297,7 +297,7 @@ function Home({ navigation }: HomeScreenProps) {
 				</RecentPostsHeader>
 				{
 					(!hasLocationEnable) && (
-						<RequestLocation getLocationPermissions={() => findNearPosts('', true)} />
+						<RequestLocation getLocationPermissions={requestPermissions} />
 					)
 				}
 				{

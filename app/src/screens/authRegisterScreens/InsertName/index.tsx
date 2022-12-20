@@ -49,6 +49,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 
 	const getUserName = async () => {
 		const localUser = await getObjectLocalUser()
+		console.log(localUser)
 		const { name } = localUser
 		setInputName(name)
 	}

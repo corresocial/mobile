@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { Modal, PermissionsAndroid, StatusBar } from 'react-native'
+import { Modal, StatusBar } from 'react-native'
 import { Camera, CameraType, FlashMode } from 'expo-camera'
 import { FontAwesome5, Ionicons } from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker'
@@ -32,20 +32,15 @@ function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCamer
 
 	useEffect(() => {
 		setTimeout(() => {
-			requestCameraPermission()
+			getCameraPermissions()
 		}, 500)
 	}, [])
 
-	const requestCameraPermission = async () => {
-		const granted = await PermissionsAndroid.request(
-			PermissionsAndroid.PERMISSIONS.CAMERA
-		)
-		if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-			setHasPermission(true)
-		} else {
-			setHasPermission(false)
-			console.log('Não foi possível conceder permissão para acessar a câmera')
-		}
+	const getCameraPermissions = async () => {
+		const { status } = await Camera.requestCameraPermissionsAsync()
+		console.log('status')
+		console.log(status)
+		setHasPermission(status === 'granted')
 	}
 
 	const toggleFlashMode = () => {
@@ -89,7 +84,7 @@ function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCamer
 				!hasPermission
 					? (
 						<NotPermissionContainer
-							onPress={requestCameraPermission}
+							onPress={getCameraPermissions}
 							activeOpacity={0.9}
 						>
 							<NotPermissionText>{'Você NÃO TEM PERMISSÃO!'}</NotPermissionText>
