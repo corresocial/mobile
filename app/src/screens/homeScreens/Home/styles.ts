@@ -22,21 +22,6 @@ export const RecentPostsContainer = styled.View`
 
 `
 
-export const RecentPostsHeader = styled.TouchableOpacity`
-	flex-direction: row;
-	background-color: ${({ theme }) => theme.white3};
-	align-items: center;
-	justify-content: space-between;
-	padding: ${10}px;
-	border-left-width: ${RFValue(5)}px;
-	border-color: ${({ theme }) => theme.black4};
-`
-
-export const Title = styled.Text`
-	font-family: Arvo_400Regular;
-	font-size: ${17}px;
-`
-
 export const Sigh = styled.View`
 	width: 100%;
 	height: ${RFValue(10)}px;

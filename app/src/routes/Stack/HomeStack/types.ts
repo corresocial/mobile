@@ -1,4 +1,6 @@
-import { PostCollection } from '../../../services/firebase/types'
+import React from 'react'
+import { SvgProps } from 'react-native-svg'
+import { PostCollection, PostCollectionType, SaleCategories } from '../../../services/firebase/types'
 
 export type HomeStackParamList = {
 	Home: { userId?: string }
@@ -8,4 +10,26 @@ export type HomeStackParamList = {
 	ViewSocialImpactPostHome: { postData: PostCollection, isAuthor: boolean }
 	ViewCulturePostHome: { postData: PostCollection, isAuthor: boolean }
 	PostCategories: { title: string }
+	PostCategoryDetails: {
+		backgroundColor: string
+		title: string
+		categoryName: string
+		cagegoryIcon: React.FC<SvgProps>
+		categoryType: PostCollectionType
+		categoryTags: string[]
+	}
+	ViewAllTags: {
+		backgroundColor: string
+		title: string
+		categoryName: string
+		cagegoryIcon: React.FC<SvgProps>
+		categoryType: PostCollectionType
+		categoryTags: string[]
+	}
+	ViewPostsByTag: {
+		backgroundColor: string
+		tagName: string
+		cagegoryIcon: React.FC<SvgProps>
+		categoryType: PostCollectionType
+	}
 }

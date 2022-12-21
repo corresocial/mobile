@@ -5,6 +5,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { Body, Container, Header, InputContainer, LastSigh, SearchInput } from './styles'
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
+import AnimalsIcon from '../../../assets/icons/categories/animals.svg'
 
 import { serviceCategories } from '../../serviceScreens/serviceCategories'
 import { saleCategories } from '../../saleScreens/saleCategories'
@@ -17,6 +18,7 @@ import { PostCategoriesScreenProps } from '../../../routes/Stack/HomeStack/stack
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
+import { PostCollectionType, ServiceCategory } from '../../../services/firebase/types'
 
 function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const [searchText, setSearchText] = useState('')
@@ -43,6 +45,17 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 		}
 	}
 
+	const getCategoryType = () => {
+		switch (route.params.title) {
+			case 'serviços': return 'services' as PostCollectionType
+			case 'vendas': return 'sales' as PostCollectionType
+			case 'vagas': return 'vacancies' as PostCollectionType
+			case 'culturas': return 'cultures' as PostCollectionType
+			case 'impacto social': return 'socialImpacts' as PostCollectionType
+			default: return null
+		}
+	}
+
 	const renderCategories = () => {
 		const currentCategory = getRelativeCategory()
 		if (!currentCategory) {
@@ -65,7 +78,17 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 				<CategoryCard
 					title={category[1].label}
 					SvgIcon={LoupIcon}
-					onPress={() => { }}
+					onPress={() => navigation.navigate(
+						'PostCategoryDetails',
+						{
+							backgroundColor: getRelativeColor(),
+							title: category[1].label,
+							categoryName: category[1].value,
+							cagegoryIcon: AnimalsIcon,
+							categoryType: getCategoryType() as any,
+							categoryTags: category[1].tags,
+						}
+					)}
 				/>
 			)
 		})

@@ -6,10 +6,11 @@ import { Container, ContainerInner, Title } from './styles'
 
 interface CategoryCardProps {
 	title: string
+	withoutMargin?: boolean
 	SvgIcon?: React.FC<SvgProps>
 	onPress: () => void
 }
-function CategoryCard({ title, SvgIcon, onPress }: CategoryCardProps) {
+function CategoryCard({ title, withoutMargin, SvgIcon, onPress }: CategoryCardProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	function pressingButton() {
@@ -31,6 +32,7 @@ function CategoryCard({ title, SvgIcon, onPress }: CategoryCardProps) {
 			onPressOut={notPressingButton}
 			onPress={releaseButton}
 			activeOpacity={1}
+			style={{ marginBottom: !withoutMargin ? RFValue(15) : 0 }}
 		>
 			<ContainerInner style={{
 				marginLeft: buttonPressed ? 0 : RFValue(-7)

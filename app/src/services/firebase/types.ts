@@ -10,6 +10,8 @@ export type VacancyCategories = keyof typeof vacancyCategories
 export type CultureCategories = keyof typeof cultureCategories
 export type SocialImpactCategories = keyof typeof socialImpactCategories
 
+export type ServiceCategory = typeof serviceCategories
+
 export type LocationViewType = 'private' | 'approximate' | 'public'
 
 export type WeekdaysFrequency = 'today' | 'everyday' | 'someday' | 'businessDay'

@@ -7,6 +7,12 @@ export const Container = styled.View`
 	justify-content: space-between;
 `
 
+export const PathBar = styled.Text`
+	font-family: Arvo_700Bold;
+	font-size: ${RFValue(22)}px;
+	margin-right: ${RFValue(10)}px;
+`
+
 export const Title = styled.Text`
 	font-family: Arvo_700Bold;
 	font-size: ${RFValue(20)}px;

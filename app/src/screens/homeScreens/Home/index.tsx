@@ -9,9 +9,7 @@ import {
 	FooterSigh,
 	HorizontalPostTypes,
 	RecentPostsContainer,
-	RecentPostsHeader,
-	Sigh,
-	Title
+	Sigh
 } from './styles'
 import { theme } from '../../../common/theme'
 import HeartPinkIcon from '../../../assets/icons/heart-pink.svg'
@@ -39,6 +37,7 @@ import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { RequestLocation } from '../../../components/RequestLocation'
 import { LoaderContext } from '../../../contexts/LoaderContext'
 import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
+import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -60,7 +59,7 @@ function Home({ navigation }: HomeScreenProps) {
 		locationIsEnable()
 	})
 
-	/* useEffect(() => {
+	/* useEffect(() => {  // Reload on back ot screen
 		navigation.addListener('focus', () => {
 			findNearPosts('', true)
 		})
@@ -291,10 +290,11 @@ function Home({ navigation }: HomeScreenProps) {
 				/>
 			</HorizontalPostTypes>
 			<RecentPostsContainer>
-				<RecentPostsHeader onPress={() => { }}>
-					<Title>{showMessageWithHighlight('posts de recentes', ['recentes'])}</Title>
-					<AngleRightIcon width={RFValue(20)} height={RFValue(20)} />
-				</RecentPostsHeader>
+				<SubtitleCard
+					text={'posts de recentes'}
+					highlightedText={['recentes']}
+					onPress={() => { }}
+				/>
 				{
 					(!hasLocationEnable) && (
 						<RequestLocation getLocationPermissions={requestPermissions} />
