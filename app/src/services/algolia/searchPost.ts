@@ -1,72 +1,80 @@
+/* eslint-disable no-underscore-dangle */
 import { servicesIndex, salesIndex } from './index'
+
+import { PostCollectionType } from '../firebase/types'
 import { PostIdentification } from './types'
 
-async function searchPosts(searchText: string, searchParams: any, searchOnly?: boolean) {
-	const searchFilters = {
-		rangeFilter: '',
-		postTypeFilter: '',
-		geohashFilter: '',
-		locationViewFilter: ''
-	}
+async function searchPosts(searchText: string, postsIdentification: any, tagName: string) {
+	try {
+		const resultsGroup = await searchAllPosts(searchText, postsIdentification, tagName)
 
-	if (!searchOnly) {
-		const geoKey = searchParams.range === 'nearby' ? 'geohashNearby' : 'geohashCity'
-		searchFilters.locationViewFilter = ' AND locationView:public OR locationView:approximate'
-		searchFilters.rangeFilter = getRangeFilter(searchParams.range, searchParams.city, searchParams.country)
-		searchFilters.postTypeFilter = getPostTypeFilter(searchParams.postType)
-		searchFilters.geohashFilter = getGeohashFilter(searchParams.geohashes, geoKey)
-	}
-
-	if (searchParams.range !== 'country') {
-		const results = await servicesIndex.search(searchText, {
-			filters: searchOnly
-				? ''
-				: `${searchFilters.rangeFilter}${searchFilters.postTypeFilter}${searchFilters.geohashFilter}${searchFilters.locationViewFilter}`
-		})
-
-		if (results.hits.length > 0) {
-			// console.log(results.hits[0])
-			const records = results.hits.map((record: any, index: number) => { // TODO Type
-				return {
-					collection: record.path.split('/')[0],
-					postId: record.objectID.replace('address', '')
-				} as PostIdentification
+		if (resultsGroup.length > 0) {
+			const posts = resultsGroup[0].hits.map((record: any, index: number) => {
+				const postData = structurePostObject(record)
+				return postData
 			})
-
-			const filtredRecords = filterInvalidArrayItems(records)
-			return filtredRecords
+			return posts
 		}
 		return [] as PostIdentification[]
-	}
-	console.log('Busca por localização de país não implementada')
-	return []
-}
-
-const getRangeFilter = (range: string, city: string, country: string) => {
-	if (range === 'nearby' || range === 'city') return `city:"${city}"`
-	if (range === 'country') return `country:"${country}"`
-	return ''
-}
-
-const getPostTypeFilter = (postType: string) => {
-	switch (postType) {
-		case 'service': return ' ' /* AND postType:service */
-		case 'any': return ' '
-		default: return ''
+	} catch (err) {
+		console.log(err)
+		console.log('Erro ao buscar posts no algolia, file:searchPosts')
+		return []
 	}
 }
 
-const getGeohashFilter = (geohashes: string[], geoKey: string) => {
-	return geohashes.reduce((query, geohash) => {
-		if (geohash === geohashes[geohashes.length - 1]) {
-			return `AND (${query} ${geoKey}:${geohash})`
+const searchAllPosts = (searchText: string, postsIdentification: PostIdentification[], tagName: string) => {
+	const allPosts = postsIdentification.map(async (post) => {
+		const postIndex = getRelativeAlgoliaIndex(post.collection as PostCollectionType)
+		const filterIds = getPostIdsFilter(post.postIds)
+		const filterTag = `tags:${tagName}`
+
+		const results = await postIndex.search(searchText, {
+			filters: `${filterIds} AND ${filterTag}`
+		})
+
+		return results
+	})
+
+	return Promise.all(allPosts)
+}
+
+const structurePostObject = (record: any) => {
+	const structuredPost = {
+		...record,
+		postId: record.objectID,
+		owner: {
+			name: record['owner.name'],
+			profilePictureUrl: record['owner.profilePictureUrl'],
+			userId: record['owner.userId'],
 		}
-		return `${query} ${geoKey}:${geohash} OR`
-	}, '')
+	}
+	delete structuredPost.path
+	delete structuredPost.objectID
+	delete structuredPost.lastmodified
+	delete structuredPost._highlightResult
+	delete structuredPost['owner.name']
+	delete structuredPost['owner.profilePictureUrl']
+	delete structuredPost['owner.userId']
+
+	return structuredPost
 }
 
-const filterInvalidArrayItems = (records: PostIdentification[]) => {
-	return records.filter((record) => !!record)
+const getRelativeAlgoliaIndex = (collection: PostCollectionType) => {
+	switch (collection) {
+		case 'services': return servicesIndex
+		case 'sales': return salesIndex
+		default: throw new Error('Não foi possível definir o index do post')
+	}
+}
+
+const getPostIdsFilter = (postIds: string[]) => {
+	return postIds.reduce((query, postId) => {
+		if (postId === postIds[postIds.length - 1]) {
+			return `${query} objectID:${postId}`
+		}
+		return `${query} objectID:${postId} OR`
+	}, '')
 }
 
 export { searchPosts }

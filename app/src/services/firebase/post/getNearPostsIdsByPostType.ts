@@ -1,14 +1,10 @@
 import {
 	where,
 	query,
-	collection,
-	orderBy,
-	limit,
 	getDocs,
 	collectionGroup,
 } from 'firebase/firestore'
-import Firebase, { firestore } from '..'
-import { SearchParams } from '../../maps/types'
+import { firestore } from '..'
 import { PostType } from '../types'
 
 export type PostIdentificationItem = {

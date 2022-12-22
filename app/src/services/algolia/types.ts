@@ -1,4 +1,4 @@
 export type PostIdentification = {
 	collection: string
-	postId: string
+	postIds: string[]
 }

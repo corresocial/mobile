@@ -19,12 +19,14 @@ import { LocationContext } from '../../../contexts/LocationContext'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
+import { searchPosts } from '../../../services/algolia/searchPost'
 
 function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	const { locationDataContext } = useContext(LocationContext)
 
 	const [searchText, setSearchText] = useState('')
 	const [recentPosts, setRecentPosts] = useState<PostCollection[]>([])
+	const [resultPosts, setResultPosts] = useState<PostCollection[]>([])
 
 	useEffect(() => {
 		getRecentPosts()
@@ -36,12 +38,29 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	}
 
 	const getRecentPosts = async () => {
-		const postIds = await getNearPostsIdsByPostType(
+		const postIds = await getNearPosts()
+		const posts = await getListOfPosts(postIds, 'tags', route.params.tagName)
+		setRecentPosts([].concat(...posts as any) as any || []) // TODO Type
+	}
+
+	const searchPostByText = async () => {
+		if (!searchText) {
+			await getRecentPosts()
+			setResultPosts([])
+			return
+		}
+
+		const postIds = await getNearPosts()
+		const posts = await searchPosts(searchText, postIds, route.params.tagName)
+		setResultPosts(posts)
+	}
+
+	const getNearPosts = async () => {
+		const nearPosts = await getNearPostsIdsByPostType(
 			locationDataContext.geohashes,
 			route.params.categoryType as PostType
 		)
-		const posts = await getListOfPosts(postIds, 'tags', route.params.tagName)
-		setRecentPosts([].concat(...posts as any) as any || []) // TODO Type
+		return nearPosts
 	}
 
 	const goToPostView = (item: PostCollection) => {
@@ -87,7 +106,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
-						onSubmitEditing={() => { }}
+						onSubmitEditing={searchPostByText}
 					/>
 				</InputContainer>
 			</Header>
@@ -99,7 +118,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 						onPress={() => { }}
 					/>
 					{
-						!recentPosts.length
+						!recentPosts.length && !resultPosts.length
 							? (
 								<WithoutPostsContainer>
 									<WithoutPostsTitle>{'poxa!'}</WithoutPostsTitle>
@@ -108,7 +127,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 							)
 							: (
 								<FlatList
-									data={recentPosts}
+									data={resultPosts.length ? resultPosts : recentPosts}
 									renderItem={({ item }) => (
 										<PostCard
 											post={item}

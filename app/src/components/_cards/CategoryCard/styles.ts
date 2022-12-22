@@ -21,6 +21,7 @@ export const ContainerInner = styled.View`
 	border-radius: ${RFValue(15)}px;
 	margin-left: ${RFValue(-7)}px;
 	border: ${RFValue(2.5)}px solid ${({ theme }) => theme.black4};
+	overflow: hidden;
 `
 
 export const Title = styled.Text`
