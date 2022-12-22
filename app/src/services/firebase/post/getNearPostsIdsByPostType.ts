@@ -24,14 +24,19 @@ export type PostIdentification = {
 	culture: PostIdentificationItem
 }
 
-async function getPostsByLocation(searchParams: SearchParams) {
+async function getNearPostsIdsByPostType(geohashes: string[], postTypeParam: PostType) {
 	try {
 		const privateAddresses = query(
 			collectionGroup(firestore, 'private'),
 			where(
+				'postType',
+				'==',
+				postTypeParam
+			),
+			where(
 				'geohashNearby',
 				'array-contains-any',
-				searchParams.geohashes,
+				geohashes,
 			)
 		)
 		const querySnapshot = await getDocs(privateAddresses)
@@ -72,4 +77,4 @@ async function getPostsByLocation(searchParams: SearchParams) {
 	}
 }
 
-export { getPostsByLocation }
+export { getNearPostsIdsByPostType }

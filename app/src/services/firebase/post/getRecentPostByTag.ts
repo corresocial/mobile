@@ -8,7 +8,6 @@ import {
 	collectionGroup,
 } from 'firebase/firestore'
 import Firebase, { firestore } from '..'
-import { AlgoliaSearchParams } from '../../maps/types'
 import { PostCollection, PostCollectionType, PostType } from '../types'
 
 export type PostIdentificationItem = {
@@ -34,7 +33,7 @@ async function getRecentPostsByTag(collectionName: PostCollectionType, tag: stri
 				'array-contains',
 				tag,
 			),
-			orderBy('createdAt', 'desc'),
+			orderBy('createdAt', 'desc')
 		)
 		const querySnapshot = await getDocs(taggedPosts)
 

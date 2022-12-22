@@ -27,9 +27,11 @@ import { searchAddressByText } from '../../../services/maps/searchAddressByText'
 import { structureAddress } from '../../../services/maps/addressFormatter'
 import { getRecentAddressFromStorage } from '../../../services/maps/recentAddresses'
 
-import { AlgoliaSearchParams, LatLong, AddressSearchResult, SelectedAddressRender } from '../../../services/maps/types'
+import { SearchParams, LatLong, AddressSearchResult, SelectedAddressRender } from '../../../services/maps/types'
 import { PostCollection } from '../../../services/firebase/types'
 import { HomeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
+
+import { LocationContext } from '../../../contexts/LocationContext'
 
 import { LocationNearDropdown } from '../../../components/LocationNearDropdown'
 import { PostCard } from '../../../components/_cards/PostCard'
@@ -38,6 +40,8 @@ import { RequestLocation } from '../../../components/RequestLocation'
 import { LoaderContext } from '../../../contexts/LoaderContext'
 import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
+import { LocationData } from '../../../contexts/types'
+import { HomeStackParamList } from '../../../routes/Stack/HomeStack/types'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -46,6 +50,7 @@ const initialSelectedAddress = {
 
 function Home({ navigation }: HomeScreenProps) {
 	const { setLoaderIsVisible } = useContext(LoaderContext)
+	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
 
 	const [selectedAddress, setSelectedAddress] = useState<SelectedAddressRender>(initialSelectedAddress)
 	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])
@@ -104,7 +109,7 @@ function Home({ navigation }: HomeScreenProps) {
 	const findNearPosts = async (searchText: string, currentPosition?: boolean, alternativeCoordinates?: LatLong) => { // TODO Type
 		try {
 			setLoaderIsVisible(true)
-			let searchParams = {}
+			let searchParams = {} as LocationData
 			if (currentPosition) {
 				const coordinates = await getCurrentPositionCoordinates()
 				searchParams = await getSearchParams(coordinates)
@@ -113,9 +118,12 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong) // address converter
 			}
 
-			const postsIds = await getPostsByLocation(searchParams as AlgoliaSearchParams)
+			setLocationDataOnContext(searchParams)
+
+			const postsIds = await getPostsByLocation(searchParams as SearchParams)
 			const posts = await getListOfPosts(postsIds)
-			setNearPosts(posts[0] as any || []) // TODO type
+			console.log(posts.length)
+			setNearPosts([].concat(...posts as any) as any || []) // TODO type
 			setLoaderIsVisible(false)
 		} catch (err) {
 			console.log(err)
@@ -159,7 +167,7 @@ function Home({ navigation }: HomeScreenProps) {
 			country: structuredAddress.country,
 			postType: 'any',
 			geohashes: geohashObject.geohashNearby
-		} as AlgoliaSearchParams
+		} as LocationData
 	}
 
 	const convertGeocodeToAddress = async (latitude: number, longitude: number) => {
@@ -217,6 +225,10 @@ function Home({ navigation }: HomeScreenProps) {
 		}
 	}
 
+	const navigateToPostCategories = (title: string) => {
+		navigation.navigate('PostCategories', { title })
+	}
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
@@ -237,7 +249,7 @@ function Home({ navigation }: HomeScreenProps) {
 					relativeWidth={screenWidth * 0.13}
 					color={'white'}
 					fontSize={8}
-					onPress={() => navigation.navigate('PostCategories', { title: 'impacto social' })}
+					onPress={() => navigateToPostCategories('impacto social')}
 					label={'impacto'}
 					SvgIcon={HeartPinkIcon}
 					svgScale={35}
@@ -248,7 +260,7 @@ function Home({ navigation }: HomeScreenProps) {
 					relativeWidth={screenWidth * 0.13}
 					color={'white'}
 					fontSize={8}
-					onPress={() => navigation.navigate('PostCategories', { title: 'vendas' })}
+					onPress={() => navigateToPostCategories('comércio')}
 					label={'comércio'}
 					SvgIcon={SalesCartIcon}
 					svgScale={30}
@@ -259,7 +271,7 @@ function Home({ navigation }: HomeScreenProps) {
 					relativeWidth={screenWidth * 0.13}
 					color={'white'}
 					fontSize={8}
-					onPress={() => navigation.navigate('PostCategories', { title: 'culturas' })}
+					onPress={() => navigateToPostCategories('culturas')}
 					label={'cultura'}
 					SvgIcon={SoundToolsIcon}
 					svgScale={35}
@@ -270,7 +282,7 @@ function Home({ navigation }: HomeScreenProps) {
 					relativeWidth={screenWidth * 0.13}
 					color={'white'}
 					fontSize={8}
-					onPress={() => navigation.navigate('PostCategories', { title: 'serviços' })}
+					onPress={() => navigateToPostCategories('serviços')}
 					label={'serviços'}
 					SvgIcon={ToolBoxIcon}
 					svgScale={35}
@@ -281,7 +293,7 @@ function Home({ navigation }: HomeScreenProps) {
 					relativeWidth={screenWidth * 0.13}
 					color={'white'}
 					fontSize={8}
-					onPress={() => navigation.navigate('PostCategories', { title: 'vagas' })}
+					onPress={() => navigateToPostCategories('vagas')}
 					label={'vagas'}
 					SvgIcon={SuitcaseIcon}
 					svgScale={35}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { SvgProps } from 'react-native-svg'
-import { PostCollection, PostCollectionType, SaleCategories } from '../../../services/firebase/types'
+import { PostCollection, PostCollectionType, PostType, SaleCategories } from '../../../services/firebase/types'
 
 export type HomeStackParamList = {
 	Home: { userId?: string }
@@ -15,7 +15,8 @@ export type HomeStackParamList = {
 		title: string
 		categoryName: string
 		cagegoryIcon: React.FC<SvgProps>
-		categoryType: PostCollectionType
+		categoryType: PostType
+		categoryCollection: PostCollectionType
 		categoryTags: string[]
 	}
 	ViewAllTags: {
@@ -23,13 +24,15 @@ export type HomeStackParamList = {
 		title: string
 		categoryName: string
 		cagegoryIcon: React.FC<SvgProps>
-		categoryType: PostCollectionType
+		categoryType: PostType
+		categoryCollection: PostCollectionType
 		categoryTags: string[]
 	}
 	ViewPostsByTag: {
 		backgroundColor: string
 		tagName: string
 		cagegoryIcon: React.FC<SvgProps>
-		categoryType: PostCollectionType
+		categoryType: PostType
+		categoryCollection: PostCollectionType
 	}
 }

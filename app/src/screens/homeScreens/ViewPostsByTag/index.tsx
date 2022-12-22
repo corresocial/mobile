@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, KeyboardAvoidingView, FlatList } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
@@ -8,14 +8,21 @@ import LoupIcon from '../../../assets/icons/loup.svg'
 
 import { getRecentPostsByTag } from '../../../services/firebase/post/getRecentPostByTag'
 
-import { PostCollection } from '../../../services/firebase/types'
+import { getNearPostsIdsByPostType } from '../../../services/firebase/post/getNearPostsIdsByPostType'
+import { getListOfPosts } from '../../../services/firebase/post/getListOfPosts'
+
+import { PostCollection, PostType } from '../../../services/firebase/types'
 import { ViewPostsByTagScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
+
+import { LocationContext } from '../../../contexts/LocationContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
 
 function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
+	const { locationDataContext } = useContext(LocationContext)
+
 	const [searchText, setSearchText] = useState('')
 	const [recentPosts, setRecentPosts] = useState<PostCollection[]>([])
 
@@ -29,9 +36,12 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	}
 
 	const getRecentPosts = async () => {
-		const { tagName, categoryType } = route.params
-		const posts = await getRecentPostsByTag(categoryType, tagName)
-		setRecentPosts(posts)
+		const postIds = await getNearPostsIdsByPostType(
+			locationDataContext.geohashes,
+			route.params.categoryType as PostType
+		)
+		const posts = await getListOfPosts(postIds, 'tags', route.params.tagName)
+		setRecentPosts([].concat(...posts as any) as any || []) // TODO Type
 	}
 
 	const goToPostView = (item: PostCollection) => {

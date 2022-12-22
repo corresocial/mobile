@@ -38,6 +38,7 @@ function ViewAllTags({ route, navigation }: ViewAllTagsScreenProps) {
 			backgroundColor: route.params.backgroundColor,
 			cagegoryIcon: route.params.cagegoryIcon,
 			categoryType: route.params.categoryType,
+			categoryCollection: route.params.categoryCollection,
 			tagName
 		})
 	}
@@ -49,7 +50,7 @@ function ViewAllTags({ route, navigation }: ViewAllTagsScreenProps) {
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
 					text={`categorias ${route.params.title}`}
-					highlightedWords={[route.params.title]}
+					highlightedWords={route.params.title.split(' ')}
 				/>
 				<InputContainer>
 					<LoupIcon width={RFValue(25)} height={RFValue(25)} />

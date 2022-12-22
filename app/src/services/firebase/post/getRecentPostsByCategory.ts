@@ -8,7 +8,6 @@ import {
 	collectionGroup,
 } from 'firebase/firestore'
 import Firebase, { firestore } from '..'
-import { AlgoliaSearchParams } from '../../maps/types'
 import { PostCollection, PostCollectionType, PostType } from '../types'
 
 export type PostIdentificationItem = {

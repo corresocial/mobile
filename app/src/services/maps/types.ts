@@ -10,7 +10,7 @@ export type LatLong = {
 	lon: number
 }
 
-export type AlgoliaSearchParams = {
+export type SearchParams = {
 	range: string
 	city: string
 	country: string

@@ -7,6 +7,7 @@ import {
 	LocationViewType,
 	PaymentType,
 	PlaceModalityType,
+	PostType,
 	UserCollection,
 	VacancyType,
 	WeekdaysFrequency,
@@ -48,6 +49,14 @@ export interface StateData {
 	showTourModal?: boolean
 	showShareModal?: boolean
 	lastPostTitle?: string
+}
+
+export type LocationData = {
+	range: string
+	city: string
+	country: string
+	postType: PostType | string
+	geohashes: never[]
 }
 
 export type ServiceData = {

@@ -18,7 +18,7 @@ import { PostCategoriesScreenProps } from '../../../routes/Stack/HomeStack/stack
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
-import { PostCollectionType, ServiceCategory } from '../../../services/firebase/types'
+import { PostCollectionType, PostType, ServiceCategory } from '../../../services/firebase/types'
 
 function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const [searchText, setSearchText] = useState('')
@@ -26,7 +26,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const getRelativeColor = () => {
 		switch (route.params.title) {
 			case 'serviços': return theme.purple2
-			case 'vendas': return theme.green2
+			case 'comércio': return theme.green2
 			case 'vagas': return theme.yellow2
 			case 'culturas': return theme.blue2
 			case 'impacto social': return theme.pink2
@@ -37,7 +37,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const getRelativeCategory = () => {
 		switch (route.params.title) {
 			case 'serviços': return serviceCategories
-			case 'vendas': return saleCategories
+			case 'comércio': return saleCategories
 			case 'vagas': return vacancyCategories
 			case 'culturas': return cultureCategories
 			case 'impacto social': return socialImpactCategories
@@ -47,8 +47,19 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 
 	const getCategoryType = () => {
 		switch (route.params.title) {
+			case 'serviços': return 'service' as PostType
+			case 'comércio': return 'sale' as PostType
+			case 'vagas': return 'vacancy' as PostType
+			case 'culturas': return 'culture' as PostType
+			case 'impacto social': return 'socialImpact' as PostType
+			default: return null
+		}
+	}
+
+	const getCategoryCollection = () => {
+		switch (route.params.title) {
 			case 'serviços': return 'services' as PostCollectionType
-			case 'vendas': return 'sales' as PostCollectionType
+			case 'comércio': return 'sales' as PostCollectionType
 			case 'vagas': return 'vacancies' as PostCollectionType
 			case 'culturas': return 'cultures' as PostCollectionType
 			case 'impacto social': return 'socialImpacts' as PostCollectionType
@@ -86,6 +97,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 							categoryName: category[1].value,
 							cagegoryIcon: AnimalsIcon,
 							categoryType: getCategoryType() as any,
+							categoryCollection: getCategoryCollection() as any,
 							categoryTags: category[1].tags,
 						}
 					)}

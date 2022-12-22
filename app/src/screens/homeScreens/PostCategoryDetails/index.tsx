@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, KeyboardAvoidingView, FlatList } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
@@ -6,17 +6,21 @@ import { Body, Container, Header, HorizontalSigh, InputContainer, LastSigh, Sear
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
 
-import { getRecentPostsByCategory } from '../../../services/firebase/post/getRecentPostsByCategory'
-
-import { PostCollection } from '../../../services/firebase/types'
+import { PostCollection, PostType } from '../../../services/firebase/types'
 import { PostCategoryDetailsScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
+
+import { LocationContext } from '../../../contexts/LocationContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
+import { getNearPostsIdsByPostType } from '../../../services/firebase/post/getNearPostsIdsByPostType'
+import { getListOfPosts } from '../../../services/firebase/post/getListOfPosts'
 
 function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenProps) {
+	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
+
 	const [searchText, setSearchText] = useState('')
 	const [recentPosts, setRecentPosts] = useState<PostCollection[]>([])
 
@@ -25,9 +29,12 @@ function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenPro
 	}, [])
 
 	const getRecentPosts = async () => {
-		const { categoryName, categoryType } = route.params
-		const posts = await getRecentPostsByCategory(categoryType, categoryName)
-		setRecentPosts(posts)
+		const postIds = await getNearPostsIdsByPostType(
+			locationDataContext.geohashes,
+			route.params.categoryType as PostType
+		)
+		const posts = await getListOfPosts(postIds, 'category', route.params.categoryName)
+		setRecentPosts([].concat(...posts as any) as any || []) // TODO Type
 	}
 
 	const getCategoryIcon = () => {
@@ -45,18 +52,20 @@ function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenPro
 			backgroundColor: route.params.backgroundColor,
 			cagegoryIcon: route.params.cagegoryIcon,
 			categoryType: route.params.categoryType,
+			categoryCollection: route.params.categoryCollection,
 			tagName
 		})
 	}
 
-	const viewAllTags = () => {
+	const viewAllTags = async () => {
 		navigation.navigate('ViewAllTags', {
 			backgroundColor: route.params.backgroundColor,
 			title: route.params.title,
 			categoryName: route.params.categoryName,
 			cagegoryIcon: route.params.cagegoryIcon,
 			categoryType: route.params.categoryType,
-			categoryTags: route.params.categoryTags
+			categoryTags: route.params.categoryTags,
+			categoryCollection: route.params.categoryCollection
 		})
 	}
 
@@ -110,7 +119,7 @@ function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenPro
 				<Body style={{ backgroundColor: route.params.backgroundColor }}>
 					<SubtitleCard
 						text={`todas categorias ${route.params.title}`}
-						highlightedText={['todas', route.params.title]}
+						highlightedText={['todas', ...route.params.title.split(' ')]}
 						onPress={viewAllTags}
 					/>
 					<TagsContainer>
