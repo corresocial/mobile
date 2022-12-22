@@ -19,6 +19,7 @@ import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
 import { PostCollectionType, PostType, ServiceCategory } from '../../../services/firebase/types'
+import { sortPostCategories } from '../../../common/auxiliaryFunctions'
 
 function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const [searchText, setSearchText] = useState('')
@@ -79,11 +80,13 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			)
 		}
 
-		const filtredCategory = !searchText
+		const filtredCategories = !searchText
 			? currentCategory
-			: Object.entries(currentCategory).filter((category) => !!category[1].label.match(new RegExp(`${searchText}`, 'i'))?.length)
+			: filterCategories(currentCategory)
 
-		return (!searchText ? Object.entries(currentCategory) : filtredCategory as any).map((category: any) => { // TODO Type
+		const ordenedCategories = Object.values(filtredCategories).sort(sortPostCategories as any) // TODO type
+
+		return Object.entries(ordenedCategories).map((category: any) => { // TODO Type
 			if (category[1].label === 'outros') return null
 			return (
 				<CategoryCard
@@ -104,6 +107,20 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 				/>
 			)
 		})
+	}
+
+	const filterCategories = (category: any) => { // TODo Type
+		const categoryList = Object.entries(category).reduce((acc, categoryItem: any) => { // TODO Type
+			if ((categoryItem[1].label as string).match(new RegExp(`${searchText}`, 'i'))?.length) {
+				return {
+					...acc,
+					[categoryItem[0]]: categoryItem[1]
+				}
+			}
+			return acc
+		}, {})
+
+		return categoryList
 	}
 
 	return (

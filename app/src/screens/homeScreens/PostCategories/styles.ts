@@ -34,6 +34,7 @@ export const SearchInput = styled.TextInput`
 export const Body = styled.View`
 	flex: 1;
 	padding: ${RFValue(15)}px;
+	padding-bottom: 0px;
 `
 
 export const LastSigh = styled.View`

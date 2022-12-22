@@ -11,6 +11,7 @@ import { ViewAllTagsScreenProps } from '../../../routes/Stack/HomeStack/stackScr
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
+import { sortArray } from '../../../common/auxiliaryFunctions'
 
 function ViewAllTags({ route, navigation }: ViewAllTagsScreenProps) {
 	const [searchText, setSearchText] = useState('')
@@ -21,6 +22,8 @@ function ViewAllTags({ route, navigation }: ViewAllTagsScreenProps) {
 		if (searchText) {
 			categoryTags = categoryTags.filter((tag) => !!tag.match(new RegExp(`${searchText}`, 'i'))?.length)
 		}
+
+		categoryTags = categoryTags.sort(sortArray)
 
 		return categoryTags.map((tagName: string) => { // TODO Type
 			if (tagName === 'outros') return null

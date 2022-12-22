@@ -17,6 +17,7 @@ import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { getNearPostsIdsByPostType } from '../../../services/firebase/post/getNearPostsIdsByPostType'
 import { getListOfPosts } from '../../../services/firebase/post/getListOfPosts'
+import { sortArray } from '../../../common/auxiliaryFunctions'
 
 function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenProps) {
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
@@ -43,8 +44,9 @@ function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenPro
 	}
 
 	const getFiltredCategoryTags = () => {
-		if (!searchText) return route.params.categoryTags
-		return route.params.categoryTags.filter((tag) => !!tag.match(new RegExp(`${searchText}`, 'i'))?.length)
+		if (!searchText) return route.params.categoryTags.sort(sortArray)
+		const filtredTags = route.params.categoryTags.filter((tag) => !!tag.match(new RegExp(`${searchText}`, 'i'))?.length)
+		return filtredTags.sort(sortArray)
 	}
 
 	const viewPostsByTag = (tagName: string) => {

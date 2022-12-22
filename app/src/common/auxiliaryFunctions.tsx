@@ -3,6 +3,7 @@ import { Text } from 'react-native'
 import uuid from 'react-uuid'
 import { formatDistance, formatRelative, isValid, format } from 'date-fns'
 import brasilLocale from 'date-fns/locale/pt-BR'
+import { MacroCategory } from '../services/firebase/types'
 
 const arrayIsEmpty = (array: any) => {
 	try {
@@ -101,11 +102,25 @@ const getNewDate = (date: any) => {
 	return new Date(date)
 }
 
+const sortArray = (a: string, b: string) => {
+	if (a < b) return -1
+	if (a > b) return 1
+	return 0
+}
+
+const sortPostCategories = (a: MacroCategory, b: MacroCategory) => {
+	if (a.label < b.label) return -1
+	if (a.label > b.label) return 1
+	return 0
+}
+
 export {
 	arrayIsEmpty,
 	showMessageWithHighlight,
 	filterLeavingOnlyNumbers,
 	formatDate,
 	formatHour,
-	formatRelativeDate
+	formatRelativeDate,
+	sortArray,
+	sortPostCategories
 }
