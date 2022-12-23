@@ -12,10 +12,12 @@ export const ContainerSurface = styled.View`
     border-radius: 15px;
     align-items: center;
     justify-content: center;
-    
+
     height: 100%;
     width: 100%;
     position: absolute;
+	flex-direction: row;
+
     right: ${RFValue(8)}px;
 `
 

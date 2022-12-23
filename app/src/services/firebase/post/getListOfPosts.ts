@@ -2,15 +2,15 @@ import { collection, documentId, getDocs, orderBy, query, where } from 'firebase
 import { firestore } from '..'
 
 import { PostCollection } from '../types'
-import { PostIdentification } from './getPostsByLocation'
+import { PostIdentificationItem } from './getPostsByLocation'
 
 type FilterMethod = 'category' | 'tags'
 
-async function getListOfPosts(postsIdentification: PostIdentification[], filterMethod?: FilterMethod, filterText?: string) { // TODO Type
+async function getListOfPosts(postsIdentification: PostIdentificationItem[], filterMethod?: FilterMethod, filterText?: string) {
 	try {
 		if (postsIdentification.length < 1) return []
 
-		const allPosts = postsIdentification.map(async (post: any) => { // TODO type
+		const allPosts = postsIdentification.map(async (post: PostIdentificationItem) => {
 			const queryList = filterMethod
 				? getFilteredQuery(post.collection, post.postIds, filterMethod, filterText)
 				: query(

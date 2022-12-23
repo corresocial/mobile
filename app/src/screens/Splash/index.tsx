@@ -12,7 +12,6 @@ import BuildingsSVG from '../../assets/icons/buildings.svg'
 import LogoSVG from '../../assets/icons/logo.svg'
 
 import { SplashScreenProps } from '../../routes/Stack/AuthRegisterStack/stackScreenProps'
-
 import { UserData } from '../../contexts/types'
 
 import { AuthContext } from '../../contexts/AuthContext'
@@ -32,7 +31,7 @@ function Splash({ navigation }: SplashScreenProps) {
 		setTimeout(() => {
 			redirectToApp()
 		}, 1000)
-	})
+	}, [])
 
 	const redirectToApp = async () => {
 		try {

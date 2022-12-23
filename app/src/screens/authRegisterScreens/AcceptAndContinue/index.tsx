@@ -58,7 +58,7 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
 		navigation.navigate('InsertCellNumber')
 	}
 
-	const cleanLocalStorage = async () => { // TODO DevOnly
+	const cleanLocalStorage = async () => { // DevOnly
 		await deleteLocaluser()
 		Alert.alert('Certo!', 'Dados do local storage apagados, recarregue a aplicação!')
 	}

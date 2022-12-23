@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image } from 'react-native'
+import { Image, ImageResizeMode } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
 import { CheckArea, Container, DeleteItemArea } from './styles'
@@ -13,7 +13,7 @@ interface PhotoPortraitProps {
 	height: number | string
 	borderWidth?: number
 	borderRightWidth?: number
-	resizeMode?: any // TODO Type
+	resizeMode?: ImageResizeMode | undefined
 	pictureUri: string
 	maxWidth?: number
 	checked?: boolean

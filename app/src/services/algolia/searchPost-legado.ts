@@ -25,8 +25,7 @@ async function searchPosts(searchText: string, searchParams: any, searchOnly?: b
 		})
 
 		if (results.hits.length > 0) {
-			// console.log(results.hits[0])
-			const records = results.hits.map((record: any, index: number) => { // TODO Type
+			const records = results.hits.map((record: any, index: number) => {
 				return {
 					collection: record.path.split('/')[0],
 					postIds: record.objectID.replace('address', '')

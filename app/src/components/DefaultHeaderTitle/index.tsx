@@ -9,10 +9,10 @@ import { Container, Title } from './styles'
 interface DefaultHeaderTitleProps {
 	title: string
 	highlightedWords?: string[]
-	SvgIcon?: React.FC<SvgProps> | any // TODO Type Remove any
+	SvgIcon?: React.FC<SvgProps>
 	dimensions?: number
 	invertTextAndIcon?: boolean
-	justifyContent?: any // TODO Type
+	justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'
 	onPressIcon?: () => void
 }
 
@@ -29,18 +29,24 @@ function DefaultHeaderTitle({
 		if (onPressIcon) {
 			return (
 				<TouchableOpacity onPress={() => onPressIcon()}>
-					<SvgIcon
-						height={RFValue(dimensions)}
-						width={RFValue(dimensions)}
-					/>
+					{
+						SvgIcon && (
+							<SvgIcon
+								height={RFValue(dimensions)}
+								width={RFValue(dimensions)}
+							/>
+						)
+					}
 				</TouchableOpacity>
 			)
 		}
 		return (
-			<SvgIcon
-				height={RFValue(dimensions)}
-				width={RFValue(dimensions)}
-			/>
+			SvgIcon && (
+				<SvgIcon
+					height={RFValue(dimensions)}
+					width={RFValue(dimensions)}
+				/>
+			)
 		)
 	}
 

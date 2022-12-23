@@ -3,7 +3,7 @@ import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { theme } from '../../common/theme'
 
-import { Container, PathBar, Title } from './styles'
+import { Container, PathBar, PathTitle, Title } from './styles'
 import AngleLeftThin from '../../assets/icons/angleLeftThin.svg'
 
 import { SmallButton } from '../_buttons/SmallButton'
@@ -13,6 +13,7 @@ interface DefaultPostViewHeaderProps {
 	text?: string
 	highlightedWords?: string[]
 	path?: boolean
+	showResults?: boolean
 	SvgIcon?: React.FC<SvgProps>
 	onBackPress: () => void
 }
@@ -21,6 +22,7 @@ function DefaultPostViewHeader({
 	text = '',
 	highlightedWords = [],
 	path,
+	showResults,
 	SvgIcon,
 	onBackPress
 }: DefaultPostViewHeaderProps) {
@@ -40,7 +42,11 @@ function DefaultPostViewHeader({
 				SvgIcon={AngleLeftThin}
 				onPress={onBackPress}
 			/>
-			{SvgIcon && <SvgIcon width={'25%'} height={'60%'} />}
+			{
+				showResults
+					? <PathTitle>{text}</PathTitle>
+					: SvgIcon && <SvgIcon width={'25%'} height={'60%'} />
+			}
 			{path && <PathBar>{'/'}</PathBar>}
 			<Title
 				numberOfLines={2}
@@ -51,7 +57,11 @@ function DefaultPostViewHeader({
 					fontSize: path ? RFValue(15) : RFValue(20)
 				}}
 			>
-				{showMessageWithHighlight(text, highlightedWords)}
+				{
+					showResults
+						? showMessageWithHighlight('resultados', ['resultados'])
+						: showMessageWithHighlight(text, highlightedWords)
+				}
 			</Title>
 		</Container>
 	)

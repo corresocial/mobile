@@ -1,5 +1,3 @@
-import * as Sharing from 'expo-sharing' // TODO unisntall
-import { url } from 'inspector'
 import { Share, ShareOptions } from 'react-native'
 
 const share = (message: string) => {

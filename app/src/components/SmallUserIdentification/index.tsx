@@ -15,7 +15,7 @@ interface SmallUserIdentificationProps {
 	height?: string | number
 	userName: string | undefined
 	postDate: string
-	profilePictureUrl?: string | any // TODO  Type
+	profilePictureUrl?: string | null
 	pictureDimensions?: number
 	userNameFontSize?: number
 	postDateFontSize?: number

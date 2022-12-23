@@ -13,7 +13,7 @@ import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunct
 import { ViewServicePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { ServiceCollectionRemote } from '../../../services/firebase/types'
+import { PostCollection, ServiceCollectionRemote } from '../../../services/firebase/types'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
 import { SaleExchangeValue } from '../../../components/SaleExchangeValue'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
@@ -26,7 +26,7 @@ import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
 
 function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
-	const [postData, setPostData] = useState({} as ServiceCollectionRemote)
+	const [postData, setPostData] = useState({} as any) // TODO type
 	const [profileOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
 	useEffect(() => {
@@ -35,7 +35,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 
 	const setPostDataFromRoute = async () => {
 		const postDataFromRoute = { ...route.params.postData }
-		setPostData(postDataFromRoute as any) // TODO any
+		setPostData(postDataFromRoute as any) // TODO type
 		return true
 	}
 
@@ -64,7 +64,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						postDate={renderFormatedPostDateTime()}
 						userNameFontSize={14}
 						pictureDimensions={45}
-						profilePictureUrl={getProfilePictureUrl()}
+						profilePictureUrl={getProfilePictureUrl() || ''}
 						width={'60%'}
 					/>
 					<SaleExchangeValue

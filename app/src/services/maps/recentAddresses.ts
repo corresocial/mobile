@@ -11,7 +11,7 @@ const getRecentAddressFromStorage = async () => {
 	return [] as AddressSearchResult[]
 }
 
-const setRecentAddressOnStorage = async (data: any) => { // TODO type
+const setRecentAddressOnStorage = async (data: AddressSearchResult) => {
 	const storedAddresses = await getRecentAddressFromStorage()
 
 	const filtredAddress = storedAddresses.filter((address: any) => address.formattedAddress !== data.formattedAddress)

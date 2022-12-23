@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { StatusBar, ScrollView, KeyboardAvoidingView } from 'react-native'
+import uuid from 'react-uuid'
 
 import { RFValue } from 'react-native-responsive-fontsize'
 import { Body, Container, Header, InputContainer, LastSigh, SearchInput } from './styles'
@@ -90,6 +91,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			if (category[1].label === 'outros') return null
 			return (
 				<CategoryCard
+					key={uuid()}
 					title={category[1].label}
 					SvgIcon={LoupIcon}
 					onPress={() => navigation.navigate(

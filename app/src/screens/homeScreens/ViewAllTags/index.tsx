@@ -25,7 +25,7 @@ function ViewAllTags({ route, navigation }: ViewAllTagsScreenProps) {
 
 		categoryTags = categoryTags.sort(sortArray)
 
-		return categoryTags.map((tagName: string) => { // TODO Type
+		return categoryTags.map((tagName: string) => {
 			if (tagName === 'outros') return null
 			return (
 				<CategoryCard

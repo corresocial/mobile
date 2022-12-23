@@ -14,8 +14,15 @@ export const PathBar = styled.Text`
 `
 
 export const Title = styled.Text`
-	font-family: Arvo_700Bold;
-	font-size: ${RFValue(20)}px;
+	font-family: Arvo_400Regular;
+	font-size: ${RFValue(16)}px;
 	padding-horizontal: ${RFValue(10)}px;
 	width: 85%;
+`
+
+export const PathTitle = styled.Text`
+	font-family: Arvo_400Regular;
+	font-size: ${RFValue(16)}px;
+	padding-horizontal: ${RFValue(10)}px;
+	max-width: 50%;
 `

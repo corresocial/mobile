@@ -66,6 +66,7 @@ export type UserCollection = {
 	profilePictureUrl?: string[]
 	tourPerformed?: boolean
 	tags?: string[]
+	category?: string
 	createdAt?: Date
 	updatedAt?: Date
 	posts?: PostCollection[]
@@ -112,11 +113,14 @@ export type PostCollectionType = 'services' | 'sales' | 'vacancies' | 'cultures'
 
 export type PostCollection = ServiceCollection | SaleCollection | VacancyCollection | CultureCollection | SocialImpactCollection
 
+export type PostCollectionRemote = ServiceCollectionRemote | SaleCollectionRemote | VacancyCollectionRemote | CultureCollectionRemote | SocialImpactCollectionRemote
+
 export type ServiceCollection = {
 	postId?: string
 	postType: PostType
 	title?: string
 	tags?: string[]
+	category?: string
 	paymentType?: PaymentType
 	saleValue?: string
 	exchangeValue?: string
@@ -157,6 +161,7 @@ export type ServiceCollectionRemote = {
 	postType: PostType
 	title: string
 	tags: string[]
+	category: string
 	paymentType: PaymentType
 	saleValue?: string
 	exchangeValue?: string
@@ -199,6 +204,7 @@ export type SaleCollection = {
 	itemName?: string
 	itemDescription?: string
 	tags?: string[]
+	category?: string
 	paymentType?: PaymentType
 	saleValue?: string
 	exchangeValue?: string
@@ -241,6 +247,7 @@ export type SaleCollectionRemote = {
 	itemName: string
 	itemDescription: string
 	tags: string[]
+	category: string
 	paymentType: PaymentType
 	saleValue: string
 	exchangeValue?: string
@@ -291,6 +298,7 @@ export type VacancyCollection = {
 	startWorkHour?: Date
 	endWorkHour?: Date
 	tags?: string[]
+	category?: string
 	createdAt?: Date
 	address?: {
 		country?: string
@@ -331,6 +339,7 @@ export type VacancyCollectionRemote = {
 	startWorkHour: Date
 	endWorkHour: Date
 	tags: string[]
+	category: string
 	createdAt: Date
 	address?: {
 		country?: string
@@ -373,6 +382,7 @@ export type CultureCollection = {
 	eventEndHour?: Date
 	picturesUrl?: string[]
 	tags?: string[]
+	category?: string
 	createdAt?: Date
 	address?: {
 		country?: string
@@ -415,6 +425,7 @@ export type CultureCollectionRemote = {
 	eventEndHour: Date
 	picturesUrl: string[]
 	tags: string[]
+	category: string
 	createdAt: Date
 	address?: {
 		country?: string
@@ -446,6 +457,7 @@ export type SocialImpactCollection = {
 	title?: string
 	description?: string
 	tags?: string[]
+	category?: string
 	locationView?: LocationViewType
 	exhibitionRange?: ExhibitionPlaceType
 	exhibitionWeekDays?: DaysOfWeek[]
@@ -484,6 +496,7 @@ export type SocialImpactCollectionRemote = {
 	title: string
 	description: string
 	tags: string[]
+	category: string
 	locationView: LocationViewType
 	exhibitionRange: ExhibitionPlaceType
 	exhibitionWeekDays: DaysOfWeek[]

@@ -1,5 +1,6 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+import { screenHeight } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
@@ -80,4 +81,13 @@ export const WithoutPostsMessage = styled.Text`
 export const LastSigh = styled.View`
 	width: 100%;
 	height: ${RFValue(80)}px;
+`
+
+export const FilterButtons = styled.View`
+	width: 100%;
+	height: ${screenHeight * 0.08}px;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	margin-bottom: ${RFValue(10)}px;
 `

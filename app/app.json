@@ -1,39 +1,50 @@
 {
-  "expo": {
-    "name": "corre.",
-    "owner": "corresocial",
-    "scheme": "corre",
-    "slug": "corresocial",
-    "version": "1.2.0",
-    "orientation": "portrait",
-    "userInterfaceStyle": "light",
-    "icon": "./assets/adaptive-icon.png",
-    "plugins": [
-      "expo-image-picker"
-    ],
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "corre"
-    },
-    "android": {
-      "versionCode": 6,
-      "package": "com.corresocial.corresocial",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FB9C37"
-      },
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ]
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
-  }
+	"expo": {
+		"name": "corre.",
+		"owner": "corresocial",
+		"scheme": "corre",
+		"slug": "corresocial",
+		"version": "1.2.0",
+		"orientation": "portrait",
+		"userInterfaceStyle": "light",
+		"icon": "./assets/icon.png",
+		"splash": {
+			"image": "./assets/splash-screen.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#FA9938"
+		},
+		"plugins": [
+			"expo-image-picker"
+		],
+		"updates": {
+			"fallbackToCacheTimeout": 0
+		},
+		"assetBundlePatterns": [
+			"**/*"
+		],
+		"ios": {
+			"supportsTablet": true,
+			"bundleIdentifier": "corre",
+			"splash": {
+				"image": "./assets/splash-screen.png",
+				"resizeMode": "contain",
+				"backgroundColor": "#FA9938"
+			}
+		},
+		"android": {
+			"versionCode": 6,
+			"package": "com.corresocial.corresocial",
+			"icon": "./assets/icon.png",
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/adaptive-icon-foreground.png",
+				"backgroundColor": "#FA9938"
+			},
+			"permissions": [
+				"android.permission.RECORD_AUDIO"
+			]
+		},
+		"web": {
+			"favicon": "./assets/favicon.png"
+		}
+	}
 }

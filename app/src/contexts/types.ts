@@ -41,10 +41,6 @@ export interface UserData extends UserCollection {
 	cellNumber?: string
 }
 
-/* export type LocalUserPost = { // Posts locais do usuario //TODO
-
-} */
-
 export interface StateData {
 	showTourModal?: boolean
 	showShareModal?: boolean

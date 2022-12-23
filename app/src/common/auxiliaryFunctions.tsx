@@ -94,9 +94,10 @@ const formatRelativeDate = (initialDate: any) => {
 	return relative.replace('-feira', '')
 }
 
+type DateFirestore = { nanoseconds: number, seconds: number }
 const getNewDate = (date: any) => {
 	if (Object.keys(date).includes('seconds')) {
-		const { seconds } = date as any // TODO Type
+		const { seconds } = date as DateFirestore
 		return new Date(seconds * 1000)
 	}
 	return new Date(date)

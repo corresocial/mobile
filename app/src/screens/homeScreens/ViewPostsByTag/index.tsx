@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, KeyboardAvoidingView, FlatList } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
-import { Body, Container, Header, InputContainer, LastSigh, SearchInput, TagsContainer, VerticalSigh, WithoutPostsContainer, WithoutPostsMessage, WithoutPostsTitle } from './styles'
+import { Body, Container, FilterButtons, Header, InputContainer, LastSigh, SearchInput, VerticalSigh, WithoutPostsContainer, WithoutPostsMessage, WithoutPostsTitle } from './styles'
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
-
-import { getRecentPostsByTag } from '../../../services/firebase/post/getRecentPostByTag'
+import ChatIcon from '../../../assets/icons/chat.svg'
+import PaperListIcon from '../../../assets/icons/paperList.svg'
 
 import { getNearPostsIdsByPostType } from '../../../services/firebase/post/getNearPostsIdsByPostType'
 import { getListOfPosts } from '../../../services/firebase/post/getListOfPosts'
@@ -15,18 +15,23 @@ import { PostCollection, PostType } from '../../../services/firebase/types'
 import { ViewPostsByTagScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 import { LocationContext } from '../../../contexts/LocationContext'
+import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { searchPosts } from '../../../services/algolia/searchPost'
+import { SelectButton } from '../../../components/_buttons/SelectButton'
 
 function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	const { locationDataContext } = useContext(LocationContext)
+	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [searchText, setSearchText] = useState('')
 	const [recentPosts, setRecentPosts] = useState<PostCollection[]>([])
 	const [resultPosts, setResultPosts] = useState<PostCollection[]>([])
+	const [postResultsIsVisible, setPostResultsIsVisible] = useState(true)
+	const [profileResultsIsVisible, setProfileResultsIsVisible] = useState(false)
 
 	useEffect(() => {
 		getRecentPosts()
@@ -38,12 +43,15 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	}
 
 	const getRecentPosts = async () => {
+		setLoaderIsVisible(true)
 		const postIds = await getNearPosts()
 		const posts = await getListOfPosts(postIds, 'tags', route.params.tagName)
+		setLoaderIsVisible(false)
 		setRecentPosts([].concat(...posts as any) as any || []) // TODO Type
 	}
 
 	const searchPostByText = async () => {
+		setLoaderIsVisible(true)
 		if (!searchText) {
 			await getRecentPosts()
 			setResultPosts([])
@@ -52,6 +60,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 
 		const postIds = await getNearPosts()
 		const posts = await searchPosts(searchText, postIds, route.params.tagName)
+		setLoaderIsVisible(false)
 		setResultPosts(posts)
 	}
 
@@ -89,6 +98,8 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 		}
 	}
 
+	const existsSomeResultOfSearch = !!resultPosts.length
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -96,6 +107,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 				<DefaultPostViewHeader
 					text={route.params.tagName}
 					SvgIcon={getCategoryIcon()}
+					showResults={existsSomeResultOfSearch}
 					path
 					onBackPress={() => navigation.goBack()}
 				/>
@@ -112,13 +124,53 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 			</Header>
 			<KeyboardAvoidingView style={{ flex: 1 }}>
 				<Body style={{ backgroundColor: route.params.backgroundColor }}>
-					<SubtitleCard
-						text={'posts de recentes'}
-						highlightedText={['recentes']}
-						onPress={() => { }}
-					/>
 					{
-						!recentPosts.length && !resultPosts.length
+						existsSomeResultOfSearch
+							? (
+								<FilterButtons>
+									<SelectButton
+										backgroundColor={theme.white3}
+										backgroundSelected={theme.purple1}
+										label={'posts'}
+										boldLabel
+										noDisplacement
+										height={'100%'}
+										width={'42%'}
+										selected={postResultsIsVisible}
+										SvgIcon={ChatIcon}
+										onSelect={() => {
+											setPostResultsIsVisible(true)
+											setProfileResultsIsVisible(false)
+										}}
+									/>
+									<SelectButton
+										backgroundColor={theme.white3}
+										backgroundSelected={theme.purple1}
+										label={'perfis'}
+										boldLabel
+										noDisplacement
+										height={'100%'}
+										width={'42%'}
+										selected={profileResultsIsVisible}
+										SvgIcon={PaperListIcon}
+										onSelect={() => {
+											setProfileResultsIsVisible(true)
+											setPostResultsIsVisible(false)
+										}}
+									/>
+								</FilterButtons>
+							)
+							: (
+								<SubtitleCard
+									text={'posts de recentes'}
+									highlightedText={['recentes']}
+									onPress={() => { }}
+								/>
+							)
+					}
+
+					{
+						!recentPosts.length && !existsSomeResultOfSearch
 							? (
 								<WithoutPostsContainer>
 									<WithoutPostsTitle>{'poxa!'}</WithoutPostsTitle>
@@ -127,7 +179,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 							)
 							: (
 								<FlatList
-									data={resultPosts.length ? resultPosts : recentPosts}
+									data={existsSomeResultOfSearch ? resultPosts : recentPosts}
 									renderItem={({ item }) => (
 										<PostCard
 											post={item}

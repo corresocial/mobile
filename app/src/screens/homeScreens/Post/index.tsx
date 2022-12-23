@@ -18,7 +18,7 @@ function Post({ navigation, route }: HomeTabScreenProps) {
 		}
 		return false
 	}
-	/* // TODO structure */
+
 	return (
 		<View style={{
 			flex: 1,

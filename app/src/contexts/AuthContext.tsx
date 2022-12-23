@@ -74,7 +74,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 			return user
 		} catch (err) {
-			console.log(`Error: ${err}`)
+			console.log(err)
 			return false
 		}
 	}

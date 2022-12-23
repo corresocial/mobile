@@ -1,5 +1,11 @@
 /* eslint-disable no-underscore-dangle */
-import { servicesIndex, salesIndex } from './index'
+import {
+	servicesIndex,
+	salesIndex,
+	vacanciesIndex,
+	culturesIndex,
+	socialImpactsIndex
+} from './index'
 
 import { PostCollectionType } from '../firebase/types'
 import { PostIdentification } from './types'
@@ -64,6 +70,9 @@ const getRelativeAlgoliaIndex = (collection: PostCollectionType) => {
 	switch (collection) {
 		case 'services': return servicesIndex
 		case 'sales': return salesIndex
+		case 'vacancies': return vacanciesIndex
+		case 'cultures': return culturesIndex
+		case 'socialImpacts': return socialImpactsIndex
 		default: throw new Error('Não foi possível definir o index do post')
 	}
 }
