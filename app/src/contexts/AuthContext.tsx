@@ -1,5 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react'
-import { PermissionsAndroid } from 'react-native'
+import React, { createContext, useState } from 'react'
 import * as SecureStore from 'expo-secure-store'
 import * as LocalAuthentication from 'expo-local-authentication'
 
@@ -32,29 +31,7 @@ interface AuthProviderProps {
 }
 
 function AuthProvider({ children }: AuthProviderProps) {
-	useEffect(() => {
-		requestLocationPermission()
-	}, [])
-
 	const [userDataContext, setUserDataContext] = useState({})
-	const [hasPermission, setHasPermission] = useState(false)
-
-	const requestLocationPermission = async () => {
-		const writeGranted = await PermissionsAndroid.request(
-			PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
-		)
-		const readGranted = await PermissionsAndroid.request(
-			PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
-		)
-		if (writeGranted === PermissionsAndroid.RESULTS.GRANTED && readGranted === PermissionsAndroid.RESULTS.GRANTED) {
-			console.log('Permissão concedida!')
-			setHasPermission(true)
-			return true
-		}
-		console.log('Não foi possível conceder permissão para acessar o armazenamento!')
-		setHasPermission(false)
-		return false
-	}
 
 	const LocalAuthenticationOptions: LocalAuthentication.LocalAuthenticationOptions = {
 		promptMessage: 'Confirme sua identidade',
@@ -172,7 +149,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 		})
 	}
 
-	const authDataProvider = React.useMemo(() => ({
+	/* const authDataProvider = React.useMemo(() => ({
 		userDataContext,
 		setUserDataOnContext,
 		getDataFromSecureStore,
@@ -182,11 +159,21 @@ function AuthProvider({ children }: AuthProviderProps) {
 		setRemoteUserOnLocal,
 		sendSMS,
 		validateVerificationCode
-	}), [])
+	}), []) */
 
 	return (
 		<AuthContext.Provider
-			value={authDataProvider}
+			value={{
+				userDataContext,
+				setUserDataOnContext,
+				getDataFromSecureStore,
+				localUserIsValidToLogin,
+				setDataOnSecureStore,
+				deleteLocaluser,
+				setRemoteUserOnLocal,
+				sendSMS,
+				validateVerificationCode
+			}}
 		>
 			{children}
 		</AuthContext.Provider>

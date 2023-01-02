@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Alert, ScrollView, StatusBar, Touchable, TouchableOpacity } from 'react-native'
+import { Alert, ScrollView, StatusBar, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import {
@@ -14,7 +14,6 @@ import {
 	FlatList,
 	Sigh,
 	FooterSigh,
-	NewPostButtonArea,
 	ExpandedUserDescription,
 	ExpandedUserDescriptionArea
 } from './styles'
@@ -24,7 +23,6 @@ import ShareIcon from '../../../assets/icons/share.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 import PencilIcon from '../../../assets/icons/pencil.svg'
 import GearIcon from '../../../assets/icons/gear.svg'
-import PlusIcon from '../../../assets/icons/plusTabIconInactive.svg'
 
 import { share } from '../../../common/share'
 import { getUser } from '../../../services/firebase/user/getUser'
@@ -41,12 +39,11 @@ import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { screenHeight } from '../../../common/screenDimensions'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { PostCard } from '../../../components/_cards/PostCard'
-import { TextGradient } from '../../../components/TextGradient'
 import { ProfilePopOver } from '../../../components/ProfilePopOver'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 
 function Profile({ route, navigation }: ProfileScreenProps) {
-	const { getDataFromSecureStore, setUserDataOnContext, userDataContext, deleteLocaluser } = useContext(AuthContext)
+	const { getDataFromSecureStore, userDataContext, deleteLocaluser } = useContext(AuthContext)
 
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
@@ -208,7 +205,11 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 					}
 					<HorizontalSocialMediaList
 						socialMedias={user.socialMedias || []}
-						onPress={() => navigation.navigate('SocialMediaManagement' as any, { userId: user.userId, socialMedias: user.socialMedias })}
+						onPress={() => navigation.navigate('SocialMediaManagement' as any, {
+							userId: user.userId,
+							socialMedias: user.socialMedias,
+							isAuthor: isLoggedUser
+						})}
 					/>
 					<OptionsArea>
 						<SmallButton

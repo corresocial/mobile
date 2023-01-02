@@ -19,6 +19,7 @@ import { EditUserName } from '../../../screens/homeScreens/EditUserName'
 import { EditUserDescription } from '../../../screens/homeScreens/EditUserDescription'
 import { EditUserPicture } from '../../../screens/homeScreens/EditUserPicture'
 import { SocialMediaManagement } from '../../../screens/homeScreens/SocialMediaManagement'
+import { InsertLinkTitle } from '../../../screens/homeScreens/InsertLinkTitle'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -48,6 +49,7 @@ export function UserStack({ route }: any) {
 				<Stack.Screen name={'EditUserDescription'} component={EditUserDescription} />
 				<Stack.Screen name={'EditUserPicture'} component={EditUserPicture} />
 				<Stack.Screen name={'SocialMediaManagement'} component={SocialMediaManagement} />
+				<Stack.Screen name={'InsertLinkTitle'} component={InsertLinkTitle} />
 			</Stack.Navigator>
 		</StateProvider>
 	)

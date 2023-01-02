@@ -8,6 +8,6 @@ export const Container = styled.View`
 `
 
 export const Title = styled.Text`
-	font-size: ${RFValue(18)};
+	font-size: ${RFValue(18)}px;
 	font-family: Arvo_700Bold;
 `

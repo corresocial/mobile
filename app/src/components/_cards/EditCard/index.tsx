@@ -7,7 +7,6 @@ import PencilIcon from '../../../assets/icons/pencil.svg'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
-import { TextGradient } from '../../TextGradient'
 
 interface EditCardProps {
 	title: string
@@ -46,7 +45,7 @@ function EditCard({
 					title={title}
 					highlightedWords={highlightedWords}
 					onPressIcon={onEdit}
-					SvgIcon={PencilIcon}
+					SvgIcon={SvgIcon || PencilIcon}
 					dimensions={20}
 					invertTextAndIcon
 					justifyContent={'space-between'}

@@ -4,6 +4,8 @@ import { ScrollView, StatusBar } from 'react-native'
 import { Body, Container, Header, NewLinkButtonContainer, Sigh } from './styles'
 import { theme } from '../../../common/theme'
 import PlusIcon from '../../../assets/icons/plus.svg'
+import PencilIcon from '../../../assets/icons/pencil.svg'
+import AngleRightIcon from '../../../assets/icons/angleRight.svg'
 
 import { SocialMediaManagementScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -19,7 +21,7 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 				<>
 					<EditCard
 						title={socialMedia.title}
-						SvgIcon={PlusIcon}
+						SvgIcon={route.params.isAuthor ? PencilIcon : AngleRightIcon}
 						value={`@${socialMedia.link}`}
 						onEdit={() => { }}
 					/>
@@ -48,7 +50,7 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 							fontSize={16}
 							highlightedWords={['link']}
 							SvgIcon={PlusIcon}
-							onPress={() => { }}
+							onPress={() => navigation.navigate('InsertLinkTitle')}
 						/>
 					</NewLinkButtonContainer>
 					{renderSocialMedias()}
