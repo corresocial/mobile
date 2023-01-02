@@ -6,7 +6,7 @@ export const ScrollView = styled.ScrollView`
     flex-direction: row;
 `
 
-export const Container = styled.TouchableOpacity`
+export const Container = styled.View`
     width: 100%;
 	height: ${RFValue(60)}px;
     flex-direction: row;

@@ -43,7 +43,7 @@ function HorizontalSocialMediaList({ socialMedias = [], onPress }: HorizontalSoc
 			case 'linkedin': return <LinkedinIcon width={RFValue(25)} height={RFValue(25)} />
 			case 'facebook': return <FacebookIcon width={RFValue(20)} height={RFValue(20)} />
 			case 'instagram': return <InstagramIcon width={RFValue(25)} height={RFValue(25)} />
-			case 'twiter': return <TwiterIcon width={RFValue(25)} height={RFValue(25)} />
+			case 'twitter': return <TwiterIcon width={RFValue(25)} height={RFValue(25)} />
 			case 'whatsapp': return <WhatsAppIcon width={RFValue(25)} height={RFValue(25)} />
 			case 'youtube': return <YoutubeIcon width={RFValue(25)} height={RFValue(25)} />
 			case 'spotify': return <SpotifyIcon width={RFValue(25)} height={RFValue(25)} />

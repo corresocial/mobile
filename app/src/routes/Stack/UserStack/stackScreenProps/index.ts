@@ -16,3 +16,4 @@ export type EditUserDescriptionScreenProps = NativeStackScreenProps<UserStackPar
 export type EditUserPictureScreenProps = NativeStackScreenProps<UserStackParamList, 'EditUserPicture'>
 export type SocialMediaManagementScreenProps = NativeStackScreenProps<UserStackParamList, 'SocialMediaManagement'>
 export type InsertLinkTitleScreenProps = NativeStackScreenProps<UserStackParamList, 'InsertLinkTitle'>
+export type InsertLinkValueScreenProps = NativeStackScreenProps<UserStackParamList, 'InsertLinkValue'>

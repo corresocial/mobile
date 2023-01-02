@@ -13,6 +13,7 @@ export type UserStackParamList = {
 	EditUserName: { userName: string, userId: string }
 	EditUserDescription: { userDescription: string, userId: string }
 	EditUserPicture: { profilePictureUrl: string, userId: string }
-	SocialMediaManagement: { userId: string, socialMedias: SocialMedia[], isAuthor: boolean }
+	SocialMediaManagement: { userId?: string, socialMedias: SocialMedia[], isAuthor?: boolean }
 	InsertLinkTitle: undefined
+	InsertLinkValue: { linkTitle: string }
 }

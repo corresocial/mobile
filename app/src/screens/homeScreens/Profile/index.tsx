@@ -204,10 +204,10 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 						)
 					}
 					<HorizontalSocialMediaList
-						socialMedias={user.socialMedias || []}
+						socialMedias={userDataContext.socialMedias || []}
 						onPress={() => navigation.navigate('SocialMediaManagement' as any, {
 							userId: user.userId,
-							socialMedias: user.socialMedias,
+							socialMedias: userDataContext.socialMedias,
 							isAuthor: isLoggedUser
 						})}
 					/>
