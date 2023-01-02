@@ -112,6 +112,10 @@ function AuthProvider({ children }: AuthProviderProps) {
 	const setRemoteUserOnLocal = async (uid?: string) => {
 		if (uid) {
 			const currentUser = await getUser(uid)
+			setUserDataContext({
+				...currentUser,
+				userId: uid
+			})
 			await setDataOnSecureStore('corre.user', {
 				...currentUser,
 				userId: uid
@@ -121,6 +125,10 @@ function AuthProvider({ children }: AuthProviderProps) {
 			if (localUserJSON) {
 				const localUser = JSON.parse(localUserJSON)
 				const currentUser = await getUser(localUser.identification.uid)
+				setUserDataContext({
+					...currentUser,
+					userId: uid
+				})
 				await setDataOnSecureStore('corre.user', {
 					...localUser,
 					currentUser
@@ -158,16 +166,13 @@ function AuthProvider({ children }: AuthProviderProps) {
 		return userCredential
 	}
 
-	const setUserDataOnContext = (data: UserData) => { // TODO BUG This function reload application on every request
-		console.log({
-			...userDataContext, ...data
-		})
+	const setUserDataOnContext = (data: UserData) => {
 		setUserDataContext({
 			...userDataContext, ...data
 		})
 	}
 
-	/* const authDataProvider = useMemo(() => ({
+	const authDataProvider = React.useMemo(() => ({
 		userDataContext,
 		setUserDataOnContext,
 		getDataFromSecureStore,
@@ -177,21 +182,11 @@ function AuthProvider({ children }: AuthProviderProps) {
 		setRemoteUserOnLocal,
 		sendSMS,
 		validateVerificationCode
-	}), []) */
+	}), [])
 
 	return (
 		<AuthContext.Provider
-			value={{
-				userDataContext,
-				setUserDataOnContext,
-				getDataFromSecureStore,
-				localUserIsValidToLogin,
-				setDataOnSecureStore,
-				deleteLocaluser,
-				setRemoteUserOnLocal,
-				sendSMS,
-				validateVerificationCode
-			}}
+			value={authDataProvider}
 		>
 			{children}
 		</AuthContext.Provider>

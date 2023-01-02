@@ -46,7 +46,7 @@ import { ProfilePopOver } from '../../../components/ProfilePopOver'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 
 function Profile({ route, navigation }: ProfileScreenProps) {
-	const { getDataFromSecureStore, deleteLocaluser } = useContext(AuthContext)
+	const { getDataFromSecureStore, setUserDataOnContext, userDataContext, deleteLocaluser } = useContext(AuthContext)
 
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
@@ -231,7 +231,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 							onPress={() => share('dados do perfil')}
 						/>
 						<ProfilePopOver
-							userName={user.name}
+							userName={userDataContext.name}
 							userId={user.userId}
 							buttonLabel={isLoggedUser ? 'sair' : 'denunciar'}
 							popoverVisibility={profileOptionsIsOpen}
