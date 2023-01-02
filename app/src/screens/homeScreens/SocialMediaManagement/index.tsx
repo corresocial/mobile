@@ -16,14 +16,14 @@ import { EditCard } from '../../../components/_cards/EditCard'
 
 function SocialMediaManagement({ route, navigation }: SocialMediaManagementScreenProps) {
 	const renderSocialMedias = () => {
-		return route.params.socialMedias.map((socialMedia) => {
+		return route.params.socialMedias.map((socialMedia, index) => {
 			return (
 				<>
 					<EditCard
 						title={socialMedia.title}
 						SvgIcon={route.params.isAuthor ? PencilIcon : AngleRightIcon}
 						value={`@${socialMedia.link}`}
-						onEdit={() => { }}
+						onEdit={() => navigation.navigate('InsertLinkTitle', { socialMedia, index })}
 					/>
 					<Sigh />
 				</>
@@ -50,7 +50,7 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 							fontSize={16}
 							highlightedWords={['link']}
 							SvgIcon={PlusIcon}
-							onPress={() => navigation.navigate('InsertLinkTitle')}
+							onPress={() => navigation.navigate('InsertLinkTitle', {})}
 						/>
 					</NewLinkButtonContainer>
 					{renderSocialMedias()}

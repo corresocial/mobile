@@ -11,9 +11,10 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { LineInput } from '../../../components/LineInput'
 import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'
+import { SocialMedia } from '../../../services/firebase/types'
 
-function InsertLinkTitle({ navigation }: InsertLinkTitleScreenProps) {
-	const [linkTitle, setInputLinkTitle] = useState<string>('')
+function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
+	const [linkTitle, setInputLinkTitle] = useState<string>(route.params.socialMedia?.title || '')
 	const [linkTitleIsValid, setLinkTitleIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 	const [invalidLinkTitleAfterSubmit, setInvaliLinkTitleAfterSubmit] = useState<boolean>(false)
@@ -46,7 +47,11 @@ function InsertLinkTitle({ navigation }: InsertLinkTitleScreenProps) {
 	const someInvalidFieldSubimitted = () => invalidLinkTitleAfterSubmit
 
 	const saveLinkTitle = async () => {
-		navigation.navigate('InsertLinkValue', { linkTitle: linkTitle.toLowerCase() })
+		navigation.navigate('InsertLinkValue', {
+			linkTitle: linkTitle.toLowerCase(),
+			socialMedia: route.params.socialMedia as SocialMedia,
+			index: route.params.index
+		})
 	}
 
 	return (

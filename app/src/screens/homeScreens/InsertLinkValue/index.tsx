@@ -20,7 +20,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const { setUserDataOnContext, userDataContext } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
-	const [linkValue, setInputLinkValue] = useState<string>('')
+	const [linkValue, setInputLinkValue] = useState<string>(route.params.socialMedia?.link || '')
 	const [linkValueIsValid, setLinkValueIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 	const [invalidLinkValueAfterSubmit, setInvaliLinkValueAfterSubmit] = useState<boolean>(false)
@@ -55,25 +55,37 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const saveLinkValue = async () => {
 		setLoaderIsVisible(true)
 		try {
-			const socialMediaData = {
-				socialMedias: [
-					...userDataContext.socialMedias as SocialMedia[],
-					{
-						title: route.params.linkTitle,
-						link: linkValue
-					}
-				]
-			}
+			const socialMediaData = getSocialMediaData()
 
 			updateUser(userDataContext.userId as string, socialMediaData)
 			setUserDataOnContext(socialMediaData)
-			console.log(socialMediaData)
 			navigation.navigate('SocialMediaManagement', { socialMedias: socialMediaData.socialMedias }) // TODO Type
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)
 		}
 		setLoaderIsVisible(false)
+	}
+
+	const getSocialMediaData = () => {
+		let currentSocialMedias = [...userDataContext.socialMedias as SocialMedia[]]
+		const socialMediaEditableIndex = route.params.index
+
+		if (socialMediaEditableIndex || socialMediaEditableIndex === 0) {
+			currentSocialMedias[socialMediaEditableIndex] = {
+				title: route.params.linkTitle,
+				link: linkValue
+			}
+		} else {
+			currentSocialMedias = [
+				...currentSocialMedias,
+				{
+					title: route.params.linkTitle,
+					link: linkValue
+				}]
+		}
+
+		return { socialMedias: currentSocialMedias }
 	}
 
 	return (
