@@ -1,3 +1,3 @@
-Expo Publish: https://expo.dev/@wellington-souza-abreu/app?serviceType=classic&distribution=expo-go
+Expo Publish: https://expo.dev/@corresocial/corresocial?serviceType=classic&distribution=expo-go
 Build(android): https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40wellington-souza-abreu/app-9eab9125cd364e12b9df5f1f20313d95-signed.apk
 Build(ios): ...

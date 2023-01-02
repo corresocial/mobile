@@ -60,6 +60,11 @@ export type CompleteAddress = {
 	coordinates?: Coordinates
 }
 
+export type SocialMedia = {
+	title: string,
+	link: string
+}
+
 export type UserCollection = {
 	name?: string
 	description?: string
@@ -73,6 +78,7 @@ export type UserCollection = {
 	ads?: AdsCollection[]
 	locationView?: LocationViewType
 	cellNumber?: string // private
+	socialMedias?: SocialMedia[]
 	address?: { // private
 		country?: string
 		state?: string

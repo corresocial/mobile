@@ -90,10 +90,11 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 
 	const getProfileDataFromLocal = async () => {
 		const localUser = await getObjectLocalUser()
-		const { profilePictureUrl, name, posts, description } = localUser as LocalUserData
+		const { profilePictureUrl, name, posts, description, socialMedias } = localUser as LocalUserData
 		setUser({
 			name,
 			description,
+			socialMedias,
 			profilePictureUrl: profilePictureUrl || [],
 		})
 		setUserPosts(posts as never)
@@ -205,23 +206,10 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 							</ExpandedUserDescriptionArea>
 						)
 					}
-					<HorizontalSocialMediaList socialMedias={[
-						{ title: 'linkedin', link: 'linkedin.com' },
-						{ title: 'facebook', link: 'facebook.com' },
-						{ title: 'instagram', link: 'instagram.com' },
-						{ title: 'twiter', link: 'twiter.com' },
-						{ title: 'whatsapp', link: 'whatsapp.com' },
-						{ title: 'spotify', link: 'spotify.com' },
-						{ title: 'youtube', link: 'youtube.com' },
-						{ title: 'tiktok', link: 'tiktok.com' },
-						{ title: 'soundcloud', link: 'soundcloud.com' },
-						{ title: 'loja', link: 'loja.com' },
-						{ title: 'teste', link: 'teste.com' },
-						{ title: 'singedstremer', link: 'singedstremer.com' },
-						{ title: 'loja da dona maria', link: 'lojadadonamaria.com' },
-					]}
+					<HorizontalSocialMediaList
+						socialMedias={user.socialMedias || []}
+						onPress={() => navigation.navigate('SocialMediaManagement' as any, { userId: user.userId, socialMedias: user.socialMedias })}
 					/>
-
 					<OptionsArea>
 						<SmallButton
 							color={theme.white3}

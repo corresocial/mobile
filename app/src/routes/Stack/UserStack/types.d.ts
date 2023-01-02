@@ -1,4 +1,4 @@
-import { PostCollection } from "../../../services/firebase/types"
+import { PostCollection, SocialMedia } from "../../../services/firebase/types"
 
 export type UserStackParamList = {
 	WelcomeNewUser: undefined
@@ -13,4 +13,5 @@ export type UserStackParamList = {
 	EditUserName: { userName: string, userId: string }
 	EditUserDescription: { userDescription: string, userId: string }
 	EditUserPicture: { profilePictureUrl: string, userId: string }
+	SocialMediaManagement: { userId: string, socialMedias: SocialMedia[] }
 }

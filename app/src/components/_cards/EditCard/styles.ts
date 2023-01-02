@@ -4,6 +4,8 @@ import styled from 'styled-components/native'
 import { screenWidth } from '../../../common/screenDimensions'
 
 export const CardHeader = styled.View`
+	flex-direction: row;
+	align-items: center;
 `
 
 export const ValueContainer = styled.View`

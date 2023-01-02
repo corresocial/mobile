@@ -1,4 +1,5 @@
 import React from 'react'
+import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CardHeader, PictureArea, Text, ValueContainer, ProfilePicture } from './styles'
@@ -13,6 +14,7 @@ interface EditCardProps {
 	highlightedWords?: string[]
 	value?: string
 	profilePictureUrl?: string | null
+	SvgIcon?: React.FC<SvgProps>
 	onEdit?: () => void
 }
 
@@ -21,6 +23,7 @@ function EditCard({
 	highlightedWords = [],
 	value = '',
 	profilePictureUrl = '',
+	SvgIcon,
 	onEdit,
 }: EditCardProps) {
 	/* <TextGradient > // Gradient não estava permitindo a renderização

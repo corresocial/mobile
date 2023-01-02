@@ -17,16 +17,21 @@ import YoutubeIcon from '../../assets/icons/youtube.svg'
 import SpotifyIcon from '../../assets/icons/spotify.svg'
 import TikTokIcon from '../../assets/icons/tiktok.svg'
 import SoundCloudIcon from '../../assets/icons/soundcloud.svg'
+import { SocialMedia } from '../../services/firebase/types'
 
 interface HorizontalSocialMediaListProps {
-	socialMedias: { title: string, link: string }[]
+	socialMedias: SocialMedia[]
+	onPress: () => void
 }
 
-function HorizontalSocialMediaList({ socialMedias }: HorizontalSocialMediaListProps) {
+function HorizontalSocialMediaList({ socialMedias = [], onPress }: HorizontalSocialMediaListProps) {
 	const renderSocialMedias = () => {
 		return (
 			socialMedias.map((socialMedia) => (
-				<TouchableIcon key={uuid()}>
+				<TouchableIcon
+					key={uuid()}
+					onPress={onPress}
+				>
 					{getRelativeIcon(socialMedia)}
 				</TouchableIcon>
 			))
@@ -49,7 +54,7 @@ function HorizontalSocialMediaList({ socialMedias }: HorizontalSocialMediaListPr
 	}
 
 	return (
-		<Container >
+		<Container>
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				<Container>
 					{renderSocialMedias()}
