@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
-import { ScrollView, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 
-import { Body, Container, Header, NewLinkButtonContainer, Sigh } from './styles'
+import { Body, Container, Header, Sigh } from './styles'
 import { theme } from '../../../common/theme'
 
 import { ConfigurationsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -36,7 +36,7 @@ function Configurations({ route, navigation }: ConfigurationsScreenProps) {
 					justifyContent={'flex-start'}
 					textAlign={'left'}
 					highlightedWords={['somos']}
-					onPress={() => { }}
+					onPress={() => navigation.navigate('WhoWeAre')}
 				/>
 				<Sigh />
 				<PrimaryButton

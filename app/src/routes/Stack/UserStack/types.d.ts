@@ -17,4 +17,8 @@ export type UserStackParamList = {
 	InsertLinkTitle: { socialMedia?: SocialMedia, index?: number }
 	InsertLinkValue: { linkTitle: string, socialMedia: SocialMedia, index?: number }
 	Configurations: undefined
+	WhoWeAre: undefined
+	WhoWeAreIncome: undefined
+	WhoWeAreCulture: undefined
+	WhoWeAreTransformation: undefined
 }

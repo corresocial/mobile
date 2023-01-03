@@ -5,20 +5,23 @@ import { Container, ContainerInner } from './styles'
 
 interface DefaultCardContainerProps {
 	withoutPadding?: boolean
+	flex?: 0 | 1
 	children: ReactElement<any, any> | ReactElement<any, any>[] | any
 }
 
-function DefaultCardContainer({ withoutPadding = false, children }: DefaultCardContainerProps) {
+function DefaultCardContainer({ withoutPadding = false, flex = 0, children }: DefaultCardContainerProps) {
 	return (
-		<Container>
+		<Container style={{ flex }}	>
 			<ContainerInner style={{
 				paddingHorizontal: !withoutPadding ? RFValue(15) : 0,
-				paddingVertical: !withoutPadding ? RFValue(10) : 0
+				paddingVertical: !withoutPadding ? RFValue(10) : 0,
+				flex,
+				justifyContent: flex ? 'space-around' : 'flex-start'
 			}}
 			>
 				{children && children}
 			</ContainerInner>
-		</Container>
+		</Container >
 	)
 }
 

@@ -43,7 +43,7 @@ import { ProfilePopOver } from '../../../components/ProfilePopOver'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 
 function Profile({ route, navigation }: ProfileScreenProps) {
-	const { getDataFromSecureStore, userDataContext, deleteLocaluser } = useContext(AuthContext)
+	const { getDataFromSecureStore, userDataContext } = useContext(AuthContext)
 
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)

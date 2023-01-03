@@ -22,6 +22,10 @@ import { SocialMediaManagement } from '../../../screens/homeScreens/SocialMediaM
 import { InsertLinkTitle } from '../../../screens/homeScreens/InsertLinkTitle'
 import { InsertLinkValue } from '../../../screens/homeScreens/InsertLinkValue'
 import { Configurations } from '../../../screens/homeScreens/Configurations'
+import { WhoWeAre } from '../../../screens/homeScreens/WhoWeAre'
+import { WhoWeAreIncome } from '../../../screens/homeScreens/WhoWeAreIncome'
+import { WhoWeAreCulture } from '../../../screens/homeScreens/WhoWeAreCulture'
+import { WhoWeAreTransformation } from '../../../screens/homeScreens/WhoWeAreTransformation'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -54,6 +58,10 @@ export function UserStack({ route }: any) {
 				<Stack.Screen name={'InsertLinkTitle'} component={InsertLinkTitle} />
 				<Stack.Screen name={'InsertLinkValue'} component={InsertLinkValue} />
 				<Stack.Screen name={'Configurations'} component={Configurations} />
+				<Stack.Screen name={'WhoWeAre'} component={WhoWeAre} />
+				<Stack.Screen name={'WhoWeAreIncome'} component={WhoWeAreIncome} />
+				<Stack.Screen name={'WhoWeAreCulture'} component={WhoWeAreCulture} />
+				<Stack.Screen name={'WhoWeAreTransformation'} component={WhoWeAreTransformation} />
 			</Stack.Navigator>
 		</StateProvider>
 	)
