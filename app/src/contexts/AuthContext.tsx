@@ -83,6 +83,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	const deleteLocaluser = async () => {
+		setUserDataContext({})
 		await SecureStore.deleteItemAsync('corre.user')
 	}
 

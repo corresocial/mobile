@@ -141,10 +141,13 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 		}
 	}
 
-	const performLogout = () => {
-		deleteLocaluser()
+	const navigateToConfig = () => {
 		setProfileOptionsIsOpen(false)
-		navigation.navigate('AcceptAndContinue' as any)
+		navigation.navigate('Configurations' as any)
+	}
+
+	const openProfileOptions = () => {
+		!isLoggedUser ? setProfileOptionsIsOpen(true) : navigation.navigate('Configurations' as any) // TODO Type
 	}
 
 	const goToComplaint = () => {
@@ -237,14 +240,15 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 							buttonLabel={isLoggedUser ? 'sair' : 'denunciar'}
 							popoverVisibility={profileOptionsIsOpen}
 							closePopover={() => setProfileOptionsIsOpen(false)}
-							onPress={isLoggedUser ? performLogout : goToComplaint}
+							onPress={goToComplaint}
+							goToConfig={navigateToConfig}
 						>
 							<SmallButton
 								color={theme.white3}
 								SvgIcon={isLoggedUser ? GearIcon : ThreeDotsIcon}
 								relativeWidth={screenHeight * 0.050}
 								height={screenHeight * 0.050}
-								onPress={() => setProfileOptionsIsOpen(true)}
+								onPress={openProfileOptions}
 							/>
 						</ProfilePopOver>
 					</OptionsArea>

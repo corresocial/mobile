@@ -16,4 +16,5 @@ export type UserStackParamList = {
 	SocialMediaManagement: { userId?: string, socialMedias: SocialMedia[], isAuthor?: boolean }
 	InsertLinkTitle: { socialMedia?: SocialMedia, index?: number }
 	InsertLinkValue: { linkTitle: string, socialMedia: SocialMedia, index?: number }
+	Configurations: undefined
 }

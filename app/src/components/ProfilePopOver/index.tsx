@@ -3,7 +3,7 @@ import { TouchableOpacity, View } from 'react-native'
 import Popover from 'react-native-popover-view'
 
 import { RFValue } from 'react-native-responsive-fontsize'
-import { CloseIcon, Container, ContainerInner, UserName } from './styles'
+import { CloseIcon, Container, ContainerInner, Sigh, UserName } from './styles'
 import { screenHeight } from '../../common/screenDimensions'
 import { theme } from '../../common/theme'
 import XIcon from '../../assets/icons/x.svg'
@@ -17,6 +17,7 @@ interface ProfilePopOverProps {
 	buttonLabel: string
 	children: React.ReactChild
 	onPress?: () => void
+	goToConfig?: () => void
 	closePopover: () => void
 }
 
@@ -27,6 +28,7 @@ function ProfilePopOver({
 	buttonLabel,
 	children,
 	onPress,
+	goToConfig,
 	closePopover
 }: ProfilePopOverProps) {
 	return (
@@ -49,6 +51,21 @@ function ProfilePopOver({
 						<XIcon width={RFValue(25)} height={RFValue(25)} />
 					</CloseIcon>
 					<UserName>{userName}</UserName>
+					{
+						goToConfig && (
+							<PrimaryButton
+								color={theme.green3}
+								onPress={!!goToConfig && goToConfig as any} // TODO Type
+								label={'configurações'}
+								highlightedWords={['configurações']}
+								labelColor={theme.white3}
+								fontSize={14}
+								minHeight={20}
+								relativeHeight={screenHeight * 0.08}
+							/>
+						)
+					}
+					<Sigh />
 					<PrimaryButton
 						color={theme.red3}
 						onPress={!!onPress && onPress as any} // TODO Type
@@ -59,9 +76,10 @@ function ProfilePopOver({
 						minHeight={20}
 						relativeHeight={screenHeight * 0.08}
 					/>
+
 				</ContainerInner>
 			</Container>
-		</Popover>
+		</Popover >
 	)
 }
 
