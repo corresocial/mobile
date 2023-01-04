@@ -22,4 +22,5 @@ export type UserStackParamList = {
 	WhoWeAreCulture: undefined
 	WhoWeAreTransformation: undefined
 	HelpUs: undefined
+	ContactUs: undefined
 }

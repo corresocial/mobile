@@ -23,3 +23,4 @@ export type WhoWeAreIncomeScreenProps = NativeStackScreenProps<UserStackParamLis
 export type WhoWeAreCultureScreenProps = NativeStackScreenProps<UserStackParamList, 'WhoWeAreCulture'>
 export type WhoWeAreTransformationScreenProps = NativeStackScreenProps<UserStackParamList, 'WhoWeAreTransformation'>
 export type HelpUsScreenProps = NativeStackScreenProps<UserStackParamList, 'HelpUs'>
+export type ContactUsScreenProps = NativeStackScreenProps<UserStackParamList, 'ContactUs'>

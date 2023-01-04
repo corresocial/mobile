@@ -56,7 +56,7 @@ function Configurations({ route, navigation }: ConfigurationsScreenProps) {
 					justifyContent={'flex-start'}
 					textAlign={'left'}
 					highlightedWords={['conosco']}
-					onPress={() => { }}
+					onPress={() => navigation.navigate('ContactUs')}
 				/>
 				<Sigh />
 				<PrimaryButton
