@@ -56,7 +56,7 @@ function InsertServiceDescription({ navigation }: InsertServiceDescriptionScreen
 	const saveServiceDescription = () => {
 		if (serviceDescriptionIsValid) {
 			setServiceDataOnContext({
-				serviceDescription
+				description: serviceDescription
 			})
 			navigation.navigate('InsertServiceName')
 		}

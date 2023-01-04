@@ -107,7 +107,9 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 
 	const getUserPostTags = () => {
 		const userPostTags = userPosts.reduce((acc: any[], current: PostCollection) => {
-			return [...acc, ...current.tags as string[]]
+			if (!current.tags) return [...acc]
+			const filtredCurrentTags = current.tags.filter((tag) => !acc.includes(tag))
+			return [...acc, ...filtredCurrentTags as string[]]
 		}, [])
 
 		return userPostTags.sort(sortArray) as string[]

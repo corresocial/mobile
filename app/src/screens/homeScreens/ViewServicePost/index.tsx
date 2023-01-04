@@ -13,7 +13,6 @@ import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunct
 import { ViewServicePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { PostCollection, ServiceCollectionRemote } from '../../../services/firebase/types'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
 import { SaleExchangeValue } from '../../../components/SaleExchangeValue'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
@@ -123,7 +122,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 				<ScrollView showsVerticalScrollIndicator={false} >
 					<DescriptionCard
 						title={'descrição do serviço'}
-						text={'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centurie.'}
+						text={postData.description}
 						textFontSize={14}
 					/>
 					<Sigh />
