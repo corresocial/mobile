@@ -49,7 +49,7 @@ function ContactUs({ navigation }: ContactUsScreenProps) {
 					textAlign={'left'}
 					label={'erros'}
 					highlightedWords={['erros']}
-					onPress={() => { }}
+					onPress={() => navigation.navigate('ContactUsInsertMessage', { title: 'erros' })}
 				/>
 				<PrimaryButton
 					color={theme.white3}
@@ -59,7 +59,7 @@ function ContactUs({ navigation }: ContactUsScreenProps) {
 					textAlign={'left'}
 					label={'denunciar'}
 					highlightedWords={['denunciar']}
-					onPress={() => { }}
+					onPress={() => navigation.navigate('ContactUsInsertMessage', { title: 'denunciar' })}
 				/>
 				<PrimaryButton
 					color={theme.white3}
@@ -69,7 +69,7 @@ function ContactUs({ navigation }: ContactUsScreenProps) {
 					textAlign={'left'}
 					label={'melhorias'}
 					highlightedWords={['melhorias']}
-					onPress={() => { }}
+					onPress={() => navigation.navigate('ContactUsInsertMessage', { title: 'melhorias' })}
 				/>
 				<PrimaryButton
 					color={theme.white3}
@@ -79,7 +79,7 @@ function ContactUs({ navigation }: ContactUsScreenProps) {
 					textAlign={'left'}
 					label={'outros'}
 					highlightedWords={['outros']}
-					onPress={() => { }}
+					onPress={() => navigation.navigate('ContactUsInsertMessage', { title: 'outros' })}
 				/>
 			</ButtonsContainer>
 		</Container>

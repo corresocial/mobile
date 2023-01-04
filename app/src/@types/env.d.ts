@@ -7,4 +7,12 @@ declare module '@env' {
 	export const FIREBASE_messagingSenderId: string
 	export const FIREBASE_appId: string
 	export const FIREBASE_measurementId: string
+	export const MAPS_API: string
+	export const DENUNCIAR_WEBHOOK: string
+	export const ERROS_WEBHOOK: string
+	export const FALECONOSCO_WEBHOOK: string
+	export const ALGOLIA_ID: string
+	export const ALGOLIA_KEY: string
+	export const NOTION_FALECONOSCO_KEY: string
+	export const NOTION_FALECONOSCO_ID: string
 }

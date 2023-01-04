@@ -7,7 +7,7 @@ import { Container } from './styles'
 interface DefaultHeaderContainerProps {
 	children: ReactElement | ReactElement[]
 	backgroundColor: string | Animated.AnimatedInterpolation
-	relativeHeight?: string | Animated.AnimatedInterpolation
+	relativeHeight?: string | Animated.AnimatedInterpolation | number
 	centralized?: boolean
 	flexDirection?: string
 	justifyContent?: string

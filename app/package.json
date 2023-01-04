@@ -29,6 +29,7 @@
 		"@react-navigation/stack": "^6.2.2",
 		"algoliasearch": "^4.14.2",
 		"axios": "^1.2.1",
+		"color-convert": "^2.0.1",
 		"date-fns": "^2.29.3",
 		"expo": "~45.0.0",
 		"expo-camera": "~12.2.0",
@@ -74,6 +75,7 @@
 		"react-native-webview": "11.18.1",
 		"react-uuid": "^2.0.0",
 		"styled-components": "^5.3.5",
+		"supports-color": "^9.3.1",
 		"uninstall": "^0.0.0"
 	},
 	"devDependencies": {

@@ -23,4 +23,5 @@ export type UserStackParamList = {
 	WhoWeAreTransformation: undefined
 	HelpUs: undefined
 	ContactUs: undefined
+	ContactUsInsertMessage: { title: string }
 }

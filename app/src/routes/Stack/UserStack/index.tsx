@@ -28,6 +28,7 @@ import { WhoWeAreCulture } from '../../../screens/homeScreens/WhoWeAreCulture'
 import { WhoWeAreTransformation } from '../../../screens/homeScreens/WhoWeAreTransformation'
 import { HelpUs } from '../../../screens/homeScreens/HelpUs'
 import { ContactUs } from '../../../screens/homeScreens/ContactUs'
+import { ContactUsInsertMessage } from '../../../screens/homeScreens/ContactUsInsertMessage'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -66,6 +67,7 @@ export function UserStack({ route }: any) {
 				<Stack.Screen name={'WhoWeAreTransformation'} component={WhoWeAreTransformation} />
 				<Stack.Screen name={'HelpUs'} component={HelpUs} />
 				<Stack.Screen name={'ContactUs'} component={ContactUs} />
+				<Stack.Screen name={'ContactUsInsertMessage'} component={ContactUsInsertMessage} />
 			</Stack.Navigator>
 		</StateProvider>
 	)
