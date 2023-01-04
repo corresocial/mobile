@@ -3,7 +3,7 @@ import React from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 
 import { ServiceStackParamList } from './types'
-import { InsertProfileDescription } from '../../../screens/serviceScreens/InsertProfileDescription'
+import { InsertServiceDescription } from '../../../screens/serviceScreens/InsertServiceDescription'
 import { InsertServiceName } from '../../../screens/serviceScreens/InsertServiceName'
 import { SelectServiceCategory } from '../../../screens/serviceScreens/SelectServiceCategory'
 import { InsertServicePicture } from '../../../screens/serviceScreens/InsertServicePicture'
@@ -28,14 +28,14 @@ export function ServiceStack() {
 	return (
 		<ServiceProvider>
 			<Stack.Navigator
-				initialRouteName={'InsertProfileDescription'}
+				initialRouteName={'InsertServiceDescription'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
 					...TransitionPresets.SlideFromRightIOS,
 				}}
 			>
-				<Stack.Screen name={'InsertProfileDescription'} component={InsertProfileDescription} />
+				<Stack.Screen name={'InsertServiceDescription'} component={InsertServiceDescription} />
 				<Stack.Screen name={'InsertServiceName'} component={InsertServiceName} />
 				<Stack.Screen name={'InsertServicePicture'} component={InsertServicePicture} />
 				<Stack.Screen name={'ServicePicturePreview'} component={ServicePicturePreview} />

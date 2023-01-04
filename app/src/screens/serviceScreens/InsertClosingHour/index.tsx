@@ -11,11 +11,10 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { createPost } from '../../../services/firebase/post/createPost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
-import { updateUser } from '../../../services/firebase/user/updateUser'
 import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 
 import { InsertClosingHourScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-import { PostCollection, PrivateAddress, ServiceCollection, UserCollection } from '../../../services/firebase/types'
+import { PostCollection, PrivateAddress, ServiceCollection } from '../../../services/firebase/types'
 import { LocalUserData, ServiceData } from '../../../contexts/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -100,16 +99,11 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 		...serviceData.address
 	} as PrivateAddress)
 
-	const extractUserData = (serviceData: ServiceData) => ({
-		description: serviceData.profileDescription
-	})
-
 	const extractServiceDataPost = (serviceData: ServiceData) => {
 		const currentServiceData = {
 			...serviceData
 		}
 		delete currentServiceData.address
-		delete currentServiceData.profileDescription
 
 		return {
 			...currentServiceData
@@ -119,13 +113,6 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 	const extractServicePictures = (serviceData: ServiceData) => serviceData.picturesUrl as string[] || []
 
 	const getLocalUser = async () => JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
-
-	const updateUserData = async (userId: string, userData: UserCollection) => {
-		await updateUser(userId, {
-			...userData,
-			tourPerformed: true
-		})
-	}
 
 	const showShareModal = (visibility: boolean, postTitle?: string) => {
 		setStateDataOnContext({
@@ -148,12 +135,11 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 		})
 
 		const serviceAddress = extractServiceAddress(completeServiceData)
-		const userData = extractUserData(completeServiceData)
 		const serviceDataPost = extractServiceDataPost(completeServiceData)
 		const servicePictures = extractServicePictures(completeServiceData)
 
 		try {
-			const localUser = { ...await getLocalUser(), description: userData.description }
+			const localUser = { ...await getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
 			const postId = await createPost(serviceDataPost, localUser, 'services', 'service')
@@ -177,8 +163,6 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 					'services',
 					`address${postId}`
 				)
-
-				await updateUserData(localUser.userId, userData)
 				return
 			}
 
@@ -223,8 +207,6 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 													'services',
 													`address${postId}`
 												)
-
-												await updateUserData(localUser.userId, userData)
 											}
 										},
 									)

@@ -8,7 +8,7 @@ import Check from '../../../assets/icons/check.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { InsertProfileDescriptionScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
+import { InsertServiceDescriptionScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
 
@@ -20,15 +20,15 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { LineInput } from '../../../components/LineInput'
 
-function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreenProps) {
+function InsertServiceDescription({ navigation }: InsertServiceDescriptionScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
 
-	const [profileDescription, setProfileDescription] = useState<string>('')
-	const [profileDescriptionIsValid, setProfileDescriptionIsValid] = useState<boolean>(false)
+	const [serviceDescription, setServiceDescription] = useState<string>('')
+	const [serviceDescriptionIsValid, setServiceDescriptionIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	const inputRefs = {
-		profileDescriptionInput: useRef<React.MutableRefObject<any>>(null),
+		serviceDescriptionInput: useRef<React.MutableRefObject<any>>(null),
 	}
 
 	useEffect(() => {
@@ -41,11 +41,11 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
 	}, [navigation])
 
 	useEffect(() => {
-		const validation = validateProfileDescription(profileDescription)
-		setProfileDescriptionIsValid(validation)
-	}, [profileDescription, keyboardOpened])
+		const validation = validateServiceDescription(serviceDescription)
+		setServiceDescriptionIsValid(validation)
+	}, [serviceDescription, keyboardOpened])
 
-	const validateProfileDescription = (text: string) => {
+	const validateServiceDescription = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
 			return true
@@ -53,10 +53,10 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
 		return false
 	}
 
-	const saveProfileDescription = () => {
-		if (profileDescriptionIsValid) {
+	const saveServiceDescription = () => {
+		if (serviceDescriptionIsValid) {
 			setServiceDataOnContext({
-				profileDescription
+				serviceDescription
 			})
 			navigation.navigate('InsertServiceName')
 		}
@@ -75,8 +75,8 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={18}
-					message={'escreva uma descrição para o seu perfil'}
-					highlightedWords={['descrição', 'seu', 'perfil']}
+					message={'escreva uma descrição para o seu serviço'}
+					highlightedWords={['descrição', 'seu', 'serviço']}
 				>
 					<ProgressBar
 						range={5}
@@ -89,10 +89,10 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
 				justifyContent={'center'}
 			>
 				<LineInput
-					value={profileDescription}
+					value={serviceDescription}
 					relativeWidth={'100%'}
 					initialNumberOfLines={2}
-					textInputRef={inputRefs.profileDescriptionInput}
+					textInputRef={inputRefs.serviceDescriptionInput}
 					defaultBackgroundColor={theme.white2}
 					defaultBorderBottomColor={theme.black4}
 					validBackgroundColor={theme.purple1}
@@ -103,13 +103,13 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
 					fontSize={16}
 					placeholder={'ex: trabalho de mecânico, tenho 33 anos, etc...'}
 					keyboardType={'default'}
-					textIsValid={profileDescriptionIsValid && !keyboardOpened}
-					validateText={(text: string) => validateProfileDescription(text)}
-					onChangeText={(text: string) => setProfileDescription(text)}
+					textIsValid={serviceDescriptionIsValid && !keyboardOpened}
+					validateText={(text: string) => validateServiceDescription(text)}
+					onChangeText={(text: string) => setServiceDescription(text)}
 				/>
 				<ButtonsContainer>
 					{
-						profileDescriptionIsValid && !keyboardOpened
+						serviceDescriptionIsValid && !keyboardOpened
 						&& (
 							<PrimaryButton
 								flexDirection={'row-reverse'}
@@ -118,7 +118,7 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
 								labelColor={theme.white3}
 								SvgIcon={Check}
 								svgIconScale={['30%', '15%']}
-								onPress={saveProfileDescription}
+								onPress={saveServiceDescription}
 							/>
 						)
 					}
@@ -128,4 +128,4 @@ function InsertProfileDescription({ navigation }: InsertProfileDescriptionScreen
 	)
 }
 
-export { InsertProfileDescription }
+export { InsertServiceDescription }

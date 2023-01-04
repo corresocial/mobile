@@ -56,7 +56,7 @@ export type LocationData = {
 }
 
 export type ServiceData = {
-	profileDescription?: string // on context
+	serviceDescription?: string // on context
 	title?: string
 	category?: string
 	tags?: string[]

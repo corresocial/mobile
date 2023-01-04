@@ -34,7 +34,7 @@ export const UserDescription = styled.Text`
 export const ExpandedUserDescriptionArea = styled.View`
 	margin-top: ${RFValue(12)}px;
 	width: 100%;
-	height: ${screenHeight * 0.1};
+	height: ${screenHeight * 0.1}px;
 `
 
 export const ExpandedUserDescription = styled.Text`
