@@ -37,7 +37,7 @@ function HorizontalTagList({
 
 	return (
 		<Container >
-			<ScrollView horizontal>
+			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				<Container>
 					{renderTags()}
 				</Container>

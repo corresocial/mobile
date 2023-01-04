@@ -26,6 +26,7 @@ import GearIcon from '../../../assets/icons/gear.svg'
 
 import { share } from '../../../common/share'
 import { getUser } from '../../../services/firebase/user/getUser'
+import { sortArray } from '../../../common/auxiliaryFunctions'
 
 import { ProfileScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { LocalUserData } from '../../../contexts/types'
@@ -48,7 +49,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
 	const [user, setUser] = useState<LocalUserData>({})
-	const [userPosts, setUserPosts] = useState([])
+	const [userPosts, setUserPosts] = useState<PostCollection[]>([])
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
 	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
 
@@ -102,6 +103,24 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 		if (!userJSON) return false
 		const userObject = await JSON.parse(userJSON)
 		return userObject
+	}
+
+	const getUserPostTags = () => {
+		const userPostTags = userPosts.reduce((acc: any[], current: PostCollection) => {
+			return [...acc, ...current.tags as string[]]
+		}, [])
+
+		return userPostTags.sort(sortArray) as string[]
+	}
+
+	const filtredUserPosts = () => {
+		return userPosts.filter((post) => {
+			const matchs = selectedTags.map((tag: string) => {
+				if (post.tags?.includes(tag)) return true
+				return false
+			}, [])
+			return !matchs.includes(false)
+		})
 	}
 
 	const onSelectTag = (tagName: string) => {
@@ -256,12 +275,12 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 			</DefaultHeaderContainer>
 			<Body>
 				<HorizontalTagList
-					tags={['aula', 'música', 'guitarra']}
+					tags={getUserPostTags()}
 					selectedTags={selectedTags}
 					onSelectTag={onSelectTag}
 				/>
 				<FlatList
-					data={userPosts}
+					data={!selectedTags.length ? userPosts : filtredUserPosts()}
 					renderItem={({ item }: any) => ( // TODO type
 						<PostCard
 							post={item}

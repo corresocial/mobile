@@ -84,13 +84,16 @@ function Home({ navigation }: HomeScreenProps) {
 	}, [])
 
 	useEffect(() => {
-		findNearPosts('', true)
+		if (hasLocationPermission) {
+			findNearPosts('', true)
+		}
 	}, [hasLocationPermission])
 
 	const requestPermissions = async () => {
 		const { status } = await Location.requestForegroundPermissionsAsync()
-		setHasLocationPermission(true)
+		console.log(status)
 		if (status !== 'granted') {
+			setHasLocationPermission(true)
 			console.log('Permission to access location was denied')
 			console.log(status)
 		}
