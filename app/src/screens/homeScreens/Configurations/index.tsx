@@ -66,7 +66,7 @@ function Configurations({ route, navigation }: ConfigurationsScreenProps) {
 					justifyContent={'flex-start'}
 					textAlign={'left'}
 					highlightedWords={['privacidade', 'segurança']}
-					onPress={() => { }}
+					onPress={() => navigation.navigate('PrivacyAndSecurity')}
 				/>
 				<Sigh />
 				<PrimaryButton

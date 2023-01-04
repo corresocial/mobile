@@ -4,9 +4,6 @@ import { StatusBar } from 'react-native'
 import { Container, ButtonsContainer, Sigh } from './styles'
 import { theme } from '../../../common/theme'
 import AngleLeftThin from '../../../assets/icons/angleLeftThin.svg'
-import DollarIcon from '../../../assets/icons/dollar.svg'
-import VoluntaryIcon from '../../../assets/icons/voluntary.svg'
-import RightCurvedArrowIcon from '../../../assets/icons/rightCurvedArrow.svg'
 
 import { ContactUsScreenProps } from '../../../routes/Stack/userStack/stackScreenProps'
 

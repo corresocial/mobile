@@ -26,3 +26,4 @@ export type HelpUsScreenProps = NativeStackScreenProps<UserStackParamList, 'Help
 export type ContactUsScreenProps = NativeStackScreenProps<UserStackParamList, 'ContactUs'>
 export type ContactUsInsertMessageScreenProps = NativeStackScreenProps<UserStackParamList, 'ContactUsInsertMessage'>
 export type ContactUsSuccessScreenProps = NativeStackScreenProps<UserStackParamList, 'ContactUsSuccess'>
+export type PrivacyAndSecurityScreenProps = NativeStackScreenProps<UserStackParamList, 'PrivacyAndSecurity'>

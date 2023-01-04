@@ -30,6 +30,7 @@ import { HelpUs } from '../../../screens/homeScreens/HelpUs'
 import { ContactUs } from '../../../screens/homeScreens/ContactUs'
 import { ContactUsInsertMessage } from '../../../screens/homeScreens/ContactUsInsertMessage'
 import { ContactUsSuccess } from '../../../screens/homeScreens/ContactUsSuccess'
+import { PrivacyAndSecurity } from '../../../screens/homeScreens/PrivacyAndSecurity'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -70,6 +71,7 @@ export function UserStack({ route }: any) {
 				<Stack.Screen name={'ContactUs'} component={ContactUs} />
 				<Stack.Screen name={'ContactUsInsertMessage'} component={ContactUsInsertMessage} />
 				<Stack.Screen name={'ContactUsSuccess'} component={ContactUsSuccess} />
+				<Stack.Screen name={'PrivacyAndSecurity'} component={PrivacyAndSecurity} />
 			</Stack.Navigator>
 		</StateProvider>
 	)
