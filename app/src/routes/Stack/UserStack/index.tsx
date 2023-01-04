@@ -29,6 +29,7 @@ import { WhoWeAreTransformation } from '../../../screens/homeScreens/WhoWeAreTra
 import { HelpUs } from '../../../screens/homeScreens/HelpUs'
 import { ContactUs } from '../../../screens/homeScreens/ContactUs'
 import { ContactUsInsertMessage } from '../../../screens/homeScreens/ContactUsInsertMessage'
+import { ContactUsSuccess } from '../../../screens/homeScreens/ContactUsSuccess'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -68,6 +69,7 @@ export function UserStack({ route }: any) {
 				<Stack.Screen name={'HelpUs'} component={HelpUs} />
 				<Stack.Screen name={'ContactUs'} component={ContactUs} />
 				<Stack.Screen name={'ContactUsInsertMessage'} component={ContactUsInsertMessage} />
+				<Stack.Screen name={'ContactUsSuccess'} component={ContactUsSuccess} />
 			</Stack.Navigator>
 		</StateProvider>
 	)

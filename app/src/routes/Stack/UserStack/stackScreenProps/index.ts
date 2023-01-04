@@ -25,3 +25,4 @@ export type WhoWeAreTransformationScreenProps = NativeStackScreenProps<UserStack
 export type HelpUsScreenProps = NativeStackScreenProps<UserStackParamList, 'HelpUs'>
 export type ContactUsScreenProps = NativeStackScreenProps<UserStackParamList, 'ContactUs'>
 export type ContactUsInsertMessageScreenProps = NativeStackScreenProps<UserStackParamList, 'ContactUsInsertMessage'>
+export type ContactUsSuccessScreenProps = NativeStackScreenProps<UserStackParamList, 'ContactUsSuccess'>

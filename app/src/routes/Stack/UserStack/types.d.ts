@@ -24,4 +24,5 @@ export type UserStackParamList = {
 	HelpUs: undefined
 	ContactUs: undefined
 	ContactUsInsertMessage: { title: string }
+	ContactUsSuccess: undefined
 }

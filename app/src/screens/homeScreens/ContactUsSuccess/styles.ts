@@ -11,9 +11,3 @@ export const Body = styled.View`
    justify-content: space-around;
    padding: ${RFValue(25)}px;
 `
-
-export const ButtonsContainer = styled.View`
-   width: 100%;
-   flex-direction: row;
-   justify-content: space-between;
-`

@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, StatusBar } from 'react-native'
-import { KeyboardAvoidingScrollView } from 'react-native-keyboard-avoiding-scroll-view'
+import { Keyboard, StatusBar } from 'react-native'
 
-import { Container, ButtonsContainer, Sigh, Body } from './styles'
+import { Container, ButtonsContainer, Body } from './styles'
 import { theme } from '../../../common/theme'
 import AngleLeftThin from '../../../assets/icons/angleLeftThin.svg'
 import CheckIcon from '../../../assets/icons/check.svg'
@@ -60,14 +59,14 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 	const sendMessage = async () => {
 		try {
 			setLoaderIsVisible(true)
-			/* await sendContactUsMessage({
+			await sendContactUsMessage({
 				userId: userDataContext.userId as string,
 				userName: userDataContext.name as string,
 				title: route.params.title,
 				message
-			}) */
+			})
 			setLoaderIsVisible(false)
-			// navigation.navigate('')
+			navigation.navigate('ContactUsSuccess')
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)
@@ -92,59 +91,53 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 					color={theme.white3}
 				/>
 			</DefaultHeaderContainer>
-			<KeyboardAvoidingView
-				enabled
-				style={{ flex: 1 }}
-				behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-			>
-				<Body>
-					<LineInput
-						value={message}
-						relativeWidth={'100%'}
-						initialNumberOfLines={2}
-						textInputRef={inputRefs.itemDescriptionInput}
-						defaultBackgroundColor={theme.white2}
-						defaultBorderBottomColor={theme.black4}
-						validBackgroundColor={theme.orange1}
-						validBorderBottomColor={theme.orange5}
-						multiline
-						lastInput
-						textAlign={'left'}
-						fontSize={16}
-						placeholder={'detalhes o ocorrido...'}
-						keyboardType={'default'}
-						textIsValid={messageIsValid && !keyboardOpened}
-						validateText={(text: string) => validateItemDescription(text)}
-						onChangeText={(text: string) => setItemDescription(text)}
-					/>
-					{
-						messageIsValid && !keyboardOpened
-						&& (
-							<ButtonsContainer>
-								<SmallButton
-									relativeWidth={65}
-									height={65}
-									color={theme.white3}
-									SvgIcon={AngleLeftThin}
-									onPress={() => navigation.goBack()}
-								/>
-								<PrimaryButton
-									color={theme.green3}
-									labelColor={theme.white3}
-									fontSize={18}
-									relativeWidth={'68%'}
-									labelMarginLeft={5}
-									textAlign={'left'}
-									label={'continuar'}
-									SecondSvgIcon={CheckIcon}
-									svgIconScale={['40%', '15%']}
-									onPress={sendMessage}
-								/>
-							</ButtonsContainer>
-						)
-					}
-				</Body>
-			</KeyboardAvoidingView>
+			<Body>
+				<LineInput
+					value={message}
+					relativeWidth={'100%'}
+					initialNumberOfLines={2}
+					textInputRef={inputRefs.itemDescriptionInput}
+					defaultBackgroundColor={theme.white2}
+					defaultBorderBottomColor={theme.black4}
+					validBackgroundColor={theme.orange1}
+					validBorderBottomColor={theme.orange5}
+					multiline
+					lastInput
+					textAlign={'left'}
+					fontSize={16}
+					placeholder={'detalhes o ocorrido...'}
+					keyboardType={'default'}
+					textIsValid={messageIsValid && !keyboardOpened}
+					validateText={(text: string) => validateItemDescription(text)}
+					onChangeText={(text: string) => setItemDescription(text)}
+				/>
+				{
+					messageIsValid && !keyboardOpened
+					&& (
+						<ButtonsContainer>
+							<SmallButton
+								relativeWidth={65}
+								height={65}
+								color={theme.white3}
+								SvgIcon={AngleLeftThin}
+								onPress={() => navigation.goBack()}
+							/>
+							<PrimaryButton
+								color={theme.green3}
+								labelColor={theme.white3}
+								fontSize={18}
+								relativeWidth={'68%'}
+								labelMarginLeft={5}
+								textAlign={'left'}
+								label={'continuar'}
+								SecondSvgIcon={CheckIcon}
+								svgIconScale={['30%', '15%']}
+								onPress={sendMessage}
+							/>
+						</ButtonsContainer>
+					)
+				}
+			</Body>
 		</Container >
 	)
 }
