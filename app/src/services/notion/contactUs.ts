@@ -1,13 +1,22 @@
 /* eslint-disable camelcase */
 import { NOTION_FALECONOSCO_ID, NOTION_FALECONOSCO_KEY } from '@env'
+import uuid from 'react-uuid'
 import { ContactUsOptions } from './types'
 
-async function sendContactUsMessage({
+async function sendContactUsMessageToNotion({
 	userId,
-	title,
-	message,
-	tag
+	type,
+	message
 }: ContactUsOptions) {
+	const getReportTitle = () => {
+		if (message.length > 10) {
+			return `${message.split(' ', 10).join(' ')}...`
+		}
+		return message
+	}
+
+	const title = getReportTitle()
+	const reportId = uuid()
 	const options = {
 		method: 'POST',
 		headers: {
@@ -19,6 +28,11 @@ async function sendContactUsMessage({
 		body: JSON.stringify({
 			parent: { database_id: NOTION_FALECONOSCO_ID },
 			properties: {
+				type: {
+					select: {
+						name: type,
+					},
+				},
 				title: {
 					title: [
 						{
@@ -39,15 +53,20 @@ async function sendContactUsMessage({
 						},
 					],
 				},
-				type: {
-					select: {
-						name: tag,
-					},
-				},
 				status: {
 					select: {
 						name: 'not started',
 					},
+				},
+				reportedID: {
+					rich_text: [
+						{
+							type: 'text',
+							text: {
+								content: reportId,
+							},
+						},
+					],
 				},
 				senderID: {
 					rich_text: [
@@ -70,12 +89,15 @@ async function sendContactUsMessage({
 
 	const result = await fetch('https://api.notion.com/v1/pages', options)
 		.then((response) => response.json())
-		.then((json) => json)
-		.catch((err) => err)
+		.then((json) => {
+			return json
+		})
+		.catch((err) => {
+			console.log(err)
+			throw new Error(err)
+		})
 
-	console.log(result)
-
-	return result
+	return { ...result, reportId }
 }
 
-export { sendContactUsMessage }
+export { sendContactUsMessageToNotion }

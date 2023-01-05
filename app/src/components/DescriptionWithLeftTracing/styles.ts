@@ -8,7 +8,7 @@ export const Container = styled.View`
 `
 
 export const Description = styled.Text`
-	font-family: Arvo_400Regluar;
+	font-family: Arvo_400Regular;
 	line-height: ${RFValue(20)}px;
 	font-size: ${RFValue(16)}px;
 `

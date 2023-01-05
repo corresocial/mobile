@@ -1,20 +1,47 @@
-import { FALECONOSCO_WEBHOOK } from '@env'
+import { FALECONOSCO_WEBHOOK, ERROS_WEBHOOK, DENUNCIAR_WEBHOOK } from '@env'
 import { ContactUsOptions } from './types'
 
-async function sendContactUsMessage({
+async function sendContactUsMessageToDiscord({
 	userId,
 	userName,
-	title,
+	type,
 	message,
+	reportId,
 }: ContactUsOptions) {
+	const getShortMessage = () => {
+		if (message.length > 1000) {
+			return `${message.substring(0, 1000)}...`
+		}
+		return message
+	}
+
+	const getRelativeWebHook = () => {
+		switch (type) {
+			case 'erro': return ERROS_WEBHOOK
+			case 'denúncia': return DENUNCIAR_WEBHOOK
+			default: return FALECONOSCO_WEBHOOK
+		}
+	}
+
+	const getRelativeTitle = () => {
+		switch (type) {
+			case 'erro': return 'BUG'
+			case 'denúncia': return 'DENUNCIA'
+			default: return 'FALE CONOSCO'
+		}
+	}
+
+	const shortMessage = getShortMessage()
+
 	const content = `
-    FALE CONOSCO:
-    Categoria: ${title}
-    Mensagem: ${message}
+    ${getRelativeTitle()}:
+    Categoria: ${type}
     Usuário: ${userName}
-    ID do usuário: ${userId}`
+    ID do usuário: ${userId}
+    Mensagem: ${shortMessage}
+	ReportID: ${reportId}`
 	const response = await fetch(
-		`${FALECONOSCO_WEBHOOK}?${new URLSearchParams({ wait: true } as any)}`, // TODO Type
+		`${getRelativeWebHook()}?${new URLSearchParams({ wait: true } as any)}`, // TODO Type
 		{
 			method: 'POST',
 			headers: {
@@ -24,7 +51,11 @@ async function sendContactUsMessage({
 			body: JSON.stringify({ content, wait: true }),
 		},
 	)
+		.catch((err) => {
+			console.log(err)
+			throw new Error(err)
+		})
 	return response
 }
 
-export { sendContactUsMessage }
+export { sendContactUsMessageToDiscord }

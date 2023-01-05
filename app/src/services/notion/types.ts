@@ -1,6 +1,7 @@
+export type ContactUsType = 'erro' | 'denúncia' | 'melhoria' | 'outro'
+
 export type ContactUsOptions = {
 	userId: string,
-	title: string,
+	type: ContactUsType,
 	message: string,
-	tag: string
 }

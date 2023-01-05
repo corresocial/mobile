@@ -46,7 +46,7 @@ function ContactUs({ navigation }: ContactUsScreenProps) {
 					textAlign={'left'}
 					label={'erros'}
 					highlightedWords={['erros']}
-					onPress={() => navigation.navigate('ContactUsInsertMessage', { title: 'erros' })}
+					onPress={() => navigation.navigate('ContactUsInsertMessage', { title: 'erros', contactUsType: 'erro' })}
 				/>
 				<PrimaryButton
 					color={theme.white3}
@@ -56,7 +56,7 @@ function ContactUs({ navigation }: ContactUsScreenProps) {
 					textAlign={'left'}
 					label={'denunciar'}
 					highlightedWords={['denunciar']}
-					onPress={() => navigation.navigate('ContactUsInsertMessage', { title: 'denunciar' })}
+					onPress={() => navigation.navigate('ContactUsInsertMessage', { title: 'denunciar', contactUsType: 'denúncia' })}
 				/>
 				<PrimaryButton
 					color={theme.white3}
@@ -66,7 +66,7 @@ function ContactUs({ navigation }: ContactUsScreenProps) {
 					textAlign={'left'}
 					label={'melhorias'}
 					highlightedWords={['melhorias']}
-					onPress={() => navigation.navigate('ContactUsInsertMessage', { title: 'melhorias' })}
+					onPress={() => navigation.navigate('ContactUsInsertMessage', { title: 'melhorias', contactUsType: 'melhoria' })}
 				/>
 				<PrimaryButton
 					color={theme.white3}
@@ -76,7 +76,7 @@ function ContactUs({ navigation }: ContactUsScreenProps) {
 					textAlign={'left'}
 					label={'outros'}
 					highlightedWords={['outros']}
-					onPress={() => navigation.navigate('ContactUsInsertMessage', { title: 'outros' })}
+					onPress={() => navigation.navigate('ContactUsInsertMessage', { title: 'outros', contactUsType: 'outro' })}
 				/>
 			</ButtonsContainer>
 		</Container>

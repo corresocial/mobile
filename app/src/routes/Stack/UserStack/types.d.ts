@@ -1,3 +1,4 @@
+import { ContactUsType } from "../../../services/discord/types"
 import { PostCollection, SocialMedia } from "../../../services/firebase/types"
 
 export type UserStackParamList = {
@@ -23,7 +24,7 @@ export type UserStackParamList = {
 	WhoWeAreTransformation: undefined
 	HelpUs: undefined
 	ContactUs: undefined
-	ContactUsInsertMessage: { title: string }
+	ContactUsInsertMessage: { title: string, contactUsType: ContactUsType }
 	ContactUsSuccess: undefined
 	PrivacyAndSecurity: undefined
 }

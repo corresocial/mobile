@@ -19,8 +19,8 @@ import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { LineInput } from '../../../components/LineInput'
 import { InfoCard } from '../../../components/_cards/InfoCard'
 import { screenHeight } from '../../../common/screenDimensions'
-import { sendContactUsMessage } from '../../../services/discord/contactUs'
-// import { sendContactUsMessage } from '../../../services/notion/contactUs'
+import { sendContactUsMessageToDiscord } from '../../../services/discord/contactUs'
+import { sendContactUsMessageToNotion } from '../../../services/notion/contactUs'
 
 function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -59,14 +59,22 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 	const sendMessage = async () => {
 		try {
 			setLoaderIsVisible(true)
-			await sendContactUsMessage({
+			const notionPage = await sendContactUsMessageToNotion({
+				userId: userDataContext.userId as string,
+				type: route.params.contactUsType,
+				message,
+			})
+
+			await sendContactUsMessageToDiscord({
 				userId: userDataContext.userId as string,
 				userName: userDataContext.name as string,
-				title: route.params.title,
-				message
+				type: route.params.contactUsType,
+				message,
+				reportId: notionPage.reportId
 			})
+
 			setLoaderIsVisible(false)
-			navigation.navigate('ContactUsSuccess')
+			// navigation.navigate('ContactUsSuccess')
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)

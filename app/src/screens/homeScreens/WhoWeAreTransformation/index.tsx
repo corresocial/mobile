@@ -40,7 +40,7 @@ function WhoWeAreTransformation({ navigation }: WhoWeAreTransformationScreenProp
 					fontSize={20}
 					onPress={() => {
 						navigation.navigate('Configurations')
-						// navigation.navigate('WhoWeAreCulture')
+						navigation.navigate('HelpUs')
 					}}
 				/>
 			</Body>
