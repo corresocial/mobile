@@ -3,7 +3,7 @@ import { TouchableWithoutFeedback } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
-import { screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenWidth, screenHeight, screenWidth } from '../../../common/screenDimensions'
 import { ContainerBottom, ContainerSurface, Label } from './styles'
 import { theme } from '../../../common/theme'
 
@@ -65,13 +65,13 @@ function SelectButton({
 					height,
 					marginVertical: RFValue(marginVertical),
 					marginHorizontal: RFValue(marginHorizontal),
-					marginLeft: noDisplacement ? RFValue(8) : 0
+					marginLeft: noDisplacement ? relativeScreenWidth(2.5) : 0
 				}}
 			>
 				<ContainerSurface
 					style={{
 						backgroundColor: selected ? backgroundSelected : backgroundColor,
-						marginRight: selected ? RFValue(-4) : buttonPressed ? RFValue(-7) : 0
+						marginRight: selected ? -relativeScreenWidth(1.3) : buttonPressed ? -relativeScreenWidth(2) : 0
 					}}
 				>
 					{SvgIcon && <SvgIcon width={'20%'} height={'50%'} />}

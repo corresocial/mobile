@@ -1,9 +1,10 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+import { relativeScreenHeight, relativeScreenWidth } from '../../common/screenDimensions'
 
 export const Container = styled.View`
     width: 100%;
-    margin-top: ${RFValue(15)}px;
+    margin-top: ${relativeScreenHeight(2.2)}px;
 `
 
 export const IndicatorLabel = styled.Text`
@@ -11,19 +12,19 @@ export const IndicatorLabel = styled.Text`
     text-align: center;
     font-size: ${RFValue(14)}px;
     font-family: Arvo_400Regular;
-    margin-bottom: ${RFValue(7)}px;
+    margin-bottom: ${relativeScreenHeight(1)}px;
 `
 
 export const IndicatorBarBottom = styled.View`
     background-color: ${({ theme }) => theme.white3}
     width: 100%;
-    height: ${RFValue(9)}px;
-    border: ${RFValue(2)}px solid ${({ theme }) => theme.black3}
-    border-right-width: ${RFValue(8)}px;
+    height: ${relativeScreenHeight(1.4)}px;
+    border: ${relativeScreenWidth(0.5)}px solid ${({ theme }) => theme.black3}
+    border-right-width: ${relativeScreenWidth(2.5)}px;
     overflow: hidden;
 `
 
 export const IndicatorBarSurface = styled.View`
     background-color: ${({ theme }) => theme.orange3}
-    height: ${RFValue(10)}px;
+    height: 100%;
 `

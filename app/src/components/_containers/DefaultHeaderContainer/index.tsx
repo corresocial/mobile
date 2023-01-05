@@ -13,6 +13,8 @@ interface DefaultHeaderContainerProps {
 	justifyContent?: string
 	minHeight?: number
 	borderBottomWidth?: number
+	grow?: boolean
+	paddingVertical?: number
 	withoutPadding?: boolean
 }
 
@@ -25,16 +27,19 @@ function DefaultHeaderContainer({
 	backgroundColor,
 	minHeight = 0,
 	borderBottomWidth = 5,
+	grow,
+	paddingVertical,
 	withoutPadding
 }: DefaultHeaderContainerProps) {
 	return (
 		<Container
 			style={{
 				minHeight: RFValue(minHeight),
-				height: relativeHeight,
+				height: grow ? 'auto' : relativeHeight,
 				flexDirection,
 				backgroundColor,
 				borderBottomWidth: RFValue(borderBottomWidth),
+				paddingVertical: paddingVertical ? RFValue(paddingVertical) : RFValue(20),
 				padding: withoutPadding ? 0 : RFValue(20),
 				alignItems: centralized ? 'center' : 'flex-start',
 				justifyContent: justifyContent || (centralized ? 'center' : 'flex-start'),

@@ -8,7 +8,6 @@ import {
 	FloatButtonContainer,
 	InputTagArea,
 	Sigh,
-	TagsSelectedArea,
 	TagsUnselectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
@@ -17,6 +16,7 @@ import Check from '../../../assets/icons/check.svg'
 
 import { socialImpactCategories, updateSocialImpactTags } from '../socialImpactCategories'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+import { sortArray } from '../../../common/auxiliaryFunctions'
 
 import { SelectSocialImpactTagsScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
 
@@ -29,6 +29,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { LineInput } from '../../../components/LineInput'
 import { InfoCard } from '../../../components/_cards/InfoCard'
+import { SelectedTagsHorizontalList } from '../../../components/SelectedTagsHorizontalList'
 
 function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
@@ -38,7 +39,6 @@ function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScr
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
 
 	const inputNewTagRef = useRef() as any
-	const tagsSelectedRef = useRef() as any
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -49,23 +49,8 @@ function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScr
 		return unsubscribe
 	}, [navigation])
 
-	const renderSelectedTags = () => selectedTags.map((tagName, index) => (
-		<SelectButton
-			key={uuid()}
-			width={screenWidth * 0.24}
-			height={screenHeight * 0.07}
-			label={tagName}
-			fontSize={12}
-			boldLabel
-			marginHorizontal={6}
-			backgroundSelected={theme.pink1}
-			selected
-			onSelect={() => onSelectTag(tagName)}
-		/>
-	))
-
 	const renderUnselectedTags = () => {
-		const ordenedSocialImpactTags = socialImpactCategories[getSocialImpactCategorySelected()].tags.sort(sortSocialImpactTags)
+		const ordenedSocialImpactTags = socialImpactCategories[getSocialImpactCategorySelected()].tags.sort(sortArray)
 
 		return ordenedSocialImpactTags.map((tagName, index) => {
 			if (selectedTags.includes(tagName)) return
@@ -87,12 +72,6 @@ function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScr
 		})
 	}
 
-	const sortSocialImpactTags = (a: string, b: string) => {
-		if (a < b) return -1
-		if (a > b) return 1
-		return 0
-	}
-
 	const onSelectTag = (tagName: string) => {
 		const selectedCategoriesCurrent = [...selectedTags]
 		if (selectedTags.includes(tagName)) {
@@ -102,12 +81,6 @@ function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScr
 			selectedCategoriesCurrent.push(tagName)
 			setSelectedTags(selectedCategoriesCurrent)
 		}
-	}
-
-	const scrollToEnd = () => {
-		tagsSelectedRef.current.scrollToEnd({
-			animated: true
-		})
 	}
 
 	const getSocialImpactCategorySelected = () => {
@@ -211,17 +184,11 @@ function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScr
 						{
 							!keyboardOpened
 							&& (
-								<TagsSelectedArea>
-									<ScrollView
-										ref={tagsSelectedRef}
-										onContentSizeChange={scrollToEnd}
-										horizontal
-										showsHorizontalScrollIndicator={false}
-										scrollsToTop
-									>
-										{renderSelectedTags()}
-									</ScrollView>
-								</TagsSelectedArea>
+								< SelectedTagsHorizontalList
+									backgroundSelected={theme.pink1}
+									selectedTags={selectedTags}
+									onSelectTag={onSelectTag}
+								/>
 							)
 						}
 						<TagsUnselectedArea>

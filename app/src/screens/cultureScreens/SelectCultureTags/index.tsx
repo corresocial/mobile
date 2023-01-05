@@ -8,7 +8,6 @@ import {
 	FloatButtonContainer,
 	InputTagArea,
 	Sigh,
-	TagsSelectedArea,
 	TagsUnselectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
@@ -16,6 +15,7 @@ import { screenHeight, screenWidth } from '../../../common/screenDimensions'
 import Check from '../../../assets/icons/check.svg'
 
 import { cultureCategories, updateCultureTags } from '../cultureCategories'
+import { sortArray } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 import { SelectCultureTagsScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
@@ -29,6 +29,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { LineInput } from '../../../components/LineInput'
 import { InfoCard } from '../../../components/_cards/InfoCard'
+import { SelectedTagsHorizontalList } from '../../../components/SelectedTagsHorizontalList'
 
 function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) {
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
@@ -38,7 +39,6 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
 
 	const inputNewTagRef = useRef() as any
-	const tagsSelectedRef = useRef() as any
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -49,23 +49,8 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
 		return unsubscribe
 	}, [navigation])
 
-	const renderSelectedTags = () => selectedTags.map((tagName, index) => (
-		<SelectButton
-			key={uuid()}
-			width={screenWidth * 0.24}
-			height={screenHeight * 0.07}
-			label={tagName}
-			fontSize={12}
-			boldLabel
-			marginHorizontal={6}
-			backgroundSelected={theme.blue1}
-			selected
-			onSelect={() => onSelectTag(tagName)}
-		/>
-	))
-
 	const renderUnselectedTags = () => {
-		const ordenedCultureTags = cultureCategories[getCultureCategorySelected()].tags.sort(sortCultureTags)
+		const ordenedCultureTags = cultureCategories[getCultureCategorySelected()].tags.sort(sortArray)
 
 		return ordenedCultureTags.map((tagName, index) => {
 			if (selectedTags.includes(tagName)) return
@@ -87,12 +72,6 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
 		})
 	}
 
-	const sortCultureTags = (a: string, b: string) => {
-		if (a < b) return -1
-		if (a > b) return 1
-		return 0
-	}
-
 	const onSelectTag = (tagName: string) => {
 		const selectedCategoriesCurrent = [...selectedTags]
 		if (selectedTags.includes(tagName)) {
@@ -102,12 +81,6 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
 			selectedCategoriesCurrent.push(tagName)
 			setSelectedTags(selectedCategoriesCurrent)
 		}
-	}
-
-	const scrollToEnd = () => {
-		tagsSelectedRef.current.scrollToEnd({
-			animated: true
-		})
 	}
 
 	const getCultureCategorySelected = () => {
@@ -215,17 +188,11 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
 						{
 							!keyboardOpened
 							&& (
-								<TagsSelectedArea>
-									<ScrollView
-										ref={tagsSelectedRef}
-										onContentSizeChange={scrollToEnd}
-										horizontal
-										showsHorizontalScrollIndicator={false}
-										scrollsToTop
-									>
-										{renderSelectedTags()}
-									</ScrollView>
-								</TagsSelectedArea>
+								< SelectedTagsHorizontalList
+									backgroundSelected={theme.blue1}
+									selectedTags={selectedTags}
+									onSelectTag={onSelectTag}
+								/>
 							)
 						}
 						<TagsUnselectedArea>

@@ -74,7 +74,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 			})
 
 			setLoaderIsVisible(false)
-			// navigation.navigate('ContactUsSuccess')
+			navigation.navigate('ContactUsSuccess')
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)

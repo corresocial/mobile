@@ -1,13 +1,11 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 
-export const Container = styled.View`
+export const Container = styled.SafeAreaView`
     flex: 1;
 `
 
 export const ProfileHeader = styled.View`
-    margin-top: ${-statusBarHeight / 2}px;
     width: 100%;
 `
 
@@ -34,7 +32,6 @@ export const UserDescription = styled.Text`
 export const ExpandedUserDescriptionArea = styled.View`
 	margin-top: ${RFValue(12)}px;
 	width: 100%;
-	height: ${screenHeight * 0.1}px;
 `
 
 export const ExpandedUserDescription = styled.Text`
@@ -42,7 +39,6 @@ export const ExpandedUserDescription = styled.Text`
 	font-family: Arvo_400Regular;
 `
 export const OptionsArea = styled.View`
-	padding-bottom: ${RFValue(15)}px;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;

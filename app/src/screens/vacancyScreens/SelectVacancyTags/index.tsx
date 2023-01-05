@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, ScrollView, StatusBar } from 'react-native'
 import uuid from 'react-uuid'
 
@@ -8,7 +8,6 @@ import {
 	FloatButtonContainer,
 	InputTagArea,
 	Sigh,
-	TagsSelectedArea,
 	TagsUnselectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
@@ -16,6 +15,7 @@ import { screenHeight, screenWidth } from '../../../common/screenDimensions'
 import Check from '../../../assets/icons/check.svg'
 
 import { vacancyCategories, updateVacancyTags } from '../vacancyCategories'
+import { sortArray } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 import { SelectVacancyTagsScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
@@ -30,6 +30,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { LineInput } from '../../../components/LineInput'
+import { SelectedTagsHorizontalList } from '../../../components/SelectedTagsHorizontalList'
 
 function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
@@ -37,8 +38,6 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
 	const [textTag, setTextTag] = useState('')
 	const [keyboardOpened, setKeyboardOpened] = useState(false)
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
-
-	const tagsSelectedRef = useRef() as any
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -49,23 +48,8 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
 		return unsubscribe
 	}, [navigation])
 
-	const renderSelectedTags = () => selectedTags.map((tagName) => (
-		<SelectButton
-			key={uuid()}
-			width={screenWidth * 0.24}
-			height={screenHeight * 0.07}
-			label={tagName}
-			boldLabel
-			fontSize={12}
-			marginHorizontal={6}
-			backgroundSelected={theme.yellow1}
-			selected
-			onSelect={() => onSelectTag(tagName)}
-		/>
-	))
-
 	const renderUnselectedTags = () => {
-		const ordenedVacancyTags = vacancyCategories[getVacancyCategorySelected()].tags.sort(sortVacancyTags)
+		const ordenedVacancyTags = vacancyCategories[getVacancyCategorySelected()].tags.sort(sortArray)
 
 		return ordenedVacancyTags.map((tagName, index) => {
 			if (selectedTags.includes(tagName)) return
@@ -87,12 +71,6 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
 		})
 	}
 
-	const sortVacancyTags = (a: string, b: string) => {
-		if (a < b) return -1
-		if (a > b) return 1
-		return 0
-	}
-
 	const onSelectTag = (tagName: string) => {
 		const selectedCategoriesCurrent = [...selectedTags]
 		if (selectedTags.includes(tagName)) {
@@ -102,12 +80,6 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
 			selectedCategoriesCurrent.push(tagName)
 			setSelectedTags(selectedCategoriesCurrent)
 		}
-	}
-
-	const scrollToEnd = () => {
-		tagsSelectedRef.current.scrollToEnd({
-			animated: true
-		})
 	}
 
 	const getVacancyCategorySelected = () => {
@@ -212,17 +184,11 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
 						{
 							!keyboardOpened
 							&& (
-								<TagsSelectedArea>
-									<ScrollView
-										ref={tagsSelectedRef}
-										onContentSizeChange={scrollToEnd}
-										horizontal
-										showsHorizontalScrollIndicator={false}
-										scrollsToTop
-									>
-										{renderSelectedTags()}
-									</ScrollView>
-								</TagsSelectedArea>
+								< SelectedTagsHorizontalList
+									backgroundSelected={theme.yellow1}
+									selectedTags={selectedTags}
+									onSelectTag={onSelectTag}
+								/>
 							)
 						}
 						<TagsUnselectedArea>

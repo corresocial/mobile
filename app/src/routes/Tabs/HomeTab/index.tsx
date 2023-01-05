@@ -23,6 +23,7 @@ import { Post } from '../../../screens/homeScreens/Post'
 import { StateContext } from '../../../contexts/StateContext'
 import { ProfileStack } from '../../Stack/ProfileStack'
 import { HomeStack } from '../../Stack/HomeStack'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
@@ -80,7 +81,7 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 				tabBarShowLabel: false,
 				tabBarStyle: {
 					position: 'absolute',
-					height: RFValue(64),
+					height: relativeScreenHeight(10),
 					borderTopColor: theme.black3,
 					borderTopWidth: 5
 				}

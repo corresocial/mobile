@@ -7,9 +7,10 @@ import { theme } from '../../../common/theme'
 import { screenHeight } from '../../../common/screenDimensions'
 
 import { vacancyCategories } from '../vacancyCategories'
+import { sortPostCategories } from '../../../common/auxiliaryFunctions'
 
 import { SelectVacancyCategoryScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
-import { VacancyCategories, MacroCategory } from '../../../services/firebase/types'
+import { VacancyCategories } from '../../../services/firebase/types'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
 
@@ -24,9 +25,9 @@ function SelectVacancyCategory({ navigation }: SelectVacancyCategoryScreenProps)
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
 
 	const renderSelectOptionsButtons = () => {
-		const ordenedVacancysCategories = Object.values(vacancyCategories).sort(sortVacancyCategories)
+		const ordenedVacancysCategories = Object.values(vacancyCategories).sort(sortPostCategories)
 
-		return ordenedVacancysCategories.map((category, index) => {
+		return ordenedVacancysCategories.map((category) => {
 			if (category.label === 'outros') return
 			return (
 				<SelectButton
@@ -39,12 +40,6 @@ function SelectVacancyCategory({ navigation }: SelectVacancyCategoryScreenProps)
 				/>
 			)
 		})
-	}
-
-	const sortVacancyCategories = (a: MacroCategory, b: MacroCategory) => {
-		if (a.label < b.label) return -1
-		if (a.label > b.label) return 1
-		return 0
 	}
 
 	const onSelectCategory = (categoryName: VacancyCategories) => {

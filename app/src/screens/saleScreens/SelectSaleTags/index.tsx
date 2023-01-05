@@ -8,7 +8,6 @@ import {
 	FloatButtonContainer,
 	InputTagArea,
 	Sigh,
-	TagsSelectedArea,
 	TagsUnselectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
@@ -16,6 +15,7 @@ import { screenHeight, screenWidth } from '../../../common/screenDimensions'
 import Check from '../../../assets/icons/check.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+import { sortArray } from '../../../common/auxiliaryFunctions'
 import { saleCategories, updateSaleTags } from '../saleCategories'
 
 import { SelectSaleTagsScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
@@ -29,6 +29,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { LineInput } from '../../../components/LineInput'
 import { InfoCard } from '../../../components/_cards/InfoCard'
+import { SelectedTagsHorizontalList } from '../../../components/SelectedTagsHorizontalList'
 
 function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
@@ -38,7 +39,6 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
 
 	const inputNewTagRef = useRef() as any
-	const tagsSelectedRef = useRef() as any
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -49,23 +49,8 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 		return unsubscribe
 	}, [navigation])
 
-	const renderSelectedTags = () => selectedTags.map((tagName, index) => (
-		<SelectButton
-			key={uuid()}
-			width={screenWidth * 0.24}
-			height={screenHeight * 0.07}
-			label={tagName}
-			fontSize={12}
-			boldLabel
-			marginHorizontal={6}
-			backgroundSelected={theme.green1}
-			selected
-			onSelect={() => onSelectTag(tagName)}
-		/>
-	))
-
 	const renderUnselectedTags = () => {
-		const ordenedSaleTags = saleCategories[getSaleCategorySelected()].tags.sort(sortSaleTags)
+		const ordenedSaleTags = saleCategories[getSaleCategorySelected()].tags.sort(sortArray)
 
 		return ordenedSaleTags.map((tagName) => {
 			if (selectedTags.includes(tagName)) return
@@ -87,12 +72,6 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 		})
 	}
 
-	const sortSaleTags = (a: string, b: string) => {
-		if (a < b) return -1
-		if (a > b) return 1
-		return 0
-	}
-
 	const onSelectTag = (tagName: string) => {
 		const selectedCategoriesCurrent = [...selectedTags]
 		if (selectedTags.includes(tagName)) {
@@ -102,12 +81,6 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 			selectedCategoriesCurrent.push(tagName)
 			setSelectedTags(selectedCategoriesCurrent)
 		}
-	}
-
-	const scrollToEnd = () => {
-		tagsSelectedRef.current.scrollToEnd({
-			animated: true
-		})
 	}
 
 	const getSaleCategorySelected = () => {
@@ -211,17 +184,11 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 						{
 							!keyboardOpened
 							&& (
-								<TagsSelectedArea>
-									<ScrollView
-										ref={tagsSelectedRef}
-										onContentSizeChange={scrollToEnd}
-										horizontal
-										showsHorizontalScrollIndicator={false}
-										scrollsToTop
-									>
-										{renderSelectedTags()}
-									</ScrollView>
-								</TagsSelectedArea>
+								< SelectedTagsHorizontalList
+									backgroundSelected={theme.green1}
+									selectedTags={selectedTags}
+									onSelectTag={onSelectTag}
+								/>
 							)
 						}
 						<TagsUnselectedArea>

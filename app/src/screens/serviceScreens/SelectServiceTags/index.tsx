@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, ScrollView, StatusBar } from 'react-native'
 import uuid from 'react-uuid'
 
@@ -8,7 +8,6 @@ import {
 	FloatButtonContainer,
 	InputTagArea,
 	Sigh,
-	TagsSelectedArea,
 	TagsUnselectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
@@ -17,6 +16,7 @@ import Check from '../../../assets/icons/check.svg'
 
 import { serviceCategories, updateServiceTags } from '../serviceCategories'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+import { sortArray } from '../../../common/auxiliaryFunctions'
 
 import { SelectServiceTagsScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
@@ -30,6 +30,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { LineInput } from '../../../components/LineInput'
+import { SelectedTagsHorizontalList } from '../../../components/SelectedTagsHorizontalList'
 
 function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
@@ -37,8 +38,6 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 	const [textTag, setTextTag] = useState('')
 	const [keyboardOpened, setKeyboardOpened] = useState(false)
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
-
-	const tagsSelectedRef = useRef() as any
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -49,23 +48,8 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 		return unsubscribe
 	}, [navigation])
 
-	const renderSelectedTags = () => selectedTags.map((tagName) => (
-		<SelectButton
-			key={uuid()}
-			width={screenWidth * 0.24}
-			height={screenHeight * 0.07}
-			label={tagName}
-			fontSize={12}
-			boldLabel
-			marginHorizontal={6}
-			backgroundSelected={theme.purple1}
-			selected
-			onSelect={() => onSelectTag(tagName)}
-		/>
-	))
-
 	const renderUnselectedTags = () => {
-		const ordenedServiceTags = serviceCategories[getServiceCategorySelected()].tags.sort(sortServiceTags)
+		const ordenedServiceTags = serviceCategories[getServiceCategorySelected()].tags.sort(sortArray)
 
 		return ordenedServiceTags.map((tagName) => {
 			if (selectedTags.includes(tagName)) return
@@ -87,12 +71,6 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 		})
 	}
 
-	const sortServiceTags = (a: string, b: string) => {
-		if (a < b) return -1
-		if (a > b) return 1
-		return 0
-	}
-
 	const onSelectTag = (tagName: string) => {
 		const selectedCategoriesCurrent = [...selectedTags]
 		if (selectedTags.includes(tagName)) {
@@ -102,12 +80,6 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 			selectedCategoriesCurrent.push(tagName)
 			setSelectedTags(selectedCategoriesCurrent)
 		}
-	}
-
-	const scrollToEnd = () => {
-		tagsSelectedRef.current.scrollToEnd({
-			animated: true
-		})
 	}
 
 	const getServiceCategorySelected = () => {
@@ -211,17 +183,11 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 						{
 							!keyboardOpened
 							&& (
-								<TagsSelectedArea>
-									<ScrollView
-										ref={tagsSelectedRef}
-										onContentSizeChange={scrollToEnd}
-										horizontal
-										showsHorizontalScrollIndicator={false}
-										scrollsToTop
-									>
-										{renderSelectedTags()}
-									</ScrollView>
-								</TagsSelectedArea>
+								< SelectedTagsHorizontalList
+									backgroundSelected={theme.purple1}
+									selectedTags={selectedTags}
+									onSelectTag={onSelectTag}
+								/>
 							)
 						}
 						<TagsUnselectedArea>

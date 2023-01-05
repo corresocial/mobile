@@ -7,8 +7,9 @@ import { theme } from '../../../common/theme'
 import { screenHeight } from '../../../common/screenDimensions'
 
 import { saleCategories } from '../saleCategories'
+import { sortPostCategories } from '../../../common/auxiliaryFunctions'
 
-import { SaleCategories, MacroCategory } from '../../../services/firebase/types'
+import { SaleCategories } from '../../../services/firebase/types'
 import { SelectSaleCategoryScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 import { SaleContext } from '../../../contexts/SaleContext'
@@ -24,7 +25,7 @@ function SelectSaleCategory({ navigation }: SelectSaleCategoryScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
 
 	const renderSelectOptionsButtons = () => {
-		const ordenedSaleCategories = Object.values(saleCategories).sort(sortSaleCategories)
+		const ordenedSaleCategories = Object.values(saleCategories).sort(sortPostCategories)
 
 		return ordenedSaleCategories.map((category, index) => {
 			if (category.label === 'outros') return
@@ -39,12 +40,6 @@ function SelectSaleCategory({ navigation }: SelectSaleCategoryScreenProps) {
 				/>
 			)
 		})
-	}
-
-	const sortSaleCategories = (a: MacroCategory, b: MacroCategory) => {
-		if (a.label < b.label) return -1
-		if (a.label > b.label) return 1
-		return 0
 	}
 
 	const onSelectCategory = (categoryName: SaleCategories) => {

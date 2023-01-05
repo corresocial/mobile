@@ -11,7 +11,8 @@ import { serviceCategories } from '../serviceCategories'
 import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { SelectServiceCategoryScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-import { ServiceCategories, MacroCategory } from '../../../services/firebase/types'
+import { ServiceCategories } from '../../../services/firebase/types'
+import { sortPostCategories } from '../../../common/auxiliaryFunctions'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -24,7 +25,7 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
 	const { setServiceDataOnContext } = useContext(ServiceContext)
 
 	const renderSelectOptionsButtons = () => {
-		const ordenedServicesCategories = Object.values(serviceCategories).sort(sortServiceCategories)
+		const ordenedServicesCategories = Object.values(serviceCategories).sort(sortPostCategories)
 
 		return ordenedServicesCategories.map((category) => {
 			if (category.label === 'outros') return
@@ -39,12 +40,6 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
 				/>
 			)
 		})
-	}
-
-	const sortServiceCategories = (a: MacroCategory, b: MacroCategory) => {
-		if (a.label < b.label) return -1
-		if (a.label > b.label) return 1
-		return 0
 	}
 
 	const onSelectCategory = (categoryName: ServiceCategories) => {

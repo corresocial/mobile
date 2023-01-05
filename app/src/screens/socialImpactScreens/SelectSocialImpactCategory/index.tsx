@@ -9,7 +9,7 @@ import { screenHeight } from '../../../common/screenDimensions'
 import { socialImpactCategories } from '../socialImpactCategories'
 
 import { SelectSocialImpactCategoryScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
-import { SocialImpactCategories, MacroCategory } from '../../../services/firebase/types'
+import { SocialImpactCategories } from '../../../services/firebase/types'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 
@@ -19,14 +19,15 @@ import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
+import { sortPostCategories } from '../../../common/auxiliaryFunctions'
 
 function SelectSocialImpactCategory({ navigation }: SelectSocialImpactCategoryScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 
 	const renderSelectOptionsButtons = () => {
-		const ordenedSocialImpactCategories = Object.values(socialImpactCategories).sort(sortSocialImpactCategories)
+		const ordenedSocialImpactCategories = Object.values(socialImpactCategories).sort(sortPostCategories)
 
-		return ordenedSocialImpactCategories.map((category, index) => {
+		return ordenedSocialImpactCategories.map((category) => {
 			if (category.label === 'outros') return
 			return (
 				<SelectButton
@@ -39,12 +40,6 @@ function SelectSocialImpactCategory({ navigation }: SelectSocialImpactCategorySc
 				/>
 			)
 		})
-	}
-
-	const sortSocialImpactCategories = (a: MacroCategory, b: MacroCategory) => {
-		if (a.label < b.label) return -1
-		if (a.label > b.label) return 1
-		return 0
 	}
 
 	const onSelectCategory = (categoryName: SocialImpactCategories) => {

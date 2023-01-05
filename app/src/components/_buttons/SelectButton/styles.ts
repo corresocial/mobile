@@ -1,30 +1,30 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const ContainerBottom = styled.View`
+	margin-left: 10px;
     background-color: ${({ theme }) => theme.black4};
-    border-radius: 15px;
+    border-radius: ${RFValue(15)}px;
     position: relative;
 `
 
 export const ContainerSurface = styled.View`
-    border: 2.5px solid ${({ theme }) => theme.black4}
-    border-radius: 15px;
+	border-radius: ${RFValue(15)}px;
+	border: ${RFValue(2.5)}px solid ${({ theme }) => theme.black4};
     align-items: center;
     justify-content: center;
-
     height: 100%;
     width: 100%;
     position: absolute;
 	flex-direction: row;
-
-    right: ${RFValue(8)}px;
+    right: ${relativeScreenWidth(2.5)}px;
 `
 
 export const Label = styled.Text`
     font-size: ${RFValue(16)}px;
     font-family: Arvo_700Bold;
-    padding-horizontal: ${RFValue(12)}px;
-    padding-vertical: ${RFValue(5)}px;
+    padding-horizontal: ${relativeScreenWidth(3)}px;
+    padding-vertical: ${relativeScreenHeight(0.7)}px;
     text-align:center;
 `

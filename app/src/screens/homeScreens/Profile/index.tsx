@@ -184,8 +184,9 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 			<DefaultHeaderContainer
 				backgroundColor={theme.white3}
 				centralized={false}
-				relativeHeight={!userDescriptionIsExpanded ? '31%' : '43%'}
+				grow
 				borderBottomWidth={0}
+				paddingVertical={15}
 			>
 				<ProfileHeader>
 					<ProfileInfoContainer>

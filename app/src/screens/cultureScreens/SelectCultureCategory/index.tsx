@@ -7,9 +7,10 @@ import { screenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 
 import { cultureCategories } from '../cultureCategories'
+import { sortPostCategories } from '../../../common/auxiliaryFunctions'
 
 import { SelectCultureCategoryScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
-import { CultureCategories, MacroCategory } from '../../../services/firebase/types'
+import { CultureCategories } from '../../../services/firebase/types'
 
 import { CultureContext } from '../../../contexts/CultureContext'
 
@@ -24,7 +25,7 @@ function SelectCultureCategory({ navigation }: SelectCultureCategoryScreenProps)
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 
 	const renderSelectOptionsButtons = () => {
-		const ordenedCultureCategories = Object.values(cultureCategories).sort(sortCultureCategories)
+		const ordenedCultureCategories = Object.values(cultureCategories).sort(sortPostCategories)
 
 		return ordenedCultureCategories.map((category, index) => {
 			if (category.label === 'outros') return
@@ -39,12 +40,6 @@ function SelectCultureCategory({ navigation }: SelectCultureCategoryScreenProps)
 				/>
 			)
 		})
-	}
-
-	const sortCultureCategories = (a: MacroCategory, b: MacroCategory) => {
-		if (a.label < b.label) return -1
-		if (a.label > b.label) return 1
-		return 0
 	}
 
 	const onSelectCategory = (categoryName: CultureCategories) => {
