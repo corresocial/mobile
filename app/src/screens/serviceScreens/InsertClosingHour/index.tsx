@@ -127,7 +127,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 			return
 		}
 
-		setLoaderIsVisible(true) // TODO Bug adestramento adestramento filter tags
+		setLoaderIsVisible(true)
 
 		const completeServiceData = getCompleteServiceDataFromContext()
 		setServiceDataOnContext({
