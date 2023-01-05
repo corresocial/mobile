@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from 'react'
-import { Animated, LayoutRectangle, PermissionsAndroid, StatusBar, View } from 'react-native'
+import { Animated, LayoutRectangle, StatusBar, View } from 'react-native'
 import * as Location from 'expo-location'
 
 import { theme } from '../../../common/theme'
@@ -51,10 +51,8 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
 	const requestLocationPermission = async () => {
 		if (hasPermission) return hasPermission
 
-		const granted = await PermissionsAndroid.request(
-			PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-		)
-		if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+		const { status } = await Location.requestForegroundPermissionsAsync()
+		if (status !== 'granted') {
 			console.log('Permissão concedida!')
 			setHasPermission(true)
 			return true
