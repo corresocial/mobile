@@ -69,8 +69,9 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
 	}
 
 	const closingTimeIsAfterOpening = () => {
-		const eventStartHour = new Date(cultureDataContext.eventStartHour as Date)
-		const eventEndHour = new Date()
+		const eventStartHour = new Date(cultureDataContext.eventStartDate as Date)
+		const eventEndHour = new Date(cultureDataContext.eventEndDate as Date)
+		eventStartHour.setHours(cultureDataContext.eventStartHour?.getHours() as number, cultureDataContext.eventStartHour?.getMinutes() as number)
 		eventEndHour.setHours(parseInt(hours), parseInt(minutes))
 		return eventStartHour.getTime() < eventEndHour.getTime()
 	}

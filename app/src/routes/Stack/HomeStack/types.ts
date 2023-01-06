@@ -4,11 +4,11 @@ import { PostCollection, PostCollectionType, PostType, SaleCategories } from '..
 
 export type HomeStackParamList = {
 	Home: { userId?: string }
-	ViewServicePostHome: { postData: PostCollection, isAuthor: boolean }
-	ViewSalePostHome: { postData: PostCollection, isAuthor: boolean }
-	ViewVacancyPostHome: { postData: PostCollection, isAuthor: boolean }
-	ViewSocialImpactPostHome: { postData: PostCollection, isAuthor: boolean }
-	ViewCulturePostHome: { postData: PostCollection, isAuthor: boolean }
+	ViewServicePostHome: { postData: PostCollection }
+	ViewSalePostHome: { postData: PostCollection }
+	ViewVacancyPostHome: { postData: PostCollection }
+	ViewSocialImpactPostHome: { postData: PostCollection }
+	ViewCulturePostHome: { postData: PostCollection }
 	PostCategories: { title: string }
 	PostCategoryDetails: {
 		backgroundColor: string

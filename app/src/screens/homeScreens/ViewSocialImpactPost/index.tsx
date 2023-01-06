@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { StatusBar, ScrollView, Alert } from 'react-native'
 
 import { Body, Container, Header, LastSigh, OptionsArea, Sigh, UserAndValueContainer } from './styles'
@@ -13,7 +13,6 @@ import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunct
 import { ViewSocialImpactPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { SocialImpactCollectionRemote } from '../../../services/firebase/types'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
@@ -21,20 +20,19 @@ import { ImageCarousel } from '../../../components/ImageCarousel'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
+import { AuthContext } from '../../../contexts/AuthContext'
 
 function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
-	const [postData, setPostData] = useState({} as SocialImpactCollectionRemote)
-	const [profileOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
+	const { userDataContext } = useContext(AuthContext)
 
-	useEffect(() => {
-		setPostDataFromRoute()
-	}, [])
+	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
-	const setPostDataFromRoute = async () => {
-		const postDataFromRoute = { ...route.params.postData }
-		setPostData(postDataFromRoute as any) // TODO any
-		return true
+	const loggedUserIsOwner = () => {
+		if (!route.params.postData || !route.params.postData.owner) return false
+		return userDataContext.userId === route.params.postData.owner.userId
 	}
+	const isAuthor = loggedUserIsOwner()
+	const { postData } = route.params as any // TODO type
 
 	const renderFormatedPostDateTime = () => {
 		const formatedDate = formatRelativeDate(postData.createdAt)
@@ -49,7 +47,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={profileOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={postOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
@@ -69,7 +67,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 				<Sigh />
 				<OptionsArea>
 					{
-						!route.params.isAuthor && (
+						!isAuthor && (
 							<SmallButton
 								color={theme.white3}
 								fontSize={14}
@@ -82,10 +80,10 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					}
 					<SmallButton
 						color={theme.green2}
-						label={route.params.isAuthor ? 'compartilhar' : 'fortalecer'}
+						label={isAuthor ? 'compartilhar' : 'fortalecer'}
 						fontSize={14}
-						SvgIcon={route.params.isAuthor ? ShareIcon : ChatIcon}
-						relativeWidth={route.params.isAuthor ? '80%' : '63%'}
+						SvgIcon={isAuthor ? ShareIcon : ChatIcon}
+						relativeWidth={isAuthor ? '80%' : '63%'}
 						height={relativeScreenWidth(12)}
 						onPress={() => { }}
 					/>
@@ -93,9 +91,9 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						postTitle={postData.title || 'publicação no corre.'}
 						postId={postData.postId}
 						postType={postData.postType}
-						popoverVisibility={profileOptionsIsOpen}
+						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
-						isAuthor={route.params.isAuthor || false}
+						isAuthor={isAuthor || false}
 						goToComplaint={() => Alert.alert('go to complaint')}
 						editPost={() => Alert.alert('edit post')}
 						deletePost={() => Alert.alert('delete post')}

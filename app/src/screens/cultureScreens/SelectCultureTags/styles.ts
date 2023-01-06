@@ -17,7 +17,7 @@ export const InputTagArea = styled.View`
 `
 
 export const TagsUnselectedArea = styled.View`
-// padding-horizontal: ${relativeScreenWidth(3)}px;
+    padding-horizontal: ${relativeScreenWidth(3)}px;
     width: 100%;
     align-items: center;
     justify-content: space-between;
@@ -37,6 +37,6 @@ export const FloatButtonContainer = styled.View`
 `
 
 export const Sigh = styled.View`
-height: ${relativeScreenHeight(10)}px;
+	height: ${relativeScreenHeight(10)}px;
     width: 100%;
 `

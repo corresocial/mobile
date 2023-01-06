@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, Alert } from 'react-native'
 
 import { Body, Container, Header, LastSigh, OptionsArea, Sigh, UserAndValueContainer } from './styles'
@@ -11,6 +11,8 @@ import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 
 import { ViewSalePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
+
+import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SaleCollectionRemote } from '../../../services/firebase/types'
@@ -26,18 +28,16 @@ import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
 
 function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
-	const [postData, setPostData] = useState({} as SaleCollectionRemote)
-	const [profileOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
+	const { userDataContext } = useContext(AuthContext)
 
-	useEffect(() => {
-		setPostDataFromRoute()
-	}, [])
+	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
-	const setPostDataFromRoute = async () => {
-		const postDataFromRoute = { ...route.params.postData }
-		setPostData(postDataFromRoute as any) // TODO any
-		return true
+	const loggedUserIsOwner = () => {
+		if (!route.params.postData || !route.params.postData.owner) return false
+		return userDataContext.userId === route.params.postData.owner.userId
 	}
+	const isAuthor = loggedUserIsOwner()
+	const { postData } = route.params as any // TODO type
 
 	const renderFormatedPostDateTime = () => {
 		const formatedDate = formatRelativeDate(postData.createdAt)
@@ -52,7 +52,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={profileOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={postOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
@@ -80,7 +80,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 				<Sigh />
 				<OptionsArea>
 					{
-						!!route.params.isAuthor && (
+						!isAuthor && (
 							<SmallButton
 								color={theme.white3}
 								fontSize={14}
@@ -93,10 +93,10 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					}
 					<SmallButton
 						color={theme.green2}
-						label={!route.params.isAuthor ? 'compartilhar' : 'comprar'}
+						label={isAuthor ? 'compartilhar' : 'comprar'}
 						fontSize={14}
-						SvgIcon={!route.params.isAuthor ? ShareIcon : ChatIcon}
-						relativeWidth={!route.params.isAuthor ? '80%' : '63%'}
+						SvgIcon={isAuthor ? ShareIcon : ChatIcon}
+						relativeWidth={isAuthor ? '80%' : '63%'}
 						height={relativeScreenWidth(12)}
 						onPress={() => { }}
 					/>
@@ -104,9 +104,9 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						postTitle={postData.title || 'publicação no corre.'}
 						postId={postData.postId}
 						postType={postData.postType}
-						popoverVisibility={profileOptionsIsOpen}
+						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
-						isAuthor={!route.params.isAuthor || false}
+						isAuthor={isAuthor || false}
 						goToComplaint={() => Alert.alert('go to complaint')}
 						editPost={() => Alert.alert('edit post')}
 						deletePost={() => Alert.alert('delete post')}

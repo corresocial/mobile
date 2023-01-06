@@ -6,11 +6,18 @@ export const Container = styled.View`
     background-color: rgba(0,0,0,0.5);
     align-items: center;
     justify-content: center;
+	position: relative;
 `
 
 export const TouchCloseArea = styled.TouchableOpacity`
     flex: 1;
     width: 100%;
+`
+
+export const CloseIcon = styled.TouchableOpacity`
+	position: absolute;
+	top: ${RFValue(7)}px;
+	right: ${RFValue(7)}px;
 `
 
 export const Content = styled.View`

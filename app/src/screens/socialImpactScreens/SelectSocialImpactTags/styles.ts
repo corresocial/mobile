@@ -17,7 +17,7 @@ export const InputTagArea = styled.View`
 `
 
 export const TagsUnselectedArea = styled.View`
-padding-horizontal: ${relativeScreenWidth(3)}px;
+	padding-horizontal: ${relativeScreenWidth(3)}px;
     width: 100%;
     align-items: center;
     justify-content: space-between;

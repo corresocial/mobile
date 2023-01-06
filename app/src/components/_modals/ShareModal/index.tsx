@@ -1,7 +1,9 @@
 import React from 'react'
 import { Modal, StatusBar } from 'react-native'
 
+import { RFValue } from 'react-native-responsive-fontsize'
 import {
+	CloseIcon,
 	Container,
 	Content,
 	Description,
@@ -11,6 +13,7 @@ import {
 } from './styles'
 import { theme } from '../../../common/theme'
 import RightCurvedArrow from '../../../assets/icons/rightCurvedArrow.svg'
+import XIcon from '../../../assets/icons/x.svg'
 
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 
@@ -32,6 +35,9 @@ function ShareModal({ visibility, closeModal, onPressButton }: ShareModalProps) 
 			<Container>
 				<TouchCloseArea onPress={closeModal} ></TouchCloseArea>
 				<Content>
+					<CloseIcon onPress={closeModal}>
+						<XIcon width={RFValue(25)} height={RFValue(25)} />
+					</CloseIcon>
 					<Title>{'pronto!'}</Title>
 					<Description>
 						{'agora outros clientes e pessoas podem encontrar seu perfil e o que você vende!\r'}

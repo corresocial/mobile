@@ -202,23 +202,23 @@ function Home({ navigation }: HomeScreenProps) {
 	const goToPostView = (item: PostCollection) => {
 		switch (item.postType) {
 			case 'service': {
-				navigation.navigate('ViewServicePostHome' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewServicePostHome' as any, { postData: { ...item } })
 				break
 			}
 			case 'sale': {
-				navigation.navigate('ViewSalePostHome' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewSalePostHome' as any, { postData: { ...item } })
 				break
 			}
 			case 'vacancy': {
-				navigation.navigate('ViewVacancyPostHome' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewVacancyPostHome' as any, { postData: { ...item } })
 				break
 			}
 			case 'socialImpact': {
-				navigation.navigate('ViewSocialImpactPostHome' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewSocialImpactPostHome' as any, { postData: { ...item } })
 				break
 			}
 			case 'culture': {
-				navigation.navigate('ViewCulturePostHome' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewCulturePostHome' as any, { postData: { ...item } })
 				break
 			}
 			default: return false

@@ -76,10 +76,11 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 
 	const getProfileDataFromRemote = async (userId: string) => {
 		const remoteUser = await getUser(userId)
-		const { profilePictureUrl, name, posts, description } = remoteUser as LocalUserData
+		const { profilePictureUrl, name, posts, description, socialMedias } = remoteUser as LocalUserData
 		setUser({
 			userId,
 			name,
+			socialMedias,
 			description,
 			profilePictureUrl: profilePictureUrl || [],
 		})
@@ -88,8 +89,9 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 
 	const getProfileDataFromLocal = async () => {
 		const localUser = await getObjectLocalUser()
-		const { profilePictureUrl, name, posts, description, socialMedias } = localUser as LocalUserData
+		const { userId, profilePictureUrl, name, posts, description, socialMedias } = localUser as LocalUserData
 		setUser({
+			userId,
 			name,
 			description,
 			socialMedias,
@@ -139,23 +141,23 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 	const goToPostView = (item: PostCollection) => {
 		switch (item.postType) {
 			case 'service': {
-				navigation.navigate('ViewServicePost', { postData: { ...item, owner: user }, isAuthor: isLoggedUser })
+				navigation.navigate('ViewServicePost', { postData: { ...item, owner: user } })
 				break
 			}
 			case 'sale': {
-				navigation.navigate('ViewSalePost', { postData: { ...item, owner: user }, isAuthor: isLoggedUser })
+				navigation.navigate('ViewSalePost', { postData: { ...item, owner: user } })
 				break
 			}
 			case 'vacancy': {
-				navigation.navigate('ViewVacancyPost', { postData: { ...item, owner: user }, isAuthor: isLoggedUser })
+				navigation.navigate('ViewVacancyPost', { postData: { ...item, owner: { ...user } } })
 				break
 			}
 			case 'socialImpact': {
-				navigation.navigate('ViewSocialImpactPost', { postData: { ...item, owner: user }, isAuthor: isLoggedUser })
+				navigation.navigate('ViewSocialImpactPost', { postData: { ...item, owner: user } })
 				break
 			}
 			case 'culture': {
-				navigation.navigate('ViewCulturePost', { postData: { ...item, owner: user }, isAuthor: isLoggedUser })
+				navigation.navigate('ViewCulturePost', { postData: { ...item, owner: user } })
 				break
 			}
 			default: return false
