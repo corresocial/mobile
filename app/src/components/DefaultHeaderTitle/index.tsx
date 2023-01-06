@@ -19,7 +19,7 @@ interface DefaultHeaderTitleProps {
 
 function DefaultHeaderTitle({
 	title,
-	fontSize = RFValue(18),
+	fontSize = 18,
 	highlightedWords = [],
 	SvgIcon,
 	dimensions = 35,
@@ -64,7 +64,7 @@ function DefaultHeaderTitle({
 			<Title style={{
 				marginLeft: invertTextAndIcon ? 0 : RFValue(10),
 				fontFamily: highlightedWords.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold',
-				fontSize
+				fontSize: RFValue(fontSize)
 			}}
 			>
 				{showMessageWithHighlight(title, highlightedWords)}

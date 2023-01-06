@@ -11,7 +11,7 @@ import { SocialMediaManagementScreenProps } from '../../../routes/Stack/UserStac
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { EditCard } from '../../../components/_cards/EditCard'
 
 function SocialMediaManagement({ route, navigation }: SocialMediaManagementScreenProps) {
@@ -45,7 +45,7 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 					<NewLinkButtonContainer>
 						<SmallButton
 							color={theme.white3}
-							height={screenHeight * 0.06}
+							height={relativeScreenHeight(7)}
 							label={'novo link'}
 							fontSize={16}
 							highlightedWords={['link']}

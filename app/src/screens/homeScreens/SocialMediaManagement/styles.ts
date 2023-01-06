@@ -1,41 +1,34 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
-	background-color: ${({ theme }) => theme.blue2};
 `
 
 export const Header = styled.View`
 	justify-content: space-between;
 	width: 100%;
-	height: 8%;
 	background-color: ${({ theme }) => theme.white3};
-	padding-horizontal: ${RFValue(12)}px;
+	padding-vertical: ${relativeScreenHeight(2)}px;
+	padding-horizontal: ${relativeScreenWidth(3.5)}px;
 `
 
 export const Body = styled.View`
 	width: 100%;
 	height: 92%;
 	background-color: ${({ theme }) => theme.orange2};
-	padding-horizontal: ${RFValue(12)}px;
+	padding-horizontal: ${relativeScreenWidth(3.5)}px;
 `
 
 export const NewLinkButtonContainer = styled.View`
 	width: 100%;
-	height: ${screenHeight * 0.11}px;
+	height: ${relativeScreenHeight(12)}px;
 	align-items: center;
 	justify-content: center;
-	padding-horizontal: ${RFValue(40)}px;
+	padding-horizontal: ${relativeScreenWidth(12)}px;
 `
 
 export const Sigh = styled.View`
 	width: 100%;
-	height: ${RFValue(10)}px;
-`
-
-export const LastSigh = styled.View`
-	width: 100%;
-	height: ${RFValue(80)}px;
+	height: ${relativeScreenHeight(1.3)}px;
 `

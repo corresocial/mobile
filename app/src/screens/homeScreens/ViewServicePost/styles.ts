@@ -1,5 +1,5 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
@@ -9,9 +9,9 @@ export const Container = styled.View`
 export const Header = styled.View`
 	justify-content: space-between;
 	width: 100%;
-	height: 28%;
 	background-color: ${({ theme }) => theme.white3};
-	padding-horizontal: ${RFValue(12)}px;
+	padding-vertical: ${relativeScreenHeight(2)}px;
+	padding-horizontal: ${relativeScreenWidth(3)}px;
 `
 
 export const UserAndValueContainer = styled.View`
@@ -21,25 +21,23 @@ export const UserAndValueContainer = styled.View`
 `
 
 export const OptionsArea = styled.View`
-	padding-vertical: ${RFValue(15)}px;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 `
 
 export const Body = styled.View`
-	width: 100%;
-	height: 74%;
+	flex: 1;
 	background-color: ${({ theme }) => theme.purple2};
-	padding: ${RFValue(12)}px;
+	padding: ${relativeScreenWidth(3)}px;
 `
 
 export const Sigh = styled.View`
 	width: 100%;
-	height: ${RFValue(10)}px;
+	height: ${relativeScreenHeight(1.5)}px;
 `
 
 export const LastSigh = styled.View`
 	width: 100%;
-	height: ${RFValue(80)}px;
+	height: ${relativeScreenHeight(10)}px;
 `

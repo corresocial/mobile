@@ -37,7 +37,7 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { ProfilePopOver } from '../../../components/ProfilePopOver'
@@ -196,23 +196,19 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 							borderWidth={3}
 							borderRightWidth={8}
 							pictureUri={user.profilePictureUrl ? user.profilePictureUrl[0] : ''}
-							checked={!isLoggedUser}
+							checked={isLoggedUser}
 						/>
 						<InfoArea>
 							<UserName numberOfLines={3} >{user.name}</UserName>
-							{/* <TextGradient > */}
-							{/* {(styles: any) => ( */}
 							{
 								!userDescriptionIsExpanded && (
 									<TouchableOpacity onPress={() => setUserDescriptionIsExpanded(true)}>
-										<UserDescription numberOfLines={3}/*  style={styles} */>
+										<UserDescription numberOfLines={3}>
 											{user.description}
 										</UserDescription>
 									</TouchableOpacity>
 								)
 							}
-							{/* 	)} */}
-							{/* </TextGradient> */}
 						</InfoArea>
 					</ProfileInfoContainer>
 					{
@@ -242,8 +238,8 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 							label={isLoggedUser ? '' : 'chat'}
 							fontSize={13}
 							SvgIcon={isLoggedUser ? PencilIcon : ChatIcon}
-							relativeWidth={isLoggedUser ? screenHeight * 0.050 : '30%'}
-							height={screenHeight * 0.050}
+							relativeWidth={isLoggedUser ? relativeScreenWidth(12) : '30%'}
+							height={relativeScreenWidth(12)}
 							onPress={() => navigation.navigate('EditProfile' as any, { user })} // TODO Type
 						/>
 						<SmallButton
@@ -253,7 +249,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 							fontSize={13}
 							SvgIcon={ShareIcon}
 							relativeWidth={isLoggedUser ? '60%' : '45%'}
-							height={screenHeight * 0.050}
+							height={relativeScreenWidth(12)}
 							onPress={() => share('dados do perfil')}
 						/>
 						<ProfilePopOver
@@ -268,8 +264,8 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 							<SmallButton
 								color={theme.white3}
 								SvgIcon={isLoggedUser ? GearIcon : ThreeDotsIcon}
-								relativeWidth={screenHeight * 0.050}
-								height={screenHeight * 0.050}
+								relativeWidth={relativeScreenWidth(12)}
+								height={relativeScreenWidth(12)}
 								onPress={openProfileOptions}
 							/>
 						</ProfilePopOver>

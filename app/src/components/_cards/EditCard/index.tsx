@@ -43,6 +43,7 @@ function EditCard({
 			>
 				<DefaultHeaderTitle
 					title={title}
+					fontSize={20}
 					highlightedWords={highlightedWords}
 					onPressIcon={onEdit}
 					SvgIcon={SvgIcon || PencilIcon}

@@ -8,6 +8,7 @@ import AngleLeftThin from '../../assets/icons/angleLeftThin.svg'
 
 import { SmallButton } from '../_buttons/SmallButton'
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
+import { relativeScreenWidth } from '../../common/screenDimensions'
 
 interface DefaultPostViewHeaderProps {
 	text?: string
@@ -36,8 +37,8 @@ function DefaultPostViewHeader({
 	return (
 		<Container>
 			<SmallButton
-				relativeWidth={40}
-				height={40}
+				relativeWidth={relativeScreenWidth(11)}
+				height={relativeScreenWidth(11)}
 				color={theme.white3}
 				SvgIcon={AngleLeftThin}
 				onPress={onBackPress}

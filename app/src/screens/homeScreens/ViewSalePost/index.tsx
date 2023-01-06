@@ -3,7 +3,7 @@ import { StatusBar, ScrollView, Alert } from 'react-native'
 
 import { Body, Container, Header, LastSigh, OptionsArea, Sigh, UserAndValueContainer } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 import ShareIcon from '../../../assets/icons/share.svg'
 import ChatIcon from '../../../assets/icons/chat.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
@@ -58,6 +58,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					onBackPress={() => navigation.goBack()}
 					text={postData.title}
 				/>
+				<Sigh />
 				<UserAndValueContainer>
 					<SmallUserIdentification
 						userName={postData.owner ? postData.owner.name : 'usuário do corre.'}
@@ -76,6 +77,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						exchanveFontSize={14}
 					/>
 				</UserAndValueContainer>
+				<Sigh />
 				<OptionsArea>
 					{
 						!!route.params.isAuthor && (
@@ -83,8 +85,8 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 								color={theme.white3}
 								fontSize={14}
 								SvgIcon={ShareIcon}
-								relativeWidth={screenHeight * 0.05}
-								height={screenHeight * 0.05}
+								relativeWidth={relativeScreenWidth(12)}
+								height={relativeScreenWidth(12)}
 								onPress={() => { }}
 							/>
 						)
@@ -95,7 +97,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						fontSize={14}
 						SvgIcon={!route.params.isAuthor ? ShareIcon : ChatIcon}
 						relativeWidth={!route.params.isAuthor ? '80%' : '63%'}
-						height={screenHeight * 0.05}
+						height={relativeScreenWidth(12)}
 						onPress={() => { }}
 					/>
 					<PostPopOver
@@ -112,8 +114,8 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						<SmallButton
 							color={theme.white3}
 							SvgIcon={ThreeDotsIcon}
-							relativeWidth={screenHeight * 0.05}
-							height={screenHeight * 0.05}
+							relativeWidth={relativeScreenWidth(12)}
+							height={relativeScreenWidth(12)}
 							onPress={() => setPostOptionsIsOpen(true)}
 						/>
 					</PostPopOver>

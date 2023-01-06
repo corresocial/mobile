@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react'
 import { Animated } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 import { Container } from './styles'
 
@@ -39,8 +40,8 @@ function DefaultHeaderContainer({
 				flexDirection,
 				backgroundColor,
 				borderBottomWidth: RFValue(borderBottomWidth),
-				paddingVertical: paddingVertical ? RFValue(paddingVertical) : RFValue(20),
-				padding: withoutPadding ? 0 : RFValue(20),
+				paddingVertical: paddingVertical ? RFValue(paddingVertical) : relativeScreenWidth(5),
+				padding: withoutPadding ? 0 : relativeScreenWidth(5),
 				alignItems: centralized ? 'center' : 'flex-start',
 				justifyContent: justifyContent || (centralized ? 'center' : 'flex-start'),
 			} as { [key: string]: React.CSSProperties }}

@@ -8,6 +8,7 @@ export const TouchableContainer = styled.TouchableWithoutFeedback`
     width: 100%;
 `
 
+// borderRadius relativeScreenWidth(3.5)
 export const ContainerBottom = styled.View`
 	flex-direction: row;
     align-items: center;
@@ -24,7 +25,7 @@ export const ContainerSurface = styled.View`
     justify-content: center;
     width: 100%;
     border-radius: ${RFValue(12)}px;
-    border: ${RFValue(1.5)}px solid black;
+    border: ${RFValue(2.5)}px solid black;
     position: absolute;
 	right: ${RFValue(5)}px;
 `

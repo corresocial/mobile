@@ -3,7 +3,7 @@ import { StatusBar, ScrollView, Alert } from 'react-native'
 
 import { Body, Container, Header, LastSigh, OptionsArea, Sigh, UserAndValueContainer } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 import ShareIcon from '../../../assets/icons/share.svg'
 import ChatIcon from '../../../assets/icons/chat.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
@@ -55,6 +55,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					onBackPress={() => navigation.goBack()}
 					text={postData.title}
 				/>
+				<Sigh />
 				<UserAndValueContainer>
 					<SmallUserIdentification
 						userName={postData.owner ? postData.owner.name : 'usuário do corre.'}
@@ -65,6 +66,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						width={'60%'}
 					/>
 				</UserAndValueContainer>
+				<Sigh />
 				<OptionsArea>
 					{
 						!route.params.isAuthor && (
@@ -72,8 +74,8 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 								color={theme.white3}
 								fontSize={14}
 								SvgIcon={ShareIcon}
-								relativeWidth={screenHeight * 0.05}
-								height={screenHeight * 0.05}
+								relativeWidth={relativeScreenWidth(12)}
+								height={relativeScreenWidth(12)}
 								onPress={() => { }}
 							/>
 						)
@@ -84,7 +86,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						fontSize={14}
 						SvgIcon={route.params.isAuthor ? ShareIcon : ChatIcon}
 						relativeWidth={route.params.isAuthor ? '80%' : '63%'}
-						height={screenHeight * 0.05}
+						height={relativeScreenWidth(12)}
 						onPress={() => { }}
 					/>
 					<PostPopOver
@@ -101,8 +103,8 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						<SmallButton
 							color={theme.white3}
 							SvgIcon={ThreeDotsIcon}
-							relativeWidth={screenHeight * 0.05}
-							height={screenHeight * 0.05}
+							relativeWidth={relativeScreenWidth(12)}
+							height={relativeScreenWidth(12)}
 							onPress={() => setPostOptionsIsOpen(true)}
 						/>
 					</PostPopOver>

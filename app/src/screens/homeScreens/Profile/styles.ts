@@ -25,7 +25,7 @@ export const UserName = styled.Text`
 `
 
 export const UserDescription = styled.Text`
-	font-size: ${RFValue(12)}px;
+	font-size: ${RFValue(13)}px;
 	font-family: Arvo_400Regular;
 `
 

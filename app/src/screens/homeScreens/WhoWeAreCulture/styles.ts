@@ -1,31 +1,27 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { statusBarHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
 	background-color: ${({ theme }) => theme.white3};
 `
 
-export const ContainerContent = styled.View`
-
-`
+export const ContainerContent = styled.View``
 
 export const Header = styled.View`
-	padding-top: ${statusBarHeight / 2}px;
 	justify-content: space-between;
 	width: 100%;
-	height: 10%;
 	background-color: ${({ theme }) => theme.white3};
-	padding-horizontal: ${RFValue(12)}px;
+	padding-vertical: ${relativeScreenHeight(2)}px;
+	padding-horizontal: ${relativeScreenWidth(3.5)}px;
 `
 
 export const Body = styled.View`
-	width: 100%;
-	height: 90%;
+	flex: 1;
 	background-color: ${({ theme }) => theme.blue2};
-	padding-horizontal: ${RFValue(25)}px;
-	padding-vertical:  ${RFValue(15)}px;
+	padding-horizontal: ${relativeScreenWidth(7)}px;
+	padding-vertical:  ${relativeScreenWidth(4)}px;
 `
 
 export const BoldPhrase = styled.Text`
@@ -45,5 +41,5 @@ export const TextMedium = styled.Text`
 
 export const Sigh = styled.View`
 	width: 100%;
-	height: ${RFValue(20)}px;
+	height: ${relativeScreenWidth(6)}px;
 `

@@ -15,7 +15,7 @@ export const ContainerBottom = styled(Animatable.View)`
     align-items: center;
     justify-content: center;
     width: 100%;
-    border-radius: 15px;
+    border-radius: ${RFValue(18)}px;
     position: relative;
     background-color: ${({ theme }) => theme.black4};
 `
@@ -26,7 +26,7 @@ export const ContainerSurface = styled.View`
     justify-content: center;
     width: 100%;
     height: 100%;
-    border-radius: 15px;
+    border-radius: ${RFValue(18)}px;
     border: ${RFValue(2)}px solid black;
     padding-horizontal: ${RFValue(20)}px;
     position: absolute;

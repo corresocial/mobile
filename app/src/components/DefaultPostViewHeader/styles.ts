@@ -1,5 +1,6 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+import { relativeScreenWidth } from '../../common/screenDimensions'
 
 export const Container = styled.View`
 	flex-direction: row;
@@ -16,7 +17,7 @@ export const PathBar = styled.Text`
 export const Title = styled.Text`
 	font-family: Arvo_400Regular;
 	font-size: ${RFValue(16)}px;
-	padding-horizontal: ${RFValue(10)}px;
+	padding-horizontal: ${relativeScreenWidth(2.5)}px;
 	width: 85%;
 `
 

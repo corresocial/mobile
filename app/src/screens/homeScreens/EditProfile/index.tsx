@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 
-import { Body, Container, Header, LastSigh, Sigh } from './styles'
+import { Body, Container, Header, Sigh } from './styles'
 
 import { LocalUserData } from '../../../contexts/types'
 import { UserStackParamList } from '../../../routes/Stack/UserStack/types'
@@ -106,7 +106,7 @@ function EditProfile({ route, navigation }: EditProfileScreenProps) {
 					value={descriptionInput}
 					onEdit={() => goToEditScreen('EditUserDescription')}
 				/>
-				<LastSigh />
+				<Sigh />
 			</Body>
 		</Container>
 	)

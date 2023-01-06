@@ -2,7 +2,7 @@ import React from 'react'
 import { Image, ImageResizeMode } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
-import { CheckArea, Container, DeleteItemArea } from './styles'
+import { CheckArea, Container, DeleteItemArea, NoPhotoContainer } from './styles'
 import TrashIcon from '../../assets/icons/trash.svg'
 import NoPhoto from '../../assets/imgs/noPhoto.svg'
 import CheckOrange from '../../assets/icons/check-orange.svg'
@@ -54,11 +54,15 @@ function PhotoPortrait({
 								resizeMode,
 								width: '100%',
 								height: '100%',
-								borderRadius: 5,
+								borderRadius: RFValue(10),
 							}}
 						/>
 					)
-					: <NoPhoto width={'100%'} height={'100%'} />
+					: (
+						<NoPhotoContainer>
+							<NoPhoto width={'100%'} height={'100%'} />
+						</NoPhotoContainer>
+					)
 			}
 			{
 				deleteCurrentPicture && pictureUri

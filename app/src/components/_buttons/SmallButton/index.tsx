@@ -54,15 +54,15 @@ function SmallButton({
 		>
 			<ContainerBottom
 				style={{
-					width: typeof (relativeWidth) === 'string' ? relativeWidth : RFValue(relativeWidth),
-					height: RFValue(height)
+					width: typeof (relativeWidth) === 'string' ? relativeWidth : relativeWidth,
+					height
 				}}
 			>
 				<ContainerSurface
 					style={{
 						backgroundColor: color,
 						marginRight: buttonPressed ? RFValue(-4) : 0,
-						height: RFValue(height),
+						height,
 						flexDirection,
 					} as { [key: string]: React.CSSProperties }}
 				>

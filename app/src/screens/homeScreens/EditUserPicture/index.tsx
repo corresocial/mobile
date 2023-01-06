@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { Animated, StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 
@@ -8,26 +8,22 @@ import { theme } from '../../../common/theme'
 import ImagePlusIcon from '../../../assets/icons/imagePlus.svg'
 import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
 
-import { updateUser } from '../../../services/firebase/user/updateUser'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
-import { updateUserPrivateData } from '../../../services/firebase/user/updateUserPrivateData'
 
 import { EditUserPictureScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
-import { LocalUserData } from '../../../contexts/types'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
 
 function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
-	const { setRemoteUserOnLocal, setDataOnSecureStore, getDataFromSecureStore } = useContext(AuthContext)
+	const { setDataOnSecureStore, getDataFromSecureStore } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(false)
@@ -48,7 +44,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	}
 
 	const saveUserPicture = async () => {
-		if (profilePictureUrl === route.params.profilePictureUrl) {
+		if (profilePictureUrl === route.params.profilePictureUrl || !profilePictureUrl) {
 			navigation.goBack()
 			return
 		}
@@ -126,8 +122,6 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 		})
 	}
 
-	console.log(route.params)
-
 	return (
 		<Container >
 			<StatusBar backgroundColor={hasServerSideError ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
@@ -139,7 +133,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 				setPictureUri={setPictureUri}
 			/>
 			<DefaultHeaderContainer
-				relativeHeight={!hasServerSideError ? '70%' : '68%'}
+				relativeHeight={'80%'}
 				centralized
 				withoutPadding
 				flexDirection={'column'}

@@ -15,7 +15,7 @@ export const ValueContainer = styled.View`
 
 export const Text = styled.Text`
 	font-family: Arvo_400Regular;
-	font-size: 16px;
+	font-size: ${RFValue(14)}px;
 `
 
 export const PictureArea = styled.View`
