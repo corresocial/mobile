@@ -8,7 +8,7 @@
 
 >npm v8.19.2
 
->node v18.12.1
+>node v16.19.1
 
 **Dependências globais instaladas:**
 
@@ -51,3 +51,4 @@
 * ESLint, `npm run format` corrige erros e warns leves.
 
 **E Voilà!**
+
