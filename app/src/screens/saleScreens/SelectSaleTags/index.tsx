@@ -11,7 +11,7 @@ import {
 	TagsUnselectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import Check from '../../../assets/icons/check.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
@@ -58,8 +58,8 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 				return (
 					<SelectButton
 						key={uuid()}
-						width={screenWidth * 0.38}
-						height={screenHeight * 0.1}
+						width={relativeScreenWidth(38)}
+						height={relativeScreenHeight(10)}
 						label={tagName}
 						fontSize={15}
 						boldLabel
@@ -124,7 +124,7 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 		<Container>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={categoryLabelSelectedIsLarge() ? screenHeight * 0.25 : screenHeight * 0.20}
+				minHeight={categoryLabelSelectedIsLarge() ? relativeScreenHeight(25) : relativeScreenHeight(20)}
 				relativeHeight={categoryLabelSelectedIsLarge() ? '30%' : '24%'}
 				centralized
 				backgroundColor={theme.green2}

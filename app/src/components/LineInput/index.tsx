@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 
 import { Container, TextInput } from './styles'
-import { screenHeight } from '../../common/screenDimensions'
+import { relativeScreenHeight, screenHeight } from '../../common/screenDimensions'
 import { theme } from '../../common/theme'
 
 interface LineInputProps {
@@ -83,9 +83,9 @@ function LineInput({
 	validateText = () => false,
 	onChangeText
 }: LineInputProps) {
-	const lineHeight = screenHeight * 0.039
-	const minLineHeight = initialNumberOfLines * (screenHeight * (initialNumberOfLines <= 2 ? 0.05 : 0.042))
-	const maxLineHeight = screenHeight * 0.25
+	const lineHeight = relativeScreenHeight(5)
+	const minLineHeight = initialNumberOfLines * (initialNumberOfLines <= 2 ? relativeScreenHeight(5) : relativeScreenHeight(4.4))
+	const maxLineHeight = relativeScreenHeight(25)
 
 	const [focused, setFocused] = useState<boolean>(false)
 	const [validated, setValidated] = useState<boolean>(false)

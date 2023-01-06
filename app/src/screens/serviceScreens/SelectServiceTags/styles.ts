@@ -1,6 +1,5 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
     flex: 1;
@@ -13,12 +12,12 @@ export const ContainerBottom = styled.View`
 
 export const InputTagArea = styled.View`
     width: 100%;
-    padding-horizontal: ${RFValue(16)}px;
-    padding-top: ${RFValue(10)}px;
+    padding-horizontal: ${relativeScreenWidth(4)}px;
+    padding-top: ${relativeScreenHeight(1.4)}px;
 `
 
 export const TagsUnselectedArea = styled.View`
-    padding-horizontal: ${RFValue(10)}px;
+	padding-horizontal: ${relativeScreenWidth(3)}px;
     width: 100%;
     align-items: center;
     justify-content: space-between;
@@ -34,10 +33,10 @@ export const FloatButtonContainer = styled.View`
     width: 85%;
     height: 15%;
     position: absolute;
-    bottom: ${RFValue(10)}px;
+    bottom: ${relativeScreenHeight(1.4)}px;
 `
 
 export const Sigh = styled.View`
-    height: ${screenHeight * 0.1}px;
+	height: ${relativeScreenHeight(10)}px;
     width: 100%;
 `

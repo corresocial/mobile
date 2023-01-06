@@ -11,7 +11,7 @@ import {
 	TagsUnselectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import Check from '../../../assets/icons/check.svg'
 
 import { cultureCategories, updateCultureTags } from '../cultureCategories'
@@ -58,8 +58,8 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
 				return (
 					<SelectButton
 						key={uuid()}
-						width={screenWidth * 0.38}
-						height={screenHeight * 0.1}
+						width={relativeScreenWidth(38)}
+						height={relativeScreenHeight(10)}
 						label={tagName}
 						fontSize={15}
 						boldLabel
@@ -128,7 +128,7 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
 		<Container>
 			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={categoryLabelSelectedIsLarge() ? screenHeight * 0.25 : screenHeight * 0.20}
+				minHeight={categoryLabelSelectedIsLarge() ? relativeScreenHeight(25) : relativeScreenHeight(20)}
 				relativeHeight={categoryLabelSelectedIsLarge() ? '30%' : '24%'}
 				centralized
 				backgroundColor={theme.blue2}

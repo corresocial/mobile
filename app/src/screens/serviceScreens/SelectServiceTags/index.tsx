@@ -11,7 +11,7 @@ import {
 	TagsUnselectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import Check from '../../../assets/icons/check.svg'
 
 import { serviceCategories, updateServiceTags } from '../serviceCategories'
@@ -57,8 +57,8 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 				return (
 					<SelectButton
 						key={uuid()}
-						width={screenWidth * 0.38}
-						height={screenHeight * 0.1}
+						width={relativeScreenWidth(38)}
+						height={relativeScreenHeight(10)}
 						label={tagName}
 						fontSize={15}
 						boldLabel
@@ -121,7 +121,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 		<Container>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={screenHeight * 0.30}
+				minHeight={relativeScreenHeight(30)}
 				relativeHeight={'30%'}
 				centralized
 				backgroundColor={theme.purple2}

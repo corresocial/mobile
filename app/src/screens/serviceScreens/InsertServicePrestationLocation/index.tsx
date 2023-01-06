@@ -49,17 +49,9 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
 	const [invalidAddressAfterSubmit, setInvalidAddressAfterSubmit] = useState<boolean>(false)
 
 	const requestLocationPermission = async () => {
-		if (hasPermission) return hasPermission
-
-		const { status } = await Location.requestForegroundPermissionsAsync()
-		if (status !== 'granted') {
-			console.log('Permissão concedida!')
-			setHasPermission(true)
-			return true
-		}
-		console.log('Não foi possível conceder permissão para acessar a localização!')
-		setHasPermission(false)
-		return false
+		const locationPermission = await Location.requestForegroundPermissionsAsync()
+		setHasPermission(locationPermission.granted)
+		return locationPermission.granted || hasPermission
 	}
 
 	const someInvalidFieldSubimitted = () => invalidAddressAfterSubmit
