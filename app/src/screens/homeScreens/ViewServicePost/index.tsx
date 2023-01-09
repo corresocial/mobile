@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { StatusBar, ScrollView, Alert } from 'react-native'
+import React, { useContext, useState } from 'react'
+import { StatusBar, ScrollView, Alert, Linking } from 'react-native'
 
 import { Body, Container, Header, LastSigh, OptionsArea, Sigh, UserAndValueContainer } from './styles'
 import { theme } from '../../../common/theme'
@@ -9,8 +9,11 @@ import ChatIcon from '../../../assets/icons/chat.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
+import { deletePost } from '../../../services/firebase/post/deletePost'
+import { share } from '../../../common/share'
 
 import { ViewServicePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
+import { PostCollection } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
@@ -25,9 +28,10 @@ import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
+import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 
 function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
-	const { userDataContext } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
@@ -47,6 +51,33 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 		if (!postData || !postData.owner || !postData.owner.profilePictureUrl) return null
 		if (arrayIsEmpty(postData.owner.profilePictureUrl)) return null
 		return postData.owner.profilePictureUrl[0]
+	}
+
+	const deleteRemotePost = async () => {
+		await deletePost(postData.postId, postData.postType, postData.owner.userId)
+		await removePostOnContext()
+		backToPreviousScreen()
+	}
+
+	const removePostOnContext = async () => {
+		const currentUserPosts = userDataContext.posts || []
+		const postsWithoutDeletedPost = currentUserPosts.filter((post: PostCollection) => post.postId !== postData.postId)
+		setUserDataOnContext({ ...userDataContext, posts: postsWithoutDeletedPost })
+	}
+
+	const backToPreviousScreen = () => {
+		setPostOptionsIsOpen(false)
+		navigation.goBack()
+	}
+
+	const sharePost = () => {
+		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${postData.title} no corre.\n\nhttps://corre.social`)
+	}
+
+	const openChat = async () => {
+		const { cellNumber } = await getPrivateContacts(postData.owner.userId)
+		const message = `olá! vi que publicou ${postData.title} no corre. Podemos conversar?`
+		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
 	}
 
 	return (
@@ -86,7 +117,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 								SvgIcon={ShareIcon}
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}
-								onPress={() => { }}
+								onPress={sharePost}
 							/>
 						)
 					}
@@ -97,7 +128,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						SvgIcon={isAuthor ? ShareIcon : ChatIcon}
 						relativeWidth={isAuthor ? '80%' : '63%'}
 						height={relativeScreenWidth(12)}
-						onPress={() => { }}
+						onPress={isAuthor ? sharePost : openChat}
 					/>
 					<PostPopOver
 						postTitle={postData.title || 'publicação no corre.'}
@@ -108,7 +139,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						isAuthor={isAuthor || false}
 						goToComplaint={() => Alert.alert('go to complaint')}
 						editPost={() => Alert.alert('edit post')}
-						deletePost={() => Alert.alert('delete post')}
+						deletePost={deleteRemotePost}
 					>
 						<SmallButton
 							color={theme.white3}

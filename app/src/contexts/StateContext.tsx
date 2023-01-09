@@ -55,7 +55,7 @@ function StateProvider({ children }: StateProviderProps) {
 
 	const sharePost = () => {
 		const { lastPostTitle } = stateDataContext
-		share(`tô anunciando *${lastPostTitle}* lá no corre.\n\nhttps://corre.social`)
+		share(`tô anunciando ${lastPostTitle} lá no corre.\n\nhttps://corre.social`)
 	}
 
 	const toggleTourModalVisibility = (visibility: boolean, tourHandler?: any) => {

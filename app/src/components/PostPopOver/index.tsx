@@ -70,17 +70,24 @@ function PostPopOver({ postTitle,
 										minHeight={20}
 										relativeHeight={screenHeight * 0.08}
 									/>
-									<Sigh />
-									<PrimaryButton
-										color={theme.red3}
-										onPress={deletePost && deletePost as any} // TODO Type
-										label={'apagar post'}
-										highlightedWords={['apagar', 'post']}
-										labelColor={theme.white3}
-										fontSize={14}
-										minHeight={20}
-										relativeHeight={screenHeight * 0.08}
-									/>
+
+									{
+										deletePost && (
+											<>
+												<Sigh />
+												<PrimaryButton
+													color={theme.red3}
+													onPress={deletePost && deletePost as any} // TODO Type
+													label={'apagar post'}
+													highlightedWords={['apagar', 'post']}
+													labelColor={theme.white3}
+													fontSize={14}
+													minHeight={20}
+													relativeHeight={screenHeight * 0.08}
+												/>
+											</>
+										)
+									}
 								</>
 							)
 							: (

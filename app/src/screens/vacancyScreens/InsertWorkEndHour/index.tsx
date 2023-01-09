@@ -80,8 +80,8 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 	}
 
 	const closingTimeIsAfterOpening = () => {
-		const startWorkHour = new Date(vacancyDataContext.startWorkDate as Date)
-		const endWorkHour = new Date(vacancyDataContext.endWorkDate as Date)
+		const startWorkHour = new Date(vacancyDataContext.startWorkDate as Date || new Date())
+		const endWorkHour = new Date(vacancyDataContext.endWorkDate as Date || new Date())
 		startWorkHour.setHours(vacancyDataContext.startWorkHour?.getHours() as number, vacancyDataContext.startWorkHour?.getMinutes() as number)
 		endWorkHour.setHours(parseInt(hours), parseInt(minutes))
 		return startWorkHour.getTime() < endWorkHour.getTime()

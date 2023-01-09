@@ -106,7 +106,7 @@ function LineInput({
 	}
 
 	const performKeyPress = ({ nativeEvent }: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
-		if (nativeEvent.key === 'Backspace' && previousInputRef) setFocusToPreviousInput()
+		if (nativeEvent.key === 'Backspace' && (selectTextOnFocus ? true : !value.length) && previousInputRef) setFocusToPreviousInput()
 	}
 
 	const setFocusToNextInput = () => {
@@ -161,12 +161,6 @@ function LineInput({
 				? 'Arvo_400Regular'
 				: validated || textIsValid ? 'Arvo_700Bold' : 'Arvo_400Regular'
 		}
-	}
-
-	const selectInsertedCodeInput = () => {
-		/* 	if (value.length === 1) {
-
-			} */
 	}
 
 	return (

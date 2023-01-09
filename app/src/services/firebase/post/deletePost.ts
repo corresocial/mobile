@@ -6,25 +6,27 @@ import {
 	getDoc,
 } from 'firebase/firestore'
 import { firestore } from '..'
+import { getPostCollectionName } from '../common/dbAuxiliaryFunctions'
 
-import { PostCollection, UserCollection } from '../types'
+import { PostCollection, PostType, UserCollection } from '../types'
 
-async function deletePost(postId: string, userId: string) {
+async function deletePost(postId: string, postType: PostType, userId: string) {
+	const postCollection = getPostCollectionName(postType)
+
 	try {
-		const docRef = doc(collection(firestore, 'posts'), postId)
-		const postDeleted = await deleteDoc(docRef)
-			.then(() => getDoc(doc(firestore, 'users', userId)))
-			.then((userData: UserCollection | any) => { // TODO Type
-				updateDoc(doc(firestore, 'users', userId), {
-					...userData,
-					posts: userData.posts.filter((post: PostCollection) => post.postId !== postId),
-					updatedAt: new Date()
-				})
-			},)
-			.then(() => true)
-		return postDeleted
+		const docRef = doc(collection(firestore, postCollection), postId)
+
+		await deleteDoc(docRef)
+		const userData = await getDoc(doc(firestore, 'users', userId)) as UserCollection | any
+		updateDoc(doc(firestore, 'users', userId), {
+			...userData.data(),
+			posts: userData.data().posts.filter((post: PostCollection) => post.postId !== postId),
+			updatedAt: new Date()
+		})
+		return true
 	} catch (e) {
 		console.log(e)
+		return false
 	}
 }
 
