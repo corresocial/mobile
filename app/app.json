@@ -1,50 +1,55 @@
 {
-	"expo": {
-		"name": "corre.",
-		"owner": "corresocial",
-		"scheme": "corre",
-		"slug": "corresocial",
-		"version": "1.2.0",
-		"orientation": "portrait",
-		"userInterfaceStyle": "light",
-		"icon": "./assets/icon.png",
-		"splash": {
-			"image": "./assets/splash-screen.png",
-			"resizeMode": "contain",
-			"backgroundColor": "#FA9938"
-		},
-		"plugins": [
-			"expo-image-picker"
-		],
-		"updates": {
-			"fallbackToCacheTimeout": 0
-		},
-		"assetBundlePatterns": [
-			"**/*"
-		],
-		"ios": {
-			"supportsTablet": true,
-			"bundleIdentifier": "corre",
-			"splash": {
-				"image": "./assets/splash-screen.png",
-				"resizeMode": "contain",
-				"backgroundColor": "#FA9938"
-			}
-		},
-		"android": {
-			"versionCode": 6,
-			"package": "com.corresocial.corresocial",
-			"icon": "./assets/icon.png",
-			"adaptiveIcon": {
-				"foregroundImage": "./assets/adaptive-icon-foreground.png",
-				"backgroundColor": "#FA9938"
-			},
-			"permissions": [
-				"android.permission.RECORD_AUDIO"
-			]
-		},
-		"web": {
-			"favicon": "./assets/favicon.png"
-		}
-	}
+  "expo": {
+    "name": "corre.",
+    "owner": "corresocial",
+    "scheme": "corre",
+    "slug": "corresocial",
+    "version": "1.2.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash-screen.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FA9938"
+    },
+    "plugins": [
+      "expo-image-picker"
+    ],
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "corre",
+      "splash": {
+        "image": "./assets/splash-screen.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#FA9938"
+      }
+    },
+    "android": {
+      "versionCode": 6,
+      "package": "com.corresocial.corresocial",
+      "icon": "./assets/icon.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon-foreground.png",
+        "backgroundColor": "#FA9938"
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "82d2d182-5397-4921-9056-8aa7efc9a9a4"
+      }
+    }
+  }
 }

@@ -141,7 +141,6 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				}
 			])
 		}
-
 		if (errorCode === 'auth/invalid-verification-code') {
 			setInvaliCodeAfterSubmit(true)
 		} else {
@@ -236,6 +235,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 									invalidTextAfterSubmit={invalidCodeAfterSubmit}
 									placeholder={'0'}
 									keyboardType={'decimal-pad'}
+									selectTextOnFocus
 									error={hasServerSideError}
 									filterText={filterLeavingOnlyNumbers}
 									validateText={(text: string) => validateCode(text)}

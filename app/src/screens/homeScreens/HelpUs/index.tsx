@@ -8,6 +8,8 @@ import DollarIcon from '../../../assets/icons/dollar.svg'
 import VoluntaryIcon from '../../../assets/icons/voluntary.svg'
 import RightCurvedArrowIcon from '../../../assets/icons/rightCurvedArrow.svg'
 
+import { relativeScreenWidth } from '../../../common/screenDimensions'
+
 import { HelpUsScreenProps } from '../../../routes/Stack/userStack/stackScreenProps'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -25,8 +27,8 @@ function HelpUs({ navigation }: HelpUsScreenProps) {
 				backgroundColor={theme.white3}
 			>
 				<SmallButton
-					relativeWidth={40}
-					height={40}
+					relativeWidth={relativeScreenWidth(11)}
+					height={relativeScreenWidth(11)}
 					color={theme.white3}
 					SvgIcon={AngleLeftThin}
 					onPress={() => navigation.goBack()}

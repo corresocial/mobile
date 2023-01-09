@@ -11,7 +11,8 @@ export const UserPictureArea = styled.View`
 	width: ${RFValue(35)}px;
 	height: ${RFValue(35)}px;
 	border: ${RFValue(2)}px solid ${({ theme }) => theme.black4};
-	border-radius: 5px;
+	border-radius: ${RFValue(5)}px;
+	overflow: hidden;
 `
 
 export const MiniaturePortrait = styled.Image`

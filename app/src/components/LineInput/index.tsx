@@ -42,6 +42,7 @@ interface LineInputProps {
 	keyboardType?: KeyboardTypeOptions
 	blurOnSubmit?: boolean
 	returnKeyType?: ReturnKeyTypeOptions
+	selectTextOnFocus?: boolean
 	onIconPress?: () => void
 	onPressKeyboardSubmit?: () => void
 	filterText?: (text: string) => string
@@ -76,6 +77,7 @@ function LineInput({
 	blurOnSubmit = true,
 	onIconPress,
 	onPressKeyboardSubmit,
+	selectTextOnFocus,
 	error,
 	lastInput,
 	textIsValid = false,
@@ -104,7 +106,7 @@ function LineInput({
 	}
 
 	const performKeyPress = ({ nativeEvent }: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
-		if (nativeEvent.key === 'Backspace' && !value.length && previousInputRef) setFocusToPreviousInput()
+		if (nativeEvent.key === 'Backspace' && previousInputRef) setFocusToPreviousInput()
 	}
 
 	const setFocusToNextInput = () => {
@@ -161,6 +163,12 @@ function LineInput({
 		}
 	}
 
+	const selectInsertedCodeInput = () => {
+		/* 	if (value.length === 1) {
+
+			} */
+	}
+
 	return (
 		<Container
 			style={{
@@ -198,6 +206,7 @@ function LineInput({
 					placeholder={placeholder}
 					returnKeyType={returnKeyType || (lastInput ? 'done' : 'next')}
 					blurOnSubmit={blurOnSubmit}
+					selectTextOnFocus={selectTextOnFocus}
 					onFocus={() => setFocused(true)}
 					onBlur={() => setFocused(false)}
 					onSubmitEditing={nextInputRef ? setFocusToNextInput : onPressKeyboardSubmit}

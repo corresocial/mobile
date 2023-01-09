@@ -5,6 +5,8 @@ import { Container, Sigh } from './styles'
 import { theme } from '../../../common/theme'
 import AngleLeftThin from '../../../assets/icons/angleLeftThin.svg'
 
+import { relativeScreenWidth } from '../../../common/screenDimensions'
+
 import { PrivacyAndSecurityScreenProps } from '../../../routes/Stack/userStack/stackScreenProps'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -22,8 +24,8 @@ function PrivacyAndSecurity({ navigation }: PrivacyAndSecurityScreenProps) {
 				backgroundColor={theme.white3}
 			>
 				<SmallButton
-					relativeWidth={40}
-					height={40}
+					relativeWidth={relativeScreenWidth(11)}
+					height={relativeScreenWidth(11)}
 					color={theme.white3}
 					SvgIcon={AngleLeftThin}
 					onPress={() => navigation.goBack()}
