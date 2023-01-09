@@ -18,7 +18,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { LineInput } from '../../../components/LineInput'
 import { InfoCard } from '../../../components/_cards/InfoCard'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth, screenHeight } from '../../../common/screenDimensions'
 import { sendContactUsMessageToDiscord } from '../../../services/discord/contactUs'
 import { sendContactUsMessageToNotion } from '../../../services/notion/contactUs'
 
@@ -74,7 +74,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 			})
 
 			setLoaderIsVisible(false)
-			navigation.navigate('ContactUsSuccess')
+			// navigation.navigate('ContactUsSuccess')
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)
@@ -124,8 +124,8 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 					&& (
 						<ButtonsContainer>
 							<SmallButton
-								relativeWidth={65}
-								height={65}
+								relativeWidth={relativeScreenWidth(17)}
+								height={relativeScreenWidth(17)}
 								color={theme.white3}
 								SvgIcon={AngleLeftThin}
 								onPress={() => navigation.goBack()}
@@ -135,6 +135,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 								labelColor={theme.white3}
 								fontSize={18}
 								relativeWidth={'68%'}
+								relativeHeight={relativeScreenHeight(9.3)}
 								labelMarginLeft={5}
 								textAlign={'left'}
 								label={'continuar'}

@@ -80,6 +80,11 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
 	}
 
+	const reportPost = () => {
+		setPostOptionsIsOpen(false)
+		navigation.navigate('ContactUsInsertMessage' as any, { title: 'denunciar', contactUsType: 'denúncia', reportedPost: postData.postId, }) // TODO Type
+	}
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={postOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3} barStyle={'dark-content'} />
@@ -137,7 +142,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
-						goToComplaint={() => Alert.alert('go to complaint')}
+						goToComplaint={reportPost}
 						editPost={() => Alert.alert('edit post')}
 						deletePost={deleteRemotePost}
 					>

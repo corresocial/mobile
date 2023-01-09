@@ -24,7 +24,7 @@ export type UserStackParamList = {
 	WhoWeAreTransformation: undefined
 	HelpUs: undefined
 	ContactUs: undefined
-	ContactUsInsertMessage: { title: string, contactUsType: ContactUsType }
+	ContactUsInsertMessage: { title: string, contactUsType: ContactUsType, reportedPost: string }
 	ContactUsSuccess: undefined
 	PrivacyAndSecurity: undefined
 }

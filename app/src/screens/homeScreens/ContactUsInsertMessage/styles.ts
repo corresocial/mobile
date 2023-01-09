@@ -16,4 +16,5 @@ export const ButtonsContainer = styled.View`
    width: 100%;
    flex-direction: row;
    justify-content: space-between;
+   align-items: center;
 `
