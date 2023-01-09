@@ -17,12 +17,10 @@ import SalesCartIcon from '../../../assets/icons/salesCart-green.svg'
 import SoundToolsIcon from '../../../assets/icons/soundTools-blue.svg'
 import ToolBoxIcon from '../../../assets/icons/toolBox-purple.svg'
 import SuitcaseIcon from '../../../assets/icons/suitcase-yellow.svg'
-import AngleRightIcon from '../../../assets/icons/angleRight-shadow.svg'
 import { screenWidth } from '../../../common/screenDimensions'
 
 import { getListOfPosts } from '../../../services/firebase/post/getListOfPosts'
 import { generateGeohashes } from '../../../common/generateGeohashes'
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { searchAddressByText } from '../../../services/maps/searchAddressByText'
 import { structureAddress } from '../../../services/maps/addressFormatter'
 import { getRecentAddressFromStorage } from '../../../services/maps/recentAddresses'
@@ -41,7 +39,6 @@ import { LoaderContext } from '../../../contexts/LoaderContext'
 import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { LocationData } from '../../../contexts/types'
-import { HomeStackParamList } from '../../../routes/Stack/HomeStack/types'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -50,7 +47,7 @@ const initialSelectedAddress = {
 
 function Home({ navigation }: HomeScreenProps) {
 	const { setLoaderIsVisible } = useContext(LoaderContext)
-	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
+	const { setLocationDataOnContext } = useContext(LocationContext)
 
 	const [selectedAddress, setSelectedAddress] = useState<SelectedAddressRender>(initialSelectedAddress)
 	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])

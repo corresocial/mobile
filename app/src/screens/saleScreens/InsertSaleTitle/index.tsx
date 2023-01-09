@@ -58,7 +58,7 @@ function InsertSaleTitle({ navigation }: InsertSaleTitleScreenProps) {
 			setSaleDataOnContext({
 				title: saleTitle
 			})
-			navigation.navigate('InsertItemName')
+			navigation.navigate('InsertItemDescription')
 		}
 	}
 
