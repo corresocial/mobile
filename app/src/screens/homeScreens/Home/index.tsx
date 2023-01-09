@@ -92,7 +92,6 @@ function Home({ navigation }: HomeScreenProps) {
 		const { status } = await Location.requestForegroundPermissionsAsync()
 		if (status !== 'granted') {
 			setHasLocationPermission(true)
-			console.log(status)
 		}
 	}
 
@@ -122,7 +121,6 @@ function Home({ navigation }: HomeScreenProps) {
 
 			const postsIds = await getPostsByLocation(searchParams as SearchParams)
 			const posts = await getListOfPosts(postsIds)
-			console.log(posts.length)
 			setNearPosts([].concat(...posts as any) as any || []) // TODO type
 			setLoaderIsVisible(false)
 		} catch (err) {

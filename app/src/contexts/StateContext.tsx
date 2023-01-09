@@ -45,9 +45,6 @@ function StateProvider({ children }: StateProviderProps) {
 	const [handlerTourModalButton, setHandlerTourModalButton] = useState<Handler>()
 
 	const setStateDataOnContext = async (data: StateData) => {
-		console.log({
-			...stateDataContext, ...data
-		})
 		setStateDataContext({
 			...stateDataContext, ...data
 		})

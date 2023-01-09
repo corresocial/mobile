@@ -28,7 +28,6 @@ function LocationProvider({ children }: LocationProviderProps) {
 	const [locationDataContext, setLocationDataContext] = useState(initialValue.locationDataContext)
 
 	const setLocationDataOnContext = async (data: LocationData) => {
-		console.log(data)
 		setLocationDataContext({ ...locationDataContext, ...data })
 	}
 

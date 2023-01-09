@@ -23,7 +23,6 @@ function CultureProvider({ children }: CultureProviderProps) {
 	const [cultureDataContext, setCultureDataContext] = useState(initialValue.cultureDataContext)
 
 	const setCultureDataOnContext = async (data: CultureData) => {
-		console.log(data)
 		setCultureDataContext({
 			...cultureDataContext, ...data
 		})

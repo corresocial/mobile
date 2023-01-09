@@ -23,7 +23,6 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 	const [socialImpactDataContext, setSocialImpactDataContext] = useState(initialValue.socialImpactDataContext)
 
 	const setSocialImpactDataOnContext = async (data: SocialImpactData) => {
-		console.log(data)
 		setSocialImpactDataContext({
 			...socialImpactDataContext, ...data
 		})

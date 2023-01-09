@@ -23,7 +23,6 @@ function SaleProvider({ children }: SaleProviderProps) {
 	const [saleDataContext, setSaleDataContext] = useState(initialValue.saleDataContext)
 
 	const setSaleDataOnContext = async (data: SaleData) => {
-		console.log(data)
 		setSaleDataContext({
 			...saleDataContext, ...data
 		})
