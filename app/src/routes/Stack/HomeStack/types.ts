@@ -35,4 +35,5 @@ export type HomeStackParamList = {
 		categoryType: PostType
 		categoryCollection: PostCollectionType
 	}
+	ProfileHome: { userId: string }
 }

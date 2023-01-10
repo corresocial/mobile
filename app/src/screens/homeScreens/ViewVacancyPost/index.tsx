@@ -120,6 +120,14 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
 	}
 
+	const navigateToProfile = () => {
+		if (userDataContext.userId === postData.owner.userId) {
+			navigation.navigate('Profile' as any, { userId: postData.owner.userId })// TODO Type
+			return
+		}
+		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
+	}
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={postOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3} barStyle={'dark-content'} />
@@ -137,6 +145,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						profilePictureUrl={getProfilePictureUrl()}
 						pictureDimensions={45}
 						width={'60%'}
+						navigateToProfile={navigateToProfile}
 					/>
 				</UserAndValueContainer>
 				<Sigh />

@@ -24,6 +24,10 @@ export const UserInfo = styled.View`
 	padding: ${RFValue(8)}px;
 `
 
+export const TouchableArea = styled.TouchableOpacity`
+
+`
+
 export const UserName = styled.Text`
 	font-size: ${RFValue(12)}px;
 	font-family: Arvo_700Bold;

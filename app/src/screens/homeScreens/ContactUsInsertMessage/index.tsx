@@ -57,6 +57,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 	}
 
 	const sendMessage = async () => {
+		console.log(route.params) // TODO remove
 		try {
 			setLoaderIsVisible(true)
 			const notionPage = await sendContactUsMessageToNotion({
@@ -74,7 +75,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 			})
 
 			setLoaderIsVisible(false)
-			// navigation.navigate('ContactUsSuccess')
+			navigation.navigate('ContactUsSuccess')
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)

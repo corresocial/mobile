@@ -85,6 +85,14 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 		navigation.navigate('ContactUsInsertMessage' as any, { title: 'denunciar', contactUsType: 'denúncia', reportedPost: postData.postId, }) // TODO Type
 	}
 
+	const navigateToProfile = () => {
+		if (userDataContext.userId === postData.owner.userId) {
+			navigation.navigate('Profile' as any, { userId: postData.owner.userId })// TODO Type
+			return
+		}
+		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
+	}
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={postOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3} barStyle={'dark-content'} />
@@ -102,6 +110,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						profilePictureUrl={getProfilePictureUrl()}
 						pictureDimensions={45}
 						width={'60%'}
+						navigateToProfile={navigateToProfile}
 					/>
 					<SaleExchangeValue
 						saleValue={postData.saleValue}

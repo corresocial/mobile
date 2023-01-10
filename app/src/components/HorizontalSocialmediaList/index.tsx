@@ -20,7 +20,7 @@ import SoundCloudIcon from '../../assets/icons/soundcloud.svg'
 import { SocialMedia } from '../../services/firebase/types'
 
 interface HorizontalSocialMediaListProps {
-	socialMedias: SocialMedia[]
+	socialMedias: SocialMedia[] | undefined
 	onPress: () => void
 }
 

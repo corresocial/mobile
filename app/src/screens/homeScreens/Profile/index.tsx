@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Alert, ScrollView, StatusBar, TouchableOpacity } from 'react-native'
+import { Alert, Linking, ScrollView, StatusBar, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import {
@@ -42,6 +42,7 @@ import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { ProfilePopOver } from '../../../components/ProfilePopOver'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
+import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 
 function Profile({ route, navigation }: ProfileScreenProps) {
 	const { getDataFromSecureStore, userDataContext } = useContext(AuthContext)
@@ -165,17 +166,27 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 		}
 	}
 
-	const navigateToConfig = () => {
-		setProfileOptionsIsOpen(false)
-		navigation.navigate('Configurations' as any)
-	}
-
 	const openProfileOptions = () => {
 		!isLoggedUser ? setProfileOptionsIsOpen(true) : navigation.navigate('Configurations' as any) // TODO Type
 	}
 
-	const goToComplaint = () => {
-		Alert.alert('Ops!', 'Navegação para tela de denúncia ainda não implementada!')
+	const reportUser = () => { // TODO Implements Back to this screen sending screen name
+		setProfileOptionsIsOpen(false)
+		navigation.navigate('ContactUsInsertMessage' as any, { title: 'denunciar', contactUsType: 'denúncia', reportedPost: user.userId, }) // TODO Type
+	}
+
+	const goToEditProfile = () => {
+		navigation.navigate('EditProfile' as any, { user })
+	}
+
+	const shareProfile = () => {
+		share(`${isLoggedUser ? `olá! me chamo ${user.name} e tô no corre.` : `olha quem eu encontrei no corre.\n${user.name}`}\n\nhttps://corre.social`)
+	}
+
+	const openChat = async () => {
+		const { cellNumber } = await getPrivateContacts(user.userId as string)
+		const message = 'olá! vi que no corre. Podemos conversar?'
+		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
 	}
 
 	return (
@@ -228,10 +239,10 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 						)
 					}
 					<HorizontalSocialMediaList
-						socialMedias={userDataContext.socialMedias || []}
+						socialMedias={isLoggedUser ? userDataContext.socialMedias : user.socialMedias}
 						onPress={() => navigation.navigate('SocialMediaManagement' as any, {
 							userId: user.userId,
-							socialMedias: userDataContext.socialMedias,
+							socialMedias: user.socialMedias,
 							isAuthor: isLoggedUser
 						})}
 					/>
@@ -243,7 +254,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 							SvgIcon={isLoggedUser ? PencilIcon : ChatIcon}
 							relativeWidth={isLoggedUser ? relativeScreenWidth(12) : '30%'}
 							height={relativeScreenWidth(12)}
-							onPress={() => navigation.navigate('EditProfile' as any, { user })} // TODO Type
+							onPress={isLoggedUser ? goToEditProfile : openChat} // TODO Type
 						/>
 						<SmallButton
 							color={theme.orange3}
@@ -253,7 +264,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 							SvgIcon={ShareIcon}
 							relativeWidth={isLoggedUser ? '60%' : '45%'}
 							height={relativeScreenWidth(12)}
-							onPress={() => share('dados do perfil')}
+							onPress={shareProfile}
 						/>
 						<ProfilePopOver
 							userName={userDataContext.name}
@@ -261,8 +272,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 							buttonLabel={isLoggedUser ? 'sair' : 'denunciar'}
 							popoverVisibility={profileOptionsIsOpen}
 							closePopover={() => setProfileOptionsIsOpen(false)}
-							onPress={goToComplaint}
-							goToConfig={navigateToConfig}
+							onPress={reportUser}
 						>
 							<SmallButton
 								color={theme.white3}

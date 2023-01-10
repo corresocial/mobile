@@ -12,3 +12,4 @@ export type PostCategoriesScreenProps = NativeStackScreenProps<HomeStackParamLis
 export type PostCategoryDetailsScreenProps = NativeStackScreenProps<HomeStackParamList, 'PostCategoryDetails'>
 export type ViewAllTagsScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewAllTags'>
 export type ViewPostsByTagScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewPostsByTag'>
+export type ProfileHomeScreenProps = NativeStackScreenProps<HomeStackParamList, 'ProfileHome'>

@@ -7,7 +7,8 @@ import {
 	UserInfo,
 	UserName,
 	UserPictureArea,
-	PostDateTime
+	PostDateTime,
+	TouchableArea
 } from './styles'
 
 interface SmallUserIdentificationProps {
@@ -19,6 +20,7 @@ interface SmallUserIdentificationProps {
 	pictureDimensions?: number
 	userNameFontSize?: number
 	postDateFontSize?: number
+	navigateToProfile?: () => void
 }
 
 function SmallUserIdentification({
@@ -29,13 +31,14 @@ function SmallUserIdentification({
 	profilePictureUrl,
 	pictureDimensions = 35,
 	userNameFontSize = 12,
-	postDateFontSize = 12
+	postDateFontSize = 12,
+	navigateToProfile
 }: SmallUserIdentificationProps) {
 	return (
 		<Container
 			style={{
 				width,
-				height
+				height,
 			}}
 		>
 			<UserPictureArea
@@ -51,12 +54,14 @@ function SmallUserIdentification({
 				/>
 			</UserPictureArea>
 			<UserInfo>
-				<UserName
-					style={{ fontSize: RFValue(userNameFontSize) }}
-					numberOfLines={2}
-				>
-					{userName}
-				</UserName>
+				<TouchableArea onPress={navigateToProfile && navigateToProfile}>
+					<UserName
+						style={{ fontSize: RFValue(userNameFontSize) }}
+						numberOfLines={2}
+					>
+						{userName}
+					</UserName>
+				</TouchableArea>
 				<PostDateTime style={{ fontSize: RFValue(postDateFontSize) }}>
 					{postDate}
 				</PostDateTime >
