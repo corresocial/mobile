@@ -23,7 +23,7 @@ function ServicePicturePreview({ navigation }: ServicePicturePreviewScreenProps)
 
 	const [picturesPack, setPicturesPack] = useState<string[]>([])
 	const [pictureIndexSelected, setPictureIndexSelected] = useState<number>(0)
-	const [cameraOpened, setCameraOpened] = useState<boolean>(false)
+	const [cameraOpened, setCameraOpened] = useState<boolean>(true)
 
 	const setPictureUri = (uri: string) => {
 		const currentPictures = [...picturesPack]

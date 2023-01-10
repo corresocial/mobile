@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 
+import { StatusBar } from 'react-native'
 import { Body, Container, Header, Sigh } from './styles'
 
 import { LocalUserData } from '../../../contexts/types'
@@ -11,58 +12,31 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { EditCard } from '../../../components/_cards/EditCard'
 import { arrayIsEmpty } from '../../../common/auxiliaryFunctions'
+import { theme } from '../../../common/theme'
 
 function EditProfile({ route, navigation }: EditProfileScreenProps) {
-	const [user, setUser] = useState<LocalUserData>(route.params.user)
-	const [descriptionInput, setDescriptionInput] = useState('')
-
-	const { getDataFromSecureStore } = useContext(AuthContext)
-
-	useEffect(() => {
-		navigation.addListener('focus', () => {
-			getUserDataFromLocal()
-		})
-	}, [navigation])
-
-	const getUserDataFromLocal = async () => {
-		const localUser = await getObjectLocalUser()
-		const { userId, name, description, profilePictureUrl } = localUser as LocalUserData
-		setDescriptionInput(description as string)
-		setUser({
-			userId,
-			name,
-			description,
-			profilePictureUrl: profilePictureUrl || [],
-		})
-	}
-
-	const getObjectLocalUser = async () => {
-		const userJSON = await getDataFromSecureStore('corre.user')
-		if (!userJSON) return false
-		const userObject = await JSON.parse(userJSON)
-		return userObject
-	}
+	const { userDataContext } = useContext(AuthContext)
 
 	const goToEditScreen = (screenName: keyof UserStackParamList) => {
 		switch (screenName) {
 			case 'EditUserName': {
 				navigation.navigate('EditUserName', {
-					userName: user.name || '',
-					userId: user.userId || ''
+					userName: userDataContext.name || '',
+					userId: userDataContext.userId || ''
 				})
 				break
 			}
 			case 'EditUserDescription': {
 				navigation.navigate('EditUserDescription', {
-					userDescription: user.description || '',
-					userId: user.userId || ''
+					userDescription: userDataContext.description || '',
+					userId: userDataContext.userId || ''
 				})
 				break
 			}
 			case 'EditUserPicture': {
 				navigation.navigate(screenName, {
 					profilePictureUrl: getProfilePictureUrl(),
-					userId: user.userId || ''
+					userId: userDataContext.userId || ''
 				})
 				break
 			}
@@ -71,13 +45,14 @@ function EditProfile({ route, navigation }: EditProfileScreenProps) {
 	}
 
 	const getProfilePictureUrl = () => {
-		if (!user || !user.profilePictureUrl) return ''
-		if (arrayIsEmpty(user.profilePictureUrl)) return ''
-		return user.profilePictureUrl[0]
+		if (!userDataContext || !userDataContext.profilePictureUrl) return ''
+		if (arrayIsEmpty(userDataContext.profilePictureUrl)) return ''
+		return userDataContext.profilePictureUrl[0]
 	}
 
 	return (
 		<Container>
+			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
@@ -96,14 +71,14 @@ function EditProfile({ route, navigation }: EditProfileScreenProps) {
 				<EditCard
 					title={'seu nome'}
 					highlightedWords={['nome']}
-					value={user.name}
+					value={userDataContext.name}
 					onEdit={() => goToEditScreen('EditUserName')}
 				/>
 				<Sigh />
 				<EditCard
 					title={'sua descrição'}
 					highlightedWords={['descrição']}
-					value={descriptionInput}
+					value={userDataContext.description}
 					onEdit={() => goToEditScreen('EditUserDescription')}
 				/>
 				<Sigh />

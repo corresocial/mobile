@@ -19,7 +19,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 
 function EditUserDescription({ route, navigation }: EditUserDescriptionScreenProps) {
-	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
 
 	const [profileDescription, setProfileDescription] = useState<string>(route.params.userDescription)
 	const [profileDescriptionIsValid, setProfileDescriptionIsValid] = useState<boolean>(false)
@@ -77,10 +77,8 @@ function EditUserDescription({ route, navigation }: EditUserDescriptionScreenPro
 	}
 
 	const updateLocalUser = async () => {
-		const currentLocalUserJSON = await getDataFromSecureStore('corre.user')
-		if (!currentLocalUserJSON) throw new Error('erro ao atualizar nome no local')
-		const currentLocalUser = JSON.parse(currentLocalUserJSON as string)
-		await setDataOnSecureStore('corre.user', { ...currentLocalUser, description: profileDescription })
+		setUserDataOnContext({ ...userDataContext, description: profileDescription })
+		await setDataOnSecureStore('corre.user', { ...userDataContext, description: profileDescription })
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))

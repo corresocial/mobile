@@ -30,7 +30,7 @@ import { sortArray } from '../../../common/auxiliaryFunctions'
 
 import { ProfileScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { LocalUserData } from '../../../contexts/types'
-import { PostCollection } from '../../../services/firebase/types'
+import { PostCollection, SocialMedia } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
@@ -46,7 +46,7 @@ import { getPrivateContacts } from '../../../services/firebase/user/getPrivateCo
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 function Profile({ route, navigation }: ProfileScreenProps) {
-	const { getDataFromSecureStore, userDataContext } = useContext(AuthContext)
+	const { userDataContext } = useContext(AuthContext)
 
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
@@ -55,7 +55,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
 	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
 
-	useEffect(() => {
+	/* useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
 			if (route.params && route.params.userId) {
 				getProfileDataFromRemote(route.params.userId)
@@ -64,7 +64,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 			}
 		})
 		return unsubscribe
-	}, [navigation])
+	}, [navigation]) */
 
 	useEffect(() => {
 		if (route.params && route.params.userId) {
@@ -72,7 +72,6 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 			getProfileDataFromRemote(route.params.userId)
 		} else {
 			setIsLoggedUser(true)
-			getProfileDataFromLocal()
 		}
 	}, [])
 
@@ -89,9 +88,10 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 		setUserPosts(posts as never)
 	}
 
-	const getProfileDataFromLocal = async () => {
+	/* const getProfileDataFromLocal = async () => {
 		const localUser = await getObjectLocalUser()
 		const { userId, profilePictureUrl, name, posts, description, socialMedias } = localUser as LocalUserData
+		console.log(name)
 		setUser({
 			userId,
 			name,
@@ -100,15 +100,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 			profilePictureUrl: profilePictureUrl || [],
 		})
 		setUserPosts(posts as never)
-	}
-
-	const getObjectLocalUser = async () => {
-		// return userDataContext
-		const userJSON = await getDataFromSecureStore('corre.user')
-		if (!userJSON) return false
-		const userObject = await JSON.parse(userJSON)
-		return userObject
-	}
+	} */
 
 	const getUserPostTags = () => {
 		const userPostTags = userPosts.reduce((acc: any[], current: PostCollection) => {
@@ -173,7 +165,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 
 	const reportUser = () => { // TODO Implements Back to this screen sending screen name
 		setProfileOptionsIsOpen(false)
-		navigation.navigate('ContactUsInsertMessage' as any, { title: 'denunciar', contactUsType: 'denúncia', reportedPost: user.userId, }) // TODO Type
+		navigation.navigate('ContactUsInsertMessage' as any, { title: 'denunciar', contactUsType: 'denúncia', reportedPost: getUserField('userId'), }) // TODO Type
 	}
 
 	const goToEditProfile = () => {
@@ -181,13 +173,28 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 	}
 
 	const shareProfile = () => {
-		share(`${isLoggedUser ? `olá! me chamo ${user.name} e tô no corre.` : `olha quem eu encontrei no corre.\n${user.name}`}\n\nhttps://corre.social`)
+		share(`${isLoggedUser ? `olá! me chamo ${getUserField('name')} e tô no corre.` : `olha quem eu encontrei no corre.\n${getUserField('name')}`}\n\nhttps://corre.social`)
 	}
 
 	const openChat = async () => {
-		const { cellNumber } = await getPrivateContacts(user.userId as string)
+		const { cellNumber } = await getPrivateContacts(getUserField('userId') as string)
 		const message = 'olá! vi que no corre. Podemos conversar?'
 		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
+	}
+
+	type UserDataFields = keyof LocalUserData
+	const getUserField = (fieldName: UserDataFields) => {
+		if (route.params && route.params.userId) {
+			return user[fieldName]
+		}
+		return userDataContext[fieldName]
+	}
+
+	const getProfilePicture = () => {
+		if (route.params && route.params.userId) {
+			return user.profilePictureUrl ? user.profilePictureUrl[0] : ''
+		}
+		return userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 	}
 
 	return (
@@ -207,16 +214,16 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 							width={RFValue(100)}
 							borderWidth={3}
 							borderRightWidth={8}
-							pictureUri={user.profilePictureUrl ? user.profilePictureUrl[0] : ''}
+							pictureUri={getProfilePicture()}
 							checked={isLoggedUser}
 						/>
 						<InfoArea>
-							<UserName numberOfLines={3} >{user.name}</UserName>
+							<UserName numberOfLines={3} >{getUserField('name')}</UserName>
 							{
 								!userDescriptionIsExpanded && (
 									<TouchableOpacity onPress={() => setUserDescriptionIsExpanded(true)}>
 										<UserDescription numberOfLines={3}>
-											{user.description}
+											{getUserField('description')}
 										</UserDescription>
 									</TouchableOpacity>
 								)
@@ -229,7 +236,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 								<ScrollView showsVerticalScrollIndicator={false}>
 									<TouchableOpacity onPress={() => setUserDescriptionIsExpanded(false)}>
 										<ExpandedUserDescription >
-											{user.description}
+											{getUserField('description')}
 										</ExpandedUserDescription>
 									</TouchableOpacity>
 								</ScrollView>
@@ -237,10 +244,10 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 						)
 					}
 					<HorizontalSocialMediaList
-						socialMedias={isLoggedUser ? userDataContext.socialMedias : user.socialMedias}
+						socialMedias={isLoggedUser ? userDataContext.socialMedias : getUserField('socialMedias') as SocialMedia[]}
 						onPress={() => navigation.navigate('SocialMediaManagement' as any, {
-							userId: user.userId,
-							socialMedias: user.socialMedias,
+							userId: getUserField('userId'),
+							socialMedias: getUserField('socialMedias'),
 							isAuthor: isLoggedUser
 						})}
 					/>
@@ -265,8 +272,8 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 							onPress={shareProfile}
 						/>
 						<ProfilePopOver
-							userName={userDataContext.name}
-							userId={user.userId}
+							userName={getUserField('name') as string}
+							userId={getUserField('userId') as string}
 							buttonLabel={isLoggedUser ? 'sair' : 'denunciar'}
 							popoverVisibility={profileOptionsIsOpen}
 							closePopover={() => setProfileOptionsIsOpen(false)}

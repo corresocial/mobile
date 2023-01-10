@@ -25,7 +25,7 @@ function EditUserName({ navigation, route }: EditUserNameScreenProps) {
 		nameInput: useRef<React.MutableRefObject<any>>(null),
 	}
 
-	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -77,10 +77,8 @@ function EditUserName({ navigation, route }: EditUserNameScreenProps) {
 	}
 
 	const updateLocalUser = async () => {
-		const currentLocalUserJSON = await getDataFromSecureStore('corre.user')
-		if (!currentLocalUserJSON) throw new Error('erro ao atualizar nome no local')
-		const currentLocalUser = JSON.parse(currentLocalUserJSON as string)
-		await setDataOnSecureStore('corre.user', { ...currentLocalUser, name: inputName })
+		setUserDataOnContext({ ...userDataContext, name: inputName })
+		await setDataOnSecureStore('corre.user', { ...userDataContext, name: inputName })
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))

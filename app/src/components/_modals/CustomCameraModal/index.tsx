@@ -38,13 +38,10 @@ function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCamer
 
 	const getCameraPermissions = async () => {
 		const { status } = await Camera.requestCameraPermissionsAsync()
-		console.log('status')
-		console.log(status)
 		setHasPermission(status === 'granted')
 	}
 
 	const toggleFlashMode = () => {
-		console.log(flashMode === FlashMode.torch ? FlashMode.off : FlashMode.torch)
 		setFlashMode(flashMode === FlashMode.torch ? FlashMode.off : FlashMode.torch)
 	}
 

@@ -35,6 +35,6 @@ export const CheckArea = styled.View`
 	position: absolute;
 	width: ${relativeScreenWidth(9)}px;
     height: ${relativeScreenWidth(9)}px;
-	bottom: ${relativeScreenWidth(-1.5)}px;
-	right: ${relativeScreenWidth(-3)}px;
+	bottom: ${relativeScreenWidth(-2)}px;
+	right: ${relativeScreenWidth(-2)}px;
 `

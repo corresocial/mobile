@@ -16,6 +16,7 @@ import { ViewServicePostScreenProps } from '../../../routes/Stack/ProfileStack/s
 import { PostCollection } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
+import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
@@ -32,6 +33,7 @@ import { getPrivateContacts } from '../../../services/firebase/user/getPrivateCo
 
 function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
@@ -54,8 +56,10 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	}
 
 	const deleteRemotePost = async () => {
+		setLoaderIsVisible(true)
 		await deletePost(postData.postId, postData.postType, postData.owner.userId)
 		await removePostOnContext()
+		setLoaderIsVisible(false)
 		backToPreviousScreen()
 	}
 

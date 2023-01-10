@@ -14,7 +14,7 @@ async function deletePost(postId: string, postType: PostType, userId: string) {
 	const postCollection = getPostCollectionName(postType)
 
 	try {
-		const docRef = doc(collection(firestore, postCollection), postId)
+		const docRef = doc(firestore, postCollection, postId)
 
 		await deleteDoc(docRef)
 		const userData = await getDoc(doc(firestore, 'users', userId)) as UserCollection | any

@@ -9,6 +9,7 @@ import ImagePlusIcon from '../../../assets/icons/imagePlus.svg'
 import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
 
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
+import { updateDocField } from '../../../services/firebase/common/updateDocField'
 
 import { EditUserPictureScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -20,10 +21,9 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal'
-import { updateDocField } from '../../../services/firebase/common/updateDocField'
 
 function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
-	const { setDataOnSecureStore, getDataFromSecureStore } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(false)
@@ -100,10 +100,8 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	}
 
 	const updateLocalUser = async (profilePicture: string) => {
-		const currentLocalUserJSON = await getDataFromSecureStore('corre.user')
-		if (!currentLocalUserJSON) throw new Error('erro ao atualizar nome no local')
-		const currentLocalUser = JSON.parse(currentLocalUserJSON as string)
-		await setDataOnSecureStore('corre.user', { ...currentLocalUser, profilePictureUrl: [profilePicture] })
+		setUserDataOnContext({ ...userDataContext, profilePictureUrl: [profilePicture] })
+		await setDataOnSecureStore('corre.user', { ...userDataContext, profilePictureUrl: [profilePicture] })
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
