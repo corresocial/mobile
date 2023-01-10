@@ -61,7 +61,7 @@ function Home({ navigation }: HomeScreenProps) {
 		locationIsEnable()
 	})
 
-	/* useEffect(() => {  // Reload on back ot screen
+	/* useEffect(() => { //Reload location on back to screen
 		navigation.addListener('focus', () => {
 			findNearPosts('', true)
 		})

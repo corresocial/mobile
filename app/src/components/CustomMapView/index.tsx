@@ -22,7 +22,7 @@ function CustomMapView({
 	updateMarkerPosition
 
 }: CustomMapViewProops) {
-	const approximateRadius = 125
+	const approximateRadius = 250
 
 	const generateRandomCoordinateOnRadius = () => {
 		if (!locationView) return null
@@ -32,7 +32,8 @@ function CustomMapView({
 		} as Coordinates
 
 		const newCoordinates = {
-			...realCoordinates,
+			latitudeDelta: 0.006,
+			longitudeDelta: 0.006,
 			latitude: realCoordinates.latitude + getRandomDetachment(),
 			longitude: realCoordinates.longitude + getRandomDetachment()
 		}
