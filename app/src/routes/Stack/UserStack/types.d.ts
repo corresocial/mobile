@@ -1,5 +1,5 @@
 import { ContactUsType } from "../../../services/discord/types"
-import { PostCollection, SocialMedia } from "../../../services/firebase/types"
+import { PostCollection, ServiceCollection, SocialMedia } from "../../../services/firebase/types"
 
 export type UserStackParamList = {
 	WelcomeNewUser: undefined
@@ -14,6 +14,7 @@ export type UserStackParamList = {
 	EditUserName: { userName: string, userId: string }
 	EditUserDescription: { userDescription: string, userId: string }
 	EditUserPicture: { profilePictureUrl: string, userId: string }
+	EditServicePost: { postData: ServiceCollection }
 	SocialMediaManagement: { userId?: string, socialMedias: SocialMedia[], isAuthor?: boolean }
 	InsertLinkTitle: { socialMedia?: SocialMedia, index?: number }
 	InsertLinkValue: { linkTitle: string, socialMedia: SocialMedia, index?: number }

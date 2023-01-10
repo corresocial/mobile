@@ -7,12 +7,15 @@ import PencilIcon from '../../../assets/icons/pencil.svg'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
+import { ImageCarousel } from '../../ImageCarousel'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 interface EditCardProps {
 	title: string
 	highlightedWords?: string[]
 	value?: string
-	profilePictureUrl?: string | null
+	profilePicturesUrl?: string[]
+	carousel?: boolean
 	SvgIcon?: React.FC<SvgProps>
 	onEdit?: () => void
 }
@@ -21,24 +24,17 @@ function EditCard({
 	title,
 	highlightedWords = [],
 	value = '',
-	profilePictureUrl = '',
+	profilePicturesUrl = [],
+	carousel,
 	SvgIcon,
 	onEdit,
 }: EditCardProps) {
-	/* <TextGradient > // Gradient não estava permitindo a renderização
-		{(styles: any) => (
-			<Text numberOfLines={4} style={styles}>
-				{value}
-			</Text>
-		)}
-	</TextGradient> */
-
 	return (
-		<DefaultCardContainer withoutPadding={!!profilePictureUrl}>
+		<DefaultCardContainer withoutPadding={!!profilePicturesUrl.length}>
 			<CardHeader
 				style={{
-					paddingHorizontal: profilePictureUrl ? RFValue(15) : 0,
-					paddingVertical: profilePictureUrl ? RFValue(10) : 0
+					paddingHorizontal: profilePicturesUrl.length ? RFValue(15) : 0,
+					paddingVertical: profilePicturesUrl.length ? RFValue(10) : 0
 				}}
 			>
 				<DefaultHeaderTitle
@@ -53,7 +49,7 @@ function EditCard({
 				/>
 			</CardHeader>
 			{
-				!profilePictureUrl
+				!profilePicturesUrl.length
 					? (
 						<ValueContainer>
 							{
@@ -70,14 +66,29 @@ function EditCard({
 						</ValueContainer>
 					)
 					: (
-						<PictureArea >
-							<ProfilePicture
-								source={{
-									uri: profilePictureUrl || 'https://www.softdownload.com.br/wp-content/uploads/2018/03/como_trocar_foto_perfil_facebook.jpg'
-								}}
-								width={0}
-								height={0}
-							/>
+						<PictureArea
+							style={{
+								height: carousel ? 'auto' : relativeScreenWidth(88),
+								width: '100%'
+							}}
+						>
+							{
+								carousel
+									? (
+										<ImageCarousel
+											picturesUrl={profilePicturesUrl}
+										/>
+									) : (
+										<ProfilePicture
+											source={{
+												uri: profilePicturesUrl[0] || 'https://www.softdownload.com.br/wp-content/uploads/2018/03/como_trocar_foto_perfil_facebook.jpg'
+											}}
+											width={0}
+											height={0}
+										/>
+									)
+							}
+
 						</PictureArea>
 					)
 			}

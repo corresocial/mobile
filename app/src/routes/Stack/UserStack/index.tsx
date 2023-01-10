@@ -31,6 +31,7 @@ import { ContactUs } from '../../../screens/homeScreens/ContactUs'
 import { ContactUsInsertMessage } from '../../../screens/homeScreens/ContactUsInsertMessage'
 import { ContactUsSuccess } from '../../../screens/homeScreens/ContactUsSuccess'
 import { PrivacyAndSecurity } from '../../../screens/homeScreens/PrivacyAndSecurity'
+import { EditServicePost } from '../../../screens/homeScreens/EditServicePost'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -59,6 +60,8 @@ export function UserStack({ route }: any) {
 				<Stack.Screen name={'EditUserName'} component={EditUserName} />
 				<Stack.Screen name={'EditUserDescription'} component={EditUserDescription} />
 				<Stack.Screen name={'EditUserPicture'} component={EditUserPicture} />
+				<Stack.Screen name={'EditServicePost'} component={EditServicePost} />
+
 				<Stack.Screen name={'SocialMediaManagement'} component={SocialMediaManagement} />
 				<Stack.Screen name={'InsertLinkTitle'} component={InsertLinkTitle} />
 				<Stack.Screen name={'InsertLinkValue'} component={InsertLinkValue} />

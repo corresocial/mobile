@@ -63,6 +63,11 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 		backToPreviousScreen()
 	}
 
+	const goToEditPost = () => {
+		setPostOptionsIsOpen(false)
+		navigation.navigate('EditServicePost' as any, { postData })
+	}
+
 	const removePostOnContext = async () => {
 		const currentUserPosts = userDataContext.posts || []
 		const postsWithoutDeletedPost = currentUserPosts.filter((post: PostCollection) => post.postId !== postData.postId)
@@ -151,7 +156,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
 						goToComplaint={() => Alert.alert('go to complaint')}
-						editPost={() => Alert.alert('edit post')}
+						editPost={goToEditPost}
 						deletePost={deleteRemotePost}
 					>
 						<SmallButton

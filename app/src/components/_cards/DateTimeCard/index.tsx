@@ -35,7 +35,6 @@ function DateTimeCard({
 	repetition
 }: DateTimeCardProps) {
 	const getRelativeWeekDaysfrequency = () => {
-		console.log()
 		switch (weekDaysfrequency) {
 			case 'today': return '●  só hoje'
 			case 'everyday': return '●  todos os dias'

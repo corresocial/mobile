@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useContext } from 'react'
 
 import { StatusBar } from 'react-native'
 import { Body, Container, Header, Sigh } from './styles'
 
-import { LocalUserData } from '../../../contexts/types'
 import { UserStackParamList } from '../../../routes/Stack/UserStack/types'
 import { EditProfileScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -14,7 +13,7 @@ import { EditCard } from '../../../components/_cards/EditCard'
 import { arrayIsEmpty } from '../../../common/auxiliaryFunctions'
 import { theme } from '../../../common/theme'
 
-function EditProfile({ route, navigation }: EditProfileScreenProps) {
+function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 
 	const goToEditScreen = (screenName: keyof UserStackParamList) => {
@@ -64,7 +63,7 @@ function EditProfile({ route, navigation }: EditProfileScreenProps) {
 				<EditCard
 					title={'sua foto'}
 					highlightedWords={['foto']}
-					profilePictureUrl={getProfilePictureUrl()}
+					profilePicturesUrl={[getProfilePictureUrl()]}
 					onEdit={() => goToEditScreen('EditUserPicture')}
 				/>
 				<Sigh />

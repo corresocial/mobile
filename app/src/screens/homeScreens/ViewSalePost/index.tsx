@@ -55,6 +55,10 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 		return postData.owner.profilePictureUrl[0]
 	}
 
+	const goToEditPost = () => {
+		navigation.navigate('EditPost' as any)
+	}
+
 	const deleteRemotePost = async () => {
 		setLoaderIsVisible(true)
 		await deletePost(postData.postId, postData.postType, postData.owner.userId)
@@ -156,7 +160,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
 						goToComplaint={reportPost}
-						editPost={() => Alert.alert('edit post')}
+						editPost={goToEditPost}
 						deletePost={deleteRemotePost}
 					>
 						<SmallButton

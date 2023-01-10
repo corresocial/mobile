@@ -4,13 +4,14 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CardHeader, MapArea, NavigationApps, TextAddress, TouchableApp } from './styles'
 import MapPointIcon from '../../../assets/icons/mapPoint.svg'
+import PencilIcon from '../../../assets/icons/pencil.svg'
 import MapPointOrangeIcon from '../../../assets/icons/mapPoint-orange.svg'
 import WazeIcon from '../../../assets/icons/waze.svg'
 import GoogleMapsIcon from '../../../assets/icons/googleMaps.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
-import { CompleteAddress, LocationViewType, PlaceModalityType, PostType } from '../../../services/firebase/types'
+import { CompleteAddress, LocationViewType, PostType } from '../../../services/firebase/types'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
@@ -24,6 +25,8 @@ interface LocationViewCardProps {
 	postType: PostType
 	postId: string
 	textFontSize?: number
+	editable?: boolean
+	onEdit?: () => void
 }
 
 function LocationViewCard({
@@ -32,7 +35,9 @@ function LocationViewCard({
 	locationView,
 	postType,
 	postId,
-	textFontSize = 12
+	textFontSize = 12,
+	editable,
+	onEdit
 }: LocationViewCardProps) {
 	const [completeAddress, setCompleteAddress] = useState<CompleteAddress>({})
 
@@ -152,8 +157,11 @@ function LocationViewCard({
 			<CardHeader>
 				<DefaultHeaderTitle
 					title={title}
-					SvgIcon={MapPointIcon}
-					dimensions={30}
+					onPressIcon={onEdit && onEdit}
+					SvgIcon={editable ? PencilIcon : MapPointIcon}
+					dimensions={editable ? 20 : 30}
+					invertTextAndIcon={editable}
+					justifyContent={editable ? 'space-between' : 'flex-start'}
 				/>
 				{renderFormatedAddress()}
 			</CardHeader>

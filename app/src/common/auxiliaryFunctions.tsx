@@ -61,27 +61,27 @@ const filterLeavingOnlyNumbers = (dirtyText: string) => {
 	return cleanText
 }
 
-const formatDate = (initialDate: Date) => {
-	if (!initialDate) return '---'
+const formatDate = (dateValue: Date) => {
+	if (!dateValue) return '---'
 
-	const date = getNewDate(initialDate)
+	const date = getNewDate(dateValue)
 	if (!isValid(date)) return '---'
 	return format(date, 'dd/MM/yyyy', { locale: brasilLocale })
 }
 
-const formatHour = (initialDate: Date) => {
-	if (!initialDate) return '---'
+const formatHour = (dateValue: Date) => {
+	if (!dateValue) return '---'
 
-	const date = getNewDate(initialDate)
+	const date = getNewDate(dateValue)
 	if (!isValid(date)) return '---'
 	return format(date, 'HH:mm', { locale: brasilLocale })
 }
 
-const formatRelativeDate = (initialDate: any) => {
-	if (!initialDate) return '---'
+const formatRelativeDate = (daveValue: any) => {
+	if (!daveValue) return '---'
 
 	const currentDate = new Date()
-	const date = getNewDate(initialDate)
+	const date = getNewDate(daveValue)
 	if (!isValid(date)) return '---'
 
 	const distance = formatDistance(date, currentDate, { locale: brasilLocale })

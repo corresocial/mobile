@@ -126,6 +126,7 @@ export type ServiceCollection = {
 	postType: PostType
 	title?: string
 	tags?: string[]
+	description?: string
 	category?: string
 	paymentType?: PaymentType
 	saleValue?: string
@@ -166,6 +167,7 @@ export type ServiceCollectionRemote = {
 	postId?: string
 	postType: PostType
 	title: string
+	description?: string
 	tags: string[]
 	category: string
 	paymentType: PaymentType
