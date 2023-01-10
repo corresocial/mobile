@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Alert, Linking, ScrollView, StatusBar, TouchableOpacity } from 'react-native'
+import { Linking, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import {
@@ -43,6 +43,7 @@ import { PostCard } from '../../../components/_cards/PostCard'
 import { ProfilePopOver } from '../../../components/ProfilePopOver'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 function Profile({ route, navigation }: ProfileScreenProps) {
 	const { getDataFromSecureStore, userDataContext } = useContext(AuthContext)
@@ -190,11 +191,8 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 	}
 
 	return (
-		<Container style={{
-			flex: 1
-		}}
-		>
-			<StatusBar backgroundColor={profileOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3} barStyle={'dark-content'} />
+		<Container style={{ flex: 1 }}>
+			<FocusAwareStatusBar backgroundColor={profileOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				backgroundColor={theme.white3}
 				centralized={false}
