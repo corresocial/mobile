@@ -71,6 +71,7 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 							: <Sigh />
 					}
 					{renderSocialMedias()}
+					<Sigh />
 				</ScrollView>
 			</Body>
 		</Container >

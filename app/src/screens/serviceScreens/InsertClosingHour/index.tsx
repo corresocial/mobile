@@ -31,7 +31,7 @@ import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
-	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
+	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { setServiceDataOnContext, serviceDataContext } = useContext(ServiceContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
@@ -112,7 +112,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
 	const extractServicePictures = (serviceData: ServiceData) => serviceData.picturesUrl as string[] || []
 
-	const getLocalUser = async () => JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
+	const getLocalUser = () => userDataContext
 
 	const showShareModal = (visibility: boolean, postTitle?: string) => {
 		setStateDataOnContext({
@@ -139,7 +139,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 		const servicePictures = extractServicePictures(completeServiceData)
 
 		try {
-			const localUser = { ...await getLocalUser() }
+			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
 			const postId = await createPost(serviceDataPost, localUser, 'services', 'service')
@@ -246,6 +246,21 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 		)
 			.then(() => {
 				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollection[] : []
+				setUserDataOnContext({
+					...localUser,
+					tourPerformed: true,
+					posts: [
+						...localUserPosts,
+						{
+							...postData,
+							owner: {
+								userId: localUser.userId,
+								name: localUser.name,
+								profilePictureUrl: localUser.profilePictureUrl
+							}
+						} as ServiceCollection
+					],
+				})
 				setDataOnSecureStore('corre.user', {
 					...localUser,
 					tourPerformed: true,

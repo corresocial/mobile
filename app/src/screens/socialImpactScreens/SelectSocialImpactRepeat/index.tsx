@@ -27,7 +27,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreenProps) {
-	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
+	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { socialImpactDataContext, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
@@ -56,10 +56,7 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 
 	const extractSocialImpactPictures = (socialImpactData: SocialImpactData) => socialImpactData.picturesUrl as string[] || []
 
-	const getLocalUser = async () => {
-		console.log(JSON.parse(await getDataFromSecureStore('corre.user') || '{}'))
-		return JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
-	}
+	const getLocalUser = () => userDataContext
 
 	const showShareModal = (visibility: boolean, postTitle?: string) => {
 		setStateDataOnContext({
@@ -82,7 +79,7 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 		const socialImpactPictures = extractSocialImpactPictures(completeSocialImpactData)
 
 		try {
-			const localUser = await getLocalUser()
+			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
 			const postId = await createPost(socialImpactDataPost, localUser, 'socialImpacts', 'socialImpact')
@@ -189,6 +186,21 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 		)
 			.then(() => {
 				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollection[] : []
+				setUserDataOnContext({
+					...localUser,
+					tourPerformed: true,
+					posts: [
+						...localUserPosts,
+						{
+							...postData,
+							owner: {
+								userId: localUser.userId,
+								name: localUser.name,
+								profilePictureUrl: localUser.profilePictureUrl
+							}
+						} as SocialImpactCollection,
+					],
+				})
 				setDataOnSecureStore('corre.user', {
 					...localUser,
 					tourPerformed: true,

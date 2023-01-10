@@ -10,9 +10,14 @@ import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
+import { share } from '../../../common/share'
+import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 
 import { ViewSocialImpactPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { PostCollection } from '../../../services/firebase/types'
+
+import { LoaderContext } from '../../../contexts/LoaderContext'
+import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
@@ -22,12 +27,10 @@ import { ImageCarousel } from '../../../components/ImageCarousel'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
-import { AuthContext } from '../../../contexts/AuthContext'
-import { share } from '../../../common/share'
-import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 
 function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
@@ -50,8 +53,10 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	}
 
 	const deleteRemotePost = async () => {
+		setLoaderIsVisible(true)
 		await deletePost(postData.postId, postData.postType, postData.owner.userId)
 		await removePostOnContext()
+		setLoaderIsVisible(false)
 		backToPreviousScreen()
 	}
 

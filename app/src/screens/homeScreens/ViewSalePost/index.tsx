@@ -9,10 +9,14 @@ import ChatIcon from '../../../assets/icons/chat.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
+import { deletePost } from '../../../services/firebase/post/deletePost'
+import { share } from '../../../common/share'
+import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 
 import { ViewSalePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
+import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { PostCollection } from '../../../services/firebase/types'
@@ -26,12 +30,10 @@ import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
-import { deletePost } from '../../../services/firebase/post/deletePost'
-import { share } from '../../../common/share'
-import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 
 function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
@@ -54,8 +56,10 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	}
 
 	const deleteRemotePost = async () => {
+		setLoaderIsVisible(true)
 		await deletePost(postData.postId, postData.postType, postData.owner.userId)
 		await removePostOnContext()
+		setLoaderIsVisible(false)
 		backToPreviousScreen()
 	}
 

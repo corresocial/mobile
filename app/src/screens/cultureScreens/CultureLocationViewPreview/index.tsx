@@ -36,7 +36,7 @@ const defaultDeltaCoordinates = {
 }
 
 function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPreviewScreenProps) {
-	const { getDataFromSecureStore, setDataOnSecureStore } = useContext(AuthContext)
+	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
@@ -131,7 +131,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 
 	const extractCulturePictures = (cultureData: CultureData) => cultureData.picturesUrl as string[] || []
 
-	const getLocalUser = async () => JSON.parse(await getDataFromSecureStore('corre.user') || '{}')
+	const getLocalUser = () => userDataContext
 
 	const showShareModal = (visibility: boolean, postTitle?: string) => {
 		setStateDataOnContext({
@@ -153,7 +153,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 		const culturePictures = extractCulturePictures(completeCultureData)
 
 		try {
-			const localUser = await getLocalUser()
+			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
 			const postId = await createPost(cultureDataPost, localUser, 'cultures', 'culture')
@@ -259,6 +259,21 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 		)
 			.then(() => {
 				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollection[] : []
+				setUserDataOnContext({
+					...localUser,
+					tourPerformed: true,
+					posts: [
+						...localUserPosts,
+						{
+							...postData,
+							owner: {
+								userId: localUser.userId,
+								name: localUser.name,
+								profilePictureUrl: localUser.profilePictureUrl
+							}
+						} as CultureCollection
+					],
+				})
 				setDataOnSecureStore('corre.user', {
 					...localUser,
 					tourPerformed: true,

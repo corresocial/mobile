@@ -103,7 +103,8 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 	} */
 
 	const getUserPostTags = () => {
-		const userPostTags = userPosts.reduce((acc: any[], current: PostCollection) => {
+		const posts = getUserPosts()
+		const userPostTags = posts.reduce((acc: any[], current: PostCollection) => {
 			if (!current.tags) return [...acc]
 			const filtredCurrentTags = current.tags.filter((tag) => !acc.includes(tag))
 			return [...acc, ...filtredCurrentTags as string[]]
@@ -113,7 +114,8 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 	}
 
 	const filtredUserPosts = () => {
-		return userPosts.filter((post) => {
+		const posts = getUserPosts()
+		return posts.filter((post) => {
 			const matchs = selectedTags.map((tag: string) => {
 				if (post.tags?.includes(tag)) return true
 				return false
@@ -136,23 +138,23 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 	const goToPostView = (item: PostCollection) => {
 		switch (item.postType) {
 			case 'service': {
-				navigation.navigate('ViewServicePost', { postData: { ...item, owner: user } })
+				navigation.navigate('ViewServicePost', { postData: { ...item, owner: getUserDataOnly() } })
 				break
 			}
 			case 'sale': {
-				navigation.navigate('ViewSalePost', { postData: { ...item, owner: user } })
+				navigation.navigate('ViewSalePost', { postData: { ...item, owner: getUserDataOnly() } })
 				break
 			}
 			case 'vacancy': {
-				navigation.navigate('ViewVacancyPost', { postData: { ...item, owner: { ...user } } })
+				navigation.navigate('ViewVacancyPost', { postData: { ...item, owner: getUserDataOnly() } })
 				break
 			}
 			case 'socialImpact': {
-				navigation.navigate('ViewSocialImpactPost', { postData: { ...item, owner: user } })
+				navigation.navigate('ViewSocialImpactPost', { postData: { ...item, owner: getUserDataOnly() } })
 				break
 			}
 			case 'culture': {
-				navigation.navigate('ViewCulturePost', { postData: { ...item, owner: user } })
+				navigation.navigate('ViewCulturePost', { postData: { ...item, owner: getUserDataOnly() } })
 				break
 			}
 			default: return false
@@ -183,11 +185,26 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 	}
 
 	type UserDataFields = keyof LocalUserData
-	const getUserField = (fieldName: UserDataFields) => {
+	const getUserField = (fieldName?: UserDataFields) => {
 		if (route.params && route.params.userId) {
+			if (!fieldName) return user
 			return user[fieldName]
 		}
+		if (!fieldName) return userDataContext
 		return userDataContext[fieldName]
+	}
+
+	const getUserDataOnly = () => {
+		if (route.params && route.params.userId) {
+			const currentUser = { ...user }
+			delete currentUser.posts
+			delete currentUser.socialMedias
+			return currentUser
+		}
+		const currentUser = { ...userDataContext }
+		delete currentUser.posts
+		delete currentUser.socialMedias
+		return currentUser
 	}
 
 	const getProfilePicture = () => {
@@ -195,6 +212,13 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 			return user.profilePictureUrl ? user.profilePictureUrl[0] : ''
 		}
 		return userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
+	}
+
+	const getUserPosts = () => {
+		if (route.params && route.params.userId) {
+			return user.posts ? user.posts : []
+		}
+		return userDataContext.posts ? userDataContext.posts : []
 	}
 
 	return (
@@ -297,11 +321,11 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 					onSelectTag={onSelectTag}
 				/>
 				<FlatList
-					data={!selectedTags.length ? userPosts : filtredUserPosts()}
+					data={!selectedTags.length ? getUserPosts() : filtredUserPosts()}
 					renderItem={({ item }: any) => ( // TODO type
 						<PostCard
 							post={item}
-							owner={user}
+							owner={getUserField()}
 							onPress={() => goToPostView(item)}
 						/>
 					)}

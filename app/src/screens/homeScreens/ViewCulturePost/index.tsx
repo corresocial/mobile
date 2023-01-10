@@ -18,10 +18,13 @@ import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
+import { share } from '../../../common/share'
+import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 
 import { ViewCulturePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
+import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { PostCollection } from '../../../services/firebase/types'
@@ -33,11 +36,10 @@ import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCar
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
-import { share } from '../../../common/share'
-import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 
 function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
@@ -60,8 +62,10 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	}
 
 	const deleteRemotePost = async () => {
+		setLoaderIsVisible(true)
 		await deletePost(postData.postId, postData.postType, postData.owner.userId)
 		await removePostOnContext()
+		setLoaderIsVisible(false)
 		backToPreviousScreen()
 	}
 
@@ -190,6 +194,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					}
 					<LocationViewCard
 						title={'localização'}
+						online={postData.eventPlaceModality === 'online'}
 						locationView={postData.locationView}
 						postType={postData.postType}
 						postId={route.params.postData.postId as string}

@@ -19,11 +19,15 @@ import ChatIcon from '../../../assets/icons/chat.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
 import { arrayIsEmpty, formatRelativeDate, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { deletePost } from '../../../services/firebase/post/deletePost'
+import { share } from '../../../common/share'
+import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 
 import { ViewVacancyPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { PostCollection } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
+import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
@@ -32,12 +36,10 @@ import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
-import { deletePost } from '../../../services/firebase/post/deletePost'
-import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
-import { share } from '../../../common/share'
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 
@@ -94,8 +96,10 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	}
 
 	const deleteRemotePost = async () => {
+		setLoaderIsVisible(true)
 		await deletePost(postData.postId, postData.postType, postData.owner.userId)
 		await removePostOnContext()
+		setLoaderIsVisible(false)
 		backToPreviousScreen()
 	}
 

@@ -10,7 +10,7 @@ import GoogleMapsIcon from '../../../assets/icons/googleMaps.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
-import { CompleteAddress, LocationViewType, PostType } from '../../../services/firebase/types'
+import { CompleteAddress, LocationViewType, PlaceModalityType, PostType } from '../../../services/firebase/types'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
@@ -19,6 +19,7 @@ import { getPrivateAddress } from '../../../services/firebase/post/getPrivateAdd
 
 interface LocationViewCardProps {
 	title: string
+	online?: boolean
 	locationView?: LocationViewType
 	postType: PostType
 	postId: string
@@ -27,6 +28,7 @@ interface LocationViewCardProps {
 
 function LocationViewCard({
 	title,
+	online,
 	locationView,
 	postType,
 	postId,
@@ -46,6 +48,14 @@ function LocationViewCard({
 	}
 
 	const renderFormatedAddress = () => {
+		if (online) {
+			return (
+				<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+					{'online'}
+				</TextAddress>
+			)
+		}
+
 		if (!locationView) {
 			return (
 				<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
