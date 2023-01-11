@@ -33,6 +33,7 @@
 		"date-fns": "^2.29.3",
 		"expo": "~45.0.0",
 		"expo-camera": "~12.2.0",
+		"expo-constants": "^14.0.2",
 		"expo-firebase-recaptcha": "~2.2.0",
 		"expo-image-picker": "~13.1.1",
 		"expo-linear-gradient": "~11.3.0",
