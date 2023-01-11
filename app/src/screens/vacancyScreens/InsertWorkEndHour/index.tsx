@@ -300,7 +300,7 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 						maxLength={2}
 						fontSize={22}
 						invalidTextAfterSubmit={invalidTimeAfterSubmit}
-						placeholder={'horas'}
+						placeholder={'18'}
 						keyboardType={'decimal-pad'}
 						filterText={filterLeavingOnlyNumbers}
 						validateText={(text: string) => validateHours(text)}
@@ -325,7 +325,7 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 						maxLength={2}
 						fontSize={22}
 						invalidTextAfterSubmit={invalidTimeAfterSubmit}
-						placeholder={'minutos'}
+						placeholder={'00'}
 						keyboardType={'decimal-pad'}
 						lastInput
 						filterText={filterLeavingOnlyNumbers}

@@ -113,7 +113,7 @@ function InsertEventStartHour({ navigation }: InsertEventStartHourScreenProps) {
 						invalidBorderBottomColor={theme.red5}
 						maxLength={2}
 						fontSize={22}
-						placeholder={'horas'}
+						placeholder={'08'}
 						keyboardType={'decimal-pad'}
 						filterText={filterLeavingOnlyNumbers}
 						validateText={(text: string) => validateHours(text)}
@@ -133,7 +133,7 @@ function InsertEventStartHour({ navigation }: InsertEventStartHourScreenProps) {
 						invalidBorderBottomColor={theme.red5}
 						maxLength={2}
 						fontSize={22}
-						placeholder={'minutos'}
+						placeholder={'00'}
 						keyboardType={'decimal-pad'}
 						lastInput
 						filterText={filterLeavingOnlyNumbers}
