@@ -17,7 +17,7 @@ import SalesCartIcon from '../../../assets/icons/salesCart-green.svg'
 import SoundToolsIcon from '../../../assets/icons/soundTools-blue.svg'
 import ToolBoxIcon from '../../../assets/icons/toolBox-purple.svg'
 import SuitcaseIcon from '../../../assets/icons/suitcase-yellow.svg'
-import { screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 import { getListOfPosts } from '../../../services/firebase/post/getListOfPosts'
 import { generateGeohashes } from '../../../common/generateGeohashes'
@@ -241,58 +241,58 @@ function Home({ navigation }: HomeScreenProps) {
 			</DropdownContainer>
 			<HorizontalPostTypes>
 				<SmallButton
-					relativeWidth={screenWidth * 0.13}
+					relativeWidth={relativeScreenWidth(15)}
+					height={relativeScreenWidth(15)}
 					color={'white'}
 					fontSize={8}
 					onPress={() => navigateToPostCategories('impacto social')}
 					label={'impacto'}
 					SvgIcon={HeartPinkIcon}
-					svgScale={35}
-					height={screenWidth * 0.13}
+					svgScale={['50%', '80%']}
 					flexDirection={'column'}
 				/>
 				<SmallButton
-					relativeWidth={screenWidth * 0.13}
+					relativeWidth={relativeScreenWidth(15)}
+					height={relativeScreenWidth(15)}
 					color={'white'}
 					fontSize={8}
 					onPress={() => navigateToPostCategories('comércio')}
 					label={'comércio'}
 					SvgIcon={SalesCartIcon}
-					svgScale={30}
-					height={screenWidth * 0.13}
+					svgScale={['50%', '80%']}
 					flexDirection={'column'}
 				/>
 				<SmallButton
-					relativeWidth={screenWidth * 0.13}
+					relativeWidth={relativeScreenWidth(15)}
+					height={relativeScreenWidth(15)}
 					color={'white'}
 					fontSize={8}
 					onPress={() => navigateToPostCategories('culturas')}
 					label={'cultura'}
 					SvgIcon={SoundToolsIcon}
-					svgScale={35}
-					height={screenWidth * 0.13}
+					svgScale={['50%', '80%']}
 					flexDirection={'column'}
 				/>
 				<SmallButton
-					relativeWidth={screenWidth * 0.13}
+					relativeWidth={relativeScreenWidth(15)}
+					height={relativeScreenWidth(15)}
 					color={'white'}
 					fontSize={8}
 					onPress={() => navigateToPostCategories('serviços')}
 					label={'serviços'}
 					SvgIcon={ToolBoxIcon}
-					svgScale={35}
-					height={screenWidth * 0.13}
+					svgScale={['50%', '80%']}
 					flexDirection={'column'}
 				/>
 				<SmallButton
-					relativeWidth={screenWidth * 0.13}
+					relativeWidth={relativeScreenWidth(15)}
+					height={relativeScreenWidth(15)}
 					color={'white'}
 					fontSize={8}
 					onPress={() => navigateToPostCategories('vagas')}
 					label={'vagas'}
 					SvgIcon={SuitcaseIcon}
-					svgScale={35}
-					height={screenWidth * 0.13}
+					svgScale={['50%', '80%']}
 					flexDirection={'column'}
 				/>
 			</HorizontalPostTypes>

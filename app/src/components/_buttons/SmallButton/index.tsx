@@ -12,7 +12,7 @@ interface SmallButtonProps {
 	highlightedWords?: string[]
 	fontSize?: number
 	SvgIcon?: React.FC<SvgProps>
-	svgScale?: number
+	svgScale?: [height: string, width: string]
 	relativeWidth?: string | number
 	flexDirection?: string
 	height?: number
@@ -25,7 +25,7 @@ function SmallButton({
 	highlightedWords = [],
 	fontSize,
 	SvgIcon,
-	svgScale = RFValue(22),
+	svgScale = label ? ['40%', '15%'] : ['50%', '80%'],
 	relativeWidth = '100%',
 	height = 30,
 	flexDirection = 'row',
@@ -69,8 +69,8 @@ function SmallButton({
 					{
 						!!SvgIcon && (
 							<SvgIcon
-								height={svgScale}
-								width={svgScale}
+								height={svgScale[0]}
+								width={svgScale[1]}
 							/>
 						)
 					}

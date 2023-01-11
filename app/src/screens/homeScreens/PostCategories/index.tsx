@@ -19,7 +19,7 @@ import { PostCategoriesScreenProps } from '../../../routes/Stack/HomeStack/stack
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
-import { PostCollectionType, PostType, ServiceCategory } from '../../../services/firebase/types'
+import { PostCollectionType, PostType } from '../../../services/firebase/types'
 import { sortPostCategories } from '../../../common/auxiliaryFunctions'
 
 function PostCategories({ route, navigation }: PostCategoriesScreenProps) {

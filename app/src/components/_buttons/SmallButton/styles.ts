@@ -8,7 +8,6 @@ export const TouchableContainer = styled.TouchableWithoutFeedback`
     width: 100%;
 `
 
-// borderRadius relativeScreenWidth(3.5)
 export const ContainerBottom = styled.View`
 	flex-direction: row;
     align-items: center;

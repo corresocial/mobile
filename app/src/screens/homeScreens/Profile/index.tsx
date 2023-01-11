@@ -51,7 +51,6 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
 	const [user, setUser] = useState<LocalUserData>({})
-	const [userPosts, setUserPosts] = useState<PostCollection[]>([])
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
 	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
 
@@ -84,23 +83,9 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 			socialMedias,
 			description,
 			profilePictureUrl: profilePictureUrl || [],
+			posts
 		})
-		setUserPosts(posts as never)
 	}
-
-	/* const getProfileDataFromLocal = async () => {
-		const localUser = await getObjectLocalUser()
-		const { userId, profilePictureUrl, name, posts, description, socialMedias } = localUser as LocalUserData
-		console.log(name)
-		setUser({
-			userId,
-			name,
-			description,
-			socialMedias,
-			profilePictureUrl: profilePictureUrl || [],
-		})
-		setUserPosts(posts as never)
-	} */
 
 	const getUserPostTags = () => {
 		const posts = getUserPosts()
