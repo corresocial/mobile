@@ -1,4 +1,4 @@
-import { Alert, Animated, KeyboardAvoidingView, Platform, StatusBar } from 'react-native'
+import { Alert, Animated, Platform, StatusBar } from 'react-native'
 import React, { useContext, useRef, useState } from 'react'
 import { UserCredential } from 'firebase/auth'
 
@@ -198,7 +198,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 	}
 
 	return (
-		<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height" } >
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
@@ -263,7 +263,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 					}
 				</ButtonContainer>
 			</FormContainer>
-		</KeyboardAvoidingView>
+		</Container>
 	)
 }
 
