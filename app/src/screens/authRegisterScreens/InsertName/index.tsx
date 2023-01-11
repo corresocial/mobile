@@ -1,4 +1,4 @@
-import { Animated, Keyboard, StatusBar } from 'react-native'
+import { Animated, Keyboard, StatusBar, KeyboardAvoidingView, Platform } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonContainer, Container, InputsContainer } from './styles'
@@ -125,7 +125,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 	}
 
 	return (
-		<Container >
+		<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height" } >
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
@@ -185,7 +185,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 					}
 				</ButtonContainer>
 			</FormContainer>
-		</Container>
+		</KeyboardAvoidingView>
 	)
 }
 

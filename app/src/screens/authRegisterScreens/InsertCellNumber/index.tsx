@@ -1,4 +1,4 @@
-import { Animated, StatusBar } from 'react-native'
+import { Animated, StatusBar, KeyboardAvoidingView, Platform } from 'react-native'
 import React, { useContext, useRef, useState } from 'react'
 
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
@@ -130,7 +130,7 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 	}
 
 	return (
-		<Container >
+		<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height" }>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
 			<FirebaseRecaptchaVerifierModal
 				ref={recaptchaVerifier}
@@ -203,6 +203,6 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 					onPress={getVeficationCode}
 				/>
 			</FormContainer>
-		</Container>
+		</KeyboardAvoidingView>
 	)
 }
