@@ -1,5 +1,6 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 export const Container = styled.SafeAreaView`
     flex: 1;
@@ -44,17 +45,15 @@ export const OptionsArea = styled.View`
     justify-content: space-between;
 `
 
+export const AddSocialMediasButtonContainer = styled.View`
+	padding-vertical: ${relativeScreenHeight(1.5)}px;
+`
+
 export const Body = styled.View`
     flex: 1;
     background-color: ${({ theme }) => theme.orange2};
 	padding: ${RFValue(12)}px;
 	overflow: visible;
-`
-
-export const NewPostButtonArea = styled.View`
-	width: 100%;
-	justify-content: center;
-	align-items: center;
 `
 
 export const FlatList = styled.FlatList`

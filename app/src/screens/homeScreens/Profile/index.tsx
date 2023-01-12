@@ -15,11 +15,13 @@ import {
 	Sigh,
 	FooterSigh,
 	ExpandedUserDescription,
-	ExpandedUserDescriptionArea
+	ExpandedUserDescriptionArea,
+	AddSocialMediasButtonContainer
 } from './styles'
 import { theme } from '../../../common/theme'
 import ChatIcon from '../../../assets/icons/chat.svg'
 import ShareIcon from '../../../assets/icons/share.svg'
+import AtSign from '../../../assets/icons/atSign.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 import PencilIcon from '../../../assets/icons/pencil.svg'
 import GearIcon from '../../../assets/icons/gear.svg'
@@ -37,7 +39,7 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { ProfilePopOver } from '../../../components/ProfilePopOver'
@@ -169,6 +171,14 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
 	}
 
+	const openSocialMediaManagement = () => {
+		navigation.navigate('SocialMediaManagement' as any, {
+			userId: getUserField('userId'),
+			socialMedias: getUserField('socialMedias') || [],
+			isAuthor: isLoggedUser
+		})
+	}
+
 	type UserDataFields = keyof LocalUserData
 	const getUserField = (fieldName?: UserDataFields) => {
 		if (route.params && route.params.userId) {
@@ -252,14 +262,30 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 							</ExpandedUserDescriptionArea>
 						)
 					}
-					<HorizontalSocialMediaList
-						socialMedias={isLoggedUser ? userDataContext.socialMedias : getUserField('socialMedias') as SocialMedia[]}
-						onPress={() => navigation.navigate('SocialMediaManagement' as any, {
-							userId: getUserField('userId'),
-							socialMedias: getUserField('socialMedias'),
-							isAuthor: isLoggedUser
-						})}
-					/>
+					{
+						isLoggedUser && !getUserField('socialMedias')
+							? (
+								<AddSocialMediasButtonContainer >
+									<SmallButton
+										color={theme.white3}
+										label={'adicionar redes'}
+										highlightedWords={['redes']}
+										fontSize={13}
+										SvgIcon={AtSign}
+										svgScale={['60%', '10%']}
+										relativeWidth={'100%'}
+										height={relativeScreenHeight(5)}
+										onPress={openSocialMediaManagement}
+									/>
+								</AddSocialMediasButtonContainer >
+							)
+							: (
+								<HorizontalSocialMediaList
+									socialMedias={getUserField('socialMedias') as SocialMedia[]}
+									onPress={openSocialMediaManagement}
+								/>
+							)
+					}
 					<OptionsArea>
 						<SmallButton
 							color={theme.white3}

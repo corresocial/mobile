@@ -16,7 +16,7 @@ export type UserStackParamList = {
 	EditUserDescription: { userDescription: string, userId: string }
 	EditUserPicture: { profilePictureUrl: string, userId: string }
 	EditServicePost: { postData: ServiceCollection }
-	SocialMediaManagement: { userId?: string, socialMedias: SocialMedia[], isAuthor?: boolean }
+	SocialMediaManagement: { socialMedias: SocialMedia[], isAuthor?: boolean }
 	InsertLinkTitle: { socialMedia?: SocialMedia, index?: number }
 	InsertLinkValue: { linkTitle: string, socialMedia: SocialMedia, index?: number }
 	Configurations: undefined

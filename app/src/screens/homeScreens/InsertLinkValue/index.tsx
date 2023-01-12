@@ -57,9 +57,9 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 		try {
 			const socialMediaData = getSocialMediaData()
 
-			updateUser(userDataContext.userId as string, socialMediaData)
+			await updateUser(userDataContext.userId as string, socialMediaData)
 			setUserDataOnContext(socialMediaData)
-			navigation.navigate('SocialMediaManagement', { socialMedias: socialMediaData.socialMedias }) // TODO Type
+			navigation.navigate('SocialMediaManagement', { socialMedias: socialMediaData.socialMedias, isAuthor: true }) // TODO Type
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)
@@ -68,7 +68,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	}
 
 	const getSocialMediaData = () => {
-		let currentSocialMedias = [...userDataContext.socialMedias as SocialMedia[]]
+		let currentSocialMedias = [...userDataContext.socialMedias || [] as SocialMedia[]]
 		const socialMediaEditableIndex = route.params.index
 
 		if (socialMediaEditableIndex || socialMediaEditableIndex === 0) {
