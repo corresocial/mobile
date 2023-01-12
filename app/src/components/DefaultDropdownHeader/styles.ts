@@ -9,7 +9,7 @@ export const InitialDropdownContainer = styled.View`
 	padding-horizontal: ${RFValue(10)}px;
 `
 
-export const InitialDropdown = styled.View`
+export const InitialDropdown = styled.TouchableOpacity`
 	height: 100%;
 	width: 100%;
 	flex-direction: row;

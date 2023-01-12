@@ -59,25 +59,6 @@ export const VerticalSigh = styled.View`
 	height: ${RFValue(10)}px;
 `
 
-export const WithoutPostsContainer = styled.View`
-	background-color: ${({ theme }) => theme.white3};
-	padding-horizontal: ${RFValue(30)}px;
-	padding-vertical: ${RFValue(15)}px;
-	border-left-width: ${RFValue(5)}px;
-	border-color: ${({ theme }) => theme.black4};
-`
-
-export const WithoutPostsTitle = styled.Text`
-	font-family: Arvo_700Bold;
-	font-size: ${RFValue(17)}px;
-	margin-bottom: ${RFValue(10)}px;
-`
-
-export const WithoutPostsMessage = styled.Text`
-	font-family: Arvo_400Regular;
-	font-size: ${RFValue(14)}px;
-`
-
 export const LastSigh = styled.View`
 	width: 100%;
 	height: ${RFValue(80)}px;

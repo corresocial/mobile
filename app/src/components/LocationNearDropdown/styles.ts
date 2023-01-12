@@ -25,7 +25,7 @@ export const DropdownHeaderContainer = styled.View`
 	padding-horizontal: ${RFValue(15)}px;
 `
 
-export const DropdownHeader = styled.View`
+export const DropdownHeader = styled.TouchableOpacity`
 	height: 100%;
 	flex-direction: row;
 	align-items: center;
@@ -42,7 +42,7 @@ export const SearchInput = styled.TextInput`
 	text-align: left;
 `
 
-export const IconArea = styled.TouchableOpacity`
+export const IconArea = styled.View`
 	align-items: center;
 	justify-content: center;
 	width: 10%;

@@ -39,6 +39,7 @@ import { LoaderContext } from '../../../contexts/LoaderContext'
 import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { LocationData } from '../../../contexts/types'
+import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -55,6 +56,7 @@ function Home({ navigation }: HomeScreenProps) {
 	const [addressSuggestions, setAddressSuggestions] = useState<AddressSearchResult[]>([])
 	const [hasLocationPermission, setHasLocationPermission] = useState(false)
 	const [hasLocationEnable, setHasLocationEnable] = useState(false)
+	const [searchEnded, setSearchEnded] = useState(false)
 
 	useEffect(() => {
 		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
@@ -104,6 +106,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const findNearPosts = async (searchText: string, currentPosition?: boolean, alternativeCoordinates?: LatLong) => { // TODO Type
 		try {
+			setSearchEnded(false)
 			setLoaderIsVisible(true)
 			let searchParams = {} as LocationData
 			if (currentPosition) {
@@ -120,9 +123,11 @@ function Home({ navigation }: HomeScreenProps) {
 			const posts = await getListOfPosts(postsIds)
 			setNearPosts([].concat(...posts as any) as any || []) // TODO type
 			setLoaderIsVisible(false)
+			setSearchEnded(true)
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)
+			setSearchEnded(true)
 		}
 	}
 
@@ -191,7 +196,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const saveRecentAddresses = (newAddress: AddressSearchResult) => {
 		const filtredRecentAddress = recentAddresses.filter((address) => address.formattedAddress !== newAddress.formattedAddress)
-		setRecentAddresses([...filtredRecentAddress, { ...newAddress, recent: true }])
+		setRecentAddresses([{ ...newAddress, recent: true }, ...filtredRecentAddress])
 	}
 
 	const goToPostView = (item: PostCollection) => {
@@ -330,7 +335,12 @@ function Home({ navigation }: HomeScreenProps) {
 								ListFooterComponent={<FooterSigh />}
 							/>
 						)
-						: null
+						: hasLocationEnable && searchEnded && (
+							<WithoutPostsMessage
+								title={'opa!'}
+								message={'parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'}
+							/>
+						)
 				}
 			</RecentPostsContainer>
 		</Container >

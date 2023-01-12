@@ -2,11 +2,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { AddressSearchResult } from './types'
 
 const getRecentAddressFromStorage = async () => {
-	// await AsyncStorage.removeItem('corre.addresses')
 	const storageAddresses = await AsyncStorage.getItem('corre.addresses')
 	if (storageAddresses) {
 		const addressesList = JSON.parse(storageAddresses)
-		return addressesList as AddressSearchResult[]
+		return addressesList.reverse() as AddressSearchResult[]
 	}
 	return [] as AddressSearchResult[]
 }

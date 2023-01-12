@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StatusBar, ScrollView, KeyboardAvoidingView, FlatList } from 'react-native'
+import { StatusBar, FlatList, View } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
-import { Body, Container, Header, HorizontalSigh, InputContainer, LastSigh, SearchInput, TagsContainer, VerticalSigh, WithoutPostsContainer, WithoutPostsMessage, WithoutPostsTitle } from './styles'
+import { Body, Container, Header, HorizontalSigh, InputContainer, LastSigh, SearchInput, TagsContainer, VerticalSigh } from './styles'
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
 
@@ -18,9 +18,10 @@ import { PostCard } from '../../../components/_cards/PostCard'
 import { getNearPostsIdsByPostType } from '../../../services/firebase/post/getNearPostsIdsByPostType'
 import { getListOfPosts } from '../../../services/firebase/post/getListOfPosts'
 import { sortArray } from '../../../common/auxiliaryFunctions'
+import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 
 function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenProps) {
-	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
+	const { locationDataContext } = useContext(LocationContext)
 
 	const [searchText, setSearchText] = useState('')
 	const [recentPosts, setRecentPosts] = useState<PostCollection[]>([])
@@ -117,66 +118,64 @@ function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenPro
 					/>
 				</InputContainer>
 			</Header>
-			<KeyboardAvoidingView style={{ flex: 1 }}>
-				<Body style={{ backgroundColor: route.params.backgroundColor }}>
-					<SubtitleCard
-						text={`todas categorias ${route.params.title}`}
-						highlightedText={['todas', ...route.params.title.split(' ')]}
-						onPress={viewAllTags}
+			<Body style={{ backgroundColor: route.params.backgroundColor }}>
+				<SubtitleCard
+					text={`todas categorias ${route.params.title}`}
+					highlightedText={['todas', ...route.params.title.split(' ')]}
+					onPress={viewAllTags}
+				/>
+				<TagsContainer>
+					<FlatList
+						data={getFiltredCategoryTags()}
+						horizontal
+						showsHorizontalScrollIndicator={false}
+						ListHeaderComponent={<HorizontalSigh />}
+						ListHeaderComponentStyle={{ height: 0 }}
+						ItemSeparatorComponent={() => <HorizontalSigh />}
+						ListFooterComponentStyle={{ height: 0 }}
+						ListFooterComponent={<HorizontalSigh />}
+						renderItem={({ item }) => (
+							<CategoryCard
+								title={item}
+								withoutMargin
+								onPress={() => viewPostsByTag(item)}
+							/>
+						)}
 					/>
-					<TagsContainer>
-						<FlatList
-							data={getFiltredCategoryTags()}
-							horizontal
-							showsHorizontalScrollIndicator={false}
-							ListHeaderComponent={<HorizontalSigh />}
-							ListHeaderComponentStyle={{ height: 0 }}
-							ItemSeparatorComponent={() => <HorizontalSigh />}
-							ListFooterComponentStyle={{ height: 0 }}
-							ListFooterComponent={<HorizontalSigh />}
-							renderItem={({ item }) => (
-								<CategoryCard
-									title={item}
-									withoutMargin
-									onPress={() => viewPostsByTag(item)}
-								/>
-							)}
-						/>
-					</TagsContainer>
-					<SubtitleCard
-						text={'posts de recentes'}
-						highlightedText={['recentes']}
-						onPress={() => { }}
-					/>
-					{
-						!recentPosts.length
-							? (
-								<WithoutPostsContainer>
-									<WithoutPostsTitle>{'poxa!'}</WithoutPostsTitle>
-									<WithoutPostsMessage>{'parece que não temos nenhum post nessa categoria, nosso time já está sabendo e irá resolver!'}</WithoutPostsMessage>
-								</WithoutPostsContainer>
-							)
-							: (
-								<FlatList
-									data={recentPosts}
-									renderItem={({ item }) => (
-										<PostCard
-											post={item}
-											owner={item.owner}
-											onPress={() => goToPostView(item)}
-										/>
-									)}
-									showsVerticalScrollIndicator={false}
-									contentContainerStyle={{ padding: RFValue(10) }}
-									ItemSeparatorComponent={() => <VerticalSigh />}
-									ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
-									ListFooterComponent={<LastSigh />}
-								/>
-							)
-					}
+				</TagsContainer>
+				<SubtitleCard
+					text={'posts de recentes'}
+					highlightedText={['recentes']}
+					onPress={() => { }}
+				/>
+				{
+					!recentPosts.length
+						? (
+							<WithoutPostsMessage
+								title={'poxa!'}
+								message={'parece que não temos nenhum post nessa categoria, nosso time já está sabendo e irá resolver!'}
+							/>
+						)
+						: (
+							<FlatList
+								data={recentPosts}
+								renderItem={({ item }) => (
+									<PostCard
+										post={item}
+										owner={item.owner}
+										onPress={() => goToPostView(item)}
+									/>
+								)}
+								showsVerticalScrollIndicator={false}
+								contentContainerStyle={{ padding: RFValue(10) }}
+								ItemSeparatorComponent={() => <VerticalSigh />}
+								ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
+								ListFooterComponent={<LastSigh />}
+							/>
+						)
+				}
 
-				</Body>
-			</KeyboardAvoidingView>
+			</Body>
 		</Container>
 	)
 }

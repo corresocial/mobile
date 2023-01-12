@@ -10,20 +10,22 @@ import CityIcon from '../../assets/icons/city.svg'
 interface DefaultDropdownHeaderProps {
 	text?: string
 	absolute?: boolean
-	openDropDown?: () => void
-	closeDropDown?: () => void
+	toggleDropdownVisibility?: () => void
 }
 
 function DefaultDropdownHeader({
 	text,
 	absolute,
-	openDropDown,
-	closeDropDown
+	toggleDropdownVisibility
 
 }: DefaultDropdownHeaderProps) {
 	return (
-		<InitialDropdownContainer style={{ position: absolute ? 'absolute' : 'relative', bottom: 0 }}>
-			<InitialDropdown>
+		<InitialDropdownContainer
+			style={{ position: absolute ? 'absolute' : 'relative', bottom: 0 }}
+		>
+			<InitialDropdown
+				onPress={toggleDropdownVisibility}
+			>
 				<IconArea>
 					<CityIcon width={RFValue(35)} height={RFValue(35)} />
 				</IconArea>
@@ -36,12 +38,12 @@ function DefaultDropdownHeader({
 				{
 					absolute
 						? (
-							<IconArea onPress={absolute ? closeDropDown : openDropDown}>
+							<IconArea >
 								<AngleUpIcon width={RFValue(22)} height={RFValue(22)} />
 							</IconArea>
 						)
 						: (
-							<IconArea onPress={absolute ? closeDropDown : openDropDown}>
+							<IconArea >
 								<AngleDownIcon width={RFValue(22)} height={RFValue(22)} />
 							</IconArea>
 						)

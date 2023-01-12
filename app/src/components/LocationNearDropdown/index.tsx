@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Animated, FlatList, KeyboardAvoidingView } from 'react-native'
+import { Animated, FlatList, KeyboardAvoidingView, TouchableOpacity } from 'react-native'
 import uuid from 'react-uuid'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -16,7 +16,7 @@ import {
 	BigSigh
 } from './styles'
 import { theme } from '../../common/theme'
-import { screenHeight } from '../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth, screenHeight } from '../../common/screenDimensions'
 import LoupIcon from '../../assets/icons/loup.svg'
 import XIcon from '../../assets/icons/x-thin.svg'
 import MapIcon from '../../assets/icons/map.svg'
@@ -86,6 +86,10 @@ function LocationNearDropdown({
 		})
 	}
 
+	const toggleDropdownVisibility = () => {
+		setDropdownIsVisible(!dropdownIsVisible)
+	}
+
 	const animatedHeight = React.useRef(
 		new Animated.Value(screenHeight * 0.1),
 	).current
@@ -107,114 +111,110 @@ function LocationNearDropdown({
 	}, [dropdownIsVisible])
 
 	return (
-		<KeyboardAvoidingView>
-			<Container style={{ height: animatedHeight }}>
-				<ContainerInner>
-					{
-						dropdownIsVisible
-							? (
-								<DropdownHeaderContainer>
-									<DropdownHeader>
-										<IconArea onPress={() => setDropdownIsVisible(false)}>
-											{
-												searchText.length < 1
-													? <LoupIcon width={RFValue(22)} height={RFValue(22)} />
-													: (
-														<SmallButton
-															height={screenHeight * 0.04}
-															relativeWidth={screenHeight * 0.04}
-															color={theme.white3}
-															onPress={() => {
-																clearAddressSuggestions()
-																setSearchText('')
-															}}
-															SvgIcon={XIcon}
-														/>
-													)
-											}
-										</IconArea>
-										<SearchInput
-											value={searchText}
-											placeholder={'onde você tá?'}
-											returnKeyType={'search'}
-											onChangeText={(text: string) => {
-												setSearchText(text)
-												clearAddressSuggestions()
-											}}
-											onSubmitEditing={() => {
-												findAddressSuggestions(searchText)
-											}}
-										/>
-									</DropdownHeader>
-								</DropdownHeaderContainer>
-							)
-							: (
-								<DefaultDropdownHeader
-									text={selectedAddress.addressHighlighted || 'não encontramos sua localização'}
-									openDropDown={() => setDropdownIsVisible(true)}
-									closeDropDown={() => setDropdownIsVisible(false)}
-								/>
-							)
-					}
-					<DropdownBody >
-						{
-							selectedAddress.addressHighlighted.length > 0 && (
-								<DropdownItem
-									selected
-									dropdownData={selectedAddress}
-								/>
-							)
-						}
-						<Sigh />
-						{
-							searchText.length < 1 && (
-								<MyLocationButtonContainer>
-									<PrimaryButton
-										keyboardHideButton={false}
-										color={theme.green3}
-										label={'usar minha localização'}
-										highlightedWords={['minha', 'localização']}
-										labelColor={theme.white3}
-										fontSize={16}
-										SecondSvgIcon={MapIcon}
-										svgIconScale={['50%', '30%']}
-										onPress={() => {
-											setDropdownIsVisible(false)
-											findNearPosts('', true)
+		<Container style={{ height: animatedHeight }}>
+			<ContainerInner >
+				{
+					dropdownIsVisible
+						? (
+							<DropdownHeaderContainer>
+								<DropdownHeader>
+									<IconArea>
+										{
+											searchText.length < 1
+												? <LoupIcon width={RFValue(22)} height={RFValue(22)} />
+												: (
+													<SmallButton
+														height={relativeScreenHeight(4.5)}
+														relativeWidth={relativeScreenHeight(4.5)}
+														color={theme.white3}
+														onPress={() => {
+															clearAddressSuggestions()
+															setSearchText('')
+														}}
+														SvgIcon={XIcon}
+													/>
+												)
+										}
+									</IconArea>
+									<SearchInput
+										value={searchText}
+										placeholder={'onde você tá?'}
+										returnKeyType={'search'}
+										onChangeText={(text: string) => {
+											setSearchText(text)
+											clearAddressSuggestions()
+										}}
+										onSubmitEditing={() => {
+											findAddressSuggestions(searchText)
 										}}
 									/>
-								</MyLocationButtonContainer>
-							)
-						}
-						<Sigh />
-						<FlatList
-							data={searchText.length < 1 ? recentAddresses : addressSuggestions}
-							showsVerticalScrollIndicator={false} // Item
-							renderItem={({ item }) => (
-								<DropdownItem
-									key={uuid()}
-									dropdownData={getFormattedAddress(item)}
-									findNearPosts={() => findNearPostsByAddress(item)}
-									recent={item.recent}
-								/>
-							)}
-							ItemSeparatorComponent={() => <Sigh />}
-							ListFooterComponent={() => <BigSigh />}
-						/>
-					</DropdownBody>
-					{
-						dropdownIsVisible && (
+								</DropdownHeader>
+							</DropdownHeaderContainer>
+						)
+						: (
 							<DefaultDropdownHeader
 								text={selectedAddress.addressHighlighted || 'não encontramos sua localização'}
-								absolute
-								openDropDown={() => setDropdownIsVisible(true)}
-								closeDropDown={() => setDropdownIsVisible(false)}
+								toggleDropdownVisibility={toggleDropdownVisibility}
+							/>
+						)
+				}
+				<DropdownBody >
+					{
+						selectedAddress.addressHighlighted.length > 0 && (
+							<DropdownItem
+								selected
+								dropdownData={selectedAddress}
 							/>
 						)
 					}
-				</ContainerInner>
-			</Container >
-		</KeyboardAvoidingView>
+					<Sigh />
+					{
+						searchText.length < 1 && (
+							<MyLocationButtonContainer>
+								<PrimaryButton
+									keyboardHideButton={false}
+									color={theme.green3}
+									label={'usar minha localização'}
+									highlightedWords={['minha', 'localização']}
+									labelColor={theme.white3}
+									fontSize={16}
+									SecondSvgIcon={MapIcon}
+									svgIconScale={['50%', '30%']}
+									onPress={() => {
+										setDropdownIsVisible(false)
+										findNearPosts('', true)
+									}}
+								/>
+							</MyLocationButtonContainer>
+						)
+					}
+					<Sigh />
+					<FlatList
+						data={searchText.length < 1 ? recentAddresses : addressSuggestions}
+						showsVerticalScrollIndicator={false} // Item
+						renderItem={({ item }) => (
+							<DropdownItem
+								key={uuid()}
+								dropdownData={getFormattedAddress(item)}
+								findNearPosts={() => findNearPostsByAddress(item)}
+								recent={item.recent}
+							/>
+						)}
+						ItemSeparatorComponent={() => <Sigh />}
+						ListFooterComponent={() => <BigSigh />}
+					/>
+				</DropdownBody>
+				{
+					dropdownIsVisible && (
+						<DefaultDropdownHeader
+							text={selectedAddress.addressHighlighted || 'não encontramos sua localização'}
+							absolute
+							toggleDropdownVisibility={toggleDropdownVisibility}
+						/>
+					)
+				}
+			</ContainerInner>
+		</Container >
 	)
 }
 

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, KeyboardAvoidingView, FlatList } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
-import { Body, Container, FilterButtons, Header, InputContainer, LastSigh, SearchInput, VerticalSigh, WithoutPostsContainer, WithoutPostsMessage, WithoutPostsTitle } from './styles'
+import { Body, Container, FilterButtons, Header, InputContainer, LastSigh, SearchInput, VerticalSigh } from './styles'
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
 import ChatIcon from '../../../assets/icons/chat.svg'
@@ -22,6 +22,7 @@ import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { searchPosts } from '../../../services/algolia/searchPost'
 import { SelectButton } from '../../../components/_buttons/SelectButton'
+import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 
 function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	const { locationDataContext } = useContext(LocationContext)
@@ -172,10 +173,10 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 					{
 						!recentPosts.length && !existsSomeResultOfSearch
 							? (
-								<WithoutPostsContainer>
-									<WithoutPostsTitle>{'poxa!'}</WithoutPostsTitle>
-									<WithoutPostsMessage>{'parece que não temos nenhum post nessa categoria, nosso time já está sabendo e irá resolver!'}</WithoutPostsMessage>
-								</WithoutPostsContainer>
+								<WithoutPostsMessage
+									title={'poxa!'}
+									message={'parece que não temos nenhum post nessa categoria, nosso time já está sabendo e irá resolver!'}
+								/>
 							)
 							: (
 								<FlatList
