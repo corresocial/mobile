@@ -182,7 +182,7 @@ function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScr
 						}}
 					>
 						{
-							!keyboardOpened
+							!keyboardOpened && !!selectedTags.length
 							&& (
 								< SelectedTagsHorizontalList
 									backgroundSelected={theme.pink1}

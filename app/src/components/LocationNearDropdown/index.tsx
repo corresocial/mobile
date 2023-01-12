@@ -123,7 +123,6 @@ function LocationNearDropdown({
 														<SmallButton
 															height={screenHeight * 0.04}
 															relativeWidth={screenHeight * 0.04}
-															svgScale={13}
 															color={theme.white3}
 															onPress={() => {
 																clearAddressSuggestions()

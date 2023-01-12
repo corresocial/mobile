@@ -84,9 +84,6 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 		if (DDDIsValid && cellNumberIsValid) {
 			await sendSMS(completeCellNumber, recaptchaVerifier.current)
 				.then((verificationCodeId) => {
-					/* setUserDataOnContext({
-						cellNumber: completeCellNumber, verificationCodeId
-					}) */
 					navigation.navigate('InsertConfirmationCode', {
 						cellNumber: completeCellNumber, verificationCodeId
 					})

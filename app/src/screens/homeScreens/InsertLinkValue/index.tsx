@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
-import { Keyboard, StatusBar } from 'react-native'
+import { Keyboard, Platform, StatusBar } from 'react-native'
 
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
@@ -89,7 +89,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	}
 
 	return (
-		<Container >
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}

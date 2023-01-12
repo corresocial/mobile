@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Keyboard, StatusBar } from 'react-native'
+import { Keyboard, Platform, StatusBar } from 'react-native'
 
 import { ButtonContainer, Container, InputsContainer, TwoPoints } from './styles'
 import { theme } from '../../../common/theme'
@@ -78,7 +78,7 @@ function InsertWorkStartHour({ navigation }: InsertWorkStartHourScreenProps) {
 	}
 
 	return (
-		<Container >
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={(screenHeight + statusBarHeight) * 0.26}

@@ -1,4 +1,4 @@
-import { Keyboard, StatusBar } from 'react-native'
+import { Keyboard, Platform, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles'
@@ -62,7 +62,7 @@ function InsertVacancyTitle({ navigation }: InsertVacancyTitleScreenProps) {
 	}
 
 	return (
-		<Container >
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={screenHeight * 0.26}

@@ -1,4 +1,4 @@
-import { Animated, Keyboard, StatusBar } from 'react-native'
+import { Animated, Keyboard, Platform, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
@@ -98,7 +98,7 @@ function EditUserName({ navigation, route }: EditUserNameScreenProps) {
 	}
 
 	return (
-		<Container >
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}

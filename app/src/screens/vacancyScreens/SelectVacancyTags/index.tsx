@@ -122,8 +122,8 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
 		<Container>
 			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(30)}
-				relativeHeight={'30%'}
+				minHeight={relativeScreenHeight(25)}
+				relativeHeight={'25%'}
 				centralized
 				backgroundColor={theme.yellow2}
 			>
@@ -182,7 +182,7 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
 						}}
 					>
 						{
-							!keyboardOpened
+							!keyboardOpened && !!selectedTags.length
 							&& (
 								< SelectedTagsHorizontalList
 									backgroundSelected={theme.yellow1}

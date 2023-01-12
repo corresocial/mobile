@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, Keyboard, StatusBar } from 'react-native'
+import { Animated, Keyboard, Platform, StatusBar } from 'react-native'
 
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
@@ -129,7 +129,7 @@ function InsertEventStartDate({ navigation }: InsertEventStartDateScreenProps) {
 	}
 
 	return (
-		<Container >
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={invalidDateAfterSubmit ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={(screenHeight + statusBarHeight) * 0.26}

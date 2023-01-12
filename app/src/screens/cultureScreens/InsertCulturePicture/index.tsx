@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { StatusBar } from 'react-native'
+import { Platform, StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
@@ -22,7 +22,7 @@ function InsertCulturePicture({ navigation }: InsertCulturePictureScreenProps) {
 	const { cultureDataContext } = useContext(CultureContext)
 
 	return (
-		<Container>
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={(screenHeight + statusBarHeight) * 0.26}

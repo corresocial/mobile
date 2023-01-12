@@ -182,7 +182,7 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 						}}
 					>
 						{
-							!keyboardOpened
+							!keyboardOpened && !!selectedTags.length
 							&& (
 								< SelectedTagsHorizontalList
 									backgroundSelected={theme.green1}

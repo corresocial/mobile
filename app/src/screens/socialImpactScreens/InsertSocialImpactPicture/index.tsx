@@ -1,5 +1,5 @@
 import React from 'react'
-import { StatusBar } from 'react-native'
+import { Platform, StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
@@ -18,7 +18,7 @@ import { ProgressBar } from '../../../components/ProgressBar'
 
 function InsertSocialImpactPicture({ navigation }: InsertSocialImpactPictureScreenProps) {
 	return (
-		<Container>
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={(screenHeight + statusBarHeight) * 0.26}

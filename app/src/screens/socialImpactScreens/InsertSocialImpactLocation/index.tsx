@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from 'react'
-import { Animated, LayoutRectangle, StatusBar, View } from 'react-native'
+import { Animated, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
 import * as Location from 'expo-location'
 
 import { theme } from '../../../common/theme'
@@ -180,7 +180,7 @@ function InsertSocialImpactLocation({ navigation }: InsertSocialImpactLocationSc
 	}
 
 	return (
-		<Container >
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.pink2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={screenHeight * 0.26}

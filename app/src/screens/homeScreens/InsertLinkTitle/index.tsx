@@ -1,4 +1,4 @@
-import { Keyboard, StatusBar } from 'react-native'
+import { Keyboard, Platform, StatusBar } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 
 import { ButtonContainer, Container, InputsContainer } from './styles'
@@ -55,7 +55,7 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 	}
 
 	return (
-		<Container >
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}

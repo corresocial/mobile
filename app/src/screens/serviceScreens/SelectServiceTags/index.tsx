@@ -121,8 +121,8 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 		<Container>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(30)}
-				relativeHeight={'30%'}
+				minHeight={relativeScreenHeight(25)}
+				relativeHeight={'25%'}
 				centralized
 				backgroundColor={theme.purple2}
 			>
@@ -181,7 +181,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 						}}
 					>
 						{
-							!keyboardOpened
+							!keyboardOpened && !!selectedTags.length
 							&& (
 								< SelectedTagsHorizontalList
 									backgroundSelected={theme.purple1}

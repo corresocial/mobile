@@ -1,4 +1,4 @@
-import { Animated, Keyboard, StatusBar } from 'react-native'
+import { Animated, Keyboard, Platform, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles'
@@ -98,7 +98,7 @@ function EditUserDescription({ route, navigation }: EditUserDescriptionScreenPro
 	}
 
 	return (
-		<Container >
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={invalidDescriptionAfterSubmit ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={screenHeight * 0.28}

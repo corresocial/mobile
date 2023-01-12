@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, Keyboard, StatusBar } from 'react-native'
+import { Animated, Keyboard, Platform, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 import { ButtonContainer, Container, InputsContainer, TwoPoints } from './styles'
@@ -322,7 +322,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 	}
 
 	return (
-		<Container >
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={invalidTimeAfterSubmit ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={(screenHeight + statusBarHeight) * 0.27}

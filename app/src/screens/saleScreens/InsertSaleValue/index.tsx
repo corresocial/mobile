@@ -1,4 +1,4 @@
-import { Keyboard, StatusBar } from 'react-native'
+import { Keyboard, Platform, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { theme } from '../../../common/theme'
@@ -66,7 +66,7 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 	}
 
 	return (
-		<Container >
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={screenHeight * 0.26}

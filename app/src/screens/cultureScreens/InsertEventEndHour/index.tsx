@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, Keyboard, StatusBar } from 'react-native'
+import { Animated, Keyboard, Platform, StatusBar } from 'react-native'
 
 import { ButtonContainer, Container, InputsContainer, TwoPoints } from './styles'
 import { theme } from '../../../common/theme'
@@ -123,7 +123,7 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
 	}
 
 	return (
-		<Container >
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={invalidTimeAfterSubmit ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={(screenHeight + statusBarHeight) * 0.27}
