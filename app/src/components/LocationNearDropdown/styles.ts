@@ -9,7 +9,6 @@ export const Container = styled(Animated.View)`
 	border: ${RFValue(2.5)}px solid black;
 	border-right-width: ${RFValue(6)}px;
 	border-radius: ${RFValue(15)}px;
-	z-index: 10;
 	overflow: hidden;
 `
 
@@ -20,7 +19,6 @@ export const ContainerInner = styled.View`
 `
 
 export const DropdownHeaderContainer = styled.View`
-	z-index: 20;
 	background-color: ${({ theme }) => theme.white3};
 	width: 100%;
 	height: ${screenHeight * 0.08}px;

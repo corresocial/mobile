@@ -1,13 +1,13 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { relativeScreenWidth, screenHeight } from '../../../common/screenDimensions'
+import { screenHeight } from '../../../common/screenDimensions'
 
 export const Container = styled.TouchableOpacity`
 	width: 100%;
 	height: ${screenHeight * 0.20}
     background-color: ${({ theme }) => theme.black4};
     border: ${RFValue(3)}px solid ${({ theme }) => theme.black4};
-    border-radius: ${RFValue(8)}px;
+    border-radius: ${RFValue(13)}px;
     position: relative;
     overflow: hidden;
 `
@@ -15,7 +15,7 @@ export const Container = styled.TouchableOpacity`
 export const ContainerInner = styled.View`
 	width: 97.8%;
     height: 100%;
-    border-radius: ${RFValue(5)}px;
+    border-radius: ${RFValue(10)}px;
     position: absolute;
 	flex-direction: row;
 	overflow: hidden;
