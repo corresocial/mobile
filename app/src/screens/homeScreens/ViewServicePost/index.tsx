@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { StatusBar, ScrollView, Alert, Linking } from 'react-native'
+import { StatusBar, ScrollView, Linking } from 'react-native'
 
 import { Body, Container, Header, LastSigh, OptionsArea, Sigh, UserAndValueContainer } from './styles'
 import { theme } from '../../../common/theme'
@@ -89,6 +89,11 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
 	}
 
+	const reportPost = () => {
+		setPostOptionsIsOpen(false)
+		navigation.navigate('ContactUsInsertMessage' as any, { title: 'denunciar', contactUsType: 'denúncia', reportedPostType: postData.postType, reportedPostId: postData.postId }) // TODO Type
+	}
+
 	const navigateToProfile = () => {
 		if (userDataContext.userId === postData.owner.userId) {
 			navigation.navigate('Profile' as any, { userId: postData.owner.userId })// TODO Type
@@ -155,7 +160,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
-						goToComplaint={() => Alert.alert('go to complaint')}
+						goToComplaint={reportPost}
 						editPost={goToEditPost}
 						deletePost={deleteRemotePost}
 					>

@@ -18,6 +18,7 @@ import SpotifyIcon from '../../assets/icons/spotify.svg'
 import TikTokIcon from '../../assets/icons/tiktok.svg'
 import SoundCloudIcon from '../../assets/icons/soundcloud.svg'
 import { SocialMedia } from '../../services/firebase/types'
+import { relativeScreenHeight } from '../../common/screenDimensions'
 
 interface HorizontalSocialMediaListProps {
 	socialMedias: SocialMedia[] | undefined
@@ -54,7 +55,11 @@ function HorizontalSocialMediaList({ socialMedias = [], onPress }: HorizontalSoc
 	}
 
 	return (
-		<Container>
+		<Container
+			style={{
+				height: socialMedias.length > 0 ? relativeScreenHeight(8) : relativeScreenHeight(2.5)
+			}}
+		>
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				<Container>
 					{renderSocialMedias()}

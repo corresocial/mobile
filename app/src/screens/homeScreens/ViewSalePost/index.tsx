@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { StatusBar, ScrollView, Alert, Linking } from 'react-native'
+import { StatusBar, ScrollView, Linking } from 'react-native'
 
 import { Body, Container, Header, LastSigh, OptionsArea, Sigh, UserAndValueContainer } from './styles'
 import { theme } from '../../../common/theme'
@@ -42,7 +42,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 		return userDataContext.userId === route.params.postData.owner.userId
 	}
 	const isAuthor = loggedUserIsOwner()
-	const { postData } = route.params as any // TODO type
+	const { postData } = route.params as any // TODO Type
 
 	const renderFormatedPostDateTime = () => {
 		const formatedDate = formatRelativeDate(postData.createdAt)
@@ -90,7 +90,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 
 	const reportPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('ContactUsInsertMessage' as any, { title: 'denunciar', contactUsType: 'denúncia', reportedPost: postData.postId, }) // TODO Type
+		navigation.navigate('ContactUsInsertMessage' as any, { title: 'denunciar', contactUsType: 'denúncia', reportedPostType: postData.postType, reportedPostId: postData.postId }) // TODO Type
 	}
 
 	const navigateToProfile = () => {

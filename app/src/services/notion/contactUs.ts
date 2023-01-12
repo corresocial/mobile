@@ -6,7 +6,9 @@ import { ContactUsOptions } from './types'
 async function sendContactUsMessageToNotion({
 	userId,
 	type,
-	message
+	message,
+	reportTarged,
+	reportedId
 }: ContactUsOptions) {
 	const getReportTitle = () => {
 		if (message.length > 10) {
@@ -17,6 +19,7 @@ async function sendContactUsMessageToNotion({
 
 	const title = getReportTitle()
 	const reportId = uuid()
+
 	const options = {
 		method: 'POST',
 		headers: {
@@ -28,6 +31,16 @@ async function sendContactUsMessageToNotion({
 		body: JSON.stringify({
 			parent: { database_id: NOTION_FALECONOSCO_ID },
 			properties: {
+				ID: {
+					rich_text: [
+						{
+							type: 'text',
+							text: {
+								content: reportId,
+							},
+						},
+					],
+				},
 				type: {
 					select: {
 						name: type,
@@ -53,22 +66,32 @@ async function sendContactUsMessageToNotion({
 						},
 					],
 				},
-				status: {
-					select: {
-						name: 'not started',
-					},
-				},
-				reportedID: {
+				image: {
 					rich_text: [
 						{
 							type: 'text',
 							text: {
-								content: reportId,
+								content: '---',
 							},
 						},
 					],
 				},
-				senderID: {
+				reportedTarget: {
+					select: {
+						name: reportTarged || 'none',
+					},
+				},
+				reportedId: {
+					rich_text: [
+						{
+							type: 'text',
+							text: {
+								content: reportedId || '---',
+							},
+						},
+					],
+				},
+				senderId: {
 					rich_text: [
 						{
 							type: 'text',
@@ -81,6 +104,11 @@ async function sendContactUsMessageToNotion({
 				created: {
 					date: {
 						start: new Date(),
+					},
+				},
+				status: {
+					select: {
+						name: 'not started',
 					},
 				},
 			},

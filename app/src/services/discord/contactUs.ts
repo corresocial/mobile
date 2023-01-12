@@ -3,10 +3,11 @@ import { ContactUsOptions } from './types'
 
 async function sendContactUsMessageToDiscord({
 	userId,
-	userName,
 	type,
 	message,
 	reportId,
+	reportedTarget,
+	reportedId
 }: ContactUsOptions) {
 	const getShortMessage = () => {
 		if (message.length > 1000) {
@@ -31,15 +32,27 @@ async function sendContactUsMessageToDiscord({
 		}
 	}
 
-	const shortMessage = getShortMessage()
+	const getRelativeReportedTarget = () => {
+		switch (reportedTarget) {
+			case 'service': return 'serviço'
+			case 'sale': return 'venda'
+			case 'vacancy': return 'vaga'
+			case 'socialImpact': return 'impacto social'
+			case 'culture': return 'cultura'
+			case 'user': return 'usuário'
+			default: return '---'
+		}
+	}
 
+	const shortMessage = getShortMessage()
 	const content = `
     ${getRelativeTitle()}:
     Categoria: ${type}
-    Usuário: ${userName}
-    ID do usuário: ${userId}
-    Mensagem: ${shortMessage}
-	ReportID: ${reportId}`
+	Protocolo: ${reportId}
+    ID do remetente: ${userId}
+	Entidade Reportada: ${getRelativeReportedTarget()}
+	ID da entidade: ${reportedId || '---'}
+    Mensagem: ${shortMessage}`
 	const response = await fetch(
 		`${getRelativeWebHook()}?${new URLSearchParams({ wait: true } as any)}`, // TODO Type
 		{

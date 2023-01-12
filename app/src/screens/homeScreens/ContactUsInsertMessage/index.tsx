@@ -57,13 +57,14 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 	}
 
 	const sendMessage = async () => {
-		console.log(route.params) // TODO remove
 		try {
 			setLoaderIsVisible(true)
-			const notionPage = await sendContactUsMessageToNotion({
+			const notionPage: any = await sendContactUsMessageToNotion({ // TODO Type
 				userId: userDataContext.userId as string,
 				type: route.params.contactUsType,
 				message,
+				reportTarged: route.params.reportedType,
+				reportedId: route.params.reportedId
 			})
 
 			await sendContactUsMessageToDiscord({
@@ -71,7 +72,9 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 				userName: userDataContext.name as string,
 				type: route.params.contactUsType,
 				message,
-				reportId: notionPage.reportId
+				reportId: notionPage.reportId,
+				reportedTarget: route.params.reportedType,
+				reportedId: route.params.reportedId
 			})
 
 			setLoaderIsVisible(false)
@@ -87,7 +90,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 		<Container>
 			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={screenHeight * 0.2}
+				relativeHeight={screenHeight * 0.25}
 				centralized
 				backgroundColor={theme.orange2}
 			>
@@ -96,7 +99,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 					titleFontSize={24}
 					description={'fala para a gente o que aconteceu'}
 					highlightedWords={[route.params.title, 'o', 'que']}
-					height={'100%'}
+					height={'70%'}
 					color={theme.white3}
 				/>
 			</DefaultHeaderContainer>

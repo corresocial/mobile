@@ -81,6 +81,11 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
 	}
 
+	const reportPost = () => {
+		setPostOptionsIsOpen(false)
+		navigation.navigate('ContactUsInsertMessage' as any, { title: 'denunciar', contactUsType: 'denúncia', reportedPostType: postData.postType, reportedPostId: postData.postId }) // TODO Type
+	}
+
 	const navigateToProfile = () => {
 		if (userDataContext.userId === postData.owner.userId) {
 			navigation.navigate('Profile' as any, { userId: postData.owner.userId })// TODO Type
@@ -139,7 +144,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
-						goToComplaint={() => Alert.alert('go to complaint')}
+						goToComplaint={reportPost}
 						editPost={() => Alert.alert('edit post')}
 						deletePost={deleteRemotePost}
 					>

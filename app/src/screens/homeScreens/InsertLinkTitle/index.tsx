@@ -85,7 +85,7 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 						placeholder={'ex: site de receitas'}
 						keyboardType={'default'}
 						textIsValid={linkTitleIsValid && !keyboardOpened}
-						onChangeText={(text: string) => setInputLinkTitle(text)}
+						onChangeText={(text: string) => setInputLinkTitle(text.trim())}
 					/>
 				</InputsContainer>
 				<ButtonContainer>

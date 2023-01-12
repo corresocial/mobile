@@ -1,5 +1,6 @@
 import { ContactUsType } from "../../../services/discord/types"
 import { PostCollection, ServiceCollection, SocialMedia } from "../../../services/firebase/types"
+import { ReportedTarget } from './../../../services/types'
 
 export type UserStackParamList = {
 	WelcomeNewUser: undefined
@@ -25,7 +26,7 @@ export type UserStackParamList = {
 	WhoWeAreTransformation: undefined
 	HelpUs: undefined
 	ContactUs: undefined
-	ContactUsInsertMessage: { title: string, contactUsType: ContactUsType, reportedPost: string }
+	ContactUsInsertMessage: { title: string, contactUsType: ContactUsType, reportedType?: ReportedTarget, reportedId?: string }
 	ContactUsSuccess: undefined
 	PrivacyAndSecurity: undefined
 }

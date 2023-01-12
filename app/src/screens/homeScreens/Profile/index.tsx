@@ -152,7 +152,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 
 	const reportUser = () => { // TODO Implements Back to this screen sending screen name
 		setProfileOptionsIsOpen(false)
-		navigation.navigate('ContactUsInsertMessage' as any, { title: 'denunciar', contactUsType: 'denúncia', reportedPost: getUserField('userId'), }) // TODO Type
+		navigation.navigate('ContactUsInsertMessage' as any, { title: 'denunciar', contactUsType: 'denúncia', reportedId: getUserField('userId'), reportedType: 'user' }) // TODO Type
 	}
 
 	const goToEditProfile = () => {
