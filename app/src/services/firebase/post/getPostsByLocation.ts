@@ -1,13 +1,11 @@
 import {
 	where,
 	query,
-	collection,
-	orderBy,
-	limit,
 	getDocs,
 	collectionGroup,
+	DocumentData
 } from 'firebase/firestore'
-import Firebase, { firestore } from '..'
+import { firestore } from '..'
 import { SearchParams } from '../../maps/types'
 import { PostType } from '../types'
 
@@ -26,15 +24,6 @@ export type PostIdentification = {
 
 async function getPostsByLocation(searchParams: SearchParams) {
 	try {
-		const privateAddresses = query(
-			collectionGroup(firestore, 'private'),
-			where(
-				'geohashNearby',
-				'array-contains-any',
-				searchParams.geohashes,
-			)
-		)
-		const querySnapshot = await getDocs(privateAddresses)
 		const posts: PostIdentification = {
 			service: {
 				collection: 'services',
@@ -58,10 +47,58 @@ async function getPostsByLocation(searchParams: SearchParams) {
 			},
 		}
 
-		querySnapshot.forEach((doc) => {
+		const queryNearby = query(
+			collectionGroup(firestore, 'private'),
+			where(
+				'geohashNearby',
+				'array-contains-any',
+				searchParams.geohashes,
+			)
+		)
+
+		const queryCity = query(
+			collectionGroup(firestore, 'private'),
+			where(
+				'geohashNearby',
+				'not-in',
+				searchParams.geohashes,
+			),
+			where(
+				'city',
+				'==',
+				searchParams.city
+			)
+		)
+
+		const queryCountry = query(
+			collectionGroup(firestore, 'private'),
+			where(
+				'city',
+				'!=',
+				searchParams.city
+			),
+			where(
+				'country',
+				'==',
+				searchParams.country
+			)
+		)
+
+		const snapshotNearby = await getDocs(queryNearby)
+		const snapshotCity = await getDocs(queryCity)
+		const snapshotCountry = await getDocs(queryCountry)
+
+		const docs: DocumentData[] = []
+		snapshotNearby.forEach((doc) => docs.push(doc))
+		snapshotCity.forEach((doc) => docs.push(doc))
+		snapshotCountry.forEach((doc) => docs.push(doc))
+
+		docs.forEach((doc) => {
 			const { postType } = doc.data()
 			if (Object.keys(posts).includes(postType)) {
-				posts[postType as PostType].postIds.push(doc.id.replace('address', ''))
+				if (!posts[postType as PostType].postIds.includes(doc.id)) {
+					posts[postType as PostType].postIds.push(doc.id.replace('address', ''))
+				}
 			}
 		})
 

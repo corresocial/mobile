@@ -1,4 +1,4 @@
-import { collection, documentId, getDocs, orderBy, query, where } from 'firebase/firestore'
+import { collection, documentId, getDocs, limit, query, where } from 'firebase/firestore'
 import { firestore } from '..'
 
 import { PostCollection } from '../types'
@@ -6,16 +6,26 @@ import { PostIdentificationItem } from './getPostsByLocation'
 
 type FilterMethod = 'category' | 'tags'
 
+/* const batchs = post.postIds.reduce((acc, item, index) => {
+	if ((index + 1) % 10 === 0) {
+		acc.push([])
+	}
+	const currentIndex = Math.floor((index + 1) / 10)
+	acc[currentIndex].push(item as never)
+	return acc
+}, [[]]) */
+
 async function getListOfPosts(postsIdentification: PostIdentificationItem[], filterMethod?: FilterMethod, filterText?: string) {
 	try {
 		if (postsIdentification.length < 1) return []
 
 		const allPosts = postsIdentification.map(async (post: PostIdentificationItem) => {
+			console.log(post.postIds.length)
 			const queryList = filterMethod
 				? getFilteredQuery(post.collection, post.postIds, filterMethod, filterText)
 				: query(
 					collection(firestore, post.collection),
-					where(documentId(), 'in', post.postIds),
+					where(documentId(), 'in', post.postIds.slice(0, 10)),
 				)
 
 			const allCollectionDocs = await getDocs(queryList)
@@ -39,14 +49,14 @@ const getFilteredQuery = (collectionName: any, postIds: any, filterMethod: Filte
 	if (filterMethod === 'category') {
 		return query(
 			collection(firestore, collectionName),
-			where(documentId(), 'in', postIds),
-			where('category', '==', filterText)
+			where(documentId(), 'in', postIds.slice(0, 10)),
+			where('category', '==', filterText),
 		)
 	}
 	return query(
 		collection(firestore, collectionName),
-		where(documentId(), 'in', postIds),
-		where('tags', 'array-contains', filterText)
+		where(documentId(), 'in', postIds.slice(0, 10)),
+		where('tags', 'array-contains', filterText),
 	)
 }
 

@@ -117,13 +117,12 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong) // address converter
 			}
 
-			setLocationDataOnContext(searchParams)
-
 			const postsIds = await getPostsByLocation(searchParams as SearchParams)
 			const posts = await getListOfPosts(postsIds)
 			setNearPosts([].concat(...posts as any) as any || []) // TODO type
 			setLoaderIsVisible(false)
 			setSearchEnded(true)
+			setLocationDataOnContext(searchParams)
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)
@@ -328,6 +327,7 @@ function Home({ navigation }: HomeScreenProps) {
 										onPress={() => goToPostView(item)}// TODO structure
 									/>
 								)}
+								onEndReached={() => console.log('findMoreNearPosts')}
 								showsVerticalScrollIndicator={false}
 								contentContainerStyle={{ padding: RFValue(10) }}
 								ItemSeparatorComponent={() => <Sigh />}
