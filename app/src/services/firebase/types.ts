@@ -164,7 +164,7 @@ export type ServiceCollection = {
 }
 
 export type ServiceCollectionRemote = {
-	postId?: string
+	postId: string
 	postType: PostType
 	title: string
 	description?: string

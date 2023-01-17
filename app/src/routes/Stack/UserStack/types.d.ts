@@ -1,12 +1,13 @@
 import { ContactUsType } from "../../../services/discord/types"
-import { PostCollection, ServiceCollection, SocialMedia } from "../../../services/firebase/types"
+import { PostCollection, ServiceCollectionRemote, SocialMedia } from "../../../services/firebase/types"
 import { ReportedTarget } from './../../../services/types'
+
 
 export type UserStackParamList = {
 	WelcomeNewUser: undefined
 	HomeTab: { tourCompleted?: boolean, showShareModal?: boolean }
 	SelectPostType: undefined
-	ServiceStack: undefined
+	ServiceStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	SaleStack: undefined
 	VacancyStack: undefined
 	CultureStack: undefined
@@ -15,7 +16,7 @@ export type UserStackParamList = {
 	EditUserName: { userName: string, userId: string }
 	EditUserDescription: { userDescription: string, userId: string }
 	EditUserPicture: { profilePictureUrl: string, userId: string }
-	EditServicePost: { postData: ServiceCollection }
+	EditServicePost: { postData: ServiceCollectionRemote }
 	SocialMediaManagement: { socialMedias: SocialMedia[], isAuthor?: boolean }
 	InsertLinkTitle: { socialMedia?: SocialMedia, index?: number }
 	InsertLinkValue: { linkTitle: string, socialMedia: SocialMedia, index?: number }

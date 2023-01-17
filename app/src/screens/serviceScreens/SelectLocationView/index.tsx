@@ -14,10 +14,11 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
+function SelectLocationView({ route, navigation }: SelectLocationViewScreenProps) {
 	const saveLocationViewType = (locationViewType: LocationViewType) => {
 		navigation.navigate('LocationViewPreview', {
-			locationView: locationViewType
+			locationView: locationViewType,
+			...route.params
 		})
 	}
 

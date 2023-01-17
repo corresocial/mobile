@@ -31,6 +31,8 @@ function ImageCarousel({ marginVertical = 0, picturesUrl = ['https://cdn-icons-p
 			style={{
 				width: '100%',
 				height: screenHeight * 0.28,
+				overflow: 'hidden',
+				borderWidth: 0
 			}}
 		>
 			<PhotoPortrait
@@ -39,7 +41,7 @@ function ImageCarousel({ marginVertical = 0, picturesUrl = ['https://cdn-icons-p
 				height={'100%'}
 				width={'100%'}
 				pictureUri={url}
-				maxWidth={screenWidth * 0.93}
+				maxWidth={screenWidth * 0.90}
 				resizeMode={'cover'}
 			/>
 		</View>

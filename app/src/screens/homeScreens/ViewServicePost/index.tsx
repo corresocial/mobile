@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, Linking } from 'react-native'
 
 import { Body, Container, Header, LastSigh, OptionsArea, Sigh, UserAndValueContainer } from './styles'
@@ -14,9 +14,10 @@ import { share } from '../../../common/share'
 import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 
 import { ViewServicePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
-import { PostCollection } from '../../../services/firebase/types'
+import { PostCollection, ServiceCollection } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
+import { EditContext } from '../../../contexts/EditContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
@@ -34,8 +35,15 @@ import { PostPopOver } from '../../../components/PostPopOver'
 function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
+	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
+
+	useEffect(() => {
+		return () => {
+			clearEditContext()
+		}
+	}, [])
 
 	const loggedUserIsOwner = () => {
 		if (!route.params.postData || !route.params.postData.owner) return false
@@ -102,13 +110,17 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
 	}
 
+	const getPostField = (fieldName: keyof ServiceCollection) => {
+		return editDataContext[fieldName] || postData[fieldName]
+	}
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={postOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
-					text={postData.title}
+					text={getPostField('title')}
 				/>
 				<Sigh />
 				<UserAndValueContainer>
@@ -122,8 +134,8 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						navigateToProfile={navigateToProfile}
 					/>
 					<SaleExchangeValue
-						saleValue={postData.saleValue}
-						exchangeValue={postData.exchangeValue}
+						saleValue={getPostField('saleValue')}
+						exchangeValue={getPostField('exchangeValue')}
 						breakRow
 						smallFontSize={14}
 						largeFontSize={25}
@@ -178,7 +190,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 				<ScrollView showsVerticalScrollIndicator={false} >
 					<DescriptionCard
 						title={'descrição do serviço'}
-						text={postData.description}
+						text={getPostField('description')}
 						textFontSize={14}
 					/>
 					<Sigh />
@@ -186,7 +198,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						!arrayIsEmpty(postData.picturesUrl) && (
 							<>
 								<ImageCarousel
-									picturesUrl={postData.picturesUrl && postData.picturesUrl}
+									picturesUrl={editDataContext.picturesUrl || (postData.picturesUrl && postData.picturesUrl)}
 								/>
 								<Sigh />
 							</>
@@ -194,30 +206,30 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					}
 					<SaleOrExchangeCard
 						title={'venda ou troca'}
-						saleValue={postData.saleValue}
-						exchangeValue={postData.exchangeValue}
+						saleValue={getPostField('saleValue')}
+						exchangeValue={getPostField('exchangeValue')}
 					/>
 					<Sigh />
 					<LocationViewCard
 						title={'localização'}
-						locationView={postData.locationView}
-						postType={postData.postType}
+						locationView={getPostField('locationView')}
+						postType={getPostField('postType')}
 						postId={route.params.postData.postId as string}
 						textFontSize={16}
 					/>
 					<Sigh />
 					<DateTimeCard
 						title={'dias e horários'}
-						weekDaysfrequency={postData.attendanceFrequency}
-						daysOfWeek={postData.attendanceWeekDays}
-						openingTime={postData.openingHour}
-						closingTime={postData.closingHour}
+						weekDaysfrequency={getPostField('attendanceFrequency')}
+						daysOfWeek={getPostField('attendanceWeekDays')}
+						openingTime={getPostField('openingHour')}
+						closingTime={getPostField('closingHour')}
 						textFontSize={14}
 					/>
 					<Sigh />
 					<DeliveryMethodCard
 						title={'entrega'}
-						deliveryMethod={postData.deliveryMethod}
+						deliveryMethod={getPostField('deliveryMethod')}
 						textFontSize={16}
 					/>
 					<LastSigh />

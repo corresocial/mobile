@@ -2,21 +2,21 @@ import { LocationViewType, ServiceCategories } from '../../../services/firebase/
 
 export type ServiceStackParamList = {
 	SelectPostType: undefined
-	InsertServiceDescription: undefined
-	InsertServiceName: undefined
-	InsertServicePicture: undefined
-	ServicePicturePreview: undefined
-	SelectServiceCategory: undefined
+	InsertServiceDescription: { editMode: boolean, initialValue: any } | undefined
+	InsertServiceName: { editMode: boolean, initialValue: any } | undefined
+	InsertServicePicture: { editMode: boolean, initialValue: any } | undefined
+	ServicePicturePreview: { editMode: boolean, initialValue: any } | undefined
+	SelectServiceCategory: { editMode: boolean, initialValue: any } | undefined
 	SelectServiceTags: { categorySelected: ServiceCategories }
-	SelectSaleOrExchange: undefined
-	InsertExchangeValue: undefined
-	InsertSaleValue: { bothPaymentType?: boolean }
-	InsertServicePrestationLocation: undefined
-	SelectLocationView: undefined
-	LocationViewPreview: { locationView: LocationViewType }
-	SelectDeliveryMethod: undefined
-	SelectServiceFrequency: undefined
-	SelectDaysOfWeek: undefined
-	InsertOpeningHour: undefined
-	InsertClosingHour: undefined
+	SelectSaleOrExchange: { editMode: boolean, initialValue: any } | undefined
+	InsertExchangeValue: { editMode: boolean, initialValue: any } | undefined
+	InsertSaleValue: { editMode: boolean, initialValue: any, bothPaymentType?: boolean }
+	InsertServicePrestationLocation: { editMode: boolean, initialValue: any } | undefined
+	SelectLocationView: { editMode: boolean } | undefined
+	LocationViewPreview: { editMode?: boolean, locationView: LocationViewType } | undefined
+	SelectDeliveryMethod: { editMode: boolean, initialValue: any } | undefined
+	SelectServiceFrequency: { editMode: boolean, initialValue: any } | undefined
+	SelectDaysOfWeek: { editMode: boolean, initialValue: any } | undefined
+	InsertOpeningHour: { editMode: boolean, initialValue: any } | undefined
+	InsertClosingHour: { editMode: boolean, initialValue: any } | undefined
 }

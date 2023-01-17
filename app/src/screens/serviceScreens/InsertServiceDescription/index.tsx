@@ -10,6 +10,7 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertServiceDescriptionScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
+import { EditContext } from '../../../contexts/EditContext'
 import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -20,10 +21,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { LineInput } from '../../../components/LineInput'
 
-function InsertServiceDescription({ navigation }: InsertServiceDescriptionScreenProps) {
+function InsertServiceDescription({ route, navigation }: InsertServiceDescriptionScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { setEditDataOnContext } = useContext(EditContext)
 
-	const [serviceDescription, setServiceDescription] = useState<string>('')
+	const [serviceDescription, setServiceDescription] = useState<string>(route.params?.initialValue || '')
 	const [serviceDescriptionIsValid, setServiceDescriptionIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -55,12 +57,22 @@ function InsertServiceDescription({ navigation }: InsertServiceDescriptionScreen
 
 	const saveServiceDescription = () => {
 		if (serviceDescriptionIsValid) {
+			if (editModeIsTrue()) {
+				setEditDataOnContext({
+					description: serviceDescription
+				})
+				navigation.goBack()
+				return
+			}
+
 			setServiceDataOnContext({
 				description: serviceDescription
 			})
 			navigation.navigate('InsertServiceName')
 		}
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

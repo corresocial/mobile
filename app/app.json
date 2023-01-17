@@ -17,7 +17,8 @@
       "expo-image-picker"
     ],
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/82d2d182-5397-4921-9056-8aa7efc9a9a4"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -50,6 +51,9 @@
       "eas": {
         "projectId": "82d2d182-5397-4921-9056-8aa7efc9a9a4"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
     }
   }
 }

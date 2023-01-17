@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Animated, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
 import * as Location from 'expo-location'
 
@@ -14,6 +14,7 @@ import { InsertServicePrestationLocationScreenProps } from '../../../routes/Stac
 import { Coordinates } from '../../../services/firebase/types'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
@@ -22,6 +23,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { CustomMapView } from '../../../components/CustomMapView'
+import { getPrivateAddress } from '../../../services/firebase/post/getPrivateAddress'
 
 const initialRegion = {
 	latitude: -13.890303625634541,
@@ -35,8 +37,9 @@ const defaultDeltaCoordinates = {
 	longitudeDelta: 0.003
 }
 
-function InsertServicePrestationLocation({ navigation }: InsertServicePrestationLocationScreenProps) {
+function InsertServicePrestationLocation({ route, navigation }: InsertServicePrestationLocationScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { setEditDataOnContext } = useContext(EditContext)
 
 	const [hasPermission, setHasPermission] = useState(false)
 	const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(null)
@@ -47,6 +50,17 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
 	})
 	const [validAddress, setValidAddress] = useState(false)
 	const [invalidAddressAfterSubmit, setInvalidAddressAfterSubmit] = useState<boolean>(false)
+
+	useEffect(() => {
+		if (editModeIsTrue()) {
+			getLocationByPostId()
+		}
+	}, [])
+
+	const getLocationByPostId = async () => {
+		const privateAddress = await getPrivateAddress('service', route.params?.initialValue)
+		setMarkerCoordinate({ ...defaultDeltaCoordinates, ...privateAddress.coordinates })
+	}
 
 	const requestLocationPermission = async () => {
 		const locationPermission = await Location.requestForegroundPermissionsAsync()
@@ -152,15 +166,26 @@ function InsertServicePrestationLocation({ navigation }: InsertServicePrestation
 		const completeAddress = await convertGeocodeToAddress(markerCoordinate?.latitude as number, markerCoordinate?.longitude as number)
 		const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
-		setServiceDataOnContext({
-			address: {
-				...completeAddress,
-				...geohashObject
-			}
-		})
-		navigation.navigate('SelectLocationView')
+		if (editModeIsTrue()) {
+			setEditDataOnContext({
+				address: {
+					...completeAddress,
+					...geohashObject
+				}
+			})
+		} else {
+			setServiceDataOnContext({
+				address: {
+					...completeAddress,
+					...geohashObject
+				}
+			})
+		}
+
+		navigation.navigate('SelectLocationView', { editMode: !!route.params?.editMode })
 	}
 
+	const editModeIsTrue = () => route.params && route.params.editMode
 	const markerCoordinateIsAccuracy = () => markerCoordinate?.latitudeDelta as number < 0.0065
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))

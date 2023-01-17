@@ -12,6 +12,7 @@ import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 import { InsertSaleValueScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -23,8 +24,9 @@ import { ProgressBar } from '../../../components/ProgressBar'
 
 function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { setEditDataOnContext } = useContext(EditContext)
 
-	const [saleValue, setSaleValue] = useState<string>('')
+	const [saleValue, setSaleValue] = useState<string>(route.params?.initialValue || '')
 	const [saleValueIsValid, setSaleValueIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -56,6 +58,12 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 
 	const saveSaleValue = () => {
 		if (saleValueIsValid) {
+			if (editModeIsTrue()) {
+				setEditDataOnContext({ saleValue })
+				navigation.goBack()
+				return
+			}
+
 			setServiceDataOnContext({
 				saleValue
 			})
@@ -66,6 +74,8 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 			}
 		}
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

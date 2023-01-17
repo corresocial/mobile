@@ -61,8 +61,7 @@ function CustomMapView({
 			cacheEnabled={false}
 			region={locationView === 'approximate' ? randomCoordinate as Coordinates : regionCoordinate}
 			mapType={'standard'}
-			onRegionChangeComplete={(coordinates) => updateMarkerPosition && updateMarkerPosition(coordinates)}
-
+			onRegionChangeComplete={(coordinates, details) => (!!details?.isGesture && updateMarkerPosition) && updateMarkerPosition(coordinates)}
 		>
 			{
 				markerCoordinate

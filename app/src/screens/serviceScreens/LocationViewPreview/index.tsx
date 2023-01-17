@@ -13,6 +13,7 @@ import EyeTraced from '../../../assets/icons/eyeTraced.svg'
 import { LocationViewPreviewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { LocationViewType } from '../../../services/firebase/types'
 
+import { EditContext } from '../../../contexts/EditContext'
 import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -27,19 +28,27 @@ const defaultDeltaCoordinates = {
 
 function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenProps) {
 	const { serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
+	const { editDataContext, setEditDataOnContext } = useContext(EditContext)
 
 	const [locationViewSelected, setLocationViewSelected] = useState<LocationViewType>()
-	const [markerCoordinate] = useState({
-		...serviceDataContext?.address?.coordinates,
-		...defaultDeltaCoordinates
-	})
+	const [markerCoordinate] = useState(
+		route.params?.editMode
+			? {
+				...editDataContext?.address?.coordinates,
+				...defaultDeltaCoordinates
+			}
+			: {
+				...serviceDataContext?.address?.coordinates,
+				...defaultDeltaCoordinates
+			}
+	)
 
 	useEffect(() => {
 		const locationView = getLocationViewFromRouteParams()
 		setLocationViewSelected(locationView)
 	}, [])
 
-	const getLocationViewFromRouteParams = () => route.params.locationView
+	const getLocationViewFromRouteParams = () => route.params?.locationView
 
 	const getLocationViewTitle = () => {
 		switch (locationViewSelected as LocationViewType) {
@@ -78,11 +87,20 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
 	}
 
 	const saveLocation = () => {
+		if (editModeIsTrue()) {
+			setEditDataOnContext({ locationView: locationViewSelected })
+			navigation.pop(2)
+			navigation.goBack()
+			return
+		}
+
 		setServiceDataOnContext({
 			locationView: locationViewSelected
 		})
 		navigation.navigate('SelectDeliveryMethod')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container >

@@ -1,66 +1,41 @@
 import React, { useContext } from 'react'
 
 import { StatusBar } from 'react-native'
-import { Body, Container, Header, Sigh } from './styles'
-
-import { AuthContext } from '../../../contexts/AuthContext'
+import { getDownloadURL } from 'firebase/storage'
+import { Body, Container, Header, SaveButtonContainer, Sigh } from './styles'
+import CheckIcon from '../../../assets/icons/check.svg'
 
 import { EditServicePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+
+import { EditContext } from '../../../contexts/EditContext'
+import { AuthContext } from '../../../contexts/AuthContext'
+import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { EditCard } from '../../../components/_cards/EditCard'
 import { arrayIsEmpty, formatHour } from '../../../common/auxiliaryFunctions'
 import { theme } from '../../../common/theme'
-import { CultureCollection, DaysOfWeek, PostCollection, SaleCollection, ServiceCollection, SocialImpactCollection, VacancyCollection } from '../../../services/firebase/types'
+import { DaysOfWeek, ServiceCollection } from '../../../services/firebase/types'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { updatePost } from '../../../services/firebase/post/updatePost'
+import { updateDocField } from '../../../services/firebase/common/updateDocField'
+import { ServiceStackParamList } from '../../../routes/Stack/ServiceStack/types'
+import { uploadImage } from '../../../services/firebase/common/uploadPicture'
+import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
-	const { userDataContext } = useContext(AuthContext)
+	const { editDataContext, clearEditContext } = useContext(EditContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const { postData } = route.params
 
-	/* const goToEditScreen = (screenName: keyof UserStackParamList) => {
-		switch (screenName) {
-			case 'EditUserName': {
-				navigation.navigate('EditUserName', {
-					userName: userDataContext.name || '',
-					userId: userDataContext.userId || ''
-				})
-				break
-			}
-			case 'EditUserDescription': {
-				navigation.navigate('EditUserDescription', {
-					userDescription: userDataContext.description || '',
-					userId: userDataContext.userId || ''
-				})
-				break
-			}
-			case 'EditUserPicture': {
-				navigation.navigate(screenName, {
-					profilePictureUrl: getProfilePictureUrl(),
-					userId: userDataContext.userId || ''
-				})
-				break
-			}
-			default: return false
-		}
-	} */
-
-	const extractTypedPost = () => {
-		switch (postData.postType) {
-			case 'service': return postData as ServiceCollection
-			case 'sale': return postData as SaleCollection
-			case 'vacancy': return postData as VacancyCollection
-			case 'socialImpact': return postData as SocialImpactCollection
-			case 'culture': return postData as CultureCollection
-			default: return postData as PostCollection
-		}
-	}
-
-	const getProfilePictureUrl = () => {
-		if (!userDataContext || !userDataContext.profilePictureUrl) return ''
-		if (arrayIsEmpty(userDataContext.profilePictureUrl)) return ''
-		return userDataContext.profilePictureUrl[0]
+	const getPicturesUrl = () => {
+		const picturesUrl = getPostField('picturesUrl')
+		if (arrayIsEmpty(picturesUrl)) return []
+		return picturesUrl
 	}
 
 	const getRelativeTitle = () => {
@@ -78,13 +53,16 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 	}
 
 	const formatDaysOfWeek = () => {
+		const attendanceWeekDays = getPostField('attendanceWeekDays')
+
 		const allDaysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
-		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => postData.attendanceWeekDays?.includes(weekDay))
+		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => attendanceWeekDays.includes(weekDay))
 		return ordenedDaysOfWeek.toString().split(',').join(', ')
 	}
 
 	const renderDeliveryMethod = () => {
-		switch (postData.deliveryMethod) {
+		const deliveryMethod = getPostField('deliveryMethod')
+		switch (deliveryMethod) {
 			case 'unavailable': return 'não entrega'
 			case 'near': return 'entrega perto'
 			case 'city': return 'entrega na cidade'
@@ -93,89 +71,244 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 		}
 	}
 
+	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: any) => {
+		console.log(initialValue)
+		navigation.navigate('ServiceStack', {
+			screen: screenName,
+			params: {
+				editMode: true,
+				initialValue
+			}
+		})
+	}
+
+	const getUserPostsWithoutEdited = () => {
+		const userPosts = userDataContext.posts || []
+		return userPosts.filter((post) => post.postId !== postData.postId)
+	}
+
+	const editPost = async () => {
+		try {
+			setLoaderIsVisible(true)
+			if (editDataContext.address) {
+				await savePrivateAddress()
+			}
+
+			if ((editDataContext.picturesUrl && editDataContext.picturesUrl.length > 0) && !allPicturesAlreadyUploaded()) {
+				console.log('with pictures')
+				await performPicturesUpload()
+				setLoaderIsVisible(false)
+				navigation.goBack()
+				return
+			}
+			console.log('without pictures')
+
+			const postDataToSave = { ...postData, ...editDataContext }
+			delete postDataToSave.owner
+			delete postDataToSave.address
+
+			await updatePost('services', postData.postId, postDataToSave)
+			await updateDocField(
+				'users',
+				postData.owner.userId,
+				'posts',
+				[...getUserPostsWithoutEdited(), postDataToSave]
+			)
+
+			setLoaderIsVisible(false)
+			updateUserContext(postDataToSave)
+			navigation.goBack()
+		} catch (err) {
+			console.log(err)
+			setLoaderIsVisible(false)
+			throw new Error('Erro ao editar post')
+		}
+	}
+
+	const allPicturesAlreadyUploaded = () => {
+		return !!editDataContext.picturesUrl.filter((url: string) => url.includes('https://')).length
+	}
+
+	const performPicturesUpload = async () => {
+		const picturesNotUploaded = editDataContext.picturesUrl.filter((url: string) => !url.includes('https://')) || []
+		const picturesAlreadyUploaded = editDataContext.picturesUrl.filter((url: string) => url.includes('https://')) || []
+
+		const picturePostsUrls: string[] = []
+		await picturesNotUploaded.map(async (picturePath: string, index: number) => {
+			return uploadImage(picturePath, 'services', postData.postId, index).then(
+				({ uploadTask, blob }: any) => {
+					uploadTask.on(
+						'state_change',
+						() => { },
+						(err: any) => {
+							throw new Error(err)
+						},
+						async () => {
+							return getDownloadURL(uploadTask.snapshot.ref)
+								.then(
+									async (downloadURL) => {
+										blob.close()
+										picturePostsUrls.push(downloadURL)
+										if (picturePostsUrls.length === picturesNotUploaded.length) {
+											const postDataToSave = {
+												...postData,
+												...editDataContext,
+												picturesUrl: [...picturePostsUrls, ...picturesAlreadyUploaded]
+											}
+											delete postDataToSave.owner
+
+											await updatePost('services', postData.postId, postDataToSave)
+											await updateDocField(
+												'users',
+												postData.owner.userId,
+												'posts',
+												[...getUserPostsWithoutEdited(), postDataToSave]
+											)
+											updateUserContext(postDataToSave)
+										}
+									},
+								)
+						},
+					)
+				},
+			)
+		})
+
+		return picturePostsUrls
+	}
+
+	const savePrivateAddress = async () => {
+		await updatePostPrivateData(
+			{
+				...editDataContext.address,
+				locationView: editDataContext.locationView,
+				postType: 'service',
+			},
+			postData.postId,
+			'services',
+			`address${postData.postId}`
+		)
+	}
+
+	const updateUserContext = (postAfterEdit: ServiceCollection) => {
+		setUserDataOnContext({
+			posts: [
+				...getUserPostsWithoutEdited(),
+				postAfterEdit
+			]
+		})
+	}
+
+	const cancelAllChangesAndGoBack = () => {
+		clearEditContext()
+		navigation.goBack()
+	}
+
+	const getPostField = (fieldName: keyof ServiceCollection) => {
+		return editDataContext[fieldName] || postData[fieldName]
+	}
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
-					onBackPress={() => navigation.goBack()}
+					onBackPress={cancelAllChangesAndGoBack}
 					text={'editar seu post'}
 					highlightedWords={['editar']}
 				/>
+				{
+					Object.keys(editDataContext).length > 0 && (
+						<SaveButtonContainer>
+							<PrimaryButton
+								color={theme.green3}
+								labelColor={theme.white3}
+								label={'salvar alterações'}
+								highlightedWords={['salvar']}
+								fontSize={16}
+								SecondSvgIcon={CheckIcon}
+								svgIconScale={['35%', '18%']}
+								minHeight={relativeScreenHeight(6)}
+								relativeHeight={relativeScreenHeight(8)}
+								onPress={editPost}
+							/>
+						</SaveButtonContainer>
+					)
+				}
 			</Header>
 			<Body>
 				<EditCard
 					title={'título do post'}
 					highlightedWords={['título']}
-					value={postData.title}
-					onEdit={() => { }}
+					value={getPostField('title')}
+					onEdit={() => navigateToEditScreen('InsertServiceName', editDataContext.title || postData.title)}
 				/>
 				<Sigh />
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
-					profilePicturesUrl={/* getProfilePictureUrl() */['https://firebasestorage.googleapis.com/v0/b/corresocial-66840.appspot.com/o/imagens%2FsocialImpacts%2FXG19KwN6UfeDHL4nGBU4.jpg?alt=media&token=b48925e5-c184-43fe-ada1-1b17a0213c9b']}
+					profilePicturesUrl={getPicturesUrl()}
 					carousel
-					onEdit={() => { }}
+					onEdit={() => navigateToEditScreen('ServicePicturePreview', editDataContext.picturesUrl || postData.picturesUrl)}
 				/>
 				<Sigh />
 				<EditCard
 					title={`descrição ${getRelativeTitle()}`}
 					highlightedWords={['descrição']}
-					value={postData.description || '---'}
-					onEdit={() => { }}
+					value={getPostField('description') || '---'}
+					onEdit={() => navigateToEditScreen('InsertServiceDescription', editDataContext.description || postData.description)}
 				/>
 				<Sigh />
 				<EditCard
 					title={'valor de venda'}
 					highlightedWords={['venda']}
-					value={postData.saleValue || '---'}
-					onEdit={() => { }}
+					value={getPostField('saleValue') || '---'}
+					onEdit={() => navigateToEditScreen('InsertSaleValue', editDataContext.saleValue || postData.saleValue)}
 				/>
 				<Sigh />
 				<EditCard
 					title={'valor de troca'}
 					highlightedWords={['troca']}
-					value={postData.exchangeValue || '---'}
-					onEdit={() => { }}
+					value={getPostField('exchangeValue') || '---'}
+					onEdit={() => navigateToEditScreen('InsertExchangeValue', editDataContext.exchangeValue || postData.exchangeValue)}
 				/>
 				<Sigh />
 				<LocationViewCard
 					title={'localização'}
-					locationView={postData.locationView}
-					postType={postData.postType}
-					postId={route.params.postData.postId as string}
+					locationView={getPostField('locationView') || postData.locationView}
+					postType={getPostField('postType') || postData.postType}
+					postId={getPostField('postId') || route.params.postData.postId as string}
 					textFontSize={16}
 					editable
-					onEdit={() => { }}
+					onEdit={() => navigateToEditScreen('InsertServicePrestationLocation', editDataContext.postId || postData.postId)}
 				/>
 				<Sigh />
 				<EditCard
 					title={'dias da semana'}
 					highlightedWords={['semana']}
 					value={formatDaysOfWeek() || '---'}
-					onEdit={() => { }}
+					onEdit={() => navigateToEditScreen('SelectDaysOfWeek', editDataContext.attendanceWeekDays || postData.attendanceWeekDays)}
 				/>
 				<Sigh />
 				<EditCard
 					title={'horário de início'}
 					highlightedWords={['início']}
-					value={formatHour(postData.openingHour as Date) || '---'}
-					onEdit={() => { }}
+					value={formatHour(getPostField('openingHour')) || '---'}
+					onEdit={() => navigateToEditScreen('InsertOpeningHour', editDataContext.openingHour || postData.openingHour)}
 				/>
 				<Sigh />
 				<EditCard
 					title={'horário de fim'}
 					highlightedWords={['fim']}
-					value={formatHour(postData.closingHour as Date) || '---'}
-					onEdit={() => { }}
+					value={formatHour(getPostField('closingHour')) || '---'}
+					onEdit={() => navigateToEditScreen('InsertClosingHour', editDataContext.closingHour || postData.closingHour)}
 				/>
 				<Sigh />
 				<EditCard
 					title={'entrega'}
 					highlightedWords={['entrega']}
 					value={renderDeliveryMethod() || '---'}
-					onEdit={() => { }}
+					onEdit={() => navigateToEditScreen('SelectDeliveryMethod', editDataContext.deliveryMethod || postData.deliveryMethod)}
 				/>
 				<Sigh />
 				<Sigh />

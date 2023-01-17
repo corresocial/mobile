@@ -15,6 +15,7 @@ import { SelectDaysOfWeekScreenProps } from '../../../routes/Stack/ServiceStack/
 import { DaysOfWeek } from '../../../services/firebase/types'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -24,10 +25,11 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectDaysOfWeek({ navigation }: SelectDaysOfWeekScreenProps) {
+function SelectDaysOfWeek({ route, navigation }: SelectDaysOfWeekScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { setEditDataOnContext } = useContext(EditContext)
 
-	const [selectedDays, setSelectedDays] = useState<DaysOfWeek[]>([])
+	const [selectedDays, setSelectedDays] = useState<DaysOfWeek[]>(route.params?.initialValue || [])
 	const daysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
 
 	const renderDaysOfWeek = () => daysOfWeek.map((dayOfWeek, index) => {
@@ -75,11 +77,21 @@ function SelectDaysOfWeek({ navigation }: SelectDaysOfWeekScreenProps) {
 	}
 
 	const saveDaysOfWeek = () => {
+		if (editModeIsTrue()) {
+			setEditDataOnContext({
+				attendanceWeekDays: selectedDays
+			})
+			navigation.goBack()
+			return
+		}
+
 		setServiceDataOnContext({
 			attendanceWeekDays: selectedDays
 		})
 		navigation.navigate('InsertOpeningHour')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

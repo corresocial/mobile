@@ -8,6 +8,7 @@ import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/ServiceSt
 import { DeliveryMethod } from '../../../services/firebase/types'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -16,15 +17,24 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectDeliveryMethod({ navigation }: SelectDeliveryMethodScreenProps) {
+function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { setEditDataOnContext } = useContext(EditContext)
 
 	const saveDeliveryMethod = (deliveryMethod: DeliveryMethod) => {
+		if (editModeIsTrue()) {
+			setEditDataOnContext({ deliveryMethod })
+			navigation.goBack()
+			return
+		}
+
 		setServiceDataOnContext({
 			deliveryMethod
 		})
 		navigation.navigate('SelectServiceFrequency')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

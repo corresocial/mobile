@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Linking } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -17,6 +17,7 @@ import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { CustomMapView } from '../../CustomMapView'
 import { getPrivateAddress } from '../../../services/firebase/post/getPrivateAddress'
+import { EditContext } from '../../../contexts/EditContext'
 
 interface LocationViewCardProps {
 	title: string
@@ -39,13 +40,20 @@ function LocationViewCard({
 	editable,
 	onEdit
 }: LocationViewCardProps) {
-	const [completeAddress, setCompleteAddress] = useState<CompleteAddress>({})
+	const { editDataContext } = useContext(EditContext)
 
+	const [completeAddress, setCompleteAddress] = useState<CompleteAddress>({})
 	useEffect(() => {
+		console.log(`editable: ${editable}`)
+		console.log(`!!editDataContext.address: ${!!editDataContext.address}`)
+		if (editable && !!editDataContext.address) {
+			setCompleteAddress(editDataContext.address)
+			return
+		}
 		if (locationView !== 'private' && postType && locationView) {
 			loadRemotePrivateAddress()
 		}
-	}, [postType])
+	}, [postType, postId, locationView])
 
 	const loadRemotePrivateAddress = async () => {
 		const address = await getPrivateAddress(postType, postId)

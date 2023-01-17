@@ -69,7 +69,6 @@ function EditCard({
 						<PictureArea
 							style={{
 								height: carousel ? 'auto' : relativeScreenWidth(88),
-								width: '100%'
 							}}
 						>
 							{

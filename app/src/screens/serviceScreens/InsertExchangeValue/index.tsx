@@ -11,6 +11,7 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 import { InsertExchangeValueScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -20,10 +21,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
+function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { setEditDataOnContext } = useContext(EditContext)
 
-	const [exchangeValue, setExchangeValue] = useState<string>('')
+	const [exchangeValue, setExchangeValue] = useState<string>(route.params?.initialValue || '')
 	const [exchangeValueIsValid, setExchangeValueIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -56,12 +58,20 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
 	const saveExchangeValue = () => {
 		const valueIsValid = validateExchangeValue(exchangeValue)
 		if (valueIsValid) {
+			if (editModeIsTrue()) {
+				setEditDataOnContext({ exchangeValue })
+				navigation.goBack()
+				return
+			}
+
 			setServiceDataOnContext({
 				exchangeValue
 			})
 			navigation.navigate('InsertServicePrestationLocation')
 		}
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

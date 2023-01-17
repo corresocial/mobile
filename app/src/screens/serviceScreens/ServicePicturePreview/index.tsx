@@ -9,6 +9,7 @@ import CheckIcon from '../../../assets/icons/check.svg'
 import { ServicePicturePreviewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -18,12 +19,13 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { HorizontalListPictures } from '../../../components/HorizontalListPictures'
 
-function ServicePicturePreview({ navigation }: ServicePicturePreviewScreenProps) {
+function ServicePicturePreview({ route, navigation }: ServicePicturePreviewScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { setEditDataOnContext } = useContext(EditContext)
 
-	const [picturesPack, setPicturesPack] = useState<string[]>([])
+	const [picturesPack, setPicturesPack] = useState<string[]>(route.params?.initialValue || [])
 	const [pictureIndexSelected, setPictureIndexSelected] = useState<number>(0)
-	const [cameraOpened, setCameraOpened] = useState<boolean>(true)
+	const [cameraOpened, setCameraOpened] = useState<boolean>(!route.params?.editMode)
 
 	const setPictureUri = (uri: string) => {
 		const currentPictures = [...picturesPack]
@@ -39,11 +41,19 @@ function ServicePicturePreview({ navigation }: ServicePicturePreviewScreenProps)
 	}
 
 	const savePictures = () => {
+		if (editModeIsTrue()) {
+			setEditDataOnContext({ picturesUrl: picturesPack })
+			navigation.goBack()
+			return
+		}
+
 		setServiceDataOnContext({
 			picturesUrl: picturesPack
 		})
 		navigation.navigate('SelectServiceCategory')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>
