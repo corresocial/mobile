@@ -39,7 +39,7 @@ const defaultDeltaCoordinates = {
 
 function InsertServicePrestationLocation({ route, navigation }: InsertServicePrestationLocationScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
-	const { setEditDataOnContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [hasPermission, setHasPermission] = useState(false)
 	const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(null)
@@ -167,7 +167,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 		const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
 		if (editModeIsTrue()) {
-			setEditDataOnContext({
+			addNewUnsavedFieldToEditContext({
 				address: {
 					...completeAddress,
 					...geohashObject

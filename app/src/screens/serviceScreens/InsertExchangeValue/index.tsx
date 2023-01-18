@@ -23,7 +23,7 @@ import { ProgressBar } from '../../../components/ProgressBar'
 
 function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
-	const { setEditDataOnContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [exchangeValue, setExchangeValue] = useState<string>(route.params?.initialValue || '')
 	const [exchangeValueIsValid, setExchangeValueIsValid] = useState<boolean>(false)
@@ -59,7 +59,7 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		const valueIsValid = validateExchangeValue(exchangeValue)
 		if (valueIsValid) {
 			if (editModeIsTrue()) {
-				setEditDataOnContext({ exchangeValue })
+				addNewUnsavedFieldToEditContext({ exchangeValue })
 				navigation.goBack()
 				return
 			}

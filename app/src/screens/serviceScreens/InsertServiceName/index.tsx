@@ -23,7 +23,7 @@ import { ProgressBar } from '../../../components/ProgressBar'
 
 function InsertServiceName({ route, navigation }: InsertServiceNameScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
-	const { setEditDataOnContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [serviceName, setServiceName] = useState<string>(route.params?.initialValue || '')
 	const [serviceNameIsValid, setServiceNameIsValid] = useState<boolean>(false)
@@ -58,7 +58,7 @@ function InsertServiceName({ route, navigation }: InsertServiceNameScreenProps) 
 	const saveServiceName = () => {
 		if (serviceNameIsValid) {
 			if (editModeIsTrue()) {
-				setEditDataOnContext({ title: serviceName })
+				addNewUnsavedFieldToEditContext({ title: serviceName })
 				navigation.goBack()
 				return
 			}

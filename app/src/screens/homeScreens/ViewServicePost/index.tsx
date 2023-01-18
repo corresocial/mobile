@@ -111,7 +111,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	}
 
 	const getPostField = (fieldName: keyof ServiceCollection) => {
-		return editDataContext[fieldName] || postData[fieldName]
+		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
 
 	return (
@@ -198,7 +198,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						!arrayIsEmpty(postData.picturesUrl) && (
 							<>
 								<ImageCarousel
-									picturesUrl={editDataContext.picturesUrl || (postData.picturesUrl && postData.picturesUrl)}
+									picturesUrl={editDataContext.saved.picturesUrl || (postData.picturesUrl && postData.picturesUrl)}
 								/>
 								<Sigh />
 							</>
@@ -214,7 +214,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						title={'localização'}
 						locationView={getPostField('locationView')}
 						postType={getPostField('postType')}
-						postId={route.params.postData.postId as string}
+						postId={getPostField('postId') as string}
 						textFontSize={16}
 					/>
 					<Sigh />

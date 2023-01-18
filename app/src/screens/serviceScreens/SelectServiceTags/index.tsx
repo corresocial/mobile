@@ -21,6 +21,7 @@ import { sortArray } from '../../../common/auxiliaryFunctions'
 import { SelectServiceTagsScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -34,6 +35,7 @@ import { SelectedTagsHorizontalList } from '../../../components/SelectedTagsHori
 
 function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [textTag, setTextTag] = useState('')
 	const [keyboardOpened, setKeyboardOpened] = useState(false)
@@ -111,11 +113,23 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 	}
 
 	const saveTags = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({
+				category: route.params.categorySelected,
+				tags: selectedTags
+			})
+			navigation.goBack()
+			navigation.goBack()
+			return
+		}
+
 		setServiceDataOnContext({
 			tags: selectedTags
 		})
 		navigation.navigate('SelectSaleOrExchange')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

@@ -19,11 +19,11 @@ import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
-	const { setEditDataOnContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveDeliveryMethod = (deliveryMethod: DeliveryMethod) => {
 		if (editModeIsTrue()) {
-			setEditDataOnContext({ deliveryMethod })
+			addNewUnsavedFieldToEditContext({ deliveryMethod })
 			navigation.goBack()
 			return
 		}

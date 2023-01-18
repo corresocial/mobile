@@ -28,13 +28,13 @@ const defaultDeltaCoordinates = {
 
 function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenProps) {
 	const { serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
-	const { editDataContext, setEditDataOnContext } = useContext(EditContext)
+	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [locationViewSelected, setLocationViewSelected] = useState<LocationViewType>()
 	const [markerCoordinate] = useState(
 		route.params?.editMode
 			? {
-				...editDataContext?.address?.coordinates,
+				...editDataContext?.unsaved.address?.coordinates,
 				...defaultDeltaCoordinates
 			}
 			: {
@@ -88,7 +88,7 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
 
 	const saveLocation = () => {
 		if (editModeIsTrue()) {
-			setEditDataOnContext({ locationView: locationViewSelected })
+			addNewUnsavedFieldToEditContext({ locationView: locationViewSelected })
 			navigation.pop(2)
 			navigation.goBack()
 			return

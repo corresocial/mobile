@@ -21,7 +21,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps) {
+function SelectServiceCategory({ route, navigation }: SelectServiceCategoryScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
 
 	const renderSelectOptionsButtons = () => {
@@ -43,12 +43,8 @@ function SelectServiceCategory({ navigation }: SelectServiceCategoryScreenProps)
 	}
 
 	const onSelectCategory = (categoryName: ServiceCategories) => {
-		setServiceDataOnContext({
-			category: categoryName
-		})
-		navigation.navigate('SelectServiceTags', {
-			categorySelected: categoryName
-		})
+		setServiceDataOnContext({ category: categoryName })
+		navigation.navigate('SelectServiceTags', { categorySelected: categoryName, ...route.params })
 	}
 
 	return (

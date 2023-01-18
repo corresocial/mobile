@@ -21,7 +21,7 @@ import { HorizontalListPictures } from '../../../components/HorizontalListPictur
 
 function ServicePicturePreview({ route, navigation }: ServicePicturePreviewScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
-	const { setEditDataOnContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [picturesPack, setPicturesPack] = useState<string[]>(route.params?.initialValue || [])
 	const [pictureIndexSelected, setPictureIndexSelected] = useState<number>(0)
@@ -42,7 +42,7 @@ function ServicePicturePreview({ route, navigation }: ServicePicturePreviewScree
 
 	const savePictures = () => {
 		if (editModeIsTrue()) {
-			setEditDataOnContext({ picturesUrl: picturesPack })
+			addNewUnsavedFieldToEditContext({ picturesUrl: picturesPack })
 			navigation.goBack()
 			return
 		}

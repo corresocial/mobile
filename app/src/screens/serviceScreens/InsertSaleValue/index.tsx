@@ -24,7 +24,7 @@ import { ProgressBar } from '../../../components/ProgressBar'
 
 function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
-	const { setEditDataOnContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [saleValue, setSaleValue] = useState<string>(route.params?.initialValue || '')
 	const [saleValueIsValid, setSaleValueIsValid] = useState<boolean>(false)
@@ -59,7 +59,7 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 	const saveSaleValue = () => {
 		if (saleValueIsValid) {
 			if (editModeIsTrue()) {
-				setEditDataOnContext({ saleValue })
+				addNewUnsavedFieldToEditContext({ saleValue })
 				navigation.goBack()
 				return
 			}

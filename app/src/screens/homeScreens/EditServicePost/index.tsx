@@ -1,9 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 import { StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 import { Body, Container, Header, SaveButtonContainer, Sigh } from './styles'
 import CheckIcon from '../../../assets/icons/check.svg'
+
+import { serviceCategories } from '../../serviceScreens/serviceCategories'
 
 import { EditServicePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -26,11 +28,15 @@ import { updatePostPrivateData } from '../../../services/firebase/post/updatePos
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
-	const { editDataContext, clearEditContext } = useContext(EditContext)
+	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const { postData } = route.params
+
+	useEffect(() => {
+		clearUnsavedEditContext()
+	}, [])
 
 	const getPicturesUrl = () => {
 		const picturesUrl = getPostField('picturesUrl')
@@ -72,12 +78,12 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 	}
 
 	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: any) => {
-		console.log(initialValue)
+		const value = getPostField(initialValue)
 		navigation.navigate('ServiceStack', {
 			screen: screenName,
 			params: {
 				editMode: true,
-				initialValue
+				initialValue: value
 			}
 		})
 	}
@@ -90,20 +96,21 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 	const editPost = async () => {
 		try {
 			setLoaderIsVisible(true)
-			if (editDataContext.address) {
+			if (editDataContext.unsaved.address) {
 				await savePrivateAddress()
 			}
 
-			if ((editDataContext.picturesUrl && editDataContext.picturesUrl.length > 0) && !allPicturesAlreadyUploaded()) {
+			if ((editDataContext.unsaved.picturesUrl && editDataContext.unsaved.picturesUrl.length > 0) && !allPicturesAlreadyUploaded()) {
 				console.log('with pictures')
 				await performPicturesUpload()
+				changeStateOfEditedFields()
 				setLoaderIsVisible(false)
 				navigation.goBack()
 				return
 			}
 			console.log('without pictures')
 
-			const postDataToSave = { ...postData, ...editDataContext }
+			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
 			delete postDataToSave.address
 
@@ -112,10 +119,11 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 				'users',
 				postData.owner.userId,
 				'posts',
-				[...getUserPostsWithoutEdited(), postDataToSave]
+				[postDataToSave, ...getUserPostsWithoutEdited()]
 			)
 
 			setLoaderIsVisible(false)
+			changeStateOfEditedFields()
 			updateUserContext(postDataToSave)
 			navigation.goBack()
 		} catch (err) {
@@ -125,13 +133,17 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 		}
 	}
 
+	const changeStateOfEditedFields = () => {
+		setEditDataOnContext({ saved: editDataContext.unsaved, unsaved: {} })
+	}
+
 	const allPicturesAlreadyUploaded = () => {
-		return !!editDataContext.picturesUrl.filter((url: string) => url.includes('https://')).length
+		return !!editDataContext.unsaved.picturesUrl.filter((url: string) => url.includes('https://')).length
 	}
 
 	const performPicturesUpload = async () => {
-		const picturesNotUploaded = editDataContext.picturesUrl.filter((url: string) => !url.includes('https://')) || []
-		const picturesAlreadyUploaded = editDataContext.picturesUrl.filter((url: string) => url.includes('https://')) || []
+		const picturesNotUploaded = editDataContext.unsaved.picturesUrl.filter((url: string) => !url.includes('https://')) || []
+		const picturesAlreadyUploaded = editDataContext.unsaved.picturesUrl.filter((url: string) => url.includes('https://')) || []
 
 		const picturePostsUrls: string[] = []
 		await picturesNotUploaded.map(async (picturePath: string, index: number) => {
@@ -152,17 +164,17 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 										if (picturePostsUrls.length === picturesNotUploaded.length) {
 											const postDataToSave = {
 												...postData,
-												...editDataContext,
+												...editDataContext.unsaved,
 												picturesUrl: [...picturePostsUrls, ...picturesAlreadyUploaded]
 											}
-											delete postDataToSave.owner
+											delete postDataToSave.unsaved.owner
 
 											await updatePost('services', postData.postId, postDataToSave)
 											await updateDocField(
 												'users',
 												postData.owner.userId,
 												'posts',
-												[...getUserPostsWithoutEdited(), postDataToSave]
+												[postDataToSave, ...getUserPostsWithoutEdited()]
 											)
 											updateUserContext(postDataToSave)
 										}
@@ -180,8 +192,8 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 	const savePrivateAddress = async () => {
 		await updatePostPrivateData(
 			{
-				...editDataContext.address,
-				locationView: editDataContext.locationView,
+				...editDataContext.unsaved.address,
+				locationView: editDataContext.unsaved.locationView,
 				postType: 'service',
 			},
 			postData.postId,
@@ -200,12 +212,18 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 	}
 
 	const cancelAllChangesAndGoBack = () => {
-		clearEditContext()
 		navigation.goBack()
 	}
 
 	const getPostField = (fieldName: keyof ServiceCollection) => {
-		return editDataContext[fieldName] || postData[fieldName]
+		return editDataContext.unsaved[fieldName] || postData[fieldName]
+	}
+
+	const formatCategoryAndTags = () => {
+		const category: string = getPostField('category')
+		const tags = getPostField('tags')
+
+		return `	●  ${serviceCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO Type
 	}
 
 	return (
@@ -218,7 +236,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 					highlightedWords={['editar']}
 				/>
 				{
-					Object.keys(editDataContext).length > 0 && (
+					Object.keys(editDataContext.unsaved).length > 0 && (
 						<SaveButtonContainer>
 							<PrimaryButton
 								color={theme.green3}
@@ -238,10 +256,17 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 			</Header>
 			<Body>
 				<EditCard
+					title={'tags do post'}
+					highlightedWords={['tags']}
+					value={formatCategoryAndTags()}
+					onEdit={() => navigateToEditScreen('SelectServiceCategory', 'tags')}
+				/>
+				<Sigh />
+				<EditCard
 					title={'título do post'}
 					highlightedWords={['título']}
 					value={getPostField('title')}
-					onEdit={() => navigateToEditScreen('InsertServiceName', editDataContext.title || postData.title)}
+					onEdit={() => navigateToEditScreen('InsertServiceName', 'title')}
 				/>
 				<Sigh />
 				<EditCard
@@ -249,66 +274,66 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 					highlightedWords={['fotos']}
 					profilePicturesUrl={getPicturesUrl()}
 					carousel
-					onEdit={() => navigateToEditScreen('ServicePicturePreview', editDataContext.picturesUrl || postData.picturesUrl)}
+					onEdit={() => navigateToEditScreen('ServicePicturePreview', 'picturesUrl')}
 				/>
 				<Sigh />
 				<EditCard
 					title={`descrição ${getRelativeTitle()}`}
 					highlightedWords={['descrição']}
 					value={getPostField('description') || '---'}
-					onEdit={() => navigateToEditScreen('InsertServiceDescription', editDataContext.description || postData.description)}
+					onEdit={() => navigateToEditScreen('InsertServiceDescription', 'description')}
 				/>
 				<Sigh />
 				<EditCard
 					title={'valor de venda'}
 					highlightedWords={['venda']}
 					value={getPostField('saleValue') || '---'}
-					onEdit={() => navigateToEditScreen('InsertSaleValue', editDataContext.saleValue || postData.saleValue)}
+					onEdit={() => navigateToEditScreen('InsertSaleValue', 'saleValue')}
 				/>
 				<Sigh />
 				<EditCard
 					title={'valor de troca'}
 					highlightedWords={['troca']}
 					value={getPostField('exchangeValue') || '---'}
-					onEdit={() => navigateToEditScreen('InsertExchangeValue', editDataContext.exchangeValue || postData.exchangeValue)}
+					onEdit={() => navigateToEditScreen('InsertExchangeValue', 'exchangeValue')}
 				/>
 				<Sigh />
 				<LocationViewCard
 					title={'localização'}
-					locationView={getPostField('locationView') || postData.locationView}
-					postType={getPostField('postType') || postData.postType}
-					postId={getPostField('postId') || route.params.postData.postId as string}
+					locationView={getPostField('locationView')}
+					postType={getPostField('postType')}
+					postId={getPostField('postId')}
 					textFontSize={16}
 					editable
-					onEdit={() => navigateToEditScreen('InsertServicePrestationLocation', editDataContext.postId || postData.postId)}
+					onEdit={() => navigateToEditScreen('InsertServicePrestationLocation', 'postId')}
 				/>
 				<Sigh />
 				<EditCard
 					title={'dias da semana'}
 					highlightedWords={['semana']}
 					value={formatDaysOfWeek() || '---'}
-					onEdit={() => navigateToEditScreen('SelectDaysOfWeek', editDataContext.attendanceWeekDays || postData.attendanceWeekDays)}
+					onEdit={() => navigateToEditScreen('SelectDaysOfWeek', 'attendanceWeekDays')}
 				/>
 				<Sigh />
 				<EditCard
 					title={'horário de início'}
 					highlightedWords={['início']}
 					value={formatHour(getPostField('openingHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertOpeningHour', editDataContext.openingHour || postData.openingHour)}
+					onEdit={() => navigateToEditScreen('InsertOpeningHour', 'openingHour')}
 				/>
 				<Sigh />
 				<EditCard
 					title={'horário de fim'}
 					highlightedWords={['fim']}
 					value={formatHour(getPostField('closingHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertClosingHour', editDataContext.closingHour || postData.closingHour)}
+					onEdit={() => navigateToEditScreen('InsertClosingHour', 'closingHour')}
 				/>
 				<Sigh />
 				<EditCard
 					title={'entrega'}
 					highlightedWords={['entrega']}
 					value={renderDeliveryMethod() || '---'}
-					onEdit={() => navigateToEditScreen('SelectDeliveryMethod', editDataContext.deliveryMethod || postData.deliveryMethod)}
+					onEdit={() => navigateToEditScreen('SelectDeliveryMethod', 'deliveryMethod')}
 				/>
 				<Sigh />
 				<Sigh />

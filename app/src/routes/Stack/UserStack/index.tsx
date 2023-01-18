@@ -46,7 +46,7 @@ export function UserStack({ route }: any) {
 					initialRouteName={tourPerformed ? 'HomeTab' : 'WelcomeNewUser'}
 					screenOptions={{
 						headerShown: false,
-						gestureEnabled: false,
+						gestureEnabled: true,
 						...TransitionPresets.SlideFromRightIOS,
 					}}
 				>

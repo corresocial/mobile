@@ -3,8 +3,10 @@ import React, { createContext, useMemo, useState } from 'react'
 import { StateData } from './types'
 
 type EditContextType = {
-	editDataContext: any // TODO Type
+	editDataContext: { unsaved: any, saved: any } // TODO Type
+	addNewUnsavedFieldToEditContext: (dataObject: any) => void
 	clearEditContext: () => void
+	clearUnsavedEditContext: () => void
 	setEditDataOnContext: (data: any) => void,
 }
 
@@ -13,7 +15,12 @@ interface EditProviderProps {
 }
 
 const initialValue = {
-	editDataContext: {},
+	editDataContext: {
+		unsaved: {},
+		saved: {}
+	},
+	addNewUnsavedFieldToEditContext: (dataObject: any) => { },
+	clearUnsavedEditContext: () => { },
 	clearEditContext: () => { },
 	setEditDataOnContext: (data: any) => { } // TODO Type
 }
@@ -21,21 +28,40 @@ const initialValue = {
 const EditContext = createContext<EditContextType>(initialValue)
 
 function EditProvider({ children }: EditProviderProps) {
-	const [editDataContext, setStateDataContext] = useState(initialValue.editDataContext)
+	const [editDataContext, setEditDataContext] = useState(initialValue.editDataContext)
 
 	const setEditDataOnContext = async (data: StateData) => {
-		setStateDataContext({
+		setEditDataContext({
 			...editDataContext, ...data
 		})
 	}
 
+	const addNewUnsavedFieldToEditContext = (dataObject: any) => {
+		setEditDataContext({
+			unsaved: { ...editDataContext.unsaved, ...dataObject },
+			saved: editDataContext.saved
+		})
+	}
+
+	const clearUnsavedEditContext = () => {
+		setEditDataContext({
+			unsaved: {},
+			saved: editDataContext.saved
+		})
+	}
+
 	const clearEditContext = () => {
-		setStateDataContext({})
+		setEditDataContext({
+			unsaved: {},
+			saved: {}
+		})
 	}
 
 	const editProviderData = useMemo(() => ({
 		editDataContext,
+		addNewUnsavedFieldToEditContext,
 		setEditDataOnContext,
+		clearUnsavedEditContext,
 		clearEditContext
 	}), [editDataContext])
 

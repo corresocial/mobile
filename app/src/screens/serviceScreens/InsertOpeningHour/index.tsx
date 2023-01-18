@@ -23,7 +23,7 @@ import { ProgressBar } from '../../../components/ProgressBar'
 
 function InsertOpeningHour({ route, navigation }: InsertOpeningHourScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
-	const { setEditDataOnContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const initialTime = formatHour(route.params?.initialValue)
 
@@ -75,7 +75,7 @@ function InsertOpeningHour({ route, navigation }: InsertOpeningHourScreenProps) 
 		openingHour.setHours(parseInt(hours), parseInt(minutes))
 
 		if (editModeIsTrue()) {
-			setEditDataOnContext({ openingHour })
+			addNewUnsavedFieldToEditContext({ openingHour })
 			navigation.goBack()
 			return
 		}

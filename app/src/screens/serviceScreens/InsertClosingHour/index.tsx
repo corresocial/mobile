@@ -36,7 +36,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { setServiceDataOnContext, serviceDataContext } = useContext(ServiceContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
-	const { setEditDataOnContext, editDataContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
 	const initialTime = formatHour(route.params?.initialValue)
 
@@ -87,7 +87,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 	}
 
 	const closingTimeIsAfterOpening = () => {
-		const openingHour = new Date(editDataContext.openingHour || serviceDataContext.openingHour as Date)
+		const openingHour = new Date(editDataContext.unsaved.openingHour || serviceDataContext.openingHour as Date)
 		const closingHour = new Date()
 		closingHour.setHours(parseInt(hours), parseInt(minutes))
 		return openingHour.getTime() < closingHour.getTime()
@@ -134,7 +134,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		if (editModeIsTrue()) {
 			const closingHour = new Date()
 			closingHour.setHours(parseInt(hours), parseInt(minutes))
-			setEditDataOnContext({ closingHour })
+			addNewUnsavedFieldToEditContext({ closingHour })
 			navigation.goBack()
 			return
 		}

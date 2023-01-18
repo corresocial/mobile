@@ -44,10 +44,8 @@ function LocationViewCard({
 
 	const [completeAddress, setCompleteAddress] = useState<CompleteAddress>({})
 	useEffect(() => {
-		console.log(`editable: ${editable}`)
-		console.log(`!!editDataContext.address: ${!!editDataContext.address}`)
-		if (editable && !!editDataContext.address) {
-			setCompleteAddress(editDataContext.address)
+		if (editable && !!editDataContext.unsaved.address) {
+			setCompleteAddress(editDataContext.unsaved.address)
 			return
 		}
 		if (locationView !== 'private' && postType && locationView) {

@@ -27,7 +27,7 @@ import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectDaysOfWeek({ route, navigation }: SelectDaysOfWeekScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
-	const { setEditDataOnContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [selectedDays, setSelectedDays] = useState<DaysOfWeek[]>(route.params?.initialValue || [])
 	const daysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
@@ -78,9 +78,7 @@ function SelectDaysOfWeek({ route, navigation }: SelectDaysOfWeekScreenProps) {
 
 	const saveDaysOfWeek = () => {
 		if (editModeIsTrue()) {
-			setEditDataOnContext({
-				attendanceWeekDays: selectedDays
-			})
+			addNewUnsavedFieldToEditContext({ attendanceWeekDays: selectedDays })
 			navigation.goBack()
 			return
 		}

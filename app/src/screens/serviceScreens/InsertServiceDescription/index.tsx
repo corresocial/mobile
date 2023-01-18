@@ -23,7 +23,7 @@ import { LineInput } from '../../../components/LineInput'
 
 function InsertServiceDescription({ route, navigation }: InsertServiceDescriptionScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
-	const { setEditDataOnContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [serviceDescription, setServiceDescription] = useState<string>(route.params?.initialValue || '')
 	const [serviceDescriptionIsValid, setServiceDescriptionIsValid] = useState<boolean>(false)
@@ -58,9 +58,10 @@ function InsertServiceDescription({ route, navigation }: InsertServiceDescriptio
 	const saveServiceDescription = () => {
 		if (serviceDescriptionIsValid) {
 			if (editModeIsTrue()) {
-				setEditDataOnContext({
+				addNewUnsavedFieldToEditContext({
 					description: serviceDescription
 				})
+
 				navigation.goBack()
 				return
 			}
