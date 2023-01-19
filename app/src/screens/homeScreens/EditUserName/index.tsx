@@ -6,9 +6,13 @@ import { updateDocField } from '../../../services/firebase/common/updateDocField
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
 
+import { updateAllOwnerOnPosts } from '../../../services/firebase/post/updateAllOwnerOnPosts'
+
 import { EditUserNameScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { PostCollection } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
+import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -17,6 +21,9 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 
 function EditUserName({ navigation, route }: EditUserNameScreenProps) {
+	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
+	const { setLoaderIsVisible } = useContext(LoaderContext)
+
 	const [inputName, setInputName] = useState<string>(route.params.userName)
 	const [nameIsValid, setInputNameIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -24,8 +31,6 @@ function EditUserName({ navigation, route }: EditUserNameScreenProps) {
 	const inputRefs = {
 		nameInput: useRef<React.MutableRefObject<any>>(null),
 	}
-
-	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -53,8 +58,10 @@ function EditUserName({ navigation, route }: EditUserNameScreenProps) {
 
 	const saveUserName = async () => {
 		try {
+			setLoaderIsVisible(true)
 			await updateRemoteUser()
 			await updateLocalUser()
+			setLoaderIsVisible(false)
 			navigation.goBack()
 		} catch (err) {
 			console.log(err)
@@ -74,6 +81,15 @@ function EditUserName({ navigation, route }: EditUserNameScreenProps) {
 				console.log(err)
 				throw new Error('erro ao atualizar nome remotamente')
 			})
+
+		await updateAllOwnerOnPosts(
+			{
+				userId: userDataContext.userId as string,
+				profilePictureUrl: userDataContext.profilePictureUrl as string[],
+				name: inputName
+			},
+			userDataContext.posts?.map((post: PostCollection) => ({ postId: post.postId, postType: post.postType })) as any[] || [] // TODO Type
+		)
 	}
 
 	const updateLocalUser = async () => {

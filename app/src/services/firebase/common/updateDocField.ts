@@ -16,21 +16,15 @@ async function updateDocField(
 				[field]: arrayUnion(value),
 				updatedAt: new Date(),
 			},
-			{
-				merge: true
-			},
+			{ merge: true },
 		)
 
 		return finished
 	}
 	const finished = await setDoc(
 		ref,
-		{
-			[field]: value
-		},
-		{
-			merge: true
-		}
+		{ [field]: value },
+		{ merge: true }
 	)
 	return finished
 }

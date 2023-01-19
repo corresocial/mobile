@@ -1,9 +1,8 @@
-import { collection, documentId, getDocs, limit, query, where } from 'firebase/firestore'
+import { collection, getDocs, query, where } from 'firebase/firestore'
 import { firestore } from '..'
 import { SearchParams } from '../../maps/types'
 
 import { PostCollection } from '../types'
-import { PostIdentificationItem } from './getPostsByLocation'
 
 async function getPostsByDeliveryMethod(searchParams: SearchParams) {
 	const rangeOfDeliveryCollections = [

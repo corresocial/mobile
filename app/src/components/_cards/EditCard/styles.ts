@@ -23,8 +23,9 @@ export const PictureArea = styled.View`
 	height: ${screenWidth * 0.88}px;
 	border-width: ${RFValue(2)}px;
 	border-color: ${({ theme }) => theme.black4};
-	border-radius: ${RFValue(10)}px;
+	border-radius: ${RFValue(15)}px;
 	background-color: ${({ theme }) => theme.black4};
+	overflow: hidden;
 `
 
 export const ProfilePicture = styled.Image`

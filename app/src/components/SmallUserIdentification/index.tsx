@@ -8,7 +8,6 @@ import {
 	UserName,
 	UserPictureArea,
 	PostDateTime,
-	TouchableArea,
 	UserPictureAreaInner
 } from './styles'
 

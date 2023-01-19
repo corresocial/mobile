@@ -21,6 +21,8 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal'
+import { updateAllOwnerOnPosts } from '../../../services/firebase/post/updateAllOwnerOnPosts'
+import { PostCollection } from '../../../services/firebase/types'
 
 function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
@@ -34,9 +36,8 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 		setHasServerSideError(true)
 	}
 
-	const backToCustomCamera = () => {
+	const openCamera = () => {
 		setCameraModalVisibility(true)
-		setProfilePictureUrl('')
 	}
 
 	const setPictureUri = (pictureUri: string) => {
@@ -44,7 +45,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	}
 
 	const saveUserPicture = async () => {
-		if (profilePictureUrl === route.params.profilePictureUrl || !profilePictureUrl) {
+		if (profilePictureUrl === route.params.profilePictureUrl) {
 			navigation.goBack()
 			return
 		}
@@ -59,6 +60,34 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 
 	const updateRemoteUser = async () => {
 		const { userId } = route.params
+
+		if (!profilePictureUrl) {
+			await updateDocField(
+				'users',
+				userId,
+				'profilePictureUrl',
+				[]
+			)
+				.then(async () => {
+					await updateLocalUser('')
+				})
+				.catch((err) => {
+					console.log(err)
+					throw new Error('erro ao atualizar nome remotamente')
+				})
+
+			await updateAllOwnerOnPosts(
+				{
+					userId: userDataContext.userId as string,
+					profilePictureUrl: [],
+					name: userDataContext.name as string
+				},
+				userDataContext.posts?.map((post: PostCollection) => ({ postId: post.postId, postType: post.postType })) as any[] || [] // TODO Type
+			)
+			setLoaderIsVisible(false)
+			navigation.goBack()
+			return
+		}
 
 		setLoaderIsVisible(true)
 		await uploadImage(profilePictureUrl, 'users', userId)
@@ -79,12 +108,21 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 										[profilePictureURL]
 									)
 										.then(async () => {
-											await updateLocalUser(profilePictureUrl)
+											await updateLocalUser(profilePictureURL)
 										})
 										.catch((err) => {
 											console.log(err)
 											throw new Error('erro ao atualizar nome remotamente')
 										})
+
+									await updateAllOwnerOnPosts(
+										{
+											userId: userDataContext.userId as string,
+											profilePictureUrl: [profilePictureURL],
+											name: userDataContext.name as string
+										},
+										userDataContext.posts?.map((post: PostCollection) => ({ postId: post.postId, postType: post.postType })) as any[] || [] // TODO Type
+									)
 									setLoaderIsVisible(false)
 									navigation.goBack()
 								})
@@ -124,7 +162,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 		<Container >
 			<StatusBar backgroundColor={hasServerSideError ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
 			<CustomCameraModal
-				cameraOpened={cameraModalVisibility && !profilePictureUrl}
+				cameraOpened={cameraModalVisibility}
 				onClose={() => {
 					setCameraModalVisibility(false)
 				}}
@@ -154,7 +192,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 						highlightedWords={['mudar']}
 						SecondSvgIcon={ImagePlusIcon}
 						svgIconScale={['35%', '20%']}
-						onPress={backToCustomCamera}
+						onPress={openCamera}
 					/>
 				</InstructionCardContainer>
 			</DefaultHeaderContainer>
