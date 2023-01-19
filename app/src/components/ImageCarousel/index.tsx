@@ -9,15 +9,20 @@ import {
 	CarouselInactiveIndicatorItem,
 	CarouselIndicatorContainer
 } from './styles'
-import { screenHeight, screenWidth } from '../../common/screenDimensions'
+import { relativeScreenWidth, screenHeight, screenWidth } from '../../common/screenDimensions'
 import { PhotoPortrait } from '../PhotoPortrait'
 
 interface ImageCarouselProps {
 	marginVertical?: number
+	relativeWidth?: number
 	picturesUrl: string[] | undefined
 }
 
-function ImageCarousel({ marginVertical = 0, picturesUrl = ['https://cdn-icons-png.flaticon.com/512/1695/1695213.png'] }: ImageCarouselProps) {
+function ImageCarousel({
+	marginVertical = 0,
+	relativeWidth = relativeScreenWidth(94),
+	picturesUrl = ['https://cdn-icons-png.flaticon.com/512/1695/1695213.png']
+}: ImageCarouselProps) {
 	const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
 
 	const renderCarouselIndicators = () => picturesUrl.map((_, index) => (
@@ -41,7 +46,7 @@ function ImageCarousel({ marginVertical = 0, picturesUrl = ['https://cdn-icons-p
 				height={'100%'}
 				width={'100%'}
 				pictureUri={url}
-				maxWidth={screenWidth * 0.90}
+				maxWidth={relativeWidth}
 				resizeMode={'cover'}
 			/>
 		</View>

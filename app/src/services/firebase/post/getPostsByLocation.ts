@@ -56,7 +56,7 @@ async function getPostsByLocation(searchParams: SearchParams) {
 			)
 		)
 
-		const queryCity = query(
+		/* const queryCity = query(
 			collectionGroup(firestore, 'private'),
 			where(
 				'geohashNearby',
@@ -82,16 +82,16 @@ async function getPostsByLocation(searchParams: SearchParams) {
 				'==',
 				searchParams.country
 			)
-		)
+		) */
 
 		const snapshotNearby = await getDocs(queryNearby)
-		const snapshotCity = await getDocs(queryCity)
-		const snapshotCountry = await getDocs(queryCountry)
+		/* const snapshotCity = await getDocs(queryCity)
+		const snapshotCountry = await getDocs(queryCountry) */
 
 		const docs: DocumentData[] = []
 		snapshotNearby.forEach((doc) => docs.push(doc))
-		snapshotCity.forEach((doc) => docs.push(doc))
-		snapshotCountry.forEach((doc) => docs.push(doc))
+		/* snapshotCity.forEach((doc) => docs.push(doc))
+		snapshotCountry.forEach((doc) => docs.push(doc)) */
 
 		docs.forEach((doc) => {
 			const { postType } = doc.data()

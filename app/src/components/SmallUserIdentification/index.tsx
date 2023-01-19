@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import {
@@ -8,7 +8,8 @@ import {
 	UserName,
 	UserPictureArea,
 	PostDateTime,
-	TouchableArea
+	TouchableArea,
+	UserPictureAreaInner
 } from './styles'
 
 interface SmallUserIdentificationProps {
@@ -34,6 +35,21 @@ function SmallUserIdentification({
 	postDateFontSize = 12,
 	navigateToProfile
 }: SmallUserIdentificationProps) {
+	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
+
+	function pressingButton() {
+		setButtomPressed(true)
+	}
+
+	function notPressingButton() {
+		setButtomPressed(false)
+	}
+
+	function releaseButton() {
+		setButtomPressed(false)
+		navigateToProfile && navigateToProfile()
+	}
+
 	return (
 		<Container
 			style={{
@@ -47,21 +63,27 @@ function SmallUserIdentification({
 					height: RFValue(pictureDimensions)
 				}}
 			>
-				<MiniaturePortrait
-					source={{
-						uri: profilePictureUrl || 'https://www.softdownload.com.br/wp-content/uploads/2018/03/como_trocar_foto_perfil_facebook.jpg',
-					}}
-				/>
+				<UserPictureAreaInner
+					style={{ left: buttonPressed ? 0 : RFValue(-4) }}
+					activeOpacity={1}
+					onPressIn={pressingButton}
+					onPressOut={notPressingButton}
+					onPress={releaseButton}
+				>
+					<MiniaturePortrait
+						source={{
+							uri: profilePictureUrl || 'https://www.softdownload.com.br/wp-content/uploads/2018/03/como_trocar_foto_perfil_facebook.jpg',
+						}}
+					/>
+				</UserPictureAreaInner>
 			</UserPictureArea>
 			<UserInfo>
-				<TouchableArea onPress={navigateToProfile && navigateToProfile}>
-					<UserName
-						style={{ fontSize: RFValue(userNameFontSize) }}
-						numberOfLines={2}
-					>
-						{userName}
-					</UserName>
-				</TouchableArea>
+				<UserName
+					style={{ fontSize: RFValue(userNameFontSize) }}
+					numberOfLines={2}
+				>
+					{userName}
+				</UserName>
 				<PostDateTime style={{ fontSize: RFValue(postDateFontSize) }}>
 					{postDate}
 				</PostDateTime >

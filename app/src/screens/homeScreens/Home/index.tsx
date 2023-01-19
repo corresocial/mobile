@@ -28,18 +28,20 @@ import { getRecentAddressFromStorage } from '../../../services/maps/recentAddres
 import { SearchParams, LatLong, AddressSearchResult, SelectedAddressRender } from '../../../services/maps/types'
 import { PostCollection } from '../../../services/firebase/types'
 import { HomeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
+import { LocationData } from '../../../contexts/types'
 
 import { LocationContext } from '../../../contexts/LocationContext'
+import { AuthContext } from '../../../contexts/AuthContext'
+import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { LocationNearDropdown } from '../../../components/LocationNearDropdown'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { RequestLocation } from '../../../components/RequestLocation'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
-import { LocationData } from '../../../contexts/types'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
+import { getPostsByDeliveryMethod } from '../../../services/firebase/post/getPostsByDeliveryMethod'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -47,6 +49,7 @@ const initialSelectedAddress = {
 }
 
 function Home({ navigation }: HomeScreenProps) {
+	const { userDataContext } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { setLocationDataOnContext } = useContext(LocationContext)
 
@@ -119,7 +122,10 @@ function Home({ navigation }: HomeScreenProps) {
 
 			const postsIds = await getPostsByLocation(searchParams as SearchParams)
 			const posts = await getListOfPosts(postsIds)
-			setNearPosts([].concat(...posts as any) as any || []) // TODO type
+			const listOfPosts = [].concat(...posts as any) || []// TODO type
+			const postsDelivery = await getPostsByDeliveryMethod(searchParams)
+			// console.log(posts)
+			setNearPosts([].concat(...posts as any) || [])
 			setLoaderIsVisible(false)
 			setSearchEnded(true)
 			setLocationDataOnContext(searchParams)
@@ -184,7 +190,6 @@ function Home({ navigation }: HomeScreenProps) {
 			setAddressSuggestions(addresses)
 			setLoaderIsVisible(false)
 		} catch (err) {
-			console.log('deu ruim')
 			setLoaderIsVisible(false)
 		}
 	}
@@ -226,6 +231,14 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const navigateToPostCategories = (title: string) => {
 		navigation.navigate('PostCategories', { title })
+	}
+
+	const navigateToProfile = (userId: string) => {
+		if (userDataContext.userId === userId) {
+			navigation.navigate('Profile' as any, { userId })// TODO Type
+			return
+		}
+		navigation.navigate('ProfileHome' as any, { userId })// TODO Type
 	}
 
 	return (
@@ -324,10 +337,11 @@ function Home({ navigation }: HomeScreenProps) {
 									<PostCard
 										post={item}
 										owner={item.owner}
+										navigateToProfile={navigateToProfile}
 										onPress={() => goToPostView(item)}// TODO structure
 									/>
 								)}
-								onEndReached={() => console.log('findMoreNearPosts')}
+								onEndReached={() => console.log('findMoreNearPosts(Pagination)')}
 								showsVerticalScrollIndicator={false}
 								contentContainerStyle={{ padding: RFValue(10) }}
 								ItemSeparatorComponent={() => <Sigh />}

@@ -20,7 +20,6 @@ async function getListOfPosts(postsIdentification: PostIdentificationItem[], fil
 		if (postsIdentification.length < 1) return []
 
 		const allPosts = postsIdentification.map(async (post: PostIdentificationItem) => {
-			console.log(post.postIds.length)
 			const queryList = filterMethod
 				? getFilteredQuery(post.collection, post.postIds, filterMethod, filterText)
 				: query(

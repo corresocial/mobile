@@ -76,6 +76,7 @@ function EditCard({
 									? (
 										<ImageCarousel
 											picturesUrl={profilePicturesUrl}
+											relativeWidth={relativeScreenWidth(90)}
 										/>
 									) : (
 										<ProfilePicture

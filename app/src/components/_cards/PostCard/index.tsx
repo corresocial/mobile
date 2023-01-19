@@ -22,10 +22,11 @@ import { SaleExchangeValue } from '../../SaleExchangeValue'
 interface PostCardProps {
 	post: PostCollection | any
 	owner: LocalUserData | any
+	navigateToProfile?: (userId: string) => void
 	onPress: () => void
 }
 
-function PostCard({ post, owner, onPress }: PostCardProps) {
+function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 	const renderShortName = () => {
 		if (owner.name && owner.name.split(' ').length < 3) return owner.name
 		const names = owner.name && (owner.name.split(' ') || [])
@@ -59,6 +60,7 @@ function PostCard({ post, owner, onPress }: PostCardProps) {
 							userName={renderShortName()}
 							postDate={renderFormatedPostDateTime()}
 							profilePictureUrl={getProfilePictureUrl()}
+							navigateToProfile={() => navigateToProfile && navigateToProfile(owner.userId)}
 						/>
 						{
 							(post.description || post.itemDescription)
