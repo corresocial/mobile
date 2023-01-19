@@ -129,7 +129,7 @@ function InsertServiceName({ route, navigation }: InsertServiceNameScreenProps) 
 								labelColor={theme.white3}
 								SvgIcon={Check}
 								svgIconScale={['30%', '15%']}
-								onPress={saveServiceName}
+								onPress={() => { /* saveServiceName */ }}
 							/>
 						)
 					}

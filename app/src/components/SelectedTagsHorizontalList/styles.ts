@@ -1,5 +1,5 @@
 import styled from 'styled-components/native'
-import { relativeScreenHeight, relativeScreenWidth } from '../../common/screenDimensions'
+import { relativeScreenHeight } from '../../common/screenDimensions'
 
 export const TagsSelectedArea = styled.View`
     padding-horizontal: 0px;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Animated, FlatList, KeyboardAvoidingView, TouchableOpacity } from 'react-native'
+import { Animated, FlatList } from 'react-native'
 import uuid from 'react-uuid'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -16,7 +16,7 @@ import {
 	BigSigh
 } from './styles'
 import { theme } from '../../common/theme'
-import { relativeScreenHeight, relativeScreenWidth, screenHeight } from '../../common/screenDimensions'
+import { relativeScreenHeight, screenHeight } from '../../common/screenDimensions'
 import LoupIcon from '../../assets/icons/loup.svg'
 import XIcon from '../../assets/icons/x-thin.svg'
 import MapIcon from '../../assets/icons/map.svg'

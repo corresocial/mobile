@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native'
 import uuid from 'react-uuid'
 
 import { TagsSelectedArea } from './styles'
-import { relativeScreenHeight, relativeScreenWidth, screenHeight } from '../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../common/screenDimensions'
 
 import { SelectButton } from '../_buttons/SelectButton'
 

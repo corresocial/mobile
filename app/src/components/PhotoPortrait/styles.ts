@@ -1,7 +1,6 @@
-import { relative } from 'path'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { relativeScreenWidth, screenWidth } from '../../common/screenDimensions'
+import { relativeScreenWidth } from '../../common/screenDimensions'
 
 export const Container = styled.View`
     background-color: ${({ theme }) => theme.black4};

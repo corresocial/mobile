@@ -1,4 +1,4 @@
-import { servicesIndex, salesIndex } from './index'
+import { servicesIndex } from './index'
 import { PostIdentification } from './types'
 
 async function searchPosts(searchText: string, searchParams: any, searchOnly?: boolean) {

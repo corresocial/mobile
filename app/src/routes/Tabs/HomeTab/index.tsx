@@ -2,7 +2,6 @@ import 'react-native-gesture-handler'
 import React, { useContext } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useFocusEffect } from '@react-navigation/native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { theme } from '../../../common/theme'
 import HomeTabIconActive from '../../../assets/icons/homeTabIconActive.svg'

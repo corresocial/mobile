@@ -3,12 +3,10 @@ import {
 	query,
 	collection,
 	orderBy,
-	limit,
 	getDocs,
-	collectionGroup,
 } from 'firebase/firestore'
-import Firebase, { firestore } from '..'
-import { PostCollection, PostCollectionType, PostType } from '../types'
+import { firestore } from '..'
+import { PostCollection, PostCollectionType } from '../types'
 
 export type PostIdentificationItem = {
 	collection: string
