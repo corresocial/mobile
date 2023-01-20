@@ -91,7 +91,7 @@ function InsertEventStartHour({ navigation }: InsertEventStartHourScreenProps) {
 				>
 					<ProgressBar
 						range={5}
-						value={4}
+						value={5}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>

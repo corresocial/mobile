@@ -153,7 +153,7 @@ function InsertEventEndDate({ navigation }: InsertEventEndDateScreenProps) {
 				>
 					<ProgressBar
 						range={5}
-						value={4}
+						value={5}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>

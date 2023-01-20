@@ -106,7 +106,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 			locationView: locationViewSelected
 		})
 		if (cultureDataContext.cultureType === 'eventPost') {
-			navigation.navigate('InsertEventStartDate')
+			navigation.navigate('SelectEventRepeat')
 		} else {
 			await saveCulturePost()
 		}
