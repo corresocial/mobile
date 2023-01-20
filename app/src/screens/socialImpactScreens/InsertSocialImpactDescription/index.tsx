@@ -75,8 +75,8 @@ function InsertSocialImpactDescription({ navigation }: InsertSocialImpactDescrip
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={18}
-					message={'fala um pouco mais sobre a sua iniciativa'}
-					highlightedWords={['fala', 'um', 'pouco', 'sua', 'iniciativa']}
+					message={'qual a descrição do seu post?'}
+					highlightedWords={['descrição']}
 				>
 					<ProgressBar
 						range={5}

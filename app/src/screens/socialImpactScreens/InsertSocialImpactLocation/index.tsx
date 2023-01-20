@@ -196,7 +196,7 @@ function InsertSocialImpactLocation({ navigation }: InsertSocialImpactLocationSc
 					message={
 						someInvalidFieldSubimitted()
 							? 'não foi possível localizar este endereço'
-							: 'qual o endereço de atuação?'
+							: 'qual o endereço desse post?'
 					}
 					highlightedWords={
 						someInvalidFieldSubimitted()
@@ -233,7 +233,7 @@ function InsertSocialImpactLocation({ navigation }: InsertSocialImpactLocationSc
 					setInvalidAddressAfterSubmit(false)
 				}}
 			/>
-			<MapContainer onLayout={(event) => !mapContainerDimensions.width && setMapContainerDimensions(event.nativeEvent.layout)}>
+			<MapContainer onLayout={(event: any) => !mapContainerDimensions.width && setMapContainerDimensions(event.nativeEvent.layout)}>
 				<View style={{
 					position: 'absolute',
 					top: mapContainerDimensions.height / 2 - (screenWidth * 0.0972),

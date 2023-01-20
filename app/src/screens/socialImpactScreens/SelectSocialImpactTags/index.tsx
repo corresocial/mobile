@@ -133,8 +133,8 @@ function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScr
 				<InfoCard
 					title={getCurrentCategoryLabel()}
 					titleFontSize={26}
-					description={`que tipo de ${getCurrentCategoryLabel()} tem a ver com esse impacto?`}
-					highlightedWords={[...getCurrentCategoryLabelHightlighted()]}
+					description={'quais palavras tem a ver com esse post?'}
+					highlightedWords={[...getCurrentCategoryLabelHightlighted(), 'palavras', 'tem', 'a', 'ver']}
 					height={'100%'}
 					color={theme.white3}
 				/>

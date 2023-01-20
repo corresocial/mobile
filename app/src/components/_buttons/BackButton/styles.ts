@@ -1,6 +1,5 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.TouchableOpacity`
     align-items: center;

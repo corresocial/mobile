@@ -241,7 +241,7 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 					fontSize={18}
 					message={
 						!hasServerSideError
-							? 'esse iniciativa se repete?'
+							? 'esse impacto, se repete?'
 							: 'ops, parece que algo deu errado do nosso lado! \n\npor favor tente novamente em alguns instantes'
 					}
 					highlightedWords={

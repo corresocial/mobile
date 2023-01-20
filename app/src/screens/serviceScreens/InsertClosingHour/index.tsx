@@ -40,8 +40,8 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 
 	const initialTime = formatHour(route.params?.initialValue)
 
-	const [hours, setHours] = useState<string>(initialTime.split(':')[0] || '')
-	const [minutes, setMinutes] = useState<string>(initialTime.split(':')[1] || '')
+	const [hours, setHours] = useState<string>(route.params?.initialValue ? initialTime.split(':')[0] : '')
+	const [minutes, setMinutes] = useState<string>(route.params?.initialValue ? initialTime.split(':')[1] : '')
 	const [hoursIsValid, setHoursIsValid] = useState<boolean>(false)
 	const [minutesIsValid, setMinutesIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)

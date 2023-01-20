@@ -17,6 +17,7 @@ async function getPostsByDeliveryMethod(searchParams: SearchParams) {
 			const queryCity = query(
 				collection(firestore, collectionName),
 				where(rangeField, '==', 'city'),
+				// where(city, '==', 'city'),  // City is private
 			)
 
 			/* const queryCountry = query(

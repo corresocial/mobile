@@ -75,8 +75,8 @@ function InsertSocialImpactTitle({ navigation }: InsertSocialImpactTitleScreenPr
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={18}
-					message={'qual é o nome da sua iniciativa?'}
-					highlightedWords={['nome', 'sua', 'iniciativa']}
+					message={'qual é o título do post?'}
+					highlightedWords={['título']}
 				>
 					<ProgressBar
 						range={5}

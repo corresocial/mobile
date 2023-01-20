@@ -38,8 +38,8 @@ function SelectSocialImpactExhibitionRange({ navigation }: SelectSocialImpactExh
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={18}
-					message={'onde que vocês atuam?'}
-					highlightedWords={['onde']}
+					message={'qual o alcance desse impacto?'}
+					highlightedWords={['alcance']}
 				>
 					<ProgressBar
 						range={5}

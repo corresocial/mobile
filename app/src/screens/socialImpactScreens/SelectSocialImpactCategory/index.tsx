@@ -63,7 +63,7 @@ function SelectSocialImpactCategory({ navigation }: SelectSocialImpactCategorySc
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={18}
-					message={'em qual categoria essa se encaixa?'}
+					message={'em qual categoria se encaixa?'}
 					highlightedWords={['categoria']}
 				>
 					<ProgressBar
