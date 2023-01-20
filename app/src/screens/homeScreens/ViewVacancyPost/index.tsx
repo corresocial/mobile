@@ -131,7 +131,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 
 	const navigateToProfile = () => {
 		if (userDataContext.userId === postData.owner.userId) {
-			navigation.navigate('Profile' as any, { userId: postData.owner.userId })// TODO Type
+			navigation.navigate('Profile' as any)// TODO Type
 			return
 		}
 		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
