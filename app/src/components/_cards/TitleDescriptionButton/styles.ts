@@ -1,18 +1,24 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { screenHeight } from '../../../common/screenDimensions'
-
 export const Container = styled.View`
-    flex: 1;
-    height:${screenHeight * 0.1}px;
-    background-color: ${({ theme }) => theme.white3};
+	width: 100%;
+    background-color: ${({ theme }) => theme.black4};
     border-radius: ${RFValue(17)}px;
-    border: ${RFValue(2)}px solid ${({ theme }) => theme.black3};
-    border-right-width: ${RFValue(6)}px;
+    justify-content: space-around;
+	position: relative;
+`
+
+export const ContainerInner = styled.TouchableOpacity`
+   	width: 100%;
+   	height: 100%;
+    background-color: ${({ theme }) => theme.white3};
+    border: ${RFValue(2)}px solid ${({ theme }) => theme.black4};
+    border-radius: ${RFValue(15)}px;
     padding-vertical: ${RFValue(10)}px;
     padding-horizontal: ${RFValue(15)}px;
     justify-content: space-around;
+	left: ${RFValue(-5)}px;
 `
 
 export const Title = styled.Text`

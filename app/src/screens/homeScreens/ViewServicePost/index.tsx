@@ -111,6 +111,9 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	}
 
 	const getPostField = (fieldName: keyof ServiceCollection) => {
+		if (fieldName === 'picturesUrl') {
+			console.log(editDataContext.saved[fieldName] || postData[fieldName])
+		}
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
 
@@ -195,10 +198,10 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					/>
 					<Sigh />
 					{
-						!arrayIsEmpty(postData.picturesUrl) && (
+						!arrayIsEmpty(getPostField('picturesUrl')) && (
 							<>
 								<ImageCarousel
-									picturesUrl={editDataContext.saved.picturesUrl || (postData.picturesUrl && postData.picturesUrl)}
+									picturesUrl={getPostField('picturesUrl') || []}
 								/>
 								<Sigh />
 							</>

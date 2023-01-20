@@ -10,16 +10,43 @@ import { LocationViewType } from '../../../services/firebase/types'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
+import { TitleDescriptionButton } from '../../../components/_cards/TitleDescriptionButton'
 
 function SelectLocationView({ route, navigation }: SelectLocationViewScreenProps) {
 	const saveLocationViewType = (locationViewType: LocationViewType) => {
-		navigation.navigate('LocationViewPreview', {
+		navigation.navigate('InsertServicePrestationLocation', {
 			locationView: locationViewType,
 			...route.params
 		})
+	}
+
+	const getLocationViewTitle = (locationView: LocationViewType) => {
+		switch (locationView) {
+			case 'private': return 'localização⠀ \nprivada'
+			case 'approximate': return 'localização \naproximada'
+			case 'public': return 'localização \npública'
+			default: return 'switch option unfount'
+		}
+	}
+
+	const getLocationViewDescription = (locationView: LocationViewType) => {
+		switch (locationView) {
+			case 'private': return 'os usuários podem ver seu perfil, mas não tem acesso a sua localização.'
+			case 'approximate': return 'os usuários podem a sua região aproximada.'
+			case 'public': return 'os usuários podem ver exatamente onde você está.'
+			default: return 'switch option unfount'
+		}
+	}
+
+	const getLocationViewHighlightedWords = (locationView: LocationViewType) => {
+		switch (locationView) {
+			case 'private': return ['\nprivada', 'não', 'tem', 'acesso', 'a', 'sua', 'localização']
+			case 'approximate': return ['\naproximada', 'a', 'sua', 'região', 'aproximada']
+			case 'public': return ['\npública', 'exatamente', 'onde', 'você', 'está']
+			default: return []
+		}
 	}
 
 	return (
@@ -47,7 +74,7 @@ function SelectLocationView({ route, navigation }: SelectLocationViewScreenProps
 				backgroundColor={theme.purple2}
 			>
 				<ButtonsContainer>
-					<PrimaryButton
+					{/* <PrimaryButton
 						justifyContent={'flex-start'}
 						color={theme.white3}
 						relativeHeight={'18%'}
@@ -57,8 +84,32 @@ function SelectLocationView({ route, navigation }: SelectLocationViewScreenProps
 						label={'localização privada'}
 						highlightedWords={['privada']}
 						onPress={() => saveLocationViewType('private')}
+					/> */}
+					<TitleDescriptionButton
+						height={'28%'}
+						color={theme.white3}
+						title={getLocationViewTitle('private')}
+						description={getLocationViewDescription('private')}
+						highlightedWords={getLocationViewHighlightedWords('private')}
+						onPress={() => saveLocationViewType('private')}
 					/>
-					<PrimaryButton
+					<TitleDescriptionButton
+						height={'28%'}
+						color={theme.white3}
+						title={getLocationViewTitle('approximate')}
+						description={getLocationViewDescription('approximate')}
+						highlightedWords={getLocationViewHighlightedWords('approximate')}
+						onPress={() => saveLocationViewType('approximate')}
+					/>
+					<TitleDescriptionButton
+						height={'28%'}
+						color={theme.white3}
+						title={getLocationViewTitle('public')}
+						description={getLocationViewDescription('public')}
+						highlightedWords={getLocationViewHighlightedWords('public')}
+						onPress={() => saveLocationViewType('public')}
+					/>
+					{/* <PrimaryButton
 						justifyContent={'flex-start'}
 						color={theme.white3}
 						relativeHeight={'18%'}
@@ -79,7 +130,7 @@ function SelectLocationView({ route, navigation }: SelectLocationViewScreenProps
 						label={'localização pública'}
 						highlightedWords={['pública']}
 						onPress={() => saveLocationViewType('public')}
-					/>
+					/> */}
 				</ButtonsContainer>
 			</FormContainer>
 		</Container>

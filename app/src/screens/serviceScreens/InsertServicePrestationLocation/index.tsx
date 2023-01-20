@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
+import { Animated, LayoutChangeEvent, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
 import * as Location from 'expo-location'
 
 import { theme } from '../../../common/theme'
-import { screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight, screenWidth } from '../../../common/screenDimensions'
 import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from './styles'
 import Check from '../../../assets/icons/check.svg'
 import MapPointOrange from '../../../assets/icons/mapPoint-orange.svg'
@@ -19,11 +19,10 @@ import { EditContext } from '../../../contexts/EditContext'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
-import { ProgressBar } from '../../../components/ProgressBar'
 import { CustomMapView } from '../../../components/CustomMapView'
 import { getPrivateAddress } from '../../../services/firebase/post/getPrivateAddress'
+import { InfoCard } from '../../../components/_cards/InfoCard'
 
 const initialRegion = {
 	latitude: -13.890303625634541,
@@ -182,11 +181,47 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 			})
 		}
 
-		navigation.navigate('SelectLocationView', { editMode: !!route.params?.editMode })
+		navigation.navigate('LocationViewPreview', {
+			locationView: route.params.locationView,
+			editMode: !!route.params?.editMode
+		})
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode
 	const markerCoordinateIsAccuracy = () => markerCoordinate?.latitudeDelta as number < 0.0065
+
+	const getLocationViewTitle = () => {
+		if (someInvalidFieldSubimitted()) return 'ops!'
+
+		switch (route.params.locationView) {
+			case 'private': return 'localização⠀ \nprivada'
+			case 'approximate': return 'localização \naproximada'
+			case 'public': return 'localização \npública'
+			default: return 'switch option unfount'
+		}
+	}
+
+	const getLocationViewDescription = () => {
+		if (someInvalidFieldSubimitted()) return 'não foi possível localizar este endereço'
+
+		switch (route.params.locationView) {
+			case 'private': return 'os usuários podem ver seu perfil, mas não tem acesso a sua localização.'
+			case 'approximate': return 'os usuários podem a sua região aproximada.'
+			case 'public': return 'os usuários podem ver exatamente onde você está.'
+			default: return 'switch option unfount'
+		}
+	}
+
+	const getLocationViewHighlightedWords = () => {
+		if (someInvalidFieldSubimitted()) return ['ops!', 'não', 'endereço']
+
+		switch (route.params.locationView) {
+			case 'private': return ['\nprivada', 'não', 'tem', 'acesso', 'a', 'sua', 'localização']
+			case 'approximate': return ['\naproximada', 'a', 'sua', 'região', 'aproximada']
+			case 'public': return ['\npública', 'exatamente', 'onde', 'você', 'está']
+			default: return []
+		}
+	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
@@ -208,6 +243,23 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
+				minHeight={relativeScreenHeight(22)}
+				relativeHeight={'22%'}
+				centralized
+				backgroundColor={animateDefaultHeaderBackgound()}
+				borderBottomWidth={0}
+			>
+				<BackButton onPress={() => navigation.goBack()} />
+				<InfoCard
+					title={getLocationViewTitle()}
+					titleFontSize={24}
+					description={getLocationViewDescription()}
+					highlightedWords={[...getLocationViewHighlightedWords()]}
+					height={'100%'}
+					color={theme.white3}
+				/>
+			</DefaultHeaderContainer>
+			{/* <DefaultHeaderContainer
 				minHeight={screenHeight * 0.26}
 				relativeHeight={'22%'}
 				centralized
@@ -234,7 +286,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 						value={4}
 					/>
 				</InstructionCard>
-			</DefaultHeaderContainer>
+			</DefaultHeaderContainer> */}
 			<LineInput
 				value={address}
 				relativeWidth={'100%'}
@@ -258,7 +310,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 					setInvalidAddressAfterSubmit(false)
 				}}
 			/>
-			<MapContainer onLayout={(event) => !mapContainerDimensions.width && setMapContainerDimensions(event.nativeEvent.layout)}>
+			<MapContainer onLayout={({ nativeEvent }: LayoutChangeEvent) => !mapContainerDimensions.width && setMapContainerDimensions(nativeEvent.layout)}>
 				<View style={{
 					position: 'absolute',
 					top: mapContainerDimensions.height / 2 - (screenWidth * 0.0972),

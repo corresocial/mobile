@@ -25,7 +25,7 @@ function ServicePicturePreview({ route, navigation }: ServicePicturePreviewScree
 
 	const [picturesPack, setPicturesPack] = useState<string[]>(route.params?.initialValue || [])
 	const [pictureIndexSelected, setPictureIndexSelected] = useState<number>(0)
-	const [cameraOpened, setCameraOpened] = useState<boolean>(!route.params?.editMode)
+	const [cameraOpened, setCameraOpened] = useState<boolean>(!route.params?.editMode || !route.params?.initialValue.length)
 
 	const setPictureUri = (uri: string) => {
 		const currentPictures = [...picturesPack]

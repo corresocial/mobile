@@ -104,8 +104,6 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 				console.log('with pictures')
 				await performPicturesUpload()
 				changeStateOfEditedFields()
-				setLoaderIsVisible(false)
-				navigation.goBack()
 				return
 			}
 			console.log('without pictures')
@@ -162,12 +160,12 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 										blob.close()
 										picturePostsUrls.push(downloadURL)
 										if (picturePostsUrls.length === picturesNotUploaded.length) {
+											console.log(`picturePostsUrls: ${picturePostsUrls}`)
 											const postDataToSave = {
 												...postData,
 												...editDataContext.unsaved,
 												picturesUrl: [...picturePostsUrls, ...picturesAlreadyUploaded]
 											}
-											delete postDataToSave.unsaved.owner
 
 											await updatePost('services', postData.postId, postDataToSave)
 											await updateDocField(
@@ -176,10 +174,17 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 												'posts',
 												[postDataToSave, ...getUserPostsWithoutEdited()]
 											)
+
 											updateUserContext(postDataToSave)
+											setLoaderIsVisible(false)
+											navigation.goBack()
 										}
 									},
 								)
+								.catch((err) => {
+									console.log(err)
+									setLoaderIsVisible(false)
+								})
 						},
 					)
 				},
@@ -305,7 +310,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 					postId={getPostField('postId')}
 					textFontSize={16}
 					editable
-					onEdit={() => navigateToEditScreen('InsertServicePrestationLocation', 'postId')}
+					onEdit={() => navigateToEditScreen('SelectLocationView', 'postId')}
 				/>
 				<Sigh />
 				<EditCard
