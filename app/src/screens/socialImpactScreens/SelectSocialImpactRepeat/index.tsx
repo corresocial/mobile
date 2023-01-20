@@ -1,22 +1,12 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
-import { getDownloadURL } from 'firebase/storage'
 import { Container, ButtonsContainer } from './styles'
 import { theme } from '../../../common/theme'
 
-import { updateDocField } from '../../../services/firebase/common/updateDocField'
-import { createPost } from '../../../services/firebase/post/createPost'
-import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
-import { uploadImage } from '../../../services/firebase/common/uploadPicture'
-
 import { SelectSocialImpactRepeatScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
-import { EventRepeatType, PrivateAddress, SocialImpactCollection, PostCollection } from '../../../services/firebase/types'
-import { SocialImpactData, LocalUserData } from '../../../contexts/types'
+import { EventRepeatType } from '../../../services/firebase/types'
 
-import { AuthContext } from '../../../contexts/AuthContext'
-import { StateContext } from '../../../contexts/StateContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -27,211 +17,18 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreenProps) {
-	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
-	const { setStateDataOnContext } = useContext(StateContext)
-	const { socialImpactDataContext, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
+	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 
-	const [hasServerSideError, setHasServerSideError] = useState(false)
-
-	const getCompleteSocialImpactDataFromContext = (socialImpactRepeat: EventRepeatType) => ({
-		...socialImpactDataContext,
-		socialImpactRepeat
-	})
-
-	const extractSocialImpactAddress = (socialImpactData: SocialImpactData) => ({
-		...socialImpactData.address
-	} as PrivateAddress)
-
-	const extractSocialImpactDataPost = (socialImpactData: SocialImpactData) => {
-		const currentSocialImpactData = {
-			...socialImpactData
-		}
-		delete currentSocialImpactData.address
-
-		return {
-			...currentSocialImpactData
-		} as SocialImpactCollection
-	}
-
-	const extractSocialImpactPictures = (socialImpactData: SocialImpactData) => socialImpactData.picturesUrl as string[] || []
-
-	const getLocalUser = () => userDataContext
-
-	const showShareModal = (visibility: boolean, postTitle?: string) => {
-		setStateDataOnContext({
-			showShareModal: visibility,
-			lastPostTitle: postTitle
-		})
-	}
-
-	const saveSocialImpactPost = async (socialImpactRepeat: EventRepeatType) => {
-		setLoaderIsVisible(true)
-		setHasServerSideError(false)
-
-		const completeSocialImpactData = getCompleteSocialImpactDataFromContext(socialImpactRepeat)
-		setSocialImpactDataOnContext({
-			...completeSocialImpactData
-		})
-
-		const socialImpactAddress = extractSocialImpactAddress(completeSocialImpactData)
-		const socialImpactDataPost = extractSocialImpactDataPost(completeSocialImpactData)
-		const socialImpactPictures = extractSocialImpactPictures(completeSocialImpactData)
-
-		try {
-			const localUser = { ...getLocalUser() }
-			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
-
-			const postId = await createPost(socialImpactDataPost, localUser, 'socialImpacts', 'socialImpact')
-			if (!postId) throw new Error('Não foi possível identificar o post')
-
-			if (!socialImpactPictures.length) {
-				await updateUserPost(
-					localUser,
-					postId,
-					socialImpactDataPost,
-					socialImpactPictures
-				)
-
-				await updatePostPrivateData(
-					{
-						...socialImpactAddress,
-						postType: 'socialImpact',
-						locationView: socialImpactDataPost.locationView
-					},
-					postId,
-					'socialImpacts',
-					`address${postId}`
-				)
-
-				return
-			}
-
-			const picturePostsUrls: string[] = []
-			socialImpactPictures.forEach(async (socialImpactPicture, index) => {
-				uploadImage(socialImpactPicture, 'socialImpacts', postId, index).then(
-					({ uploadTask, blob }: any) => {
-						uploadTask.on(
-							'state_change',
-							() => { },
-							(err: any) => {
-								throw new Error(err)
-							},
-							() => {
-								getDownloadURL(uploadTask.snapshot.ref)
-									.then(
-										async (downloadURL) => {
-											blob.close()
-											picturePostsUrls.push(downloadURL)
-											if (picturePostsUrls.length === socialImpactPictures.length) {
-												await updateUserPost(
-													localUser,
-													postId,
-													socialImpactDataPost,
-													picturePostsUrls
-												)
-
-												await updateDocField(
-													'socialImpacts',
-													postId,
-													'picturesUrl',
-													picturePostsUrls,
-												)
-
-												await updatePostPrivateData(
-													{
-														...socialImpactAddress,
-														postType: 'socialImpact',
-														locationView: socialImpactDataPost.locationView
-													},
-													postId,
-													'socialImpacts',
-													`address${postId}`
-												)
-											}
-										},
-									)
-							},
-						)
-					},
-				)
-			})
-		} catch (err) {
-			console.log(err)
-			setLoaderIsVisible(false)
-			setHasServerSideError(true)
-		}
-	}
-
-	const updateUserPost = async (
-		localUser: LocalUserData,
-		postId: string,
-		socialImpactDataPost: SocialImpactData,
-		picturePostsUrls: string[],
-	) => {
-		const postData = {
-			...socialImpactDataPost,
-			postId,
-			postType: 'socialImpact',
-			picturesUrl: picturePostsUrls,
-			createdAt: new Date()
-		}
-
-		await updateDocField(
-			'users',
-			localUser.userId as string,
-			'posts',
-			postData,
-			true,
-		)
-			.then(() => {
-				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollection[] : []
-				setUserDataOnContext({
-					...localUser,
-					tourPerformed: true,
-					posts: [
-						...localUserPosts,
-						{
-							...postData,
-							owner: {
-								userId: localUser.userId,
-								name: localUser.name,
-								profilePictureUrl: localUser.profilePictureUrl
-							}
-						} as SocialImpactCollection,
-					],
-				})
-				setDataOnSecureStore('corre.user', {
-					...localUser,
-					tourPerformed: true,
-					posts: [
-						...localUserPosts,
-						{
-							...postData,
-							owner: {
-								userId: localUser.userId,
-								name: localUser.name,
-								profilePictureUrl: localUser.profilePictureUrl
-							}
-						},
-					],
-				})
-				setLoaderIsVisible(false)
-				showShareModal(true, socialImpactDataPost.title)
-				navigation.navigate('HomeTab' as any) // TODO Type
-			})
-			.catch((err: any) => {
-				console.log(err)
-				setLoaderIsVisible(false)
-				setHasServerSideError(true)
-			})
+	const saveSocialImpactRepeat = async (socialImpactRepeat: EventRepeatType) => {
+		setSocialImpactDataOnContext({ socialImpactRepeat })
+		navigation.navigate('InsertOpeningHour')
 	}
 
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={!hasServerSideError ? '27%' : '32%'}
+				relativeHeight={'25%'}
 				centralized
 				backgroundColor={theme.white3}
 			>
@@ -239,25 +36,17 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={18}
-					message={
-						!hasServerSideError
-							? 'esse impacto, se repete?'
-							: 'ops, parece que algo deu errado do nosso lado! \n\npor favor tente novamente em alguns instantes'
-					}
-					highlightedWords={
-						!hasServerSideError
-							? ['repete']
-							: ['ops,', 'parece', 'que', 'algo', 'deu', 'errado', 'do', 'nosso', 'lado!']
-					}
+					message={'esse impacto, se repete?'}
+					highlightedWords={['repete']}
 				>
 					<ProgressBar
 						range={5}
-						value={5}
+						value={4}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={hasServerSideError ? theme.red2 : theme.pink2}
+				backgroundColor={theme.pink2}
 			>
 				<ButtonsContainer>
 					<PrimaryButton
@@ -269,7 +58,7 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 						textAlign={'left'}
 						label={'1 vez por semana'}
 						highlightedWords={['1', 'vez', 'por', 'semana']}
-						onPress={() => saveSocialImpactPost('weekly')}
+						onPress={() => saveSocialImpactRepeat('weekly')}
 					/>
 					<PrimaryButton
 						justifyContent={'flex-start'}
@@ -280,7 +69,7 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 						textAlign={'left'}
 						label={'todos os dias'}
 						highlightedWords={['todos', 'os', 'dias']}
-						onPress={() => saveSocialImpactPost('everyDay')}
+						onPress={() => saveSocialImpactRepeat('everyDay')}
 					/>
 					<PrimaryButton
 						justifyContent={'flex-start'}
@@ -291,7 +80,7 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 						textAlign={'left'}
 						label={'a cada 15 dias'}
 						highlightedWords={['a', 'cada', '15', 'dias']}
-						onPress={() => saveSocialImpactPost('biweekly')}
+						onPress={() => saveSocialImpactRepeat('biweekly')}
 					/>
 					<PrimaryButton
 						justifyContent={'flex-start'}
@@ -302,7 +91,7 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 						textAlign={'left'}
 						label={'1 vez no mês'}
 						highlightedWords={['1', 'vez', 'no', 'mês']}
-						onPress={() => saveSocialImpactPost('monthly')}
+						onPress={() => saveSocialImpactRepeat('monthly')}
 					/>
 					<PrimaryButton
 						justifyContent={'flex-start'}
@@ -313,7 +102,7 @@ function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreen
 						textAlign={'left'}
 						label={'não se repete'}
 						highlightedWords={['não', 'se', 'repete']}
-						onPress={() => saveSocialImpactPost('unrepeatable')}
+						onPress={() => saveSocialImpactRepeat('unrepeatable')}
 					/>
 				</ButtonsContainer>
 			</FormContainer>

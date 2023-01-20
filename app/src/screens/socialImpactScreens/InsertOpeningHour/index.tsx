@@ -91,7 +91,7 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
 				>
 					<ProgressBar
 						range={5}
-						value={4}
+						value={5}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>

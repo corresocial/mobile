@@ -6,12 +6,12 @@ import { useFocusEffect } from '@react-navigation/native'
 import { theme } from '../../../common/theme'
 import HomeTabIconActive from '../../../assets/icons/homeTabIconActive.svg'
 import HomeTabIconInactive from '../../../assets/icons/homeTabIconInactive.svg'
-import LoupTabIconActive from '../../../assets/icons/loupTabIconActive.svg'
-import LoupTabIconInactive from '../../../assets/icons/loupTabIconInactive.svg'
+// import LoupTabIconActive from '../../../assets/icons/loupTabIconActive.svg'
+// import LoupTabIconInactive from '../../../assets/icons/loupTabIconInactive.svg'
 import PlusTabIconActive from '../../../assets/icons/plusTabIconActive.svg'
 import PlusTabIconInactive from '../../../assets/icons/plusTabIconInactive.svg'
-import ChatTabIconActive from '../../../assets/icons/chatTabIconActive.svg'
-import ChatTabIconInactive from '../../../assets/icons/chatTabIconInactive.svg'
+// import ChatTabIconActive from '../../../assets/icons/chatTabIconActive.svg'
+// import ChatTabIconInactive from '../../../assets/icons/chatTabIconInactive.svg'
 import ProfileTabIconActive from '../../../assets/icons/profileTabIconActive.svg'
 import ProfileTabIconInactive from '../../../assets/icons/profileTabIconInactive.svg'
 
@@ -47,22 +47,10 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 			: <HomeTabIconInactive height={'40%'} width={'40%'} />
 	)
 
-	const renderLoupIcon = (focused: boolean) => (
-		focused
-			? <LoupTabIconActive height={'60%'} width={'60%'} />
-			: <LoupTabIconInactive height={'40%'} width={'40%'} />
-	)
-
 	const renderPlusIcon = (focused: boolean) => (
 		focused
 			? <PlusTabIconActive height={'60%'} width={'60%'} />
 			: <PlusTabIconInactive height={'40%'} width={'40%'} />
-	)
-
-	const renderChatIcon = (focused: boolean) => (
-		focused
-			? <ChatTabIconActive height={'60%'} width={'60%'} />
-			: <ChatTabIconInactive height={'40%'} width={'40%'} />
 	)
 
 	const renderProfileIcon = (focused: boolean) => (

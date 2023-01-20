@@ -78,7 +78,7 @@ function SelectDaysOfWeek({ navigation }: SelectDaysOfWeekScreenProps) {
 		setSocialImpactDataOnContext({
 			exhibitionWeekDays: selectedDays
 		})
-		navigation.navigate('InsertOpeningHour')
+		navigation.navigate('SelectSocialImpactRepeat')
 	}
 
 	return (

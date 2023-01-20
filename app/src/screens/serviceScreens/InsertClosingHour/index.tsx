@@ -312,7 +312,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 
 	const getHighlightedHeaderMessage = () => {
 		if (hasServerSideError) {
-			return ['do', 'nosso', 'lado,']
+			return ['do', 'nosso', 'lado']
 		}
 		return invalidTimeAfterSubmit
 			? ['horário', 'de', 'início', 'encerramento']

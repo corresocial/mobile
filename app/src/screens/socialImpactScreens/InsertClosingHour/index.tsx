@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Animated, Keyboard, Platform, StatusBar } from 'react-native'
+import { getDownloadURL } from 'firebase/storage'
 
 import { ButtonContainer, Container, InputsContainer, TwoPoints } from './styles'
 import { theme } from '../../../common/theme'
@@ -7,10 +8,19 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+import { updateDocField } from '../../../services/firebase/common/updateDocField'
+import { createPost } from '../../../services/firebase/post/createPost'
+import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
+import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
 import { InsertClosingHourScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
+import { LocalUserData, SocialImpactData } from '../../../contexts/types'
+import { PostCollection, PrivateAddress, SocialImpactCollection } from '../../../services/firebase/types'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+import { AuthContext } from '../../../contexts/AuthContext'
+import { StateContext } from '../../../contexts/StateContext'
+import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -22,6 +32,9 @@ import { ProgressBar } from '../../../components/ProgressBar'
 
 function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 	const { setSocialImpactDataOnContext, socialImpactDataContext } = useContext(SocialImpactContext)
+	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
+	const { setStateDataOnContext } = useContext(StateContext)
+	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [hours, setHours] = useState<string>('')
 	const [minutes, setMinutes] = useState<string>('')
@@ -30,6 +43,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	const [invalidTimeAfterSubmit, setInvalidTimeAfterSubmit] = useState<boolean>(false)
+	const [hasServerSideError, setHasServerSideError] = useState(false)
 
 	const inputRefs = {
 		hoursInput: useRef<React.MutableRefObject<any>>(null),
@@ -75,21 +89,224 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 		return openingHour.getTime() < closingHour.getTime()
 	}
 
+	const getCompleteSocialImpactDataFromContext = () => {
+		const closingHour = new Date()
+		closingHour.setHours(parseInt(hours), parseInt(minutes))
+		return { ...socialImpactDataContext, closingHour }
+	}
+
+	const extractSocialImpactAddress = (socialImpactData: SocialImpactData) => ({
+		...socialImpactData.address
+	} as PrivateAddress)
+
+	const extractSocialImpactDataPost = (socialImpactData: SocialImpactData) => {
+		const currentSocialImpactData = {
+			...socialImpactData
+		}
+		delete currentSocialImpactData.address
+
+		return {
+			...currentSocialImpactData
+		} as SocialImpactCollection
+	}
+
+	const extractSocialImpactPictures = (socialImpactData: SocialImpactData) => socialImpactData.picturesUrl as string[] || []
+
+	const getLocalUser = () => userDataContext
+
+	const showShareModal = (visibility: boolean, postTitle?: string) => {
+		setStateDataOnContext({
+			showShareModal: visibility,
+			lastPostTitle: postTitle
+		})
+	}
+
 	const saveSocialImpactPost = async () => {
 		if (!closingTimeIsAfterOpening()) {
 			setInvalidTimeAfterSubmit(true)
 			return
 		}
 
-		const closingHour = new Date()
-		closingHour.setHours(parseInt(hours), parseInt(minutes))
-		setSocialImpactDataOnContext({ closingHour })
-		navigation.navigate('SelectSocialImpactRepeat')
+		setHasServerSideError(false)
+		setLoaderIsVisible(true)
+
+		const completeSocialImpactData = getCompleteSocialImpactDataFromContext()
+		setSocialImpactDataOnContext({ ...completeSocialImpactData })
+
+		const socialImpactAddress = extractSocialImpactAddress(completeSocialImpactData)
+		const socialImpactDataPost = extractSocialImpactDataPost(completeSocialImpactData)
+		const socialImpactPictures = extractSocialImpactPictures(completeSocialImpactData)
+
+		try {
+			const localUser = { ...getLocalUser() }
+			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
+
+			const postId = await createPost(socialImpactDataPost, localUser, 'socialImpacts', 'socialImpact')
+			if (!postId) throw new Error('Não foi possível identificar o post')
+
+			if (!socialImpactPictures.length) {
+				await updateUserPost(
+					localUser,
+					postId,
+					socialImpactDataPost,
+					socialImpactPictures
+				)
+
+				await updatePostPrivateData(
+					{
+						...socialImpactAddress,
+						postType: 'socialImpact',
+						locationView: socialImpactDataPost.locationView
+					},
+					postId,
+					'socialImpacts',
+					`address${postId}`
+				)
+
+				return
+			}
+
+			const picturePostsUrls: string[] = []
+			socialImpactPictures.forEach(async (socialImpactPicture, index) => {
+				uploadImage(socialImpactPicture, 'socialImpacts', postId, index).then(
+					({ uploadTask, blob }: any) => {
+						uploadTask.on(
+							'state_change',
+							() => { },
+							(err: any) => {
+								throw new Error(err)
+							},
+							() => {
+								getDownloadURL(uploadTask.snapshot.ref)
+									.then(
+										async (downloadURL) => {
+											blob.close()
+											picturePostsUrls.push(downloadURL)
+											if (picturePostsUrls.length === socialImpactPictures.length) {
+												await updateUserPost(
+													localUser,
+													postId,
+													socialImpactDataPost,
+													picturePostsUrls
+												)
+
+												await updateDocField(
+													'socialImpacts',
+													postId,
+													'picturesUrl',
+													picturePostsUrls,
+												)
+
+												await updatePostPrivateData(
+													{
+														...socialImpactAddress,
+														postType: 'socialImpact',
+														locationView: socialImpactDataPost.locationView
+													},
+													postId,
+													'socialImpacts',
+													`address${postId}`
+												)
+											}
+										},
+									)
+							},
+						)
+					},
+				)
+			})
+		} catch (err) {
+			console.log(err)
+			setLoaderIsVisible(false)
+			setHasServerSideError(true)
+		}
+	}
+
+	const updateUserPost = async (
+		localUser: LocalUserData,
+		postId: string,
+		socialImpactDataPost: SocialImpactData,
+		picturePostsUrls: string[],
+	) => {
+		const postData = {
+			...socialImpactDataPost,
+			postId,
+			postType: 'socialImpact',
+			picturesUrl: picturePostsUrls,
+			createdAt: new Date()
+		}
+
+		await updateDocField(
+			'users',
+			localUser.userId as string,
+			'posts',
+			postData,
+			true,
+		)
+			.then(() => {
+				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollection[] : []
+				setUserDataOnContext({
+					...localUser,
+					tourPerformed: true,
+					posts: [
+						...localUserPosts,
+						{
+							...postData,
+							owner: {
+								userId: localUser.userId,
+								name: localUser.name,
+								profilePictureUrl: localUser.profilePictureUrl
+							}
+						} as SocialImpactCollection,
+					],
+				})
+				setDataOnSecureStore('corre.user', {
+					...localUser,
+					tourPerformed: true,
+					posts: [
+						...localUserPosts,
+						{
+							...postData,
+							owner: {
+								userId: localUser.userId,
+								name: localUser.name,
+								profilePictureUrl: localUser.profilePictureUrl
+							}
+						},
+					],
+				})
+				setLoaderIsVisible(false)
+				showShareModal(true, socialImpactDataPost.title)
+				navigation.navigate('HomeTab' as any) // TODO Type
+			})
+			.catch((err: any) => {
+				console.log(err)
+				setLoaderIsVisible(false)
+				setHasServerSideError(true)
+			})
+	}
+
+	const getHeaderMessage = () => {
+		if (hasServerSideError) {
+			return 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes'
+		}
+		return invalidTimeAfterSubmit
+			? 'O horário de início informado é superior ao horário de encerramento'
+			: 'que horas termina?'
+	}
+
+	const getHighlightedHeaderMessage = () => {
+		if (hasServerSideError) {
+			return ['do', 'nosso', 'lado']
+		}
+		return invalidTimeAfterSubmit
+			? ['horário', 'de', 'início', 'encerramento']
+			: ['que', 'horas']
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
-		const existsError = invalidTimeAfterSubmit
+		const existsError = invalidTimeAfterSubmit || hasServerSideError
 
 		Animated.timing(headerBackgroundAnimatedValue.current, {
 			toValue: existsError ? 1 : 0,
@@ -105,7 +322,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={invalidTimeAfterSubmit ? theme.red2 : theme.pink2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={invalidTimeAfterSubmit || hasServerSideError ? theme.red2 : theme.pink2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={(screenHeight + statusBarHeight) * 0.27}
 				relativeHeight={'22%'}
@@ -116,20 +333,12 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={18}
-					message={
-						invalidTimeAfterSubmit
-							? 'O horário de início informado é superior ao horário de encerramento'
-							: 'que horas termina?'
-					}
-					highlightedWords={
-						invalidTimeAfterSubmit
-							? ['horário', 'de', 'início', 'encerramento']
-							: ['que', 'horas']
-					}
+					message={getHeaderMessage()}
+					highlightedWords={getHighlightedHeaderMessage()}
 				>
 					<ProgressBar
 						range={5}
-						value={4}
+						value={5}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
@@ -151,7 +360,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 						invalidBorderBottomColor={theme.red5}
 						maxLength={2}
 						fontSize={22}
-						invalidTextAfterSubmit={invalidTimeAfterSubmit}
+						invalidTextAfterSubmit={invalidTimeAfterSubmit || hasServerSideError}
 						placeholder={'18'}
 						keyboardType={'decimal-pad'}
 						filterText={filterLeavingOnlyNumbers}
@@ -159,6 +368,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 						onChangeText={(text: string) => {
 							setHours(text)
 							invalidTimeAfterSubmit && setInvalidTimeAfterSubmit(false)
+							hasServerSideError && setHasServerSideError(false)
 						}}
 					/>
 					<TwoPoints>{':'}</TwoPoints>
@@ -175,7 +385,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 						invalidBorderBottomColor={theme.red5}
 						maxLength={2}
 						fontSize={22}
-						invalidTextAfterSubmit={invalidTimeAfterSubmit}
+						invalidTextAfterSubmit={invalidTimeAfterSubmit || hasServerSideError}
 						placeholder={'00'}
 						keyboardType={'decimal-pad'}
 						lastInput
@@ -184,6 +394,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 						onChangeText={(text: string) => {
 							setMinutes(text)
 							invalidTimeAfterSubmit && setInvalidTimeAfterSubmit(false)
+							hasServerSideError && setHasServerSideError(false)
 						}}
 					/>
 				</InputsContainer>
