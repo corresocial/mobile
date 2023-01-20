@@ -124,7 +124,7 @@ function Home({ navigation }: HomeScreenProps) {
 			const posts = await getListOfPosts(postsIds)
 			const listOfPosts = [].concat(...posts as any) || []// TODO type
 			const postsDelivery = await getPostsByDeliveryMethod(searchParams)
-			// console.log(posts)
+
 			setNearPosts([].concat(...posts as any) || [])
 			setLoaderIsVisible(false)
 			setSearchEnded(true)

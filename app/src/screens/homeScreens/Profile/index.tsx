@@ -107,7 +107,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 				if (post.tags?.includes(tag)) return true
 				return false
 			}, [])
-			return !matchs.includes(false)
+			return !!matchs.includes(true)
 		})
 	}
 
