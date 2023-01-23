@@ -35,7 +35,7 @@ function InsertSocialImpactPicture({ navigation }: InsertSocialImpactPictureScre
 				>
 					<ProgressBar
 						range={5}
-						value={1}
+						value={2}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>

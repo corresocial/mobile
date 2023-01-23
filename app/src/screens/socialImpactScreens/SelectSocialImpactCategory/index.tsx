@@ -68,7 +68,7 @@ function SelectSocialImpactCategory({ navigation }: SelectSocialImpactCategorySc
 				>
 					<ProgressBar
 						range={5}
-						value={2}
+						value={1}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>

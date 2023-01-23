@@ -3,12 +3,13 @@ import { Animated, LayoutRectangle, Platform, StatusBar, View } from 'react-nati
 import * as Location from 'expo-location'
 
 import { theme } from '../../../common/theme'
-import { screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight, screenWidth } from '../../../common/screenDimensions'
 import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from './styles'
 import Check from '../../../assets/icons/check.svg'
 import MapPointOrange from '../../../assets/icons/mapPoint-orange.svg'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
+import { getLocationViewDescription, getLocationViewHighlightedWords, getLocationViewTitle } from '../../../utils/locationMessages'
 
 import { InsertSocialImpactLocationScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
 import { Coordinates } from '../../../services/firebase/types'
@@ -18,16 +19,15 @@ import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
-import { ProgressBar } from '../../../components/ProgressBar'
 import { CustomMapView } from '../../../components/CustomMapView'
+import { InfoCard } from '../../../components/_cards/InfoCard'
 
 const initialRegion = {
 	latitude: -13.890303625634541,
 	latitudeDelta: 55.54596047458735,
 	longitude: -51.92523987963795,
-	longitudeDelta: 49.99996047466992,
+	longitudeDelta: 49.99996047466992
 }
 
 const defaultDeltaCoordinates = {
@@ -35,7 +35,7 @@ const defaultDeltaCoordinates = {
 	longitudeDelta: 0.003
 }
 
-function InsertSocialImpactLocation({ navigation }: InsertSocialImpactLocationScreenProps) {
+function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLocationScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 
 	const [hasPermission, setHasPermission] = useState(false)
@@ -158,7 +158,10 @@ function InsertSocialImpactLocation({ navigation }: InsertSocialImpactLocationSc
 				...geohashObject
 			}
 		})
-		navigation.navigate('SelectSocialImpactLocationView')
+
+		navigation.navigate('SocialImpactLocationViewPreview', {
+			locationView: route.params.locationView
+		})
 	}
 
 	const markerCoordinateIsAccuracy = () => markerCoordinate?.latitudeDelta as number < 0.0065
@@ -179,36 +182,27 @@ function InsertSocialImpactLocation({ navigation }: InsertSocialImpactLocationSc
 		})
 	}
 
+	const { locationView } = route.params
+
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.pink2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={screenHeight * 0.26}
+				minHeight={relativeScreenHeight(22)}
 				relativeHeight={'22%'}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 				borderBottomWidth={0}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
-				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={18}
-					message={
-						someInvalidFieldSubimitted()
-							? 'não foi possível localizar este endereço'
-							: 'qual o endereço desse post?'
-					}
-					highlightedWords={
-						someInvalidFieldSubimitted()
-							? ['não', 'endereço', 'válido']
-							: ['endereço']
-					}
-				>
-					<ProgressBar
-						range={5}
-						value={3}
-					/>
-				</InstructionCard>
+				<InfoCard
+					title={getLocationViewTitle(locationView, someInvalidFieldSubimitted())}
+					titleFontSize={24}
+					description={getLocationViewDescription(locationView, someInvalidFieldSubimitted())}
+					highlightedWords={[...getLocationViewHighlightedWords(locationView, someInvalidFieldSubimitted())]}
+					height={'100%'}
+					color={theme.white3}
+				/>
 			</DefaultHeaderContainer>
 			<LineInput
 				value={address}

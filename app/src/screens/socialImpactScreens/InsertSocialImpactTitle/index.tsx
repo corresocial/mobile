@@ -80,7 +80,7 @@ function InsertSocialImpactTitle({ navigation }: InsertSocialImpactTitleScreenPr
 				>
 					<ProgressBar
 						range={5}
-						value={1}
+						value={2}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>

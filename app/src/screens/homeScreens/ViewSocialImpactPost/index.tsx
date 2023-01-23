@@ -176,7 +176,6 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 							</>
 						)
 					}
-					<Sigh />
 					<LocationViewCard
 						title={'local da iniciativa'}
 						locationView={'approximate'}

@@ -23,7 +23,7 @@ function SelectSocialImpactExhibitionRange({ navigation }: SelectSocialImpactExh
 		setSocialImpactDataOnContext({
 			exhibitionRange
 		})
-		navigation.navigate('InsertSocialImpactLocation')
+		navigation.navigate('SelectSocialImpactLocationView')
 	}
 
 	return (
