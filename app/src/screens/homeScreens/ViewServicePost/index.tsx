@@ -111,9 +111,6 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	}
 
 	const getPostField = (fieldName: keyof ServiceCollection) => {
-		if (fieldName === 'picturesUrl') {
-			console.log(editDataContext.saved[fieldName] || postData[fieldName])
-		}
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
 

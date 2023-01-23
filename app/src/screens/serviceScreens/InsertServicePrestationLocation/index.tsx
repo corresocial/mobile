@@ -9,6 +9,7 @@ import Check from '../../../assets/icons/check.svg'
 import MapPointOrange from '../../../assets/icons/mapPoint-orange.svg'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
+import { getLocationViewDescription, getLocationViewHighlightedWords, getLocationViewTitle } from '../../../utils/locationMessages'
 
 import { InsertServicePrestationLocationScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { Coordinates } from '../../../services/firebase/types'
@@ -190,39 +191,6 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 	const editModeIsTrue = () => route.params && route.params.editMode
 	const markerCoordinateIsAccuracy = () => markerCoordinate?.latitudeDelta as number < 0.0065
 
-	const getLocationViewTitle = () => {
-		if (someInvalidFieldSubimitted()) return 'ops!'
-
-		switch (route.params.locationView) {
-			case 'private': return 'localização⠀ \nprivada'
-			case 'approximate': return 'localização \naproximada'
-			case 'public': return 'localização \npública'
-			default: return 'switch option unfount'
-		}
-	}
-
-	const getLocationViewDescription = () => {
-		if (someInvalidFieldSubimitted()) return 'não foi possível localizar este endereço'
-
-		switch (route.params.locationView) {
-			case 'private': return 'os usuários podem ver seu perfil, mas não tem acesso a sua localização.'
-			case 'approximate': return 'os usuários podem a sua região aproximada.'
-			case 'public': return 'os usuários podem ver exatamente onde você está.'
-			default: return 'switch option unfount'
-		}
-	}
-
-	const getLocationViewHighlightedWords = () => {
-		if (someInvalidFieldSubimitted()) return ['ops!', 'não', 'endereço']
-
-		switch (route.params.locationView) {
-			case 'private': return ['\nprivada', 'não', 'tem', 'acesso', 'a', 'sua', 'localização']
-			case 'approximate': return ['\naproximada', 'a', 'sua', 'região', 'aproximada']
-			case 'public': return ['\npública', 'exatamente', 'onde', 'você', 'está']
-			default: return []
-		}
-	}
-
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
 		const existsError = someInvalidFieldSubimitted()
@@ -239,6 +207,8 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 		})
 	}
 
+	const { locationView } = route.params
+
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
@@ -251,42 +221,14 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InfoCard
-					title={getLocationViewTitle()}
+					title={getLocationViewTitle(locationView, someInvalidFieldSubimitted())}
 					titleFontSize={24}
-					description={getLocationViewDescription()}
-					highlightedWords={[...getLocationViewHighlightedWords()]}
+					description={getLocationViewDescription(locationView, someInvalidFieldSubimitted())}
+					highlightedWords={[...getLocationViewHighlightedWords(locationView, someInvalidFieldSubimitted())]}
 					height={'100%'}
 					color={theme.white3}
 				/>
 			</DefaultHeaderContainer>
-			{/* <DefaultHeaderContainer
-				minHeight={screenHeight * 0.26}
-				relativeHeight={'22%'}
-				centralized
-				backgroundColor={animateDefaultHeaderBackgound()}
-				borderBottomWidth={0}
-			>
-				<BackButton onPress={() => navigation.goBack()} />
-				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={18}
-					message={
-						someInvalidFieldSubimitted()
-							? 'não foi possível localizar este endereço'
-							: 'onde você oferece seu serviço?'
-					}
-					highlightedWords={
-						someInvalidFieldSubimitted()
-							? ['não', 'endereço']
-							: ['onde', 'seu', 'seu', 'serviço']
-					}
-				>
-					<ProgressBar
-						range={5}
-						value={4}
-					/>
-				</InstructionCard>
-			</DefaultHeaderContainer> */}
 			<LineInput
 				value={address}
 				relativeWidth={'100%'}

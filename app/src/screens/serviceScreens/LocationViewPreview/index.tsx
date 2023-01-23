@@ -1,17 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 import { ButtonContainerBottom, Container, MapContainer } from './styles'
 import Uncheck from '../../../assets/icons/uncheck.svg'
 import Check from '../../../assets/icons/check.svg'
-import MapPointOrange from '../../../assets/icons/mapPoint-orange.svg'
-import Eye from '../../../assets/icons/eye.svg'
-import EyeHalfTraced from '../../../assets/icons/eyeHalfTraced.svg'
-import EyeTraced from '../../../assets/icons/eyeTraced.svg'
+
+import { getLocationViewDescription, getLocationViewHighlightedWords, getLocationViewIcon, getLocationViewTitle } from '../../../utils/locationMessages'
 
 import { LocationViewPreviewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-import { LocationViewType } from '../../../services/firebase/types'
 
 import { EditContext } from '../../../contexts/EditContext'
 import { ServiceContext } from '../../../contexts/ServiceContext'
@@ -30,7 +27,6 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
 	const { serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [locationViewSelected, setLocationViewSelected] = useState<LocationViewType>()
 	const [markerCoordinate] = useState(
 		route.params?.editMode
 			? {
@@ -43,59 +39,16 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
 			}
 	)
 
-	useEffect(() => {
-		const locationView = getLocationViewFromRouteParams()
-		setLocationViewSelected(locationView)
-	}, [])
-
-	const getLocationViewFromRouteParams = () => route.params?.locationView
-
-	const getLocationViewTitle = () => {
-		switch (locationViewSelected as LocationViewType) {
-			case 'private': return ' localização\n privada'
-			case 'approximate': return 'localização\n aproximada'
-			case 'public': return 'localização\n pública'
-			default: return 'switch option unfount'
-		}
-	}
-
-	const getLocationViewDescription = () => {
-		switch (locationViewSelected as LocationViewType) {
-			case 'private': return 'os usuários podem ver seu perfil, mas não tem acesso a sua localização.'
-			case 'approximate': return 'os usuários podem a sua região aproximada.'
-			case 'public': return 'os usuários podem ver exatamente onde você está.'
-			default: return 'switch option unfount'
-		}
-	}
-
-	const getLocationViewHighlightedWords = () => {
-		switch (locationViewSelected as LocationViewType) {
-			case 'private': return ['privada', 'não', 'tem', 'acesso', 'a', 'sua', 'localização']
-			case 'approximate': return ['aproximada', 'a', 'sua', 'região', 'aproximada']
-			case 'public': return ['pública', 'exatamente', 'onde', 'você', 'está']
-			default: return []
-		}
-	}
-
-	const getLocationViewIcon = () => {
-		switch (locationViewSelected as LocationViewType) {
-			case 'private': return EyeTraced
-			case 'approximate': return EyeHalfTraced
-			case 'public': return Eye
-			default: return MapPointOrange
-		}
-	}
-
 	const saveLocation = () => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ locationView: locationViewSelected })
+			addNewUnsavedFieldToEditContext({ locationView: route.params.locationView })
 			navigation.pop(2)
 			navigation.goBack()
 			return
 		}
 
 		setServiceDataOnContext({
-			locationView: locationViewSelected
+			locationView: route.params.locationView
 		})
 		navigation.navigate('SelectDeliveryMethod')
 	}
@@ -114,17 +67,17 @@ function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenPro
 				<InfoCard
 					height={'100%'}
 					color={theme.white3}
-					title={getLocationViewTitle()}
-					description={getLocationViewDescription()}
-					highlightedWords={getLocationViewHighlightedWords()}
+					title={getLocationViewTitle(route.params?.locationView)}
+					description={getLocationViewDescription(route.params?.locationView)}
+					highlightedWords={getLocationViewHighlightedWords(route.params?.locationView)}
 				/>
 			</DefaultHeaderContainer>
 			<MapContainer>
 				<CustomMapView
 					regionCoordinate={markerCoordinate}
 					markerCoordinate={markerCoordinate}
-					CustomMarker={getLocationViewIcon()}
-					locationView={locationViewSelected}
+					CustomMarker={getLocationViewIcon(route.params.locationView)}
+					locationView={route.params.locationView}
 				/>
 			</MapContainer>
 			<ButtonContainerBottom>

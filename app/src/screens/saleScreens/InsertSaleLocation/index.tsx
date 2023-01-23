@@ -1,14 +1,15 @@
 import React, { useContext, useRef, useState } from 'react'
-import { Animated, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
+import { Animated, LayoutChangeEvent, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
 import * as Location from 'expo-location'
 
 import { theme } from '../../../common/theme'
-import { screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight, screenHeight, screenWidth } from '../../../common/screenDimensions'
 import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from './styles'
 import Check from '../../../assets/icons/check.svg'
 import MapPointOrange from '../../../assets/icons/mapPoint-orange.svg'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
+import { getLocationViewDescription, getLocationViewHighlightedWords, getLocationViewTitle } from '../../../utils/locationMessages'
 
 import { InsertSaleLocationScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
 import { Coordinates } from '../../../services/firebase/types'
@@ -22,6 +23,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { CustomMapView } from '../../../components/CustomMapView'
+import { InfoCard } from '../../../components/_cards/InfoCard'
 
 const initialRegion = {
 	latitude: -13.890303625634541,
@@ -35,7 +37,7 @@ const defaultDeltaCoordinates = {
 	longitudeDelta: 0.003
 }
 
-function InsertSaleLocation({ navigation }: InsertSaleLocationScreenProps) {
+function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
 
 	const [hasPermission, setHasPermission] = useState(false)
@@ -158,7 +160,9 @@ function InsertSaleLocation({ navigation }: InsertSaleLocationScreenProps) {
 				...geohashObject
 			}
 		})
-		navigation.navigate('SelectLocationView')
+		navigation.navigate('LocationViewPreview', {
+			locationView: route.params.locationView
+		})
 	}
 
 	const markerCoordinateIsAccuracy = () => markerCoordinate?.latitudeDelta as number < 0.0065
@@ -179,36 +183,27 @@ function InsertSaleLocation({ navigation }: InsertSaleLocationScreenProps) {
 		})
 	}
 
+	const { locationView } = route.params
+
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={screenHeight * 0.26}
+				minHeight={relativeScreenHeight(22)}
 				relativeHeight={'22%'}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 				borderBottomWidth={0}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
-				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={18}
-					message={
-						someInvalidFieldSubimitted()
-							? 'não foi possível localizar este endereço'
-							: 'onde você vende seu item?'
-					}
-					highlightedWords={
-						someInvalidFieldSubimitted()
-							? ['não', 'endereço', 'válido']
-							: ['onde', 'seu', 'seu', 'item']
-					}
-				>
-					<ProgressBar
-						range={5}
-						value={4}
-					/>
-				</InstructionCard>
+				<InfoCard
+					title={getLocationViewTitle(locationView, someInvalidFieldSubimitted())}
+					titleFontSize={24}
+					description={getLocationViewDescription(locationView, someInvalidFieldSubimitted())}
+					highlightedWords={[...getLocationViewHighlightedWords(locationView, someInvalidFieldSubimitted())]}
+					height={'100%'}
+					color={theme.white3}
+				/>
 			</DefaultHeaderContainer>
 			<LineInput
 				value={address}
@@ -233,7 +228,7 @@ function InsertSaleLocation({ navigation }: InsertSaleLocationScreenProps) {
 					setInvalidAddressAfterSubmit(false)
 				}}
 			/>
-			<MapContainer onLayout={(event) => !mapContainerDimensions.width && setMapContainerDimensions(event.nativeEvent.layout)}>
+			<MapContainer onLayout={({ nativeEvent }: LayoutChangeEvent) => !mapContainerDimensions.width && setMapContainerDimensions(nativeEvent.layout)}>
 				<View style={{
 					position: 'absolute',
 					top: mapContainerDimensions.height / 2 - (screenWidth * 0.0972),

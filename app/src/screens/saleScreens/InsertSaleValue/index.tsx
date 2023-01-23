@@ -60,7 +60,7 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 			if (route.params.bothPaymentType) {
 				navigation.navigate('InsertExchangeValue')
 			} else {
-				navigation.navigate('InsertSaleLocation')
+				navigation.navigate('SelectLocationView')
 			}
 		}
 	}

@@ -46,8 +46,8 @@ export function SaleStack() {
 				<Stack.Screen name={'SelectPaymentType'} component={SelectPaymentType} />
 				<Stack.Screen name={'InsertSaleValue'} component={InsertSaleValue} />
 				<Stack.Screen name={'InsertExchangeValue'} component={InsertExchangeValue} />
-				<Stack.Screen name={'InsertSaleLocation'} component={InsertSaleLocation} />
 				<Stack.Screen name={'SelectLocationView'} component={SelectLocationView} />
+				<Stack.Screen name={'InsertSaleLocation'} component={InsertSaleLocation} />
 				<Stack.Screen name={'LocationViewPreview'} component={LocationViewPreview} />
 				<Stack.Screen name={'SelectDeliveryMethod'} component={SelectDeliveryMethod} />
 				<Stack.Screen name={'SelectSaleFrequency'} component={SelectSaleFrequency} />

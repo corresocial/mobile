@@ -59,7 +59,7 @@ function InsertExchangeValue({ navigation }: InsertExchangeValueScreenProps) {
 			setSaleDataOnContext({
 				exchangeValue
 			})
-			navigation.navigate('InsertSaleLocation')
+			navigation.navigate('SelectLocationView')
 		}
 	}
 

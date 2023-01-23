@@ -8,11 +8,11 @@ export type SaleStackParamList = {
 	InsertSalePicture: undefined
 	SalePicturePreview: undefined
 	SelectPaymentType: undefined
-	InsertSaleValue: { bothPaymentType?: boolean }
+	InsertSaleValue: { bothPaymentType: boolean }
 	InsertExchangeValue: undefined
-	InsertSaleLocation: undefined
+	InsertSaleLocation: { locationView: LocationViewType }
 	SelectLocationView: undefined
-	LocationViewPreview: { locationView?: LocationViewType }
+	LocationViewPreview: { locationView: LocationViewType }
 	SelectDeliveryMethod: undefined
 	SelectSaleFrequency: undefined
 	SelectDaysOfWeek: undefined
