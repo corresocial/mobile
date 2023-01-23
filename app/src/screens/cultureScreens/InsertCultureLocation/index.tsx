@@ -1,14 +1,15 @@
 import React, { useContext, useRef, useState } from 'react'
-import { Animated, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
+import { Animated, LayoutChangeEvent, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
 import * as Location from 'expo-location'
 
 import { theme } from '../../../common/theme'
-import { screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight, screenWidth } from '../../../common/screenDimensions'
 import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from './styles'
 import Check from '../../../assets/icons/check.svg'
 import MapPointOrange from '../../../assets/icons/mapPoint-orange.svg'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
+import { getLocationViewTitle, getLocationViewDescription, getLocationViewHighlightedWords } from '../../../utils/locationMessages'
 
 import { InsertCultureLocationScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { Coordinates } from '../../../services/firebase/types'
@@ -17,11 +18,10 @@ import { CultureContext } from '../../../contexts/CultureContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
-import { ProgressBar } from '../../../components/ProgressBar'
 import { CustomMapView } from '../../../components/CustomMapView'
+import { InfoCard } from '../../../components/_cards/InfoCard'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 
 const initialRegion = {
 	latitude: -13.890303625634541,
@@ -35,8 +35,8 @@ const defaultDeltaCoordinates = {
 	longitudeDelta: 0.003
 }
 
-function InsertCultureLocation({ navigation }: InsertCultureLocationScreenProps) {
-	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+function InsertCultureLocation({ route, navigation }: InsertCultureLocationScreenProps) {
+	const { setCultureDataOnContext } = useContext(CultureContext)
 
 	const [hasPermission, setHasPermission] = useState(false)
 	const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(null)
@@ -158,18 +158,12 @@ function InsertCultureLocation({ navigation }: InsertCultureLocationScreenProps)
 				...geohashObject
 			}
 		})
-		navigation.navigate('SelectCultureLocationView')
+		navigation.navigate('CultureLocationViewPreview', {
+			locationView: route.params.locationView
+		})
 	}
 
 	const markerCoordinateIsAccuracy = () => markerCoordinate?.latitudeDelta as number < 0.0065
-
-	const getMessage = () => (cultureDataContext.cultureType === 'artistProfile'
-		? 'adiciona o endereço aí!'
-		: 'qual o endereço do role?')
-
-	const getHightlightedWords = () => (cultureDataContext.cultureType === 'artistProfile'
-		? ['endereço']
-		: ['endereço', 'do', 'role'])
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
@@ -187,36 +181,27 @@ function InsertCultureLocation({ navigation }: InsertCultureLocationScreenProps)
 		})
 	}
 
+	const { locationView } = route.params
+
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={screenHeight * 0.26}
+				minHeight={relativeScreenHeight(22)}
 				relativeHeight={'22%'}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 				borderBottomWidth={0}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
-				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={18}
-					message={
-						someInvalidFieldSubimitted()
-							? 'não foi possível localizar este endereço'
-							: getMessage()
-					}
-					highlightedWords={
-						someInvalidFieldSubimitted()
-							? ['não', 'endereço']
-							: getHightlightedWords()
-					}
-				>
-					<ProgressBar
-						range={3}
-						value={3}
-					/>
-				</InstructionCard>
+				<InfoCard
+					title={getLocationViewTitle(locationView, someInvalidFieldSubimitted())}
+					titleFontSize={24}
+					description={getLocationViewDescription(locationView, someInvalidFieldSubimitted())}
+					highlightedWords={[...getLocationViewHighlightedWords(locationView, someInvalidFieldSubimitted())]}
+					height={'100%'}
+					color={theme.white3}
+				/>
 			</DefaultHeaderContainer>
 			<LineInput
 				value={address}
@@ -241,7 +226,7 @@ function InsertCultureLocation({ navigation }: InsertCultureLocationScreenProps)
 					setInvalidAddressAfterSubmit(false)
 				}}
 			/>
-			<MapContainer onLayout={(event) => !mapContainerDimensions.width && setMapContainerDimensions(event.nativeEvent.layout)}>
+			<MapContainer onLayout={({ nativeEvent }: LayoutChangeEvent) => !mapContainerDimensions.width && setMapContainerDimensions(nativeEvent.layout)}>
 				<View style={{
 					position: 'absolute',
 					top: mapContainerDimensions.height / 2 - (screenWidth * 0.0972),

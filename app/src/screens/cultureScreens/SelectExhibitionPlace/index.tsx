@@ -23,7 +23,7 @@ function SelectExhibitionPlace({ navigation }: SelectExhibitionPlaceScreenProps)
 		setCultureDataOnContext({
 			exhibitionPlace
 		})
-		navigation.navigate('InsertCultureLocation')
+		navigation.navigate('SelectCultureLocationView')
 	}
 
 	return (

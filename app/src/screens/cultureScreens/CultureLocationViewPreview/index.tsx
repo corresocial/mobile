@@ -15,6 +15,7 @@ import { createPost } from '../../../services/firebase/post/createPost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
 import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
+import { getLocationViewTitle, getLocationViewDescription, getLocationViewHighlightedWords } from '../../../utils/locationMessages'
 
 import { CultureLocationViewPreviewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { CultureCollection, LocationViewType, PostCollection, PrivateAddress } from '../../../services/firebase/types'
@@ -54,43 +55,6 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 	}, [])
 
 	const getLocationViewFromRouteParams = () => route.params.locationView
-
-	const getLocationViewTitle = () => {
-		if (hasServerSideError) {
-			return 'ops!'
-		}
-		switch (locationViewSelected as LocationViewType) {
-			case 'private': return ' localização\n privada'
-			case 'approximate': return 'localização\n aproximada'
-			case 'public': return 'localização\n pública'
-			default: return 'switch option unfount'
-		}
-	}
-
-	const getLocationViewDescription = () => {
-		if (hasServerSideError) {
-			return 'parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes'
-		}
-		switch (locationViewSelected as LocationViewType) {
-			case 'private': return 'os usuários podem ver seu perfil, mas não tem acesso a sua localização.'
-			case 'approximate': return 'os usuários podem a sua região aproximada.'
-			case 'public': return 'os usuários podem ver exatamente onde você está.'
-			default: return 'switch option unfount'
-		}
-	}
-
-	const getLocationViewHighlightedWords = () => {
-		if (hasServerSideError) {
-			return ['ops!', 'do', 'nosso', 'lado,']
-		}
-
-		switch (locationViewSelected as LocationViewType) {
-			case 'private': return ['privada', 'não', 'tem', 'acesso', 'a', 'sua', 'localização']
-			case 'approximate': return ['aproximada', 'a', 'sua', 'região', 'aproximada']
-			case 'public': return ['pública', 'exatamente', 'onde', 'você', 'está']
-			default: return []
-		}
-	}
 
 	const getLocationViewIcon = () => {
 		switch (locationViewSelected as LocationViewType) {
@@ -316,6 +280,8 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 		})
 	}
 
+	const { locationView } = route.params
+
 	return (
 		<Container >
 			<StatusBar backgroundColor={hasServerSideError ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
@@ -328,9 +294,9 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 				<InfoCard
 					height={'100%'}
 					color={theme.white3}
-					title={getLocationViewTitle()}
-					description={getLocationViewDescription()}
-					highlightedWords={getLocationViewHighlightedWords()}
+					title={getLocationViewTitle(locationView, hasServerSideError)}
+					description={getLocationViewDescription(locationView, hasServerSideError, 'parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes')}
+					highlightedWords={getLocationViewHighlightedWords(locationView, hasServerSideError, ['ops!', 'do', 'nosso', 'lado'])}
 				/>
 			</DefaultHeaderContainer>
 			<MapContainer>

@@ -15,8 +15,8 @@ const getLocationViewTitle = (locationView: LocationViewType, error?: boolean) =
 	}
 }
 
-const getLocationViewDescription = (locationView: LocationViewType, error?: boolean) => {
-	if (error) return 'não foi possível localizar este endereço'
+const getLocationViewDescription = (locationView: LocationViewType, error?: boolean, customErrorMessage?: string) => {
+	if (error) return customErrorMessage || 'não foi possível localizar este endereço'
 	switch (locationView) {
 		case 'private': return 'os usuários podem ver seu perfil, mas não tem acesso a sua localização.'
 		case 'approximate': return 'os usuários podem a sua região aproximada.'
@@ -25,8 +25,8 @@ const getLocationViewDescription = (locationView: LocationViewType, error?: bool
 	}
 }
 
-const getLocationViewHighlightedWords = (locationView: LocationViewType, error?: boolean) => {
-	if (error) return ['ops!', 'não', 'endereço']
+const getLocationViewHighlightedWords = (locationView: LocationViewType, error?: boolean, customErrorHighlight?: string[]) => {
+	if (error) return customErrorHighlight || ['ops!', 'não', 'endereço']
 	switch (locationView) {
 		case 'private': return ['\nprivada', 'não', 'tem', 'acesso', 'a', 'sua', 'localização']
 		case 'approximate': return ['\naproximada', 'a', 'sua', 'região', 'aproximada']

@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from 'react'
-import { Animated, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
+import { Animated, LayoutChangeEvent, LayoutRectangle, NativeEventEmitter, Platform, StatusBar, View } from 'react-native'
 import * as Location from 'expo-location'
 
 import { theme } from '../../../common/theme'
@@ -234,7 +234,7 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 					setInvalidAddressAfterSubmit(false)
 				}}
 			/>
-			<MapContainer onLayout={(event) => !mapContainerDimensions.width && setMapContainerDimensions(event.nativeEvent.layout)}>
+			<MapContainer onLayout={({ nativeEvent }: LayoutChangeEvent) => !mapContainerDimensions.width && setMapContainerDimensions(nativeEvent.layout)}>
 				<View style={{
 					position: 'absolute',
 					top: mapContainerDimensions.height / 2 - (screenWidth * 0.0972),

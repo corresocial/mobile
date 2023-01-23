@@ -34,6 +34,7 @@ function DateTimeCard({
 	textFontSize = 12,
 	repetition
 }: DateTimeCardProps) {
+	console.log(closingTime)
 	const getRelativeWeekDaysfrequency = () => {
 		switch (weekDaysfrequency) {
 			case 'today': return '●  só hoje'

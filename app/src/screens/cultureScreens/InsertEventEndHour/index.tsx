@@ -196,9 +196,9 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
 	}
 
 	const getCompleteCultureDataFromContext = () => {
-		const closingHour = new Date()
-		closingHour.setHours(parseInt(hours), parseInt(minutes))
-		return { ...cultureDataContext, closingHour }
+		const eventEndHour = new Date()
+		eventEndHour.setHours(parseInt(hours), parseInt(minutes))
+		return { ...cultureDataContext, eventEndHour }
 	}
 
 	const extractCultureAddress = (cultureData: CultureData) => ({

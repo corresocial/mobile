@@ -1,22 +1,22 @@
 import { CultureCategories, LocationViewType } from '../../../services/firebase/types'
 
 export type CultureStackParamList = {
-    SelectCultureType: undefined
-    InsertCultureTitle: undefined
-    InsertCultureDescription: undefined
-    InsertCulturePicture: undefined
-    CulturePicturePreview: undefined
-    SelectCultureCategory: undefined
-    SelectCultureTags: { categorySelected: CultureCategories }
-    InsertEntryValue: undefined
-    SelectExhibitionPlace: undefined
-    SelectEventPlaceModality: undefined
-    InsertCultureLocation: undefined
-    SelectCultureLocationView: undefined
-    CultureLocationViewPreview: { locationView?: LocationViewType }
-    InsertEventStartDate: undefined
-    InsertEventStartHour: undefined
-    InsertEventEndDate: undefined
-    InsertEventEndHour: undefined
-    SelectEventRepeat: undefined
+	SelectCultureType: undefined
+	InsertCultureTitle: undefined
+	InsertCultureDescription: undefined
+	InsertCulturePicture: undefined
+	CulturePicturePreview: undefined
+	SelectCultureCategory: undefined
+	SelectCultureTags: { categorySelected: CultureCategories }
+	InsertEntryValue: undefined
+	SelectExhibitionPlace: undefined
+	SelectEventPlaceModality: undefined
+	InsertCultureLocation: { locationView: LocationViewType }
+	SelectCultureLocationView: undefined
+	CultureLocationViewPreview: { locationView: LocationViewType }
+	InsertEventStartDate: undefined
+	InsertEventStartHour: undefined
+	InsertEventEndDate: undefined
+	InsertEventEndHour: undefined
+	SelectEventRepeat: undefined
 }

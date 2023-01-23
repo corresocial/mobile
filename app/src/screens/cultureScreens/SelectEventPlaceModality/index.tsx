@@ -24,7 +24,7 @@ function SelectEventPlaceModality({ navigation }: SelectEventPlaceModalityScreen
 			eventPlaceModality
 		})
 		if (eventPlaceModality !== 'online') {
-			navigation.navigate('InsertCultureLocation')
+			navigation.navigate('SelectCultureLocationView')
 		} else {
 			navigation.navigate('SelectEventRepeat')
 		}

@@ -1,6 +1,8 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { getLocationViewTitle, getLocationViewDescription, getLocationViewHighlightedWords } from '../../../utils/locationMessages'
+
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
 
@@ -12,15 +14,15 @@ import { CultureContext } from '../../../contexts/CultureContext'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
+import { TitleDescriptionButton } from '../../../components/_cards/TitleDescriptionButton'
 
 function SelectCultureLocationView({ navigation }: SelectCultureLocationViewScreenProps) {
 	const { cultureDataContext } = useContext(CultureContext)
 
 	const saveLocationViewType = (locationViewType: LocationViewType) => {
-		navigation.navigate('CultureLocationViewPreview', {
+		navigation.navigate('InsertCultureLocation', {
 			locationView: locationViewType
 		})
 	}
@@ -58,37 +60,28 @@ function SelectCultureLocationView({ navigation }: SelectCultureLocationViewScre
 				backgroundColor={theme.blue2}
 			>
 				<ButtonsContainer>
-					<PrimaryButton
-						justifyContent={'flex-start'}
+					<TitleDescriptionButton
+						height={'28%'}
 						color={theme.white3}
-						relativeHeight={'18%'}
-						labelColor={theme.black4}
-						fontSize={18}
-						textAlign={'left'}
-						label={'localização privada'}
-						highlightedWords={['privada']}
+						title={getLocationViewTitle('private')}
+						description={getLocationViewDescription('private')}
+						highlightedWords={getLocationViewHighlightedWords('private')}
 						onPress={() => saveLocationViewType('private')}
 					/>
-					<PrimaryButton
-						justifyContent={'flex-start'}
+					<TitleDescriptionButton
+						height={'28%'}
 						color={theme.white3}
-						relativeHeight={'18%'}
-						labelColor={theme.black4}
-						fontSize={18}
-						textAlign={'left'}
-						label={'localização aproximada'}
-						highlightedWords={['aproximada']}
+						title={getLocationViewTitle('approximate')}
+						description={getLocationViewDescription('approximate')}
+						highlightedWords={getLocationViewHighlightedWords('approximate')}
 						onPress={() => saveLocationViewType('approximate')}
 					/>
-					<PrimaryButton
-						justifyContent={'flex-start'}
+					<TitleDescriptionButton
+						height={'28%'}
 						color={theme.white3}
-						relativeHeight={'18%'}
-						labelColor={theme.black4}
-						fontSize={18}
-						textAlign={'left'}
-						label={'localização pública'}
-						highlightedWords={['pública']}
+						title={getLocationViewTitle('public')}
+						description={getLocationViewDescription('public')}
+						highlightedWords={getLocationViewHighlightedWords('public')}
 						onPress={() => saveLocationViewType('public')}
 					/>
 				</ButtonsContainer>
