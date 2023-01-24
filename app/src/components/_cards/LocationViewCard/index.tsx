@@ -26,6 +26,7 @@ interface LocationViewCardProps {
 	postType: PostType
 	postId: string
 	textFontSize?: number
+	isAuthor?: boolean
 	editable?: boolean
 	onEdit?: () => void
 }
@@ -37,6 +38,7 @@ function LocationViewCard({
 	postType,
 	postId,
 	textFontSize = 12,
+	isAuthor = false,
 	editable,
 	onEdit
 }: LocationViewCardProps) {
@@ -48,7 +50,7 @@ function LocationViewCard({
 			setCompleteAddress(editDataContext.unsaved.address)
 			return
 		}
-		if (locationView !== 'private' && postType && locationView) {
+		if ((locationView !== 'private' || isAuthor) && postType && locationView) {
 			loadRemotePrivateAddress()
 		}
 	}, [postType, postId, locationView])
@@ -84,6 +86,7 @@ function LocationViewCard({
 		}
 
 		if (locationView === 'approximate') return
+
 		return (
 			<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
 				{formatAddress()}
@@ -172,13 +175,13 @@ function LocationViewCard({
 				{renderFormatedAddress()}
 			</CardHeader>
 			{
-				(locationView !== 'private' && locationView !== undefined) && (
+				((locationView !== 'private' || isAuthor) && locationView !== undefined) && (
 					<MapArea >
 						<CustomMapView
 							regionCoordinate={getAddressCoordinates()}
 							markerCoordinate={getAddressCoordinates()}
-							CustomMarker={locationView === 'public' ? MapPointOrangeIcon : undefined}
-							locationView={locationView}
+							CustomMarker={locationView === 'public' || isAuthor ? MapPointOrangeIcon : undefined}
+							locationView={locationView === 'private' && isAuthor ? 'public' : locationView}
 						/>
 						<NavigationApps >
 							<TouchableApp onPress={goToGoogleMapsApp}>

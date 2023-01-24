@@ -9,6 +9,7 @@ import Check from '../../../assets/icons/check.svg'
 import { LocationViewPreviewScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
 
 import { SaleContext } from '../../../contexts/SaleContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
@@ -21,20 +22,37 @@ const defaultDeltaCoordinates = {
 	longitudeDelta: 0.004
 }
 
-function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenProps) {
+function LocationViewPreview({ route, navigation }: LocationViewPreviewScreenProps) {
 	const { saleDataContext, setSaleDataOnContext } = useContext(SaleContext)
+	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [markerCoordinate] = useState({
-		...saleDataContext.address?.coordinates,
-		...defaultDeltaCoordinates
-	})
+	const [markerCoordinate] = useState(
+		route.params?.editMode
+			? {
+				...editDataContext?.unsaved.address?.coordinates,
+				...defaultDeltaCoordinates
+			}
+			: {
+				...saleDataContext?.address?.coordinates,
+				...defaultDeltaCoordinates
+			}
+	)
 
 	const saveLocation = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ locationView: route.params.locationView })
+			navigation.pop(2)
+			navigation.goBack()
+			return
+		}
+
 		setSaleDataOnContext({
 			locationView: route.params.locationView
 		})
 		navigation.navigate('SelectDeliveryMethod')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container >

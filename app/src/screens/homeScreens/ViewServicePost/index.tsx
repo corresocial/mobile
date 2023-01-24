@@ -215,6 +215,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						locationView={getPostField('locationView')}
 						postType={getPostField('postType')}
 						postId={getPostField('postId') as string}
+						isAuthor={isAuthor}
 						textFontSize={16}
 					/>
 					<Sigh />

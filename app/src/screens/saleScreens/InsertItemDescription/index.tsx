@@ -11,6 +11,7 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 import { InsertItemDescriptionScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 import { SaleContext } from '../../../contexts/SaleContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -20,10 +21,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { LineInput } from '../../../components/LineInput'
 
-function InsertItemDescription({ navigation }: InsertItemDescriptionScreenProps) {
+function InsertItemDescription({ route, navigation }: InsertItemDescriptionScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [itemDescription, setItemDescription] = useState<string>('')
+	const [itemDescription, setItemDescription] = useState<string>(route.params?.initialValue || '')
 	const [itemDescriptionIsValid, setItemDescriptionIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -54,13 +56,17 @@ function InsertItemDescription({ navigation }: InsertItemDescriptionScreenProps)
 	}
 
 	const saveItemDescription = () => {
-		if (itemDescriptionIsValid) {
-			setSaleDataOnContext({
-				itemDescription
-			})
-			navigation.navigate('InsertSalePicture')
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ itemDescription })
+			navigation.goBack()
+			return
 		}
+
+		setSaleDataOnContext({ itemDescription })
+		navigation.navigate('InsertSalePicture')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

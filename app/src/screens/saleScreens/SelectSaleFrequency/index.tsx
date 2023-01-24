@@ -12,6 +12,7 @@ import { SelectSaleFrequencyScreenProps } from '../../../routes/Stack/saleStack/
 import { DaysOfWeek, WeekdaysFrequency } from '../../../services/firebase/types'
 
 import { SaleContext } from '../../../contexts/SaleContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -20,14 +21,24 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
-function SelectSaleFrequency({ navigation }: SelectSaleFrequencyScreenProps) {
+function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveSaleFrequency = (saleFrequency: WeekdaysFrequency) => {
 		const daysOfWeek = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'] as DaysOfWeek[]
 
 		switch (saleFrequency) {
 			case 'today': {
+				if (editModeIsTrue()) {
+					addNewUnsavedFieldToEditContext({
+						attendanceFrequency: saleFrequency,
+						attendanceWeekDays: [daysOfWeek[new Date().getDay()]]
+					})
+					navigation.goBack()
+					return
+				}
+
 				setSaleDataOnContext({
 					attendanceFrequency: saleFrequency,
 					attendanceWeekDays: [daysOfWeek[new Date().getDay()]]
@@ -36,6 +47,15 @@ function SelectSaleFrequency({ navigation }: SelectSaleFrequencyScreenProps) {
 				break
 			}
 			case 'everyday': {
+				if (editModeIsTrue()) {
+					addNewUnsavedFieldToEditContext({
+						attendanceFrequency: saleFrequency,
+						attendanceWeekDays: [...daysOfWeek]
+					})
+					navigation.goBack()
+					return
+				}
+
 				setSaleDataOnContext({
 					attendanceFrequency: saleFrequency,
 					attendanceWeekDays: [...daysOfWeek]
@@ -44,13 +64,28 @@ function SelectSaleFrequency({ navigation }: SelectSaleFrequencyScreenProps) {
 				break
 			}
 			case 'someday': {
-				setSaleDataOnContext({
-					attendanceFrequency: saleFrequency
+				if (editModeIsTrue()) {
+					addNewUnsavedFieldToEditContext({ attendanceFrequency: saleFrequency })
+				} else {
+					setSaleDataOnContext({ attendanceFrequency: saleFrequency })
+				}
+
+				navigation.navigate('SelectDaysOfWeek', {
+					editMode: !!route.params?.editMode,
+					initialValue: route.params?.initialValue
 				})
-				navigation.navigate('SelectDaysOfWeek')
 				break
 			}
 			case 'businessDay': {
+				if (editModeIsTrue()) {
+					addNewUnsavedFieldToEditContext({
+						attendanceFrequency: saleFrequency,
+						attendanceWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
+					})
+					navigation.goBack()
+					return
+				}
+
 				setSaleDataOnContext({
 					attendanceFrequency: saleFrequency,
 					attendanceWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
@@ -61,6 +96,8 @@ function SelectSaleFrequency({ navigation }: SelectSaleFrequencyScreenProps) {
 			default: return false
 		}
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

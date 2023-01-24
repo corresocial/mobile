@@ -181,6 +181,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						locationView={'approximate'}
 						postType={postData.postType}
 						postId={route.params.postData.postId as string}
+						isAuthor={isAuthor}
 						textFontSize={16}
 					/>
 					<Sigh />

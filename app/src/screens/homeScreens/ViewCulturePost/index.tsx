@@ -203,6 +203,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						locationView={postData.locationView}
 						postType={postData.postType}
 						postId={route.params.postData.postId as string}
+						isAuthor={isAuthor}
 						textFontSize={16}
 					/>
 					{

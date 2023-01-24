@@ -8,6 +8,7 @@ import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/saleStack
 import { DeliveryMethod } from '../../../services/firebase/types'
 
 import { SaleContext } from '../../../contexts/SaleContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -16,15 +17,22 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectDeliveryMethod({ navigation }: SelectDeliveryMethodScreenProps) {
+function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveDeliveryMethod = (deliveryMethod: DeliveryMethod) => {
-		setSaleDataOnContext({
-			deliveryMethod
-		})
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ deliveryMethod })
+			navigation.goBack()
+		} else {
+			setSaleDataOnContext({ deliveryMethod })
+		}
+
 		navigation.navigate('SelectSaleFrequency')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

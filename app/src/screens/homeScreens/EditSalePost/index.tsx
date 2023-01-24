@@ -1,21 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { getDownloadURL } from 'firebase/storage'
 import { StatusBar } from 'react-native'
+import { getDownloadURL } from 'firebase/storage'
 
-import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { Body, Container, Header, SaveButtonContainer, Sigh } from './styles'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import CheckIcon from '../../../assets/icons/check.svg'
 
-import { serviceCategories } from '../../serviceScreens/serviceCategories'
+import { saleCategories } from '../../saleScreens/saleCategories'
 import { arrayIsEmpty, formatHour } from '../../../common/auxiliaryFunctions'
 import { updatePost } from '../../../services/firebase/post/updatePost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 
-import { EditServicePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { DaysOfWeek, ServiceCollection, ServiceCollectionRemote } from '../../../services/firebase/types'
-import { ServiceStackParamList } from '../../../routes/Stack/ServiceStack/types'
+import { EditSalePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { SaleStackParamList } from '../../../routes/Stack/SaleStack/types'
+import { DaysOfWeek, SaleCollection, SaleCollectionRemote } from '../../../services/firebase/types'
 
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -27,7 +27,7 @@ import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Loader } from '../../../components/Loader'
 
-function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
+function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 
@@ -78,9 +78,9 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 		}
 	}
 
-	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof ServiceCollectionRemote) => {
+	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof SaleCollectionRemote) => {
 		const value = getPostField(initialValue)
-		navigation.navigate('ServiceStack', {
+		navigation.navigate('SaleStack', {
 			screen: screenName,
 			params: {
 				editMode: true,
@@ -112,7 +112,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 			delete postDataToSave.owner
 			delete postDataToSave.address
 
-			await updatePost('services', postData.postId, postDataToSave)
+			await updatePost('sales', postData.postId, postDataToSave)
 			await updateDocField(
 				'users',
 				postData.owner.userId,
@@ -120,8 +120,8 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 				[postDataToSave, ...getUserPostsWithoutEdited()]
 			)
 
-			updateUserContext(postDataToSave)
 			changeStateOfEditedFields()
+			updateUserContext(postDataToSave)
 			setIsLoading(false)
 			navigation.goBack()
 		} catch (err) {
@@ -145,7 +145,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 
 		const picturePostsUrls: string[] = []
 		await picturesNotUploaded.map(async (picturePath: string, index: number) => {
-			return uploadImage(picturePath, 'services', postData.postId, index).then(
+			return uploadImage(picturePath, 'sales', postData.postId, index).then(
 				({ uploadTask, blob }: any) => {
 					uploadTask.on(
 						'state_change',
@@ -166,7 +166,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 												picturesUrl: [...picturePostsUrls, ...picturesAlreadyUploaded]
 											}
 
-											await updatePost('services', postData.postId, postDataToSave)
+											await updatePost('sales', postData.postId, postDataToSave)
 											await updateDocField(
 												'users',
 												postData.owner.userId,
@@ -199,15 +199,15 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 			{
 				...editDataContext.unsaved.address,
 				locationView: editDataContext.unsaved.locationView,
-				postType: 'service',
+				postType: 'sale',
 			},
 			postData.postId,
-			'services',
+			'sales',
 			`address${postData.postId}`
 		)
 	}
 
-	const updateUserContext = (postAfterEdit: ServiceCollection) => {
+	const updateUserContext = (postAfterEdit: SaleCollection) => {
 		setUserDataOnContext({
 			posts: [
 				...getUserPostsWithoutEdited(),
@@ -220,7 +220,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 		navigation.goBack()
 	}
 
-	const getPostField = (fieldName: keyof ServiceCollection) => {
+	const getPostField = (fieldName: keyof SaleCollection) => {
 		return editDataContext.unsaved[fieldName] || postData[fieldName]
 	}
 
@@ -228,7 +228,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 		const category: string = getPostField('category')
 		const tags = getPostField('tags')
 
-		return `	●  ${serviceCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO Type
+		return `	●  ${saleCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO Type
 	}
 
 	return (
@@ -269,14 +269,14 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 					title={'tags do post'}
 					highlightedWords={['tags']}
 					value={formatCategoryAndTags()}
-					onEdit={() => navigateToEditScreen('SelectServiceCategory', 'tags')}
+					onEdit={() => navigateToEditScreen('SelectSaleCategory', 'tags')}
 				/>
 				<Sigh />
 				<EditCard
 					title={'título do post'}
 					highlightedWords={['título']}
 					value={getPostField('title')}
-					onEdit={() => navigateToEditScreen('InsertServiceName', 'title')}
+					onEdit={() => navigateToEditScreen('InsertSaleTitle', 'title')}
 				/>
 				<Sigh />
 				<EditCard
@@ -284,14 +284,14 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 					highlightedWords={['fotos']}
 					profilePicturesUrl={getPicturesUrl()}
 					carousel
-					onEdit={() => navigateToEditScreen('ServicePicturePreview', 'picturesUrl')}
+					onEdit={() => navigateToEditScreen('SalePicturePreview', 'picturesUrl')}
 				/>
 				<Sigh />
 				<EditCard
 					title={`descrição ${getRelativeTitle()}`}
 					highlightedWords={['descrição']}
-					value={getPostField('description') || '---'}
-					onEdit={() => navigateToEditScreen('InsertServiceDescription', 'description')}
+					value={getPostField('itemDescription') || '---'}
+					onEdit={() => navigateToEditScreen('InsertItemDescription', 'itemDescription')}
 				/>
 				<Sigh />
 				<EditCard
@@ -314,6 +314,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 					postType={getPostField('postType')}
 					postId={getPostField('postId')}
 					textFontSize={16}
+					isAuthor
 					editable
 					onEdit={() => navigateToEditScreen('SelectLocationView', 'postId')}
 				/>
@@ -322,7 +323,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 					title={'dias da semana'}
 					highlightedWords={['semana']}
 					value={formatDaysOfWeek() || '---'}
-					onEdit={() => navigateToEditScreen('SelectServiceFrequency', 'attendanceWeekDays')}
+					onEdit={() => navigateToEditScreen('SelectSaleFrequency', 'attendanceWeekDays')}
 				/>
 				<Sigh />
 				<EditCard
@@ -352,4 +353,4 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 	)
 }
 
-export { EditServicePost }
+export { EditSalePost }

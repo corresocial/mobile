@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, Linking } from 'react-native'
 
 import { Body, Container, Header, LastSigh, OptionsArea, Sigh, UserAndValueContainer } from './styles'
@@ -16,9 +16,10 @@ import { getPrivateContacts } from '../../../services/firebase/user/getPrivateCo
 import { ViewSalePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { PostCollection } from '../../../services/firebase/types'
+import { PostCollection, SaleCollection } from '../../../services/firebase/types'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
 import { SaleExchangeValue } from '../../../components/SaleExchangeValue'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
@@ -32,9 +33,16 @@ import { PostPopOver } from '../../../components/PostPopOver'
 
 function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
+
+	useEffect(() => {
+		return () => {
+			clearEditContext()
+		}
+	}, [])
 
 	const loggedUserIsOwner = () => {
 		if (!route.params.postData || !route.params.postData.owner) return false
@@ -55,7 +63,8 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	}
 
 	const goToEditPost = () => {
-		navigation.navigate('EditPost' as any)
+		setPostOptionsIsOpen(false)
+		navigation.navigate('EditSalePost' as any, { postData: { ...postData, ...editDataContext.saved } })
 	}
 
 	const deleteRemotePost = async () => {
@@ -100,13 +109,17 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
 	}
 
+	const getPostField = (fieldName: keyof SaleCollection) => {
+		return editDataContext.saved[fieldName] || postData[fieldName]
+	}
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={postOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
-					text={postData.title}
+					text={getPostField('title')}
 				/>
 				<Sigh />
 				<UserAndValueContainer>
@@ -114,14 +127,14 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						userName={postData.owner ? postData.owner.name : 'usuário do corre.'}
 						postDate={renderFormatedPostDateTime()}
 						userNameFontSize={14}
-						profilePictureUrl={getProfilePictureUrl()}
+						profilePictureUrl={getProfilePictureUrl() || ''}
 						pictureDimensions={45}
 						width={'60%'}
 						navigateToProfile={navigateToProfile}
 					/>
 					<SaleExchangeValue
-						saleValue={postData.saleValue}
-						exchangeValue={postData.exchangeValue}
+						saleValue={getPostField('saleValue')}
+						exchangeValue={getPostField('exchangeValue')}
 						breakRow
 						smallFontSize={14}
 						largeFontSize={25}
@@ -177,15 +190,15 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 				<ScrollView showsVerticalScrollIndicator={false} >
 					<DescriptionCard
 						title={'descrição do produto'}
-						text={postData.itemDescription}
+						text={getPostField('itemDescription')}
 						textFontSize={14}
 					/>
 					<Sigh />
 					{
-						!arrayIsEmpty(postData.picturesUrl) && (
+						!arrayIsEmpty(getPostField('picturesUrl')) && (
 							<>
 								<ImageCarousel
-									picturesUrl={postData.picturesUrl && postData.picturesUrl}
+									picturesUrl={getPostField('picturesUrl') || []}
 								/>
 								<Sigh />
 							</>
@@ -193,30 +206,31 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					}
 					<SaleOrExchangeCard
 						title={'venda ou troca'}
-						saleValue={postData.saleValue}
-						exchangeValue={postData.exchangeValue}
+						saleValue={getPostField('saleValue')}
+						exchangeValue={getPostField('exchangeValue')}
 					/>
 					<Sigh />
 					<LocationViewCard
 						title={'local de trabalho'}
-						locationView={postData.locationView}
-						postType={postData.postType}
-						postId={route.params.postData.postId as string}
+						locationView={getPostField('locationView')}
+						postType={getPostField('postType')}
+						postId={getPostField('postId') as string}
+						isAuthor={isAuthor}
 						textFontSize={16}
 					/>
 					<Sigh />
 					<DateTimeCard
 						title={'dias e horários'}
-						weekDaysfrequency={postData.attendanceFrequency}
-						daysOfWeek={postData.attendanceWeekDays}
-						openingTime={postData.openingHour}
-						closingTime={postData.closingHour}
+						weekDaysfrequency={getPostField('attendanceFrequency')}
+						daysOfWeek={getPostField('attendanceWeekDays')}
+						openingTime={getPostField('openingHour')}
+						closingTime={getPostField('closingHour')}
 						textFontSize={14}
 					/>
 					<Sigh />
 					<DeliveryMethodCard
 						title={'entrega'}
-						deliveryMethod={postData.deliveryMethod}
+						deliveryMethod={getPostField('deliveryMethod')}
 						textFontSize={16}
 					/>
 					<LastSigh />

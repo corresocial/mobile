@@ -230,6 +230,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 									locationView={'public'}
 									postType={postData.postType}
 									postId={route.params.postData.postId as string}
+									isAuthor={isAuthor}
 									textFontSize={16}
 								/>
 							</>

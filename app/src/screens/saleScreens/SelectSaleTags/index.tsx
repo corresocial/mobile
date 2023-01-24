@@ -21,6 +21,7 @@ import { saleCategories, updateSaleTags } from '../saleCategories'
 import { SelectSaleTagsScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
 
 import { SaleContext } from '../../../contexts/SaleContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -33,6 +34,7 @@ import { SelectedTagsHorizontalList } from '../../../components/SelectedTagsHori
 
 function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [textTag, setTextTag] = useState('')
 	const [keyboardOpened, setKeyboardOpened] = useState(false)
@@ -114,11 +116,23 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 	}
 
 	const saveTags = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({
+				category: route.params.categorySelected,
+				tags: selectedTags
+			})
+			navigation.goBack()
+			navigation.goBack()
+			return
+		}
+
 		setSaleDataOnContext({
 			tags: selectedTags
 		})
 		navigation.navigate('InsertSaleTitle')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

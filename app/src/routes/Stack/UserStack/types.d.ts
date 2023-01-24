@@ -1,5 +1,5 @@
 import { ContactUsType } from "../../../services/discord/types"
-import { PostCollection, ServiceCollectionRemote, SocialMedia } from "../../../services/firebase/types"
+import { PostCollection, SaleCollectionRemote, ServiceCollectionRemote, SocialMedia } from "../../../services/firebase/types"
 import { ReportedTarget } from './../../../services/types'
 
 
@@ -8,7 +8,7 @@ export type UserStackParamList = {
 	HomeTab: { tourCompleted?: boolean, showShareModal?: boolean }
 	SelectPostType: undefined
 	ServiceStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
-	SaleStack: undefined
+	SaleStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	VacancyStack: undefined
 	CultureStack: undefined
 	SocialImpactStack: undefined
@@ -17,6 +17,8 @@ export type UserStackParamList = {
 	EditUserDescription: { userDescription: string, userId: string }
 	EditUserPicture: { profilePictureUrl: string, userId: string }
 	EditServicePost: { postData: ServiceCollectionRemote }
+	EditSalePost: { postData: SaleCollectionRemote }
+
 	SocialMediaManagement: { socialMedias: SocialMedia[], isAuthor?: boolean }
 	InsertLinkTitle: { socialMedia?: SocialMedia, index?: number }
 	InsertLinkValue: { linkTitle: string, socialMedia: SocialMedia, index?: number }

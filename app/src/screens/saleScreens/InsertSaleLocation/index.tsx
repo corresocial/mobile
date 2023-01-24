@@ -3,7 +3,7 @@ import { Animated, LayoutChangeEvent, LayoutRectangle, Platform, StatusBar, View
 import * as Location from 'expo-location'
 
 import { theme } from '../../../common/theme'
-import { relativeScreenHeight, screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight, screenWidth } from '../../../common/screenDimensions'
 import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from './styles'
 import Check from '../../../assets/icons/check.svg'
 import MapPointOrange from '../../../assets/icons/mapPoint-orange.svg'
@@ -15,13 +15,12 @@ import { InsertSaleLocationScreenProps } from '../../../routes/Stack/saleStack/s
 import { Coordinates } from '../../../services/firebase/types'
 
 import { SaleContext } from '../../../contexts/SaleContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
-import { ProgressBar } from '../../../components/ProgressBar'
 import { CustomMapView } from '../../../components/CustomMapView'
 import { InfoCard } from '../../../components/_cards/InfoCard'
 
@@ -39,6 +38,7 @@ const defaultDeltaCoordinates = {
 
 function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [hasPermission, setHasPermission] = useState(false)
 	const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(null)
@@ -154,16 +154,29 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 		const completeAddress = await convertGeocodeToAddress(markerCoordinate?.latitude as number, markerCoordinate?.longitude as number)
 		const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
-		setSaleDataOnContext({
-			address: {
-				...completeAddress,
-				...geohashObject
-			}
-		})
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({
+				address: {
+					...completeAddress,
+					...geohashObject
+				}
+			})
+		} else {
+			setSaleDataOnContext({
+				address: {
+					...completeAddress,
+					...geohashObject
+				}
+			})
+		}
+
 		navigation.navigate('LocationViewPreview', {
-			locationView: route.params.locationView
+			locationView: route.params.locationView,
+			editMode: !!route.params?.editMode
 		})
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	const markerCoordinateIsAccuracy = () => markerCoordinate?.latitudeDelta as number < 0.0065
 

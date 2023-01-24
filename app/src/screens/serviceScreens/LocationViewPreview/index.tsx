@@ -23,7 +23,7 @@ const defaultDeltaCoordinates = {
 	longitudeDelta: 0.004
 }
 
-function LocationViewPreview({ navigation, route }: LocationViewPreviewScreenProps) {
+function LocationViewPreview({ route, navigation }: LocationViewPreviewScreenProps) {
 	const { serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 

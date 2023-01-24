@@ -1,12 +1,16 @@
 import { Keyboard, Platform, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
+import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
+
 import { theme } from '../../../common/theme'
 import { screenHeight } from '../../../common/screenDimensions'
 import { ButtonsContainer, Container } from './styles'
 import Check from '../../../assets/icons/check.svg'
 
 import { SaleContext } from '../../../contexts/SaleContext'
+import { EditContext } from '../../../contexts/EditContext'
+
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 import { InsertSaleValueScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
 
@@ -17,12 +21,12 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 
 function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [saleValue, setSaleValue] = useState<string>('')
+	const [saleValue, setSaleValue] = useState<string>(route.params?.initialValue || '')
 	const [saleValueIsValid, setSaleValueIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -53,17 +57,21 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 	}
 
 	const saveSaleValue = () => {
-		if (saleValueIsValid) {
-			setSaleDataOnContext({
-				saleValue
-			})
-			if (route.params.bothPaymentType) {
-				navigation.navigate('InsertExchangeValue')
-			} else {
-				navigation.navigate('SelectLocationView')
-			}
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ saleValue })
+			navigation.goBack()
+		} else {
+			setSaleDataOnContext({ saleValue })
+		}
+
+		if (route.params.bothPaymentType) {
+			navigation.navigate('InsertExchangeValue')
+		} else {
+			navigation.navigate('SelectLocationView')
 		}
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

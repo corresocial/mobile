@@ -21,7 +21,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectSaleCategory({ navigation }: SelectSaleCategoryScreenProps) {
+function SelectSaleCategory({ route, navigation }: SelectSaleCategoryScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
 
 	const renderSelectOptionsButtons = () => {
@@ -43,12 +43,8 @@ function SelectSaleCategory({ navigation }: SelectSaleCategoryScreenProps) {
 	}
 
 	const onSelectCategory = (categoryName: SaleCategories) => {
-		setSaleDataOnContext({
-			category: categoryName
-		})
-		navigation.navigate('SelectSaleTags', {
-			categorySelected: categoryName
-		})
+		setSaleDataOnContext({ category: categoryName })
+		navigation.navigate('SelectSaleTags', { categorySelected: categoryName, ...route.params })
 	}
 
 	return (

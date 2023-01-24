@@ -249,7 +249,7 @@ export type SaleCollection = {
 }
 
 export type SaleCollectionRemote = {
-	postId?: string
+	postId: string
 	postType: PostType
 	title: string
 	itemName: string
@@ -265,8 +265,8 @@ export type SaleCollectionRemote = {
 	attendanceWeekDays: DaysOfWeek[]
 	openingHour: Date
 	closingHour: Date
-	picturesUrl?: string[]
-	createdAt?: Date
+	picturesUrl: string[]
+	createdAt: Date
 	address?: {
 		country?: string
 		state?: string
@@ -284,10 +284,10 @@ export type SaleCollectionRemote = {
 		geohashNear: string[]
 		geohashCity: string[]
 	}
-	owner?: {
-		userId?: string
-		name?: string
-		profilePictureUrl?: string[]
+	owner: {
+		userId: string
+		name: string
+		profilePictureUrl: string[]
 	}
 }
 

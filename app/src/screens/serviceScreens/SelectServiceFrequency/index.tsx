@@ -12,6 +12,7 @@ import { SelectServiceFrequencyScreenProps } from '../../../routes/Stack/Service
 import { DaysOfWeek, WeekdaysFrequency } from '../../../services/firebase/types'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -20,14 +21,24 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
-function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProps) {
+function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveServiceFrequency = (serviceFrequency: WeekdaysFrequency) => {
 		const daysOfWeek = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'] as DaysOfWeek[]
 
 		switch (serviceFrequency) {
 			case 'today': {
+				if (editModeIsTrue()) {
+					addNewUnsavedFieldToEditContext({
+						attendanceFrequency: serviceFrequency,
+						attendanceWeekDays: [daysOfWeek[new Date().getDay()]]
+					})
+					navigation.goBack()
+					return
+				}
+
 				setServiceDataOnContext({
 					attendanceFrequency: serviceFrequency,
 					attendanceWeekDays: [daysOfWeek[new Date().getDay()]]
@@ -36,6 +47,15 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
 				break
 			}
 			case 'everyday': {
+				if (editModeIsTrue()) {
+					addNewUnsavedFieldToEditContext({
+						attendanceFrequency: serviceFrequency,
+						attendanceWeekDays: [...daysOfWeek]
+					})
+					navigation.goBack()
+					return
+				}
+
 				setServiceDataOnContext({
 					attendanceFrequency: serviceFrequency,
 					attendanceWeekDays: [...daysOfWeek]
@@ -44,13 +64,30 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
 				break
 			}
 			case 'someday': {
-				setServiceDataOnContext({
-					attendanceFrequency: serviceFrequency
+				if (editModeIsTrue()) {
+					addNewUnsavedFieldToEditContext({ attendanceFrequency: serviceFrequency })
+				} else {
+					setServiceDataOnContext({
+						attendanceFrequency: serviceFrequency
+					})
+				}
+
+				navigation.navigate('SelectDaysOfWeek', {
+					editMode: !!route.params?.editMode,
+					initialValue: route.params?.initialValue
 				})
-				navigation.navigate('SelectDaysOfWeek')
 				break
 			}
 			case 'businessDay': {
+				if (editModeIsTrue()) {
+					addNewUnsavedFieldToEditContext({
+						attendanceFrequency: serviceFrequency,
+						attendanceWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
+					})
+					navigation.goBack()
+					return
+				}
+
 				setServiceDataOnContext({
 					attendanceFrequency: serviceFrequency,
 					attendanceWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
@@ -61,6 +98,8 @@ function SelectServiceFrequency({ navigation }: SelectServiceFrequencyScreenProp
 			default: return false
 		}
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

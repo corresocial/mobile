@@ -6,7 +6,7 @@ import { ButtonContainer, Container, InputsContainer, TwoPoints } from './styles
 import { theme } from '../../../common/theme'
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
+import { filterLeavingOnlyNumbers, formatHour } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { createPost } from '../../../services/firebase/post/createPost'
@@ -20,6 +20,7 @@ import { PostCollection, PrivateAddress, SaleCollection } from '../../../service
 import { AuthContext } from '../../../contexts/AuthContext'
 import { StateContext } from '../../../contexts/StateContext'
 import { SaleContext } from '../../../contexts/SaleContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -30,13 +31,16 @@ import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { Loader } from '../../../components/Loader'
 
-function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
+function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) {
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { setSaleDataOnContext, saleDataContext } = useContext(SaleContext)
+	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
-	const [hours, setHours] = useState<string>('')
-	const [minutes, setMinutes] = useState<string>('')
+	const initialTime = formatHour(route.params?.initialValue)
+
+	const [hours, setHours] = useState<string>(route.params?.initialValue ? initialTime.split(':')[0] : '')
+	const [minutes, setMinutes] = useState<string>(route.params?.initialValue ? initialTime.split(':')[1] : '')
 	const [hoursIsValid, setHoursIsValid] = useState<boolean>(false)
 	const [minutesIsValid, setMinutesIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -83,7 +87,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 	}
 
 	const closingTimeIsAfterOpening = () => {
-		const openingHour = new Date(saleDataContext.openingHour as Date)
+		const openingHour = new Date(editDataContext.unsaved.openingHour || saleDataContext.openingHour as Date)
 		const closingHour = new Date()
 		closingHour.setHours(parseInt(hours), parseInt(minutes))
 		return openingHour.getTime() < closingHour.getTime()
@@ -124,6 +128,15 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 			setInvalidTimeAfterSubmit(true)
 			return
 		}
+
+		if (editModeIsTrue()) {
+			const closingHour = new Date()
+			closingHour.setHours(parseInt(hours), parseInt(minutes))
+			addNewUnsavedFieldToEditContext({ closingHour })
+			navigation.goBack()
+			return
+		}
+
 		setIsLoading(true)
 
 		const completeSaleData = getCompleteSaleDataFromContext()
@@ -220,6 +233,8 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 			setIsLoading(false)
 		}
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	const updateUserPost = async (
 		localUser: LocalUserData,

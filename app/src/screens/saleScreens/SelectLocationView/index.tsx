@@ -16,10 +16,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { TitleDescriptionButton } from '../../../components/_cards/TitleDescriptionButton'
 
-function SelectLocationView({ navigation }: SelectLocationViewScreenProps) {
+function SelectLocationView({ route, navigation }: SelectLocationViewScreenProps) {
 	const saveLocationViewType = (locationViewType: LocationViewType) => {
 		navigation.navigate('InsertSaleLocation', {
-			locationView: locationViewType
+			locationView: locationViewType,
+			...route.params
 		})
 	}
 

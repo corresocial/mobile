@@ -11,6 +11,7 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 import { InsertSaleTitleScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
 
 import { SaleContext } from '../../../contexts/SaleContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -20,10 +21,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function InsertSaleTitle({ navigation }: InsertSaleTitleScreenProps) {
+function InsertSaleTitle({ route, navigation }: InsertSaleTitleScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [saleTitle, setSaleTitle] = useState<string>('')
+	const [saleTitle, setSaleTitle] = useState<string>(route.params?.initialValue || '')
 	const [saleTitleIsValid, setSaleTitleIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -54,13 +56,19 @@ function InsertSaleTitle({ navigation }: InsertSaleTitleScreenProps) {
 	}
 
 	const saveSaleTitle = () => {
-		if (saleTitleIsValid) {
-			setSaleDataOnContext({
-				title: saleTitle
-			})
-			navigation.navigate('InsertItemDescription')
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ title: saleTitle })
+			navigation.goBack()
+			return
 		}
+
+		setSaleDataOnContext({
+			title: saleTitle
+		})
+		navigation.navigate('InsertItemDescription')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

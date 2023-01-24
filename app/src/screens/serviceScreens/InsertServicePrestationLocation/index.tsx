@@ -189,6 +189,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode
+
 	const markerCoordinateIsAccuracy = () => markerCoordinate?.latitudeDelta as number < 0.0065
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
