@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import { StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
@@ -11,7 +11,6 @@ import { EditServicePostScreenProps } from '../../../routes/Stack/UserStack/stac
 
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { EditCard } from '../../../components/_cards/EditCard'
@@ -26,11 +25,13 @@ import { ServiceStackParamList } from '../../../routes/Stack/ServiceStack/types'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { Loader } from '../../../components/Loader'
 
 function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
+
+	const [isLoading, setIsLoading] = useState(false)
 
 	const { postData } = route.params
 
@@ -95,7 +96,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 
 	const editPost = async () => {
 		try {
-			setLoaderIsVisible(true)
+			setIsLoading(true)
 			if (editDataContext.unsaved.address) {
 				await savePrivateAddress()
 			}
@@ -120,13 +121,13 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 				[postDataToSave, ...getUserPostsWithoutEdited()]
 			)
 
-			setLoaderIsVisible(false)
+			setIsLoading(false)
 			changeStateOfEditedFields()
 			updateUserContext(postDataToSave)
 			navigation.goBack()
 		} catch (err) {
 			console.log(err)
-			setLoaderIsVisible(false)
+			setIsLoading(false)
 			throw new Error('Erro ao editar post')
 		}
 	}
@@ -176,14 +177,14 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 											)
 
 											updateUserContext(postDataToSave)
-											setLoaderIsVisible(false)
+											setIsLoading(false)
 											navigation.goBack()
 										}
 									},
 								)
 								.catch((err) => {
 									console.log(err)
-									setLoaderIsVisible(false)
+									setIsLoading(false)
 								})
 						},
 					)
@@ -242,20 +243,25 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 				/>
 				{
 					Object.keys(editDataContext.unsaved).length > 0 && (
-						<SaveButtonContainer>
-							<PrimaryButton
-								color={theme.green3}
-								labelColor={theme.white3}
-								label={'salvar alterações'}
-								highlightedWords={['salvar']}
-								fontSize={16}
-								SecondSvgIcon={CheckIcon}
-								svgIconScale={['35%', '18%']}
-								minHeight={relativeScreenHeight(6)}
-								relativeHeight={relativeScreenHeight(8)}
-								onPress={editPost}
-							/>
-						</SaveButtonContainer>
+						isLoading
+							? <Loader />
+							: (
+								<SaveButtonContainer>
+									<PrimaryButton
+										color={theme.green3}
+										labelColor={theme.white3}
+										label={'salvar alterações'}
+										highlightedWords={['salvar']}
+										fontSize={16}
+										SecondSvgIcon={CheckIcon}
+										svgIconScale={['35%', '18%']}
+										minHeight={relativeScreenHeight(6)}
+										relativeHeight={relativeScreenHeight(8)}
+										onPress={editPost}
+									/>
+								</SaveButtonContainer>
+							)
+
 					)
 				}
 			</Header>

@@ -11,12 +11,14 @@ import XIcon from '../../assets/icons/x.svg'
 import { PostType } from '../../services/firebase/types'
 
 import { PrimaryButton } from '../_buttons/PrimaryButton'
+import { Loader } from '../Loader'
 
 interface PostPopOverProps {
 	postTitle?: string
 	postId?: string
 	postType?: PostType
 	isAuthor?: boolean
+	isLoading?: boolean
 	popoverVisibility: boolean
 	children: React.ReactChild
 	goToComplaint?: () => void
@@ -29,6 +31,7 @@ function PostPopOver({ postTitle,
 	postId,
 	postType,
 	isAuthor = false,
+	isLoading = false,
 	popoverVisibility,
 	children,
 	goToComplaint,
@@ -58,38 +61,40 @@ function PostPopOver({ postTitle,
 					<PostTitle>{postTitle}</PostTitle>
 					{
 						isAuthor
-							? (
-								<>
-									<PrimaryButton
-										color={theme.green3}
-										onPress={editPost && editPost as any} // TODO Type
-										label={'editar post'}
-										highlightedWords={['editar', 'post']}
-										labelColor={theme.white3}
-										fontSize={14}
-										minHeight={20}
-										relativeHeight={screenHeight * 0.08}
-									/>
+							? isLoading
+								? <Loader />
+								: (
+									<>
+										<PrimaryButton
+											color={theme.green3}
+											onPress={editPost && editPost as any} // TODO Type
+											label={'editar post'}
+											highlightedWords={['editar', 'post']}
+											labelColor={theme.white3}
+											fontSize={14}
+											minHeight={20}
+											relativeHeight={screenHeight * 0.08}
+										/>
 
-									{
-										deletePost && (
-											<>
-												<Sigh />
-												<PrimaryButton
-													color={theme.red3}
-													onPress={deletePost && deletePost as any} // TODO Type
-													label={'apagar post'}
-													highlightedWords={['apagar', 'post']}
-													labelColor={theme.white3}
-													fontSize={14}
-													minHeight={20}
-													relativeHeight={screenHeight * 0.08}
-												/>
-											</>
-										)
-									}
-								</>
-							)
+										{
+											deletePost && (
+												<>
+													<Sigh />
+													<PrimaryButton
+														color={theme.red3}
+														onPress={deletePost && deletePost as any} // TODO Type
+														label={'apagar post'}
+														highlightedWords={['apagar', 'post']}
+														labelColor={theme.white3}
+														fontSize={14}
+														minHeight={20}
+														relativeHeight={screenHeight * 0.08}
+													/>
+												</>
+											)
+										}
+									</>
+								)
 							: (
 								<PrimaryButton
 									color={theme.red3}

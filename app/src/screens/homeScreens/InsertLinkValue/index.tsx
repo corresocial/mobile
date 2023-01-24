@@ -14,16 +14,17 @@ import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'
 import { updateUser } from '../../../services/firebase/user/updateUser'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { SocialMedia } from '../../../services/firebase/types'
-import { LoaderContext } from '../../../contexts/LoaderContext'
+import { Loader } from '../../../components/Loader'
 
 function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const { setUserDataOnContext, userDataContext } = useContext(AuthContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [linkValue, setInputLinkValue] = useState<string>(route.params.socialMedia?.link || '')
 	const [linkValueIsValid, setLinkValueIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 	const [invalidLinkValueAfterSubmit, setInvaliLinkValueAfterSubmit] = useState<boolean>(false)
+	const [isLoading, setIsLoading] = useState(false)
+
 	const inputRefs = {
 		linkValueInput: useRef<React.MutableRefObject<any>>(null),
 	}
@@ -53,7 +54,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const someInvalidFieldSubimitted = () => invalidLinkValueAfterSubmit
 
 	const saveLinkValue = async () => {
-		setLoaderIsVisible(true)
+		setIsLoading(true)
 		try {
 			const socialMediaData = getSocialMediaData()
 
@@ -62,9 +63,9 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 			navigation.navigate('SocialMediaManagement', { socialMedias: socialMediaData.socialMedias, isAuthor: true }) // TODO Type
 		} catch (err) {
 			console.log(err)
-			setLoaderIsVisible(false)
+			setIsLoading(false)
 		}
-		setLoaderIsVisible(false)
+		setIsLoading(false)
 	}
 
 	const getSocialMediaData = () => {
@@ -125,18 +126,20 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 				<ButtonContainer>
 					{
 						linkValueIsValid && !keyboardOpened
-						&& (
-							<PrimaryButton
-								color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
-								iconName={'arrow-right'}
-								iconColor={theme.white3}
-								label={'continuar'}
-								labelColor={theme.white3}
-								highlightedWords={['continuar']}
-								startsHidden={false}
-								onPress={saveLinkValue}
-							/>
-						)
+							&& isLoading
+							? <Loader />
+							: (
+								<PrimaryButton
+									color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
+									iconName={'arrow-right'}
+									iconColor={theme.white3}
+									label={'continuar'}
+									labelColor={theme.white3}
+									highlightedWords={['continuar']}
+									startsHidden={false}
+									onPress={saveLinkValue}
+								/>
+							)
 
 					}
 				</ButtonContainer>

@@ -23,13 +23,13 @@ import { CultureData, LocalUserData } from '../../../contexts/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 import { StateContext } from '../../../contexts/StateContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 import { CultureContext } from '../../../contexts/CultureContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { CustomMapView } from '../../../components/CustomMapView'
 import { InfoCard } from '../../../components/_cards/InfoCard'
+import { Loader } from '../../../components/Loader'
 
 const defaultDeltaCoordinates = {
 	latitudeDelta: 0.004,
@@ -40,7 +40,6 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [locationViewSelected, setLocationViewSelected] = useState<LocationViewType>()
 	const [markerCoordinate] = useState({
@@ -48,6 +47,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 		...defaultDeltaCoordinates
 	})
 	const [hasServerSideError, setHasServerSideError] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
 		const locationView = getLocationViewFromRouteParams()
@@ -105,7 +105,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 	}
 
 	const saveCulturePost = async () => {
-		setLoaderIsVisible(true)
+		setIsLoading(true)
 
 		const completeCultureData = getCompleteCultureDataFromContext()
 		setCultureDataOnContext({
@@ -195,7 +195,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 			})
 		} catch (err) {
 			console.log(err)
-			setLoaderIsVisible(false)
+			setIsLoading(false)
 			setHasServerSideError(true)
 		}
 	}
@@ -253,13 +253,13 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 						},
 					],
 				})
-				setLoaderIsVisible(false)
+				setIsLoading(false)
 				showShareModal(true, postData.title)
 				navigation.navigate('HomeTab' as any)
 			})
 			.catch((err: any) => {
 				console.log(err)
-				setLoaderIsVisible(false)
+				setIsLoading(false)
 				setHasServerSideError(true)
 			})
 	}
@@ -308,29 +308,36 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 				/>
 			</MapContainer>
 			<ButtonContainerBottom>
-				<PrimaryButton
-					flexDirection={'row-reverse'}
-					color={theme.red3}
-					label={'não curti, voltar'}
-					highlightedWords={['não', 'curti']}
-					labelColor={theme.white3}
-					fontSize={16}
-					SvgIcon={Uncheck}
-					svgIconScale={['30%', '20%']}
-					onPress={() => navigation.goBack()}
-				/>
-				<PrimaryButton
-					flexDirection={'row-reverse'}
-					color={theme.green3}
-					label={'isso mesmo, continuar'}
-					highlightedWords={['isso', 'mesmo']}
-					fontSize={16}
-					labelColor={theme.white3}
-					SvgIcon={Check}
-					svgIconScale={['30%', '20%']}
-					onPress={saveLocation}
-
-				/>
+				{
+					isLoading
+						? <Loader />
+						: (
+							<>
+								<PrimaryButton
+									flexDirection={'row-reverse'}
+									color={theme.red3}
+									label={'não curti, voltar'}
+									highlightedWords={['não', 'curti']}
+									labelColor={theme.white3}
+									fontSize={16}
+									SvgIcon={Uncheck}
+									svgIconScale={['30%', '20%']}
+									onPress={() => navigation.goBack()}
+								/>
+								<PrimaryButton
+									flexDirection={'row-reverse'}
+									color={theme.green3}
+									label={'isso mesmo, continuar'}
+									highlightedWords={['isso', 'mesmo']}
+									fontSize={16}
+									labelColor={theme.white3}
+									SvgIcon={Check}
+									svgIconScale={['30%', '20%']}
+									onPress={saveLocation}
+								/>
+							</>
+						)
+				}
 			</ButtonContainerBottom>
 		</Container>
 	)

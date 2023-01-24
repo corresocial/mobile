@@ -16,7 +16,6 @@ import { getPrivateContacts } from '../../../services/firebase/user/getPrivateCo
 import { ViewSocialImpactPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { PostCollection } from '../../../services/firebase/types'
 
-import { LoaderContext } from '../../../contexts/LoaderContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
@@ -30,9 +29,9 @@ import { PostPopOver } from '../../../components/PostPopOver'
 
 function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const loggedUserIsOwner = () => {
 		if (!route.params.postData || !route.params.postData.owner) return false
@@ -53,10 +52,10 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	}
 
 	const deleteRemotePost = async () => {
-		setLoaderIsVisible(true)
+		setIsLoading(true)
 		await deletePost(postData.postId, postData.postType, postData.owner.userId)
 		await removePostOnContext()
-		setLoaderIsVisible(false)
+		setIsLoading(false)
 		backToPreviousScreen()
 	}
 
@@ -144,6 +143,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
+						isLoading={isLoading}
 						goToComplaint={reportPost}
 						editPost={() => Alert.alert('edit post')}
 						deletePost={deleteRemotePost}

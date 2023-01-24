@@ -11,7 +11,6 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 import { ContactUsInsertMessageScreenProps } from '../../../routes/Stack/userStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
@@ -21,14 +20,15 @@ import { InfoCard } from '../../../components/_cards/InfoCard'
 import { relativeScreenHeight, relativeScreenWidth, screenHeight } from '../../../common/screenDimensions'
 import { sendContactUsMessageToDiscord } from '../../../services/discord/contactUs'
 import { sendContactUsMessageToNotion } from '../../../services/notion/contactUs'
+import { Loader } from '../../../components/Loader'
 
 function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [message, setItemDescription] = useState<string>('')
 	const [messageIsValid, setItemDescriptionIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -58,7 +58,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 
 	const sendMessage = async () => {
 		try {
-			setLoaderIsVisible(true)
+			setIsLoading(true)
 			const notionPage: any = await sendContactUsMessageToNotion({ // TODO Type
 				userId: userDataContext.userId as string,
 				type: route.params.contactUsType,
@@ -77,13 +77,13 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 				reportedId: route.params.reportedId
 			})
 
-			setLoaderIsVisible(false)
+			setIsLoading(false)
 			navigation.navigate('ContactUsSuccess')
 		} catch (err) {
 			console.log(err)
-			setLoaderIsVisible(false)
+			setIsLoading(false)
 		}
-		setLoaderIsVisible(false)
+		setIsLoading(false)
 	}
 
 	return (
@@ -124,30 +124,33 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 					onChangeText={(text: string) => setItemDescription(text)}
 				/>
 				{
-					messageIsValid && !keyboardOpened
-					&& (
-						<ButtonsContainer>
-							<SmallButton
-								relativeWidth={relativeScreenWidth(17)}
-								height={relativeScreenWidth(17)}
-								color={theme.white3}
-								SvgIcon={AngleLeftThin}
-								onPress={() => navigation.goBack()}
-							/>
-							<PrimaryButton
-								color={theme.green3}
-								labelColor={theme.white3}
-								fontSize={18}
-								relativeWidth={'68%'}
-								relativeHeight={relativeScreenHeight(9.3)}
-								labelMarginLeft={5}
-								textAlign={'left'}
-								label={'continuar'}
-								SecondSvgIcon={CheckIcon}
-								svgIconScale={['30%', '15%']}
-								onPress={sendMessage}
-							/>
-						</ButtonsContainer>
+					messageIsValid && !keyboardOpened && (
+						isLoading
+							? <Loader />
+							: (
+								<ButtonsContainer>
+									<SmallButton
+										relativeWidth={relativeScreenWidth(17)}
+										height={relativeScreenWidth(17)}
+										color={theme.white3}
+										SvgIcon={AngleLeftThin}
+										onPress={() => navigation.goBack()}
+									/>
+									<PrimaryButton
+										color={theme.green3}
+										labelColor={theme.white3}
+										fontSize={18}
+										relativeWidth={'68%'}
+										relativeHeight={relativeScreenHeight(9.3)}
+										labelMarginLeft={5}
+										textAlign={'left'}
+										label={'continuar'}
+										SecondSvgIcon={CheckIcon}
+										svgIconScale={['30%', '15%']}
+										onPress={sendMessage}
+									/>
+								</ButtonsContainer>
+							)
 					)
 				}
 			</Body>

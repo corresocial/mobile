@@ -17,7 +17,6 @@ import { LocalUserData, VacancyData } from '../../../contexts/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 import { StateContext } from '../../../contexts/StateContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 import { VacancyContext } from '../../../contexts/VacancyContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -27,12 +26,12 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
+import { Loader } from '../../../components/Loader'
 
 function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { setVacancyDataOnContext, vacancyDataContext } = useContext(VacancyContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [hours, setHours] = useState<string>('')
 	const [minutes, setMinutes] = useState<string>('')
@@ -41,6 +40,7 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 	const [invalidTimeAfterSubmit, setInvalidTimeAfterSubmit] = useState<boolean>(false)
 	const [hasServerSideError, setHasServerSideError] = useState<boolean>(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const inputRefs = {
 		hoursInput: useRef<React.MutableRefObject<any>>(null),
@@ -122,7 +122,7 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 			setInvalidTimeAfterSubmit(true)
 			return
 		}
-		setLoaderIsVisible(true)
+		setIsLoading(true)
 
 		const completeVacancyData = getCompleteVacancyDataFromContext()
 		setVacancyDataOnContext({
@@ -158,7 +158,7 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 			return
 		} catch (err) {
 			console.log(err)
-			setLoaderIsVisible(false)
+			setIsLoading(false)
 			setHasServerSideError(true)
 		}
 	}
@@ -214,13 +214,13 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 						},
 					],
 				})
-				setLoaderIsVisible(false)
+				setIsLoading(false)
 				showShareModal(true, vacancyDataPost.title)
 				navigation.navigate('HomeTab' as any)
 			})
 			.catch((err: any) => {
 				console.log(err)
-				setLoaderIsVisible(false)
+				setIsLoading(false)
 				setHasServerSideError(true)
 			})
 	}
@@ -339,18 +339,19 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 				</InputsContainer>
 				<ButtonContainer>
 					{
-						hoursIsValid && minutesIsValid && !keyboardOpened
-						&& (
-							<PrimaryButton
-								color={invalidTimeAfterSubmit ? theme.red3 : theme.green3}
-								iconName={'arrow-right'}
-								iconColor={theme.white3}
-								label={'continuar'}
-								labelColor={theme.white3}
-								highlightedWords={['continuar']}
-								onPress={saveVacancyPost}
-							/>
-						)
+						isLoading
+							? <Loader />
+							: hoursIsValid && minutesIsValid && !keyboardOpened && (
+								<PrimaryButton
+									color={invalidTimeAfterSubmit ? theme.red3 : theme.green3}
+									iconName={'arrow-right'}
+									iconColor={theme.white3}
+									label={'continuar'}
+									labelColor={theme.white3}
+									highlightedWords={['continuar']}
+									onPress={saveVacancyPost}
+								/>
+							)
 					}
 				</ButtonContainer>
 

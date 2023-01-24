@@ -10,7 +10,6 @@ import { updateUser } from '../../../services/firebase/user/updateUser'
 import { RegisterUserData } from '../../../contexts/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { InsertProfilePictureScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -18,11 +17,12 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { UserCollection } from '../../../services/firebase/types'
+import { Loader } from '../../../components/Loader'
 
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
 	const { setDataOnSecureStore, getDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 
+	const [isLoading, setIsLoading] = useState(false)
 	const [hasServerSideError, setHasServerSideError] = useState(false)
 
 	const headerMessages = {
@@ -54,15 +54,15 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		}
 
 		try {
-			setLoaderIsVisible(true)
+			setIsLoading(true)
 			await saveInFirebase(userData, localUser.tourPerformed)
 			await saveInSecureStore(userData, localUser)
 			await setRemoteUserOnLocal(userData.userIdentification.uid)
-			setLoaderIsVisible(false)
+			setIsLoading(false)
 			navigateToNextScreen(localUser.tourPerformed)
 		} catch (err) {
 			console.log(err)
-			setLoaderIsVisible(false)
+			setIsLoading(false)
 			setHasServerSideError(true)
 		}
 	}
@@ -138,26 +138,35 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 				/>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
-				<PrimaryButton
-					color={theme.green3}
-					iconName={'images'}
-					iconColor={theme.white3}
-					label={'claro, vou adicionar'}
-					labelColor={theme.white3}
-					highlightedWords={['vou', 'adicionar']}
-					onPress={navigateToProfilePicture}
-				/>
-				<PrimaryButton
-					color={theme.red3}
-					iconName={'arrow-right'}
-					iconColor={theme.white3}
-					label={'nem quero, valew'}
-					labelColor={theme.white3}
-					highlightedWords={['nem', 'quero']}
-					onPress={saveUserData}
-				/>
+				{
+					isLoading
+						? <Loader />
+						: (
+							<>
+								<PrimaryButton
+									color={theme.green3}
+									iconName={'images'}
+									iconColor={theme.white3}
+									label={'claro, vou adicionar'}
+									labelColor={theme.white3}
+									highlightedWords={['vou', 'adicionar']}
+									onPress={navigateToProfilePicture}
+								/>
+								<PrimaryButton
+									color={theme.red3}
+									iconName={'arrow-right'}
+									iconColor={theme.white3}
+									label={'nem quero, valew'}
+									labelColor={theme.white3}
+									highlightedWords={['nem', 'quero']}
+									onPress={saveUserData}
+								/>
+							</>
+						)
+				}
+
 			</FormContainer>
-		</Container>
+		</Container >
 	)
 }
 

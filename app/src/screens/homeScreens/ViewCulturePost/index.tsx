@@ -24,7 +24,6 @@ import { getPrivateContacts } from '../../../services/firebase/user/getPrivateCo
 import { ViewCulturePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { PostCollection } from '../../../services/firebase/types'
@@ -39,9 +38,9 @@ import { PostPopOver } from '../../../components/PostPopOver'
 
 function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const loggedUserIsOwner = () => {
 		if (!route.params.postData || !route.params.postData.owner) return false
@@ -62,10 +61,10 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	}
 
 	const deleteRemotePost = async () => {
-		setLoaderIsVisible(true)
+		setIsLoading(true)
 		await deletePost(postData.postId, postData.postType, postData.owner.userId)
 		await removePostOnContext()
-		setLoaderIsVisible(false)
+		setIsLoading(false)
 		backToPreviousScreen()
 	}
 
@@ -153,6 +152,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
+						isLoading={isLoading}
 						goToComplaint={reportPost}
 						editPost={() => Alert.alert('edit post')}
 						deletePost={deleteRemotePost}

@@ -19,7 +19,6 @@ import { InsertEventEndHourScreenProps } from '../../../routes/Stack/CultureStac
 import { CultureContext } from '../../../contexts/CultureContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { StateContext } from '../../../contexts/StateContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -30,12 +29,12 @@ import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { CultureCollection, PostCollection, PrivateAddress } from '../../../services/firebase/types'
 import { CultureData, LocalUserData } from '../../../contexts/types'
+import { Loader } from '../../../components/Loader'
 
 function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [hours, setHours] = useState<string>('')
 	const [minutes, setMinutes] = useState<string>('')
@@ -44,6 +43,7 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 	const [invalidTimeAfterSubmit, setInvalidTimeAfterSubmit] = useState<boolean>(false)
 	const [hasServerSideError, setHasServerSideError] = useState<boolean>(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const inputRefs = {
 		hoursInput: useRef<React.MutableRefObject<any>>(null),
@@ -96,7 +96,7 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
 			return
 		}
 
-		setLoaderIsVisible(true)
+		setIsLoading(true)
 		setHasServerSideError(false)
 
 		const completeCultureData = getCompleteCultureDataFromContext()
@@ -191,7 +191,7 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
 		} catch (err) {
 			console.log(err)
 			setHasServerSideError(true)
-			setLoaderIsVisible(false)
+			setIsLoading(false)
 		}
 	}
 
@@ -280,13 +280,13 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
 						},
 					],
 				})
-				setLoaderIsVisible(false)
+				setIsLoading(false)
 				showShareModal(true, postData.title)
 				navigation.navigate('HomeTab' as any)
 			})
 			.catch((err: any) => {
 				console.log(err)
-				setLoaderIsVisible(false)
+				setIsLoading(false)
 				setHasServerSideError(true)
 			})
 	}
@@ -405,18 +405,19 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
 				</InputsContainer>
 				<ButtonContainer>
 					{
-						hoursIsValid && minutesIsValid && !keyboardOpened
-						&& (
-							<PrimaryButton
-								color={invalidTimeAfterSubmit ? theme.red3 : theme.green3}
-								iconName={'arrow-right'}
-								iconColor={theme.white3}
-								label={'continuar'}
-								labelColor={theme.white3}
-								highlightedWords={['continuar']}
-								onPress={saveCulturePost}
-							/>
-						)
+						isLoading
+							? <Loader />
+							: hoursIsValid && minutesIsValid && !keyboardOpened && (
+								<PrimaryButton
+									color={invalidTimeAfterSubmit ? theme.red3 : theme.green3}
+									iconName={'arrow-right'}
+									iconColor={theme.white3}
+									label={'continuar'}
+									labelColor={theme.white3}
+									highlightedWords={['continuar']}
+									onPress={saveCulturePost}
+								/>
+							)
 					}
 				</ButtonContainer>
 			</FormContainer>

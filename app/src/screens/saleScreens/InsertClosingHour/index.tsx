@@ -20,7 +20,6 @@ import { PostCollection, PrivateAddress, SaleCollection } from '../../../service
 import { AuthContext } from '../../../contexts/AuthContext'
 import { StateContext } from '../../../contexts/StateContext'
 import { SaleContext } from '../../../contexts/SaleContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -29,18 +28,19 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
+import { Loader } from '../../../components/Loader'
 
 function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { setSaleDataOnContext, saleDataContext } = useContext(SaleContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [hours, setHours] = useState<string>('')
 	const [minutes, setMinutes] = useState<string>('')
 	const [hoursIsValid, setHoursIsValid] = useState<boolean>(false)
 	const [minutesIsValid, setMinutesIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const [invalidTimeAfterSubmit, setInvalidTimeAfterSubmit] = useState<boolean>(false)
 	const [hasServerSideError, setHasServerSideError] = useState<boolean>(false)
@@ -124,7 +124,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 			setInvalidTimeAfterSubmit(true)
 			return
 		}
-		setLoaderIsVisible(true)
+		setIsLoading(true)
 
 		const completeSaleData = getCompleteSaleDataFromContext()
 		setSaleDataOnContext({
@@ -217,7 +217,7 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 			console.log(err)
 			setInvalidTimeAfterSubmit(true)
 			setHasServerSideError(true)
-			setLoaderIsVisible(false)
+			setIsLoading(false)
 		}
 	}
 
@@ -275,13 +275,13 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 					],
 				})
 				console.log('Naviguei')
-				setLoaderIsVisible(false)
+				setIsLoading(false)
 				showShareModal(true, saleDataPost.title)
 				navigation.navigate('HomeTab' as any)
 			})
 			.catch((err: any) => {
 				console.log(err)
-				setLoaderIsVisible(false)
+				setIsLoading(false)
 				setHasServerSideError(true)
 			})
 	}
@@ -400,18 +400,19 @@ function InsertClosingHour({ navigation }: InsertClosingHourScreenProps) {
 				</InputsContainer>
 				<ButtonContainer>
 					{
-						hoursIsValid && minutesIsValid && !keyboardOpened
-						&& (
-							<PrimaryButton
-								color={invalidTimeAfterSubmit ? theme.red3 : theme.green3}
-								iconName={'arrow-right'}
-								iconColor={theme.white3}
-								label={'continuar'}
-								labelColor={theme.white3}
-								highlightedWords={['continuar']}
-								onPress={saveSalePost}
-							/>
-						)
+						isLoading
+							? <Loader />
+							: hoursIsValid && minutesIsValid && !keyboardOpened && (
+								<PrimaryButton
+									color={invalidTimeAfterSubmit ? theme.red3 : theme.green3}
+									iconName={'arrow-right'}
+									iconColor={theme.white3}
+									label={'continuar'}
+									labelColor={theme.white3}
+									highlightedWords={['continuar']}
+									onPress={saveSalePost}
+								/>
+							)
 					}
 				</ButtonContainer>
 			</FormContainer>

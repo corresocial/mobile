@@ -19,7 +19,6 @@ import { LocalUserData, ServiceData } from '../../../contexts/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 import { StateContext } from '../../../contexts/StateContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
 
@@ -30,12 +29,12 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
+import { Loader } from '../../../components/Loader'
 
 function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) {
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { setServiceDataOnContext, serviceDataContext } = useContext(ServiceContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
 	const initialTime = formatHour(route.params?.initialValue)
@@ -45,6 +44,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 	const [hoursIsValid, setHoursIsValid] = useState<boolean>(false)
 	const [minutesIsValid, setMinutesIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const [invalidTimeAfterSubmit, setInvalidTimeAfterSubmit] = useState<boolean>(false)
 	const [hasServerSideError, setHasServerSideError] = useState<boolean>(false)
@@ -139,7 +139,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 			return
 		}
 
-		setLoaderIsVisible(true)
+		setIsLoading(true)
 
 		const completeServiceData = getCompleteServiceDataFromContext()
 		setServiceDataOnContext({
@@ -231,7 +231,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 			console.log(err)
 			setInvalidTimeAfterSubmit(true)
 			setHasServerSideError(true)
-			setLoaderIsVisible(false)
+			setIsLoading(false)
 		}
 	}
 
@@ -290,13 +290,13 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 						},
 					],
 				})
-				setLoaderIsVisible(false)
+				setIsLoading(false)
 				showShareModal(true, serviceDataPost.title)
 				navigation.navigate('HomeTab' as any)
 			})
 			.catch((err: any) => {
 				console.log(err)
-				setLoaderIsVisible(false)
+				setIsLoading(false)
 				setHasServerSideError(true)
 			})
 	}
@@ -415,18 +415,19 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 				</InputsContainer>
 				<ButtonContainer>
 					{
-						hoursIsValid && minutesIsValid && !keyboardOpened
-						&& (
-							<PrimaryButton
-								color={invalidTimeAfterSubmit ? theme.red3 : theme.green3}
-								iconName={'arrow-right'}
-								iconColor={theme.white3}
-								label={'continuar'}
-								labelColor={theme.white3}
-								highlightedWords={['continuar']}
-								onPress={saveServicePost}
-							/>
-						)
+						isLoading
+							? <Loader />
+							: hoursIsValid && minutesIsValid && !keyboardOpened && (
+								<PrimaryButton
+									color={invalidTimeAfterSubmit ? theme.red3 : theme.green3}
+									iconName={'arrow-right'}
+									iconColor={theme.white3}
+									label={'continuar'}
+									labelColor={theme.white3}
+									highlightedWords={['continuar']}
+									onPress={saveServicePost}
+								/>
+							)
 					}
 				</ButtonContainer>
 			</FormContainer>

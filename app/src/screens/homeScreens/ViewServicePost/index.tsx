@@ -18,7 +18,6 @@ import { PostCollection, ServiceCollection } from '../../../services/firebase/ty
 
 import { AuthContext } from '../../../contexts/AuthContext'
 import { EditContext } from '../../../contexts/EditContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
@@ -34,10 +33,10 @@ import { PostPopOver } from '../../../components/PostPopOver'
 
 function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
 		return () => {
@@ -64,16 +63,16 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	}
 
 	const deleteRemotePost = async () => {
-		setLoaderIsVisible(true)
+		setIsLoading(true)
 		await deletePost(postData.postId, postData.postType, postData.owner.userId)
 		await removePostOnContext()
-		setLoaderIsVisible(false)
+		setIsLoading(false)
 		backToPreviousScreen()
 	}
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('EditServicePost' as any, { postData })
+		navigation.navigate('EditServicePost' as any, { postData: { ...postData, ...editDataContext.saved } })
 	}
 
 	const removePostOnContext = async () => {
@@ -172,6 +171,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
+						isLoading={isLoading}
 						goToComplaint={reportPost}
 						editPost={goToEditPost}
 						deletePost={deleteRemotePost}

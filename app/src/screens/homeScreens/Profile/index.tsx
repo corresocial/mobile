@@ -152,7 +152,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 		!isLoggedUser ? setProfileOptionsIsOpen(true) : navigation.navigate('Configurations' as any) // TODO Type
 	}
 
-	const reportUser = () => { // TODO Implements Back to this screen sending screen name
+	const reportUser = () => {
 		setProfileOptionsIsOpen(false)
 		navigation.navigate('ContactUsInsertMessage' as any, { title: 'denunciar', contactUsType: 'denúncia', reportedId: getUserField('userId'), reportedType: 'user' }) // TODO Type
 	}

@@ -27,7 +27,6 @@ import { ViewVacancyPostScreenProps } from '../../../routes/Stack/ProfileStack/s
 import { PostCollection } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
@@ -39,9 +38,9 @@ import { PostPopOver } from '../../../components/PostPopOver'
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const loggedUserIsOwner = () => {
 		if (!route.params.postData || !route.params.postData.owner) return false
@@ -96,10 +95,10 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	}
 
 	const deleteRemotePost = async () => {
-		setLoaderIsVisible(true)
+		setIsLoading(true)
 		await deletePost(postData.postId, postData.postType, postData.owner.userId)
 		await removePostOnContext()
-		setLoaderIsVisible(false)
+		setIsLoading(false)
 		backToPreviousScreen()
 	}
 
@@ -187,6 +186,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
+						isLoading={isLoading}
 						goToComplaint={reportPost}
 						editPost={() => Alert.alert('edit post')}
 						deletePost={deleteRemotePost}

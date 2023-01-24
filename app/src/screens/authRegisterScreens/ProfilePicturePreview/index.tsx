@@ -14,7 +14,6 @@ import { ProfilePicturePreviewScreenProps } from '../../../routes/Stack/AuthRegi
 
 import { LocalUserData } from '../../../contexts/types'
 import { AuthContext } from '../../../contexts/AuthContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -22,13 +21,14 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal'
+import { Loader } from '../../../components/Loader'
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
 	const { setRemoteUserOnLocal, setDataOnSecureStore, getDataFromSecureStore } = useContext(AuthContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(true)
 	const [profilePicturesPack, setProfilePicturesPack] = useState<string[]>([])
+	const [isLoading, setIsLoading] = useState(false)
 	const [hasServerSideError, setHasServerSideError] = useState(false)
 
 	const headerMessages = {
@@ -87,14 +87,14 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 		if (!profilePicturesPack.length) return
 		const localUser = JSON.parse(localUserJSON as string)
-		setLoaderIsVisible(true)
+		setIsLoading(true)
 
 		await uploadImage(profilePicturesPack[0], 'users', userData.userIdentification.uid)
 			.then(
 				({ uploadTask, blob }: any) => {
 					uploadTask.on(
 						'state_change',
-						() => { console.log('Uploading...') }, // Set default load
+						() => { },
 						(err: any) => { throwServerSideError(err) },
 						async () => {
 							blob.close()
@@ -124,7 +124,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 									await setRemoteUserOnLocal(userData.userIdentification.uid)
 
-									setLoaderIsVisible(false)
+									setIsLoading(false)
 									navigateToNextScreen(localUser.tourPerformed)
 								})
 								.catch((err) => throwServerSideError(err))
@@ -133,7 +133,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 				},
 			)
 			.catch((err) => {
-				setLoaderIsVisible(false)
+				setIsLoading(false)
 				throwServerSideError(err)
 			})
 	}
@@ -192,24 +192,32 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 				</InstructionCardContainer>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
-				<PrimaryButton
-					color={theme.green3}
-					iconName={'arrow-right'}
-					iconColor={theme.white3}
-					label={'tá ótima, continuar'}
-					labelColor={theme.white3}
-					highlightedWords={['continuar']}
-					onPress={saveUserData}
-				/>
-				<PrimaryButton
-					color={theme.yellow3}
-					iconName={'images'}
-					iconColor={theme.black4}
-					label={'nem, escolher outra'}
-					labelColor={theme.black4}
-					highlightedWords={['escolher', 'outra']}
-					onPress={backToCustomCamera}
-				/>
+				{
+					isLoading
+						? <Loader />
+						: (
+							<>
+								<PrimaryButton
+									color={theme.green3}
+									iconName={'arrow-right'}
+									iconColor={theme.white3}
+									label={'tá ótima, continuar'}
+									labelColor={theme.white3}
+									highlightedWords={['continuar']}
+									onPress={saveUserData}
+								/>
+								<PrimaryButton
+									color={theme.yellow3}
+									iconName={'images'}
+									iconColor={theme.black4}
+									label={'nem, escolher outra'}
+									labelColor={theme.black4}
+									highlightedWords={['escolher', 'outra']}
+									onPress={backToCustomCamera}
+								/>
+							</>
+						)
+				}
 			</FormContainer>
 		</Container>
 	)
