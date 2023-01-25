@@ -82,6 +82,13 @@ function DateTimeCard({
 		)
 	}
 
+	const renderInvalidDateTimeWeekMessage = () => {
+		return showMessageWithHighlight(
+			'●  dias não definidos',
+			['não', 'definidos']
+		)
+	}
+
 	const renderRepetition = () => {
 		switch (repetition) {
 			case 'unrepeatable': return showMessageWithHighlight('●  não se repete', ['repete'])
@@ -102,22 +109,28 @@ function DateTimeCard({
 			/>
 			<DateTimeContainer>
 				{
-					startDate && endDate
+					!startDate && !endDate
 						? (
-							<>
-								< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
-									{renderStartDate()}
-								</InfoRow>
-								< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
-									{renderEndDate()}
-								</InfoRow>
-							</>
+							<OpeningAndClosingTime style={{ fontSize: RFValue(textFontSize) }}>
+								{renderInvalidDateTimeWeekMessage()}
+							</OpeningAndClosingTime>
 						)
-						: (
-							< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
-								{renderWeekDayFrequency()}
-							</InfoRow>
-						)
+						: startDate || endDate
+							? (
+								<>
+									< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
+										{renderStartDate()}
+									</InfoRow>
+									< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
+										{renderEndDate()}
+									</InfoRow>
+								</>
+							)
+							: (
+								< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
+									{renderWeekDayFrequency()}
+								</InfoRow>
+							)
 				}
 				<OpeningAndClosingTime style={{ fontSize: RFValue(textFontSize) }}>
 					{renderOpeningAndClosingTime()}

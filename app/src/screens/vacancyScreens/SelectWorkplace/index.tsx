@@ -8,6 +8,7 @@ import { SelectWorkplaceScreenProps } from '../../../routes/Stack/vacancyStack/s
 import { WorkplaceType } from '../../../services/firebase/types'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -16,13 +17,19 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectWorkplace({ navigation }: SelectWorkplaceScreenProps) {
+function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveWorkplaceType = (workplace: WorkplaceType) => {
-		setVacancyDataOnContext({
-			workplace
-		})
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ workplace })
+			navigation.goBack()
+			return
+		}
+
+		setVacancyDataOnContext({ workplace })
+
 		if (workplace === 'homeoffice') {
 			navigation.navigate('SelectVacancyCategory')
 		} else {
@@ -31,6 +38,8 @@ function SelectWorkplace({ navigation }: SelectWorkplaceScreenProps) {
 			})
 		}
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

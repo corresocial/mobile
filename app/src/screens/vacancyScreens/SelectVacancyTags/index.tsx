@@ -21,6 +21,7 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 import { SelectVacancyTagsScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -34,6 +35,7 @@ import { SelectedTagsHorizontalList } from '../../../components/SelectedTagsHori
 
 function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [textTag, setTextTag] = useState('')
 	const [keyboardOpened, setKeyboardOpened] = useState(false)
@@ -112,11 +114,23 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
 	}
 
 	const saveTags = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({
+				category: route.params.categorySelected,
+				tags: selectedTags
+			})
+			navigation.goBack()
+			navigation.goBack()
+			return
+		}
+
 		setVacancyDataOnContext({
 			tags: selectedTags
 		})
 		navigation.navigate('SelectVacancyType')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react'
-import { StatusBar, ScrollView, Alert, Linking } from 'react-native'
+import React, { useState, useContext, useEffect } from 'react'
+import { StatusBar, ScrollView, Linking } from 'react-native'
 
 import {
 	Body,
@@ -24,9 +24,10 @@ import { share } from '../../../common/share'
 import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 
 import { ViewVacancyPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
-import { PostCollection } from '../../../services/firebase/types'
+import { PostCollection, VacancyCollection } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
@@ -38,9 +39,16 @@ import { PostPopOver } from '../../../components/PostPopOver'
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
+
+	useEffect(() => {
+		return () => {
+			clearEditContext()
+		}
+	}, [])
 
 	const loggedUserIsOwner = () => {
 		if (!route.params.postData || !route.params.postData.owner) return false
@@ -66,7 +74,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	}
 
 	const getRelativeVacancyType = () => {
-		switch (postData.vacancyType) {
+		switch (getPostField('vacancyType')) {
 			case 'beak': return 'bico'
 			case 'temporary': return 'temporária'
 			case 'professional': return 'profissional'
@@ -75,7 +83,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	}
 
 	const getRelativeWorkPlace = () => {
-		switch (postData.workplace) {
+		switch (getPostField('workplace')) {
 			case 'homeoffice': return 'home-office'
 			case 'presential': return 'presencial'
 			case 'hybrid': return 'híbrida'
@@ -108,18 +116,23 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		setUserDataOnContext({ ...userDataContext, posts: postsWithoutDeletedPost })
 	}
 
+	const goToEditPost = () => {
+		setPostOptionsIsOpen(false)
+		navigation.navigate('EditVacancyPost' as any, { postData: { ...postData, ...editDataContext.saved } })
+	}
+
 	const backToPreviousScreen = () => {
 		setPostOptionsIsOpen(false)
 		navigation.goBack()
 	}
 
 	const sharePost = () => {
-		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${postData.title} no corre.\n\nhttps://corre.social`)
+		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social`)
 	}
 
 	const openChat = async () => {
 		const { cellNumber } = await getPrivateContacts(postData.owner.userId)
-		const message = `olá! vi que publicou ${postData.title} no corre. Podemos conversar?`
+		const message = `olá! vi que publicou ${getPostField('title')} no corre. Podemos conversar?`
 		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
 	}
 
@@ -136,13 +149,17 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
 	}
 
+	const getPostField = (fieldName: keyof VacancyCollection) => {
+		return editDataContext.saved[fieldName] || postData[fieldName]
+	}
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={postOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
-					text={postData.title}
+					text={getPostField('title')}
 				/>
 				<Sigh />
 				<UserAndValueContainer>
@@ -180,15 +197,15 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						onPress={isAuthor ? sharePost : openChat}
 					/>
 					<PostPopOver
-						postTitle={postData.title || 'publicação no corre.'}
-						postId={postData.postId}
-						postType={postData.postType}
+						postTitle={getPostField('title') || 'publicação no corre.'}
+						postId={getPostField('postId')}
+						postType={getPostField('postType')}
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
 						isLoading={isLoading}
 						goToComplaint={reportPost}
-						editPost={() => Alert.alert('edit post')}
+						editPost={goToEditPost}
 						deletePost={deleteRemotePost}
 					>
 						<SmallButton
@@ -205,7 +222,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 				<ScrollView showsVerticalScrollIndicator={false} >
 					<DescriptionCard
 						title={'descrição da vaga'}
-						text={postData.description}
+						text={getPostField('description')}
 						textFontSize={14}
 					>
 						{getVacancyDetails()}
@@ -214,15 +231,15 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 					<DateTimeCard
 						title={'dias e horários'}
 						weekDaysfrequency={'someday'}
-						daysOfWeek={postData.workWeekdays}
-						openingTime={postData.startWorkHour}
-						closingTime={postData.endWorkHour}
-						startDate={postData.startWorkDate}
-						endDate={postData.endWorkDate}
+						daysOfWeek={getPostField('vacancyType') === 'professional' ? getPostField('workWeekdays') : []}
+						openingTime={getPostField('startWorkHour')}
+						closingTime={getPostField('endWorkHour')}
+						startDate={getPostField('startWorkDate')}
+						endDate={getPostField('endWorkDate')}
 						textFontSize={14}
 					/>
 					{
-						postData.workplace !== 'homeoffice' && (
+						getPostField('workplace') !== 'homeoffice' && (
 							<>
 								<Sigh />
 								<LocationViewCard
@@ -239,7 +256,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 					<Sigh />
 					<DescriptionCard
 						title={'sobre a empresa'}
-						text={postData.companyDescription}
+						text={getPostField('companyDescription')}
 						textFontSize={14}
 						company
 					/>

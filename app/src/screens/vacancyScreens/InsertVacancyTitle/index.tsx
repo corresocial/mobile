@@ -10,6 +10,7 @@ import { InsertVacancyTitleScreenProps } from '../../../routes/Stack/vacancyStac
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -19,10 +20,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function InsertVacancyTitle({ navigation }: InsertVacancyTitleScreenProps) {
+function InsertVacancyTitle({ route, navigation }: InsertVacancyTitleScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [vacancyTitle, setVacancyTitle] = useState<string>('')
+	const [vacancyTitle, setVacancyTitle] = useState<string>(route.params?.initialValue || '')
 	const [vacancyTitleIsValid, setVacancyTitleIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -53,13 +55,19 @@ function InsertVacancyTitle({ navigation }: InsertVacancyTitleScreenProps) {
 	}
 
 	const saveVacancyTitle = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ title: vacancyTitle })
+			navigation.goBack()
+			return
+		}
+
 		if (vacancyTitleIsValid) {
-			setVacancyDataOnContext({
-				title: vacancyTitle
-			})
+			setVacancyDataOnContext({ title: vacancyTitle })
 			navigation.navigate('InsertVacancyDescription')
 		}
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

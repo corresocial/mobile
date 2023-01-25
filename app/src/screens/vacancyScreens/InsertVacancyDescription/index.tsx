@@ -11,6 +11,7 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 import { InsertVacancyDescriptionScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -20,10 +21,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { LineInput } from '../../../components/LineInput'
 
-function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreenProps) {
+function InsertVacancyDescription({ route, navigation }: InsertVacancyDescriptionScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [vacancyDescription, setVacancyDescription] = useState<string>('')
+	const [vacancyDescription, setVacancyDescription] = useState<string>(route.params?.initialValue || '')
 	const [vacancyDescriptionIsValid, setVacancyDescriptionIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -54,13 +56,17 @@ function InsertVacancyDescription({ navigation }: InsertVacancyDescriptionScreen
 	}
 
 	const saveVacancyDescription = () => {
-		if (vacancyDescriptionIsValid) {
-			setVacancyDataOnContext({
-				description: vacancyDescription
-			})
-			navigation.navigate('InsertVacancyQuestions')
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ description: vacancyDescription })
+			navigation.goBack()
+			return
 		}
+
+		setVacancyDataOnContext({ description: vacancyDescription })
+		navigation.navigate('InsertVacancyQuestions')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

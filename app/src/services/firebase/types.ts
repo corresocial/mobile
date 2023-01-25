@@ -333,14 +333,14 @@ export type VacancyCollection = {
 }
 
 export type VacancyCollectionRemote = {
-	postId?: string
+	postId: string
 	postType: PostType
 	title: string
 	description: string
 	vacancyType: VacancyType
 	workplace: WorkplaceType
 	companyDescription: string
-	questions?: string[]
+	questions: string[]
 	workWeekdays: DaysOfWeek[]
 	startWorkDate: Date
 	endWorkDate: Date
@@ -349,7 +349,7 @@ export type VacancyCollectionRemote = {
 	tags: string[]
 	category: string
 	createdAt: Date
-	address?: {
+	address: {
 		country?: string
 		state?: string
 		city?: string

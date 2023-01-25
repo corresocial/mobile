@@ -1,5 +1,5 @@
-import React, { useContext, useRef, useState } from 'react'
-import { Animated, LayoutChangeEvent, LayoutRectangle, NativeEventEmitter, Platform, StatusBar, View } from 'react-native'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Animated, LayoutChangeEvent, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
 import * as Location from 'expo-location'
 
 import { theme } from '../../../common/theme'
@@ -9,11 +9,13 @@ import Check from '../../../assets/icons/check.svg'
 import MapPointOrange from '../../../assets/icons/mapPoint-orange.svg'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
+import { getPrivateAddress } from '../../../services/firebase/post/getPrivateAddress'
 
 import { InsertWorkplaceLocationScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { Coordinates } from '../../../services/firebase/types'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
@@ -36,6 +38,7 @@ const defaultDeltaCoordinates = {
 
 function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [hasPermission, setHasPermission] = useState(false)
 	const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(null)
@@ -46,6 +49,17 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 	})
 	const [validAddress, setValidAddress] = useState(false)
 	const [invalidAddressAfterSubmit, setInvalidAddressAfterSubmit] = useState<boolean>(false)
+
+	useEffect(() => {
+		if (editModeIsTrue()) {
+			getLocationByPostId()
+		}
+	}, [])
+
+	const getLocationByPostId = async () => {
+		const privateAddress = await getPrivateAddress('vacancy', route.params?.initialValue)
+		setMarkerCoordinate({ ...defaultDeltaCoordinates, ...privateAddress.coordinates })
+	}
 
 	const requestLocationPermission = async () => {
 		const locationPermission = await Location.requestForegroundPermissionsAsync()
@@ -151,14 +165,27 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 		const completeAddress = await convertGeocodeToAddress(markerCoordinate?.latitude as number, markerCoordinate?.longitude as number)
 		const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({
+				address: {
+					...completeAddress,
+					...geohashObject
+				}
+			})
+			navigation.goBack()
+			return
+		}
 		setVacancyDataOnContext({
 			address: {
 				...completeAddress,
 				...geohashObject
 			}
 		})
+
 		navigation.navigate('SelectVacancyCategory')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	const markerCoordinateIsAccuracy = () => markerCoordinate?.latitudeDelta as number < 0.0065
 

@@ -3,7 +3,7 @@ import { getDownloadURL } from 'firebase/storage'
 import { StatusBar } from 'react-native'
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { Body, Container, Header, SaveButtonContainer, Sigh } from './styles'
+import { Body, Container, Header, LastSigh, SaveButtonContainer, Sigh } from './styles'
 import CheckIcon from '../../../assets/icons/check.svg'
 
 import { serviceCategories } from '../../serviceScreens/serviceCategories'
@@ -345,8 +345,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 					value={renderDeliveryMethod() || '---'}
 					onEdit={() => navigateToEditScreen('SelectDeliveryMethod', 'deliveryMethod')}
 				/>
-				<Sigh />
-				<Sigh />
+				<LastSigh />
 			</Body>
 		</Container>
 	)

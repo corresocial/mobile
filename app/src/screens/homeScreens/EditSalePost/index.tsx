@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 
-import { Body, Container, Header, SaveButtonContainer, Sigh } from './styles'
+import { Body, Container, Header, LastSigh, SaveButtonContainer, Sigh } from './styles'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import CheckIcon from '../../../assets/icons/check.svg'
 
@@ -346,8 +346,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 					value={renderDeliveryMethod() || '---'}
 					onEdit={() => navigateToEditScreen('SelectDeliveryMethod', 'deliveryMethod')}
 				/>
-				<Sigh />
-				<Sigh />
+				<LastSigh />
 			</Body>
 		</Container>
 	)

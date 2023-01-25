@@ -8,6 +8,7 @@ import { SelectVacancyTypeScreenProps } from '../../../routes/Stack/vacancyStack
 import { VacancyType } from '../../../services/firebase/types'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -16,13 +17,18 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectVacancyType({ navigation }: SelectVacancyTypeScreenProps) {
+function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveVacancyType = (vacancyType: VacancyType) => {
-		setVacancyDataOnContext({
-			vacancyType
-		})
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ vacancyType })
+			navigation.goBack()
+			return
+		}
+
+		setVacancyDataOnContext({ vacancyType })
 		switch (vacancyType) {
 			case 'professional': {
 				navigation.navigate('SelectWorkWeekdays')
@@ -39,6 +45,8 @@ function SelectVacancyType({ navigation }: SelectVacancyTypeScreenProps) {
 			default: return false
 		}
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

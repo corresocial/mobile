@@ -10,6 +10,7 @@ import MapPointOrange from '../../../assets/icons/mapPoint-orange.svg'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
 import { getLocationViewDescription, getLocationViewHighlightedWords, getLocationViewTitle } from '../../../utils/locationMessages'
+import { getPrivateAddress } from '../../../services/firebase/post/getPrivateAddress'
 
 import { InsertServicePrestationLocationScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { Coordinates } from '../../../services/firebase/types'
@@ -22,7 +23,6 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { LineInput } from '../../../components/LineInput'
 import { CustomMapView } from '../../../components/CustomMapView'
-import { getPrivateAddress } from '../../../services/firebase/post/getPrivateAddress'
 import { InfoCard } from '../../../components/_cards/InfoCard'
 
 const initialRegion = {

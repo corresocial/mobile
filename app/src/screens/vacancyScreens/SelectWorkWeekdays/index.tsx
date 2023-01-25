@@ -15,6 +15,7 @@ import { SelectWorkWeekdaysScreenProps } from '../../../routes/Stack/VacancyStac
 import { DaysOfWeek } from '../../../services/firebase/types'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -24,10 +25,11 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectWorkWeekdays({ navigation }: SelectWorkWeekdaysScreenProps) {
+function SelectWorkWeekdays({ route, navigation }: SelectWorkWeekdaysScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [selectedDays, setSelectedDays] = useState<DaysOfWeek[]>([])
+	const [selectedDays, setSelectedDays] = useState<DaysOfWeek[]>(route.params?.initialValue || [])
 	const daysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
 
 	const renderDaysOfWeek = () => daysOfWeek.map((dayOfWeek, index) => {
@@ -75,11 +77,17 @@ function SelectWorkWeekdays({ navigation }: SelectWorkWeekdaysScreenProps) {
 	}
 
 	const saveWorkWeekdays = () => {
-		setVacancyDataOnContext({
-			workWeekdays: selectedDays
-		})
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ workWeekdays: selectedDays })
+			navigation.goBack()
+			return
+		}
+
+		setVacancyDataOnContext({ workWeekdays: selectedDays })
 		navigation.navigate('InsertWorkStartHour')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

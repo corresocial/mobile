@@ -30,3 +30,7 @@ export const SaveButtonContainer = styled.View`
 export const Sigh = styled.View`
 	height: ${relativeScreenHeight(1.25)}px;
  `
+
+export const LastSigh = styled.View`
+	height: ${relativeScreenHeight(3.75)}px;
+ `

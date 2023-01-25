@@ -8,7 +8,7 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { createPost } from '../../../services/firebase/post/createPost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
 import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
+import { filterLeavingOnlyNumbers, formatHour } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 import { InsertWorkEndHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
@@ -18,6 +18,7 @@ import { LocalUserData, VacancyData } from '../../../contexts/types'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { StateContext } from '../../../contexts/StateContext'
 import { VacancyContext } from '../../../contexts/VacancyContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -28,13 +29,16 @@ import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { Loader } from '../../../components/Loader'
 
-function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
+function InsertWorkEndHour({ route, navigation }: InsertWorkEndHourScreenProps) {
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { setVacancyDataOnContext, vacancyDataContext } = useContext(VacancyContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [hours, setHours] = useState<string>('')
-	const [minutes, setMinutes] = useState<string>('')
+	const initialTime = formatHour(route.params?.initialValue)
+
+	const [hours, setHours] = useState<string>(route.params?.initialValue ? initialTime.split(':')[0] : '')
+	const [minutes, setMinutes] = useState<string>(route.params?.initialValue ? initialTime.split(':')[1] : '')
 	const [hoursIsValid, setHoursIsValid] = useState<boolean>(false)
 	const [minutesIsValid, setMinutesIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -80,6 +84,8 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 	}
 
 	const closingTimeIsAfterOpening = () => {
+		if (editModeIsTrue()) return true
+
 		const startWorkHour = new Date(vacancyDataContext.startWorkDate as Date || new Date())
 		const endWorkHour = new Date(vacancyDataContext.endWorkDate as Date || new Date())
 		startWorkHour.setHours(vacancyDataContext.startWorkHour?.getHours() as number, vacancyDataContext.startWorkHour?.getMinutes() as number)
@@ -122,6 +128,15 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 			setInvalidTimeAfterSubmit(true)
 			return
 		}
+
+		if (editModeIsTrue()) {
+			const endWorkHour = new Date()
+			endWorkHour.setHours(parseInt(hours), parseInt(minutes))
+			addNewUnsavedFieldToEditContext({ endWorkHour })
+			navigation.goBack()
+			return
+		}
+
 		setIsLoading(true)
 
 		const completeVacancyData = getCompleteVacancyDataFromContext()
@@ -162,6 +177,8 @@ function InsertWorkEndHour({ navigation }: InsertWorkEndHourScreenProps) {
 			setHasServerSideError(true)
 		}
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	const updateUserPost = async (
 		localUser: LocalUserData,

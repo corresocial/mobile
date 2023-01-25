@@ -87,12 +87,12 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	}
 
 	const sharePost = () => {
-		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${postData.title} no corre.\n\nhttps://corre.social`)
+		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social`)
 	}
 
 	const openChat = async () => {
 		const { cellNumber } = await getPrivateContacts(postData.owner.userId)
-		const message = `olá! vi que publicou ${postData.title} no corre. Podemos conversar?`
+		const message = `olá! vi que publicou ${getPostField('title')} no corre. Podemos conversar?`
 		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
 	}
 
@@ -165,7 +165,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						onPress={isAuthor ? sharePost : openChat}
 					/>
 					<PostPopOver
-						postTitle={postData.title || 'publicação no corre.'}
+						postTitle={getPostField('title') || 'publicação no corre.'}
 						postId={postData.postId}
 						postType={postData.postType}
 						popoverVisibility={postOptionsIsOpen}

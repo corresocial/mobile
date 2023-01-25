@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Linking } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { getPrivateAddress } from '../../../services/firebase/post/getPrivateAddress'
+
 import { CardHeader, MapArea, NavigationApps, TextAddress, TouchableApp } from './styles'
 import MapPointIcon from '../../../assets/icons/mapPoint.svg'
 import PencilIcon from '../../../assets/icons/pencil.svg'
@@ -13,11 +15,11 @@ import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 import { CompleteAddress, LocationViewType, PostType } from '../../../services/firebase/types'
 
+import { EditContext } from '../../../contexts/EditContext'
+
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { CustomMapView } from '../../CustomMapView'
-import { getPrivateAddress } from '../../../services/firebase/post/getPrivateAddress'
-import { EditContext } from '../../../contexts/EditContext'
 
 interface LocationViewCardProps {
 	title: string

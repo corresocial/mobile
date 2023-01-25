@@ -21,7 +21,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectVacancyCategory({ navigation }: SelectVacancyCategoryScreenProps) {
+function SelectVacancyCategory({ route, navigation }: SelectVacancyCategoryScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
 
 	const renderSelectOptionsButtons = () => {
@@ -46,9 +46,7 @@ function SelectVacancyCategory({ navigation }: SelectVacancyCategoryScreenProps)
 		setVacancyDataOnContext({
 			category: categoryName
 		})
-		navigation.navigate('SelectVacancyTags', {
-			categorySelected: categoryName
-		})
+		navigation.navigate('SelectVacancyTags', { categorySelected: categoryName, ...route.params })
 	}
 
 	return (

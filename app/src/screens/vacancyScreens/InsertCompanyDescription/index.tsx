@@ -11,6 +11,7 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 import { InsertCompanyDescriptionScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -20,10 +21,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { LineInput } from '../../../components/LineInput'
 
-function InsertCompanyDescription({ navigation }: InsertCompanyDescriptionScreenProps) {
+function InsertCompanyDescription({ route, navigation }: InsertCompanyDescriptionScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [companyDescription, setCompanyDescription] = useState<string>('')
+	const [companyDescription, setCompanyDescription] = useState<string>(route.params?.initialValue || '')
 	const [companyDescriptionIsValid, setCompanyDescriptionIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -54,13 +56,17 @@ function InsertCompanyDescription({ navigation }: InsertCompanyDescriptionScreen
 	}
 
 	const saveCompanyDescription = () => {
-		if (companyDescriptionIsValid) {
-			setVacancyDataOnContext({
-				companyDescription
-			})
-			navigation.navigate('SelectWorkplace')
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ companyDescription })
+			navigation.goBack()
+			return
 		}
+
+		setVacancyDataOnContext({ companyDescription })
+		navigation.navigate('SelectWorkplace')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

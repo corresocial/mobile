@@ -1,5 +1,5 @@
 import { ContactUsType } from "../../../services/discord/types"
-import { PostCollection, SaleCollectionRemote, ServiceCollectionRemote, SocialMedia } from "../../../services/firebase/types"
+import { PostCollection, SaleCollectionRemote, ServiceCollectionRemote, SocialMedia, VacancyCollectionRemote } from "../../../services/firebase/types"
 import { ReportedTarget } from './../../../services/types'
 
 
@@ -9,15 +9,16 @@ export type UserStackParamList = {
 	SelectPostType: undefined
 	ServiceStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	SaleStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
-	VacancyStack: undefined
-	CultureStack: undefined
-	SocialImpactStack: undefined
+	VacancyStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
+	CultureStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
+	SocialImpactStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	EditProfile: { user: LocalUserData }
 	EditUserName: { userName: string, userId: string }
 	EditUserDescription: { userDescription: string, userId: string }
 	EditUserPicture: { profilePictureUrl: string, userId: string }
 	EditServicePost: { postData: ServiceCollectionRemote }
 	EditSalePost: { postData: SaleCollectionRemote }
+	EditVacancyPost: { postData: VacancyCollectionRemote }
 
 	SocialMediaManagement: { socialMedias: SocialMedia[], isAuthor?: boolean }
 	InsertLinkTitle: { socialMedia?: SocialMedia, index?: number }

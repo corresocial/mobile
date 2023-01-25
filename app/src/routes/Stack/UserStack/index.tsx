@@ -34,6 +34,7 @@ import { PrivacyAndSecurity } from '../../../screens/homeScreens/PrivacyAndSecur
 import { EditServicePost } from '../../../screens/homeScreens/EditServicePost'
 import { EditProvider } from '../../../contexts/EditContext'
 import { EditSalePost } from '../../../screens/homeScreens/EditSalePost'
+import { EditVacancyPost } from '../../../screens/homeScreens/EditVacancyPost'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -66,6 +67,7 @@ export function UserStack({ route }: any) {
 
 					<Stack.Screen name={'EditServicePost'} component={EditServicePost} />
 					<Stack.Screen name={'EditSalePost'} component={EditSalePost} />
+					<Stack.Screen name={'EditVacancyPost'} component={EditVacancyPost} />
 
 					<Stack.Screen name={'SocialMediaManagement'} component={SocialMediaManagement} />
 					<Stack.Screen name={'InsertLinkTitle'} component={InsertLinkTitle} />
