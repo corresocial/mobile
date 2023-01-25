@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Animated, LayoutChangeEvent, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
 import * as Location from 'expo-location'
 
@@ -23,6 +23,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { LineInput } from '../../../components/LineInput'
 import { CustomMapView } from '../../../components/CustomMapView'
 import { InfoCard } from '../../../components/_cards/InfoCard'
+import { getPrivateAddress } from '../../../services/firebase/post/getPrivateAddress'
 
 const initialRegion = {
 	latitude: -13.890303625634541,
@@ -49,6 +50,17 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 	})
 	const [validAddress, setValidAddress] = useState(false)
 	const [invalidAddressAfterSubmit, setInvalidAddressAfterSubmit] = useState<boolean>(false)
+
+	useEffect(() => {
+		if (editModeIsTrue()) {
+			getLocationByPostId()
+		}
+	}, [])
+
+	const getLocationByPostId = async () => {
+		const privateAddress = await getPrivateAddress('sale', route.params?.initialValue)
+		setMarkerCoordinate({ ...defaultDeltaCoordinates, ...privateAddress.coordinates })
+	}
 
 	const requestLocationPermission = async () => {
 		const locationPermission = await Location.requestForegroundPermissionsAsync()

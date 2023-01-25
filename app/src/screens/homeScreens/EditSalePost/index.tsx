@@ -132,7 +132,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 	}
 
 	const changeStateOfEditedFields = () => {
-		setEditDataOnContext({ saved: editDataContext.unsaved, unsaved: {} })
+		setEditDataOnContext({ saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} })
 	}
 
 	const allPicturesAlreadyUploaded = () => {
@@ -316,6 +316,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 					textFontSize={16}
 					isAuthor
 					editable
+					defaultAddress={editDataContext.unsaved.address}
 					onEdit={() => navigateToEditScreen('SelectLocationView', 'postId')}
 				/>
 				<Sigh />

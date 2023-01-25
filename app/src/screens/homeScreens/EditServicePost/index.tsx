@@ -132,7 +132,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 	}
 
 	const changeStateOfEditedFields = () => {
-		setEditDataOnContext({ saved: editDataContext.unsaved, unsaved: {} })
+		setEditDataOnContext({ saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} })
 	}
 
 	const allPicturesAlreadyUploaded = () => {
@@ -315,6 +315,8 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 					postId={getPostField('postId')}
 					textFontSize={16}
 					editable
+					isAuthor
+					defaultAddress={editDataContext.unsaved.address}
 					onEdit={() => navigateToEditScreen('SelectLocationView', 'postId')}
 				/>
 				<Sigh />

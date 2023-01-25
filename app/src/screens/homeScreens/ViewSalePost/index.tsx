@@ -217,6 +217,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						postId={getPostField('postId') as string}
 						isAuthor={isAuthor}
 						textFontSize={16}
+						defaultAddress={editDataContext.unsaved.address}
 					/>
 					<Sigh />
 					<DateTimeCard

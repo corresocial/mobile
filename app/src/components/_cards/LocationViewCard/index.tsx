@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Linking } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -15,8 +15,6 @@ import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 import { CompleteAddress, LocationViewType, PostType } from '../../../services/firebase/types'
 
-import { EditContext } from '../../../contexts/EditContext'
-
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { CustomMapView } from '../../CustomMapView'
@@ -30,6 +28,7 @@ interface LocationViewCardProps {
 	textFontSize?: number
 	isAuthor?: boolean
 	editable?: boolean
+	defaultAddress?: CompleteAddress
 	onEdit?: () => void
 }
 
@@ -42,20 +41,19 @@ function LocationViewCard({
 	textFontSize = 12,
 	isAuthor = false,
 	editable,
+	defaultAddress,
 	onEdit
 }: LocationViewCardProps) {
-	const { editDataContext } = useContext(EditContext)
-
 	const [completeAddress, setCompleteAddress] = useState<CompleteAddress>({})
 	useEffect(() => {
-		if (editable && !!editDataContext.unsaved.address) {
-			setCompleteAddress(editDataContext.unsaved.address)
+		if (editable && !!defaultAddress) {
+			setCompleteAddress(defaultAddress)
 			return
 		}
 		if ((locationView !== 'private' || isAuthor) && postType && locationView) {
 			loadRemotePrivateAddress()
 		}
-	}, [postType, postId, locationView])
+	}, [postType, postId, locationView, defaultAddress])
 
 	const loadRemotePrivateAddress = async () => {
 		const address = await getPrivateAddress(postType, postId)

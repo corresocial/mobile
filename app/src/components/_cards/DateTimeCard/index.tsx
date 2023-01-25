@@ -109,7 +109,7 @@ function DateTimeCard({
 			/>
 			<DateTimeContainer>
 				{
-					!startDate && !endDate
+					!startDate && !endDate && !daysOfWeek?.length
 						? (
 							<OpeningAndClosingTime style={{ fontSize: RFValue(textFontSize) }}>
 								{renderInvalidDateTimeWeekMessage()}

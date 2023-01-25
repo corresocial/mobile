@@ -216,6 +216,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						postType={getPostField('postType')}
 						postId={getPostField('postId') as string}
 						isAuthor={isAuthor}
+						defaultAddress={editDataContext.unsaved.address}
 						textFontSize={16}
 					/>
 					<Sigh />

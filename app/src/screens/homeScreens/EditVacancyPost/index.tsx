@@ -76,7 +76,6 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 	}
 
 	const editPost = async () => {
-		console.log(editDataContext.unsaved.address)
 		try {
 			setIsLoading(true)
 			if (editDataContext.unsaved.address) {
@@ -107,7 +106,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 	}
 
 	const changeStateOfEditedFields = () => {
-		setEditDataOnContext({ saved: editDataContext.unsaved, unsaved: {} })
+		setEditDataOnContext({ saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} })
 	}
 
 	const savePrivateAddress = async () => {
@@ -251,6 +250,8 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 								postId={getPostField('postId')}
 								textFontSize={16}
 								editable
+								isAuthor
+								defaultAddress={editDataContext.unsaved.address}
 								onEdit={() => navigateToEditScreen('InsertWorkplaceLocation', 'postId')}
 							/>
 							<Sigh />
