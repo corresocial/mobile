@@ -140,9 +140,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		setIsLoading(true)
 
 		const completeSaleData = getCompleteSaleDataFromContext()
-		setSaleDataOnContext({
-			...completeSaleData
-		})
+		setSaleDataOnContext({ ...completeSaleData })
 
 		const saleAddress = extractSaleAddress(completeSaleData)
 		const saleDataPost = extractSaleDataPost(completeSaleData)

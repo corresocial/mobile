@@ -8,6 +8,7 @@ import { SelectSocialImpactExhibitionRangeScreenProps } from '../../../routes/St
 import { ExhibitionPlaceType } from '../../../services/firebase/types'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -16,15 +17,22 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectSocialImpactExhibitionRange({ navigation }: SelectSocialImpactExhibitionRangeScreenProps) {
+function SelectSocialImpactExhibitionRange({ route, navigation }: SelectSocialImpactExhibitionRangeScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveSocialImpactExhibitionRange = (exhibitionRange: ExhibitionPlaceType) => {
-		setSocialImpactDataOnContext({
-			exhibitionRange
-		})
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ exhibitionRange })
+			navigation.goBack()
+			return
+		}
+
+		setSocialImpactDataOnContext({ exhibitionRange })
 		navigation.navigate('SelectSocialImpactLocationView')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

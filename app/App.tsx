@@ -26,7 +26,7 @@ function App() {
 	LogBox.ignoreAllLogs()
 
 	if (!fontsLoaded) {
-		return ( // Temporary
+		return (
 			<View style={{
 				flex: 1, alignItems: 'center', justifyContent: 'center'
 			}}

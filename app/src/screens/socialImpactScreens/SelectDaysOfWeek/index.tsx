@@ -15,6 +15,7 @@ import { SelectDaysOfWeekScreenProps } from '../../../routes/Stack/SocialImpactS
 import { DaysOfWeek } from '../../../services/firebase/types'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -24,10 +25,11 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectDaysOfWeek({ navigation }: SelectDaysOfWeekScreenProps) {
+function SelectDaysOfWeek({ route, navigation }: SelectDaysOfWeekScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [selectedDays, setSelectedDays] = useState<DaysOfWeek[]>([])
+	const [selectedDays, setSelectedDays] = useState<DaysOfWeek[]>(route.params?.initialValue || [])
 	const daysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
 
 	const renderDaysOfWeek = () => daysOfWeek.map((dayOfWeek) => {
@@ -75,11 +77,17 @@ function SelectDaysOfWeek({ navigation }: SelectDaysOfWeekScreenProps) {
 	}
 
 	const saveDaysOfWeek = () => {
-		setSocialImpactDataOnContext({
-			exhibitionWeekDays: selectedDays
-		})
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ exhibitionWeekDays: selectedDays })
+			navigation.goBack()
+			return
+		}
+
+		setSocialImpactDataOnContext({ exhibitionWeekDays: selectedDays })
 		navigation.navigate('SelectSocialImpactRepeat')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

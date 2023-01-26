@@ -8,6 +8,7 @@ import { SelectSocialImpactRepeatScreenProps } from '../../../routes/Stack/socia
 import { EventRepeatType } from '../../../services/firebase/types'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -16,13 +17,22 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectSocialImpactRepeat({ navigation }: SelectSocialImpactRepeatScreenProps) {
+function SelectSocialImpactRepeat({ route, navigation }: SelectSocialImpactRepeatScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveSocialImpactRepeat = async (socialImpactRepeat: EventRepeatType) => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ socialImpactRepeat })
+			navigation.goBack()
+			return
+		}
+
 		setSocialImpactDataOnContext({ socialImpactRepeat })
 		navigation.navigate('InsertOpeningHour')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

@@ -21,6 +21,7 @@ import { sortArray } from '../../../common/auxiliaryFunctions'
 import { SelectSocialImpactTagsScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -33,6 +34,7 @@ import { SelectedTagsHorizontalList } from '../../../components/SelectedTagsHori
 
 function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [textTag, setTextTag] = useState('')
 	const [keyboardOpened, setKeyboardOpened] = useState(false)
@@ -114,11 +116,21 @@ function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScr
 	}
 
 	const saveTags = () => {
-		setSocialImpactDataOnContext({
-			tags: selectedTags
-		})
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({
+				category: route.params.categorySelected,
+				tags: selectedTags
+			})
+			navigation.goBack()
+			navigation.goBack()
+			return
+		}
+
+		setSocialImpactDataOnContext({ tags: selectedTags })
 		navigation.navigate('InsertSocialImpactTitle')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

@@ -16,10 +16,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { TitleDescriptionButton } from '../../../components/_cards/TitleDescriptionButton'
 
-function SelectSocialImpactLocationView({ navigation }: SelectSocialImpactLocationViewScreenProps) {
+function SelectSocialImpactLocationView({ route, navigation }: SelectSocialImpactLocationViewScreenProps) {
 	const saveLocationViewType = (locationViewType: LocationViewType) => {
 		navigation.navigate('InsertSocialImpactLocation', {
-			locationView: locationViewType
+			locationView: locationViewType,
+			...route.params
 		})
 	}
 

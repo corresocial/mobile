@@ -12,6 +12,7 @@ import { SocialImpactLocationViewPreviewScreenProps } from '../../../routes/Stac
 import { LocationViewType } from '../../../services/firebase/types'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
@@ -25,12 +26,20 @@ const defaultDeltaCoordinates = {
 
 function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLocationViewPreviewScreenProps) {
 	const { socialImpactDataContext, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [locationViewSelected, setLocationViewSelected] = useState<LocationViewType>()
-	const [markerCoordinate] = useState({
-		...socialImpactDataContext?.address?.coordinates,
-		...defaultDeltaCoordinates
-	})
+	const [markerCoordinate] = useState(
+		route.params?.editMode
+			? {
+				...editDataContext?.unsaved.address?.coordinates,
+				...defaultDeltaCoordinates
+			}
+			: {
+				...socialImpactDataContext?.address?.coordinates,
+				...defaultDeltaCoordinates
+			}
+	)
 
 	useEffect(() => {
 		const locationView = getLocationViewFromRouteParams()
@@ -40,11 +49,20 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 	const getLocationViewFromRouteParams = () => route.params.locationView
 
 	const saveLocation = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ locationView: route.params.locationView })
+			navigation.pop(2)
+			navigation.goBack()
+			return
+		}
+
 		setSocialImpactDataOnContext({
 			locationView: locationViewSelected
 		})
 		navigation.navigate('SelectDaysOfWeek')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container >

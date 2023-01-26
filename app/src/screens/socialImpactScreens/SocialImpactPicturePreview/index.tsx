@@ -9,6 +9,7 @@ import CheckIcon from '../../../assets/icons/check.svg'
 import { SocialImpactPicturePreviewScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -18,12 +19,13 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { HorizontalListPictures } from '../../../components/HorizontalListPictures'
 
-function SocialImpactPicturePreview({ navigation }: SocialImpactPicturePreviewScreenProps) {
+function SocialImpactPicturePreview({ route, navigation }: SocialImpactPicturePreviewScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
-
-	const [picturesPack, setPicturesPack] = useState<string[]>([])
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	console.log(route.params)
+	const [picturesPack, setPicturesPack] = useState<string[]>(route.params?.initialValue || [])
 	const [pictureIndexSelected, setPictureIndexSelected] = useState<number>(0)
-	const [cameraOpened, setCameraOpened] = useState<boolean>(true)
+	const [cameraOpened, setCameraOpened] = useState<boolean>(!route.params?.editMode || !route.params?.initialValue.length)
 
 	const setPictureUri = (uri: string) => {
 		const currentPictures = [...picturesPack]
@@ -39,11 +41,17 @@ function SocialImpactPicturePreview({ navigation }: SocialImpactPicturePreviewSc
 	}
 
 	const savePictures = () => {
-		setSocialImpactDataOnContext({
-			picturesUrl: picturesPack
-		})
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ picturesUrl: picturesPack })
+			navigation.goBack()
+			return
+		}
+
+		setSocialImpactDataOnContext({ picturesUrl: picturesPack })
 		navigation.navigate('SelectSocialImpactCategory')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

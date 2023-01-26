@@ -5,12 +5,13 @@ import { ButtonContainer, Container, InputsContainer, TwoPoints } from './styles
 import { theme } from '../../../common/theme'
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
+import { filterLeavingOnlyNumbers, formatHour } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 import { InsertOpeningHourScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -20,11 +21,14 @@ import { LineInput } from '../../../components/LineInput'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
+function InsertOpeningHour({ route, navigation }: InsertOpeningHourScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [hours, setHours] = useState<string>('')
-	const [minutes, setMinutes] = useState<string>('')
+	const initialTime = formatHour(route.params?.initialValue)
+
+	const [hours, setHours] = useState<string>(route.params?.initialValue ? initialTime.split(':')[0] : '')
+	const [minutes, setMinutes] = useState<string>(route.params?.initialValue ? initialTime.split(':')[1] : '')
 	const [hoursIsValid, setHoursIsValid] = useState<boolean>(false)
 	const [minutesIsValid, setMinutesIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -69,9 +73,18 @@ function InsertOpeningHour({ navigation }: InsertOpeningHourScreenProps) {
 	const saveOppeningHour = () => {
 		const openingHour = new Date()
 		openingHour.setHours(parseInt(hours), parseInt(minutes))
+
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ openingHour })
+			navigation.goBack()
+			return
+		}
+
 		setSocialImpactDataOnContext({ openingHour })
 		navigation.navigate('InsertClosingHour')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

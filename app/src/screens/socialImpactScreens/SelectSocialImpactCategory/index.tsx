@@ -21,7 +21,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { sortPostCategories } from '../../../common/auxiliaryFunctions'
 
-function SelectSocialImpactCategory({ navigation }: SelectSocialImpactCategoryScreenProps) {
+function SelectSocialImpactCategory({ route, navigation }: SelectSocialImpactCategoryScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 
 	const renderSelectOptionsButtons = () => {
@@ -47,7 +47,8 @@ function SelectSocialImpactCategory({ navigation }: SelectSocialImpactCategorySc
 			category: categoryName
 		})
 		navigation.navigate('SelectSocialImpactTags', {
-			categorySelected: categoryName
+			categorySelected: categoryName,
+			...route.params
 		})
 	}
 

@@ -11,6 +11,7 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 import { InsertSocialImpactTitleScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -20,10 +21,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function InsertSocialImpactTitle({ navigation }: InsertSocialImpactTitleScreenProps) {
+function InsertSocialImpactTitle({ route, navigation }: InsertSocialImpactTitleScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [socialImpactTitle, setSocialImpactTitle] = useState<string>('')
+	const [socialImpactTitle, setSocialImpactTitle] = useState<string>(route.params?.initialValue || '')
 	const [socialImpactTitleIsValid, setSocialImpactTitleIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -54,13 +56,17 @@ function InsertSocialImpactTitle({ navigation }: InsertSocialImpactTitleScreenPr
 	}
 
 	const saveSocialImpactTitle = () => {
-		if (socialImpactTitleIsValid) {
-			setSocialImpactDataOnContext({
-				title: socialImpactTitle
-			})
-			navigation.navigate('InsertSocialImpactDescription')
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ title: socialImpactTitle })
+			navigation.goBack()
+			return
 		}
+
+		setSocialImpactDataOnContext({ title: socialImpactTitle })
+		navigation.navigate('InsertSocialImpactDescription')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

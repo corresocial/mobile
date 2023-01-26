@@ -13,7 +13,7 @@ export const Container = styled.TouchableOpacity`
 `
 
 export const ContainerInner = styled.View`
-	width: 97.8%;
+	width: 97.9%;
     height: 100%;
     border-radius: ${RFValue(10)}px;
     position: absolute;
@@ -40,7 +40,7 @@ export const Title = styled.Text`
 `
 
 export const RightArea = styled.View`
-	background-color: gray;
+	background-color: ${({ theme }) => theme.white3};
 	height: 100%;
 	width: 35%;
 `

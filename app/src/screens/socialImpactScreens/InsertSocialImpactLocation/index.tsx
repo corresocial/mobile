@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Animated, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
 import * as Location from 'expo-location'
 
@@ -15,6 +15,7 @@ import { InsertSocialImpactLocationScreenProps } from '../../../routes/Stack/soc
 import { Coordinates } from '../../../services/firebase/types'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
@@ -22,6 +23,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { LineInput } from '../../../components/LineInput'
 import { CustomMapView } from '../../../components/CustomMapView'
 import { InfoCard } from '../../../components/_cards/InfoCard'
+import { getPrivateAddress } from '../../../services/firebase/post/getPrivateAddress'
 
 const initialRegion = {
 	latitude: -13.890303625634541,
@@ -37,6 +39,7 @@ const defaultDeltaCoordinates = {
 
 function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLocationScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [hasPermission, setHasPermission] = useState(false)
 	const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(null)
@@ -47,6 +50,17 @@ function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLoc
 	})
 	const [validAddress, setValidAddress] = useState(false)
 	const [invalidAddressAfterSubmit, setInvalidAddressAfterSubmit] = useState<boolean>(false)
+
+	useEffect(() => {
+		if (editModeIsTrue()) {
+			getLocationByPostId()
+		}
+	}, [])
+
+	const getLocationByPostId = async () => {
+		const privateAddress = await getPrivateAddress('socialImpact', route.params?.initialValue)
+		setMarkerCoordinate({ ...defaultDeltaCoordinates, ...privateAddress.coordinates })
+	}
 
 	const requestLocationPermission = async () => {
 		const locationPermission = await Location.requestForegroundPermissionsAsync()
@@ -152,17 +166,29 @@ function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLoc
 		const completeAddress = await convertGeocodeToAddress(markerCoordinate?.latitude as number, markerCoordinate?.longitude as number)
 		const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
-		setSocialImpactDataOnContext({
-			address: {
-				...completeAddress,
-				...geohashObject
-			}
-		})
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({
+				address: {
+					...completeAddress,
+					...geohashObject
+				}
+			})
+		} else {
+			setSocialImpactDataOnContext({
+				address: {
+					...completeAddress,
+					...geohashObject
+				}
+			})
+		}
 
 		navigation.navigate('SocialImpactLocationViewPreview', {
-			locationView: route.params.locationView
+			locationView: route.params.locationView,
+			editMode: !!route.params?.editMode
 		})
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	const markerCoordinateIsAccuracy = () => markerCoordinate?.latitudeDelta as number < 0.0065
 

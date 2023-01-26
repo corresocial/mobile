@@ -11,6 +11,7 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 import { InsertSocialImpactDescriptionScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -20,10 +21,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { LineInput } from '../../../components/LineInput'
 
-function InsertSocialImpactDescription({ navigation }: InsertSocialImpactDescriptionScreenProps) {
+function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpactDescriptionScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [socialImpactDescription, setSocialImpactDescription] = useState<string>('')
+	const [socialImpactDescription, setSocialImpactDescription] = useState<string>(route.params?.initialValue || '')
 	const [socialImpactDescriptionIsValid, setSocialImpactDescriptionIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -54,13 +56,17 @@ function InsertSocialImpactDescription({ navigation }: InsertSocialImpactDescrip
 	}
 
 	const saveSocialImpactDescription = () => {
-		if (socialImpactDescriptionIsValid) {
-			setSocialImpactDataOnContext({
-				description: socialImpactDescription
-			})
-			navigation.navigate('InsertSocialImpactPicture')
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ description: socialImpactDescription })
+			navigation.goBack()
+			return
 		}
+
+		setSocialImpactDataOnContext({ description: socialImpactDescription })
+		navigation.navigate('InsertSocialImpactPicture')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

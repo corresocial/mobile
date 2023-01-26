@@ -70,11 +70,6 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 		backToPreviousScreen()
 	}
 
-	const goToEditPost = () => {
-		setPostOptionsIsOpen(false)
-		navigation.navigate('EditServicePost' as any, { postData: { ...postData, ...editDataContext.saved } })
-	}
-
 	const removePostOnContext = async () => {
 		const currentUserPosts = userDataContext.posts || []
 		const postsWithoutDeletedPost = currentUserPosts.filter((post: PostCollection) => post.postId !== postData.postId)
@@ -84,6 +79,11 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	const backToPreviousScreen = () => {
 		setPostOptionsIsOpen(false)
 		navigation.goBack()
+	}
+
+	const goToEditPost = () => {
+		setPostOptionsIsOpen(false)
+		navigation.navigate('EditServicePost' as any, { postData: { ...postData, ...editDataContext.saved } })
 	}
 
 	const sharePost = () => {

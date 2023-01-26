@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react'
-import { StatusBar, ScrollView, Alert, Linking } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import { StatusBar, ScrollView, Linking } from 'react-native'
 
 import { Body, Container, Header, LastSigh, OptionsArea, Sigh, UserAndValueContainer } from './styles'
 import { theme } from '../../../common/theme'
@@ -14,9 +14,10 @@ import { share } from '../../../common/share'
 import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 
 import { ViewSocialImpactPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
-import { PostCollection } from '../../../services/firebase/types'
+import { PostCollection, SocialImpactCollection } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
@@ -29,9 +30,16 @@ import { PostPopOver } from '../../../components/PostPopOver'
 
 function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
+
+	useEffect(() => {
+		return () => {
+			clearEditContext()
+		}
+	}, [])
 
 	const loggedUserIsOwner = () => {
 		if (!route.params.postData || !route.params.postData.owner) return false
@@ -70,13 +78,18 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		navigation.goBack()
 	}
 
+	const goToEditPost = () => {
+		setPostOptionsIsOpen(false)
+		navigation.navigate('EditSocialImpactPost' as any, { postData: { ...postData, ...editDataContext.saved } })
+	}
+
 	const sharePost = () => {
-		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${postData.title} no corre.\n\nhttps://corre.social`)
+		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social`)
 	}
 
 	const openChat = async () => {
 		const { cellNumber } = await getPrivateContacts(postData.owner.userId)
-		const message = `olá! vi que publicou ${postData.title} no corre. Podemos conversar?`
+		const message = `olá! vi que publicou ${getPostField('title')} no corre. Podemos conversar?`
 		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
 	}
 
@@ -93,13 +106,17 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
 	}
 
+	const getPostField = (fieldName: keyof SocialImpactCollection) => {
+		return editDataContext.saved[fieldName] || postData[fieldName]
+	}
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={postOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
-					text={postData.title}
+					text={getPostField('title')}
 				/>
 				<Sigh />
 				<UserAndValueContainer>
@@ -137,15 +154,15 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						onPress={isAuthor ? sharePost : openChat}
 					/>
 					<PostPopOver
-						postTitle={postData.title || 'publicação no corre.'}
-						postId={postData.postId}
-						postType={postData.postType}
+						postTitle={getPostField('title') || 'publicação no corre.'}
+						postId={getPostField('postId')}
+						postType={getPostField('postType')}
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
 						isLoading={isLoading}
 						goToComplaint={reportPost}
-						editPost={() => Alert.alert('edit post')}
+						editPost={goToEditPost}
 						deletePost={deleteRemotePost}
 					>
 						<SmallButton
@@ -162,15 +179,15 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 				<ScrollView showsVerticalScrollIndicator={false} >
 					<DescriptionCard
 						title={'descrição da iniciativa'}
-						text={postData.description}
+						text={getPostField('description')}
 						textFontSize={14}
 					/>
 					<Sigh />
 					{
-						!arrayIsEmpty(postData.picturesUrl) && (
+						!arrayIsEmpty(getPostField('picturesUrl')) && (
 							<>
 								<ImageCarousel
-									picturesUrl={postData.picturesUrl && postData.picturesUrl}
+									picturesUrl={getPostField('picturesUrl') || []}
 								/>
 								<Sigh />
 							</>
@@ -179,19 +196,20 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					<LocationViewCard
 						title={'local da iniciativa'}
 						locationView={'approximate'}
-						postType={postData.postType}
+						postType={getPostField('postType')}
 						postId={route.params.postData.postId as string}
 						isAuthor={isAuthor}
+						defaultAddress={editDataContext.unsaved.address}
 						textFontSize={16}
 					/>
 					<Sigh />
 					<DateTimeCard
 						title={'dias e horários'}
 						weekDaysfrequency={'someday'}
-						daysOfWeek={postData.exhibitionWeekDays}
-						openingTime={postData.openingHour}
-						closingTime={postData.closingHour}
-						repetition={postData.socialImpactRepeat}
+						daysOfWeek={getPostField('exhibitionWeekDays')}
+						openingTime={getPostField('openingHour')}
+						closingTime={getPostField('closingHour')}
+						repetition={getPostField('socialImpactRepeat')}
 						textFontSize={14}
 					/>
 					<LastSigh />

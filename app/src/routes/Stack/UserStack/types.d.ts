@@ -1,5 +1,5 @@
 import { ContactUsType } from "../../../services/discord/types"
-import { PostCollection, SaleCollectionRemote, ServiceCollectionRemote, SocialMedia, VacancyCollectionRemote } from "../../../services/firebase/types"
+import { PostCollection, SaleCollectionRemote, ServiceCollectionRemote, SocialImpactCollectionRemote, SocialMedia, VacancyCollectionRemote } from "../../../services/firebase/types"
 import { ReportedTarget } from './../../../services/types'
 
 
@@ -19,6 +19,7 @@ export type UserStackParamList = {
 	EditServicePost: { postData: ServiceCollectionRemote }
 	EditSalePost: { postData: SaleCollectionRemote }
 	EditVacancyPost: { postData: VacancyCollectionRemote }
+	EditSocialImpactPost: { postData: SocialImpactCollectionRemote }
 
 	SocialMediaManagement: { socialMedias: SocialMedia[], isAuthor?: boolean }
 	InsertLinkTitle: { socialMedia?: SocialMedia, index?: number }
