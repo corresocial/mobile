@@ -140,6 +140,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 			verificationCodeId,
 			verificationCode,
 		)
+
 		const userCredential = await signInWithCredential(auth, credential)
 		return userCredential
 	}

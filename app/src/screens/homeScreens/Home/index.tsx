@@ -82,11 +82,10 @@ function Home({ navigation }: HomeScreenProps) {
 
 	useEffect(() => {
 		requestPermissions()
-		getRecentAddresses()
-		findNearPosts('', true)
 	}, [])
 
 	useEffect(() => {
+		getRecentAddresses()
 		findNearPosts('', true)
 	}, [hasLocationPermission])
 
@@ -234,8 +233,9 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const navigateToProfile = (userId: string) => {
+		console.log(userDataContext.userId === userId)
 		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any, { userId })// TODO Type
+			navigation.navigate('Profile' as any)// TODO Type
 			return
 		}
 		navigation.navigate('ProfileHome' as any, { userId })// TODO Type
