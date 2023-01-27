@@ -8,6 +8,7 @@ import { SelectExhibitionPlaceScreenProps } from '../../../routes/Stack/cultureS
 import { ExhibitionPlaceType } from '../../../services/firebase/types'
 
 import { CultureContext } from '../../../contexts/CultureContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -16,15 +17,22 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectExhibitionPlace({ navigation }: SelectExhibitionPlaceScreenProps) {
+function SelectExhibitionPlace({ route, navigation }: SelectExhibitionPlaceScreenProps) {
 	const { setCultureDataOnContext } = useContext(CultureContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveExhibitionPlace = (exhibitionPlace: ExhibitionPlaceType) => {
-		setCultureDataOnContext({
-			exhibitionPlace
-		})
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ exhibitionPlace })
+			navigation.goBack()
+			return
+		}
+
+		setCultureDataOnContext({ exhibitionPlace })
 		navigation.navigate('SelectCultureLocationView')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

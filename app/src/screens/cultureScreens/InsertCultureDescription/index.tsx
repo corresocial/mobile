@@ -11,6 +11,7 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 import { InsertCultureDescriptionScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 import { CultureContext } from '../../../contexts/CultureContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -20,10 +21,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { LineInput } from '../../../components/LineInput'
 
-function InsertCultureDescription({ navigation }: InsertCultureDescriptionScreenProps) {
+function InsertCultureDescription({ route, navigation }: InsertCultureDescriptionScreenProps) {
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [cultureDescription, setCultureDescription] = useState<string>('')
+	const [cultureDescription, setCultureDescription] = useState<string>(route.params?.initialValue || '')
 	const [cultureDescriptionIsValid, setCultureDescriptionIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -54,13 +56,19 @@ function InsertCultureDescription({ navigation }: InsertCultureDescriptionScreen
 	}
 
 	const saveCultureDescription = () => {
-		if (cultureDescriptionIsValid) {
-			setCultureDataOnContext({
-				description: cultureDescription
-			})
-			navigation.navigate('InsertCulturePicture')
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ description: cultureDescription })
+			navigation.goBack()
+			return
 		}
+
+		setCultureDataOnContext({ description: cultureDescription })
+		navigation.navigate('InsertCulturePicture')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
+
+	const thisPostIsArtistProfile = route.params?.cultureType === 'artistProfile' || cultureDataContext.cultureType === 'artistProfile'
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -76,18 +84,18 @@ function InsertCultureDescription({ navigation }: InsertCultureDescriptionScreen
 					borderLeftWidth={3}
 					fontSize={18}
 					message={
-						cultureDataContext.cultureType === 'artistProfile'
+						thisPostIsArtistProfile
 							? 'fala um pouco \nsobre a sua arte'
 							: 'fala um pouco \nsobre esse role'
 					}
 					highlightedWords={
-						cultureDataContext.cultureType === 'artistProfile'
+						thisPostIsArtistProfile
 							? ['fala', 'sua', 'arte']
 							: ['fala', 'esse', 'role']
 					}
 				>
 					<ProgressBar
-						range={cultureDataContext.cultureType === 'artistProfile' ? 3 : 5}
+						range={thisPostIsArtistProfile ? 3 : 5}
 						value={1}
 					/>
 				</InstructionCard>
@@ -110,7 +118,7 @@ function InsertCultureDescription({ navigation }: InsertCultureDescriptionScreen
 					textAlign={'left'}
 					fontSize={16}
 					placeholder={
-						cultureDataContext.cultureType === 'artistProfile'
+						thisPostIsArtistProfile
 							? 'ex: o que você faz, qual o seu estilo, há quanto tempo você faz, se faz sozinho ou em grupo, etc.'
 							: 'ex: vai ter muita gente, qual o objetivo desse role, se precisa levar algo'
 					}

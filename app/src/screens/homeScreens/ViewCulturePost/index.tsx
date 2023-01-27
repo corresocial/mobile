@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react'
-import { StatusBar, ScrollView, Alert, Linking } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import { StatusBar, ScrollView, Linking } from 'react-native'
 
 import {
 	Body,
@@ -24,9 +24,10 @@ import { getPrivateContacts } from '../../../services/firebase/user/getPrivateCo
 import { ViewCulturePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { PostCollection } from '../../../services/firebase/types'
+import { CultureCollection, PostCollection } from '../../../services/firebase/types'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
@@ -38,9 +39,16 @@ import { PostPopOver } from '../../../components/PostPopOver'
 
 function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
+
+	useEffect(() => {
+		return () => {
+			clearEditContext()
+		}
+	}, [])
 
 	const loggedUserIsOwner = () => {
 		if (!route.params.postData || !route.params.postData.owner) return false
@@ -74,18 +82,23 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 		setUserDataOnContext({ ...userDataContext, posts: postsWithoutDeletedPost })
 	}
 
+	const goToEditPost = () => {
+		setPostOptionsIsOpen(false)
+		navigation.navigate('EditCulturePost' as any, { postData: { ...postData, ...editDataContext.saved } })
+	}
+
 	const backToPreviousScreen = () => {
 		setPostOptionsIsOpen(false)
 		navigation.goBack()
 	}
 
 	const sharePost = () => {
-		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${postData.title} no corre.\n\nhttps://corre.social`)
+		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social`)
 	}
 
 	const openChat = async () => {
 		const { cellNumber } = await getPrivateContacts(postData.owner.userId)
-		const message = `olá! vi que publicou ${postData.title} no corre. Podemos conversar?`
+		const message = `olá! vi que publicou ${getPostField('title')} no corre. Podemos conversar?`
 		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
 	}
 
@@ -102,13 +115,17 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
 	}
 
+	const getPostField = (fieldName: keyof CultureCollection) => {
+		return editDataContext.saved[fieldName] || postData[fieldName]
+	}
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={postOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
-					text={postData.title}
+					text={getPostField('title')}
 				/>
 				<Sigh />
 				<UserAndValueContainer>
@@ -146,15 +163,15 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						onPress={isAuthor ? sharePost : openChat}
 					/>
 					<PostPopOver
-						postTitle={postData.title || 'publicação no corre.'}
-						postId={postData.postId}
-						postType={postData.postType}
+						postTitle={getPostField('title') || 'publicação no corre.'}
+						postId={getPostField('postId')}
+						postType={getPostField('postType')}
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
 						isLoading={isLoading}
 						goToComplaint={reportPost}
-						editPost={() => Alert.alert('edit post')}
+						editPost={goToEditPost}
 						deletePost={deleteRemotePost}
 					>
 						<SmallButton
@@ -171,26 +188,26 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 				<ScrollView showsVerticalScrollIndicator={false} >
 					<DescriptionCard
 						title={`${postData.cultureType === 'artistProfile' ? 'sobre o artista' : 'descrição do rolê'}`}
-						text={postData.description}
+						text={getPostField('description')}
 						textFontSize={14}
 					/>
 					<Sigh />
 					{
-						!arrayIsEmpty(postData.picturesUrl) && (
+						!arrayIsEmpty(getPostField('picturesUrl')) && (
 							<>
 								<ImageCarousel
-									picturesUrl={postData.picturesUrl && postData.picturesUrl}
+									picturesUrl={getPostField('picturesUrl') || []}
 								/>
 								<Sigh />
 							</>
 						)
 					}
 					{
-						postData.entryValue && (
+						getPostField('entryValue') && (
 							<>
 								<SaleOrExchangeCard
 									title={'valor de entrada'}
-									exchangeValue={postData.entryValue}
+									exchangeValue={getPostField('entryValue')}
 									withoutExchangePresentation
 								/>
 								<Sigh />
@@ -199,24 +216,25 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					}
 					<LocationViewCard
 						title={'localização'}
-						online={postData.eventPlaceModality === 'online'}
-						locationView={postData.locationView}
-						postType={postData.postType}
+						online={getPostField('eventPlaceModality') === 'online'}
+						locationView={getPostField('locationView')}
+						postType={getPostField('postType')}
 						postId={route.params.postData.postId as string}
 						isAuthor={isAuthor}
+						defaultAddress={editDataContext.unsaved.address}
 						textFontSize={16}
 					/>
 					{
-						postData.eventStartDate && postData.eventEndDate
+						getPostField('eventStartDate') && getPostField('eventEndDate')
 						&& (
 							<>
 								<Sigh />
 								<DateTimeCard
 									title={'dias e horários'}
-									openingTime={postData.eventStartHour}
-									closingTime={postData.eventEndHour}
-									startDate={postData.eventStartDate}
-									endDate={postData.eventEndDate}
+									openingTime={getPostField('eventStartHour')}
+									closingTime={getPostField('eventEndHour')}
+									startDate={getPostField('eventStartDate')}
+									endDate={getPostField('eventEndDate')}
 									textFontSize={14}
 								/>
 							</>

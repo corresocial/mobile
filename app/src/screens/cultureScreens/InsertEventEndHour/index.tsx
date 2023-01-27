@@ -11,7 +11,7 @@ import { createPost } from '../../../services/firebase/post/createPost'
 import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
+import { filterLeavingOnlyNumbers, formatHour } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 import { InsertEventEndHourScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
@@ -19,6 +19,7 @@ import { InsertEventEndHourScreenProps } from '../../../routes/Stack/CultureStac
 import { CultureContext } from '../../../contexts/CultureContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { StateContext } from '../../../contexts/StateContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -31,13 +32,16 @@ import { CultureCollection, PostCollection, PrivateAddress } from '../../../serv
 import { CultureData, LocalUserData } from '../../../contexts/types'
 import { Loader } from '../../../components/Loader'
 
-function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
+function InsertEventEndHour({ route, navigation }: InsertEventEndHourScreenProps) {
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [hours, setHours] = useState<string>('')
-	const [minutes, setMinutes] = useState<string>('')
+	const initialTime = formatHour(route.params?.initialValue)
+
+	const [hours, setHours] = useState<string>(route.params?.initialValue ? initialTime.split(':')[0] : '')
+	const [minutes, setMinutes] = useState<string>(route.params?.initialValue ? initialTime.split(':')[1] : '')
 	const [hoursIsValid, setHoursIsValid] = useState<boolean>(false)
 	const [minutesIsValid, setMinutesIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -83,6 +87,8 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
 	}
 
 	const closingTimeIsAfterOpening = () => {
+		if (editModeIsTrue()) return true
+
 		const eventStartHour = new Date(cultureDataContext.eventStartDate as Date)
 		const eventEndHour = new Date(cultureDataContext.eventEndDate as Date)
 		eventStartHour.setHours(cultureDataContext.eventStartHour?.getHours() as number, cultureDataContext.eventStartHour?.getMinutes() as number)
@@ -93,6 +99,14 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
 	const saveCulturePost = async () => {
 		if (!closingTimeIsAfterOpening()) {
 			setInvalidTimeAfterSubmit(true)
+			return
+		}
+
+		if (editModeIsTrue()) {
+			const eventEndHour = new Date()
+			eventEndHour.setHours(parseInt(hours), parseInt(minutes))
+			addNewUnsavedFieldToEditContext({ eventEndHour })
+			navigation.goBack()
 			return
 		}
 
@@ -194,6 +208,8 @@ function InsertEventEndHour({ navigation }: InsertEventEndHourScreenProps) {
 			setIsLoading(false)
 		}
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	const getCompleteCultureDataFromContext = () => {
 		const eventEndHour = new Date()

@@ -1,7 +1,7 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 export const CardHeader = styled.View`
 	padding-horizontal: ${RFValue(15)}px;
@@ -16,7 +16,7 @@ export const TextAddress = styled.Text`
 
 export const MapArea = styled.View`
 	width: 100%;
-	height: ${screenHeight * 0.3};
+	height: ${relativeScreenHeight(30)}px;
 	border-width: ${RFValue(2)}px;
 	border-radius: ${RFValue(15)}px;
 	overflow: hidden;

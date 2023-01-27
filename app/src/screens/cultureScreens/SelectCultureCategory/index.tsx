@@ -21,7 +21,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectCultureCategory({ navigation }: SelectCultureCategoryScreenProps) {
+function SelectCultureCategory({ route, navigation }: SelectCultureCategoryScreenProps) {
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 
 	const renderSelectOptionsButtons = () => {
@@ -47,9 +47,12 @@ function SelectCultureCategory({ navigation }: SelectCultureCategoryScreenProps)
 			category: categoryName
 		})
 		navigation.navigate('SelectCultureTags', {
-			categorySelected: categoryName
+			categorySelected: categoryName,
+			...route.params
 		})
 	}
+
+	const thisPostIsArtistProfile = route.params.cultureType === 'artistProfile' || cultureDataContext.cultureType === 'artistProfile'
 
 	return (
 		<Container>
@@ -64,18 +67,18 @@ function SelectCultureCategory({ navigation }: SelectCultureCategoryScreenProps)
 					borderLeftWidth={3}
 					fontSize={18}
 					message={
-						cultureDataContext.cultureType === 'artistProfile'
+						thisPostIsArtistProfile
 							? 'em qual categoria sua arte se encaixa?'
 							: 'em qual categoria seu role se encaixa?'
 					}
 					highlightedWords={
-						cultureDataContext.cultureType === 'artistProfile'
+						thisPostIsArtistProfile
 							? ['categoria', 'sua', 'arte']
 							: ['categoria', 'seu', 'role']
 					}
 				>
 					<ProgressBar
-						range={cultureDataContext.cultureType === 'artistProfile' ? 3 : 5}
+						range={thisPostIsArtistProfile ? 3 : 5}
 						value={2}
 					/>
 				</InstructionCard>

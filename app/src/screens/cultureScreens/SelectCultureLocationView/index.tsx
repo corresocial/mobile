@@ -18,12 +18,13 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { TitleDescriptionButton } from '../../../components/_cards/TitleDescriptionButton'
 
-function SelectCultureLocationView({ navigation }: SelectCultureLocationViewScreenProps) {
+function SelectCultureLocationView({ route, navigation }: SelectCultureLocationViewScreenProps) {
 	const { cultureDataContext } = useContext(CultureContext)
 
 	const saveLocationViewType = (locationViewType: LocationViewType) => {
 		navigation.navigate('InsertCultureLocation', {
-			locationView: locationViewType
+			locationView: locationViewType,
+			...route.params
 		})
 	}
 

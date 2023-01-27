@@ -2,7 +2,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 export const DeliveryMethodText = styled.Text`
-	font-size: ${RFValue(12)};
+	font-size: ${RFValue(12)}px;
 	font-family: Arvo_400Regular;
-	padding-horizontal:${RFValue(10)};
+	padding-horizontal:${RFValue(10)}px;
 `

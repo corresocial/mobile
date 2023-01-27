@@ -21,6 +21,7 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 import { SelectCultureTagsScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
 
 import { CultureContext } from '../../../contexts/CultureContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
@@ -33,6 +34,7 @@ import { SelectedTagsHorizontalList } from '../../../components/SelectedTagsHori
 
 function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) {
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [textTag, setTextTag] = useState('')
 	const [keyboardOpened, setKeyboardOpened] = useState(false)
@@ -114,15 +116,22 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
 	}
 
 	const saveTags = () => {
-		setCultureDataOnContext({
-			tags: selectedTags
-		})
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ tags: selectedTags })
+			navigation.goBack()
+			navigation.goBack()
+			return
+		}
+
+		setCultureDataOnContext({ tags: selectedTags })
 		if (cultureDataContext.cultureType === 'eventPost') {
 			navigation.navigate('InsertEntryValue')
 		} else {
 			navigation.navigate('SelectExhibitionPlace')
 		}
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

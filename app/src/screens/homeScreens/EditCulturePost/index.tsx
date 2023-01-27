@@ -2,32 +2,32 @@ import React, { useContext, useEffect, useState } from 'react'
 import { getDownloadURL } from 'firebase/storage'
 import { StatusBar } from 'react-native'
 
-import { theme } from '../../../common/theme'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { Body, Container, Header, LastSigh, SaveButtonContainer, Sigh } from './styles'
 import CheckIcon from '../../../assets/icons/check.svg'
 
-import { socialImpactCategories } from '../../socialImpactScreens/socialImpactCategories'
-import { arrayIsEmpty, formatHour } from '../../../common/auxiliaryFunctions'
+import { cultureCategories } from '../../cultureScreens/cultureCategories'
+import { arrayIsEmpty, formatDate, formatHour } from '../../../common/auxiliaryFunctions'
 import { updatePost } from '../../../services/firebase/post/updatePost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 
-import { EditSocialImpactPostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { DaysOfWeek, EventRepeatType, ExhibitionPlaceType, SocialImpactCollection, SocialImpactCollectionRemote } from '../../../services/firebase/types'
-import { SocialImpactStackParamList } from '../../../routes/Stack/SocialImpactStack/types'
+import { EditCulturePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { CultureCollection, CultureCollectionRemote, EventRepeatType, ExhibitionPlaceType } from '../../../services/firebase/types'
+import { CultureStackParamList } from '../../../routes/Stack/CultureStack/types'
 
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { EditCard } from '../../../components/_cards/EditCard'
+import { theme } from '../../../common/theme'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Loader } from '../../../components/Loader'
 
-function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenProps) {
+function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 
@@ -59,16 +59,8 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 		}
 	}
 
-	const formatDaysOfWeek = () => {
-		const attendanceWeekDays = getPostField('exhibitionWeekDays')
-
-		const allDaysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
-		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => attendanceWeekDays.includes(weekDay))
-		return ordenedDaysOfWeek.toString().split(',').join(', ')
-	}
-
-	const renderSocialImpactRepeat = () => {
-		const socialImpactRepeat = getPostField('socialImpactRepeat') as EventRepeatType
+	const renderCultureRepeat = () => {
+		const socialImpactRepeat = getPostField('eventRepeat') as EventRepeatType
 		switch (socialImpactRepeat) {
 			case 'unrepeatable': return 'não se repete'
 			case 'everyDay': return 'todos os dias'
@@ -80,7 +72,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 	}
 
 	const renderExhibitionRange = () => {
-		const socialImpactRepeat = getPostField('exhibitionRange') as ExhibitionPlaceType
+		const socialImpactRepeat = getPostField('exhibitionPlace') as ExhibitionPlaceType
 		switch (socialImpactRepeat) {
 			case 'near': return 'no bairro'
 			case 'city': return 'na cidade'
@@ -89,13 +81,14 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 		}
 	}
 
-	const navigateToEditScreen = (screenName: keyof SocialImpactStackParamList, initialValue: keyof SocialImpactCollectionRemote) => {
+	const navigateToEditScreen = (screenName: keyof CultureStackParamList, initialValue: keyof CultureCollectionRemote) => {
 		const value = getPostField(initialValue)
-		navigation.navigate('SocialImpactStack', {
+		navigation.navigate('CultureStack', {
 			screen: screenName,
 			params: {
 				editMode: true,
-				initialValue: value
+				initialValue: value,
+				cultureType: postData.cultureType
 			}
 		})
 	}
@@ -123,7 +116,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 			delete postDataToSave.owner
 			delete postDataToSave.address
 
-			await updatePost('socialImpacts', postData.postId, postDataToSave)
+			await updatePost('cultures', postData.postId, postDataToSave)
 			await updateDocField(
 				'users',
 				postData.owner.userId,
@@ -156,7 +149,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 
 		const picturePostsUrls: string[] = []
 		await picturesNotUploaded.map(async (picturePath: string, index: number) => {
-			return uploadImage(picturePath, 'socialImpacts', postData.postId, index).then(
+			return uploadImage(picturePath, 'cultures', postData.postId, index).then(
 				({ uploadTask, blob }: any) => {
 					uploadTask.on(
 						'state_change',
@@ -177,7 +170,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 												picturesUrl: [...picturePostsUrls, ...picturesAlreadyUploaded]
 											}
 
-											await updatePost('socialImpacts', postData.postId, postDataToSave)
+											await updatePost('cultures', postData.postId, postDataToSave)
 											await updateDocField(
 												'users',
 												postData.owner.userId,
@@ -210,15 +203,15 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 			{
 				...editDataContext.unsaved.address,
 				locationView: editDataContext.unsaved.locationView,
-				postType: 'socialImpact',
+				postType: 'culture',
 			},
 			postData.postId,
-			'socialImpacts',
+			'cultures',
 			`address${postData.postId}`
 		)
 	}
 
-	const updateUserContext = (postAfterEdit: SocialImpactCollection) => {
+	const updateUserContext = (postAfterEdit: CultureCollection) => {
 		setUserDataOnContext({
 			posts: [
 				...getUserPostsWithoutEdited(),
@@ -231,7 +224,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 		navigation.goBack()
 	}
 
-	const getPostField = (fieldName: keyof SocialImpactCollection) => {
+	const getPostField = (fieldName: keyof CultureCollection) => {
 		return editDataContext.unsaved[fieldName] || postData[fieldName]
 	}
 
@@ -239,7 +232,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 		const category: string = getPostField('category')
 		const tags = getPostField('tags')
 
-		return `	●  ${socialImpactCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO Type
+		return `	●  ${cultureCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO Type
 	}
 
 	return (
@@ -271,7 +264,6 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 									/>
 								</SaveButtonContainer>
 							)
-
 					)
 				}
 			</Header>
@@ -280,14 +272,14 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 					title={'tags do post'}
 					highlightedWords={['tags']}
 					value={formatCategoryAndTags()}
-					onEdit={() => navigateToEditScreen('SelectSocialImpactCategory', 'tags')}
+					onEdit={() => navigateToEditScreen('SelectCultureCategory', 'tags')}
 				/>
 				<Sigh />
 				<EditCard
 					title={'título do post'}
 					highlightedWords={['título']}
 					value={getPostField('title')}
-					onEdit={() => navigateToEditScreen('InsertSocialImpactTitle', 'title')}
+					onEdit={() => navigateToEditScreen('InsertCultureTitle', 'title')}
 				/>
 				<Sigh />
 				<EditCard
@@ -295,22 +287,40 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 					highlightedWords={['fotos']}
 					profilePicturesUrl={getPicturesUrl()}
 					carousel
-					onEdit={() => navigateToEditScreen('SocialImpactPicturePreview', 'picturesUrl')}
+					onEdit={() => navigateToEditScreen('CulturePicturePreview', 'picturesUrl')}
 				/>
 				<Sigh />
 				<EditCard
 					title={`descrição ${getRelativeTitle()}`}
 					highlightedWords={['descrição']}
 					value={getPostField('description') || '---'}
-					onEdit={() => navigateToEditScreen('InsertSocialImpactDescription', 'description')}
+					onEdit={() => navigateToEditScreen('InsertCultureDescription', 'description')}
 				/>
 				<Sigh />
-				<EditCard
-					title={'alcance de exibição'}
-					highlightedWords={['alcance']}
-					value={renderExhibitionRange() || '---'}
-					onEdit={() => navigateToEditScreen('SelectSocialImpactExhibitionRange', 'exhibitionRange')}
-				/>
+				{
+					postData.cultureType === 'eventPost' && (
+						<>
+							<EditCard
+								title={'valor de entrada'}
+								highlightedWords={['entrada']}
+								value={getPostField('entryValue') || '---'}
+								onEdit={() => navigateToEditScreen('InsertEntryValue', 'entryValue')}
+							/>
+							<Sigh />
+						</>
+					)
+				}
+				{
+					postData.cultureType === 'eventPost' && (
+						<EditCard
+							title={'alcance de exibição'}
+							highlightedWords={['alcance']}
+							value={renderExhibitionRange() || '---'}
+							onEdit={() => navigateToEditScreen('SelectExhibitionPlace', 'exhibitionPlace')}
+						/>
+					)
+				}
+
 				<Sigh />
 				<LocationViewCard
 					title={'localização'}
@@ -321,40 +331,53 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 					editable
 					isAuthor
 					defaultAddress={editDataContext.unsaved.address}
-					onEdit={() => navigateToEditScreen('SelectSocialImpactLocationView', 'postId')}
+					onEdit={() => navigateToEditScreen('SelectCultureLocationView', 'postId')}
 				/>
 				<Sigh />
-				<EditCard
-					title={'repetição'}
-					highlightedWords={['repetição']}
-					value={renderSocialImpactRepeat() || '---'}
-					onEdit={() => navigateToEditScreen('SelectSocialImpactRepeat', 'socialImpactRepeat')}
-				/>
-				<Sigh />
-				<EditCard
-					title={'dias da semana'}
-					highlightedWords={['semana']}
-					value={formatDaysOfWeek() || '---'}
-					onEdit={() => navigateToEditScreen('SelectDaysOfWeek', 'exhibitionWeekDays')}
-				/>
-				<Sigh />
-				<EditCard
-					title={'horário de início'}
-					highlightedWords={['início']}
-					value={formatHour(getPostField('openingHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertOpeningHour', 'openingHour')}
-				/>
-				<Sigh />
-				<EditCard
-					title={'horário de fim'}
-					highlightedWords={['fim']}
-					value={formatHour(getPostField('closingHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertClosingHour', 'closingHour')}
-				/>
+				{
+					postData.cultureType === 'eventPost' && (
+						<>
+							<EditCard
+								title={'repetição'}
+								highlightedWords={['repetição']}
+								value={renderCultureRepeat() || '---'}
+								onEdit={() => navigateToEditScreen('SelectEventRepeat', 'eventRepeat')}
+							/>
+							<Sigh />
+							<EditCard
+								title={'data de início'}
+								highlightedWords={['início']}
+								value={formatDate(getPostField('eventStartDate')) || '---'}
+								onEdit={() => navigateToEditScreen('InsertEventStartDate', 'eventStartDate')}
+							/>
+							<Sigh />
+							<EditCard
+								title={'horário de início'}
+								highlightedWords={['início']}
+								value={formatHour(getPostField('eventStartHour')) || '---'}
+								onEdit={() => navigateToEditScreen('InsertEventStartHour', 'eventStartHour')}
+							/>
+							<Sigh />
+							<EditCard
+								title={'data de fim'}
+								highlightedWords={['fim']}
+								value={formatDate(getPostField('eventEndDate')) || '---'}
+								onEdit={() => navigateToEditScreen('InsertEventEndDate', 'eventEndDate')}
+							/>
+							<Sigh />
+							<EditCard
+								title={'horário de fim'}
+								highlightedWords={['fim']}
+								value={formatHour(getPostField('eventEndHour')) || '---'}
+								onEdit={() => navigateToEditScreen('InsertEventEndHour', 'eventEndHour')}
+							/>
+						</>
+					)
+				}
 				<LastSigh />
 			</Body>
 		</Container>
 	)
 }
 
-export { EditSocialImpactPost }
+export { EditCulturePost }

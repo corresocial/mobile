@@ -10,8 +10,8 @@ import { getLocationViewDescription, getLocationViewHighlightedWords, getLocatio
 
 import { LocationViewPreviewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
-import { EditContext } from '../../../contexts/EditContext'
 import { ServiceContext } from '../../../contexts/ServiceContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'

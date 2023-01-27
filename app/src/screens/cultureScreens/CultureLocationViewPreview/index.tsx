@@ -6,16 +6,12 @@ import { theme } from '../../../common/theme'
 import { ButtonContainerBottom, Container, MapContainer } from './styles'
 import Uncheck from '../../../assets/icons/uncheck.svg'
 import Check from '../../../assets/icons/check.svg'
-import MapPointOrange from '../../../assets/icons/mapPoint-orange.svg'
-import Eye from '../../../assets/icons/eye.svg'
-import EyeHalfTraced from '../../../assets/icons/eyeHalfTraced.svg'
-import EyeTraced from '../../../assets/icons/eyeTraced.svg'
 
 import { createPost } from '../../../services/firebase/post/createPost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
 import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
-import { getLocationViewTitle, getLocationViewDescription, getLocationViewHighlightedWords } from '../../../utils/locationMessages'
+import { getLocationViewTitle, getLocationViewDescription, getLocationViewHighlightedWords, getLocationViewIcon } from '../../../utils/locationMessages'
 
 import { CultureLocationViewPreviewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { CultureCollection, LocationViewType, PostCollection, PrivateAddress } from '../../../services/firebase/types'
@@ -24,6 +20,7 @@ import { CultureData, LocalUserData } from '../../../contexts/types'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { StateContext } from '../../../contexts/StateContext'
 import { CultureContext } from '../../../contexts/CultureContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
@@ -40,34 +37,33 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [locationViewSelected, setLocationViewSelected] = useState<LocationViewType>()
-	const [markerCoordinate] = useState({
-		...cultureDataContext?.address?.coordinates,
-		...defaultDeltaCoordinates
-	})
+	const [markerCoordinate] = useState(
+		route.params?.editMode
+			? {
+				...editDataContext?.unsaved.address?.coordinates,
+				...defaultDeltaCoordinates
+			}
+			: {
+				...cultureDataContext?.address?.coordinates,
+				...defaultDeltaCoordinates
+			}
+	)
 	const [hasServerSideError, setHasServerSideError] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 
-	useEffect(() => {
-		const locationView = getLocationViewFromRouteParams()
-		setLocationViewSelected(locationView)
-	}, [])
-
-	const getLocationViewFromRouteParams = () => route.params.locationView
-
-	const getLocationViewIcon = () => {
-		switch (locationViewSelected as LocationViewType) {
-			case 'private': return EyeTraced
-			case 'approximate': return EyeHalfTraced
-			case 'public': return Eye
-			default: return MapPointOrange
-		}
-	}
-
+	console.log('refresh')
 	const saveLocation = async () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ locationView: route.params.locationView })
+			navigation.pop(2)
+			navigation.goBack()
+			return
+		}
+
 		setCultureDataOnContext({
-			locationView: locationViewSelected
+			locationView: route.params.locationView
 		})
 		if (cultureDataContext.cultureType === 'eventPost') {
 			navigation.navigate('SelectEventRepeat')
@@ -75,6 +71,8 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 			await saveCulturePost()
 		}
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	const getCompleteCultureDataFromContext = () => ({
 		...cultureDataContext,
@@ -85,7 +83,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 	} as PrivateAddress)
 
 	const extractCultureDataPost = (cultureData: CultureData) => {
-		const currentCultureData = { ...cultureData, locationView: locationViewSelected }
+		const currentCultureData = { ...cultureData, locationView: route.params.locationView }
 		delete currentCultureData.address
 
 		return {
@@ -303,8 +301,8 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 				<CustomMapView
 					regionCoordinate={markerCoordinate}
 					markerCoordinate={markerCoordinate}
-					CustomMarker={getLocationViewIcon()}
-					locationView={locationViewSelected}
+					CustomMarker={getLocationViewIcon(route.params.locationView)}
+					locationView={route.params.locationView}
 				/>
 			</MapContainer>
 			<ButtonContainerBottom>

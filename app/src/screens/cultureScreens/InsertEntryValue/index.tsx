@@ -10,6 +10,7 @@ import { InsertEntryValueScreenProps } from '../../../routes/Stack/CultureStack/
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 import { CultureContext } from '../../../contexts/CultureContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -19,10 +20,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function InsertEntryValue({ navigation }: InsertEntryValueScreenProps) {
+function InsertEntryValue({ route, navigation }: InsertEntryValueScreenProps) {
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [entryValue, setEntryValue] = useState<string>('')
+	const [entryValue, setEntryValue] = useState<string>(route.params?.initialValue || '')
 	const [entryValueIsValid, setEntryValueIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -53,14 +55,17 @@ function InsertEntryValue({ navigation }: InsertEntryValueScreenProps) {
 	}
 
 	const saveEntryValue = () => {
-		const valueIsValid = validateEntryValue(entryValue)
-		if (valueIsValid) {
-			setCultureDataOnContext({
-				entryValue
-			})
-			navigation.navigate('SelectEventPlaceModality')
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ entryValue })
+			navigation.goBack()
+			return
 		}
+
+		setCultureDataOnContext({ entryValue })
+		navigation.navigate('SelectEventPlaceModality')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

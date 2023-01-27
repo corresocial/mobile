@@ -4,12 +4,13 @@ import { Animated, Keyboard, Platform, StatusBar } from 'react-native'
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
 
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
+import { filterLeavingOnlyNumbers, formatDate } from '../../../common/auxiliaryFunctions'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 import { InsertEventEndDateScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 import { CultureContext } from '../../../contexts/CultureContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -20,12 +21,15 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function InsertEventEndDate({ navigation }: InsertEventEndDateScreenProps) {
+function InsertEventEndDate({ route, navigation }: InsertEventEndDateScreenProps) {
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [day, setDay] = useState<string>('')
-	const [month, setMonth] = useState<string>('')
-	const [year, setYear] = useState<string>('')
+	const initialTime = formatDate(route.params?.initialValue)
+
+	const [day, setDay] = useState<string>(route.params?.initialValue ? initialTime.split('/')[0] : '')
+	const [month, setMonth] = useState<string>(route.params?.initialValue ? initialTime.split('/')[1] : '')
+	const [year, setYear] = useState<string>(route.params?.initialValue ? initialTime.split('/')[2] : '')
 
 	const [dayIsValid, setDayIsValid] = useState<boolean>(false)
 	const [monthIsValid, setMonthIsValid] = useState<boolean>(false)
@@ -94,22 +98,32 @@ function InsertEventEndDate({ navigation }: InsertEventEndDateScreenProps) {
 	}
 
 	const endDateIsBiggerOfStartDate = () => {
+		if (editModeIsTrue()) return true
+
 		const insertedDate = new Date(`${year}-${month}-${day}T23:59:59`)
-		const cultureContextStartDate = cultureDataContext.eventStartDate || new Date()
-		return cultureContextStartDate.getTime() > insertedDate.getTime()
+		const vacancyContextStartDate = cultureDataContext.eventStartDate || new Date()
+		return vacancyContextStartDate.getTime() < insertedDate.getTime()
 	}
 
 	const saveOppeningHour = () => {
-		if (endDateIsBiggerOfStartDate()) {
+		if (!endDateIsBiggerOfStartDate()) {
 			setInvalidDateAfterSubmit(true)
 			return
 		}
 
-		setCultureDataOnContext({
-			eventEndDate: new Date(`${year}-${month}-${day}T12:00:00`)
-		})
+		const eventEndDate = new Date(`${year}-${month}-${day}T12:00:00`)
+
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ eventEndDate })
+			navigation.goBack()
+			return
+		}
+
+		setCultureDataOnContext({ eventEndDate })
 		navigation.navigate('InsertEventEndHour')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {

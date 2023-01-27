@@ -8,6 +8,7 @@ import { SelectEventRepeatScreenProps } from '../../../routes/Stack/cultureStack
 import { EventRepeatType } from '../../../services/firebase/types'
 
 import { CultureContext } from '../../../contexts/CultureContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -16,13 +17,22 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectEventRepeat({ navigation }: SelectEventRepeatScreenProps) {
+function SelectEventRepeat({ route, navigation }: SelectEventRepeatScreenProps) {
 	const { setCultureDataOnContext } = useContext(CultureContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveEventRepeat = async (eventRepeat: EventRepeatType) => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ eventRepeat })
+			navigation.goBack()
+			return
+		}
+
 		setCultureDataOnContext({ eventRepeat })
 		navigation.navigate('InsertEventStartDate')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>

@@ -10,6 +10,7 @@ import { InsertCultureTitleScreenProps } from '../../../routes/Stack/cultureStac
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 import { CultureContext } from '../../../contexts/CultureContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -19,10 +20,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function InsertCultureTitle({ navigation }: InsertCultureTitleScreenProps) {
+function InsertCultureTitle({ route, navigation }: InsertCultureTitleScreenProps) {
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [cultureTitle, setCultureTitle] = useState<string>('')
+	const [cultureTitle, setCultureTitle] = useState<string>(route.params?.initialValue || '')
 	const [cultureTitleIsValid, setCultureTitleIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -53,13 +55,19 @@ function InsertCultureTitle({ navigation }: InsertCultureTitleScreenProps) {
 	}
 
 	const saveCultureTitle = () => {
-		if (cultureTitleIsValid) {
-			setCultureDataOnContext({
-				title: cultureTitle
-			})
-			navigation.navigate('InsertCultureDescription')
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ title: cultureTitle })
+			navigation.goBack()
+			return
 		}
+
+		setCultureDataOnContext({ title: cultureTitle })
+		navigation.navigate('InsertCultureDescription')
 	}
+
+	const editModeIsTrue = () => route.params && route.params.editMode
+
+	const thisPostIsArtistProfile = route.params?.cultureType === 'artistProfile' || cultureDataContext.cultureType === 'artistProfile'
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -75,18 +83,18 @@ function InsertCultureTitle({ navigation }: InsertCultureTitleScreenProps) {
 					borderLeftWidth={3}
 					fontSize={18}
 					message={
-						cultureDataContext.cultureType === 'artistProfile'
+						thisPostIsArtistProfile
 							? 'que arte você cria?'
 							: 'qual o nome do evento?'
 					}
 					highlightedWords={
-						cultureDataContext.cultureType === 'artistProfile'
+						thisPostIsArtistProfile
 							? ['arte']
 							: ['nome']
 					}
 				>
 					<ProgressBar
-						range={cultureDataContext.cultureType === 'artistProfile' ? 3 : 5}
+						range={thisPostIsArtistProfile ? 3 : 5}
 						value={1}
 					/>
 				</InstructionCard>
@@ -110,7 +118,7 @@ function InsertCultureTitle({ navigation }: InsertCultureTitleScreenProps) {
 					textAlign={'left'}
 					fontSize={16}
 					placeholder={
-						cultureDataContext.cultureType === 'artistProfile'
+						thisPostIsArtistProfile
 							? 'ex: componho músicas'
 							: 'ex: bazar de livros'
 					}
