@@ -8,7 +8,7 @@ export type SocialImpactStackParamList = {
 	SelectSocialImpactCategory: { editMode: boolean } | undefined
 	SelectSocialImpactTags: { categorySelected: SocialImpactCategories, editMode?: boolean }
 	SelectSocialImpactExhibitionRange: { editMode: boolean } | undefined
-	SelectSocialImpactLocationView: { editMode: boolean, initialValue?: LocationViewType } | undefined
+	SelectSocialImpactLocationView: { editMode: boolean, initialValue?: Id } | undefined
 	InsertSocialImpactLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: Id }
 	SocialImpactLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
 	SelectDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined

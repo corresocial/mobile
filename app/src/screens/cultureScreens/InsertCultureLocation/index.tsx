@@ -12,7 +12,7 @@ import { generateGeohashes } from '../../../common/generateGeohashes'
 import { getLocationViewTitle, getLocationViewDescription, getLocationViewHighlightedWords } from '../../../utils/locationMessages'
 
 import { InsertCultureLocationScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
-import { Coordinates } from '../../../services/firebase/types'
+import { Coordinates, Id } from '../../../services/firebase/types'
 
 import { CultureContext } from '../../../contexts/CultureContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -58,7 +58,7 @@ function InsertCultureLocation({ route, navigation }: InsertCultureLocationScree
 	}, [])
 
 	const getLocationByPostId = async () => {
-		const privateAddress = await getPrivateAddress('culture', route.params?.initialValue)
+		const privateAddress = await getPrivateAddress('culture', route.params?.initialValue as Id)
 		setMarkerCoordinate({ ...defaultDeltaCoordinates, ...privateAddress.coordinates })
 	}
 

@@ -10,7 +10,7 @@ export type SaleStackParamList = {
 	SelectPaymentType: undefined
 	InsertSaleValue: { bothPaymentType: boolean, editMode?: boolean, initialValue?: string }
 	InsertExchangeValue: { editMode: boolean, initialValue: string } | undefined
-	SelectLocationView: { editMode: boolean, initialValue?: LocationViewType } | undefined
+	SelectLocationView: { editMode: boolean, initialValue?: Id } | undefined
 	InsertSaleLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: Id }
 	LocationViewPreview: { editMode?: boolean, locationView: LocationViewType }
 	SelectDeliveryMethod: { editMode: boolean } | undefined

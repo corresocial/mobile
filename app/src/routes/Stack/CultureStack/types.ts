@@ -1,22 +1,22 @@
-import { CultureCategories, CultureType, LocationViewType } from '../../../services/firebase/types'
+import { CultureCategories, CultureType, Id, LocationViewType } from '../../../services/firebase/types'
 
 export type CultureStackParamList = {
 	SelectCultureType: undefined
-	InsertCultureTitle: { editMode: boolean, initialValue: any, cultureType: CultureType } | undefined
-	InsertCultureDescription: { editMode: boolean, initialValue: any, cultureType: CultureType } | undefined
+	InsertCultureTitle: { editMode: boolean, initialValue: string, cultureType: CultureType } | undefined // cultureType: CultureType is edit auxiliary
+	InsertCultureDescription: { editMode: boolean, initialValue: string, cultureType: CultureType } | undefined
 	InsertCulturePicture: undefined
-	CulturePicturePreview: { editMode: boolean, initialValue: any } | undefined
-	SelectCultureCategory: { editMode?: boolean, initialValue?: any, cultureType?: CultureType } | undefined
+	CulturePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
+	SelectCultureCategory: { editMode: boolean, cultureType: CultureType } | undefined
 	SelectCultureTags: { categorySelected: CultureCategories, editMode?: boolean }
-	InsertEntryValue: { editMode: boolean, initialValue: any } | undefined
+	InsertEntryValue: { editMode: boolean, initialValue: string } | undefined
 	SelectExhibitionPlace: { editMode: boolean } | undefined
 	SelectEventPlaceModality: { editMode: boolean } | undefined
-	InsertCultureLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: any }
-	SelectCultureLocationView: { editMode: boolean, initialValue: any } | undefined
+	SelectCultureLocationView: { editMode: boolean, initialValue: Id } | undefined
+	InsertCultureLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: Id }
 	CultureLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
 	SelectEventRepeat: { editMode: boolean } | undefined
-	InsertEventStartDate: { editMode: boolean, initialValue: any } | undefined
-	InsertEventStartHour: { editMode: boolean, initialValue: any } | undefined
-	InsertEventEndDate: { editMode: boolean, initialValue: any } | undefined
-	InsertEventEndHour: { editMode: boolean, initialValue: any } | undefined
+	InsertEventStartDate: { editMode: boolean, initialValue: Date } | undefined
+	InsertEventStartHour: { editMode: boolean, initialValue: Date } | undefined
+	InsertEventEndDate: { editMode: boolean, initialValue: Date } | undefined
+	InsertEventEndHour: { editMode: boolean, initialValue: Date } | undefined
 }

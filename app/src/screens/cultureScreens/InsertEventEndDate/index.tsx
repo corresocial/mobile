@@ -25,7 +25,7 @@ function InsertEventEndDate({ route, navigation }: InsertEventEndDateScreenProps
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const initialTime = formatDate(route.params?.initialValue)
+	const initialTime = formatDate(route.params?.initialValue as Date)
 
 	const [day, setDay] = useState<string>(route.params?.initialValue ? initialTime.split('/')[0] : '')
 	const [month, setMonth] = useState<string>(route.params?.initialValue ? initialTime.split('/')[1] : '')
