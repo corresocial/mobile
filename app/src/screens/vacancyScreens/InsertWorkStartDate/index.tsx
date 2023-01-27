@@ -25,7 +25,7 @@ function InsertWorkStartDate({ route, navigation }: InsertWorkStartDateScreenPro
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const initialTime = formatDate(route.params?.initialValue)
+	const initialTime = formatDate(route.params?.initialValue as Date)
 
 	const [day, setDay] = useState<string>(route.params?.initialValue ? initialTime.split('/')[0] : '')
 	const [month, setMonth] = useState<string>(route.params?.initialValue ? initialTime.split('/')[1] : '')

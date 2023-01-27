@@ -57,7 +57,7 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 	}, [])
 
 	const getLocationByPostId = async () => {
-		const privateAddress = await getPrivateAddress('vacancy', route.params?.initialValue)
+		const privateAddress = await getPrivateAddress('vacancy', route.params?.initialValue as string)
 		setMarkerCoordinate({ ...defaultDeltaCoordinates, ...privateAddress.coordinates })
 	}
 

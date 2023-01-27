@@ -1,18 +1,18 @@
-import { VacancyCategories, WorkplaceType } from '../../../services/firebase/types'
+import { DaysOfWeek, VacancyCategories, WorkplaceType } from '../../../services/firebase/types'
 
 export type VacancyStackParamList = {
-	InsertVacancyTitle: { editMode: boolean, initialValue: any } | undefined
-	InsertVacancyDescription: { editMode: boolean, initialValue: any } | undefined
+	InsertVacancyTitle: { editMode: boolean, initialValue: string } | undefined
+	InsertVacancyDescription: { editMode: boolean, initialValue: string } | undefined
 	InsertVacancyQuestions: undefined
-	InsertCompanyDescription: { editMode: boolean, initialValue: any } | undefined
+	InsertCompanyDescription: { editMode: boolean, initialValue: string } | undefined
 	SelectWorkplace: { editMode: boolean } | undefined
-	InsertWorkplaceLocation: { workplace: WorkplaceType, editMode?: boolean, initialValue?: any }
+	InsertWorkplaceLocation: { workplace: WorkplaceType, editMode?: boolean, initialValue?: string }
 	SelectVacancyCategory: { editMode: boolean } | undefined
 	SelectVacancyTags: { categorySelected: VacancyCategories, editMode?: boolean }
 	SelectVacancyType: { editMode: boolean } | undefined
-	SelectWorkWeekdays: { editMode: boolean, initialValue: any } | undefined
-	InsertWorkStartHour: { editMode: boolean, initialValue: any } | undefined
-	InsertWorkEndHour: { editMode: boolean, initialValue: any } | undefined
-	InsertWorkStartDate: { editMode: boolean, initialValue: any } | undefined
-	InsertWorkEndDate: { editMode: boolean, initialValue: any } | undefined
+	SelectWorkWeekdays: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
+	InsertWorkStartDate: { editMode: boolean, initialValue: Date } | undefined
+	InsertWorkEndDate: { editMode: boolean, initialValue: Date } | undefined
+	InsertWorkStartHour: { editMode: boolean, initialValue: Date } | undefined
+	InsertWorkEndHour: { editMode: boolean, initialValue: Date } | undefined
 }
