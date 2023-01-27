@@ -12,7 +12,7 @@ import { generateGeohashes } from '../../../common/generateGeohashes'
 import { getPrivateAddress } from '../../../services/firebase/post/getPrivateAddress'
 
 import { InsertWorkplaceLocationScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
-import { Coordinates } from '../../../services/firebase/types'
+import { Coordinates, Id } from '../../../services/firebase/types'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -57,7 +57,7 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 	}, [])
 
 	const getLocationByPostId = async () => {
-		const privateAddress = await getPrivateAddress('vacancy', route.params?.initialValue as string)
+		const privateAddress = await getPrivateAddress('vacancy', route.params?.initialValue as Id)
 		setMarkerCoordinate({ ...defaultDeltaCoordinates, ...privateAddress.coordinates })
 	}
 

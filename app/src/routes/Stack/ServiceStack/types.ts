@@ -1,4 +1,4 @@
-import { DaysOfWeek, LocationViewType, ServiceCategories } from '../../../services/firebase/types'
+import { DaysOfWeek, Id, LocationViewType, ServiceCategories } from '../../../services/firebase/types'
 
 export type ServiceStackParamList = {
 	InsertServiceDescription: { editMode: boolean, initialValue: string } | undefined
@@ -11,8 +11,8 @@ export type ServiceStackParamList = {
 	InsertExchangeValue: { editMode: boolean, initialValue: string } | undefined
 	InsertSaleValue: { bothPaymentType: boolean, editMode?: boolean, initialValue?: string }
 	SelectLocationView: { editMode: boolean, initialValue?: LocationViewType } | undefined
-	InsertServicePrestationLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: string }
-	LocationViewPreview: { editMode?: boolean, locationView: LocationViewType }
+	InsertServicePrestationLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: Id }
+	LocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
 	SelectDeliveryMethod: { editMode: boolean } | undefined
 	SelectServiceFrequency: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined

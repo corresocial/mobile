@@ -1,4 +1,4 @@
-import { DaysOfWeek, VacancyCategories, WorkplaceType } from '../../../services/firebase/types'
+import { DaysOfWeek, Id, VacancyCategories, WorkplaceType } from '../../../services/firebase/types'
 
 export type VacancyStackParamList = {
 	InsertVacancyTitle: { editMode: boolean, initialValue: string } | undefined
@@ -6,7 +6,7 @@ export type VacancyStackParamList = {
 	InsertVacancyQuestions: undefined
 	InsertCompanyDescription: { editMode: boolean, initialValue: string } | undefined
 	SelectWorkplace: { editMode: boolean } | undefined
-	InsertWorkplaceLocation: { workplace: WorkplaceType, editMode?: boolean, initialValue?: string }
+	InsertWorkplaceLocation: { workplace: WorkplaceType, editMode?: boolean, initialValue?: Id }
 	SelectVacancyCategory: { editMode: boolean } | undefined
 	SelectVacancyTags: { categorySelected: VacancyCategories, editMode?: boolean }
 	SelectVacancyType: { editMode: boolean } | undefined

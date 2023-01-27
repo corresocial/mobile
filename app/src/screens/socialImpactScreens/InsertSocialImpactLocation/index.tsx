@@ -12,7 +12,7 @@ import { generateGeohashes } from '../../../common/generateGeohashes'
 import { getLocationViewDescription, getLocationViewHighlightedWords, getLocationViewTitle } from '../../../utils/locationMessages'
 
 import { InsertSocialImpactLocationScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
-import { Coordinates } from '../../../services/firebase/types'
+import { Coordinates, Id } from '../../../services/firebase/types'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -58,7 +58,7 @@ function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLoc
 	}, [])
 
 	const getLocationByPostId = async () => {
-		const privateAddress = await getPrivateAddress('socialImpact', route.params?.initialValue)
+		const privateAddress = await getPrivateAddress('socialImpact', route.params?.initialValue as Id)
 		setMarkerCoordinate({ ...defaultDeltaCoordinates, ...privateAddress.coordinates })
 	}
 

@@ -12,7 +12,7 @@ import { generateGeohashes } from '../../../common/generateGeohashes'
 import { getLocationViewDescription, getLocationViewHighlightedWords, getLocationViewTitle } from '../../../utils/locationMessages'
 
 import { InsertSaleLocationScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
-import { Coordinates } from '../../../services/firebase/types'
+import { Coordinates, Id } from '../../../services/firebase/types'
 
 import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -58,7 +58,7 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 	}, [])
 
 	const getLocationByPostId = async () => {
-		const privateAddress = await getPrivateAddress('sale', route.params?.initialValue)
+		const privateAddress = await getPrivateAddress('sale', route.params?.initialValue as Id)
 		setMarkerCoordinate({ ...defaultDeltaCoordinates, ...privateAddress.coordinates })
 	}
 

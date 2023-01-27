@@ -13,7 +13,7 @@ import { getLocationViewDescription, getLocationViewHighlightedWords, getLocatio
 import { getPrivateAddress } from '../../../services/firebase/post/getPrivateAddress'
 
 import { InsertServicePrestationLocationScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-import { Coordinates } from '../../../services/firebase/types'
+import { Coordinates, Id } from '../../../services/firebase/types'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -58,7 +58,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 	}, [])
 
 	const getLocationByPostId = async () => {
-		const privateAddress = await getPrivateAddress('service', route.params?.initialValue as string)
+		const privateAddress = await getPrivateAddress('service', route.params?.initialValue as Id)
 		setMarkerCoordinate({ ...defaultDeltaCoordinates, ...privateAddress.coordinates })
 	}
 

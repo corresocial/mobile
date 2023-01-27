@@ -1,18 +1,18 @@
-import { SocialImpactCategories, LocationViewType } from '../../../services/firebase/types'
+import { SocialImpactCategories, LocationViewType, Id, DaysOfWeek } from '../../../services/firebase/types'
 
 export type SocialImpactStackParamList = {
-	InsertSocialImpactTitle: { editMode: boolean, initialValue: any } | undefined
-	InsertSocialImpactDescription: { editMode: boolean, initialValue: any } | undefined
+	InsertSocialImpactTitle: { editMode: boolean, initialValue: string } | undefined
+	InsertSocialImpactDescription: { editMode: boolean, initialValue: string } | undefined
 	InsertSocialImpactPicture: undefined
-	SocialImpactPicturePreview: { editMode: boolean, initialValue: any } | undefined
-	SelectSocialImpactCategory: { editMode: boolean, initialValue: any } | undefined
-	SelectSocialImpactTags: { categorySelected: SocialImpactCategories, editMode?: boolean, initialValue?: any }
+	SocialImpactPicturePreview: { editMode: boolean, initialValue: string[] } | undefined
+	SelectSocialImpactCategory: { editMode: boolean } | undefined
+	SelectSocialImpactTags: { categorySelected: SocialImpactCategories, editMode?: boolean }
 	SelectSocialImpactExhibitionRange: { editMode: boolean } | undefined
-	InsertSocialImpactLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: any }
-	SelectSocialImpactLocationView: { editMode: boolean, initialValue: any } | undefined
-	SocialImpactLocationViewPreview: { locationView: LocationViewType, editMode?: any }
-	SelectDaysOfWeek: { editMode: boolean, initialValue: any } | undefined
-	InsertOpeningHour: { editMode: boolean, initialValue: any } | undefined
-	InsertClosingHour: { editMode: boolean, initialValue: any } | undefined
+	SelectSocialImpactLocationView: { editMode: boolean, initialValue?: LocationViewType } | undefined
+	InsertSocialImpactLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: Id }
+	SocialImpactLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
+	SelectDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectSocialImpactRepeat: { editMode: boolean } | undefined
+	InsertOpeningHour: { editMode: boolean, initialValue: Date } | undefined
+	InsertClosingHour: { editMode: boolean, initialValue: Date } | undefined
 }
