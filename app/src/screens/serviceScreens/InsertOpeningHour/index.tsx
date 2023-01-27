@@ -25,8 +25,6 @@ function InsertOpeningHour({ route, navigation }: InsertOpeningHourScreenProps) 
 	const { setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	console.log(route.params?.initialValue)
-
 	const initialTime = formatHour(route.params?.initialValue as Date)
 
 	const [hours, setHours] = useState<string>(route.params?.initialValue ? initialTime.split(':')[0] : '')

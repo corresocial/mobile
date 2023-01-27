@@ -37,7 +37,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 	const { setSaleDataOnContext, saleDataContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
-	const initialTime = formatHour(route.params?.initialValue)
+	const initialTime = formatHour(route.params?.initialValue as Date)
 
 	const [hours, setHours] = useState<string>(route.params?.initialValue ? initialTime.split(':')[0] : '')
 	const [minutes, setMinutes] = useState<string>(route.params?.initialValue ? initialTime.split(':')[1] : '')

@@ -1,7 +1,6 @@
 import { DaysOfWeek, LocationViewType, ServiceCategories } from '../../../services/firebase/types'
 
 export type ServiceStackParamList = {
-	SelectPostType: undefined
 	InsertServiceDescription: { editMode: boolean, initialValue: string } | undefined
 	InsertServiceName: { editMode: boolean, initialValue: string } | undefined
 	InsertServicePicture: undefined
@@ -10,7 +9,7 @@ export type ServiceStackParamList = {
 	SelectServiceTags: { categorySelected: ServiceCategories, editMode?: boolean }
 	SelectSaleOrExchange: undefined
 	InsertExchangeValue: { editMode: boolean, initialValue: string } | undefined
-	InsertSaleValue: { editMode?: boolean, initialValue?: string, bothPaymentType: boolean }
+	InsertSaleValue: { bothPaymentType: boolean, editMode?: boolean, initialValue?: string }
 	SelectLocationView: { editMode: boolean, initialValue?: LocationViewType } | undefined
 	InsertServicePrestationLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: string }
 	LocationViewPreview: { editMode?: boolean, locationView: LocationViewType }
