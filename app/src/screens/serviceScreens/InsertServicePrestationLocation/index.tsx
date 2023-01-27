@@ -58,7 +58,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 	}, [])
 
 	const getLocationByPostId = async () => {
-		const privateAddress = await getPrivateAddress('service', route.params?.initialValue)
+		const privateAddress = await getPrivateAddress('service', route.params?.initialValue as string)
 		setMarkerCoordinate({ ...defaultDeltaCoordinates, ...privateAddress.coordinates })
 	}
 

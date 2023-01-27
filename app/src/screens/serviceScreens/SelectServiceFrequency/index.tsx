@@ -74,7 +74,7 @@ function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScr
 
 				navigation.navigate('SelectDaysOfWeek', {
 					editMode: !!route.params?.editMode,
-					initialValue: route.params?.initialValue
+					initialValue: route.params?.initialValue as DaysOfWeek[]
 				})
 				break
 			}

@@ -1,22 +1,22 @@
-import { LocationViewType, ServiceCategories } from '../../../services/firebase/types'
+import { DaysOfWeek, LocationViewType, ServiceCategories } from '../../../services/firebase/types'
 
 export type ServiceStackParamList = {
 	SelectPostType: undefined
-	InsertServiceDescription: { editMode: boolean, initialValue: any } | undefined
-	InsertServiceName: { editMode: boolean, initialValue: any } | undefined
+	InsertServiceDescription: { editMode: boolean, initialValue: string } | undefined
+	InsertServiceName: { editMode: boolean, initialValue: string } | undefined
 	InsertServicePicture: undefined
-	ServicePicturePreview: { editMode: boolean, initialValue: any } | undefined
-	SelectServiceCategory: { editMode: boolean, initialValue: any } | undefined
-	SelectServiceTags: { categorySelected: ServiceCategories, editMode?: boolean, initialValue?: any }
-	SelectSaleOrExchange: { editMode: boolean, initialValue: any } | undefined
-	InsertExchangeValue: { editMode: boolean, initialValue: any } | undefined
-	InsertSaleValue: { editMode?: boolean, initialValue?: any, bothPaymentType: boolean }
-	InsertServicePrestationLocation: { editMode?: boolean, initialValue?: any, locationView: LocationViewType }
-	SelectLocationView: { editMode: boolean } | undefined
+	ServicePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
+	SelectServiceCategory: { editMode: boolean } | undefined
+	SelectServiceTags: { categorySelected: ServiceCategories, editMode?: boolean }
+	SelectSaleOrExchange: undefined
+	InsertExchangeValue: { editMode: boolean, initialValue: string } | undefined
+	InsertSaleValue: { editMode?: boolean, initialValue?: string, bothPaymentType: boolean }
+	SelectLocationView: { editMode: boolean, initialValue?: LocationViewType } | undefined
+	InsertServicePrestationLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: string }
 	LocationViewPreview: { editMode?: boolean, locationView: LocationViewType }
-	SelectDeliveryMethod: { editMode: boolean, initialValue: any } | undefined
-	SelectServiceFrequency: { editMode: boolean, initialValue: any } | undefined
-	SelectDaysOfWeek: { editMode: boolean, initialValue: any } | undefined
-	InsertOpeningHour: { editMode: boolean, initialValue: any } | undefined
-	InsertClosingHour: { editMode: boolean, initialValue: any } | undefined
+	SelectDeliveryMethod: { editMode: boolean } | undefined
+	SelectServiceFrequency: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
+	SelectDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
+	InsertOpeningHour: { editMode: boolean, initialValue: Date } | undefined
+	InsertClosingHour: { editMode: boolean, initialValue: Date } | undefined
 }
