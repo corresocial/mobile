@@ -1,24 +1,29 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.TouchableOpacity`
-	width: 100%;
+	width: 97.9%;
 	height: ${relativeScreenHeight(20)}px;
     background-color: ${({ theme }) => theme.black4};
-    border: ${RFValue(3)}px solid ${({ theme }) => theme.black4};
     border-radius: ${RFValue(13)}px;
     position: relative;
-    overflow: hidden;
+	overflow: visible;
+	margin-left: ${relativeScreenWidth(1.9)}px;
 `
 
 export const ContainerInner = styled.View`
-	width: 97.9%;
+	width: 100%;
     height: 100%;
-    border-radius: ${RFValue(10)}px;
+
+	background-color: ${({ theme }) => theme.white3};
+    border: ${RFValue(3)}px solid ${({ theme }) => theme.black4};
+
+    border-radius: ${RFValue(13)}px;
     position: absolute;
 	flex-direction: row;
 	overflow: hidden;
+	left: ${-relativeScreenWidth(2)}px;
 `
 
 export const LeftArea = styled.View`
@@ -40,9 +45,10 @@ export const Title = styled.Text`
 `
 
 export const RightArea = styled.View`
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.black4};
 	height: 100%;
 	width: 35%;
+	overflow: hidden;
 `
 
 export const SidePicture = styled.ImageBackground`

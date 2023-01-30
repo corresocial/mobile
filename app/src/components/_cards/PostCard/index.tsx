@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import {
 	Container,
@@ -18,6 +18,7 @@ import { LeftLineCard } from '../LeftLineCard'
 import { LocalUserData } from '../../../contexts/types'
 import { SmallUserIdentification } from '../../SmallUserIdentification'
 import { SaleExchangeValue } from '../../SaleExchangeValue'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 interface PostCardProps {
 	post: PostCollection | any
@@ -27,6 +28,8 @@ interface PostCardProps {
 }
 
 function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
+	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
+
 	const renderShortName = () => {
 		if (owner.name && owner.name.split(' ').length < 3) return owner.name
 		const names = owner.name && (owner.name.split(' ') || [])
@@ -46,9 +49,31 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 		return owner.profilePictureUrl[0]
 	}
 
+	function pressingButton() {
+		setButtomPressed(true)
+	}
+
+	function notPressingButton() {
+		setButtomPressed(false)
+	}
+
+	function releaseButton() {
+		setButtomPressed(false)
+		// onPress()
+	}
+
 	return (
-		<Container activeOpacity={0.7} onPress={onPress}>
-			<ContainerInner>
+		<Container
+			activeOpacity={1}
+			onPressIn={pressingButton}
+			onPressOut={notPressingButton}
+			onPress={releaseButton}
+		>
+			<ContainerInner
+				style={{
+					marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0
+				}}
+			>
 				<LeftArea style={{ width: !arrayIsEmpty(post.picturesUrl) ? '65%' : '100%' }}>
 					<LeftAreaLimits>
 						<Title
