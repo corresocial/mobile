@@ -16,7 +16,9 @@ export const Container = styled.View`
 
 export const NoPhotoContainer = styled.View`
 	flex: 1;
-    background-color: ${({ theme }) => theme.black4};
+    background-color: ${({ theme }) => theme.red3};
+	border-radius: ${RFValue(10)}px;
+	overflow: hidden;
 `
 
 export const DeleteItemArea = styled.TouchableOpacity`

@@ -1,5 +1,5 @@
 import Constants from 'expo-constants'
-import { Platform } from 'react-native'
+import { Animated, Platform } from 'react-native'
 import styled from 'styled-components/native'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
@@ -14,7 +14,13 @@ export const Header = styled.View`
  	padding: ${relativeScreenWidth(4)}px;
  `
 
-export const Body = styled.ScrollView`
+export const SaveButtonContainer = styled.View`
+	width: 100%;
+	padding-horizontal: ${relativeScreenWidth(3)}px;
+	padding-top: ${relativeScreenHeight(3)}px;
+ `
+
+export const Body = styled(Animated.View)`
 	flex: 1;
 	background-color: ${({ theme }) => theme.orange2}
 	padding: ${relativeScreenWidth(3.5)}px;

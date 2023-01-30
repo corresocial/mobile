@@ -1,18 +1,12 @@
 import { Animated, Keyboard, Platform, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-import { updateDocField } from '../../../services/firebase/common/updateDocField'
-
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
 
-import { updateAllOwnerOnPosts } from '../../../services/firebase/post/updateAllOwnerOnPosts'
-
 import { EditUserNameScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { PostCollection } from '../../../services/firebase/types'
 
-import { AuthContext } from '../../../contexts/AuthContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -21,8 +15,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 
 function EditUserName({ navigation, route }: EditUserNameScreenProps) {
-	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [inputName, setInputName] = useState<string>(route.params.userName)
 	const [nameIsValid, setInputNameIsValid] = useState<boolean>(false)
@@ -57,44 +50,8 @@ function EditUserName({ navigation, route }: EditUserNameScreenProps) {
 	const someInvalidFieldSubimitted = () => invalidNameAfterSubmit
 
 	const saveUserName = async () => {
-		try {
-			setLoaderIsVisible(true)
-			await updateRemoteUser()
-			await updateLocalUser()
-			setLoaderIsVisible(false)
-			navigation.goBack()
-		} catch (err) {
-			console.log(err)
-			setInvaliNameAfterSubmit(true)
-		}
-	}
-
-	const updateRemoteUser = async () => {
-		await updateDocField(
-			'users',
-			route.params.userId,
-			'name',
-			inputName
-		)
-			.then(() => true)
-			.catch((err) => {
-				console.log(err)
-				throw new Error('erro ao atualizar nome remotamente')
-			})
-
-		await updateAllOwnerOnPosts(
-			{
-				userId: userDataContext.userId as string,
-				profilePictureUrl: userDataContext.profilePictureUrl as string[],
-				name: inputName
-			},
-			userDataContext.posts?.map((post: PostCollection) => ({ postId: post.postId, postType: post.postType })) as any[] || [] // TODO Type
-		)
-	}
-
-	const updateLocalUser = async () => {
-		setUserDataOnContext({ ...userDataContext, name: inputName })
-		await setDataOnSecureStore('corre.user', { ...userDataContext, name: inputName })
+		addNewUnsavedFieldToEditContext({ name: inputName })
+		navigation.goBack()
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
