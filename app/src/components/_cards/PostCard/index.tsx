@@ -59,7 +59,7 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 
 	function releaseButton() {
 		setButtomPressed(false)
-		// onPress()
+		onPress()
 	}
 
 	return (
