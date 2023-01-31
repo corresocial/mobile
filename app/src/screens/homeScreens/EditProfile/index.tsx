@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-import { Animated, StatusBar } from 'react-native'
+import { Animated, ScrollView, StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 import { Body, Container, Header, SaveButtonContainer, Sigh } from './styles'
 import { theme } from '../../../common/theme'
@@ -193,27 +193,30 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 				}
 			</Header>
 			<Body style={{ backgroundColor: animateDefaultHeaderBackgound() }}	>
-				<EditCard
-					title={'sua foto'}
-					highlightedWords={['foto']}
-					profilePicturesUrl={[getProfilePictureUrl()] || []}
-					onEdit={() => goToEditScreen('EditUserPicture')}
-				/>
-				<Sigh />
-				<EditCard
-					title={'seu nome'}
-					highlightedWords={['nome']}
-					value={editDataContext.unsaved.name || userDataContext.name}
-					onEdit={() => goToEditScreen('EditUserName')}
-				/>
-				<Sigh />
-				<EditCard
-					title={'sua descrição'}
-					highlightedWords={['descrição']}
-					value={editDataContext.unsaved.description || userDataContext.description}
-					onEdit={() => goToEditScreen('EditUserDescription')}
-				/>
-				<Sigh />
+				<ScrollView showsVerticalScrollIndicator={false}>
+					<Sigh />
+					<EditCard
+						title={'sua foto'}
+						highlightedWords={['foto']}
+						profilePicturesUrl={[getProfilePictureUrl()] || []}
+						onEdit={() => goToEditScreen('EditUserPicture')}
+					/>
+					<Sigh />
+					<EditCard
+						title={'seu nome'}
+						highlightedWords={['nome']}
+						value={editDataContext.unsaved.name || userDataContext.name}
+						onEdit={() => goToEditScreen('EditUserName')}
+					/>
+					<Sigh />
+					<EditCard
+						title={'sua descrição'}
+						highlightedWords={['descrição']}
+						value={editDataContext.unsaved.description || userDataContext.description}
+						onEdit={() => goToEditScreen('EditUserDescription')}
+					/>
+					<Sigh />
+				</ScrollView>
 			</Body>
 		</Container>
 	)

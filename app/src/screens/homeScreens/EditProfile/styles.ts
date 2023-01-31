@@ -23,7 +23,7 @@ export const SaveButtonContainer = styled.View`
 export const Body = styled(Animated.View)`
 	flex: 1;
 	background-color: ${({ theme }) => theme.orange2}
-	padding: ${relativeScreenWidth(3.5)}px;
+	padding-horizontal: ${relativeScreenWidth(3.5)}px;
  `
 
 export const Sigh = styled.View`

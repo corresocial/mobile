@@ -42,6 +42,7 @@ import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLo
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { getPostsByDeliveryMethod } from '../../../services/firebase/post/getPostsByDeliveryMethod'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -244,6 +245,7 @@ function Home({ navigation }: HomeScreenProps) {
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<DropdownContainer>
 				<LocationNearDropdown
 					selectedAddress={selectedAddress}

@@ -36,6 +36,7 @@ import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCar
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)

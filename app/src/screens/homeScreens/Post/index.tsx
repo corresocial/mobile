@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { View, BackHandler } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { theme } from '../../../common/theme'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -25,6 +27,7 @@ function Post({ navigation, route }: HomeTabScreenProps) {
 			marginBottom: RFValue(64)
 		}}
 		>
+			<FocusAwareStatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<SelectPostType navigation={navigation as any} route={route as any} />
 		</View >
 	)

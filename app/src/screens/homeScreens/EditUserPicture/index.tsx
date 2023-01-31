@@ -77,7 +77,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 			<FormContainer backgroundColor={theme.white2}>
 				<PrimaryButton
 					color={theme.white3}
-					label={'salvar'}
+					label={'voltar'}
 					fontSize={18}
 					labelColor={theme.black4}
 					highlightedWords={['escolher', 'outra']}
