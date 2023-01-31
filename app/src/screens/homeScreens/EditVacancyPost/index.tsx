@@ -11,7 +11,7 @@ import { updateDocField } from '../../../services/firebase/common/updateDocField
 import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 
 import { EditVacancyPostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { DaysOfWeek, ServiceCollection, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
+import { CultureCollection, DaysOfWeek, ServiceCollection, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
 
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -37,14 +37,14 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 		clearUnsavedEditContext()
 	}, [])
 
-	const getRelativeTitle = () => {
+	const getRelativeTitle = () => { // TODO REFACTOR all edit screens
 		switch (postData.postType) {
 			case 'service': return 'do serviço'
 			case 'sale': return 'da venda'
 			case 'vacancy': return 'da vaga'
 			case 'socialImpact': return 'da iniciativa'
 			case 'culture': {
-				const { cultureType } = postData as any
+				const { cultureType } = postData as CultureCollection
 				return cultureType === 'artistProfile' ? 'do artista' : 'do evento'
 			}
 			default: return 'do post'
@@ -143,7 +143,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 		const category: string = getPostField('category')
 		const tags = getPostField('tags')
 
-		return `	●  ${vacancyCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO Type
+		return `	●  ${vacancyCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO WARN
 	}
 
 	const getRelativeVacancyType = () => {

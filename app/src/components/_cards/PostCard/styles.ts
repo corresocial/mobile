@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.TouchableOpacity`
-	width: 97.9%;
+	width: 98%;
 	height: ${relativeScreenHeight(20)}px;
     background-color: ${({ theme }) => theme.black4};
     border-radius: ${RFValue(13)}px;

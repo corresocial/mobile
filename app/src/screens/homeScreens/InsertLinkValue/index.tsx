@@ -60,7 +60,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 
 			await updateUser(userDataContext.userId as string, socialMediaData)
 			setUserDataOnContext(socialMediaData)
-			navigation.navigate('SocialMediaManagement', { socialMedias: socialMediaData.socialMedias, isAuthor: true }) // TODO Type
+			navigation.navigate('SocialMediaManagement', { socialMedias: socialMediaData.socialMedias, isAuthor: true })
 		} catch (err) {
 			console.log(err)
 			setIsLoading(false)

@@ -1,4 +1,5 @@
 import { SocialImpactCategories, LocationViewType, Id, DaysOfWeek } from '../../../services/firebase/types'
+import { UserStackParamList } from '../UserStack/types'
 
 export type SocialImpactStackParamList = {
 	InsertSocialImpactTitle: { editMode: boolean, initialValue: string } | undefined
@@ -15,4 +16,4 @@ export type SocialImpactStackParamList = {
 	SelectSocialImpactRepeat: { editMode: boolean } | undefined
 	InsertOpeningHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertClosingHour: { editMode: boolean, initialValue: Date } | undefined
-}
+} & UserStackParamList

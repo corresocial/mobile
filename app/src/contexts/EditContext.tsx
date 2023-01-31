@@ -3,7 +3,7 @@ import React, { createContext, useMemo, useState } from 'react'
 import { StateData } from './types'
 
 type EditContextType = {
-	editDataContext: { unsaved: any, saved: any } // TODO Type
+	editDataContext: { unsaved: any, saved: any }
 	addNewUnsavedFieldToEditContext: (dataObject: any) => void
 	clearEditContext: () => void
 	clearUnsavedEditContext: () => void
@@ -22,7 +22,7 @@ const initialValue = {
 	addNewUnsavedFieldToEditContext: (dataObject: any) => { },
 	clearUnsavedEditContext: () => { },
 	clearEditContext: () => { },
-	setEditDataOnContext: (data: any) => { } // TODO Type
+	setEditDataOnContext: (data: any) => { }
 }
 
 const EditContext = createContext<EditContextType>(initialValue)

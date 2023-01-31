@@ -1,4 +1,5 @@
 import { DaysOfWeek, Id, LocationViewType, ServiceCategories } from '../../../services/firebase/types'
+import { UserStackParamList } from '../UserStack/types'
 
 export type ServiceStackParamList = {
 	InsertServiceDescription: { editMode: boolean, initialValue: string } | undefined
@@ -18,4 +19,4 @@ export type ServiceStackParamList = {
 	SelectDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
 	InsertOpeningHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertClosingHour: { editMode: boolean, initialValue: Date } | undefined
-}
+} & UserStackParamList

@@ -22,6 +22,8 @@ import { SelectButtonsContainer } from '../../../components/_containers/SelectBu
 import { PostCollectionType, PostType } from '../../../services/firebase/types'
 import { sortPostCategories } from '../../../common/auxiliaryFunctions'
 
+type CategoryEntries = [string & { label: string, value: string, tags: string[] }]
+
 function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const [searchText, setSearchText] = useState('')
 
@@ -85,9 +87,9 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			? currentCategory
 			: filterCategories(currentCategory)
 
-		const ordenedCategories = Object.values(filtredCategories).sort(sortPostCategories as any) // TODO type
+		const ordenedCategories = Object.values(filtredCategories).sort(sortPostCategories as (a: unknown, b: unknown) => number)
 
-		return Object.entries(ordenedCategories).map((category: any) => { // TODO Type
+		return Object.entries(ordenedCategories as CategoryEntries).map((category) => {
 			if (category[1].label === 'outros') return null
 			return (
 				<CategoryCard
@@ -111,8 +113,8 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 		})
 	}
 
-	const filterCategories = (category: any) => { // TODo Type
-		const categoryList = Object.entries(category).reduce((acc, categoryItem: any) => { // TODO Type
+	const filterCategories = (category: any) => {
+		const categoryList = Object.entries(category).reduce((acc: {}, categoryItem: any) => { // TODO Type
 			if ((categoryItem[1].label as string).match(new RegExp(`${searchText}`, 'i'))?.length) {
 				return {
 					...acc,

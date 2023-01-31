@@ -19,7 +19,7 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { PostCollection, SaleCollection } from '../../../services/firebase/types'
+import { PostCollection, SaleCollection, SaleCollectionRemote } from '../../../services/firebase/types'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
 import { SaleExchangeValue } from '../../../components/SaleExchangeValue'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
@@ -49,7 +49,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 		return userDataContext.userId === route.params.postData.owner.userId
 	}
 	const isAuthor = loggedUserIsOwner()
-	const { postData } = route.params as any // TODO Type
+	const { postData } = route.params as { postData: SaleCollectionRemote }
 
 	const renderFormatedPostDateTime = () => {
 		const formatedDate = formatRelativeDate(postData.createdAt)
@@ -98,12 +98,17 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 
 	const reportPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('ContactUsInsertMessage' as any, { title: 'denunciar', contactUsType: 'denúncia', reportedPostType: postData.postType, reportedPostId: postData.postId }) // TODO Type
+		navigation.navigate('ContactUsInsertMessage', {
+			title: 'denunciar',
+			contactUsType: 'denúncia',
+			reportedType: postData.postType,
+			reportedId: postData.postId
+		})
 	}
 
 	const navigateToProfile = () => {
 		if (userDataContext.userId === postData.owner.userId) {
-			navigation.navigate('Profile' as any)// TODO Type
+			navigation.navigate('Profile')
 			return
 		}
 		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type

@@ -21,6 +21,7 @@ import { relativeScreenHeight, relativeScreenWidth, screenHeight } from '../../.
 import { sendContactUsMessageToDiscord } from '../../../services/discord/contactUs'
 import { sendContactUsMessageToNotion } from '../../../services/notion/contactUs'
 import { Loader } from '../../../components/Loader'
+import { NotionPage } from '../../../services/notion/types'
 
 function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -59,7 +60,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 	const sendMessage = async () => {
 		try {
 			setIsLoading(true)
-			const notionPage: any = await sendContactUsMessageToNotion({ // TODO Type
+			const notionPage: NotionPage = await sendContactUsMessageToNotion({
 				userId: userDataContext.userId as string,
 				type: route.params.contactUsType,
 				message,

@@ -1,6 +1,7 @@
 import React from 'react'
 import { SvgProps } from 'react-native-svg'
-import { PostCollection, PostCollectionType, PostType, SaleCategories } from '../../../services/firebase/types'
+import { PostCollection, PostCollectionType, PostType } from '../../../services/firebase/types'
+import { UserStackParamList } from '../UserStack/types'
 
 export type HomeStackParamList = {
 	Home: { userId?: string }
@@ -36,4 +37,4 @@ export type HomeStackParamList = {
 		categoryCollection: PostCollectionType
 	}
 	ProfileHome: { userId: string }
-}
+} & UserStackParamList

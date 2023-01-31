@@ -8,7 +8,7 @@ import { theme } from '../../common/theme'
 
 interface DropdownItemProps {
 	selected?: boolean
-	dropdownData?: any // TODO Type
+	dropdownData?: { addressHighlighted: string, addressThin: string }
 	recent?: boolean
 	findNearPosts?: () => void
 }

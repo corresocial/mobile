@@ -30,7 +30,7 @@ const initialValue = {
 	setStateDataOnContext: (data: StateData) => { },
 	toggleTourModalVisibility: (visibility: boolean) => { },
 	toggleShareModalVisibility: (visibility: boolean) => { }
-} as any // TODO Type
+} as any
 
 const StateContext = createContext<StateContextType>(initialValue)
 

@@ -9,3 +9,9 @@ export type ContactUsOptions = {
 	reportTarged?: ReportedTarget
 	reportedId?: string
 }
+
+export type NotionPage = {
+	id: string,
+	object: 'page',
+	reportId: string
+}

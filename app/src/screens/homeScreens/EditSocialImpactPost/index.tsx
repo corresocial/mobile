@@ -15,7 +15,7 @@ import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 
 import { EditSocialImpactPostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { DaysOfWeek, EventRepeatType, ExhibitionPlaceType, SocialImpactCollection, SocialImpactCollectionRemote } from '../../../services/firebase/types'
+import { CultureCollection, DaysOfWeek, EventRepeatType, ExhibitionPlaceType, SocialImpactCollection, SocialImpactCollectionRemote } from '../../../services/firebase/types'
 import { SocialImpactStackParamList } from '../../../routes/Stack/SocialImpactStack/types'
 
 import { EditContext } from '../../../contexts/EditContext'
@@ -52,7 +52,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 			case 'vacancy': return 'da vaga'
 			case 'socialImpact': return 'da iniciativa'
 			case 'culture': {
-				const { cultureType } = postData as any
+				const { cultureType } = postData as CultureCollection
 				return cultureType === 'artistProfile' ? 'do artista' : 'do evento'
 			}
 			default: return 'do post'
@@ -239,7 +239,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 		const category: string = getPostField('category')
 		const tags = getPostField('tags')
 
-		return `	●  ${socialImpactCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO Type
+		return `	●  ${socialImpactCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO WARN
 	}
 
 	return (

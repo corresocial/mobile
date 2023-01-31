@@ -5,7 +5,7 @@ import { ReportedTarget } from './../../../services/types'
 
 export type UserStackParamList = {
 	WelcomeNewUser: undefined
-	HomeTab: { tourCompleted?: boolean, showShareModal?: boolean }
+	HomeTab: { tourCompleted?: boolean, showShareModal?: boolean } | undefined
 	SelectPostType: undefined
 	ServiceStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	SaleStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined

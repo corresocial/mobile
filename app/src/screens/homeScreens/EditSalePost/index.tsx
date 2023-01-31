@@ -15,7 +15,7 @@ import { updatePostPrivateData } from '../../../services/firebase/post/updatePos
 
 import { EditSalePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { SaleStackParamList } from '../../../routes/Stack/SaleStack/types'
-import { DaysOfWeek, SaleCollection, SaleCollectionRemote } from '../../../services/firebase/types'
+import { CultureCollection, DaysOfWeek, SaleCollection, SaleCollectionRemote } from '../../../services/firebase/types'
 
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -52,7 +52,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 			case 'vacancy': return 'da vaga'
 			case 'socialImpact': return 'da iniciativa'
 			case 'culture': {
-				const { cultureType } = postData as any
+				const { cultureType } = postData as CultureCollection
 				return cultureType === 'artistProfile' ? 'do artista' : 'do evento'
 			}
 			default: return 'do post'
@@ -228,7 +228,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 		const category: string = getPostField('category')
 		const tags = getPostField('tags')
 
-		return `	●  ${saleCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO Type
+		return `	●  ${saleCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO WARN
 	}
 
 	return (

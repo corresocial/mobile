@@ -52,7 +52,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 			case 'vacancy': return 'da vaga'
 			case 'socialImpact': return 'da iniciativa'
 			case 'culture': {
-				const { cultureType } = postData as any
+				const { cultureType } = postData as CultureCollection
 				return cultureType === 'artistProfile' ? 'do artista' : 'do evento'
 			}
 			default: return 'do post'
@@ -232,7 +232,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 		const category: string = getPostField('category')
 		const tags = getPostField('tags')
 
-		return `	●  ${cultureCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO Type
+		return `	●  ${cultureCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO WARN
 	}
 
 	return (

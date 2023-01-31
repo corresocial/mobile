@@ -37,7 +37,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
-	const initialTime = formatHour(route.params?.initialValue)
+	const initialTime = formatHour(route.params?.initialValue as Date)
 
 	const [hours, setHours] = useState<string>(route.params?.initialValue ? initialTime.split(':')[0] : '')
 	const [minutes, setMinutes] = useState<string>(route.params?.initialValue ? initialTime.split(':')[1] : '')
@@ -290,7 +290,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 				})
 				setIsLoading(false)
 				showShareModal(true, socialImpactDataPost.title)
-				navigation.navigate('HomeTab' as any) // TODO Type
+				navigation.navigate('HomeTab')
 			})
 			.catch((err: any) => {
 				console.log(err)

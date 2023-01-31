@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { theme } from '../../common/theme'
 
 interface TextGradientProps {
-	children: any // TODO Type
+	children: any // Type not used
 }
 
 function TextGradient({ children }: TextGradientProps) {

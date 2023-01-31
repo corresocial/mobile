@@ -27,7 +27,7 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { CultureCollection, PostCollection } from '../../../services/firebase/types'
+import { CultureCollection, CultureCollectionRemote, PostCollection } from '../../../services/firebase/types'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
@@ -36,7 +36,6 @@ import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCar
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -56,7 +55,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 		return userDataContext.userId === route.params.postData.owner.userId
 	}
 	const isAuthor = loggedUserIsOwner()
-	const { postData } = route.params as any // TODO type
+	const { postData } = route.params as { postData: CultureCollectionRemote }
 
 	const renderFormatedPostDateTime = () => {
 		const formatedDate = formatRelativeDate(postData.createdAt)
@@ -85,7 +84,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('EditCulturePost' as any, { postData: { ...postData, ...editDataContext.saved } })
+		navigation.navigate('EditCulturePost', { postData: { ...postData, ...editDataContext.saved } })
 	}
 
 	const backToPreviousScreen = () => {
@@ -105,12 +104,17 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 
 	const reportPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('ContactUsInsertMessage' as any, { title: 'denunciar', contactUsType: 'denúncia', reportedPostType: postData.postType, reportedPostId: postData.postId }) // TODO Type
+		navigation.navigate('ContactUsInsertMessage', {
+			title: 'denunciar',
+			contactUsType: 'denúncia',
+			reportedType: postData.postType,
+			reportedId: postData.postId
+		})
 	}
 
 	const navigateToProfile = () => {
 		if (userDataContext.userId === postData.owner.userId) {
-			navigation.navigate('Profile' as any)// TODO Type
+			navigation.navigate('Profile')
 			return
 		}
 		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type

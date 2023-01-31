@@ -30,9 +30,9 @@ import { share } from '../../../common/share'
 import { getUser } from '../../../services/firebase/user/getUser'
 import { sortArray } from '../../../common/auxiliaryFunctions'
 
-import { ProfileScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { LocalUserData } from '../../../contexts/types'
-import { PostCollection, SocialMedia } from '../../../services/firebase/types'
+import { Id, PostCollection, SocialMedia } from '../../../services/firebase/types'
+import { HomeTabScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
@@ -47,7 +47,7 @@ import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialm
 import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
-function Profile({ route, navigation }: ProfileScreenProps) {
+function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
@@ -149,12 +149,17 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 	}
 
 	const openProfileOptions = () => {
-		!isLoggedUser ? setProfileOptionsIsOpen(true) : navigation.navigate('Configurations' as any) // TODO Type
+		!isLoggedUser ? setProfileOptionsIsOpen(true) : navigation.navigate('Configurations')
 	}
 
 	const reportUser = () => {
 		setProfileOptionsIsOpen(false)
-		navigation.navigate('ContactUsInsertMessage' as any, { title: 'denunciar', contactUsType: 'denúncia', reportedId: getUserField('userId'), reportedType: 'user' }) // TODO Type
+		navigation.navigate('ContactUsInsertMessage', {
+			title: 'denunciar',
+			contactUsType: 'denúncia',
+			reportedId: getUserField('userId') as Id,
+			reportedType: 'user'
+		})
 	}
 
 	const goToEditProfile = () => {
@@ -294,7 +299,7 @@ function Profile({ route, navigation }: ProfileScreenProps) {
 							SvgIcon={isLoggedUser ? PencilIcon : ChatIcon}
 							relativeWidth={isLoggedUser ? relativeScreenWidth(12) : '30%'}
 							height={relativeScreenWidth(12)}
-							onPress={isLoggedUser ? goToEditProfile : openChat} // TODO Type
+							onPress={isLoggedUser ? goToEditProfile : openChat}
 						/>
 						<SmallButton
 							color={theme.orange3}

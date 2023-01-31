@@ -24,7 +24,7 @@ import { share } from '../../../common/share'
 import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 
 import { ViewVacancyPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
-import { PostCollection, VacancyCollection } from '../../../services/firebase/types'
+import { PostCollection, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -55,7 +55,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		return userDataContext.userId === route.params.postData.owner.userId
 	}
 	const isAuthor = loggedUserIsOwner()
-	const { postData } = route.params as any // TODO type
+	const { postData } = route.params as { postData: VacancyCollectionRemote }
 
 	const getVacancyDetails = () => {
 		const vacancyType = getRelativeVacancyType()
@@ -138,12 +138,17 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 
 	const reportPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('ContactUsInsertMessage' as any, { title: 'denunciar', contactUsType: 'denúncia', reportedPostType: postData.postType, reportedPostId: postData.postId }) // TODO Type
+		navigation.navigate('ContactUsInsertMessage', {
+			title: 'denunciar',
+			contactUsType: 'denúncia',
+			reportedType: postData.postType,
+			reportedId: postData.postId
+		})
 	}
 
 	const navigateToProfile = () => {
 		if (userDataContext.userId === postData.owner.userId) {
-			navigation.navigate('Profile' as any)// TODO Type
+			navigation.navigate('Profile')
 			return
 		}
 		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type

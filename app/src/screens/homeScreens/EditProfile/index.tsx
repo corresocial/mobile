@@ -14,7 +14,7 @@ import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
 import { UserStackParamList } from '../../../routes/Stack/UserStack/types'
 import { EditProfileScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { Id, PostCollection } from '../../../services/firebase/types'
+import { Id, PostCollection, PostCollectionRemote } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -92,7 +92,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 
 			await updateAllOwnerOnPosts(
 				{ ...editDataContext.unsaved },
-				userDataContext.posts?.map((post: PostCollection) => ({ postId: post.postId, postType: post.postType })) as any[] || [] // TODO Type
+				userDataContext.posts?.map((post: PostCollection) => ({ postId: post.postId, postType: post.postType })) as PostCollectionRemote[]
 			)
 
 			setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved })
@@ -123,7 +123,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 
 									await updateAllOwnerOnPosts(
 										{ ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] },
-										userDataContext.posts?.map((post: PostCollection) => ({ postId: post.postId, postType: post.postType })) as any[] || [] // TODO Type
+										userDataContext.posts?.map((post: PostCollection) => ({ postId: post.postId, postType: post.postType })) as PostCollectionRemote[]
 									)
 
 									setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })

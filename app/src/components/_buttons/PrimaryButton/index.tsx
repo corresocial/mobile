@@ -34,7 +34,7 @@ interface PrimaryButtonProps {
 	highlightedWords?: string[]
 	justifyContent?: string
 	flexDirection?: string
-	onPress: () => void
+	onPress: (() => void) | undefined
 }
 
 function PrimaryButton({
@@ -100,7 +100,7 @@ function PrimaryButton({
 
 	function releaseButton() {
 		setButtomPressed(false)
-		onPress()
+		onPress && onPress()
 	}
 
 	return (

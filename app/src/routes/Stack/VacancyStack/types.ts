@@ -1,4 +1,5 @@
 import { DaysOfWeek, Id, VacancyCategories, WorkplaceType } from '../../../services/firebase/types'
+import { UserStackParamList } from '../UserStack/types'
 
 export type VacancyStackParamList = {
 	InsertVacancyTitle: { editMode: boolean, initialValue: string } | undefined
@@ -15,4 +16,4 @@ export type VacancyStackParamList = {
 	InsertWorkEndDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertWorkStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertWorkEndHour: { editMode: boolean, initialValue: Date } | undefined
-}
+} & UserStackParamList

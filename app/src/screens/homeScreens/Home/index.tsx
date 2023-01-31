@@ -107,7 +107,7 @@ function Home({ navigation }: HomeScreenProps) {
 		setRecentAddresses(addresses)
 	}
 
-	const findNearPosts = async (searchText: string, currentPosition?: boolean, alternativeCoordinates?: LatLong) => { // TODO Type
+	const findNearPosts = async (searchText: string, currentPosition?: boolean, alternativeCoordinates?: LatLong) => {
 		try {
 			setSearchEnded(false)
 			setLoaderIsVisible(true)
@@ -239,7 +239,7 @@ function Home({ navigation }: HomeScreenProps) {
 			navigation.navigate('Profile' as any)// TODO Type
 			return
 		}
-		navigation.navigate('ProfileHome' as any, { userId })// TODO Type
+		navigation.navigate('ProfileHome', { userId })
 	}
 
 	return (
@@ -340,7 +340,7 @@ function Home({ navigation }: HomeScreenProps) {
 										post={item}
 										owner={item.owner}
 										navigateToProfile={navigateToProfile}
-										onPress={() => goToPostView(item)}// TODO structure
+										onPress={() => goToPostView(item)}
 									/>
 								)}
 								onEndReached={() => console.log('findMoreNearPosts(Pagination)')}

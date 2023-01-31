@@ -14,7 +14,7 @@ import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 
 import { EditServicePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { DaysOfWeek, ServiceCollection, ServiceCollectionRemote } from '../../../services/firebase/types'
+import { CultureCollection, DaysOfWeek, ServiceCollection, ServiceCollectionRemote } from '../../../services/firebase/types'
 import { ServiceStackParamList } from '../../../routes/Stack/ServiceStack/types'
 
 import { EditContext } from '../../../contexts/EditContext'
@@ -52,7 +52,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 			case 'vacancy': return 'da vaga'
 			case 'socialImpact': return 'da iniciativa'
 			case 'culture': {
-				const { cultureType } = postData as any
+				const { cultureType } = postData as CultureCollection
 				return cultureType === 'artistProfile' ? 'do artista' : 'do evento'
 			}
 			default: return 'do post'
@@ -228,7 +228,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 		const category: string = getPostField('category')
 		const tags = getPostField('tags')
 
-		return `	●  ${serviceCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO Type
+		return `	●  ${serviceCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO WARN
 	}
 
 	return (

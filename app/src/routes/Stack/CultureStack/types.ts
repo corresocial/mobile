@@ -1,4 +1,5 @@
 import { CultureCategories, CultureType, Id, LocationViewType } from '../../../services/firebase/types'
+import { UserStackParamList } from '../UserStack/types'
 
 export type CultureStackParamList = {
 	SelectCultureType: undefined
@@ -19,4 +20,4 @@ export type CultureStackParamList = {
 	InsertEventStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertEventEndDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertEventEndHour: { editMode: boolean, initialValue: Date } | undefined
-}
+} & UserStackParamList

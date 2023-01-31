@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StatusBar, FlatList, View } from 'react-native'
+import { StatusBar, FlatList } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
 import { Body, Container, Header, HorizontalSigh, InputContainer, LastSigh, SearchInput, TagsContainer, VerticalSigh } from './styles'

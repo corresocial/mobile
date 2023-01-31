@@ -55,7 +55,7 @@ function ProfilePopOver({
 						goToConfig && (
 							<PrimaryButton
 								color={theme.green3}
-								onPress={!!goToConfig && goToConfig as any} // TODO Type
+								onPress={!!goToConfig && goToConfig}
 								label={'configurações'}
 								highlightedWords={['configurações']}
 								labelColor={theme.white3}
@@ -68,7 +68,7 @@ function ProfilePopOver({
 					<Sigh />
 					<PrimaryButton
 						color={theme.red3}
-						onPress={!!onPress && onPress as any} // TODO Type
+						onPress={onPress && onPress}
 						label={buttonLabel}
 						highlightedWords={[buttonLabel]}
 						labelColor={theme.white3}

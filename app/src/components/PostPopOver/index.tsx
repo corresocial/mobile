@@ -67,7 +67,7 @@ function PostPopOver({ postTitle,
 									<>
 										<PrimaryButton
 											color={theme.green3}
-											onPress={editPost && editPost as any} // TODO Type
+											onPress={editPost && editPost}
 											label={'editar post'}
 											highlightedWords={['editar', 'post']}
 											labelColor={theme.white3}
@@ -82,7 +82,7 @@ function PostPopOver({ postTitle,
 													<Sigh />
 													<PrimaryButton
 														color={theme.red3}
-														onPress={deletePost && deletePost as any} // TODO Type
+														onPress={deletePost}
 														label={'apagar post'}
 														highlightedWords={['apagar', 'post']}
 														labelColor={theme.white3}
@@ -98,7 +98,7 @@ function PostPopOver({ postTitle,
 							: (
 								<PrimaryButton
 									color={theme.red3}
-									onPress={goToComplaint && goToComplaint as any} // TODO Type
+									onPress={goToComplaint && goToComplaint}
 									label={'denunciar'}
 									highlightedWords={['denunciar']}
 									labelColor={theme.white3}
