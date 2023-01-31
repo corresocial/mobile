@@ -10155,10 +10155,10 @@
   "resolved" "https://registry.npmjs.org/react-native-dropdown-select-list/-/react-native-dropdown-select-list-2.0.4.tgz"
   "version" "2.0.4"
 
-"react-native-error-boundary@^1.1.15":
-  "integrity" "sha512-ixBUITr28vzoRiTcwMKnYXRAl8yzIN9Pb0nOc71q6yM0qTTwyGFO8yWXz1MdVXsCwdRYyuW4Gl0rRpWovnBJog=="
-  "resolved" "https://registry.npmjs.org/react-native-error-boundary/-/react-native-error-boundary-1.1.15.tgz"
-  "version" "1.1.15"
+"react-native-error-boundary@^1.2.1":
+  "integrity" "sha512-Ae2mjXyCI84mwSKkgVSYPv1ZDlRVTZg9DwyxCHFtEfFkjNcBS8RlEcW7Fihns13lRdpmmQx/Gr2OFf5tfkih9g=="
+  "resolved" "https://registry.npmjs.org/react-native-error-boundary/-/react-native-error-boundary-1.2.1.tgz"
+  "version" "1.2.1"
 
 "react-native-gesture-handler@~2.8.0":
   "integrity" "sha512-poOSfz/w0IyD6Qwq7aaIRRfEaVTl1ecQFoyiIbpOpfNTjm2B1niY2FLrdVQIOtIOe+K9nH55Qal04nr4jGkHdQ=="
