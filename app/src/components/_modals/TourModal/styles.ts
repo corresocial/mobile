@@ -23,7 +23,7 @@ export const Content = styled.View`
     justify-content: space-between;
     border-color: ${({ theme }) => theme.black3}
     border-right-width: ${RFValue(11)}px;
-    `
+ `
 
 export const Title = styled.Text`
     font-family: Arvo_400Regular;

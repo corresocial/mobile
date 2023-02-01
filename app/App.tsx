@@ -15,6 +15,7 @@ import { theme } from './src/common/theme'
 import { AuthRegisterStack } from './src/routes/Stack/AuthRegisterStack'
 import { LoaderProvider } from './src/contexts/LoaderContext'
 import { ErrorBoundaryFallback } from './src/screens/ErrorBoundaryFallback'
+import { errorHandler } from './src/utils/errorHandler'
 
 function App() {
 	const [fontsLoaded]: boolean[] = useFonts({
@@ -22,11 +23,10 @@ function App() {
 	})
 
 	// Do not working
-	LogBox.ignoreLogs([
+	/* LogBox.ignoreLogs([
 		'Warning: Async Storage has been extracted from react-native core',
 		'ViewPropTypes will be removed from React Native.Migrate to ViewPropTypes exported from \'deprecated-react-native-prop-types\''
-	])
-	LogBox.ignoreAllLogs()
+	]) */
 
 	if (!fontsLoaded) {
 		return (
@@ -37,11 +37,6 @@ function App() {
 				<ActivityIndicator size={'large'} color={theme.orange3} />
 			</View>
 		)
-	}
-
-	const errorHandler = (err: any) => {
-		console.log('ErrorBondaries')
-		console.log(err)
 	}
 
 	return (

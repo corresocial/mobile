@@ -46,7 +46,6 @@ import { ProfilePopOver } from '../../../components/ProfilePopOver'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { migratePostLocationData } from '../../../services/firebase/migratePostLocationData'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

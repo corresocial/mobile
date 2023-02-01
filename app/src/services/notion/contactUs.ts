@@ -6,18 +6,28 @@ import { ContactUsOptions } from './types'
 async function sendContactUsMessageToNotion({
 	userId,
 	type,
+	title,
 	message,
 	reportTarged,
 	reportedId
 }: ContactUsOptions) {
 	const getReportTitle = () => {
-		if (message.length > 10) {
-			return `${message.split(' ', 10).join(' ')}...`
+		if (title) return title
+		if (message.length > 15) {
+			return `${message.split(' ', 15).join(' ')}...`
 		}
 		return message
 	}
 
-	const title = getReportTitle()
+	const getCustomMessage = () => {
+		if (message.length >= 2000) {
+			return `${message.substring(0, 1950)}...`
+		}
+		return message
+	}
+
+	const customTitle = getReportTitle()
+	const customMessage = getCustomMessage()
 	const reportId = uuid()
 
 	const options = {
@@ -26,7 +36,7 @@ async function sendContactUsMessageToNotion({
 			Accept: 'application/json',
 			'Notion-Version': '2022-02-22',
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${NOTION_FALECONOSCO_KEY}`,
+			Authorization: `Bearer ${NOTION_FALECONOSCO_KEY} `,
 		},
 		body: JSON.stringify({
 			parent: { database_id: NOTION_FALECONOSCO_ID },
@@ -36,7 +46,7 @@ async function sendContactUsMessageToNotion({
 						{
 							type: 'text',
 							text: {
-								content: reportId,
+								content: reportId || '---',
 							},
 						},
 					],
@@ -51,7 +61,7 @@ async function sendContactUsMessageToNotion({
 						{
 							type: 'text',
 							text: {
-								content: title,
+								content: customTitle || '---',
 							},
 						},
 					],
@@ -61,7 +71,7 @@ async function sendContactUsMessageToNotion({
 						{
 							type: 'text',
 							text: {
-								content: message,
+								content: customMessage || '---',
 							},
 						},
 					],
@@ -96,7 +106,7 @@ async function sendContactUsMessageToNotion({
 						{
 							type: 'text',
 							text: {
-								content: userId,
+								content: userId || '---',
 							},
 						},
 					],
