@@ -46,6 +46,7 @@ import { ProfilePopOver } from '../../../components/ProfilePopOver'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { migratePostLocationData } from '../../../services/firebase/migratePostLocationData'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -166,7 +167,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		navigation.navigate('EditProfile' as any, { user })
 	}
 
-	const shareProfile = () => {
+	const shareProfile = async () => {
 		share(`${isLoggedUser ? `olá! me chamo ${getUserField('name')} e tô no corre.` : `olha quem eu encontrei no corre.\n${getUserField('name')}`}\n\nhttps://corre.social`)
 	}
 
