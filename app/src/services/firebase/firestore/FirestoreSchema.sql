@@ -6,22 +6,24 @@ usersCollection: {
     tags: 'array[string]',
     createdAt: 'date',
     updatedAt: 'date',
-    locationView: enum('private' | 'approximate' | 'public'), 
+    locationView: enum('private' | 'approximate' | 'public'),
     posts: 'array[posts_denormalized]',
     ads: 'array[ads_denormalized]',
     private cellNumber: 'string',
-    private address: {
-                country: 'string',
-                state: 'string',
-                city: 'string',
-                district: 'string',
-                street: 'string',
-                number: 'int',
-                 reference: 'string',
-                coordinates: { lat: 'float', lng: 'float' },
-                geohash: 'string',
-                geohashNear: 'array[string]',
-                geohashCity: 'array[string]',
+    location: {
+		country: 'string',
+		state: 'string',
+		city: 'string',
+		district: 'string',
+		street: 'string',
+		number: 'int',
+		reference: 'string',
+		coordinates: {
+			latiitudeitude: 'float',
+			longitude: 'float'
+		},
+		geohashNear: 'array[string]',
+		geohashCity: 'array[string]'
     }
 }
 
@@ -32,26 +34,28 @@ serviceCollection: {
 	pictureUrl: 'array[string]',
 	tags: 'array[string]',
     paymentType: enum('exchange' | 'sale' | 'both')
-	saleValue: 'float' 
-	exchangeValue: 'string' 
+	saleValue: 'float'
+	exchangeValue: 'string'
     deliveryMethod: enum('unavailable' | 'near' | 'city' | 'country'),
     attendanceFrequency: enum('today' | 'everyday' | 'someday' | 'businessDay')
     attendanceWeekDays: 'array[string]',
     openingHour: 'date',
     closingHour: 'date',
     createdAt: 'date',
-    private address: {
-            country: 'string',
-            state: 'string',
-            city: 'string',
-            district: 'string',
-            street: 'string',
-            number: 'int',
-            reference: 'string',
-            coordinates: { lat: 'float', lng: 'float'},
-            geohash: 'string',
-            geohashNear: 'array[string]',
-            geohashCity: 'array[string]',
+    location: {
+		country: 'string',
+		state: 'string',
+		city: 'string',
+		district: 'string',
+		street: 'string',
+		number: 'int',
+		reference: 'string',
+		coordinates: {
+			latiitudeitude: 'float',
+			longitude: 'float'
+		},
+		geohashNear: 'array[string]',
+		geohashCity: 'array[string]'
     },
     owner: {
         userId: 'string',
@@ -69,7 +73,7 @@ saleCollection = {
     paymentType: enum('exchange' | 'sale' | 'both'),
     saleValue: 'string',
     exchangeValue: 'string',
-    locationView: enum('private' | 'approximate' | 'public'), 
+    locationView: enum('private' | 'approximate' | 'public'),
     deliveryMethod: enum('unavailable' | 'near' | 'city' | 'country'),
     attendanceFrequency: enum('today' | 'everyday' | 'someday' | 'businessDay')
     attendanceWeekDays: 'array[string]',
@@ -77,22 +81,21 @@ saleCollection = {
     closingHour: 'date',
     picturesUrl: 'array[string]',
     createdAt: 'date',
-    private address: {
-            country: 'string',
-            state: 'string',
-            city: 'string',
-            postalCode: 'string',
-            district: 'string',
-            street: 'string',
-            number: 'string',
-            reference: 'string',
-            coordinates: {
-                latitude: 'float',
-                longitude: 'float',
-            }
-            geohash: 'string'
-            geohashNear: 'array[string]',
-            geohashCity: 'array[string]',
+    location: {
+		country: 'string',
+		state: 'string',
+		city: 'string',
+		postalCode: 'string',
+		district: 'string',
+		street: 'string',
+		number: 'string',
+		reference: 'string',
+		coordinates: {
+			latiitudeitude: 'float',
+			longitude: 'float'
+		},
+		geohashNear: 'array[string]',
+		geohashCity: 'array[string]'
     }
     owner: {
         userId: 'string',
@@ -114,22 +117,21 @@ vacancyCollection = {
     endWorkHour: 'date'
     tags: string[]
     createdAt: 'date'
-    private address: {
-            country: 'string',
-            state: 'string',
-            city: 'string',
-            postalCode: 'string',
-            district: 'string',
-            street: 'string',
-            number: 'string',
-            reference: 'string',
-            coordinates: {
-                latitude: 'float',
-                longitude: 'float',
-            }
-            geohash: 'string'
-            geohashNear: 'array[string]',
-            geohashCity: 'array[string]',
+    location: {
+		country: 'string',
+		state: 'string',
+		city: 'string',
+		postalCode: 'string',
+		district: 'string',
+		street: 'string',
+		number: 'string',
+		reference: 'string',
+		coordinates: {
+			latiitudeitude: 'float',
+			longitude: 'float'
+		}
+		geohashNear: 'array[string]',
+		geohashCity: 'array[string]'
     }
     owner: {
         userId: 'string',
@@ -155,22 +157,21 @@ cultureCollection = {
     picturesUrl: 'array[string]',
     tags: 'array[string]',
     createdAt: 'date',
-    private address: {
-            country: 'string',
-            state: 'string',
-            city: 'string',
-            postalCode: 'string',
-            district: 'string',
-            street: 'string',
-            number: 'string',
-            reference: 'string',
-            coordinates: {
-                latitude: 'float',
-                longitude: 'float',
-            }
-            geohash: 'string'
-            geohashNear: 'array[string]',
-            geohashCity: 'array[string]',
+    location: {
+		country: 'string',
+		state: 'string',
+		city: 'string',
+		postalCode: 'string',
+		district: 'string',
+		street: 'string',
+		number: 'string',
+		reference: 'string',
+		coordinates: {
+			latiitudeitude: 'float',
+			longitude: 'float'
+		}
+		geohashNear: 'array[string]',
+		geohashCity: 'array[string]'
     }
     owner: {
         userId: 'string',
@@ -179,39 +180,38 @@ cultureCollection = {
 	},
 }
 
-    socialImpactCollection: {
-        title: 'string',
-        postType: enum('service' | 'sale' | 'vacancy' | 'socialImpact' | 'culture'),
-        description: 'string',
-        tags: 'array[string]',
-        locationView: enum('private' | 'approximate' | 'public'), 
-        exhibitionRange: enum('near' | 'city' | 'country'),
-        exhibitionWeekDays: 'array[string]',
-        socialImpactRepeat: enum('unrepeatable' | 'weekly' | 'everyDay' | 'biweekly' | 'monthly'),
-        openingHour: 'date',
-        closingHour: 'date',
-        picturesUrl: 'array[string]',
-        createdAt: 'date',
-        private address: {
-            country: 'string',
-            state: 'string',
-            city: 'string',
-            postalCode: 'string',
-            district: 'string',
-            street: 'string',
-            number: 'string',
-            reference: 'string',
-            coordinates: {
-                latitude: 'float',
-                longitude: 'float',
-            }
-            geohash: 'string'
-            geohashNear: 'array[string]',
-            geohashCity: 'array[string]',
-        }
-        owner: {
-            userId: 'string',
-            name: 'string',
-            profilePictureUrl: 'array[string]'
+socialImpactCollection: {
+	title: 'string',
+	postType: enum('service' | 'sale' | 'vacancy' | 'socialImpact' | 'culture'),
+	description: 'string',
+	tags: 'array[string]',
+	locationView: enum('private' | 'approximate' | 'public'),
+	exhibitionRange: enum('near' | 'city' | 'country'),
+	exhibitionWeekDays: 'array[string]',
+	socialImpactRepeat: enum('unrepeatable' | 'weekly' | 'everyDay' | 'biweekly' | 'monthly'),
+	openingHour: 'date',
+	closingHour: 'date',
+	picturesUrl: 'array[string]',
+	createdAt: 'date',
+	location: {
+		country: 'string',
+		state: 'string',
+		city: 'string',
+		postalCode: 'string',
+		district: 'string',
+		street: 'string',
+		number: 'string',
+		reference: 'string',
+		coordinates: {
+			latiitudeitude: 'float',
+			longitude: 'float'
+		},
+		geohashNear: 'array[string]',
+		geohashCity: 'array[string]'
 	},
+	owner: {
+		userId: 'string',
+		name: 'string',
+		profilePictureUrl: 'array[string]'
+	}
 }
