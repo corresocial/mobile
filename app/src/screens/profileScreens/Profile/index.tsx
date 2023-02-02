@@ -166,7 +166,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		navigation.navigate('EditProfile' as any, { user })
 	}
 
-	const shareProfile = async () => {
+	const shareProfile = () => {
 		share(`${isLoggedUser ? `olá! me chamo ${getUserField('name')} e tô no corre.` : `olha quem eu encontrei no corre.\n${getUserField('name')}`}\n\nhttps://corre.social`)
 	}
 

@@ -6,10 +6,10 @@ import { PostCollection, PostCollectionType } from '../types'
 async function getPostById(postId: string, postCollection: PostCollectionType) {
 	try {
 		const postRef = doc(firestore, postCollection, postId)
-		const userSnap = await getDoc(postRef)
-		if (userSnap.exists()) {
+		const postSnap = await getDoc(postRef)
+		if (postSnap.exists()) {
 			return {
-				postId, ...userSnap.data() as PostCollection
+				postId, ...postSnap.data() as PostCollection
 			}
 		}
 		return null
