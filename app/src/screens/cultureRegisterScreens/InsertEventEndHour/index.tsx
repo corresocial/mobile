@@ -8,7 +8,6 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
 import { createPost } from '../../../services/firebase/post/createPost'
-import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
 import { filterLeavingOnlyNumbers, formatHour } from '../../../common/auxiliaryFunctions'
@@ -28,12 +27,12 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
-import { CultureCollection, PostCollection, PrivateAddress } from '../../../services/firebase/types'
+import { CultureCollection, PostCollection } from '../../../services/firebase/types'
 import { CultureData, LocalUserData } from '../../../contexts/types'
 import { Loader } from '../../../components/Loader'
 
 function InsertEventEndHour({ route, navigation }: InsertEventEndHourScreenProps) {
-	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+	const { cultureDataContext } = useContext(CultureContext)
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
@@ -113,41 +112,22 @@ function InsertEventEndHour({ route, navigation }: InsertEventEndHourScreenProps
 		setIsLoading(true)
 		setHasServerSideError(false)
 
-		const completeCultureData = getCompleteCultureDataFromContext()
-		setCultureDataOnContext({
-			...completeCultureData
-		})
-
-		const cultureAddress = extractCultureAddress(completeCultureData)
-		const cultureDataPost = extractCultureDataPost(completeCultureData)
-		const culturePictures = extractCulturePictures(completeCultureData)
+		const cultureData = getCompleteCultureDataFromContext()
+		const culturePictures = extractCulturePictures(cultureData)
 
 		try {
 			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
-			const postId = await createPost(cultureDataPost, localUser, 'cultures', 'culture')
-			if (!postId) throw new Error('Não foi possível identificar o post')
-
 			if (!culturePictures.length) {
+				const postId = await createPost(cultureData, localUser, 'cultures', 'culture')
+				if (!postId) throw new Error('Não foi possível identificar o post')
+
 				await updateUserPost(
 					localUser,
 					postId,
-					cultureDataPost,
-					culturePictures
+					cultureData
 				)
-
-				await updatePostPrivateData(
-					{
-						...cultureAddress,
-						postType: 'culture',
-						locationView: cultureDataPost.locationView
-					},
-					postId,
-					'cultures',
-					`address${postId}`
-				)
-
 				return
 			}
 
@@ -168,11 +148,15 @@ function InsertEventEndHour({ route, navigation }: InsertEventEndHourScreenProps
 											blob.close()
 											picturePostsUrls.push(downloadURL)
 											if (picturePostsUrls.length === culturePictures.length) {
+												const cultureDataWithPicturesUrl = { ...cultureData, picturesUrl: picturePostsUrls }
+
+												const postId = await createPost(cultureDataWithPicturesUrl, localUser, 'cultures', 'culture')
+												if (!postId) throw new Error('Não foi possível identificar o post')
+
 												await updateUserPost(
 													localUser,
 													postId,
-													cultureDataPost,
-													picturePostsUrls
+													cultureDataWithPicturesUrl
 												)
 
 												await updateDocField(
@@ -181,19 +165,6 @@ function InsertEventEndHour({ route, navigation }: InsertEventEndHourScreenProps
 													'picturesUrl',
 													picturePostsUrls,
 												)
-
-												if (cultureDataPost.eventPlaceModality !== 'online') {
-													await updatePostPrivateData(
-														{
-															...cultureAddress,
-															postType: 'culture',
-															locationView: cultureDataPost.locationView
-														},
-														postId,
-														'cultures',
-														`address${postId}`
-													)
-												}
 											}
 										},
 									)
@@ -217,21 +188,6 @@ function InsertEventEndHour({ route, navigation }: InsertEventEndHourScreenProps
 		return { ...cultureDataContext, eventEndHour }
 	}
 
-	const extractCultureAddress = (cultureData: CultureData) => ({
-		...cultureData.address
-	} as PrivateAddress)
-
-	const extractCultureDataPost = (cultureData: CultureData) => {
-		const currentCultureData = {
-			...cultureData
-		}
-		delete currentCultureData.address
-
-		return {
-			...currentCultureData as CultureCollection
-		}
-	}
-
 	const extractCulturePictures = (cultureData: CultureData) => cultureData.picturesUrl as string[] || []
 
 	const getLocalUser = () => userDataContext
@@ -246,14 +202,12 @@ function InsertEventEndHour({ route, navigation }: InsertEventEndHourScreenProps
 	const updateUserPost = async (
 		localUser: LocalUserData,
 		postId: string,
-		cultureDataPost: CultureData,
-		picturePostsUrls: string[],
+		cultureDataPost: CultureData
 	) => {
 		const postData = {
 			...cultureDataPost,
 			postId,
 			postType: 'culture',
-			picturesUrl: picturePostsUrls,
 			createdAt: new Date()
 		}
 

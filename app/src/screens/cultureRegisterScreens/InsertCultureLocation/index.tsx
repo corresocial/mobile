@@ -168,14 +168,14 @@ function InsertCultureLocation({ route, navigation }: InsertCultureLocationScree
 
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({
-				address: {
+				location: {
 					...completeAddress,
 					...geohashObject
 				}
 			})
 		} else {
 			setCultureDataOnContext({
-				address: {
+				location: {
 					...completeAddress,
 					...geohashObject
 				}

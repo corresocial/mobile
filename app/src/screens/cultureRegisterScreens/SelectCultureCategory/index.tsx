@@ -52,7 +52,7 @@ function SelectCultureCategory({ route, navigation }: SelectCultureCategoryScree
 		})
 	}
 
-	const thisPostIsArtistProfile = route.params.cultureType === 'artistProfile' || cultureDataContext.cultureType === 'artistProfile'
+	const thisPostIsArtistProfile = route.params?.cultureType === 'artistProfile' || cultureDataContext.cultureType === 'artistProfile'
 
 	return (
 		<Container>

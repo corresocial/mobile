@@ -172,7 +172,7 @@ export type CultureData = {
 	picturesUrl?: string[]
 	tags?: string[]
 	category?: string
-	address?: {
+	location?: {
 		country?: string
 		state?: string
 		city?: string

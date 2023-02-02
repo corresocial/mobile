@@ -101,7 +101,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 	const editPost = async () => {
 		try {
 			setIsLoading(true)
-			if (editDataContext.unsaved.address) {
+			if (editDataContext.unsaved.location) {
 				await savePrivateAddress()
 			}
 
@@ -114,7 +114,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 
 			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
-			delete postDataToSave.address
+			delete postDataToSave.location
 
 			await updatePost('cultures', postData.postId, postDataToSave)
 			await updateDocField(
@@ -201,7 +201,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 	const savePrivateAddress = async () => {
 		await updatePostPrivateData(
 			{
-				...editDataContext.unsaved.address,
+				...editDataContext.unsaved.location,
 				locationView: editDataContext.unsaved.locationView,
 				postType: 'culture',
 			},
@@ -330,7 +330,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 					textFontSize={16}
 					editable
 					isAuthor
-					defaultAddress={editDataContext.unsaved.address}
+					defaultAddress={editDataContext.unsaved.location}
 					onEdit={() => navigateToEditScreen('SelectCultureLocationView', 'postId')}
 				/>
 				<Sigh />

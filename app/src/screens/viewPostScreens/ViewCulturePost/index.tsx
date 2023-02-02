@@ -226,7 +226,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						postType={getPostField('postType')}
 						postId={route.params.postData.postId as string}
 						isAuthor={isAuthor}
-						defaultAddress={editDataContext.unsaved.address}
+						defaultAddress={editDataContext.unsaved.location}
 						textFontSize={16}
 					/>
 					{

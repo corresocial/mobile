@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { Animated, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
@@ -9,12 +9,11 @@ import Check from '../../../assets/icons/check.svg'
 
 import { createPost } from '../../../services/firebase/post/createPost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
-import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { getLocationViewTitle, getLocationViewDescription, getLocationViewHighlightedWords, getLocationViewIcon } from '../../../utils/locationMessages'
 
 import { CultureLocationViewPreviewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
-import { CultureCollection, PostCollection, PrivateAddress } from '../../../services/firebase/types'
+import { CultureCollection, PostCollection } from '../../../services/firebase/types'
 import { CultureData, LocalUserData } from '../../../contexts/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -42,18 +41,17 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 	const [markerCoordinate] = useState(
 		route.params?.editMode
 			? {
-				...editDataContext?.unsaved.address?.coordinates,
+				...editDataContext?.unsaved.location?.coordinates,
 				...defaultDeltaCoordinates
 			}
 			: {
-				...cultureDataContext?.address?.coordinates,
+				...cultureDataContext?.location?.coordinates,
 				...defaultDeltaCoordinates
 			}
 	)
 	const [hasServerSideError, setHasServerSideError] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 
-	console.log('refresh')
 	const saveLocation = async () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ locationView: route.params.locationView })
@@ -74,22 +72,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 
 	const editModeIsTrue = () => route.params && route.params.editMode
 
-	const getCompleteCultureDataFromContext = () => ({
-		...cultureDataContext,
-	})
-
-	const extractCultureAddress = (cultureData: CultureData) => ({
-		...cultureData.address
-	} as PrivateAddress)
-
-	const extractCultureDataPost = (cultureData: CultureData) => {
-		const currentCultureData = { ...cultureData, locationView: route.params.locationView }
-		delete currentCultureData.address
-
-		return {
-			...currentCultureData as CultureCollection
-		}
-	}
+	const getCompleteCultureDataFromContext = () => ({ ...cultureDataContext })
 
 	const extractCulturePictures = (cultureData: CultureData) => cultureData.picturesUrl as string[] || []
 
@@ -105,39 +88,21 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 	const saveCulturePost = async () => {
 		setIsLoading(true)
 
-		const completeCultureData = getCompleteCultureDataFromContext()
-		setCultureDataOnContext({
-			...completeCultureData
-		})
-
-		const cultureAddress = extractCultureAddress(completeCultureData)
-		const cultureDataPost = extractCultureDataPost(completeCultureData)
-		const culturePictures = extractCulturePictures(completeCultureData)
+		const cultureData = getCompleteCultureDataFromContext()
+		const culturePictures = extractCulturePictures(cultureData)
 
 		try {
 			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
-			const postId = await createPost(cultureDataPost, localUser, 'cultures', 'culture')
-			if (!postId) throw new Error('Não foi possível identificar o post')
-
 			if (!culturePictures.length) {
+				const postId = await createPost(cultureData, localUser, 'cultures', 'culture')
+				if (!postId) throw new Error('Não foi possível identificar o post')
+
 				await updateUserPost(
 					localUser,
 					postId,
-					cultureDataPost,
-					culturePictures
-				)
-
-				await updatePostPrivateData(
-					{
-						...cultureAddress,
-						postType: 'culture',
-						locationView: cultureDataPost.locationView
-					},
-					postId,
-					'cultures',
-					`address${postId}`
+					cultureData
 				)
 				return
 			}
@@ -159,29 +124,15 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 											blob.close()
 											picturePostsUrls.push(downloadURL)
 											if (picturePostsUrls.length === culturePictures.length) {
+												const cultureDataWithPicturesUrl = { ...cultureData, picturesUrl: picturePostsUrls }
+
+												const postId = await createPost(cultureDataWithPicturesUrl, localUser, 'cultures', 'culture')
+												if (!postId) throw new Error('Não foi possível identificar o post')
+
 												await updateUserPost(
 													localUser,
 													postId,
-													cultureDataPost,
-													picturePostsUrls
-												)
-
-												await updateDocField(
-													'cultures',
-													postId,
-													'picturesUrl',
-													picturePostsUrls,
-												)
-
-												await updatePostPrivateData(
-													{
-														...cultureAddress,
-														postType: 'culture',
-														locationView: cultureDataPost.locationView
-													},
-													postId,
-													'cultures',
-													`address${postId}`
+													cultureDataWithPicturesUrl
 												)
 											}
 										},
@@ -201,14 +152,12 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 	const updateUserPost = async (
 		localUser: LocalUserData,
 		postId: string,
-		cultureDataPost: CultureData,
-		picturePostsUrls: string[],
+		cultureDataPost: CultureData
 	) => {
 		const postData = {
 			...cultureDataPost,
 			postId,
 			postType: 'culture',
-			picturesUrl: picturePostsUrls,
 			createdAt: new Date()
 		}
 
