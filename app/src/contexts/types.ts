@@ -104,7 +104,7 @@ export type SaleData = {
 	openingHour?: Date
 	closingHour?: Date
 	picturesUrl?: string[]
-	address?: {
+	location?: {
 		country?: string
 		state?: string
 		city?: string
@@ -137,7 +137,7 @@ export type VacancyData = {
 	endWorkHour?: Date
 	tags?: string[]
 	category?: string
-	address?: {
+	location?: {
 		country?: string
 		state?: string
 		city?: string

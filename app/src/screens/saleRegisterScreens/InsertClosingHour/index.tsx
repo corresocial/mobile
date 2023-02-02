@@ -11,11 +11,10 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { createPost } from '../../../services/firebase/post/createPost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
-import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 
 import { LocalUserData, SaleData } from '../../../contexts/types'
 import { InsertClosingHourScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
-import { PostCollection, PrivateAddress, SaleCollection } from '../../../services/firebase/types'
+import { PostCollection, SaleCollection } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 import { StateContext } from '../../../contexts/StateContext'
@@ -34,7 +33,7 @@ import { Loader } from '../../../components/Loader'
 function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) {
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
-	const { setSaleDataOnContext, saleDataContext } = useContext(SaleContext)
+	const { saleDataContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
 	const initialTime = formatHour(route.params?.initialValue as Date)
@@ -99,19 +98,6 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		return { ...saleDataContext, closingHour }
 	}
 
-	const extractSaleAddress = (saleData: SaleData) => ({
-		...saleData.address
-	} as PrivateAddress)
-
-	const extractSaleDataPost = (saleData: SaleData) => {
-		const currentSaleData = { ...saleData }
-		delete currentSaleData.address
-
-		return {
-			...currentSaleData as SaleCollection
-		}
-	}
-
 	const extractSalePictures = (saleData: SaleData) => saleData.picturesUrl as string[] || []
 
 	const getLocalUser = () => userDataContext
@@ -139,39 +125,23 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 
 		setIsLoading(true)
 
-		const completeSaleData = getCompleteSaleDataFromContext()
-		setSaleDataOnContext({ ...completeSaleData })
-
-		const saleAddress = extractSaleAddress(completeSaleData)
-		const saleDataPost = extractSaleDataPost(completeSaleData)
-		const salePictures = extractSalePictures(completeSaleData)
+		const saleDataPost = getCompleteSaleDataFromContext()
+		const salePictures = extractSalePictures(saleDataPost)
 
 		try {
 			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
-			const postId = await createPost(saleDataPost, localUser, 'sales', 'sale')
-			if (!postId) throw new Error('Não foi possível identificar o post')
-
 			if (!salePictures.length) {
+				const postId = await createPost(saleDataPost, localUser, 'sales', 'sale')
+				if (!postId) throw new Error('Não foi possível identificar o post')
+
 				await updateUserPost(
 					localUser,
 					postId,
 					saleDataPost,
 					salePictures
 				)
-
-				await updatePostPrivateData(
-					{
-						...saleAddress,
-						locationView: saleDataPost.locationView,
-						postType: 'sale'
-					},
-					postId,
-					'sales',
-					`address${postId}`
-				)
-
 				return
 			}
 
@@ -192,6 +162,9 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 											blob.close()
 											picturePostsUrls.push(downloadURL)
 											if (picturePostsUrls.length === salePictures.length) {
+												const postId = await createPost(saleDataPost, localUser, 'sales', 'sale')
+												if (!postId) throw new Error('Não foi possível identificar o post')
+
 												await updateUserPost(
 													localUser,
 													postId,
@@ -204,17 +177,6 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 													postId,
 													'picturesUrl',
 													picturePostsUrls
-												)
-
-												await updatePostPrivateData(
-													{
-														...saleAddress,
-														locationView: saleDataPost.locationView,
-														postType: 'sale'
-													},
-													postId,
-													'sales',
-													`address${postId}`
 												)
 											}
 										},

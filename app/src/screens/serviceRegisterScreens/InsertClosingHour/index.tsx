@@ -125,21 +125,21 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 
 		setIsLoading(true)
 
-		const completeServiceData = getCompleteServiceDataFromContext()
-		const servicePictures = extractServicePictures(completeServiceData)
+		const serviceData = getCompleteServiceDataFromContext()
+		const servicePictures = extractServicePictures(serviceData)
 
 		try {
 			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
 			if (!servicePictures.length) {
-				const postId = await createPost(completeServiceData, localUser, 'services', 'service')
+				const postId = await createPost(serviceData, localUser, 'services', 'service')
 				if (!postId) throw new Error('Não foi possível identificar o post')
 
 				await updateUserPost(
 					localUser,
 					postId,
-					completeServiceData,
+					serviceData,
 					servicePictures
 				)
 				return
@@ -162,13 +162,13 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 											blob.close()
 											picturePostsUrls.push(downloadURL)
 											if (picturePostsUrls.length === servicePictures.length) {
-												const postId = await createPost(completeServiceData, localUser, 'services', 'service')
+												const postId = await createPost(serviceData, localUser, 'services', 'service')
 												if (!postId) throw new Error('Não foi possível identificar o post')
 
 												await updateUserPost(
 													localUser,
 													postId,
-													completeServiceData,
+													serviceData,
 													picturePostsUrls,
 												)
 

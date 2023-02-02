@@ -226,7 +226,7 @@ export type SaleCollection = {
 	closingHour?: Date
 	picturesUrl?: string[]
 	createdAt?: Date
-	address?: {
+	location?: {
 		country?: string
 		state?: string
 		city?: string
@@ -269,7 +269,7 @@ export type SaleCollectionRemote = {
 	closingHour: Date
 	picturesUrl: string[]
 	createdAt: Date
-	address?: {
+	location?: {
 		country?: string
 		state?: string
 		city?: string

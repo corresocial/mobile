@@ -168,14 +168,14 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({
-				address: {
+				location: {
 					...completeAddress,
 					...geohashObject
 				}
 			})
 		} else {
 			setSaleDataOnContext({
-				address: {
+				location: {
 					...completeAddress,
 					...geohashObject
 				}
