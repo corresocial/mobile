@@ -13,8 +13,6 @@ export const Container = styled.TouchableHighlight`
     justify-content: center;
 `
 
-console.log(relativeScreenHeight(2))
-
 export const TextInput = styled.TextInput`
     height: 100%;
     font-size: 20px;

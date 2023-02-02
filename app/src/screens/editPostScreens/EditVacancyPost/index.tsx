@@ -78,13 +78,13 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 	const editPost = async () => {
 		try {
 			setIsLoading(true)
-			if (editDataContext.unsaved.address) {
+			if (editDataContext.unsaved.location) {
 				await savePrivateAddress()
 			}
 
 			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
-			delete postDataToSave.address
+			delete postDataToSave.location
 
 			await updatePost('vacancies', postData.postId, postDataToSave)
 			await updateDocField(
@@ -112,7 +112,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 	const savePrivateAddress = async () => {
 		await updatePostPrivateData(
 			{
-				...editDataContext.unsaved.address,
+				...editDataContext.unsaved.location,
 				locationView: 'public',
 				postType: 'vacancy',
 			},
@@ -251,7 +251,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 								textFontSize={16}
 								editable
 								isAuthor
-								defaultAddress={editDataContext.unsaved.address}
+								defaultAddress={editDataContext.unsaved.location}
 								onEdit={() => navigateToEditScreen('InsertWorkplaceLocation', 'postId')}
 							/>
 							<Sigh />

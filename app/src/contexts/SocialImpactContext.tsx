@@ -12,8 +12,7 @@ interface SocialImpactProviderProps {
 }
 
 const initialValue = {
-	socialImpactDataContext: {
-	},
+	socialImpactDataContext: {},
 	setSocialImpactDataOnContext: (data: SocialImpactData) => { }
 }
 

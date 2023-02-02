@@ -203,7 +203,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 			},
 			postData.postId,
 			'services',
-			`location${postData.postId}`
+			`address${postData.postId}`
 		)
 	}
 

@@ -32,11 +32,11 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 	const [markerCoordinate] = useState(
 		route.params?.editMode
 			? {
-				...editDataContext?.unsaved.address?.coordinates,
+				...editDataContext?.unsaved.location?.coordinates,
 				...defaultDeltaCoordinates
 			}
 			: {
-				...socialImpactDataContext?.address?.coordinates,
+				...socialImpactDataContext?.location?.coordinates,
 				...defaultDeltaCoordinates
 			}
 	)

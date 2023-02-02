@@ -168,14 +168,14 @@ function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLoc
 
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({
-				address: {
+				location: {
 					...completeAddress,
 					...geohashObject
 				}
 			})
 		} else {
 			setSocialImpactDataOnContext({
-				address: {
+				location: {
 					...completeAddress,
 					...geohashObject
 				}

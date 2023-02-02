@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, StatusBar } from 'react-native'
+import { Modal } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
 import {
@@ -16,6 +16,7 @@ import RightCurvedArrow from '../../../assets/icons/rightCurvedArrow.svg'
 import XIcon from '../../../assets/icons/x.svg'
 
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
+import { FocusAwareStatusBar } from '../../FocusAwareStatusBar'
 
 interface ShareModalProps {
 	visibility: boolean
@@ -31,7 +32,7 @@ function ShareModal({ visibility, closeModal, onPressButton }: ShareModalProps) 
 			animationType={'fade'}
 			onRequestClose={closeModal}
 		>
-			<StatusBar backgroundColor={'rgba(0,0,0,0.5)'} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={'rgba(0,0,0,0.5)'} barStyle={'dark-content'} />
 			<Container>
 				<TouchCloseArea onPress={closeModal} ></TouchCloseArea>
 				<Content>

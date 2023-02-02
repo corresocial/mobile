@@ -22,7 +22,7 @@ import { HorizontalListPictures } from '../../../components/HorizontalListPictur
 function SocialImpactPicturePreview({ route, navigation }: SocialImpactPicturePreviewScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
-	console.log(route.params)
+
 	const [picturesPack, setPicturesPack] = useState<string[]>(route.params?.initialValue || [])
 	const [pictureIndexSelected, setPictureIndexSelected] = useState<number>(0)
 	const [cameraOpened, setCameraOpened] = useState<boolean>(!route.params?.editMode || !route.params?.initialValue.length)
@@ -48,7 +48,7 @@ function SocialImpactPicturePreview({ route, navigation }: SocialImpactPicturePr
 		}
 
 		setSocialImpactDataOnContext({ picturesUrl: picturesPack })
-		navigation.navigate('SelectSocialImpactCategory')
+		navigation.navigate('SelectSocialImpactExhibitionRange')
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode

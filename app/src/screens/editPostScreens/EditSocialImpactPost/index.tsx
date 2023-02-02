@@ -108,7 +108,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 	const editPost = async () => {
 		try {
 			setIsLoading(true)
-			if (editDataContext.unsaved.address) {
+			if (editDataContext.unsaved.location) {
 				await savePrivateAddress()
 			}
 
@@ -121,7 +121,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 
 			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
-			delete postDataToSave.address
+			delete postDataToSave.location
 
 			await updatePost('socialImpacts', postData.postId, postDataToSave)
 			await updateDocField(
@@ -208,7 +208,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 	const savePrivateAddress = async () => {
 		await updatePostPrivateData(
 			{
-				...editDataContext.unsaved.address,
+				...editDataContext.unsaved.location,
 				locationView: editDataContext.unsaved.locationView,
 				postType: 'socialImpact',
 			},
@@ -320,7 +320,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 					textFontSize={16}
 					editable
 					isAuthor
-					defaultAddress={editDataContext.unsaved.address}
+					defaultAddress={editDataContext.unsaved.location}
 					onEdit={() => navigateToEditScreen('SelectSocialImpactLocationView', 'postId')}
 				/>
 				<Sigh />

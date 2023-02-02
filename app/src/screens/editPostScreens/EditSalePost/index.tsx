@@ -97,7 +97,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 	const editPost = async () => {
 		try {
 			setIsLoading(true)
-			if (editDataContext.unsaved.address) {
+			if (editDataContext.unsaved.location) {
 				await savePrivateAddress()
 			}
 
@@ -110,7 +110,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 
 			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
-			delete postDataToSave.address
+			delete postDataToSave.location
 
 			await updatePost('sales', postData.postId, postDataToSave)
 			await updateDocField(
@@ -197,7 +197,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 	const savePrivateAddress = async () => {
 		await updatePostPrivateData(
 			{
-				...editDataContext.unsaved.address,
+				...editDataContext.unsaved.location,
 				locationView: editDataContext.unsaved.locationView,
 				postType: 'sale',
 			},
@@ -316,7 +316,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 					textFontSize={16}
 					isAuthor
 					editable
-					defaultAddress={editDataContext.unsaved.address}
+					defaultAddress={editDataContext.unsaved.location}
 					onEdit={() => navigateToEditScreen('SelectLocationView', 'postId')}
 				/>
 				<Sigh />

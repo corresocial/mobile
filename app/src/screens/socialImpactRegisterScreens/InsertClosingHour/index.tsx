@@ -10,12 +10,11 @@ import { filterLeavingOnlyNumbers, formatHour } from '../../../common/auxiliaryF
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
 import { createPost } from '../../../services/firebase/post/createPost'
-import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
 import { InsertClosingHourScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 import { LocalUserData, SocialImpactData } from '../../../contexts/types'
-import { PostCollection, PrivateAddress, SocialImpactCollection } from '../../../services/firebase/types'
+import { PostCollection, SocialImpactCollection } from '../../../services/firebase/types'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -32,7 +31,7 @@ import { ProgressBar } from '../../../components/ProgressBar'
 import { Loader } from '../../../components/Loader'
 
 function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) {
-	const { setSocialImpactDataOnContext, socialImpactDataContext } = useContext(SocialImpactContext)
+	const { socialImpactDataContext } = useContext(SocialImpactContext)
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
@@ -99,21 +98,6 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		return { ...socialImpactDataContext, closingHour }
 	}
 
-	const extractSocialImpactAddress = (socialImpactData: SocialImpactData) => ({
-		...socialImpactData.address
-	} as PrivateAddress)
-
-	const extractSocialImpactDataPost = (socialImpactData: SocialImpactData) => {
-		const currentSocialImpactData = {
-			...socialImpactData
-		}
-		delete currentSocialImpactData.address
-
-		return {
-			...currentSocialImpactData
-		} as SocialImpactCollection
-	}
-
 	const extractSocialImpactPictures = (socialImpactData: SocialImpactData) => socialImpactData.picturesUrl as string[] || []
 
 	const getLocalUser = () => userDataContext
@@ -141,39 +125,22 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 
 		setIsLoading(true)
 
-		const completeSocialImpactData = getCompleteSocialImpactDataFromContext()
-		setSocialImpactDataOnContext({ ...completeSocialImpactData })
-
-		const socialImpactAddress = extractSocialImpactAddress(completeSocialImpactData)
-		const socialImpactDataPost = extractSocialImpactDataPost(completeSocialImpactData)
-		const socialImpactPictures = extractSocialImpactPictures(completeSocialImpactData)
+		const socialImpactData = getCompleteSocialImpactDataFromContext()
+		const socialImpactPictures = extractSocialImpactPictures(socialImpactData)
 
 		try {
 			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
-			const postId = await createPost(socialImpactDataPost, localUser, 'socialImpacts', 'socialImpact')
-			if (!postId) throw new Error('Não foi possível identificar o post')
-
 			if (!socialImpactPictures.length) {
+				const postId = await createPost(socialImpactData, localUser, 'socialImpacts', 'socialImpact')
+				if (!postId) throw new Error('Não foi possível identificar o post')
+
 				await updateUserPost(
 					localUser,
 					postId,
-					socialImpactDataPost,
-					socialImpactPictures
+					socialImpactData
 				)
-
-				await updatePostPrivateData(
-					{
-						...socialImpactAddress,
-						postType: 'socialImpact',
-						locationView: socialImpactDataPost.locationView
-					},
-					postId,
-					'socialImpacts',
-					`address${postId}`
-				)
-
 				return
 			}
 
@@ -194,29 +161,15 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 											blob.close()
 											picturePostsUrls.push(downloadURL)
 											if (picturePostsUrls.length === socialImpactPictures.length) {
+												const socialImpactDataWithPicturesUrl = { ...socialImpactData, picturesUrl: picturePostsUrls }
+
+												const postId = await createPost(socialImpactDataWithPicturesUrl, localUser, 'socialImpacts', 'socialImpact')
+												if (!postId) throw new Error('Não foi possível identificar o post')
+
 												await updateUserPost(
 													localUser,
 													postId,
-													socialImpactDataPost,
-													picturePostsUrls
-												)
-
-												await updateDocField(
-													'socialImpacts',
-													postId,
-													'picturesUrl',
-													picturePostsUrls,
-												)
-
-												await updatePostPrivateData(
-													{
-														...socialImpactAddress,
-														postType: 'socialImpact',
-														locationView: socialImpactDataPost.locationView
-													},
-													postId,
-													'socialImpacts',
-													`address${postId}`
+													socialImpactDataWithPicturesUrl
 												)
 											}
 										},
@@ -239,15 +192,15 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		localUser: LocalUserData,
 		postId: string,
 		socialImpactDataPost: SocialImpactData,
-		picturePostsUrls: string[],
 	) => {
 		const postData = {
 			...socialImpactDataPost,
 			postId,
 			postType: 'socialImpact',
-			picturesUrl: picturePostsUrls,
 			createdAt: new Date()
 		}
+
+		// delete PostData.location
 
 		await updateDocField(
 			'users',
