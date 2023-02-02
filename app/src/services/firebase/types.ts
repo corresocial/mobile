@@ -81,7 +81,7 @@ export type UserCollection = {
 	locationView?: LocationViewType
 	cellNumber?: string // private
 	socialMedias?: SocialMedia[]
-	address?: { // private
+	location?: { // private
 		country?: string
 		state?: string
 		city?: string
@@ -310,7 +310,7 @@ export type VacancyCollection = {
 	tags?: string[]
 	category?: string
 	createdAt?: Date
-	address?: {
+	location?: {
 		country?: string
 		state?: string
 		city?: string
@@ -351,7 +351,7 @@ export type VacancyCollectionRemote = {
 	tags: string[]
 	category: string
 	createdAt: Date
-	address: {
+	location: {
 		country?: string
 		state?: string
 		city?: string
@@ -394,7 +394,7 @@ export type CultureCollection = {
 	tags?: string[]
 	category?: string
 	createdAt?: Date
-	address?: {
+	location?: {
 		country?: string
 		state?: string
 		city?: string
@@ -437,7 +437,7 @@ export type CultureCollectionRemote = {
 	tags: string[]
 	category: string
 	createdAt: Date
-	address?: {
+	location?: {
 		country?: string
 		state?: string
 		city?: string
@@ -476,7 +476,7 @@ export type SocialImpactCollection = {
 	closingHour?: Date
 	picturesUrl?: string[]
 	createdAt?: Date
-	address?: {
+	location?: {
 		country?: string
 		state?: string
 		city?: string
@@ -515,7 +515,7 @@ export type SocialImpactCollectionRemote = {
 	closingHour: Date
 	picturesUrl: string[]
 	createdAt: Date
-	address: {
+	location: {
 		country?: string
 		state?: string
 		city?: string

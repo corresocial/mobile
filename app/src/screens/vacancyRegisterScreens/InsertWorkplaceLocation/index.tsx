@@ -167,7 +167,7 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({
-				address: {
+				location: {
 					...completeAddress,
 					...geohashObject
 				}
@@ -176,7 +176,7 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 			return
 		}
 		setVacancyDataOnContext({
-			address: {
+			location: {
 				...completeAddress,
 				...geohashObject
 			}

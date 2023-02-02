@@ -125,22 +125,21 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 
 		setIsLoading(true)
 
-		const saleDataPost = getCompleteSaleDataFromContext()
-		const salePictures = extractSalePictures(saleDataPost)
+		const saleData = getCompleteSaleDataFromContext()
+		const salePictures = extractSalePictures(saleData)
 
 		try {
 			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
 			if (!salePictures.length) {
-				const postId = await createPost(saleDataPost, localUser, 'sales', 'sale')
+				const postId = await createPost(saleData, localUser, 'sales', 'sale')
 				if (!postId) throw new Error('Não foi possível identificar o post')
 
 				await updateUserPost(
 					localUser,
 					postId,
-					saleDataPost,
-					salePictures
+					saleData
 				)
 				return
 			}
@@ -162,21 +161,15 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 											blob.close()
 											picturePostsUrls.push(downloadURL)
 											if (picturePostsUrls.length === salePictures.length) {
-												const postId = await createPost(saleDataPost, localUser, 'sales', 'sale')
+												const saleDataWithPicturesUrl = { ...saleData, picturesUrl: picturePostsUrls }
+
+												const postId = await createPost(saleDataWithPicturesUrl, localUser, 'sales', 'sale')
 												if (!postId) throw new Error('Não foi possível identificar o post')
 
 												await updateUserPost(
 													localUser,
 													postId,
-													saleDataPost,
-													picturePostsUrls
-												)
-
-												await updateDocField(
-													'sales',
-													postId,
-													'picturesUrl',
-													picturePostsUrls
+													saleDataWithPicturesUrl
 												)
 											}
 										},
@@ -200,15 +193,15 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		localUser: LocalUserData,
 		postId: string,
 		saleDataPost: SaleData,
-		picturePostsUrls: string[],
 	) => {
 		const postData = {
 			...saleDataPost,
 			postId,
 			postType: 'sale',
-			picturesUrl: picturePostsUrls,
 			createdAt: new Date(),
 		}
+
+		// delete postData.location
 
 		await updateDocField(
 			'users',
@@ -252,7 +245,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 				console.log('Naviguei')
 				setIsLoading(false)
 				showShareModal(true, saleDataPost.title)
-				navigation.navigate('HomeTab' as any)
+				navigation.navigate('HomeTab')
 			})
 			.catch((err: any) => {
 				console.log(err)

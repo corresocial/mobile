@@ -7,12 +7,11 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 
 import { createPost } from '../../../services/firebase/post/createPost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
-import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 import { filterLeavingOnlyNumbers, formatHour } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 import { InsertWorkEndHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
-import { PostCollection, PrivateAddress, VacancyCollection } from '../../../services/firebase/types'
+import { PostCollection, VacancyCollection } from '../../../services/firebase/types'
 import { LocalUserData, VacancyData } from '../../../contexts/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -32,7 +31,7 @@ import { Loader } from '../../../components/Loader'
 function InsertWorkEndHour({ route, navigation }: InsertWorkEndHourScreenProps) {
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
-	const { setVacancyDataOnContext, vacancyDataContext } = useContext(VacancyContext)
+	const { vacancyDataContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const initialTime = formatHour(route.params?.initialValue as Date)
@@ -99,21 +98,6 @@ function InsertWorkEndHour({ route, navigation }: InsertWorkEndHourScreenProps) 
 		return ({ ...vacancyDataContext, endWorkHour })
 	}
 
-	const extractVacancyAddress = (vacancyData: VacancyData) => ({
-		...vacancyData.address
-	} as PrivateAddress)
-
-	const extractVacancyDataPost = (vacancyData: VacancyData) => {
-		const currentVacancyData = {
-			...vacancyData
-		}
-		delete currentVacancyData.address
-
-		return {
-			...currentVacancyData
-		} as VacancyData
-	}
-
 	const getLocalUser = () => userDataContext
 
 	const showShareModal = (visibility: boolean, postTitle?: string) => {
@@ -139,36 +123,19 @@ function InsertWorkEndHour({ route, navigation }: InsertWorkEndHourScreenProps) 
 
 		setIsLoading(true)
 
-		const completeVacancyData = getCompleteVacancyDataFromContext()
-		setVacancyDataOnContext({
-			...completeVacancyData
-		})
-
-		const vacancyAddress = extractVacancyAddress(completeVacancyData)
-		const vacancyDataPost = extractVacancyDataPost(completeVacancyData)
+		const vacancyData = getCompleteVacancyDataFromContext()
 
 		try {
 			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
-			const postId = await createPost(vacancyDataPost, localUser, 'vacancies', 'vacancy')
+			const postId = await createPost(vacancyData, localUser, 'vacancies', 'vacancy')
 			if (!postId) throw new Error('Não foi possível identificar o post')
 
 			await updateUserPost(
 				localUser,
 				postId,
-				vacancyDataPost,
-			)
-
-			await updatePostPrivateData(
-				{
-					...vacancyAddress,
-					postType: 'vacancy',
-					locationView: 'public'
-				},
-				postId,
-				'vacancies',
-				`address${postId}`
+				vacancyData
 			)
 			return
 		} catch (err) {
@@ -191,6 +158,8 @@ function InsertWorkEndHour({ route, navigation }: InsertWorkEndHourScreenProps) 
 			postType: 'vacancy',
 			createdAt: new Date()
 		}
+
+		// delete postData.location
 
 		await updateDocField(
 			'users',

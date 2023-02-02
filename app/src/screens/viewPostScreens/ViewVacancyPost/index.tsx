@@ -253,7 +253,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 									postType={postData.postType}
 									postId={route.params.postData.postId as string}
 									isAuthor={isAuthor}
-									defaultAddress={editDataContext.unsaved.address}
+									defaultAddress={editDataContext.unsaved.location}
 									textFontSize={16}
 								/>
 							</>

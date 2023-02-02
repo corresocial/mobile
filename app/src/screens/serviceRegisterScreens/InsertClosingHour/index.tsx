@@ -139,8 +139,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 				await updateUserPost(
 					localUser,
 					postId,
-					serviceData,
-					servicePictures
+					serviceData
 				)
 				return
 			}
@@ -162,21 +161,15 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 											blob.close()
 											picturePostsUrls.push(downloadURL)
 											if (picturePostsUrls.length === servicePictures.length) {
-												const postId = await createPost(serviceData, localUser, 'services', 'service')
+												const serviceDataWithPicturesUrl = { ...serviceData, picturesUrl: picturePostsUrls }
+
+												const postId = await createPost(serviceDataWithPicturesUrl, localUser, 'services', 'service')
 												if (!postId) throw new Error('Não foi possível identificar o post')
 
 												await updateUserPost(
 													localUser,
 													postId,
-													serviceData,
-													picturePostsUrls,
-												)
-
-												await updateDocField(
-													'services',
-													postId,
-													'picturesUrl',
-													picturePostsUrls,
+													serviceDataWithPicturesUrl
 												)
 											}
 										},
@@ -200,15 +193,15 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		localUser: LocalUserData,
 		postId: string,
 		serviceDataPost: ServiceData,
-		picturePostsUrls: string[],
 	) => {
 		const postData = {
 			...serviceDataPost,
 			postId,
 			postType: 'service',
-			picturesUrl: picturePostsUrls,
 			createdAt: new Date()
 		}
+
+		// delete postData.location
 
 		await updateDocField(
 			'users',
@@ -251,7 +244,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 				})
 				setIsLoading(false)
 				showShareModal(true, serviceDataPost.title)
-				navigation.navigate('HomeTab' as any)
+				navigation.navigate('HomeTab')
 			})
 			.catch((err: any) => {
 				console.log(err)
