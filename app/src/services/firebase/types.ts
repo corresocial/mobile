@@ -1,8 +1,8 @@
-import { cultureCategories } from '../../screens/cultureScreens/cultureCategories'
-import { saleCategories } from '../../screens/saleScreens/saleCategories'
-import { serviceCategories } from '../../screens/serviceScreens/serviceCategories'
-import { vacancyCategories } from '../../screens/vacancyScreens/vacancyCategories'
-import { socialImpactCategories } from '../../screens/socialImpactScreens/socialImpactCategories'
+import { serviceCategories } from '../../utils/postsCategories/serviceCategories'
+import { cultureCategories } from '../../utils/postsCategories/cultureCategories'
+import { saleCategories } from '../../utils/postsCategories/saleCategories'
+import { vacancyCategories } from '../../utils/postsCategories/vacancyCategories'
+import { socialImpactCategories } from '../../utils/postsCategories/socialImpactCategories'
 
 export type SaleCategories = keyof typeof saleCategories
 export type ServiceCategories = keyof typeof serviceCategories

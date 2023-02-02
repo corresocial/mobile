@@ -55,7 +55,7 @@ declare module 'styled-components' {
 		green5: string
 
 		transparence: {
-			orange1: string // Orange Lignt
+			orange1: string // Orange Light
 		},
 	}
 }

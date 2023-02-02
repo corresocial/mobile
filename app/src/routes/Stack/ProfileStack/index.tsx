@@ -6,12 +6,12 @@ import { ProfileStackParamList } from './types'
 
 import { StateProvider } from '../../../contexts/StateContext'
 
-import { ViewServicePost } from '../../../screens/homeScreens/ViewServicePost'
-import { ViewSalePost } from '../../../screens/homeScreens/ViewSalePost'
-import { ViewVacancyPost } from '../../../screens/homeScreens/ViewVacancyPost'
-import { ViewSocialImpactPost } from '../../../screens/homeScreens/ViewSocialImpactPost'
-import { ViewCulturePost } from '../../../screens/homeScreens/ViewCulturePost'
-import { Profile } from '../../../screens/homeScreens/Profile'
+import { ViewServicePost } from '../../../screens/viewPostScreens/ViewServicePost'
+import { ViewSalePost } from '../../../screens/viewPostScreens/ViewSalePost'
+import { ViewVacancyPost } from '../../../screens/viewPostScreens/ViewVacancyPost'
+import { ViewSocialImpactPost } from '../../../screens/viewPostScreens/ViewSocialImpactPost'
+import { ViewCulturePost } from '../../../screens/viewPostScreens/ViewCulturePost'
+import { Profile } from '../../../screens/profileScreens/Profile'
 
 const Stack = createStackNavigator<ProfileStackParamList>()
 

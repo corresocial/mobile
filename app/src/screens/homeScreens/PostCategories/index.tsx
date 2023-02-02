@@ -8,11 +8,11 @@ import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
 import AnimalsIcon from '../../../assets/icons/categories/animals.svg'
 
-import { serviceCategories } from '../../serviceScreens/serviceCategories'
-import { saleCategories } from '../../saleScreens/saleCategories'
-import { vacancyCategories } from '../../vacancyScreens/vacancyCategories'
-import { cultureCategories } from '../../cultureScreens/cultureCategories'
-import { socialImpactCategories } from '../../socialImpactScreens/socialImpactCategories'
+import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
+import { saleCategories } from '../../../utils/postsCategories/saleCategories'
+import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
+import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'
+import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
 
 import { PostCategoriesScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
