@@ -156,7 +156,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 
 		const picturePostsUrls: string[] = []
 		await picturesNotUploaded.map(async (picturePath: string, index: number) => {
-			return uploadImage(picturePath, 'socialImpacts', postData.postId, index).then(
+			return uploadImage(picturePath, 'socialImpacts', index).then(
 				({ uploadTask, blob }: any) => {
 					uploadTask.on(
 						'state_change',

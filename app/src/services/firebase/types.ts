@@ -183,7 +183,7 @@ export type ServiceCollectionRemote = {
 	closingHour: Date
 	picturesUrl?: string[]
 	createdAt: Date
-	address: {
+	location: {
 		country?: string
 		state?: string
 		city?: string

@@ -89,7 +89,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		const localUser = JSON.parse(localUserJSON as string)
 		setIsLoading(true)
 
-		await uploadImage(profilePicturesPack[0], 'users', userData.userIdentification.uid)
+		await uploadImage(profilePicturesPack[0], 'users')
 			.then(
 				({ uploadTask, blob }: any) => {
 					uploadTask.on(

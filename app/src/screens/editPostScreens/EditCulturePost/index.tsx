@@ -149,7 +149,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 
 		const picturePostsUrls: string[] = []
 		await picturesNotUploaded.map(async (picturePath: string, index: number) => {
-			return uploadImage(picturePath, 'cultures', postData.postId, index).then(
+			return uploadImage(picturePath, 'cultures', index).then(
 				({ uploadTask, blob }: any) => {
 					uploadTask.on(
 						'state_change',

@@ -14,7 +14,7 @@ import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { getLocationViewTitle, getLocationViewDescription, getLocationViewHighlightedWords, getLocationViewIcon } from '../../../utils/locationMessages'
 
 import { CultureLocationViewPreviewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
-import { CultureCollection, LocationViewType, PostCollection, PrivateAddress } from '../../../services/firebase/types'
+import { CultureCollection, PostCollection, PrivateAddress } from '../../../services/firebase/types'
 import { CultureData, LocalUserData } from '../../../contexts/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -144,7 +144,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 
 			const picturePostsUrls: string[] = []
 			culturePictures.forEach(async (culturePicture, index) => {
-				uploadImage(culturePicture, 'cultures', postId, index).then(
+				uploadImage(culturePicture, 'cultures', index).then(
 					({ uploadTask, blob }: any) => {
 						uploadTask.on(
 							'state_change',

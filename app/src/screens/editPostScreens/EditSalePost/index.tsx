@@ -145,7 +145,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 
 		const picturePostsUrls: string[] = []
 		await picturesNotUploaded.map(async (picturePath: string, index: number) => {
-			return uploadImage(picturePath, 'sales', postData.postId, index).then(
+			return uploadImage(picturePath, 'sales', index).then(
 				({ uploadTask, blob }: any) => {
 					uploadTask.on(
 						'state_change',

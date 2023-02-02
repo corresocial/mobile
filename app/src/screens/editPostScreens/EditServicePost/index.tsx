@@ -97,7 +97,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 	const editPost = async () => {
 		try {
 			setIsLoading(true)
-			if (editDataContext.unsaved.address) {
+			if (editDataContext.unsaved.location) {
 				await savePrivateAddress()
 			}
 
@@ -110,7 +110,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 
 			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
-			delete postDataToSave.address
+			delete postDataToSave.location
 
 			await updatePost('services', postData.postId, postDataToSave)
 			await updateDocField(
@@ -145,7 +145,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 
 		const picturePostsUrls: string[] = []
 		await picturesNotUploaded.map(async (picturePath: string, index: number) => {
-			return uploadImage(picturePath, 'services', postData.postId, index).then(
+			return uploadImage(picturePath, 'services', index).then(
 				({ uploadTask, blob }: any) => {
 					uploadTask.on(
 						'state_change',
@@ -197,13 +197,13 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 	const savePrivateAddress = async () => {
 		await updatePostPrivateData(
 			{
-				...editDataContext.unsaved.address,
+				...editDataContext.unsaved.location,
 				locationView: editDataContext.unsaved.locationView,
 				postType: 'service',
 			},
 			postData.postId,
 			'services',
-			`address${postData.postId}`
+			`location${postData.postId}`
 		)
 	}
 
@@ -316,7 +316,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 					textFontSize={16}
 					editable
 					isAuthor
-					defaultAddress={editDataContext.unsaved.address}
+					defaultAddress={editDataContext.unsaved.location}
 					onEdit={() => navigateToEditScreen('SelectLocationView', 'postId')}
 				/>
 				<Sigh />

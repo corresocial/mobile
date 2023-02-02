@@ -177,7 +177,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 
 			const picturePostsUrls: string[] = []
 			salePictures.forEach(async (salePicture, index) => {
-				uploadImage(salePicture, 'sales', postId, index).then(
+				uploadImage(salePicture, 'sales', index).then(
 					({ uploadTask, blob }: any) => {
 						uploadTask.on(
 							'state_change',
