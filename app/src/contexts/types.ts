@@ -70,7 +70,7 @@ export type ServiceData = {
 	openingHour?: Date
 	closingHour?: Date
 	picturesUrl?: string[]
-	address?: {
+	location?: {
 		country?: string
 		state?: string
 		city?: string

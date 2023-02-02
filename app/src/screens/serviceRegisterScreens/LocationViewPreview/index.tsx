@@ -30,11 +30,11 @@ function LocationViewPreview({ route, navigation }: LocationViewPreviewScreenPro
 	const [markerCoordinate] = useState(
 		route.params?.editMode
 			? {
-				...editDataContext?.unsaved.address?.coordinates,
+				...editDataContext?.unsaved.location?.coordinates,
 				...defaultDeltaCoordinates
 			}
 			: {
-				...serviceDataContext?.address?.coordinates,
+				...serviceDataContext?.location?.coordinates,
 				...defaultDeltaCoordinates
 			}
 	)

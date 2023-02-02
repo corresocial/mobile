@@ -11,10 +11,9 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { createPost } from '../../../services/firebase/post/createPost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
-import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 
 import { InsertClosingHourScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-import { PostCollection, PrivateAddress, ServiceCollection } from '../../../services/firebase/types'
+import { PostCollection, ServiceCollection } from '../../../services/firebase/types'
 import { LocalUserData, ServiceData } from '../../../contexts/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -34,7 +33,7 @@ import { Loader } from '../../../components/Loader'
 function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) {
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
-	const { setServiceDataOnContext, serviceDataContext } = useContext(ServiceContext)
+	const { serviceDataContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
 	const initialTime = formatHour(route.params?.initialValue as Date)
@@ -99,21 +98,6 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		return { ...serviceDataContext, closingHour }
 	}
 
-	const extractServiceAddress = (serviceData: ServiceData) => ({
-		...serviceData.address
-	} as PrivateAddress)
-
-	const extractServiceDataPost = (serviceData: ServiceData) => {
-		const currentServiceData = {
-			...serviceData
-		}
-		delete currentServiceData.address
-
-		return {
-			...currentServiceData
-		} as ServiceCollection
-	}
-
 	const extractServicePictures = (serviceData: ServiceData) => serviceData.picturesUrl as string[] || []
 
 	const getLocalUser = () => userDataContext
@@ -142,45 +126,28 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		setIsLoading(true)
 
 		const completeServiceData = getCompleteServiceDataFromContext()
-		setServiceDataOnContext({
-			...completeServiceData
-		})
-
-		const serviceAddress = extractServiceAddress(completeServiceData)
-		const serviceDataPost = extractServiceDataPost(completeServiceData)
 		const servicePictures = extractServicePictures(completeServiceData)
 
 		try {
 			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
-			const postId = await createPost(serviceDataPost, localUser, 'services', 'service')
-			if (!postId) throw new Error('Não foi possível identificar o post')
-
 			if (!servicePictures.length) {
+				const postId = await createPost(completeServiceData, localUser, 'services', 'service')
+				if (!postId) throw new Error('Não foi possível identificar o post')
+
 				await updateUserPost(
 					localUser,
 					postId,
-					serviceDataPost,
+					completeServiceData,
 					servicePictures
-				)
-
-				await updatePostPrivateData(
-					{
-						...serviceAddress,
-						locationView: serviceDataPost.locationView,
-						postType: 'service',
-					},
-					postId,
-					'services',
-					`address${postId}`
 				)
 				return
 			}
 
 			const picturePostsUrls: string[] = []
 			servicePictures.forEach(async (servicePicture, index) => {
-				uploadImage(servicePicture, 'services', postId, index).then(
+				uploadImage(servicePicture, 'services', index).then(
 					({ uploadTask, blob }: any) => {
 						uploadTask.on(
 							'state_change',
@@ -195,10 +162,13 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 											blob.close()
 											picturePostsUrls.push(downloadURL)
 											if (picturePostsUrls.length === servicePictures.length) {
+												const postId = await createPost(completeServiceData, localUser, 'services', 'service')
+												if (!postId) throw new Error('Não foi possível identificar o post')
+
 												await updateUserPost(
 													localUser,
 													postId,
-													serviceDataPost,
+													completeServiceData,
 													picturePostsUrls,
 												)
 
@@ -207,17 +177,6 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 													postId,
 													'picturesUrl',
 													picturePostsUrls,
-												)
-
-												await updatePostPrivateData(
-													{
-														...serviceAddress,
-														locationView: serviceDataPost.locationView,
-														postType: 'service',
-													},
-													postId,
-													'services',
-													`address${postId}`
 												)
 											}
 										},

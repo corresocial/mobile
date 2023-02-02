@@ -141,7 +141,7 @@ export type ServiceCollection = {
 	closingHour?: Date
 	picturesUrl?: string[]
 	createdAt?: Date
-	address?: {
+	location?: {
 		country?: string
 		state?: string
 		city?: string

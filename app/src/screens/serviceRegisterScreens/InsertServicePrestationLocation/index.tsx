@@ -168,14 +168,14 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({
-				address: {
+				location: {
 					...completeAddress,
 					...geohashObject
 				}
 			})
 		} else {
 			setServiceDataOnContext({
-				address: {
+				location: {
 					...completeAddress,
 					...geohashObject
 				}

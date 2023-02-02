@@ -4,7 +4,6 @@ import { storage } from '..'
 async function uploadImage(
 	localPath: string,
 	collection: string,
-	uid: string,
 	index?: number
 ) {
 	try {
@@ -24,7 +23,7 @@ async function uploadImage(
 
 		const fileRef = ref(
 			storage,
-			`imagens/${collection}/${uid}${index || ''}.jpg`,
+			`imagens/${collection}/${Date.now()}${index || ''}.jpg`,
 		)
 
 		const uploadTask = uploadBytesResumable(fileRef, blob as Uint8Array | ArrayBuffer)
