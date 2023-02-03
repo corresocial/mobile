@@ -200,11 +200,9 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					}
 					<LocationViewCard
 						title={'local da iniciativa'}
-						locationView={'approximate'}
-						postType={getPostField('postType')}
-						postId={route.params.postData.postId as string}
+						locationView={getPostField('locationView')}
 						isAuthor={isAuthor}
-						defaultAddress={editDataContext.unsaved.address}
+						location={getPostField('location')}
 						textFontSize={16}
 					/>
 					<Sigh />
