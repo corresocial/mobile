@@ -11,7 +11,6 @@ import { arrayIsEmpty, formatDate, formatHour } from '../../../common/auxiliaryF
 import { updatePost } from '../../../services/firebase/post/updatePost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
-import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 
 import { EditCulturePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { CultureCategories, CultureCollection, CultureCollectionRemote, EventRepeatType, ExhibitionPlaceType } from '../../../services/firebase/types'
@@ -81,13 +80,13 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 		}
 	}
 
-	const navigateToEditScreen = (screenName: keyof CultureStackParamList, initialValue: keyof CultureCollectionRemote) => {
+	const navigateToEditScreen = (screenName: keyof CultureStackParamList, initialValue: keyof CultureCollectionRemote, especificField?: string) => {
 		const value = getPostField(initialValue)
 		navigation.navigate('CultureStack', {
 			screen: screenName,
 			params: {
 				editMode: true,
-				initialValue: value,
+				initialValue: !especificField ? value : value[especificField],
 				cultureType: postData.cultureType
 			}
 		})
@@ -99,12 +98,10 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 	}
 
 	const editPost = async () => {
+		if (!editDataContext.unsaved) return
+
 		try {
 			setIsLoading(true)
-			if (editDataContext.unsaved.location) {
-				await savePrivateAddress()
-			}
-
 			if ((editDataContext.unsaved.picturesUrl && editDataContext.unsaved.picturesUrl.length > 0) && !allPicturesAlreadyUploaded()) {
 				console.log('with pictures')
 				await performPicturesUpload()
@@ -114,9 +111,14 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 
 			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
-			delete postDataToSave.location
 
 			await updatePost('cultures', postData.postId, postDataToSave)
+
+			if (postDataToSave.location) {
+				delete postDataToSave.location.geohashNearby
+				delete postDataToSave.location.geohashCity
+			}
+
 			await updateDocField(
 				'users',
 				postData.owner.userId,
@@ -171,6 +173,12 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 											}
 
 											await updatePost('cultures', postData.postId, postDataToSave)
+
+											if (postDataToSave.location) {
+												delete postDataToSave.location.geohashNearby
+												delete postDataToSave.location.geohashCity
+											}
+
 											await updateDocField(
 												'users',
 												postData.owner.userId,
@@ -196,19 +204,6 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 		})
 
 		return picturePostsUrls
-	}
-
-	const savePrivateAddress = async () => {
-		await updatePostPrivateData(
-			{
-				...editDataContext.unsaved.location,
-				locationView: editDataContext.unsaved.locationView,
-				postType: 'culture',
-			},
-			postData.postId,
-			'cultures',
-			`address${postData.postId}`
-		)
 	}
 
 	const updateUserContext = (postAfterEdit: CultureCollection) => {
@@ -320,18 +315,15 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 						/>
 					)
 				}
-
 				<Sigh />
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
-					postType={getPostField('postType')}
-					postId={getPostField('postId')}
 					textFontSize={16}
 					editable
 					isAuthor
-					defaultAddress={editDataContext.unsaved.location}
-					onEdit={() => navigateToEditScreen('SelectCultureLocationView', 'postId')}
+					location={getPostField('location')}
+					onEdit={() => navigateToEditScreen('SelectCultureLocationView', 'location', 'coordinates')}
 				/>
 				<Sigh />
 				{

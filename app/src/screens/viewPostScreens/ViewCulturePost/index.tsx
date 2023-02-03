@@ -223,10 +223,8 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						title={'localização'}
 						online={getPostField('eventPlaceModality') === 'online'}
 						locationView={getPostField('locationView')}
-						postType={getPostField('postType')}
-						postId={route.params.postData.postId as string}
 						isAuthor={isAuthor}
-						defaultAddress={editDataContext.unsaved.location}
+						location={getPostField('location')}
 						textFontSize={16}
 					/>
 					{

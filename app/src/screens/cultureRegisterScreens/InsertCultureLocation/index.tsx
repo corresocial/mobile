@@ -12,7 +12,7 @@ import { generateGeohashes } from '../../../common/generateGeohashes'
 import { getLocationViewTitle, getLocationViewDescription, getLocationViewHighlightedWords } from '../../../utils/locationMessages'
 
 import { InsertCultureLocationScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
-import { Coordinates, Id } from '../../../services/firebase/types'
+import { Coordinates } from '../../../services/firebase/types'
 
 import { CultureContext } from '../../../contexts/CultureContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -23,7 +23,6 @@ import { LineInput } from '../../../components/LineInput'
 import { CustomMapView } from '../../../components/CustomMapView'
 import { InfoCard } from '../../../components/_cards/InfoCard'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { getPrivateAddress } from '../../../services/firebase/post/getPrivateAddress'
 
 const initialRegion = {
 	latitude: -13.890303625634541,
@@ -52,15 +51,10 @@ function InsertCultureLocation({ route, navigation }: InsertCultureLocationScree
 	const [invalidAddressAfterSubmit, setInvalidAddressAfterSubmit] = useState<boolean>(false)
 
 	useEffect(() => {
-		if (editModeIsTrue()) {
-			getLocationByPostId()
+		if (editModeIsTrue() && route.params.initialValue) {
+			setMarkerCoordinate({ ...defaultDeltaCoordinates, ...route.params.initialValue })
 		}
 	}, [])
-
-	const getLocationByPostId = async () => {
-		const privateAddress = await getPrivateAddress('culture', route.params?.initialValue as Id)
-		setMarkerCoordinate({ ...defaultDeltaCoordinates, ...privateAddress.coordinates })
-	}
 
 	const requestLocationPermission = async () => {
 		const locationPermission = await Location.requestForegroundPermissionsAsync()

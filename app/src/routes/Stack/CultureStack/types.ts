@@ -1,4 +1,4 @@
-import { CultureCategories, CultureType, Id, LocationViewType } from '../../../services/firebase/types'
+import { CultureCategories, CultureType, LatLong, LocationViewType } from '../../../services/firebase/types'
 import { UserStackParamList } from '../UserStack/types'
 
 export type CultureStackParamList = {
@@ -12,8 +12,8 @@ export type CultureStackParamList = {
 	InsertEntryValue: { editMode: boolean, initialValue: string } | undefined
 	SelectExhibitionPlace: { editMode: boolean } | undefined
 	SelectEventPlaceModality: { editMode: boolean } | undefined
-	SelectCultureLocationView: { editMode: boolean, initialValue: Id } | undefined
-	InsertCultureLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: Id }
+	SelectCultureLocationView: { editMode: boolean, initialValue: LatLong } | undefined
+	InsertCultureLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
 	CultureLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
 	SelectEventRepeat: { editMode: boolean } | undefined
 	InsertEventStartDate: { editMode: boolean, initialValue: Date } | undefined
