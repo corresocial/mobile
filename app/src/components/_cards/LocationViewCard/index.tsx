@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Linking } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
-
-import { getPrivateAddress } from '../../../services/firebase/post/getPrivateAddress'
 
 import { CardHeader, MapArea, NavigationApps, TextAddress, TouchableApp } from './styles'
 import MapPointIcon from '../../../assets/icons/mapPoint.svg'
@@ -13,7 +11,7 @@ import GoogleMapsIcon from '../../../assets/icons/googleMaps.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
-import { CompleteAddress, LocationViewType, PostType } from '../../../services/firebase/types'
+import { Location, LocationViewType } from '../../../services/firebase/types'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
@@ -23,12 +21,10 @@ interface LocationViewCardProps {
 	title: string
 	online?: boolean
 	locationView?: LocationViewType
-	postType: PostType
-	postId: string
 	textFontSize?: number
 	isAuthor?: boolean
 	editable?: boolean
-	defaultAddress?: CompleteAddress
+	location: Location
 	onEdit?: () => void
 }
 
@@ -36,30 +32,12 @@ function LocationViewCard({
 	title,
 	online,
 	locationView,
-	postType,
-	postId,
 	textFontSize = 12,
 	isAuthor = false,
 	editable,
-	defaultAddress,
+	location,
 	onEdit
 }: LocationViewCardProps) {
-	const [completeAddress, setCompleteAddress] = useState<CompleteAddress>({})
-	useEffect(() => {
-		if (editable && !!defaultAddress) {
-			setCompleteAddress(defaultAddress)
-			return
-		}
-		if ((locationView !== 'private' || isAuthor) && postType && locationView) {
-			loadRemotePrivateAddress()
-		}
-	}, [postType, postId, locationView, defaultAddress])
-
-	const loadRemotePrivateAddress = async () => {
-		const address = await getPrivateAddress(postType, postId)
-		setCompleteAddress(address)
-	}
-
 	const renderFormatedAddress = () => {
 		if (online) {
 			return (
@@ -100,12 +78,12 @@ function LocationViewCard({
 			number,
 			city,
 			state,
-		} = completeAddress
+		} = location
 		return `${street}, ${number}, ${city}, ${state}`
 	}
 
 	const getAddressCoordinates = () => {
-		if (!completeAddress || !Object.keys(completeAddress).length) {
+		if (!location || !Object.keys(location).length) {
 			return ({
 				latitude: -23.318759913934052,
 				longitude: -51.16604430601001,
@@ -114,15 +92,15 @@ function LocationViewCard({
 			})
 		}
 		return {
-			latitude: completeAddress.coordinates?.latitude,
-			longitude: completeAddress.coordinates?.longitude,
+			latitude: location.coordinates?.latitude,
+			longitude: location.coordinates?.longitude,
 			latitudeDelta: 0.0028,
 			longitudeDelta: 0.0028
 		}
 	}
 
 	const goToGoogleMapsApp = async () => {
-		if (Object.keys(completeAddress).length < 1) return false
+		if (Object.keys(location).length < 1) return false
 		const googleMapsUrl = getGoogleMapUrl()
 		const supportedLink = await Linking.canOpenURL(googleMapsUrl)
 		if (!supportedLink) {
@@ -134,9 +112,9 @@ function LocationViewCard({
 
 	const getGoogleMapUrl = () => {
 		if (locationView === 'approximate') {
-			return `https://www.google.com/maps/@?api=1&map_action=map&center=${completeAddress.coordinates?.latitude || 0 + getRandomDetachment()},${completeAddress.coordinates?.longitude || 0 + getRandomDetachment()}&zoom=17`
+			return `https://www.google.com/maps/@?api=1&map_action=map&center=${location.coordinates?.latitude || 0 + getRandomDetachment()},${location.coordinates?.longitude || 0 + getRandomDetachment()}&zoom=17`
 		}
-		return `https://www.google.com/maps/search/?api=1&travelmode=driving&query=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}&waypoints=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}&zoom=17`
+		return `https://www.google.com/maps/search/?api=1&travelmode=driving&query=${location.coordinates?.latitude},${location.coordinates?.longitude}&waypoints=${location.coordinates?.latitude},${location.coordinates?.longitude}&zoom=17`
 	}
 
 	const getRandomDetachment = () => {
@@ -151,8 +129,8 @@ function LocationViewCard({
 	}
 
 	const goToWazeApp = async () => {
-		if (Object.keys(completeAddress).length < 1) return false
-		const wazeUrl = `https://waze.com/ul?ll=${completeAddress.coordinates?.latitude},${completeAddress.coordinates?.longitude}&z=17`
+		if (Object.keys(location).length < 1) return false
+		const wazeUrl = `https://waze.com/ul?ll=${location.coordinates?.latitude},${location.coordinates?.longitude}&z=17`
 		const supportedLink = await Linking.canOpenURL(wazeUrl)
 		if (!supportedLink) {
 			console.log('localização inválida')

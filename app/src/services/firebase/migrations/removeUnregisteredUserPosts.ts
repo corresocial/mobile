@@ -19,7 +19,18 @@ const removeUnregisteredUserPosts = async () => { // Set Collection Name
 		console.log(`${currentUser.name}: Number of posts after - ${filteredPosts.length}`)
 		console.log('\n')
 
-		await updateUser(currentUser.userId, { posts: filteredPosts } as any)
+		const postsFiltered = filteredPosts.map((post) => {
+			const postFiltered = post
+			delete postFiltered.owner
+
+			if (postFiltered.location) {
+				delete postFiltered.location.geohashNearby
+				delete postFiltered.location.geohashCity
+			}
+			return postFiltered
+		})
+
+		await updateUser(currentUser.userId, { posts: postsFiltered } as any)
 			.then(() => console.log(`${currentUser.name}: success!`))
 			.catch((err) => {
 				console.log(err)

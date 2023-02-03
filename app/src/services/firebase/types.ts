@@ -49,7 +49,12 @@ export type Coordinates = {
 	longitudeDelta: number
 }
 
-export type CompleteAddress = {
+export type LatLong = {
+	latitude: number
+	longitude: number
+}
+
+export type Location = {
 	street?: string | null
 	streetNumber?: string | null
 	number?: string | null
@@ -59,7 +64,7 @@ export type CompleteAddress = {
 	subregion?: string | null
 	state?: string | null
 	country?: string | null
-	coordinates?: Coordinates
+	coordinates: Coordinates
 }
 
 export type SocialMedia = {

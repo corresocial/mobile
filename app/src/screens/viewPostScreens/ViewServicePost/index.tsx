@@ -218,10 +218,8 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					<LocationViewCard
 						title={'localização'}
 						locationView={getPostField('locationView')}
-						postType={getPostField('postType')}
-						postId={getPostField('postId') as string}
 						isAuthor={isAuthor}
-						defaultAddress={editDataContext.unsaved.location}
+						location={getPostField('location')}
 						textFontSize={16}
 					/>
 					<Sigh />

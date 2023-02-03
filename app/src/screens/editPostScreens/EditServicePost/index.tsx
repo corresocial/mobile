@@ -11,7 +11,6 @@ import { arrayIsEmpty, formatHour } from '../../../common/auxiliaryFunctions'
 import { updatePost } from '../../../services/firebase/post/updatePost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
-import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 
 import { EditServicePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { CultureCollection, DaysOfWeek, ServiceCategories, ServiceCollection, ServiceCollectionRemote } from '../../../services/firebase/types'
@@ -78,13 +77,13 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 		}
 	}
 
-	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof ServiceCollectionRemote) => {
+	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof ServiceCollectionRemote, especificField?: string) => {
 		const value = getPostField(initialValue)
 		navigation.navigate('ServiceStack', {
 			screen: screenName,
 			params: {
 				editMode: true,
-				initialValue: value
+				initialValue: !especificField ? value : value[especificField]
 			}
 		})
 	}
@@ -95,12 +94,11 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 	}
 
 	const editPost = async () => {
+		console.log(editDataContext.unsaved)
+		if (!editDataContext.unsaved) return
+
 		try {
 			setIsLoading(true)
-			if (editDataContext.unsaved.location) {
-				await savePrivateAddress()
-			}
-
 			if ((editDataContext.unsaved.picturesUrl && editDataContext.unsaved.picturesUrl.length > 0) && !allPicturesAlreadyUploaded()) {
 				console.log('with pictures')
 				await performPicturesUpload()
@@ -110,9 +108,14 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 
 			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
-			delete postDataToSave.location
 
 			await updatePost('services', postData.postId, postDataToSave)
+
+			if (postDataToSave.location) {
+				delete postDataToSave.location.geohashNearby
+				delete postDataToSave.location.geohashCity
+			}
+
 			await updateDocField(
 				'users',
 				postData.owner.userId,
@@ -167,6 +170,12 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 											}
 
 											await updatePost('services', postData.postId, postDataToSave)
+
+											if (postDataToSave.location) {
+												delete postDataToSave.location.geohashNearby
+												delete postDataToSave.location.geohashCity
+											}
+
 											await updateDocField(
 												'users',
 												postData.owner.userId,
@@ -192,19 +201,6 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 		})
 
 		return picturePostsUrls
-	}
-
-	const savePrivateAddress = async () => {
-		await updatePostPrivateData(
-			{
-				...editDataContext.unsaved.location,
-				locationView: editDataContext.unsaved.locationView,
-				postType: 'service',
-			},
-			postData.postId,
-			'services',
-			`address${postData.postId}`
-		)
 	}
 
 	const updateUserContext = (postAfterEdit: ServiceCollection) => {
@@ -311,13 +307,11 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
-					postType={getPostField('postType')}
-					postId={getPostField('postId')}
 					textFontSize={16}
 					editable
 					isAuthor
-					defaultAddress={editDataContext.unsaved.location}
-					onEdit={() => navigateToEditScreen('SelectLocationView', 'postId')}
+					location={getPostField('location')}
+					onEdit={() => navigateToEditScreen('SelectLocationView', 'location', 'coordinates')}
 				/>
 				<Sigh />
 				<EditCard

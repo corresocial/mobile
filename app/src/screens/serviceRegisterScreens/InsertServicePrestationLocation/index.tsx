@@ -10,10 +10,9 @@ import MapPointOrange from '../../../assets/icons/mapPoint-orange.svg'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
 import { getLocationViewDescription, getLocationViewHighlightedWords, getLocationViewTitle } from '../../../utils/locationMessages'
-import { getPrivateAddress } from '../../../services/firebase/post/getPrivateAddress'
 
 import { InsertServicePrestationLocationScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-import { Coordinates, Id } from '../../../services/firebase/types'
+import { Coordinates } from '../../../services/firebase/types'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -52,15 +51,10 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 	const [invalidAddressAfterSubmit, setInvalidAddressAfterSubmit] = useState<boolean>(false)
 
 	useEffect(() => {
-		if (editModeIsTrue()) {
-			getLocationByPostId()
+		if (editModeIsTrue() && route.params.initialValue) {
+			setMarkerCoordinate({ ...defaultDeltaCoordinates, ...route.params.initialValue })
 		}
 	}, [])
-
-	const getLocationByPostId = async () => {
-		const privateAddress = await getPrivateAddress('service', route.params?.initialValue as Id)
-		setMarkerCoordinate({ ...defaultDeltaCoordinates, ...privateAddress.coordinates })
-	}
 
 	const requestLocationPermission = async () => {
 		const locationPermission = await Location.requestForegroundPermissionsAsync()
