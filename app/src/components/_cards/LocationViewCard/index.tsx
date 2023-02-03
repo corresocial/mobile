@@ -57,9 +57,18 @@ function LocationViewCard({
 
 		if (locationView === 'private') {
 			return (
-				<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
-					{showMessageWithHighlight('localização privada', ['privada'])}
-				</TextAddress>
+				<>
+					<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+						{showMessageWithHighlight('localização privada', ['privada'])}
+					</TextAddress>
+					{
+						isAuthor && (
+							<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+								{formatAddress()}
+							</TextAddress>
+						)
+					}
+				</>
 			)
 		}
 

@@ -218,11 +218,9 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					<LocationViewCard
 						title={'local de trabalho'}
 						locationView={getPostField('locationView')}
-						postType={getPostField('postType')}
-						postId={getPostField('postId') as string}
 						isAuthor={isAuthor}
 						textFontSize={16}
-						defaultAddress={editDataContext.unsaved.location}
+						location={getPostField('location')}
 					/>
 					<Sigh />
 					<DateTimeCard

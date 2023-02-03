@@ -11,11 +11,10 @@ import { arrayIsEmpty, formatHour } from '../../../common/auxiliaryFunctions'
 import { updatePost } from '../../../services/firebase/post/updatePost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
-import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 
 import { EditSalePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { SaleStackParamList } from '../../../routes/Stack/SaleStack/types'
-import { CultureCollection, DaysOfWeek, SaleCategories, SaleCollection, SaleCollectionRemote } from '../../../services/firebase/types'
+import { CultureCollection, DaysOfWeek, Id, SaleCategories, SaleCollection, SaleCollectionRemote } from '../../../services/firebase/types'
 
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -78,13 +77,13 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 		}
 	}
 
-	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof SaleCollectionRemote) => {
+	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof SaleCollectionRemote, especificField?: string) => {
 		const value = getPostField(initialValue)
 		navigation.navigate('SaleStack', {
 			screen: screenName,
 			params: {
 				editMode: true,
-				initialValue: value
+				initialValue: !especificField ? value : value[especificField]
 			}
 		})
 	}
@@ -95,11 +94,10 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 	}
 
 	const editPost = async () => {
+		if (!editDataContext.unsaved) return
+
 		try {
 			setIsLoading(true)
-			if (editDataContext.unsaved.location) {
-				await savePrivateAddress()
-			}
 
 			if ((editDataContext.unsaved.picturesUrl && editDataContext.unsaved.picturesUrl.length > 0) && !allPicturesAlreadyUploaded()) {
 				console.log('with pictures')
@@ -110,12 +108,17 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 
 			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
-			delete postDataToSave.location
 
 			await updatePost('sales', postData.postId, postDataToSave)
+
+			if (postDataToSave.location) {
+				delete postDataToSave.location.geohashNearby
+				delete postDataToSave.location.geohashCity
+			}
+
 			await updateDocField(
 				'users',
-				postData.owner.userId,
+				userDataContext.userId as Id,
 				'posts',
 				[postDataToSave, ...getUserPostsWithoutEdited()]
 			)
@@ -167,9 +170,15 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 											}
 
 											await updatePost('sales', postData.postId, postDataToSave)
+
+											if (postDataToSave.location) {
+												delete postDataToSave.location.geohashNearby
+												delete postDataToSave.location.geohashCity
+											}
+
 											await updateDocField(
 												'users',
-												postData.owner.userId,
+												userDataContext.userId as Id,
 												'posts',
 												[postDataToSave, ...getUserPostsWithoutEdited()]
 											)
@@ -192,19 +201,6 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 		})
 
 		return picturePostsUrls
-	}
-
-	const savePrivateAddress = async () => {
-		await updatePostPrivateData(
-			{
-				...editDataContext.unsaved.location,
-				locationView: editDataContext.unsaved.locationView,
-				postType: 'sale',
-			},
-			postData.postId,
-			'sales',
-			`address${postData.postId}`
-		)
 	}
 
 	const updateUserContext = (postAfterEdit: SaleCollection) => {
@@ -311,13 +307,11 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
-					postType={getPostField('postType')}
-					postId={getPostField('postId')}
 					textFontSize={16}
 					isAuthor
 					editable
-					defaultAddress={editDataContext.unsaved.location}
-					onEdit={() => navigateToEditScreen('SelectLocationView', 'postId')}
+					location={getPostField('location')}
+					onEdit={() => navigateToEditScreen('SelectLocationView', 'location', 'coordinates')}
 				/>
 				<Sigh />
 				<EditCard

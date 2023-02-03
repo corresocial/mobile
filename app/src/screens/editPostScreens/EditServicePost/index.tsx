@@ -94,11 +94,11 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 	}
 
 	const editPost = async () => {
-		console.log(editDataContext.unsaved)
 		if (!editDataContext.unsaved) return
 
 		try {
 			setIsLoading(true)
+
 			if ((editDataContext.unsaved.picturesUrl && editDataContext.unsaved.picturesUrl.length > 0) && !allPicturesAlreadyUploaded()) {
 				console.log('with pictures')
 				await performPicturesUpload()
