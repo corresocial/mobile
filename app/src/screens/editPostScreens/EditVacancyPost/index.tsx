@@ -9,11 +9,10 @@ import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategor
 import { formatDate, formatHour } from '../../../common/auxiliaryFunctions'
 import { updatePost } from '../../../services/firebase/post/updatePost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
-import { updatePostPrivateData } from '../../../services/firebase/post/updatePostPrivateData'
 
 import { VacancyStackParamList } from '../../../routes/Stack/VacancyStack/types'
 import { EditVacancyPostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { CultureCollection, DaysOfWeek, ServiceCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
+import { CultureCollection, DaysOfWeek, Id, ServiceCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
 
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -59,13 +58,13 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 		return ordenedDaysOfWeek.toString().split(',').join(', ')
 	}
 
-	const navigateToEditScreen = (screenName: keyof VacancyStackParamList, initialValue: keyof VacancyCollectionRemote) => {
+	const navigateToEditScreen = (screenName: keyof VacancyStackParamList, initialValue: keyof VacancyCollectionRemote, especificField?: string) => {
 		const value = getPostField(initialValue)
 		navigation.navigate('VacancyStack', {
 			screen: screenName,
 			params: {
 				editMode: true,
-				initialValue: value
+				initialValue: !especificField ? value : value[especificField]
 			}
 		})
 	}
@@ -78,18 +77,20 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 	const editPost = async () => {
 		try {
 			setIsLoading(true)
-			if (editDataContext.unsaved.location) {
-				await savePrivateAddress()
-			}
 
 			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
-			delete postDataToSave.location
 
 			await updatePost('vacancies', postData.postId, postDataToSave)
+
+			if (postDataToSave.location) {
+				delete postDataToSave.location.geohashNearby
+				delete postDataToSave.location.geohashCity
+			}
+
 			await updateDocField(
 				'users',
-				postData.owner.userId,
+				userDataContext.userId as Id,
 				'posts',
 				[postDataToSave, ...getUserPostsWithoutEdited()]
 			)
@@ -107,19 +108,6 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 
 	const changeStateOfEditedFields = () => {
 		setEditDataOnContext({ saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} })
-	}
-
-	const savePrivateAddress = async () => {
-		await updatePostPrivateData(
-			{
-				...editDataContext.unsaved.location,
-				locationView: 'public',
-				postType: 'vacancy',
-			},
-			postData.postId,
-			'vacancies',
-			`address${postData.postId}`
-		)
 	}
 
 	const updateUserContext = (postAfterEdit: ServiceCollection) => {
@@ -246,13 +234,11 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 							<LocationViewCard
 								title={'localização'}
 								locationView={'public'}
-								postType={getPostField('postType')}
-								postId={getPostField('postId')}
 								textFontSize={16}
 								editable
 								isAuthor
-								defaultAddress={editDataContext.unsaved.location}
-								onEdit={() => navigateToEditScreen('InsertWorkplaceLocation', 'postId')}
+								location={getPostField('location')}
+								onEdit={() => navigateToEditScreen('InsertWorkplaceLocation', 'location', 'coordinates')}
 							/>
 							<Sigh />
 						</>

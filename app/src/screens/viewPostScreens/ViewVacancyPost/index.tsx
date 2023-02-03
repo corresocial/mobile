@@ -250,10 +250,8 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 								<LocationViewCard
 									title={'local de trabalho'}
 									locationView={'public'}
-									postType={postData.postType}
-									postId={route.params.postData.postId as string}
 									isAuthor={isAuthor}
-									defaultAddress={editDataContext.unsaved.location}
+									location={getPostField('location')}
 									textFontSize={16}
 								/>
 							</>

@@ -13,7 +13,7 @@ import { updateDocField } from '../../../services/firebase/common/updateDocField
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
 import { EditServicePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { CultureCollection, DaysOfWeek, ServiceCategories, ServiceCollection, ServiceCollectionRemote } from '../../../services/firebase/types'
+import { CultureCollection, DaysOfWeek, Id, ServiceCategories, ServiceCollection, ServiceCollectionRemote } from '../../../services/firebase/types'
 import { ServiceStackParamList } from '../../../routes/Stack/ServiceStack/types'
 
 import { EditContext } from '../../../contexts/EditContext'
@@ -118,7 +118,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 
 			await updateDocField(
 				'users',
-				postData.owner.userId,
+				userDataContext.userId as Id,
 				'posts',
 				[postDataToSave, ...getUserPostsWithoutEdited()]
 			)
@@ -178,7 +178,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 
 											await updateDocField(
 												'users',
-												postData.owner.userId,
+												userDataContext.userId as Id,
 												'posts',
 												[postDataToSave, ...getUserPostsWithoutEdited()]
 											)

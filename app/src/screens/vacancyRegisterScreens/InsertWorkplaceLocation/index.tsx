@@ -9,10 +9,9 @@ import Check from '../../../assets/icons/check.svg'
 import MapPointOrange from '../../../assets/icons/mapPoint-orange.svg'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
-import { getPrivateAddress } from '../../../services/firebase/post/getPrivateAddress'
 
 import { InsertWorkplaceLocationScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
-import { Coordinates, Id } from '../../../services/firebase/types'
+import { Coordinates } from '../../../services/firebase/types'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -51,15 +50,10 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 	const [invalidAddressAfterSubmit, setInvalidAddressAfterSubmit] = useState<boolean>(false)
 
 	useEffect(() => {
-		if (editModeIsTrue()) {
-			getLocationByPostId()
+		if (editModeIsTrue() && route.params.initialValue) {
+			setMarkerCoordinate({ ...defaultDeltaCoordinates, ...route.params.initialValue })
 		}
 	}, [])
-
-	const getLocationByPostId = async () => {
-		const privateAddress = await getPrivateAddress('vacancy', route.params?.initialValue as Id)
-		setMarkerCoordinate({ ...defaultDeltaCoordinates, ...privateAddress.coordinates })
-	}
 
 	const requestLocationPermission = async () => {
 		const locationPermission = await Location.requestForegroundPermissionsAsync()
@@ -167,6 +161,7 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({
+				locationView: 'public',
 				location: {
 					...completeAddress,
 					...geohashObject

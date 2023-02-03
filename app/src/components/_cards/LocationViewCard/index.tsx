@@ -72,7 +72,16 @@ function LocationViewCard({
 			)
 		}
 
-		if (locationView === 'approximate') return
+		if (locationView === 'approximate') {
+			if (isAuthor) {
+				return (
+					<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+						{formatAddress()}
+					</TextAddress>
+				)
+			}
+			return
+		}
 
 		return (
 			<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
@@ -167,7 +176,7 @@ function LocationViewCard({
 						<CustomMapView
 							regionCoordinate={getAddressCoordinates()}
 							markerCoordinate={getAddressCoordinates()}
-							CustomMarker={locationView === 'public' || isAuthor ? MapPointOrangeIcon : undefined}
+							CustomMarker={locationView === 'public' || (locationView === 'private' && isAuthor) ? MapPointOrangeIcon : undefined}
 							locationView={locationView === 'private' && isAuthor ? 'public' : locationView}
 						/>
 						<NavigationApps >
