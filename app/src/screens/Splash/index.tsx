@@ -8,8 +8,8 @@ import {
 	LogoContainer
 } from './styles'
 import { screenHeight, screenWidth } from '../../common/screenDimensions'
-import BuildingsSVG from '../../assets/icons/buildings.svg'
-import LogoSVG from '../../assets/icons/logo.svg'
+import SlumIcon from '../../assets/icons/slum.svg'
+import LogoIcon from '../../assets/icons/logo.svg'
 
 import { SplashScreenProps } from '../../routes/Stack/AuthRegisterStack/stackScreenProps'
 import { UserData } from '../../contexts/types'
@@ -44,11 +44,11 @@ function Splash({ navigation }: SplashScreenProps) {
 					tourPerformed: userObject.tourPerformed
 				})
 			} else {
-				navigation.navigate('AcceptAndContinue')
+				// navigation.navigate('AcceptAndContinue')
 				// throw 'Usuário não authenticado localmente!' // Faz com que o usuário fique em loop
 			}
 		} catch (err) {
-			// navigation.navigate('AcceptAndContinue')
+			navigation.navigate('AcceptAndContinue')
 			/* setTimeout(() => { // Faz com que o usuário fique em loop
 				redirectToApp()
 			}, 3000) */
@@ -72,13 +72,13 @@ function Splash({ navigation }: SplashScreenProps) {
 				opacity: imagesSvgOpacity
 			}}
 			>
-				<LogoSVG width={screenWidth * 0.5} height={screenHeight} />
+				<LogoIcon width={screenWidth * 0.5} height={screenHeight} />
 			</LogoContainer>
 			<BuildingsContainer style={{
 				opacity: imagesSvgOpacity
 			}}
 			>
-				<BuildingsSVG width={screenWidth * 0.4} height={screenHeight * 0.12} />
+				<SlumIcon width={screenWidth * 0.8} height={screenHeight * 0.12} />
 			</BuildingsContainer>
 			<BottomLine />
 		</Container>
