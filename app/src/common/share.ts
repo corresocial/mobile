@@ -6,7 +6,6 @@ const share = (message: string) => {
 		{
 			title: '',
 			message,
-			url: 'https://i.pinimg.com/736x/4e/39/4d/4e394d47d6ae3f0da2b88becb57cb566.jpg'
 		},
 		options
 	)
