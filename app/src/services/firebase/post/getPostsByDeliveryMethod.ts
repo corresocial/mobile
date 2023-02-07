@@ -7,7 +7,7 @@ import { PostCollection } from '../types'
 async function getPostsByDeliveryMethod(searchParams: SearchParams) {
 	const rangeOfDeliveryCollections = [
 		{
-			collectionName: 'services',
+			collectionName: 'posts',
 			rangeField: 'deliveryMethod'
 		}
 	]

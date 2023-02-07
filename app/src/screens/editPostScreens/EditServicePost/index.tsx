@@ -109,7 +109,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
 
-			await updatePost('services', postData.postId, postDataToSave)
+			await updatePost('posts', postData.postId, postDataToSave)
 
 			if (postDataToSave.location) {
 				delete postDataToSave.location.geohashNearby
@@ -148,7 +148,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 
 		const picturePostsUrls: string[] = []
 		await picturesNotUploaded.map(async (picturePath: string, index: number) => {
-			return uploadImage(picturePath, 'services', index).then(
+			return uploadImage(picturePath, 'posts', index).then(
 				({ uploadTask, blob }: any) => {
 					uploadTask.on(
 						'state_change',
@@ -169,7 +169,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 												picturesUrl: [...picturePostsUrls, ...picturesAlreadyUploaded]
 											}
 
-											await updatePost('services', postData.postId, postDataToSave)
+											await updatePost('posts', postData.postId, postDataToSave)
 
 											if (postDataToSave.location) {
 												delete postDataToSave.location.geohashNearby

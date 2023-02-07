@@ -65,7 +65,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			case 'serviços': return 'services' as PostCollectionType
 			case 'comércio': return 'sales' as PostCollectionType
 			case 'vagas': return 'vacancies' as PostCollectionType
-			case 'culturas': return 'cultures' as PostCollectionType
+			case 'culturas': return 'cutlures' as PostCollectionType
 			case 'impacto social': return 'socialImpacts' as PostCollectionType
 			default: return null
 		}

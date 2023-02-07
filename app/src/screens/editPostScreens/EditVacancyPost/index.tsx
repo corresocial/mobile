@@ -81,7 +81,11 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
 
-			await updatePost('vacancies', postData.postId, postDataToSave)
+			if (editDataContext.unsaved.workplace === 'homeoffice') {
+				postDataToSave.location = {}
+			}
+
+			await updatePost('posts', postData.postId, postDataToSave)
 
 			if (postDataToSave.location) {
 				delete postDataToSave.location.geohashNearby

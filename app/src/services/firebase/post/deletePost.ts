@@ -1,20 +1,16 @@
 import {
 	deleteDoc,
 	doc,
-	collection,
 	updateDoc,
 	getDoc,
 } from 'firebase/firestore'
 import { firestore } from '..'
-import { getPostCollectionName } from '../common/dbAuxiliaryFunctions'
 
-import { PostCollection, PostType, UserCollection } from '../types'
+import { PostCollection, UserCollection } from '../types'
 
-async function deletePost(postId: string, postType: PostType, userId: string) {
-	const postCollection = getPostCollectionName(postType)
-
+async function deletePost(postId: string, userId: string) {
 	try {
-		const docRef = doc(firestore, postCollection, postId)
+		const docRef = doc(firestore, 'posts', postId)
 
 		await deleteDoc(docRef)
 		const userData = await getDoc(doc(firestore, 'users', userId)) as UserCollection | any

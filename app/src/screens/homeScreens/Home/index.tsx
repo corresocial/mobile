@@ -19,7 +19,6 @@ import ToolBoxIcon from '../../../assets/icons/toolBox-purple.svg'
 import SuitcaseIcon from '../../../assets/icons/suitcase-yellow.svg'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 
-import { getListOfPosts } from '../../../services/firebase/post/getListOfPosts'
 import { generateGeohashes } from '../../../common/generateGeohashes'
 import { searchAddressByText } from '../../../services/maps/searchAddressByText'
 import { structureAddress } from '../../../services/maps/addressFormatter'
@@ -41,7 +40,6 @@ import { RequestLocation } from '../../../components/RequestLocation'
 import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
-import { getPostsByDeliveryMethod } from '../../../services/firebase/post/getPostsByDeliveryMethod'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 const initialSelectedAddress = {
@@ -87,7 +85,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 	useEffect(() => {
 		getRecentAddresses()
-		findNearPosts('', true)
+		// findNearPosts('', true)
 	}, [hasLocationPermission])
 
 	const requestPermissions = async () => {
@@ -110,7 +108,8 @@ function Home({ navigation }: HomeScreenProps) {
 	const findNearPosts = async (searchText: string, currentPosition?: boolean, alternativeCoordinates?: LatLong) => {
 		try {
 			setSearchEnded(false)
-			setLoaderIsVisible(true)
+			// setLoaderIsVisible(true)
+
 			let searchParams = {} as LocationData
 			if (currentPosition) {
 				const coordinates = await getCurrentPositionCoordinates()
@@ -120,12 +119,11 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong) // address converter
 			}
 
-			const postsIds = await getPostsByLocation(searchParams as SearchParams)
-			const posts = await getListOfPosts(postsIds)
-			const listOfPosts = [].concat(...posts as any) || []// TODO type
-			const postsDelivery = await getPostsByDeliveryMethod(searchParams)
+			const nearbyPosts = await getPostsByLocation(searchParams as SearchParams)
+			// console.log(nearbyPosts)
+			// const listOfPosts = [].concat(...nearbyPosts as any) || []// TODO type
+			setNearPosts(nearbyPosts)
 
-			setNearPosts([].concat(...posts as any) || [])
 			setLoaderIsVisible(false)
 			setSearchEnded(true)
 			setLocationDataOnContext(searchParams)
@@ -138,6 +136,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const getCurrentPositionCoordinates = async () => {
 		const currentPositionCoordinate = await Location.getCurrentPositionAsync()
+
 		return {
 			lat: currentPositionCoordinate.coords.latitude,
 			lon: currentPositionCoordinate.coords.longitude
@@ -264,7 +263,8 @@ function Home({ navigation }: HomeScreenProps) {
 					height={relativeScreenWidth(15)}
 					color={'white'}
 					fontSize={8}
-					onPress={() => navigateToPostCategories('impacto social')}
+					// onPress={() => navigateToPostCategories('impacto social')}
+					onPress={() => findNearPosts('', true)}
 					label={'impacto'}
 					SvgIcon={HeartPinkIcon}
 					svgScale={['50%', '80%']}

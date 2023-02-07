@@ -112,7 +112,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
 
-			await updatePost('cultures', postData.postId, postDataToSave)
+			await updatePost('posts', postData.postId, postDataToSave)
 
 			if (postDataToSave.location) {
 				delete postDataToSave.location.geohashNearby
@@ -151,7 +151,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 
 		const picturePostsUrls: string[] = []
 		await picturesNotUploaded.map(async (picturePath: string, index: number) => {
-			return uploadImage(picturePath, 'cultures', index).then(
+			return uploadImage(picturePath, 'posts', index).then(
 				({ uploadTask, blob }: any) => {
 					uploadTask.on(
 						'state_change',
@@ -172,7 +172,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 												picturesUrl: [...picturePostsUrls, ...picturesAlreadyUploaded]
 											}
 
-											await updatePost('cultures', postData.postId, postDataToSave)
+											await updatePost('posts', postData.postId, postDataToSave)
 
 											if (postDataToSave.location) {
 												delete postDataToSave.location.geohashNearby

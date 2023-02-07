@@ -120,7 +120,7 @@ function InsertEventEndHour({ route, navigation }: InsertEventEndHourScreenProps
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
 			if (!culturePictures.length) {
-				const postId = await createPost(cultureData, localUser, 'cultures', 'culture')
+				const postId = await createPost(cultureData, localUser, 'posts', 'culture')
 				if (!postId) throw new Error('Não foi possível identificar o post')
 
 				await updateUserPost(
@@ -133,7 +133,7 @@ function InsertEventEndHour({ route, navigation }: InsertEventEndHourScreenProps
 
 			const picturePostsUrls: string[] = []
 			culturePictures.forEach(async (culturePicture, index) => {
-				uploadImage(culturePicture, 'cultures', index).then(
+				uploadImage(culturePicture, 'posts', index).then(
 					({ uploadTask, blob }: any) => {
 						uploadTask.on(
 							'state_change',
@@ -150,7 +150,7 @@ function InsertEventEndHour({ route, navigation }: InsertEventEndHourScreenProps
 											if (picturePostsUrls.length === culturePictures.length) {
 												const cultureDataWithPicturesUrl = { ...cultureData, picturesUrl: picturePostsUrls }
 
-												const postId = await createPost(cultureDataWithPicturesUrl, localUser, 'cultures', 'culture')
+												const postId = await createPost(cultureDataWithPicturesUrl, localUser, 'posts', 'culture')
 												if (!postId) throw new Error('Não foi possível identificar o post')
 
 												await updateUserPost(
@@ -160,7 +160,7 @@ function InsertEventEndHour({ route, navigation }: InsertEventEndHourScreenProps
 												)
 
 												await updateDocField(
-													'cultures',
+													'posts',
 													postId,
 													'picturesUrl',
 													picturePostsUrls,

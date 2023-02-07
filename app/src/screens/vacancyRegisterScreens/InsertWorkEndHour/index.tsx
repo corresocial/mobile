@@ -129,7 +129,7 @@ function InsertWorkEndHour({ route, navigation }: InsertWorkEndHourScreenProps) 
 			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
-			const postId = await createPost(vacancyData, localUser, 'vacancies', 'vacancy')
+			const postId = await createPost(vacancyData, localUser, 'posts', 'vacancy')
 			if (!postId) throw new Error('Não foi possível identificar o post')
 
 			await updateUserPost(

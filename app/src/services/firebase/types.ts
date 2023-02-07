@@ -122,7 +122,7 @@ export type PrivateAddress = {
 
 export type PostType = 'service' | 'sale' | 'vacancy' | 'socialImpact' | 'culture'
 
-export type PostCollectionType = 'services' | 'sales' | 'vacancies' | 'cultures' | 'socialImpacts' // Post type title
+export type PostCollectionType = 'posts' | 'services' | 'sales' | 'vacancies' | 'cultures' | 'socialImpacts' // Post type title
 
 export type PostCollection = ServiceCollection | SaleCollection | VacancyCollection | CultureCollection | SocialImpactCollection
 

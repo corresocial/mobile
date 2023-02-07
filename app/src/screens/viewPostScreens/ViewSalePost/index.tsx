@@ -69,7 +69,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 
 	const deleteRemotePost = async () => {
 		setIsLoading(true)
-		await deletePost(postData.postId, postData.postType, postData.owner.userId)
+		await deletePost(postData.postId, postData.owner.userId)
 		await removePostOnContext()
 		setIsLoading(false)
 		backToPreviousScreen()

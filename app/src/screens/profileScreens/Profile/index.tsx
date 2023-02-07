@@ -28,7 +28,7 @@ import GearIcon from '../../../assets/icons/gear.svg'
 
 import { share } from '../../../common/share'
 import { getUser } from '../../../services/firebase/user/getUser'
-import { sortArray } from '../../../common/auxiliaryFunctions'
+import { sortArray, sortPostsByCreatedData } from '../../../common/auxiliaryFunctions'
 
 import { LocalUserData } from '../../../contexts/types'
 import { Id, PostCollection, SocialMedia } from '../../../services/firebase/types'
@@ -217,9 +217,9 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const getUserPosts = () => {
 		if (route.params && route.params.userId) {
-			return user.posts ? user.posts : []
+			return user.posts ? user.posts.sort(sortPostsByCreatedData as any) : [] // TODO Type
 		}
-		return userDataContext.posts ? userDataContext.posts : []
+		return userDataContext.posts ? userDataContext.posts.sort(sortPostsByCreatedData as any) : [] // TODO Type
 	}
 
 	return (

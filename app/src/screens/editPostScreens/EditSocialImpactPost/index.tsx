@@ -120,7 +120,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
 
-			await updatePost('socialImpacts', postData.postId, postDataToSave)
+			await updatePost('posts', postData.postId, postDataToSave)
 
 			if (postDataToSave.location) {
 				delete postDataToSave.location.geohashNearby
@@ -159,7 +159,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 
 		const picturePostsUrls: string[] = []
 		await picturesNotUploaded.map(async (picturePath: string, index: number) => {
-			return uploadImage(picturePath, 'socialImpacts', index).then(
+			return uploadImage(picturePath, 'posts', index).then(
 				({ uploadTask, blob }: any) => {
 					uploadTask.on(
 						'state_change',
@@ -180,7 +180,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 												picturesUrl: [...picturePostsUrls, ...picturesAlreadyUploaded]
 											}
 
-											await updatePost('socialImpacts', postData.postId, postDataToSave)
+											await updatePost('posts', postData.postId, postDataToSave)
 
 											if (postDataToSave.location) {
 												delete postDataToSave.location.geohashNearby

@@ -96,7 +96,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
 			if (!culturePictures.length) {
-				const postId = await createPost(cultureData, localUser, 'cultures', 'culture')
+				const postId = await createPost(cultureData, localUser, 'posts', 'culture')
 				if (!postId) throw new Error('Não foi possível identificar o post')
 
 				await updateUserPost(
@@ -109,7 +109,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 
 			const picturePostsUrls: string[] = []
 			culturePictures.forEach(async (culturePicture, index) => {
-				uploadImage(culturePicture, 'cultures', index).then(
+				uploadImage(culturePicture, 'posts', index).then(
 					({ uploadTask, blob }: any) => {
 						uploadTask.on(
 							'state_change',
@@ -126,7 +126,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 											if (picturePostsUrls.length === culturePictures.length) {
 												const cultureDataWithPicturesUrl = { ...cultureData, picturesUrl: picturePostsUrls }
 
-												const postId = await createPost(cultureDataWithPicturesUrl, localUser, 'cultures', 'culture')
+												const postId = await createPost(cultureDataWithPicturesUrl, localUser, 'posts', 'culture')
 												if (!postId) throw new Error('Não foi possível identificar o post')
 
 												await updateUserPost(

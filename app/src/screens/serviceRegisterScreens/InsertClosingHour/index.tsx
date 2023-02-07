@@ -133,7 +133,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
 			if (!servicePictures.length) {
-				const postId = await createPost(serviceData, localUser, 'services', 'service')
+				const postId = await createPost(serviceData, localUser, 'posts', 'service')
 				if (!postId) throw new Error('Não foi possível identificar o post')
 
 				await updateUserPost(
@@ -146,7 +146,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 
 			const picturePostsUrls: string[] = []
 			servicePictures.forEach(async (servicePicture, index) => {
-				uploadImage(servicePicture, 'services', index).then(
+				uploadImage(servicePicture, 'posts', index).then(
 					({ uploadTask, blob }: any) => {
 						uploadTask.on(
 							'state_change',
@@ -163,7 +163,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 											if (picturePostsUrls.length === servicePictures.length) {
 												const serviceDataWithPicturesUrl = { ...serviceData, picturesUrl: picturePostsUrls }
 
-												const postId = await createPost(serviceDataWithPicturesUrl, localUser, 'services', 'service')
+												const postId = await createPost(serviceDataWithPicturesUrl, localUser, 'posts', 'service')
 												if (!postId) throw new Error('Não foi possível identificar o post')
 
 												await updateUserPost(

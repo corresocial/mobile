@@ -2,12 +2,13 @@ import {
 	where,
 	query,
 	getDocs,
-	collectionGroup,
-	DocumentData
+	DocumentData,
+	collection,
+	orderBy,
+	CollectionReference,
 } from 'firebase/firestore'
 import { firestore } from '..'
 import { SearchParams } from '../../maps/types'
-import { PostType } from '../types'
 
 export type PostIdentificationItem = {
 	collection: string
@@ -24,89 +25,89 @@ export type PostIdentification = {
 
 async function getPostsByLocation(searchParams: SearchParams) {
 	try {
-		const posts: PostIdentification = {
-			service: {
-				collection: 'services',
-				postIds: []
-			},
-			sale: {
-				collection: 'sales',
-				postIds: []
-			},
-			vacancy: {
-				collection: 'vacancies',
-				postIds: []
-			},
-			socialImpact: {
-				collection: 'socialImpacts',
-				postIds: []
-			},
-			culture: {
-				collection: 'cultures',
-				postIds: []
-			},
-		}
+		console.warn(searchParams)
+		const collectionRef = collection(firestore, 'posts')
 
-		const queryNearby = query(
-			collectionGroup(firestore, 'private'),
-			where(
-				'geohashNearby',
-				'array-contains-any',
-				searchParams.geohashes,
-			)
-		)
+		const { nearbyPosts, nearPostIds } = await getNearbyPosts(collectionRef, searchParams)
+		// console.log(nearbyPosts.map((post: PostCollectionRemote) => post.title))
 
-		/* const queryCity = query(
-			collectionGroup(firestore, 'private'),
-			where(
-				'geohashNearby',
-				'not-in',
-				searchParams.geohashes,
-			),
-			where(
-				'city',
-				'==',
-				searchParams.city
-			)
-		)
+		const cityPosts = await getCityPosts(collectionRef, searchParams, nearPostIds)
+		// console.log(cityPosts.map((post: any) => post.title))
 
-		const queryCountry = query(
-			collectionGroup(firestore, 'private'),
-			where(
-				'city',
-				'!=',
-				searchParams.city
-			),
-			where(
-				'country',
-				'==',
-				searchParams.country
-			)
-		) */
+		const countryPosts = await getCountryPosts(collectionRef, searchParams, nearPostIds)
+		// console.log(countryPosts.map((post: any) => post.title))
 
-		const snapshotNearby = await getDocs(queryNearby)
-		/* const snapshotCity = await getDocs(queryCity)
-		const snapshotCountry = await getDocs(queryCountry) */
-
-		const docs: DocumentData[] = []
-		snapshotNearby.forEach((doc) => docs.push(doc))
-		/* snapshotCity.forEach((doc) => docs.push(doc))
-		snapshotCountry.forEach((doc) => docs.push(doc)) */
-
-		docs.forEach((doc) => {
-			const { postType } = doc.data()
-			if (Object.keys(posts).includes(postType)) {
-				if (!posts[postType as PostType].postIds.includes(doc.id)) {
-					posts[postType as PostType].postIds.push(doc.id.replace('address', ''))
-				}
-			}
-		})
-
-		return Object.values(posts).filter((post: PostIdentificationItem) => !!post.postIds.length) as any[]
+		return [...nearbyPosts, ...cityPosts, ...countryPosts]
 	} catch (err) {
 		console.log(err)
 		return []
 	}
+}
+
+const getNearbyPosts = async (collectionRef: CollectionReference<DocumentData>, searchParams: SearchParams) => {
+	const posts: any = []
+	const nearPostIds: string[] = []
+
+	const queryNearby = query(
+		collectionRef,
+		where('location.geohashNearby', 'array-contains-any', searchParams.geohashes),
+		orderBy('createdAt', 'desc')
+	)
+
+	const snapshotNearby = await getDocs(queryNearby)
+
+	snapshotNearby.forEach((doc) => {
+		posts.push({ ...doc.data(), postId: doc.id })
+		nearPostIds.push(doc.id)
+		console.log(`Nearby: ${doc.data().title} - ${doc.data().range}`)
+	})
+
+	return { nearbyPosts: posts, nearPostIds }
+}
+
+const getCityPosts = async (collectionRef: CollectionReference<DocumentData>, searchParams: SearchParams, nearPostIds: string[] = []) => {
+	const posts: any = []
+	const queryCity = query(
+		collectionRef,
+		where('range', '==', 'city'),
+		where('location.city', '==', searchParams.city),
+		orderBy('createdAt', 'desc')
+	)
+
+	const snapshotCity = await getDocs(queryCity)
+
+	snapshotCity.forEach((doc) => {
+		if (!nearPostIds.includes(doc.id)) {
+			posts.push({ ...doc.data(), postId: doc.id })
+			console.log(`City: ${doc.data().title} - ${doc.data().range}`)
+		}
+	})
+
+	return posts
+}
+
+const getCountryPosts = async (collectionRef: CollectionReference<DocumentData>, searchParams: SearchParams, nearPostIds: string[] = []) => {
+	const posts: any = []
+
+	const countryQuery = query(
+		collectionRef,
+		where('location.country', '==', searchParams.country),
+		where('range', '==', 'country'),
+		where('location.city', '!=', searchParams.city), // Excepcion
+		orderBy('location.city', 'asc'),
+		orderBy('createdAt', 'desc')
+	)
+
+	const snapshotCountry = await getDocs(countryQuery)
+
+	snapshotCountry.forEach((doc) => {
+		if (!nearPostIds.includes(doc.id)) {
+			posts.push({ ...doc.data(), postId: doc.id })
+			console.log(`Country: ${doc.data().title} - ${doc.data().range}`)
+		}
+	})
+
+	return posts
 }
 
 export { getPostsByLocation }
