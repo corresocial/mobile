@@ -5,7 +5,7 @@ import { getPrivateAddress } from '../post/getPrivateAddress'
 import { updatePost } from '../post/updatePost'
 import { PostCollectionType } from '../types'
 
-const migratePostLocationData = async (currentCollection: PostCollectionType) => { // Set Collection Name
+const migratePostLocationAddressData = async (currentCollection: PostCollectionType) => { // Set Collection Name
 	const docs: any = []
 
 	const docsQuery = query(collection(firestore, currentCollection))
@@ -41,4 +41,4 @@ const extractPrivateLocation = async (docs: any) => {
 	return Promise.all(docsWithLocation)
 }
 
-export { migratePostLocationData }
+export { migratePostLocationAddressData }

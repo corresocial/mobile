@@ -85,7 +85,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 	useEffect(() => {
 		getRecentAddresses()
-		// findNearPosts('', true)
+		findNearPosts('', true)
 	}, [hasLocationPermission])
 
 	const requestPermissions = async () => {
@@ -264,8 +264,8 @@ function Home({ navigation }: HomeScreenProps) {
 					height={relativeScreenWidth(15)}
 					color={'white'}
 					fontSize={8}
-					// onPress={() => navigateToPostCategories('impacto social')}
-					onPress={() => findNearPosts('', true)}
+					onPress={() => navigateToPostCategories('impacto social')}
+					// onPress={() => findNearPosts('', true)}
 					label={'impacto'}
 					SvgIcon={HeartPinkIcon}
 					svgScale={['50%', '80%']}
@@ -355,7 +355,6 @@ function Home({ navigation }: HomeScreenProps) {
 										colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3, theme.purple3, theme.yellow3, theme.red3]}
 										refreshing={flatListIsLoading}
 										progressBackgroundColor={theme.white3}
-										onResponderRelease={() => console.log('onononon')}
 										onRefresh={refreshFlatlist}
 									/>
 								)}
