@@ -1,9 +1,15 @@
 import React, { createContext, useMemo, useState } from 'react'
+import { PostCollectionRemote } from '../services/firebase/types'
+import { SearchParams } from '../services/maps/types'
 
 import { LocationData } from './types'
 
 type LocationContextType = {
-	locationDataContext: LocationData
+	locationDataContext: {
+		searchParams: SearchParams,
+		nearbyPosts: PostCollectionRemote[],
+		lastRefreshInMilliseconds: number
+	}
 	setLocationDataOnContext: (data: LocationData) => void
 }
 
@@ -13,11 +19,15 @@ interface LocationProviderProps {
 
 const initialValue = {
 	locationDataContext: {
-		range: '',
-		city: '',
-		country: '',
-		postType: '',
-		geohashes: []
+		searchParams: {
+			range: '',
+			city: '',
+			country: '',
+			postType: '',
+			geohashes: []
+		},
+		nearbyPosts: [],
+		lastRefreshInMilliseconds: Date.now(),
 	},
 	setLocationDataOnContext: (data: LocationData) => { }
 }
@@ -28,7 +38,7 @@ function LocationProvider({ children }: LocationProviderProps) {
 	const [locationDataContext, setLocationDataContext] = useState(initialValue.locationDataContext)
 
 	const setLocationDataOnContext = async (data: LocationData) => {
-		setLocationDataContext({ ...locationDataContext, ...data })
+		setLocationDataContext({ ...locationDataContext, ...data as any })
 	}
 
 	const locationProviderData = useMemo(() => ({

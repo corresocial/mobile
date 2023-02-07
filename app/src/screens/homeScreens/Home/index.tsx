@@ -27,7 +27,6 @@ import { getRecentAddressFromStorage } from '../../../services/maps/recentAddres
 import { SearchParams, LatLong, AddressSearchResult, SelectedAddressRender } from '../../../services/maps/types'
 import { PostCollection } from '../../../services/firebase/types'
 import { HomeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
-import { LocationData } from '../../../contexts/types'
 
 import { LocationContext } from '../../../contexts/LocationContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -108,9 +107,9 @@ function Home({ navigation }: HomeScreenProps) {
 	const findNearPosts = async (searchText: string, currentPosition?: boolean, alternativeCoordinates?: LatLong) => {
 		try {
 			setSearchEnded(false)
-			// setLoaderIsVisible(true)
+			setLoaderIsVisible(true)
 
-			let searchParams = {} as LocationData
+			let searchParams = {} as SearchParams
 			if (currentPosition) {
 				const coordinates = await getCurrentPositionCoordinates()
 				searchParams = await getSearchParams(coordinates)
@@ -119,14 +118,12 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong) // address converter
 			}
 
-			const nearbyPosts = await getPostsByLocation(searchParams as SearchParams)
-			// console.log(nearbyPosts)
-			// const listOfPosts = [].concat(...nearbyPosts as any) || []// TODO type
+			const nearbyPosts = await getPostsByLocation(searchParams)
 			setNearPosts(nearbyPosts)
 
 			setLoaderIsVisible(false)
 			setSearchEnded(true)
-			setLocationDataOnContext(searchParams)
+			setLocationDataOnContext({ searchParams, nearbyPosts, lastRefreshInMilliseconds: Date.now() })
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)
@@ -171,7 +168,7 @@ function Home({ navigation }: HomeScreenProps) {
 			country: structuredAddress.country,
 			postType: 'any',
 			geohashes: geohashObject.geohashNearby
-		} as LocationData
+		} as SearchParams
 	}
 
 	const convertGeocodeToAddress = async (latitude: number, longitude: number) => {

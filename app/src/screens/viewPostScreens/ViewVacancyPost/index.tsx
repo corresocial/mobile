@@ -250,6 +250,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 								<LocationViewCard
 									title={'local de trabalho'}
 									locationView={'public'}
+									withoutMapView={!getPostField('location').coordinates}
 									isAuthor={isAuthor}
 									location={getPostField('location')}
 									textFontSize={16}

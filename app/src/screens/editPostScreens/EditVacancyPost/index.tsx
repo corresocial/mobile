@@ -12,7 +12,7 @@ import { updateDocField } from '../../../services/firebase/common/updateDocField
 
 import { VacancyStackParamList } from '../../../routes/Stack/VacancyStack/types'
 import { EditVacancyPostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { CultureCollection, DaysOfWeek, Id, ServiceCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote, WorkplaceType } from '../../../services/firebase/types'
+import { CultureCollection, DaysOfWeek, Id, ServiceCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
 
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -74,22 +74,12 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 		return userPosts.filter((post) => post.postId !== postData.postId)
 	}
 
-	const getVacancyRange = (workplace: WorkplaceType) => {
-		if (workplace === 'homeoffice') return 'country'
-		return 'city'
-	}
-
 	const editPost = async () => {
 		try {
 			setIsLoading(true)
 
 			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
-
-			if (editDataContext.unsaved.workplace === 'homeoffice') {
-				postDataToSave.location = {}
-				postDataToSave.range = getVacancyRange(editDataContext.unsaved.workplace)
-			}
 
 			await updatePost('posts', postData.postId, postDataToSave)
 
@@ -245,6 +235,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 								title={'localização'}
 								locationView={'public'}
 								textFontSize={16}
+								withoutMapView={!getPostField('location').coordinates}
 								editable
 								isAuthor
 								location={getPostField('location')}

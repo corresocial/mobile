@@ -7,12 +7,13 @@ import {
 	LocationViewType,
 	PaymentType,
 	PlaceModalityType,
-	PostType,
+	PostCollectionRemote,
 	UserCollection,
 	VacancyType,
 	WeekdaysFrequency,
 	WorkplaceType
 } from '../services/firebase/types'
+import { SearchParams } from '../services/maps/types'
 
 export type UserIdentification = {
 	uid: string
@@ -48,11 +49,9 @@ export interface StateData {
 }
 
 export type LocationData = {
-	range: string
-	city: string
-	country: string
-	postType: PostType | string
-	geohashes: never[]
+	searchParams?: SearchParams
+	nearbyPosts?: PostCollectionRemote[]
+	lastRefreshInMilliseconds?: number
 }
 
 export type ServiceData = {

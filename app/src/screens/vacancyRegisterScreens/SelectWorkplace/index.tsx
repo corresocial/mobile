@@ -28,12 +28,20 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 
 	const saveWorkplaceType = (workplace: WorkplaceType) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ workplace, range: getVacancyRange(workplace) })
+			addNewUnsavedFieldToEditContext({
+				workplace,
+				range: getVacancyRange(workplace),
+				location: { country: 'Brasil', city: 'any' }
+			})
 			navigation.goBack()
 			return
 		}
 
-		setVacancyDataOnContext({ workplace, range: getVacancyRange(workplace) })
+		setVacancyDataOnContext({
+			workplace,
+			range: getVacancyRange(workplace),
+			location: { country: 'Brasil', city: 'any' }
+		})
 
 		if (workplace === 'homeoffice') {
 			navigation.navigate('SelectVacancyCategory')

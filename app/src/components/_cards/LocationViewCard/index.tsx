@@ -22,6 +22,7 @@ interface LocationViewCardProps {
 	online?: boolean
 	locationView?: LocationViewType
 	textFontSize?: number
+	withoutMapView?: boolean
 	isAuthor?: boolean
 	editable?: boolean
 	location: Location
@@ -33,12 +34,21 @@ function LocationViewCard({
 	online,
 	locationView,
 	textFontSize = 12,
+	withoutMapView,
 	isAuthor = false,
 	editable,
 	location,
 	onEdit
 }: LocationViewCardProps) {
 	const renderFormatedAddress = () => {
+		if (withoutMapView) {
+			return (
+				<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
+					{showMessageWithHighlight('localização não definida', ['não', 'definida'])}
+				</TextAddress>
+			)
+		}
+
 		if (online) {
 			return (
 				<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
@@ -171,7 +181,7 @@ function LocationViewCard({
 				{renderFormatedAddress()}
 			</CardHeader>
 			{
-				((locationView !== 'private' || isAuthor) && locationView !== undefined) && (
+				((locationView !== 'private' || isAuthor) && locationView !== undefined) && !withoutMapView && (
 					<MapArea >
 						<CustomMapView
 							regionCoordinate={getAddressCoordinates()}
