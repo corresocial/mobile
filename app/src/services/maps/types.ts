@@ -15,6 +15,7 @@ export type SearchParams = {
 	city: string
 	country: string
 	postType: string
+	coordinates: LatLong
 	geohashes: string[]
 }
 

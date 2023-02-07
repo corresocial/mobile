@@ -25,7 +25,7 @@ export type PostIdentification = {
 
 async function getPostsByLocation(searchParams: SearchParams) {
 	try {
-		console.warn(searchParams)
+		// console.warn(searchParams)
 		const collectionRef = collection(firestore, 'posts')
 
 		const { nearbyPosts, nearPostIds } = await getNearbyPosts(collectionRef, searchParams)

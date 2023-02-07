@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { BackHandler, FlatList, StatusBar } from 'react-native'
+import { BackHandler, FlatList, RefreshControl, StatusBar } from 'react-native'
 import * as Location from 'expo-location'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -17,7 +17,7 @@ import SalesCartIcon from '../../../assets/icons/salesCart-green.svg'
 import SoundToolsIcon from '../../../assets/icons/soundTools-blue.svg'
 import ToolBoxIcon from '../../../assets/icons/toolBox-purple.svg'
 import SuitcaseIcon from '../../../assets/icons/suitcase-yellow.svg'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
 import { searchAddressByText } from '../../../services/maps/searchAddressByText'
@@ -49,7 +49,7 @@ const initialSelectedAddress = {
 function Home({ navigation }: HomeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
-	const { setLocationDataOnContext } = useContext(LocationContext)
+	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
 
 	const [selectedAddress, setSelectedAddress] = useState<SelectedAddressRender>(initialSelectedAddress)
 	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])
@@ -58,6 +58,7 @@ function Home({ navigation }: HomeScreenProps) {
 	const [hasLocationPermission, setHasLocationPermission] = useState(false)
 	const [hasLocationEnable, setHasLocationEnable] = useState(false)
 	const [searchEnded, setSearchEnded] = useState(false)
+	const [flatListIsLoading, setFlatListIsLoading] = useState(false)
 
 	useEffect(() => {
 		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
@@ -104,10 +105,9 @@ function Home({ navigation }: HomeScreenProps) {
 		setRecentAddresses(addresses)
 	}
 
-	const findNearPosts = async (searchText: string, currentPosition?: boolean, alternativeCoordinates?: LatLong) => {
+	const findNearPosts = async (searchText: string, currentPosition?: boolean, alternativeCoordinates?: LatLong, refresh?: boolean) => {
 		try {
-			setSearchEnded(false)
-			setLoaderIsVisible(true)
+			refresh ? setFlatListIsLoading(true) : setLoaderIsVisible(true); setSearchEnded(false)
 
 			let searchParams = {} as SearchParams
 			if (currentPosition) {
@@ -121,14 +121,17 @@ function Home({ navigation }: HomeScreenProps) {
 			const nearbyPosts = await getPostsByLocation(searchParams)
 			setNearPosts(nearbyPosts)
 
-			setLoaderIsVisible(false)
-			setSearchEnded(true)
+			refresh ? setFlatListIsLoading(false) : setLoaderIsVisible(false); setSearchEnded(true)
 			setLocationDataOnContext({ searchParams, nearbyPosts, lastRefreshInMilliseconds: Date.now() })
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)
 			setSearchEnded(true)
 		}
+	}
+
+	const refreshFlatlist = async () => {
+		await findNearPosts('', false, locationDataContext.searchParams.coordinates || null, true)
 	}
 
 	const getCurrentPositionCoordinates = async () => {
@@ -167,6 +170,7 @@ function Home({ navigation }: HomeScreenProps) {
 			city: structuredAddress.city,
 			country: structuredAddress.country,
 			postType: 'any',
+			coordinates,
 			geohashes: geohashObject.geohashNearby
 		} as SearchParams
 	}
@@ -340,12 +344,21 @@ function Home({ navigation }: HomeScreenProps) {
 										onPress={() => goToPostView(item)}
 									/>
 								)}
-								onEndReached={() => console.log('findMoreNearPosts(Pagination)')}
+								// onEndReached={() => console.log('findMoreNearPosts(Pagination)')}
 								showsVerticalScrollIndicator={false}
-								contentContainerStyle={{ padding: RFValue(10) }}
+								contentContainerStyle={{ padding: RFValue(10), paddingTop: flatListIsLoading ? relativeScreenHeight(10) : RFValue(10) }}
 								ItemSeparatorComponent={() => <Sigh />}
 								ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
 								ListFooterComponent={<FooterSigh />}
+								refreshControl={(
+									<RefreshControl
+										colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3, theme.purple3, theme.yellow3, theme.red3]}
+										refreshing={flatListIsLoading}
+										progressBackgroundColor={theme.white3}
+										onResponderRelease={() => console.log('onononon')}
+										onRefresh={refreshFlatlist}
+									/>
+								)}
 							/>
 						)
 						: hasLocationEnable && searchEnded && (
