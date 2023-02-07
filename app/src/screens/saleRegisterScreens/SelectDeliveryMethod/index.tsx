@@ -23,10 +23,10 @@ function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenP
 
 	const saveDeliveryMethod = (deliveryMethod: DeliveryMethod) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ deliveryMethod })
+			addNewUnsavedFieldToEditContext({ range: deliveryMethod })
 			navigation.goBack()
 		} else {
-			setSaleDataOnContext({ deliveryMethod })
+			setSaleDataOnContext({ range: deliveryMethod })
 		}
 
 		navigation.navigate('SelectSaleFrequency')

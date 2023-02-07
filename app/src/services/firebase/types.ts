@@ -139,7 +139,7 @@ export type ServiceCollection = {
 	saleValue?: string
 	exchangeValue?: string
 	locationView?: LocationViewType
-	deliveryMethod?: DeliveryMethod
+	range?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
 	attendanceWeekDays?: DaysOfWeek[]
 	openingHour?: Date
@@ -181,7 +181,7 @@ export type ServiceCollectionRemote = {
 	saleValue?: string
 	exchangeValue?: string
 	locationView: LocationViewType
-	deliveryMethod: DeliveryMethod
+	range: DeliveryMethod
 	attendanceFrequency: WeekdaysFrequency
 	attendanceWeekDays?: DaysOfWeek[]
 	openingHour: Date
@@ -224,7 +224,7 @@ export type SaleCollection = {
 	saleValue?: string
 	exchangeValue?: string
 	locationView?: LocationViewType
-	deliveryMethod?: DeliveryMethod
+	range?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
 	attendanceWeekDays?: DaysOfWeek[]
 	openingHour?: Date
@@ -267,7 +267,7 @@ export type SaleCollectionRemote = {
 	saleValue: string
 	exchangeValue?: string
 	locationView: LocationViewType
-	deliveryMethod: DeliveryMethod
+	range: DeliveryMethod
 	attendanceFrequency: WeekdaysFrequency
 	attendanceWeekDays: DaysOfWeek[]
 	openingHour: Date

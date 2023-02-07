@@ -234,7 +234,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					<Sigh />
 					<DeliveryMethodCard
 						title={'entrega'}
-						deliveryMethod={getPostField('deliveryMethod')}
+						deliveryMethod={getPostField('range')}
 						textFontSize={16}
 					/>
 					<LastSigh />

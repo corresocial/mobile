@@ -8,7 +8,7 @@ async function getPostsByDeliveryMethod(searchParams: SearchParams) {
 	const rangeOfDeliveryCollections = [
 		{
 			collectionName: 'posts',
-			rangeField: 'deliveryMethod'
+			rangeField: 'range'
 		}
 	]
 

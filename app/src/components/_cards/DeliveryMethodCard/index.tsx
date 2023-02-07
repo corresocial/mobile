@@ -4,7 +4,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { DeliveryMethodText } from './styles'
 import TruckIcon from '../../../assets/icons/truck.svg'
 
-import { formatDate, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 import { DeliveryMethod } from '../../../services/firebase/types'
 

@@ -64,7 +64,7 @@ export type ServiceData = {
 	saleValue?: string
 	exchangeValue?: string
 	locationView?: LocationViewType
-	deliveryMethod?: DeliveryMethod
+	range?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
 	attendanceWeekDays?: DaysOfWeek[]
 	openingHour?: Date
@@ -98,7 +98,7 @@ export type SaleData = {
 	saleValue?: string
 	exchangeValue?: string
 	locationView?: LocationViewType
-	deliveryMethod?: DeliveryMethod
+	range?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
 	attendanceWeekDays?: DaysOfWeek[]
 	openingHour?: Date
