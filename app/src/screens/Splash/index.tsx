@@ -44,7 +44,7 @@ function Splash({ navigation }: SplashScreenProps) {
 					tourPerformed: userObject.tourPerformed
 				})
 			} else {
-				// navigation.navigate('AcceptAndContinue')
+				navigation.navigate('AcceptAndContinue')
 				// throw 'Usuário não authenticado localmente!' // Faz com que o usuário fique em loop
 			}
 		} catch (err) {
