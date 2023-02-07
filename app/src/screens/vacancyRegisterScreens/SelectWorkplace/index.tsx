@@ -21,14 +21,19 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
+	const getVacancyRange = (workplace: WorkplaceType) => {
+		if (workplace === 'homeoffice') return 'country'
+		return 'city'
+	}
+
 	const saveWorkplaceType = (workplace: WorkplaceType) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ workplace })
+			addNewUnsavedFieldToEditContext({ workplace, range: getVacancyRange(workplace) })
 			navigation.goBack()
 			return
 		}
 
-		setVacancyDataOnContext({ workplace })
+		setVacancyDataOnContext({ workplace, range: getVacancyRange(workplace) })
 
 		if (workplace === 'homeoffice') {
 			navigation.navigate('SelectVacancyCategory')

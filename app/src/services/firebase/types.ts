@@ -305,6 +305,7 @@ export type VacancyCollection = {
 	description?: string
 	vacancyType?: VacancyType
 	workplace?: WorkplaceType
+	range?: ExhibitionPlaceType
 	companyDescription?: string
 	questions?: string[]
 	workWeekdays?: DaysOfWeek[]
@@ -346,6 +347,7 @@ export type VacancyCollectionRemote = {
 	description: string
 	vacancyType: VacancyType
 	workplace: WorkplaceType
+	range?: ExhibitionPlaceType
 	companyDescription: string
 	questions: string[]
 	workWeekdays: DaysOfWeek[]
@@ -387,7 +389,7 @@ export type CultureCollection = {
 	description?: string
 	cultureType?: CultureType
 	locationView?: LocationViewType
-	exhibitionPlace?: ExhibitionPlaceType
+	range?: ExhibitionPlaceType
 	eventPlaceModality?: PlaceModalityType
 	eventRepeat?: EventRepeatType
 	entryValue?: string
@@ -430,7 +432,7 @@ export type CultureCollectionRemote = {
 	description: string
 	cultureType: CultureType
 	locationView: LocationViewType
-	exhibitionPlace: ExhibitionPlaceType
+	range: ExhibitionPlaceType
 	eventPlaceModality?: PlaceModalityType
 	eventRepeat: EventRepeatType
 	entryValue: string
@@ -474,7 +476,7 @@ export type SocialImpactCollection = {
 	tags?: string[]
 	category?: string
 	locationView?: LocationViewType
-	exhibitionRange?: ExhibitionPlaceType
+	range?: ExhibitionPlaceType
 	exhibitionWeekDays?: DaysOfWeek[]
 	socialImpactRepeat?: EventRepeatType,
 	openingHour?: Date
@@ -513,7 +515,7 @@ export type SocialImpactCollectionRemote = {
 	tags: string[]
 	category: string
 	locationView: LocationViewType
-	exhibitionRange: ExhibitionPlaceType
+	range: ExhibitionPlaceType
 	exhibitionWeekDays: DaysOfWeek[]
 	socialImpactRepeat: EventRepeatType,
 	openingHour: Date

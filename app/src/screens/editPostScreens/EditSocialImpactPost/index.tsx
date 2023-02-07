@@ -79,8 +79,8 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 	}
 
 	const renderExhibitionRange = () => {
-		const socialImpactRepeat = getPostField('exhibitionRange') as ExhibitionPlaceType
-		switch (socialImpactRepeat) {
+		const range = getPostField('range') as ExhibitionPlaceType
+		switch (range) {
 			case 'near': return 'no bairro'
 			case 'city': return 'na cidade'
 			case 'country': return 'no país'
@@ -305,7 +305,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 					title={'alcance de exibição'}
 					highlightedWords={['alcance']}
 					value={renderExhibitionRange() || '---'}
-					onEdit={() => navigateToEditScreen('SelectSocialImpactExhibitionRange', 'exhibitionRange')}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactExhibitionRange', 'range')}
 				/>
 				<Sigh />
 				<LocationViewCard

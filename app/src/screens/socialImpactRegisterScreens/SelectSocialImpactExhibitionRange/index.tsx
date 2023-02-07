@@ -23,12 +23,12 @@ function SelectSocialImpactExhibitionRange({ route, navigation }: SelectSocialIm
 
 	const saveSocialImpactExhibitionRange = (exhibitionRange: ExhibitionPlaceType) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ exhibitionRange })
+			addNewUnsavedFieldToEditContext({ range: exhibitionRange })
 			navigation.goBack()
 			return
 		}
 
-		setSocialImpactDataOnContext({ exhibitionRange })
+		setSocialImpactDataOnContext({ range: exhibitionRange })
 		navigation.navigate('SelectSocialImpactLocationView')
 	}
 

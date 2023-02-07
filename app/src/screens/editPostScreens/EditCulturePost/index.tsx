@@ -71,8 +71,8 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 	}
 
 	const renderExhibitionRange = () => {
-		const socialImpactRepeat = getPostField('exhibitionPlace') as ExhibitionPlaceType
-		switch (socialImpactRepeat) {
+		const range = getPostField('range') as ExhibitionPlaceType
+		switch (range) {
 			case 'near': return 'no bairro'
 			case 'city': return 'na cidade'
 			case 'country': return 'no país'
@@ -311,7 +311,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 							title={'alcance de exibição'}
 							highlightedWords={['alcance']}
 							value={renderExhibitionRange() || '---'}
-							onEdit={() => navigateToEditScreen('SelectExhibitionPlace', 'exhibitionPlace')}
+							onEdit={() => navigateToEditScreen('SelectExhibitionPlace', 'range')}
 						/>
 					)
 				}

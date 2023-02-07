@@ -23,12 +23,12 @@ function SelectExhibitionPlace({ route, navigation }: SelectExhibitionPlaceScree
 
 	const saveExhibitionPlace = (exhibitionPlace: ExhibitionPlaceType) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ exhibitionPlace })
+			addNewUnsavedFieldToEditContext({ range: exhibitionPlace })
 			navigation.goBack()
 			return
 		}
 
-		setCultureDataOnContext({ exhibitionPlace })
+		setCultureDataOnContext({ range: exhibitionPlace })
 		navigation.navigate('SelectCultureLocationView')
 	}
 
