@@ -36,6 +36,7 @@ import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCar
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
+import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
 
 function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -71,6 +72,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const deleteRemotePost = async () => {
 		setIsLoading(true)
 		await deletePost(postData.postId, postData.owner.userId)
+		await deletePostPictures(getPostField('picturesUrl') || [])
 		await removePostOnContext()
 		setIsLoading(false)
 		backToPreviousScreen()

@@ -20,9 +20,8 @@ function SelectEventPlaceModality({ navigation }: SelectEventPlaceModalityScreen
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 
 	const saveEventPlaceModality = (eventPlaceModality: PlaceModalityType) => {
-		setCultureDataOnContext({
-			eventPlaceModality
-		})
+		setCultureDataOnContext({ eventPlaceModality })
+
 		if (eventPlaceModality !== 'online') {
 			navigation.navigate('SelectCultureLocationView')
 		} else {

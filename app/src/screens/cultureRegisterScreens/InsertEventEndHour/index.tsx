@@ -132,8 +132,8 @@ function InsertEventEndHour({ route, navigation }: InsertEventEndHourScreenProps
 			}
 
 			const picturePostsUrls: string[] = []
-			culturePictures.forEach(async (culturePicture, index) => {
-				uploadImage(culturePicture, 'posts', index).then(
+			culturePictures.forEach(async (picturePath, index) => {
+				uploadImage(picturePath, 'posts', index).then(
 					({ uploadTask, blob }: any) => {
 						uploadTask.on(
 							'state_change',

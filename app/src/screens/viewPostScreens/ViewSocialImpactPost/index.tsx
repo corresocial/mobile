@@ -27,6 +27,7 @@ import { ImageCarousel } from '../../../components/ImageCarousel'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
+import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
 
 function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -62,6 +63,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	const deleteRemotePost = async () => {
 		setIsLoading(true)
 		await deletePost(postData.postId, postData.owner.userId)
+		await deletePostPictures(getPostField('picturesUrl') || [])
 		await removePostOnContext()
 		setIsLoading(false)
 		backToPreviousScreen()

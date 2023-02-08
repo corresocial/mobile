@@ -30,6 +30,7 @@ import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
+import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
 
 function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -65,6 +66,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	const deleteRemotePost = async () => {
 		setIsLoading(true)
 		await deletePost(postData.postId, postData.owner.userId)
+		await deletePostPictures(getPostField('picturesUrl') || [])
 		await removePostOnContext()
 		setIsLoading(false)
 		backToPreviousScreen()
