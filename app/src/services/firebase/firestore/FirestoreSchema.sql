@@ -36,7 +36,7 @@ serviceCollection: {
     paymentType: enum('exchange' | 'sale' | 'both')
 	saleValue: 'float'
 	exchangeValue: 'string'
-    deliveryMethod: enum('unavailable' | 'near' | 'city' | 'country'),
+    range: enum('unavailable' | 'near' | 'city' | 'country'),
     attendanceFrequency: enum('today' | 'everyday' | 'someday' | 'businessDay')
     attendanceWeekDays: 'array[string]',
     openingHour: 'date',
@@ -74,7 +74,7 @@ saleCollection = {
     saleValue: 'string',
     exchangeValue: 'string',
     locationView: enum('private' | 'approximate' | 'public'),
-    deliveryMethod: enum('unavailable' | 'near' | 'city' | 'country'),
+    range: enum('unavailable' | 'near' | 'city' | 'country'),
     attendanceFrequency: enum('today' | 'everyday' | 'someday' | 'businessDay')
     attendanceWeekDays: 'array[string]',
     openingHour: 'date',
@@ -110,6 +110,7 @@ vacancyCollection = {
     description: 'string'
     vacancyType: enum('professional' | 'temporary' | 'beak')
     workplace: enum('homeoffice' | 'presential' | 'hybrid')
+	range: enum('near' | 'city' | 'country'),
     companyDescription: 'string'
     questions: string[]
     workWeekdays: DaysOfWeek[]
@@ -146,7 +147,7 @@ cultureCollection = {
     description: 'string',
     cultureType: enum('artistProfile' | 'eventPost'),
     locationView: enum('private' | 'approximate' | 'public'),
-    exhibitionPlace: enum('near' | 'city' | 'country'),
+    range: enum('near' | 'city' | 'country'),
     eventPlaceModality: enum('online' | 'both' | 'presential'),
     eventRepeat: enum('unrepeatable' | 'weekly' | 'everyDay' | 'biweekly' | 'monthly'),
     entryValue: 'string',
@@ -186,7 +187,7 @@ socialImpactCollection: {
 	description: 'string',
 	tags: 'array[string]',
 	locationView: enum('private' | 'approximate' | 'public'),
-	exhibitionRange: enum('near' | 'city' | 'country'),
+	range: enum('near' | 'city' | 'country'),
 	exhibitionWeekDays: 'array[string]',
 	socialImpactRepeat: enum('unrepeatable' | 'weekly' | 'everyDay' | 'biweekly' | 'monthly'),
 	openingHour: 'date',
