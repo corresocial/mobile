@@ -11,7 +11,6 @@ async function searchPosts(searchText: string, searchParams: any, searchOnly?: b
 
 	if (!searchOnly) {
 		const geoKey = searchParams.range === 'nearby' ? 'geohashNearby' : 'geohashCity'
-		searchFilters.locationViewFilter = ' AND locationView:public OR locationView:approximate'
 		searchFilters.rangeFilter = getRangeFilter(searchParams.range, searchParams.city, searchParams.country)
 		searchFilters.postTypeFilter = getPostTypeFilter(searchParams.postType)
 		searchFilters.geohashFilter = getGeohashFilter(searchParams.geohashes, geoKey)

@@ -6,7 +6,7 @@ import { Body, Container, Header, HorizontalSigh, InputContainer, LastSigh, Sear
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
 
-import { PostCollection, PostType } from '../../../services/firebase/types'
+import { PostCollection } from '../../../services/firebase/types'
 import { PostCategoryDetailsScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 import { LocationContext } from '../../../contexts/LocationContext'
@@ -15,8 +15,6 @@ import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
-import { getNearPostsIdsByPostType } from '../../../services/firebase/post/getNearPostsIdsByPostType'
-import { getListOfPosts } from '../../../services/firebase/post/getListOfPosts'
 import { sortArray } from '../../../common/auxiliaryFunctions'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 
@@ -30,72 +28,66 @@ function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenPro
 		getRecentPosts()
 	}, [])
 
-	const getRecentPosts = async () => {
-		const postIds = await getNearPostsIdsByPostType(
-			locationDataContext.geohashes,
-			route.params.categoryType as PostType
-		)
-		const posts = await getListOfPosts(postIds, 'category', route.params.categoryName)
-		setRecentPosts([].concat(...posts as any) as any || []) // TODO Type
-	}
+	const {
+		backgroundColor,
+		categoryIcon,
+		categoryName,
+		categoryTags,
+		categoryTitle
+	} = locationDataContext.currentCategory
 
-	const getCategoryIcon = () => {
-		const SvgIcon = route.params.cagegoryIcon
-		return SvgIcon
+	const getRecentPosts = async () => {
+		const filteredPosts = locationDataContext.nearbyPosts.filter((post) => post.category === categoryName)
+		setRecentPosts(filteredPosts)
 	}
 
 	const getFiltredCategoryTags = () => {
-		if (!searchText) return route.params.categoryTags.sort(sortArray)
-		const filtredTags = route.params.categoryTags.filter((tag) => !!tag.match(new RegExp(`${searchText}`, 'i'))?.length)
+		if (!searchText) return categoryTags.sort(sortArray)
+		const filtredTags = categoryTags.filter((tag) => !!tag.match(new RegExp(`${searchText}`, 'i'))?.length)
 		return filtredTags.sort(sortArray)
 	}
 
 	const viewPostsByTag = (tagName: string) => {
-		navigation.navigate('ViewPostsByTag', {
-			backgroundColor: route.params.backgroundColor,
-			cagegoryIcon: route.params.cagegoryIcon,
-			categoryType: route.params.categoryType,
-			categoryCollection: route.params.categoryCollection,
-			tagName
-		})
+		navigation.navigate('ViewPostsByTag', { currentTagSelected: tagName })
 	}
 
 	const viewAllTags = async () => {
-		navigation.navigate('ViewAllTags', {
-			backgroundColor: route.params.backgroundColor,
-			title: route.params.title,
-			categoryName: route.params.categoryName,
-			cagegoryIcon: route.params.cagegoryIcon,
-			categoryType: route.params.categoryType,
-			categoryTags: route.params.categoryTags,
-			categoryCollection: route.params.categoryCollection
-		})
+		navigation.navigate('ViewAllTags')
 	}
 
 	const goToPostView = (item: PostCollection) => {
 		switch (item.postType) {
 			case 'service': {
-				navigation.navigate('ViewServicePostHome' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewServicePostHome', { postData: { ...item } })
 				break
 			}
 			case 'sale': {
-				navigation.navigate('ViewSalePostHome' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewSalePostHome', { postData: { ...item } })
 				break
 			}
 			case 'vacancy': {
-				navigation.navigate('ViewVacancyPostHome' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewVacancyPostHome', { postData: { ...item } })
 				break
 			}
 			case 'socialImpact': {
-				navigation.navigate('ViewSocialImpactPostHome' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewSocialImpactPostHome', { postData: { ...item } })
 				break
 			}
 			case 'culture': {
-				navigation.navigate('ViewCulturePostHome' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewCulturePostHome', { postData: { ...item } })
 				break
 			}
 			default: return false
 		}
+	}
+
+	const navigateToResultScreen = () => {
+		const customSearchParams = {
+			...locationDataContext.searchParams,
+			searchText,
+			category: locationDataContext.currentCategory.categoryName,
+		}
+		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle, })
 	}
 
 	return (
@@ -103,9 +95,9 @@ function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenPro
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
-					text={route.params.title}
+					text={categoryTitle}
 					onBackPress={() => navigation.goBack()}
-					SvgIcon={getCategoryIcon()}
+					SvgIcon={categoryIcon}
 				/>
 				<InputContainer>
 					<LoupIcon width={RFValue(25)} height={RFValue(25)} />
@@ -114,14 +106,14 @@ function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenPro
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
-						onSubmitEditing={() => { }}
+						onSubmitEditing={navigateToResultScreen}
 					/>
 				</InputContainer>
 			</Header>
-			<Body style={{ backgroundColor: route.params.backgroundColor }}>
+			<Body style={{ backgroundColor }}>
 				<SubtitleCard
-					text={`todas categorias ${route.params.title}`}
-					highlightedText={['todas', ...route.params.title.split(' ')]}
+					text={`todas categorias ${categoryTitle}`}
+					highlightedText={['todas', ...categoryTitle.split(' ')]}
 					onPress={viewAllTags}
 				/>
 				<TagsContainer>

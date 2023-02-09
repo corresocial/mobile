@@ -1,6 +1,5 @@
 import { PostCollection } from '../../../services/firebase/types'
 import { HomeTabParamList } from '../../Tabs/HomeTab/types'
-import { UserStackParamList } from '../UserStack/types'
 
 export type ProfileStackParamList = {
 	Profile: { userId: string } | undefined

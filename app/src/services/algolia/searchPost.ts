@@ -1,27 +1,64 @@
 /* eslint-disable no-underscore-dangle */
-import {
-	servicesIndex,
-	salesIndex,
-	vacanciesIndex,
-	culturesIndex,
-	socialImpactsIndex
-} from './index'
+import { SearchParams } from '../maps/types'
+import { postsIndex } from './index'
 
-import { PostCollectionType } from '../firebase/types'
-import { PostIdentification } from './types'
-
-async function searchPosts(searchText: string, postsIdentification: any, tagName: string) {
+async function searchPosts(searchText: string, searchParams: SearchParams) {
 	try {
-		const resultsGroup = await searchAllPosts(searchText, postsIdentification, tagName)
-
-		if (resultsGroup.length > 0) {
-			const posts = resultsGroup[0].hits.map((record: any, index: number) => {
-				const postData = structurePostObject(record)
-				return postData
-			})
-			return posts
+		const searchFilters = {
+			cityFilter: '',
+			countryFilter: '',
+			postTypeFilter: '',
+			geohashFilter: '',
+			geohashExceptionFilter: '',
+			categoryFilter: '',
+			tagFilter: '',
 		}
-		return [] as PostIdentification[]
+
+		const searchOnly = false
+
+		if (!searchOnly) {
+			const geohashField = searchParams.range === 'nearby' ? 'geohashNearby' : 'geohashCity'
+			searchFilters.postTypeFilter = getPostTypeFilter(searchParams.postType)
+			searchFilters.geohashFilter = getGeohashFilter(searchParams.geohashes, geohashField)
+			searchFilters.geohashExceptionFilter = getGeohashFilter(searchParams.geohashes, geohashField, true)
+			searchFilters.cityFilter = getRangeFilter('city', searchParams.city, searchParams.country)
+			searchFilters.countryFilter = getRangeFilter('country', searchParams.country, searchParams.country)
+			searchFilters.categoryFilter = getCategoryFilter(searchParams.category)
+			searchFilters.tagFilter = getTagFilter(searchParams.tag)
+		}
+
+		const results = await Promise.all([
+			await postsIndex.search(searchText, { // Near
+				filters: searchOnly
+					? ''
+					: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+			}),
+			await postsIndex.search(searchText, { // City
+				filters: searchOnly
+					? ''
+					: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND ${searchFilters.cityFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+			}),
+			await postsIndex.search(searchText, { // Country
+				filters: searchOnly
+					? ''
+					: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+			})
+		])
+			.then((responses) => responses.reduce((acc: any, result: any) => { // TODO Type
+				if (result.hits.length > 0) {
+					const structuredPosts: any[] = result.hits.map((record: any, index: number) => {
+						const postData = structurePostObject(record)
+						return postData
+					})
+
+					return [...acc, ...structuredPosts]
+				}
+				return acc
+			}, []),)
+
+		results.forEach((post: any) => console.log(`${post.title} - ${post.postType} - ${post.range}`))
+
+		return results
 	} catch (err) {
 		console.log(err)
 		console.log('Erro ao buscar posts no algolia, file:searchPosts')
@@ -29,61 +66,46 @@ async function searchPosts(searchText: string, postsIdentification: any, tagName
 	}
 }
 
-const searchAllPosts = (searchText: string, postsIdentification: PostIdentification[], tagName: string) => {
-	const allPosts = postsIdentification.map(async (post) => {
-		const postIndex = getRelativeAlgoliaIndex(post.collection as PostCollectionType)
-		const filterIds = getPostIdsFilter(post.postIds)
-		const filterTag = `tags:${tagName}`
+const getPostTypeFilter = (postType: string) => {
+	return `postType:${postType}`
+}
 
-		const results = await postIndex.search(searchText, {
-			filters: `${filterIds} AND ${filterTag}`
-		})
+const getGeohashFilter = (geohashes: string[], geohashField: string, negativeClause?: boolean) => {
+	return geohashes.reduce((query, geohash) => {
+		if (geohash === geohashes[geohashes.length - 1]) {
+			return `(${query}${negativeClause ? 'NOT' : ''}location.${geohashField}:${geohash})`
+		}
+		return `${query}${negativeClause ? 'NOT' : ''} location.${geohashField}:${geohash} OR `
+	}, '')
+}
 
-		return results
-	})
+const getRangeFilter = (range: string, city: string, country: string) => { // TODO Type
+	if (range === 'nearby' || range === 'city') return `range:city AND location.city:'${city}'`
+	if (range === 'country') return `range:${range} AND location.country:'${country}'`
+	return ''
+}
 
-	return Promise.all(allPosts)
+const getCategoryFilter = (category: string) => {
+	if (!category) return ''
+	return ` AND category:${category}`
+}
+
+const getTagFilter = (tag: string) => {
+	if (!tag) return ''
+	return ` AND tags:${tag}`
 }
 
 const structurePostObject = (record: any) => {
 	const structuredPost = {
 		...record,
 		postId: record.objectID,
-		owner: {
-			name: record['owner.name'],
-			profilePictureUrl: record['owner.profilePictureUrl'],
-			userId: record['owner.userId'],
-		}
 	}
 	delete structuredPost.path
 	delete structuredPost.objectID
 	delete structuredPost.lastmodified
 	delete structuredPost._highlightResult
-	delete structuredPost['owner.name']
-	delete structuredPost['owner.profilePictureUrl']
-	delete structuredPost['owner.userId']
 
 	return structuredPost
-}
-
-const getRelativeAlgoliaIndex = (collection: PostCollectionType) => {
-	switch (collection) {
-		case 'services': return servicesIndex
-		case 'sales': return salesIndex
-		case 'vacancies': return vacanciesIndex
-		case 'cultures': return culturesIndex
-		case 'socialImpacts': return socialImpactsIndex
-		default: throw new Error('Não foi possível definir o index do post')
-	}
-}
-
-const getPostIdsFilter = (postIds: string[]) => {
-	return postIds.reduce((query, postId) => {
-		if (postId === postIds[postIds.length - 1]) {
-			return `${query} objectID:${postId}`
-		}
-		return `${query} objectID:${postId} OR`
-	}, '')
 }
 
 export { searchPosts }

@@ -1,6 +1,5 @@
-import React from 'react'
-import { SvgProps } from 'react-native-svg'
-import { PostCollection, PostCollectionType, PostType } from '../../../services/firebase/types'
+import { PostCollection, PostType } from '../../../services/firebase/types'
+import { SearchParams } from '../../../services/maps/types'
 import { UserStackParamList } from '../UserStack/types'
 
 export type HomeStackParamList = {
@@ -10,31 +9,10 @@ export type HomeStackParamList = {
 	ViewVacancyPostHome: { postData: PostCollection }
 	ViewSocialImpactPostHome: { postData: PostCollection }
 	ViewCulturePostHome: { postData: PostCollection }
-	PostCategories: { title: string }
-	PostCategoryDetails: {
-		backgroundColor: string
-		title: string
-		categoryName: string
-		cagegoryIcon: React.FC<SvgProps>
-		categoryType: PostType
-		categoryCollection: PostCollectionType
-		categoryTags: string[]
-	}
-	ViewAllTags: {
-		backgroundColor: string
-		title: string
-		categoryName: string
-		cagegoryIcon: React.FC<SvgProps>
-		categoryType: PostType
-		categoryCollection: PostCollectionType
-		categoryTags: string[]
-	}
-	ViewPostsByTag: {
-		backgroundColor: string
-		tagName: string
-		cagegoryIcon: React.FC<SvgProps>
-		categoryType: PostType
-		categoryCollection: PostCollectionType
-	}
+	PostCategories: { postType: PostType }
+	PostCategoryDetails: undefined
+	ViewAllTags: undefined
+	ViewPostsByTag: { currentTagSelected: string }
+	SearchResult: { searchParams: SearchParams, categoryLabel?: string }
 	ProfileHome: { userId: string }
 } & UserStackParamList

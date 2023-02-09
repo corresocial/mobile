@@ -1,3 +1,7 @@
+import React from 'react'
+import { SvgProps } from 'react-native-svg'
+import { PostType } from '../firebase/types'
+
 export type AddressSearchResult = {
 	formattedAddress: string
 	lat: number
@@ -11,15 +15,26 @@ export type LatLong = {
 }
 
 export type SearchParams = {
+	searchText: string
 	range: string
 	city: string
 	country: string
-	postType: string
+	postType: PostType
+	category: string
+	tag: string
 	coordinates: LatLong
 	geohashes: string[]
 }
 
+export type CurrentCategory = {
+	backgroundColor: string
+	categoryName: string
+	categoryTitle: string
+	categoryIcon: React.FC<SvgProps>
+	categoryTags: string[]
+}
+
 export type SelectedAddressRender = {
-	addressHighlighted: string;
-	addressThin: string;
+	addressHighlighted: string
+	addressThin: string
 }

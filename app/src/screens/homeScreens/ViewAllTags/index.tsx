@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { StatusBar, ScrollView, KeyboardAvoidingView } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
@@ -12,12 +12,15 @@ import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
 import { sortArray } from '../../../common/auxiliaryFunctions'
+import { LocationContext } from '../../../contexts/LocationContext'
 
-function ViewAllTags({ route, navigation }: ViewAllTagsScreenProps) {
+function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
+	const { locationDataContext } = useContext(LocationContext)
+
 	const [searchText, setSearchText] = useState('')
 
 	const renderFiltredCategories = () => {
-		let { categoryTags } = route.params
+		let { categoryTags } = locationDataContext.currentCategory
 
 		if (searchText) {
 			categoryTags = categoryTags.filter((tag) => !!tag.match(new RegExp(`${searchText}`, 'i'))?.length)
@@ -37,13 +40,7 @@ function ViewAllTags({ route, navigation }: ViewAllTagsScreenProps) {
 	}
 
 	const viewPostsByTag = (tagName: string) => {
-		navigation.navigate('ViewPostsByTag', {
-			backgroundColor: route.params.backgroundColor,
-			cagegoryIcon: route.params.cagegoryIcon,
-			categoryType: route.params.categoryType,
-			categoryCollection: route.params.categoryCollection,
-			tagName
-		})
+		navigation.navigate('ViewPostsByTag', { currentTagSelected: tagName })
 	}
 
 	return (
@@ -52,8 +49,8 @@ function ViewAllTags({ route, navigation }: ViewAllTagsScreenProps) {
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
-					text={`categorias ${route.params.title}`}
-					highlightedWords={route.params.title.split(' ')}
+					text={`categorias ${locationDataContext.currentCategory.categoryTitle}`}
+					highlightedWords={locationDataContext.currentCategory.categoryTitle.split(' ')}
 				/>
 				<InputContainer>
 					<LoupIcon width={RFValue(25)} height={RFValue(25)} />
@@ -67,7 +64,7 @@ function ViewAllTags({ route, navigation }: ViewAllTagsScreenProps) {
 				</InputContainer>
 			</Header>
 			<KeyboardAvoidingView style={{ flex: 1 }}>
-				<Body style={{ backgroundColor: route.params.backgroundColor }}>
+				<Body style={{ backgroundColor: locationDataContext.currentCategory.backgroundColor }}>
 					<ScrollView showsVerticalScrollIndicator={false}>
 						<SelectButtonsContainer backgroundColor={'transparent'} noPadding>
 							{renderFiltredCategories()}

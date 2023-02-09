@@ -23,9 +23,8 @@ export type PostIdentification = {
 	culture: PostIdentificationItem
 }
 
-async function getPostsByLocation(searchParams: SearchParams) {
+async function getPostsByLocationPostType(searchParams: SearchParams) {
 	try {
-		// console.warn(searchParams)
 		const collectionRef = collection(firestore, 'posts')
 
 		const { nearbyPosts, nearPostIds } = await getNearbyPosts(collectionRef, searchParams)
@@ -45,6 +44,7 @@ const getNearbyPosts = async (collectionRef: CollectionReference<DocumentData>, 
 
 	const queryNearby = query(
 		collectionRef,
+		where('postType', '==', searchParams.postType),
 		where('location.geohashNearby', 'array-contains-any', searchParams.geohashes),
 		orderBy('createdAt', 'desc')
 	)
@@ -64,6 +64,7 @@ const getCityPosts = async (collectionRef: CollectionReference<DocumentData>, se
 	const posts: any = []
 	const queryCity = query(
 		collectionRef,
+		where('postType', '==', searchParams.postType),
 		where('range', '==', 'city'),
 		where('location.city', '==', searchParams.city),
 		orderBy('createdAt', 'desc')
@@ -86,6 +87,7 @@ const getCountryPosts = async (collectionRef: CollectionReference<DocumentData>,
 
 	const countryQuery = query(
 		collectionRef,
+		where('postType', '==', searchParams.postType),
 		where('location.country', '==', searchParams.country),
 		where('range', '==', 'country'),
 		where('location.city', '!=', searchParams.city), // Excepcion
@@ -105,4 +107,4 @@ const getCountryPosts = async (collectionRef: CollectionReference<DocumentData>,
 	return posts
 }
 
-export { getPostsByLocation }
+export { getPostsByLocationPostType }

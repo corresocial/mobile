@@ -13,7 +13,7 @@ import {
 	WeekdaysFrequency,
 	WorkplaceType
 } from '../services/firebase/types'
-import { SearchParams } from '../services/maps/types'
+import { CurrentCategory, SearchParams } from '../services/maps/types'
 
 export type UserIdentification = {
 	uid: string
@@ -50,6 +50,7 @@ export interface StateData {
 
 export type LocationData = {
 	searchParams?: SearchParams
+	currentCategory?: CurrentCategory
 	nearbyPosts?: PostCollectionRemote[]
 	lastRefreshInMilliseconds?: number
 }

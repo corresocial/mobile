@@ -17,6 +17,7 @@ import { PostCategories } from '../../../screens/homeScreens/PostCategories'
 import { PostCategoryDetails } from '../../../screens/homeScreens/PostCategoryDetails'
 import { ViewAllTags } from '../../../screens/homeScreens/ViewAllTags'
 import { ViewPostsByTag } from '../../../screens/homeScreens/ViewPostsByTag'
+import { SearchResult } from '../../../screens/homeScreens/SearchResult'
 import { Profile } from '../../../screens/profileScreens/Profile'
 
 const Stack = createStackNavigator<HomeStackParamList>()
@@ -43,6 +44,7 @@ export function HomeStack({ route }: any) {
 					<Stack.Screen name={'PostCategoryDetails'} component={PostCategoryDetails} />
 					<Stack.Screen name={'ViewAllTags'} component={ViewAllTags} />
 					<Stack.Screen name={'ViewPostsByTag'} component={ViewPostsByTag} />
+					<Stack.Screen name={'SearchResult'} component={SearchResult} />
 					<Stack.Screen name={'ProfileHome'} component={Profile} />
 				</Stack.Navigator>
 			</LocationProvider>

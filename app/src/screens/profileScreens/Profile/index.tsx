@@ -125,23 +125,38 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	const goToPostView = (item: PostCollection) => {
 		switch (item.postType) {
 			case 'service': {
-				navigation.navigate('ViewServicePost', { postData: { ...item, owner: getUserDataOnly() } })
+				navigation.navigate(
+					route.params?.userId ? 'ViewServicePostHome' : 'ViewServicePost' as any, // TODO Type
+					{ postData: { ...item, owner: getUserDataOnly() } }
+				)
 				break
 			}
 			case 'sale': {
-				navigation.navigate('ViewSalePost', { postData: { ...item, owner: getUserDataOnly() } })
+				navigation.navigate(
+					route.params?.userId ? 'ViewSalePostHome' : 'ViewSalePost' as any, // TODO Type
+					{ postData: { ...item, owner: getUserDataOnly() } }
+				)
 				break
 			}
 			case 'vacancy': {
-				navigation.navigate('ViewVacancyPost', { postData: { ...item, owner: getUserDataOnly() } })
+				navigation.navigate(
+					route.params?.userId ? 'ViewVacancyPostHome' : 'ViewVacancyPost' as any, // TODO Type
+					{ postData: { ...item, owner: getUserDataOnly() } }
+				)
 				break
 			}
 			case 'socialImpact': {
-				navigation.navigate('ViewSocialImpactPost', { postData: { ...item, owner: getUserDataOnly() } })
+				navigation.navigate(
+					route.params?.userId ? 'ViewSocialImpactPostHome' : 'ViewSocialImpactPost' as any, // TODO Type
+					{ postData: { ...item, owner: getUserDataOnly() } }
+				)
 				break
 			}
 			case 'culture': {
-				navigation.navigate('ViewCulturePost', { postData: { ...item, owner: getUserDataOnly() } })
+				navigation.navigate(
+					route.params?.userId ? 'ViewCulturePostHome' : 'ViewCulturePost' as any, // TODO Type
+					{ postData: { ...item, owner: getUserDataOnly() } }
+				)
 				break
 			}
 			default: return false

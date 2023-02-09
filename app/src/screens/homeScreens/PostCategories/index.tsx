@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView, KeyboardAvoidingView } from 'react-native'
 import uuid from 'react-uuid'
 
@@ -13,61 +13,62 @@ import { saleCategories } from '../../../utils/postsCategories/saleCategories'
 import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
 import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'
 import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
+import { sortPostCategories } from '../../../common/auxiliaryFunctions'
 
 import { PostCategoriesScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
+import { MacroCategory, PostType } from '../../../services/firebase/types'
+
+import { LocationContext } from '../../../contexts/LocationContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
-import { PostCollectionType, PostType } from '../../../services/firebase/types'
-import { sortPostCategories } from '../../../common/auxiliaryFunctions'
 
 type CategoryEntries = [string & { label: string, value: string, tags: string[] }]
 
 function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
+	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
+
 	const [searchText, setSearchText] = useState('')
 
+	useEffect(() => {
+		setPostTypeOnSearchParams()
+	}, [])
+
+	const setPostTypeOnSearchParams = () => {
+		setLocationDataOnContext({ searchParams: { ...locationDataContext.searchParams, postType: route.params.postType } })
+	}
+
 	const getRelativeColor = () => {
-		switch (route.params.title) {
-			case 'serviços': return theme.purple2
-			case 'comércio': return theme.green2
-			case 'vagas': return theme.yellow2
-			case 'culturas': return theme.blue2
-			case 'impacto social': return theme.pink2
+		switch (route.params.postType) {
+			case 'service': return theme.purple2
+			case 'sale': return theme.green2
+			case 'vacancy': return theme.yellow2
+			case 'culture': return theme.blue2
+			case 'socialImpact': return theme.pink2
 			default: return theme.orange2
 		}
 	}
 
 	const getRelativeCategory = () => {
-		switch (route.params.title) {
-			case 'serviços': return serviceCategories
-			case 'comércio': return saleCategories
-			case 'vagas': return vacancyCategories
-			case 'culturas': return cultureCategories
-			case 'impacto social': return socialImpactCategories
+		switch (route.params.postType) {
+			case 'service': return serviceCategories
+			case 'sale': return saleCategories
+			case 'vacancy': return vacancyCategories
+			case 'culture': return cultureCategories
+			case 'socialImpact': return socialImpactCategories
 			default: return null
 		}
 	}
 
-	const getCategoryType = () => {
-		switch (route.params.title) {
-			case 'serviços': return 'service' as PostType
-			case 'comércio': return 'sale' as PostType
-			case 'vagas': return 'vacancy' as PostType
-			case 'culturas': return 'culture' as PostType
-			case 'impacto social': return 'socialImpact' as PostType
-			default: return null
-		}
-	}
-
-	const getCategoryCollection = () => {
-		switch (route.params.title) {
-			case 'serviços': return 'services' as PostCollectionType
-			case 'comércio': return 'sales' as PostCollectionType
-			case 'vagas': return 'vacancies' as PostCollectionType
-			case 'culturas': return 'cutlures' as PostCollectionType
-			case 'impacto social': return 'socialImpacts' as PostCollectionType
-			default: return null
+	const getRelativeTitle = () => {
+		switch (route.params.postType) {
+			case 'service': return 'serviços' as PostType
+			case 'sale': return 'comércio' as PostType
+			case 'vacancy': return 'vagas' as PostType
+			case 'culture': return 'culturas' as PostType
+			case 'socialImpact': return 'impacto social' as PostType
+			default: return 'posts'
 		}
 	}
 
@@ -96,18 +97,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 					key={uuid()}
 					title={category[1].label}
 					SvgIcon={LoupIcon}
-					onPress={() => navigation.navigate(
-						'PostCategoryDetails',
-						{
-							backgroundColor: getRelativeColor(),
-							title: category[1].label,
-							categoryName: category[1].value,
-							cagegoryIcon: AnimalsIcon,
-							categoryType: getCategoryType() as any,
-							categoryCollection: getCategoryCollection() as any,
-							categoryTags: category[1].tags,
-						}
-					)}
+					onPress={() => navigateToCategoryDetails(category[1])}
 				/>
 			)
 		})
@@ -127,13 +117,32 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 		return categoryList
 	}
 
+	const navigateToCategoryDetails = (categorySelected: MacroCategory) => {
+		const currentCategory = {
+			backgroundColor: getRelativeColor(),
+			categoryName: categorySelected.value,
+			categoryTitle: categorySelected.label,
+			categoryIcon: AnimalsIcon,
+			categoryTags: categorySelected.tags
+		}
+
+		setLocationDataOnContext({ currentCategory })
+		navigation.navigate('PostCategoryDetails')
+	}
+
+	const navigateToResultScreen = () => {
+		const customSearchParams = { ...locationDataContext.searchParams, searchText }
+		setSearchText('')
+		navigation.navigate('SearchResult', { searchParams: customSearchParams })
+	}
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
-					text={route.params.title}
+					text={getRelativeTitle()}
 				/>
 				<InputContainer>
 					<LoupIcon width={RFValue(25)} height={RFValue(25)} />
@@ -142,7 +151,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
-						onSubmitEditing={() => { }}
+						onSubmitEditing={navigateToResultScreen}
 					/>
 				</InputContainer>
 			</Header>

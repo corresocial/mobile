@@ -2,113 +2,88 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, KeyboardAvoidingView, FlatList } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
-import { Body, Container, FilterButtons, Header, InputContainer, LastSigh, SearchInput, VerticalSigh } from './styles'
+import { Body, Container, Header, InputContainer, LastSigh, SearchInput, VerticalSigh } from './styles'
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
-import ChatIcon from '../../../assets/icons/chat.svg'
-import PaperListIcon from '../../../assets/icons/paperList.svg'
 
-import { getNearPostsIdsByPostType } from '../../../services/firebase/post/getNearPostsIdsByPostType'
-import { getListOfPosts } from '../../../services/firebase/post/getListOfPosts'
-
-import { PostCollection, PostType } from '../../../services/firebase/types'
+import { PostCollection } from '../../../services/firebase/types'
 import { ViewPostsByTagScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 import { LocationContext } from '../../../contexts/LocationContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
-import { searchPosts } from '../../../services/algolia/searchPost'
-import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 
 function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	const { locationDataContext } = useContext(LocationContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [searchText, setSearchText] = useState('')
 	const [recentPosts, setRecentPosts] = useState<PostCollection[]>([])
-	const [resultPosts, setResultPosts] = useState<PostCollection[]>([])
-	const [postResultsIsVisible, setPostResultsIsVisible] = useState(true)
-	const [profileResultsIsVisible, setProfileResultsIsVisible] = useState(false)
 
 	useEffect(() => {
 		getRecentPosts()
 	}, [])
 
-	const getCategoryIcon = () => {
-		const SvgIcon = route.params.cagegoryIcon
-		return SvgIcon
-	}
+	const {
+		backgroundColor,
+		categoryIcon,
+		categoryName,
+	} = locationDataContext.currentCategory
 
 	const getRecentPosts = async () => {
-		setLoaderIsVisible(true)
-		const postIds = await getNearPosts()
-		const posts = await getListOfPosts(postIds, 'tags', route.params.tagName)
-		setLoaderIsVisible(false)
-		setRecentPosts([].concat(...posts as any) as any || []) // TODO Type
+		const filteredPosts = locationDataContext.nearbyPosts.filter((post) => post.category === categoryName && arrayContains(post.tags, route.params.currentTagSelected))
+		setRecentPosts(filteredPosts) // TODO Type
 	}
 
-	const searchPostByText = async () => {
-		setLoaderIsVisible(true)
-		if (!searchText) {
-			await getRecentPosts()
-			setResultPosts([])
-			return
-		}
-
-		const postIds = await getNearPosts()
-		const posts = await searchPosts(searchText, postIds, route.params.tagName)
-		setLoaderIsVisible(false)
-		setResultPosts(posts)
-	}
-
-	const getNearPosts = async () => {
-		const nearPosts = await getNearPostsIdsByPostType(
-			locationDataContext.geohashes,
-			route.params.categoryType as PostType
-		)
-		return nearPosts
+	const arrayContains = (array: string[], element: string) => {
+		return array.includes(element)
 	}
 
 	const goToPostView = (item: PostCollection) => {
 		switch (item.postType) {
 			case 'service': {
-				navigation.navigate('ViewServicePostHome' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewServicePostHome', { postData: { ...item } })
 				break
 			}
 			case 'sale': {
-				navigation.navigate('ViewSalePostHome' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewSalePostHome', { postData: { ...item } })
 				break
 			}
 			case 'vacancy': {
-				navigation.navigate('ViewVacancyPostHome' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewVacancyPostHome', { postData: { ...item } })
 				break
 			}
 			case 'socialImpact': {
-				navigation.navigate('ViewSocialImpactPostHome' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewSocialImpactPostHome', { postData: { ...item } })
 				break
 			}
 			case 'culture': {
-				navigation.navigate('ViewCulturePostHome' as any, { postData: { ...item }, isAuthor: false })
+				navigation.navigate('ViewCulturePostHome', { postData: { ...item } })
 				break
 			}
 			default: return false
 		}
 	}
 
-	const existsSomeResultOfSearch = !!resultPosts.length
+	const navigateToResultScreen = () => {
+		const customSearchParams = {
+			...locationDataContext.searchParams,
+			searchText,
+			category: locationDataContext.currentCategory.categoryName,
+			tag: route.params.currentTagSelected
+		}
+		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle, })
+	}
 
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
-					text={route.params.tagName}
-					SvgIcon={getCategoryIcon()}
-					showResults={existsSomeResultOfSearch}
+					text={route.params.currentTagSelected}
+					SvgIcon={categoryIcon}
 					path
 					onBackPress={() => navigation.goBack()}
 				/>
@@ -119,59 +94,19 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
-						onSubmitEditing={searchPostByText}
+						onSubmitEditing={navigateToResultScreen}
 					/>
 				</InputContainer>
 			</Header>
 			<KeyboardAvoidingView style={{ flex: 1 }}>
-				<Body style={{ backgroundColor: route.params.backgroundColor }}>
+				<Body style={{ backgroundColor }}>
+					<SubtitleCard
+						text={'posts de recentes'}
+						highlightedText={['recentes']}
+						onPress={() => { }}
+					/>
 					{
-						existsSomeResultOfSearch
-							? (
-								<FilterButtons>
-									<SelectButton
-										backgroundColor={theme.white3}
-										backgroundSelected={theme.purple1}
-										label={'posts'}
-										boldLabel
-										noDisplacement
-										height={'100%'}
-										width={'42%'}
-										selected={postResultsIsVisible}
-										SvgIcon={ChatIcon}
-										onSelect={() => {
-											setPostResultsIsVisible(true)
-											setProfileResultsIsVisible(false)
-										}}
-									/>
-									<SelectButton
-										backgroundColor={theme.white3}
-										backgroundSelected={theme.purple1}
-										label={'perfis'}
-										boldLabel
-										noDisplacement
-										height={'100%'}
-										width={'42%'}
-										selected={profileResultsIsVisible}
-										SvgIcon={PaperListIcon}
-										onSelect={() => {
-											setProfileResultsIsVisible(true)
-											setPostResultsIsVisible(false)
-										}}
-									/>
-								</FilterButtons>
-							)
-							: (
-								<SubtitleCard
-									text={'posts de recentes'}
-									highlightedText={['recentes']}
-									onPress={() => { }}
-								/>
-							)
-					}
-
-					{
-						!recentPosts.length && !existsSomeResultOfSearch
+						!recentPosts.length
 							? (
 								<WithoutPostsMessage
 									title={'poxa!'}
@@ -180,7 +115,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 							)
 							: (
 								<FlatList
-									data={existsSomeResultOfSearch ? resultPosts : recentPosts}
+									data={recentPosts}
 									renderItem={({ item }) => (
 										<PostCard
 											post={item}
@@ -196,7 +131,6 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 								/>
 							)
 					}
-
 				</Body>
 			</KeyboardAvoidingView>
 		</Container>

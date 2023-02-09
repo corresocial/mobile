@@ -25,7 +25,7 @@ import { structureAddress } from '../../../services/maps/addressFormatter'
 import { getRecentAddressFromStorage } from '../../../services/maps/recentAddresses'
 
 import { SearchParams, LatLong, AddressSearchResult, SelectedAddressRender } from '../../../services/maps/types'
-import { PostCollection } from '../../../services/firebase/types'
+import { PostCollection, PostType } from '../../../services/firebase/types'
 import { HomeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 import { LocationContext } from '../../../contexts/LocationContext'
@@ -169,9 +169,10 @@ function Home({ navigation }: HomeScreenProps) {
 			range: 'nearby',
 			city: structuredAddress.city,
 			country: structuredAddress.country,
-			postType: 'any',
+			postType: 'service',
 			coordinates,
-			geohashes: geohashObject.geohashNearby
+			geohashes: geohashObject.geohashNearby,
+
 		} as SearchParams
 	}
 
@@ -206,31 +207,31 @@ function Home({ navigation }: HomeScreenProps) {
 	const goToPostView = (item: PostCollection) => {
 		switch (item.postType) {
 			case 'service': {
-				navigation.navigate('ViewServicePostHome' as any, { postData: { ...item } })
+				navigation.navigate('ViewServicePostHome', { postData: { ...item } })
 				break
 			}
 			case 'sale': {
-				navigation.navigate('ViewSalePostHome' as any, { postData: { ...item } })
+				navigation.navigate('ViewSalePostHome', { postData: { ...item } })
 				break
 			}
 			case 'vacancy': {
-				navigation.navigate('ViewVacancyPostHome' as any, { postData: { ...item } })
+				navigation.navigate('ViewVacancyPostHome', { postData: { ...item } })
 				break
 			}
 			case 'socialImpact': {
-				navigation.navigate('ViewSocialImpactPostHome' as any, { postData: { ...item } })
+				navigation.navigate('ViewSocialImpactPostHome', { postData: { ...item } })
 				break
 			}
 			case 'culture': {
-				navigation.navigate('ViewCulturePostHome' as any, { postData: { ...item } })
+				navigation.navigate('ViewCulturePostHome', { postData: { ...item } })
 				break
 			}
 			default: return false
 		}
 	}
 
-	const navigateToPostCategories = (title: string) => {
-		navigation.navigate('PostCategories', { title })
+	const navigateToPostCategories = (postType: PostType) => {
+		navigation.navigate('PostCategories', { postType })
 	}
 
 	const navigateToProfile = (userId: string) => {
@@ -264,7 +265,7 @@ function Home({ navigation }: HomeScreenProps) {
 					height={relativeScreenWidth(15)}
 					color={'white'}
 					fontSize={8}
-					onPress={() => navigateToPostCategories('impacto social')}
+					onPress={() => navigateToPostCategories('socialImpact')}
 					// onPress={() => findNearPosts('', true)}
 					label={'impacto'}
 					SvgIcon={HeartPinkIcon}
@@ -276,7 +277,7 @@ function Home({ navigation }: HomeScreenProps) {
 					height={relativeScreenWidth(15)}
 					color={'white'}
 					fontSize={8}
-					onPress={() => navigateToPostCategories('comércio')}
+					onPress={() => navigateToPostCategories('sale')}
 					label={'comércio'}
 					SvgIcon={SalesCartIcon}
 					svgScale={['50%', '80%']}
@@ -287,7 +288,7 @@ function Home({ navigation }: HomeScreenProps) {
 					height={relativeScreenWidth(15)}
 					color={'white'}
 					fontSize={8}
-					onPress={() => navigateToPostCategories('culturas')}
+					onPress={() => navigateToPostCategories('culture')}
 					label={'cultura'}
 					SvgIcon={SoundToolsIcon}
 					svgScale={['50%', '80%']}
@@ -298,7 +299,7 @@ function Home({ navigation }: HomeScreenProps) {
 					height={relativeScreenWidth(15)}
 					color={'white'}
 					fontSize={8}
-					onPress={() => navigateToPostCategories('serviços')}
+					onPress={() => navigateToPostCategories('service')}
 					label={'serviços'}
 					SvgIcon={ToolBoxIcon}
 					svgScale={['50%', '80%']}
@@ -309,7 +310,7 @@ function Home({ navigation }: HomeScreenProps) {
 					height={relativeScreenWidth(15)}
 					color={'white'}
 					fontSize={8}
-					onPress={() => navigateToPostCategories('vagas')}
+					onPress={() => navigateToPostCategories('vacancy')}
 					label={'vagas'}
 					SvgIcon={SuitcaseIcon}
 					svgScale={['50%', '80%']}

@@ -1,13 +1,16 @@
 import React, { createContext, useMemo, useState } from 'react'
 import { PostCollectionRemote } from '../services/firebase/types'
-import { SearchParams } from '../services/maps/types'
+import { CurrentCategory, SearchParams } from '../services/maps/types'
+
+import DefaultIcon from '../assets/icons/loup.svg'
 
 import { LocationData } from './types'
 
 type LocationContextType = {
 	locationDataContext: {
-		searchParams: SearchParams,
-		nearbyPosts: PostCollectionRemote[],
+		searchParams: SearchParams
+		currentCategory: CurrentCategory
+		nearbyPosts: PostCollectionRemote[]
 		lastRefreshInMilliseconds: number
 	}
 	setLocationDataOnContext: (data: LocationData) => void
@@ -24,7 +27,15 @@ const initialValue = {
 			city: '',
 			country: '',
 			postType: '',
-			geohashes: []
+			geohashes: [],
+			coordinates: { lat: 0, lon: 0 }
+		},
+		currentCategory: {
+			backgroundColor: '',
+			categoryName: '',
+			categoryTitle: '',
+			categoryIcon: DefaultIcon,
+			categoryTags: []
 		},
 		nearbyPosts: [],
 		lastRefreshInMilliseconds: Date.now(),
