@@ -15,28 +15,46 @@ import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { EditCard } from '../../../components/_cards/EditCard'
+import { getRelativeSocialMediaIcon, isDefaultSocialMedia, mergeWithDefaultSocialMedia, socialMediaUrl, sortSocialMedias } from '../../../utils/socialMedias'
 
 function SocialMediaManagement({ route, navigation }: SocialMediaManagementScreenProps) {
-	const onPressIcon = (socialMedia: SocialMedia, index: number) => {
+	const onPressIcon = async (socialMedia: SocialMedia, index: number) => {
 		if (route.params.isAuthor) {
-			navigation.navigate('InsertLinkTitle', { socialMedia, index })
+			if (isDefaultSocialMedia(socialMedia.title)) {
+				navigation.navigate('InsertLinkValue', { socialMedia, index })
+				return
+			}
+
+			navigation.navigate('InsertLinkTitle', { socialMedia: { ...socialMedia }, index })
 		} else {
-			Linking.openURL(socialMedia.link)
+			const validUrl = await Linking.canOpenURL(socialMedia.link || 'aa')
+			if (validUrl) {
+				Linking.openURL(socialMedia.link)
+			} else {
+				console.log('URL inválida')
+			}
 		}
 	}
 
 	const renderSocialMedias = () => {
-		return route.params.socialMedias.map((socialMedia, index) => {
+		const mergedSocialMedias = mergeWithDefaultSocialMedia(route.params.socialMedias)
+		const ordenedSocialMedias = mergedSocialMedias.sort(sortSocialMedias)
+
+		const socialMediaToRender = !route.params.isAuthor ? ordenedSocialMedias.filter((socialMedia) => socialMedia.link) : [...ordenedSocialMedias]
+
+		return socialMediaToRender.map((socialMedia, index) => {
+			console.log(socialMedia)
 			return (
 				<>
 					<EditCard
 						key={uuid()}
 						title={socialMedia.title}
 						SvgIcon={route.params.isAuthor ? PencilIcon : AngleRightIcon}
-						value={`${socialMedia.link}`}
+						SecondSvgIcon={getRelativeSocialMediaIcon(socialMedia.title)}
+						value={`${socialMedia.link.replace(socialMediaUrl(socialMedia.title, ''), '') || ''}`}
 						onEdit={() => onPressIcon(socialMedia, index)}
 					/>
-					<Sigh />
+					<Sigh key={uuid()} />
 				</>
 			)
 		}, false)
@@ -64,7 +82,7 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 										fontSize={16}
 										highlightedWords={['link']}
 										SvgIcon={PlusIcon}
-										onPress={() => navigation.navigate('InsertLinkTitle', {})}
+										onPress={() => navigation.navigate('InsertLinkTitle', { socialMedia: { title: '', link: '' } })}
 									/>
 								</NewLinkButtonContainer>
 							)

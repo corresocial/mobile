@@ -38,8 +38,8 @@ function HeaderLinkCard({
 					fontSize={24}
 					highlightedWords={highlightedWords}
 					onPressIcon={onEdit}
-					SvgIcon={ClipIcon}
-					dimensions={20}
+					SvgIcon={SvgIcon || ClipIcon}
+					dimensions={25}
 				/>
 			</CardHeader>
 			<ValueContainer>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
@@ -11,6 +11,7 @@ interface DefaultHeaderTitleProps {
 	fontSize?: number
 	highlightedWords?: string[]
 	SvgIcon?: React.FC<SvgProps>
+	SecondSvgIcon?: React.FC<SvgProps>
 	dimensions?: number
 	invertTextAndIcon?: boolean
 	justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'
@@ -22,6 +23,7 @@ function DefaultHeaderTitle({
 	fontSize = 18,
 	highlightedWords = [],
 	SvgIcon,
+	SecondSvgIcon,
 	dimensions = 35,
 	invertTextAndIcon,
 	justifyContent = 'flex-start',
@@ -61,14 +63,30 @@ function DefaultHeaderTitle({
 			{
 				!!SvgIcon && renderInteractiveSvgIcon()
 			}
-			<Title style={{
-				marginLeft: invertTextAndIcon ? 0 : RFValue(10),
-				fontFamily: highlightedWords.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold',
-				fontSize: RFValue(fontSize)
-			}}
+			<View
+				style={{
+					flexDirection: 'row',
+					alignItems: 'center'
+				}}
 			>
-				{showMessageWithHighlight(title, highlightedWords)}
-			</Title>
+				{
+					!!SecondSvgIcon && (
+						<SecondSvgIcon
+							height={RFValue(dimensions)}
+							width={RFValue(dimensions)}
+							style={{ marginRight: RFValue(10) }}
+						/>
+					)
+				}
+				<Title style={{
+					marginLeft: invertTextAndIcon ? 0 : RFValue(10),
+					fontFamily: highlightedWords.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold',
+					fontSize: RFValue(fontSize)
+				}}
+				>
+					{showMessageWithHighlight(title, highlightedWords)}
+				</Title>
+			</View>
 		</Container>
 	)
 }

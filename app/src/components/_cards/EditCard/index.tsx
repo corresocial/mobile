@@ -17,6 +17,7 @@ interface EditCardProps {
 	profilePicturesUrl?: string[]
 	carousel?: boolean
 	SvgIcon?: React.FC<SvgProps>
+	SecondSvgIcon?: React.FC<SvgProps>
 	onEdit?: () => void
 }
 
@@ -27,6 +28,7 @@ function EditCard({
 	profilePicturesUrl = [],
 	carousel,
 	SvgIcon,
+	SecondSvgIcon,
 	onEdit,
 }: EditCardProps) {
 	return (
@@ -43,6 +45,7 @@ function EditCard({
 					highlightedWords={highlightedWords}
 					onPressIcon={onEdit}
 					SvgIcon={SvgIcon || PencilIcon}
+					SecondSvgIcon={SecondSvgIcon}
 					dimensions={20}
 					invertTextAndIcon
 					justifyContent={'space-between'}

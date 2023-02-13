@@ -15,11 +15,14 @@ import { updateUser } from '../../../services/firebase/user/updateUser'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { SocialMedia } from '../../../services/firebase/types'
 import { Loader } from '../../../components/Loader'
+import { defaultSocialMediaTitles, getRelativeSocialMediaIcon, isDefaultSocialMedia, mergeWithDefaultSocialMedia, socialMediaUrl, sortSocialMedias } from '../../../utils/socialMedias'
 
 function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const { setUserDataOnContext, userDataContext } = useContext(AuthContext)
 
-	const [linkValue, setInputLinkValue] = useState<string>(route.params.socialMedia?.link || '')
+	const initialLinkValue = route.params.socialMedia ? route.params.socialMedia.link.replace(socialMediaUrl(route.params.socialMedia.title, ''), '') : ''
+
+	const [linkValue, setInputLinkValue] = useState<string>(initialLinkValue || '')
 	const [linkValueIsValid, setLinkValueIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 	const [invalidLinkValueAfterSubmit, setInvaliLinkValueAfterSubmit] = useState<boolean>(false)
@@ -69,24 +72,29 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	}
 
 	const getSocialMediaData = () => {
-		let currentSocialMedias = [...userDataContext.socialMedias || [] as SocialMedia[]]
+		let currentSocialMedias = mergeWithDefaultSocialMedia(userDataContext.socialMedias as SocialMedia[]) || [] as SocialMedia[]
+		currentSocialMedias = currentSocialMedias.sort(sortSocialMedias)
+
 		const socialMediaEditableIndex = route.params.index
+
+		const completeLink = defaultSocialMediaTitles.includes(route.params.socialMedia.title) ? `${socialMediaUrl(route.params.socialMedia.title, linkValue)}` : linkValue
+		console.log(completeLink)
 
 		if (socialMediaEditableIndex || socialMediaEditableIndex === 0) {
 			currentSocialMedias[socialMediaEditableIndex] = {
-				title: route.params.linkTitle,
-				link: linkValue
+				title: route.params.socialMedia.title,
+				link: completeLink
 			}
 		} else {
 			currentSocialMedias = [
 				...currentSocialMedias,
 				{
-					title: route.params.linkTitle,
-					link: linkValue
+					title: route.params.socialMedia.title,
+					link: completeLink
 				}]
 		}
 
-		return { socialMedias: currentSocialMedias }
+		return { socialMedias: currentSocialMedias.filter((socialMedia) => socialMedia.link) }
 	}
 
 	return (
@@ -98,8 +106,9 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 				backgroundColor={theme.orange2}
 			>
 				<HeaderLinkCard
-					title={'inserir link'}
-					value={'cola o link para a gente'}
+					title={isDefaultSocialMedia(route.params.socialMedia.title) ? 'inserir link' : 'insira link'}
+					value={'cola o seu @ aí pra gente'}
+					SvgIcon={getRelativeSocialMediaIcon(route.params.socialMedia.title)}
 				/>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
@@ -117,7 +126,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 						maxLength={50}
 						lastInput
 						invalidTextAfterSubmit={invalidLinkValueAfterSubmit}
-						placeholder={'ex: www.facebook.com'}
+						placeholder={isDefaultSocialMedia(route.params.socialMedia.title) ? 'ex: corresocial' : 'ex: www.facebook.com/eu'}
 						keyboardType={'default'}
 						textIsValid={linkValueIsValid && !keyboardOpened}
 						onChangeText={(text: string) => setInputLinkValue(text)}

@@ -48,8 +48,7 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 
 	const saveLinkTitle = async () => {
 		navigation.navigate('InsertLinkValue', {
-			linkTitle: linkTitle.toLowerCase(),
-			socialMedia: route.params.socialMedia as SocialMedia,
+			socialMedia: { ...route.params.socialMedia, title: linkTitle } as SocialMedia,
 			index: route.params.index
 		})
 	}
@@ -85,7 +84,7 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 						placeholder={'ex: site de receitas'}
 						keyboardType={'default'}
 						textIsValid={linkTitleIsValid && !keyboardOpened}
-						onChangeText={(text: string) => setInputLinkTitle(text.trim())}
+						onChangeText={(text: string) => setInputLinkTitle(text)}
 					/>
 				</InputsContainer>
 				<ButtonContainer>

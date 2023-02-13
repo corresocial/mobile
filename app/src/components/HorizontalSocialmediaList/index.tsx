@@ -33,14 +33,14 @@ function HorizontalSocialMediaList({ socialMedias = [], onPress }: HorizontalSoc
 					key={uuid()}
 					onPress={onPress}
 				>
-					{getRelativeIcon(socialMedia)}
+					{getRelativeSocialMediaIcon(socialMedia.title)}
 				</TouchableIcon>
 			))
 		)
 	}
 
-	const getRelativeIcon = (socialMedia: { title: string, link: string }) => {
-		switch (socialMedia.title) {
+	const getRelativeSocialMediaIcon = (title: string) => {
+		switch (title) {
 			case 'linkedin': return <LinkedinIcon width={RFValue(25)} height={RFValue(25)} />
 			case 'facebook': return <FacebookIcon width={RFValue(20)} height={RFValue(20)} />
 			case 'instagram': return <InstagramIcon width={RFValue(25)} height={RFValue(25)} />
