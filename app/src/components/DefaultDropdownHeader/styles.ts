@@ -7,6 +7,8 @@ export const InitialDropdownContainer = styled.View`
 	width: 100%;
 	height: ${screenHeight * 0.1}px;
 	padding-horizontal: ${RFValue(10)}px;
+	border-radius: ${RFValue(13)}px;
+	overflow: hidden;
 `
 
 export const InitialDropdown = styled.TouchableOpacity`

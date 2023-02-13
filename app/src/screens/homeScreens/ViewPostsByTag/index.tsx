@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StatusBar, KeyboardAvoidingView, FlatList } from 'react-native'
+import { KeyboardAvoidingView, FlatList } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
 import { Body, Container, Header, InputContainer, LastSigh, SearchInput, VerticalSigh } from './styles'
@@ -15,6 +15,7 @@ import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	const { locationDataContext } = useContext(LocationContext)
@@ -79,7 +80,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					text={route.params.currentTagSelected}

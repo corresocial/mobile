@@ -261,7 +261,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							<UserName numberOfLines={3} >{getUserField('name')}</UserName>
 							{
 								!userDescriptionIsExpanded && (
-									<TouchableOpacity onPress={() => setUserDescriptionIsExpanded(true)}>
+									<TouchableOpacity onPress={() => getUserField('description') && setUserDescriptionIsExpanded(true)}>
 										<UserDescription numberOfLines={3}>
 											{getUserField('description')}
 										</UserDescription>

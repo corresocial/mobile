@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StatusBar, FlatList } from 'react-native'
+import { FlatList } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
 import { Body, Container, Header, HorizontalSigh, InputContainer, LastSigh, SearchInput, TagsContainer, VerticalSigh } from './styles'
@@ -17,6 +17,7 @@ import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { sortArray } from '../../../common/auxiliaryFunctions'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenProps) {
 	const { locationDataContext } = useContext(LocationContext)
@@ -92,7 +93,7 @@ function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenPro
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					text={categoryTitle}

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StatusBar, ScrollView, KeyboardAvoidingView } from 'react-native'
+import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import uuid from 'react-uuid'
 
 import { RFValue } from 'react-native-responsive-fontsize'
@@ -23,6 +23,7 @@ import { LocationContext } from '../../../contexts/LocationContext'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 type CategoryEntries = [string & { label: string, value: string, tags: string[] }]
 
@@ -138,7 +139,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}

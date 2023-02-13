@@ -22,6 +22,7 @@ export const ContainerBottom = styled(Animatable.View)`
 
 export const ContainerSurface = styled.View`
     flex-direction: row;
+	height: 100%;
     align-items: center;
     justify-content: space-between;
     width: 100%;
@@ -35,7 +36,7 @@ export const ContainerSurface = styled.View`
 
 export const IconArea = styled.View`
     background-color: ${({ theme }) => theme.orange3}
-    height: 100%; 
+    height: 100%;
     align-items: center;
     justify-content: center;
 `

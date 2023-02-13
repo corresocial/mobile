@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import { View, BackHandler } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
+
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { SelectPostType } from '../SelectPostType'
 
 function Post({ navigation, route }: HomeTabScreenProps) {
@@ -24,7 +25,7 @@ function Post({ navigation, route }: HomeTabScreenProps) {
 	return (
 		<View style={{
 			flex: 1,
-			marginBottom: RFValue(64)
+			marginBottom: relativeScreenHeight(10)
 		}}
 		>
 			<FocusAwareStatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />

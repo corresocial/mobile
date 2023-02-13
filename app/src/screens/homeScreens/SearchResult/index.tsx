@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StatusBar, KeyboardAvoidingView, FlatList } from 'react-native'
+import { KeyboardAvoidingView, FlatList } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
 import { Body, Container, FilterButtons, Header, InputContainer, LastSigh, SearchInput, VerticalSigh } from './styles'
@@ -19,6 +19,7 @@ import { PostCard } from '../../../components/_cards/PostCard'
 import { searchPosts } from '../../../services/algolia/searchPost'
 import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const { locationDataContext } = useContext(LocationContext)
@@ -113,7 +114,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					text={getRelativePath()}

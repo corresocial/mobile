@@ -29,6 +29,8 @@ const Tab = createBottomTabNavigator<HomeTabParamList>()
 export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 	const { stateDataContext, toggleTourModalVisibility, toggleShareModalVisibility } = useContext(StateContext)
 
+	const handlerTourButton = { navigation }
+
 	useFocusEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
 			stateDataContext.showTourModal && toggleTourModalVisibility(true, handlerTourButton)
@@ -36,10 +38,6 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 		})
 		return unsubscribe
 	})
-
-	const handlerTourButton = {
-		navigation
-	}
 
 	const renderHomeIcon = (focused: boolean) => (
 		focused

@@ -20,6 +20,7 @@ interface OptionButtonProps {
 	label: string
 	labelColor?: string
 	labelSize?: number
+	relativeHeight?: string
 	labelAlign?: 'auto' | 'left' | 'right' | 'center' | 'justify' | undefined
 	SvgIcon?: React.FC<SvgProps>
 	svgIconScale?: [height: string, width: string]
@@ -35,6 +36,7 @@ function OptionButton({
 	label,
 	labelColor,
 	labelSize = 20,
+	relativeHeight,
 	labelAlign = 'center',
 	highlightedWords,
 	SvgIcon,
@@ -59,7 +61,7 @@ function OptionButton({
 		onPress()
 	}
 
-	const heightWithoutDescription = RFValue(75)
+	const heightWithoutDescription = relativeHeight || RFValue(75)
 
 	return (
 		<TouchableContainer
@@ -75,8 +77,7 @@ function OptionButton({
 				<ContainerSurface
 					style={{
 						backgroundColor: color,
-						marginRight: buttonPressed ? RFValue(-7) : 0,
-						height: description ? RFValue(137) : heightWithoutDescription
+						marginRight: buttonPressed ? RFValue(-7) : 0
 					} as { [key: string]: React.CSSProperties }}
 				>
 					<IconArea

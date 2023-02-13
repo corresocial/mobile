@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { StatusBar, ScrollView, KeyboardAvoidingView } from 'react-native'
+import { ScrollView, KeyboardAvoidingView } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
 import { Body, Container, Header, InputContainer, LastSigh, SearchInput } from './styles'
@@ -13,6 +13,7 @@ import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
 import { sortArray } from '../../../common/auxiliaryFunctions'
 import { LocationContext } from '../../../contexts/LocationContext'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 	const { locationDataContext } = useContext(LocationContext)
@@ -45,7 +46,7 @@ function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}

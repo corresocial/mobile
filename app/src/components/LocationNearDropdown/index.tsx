@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Animated, FlatList } from 'react-native'
+import { Animated, FlatList, Platform } from 'react-native'
 import uuid from 'react-uuid'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -16,7 +16,7 @@ import {
 	BigSigh
 } from './styles'
 import { theme } from '../../common/theme'
-import { relativeScreenHeight, screenHeight } from '../../common/screenDimensions'
+import { relativeScreenHeight, statusBarHeight } from '../../common/screenDimensions'
 import LoupIcon from '../../assets/icons/loup.svg'
 import XIcon from '../../assets/icons/x-thin.svg'
 import MapIcon from '../../assets/icons/map.svg'
@@ -91,19 +91,19 @@ function LocationNearDropdown({
 	}
 
 	const animatedHeight = React.useRef(
-		new Animated.Value(screenHeight * 0.1),
+		new Animated.Value(relativeScreenHeight(10)),
 	).current
 
 	useEffect(() => {
 		if (dropdownIsVisible) {
 			Animated.timing(animatedHeight, {
-				toValue: screenHeight * 0.88,
+				toValue: relativeScreenHeight(91) - statusBarHeight - (Platform.OS === 'ios' ? 36 : 0), // Default ios paddingBottom
 				duration: 400,
 				useNativeDriver: false,
 			}).start()
 		} else {
 			Animated.timing(animatedHeight, {
-				toValue: screenHeight * 0.1,
+				toValue: relativeScreenHeight(10),
 				duration: 400,
 				useNativeDriver: false,
 			}).start()

@@ -1,7 +1,7 @@
 import { Animated } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { screenHeight } from '../../common/screenDimensions'
+import { relativeScreenHeight } from '../../common/screenDimensions'
 
 export const Container = styled(Animated.View)`
 	width: 100%;
@@ -21,7 +21,8 @@ export const ContainerInner = styled.View`
 export const DropdownHeaderContainer = styled.View`
 	background-color: ${({ theme }) => theme.white3};
 	width: 100%;
-	height: ${screenHeight * 0.08}px;
+	height: ${relativeScreenHeight(8)}px;
+	border-radius: ${RFValue(13)}px;
 	padding-horizontal: ${RFValue(15)}px;
 `
 
@@ -60,7 +61,7 @@ export const Sigh = styled.View`
 
 export const BigSigh = styled.View`
 	width: 100%;
-	margin-vertical: ${screenHeight * 0.2}px;
+	margin-vertical: ${relativeScreenHeight(2)}px;
 `
 
 export const MyLocationButtonContainer = styled.View`

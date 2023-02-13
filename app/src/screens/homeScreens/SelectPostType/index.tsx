@@ -24,7 +24,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 			<FocusAwareStatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				backgroundColor={theme.orange2}
-				relativeHeight={'25%'}
+				relativeHeight={'28%'}
 				centralized
 			>
 				<BackButton onPress={() => navigation.goBack()} />
@@ -46,6 +46,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					highlightedWords={['um', 'serviço']}
 					labelColor={theme.black3}
 					labelSize={18}
+					relativeHeight={'18%'}
 					SvgIcon={ToolBox}
 					svgIconScale={['70%', '70%']}
 					leftSideColor={theme.purple2}
@@ -58,6 +59,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					highlightedWords={['uma', 'venda']}
 					labelColor={theme.black3}
 					labelSize={18}
+					relativeHeight={'18%'}
 					SvgIcon={SalesCart}
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.green2}
@@ -70,6 +72,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					highlightedWords={['uma', 'vaga']}
 					labelColor={theme.black3}
 					labelSize={18}
+					relativeHeight={'18%'}
 					SvgIcon={Suitcase}
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.yellow2}
@@ -82,6 +85,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					highlightedWords={['iniciativa', 'social']}
 					labelColor={theme.black3}
 					labelSize={18}
+					relativeHeight={'18%'}
 					SvgIcon={Heart}
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.pink2}
@@ -94,6 +98,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					highlightedWords={['cultura']}
 					labelColor={theme.black3}
 					labelSize={18}
+					relativeHeight={'18%'}
 					SvgIcon={SoundTools}
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.blue2}
