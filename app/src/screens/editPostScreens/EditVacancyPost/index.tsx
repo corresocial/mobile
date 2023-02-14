@@ -131,7 +131,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 		const category: VacancyCategories = getPostField('category')
 		const tags = getPostField('tags')
 
-		return `	●  ${vacancyCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO WARN
+		return `	●  ${vacancyCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`
 	}
 
 	const getRelativeVacancyType = () => {

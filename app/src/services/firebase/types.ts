@@ -186,7 +186,7 @@ export type ServiceCollectionRemote = {
 	attendanceWeekDays?: DaysOfWeek[]
 	openingHour: Date
 	closingHour: Date
-	picturesUrl?: string[]
+	picturesUrl: string[]
 	createdAt: Date
 	location: {
 		country?: string

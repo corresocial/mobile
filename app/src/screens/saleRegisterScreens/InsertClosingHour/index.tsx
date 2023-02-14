@@ -125,7 +125,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 
 		setIsLoading(true)
 
-		const saleData = getCompleteSaleDataFromContext()
+		const saleData = getCompleteSaleDataFromContext() as SaleCollection
 		const salePictures = extractSalePictures(saleData)
 
 		try {

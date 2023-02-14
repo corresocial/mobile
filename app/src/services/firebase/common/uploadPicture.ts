@@ -23,7 +23,7 @@ async function uploadImage(
 
 		const fileRef = ref(
 			storage,
-			`imagens/${collection}/${Date.now()}-${index || ''}}.jpg`,
+			`pictures/${collection}/${Date.now()}-${index || ''}.jpg`,
 		)
 
 		const uploadTask = uploadBytesResumable(fileRef, blob as Uint8Array | ArrayBuffer)

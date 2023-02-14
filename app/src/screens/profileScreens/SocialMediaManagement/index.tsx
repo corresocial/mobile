@@ -1,5 +1,5 @@
 import React from 'react'
-import { Linking, ScrollView, StatusBar } from 'react-native'
+import { Linking, ScrollView, StatusBar, View } from 'react-native'
 import uuid from 'react-uuid'
 
 import { Body, Container, Header, NewLinkButtonContainer, Sigh } from './styles'
@@ -43,19 +43,17 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 		const socialMediaToRender = !route.params.isAuthor ? ordenedSocialMedias.filter((socialMedia) => socialMedia.link) : [...ordenedSocialMedias]
 
 		return socialMediaToRender.map((socialMedia, index) => {
-			console.log(socialMedia)
 			return (
-				<>
+				<View key={uuid()}>
 					<EditCard
-						key={uuid()}
 						title={socialMedia.title}
 						SvgIcon={route.params.isAuthor ? PencilIcon : AngleRightIcon}
 						SecondSvgIcon={getRelativeSocialMediaIcon(socialMedia.title)}
 						value={`${socialMedia.link.replace(socialMediaUrl(socialMedia.title, ''), '') || ''}`}
 						onEdit={() => onPressIcon(socialMedia, index)}
 					/>
-					<Sigh key={uuid()} />
-				</>
+					<Sigh />
+				</View>
 			)
 		}, false)
 	}

@@ -125,7 +125,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 
 		setIsLoading(true)
 
-		const serviceData = getCompleteServiceDataFromContext()
+		const serviceData = getCompleteServiceDataFromContext() as ServiceCollection
 		const servicePictures = extractServicePictures(serviceData)
 
 		try {

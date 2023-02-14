@@ -25,6 +25,7 @@ import { EditCard } from '../../../components/_cards/EditCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Loader } from '../../../components/Loader'
+import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
 
 function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -120,6 +121,11 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
 
+			const picturesAlreadyUploadedToRemove = postData.picturesUrl.filter((pictureUrl) => !editDataContext.unsaved.picturesUrl.includes(pictureUrl))
+			if (picturesAlreadyUploadedToRemove.length) {
+				await deletePostPictures(picturesAlreadyUploadedToRemove)
+			}
+
 			await updatePost('posts', postData.postId, postDataToSave)
 
 			if (postDataToSave.location) {
@@ -145,8 +151,15 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 		}
 	}
 
-	const changeStateOfEditedFields = () => {
-		setEditDataOnContext({ saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} })
+	const changeStateOfEditedFields = (uploadedPictures?: string[]) => {
+		let newEditState
+		if (uploadedPictures) {
+			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved, picturesUrl: [...uploadedPictures] }, unsaved: {} }
+		} else {
+			newEditState = { saved: { ...editDataContext.saved, ...editDataContext.unsaved }, unsaved: {} }
+		}
+
+		setEditDataOnContext(newEditState)
 	}
 
 	const allPicturesAlreadyUploaded = () => {
@@ -180,6 +193,11 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 												picturesUrl: [...picturePostsUrls, ...picturesAlreadyUploaded]
 											}
 
+											const picturesAlreadyUploadedToRemove = postData.picturesUrl.filter((pictureUrl) => ![...picturePostsUrls, ...picturesAlreadyUploaded].includes(pictureUrl))
+											if (picturesAlreadyUploadedToRemove.length) {
+												await deletePostPictures(picturesAlreadyUploadedToRemove)
+											}
+
 											await updatePost('posts', postData.postId, postDataToSave)
 
 											if (postDataToSave.location) {
@@ -194,7 +212,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 												[postDataToSave, ...getUserPostsWithoutEdited()]
 											)
 
-											changeStateOfEditedFields()
+											changeStateOfEditedFields([...picturePostsUrls, ...picturesAlreadyUploaded])
 											updateUserContext(postDataToSave)
 											setIsLoading(false)
 											navigation.goBack()
@@ -235,7 +253,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 		const category: SocialImpactCategories = getPostField('category')
 		const tags = getPostField('tags')
 
-		return `	●  ${socialImpactCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO WARN
+		return `	●  ${socialImpactCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`
 	}
 
 	return (
