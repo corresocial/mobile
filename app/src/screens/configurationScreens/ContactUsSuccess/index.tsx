@@ -14,6 +14,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 
 function ContactUsSuccess({ route, navigation }: ContactUsSuccessScreenProps) {
 	const navigateToConfig = () => {
+		if (route.params?.reportType !== 'none') {
+			navigation.goBack()
+			navigation.goBack()
+			return
+		}
 		navigation.navigate('Configurations')
 	}
 

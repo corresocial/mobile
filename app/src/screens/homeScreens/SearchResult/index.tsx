@@ -8,20 +8,23 @@ import LoupIcon from '../../../assets/icons/loup.svg'
 import ChatIcon from '../../../assets/icons/chat.svg'
 import PaperListIcon from '../../../assets/icons/paperList.svg'
 
-import { PostCollection, PostCollectionRemote, PostType } from '../../../services/firebase/types'
+import { Id, PostCollection, PostCollectionRemote, PostType } from '../../../services/firebase/types'
 import { SearchResultScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 import { LocationContext } from '../../../contexts/LocationContext'
+import { AuthContext } from '../../../contexts/AuthContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { PostCard } from '../../../components/_cards/PostCard'
-import { searchPosts } from '../../../services/algolia/searchPost'
 import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+// import { searchPosts } from '../../../services/algolia/searchPost'
+import { searchPostsCloud } from '../../../services/cloudFunctions/searchPostsCloud'
 
 function SearchResult({ route, navigation }: SearchResultScreenProps) {
+	const { userDataContext } = useContext(AuthContext)
 	const { locationDataContext } = useContext(LocationContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
@@ -33,7 +36,6 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 
 	useEffect(() => {
 		searchPostByText()
-		console.log(locationDataContext.currentCategory)
 	}, [])
 
 	const searchPostByText = async () => {
@@ -44,7 +46,8 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 		console.log(`SEARCH TEXT: ${algoliaSearchText}`)
 
 		setLoaderIsVisible(true)
-		await searchPosts(algoliaSearchText, searchParamsFromRoute)
+		// await searchPosts(algoliaSearchText, searchParamsFromRoute)
+		await searchPostsCloud(algoliaSearchText, searchParamsFromRoute, userDataContext.userId as Id)
 			.then((posts) => {
 				setResultPosts(posts)
 				if (!searchText) setSearchText(route.params.searchParams.searchText)

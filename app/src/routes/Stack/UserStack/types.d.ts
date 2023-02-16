@@ -33,6 +33,6 @@ export type UserStackParamList = {
 	HelpUs: undefined
 	ContactUs: undefined
 	ContactUsInsertMessage: { title: string, contactUsType: ContactUsType, reportedType?: ReportedTarget, reportedId?: string }
-	ContactUsSuccess: undefined
+	ContactUsSuccess: { reportType: ReportedTarget } | undefined
 	PrivacyAndSecurity: undefined
 }
