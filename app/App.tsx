@@ -2,7 +2,7 @@ import 'react-native-gesture-handler'
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
 import { NavigationContainer } from '@react-navigation/native'
-import { ActivityIndicator, LogBox, View } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
 import ErrorBoundary from 'react-native-error-boundary'
 
 import {
@@ -14,8 +14,8 @@ import { theme } from './src/common/theme'
 
 import { AuthRegisterStack } from './src/routes/Stack/AuthRegisterStack'
 import { LoaderProvider } from './src/contexts/LoaderContext'
-import { ErrorBoundaryFallback } from './src/screens/ErrorBoundaryFallback'
-import { errorHandler } from './src/utils/errorHandler'
+// import { ErrorBoundaryFallback } from './src/screens/ErrorBoundaryFallback'
+// import { errorHandler } from './src/utils/errorHandler'
 
 function App() {
 	const [fontsLoaded]: boolean[] = useFonts({
@@ -40,15 +40,15 @@ function App() {
 	}
 
 	return (
-		<ErrorBoundary FallbackComponent={ErrorBoundaryFallback} onError={errorHandler}>
-			<NavigationContainer>
-				<ThemeProvider theme={theme}>
-					<LoaderProvider>
-						<AuthRegisterStack />
-					</LoaderProvider>
-				</ThemeProvider>
-			</NavigationContainer>
-		</ErrorBoundary>
+		// <ErrorBoundary FallbackComponent={ErrorBoundaryFallback} onError={errorHandler}>
+		<NavigationContainer>
+			<ThemeProvider theme={theme}>
+				<LoaderProvider>
+					<AuthRegisterStack />
+				</LoaderProvider>
+			</ThemeProvider>
+		</NavigationContainer>
+		// </ErrorBoundary>
 	)
 }
 
