@@ -79,7 +79,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 			})
 
 			setIsLoading(false)
-			navigation.navigate('ContactUsSuccess')
+			navigation.navigate('ContactUsSuccess', { reportType: route.params.reportedType || 'none' })
 		} catch (err) {
 			console.log(err)
 			setIsLoading(false)

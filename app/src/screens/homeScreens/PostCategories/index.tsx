@@ -132,6 +132,15 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	}
 
 	const navigateToResultScreen = () => {
+		const currentCategory = {
+			backgroundColor: getRelativeColor(),
+			categoryName: '',
+			categoryTitle: '',
+			categoryIcon: AnimalsIcon,
+			categoryTags: ['']
+		}
+
+		setLocationDataOnContext({ currentCategory })
 		const customSearchParams = { ...locationDataContext.searchParams, searchText }
 		setSearchText('')
 		navigation.navigate('SearchResult', { searchParams: customSearchParams })

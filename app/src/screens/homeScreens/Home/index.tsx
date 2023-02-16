@@ -23,9 +23,11 @@ import { generateGeohashes } from '../../../common/generateGeohashes'
 import { searchAddressByText } from '../../../services/maps/searchAddressByText'
 import { structureAddress } from '../../../services/maps/addressFormatter'
 import { getRecentAddressFromStorage } from '../../../services/maps/recentAddresses'
+// import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
+import { getPostsByLocationCloud } from '../../../services/cloudFunctions/getPostsByLocationCloud'
 
 import { SearchParams, LatLong, AddressSearchResult, SelectedAddressRender } from '../../../services/maps/types'
-import { PostCollection, PostType } from '../../../services/firebase/types'
+import { Id, PostCollection, PostType } from '../../../services/firebase/types'
 import { HomeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 import { LocationContext } from '../../../contexts/LocationContext'
@@ -36,7 +38,6 @@ import { LocationNearDropdown } from '../../../components/LocationNearDropdown'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { RequestLocation } from '../../../components/RequestLocation'
-import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
@@ -98,6 +99,7 @@ function Home({ navigation }: HomeScreenProps) {
 	const locationIsEnable = async () => {
 		const locationEnabled = await Location.hasServicesEnabledAsync()
 		setHasLocationEnable(locationEnabled)
+		return locationEnabled
 	}
 
 	const getRecentAddresses = async () => {
@@ -106,6 +108,8 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const findNearPosts = async (searchText: string, currentPosition?: boolean, alternativeCoordinates?: LatLong, refresh?: boolean) => {
+		if (!locationIsEnable) return
+
 		try {
 			refresh ? setFlatListIsLoading(true) : setLoaderIsVisible(true); setSearchEnded(false)
 
@@ -118,8 +122,9 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong) // address converter
 			}
 
-			const nearbyPosts = await getPostsByLocation(searchParams)
-			setNearPosts(nearbyPosts)
+			const nearbyPosts = await getPostsByLocationCloud(searchParams, userDataContext.userId as Id)
+			// const nearbyPosts = await getPostsByLocation(searchParams)
+			setNearPosts(nearbyPosts || [])
 
 			refresh ? setFlatListIsLoading(false) : setLoaderIsVisible(false); setSearchEnded(true)
 			setLocationDataOnContext({ searchParams, nearbyPosts, lastRefreshInMilliseconds: Date.now() })
@@ -266,7 +271,6 @@ function Home({ navigation }: HomeScreenProps) {
 					color={'white'}
 					fontSize={8}
 					onPress={() => navigateToPostCategories('socialImpact')}
-					// onPress={() => findNearPosts('', true)}
 					label={'impacto'}
 					SvgIcon={HeartPinkIcon}
 					svgScale={['50%', '80%']}
