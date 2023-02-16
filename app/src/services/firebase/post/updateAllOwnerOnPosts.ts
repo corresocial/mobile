@@ -1,7 +1,6 @@
 import { doc, setDoc } from 'firebase/firestore'
-import { getPostCollectionName } from '../common/dbAuxiliaryFunctions'
 import { firestore } from '../index'
-import { PostType } from '../types'
+import { Id } from '../types'
 
 async function updateAllOwnerOnPosts(
 	owner: {
@@ -9,15 +8,15 @@ async function updateAllOwnerOnPosts(
 		name: string,
 		profilePictureUrl: string[]
 	},
-	userPostIds: { postId: string, postType: PostType }[]
+	userPostIds: Id[]
 ) {
-	userPostIds.map(async (post) => {
-		const ref = doc(firestore, getPostCollectionName(post.postType), post.postId)
+	userPostIds.map(async (postId) => {
+		const ref = doc(firestore, 'posts', postId)
 		await setDoc(
 			ref,
 			{
 				owner,
-				// updatedAt: new Date(),
+				updatedAt: new Date(),
 			},
 			{ merge: true },
 		)

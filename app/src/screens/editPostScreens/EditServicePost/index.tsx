@@ -110,7 +110,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
 
-			const picturesAlreadyUploadedToRemove = postData.picturesUrl.filter((pictureUrl) => !editDataContext.unsaved.picturesUrl.includes(pictureUrl))
+			const picturesAlreadyUploadedToRemove = postData.picturesUrl.filter((pictureUrl) => editDataContext.unsaved.picturesUrl && !editDataContext.unsaved.picturesUrl.includes(pictureUrl))
 			if (picturesAlreadyUploadedToRemove.length) {
 				await deletePostPictures(picturesAlreadyUploadedToRemove)
 			}
