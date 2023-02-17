@@ -113,6 +113,15 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 		}
 	}
 
+	const navigateToProfile = (userId: string) => {
+		console.log(userDataContext.userId === userId)
+		if (userDataContext.userId === userId) {
+			navigation.navigate('Profile' as any)// TODO Type
+			return
+		}
+		navigation.navigate('ProfileHome', { userId })
+	}
+
 	const currentCategoryColorLight = getOneToneMoreLight()
 
 	return (
@@ -187,6 +196,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 											<PostCard
 												post={item}
 												owner={item.owner}
+												navigateToProfile={navigateToProfile}
 												onPress={() => goToPostView(item)}
 											/>
 										)}

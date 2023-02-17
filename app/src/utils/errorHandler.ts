@@ -3,6 +3,9 @@ import { ERROS_WEBHOOK } from '@env'
 import { sendContactUsMessageToNotion } from '../services/notion/contactUs'
 
 export const errorHandler = async (error: Error, stackTrace: any) => {
+	console.log(error)
+	console.log(stackTrace)
+
 	const errorLocation = stackTrace.match(/in (([a-zA-Z]+\s+)+)\(created by (([a-zA-Z]+)+)\)/i)[0] || 'undefined'
 
 	const { reportId } = await sendContactUsMessageToNotion({

@@ -18,8 +18,10 @@ import { PostCard } from '../../../components/_cards/PostCard'
 import { sortArray } from '../../../common/auxiliaryFunctions'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { AuthContext } from '../../../contexts/AuthContext'
 
 function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenProps) {
+	const { userDataContext } = useContext(AuthContext)
 	const { locationDataContext } = useContext(LocationContext)
 
 	const [searchText, setSearchText] = useState('')
@@ -91,6 +93,15 @@ function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenPro
 		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle, })
 	}
 
+	const navigateToProfile = (userId: string) => {
+		console.log(userDataContext.userId === userId)
+		if (userDataContext.userId === userId) {
+			navigation.navigate('Profile' as any)// TODO Type
+			return
+		}
+		navigation.navigate('ProfileHome', { userId })
+	}
+
 	return (
 		<Container>
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -156,6 +167,7 @@ function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenPro
 									<PostCard
 										post={item}
 										owner={item.owner}
+										navigateToProfile={navigateToProfile}
 										onPress={() => goToPostView(item)}
 									/>
 								)}
