@@ -10,7 +10,10 @@
 		"web": "expo start --web",
 		"eject": "expo eject",
 		"check": "eslint ./src/**/*",
-		"format": "eslint ./src/**/* --fix"
+		"format": "eslint ./src/**/* --fix",
+		"update-preview": "eas update --branch preview --message",
+		"build-android-preview": " eas build --platform android --profile preview",
+		"build-ios-preview": " eas build --platform ios --profile preview"
 	},
 	"jest": {
 		"preset": "react-native",
