@@ -7,7 +7,7 @@ import {
 	BottomLine,
 	LogoContainer
 } from './styles'
-import { screenHeight, screenWidth } from '../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth, screenHeight } from '../../common/screenDimensions'
 import SlumIcon from '../../assets/icons/slum.svg'
 import LogoIcon from '../../assets/icons/logo.svg'
 
@@ -72,13 +72,13 @@ function Splash({ navigation }: SplashScreenProps) {
 				opacity: imagesSvgOpacity
 			}}
 			>
-				<LogoIcon width={screenWidth * 0.5} height={screenHeight} />
+				<LogoIcon width={relativeScreenWidth(50)} height={screenHeight} />
 			</LogoContainer>
 			<BuildingsContainer style={{
 				opacity: imagesSvgOpacity
 			}}
 			>
-				<SlumIcon width={screenWidth * 0.8} height={screenHeight * 0.12} />
+				<SlumIcon width={relativeScreenWidth(80)} height={relativeScreenHeight(12)} />
 			</BuildingsContainer>
 			<BottomLine />
 		</Container>

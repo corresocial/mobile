@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 
 import { Container, TextInput } from './styles'
-import { relativeScreenHeight, screenHeight } from '../../common/screenDimensions'
+import { relativeScreenHeight } from '../../common/screenDimensions'
 import { theme } from '../../common/theme'
 
 interface LineInputProps {
@@ -166,7 +166,7 @@ function LineInput({
 	return (
 		<Container
 			style={{
-				height: multiline ? multilineInputHeight : screenHeight * 0.1, // 0.25
+				height: multiline ? multilineInputHeight : relativeScreenHeight(1), // 0.25
 				width: relativeWidth,
 				...inputContainerStyle,
 			}}
@@ -194,7 +194,7 @@ function LineInput({
 					editable={editable}
 					multiline={multiline}
 					numberOfLines={7}
-					onContentSizeChange={({ nativeEvent: { contentSize: { width, height } } }) => resizeMultilineInput(height)}
+					onContentSizeChange={({ nativeEvent: { contentSize: { width, height } } }: any) => resizeMultilineInput(height)}
 					secureTextEntry={secureTextEntry}
 					keyboardType={keyboardType || 'ascii-capable'}
 					placeholder={placeholder}
@@ -204,7 +204,7 @@ function LineInput({
 					onFocus={() => setFocused(true)}
 					onBlur={() => setFocused(false)}
 					onSubmitEditing={nextInputRef ? setFocusToNextInput : onPressKeyboardSubmit}
-					onChangeText={(text) => ValidateAndChange(text)}
+					onChangeText={(text: string) => ValidateAndChange(text)}
 					onKeyPress={(key: NativeSyntheticEvent<TextInputKeyPressEventData>) => performKeyPress(key)}
 				/>
 				{

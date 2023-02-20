@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { Body, Container, Header, Sigh, Title, TextMedium } from './styles'
+import { Body, Container, Header, Sigh, Title, TextMedium, ButtonContainer } from './styles'
 import { theme } from '../../../common/theme'
 
 import { WhoWeAreTransformationScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -34,15 +34,17 @@ function WhoWeAreTransformation({ navigation }: WhoWeAreTransformationScreenProp
 					<Sigh />
 				</DefaultCardContainer>
 				<Sigh />
-				<PrimaryButton
-					color={theme.orange3}
-					label={'apoie o corre.!'}
-					fontSize={20}
-					onPress={() => {
-						navigation.navigate('Configurations')
-						navigation.navigate('HelpUs')
-					}}
-				/>
+				<ButtonContainer>
+					<PrimaryButton
+						color={theme.orange3}
+						label={'apoie o corre.!'}
+						fontSize={20}
+						onPress={() => {
+							navigation.navigate('Configurations')
+							navigation.navigate('HelpUs')
+						}}
+					/>
+				</ButtonContainer>
 			</Body>
 		</Container >
 	)

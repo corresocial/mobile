@@ -17,7 +17,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { LineInput } from '../../../components/LineInput'
 import { InfoCard } from '../../../components/_cards/InfoCard'
-import { relativeScreenHeight, relativeScreenWidth, screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { sendContactUsMessageToDiscord } from '../../../services/discord/contactUs'
 import { sendContactUsMessageToNotion } from '../../../services/notion/contactUs'
 import { Loader } from '../../../components/Loader'
@@ -91,7 +91,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={screenHeight * 0.25}
+				relativeHeight={relativeScreenHeight(25)}
 				centralized
 				backgroundColor={theme.orange2}
 			>

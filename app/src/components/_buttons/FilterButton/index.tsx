@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { ContainerBottom, ContainerSurface, Label } from './styles'
 import { theme } from '../../../common/theme'
 
@@ -18,7 +18,7 @@ interface FilterButtonProps {
 }
 
 function FilterButton({
-	height = screenHeight * 0.09,
+	height = relativeScreenHeight(9),
 	marginRight = 0,
 	backgroundColor = theme.white3,
 	backgroundSelected,

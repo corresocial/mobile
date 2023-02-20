@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { ScrollView, KeyboardAvoidingView } from 'react-native'
+import uuid from 'react-uuid'
 
 import { RFValue } from 'react-native-responsive-fontsize'
 import { Body, Container, Header, InputContainer, LastSigh, SearchInput } from './styles'
@@ -33,6 +34,7 @@ function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 			if (tagName === 'outros') return null
 			return (
 				<CategoryCard
+					key={uuid()}
 					title={tagName}
 					onPress={() => viewPostsByTag(tagName)}
 				/>

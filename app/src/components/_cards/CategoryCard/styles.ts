@@ -1,10 +1,10 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.TouchableHighlight`
-	width: ${screenWidth * 0.25}px;
-	height: ${screenWidth * 0.25}px;
+	width: ${relativeScreenWidth(25)}px;
+	height: ${relativeScreenWidth(25)}px;
 	background-color: ${({ theme }) => theme.black4}
 	border-radius: ${RFValue(15)}px;
 	margin-left: ${RFValue(7)}px;

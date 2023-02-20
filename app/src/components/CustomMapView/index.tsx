@@ -2,7 +2,7 @@ import React from 'react'
 import MapView, { Circle, Marker } from 'react-native-maps'
 import { SvgProps } from 'react-native-svg'
 
-import { screenWidth } from '../../common/screenDimensions'
+import { relativeScreenWidth } from '../../common/screenDimensions'
 
 import { Coordinates, LocationViewType } from '../../services/firebase/types'
 
@@ -87,7 +87,7 @@ function CustomMapView({
 								<Marker
 									coordinate={locationView === 'approximate' ? randomCoordinate : markerCoordinate}
 								>
-									{<CustomMarker width={screenWidth * 0.0972} height={screenWidth * 0.0972} />}
+									{<CustomMarker width={relativeScreenWidth(9.72)} height={relativeScreenWidth(9.72)} />}
 								</Marker>
 							)
 						}

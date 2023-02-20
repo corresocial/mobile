@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
 import { Animated } from 'react-native'
-import { screenHeight } from '../../common/screenDimensions'
+import { relativeScreenHeight } from '../../common/screenDimensions'
 
 export const Container = styled.View`
     flex: 1;
@@ -21,7 +21,7 @@ export const LogoContainer = styled(Animated.View)``
 export const BottomLine = styled.View`
     position: absolute;
     bottom: 0;
-    height: ${screenHeight * 0.004}px;
+    height: ${relativeScreenHeight(0.4)}px;
     width: 100%;
     background-color: ${({ theme }) => theme.black4};
 `

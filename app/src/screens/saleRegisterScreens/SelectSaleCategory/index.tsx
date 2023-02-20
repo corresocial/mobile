@@ -4,7 +4,7 @@ import uuid from 'react-uuid'
 
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 import { saleCategories } from '../../../utils/postsCategories/saleCategories'
 import { sortPostCategories } from '../../../common/auxiliaryFunctions'
@@ -33,7 +33,7 @@ function SelectSaleCategory({ route, navigation }: SelectSaleCategoryScreenProps
 				<SelectButton
 					key={uuid()}
 					width={'45%'}
-					height={screenHeight * 0.11}
+					height={relativeScreenHeight(11)}
 					label={category.label}
 					boldLabel
 					onSelect={() => onSelectCategory(category.value as SaleCategories)}
@@ -76,7 +76,7 @@ function SelectSaleCategory({ route, navigation }: SelectSaleCategoryScreenProps
 					<SelectButton
 						key={'others'}
 						width={'100%'}
-						height={screenHeight * 0.11}
+						height={relativeScreenHeight(11)}
 						label={'outros'}
 						boldLabel
 						onSelect={() => onSelectCategory('others' as SaleCategories)}

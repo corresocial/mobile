@@ -1,6 +1,6 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
@@ -61,12 +61,12 @@ export const VerticalSigh = styled.View`
 
 export const LastSigh = styled.View`
 	width: 100%;
-	height: ${RFValue(80)}px;
+	height: ${relativeScreenHeight(10)}px;
 `
 
 export const FilterButtons = styled.View`
 	width: 100%;
-	height: ${screenHeight * 0.08}px;
+	height: ${relativeScreenHeight(8)}px;
 	flex-direction: row;
 	justify-content: space-around;
 	align-items: center;

@@ -4,7 +4,7 @@ import uuid from 'react-uuid'
 
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import Uncheck from '../../../assets/icons/uncheck.svg'
 import Check from '../../../assets/icons/check.svg'
 
@@ -131,7 +131,7 @@ function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProp
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={screenHeight * 0.26}
+				minHeight={relativeScreenHeight(26)}
 				relativeHeight={'22%'}
 				centralized
 				backgroundColor={theme.yellow2}

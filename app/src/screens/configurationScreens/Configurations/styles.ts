@@ -5,7 +5,6 @@ import { relativeScreenHeight, relativeScreenWidth } from '../../../common/scree
 
 export const Container = styled.View`
 	flex: 1;
-	padding-top:${Platform.OS === 'ios' ? Constants.statusBarHeight : 0}px;
 	background-color: ${({ theme }) => theme.white3};
 `
 

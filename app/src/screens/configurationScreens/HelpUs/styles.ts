@@ -5,7 +5,6 @@ import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
     flex: 1;
-	padding-top:${Platform.OS === 'ios' ? Constants.statusBarHeight : 0}px;
 `
 
 export const ButtonsContainer = styled.View`

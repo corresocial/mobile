@@ -9,7 +9,7 @@ import {
 	CarouselInactiveIndicatorItem,
 	CarouselIndicatorContainer
 } from './styles'
-import { relativeScreenWidth, screenHeight, screenWidth } from '../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth, screenWidth } from '../../common/screenDimensions'
 import { PhotoPortrait } from '../PhotoPortrait'
 
 interface ImageCarouselProps {
@@ -35,7 +35,7 @@ function ImageCarousel({
 		<View
 			style={{
 				width: '100%',
-				height: screenHeight * 0.28,
+				height: relativeScreenHeight(28),
 				overflow: 'hidden',
 				borderWidth: 0
 			}}
@@ -56,7 +56,7 @@ function ImageCarousel({
 		<View
 			style={{
 				width: '100%',
-				height: screenHeight * 0.28,
+				height: relativeScreenHeight(28),
 				marginVertical: RFValue(marginVertical)
 			}}
 		>
@@ -64,7 +64,7 @@ function ImageCarousel({
 				data={getCarouselPicture()}
 				autoPlay={picturesUrl.length > 1}
 				width={screenWidth}
-				height={screenHeight * 0.28}
+				height={relativeScreenHeight(28)}
 				autoPlayInterval={3000}
 				style={{
 					width: '100%',

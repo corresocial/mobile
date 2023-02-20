@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
 import { Container, PicturePreviewContainer } from './styles'
-import { screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import CheckIcon from '../../../assets/icons/check.svg'
 
@@ -69,8 +69,8 @@ function CulturePicturePreview({ route, navigation }: CulturePicturePreviewScree
 				<PicturePreviewContainer>
 					<PhotoPortrait
 						pictureUri={picturesPack[pictureIndexSelected]}
-						width={screenWidth * 0.90}
-						height={screenWidth * 0.89}
+						width={relativeScreenWidth(90)}
+						height={relativeScreenWidth(89)}
 						deleteCurrentPicture={deleteCurrentPicture}
 					/>
 					<HorizontalListPictures

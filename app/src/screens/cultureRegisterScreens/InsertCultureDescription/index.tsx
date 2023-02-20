@@ -2,7 +2,7 @@ import { Keyboard, Platform, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import Check from '../../../assets/icons/check.svg'
 
@@ -74,7 +74,7 @@ function InsertCultureDescription({ route, navigation }: InsertCultureDescriptio
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={screenHeight * 0.28}
+				minHeight={relativeScreenHeight(28)}
 				relativeHeight={'26%'}
 				centralized
 				backgroundColor={theme.blue2}

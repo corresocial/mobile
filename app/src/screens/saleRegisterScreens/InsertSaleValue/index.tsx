@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 
 import { theme } from '../../../common/theme'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { ButtonsContainer, Container } from './styles'
 import Check from '../../../assets/icons/check.svg'
 
@@ -77,7 +77,7 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={screenHeight * 0.26}
+				minHeight={relativeScreenHeight(28)}
 				relativeHeight={'22%'}
 				centralized
 				backgroundColor={theme.green2}

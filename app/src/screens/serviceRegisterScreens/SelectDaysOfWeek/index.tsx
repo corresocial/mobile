@@ -8,7 +8,7 @@ import {
 	WeekdaysSelectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import Check from '../../../assets/icons/check.svg'
 
 import { SelectDaysOfWeekScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
@@ -37,8 +37,8 @@ function SelectDaysOfWeek({ route, navigation }: SelectDaysOfWeekScreenProps) {
 			return (
 				<Row key={dayOfWeek}>
 					<SelectButton
-						width={screenWidth * 0.41}
-						height={screenHeight * 0.11}
+						width={relativeScreenWidth(41)}
+						height={relativeScreenHeight(11)}
 						marginVertical={10}
 						label={dayOfWeek}
 						fontSize={24}
@@ -53,8 +53,8 @@ function SelectDaysOfWeek({ route, navigation }: SelectDaysOfWeekScreenProps) {
 		return (
 			<SelectButton
 				key={dayOfWeek}
-				width={screenWidth * 0.41}
-				height={screenHeight * 0.11}
+				width={relativeScreenWidth(41)}
+				height={relativeScreenHeight(11)}
 				marginVertical={10}
 				label={dayOfWeek}
 				fontSize={24}

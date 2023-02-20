@@ -10,7 +10,7 @@ import {
 	TermsLabelHighlight
 } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import Logo from '../../../assets/icons/logo.svg'
 
 import { AcceptAndContinueScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
@@ -70,7 +70,7 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
 			<DefaultHeaderContainer relativeHeight={'55%'} backgroundColor={theme.orange2} withoutPadding>
 				<CustomCarousel>
 					<CarouselItemContainer >
-						<Logo height={screenHeight * 0.07} width={screenWidth * 0.5} />
+						<Logo height={relativeScreenHeight(7)} width={relativeScreenWidth(50)} />
 						<Slogan>{presentationTexts[0]}</Slogan>
 					</CarouselItemContainer>
 					<CarouselItemContainer>

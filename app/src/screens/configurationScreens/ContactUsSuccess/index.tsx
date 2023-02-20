@@ -9,7 +9,7 @@ import { ContactUsSuccessScreenProps } from '../../../routes/Stack/userStack/sta
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 
 function ContactUsSuccess({ route, navigation }: ContactUsSuccessScreenProps) {
@@ -26,7 +26,7 @@ function ContactUsSuccess({ route, navigation }: ContactUsSuccessScreenProps) {
 		<Container>
 			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={screenHeight * 0.5}
+				relativeHeight={relativeScreenHeight(50)}
 				centralized
 				backgroundColor={theme.orange2}
 			>

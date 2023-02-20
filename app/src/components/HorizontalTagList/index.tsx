@@ -6,7 +6,7 @@ import {
 	ScrollView,
 } from './styles'
 import { theme } from '../../common/theme'
-import { screenHeight } from '../../common/screenDimensions'
+import { relativeScreenHeight } from '../../common/screenDimensions'
 
 import { FilterButton } from '../_buttons/FilterButton'
 
@@ -24,7 +24,7 @@ function HorizontalTagList({
 	const renderTags = () => tags.map((tag) => (
 		< FilterButton
 			key={uuid()}
-			height={screenHeight * 0.040}
+			height={relativeScreenHeight(4)}
 			backgroundColor={theme.white3}
 			backgroundSelected={theme.orange1}
 			marginRight={10}

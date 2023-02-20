@@ -4,7 +4,7 @@ import Popover from 'react-native-popover-view'
 
 import { RFValue } from 'react-native-responsive-fontsize'
 import { CloseIcon, Container, ContainerInner, PostTitle, Sigh } from './styles'
-import { screenHeight } from '../../common/screenDimensions'
+import { relativeScreenHeight } from '../../common/screenDimensions'
 import { theme } from '../../common/theme'
 import XIcon from '../../assets/icons/x.svg'
 
@@ -73,7 +73,7 @@ function PostPopOver({ postTitle,
 											labelColor={theme.white3}
 											fontSize={14}
 											minHeight={20}
-											relativeHeight={screenHeight * 0.08}
+											relativeHeight={relativeScreenHeight(8)}
 										/>
 
 										{
@@ -88,7 +88,7 @@ function PostPopOver({ postTitle,
 														labelColor={theme.white3}
 														fontSize={14}
 														minHeight={20}
-														relativeHeight={screenHeight * 0.08}
+														relativeHeight={relativeScreenHeight(8)}
 													/>
 												</>
 											)
@@ -104,7 +104,7 @@ function PostPopOver({ postTitle,
 									labelColor={theme.white3}
 									fontSize={14}
 									minHeight={20}
-									relativeHeight={screenHeight * 0.08}
+									relativeHeight={relativeScreenHeight(8)}
 								/>
 							)
 					}

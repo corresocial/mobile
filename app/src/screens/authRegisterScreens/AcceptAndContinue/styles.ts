@@ -1,6 +1,6 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
     flex: 1;
@@ -9,7 +9,7 @@ export const Container = styled.View`
 export const CarouselItemContainer = styled.View`
     align-items: center;
     justify-content: center;
-    height: ${screenHeight * 0.55}px;
+    height: ${relativeScreenHeight(55)}px;
     padding:  ${RFValue(30)}px;
 `
 
@@ -22,7 +22,7 @@ export const TermsButtonContainer = styled.View`
     flex: 1;
     align-items: center;
     justify-content: center;
-    padding:  ${screenWidth * 0.08}px;
+    padding:  ${relativeScreenWidth(8)}px;
 `
 
 export const TermsLabel = styled.Text`

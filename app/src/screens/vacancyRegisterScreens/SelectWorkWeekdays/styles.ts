@@ -1,13 +1,13 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
     flex: 1;
     position: relative;
 `
 
-export const WeekdaysSelectedArea = styled.View` 
+export const WeekdaysSelectedArea = styled.View`
     width: 100%;
     align-items: center;
     justify-content: space-between;
@@ -32,6 +32,6 @@ export const FloatButtonContainer = styled.View`
 `
 
 export const Sigh = styled.View`
-    height: ${screenHeight * 0.1}px;
+    height: ${relativeScreenHeight(10)}px;
     width: 100%;
 `

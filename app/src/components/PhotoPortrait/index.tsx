@@ -6,7 +6,7 @@ import { CheckArea, Container, DeleteItemArea, NoPhotoContainer } from './styles
 import TrashIcon from '../../assets/icons/trash.svg'
 import NoPhoto from '../../assets/imgs/noPhoto.svg'
 import CheckOrange from '../../assets/icons/check-orange.svg'
-import { screenWidth } from '../../common/screenDimensions'
+import { relativeScreenWidth } from '../../common/screenDimensions'
 
 interface PhotoPortraitProps {
 	width: number | string
@@ -27,7 +27,7 @@ function PhotoPortrait({
 	borderRightWidth = 10,
 	pictureUri,
 	resizeMode = 'contain',
-	maxWidth = screenWidth * 0.9,
+	maxWidth = relativeScreenWidth(90),
 	checked = false,
 	deleteCurrentPicture
 }: PhotoPortraitProps) {

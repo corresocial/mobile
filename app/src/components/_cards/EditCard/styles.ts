@@ -1,7 +1,7 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const CardHeader = styled.View`
 	flex-direction: row;
@@ -20,7 +20,7 @@ export const Text = styled.Text`
 
 export const PictureArea = styled.View`
 	width: 100%;
-	height: ${screenWidth * 0.88}px;
+	height: ${relativeScreenWidth(88)}px;
 	border-width: ${RFValue(2)}px;
 	border-color: ${({ theme }) => theme.black4};
 	border-radius: ${RFValue(15)}px;

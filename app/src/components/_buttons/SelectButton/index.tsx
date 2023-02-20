@@ -3,7 +3,7 @@ import { TouchableWithoutFeedback } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
-import { relativeScreenWidth, screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { ContainerBottom, ContainerSurface, Label } from './styles'
 import { theme } from '../../../common/theme'
 
@@ -24,8 +24,8 @@ interface SelectButtonProps {
 }
 
 function SelectButton({
-	width = screenWidth * 0.39,
-	height = screenHeight * 0.09,
+	width = relativeScreenWidth(39),
+	height = relativeScreenHeight(9),
 	marginVertical = RFValue(6),
 	marginHorizontal = 0,
 	backgroundColor = theme.white3,

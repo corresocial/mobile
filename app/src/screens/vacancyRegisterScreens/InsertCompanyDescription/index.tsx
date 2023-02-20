@@ -2,7 +2,7 @@ import { Keyboard, Platform, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import Check from '../../../assets/icons/check.svg'
 
@@ -72,7 +72,7 @@ function InsertCompanyDescription({ route, navigation }: InsertCompanyDescriptio
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={screenHeight * 0.28}
+				minHeight={relativeScreenHeight(28)}
 				relativeHeight={'26%'}
 				centralized
 				backgroundColor={theme.yellow2}

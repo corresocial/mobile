@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import Check from '../../../assets/icons/check.svg'
 
 import { InsertCultureTitleScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
@@ -73,7 +73,7 @@ function InsertCultureTitle({ route, navigation }: InsertCultureTitleScreenProps
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={screenHeight * 0.26}
+				minHeight={relativeScreenHeight(26)}
 				relativeHeight={'22%'}
 				centralized
 				backgroundColor={theme.blue2}

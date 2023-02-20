@@ -1,5 +1,6 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
@@ -39,5 +40,5 @@ export const Body = styled.View`
 
 export const LastSigh = styled.View`
 	width: 100%;
-	height: ${RFValue(60)}px;
+	height: ${relativeScreenHeight(10)}px;
 `

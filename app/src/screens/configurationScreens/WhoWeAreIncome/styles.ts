@@ -1,12 +1,9 @@
-import Constants from 'expo-constants'
-import { Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
-	padding-top:${Platform.OS === 'ios' ? Constants.statusBarHeight : 0}px;
 	background-color: ${({ theme }) => theme.white3};
 `
 
@@ -45,4 +42,9 @@ export const TextMedium = styled.Text`
 export const Sigh = styled.View`
 	width: 100%;
 	height: ${relativeScreenWidth(6)}px;
+`
+
+export const ButtonContainer = styled.View`
+	margin-vertical: ${relativeScreenHeight(2)}px;
+	width: 100%;
 `

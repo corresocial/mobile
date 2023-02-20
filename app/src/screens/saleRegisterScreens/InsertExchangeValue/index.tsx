@@ -2,7 +2,7 @@ import { Keyboard, Platform, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { theme } from '../../../common/theme'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { ButtonsContainer, Container } from './styles'
 import Check from '../../../assets/icons/check.svg'
 
@@ -72,7 +72,7 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={screenHeight * 0.26}
+				minHeight={relativeScreenHeight(28)}
 				relativeHeight={'28%'}
 				centralized
 				backgroundColor={theme.green2}

@@ -3,7 +3,7 @@ import { Animated, LayoutChangeEvent, LayoutRectangle, Platform, StatusBar, View
 import * as Location from 'expo-location'
 
 import { theme } from '../../../common/theme'
-import { screenHeight, screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from './styles'
 import Check from '../../../assets/icons/check.svg'
 import MapPointOrange from '../../../assets/icons/mapPoint-orange.svg'
@@ -209,7 +209,7 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.yellow2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={screenHeight * 0.20}
+				minHeight={relativeScreenHeight(20)}
 				relativeHeight={'22%'}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
@@ -259,12 +259,12 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 			<MapContainer onLayout={({ nativeEvent }: LayoutChangeEvent) => !mapContainerDimensions.width && setMapContainerDimensions(nativeEvent.layout)}>
 				<View style={{
 					position: 'absolute',
-					top: mapContainerDimensions.height / 2 - (screenWidth * 0.0972),
-					left: mapContainerDimensions.width / 2 - ((screenWidth * 0.0972) / 2),
+					top: mapContainerDimensions.height / 2 - (relativeScreenWidth(9.72)),
+					left: mapContainerDimensions.width / 2 - ((relativeScreenWidth(9.72)) / 2),
 					zIndex: 3
 				}}
 				>
-					<MapPointOrange width={screenWidth * 0.0972} height={screenWidth * 0.0972} />
+					<MapPointOrange width={relativeScreenWidth(9.72)} height={relativeScreenWidth(9.72)} />
 				</View>
 				<ButtonContainer>
 					<PrimaryButton

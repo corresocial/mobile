@@ -1,8 +1,11 @@
+import Constants from 'expo-constants'
+import { Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 import { relativeScreenWidth } from '../../common/screenDimensions'
 
 export const Container = styled.View`
+	padding-top:${Platform.OS === 'ios' ? Constants.statusBarHeight : 0}px;
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;

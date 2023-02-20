@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { Body, Container, ContainerContent, Header, Sigh, BoldPhrase } from './styles'
+import { Body, Container, ContainerContent, Header, Sigh, BoldPhrase, ButtonContainer } from './styles'
 import { theme } from '../../../common/theme'
 
 import { WhoWeAreScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -35,12 +35,14 @@ function WhoWeAre({ navigation }: WhoWeAreScreenProps) {
 					</ContainerContent>
 				</DefaultCardContainer>
 				<Sigh />
-				<PrimaryButton
-					color={theme.orange3}
-					label={'como fazemos isso?'}
-					fontSize={20}
-					onPress={() => navigation.navigate('WhoWeAreIncome')}
-				/>
+				<ButtonContainer>
+					<PrimaryButton
+						color={theme.orange3}
+						label={'como fazemos isso?'}
+						fontSize={20}
+						onPress={() => navigation.navigate('WhoWeAreIncome')}
+					/>
+				</ButtonContainer>
 			</Body>
 		</Container >
 	)

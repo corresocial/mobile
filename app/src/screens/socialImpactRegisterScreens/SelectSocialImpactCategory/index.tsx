@@ -4,7 +4,7 @@ import uuid from 'react-uuid'
 
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
 
@@ -33,7 +33,7 @@ function SelectSocialImpactCategory({ route, navigation }: SelectSocialImpactCat
 				<SelectButton
 					key={uuid()}
 					width={'45%'}
-					height={screenHeight * 0.11}
+					height={relativeScreenHeight(11)}
 					label={category.label}
 					boldLabel
 					onSelect={() => onSelectCategory(category.value as SocialImpactCategories)}
@@ -84,7 +84,7 @@ function SelectSocialImpactCategory({ route, navigation }: SelectSocialImpactCat
 					<SelectButton
 						key={'others'}
 						width={'100%'}
-						height={screenHeight * 0.11}
+						height={relativeScreenHeight(11)}
 						label={'outros'}
 						boldLabel
 						onSelect={() => onSelectCategory('others' as SocialImpactCategories)}

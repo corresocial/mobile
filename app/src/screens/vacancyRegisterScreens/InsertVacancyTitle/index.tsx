@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight } from '../../../common/screenDimensions'
 import Check from '../../../assets/icons/check.svg'
 
 import { InsertVacancyTitleScreenProps } from '../../../routes/Stack/vacancyStack/stackScreenProps'
@@ -19,6 +18,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function InsertVacancyTitle({ route, navigation }: InsertVacancyTitleScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
@@ -73,7 +73,7 @@ function InsertVacancyTitle({ route, navigation }: InsertVacancyTitleScreenProps
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={screenHeight * 0.26}
+				minHeight={relativeScreenHeight(26)}
 				relativeHeight={'22%'}
 				centralized
 				backgroundColor={theme.yellow2}

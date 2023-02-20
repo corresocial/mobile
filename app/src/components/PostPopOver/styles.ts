@@ -1,11 +1,11 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { screenWidth } from '../../common/screenDimensions'
+import { relativeScreenWidth } from '../../common/screenDimensions'
 
 export const Container = styled.View`
 	background-color: ${({ theme }) => theme.black4}
-	width: ${screenWidth * 0.8}px;
+	width: ${relativeScreenWidth(80)}px;
 	border-right-width: ${RFValue(10)}px;
 	border-radius: ${RFValue(8)}px;
 `

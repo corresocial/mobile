@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import Check from '../../../assets/icons/check.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
@@ -74,7 +74,7 @@ function InsertSaleTitle({ route, navigation }: InsertSaleTitleScreenProps) {
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={screenHeight * 0.26}
+				minHeight={relativeScreenHeight(28)}
 				relativeHeight={'22%'}
 				centralized
 				backgroundColor={theme.green2}

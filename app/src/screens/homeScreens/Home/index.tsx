@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { BackHandler, FlatList, RefreshControl, StatusBar } from 'react-native'
+import { BackHandler, FlatList, RefreshControl } from 'react-native'
 import * as Location from 'expo-location'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -250,7 +250,6 @@ function Home({ navigation }: HomeScreenProps) {
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<FocusAwareStatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<DropdownContainer>
 				<LocationNearDropdown
