@@ -4,7 +4,7 @@
 		"owner": "corresocial",
 		"scheme": "corre",
 		"slug": "corresocial",
-		"version": "1.2.0",
+		"version": "0.1.0",
 		"orientation": "portrait",
 		"userInterfaceStyle": "light",
 		"icon": "./assets/icon.png",
@@ -30,6 +30,9 @@
 				"image": "./assets/splash-screen.png",
 				"resizeMode": "contain",
 				"backgroundColor": "#FA9938"
+			},
+			"config": {
+				"googleMapsApiKey": "AIzaSyBrGDvR0_6TR9qitGcSjV3bfF4yWzWXXCU"
 			}
 		},
 		"android": {
@@ -49,11 +52,11 @@
 				"android.permission.USE_FINGERPRINT",
 				"android.permission.FOREGROUND_SERVICE",
 				"android.permission.CAMERA"
-			]
-		},
-		"config": {
-			"googleMaps": {
-				"apiKey": "AIzaSyDMEw4Mjl7oIgN7rw13rSfdSU_EFT0t3sE"
+			],
+			"config": {
+				"googleMaps": {
+					"apiKey": "AIzaSyAlcLXDLUQs4B6cF9yVeqckia8LlEKBfRY"
+				}
 			}
 		},
 		"web": {
