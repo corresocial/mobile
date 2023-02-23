@@ -22,7 +22,8 @@
 						"useFrameworks": "static"
 					}
 				}
-			]
+			],
+			"./plugins/react-native-maps-plugin.js"
 		],
 		"updates": {
 			"fallbackToCacheTimeout": 0,
