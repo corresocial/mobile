@@ -1,32 +1,46 @@
-on:
-  pull_request:
-    branches:
-      - dev
-jobs:
-  build:
-    runs-on: ubuntu-latest
-	defaults:
-      run:
-        working-directory: ./app
-    steps:
-      - name: 🏗 Setup repo
-        uses: actions/checkout@v3
+name: PR Preview	   
+on: pull_request
 
-      - name: 🏗 Setup Node 16
-        uses: actions/setup-node@v3
+jobs:
+  update:
+    name: EAS Update
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for EXPO_TOKEN
+        run: |
+          if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "You must provide an EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions"
+            exit 1
+          fi
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
         with:
           node-version: 16.x
           cache: yarn
-		  cache-dependency-path: app/yarn.lock
 
-      - name: 🏗 Setup EAS
-        uses: expo/expo-github-action@v8
+      - name: Setup Expo
+        uses: expo/expo-github-action@v7
         with:
+          expo-version: latest
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: 📦 Install dependencies
-        run: yarn install
+      - name: Find yarn cache
+        id: yarn-cache-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - name: 🚀 Build app
-        run: eas update --auto --non-interactive
+      - name: Restore cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Publish update
+        run: eas update --branch preview --auto
