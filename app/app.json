@@ -14,7 +14,15 @@
 			"backgroundColor": "#FA9938"
 		},
 		"plugins": [
-			"expo-image-picker"
+			"expo-image-picker",
+			[
+				"expo-build-properties",
+				{
+					"ios": {
+						"useFrameworks": "static"
+					}
+				}
+			]
 		],
 		"updates": {
 			"fallbackToCacheTimeout": 0,

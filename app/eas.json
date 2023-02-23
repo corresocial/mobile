@@ -1,6 +1,7 @@
 {
 	"cli": {
-		"version": ">= 3.6.0"
+		"version": ">= 3.6.0",
+		"promptToConfigurePushNotifications": false
 	},
 	"build": {
 		"development": {
@@ -8,13 +9,15 @@
 			"distribution": "internal",
 			"ios": {
 				"resourceClass": "m1-medium"
-			}
+			},
+			"channel": "development"
 		},
 		"preview": {
 			"distribution": "internal",
 			"ios": {
 				"resourceClass": "m1-medium"
-			}
+			},
+			"channel": "preview"
 		},
 		"production": {
 			"ios": {
@@ -22,7 +25,8 @@
 			},
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
-			}
+			},
+			"channel": "production"
 		}
 	},
 	"submit": {

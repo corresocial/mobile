@@ -1,5 +1,0 @@
-# Podfile
-target 'corre' do
-    # Pods
-    pod 'FirebaseCoreInternal', :modular_headers => true
-  end

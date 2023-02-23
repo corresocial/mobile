@@ -1,19 +1,24 @@
 {
 	"name": "app",
 	"version": "2.0.0",
-	"main": "node_modules/expo/AppEntry.js",
 	"scripts": {
-		"start": "expo start",
+		"start": "expo start --dev-client",
 		"test": "jest --detectOpenHandles",
-		"android": "expo start --android",
-		"ios": "expo start --ios",
+		"android": "expo run:android",
+		"ios": "expo run:ios",
 		"web": "expo start --web",
 		"eject": "expo eject",
 		"check": "eslint ./src/**/*",
 		"format": "eslint ./src/**/* --fix",
+		"update-dev": "eas update --branch development --message",
 		"update-preview": "eas update --branch preview --message",
-		"build-android-preview": " eas build --platform android --profile preview",
-		"build-ios-preview": " eas build --platform ios --profile preview"
+		"update-prod": "eas update --branch production --message",
+		"build-android-dev": "eas build --platform android --profile development",
+		"build-ios-dev": "eas build --platform ios --profile development",
+		"build-android-preview": "eas build --platform android --profile preview",
+		"build-ios-preview": "eas build --platform ios --profile preview",
+		"build-android-prod": "eas build --platform android --profile production",
+		"build-ios-prod": "eas build --platform ios --profile production"
 	},
 	"jest": {
 		"preset": "react-native",
@@ -35,6 +40,7 @@
 		"color-convert": "^2.0.1",
 		"date-fns": "^2.29.3",
 		"expo": "^47.0.0",
+		"expo-build-properties": "~0.4.1",
 		"expo-camera": "~13.1.0",
 		"expo-constants": "~14.0.2",
 		"expo-firebase-recaptcha": "~2.3.1",
@@ -47,9 +53,10 @@
 		"expo-permissions": "~14.0.0",
 		"expo-secure-store": "~12.0.0",
 		"expo-sharing": "~11.0.1",
+		"expo-splash-screen": "~0.17.5",
 		"expo-status-bar": "~1.4.2",
 		"expo-updates": "~0.15.6",
-		"firebase": "^9.6.11",
+		"firebase": "^9.17.1",
 		"install": "^0.13.0",
 		"jest": "^26.6.3",
 		"lottie-react-native": "5.1.4",
@@ -79,8 +86,7 @@
 		"react-native-webview": "11.23.1",
 		"react-uuid": "^2.0.0",
 		"styled-components": "^5.3.5",
-		"supports-color": "^9.3.1",
-		"uninstall": "^0.0.0"
+		"supports-color": "^9.3.1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.19.3",
@@ -107,6 +113,7 @@
 		"eslint-plugin-react": "^7.31.11",
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"eslint-plugin-react-native": "^4.0.0",
+		"expo-dev-client": "^2.0.1",
 		"react-native-svg-transformer": "^1.0.0",
 		"typescript": "^4.6.3"
 	},
