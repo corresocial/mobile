@@ -59,7 +59,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const saveLinkValue = async () => {
 		setIsLoading(true)
 		try {
-			const socialMediaData = getSocialMediaData()
+			const socialMediaData = await getSocialMediaData()
 
 			await updateUser(userDataContext.userId as string, socialMediaData)
 			setUserDataOnContext(socialMediaData)
@@ -71,14 +71,13 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 		setIsLoading(false)
 	}
 
-	const getSocialMediaData = () => {
+	const getSocialMediaData = async () => {
 		let currentSocialMedias = mergeWithDefaultSocialMedia(userDataContext.socialMedias as SocialMedia[]) || [] as SocialMedia[]
 		currentSocialMedias = currentSocialMedias.sort(sortSocialMedias)
 
 		const socialMediaEditableIndex = route.params.index
 
 		const completeLink = defaultSocialMediaTitles.includes(route.params.socialMedia.title) ? `${socialMediaUrl(route.params.socialMedia.title, linkValue)}` : linkValue
-		console.log(completeLink)
 
 		if (socialMediaEditableIndex || socialMediaEditableIndex === 0) {
 			currentSocialMedias[socialMediaEditableIndex] = {
