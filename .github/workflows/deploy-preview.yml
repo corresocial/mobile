@@ -29,10 +29,10 @@ jobs:
         run: yarn install
 
       - name: Publish preview
-        run: eas update --branch preview --non-interactive
+        run: eas update --branch preview
 
       - name: Comment preview
         uses: expo/expo-github-action/preview-comment@v8
         with:
           project: ./app
-          channel: pr-${{ github.event.number }}
+          command: eas update --auto
