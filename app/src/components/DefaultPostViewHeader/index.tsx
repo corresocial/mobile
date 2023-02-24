@@ -1,5 +1,5 @@
 import React from 'react'
-import { SvgProps } from 'react-native-svg'
+import { SvgProps, SvgUri } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { theme } from '../../common/theme'
 
@@ -15,6 +15,7 @@ interface DefaultPostViewHeaderProps {
 	highlightedWords?: string[]
 	path?: boolean
 	showResults?: boolean
+	svgUri?: string
 	SvgIcon?: React.FC<SvgProps>
 	onBackPress: () => void
 }
@@ -24,6 +25,7 @@ function DefaultPostViewHeader({
 	highlightedWords = [],
 	path,
 	showResults,
+	svgUri,
 	SvgIcon,
 	onBackPress
 }: DefaultPostViewHeaderProps) {
@@ -32,6 +34,15 @@ function DefaultPostViewHeader({
 		if (SvgIcon && !path) return '65%'
 		if (path && !SvgIcon) return '65%'
 		return '85%'
+	}
+
+	const renderSvgIcon = () => {
+		if (svgUri) {
+			return <SvgUri uri={svgUri} width={'15%'} height={'60%'} />
+		}
+		if (SvgIcon) {
+			return <SvgIcon width={'25%'} height={'60%'} />
+		}
 	}
 
 	return (
@@ -46,7 +57,7 @@ function DefaultPostViewHeader({
 			{
 				showResults
 					? <PathTitle>{text}</PathTitle>
-					: SvgIcon && <SvgIcon width={'25%'} height={'60%'} />
+					: renderSvgIcon()
 			}
 			{path && <PathBar>{'/'}</PathBar>}
 			<Title

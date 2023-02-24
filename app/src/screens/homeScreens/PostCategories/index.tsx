@@ -6,7 +6,6 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { Body, Container, Header, InputContainer, LastSigh, SearchInput } from './styles'
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
-import AnimalsIcon from '../../../assets/icons/categories/animals.svg'
 
 import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
 import { saleCategories } from '../../../utils/postsCategories/saleCategories'
@@ -25,7 +24,7 @@ import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
-type CategoryEntries = [string & { label: string, value: string, tags: string[] }]
+type CategoryEntries = [string & { label: string, value: string, iconUri: string, tags: string[] }]
 
 function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
@@ -79,7 +78,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			return (
 				<CategoryCard
 					title={'sem catagorias'}
-					SvgIcon={LoupIcon}
+					svgUri={'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/1209abdd-d8ae-4125-864c-5c05877dc110/Chat.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230224%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230224T143254Z&X-Amz-Expires=86400&X-Amz-Signature=05080c250021f51dcd6231f7261f135583e2125421dd3dc04cadfd91643dd3e3&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Chat.svg%22&x-id=GetObject'}
 					onPress={() => { }}
 				/>
 			)
@@ -97,7 +96,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 				<CategoryCard
 					key={uuid()}
 					title={category[1].label}
-					SvgIcon={LoupIcon}
+					svgUri={category[1].iconUri || 'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/5205eb06-d118-4a81-98ab-1d5dd4d7c33c/Comida.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230224%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230224T165217Z&X-Amz-Expires=86400&X-Amz-Signature=cddb6268003c4892e129c2d27607cdf6b34b4f2aff6c95af5bedd7db651b6485&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Comida.svg%22&x-id=GetObject'}
 					onPress={() => navigateToCategoryDetails(category[1])}
 				/>
 			)
@@ -123,7 +122,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			backgroundColor: getRelativeColor(),
 			categoryName: categorySelected.value,
 			categoryTitle: categorySelected.label,
-			categoryIcon: AnimalsIcon,
+			categoryIcon: categorySelected.iconUri,
 			categoryTags: categorySelected.tags
 		}
 
@@ -136,7 +135,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			backgroundColor: getRelativeColor(),
 			categoryName: '',
 			categoryTitle: '',
-			categoryIcon: AnimalsIcon,
+			categoryIcon: '',
 			categoryTags: ['']
 		}
 

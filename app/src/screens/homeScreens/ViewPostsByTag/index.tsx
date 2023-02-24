@@ -84,7 +84,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 			<Header>
 				<DefaultPostViewHeader
 					text={route.params.currentTagSelected}
-					SvgIcon={categoryIcon}
+					svgUri={categoryIcon}
 					path
 					onBackPress={() => navigation.goBack()}
 				/>

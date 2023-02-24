@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
-import { SvgProps } from 'react-native-svg'
+import { SvgProps, SvgUri } from 'react-native-svg'
 
 import { Container, ContainerInner, Title } from './styles'
 
 interface CategoryCardProps {
 	title: string
 	withoutMargin?: boolean
-	SvgIcon?: React.FC<SvgProps>
+	svgUri?: string
 	onPress: () => void
 }
-function CategoryCard({ title, withoutMargin, SvgIcon, onPress }: CategoryCardProps) {
+function CategoryCard({ title, withoutMargin, svgUri, onPress }: CategoryCardProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	function pressingButton() {
@@ -38,7 +38,7 @@ function CategoryCard({ title, withoutMargin, SvgIcon, onPress }: CategoryCardPr
 				marginLeft: buttonPressed ? 0 : RFValue(-7)
 			}}
 			>
-				{SvgIcon && <SvgIcon width={'50%'} height={'50%'} />}
+				{svgUri && <SvgUri uri={svgUri} width={'50%'} height={'50%'} />}
 				<Title>
 					{title}
 				</Title>

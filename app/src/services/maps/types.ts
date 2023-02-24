@@ -30,7 +30,7 @@ export type CurrentCategory = {
 	backgroundColor: string
 	categoryName: string
 	categoryTitle: string
-	categoryIcon: React.FC<SvgProps>
+	categoryIcon: string
 	categoryTags: string[]
 }
 

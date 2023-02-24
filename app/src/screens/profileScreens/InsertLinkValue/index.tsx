@@ -148,7 +148,6 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 									onPress={saveLinkValue}
 								/>
 							)
-
 					}
 				</ButtonContainer>
 			</FormContainer>

@@ -108,8 +108,8 @@ function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenPro
 			<Header>
 				<DefaultPostViewHeader
 					text={categoryTitle}
+					svgUri={categoryIcon}
 					onBackPress={() => navigation.goBack()}
-					SvgIcon={categoryIcon}
 				/>
 				<InputContainer>
 					<LoupIcon width={RFValue(25)} height={RFValue(25)} />

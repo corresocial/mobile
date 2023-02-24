@@ -182,7 +182,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 					</FilterButtons>
 					{
 						postResultsIsVisible && (
-							!resultPosts.length
+							resultPosts && !resultPosts.length
 								? (
 									<WithoutPostsMessage
 										title={'poxa!'}

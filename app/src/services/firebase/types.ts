@@ -39,6 +39,7 @@ export type EventRepeatType = 'unrepeatable' | 'everyDay' | 'weekly' | 'biweekly
 export type MacroCategory = {
 	label: string
 	value: string
+	iconUri: string
 	tags: string[]
 }
 

@@ -43,7 +43,7 @@ const initialValue = {
 	setLocationDataOnContext: (data: LocationData) => { }
 }
 
-const LocationContext = createContext<LocationContextType>(initialValue)
+const LocationContext = createContext<LocationContextType>(initialValue) // TODO Types
 
 function LocationProvider({ children }: LocationProviderProps) {
 	const [locationDataContext, setLocationDataContext] = useState(initialValue.locationDataContext)
