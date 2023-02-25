@@ -28,7 +28,7 @@ export function ServiceStack() {
 	return (
 		<ServiceProvider>
 			<Stack.Navigator
-				initialRouteName={'InsertServiceDescription'}
+				initialRouteName={'InsertServiceName'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,

@@ -66,7 +66,7 @@ function InsertServiceName({ route, navigation }: InsertServiceNameScreenProps) 
 			setServiceDataOnContext({
 				title: serviceName
 			})
-			navigation.navigate('InsertServicePicture')
+			navigation.navigate('InsertServiceDescription')
 		}
 	}
 

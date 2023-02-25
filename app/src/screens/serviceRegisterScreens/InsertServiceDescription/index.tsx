@@ -69,7 +69,7 @@ function InsertServiceDescription({ route, navigation }: InsertServiceDescriptio
 			setServiceDataOnContext({
 				description: serviceDescription
 			})
-			navigation.navigate('InsertServiceName')
+			navigation.navigate('InsertServicePicture')
 		}
 	}
 

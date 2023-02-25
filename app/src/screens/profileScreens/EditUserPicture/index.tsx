@@ -58,7 +58,10 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 					pictureUri={profilePictureUrl}
 					width={screenWidth}
 					height={screenWidth}
-					deleteCurrentPicture={() => setProfilePictureUrl('')}
+					deleteCurrentPicture={() => {
+						setPictureUri('')
+						addNewUnsavedFieldToEditContext({ profilePictureUrl: '' })
+					}}
 
 				/>
 				<InstructionCardContainer>

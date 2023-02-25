@@ -24,17 +24,19 @@ interface CustomCameraModalProps {
 }
 
 function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCameraModalProps) {
-	const [cameraReady, setCameraReady] = useState(false)
 	const [cameraType, setCameraType] = useState(CameraType.back)
 	const [flashMode, setFlashMode] = useState(FlashMode.off)
 	const [hasPermission, setHasPermission] = useState(true)
 	const cameraRef = useRef<Camera>(null)
 
 	useEffect(() => {
-		setTimeout(() => {
-			getCameraPermissions()
-		}, 500)
-	}, [])
+		Camera.requestCameraPermissionsAsync()
+			.then(({ status }: any) => setHasPermission(status === 'granted'))
+			.catch((err) => {
+				setHasPermission(false)
+				console.log(err)
+			})
+	}, [hasPermission])
 
 	const getCameraPermissions = async () => {
 		const { status } = await Camera.requestCameraPermissionsAsync()
@@ -57,7 +59,7 @@ function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCamer
 			quality: 1,
 		})
 
-		if (!result.cancelled) {
+		if (result.cancelled) {
 			setPictureUri(result.uri)
 			onClose()
 		}
@@ -93,43 +95,35 @@ function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCamer
 							<CameraContainer>
 								<Camera
 									ref={cameraRef}
-									style={{
-										flex: 1
-									}}
+									style={{ flex: 1 }}
 									type={cameraType}
 									flashMode={flashMode}
 									ratio={'1:1'}
-									onCameraReady={() => setCameraReady(true)}
+									onMountError={(err) => console.log(err)}
 								/>
 							</CameraContainer>
-							{
-								cameraReady
-									? (
-										<>
-											<FlashButtonContainer>
-												<FlashButton onPress={toggleFlashMode}>
-													<Ionicons name={'md-flash-sharp'} size={25} color={flashMode === FlashMode.torch ? theme.orange3 : theme.black4} />
-												</FlashButton>
-											</FlashButtonContainer>
-											<Footer>
-												<CameraControlsContainer>
-													<GaleryButton onPress={openGalery} >
-														<FontAwesome5 name={'images'} size={25} color={theme.black4} />
-													</GaleryButton>
+							<>
+								<FlashButtonContainer>
+									<FlashButton onPress={toggleFlashMode}>
+										<Ionicons name={'md-flash-sharp'} size={25} color={flashMode === FlashMode.torch ? theme.orange3 : theme.black4} />
+									</FlashButton>
+								</FlashButtonContainer>
+								<Footer>
+									<CameraControlsContainer>
+										<GaleryButton onPress={openGalery} >
+											<FontAwesome5 name={'images'} size={25} color={theme.black4} />
+										</GaleryButton>
 
-													<TakePictureButton onPress={takePicture}>
-													</TakePictureButton>
+										<TakePictureButton onPress={takePicture}>
+										</TakePictureButton>
 
-													<CameraTypeButton onPress={toggleCameraType} >
-														{/* <Entypo name='camera' size={27} color={theme.black4} /> */}
-														<Ionicons name={'camera-reverse'} size={27} color={theme.black4} />
-													</CameraTypeButton>
-												</CameraControlsContainer>
-											</Footer>
-										</>
-									)
-									: null
-							}
+										<CameraTypeButton onPress={toggleCameraType} >
+											{/* <Entypo name='camera' size={27} color={theme.black4} /> */}
+											<Ionicons name={'camera-reverse'} size={27} color={theme.black4} />
+										</CameraTypeButton>
+									</CameraControlsContainer>
+								</Footer>
+							</>
 						</Container >
 					)
 			}

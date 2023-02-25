@@ -51,7 +51,10 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 	}
 
 	const buy = () => {
-		Alert.alert('Right!', 'Find!')
+		setStateDataOnContext({
+			showTourModal: false
+		})
+		navigation.navigate('HomeTab' as any)
 	}
 
 	const goToProfile = () => {
