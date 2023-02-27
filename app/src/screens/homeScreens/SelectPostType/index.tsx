@@ -3,11 +3,12 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
-import ToolBox from '../../../assets/icons/toolBox-purple.svg'
-import SalesCart from '../../../assets/icons/salesCart-green.svg'
-import Suitcase from '../../../assets/icons/suitcase-yellow.svg'
-import Heart from '../../../assets/icons/heart-pink-light.svg'
-import SoundTools from '../../../assets/icons/soundTools-blue.svg'
+
+import VacancyIcon from '../../../assets/icons/vacancy.svg'
+import SocialImpactIcon from '../../../assets/icons/socialImpact.svg'
+import ServiceIcon from '../../../assets/icons/service.svg'
+import SaleIcon from '../../../assets/icons/sale.svg'
+import CultureIcon from '../../../assets/icons/culture.svg'
 
 import { SelectPostTypeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -47,8 +48,8 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					labelColor={theme.black3}
 					labelSize={18}
 					relativeHeight={'18%'}
-					SvgIcon={ToolBox}
-					svgIconScale={['70%', '70%']}
+					SvgIcon={ServiceIcon}
+					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.purple2}
 					leftSideWidth={'30%'}
 					onPress={() => navigation.navigate('ServiceStack')}
@@ -60,7 +61,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					labelColor={theme.black3}
 					labelSize={18}
 					relativeHeight={'18%'}
-					SvgIcon={SalesCart}
+					SvgIcon={SaleIcon}
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.green2}
 					leftSideWidth={'30%'}
@@ -73,7 +74,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					labelColor={theme.black3}
 					labelSize={18}
 					relativeHeight={'18%'}
-					SvgIcon={Suitcase}
+					SvgIcon={VacancyIcon}
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.yellow2}
 					leftSideWidth={'30%'}
@@ -86,7 +87,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					labelColor={theme.black3}
 					labelSize={18}
 					relativeHeight={'18%'}
-					SvgIcon={Heart}
+					SvgIcon={SocialImpactIcon}
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.pink2}
 					leftSideWidth={'30%'}
@@ -99,7 +100,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					labelColor={theme.black3}
 					labelSize={18}
 					relativeHeight={'18%'}
-					SvgIcon={SoundTools}
+					SvgIcon={CultureIcon}
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.blue2}
 					leftSideWidth={'30%'}

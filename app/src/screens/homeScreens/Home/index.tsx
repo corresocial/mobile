@@ -12,19 +12,26 @@ import {
 	Sigh
 } from './styles'
 import { theme } from '../../../common/theme'
-import HeartPinkIcon from '../../../assets/icons/heart-pink.svg'
+/* import HeartPinkIcon from '../../../assets/icons/heart-pink.svg'
 import SalesCartIcon from '../../../assets/icons/salesCart-green.svg'
 import SoundToolsIcon from '../../../assets/icons/soundTools-blue.svg'
 import ToolBoxIcon from '../../../assets/icons/toolBox-purple.svg'
-import SuitcaseIcon from '../../../assets/icons/suitcase-yellow.svg'
+import VacancyIcon from '../../../assets/icons/suitcase-yellow.svg' */
+
+import SocialImpactIcon from '../../../assets/icons/socialImpact-filled.svg'
+import SaleIcon from '../../../assets/icons/sale-filled.svg'
+import CultureIcon from '../../../assets/icons/culture-filled.svg'
+import ServiceIcon from '../../../assets/icons/service-filled.svg'
+import VacancyIcon from '../../../assets/icons/vacancy-filled.svg'
+
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
 import { searchAddressByText } from '../../../services/maps/searchAddressByText'
 import { structureAddress } from '../../../services/maps/addressFormatter'
 import { getRecentAddressFromStorage } from '../../../services/maps/recentAddresses'
-// import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
 import { getPostsByLocationCloud } from '../../../services/cloudFunctions/getPostsByLocationCloud'
+// import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
 
 import { SearchParams, LatLong, AddressSearchResult, SelectedAddressRender } from '../../../services/maps/types'
 import { Id, PostCollection, PostType } from '../../../services/firebase/types'
@@ -271,7 +278,7 @@ function Home({ navigation }: HomeScreenProps) {
 					fontSize={8}
 					onPress={() => navigateToPostCategories('socialImpact')}
 					label={'impacto'}
-					SvgIcon={HeartPinkIcon}
+					SvgIcon={SocialImpactIcon}
 					svgScale={['50%', '80%']}
 					flexDirection={'column'}
 				/>
@@ -282,7 +289,7 @@ function Home({ navigation }: HomeScreenProps) {
 					fontSize={8}
 					onPress={() => navigateToPostCategories('sale')}
 					label={'comércio'}
-					SvgIcon={SalesCartIcon}
+					SvgIcon={SaleIcon}
 					svgScale={['50%', '80%']}
 					flexDirection={'column'}
 				/>
@@ -293,7 +300,7 @@ function Home({ navigation }: HomeScreenProps) {
 					fontSize={8}
 					onPress={() => navigateToPostCategories('culture')}
 					label={'cultura'}
-					SvgIcon={SoundToolsIcon}
+					SvgIcon={CultureIcon}
 					svgScale={['50%', '80%']}
 					flexDirection={'column'}
 				/>
@@ -304,7 +311,7 @@ function Home({ navigation }: HomeScreenProps) {
 					fontSize={8}
 					onPress={() => navigateToPostCategories('service')}
 					label={'serviços'}
-					SvgIcon={ToolBoxIcon}
+					SvgIcon={ServiceIcon}
 					svgScale={['50%', '80%']}
 					flexDirection={'column'}
 				/>
@@ -315,7 +322,7 @@ function Home({ navigation }: HomeScreenProps) {
 					fontSize={8}
 					onPress={() => navigateToPostCategories('vacancy')}
 					label={'vagas'}
-					SvgIcon={SuitcaseIcon}
+					SvgIcon={VacancyIcon}
 					svgScale={['50%', '80%']}
 					flexDirection={'column'}
 				/>

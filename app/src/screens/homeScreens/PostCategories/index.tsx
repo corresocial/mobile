@@ -96,7 +96,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 				<CategoryCard
 					key={uuid()}
 					title={category[1].label}
-					svgUri={'https://res.cloudinary.com/dphnexunq/image/upload/v1677194119/animals_w8sj73.svg'}
+					svgUri={category[1].iconUri}
 					onPress={() => navigateToCategoryDetails(category[1])}
 				/>
 			)

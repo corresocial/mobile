@@ -22,12 +22,6 @@ function App() {
 		Arvo_400Regular, Arvo_700Bold
 	})
 
-	// Do not working
-	/* LogBox.ignoreLogs([
-		'Warning: Async Storage has been extracted from react-native core',
-		'ViewPropTypes will be removed from React Native.Migrate to ViewPropTypes exported from \'deprecated-react-native-prop-types\''
-	]) */
-
 	if (!fontsLoaded) {
 		return (
 			<View style={{
@@ -40,15 +34,15 @@ function App() {
 	}
 
 	return (
-		// <ErrorBoundary FallbackComponent={ErrorBoundaryFallback} onError={errorHandler}>
-		<NavigationContainer>
-			<ThemeProvider theme={theme}>
-				<LoaderProvider>
-					<AuthRegisterStack />
-				</LoaderProvider>
-			</ThemeProvider>
-		</NavigationContainer>
-		// </ErrorBoundary>
+		<ErrorBoundary FallbackComponent={ErrorBoundaryFallback} onError={errorHandler}>
+			<NavigationContainer>
+				<ThemeProvider theme={theme}>
+					<LoaderProvider>
+						<AuthRegisterStack />
+					</LoaderProvider>
+				</ThemeProvider>
+			</NavigationContainer>
+		</ErrorBoundary>
 	)
 }
 
