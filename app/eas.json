@@ -17,6 +17,9 @@
 			"ios": {
 				"resourceClass": "m1-medium"
 			},
+			"env": {
+				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
+			},
 			"channel": "preview"
 		},
 		"production": {

@@ -28,7 +28,7 @@ import GearIcon from '../../../assets/icons/gear.svg'
 
 import { share } from '../../../common/share'
 import { getUser } from '../../../services/firebase/user/getUser'
-import { sortArray, sortPostsByCreatedData } from '../../../common/auxiliaryFunctions'
+import { arrayIsEmpty, sortArray, sortPostsByCreatedData } from '../../../common/auxiliaryFunctions'
 
 import { LocalUserData } from '../../../contexts/types'
 import { Id, PostCollection, SocialMedia } from '../../../services/firebase/types'
@@ -284,7 +284,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						)
 					}
 					{
-						isLoggedUser && !getUserField('socialMedias')
+						isLoggedUser && arrayIsEmpty(getUserField('socialMedias'))
 							? (
 								<AddSocialMediasButtonContainer >
 									<SmallButton

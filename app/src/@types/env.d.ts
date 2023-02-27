@@ -15,4 +15,5 @@ declare module '@env' {
 	export const ALGOLIA_KEY: string
 	export const NOTION_FALECONOSCO_KEY: string
 	export const NOTION_FALECONOSCO_ID: string
+	export const FIREBASE_CLOUD_URL: string
 }

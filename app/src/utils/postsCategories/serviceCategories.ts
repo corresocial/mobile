@@ -251,7 +251,7 @@ const serviceCategories = {
 	animals: {
 		label: 'bichos',
 		value: 'animals',
-		iconUri: 'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/69351a02-0316-487e-8c22-003d9ec86f3f/Pets.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230224%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230224T201620Z&X-Amz-Expires=86400&X-Amz-Signature=7c480f27581269cd9f614dd892f6c88c2bb763f61a5bb61ecee625c45a3c507e&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Pets.svg%22&x-id=GetObject',
+		iconUri: 'https://res.cloudinary.com/dphnexunq/image/upload/v1677194119/animals_w8sj73.svg',
 		tags: [
 			'cachorro',
 			'dog',
