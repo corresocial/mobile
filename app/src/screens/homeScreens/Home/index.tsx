@@ -12,12 +12,6 @@ import {
 	Sigh
 } from './styles'
 import { theme } from '../../../common/theme'
-/* import HeartPinkIcon from '../../../assets/icons/heart-pink.svg'
-import SalesCartIcon from '../../../assets/icons/salesCart-green.svg'
-import SoundToolsIcon from '../../../assets/icons/soundTools-blue.svg'
-import ToolBoxIcon from '../../../assets/icons/toolBox-purple.svg'
-import VacancyIcon from '../../../assets/icons/suitcase-yellow.svg' */
-
 import SocialImpactIcon from '../../../assets/icons/socialImpact-filled.svg'
 import SaleIcon from '../../../assets/icons/sale-filled.svg'
 import CultureIcon from '../../../assets/icons/culture-filled.svg'

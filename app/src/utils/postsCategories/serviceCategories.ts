@@ -249,9 +249,9 @@ const serviceCategories = {
 	},
 
 	animals: {
-		label: 'bichos',
+		label: 'pets',
 		value: 'animals',
-		iconUri: 'https://res.cloudinary.com/dphnexunq/image/upload/v1677504627/Pets_ho4mp6.svg',
+		iconUri: '',
 		tags: [
 			'cachorro',
 			'dog',
@@ -275,7 +275,7 @@ const serviceCategories = {
 	finances: {
 		label: 'financeiro',
 		value: 'finances',
-		iconUri: 'https://s3.us-west-2.amazonaws.com/secure.notion-static.com/69351a02-0316-487e-8c22-003d9ec86f3f/Pets.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230227%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230227T132806Z&X-Amz-Expires=86400&X-Amz-Signature=3026cc18816341e218cbc7bf449ff7ba9ec792f0ac86171104d3bf6f645d746d&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D"Pets.svg"&x-id=GetObject',
+		iconUri: '',
 		tags: [
 			'financeiro',
 			'empreendedorismo',
@@ -292,11 +292,11 @@ const serviceCategories = {
 	},
 
 	travel: {
-		label: 'viajem',
+		label: 'viagem',
 		value: 'travel',
 		iconUri: '',
 		tags: [
-			'viajem',
+			'viagem',
 			'natureza',
 			'praia',
 			'acampar',
