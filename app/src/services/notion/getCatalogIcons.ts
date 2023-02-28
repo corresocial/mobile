@@ -12,7 +12,12 @@ async function getCatalogIcons() {
 			Authorization: `Bearer ${NOTION_APPICONS_KEY}`,
 		},
 		data: {
-
+			filter: {
+				property: 'slug',
+				rich_text: {
+					is_not_empty: true
+				}
+			}
 		}
 	}
 
