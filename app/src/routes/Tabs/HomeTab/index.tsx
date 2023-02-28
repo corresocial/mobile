@@ -59,7 +59,7 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 
 	return (
 		<Tab.Navigator
-			initialRouteName={'ProfileStack'}
+			initialRouteName={route.params?.showsInFirstTab ? 'Home' : 'ProfileStack'}
 			screenOptions={{
 				tabBarHideOnKeyboard: true,
 				headerShown: false,

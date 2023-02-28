@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, BackHandler, StatusBar } from 'react-native'
+import { BackHandler, StatusBar } from 'react-native'
 
 import { Container, ContainerButtons } from './styles'
 import { theme } from '../../../common/theme'
@@ -43,25 +43,24 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 		if (!userJSON) return false
 		const userObject = await JSON.parse(userJSON)
 
-		console.log(userObject)
 		if (!userObject.userId) {
-			navigation.navigate('InsertPhone' as any)
+			navigation.navigate('InsertPhone' as any) // TODO Type
 		}
 		setUserName(userObject.name || 'amigo')
 	}
 
-	const buy = () => {
+	const goToHome = () => {
 		setStateDataOnContext({
 			showTourModal: false
 		})
-		navigation.navigate('HomeTab' as any)
+		navigation.navigate('HomeTab', { showsInFirstTab: true })
 	}
 
 	const goToProfile = () => {
 		setStateDataOnContext({
 			showTourModal: true
 		})
-		navigation.navigate('HomeTab' as any)
+		navigation.navigate('HomeTab')
 	}
 
 	return (
@@ -91,7 +90,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 						SvgIcon={ShoppingBag}
 						svgIconScale={['60%', '60%']}
 						leftSideWidth={'30%'}
-						onPress={buy}
+						onPress={goToHome}
 					/>
 					<OptionButton
 						color={theme.white3}
