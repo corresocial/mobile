@@ -1,5 +1,7 @@
 # Mobile
 
+>Para mais detalhes sobre o conteúdo deste repositório, acesse: [mobile-dev](https://github.com/corre-social/mobile/tree/dev)
+
 ## Ambiente de execução
 
 >Windows 10 Pro x64
