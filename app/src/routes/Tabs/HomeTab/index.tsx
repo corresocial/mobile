@@ -59,7 +59,7 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 
 	return (
 		<Tab.Navigator
-			initialRouteName={route.params?.showsInFirstTab ? 'Home' : 'ProfileStack'}
+			initialRouteName={route.params?.showsInFirstTab ? 'HomeStack' : 'ProfileStack'}
 			screenOptions={{
 				tabBarHideOnKeyboard: true,
 				headerShown: false,
@@ -73,7 +73,7 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 			}}
 		>
 			<Tab.Screen
-				name={'Home'}
+				name={'HomeStack'}
 				component={HomeStack}
 				options={{
 					tabBarIcon: ({ focused }) => renderHomeIcon(focused)
