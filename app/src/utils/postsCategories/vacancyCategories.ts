@@ -8,7 +8,7 @@ const vacancyCategories = {
 	management: {
 		label: 'administração',
 		value: 'management',
-		iconUri: '',
+		slug: 'management',
 		tags: [
 			'gestor',
 			'logistica',
@@ -24,7 +24,7 @@ const vacancyCategories = {
 	food: {
 		label: 'alimentação',
 		value: 'food',
-		iconUri: '',
+		slug: 'food',
 		tags: [
 			'cozinheiro',
 			'garçom',
@@ -43,7 +43,7 @@ const vacancyCategories = {
 	beaks: {
 		label: 'bicos',
 		value: 'beaks',
-		iconUri: '',
+		slug: 'beaks',
 		tags: [
 			'limpeza',
 			'design',
@@ -65,7 +65,7 @@ const vacancyCategories = {
 	CLT: {
 		label: 'CLT',
 		value: 'CLT',
-		iconUri: '',
+		slug: 'clt',
 		tags: [
 			'administracao',
 			'alimentação',
@@ -89,7 +89,7 @@ const vacancyCategories = {
 	studentAndInternship: {
 		label: 'estudante e estágio',
 		value: 'studentAndInternship',
-		iconUri: '',
+		slug: 'studentAndInternship',
 		tags: [
 			'administracao',
 			'alimentação',
@@ -113,7 +113,7 @@ const vacancyCategories = {
 	MEI: {
 		label: 'MEI',
 		value: 'MEI',
-		iconUri: '',
+		slug: 'mei',
 		tags: [
 			'administracao',
 			'alimentação',
@@ -137,7 +137,7 @@ const vacancyCategories = {
 	partTime: {
 		label: 'meio período',
 		value: 'partTime',
-		iconUri: '',
+		slug: 'partTime',
 		tags: [
 			'administracao',
 			'alimentação',
@@ -161,7 +161,7 @@ const vacancyCategories = {
 	health: {
 		label: 'saúde',
 		value: 'health',
-		iconUri: '',
+		slug: 'health',
 		tags: [
 			'enfermagem',
 			'medico',
@@ -182,7 +182,7 @@ const vacancyCategories = {
 	beauty: {
 		label: 'beleza',
 		value: 'beauty',
-		iconUri: '',
+		slug: 'beauty',
 		tags: [
 			'cabelereiro',
 			'manicure',
@@ -198,7 +198,7 @@ const vacancyCategories = {
 	culture: {
 		label: 'cultura',
 		value: 'culture',
-		iconUri: '',
+		slug: 'culture',
 		tags: [
 			'audiovisual',
 			'eventos',
@@ -219,7 +219,7 @@ const vacancyCategories = {
 	education: {
 		label: 'educação',
 		value: 'education',
-		iconUri: '',
+		slug: 'education',
 		tags: [
 			'químico',
 			'físico',
@@ -237,7 +237,7 @@ const vacancyCategories = {
 	government: {
 		label: 'governo',
 		value: 'government',
-		iconUri: '',
+		slug: 'government',
 		tags: [
 			'segurança',
 			'atendente',
@@ -259,7 +259,7 @@ const vacancyCategories = {
 	audiovisual: {
 		label: 'audiovisual',
 		value: 'audiovisual',
-		iconUri: '',
+		slug: 'audiovisual',
 		tags: [
 			'fotografia',
 			'produção',
@@ -274,8 +274,9 @@ const vacancyCategories = {
 	},
 
 	realEstate: {
-		label: 'outros',
+		label: 'imobiliária',
 		value: 'realEstate',
+		slug: 'realEstate',
 		tags: [
 			'consultor',
 			'corretor',
@@ -292,7 +293,7 @@ const vacancyCategories = {
 	legal: {
 		label: 'jurídico',
 		value: 'legal',
-		iconUri: '',
+		slug: 'legal',
 		tags: [
 			'empresarial',
 			'advogado',
@@ -308,7 +309,7 @@ const vacancyCategories = {
 	marketing: {
 		label: 'marketing',
 		value: 'marketing',
-		iconUri: '',
+		slug: 'marketing',
 		tags: [
 			'gerente',
 			'agente',
@@ -329,7 +330,7 @@ const vacancyCategories = {
 	tech: {
 		label: 'tecnologia',
 		value: 'tech',
-		iconUri: '',
+		slug: 'tech',
 		tags: [
 			'programador',
 			'designer',
@@ -348,7 +349,7 @@ const vacancyCategories = {
 	security: {
 		label: 'segurança',
 		value: 'security',
-		iconUri: '',
+		slug: 'security',
 		tags: [
 			'eventos',
 			'publico',
@@ -366,7 +367,7 @@ const vacancyCategories = {
 	transport: {
 		label: 'transporte',
 		value: 'transport',
-		iconUri: '',
+		slug: 'transport',
 		tags: [
 			'uber',
 			'motoboy',
@@ -384,7 +385,7 @@ const vacancyCategories = {
 	commercial: {
 		label: 'comercial',
 		value: 'commercial',
-		iconUri: '',
+		slug: 'commercial',
 		tags: [
 			'representante',
 			'vendedor',
@@ -402,6 +403,7 @@ const vacancyCategories = {
 	others: {
 		label: 'outros',
 		value: 'others',
+		slug: 'others',
 		tags: []
 	},
 }

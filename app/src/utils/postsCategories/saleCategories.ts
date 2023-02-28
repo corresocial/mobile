@@ -8,7 +8,7 @@ const saleCategories = {
 	used: {
 		label: 'usados',
 		value: 'used',
-		iconUri: '',
+		slug: 'used',
 		tags: [
 			'eletrodomésticos',
 			'tecnologia e celular',
@@ -29,7 +29,7 @@ const saleCategories = {
 	homeAppliances: {
 		label: 'eletrodomésticos',
 		value: 'homeAppliances',
-		iconUri: '',
+		slug: 'homeAppliances',
 		tags: [
 			'microondas',
 			'máquina de lavar',
@@ -45,8 +45,8 @@ const saleCategories = {
 
 	technology: {
 		label: 'tecnologia',
-		value: 'technologyAndCellPhone',
-		iconUri: '',
+		value: 'techAndCellPhone',
+		slug: 'techAndCellPhone',
 		tags: [
 			'tv',
 			'celular',
@@ -65,7 +65,7 @@ const saleCategories = {
 	house: {
 		label: 'casa',
 		value: 'house',
-		iconUri: '',
+		slug: 'house',
 		tags: [
 			'utensilios',
 			'decoracao',
@@ -80,7 +80,7 @@ const saleCategories = {
 	furniture: {
 		label: 'móveis',
 		value: 'furniture',
-		iconUri: '',
+		slug: 'furniture',
 		tags: [
 			'sofa',
 			'cama',
@@ -97,7 +97,7 @@ const saleCategories = {
 	properties: {
 		label: 'imóveis',
 		value: 'properties',
-		iconUri: '',
+		slug: 'properties',
 		tags: [
 			'sala',
 			'casa',
@@ -117,7 +117,7 @@ const saleCategories = {
 	autoAndParts: {
 		label: 'automóveis e peças',
 		value: 'autoAndParts',
-		iconUri: '',
+		slug: 'autoAndParts',
 		tags: [
 			'carro',
 			'moto',
@@ -146,7 +146,7 @@ const saleCategories = {
 	toys: {
 		label: 'brinquedos',
 		value: 'toys',
-		iconUri: '',
+		slug: 'toys',
 		tags: [
 			'alugar',
 			'festa',
@@ -169,7 +169,7 @@ const saleCategories = {
 	books: {
 		label: 'livros',
 		value: 'books',
-		iconUri: '',
+		slug: 'books',
 		tags: [
 			'infantis',
 			'crianças',
@@ -196,7 +196,7 @@ const saleCategories = {
 	schoolAndStationery: {
 		label: 'escola e papelaria',
 		value: 'schoolAndStationery',
-		iconUri: '',
+		slug: 'schoolAndStationery',
 		tags: [
 			'papelaria',
 			'livros',
@@ -215,7 +215,7 @@ const saleCategories = {
 	sport: {
 		label: 'esporte',
 		value: 'sport',
-		iconUri: '',
+		slug: 'sport',
 		tags: [
 			'tenis',
 			'raquete',
@@ -243,7 +243,7 @@ const saleCategories = {
 	toolsAndConstruction: {
 		label: 'ferramentas e construção',
 		value: 'toolsAndConstruction',
-		iconUri: '',
+		slug: 'toolsAndConstruction',
 		tags: [
 			'automecanica',
 			'contruçao',
@@ -263,7 +263,7 @@ const saleCategories = {
 	art: {
 		label: 'arte',
 		value: 'art',
-		iconUri: '',
+		slug: 'art',
 		tags: [
 			'acessorios',
 			'tinta',
@@ -288,7 +288,7 @@ const saleCategories = {
 	clothesAndAccessories: {
 		label: 'roupas e acessórios',
 		value: 'clothesAndAccessories',
-		iconUri: '',
+		slug: 'clothesAndAccessories',
 		tags: [
 			'camiseta',
 			'calça',
@@ -313,7 +313,10 @@ const saleCategories = {
 	others: {
 		label: 'outros',
 		value: 'others',
-		tags: []
+		slug: 'others',
+		tags: [
+
+		]
 	},
 }
 

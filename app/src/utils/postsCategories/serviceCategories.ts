@@ -8,7 +8,7 @@ const serviceCategories = {
 	house: {
 		label: 'casa',
 		value: 'house',
-		iconUri: '',
+		slug: 'house',
 		tags: [
 			'casa',
 			'arquitetura',
@@ -43,7 +43,7 @@ const serviceCategories = {
 	health: {
 		label: 'saúde',
 		value: 'health',
-		iconUri: '',
+		slug: 'health',
 		tags: [
 			'medico',
 			'enfermagem',
@@ -71,7 +71,7 @@ const serviceCategories = {
 	leisure: {
 		label: 'lazer',
 		value: 'leisure',
-		iconUri: '',
+		slug: 'leisure',
 		tags: [
 			'turismo',
 			'praia',
@@ -92,7 +92,7 @@ const serviceCategories = {
 	transport: {
 		label: 'transporte',
 		value: 'transport',
-		iconUri: '',
+		slug: 'transport',
 		tags: [
 			'onibus',
 			'rodoviario',
@@ -117,7 +117,7 @@ const serviceCategories = {
 	sport: {
 		label: 'esporte',
 		value: 'sport',
-		iconUri: '',
+		slug: 'sport',
 		tags: [
 			'futebol',
 			'fitness',
@@ -139,7 +139,7 @@ const serviceCategories = {
 	foodAndDrink: {
 		label: 'comida e bebida',
 		value: 'foodAndDrink',
-		iconUri: '',
+		slug: 'foodAndDrink',
 		tags: [
 			'cerveja',
 			'vinho',
@@ -168,7 +168,7 @@ const serviceCategories = {
 	education: {
 		label: 'educação',
 		value: 'education',
-		iconUri: '',
+		slug: 'education',
 		tags: [
 			'educação',
 			'matemática',
@@ -196,8 +196,8 @@ const serviceCategories = {
 
 	technology: {
 		label: 'tecnologia',
-		value: 'technology',
-		iconUri: '',
+		value: 'tech',
+		slug: 'tech',
 		tags: [
 			'assistencia',
 			'inovação',
@@ -223,7 +223,7 @@ const serviceCategories = {
 	beautyWellBeing: {
 		label: 'beleza e bem-estar',
 		value: 'beautyWellBeing',
-		iconUri: '',
+		slug: 'beauty',
 		tags: [
 			'bem-estar',
 			'moda',
@@ -249,9 +249,9 @@ const serviceCategories = {
 	},
 
 	animals: {
-		label: 'pets',
+		label: 'bichos',
 		value: 'animals',
-		iconUri: '',
+		slug: 'pets',
 		tags: [
 			'cachorro',
 			'dog',
@@ -275,7 +275,7 @@ const serviceCategories = {
 	finances: {
 		label: 'financeiro',
 		value: 'finances',
-		iconUri: '',
+		slug: 'finances',
 		tags: [
 			'financeiro',
 			'empreendedorismo',
@@ -294,7 +294,7 @@ const serviceCategories = {
 	travel: {
 		label: 'viagem',
 		value: 'travel',
-		iconUri: '',
+		slug: 'travel',
 		tags: [
 			'viagem',
 			'natureza',
@@ -317,7 +317,7 @@ const serviceCategories = {
 	events: {
 		label: 'eventos',
 		value: 'events',
-		iconUri: '',
+		slug: 'businessDayEvent',
 		tags: [
 			'casamento',
 			'festas',
@@ -341,7 +341,7 @@ const serviceCategories = {
 	others: {
 		label: 'outros',
 		value: 'others',
-		iconUri: '',
+		slug: 'others',
 		tags: []
 	},
 }

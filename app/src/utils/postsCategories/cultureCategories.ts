@@ -8,7 +8,7 @@ const cultureCategories = {
 	music: {
 		label: 'música',
 		value: 'music',
-		iconUri: '',
+		slug: 'music',
 		tags: [
 			'rap',
 			'banda',
@@ -41,7 +41,7 @@ const cultureCategories = {
 	dance: {
 		label: 'dança',
 		value: 'dance',
-		iconUri: '',
+		slug: 'danceAndBallet',
 		tags: [
 			'balé',
 			'axé',
@@ -61,7 +61,7 @@ const cultureCategories = {
 	painting: {
 		label: 'pintura',
 		value: 'painting',
-		iconUri: '',
+		slug: 'culturePainting',
 		tags: [
 			'óleo',
 			'aquarela',
@@ -75,7 +75,7 @@ const cultureCategories = {
 	audiovisual: {
 		label: 'audiovisual',
 		value: 'audiovisual',
-		iconUri: '',
+		slug: 'audiovisual',
 		tags: [
 			'captacao',
 			'animação',
@@ -92,7 +92,7 @@ const cultureCategories = {
 	scenic: {
 		label: 'cênicas',
 		value: 'scenic',
-		iconUri: '',
+		slug: 'scenic',
 		tags: [
 			'ator',
 			'teatro',
@@ -110,7 +110,7 @@ const cultureCategories = {
 	tattooAndPiercing: {
 		label: 'tattoo e piercing',
 		value: 'tattooAndPiercing',
-		iconUri: '',
+		slug: 'tattooAndPiercing',
 		tags: [
 			'blackwork',
 			'aquarela',
@@ -130,7 +130,7 @@ const cultureCategories = {
 	craftsmanship: {
 		label: 'artesanato',
 		value: 'craftsmanship',
-		iconUri: '',
+		slug: 'craftsmanship',
 		tags: [
 			'crochê',
 			'tear',
@@ -148,6 +148,7 @@ const cultureCategories = {
 	others: {
 		label: 'outros',
 		value: 'others',
+		slug: 'others',
 		tags: [
 
 		]

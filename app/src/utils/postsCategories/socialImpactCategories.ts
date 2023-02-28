@@ -25,62 +25,65 @@ const socialImpactCategories = {
 	ONGs: {
 		label: 'ONGs',
 		value: 'ONGs',
-		iconUri: '',
+		slug: 'ongs',
 		tags: commonTags
 	},
 
 	popularIniciatives: {
 		label: 'iniciativas populares',
 		value: 'popularIniciatives',
-		iconUri: '',
+		slug: 'popularIniciatives',
 		tags: commonTags
 	},
 
 	charityBazaars: {
 		label: 'bazares beneficentes',
 		value: 'charityBazaars',
-		iconUri: '',
+		slug: 'charityBazaars',
 		tags: commonTags
 	},
 
 	associations: {
 		label: 'associações',
 		value: 'associations',
-		iconUri: '',
+		slug: 'associations',
 		tags: commonTags
 	},
 	collective: {
 		label: 'coletivos',
 		value: 'collective',
-		iconUri: '',
+		slug: 'collective',
 		tags: commonTags
 	},
 
 	socialProjects: {
 		label: 'projetos sociais',
 		value: 'socialProjects',
-		iconUri: '',
+		slug: 'socialProjects',
 		tags: commonTags
 	},
 
 	volounteering: {
 		label: 'voluntariado',
 		value: 'volounteering',
-		iconUri: '',
+		slug: 'volounteering',
 		tags: commonTags
 	},
 
 	donations: {
 		label: 'doações',
 		value: 'donations',
-		iconUri: '',
+		slug: 'donationHeart',
 		tags: commonTags
 	},
 
 	others: {
 		label: 'outros',
 		value: 'others',
-		tags: []
+		slug: 'others',
+		tags: [
+
+		]
 	},
 }
 

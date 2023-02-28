@@ -19,12 +19,12 @@ async function getCatalogIcons() {
 	return axios(`https://api.notion.com/v1/databases/${NOTION_APPICONS_ID}/query`, options)
 		.then((res) => {
 			const files = res.data.results.map((row: any) => {
-				if (!row.properties.Finalizado.files.length && !row.properties.Name.title[0].length) {
+				if (!row.properties.Finalizado.files.length || !row.properties.slug.rich_text.length) {
 					return false
 				}
 
 				return {
-					iconName: row.properties.Name.title[0].text.content.toLowerCase() || '',
+					iconSlug: row.properties.slug.rich_text[0].text.content || '',
 					iconUri: row.properties.Finalizado.files[0].file.url,
 					expiryTime: new Date(row.properties.Finalizado.files[0].file.expiry_time).getTime()
 				}

@@ -25,7 +25,7 @@ import { SelectButtonsContainer } from '../../../components/_containers/SelectBu
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { getCatalogIcons } from '../../../services/notion/getCatalogIcons'
 
-type CategoryEntries = [string & { label: string, value: string, iconUri: string, tags: string[] }]
+type CategoryEntries = [string & { label: string, value: string, slug: string, tags: string[] }]
 
 function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
@@ -74,10 +74,10 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 		}
 	}
 
-	const getRelativeIconUrl = (categoryLabel: string) => {
+	const getRelativeIconUrl = (categorySlug: string) => {
 		if (!catalogIcons.length) return ''
 		const icon = catalogIcons.reduce((total: any, current: any) => { // TODO Type
-			if (current.iconName.includes(categoryLabel.toLowerCase()) && !Object.keys(total).length) {
+			if (current.iconSlug === categorySlug) {
 				return current
 			}
 			return total
@@ -121,7 +121,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 				<CategoryCard
 					key={uuid()}
 					title={category[1].label}
-					svgUri={getRelativeIconUrl(category[1].label)}
+					svgUri={getRelativeIconUrl(category[1].slug)}
 					onPress={() => navigateToCategoryDetails(category[1])}
 				/>
 			)
@@ -147,7 +147,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			backgroundColor: getRelativeColor(),
 			categoryName: categorySelected.value,
 			categoryTitle: categorySelected.label,
-			categoryIcon: getRelativeIconUrl(categorySelected.label),
+			categoryIcon: getRelativeIconUrl(categorySelected.slug),
 			categoryTags: categorySelected.tags
 		}
 
