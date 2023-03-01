@@ -62,7 +62,7 @@ export const Sigh = styled.View`
 
 export const BigSigh = styled.View`
 	width: 100%;
-	margin-vertical: ${relativeScreenHeight(2)}px;
+	margin-vertical: ${relativeScreenHeight(20)}px;
 `
 
 export const MyLocationButtonContainer = styled.View`

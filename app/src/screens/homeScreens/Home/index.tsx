@@ -83,16 +83,16 @@ function Home({ navigation }: HomeScreenProps) {
 
 	useEffect(() => {
 		requestPermissions()
+		getRecentAddresses()
 	}, [])
 
 	useEffect(() => {
-		getRecentAddresses()
 		findNearPosts('', true)
 	}, [hasLocationPermission])
 
 	const requestPermissions = async () => {
 		const { status } = await Location.requestForegroundPermissionsAsync()
-		if (status !== 'granted') {
+		if (status === 'granted') {
 			setHasLocationPermission(true)
 		}
 	}
@@ -241,7 +241,6 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const navigateToProfile = (userId: string) => {
-		console.log(userDataContext.userId === userId)
 		if (userDataContext.userId === userId) {
 			navigation.navigate('Profile' as any)// TODO Type
 			return
@@ -328,7 +327,7 @@ function Home({ navigation }: HomeScreenProps) {
 					onPress={() => { }}
 				/>
 				{
-					(!hasLocationEnable) && (
+					(!hasLocationEnable && !nearPosts.length) && (
 						<RequestLocation getLocationPermissions={() => {
 							requestPermissions()
 							findNearPosts('', true)
