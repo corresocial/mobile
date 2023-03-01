@@ -107,7 +107,7 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 				<RightArea style={{ width: !arrayIsEmpty(post.picturesUrl) ? '35%' : 0 }}>
 					<SidePicture
 						source={{
-							uri: !arrayIsEmpty(post.picturesUrl) && post.picturesUrl[0],
+							uri: (!arrayIsEmpty(post.picturesUrl) && post.picturesUrl[0]) || '',
 						}}
 					/>
 				</RightArea>

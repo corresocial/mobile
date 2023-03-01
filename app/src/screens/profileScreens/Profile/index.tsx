@@ -291,7 +291,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 										color={theme.white3}
 										label={'adicionar redes'}
 										highlightedWords={['redes']}
-										fontSize={13}
+										fontSize={12}
 										SvgIcon={AtSign}
 										svgScale={['60%', '10%']}
 										relativeWidth={'100%'}
@@ -311,7 +311,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						<SmallButton
 							color={theme.white3}
 							label={isLoggedUser ? '' : 'chat'}
-							fontSize={13}
 							SvgIcon={isLoggedUser ? PencilIcon : ChatIcon}
 							relativeWidth={isLoggedUser ? relativeScreenWidth(12) : '30%'}
 							height={relativeScreenWidth(12)}
@@ -321,7 +320,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							color={theme.orange3}
 							label={`compartilhar${isLoggedUser ? ' perfil' : ''}`}
 							highlightedWords={isLoggedUser ? ['compartilhar'] : []}
-							fontSize={13}
+							fontSize={12}
 							SvgIcon={ShareIcon}
 							relativeWidth={isLoggedUser ? '60%' : '45%'}
 							height={relativeScreenWidth(12)}

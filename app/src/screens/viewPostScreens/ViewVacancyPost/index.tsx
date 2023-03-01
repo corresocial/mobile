@@ -184,7 +184,6 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						!isAuthor && (
 							<SmallButton
 								color={theme.white3}
-								fontSize={14}
 								SvgIcon={ShareIcon}
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}
@@ -195,7 +194,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 					<SmallButton
 						color={theme.green2}
 						label={isAuthor ? 'compartilhar' : 'me candidatar'}
-						fontSize={14}
+						fontSize={13}
 						SvgIcon={isAuthor ? ShareIcon : ChatIcon}
 						relativeWidth={isAuthor ? '80%' : '63%'}
 						height={relativeScreenWidth(12)}

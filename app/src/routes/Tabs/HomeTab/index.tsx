@@ -41,20 +41,20 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 
 	const renderHomeIcon = (focused: boolean) => (
 		focused
-			? <HomeTabIconActive height={'60%'} width={'60%'} />
-			: <HomeTabIconInactive height={'40%'} width={'40%'} />
+			? <HomeTabIconActive height={'60%'} width={'100%'} />
+			: <HomeTabIconInactive height={'40%'} width={'100%'} />
 	)
 
 	const renderPlusIcon = (focused: boolean) => (
 		focused
-			? <PlusTabIconActive height={'60%'} width={'60%'} />
-			: <PlusTabIconInactive height={'40%'} width={'40%'} />
+			? <PlusTabIconActive height={'60%'} width={'100%'} />
+			: <PlusTabIconInactive height={'40%'} width={'100%'} />
 	)
 
 	const renderProfileIcon = (focused: boolean) => (
 		focused
-			? <ProfileTabIconActive height={'60%'} width={'60%'} />
-			: <ProfileTabIconInactive height={'40%'} width={'40%'} />
+			? <ProfileTabIconActive height={'60%'} width={'100%'} />
+			: <ProfileTabIconInactive height={'40%'} width={'100%'} />
 	)
 
 	return (

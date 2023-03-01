@@ -2,7 +2,7 @@ import 'react-native-gesture-handler'
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
 import { NavigationContainer } from '@react-navigation/native'
-import { ActivityIndicator, View } from 'react-native'
+import { ActivityIndicator, LogBox, View } from 'react-native'
 import ErrorBoundary from 'react-native-error-boundary'
 
 import {
@@ -16,6 +16,9 @@ import { AuthRegisterStack } from './src/routes/Stack/AuthRegisterStack'
 import { LoaderProvider } from './src/contexts/LoaderContext'
 import { ErrorBoundaryFallback } from './src/screens/ErrorBoundaryFallback'
 import { errorHandler } from './src/utils/errorHandler'
+import { ignoredLogs } from './ignoredLogs'
+
+LogBox.ignoreLogs(ignoredLogs)
 
 function App() {
 	const [fontsLoaded]: boolean[] = useFonts({

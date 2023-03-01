@@ -23,7 +23,7 @@ function SmallButton({
 	color,
 	label = '',
 	highlightedWords = [],
-	fontSize,
+	fontSize = 12,
 	SvgIcon,
 	svgScale = label ? ['40%', '15%'] : ['50%', '80%'],
 	relativeWidth = '100%',
@@ -76,7 +76,7 @@ function SmallButton({
 					}
 					<ButtonLabel
 						style={{
-							fontSize,
+							fontSize: RFValue(fontSize),
 							marginLeft: label && flexDirection === 'row' ? RFValue(8) : 0,
 							fontFamily: highlightedWords?.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold'
 						}}

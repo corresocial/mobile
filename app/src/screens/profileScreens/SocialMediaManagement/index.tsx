@@ -77,7 +77,7 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 										color={theme.white3}
 										height={relativeScreenHeight(7)}
 										label={'novo link'}
-										fontSize={16}
+										fontSize={14}
 										highlightedWords={['link']}
 										SvgIcon={PlusIcon}
 										onPress={() => navigation.navigate('InsertLinkTitle', { socialMedia: { title: '', link: '' } })}

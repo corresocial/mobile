@@ -269,7 +269,7 @@ function Home({ navigation }: HomeScreenProps) {
 					relativeWidth={relativeScreenWidth(15)}
 					height={relativeScreenWidth(15)}
 					color={'white'}
-					fontSize={8}
+					fontSize={7.5}
 					onPress={() => navigateToPostCategories('socialImpact')}
 					label={'impacto'}
 					SvgIcon={SocialImpactIcon}
@@ -280,7 +280,7 @@ function Home({ navigation }: HomeScreenProps) {
 					relativeWidth={relativeScreenWidth(15)}
 					height={relativeScreenWidth(15)}
 					color={'white'}
-					fontSize={8}
+					fontSize={7.5}
 					onPress={() => navigateToPostCategories('sale')}
 					label={'comércio'}
 					SvgIcon={SaleIcon}
@@ -291,7 +291,7 @@ function Home({ navigation }: HomeScreenProps) {
 					relativeWidth={relativeScreenWidth(15)}
 					height={relativeScreenWidth(15)}
 					color={'white'}
-					fontSize={8}
+					fontSize={7.5}
 					onPress={() => navigateToPostCategories('culture')}
 					label={'cultura'}
 					SvgIcon={CultureIcon}
@@ -302,7 +302,7 @@ function Home({ navigation }: HomeScreenProps) {
 					relativeWidth={relativeScreenWidth(15)}
 					height={relativeScreenWidth(15)}
 					color={'white'}
-					fontSize={8}
+					fontSize={7.5}
 					onPress={() => navigateToPostCategories('service')}
 					label={'serviços'}
 					SvgIcon={ServiceIcon}
@@ -313,7 +313,7 @@ function Home({ navigation }: HomeScreenProps) {
 					relativeWidth={relativeScreenWidth(15)}
 					height={relativeScreenWidth(15)}
 					color={'white'}
-					fontSize={8}
+					fontSize={7.5}
 					onPress={() => navigateToPostCategories('vacancy')}
 					label={'vagas'}
 					SvgIcon={VacancyIcon}
