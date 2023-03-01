@@ -59,8 +59,10 @@ function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCamer
 			quality: 1,
 		})
 
-		if (result.cancelled) {
-			setPictureUri(result.uri)
+		console.log(result)
+
+		if (!result.canceled) {
+			setPictureUri(result.assets[0].uri)
 			onClose()
 		}
 	}
