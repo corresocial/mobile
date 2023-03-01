@@ -30,6 +30,7 @@
 
 [app/src/screens/](https://github.com/corre-social/mobile/tree/dev/app/src/screens) : Telas do aplicativo, separadas por seus respectivos fluxos.
 
+
 ## app/src/screens 
 * [authRegisterScreens](https://github.com/corre-social/mobile/tree/dev/app/src/screens/authRegisterScreens) : Telas presentes na autenticação e registro.
 * [profileScreens](https://github.com/corre-social/mobile/tree/dev/app/src/screens/profileScreens) : Telas relacionadas ao perfil e edição de próprio.
