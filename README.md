@@ -48,6 +48,14 @@
 ## Biblioteca de componentes (in progress)
 [app/src/components/](https://github.com/corre-social/mobile/tree/dev/app/src/components) : Componentes utilizados no projeto.
 
+<details>
+<summary>DefaultHeaderContainer</summary>
+https://github.com/corre-social/mobile/tree/dev/app/src/components/_containers/DefaultHeaderContainer
+
+![image](https://user-images.githubusercontent.com/64331839/222468097-b14ec944-03fa-47f5-b98f-8878e8dcdac3.png)
+---
+</details>
+
 
 ## Arquivos de configuração da raiz(app/)
 
