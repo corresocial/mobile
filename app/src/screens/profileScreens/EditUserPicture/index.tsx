@@ -10,6 +10,7 @@ import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
 import { EditUserPictureScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { EditContext } from '../../../contexts/EditContext'
+import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -18,6 +19,7 @@ import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal'
 
 function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
+	const { userDataContext } = useContext(AuthContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(false)
@@ -28,11 +30,15 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	}
 
 	const setPictureUri = (pictureUri: string) => {
+		addNewUnsavedFieldToEditContext({ profilePictureUrl: pictureUri })
 		setProfilePictureUrl(pictureUri)
 	}
 
 	const saveUserPicture = async () => {
-		addNewUnsavedFieldToEditContext({ profilePictureUrl })
+		const areEquals = userDataContext.profilePictureUrl && (userDataContext.profilePictureUrl[0] === profilePictureUrl)
+		if (!areEquals) {
+			addNewUnsavedFieldToEditContext({ profilePictureUrl })
+		}
 		navigation.goBack()
 	}
 
