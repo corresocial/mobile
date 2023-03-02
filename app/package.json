@@ -46,7 +46,7 @@
 		"expo-firebase-recaptcha": "~2.3.1",
 		"expo-image-picker": "~14.0.2",
 		"expo-linear-gradient": "~12.0.1",
-		"expo-linking": "~3.3.0",
+		"expo-linking": "~3.3.1",
 		"expo-local-authentication": "~13.0.2",
 		"expo-location": "~15.0.1",
 		"expo-media-library": "~15.0.0",
