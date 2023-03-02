@@ -25,6 +25,8 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { deleteUserPictures } from '../../../services/firebase/user/deleteUserPictures'
 import { deleteUserPicture } from '../../../services/firebase/user/deleteUserPicture'
 import { uploadImageRefactored } from '../../../services/firebase/common/uploadPictureRefactored'
+import { uploadImageAndGetUrl } from '../../../services/firebase/common/uploadImageAndGetUrl'
+import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
 function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
@@ -84,8 +86,79 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	}
 
 	const updateRemoteUser = async () => {
-		if (!editDataContext.unsaved.profilePictureUrl) {
-			await updateUser(userDataContext.userId as Id, { ...editDataContext.unsaved })
+		try {
+			if (!editDataContext.unsaved.profilePictureUrl) {
+				await updateUser(userDataContext.userId as Id, { ...editDataContext.unsaved })
+					.then(() => true)
+					.catch((err) => {
+						console.log(err)
+						throw new Error('erro ao atualizar nome remotamente')
+					})
+
+				await updateAllOwnerOnPosts(
+					{ ...editDataContext.unsaved },
+					userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
+				)
+
+				setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved })
+				await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved })
+
+				setIsLoading(false)
+				navigation.goBack()
+				return
+			}
+
+			await uploadImage(editDataContext.unsaved.profilePictureUrl, 'users')
+				.then(
+					({ uploadTask, blob }: any) => {
+						uploadTask.on(
+							'state_change',
+							() => { },
+							(err: any) => { setHasUpdateError(true) },
+							async () => {
+								blob.close()
+								getDownloadURL(uploadTask.snapshot.ref)
+									.then(async (profilePictureUrl) => {
+										await updateUser(userDataContext.userId as Id, { ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
+											.then(() => true)
+											.catch((err) => {
+												console.log(err)
+												throw new Error('erro ao atualizar nome remotamente')
+											})
+
+										await updateAllOwnerOnPosts(
+											{ ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] },
+											userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
+										)
+
+										if (!arrayIsEmpty(userDataContext)) {
+											await deleteUserPicture(userDataContext.profilePictureUrl || [])
+										}
+
+										setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
+										await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
+										await deleteUserPictures(userDataContext.profilePictureUrl || [])
+
+										setIsLoading(false)
+										navigation.goBack()
+									})
+									.catch((err: any) => {
+										console.log(err)
+										setHasUpdateError(true)
+									})
+							},
+						)
+					},
+				)
+				.catch((err: any) => {
+					console.log(err)
+					setIsLoading(false)
+					setHasUpdateError(true)
+				})
+
+			/* const uploadedImageUrl = await uploadImageAndGetUrl(editDataContext.unsaved.profilePictureUrl, 'users')
+
+			await updateUser(userDataContext.userId as Id, { ...editDataContext.unsaved, profilePictureUrl: [uploadedImageUrl] })
 				.then(() => true)
 				.catch((err) => {
 					console.log(err)
@@ -93,65 +166,25 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 				})
 
 			await updateAllOwnerOnPosts(
-				{ ...editDataContext.unsaved },
+				{ ...editDataContext.unsaved, profilePictureUrl: [uploadedImageUrl] },
 				userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
 			)
 
-			setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved })
-			await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved })
+			if (!arrayIsEmpty(userDataContext)) {
+				await deleteUserPicture(userDataContext.profilePictureUrl || [])
+			}
+
+			setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [uploadedImageUrl] })
+			await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [uploadedImageUrl] })
+			await deleteUserPictures(userDataContext.profilePictureUrl || [])
 
 			setIsLoading(false)
-			navigation.goBack()
-			return
+			navigation.goBack() */
+		} catch (err) {
+			console.log(err)
+			setIsLoading(false)
+			setHasUpdateError(true)
 		}
-
-		await uploadImageRefactored(editDataContext.unsaved.profilePictureUrl, 'users')
-			.then(
-				({ uploadTask, blob }: any) => {
-					uploadTask.on(
-						'state_change',
-						() => { },
-						(err: any) => { setHasUpdateError(err) },
-						async () => {
-							blob.close()
-							getDownloadURL(uploadTask.snapshot.ref)
-								.then(async (profilePictureUrl) => {
-									await updateUser(userDataContext.userId as Id, { ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
-										.then(() => true)
-										.catch((err) => {
-											console.log(err)
-											throw new Error('erro ao atualizar nome remotamente')
-										})
-
-									await updateAllOwnerOnPosts(
-										{ ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] },
-										userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
-									)
-
-									if (!arrayIsEmpty(userDataContext)) {
-										await deleteUserPicture(userDataContext.profilePictureUrl || [])
-									}
-
-									setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
-									await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
-									await deleteUserPictures(userDataContext.profilePictureUrl || [])
-
-									setIsLoading(false)
-									navigation.goBack()
-								})
-								.catch((err: any) => {
-									console.log(err)
-									setHasUpdateError(err)
-								})
-						},
-					)
-				},
-			)
-			.catch((err: any) => {
-				console.log(err)
-				setIsLoading(false)
-				setHasUpdateError(err)
-			})
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
