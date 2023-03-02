@@ -4,9 +4,9 @@ import { Id } from '../types'
 
 async function updateAllOwnerOnPosts(
 	owner: {
-		userId: string,
-		name: string,
-		profilePictureUrl: string[]
+		userId?: string,
+		name?: string,
+		profilePictureUrl?: string[]
 	},
 	userPostIds: Id[]
 ) {

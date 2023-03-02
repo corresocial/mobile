@@ -6,6 +6,9 @@ import { theme } from '../../../common/theme'
 
 import { updateUserPrivateData } from '../../../services/firebase/user/updateUserPrivateData'
 import { updateUser } from '../../../services/firebase/user/updateUser'
+import { deleteUserPicture } from '../../../services/firebase/user/deleteUserPicture'
+import { arrayIsEmpty } from '../../../common/auxiliaryFunctions'
+import { updateAllOwnerOnPosts } from '../../../services/firebase/post/updateAllOwnerOnPosts'
 
 import { RegisterUserData } from '../../../contexts/types'
 
@@ -16,11 +19,11 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { UserCollection } from '../../../services/firebase/types'
+import { Id, PostCollection } from '../../../services/firebase/types'
 import { Loader } from '../../../components/Loader'
 
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
-	const { setDataOnSecureStore, getDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
+	const { userDataContext, getDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasServerSideError, setHasServerSideError] = useState(false)
@@ -56,7 +59,15 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		try {
 			setIsLoading(true)
 			await saveInFirebase(userData, localUser.tourPerformed)
-			await saveInSecureStore(userData, localUser)
+			// await saveOnLocal(userData, localUser)
+			if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
+				await deleteUserPicture(userDataContext.profilePictureUrl || [])
+				await updateAllOwnerOnPosts(
+					{ profilePictureUrl: [] },
+					userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
+				)
+			}
+
 			await setRemoteUserOnLocal(userData.userIdentification.uid)
 			setIsLoading(false)
 			navigateToNextScreen(localUser.tourPerformed)
@@ -83,14 +94,18 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		)
 	}
 
-	const saveInSecureStore = async (userData: RegisterUserData, localUser: UserCollection) => {
+	/* 	const saveOnLocal = async (userData: RegisterUserData, localUser: UserCollection) => {
 		await setDataOnSecureStore('corre.user', {
 			userId: userData.userIdentification.uid,
 			name: userData.userName,
 			profilePictureUrl: [],
 			identification: userData.userIdentification,
 		})
-	}
+
+		setUserDataOnContext({
+
+		})
+	} */
 
 	const navigateToNextScreen = (tourPerformed: boolean) => {
 		navigation.navigate('UserStack', {

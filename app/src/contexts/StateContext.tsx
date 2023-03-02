@@ -4,6 +4,7 @@ import { Alert } from 'react-native'
 import { updateUser } from '../services/firebase/user/updateUser'
 import { share } from '../common/share'
 
+import { Id } from '../services/firebase/types'
 import { StateData } from './types'
 
 import { AuthContext } from './AuthContext'
@@ -39,7 +40,7 @@ type Handler = {
 }
 
 function StateProvider({ children }: StateProviderProps) {
-	const { setDataOnSecureStore, getDataFromSecureStore } = useContext(AuthContext)
+	const { setUserDataOnContext, userDataContext } = useContext(AuthContext)
 
 	const [stateDataContext, setStateDataContext] = useState(initialValue.stateDataContext)
 	const [handlerTourModalButton, setHandlerTourModalButton] = useState<Handler>()
@@ -81,26 +82,10 @@ function StateProvider({ children }: StateProviderProps) {
 	}
 
 	const setUserTourPerformed = async () => {
-		const localUser = await getObjectLocalUser()
-		const newLocalUser = {
-			...localUser,
-			tourPerformed: true
-		}
-		await updateRemoteUser(localUser.userId)
-		setDataOnSecureStore('corre.user', newLocalUser)
-	}
-
-	const updateRemoteUser = async (userId: string) => {
-		await updateUser(userId, {
+		await updateUser(userDataContext.userId as Id, {
 			tourPerformed: true
 		})
-	}
-
-	const getObjectLocalUser = async () => {
-		const userJSON = await getDataFromSecureStore('corre.user')
-		if (!userJSON) return false
-		const userObject = await JSON.parse(userJSON)
-		return userObject
+		setUserDataOnContext({ tourPerformed: true })
 	}
 
 	const stateProviderData = useMemo(() => ({

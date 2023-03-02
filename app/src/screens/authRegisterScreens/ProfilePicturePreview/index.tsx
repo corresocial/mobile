@@ -9,10 +9,13 @@ import { theme } from '../../../common/theme'
 import { updateUser } from '../../../services/firebase/user/updateUser'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { updateUserPrivateData } from '../../../services/firebase/user/updateUserPrivateData'
+import { arrayIsEmpty } from '../../../common/auxiliaryFunctions'
+import { deleteUserPicture } from '../../../services/firebase/user/deleteUserPicture'
+import { updateAllOwnerOnPosts } from '../../../services/firebase/post/updateAllOwnerOnPosts'
 
 import { ProfilePicturePreviewScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
+import { Id, PostCollection } from '../../../services/firebase/types'
 
-import { LocalUserData } from '../../../contexts/types'
 import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -24,10 +27,10 @@ import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal
 import { Loader } from '../../../components/Loader'
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
-	const { setRemoteUserOnLocal, setDataOnSecureStore, getDataFromSecureStore } = useContext(AuthContext)
+	const { setRemoteUserOnLocal, userDataContext, getDataFromSecureStore } = useContext(AuthContext)
 
 	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(true)
-	const [profilePicturesPack, setProfilePicturesPack] = useState<string[]>([])
+	const [profilePicture, setProfilePicture] = useState<string[]>([])
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasServerSideError, setHasServerSideError] = useState(false)
 
@@ -44,7 +47,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 	useEffect(() => {
 		const user = getRouteParams()
-		setProfilePicturesPack(user.profilePictureUrl as string[] || [])
+		setProfilePicture(user.profilePictureUrl as string[] || [])
 	}, [])
 
 	const throwServerSideError = (err: any) => {
@@ -60,7 +63,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 	const backToCustomCamera = () => {
 		setCameraModalVisibility(true)
-		setProfilePicturesPack([])
+		setProfilePicture([])
 	}
 
 	const getHeaderMessage = () => {
@@ -74,7 +77,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	}
 
 	const setPictureUri = (pictureUri: string) => {
-		setProfilePicturesPack([pictureUri])
+		setProfilePicture([pictureUri])
 	}
 
 	const getRouteParams = () => ({
@@ -85,11 +88,11 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		const userData = getRouteParams()
 		const localUserJSON = await getDataFromSecureStore('corre.user')
 
-		if (!profilePicturesPack.length) return
+		if (!profilePicture.length) return
 		const localUser = JSON.parse(localUserJSON as string)
 		setIsLoading(true)
 
-		await uploadImage(profilePicturesPack[0], 'users')
+		await uploadImage(profilePicture[0], 'users')
 			.then(
 				({ uploadTask, blob }: any) => {
 					uploadTask.on(
@@ -100,12 +103,13 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 							blob.close()
 							getDownloadURL(uploadTask.snapshot.ref)
 								.then(async (profilePictureUrl) => {
-									await updateUser(userData.userIdentification.uid, {
+									const currentUser = {
 										name: userData.userName,
 										profilePictureUrl: [profilePictureUrl as string],
 										tourPerformed: !!localUser.tourPerformed
-									})
+									}
 
+									await updateUser(userData.userIdentification.uid, currentUser)
 									await updateUserPrivateData(
 										{
 											cellNumber: userData.cellNumber
@@ -114,13 +118,13 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 										'contacts',
 									)
 
-									await saveInSecureStore({
-										userId: userData.userIdentification.uid,
-										name: userData.userName,
-										profilePictureUrl: [profilePictureUrl],
-										tourPerformed: !!localUser.tourPerformed,
-										userIdentification: userData.userIdentification
-									})
+									if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
+										await deleteUserPicture(userDataContext.profilePictureUrl || [])
+										await updateAllOwnerOnPosts(
+											{ ...currentUser },
+											userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
+										)
+									}
 
 									await setRemoteUserOnLocal(userData.userIdentification.uid)
 
@@ -136,12 +140,6 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 				setIsLoading(false)
 				throwServerSideError(err)
 			})
-	}
-
-	const saveInSecureStore = async (userData: LocalUserData) => {
-		await setDataOnSecureStore('corre.user', {
-			...userData
-		})
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -160,7 +158,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		})
 	}
 
-	if (!profilePicturesPack.length && !cameraModalVisibility) {
+	if (!profilePicture.length && !cameraModalVisibility) {
 		navigation.goBack()
 	}
 
@@ -168,7 +166,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		<Container >
 			<StatusBar backgroundColor={hasServerSideError ? theme.red2 : theme.green2} barStyle={'dark-content'} />
 			<CustomCameraModal
-				cameraOpened={cameraModalVisibility && !profilePicturesPack.length}
+				cameraOpened={cameraModalVisibility && !profilePicture.length}
 				onClose={() => {
 					setCameraModalVisibility(false)
 				}}
@@ -182,7 +180,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 				justifyContent={'space-around'}
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
-				<PhotoPortrait pictureUri={profilePicturesPack[0]} width={screenWidth} height={screenWidth} />
+				<PhotoPortrait pictureUri={profilePicture[0]} width={screenWidth} height={screenWidth} />
 				<InstructionCardContainer>
 					<InstructionCard
 						flex={0}

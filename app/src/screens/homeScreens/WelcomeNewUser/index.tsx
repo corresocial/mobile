@@ -6,7 +6,10 @@ import { theme } from '../../../common/theme'
 import ShoppingBag from '../../../assets/icons/shoppingBag.svg'
 import SalesCart from '../../../assets/icons/salesCart.svg'
 
+import { updateUser } from '../../../services/firebase/user/updateUser'
+
 import { WelcomeNewUserScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { Id } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 import { StateContext } from '../../../contexts/StateContext'
@@ -17,7 +20,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
-	const { getDataFromSecureStore } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 
 	const [userName, setUserName] = useState('amigo')
@@ -35,25 +38,30 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 	}
 
 	useEffect(() => {
-		getUserNameFromSecureStore()
+		getUserNameFromLocal()
 	}, [])
 
-	const getUserNameFromSecureStore = async () => {
-		const userJSON = await getDataFromSecureStore('corre.user')
-		if (!userJSON) return false
-		const userObject = await JSON.parse(userJSON)
-
-		if (!userObject.userId) {
+	const getUserNameFromLocal = async () => {
+		if (!userDataContext.userId) {
 			navigation.navigate('InsertPhone' as any) // TODO Type
 		}
-		setUserName(userObject.name || 'amigo')
+		setUserName(userDataContext.name || 'amigo')
 	}
 
 	const goToHome = () => {
 		setStateDataOnContext({
 			showTourModal: false
 		})
+		setUserTourPerformed()
 		navigation.navigate('HomeTab', { showsInFirstTab: true })
+	}
+
+	const setUserTourPerformed = async () => {
+		console.log(userDataContext.userId)
+		await updateUser(userDataContext.userId as Id, {
+			tourPerformed: true
+		})
+		setUserDataOnContext({ tourPerformed: true })
 	}
 
 	const goToProfile = () => {

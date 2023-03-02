@@ -19,7 +19,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
-	const { setUserDataOnContext, validateVerificationCode, setRemoteUserOnLocal } = useContext(AuthContext)
+	const { validateVerificationCode, setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [inputCode01, setInputCode01] = useState<string>('')
 	const [inputCode02, setInputCode02] = useState<string>('')
@@ -115,7 +115,6 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				.then(async (userCredential: UserCredential) => {
 					const userIdentification = await extractUserIdentification(userCredential)
 					await setRemoteUserOnLocal(userIdentification.uid)
-					setUserDataOnContext({ userIdentification })
 					return userIdentification
 				})
 				.then((userIdentification) => {

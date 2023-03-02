@@ -17,7 +17,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 
 function InsertName({ navigation, route }: InsertNameScreenProps) {
-	const { getDataFromSecureStore } = useContext(AuthContext)
+	const { userDataContext } = useContext(AuthContext)
 
 	const [inputName, setInputName] = useState<string>('')
 	const [nameIsValid, setInputNameIsValid] = useState<boolean>(false)
@@ -48,21 +48,12 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 	}, [inputName])
 
 	const getUserName = async () => {
-		const localUser = await getObjectLocalUser()
-		const { name } = localUser
+		const name = userDataContext.name || 'usuário do corre.'
 		setInputName(name)
 	}
 
 	const getUserProfilePicture = async () => {
-		const localUser = await getObjectLocalUser()
-		return localUser?.profilePictureUrl || []
-	}
-
-	const getObjectLocalUser = async () => {
-		const userJSON = await getDataFromSecureStore('corre.user')
-		if (!userJSON) return false
-		const userObject = await JSON.parse(userJSON)
-		return userObject
+		return userDataContext.profilePictureUrl || []
 	}
 
 	const validateName = (text: string) => {
