@@ -108,6 +108,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 				return
 			}
 
+			// uploadImageRefactored
 			await uploadImage(editDataContext.unsaved.profilePictureUrl, 'users')
 				.then(
 					({ uploadTask, blob }: any) => {

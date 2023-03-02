@@ -46,8 +46,6 @@ import { ProfilePopOver } from '../../../components/ProfilePopOver'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { uploadImageRefactored } from '../../../services/firebase/common/uploadPictureRefactored'
-import { uploadImageAndGetUrl } from '../../../services/firebase/common/uploadImageAndGetUrl'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -184,11 +182,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}
 
 	const shareProfile = async () => {
-		const url = await uploadImageAndGetUrl('file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540corresocial%252Fcorresocial/ImagePicker/9f2193ca-0d3c-4b2b-8326-4bbd0f60737c.jpeg', 'users')
-		const url2 = await uploadImageAndGetUrl('file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540corresocial%252Fcorresocial/ImagePicker/9f2193ca-0d3c-4b2b-8326-4bbd0f60737c.jpeg', 'users')
-		console.log(url)
-		console.log(url2)
-		// share(`${isLoggedUser ? `olá! me chamo ${getUserField('name')} e tô no corre.` : `olha quem eu encontrei no corre.\n${getUserField('name')}`}\n\nhttps://corre.social`)
+		share(`${isLoggedUser ? `olá! me chamo ${getUserField('name')} e tô no corre.` : `olha quem eu encontrei no corre.\n${getUserField('name')}`}\n\nhttps://corre.social`)
 	}
 
 	const openChat = async () => {
