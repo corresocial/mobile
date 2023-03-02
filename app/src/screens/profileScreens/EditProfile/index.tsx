@@ -10,7 +10,6 @@ import CheckIcon from '../../../assets/icons/check.svg'
 import { updateAllOwnerOnPosts } from '../../../services/firebase/post/updateAllOwnerOnPosts'
 import { arrayIsEmpty } from '../../../common/auxiliaryFunctions'
 import { updateUser } from '../../../services/firebase/user/updateUser'
-import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
 import { UserStackParamList } from '../../../routes/Stack/UserStack/types'
 import { EditProfileScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -25,6 +24,7 @@ import { Loader } from '../../../components/Loader'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { deleteUserPictures } from '../../../services/firebase/user/deleteUserPictures'
 import { deleteUserPicture } from '../../../services/firebase/user/deleteUserPicture'
+import { uploadImageRefactored } from '../../../services/firebase/common/uploadPictureRefactored'
 
 function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
@@ -105,7 +105,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			return
 		}
 
-		await uploadImage(editDataContext.unsaved.profilePictureUrl, 'users')
+		await uploadImageRefactored(editDataContext.unsaved.profilePictureUrl, 'users')
 			.then(
 				({ uploadTask, blob }: any) => {
 					uploadTask.on(
@@ -139,12 +139,16 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 									setIsLoading(false)
 									navigation.goBack()
 								})
-								.catch((err: any) => setHasUpdateError(err))
+								.catch((err: any) => {
+									console.log(err)
+									setHasUpdateError(err)
+								})
 						},
 					)
 				},
 			)
 			.catch((err: any) => {
+				console.log(err)
 				setIsLoading(false)
 				setHasUpdateError(err)
 			})

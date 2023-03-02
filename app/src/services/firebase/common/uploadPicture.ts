@@ -1,9 +1,11 @@
 import { ref, uploadBytesResumable } from 'firebase/storage'
 import { storage } from '..'
 
+type CollectionUpload = 'users' | 'posts'
+
 async function uploadImage(
 	localPath: string,
-	collection: string,
+	collection: CollectionUpload,
 	index?: number
 ) {
 	try {
@@ -28,9 +30,7 @@ async function uploadImage(
 
 		const uploadTask = uploadBytesResumable(fileRef, blob as Uint8Array | ArrayBuffer)
 
-		return {
-			uploadTask, blob
-		}
+		return { uploadTask, blob }
 	} catch (e) {
 		console.log(e)
 	}

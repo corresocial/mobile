@@ -182,7 +182,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}
 
 	const shareProfile = async () => {
-		// await removeUnregisteredUserPosts()
 		share(`${isLoggedUser ? `olá! me chamo ${getUserField('name')} e tô no corre.` : `olha quem eu encontrei no corre.\n${getUserField('name')}`}\n\nhttps://corre.social`)
 	}
 
