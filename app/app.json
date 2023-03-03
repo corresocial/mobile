@@ -4,7 +4,7 @@
 		"owner": "corresocial",
 		"scheme": "corre",
 		"slug": "corresocial",
-		"version": "0.1.0",
+		"version": "0.1.1",
 		"orientation": "portrait",
 		"userInterfaceStyle": "light",
 		"icon": "./assets/icon.png",
@@ -54,7 +54,6 @@
 			},
 			"permissions": [
 				"android.permission.LOCATION",
-				"android.permission.ACCESS_BACKGROUND_LOCATION",
 				"android.permission.ACCESS_FINE_LOCATION",
 				"android.permission.READ_EXTERNAL_STORAGE",
 				"android.permission.WRITE_EXTERNAL_STORAGE",
