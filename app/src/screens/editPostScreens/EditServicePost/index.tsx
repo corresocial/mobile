@@ -110,7 +110,8 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
 
-			const picturesAlreadyUploadedToRemove = postData.picturesUrl.filter((pictureUrl) => editDataContext.unsaved.picturesUrl && !editDataContext.unsaved.picturesUrl.includes(pictureUrl))
+			const registredPicturesUrl = postData.picturesUrl || []
+			const picturesAlreadyUploadedToRemove = registredPicturesUrl.filter((pictureUrl) => editDataContext.unsaved.picturesUrl && !editDataContext.unsaved.picturesUrl.includes(pictureUrl))
 			if (picturesAlreadyUploadedToRemove.length) {
 				await deletePostPictures(picturesAlreadyUploadedToRemove)
 			}
@@ -182,7 +183,8 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 												picturesUrl: [...picturePostsUrls, ...picturesAlreadyUploaded]
 											}
 
-											const picturesAlreadyUploadedToRemove = postData.picturesUrl.filter((pictureUrl) => ![...picturePostsUrls, ...picturesAlreadyUploaded].includes(pictureUrl))
+											const registredPicturesUrl = postData.picturesUrl || []
+											const picturesAlreadyUploadedToRemove = registredPicturesUrl.filter((pictureUrl) => ![...picturePostsUrls, ...picturesAlreadyUploaded].includes(pictureUrl))
 											if (picturesAlreadyUploadedToRemove.length) {
 												await deletePostPictures(picturesAlreadyUploadedToRemove)
 											}

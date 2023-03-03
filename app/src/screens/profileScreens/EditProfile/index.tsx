@@ -25,8 +25,6 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { deleteUserPictures } from '../../../services/firebase/user/deleteUserPictures'
 import { deleteUserPicture } from '../../../services/firebase/user/deleteUserPicture'
 import { uploadImageRefactored } from '../../../services/firebase/common/uploadPictureRefactored'
-import { uploadImageAndGetUrl } from '../../../services/firebase/common/uploadImageAndGetUrl'
-import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
 function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
@@ -108,8 +106,8 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 				return
 			}
 
-			// uploadImageRefactored
-			await uploadImage(editDataContext.unsaved.profilePictureUrl, 'users')
+			console.log(editDataContext.unsaved.profilePictureUrl)
+			await uploadImageRefactored(editDataContext.unsaved.profilePictureUrl, 'users')
 				.then(
 					({ uploadTask, blob }: any) => {
 						uploadTask.on(

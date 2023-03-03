@@ -96,6 +96,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 
 	const editPost = async () => {
 		if (!editDataContext.unsaved) return
+		const registredPicturesUrl = postData.picturesUrl || []
 
 		try {
 			setIsLoading(true)
@@ -110,7 +111,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 			const postDataToSave = { ...postData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
 
-			const picturesAlreadyUploadedToRemove = postData.picturesUrl.filter((pictureUrl) => editDataContext.unsaved.picturesUrl && !editDataContext.unsaved.picturesUrl.includes(pictureUrl))
+			const picturesAlreadyUploadedToRemove = registredPicturesUrl.filter((pictureUrl) => editDataContext.unsaved.picturesUrl && !editDataContext.unsaved.picturesUrl.includes(pictureUrl))
 			if (picturesAlreadyUploadedToRemove.length) {
 				await deletePostPictures(picturesAlreadyUploadedToRemove)
 			}
@@ -158,6 +159,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 	const performPicturesUpload = async () => {
 		const picturesNotUploaded = editDataContext.unsaved.picturesUrl.filter((url: string) => !url.includes('https://')) || []
 		const picturesAlreadyUploaded = editDataContext.unsaved.picturesUrl.filter((url: string) => url.includes('https://')) || []
+		const registredPicturesUrl = postData.picturesUrl || []
 
 		const picturePostsUrls: string[] = []
 		await picturesNotUploaded.map(async (picturePath: string, index: number) => {
@@ -182,7 +184,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 												picturesUrl: [...picturePostsUrls, ...picturesAlreadyUploaded]
 											}
 
-											const picturesAlreadyUploadedToRemove = postData.picturesUrl.filter((pictureUrl) => ![...picturePostsUrls, ...picturesAlreadyUploaded].includes(pictureUrl))
+											const picturesAlreadyUploadedToRemove = registredPicturesUrl.filter((pictureUrl) => ![...picturePostsUrls, ...picturesAlreadyUploaded].includes(pictureUrl))
 											if (picturesAlreadyUploadedToRemove.length) {
 												await deletePostPictures(picturesAlreadyUploadedToRemove)
 											}
