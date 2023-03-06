@@ -24,7 +24,7 @@ import { Loader } from '../../../components/Loader'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { deleteUserPictures } from '../../../services/firebase/user/deleteUserPictures'
 import { deleteUserPicture } from '../../../services/firebase/user/deleteUserPicture'
-import { uploadImageRefactored } from '../../../services/firebase/common/uploadPictureRefactored'
+import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
 function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
@@ -107,7 +107,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			}
 
 			console.log(editDataContext.unsaved.profilePictureUrl)
-			await uploadImageRefactored(editDataContext.unsaved.profilePictureUrl, 'users')
+			await uploadImage(editDataContext.unsaved.profilePictureUrl, 'users')
 				.then(
 					({ uploadTask, blob }: any) => {
 						uploadTask.on(
@@ -154,31 +154,6 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					setIsLoading(false)
 					setHasUpdateError(true)
 				})
-
-			/* const uploadedImageUrl = await uploadImageAndGetUrl(editDataContext.unsaved.profilePictureUrl, 'users')
-
-			await updateUser(userDataContext.userId as Id, { ...editDataContext.unsaved, profilePictureUrl: [uploadedImageUrl] })
-				.then(() => true)
-				.catch((err) => {
-					console.log(err)
-					throw new Error('erro ao atualizar nome remotamente')
-				})
-
-			await updateAllOwnerOnPosts(
-				{ ...editDataContext.unsaved, profilePictureUrl: [uploadedImageUrl] },
-				userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
-			)
-
-			if (!arrayIsEmpty(userDataContext)) {
-				await deleteUserPicture(userDataContext.profilePictureUrl || [])
-			}
-
-			setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [uploadedImageUrl] })
-			await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [uploadedImageUrl] })
-			await deleteUserPictures(userDataContext.profilePictureUrl || [])
-
-			setIsLoading(false)
-			navigation.goBack() */
 		} catch (err) {
 			console.log(err)
 			setIsLoading(false)

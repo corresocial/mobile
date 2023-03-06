@@ -44,7 +44,7 @@
 			"**/*"
 		],
 		"ios": {
-			"buildNumber": 2,
+			"buildNumber": "2",
 			"supportsTablet": true,
 			"bundleIdentifier": "corre",
 			"splash": {
