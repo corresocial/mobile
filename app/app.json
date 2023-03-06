@@ -4,16 +4,27 @@
 		"owner": "corresocial",
 		"scheme": "corre",
 		"slug": "corresocial",
-		"version": "0.1.1",
+		"version": "0.1.2",
 		"orientation": "portrait",
 		"userInterfaceStyle": "light",
 		"icon": "./assets/icon.png",
 		"splash": {
 			"image": "./assets/splash-screen.png",
 			"resizeMode": "contain",
-			"backgroundColor": "#FA9938"
+			"backgroundColor": "#FA9938",
+			"statusBar": {
+				"style": "dark"
+			}
 		},
 		"plugins": [
+			[
+				"expo-media-library",
+				{
+					"photosPermission": "Allow corre to access your photos.",
+					"savePhotosPermission": "Allow corre to save photos.",
+					"isAccessMediaLocationEnabled": true
+				}
+			],
 			"expo-image-picker",
 			[
 				"expo-build-properties",
@@ -33,6 +44,7 @@
 			"**/*"
 		],
 		"ios": {
+			"buildNumber": 2,
 			"supportsTablet": true,
 			"bundleIdentifier": "corre",
 			"splash": {
@@ -45,7 +57,7 @@
 			}
 		},
 		"android": {
-			"versionCode": 6,
+			"versionCode": 7,
 			"package": "com.corresocial.corresocial",
 			"icon": "./assets/icon.png",
 			"adaptiveIcon": {

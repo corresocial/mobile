@@ -26,21 +26,28 @@ interface CustomCameraModalProps {
 function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCameraModalProps) {
 	const [cameraType, setCameraType] = useState(CameraType.back)
 	const [flashMode, setFlashMode] = useState(FlashMode.off)
-	const [hasPermission, setHasPermission] = useState(true)
+	const [cameraHasPermission, setCameraHasPermission] = useState(true)
+	const [mediaLibrayHasPermission, setMediaLibraryHasPermission] = useState(true)
 	const cameraRef = useRef<Camera>(null)
 
 	useEffect(() => {
+		getMediaLibraryPermissions()
 		Camera.requestCameraPermissionsAsync()
-			.then(({ status }: any) => setHasPermission(status === 'granted'))
+			.then(({ status }: any) => setCameraHasPermission(status === 'granted'))
 			.catch((err) => {
-				setHasPermission(false)
+				setCameraHasPermission(false)
 				console.log(err)
 			})
-	}, [hasPermission])
+	}, [])
 
 	const getCameraPermissions = async () => {
 		const { status } = await Camera.requestCameraPermissionsAsync()
-		setHasPermission(status === 'granted')
+		setCameraHasPermission(status === 'granted')
+	}
+
+	const getMediaLibraryPermissions = async () => {
+		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+		setMediaLibraryHasPermission(status === 'granted')
 	}
 
 	const toggleFlashMode = () => {
@@ -52,6 +59,8 @@ function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCamer
 	}
 
 	const openGalery = async () => {
+		if (!mediaLibrayHasPermission) return
+
 		const result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
 			allowsEditing: true,
@@ -80,10 +89,13 @@ function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCamer
 		>
 			<StatusBar backgroundColor={theme.black4} barStyle={'dark-content'} />
 			{
-				!hasPermission
+				!cameraHasPermission && !mediaLibrayHasPermission
 					? (
 						<NotPermissionContainer
-							onPress={getCameraPermissions}
+							onPress={() => {
+								getCameraPermissions()
+								getMediaLibraryPermissions()
+							}}
 							activeOpacity={0.9}
 						>
 							<NotPermissionText>{'Você NÃO TEM PERMISSÃO!'}</NotPermissionText>
@@ -110,7 +122,7 @@ function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCamer
 								</FlashButtonContainer>
 								<Footer>
 									<CameraControlsContainer>
-										<GaleryButton onPress={openGalery} >
+										<GaleryButton onPress={openGalery} style={{ opacity: mediaLibrayHasPermission ? 1 : 0.4 }}>
 											<FontAwesome5 name={'images'} size={25} color={theme.black4} />
 										</GaleryButton>
 
