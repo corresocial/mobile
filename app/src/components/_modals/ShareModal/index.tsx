@@ -32,7 +32,7 @@ function ShareModal({ visibility, closeModal, onPressButton }: ShareModalProps) 
 			animationType={'fade'}
 			onRequestClose={closeModal}
 		>
-			<FocusAwareStatusBar backgroundColor={theme.transparence.orange1StatusBar} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={theme.transparence.orange1} barStyle={'dark-content'} />
 			<Container>
 				<TouchCloseArea onPress={closeModal} ></TouchCloseArea>
 				<Content>

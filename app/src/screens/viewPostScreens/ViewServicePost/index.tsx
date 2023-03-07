@@ -122,7 +122,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={postOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}

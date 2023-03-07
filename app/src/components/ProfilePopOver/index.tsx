@@ -9,6 +9,7 @@ import { theme } from '../../common/theme'
 import XIcon from '../../assets/icons/x.svg'
 
 import { PrimaryButton } from '../_buttons/PrimaryButton'
+import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 
 interface ProfilePopOverProps {
 	userName?: string
@@ -37,6 +38,7 @@ function ProfilePopOver({
 			onRequestClose={closePopover}
 			animationConfig={{ delay: 0, duration: 300 }}
 			popoverStyle={{ backgroundColor: theme.black4, borderRadius: RFValue(8) }}
+			backgroundStyle={{ backgroundColor: theme.transparence.orange2 }}
 			from={(sourceRef, showPopover) => (
 				<TouchableOpacity onPress={showPopover} >
 					<View ref={sourceRef} >
@@ -46,6 +48,7 @@ function ProfilePopOver({
 			)}
 		>
 			<Container>
+				<FocusAwareStatusBar backgroundColor={theme.transparence.orange2} barStyle={'dark-content'} />
 				<ContainerInner>
 					<CloseIcon onPress={closePopover}>
 						<XIcon width={RFValue(25)} height={RFValue(25)} />

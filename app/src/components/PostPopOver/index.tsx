@@ -12,6 +12,7 @@ import { PostType } from '../../services/firebase/types'
 
 import { PrimaryButton } from '../_buttons/PrimaryButton'
 import { Loader } from '../Loader'
+import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 
 interface PostPopOverProps {
 	postTitle?: string
@@ -43,8 +44,9 @@ function PostPopOver({ postTitle,
 		<Popover
 			isVisible={popoverVisibility}
 			onRequestClose={closePopover}
-			animationConfig={{ delay: 0, duration: 300 }}
+			animationConfig={{ delay: 0, duration: 200 }}
 			popoverStyle={{ backgroundColor: theme.black4, borderRadius: RFValue(8) }}
+			backgroundStyle={{ backgroundColor: theme.transparence.orange2 }}
 			from={(sourceRef, showPopover) => (
 				<TouchableOpacity onPress={showPopover} >
 					<View ref={sourceRef} >
@@ -54,6 +56,7 @@ function PostPopOver({ postTitle,
 			)}
 		>
 			<Container>
+				<FocusAwareStatusBar backgroundColor={theme.transparence.orange2} barStyle={'dark-content'} />
 				<ContainerInner>
 					<CloseIcon onPress={closePopover}>
 						<XIcon width={RFValue(25)} height={RFValue(25)} />
