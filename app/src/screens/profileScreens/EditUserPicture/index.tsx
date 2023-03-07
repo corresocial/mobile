@@ -22,7 +22,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(false)
+	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(true)
 	const [profilePictureUrl, setProfilePictureUrl] = useState<string>(route.params.profilePictureUrl)
 
 	const openCamera = () => {

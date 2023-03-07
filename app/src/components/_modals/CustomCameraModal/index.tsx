@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { Modal, StatusBar } from 'react-native'
+import { Modal, StatusBar, View } from 'react-native'
 import { Camera, CameraType, FlashMode } from 'expo-camera'
 import { FontAwesome5, Ionicons } from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker'
@@ -13,9 +13,11 @@ import {
 	Footer, GaleryButton,
 	NotPermissionContainer,
 	NotPermissionText,
-	TakePictureButton
+	TakePictureButton,
+	Body
 } from './styles'
 import { theme } from '../../../common/theme'
+import XIcon from '../../../assets/icons/xWithoutShadow.svg'
 
 interface CustomCameraModalProps {
 	cameraOpened: boolean
@@ -114,13 +116,13 @@ function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCamer
 									onMountError={(err) => console.log(err)}
 								/>
 							</CameraContainer>
-							<>
+							<View style={{ width: '100%' }}>
 								<FlashButtonContainer>
 									<FlashButton onPress={toggleFlashMode}>
 										<Ionicons name={'md-flash-sharp'} size={25} color={flashMode === FlashMode.torch ? theme.orange3 : theme.black4} />
 									</FlashButton>
 								</FlashButtonContainer>
-								<Footer>
+								<Body>
 									<CameraControlsContainer>
 										<GaleryButton onPress={openGalery} style={{ opacity: mediaLibrayHasPermission ? 1 : 0.4 }}>
 											<FontAwesome5 name={'images'} size={25} color={theme.black4} />
@@ -130,12 +132,16 @@ function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCamer
 										</TakePictureButton>
 
 										<CameraTypeButton onPress={toggleCameraType} >
-											{/* <Entypo name='camera' size={27} color={theme.black4} /> */}
 											<Ionicons name={'camera-reverse'} size={27} color={theme.black4} />
 										</CameraTypeButton>
 									</CameraControlsContainer>
+								</Body>
+								<Footer>
+									<FlashButton onPress={onClose}>
+										<XIcon width={'40%'} height={'40%'} />
+									</FlashButton>
 								</Footer>
-							</>
+							</View>
 						</Container >
 					)
 			}

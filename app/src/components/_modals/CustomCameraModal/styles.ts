@@ -6,7 +6,7 @@ export const Container = styled.View`
     flex: 1;
     padding-vertical: 50px;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     background-color: ${({ theme }) => theme.black4}
 `
 
@@ -21,7 +21,7 @@ export const FlashButtonContainer = styled.View`
     alignItems: center;
     justifyContent: center;
     position: absolute;
-    bottom: ${relativeScreenWidth(25)}px;
+    bottom: ${relativeScreenWidth(48)}px;
 `
 
 export const FlashButton = styled.TouchableOpacity`
@@ -35,13 +35,22 @@ export const FlashButton = styled.TouchableOpacity`
     justify-content: center;
 `
 
+export const Body = styled.View`
+    width: 100%;
+    height: 10%;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: ${relativeScreenWidth(25)}px;
+`
+
 export const Footer = styled.View`
     width: 100%;
     height: 10%;
     align-items: center;
     justify-content: center;
     position: absolute;
-    bottom: 20px;
+	bottom: ${relativeScreenWidth(2)}px;
 `
 
 export const CameraControlsContainer = styled.View`
