@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 
 export const Container = styled.View`
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: ${({ theme }) => theme.transparence.orange1};
     align-items: center;
     justify-content: center;
 `

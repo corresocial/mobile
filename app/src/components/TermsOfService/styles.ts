@@ -2,7 +2,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 export const Container = styled.View`
-    background-color: ${({ theme }) => theme.transparence.orange1};
+    background-color: ${({ theme }) => theme.transparence.orange2};
     flex: 1;
     flex-direction: column;
     align-items: center;

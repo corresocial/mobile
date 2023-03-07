@@ -53,6 +53,9 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 	green5: '#09512D',
 
 	transparence: {
-		orange1: 'rgba(250, 153, 56, 0.9)' // Orange Lignt}
+		orange1: 'rgba(250, 153, 56, 0.7)',
+		orange1StatusBar: 'rgba(250, 153, 56, 0.7)',
+		orange2: 'rgba(250, 153, 56, 0.9)',
+		orange2StatusBar: 'rgb(250, 153, 56)'
 	}
 }

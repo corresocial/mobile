@@ -28,7 +28,6 @@ function LoaderProvider({ children }: LoaderProviderProps) {
 
 	return (
 		<LoaderContext.Provider value={loaderDataProvider}>
-			{/* <StatusBar barStyle={'dark-content'} backgroundColor={theme.transparence.orange1}/> */}
 			{children}
 			<LoaderModal visible={loaderIsVisible} closeModal={() => setLoaderIsVisible(false)} />
 		</LoaderContext.Provider>

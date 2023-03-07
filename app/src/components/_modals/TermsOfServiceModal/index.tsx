@@ -1,5 +1,6 @@
 import React from 'react'
-import { Modal } from 'react-native'
+import { Modal, StatusBar } from 'react-native'
+import { theme } from '../../../common/theme'
 
 import { TermsOfService } from '../../TermsOfService'
 
@@ -11,6 +12,7 @@ interface TermsOfServiceModalProps {
 function TermsOfServiceModal({ visibility, closeModal }: TermsOfServiceModalProps) {
 	return (
 		<Modal visible={visibility} transparent animationType={'fade'}>
+			<StatusBar backgroundColor={theme.transparence.orange2StatusBar} barStyle={'dark-content'} />
 			<TermsOfService onPress={closeModal} />
 		</Modal>
 	)

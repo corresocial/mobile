@@ -56,6 +56,9 @@ declare module 'styled-components' {
 
 		transparence: {
 			orange1: string // Orange Light
+			orange1StatusBar: string
+			orange2: string // Orange Medium
+			orange2StatusBar: string
 		},
 	}
 }

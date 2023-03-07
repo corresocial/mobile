@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, StatusBar } from 'react-native'
+import { Modal } from 'react-native'
 
 import {
 	Container,
@@ -15,6 +15,7 @@ import Check from '../../../assets/icons/check.svg'
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
+import { FocusAwareStatusBar } from '../../FocusAwareStatusBar'
 
 interface TourModalProps {
 	visibility: boolean
@@ -30,7 +31,7 @@ function TourModal({ visibility, closeModal, onPressButton }: TourModalProps) {
 			animationType={'fade'}
 			onRequestClose={closeModal}
 		>
-			<StatusBar backgroundColor={'rgba(0,0,0,0.5)'} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={theme.transparence.orange1StatusBar} barStyle={'dark-content'} />
 			<Container>
 				<TouchCloseArea onPress={closeModal} ></TouchCloseArea>
 				<Content>
