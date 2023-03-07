@@ -89,7 +89,6 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 					label={'voltar'}
 					fontSize={18}
 					labelColor={theme.black4}
-					highlightedWords={['escolher', 'outra']}
 					SecondSvgIcon={AngleLeftThinIcon}
 					svgIconScale={['32%', '20%']}
 					onPress={saveUserPicture}

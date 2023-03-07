@@ -1,17 +1,20 @@
 import { Keyboard, Platform, StatusBar } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 
-import { ButtonContainer, Container, InputsContainer } from './styles'
+import { ButtonContainer, HorizontalButtonsContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
+import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
 
 import { InsertLinkTitleScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { SocialMedia } from '../../../services/firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { LineInput } from '../../../components/LineInput'
 import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'
-import { SocialMedia } from '../../../services/firebase/types'
+import { SmallButton } from '../../../components/_buttons/SmallButton'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 	const [linkTitle, setInputLinkTitle] = useState<string>(route.params.socialMedia?.title || '')
@@ -91,18 +94,40 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 					{
 						linkTitleIsValid && !keyboardOpened
 						&& (
+							<HorizontalButtonsContainer>
+								<SmallButton
+									relativeWidth={relativeScreenWidth(17)}
+									height={relativeScreenWidth(17)}
+									color={theme.white3}
+									SvgIcon={AngleLeftThinIcon}
+									onPress={() => navigation.goBack()}
+								/>
+								<PrimaryButton
+									color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
+									relativeWidth={'68%'}
+									iconName={'arrow-right'}
+									iconColor={theme.white3}
+									label={'continuar'}
+									labelColor={theme.white3}
+									highlightedWords={['continuar']}
+									startsHidden={false}
+									onPress={saveLinkTitle}
+								/>
+							</HorizontalButtonsContainer>
+						)
+					}
+					{
+						!linkTitle && !keyboardOpened && (
 							<PrimaryButton
-								color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
-								iconName={'arrow-right'}
-								iconColor={theme.white3}
-								label={'continuar'}
-								labelColor={theme.white3}
-								highlightedWords={['continuar']}
+								color={theme.white3}
+								SecondSvgIcon={AngleLeftThinIcon}
+								svgIconScale={['32%', '20%']}
+								label={'voltar'}
+								labelColor={theme.black4}
 								startsHidden={false}
-								onPress={saveLinkTitle}
+								onPress={() => navigation.goBack()}
 							/>
 						)
-
 					}
 				</ButtonContainer>
 			</FormContainer>

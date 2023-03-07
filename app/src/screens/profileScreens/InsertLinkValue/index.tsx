@@ -1,21 +1,25 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
 import { Keyboard, Platform, StatusBar } from 'react-native'
 
-import { ButtonContainer, Container, InputsContainer } from './styles'
+import { updateUser } from '../../../services/firebase/user/updateUser'
+
+import { ButtonContainer, Container, HorizontalButtonsContainer, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
+import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
 
 import { InsertLinkValueScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { SocialMedia } from '../../../services/firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { LineInput } from '../../../components/LineInput'
 import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'
-import { updateUser } from '../../../services/firebase/user/updateUser'
 import { AuthContext } from '../../../contexts/AuthContext'
-import { SocialMedia } from '../../../services/firebase/types'
 import { Loader } from '../../../components/Loader'
 import { defaultSocialMediaTitles, getRelativeSocialMediaIcon, isDefaultSocialMedia, mergeWithDefaultSocialMedia, socialMediaUrl, sortSocialMedias } from '../../../utils/socialMedias'
+import { SmallButton } from '../../../components/_buttons/SmallButton'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const { setUserDataOnContext, userDataContext } = useContext(AuthContext)
@@ -134,25 +138,40 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 						onChangeText={(text: string) => setInputLinkValue(text)}
 					/>
 				</InputsContainer>
-				<ButtonContainer>
-					{
-						linkValueIsValid && !keyboardOpened
-							&& isLoading
-							? <Loader />
-							: (
-								<PrimaryButton
-									color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
-									iconName={'arrow-right'}
-									iconColor={theme.white3}
-									label={'continuar'}
-									labelColor={theme.white3}
-									highlightedWords={['continuar']}
-									startsHidden={false}
-									onPress={saveLinkValue}
-								/>
-							)
-					}
-				</ButtonContainer>
+				{
+					isLoading
+						? <Loader />
+						: (
+							<ButtonContainer>
+								{
+									!keyboardOpened
+									&& (
+										<HorizontalButtonsContainer>
+											<SmallButton
+												relativeWidth={relativeScreenWidth(17)}
+												height={relativeScreenWidth(17)}
+												color={theme.white3}
+												SvgIcon={AngleLeftThinIcon}
+												onPress={() => navigation.goBack()}
+											/>
+											<PrimaryButton
+												color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
+												relativeWidth={'68%'}
+												iconName={'arrow-right'}
+												iconColor={theme.white3}
+												label={'continuar'}
+												labelColor={theme.white3}
+												highlightedWords={['continuar']}
+												startsHidden={false}
+												onPress={saveLinkValue}
+											/>
+										</HorizontalButtonsContainer>
+									)
+								}
+
+							</ButtonContainer>
+						)
+				}
 			</FormContainer>
 		</Container>
 	)
