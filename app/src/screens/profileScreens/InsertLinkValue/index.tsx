@@ -112,8 +112,8 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 				backgroundColor={theme.orange2}
 			>
 				<HeaderLinkCard
-					title={isDefaultSocialMedia(route.params.socialMedia.title) ? 'inserir link' : 'insira link'}
-					value={'cola o seu @ aí pra gente'}
+					title={'inserir link'}
+					value={isDefaultSocialMedia(route.params.socialMedia.title) ? 'cola o seu @ aí pra gente' : 'cola o seu link aí pra gente'}
 					SvgIcon={getRelativeSocialMediaIcon(route.params.socialMedia.title)}
 				/>
 			</DefaultHeaderContainer>
