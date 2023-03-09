@@ -267,8 +267,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							)
 						}
 						<PhotoPortrait
-							height={RFValue(65)} // height={RFValue(95)}
-							width={RFValue(70)} //	width={RFValue(100)}
+							height={isLoggedUser ? RFValue(95) : RFValue(65)}
+							width={isLoggedUser ? RFValue(100) : RFValue(70)}
 							borderWidth={3}
 							borderRightWidth={8}
 							pictureUri={getProfilePicture()}
