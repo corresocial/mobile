@@ -191,7 +191,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const openChat = async () => {
 		const { cellNumber } = await getPrivateContacts(getUserField('userId') as string)
-		const message = 'olá! vi que no corre. Podemos conversar?'
+		const message = 'olá! vi que está no corre. Podemos conversar?'
 		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
 	}
 
