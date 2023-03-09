@@ -21,19 +21,23 @@ function HorizontalTagList({
 	selectedTags = [],
 	onSelectTag,
 }: HorizontalTagListProps) {
-	const renderTags = () => tags.map((tag) => (
-		< FilterButton
-			key={uuid()}
-			height={relativeScreenHeight(4)}
-			backgroundColor={theme.white3}
-			backgroundSelected={theme.orange1}
-			marginRight={10}
-			label={tag}
-			fontSize={13}
-			selected={selectedTags.includes(tag)}
-			onSelect={() => onSelectTag(tag)}
-		/>
-	))
+	const renderTags = () => tags.map((tag) => {
+		const customTag = tag.length !== 3 ? tag : ` ${tag} `
+
+		return (
+			< FilterButton
+				key={uuid()}
+				height={relativeScreenHeight(4)}
+				backgroundColor={theme.white3}
+				backgroundSelected={theme.orange1}
+				marginRight={10}
+				label={customTag}
+				fontSize={13}
+				selected={selectedTags.includes(tag)}
+				onSelect={() => onSelectTag(tag)}
+			/>
+		)
+	})
 
 	return (
 		<Container >
