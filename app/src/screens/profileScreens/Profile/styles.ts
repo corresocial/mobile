@@ -1,6 +1,6 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
     flex: 1;
@@ -12,6 +12,12 @@ export const ProfileHeader = styled.View`
 
 export const ProfileInfoContainer = styled.View`
     flex-direction: row;
+	align-items: center;
+`
+
+export const VerticalSigh = styled.View`
+	height: 100%;
+	width: ${relativeScreenWidth(3)}px;
 `
 
 export const InfoArea = styled.View`

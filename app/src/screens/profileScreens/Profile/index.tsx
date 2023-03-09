@@ -16,7 +16,8 @@ import {
 	FooterSigh,
 	ExpandedUserDescription,
 	ExpandedUserDescriptionArea,
-	AddSocialMediasButtonContainer
+	AddSocialMediasButtonContainer,
+	VerticalSigh
 } from './styles'
 import { theme } from '../../../common/theme'
 import ChatIcon from '../../../assets/icons/chat.svg'
@@ -25,6 +26,7 @@ import AtSign from '../../../assets/icons/atSign.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 import PencilIcon from '../../../assets/icons/pencil.svg'
 import GearIcon from '../../../assets/icons/gear.svg'
+import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
 
 import { share } from '../../../common/share'
 import { getUser } from '../../../services/firebase/user/getUser'
@@ -181,6 +183,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		navigation.navigate('EditProfile' as any, { user })
 	}
 
+	const navigationToBack = () => navigation.goBack()
+
 	const shareProfile = async () => {
 		share(`${isLoggedUser ? `olá! me chamo ${getUserField('name')} e tô no corre.` : `olha quem eu encontrei no corre.\n${getUserField('name')}`}\n\nhttps://corre.social`)
 	}
@@ -248,18 +252,31 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			>
 				<ProfileHeader>
 					<ProfileInfoContainer>
+						{
+							!isLoggedUser && (
+								<>
+									<SmallButton
+										relativeWidth={relativeScreenWidth(11)}
+										height={relativeScreenWidth(11)}
+										color={theme.white3}
+										SvgIcon={AngleLeftThinIcon}
+										onPress={navigationToBack}
+									/>
+									<VerticalSigh />
+								</>
+							)
+						}
 						<PhotoPortrait
-							height={RFValue(95)}
-							width={RFValue(100)}
+							height={RFValue(65)} // height={RFValue(95)}
+							width={RFValue(70)} //	width={RFValue(100)}
 							borderWidth={3}
 							borderRightWidth={8}
 							pictureUri={getProfilePicture()}
-							checked={isLoggedUser}
 						/>
 						<InfoArea>
 							<UserName numberOfLines={3} >{getUserField('name')}</UserName>
 							{
-								!userDescriptionIsExpanded && (
+								!userDescriptionIsExpanded && isLoggedUser && (
 									<TouchableOpacity onPress={() => getUserField('description') && setUserDescriptionIsExpanded(true)}>
 										<UserDescription numberOfLines={3}>
 											{getUserField('description')}
@@ -270,7 +287,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						</InfoArea>
 					</ProfileInfoContainer>
 					{
-						userDescriptionIsExpanded && (
+						(userDescriptionIsExpanded || !isLoggedUser) && (
 							<ExpandedUserDescriptionArea>
 								<ScrollView showsVerticalScrollIndicator={false}>
 									<TouchableOpacity onPress={() => setUserDescriptionIsExpanded(false)}>
