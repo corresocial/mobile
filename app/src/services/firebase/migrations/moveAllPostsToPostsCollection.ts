@@ -25,7 +25,7 @@ const moveAllPostsByCollection = async (currentCollection: PostCollectionType) =
 		// if (doc.id !== 'mxKGfYQjyUyqbjs1Duha') return
 
 		await createPostWithCustomId(postObject, postObject.owner, destinationCollection, postObject.postType, doc.id)
-			.then(() => console.log(`deleted: row(${postObject.postId})`))
+			.then(() => console.log(`success: row(${postObject.postId})`))
 			.catch((err: any) => {
 				console.log(err)
 			})

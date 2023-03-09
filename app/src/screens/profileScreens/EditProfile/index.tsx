@@ -22,7 +22,6 @@ import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader
 import { EditCard } from '../../../components/_cards/EditCard'
 import { Loader } from '../../../components/Loader'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { deleteUserPictures } from '../../../services/firebase/user/deleteUserPictures'
 import { deleteUserPicture } from '../../../services/firebase/user/deleteUserPicture'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
@@ -136,7 +135,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 
 										setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
 										await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
-										await deleteUserPictures(userDataContext.profilePictureUrl || [])
+										await deleteUserPicture(userDataContext.profilePictureUrl || [])
 
 										setIsLoading(false)
 										navigation.goBack()
