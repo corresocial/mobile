@@ -27,7 +27,7 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 
 			navigation.navigate('InsertLinkTitle', { socialMedia: { ...socialMedia }, index })
 		} else {
-			const validUrl = await Linking.canOpenURL(socialMedia.link || 'aa')
+			const validUrl = await Linking.canOpenURL(socialMedia.link || '')
 			if (validUrl) {
 				Linking.openURL(socialMedia.link)
 			} else {

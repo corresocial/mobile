@@ -1,5 +1,7 @@
 import React from 'react'
-import { StatusBar } from 'react-native'
+import { Linking, StatusBar } from 'react-native'
+
+import { share } from '../../../common/share'
 
 import { Container, ButtonsContainer, Sigh } from './styles'
 import { theme } from '../../../common/theme'
@@ -18,6 +20,19 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 
 function HelpUs({ navigation }: HelpUsScreenProps) {
+	const shareMessage = () => {
+		share('oi, já conhece o https://corre.social/ !? meu novo app favorito')
+	}
+
+	const openLink = async (link: string) => {
+		const validUrl = await Linking.canOpenURL(link)
+		if (validUrl) {
+			Linking.openURL(link)
+		} else {
+			console.log('URL inválida')
+		}
+	}
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -55,7 +70,7 @@ function HelpUs({ navigation }: HelpUsScreenProps) {
 					highlightedWords={['doação']}
 					SecondSvgIcon={DollarIcon}
 					svgIconScale={['50%', '20%']}
-					onPress={() => { }}
+					onPress={() => openLink('https://doacao.corre.social/')}
 				/>
 				<PrimaryButton
 					justifyContent={'flex-start'}
@@ -69,7 +84,7 @@ function HelpUs({ navigation }: HelpUsScreenProps) {
 					highlightedWords={['voluntário']}
 					SecondSvgIcon={VoluntaryIcon}
 					svgIconScale={['50%', '20%']}
-					onPress={() => { }}
+					onPress={() => openLink('https://voluntariado.corre.social/')}
 				/>
 				<PrimaryButton
 					justifyContent={'flex-start'}
@@ -83,7 +98,7 @@ function HelpUs({ navigation }: HelpUsScreenProps) {
 					highlightedWords={['compartilhe!']}
 					SecondSvgIcon={RightCurvedArrowIcon}
 					svgIconScale={['50%', '20%']}
-					onPress={() => { }}
+					onPress={shareMessage}
 				/>
 			</ButtonsContainer>
 		</Container>

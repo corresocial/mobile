@@ -11,7 +11,7 @@ const deleteUserPictures = async (pictures: string[]) => {
 
 		const res = await deleteObject(desertRef)
 			.then(() => {
-				console.log(`success: ${picturePath}`)
+				console.log(`deleted: ${picturePath}`)
 				return true
 			}).catch((err) => {
 				console.log(`error: ${picturePath}`)

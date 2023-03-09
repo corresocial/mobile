@@ -25,7 +25,7 @@ const migratePostLocationAddressData = async (currentCollection: PostCollectionT
 		delete docsWithoutId.location.locationView
 
 		await updatePost(currentCollection, doc.postId, docsWithoutId)
-			.then(() => console.log(`success: row(${index + 1})`))
+			.then(() => console.log(`deleted: row(${index + 1})`))
 			.catch((err: any) => {
 				console.log(err)
 			})
