@@ -9,26 +9,15 @@ async function uploadImage(
 	index?: number
 ) {
 	try {
-		const blob = await new Promise((resolve, reject) => {
-			const xhr = new global.XMLHttpRequest()
-			xhr.onload = () => {
-				resolve(xhr.response)
-			}
-			xhr.onerror = (e) => {
-				console.log(e)
-				reject(new TypeError('Network request failed'))
-			}
-			xhr.responseType = 'blob'
-			xhr.open('GET', localPath, true)
-			xhr.send(null)
-		})
+		const response = await fetch(localPath)
+		const blob = await response.blob()
 
 		const fileRef = ref(
 			storage,
 			`pictures/${collection}/${Date.now()}-${index || ''}.jpg`,
 		)
 
-		const uploadTask = uploadBytesResumable(fileRef, blob as Uint8Array | ArrayBuffer)
+		const uploadTask = uploadBytesResumable(fileRef, blob)
 
 		return { uploadTask, blob }
 	} catch (e) {
