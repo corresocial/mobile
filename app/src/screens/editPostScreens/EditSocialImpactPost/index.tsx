@@ -90,7 +90,12 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 	}
 
 	const navigateToEditScreen = (screenName: keyof SocialImpactStackParamList, initialValue: keyof SocialImpactCollectionRemote, especificField?: string) => {
-		const value = getPostField(initialValue)
+		let value = getPostField(initialValue)
+
+		if (initialValue === 'picturesUrl') {
+			value = getPicturesUrl()
+		}
+
 		navigation.navigate('SocialImpactStack', {
 			screen: screenName,
 			params: {

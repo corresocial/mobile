@@ -82,7 +82,12 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 	}
 
 	const navigateToEditScreen = (screenName: keyof CultureStackParamList, initialValue: keyof CultureCollectionRemote, especificField?: string) => {
-		const value = getPostField(initialValue)
+		let value = getPostField(initialValue)
+
+		if (initialValue === 'picturesUrl') {
+			value = getPicturesUrl()
+		}
+
 		navigation.navigate('CultureStack', {
 			screen: screenName,
 			params: {

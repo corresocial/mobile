@@ -169,7 +169,7 @@ function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScr
 						invalidBorderBottomColor={theme.red5}
 						textAlign={'left'}
 						lastInput
-						blurOnSubmit={false}
+						blurOnSubmit
 						fontSize={16}
 						invalidTextAfterSubmit={false}
 						placeholder={'digite ou escolha alguma das opções'}

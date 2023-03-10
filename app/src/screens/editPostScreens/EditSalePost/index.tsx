@@ -79,7 +79,12 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 	}
 
 	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof SaleCollectionRemote, especificField?: string) => {
-		const value = getPostField(initialValue)
+		let value = getPostField(initialValue)
+
+		if (initialValue === 'picturesUrl') {
+			value = getPicturesUrl()
+		}
+
 		navigation.navigate('SaleStack', {
 			screen: screenName,
 			params: {

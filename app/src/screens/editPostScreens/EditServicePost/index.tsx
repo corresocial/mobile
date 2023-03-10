@@ -79,7 +79,12 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 	}
 
 	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof ServiceCollectionRemote, especificField?: string) => {
-		const value = getPostField(initialValue)
+		let value = getPostField(initialValue)
+
+		if (initialValue === 'picturesUrl') {
+			value = getPicturesUrl()
+		}
+
 		navigation.navigate('ServiceStack', {
 			screen: screenName,
 			params: {

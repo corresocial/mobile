@@ -171,7 +171,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 						textAlign={'left'}
 						lastInput
 						fontSize={16}
-						blurOnSubmit={false}
+						blurOnSubmit
 						invalidTextAfterSubmit={false}
 						placeholder={'digite ou escolha alguma das opções'}
 						keyboardType={'default'}
