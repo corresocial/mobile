@@ -210,7 +210,7 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.yellow2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(20)}
-				relativeHeight={'22%'}
+				relativeHeight={'26%'}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 				borderBottomWidth={0}

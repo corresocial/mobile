@@ -68,7 +68,7 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 		<Container >
 			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={'25%'}
+				relativeHeight={'26%'}
 				centralized
 				backgroundColor={theme.pink2}
 				borderBottomWidth={0}

@@ -58,7 +58,7 @@ function LocationViewPreview({ route, navigation }: LocationViewPreviewScreenPro
 		<Container >
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={'25%'}
+				relativeHeight={'26%'}
 				centralized
 				backgroundColor={theme.green2}
 				borderBottomWidth={0}

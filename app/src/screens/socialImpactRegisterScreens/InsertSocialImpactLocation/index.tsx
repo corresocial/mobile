@@ -209,7 +209,7 @@ function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLoc
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.pink2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(22)}
-				relativeHeight={'22%'}
+				relativeHeight={relativeScreenHeight(28)}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 				borderBottomWidth={0}

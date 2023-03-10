@@ -233,7 +233,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 		<Container >
 			<StatusBar backgroundColor={hasServerSideError ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={'25%'}
+				relativeHeight={'26%'}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 				borderBottomWidth={0}
