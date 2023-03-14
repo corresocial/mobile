@@ -6,12 +6,10 @@ import { useFocusEffect } from '@react-navigation/native'
 import { theme } from '../../../common/theme'
 import HomeTabIconActive from '../../../assets/icons/homeTabIconActive.svg'
 import HomeTabIconInactive from '../../../assets/icons/homeTabIconInactive.svg'
-// import LoupTabIconActive from '../../../assets/icons/loupTabIconActive.svg'
-// import LoupTabIconInactive from '../../../assets/icons/loupTabIconInactive.svg'
 import PlusTabIconActive from '../../../assets/icons/plusTabIconActive.svg'
 import PlusTabIconInactive from '../../../assets/icons/plusTabIconInactive.svg'
-// import ChatTabIconActive from '../../../assets/icons/chatTabIconActive.svg'
-// import ChatTabIconInactive from '../../../assets/icons/chatTabIconInactive.svg'
+import ChatTabIconActive from '../../../assets/icons/chatTabIconActive.svg'
+import ChatTabIconInactive from '../../../assets/icons/chatTabIconInactive.svg'
 import ProfileTabIconActive from '../../../assets/icons/profileTabIconActive.svg'
 import ProfileTabIconInactive from '../../../assets/icons/profileTabIconInactive.svg'
 
@@ -23,6 +21,7 @@ import { StateContext } from '../../../contexts/StateContext'
 import { ProfileStack } from '../../Stack/ProfileStack'
 import { HomeStack } from '../../Stack/HomeStack'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { ChatConversations } from '../../../screens/chatScreens/ChatConversations'
 
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
@@ -49,6 +48,12 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 		focused
 			? <PlusTabIconActive height={'60%'} width={'100%'} />
 			: <PlusTabIconInactive height={'40%'} width={'100%'} />
+	)
+
+	const renderChatIcon = (focused: boolean) => (
+		focused
+			? <ChatTabIconActive height={'60%'} width={'100%'} />
+			: <ChatTabIconInactive height={'40%'} width={'100%'} />
 	)
 
 	const renderProfileIcon = (focused: boolean) => (
@@ -84,6 +89,13 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 				component={Post}
 				options={{
 					tabBarIcon: ({ focused }) => renderPlusIcon(focused)
+				}}
+			/>
+			<Tab.Screen
+				name={'Chat'}
+				component={ChatConversations}
+				options={{
+					tabBarIcon: ({ focused }) => renderChatIcon(focused)
 				}}
 			/>
 			<Tab.Screen
