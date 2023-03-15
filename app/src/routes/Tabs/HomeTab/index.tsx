@@ -21,7 +21,7 @@ import { StateContext } from '../../../contexts/StateContext'
 import { ProfileStack } from '../../Stack/ProfileStack'
 import { HomeStack } from '../../Stack/HomeStack'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { ChatConversations } from '../../../screens/chatScreens/ChatConversations'
+import { ChatStack } from '../../Stack/ChatStack'
 
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
@@ -92,8 +92,8 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 				}}
 			/>
 			<Tab.Screen
-				name={'Chat'}
-				component={ChatConversations}
+				name={'ChatStack'}
+				component={ChatStack}
 				options={{
 					tabBarIcon: ({ focused }) => renderChatIcon(focused)
 				}}
@@ -101,9 +101,6 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 			<Tab.Screen
 				name={'ProfileStack'}
 				component={ProfileStack}
-				initialParams={{
-					teste: 'teste'
-				}}
 				options={{
 					headerTransparent: true,
 					tabBarIcon: ({ focused }) => renderProfileIcon(focused)

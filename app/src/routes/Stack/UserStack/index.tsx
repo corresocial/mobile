@@ -37,6 +37,7 @@ import { EditVacancyPost } from '../../../screens/editPostScreens/EditVacancyPos
 import { EditSocialImpactPost } from '../../../screens/editPostScreens/EditSocialImpactPost'
 import { EditCulturePost } from '../../../screens/editPostScreens/EditCulturePost'
 import { EditProvider } from '../../../contexts/EditContext'
+import { Chat } from '../../../screens/chatScreens/Chat'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -86,6 +87,8 @@ export function UserStack({ route }: any) {
 					<Stack.Screen name={'ContactUsInsertMessage'} component={ContactUsInsertMessage} />
 					<Stack.Screen name={'ContactUsSuccess'} component={ContactUsSuccess} />
 					<Stack.Screen name={'PrivacyAndSecurity'} component={PrivacyAndSecurity} />
+
+					<Stack.Screen name={'Chat'} component={Chat} />
 				</Stack.Navigator>
 			</EditProvider>
 		</StateProvider>

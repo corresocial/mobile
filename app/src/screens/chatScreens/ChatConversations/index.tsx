@@ -23,29 +23,13 @@ import XIcon from '../../../assets/icons/x-thin.svg'
 import LoupIcon from '../../../assets/icons/loupTabIconInactive.svg'
 // import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
+import { Message, Chat } from '../../../@types/chat/types'
+
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ConversationCard } from '../../../components/_cards/ConversationCard'
-
-type Chat = {
-	chatId: number
-	userId1: string
-	userId2: string
-	messages: {
-		message: string
-		dateTime: Date
-		readed: boolean
-		owner: string
-	}[]
-}
-
-type Message = {
-	message: string;
-	dateTime: Date;
-	readed: boolean;
-	owner: string;
-}
+import { ChatConversationsScreenProps } from '../../../routes/Stack/ChatStack/stackScreenProps'
 
 const currentUserId = 'userId1'
 
@@ -90,7 +74,7 @@ const defaultChats: Chat[] = [
 	}
 ]
 
-function ChatConversations() {
+function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TODO TYPE
 	const [searchText, setSearchText] = useState('')
 	const [chats, setChats] = useState(defaultChats)
 	const [filteredChats, setFilteredChats] = useState<Chat[]>([])
@@ -147,14 +131,6 @@ function ChatConversations() {
 									height={relativeScreenWidth(12)}
 									onPress={() => setSearchMode(true)}
 								/>
-								{/* <OptionSigh />
-								<SmallButton
-									color={theme.white3}
-									SvgIcon={ThreeDotsIcon}
-									relativeWidth={relativeScreenWidth(12)}
-									height={relativeScreenWidth(12)}
-									onPress={() => { }}
-								/> */}
 							</OptionsArea>
 						</>
 					)
@@ -203,10 +179,9 @@ function ChatConversations() {
 										lastMessage={getLastMessage(item.messages)}
 										lastMessageTime={getLastMessageDateTime(item.messages)}
 										numberOfUnseenMessages={getNumberOfUnseenMessages(item.messages)}
-										onPress={() => { }}
+										onPress={() => navigation.navigate('Chat')}
 									/>
 								)}
-								// onEndReached={() => console.log('findMoreNearPosts(Pagination)')}
 								showsVerticalScrollIndicator={false}
 								ItemSeparatorComponent={() => <Sigh />}
 								ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
