@@ -1,16 +1,19 @@
 import React from 'react'
+import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
 import { WithoutPostsContainer, WithoutPostsTitle, WithoutPostsText } from './styles'
 
 interface WithoutPostsMessageProps {
 	title: string
 	message: string
+	highlightedWords?: string[]
+	backgroundColor?: string
 }
 
-function WithoutPostsMessage({ title, message }: WithoutPostsMessageProps) {
+function WithoutPostsMessage({ title, message, highlightedWords = [], backgroundColor = 'white' }: WithoutPostsMessageProps) {
 	return (
-		<WithoutPostsContainer>
+		<WithoutPostsContainer style={{ backgroundColor }}>
 			<WithoutPostsTitle>{title}</WithoutPostsTitle>
-			<WithoutPostsText>{message}</WithoutPostsText>
+			<WithoutPostsText>{showMessageWithHighlight(message, highlightedWords)}</WithoutPostsText>
 		</WithoutPostsContainer>
 	)
 }
