@@ -3,7 +3,7 @@ import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
 import { WithoutPostsContainer, WithoutPostsTitle, WithoutPostsText } from './styles'
 
 interface WithoutPostsMessageProps {
-	title: string
+	title?: string
 	message: string
 	highlightedWords?: string[]
 	backgroundColor?: string
@@ -12,7 +12,7 @@ interface WithoutPostsMessageProps {
 function WithoutPostsMessage({ title, message, highlightedWords = [], backgroundColor = 'white' }: WithoutPostsMessageProps) {
 	return (
 		<WithoutPostsContainer style={{ backgroundColor }}>
-			<WithoutPostsTitle>{title}</WithoutPostsTitle>
+			{title && <WithoutPostsTitle>{title}</WithoutPostsTitle>}
 			<WithoutPostsText>{showMessageWithHighlight(message, highlightedWords)}</WithoutPostsText>
 		</WithoutPostsContainer>
 	)

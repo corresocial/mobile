@@ -21,7 +21,6 @@ import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import XIcon from '../../../assets/icons/x-thin.svg'
 import LoupIcon from '../../../assets/icons/loupTabIconInactive.svg'
-// import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
 import { Message, Chat } from '../../../@types/chat/types'
 
@@ -74,7 +73,7 @@ const defaultChats: Chat[] = [
 	}
 ]
 
-function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TODO TYPE
+function ChatConversations(props: ChatConversationsScreenProps) { // TODO TYPE
 	const [searchText, setSearchText] = useState('')
 	const [chats, setChats] = useState(defaultChats)
 	const [filteredChats, setFilteredChats] = useState<Chat[]>([])
@@ -175,11 +174,11 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TO
 								renderItem={({ item }: { item: Chat }) => (
 									<ConversationCard
 										key={item.chatId}
-										userName={item.userId1}
+										userName={item.userId2}
 										lastMessage={getLastMessage(item.messages)}
 										lastMessageTime={getLastMessageDateTime(item.messages)}
 										numberOfUnseenMessages={getNumberOfUnseenMessages(item.messages)}
-										onPress={() => navigation.navigate('Chat')}
+										onPress={() => props.navigation.navigate('Chat')}
 									/>
 								)}
 								showsVerticalScrollIndicator={false}

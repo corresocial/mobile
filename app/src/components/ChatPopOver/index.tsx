@@ -7,29 +7,29 @@ import { CloseIcon, Container, ContainerInner, Sigh, UserName } from './styles'
 import { relativeScreenHeight } from '../../common/screenDimensions'
 import { theme } from '../../common/theme'
 import XIcon from '../../assets/icons/x.svg'
+import BlockIcon from '../../assets/icons/block.svg'
+import TrashIcon from '../../assets/icons/trashRounded.svg'
 
 import { PrimaryButton } from '../_buttons/PrimaryButton'
 import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 
-interface ProfilePopOverProps {
+interface ChatPopOverProps {
 	userName?: string
 	popoverVisibility: boolean
-	buttonLabel: string
 	children: React.ReactChild
-	onPress?: () => void
-	goToConfig?: () => void
 	closePopover: () => void
+	blockUser: () => void
+	cleanConversation: () => void
 }
 
-function ProfilePopOver({
+function ChatPopOver({
 	userName,
 	popoverVisibility,
-	buttonLabel,
 	children,
-	onPress,
-	goToConfig,
-	closePopover
-}: ProfilePopOverProps) {
+	closePopover,
+	blockUser,
+	cleanConversation
+}: ChatPopOverProps) {
 	return (
 		<Popover
 			isVisible={popoverVisibility}
@@ -52,36 +52,36 @@ function ProfilePopOver({
 						<XIcon width={RFValue(25)} height={RFValue(25)} />
 					</CloseIcon>
 					<UserName>{userName}</UserName>
-					{
-						goToConfig && (
-							<PrimaryButton
-								color={theme.green3}
-								onPress={!!goToConfig && goToConfig}
-								label={'configurações'}
-								highlightedWords={['configurações']}
-								labelColor={theme.white3}
-								fontSize={14}
-								minHeight={20}
-								relativeHeight={relativeScreenHeight(8)}
-							/>
-						)
-					}
 					<Sigh />
 					<PrimaryButton
 						color={theme.red3}
-						onPress={onPress && onPress}
-						label={buttonLabel}
-						highlightedWords={[buttonLabel]}
+						onPress={blockUser}
+						label={'bloquear usuário'}
+						highlightedWords={['bloquear', 'usuário']}
 						labelColor={theme.white3}
 						fontSize={14}
+						SvgIcon={BlockIcon}
+						svgIconScale={['50%', '15%']}
 						minHeight={20}
 						relativeHeight={relativeScreenHeight(8)}
 					/>
-
+					<Sigh />
+					<PrimaryButton
+						color={theme.red3}
+						onPress={cleanConversation}
+						label={'apagar conversa'}
+						highlightedWords={['apagar', 'conversa']}
+						labelColor={theme.white3}
+						fontSize={14}
+						SvgIcon={TrashIcon}
+						svgIconScale={['50%', '15%']}
+						minHeight={20}
+						relativeHeight={relativeScreenHeight(8)}
+					/>
 				</ContainerInner>
 			</Container>
 		</Popover >
 	)
 }
 
-export { ProfilePopOver }
+export { ChatPopOver }

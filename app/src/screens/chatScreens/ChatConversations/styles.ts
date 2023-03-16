@@ -17,6 +17,7 @@ export const Header = styled.View`
 	flex-direction: row;
 	justify-content: space-between;
 	background-color: ${({ theme }) => theme.white3};
+	align-items: center;
 `
 
 export const Title = styled.Text`

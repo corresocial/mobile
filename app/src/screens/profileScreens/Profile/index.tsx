@@ -344,7 +344,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						/>
 						<ProfilePopOver
 							userName={getUserField('name') as string}
-							userId={getUserField('userId') as string}
 							buttonLabel={isLoggedUser ? 'sair' : 'denunciar'}
 							popoverVisibility={profileOptionsIsOpen}
 							closePopover={() => setProfileOptionsIsOpen(false)}

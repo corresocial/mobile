@@ -8,7 +8,7 @@ import {
 	WeekdaysSelectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
-import { relativeScreenHeight, relativeScreenWidth, screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import Check from '../../../assets/icons/check.svg'
 
 import { SelectWorkWeekdaysScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
