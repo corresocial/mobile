@@ -4,7 +4,7 @@
 		"owner": "corresocial",
 		"scheme": "corre",
 		"slug": "corresocial",
-		"version": "0.1.1",
+		"version": "0.1.3",
 		"orientation": "portrait",
 		"userInterfaceStyle": "light",
 		"icon": "./assets/icon.png",
@@ -22,7 +22,6 @@
 				{
 					"photosPermission": "Allow corre to access your photos.",
 					"savePhotosPermission": "Allow corre to save photos.",
-					"isAccessMediaLocationEnabled": true
 				}
 			],
 			"expo-image-picker",
@@ -30,6 +29,7 @@
 				"expo-build-properties",
 				{
 					"ios": {
+						"jsEngine": "hermes",
 						"useFrameworks": "static"
 					}
 				}
@@ -37,6 +37,7 @@
 			"./plugins/react-native-maps-plugin.js"
 		],
 		"updates": {
+			"enable": false,
 			"fallbackToCacheTimeout": 0,
 			"url": "https://u.expo.dev/82d2d182-5397-4921-9056-8aa7efc9a9a4"
 		},
@@ -44,7 +45,12 @@
 			"**/*"
 		],
 		"ios": {
-			"buildNumber": "7",
+			"infoPlist": {
+				"NSCameraUsageDescription": "Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.",
+				"NSLocationWhenInUseUsageDescription": "Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts.",
+				"NSPhotoLibraryUsageDescription": "Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você."
+			},
+			"buildNumber": "9",
 			"supportsTablet": true,
 			"bundleIdentifier": "corre",
 			"splash": {
@@ -57,7 +63,7 @@
 			}
 		},
 		"android": {
-			"versionCode": 7,
+			"versionCode": 9,
 			"package": "com.corresocial.corresocial",
 			"icon": "./assets/icon.png",
 			"adaptiveIcon": {
