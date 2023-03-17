@@ -16,7 +16,20 @@
 				"style": "dark"
 			}
 		},
+		"hooks": {
+			"postPublish": [
+				{
+					"file": "sentry-expo/upload-sourcemaps",
+					"config": {
+						"organization": "corre",
+						"project": "react-native",
+						"authToken": false
+					}
+				}
+			]
+		},
 		"plugins": [
+			"sentry-expo",
 			[
 				"expo-media-library",
 				{
@@ -34,7 +47,8 @@
 					}
 				}
 			],
-			"./plugins/react-native-maps-plugin.js"
+			"./plugins/react-native-maps-plugin.js",
+			"sentry-expo"
 		],
 		"updates": {
 			"fallbackToCacheTimeout": 0,
