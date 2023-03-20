@@ -1,4 +1,4 @@
-import React from 'react'
+/* import React from 'react'
 import MaskedView from '@react-native-community/masked-view'
 import { LinearGradient } from 'expo-linear-gradient'
 
@@ -25,3 +25,4 @@ function TextGradient({ children }: TextGradientProps) {
 }
 
 export { TextGradient }
+ */

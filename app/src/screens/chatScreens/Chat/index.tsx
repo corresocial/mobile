@@ -18,6 +18,7 @@ import { Message } from '../../../@types/chat/types'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { ChatPopOver } from '../../../components/ChatPopOver'
 import { FlatListItem } from '../../../@types/global/types'
+import { writeOnDatabase } from '../../../services/firebase/chat/write'
 
 function Chat({ navigation }: ChatScreenProps) {
 	const chat = {
@@ -60,6 +61,20 @@ function Chat({ navigation }: ChatScreenProps) {
 
 	const scrollToEnd = () => {
 		flatListRef.current?.scrollToEnd({ animated: true })
+	}
+
+	const sendMessage = async (text: string) => {
+		await writeOnDatabase(userDataContext.userId as string)
+
+		setMessages([
+			...messages,
+			{
+				message: text,
+				dateTime: new Date(),
+				readed: false,
+				owner: 'userId1'
+			}
+		])
 	}
 
 	return (
@@ -124,17 +139,7 @@ function Chat({ navigation }: ChatScreenProps) {
 				onLayout={scrollToEnd}
 			/>
 			<ChatInput
-				submitMessage={(text: string) => {
-					setMessages([
-						...messages,
-						{
-							message: text,
-							dateTime: new Date(),
-							readed: false,
-							owner: 'userId1'
-						}
-					])
-				}}
+				submitMessage={sendMessage}
 			/>
 		</Container>
 	)

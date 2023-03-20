@@ -18,4 +18,5 @@ declare module '@env' {
 	export const NOTION_FALECONOSCO_ID: string
 	export const NOTION_APPICONS_ID: string
 	export const NOTION_APPICONS_KEY: string
+	export const FIRESTORE_REAL_TIME_DATABASE: string
 }
