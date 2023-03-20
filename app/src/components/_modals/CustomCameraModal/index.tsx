@@ -7,29 +7,36 @@ import * as ImagePicker from 'expo-image-picker'
 import {
 	CameraContainer,
 	CameraControlsContainer,
-	CameraTypeButton, Container,
+	CameraTypeButton,
+	Container,
 	FlashButton,
 	FlashButtonContainer,
-	Footer, GaleryButton,
+	Footer,
+	GaleryButton,
 	NotPermissionContainer,
 	NotPermissionText,
 	TakePictureButton,
-	Body
+	Body,
 } from './styles'
 import { theme } from '../../../common/theme'
 import XIcon from '../../../assets/icons/xWithoutShadow.svg'
+import { PrimaryButton } from '../../_buttons/PrimaryButton'
 
 interface CustomCameraModalProps {
-	cameraOpened: boolean
-	onClose: () => void
-	setPictureUri: (uri: string) => void
+	cameraOpened: boolean;
+	onClose: () => void;
+	setPictureUri: (uri: string) => void;
 }
 
-function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCameraModalProps) {
+function CustomCameraModal({
+	cameraOpened,
+	onClose,
+	setPictureUri,
+}: CustomCameraModalProps) {
 	const [cameraType, setCameraType] = useState(CameraType.back)
 	const [flashMode, setFlashMode] = useState(FlashMode.off)
-	const [cameraHasPermission, setCameraHasPermission] = useState(true)
-	const [mediaLibrayHasPermission, setMediaLibraryHasPermission] = useState(true)
+	const [cameraHasPermission, setCameraHasPermission] = useState(false)
+	const [mediaLibrayHasPermission, setMediaLibraryHasPermission] = useState(false)
 	const cameraRef = useRef<Camera>(null)
 
 	useEffect(() => {
@@ -48,26 +55,32 @@ function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCamer
 	}
 
 	const getMediaLibraryPermissions = async () => {
-		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+		const { status } =			await ImagePicker.requestMediaLibraryPermissionsAsync()
 		setMediaLibraryHasPermission(status === 'granted')
 	}
 
 	const toggleFlashMode = () => {
-		setFlashMode(flashMode === FlashMode.torch ? FlashMode.off : FlashMode.torch)
+		setFlashMode(
+			flashMode === FlashMode.torch ? FlashMode.off : FlashMode.torch
+		)
 	}
 
 	const toggleCameraType = () => {
-		setCameraType(cameraType === CameraType.back ? CameraType.front : CameraType.back)
+		setCameraType(
+			cameraType === CameraType.back ? CameraType.front : CameraType.back
+		)
 	}
 
 	const openGalery = async () => {
-		if (!mediaLibrayHasPermission) return
+		if (!mediaLibrayHasPermission) {
+			return
+		}
 
 		const result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
 			allowsEditing: true,
 			aspect: [1, 1],
-			quality: 1,
+			quality: 0,
 		})
 
 		if (!result.canceled) {
@@ -85,67 +98,94 @@ function CustomCameraModal({ cameraOpened, onClose, setPictureUri }: CustomCamer
 	}
 
 	return (
-		<Modal
-			visible={cameraOpened}
-			onRequestClose={onClose}
-		>
-			<StatusBar backgroundColor={theme.black4} barStyle={'dark-content'} />
-			{
-				!cameraHasPermission && !mediaLibrayHasPermission
-					? (
-						<NotPermissionContainer
-							onPress={() => {
-								getCameraPermissions()
-								getMediaLibraryPermissions()
-							}}
-							activeOpacity={0.9}
-						>
-							<NotPermissionText>{'Você NÃO TEM PERMISSÃO!'}</NotPermissionText>
-							<NotPermissionText>{'Deve conceder PERMISSÂO para utilizar a CÂMERA!'}</NotPermissionText>
-						</NotPermissionContainer>
-					)
-					: (
-						<Container>
-							<CameraContainer>
-								<Camera
-									ref={cameraRef}
-									style={{ flex: 1 }}
-									type={cameraType}
-									flashMode={flashMode}
-									ratio={'1:1'}
-									onMountError={(err) => console.log(err)}
+		<Modal visible={cameraOpened} onRequestClose={onClose}>
+			<StatusBar
+				backgroundColor={theme.black4}
+				barStyle={'dark-content'}
+			/>
+			{!cameraHasPermission && !mediaLibrayHasPermission ? (
+				<NotPermissionContainer
+					onPress={() => {
+						getCameraPermissions()
+						getMediaLibraryPermissions()
+					}}
+					activeOpacity={0.9}
+				>
+					<NotPermissionText>
+						{'Você não permitiu o uso da câmera ou galeria, você precisa ir em configurações "corre." e permitir.'}
+					</NotPermissionText>
+					<PrimaryButton
+						label={'voltar'}
+						color={theme.white3}
+						labelColor={theme.black4}
+						onPress={onClose}
+					/>
+				</NotPermissionContainer>
+			) : (
+				<Container>
+					<CameraContainer>
+						<Camera
+							ref={cameraRef}
+							style={{ flex: 1 }}
+							type={cameraType}
+							flashMode={flashMode}
+							ratio={'1:1'}
+							onMountError={(err) => console.log(err)}
+						/>
+					</CameraContainer>
+					<View style={{ width: '100%' }}>
+						<FlashButtonContainer>
+							<FlashButton onPress={toggleFlashMode}>
+								<Ionicons
+									name={'md-flash-sharp'}
+									size={25}
+									color={
+										flashMode === FlashMode.torch
+											? theme.orange3
+											: theme.black4
+									}
 								/>
-							</CameraContainer>
-							<View style={{ width: '100%' }}>
-								<FlashButtonContainer>
-									<FlashButton onPress={toggleFlashMode}>
-										<Ionicons name={'md-flash-sharp'} size={25} color={flashMode === FlashMode.torch ? theme.orange3 : theme.black4} />
-									</FlashButton>
-								</FlashButtonContainer>
-								<Body>
-									<CameraControlsContainer>
-										<GaleryButton onPress={openGalery} style={{ opacity: mediaLibrayHasPermission ? 1 : 0.4 }}>
-											<FontAwesome5 name={'images'} size={25} color={theme.black4} />
-										</GaleryButton>
+							</FlashButton>
+						</FlashButtonContainer>
+						<Body>
+							<CameraControlsContainer>
+								<GaleryButton
+									onPress={openGalery}
+									style={{
+										opacity: mediaLibrayHasPermission
+											? 1
+											: 0.4,
+									}}
+								>
+									<FontAwesome5
+										name={'images'}
+										size={25}
+										color={theme.black4}
+									/>
+								</GaleryButton>
 
-										<TakePictureButton onPress={takePicture}>
-										</TakePictureButton>
+								<TakePictureButton
+									onPress={takePicture}
+								>
+								</TakePictureButton>
 
-										<CameraTypeButton onPress={toggleCameraType} >
-											<Ionicons name={'camera-reverse'} size={27} color={theme.black4} />
-										</CameraTypeButton>
-									</CameraControlsContainer>
-								</Body>
-								<Footer>
-									<FlashButton onPress={onClose}>
-										<XIcon width={'40%'} height={'40%'} />
-									</FlashButton>
-								</Footer>
-							</View>
-						</Container >
-					)
-			}
-
+								<CameraTypeButton onPress={toggleCameraType}>
+									<Ionicons
+										name={'camera-reverse'}
+										size={27}
+										color={theme.black4}
+									/>
+								</CameraTypeButton>
+							</CameraControlsContainer>
+						</Body>
+						<Footer>
+							<FlashButton onPress={onClose}>
+								<XIcon width={'40%'} height={'40%'} />
+							</FlashButton>
+						</Footer>
+					</View>
+				</Container>
+			)}
 		</Modal>
 	)
 }
