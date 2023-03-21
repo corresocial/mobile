@@ -6,7 +6,6 @@ admin.initializeApp()
 
 exports.getFeedPosts = functions.https.onRequest(async (req, res) => { // req. searchParams
 	try {
-		console.log(req.body)
 		const collectionRef = admin.firestore().collection('posts')
 
 		const { searchParams, userId } = req.body
@@ -50,7 +49,7 @@ const getNearbyPosts = async (collectionRef, searchParams) => {
 
 const getCityPosts = async (collectionRef, searchParams, nearPostIds = []) => {
 	const queryCity = collectionRef
-		.where('range', '==', 'city')
+		// .where('range', '==', 'city') Removed
 		.where('location.city', '==', searchParams.city)
 		.orderBy('createdAt', 'desc')
 

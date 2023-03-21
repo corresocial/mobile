@@ -48,7 +48,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 	}, [inputName])
 
 	const getUserName = async () => {
-		const name = userDataContext.name || 'usuário do corre.'
+		const name = userDataContext.name || ''
 		setInputName(name)
 	}
 

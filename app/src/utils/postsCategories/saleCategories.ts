@@ -314,9 +314,7 @@ const saleCategories = {
 		label: 'outros',
 		value: 'others',
 		slug: 'others',
-		tags: [
-
-		]
+		tags: []
 	},
 }
 

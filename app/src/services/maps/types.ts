@@ -1,5 +1,3 @@
-import React from 'react'
-import { SvgProps } from 'react-native-svg'
 import { PostType } from '../firebase/types'
 
 export type AddressSearchResult = {
@@ -19,9 +17,9 @@ export type SearchParams = {
 	range: string
 	city: string
 	country: string
-	postType: PostType
 	category: string
 	tag: string
+	postType: PostType | string
 	coordinates: LatLong
 	geohashes: string[]
 }

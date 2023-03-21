@@ -59,16 +59,12 @@ const initialSelectedAddress = {
 function Home({ navigation }: HomeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
-	const { locationDataContext, setLocationDataOnContext } =		useContext(LocationContext)
+	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
 
-	const [selectedAddress, setSelectedAddress] =		useState<SelectedAddressRender>(initialSelectedAddress)
-	const [recentAddresses, setRecentAddresses] = useState<
-		AddressSearchResult[]
-	>([])
+	const [selectedAddress, setSelectedAddress] = useState<SelectedAddressRender>(initialSelectedAddress)
+	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])
 	const [nearPosts, setNearPosts] = useState<PostCollection[]>([])
-	const [addressSuggestions, setAddressSuggestions] = useState<
-		AddressSearchResult[]
-	>([])
+	const [addressSuggestions, setAddressSuggestions] = useState<AddressSearchResult[]>([])
 	const [hasLocationPermission, setHasLocationPermission] = useState(false)
 	const [hasLocationEnable, setHasLocationEnable] = useState(false)
 	const [searchEnded, setSearchEnded] = useState(false)
@@ -139,8 +135,7 @@ function Home({ navigation }: HomeScreenProps) {
 				const coordinates = await getCurrentPositionCoordinates()
 				searchParams = await getSearchParams(coordinates)
 			} else {
-				const coordinates =					alternativeCoordinates
-					|| (await getSearchedAddressCoordinates(searchText))
+				const coordinates = alternativeCoordinates || (await getSearchedAddressCoordinates(searchText))
 				searchParams = await getSearchParams(coordinates as LatLong) // address converter
 			}
 
@@ -175,7 +170,7 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const getCurrentPositionCoordinates = async () => {
-		const currentPositionCoordinate =			await Location.getCurrentPositionAsync()
+		const currentPositionCoordinate = await Location.getCurrentPositionAsync()
 
 		return {
 			lat: currentPositionCoordinate.coords.latitude,
@@ -248,9 +243,7 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const saveRecentAddresses = (newAddress: AddressSearchResult) => {
-		const filtredRecentAddress = recentAddresses.filter(
-			(address) => address.formattedAddress !== newAddress.formattedAddress
-		)
+		const filtredRecentAddress = recentAddresses.filter((address) => address.formattedAddress !== newAddress.formattedAddress)
 		setRecentAddresses([
 			{ ...newAddress, recent: true },
 			...filtredRecentAddress,
@@ -385,7 +378,7 @@ function Home({ navigation }: HomeScreenProps) {
 				<SubtitleCard
 					text={'posts de recentes'}
 					highlightedText={['recentes']}
-					onPress={() => {}}
+					onPress={() => { }}
 				/>
 				{!hasLocationEnable && !nearPosts.length && (
 					<RequestLocation

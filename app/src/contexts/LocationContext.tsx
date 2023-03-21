@@ -2,8 +2,6 @@ import React, { createContext, useMemo, useState } from 'react'
 import { PostCollectionRemote } from '../services/firebase/types'
 import { CurrentCategory, SearchParams } from '../services/maps/types'
 
-import DefaultIcon from '../assets/icons/loup.svg'
-
 import { LocationData } from './types'
 
 type LocationContextType = {
@@ -23,7 +21,10 @@ interface LocationProviderProps {
 const initialValue = {
 	locationDataContext: {
 		searchParams: {
+			searchText: '',
 			range: '',
+			category: '',
+			tag: '',
 			city: '',
 			country: '',
 			postType: '',
@@ -34,7 +35,7 @@ const initialValue = {
 			backgroundColor: '',
 			categoryName: '',
 			categoryTitle: '',
-			categoryIcon: DefaultIcon,
+			categoryIcon: '',
 			categoryTags: []
 		},
 		nearbyPosts: [],
