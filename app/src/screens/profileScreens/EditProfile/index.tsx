@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
+import * as Sentry from 'sentry-expo'
 
 import { Animated, ScrollView, StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
@@ -76,6 +77,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			setIsLoading(true)
 			await updateRemoteUser()
 		} catch (err) {
+			Sentry.Native.captureException(err)
 			console.log(err)
 			setIsLoading(false)
 			setHasUpdateError(true)
