@@ -13,20 +13,15 @@ import {
 } from '@expo-google-fonts/arvo'
 import { theme } from './src/common/theme'
 
+import { ignoredLogs } from './ignoredLogs'
+import { sentryConfig } from './src/services/sentry'
+
 import { AuthRegisterStack } from './src/routes/Stack/AuthRegisterStack'
 import { LoaderProvider } from './src/contexts/LoaderContext'
 import { ErrorBoundaryFallback } from './src/screens/ErrorBoundaryFallback'
 import { errorHandler } from './src/utils/errorHandler'
-import { ignoredLogs } from './ignoredLogs'
 
-Sentry.init({
-	dsn: 'https://e75bbf5cd26e44a6a43c7a9098b5f65e@o4504849825005568.ingest.sentry.io/4504849830641664',
-	enableInExpoDevelopment: true,
-	debug: false, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
-	enableNative: true,
-	autoInitializeNativeSdk: true
-})
-
+Sentry.init(sentryConfig)
 LogBox.ignoreLogs(ignoredLogs)
 
 function App() {
