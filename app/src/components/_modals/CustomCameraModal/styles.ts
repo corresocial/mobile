@@ -104,8 +104,9 @@ export const NotPermissionContainer = styled.TouchableOpacity`
 `
 
 export const NotPermissionText = styled.Text`
-    color:  ${({ theme }) => theme.white1};
+   color:  ${({ theme }) => theme.white1};
    font-size: 17px;
    text-align: center;
    margin-top: 20px;
+   margin-bottom: 20px;
 `

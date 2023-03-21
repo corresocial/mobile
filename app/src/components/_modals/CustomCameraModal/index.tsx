@@ -55,7 +55,7 @@ function CustomCameraModal({
 	}
 
 	const getMediaLibraryPermissions = async () => {
-		const { status } =			await ImagePicker.requestMediaLibraryPermissionsAsync()
+		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
 		setMediaLibraryHasPermission(status === 'granted')
 	}
 
@@ -73,6 +73,7 @@ function CustomCameraModal({
 
 	const openGalery = async () => {
 		if (!mediaLibrayHasPermission) {
+			await getMediaLibraryPermissions()
 			return
 		}
 
