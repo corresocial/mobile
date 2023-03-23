@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { formatRelativeDate } from '../../common/auxiliaryFunctions'
@@ -9,21 +9,13 @@ import ArrowRightCircle from '../../assets/icons/arrowRightCircle.svg'
 
 interface MessageCardProps {
 	message: any
-	dateTime: Date
+	dateTime: Date | number
 	owner: boolean
 	errorSending?: boolean
 	sendAgain: () => void
 }
 
 function MessageCard({ message, dateTime, owner, errorSending, sendAgain }: MessageCardProps) {
-	const [opacity, setOpacity] = useState(0.8)
-
-	useEffect(() => {
-		setTimeout(() => {
-			setOpacity(1)
-		}, 1500)
-	}, [])
-
 	const borderStyles = {
 		out: {
 			borderBottomLeftRadius: owner ? RFValue(18) : 0,
@@ -37,10 +29,7 @@ function MessageCard({ message, dateTime, owner, errorSending, sendAgain }: Mess
 
 	return (
 		<Container
-			style={{
-				alignItems: owner ? 'flex-end' : 'flex-start',
-				opacity
-			}}
+			style={{ alignItems: owner ? 'flex-end' : 'flex-start' }}
 		>
 			<MessageContainer
 				style={borderStyles.out}

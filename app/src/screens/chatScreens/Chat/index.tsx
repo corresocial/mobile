@@ -1,6 +1,8 @@
-import React, { RefObject, useContext, useRef, useState } from 'react'
+import React, { RefObject, useContext, useEffect, useRef, useState } from 'react'
+import uuid from 'react-uuid'
 
 import { FlatList } from 'react-native'
+import { onValue, ref } from 'firebase/database'
 import { theme } from '../../../common/theme'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 
@@ -14,49 +16,49 @@ import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ChatScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { ChatInput } from '../../../components/ChatInput'
 import { MessageCard } from '../../../components/MessageCard'
-import { Message } from '../../../@types/chat/types'
+import { Message, MessageObjects } from '../../../@types/chat/types'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { ChatPopOver } from '../../../components/ChatPopOver'
 import { FlatListItem } from '../../../@types/global/types'
 import { writeOnDatabase } from '../../../services/firebase/chat/write'
+import { Id } from '../../../services/firebase/types'
+import { realTimeDatabase } from '../../../services/firebase'
 
-function Chat({ navigation }: ChatScreenProps) {
-	const chat = {
-		chatId: 123,
-		userId1: 'userId1',
-		userId2: 'userId2',
-		messages: [
-			{
-				message: 'e aquela coca de ontem?',
-				dateTime: new Date('2023-03-05'),
-				readed: false,
-				owner: 'userId1'
-			},
-			{
-				message: 'vou ficar devendo',
-				dateTime: new Date('2023-03-06'),
-				readed: true,
-				owner: 'userId2'
-			},
-			{
-				message: 'mas de novo cara?!',
-				dateTime: new Date('2023-03-07'),
-				readed: false,
-				owner: 'userId1'
-			}
-		]
-	}
-
+function Chat({ route, navigation }: ChatScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 
+	const currentChat = route.params.chat
+
 	const [chatOptionsIsOpen, setChatOptionsIsOpen] = useState(false)
-	const [messages, setMessages] = useState<Message[]>(chat.messages)
+	const [messages, setMessages] = useState<MessageObjects>(currentChat.messages)
 
 	const flatListRef: RefObject<FlatList> = useRef(null)
 
+	useEffect(() => {
+		// makeAllMessageAsRead(currentChat.messages)
+		startMessagesListener(currentChat.chatId)
+	}, [])
+
+	const startMessagesListener = (chatId: Id) => {
+		const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}/messages`)
+		onValue(realTimeDatabaseRef, (snapshot) => {
+			console.log('Listener message running...')
+			const data = snapshot.val()
+			setMessages(data)
+		})
+	}
+
+	/* const chatAlreadyExists = async () => {
+		const realTimeDatabaseRef = ref(realTimeDatabase, `${generateChatId()}`)
+		const chatExists = await get(realTimeDatabaseRef)
+			.then((snapshot: any) => snapshot.exists())
+			.catch((err) => console.log(err))
+
+		console.log(chatExists)
+	} */
+
 	const isUserOwner = (messageUserId: string) => {
-		// return userDataContext.userId === messageUserId // TODO UNCOMENT
-		return messageUserId === 'userId1'
+		return userDataContext.userId === messageUserId
 	}
 
 	const scrollToEnd = () => {
@@ -64,17 +66,45 @@ function Chat({ navigation }: ChatScreenProps) {
 	}
 
 	const sendMessage = async (text: string) => {
-		await writeOnDatabase(userDataContext.userId as string)
-
-		setMessages([
+		const newMessages = {
 			...messages,
-			{
+			[uuid()]: {
 				message: text,
-				dateTime: new Date(),
+				dateTime: Date.now(),
 				readed: false,
-				owner: 'userId1'
+				owner: userDataContext.userId as Id
 			}
-		])
+		}
+
+		setMessages(newMessages)
+
+		writeOnDatabase(
+			{
+				chatId: currentChat.chatId,
+				userId1: userDataContext.userId as Id,
+				userId2: getUserId(),
+				messages: [
+					{
+						message: text,
+						dateTime: Date.now(),
+						readed: false,
+						owner: userDataContext.userId as Id
+					}
+				] as any // TODO Type
+			},
+			!Object.keys(messages).length
+		)
+	}
+
+	/* const generateChatId = () => {
+		return `${userDataContext.userId}-${currentChat.userId1 === userDataContext.userId ? currentChat.userId2 : currentChat.userId1}`
+	} */
+
+	const getUserId = () => {
+		if (userDataContext.userId === currentChat.userId1) {
+			return currentChat.userId2
+		}
+		return currentChat.userId1
 	}
 
 	return (
@@ -87,17 +117,18 @@ function Chat({ navigation }: ChatScreenProps) {
 					relativeWidth={relativeScreenWidth(12)}
 					height={relativeScreenWidth(12)}
 					onPress={() => navigation.goBack()}
+				// onPress={() => chatAlreadyExists()}
 				/>
 				<SmallUserIdentification
 					pictureDimensions={40}
-					userName={'Wellington Souza'}
+					userName={getUserId()}
 					profilePictureUrl={'https://www.cnnbrasil.com.br/wp-content/uploads/sites/12/2021/06/41479_2FF050B33087A556.png?w=876&h=484&crop=1'}
 					width={'60%'}
 					userNameFontSize={15}
 					height={'100%'}
 				/>
 				<ChatPopOver
-					userName={'Wellington Souza'}
+					userName={getUserId()}
 					popoverVisibility={chatOptionsIsOpen}
 					closePopover={() => setChatOptionsIsOpen(false)}
 					blockUser={() => { console.log('block') }}
@@ -114,13 +145,13 @@ function Chat({ navigation }: ChatScreenProps) {
 			</Header>
 			<FlatList
 				ref={flatListRef}
-				data={messages}
+				data={Object.values(messages)}
 				renderItem={({ item }: FlatListItem<Message>) => ( // TODO TYPE
 					<MessageCard
 						message={item.message}
 						dateTime={item.dateTime}
 						owner={isUserOwner(item.owner)}
-						errorSending={item.message === 'kkkj'}
+						errorSending={false}
 						sendAgain={() => console.log('senderAgain')}
 					/>
 				)}

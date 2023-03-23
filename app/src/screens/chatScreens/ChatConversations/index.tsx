@@ -1,7 +1,9 @@
-/* eslint-disable react/no-unused-prop-types */
-import React, { useState } from 'react'
+/* eslint-disable react/prop-types */
+/* eslint-disable react/no-unused-prop-types */ // TODO
+import React, { useState, useContext, useEffect } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { get, onValue, ref } from 'firebase/database'
 import { formatRelativeDate } from '../../../common/auxiliaryFunctions'
 
 import {
@@ -22,96 +24,110 @@ import { relativeScreenHeight, relativeScreenWidth } from '../../../common/scree
 import XIcon from '../../../assets/icons/x-thin.svg'
 import LoupIcon from '../../../assets/icons/loupTabIconInactive.svg'
 
-import { Message, Chat } from '../../../@types/chat/types'
+import { MessageObjects, Chat } from '../../../@types/chat/types'
+
+import { AuthContext } from '../../../contexts/AuthContext'
+import { ChatContext } from '../../../contexts/ChatContext'
 
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ConversationCard } from '../../../components/_cards/ConversationCard'
 import { ChatConversationsScreenProps } from '../../../routes/Stack/ChatStack/stackScreenProps'
+import { Id } from '../../../services/firebase/types'
+import { realTimeDatabase } from '../../../services/firebase'
 
-const currentUserId = 'userId1'
+function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TODO TYPE
+	const { userDataContext } = useContext(AuthContext)
+	const { chatDataContext, loadChats, setCurrentChat } = useContext(ChatContext)
 
-const defaultChats: Chat[] = [
-	{
-		chatId: 123,
-		userId1: 'userId1',
-		userId2: 'userId2',
-		messages: [
-			{
-				message: 'olá, tudo certo?',
-				dateTime: new Date('2023-03-06'),
-				readed: false,
-				owner: 'userId2'
-			},
-			{
-				message: 'olá, tudo sim',
-				dateTime: new Date('2023-03-05'),
-				readed: true,
-				owner: 'userId1'
-			}
-		]
-	},
-	{
-		chatId: 456,
-		userId1: 'userId1',
-		userId2: 'userId3',
-		messages: [
-			{
-				message: 'olá, tudo bem?',
-				dateTime: new Date('2023-03-04'),
-				readed: false,
-				owner: 'userId3'
-			},
-			{
-				message: 'olá, posso responder não, tô no corre.',
-				dateTime: new Date('2023-03-06'),
-				readed: false,
-				owner: 'userId3'
-			}
-		]
-	}
-]
-
-function ChatConversations(props: ChatConversationsScreenProps) { // TODO TYPE
 	const [searchText, setSearchText] = useState('')
-	const [chats, setChats] = useState(defaultChats)
 	const [filteredChats, setFilteredChats] = useState<Chat[]>([])
 	const [searchMode, setSearchMode] = useState(false)
 
-	const getLastMessage = (messages: Message[]) => { // TODO
-		const lastMessageReceived = messages.reduce((total, current) => {
-			if (current.dateTime > total.dateTime || !total.message) {
-				return current
-			}
-			return total
-		}, { dateTime: new Date('2022-10-10'), message: '' })
-
-		return lastMessageReceived.message
+	const defaultMessageObject = {
+		message: '---',
+		dateTime: Date.now(),
+		readed: true,
+		owner: 'any',
 	}
 
-	const getLastMessageDateTime = (messages: Message[]) => {
-		const lastMessageDateTime = messages[messages.length - 1].dateTime || new Date()
-		return formatRelativeDate(lastMessageDateTime)
-	}
+	useEffect(() => {
+		// loadChats(userDataContext.chatIds)
+		startChatListener(userDataContext.chatIds as any)// TODO Type
+	}, [])
 
-	const getNumberOfUnseenMessages = (messages: Message[]) => {
-		let unseenMessagesCount = 0
-		messages.forEach((message) => {
-			if (!message.readed && currentUserId !== message.owner) {
-				unseenMessagesCount += 1
+	const startChatListener = (chatIds: Id[]) => {
+		chatIds.forEach(async (chatId: string) => {
+			const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
+			if (await chatAlreadyExists(chatId)) {
+				onValue(realTimeDatabaseRef, (snapshot) => {
+					console.log('Listener chats running...')
+					loadChats(userDataContext.chatIds as any)
+				})
+			} else { // Remove
+				console.log(`Esse chat não existe: ${chatId}`)
 			}
 		})
+	}
+
+	const chatAlreadyExists = async (chatId: Id) => {
+		const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
+		const chatExists = await get(realTimeDatabaseRef)
+			.then((snapshot: any) => snapshot.exists())
+			.catch((err) => console.log(err))
+
+		return chatExists
+	}
+
+	const getLastMessageObjects = (messages: MessageObjects) => {
+		if (!messages) {
+			return defaultMessageObject
+		}
+
+		const keys = Object.keys(messages)
+		const lastMessageId: any = keys[keys.length - 1] // TODO Type
+		return messages[lastMessageId]
+	}
+
+	const getLastMessage = (messages: MessageObjects) => {
+		const lastMessage = getLastMessageObjects(messages)
+		return lastMessage.message || ''
+	}
+
+	const getLastMessageDateTime = (messages: MessageObjects) => {
+		const lastMessage = getLastMessageObjects(messages)
+		return formatRelativeDate(lastMessage.dateTime || new Date())
+	}
+
+	const getNumberOfUnseenMessages = (messages: MessageObjects) => {
+		if (!messages) {
+			return 0
+		}
+
+		const unseenMessagesCount = Object.values(messages).reduce((total, message) => {
+			if (!message.readed && (userDataContext.userId !== message.owner)) {
+				return total + 1
+			}
+			return total
+		}, 0)
 		return unseenMessagesCount
 	}
 
 	const onChangeSearchText = (text: string) => {
-		const filtered = chats.filter((chat) => {
+		const filtered = chatDataContext.filter((chat: Chat) => {
 			return chat.userId1.includes(text) || chat.userId2.includes(text)
 		})
 
 		setSearchText(text)
 		setFilteredChats(filtered as Chat[])
+	}
+
+	const getUserId = (currentChat: Chat) => {
+		if (userDataContext.userId === currentChat.userId1) {
+			return currentChat.userId2
+		}
+		return currentChat.userId1
 	}
 
 	return (
@@ -159,7 +175,7 @@ function ChatConversations(props: ChatConversationsScreenProps) { // TODO TYPE
 			</Header>
 			<ConversationArea>
 				{
-					!chats.length
+					!chatDataContext.length
 						? (
 							<WithoutPostsMessage
 								title={'opa!'}
@@ -170,17 +186,24 @@ function ChatConversations(props: ChatConversationsScreenProps) { // TODO TYPE
 						)
 						: (
 							<ConversationList
-								data={!searchText ? chats : filteredChats}
-								renderItem={({ item }: { item: Chat }) => (
-									<ConversationCard
-										key={item.chatId}
-										userName={item.userId2}
-										lastMessage={getLastMessage(item.messages)}
-										lastMessageTime={getLastMessageDateTime(item.messages)}
-										numberOfUnseenMessages={getNumberOfUnseenMessages(item.messages)}
-										onPress={() => props.navigation.navigate('Chat')}
-									/>
-								)}
+								data={!searchText ? chatDataContext : filteredChats}
+								renderItem={({ item }: { item: Chat }) => {
+									if (item) {
+										return (
+											<ConversationCard
+												key={item.chatId}
+												userName={getUserId(item)}
+												lastMessage={getLastMessage(item.messages)}
+												lastMessageTime={getLastMessageDateTime(item.messages)}
+												numberOfUnseenMessages={getNumberOfUnseenMessages(item.messages)}
+												onPress={() => {
+													setCurrentChat({ ...item })
+													navigation.navigate('Chat', { chat: { ...item } } as any)
+												}}
+											/>
+										)
+									}
+								}}
 								showsVerticalScrollIndicator={false}
 								ItemSeparatorComponent={() => <Sigh />}
 								ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}

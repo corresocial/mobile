@@ -35,13 +35,6 @@ export interface LocalUserData extends UserCollection {
 	userIdentification?: UserIdentification
 }
 
-export interface UserData extends UserCollection {
-	userId?: string,
-	userIdentification?: UserIdentification,
-	verificationCodeId?: string,
-	cellNumber?: string
-}
-
 export interface StateData {
 	showTourModal?: boolean
 	showShareModal?: boolean

@@ -1,11 +1,22 @@
-import { getDatabase, ref, set } from 'firebase/database'
-import { Id } from '../types'
+import { push, ref, set } from 'firebase/database'
+import { realTimeDatabase } from '..'
+import { Chat } from '../../../@types/chat/types'
 
-function writeOnDatabase(userId: Id) {
-	const db = getDatabase()
-	set(ref(db, `chat/${userId}`), {
-		username: 'zé',
-	})
+async function writeOnDatabase(chat: Chat, firstMessage?: boolean) {
+	if (firstMessage) {
+		const chatWithoutMessages = { ...chat, messages: [] }
+		const realTimeDatabaseRef = ref(realTimeDatabase, `${chat.chatId}`)
+		set(
+			realTimeDatabaseRef,
+			chatWithoutMessages
+		)
+	}
+
+	const realTimeDatabaseRef = ref(realTimeDatabase, `${chat.chatId}/messages`)
+	push(
+		realTimeDatabaseRef,
+		chat.messages[0]
+	)
 }
 
 export { writeOnDatabase }

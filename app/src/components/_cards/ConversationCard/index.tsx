@@ -44,8 +44,8 @@ function ConversationCard({ userName, lastMessage, lastMessageTime, numberOfUnse
 						pictureDimensions={45}
 						userName={userName}
 						profilePictureUrl={'https://www.cnnbrasil.com.br/wp-content/uploads/sites/12/2021/06/41479_2FF050B33087A556.png?w=876&h=484&crop=1'}
-						postDate={lastMessageTime.toString().substring(0, 10)}
-						width={'60%'}
+						postDate={lastMessageTime}
+						width={'100%'}
 						height={'100%'}
 					/>
 					<UnseenMessagesCount

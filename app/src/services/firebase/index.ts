@@ -35,6 +35,6 @@ export const firestore = getFirestore(Firebase)
 export const auth = getAuth(Firebase)
 export const storage = getStorage(Firebase)
 export const functions = getFunctions(Firebase)
-export const database = getDatabase(Firebase)
+export const realTimeDatabase = getDatabase(Firebase)
 
 export default Firebase
