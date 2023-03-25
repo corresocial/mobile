@@ -1,16 +1,22 @@
 import { onValue, ref } from 'firebase/database'
-import React, { createContext, useMemo, useState } from 'react'
-import { Chat } from '../@types/chat/types'
+import React, { createContext, useContext, useEffect, useState } from 'react'
+import { Chat, UserDatabase } from '../@types/chat/types'
 import { realTimeDatabase } from '../services/firebase'
-import { readFromDatabase } from '../services/firebase/chat/read'
+import { existsOnDatabase } from '../services/firebase/chat/existsOnDatabase'
+import { readFromDatabase } from '../services/firebase/chat/readFromDatabase'
+import { registerNewUser } from '../services/firebase/chat/registerNewUser'
 import { Id } from '../services/firebase/types'
+import { AuthContext } from './AuthContext'
 
 type ChatData = any
 
 type ChatContextType = {
-	setCurrentChat: (chat: Chat) => void
-	loadChats: (chatIds: Id[]) => void
+	loadChats: (chatIds?: Id[]) => void
+	loadUserChatIds: (userId: Id) => Promise<Id[]>
+	updateChat: (chatData: Chat) => void
+
 	startChatListener: (chatIds: Id[]) => void
+	setCurrentChat: (chat: Chat) => void
 	startMessagesListener: (chatId: Id) => void
 	chatDataContext: ChatData
 	setNewMessageOnChat: (chatId: Id, chatData: ChatData) => void
@@ -23,8 +29,10 @@ interface ChatProviderProps {
 
 const initialValue = {
 	setCurrentChat: (chat: Chat) => { },
-	chatDataContext: {},
-	loadChats: (chatIds: Id[]) => { },
+	chatDataContext: [],
+	loadChats: (chatIds?: Id[]) => { },
+	updateChat: (chatData: Chat) => { },
+	loadUserChatIds: (userId: Id) => Promise,
 	startChatListener: (chatIds: Id[]) => { },
 	startMessagesListener: (chatId: Id) => { },
 	setNewMessageOnChat: (chatId: Id, chatData: ChatData) => { },
@@ -32,70 +40,106 @@ const initialValue = {
 
 }
 
-const ChatContext = createContext<ChatContextType>(initialValue)
+const ChatContext = createContext<ChatContextType>(initialValue as any) // TODO Type
 
 function ChatProvider({ children }: ChatProviderProps) {
+	const { userDataContext } = useContext(AuthContext)
+
 	const [chatDataContext, setChatsOnContext] = useState<Chat[]>([])
 	const [currentChat, setCurrentChat] = useState<Chat>()
 
-	const loadChats = async (chatIds: Id[]) => {
-		console.log(`chatIds: ${chatIds}`)
+	useEffect(() => {
+		initUserInstance()
+		/* setTimeout(() => {
+			console.log('removingEventListeners')
+			const realTimeDatabaseRef = ref(realTimeDatabase, `${userDataContext.userId}`)
+			off(realTimeDatabaseRef)
+		}, 20000) */
+	}, [])
 
-		await readFromDatabase(chatIds)
+	const initUserInstance = async () => {
+		if (!await existsOnDatabase(userDataContext.userId)) {
+			await registerNewUser(userDataContext.userId, {
+				blockedUsers: [''],
+				chatIds: ['']
+			})
+		}
+		console.log('starting user instance...')
+		await startUserChatIdsListener(userDataContext.userId)
+	}
+
+	const startUserChatIdsListener = async (userId: Id) => {
+		const realTimeDatabaseRef = ref(realTimeDatabase, `${userId}`)
+		if (await existsOnDatabase(userId)) {
+			onValue(realTimeDatabaseRef, async (snapshot) => {
+				console.log(`Listener userChatIds running... ${userId}`)
+				const newUserChatIds = await loadUserChatIds(userDataContext.userId)
+				startChatListener(newUserChatIds)
+				// loadChats(newUserChatIds) // Remove
+			})
+		} else { // Remove
+			console.log(`Esse usuário não existe: ${userId}`)
+		}
+	}
+
+	const loadUserChatIds = async (userId: Id) => {
+		return readFromDatabase([userId])
+			.then((user: UserDatabase[]) => {
+				const filteredChatIds = removeEqualsChatIds(user[0].chatIds)
+				console.log(filteredChatIds)
+				return filteredChatIds
+			})
+	}
+
+	const startChatListener = async (chatIds: Id[]) => {
+		chatIds.forEach(async (chatId: string) => {
+			const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
+			if (await existsOnDatabase(chatId)) {
+				onValue(realTimeDatabaseRef, async (snapshot) => {
+					console.log('Listener chats running...')
+					loadChats(chatIds)
+				})
+			} else {
+				console.log(`Esse chat não existe: ${chatId}`)
+			}
+		})
+	}
+
+	const loadChats = async (chatIds: Id[]) => {
+		const filteredChatIds = chatIds.filter((chatId) => chatId)
+		if (!filteredChatIds.length) return
+
+		await readFromDatabase(filteredChatIds)
 			.then((remoteChats: Chat[]) => setChatsOnContext(remoteChats))
 			.catch((err) => console.log(err))
 	}
 
-	const updateChatDataOnContext = async (chatData: ChatData) => {
-		/* console.log('Update chats...')
-		console.log(chatDataContext)
-		console.log('---------------------------------------------------------')
-		console.log(chatData) */
+	const removeEqualsChatIds = (chatIds: Id[]) => {
+		if (!chatIds || !chatIds.length) return []
+		return chatIds
+			.filter((elem, index) => chatIds.indexOf(elem) === index || !!elem)
+			.filter((filteredChatIds) => filteredChatIds)
+	}
+
+	const updateChat = async (chatData: ChatData) => {
 		const newChats = chatDataContext.map((chat) => {
-			/* 	console.log(chat.chatId === chatData.chatId)
-				console.log(chat.chatId)
-				console.log(chatData.chatId) */
 			if (chat.chatId === chatData.chatId) {
 				return chatData
 			}
 			return chat
 		})
 
-		if (chatDataContext.length === 0) {
-			newChats.push(chatData)
-		}
-
 		setChatsOnContext(newChats)
 	}
 
-	const startChatListener = (chatIds: Id[]) => {
-		chatIds.forEach((chatId: string) => {
-			const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
-			onValue(realTimeDatabaseRef, (snapshot) => {
-				// const data = snapshot.val()
-				// updateChatDataOnContext(data)
-				// loadChats(chatIds)
-			})
-		})
-	}
-
-	const startMessagesListener = (chatId: Id) => {
-		const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}/messages`)
-		return onValue(realTimeDatabaseRef, (snapshot) => {
-			const data = snapshot.val()
-			return data
-		})
-	}
-
-	const chatProviderData = useMemo(() => ({
+	const chatProviderData = ({
 		currentChat,
 		setCurrentChat,
-		updateChatDataOnContext,
+		updateChat,
 		chatDataContext,
 		loadChats,
-		startChatListener,
-		startMessagesListener,
-	}), [chatDataContext])
+		loadUserChatIds,
+	})
 
 	return (
 		<ChatContext.Provider value={chatProviderData as any} >

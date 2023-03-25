@@ -31,6 +31,8 @@ function ConversationCard({ userName, lastMessage, lastMessageTime, numberOfUnse
 		onPress()
 	}
 
+	console.log(userName)
+
 	return (
 		<Container
 			activeOpacity={1}
@@ -45,7 +47,7 @@ function ConversationCard({ userName, lastMessage, lastMessageTime, numberOfUnse
 						userName={userName}
 						profilePictureUrl={'https://www.cnnbrasil.com.br/wp-content/uploads/sites/12/2021/06/41479_2FF050B33087A556.png?w=876&h=484&crop=1'}
 						postDate={lastMessageTime}
-						width={'100%'}
+						width={'70%'}
 						height={'100%'}
 					/>
 					<UnseenMessagesCount

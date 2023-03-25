@@ -20,3 +20,8 @@ export type MessageObjects = {
 		owner: string
 	}
 }
+
+export type UserDatabase = {
+	blockedUsers: string[],
+	chatIds: string[]
+}

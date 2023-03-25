@@ -7,7 +7,7 @@ import { ChatStackParamList } from './types'
 import { ChatProvider } from '../../../contexts/ChatContext'
 
 import { ChatConversations } from '../../../screens/chatScreens/ChatConversations'
-import { Chat } from '../../../screens/chatScreens/Chat'
+import { ChatMessages } from '../../../screens/chatScreens/ChatMessages'
 
 const Stack = createStackNavigator<ChatStackParamList>()
 
@@ -23,7 +23,7 @@ export function ChatStack() {
 				}}
 			>
 				<Stack.Screen name={'ChatConversations'} component={ChatConversations} />
-				<Stack.Screen name={'Chat'} component={Chat} />
+				<Stack.Screen name={'ChatMessages'} component={ChatMessages} />
 			</Stack.Navigator>
 		</ChatProvider>
 	)

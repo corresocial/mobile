@@ -36,5 +36,5 @@ export type UserStackParamList = {
 	ContactUsSuccess: { reportType: ReportedTarget } | undefined
 	PrivacyAndSecurity: undefined
 
-	Chat: { chat: Chat }
+	ChatMessages: { chat: Chat }
 }

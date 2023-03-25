@@ -46,11 +46,10 @@ import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { ProfilePopOver } from '../../../components/ProfilePopOver'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
-import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
-	const { userDataContext } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
@@ -104,7 +103,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const filtredUserPosts = () => {
 		const posts = getUserPosts()
-		return posts.filter((post) => {
+		return posts.filter((post: any) => {
 			const matchs = selectedTags.map((tag: string) => {
 				if (post.tags?.includes(tag)) return true
 				return false
@@ -189,10 +188,33 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		share(`${isLoggedUser ? `olá! me chamo ${getUserField('name')} e tô no corre.` : `olha quem eu encontrei no corre.\n${getUserField('name')}`}\n\nhttps://corre.social`)
 	}
 
+	/* const generateChatId = () => {
+		return `${userDataContext.userId}-${getUserField('userId')}`
+	} */
+
 	const openChat = async () => {
-		const { cellNumber } = await getPrivateContacts(getUserField('userId') as string)
+		const userId1 = userDataContext.userId
+		const userId2 = getUserField('userId')
+
+		console.log(userId1)
+		console.log(userId2)
+
+		navigation.navigate('ChatStack', {
+			screen: 'ChatMessages',
+			params: {
+				chat: {
+					chatId: '',
+					userId1,
+					userId2,
+					messages: {}
+				}
+			}
+		} as any) // TODO Type
+
+		// [DEPRECATED]
+		/* const { cellNumber } = await getPrivateContacts(getUserField('userId') as string)
 		const message = 'olá! vi que está no corre. Podemos conversar?'
-		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
+		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`) */
 	}
 
 	const openSocialMediaManagement = () => {

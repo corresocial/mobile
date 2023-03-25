@@ -1,9 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unused-prop-types */ // TODO
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useLayoutEffect } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { get, onValue, ref } from 'firebase/database'
 import { formatRelativeDate } from '../../../common/auxiliaryFunctions'
 
 import {
@@ -34,12 +33,10 @@ import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ConversationCard } from '../../../components/_cards/ConversationCard'
 import { ChatConversationsScreenProps } from '../../../routes/Stack/ChatStack/stackScreenProps'
-import { Id } from '../../../services/firebase/types'
-import { realTimeDatabase } from '../../../services/firebase'
 
 function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TODO TYPE
 	const { userDataContext } = useContext(AuthContext)
-	const { chatDataContext, loadChats, setCurrentChat } = useContext(ChatContext)
+	const { chatDataContext, setCurrentChat } = useContext(ChatContext)
 
 	const [searchText, setSearchText] = useState('')
 	const [filteredChats, setFilteredChats] = useState<Chat[]>([])
@@ -53,32 +50,14 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TO
 	}
 
 	useEffect(() => {
-		// loadChats(userDataContext.chatIds)
-		startChatListener(userDataContext.chatIds as any)// TODO Type
-	}, [])
-
-	const startChatListener = (chatIds: Id[]) => {
-		chatIds.forEach(async (chatId: string) => {
-			const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
-			if (await chatAlreadyExists(chatId)) {
-				onValue(realTimeDatabaseRef, (snapshot) => {
-					console.log('Listener chats running...')
-					loadChats(userDataContext.chatIds as any)
-				})
-			} else { // Remove
-				console.log(`Esse chat não existe: ${chatId}`)
-			}
+		navigation.addListener('focus', () => {
+			// loadUserChatIds(userDataContext.userId)
 		})
-	}
+	}, [navigation])
 
-	const chatAlreadyExists = async (chatId: Id) => {
-		const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
-		const chatExists = await get(realTimeDatabaseRef)
-			.then((snapshot: any) => snapshot.exists())
-			.catch((err) => console.log(err))
-
-		return chatExists
-	}
+	useLayoutEffect(() => {
+		// startUserChatIdsListener(userDataContext.userId)
+	}, [])
 
 	const getLastMessageObjects = (messages: MessageObjects) => {
 		if (!messages) {
@@ -124,7 +103,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TO
 	}
 
 	const getUserId = (currentChat: Chat) => {
-		if (userDataContext.userId === currentChat.userId1) {
+		if (userDataContext.userId1 === currentChat.userId1) {
 			return currentChat.userId2
 		}
 		return currentChat.userId1
@@ -198,7 +177,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TO
 												numberOfUnseenMessages={getNumberOfUnseenMessages(item.messages)}
 												onPress={() => {
 													setCurrentChat({ ...item })
-													navigation.navigate('Chat', { chat: { ...item } } as any)
+													navigation.navigate('ChatMessages', { chat: { ...item } } as any)
 												}}
 											/>
 										)

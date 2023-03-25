@@ -1,8 +1,8 @@
-import React, { RefObject, useContext, useEffect, useRef, useState } from 'react'
+import React, { RefObject, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import uuid from 'react-uuid'
 
 import { FlatList } from 'react-native'
-import { onValue, ref } from 'firebase/database'
+import { get, onValue, ref } from 'firebase/database'
 import { theme } from '../../../common/theme'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 
@@ -13,49 +13,57 @@ import { relativeScreenHeight, relativeScreenWidth } from '../../../common/scree
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
-import { ChatScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { ChatInput } from '../../../components/ChatInput'
 import { MessageCard } from '../../../components/MessageCard'
-import { Message, MessageObjects } from '../../../@types/chat/types'
+import { Chat, Message, MessageObjects } from '../../../@types/chat/types'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { ChatPopOver } from '../../../components/ChatPopOver'
 import { FlatListItem } from '../../../@types/global/types'
-import { writeOnDatabase } from '../../../services/firebase/chat/write'
+import { sendMessage } from '../../../services/firebase/chat/sendMessage'
 import { Id } from '../../../services/firebase/types'
 import { realTimeDatabase } from '../../../services/firebase'
+import { ChatMessagesScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { getRemoteChatData } from '../../../services/firebase/chat/getRemoteChatData'
+import { registerNewChat } from '../../../services/firebase/chat/registerNewChat'
+import { setChatIdToUsers } from '../../../services/firebase/chat/setChatIdToUsers'
+import { makeAllUserMessagesAsRead } from '../../../services/firebase/chat/makeAllUserMessagesAsRead'
 
-function Chat({ route, navigation }: ChatScreenProps) {
+function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 
-	const currentChat = route.params.chat
+	const chatFromRoute = route.params && route.params.chat
 
 	const [chatOptionsIsOpen, setChatOptionsIsOpen] = useState(false)
+	const [currentChat, setCurrentChat] = useState<Chat>(chatFromRoute)
 	const [messages, setMessages] = useState<MessageObjects>(currentChat.messages)
 
 	const flatListRef: RefObject<FlatList> = useRef(null)
 
-	useEffect(() => {
-		// makeAllMessageAsRead(currentChat.messages)
+	useLayoutEffect(() => {
 		startMessagesListener(currentChat.chatId)
 	}, [])
 
-	const startMessagesListener = (chatId: Id) => {
-		const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}/messages`)
-		onValue(realTimeDatabaseRef, (snapshot) => {
-			console.log('Listener message running...')
-			const data = snapshot.val()
-			setMessages(data)
-		})
+	useEffect(() => {
+		loadChatMessages()
+		makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId)
+	}, [])
+
+	const loadChatMessages = async () => {
+		// console.log(currentChat)
+		const remoteChatData = await getRemoteChatData(currentChat.userId1, currentChat.userId2)
+		setCurrentChat(remoteChatData)
 	}
 
-	/* const chatAlreadyExists = async () => {
-		const realTimeDatabaseRef = ref(realTimeDatabase, `${generateChatId()}`)
-		const chatExists = await get(realTimeDatabaseRef)
-			.then((snapshot: any) => snapshot.exists())
-			.catch((err) => console.log(err))
-
-		console.log(chatExists)
-	} */
+	const startMessagesListener = async (chatId: Id) => {
+		const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}/messages`)
+		if (await existsOnDatabase(chatId)) {
+			onValue(realTimeDatabaseRef, (snapshot) => {
+				console.log('Listener message running...')
+				const data = snapshot.val()
+				setMessages(data)
+			})
+		}
+	}
 
 	const isUserOwner = (messageUserId: string) => {
 		return userDataContext.userId === messageUserId
@@ -65,9 +73,33 @@ function Chat({ route, navigation }: ChatScreenProps) {
 		flatListRef.current?.scrollToEnd({ animated: true })
 	}
 
-	const sendMessage = async (text: string) => {
-		const newMessages = {
-			...messages,
+	const existsOnDatabase = async (chatId: Id) => {
+		const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
+		return get(realTimeDatabaseRef)
+			.then((snapshot: any) => snapshot.exists())
+			.catch((err) => console.log(err))
+	}
+
+	const submitMessage = async (text: string) => {
+		if (!await existsOnDatabase(currentChat.chatId)) {
+			await registerNewChat(currentChat)
+			await setChatIdToUsers([currentChat.userId1, currentChat.userId2], currentChat.chatId)
+			await startMessagesListener(currentChat.chatId)
+		}
+
+		const newMessages = { ...messages, ...generateMessageObject(text) }
+		setMessages(newMessages)
+
+		sendMessage({
+			message: text,
+			dateTime: Date.now(),
+			readed: false,
+			owner: userDataContext.userId as Id
+		}, currentChat.chatId)
+	}
+
+	const generateMessageObject = (text: string) => {
+		return {
 			[uuid()]: {
 				message: text,
 				dateTime: Date.now(),
@@ -75,30 +107,7 @@ function Chat({ route, navigation }: ChatScreenProps) {
 				owner: userDataContext.userId as Id
 			}
 		}
-
-		setMessages(newMessages)
-
-		writeOnDatabase(
-			{
-				chatId: currentChat.chatId,
-				userId1: userDataContext.userId as Id,
-				userId2: getUserId(),
-				messages: [
-					{
-						message: text,
-						dateTime: Date.now(),
-						readed: false,
-						owner: userDataContext.userId as Id
-					}
-				] as any // TODO Type
-			},
-			!Object.keys(messages).length
-		)
 	}
-
-	/* const generateChatId = () => {
-		return `${userDataContext.userId}-${currentChat.userId1 === userDataContext.userId ? currentChat.userId2 : currentChat.userId1}`
-	} */
 
 	const getUserId = () => {
 		if (userDataContext.userId === currentChat.userId1) {
@@ -117,7 +126,6 @@ function Chat({ route, navigation }: ChatScreenProps) {
 					relativeWidth={relativeScreenWidth(12)}
 					height={relativeScreenWidth(12)}
 					onPress={() => navigation.goBack()}
-				// onPress={() => chatAlreadyExists()}
 				/>
 				<SmallUserIdentification
 					pictureDimensions={40}
@@ -145,7 +153,7 @@ function Chat({ route, navigation }: ChatScreenProps) {
 			</Header>
 			<FlatList
 				ref={flatListRef}
-				data={Object.values(messages)}
+				data={messages ? Object.values(messages) : []}
 				renderItem={({ item }: FlatListItem<Message>) => ( // TODO TYPE
 					<MessageCard
 						message={item.message}
@@ -170,10 +178,10 @@ function Chat({ route, navigation }: ChatScreenProps) {
 				onLayout={scrollToEnd}
 			/>
 			<ChatInput
-				submitMessage={sendMessage}
+				submitMessage={submitMessage}
 			/>
 		</Container>
 	)
 }
 
-export { Chat }
+export { ChatMessages }

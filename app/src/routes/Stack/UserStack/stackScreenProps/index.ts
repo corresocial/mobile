@@ -34,4 +34,4 @@ export type ContactUsInsertMessageScreenProps = NativeStackScreenProps<UserStack
 export type ContactUsSuccessScreenProps = NativeStackScreenProps<UserStackParamList, 'ContactUsSuccess'>
 export type PrivacyAndSecurityScreenProps = NativeStackScreenProps<UserStackParamList, 'PrivacyAndSecurity'>
 
-export type ChatScreenProps = NativeStackScreenProps<UserStackParamList, 'Chat'>
+export type ChatMessagesScreenProps = NativeStackScreenProps<UserStackParamList, 'ChatMessages'>
