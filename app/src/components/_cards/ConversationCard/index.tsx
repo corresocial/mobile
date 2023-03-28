@@ -9,13 +9,14 @@ import { LeftLineCard } from '../LeftLineCard'
 
 interface ConversationCardProps {
 	userName: string
+	profilePictureUrl: string
 	lastMessage: string
 	lastMessageTime: string
 	numberOfUnseenMessages: number
 	onPress: () => void
 }
 
-function ConversationCard({ userName, lastMessage, lastMessageTime, numberOfUnseenMessages, onPress }: ConversationCardProps) {
+function ConversationCard({ userName, lastMessage, profilePictureUrl, lastMessageTime, numberOfUnseenMessages, onPress }: ConversationCardProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	function pressingButton() {
@@ -31,8 +32,6 @@ function ConversationCard({ userName, lastMessage, lastMessageTime, numberOfUnse
 		onPress()
 	}
 
-	console.log(userName)
-
 	return (
 		<Container
 			activeOpacity={1}
@@ -45,7 +44,7 @@ function ConversationCard({ userName, lastMessage, lastMessageTime, numberOfUnse
 					<SmallUserIdentification
 						pictureDimensions={45}
 						userName={userName}
-						profilePictureUrl={'https://www.cnnbrasil.com.br/wp-content/uploads/sites/12/2021/06/41479_2FF050B33087A556.png?w=876&h=484&crop=1'}
+						profilePictureUrl={profilePictureUrl || 'https://www.cnnbrasil.com.br/wp-content/uploads/sites/12/2021/06/41479_2FF050B33087A556.png?w=876&h=484&crop=1'}
 						postDate={lastMessageTime}
 						width={'70%'}
 						height={'100%'}

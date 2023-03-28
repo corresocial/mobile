@@ -23,7 +23,7 @@ export function ChatStack() {
 				}}
 			>
 				<Stack.Screen name={'ChatConversations'} component={ChatConversations} />
-				<Stack.Screen name={'ChatMessages'} component={ChatMessages} />
+				{/* <Stack.Screen name={'ChatMessages'} component={ChatMessages} /> */}
 			</Stack.Navigator>
 		</ChatProvider>
 	)

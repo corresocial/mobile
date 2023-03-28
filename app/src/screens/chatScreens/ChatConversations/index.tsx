@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unused-prop-types */ // TODO
-import React, { useState, useContext, useEffect, useLayoutEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { formatRelativeDate } from '../../../common/auxiliaryFunctions'
@@ -23,7 +23,7 @@ import { relativeScreenHeight, relativeScreenWidth } from '../../../common/scree
 import XIcon from '../../../assets/icons/x-thin.svg'
 import LoupIcon from '../../../assets/icons/loupTabIconInactive.svg'
 
-import { MessageObjects, Chat } from '../../../@types/chat/types'
+import { MessageObjects, Chat, UserIdentification } from '../../../@types/chat/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 import { ChatContext } from '../../../contexts/ChatContext'
@@ -54,10 +54,6 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TO
 			// loadUserChatIds(userDataContext.userId)
 		})
 	}, [navigation])
-
-	useLayoutEffect(() => {
-		// startUserChatIdsListener(userDataContext.userId)
-	}, [])
 
 	const getLastMessageObjects = (messages: MessageObjects) => {
 		if (!messages) {
@@ -94,19 +90,64 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TO
 	}
 
 	const onChangeSearchText = (text: string) => {
+		const lowerCaseText = text.toLowerCase()
 		const filtered = chatDataContext.filter((chat: Chat) => {
-			return chat.userId1.includes(text) || chat.userId2.includes(text)
+			return chat.user1.name.toLowerCase().includes(lowerCaseText) || chat.user2.name.toLowerCase().includes(lowerCaseText)
 		})
 
 		setSearchText(text)
 		setFilteredChats(filtered as Chat[])
 	}
 
-	const getUserId = (currentChat: Chat) => {
-		if (userDataContext.userId1 === currentChat.userId1) {
-			return currentChat.userId2
+	/* const getUserId = (currentChat: Chat) => {
+		if (userDataContext.userId === currentChat.user1.userId) {
+			return currentChat.user1.userId
 		}
-		return currentChat.userId1
+		return currentChat.user2.userId
+	}
+
+	const getUserIdentification = async () => {
+		const userIdentificationList = userIdentifications
+		console.log('userIdentificationList:')
+		console.log(userIdentificationList)
+	}
+
+	const getUserIdentificationList = async () => {
+		const userDatas = chatDataContext.map(async (currentChat) => {
+			const userId = getUserId(currentChat)
+			console.log(userId)
+			const userData = await getUserIdentificationById(userId)
+			return userData
+		})
+
+		return Promise.all(userDatas)
+	}
+
+	const getUserIdentificationById = async (userId: Id) => {
+		return getUser(userId).then((user: any) => ({ // TODO Type
+			userId: user.userId,
+			name: user.name,
+			profilePictureUrl: user.profilePictureUrl
+		}))
+	} */
+
+	const getUserName = (user1: UserIdentification, user2: UserIdentification) => {
+		if (userDataContext.userId === user1.userId) {
+			return user2.name
+		}
+		return user1.name
+	}
+
+	const getProfilePictureUrl = (user1: UserIdentification, user2: UserIdentification) => {
+		if (userDataContext.userId === user1.userId) {
+			return user2.profilePictureUrl
+		}
+		return user1.profilePictureUrl
+	}
+
+	const navigateToChatMessages = (item: Chat) => {
+		setCurrentChat({ ...item })
+		navigation.navigate('ChatMessages', { chat: { ...item } })
 	}
 
 	return (
@@ -171,14 +212,12 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TO
 										return (
 											<ConversationCard
 												key={item.chatId}
-												userName={getUserId(item)}
+												userName={getUserName(item.user1, item.user2)}
+												profilePictureUrl={getProfilePictureUrl(item.user1, item.user2)}
 												lastMessage={getLastMessage(item.messages)}
 												lastMessageTime={getLastMessageDateTime(item.messages)}
 												numberOfUnseenMessages={getNumberOfUnseenMessages(item.messages)}
-												onPress={() => {
-													setCurrentChat({ ...item })
-													navigation.navigate('ChatMessages', { chat: { ...item } } as any)
-												}}
+												onPress={() => navigateToChatMessages(item)}
 											/>
 										)
 									}

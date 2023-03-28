@@ -1,24 +1,25 @@
 import { get, ref } from 'firebase/database'
 import { realTimeDatabase } from '..'
+import { Chat, UserIdentification } from '../../../@types/chat/types'
 import { Id } from '../types'
 
-async function getRemoteChatData(userSenderId: Id, userRecipientId: Id) {
-	const chatId = `${userSenderId}-${userRecipientId}`
+async function getRemoteChatData(userSender: UserIdentification, userReceiver: UserIdentification) {
+	const chatId = `${userSender.userId}-${userReceiver.userId}`
 
 	if (await chatAlreadyExists(chatId)) {
-		const { userId1, userId2, messages } = await getRegistredChatData(chatId)
+		const { user1, user2, messages } = await getRegistredChatData(chatId) as Chat
 		return {
 			chatId,
-			userId1,
-			userId2,
+			user1,
+			user2,
 			messages,
 		}
 	}
 
 	return {
 		chatId,
-		userId1: userSenderId,
-		userId2: userRecipientId,
+		user1: userSender,
+		user2: userReceiver,
 		messages: {},
 	}
 }

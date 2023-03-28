@@ -8,8 +8,6 @@ export const Container = styled.View`
 	flex: 1;
 	background-color: ${({ theme }) => theme.orange1};
 	padding-bottom: ${relativeScreenHeight(9)}px;
-
-	margin-bottom: ${relativeScreenHeight(10)}px;
 `
 
 export const Header = styled.View`

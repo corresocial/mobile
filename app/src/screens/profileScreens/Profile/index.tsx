@@ -199,17 +199,22 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		console.log(userId1)
 		console.log(userId2)
 
-		navigation.navigate('ChatStack', {
-			screen: 'ChatMessages',
-			params: {
-				chat: {
-					chatId: '',
-					userId1,
-					userId2,
-					messages: {}
-				}
+		navigation.navigate('ChatMessages', {
+			chat: {
+				chatId: '',
+				user1: {
+					userId: userDataContext.userId,
+					name: userDataContext.name,
+					profilePictureUrl: userDataContext.profilePictureUrl[0] || ''
+				},
+				user2: {
+					userId: getUserField('userId'),
+					name: getUserField('name'),
+					profilePictureUrl: getProfilePicture()
+				},
+				messages: {}
 			}
-		} as any) // TODO Type
+		})
 
 		// [DEPRECATED]
 		/* const { cellNumber } = await getPrivateContacts(getUserField('userId') as string)

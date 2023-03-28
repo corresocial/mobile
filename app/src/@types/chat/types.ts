@@ -1,7 +1,15 @@
 export type Chat = {
 	chatId: string
-	userId1: string
-	userId2: string
+	user1: {
+		userId: string
+		name: string
+		profilePictureUrl: string
+	}
+	user2: {
+		userId: string
+		name: string
+		profilePictureUrl: string
+	}
 	messages: MessageObjects
 }
 
@@ -24,4 +32,10 @@ export type MessageObjects = {
 export type UserDatabase = {
 	blockedUsers: string[],
 	chatIds: string[]
+}
+
+export type UserIdentification = {
+	userId: string
+	name: string
+	profilePictureUrl: string
 }

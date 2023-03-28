@@ -17,10 +17,9 @@ type ChatContextType = {
 
 	startChatListener: (chatIds: Id[]) => void
 	setCurrentChat: (chat: Chat) => void
-	startMessagesListener: (chatId: Id) => void
-	chatDataContext: ChatData
-	setNewMessageOnChat: (chatId: Id, chatData: ChatData) => void
-	updateChatDataOnContext: (chatData: ChatData) => void
+	chatDataContext: Chat[]
+	setNewMessageOnChat: (chatId: Id, chatData: Chat) => void
+	updateChatDataOnContext: (chatData: Chat) => void
 }
 
 interface ChatProviderProps {
@@ -34,9 +33,8 @@ const initialValue = {
 	updateChat: (chatData: Chat) => { },
 	loadUserChatIds: (userId: Id) => Promise,
 	startChatListener: (chatIds: Id[]) => { },
-	startMessagesListener: (chatId: Id) => { },
-	setNewMessageOnChat: (chatId: Id, chatData: ChatData) => { },
-	updateChatDataOnContext: (chatData: ChatData) => { },
+	setNewMessageOnChat: (chatId: Id, chatData: Chat) => { },
+	updateChatDataOnContext: (chatData: Chat) => { },
 
 }
 
@@ -50,11 +48,6 @@ function ChatProvider({ children }: ChatProviderProps) {
 
 	useEffect(() => {
 		initUserInstance()
-		/* setTimeout(() => {
-			console.log('removingEventListeners')
-			const realTimeDatabaseRef = ref(realTimeDatabase, `${userDataContext.userId}`)
-			off(realTimeDatabaseRef)
-		}, 20000) */
 	}, [])
 
 	const initUserInstance = async () => {
@@ -121,7 +114,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 			.filter((filteredChatIds) => filteredChatIds)
 	}
 
-	const updateChat = async (chatData: ChatData) => {
+	const updateChat = async (chatData: Chat) => {
 		const newChats = chatDataContext.map((chat) => {
 			if (chat.chatId === chatData.chatId) {
 				return chatData

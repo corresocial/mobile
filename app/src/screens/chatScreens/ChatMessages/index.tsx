@@ -15,7 +15,7 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ChatInput } from '../../../components/ChatInput'
 import { MessageCard } from '../../../components/MessageCard'
-import { Chat, Message, MessageObjects } from '../../../@types/chat/types'
+import { Chat, Message, MessageObjects, UserIdentification } from '../../../@types/chat/types'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { ChatPopOver } from '../../../components/ChatPopOver'
 import { FlatListItem } from '../../../@types/global/types'
@@ -49,8 +49,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}, [])
 
 	const loadChatMessages = async () => {
-		// console.log(currentChat)
-		const remoteChatData = await getRemoteChatData(currentChat.userId1, currentChat.userId2)
+		const remoteChatData = await getRemoteChatData(currentChat.user1, currentChat.user2)
 		setCurrentChat(remoteChatData)
 	}
 
@@ -81,13 +80,13 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const submitMessage = async (text: string) => {
+		const newMessages = { ...messages, ...generateMessageObject(text) }
 		if (!await existsOnDatabase(currentChat.chatId)) {
 			await registerNewChat(currentChat)
-			await setChatIdToUsers([currentChat.userId1, currentChat.userId2], currentChat.chatId)
+			await setChatIdToUsers([currentChat.user1.userId, currentChat.user2.userId], currentChat.chatId)
 			await startMessagesListener(currentChat.chatId)
 		}
 
-		const newMessages = { ...messages, ...generateMessageObject(text) }
 		setMessages(newMessages)
 
 		sendMessage({
@@ -109,11 +108,18 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		}
 	}
 
-	const getUserId = () => {
-		if (userDataContext.userId === currentChat.userId1) {
-			return currentChat.userId2
+	const getUserName = (user1: UserIdentification, user2: UserIdentification) => {
+		if (userDataContext.userId === user1.userId) {
+			return user2.name
 		}
-		return currentChat.userId1
+		return user1.name
+	}
+
+	const getProfilePictureUrl = (user1: UserIdentification, user2: UserIdentification) => {
+		if (userDataContext.userId === user1.userId) {
+			return user2.profilePictureUrl
+		}
+		return user1.profilePictureUrl
 	}
 
 	return (
@@ -129,14 +135,14 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				/>
 				<SmallUserIdentification
 					pictureDimensions={40}
-					userName={getUserId()}
-					profilePictureUrl={'https://www.cnnbrasil.com.br/wp-content/uploads/sites/12/2021/06/41479_2FF050B33087A556.png?w=876&h=484&crop=1'}
+					userName={getUserName(currentChat.user1, currentChat.user2)}
+					profilePictureUrl={getProfilePictureUrl(currentChat.user1, currentChat.user2)}
 					width={'60%'}
 					userNameFontSize={15}
 					height={'100%'}
 				/>
 				<ChatPopOver
-					userName={getUserId()}
+					userName={getUserName(currentChat.user1, currentChat.user2)}
 					popoverVisibility={chatOptionsIsOpen}
 					closePopover={() => setChatOptionsIsOpen(false)}
 					blockUser={() => { console.log('block') }}
