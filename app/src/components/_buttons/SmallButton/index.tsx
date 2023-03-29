@@ -1,49 +1,53 @@
-import React, { useState } from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
-import { SvgProps } from 'react-native-svg'
+import React, { useState } from "react";
+import { RFValue } from "react-native-responsive-fontsize";
+import { SvgProps } from "react-native-svg";
 
-import { ButtonLabel, ContainerBottom, ContainerSurface, TouchableContainer } from './styles'
-
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { showMessageWithHighlight } from "@common/auxiliaryFunctions";
+import {
+	ButtonLabel,
+	ContainerBottom,
+	ContainerSurface,
+	TouchableContainer,
+} from "./styles";
 
 interface SmallButtonProps {
-	color: string
-	label?: string
-	highlightedWords?: string[]
-	fontSize?: number
-	SvgIcon?: React.FC<SvgProps>
-	svgScale?: [height: string, width: string]
-	relativeWidth?: string | number
-	flexDirection?: string
-	height?: number
-	onPress: () => void
+	color: string;
+	label?: string;
+	highlightedWords?: string[];
+	fontSize?: number;
+	SvgIcon?: React.FC<SvgProps>;
+	svgScale?: [height: string, width: string];
+	relativeWidth?: string | number;
+	flexDirection?: string;
+	height?: number;
+	onPress: () => void;
 }
 
 function SmallButton({
 	color,
-	label = '',
+	label = "",
 	highlightedWords = [],
 	fontSize = 12,
 	SvgIcon,
-	svgScale = label ? ['40%', '15%'] : ['50%', '80%'],
-	relativeWidth = '100%',
+	svgScale = label ? ["40%", "15%"] : ["50%", "80%"],
+	relativeWidth = "100%",
 	height = 30,
-	flexDirection = 'row',
-	onPress
+	flexDirection = "row",
+	onPress,
 }: SmallButtonProps) {
-	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
+	const [buttonPressed, setButtomPressed] = useState<Boolean>(false);
 
 	function pressingButton() {
-		setButtomPressed(true)
+		setButtomPressed(true);
 	}
 
 	function notPressingButton() {
-		setButtomPressed(false)
+		setButtomPressed(false);
 	}
 
 	function releaseButton() {
-		setButtomPressed(false)
-		onPress()
+		setButtomPressed(false);
+		onPress();
 	}
 
 	return (
@@ -54,31 +58,37 @@ function SmallButton({
 		>
 			<ContainerBottom
 				style={{
-					width: typeof (relativeWidth) === 'string' ? relativeWidth : relativeWidth,
-					height
+					width:
+						typeof relativeWidth === "string"
+							? relativeWidth
+							: relativeWidth,
+					height,
 				}}
 			>
 				<ContainerSurface
-					style={{
-						backgroundColor: color,
-						marginRight: buttonPressed ? RFValue(-4) : 0,
-						height,
-						flexDirection,
-					} as { [key: string]: React.CSSProperties }}
-				>
-					{
-						!!SvgIcon && (
-							<SvgIcon
-								height={svgScale[0]}
-								width={svgScale[1]}
-							/>
-						)
+					style={
+						{
+							backgroundColor: color,
+							marginRight: buttonPressed ? RFValue(-4) : 0,
+							height,
+							flexDirection,
+						} as { [key: string]: React.CSSProperties }
 					}
+				>
+					{!!SvgIcon && (
+						<SvgIcon height={svgScale[0]} width={svgScale[1]} />
+					)}
 					<ButtonLabel
 						style={{
 							fontSize: RFValue(fontSize),
-							marginLeft: label && flexDirection === 'row' ? RFValue(8) : 0,
-							fontFamily: highlightedWords?.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold'
+							marginLeft:
+								label && flexDirection === "row"
+									? RFValue(8)
+									: 0,
+							fontFamily:
+								highlightedWords?.length > 0
+									? "Arvo_400Regular"
+									: "Arvo_700Bold",
 						}}
 					>
 						{showMessageWithHighlight(label, highlightedWords)}
@@ -86,7 +96,7 @@ function SmallButton({
 				</ContainerSurface>
 			</ContainerBottom>
 		</TouchableContainer>
-	)
+	);
 }
 
-export { SmallButton }
+export { SmallButton };

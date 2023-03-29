@@ -2,7 +2,7 @@
 import MaskedView from '@react-native-community/masked-view'
 import { LinearGradient } from 'expo-linear-gradient'
 
-import { theme } from '../../common/theme'
+import { theme } from '@common/theme'
 
 interface TextGradientProps {
 	children: any // Type not used

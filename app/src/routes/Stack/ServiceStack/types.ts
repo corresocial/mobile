@@ -1,22 +1,50 @@
-import { LatLong, DaysOfWeek, LocationViewType, ServiceCategories } from '../../../services/firebase/types'
-import { UserStackParamList } from '../UserStack/types'
+import {
+	LatLong,
+	DaysOfWeek,
+	LocationViewType,
+	ServiceCategories,
+} from "@services/firebase/types";
+import { UserStackParamList } from "../UserStack/types";
 
 export type ServiceStackParamList = {
-	InsertServiceDescription: { editMode: boolean, initialValue: string } | undefined
-	InsertServiceName: { editMode: boolean, initialValue: string } | undefined
-	InsertServicePicture: undefined
-	ServicePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
-	SelectServiceCategory: { editMode: boolean } | undefined
-	SelectServiceTags: { categorySelected: ServiceCategories, editMode?: boolean }
-	SelectSaleOrExchange: undefined
-	InsertExchangeValue: { editMode: boolean, initialValue: string } | undefined
-	InsertSaleValue: { bothPaymentType: boolean, editMode?: boolean, initialValue?: string }
-	SelectLocationView: { editMode: boolean, initialValue?: LatLong } | undefined
-	InsertServicePrestationLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
-	LocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
-	SelectDeliveryMethod: { editMode: boolean } | undefined
-	SelectServiceFrequency: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
-	SelectDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
-	InsertOpeningHour: { editMode: boolean, initialValue: Date } | undefined
-	InsertClosingHour: { editMode: boolean, initialValue: Date } | undefined
-} & UserStackParamList
+	InsertServiceDescription:
+		| { editMode: boolean; initialValue: string }
+		| undefined;
+	InsertServiceName: { editMode: boolean; initialValue: string } | undefined;
+	InsertServicePicture: undefined;
+	ServicePicturePreview:
+		| { editMode: boolean; initialValue: string[] }
+		| undefined;
+	SelectServiceCategory: { editMode: boolean } | undefined;
+	SelectServiceTags: {
+		categorySelected: ServiceCategories;
+		editMode?: boolean;
+	};
+	SelectSaleOrExchange: undefined;
+	InsertExchangeValue:
+		| { editMode: boolean; initialValue: string }
+		| undefined;
+	InsertSaleValue: {
+		bothPaymentType: boolean;
+		editMode?: boolean;
+		initialValue?: string;
+	};
+	SelectLocationView:
+		| { editMode: boolean; initialValue?: LatLong }
+		| undefined;
+	InsertServicePrestationLocation: {
+		locationView: LocationViewType;
+		editMode?: boolean;
+		initialValue?: LatLong;
+	};
+	LocationViewPreview: { locationView: LocationViewType; editMode?: boolean };
+	SelectDeliveryMethod: { editMode: boolean } | undefined;
+	SelectServiceFrequency:
+		| { editMode: boolean; initialValue: DaysOfWeek[] }
+		| undefined;
+	SelectDaysOfWeek:
+		| { editMode: boolean; initialValue: DaysOfWeek[] }
+		| undefined;
+	InsertOpeningHour: { editMode: boolean; initialValue: Date } | undefined;
+	InsertClosingHour: { editMode: boolean; initialValue: Date } | undefined;
+} & UserStackParamList;

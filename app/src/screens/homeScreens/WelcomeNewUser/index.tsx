@@ -1,121 +1,135 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { BackHandler, StatusBar } from 'react-native'
+import React, { useContext, useEffect, useState } from "react";
+import { BackHandler, StatusBar } from "react-native";
 
-import { Container, ContainerButtons } from './styles'
-import { theme } from '../../../common/theme'
-import ShoppingBag from '../../../assets/icons/shoppingBag.svg'
-import SalesCart from '../../../assets/icons/salesCart.svg'
+import { Container, ContainerButtons } from "./styles";
+import { theme } from "@common/theme";
+import ShoppingBag from "@assets/icons/shoppingBag.svg";
+import SalesCart from "@assets/icons/salesCart.svg";
 
-import { updateUser } from '../../../services/firebase/user/updateUser'
+import { updateUser } from "@services/firebase/user/updateUser";
 
-import { WelcomeNewUserScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { Id } from '../../../services/firebase/types'
+import { WelcomeNewUserScreenProps } from "@routes/Stack/UserStack/stackScreenProps";
+import { Id } from "@services/firebase/types";
 
-import { AuthContext } from '../../../contexts/AuthContext'
-import { StateContext } from '../../../contexts/StateContext'
+import { AuthContext } from "@contexts/AuthContext";
+import { StateContext } from "@contexts/StateContext";
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { OptionButton } from '../../../components/_buttons/OptionButton'
+import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
+import { FormContainer } from "@components/_containers/FormContainer";
+import { InstructionCard } from "@components/_cards/InstructionCard";
+import { OptionButton } from "@components/_buttons/OptionButton";
 
 function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
-	const { setStateDataOnContext } = useContext(StateContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext);
+	const { setStateDataOnContext } = useContext(StateContext);
 
-	const [userName, setUserName] = useState('amigo')
+	const [userName, setUserName] = useState("amigo");
 
 	useEffect(() => {
-		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
-	})
+		BackHandler.addEventListener("hardwareBackPress", onPressBackHandler);
+	});
 
 	const onPressBackHandler = () => {
 		if (navigation.isFocused()) {
-			BackHandler.exitApp()
-			return true
+			BackHandler.exitApp();
+			return true;
 		}
-		return false
-	}
+		return false;
+	};
 
 	useEffect(() => {
-		getUserNameFromLocal()
-	}, [])
+		getUserNameFromLocal();
+	}, []);
 
 	const getUserNameFromLocal = async () => {
 		if (!userDataContext.userId) {
-			navigation.navigate('InsertPhone' as any) // TODO Type
+			navigation.navigate("InsertPhone" as any); // TODO Type
 		}
-		setUserName(userDataContext.name || 'amigo')
-	}
+		setUserName(userDataContext.name || "amigo");
+	};
 
 	const goToHome = () => {
 		setStateDataOnContext({
-			showTourModal: false
-		})
-		setUserTourPerformed()
-		navigation.navigate('HomeTab', { showsInFirstTab: true })
-	}
+			showTourModal: false,
+		});
+		setUserTourPerformed();
+		navigation.navigate("HomeTab", { showsInFirstTab: true });
+	};
 
 	const setUserTourPerformed = async () => {
-		console.log(userDataContext.userId)
+		console.log(userDataContext.userId);
 		await updateUser(userDataContext.userId as Id, {
-			tourPerformed: true
-		})
-		setUserDataOnContext({ tourPerformed: true })
-	}
+			tourPerformed: true,
+		});
+		setUserDataOnContext({ tourPerformed: true });
+	};
 
 	const goToProfile = () => {
 		setStateDataOnContext({
-			showTourModal: true
-		})
-		navigation.navigate('HomeTab')
-	}
+			showTourModal: true,
+		});
+		navigation.navigate("HomeTab");
+	};
 
 	return (
-		<Container >
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+		<Container>
+			<StatusBar
+				backgroundColor={theme.orange2}
+				barStyle={"dark-content"}
+			/>
 			<DefaultHeaderContainer
 				centralized
 				backgroundColor={theme.orange2}
-				relativeHeight={'30%'}
+				relativeHeight={"30%"}
 			>
 				<InstructionCard
-					message={`olá, ${userName.split(' ')[0]} \npor que você \ntá no corre.?`}
-					highlightedWords={[userName.split(' ')[0], '\ntá', 'no', 'corre.']}
+					message={`olá, ${
+						userName.split(" ")[0]
+					} \npor que você \ntá no corre.?`}
+					highlightedWords={[
+						userName.split(" ")[0],
+						"\ntá",
+						"no",
+						"corre.",
+					]}
 					fontSize={24}
 					lineHeight={30}
 				/>
 			</DefaultHeaderContainer>
 			<ContainerButtons>
-				<FormContainer backgroundColor={theme.white2} >
+				<FormContainer backgroundColor={theme.white2}>
 					<OptionButton
 						color={theme.white3}
 						leftSideColor={theme.orange3}
-						label={'para encontrar'}
-						labelAlign={'left'}
-						description={'quero encontrar um serviço, item para compra e/ou troca ou uma vaga de emprego'}
-						highlightedWords={['para', 'encontrar']}
+						label={"para encontrar"}
+						labelAlign={"left"}
+						description={
+							"quero encontrar um serviço, item para compra e/ou troca ou uma vaga de emprego"
+						}
+						highlightedWords={["para", "encontrar"]}
 						SvgIcon={ShoppingBag}
-						svgIconScale={['60%', '60%']}
-						leftSideWidth={'30%'}
+						svgIconScale={["60%", "60%"]}
+						leftSideWidth={"30%"}
 						onPress={goToHome}
 					/>
 					<OptionButton
 						color={theme.white3}
 						leftSideColor={theme.orange3}
-						label={'para postar'}
-						labelAlign={'left'}
-						description={'quero postar vendas, serviços, vagas, iniciativas sociais ou cultura'}
-						highlightedWords={['para', 'postar']}
+						label={"para postar"}
+						labelAlign={"left"}
+						description={
+							"quero postar vendas, serviços, vagas, iniciativas sociais ou cultura"
+						}
+						highlightedWords={["para", "postar"]}
 						SvgIcon={SalesCart}
-						svgIconScale={['60%', '60%']}
-						leftSideWidth={'30%'}
+						svgIconScale={["60%", "60%"]}
+						leftSideWidth={"30%"}
 						onPress={goToProfile}
 					/>
 				</FormContainer>
 			</ContainerButtons>
 		</Container>
-	)
+	);
 }
 
-export { WelcomeNewUser }
+export { WelcomeNewUser };

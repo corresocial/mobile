@@ -1,25 +1,25 @@
-import React from 'react'
-import { TouchableOpacity, View } from 'react-native'
-import Popover from 'react-native-popover-view'
+import React from "react";
+import { TouchableOpacity, View } from "react-native";
+import Popover from "react-native-popover-view";
 
-import { RFValue } from 'react-native-responsive-fontsize'
-import { CloseIcon, Container, ContainerInner, Sigh, UserName } from './styles'
-import { relativeScreenHeight } from '../../common/screenDimensions'
-import { theme } from '../../common/theme'
-import XIcon from '../../assets/icons/x.svg'
+import { RFValue } from "react-native-responsive-fontsize";
+import { CloseIcon, Container, ContainerInner, Sigh, UserName } from "./styles";
+import { relativeScreenHeight } from "@common/screenDimensions";
+import { theme } from "@common/theme";
+import XIcon from "@assets/icons/x.svg";
 
-import { PrimaryButton } from '../_buttons/PrimaryButton'
-import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
+import { PrimaryButton } from "../_buttons/PrimaryButton";
+import { FocusAwareStatusBar } from "../FocusAwareStatusBar";
 
 interface ProfilePopOverProps {
-	userName?: string
-	userId?: string
-	popoverVisibility: boolean
-	buttonLabel: string
-	children: React.ReactChild
-	onPress?: () => void
-	goToConfig?: () => void
-	closePopover: () => void
+	userName?: string;
+	userId?: string;
+	popoverVisibility: boolean;
+	buttonLabel: string;
+	children: React.ReactChild;
+	onPress?: () => void;
+	goToConfig?: () => void;
+	closePopover: () => void;
 }
 
 function ProfilePopOver({
@@ -30,44 +30,46 @@ function ProfilePopOver({
 	children,
 	onPress,
 	goToConfig,
-	closePopover
+	closePopover,
 }: ProfilePopOverProps) {
 	return (
 		<Popover
 			isVisible={popoverVisibility}
 			onRequestClose={closePopover}
 			animationConfig={{ delay: 0, duration: 300 }}
-			popoverStyle={{ backgroundColor: theme.black4, borderRadius: RFValue(8) }}
+			popoverStyle={{
+				backgroundColor: theme.black4,
+				borderRadius: RFValue(8),
+			}}
 			backgroundStyle={{ backgroundColor: theme.transparence.orange2 }}
 			from={(sourceRef, showPopover) => (
-				<TouchableOpacity onPress={showPopover} >
-					<View ref={sourceRef} >
-						{children}
-					</View>
+				<TouchableOpacity onPress={showPopover}>
+					<View ref={sourceRef}>{children}</View>
 				</TouchableOpacity>
 			)}
 		>
 			<Container>
-				<FocusAwareStatusBar backgroundColor={theme.transparence.orange2} barStyle={'dark-content'} />
+				<FocusAwareStatusBar
+					backgroundColor={theme.transparence.orange2}
+					barStyle={"dark-content"}
+				/>
 				<ContainerInner>
 					<CloseIcon onPress={closePopover}>
 						<XIcon width={RFValue(25)} height={RFValue(25)} />
 					</CloseIcon>
 					<UserName>{userName}</UserName>
-					{
-						goToConfig && (
-							<PrimaryButton
-								color={theme.green3}
-								onPress={!!goToConfig && goToConfig}
-								label={'configurações'}
-								highlightedWords={['configurações']}
-								labelColor={theme.white3}
-								fontSize={14}
-								minHeight={20}
-								relativeHeight={relativeScreenHeight(8)}
-							/>
-						)
-					}
+					{goToConfig && (
+						<PrimaryButton
+							color={theme.green3}
+							onPress={!!goToConfig && goToConfig}
+							label={"configurações"}
+							highlightedWords={["configurações"]}
+							labelColor={theme.white3}
+							fontSize={14}
+							minHeight={20}
+							relativeHeight={relativeScreenHeight(8)}
+						/>
+					)}
 					<Sigh />
 					<PrimaryButton
 						color={theme.red3}
@@ -79,11 +81,10 @@ function ProfilePopOver({
 						minHeight={20}
 						relativeHeight={relativeScreenHeight(8)}
 					/>
-
 				</ContainerInner>
 			</Container>
-		</Popover >
-	)
+		</Popover>
+	);
 }
 
-export { ProfilePopOver }
+export { ProfilePopOver };

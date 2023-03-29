@@ -1,36 +1,36 @@
-import React from 'react'
-import { SvgProps } from 'react-native-svg'
-import { RFValue } from 'react-native-responsive-fontsize'
+import React from "react";
+import { SvgProps } from "react-native-svg";
+import { RFValue } from "react-native-responsive-fontsize";
 
-import { CardHeader, ValueContainer, Text } from './styles'
-import ClipIcon from '../../../assets/icons/clip.svg'
+import ClipIcon from "@assets/icons/clip.svg";
+import { DefaultHeaderTitle } from "../../DefaultHeaderTitle";
+import { CardHeader, ValueContainer, Text } from "./styles";
 
-import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
-import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultCardContainer } from "../DefaultCardContainer";
 
 interface HeaderLinkCardProps {
-	title: string
-	highlightedWords?: string[]
-	value?: string
-	profilePictureUrl?: string | null
-	SvgIcon?: React.FC<SvgProps>
-	onEdit?: () => void
+	title: string;
+	highlightedWords?: string[];
+	value?: string;
+	profilePictureUrl?: string | null;
+	SvgIcon?: React.FC<SvgProps>;
+	onEdit?: () => void;
 }
 
 function HeaderLinkCard({
 	title,
 	highlightedWords = [],
-	value = '',
-	profilePictureUrl = '',
+	value = "",
+	profilePictureUrl = "",
 	SvgIcon,
 	onEdit,
 }: HeaderLinkCardProps) {
 	return (
-		<DefaultCardContainer withoutPadding={!!profilePictureUrl} >
+		<DefaultCardContainer withoutPadding={!!profilePictureUrl}>
 			<CardHeader
 				style={{
 					paddingHorizontal: profilePictureUrl ? RFValue(15) : 0,
-					paddingVertical: profilePictureUrl ? RFValue(10) : 0
+					paddingVertical: profilePictureUrl ? RFValue(10) : 0,
 				}}
 			>
 				<DefaultHeaderTitle
@@ -43,20 +43,14 @@ function HeaderLinkCard({
 				/>
 			</CardHeader>
 			<ValueContainer>
-				{
-					value.length < 150
-						? (
-							<Text>
-								{value}
-							</Text>
-						)
-						: (
-							< Text numberOfLines={4}>{value}</Text>
-						)
-				}
+				{value.length < 150 ? (
+					<Text>{value}</Text>
+				) : (
+					<Text numberOfLines={4}>{value}</Text>
+				)}
 			</ValueContainer>
-		</DefaultCardContainer >
-	)
+		</DefaultCardContainer>
+	);
 }
 
-export { HeaderLinkCard }
+export { HeaderLinkCard };

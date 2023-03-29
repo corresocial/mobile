@@ -1,17 +1,16 @@
-import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
+import React from "react";
+import { RFValue } from "react-native-responsive-fontsize";
 
-import { Container, Description, Title } from './styles'
-
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { showMessageWithHighlight } from "@common/auxiliaryFunctions";
+import { Container, Description, Title } from "./styles";
 
 interface InfoCardProps {
-    height: string | number
-    color: string
-    title: string
-    titleFontSize?: number
-    description: string
-    highlightedWords: string[]
+	height: string | number;
+	color: string;
+	title: string;
+	titleFontSize?: number;
+	description: string;
+	highlightedWords: string[];
 }
 
 function InfoCard({
@@ -20,18 +19,18 @@ function InfoCard({
 	title,
 	titleFontSize = 22,
 	description,
-	highlightedWords
+	highlightedWords,
 }: InfoCardProps) {
 	return (
 		<Container
 			style={{
 				height,
-				backgroundColor: color
+				backgroundColor: color,
 			}}
 		>
 			<Title
 				style={{
-					fontSize: RFValue(titleFontSize)
+					fontSize: RFValue(titleFontSize),
 				}}
 			>
 				{showMessageWithHighlight(title, highlightedWords)}
@@ -40,7 +39,7 @@ function InfoCard({
 				{showMessageWithHighlight(description, highlightedWords)}
 			</Description>
 		</Container>
-	)
+	);
 }
 
-export { InfoCard }
+export { InfoCard };

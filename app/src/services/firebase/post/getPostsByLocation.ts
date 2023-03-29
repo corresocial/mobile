@@ -6,103 +6,141 @@ import {
 	collection,
 	orderBy,
 	CollectionReference,
-} from 'firebase/firestore'
-import { firestore } from '..'
-import { SearchParams } from '../../maps/types'
+} from "firebase/firestore";
+import { firestore } from "..";
+import { SearchParams } from "@maps/types";
 
 export type PostIdentificationItem = {
-	collection: string
-	postIds: string[]
-}
+	collection: string;
+	postIds: string[];
+};
 
 export type PostIdentification = {
-	service: PostIdentificationItem
-	sale: PostIdentificationItem
-	vacancy: PostIdentificationItem
-	socialImpact: PostIdentificationItem
-	culture: PostIdentificationItem
-}
+	service: PostIdentificationItem;
+	sale: PostIdentificationItem;
+	vacancy: PostIdentificationItem;
+	socialImpact: PostIdentificationItem;
+	culture: PostIdentificationItem;
+};
 
 async function getPostsByLocation(searchParams: SearchParams) {
 	try {
 		// console.warn(searchParams)
-		const collectionRef = collection(firestore, 'posts')
+		const collectionRef = collection(firestore, "posts");
 
-		const { nearbyPosts, nearPostIds } = await getNearbyPosts(collectionRef, searchParams)
-		const cityPosts = await getCityPosts(collectionRef, searchParams, nearPostIds)
-		const countryPosts = await getCountryPosts(collectionRef, searchParams, nearPostIds)
+		const { nearbyPosts, nearPostIds } = await getNearbyPosts(
+			collectionRef,
+			searchParams
+		);
+		const cityPosts = await getCityPosts(
+			collectionRef,
+			searchParams,
+			nearPostIds
+		);
+		const countryPosts = await getCountryPosts(
+			collectionRef,
+			searchParams,
+			nearPostIds
+		);
 
-		return [...nearbyPosts, ...cityPosts, ...countryPosts]
+		return [...nearbyPosts, ...cityPosts, ...countryPosts];
 	} catch (err) {
-		console.log(err)
-		return []
+		console.log(err);
+		return [];
 	}
 }
 
-const getNearbyPosts = async (collectionRef: CollectionReference<DocumentData>, searchParams: SearchParams) => {
-	const posts: any = []
-	const nearPostIds: string[] = []
+const getNearbyPosts = async (
+	collectionRef: CollectionReference<DocumentData>,
+	searchParams: SearchParams
+) => {
+	const posts: any = [];
+	const nearPostIds: string[] = [];
 
 	const queryNearby = query(
 		collectionRef,
-		where('location.geohashNearby', 'array-contains-any', searchParams.geohashes),
-		orderBy('createdAt', 'desc')
-	)
+		where(
+			"location.geohashNearby",
+			"array-contains-any",
+			searchParams.geohashes
+		),
+		orderBy("createdAt", "desc")
+	);
 
-	const snapshotNearby = await getDocs(queryNearby)
+	const snapshotNearby = await getDocs(queryNearby);
 
 	snapshotNearby.forEach((doc) => {
-		posts.push({ ...doc.data(), postId: doc.id })
-		nearPostIds.push(doc.id)
-		console.log(`Nearby: ${doc.data().title} - ${doc.data().range} ------- ${doc.data().postType}`)
-	})
+		posts.push({ ...doc.data(), postId: doc.id });
+		nearPostIds.push(doc.id);
+		console.log(
+			`Nearby: ${doc.data().title} - ${doc.data().range} ------- ${
+				doc.data().postType
+			}`
+		);
+	});
 
-	return { nearbyPosts: posts, nearPostIds }
-}
+	return { nearbyPosts: posts, nearPostIds };
+};
 
-const getCityPosts = async (collectionRef: CollectionReference<DocumentData>, searchParams: SearchParams, nearPostIds: string[] = []) => {
-	const posts: any = []
+const getCityPosts = async (
+	collectionRef: CollectionReference<DocumentData>,
+	searchParams: SearchParams,
+	nearPostIds: string[] = []
+) => {
+	const posts: any = [];
 	const queryCity = query(
 		collectionRef,
 		// where('range', '=', 'city'), // Removed
-		where('location.city', '==', searchParams.city),
-		orderBy('createdAt', 'desc')
-	)
+		where("location.city", "==", searchParams.city),
+		orderBy("createdAt", "desc")
+	);
 
-	const snapshotCity = await getDocs(queryCity)
+	const snapshotCity = await getDocs(queryCity);
 
 	snapshotCity.forEach((doc) => {
 		if (!nearPostIds.includes(doc.id)) {
-			posts.push({ ...doc.data(), postId: doc.id })
-			console.log(`City: ${doc.data().title} - ${doc.data().range} ------- ${doc.data().postType}`)
+			posts.push({ ...doc.data(), postId: doc.id });
+			console.log(
+				`City: ${doc.data().title} - ${doc.data().range} ------- ${
+					doc.data().postType
+				}`
+			);
 		}
-	})
+	});
 
-	return posts
-}
+	return posts;
+};
 
-const getCountryPosts = async (collectionRef: CollectionReference<DocumentData>, searchParams: SearchParams, nearPostIds: string[] = []) => {
-	const posts: any = []
+const getCountryPosts = async (
+	collectionRef: CollectionReference<DocumentData>,
+	searchParams: SearchParams,
+	nearPostIds: string[] = []
+) => {
+	const posts: any = [];
 
 	const countryQuery = query(
 		collectionRef,
-		where('location.country', '==', searchParams.country),
-		where('range', '==', 'country'),
-		where('location.city', '!=', searchParams.city), // Excepcion
-		orderBy('location.city', 'asc'),
-		orderBy('createdAt', 'desc')
-	)
+		where("location.country", "==", searchParams.country),
+		where("range", "==", "country"),
+		where("location.city", "!=", searchParams.city), // Excepcion
+		orderBy("location.city", "asc"),
+		orderBy("createdAt", "desc")
+	);
 
-	const snapshotCountry = await getDocs(countryQuery)
+	const snapshotCountry = await getDocs(countryQuery);
 
 	snapshotCountry.forEach((doc) => {
 		if (!nearPostIds.includes(doc.id)) {
-			posts.push({ ...doc.data(), postId: doc.id })
-			console.log(`Country: ${doc.data().title} - ${doc.data().range} ------- ${doc.data().postType}`)
+			posts.push({ ...doc.data(), postId: doc.id });
+			console.log(
+				`Country: ${doc.data().title} - ${doc.data().range} ------- ${
+					doc.data().postType
+				}`
+			);
 		}
-	})
+	});
 
-	return posts
-}
+	return posts;
+};
 
-export { getPostsByLocation }
+export { getPostsByLocation };

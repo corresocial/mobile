@@ -1,5 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { StatusBar, ScrollView, Linking } from 'react-native'
+import React, { useState, useContext, useEffect } from "react";
+import { StatusBar, ScrollView, Linking } from "react-native";
 
 import {
 	Body,
@@ -10,200 +10,244 @@ import {
 	Sigh,
 	UserAndValueContainer,
 	VacancyDetails,
-	VacancyDetailsItem
-} from './styles'
-import { theme } from '../../../common/theme'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
-import ShareIcon from '../../../assets/icons/share.svg'
-import ChatIcon from '../../../assets/icons/chat.svg'
-import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
+	VacancyDetailsItem,
+} from "./styles";
+import { theme } from "@common/theme";
+import { relativeScreenWidth } from "@common/screenDimensions";
+import ShareIcon from "@assets/icons/share.svg";
+import ChatIcon from "@assets/icons/chat.svg";
+import ThreeDotsIcon from "@assets/icons/threeDots.svg";
 
-import { arrayIsEmpty, formatRelativeDate, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-import { deletePost } from '../../../services/firebase/post/deletePost'
-import { share } from '../../../common/share'
-import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
+import {
+	arrayIsEmpty,
+	formatRelativeDate,
+	showMessageWithHighlight,
+} from "@common/auxiliaryFunctions";
+import { deletePost } from "@services/firebase/post/deletePost";
+import { share } from "@common/share";
+import { getPrivateContacts } from "@services/firebase/user/getPrivateContacts";
 
-import { ViewVacancyPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
-import { PostCollection, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
+import { ViewVacancyPostScreenProps } from "@routes/Stack/ProfileStack/stackScreenProps";
+import {
+	PostCollection,
+	VacancyCollection,
+	VacancyCollectionRemote,
+} from "@services/firebase/types";
 
-import { AuthContext } from '../../../contexts/AuthContext'
-import { EditContext } from '../../../contexts/EditContext'
+import { AuthContext } from "@contexts/AuthContext";
+import { EditContext } from "@contexts/EditContext";
 
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
-import { SmallButton } from '../../../components/_buttons/SmallButton'
-import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
-import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
-import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
-import { PostPopOver } from '../../../components/PostPopOver'
+import { DefaultPostViewHeader } from "@components/DefaultPostViewHeader";
+import { SmallUserIdentification } from "@components/SmallUserIdentification";
+import { SmallButton } from "@components/_buttons/SmallButton";
+import { DescriptionCard } from "@components/_cards/DescriptionCard";
+import { DateTimeCard } from "@components/_cards/DateTimeCard";
+import { LocationViewCard } from "@components/_cards/LocationViewCard";
+import { PostPopOver } from "@components/PostPopOver";
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
-	const { editDataContext, clearEditContext } = useContext(EditContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext);
+	const { editDataContext, clearEditContext } = useContext(EditContext);
 
-	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
-	const [isLoading, setIsLoading] = useState(false)
+	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		return () => {
-			clearEditContext()
-		}
-	}, [])
+			clearEditContext();
+		};
+	}, []);
 
 	const loggedUserIsOwner = () => {
-		if (!route.params.postData || !route.params.postData.owner) return false
-		return userDataContext.userId === route.params.postData.owner.userId
-	}
-	const isAuthor = loggedUserIsOwner()
-	const { postData } = route.params as { postData: VacancyCollectionRemote }
+		if (!route.params.postData || !route.params.postData.owner)
+			return false;
+		return userDataContext.userId === route.params.postData.owner.userId;
+	};
+	const isAuthor = loggedUserIsOwner();
+	const { postData } = route.params as { postData: VacancyCollectionRemote };
 
 	const getVacancyDetails = () => {
-		const vacancyType = getRelativeVacancyType()
-		const workplace = getRelativeWorkPlace()
+		const vacancyType = getRelativeVacancyType();
+		const workplace = getRelativeWorkPlace();
 
 		return (
 			<VacancyDetails>
 				<VacancyDetailsItem>
-					{showMessageWithHighlight(`●  vaga ${vacancyType}`, [vacancyType])}
+					{showMessageWithHighlight(`●  vaga ${vacancyType}`, [
+						vacancyType,
+					])}
 				</VacancyDetailsItem>
 				<VacancyDetailsItem>
-					{showMessageWithHighlight(`●  vaga ${workplace}`, [workplace])}
+					{showMessageWithHighlight(`●  vaga ${workplace}`, [
+						workplace,
+					])}
 				</VacancyDetailsItem>
 			</VacancyDetails>
-		)
-	}
+		);
+	};
 
 	const getRelativeVacancyType = () => {
-		switch (getPostField('vacancyType')) {
-			case 'beak': return 'bico'
-			case 'temporary': return 'temporária'
-			case 'professional': return 'profissional'
-			default: return '---'
+		switch (getPostField("vacancyType")) {
+			case "beak":
+				return "bico";
+			case "temporary":
+				return "temporária";
+			case "professional":
+				return "profissional";
+			default:
+				return "---";
 		}
-	}
+	};
 
 	const getRelativeWorkPlace = () => {
-		switch (getPostField('workplace')) {
-			case 'homeoffice': return 'home-office'
-			case 'presential': return 'presencial'
-			case 'hybrid': return 'híbrida'
-			default: return '---'
+		switch (getPostField("workplace")) {
+			case "homeoffice":
+				return "home-office";
+			case "presential":
+				return "presencial";
+			case "hybrid":
+				return "híbrida";
+			default:
+				return "---";
 		}
-	}
+	};
 
 	const renderFormatedPostDateTime = () => {
-		const formatedDate = formatRelativeDate(postData.createdAt)
-		return formatedDate
-	}
+		const formatedDate = formatRelativeDate(postData.createdAt);
+		return formatedDate;
+	};
 
 	const getProfilePictureUrl = () => {
-		if (!postData || !postData.owner || !postData.owner.profilePictureUrl) return null
-		if (arrayIsEmpty(postData.owner.profilePictureUrl)) return null
-		return postData.owner.profilePictureUrl[0]
-	}
+		if (!postData || !postData.owner || !postData.owner.profilePictureUrl)
+			return null;
+		if (arrayIsEmpty(postData.owner.profilePictureUrl)) return null;
+		return postData.owner.profilePictureUrl[0];
+	};
 
 	const deleteRemotePost = async () => {
-		setIsLoading(true)
-		await deletePost(postData.postId, postData.owner.userId)
-		await removePostOnContext()
-		setIsLoading(false)
-		backToPreviousScreen()
-	}
+		setIsLoading(true);
+		await deletePost(postData.postId, postData.owner.userId);
+		await removePostOnContext();
+		setIsLoading(false);
+		backToPreviousScreen();
+	};
 
 	const removePostOnContext = async () => {
-		const currentUserPosts = userDataContext.posts || []
-		const postsWithoutDeletedPost = currentUserPosts.filter((post: PostCollection) => post.postId !== postData.postId)
-		setUserDataOnContext({ ...userDataContext, posts: postsWithoutDeletedPost })
-	}
+		const currentUserPosts = userDataContext.posts || [];
+		const postsWithoutDeletedPost = currentUserPosts.filter(
+			(post: PostCollection) => post.postId !== postData.postId
+		);
+		setUserDataOnContext({
+			...userDataContext,
+			posts: postsWithoutDeletedPost,
+		});
+	};
 
 	const goToEditPost = () => {
-		setPostOptionsIsOpen(false)
-		navigation.navigate('EditVacancyPost' as any, { postData: { ...postData, ...editDataContext.saved } })
-	}
+		setPostOptionsIsOpen(false);
+		navigation.navigate("EditVacancyPost" as any, {
+			postData: { ...postData, ...editDataContext.saved },
+		});
+	};
 
 	const backToPreviousScreen = () => {
-		setPostOptionsIsOpen(false)
-		navigation.goBack()
-	}
+		setPostOptionsIsOpen(false);
+		navigation.goBack();
+	};
 
 	const sharePost = () => {
-		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social`)
-	}
+		share(
+			`${isAuthor ? "tô" : "estão"} anunciando ${getPostField(
+				"title"
+			)} no corre.\n\nhttps://corre.social`
+		);
+	};
 
 	const openChat = async () => {
-		const { cellNumber } = await getPrivateContacts(postData.owner.userId)
-		const message = `olá! vi que publicou ${getPostField('title')} no corre. Podemos conversar?`
-		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
-	}
+		const { cellNumber } = await getPrivateContacts(postData.owner.userId);
+		const message = `olá! vi que publicou ${getPostField(
+			"title"
+		)} no corre. Podemos conversar?`;
+		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`);
+	};
 
 	const reportPost = () => {
-		setPostOptionsIsOpen(false)
-		navigation.navigate('ContactUsInsertMessage', {
-			title: 'denunciar',
-			contactUsType: 'denúncia',
+		setPostOptionsIsOpen(false);
+		navigation.navigate("ContactUsInsertMessage", {
+			title: "denunciar",
+			contactUsType: "denúncia",
 			reportedType: postData.postType,
-			reportedId: postData.postId
-		})
-	}
+			reportedId: postData.postId,
+		});
+	};
 
 	const navigateToProfile = () => {
 		if (userDataContext.userId === postData.owner.userId) {
-			navigation.navigate('Profile')
-			return
+			navigation.navigate("Profile");
+			return;
 		}
-		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
-	}
+		navigation.navigate("ProfileHome" as any, {
+			userId: postData.owner.userId,
+		}); // TODO Type
+	};
 
 	const getPostField = (fieldName: keyof VacancyCollection) => {
-		return editDataContext.saved[fieldName] || postData[fieldName]
-	}
+		return editDataContext.saved[fieldName] || postData[fieldName];
+	};
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar
+				backgroundColor={theme.white3}
+				barStyle={"dark-content"}
+			/>
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
-					text={getPostField('title')}
+					text={getPostField("title")}
 				/>
 				<Sigh />
 				<UserAndValueContainer>
 					<SmallUserIdentification
-						userName={postData.owner ? postData.owner.name : 'usuário do corre.'}
+						userName={
+							postData.owner
+								? postData.owner.name
+								: "usuário do corre."
+						}
 						postDate={renderFormatedPostDateTime()}
 						userNameFontSize={14}
 						profilePictureUrl={getProfilePictureUrl()}
 						pictureDimensions={45}
-						width={'60%'}
+						width={"60%"}
 						navigateToProfile={navigateToProfile}
 					/>
 				</UserAndValueContainer>
 				<Sigh />
 				<OptionsArea>
-					{
-						!isAuthor && (
-							<SmallButton
-								color={theme.white3}
-								SvgIcon={ShareIcon}
-								relativeWidth={relativeScreenWidth(12)}
-								height={relativeScreenWidth(12)}
-								onPress={sharePost}
-							/>
-						)
-					}
+					{!isAuthor && (
+						<SmallButton
+							color={theme.white3}
+							SvgIcon={ShareIcon}
+							relativeWidth={relativeScreenWidth(12)}
+							height={relativeScreenWidth(12)}
+							onPress={sharePost}
+						/>
+					)}
 					<SmallButton
 						color={theme.green2}
-						label={isAuthor ? 'compartilhar' : 'me candidatar'}
+						label={isAuthor ? "compartilhar" : "me candidatar"}
 						fontSize={13}
 						SvgIcon={isAuthor ? ShareIcon : ChatIcon}
-						relativeWidth={isAuthor ? '80%' : '63%'}
+						relativeWidth={isAuthor ? "80%" : "63%"}
 						height={relativeScreenWidth(12)}
 						onPress={isAuthor ? sharePost : openChat}
 					/>
 					<PostPopOver
-						postTitle={getPostField('title') || 'publicação no corre.'}
-						postId={getPostField('postId')}
-						postType={getPostField('postType')}
+						postTitle={
+							getPostField("title") || "publicação no corre."
+						}
+						postId={getPostField("postId")}
+						postType={getPostField("postType")}
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
@@ -223,44 +267,48 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 				</OptionsArea>
 			</Header>
 			<Body>
-				<ScrollView showsVerticalScrollIndicator={false} >
+				<ScrollView showsVerticalScrollIndicator={false}>
 					<DescriptionCard
-						title={'descrição da vaga'}
-						text={getPostField('description')}
+						title={"descrição da vaga"}
+						text={getPostField("description")}
 						textFontSize={14}
 					>
 						{getVacancyDetails()}
 					</DescriptionCard>
 					<Sigh />
 					<DateTimeCard
-						title={'dias e horários'}
-						weekDaysfrequency={'someday'}
-						daysOfWeek={getPostField('vacancyType') === 'professional' ? getPostField('workWeekdays') : []}
-						openingTime={getPostField('startWorkHour')}
-						closingTime={getPostField('endWorkHour')}
-						startDate={getPostField('startWorkDate')}
-						endDate={getPostField('endWorkDate')}
+						title={"dias e horários"}
+						weekDaysfrequency={"someday"}
+						daysOfWeek={
+							getPostField("vacancyType") === "professional"
+								? getPostField("workWeekdays")
+								: []
+						}
+						openingTime={getPostField("startWorkHour")}
+						closingTime={getPostField("endWorkHour")}
+						startDate={getPostField("startWorkDate")}
+						endDate={getPostField("endWorkDate")}
 						textFontSize={14}
 					/>
-					{
-						getPostField('workplace') !== 'homeoffice' && (
-							<>
-								<Sigh />
-								<LocationViewCard
-									title={'local de trabalho'}
-									locationView={'public'}
-									withoutMapView={!getPostField('location').coordinates}
-									isAuthor={isAuthor}
-									location={getPostField('location')}
-									textFontSize={16}
-								/>
-							</>
-						)
-					}
+					{getPostField("workplace") !== "homeoffice" && (
+						<>
+							<Sigh />
+							<LocationViewCard
+								title={"local de trabalho"}
+								locationView={"public"}
+								withoutMapView={
+									!getPostField("location").coordinates
+								}
+								isAuthor={isAuthor}
+								location={getPostField("location")}
+								textFontSize={16}
+							/>
+						</>
+					)}
 					<Sigh />
 					<DescriptionCard
-						title={'sobre a empresa'}
-						text={getPostField('companyDescription')}
+						title={"sobre a empresa"}
+						text={getPostField("companyDescription")}
 						textFontSize={14}
 						company
 					/>
@@ -268,7 +316,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 				</ScrollView>
 			</Body>
 		</Container>
-	)
+	);
 }
 
-export { ViewVacancyPost }
+export { ViewVacancyPost };

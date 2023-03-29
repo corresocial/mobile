@@ -1,39 +1,45 @@
-import React, { useContext } from 'react'
-import { StatusBar } from 'react-native'
+import React, { useContext } from "react";
+import { StatusBar } from "react-native";
 
-import { ButtonsContainer, Container } from './styles'
-import { theme } from '../../../common/theme'
+import { ButtonsContainer, Container } from "./styles";
+import { theme } from "@common/theme";
 
-import { SelectEventPlaceModalityScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
-import { PlaceModalityType } from '../../../services/firebase/types'
+import { SelectEventPlaceModalityScreenProps } from "@routes/Stack/cultureStack/stackScreenProps";
+import { PlaceModalityType } from "@services/firebase/types";
 
-import { CultureContext } from '../../../contexts/CultureContext'
+import { CultureContext } from "@contexts/CultureContext";
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { ProgressBar } from '../../../components/ProgressBar'
+import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
+import { FormContainer } from "@components/_containers/FormContainer";
+import { BackButton } from "@components/_buttons/BackButton";
+import { PrimaryButton } from "@components/_buttons/PrimaryButton";
+import { InstructionCard } from "@components/_cards/InstructionCard";
+import { ProgressBar } from "@components/ProgressBar";
 
-function SelectEventPlaceModality({ navigation }: SelectEventPlaceModalityScreenProps) {
-	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+function SelectEventPlaceModality({
+	navigation,
+}: SelectEventPlaceModalityScreenProps) {
+	const { cultureDataContext, setCultureDataOnContext } =
+		useContext(CultureContext);
 
 	const saveEventPlaceModality = (eventPlaceModality: PlaceModalityType) => {
-		setCultureDataOnContext({ eventPlaceModality })
+		setCultureDataOnContext({ eventPlaceModality });
 
-		if (eventPlaceModality !== 'online') {
-			navigation.navigate('SelectCultureLocationView')
+		if (eventPlaceModality !== "online") {
+			navigation.navigate("SelectCultureLocationView");
 		} else {
-			navigation.navigate('SelectEventRepeat')
+			navigation.navigate("SelectEventRepeat");
 		}
-	}
+	};
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar
+				backgroundColor={theme.white3}
+				barStyle={"dark-content"}
+			/>
 			<DefaultHeaderContainer
-				relativeHeight={'28%'}
+				relativeHeight={"28%"}
 				centralized
 				backgroundColor={theme.white3}
 			>
@@ -41,59 +47,61 @@ function SelectEventPlaceModality({ navigation }: SelectEventPlaceModalityScreen
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={18}
-					message={'onde esse role vai acontecer?'}
-					highlightedWords={['onde']}
+					message={"onde esse role vai acontecer?"}
+					highlightedWords={["onde"]}
 				>
 					<ProgressBar
-						range={cultureDataContext.cultureType === 'artistProfile' ? 3 : 5}
+						range={
+							cultureDataContext.cultureType === "artistProfile"
+								? 3
+								: 5
+						}
 						value={3}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
-			<FormContainer
-				backgroundColor={theme.blue2}
-			>
+			<FormContainer backgroundColor={theme.blue2}>
 				<ButtonsContainer>
 					<PrimaryButton
-						justifyContent={'flex-start'}
+						justifyContent={"flex-start"}
 						color={theme.white3}
-						relativeHeight={'18%'}
+						relativeHeight={"18%"}
 						labelColor={theme.black4}
-						labelMarginLeft={'5%'}
+						labelMarginLeft={"5%"}
 						fontSize={18}
-						textAlign={'left'}
-						label={'presencial'}
-						highlightedWords={['presencial']}
-						onPress={() => saveEventPlaceModality('presential')}
+						textAlign={"left"}
+						label={"presencial"}
+						highlightedWords={["presencial"]}
+						onPress={() => saveEventPlaceModality("presential")}
 					/>
 					<PrimaryButton
-						justifyContent={'flex-start'}
+						justifyContent={"flex-start"}
 						color={theme.white3}
-						relativeHeight={'18%'}
+						relativeHeight={"18%"}
 						labelColor={theme.black4}
-						labelMarginLeft={'5%'}
+						labelMarginLeft={"5%"}
 						fontSize={18}
-						textAlign={'left'}
-						label={'presencial + online'}
-						highlightedWords={['presencial', '+', 'online']}
-						onPress={() => saveEventPlaceModality('both')}
+						textAlign={"left"}
+						label={"presencial + online"}
+						highlightedWords={["presencial", "+", "online"]}
+						onPress={() => saveEventPlaceModality("both")}
 					/>
 					<PrimaryButton
-						justifyContent={'flex-start'}
+						justifyContent={"flex-start"}
 						color={theme.white3}
-						relativeHeight={'18%'}
+						relativeHeight={"18%"}
 						labelColor={theme.black4}
-						labelMarginLeft={'5%'}
+						labelMarginLeft={"5%"}
 						fontSize={18}
-						textAlign={'left'}
-						label={'online'}
-						highlightedWords={['online']}
-						onPress={() => saveEventPlaceModality('online')}
+						textAlign={"left"}
+						label={"online"}
+						highlightedWords={["online"]}
+						onPress={() => saveEventPlaceModality("online")}
 					/>
 				</ButtonsContainer>
 			</FormContainer>
 		</Container>
-	)
+	);
 }
 
-export { SelectEventPlaceModality }
+export { SelectEventPlaceModality };

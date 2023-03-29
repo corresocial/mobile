@@ -1,26 +1,29 @@
-import React, { useState } from 'react'
-import { TouchableWithoutFeedback } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
-import { SvgProps } from 'react-native-svg'
+import React, { useState } from "react";
+import { TouchableWithoutFeedback } from "react-native";
+import { RFValue } from "react-native-responsive-fontsize";
+import { SvgProps } from "react-native-svg";
 
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import { ContainerBottom, ContainerSurface, Label } from './styles'
-import { theme } from '../../../common/theme'
+import {
+	relativeScreenHeight,
+	relativeScreenWidth,
+} from "@common/screenDimensions";
+import { theme } from "@common/theme";
+import { ContainerBottom, ContainerSurface, Label } from "./styles";
 
 interface SelectButtonProps {
-	width?: string | number
-	height?: string | number
-	marginVertical?: number
-	marginHorizontal?: number
-	backgroundColor?: string
-	backgroundSelected?: string
-	label?: string
-	boldLabel?: boolean
-	noDisplacement?: boolean
-	fontSize?: number
-	SvgIcon?: React.FC<SvgProps>
-	selected?: boolean
-	onSelect?: () => void
+	width?: string | number;
+	height?: string | number;
+	marginVertical?: number;
+	marginHorizontal?: number;
+	backgroundColor?: string;
+	backgroundSelected?: string;
+	label?: string;
+	boldLabel?: boolean;
+	noDisplacement?: boolean;
+	fontSize?: number;
+	SvgIcon?: React.FC<SvgProps>;
+	selected?: boolean;
+	onSelect?: () => void;
 }
 
 function SelectButton({
@@ -36,21 +39,21 @@ function SelectButton({
 	fontSize = 15,
 	SvgIcon,
 	selected = false,
-	onSelect
+	onSelect,
 }: SelectButtonProps) {
-	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
+	const [buttonPressed, setButtomPressed] = useState<Boolean>(false);
 
 	function pressingButton() {
-		setButtomPressed(true)
+		setButtomPressed(true);
 	}
 
 	function notPressingButton() {
-		setButtomPressed(false)
+		setButtomPressed(false);
 	}
 
 	function releaseButton() {
-		setButtomPressed(false)
-		onSelect && onSelect()
+		setButtomPressed(false);
+		onSelect && onSelect();
 	}
 
 	return (
@@ -65,28 +68,37 @@ function SelectButton({
 					height,
 					marginVertical: RFValue(marginVertical),
 					marginHorizontal: RFValue(marginHorizontal),
-					marginLeft: noDisplacement ? relativeScreenWidth(2.5) : 0
+					marginLeft: noDisplacement ? relativeScreenWidth(2.5) : 0,
 				}}
 			>
 				<ContainerSurface
 					style={{
-						backgroundColor: selected ? backgroundSelected : backgroundColor,
-						marginRight: selected ? -relativeScreenWidth(1.3) : buttonPressed ? -relativeScreenWidth(2) : 0
+						backgroundColor: selected
+							? backgroundSelected
+							: backgroundColor,
+						marginRight: selected
+							? -relativeScreenWidth(1.3)
+							: buttonPressed
+							? -relativeScreenWidth(2)
+							: 0,
 					}}
 				>
-					{SvgIcon && <SvgIcon width={'20%'} height={'50%'} />}
+					{SvgIcon && <SvgIcon width={"20%"} height={"50%"} />}
 					<Label
 						style={{
 							fontSize: RFValue(fontSize),
-							fontFamily: selected || boldLabel ? 'Arvo_700Bold' : 'Arvo_400Regular'
+							fontFamily:
+								selected || boldLabel
+									? "Arvo_700Bold"
+									: "Arvo_400Regular",
 						}}
 					>
 						{label}
 					</Label>
 				</ContainerSurface>
 			</ContainerBottom>
-		</TouchableWithoutFeedback >
-	)
+		</TouchableWithoutFeedback>
+	);
 }
 
-export { SelectButton }
+export { SelectButton };

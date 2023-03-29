@@ -1,6 +1,6 @@
-import { RFValue } from 'react-native-responsive-fontsize'
-import styled from 'styled-components/native'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
+import { RFValue } from "react-native-responsive-fontsize";
+import styled from "styled-components/native";
+import { relativeScreenWidth } from "@common/screenDimensions";
 
 export const Container = styled.TouchableHighlight`
 	width: ${relativeScreenWidth(25)}px;
@@ -9,7 +9,7 @@ export const Container = styled.TouchableHighlight`
 	border-radius: ${RFValue(15)}px;
 	margin-left: ${RFValue(7)}px;
 	margin-bottom: ${RFValue(15)}px;
-	`
+	`;
 
 export const ContainerInner = styled.View`
 	padding: ${RFValue(5)}px;
@@ -22,10 +22,10 @@ export const ContainerInner = styled.View`
 	margin-left: ${RFValue(-7)}px;
 	border: ${RFValue(2.5)}px solid ${({ theme }) => theme.black4};
 	overflow: hidden;
-`
+`;
 
 export const Title = styled.Text`
 	text-align: center;
 	font-family: Arvo_700Bold;
 	font-size: ${RFValue(12)}px;
-`
+`;

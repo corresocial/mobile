@@ -1,34 +1,44 @@
-import React from 'react'
-import { StatusBar } from 'react-native'
+import React from "react";
+import { StatusBar } from "react-native";
 
-import { getLocationViewDescription, getLocationViewHighlightedWords, getLocationViewTitle } from '../../../utils/locationMessages'
+import {
+	getLocationViewDescription,
+	getLocationViewHighlightedWords,
+	getLocationViewTitle,
+} from "@utils/locationMessages";
 
-import { ButtonsContainer, Container } from './styles'
-import { theme } from '../../../common/theme'
+import { ButtonsContainer, Container } from "./styles";
+import { theme } from "@common/theme";
 
-import { SelectSocialImpactLocationViewScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
-import { LocationViewType } from '../../../services/firebase/types'
+import { SelectSocialImpactLocationViewScreenProps } from "@routes/Stack/SocialImpactStack/stackScreenProps";
+import { LocationViewType } from "@services/firebase/types";
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { ProgressBar } from '../../../components/ProgressBar'
-import { TitleDescriptionButton } from '../../../components/_cards/TitleDescriptionButton'
+import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
+import { FormContainer } from "@components/_containers/FormContainer";
+import { BackButton } from "@components/_buttons/BackButton";
+import { InstructionCard } from "@components/_cards/InstructionCard";
+import { ProgressBar } from "@components/ProgressBar";
+import { TitleDescriptionButton } from "@components/_cards/TitleDescriptionButton";
 
-function SelectSocialImpactLocationView({ route, navigation }: SelectSocialImpactLocationViewScreenProps) {
+function SelectSocialImpactLocationView({
+	route,
+	navigation,
+}: SelectSocialImpactLocationViewScreenProps) {
 	const saveLocationViewType = (locationViewType: LocationViewType) => {
-		navigation.navigate('InsertSocialImpactLocation', {
+		navigation.navigate("InsertSocialImpactLocation", {
 			locationView: locationViewType,
-			...route.params
-		})
-	}
+			...route.params,
+		});
+	};
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar
+				backgroundColor={theme.white3}
+				barStyle={"dark-content"}
+			/>
 			<DefaultHeaderContainer
-				relativeHeight={'28%'}
+				relativeHeight={"28%"}
 				centralized
 				backgroundColor={theme.white3}
 			>
@@ -36,47 +46,57 @@ function SelectSocialImpactLocationView({ route, navigation }: SelectSocialImpac
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={18}
-					message={'como você prefere que outros usuários vejam a localização?'}
-					highlightedWords={['como', 'você', 'prefere', 'vejam', 'a', 'localização']}
+					message={
+						"como você prefere que outros usuários vejam a localização?"
+					}
+					highlightedWords={[
+						"como",
+						"você",
+						"prefere",
+						"vejam",
+						"a",
+						"localização",
+					]}
 				>
-					<ProgressBar
-						range={5}
-						value={3}
-					/>
+					<ProgressBar range={5} value={3} />
 				</InstructionCard>
 			</DefaultHeaderContainer>
-			<FormContainer
-				backgroundColor={theme.pink2}
-			>
+			<FormContainer backgroundColor={theme.pink2}>
 				<ButtonsContainer>
 					<TitleDescriptionButton
-						height={'28%'}
+						height={"28%"}
 						color={theme.white3}
-						title={getLocationViewTitle('private')}
-						description={getLocationViewDescription('private')}
-						highlightedWords={getLocationViewHighlightedWords('private')}
-						onPress={() => saveLocationViewType('private')}
+						title={getLocationViewTitle("private")}
+						description={getLocationViewDescription("private")}
+						highlightedWords={getLocationViewHighlightedWords(
+							"private"
+						)}
+						onPress={() => saveLocationViewType("private")}
 					/>
 					<TitleDescriptionButton
-						height={'28%'}
+						height={"28%"}
 						color={theme.white3}
-						title={getLocationViewTitle('approximate')}
-						description={getLocationViewDescription('approximate')}
-						highlightedWords={getLocationViewHighlightedWords('approximate')}
-						onPress={() => saveLocationViewType('approximate')}
+						title={getLocationViewTitle("approximate")}
+						description={getLocationViewDescription("approximate")}
+						highlightedWords={getLocationViewHighlightedWords(
+							"approximate"
+						)}
+						onPress={() => saveLocationViewType("approximate")}
 					/>
 					<TitleDescriptionButton
-						height={'28%'}
+						height={"28%"}
 						color={theme.white3}
-						title={getLocationViewTitle('public')}
-						description={getLocationViewDescription('public')}
-						highlightedWords={getLocationViewHighlightedWords('public')}
-						onPress={() => saveLocationViewType('public')}
+						title={getLocationViewTitle("public")}
+						description={getLocationViewDescription("public")}
+						highlightedWords={getLocationViewHighlightedWords(
+							"public"
+						)}
+						onPress={() => saveLocationViewType("public")}
 					/>
 				</ButtonsContainer>
 			</FormContainer>
 		</Container>
-	)
+	);
 }
 
-export { SelectSocialImpactLocationView }
+export { SelectSocialImpactLocationView };

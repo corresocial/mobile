@@ -1,64 +1,67 @@
-import React, { useContext } from 'react'
-import { StatusBar } from 'react-native'
+import React, { useContext } from "react";
+import { StatusBar } from "react-native";
 
-import { ButtonsContainer, Container } from './styles'
-import { theme } from '../../../common/theme'
+import { ButtonsContainer, Container } from "./styles";
+import { theme } from "@common/theme";
 
-import { SelectWorkplaceScreenProps } from '../../../routes/Stack/vacancyStack/stackScreenProps'
-import { WorkplaceType } from '../../../services/firebase/types'
+import { SelectWorkplaceScreenProps } from "@routes/Stack/vacancyStack/stackScreenProps";
+import { WorkplaceType } from "@services/firebase/types";
 
-import { VacancyContext } from '../../../contexts/VacancyContext'
-import { EditContext } from '../../../contexts/EditContext'
+import { VacancyContext } from "@contexts/VacancyContext";
+import { EditContext } from "@contexts/EditContext";
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { ProgressBar } from '../../../components/ProgressBar'
+import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
+import { FormContainer } from "@components/_containers/FormContainer";
+import { BackButton } from "@components/_buttons/BackButton";
+import { PrimaryButton } from "@components/_buttons/PrimaryButton";
+import { InstructionCard } from "@components/_cards/InstructionCard";
+import { ProgressBar } from "@components/ProgressBar";
 
 function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { setVacancyDataOnContext } = useContext(VacancyContext);
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext);
 
 	const getVacancyRange = (workplace: WorkplaceType) => {
-		if (workplace === 'homeoffice') return 'country'
-		return 'city'
-	}
+		if (workplace === "homeoffice") return "country";
+		return "city";
+	};
 
 	const saveWorkplaceType = (workplace: WorkplaceType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({
 				workplace,
 				range: getVacancyRange(workplace),
-				location: { country: 'Brasil', city: 'any' }
-			})
-			navigation.goBack()
-			return
+				location: { country: "Brasil", city: "any" },
+			});
+			navigation.goBack();
+			return;
 		}
 
 		setVacancyDataOnContext({
 			workplace,
 			range: getVacancyRange(workplace),
-			location: { country: 'Brasil', city: 'any' }
-		})
+			location: { country: "Brasil", city: "any" },
+		});
 
-		if (workplace === 'homeoffice') {
-			navigation.navigate('SelectVacancyCategory')
+		if (workplace === "homeoffice") {
+			navigation.navigate("SelectVacancyCategory");
 		} else {
-			navigation.navigate('InsertWorkplaceLocation', {
-				workplace
-			})
+			navigation.navigate("InsertWorkplaceLocation", {
+				workplace,
+			});
 		}
-	}
+	};
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => route.params && route.params.editMode;
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar
+				backgroundColor={theme.white3}
+				barStyle={"dark-content"}
+			/>
 			<DefaultHeaderContainer
-				relativeHeight={'28%'}
+				relativeHeight={"28%"}
 				centralized
 				backgroundColor={theme.white3}
 			>
@@ -66,59 +69,54 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={18}
-					message={'qual é o local de trabalho?'}
-					highlightedWords={['local,', 'de', 'trabalho']}
+					message={"qual é o local de trabalho?"}
+					highlightedWords={["local,", "de", "trabalho"]}
 				>
-					<ProgressBar
-						range={5}
-						value={3}
-					/>
+					<ProgressBar range={5} value={3} />
 				</InstructionCard>
 			</DefaultHeaderContainer>
-			<FormContainer
-				backgroundColor={theme.yellow2}
-			>
+			<FormContainer backgroundColor={theme.yellow2}>
 				<ButtonsContainer>
 					<PrimaryButton
-						justifyContent={'flex-start'}
+						justifyContent={"flex-start"}
 						color={theme.white3}
-						relativeHeight={'18%'}
+						relativeHeight={"18%"}
 						labelColor={theme.black4}
-						labelMarginLeft={'5%'}
+						labelMarginLeft={"5%"}
 						fontSize={18}
-						textAlign={'left'}
-						label={'vaga presencial'}
-						highlightedWords={['presencial']}
-						onPress={() => saveWorkplaceType('presential')}
+						textAlign={"left"}
+						label={"vaga presencial"}
+						highlightedWords={["presencial"]}
+						onPress={() => saveWorkplaceType("presential")}
 					/>
 					<PrimaryButton
-						justifyContent={'flex-start'}
+						justifyContent={"flex-start"}
 						color={theme.white3}
-						relativeHeight={'18%'}
+						relativeHeight={"18%"}
 						labelColor={theme.black4}
-						labelMarginLeft={'5%'}
+						labelMarginLeft={"5%"}
 						fontSize={18}
-						textAlign={'left'}
-						label={'vaga homeoffice'}
-						highlightedWords={['homeoffice']}
-						onPress={() => saveWorkplaceType('homeoffice')}
+						textAlign={"left"}
+						label={"vaga homeoffice"}
+						highlightedWords={["homeoffice"]}
+						onPress={() => saveWorkplaceType("homeoffice")}
 					/>
 					<PrimaryButton
-						justifyContent={'flex-start'}
+						justifyContent={"flex-start"}
 						color={theme.white3}
-						relativeHeight={'18%'}
+						relativeHeight={"18%"}
 						labelColor={theme.black4}
-						labelMarginLeft={'5%'}
+						labelMarginLeft={"5%"}
 						fontSize={18}
-						textAlign={'left'}
-						label={'vaga híbrida'}
-						highlightedWords={['híbrida']}
-						onPress={() => saveWorkplaceType('hybrid')}
+						textAlign={"left"}
+						label={"vaga híbrida"}
+						highlightedWords={["híbrida"]}
+						onPress={() => saveWorkplaceType("hybrid")}
 					/>
 				</ButtonsContainer>
 			</FormContainer>
 		</Container>
-	)
+	);
 }
 
-export { SelectWorkplace }
+export { SelectWorkplace };

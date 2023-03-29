@@ -1,63 +1,71 @@
-import React, { useContext, useState } from 'react'
-import { StatusBar } from 'react-native'
+import React, { useContext, useState } from "react";
+import { StatusBar } from "react-native";
 
-import { Container, InstructionCardContainer } from './styles'
-import { screenWidth } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
-import ImagePlusIcon from '../../../assets/icons/imagePlus.svg'
-import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
+import { Container, InstructionCardContainer } from "./styles";
+import { screenWidth } from "@common/screenDimensions";
+import { theme } from "@common/theme";
+import ImagePlusIcon from "@assets/icons/imagePlus.svg";
+import AngleLeftThinIcon from "@assets/icons/angleLeftThin.svg";
 
-import { EditUserPictureScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { EditUserPictureScreenProps } from "@routes/Stack/UserStack/stackScreenProps";
 
-import { EditContext } from '../../../contexts/EditContext'
-import { AuthContext } from '../../../contexts/AuthContext'
+import { EditContext } from "@contexts/EditContext";
+import { AuthContext } from "@contexts/AuthContext";
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { PhotoPortrait } from '../../../components/PhotoPortrait'
-import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal'
+import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
+import { FormContainer } from "@components/_containers/FormContainer";
+import { PrimaryButton } from "@components/_buttons/PrimaryButton";
+import { PhotoPortrait } from "@components/PhotoPortrait";
+import { CustomCameraModal } from "@components/_modals/CustomCameraModal";
 
 function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
-	const { userDataContext } = useContext(AuthContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { userDataContext } = useContext(AuthContext);
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext);
 
-	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(true)
-	const [profilePictureUrl, setProfilePictureUrl] = useState<string>(route.params.profilePictureUrl)
+	const [cameraModalVisibility, setCameraModalVisibility] =
+		useState<boolean>(true);
+	const [profilePictureUrl, setProfilePictureUrl] = useState<string>(
+		route.params.profilePictureUrl
+	);
 
 	const openCamera = () => {
-		setCameraModalVisibility(true)
-	}
+		setCameraModalVisibility(true);
+	};
 
 	const setPictureUri = (pictureUri: string) => {
-		addNewUnsavedFieldToEditContext({ profilePictureUrl: pictureUri })
-		setProfilePictureUrl(pictureUri)
-	}
+		addNewUnsavedFieldToEditContext({ profilePictureUrl: pictureUri });
+		setProfilePictureUrl(pictureUri);
+	};
 
 	const saveUserPicture = async () => {
-		const areEquals = userDataContext.profilePictureUrl && (userDataContext.profilePictureUrl[0] === profilePictureUrl)
+		const areEquals =
+			userDataContext.profilePictureUrl &&
+			userDataContext.profilePictureUrl[0] === profilePictureUrl;
 		if (!areEquals) {
-			addNewUnsavedFieldToEditContext({ profilePictureUrl })
+			addNewUnsavedFieldToEditContext({ profilePictureUrl });
 		}
-		navigation.goBack()
-	}
+		navigation.goBack();
+	};
 
 	return (
-		<Container >
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+		<Container>
+			<StatusBar
+				backgroundColor={theme.orange2}
+				barStyle={"dark-content"}
+			/>
 			<CustomCameraModal
 				cameraOpened={cameraModalVisibility}
 				onClose={() => {
-					setCameraModalVisibility(false)
+					setCameraModalVisibility(false);
 				}}
 				setPictureUri={setPictureUri}
 			/>
 			<DefaultHeaderContainer
-				relativeHeight={'80%'}
+				relativeHeight={"80%"}
 				centralized
 				withoutPadding
-				flexDirection={'column'}
-				justifyContent={'space-around'}
+				flexDirection={"column"}
+				justifyContent={"space-around"}
 				backgroundColor={theme.orange2}
 			>
 				<PhotoPortrait
@@ -65,20 +73,21 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 					width={screenWidth}
 					height={screenWidth}
 					deleteCurrentPicture={() => {
-						setPictureUri('')
-						addNewUnsavedFieldToEditContext({ profilePictureUrl: '' })
+						setPictureUri("");
+						addNewUnsavedFieldToEditContext({
+							profilePictureUrl: "",
+						});
 					}}
-
 				/>
 				<InstructionCardContainer>
 					<PrimaryButton
 						color={theme.white3}
-						label={'mudar foto'}
+						label={"mudar foto"}
 						fontSize={22}
 						labelColor={theme.black4}
-						highlightedWords={['mudar']}
+						highlightedWords={["mudar"]}
 						SecondSvgIcon={ImagePlusIcon}
-						svgIconScale={['35%', '20%']}
+						svgIconScale={["35%", "20%"]}
 						onPress={openCamera}
 					/>
 				</InstructionCardContainer>
@@ -86,16 +95,16 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 			<FormContainer backgroundColor={theme.white2}>
 				<PrimaryButton
 					color={theme.white3}
-					label={'voltar'}
+					label={"voltar"}
 					fontSize={18}
 					labelColor={theme.black4}
 					SecondSvgIcon={AngleLeftThinIcon}
-					svgIconScale={['32%', '20%']}
+					svgIconScale={["32%", "20%"]}
 					onPress={saveUserPicture}
 				/>
 			</FormContainer>
 		</Container>
-	)
+	);
 }
 
-export { EditUserPicture }
+export { EditUserPicture };

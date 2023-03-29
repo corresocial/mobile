@@ -1,86 +1,99 @@
-import { Keyboard, Platform, StatusBar } from 'react-native'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Keyboard, Platform, StatusBar } from "react-native";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
-import { ButtonsContainer, Container } from './styles'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
-import Check from '../../../assets/icons/check.svg'
+import { ButtonsContainer, Container } from "./styles";
+import { relativeScreenHeight } from "@common/screenDimensions";
+import { theme } from "@common/theme";
+import Check from "@assets/icons/check.svg";
 
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+import { removeAllKeyboardEventListeners } from "@common/listenerFunctions";
 
-import { InsertServiceDescriptionScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
+import { InsertServiceDescriptionScreenProps } from "@routes/Stack/ServiceStack/stackScreenProps";
 
-import { EditContext } from '../../../contexts/EditContext'
-import { ServiceContext } from '../../../contexts/ServiceContext'
+import { EditContext } from "@contexts/EditContext";
+import { ServiceContext } from "@contexts/ServiceContext";
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { ProgressBar } from '../../../components/ProgressBar'
-import { LineInput } from '../../../components/LineInput'
+import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
+import { FormContainer } from "@components/_containers/FormContainer";
+import { BackButton } from "@components/_buttons/BackButton";
+import { PrimaryButton } from "@components/_buttons/PrimaryButton";
+import { InstructionCard } from "@components/_cards/InstructionCard";
+import { ProgressBar } from "@components/ProgressBar";
+import { LineInput } from "@components/LineInput";
 
-function InsertServiceDescription({ route, navigation }: InsertServiceDescriptionScreenProps) {
-	const { setServiceDataOnContext } = useContext(ServiceContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+function InsertServiceDescription({
+	route,
+	navigation,
+}: InsertServiceDescriptionScreenProps) {
+	const { setServiceDataOnContext } = useContext(ServiceContext);
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext);
 
-	const [serviceDescription, setServiceDescription] = useState<string>(route.params?.initialValue || '')
-	const [serviceDescriptionIsValid, setServiceDescriptionIsValid] = useState<boolean>(false)
-	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+	const [serviceDescription, setServiceDescription] = useState<string>(
+		route.params?.initialValue || ""
+	);
+	const [serviceDescriptionIsValid, setServiceDescriptionIsValid] =
+		useState<boolean>(false);
+	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false);
 
 	const inputRefs = {
 		serviceDescriptionInput: useRef<React.MutableRefObject<any>>(null),
-	}
+	};
 
 	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			removeAllKeyboardEventListeners()
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
+		const unsubscribe = navigation.addListener("focus", () => {
+			removeAllKeyboardEventListeners();
+			Keyboard.addListener("keyboardDidShow", () =>
+				setKeyboardOpened(true)
+			);
+			Keyboard.addListener("keyboardDidHide", () =>
+				setKeyboardOpened(false)
+			);
+		});
+		return unsubscribe;
+	}, [navigation]);
 
 	useEffect(() => {
-		const validation = validateServiceDescription(serviceDescription)
-		setServiceDescriptionIsValid(validation)
-	}, [serviceDescription, keyboardOpened])
+		const validation = validateServiceDescription(serviceDescription);
+		setServiceDescriptionIsValid(validation);
+	}, [serviceDescription, keyboardOpened]);
 
 	const validateServiceDescription = (text: string) => {
-		const isValid = (text).trim().length >= 1
+		const isValid = text.trim().length >= 1;
 		if (isValid && !keyboardOpened) {
-			return true
+			return true;
 		}
-		return false
-	}
+		return false;
+	};
 
 	const saveServiceDescription = () => {
 		if (serviceDescriptionIsValid) {
 			if (editModeIsTrue()) {
 				addNewUnsavedFieldToEditContext({
-					description: serviceDescription
-				})
+					description: serviceDescription,
+				});
 
-				navigation.goBack()
-				return
+				navigation.goBack();
+				return;
 			}
 
 			setServiceDataOnContext({
-				description: serviceDescription
-			})
-			navigation.navigate('InsertServicePicture')
+				description: serviceDescription,
+			});
+			navigation.navigate("InsertServicePicture");
 		}
-	}
+	};
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => route.params && route.params.editMode;
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+		<Container behavior={Platform.OS === "ios" ? "padding" : "height"}>
+			<StatusBar
+				backgroundColor={theme.purple2}
+				barStyle={"dark-content"}
+			/>
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(28)}
-				relativeHeight={'26%'}
+				relativeHeight={"26%"}
 				centralized
 				backgroundColor={theme.purple2}
 			>
@@ -88,22 +101,19 @@ function InsertServiceDescription({ route, navigation }: InsertServiceDescriptio
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={18}
-					message={'escreva uma descrição para o seu serviço'}
-					highlightedWords={['descrição', 'seu', 'serviço']}
+					message={"escreva uma descrição para o seu serviço"}
+					highlightedWords={["descrição", "seu", "serviço"]}
 				>
-					<ProgressBar
-						range={5}
-						value={1}
-					/>
+					<ProgressBar range={5} value={1} />
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer
 				backgroundColor={theme.white2}
-				justifyContent={'center'}
+				justifyContent={"center"}
 			>
 				<LineInput
 					value={serviceDescription}
-					relativeWidth={'100%'}
+					relativeWidth={"100%"}
 					initialNumberOfLines={2}
 					textInputRef={inputRefs.serviceDescriptionInput}
 					defaultBackgroundColor={theme.white2}
@@ -112,33 +122,34 @@ function InsertServiceDescription({ route, navigation }: InsertServiceDescriptio
 					validBorderBottomColor={theme.purple5}
 					multiline
 					lastInput
-					textAlign={'left'}
+					textAlign={"left"}
 					fontSize={16}
-					placeholder={'ex: trabalho de mecânico, tenho 33 anos, etc...'}
-					keyboardType={'default'}
+					placeholder={
+						"ex: trabalho de mecânico, tenho 33 anos, etc..."
+					}
+					keyboardType={"default"}
 					textIsValid={serviceDescriptionIsValid && !keyboardOpened}
-					validateText={(text: string) => validateServiceDescription(text)}
+					validateText={(text: string) =>
+						validateServiceDescription(text)
+					}
 					onChangeText={(text: string) => setServiceDescription(text)}
 				/>
 				<ButtonsContainer>
-					{
-						serviceDescriptionIsValid && !keyboardOpened
-						&& (
-							<PrimaryButton
-								flexDirection={'row-reverse'}
-								color={theme.green3}
-								label={'continuar'}
-								labelColor={theme.white3}
-								SvgIcon={Check}
-								svgIconScale={['30%', '15%']}
-								onPress={saveServiceDescription}
-							/>
-						)
-					}
+					{serviceDescriptionIsValid && !keyboardOpened && (
+						<PrimaryButton
+							flexDirection={"row-reverse"}
+							color={theme.green3}
+							label={"continuar"}
+							labelColor={theme.white3}
+							SvgIcon={Check}
+							svgIconScale={["30%", "15%"]}
+							onPress={saveServiceDescription}
+						/>
+					)}
 				</ButtonsContainer>
 			</FormContainer>
 		</Container>
-	)
+	);
 }
 
-export { InsertServiceDescription }
+export { InsertServiceDescription };

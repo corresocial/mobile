@@ -1,11 +1,11 @@
-import styled from 'styled-components/native'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import styled from "styled-components/native";
+import { relativeScreenHeight } from "@common/screenDimensions";
 
 export const Container = styled.View`
-    flex: 1;
-`
+	flex: 1;
+`;
 
 export const InstructionCardContainer = styled.View`
-    width: 90%;
-    margin-top: ${relativeScreenHeight(1)}px;
-`
+	width: 90%;
+	margin-top: ${relativeScreenHeight(1)}px;
+`;

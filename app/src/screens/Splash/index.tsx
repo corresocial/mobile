@@ -1,88 +1,104 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Animated } from 'react-native'
+import React, { useContext, useEffect, useState } from "react";
+import { Animated } from "react-native";
 
 import {
 	Container,
 	BuildingsContainer,
 	BottomLine,
-	LogoContainer
-} from './styles'
-import { relativeScreenHeight, relativeScreenWidth, screenHeight } from '../../common/screenDimensions'
-import SlumIcon from '../../assets/icons/slum.svg'
-import LogoIcon from '../../assets/icons/logo.svg'
+	LogoContainer,
+} from "./styles";
+import {
+	relativeScreenHeight,
+	relativeScreenWidth,
+	screenHeight,
+} from "@common/screenDimensions";
+import SlumIcon from "@assets/icons/slum.svg";
+import LogoIcon from "@assets/icons/logo.svg";
 
-import { SplashScreenProps } from '../../routes/Stack/AuthRegisterStack/stackScreenProps'
-import { UserData } from '../../contexts/types'
+import { SplashScreenProps } from "@routes/Stack/AuthRegisterStack/stackScreenProps";
+import { UserData } from "@contexts/types";
 
-import { AuthContext } from '../../contexts/AuthContext'
+import { AuthContext } from "@contexts/AuthContext";
 
 function Splash({ navigation }: SplashScreenProps) {
-	const { getDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
+	const { getDataFromSecureStore, setRemoteUserOnLocal } =
+		useContext(AuthContext);
 
-	const [imagesSvgOpacity] = useState(new Animated.Value(0))
+	const [imagesSvgOpacity] = useState(new Animated.Value(0));
 
 	useEffect(() => {
 		Animated.timing(imagesSvgOpacity, {
 			toValue: 1,
 			duration: 1000,
-			useNativeDriver: true
-		}).start()
+			useNativeDriver: true,
+		}).start();
 
 		setTimeout(() => {
-			redirectToApp()
-		}, 1000)
-	}, [])
+			redirectToApp();
+		}, 1000);
+	}, []);
 
 	const redirectToApp = async () => {
 		try {
-			const userJSON = await getDataFromSecureStore('corre.user', true)
+			const userJSON = await getDataFromSecureStore("corre.user", true);
 
 			if (localUserIsValid(userJSON)) {
-				const userObject: UserData = JSON.parse(userJSON as string)
-				await setRemoteUserOnLocal(userObject.userId)
-				navigation.navigate('UserStack', {
-					tourPerformed: userObject.tourPerformed
-				})
+				const userObject: UserData = JSON.parse(userJSON as string);
+				await setRemoteUserOnLocal(userObject.userId);
+				navigation.navigate("UserStack", {
+					tourPerformed: userObject.tourPerformed,
+				});
 			} else {
-				navigation.navigate('AcceptAndContinue')
+				navigation.navigate("AcceptAndContinue");
 				// throw 'Usuário não authenticado localmente!' // Faz com que o usuário fique em loop
 			}
 		} catch (err) {
-			navigation.navigate('AcceptAndContinue')
+			navigation.navigate("AcceptAndContinue");
 			/* setTimeout(() => { // Faz com que o usuário fique em loop
 				redirectToApp()
 			}, 3000) */
 		}
-	}
+	};
 
 	const localUserIsValid = (userJSON: any) => {
 		try {
-			if (!userJSON) return false
-			const userObject: UserData = JSON.parse(userJSON as string)
-			return Object.keys(userObject).includes('userId') && Object.keys(userObject).includes('name')
+			if (!userJSON) return false;
+			const userObject: UserData = JSON.parse(userJSON as string);
+			return (
+				Object.keys(userObject).includes("userId") &&
+				Object.keys(userObject).includes("name")
+			);
 		} catch (err) {
-			console.log(err)
-			return false
+			console.log(err);
+			return false;
 		}
-	}
+	};
 
 	return (
 		<Container>
-			<LogoContainer style={{
-				opacity: imagesSvgOpacity
-			}}
+			<LogoContainer
+				style={{
+					opacity: imagesSvgOpacity,
+				}}
 			>
-				<LogoIcon width={relativeScreenWidth(50)} height={screenHeight} />
+				<LogoIcon
+					width={relativeScreenWidth(50)}
+					height={screenHeight}
+				/>
 			</LogoContainer>
-			<BuildingsContainer style={{
-				opacity: imagesSvgOpacity
-			}}
+			<BuildingsContainer
+				style={{
+					opacity: imagesSvgOpacity,
+				}}
 			>
-				<SlumIcon width={relativeScreenWidth(80)} height={relativeScreenHeight(12)} />
+				<SlumIcon
+					width={relativeScreenWidth(80)}
+					height={relativeScreenHeight(12)}
+				/>
 			</BuildingsContainer>
 			<BottomLine />
 		</Container>
-	)
+	);
 }
 
-export { Splash }
+export { Splash };

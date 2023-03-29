@@ -1,18 +1,18 @@
-import { RFValue } from 'react-native-responsive-fontsize'
-import styled from 'styled-components/native'
+import { RFValue } from "react-native-responsive-fontsize";
+import styled from "styled-components/native";
 
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from "@common/screenDimensions";
 
 export const CardHeader = styled.View`
 	padding-horizontal: ${RFValue(15)}px;
 	padding-vertical: ${RFValue(10)}px;
-`
+`;
 
 export const TextAddress = styled.Text`
 	font-size: ${RFValue(12)}px;
 	font-family: Arvo_400Regular;
-	padding:${RFValue(10)}px;
-`
+	padding: ${RFValue(10)}px;
+`;
 
 export const MapArea = styled.View`
 	width: 100%;
@@ -21,7 +21,7 @@ export const MapArea = styled.View`
 	border-radius: ${RFValue(15)}px;
 	overflow: hidden;
 	position: relative;
-`
+`;
 
 export const NavigationApps = styled.View`
 	position: absolute;
@@ -29,7 +29,6 @@ export const NavigationApps = styled.View`
 	align-items: center;
 	bottom: ${RFValue(0)}px;
 	right: ${RFValue(0)}px;
-`
+`;
 
-export const TouchableApp = styled.TouchableOpacity`
-`
+export const TouchableApp = styled.TouchableOpacity``;

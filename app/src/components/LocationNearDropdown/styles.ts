@@ -1,7 +1,7 @@
-import { Animated } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
-import styled from 'styled-components/native'
-import { relativeScreenHeight } from '../../common/screenDimensions'
+import { Animated } from "react-native";
+import { RFValue } from "react-native-responsive-fontsize";
+import styled from "styled-components/native";
+import { relativeScreenHeight } from "@common/screenDimensions";
 
 export const Container = styled(Animated.View)`
 	width: 100%;
@@ -10,14 +10,14 @@ export const Container = styled(Animated.View)`
 	border-right-width: ${RFValue(6)}px;
 	border-radius: ${RFValue(15)}px;
 	overflow: hidden;
-`
+`;
 
 export const ContainerInner = styled.View`
 	flex: 1;
 	background-color: ${({ theme }) => theme.white3};
 	border-radius: ${RFValue(13)}px;
 	overflow: hidden;
-`
+`;
 
 export const DropdownHeaderContainer = styled.View`
 	background-color: ${({ theme }) => theme.white3};
@@ -25,7 +25,7 @@ export const DropdownHeaderContainer = styled.View`
 	height: ${relativeScreenHeight(8)}px;
 	border-radius: ${RFValue(13)}px;
 	padding-horizontal: ${RFValue(15)}px;
-`
+`;
 
 export const DropdownHeader = styled.TouchableOpacity`
 	height: 100%;
@@ -34,7 +34,7 @@ export const DropdownHeader = styled.TouchableOpacity`
 	justify-content: space-between;
 	border-width-color: ${({ theme }) => theme.black4};
 	border-bottom-width: ${RFValue(3)}px;
-`
+`;
 
 export const SearchInput = styled.TextInput`
 	width: 85%;
@@ -42,30 +42,30 @@ export const SearchInput = styled.TextInput`
 	font-size: ${RFValue(15)}px;
 	font-family: Arvo_400Regular;
 	text-align: left;
-`
+`;
 
 export const IconArea = styled.View`
 	align-items: center;
 	justify-content: center;
 	width: 10%;
 	height: 100%;
-`
+`;
 
 export const DropdownBody = styled.View`
 	padding: ${RFValue(10)}px;
-`
+`;
 
 export const Sigh = styled.View`
 	width: 100%;
 	margin-vertical: ${RFValue(5)}px;
-`
+`;
 
 export const BigSigh = styled.View`
 	width: 100%;
 	margin-vertical: ${relativeScreenHeight(20)}px;
-`
+`;
 
 export const MyLocationButtonContainer = styled.View`
 	width: 100%;
 	padding-left: ${RFValue(7)}px;
-`
+`;

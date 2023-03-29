@@ -1,12 +1,14 @@
-import { RFValue } from 'react-native-responsive-fontsize'
-import styled from 'styled-components/native'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { RFValue } from "react-native-responsive-fontsize";
+import styled from "styled-components/native";
+import {
+	relativeScreenHeight,
+	relativeScreenWidth,
+} from "@common/screenDimensions";
 
 export const Container = styled.View`
 	flex: 1;
 	background-color: ${({ theme }) => theme.yellow2};
-
-`
+`;
 
 export const Header = styled.View`
 	justify-content: space-between;
@@ -14,42 +16,42 @@ export const Header = styled.View`
 	background-color: ${({ theme }) => theme.white3};
 	padding-vertical: ${relativeScreenHeight(2)}px;
 	padding-horizontal: ${relativeScreenWidth(3)}px;
-`
+`;
 
 export const UserAndValueContainer = styled.View`
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-`
+`;
 
 export const OptionsArea = styled.View`
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-`
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+`;
 
 export const Body = styled.View`
 	flex: 1;
 	background-color: ${({ theme }) => theme.yellow2};
 	padding: ${relativeScreenWidth(3)}px;
-`
+`;
 
 export const Sigh = styled.View`
 	width: 100%;
 	height: ${relativeScreenHeight(1.5)}px;
-`
+`;
 
 export const VacancyDetails = styled.View`
 	width: 100%;
-`
+`;
 
 export const VacancyDetailsItem = styled.Text`
 	width: 100%;
 	font-family: Arvo_400Regular;
 	font-size: ${RFValue(14)}px;
-`
+`;
 
 export const LastSigh = styled.View`
 	width: 100%;
 	height: ${relativeScreenHeight(10)}px;
-`
+`;

@@ -1,44 +1,50 @@
-import React, { useContext } from 'react'
-import { StatusBar } from 'react-native'
+import React, { useContext } from "react";
+import { StatusBar } from "react-native";
 
-import { Container, ButtonsContainer } from './styles'
-import { theme } from '../../../common/theme'
+import { Container, ButtonsContainer } from "./styles";
+import { theme } from "@common/theme";
 
-import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-import { DeliveryMethod } from '../../../services/firebase/types'
+import { SelectDeliveryMethodScreenProps } from "@routes/Stack/ServiceStack/stackScreenProps";
+import { DeliveryMethod } from "@services/firebase/types";
 
-import { ServiceContext } from '../../../contexts/ServiceContext'
-import { EditContext } from '../../../contexts/EditContext'
+import { ServiceContext } from "@contexts/ServiceContext";
+import { EditContext } from "@contexts/EditContext";
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { ProgressBar } from '../../../components/ProgressBar'
+import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
+import { FormContainer } from "@components/_containers/FormContainer";
+import { BackButton } from "@components/_buttons/BackButton";
+import { PrimaryButton } from "@components/_buttons/PrimaryButton";
+import { InstructionCard } from "@components/_cards/InstructionCard";
+import { ProgressBar } from "@components/ProgressBar";
 
-function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenProps) {
-	const { setServiceDataOnContext } = useContext(ServiceContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+function SelectDeliveryMethod({
+	route,
+	navigation,
+}: SelectDeliveryMethodScreenProps) {
+	const { setServiceDataOnContext } = useContext(ServiceContext);
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext);
 
 	const saveDeliveryMethod = (deliveryMethod: DeliveryMethod) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ range: deliveryMethod })
-			navigation.goBack()
-			return
+			addNewUnsavedFieldToEditContext({ range: deliveryMethod });
+			navigation.goBack();
+			return;
 		}
 
-		setServiceDataOnContext({ range: deliveryMethod })
-		navigation.navigate('SelectServiceFrequency')
-	}
+		setServiceDataOnContext({ range: deliveryMethod });
+		navigation.navigate("SelectServiceFrequency");
+	};
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => route.params && route.params.editMode;
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar
+				backgroundColor={theme.white3}
+				barStyle={"dark-content"}
+			/>
 			<DefaultHeaderContainer
-				relativeHeight={'27%'}
+				relativeHeight={"27%"}
 				centralized
 				backgroundColor={theme.white3}
 			>
@@ -46,67 +52,62 @@ function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenP
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={18}
-					message={'você entrega seu serviço?'}
-					highlightedWords={['entrega', 'seu', 'serviço']}
+					message={"você entrega seu serviço?"}
+					highlightedWords={["entrega", "seu", "serviço"]}
 				>
-					<ProgressBar
-						range={5}
-						value={5}
-					/>
+					<ProgressBar range={5} value={5} />
 				</InstructionCard>
 			</DefaultHeaderContainer>
-			<FormContainer
-				backgroundColor={theme.purple2}
-			>
+			<FormContainer backgroundColor={theme.purple2}>
 				<ButtonsContainer>
 					<PrimaryButton
-						justifyContent={'flex-start'}
+						justifyContent={"flex-start"}
 						color={theme.white3}
-						relativeHeight={'18%'}
+						relativeHeight={"18%"}
 						labelColor={theme.black4}
 						fontSize={18}
-						textAlign={'left'}
-						label={'não entrego'}
-						highlightedWords={['não']}
-						onPress={() => saveDeliveryMethod('unavailable')}
+						textAlign={"left"}
+						label={"não entrego"}
+						highlightedWords={["não"]}
+						onPress={() => saveDeliveryMethod("unavailable")}
 					/>
 					<PrimaryButton
-						justifyContent={'flex-start'}
+						justifyContent={"flex-start"}
 						color={theme.white3}
-						relativeHeight={'18%'}
+						relativeHeight={"18%"}
 						labelColor={theme.black4}
 						fontSize={18}
-						textAlign={'left'}
-						label={'entrego perto de mim'}
-						highlightedWords={['perto', 'de', 'mim']}
-						onPress={() => saveDeliveryMethod('near')}
+						textAlign={"left"}
+						label={"entrego perto de mim"}
+						highlightedWords={["perto", "de", "mim"]}
+						onPress={() => saveDeliveryMethod("near")}
 					/>
 					<PrimaryButton
-						justifyContent={'flex-start'}
+						justifyContent={"flex-start"}
 						color={theme.white3}
-						relativeHeight={'18%'}
+						relativeHeight={"18%"}
 						labelColor={theme.black4}
 						fontSize={18}
-						textAlign={'left'}
-						label={'entrego na cidade'}
-						highlightedWords={['na', 'cidade']}
-						onPress={() => saveDeliveryMethod('city')}
+						textAlign={"left"}
+						label={"entrego na cidade"}
+						highlightedWords={["na", "cidade"]}
+						onPress={() => saveDeliveryMethod("city")}
 					/>
 					<PrimaryButton
-						justifyContent={'flex-start'}
+						justifyContent={"flex-start"}
 						color={theme.white3}
-						relativeHeight={'18%'}
+						relativeHeight={"18%"}
 						labelColor={theme.black4}
 						fontSize={18}
-						textAlign={'left'}
-						label={'entrego no brasil inteiro'}
-						highlightedWords={['brasil', 'inteiro']}
-						onPress={() => saveDeliveryMethod('country')}
+						textAlign={"left"}
+						label={"entrego no brasil inteiro"}
+						highlightedWords={["brasil", "inteiro"]}
+						onPress={() => saveDeliveryMethod("country")}
 					/>
 				</ButtonsContainer>
 			</FormContainer>
 		</Container>
-	)
+	);
 }
 
-export { SelectDeliveryMethod }
+export { SelectDeliveryMethod };

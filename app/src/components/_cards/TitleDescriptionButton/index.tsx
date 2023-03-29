@@ -1,18 +1,17 @@
-import React, { useState } from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
+import React, { useState } from "react";
+import { RFValue } from "react-native-responsive-fontsize";
 
-import { Container, ContainerInner, Description, Title } from './styles'
-
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { showMessageWithHighlight } from "@common/auxiliaryFunctions";
+import { Container, ContainerInner, Description, Title } from "./styles";
 
 interface TitleDescriptionButtonProps {
-	height: string | number
-	color: string
-	title: string
-	titleFontSize?: number
-	description: string
-	highlightedWords: string[]
-	onPress: () => void
+	height: string | number;
+	color: string;
+	title: string;
+	titleFontSize?: number;
+	description: string;
+	highlightedWords: string[];
+	onPress: () => void;
 }
 
 function TitleDescriptionButton({
@@ -22,31 +21,29 @@ function TitleDescriptionButton({
 	titleFontSize = 22,
 	description,
 	highlightedWords,
-	onPress
+	onPress,
 }: TitleDescriptionButtonProps) {
-	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
+	const [buttonPressed, setButtomPressed] = useState<boolean>(false);
 
 	function pressingButton() {
-		setButtomPressed(true)
+		setButtomPressed(true);
 	}
 
 	function notPressingButton() {
-		setButtomPressed(false)
+		setButtomPressed(false);
 	}
 
 	function releaseButton() {
-		setButtomPressed(false)
-		onPress()
+		setButtomPressed(false);
+		onPress();
 	}
 
 	return (
-		<Container
-			style={{ height }}
-		>
+		<Container style={{ height }}>
 			<ContainerInner
 				style={{
 					backgroundColor: color,
-					marginLeft: buttonPressed ? RFValue(5) : 0
+					marginLeft: buttonPressed ? RFValue(5) : 0,
 				}}
 				onPressIn={pressingButton}
 				onPressOut={notPressingButton}
@@ -54,7 +51,7 @@ function TitleDescriptionButton({
 			>
 				<Title
 					style={{
-						fontSize: RFValue(titleFontSize)
+						fontSize: RFValue(titleFontSize),
 					}}
 				>
 					{showMessageWithHighlight(title, highlightedWords)}
@@ -64,7 +61,7 @@ function TitleDescriptionButton({
 				</Description>
 			</ContainerInner>
 		</Container>
-	)
+	);
 }
 
-export { TitleDescriptionButton }
+export { TitleDescriptionButton };

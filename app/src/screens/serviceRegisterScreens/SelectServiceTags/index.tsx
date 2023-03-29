@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Keyboard, ScrollView, StatusBar } from 'react-native'
-import uuid from 'react-uuid'
+import React, { useContext, useEffect, useState } from "react";
+import { Keyboard, ScrollView, StatusBar } from "react-native";
+import uuid from "react-uuid";
 
 import {
 	Container,
@@ -8,54 +8,73 @@ import {
 	FloatButtonContainer,
 	InputTagArea,
 	Sigh,
-	TagsUnselectedArea
-} from './styles'
-import { theme } from '../../../common/theme'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import Check from '../../../assets/icons/check.svg'
+	TagsUnselectedArea,
+} from "./styles";
+import { theme } from "@common/theme";
+import {
+	relativeScreenHeight,
+	relativeScreenWidth,
+} from "@common/screenDimensions";
+import Check from "@assets/icons/check.svg";
 
-import { serviceCategories, updateServiceTags } from '../../../utils/postsCategories/serviceCategories'
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { sortArray } from '../../../common/auxiliaryFunctions'
+import {
+	serviceCategories,
+	updateServiceTags,
+} from "@utils/postsCategories/serviceCategories";
+import { removeAllKeyboardEventListeners } from "@common/listenerFunctions";
+import { sortArray } from "@common/auxiliaryFunctions";
 
-import { SelectServiceTagsScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
+import { SelectServiceTagsScreenProps } from "@routes/Stack/ServiceStack/stackScreenProps";
 
-import { ServiceContext } from '../../../contexts/ServiceContext'
-import { EditContext } from '../../../contexts/EditContext'
+import { ServiceContext } from "@contexts/ServiceContext";
+import { EditContext } from "@contexts/EditContext";
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
-import { SelectButton } from '../../../components/_buttons/SelectButton'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { ProgressBar } from '../../../components/ProgressBar'
-import { LineInput } from '../../../components/LineInput'
-import { SelectedTagsHorizontalList } from '../../../components/SelectedTagsHorizontalList'
+import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
+import { SelectButtonsContainer } from "@components/_containers/SelectButtonsContainer";
+import { SelectButton } from "@components/_buttons/SelectButton";
+import { BackButton } from "@components/_buttons/BackButton";
+import { PrimaryButton } from "@components/_buttons/PrimaryButton";
+import { InstructionCard } from "@components/_cards/InstructionCard";
+import { ProgressBar } from "@components/ProgressBar";
+import { LineInput } from "@components/LineInput";
+import { SelectedTagsHorizontalList } from "@components/SelectedTagsHorizontalList";
 
-function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) {
-	const { setServiceDataOnContext } = useContext(ServiceContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+function SelectServiceTags({
+	route,
+	navigation,
+}: SelectServiceTagsScreenProps) {
+	const { setServiceDataOnContext } = useContext(ServiceContext);
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext);
 
-	const [textTag, setTextTag] = useState('')
-	const [keyboardOpened, setKeyboardOpened] = useState(false)
-	const [selectedTags, setSelectedTags] = useState<string[]>([])
+	const [textTag, setTextTag] = useState("");
+	const [keyboardOpened, setKeyboardOpened] = useState(false);
+	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
 	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			removeAllKeyboardEventListeners()
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
+		const unsubscribe = navigation.addListener("focus", () => {
+			removeAllKeyboardEventListeners();
+			Keyboard.addListener("keyboardDidShow", () =>
+				setKeyboardOpened(true)
+			);
+			Keyboard.addListener("keyboardDidHide", () =>
+				setKeyboardOpened(false)
+			);
+		});
+		return unsubscribe;
+	}, [navigation]);
 
 	const renderUnselectedTags = () => {
-		const ordenedServiceTags = serviceCategories[getServiceCategorySelected()].tags.sort(sortArray)
+		const ordenedServiceTags =
+			serviceCategories[getServiceCategorySelected()].tags.sort(
+				sortArray
+			);
 
 		return ordenedServiceTags.map((tagName) => {
-			if (selectedTags.includes(tagName)) return
-			if (tagName.indexOf(textTag.toLowerCase()) !== -1 && !selectedTags.includes(tagName)) {
+			if (selectedTags.includes(tagName)) return;
+			if (
+				tagName.indexOf(textTag.toLowerCase()) !== -1 &&
+				!selectedTags.includes(tagName)
+			) {
 				return (
 					<SelectButton
 						key={uuid()}
@@ -67,76 +86,87 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 						backgroundSelected={theme.purple1}
 						onSelect={() => onSelectTag(tagName)}
 					/>
-				)
+				);
 			}
-			return null
-		})
-	}
+			return null;
+		});
+	};
 
 	const onSelectTag = (tagName: string) => {
-		const selectedCategoriesCurrent = [...selectedTags]
+		const selectedCategoriesCurrent = [...selectedTags];
 		if (selectedTags.includes(tagName)) {
-			const selectedTagsFiltred = selectedCategoriesCurrent.filter((tag) => tag !== tagName)
-			setSelectedTags(selectedTagsFiltred)
+			const selectedTagsFiltred = selectedCategoriesCurrent.filter(
+				(tag) => tag !== tagName
+			);
+			setSelectedTags(selectedTagsFiltred);
 		} else {
-			selectedCategoriesCurrent.push(tagName)
-			setSelectedTags(selectedCategoriesCurrent)
+			selectedCategoriesCurrent.push(tagName);
+			setSelectedTags(selectedCategoriesCurrent);
 		}
-	}
+	};
 
 	const getServiceCategorySelected = () => {
-		const { categorySelected } = route.params
-		return categorySelected
-	}
+		const { categorySelected } = route.params;
+		return categorySelected;
+	};
 
 	const getCurrentCategoryLabelHightlighted = () => {
-		const highlightedWords = serviceCategories[getServiceCategorySelected()].label.split(' ')
-		return highlightedWords
-	}
+		const highlightedWords =
+			serviceCategories[getServiceCategorySelected()].label.split(" ");
+		return highlightedWords;
+	};
 
-	const getCurrentCategoryLabel = () => serviceCategories[getServiceCategorySelected()].label
+	const getCurrentCategoryLabel = () =>
+		serviceCategories[getServiceCategorySelected()].label;
 
 	const addNewTag = () => {
-		const lowerCaseTag = textTag.toLowerCase()
+		const lowerCaseTag = textTag.toLowerCase();
 
-		if (!lowerCaseTag.length) return
-		if (serviceCategories[getServiceCategorySelected()].tags.includes(lowerCaseTag as never)) {
-			setTextTag('')
-			return onSelectTag(lowerCaseTag)
+		if (!lowerCaseTag.length) return;
+		if (
+			serviceCategories[getServiceCategorySelected()].tags.includes(
+				lowerCaseTag as never
+			)
+		) {
+			setTextTag("");
+			return onSelectTag(lowerCaseTag);
 		}
-		const selectedCategoriesCurrent = [...selectedTags]
-		selectedCategoriesCurrent.push(lowerCaseTag)
+		const selectedCategoriesCurrent = [...selectedTags];
+		selectedCategoriesCurrent.push(lowerCaseTag);
 
-		setSelectedTags(selectedCategoriesCurrent)
-		updateServiceTags(getServiceCategorySelected(), lowerCaseTag)
-		setTextTag('')
-	}
+		setSelectedTags(selectedCategoriesCurrent);
+		updateServiceTags(getServiceCategorySelected(), lowerCaseTag);
+		setTextTag("");
+	};
 
 	const saveTags = () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({
 				category: route.params.categorySelected,
-				tags: selectedTags
-			})
-			navigation.goBack()
-			navigation.goBack()
-			return
+				tags: selectedTags,
+			});
+			navigation.goBack();
+			navigation.goBack();
+			return;
 		}
 
 		setServiceDataOnContext({
-			tags: selectedTags
-		})
-		navigation.navigate('SelectSaleOrExchange')
-	}
+			tags: selectedTags,
+		});
+		navigation.navigate("SelectSaleOrExchange");
+	};
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => route.params && route.params.editMode;
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar
+				backgroundColor={theme.purple2}
+				barStyle={"dark-content"}
+			/>
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(25)}
-				relativeHeight={'25%'}
+				relativeHeight={"25%"}
 				centralized
 				backgroundColor={theme.purple2}
 			>
@@ -145,65 +175,65 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 					borderLeftWidth={3}
 					fontSize={18}
 					message={`dentro de ${getCurrentCategoryLabel()}, quais palavras tem a ver com seu serviço?`}
-					highlightedWords={[...getCurrentCategoryLabelHightlighted(), 'tem', 'a', 'ver']}
+					highlightedWords={[
+						...getCurrentCategoryLabelHightlighted(),
+						"tem",
+						"a",
+						"ver",
+					]}
 				>
-					<ProgressBar
-						range={5}
-						value={2}
-					/>
+					<ProgressBar range={5} value={2} />
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<ContainerBottom
 				style={{
-					justifyContent: keyboardOpened ? 'center' : 'flex-start'
+					justifyContent: keyboardOpened ? "center" : "flex-start",
 				}}
 			>
-				<InputTagArea >
+				<InputTagArea>
 					<LineInput
 						value={textTag}
-						relativeWidth={'100%'}
+						relativeWidth={"100%"}
 						defaultBackgroundColor={theme.white2}
 						defaultBorderBottomColor={theme.black4}
 						validBackgroundColor={theme.purple1}
 						validBorderBottomColor={theme.purple5}
 						invalidBackgroundColor={theme.red1}
 						invalidBorderBottomColor={theme.red5}
-						textAlign={'left'}
+						textAlign={"left"}
 						lastInput
 						fontSize={16}
 						blurOnSubmit
 						invalidTextAfterSubmit={false}
-						placeholder={'digite ou escolha alguma das opções'}
-						keyboardType={'default'}
-						textIsValid={serviceCategories[getServiceCategorySelected()].tags.includes(textTag as never)}
+						placeholder={"digite ou escolha alguma das opções"}
+						keyboardType={"default"}
+						textIsValid={serviceCategories[
+							getServiceCategorySelected()
+						].tags.includes(textTag as never)}
 						onPressKeyboardSubmit={addNewTag}
 						onChangeText={(text: string) => setTextTag(text)}
 					/>
 				</InputTagArea>
-				<SelectButtonsContainer
-					backgroundColor={theme.white2}
-				>
+				<SelectButtonsContainer backgroundColor={theme.white2}>
 					<ScrollView
 						showsVerticalScrollIndicator={false}
 						style={{
-							height: '100%', flex: 1
+							height: "100%",
+							flex: 1,
 						}}
 						contentContainerStyle={{
-							flexDirection: 'row',
-							flexWrap: 'wrap',
-							overflow: 'scroll',
+							flexDirection: "row",
+							flexWrap: "wrap",
+							overflow: "scroll",
 						}}
 					>
-						{
-							!keyboardOpened && !!selectedTags.length
-							&& (
-								< SelectedTagsHorizontalList
-									backgroundSelected={theme.purple1}
-									selectedTags={selectedTags}
-									onSelectTag={onSelectTag}
-								/>
-							)
-						}
+						{!keyboardOpened && !!selectedTags.length && (
+							<SelectedTagsHorizontalList
+								backgroundSelected={theme.purple1}
+								selectedTags={selectedTags}
+								onSelectTag={onSelectTag}
+							/>
+						)}
 						<TagsUnselectedArea>
 							{renderUnselectedTags()}
 						</TagsUnselectedArea>
@@ -211,26 +241,22 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 						<Sigh />
 					</ScrollView>
 				</SelectButtonsContainer>
-				{
-					!!selectedTags.length && !keyboardOpened
-						? (
-							<FloatButtonContainer>
-								<PrimaryButton
-									flexDirection={'row-reverse'}
-									color={theme.green3}
-									label={'continuar'}
-									labelColor={theme.white3}
-									SvgIcon={Check}
-									svgIconScale={['30%', '15%']}
-									onPress={saveTags}
-								/>
-							</FloatButtonContainer>
-						)
-						: null
-				}
+				{!!selectedTags.length && !keyboardOpened ? (
+					<FloatButtonContainer>
+						<PrimaryButton
+							flexDirection={"row-reverse"}
+							color={theme.green3}
+							label={"continuar"}
+							labelColor={theme.white3}
+							SvgIcon={Check}
+							svgIconScale={["30%", "15%"]}
+							onPress={saveTags}
+						/>
+					</FloatButtonContainer>
+				) : null}
 			</ContainerBottom>
-		</Container >
-	)
+		</Container>
+	);
 }
 
-export { SelectServiceTags }
+export { SelectServiceTags };

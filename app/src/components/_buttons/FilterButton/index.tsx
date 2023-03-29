@@ -1,20 +1,20 @@
-import React, { useState } from 'react'
-import { TouchableWithoutFeedback } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
+import React, { useState } from "react";
+import { TouchableWithoutFeedback } from "react-native";
+import { RFValue } from "react-native-responsive-fontsize";
 
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { ContainerBottom, ContainerSurface, Label } from './styles'
-import { theme } from '../../../common/theme'
+import { relativeScreenHeight } from "@common/screenDimensions";
+import { theme } from "@common/theme";
+import { ContainerBottom, ContainerSurface, Label } from "./styles";
 
 interface FilterButtonProps {
-	height?: string | number
-	marginRight?: number
-	backgroundColor?: string
-	backgroundSelected?: string
-	label?: string
-	fontSize?: number
-	selected?: boolean
-	onSelect?: () => void
+	height?: string | number;
+	marginRight?: number;
+	backgroundColor?: string;
+	backgroundSelected?: string;
+	label?: string;
+	fontSize?: number;
+	selected?: boolean;
+	onSelect?: () => void;
 }
 
 function FilterButton({
@@ -25,21 +25,21 @@ function FilterButton({
 	label,
 	fontSize = 15,
 	selected = false,
-	onSelect
+	onSelect,
 }: FilterButtonProps) {
-	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
+	const [buttonPressed, setButtomPressed] = useState<Boolean>(false);
 
 	function pressingButton() {
-		setButtomPressed(true)
+		setButtomPressed(true);
 	}
 
 	function notPressingButton() {
-		setButtomPressed(false)
+		setButtomPressed(false);
 	}
 
 	function releaseButton() {
-		setButtomPressed(false)
-		onSelect && onSelect()
+		setButtomPressed(false);
+		onSelect && onSelect();
 	}
 
 	return (
@@ -58,14 +58,20 @@ function FilterButton({
 				<ContainerSurface
 					style={{
 						width: label && label.length * RFValue(10),
-						backgroundColor: selected ? backgroundSelected : backgroundColor,
-						marginRight: selected ? RFValue(-4) : buttonPressed ? RFValue(-5) : 0
+						backgroundColor: selected
+							? backgroundSelected
+							: backgroundColor,
+						marginRight: selected
+							? RFValue(-4)
+							: buttonPressed
+							? RFValue(-5)
+							: 0,
 					}}
 				>
 					<Label
 						style={{
 							fontSize: RFValue(fontSize),
-							fontFamily: 'Arvo_400Regular'
+							fontFamily: "Arvo_400Regular",
 						}}
 					>
 						{label}
@@ -73,7 +79,7 @@ function FilterButton({
 				</ContainerSurface>
 			</ContainerBottom>
 		</TouchableWithoutFeedback>
-	)
+	);
 }
 
-export { FilterButton }
+export { FilterButton };

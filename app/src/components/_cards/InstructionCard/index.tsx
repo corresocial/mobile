@@ -1,19 +1,18 @@
-import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
+import React from "react";
+import { RFValue } from "react-native-responsive-fontsize";
 
-import { Container, Message } from './styles'
-
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { showMessageWithHighlight } from "@common/auxiliaryFunctions";
+import { Container, Message } from "./styles";
 
 interface InstructionCardProps {
-	message: string
-	highlightedWords?: string[]
-	fontSize?: number
-	fontSizeHighlighted?: number
-	lineHeight?: number
-	borderLeftWidth?: number
-	flex?: number
-	children?: React.ReactElement | never[]
+	message: string;
+	highlightedWords?: string[];
+	fontSize?: number;
+	fontSizeHighlighted?: number;
+	lineHeight?: number;
+	borderLeftWidth?: number;
+	flex?: number;
+	children?: React.ReactElement | never[];
 }
 
 function InstructionCard({
@@ -24,13 +23,13 @@ function InstructionCard({
 	lineHeight,
 	borderLeftWidth,
 	flex = 1,
-	children
+	children,
 }: InstructionCardProps) {
 	return (
 		<Container
 			style={{
 				borderLeftWidth: borderLeftWidth || 5,
-				flex
+				flex,
 			}}
 		>
 			<Message
@@ -39,11 +38,15 @@ function InstructionCard({
 					lineHeight: lineHeight ? RFValue(lineHeight) : RFValue(22),
 				}}
 			>
-				{showMessageWithHighlight(message, highlightedWords, fontSizeHighlighted)}
+				{showMessageWithHighlight(
+					message,
+					highlightedWords,
+					fontSizeHighlighted
+				)}
 			</Message>
 			{children}
 		</Container>
-	)
+	);
 }
 
-export { InstructionCard }
+export { InstructionCard };

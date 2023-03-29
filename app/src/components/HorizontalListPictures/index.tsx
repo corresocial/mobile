@@ -1,5 +1,5 @@
-import React from 'react'
-import uuid from 'react-uuid'
+import React from "react";
+import uuid from "react-uuid";
 
 import {
 	AddNewPicturesButton,
@@ -8,52 +8,58 @@ import {
 	ScrollView,
 	PicturePortrait,
 	Picture,
-} from './styles'
-import AddPictureIcon from '../../assets/icons/addPicture.svg'
+} from "./styles";
+import AddPictureIcon from "@assets/icons/addPicture.svg";
 
 interface HorizontalListPicturesProps {
-	picturesUri: string[]
-	pictureUriSelected: number
-	onSelectPicture: (index: number) => void
-	openCamera: () => void
+	picturesUri: string[];
+	pictureUriSelected: number;
+	onSelectPicture: (index: number) => void;
+	openCamera: () => void;
 }
 
-function HorizontalListPictures({ picturesUri, pictureUriSelected, onSelectPicture, openCamera }: HorizontalListPicturesProps) {
-	const renderPictures = () => picturesUri.map((pictureUri, index) => (
-		<PictureItemButtom
-			key={uuid()}
-			onPress={() => onSelectPicture(index)}
-		>
-			<PicturePortrait
-				style={{
-					opacity: pictureUriSelected === index ? 1 : 0.5,
-					borderWidth: pictureUriSelected === index ? 3 : 2,
-					borderRightWidth: pictureUriSelected === index ? 4 : 3
-				}}
+function HorizontalListPictures({
+	picturesUri,
+	pictureUriSelected,
+	onSelectPicture,
+	openCamera,
+}: HorizontalListPicturesProps) {
+	const renderPictures = () =>
+		picturesUri.map((pictureUri, index) => (
+			<PictureItemButtom
+				key={uuid()}
+				onPress={() => onSelectPicture(index)}
 			>
-				<Picture
-					source={{
-						uri: pictureUri
+				<PicturePortrait
+					style={{
+						opacity: pictureUriSelected === index ? 1 : 0.5,
+						borderWidth: pictureUriSelected === index ? 3 : 2,
+						borderRightWidth: pictureUriSelected === index ? 4 : 3,
 					}}
-					width={100}
-					height={100}
-				/>
-			</PicturePortrait>
-		</PictureItemButtom>
-	))
+				>
+					<Picture
+						source={{
+							uri: pictureUri,
+						}}
+						width={100}
+						height={100}
+					/>
+				</PicturePortrait>
+			</PictureItemButtom>
+		));
 
 	return (
-		<Container >
+		<Container>
 			<ScrollView horizontal>
 				<Container>
 					<AddNewPicturesButton onPress={openCamera}>
-						<AddPictureIcon width={'50%'} height={'50%'} />
+						<AddPictureIcon width={"50%"} height={"50%"} />
 					</AddNewPicturesButton>
 					{renderPictures()}
 				</Container>
 			</ScrollView>
 		</Container>
-	)
+	);
 }
 
-export { HorizontalListPictures }
+export { HorizontalListPictures };
