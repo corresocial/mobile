@@ -1,4 +1,4 @@
-import { MessageObjects } from '../../@types/chat/types'
+import { Message, MessageObjects } from '../../@types/chat/types'
 
 const defaultMessageObject = {
 	message: '',
@@ -17,7 +17,14 @@ const getLastMessageObjects = (messages: MessageObjects) => {
 	return messages[lastMessageId]
 }
 
+const sortChatMessages = (a: Message, b: Message) => {
+	if (a.dateTime < b.dateTime) return -1
+	if (a.dateTime > b.dateTime) return 1
+	return 0
+}
+
 export {
 	defaultMessageObject,
-	getLastMessageObjects
+	getLastMessageObjects,
+	sortChatMessages
 }

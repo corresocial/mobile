@@ -46,4 +46,4 @@ const getRegistredChatData = async (chatId: Id) => {
 		})
 }
 
-export { getRemoteChatData }
+export { getRegistredChatData, getRemoteChatData }

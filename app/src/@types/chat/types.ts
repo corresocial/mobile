@@ -32,7 +32,7 @@ export type MessageObjects = {
 }
 
 export type UserDatabase = {
-	blockedUsers: string[],
+	blockedUsers: string[]
 	chatIds: string[]
 }
 

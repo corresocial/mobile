@@ -9,15 +9,7 @@ import { Id } from '../services/firebase/types'
 import { AuthContext } from './AuthContext'
 
 type ChatContextType = {
-	loadChats: (chatIds?: Id[]) => void
-	loadUserChatIds: (userId: Id) => Promise<Id[]>
-	updateChat: (chatData: Chat) => void
-
-	startChatListener: (chatIds: Id[]) => void
-	setCurrentChat: (chat: Chat) => void
 	chatDataContext: Chat[]
-	setNewMessageOnChat: (chatId: Id, chatData: Chat) => void
-	updateChatDataOnContext: (chatData: Chat) => void
 }
 
 interface ChatProviderProps {
@@ -25,24 +17,15 @@ interface ChatProviderProps {
 }
 
 const initialValue = {
-	setCurrentChat: (chat: Chat) => { },
-	chatDataContext: [],
-	loadChats: (chatIds?: Id[]) => { },
-	updateChat: (chatData: Chat) => { },
-	loadUserChatIds: (userId: Id) => Promise,
-	startChatListener: (chatIds: Id[]) => { },
-	setNewMessageOnChat: (chatId: Id, chatData: Chat) => { },
-	updateChatDataOnContext: (chatData: Chat) => { },
-
+	chatDataContext: []
 }
 
-const ChatContext = createContext<ChatContextType>(initialValue as any) // TODO Type
+const ChatContext = createContext<ChatContextType>(initialValue)
 
 function ChatProvider({ children }: ChatProviderProps) {
 	const { userDataContext } = useContext(AuthContext)
 
 	const [chatDataContext, setChatsOnContext] = useState<Chat[]>([])
-	const [currentChat, setCurrentChat] = useState<Chat>()
 
 	useEffect(() => {
 		initUserInstance()
@@ -66,10 +49,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 				console.log(`Listener userChatIds running... ${userId}`)
 				const newUserChatIds = await loadUserChatIds(userDataContext.userId)
 				startChatListener(newUserChatIds)
-				// loadChats(newUserChatIds) // Remove
 			})
-		} else { // Remove
-			console.log(`Esse usuário não existe: ${userId}`)
 		}
 	}
 
@@ -112,7 +92,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 			.filter((filteredChatIds) => filteredChatIds)
 	}
 
-	const updateChat = async (chatData: Chat) => {
+	/* const updateChat = async (chatData: Chat) => {
 		const newChats = chatDataContext.map((chat) => {
 			if (chat.chatId === chatData.chatId) {
 				return chatData
@@ -121,16 +101,9 @@ function ChatProvider({ children }: ChatProviderProps) {
 		})
 
 		setChatsOnContext(newChats)
-	}
+	} */
 
-	const chatProviderData = ({
-		currentChat,
-		setCurrentChat,
-		updateChat,
-		chatDataContext,
-		loadChats,
-		loadUserChatIds,
-	})
+	const chatProviderData = ({ chatDataContext })
 
 	return (
 		<ChatContext.Provider value={chatProviderData as any} >

@@ -1,36 +1,41 @@
 import React, { RefObject, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import uuid from 'react-uuid'
-
 import { FlatList } from 'react-native'
 import { get, onValue, ref } from 'firebase/database'
-import { theme } from '../../../common/theme'
-import { SmallButton } from '../../../components/_buttons/SmallButton'
 
+import { getRemoteChatData } from '../../../services/firebase/chat/getRemoteChatData'
+import { registerNewChat } from '../../../services/firebase/chat/registerNewChat'
+import { setChatIdToUsers } from '../../../services/firebase/chat/setChatIdToUsers'
+import { makeAllUserMessagesAsRead } from '../../../services/firebase/chat/makeAllUserMessagesAsRead'
+import { getLastMessageObjects, sortChatMessages } from '../../../utils/chat'
+import { blockUserId } from '../../../services/firebase/chat/blockUser'
+import { unblockUserId } from '../../../services/firebase/chat/unblockUser'
+import { getRemoteUser } from '../../../services/firebase/chat/getRemoteUser'
+import { cleanMessages } from '../../../services/firebase/chat/cleanMessages'
+import { realTimeDatabase } from '../../../services/firebase'
+
+import { AuthContext } from '../../../contexts/AuthContext'
+
+import { FlatListItem } from '../../../@types/global/types'
+import { Id } from '../../../services/firebase/types'
+import { Chat, Message, MessageObjects, UserIdentification } from '../../../@types/chat/types'
+
+import { theme } from '../../../common/theme'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { Container, Header, Sigh } from './styles'
 import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ChatInput } from '../../../components/ChatInput'
 import { MessageCard } from '../../../components/MessageCard'
-import { Chat, Message, MessageObjects, UserIdentification } from '../../../@types/chat/types'
-import { AuthContext } from '../../../contexts/AuthContext'
 import { ChatPopOver } from '../../../components/ChatPopOver'
-import { FlatListItem } from '../../../@types/global/types'
 import { sendMessage } from '../../../services/firebase/chat/sendMessage'
-import { Id } from '../../../services/firebase/types'
-import { realTimeDatabase } from '../../../services/firebase'
+import { SmallButton } from '../../../components/_buttons/SmallButton'
+
 import { ChatMessagesScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { getRemoteChatData } from '../../../services/firebase/chat/getRemoteChatData'
-import { registerNewChat } from '../../../services/firebase/chat/registerNewChat'
-import { setChatIdToUsers } from '../../../services/firebase/chat/setChatIdToUsers'
-import { makeAllUserMessagesAsRead } from '../../../services/firebase/chat/makeAllUserMessagesAsRead'
-import { getLastMessageObjects } from '../../../utils/chat'
-import { blockUserId } from '../../../services/firebase/chat/blockUser'
-import { getRemoteUser } from '../../../services/firebase/chat/getRemoteUser'
-import { sortArray } from '../../../common/auxiliaryFunctions'
 
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -130,11 +135,23 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const blockUser = async () => {
-		const blockedUserId = getReceiverUserId(currentChat.user1, currentChat.user2)
-		await blockUserId(blockedUserId, userDataContext.userId)
+		const targetUserId = getReceiverUserId(currentChat.user1, currentChat.user2)
+		await blockUserId(targetUserId, userDataContext.userId)
 
 		setChatOptionsIsOpen(false)
-		navigation.goBack()
+		setIsBlockedUser(true)
+	}
+
+	const unblockUser = async () => {
+		const blockedUserId = getReceiverUserId(currentChat.user1, currentChat.user2)
+		await unblockUserId(blockedUserId, userDataContext.userId)
+
+		setChatOptionsIsOpen(false)
+		setIsBlockedUser(false)
+	}
+
+	const cleanConversation = async () => {
+		await cleanMessages(currentChat.chatId, getUserReceiverLabel(currentChat.user1, currentChat.user2))
 	}
 
 	const generateMessageObject = (text: string) => {
@@ -153,6 +170,13 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			return 'user1'
 		}
 		return 'user2'
+	}
+
+	const getUserReceiverLabel = (user1: UserIdentification, user2: UserIdentification) => {
+		if (userDataContext.userId === user1.userId) {
+			return 'user2'
+		}
+		return 'user1'
 	}
 
 	const getReceiverUserId = (user1: UserIdentification, user2: UserIdentification) => {
@@ -177,22 +201,18 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const getOrdenerMessages = () => {
+		console.log(messages)
+		console.log(currentChat[getUserSenderLabel(currentChat.user1, currentChat.user2)])
 		const allMessages = [
-			...Object.values(messages),
-			...Object.values(currentChat[getUserSenderLabel(currentChat.user1, currentChat.user2)].privateMessages || [])
+			...Object.values(messages || {}),
+			...Object.values(currentChat[getUserSenderLabel(currentChat.user1, currentChat.user2) || {}].privateMessages || [])
 		]
 
 		if (currentChat[getUserSenderLabel(currentChat.user1, currentChat.user2)].privateMessages) {
-			return allMessages.sort(sortMessages)
+			return allMessages.sort(sortChatMessages)
 		}
 
 		return allMessages
-	}
-
-	const sortMessages = (a: Message, b: Message) => {
-		if (a.dateTime < b.dateTime) return -1
-		if (a.dateTime > b.dateTime) return 1
-		return 0
 	}
 
 	return (
@@ -219,7 +239,9 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					popoverVisibility={chatOptionsIsOpen}
 					closePopover={() => setChatOptionsIsOpen(false)}
 					blockUser={blockUser}
-					cleanConversation={() => { console.log('cleanConversation') }}
+					unblockUser={unblockUser}
+					userIsBlocked={isBlockedUser}
+					cleanConversation={cleanConversation}
 				>
 					<SmallButton
 						color={theme.white3}
@@ -233,7 +255,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			<FlatList
 				ref={flatListRef}
 				data={messages ? getOrdenerMessages() : []}
-				renderItem={({ item }: FlatListItem<Message>) => ( // TODO TYPE
+				renderItem={({ item }: FlatListItem<Message>) => (
 					<MessageCard
 						message={item.message}
 						dateTime={item.dateTime}

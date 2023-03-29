@@ -16,18 +16,22 @@ import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 interface ChatPopOverProps {
 	userName?: string
 	popoverVisibility: boolean
+	userIsBlocked: boolean
 	children: React.ReactChild
 	closePopover: () => void
 	blockUser: () => void
+	unblockUser: () => void
 	cleanConversation: () => void
 }
 
 function ChatPopOver({
 	userName,
 	popoverVisibility,
+	userIsBlocked,
 	children,
 	closePopover,
 	blockUser,
+	unblockUser,
 	cleanConversation
 }: ChatPopOverProps) {
 	return (
@@ -55,11 +59,11 @@ function ChatPopOver({
 					<Sigh />
 					<PrimaryButton
 						color={theme.red3}
-						onPress={blockUser}
-						label={'bloquear usuário'}
-						highlightedWords={['bloquear', 'usuário']}
+						onPress={!userIsBlocked ? blockUser : unblockUser}
+						label={`${!userIsBlocked ? 'bloquear' : 'desbloquear'} usuário`}
+						highlightedWords={[`${!userIsBlocked ? 'bloquear' : 'desbloquear'}`, 'usuário']}
 						labelColor={theme.white3}
-						fontSize={14}
+						fontSize={13}
 						SvgIcon={BlockIcon}
 						svgIconScale={['50%', '15%']}
 						minHeight={20}
@@ -72,7 +76,7 @@ function ChatPopOver({
 						label={'apagar conversa'}
 						highlightedWords={['apagar', 'conversa']}
 						labelColor={theme.white3}
-						fontSize={14}
+						fontSize={13}
 						SvgIcon={TrashIcon}
 						svgIconScale={['50%', '15%']}
 						minHeight={20}
