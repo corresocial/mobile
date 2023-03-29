@@ -33,6 +33,7 @@ import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ConversationCard } from '../../../components/_cards/ConversationCard'
 import { ChatConversationsScreenProps } from '../../../routes/Stack/ChatStack/stackScreenProps'
+import { getLastMessageObjects } from '../../../utils/chat'
 
 function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TODO TYPE
 	const { userDataContext } = useContext(AuthContext)
@@ -42,30 +43,14 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TO
 	const [filteredChats, setFilteredChats] = useState<Chat[]>([])
 	const [searchMode, setSearchMode] = useState(false)
 
-	const defaultMessageObject = {
-		message: '---',
-		dateTime: Date.now(),
-		readed: true,
-		owner: 'any',
-	}
-
 	useEffect(() => {
 		navigation.addListener('focus', () => {
-			// loadUserChatIds(userDataContext.userId)
+			// loadUserChatIds(userDataContext.userId) // TODO
 		})
 	}, [navigation])
 
-	const getLastMessageObjects = (messages: MessageObjects) => {
-		if (!messages) {
-			return defaultMessageObject
-		}
-
-		const keys = Object.keys(messages)
-		const lastMessageId: any = keys[keys.length - 1] // TODO Type
-		return messages[lastMessageId]
-	}
-
 	const getLastMessage = (messages: MessageObjects) => {
+		/* Integrar mensagens do Chat ao obter a última mensagem */
 		const lastMessage = getLastMessageObjects(messages)
 		return lastMessage.message || ''
 	}
@@ -124,7 +109,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TO
 	}
 
 	const getUserIdentificationById = async (userId: Id) => {
-		return getUser(userId).then((user: any) => ({ // TODO Type
+		return getUser(userId).then((user: any) => ({
 			userId: user.userId,
 			name: user.name,
 			profilePictureUrl: user.profilePictureUrl

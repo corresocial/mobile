@@ -4,11 +4,13 @@ export type Chat = {
 		userId: string
 		name: string
 		profilePictureUrl: string
+		privateMessages?: MessageObjects
 	}
 	user2: {
 		userId: string
 		name: string
 		profilePictureUrl: string
+		privateMessages?: MessageObjects
 	}
 	messages: MessageObjects
 }

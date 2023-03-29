@@ -8,8 +8,6 @@ import { registerNewUser } from '../services/firebase/chat/registerNewUser'
 import { Id } from '../services/firebase/types'
 import { AuthContext } from './AuthContext'
 
-type ChatData = any
-
 type ChatContextType = {
 	loadChats: (chatIds?: Id[]) => void
 	loadUserChatIds: (userId: Id) => Promise<Id[]>

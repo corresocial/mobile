@@ -44,6 +44,7 @@ function MessageCard({ message, dateTime, owner, errorSending, sendAgain }: Mess
 				]}
 				>
 					<TextMessage
+						selectable
 						style={{
 							color: !errorSending ? theme.black4 : theme.white3
 						}}

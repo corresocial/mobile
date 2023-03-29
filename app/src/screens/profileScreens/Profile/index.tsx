@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Linking, ScrollView, TouchableOpacity } from 'react-native'
+import { ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import {
@@ -49,7 +49,7 @@ import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialm
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { userDataContext } = useContext(AuthContext)
 
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
@@ -210,7 +210,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 				user2: {
 					userId: getUserField('userId'),
 					name: getUserField('name'),
-					profilePictureUrl: getProfilePicture()
+					profilePictureUrl: getProfilePicture() || ''
 				},
 				messages: {}
 			}
