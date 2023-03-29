@@ -54,16 +54,10 @@ git checkout -b feat/fix/XXXX # cria a nova branch que irá trabalhar
 git commit -m "feat/fix/XXX: descrição"
 ```
 
-<aside>
 💡 Todo esse processo de alternância de branchs, commits e publicação de novas branchs no github pode ser facilmente realizado pelo próprio VS Code na aba de Source Control, veja [Como gerenciar o git pelo VSCode](https://www.youtube.com/watch?v=HIqyLRKv-YE)
 
-</aside>
-
-<aside>
 
 💡 Criar Pull Request no repositório online diretamente.
-
-</aside>
 
 # Detalhes do código
 
