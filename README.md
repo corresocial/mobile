@@ -1,3 +1,5 @@
+# Como contribuir
+
 Para contribuir é muito simples, 
 
 1. utilizar nossos lints e configurações
