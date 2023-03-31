@@ -1,31 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import {
-	Animated,
-	LayoutChangeEvent,
-	LayoutRectangle,
-	Platform,
-	StatusBar,
-	View,
-} from 'react-native'
+import { Animated, LayoutChangeEvent, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
 import * as Location from 'expo-location'
 
-import { theme } from '@common/theme'
-import {
-	relativeScreenHeight,
-	relativeScreenWidth,
-} from '@common/screenDimensions'
+import { InsertCultureLocationScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import Check from '@assets/icons/check.svg'
 import MapPointOrange from '@assets/icons/mapPoint-orange.svg'
+import { Coordinates } from '@services/firebase/types'
 
 import { generateGeohashes } from '@common/generateGeohashes'
-import {
-	getLocationViewTitle,
-	getLocationViewDescription,
-	getLocationViewHighlightedWords,
-} from '@utils/locationMessages'
-
-import { InsertCultureLocationScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
-import { Coordinates } from '@services/firebase/types'
+import { getLocationViewTitle, getLocationViewDescription, getLocationViewHighlightedWords } from '@utils/locationMessages'
 
 import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
@@ -36,12 +20,8 @@ import { LineInput } from '@components/LineInput'
 import { CustomMapView } from '@components/CustomMapView'
 import { InfoCard } from '@components/_cards/InfoCard'
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
-import {
-	ButtonContainer,
-	ButtonContainerBottom,
-	Container,
-	MapContainer,
-} from './styles'
+import { theme } from '@common/theme'
+import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from './styles'
 
 const initialRegion = {
 	latitude: -13.890303625634541,
@@ -52,40 +32,31 @@ const initialRegion = {
 
 const defaultDeltaCoordinates = {
 	latitudeDelta: 0.003,
-	longitudeDelta: 0.003,
+	longitudeDelta: 0.003
 }
 
-function InsertCultureLocation({
-	route,
-	navigation,
-}: InsertCultureLocationScreenProps) {
+function InsertCultureLocation({ route, navigation }: InsertCultureLocationScreenProps) {
 	const { setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [hasPermission, setHasPermission] = useState(false)
-	const [markerCoordinate, setMarkerCoordinate] =		useState<Coordinates | null>(null)
+	const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(null)
 	const [address, setAddress] = useState('')
 
-	const [mapContainerDimensions, setMapContainerDimensions] =		useState<LayoutRectangle>({
-		width: 0,
-		height: 0,
-		x: 0,
-		y: 0,
+	const [mapContainerDimensions, setMapContainerDimensions] = useState<LayoutRectangle>({
+		width: 0, height: 0, x: 0, y: 0
 	})
 	const [validAddress, setValidAddress] = useState(false)
-	const [invalidAddressAfterSubmit, setInvalidAddressAfterSubmit] =		useState<boolean>(false)
+	const [invalidAddressAfterSubmit, setInvalidAddressAfterSubmit] = useState<boolean>(false)
 
 	useEffect(() => {
 		if (editModeIsTrue() && route.params.initialValue) {
-			setMarkerCoordinate({
-				...defaultDeltaCoordinates,
-				...route.params.initialValue,
-			})
+			setMarkerCoordinate({ ...defaultDeltaCoordinates, ...route.params.initialValue })
 		}
 	}, [])
 
 	const requestLocationPermission = async () => {
-		const locationPermission =			await Location.requestForegroundPermissionsAsync()
+		const locationPermission = await Location.requestForegroundPermissionsAsync()
 		setHasPermission(locationPermission.granted)
 		return locationPermission.granted || hasPermission
 	}
@@ -102,10 +73,10 @@ function InsertCultureLocation({
 		const permission = await requestLocationPermission()
 		if (!permission) return
 
-		const currentPositionCoordinate =			await Location.getCurrentPositionAsync()
+		const currentPositionCoordinate = await Location.getCurrentPositionAsync()
 		const geolocationCoordinates = {
 			latitude: currentPositionCoordinate.coords.latitude,
-			longitude: currentPositionCoordinate.coords.longitude,
+			longitude: currentPositionCoordinate.coords.longitude
 		}
 
 		setMarkerCoordinate({
@@ -151,13 +122,10 @@ function InsertCultureLocation({
 		setValidAddress(true)
 	}
 
-	const convertGeocodeToAddress = async (
-		latitude: number,
-		longitude: number
-	) => {
+	const convertGeocodeToAddress = async (latitude: number, longitude: number) => {
 		const geocodeAddress = await Location.reverseGeocodeAsync({
 			latitude,
-			longitude,
+			longitude
 		})
 
 		const structuredAddress = structureAddress(geocodeAddress)
@@ -166,23 +134,18 @@ function InsertCultureLocation({
 		return structuredAddress
 	}
 
-	const structureAddress = (
-		geocodeAddress: Location.LocationGeocodedAddress[]
-	) => ({
+	const structureAddress = (geocodeAddress: Location.LocationGeocodedAddress[]) => ({
 		country: geocodeAddress[0].country || '',
 		state: geocodeAddress[0].region || '',
 		city: geocodeAddress[0].city || geocodeAddress[0].subregion || '',
 		postalCode: geocodeAddress[0].postalCode || '',
 		street: geocodeAddress[0].street || '',
 		number: geocodeAddress[0].streetNumber || geocodeAddress[0].name || '',
-		district:
-			geocodeAddress[0].district === geocodeAddress[0].subregion
-				? 'Centro'
-				: geocodeAddress[0].district || '',
+		district: geocodeAddress[0].district === geocodeAddress[0].subregion ? 'Centro' : geocodeAddress[0].district || '',
 		coordinates: {
 			latitude: markerCoordinate?.latitude,
-			longitude: markerCoordinate?.longitude,
-		},
+			longitude: markerCoordinate?.longitude
+		}
 	})
 
 	const updateMarkerPosition = async (coordinates: Coordinates) => {
@@ -193,40 +156,34 @@ function InsertCultureLocation({
 	const saveLocation = async () => {
 		if (!markerCoordinateIsAccuracy()) return
 
-		const completeAddress = await convertGeocodeToAddress(
-			markerCoordinate?.latitude as number,
-			markerCoordinate?.longitude as number
-		)
-		const geohashObject = generateGeohashes(
-			completeAddress.coordinates.latitude,
-			completeAddress.coordinates.longitude
-		)
+		const completeAddress = await convertGeocodeToAddress(markerCoordinate?.latitude as number, markerCoordinate?.longitude as number)
+		const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({
 				location: {
 					...completeAddress,
-					...geohashObject,
-				},
+					...geohashObject
+				}
 			})
 		} else {
 			setCultureDataOnContext({
 				location: {
 					...completeAddress,
-					...geohashObject,
-				},
+					...geohashObject
+				}
 			})
 		}
 
 		navigation.navigate('CultureLocationViewPreview', {
 			locationView: route.params.locationView,
-			editMode: !!route.params?.editMode,
+			editMode: !!route.params?.editMode
 		})
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode
 
-	const markerCoordinateIsAccuracy = () => (markerCoordinate?.latitudeDelta as number) < 0.0065
+	const markerCoordinateIsAccuracy = () => markerCoordinate?.latitudeDelta as number < 0.0065
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
@@ -248,12 +205,7 @@ function InsertCultureLocation({
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar
-				backgroundColor={
-					someInvalidFieldSubimitted() ? theme.red2 : theme.blue2
-				}
-				barStyle={'dark-content'}
-			/>
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(22)}
 				relativeHeight={relativeScreenHeight(28)}
@@ -263,21 +215,10 @@ function InsertCultureLocation({
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InfoCard
-					title={getLocationViewTitle(
-						locationView,
-						someInvalidFieldSubimitted()
-					)}
+					title={getLocationViewTitle(locationView, someInvalidFieldSubimitted())}
 					titleFontSize={24}
-					description={getLocationViewDescription(
-						locationView,
-						someInvalidFieldSubimitted()
-					)}
-					highlightedWords={[
-						...getLocationViewHighlightedWords(
-							locationView,
-							someInvalidFieldSubimitted()
-						),
-					]}
+					description={getLocationViewDescription(locationView, someInvalidFieldSubimitted())}
+					highlightedWords={[...getLocationViewHighlightedWords(locationView, someInvalidFieldSubimitted())]}
 					height={'100%'}
 					color={theme.white3}
 				/>
@@ -285,12 +226,8 @@ function InsertCultureLocation({
 			<LineInput
 				value={address}
 				relativeWidth={'100%'}
-				defaultBackgroundColor={
-					validAddress ? theme.blue1 : theme.white3
-				}
-				defaultBorderBottomColor={
-					validAddress ? theme.blue5 : theme.black4
-				}
+				defaultBackgroundColor={validAddress ? theme.blue1 : theme.white3}
+				defaultBorderBottomColor={validAddress ? theme.blue5 : theme.black4}
 				validBackgroundColor={theme.blue1}
 				validBorderBottomColor={theme.blue5}
 				invalidBackgroundColor={theme.red1}
@@ -309,26 +246,15 @@ function InsertCultureLocation({
 					setInvalidAddressAfterSubmit(false)
 				}}
 			/>
-			<MapContainer
-				onLayout={({ nativeEvent }: LayoutChangeEvent) => !mapContainerDimensions.width
-					&& setMapContainerDimensions(nativeEvent.layout)}
-			>
-				<View
-					style={{
-						position: 'absolute',
-						top:
-							mapContainerDimensions.height / 2
-							- relativeScreenWidth(9.72),
-						left:
-							mapContainerDimensions.width / 2
-							- relativeScreenWidth(9.72) / 2,
-						zIndex: 3,
-					}}
+			<MapContainer onLayout={({ nativeEvent }: LayoutChangeEvent) => !mapContainerDimensions.width && setMapContainerDimensions(nativeEvent.layout)}>
+				<View style={{
+					position: 'absolute',
+					top: mapContainerDimensions.height / 2 - (relativeScreenWidth(9.72)),
+					left: mapContainerDimensions.width / 2 - ((relativeScreenWidth(9.72)) / 2),
+					zIndex: 3
+				}}
 				>
-					<MapPointOrange
-						width={relativeScreenWidth(9.72)}
-						height={relativeScreenWidth(9.72)}
-					/>
+					<MapPointOrange width={relativeScreenWidth(9.72)} height={relativeScreenWidth(9.72)} />
 				</View>
 				<ButtonContainer>
 					<PrimaryButton
@@ -352,19 +278,22 @@ function InsertCultureLocation({
 					updateMarkerPosition={updateMarkerPosition}
 				/>
 			</MapContainer>
-			{markerCoordinate && markerCoordinateIsAccuracy() && (
-				<ButtonContainerBottom>
-					<PrimaryButton
-						flexDirection={'row-reverse'}
-						color={theme.green3}
-						label={'continuar'}
-						labelColor={theme.white3}
-						SvgIcon={Check}
-						svgIconScale={['30%', '15%']}
-						onPress={saveLocation}
-					/>
-				</ButtonContainerBottom>
-			)}
+			{
+				markerCoordinate && markerCoordinateIsAccuracy()
+				&& (
+					<ButtonContainerBottom>
+						<PrimaryButton
+							flexDirection={'row-reverse'}
+							color={theme.green3}
+							label={'continuar'}
+							labelColor={theme.white3}
+							SvgIcon={Check}
+							svgIconScale={['30%', '15%']}
+							onPress={saveLocation}
+						/>
+					</ButtonContainerBottom>
+				)
+			}
 		</Container>
 	)
 }
