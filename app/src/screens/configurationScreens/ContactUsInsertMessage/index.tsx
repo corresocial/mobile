@@ -1,84 +1,79 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { Keyboard, Platform, StatusBar } from "react-native";
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Keyboard, Platform, StatusBar } from 'react-native'
 
-import { Container, ButtonsContainer, Body } from "./styles";
-import { theme } from "../../../common/theme";
-import AngleLeftThin from "../../../assets/icons/angleLeftThin.svg";
-import CheckIcon from "../../../assets/icons/check.svg";
+import { Container, ButtonsContainer, Body } from './styles'
+import { theme } from '../../../common/theme'
+import AngleLeftThin from '../../../assets/icons/angleLeftThin.svg'
+import CheckIcon from '../../../assets/icons/check.svg'
 
-import { removeAllKeyboardEventListeners } from "../../../common/listenerFunctions";
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { ContactUsInsertMessageScreenProps } from "../../../routes/Stack/userStack/stackScreenProps";
+import { ContactUsInsertMessageScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
-import { AuthContext } from "../../../contexts/AuthContext";
+import { AuthContext } from '../../../contexts/AuthContext'
 
-import { DefaultHeaderContainer } from "../../../components/_containers/DefaultHeaderContainer";
-import { PrimaryButton } from "../../../components/_buttons/PrimaryButton";
-import { SmallButton } from "../../../components/_buttons/SmallButton";
-import { LineInput } from "../../../components/LineInput";
-import { InfoCard } from "../../../components/_cards/InfoCard";
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { SmallButton } from '../../../components/_buttons/SmallButton'
+import { LineInput } from '../../../components/LineInput'
+import { InfoCard } from '../../../components/_cards/InfoCard'
 import {
 	relativeScreenHeight,
 	relativeScreenWidth,
-} from "../../../common/screenDimensions";
-import { sendContactUsMessageToDiscord } from "../../../services/discord/contactUs";
-import { sendContactUsMessageToNotion } from "../../../services/notion/contactUs";
-import { Loader } from "../../../components/Loader";
-import { NotionPage } from "../../../services/notion/types";
-import { BackButton } from "../../../components/_buttons/BackButton";
+} from '../../../common/screenDimensions'
+import { sendContactUsMessageToDiscord } from '../../../services/discord/contactUs'
+import { sendContactUsMessageToNotion } from '../../../services/notion/contactUs'
+import { Loader } from '../../../components/Loader'
+import { NotionPage } from '../../../services/notion/types'
+import { BackButton } from '../../../components/_buttons/BackButton'
 
 function ContactUsInsertMessage({
 	route,
 	navigation,
 }: ContactUsInsertMessageScreenProps) {
-	const { userDataContext } = useContext(AuthContext);
+	const { userDataContext } = useContext(AuthContext)
 
-	const [message, setItemDescription] = useState<string>("");
-	const [messageIsValid, setItemDescriptionIsValid] =
-		useState<boolean>(false);
-	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false);
-	const [isLoading, setIsLoading] = useState(false);
-
-	useEffect(() => {
-		const unsubscribe = navigation.addListener("focus", () => {
-			removeAllKeyboardEventListeners();
-			Keyboard.addListener("keyboardDidShow", () =>
-				setKeyboardOpened(true)
-			);
-			Keyboard.addListener("keyboardDidHide", () =>
-				setKeyboardOpened(false)
-			);
-		});
-		return unsubscribe;
-	}, [navigation]);
+	const [message, setItemDescription] = useState<string>('')
+	const [messageIsValid, setItemDescriptionIsValid] =		useState<boolean>(false)
+	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
-		const validation = validateItemDescription(message);
-		setItemDescriptionIsValid(validation);
-	}, [message, keyboardOpened]);
+		const unsubscribe = navigation.addListener('focus', () => {
+			removeAllKeyboardEventListeners()
+			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		})
+		return unsubscribe
+	}, [navigation])
+
+	useEffect(() => {
+		const validation = validateItemDescription(message)
+		setItemDescriptionIsValid(validation)
+	}, [message, keyboardOpened])
 
 	const inputRefs = {
 		itemDescriptionInput: useRef<React.MutableRefObject<any>>(null),
-	};
+	}
 
 	const validateItemDescription = (text: string) => {
-		const isValid = text.trim().length >= 1;
+		const isValid = text.trim().length >= 1
 		if (isValid && !keyboardOpened) {
-			return true;
+			return true
 		}
-		return false;
-	};
+		return false
+	}
 
 	const sendMessage = async () => {
 		try {
-			setIsLoading(true);
+			setIsLoading(true)
 			const notionPage: NotionPage = await sendContactUsMessageToNotion({
 				userId: userDataContext.userId as string,
 				type: route.params.contactUsType,
 				message,
 				reportTarged: route.params.reportedType,
 				reportedId: route.params.reportedId,
-			});
+			})
 
 			await sendContactUsMessageToDiscord({
 				userId: userDataContext.userId as string,
@@ -88,24 +83,24 @@ function ContactUsInsertMessage({
 				reportId: notionPage.reportId,
 				reportedTarget: route.params.reportedType,
 				reportedId: route.params.reportedId,
-			});
+			})
 
-			setIsLoading(false);
-			navigation.navigate("ContactUsSuccess", {
-				reportType: route.params.reportedType || "none",
-			});
+			setIsLoading(false)
+			navigation.navigate('ContactUsSuccess', {
+				reportType: route.params.reportedType || 'none',
+			})
 		} catch (err) {
-			console.log(err);
-			setIsLoading(false);
+			console.log(err)
+			setIsLoading(false)
 		}
-		setIsLoading(false);
-	};
+		setIsLoading(false)
+	}
 
 	return (
-		<Container behavior={Platform.OS === "ios" ? "padding" : "height"}>
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar
 				backgroundColor={theme.orange2}
-				barStyle={"dark-content"}
+				barStyle={'dark-content'}
 			/>
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(25)}
@@ -116,16 +111,16 @@ function ContactUsInsertMessage({
 				<InfoCard
 					title={route.params.title}
 					titleFontSize={24}
-					description={"fala para a gente o que aconteceu"}
-					highlightedWords={[route.params.title, "o", "que"]}
-					height={"70%"}
+					description={'fala para a gente o que aconteceu'}
+					highlightedWords={[route.params.title, 'o', 'que']}
+					height={'70%'}
 					color={theme.white3}
 				/>
 			</DefaultHeaderContainer>
 			<Body>
 				<LineInput
 					value={message}
-					relativeWidth={"100%"}
+					relativeWidth={'100%'}
 					initialNumberOfLines={2}
 					textInputRef={inputRefs.itemDescriptionInput}
 					defaultBackgroundColor={theme.white2}
@@ -134,19 +129,17 @@ function ContactUsInsertMessage({
 					validBorderBottomColor={theme.orange5}
 					multiline
 					lastInput
-					textAlign={"left"}
+					textAlign={'left'}
 					fontSize={16}
-					placeholder={"detalhes o ocorrido..."}
-					keyboardType={"default"}
+					placeholder={'detalhes o ocorrido...'}
+					keyboardType={'default'}
 					textIsValid={messageIsValid && !keyboardOpened}
-					validateText={(text: string) =>
-						validateItemDescription(text)
-					}
+					validateText={(text: string) => validateItemDescription(text)}
 					onChangeText={(text: string) => setItemDescription(text)}
 				/>
-				{messageIsValid &&
-					!keyboardOpened &&
-					(isLoading ? (
+				{messageIsValid
+					&& !keyboardOpened
+					&& (isLoading ? (
 						<Loader />
 					) : (
 						<ButtonsContainer>
@@ -161,20 +154,20 @@ function ContactUsInsertMessage({
 								color={theme.green3}
 								labelColor={theme.white3}
 								fontSize={18}
-								relativeWidth={"68%"}
+								relativeWidth={'68%'}
 								relativeHeight={relativeScreenHeight(9.3)}
 								labelMarginLeft={5}
-								textAlign={"left"}
-								label={"continuar"}
+								textAlign={'left'}
+								label={'continuar'}
 								SecondSvgIcon={CheckIcon}
-								svgIconScale={["30%", "15%"]}
+								svgIconScale={['30%', '15%']}
 								onPress={sendMessage}
 							/>
 						</ButtonsContainer>
 					))}
 			</Body>
 		</Container>
-	);
+	)
 }
 
-export { ContactUsInsertMessage };
+export { ContactUsInsertMessage }
