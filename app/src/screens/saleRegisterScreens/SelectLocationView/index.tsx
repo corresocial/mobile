@@ -1,44 +1,44 @@
-import React from "react";
-import { StatusBar } from "react-native";
+import React from 'react'
+import { StatusBar } from 'react-native'
 
 import {
 	getLocationViewDescription,
 	getLocationViewHighlightedWords,
 	getLocationViewTitle,
-} from "@utils/locationMessages";
+} from '@utils/locationMessages'
 
-import { ButtonsContainer, Container } from "./styles";
-import { theme } from "@common/theme";
+import { theme } from '@common/theme'
 
-import { SelectLocationViewScreenProps } from "@routes/Stack/saleStack/stackScreenProps";
-import { LocationViewType } from "@services/firebase/types";
+import { SelectLocationViewScreenProps } from '@routes/Stack/saleStack/stackScreenProps'
+import { LocationViewType } from '@services/firebase/types'
 
-import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
-import { FormContainer } from "@components/_containers/FormContainer";
-import { BackButton } from "@components/_buttons/BackButton";
-import { InstructionCard } from "@components/_cards/InstructionCard";
-import { ProgressBar } from "@components/ProgressBar";
-import { TitleDescriptionButton } from "@components/_cards/TitleDescriptionButton";
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '@components/_containers/FormContainer'
+import { BackButton } from '@components/_buttons/BackButton'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { ProgressBar } from '@components/ProgressBar'
+import { TitleDescriptionButton } from '@components/_cards/TitleDescriptionButton'
+import { ButtonsContainer, Container } from './styles'
 
 function SelectLocationView({
 	route,
 	navigation,
 }: SelectLocationViewScreenProps) {
 	const saveLocationViewType = (locationViewType: LocationViewType) => {
-		navigation.navigate("InsertSaleLocation", {
+		navigation.navigate('InsertSaleLocation', {
 			locationView: locationViewType,
 			...route.params,
-		});
-	};
+		})
+	}
 
 	return (
 		<Container>
 			<StatusBar
 				backgroundColor={theme.white3}
-				barStyle={"dark-content"}
+				barStyle={'dark-content'}
 			/>
 			<DefaultHeaderContainer
-				relativeHeight={"28%"}
+				relativeHeight={'28%'}
 				centralized
 				backgroundColor={theme.white3}
 			>
@@ -47,15 +47,15 @@ function SelectLocationView({
 					borderLeftWidth={3}
 					fontSize={18}
 					message={
-						"como você prefere que outros usuários vejam sua localização?"
+						'como você prefere que outros usuários vejam sua localização?'
 					}
 					highlightedWords={[
-						"como,",
-						"você",
-						"prefere",
-						"vejam",
-						"sua",
-						"localização",
+						'como,',
+						'você',
+						'prefere',
+						'vejam',
+						'sua',
+						'localização',
 					]}
 				>
 					<ProgressBar range={5} value={4} />
@@ -64,39 +64,39 @@ function SelectLocationView({
 			<FormContainer backgroundColor={theme.green2}>
 				<ButtonsContainer>
 					<TitleDescriptionButton
-						height={"28%"}
+						height={'28%'}
 						color={theme.white3}
-						title={getLocationViewTitle("private")}
-						description={getLocationViewDescription("private")}
+						title={getLocationViewTitle('private')}
+						description={getLocationViewDescription('private')}
 						highlightedWords={getLocationViewHighlightedWords(
-							"private"
+							'private'
 						)}
-						onPress={() => saveLocationViewType("private")}
+						onPress={() => saveLocationViewType('private')}
 					/>
 					<TitleDescriptionButton
-						height={"28%"}
+						height={'28%'}
 						color={theme.white3}
-						title={getLocationViewTitle("approximate")}
-						description={getLocationViewDescription("approximate")}
+						title={getLocationViewTitle('approximate')}
+						description={getLocationViewDescription('approximate')}
 						highlightedWords={getLocationViewHighlightedWords(
-							"approximate"
+							'approximate'
 						)}
-						onPress={() => saveLocationViewType("approximate")}
+						onPress={() => saveLocationViewType('approximate')}
 					/>
 					<TitleDescriptionButton
-						height={"28%"}
+						height={'28%'}
 						color={theme.white3}
-						title={getLocationViewTitle("public")}
-						description={getLocationViewDescription("public")}
+						title={getLocationViewTitle('public')}
+						description={getLocationViewDescription('public')}
 						highlightedWords={getLocationViewHighlightedWords(
-							"public"
+							'public'
 						)}
-						onPress={() => saveLocationViewType("public")}
+						onPress={() => saveLocationViewType('public')}
 					/>
 				</ButtonsContainer>
 			</FormContainer>
 		</Container>
-	);
+	)
 }
 
-export { SelectLocationView };
+export { SelectLocationView }

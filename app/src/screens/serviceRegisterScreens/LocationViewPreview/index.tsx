@@ -1,86 +1,84 @@
-import React, { useContext, useState } from "react";
-import { StatusBar } from "react-native";
+import React, { useContext, useState } from 'react'
+import { StatusBar } from 'react-native'
 
-import { theme } from "@common/theme";
-import { ButtonContainerBottom, Container, MapContainer } from "./styles";
-import Uncheck from "@assets/icons/uncheck.svg";
-import Check from "@assets/icons/check.svg";
+import { theme } from '@common/theme'
+import Uncheck from '@assets/icons/uncheck.svg'
+import Check from '@assets/icons/check.svg'
 
 import {
 	getLocationViewDescription,
 	getLocationViewHighlightedWords,
 	getLocationViewIcon,
 	getLocationViewTitle,
-} from "@utils/locationMessages";
+} from '@utils/locationMessages'
 
-import { LocationViewPreviewScreenProps } from "@routes/Stack/ServiceStack/stackScreenProps";
+import { LocationViewPreviewScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
 
-import { ServiceContext } from "@contexts/ServiceContext";
-import { EditContext } from "@contexts/EditContext";
+import { ServiceContext } from '@contexts/ServiceContext'
+import { EditContext } from '@contexts/EditContext'
 
-import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
-import { PrimaryButton } from "@components/_buttons/PrimaryButton";
-import { CustomMapView } from "@components/CustomMapView";
-import { InfoCard } from "@components/_cards/InfoCard";
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { CustomMapView } from '@components/CustomMapView'
+import { InfoCard } from '@components/_cards/InfoCard'
+import { ButtonContainerBottom, Container, MapContainer } from './styles'
 
 const defaultDeltaCoordinates = {
 	latitudeDelta: 0.004,
 	longitudeDelta: 0.004,
-};
+}
 
 function LocationViewPreview({
 	route,
 	navigation,
 }: LocationViewPreviewScreenProps) {
-	const { serviceDataContext, setServiceDataOnContext } =
-		useContext(ServiceContext);
-	const { editDataContext, addNewUnsavedFieldToEditContext } =
-		useContext(EditContext);
+	const { serviceDataContext, setServiceDataOnContext } =		useContext(ServiceContext)
+	const { editDataContext, addNewUnsavedFieldToEditContext } =		useContext(EditContext)
 
 	const [markerCoordinate] = useState(
 		route.params?.editMode
 			? {
-					...editDataContext?.unsaved.location?.coordinates,
-					...defaultDeltaCoordinates,
+				...editDataContext?.unsaved.location?.coordinates,
+				...defaultDeltaCoordinates,
 			  }
 			: {
-					...serviceDataContext?.location?.coordinates,
-					...defaultDeltaCoordinates,
+				...serviceDataContext?.location?.coordinates,
+				...defaultDeltaCoordinates,
 			  }
-	);
+	)
 
 	const saveLocation = () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({
 				locationView: route.params.locationView,
-			});
-			navigation.pop(2);
-			navigation.goBack();
-			return;
+			})
+			navigation.pop(2)
+			navigation.goBack()
+			return
 		}
 
 		setServiceDataOnContext({
 			locationView: route.params.locationView,
-		});
-		navigation.navigate("SelectDeliveryMethod");
-	};
+		})
+		navigation.navigate('SelectDeliveryMethod')
+	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode;
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>
 			<StatusBar
 				backgroundColor={theme.purple2}
-				barStyle={"dark-content"}
+				barStyle={'dark-content'}
 			/>
 			<DefaultHeaderContainer
-				relativeHeight={"26%"}
+				relativeHeight={'26%'}
 				centralized
 				backgroundColor={theme.purple2}
 				borderBottomWidth={0}
 			>
 				<InfoCard
-					height={"100%"}
+					height={'100%'}
 					color={theme.white3}
 					title={getLocationViewTitle(route.params?.locationView)}
 					description={getLocationViewDescription(
@@ -103,30 +101,30 @@ function LocationViewPreview({
 			</MapContainer>
 			<ButtonContainerBottom>
 				<PrimaryButton
-					flexDirection={"row-reverse"}
+					flexDirection={'row-reverse'}
 					color={theme.red3}
-					label={"não curti, voltar"}
-					highlightedWords={["não", "curti"]}
+					label={'não curti, voltar'}
+					highlightedWords={['não', 'curti']}
 					labelColor={theme.white3}
 					fontSize={16}
 					SvgIcon={Uncheck}
-					svgIconScale={["30%", "20%"]}
+					svgIconScale={['30%', '20%']}
 					onPress={() => navigation.goBack()}
 				/>
 				<PrimaryButton
-					flexDirection={"row-reverse"}
+					flexDirection={'row-reverse'}
 					color={theme.green3}
-					label={"isso mesmo, continuar"}
-					highlightedWords={["isso", "mesmo"]}
+					label={'isso mesmo, continuar'}
+					highlightedWords={['isso', 'mesmo']}
 					fontSize={16}
 					labelColor={theme.white3}
 					SvgIcon={Check}
-					svgIconScale={["30%", "20%"]}
+					svgIconScale={['30%', '20%']}
 					onPress={saveLocation}
 				/>
 			</ButtonContainerBottom>
 		</Container>
-	);
+	)
 }
 
-export { LocationViewPreview };
+export { LocationViewPreview }

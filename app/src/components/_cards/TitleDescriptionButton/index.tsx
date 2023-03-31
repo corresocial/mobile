@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { RFValue } from "react-native-responsive-fontsize";
+import React, { useState } from 'react'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import { showMessageWithHighlight } from "@common/auxiliaryFunctions";
-import { Container, ContainerInner, Description, Title } from "./styles";
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { Container, ContainerInner, Description, Title } from './styles'
 
 interface TitleDescriptionButtonProps {
 	height: string | number;
@@ -23,19 +23,19 @@ function TitleDescriptionButton({
 	highlightedWords,
 	onPress,
 }: TitleDescriptionButtonProps) {
-	const [buttonPressed, setButtomPressed] = useState<boolean>(false);
+	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	function pressingButton() {
-		setButtomPressed(true);
+		setButtomPressed(true)
 	}
 
 	function notPressingButton() {
-		setButtomPressed(false);
+		setButtomPressed(false)
 	}
 
 	function releaseButton() {
-		setButtomPressed(false);
-		onPress();
+		setButtomPressed(false)
+		onPress()
 	}
 
 	return (
@@ -61,7 +61,7 @@ function TitleDescriptionButton({
 				</Description>
 			</ContainerInner>
 		</Container>
-	);
+	)
 }
 
-export { TitleDescriptionButton };
+export { TitleDescriptionButton }

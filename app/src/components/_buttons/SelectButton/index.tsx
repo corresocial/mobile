@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { TouchableWithoutFeedback } from "react-native";
-import { RFValue } from "react-native-responsive-fontsize";
-import { SvgProps } from "react-native-svg";
+import React, { useState } from 'react'
+import { TouchableWithoutFeedback } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
+import { SvgProps } from 'react-native-svg'
 
 import {
 	relativeScreenHeight,
 	relativeScreenWidth,
-} from "@common/screenDimensions";
-import { theme } from "@common/theme";
-import { ContainerBottom, ContainerSurface, Label } from "./styles";
+} from '@common/screenDimensions'
+import { theme } from '@common/theme'
+import { ContainerBottom, ContainerSurface, Label } from './styles'
 
 interface SelectButtonProps {
 	width?: string | number;
@@ -41,19 +41,19 @@ function SelectButton({
 	selected = false,
 	onSelect,
 }: SelectButtonProps) {
-	const [buttonPressed, setButtomPressed] = useState<Boolean>(false);
+	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
 
 	function pressingButton() {
-		setButtomPressed(true);
+		setButtomPressed(true)
 	}
 
 	function notPressingButton() {
-		setButtomPressed(false);
+		setButtomPressed(false)
 	}
 
 	function releaseButton() {
-		setButtomPressed(false);
-		onSelect && onSelect();
+		setButtomPressed(false)
+		onSelect && onSelect()
 	}
 
 	return (
@@ -79,18 +79,18 @@ function SelectButton({
 						marginRight: selected
 							? -relativeScreenWidth(1.3)
 							: buttonPressed
-							? -relativeScreenWidth(2)
-							: 0,
+								? -relativeScreenWidth(2)
+								: 0,
 					}}
 				>
-					{SvgIcon && <SvgIcon width={"20%"} height={"50%"} />}
+					{SvgIcon && <SvgIcon width={'20%'} height={'50%'} />}
 					<Label
 						style={{
 							fontSize: RFValue(fontSize),
 							fontFamily:
 								selected || boldLabel
-									? "Arvo_700Bold"
-									: "Arvo_400Regular",
+									? 'Arvo_700Bold'
+									: 'Arvo_400Regular',
 						}}
 					>
 						{label}
@@ -98,7 +98,7 @@ function SelectButton({
 				</ContainerSurface>
 			</ContainerBottom>
 		</TouchableWithoutFeedback>
-	);
+	)
 }
 
-export { SelectButton };
+export { SelectButton }

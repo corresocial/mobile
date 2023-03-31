@@ -1,6 +1,37 @@
-import React, { useContext, useEffect, useState } from "react";
-import { StatusBar, ScrollView, Linking } from "react-native";
+import React, { useContext, useEffect, useState } from 'react'
+import { StatusBar, ScrollView, Linking } from 'react-native'
 
+import { theme } from '@common/theme'
+import { relativeScreenWidth } from '@common/screenDimensions'
+import ShareIcon from '@assets/icons/share.svg'
+import ChatIcon from '@assets/icons/chat.svg'
+import ThreeDotsIcon from '@assets/icons/threeDots.svg'
+
+import { arrayIsEmpty, formatRelativeDate } from '@common/auxiliaryFunctions'
+import { deletePost } from '@services/firebase/post/deletePost'
+import { share } from '@common/share'
+import { getPrivateContacts } from '@services/firebase/user/getPrivateContacts'
+
+import { ViewCulturePostScreenProps } from '@routes/Stack/ProfileStack/stackScreenProps'
+
+import { AuthContext } from '@contexts/AuthContext'
+import { EditContext } from '@contexts/EditContext'
+
+import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
+import {
+	CultureCollection,
+	CultureCollectionRemote,
+	PostCollection,
+} from '@services/firebase/types'
+import { SmallUserIdentification } from '@components/SmallUserIdentification'
+import { SmallButton } from '@components/_buttons/SmallButton'
+import { DescriptionCard } from '@components/_cards/DescriptionCard'
+import { ImageCarousel } from '@components/ImageCarousel'
+import { SaleOrExchangeCard } from '@components/_cards/SaleOrExchangeCard'
+import { DateTimeCard } from '@components/_cards/DateTimeCard'
+import { LocationViewCard } from '@components/_cards/LocationViewCard'
+import { PostPopOver } from '@components/PostPopOver'
+import { deletePostPictures } from '@services/firebase/post/deletePostPictures'
 import {
 	Body,
 	Container,
@@ -9,154 +40,121 @@ import {
 	OptionsArea,
 	Sigh,
 	UserAndValueContainer,
-} from "./styles";
-import { theme } from "@common/theme";
-import { relativeScreenWidth } from "@common/screenDimensions";
-import ShareIcon from "@assets/icons/share.svg";
-import ChatIcon from "@assets/icons/chat.svg";
-import ThreeDotsIcon from "@assets/icons/threeDots.svg";
-
-import { arrayIsEmpty, formatRelativeDate } from "@common/auxiliaryFunctions";
-import { deletePost } from "@services/firebase/post/deletePost";
-import { share } from "@common/share";
-import { getPrivateContacts } from "@services/firebase/user/getPrivateContacts";
-
-import { ViewCulturePostScreenProps } from "@routes/Stack/ProfileStack/stackScreenProps";
-
-import { AuthContext } from "@contexts/AuthContext";
-import { EditContext } from "@contexts/EditContext";
-
-import { DefaultPostViewHeader } from "@components/DefaultPostViewHeader";
-import {
-	CultureCollection,
-	CultureCollectionRemote,
-	PostCollection,
-} from "@services/firebase/types";
-import { SmallUserIdentification } from "@components/SmallUserIdentification";
-import { SmallButton } from "@components/_buttons/SmallButton";
-import { DescriptionCard } from "@components/_cards/DescriptionCard";
-import { ImageCarousel } from "@components/ImageCarousel";
-import { SaleOrExchangeCard } from "@components/_cards/SaleOrExchangeCard";
-import { DateTimeCard } from "@components/_cards/DateTimeCard";
-import { LocationViewCard } from "@components/_cards/LocationViewCard";
-import { PostPopOver } from "@components/PostPopOver";
-import { deletePostPictures } from "@services/firebase/post/deletePostPictures";
+} from './styles'
 
 function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext);
-	const { editDataContext, clearEditContext } = useContext(EditContext);
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { editDataContext, clearEditContext } = useContext(EditContext)
 
-	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
+	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
 		return () => {
-			clearEditContext();
-		};
-	}, []);
+			clearEditContext()
+		}
+	}, [])
 
 	const loggedUserIsOwner = () => {
-		if (!route.params.postData || !route.params.postData.owner)
-			return false;
-		return userDataContext.userId === route.params.postData.owner.userId;
-	};
-	const isAuthor = loggedUserIsOwner();
-	const { postData } = route.params as { postData: CultureCollectionRemote };
+		if (!route.params.postData || !route.params.postData.owner) { return false }
+		return userDataContext.userId === route.params.postData.owner.userId
+	}
+	const isAuthor = loggedUserIsOwner()
+	const { postData } = route.params as { postData: CultureCollectionRemote }
 
 	const renderFormatedPostDateTime = () => {
-		const formatedDate = formatRelativeDate(postData.createdAt);
-		return formatedDate;
-	};
+		const formatedDate = formatRelativeDate(postData.createdAt)
+		return formatedDate
+	}
 
 	const getProfilePictureUrl = () => {
-		if (!postData || !postData.owner || !postData.owner.profilePictureUrl)
-			return null;
-		if (arrayIsEmpty(postData.owner.profilePictureUrl)) return null;
-		return postData.owner.profilePictureUrl[0];
-	};
+		if (!postData || !postData.owner || !postData.owner.profilePictureUrl) { return null }
+		if (arrayIsEmpty(postData.owner.profilePictureUrl)) return null
+		return postData.owner.profilePictureUrl[0]
+	}
 
 	const deleteRemotePost = async () => {
-		setIsLoading(true);
-		await deletePost(postData.postId, postData.owner.userId);
-		await deletePostPictures(getPostField("picturesUrl") || []);
-		await removePostOnContext();
-		setIsLoading(false);
-		backToPreviousScreen();
-	};
+		setIsLoading(true)
+		await deletePost(postData.postId, postData.owner.userId)
+		await deletePostPictures(getPostField('picturesUrl') || [])
+		await removePostOnContext()
+		setIsLoading(false)
+		backToPreviousScreen()
+	}
 
 	const removePostOnContext = async () => {
-		const currentUserPosts = userDataContext.posts || [];
+		const currentUserPosts = userDataContext.posts || []
 		const postsWithoutDeletedPost = currentUserPosts.filter(
 			(post: PostCollection) => post.postId !== postData.postId
-		);
+		)
 		setUserDataOnContext({
 			...userDataContext,
 			posts: postsWithoutDeletedPost,
-		});
-	};
+		})
+	}
 
 	const goToEditPost = () => {
-		setPostOptionsIsOpen(false);
-		navigation.navigate("EditCulturePost", {
+		setPostOptionsIsOpen(false)
+		navigation.navigate('EditCulturePost', {
 			postData: { ...postData, ...editDataContext.saved },
-		});
-	};
+		})
+	}
 
 	const backToPreviousScreen = () => {
-		setPostOptionsIsOpen(false);
-		navigation.goBack();
-	};
+		setPostOptionsIsOpen(false)
+		navigation.goBack()
+	}
 
 	const sharePost = () => {
 		share(
-			`${isAuthor ? "tô" : "estão"} anunciando ${getPostField(
-				"title"
+			`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField(
+				'title'
 			)} no corre.\n\nhttps://corre.social`
-		);
-	};
+		)
+	}
 
 	const openChat = async () => {
-		const { cellNumber } = await getPrivateContacts(postData.owner.userId);
+		const { cellNumber } = await getPrivateContacts(postData.owner.userId)
 		const message = `olá! vi que publicou ${getPostField(
-			"title"
-		)} no corre. Podemos conversar?`;
-		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`);
-	};
+			'title'
+		)} no corre. Podemos conversar?`
+		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
+	}
 
 	const reportPost = () => {
-		setPostOptionsIsOpen(false);
-		navigation.navigate("ContactUsInsertMessage", {
-			title: "denunciar",
-			contactUsType: "denúncia",
+		setPostOptionsIsOpen(false)
+		navigation.navigate('ContactUsInsertMessage', {
+			title: 'denunciar',
+			contactUsType: 'denúncia',
 			reportedType: postData.postType,
 			reportedId: postData.postId,
-		});
-	};
+		})
+	}
 
 	const navigateToProfile = () => {
 		if (userDataContext.userId === postData.owner.userId) {
-			navigation.navigate("Profile");
-			return;
+			navigation.navigate('Profile')
+			return
 		}
-		navigation.navigate("ProfileHome" as any, {
+		navigation.navigate('ProfileHome' as any, {
 			userId: postData.owner.userId,
-		}); // TODO Type
-	};
+		}) // TODO Type
+	}
 
 	const getPostField = (fieldName: keyof CultureCollection) => {
-		return editDataContext.saved[fieldName] || postData[fieldName];
-	};
+		return editDataContext.saved[fieldName] || postData[fieldName]
+	}
 
 	return (
 		<Container>
 			<StatusBar
 				backgroundColor={theme.white3}
-				barStyle={"dark-content"}
+				barStyle={'dark-content'}
 			/>
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
-					text={getPostField("title")}
+					text={getPostField('title')}
 				/>
 				<Sigh />
 				<UserAndValueContainer>
@@ -164,13 +162,13 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						userName={
 							postData.owner
 								? postData.owner.name
-								: "usuário do corre."
+								: 'usuário do corre.'
 						}
 						postDate={renderFormatedPostDateTime()}
 						userNameFontSize={14}
 						profilePictureUrl={getProfilePictureUrl()}
 						pictureDimensions={45}
-						width={"60%"}
+						width={'60%'}
 						navigateToProfile={navigateToProfile}
 					/>
 				</UserAndValueContainer>
@@ -187,19 +185,19 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					)}
 					<SmallButton
 						color={theme.green2}
-						label={isAuthor ? "compartilhar" : "conversar"}
+						label={isAuthor ? 'compartilhar' : 'conversar'}
 						fontSize={13}
 						SvgIcon={isAuthor ? ShareIcon : ChatIcon}
-						relativeWidth={isAuthor ? "80%" : "63%"}
+						relativeWidth={isAuthor ? '80%' : '63%'}
 						height={relativeScreenWidth(12)}
 						onPress={isAuthor ? sharePost : openChat}
 					/>
 					<PostPopOver
 						postTitle={
-							getPostField("title") || "publicação no corre."
+							getPostField('title') || 'publicação no corre.'
 						}
-						postId={getPostField("postId")}
-						postType={getPostField("postType")}
+						postId={getPostField('postId')}
+						postType={getPostField('postType')}
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
@@ -222,59 +220,59 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 				<ScrollView showsVerticalScrollIndicator={false}>
 					<DescriptionCard
 						title={`${
-							postData.cultureType === "artistProfile"
-								? "sobre o artista"
-								: "descrição do rolê"
+							postData.cultureType === 'artistProfile'
+								? 'sobre o artista'
+								: 'descrição do rolê'
 						}`}
-						text={getPostField("description")}
+						text={getPostField('description')}
 						textFontSize={14}
 					/>
 					<Sigh />
-					{!arrayIsEmpty(getPostField("picturesUrl")) && (
+					{!arrayIsEmpty(getPostField('picturesUrl')) && (
 						<>
 							<ImageCarousel
-								picturesUrl={getPostField("picturesUrl") || []}
+								picturesUrl={getPostField('picturesUrl') || []}
 							/>
 							<Sigh />
 						</>
 					)}
-					{getPostField("entryValue") && (
+					{getPostField('entryValue') && (
 						<>
 							<SaleOrExchangeCard
-								title={"valor de entrada"}
-								exchangeValue={getPostField("entryValue")}
+								title={'valor de entrada'}
+								exchangeValue={getPostField('entryValue')}
 								withoutExchangePresentation
 							/>
 							<Sigh />
 						</>
 					)}
 					<LocationViewCard
-						title={"localização"}
-						online={getPostField("eventPlaceModality") === "online"}
-						locationView={getPostField("locationView")}
+						title={'localização'}
+						online={getPostField('eventPlaceModality') === 'online'}
+						locationView={getPostField('locationView')}
 						isAuthor={isAuthor}
-						location={getPostField("location")}
+						location={getPostField('location')}
 						textFontSize={16}
 					/>
-					{getPostField("eventStartDate") &&
-						getPostField("eventEndDate") && (
-							<>
-								<Sigh />
-								<DateTimeCard
-									title={"dias e horários"}
-									openingTime={getPostField("eventStartHour")}
-									closingTime={getPostField("eventEndHour")}
-									startDate={getPostField("eventStartDate")}
-									endDate={getPostField("eventEndDate")}
-									textFontSize={14}
-								/>
-							</>
-						)}
+					{getPostField('eventStartDate')
+						&& getPostField('eventEndDate') && (
+						<>
+							<Sigh />
+							<DateTimeCard
+								title={'dias e horários'}
+								openingTime={getPostField('eventStartHour')}
+								closingTime={getPostField('eventEndHour')}
+								startDate={getPostField('eventStartDate')}
+								endDate={getPostField('eventEndDate')}
+								textFontSize={14}
+							/>
+						</>
+					)}
 					<LastSigh />
 				</ScrollView>
 			</Body>
 		</Container>
-	);
+	)
 }
 
-export { ViewCulturePost };
+export { ViewCulturePost }

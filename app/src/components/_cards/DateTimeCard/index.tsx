@@ -1,23 +1,23 @@
-import React from "react";
-import { RFValue } from "react-native-responsive-fontsize";
+import React from 'react'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import ClockIcon from "@assets/icons/clock.svg";
+import ClockIcon from '@assets/icons/clock.svg'
 
 import {
 	formatDate,
 	formatHour,
 	showMessageWithHighlight,
-} from "@common/auxiliaryFunctions";
+} from '@common/auxiliaryFunctions'
 
 import {
 	DaysOfWeek,
 	EventRepeatType,
 	WeekdaysFrequency,
-} from "@services/firebase/types";
-import { DefaultHeaderTitle } from "../../DefaultHeaderTitle";
-import { DateTimeContainer, OpeningAndClosingTime, InfoRow } from "./styles";
+} from '@services/firebase/types'
+import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
+import { DateTimeContainer, OpeningAndClosingTime, InfoRow } from './styles'
 
-import { DefaultCardContainer } from "../DefaultCardContainer";
+import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface DateTimeCardProps {
 	title: string;
@@ -44,112 +44,110 @@ function DateTimeCard({
 }: DateTimeCardProps) {
 	const getRelativeWeekDaysfrequency = () => {
 		switch (weekDaysfrequency) {
-			case "today":
-				return "●  só hoje";
-			case "everyday":
-				return "●  todos os dias";
-			case "businessDay":
-				return "●  seg à sex";
-			case "someday":
-				return `●  ${listDaysOfWeek()}`;
+			case 'today':
+				return '●  só hoje'
+			case 'everyday':
+				return '●  todos os dias'
+			case 'businessDay':
+				return '●  seg à sex'
+			case 'someday':
+				return `●  ${listDaysOfWeek()}`
 			default:
-				return "●  não disponível";
+				return '●  não disponível'
 		}
-	};
+	}
 
 	const listDaysOfWeek = () => {
 		const allDaysOfWeek = [
-			"seg",
-			"ter",
-			"qua",
-			"qui",
-			"sex",
-			"sab",
-			"dom",
-		] as DaysOfWeek[];
-		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) =>
-			daysOfWeek?.includes(weekDay)
-		);
-		return ordenedDaysOfWeek?.toString().split(",").join(", ");
-	};
+			'seg',
+			'ter',
+			'qua',
+			'qui',
+			'sex',
+			'sab',
+			'dom',
+		] as DaysOfWeek[]
+		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => daysOfWeek?.includes(weekDay))
+		return ordenedDaysOfWeek?.toString().split(',').join(', ')
+	}
 
 	const getRelativeHighlight = () => {
 		switch (weekDaysfrequency) {
-			case "today":
-				return ["hoje"];
-			case "everyday":
-				return ["todos"];
-			case "businessDay":
-				return ["seg", "sex"];
-			case "someday":
-				return daysOfWeek;
+			case 'today':
+				return ['hoje']
+			case 'everyday':
+				return ['todos']
+			case 'businessDay':
+				return ['seg', 'sex']
+			case 'someday':
+				return daysOfWeek
 			default:
-				return ["disponível"];
+				return ['disponível']
 		}
-	};
+	}
 
 	const renderWeekDayFrequency = () => {
 		return showMessageWithHighlight(
 			getRelativeWeekDaysfrequency(),
 			getRelativeHighlight()
-		);
-	};
+		)
+	}
 
 	const renderStartDate = () => {
 		return showMessageWithHighlight(
 			`●  começa dia ${formatDate(startDate as any)}`,
 			[formatDate(startDate as any)]
-		);
-	};
+		)
+	}
 
 	const renderEndDate = () => {
 		return showMessageWithHighlight(
 			`●  termina dia ${formatDate(endDate as any)}`,
 			[formatDate(endDate as any)]
-		);
-	};
+		)
+	}
 
 	const renderOpeningAndClosingTime = () => {
 		return showMessageWithHighlight(
 			`●  das ${formatHour(openingTime)} as ${formatHour(closingTime)} `,
 			[formatHour(openingTime), formatHour(closingTime)]
-		);
-	};
+		)
+	}
 
 	const renderInvalidDateTimeWeekMessage = () => {
-		return showMessageWithHighlight("●  dias não definidos", [
-			"não",
-			"definidos",
-		]);
-	};
+		return showMessageWithHighlight('●  dias não definidos', [
+			'não',
+			'definidos',
+		])
+	}
 
 	const renderRepetition = () => {
 		switch (repetition) {
-			case "unrepeatable":
-				return showMessageWithHighlight("●  não se repete", ["repete"]);
-			case "everyDay":
-				return showMessageWithHighlight("●  repete todos os dias", [
-					"todos",
-					"os",
-					"dias",
-				]);
-			case "weekly":
-				return showMessageWithHighlight("●  repete semanalmente", [
-					"semanalmente",
-				]);
-			case "biweekly":
-				return showMessageWithHighlight("●  repete a cada 15 dias", [
-					"15",
-					"dias",
-				]);
-			case "monthly":
-				return showMessageWithHighlight("●  repete mensalmnte", [
-					"mensalmnte",
-				]);
+			case 'unrepeatable':
+				return showMessageWithHighlight('●  não se repete', ['repete'])
+			case 'everyDay':
+				return showMessageWithHighlight('●  repete todos os dias', [
+					'todos',
+					'os',
+					'dias',
+				])
+			case 'weekly':
+				return showMessageWithHighlight('●  repete semanalmente', [
+					'semanalmente',
+				])
+			case 'biweekly':
+				return showMessageWithHighlight('●  repete a cada 15 dias', [
+					'15',
+					'dias',
+				])
+			case 'monthly':
+				return showMessageWithHighlight('●  repete mensalmnte', [
+					'mensalmnte',
+				])
 			default:
-				return false;
+				return false
 		}
-	};
+	}
 
 	return (
 		<DefaultCardContainer>
@@ -193,7 +191,7 @@ function DateTimeCard({
 				)}
 			</DateTimeContainer>
 		</DefaultCardContainer>
-	);
+	)
 }
 
-export { DateTimeCard };
+export { DateTimeCard }

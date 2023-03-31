@@ -1,24 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
-import { StatusBar } from "react-native";
+import React, { useContext, useEffect, useState } from 'react'
+import { StatusBar } from 'react-native'
 
-import { relativeScreenHeight } from "@common/screenDimensions";
-import {
-	Body,
-	Container,
-	Header,
-	LastSigh,
-	SaveButtonContainer,
-	Sigh,
-} from "./styles";
-import CheckIcon from "@assets/icons/check.svg";
+import { relativeScreenHeight } from '@common/screenDimensions'
+import CheckIcon from '@assets/icons/check.svg'
 
-import { vacancyCategories } from "@utils/postsCategories/vacancyCategories";
-import { formatDate, formatHour } from "@common/auxiliaryFunctions";
-import { updatePost } from "@services/firebase/post/updatePost";
-import { updateDocField } from "@services/firebase/common/updateDocField";
+import { vacancyCategories } from '@utils/postsCategories/vacancyCategories'
+import { formatDate, formatHour } from '@common/auxiliaryFunctions'
+import { updatePost } from '@services/firebase/post/updatePost'
+import { updateDocField } from '@services/firebase/common/updateDocField'
 
-import { VacancyStackParamList } from "@routes/Stack/VacancyStack/types";
-import { EditVacancyPostScreenProps } from "@routes/Stack/UserStack/stackScreenProps";
+import { VacancyStackParamList } from '@routes/Stack/VacancyStack/types'
+import { EditVacancyPostScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import {
 	CultureCollection,
 	DaysOfWeek,
@@ -27,204 +19,209 @@ import {
 	VacancyCategories,
 	VacancyCollection,
 	VacancyCollectionRemote,
-} from "@services/firebase/types";
+} from '@services/firebase/types'
 
-import { EditContext } from "@contexts/EditContext";
-import { AuthContext } from "@contexts/AuthContext";
+import { EditContext } from '@contexts/EditContext'
+import { AuthContext } from '@contexts/AuthContext'
 
-import { DefaultPostViewHeader } from "@components/DefaultPostViewHeader";
-import { EditCard } from "@components/_cards/EditCard";
-import { theme } from "@common/theme";
-import { LocationViewCard } from "@components/_cards/LocationViewCard";
-import { PrimaryButton } from "@components/_buttons/PrimaryButton";
-import { Loader } from "@components/Loader";
+import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
+import { EditCard } from '@components/_cards/EditCard'
+import { theme } from '@common/theme'
+import { LocationViewCard } from '@components/_cards/LocationViewCard'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { Loader } from '@components/Loader'
+import {
+	Body,
+	Container,
+	Header,
+	LastSigh,
+	SaveButtonContainer,
+	Sigh,
+} from './styles'
 
 function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
-	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } =
-		useContext(EditContext);
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext);
+	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } =		useContext(EditContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(false)
 
-	const { postData } = route.params;
+	const { postData } = route.params
 
 	useEffect(() => {
-		clearUnsavedEditContext();
-	}, []);
+		clearUnsavedEditContext()
+	}, [])
 
 	const getRelativeTitle = () => {
 		// TODO REFACTOR all edit screens
 		switch (postData.postType) {
-			case "service":
-				return "do serviço";
-			case "sale":
-				return "da venda";
-			case "vacancy":
-				return "da vaga";
-			case "socialImpact":
-				return "da iniciativa";
-			case "culture": {
-				const { cultureType } = postData as CultureCollection;
-				return cultureType === "artistProfile"
-					? "do artista"
-					: "do evento";
+			case 'service':
+				return 'do serviço'
+			case 'sale':
+				return 'da venda'
+			case 'vacancy':
+				return 'da vaga'
+			case 'socialImpact':
+				return 'da iniciativa'
+			case 'culture': {
+				const { cultureType } = postData as CultureCollection
+				return cultureType === 'artistProfile'
+					? 'do artista'
+					: 'do evento'
 			}
 			default:
-				return "do post";
+				return 'do post'
 		}
-	};
+	}
 
 	const formatDaysOfWeek = () => {
-		const attendanceWeekDays = getPostField("workWeekdays");
+		const attendanceWeekDays = getPostField('workWeekdays')
 
 		const allDaysOfWeek = [
-			"seg",
-			"ter",
-			"qua",
-			"qui",
-			"sex",
-			"sab",
-			"dom",
-		] as DaysOfWeek[];
-		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) =>
-			attendanceWeekDays.includes(weekDay)
-		);
-		return ordenedDaysOfWeek.toString().split(",").join(", ");
-	};
+			'seg',
+			'ter',
+			'qua',
+			'qui',
+			'sex',
+			'sab',
+			'dom',
+		] as DaysOfWeek[]
+		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => attendanceWeekDays.includes(weekDay))
+		return ordenedDaysOfWeek.toString().split(',').join(', ')
+	}
 
 	const navigateToEditScreen = (
 		screenName: keyof VacancyStackParamList,
 		initialValue: keyof VacancyCollectionRemote,
 		especificField?: string
 	) => {
-		const value = getPostField(initialValue);
-		navigation.navigate("VacancyStack", {
+		const value = getPostField(initialValue)
+		navigation.navigate('VacancyStack', {
 			screen: screenName,
 			params: {
 				editMode: true,
 				initialValue: !especificField ? value : value[especificField],
 			},
-		});
-	};
+		})
+	}
 
 	const getUserPostsWithoutEdited = () => {
-		const userPosts = userDataContext.posts || [];
-		return userPosts.filter((post) => post.postId !== postData.postId);
-	};
+		const userPosts = userDataContext.posts || []
+		return userPosts.filter((post) => post.postId !== postData.postId)
+	}
 
 	const editPost = async () => {
 		try {
-			setIsLoading(true);
+			setIsLoading(true)
 
-			const postDataToSave = { ...postData, ...editDataContext.unsaved };
-			delete postDataToSave.owner;
+			const postDataToSave = { ...postData, ...editDataContext.unsaved }
+			delete postDataToSave.owner
 
-			await updatePost("posts", postData.postId, postDataToSave);
+			await updatePost('posts', postData.postId, postDataToSave)
 
 			if (postDataToSave.location) {
-				delete postDataToSave.location.geohashNearby;
-				delete postDataToSave.location.geohashCity;
+				delete postDataToSave.location.geohashNearby
+				delete postDataToSave.location.geohashCity
 			}
 
 			await updateDocField(
-				"users",
+				'users',
 				userDataContext.userId as Id,
-				"posts",
+				'posts',
 				[postDataToSave, ...getUserPostsWithoutEdited()]
-			);
+			)
 
-			updateUserContext(postDataToSave);
-			changeStateOfEditedFields();
-			setIsLoading(false);
-			navigation.goBack();
+			updateUserContext(postDataToSave)
+			changeStateOfEditedFields()
+			setIsLoading(false)
+			navigation.goBack()
 		} catch (err) {
-			console.log(err);
-			setIsLoading(false);
-			throw new Error("Erro ao editar post");
+			console.log(err)
+			setIsLoading(false)
+			throw new Error('Erro ao editar post')
 		}
-	};
+	}
 
 	const changeStateOfEditedFields = () => {
 		setEditDataOnContext({
 			saved: { ...editDataContext.saved, ...editDataContext.unsaved },
 			unsaved: {},
-		});
-	};
+		})
+	}
 
 	const updateUserContext = (postAfterEdit: ServiceCollection) => {
 		setUserDataOnContext({
 			posts: [...getUserPostsWithoutEdited(), postAfterEdit],
-		});
-	};
+		})
+	}
 
 	const cancelAllChangesAndGoBack = () => {
-		navigation.goBack();
-	};
+		navigation.goBack()
+	}
 
 	const getPostField = (fieldName: keyof VacancyCollection) => {
-		return editDataContext.unsaved[fieldName] || postData[fieldName];
-	};
+		return editDataContext.unsaved[fieldName] || postData[fieldName]
+	}
 
 	const formatCategoryAndTags = () => {
-		const category: VacancyCategories = getPostField("category");
-		const tags = getPostField("tags");
+		const category: VacancyCategories = getPostField('category')
+		const tags = getPostField('tags')
 
 		return `	●  ${vacancyCategories[category].label}\n	●  ${tags.map(
 			(tag: string) => ` #${tag}`
-		)}`;
-	};
+		)}`
+	}
 
 	const getRelativeVacancyType = () => {
-		switch (getPostField("vacancyType")) {
-			case "beak":
-				return "bico";
-			case "temporary":
-				return "temporária";
-			case "professional":
-				return "profissional";
+		switch (getPostField('vacancyType')) {
+			case 'beak':
+				return 'bico'
+			case 'temporary':
+				return 'temporária'
+			case 'professional':
+				return 'profissional'
 			default:
-				return "---";
+				return '---'
 		}
-	};
+	}
 
 	const getRelativeWorkPlace = () => {
-		switch (getPostField("workplace")) {
-			case "homeoffice":
-				return "home-office";
-			case "presential":
-				return "presencial";
-			case "hybrid":
-				return "híbrida";
+		switch (getPostField('workplace')) {
+			case 'homeoffice':
+				return 'home-office'
+			case 'presential':
+				return 'presencial'
+			case 'hybrid':
+				return 'híbrida'
 			default:
-				return "---";
+				return '---'
 		}
-	};
+	}
 
 	return (
 		<Container>
 			<StatusBar
 				backgroundColor={theme.white3}
-				barStyle={"dark-content"}
+				barStyle={'dark-content'}
 			/>
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={cancelAllChangesAndGoBack}
-					text={"editar seu post"}
-					highlightedWords={["editar"]}
+					text={'editar seu post'}
+					highlightedWords={['editar']}
 				/>
-				{Object.keys(editDataContext.unsaved).length > 0 &&
-					(isLoading ? (
+				{Object.keys(editDataContext.unsaved).length > 0
+					&& (isLoading ? (
 						<Loader />
 					) : (
 						<SaveButtonContainer>
 							<PrimaryButton
 								color={theme.green3}
 								labelColor={theme.white3}
-								label={"salvar alterações"}
-								highlightedWords={["salvar"]}
+								label={'salvar alterações'}
+								highlightedWords={['salvar']}
 								fontSize={16}
 								SecondSvgIcon={CheckIcon}
-								svgIconScale={["35%", "18%"]}
+								svgIconScale={['35%', '18%']}
 								minHeight={relativeScreenHeight(6)}
 								relativeHeight={relativeScreenHeight(8)}
 								onPress={editPost}
@@ -234,165 +231,141 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 			</Header>
 			<Body>
 				<EditCard
-					title={"tags do post"}
-					highlightedWords={["tags"]}
+					title={'tags do post'}
+					highlightedWords={['tags']}
 					value={formatCategoryAndTags()}
-					onEdit={() =>
-						navigateToEditScreen("SelectVacancyCategory", "tags")
-					}
+					onEdit={() => navigateToEditScreen('SelectVacancyCategory', 'tags')}
 				/>
 				<Sigh />
 				<EditCard
-					title={"título do post"}
-					highlightedWords={["título"]}
-					value={getPostField("title")}
-					onEdit={() =>
-						navigateToEditScreen("InsertVacancyTitle", "title")
-					}
+					title={'título do post'}
+					highlightedWords={['título']}
+					value={getPostField('title')}
+					onEdit={() => navigateToEditScreen('InsertVacancyTitle', 'title')}
 				/>
 				<Sigh />
 				<EditCard
 					title={`descrição ${getRelativeTitle()}`}
-					highlightedWords={["descrição"]}
-					value={getPostField("description") || "---"}
-					onEdit={() =>
-						navigateToEditScreen(
-							"InsertVacancyDescription",
-							"description"
-						)
-					}
+					highlightedWords={['descrição']}
+					value={getPostField('description') || '---'}
+					onEdit={() => navigateToEditScreen(
+						'InsertVacancyDescription',
+						'description'
+					)}
 				/>
 				<Sigh />
 				<EditCard
-					title={"descrição da empresa"}
-					highlightedWords={["descrição"]}
-					value={getPostField("companyDescription") || "---"}
-					onEdit={() =>
-						navigateToEditScreen(
-							"InsertCompanyDescription",
-							"companyDescription"
-						)
-					}
+					title={'descrição da empresa'}
+					highlightedWords={['descrição']}
+					value={getPostField('companyDescription') || '---'}
+					onEdit={() => navigateToEditScreen(
+						'InsertCompanyDescription',
+						'companyDescription'
+					)}
 				/>
 				<Sigh />
 				<EditCard
-					title={"tipo de vaga"}
-					highlightedWords={["tipo"]}
-					value={getRelativeVacancyType() || "---"}
-					onEdit={() =>
-						navigateToEditScreen("SelectVacancyType", "vacancyType")
-					}
+					title={'tipo de vaga'}
+					highlightedWords={['tipo']}
+					value={getRelativeVacancyType() || '---'}
+					onEdit={() => navigateToEditScreen('SelectVacancyType', 'vacancyType')}
 				/>
 				<Sigh />
 				<EditCard
-					title={"local de trabalho"}
-					highlightedWords={["local"]}
-					value={getRelativeWorkPlace() || "---"}
-					onEdit={() =>
-						navigateToEditScreen("SelectWorkplace", "workplace")
-					}
+					title={'local de trabalho'}
+					highlightedWords={['local']}
+					value={getRelativeWorkPlace() || '---'}
+					onEdit={() => navigateToEditScreen('SelectWorkplace', 'workplace')}
 				/>
 				<Sigh />
-				{getPostField("workplace") !== "homeoffice" && (
+				{getPostField('workplace') !== 'homeoffice' && (
 					<>
 						<LocationViewCard
-							title={"localização"}
-							locationView={"public"}
+							title={'localização'}
+							locationView={'public'}
 							textFontSize={16}
 							withoutMapView={
-								!getPostField("location").coordinates
+								!getPostField('location').coordinates
 							}
 							editable
 							isAuthor
-							location={getPostField("location")}
-							onEdit={() =>
-								navigateToEditScreen(
-									"InsertWorkplaceLocation",
-									"location",
-									"coordinates"
-								)
-							}
+							location={getPostField('location')}
+							onEdit={() => navigateToEditScreen(
+								'InsertWorkplaceLocation',
+								'location',
+								'coordinates'
+							)}
 						/>
 						<Sigh />
 					</>
 				)}
-				{getPostField("vacancyType") === "professional" && (
+				{getPostField('vacancyType') === 'professional' && (
 					<>
 						<EditCard
-							title={"dias da semana"}
-							highlightedWords={["semana"]}
-							value={formatDaysOfWeek() || "---"}
-							onEdit={() =>
-								navigateToEditScreen(
-									"SelectWorkWeekdays",
-									"workWeekdays"
-								)
-							}
+							title={'dias da semana'}
+							highlightedWords={['semana']}
+							value={formatDaysOfWeek() || '---'}
+							onEdit={() => navigateToEditScreen(
+								'SelectWorkWeekdays',
+								'workWeekdays'
+							)}
 						/>
 						<Sigh />
 					</>
 				)}
-				{getPostField("vacancyType") !== "professional" && (
+				{getPostField('vacancyType') !== 'professional' && (
 					<>
 						<EditCard
-							title={"data de início"}
-							highlightedWords={["início"]}
+							title={'data de início'}
+							highlightedWords={['início']}
 							value={
-								formatDate(getPostField("startWorkDate")) ||
-								"---"
+								formatDate(getPostField('startWorkDate'))
+								|| '---'
 							}
-							onEdit={() =>
-								navigateToEditScreen(
-									"InsertWorkStartDate",
-									"startWorkDate"
-								)
-							}
+							onEdit={() => navigateToEditScreen(
+								'InsertWorkStartDate',
+								'startWorkDate'
+							)}
 						/>
 						<Sigh />
 					</>
 				)}
 				<EditCard
-					title={"horário de início"}
-					highlightedWords={["início"]}
-					value={formatHour(getPostField("startWorkHour")) || "---"}
-					onEdit={() =>
-						navigateToEditScreen(
-							"InsertWorkStartHour",
-							"startWorkHour"
-						)
-					}
+					title={'horário de início'}
+					highlightedWords={['início']}
+					value={formatHour(getPostField('startWorkHour')) || '---'}
+					onEdit={() => navigateToEditScreen(
+						'InsertWorkStartHour',
+						'startWorkHour'
+					)}
 				/>
 				<Sigh />
-				{getPostField("vacancyType") !== "professional" && (
+				{getPostField('vacancyType') !== 'professional' && (
 					<>
 						<EditCard
-							title={"data de fim"}
-							highlightedWords={["fim"]}
+							title={'data de fim'}
+							highlightedWords={['fim']}
 							value={
-								formatDate(getPostField("endWorkDate")) || "---"
+								formatDate(getPostField('endWorkDate')) || '---'
 							}
-							onEdit={() =>
-								navigateToEditScreen(
-									"InsertWorkEndDate",
-									"endWorkDate"
-								)
-							}
+							onEdit={() => navigateToEditScreen(
+								'InsertWorkEndDate',
+								'endWorkDate'
+							)}
 						/>
 						<Sigh />
 					</>
 				)}
 				<EditCard
-					title={"horário de fim"}
-					highlightedWords={["fim"]}
-					value={formatHour(getPostField("endWorkHour")) || "---"}
-					onEdit={() =>
-						navigateToEditScreen("InsertWorkEndHour", "endWorkHour")
-					}
+					title={'horário de fim'}
+					highlightedWords={['fim']}
+					value={formatHour(getPostField('endWorkHour')) || '---'}
+					onEdit={() => navigateToEditScreen('InsertWorkEndHour', 'endWorkHour')}
 				/>
 				<LastSigh />
 			</Body>
 		</Container>
-	);
+	)
 }
 
-export { EditVacancyPost };
+export { EditVacancyPost }

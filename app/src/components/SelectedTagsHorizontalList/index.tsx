@@ -1,14 +1,14 @@
-import React, { useRef } from "react";
-import { ScrollView } from "react-native";
-import uuid from "react-uuid";
+import React, { useRef } from 'react'
+import { ScrollView } from 'react-native'
+import uuid from 'react-uuid'
 
-import { TagsSelectedArea } from "./styles";
 import {
 	relativeScreenHeight,
 	relativeScreenWidth,
-} from "@common/screenDimensions";
+} from '@common/screenDimensions'
+import { TagsSelectedArea } from './styles'
 
-import { SelectButton } from "../_buttons/SelectButton";
+import { SelectButton } from '../_buttons/SelectButton'
 
 interface SelectedTagsHorizontalListProps {
 	selectedTags: string[];
@@ -21,29 +21,28 @@ function SelectedTagsHorizontalList({
 	backgroundSelected,
 	onSelectTag,
 }: SelectedTagsHorizontalListProps) {
-	const tagsSelectedRef = useRef() as any;
+	const tagsSelectedRef = useRef() as any
 
 	const scrollToEnd = () => {
 		tagsSelectedRef.current.scrollToEnd({
 			animated: true,
-		});
-	};
+		})
+	}
 
-	const renderSelectedTags = () =>
-		selectedTags.map((tagName) => (
-			<SelectButton
-				key={uuid()}
-				width={relativeScreenWidth(24)}
-				height={relativeScreenHeight(7)}
-				label={tagName}
-				fontSize={12}
-				boldLabel
-				marginHorizontal={relativeScreenWidth(3)}
-				backgroundSelected={backgroundSelected}
-				selected
-				onSelect={() => onSelectTag(tagName)}
-			/>
-		));
+	const renderSelectedTags = () => selectedTags.map((tagName) => (
+		<SelectButton
+			key={uuid()}
+			width={relativeScreenWidth(24)}
+			height={relativeScreenHeight(7)}
+			label={tagName}
+			fontSize={12}
+			boldLabel
+			marginHorizontal={relativeScreenWidth(3)}
+			backgroundSelected={backgroundSelected}
+			selected
+			onSelect={() => onSelectTag(tagName)}
+		/>
+	))
 
 	return (
 		<TagsSelectedArea>
@@ -58,7 +57,7 @@ function SelectedTagsHorizontalList({
 				{renderSelectedTags()}
 			</ScrollView>
 		</TagsSelectedArea>
-	);
+	)
 }
 
-export { SelectedTagsHorizontalList };
+export { SelectedTagsHorizontalList }

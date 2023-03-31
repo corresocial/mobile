@@ -1,9 +1,9 @@
-import React, { ReactElement } from "react";
-import { Animated } from "react-native";
-import { RFValue } from "react-native-responsive-fontsize";
-import { relativeScreenWidth } from "@common/screenDimensions";
+import React, { ReactElement } from 'react'
+import { Animated } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
+import { relativeScreenWidth } from '@common/screenDimensions'
 
-import { Container } from "./styles";
+import { Container } from './styles'
 
 interface DefaultHeaderContainerProps {
 	children: ReactElement | ReactElement[];
@@ -21,9 +21,9 @@ interface DefaultHeaderContainerProps {
 
 function DefaultHeaderContainer({
 	children,
-	relativeHeight = "55%",
+	relativeHeight = '55%',
 	centralized,
-	flexDirection = "row",
+	flexDirection = 'row',
 	justifyContent,
 	backgroundColor,
 	minHeight = 0,
@@ -37,7 +37,7 @@ function DefaultHeaderContainer({
 			style={
 				{
 					minHeight: RFValue(minHeight),
-					height: grow ? "auto" : relativeHeight,
+					height: grow ? 'auto' : relativeHeight,
 					flexDirection,
 					backgroundColor,
 					borderBottomWidth: RFValue(borderBottomWidth),
@@ -45,16 +45,16 @@ function DefaultHeaderContainer({
 						? RFValue(paddingVertical)
 						: relativeScreenWidth(5),
 					padding: withoutPadding ? 0 : relativeScreenWidth(5),
-					alignItems: centralized ? "center" : "flex-start",
+					alignItems: centralized ? 'center' : 'flex-start',
 					justifyContent:
-						justifyContent ||
-						(centralized ? "center" : "flex-start"),
+						justifyContent
+						|| (centralized ? 'center' : 'flex-start'),
 				} as { [key: string]: React.CSSProperties }
 			}
 		>
 			{children}
 		</Container>
-	);
+	)
 }
 
-export { DefaultHeaderContainer };
+export { DefaultHeaderContainer }

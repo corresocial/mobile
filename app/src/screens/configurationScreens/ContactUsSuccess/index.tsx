@@ -1,32 +1,32 @@
-import React from "react";
-import { StatusBar } from "react-native";
+import React from 'react'
+import { StatusBar } from 'react-native'
 
-import { Container, Body } from "./styles";
-import { theme } from "@common/theme";
-import CheckIcon from "@assets/icons/check.svg";
+import { theme } from '@common/theme'
+import CheckIcon from '@assets/icons/check.svg'
 
-import { ContactUsSuccessScreenProps } from "@routes/Stack/userStack/stackScreenProps";
+import { ContactUsSuccessScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 
-import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
-import { PrimaryButton } from "@components/_buttons/PrimaryButton";
-import { relativeScreenHeight } from "@common/screenDimensions";
-import { InstructionCard } from "@components/_cards/InstructionCard";
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { Container, Body } from './styles'
 
 function ContactUsSuccess({ route, navigation }: ContactUsSuccessScreenProps) {
 	const navigateToConfig = () => {
-		if (route.params?.reportType !== "none") {
-			navigation.goBack();
-			navigation.goBack();
-			return;
+		if (route.params?.reportType !== 'none') {
+			navigation.goBack()
+			navigation.goBack()
+			return
 		}
-		navigation.navigate("Configurations");
-	};
+		navigation.navigate('Configurations')
+	}
 
 	return (
 		<Container>
 			<StatusBar
 				backgroundColor={theme.orange2}
-				barStyle={"dark-content"}
+				barStyle={'dark-content'}
 			/>
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(50)}
@@ -35,17 +35,18 @@ function ContactUsSuccess({ route, navigation }: ContactUsSuccessScreenProps) {
 			>
 				<InstructionCard
 					message={
-						"pronto! \n\nrecebemos seu feedback, nossa equipe vai avalizar e tratar o ocorrido."
+						'pronto! \n\nrecebemos seu feedback, nossa equipe vai avalizar e tratar o ocorrido.'
 					}
 					highlightedWords={[
-						"\n\nrecebemos",
-						"seu",
-						"feedback",
-						"avaliar",
-						"tratar",
+						'\n\nrecebemos',
+						'seu',
+						'feedback',
+						'avaliar',
+						'tratar',
 					]}
 					fontSize={18}
-				></InstructionCard>
+				>
+				</InstructionCard>
 			</DefaultHeaderContainer>
 			<Body>
 				<PrimaryButton
@@ -53,15 +54,15 @@ function ContactUsSuccess({ route, navigation }: ContactUsSuccessScreenProps) {
 					labelColor={theme.white3}
 					fontSize={18}
 					labelMarginLeft={5}
-					textAlign={"left"}
-					label={"finalizar"}
+					textAlign={'left'}
+					label={'finalizar'}
 					SecondSvgIcon={CheckIcon}
-					svgIconScale={["30%", "15%"]}
+					svgIconScale={['30%', '15%']}
 					onPress={navigateToConfig}
 				/>
 			</Body>
 		</Container>
-	);
+	)
 }
 
-export { ContactUsSuccess };
+export { ContactUsSuccess }

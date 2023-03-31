@@ -1,7 +1,34 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { Keyboard, ScrollView, StatusBar } from "react-native";
-import uuid from "react-uuid";
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Keyboard, ScrollView, StatusBar } from 'react-native'
+import uuid from 'react-uuid'
 
+import { theme } from '@common/theme'
+import {
+	relativeScreenHeight,
+	relativeScreenWidth,
+} from '@common/screenDimensions'
+import Check from '@assets/icons/check.svg'
+
+import {
+	cultureCategories,
+	updateCultureTags,
+} from '@utils/postsCategories/cultureCategories'
+import { sortArray } from '@common/auxiliaryFunctions'
+import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
+
+import { SelectCultureTagsScreenProps } from '@routes/Stack/cultureStack/stackScreenProps'
+
+import { CultureContext } from '@contexts/CultureContext'
+import { EditContext } from '@contexts/EditContext'
+
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { SelectButtonsContainer } from '@components/_containers/SelectButtonsContainer'
+import { SelectButton } from '@components/_buttons/SelectButton'
+import { BackButton } from '@components/_buttons/BackButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { LineInput } from '@components/LineInput'
+import { InfoCard } from '@components/_cards/InfoCard'
+import { SelectedTagsHorizontalList } from '@components/SelectedTagsHorizontalList'
 import {
 	Container,
 	ContainerBottom,
@@ -9,73 +36,40 @@ import {
 	InputTagArea,
 	Sigh,
 	TagsUnselectedArea,
-} from "./styles";
-import { theme } from "@common/theme";
-import {
-	relativeScreenHeight,
-	relativeScreenWidth,
-} from "@common/screenDimensions";
-import Check from "@assets/icons/check.svg";
-
-import {
-	cultureCategories,
-	updateCultureTags,
-} from "@utils/postsCategories/cultureCategories";
-import { sortArray } from "@common/auxiliaryFunctions";
-import { removeAllKeyboardEventListeners } from "@common/listenerFunctions";
-
-import { SelectCultureTagsScreenProps } from "@routes/Stack/cultureStack/stackScreenProps";
-
-import { CultureContext } from "@contexts/CultureContext";
-import { EditContext } from "@contexts/EditContext";
-
-import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
-import { SelectButtonsContainer } from "@components/_containers/SelectButtonsContainer";
-import { SelectButton } from "@components/_buttons/SelectButton";
-import { BackButton } from "@components/_buttons/BackButton";
-import { PrimaryButton } from "@components/_buttons/PrimaryButton";
-import { LineInput } from "@components/LineInput";
-import { InfoCard } from "@components/_cards/InfoCard";
-import { SelectedTagsHorizontalList } from "@components/SelectedTagsHorizontalList";
+} from './styles'
 
 function SelectCultureTags({
 	route,
 	navigation,
 }: SelectCultureTagsScreenProps) {
-	const { cultureDataContext, setCultureDataOnContext } =
-		useContext(CultureContext);
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext);
+	const { cultureDataContext, setCultureDataOnContext } =		useContext(CultureContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [textTag, setTextTag] = useState("");
-	const [keyboardOpened, setKeyboardOpened] = useState(false);
-	const [selectedTags, setSelectedTags] = useState<string[]>([]);
+	const [textTag, setTextTag] = useState('')
+	const [keyboardOpened, setKeyboardOpened] = useState(false)
+	const [selectedTags, setSelectedTags] = useState<string[]>([])
 
-	const inputNewTagRef = useRef() as any;
+	const inputNewTagRef = useRef() as any
 
 	useEffect(() => {
-		const unsubscribe = navigation.addListener("focus", () => {
-			removeAllKeyboardEventListeners();
-			Keyboard.addListener("keyboardDidShow", () =>
-				setKeyboardOpened(true)
-			);
-			Keyboard.addListener("keyboardDidHide", () =>
-				setKeyboardOpened(false)
-			);
-		});
-		return unsubscribe;
-	}, [navigation]);
+		const unsubscribe = navigation.addListener('focus', () => {
+			removeAllKeyboardEventListeners()
+			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		})
+		return unsubscribe
+	}, [navigation])
 
 	const renderUnselectedTags = () => {
-		const ordenedCultureTags =
-			cultureCategories[getCultureCategorySelected()].tags.sort(
-				sortArray
-			);
+		const ordenedCultureTags =			cultureCategories[getCultureCategorySelected()].tags.sort(
+			sortArray
+		)
 
 		return ordenedCultureTags.map((tagName, index) => {
-			if (selectedTags.includes(tagName)) return;
+			if (selectedTags.includes(tagName)) return
 			if (
-				tagName.indexOf(textTag.toLowerCase()) !== -1 &&
-				!selectedTags.includes(tagName)
+				tagName.indexOf(textTag.toLowerCase()) !== -1
+				&& !selectedTags.includes(tagName)
 			) {
 				return (
 					<SelectButton
@@ -88,85 +82,82 @@ function SelectCultureTags({
 						backgroundSelected={theme.blue1}
 						onSelect={() => onSelectTag(tagName)}
 					/>
-				);
+				)
 			}
-			return null;
-		});
-	};
+			return null
+		})
+	}
 
 	const onSelectTag = (tagName: string) => {
-		const selectedCategoriesCurrent = [...selectedTags];
+		const selectedCategoriesCurrent = [...selectedTags]
 		if (selectedTags.includes(tagName)) {
 			const selectedTagsFiltred = selectedCategoriesCurrent.filter(
 				(tag) => tag !== tagName
-			);
-			setSelectedTags(selectedTagsFiltred);
+			)
+			setSelectedTags(selectedTagsFiltred)
 		} else {
-			selectedCategoriesCurrent.push(tagName);
-			setSelectedTags(selectedCategoriesCurrent);
+			selectedCategoriesCurrent.push(tagName)
+			setSelectedTags(selectedCategoriesCurrent)
 		}
-	};
+	}
 
 	const getCultureCategorySelected = () => {
-		const { categorySelected } = route.params;
-		return categorySelected;
-	};
+		const { categorySelected } = route.params
+		return categorySelected
+	}
 
 	const getCurrentCategoryLabelHightlighted = () => {
-		const highlightedWords =
-			cultureCategories[getCultureCategorySelected()].label.split(" ");
-		return highlightedWords;
-	};
+		const highlightedWords =			cultureCategories[getCultureCategorySelected()].label.split(' ')
+		return highlightedWords
+	}
 
-	const getCurrentCategoryLabel = () =>
-		cultureCategories[getCultureCategorySelected()].label;
+	const getCurrentCategoryLabel = () => cultureCategories[getCultureCategorySelected()].label
 
-	const categoryLabelSelectedIsLarge = () =>
-		getCurrentCategoryLabelHightlighted().length > 3;
+	const categoryLabelSelectedIsLarge = () => getCurrentCategoryLabelHightlighted().length > 3
 
 	const addNewTag = () => {
-		const lowerCaseTag = textTag.toLowerCase();
+		const lowerCaseTag = textTag.toLowerCase()
 
-		if (!lowerCaseTag.length) return;
+		if (!lowerCaseTag.length) return
 		if (
 			cultureCategories[getCultureCategorySelected()].tags.includes(
 				lowerCaseTag as never
 			)
 		) {
-			setTextTag("");
-			return onSelectTag(lowerCaseTag);
+			setTextTag('')
+			return onSelectTag(lowerCaseTag)
 		}
-		const selectedCategoriesCurrent = [...selectedTags];
-		selectedCategoriesCurrent.push(lowerCaseTag);
+		const selectedCategoriesCurrent = [...selectedTags]
+		selectedCategoriesCurrent.push(lowerCaseTag)
 
-		setSelectedTags(selectedCategoriesCurrent);
-		updateCultureTags(getCultureCategorySelected(), lowerCaseTag);
-		setTextTag("");
-	};
+		setSelectedTags(selectedCategoriesCurrent)
+		updateCultureTags(getCultureCategorySelected(), lowerCaseTag)
+		setTextTag('')
+	}
 
 	const saveTags = () => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ tags: selectedTags });
-			navigation.goBack();
-			navigation.goBack();
-			return;
+			addNewUnsavedFieldToEditContext({ tags: selectedTags })
+			navigation.goBack()
+			navigation.goBack()
+			return
 		}
 
-		setCultureDataOnContext({ tags: selectedTags });
-		if (cultureDataContext.cultureType === "eventPost") {
-			navigation.navigate("InsertEntryValue");
+		setCultureDataOnContext({ tags: selectedTags })
+		if (cultureDataContext.cultureType === 'eventPost') {
+			navigation.navigate('InsertEntryValue')
 		} else {
-			navigation.navigate("SelectExhibitionPlace");
+			navigation.navigate('SelectExhibitionPlace')
 		}
-	};
+	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode;
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>
 			<StatusBar
 				backgroundColor={theme.blue2}
-				barStyle={"dark-content"}
+				barStyle={'dark-content'}
 			/>
 			<DefaultHeaderContainer
 				minHeight={
@@ -174,7 +165,7 @@ function SelectCultureTags({
 						? relativeScreenHeight(25)
 						: relativeScreenHeight(20)
 				}
-				relativeHeight={categoryLabelSelectedIsLarge() ? "30%" : "24%"}
+				relativeHeight={categoryLabelSelectedIsLarge() ? '30%' : '24%'}
 				centralized
 				backgroundColor={theme.blue2}
 			>
@@ -186,19 +177,19 @@ function SelectCultureTags({
 					highlightedWords={[
 						...getCurrentCategoryLabelHightlighted(),
 					]}
-					height={"100%"}
+					height={'100%'}
 					color={theme.white3}
 				/>
 			</DefaultHeaderContainer>
 			<ContainerBottom
 				style={{
-					justifyContent: keyboardOpened ? "center" : "flex-start",
+					justifyContent: keyboardOpened ? 'center' : 'flex-start',
 				}}
 			>
 				<InputTagArea>
 					<LineInput
 						value={textTag}
-						relativeWidth={"100%"}
+						relativeWidth={'100%'}
 						textInputRef={inputNewTagRef}
 						defaultBackgroundColor={theme.white2}
 						defaultBorderBottomColor={theme.black4}
@@ -206,13 +197,13 @@ function SelectCultureTags({
 						validBorderBottomColor={theme.blue5}
 						invalidBackgroundColor={theme.red1}
 						invalidBorderBottomColor={theme.red5}
-						textAlign={"left"}
+						textAlign={'left'}
 						lastInput
 						blurOnSubmit
 						fontSize={16}
 						invalidTextAfterSubmit={false}
-						placeholder={"digite ou escolha alguma das opções"}
-						keyboardType={"default"}
+						placeholder={'digite ou escolha alguma das opções'}
+						keyboardType={'default'}
 						textIsValid={cultureCategories[
 							getCultureCategorySelected()
 						].tags.includes(textTag as never)}
@@ -224,13 +215,13 @@ function SelectCultureTags({
 					<ScrollView
 						showsVerticalScrollIndicator={false}
 						style={{
-							height: "100%",
+							height: '100%',
 							flex: 1,
 						}}
 						contentContainerStyle={{
-							flexDirection: "row",
-							flexWrap: "wrap",
-							overflow: "scroll",
+							flexDirection: 'row',
+							flexWrap: 'wrap',
+							overflow: 'scroll',
 						}}
 					>
 						{!keyboardOpened && (
@@ -249,19 +240,19 @@ function SelectCultureTags({
 				{!!selectedTags.length && !keyboardOpened && (
 					<FloatButtonContainer>
 						<PrimaryButton
-							flexDirection={"row-reverse"}
+							flexDirection={'row-reverse'}
 							color={theme.green3}
-							label={"continuar"}
+							label={'continuar'}
 							labelColor={theme.white3}
 							SvgIcon={Check}
-							svgIconScale={["30%", "15%"]}
+							svgIconScale={['30%', '15%']}
 							onPress={saveTags}
 						/>
 					</FloatButtonContainer>
 				)}
 			</ContainerBottom>
 		</Container>
-	);
+	)
 }
 
-export { SelectCultureTags };
+export { SelectCultureTags }

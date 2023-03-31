@@ -1,8 +1,8 @@
-import React from "react";
-import { RFValue } from "react-native-responsive-fontsize";
+import React from 'react'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import { showMessageWithHighlight } from "@common/auxiliaryFunctions";
-import { Container, Message } from "./styles";
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { Container, Message } from './styles'
 
 interface InstructionCardProps {
 	message: string;
@@ -46,7 +46,7 @@ function InstructionCard({
 			</Message>
 			{children}
 		</Container>
-	);
+	)
 }
 
-export { InstructionCard };
+export { InstructionCard }

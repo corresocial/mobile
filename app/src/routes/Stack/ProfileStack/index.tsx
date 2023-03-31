@@ -1,52 +1,52 @@
-import "react-native-gesture-handler";
-import React from "react";
+import 'react-native-gesture-handler'
+import React from 'react'
 import {
 	createStackNavigator,
 	TransitionPresets,
-} from "@react-navigation/stack";
+} from '@react-navigation/stack'
 
-import { StateProvider } from "@contexts/StateContext";
+import { StateProvider } from '@contexts/StateContext'
 
-import { ViewServicePost } from "@screens/viewPostScreens/ViewServicePost";
-import { ViewSalePost } from "@screens/viewPostScreens/ViewSalePost";
-import { ViewVacancyPost } from "@screens/viewPostScreens/ViewVacancyPost";
-import { ViewSocialImpactPost } from "@screens/viewPostScreens/ViewSocialImpactPost";
-import { ViewCulturePost } from "@screens/viewPostScreens/ViewCulturePost";
-import { Profile } from "@screens/profileScreens/Profile";
-import { ProfileStackParamList } from "./types";
+import { ViewServicePost } from '@screens/viewPostScreens/ViewServicePost'
+import { ViewSalePost } from '@screens/viewPostScreens/ViewSalePost'
+import { ViewVacancyPost } from '@screens/viewPostScreens/ViewVacancyPost'
+import { ViewSocialImpactPost } from '@screens/viewPostScreens/ViewSocialImpactPost'
+import { ViewCulturePost } from '@screens/viewPostScreens/ViewCulturePost'
+import { Profile } from '@screens/profileScreens/Profile'
+import { ProfileStackParamList } from './types'
 
-const Stack = createStackNavigator<ProfileStackParamList>();
+const Stack = createStackNavigator<ProfileStackParamList>()
 
 export function ProfileStack({ route }: any) {
 	return (
 		<StateProvider>
 			<Stack.Navigator
-				initialRouteName={"Profile"}
+				initialRouteName={'Profile'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: false,
 					...TransitionPresets.SlideFromRightIOS,
 				}}
 			>
-				<Stack.Screen name={"Profile"} component={Profile} />
+				<Stack.Screen name={'Profile'} component={Profile} />
 				<Stack.Screen
-					name={"ViewServicePost"}
+					name={'ViewServicePost'}
 					component={ViewServicePost}
 				/>
-				<Stack.Screen name={"ViewSalePost"} component={ViewSalePost} />
+				<Stack.Screen name={'ViewSalePost'} component={ViewSalePost} />
 				<Stack.Screen
-					name={"ViewVacancyPost"}
+					name={'ViewVacancyPost'}
 					component={ViewVacancyPost}
 				/>
 				<Stack.Screen
-					name={"ViewSocialImpactPost"}
+					name={'ViewSocialImpactPost'}
 					component={ViewSocialImpactPost}
 				/>
 				<Stack.Screen
-					name={"ViewCulturePost"}
+					name={'ViewCulturePost'}
 					component={ViewCulturePost}
 				/>
 			</Stack.Navigator>
 		</StateProvider>
-	);
+	)
 }

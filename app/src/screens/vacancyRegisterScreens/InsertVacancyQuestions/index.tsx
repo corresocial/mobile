@@ -1,34 +1,34 @@
-import { Keyboard, Platform, StatusBar } from "react-native";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import uuid from "react-uuid";
+import { Keyboard, Platform, StatusBar } from 'react-native'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import uuid from 'react-uuid'
 
-import { ButtonsContainer, Container } from "./styles";
-import { theme } from "@common/theme";
-import { relativeScreenHeight } from "@common/screenDimensions";
-import Uncheck from "@assets/icons/uncheck.svg";
-import Check from "@assets/icons/check.svg";
+import { theme } from '@common/theme'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import Uncheck from '@assets/icons/uncheck.svg'
+import Check from '@assets/icons/check.svg'
 
-import { InsertVacancyQuestionsScreenProps } from "@routes/Stack/vacancyStack/stackScreenProps";
-import { removeAllKeyboardEventListeners } from "@common/listenerFunctions";
+import { InsertVacancyQuestionsScreenProps } from '@routes/Stack/vacancyStack/stackScreenProps'
+import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 
-import { VacancyContext } from "@contexts/VacancyContext";
+import { VacancyContext } from '@contexts/VacancyContext'
 
-import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
-import { FormContainer } from "@components/_containers/FormContainer";
-import { PrimaryButton } from "@components/_buttons/PrimaryButton";
-import { BackButton } from "@components/_buttons/BackButton";
-import { InstructionCard } from "@components/_cards/InstructionCard";
-import { LineInput } from "@components/LineInput";
-import { ProgressBar } from "@components/ProgressBar";
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '@components/_containers/FormContainer'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { BackButton } from '@components/_buttons/BackButton'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { LineInput } from '@components/LineInput'
+import { ProgressBar } from '@components/ProgressBar'
+import { ButtonsContainer, Container } from './styles'
 
 function InsertVacancyQuestions({
 	navigation,
 }: InsertVacancyQuestionsScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext);
+	const { setVacancyDataOnContext } = useContext(VacancyContext)
 
-	const [vacancyQuestion, setVacancyQuestion] = useState<string>("");
-	const [vacancyQuestions, setVacancyQuestions] = useState<string[]>([]);
-	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false);
+	const [vacancyQuestion, setVacancyQuestion] = useState<string>('')
+	const [vacancyQuestions, setVacancyQuestions] = useState<string[]>([])
+	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	const inputRefs = {
 		inputCards: [
@@ -37,38 +37,34 @@ function InsertVacancyQuestions({
 			useRef<React.MutableRefObject<any>>(null),
 		],
 		vacancyQuestionInput: useRef<React.MutableRefObject<any>>(null),
-	};
+	}
 
 	useEffect(() => {
-		const unsubscribe = navigation.addListener("focus", () => {
-			removeAllKeyboardEventListeners();
-			Keyboard.addListener("keyboardDidShow", () =>
-				setKeyboardOpened(true)
-			);
-			Keyboard.addListener("keyboardDidHide", () =>
-				setKeyboardOpened(false)
-			);
-		});
-		return unsubscribe;
-	}, [navigation]);
+		const unsubscribe = navigation.addListener('focus', () => {
+			removeAllKeyboardEventListeners()
+			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		})
+		return unsubscribe
+	}, [navigation])
 
-	useEffect(() => {}, [vacancyQuestion, keyboardOpened]);
+	useEffect(() => {}, [vacancyQuestion, keyboardOpened])
 
 	const validateVacancyQuestions = (text: string) => {
-		const isValid = text.trim().length >= 1;
+		const isValid = text.trim().length >= 1
 		if (isValid && !keyboardOpened) {
-			return true;
+			return true
 		}
-		return false;
-	};
+		return false
+	}
 
 	const renderVacanciesQuestionsSaved = () => {
-		if (!vacancyLength()) return null;
+		if (!vacancyLength()) return null
 		return vacancyQuestions.map((currentQuestion, index) => (
 			<LineInput
 				key={uuid()}
 				value={currentQuestion}
-				relativeWidth={"100%"}
+				relativeWidth={'100%'}
 				textInputRef={inputRefs.inputCards[index]}
 				defaultBackgroundColor={theme.white2}
 				defaultBorderBottomColor={theme.black4}
@@ -79,9 +75,9 @@ function InsertVacancyQuestions({
 				editable={false}
 				maxLength={100}
 				lastInput
-				textAlign={"left"}
+				textAlign={'left'}
 				fontSize={16}
-				keyboardType={"default"}
+				keyboardType={'default'}
 				textIsValid={true && !keyboardOpened}
 				onIconPress={() => removeQuestion(index)}
 				validateText={(text: string) => validateVacancyQuestions(text)}
@@ -89,16 +85,16 @@ function InsertVacancyQuestions({
 					text: string
 				) => {}} /* editQuestion(text, index) In case edit cardQuestion */
 			/>
-		));
-	};
+		))
+	}
 
-	const vacancyLength = () => vacancyQuestions.length;
+	const vacancyLength = () => vacancyQuestions.length
 
 	const addNewQuestion = () => {
-		if (vacancyLength() === 3 || vacancyQuestion === "") return;
-		setVacancyQuestions([...vacancyQuestions, vacancyQuestion]);
-		setVacancyQuestion("");
-	};
+		if (vacancyLength() === 3 || vacancyQuestion === '') return
+		setVacancyQuestions([...vacancyQuestions, vacancyQuestion])
+		setVacancyQuestion('')
+	}
 
 	/* const editQuestion = (question: string, index: number) => {
 		const questions = [...vacancyQuestions]
@@ -107,43 +103,43 @@ function InsertVacancyQuestions({
 	} */
 
 	const removeQuestion = (index: number) => {
-		const questions = [...vacancyQuestions];
-		delete questions[index];
-		setVacancyQuestions(questions.filter((question) => !question));
-	};
+		const questions = [...vacancyQuestions]
+		delete questions[index]
+		setVacancyQuestions(questions.filter((question) => !question))
+	}
 
 	const saveVacancyQuestions = () => {
 		setVacancyDataOnContext({
 			questions: vacancyQuestions,
-		});
-		navigation.navigate("InsertCompanyDescription");
-	};
+		})
+		navigation.navigate('InsertCompanyDescription')
+	}
 
 	const getPlaceholder = () => {
 		switch (vacancyLength()) {
 			case 0: {
-				return "+ pergunta";
+				return '+ pergunta'
 			}
 			case 1: {
-				return "+ segunda pergunta";
+				return '+ segunda pergunta'
 			}
 			case 2: {
-				return "+ terceira pergunta";
+				return '+ terceira pergunta'
 			}
 			default:
-				return false;
+				return false
 		}
-	};
+	}
 
 	return (
-		<Container behavior={Platform.OS === "ios" ? "padding" : "height"}>
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar
 				backgroundColor={theme.yellow2}
-				barStyle={"dark-content"}
+				barStyle={'dark-content'}
 			/>
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(26)}
-				relativeHeight={"22%"}
+				relativeHeight={'22%'}
 				centralized
 				backgroundColor={theme.yellow2}
 			>
@@ -152,23 +148,23 @@ function InsertVacancyQuestions({
 					borderLeftWidth={3}
 					fontSize={18}
 					message={
-						"quer adicionar até 3 perguntas para os candidatos?"
+						'quer adicionar até 3 perguntas para os candidatos?'
 					}
-					highlightedWords={["adicionar", "até", "3", "perguntas"]}
+					highlightedWords={['adicionar', 'até', '3', 'perguntas']}
 				>
 					<ProgressBar range={5} value={2} />
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer
 				backgroundColor={theme.white2}
-				justifyContent={vacancyLength() < 1 ? "center" : "space-around"}
+				justifyContent={vacancyLength() < 1 ? 'center' : 'space-around'}
 			>
 				<>
 					{vacancyLength() < 3 && (
 						<LineInput
 							key={4}
 							value={vacancyQuestion}
-							relativeWidth={"100%"}
+							relativeWidth={'100%'}
 							textInputRef={inputRefs.vacancyQuestionInput}
 							defaultBackgroundColor={theme.white2}
 							defaultBorderBottomColor={theme.black4}
@@ -178,15 +174,13 @@ function InsertVacancyQuestions({
 							invalidBorderBottomColor={theme.red5}
 							maxLength={100}
 							lastInput
-							textAlign={"left"}
+							textAlign={'left'}
 							fontSize={16}
-							placeholder={getPlaceholder() || ""}
-							keyboardType={"default"}
+							placeholder={getPlaceholder() || ''}
+							keyboardType={'default'}
 							onPressKeyboardSubmit={addNewQuestion}
 							validateText={(text: string) => false}
-							onChangeText={(text: string) =>
-								setVacancyQuestion(text)
-							}
+							onChangeText={(text: string) => setVacancyQuestion(text)}
 						/>
 					)}
 					{!keyboardOpened && renderVacanciesQuestionsSaved()}
@@ -194,26 +188,26 @@ function InsertVacancyQuestions({
 				<ButtonsContainer>
 					{!keyboardOpened && (
 						<PrimaryButton
-							flexDirection={"row-reverse"}
+							flexDirection={'row-reverse'}
 							color={
 								vacancyLength() < 1 ? theme.red3 : theme.green3
 							}
 							label={
 								vacancyLength() < 1
-									? "não precisa, continuar"
-									: "continuar"
+									? 'não precisa, continuar'
+									: 'continuar'
 							}
-							highlightedWords={["não", "precisa"]}
+							highlightedWords={['não', 'precisa']}
 							labelColor={theme.white3}
 							SvgIcon={vacancyLength() < 1 ? Uncheck : Check}
-							svgIconScale={["30%", "15%"]}
+							svgIconScale={['30%', '15%']}
 							onPress={saveVacancyQuestions}
 						/>
 					)}
 				</ButtonsContainer>
 			</FormContainer>
 		</Container>
-	);
+	)
 }
 
-export { InsertVacancyQuestions };
+export { InsertVacancyQuestions }

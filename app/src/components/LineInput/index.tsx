@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { RFValue } from "react-native-responsive-fontsize";
-import { FontAwesome5 } from "@expo/vector-icons";
+import React, { useState } from 'react'
+import { RFValue } from 'react-native-responsive-fontsize'
+import { FontAwesome5 } from '@expo/vector-icons'
 import {
 	KeyboardTypeOptions,
 	NativeSyntheticEvent,
@@ -8,11 +8,11 @@ import {
 	TouchableOpacity,
 	TextInputKeyPressEventData,
 	View,
-} from "react-native";
+} from 'react-native'
 
-import { Container, TextInput } from "./styles";
-import { relativeScreenHeight } from "@common/screenDimensions";
-import { theme } from "@common/theme";
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
+import { Container, TextInput } from './styles'
 
 interface LineInputProps {
 	value: string;
@@ -32,7 +32,7 @@ interface LineInputProps {
 	secureTextEntry?: boolean;
 	invalidTextAfterSubmit?: boolean;
 	fontSize?: number;
-	textAlign?: "auto" | "left" | "right" | "center" | "justify" | undefined;
+	textAlign?: 'auto' | 'left' | 'right' | 'center' | 'justify' | undefined;
 	multiline?: boolean;
 	editable?: boolean;
 	placeholder?: string;
@@ -85,70 +85,67 @@ function LineInput({
 	validateText = () => false,
 	onChangeText,
 }: LineInputProps) {
-	const lineHeight = relativeScreenHeight(5);
-	const minLineHeight =
-		initialNumberOfLines *
-		(initialNumberOfLines <= 2
+	const lineHeight = relativeScreenHeight(5)
+	const minLineHeight =		initialNumberOfLines
+		* (initialNumberOfLines <= 2
 			? relativeScreenHeight(5)
-			: relativeScreenHeight(4.4));
-	const maxLineHeight = relativeScreenHeight(25);
+			: relativeScreenHeight(4.4))
+	const maxLineHeight = relativeScreenHeight(25)
 
-	const [focused, setFocused] = useState<boolean>(false);
-	const [validated, setValidated] = useState<boolean>(false);
-	const [multilineInputHeight, setMultilineInputHeight] =
-		useState(minLineHeight);
+	const [focused, setFocused] = useState<boolean>(false)
+	const [validated, setValidated] = useState<boolean>(false)
+	const [multilineInputHeight, setMultilineInputHeight] =		useState(minLineHeight)
 
 	const ValidateAndChange = (text: string) => {
-		const filtredText = filterText ? filterText(text) : text;
+		const filtredText = filterText ? filterText(text) : text
 		if (validateText(filtredText) || textIsValid) {
-			nextInputRef && setFocusToNextInput();
-			lastInput && closeKeyboard();
-			setValidated(true);
+			nextInputRef && setFocusToNextInput()
+			lastInput && closeKeyboard()
+			setValidated(true)
 		} else {
-			setValidated(false);
+			setValidated(false)
 		}
-		onChangeText(filtredText);
-	};
+		onChangeText(filtredText)
+	}
 
 	const performKeyPress = ({
 		nativeEvent,
 	}: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
 		if (
-			nativeEvent.key === "Backspace" &&
-			(selectTextOnFocus ? true : !value.length) &&
-			previousInputRef
-		)
-			setFocusToPreviousInput();
-	};
+			nativeEvent.key === 'Backspace'
+			&& (selectTextOnFocus ? true : !value.length)
+			&& previousInputRef
+		) { setFocusToPreviousInput() }
+	}
 
 	const setFocusToNextInput = () => {
-		nextInputRef.current.focus();
-	};
+		nextInputRef.current.focus()
+	}
 
 	const setFocusToPreviousInput = () => {
-		previousInputRef.current.focus();
-	};
+		previousInputRef.current.focus()
+	}
 
 	const closeKeyboard = () => {
-		textInputRef.current.blur();
-	};
+		textInputRef.current.blur()
+	}
 
 	const resizeMultilineInput = (height: number) => {
-		if (!multiline) return;
+		if (!multiline) return
 		if (
-			height >= initialNumberOfLines * lineHeight &&
-			height < maxLineHeight
+			height >= initialNumberOfLines * lineHeight
+			&& height < maxLineHeight
 		) {
-			setMultilineInputHeight(height + 3); // borderBottom
+			setMultilineInputHeight(height + 3) // borderBottom
 		}
-	};
+	}
 
 	const generateInputContainerStyle = () => {
 		if (invalidTextAfterSubmit || error) {
 			return {
 				borderBottomColor: invalidBorderBottomColor,
 				backgroundColor: invalidBackgroundColor,
-			};
+			}
 		}
 
 		return {
@@ -160,33 +157,33 @@ function LineInput({
 				validated || textIsValid
 					? validBackgroundColor
 					: defaultBackgroundColor,
-		};
-	};
+		}
+	}
 
 	const inputContainerStyle = {
 		borderBottomWidth: focused || validated || textIsValid ? 5 : 2.5,
 		...generateInputContainerStyle(),
-	};
+	}
 
 	const getTextInputStyle = () => {
 		if (error) {
 			return {
 				color: invalidBorderBottomColor,
-			};
+			}
 		}
 		return {
 			color: invalidTextAfterSubmit
 				? invalidBorderBottomColor
 				: validated || textIsValid
-				? validBorderBottomColor
-				: defaultBorderBottomColor,
+					? validBorderBottomColor
+					: defaultBorderBottomColor,
 			fontFamily: invalidTextAfterSubmit
-				? "Arvo_400Regular"
+				? 'Arvo_400Regular'
 				: validated || textIsValid
-				? "Arvo_700Bold"
-				: "Arvo_400Regular",
-		};
-	};
+					? 'Arvo_700Bold'
+					: 'Arvo_400Regular',
+		}
+	}
 
 	return (
 		<Container
@@ -206,9 +203,9 @@ function LineInput({
 			<View
 				style={
 					onIconPress && {
-						flexDirection: "row",
-						alignItems: "center",
-						justifyContent: "space-between",
+						flexDirection: 'row',
+						alignItems: 'center',
+						justifyContent: 'space-between',
 					}
 				}
 			>
@@ -217,9 +214,9 @@ function LineInput({
 						getTextInputStyle(),
 						{
 							fontSize: RFValue(fontSize),
-							textAlign: textAlign || "center",
-							textAlignVertical: multiline ? "top" : "center",
-							width: onIconPress ? "85%" : "100%",
+							textAlign: textAlign || 'center',
+							textAlignVertical: multiline ? 'top' : 'center',
+							width: onIconPress ? '85%' : '100%',
 						},
 					]}
 					ref={textInputRef}
@@ -234,10 +231,10 @@ function LineInput({
 						},
 					}: any) => resizeMultilineInput(height)}
 					secureTextEntry={secureTextEntry}
-					keyboardType={keyboardType || "ascii-capable"}
+					keyboardType={keyboardType || 'ascii-capable'}
 					placeholder={placeholder}
 					returnKeyType={
-						returnKeyType || (lastInput ? "done" : "next")
+						returnKeyType || (lastInput ? 'done' : 'next')
 					}
 					blurOnSubmit={blurOnSubmit}
 					selectTextOnFocus={selectTextOnFocus}
@@ -256,7 +253,7 @@ function LineInput({
 				{onIconPress && (
 					<TouchableOpacity onPress={onIconPress}>
 						<FontAwesome5
-							name={"minus"}
+							name={'minus'}
 							size={RFValue(20)}
 							color={validBorderBottomColor}
 							style={{
@@ -267,7 +264,7 @@ function LineInput({
 				)}
 			</View>
 		</Container>
-	);
+	)
 }
 
-export { LineInput };
+export { LineInput }

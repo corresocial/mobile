@@ -3,8 +3,8 @@ import {
 	LatLong,
 	VacancyCategories,
 	WorkplaceType,
-} from "@services/firebase/types";
-import { UserStackParamList } from "../UserStack/types";
+} from '@services/firebase/types'
+import { UserStackParamList } from '../UserStack/types'
 
 export type VacancyStackParamList = {
 	InsertVacancyTitle: { editMode: boolean; initialValue: string } | undefined;

@@ -1,72 +1,72 @@
-import React, { useContext, useState } from "react";
-import { StatusBar } from "react-native";
+import React, { useContext, useState } from 'react'
+import { StatusBar } from 'react-native'
 
-import { Container, PicturePreviewContainer } from "./styles";
-import { relativeScreenWidth } from "@common/screenDimensions";
-import { theme } from "@common/theme";
-import CheckIcon from "@assets/icons/check.svg";
+import { relativeScreenWidth } from '@common/screenDimensions'
+import { theme } from '@common/theme'
+import CheckIcon from '@assets/icons/check.svg'
 
-import { CulturePicturePreviewScreenProps } from "@routes/Stack/cultureStack/stackScreenProps";
+import { CulturePicturePreviewScreenProps } from '@routes/Stack/cultureStack/stackScreenProps'
 
-import { CultureContext } from "@contexts/CultureContext";
-import { EditContext } from "@contexts/EditContext";
+import { CultureContext } from '@contexts/CultureContext'
+import { EditContext } from '@contexts/EditContext'
 
-import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
-import { FormContainer } from "@components/_containers/FormContainer";
-import { PrimaryButton } from "@components/_buttons/PrimaryButton";
-import { CustomCameraModal } from "@components/_modals/CustomCameraModal";
-import { InstructionCard } from "@components/_cards/InstructionCard";
-import { PhotoPortrait } from "@components/PhotoPortrait";
-import { HorizontalListPictures } from "@components/HorizontalListPictures";
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '@components/_containers/FormContainer'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { PhotoPortrait } from '@components/PhotoPortrait'
+import { HorizontalListPictures } from '@components/HorizontalListPictures'
+import { Container, PicturePreviewContainer } from './styles'
 
 function CulturePicturePreview({
 	route,
 	navigation,
 }: CulturePicturePreviewScreenProps) {
-	const { setCultureDataOnContext } = useContext(CultureContext);
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext);
+	const { setCultureDataOnContext } = useContext(CultureContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [picturesPack, setPicturesPack] = useState<string[]>(
 		route.params?.initialValue || []
-	);
-	const [pictureIndexSelected, setPictureIndexSelected] = useState<number>(0);
+	)
+	const [pictureIndexSelected, setPictureIndexSelected] = useState<number>(0)
 	const [cameraOpened, setCameraOpened] = useState<boolean>(
 		!route.params?.editMode || !route.params?.initialValue.length
-	);
+	)
 
 	const setPictureUri = (uri: string) => {
-		const currentPictures = [...picturesPack];
-		currentPictures.push(uri);
-		setPictureIndexSelected(picturesPack.length);
-		setPicturesPack(currentPictures);
-	};
+		const currentPictures = [...picturesPack]
+		currentPictures.push(uri)
+		setPictureIndexSelected(picturesPack.length)
+		setPicturesPack(currentPictures)
+	}
 
 	const deleteCurrentPicture = () => {
 		const picturesAfterDelete = picturesPack.filter(
 			(_, index) => index !== pictureIndexSelected
-		);
-		setPictureIndexSelected(picturesPack.length - 2);
-		setPicturesPack(picturesAfterDelete);
-	};
+		)
+		setPictureIndexSelected(picturesPack.length - 2)
+		setPicturesPack(picturesAfterDelete)
+	}
 
 	const savePictures = () => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ picturesUrl: picturesPack });
-			navigation.goBack();
-			return;
+			addNewUnsavedFieldToEditContext({ picturesUrl: picturesPack })
+			navigation.goBack()
+			return
 		}
 
-		setCultureDataOnContext({ picturesUrl: picturesPack });
-		navigation.navigate("SelectCultureCategory");
-	};
+		setCultureDataOnContext({ picturesUrl: picturesPack })
+		navigation.navigate('SelectCultureCategory')
+	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode;
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>
 			<StatusBar
 				backgroundColor={theme.blue2}
-				barStyle={"dark-content"}
+				barStyle={'dark-content'}
 			/>
 			<CustomCameraModal
 				setPictureUri={setPictureUri}
@@ -74,7 +74,7 @@ function CulturePicturePreview({
 				cameraOpened={cameraOpened}
 			/>
 			<DefaultHeaderContainer
-				relativeHeight={"85%"}
+				relativeHeight={'85%'}
 				backgroundColor={theme.blue2}
 				withoutPadding
 			>
@@ -92,27 +92,27 @@ function CulturePicturePreview({
 						onSelectPicture={setPictureIndexSelected}
 					/>
 					<InstructionCard
-						message={"ficaram boas?"}
-						highlightedWords={["boas"]}
+						message={'ficaram boas?'}
+						highlightedWords={['boas']}
 						flex={0}
 					/>
 				</PicturePreviewContainer>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
 				<PrimaryButton
-					flexDirection={"row-reverse"}
+					flexDirection={'row-reverse'}
 					color={theme.green3}
-					label={"sim, continuar"}
+					label={'sim, continuar'}
 					labelColor={theme.white3}
 					fontSize={18}
 					SvgIcon={CheckIcon}
-					svgIconScale={["30%", "18%"]}
-					highlightedWords={["continuar"]}
+					svgIconScale={['30%', '18%']}
+					highlightedWords={['continuar']}
 					onPress={savePictures}
 				/>
 			</FormContainer>
 		</Container>
-	);
+	)
 }
 
-export { CulturePicturePreview };
+export { CulturePicturePreview }

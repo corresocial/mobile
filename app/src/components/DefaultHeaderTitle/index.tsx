@@ -1,10 +1,10 @@
-import React from "react";
-import { TouchableOpacity, View } from "react-native";
-import { RFValue } from "react-native-responsive-fontsize";
-import { SvgProps } from "react-native-svg";
-import { showMessageWithHighlight } from "@common/auxiliaryFunctions";
+import React from 'react'
+import { TouchableOpacity, View } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
+import { SvgProps } from 'react-native-svg'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 
-import { Container, Title } from "./styles";
+import { Container, Title } from './styles'
 
 interface DefaultHeaderTitleProps {
 	title: string;
@@ -15,12 +15,12 @@ interface DefaultHeaderTitleProps {
 	dimensions?: number;
 	invertTextAndIcon?: boolean;
 	justifyContent?:
-		| "flex-start"
-		| "flex-end"
-		| "center"
-		| "space-between"
-		| "space-around"
-		| "space-evenly";
+		| 'flex-start'
+		| 'flex-end'
+		| 'center'
+		| 'space-between'
+		| 'space-around'
+		| 'space-evenly';
 	onPressIcon?: () => void;
 }
 
@@ -32,7 +32,7 @@ function DefaultHeaderTitle({
 	SecondSvgIcon,
 	dimensions = 35,
 	invertTextAndIcon,
-	justifyContent = "flex-start",
+	justifyContent = 'flex-start',
 	onPressIcon,
 }: DefaultHeaderTitleProps) {
 	const renderInteractiveSvgIcon = () => {
@@ -46,7 +46,7 @@ function DefaultHeaderTitle({
 						/>
 					)}
 				</TouchableOpacity>
-			);
+			)
 		}
 		return (
 			SvgIcon && (
@@ -55,21 +55,21 @@ function DefaultHeaderTitle({
 					width={RFValue(dimensions)}
 				/>
 			)
-		);
-	};
+		)
+	}
 
 	return (
 		<Container
 			style={{
-				flexDirection: invertTextAndIcon ? "row-reverse" : "row",
+				flexDirection: invertTextAndIcon ? 'row-reverse' : 'row',
 				justifyContent,
 			}}
 		>
 			{!!SvgIcon && renderInteractiveSvgIcon()}
 			<View
 				style={{
-					flexDirection: "row",
-					alignItems: "center",
+					flexDirection: 'row',
+					alignItems: 'center',
 				}}
 			>
 				{!!SecondSvgIcon && (
@@ -84,8 +84,8 @@ function DefaultHeaderTitle({
 						marginLeft: invertTextAndIcon ? 0 : RFValue(10),
 						fontFamily:
 							highlightedWords.length > 0
-								? "Arvo_400Regular"
-								: "Arvo_700Bold",
+								? 'Arvo_400Regular'
+								: 'Arvo_700Bold',
 						fontSize: RFValue(fontSize),
 					}}
 				>
@@ -93,7 +93,7 @@ function DefaultHeaderTitle({
 				</Title>
 			</View>
 		</Container>
-	);
+	)
 }
 
-export { DefaultHeaderTitle };
+export { DefaultHeaderTitle }

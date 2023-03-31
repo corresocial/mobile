@@ -1,20 +1,20 @@
-import React from "react";
-import { SvgProps } from "react-native-svg";
-import { RFValue } from "react-native-responsive-fontsize";
+import React from 'react'
+import { SvgProps } from 'react-native-svg'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import PencilIcon from "@assets/icons/pencil.svg";
-import { relativeScreenWidth } from "@common/screenDimensions";
-import { ImageCarousel } from "../../ImageCarousel";
-import { DefaultHeaderTitle } from "../../DefaultHeaderTitle";
+import PencilIcon from '@assets/icons/pencil.svg'
+import { relativeScreenWidth } from '@common/screenDimensions'
+import { ImageCarousel } from '../../ImageCarousel'
+import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import {
 	CardHeader,
 	PictureArea,
 	Text,
 	ValueContainer,
 	ProfilePicture,
-} from "./styles";
+} from './styles'
 
-import { DefaultCardContainer } from "../DefaultCardContainer";
+import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface EditCardProps {
 	title: string;
@@ -30,7 +30,7 @@ interface EditCardProps {
 function EditCard({
 	title,
 	highlightedWords = [],
-	value = "",
+	value = '',
 	profilePicturesUrl = [],
 	carousel,
 	SvgIcon,
@@ -58,7 +58,7 @@ function EditCard({
 					SecondSvgIcon={SecondSvgIcon}
 					dimensions={20}
 					invertTextAndIcon
-					justifyContent={"space-between"}
+					justifyContent={'space-between'}
 				/>
 			</CardHeader>
 			{!profilePicturesUrl.length ? (
@@ -72,7 +72,7 @@ function EditCard({
 			) : (
 				<PictureArea
 					style={{
-						height: carousel ? "auto" : relativeScreenWidth(88),
+						height: carousel ? 'auto' : relativeScreenWidth(88),
 					}}
 				>
 					{carousel ? (
@@ -84,8 +84,8 @@ function EditCard({
 						<ProfilePicture
 							source={{
 								uri:
-									profilePicturesUrl[0] ||
-									"https://www.softdownload.com.br/wp-content/uploads/2018/03/como_trocar_foto_perfil_facebook.jpg",
+									profilePicturesUrl[0]
+									|| 'https://www.softdownload.com.br/wp-content/uploads/2018/03/como_trocar_foto_perfil_facebook.jpg',
 							}}
 							width={0}
 							height={0}
@@ -94,7 +94,7 @@ function EditCard({
 				</PictureArea>
 			)}
 		</DefaultCardContainer>
-	);
+	)
 }
 
-export { EditCard };
+export { EditCard }

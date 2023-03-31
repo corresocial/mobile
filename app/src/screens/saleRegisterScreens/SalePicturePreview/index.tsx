@@ -1,72 +1,72 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from 'react'
 
-import { StatusBar } from "react-native";
-import { Container, PicturePreviewContainer } from "./styles";
-import { relativeScreenWidth } from "@common/screenDimensions";
-import { theme } from "@common/theme";
-import CheckIcon from "@assets/icons/check.svg";
+import { StatusBar } from 'react-native'
+import { relativeScreenWidth } from '@common/screenDimensions'
+import { theme } from '@common/theme'
+import CheckIcon from '@assets/icons/check.svg'
 
-import { SalePicturePreviewScreenProps } from "@routes/Stack/saleStack/stackScreenProps";
+import { SalePicturePreviewScreenProps } from '@routes/Stack/saleStack/stackScreenProps'
 
-import { SaleContext } from "@contexts/SaleContext";
-import { EditContext } from "@contexts/EditContext";
+import { SaleContext } from '@contexts/SaleContext'
+import { EditContext } from '@contexts/EditContext'
 
-import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
-import { FormContainer } from "@components/_containers/FormContainer";
-import { PrimaryButton } from "@components/_buttons/PrimaryButton";
-import { CustomCameraModal } from "@components/_modals/CustomCameraModal";
-import { InstructionCard } from "@components/_cards/InstructionCard";
-import { PhotoPortrait } from "@components/PhotoPortrait";
-import { HorizontalListPictures } from "@components/HorizontalListPictures";
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '@components/_containers/FormContainer'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { PhotoPortrait } from '@components/PhotoPortrait'
+import { HorizontalListPictures } from '@components/HorizontalListPictures'
+import { Container, PicturePreviewContainer } from './styles'
 
 function SalePicturePreview({
 	route,
 	navigation,
 }: SalePicturePreviewScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext);
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext);
+	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [picturesPack, setPicturesPack] = useState<string[]>(
 		route.params?.initialValue || []
-	);
-	const [pictureIndexSelected, setPictureIndexSelected] = useState<number>(0);
+	)
+	const [pictureIndexSelected, setPictureIndexSelected] = useState<number>(0)
 	const [cameraOpened, setCameraOpened] = useState<boolean>(
 		!route.params?.editMode || !route.params?.initialValue.length
-	);
+	)
 
 	const setPictureUri = (uri: string) => {
-		const currentPictures = [...picturesPack];
-		currentPictures.push(uri);
-		setPictureIndexSelected(picturesPack.length);
-		setPicturesPack(currentPictures);
-	};
+		const currentPictures = [...picturesPack]
+		currentPictures.push(uri)
+		setPictureIndexSelected(picturesPack.length)
+		setPicturesPack(currentPictures)
+	}
 
 	const deleteCurrentPicture = () => {
 		const picturesAfterDelete = picturesPack.filter(
 			(_, index) => index !== pictureIndexSelected
-		);
-		setPictureIndexSelected(picturesPack.length - 2);
-		setPicturesPack(picturesAfterDelete);
-	};
+		)
+		setPictureIndexSelected(picturesPack.length - 2)
+		setPicturesPack(picturesAfterDelete)
+	}
 
 	const savePictures = () => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ picturesUrl: picturesPack });
-			navigation.goBack();
-			return;
+			addNewUnsavedFieldToEditContext({ picturesUrl: picturesPack })
+			navigation.goBack()
+			return
 		}
 
-		setSaleDataOnContext({ picturesUrl: picturesPack });
-		navigation.navigate("SelectPaymentType");
-	};
+		setSaleDataOnContext({ picturesUrl: picturesPack })
+		navigation.navigate('SelectPaymentType')
+	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode;
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>
 			<StatusBar
 				backgroundColor={theme.green2}
-				barStyle={"dark-content"}
+				barStyle={'dark-content'}
 			/>
 			<CustomCameraModal
 				setPictureUri={setPictureUri}
@@ -74,7 +74,7 @@ function SalePicturePreview({
 				cameraOpened={cameraOpened}
 			/>
 			<DefaultHeaderContainer
-				relativeHeight={"85%"}
+				relativeHeight={'85%'}
 				backgroundColor={theme.green2}
 				withoutPadding
 			>
@@ -92,27 +92,27 @@ function SalePicturePreview({
 						onSelectPicture={setPictureIndexSelected}
 					/>
 					<InstructionCard
-						message={"ficaram boas?"}
-						highlightedWords={["boas"]}
+						message={'ficaram boas?'}
+						highlightedWords={['boas']}
 						flex={0}
 					/>
 				</PicturePreviewContainer>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
 				<PrimaryButton
-					flexDirection={"row-reverse"}
+					flexDirection={'row-reverse'}
 					color={theme.green3}
-					label={"sim, continuar"}
+					label={'sim, continuar'}
 					labelColor={theme.white3}
 					fontSize={18}
 					SvgIcon={CheckIcon}
-					svgIconScale={["30%", "18%"]}
-					highlightedWords={["continuar"]}
+					svgIconScale={['30%', '18%']}
+					highlightedWords={['continuar']}
 					onPress={savePictures}
 				/>
 			</FormContainer>
 		</Container>
-	);
+	)
 }
 
-export { SalePicturePreview };
+export { SalePicturePreview }

@@ -1,24 +1,24 @@
-import React from "react";
-import { TouchableOpacity, View } from "react-native";
-import Popover from "react-native-popover-view";
+import React from 'react'
+import { TouchableOpacity, View } from 'react-native'
+import Popover from 'react-native-popover-view'
 
-import { RFValue } from "react-native-responsive-fontsize";
+import { RFValue } from 'react-native-responsive-fontsize'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
+import XIcon from '@assets/icons/x.svg'
+
+import { PostType } from '@services/firebase/types'
 import {
 	CloseIcon,
 	Container,
 	ContainerInner,
 	PostTitle,
 	Sigh,
-} from "./styles";
-import { relativeScreenHeight } from "@common/screenDimensions";
-import { theme } from "@common/theme";
-import XIcon from "@assets/icons/x.svg";
+} from './styles'
 
-import { PostType } from "@services/firebase/types";
-
-import { PrimaryButton } from "../_buttons/PrimaryButton";
-import { Loader } from "../Loader";
-import { FocusAwareStatusBar } from "../FocusAwareStatusBar";
+import { PrimaryButton } from '../_buttons/PrimaryButton'
+import { Loader } from '../Loader'
+import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 
 interface PostPopOverProps {
 	postTitle?: string;
@@ -66,7 +66,7 @@ function PostPopOver({
 			<Container>
 				<FocusAwareStatusBar
 					backgroundColor={theme.transparence.orange2}
-					barStyle={"dark-content"}
+					barStyle={'dark-content'}
 				/>
 				<ContainerInner>
 					<CloseIcon onPress={closePopover}>
@@ -81,8 +81,8 @@ function PostPopOver({
 								<PrimaryButton
 									color={theme.green3}
 									onPress={editPost && editPost}
-									label={"editar post"}
-									highlightedWords={["editar", "post"]}
+									label={'editar post'}
+									highlightedWords={['editar', 'post']}
 									labelColor={theme.white3}
 									fontSize={14}
 									minHeight={20}
@@ -95,10 +95,10 @@ function PostPopOver({
 										<PrimaryButton
 											color={theme.red3}
 											onPress={deletePost}
-											label={"apagar post"}
+											label={'apagar post'}
 											highlightedWords={[
-												"apagar",
-												"post",
+												'apagar',
+												'post',
 											]}
 											labelColor={theme.white3}
 											fontSize={14}
@@ -115,8 +115,8 @@ function PostPopOver({
 						<PrimaryButton
 							color={theme.red3}
 							onPress={goToComplaint && goToComplaint}
-							label={"denunciar"}
-							highlightedWords={["denunciar"]}
+							label={'denunciar'}
+							highlightedWords={['denunciar']}
 							labelColor={theme.white3}
 							fontSize={14}
 							minHeight={20}
@@ -126,7 +126,7 @@ function PostPopOver({
 				</ContainerInner>
 			</Container>
 		</Popover>
-	);
+	)
 }
 
-export { PostPopOver };
+export { PostPopOver }

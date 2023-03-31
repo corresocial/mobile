@@ -1,17 +1,17 @@
-import React from "react";
-import { RFValue } from "react-native-responsive-fontsize";
+import React from 'react'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import { IconArea } from "../LocationNearDropdown/styles";
+import AngleDownIcon from '@assets/icons/angleDown.svg'
+import AngleUpIcon from '@assets/icons/angleUp.svg'
+import CityIcon from '@assets/icons/city.svg'
 import {
 	AddressSelectedArea,
 	AddressSelectedText,
 	InitialDropdown,
 	InitialDropdownContainer,
 	PresentationText,
-} from "./styles";
-import AngleDownIcon from "@assets/icons/angleDown.svg";
-import AngleUpIcon from "@assets/icons/angleUp.svg";
-import CityIcon from "@assets/icons/city.svg";
+} from './styles'
+import { IconArea } from '../LocationNearDropdown/styles'
 
 interface DefaultDropdownHeaderProps {
 	text?: string;
@@ -26,7 +26,7 @@ function DefaultDropdownHeader({
 }: DefaultDropdownHeaderProps) {
 	return (
 		<InitialDropdownContainer
-			style={{ position: absolute ? "absolute" : "relative", bottom: 0 }}
+			style={{ position: absolute ? 'absolute' : 'relative', bottom: 0 }}
 		>
 			<InitialDropdown onPress={toggleDropdownVisibility}>
 				<IconArea>
@@ -34,7 +34,7 @@ function DefaultDropdownHeader({
 				</IconArea>
 				<AddressSelectedArea>
 					<PresentationText>
-						{"o que está rolando por perto de:"}
+						{'o que está rolando por perto de:'}
 					</PresentationText>
 					<AddressSelectedText numberOfLines={2}>
 						{text}
@@ -54,7 +54,7 @@ function DefaultDropdownHeader({
 				)}
 			</InitialDropdown>
 		</InitialDropdownContainer>
-	);
+	)
 }
 
-export { DefaultDropdownHeader };
+export { DefaultDropdownHeader }

@@ -1,9 +1,9 @@
-import React, { useRef } from "react";
-import { Modal } from "react-native";
-import LottieView from "lottie-react-native";
+import React, { useRef } from 'react'
+import { Modal } from 'react-native'
+import LottieView from 'lottie-react-native'
 
-import buildingColorPassingDark from "@assets/animations/buildingColorPassingLight.json";
-import { AnimationContainer, Container } from "./styles";
+import buildingColorPassingDark from '@assets/animations/buildingColorPassingLight.json'
+import { AnimationContainer, Container } from './styles'
 
 interface LoaderModalProps {
 	visible: boolean;
@@ -11,7 +11,7 @@ interface LoaderModalProps {
 }
 
 function LoaderModal({ visible, closeModal }: LoaderModalProps) {
-	const animation = useRef<any>(null);
+	const animation = useRef<any>(null)
 
 	return (
 		<Modal transparent visible={visible} onRequestClose={closeModal}>
@@ -27,7 +27,7 @@ function LoaderModal({ visible, closeModal }: LoaderModalProps) {
 				</AnimationContainer>
 			</Container>
 		</Modal>
-	);
+	)
 }
 
-export { LoaderModal };
+export { LoaderModal }

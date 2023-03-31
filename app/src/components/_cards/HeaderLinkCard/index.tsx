@@ -1,12 +1,12 @@
-import React from "react";
-import { SvgProps } from "react-native-svg";
-import { RFValue } from "react-native-responsive-fontsize";
+import React from 'react'
+import { SvgProps } from 'react-native-svg'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import ClipIcon from "@assets/icons/clip.svg";
-import { DefaultHeaderTitle } from "../../DefaultHeaderTitle";
-import { CardHeader, ValueContainer, Text } from "./styles";
+import ClipIcon from '@assets/icons/clip.svg'
+import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
+import { CardHeader, ValueContainer, Text } from './styles'
 
-import { DefaultCardContainer } from "../DefaultCardContainer";
+import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface HeaderLinkCardProps {
 	title: string;
@@ -20,8 +20,8 @@ interface HeaderLinkCardProps {
 function HeaderLinkCard({
 	title,
 	highlightedWords = [],
-	value = "",
-	profilePictureUrl = "",
+	value = '',
+	profilePictureUrl = '',
 	SvgIcon,
 	onEdit,
 }: HeaderLinkCardProps) {
@@ -50,7 +50,7 @@ function HeaderLinkCard({
 				)}
 			</ValueContainer>
 		</DefaultCardContainer>
-	);
+	)
 }
 
-export { HeaderLinkCard };
+export { HeaderLinkCard }

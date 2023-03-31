@@ -1,8 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { Animated, FlatList, Platform } from "react-native";
-import uuid from "react-uuid";
-import { RFValue } from "react-native-responsive-fontsize";
+import React, { useEffect, useState } from 'react'
+import { Animated, FlatList, Platform } from 'react-native'
+import uuid from 'react-uuid'
+import { RFValue } from 'react-native-responsive-fontsize'
 
+import { theme } from '@common/theme'
+import {
+	relativeScreenHeight,
+	statusBarHeight,
+} from '@common/screenDimensions'
+import LoupIcon from '@assets/icons/loup.svg'
+import XIcon from '@assets/icons/x-thin.svg'
+import MapIcon from '@assets/icons/map.svg'
+
+import { setRecentAddressOnStorage } from '@services/maps/recentAddresses'
+
+import {
+	AddressSearchResult,
+	LatLong,
+	SelectedAddressRender,
+} from '@services/maps/types'
 import {
 	Container,
 	ContainerInner,
@@ -14,28 +30,12 @@ import {
 	SearchInput,
 	MyLocationButtonContainer,
 	BigSigh,
-} from "./styles";
-import { theme } from "@common/theme";
-import {
-	relativeScreenHeight,
-	statusBarHeight,
-} from "@common/screenDimensions";
-import LoupIcon from "@assets/icons/loup.svg";
-import XIcon from "@assets/icons/x-thin.svg";
-import MapIcon from "@assets/icons/map.svg";
+} from './styles'
 
-import { setRecentAddressOnStorage } from "@services/maps/recentAddresses";
-
-import {
-	AddressSearchResult,
-	LatLong,
-	SelectedAddressRender,
-} from "@services/maps/types";
-
-import { DropdownItem } from "../DropdownItem";
-import { SmallButton } from "../_buttons/SmallButton";
-import { PrimaryButton } from "../_buttons/PrimaryButton";
-import { DefaultDropdownHeader } from "../DefaultDropdownHeader";
+import { DropdownItem } from '../DropdownItem'
+import { SmallButton } from '../_buttons/SmallButton'
+import { PrimaryButton } from '../_buttons/PrimaryButton'
+import { DefaultDropdownHeader } from '../DefaultDropdownHeader'
 
 interface LocationNearDropdownProps {
 	selectedAddress: SelectedAddressRender;
@@ -62,95 +62,95 @@ function LocationNearDropdown({
 	findNearPosts,
 	findAddressSuggestions,
 }: LocationNearDropdownProps) {
-	const [searchText, setSearchText] = useState("");
-	const [dropdownIsVisible, setDropdownIsVisible] = useState(false);
+	const [searchText, setSearchText] = useState('')
+	const [dropdownIsVisible, setDropdownIsVisible] = useState(false)
 
 	const getFormattedAddress = (address: AddressSearchResult) => {
-		const greaterThanThree = address.formattedAddress.split(",").length > 3;
+		const greaterThanThree = address.formattedAddress.split(',').length > 3
 		if (Object.keys(address).length < 1) {
 			return {
-				addressHighlighted: "",
-				addressThin: "",
-			};
+				addressHighlighted: '',
+				addressThin: '',
+			}
 		}
 		return {
 			addressHighlighted: `${address.formattedAddress
-				.split(",")[0]
+				.split(',')[0]
 				.trim()}${
 				greaterThanThree
-					? `, ${address.formattedAddress.split(",")[1].trim()}`
-					: ""
+					? `, ${address.formattedAddress.split(',')[1].trim()}`
+					: ''
 			}`,
 			addressThin: `${
 				greaterThanThree
-					? address.formattedAddress.split(",")[2].trim()
-					: address.formattedAddress.split(",")[1].trim()
+					? address.formattedAddress.split(',')[2].trim()
+					: address.formattedAddress.split(',')[1].trim()
 			}${
 				greaterThanThree
-					? ` - ${address.formattedAddress.split(",")[3].trim()}`
-					: ""
+					? ` - ${address.formattedAddress.split(',')[3].trim()}`
+					: ''
 			}`,
-		};
-	};
+		}
+	}
 
 	const findNearPostsByAddress = async (address: AddressSearchResult) => {
-		setDropdownIsVisible(false);
+		setDropdownIsVisible(false)
 		if (!address.recent) {
-			await setRecentAddressOnStorage(address);
-			saveRecentAddresses(address);
+			await setRecentAddressOnStorage(address)
+			saveRecentAddresses(address)
 		}
 
-		const greaterThanThree = address.formattedAddress.split(",").length > 3;
+		const greaterThanThree = address.formattedAddress.split(',').length > 3
 		selectAddress({
 			addressHighlighted: `${address.formattedAddress
-				.split(",")[0]
+				.split(',')[0]
 				.trim()}${
 				greaterThanThree
-					? `, ${address.formattedAddress.split(",")[1].trim()}`
-					: ""
+					? `, ${address.formattedAddress.split(',')[1].trim()}`
+					: ''
 			}`,
 			addressThin: `${
 				greaterThanThree
-					? address.formattedAddress.split(",")[2].trim()
-					: address.formattedAddress.split(",")[1].trim()
+					? address.formattedAddress.split(',')[2].trim()
+					: address.formattedAddress.split(',')[1].trim()
 			}${
 				greaterThanThree
-					? ` - ${address.formattedAddress.split(",")[3].trim()}`
-					: ""
+					? ` - ${address.formattedAddress.split(',')[3].trim()}`
+					: ''
 			}`,
-		});
-		findNearPosts("", false, {
+		})
+		findNearPosts('', false, {
 			lat: address.lat,
 			lon: address.lon,
-		});
-	};
+		})
+	}
 
 	const toggleDropdownVisibility = () => {
-		setDropdownIsVisible(!dropdownIsVisible);
-	};
+		setDropdownIsVisible(!dropdownIsVisible)
+	}
 
 	const animatedHeight = React.useRef(
 		new Animated.Value(relativeScreenHeight(10))
-	).current;
+	).current
 
 	useEffect(() => {
 		if (dropdownIsVisible) {
 			Animated.timing(animatedHeight, {
 				toValue:
-					relativeScreenHeight(91) -
-					statusBarHeight -
-					(Platform.OS === "ios" ? 70 : 0), // Default ios paddingBottom
+					relativeScreenHeight(91)
+					- statusBarHeight
+					- (Platform.OS === 'ios' ? 70 : 0), // Default ios paddingBottom
 				duration: 400,
 				useNativeDriver: false,
-			}).start();
+			}).start()
 		} else {
 			Animated.timing(animatedHeight, {
 				toValue: relativeScreenHeight(10),
 				duration: 400,
 				useNativeDriver: false,
-			}).start();
+			}).start()
 		}
-	}, [dropdownIsVisible]);
+	}, [dropdownIsVisible])
 
 	return (
 		<Container style={{ height: animatedHeight }}>
@@ -172,8 +172,8 @@ function LocationNearDropdown({
 										)}
 										color={theme.white3}
 										onPress={() => {
-											clearAddressSuggestions();
-											setSearchText("");
+											clearAddressSuggestions()
+											setSearchText('')
 										}}
 										SvgIcon={XIcon}
 									/>
@@ -181,14 +181,14 @@ function LocationNearDropdown({
 							</IconArea>
 							<SearchInput
 								value={searchText}
-								placeholder={"onde você tá?"}
-								returnKeyType={"search"}
+								placeholder={'onde você tá?'}
+								returnKeyType={'search'}
 								onChangeText={(text: string) => {
-									setSearchText(text);
-									clearAddressSuggestions();
+									setSearchText(text)
+									clearAddressSuggestions()
 								}}
 								onSubmitEditing={() => {
-									findAddressSuggestions(searchText);
+									findAddressSuggestions(searchText)
 								}}
 							/>
 						</DropdownHeader>
@@ -196,8 +196,8 @@ function LocationNearDropdown({
 				) : (
 					<DefaultDropdownHeader
 						text={
-							selectedAddress.addressHighlighted ||
-							"não encontramos sua localização"
+							selectedAddress.addressHighlighted
+							|| 'não encontramos sua localização'
 						}
 						toggleDropdownVisibility={toggleDropdownVisibility}
 					/>
@@ -212,15 +212,15 @@ function LocationNearDropdown({
 							<PrimaryButton
 								keyboardHideButton={false}
 								color={theme.green3}
-								label={"usar minha localização"}
-								highlightedWords={["minha", "localização"]}
+								label={'usar minha localização'}
+								highlightedWords={['minha', 'localização']}
 								labelColor={theme.white3}
 								fontSize={16}
 								SecondSvgIcon={MapIcon}
-								svgIconScale={["50%", "30%"]}
+								svgIconScale={['50%', '30%']}
 								onPress={() => {
-									setDropdownIsVisible(false);
-									findNearPosts("", true);
+									setDropdownIsVisible(false)
+									findNearPosts('', true)
 								}}
 							/>
 						</MyLocationButtonContainer>
@@ -237,9 +237,7 @@ function LocationNearDropdown({
 							<DropdownItem
 								key={uuid()}
 								dropdownData={getFormattedAddress(item)}
-								findNearPosts={() =>
-									findNearPostsByAddress(item)
-								}
+								findNearPosts={() => findNearPostsByAddress(item)}
 								recent={item.recent}
 							/>
 						)}
@@ -250,8 +248,8 @@ function LocationNearDropdown({
 				{dropdownIsVisible && (
 					<DefaultDropdownHeader
 						text={
-							selectedAddress.addressHighlighted ||
-							"não encontramos sua localização"
+							selectedAddress.addressHighlighted
+							|| 'não encontramos sua localização'
 						}
 						absolute
 						toggleDropdownVisibility={toggleDropdownVisibility}
@@ -259,7 +257,7 @@ function LocationNearDropdown({
 				)}
 			</ContainerInner>
 		</Container>
-	);
+	)
 }
 
-export { LocationNearDropdown };
+export { LocationNearDropdown }

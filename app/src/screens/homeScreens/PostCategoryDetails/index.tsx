@@ -1,7 +1,23 @@
-import React, { useContext, useEffect, useState } from "react";
-import { FlatList } from "react-native";
+import React, { useContext, useEffect, useState } from 'react'
+import { FlatList } from 'react-native'
 
-import { RFValue } from "react-native-responsive-fontsize";
+import { RFValue } from 'react-native-responsive-fontsize'
+import { theme } from '@common/theme'
+import LoupIcon from '@assets/icons/loup.svg'
+
+import { PostCollection } from '@services/firebase/types'
+import { PostCategoryDetailsScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
+
+import { LocationContext } from '@contexts/LocationContext'
+
+import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
+import { CategoryCard } from '@components/_cards/CategoryCard'
+import { SubtitleCard } from '@components/_cards/SubtitleCard'
+import { PostCard } from '@components/_cards/PostCard'
+import { sortArray } from '@common/auxiliaryFunctions'
+import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
+import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
+import { AuthContext } from '@contexts/AuthContext'
 import {
 	Body,
 	Container,
@@ -12,37 +28,21 @@ import {
 	SearchInput,
 	TagsContainer,
 	VerticalSigh,
-} from "./styles";
-import { theme } from "@common/theme";
-import LoupIcon from "@assets/icons/loup.svg";
-
-import { PostCollection } from "@services/firebase/types";
-import { PostCategoryDetailsScreenProps } from "@routes/Stack/HomeStack/stackScreenProps";
-
-import { LocationContext } from "@contexts/LocationContext";
-
-import { DefaultPostViewHeader } from "@components/DefaultPostViewHeader";
-import { CategoryCard } from "@components/_cards/CategoryCard";
-import { SubtitleCard } from "@components/_cards/SubtitleCard";
-import { PostCard } from "@components/_cards/PostCard";
-import { sortArray } from "@common/auxiliaryFunctions";
-import { WithoutPostsMessage } from "@components/WithoutPostsMessage";
-import { FocusAwareStatusBar } from "@components/FocusAwareStatusBar";
-import { AuthContext } from "@contexts/AuthContext";
+} from './styles'
 
 function PostCategoryDetails({
 	route,
 	navigation,
 }: PostCategoryDetailsScreenProps) {
-	const { userDataContext } = useContext(AuthContext);
-	const { locationDataContext } = useContext(LocationContext);
+	const { userDataContext } = useContext(AuthContext)
+	const { locationDataContext } = useContext(LocationContext)
 
-	const [searchText, setSearchText] = useState("");
-	const [recentPosts, setRecentPosts] = useState<PostCollection[]>([]);
+	const [searchText, setSearchText] = useState('')
+	const [recentPosts, setRecentPosts] = useState<PostCollection[]>([])
 
 	useEffect(() => {
-		getRecentPosts();
-	}, []);
+		getRecentPosts()
+	}, [])
 
 	const {
 		backgroundColor,
@@ -50,94 +50,94 @@ function PostCategoryDetails({
 		categoryName,
 		categoryTags,
 		categoryTitle,
-	} = locationDataContext.currentCategory;
+	} = locationDataContext.currentCategory
 
 	const getRecentPosts = async () => {
 		const filteredPosts = locationDataContext.nearbyPosts.filter(
 			(post) => post.category === categoryName
-		);
-		setRecentPosts(filteredPosts);
-	};
+		)
+		setRecentPosts(filteredPosts)
+	}
 
 	const getFiltredCategoryTags = () => {
-		if (!searchText) return categoryTags.sort(sortArray);
+		if (!searchText) return categoryTags.sort(sortArray)
 		const filtredTags = categoryTags.filter(
-			(tag) => !!tag.match(new RegExp(`${searchText}`, "i"))?.length
-		);
-		return filtredTags.sort(sortArray);
-	};
+			(tag) => !!tag.match(new RegExp(`${searchText}`, 'i'))?.length
+		)
+		return filtredTags.sort(sortArray)
+	}
 
 	const viewPostsByTag = (tagName: string) => {
-		navigation.navigate("ViewPostsByTag", { currentTagSelected: tagName });
-	};
+		navigation.navigate('ViewPostsByTag', { currentTagSelected: tagName })
+	}
 
 	const viewAllTags = async () => {
-		navigation.navigate("ViewAllTags");
-	};
+		navigation.navigate('ViewAllTags')
+	}
 
 	const goToPostView = (item: PostCollection) => {
 		switch (item.postType) {
-			case "service": {
-				navigation.navigate("ViewServicePostHome", {
+			case 'service': {
+				navigation.navigate('ViewServicePostHome', {
 					postData: { ...item },
-				});
-				break;
+				})
+				break
 			}
-			case "sale": {
-				navigation.navigate("ViewSalePostHome", {
+			case 'sale': {
+				navigation.navigate('ViewSalePostHome', {
 					postData: { ...item },
-				});
-				break;
+				})
+				break
 			}
-			case "vacancy": {
-				navigation.navigate("ViewVacancyPostHome", {
+			case 'vacancy': {
+				navigation.navigate('ViewVacancyPostHome', {
 					postData: { ...item },
-				});
-				break;
+				})
+				break
 			}
-			case "socialImpact": {
-				navigation.navigate("ViewSocialImpactPostHome", {
+			case 'socialImpact': {
+				navigation.navigate('ViewSocialImpactPostHome', {
 					postData: { ...item },
-				});
-				break;
+				})
+				break
 			}
-			case "culture": {
-				navigation.navigate("ViewCulturePostHome", {
+			case 'culture': {
+				navigation.navigate('ViewCulturePostHome', {
 					postData: { ...item },
-				});
-				break;
+				})
+				break
 			}
 			default:
-				return false;
+				return false
 		}
-	};
+	}
 
 	const navigateToResultScreen = () => {
 		const customSearchParams = {
 			...locationDataContext.searchParams,
 			searchText,
 			category: locationDataContext.currentCategory.categoryName,
-		};
-		navigation.navigate("SearchResult", {
+		}
+		navigation.navigate('SearchResult', {
 			searchParams: customSearchParams,
 			categoryLabel: locationDataContext.currentCategory.categoryTitle,
-		});
-	};
+		})
+	}
 
 	const navigateToProfile = (userId: string) => {
-		console.log(userDataContext.userId === userId);
+		console.log(userDataContext.userId === userId)
 		if (userDataContext.userId === userId) {
-			navigation.navigate("Profile" as any); // TODO Type
-			return;
+			navigation.navigate('Profile' as any) // TODO Type
+			return
 		}
-		navigation.navigate("ProfileHome", { userId });
-	};
+		navigation.navigate('ProfileHome', { userId })
+	}
 
 	return (
 		<Container>
 			<FocusAwareStatusBar
 				backgroundColor={theme.white3}
-				barStyle={"dark-content"}
+				barStyle={'dark-content'}
 			/>
 			<Header>
 				<DefaultPostViewHeader
@@ -149,8 +149,8 @@ function PostCategoryDetails({
 					<LoupIcon width={RFValue(25)} height={RFValue(25)} />
 					<SearchInput
 						value={searchText}
-						placeholder={"pesquisar"}
-						returnKeyType={"search"}
+						placeholder={'pesquisar'}
+						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
 						onSubmitEditing={navigateToResultScreen}
 					/>
@@ -159,7 +159,7 @@ function PostCategoryDetails({
 			<Body style={{ backgroundColor }}>
 				<SubtitleCard
 					text={`todas categorias ${categoryTitle}`}
-					highlightedText={["todas", ...categoryTitle.split(" ")]}
+					highlightedText={['todas', ...categoryTitle.split(' ')]}
 					onPress={viewAllTags}
 				/>
 				<TagsContainer>
@@ -182,15 +182,15 @@ function PostCategoryDetails({
 					/>
 				</TagsContainer>
 				<SubtitleCard
-					text={"posts de recentes"}
-					highlightedText={["recentes"]}
+					text={'posts de recentes'}
+					highlightedText={['recentes']}
 					onPress={() => {}}
 				/>
 				{!recentPosts.length ? (
 					<WithoutPostsMessage
-						title={"poxa!"}
+						title={'poxa!'}
 						message={
-							"parece que não temos nenhum post nessa categoria, nosso time já está sabendo e irá resolver!"
+							'parece que não temos nenhum post nessa categoria, nosso time já está sabendo e irá resolver!'
 						}
 					/>
 				) : (
@@ -213,7 +213,7 @@ function PostCategoryDetails({
 				)}
 			</Body>
 		</Container>
-	);
+	)
 }
 
-export { PostCategoryDetails };
+export { PostCategoryDetails }

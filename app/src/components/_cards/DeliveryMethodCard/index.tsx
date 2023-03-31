@@ -1,15 +1,15 @@
-import React from "react";
-import { RFValue } from "react-native-responsive-fontsize";
+import React from 'react'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import TruckIcon from "@assets/icons/truck.svg";
+import TruckIcon from '@assets/icons/truck.svg'
 
-import { showMessageWithHighlight } from "@common/auxiliaryFunctions";
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 
-import { DeliveryMethod } from "@services/firebase/types";
-import { DefaultHeaderTitle } from "../../DefaultHeaderTitle";
-import { DeliveryMethodText } from "./styles";
+import { DeliveryMethod } from '@services/firebase/types'
+import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
+import { DeliveryMethodText } from './styles'
 
-import { DefaultCardContainer } from "../DefaultCardContainer";
+import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface DeliveryMethodCardProps {
 	title: string;
@@ -24,23 +24,23 @@ function DeliveryMethodCard({
 }: DeliveryMethodCardProps) {
 	const renderDeliveryMethod = () => {
 		switch (deliveryMethod) {
-			case "unavailable":
-				return showMessageWithHighlight("não entrega", ["não"]);
-			case "near":
-				return showMessageWithHighlight("entrega perto", ["perto"]);
-			case "city":
-				return showMessageWithHighlight("entrega na cidade", [
-					"cidade",
-				]);
-			case "country":
-				return showMessageWithHighlight("entrega no país inteiro", [
-					"país",
-					"inteiro",
-				]);
+			case 'unavailable':
+				return showMessageWithHighlight('não entrega', ['não'])
+			case 'near':
+				return showMessageWithHighlight('entrega perto', ['perto'])
+			case 'city':
+				return showMessageWithHighlight('entrega na cidade', [
+					'cidade',
+				])
+			case 'country':
+				return showMessageWithHighlight('entrega no país inteiro', [
+					'país',
+					'inteiro',
+				])
 			default:
-				return "---";
+				return '---'
 		}
-	};
+	}
 
 	return (
 		<DefaultCardContainer>
@@ -54,7 +54,7 @@ function DeliveryMethodCard({
 				{renderDeliveryMethod()}
 			</DeliveryMethodText>
 		</DefaultCardContainer>
-	);
+	)
 }
 
-export { DeliveryMethodCard };
+export { DeliveryMethodCard }

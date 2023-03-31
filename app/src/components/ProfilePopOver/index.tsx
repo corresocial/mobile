@@ -1,15 +1,15 @@
-import React from "react";
-import { TouchableOpacity, View } from "react-native";
-import Popover from "react-native-popover-view";
+import React from 'react'
+import { TouchableOpacity, View } from 'react-native'
+import Popover from 'react-native-popover-view'
 
-import { RFValue } from "react-native-responsive-fontsize";
-import { CloseIcon, Container, ContainerInner, Sigh, UserName } from "./styles";
-import { relativeScreenHeight } from "@common/screenDimensions";
-import { theme } from "@common/theme";
-import XIcon from "@assets/icons/x.svg";
+import { RFValue } from 'react-native-responsive-fontsize'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
+import XIcon from '@assets/icons/x.svg'
+import { CloseIcon, Container, ContainerInner, Sigh, UserName } from './styles'
 
-import { PrimaryButton } from "../_buttons/PrimaryButton";
-import { FocusAwareStatusBar } from "../FocusAwareStatusBar";
+import { PrimaryButton } from '../_buttons/PrimaryButton'
+import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 
 interface ProfilePopOverProps {
 	userName?: string;
@@ -51,7 +51,7 @@ function ProfilePopOver({
 			<Container>
 				<FocusAwareStatusBar
 					backgroundColor={theme.transparence.orange2}
-					barStyle={"dark-content"}
+					barStyle={'dark-content'}
 				/>
 				<ContainerInner>
 					<CloseIcon onPress={closePopover}>
@@ -62,8 +62,8 @@ function ProfilePopOver({
 						<PrimaryButton
 							color={theme.green3}
 							onPress={!!goToConfig && goToConfig}
-							label={"configurações"}
-							highlightedWords={["configurações"]}
+							label={'configurações'}
+							highlightedWords={['configurações']}
 							labelColor={theme.white3}
 							fontSize={14}
 							minHeight={20}
@@ -84,7 +84,7 @@ function ProfilePopOver({
 				</ContainerInner>
 			</Container>
 		</Popover>
-	);
+	)
 }
 
-export { ProfilePopOver };
+export { ProfilePopOver }

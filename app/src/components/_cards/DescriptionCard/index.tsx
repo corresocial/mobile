@@ -1,12 +1,12 @@
-import React from "react";
-import { RFValue } from "react-native-responsive-fontsize";
+import React from 'react'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import DescriptionIcon from "@assets/icons/description.svg";
-import ShopIcon from "@assets/icons/shop.svg";
-import { DefaultHeaderTitle } from "../../DefaultHeaderTitle";
-import { LongText } from "./styles";
+import DescriptionIcon from '@assets/icons/description.svg'
+import ShopIcon from '@assets/icons/shop.svg'
+import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
+import { LongText } from './styles'
 
-import { DefaultCardContainer } from "../DefaultCardContainer";
+import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface DescriptionCardProps {
 	title: string;
@@ -35,7 +35,7 @@ function DescriptionCard({
 			</LongText>
 			{children}
 		</DefaultCardContainer>
-	);
+	)
 }
 
-export { DescriptionCard };
+export { DescriptionCard }

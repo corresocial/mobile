@@ -1,8 +1,8 @@
-import React from "react";
-import { RFValue } from "react-native-responsive-fontsize";
+import React from 'react'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import { showMessageWithHighlight } from "@common/auxiliaryFunctions";
-import { Container, Description, Title } from "./styles";
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { Container, Description, Title } from './styles'
 
 interface InfoCardProps {
 	height: string | number;
@@ -39,7 +39,7 @@ function InfoCard({
 				{showMessageWithHighlight(description, highlightedWords)}
 			</Description>
 		</Container>
-	);
+	)
 }
 
-export { InfoCard };
+export { InfoCard }

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { SvgProps } from "react-native-svg";
-import { RFValue } from "react-native-responsive-fontsize";
+import React, { useState } from 'react'
+import { SvgProps } from 'react-native-svg'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import { theme } from "@common/theme";
+import { theme } from '@common/theme'
 
-import { showMessageWithHighlight } from "@common/auxiliaryFunctions";
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import {
 	ButtonLabel,
 	TouchableContainer,
@@ -13,7 +13,7 @@ import {
 	IconArea,
 	LabelDescriptionArea,
 	ButtonDescription,
-} from "./styles";
+} from './styles'
 
 interface OptionButtonProps {
 	color: string;
@@ -21,7 +21,7 @@ interface OptionButtonProps {
 	labelColor?: string;
 	labelSize?: number;
 	relativeHeight?: string;
-	labelAlign?: "auto" | "left" | "right" | "center" | "justify" | undefined;
+	labelAlign?: 'auto' | 'left' | 'right' | 'center' | 'justify' | undefined;
 	SvgIcon?: React.FC<SvgProps>;
 	svgIconScale?: [height: string, width: string];
 	leftSideColor?: string;
@@ -37,7 +37,7 @@ function OptionButton({
 	labelColor,
 	labelSize = 20,
 	relativeHeight,
-	labelAlign = "center",
+	labelAlign = 'center',
 	highlightedWords,
 	SvgIcon,
 	svgIconScale,
@@ -46,22 +46,22 @@ function OptionButton({
 	description,
 	onPress,
 }: OptionButtonProps) {
-	const [buttonPressed, setButtomPressed] = useState<Boolean>(false);
+	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
 
 	function pressingButton() {
-		setButtomPressed(true);
+		setButtomPressed(true)
 	}
 
 	function notPressingButton() {
-		setButtomPressed(false);
+		setButtomPressed(false)
 	}
 
 	function releaseButton() {
-		setButtomPressed(false);
-		onPress();
+		setButtomPressed(false)
+		onPress()
 	}
 
-	const heightWithoutDescription = relativeHeight || RFValue(75);
+	const heightWithoutDescription = relativeHeight || RFValue(75)
 
 	return (
 		<TouchableContainer
@@ -114,7 +114,7 @@ function OptionButton({
 				</ContainerSurface>
 			</ContainerBottom>
 		</TouchableContainer>
-	);
+	)
 }
 
-export { OptionButton };
+export { OptionButton }

@@ -1,17 +1,17 @@
-import React from "react";
-import { Image, ImageResizeMode } from "react-native";
+import React from 'react'
+import { Image, ImageResizeMode } from 'react-native'
 
-import { RFValue } from "react-native-responsive-fontsize";
+import { RFValue } from 'react-native-responsive-fontsize'
+import TrashIcon from '@assets/icons/trash.svg'
+import NoPhoto from '@assets/imgs/noPhoto.svg'
+import CheckOrange from '@assets/icons/check-orange.svg'
+import { relativeScreenWidth } from '@common/screenDimensions'
 import {
 	CheckArea,
 	Container,
 	DeleteItemArea,
 	NoPhotoContainer,
-} from "./styles";
-import TrashIcon from "@assets/icons/trash.svg";
-import NoPhoto from "@assets/imgs/noPhoto.svg";
-import CheckOrange from "@assets/icons/check-orange.svg";
-import { relativeScreenWidth } from "@common/screenDimensions";
+} from './styles'
 
 interface PhotoPortraitProps {
 	width: number | string;
@@ -31,7 +31,7 @@ function PhotoPortrait({
 	borderWidth = 5,
 	borderRightWidth = 10,
 	pictureUri,
-	resizeMode = "contain",
+	resizeMode = 'contain',
 	maxWidth = relativeScreenWidth(90),
 	checked = false,
 	deleteCurrentPicture,
@@ -55,28 +55,28 @@ function PhotoPortrait({
 					height={0}
 					style={{
 						resizeMode,
-						width: "100%",
-						height: "100%",
+						width: '100%',
+						height: '100%',
 						borderRadius: RFValue(10),
 					}}
 				/>
 			) : (
 				<NoPhotoContainer>
-					<NoPhoto width={"100%"} height={"100%"} />
+					<NoPhoto width={'100%'} height={'100%'} />
 				</NoPhotoContainer>
 			)}
 			{deleteCurrentPicture && pictureUri ? (
 				<DeleteItemArea onPress={deleteCurrentPicture}>
-					<TrashIcon width={"100%"} height={"100%"} />
+					<TrashIcon width={'100%'} height={'100%'} />
 				</DeleteItemArea>
 			) : null}
 			{checked && (
 				<CheckArea>
-					<CheckOrange width={"100%"} height={"100%"} />
+					<CheckOrange width={'100%'} height={'100%'} />
 				</CheckArea>
 			)}
 		</Container>
-	);
+	)
 }
 
-export { PhotoPortrait };
+export { PhotoPortrait }

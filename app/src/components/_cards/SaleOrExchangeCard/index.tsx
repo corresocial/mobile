@@ -1,7 +1,7 @@
-import React from "react";
-import DollarIcon from "@assets/icons/dollar.svg";
-import { showMessageWithHighlight } from "@common/auxiliaryFunctions";
-import { DefaultHeaderTitle } from "../../DefaultHeaderTitle";
+import React from 'react'
+import DollarIcon from '@assets/icons/dollar.svg'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 
 import {
 	Decimals,
@@ -10,9 +10,9 @@ import {
 	SaleValueArea,
 	ExchangeArea,
 	ExchangeText,
-} from "./styles";
+} from './styles'
 
-import { DefaultCardContainer } from "../DefaultCardContainer";
+import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface SaleOrExchangeCardProps {
 	title: string;
@@ -36,12 +36,12 @@ function SaleOrExchangeCard({
 			/>
 			{saleValue && (
 				<SaleValueArea>
-					<SmallFont>{"r$"}</SmallFont>
+					<SmallFont>{'r$'}</SmallFont>
 					<LargeFont>{saleValue}</LargeFont>
-					<Decimals>{",00"}</Decimals>
+					<Decimals>{',00'}</Decimals>
 				</SaleValueArea>
 			)}
-			{!!saleValue && !!exchangeValue && <SmallFont>{"ou"}</SmallFont>}
+			{!!saleValue && !!exchangeValue && <SmallFont>{'ou'}</SmallFont>}
 			{!!exchangeValue && (
 				<ExchangeArea>
 					<ExchangeText>
@@ -49,13 +49,13 @@ function SaleOrExchangeCard({
 							withoutExchangePresentation
 								? exchangeValue
 								: `troca por ${exchangeValue}`,
-							["troca", ...exchangeValue.split(" ")]
+							['troca', ...exchangeValue.split(' ')]
 						)}
 					</ExchangeText>
 				</ExchangeArea>
 			)}
 		</DefaultCardContainer>
-	);
+	)
 }
 
-export { SaleOrExchangeCard };
+export { SaleOrExchangeCard }

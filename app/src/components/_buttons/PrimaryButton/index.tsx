@@ -1,16 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Keyboard, TextStyle } from "react-native";
-import { FontAwesome5 as Icon } from "@expo/vector-icons";
-import { SvgProps } from "react-native-svg";
-import { RFValue } from "react-native-responsive-fontsize";
+import React, { useEffect, useRef, useState } from 'react'
+import { Keyboard, TextStyle } from 'react-native'
+import { FontAwesome5 as Icon } from '@expo/vector-icons'
+import { SvgProps } from 'react-native-svg'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import { showMessageWithHighlight } from "@common/auxiliaryFunctions";
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import {
 	ButtonLabel,
 	TouchableContainer,
 	ContainerSurface,
 	ContainerBottom,
-} from "./styles";
+} from './styles'
 
 interface PrimaryButtonProps {
 	relativeWidth?: string;
@@ -27,7 +27,7 @@ interface PrimaryButtonProps {
 	SecondSvgIcon?: React.FC<SvgProps>;
 	svgIconScale?: [height: string, width: string];
 	fontSize?: number;
-	textAlign?: TextStyle["textAlign"];
+	textAlign?: TextStyle['textAlign'];
 	keyboardHideButton?: boolean;
 	startsHidden?: boolean;
 	highlightedWords?: string[];
@@ -47,7 +47,7 @@ function PrimaryButton({
 	highlightedWords,
 	iconName,
 	fontSize = 18,
-	textAlign = "center",
+	textAlign = 'center',
 	iconSize,
 	iconColor,
 	SvgIcon,
@@ -59,56 +59,51 @@ function PrimaryButton({
 	flexDirection,
 	onPress,
 }: PrimaryButtonProps) {
-	const [buttonPressed, setButtomPressed] = useState<boolean>(false);
-	const [buttonVisibility, setButtonVisibility] = useState<boolean>(true);
+	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
+	const [buttonVisibility, setButtonVisibility] = useState<boolean>(true)
 
-	const buttonRef = useRef<any>();
+	const buttonRef = useRef<any>()
 
 	useEffect(() => {
 		if (startsHidden && keyboardHideButton) {
-			setButtonVisibility(false);
+			setButtonVisibility(false)
 		}
-		if (!keyboardHideButton) return;
-		const unsubscribeShow = Keyboard.addListener("keyboardDidShow", () =>
-			hideButton()
-		);
-		const unsubscribeHide = Keyboard.addListener("keyboardDidHide", () =>
-			showButton()
-		);
+		if (!keyboardHideButton) return
+		const unsubscribeShow = Keyboard.addListener('keyboardDidShow', () => hideButton())
+		const unsubscribeHide = Keyboard.addListener('keyboardDidHide', () => showButton())
 
 		return () => {
-			unsubscribeShow.remove();
-			unsubscribeHide.remove();
-		};
-	}, []);
+			unsubscribeShow.remove()
+			unsubscribeHide.remove()
+		}
+	}, [])
 
 	const hideButton = async () => {
-		if (!buttonRef.current) return;
+		if (!buttonRef.current) return
 		buttonRef.current
 			.fadeOutDown(400)
 			.then(
-				(endState: any) =>
-					endState.finished && setButtonVisibility(false)
-			);
-	};
+				(endState: any) => endState.finished && setButtonVisibility(false)
+			)
+	}
 
 	const showButton = () => {
-		if (!buttonRef.current) return;
-		setButtonVisibility(true);
-		buttonRef.current.fadeInUp(400);
-	};
+		if (!buttonRef.current) return
+		setButtonVisibility(true)
+		buttonRef.current.fadeInUp(400)
+	}
 
 	function pressingButton() {
-		setButtomPressed(true);
+		setButtomPressed(true)
 	}
 
 	function notPressingButton() {
-		setButtomPressed(false);
+		setButtomPressed(false)
 	}
 
 	function releaseButton() {
-		setButtomPressed(false);
-		onPress && onPress();
+		setButtomPressed(false)
+		onPress && onPress()
 	}
 
 	return (
@@ -121,9 +116,9 @@ function PrimaryButton({
 				ref={buttonRef}
 				style={
 					{
-						display: buttonVisibility ? "flex" : "none",
+						display: buttonVisibility ? 'flex' : 'none',
 						opacity: buttonVisibility ? 1 : 0,
-						width: relativeWidth || "100%",
+						width: relativeWidth || '100%',
 						height: relativeHeight || RFValue(65),
 						minHeight: RFValue(minHeight),
 						justifyContent,
@@ -134,8 +129,8 @@ function PrimaryButton({
 					style={
 						{
 							backgroundColor: color,
-							flexDirection: flexDirection || "row",
-							justifyContent: justifyContent || "center",
+							flexDirection: flexDirection || 'row',
+							justifyContent: justifyContent || 'center',
 							minHeight: RFValue(minHeight),
 							marginRight: buttonPressed ? RFValue(-7) : 0,
 						} as { [key: string]: React.CSSProperties }
@@ -167,7 +162,7 @@ function PrimaryButton({
 					)}
 					{!!iconName && (
 						<Icon
-							name={iconName || "question"}
+							name={iconName || 'question'}
 							size={iconSize || 22}
 							color={iconColor || labelColor}
 						/>
@@ -175,7 +170,7 @@ function PrimaryButton({
 				</ContainerSurface>
 			</ContainerBottom>
 		</TouchableContainer>
-	);
+	)
 }
 
-export { PrimaryButton };
+export { PrimaryButton }

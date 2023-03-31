@@ -1,50 +1,50 @@
-import React, { useContext } from "react";
-import { StatusBar } from "react-native";
+import React, { useContext } from 'react'
+import { StatusBar } from 'react-native'
 
-import { ButtonsContainer, Container } from "./styles";
-import { theme } from "@common/theme";
+import { theme } from '@common/theme'
 
-import { SelectExhibitionPlaceScreenProps } from "@routes/Stack/cultureStack/stackScreenProps";
-import { ExhibitionPlaceType } from "@services/firebase/types";
+import { SelectExhibitionPlaceScreenProps } from '@routes/Stack/cultureStack/stackScreenProps'
+import { ExhibitionPlaceType } from '@services/firebase/types'
 
-import { CultureContext } from "@contexts/CultureContext";
-import { EditContext } from "@contexts/EditContext";
+import { CultureContext } from '@contexts/CultureContext'
+import { EditContext } from '@contexts/EditContext'
 
-import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
-import { FormContainer } from "@components/_containers/FormContainer";
-import { BackButton } from "@components/_buttons/BackButton";
-import { PrimaryButton } from "@components/_buttons/PrimaryButton";
-import { InstructionCard } from "@components/_cards/InstructionCard";
-import { ProgressBar } from "@components/ProgressBar";
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '@components/_containers/FormContainer'
+import { BackButton } from '@components/_buttons/BackButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { ProgressBar } from '@components/ProgressBar'
+import { ButtonsContainer, Container } from './styles'
 
 function SelectExhibitionPlace({
 	route,
 	navigation,
 }: SelectExhibitionPlaceScreenProps) {
-	const { setCultureDataOnContext } = useContext(CultureContext);
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext);
+	const { setCultureDataOnContext } = useContext(CultureContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveExhibitionPlace = (exhibitionPlace: ExhibitionPlaceType) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ range: exhibitionPlace });
-			navigation.goBack();
-			return;
+			addNewUnsavedFieldToEditContext({ range: exhibitionPlace })
+			navigation.goBack()
+			return
 		}
 
-		setCultureDataOnContext({ range: exhibitionPlace });
-		navigation.navigate("SelectCultureLocationView");
-	};
+		setCultureDataOnContext({ range: exhibitionPlace })
+		navigation.navigate('SelectCultureLocationView')
+	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode;
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>
 			<StatusBar
 				backgroundColor={theme.white3}
-				barStyle={"dark-content"}
+				barStyle={'dark-content'}
 			/>
 			<DefaultHeaderContainer
-				relativeHeight={"28%"}
+				relativeHeight={'28%'}
 				centralized
 				backgroundColor={theme.white3}
 			>
@@ -52,8 +52,8 @@ function SelectExhibitionPlace({
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={18}
-					message={"onde você expõe sua arte?"}
-					highlightedWords={["expõe"]}
+					message={'onde você expõe sua arte?'}
+					highlightedWords={['expõe']}
 				>
 					<ProgressBar range={3} value={3} />
 				</InstructionCard>
@@ -61,45 +61,45 @@ function SelectExhibitionPlace({
 			<FormContainer backgroundColor={theme.blue2}>
 				<ButtonsContainer>
 					<PrimaryButton
-						justifyContent={"flex-start"}
+						justifyContent={'flex-start'}
 						color={theme.white3}
-						relativeHeight={"18%"}
+						relativeHeight={'18%'}
 						labelColor={theme.black4}
-						labelMarginLeft={"5%"}
+						labelMarginLeft={'5%'}
 						fontSize={18}
-						textAlign={"left"}
-						label={"só perto de mim"}
-						highlightedWords={["perto"]}
-						onPress={() => saveExhibitionPlace("near")}
+						textAlign={'left'}
+						label={'só perto de mim'}
+						highlightedWords={['perto']}
+						onPress={() => saveExhibitionPlace('near')}
 					/>
 					<PrimaryButton
-						justifyContent={"flex-start"}
+						justifyContent={'flex-start'}
 						color={theme.white3}
-						relativeHeight={"18%"}
+						relativeHeight={'18%'}
 						labelColor={theme.black4}
-						labelMarginLeft={"5%"}
+						labelMarginLeft={'5%'}
 						fontSize={18}
-						textAlign={"left"}
-						label={"na minha cidade"}
-						highlightedWords={["cidade"]}
-						onPress={() => saveExhibitionPlace("city")}
+						textAlign={'left'}
+						label={'na minha cidade'}
+						highlightedWords={['cidade']}
+						onPress={() => saveExhibitionPlace('city')}
 					/>
 					<PrimaryButton
-						justifyContent={"flex-start"}
+						justifyContent={'flex-start'}
 						color={theme.white3}
-						relativeHeight={"18%"}
+						relativeHeight={'18%'}
 						labelColor={theme.black4}
-						labelMarginLeft={"5%"}
+						labelMarginLeft={'5%'}
 						fontSize={18}
-						textAlign={"left"}
-						label={"no país inteiro"}
-						highlightedWords={["país"]}
-						onPress={() => saveExhibitionPlace("country")}
+						textAlign={'left'}
+						label={'no país inteiro'}
+						highlightedWords={['país']}
+						onPress={() => saveExhibitionPlace('country')}
 					/>
 				</ButtonsContainer>
 			</FormContainer>
 		</Container>
-	);
+	)
 }
 
-export { SelectExhibitionPlace };
+export { SelectExhibitionPlace }

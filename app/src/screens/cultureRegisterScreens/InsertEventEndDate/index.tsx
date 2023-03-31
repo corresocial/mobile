@@ -1,178 +1,169 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { Animated, Keyboard, Platform, StatusBar } from "react-native";
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Animated, Keyboard, Platform, StatusBar } from 'react-native'
 
-import { ButtonContainer, Container, InputsContainer } from "./styles";
-import { theme } from "@common/theme";
+import { theme } from '@common/theme'
 
 import {
 	filterLeavingOnlyNumbers,
 	formatDate,
-} from "@common/auxiliaryFunctions";
+} from '@common/auxiliaryFunctions'
 
-import { removeAllKeyboardEventListeners } from "@common/listenerFunctions";
-import { InsertEventEndDateScreenProps } from "@routes/Stack/CultureStack/stackScreenProps";
+import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
+import { InsertEventEndDateScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
 
-import { CultureContext } from "@contexts/CultureContext";
-import { EditContext } from "@contexts/EditContext";
+import { CultureContext } from '@contexts/CultureContext'
+import { EditContext } from '@contexts/EditContext'
 
-import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
-import { FormContainer } from "@components/_containers/FormContainer";
-import { PrimaryButton } from "@components/_buttons/PrimaryButton";
-import { InstructionCard } from "@components/_cards/InstructionCard";
-import { LineInput } from "@components/LineInput";
-import { screenHeight, statusBarHeight } from "@common/screenDimensions";
-import { BackButton } from "@components/_buttons/BackButton";
-import { ProgressBar } from "@components/ProgressBar";
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '@components/_containers/FormContainer'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { LineInput } from '@components/LineInput'
+import { screenHeight, statusBarHeight } from '@common/screenDimensions'
+import { BackButton } from '@components/_buttons/BackButton'
+import { ProgressBar } from '@components/ProgressBar'
+import { ButtonContainer, Container, InputsContainer } from './styles'
 
 function InsertEventEndDate({
 	route,
 	navigation,
 }: InsertEventEndDateScreenProps) {
-	const { cultureDataContext, setCultureDataOnContext } =
-		useContext(CultureContext);
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext);
+	const { cultureDataContext, setCultureDataOnContext } =		useContext(CultureContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const initialTime = formatDate(route.params?.initialValue as Date);
+	const initialTime = formatDate(route.params?.initialValue as Date)
 
 	const [day, setDay] = useState<string>(
-		route.params?.initialValue ? initialTime.split("/")[0] : ""
-	);
+		route.params?.initialValue ? initialTime.split('/')[0] : ''
+	)
 	const [month, setMonth] = useState<string>(
-		route.params?.initialValue ? initialTime.split("/")[1] : ""
-	);
+		route.params?.initialValue ? initialTime.split('/')[1] : ''
+	)
 	const [year, setYear] = useState<string>(
-		route.params?.initialValue ? initialTime.split("/")[2] : ""
-	);
+		route.params?.initialValue ? initialTime.split('/')[2] : ''
+	)
 
-	const [dayIsValid, setDayIsValid] = useState<boolean>(false);
-	const [monthIsValid, setMonthIsValid] = useState<boolean>(false);
-	const [yearIsValid, setYearIsValid] = useState<boolean>(false);
-	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false);
-	const [invalidDateAfterSubmit, setInvalidDateAfterSubmit] =
-		useState<boolean>(false);
+	const [dayIsValid, setDayIsValid] = useState<boolean>(false)
+	const [monthIsValid, setMonthIsValid] = useState<boolean>(false)
+	const [yearIsValid, setYearIsValid] = useState<boolean>(false)
+	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+	const [invalidDateAfterSubmit, setInvalidDateAfterSubmit] =		useState<boolean>(false)
 
 	const inputRefs = {
 		dayInput: useRef<React.MutableRefObject<any>>(null),
 		monthInput: useRef<React.MutableRefObject<any>>(null),
 		yearInput: useRef<React.MutableRefObject<any>>(null),
-	};
+	}
 
 	useEffect(() => {
-		const unsubscribe = navigation.addListener("focus", () => {
-			removeAllKeyboardEventListeners();
-			Keyboard.addListener("keyboardDidShow", () =>
-				setKeyboardOpened(true)
-			);
-			Keyboard.addListener("keyboardDidHide", () =>
-				setKeyboardOpened(false)
-			);
-		});
-		return unsubscribe;
-	}, [navigation]);
+		const unsubscribe = navigation.addListener('focus', () => {
+			removeAllKeyboardEventListeners()
+			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		})
+		return unsubscribe
+	}, [navigation])
 
 	useEffect(() => {
-		const dayValidation = validateDay(day);
-		const monthValidation = validateMonth(month);
-		const yearValidation = validateYear(year);
-		setDayIsValid(dayValidation);
-		setMonthIsValid(monthValidation);
-		setYearIsValid(yearValidation);
-	}, [day, month, year, keyboardOpened]);
+		const dayValidation = validateDay(day)
+		const monthValidation = validateMonth(month)
+		const yearValidation = validateYear(year)
+		setDayIsValid(dayValidation)
+		setMonthIsValid(monthValidation)
+		setYearIsValid(yearValidation)
+	}, [day, month, year, keyboardOpened])
 
 	const validateDay = (text: string) => {
-		const isValid =
-			text.length === 2 && parseInt(text) <= 31 && parseInt(text) > 0;
+		const isValid =			text.length === 2 && parseInt(text) <= 31 && parseInt(text) > 0
 		if (isValid) {
-			return true;
+			return true
 		}
-		return false;
-	};
+		return false
+	}
 
 	const validateMonth = (text: string) => {
-		const isValid =
-			text.length === 2 && parseInt(text) <= 12 && parseInt(text) > 0;
+		const isValid =			text.length === 2 && parseInt(text) <= 12 && parseInt(text) > 0
 		if (isValid) {
-			return true;
+			return true
 		}
-		return false;
-	};
+		return false
+	}
 
 	const validateYear = (text: string) => {
-		const isValid = text.length === 4;
+		const isValid = text.length === 4
 		if (isValid) {
-			return true;
+			return true
 		}
-		return false;
-	};
+		return false
+	}
 
-	const allFiedsIsValid = () => dayIsValid && monthIsValid && yearIsValid;
+	const allFiedsIsValid = () => dayIsValid && monthIsValid && yearIsValid
 
 	const existsThisDayOnMonth = () => {
-		if (!allFiedsIsValid()) return true;
-		return numberOfDaysOfMonth() >= parseInt(day);
-	};
+		if (!allFiedsIsValid()) return true
+		return numberOfDaysOfMonth() >= parseInt(day)
+	}
 
 	const numberOfDaysOfMonth = () => {
-		const data = new Date(parseInt(year), parseInt(month), 0);
-		return data.getDate();
-	};
+		const data = new Date(parseInt(year), parseInt(month), 0)
+		return data.getDate()
+	}
 
 	const endDateIsBiggerOfStartDate = () => {
-		if (editModeIsTrue()) return true;
+		if (editModeIsTrue()) return true
 
-		const insertedDate = new Date(`${year}-${month}-${day}T23:59:59`);
-		const vacancyContextStartDate =
-			cultureDataContext.eventStartDate || new Date();
-		return vacancyContextStartDate.getTime() < insertedDate.getTime();
-	};
+		const insertedDate = new Date(`${year}-${month}-${day}T23:59:59`)
+		const vacancyContextStartDate =			cultureDataContext.eventStartDate || new Date()
+		return vacancyContextStartDate.getTime() < insertedDate.getTime()
+	}
 
 	const saveOppeningHour = () => {
 		if (!endDateIsBiggerOfStartDate()) {
-			setInvalidDateAfterSubmit(true);
-			return;
+			setInvalidDateAfterSubmit(true)
+			return
 		}
 
-		const eventEndDate = new Date(`${year}-${month}-${day}T12:00:00`);
+		const eventEndDate = new Date(`${year}-${month}-${day}T12:00:00`)
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ eventEndDate });
-			navigation.goBack();
-			return;
+			addNewUnsavedFieldToEditContext({ eventEndDate })
+			navigation.goBack()
+			return
 		}
 
-		setCultureDataOnContext({ eventEndDate });
-		navigation.navigate("InsertEventEndHour");
-	};
+		setCultureDataOnContext({ eventEndDate })
+		navigation.navigate('InsertEventEndHour')
+	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode;
+	const editModeIsTrue = () => route.params && route.params.editMode
 
-	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0));
+	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
-		const existsError = invalidDateAfterSubmit;
+		const existsError = invalidDateAfterSubmit
 
 		Animated.timing(headerBackgroundAnimatedValue.current, {
 			toValue: existsError ? 1 : 0,
 			duration: 300,
 			useNativeDriver: false,
-		}).start();
+		}).start()
 
 		return headerBackgroundAnimatedValue.current.interpolate({
 			inputRange: [0, 1],
 			outputRange: [theme.blue2, theme.red2],
-		});
-	};
+		})
+	}
 
 	return (
-		<Container behavior={Platform.OS === "ios" ? "padding" : "height"}>
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar
 				backgroundColor={
 					invalidDateAfterSubmit ? theme.red2 : theme.blue2
 				}
-				barStyle={"dark-content"}
+				barStyle={'dark-content'}
 			/>
 			<DefaultHeaderContainer
 				minHeight={(screenHeight + statusBarHeight) * 0.22}
-				relativeHeight={"22%"}
+				relativeHeight={'22%'}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
@@ -182,13 +173,13 @@ function InsertEventEndDate({
 					fontSize={18}
 					message={
 						invalidDateAfterSubmit
-							? "A data de encerramento informada antecede a data de início"
-							: "quando termina?"
+							? 'A data de encerramento informada antecede a data de início'
+							: 'quando termina?'
 					}
 					highlightedWords={
 						invalidDateAfterSubmit
-							? ["data", "de", "encerramento", "data", "início"]
-							: ["termina"]
+							? ['data', 'de', 'encerramento', 'data', 'início']
+							: ['termina']
 					}
 				>
 					<ProgressBar range={5} value={5} />
@@ -196,12 +187,12 @@ function InsertEventEndDate({
 			</DefaultHeaderContainer>
 			<FormContainer
 				backgroundColor={theme.white2}
-				justifyContent={"center"}
+				justifyContent={'center'}
 			>
 				<InputsContainer>
 					<LineInput
 						value={day}
-						relativeWidth={"30%"}
+						relativeWidth={'30%'}
 						textInputRef={inputRefs.dayInput}
 						nextInputRef={inputRefs.monthInput}
 						defaultBackgroundColor={theme.white2}
@@ -212,22 +203,22 @@ function InsertEventEndDate({
 						invalidBorderBottomColor={theme.red5}
 						maxLength={2}
 						fontSize={22}
-						placeholder={"dia"}
-						keyboardType={"decimal-pad"}
+						placeholder={'dia'}
+						keyboardType={'decimal-pad'}
 						filterText={filterLeavingOnlyNumbers}
 						invalidTextAfterSubmit={
 							invalidDateAfterSubmit || !existsThisDayOnMonth()
 						}
 						validateText={(text: string) => validateDay(text)}
 						onChangeText={(text: string) => {
-							setDay(text);
-							invalidDateAfterSubmit &&
-								setInvalidDateAfterSubmit(false);
+							setDay(text)
+							invalidDateAfterSubmit
+								&& setInvalidDateAfterSubmit(false)
 						}}
 					/>
 					<LineInput
 						value={month}
-						relativeWidth={"30%"}
+						relativeWidth={'30%'}
 						previousInputRef={inputRefs.dayInput}
 						textInputRef={inputRefs.monthInput}
 						nextInputRef={inputRefs.yearInput}
@@ -239,20 +230,20 @@ function InsertEventEndDate({
 						invalidBorderBottomColor={theme.red5}
 						maxLength={2}
 						fontSize={22}
-						placeholder={"mês"}
-						keyboardType={"decimal-pad"}
+						placeholder={'mês'}
+						keyboardType={'decimal-pad'}
 						filterText={filterLeavingOnlyNumbers}
 						invalidTextAfterSubmit={invalidDateAfterSubmit}
 						validateText={(text: string) => validateMonth(text)}
 						onChangeText={(text: string) => {
-							setMonth(text);
-							invalidDateAfterSubmit &&
-								setInvalidDateAfterSubmit(false);
+							setMonth(text)
+							invalidDateAfterSubmit
+								&& setInvalidDateAfterSubmit(false)
 						}}
 					/>
 					<LineInput
 						value={year}
-						relativeWidth={"30%"}
+						relativeWidth={'30%'}
 						previousInputRef={inputRefs.monthInput}
 						textInputRef={inputRefs.yearInput}
 						defaultBackgroundColor={theme.white2}
@@ -263,41 +254,41 @@ function InsertEventEndDate({
 						invalidBorderBottomColor={theme.red5}
 						maxLength={4}
 						fontSize={22}
-						placeholder={"ano"}
-						keyboardType={"decimal-pad"}
+						placeholder={'ano'}
+						keyboardType={'decimal-pad'}
 						lastInput
 						invalidTextAfterSubmit={invalidDateAfterSubmit}
 						filterText={filterLeavingOnlyNumbers}
 						validateText={(text: string) => validateYear(text)}
 						onChangeText={(text: string) => {
-							setYear(text);
-							invalidDateAfterSubmit &&
-								setInvalidDateAfterSubmit(false);
+							setYear(text)
+							invalidDateAfterSubmit
+								&& setInvalidDateAfterSubmit(false)
 						}}
 					/>
 				</InputsContainer>
 				<ButtonContainer>
-					{allFiedsIsValid() &&
-						!keyboardOpened &&
-						existsThisDayOnMonth() && (
-							<PrimaryButton
-								color={
-									invalidDateAfterSubmit
-										? theme.red3
-										: theme.green3
-								}
-								iconName={"arrow-right"}
-								iconColor={theme.white3}
-								label={"continuar"}
-								labelColor={theme.white3}
-								highlightedWords={["continuar"]}
-								onPress={saveOppeningHour}
-							/>
-						)}
+					{allFiedsIsValid()
+						&& !keyboardOpened
+						&& existsThisDayOnMonth() && (
+						<PrimaryButton
+							color={
+								invalidDateAfterSubmit
+									? theme.red3
+									: theme.green3
+							}
+							iconName={'arrow-right'}
+							iconColor={theme.white3}
+							label={'continuar'}
+							labelColor={theme.white3}
+							highlightedWords={['continuar']}
+							onPress={saveOppeningHour}
+						/>
+					)}
 				</ButtonContainer>
 			</FormContainer>
 		</Container>
-	);
+	)
 }
 
-export { InsertEventEndDate };
+export { InsertEventEndDate }

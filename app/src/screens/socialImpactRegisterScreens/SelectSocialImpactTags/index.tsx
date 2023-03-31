@@ -1,7 +1,34 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { Keyboard, ScrollView, StatusBar } from "react-native";
-import uuid from "react-uuid";
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Keyboard, ScrollView, StatusBar } from 'react-native'
+import uuid from 'react-uuid'
 
+import { theme } from '@common/theme'
+import {
+	relativeScreenHeight,
+	relativeScreenWidth,
+} from '@common/screenDimensions'
+import Check from '@assets/icons/check.svg'
+
+import {
+	socialImpactCategories,
+	updateSocialImpactTags,
+} from '@utils/postsCategories/socialImpactCategories'
+import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
+import { sortArray } from '@common/auxiliaryFunctions'
+
+import { SelectSocialImpactTagsScreenProps } from '@routes/Stack/socialImpactStack/stackScreenProps'
+
+import { SocialImpactContext } from '@contexts/SocialImpactContext'
+import { EditContext } from '@contexts/EditContext'
+
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { SelectButtonsContainer } from '@components/_containers/SelectButtonsContainer'
+import { SelectButton } from '@components/_buttons/SelectButton'
+import { BackButton } from '@components/_buttons/BackButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { LineInput } from '@components/LineInput'
+import { InfoCard } from '@components/_cards/InfoCard'
+import { SelectedTagsHorizontalList } from '@components/SelectedTagsHorizontalList'
 import {
 	Container,
 	ContainerBottom,
@@ -9,72 +36,40 @@ import {
 	InputTagArea,
 	Sigh,
 	TagsUnselectedArea,
-} from "./styles";
-import { theme } from "@common/theme";
-import {
-	relativeScreenHeight,
-	relativeScreenWidth,
-} from "@common/screenDimensions";
-import Check from "@assets/icons/check.svg";
-
-import {
-	socialImpactCategories,
-	updateSocialImpactTags,
-} from "@utils/postsCategories/socialImpactCategories";
-import { removeAllKeyboardEventListeners } from "@common/listenerFunctions";
-import { sortArray } from "@common/auxiliaryFunctions";
-
-import { SelectSocialImpactTagsScreenProps } from "@routes/Stack/socialImpactStack/stackScreenProps";
-
-import { SocialImpactContext } from "@contexts/SocialImpactContext";
-import { EditContext } from "@contexts/EditContext";
-
-import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
-import { SelectButtonsContainer } from "@components/_containers/SelectButtonsContainer";
-import { SelectButton } from "@components/_buttons/SelectButton";
-import { BackButton } from "@components/_buttons/BackButton";
-import { PrimaryButton } from "@components/_buttons/PrimaryButton";
-import { LineInput } from "@components/LineInput";
-import { InfoCard } from "@components/_cards/InfoCard";
-import { SelectedTagsHorizontalList } from "@components/SelectedTagsHorizontalList";
+} from './styles'
 
 function SelectSocialImpactTags({
 	route,
 	navigation,
 }: SelectSocialImpactTagsScreenProps) {
-	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext);
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext);
+	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [textTag, setTextTag] = useState("");
-	const [keyboardOpened, setKeyboardOpened] = useState(false);
-	const [selectedTags, setSelectedTags] = useState<string[]>([]);
+	const [textTag, setTextTag] = useState('')
+	const [keyboardOpened, setKeyboardOpened] = useState(false)
+	const [selectedTags, setSelectedTags] = useState<string[]>([])
 
-	const inputNewTagRef = useRef() as any;
+	const inputNewTagRef = useRef() as any
 
 	useEffect(() => {
-		const unsubscribe = navigation.addListener("focus", () => {
-			removeAllKeyboardEventListeners();
-			Keyboard.addListener("keyboardDidShow", () =>
-				setKeyboardOpened(true)
-			);
-			Keyboard.addListener("keyboardDidHide", () =>
-				setKeyboardOpened(false)
-			);
-		});
-		return unsubscribe;
-	}, [navigation]);
+		const unsubscribe = navigation.addListener('focus', () => {
+			removeAllKeyboardEventListeners()
+			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		})
+		return unsubscribe
+	}, [navigation])
 
 	const renderUnselectedTags = () => {
-		const ordenedSocialImpactTags =
-			socialImpactCategories[getSocialImpactCategorySelected()].tags.sort(
-				sortArray
-			);
+		const ordenedSocialImpactTags =			socialImpactCategories[getSocialImpactCategorySelected()].tags.sort(
+			sortArray
+		)
 
 		return ordenedSocialImpactTags.map((tagName, index) => {
-			if (selectedTags.includes(tagName)) return;
+			if (selectedTags.includes(tagName)) return
 			if (
-				tagName.indexOf(textTag.toLowerCase()) !== -1 &&
-				!selectedTags.includes(tagName)
+				tagName.indexOf(textTag.toLowerCase()) !== -1
+				&& !selectedTags.includes(tagName)
 			) {
 				return (
 					<SelectButton
@@ -87,86 +82,83 @@ function SelectSocialImpactTags({
 						backgroundSelected={theme.pink1}
 						onSelect={() => onSelectTag(tagName)}
 					/>
-				);
+				)
 			}
-			return null;
-		});
-	};
+			return null
+		})
+	}
 
 	const onSelectTag = (tagName: string) => {
-		const selectedCategoriesCurrent = [...selectedTags];
+		const selectedCategoriesCurrent = [...selectedTags]
 		if (selectedTags.includes(tagName)) {
 			const selectedTagsFiltred = selectedCategoriesCurrent.filter(
 				(tag) => tag !== tagName
-			);
-			setSelectedTags(selectedTagsFiltred);
+			)
+			setSelectedTags(selectedTagsFiltred)
 		} else {
-			selectedCategoriesCurrent.push(tagName);
-			setSelectedTags(selectedCategoriesCurrent);
+			selectedCategoriesCurrent.push(tagName)
+			setSelectedTags(selectedCategoriesCurrent)
 		}
-	};
+	}
 
 	const getSocialImpactCategorySelected = () => {
-		const { categorySelected } = route.params;
-		return categorySelected;
-	};
+		const { categorySelected } = route.params
+		return categorySelected
+	}
 
 	const getCurrentCategoryLabelHightlighted = () => {
-		const highlightedWords =
-			socialImpactCategories[
-				getSocialImpactCategorySelected()
-			].label.split(" ");
-		return highlightedWords;
-	};
+		const highlightedWords =			socialImpactCategories[
+			getSocialImpactCategorySelected()
+		].label.split(' ')
+		return highlightedWords
+	}
 
-	const getCurrentCategoryLabel = () =>
-		socialImpactCategories[getSocialImpactCategorySelected()].label;
+	const getCurrentCategoryLabel = () => socialImpactCategories[getSocialImpactCategorySelected()].label
 
-	const categoryLabelSelectedIsLarge = () =>
-		getCurrentCategoryLabelHightlighted().length > 1;
+	const categoryLabelSelectedIsLarge = () => getCurrentCategoryLabelHightlighted().length > 1
 
 	const addNewTag = () => {
-		const lowerCaseTag = textTag.toLowerCase();
+		const lowerCaseTag = textTag.toLowerCase()
 
-		if (!lowerCaseTag.length) return;
+		if (!lowerCaseTag.length) return
 		if (
 			socialImpactCategories[
 				getSocialImpactCategorySelected()
 			].tags.includes(lowerCaseTag as never)
 		) {
-			setTextTag("");
-			return onSelectTag(lowerCaseTag);
+			setTextTag('')
+			return onSelectTag(lowerCaseTag)
 		}
-		const selectedCategoriesCurrent = [...selectedTags];
-		selectedCategoriesCurrent.push(lowerCaseTag);
+		const selectedCategoriesCurrent = [...selectedTags]
+		selectedCategoriesCurrent.push(lowerCaseTag)
 
-		setSelectedTags(selectedCategoriesCurrent);
-		updateSocialImpactTags(getSocialImpactCategorySelected(), lowerCaseTag);
-		setTextTag("");
-	};
+		setSelectedTags(selectedCategoriesCurrent)
+		updateSocialImpactTags(getSocialImpactCategorySelected(), lowerCaseTag)
+		setTextTag('')
+	}
 
 	const saveTags = () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({
 				category: route.params.categorySelected,
 				tags: selectedTags,
-			});
-			navigation.goBack();
-			navigation.goBack();
-			return;
+			})
+			navigation.goBack()
+			navigation.goBack()
+			return
 		}
 
-		setSocialImpactDataOnContext({ tags: selectedTags });
-		navigation.navigate("InsertSocialImpactTitle");
-	};
+		setSocialImpactDataOnContext({ tags: selectedTags })
+		navigation.navigate('InsertSocialImpactTitle')
+	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode;
+	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>
 			<StatusBar
 				backgroundColor={theme.pink2}
-				barStyle={"dark-content"}
+				barStyle={'dark-content'}
 			/>
 			<DefaultHeaderContainer
 				minHeight={
@@ -174,7 +166,7 @@ function SelectSocialImpactTags({
 						? relativeScreenHeight(25)
 						: relativeScreenHeight(20)
 				}
-				relativeHeight={categoryLabelSelectedIsLarge() ? "30%" : "24%"}
+				relativeHeight={categoryLabelSelectedIsLarge() ? '30%' : '24%'}
 				centralized
 				backgroundColor={theme.pink2}
 			>
@@ -182,27 +174,27 @@ function SelectSocialImpactTags({
 				<InfoCard
 					title={getCurrentCategoryLabel()}
 					titleFontSize={26}
-					description={"quais palavras tem a ver com esse post?"}
+					description={'quais palavras tem a ver com esse post?'}
 					highlightedWords={[
 						...getCurrentCategoryLabelHightlighted(),
-						"palavras",
-						"tem",
-						"a",
-						"ver",
+						'palavras',
+						'tem',
+						'a',
+						'ver',
 					]}
-					height={"100%"}
+					height={'100%'}
 					color={theme.white3}
 				/>
 			</DefaultHeaderContainer>
 			<ContainerBottom
 				style={{
-					justifyContent: keyboardOpened ? "center" : "flex-start",
+					justifyContent: keyboardOpened ? 'center' : 'flex-start',
 				}}
 			>
 				<InputTagArea>
 					<LineInput
 						value={textTag}
-						relativeWidth={"100%"}
+						relativeWidth={'100%'}
 						textInputRef={inputNewTagRef}
 						defaultBackgroundColor={theme.white2}
 						defaultBorderBottomColor={theme.black4}
@@ -210,13 +202,13 @@ function SelectSocialImpactTags({
 						validBorderBottomColor={theme.pink5}
 						invalidBackgroundColor={theme.red1}
 						invalidBorderBottomColor={theme.red5}
-						textAlign={"left"}
+						textAlign={'left'}
 						lastInput
 						blurOnSubmit
 						fontSize={16}
 						invalidTextAfterSubmit={false}
-						placeholder={"digite ou escolha alguma das opções"}
-						keyboardType={"default"}
+						placeholder={'digite ou escolha alguma das opções'}
+						keyboardType={'default'}
 						textIsValid={socialImpactCategories[
 							getSocialImpactCategorySelected()
 						].tags.includes(textTag as never)}
@@ -228,13 +220,13 @@ function SelectSocialImpactTags({
 					<ScrollView
 						showsVerticalScrollIndicator={false}
 						style={{
-							height: "100%",
+							height: '100%',
 							flex: 1,
 						}}
 						contentContainerStyle={{
-							flexDirection: "row",
-							flexWrap: "wrap",
-							overflow: "scroll",
+							flexDirection: 'row',
+							flexWrap: 'wrap',
+							overflow: 'scroll',
 						}}
 					>
 						{!keyboardOpened && !!selectedTags.length && (
@@ -253,19 +245,19 @@ function SelectSocialImpactTags({
 				{!!selectedTags.length && !keyboardOpened && (
 					<FloatButtonContainer>
 						<PrimaryButton
-							flexDirection={"row-reverse"}
+							flexDirection={'row-reverse'}
 							color={theme.green3}
-							label={"continuar"}
+							label={'continuar'}
 							labelColor={theme.white3}
 							SvgIcon={Check}
-							svgIconScale={["30%", "15%"]}
+							svgIconScale={['30%', '15%']}
 							onPress={saveTags}
 						/>
 					</FloatButtonContainer>
 				)}
 			</ContainerBottom>
 		</Container>
-	);
+	)
 }
 
-export { SelectSocialImpactTags };
+export { SelectSocialImpactTags }

@@ -1,16 +1,16 @@
-import React from "react";
-import { RFValue } from "react-native-responsive-fontsize";
+import React from 'react'
+import { RFValue } from 'react-native-responsive-fontsize'
 
+import AngleRightIcon from '@assets/icons/angleRight.svg'
+import ClockIcon from '@assets/icons/clock.svg'
+import { theme } from '@common/theme'
 import {
 	Address,
 	AddressArea,
 	Container,
 	HighlightedAddress,
 	IconArea,
-} from "./styles";
-import AngleRightIcon from "@assets/icons/angleRight.svg";
-import ClockIcon from "@assets/icons/clock.svg";
-import { theme } from "@common/theme";
+} from './styles'
 
 interface DropdownItemProps {
 	selected?: boolean;
@@ -26,10 +26,10 @@ function DropdownItem({
 	findNearPosts,
 }: DropdownItemProps) {
 	const getRelativeWidth = () => {
-		if (selected) return "100%";
-		if (recent) return "70%";
-		return "85%";
-	};
+		if (selected) return '100%'
+		if (recent) return '70%'
+		return '85%'
+	}
 
 	return (
 		<Container
@@ -73,7 +73,7 @@ function DropdownItem({
 				)}
 			</IconArea>
 		</Container>
-	);
+	)
 }
 
-export { DropdownItem };
+export { DropdownItem }

@@ -1,48 +1,48 @@
-import React, { useContext } from "react";
-import { StatusBar } from "react-native";
+import React, { useContext } from 'react'
+import { StatusBar } from 'react-native'
 
 import {
 	getLocationViewTitle,
 	getLocationViewDescription,
 	getLocationViewHighlightedWords,
-} from "@utils/locationMessages";
+} from '@utils/locationMessages'
 
-import { ButtonsContainer, Container } from "./styles";
-import { theme } from "@common/theme";
+import { theme } from '@common/theme'
 
-import { SelectCultureLocationViewScreenProps } from "@routes/Stack/CultureStack/stackScreenProps";
-import { LocationViewType } from "@services/firebase/types";
+import { SelectCultureLocationViewScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+import { LocationViewType } from '@services/firebase/types'
 
-import { CultureContext } from "@contexts/CultureContext";
+import { CultureContext } from '@contexts/CultureContext'
 
-import { DefaultHeaderContainer } from "@components/_containers/DefaultHeaderContainer";
-import { FormContainer } from "@components/_containers/FormContainer";
-import { BackButton } from "@components/_buttons/BackButton";
-import { InstructionCard } from "@components/_cards/InstructionCard";
-import { ProgressBar } from "@components/ProgressBar";
-import { TitleDescriptionButton } from "@components/_cards/TitleDescriptionButton";
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '@components/_containers/FormContainer'
+import { BackButton } from '@components/_buttons/BackButton'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { ProgressBar } from '@components/ProgressBar'
+import { TitleDescriptionButton } from '@components/_cards/TitleDescriptionButton'
+import { ButtonsContainer, Container } from './styles'
 
 function SelectCultureLocationView({
 	route,
 	navigation,
 }: SelectCultureLocationViewScreenProps) {
-	const { cultureDataContext } = useContext(CultureContext);
+	const { cultureDataContext } = useContext(CultureContext)
 
 	const saveLocationViewType = (locationViewType: LocationViewType) => {
-		navigation.navigate("InsertCultureLocation", {
+		navigation.navigate('InsertCultureLocation', {
 			locationView: locationViewType,
 			...route.params,
-		});
-	};
+		})
+	}
 
 	return (
 		<Container>
 			<StatusBar
 				backgroundColor={theme.white3}
-				barStyle={"dark-content"}
+				barStyle={'dark-content'}
 			/>
 			<DefaultHeaderContainer
-				relativeHeight={"28%"}
+				relativeHeight={'28%'}
 				centralized
 				backgroundColor={theme.white3}
 			>
@@ -51,36 +51,36 @@ function SelectCultureLocationView({
 					borderLeftWidth={3}
 					fontSize={18}
 					message={
-						cultureDataContext.cultureType === "artistProfile"
-							? "como você prefere que outros usuários vejam a sua localização?"
-							: "como você prefere que outros usuários vejam a localização do role?"
+						cultureDataContext.cultureType === 'artistProfile'
+							? 'como você prefere que outros usuários vejam a sua localização?'
+							: 'como você prefere que outros usuários vejam a localização do role?'
 					}
 					highlightedWords={
-						cultureDataContext.cultureType === "artistProfile"
+						cultureDataContext.cultureType === 'artistProfile'
 							? [
-									"como",
-									"você",
-									"prefere",
-									"vejam",
-									"a",
-									"localização",
-									"sua",
+								'como',
+								'você',
+								'prefere',
+								'vejam',
+								'a',
+								'localização',
+								'sua',
 							  ]
 							: [
-									"como",
-									"você",
-									"prefere",
-									"vejam",
-									"a",
-									"localização",
-									"do",
-									"role",
+								'como',
+								'você',
+								'prefere',
+								'vejam',
+								'a',
+								'localização',
+								'do',
+								'role',
 							  ]
 					}
 				>
 					<ProgressBar
 						range={
-							cultureDataContext.cultureType === "artistProfile"
+							cultureDataContext.cultureType === 'artistProfile'
 								? 3
 								: 5
 						}
@@ -91,39 +91,39 @@ function SelectCultureLocationView({
 			<FormContainer backgroundColor={theme.blue2}>
 				<ButtonsContainer>
 					<TitleDescriptionButton
-						height={"28%"}
+						height={'28%'}
 						color={theme.white3}
-						title={getLocationViewTitle("private")}
-						description={getLocationViewDescription("private")}
+						title={getLocationViewTitle('private')}
+						description={getLocationViewDescription('private')}
 						highlightedWords={getLocationViewHighlightedWords(
-							"private"
+							'private'
 						)}
-						onPress={() => saveLocationViewType("private")}
+						onPress={() => saveLocationViewType('private')}
 					/>
 					<TitleDescriptionButton
-						height={"28%"}
+						height={'28%'}
 						color={theme.white3}
-						title={getLocationViewTitle("approximate")}
-						description={getLocationViewDescription("approximate")}
+						title={getLocationViewTitle('approximate')}
+						description={getLocationViewDescription('approximate')}
 						highlightedWords={getLocationViewHighlightedWords(
-							"approximate"
+							'approximate'
 						)}
-						onPress={() => saveLocationViewType("approximate")}
+						onPress={() => saveLocationViewType('approximate')}
 					/>
 					<TitleDescriptionButton
-						height={"28%"}
+						height={'28%'}
 						color={theme.white3}
-						title={getLocationViewTitle("public")}
-						description={getLocationViewDescription("public")}
+						title={getLocationViewTitle('public')}
+						description={getLocationViewDescription('public')}
 						highlightedWords={getLocationViewHighlightedWords(
-							"public"
+							'public'
 						)}
-						onPress={() => saveLocationViewType("public")}
+						onPress={() => saveLocationViewType('public')}
 					/>
 				</ButtonsContainer>
 			</FormContainer>
 		</Container>
-	);
+	)
 }
 
-export { SelectCultureLocationView };
+export { SelectCultureLocationView }

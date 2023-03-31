@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { RFValue } from "react-native-responsive-fontsize";
-import { SvgProps } from "react-native-svg";
+import React, { useState } from 'react'
+import { RFValue } from 'react-native-responsive-fontsize'
+import { SvgProps } from 'react-native-svg'
 
-import { showMessageWithHighlight } from "@common/auxiliaryFunctions";
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import {
 	ButtonLabel,
 	ContainerBottom,
 	ContainerSurface,
 	TouchableContainer,
-} from "./styles";
+} from './styles'
 
 interface SmallButtonProps {
 	color: string;
@@ -25,29 +25,29 @@ interface SmallButtonProps {
 
 function SmallButton({
 	color,
-	label = "",
+	label = '',
 	highlightedWords = [],
 	fontSize = 12,
 	SvgIcon,
-	svgScale = label ? ["40%", "15%"] : ["50%", "80%"],
-	relativeWidth = "100%",
+	svgScale = label ? ['40%', '15%'] : ['50%', '80%'],
+	relativeWidth = '100%',
 	height = 30,
-	flexDirection = "row",
+	flexDirection = 'row',
 	onPress,
 }: SmallButtonProps) {
-	const [buttonPressed, setButtomPressed] = useState<Boolean>(false);
+	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
 
 	function pressingButton() {
-		setButtomPressed(true);
+		setButtomPressed(true)
 	}
 
 	function notPressingButton() {
-		setButtomPressed(false);
+		setButtomPressed(false)
 	}
 
 	function releaseButton() {
-		setButtomPressed(false);
-		onPress();
+		setButtomPressed(false)
+		onPress()
 	}
 
 	return (
@@ -59,7 +59,7 @@ function SmallButton({
 			<ContainerBottom
 				style={{
 					width:
-						typeof relativeWidth === "string"
+						typeof relativeWidth === 'string'
 							? relativeWidth
 							: relativeWidth,
 					height,
@@ -82,13 +82,13 @@ function SmallButton({
 						style={{
 							fontSize: RFValue(fontSize),
 							marginLeft:
-								label && flexDirection === "row"
+								label && flexDirection === 'row'
 									? RFValue(8)
 									: 0,
 							fontFamily:
 								highlightedWords?.length > 0
-									? "Arvo_400Regular"
-									: "Arvo_700Bold",
+									? 'Arvo_400Regular'
+									: 'Arvo_700Bold',
 						}}
 					>
 						{showMessageWithHighlight(label, highlightedWords)}
@@ -96,7 +96,7 @@ function SmallButton({
 				</ContainerSurface>
 			</ContainerBottom>
 		</TouchableContainer>
-	);
+	)
 }
 
-export { SmallButton };
+export { SmallButton }
