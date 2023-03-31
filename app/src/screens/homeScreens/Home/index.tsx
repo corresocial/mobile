@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { BackHandler, FlatList, RefreshControl } from 'react-native'
+import { BackHandler, RefreshControl } from 'react-native'
 import * as Location from 'expo-location'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -7,6 +7,7 @@ import {
 	Container,
 	DropdownContainer,
 	FooterSigh,
+	FlatList,
 	HorizontalPostTypes,
 	RecentPostsContainer,
 	Sigh,
@@ -157,7 +158,7 @@ function Home({ navigation }: HomeScreenProps) {
 			console.log(err)
 			setLoaderIsVisible(false)
 			setSearchEnded(true)
-		}
+		} 
 	}
 
 	const refreshFlatlist = async () => {
@@ -391,7 +392,7 @@ function Home({ navigation }: HomeScreenProps) {
 				{nearPosts.length ? (
 					<FlatList
 						data={nearPosts}
-						renderItem={({ item }) => (
+						renderItem={({ item }: any/* Type before */) => (
 							<PostCard
 								post={item}
 								owner={item.owner}

@@ -63,7 +63,7 @@ export const Body = styled.View`
 `
 
 export const FlatList = styled.FlatList`
-	margin-top: ${RFValue(15)}px;
+	margin:  ${RFValue(15)}px 0;
 `
 
 export const Sigh = styled.View`
