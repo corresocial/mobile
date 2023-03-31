@@ -12,7 +12,7 @@ import {
 	TouchCloseArea,
 } from './styles'
 import { theme } from '../../../common/theme'
-import RightCurvedArrow from '../../../assets/icons/rightCurvedArrow.svg'
+import CheckIcon from '../../../assets/icons/check.svg'
 import XIcon from '../../../assets/icons/x.svg'
 import Uncheck from '../../../assets/icons/uncheck.svg'
 
@@ -20,11 +20,11 @@ import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { FocusAwareStatusBar } from '../../FocusAwareStatusBar'
 
 interface DestructionModalProps {
-	title?: string
-	name?: string
-	visibility: boolean
-	closeModal: () => void
-	onPressButton: () => void
+	title?: string;
+	name?: string;
+	visibility: boolean;
+	closeModal: () => void;
+	onPressButton: () => void;
 }
 
 function DestructionModal({
@@ -53,18 +53,20 @@ function DestructionModal({
 					</CloseIcon>
 					<Title>{`${title}`}</Title>
 					<Description>
-						{`você tem certeza que quer ${title} `} 
+						{`você tem certeza que quer ${title} `}
 						<Title>{name}</Title>
 						{'?'}
 					</Description>
 
 					<ButtonsContainer>
 						<PrimaryButton
+							flexDirection={'row-reverse'}
 							color={theme.green3}
 							labelColor={theme.white3}
-							label={`sim, ${title}.`}
+							label={`sim, ${title}`}
+							highlightedWords={['sim', 'apagar', 'post', 'denunciar']}
 							fontSize={18}
-							SvgIcon={RightCurvedArrow}
+							SvgIcon={CheckIcon}
 							svgIconScale={['40%', '16%']}
 							onPress={onPressButton}
 						/>
@@ -72,6 +74,7 @@ function DestructionModal({
 							flexDirection={'row-reverse'}
 							color={theme.red3}
 							label={'não, cancelar'}
+							highlightedWords={['não', 'cancelar']}
 							labelColor={theme.white3}
 							fontSize={18}
 							SvgIcon={Uncheck}
