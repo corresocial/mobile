@@ -13,7 +13,7 @@ import {
 } from './styles'
 import { theme } from '../../../common/theme'
 import SocialImpactIcon from '../../../assets/icons/socialImpact-filled.svg'
-import SaleIcon from '../../../assets/icons/sale-filled.svg'
+import CommerceIcon from '../../../assets/icons/commerce.svg'
 import CultureIcon from '../../../assets/icons/culture-filled.svg'
 import ServiceIcon from '../../../assets/icons/service-filled.svg'
 import VacancyIcon from '../../../assets/icons/vacancy-filled.svg'
@@ -336,7 +336,7 @@ function Home({ navigation }: HomeScreenProps) {
 					fontSize={7.5}
 					onPress={() => navigateToPostCategories('sale')}
 					label={'comércio'}
-					SvgIcon={SaleIcon}
+					SvgIcon={CommerceIcon}
 					svgScale={['50%', '80%']}
 					flexDirection={'column'}
 				/>
