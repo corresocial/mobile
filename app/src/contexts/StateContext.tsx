@@ -11,61 +11,89 @@ import { AuthContext } from './AuthContext'
 
 import { TourModal } from '../components/_modals/TourModal'
 import { ShareModal } from '../components/_modals/ShareModal'
+import { DestructionModal } from '../components/_modals/DestructionModal'
 
 type StateContextType = {
-	stateDataContext: StateData
-	setStateDataOnContext: (data: StateData) => void,
-	toggleTourModalVisibility: (visibility: boolean, navigation: any) => void // TODO type
-	toggleShareModalVisibility: (visibility: boolean) => void
-}
+	stateDataContext: StateData;
+	setStateDataOnContext: (data: StateData) => void;
+	toggleTourModalVisibility: (visibility: boolean, navigation: any) => void; // TODO type
+	toggleShareModalVisibility: (visibility: boolean) => void;
+	toggleDestructionModalVisibility: (
+		visibility: boolean,
+		title: string,
+		name: string
+	) => void;
+};
 
 interface StateProviderProps {
-	children: React.ReactNode
+	children: React.ReactNode;
 }
 
 const initialValue = {
 	stateDataContext: {
 		showTourModal: false,
-		showShareModal: false
+		showShareModal: false,
+		showDestructionModal: false,
 	},
-	setStateDataOnContext: (data: StateData) => { },
-	toggleTourModalVisibility: (visibility: boolean) => { },
-	toggleShareModalVisibility: (visibility: boolean) => { }
+	setStateDataOnContext: (data: StateData) => {},
+	toggleTourModalVisibility: (visibility: boolean) => {},
+	toggleShareModalVisibility: (visibility: boolean) => {},
+	toggleDestructionModalVisibility: (visibility: boolean) => {},
 } as any
 
 const StateContext = createContext<StateContextType>(initialValue)
 
 type Handler = {
-	navigation: any // TODO type
-}
+	navigation: any; // TODO type
+};
 
 function StateProvider({ children }: StateProviderProps) {
 	const { setUserDataOnContext, userDataContext } = useContext(AuthContext)
 
-	const [stateDataContext, setStateDataContext] = useState(initialValue.stateDataContext)
-	const [handlerTourModalButton, setHandlerTourModalButton] = useState<Handler>()
+	const [stateDataContext, setStateDataContext] = useState(
+		initialValue.stateDataContext
+	)
+	const [handlerTourModalButton, setHandlerTourModalButton] =		useState<Handler>()
 
 	const setStateDataOnContext = async (data: StateData) => {
 		setStateDataContext({
-			...stateDataContext, ...data
+			...stateDataContext,
+			...data,
 		})
 	}
 
 	const sharePost = () => {
 		const { lastPostTitle } = stateDataContext
-		share(`tô anunciando ${lastPostTitle} lá no corre.\n\nhttps://corre.social`)
+		share(
+			`tô anunciando ${lastPostTitle} lá no corre.\n\nhttps://corre.social`
+		)
 	}
 
-	const toggleTourModalVisibility = (visibility: boolean, tourHandler?: any) => {
+	const toggleTourModalVisibility = (
+		visibility: boolean,
+		tourHandler?: any
+	) => {
 		setStateDataOnContext({
-			showTourModal: visibility
+			showTourModal: visibility,
 		})
 		setHandlerTourModalButton(tourHandler)
 	}
 
+	const toggleDestructionModalVisibility = (
+		visibility: boolean,
+		title: string,
+		name: string
+	) => {
+		setStateDataOnContext({
+			showShareModal: visibility,
+			title,
+			name,
+		})
+	}
+
 	const toggleShareModalVisibility = (visibility: boolean) => {
 		setStateDataOnContext({
-			showShareModal: visibility
+			showShareModal: visibility,
 		})
 	}
 
@@ -73,7 +101,7 @@ function StateProvider({ children }: StateProviderProps) {
 		if (handlerTourModalButton) {
 			handlerTourModalButton.navigation.navigate('SelectPostType')
 			setStateDataOnContext({
-				showTourModal: false
+				showTourModal: false,
 			})
 			setUserTourPerformed()
 		} else {
@@ -83,17 +111,21 @@ function StateProvider({ children }: StateProviderProps) {
 
 	const setUserTourPerformed = async () => {
 		await updateUser(userDataContext.userId as Id, {
-			tourPerformed: true
+			tourPerformed: true,
 		})
 		setUserDataOnContext({ tourPerformed: true })
 	}
 
-	const stateProviderData = useMemo(() => ({
-		stateDataContext,
-		setStateDataOnContext,
-		toggleShareModalVisibility,
-		toggleTourModalVisibility
-	}), [stateDataContext])
+	const stateProviderData = useMemo(
+		() => ({
+			stateDataContext,
+			setStateDataOnContext,
+			toggleShareModalVisibility,
+			toggleTourModalVisibility,
+			toggleDestructionModalVisibility,
+		}),
+		[stateDataContext]
+	)
 
 	return (
 		<StateContext.Provider value={stateProviderData}>
@@ -101,7 +133,7 @@ function StateProvider({ children }: StateProviderProps) {
 				visibility={stateDataContext.showTourModal}
 				closeModal={() => {
 					setStateDataOnContext({
-						showTourModal: false
+						showTourModal: false,
 					})
 					setUserTourPerformed()
 				}}
@@ -111,10 +143,27 @@ function StateProvider({ children }: StateProviderProps) {
 				visibility={stateDataContext.showShareModal}
 				closeModal={() => {
 					setStateDataOnContext({
-						showShareModal: false
+						showShareModal: false,
 					})
 				}}
 				onPressButton={sharePost}
+			/>
+			<DestructionModal
+				visibility={stateDataContext.showDestructionModal}
+				closeModal={() => {
+					setStateDataOnContext({
+						showDestructionModal: false,
+						title: stateDataContext.title,
+						name: stateDataContext.name,
+					})
+				}}
+				onPressButton={() => {
+					setStateDataOnContext({
+						showDestructionModal: false,
+						title: stateDataContext.title,
+						name: stateDataContext.name,
+					})
+				}}
 			/>
 			{children}
 		</StateContext.Provider>

@@ -11,214 +11,217 @@ import {
 	UserCollection,
 	VacancyType,
 	WeekdaysFrequency,
-	WorkplaceType
+	WorkplaceType,
 } from '../services/firebase/types'
 import { CurrentCategory, SearchParams } from '../services/maps/types'
 
 export type UserIdentification = {
-	uid: string
-	authTime: string
-	accessToken: string
-	tokenExpirationTime: string
-	refreshToken: string
-}
+	uid: string;
+	authTime: string;
+	accessToken: string;
+	tokenExpirationTime: string;
+	refreshToken: string;
+};
 
 export type RegisterUserData = {
-	cellNumber: string
-	userName: string
-	profilePictureUri?: string
-	userIdentification: UserIdentification
-}
+	cellNumber: string;
+	userName: string;
+	profilePictureUri?: string;
+	userIdentification: UserIdentification;
+};
 
 export interface LocalUserData extends UserCollection {
-	userId?: string,
-	userIdentification?: UserIdentification
+	userId?: string;
+	userIdentification?: UserIdentification;
 }
 
 export interface UserData extends UserCollection {
-	userId?: string,
-	userIdentification?: UserIdentification,
-	verificationCodeId?: string,
-	cellNumber?: string
+	userId?: string;
+	userIdentification?: UserIdentification;
+	verificationCodeId?: string;
+	cellNumber?: string;
 }
 
 export interface StateData {
-	showTourModal?: boolean
-	showShareModal?: boolean
-	lastPostTitle?: string
+	showTourModal?: boolean;
+	showShareModal?: boolean;
+	showDestructionModal?: boolean;
+	lastPostTitle?: string;
+	title?: string;
+	name?: string;
 }
 
 export type LocationData = {
-	searchParams?: SearchParams
-	currentCategory?: CurrentCategory
-	nearbyPosts?: PostCollectionRemote[]
-	lastRefreshInMilliseconds?: number
-}
+	searchParams?: SearchParams;
+	currentCategory?: CurrentCategory;
+	nearbyPosts?: PostCollectionRemote[];
+	lastRefreshInMilliseconds?: number;
+};
 
 export type ServiceData = {
-	description?: string // on context
-	title?: string
-	category?: string
-	tags?: string[]
-	paymentType?: PaymentType
-	saleValue?: string
-	exchangeValue?: string
-	locationView?: LocationViewType
-	range?: DeliveryMethod
-	attendanceFrequency?: WeekdaysFrequency
-	attendanceWeekDays?: DaysOfWeek[]
-	openingHour?: Date
-	closingHour?: Date
-	picturesUrl?: string[]
+	description?: string; // on context
+	title?: string;
+	category?: string;
+	tags?: string[];
+	paymentType?: PaymentType;
+	saleValue?: string;
+	exchangeValue?: string;
+	locationView?: LocationViewType;
+	range?: DeliveryMethod;
+	attendanceFrequency?: WeekdaysFrequency;
+	attendanceWeekDays?: DaysOfWeek[];
+	openingHour?: Date;
+	closingHour?: Date;
+	picturesUrl?: string[];
 	location?: {
-		country?: string
-		state?: string
-		city?: string
-		postalCode?: string
-		district?: string
-		street?: string
-		number?: string
-		reference?: string
+		country?: string;
+		state?: string;
+		city?: string;
+		postalCode?: string;
+		district?: string;
+		street?: string;
+		number?: string;
+		reference?: string;
 		coordinates?: {
-			latitude?: number
-			longitude?: number
-		}
-		geohash?: string
-		geohashNear?: string[]
-		geohashCity?: string[]
-	}
-}
+			latitude?: number;
+			longitude?: number;
+		};
+		geohash?: string;
+		geohashNear?: string[];
+		geohashCity?: string[];
+	};
+};
 
 export type SaleData = {
-	title?: string
-	itemDescription?: string
-	tags?: string[]
-	category?: string
-	paymentType?: PaymentType
-	saleValue?: string
-	exchangeValue?: string
-	locationView?: LocationViewType
-	range?: DeliveryMethod
-	attendanceFrequency?: WeekdaysFrequency
-	attendanceWeekDays?: DaysOfWeek[]
-	openingHour?: Date
-	closingHour?: Date
-	picturesUrl?: string[]
+	title?: string;
+	itemDescription?: string;
+	tags?: string[];
+	category?: string;
+	paymentType?: PaymentType;
+	saleValue?: string;
+	exchangeValue?: string;
+	locationView?: LocationViewType;
+	range?: DeliveryMethod;
+	attendanceFrequency?: WeekdaysFrequency;
+	attendanceWeekDays?: DaysOfWeek[];
+	openingHour?: Date;
+	closingHour?: Date;
+	picturesUrl?: string[];
 	location?: {
-		country?: string
-		state?: string
-		city?: string
-		postalCode?: string
-		district?: string
-		street?: string
-		number?: string
-		reference?: string
+		country?: string;
+		state?: string;
+		city?: string;
+		postalCode?: string;
+		district?: string;
+		street?: string;
+		number?: string;
+		reference?: string;
 		coordinates?: {
-			latitude?: number
-			longitude?: number
-		}
-		geohash?: string
-		geohashNear?: string[]
-		geohashCity?: string[]
-	}
-}
+			latitude?: number;
+			longitude?: number;
+		};
+		geohash?: string;
+		geohashNear?: string[];
+		geohashCity?: string[];
+	};
+};
 
 export type VacancyData = {
-	title?: string
-	description?: string
-	vacancyType?: VacancyType
-	workplace?: WorkplaceType
-	range?: ExhibitionPlaceType
-	companyDescription?: string
-	questions?: string[]
-	workWeekdays?: DaysOfWeek[]
-	startWorkDate?: Date
-	endWorkDate?: Date
-	startWorkHour?: Date
-	endWorkHour?: Date
-	tags?: string[]
-	category?: string
+	title?: string;
+	description?: string;
+	vacancyType?: VacancyType;
+	workplace?: WorkplaceType;
+	range?: ExhibitionPlaceType;
+	companyDescription?: string;
+	questions?: string[];
+	workWeekdays?: DaysOfWeek[];
+	startWorkDate?: Date;
+	endWorkDate?: Date;
+	startWorkHour?: Date;
+	endWorkHour?: Date;
+	tags?: string[];
+	category?: string;
 	location?: {
-		country?: string
-		state?: string
-		city?: string
-		postalCode?: string
-		district?: string
-		street?: string
-		number?: string
-		reference?: string
+		country?: string;
+		state?: string;
+		city?: string;
+		postalCode?: string;
+		district?: string;
+		street?: string;
+		number?: string;
+		reference?: string;
 		coordinates?: {
-			latitude?: number
-			longitude?: number
-		}
-		geohash?: string
-		geohashNear?: string[]
-		geohashCity?: string[]
-	}
-}
+			latitude?: number;
+			longitude?: number;
+		};
+		geohash?: string;
+		geohashNear?: string[];
+		geohashCity?: string[];
+	};
+};
 
 export type CultureData = {
-	title?: string
-	description?: string
-	cultureType?: CultureType
-	locationView?: LocationViewType
-	range?: ExhibitionPlaceType
-	eventPlaceModality?: PlaceModalityType
-	eventRepeat?: EventRepeatType
-	entryValue?: string
-	eventStartDate?: Date
-	eventEndDate?: Date
-	eventStartHour?: Date
-	eventEndHour?: Date
-	picturesUrl?: string[]
-	tags?: string[]
-	category?: string
+	title?: string;
+	description?: string;
+	cultureType?: CultureType;
+	locationView?: LocationViewType;
+	range?: ExhibitionPlaceType;
+	eventPlaceModality?: PlaceModalityType;
+	eventRepeat?: EventRepeatType;
+	entryValue?: string;
+	eventStartDate?: Date;
+	eventEndDate?: Date;
+	eventStartHour?: Date;
+	eventEndHour?: Date;
+	picturesUrl?: string[];
+	tags?: string[];
+	category?: string;
 	location?: {
-		country?: string
-		state?: string
-		city?: string
-		postalCode?: string
-		district?: string
-		street?: string
-		number?: string
-		reference?: string
+		country?: string;
+		state?: string;
+		city?: string;
+		postalCode?: string;
+		district?: string;
+		street?: string;
+		number?: string;
+		reference?: string;
 		coordinates?: {
-			latitude?: number
-			longitude?: number
-		}
-		geohash?: string
-		geohashNear?: string[]
-		geohashCity?: string[]
-	}
-}
+			latitude?: number;
+			longitude?: number;
+		};
+		geohash?: string;
+		geohashNear?: string[];
+		geohashCity?: string[];
+	};
+};
 
 export type SocialImpactData = {
-	title?: string
-	description?: string
-	tags?: string[]
-	category?: string
-	locationView?: LocationViewType
-	range?: ExhibitionPlaceType
-	exhibitionWeekDays?: DaysOfWeek[]
-	socialImpactRepeat?: EventRepeatType
-	openingHour?: Date
-	closingHour?: Date
-	picturesUrl?: string[]
+	title?: string;
+	description?: string;
+	tags?: string[];
+	category?: string;
+	locationView?: LocationViewType;
+	range?: ExhibitionPlaceType;
+	exhibitionWeekDays?: DaysOfWeek[];
+	socialImpactRepeat?: EventRepeatType;
+	openingHour?: Date;
+	closingHour?: Date;
+	picturesUrl?: string[];
 	location?: {
-		country?: string
-		state?: string
-		city?: string
-		postalCode?: string
-		district?: string
-		street?: string
-		number?: string
-		reference?: string
+		country?: string;
+		state?: string;
+		city?: string;
+		postalCode?: string;
+		district?: string;
+		street?: string;
+		number?: string;
+		reference?: string;
 		coordinates?: {
-			latitude?: number
-			longitude?: number
-		}
-		geohash?: string
-		geohashNear?: string[]
-		geohashCity?: string[]
-	}
-}
+			latitude?: number;
+			longitude?: number;
+		};
+		geohash?: string;
+		geohashNear?: string[];
+		geohashCity?: string[];
+	};
+};

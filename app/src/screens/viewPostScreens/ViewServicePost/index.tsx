@@ -104,7 +104,8 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 			title: 'denunciar',
 			contactUsType: 'denúncia',
 			reportedType: postData.postType,
-			reportedId: postData.postId
+			reportedId: postData.postId,
+			reportedTitle: postData.title
 		})
 	}
 

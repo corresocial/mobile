@@ -142,7 +142,8 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 			title: 'denunciar',
 			contactUsType: 'denúncia',
 			reportedType: postData.postType,
-			reportedId: postData.postId
+			reportedId: postData.postId,
+			reportedTitle: postData.title
 		})
 	}
 

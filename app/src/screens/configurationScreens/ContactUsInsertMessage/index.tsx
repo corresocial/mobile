@@ -8,7 +8,9 @@ import CheckIcon from '../../../assets/icons/check.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { ContactUsInsertMessageScreenProps } from '../../../routes/Stack/userStack/stackScreenProps'
+import { DestructionModal } from '../../../components/_modals/DestructionModal'
+
+import { ContactUsInsertMessageScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
@@ -17,17 +19,28 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { LineInput } from '../../../components/LineInput'
 import { InfoCard } from '../../../components/_cards/InfoCard'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import {
+	relativeScreenHeight,
+	relativeScreenWidth,
+} from '../../../common/screenDimensions'
 import { sendContactUsMessageToDiscord } from '../../../services/discord/contactUs'
 import { sendContactUsMessageToNotion } from '../../../services/notion/contactUs'
 import { Loader } from '../../../components/Loader'
 import { NotionPage } from '../../../services/notion/types'
+import { StateContext } from '../../../contexts/StateContext'
 
-function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScreenProps) {
+function ContactUsInsertMessage({
+	route,
+	navigation,
+}: ContactUsInsertMessageScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
+	const {
+		stateDataContext,
+		toggleDestructionModalVisibility,
+	} = useContext(StateContext)
 
 	const [message, setItemDescription] = useState<string>('')
-	const [messageIsValid, setItemDescriptionIsValid] = useState<boolean>(false)
+	const [messageIsValid, setItemDescriptionIsValid] =		useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -50,7 +63,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 	}
 
 	const validateItemDescription = (text: string) => {
-		const isValid = (text).trim().length >= 1
+		const isValid = text.trim().length >= 1
 		if (isValid && !keyboardOpened) {
 			return true
 		}
@@ -65,7 +78,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 				type: route.params.contactUsType,
 				message,
 				reportTarged: route.params.reportedType,
-				reportedId: route.params.reportedId
+				reportedId: route.params.reportedId,
 			})
 
 			await sendContactUsMessageToDiscord({
@@ -75,11 +88,13 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 				message,
 				reportId: notionPage.reportId,
 				reportedTarget: route.params.reportedType,
-				reportedId: route.params.reportedId
+				reportedId: route.params.reportedId,
 			})
 
 			setIsLoading(false)
-			navigation.navigate('ContactUsSuccess', { reportType: route.params.reportedType || 'none' })
+			navigation.navigate('ContactUsSuccess', {
+				reportType: route.params.reportedType || 'none',
+			})
 		} catch (err) {
 			console.log(err)
 			setIsLoading(false)
@@ -89,7 +104,10 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<StatusBar
+				backgroundColor={theme.orange2}
+				barStyle={'dark-content'}
+			/>
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(25)}
 				centralized
@@ -124,38 +142,45 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 					validateText={(text: string) => validateItemDescription(text)}
 					onChangeText={(text: string) => setItemDescription(text)}
 				/>
-				{
-					messageIsValid && !keyboardOpened && (
-						isLoading
-							? <Loader />
-							: (
-								<ButtonsContainer>
-									<SmallButton
-										relativeWidth={relativeScreenWidth(17)}
-										height={relativeScreenWidth(17)}
-										color={theme.white3}
-										SvgIcon={AngleLeftThin}
-										onPress={() => navigation.goBack()}
-									/>
-									<PrimaryButton
-										color={theme.green3}
-										labelColor={theme.white3}
-										fontSize={18}
-										relativeWidth={'68%'}
-										relativeHeight={relativeScreenHeight(9.3)}
-										labelMarginLeft={5}
-										textAlign={'left'}
-										label={'continuar'}
-										SecondSvgIcon={CheckIcon}
-										svgIconScale={['30%', '15%']}
-										onPress={sendMessage}
-									/>
-								</ButtonsContainer>
-							)
-					)
-				}
+				{messageIsValid
+					&& !keyboardOpened
+					&& (isLoading ? (
+						<Loader />
+					) : (
+						<ButtonsContainer>
+							<SmallButton
+								relativeWidth={relativeScreenWidth(17)}
+								height={relativeScreenWidth(17)}
+								color={theme.white3}
+								SvgIcon={AngleLeftThin}
+								onPress={() => navigation.goBack()}
+							/>
+
+							<PrimaryButton
+								color={theme.green3}
+								labelColor={theme.white3}
+								fontSize={18}
+								relativeWidth={'68%'}
+								relativeHeight={relativeScreenHeight(9.3)}
+								labelMarginLeft={5}
+								textAlign={'left'}
+								label={'continuar'}
+								SecondSvgIcon={CheckIcon}
+								svgIconScale={['30%', '15%']}
+								onPress={() => toggleDestructionModalVisibility(true, route.params.title, String(route.params.reportedTitle))}
+							/>
+
+							<DestructionModal
+								title={route.params.title}
+								name={route.params.reportedTitle}
+								visibility={stateDataContext.showShareModal!}
+								closeModal={() => toggleDestructionModalVisibility(false, route.params.title, String(route.params.reportedTitle))}
+								onPressButton={sendMessage}
+							/>
+						</ButtonsContainer>
+					))}
 			</Body>
-		</Container >
+		</Container>
 	)
 }
 

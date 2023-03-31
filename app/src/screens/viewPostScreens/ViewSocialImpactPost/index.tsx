@@ -101,7 +101,8 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 			title: 'denunciar',
 			contactUsType: 'denúncia',
 			reportedType: postData.postType,
-			reportedId: postData.postId
+			reportedId: postData.postId,
+			reportedTitle: postData.title
 		})
 	}
 

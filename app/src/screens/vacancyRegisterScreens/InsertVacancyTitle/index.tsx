@@ -5,7 +5,7 @@ import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
 import Check from '../../../assets/icons/check.svg'
 
-import { InsertVacancyTitleScreenProps } from '../../../routes/Stack/vacancyStack/stackScreenProps'
+import { InsertVacancyTitleScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
