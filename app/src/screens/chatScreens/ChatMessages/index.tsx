@@ -7,7 +7,7 @@ import { getRemoteChatData } from '../../../services/firebase/chat/getRemoteChat
 import { registerNewChat } from '../../../services/firebase/chat/registerNewChat'
 import { setChatIdToUsers } from '../../../services/firebase/chat/setChatIdToUsers'
 import { makeAllUserMessagesAsRead } from '../../../services/firebase/chat/makeAllUserMessagesAsRead'
-import { getLastMessageObjects, sortChatMessages } from '../../../utils/chat'
+import { getLastMessageObjects } from '../../../utils/chat'
 import { blockUserId } from '../../../services/firebase/chat/blockUser'
 import { unblockUserId } from '../../../services/firebase/chat/unblockUser'
 import { getRemoteUser } from '../../../services/firebase/chat/getRemoteUser'
@@ -46,6 +46,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const [currentChat, setCurrentChat] = useState<Chat>(chatFromRoute)
 	const [messages, setMessages] = useState<MessageObjects>(currentChat.messages)
 	const [isBlockedUser, setIsBlockedUser] = useState(false)
+	const [blockedByOwner, setBlockedByOwner] = useState(false)
 
 	const flatListRef: RefObject<FlatList> = useRef(null)
 
@@ -65,12 +66,18 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		const remoteChatData = await getRemoteChatData(currentChat.user1, currentChat.user2)
 		setCurrentChat(remoteChatData)
 
+		verifyUsersBlock()
+	}
+
+	const verifyUsersBlock = async () => {
 		const { blockedUsers: blockedUsers1 } = await getRemoteUser(currentChat.user1.userId)
 		const { blockedUsers: blockedUsers2 } = await getRemoteUser(currentChat.user2.userId)
 		const blockedUsers = [...blockedUsers1, ...blockedUsers2]
-		console.log(blockedUsers)
+
 		const userIsBlocked = blockedUsers.includes(currentChat.user1.userId) || blockedUsers.includes(currentChat.user2.userId)
-		console.log(`Usuário bloqueado: ${userIsBlocked}`)
+
+		const userBlock = blockedUsers1.includes(currentChat.user2.userId) ? currentChat.user1.userId : currentChat.user2.userId
+		setBlockedByOwner(userBlock === userDataContext.userId)
 		setIsBlockedUser(userIsBlocked)
 	}
 
@@ -112,17 +119,15 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 		setMessages(newMessages)
 
+		await verifyUsersBlock()
 		if (isBlockedUser) {
-			sendMessage(
-				{
-					message: text,
-					dateTime: Date.now(),
-					readed: false,
-					owner: userDataContext.userId as Id,
-				},
-				currentChat.chatId,
-				getUserSenderLabel(currentChat.user1, currentChat.user2)
-			)
+			sendMessage({
+				message: text,
+				dateTime: Date.now(),
+				readed: false,
+				owner: userDataContext.userId as Id,
+				justOwner: true
+			} as any, currentChat.chatId)
 			return
 		}
 
@@ -151,7 +156,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const cleanConversation = async () => {
-		await cleanMessages(currentChat.chatId, getUserReceiverLabel(currentChat.user1, currentChat.user2))
+		await cleanMessages(currentChat.chatId)
+		setChatOptionsIsOpen(false)
 	}
 
 	const generateMessageObject = (text: string) => {
@@ -163,20 +169,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				owner: userDataContext.userId as Id
 			}
 		}
-	}
-
-	const getUserSenderLabel = (user1: UserIdentification, user2: UserIdentification) => {
-		if (userDataContext.userId === user1.userId) {
-			return 'user1'
-		}
-		return 'user2'
-	}
-
-	const getUserReceiverLabel = (user1: UserIdentification, user2: UserIdentification) => {
-		if (userDataContext.userId === user1.userId) {
-			return 'user2'
-		}
-		return 'user1'
 	}
 
 	const getReceiverUserId = (user1: UserIdentification, user2: UserIdentification) => {
@@ -200,19 +192,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		return user1.profilePictureUrl
 	}
 
-	const getOrdenerMessages = () => {
-		console.log(messages)
-		console.log(currentChat[getUserSenderLabel(currentChat.user1, currentChat.user2)])
-		const allMessages = [
-			...Object.values(messages || {}),
-			...Object.values(currentChat[getUserSenderLabel(currentChat.user1, currentChat.user2) || {}].privateMessages || [])
-		]
-
-		if (currentChat[getUserSenderLabel(currentChat.user1, currentChat.user2)].privateMessages) {
-			return allMessages.sort(sortChatMessages)
-		}
-
-		return allMessages
+	const getFilteredMessages = () => {
+		return Object.values(messages || {}).filter((message: Message) => !message.justOwner || (message.justOwner && message.owner === userDataContext.userId))
 	}
 
 	return (
@@ -240,7 +221,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					closePopover={() => setChatOptionsIsOpen(false)}
 					blockUser={blockUser}
 					unblockUser={unblockUser}
-					userIsBlocked={isBlockedUser}
+					userIsBlocked={blockedByOwner && isBlockedUser}
 					cleanConversation={cleanConversation}
 				>
 					<SmallButton
@@ -254,7 +235,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			</Header>
 			<FlatList
 				ref={flatListRef}
-				data={messages ? getOrdenerMessages() : []}
+				data={messages ? getFilteredMessages() : []}
 				renderItem={({ item }: FlatListItem<Message>) => (
 					<MessageCard
 						message={item.message}

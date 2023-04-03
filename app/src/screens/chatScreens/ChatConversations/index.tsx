@@ -24,7 +24,7 @@ import { relativeScreenHeight, relativeScreenWidth } from '../../../common/scree
 import XIcon from '../../../assets/icons/x-thin.svg'
 import LoupIcon from '../../../assets/icons/loupTabIconInactive.svg'
 
-import { MessageObjects, Chat, UserIdentification } from '../../../@types/chat/types'
+import { MessageObjects, Chat, UserIdentification, Message } from '../../../@types/chat/types'
 import { ChatConversationsScreenProps } from '../../../routes/Stack/ChatStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -43,39 +43,33 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TO
 	const [filteredChats, setFilteredChats] = useState<Chat[]>([])
 	const [searchMode, setSearchMode] = useState(false)
 
-	const getLastMessage = (chat: Chat) => {
-		const chatMessages = { ...chat.messages, ...chat[getUserSenderLabel(chat.user1, chat.user2)].privateMessages }
+	const getLastMessage = (messages: MessageObjects) => {
+		const chatMessages = getFilteredMessages(messages)
 		const ordenerMessages = Object.values(chatMessages).sort(sortChatMessages)
 		const lastMessage = getLastMessageObjects(ordenerMessages as any) // TODO Type
 		return lastMessage ? lastMessage.message : ''
 	}
 
-	const getLastMessageDateTime = (chat: Chat) => {
-		const chatMessages = { ...chat.messages, ...chat[getUserSenderLabel(chat.user1, chat.user2)].privateMessages }
+	const getLastMessageDateTime = (messages: MessageObjects) => {
+		const chatMessages = getFilteredMessages(messages)
 		const ordenerMessages = Object.values(chatMessages).sort(sortChatMessages)
 		const lastMessage = getLastMessageObjects(ordenerMessages as any) // TODO Type
 		return formatRelativeDate(lastMessage ? lastMessage.dateTime : new Date())
 	}
 
 	const getNumberOfUnseenMessages = (messages: MessageObjects) => {
-		if (!messages) {
+		const chatMessages = getFilteredMessages(messages)
+		if (!chatMessages) {
 			return 0
 		}
 
-		const unseenMessagesCount = Object.values(messages).reduce((total, message) => {
+		const unseenMessagesCount = Object.values(chatMessages || {}).reduce((total, message) => {
 			if (!message.readed && (userDataContext.userId !== message.owner)) {
 				return total + 1
 			}
 			return total
 		}, 0)
 		return unseenMessagesCount
-	}
-
-	const getUserSenderLabel = (user1: UserIdentification, user2: UserIdentification) => {
-		if (userDataContext.userId === user1.userId) {
-			return 'user1'
-		}
-		return 'user2'
 	}
 
 	const onChangeSearchText = (text: string) => {
@@ -104,6 +98,10 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TO
 
 	const navigateToChatMessages = (item: Chat) => {
 		navigation.navigate('ChatMessages', { chat: { ...item } })
+	}
+
+	const getFilteredMessages = (messages: MessageObjects) => {
+		return Object.values(messages || {}).filter((message: Message) => !message.justOwner || (message.justOwner && message.owner === userDataContext.userId))
 	}
 
 	return (
@@ -170,8 +168,8 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TO
 												key={item.chatId}
 												userName={getUserName(item.user1, item.user2)}
 												profilePictureUrl={getProfilePictureUrl(item.user1, item.user2)}
-												lastMessage={getLastMessage(item)}
-												lastMessageTime={getLastMessageDateTime(item)}
+												lastMessage={getLastMessage(item.messages)}
+												lastMessageTime={getLastMessageDateTime(item.messages)}
 												numberOfUnseenMessages={getNumberOfUnseenMessages(item.messages)}
 												onPress={() => navigateToChatMessages(item)}
 											/>

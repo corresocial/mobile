@@ -20,6 +20,7 @@ export type Message = {
 	dateTime: Date | number
 	readed: boolean
 	owner: string
+	justOwner?: boolean
 }
 
 export type MessageObjects = {
@@ -28,6 +29,7 @@ export type MessageObjects = {
 		dateTime: Date | number
 		readed: boolean
 		owner: string
+		justOwner?: boolean
 	}
 }
 

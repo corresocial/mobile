@@ -1,4 +1,4 @@
-import { ref, set, update } from 'firebase/database'
+import { ref, update } from 'firebase/database'
 import { realTimeDatabase } from '..'
 import { Chat } from '../../../@types/chat/types'
 import { Id } from '../types'
