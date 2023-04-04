@@ -27,6 +27,8 @@ function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenPro
 	const [searchText, setSearchText] = useState('')
 	const [recentPosts, setRecentPosts] = useState<PostCollection[]>([])
 
+	const { nearbyPosts } = locationDataContext
+
 	useEffect(() => {
 		getRecentPosts()
 	}, [])
@@ -140,6 +142,7 @@ function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenPro
 						ListFooterComponent={<HorizontalSigh />}
 						renderItem={({ item }) => (
 							<CategoryCard
+								hasElements={!!(nearbyPosts.filter((post) => post.category === categoryName)).length}
 								title={item}
 								withoutMargin
 								onPress={() => viewPostsByTag(item)}

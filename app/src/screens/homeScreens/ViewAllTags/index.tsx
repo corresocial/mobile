@@ -19,6 +19,8 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 	const { locationDataContext } = useContext(LocationContext)
 
+	const { nearbyPosts } = locationDataContext
+
 	const [searchText, setSearchText] = useState('')
 
 	const renderFiltredCategories = () => {
@@ -34,6 +36,7 @@ function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 			if (tagName === 'outros') return null
 			return (
 				<CategoryCard
+					hasElements={!!((nearbyPosts.map((post) => post.tags.filter((tag) => tag === tagName))).filter((element) => element.map((e) => e.length > 0).length).length)}
 					key={uuid()}
 					title={tagName}
 					onPress={() => viewPostsByTag(tagName)}

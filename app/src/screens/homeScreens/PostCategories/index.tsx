@@ -33,6 +33,8 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const [catalogIcons, setCatalogIcons] = useState([])
 	const [searchText, setSearchText] = useState('')
 
+	const { nearbyPosts } = locationDataContext
+
 	useEffect(() => {
 		setPostTypeOnSearchParams()
 		loadCatalogIcons()
@@ -102,6 +104,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 		if (!currentCategory) {
 			return (
 				<CategoryCard
+					hasElements={false}
 					title={'sem catagorias'}
 					svgUri={''}
 					onPress={() => { }}
@@ -113,12 +116,16 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			? currentCategory
 			: filterCategories(currentCategory)
 
-		const ordenedCategories = Object.values(filtredCategories).sort(sortPostCategories as (a: unknown, b: unknown) => number)
+		const ordenedCategories = Object.values(filtredCategories).sort(sortPostCategories as (a: unknown, b: unknown) => (
+			number
+		))
 
 		return Object.entries(ordenedCategories as CategoryEntries).map((category) => {
 			if (category[1].label === 'outros') return null
+			
 			return (
 				<CategoryCard
+					hasElements={!!(nearbyPosts.filter((post) => post.category === category[1].value)).length}
 					key={uuid()}
 					title={category[1].label}
 					svgUri={getRelativeIconUrl(category[1].slug)}

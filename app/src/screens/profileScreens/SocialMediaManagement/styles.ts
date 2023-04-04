@@ -16,6 +16,7 @@ export const Header = styled.View`
 `
 
 export const Body = styled.View`
+	flex: 1;
 	width: 100%;
 	height: 92%;
 	background-color: ${({ theme }) => theme.orange2};
