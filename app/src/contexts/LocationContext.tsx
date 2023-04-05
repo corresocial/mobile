@@ -33,6 +33,7 @@ const initialValue = {
 		},
 		currentCategory: {
 			backgroundColor: '',
+			inactiveColor: 'white',
 			categoryName: '',
 			categoryTitle: '',
 			categoryIcon: '',

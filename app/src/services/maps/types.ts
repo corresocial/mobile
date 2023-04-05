@@ -26,6 +26,7 @@ export type SearchParams = {
 
 export type CurrentCategory = {
 	backgroundColor: string
+	inactiveColor: string
 	categoryName: string
 	categoryTitle: string
 	categoryIcon: string

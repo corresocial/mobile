@@ -20,7 +20,7 @@ import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { AuthContext } from '../../../contexts/AuthContext'
 
-function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenProps) {
+function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { locationDataContext } = useContext(LocationContext)
 
@@ -38,7 +38,8 @@ function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenPro
 		categoryIcon,
 		categoryName,
 		categoryTags,
-		categoryTitle
+		categoryTitle,
+		inactiveColor
 	} = locationDataContext.currentCategory
 
 	const getRecentPosts = async () => {
@@ -96,7 +97,6 @@ function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenPro
 	}
 
 	const navigateToProfile = (userId: string) => {
-		console.log(userDataContext.userId === userId)
 		if (userDataContext.userId === userId) {
 			navigation.navigate('Profile' as any)// TODO Type
 			return
@@ -142,7 +142,8 @@ function PostCategoryDetails({ route, navigation }: PostCategoryDetailsScreenPro
 						ListFooterComponent={<HorizontalSigh />}
 						renderItem={({ item }) => (
 							<CategoryCard
-								hasElements={!!(nearbyPosts.filter((post) => post.category === categoryName)).length}
+								hasElements={!!(nearbyPosts.filter((post) => post.category === categoryName && post.tags.includes(item))).length}
+								inactiveColor={inactiveColor}
 								title={item}
 								withoutMargin
 								onPress={() => viewPostsByTag(item)}

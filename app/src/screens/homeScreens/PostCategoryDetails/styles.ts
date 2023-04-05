@@ -1,5 +1,3 @@
-import Constants from 'expo-constants'
-import { Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 import { relativeScreenHeight } from '../../../common/screenDimensions'

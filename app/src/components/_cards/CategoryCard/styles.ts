@@ -3,7 +3,8 @@ import styled from 'styled-components/native'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 interface ContainerInnerProps {
-	hasElements: boolean;
+	inactiveColor: string
+	hasElements: boolean
 }
 
 export const Container = styled.TouchableHighlight`
@@ -21,12 +22,11 @@ export const ContainerInner = styled.View<ContainerInnerProps>`
 	justify-content: center;
 	width: 100%;
 	height: 100%;
-	background-color: ${({ theme }) => theme.white3}
+	background-color: ${(props) => (props.hasElements ? props.theme.white3 : props.inactiveColor)}
 	border-radius: ${RFValue(15)}px;
 	margin-left: ${RFValue(-7)}px;
 	border: ${RFValue(2.5)}px solid ${({ theme }) => theme.black4};
 	overflow: hidden;
-	opacity: ${(props) => (props.hasElements ? 1 : 0.7)}
 `
 
 export const Title = styled.Text`

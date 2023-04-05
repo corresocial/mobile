@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
-import { SvgProps, SvgUri } from 'react-native-svg'
+import { SvgUri } from 'react-native-svg'
 
 import { Container, ContainerInner, Title } from './styles'
 
@@ -8,10 +8,11 @@ interface CategoryCardProps {
 	title: string
 	withoutMargin?: boolean
 	svgUri?: string
-	onPress: () => void
 	hasElements: boolean;
+	inactiveColor?: string;
+	onPress: () => void
 }
-function CategoryCard({ title, hasElements, withoutMargin, svgUri, onPress }: CategoryCardProps) {
+function CategoryCard({ title, hasElements, withoutMargin, svgUri, inactiveColor = 'white', onPress }: CategoryCardProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	function pressingButton() {
@@ -37,6 +38,7 @@ function CategoryCard({ title, hasElements, withoutMargin, svgUri, onPress }: Ca
 		>
 			<ContainerInner
 				hasElements={hasElements}
+				inactiveColor={inactiveColor}
 				style={{
 					marginLeft: buttonPressed ? 0 : RFValue(-7)
 				}}

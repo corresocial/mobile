@@ -65,6 +65,17 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 		}
 	}
 
+	const getInactiveCardColor = () => {
+		switch (route.params.postType) {
+			case 'service': return theme.purple1
+			case 'sale': return theme.green1
+			case 'vacancy': return theme.yellow1
+			case 'culture': return theme.blue1
+			case 'socialImpact': return theme.pink1
+			default: return theme.orange1
+		}
+	}
+
 	const getRelativeCategory = () => {
 		switch (route.params.postType) {
 			case 'service': return serviceCategories
@@ -116,16 +127,15 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			? currentCategory
 			: filterCategories(currentCategory)
 
-		const ordenedCategories = Object.values(filtredCategories).sort(sortPostCategories as (a: unknown, b: unknown) => (
-			number
-		))
+		const ordenedCategories = Object.values(filtredCategories).sort(sortPostCategories as (a: unknown, b: unknown) => (number))
 
 		return Object.entries(ordenedCategories as CategoryEntries).map((category) => {
 			if (category[1].label === 'outros') return null
-			
+
 			return (
 				<CategoryCard
 					hasElements={!!(nearbyPosts.filter((post) => post.category === category[1].value)).length}
+					inactiveColor={getInactiveCardColor()}
 					key={uuid()}
 					title={category[1].label}
 					svgUri={getRelativeIconUrl(category[1].slug)}
@@ -152,6 +162,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const navigateToCategoryDetails = (categorySelected: MacroCategory) => {
 		const currentCategory = {
 			backgroundColor: getRelativeColor(),
+			inactiveColor: getInactiveCardColor(),
 			categoryName: categorySelected.value,
 			categoryTitle: categorySelected.label,
 			categoryIcon: getRelativeIconUrl(categorySelected.slug),
@@ -165,6 +176,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const navigateToResultScreen = () => {
 		const currentCategory = {
 			backgroundColor: getRelativeColor(),
+			inactiveColor: getInactiveCardColor(),
 			categoryName: '',
 			categoryTitle: '',
 			categoryIcon: '',
