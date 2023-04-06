@@ -33,7 +33,7 @@ import { getUser } from '../../../services/firebase/user/getUser'
 import { arrayIsEmpty, sortArray, sortPostsByCreatedData } from '../../../common/auxiliaryFunctions'
 
 import { LocalUserData } from '../../../contexts/types'
-import { Id, PostCollection, SocialMedia } from '../../../services/firebase/types'
+import { Id, PostCollection, PostCollectionRemote, SocialMedia } from '../../../services/firebase/types'
 import { HomeTabScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -262,9 +262,9 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const getUserPosts = () => {
 		if (route.params && route.params.userId) {
-			return user.posts ? user.posts.sort(sortPostsByCreatedData as any) : [] // TODO Type
+			return user.posts ? user.posts.sort(sortPostsByCreatedData as (a: PostCollection, b: PostCollection) => number) : []
 		}
-		return userDataContext.posts ? userDataContext.posts.sort(sortPostsByCreatedData as any) : [] // TODO Type
+		return userDataContext.posts ? userDataContext.posts.sort(sortPostsByCreatedData) : []
 	}
 
 	return (

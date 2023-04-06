@@ -96,7 +96,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 
 	const getUserPostsWithoutEdited = () => {
 		const userPosts = userDataContext.posts || []
-		return userPosts.filter((post: any) => post.postId !== postData.postId) // TODO Type
+		return userPosts.filter((post: ServiceCollection) => post.postId !== postData.postId)
 	}
 
 	const editPost = async () => {

@@ -35,7 +35,7 @@ import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ConversationCard } from '../../../components/_cards/ConversationCard'
 
-function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TODO TYPE
+function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { chatDataContext } = useContext(ChatContext)
 
@@ -46,14 +46,14 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) { // TO
 	const getLastMessage = (messages: MessageObjects) => {
 		const chatMessages = getFilteredMessages(messages)
 		const ordenerMessages = Object.values(chatMessages).sort(sortChatMessages)
-		const lastMessage = getLastMessageObjects(ordenerMessages as any) // TODO Type
+		const lastMessage = getLastMessageObjects(ordenerMessages)
 		return lastMessage ? lastMessage.message : ''
 	}
 
 	const getLastMessageDateTime = (messages: MessageObjects) => {
 		const chatMessages = getFilteredMessages(messages)
 		const ordenerMessages = Object.values(chatMessages).sort(sortChatMessages)
-		const lastMessage = getLastMessageObjects(ordenerMessages as any) // TODO Type
+		const lastMessage = getLastMessageObjects(ordenerMessages as any)
 		return formatRelativeDate(lastMessage ? lastMessage.dateTime : new Date())
 	}
 

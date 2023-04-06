@@ -17,7 +17,7 @@ async function makeAllUserMessagesAsRead(chatId: Id, userId: Id) {
 		return message
 	})
 
-	// Está mudando o ID das mesnsagems // TODO See
+	// Está mudando o ID das mesnsagems // See
 
 	const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
 	const updateMessages = {

@@ -110,7 +110,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 			navigation.navigate('Profile')
 			return
 		}
-		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
+		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })
 	}
 
 	const getPostField = (fieldName: keyof SocialImpactCollection) => {

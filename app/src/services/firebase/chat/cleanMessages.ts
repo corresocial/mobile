@@ -19,8 +19,6 @@ async function cleanMessages(chatId: Id, userCanView: Id) {
 
 	await set(chatMessages, removedForSingleUser)
 
-	// await remove(chatMessages)
-
 	return true
 }
 
