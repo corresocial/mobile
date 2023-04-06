@@ -101,7 +101,19 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	}
 
 	const getFilteredMessages = (messages: MessageObjects) => {
-		return Object.values(messages || {}).filter((message: Message) => !message.justOwner || (message.justOwner && message.owner === userDataContext.userId))
+		return Object.values(messages || {}).filter((message: Message) => (
+			!message.justOwner || (message.justOwner && message.owner === userDataContext.userId))
+			&& (!message.userCanView || message.userCanView === userDataContext.userId))
+	}
+
+	const getOrdenedChatsByDateTime = () => {
+		return chatDataContext.sort(sortChats)
+	}
+
+	const sortChats = (a: Chat, b: Chat) => {
+		if (getLastMessageDateTime(a.messages) < getLastMessageDateTime(b.messages)) return 1
+		if (getLastMessageDateTime(a.messages) > getLastMessageDateTime(b.messages)) return -1
+		return 0
 	}
 
 	return (
@@ -160,7 +172,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 						)
 						: (
 							<ConversationList
-								data={!searchText ? chatDataContext : filteredChats}
+								data={!searchText ? getOrdenedChatsByDateTime() : filteredChats}
 								renderItem={({ item }: { item: Chat }) => {
 									if (item) {
 										return (
