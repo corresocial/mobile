@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { StatusBar, ScrollView, Linking } from 'react-native'
+import { StatusBar, ScrollView } from 'react-native'
 
 import {
 	Body,
@@ -21,7 +21,6 @@ import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 import { arrayIsEmpty, formatRelativeDate, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { share } from '../../../common/share'
-import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 
 import { ViewVacancyPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { PostCollection, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
@@ -131,9 +130,25 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	}
 
 	const openChat = async () => {
-		const { cellNumber } = await getPrivateContacts(postData.owner.userId)
-		const message = `olá! vi que publicou ${getPostField('title')} no corre. Podemos conversar?`
-		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
+		const userId1 = userDataContext.userId
+		const userId2 = postData.owner.userId
+
+		navigation.navigate('ChatMessages', {
+			chat: {
+				chatId: '',
+				user1: {
+					userId: userId1,
+					name: userDataContext.name,
+					profilePictureUrl: userDataContext.profilePictureUrl[0] || ''
+				},
+				user2: {
+					userId: userId2,
+					name: postData.owner.name,
+					profilePictureUrl: getProfilePictureUrl() || ''
+				},
+				messages: {}
+			}
+		})
 	}
 
 	const reportPost = () => {

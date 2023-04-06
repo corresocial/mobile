@@ -13,12 +13,10 @@ const getLastMessageObjects = (messages: MessageObjects | Message[]) => {
 	}
 
 	if (Array.isArray(messages)) {
-		console.log('array')
 		return messages[messages.length - 1]
 	}
 
 	if (typeof (messages) === 'object') {
-		console.log('Object')
 		const keys = Object.keys(messages)
 		const lastMessageId: any = keys[keys.length - 1]
 		return messages[lastMessageId]
