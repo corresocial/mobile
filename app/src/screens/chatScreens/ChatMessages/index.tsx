@@ -79,6 +79,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		const userBlock = blockedUsers1.includes(currentChat.user2.userId) ? currentChat.user1.userId : currentChat.user2.userId
 		setBlockedByOwner(userBlock === userDataContext.userId)
 		setIsBlockedUser(userIsBlocked)
+		return userIsBlocked
 	}
 
 	const startMessagesListener = async (chatId: Id) => {
@@ -119,8 +120,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 		setMessages(newMessages)
 
-		await verifyUsersBlock()
-		if (isBlockedUser) {
+		const userBlock = await verifyUsersBlock()
+		if (userBlock) {
 			sendMessage({
 				message: text,
 				dateTime: Date.now(),
@@ -144,6 +145,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		await blockUserId(targetUserId, userDataContext.userId)
 
 		setChatOptionsIsOpen(false)
+		setBlockedByOwner(true)
 		setIsBlockedUser(true)
 	}
 
@@ -156,7 +158,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const cleanConversation = async () => {
-		await cleanMessages(currentChat.chatId)
+		await cleanMessages(currentChat.chatId, getReceiverUserId(currentChat.user1, currentChat.user2))
+		setMessages({})
 		setChatOptionsIsOpen(false)
 	}
 
@@ -193,7 +196,9 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const getFilteredMessages = () => {
-		return Object.values(messages || {}).filter((message: Message) => !message.justOwner || (message.justOwner && message.owner === userDataContext.userId))
+		return Object.values(messages || {}).filter((message: Message) => (
+			!message.justOwner || (message.justOwner && message.owner === userDataContext.userId))
+			&& (!message.userCanView || message.userCanView === userDataContext.userId))
 	}
 
 	return (

@@ -21,6 +21,7 @@ export type Message = {
 	readed: boolean
 	owner: string
 	justOwner?: boolean
+	userCanView?: string
 }
 
 export type MessageObjects = {
@@ -30,6 +31,7 @@ export type MessageObjects = {
 		readed: boolean
 		owner: string
 		justOwner?: boolean
+		userCanView?: string
 	}
 }
 
