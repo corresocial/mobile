@@ -56,7 +56,7 @@ export function UserStack({ route }: any) {
 				<StateProvider>
 					<EditProvider>
 						<Stack.Navigator
-							initialRouteName={tourPerformed ? 'HomeTab' : 'WelcomeNewUser'}
+							initialRouteName={tourPerformed ? 'WelcomeNewUser' : 'WelcomeNewUser'}
 							screenOptions={{
 								headerShown: false,
 								gestureEnabled: true,

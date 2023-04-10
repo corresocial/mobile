@@ -21,7 +21,7 @@ import { LoaderProvider } from './src/contexts/LoaderContext'
 import { ErrorBoundaryFallback } from './src/screens/ErrorBoundaryFallback'
 import { errorHandler } from './src/utils/errorHandler'
 
-Sentry.init(sentryConfig)
+// Sentry.init(sentryConfig)
 LogBox.ignoreLogs(ignoredLogs)
 
 function App() {
@@ -41,15 +41,15 @@ function App() {
 	}
 
 	return (
-		<ErrorBoundary FallbackComponent={ErrorBoundaryFallback} onError={errorHandler}>
-			<NavigationContainer>
-				<ThemeProvider theme={theme}>
-					<LoaderProvider>
-						<AuthRegisterStack />
-					</LoaderProvider>
-				</ThemeProvider>
-			</NavigationContainer>
-		</ErrorBoundary>
+		// <ErrorBoundary FallbackComponent={ErrorBoundaryFallback} onError={errorHandler}>
+		<NavigationContainer>
+			<ThemeProvider theme={theme}>
+				<LoaderProvider>
+					<AuthRegisterStack />
+				</LoaderProvider>
+			</ThemeProvider>
+		</NavigationContainer>
+		// </ErrorBoundary>
 	)
 }
 

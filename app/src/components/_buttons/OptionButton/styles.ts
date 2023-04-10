@@ -27,7 +27,7 @@ export const ContainerSurface = styled.View`
     justify-content: space-between;
     width: 100%;
     border-radius:${RFValue(13)}px;
-    border: ${RFValue(2)}px solid black;
+    border: ${RFValue(2.5)}px solid black;
     background-color: ${({ theme }) => theme.white3};
     overflow: hidden;
     position: absolute;

@@ -14,6 +14,7 @@ import {
 import { theme } from '../../../common/theme'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 interface OptionButtonProps {
 	color: string
@@ -35,7 +36,7 @@ function OptionButton({
 	color,
 	label,
 	labelColor,
-	labelSize = 20,
+	labelSize = 22,
 	relativeHeight,
 	labelAlign = 'center',
 	highlightedWords,
@@ -61,7 +62,7 @@ function OptionButton({
 		onPress()
 	}
 
-	const heightWithoutDescription = relativeHeight || RFValue(75)
+	const heightWithoutDescription = relativeHeight || relativeScreenHeight(10)
 
 	return (
 		<TouchableContainer
@@ -71,7 +72,7 @@ function OptionButton({
 		>
 			<ContainerBottom
 				style={{
-					height: description ? RFValue(137) : heightWithoutDescription
+					height: description ? relativeScreenHeight(19) : heightWithoutDescription
 				}}
 			>
 				<ContainerSurface
