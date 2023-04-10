@@ -4,7 +4,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
-export const Container = styled.View`
+export const Container = styled.KeyboardAvoidingView`
 	flex: 1;
 	background-color: ${({ theme }) => theme.orange1};
 	padding-bottom: ${relativeScreenHeight(9)}px;

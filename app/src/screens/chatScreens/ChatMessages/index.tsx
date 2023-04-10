@@ -1,6 +1,6 @@
 import React, { RefObject, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import uuid from 'react-uuid'
-import { FlatList } from 'react-native'
+import { FlatList, Platform } from 'react-native'
 import { get, onValue, ref } from 'firebase/database'
 
 import { getRemoteChatData } from '../../../services/firebase/chat/getRemoteChatData'
@@ -202,7 +202,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	return (
-		<Container>
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<SmallButton

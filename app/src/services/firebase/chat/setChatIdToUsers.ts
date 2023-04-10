@@ -3,7 +3,6 @@ import { realTimeDatabase } from '..'
 import { Id } from '../types'
 
 async function setChatIdToUsers(userIds: Id[], chatId: Id) {
-	console.log(userIds)
 	userIds.forEach(async (userId) => {
 		const realTimeDatabaseRef = ref(realTimeDatabase, `${userId}/chatIds`)
 		const dataAlreadyRegistred = await getUserChatIds(userId) || []

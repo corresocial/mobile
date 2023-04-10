@@ -50,10 +50,14 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		return lastMessage ? lastMessage.message : ''
 	}
 
-	const getLastMessageDateTime = (messages: MessageObjects) => {
+	const getLastMessageDateTime = (messages: MessageObjects, inMiliseconds?: boolean) => {
 		const chatMessages = getFilteredMessages(messages)
 		const ordenerMessages = Object.values(chatMessages).sort(sortChatMessages)
 		const lastMessage = getLastMessageObjects(ordenerMessages as any)
+
+		if (inMiliseconds) {
+			return lastMessage.dateTime.toString() || Date.now().toString()
+		}
 		return formatRelativeDate(lastMessage ? lastMessage.dateTime : new Date())
 	}
 
@@ -111,8 +115,8 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	}
 
 	const sortChats = (a: Chat, b: Chat) => {
-		if (getLastMessageDateTime(a.messages) < getLastMessageDateTime(b.messages)) return 1
-		if (getLastMessageDateTime(a.messages) > getLastMessageDateTime(b.messages)) return -1
+		if (getLastMessageDateTime(a.messages, true) < getLastMessageDateTime(b.messages, true)) return 1
+		if (getLastMessageDateTime(a.messages, true) > getLastMessageDateTime(b.messages, true)) return -1
 		return 0
 	}
 
