@@ -88,7 +88,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			onValue(realTimeDatabaseRef, (snapshot) => {
 				const listenerMessages = snapshot.val()
 				if (getLastMessageObjects(listenerMessages).owner !== userDataContext.userId) {
-					console.log('Listener message running...')
+					// console.log('Listener message running...')
 					setMessages(listenerMessages)
 				}
 			})

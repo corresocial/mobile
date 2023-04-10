@@ -46,7 +46,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 		const realTimeDatabaseRef = ref(realTimeDatabase, `${userId}`)
 		if (await existsOnDatabase(userId)) {
 			onValue(realTimeDatabaseRef, async (snapshot) => {
-				console.log(`Listener userChatIds running... ${userId}`)
+				// console.log(`Listener userChatIds running... ${userId}`)
 				const newUserChatIds = await loadUserChatIds(userDataContext.userId)
 				startChatListener(newUserChatIds)
 			})
@@ -57,7 +57,6 @@ function ChatProvider({ children }: ChatProviderProps) {
 		return readFromDatabase([userId])
 			.then((user: UserDatabase[]) => {
 				const filteredChatIds = removeEqualsChatIds(user[0].chatIds)
-				console.log(filteredChatIds)
 				return filteredChatIds
 			})
 	}
@@ -67,7 +66,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 			const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
 			if (await existsOnDatabase(chatId)) {
 				onValue(realTimeDatabaseRef, async (snapshot) => {
-					console.log('Listener chats running...')
+					// console.log('Listener chats running...')
 					loadChats(chatIds)
 				})
 			} else {
