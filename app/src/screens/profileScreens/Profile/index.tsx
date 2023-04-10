@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Linking, ScrollView, TouchableOpacity } from 'react-native'
+import { ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import {
@@ -46,7 +46,6 @@ import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { ProfilePopOver } from '../../../components/ProfilePopOver'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
-import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
@@ -104,7 +103,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const filtredUserPosts = () => {
 		const posts = getUserPosts()
-		return posts.filter((post) => {
+		return posts.filter((post: any) => {
 			const matchs = selectedTags.map((tag: string) => {
 				if (post.tags?.includes(tag)) return true
 				return false
@@ -189,10 +188,38 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		share(`${isLoggedUser ? `olá! me chamo ${getUserField('name')} e tô no corre.` : `olha quem eu encontrei no corre.\n${getUserField('name')}`}\n\nhttps://corre.social`)
 	}
 
+	/* const generateChatId = () => {
+		return `${userDataContext.userId}-${getUserField('userId')}`
+	} */
+
 	const openChat = async () => {
-		const { cellNumber } = await getPrivateContacts(getUserField('userId') as string)
+		const userId1 = userDataContext.userId
+		const userId2 = getUserField('userId')
+
+		console.log(userId1)
+		console.log(userId2)
+
+		navigation.navigate('ChatMessages', {
+			chat: {
+				chatId: '',
+				user1: {
+					userId: userDataContext.userId,
+					name: userDataContext.name,
+					profilePictureUrl: userDataContext.profilePictureUrl[0] || ''
+				},
+				user2: {
+					userId: getUserField('userId'),
+					name: getUserField('name'),
+					profilePictureUrl: getProfilePicture() || ''
+				},
+				messages: {}
+			}
+		})
+
+		// [DEPRECATED]
+		/* const { cellNumber } = await getPrivateContacts(getUserField('userId') as string)
 		const message = 'olá! vi que está no corre. Podemos conversar?'
-		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
+		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`) */
 	}
 
 	const openSocialMediaManagement = () => {
@@ -235,9 +262,9 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const getUserPosts = () => {
 		if (route.params && route.params.userId) {
-			return user.posts ? user.posts.sort(sortPostsByCreatedData as any) : [] // TODO Type
+			return user.posts ? user.posts.sort(sortPostsByCreatedData as (a: PostCollection, b: PostCollection) => number) : []
 		}
-		return userDataContext.posts ? userDataContext.posts.sort(sortPostsByCreatedData as any) : [] // TODO Type
+		return userDataContext.posts ? userDataContext.posts.sort(sortPostsByCreatedData) : []
 	}
 
 	return (
@@ -344,7 +371,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						/>
 						<ProfilePopOver
 							userName={getUserField('name') as string}
-							userId={getUserField('userId') as string}
 							buttonLabel={isLoggedUser ? 'sair' : 'denunciar'}
 							popoverVisibility={profileOptionsIsOpen}
 							closePopover={() => setProfileOptionsIsOpen(false)}

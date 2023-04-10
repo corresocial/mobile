@@ -1,7 +1,9 @@
+import { Chat } from '../../../@types/chat/types'
 import { UserStackParamList } from '../../Stack/UserStack/types'
 
 export type HomeTabParamList = {
 	HomeStack: undefined
 	Post: undefined
-	ProfileStack: { teste?: string }
+	ProfileStack: undefined
+	ChatStack: { chat: Chat }
 } & UserStackParamList

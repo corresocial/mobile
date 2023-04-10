@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
-import { SvgProps, SvgUri } from 'react-native-svg'
+import { SvgUri } from 'react-native-svg'
 
 import { Container, ContainerInner, Title } from './styles'
 

@@ -1,7 +1,8 @@
-import { ContactUsType } from "../../../services/discord/types"
-import { CultureCollectionRemote, CultureType, PostCollection, SaleCollectionRemote, ServiceCollectionRemote, SocialImpactCollectionRemote, SocialMedia, VacancyCollectionRemote } from "../../../services/firebase/types"
-import { ReportedTarget } from './../../../services/types'
-
+import { Chat } from '../../../@types/chat/types'
+import { LocalUserData } from '../../../contexts/types'
+import { ContactUsType } from '../../../services/discord/types'
+import { CultureCollectionRemote, CultureType, SaleCollectionRemote, ServiceCollectionRemote, SocialImpactCollectionRemote, SocialMedia, VacancyCollectionRemote } from '../../../services/firebase/types'
+import { ReportedTarget } from '../../../services/types'
 
 export type UserStackParamList = {
 	WelcomeNewUser: undefined
@@ -35,4 +36,6 @@ export type UserStackParamList = {
 	ContactUsInsertMessage: { title: string, contactUsType: ContactUsType, reportedType?: ReportedTarget, reportedId?: string }
 	ContactUsSuccess: { reportType: ReportedTarget } | undefined
 	PrivacyAndSecurity: undefined
+
+	ChatMessages: { chat: Chat }
 }

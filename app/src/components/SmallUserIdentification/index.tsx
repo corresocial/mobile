@@ -15,7 +15,7 @@ interface SmallUserIdentificationProps {
 	width?: string | number
 	height?: string | number
 	userName: string | undefined
-	postDate: string
+	postDate?: string
 	profilePictureUrl?: string | null
 	pictureDimensions?: number
 	userNameFontSize?: number
@@ -83,9 +83,13 @@ function SmallUserIdentification({
 				>
 					{userName}
 				</UserName>
-				<PostDateTime style={{ fontSize: RFValue(postDateFontSize) }}>
-					{postDate}
-				</PostDateTime >
+				{
+					postDate && (
+						<PostDateTime style={{ fontSize: RFValue(postDateFontSize) }}>
+							{postDate}
+						</PostDateTime >
+					)
+				}
 			</UserInfo>
 		</Container>
 	)

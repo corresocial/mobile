@@ -18,5 +18,5 @@ export const WithoutPostsTitle = styled.Text`
 
 export const WithoutPostsText = styled.Text`
 	font-family: Arvo_400Regular;
-	font-size: ${RFValue(14)}px;
+	font-size: ${RFValue(13)}px;
 `

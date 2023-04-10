@@ -13,7 +13,6 @@ import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 
 interface ProfilePopOverProps {
 	userName?: string
-	userId?: string
 	popoverVisibility: boolean
 	buttonLabel: string
 	children: React.ReactChild
@@ -24,7 +23,6 @@ interface ProfilePopOverProps {
 
 function ProfilePopOver({
 	userName,
-	userId,
 	popoverVisibility,
 	buttonLabel,
 	children,

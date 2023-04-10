@@ -131,7 +131,10 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 									setIsLoading(false)
 									navigateToNextScreen(localUser.tourPerformed)
 								})
-								.catch((err) => throwServerSideError(err))
+								.catch((err) => {
+									setIsLoading(false)
+									throwServerSideError(err)
+								})
 						},
 					)
 				},

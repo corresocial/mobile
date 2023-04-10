@@ -96,7 +96,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 
 	const getUserPostsWithoutEdited = () => {
 		const userPosts = userDataContext.posts || []
-		return userPosts.filter((post) => post.postId !== postData.postId)
+		return userPosts.filter((post: SaleCollection) => post.postId !== postData.postId)
 	}
 
 	const editPost = async () => {
@@ -249,7 +249,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 		const category: SaleCategories = getPostField('category')
 		const tags = getPostField('tags')
 
-		return `	●  ${saleCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO WARN
+		return `	●  ${saleCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`
 	}
 
 	return (

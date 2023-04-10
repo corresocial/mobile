@@ -36,7 +36,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 		clearUnsavedEditContext()
 	}, [])
 
-	const getRelativeTitle = () => { // TODO REFACTOR all edit screens
+	const getRelativeTitle = () => {
 		switch (postData.postType) {
 			case 'service': return 'do serviço'
 			case 'sale': return 'da venda'
@@ -71,7 +71,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 
 	const getUserPostsWithoutEdited = () => {
 		const userPosts = userDataContext.posts || []
-		return userPosts.filter((post) => post.postId !== postData.postId)
+		return userPosts.filter((post: VacancyCollection) => post.postId !== postData.postId)
 	}
 
 	const editPost = async () => {

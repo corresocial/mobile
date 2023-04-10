@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StatusBar, ScrollView, Linking } from 'react-native'
+import { StatusBar, ScrollView } from 'react-native'
 
 import { Body, Container, Header, LastSigh, OptionsArea, Sigh, UserAndValueContainer } from './styles'
 import { theme } from '../../../common/theme'
@@ -11,7 +11,6 @@ import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { share } from '../../../common/share'
-import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 
 import { ViewSocialImpactPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { PostCollection, SocialImpactCollection, SocialImpactCollectionRemote } from '../../../services/firebase/types'
@@ -90,9 +89,25 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	}
 
 	const openChat = async () => {
-		const { cellNumber } = await getPrivateContacts(postData.owner.userId)
-		const message = `olá! vi que publicou ${getPostField('title')} no corre. Podemos conversar?`
-		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
+		const userId1 = userDataContext.userId
+		const userId2 = postData.owner.userId
+
+		navigation.navigate('ChatMessages', {
+			chat: {
+				chatId: '',
+				user1: {
+					userId: userId1,
+					name: userDataContext.name,
+					profilePictureUrl: userDataContext.profilePictureUrl[0] || ''
+				},
+				user2: {
+					userId: userId2,
+					name: postData.owner.name,
+					profilePictureUrl: getProfilePictureUrl() || ''
+				},
+				messages: {}
+			}
+		})
 	}
 
 	const reportPost = () => {
@@ -110,7 +125,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 			navigation.navigate('Profile')
 			return
 		}
-		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
+		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })
 	}
 
 	const getPostField = (fieldName: keyof SocialImpactCollection) => {
