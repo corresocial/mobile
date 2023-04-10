@@ -43,7 +43,7 @@ const saleCategories = {
 		]
 	},
 
-	technology: {
+	techAndCellPhone: {
 		label: 'tecnologia',
 		value: 'techAndCellPhone',
 		slug: 'techAndCellPhone',
@@ -314,9 +314,7 @@ const saleCategories = {
 		label: 'outros',
 		value: 'others',
 		slug: 'others',
-		tags: [
-
-		]
+		tags: []
 	},
 }
 

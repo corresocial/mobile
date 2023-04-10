@@ -149,9 +149,7 @@ const cultureCategories = {
 		label: 'outros',
 		value: 'others',
 		slug: 'others',
-		tags: [
-
-		]
+		tags: []
 	}
 }
 

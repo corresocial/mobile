@@ -21,10 +21,10 @@ interface LocationProviderProps {
 const initialValue = {
 	locationDataContext: {
 		searchParams: {
-			tag: '',
-			category: '',
 			searchText: '',
 			range: '',
+			category: '',
+			tag: '',
 			city: '',
 			country: '',
 			postType: '' as PostType,

@@ -81,9 +81,7 @@ const socialImpactCategories = {
 		label: 'outros',
 		value: 'others',
 		slug: 'others',
-		tags: [
-
-		]
+		tags: []
 	},
 }
 

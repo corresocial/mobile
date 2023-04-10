@@ -1,7 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView } from 'react-native'
 
-import { Body, Container, Header, LastSigh, OptionsArea, Sigh, UserAndValueContainer } from './styles'
+import {
+	Body,
+	Container,
+	Header,
+	LastSigh,
+	OptionsArea,
+	Sigh,
+	UserAndValueContainer,
+} from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 import ShareIcon from '../../../assets/icons/share.svg'
@@ -18,7 +26,11 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { PostCollection, SaleCollection, SaleCollectionRemote } from '../../../services/firebase/types'
+import {
+	PostCollection,
+	SaleCollection,
+	SaleCollectionRemote,
+} from '../../../services/firebase/types'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
 import { SaleExchangeValue } from '../../../components/SaleExchangeValue'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
@@ -45,7 +57,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	}, [])
 
 	const loggedUserIsOwner = () => {
-		if (!route.params.postData || !route.params.postData.owner) return false
+		if (!route.params.postData || !route.params.postData.owner) { return false }
 		return userDataContext.userId === route.params.postData.owner.userId
 	}
 	const isAuthor = loggedUserIsOwner()
@@ -57,14 +69,16 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	}
 
 	const getProfilePictureUrl = () => {
-		if (!postData || !postData.owner || !postData.owner.profilePictureUrl) return null
+		if (!postData || !postData.owner || !postData.owner.profilePictureUrl) { return null }
 		if (arrayIsEmpty(postData.owner.profilePictureUrl)) return null
 		return postData.owner.profilePictureUrl[0]
 	}
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('EditSalePost' as any, { postData: { ...postData, ...editDataContext.saved } })
+		navigation.navigate('EditSalePost' as any, {
+			postData: { ...postData, ...editDataContext.saved },
+		})
 	}
 
 	const deleteRemotePost = async () => {
@@ -78,8 +92,13 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 
 	const removePostOnContext = async () => {
 		const currentUserPosts = userDataContext.posts || []
-		const postsWithoutDeletedPost = currentUserPosts.filter((post: PostCollection) => post.postId !== postData.postId)
-		setUserDataOnContext({ ...userDataContext, posts: postsWithoutDeletedPost })
+		const postsWithoutDeletedPost = currentUserPosts.filter(
+			(post: PostCollection) => post.postId !== postData.postId
+		)
+		setUserDataOnContext({
+			...userDataContext,
+			posts: postsWithoutDeletedPost,
+		})
 	}
 
 	const backToPreviousScreen = () => {
@@ -88,7 +107,9 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	}
 
 	const sharePost = () => {
-		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social`)
+		share(
+			`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social`
+		)
 	}
 
 	const openChat = async () => {
@@ -119,7 +140,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 			title: 'denunciar',
 			contactUsType: 'denúncia',
 			reportedType: postData.postType,
-			reportedId: postData.postId
+			reportedId: postData.postId,
 		})
 	}
 
@@ -128,7 +149,9 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 			navigation.navigate('Profile')
 			return
 		}
-		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
+		navigation.navigate('ProfileHome' as any, {
+			userId: postData.owner.userId,
+		}) // TODO Type
 	}
 
 	const getPostField = (fieldName: keyof SaleCollection) => {
@@ -137,7 +160,10 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar
+				backgroundColor={theme.white3}
+				barStyle={'dark-content'}
+			/>
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
@@ -146,7 +172,11 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 				<Sigh />
 				<UserAndValueContainer>
 					<SmallUserIdentification
-						userName={postData.owner ? postData.owner.name : 'usuário do corre.'}
+						userName={
+							postData.owner
+								? postData.owner.name
+								: 'usuário do corre.'
+						}
 						postDate={renderFormatedPostDateTime()}
 						userNameFontSize={14}
 						profilePictureUrl={getProfilePictureUrl() || ''}
@@ -165,17 +195,15 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 				</UserAndValueContainer>
 				<Sigh />
 				<OptionsArea>
-					{
-						!isAuthor && (
-							<SmallButton
-								color={theme.white3}
-								SvgIcon={ShareIcon}
-								relativeWidth={relativeScreenWidth(12)}
-								height={relativeScreenWidth(12)}
-								onPress={sharePost}
-							/>
-						)
-					}
+					{!isAuthor && (
+						<SmallButton
+							color={theme.white3}
+							SvgIcon={ShareIcon}
+							relativeWidth={relativeScreenWidth(12)}
+							height={relativeScreenWidth(12)}
+							onPress={sharePost}
+						/>
+					)}
 					<SmallButton
 						color={theme.green2}
 						label={isAuthor ? 'compartilhar' : 'comprar'}
@@ -186,7 +214,9 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						onPress={isAuthor ? sharePost : openChat}
 					/>
 					<PostPopOver
-						postTitle={getPostField('title') || 'publicação no corre.'}
+						postTitle={
+							getPostField('title') || 'publicação no corre.'
+						}
 						postId={postData.postId}
 						postType={postData.postType}
 						popoverVisibility={postOptionsIsOpen}
@@ -208,36 +238,36 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 				</OptionsArea>
 			</Header>
 			<Body>
-				<ScrollView showsVerticalScrollIndicator={false} >
+				<ScrollView showsVerticalScrollIndicator={false}>
 					<DescriptionCard
 						title={'descrição do produto'}
 						text={getPostField('itemDescription')}
 						textFontSize={14}
 					/>
 					<Sigh />
-					{
-						!arrayIsEmpty(getPostField('picturesUrl')) && (
-							<>
-								<ImageCarousel
-									picturesUrl={getPostField('picturesUrl') || []}
-								/>
-								<Sigh />
-							</>
-						)
-					}
+					{!arrayIsEmpty(getPostField('picturesUrl')) && (
+						<>
+							<ImageCarousel
+								picturesUrl={getPostField('picturesUrl') || []}
+							/>
+							<Sigh />
+						</>
+					)}
 					<SaleOrExchangeCard
 						title={'venda ou troca'}
 						saleValue={getPostField('saleValue')}
 						exchangeValue={getPostField('exchangeValue')}
 					/>
 					<Sigh />
-					<LocationViewCard
-						title={'local de trabalho'}
-						locationView={getPostField('locationView')}
-						isAuthor={isAuthor}
-						textFontSize={16}
-						location={getPostField('location')}
-					/>
+					{postData.locationView !== 'private' && (
+						<LocationViewCard
+							title={'local de trabalho'}
+							locationView={getPostField('locationView')}
+							isAuthor={isAuthor}
+							textFontSize={16}
+							location={getPostField('location')}
+						/>
+					)}
 					<Sigh />
 					<DateTimeCard
 						title={'dias e horários'}
@@ -256,7 +286,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					<LastSigh />
 				</ScrollView>
 			</Body>
-		</Container >
+		</Container>
 	)
 }
 

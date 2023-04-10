@@ -1,7 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView } from 'react-native'
 
-import { Body, Container, Header, LastSigh, OptionsArea, Sigh, UserAndValueContainer } from './styles'
+import {
+	Body,
+	Container,
+	Header,
+	LastSigh,
+	OptionsArea,
+	Sigh,
+	UserAndValueContainer,
+} from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 import ShareIcon from '../../../assets/icons/share.svg'
@@ -13,7 +21,11 @@ import { deletePost } from '../../../services/firebase/post/deletePost'
 import { share } from '../../../common/share'
 
 import { ViewServicePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
-import { PostCollection, ServiceCollection, ServiceCollectionRemote } from '../../../services/firebase/types'
+import {
+	PostCollection,
+	ServiceCollection,
+	ServiceCollectionRemote,
+} from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -45,7 +57,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	}, [])
 
 	const loggedUserIsOwner = () => {
-		if (!route.params.postData || !route.params.postData.owner) return false
+		if (!route.params.postData || !route.params.postData.owner) { return false }
 		return userDataContext.userId === route.params.postData.owner.userId
 	}
 	const isAuthor = loggedUserIsOwner()
@@ -57,7 +69,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	}
 
 	const getProfilePictureUrl = () => {
-		if (!postData || !postData.owner || !postData.owner.profilePictureUrl) return null
+		if (!postData || !postData.owner || !postData.owner.profilePictureUrl) { return null }
 		if (arrayIsEmpty(postData.owner.profilePictureUrl)) return null
 		return postData.owner.profilePictureUrl[0]
 	}
@@ -73,8 +85,13 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 
 	const removePostOnContext = async () => {
 		const currentUserPosts = userDataContext.posts || []
-		const postsWithoutDeletedPost = currentUserPosts.filter((post: PostCollection) => post.postId !== postData.postId)
-		setUserDataOnContext({ ...userDataContext, posts: postsWithoutDeletedPost })
+		const postsWithoutDeletedPost = currentUserPosts.filter(
+			(post: PostCollection) => post.postId !== postData.postId
+		)
+		setUserDataOnContext({
+			...userDataContext,
+			posts: postsWithoutDeletedPost,
+		})
 	}
 
 	const backToPreviousScreen = () => {
@@ -84,11 +101,17 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('EditServicePost' as any, { postData: { ...postData, ...editDataContext.saved } })
+		navigation.navigate('EditServicePost' as any, {
+			postData: { ...postData, ...editDataContext.saved },
+		})
 	}
 
 	const sharePost = () => {
-		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social`)
+		share(
+			`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField(
+				'title'
+			)} no corre.\n\nhttps://corre.social`
+		)
 	}
 
 	const openChat = async () => {
@@ -119,7 +142,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 			title: 'denunciar',
 			contactUsType: 'denúncia',
 			reportedType: postData.postType,
-			reportedId: postData.postId
+			reportedId: postData.postId,
 		})
 	}
 
@@ -128,7 +151,9 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 			navigation.navigate('Profile')
 			return
 		}
-		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
+		navigation.navigate('ProfileHome' as any, {
+			userId: postData.owner.userId,
+		}) // TODO Type
 	}
 
 	const getPostField = (fieldName: keyof ServiceCollection) => {
@@ -137,7 +162,10 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar
+				backgroundColor={theme.white3}
+				barStyle={'dark-content'}
+			/>
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
@@ -146,7 +174,11 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 				<Sigh />
 				<UserAndValueContainer>
 					<SmallUserIdentification
-						userName={postData.owner ? postData.owner.name : 'usuário do corre.'}
+						userName={
+							postData.owner
+								? postData.owner.name
+								: 'usuário do corre.'
+						}
 						postDate={renderFormatedPostDateTime()}
 						userNameFontSize={14}
 						pictureDimensions={45}
@@ -165,17 +197,15 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 				</UserAndValueContainer>
 				<Sigh />
 				<OptionsArea>
-					{
-						!isAuthor && (
-							<SmallButton
-								color={theme.white3}
-								SvgIcon={ShareIcon}
-								relativeWidth={relativeScreenWidth(12)}
-								height={relativeScreenWidth(12)}
-								onPress={sharePost}
-							/>
-						)
-					}
+					{!isAuthor && (
+						<SmallButton
+							color={theme.white3}
+							SvgIcon={ShareIcon}
+							relativeWidth={relativeScreenWidth(12)}
+							height={relativeScreenWidth(12)}
+							onPress={sharePost}
+						/>
+					)}
 					<SmallButton
 						color={theme.green2}
 						label={isAuthor ? 'compartilhar' : 'contratar'}
@@ -186,7 +216,9 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						onPress={isAuthor ? sharePost : openChat}
 					/>
 					<PostPopOver
-						postTitle={getPostField('title') || 'publicação no corre.'}
+						postTitle={
+							getPostField('title') || 'publicação no corre.'
+						}
 						postId={postData.postId}
 						postType={postData.postType}
 						popoverVisibility={postOptionsIsOpen}
@@ -208,36 +240,36 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 				</OptionsArea>
 			</Header>
 			<Body>
-				<ScrollView showsVerticalScrollIndicator={false} >
+				<ScrollView showsVerticalScrollIndicator={false}>
 					<DescriptionCard
 						title={'descrição do serviço'}
 						text={getPostField('description')}
 						textFontSize={14}
 					/>
 					<Sigh />
-					{
-						!arrayIsEmpty(getPostField('picturesUrl')) && (
-							<>
-								<ImageCarousel
-									picturesUrl={getPostField('picturesUrl') || []}
-								/>
-								<Sigh />
-							</>
-						)
-					}
+					{!arrayIsEmpty(getPostField('picturesUrl')) && (
+						<>
+							<ImageCarousel
+								picturesUrl={getPostField('picturesUrl') || []}
+							/>
+							<Sigh />
+						</>
+					)}
 					<SaleOrExchangeCard
 						title={'venda ou troca'}
 						saleValue={getPostField('saleValue')}
 						exchangeValue={getPostField('exchangeValue')}
 					/>
 					<Sigh />
-					<LocationViewCard
-						title={'localização'}
-						locationView={getPostField('locationView')}
-						isAuthor={isAuthor}
-						location={getPostField('location')}
-						textFontSize={16}
-					/>
+					{postData.locationView !== 'private' && (
+						<LocationViewCard
+							title={'localização'}
+							locationView={getPostField('locationView')}
+							isAuthor={isAuthor}
+							location={getPostField('location')}
+							textFontSize={16}
+						/>
+					)}
 					<Sigh />
 					<DateTimeCard
 						title={'dias e horários'}

@@ -19,6 +19,7 @@ interface SelectButtonProps {
 	noDisplacement?: boolean
 	fontSize?: number
 	SvgIcon?: React.FC<SvgProps>
+	svgIconScale?: [height: string, width: string]
 	selected?: boolean
 	onSelect?: () => void
 }
@@ -35,6 +36,7 @@ function SelectButton({
 	noDisplacement = false,
 	fontSize = 15,
 	SvgIcon,
+	svgIconScale,
 	selected = false,
 	onSelect
 }: SelectButtonProps) {
@@ -65,24 +67,27 @@ function SelectButton({
 					height,
 					marginVertical: RFValue(marginVertical),
 					marginHorizontal: RFValue(marginHorizontal),
-					marginLeft: noDisplacement ? relativeScreenWidth(2.5) : 0
+					marginLeft: noDisplacement ? relativeScreenWidth(2.5) : 0,
+					flex: selected ? 1 : 0,
 				}}
 			>
 				<ContainerSurface
 					style={{
+						paddingHorizontal: selected ? relativeScreenWidth(2.5) : 0,
 						backgroundColor: selected ? backgroundSelected : backgroundColor,
-						marginRight: selected ? -relativeScreenWidth(1.3) : buttonPressed ? -relativeScreenWidth(2) : 0
+						transform: [{ translateX: buttonPressed ? 0 : -relativeScreenWidth(selected ? 1.3 : 2) }],
+						height: selected ? 'auto' : height,
 					}}
 				>
-					{SvgIcon && <SvgIcon width={'20%'} height={'50%'} />}
 					<Label
 						style={{
 							fontSize: RFValue(fontSize),
-							fontFamily: selected || boldLabel ? 'Arvo_700Bold' : 'Arvo_400Regular'
+							fontFamily: selected || boldLabel ? 'Arvo_700Bold' : 'Arvo_400Regular',
 						}}
 					>
 						{label}
 					</Label>
+					{SvgIcon && <SvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />}
 				</ContainerSurface>
 			</ContainerBottom>
 		</TouchableWithoutFeedback >

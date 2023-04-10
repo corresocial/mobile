@@ -1,4 +1,5 @@
 import 'react-native-gesture-handler'
+import * as Sentry from 'sentry-expo'
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
 import { NavigationContainer } from '@react-navigation/native'
@@ -12,12 +13,15 @@ import {
 } from '@expo-google-fonts/arvo'
 import { theme } from './src/common/theme'
 
+import { ignoredLogs } from './ignoredLogs'
+import { sentryConfig } from './src/services/sentry'
+
 import { AuthRegisterStack } from './src/routes/Stack/AuthRegisterStack'
 import { LoaderProvider } from './src/contexts/LoaderContext'
 import { ErrorBoundaryFallback } from './src/screens/ErrorBoundaryFallback'
 import { errorHandler } from './src/utils/errorHandler'
-import { ignoredLogs } from './ignoredLogs'
 
+Sentry.init(sentryConfig)
 LogBox.ignoreLogs(ignoredLogs)
 
 function App() {
@@ -50,4 +54,4 @@ function App() {
 }
 
 // eslint-disable-next-line import/no-default-export
-export default App
+export default Sentry.Native.wrap(App)

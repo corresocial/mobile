@@ -194,7 +194,7 @@ const serviceCategories = {
 		]
 	},
 
-	technology: {
+	tech: {
 		label: 'tecnologia',
 		value: 'tech',
 		slug: 'tech',

@@ -4,7 +4,7 @@
 		"owner": "corresocial",
 		"scheme": "corre",
 		"slug": "corresocial",
-		"version": "0.1.1",
+		"version": "0.1.4",
 		"orientation": "portrait",
 		"userInterfaceStyle": "light",
 		"icon": "./assets/icon.png",
@@ -16,7 +16,20 @@
 				"style": "dark"
 			}
 		},
+		"hooks": {
+			"postPublish": [
+				{
+					"file": "sentry-expo/upload-sourcemaps",
+					"config": {
+						"organization": "corre",
+						"project": "react-native",
+						"authToken": "3b362edd3fb24fddbade3f5ff7b716e464a34d4896ab42b096211200f5a09031"
+					}
+				}
+			]
+		},
 		"plugins": [
+			"sentry-expo",
 			[
 				"expo-media-library",
 				{
@@ -34,7 +47,8 @@
 					}
 				}
 			],
-			"./plugins/react-native-maps-plugin.js"
+			"./plugins/react-native-maps-plugin.js",
+			"sentry-expo"
 		],
 		"updates": {
 			"fallbackToCacheTimeout": 0,
@@ -44,7 +58,7 @@
 			"**/*"
 		],
 		"ios": {
-			"buildNumber": "7",
+			"buildNumber": "1",
 			"supportsTablet": true,
 			"bundleIdentifier": "corre",
 			"splash": {
@@ -57,7 +71,7 @@
 			}
 		},
 		"android": {
-			"versionCode": 7,
+			"versionCode": 1,
 			"package": "com.corresocial.corresocial",
 			"icon": "./assets/icon.png",
 			"adaptiveIcon": {

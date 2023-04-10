@@ -17,9 +17,9 @@ export type SearchParams = {
 	range: string
 	city: string
 	country: string
-	postType: PostType
 	category: string
 	tag: string
+	postType: PostType | string
 	coordinates: LatLong
 	geohashes: string[]
 }

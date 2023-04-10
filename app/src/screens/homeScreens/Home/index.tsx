@@ -13,7 +13,7 @@ import {
 } from './styles'
 import { theme } from '../../../common/theme'
 import SocialImpactIcon from '../../../assets/icons/socialImpact-filled.svg'
-import SaleIcon from '../../../assets/icons/sale-filled.svg'
+import CommerceIcon from '../../../assets/icons/commerce.svg'
 import CultureIcon from '../../../assets/icons/culture-filled.svg'
 import ServiceIcon from '../../../assets/icons/service-filled.svg'
 import VacancyIcon from '../../../assets/icons/vacancy-filled.svg'
@@ -135,8 +135,7 @@ function Home({ navigation }: HomeScreenProps) {
 				const coordinates = await getCurrentPositionCoordinates()
 				searchParams = await getSearchParams(coordinates)
 			} else {
-				const coordinates = alternativeCoordinates
-					|| (await getSearchedAddressCoordinates(searchText))
+				const coordinates = alternativeCoordinates || (await getSearchedAddressCoordinates(searchText))
 				searchParams = await getSearchParams(coordinates as LatLong) // address converter
 			}
 
@@ -244,9 +243,7 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const saveRecentAddresses = (newAddress: AddressSearchResult) => {
-		const filtredRecentAddress = recentAddresses.filter(
-			(address) => address.formattedAddress !== newAddress.formattedAddress
-		)
+		const filtredRecentAddress = recentAddresses.filter((address) => address.formattedAddress !== newAddress.formattedAddress)
 		setRecentAddresses([
 			{ ...newAddress, recent: true },
 			...filtredRecentAddress,
@@ -339,7 +336,7 @@ function Home({ navigation }: HomeScreenProps) {
 					fontSize={7.5}
 					onPress={() => navigateToPostCategories('sale')}
 					label={'comércio'}
-					SvgIcon={SaleIcon}
+					SvgIcon={CommerceIcon}
 					svgScale={['50%', '80%']}
 					flexDirection={'column'}
 				/>
