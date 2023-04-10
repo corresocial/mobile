@@ -1,21 +1,25 @@
 import React from 'react'
 import { Modal } from 'react-native'
 
+import { relativeScreenWidth } from '../../../common/screenDimensions'
+
 import {
 	Container,
 	Content,
 	Description,
-	Question,
+	Header,
 	Title,
 	TouchCloseArea
 } from './styles'
 import { theme } from '../../../common/theme'
-import Check from '../../../assets/icons/check.svg'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import XWhiteIcon from '../../../assets/icons/x.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { FocusAwareStatusBar } from '../../FocusAwareStatusBar'
+import { SmallButton } from '../../_buttons/SmallButton'
 
 interface TourModalProps {
 	visibility: boolean
@@ -33,29 +37,38 @@ function TourModal({ visibility, closeModal, onPressButton }: TourModalProps) {
 		>
 			<FocusAwareStatusBar backgroundColor={theme.transparence.orange1} barStyle={'dark-content'} />
 			<Container>
-				<TouchCloseArea onPress={closeModal} ></TouchCloseArea>
+				<TouchCloseArea onPress={closeModal}></TouchCloseArea>
 				<Content>
-					<Title>{'legal!'}</Title>
+					<Header>
+						<Title>{showMessageWithHighlight('bem-vindo!', ['bem-vindo!'])}</Title>
+						<SmallButton
+							SvgIcon={XWhiteIcon}
+							relativeWidth={relativeScreenWidth(11)}
+							height={relativeScreenWidth(11)}
+							color={theme.red3}
+							onPress={closeModal}
+						/>
+					</Header>
 					<Description>
 						{showMessageWithHighlight(
-							'primeiro precisamos preencher seu perfil, para que outros possam te encontrar',
-							['primeiro', 'preencher', 'seu', 'perfil', 'te', 'encontrar']
+							'para que as pessoas encontrem seu perfil, você precisa fazer sua primeira postagem.',
+							['para', 'que', 'as', 'pessoas', 'encontrem', 'seu', 'perfil', 'primeira', 'postagem']
 						)}
 					</Description>
-					<Question>
+					<Description>
 						{showMessageWithHighlight(
-							'demora 5 minutos, bora?',
-							['5', 'minutos']
+							'em só 5 minutos, o seu bairro, cidade ou o país inteiro já consegue te encontrar, vamos começar?',
+							['5', 'minutos', 'te', 'encontrar']
 						)}
-					</Question>
+					</Description>
 					<PrimaryButton
 						color={theme.green3}
 						labelColor={theme.white3}
-						label={'bora!'}
-						highlightedWords={['bora!']}
+						label={'vamos lá!'}
+						highlightedWords={['vamos', 'lá!']}
 						fontSize={22}
-						SvgIcon={Check}
-						svgIconScale={['30%', '11%']}
+						SecondSvgIcon={CheckWhiteIcon}
+						svgIconScale={['40%', '30%']}
 						onPress={onPressButton}
 					/>
 				</Content>
