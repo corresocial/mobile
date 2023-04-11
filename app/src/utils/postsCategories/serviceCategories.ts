@@ -338,6 +338,22 @@ const serviceCategories = {
 		]
 	},
 
+	legal: {
+		label: 'jurídico',
+		value: 'legal',
+		slug: 'legal',
+		tags: [
+			'empresarial',
+			'advogado',
+			'estagio',
+			'trabalhista',
+			'tributario',
+			'civil',
+			'concurso',
+			'ambiental'
+		]
+	},
+
 	others: {
 		label: 'outros',
 		value: 'others',

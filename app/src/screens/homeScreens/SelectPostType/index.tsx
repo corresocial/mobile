@@ -45,7 +45,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					highlightedWords={['um', 'serviço']}
 					labelColor={theme.black3}
 					labelSize={18}
-					relativeHeight={'15%'}
+					relativeHeight={'16%'}
 					shortDescription={'ofereço um serviço'}
 					SvgIcon={ServiceIcon}
 					svgIconScale={['60%', '60%']}
@@ -59,7 +59,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					highlightedWords={['uma', 'venda']}
 					labelColor={theme.black3}
 					labelSize={18}
-					relativeHeight={'15%'}
+					relativeHeight={'16%'}
 					shortDescription={'comércios, venda de novos ou usados'}
 					SvgIcon={SaleCartUnfilledIcon}
 					svgIconScale={['60%', '60%']}
@@ -73,7 +73,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					highlightedWords={['uma', 'vaga']}
 					labelColor={theme.black3}
 					labelSize={18}
-					relativeHeight={'15%'}
+					relativeHeight={'16%'}
 					shortDescription={'procurando vaga ou profissional'}
 					SvgIcon={VacancyIcon}
 					svgIconScale={['60%', '60%']}
@@ -87,7 +87,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					highlightedWords={['impacto', 'social']}
 					labelColor={theme.black3}
 					labelSize={18}
-					relativeHeight={'15%'}
+					relativeHeight={'16%'}
 					shortDescription={'iniciativas, voluntários e doações'}
 					SvgIcon={SocialImpactIcon}
 					svgIconScale={['60%', '60%']}
@@ -101,7 +101,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					highlightedWords={['cultura']}
 					labelColor={theme.black3}
 					labelSize={18}
-					relativeHeight={'15%'}
+					relativeHeight={'16%'}
 					shortDescription={'arte, eventos e educação'}
 					SvgIcon={CultureIcon}
 					svgIconScale={['60%', '60%']}

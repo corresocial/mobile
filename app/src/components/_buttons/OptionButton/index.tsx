@@ -67,7 +67,7 @@ function OptionButton({
 
 	const heightWithoutDescription = relativeHeight || relativeScreenHeight(10)
 
-	const buttomWithDescriptionHeight = description ? relativeScreenHeight(19) : relativeScreenHeight(10)
+	const buttomWithDescriptionHeight = description ? relativeScreenHeight(19) : relativeHeight
 
 	return (
 		<TouchableContainer
