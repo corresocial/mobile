@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { Body, Container, Header, LastSigh, SaveButtonContainer, Sigh } from './styles'
-import CheckIcon from '../../../assets/icons/check.svg'
+import CheckIcon from '../../../assets/icons/check-white.svg'
 
 import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
 import { formatDate, formatHour } from '../../../common/auxiliaryFunctions'

@@ -2,10 +2,10 @@ import React from 'react'
 import { StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import Uncheck from '../../../assets/icons/uncheck.svg'
-import Check from '../../../assets/icons/check.svg'
+import Uncheck from '../../../assets/icons/x-white.svg'
+import Check from '../../../assets/icons/check-white.svg'
 
 import { InsertServicePictureScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
@@ -21,21 +21,21 @@ function InsertServicePicture({ navigation }: InsertServicePictureScreenProps) {
 		<Container>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={(screenHeight + statusBarHeight) * 0.26}
-				relativeHeight={'22%'}
+				minHeight={relativeScreenHeight(20)}
+				relativeHeight={'24%'}
 				centralized
 				backgroundColor={theme.purple2}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
-					message={'que tal adicionar algumas fotos para atrair clientes?'}
+					fontSize={17}
+					message={'que tal adicionar algumas fotos?'}
 					highlightedWords={['adicionar', 'algumas', 'fotos']}
 				>
 					<ProgressBar
 						range={5}
-						value={1}
+						value={2}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
@@ -46,23 +46,23 @@ function InsertServicePicture({ navigation }: InsertServicePictureScreenProps) {
 					<PrimaryButton
 						flexDirection={'row-reverse'}
 						color={theme.red3}
-						relativeHeight={'30%'}
+						relativeHeight={'25%'}
 						labelColor={theme.white3}
 						label={'não precisa, valew'}
 						highlightedWords={['não', 'precisa']}
-						SvgIcon={Uncheck}
-						svgIconScale={['22%', '18%']}
+						SecondSvgIcon={Uncheck}
+						svgIconScale={['40%', '18%']}
 						onPress={() => navigation.navigate('InsertServiceName')}
 					/>
 					<PrimaryButton
 						flexDirection={'row-reverse'}
 						color={theme.green3}
-						relativeHeight={'30%'}
+						relativeHeight={'25%'}
 						labelColor={theme.white3}
 						label={'opa, vou adicionar'}
 						highlightedWords={['vou', 'adicionar']}
 						SvgIcon={Check}
-						svgIconScale={['22%', '18%']}
+						svgIconScale={['40%', '25%']}
 						onPress={() => navigation.navigate('ServicePicturePreview')}
 					/>
 				</ButtonsContainer>

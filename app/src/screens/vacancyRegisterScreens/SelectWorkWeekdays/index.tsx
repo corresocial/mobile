@@ -9,7 +9,7 @@ import {
 } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import Check from '../../../assets/icons/check.svg'
+import Check from '../../../assets/icons/check-white.svg'
 
 import { SelectWorkWeekdaysScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { DaysOfWeek } from '../../../services/firebase/types'

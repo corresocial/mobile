@@ -12,7 +12,7 @@ import {
 } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import Check from '../../../assets/icons/check.svg'
+import Check from '../../../assets/icons/check-white.svg'
 
 import { cultureCategories, updateCultureTags } from '../../../utils/postsCategories/cultureCategories'
 import { sortArray } from '../../../common/auxiliaryFunctions'
@@ -220,7 +220,7 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
 								label={'continuar'}
 								labelColor={theme.white3}
 								SvgIcon={Check}
-								svgIconScale={['30%', '15%']}
+								svgIconScale={['40%', '25%']}
 								onPress={saveTags}
 							/>
 						</FloatButtonContainer>

@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import Check from '../../../assets/icons/check.svg'
+import Check from '../../../assets/icons/check-white.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
@@ -128,7 +128,7 @@ function InsertServiceName({ route, navigation }: InsertServiceNameScreenProps) 
 								label={'continuar'}
 								labelColor={theme.white3}
 								SvgIcon={Check}
-								svgIconScale={['30%', '15%']}
+								svgIconScale={['40%', '25%']}
 								onPress={saveServiceName}
 							/>
 						)

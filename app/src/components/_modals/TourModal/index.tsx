@@ -13,7 +13,7 @@ import {
 } from './styles'
 import { theme } from '../../../common/theme'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-import XWhiteIcon from '../../../assets/icons/x.svg'
+import XWhiteIcon from '../../../assets/icons/x-white.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 

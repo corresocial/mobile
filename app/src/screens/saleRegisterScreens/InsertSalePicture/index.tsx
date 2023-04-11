@@ -5,7 +5,7 @@ import { ButtonsContainer, Container } from './styles'
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import Uncheck from '../../../assets/icons/uncheck.svg'
-import Check from '../../../assets/icons/check.svg'
+import Check from '../../../assets/icons/check-white.svg'
 
 import { InsertSalePictureScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
@@ -50,8 +50,8 @@ function InsertSalePicture({ navigation }: InsertSalePictureScreenProps) {
 						labelColor={theme.white3}
 						label={'não precisa, valew'}
 						highlightedWords={['não', 'precisa']}
-						SvgIcon={Uncheck}
-						svgIconScale={['22%', '18%']}
+						SecondSvgIcon={Uncheck}
+						svgIconScale={['40%', '18%']}
 						onPress={() => navigation.navigate('SelectPaymentType')}
 					/>
 					<PrimaryButton

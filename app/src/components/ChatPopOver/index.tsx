@@ -6,7 +6,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { CloseIcon, Container, ContainerInner, Sigh, UserName } from './styles'
 import { relativeScreenHeight } from '../../common/screenDimensions'
 import { theme } from '../../common/theme'
-import XIcon from '../../assets/icons/x.svg'
+import XIcon from '../../assets/icons/x-white.svg'
 import BlockIcon from '../../assets/icons/block.svg'
 import TrashIcon from '../../assets/icons/trashRounded.svg'
 

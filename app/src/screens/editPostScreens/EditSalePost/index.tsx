@@ -4,7 +4,7 @@ import { getDownloadURL } from 'firebase/storage'
 
 import { Body, Container, Header, LastSigh, SaveButtonContainer, Sigh } from './styles'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import CheckIcon from '../../../assets/icons/check.svg'
+import CheckIcon from '../../../assets/icons/check-white.svg'
 
 import { saleCategories } from '../../../utils/postsCategories/saleCategories'
 import { arrayIsEmpty, formatHour } from '../../../common/auxiliaryFunctions'

@@ -13,7 +13,7 @@ import {
 } from './styles'
 import { theme } from '../../../common/theme'
 import RightCurvedArrow from '../../../assets/icons/rightCurvedArrow.svg'
-import XIcon from '../../../assets/icons/x.svg'
+import XIcon from '../../../assets/icons/x-white.svg'
 
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { FocusAwareStatusBar } from '../../FocusAwareStatusBar'

@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { ButtonsContainer, Container } from './styles'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import Check from '../../../assets/icons/check.svg'
+import Check from '../../../assets/icons/check-white.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
@@ -79,7 +79,7 @@ function InsertServiceDescription({ route, navigation }: InsertServiceDescriptio
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(28)}
+				minHeight={relativeScreenHeight(24)}
 				relativeHeight={'26%'}
 				centralized
 				backgroundColor={theme.purple2}
@@ -87,13 +87,13 @@ function InsertServiceDescription({ route, navigation }: InsertServiceDescriptio
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
-					message={'escreva uma descrição para o seu serviço'}
-					highlightedWords={['descrição', 'seu', 'serviço']}
+					fontSize={17}
+					message={'escreva uma descrição para o seu post'}
+					highlightedWords={['descrição', 'seu', 'post']}
 				>
 					<ProgressBar
 						range={5}
-						value={1}
+						value={2}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
@@ -114,7 +114,7 @@ function InsertServiceDescription({ route, navigation }: InsertServiceDescriptio
 					lastInput
 					textAlign={'left'}
 					fontSize={16}
-					placeholder={'ex: trabalho de mecânico, tenho 33 anos, etc...'}
+					placeholder={'ex: marcenaria especializada para projetos.'}
 					keyboardType={'default'}
 					textIsValid={serviceDescriptionIsValid && !keyboardOpened}
 					validateText={(text: string) => validateServiceDescription(text)}
@@ -130,7 +130,7 @@ function InsertServiceDescription({ route, navigation }: InsertServiceDescriptio
 								label={'continuar'}
 								labelColor={theme.white3}
 								SvgIcon={Check}
-								svgIconScale={['30%', '15%']}
+								svgIconScale={['40%', '25%']}
 								onPress={saveServiceDescription}
 							/>
 						)

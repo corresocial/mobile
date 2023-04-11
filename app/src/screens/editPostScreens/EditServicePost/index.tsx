@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { Body, Container, Header, LastSigh, SaveButtonContainer, Sigh } from './styles'
-import CheckIcon from '../../../assets/icons/check.svg'
+import CheckIcon from '../../../assets/icons/check-white.svg'
 
 import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
 import { arrayIsEmpty, formatHour } from '../../../common/auxiliaryFunctions'

@@ -4,7 +4,7 @@ import { Keyboard, Platform, StatusBar } from 'react-native'
 import { Container, ButtonsContainer, Body } from './styles'
 import { theme } from '../../../common/theme'
 import AngleLeftThin from '../../../assets/icons/angleLeftThin.svg'
-import CheckIcon from '../../../assets/icons/check.svg'
+import CheckIcon from '../../../assets/icons/check-white.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 

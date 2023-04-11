@@ -159,7 +159,7 @@ function LineInput({
 	return (
 		<Container
 			style={{
-				height: multiline ? multilineInputHeight : relativeScreenHeight(5), // 0.25
+				height: multiline ? multilineInputHeight : relativeScreenHeight(8), // 0.25
 				width: relativeWidth,
 				...inputContainerStyle,
 			}}

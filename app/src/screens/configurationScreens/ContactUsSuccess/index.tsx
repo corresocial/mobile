@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { Container, Body } from './styles'
 import { theme } from '../../../common/theme'
-import CheckIcon from '../../../assets/icons/check.svg'
+import CheckIcon from '../../../assets/icons/check-white.svg'
 
 import { ContactUsSuccessScreenProps } from '../../../routes/Stack/userStack/stackScreenProps'
 

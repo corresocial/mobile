@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { ButtonsContainer, Container } from './styles'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import Check from '../../../assets/icons/check.svg'
+import Check from '../../../assets/icons/check-white.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
@@ -123,7 +123,7 @@ function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpact
 								label={'continuar'}
 								labelColor={theme.white3}
 								SvgIcon={Check}
-								svgIconScale={['30%', '15%']}
+								svgIconScale={['40%', '25%']}
 								onPress={saveSocialImpactDescription}
 							/>
 						)

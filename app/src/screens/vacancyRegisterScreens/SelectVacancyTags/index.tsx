@@ -12,7 +12,7 @@ import {
 } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import Check from '../../../assets/icons/check.svg'
+import Check from '../../../assets/icons/check-white.svg'
 
 import { vacancyCategories, updateVacancyTags } from '../../../utils/postsCategories/vacancyCategories'
 import { sortArray } from '../../../common/auxiliaryFunctions'
@@ -222,7 +222,7 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
 								label={'continuar'}
 								labelColor={theme.white3}
 								SvgIcon={Check}
-								svgIconScale={['30%', '15%']}
+								svgIconScale={['40%', '25%']}
 								onPress={saveTags}
 							/>
 						</FloatButtonContainer>

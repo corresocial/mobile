@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { Container, PicturePreviewContainer } from './styles'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import CheckIcon from '../../../assets/icons/check.svg'
+import CheckIcon from '../../../assets/icons/check-white.svg'
 
 import { SocialImpactPicturePreviewScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
 
