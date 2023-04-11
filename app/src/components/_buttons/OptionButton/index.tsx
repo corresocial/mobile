@@ -9,7 +9,8 @@ import {
 	ContainerBottom,
 	IconArea,
 	LabelDescriptionArea,
-	ButtonDescription
+	Description,
+	ShortDescription
 } from './styles'
 import { theme } from '../../../common/theme'
 
@@ -29,6 +30,7 @@ interface OptionButtonProps {
 	leftSideWidth?: string | number
 	highlightedWords?: string[]
 	description?: string
+	shortDescription?: string
 	onPress: () => void
 }
 
@@ -45,6 +47,7 @@ function OptionButton({
 	leftSideColor = theme.orange2,
 	leftSideWidth,
 	description,
+	shortDescription,
 	onPress
 }: OptionButtonProps) {
 	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
@@ -64,6 +67,8 @@ function OptionButton({
 
 	const heightWithoutDescription = relativeHeight || relativeScreenHeight(10)
 
+	const buttomWithDescriptionHeight = description ? relativeScreenHeight(19) : relativeScreenHeight(10)
+
 	return (
 		<TouchableContainer
 			onPressIn={pressingButton}
@@ -72,7 +77,7 @@ function OptionButton({
 		>
 			<ContainerBottom
 				style={{
-					height: description ? relativeScreenHeight(19) : heightWithoutDescription
+					height: description || shortDescription ? buttomWithDescriptionHeight : heightWithoutDescription
 				}}
 			>
 				<ContainerSurface
@@ -101,9 +106,17 @@ function OptionButton({
 						{
 							description
 							&& (
-								<ButtonDescription>
+								<Description>
 									{description}
-								</ButtonDescription>
+								</Description>
+							)
+						}
+						{
+							shortDescription
+							&& (
+								<ShortDescription centralized>
+									{shortDescription}
+								</ShortDescription>
 							)
 						}
 					</LabelDescriptionArea>

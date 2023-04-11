@@ -1,5 +1,4 @@
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
@@ -7,7 +6,7 @@ import { theme } from '../../../common/theme'
 import VacancyIcon from '../../../assets/icons/vacancy.svg'
 import SocialImpactIcon from '../../../assets/icons/socialImpact.svg'
 import ServiceIcon from '../../../assets/icons/service.svg'
-import SaleIcon from '../../../assets/icons/sale.svg'
+import SaleCartUnfilledIcon from '../../../assets/icons/salesCart-unfilled.svg'
 import CultureIcon from '../../../assets/icons/culture.svg'
 
 import { SelectPostTypeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -25,17 +24,16 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 			<FocusAwareStatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				backgroundColor={theme.orange2}
-				relativeHeight={'28%'}
+				relativeHeight={'20%'}
+				borderBottomWidth={0}
 				centralized
 			>
-				<BackButton onPress={() => navigation.goBack()} />
+				<BackButton onPress={() => navigation.goBack()} hasSigh />
 				<InstructionCard
 					message={'o que você vai \nanunciar?'}
 					highlightedWords={['\nanunciar']}
 					borderLeftWidth={3}
-					lineHeight={35}
-					fontSize={22}
-					fontSizeHighlighted={RFValue(32)}
+					fontSize={20}
 				/>
 			</DefaultHeaderContainer>
 			<FormContainer
@@ -47,11 +45,12 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					highlightedWords={['um', 'serviço']}
 					labelColor={theme.black3}
 					labelSize={18}
-					relativeHeight={'18%'}
+					relativeHeight={'15%'}
+					shortDescription={'ofereço um serviço'}
 					SvgIcon={ServiceIcon}
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.purple2}
-					leftSideWidth={'30%'}
+					leftSideWidth={'20%'}
 					onPress={() => navigation.navigate('ServiceStack')}
 				/>
 				<OptionButton
@@ -60,11 +59,12 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					highlightedWords={['uma', 'venda']}
 					labelColor={theme.black3}
 					labelSize={18}
-					relativeHeight={'18%'}
-					SvgIcon={SaleIcon}
+					relativeHeight={'15%'}
+					shortDescription={'comércios, venda de novos ou usados'}
+					SvgIcon={SaleCartUnfilledIcon}
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.green2}
-					leftSideWidth={'30%'}
+					leftSideWidth={'20%'}
 					onPress={() => navigation.navigate('SaleStack')}
 				/>
 				<OptionButton
@@ -73,24 +73,26 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					highlightedWords={['uma', 'vaga']}
 					labelColor={theme.black3}
 					labelSize={18}
-					relativeHeight={'18%'}
+					relativeHeight={'15%'}
+					shortDescription={'procurando vaga ou profissional'}
 					SvgIcon={VacancyIcon}
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.yellow2}
-					leftSideWidth={'30%'}
+					leftSideWidth={'20%'}
 					onPress={() => navigation.navigate('VacancyStack')}
 				/>
 				<OptionButton
 					color={theme.white3}
-					label={'iniciativa social'}
-					highlightedWords={['iniciativa', 'social']}
+					label={'impacto social'}
+					highlightedWords={['impacto', 'social']}
 					labelColor={theme.black3}
 					labelSize={18}
-					relativeHeight={'18%'}
+					relativeHeight={'15%'}
+					shortDescription={'iniciativas, voluntários e doações'}
 					SvgIcon={SocialImpactIcon}
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.pink2}
-					leftSideWidth={'30%'}
+					leftSideWidth={'20%'}
 					onPress={() => navigation.navigate('SocialImpactStack')}
 				/>
 				<OptionButton
@@ -99,11 +101,12 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					highlightedWords={['cultura']}
 					labelColor={theme.black3}
 					labelSize={18}
-					relativeHeight={'18%'}
+					relativeHeight={'15%'}
+					shortDescription={'arte, eventos e educação'}
 					SvgIcon={CultureIcon}
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.blue2}
-					leftSideWidth={'30%'}
+					leftSideWidth={'20%'}
 					onPress={() => navigation.navigate('CultureStack')}
 				/>
 			</FormContainer>

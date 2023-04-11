@@ -96,7 +96,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 						description={'Quero encontrar um serviço, item para compra e/ou troca, vagas e cultura.'}
 						highlightedWords={['para', 'encontrar']}
 						SvgIcon={LoupWhiteIcon}
-						svgIconScale={['50%', '50%']}
+						svgIconScale={['50%', '60%']}
 						leftSideWidth={'25%'}
 						onPress={goToHome}
 					/>
@@ -108,7 +108,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 						description={'quero fazer vendas, anunciar meus serviços, vagas, iniciativas sociais ou arte.'}
 						highlightedWords={['para', 'postar']}
 						SvgIcon={SalesCartWhiteIcon}
-						svgIconScale={['50%', '50%']}
+						svgIconScale={['50%', '60%']}
 						leftSideWidth={'25%'}
 						onPress={goToProfile}
 					/>

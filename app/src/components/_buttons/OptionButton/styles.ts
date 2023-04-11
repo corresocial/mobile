@@ -55,8 +55,17 @@ export const ButtonLabel = styled.Text`
     font-family: Arvo_400Regular;
 `
 
-export const ButtonDescription = styled.Text`
+export const Description = styled.Text`
     color: ${({ theme }) => theme.black4};
-    font-size: ${RFValue(13)}px;
+    font-family: Arvo_400Regular;
+`
+
+export const ShortDescription = styled.Text`
+	width: 100%;
+	align-self: center;
+	text-align: center;
+	font-size: ${RFValue(11)}px;
+	margin-top: 3%;
+    color: ${({ theme }) => theme.black4};
     font-family: Arvo_400Regular;
 `
