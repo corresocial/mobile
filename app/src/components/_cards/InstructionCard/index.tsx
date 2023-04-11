@@ -29,7 +29,7 @@ function InstructionCard({
 	return (
 		<Container
 			style={{
-				borderLeftWidth: borderLeftWidth || 5,
+				borderLeftWidth: RFValue(borderLeftWidth) || 5,
 				flex
 			}}
 		>

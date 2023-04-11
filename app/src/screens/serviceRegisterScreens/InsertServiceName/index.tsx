@@ -76,7 +76,7 @@ function InsertServiceName({ route, navigation }: InsertServiceNameScreenProps) 
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(26)}
+				minHeight={relativeScreenHeight(20)}
 				relativeHeight={'22%'}
 				centralized
 				backgroundColor={theme.purple2}
@@ -84,13 +84,13 @@ function InsertServiceName({ route, navigation }: InsertServiceNameScreenProps) 
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
-					message={'que serviço você vende?'}
-					highlightedWords={['que', 'serviço', 'vende']}
+					fontSize={17}
+					message={'qual o título do seu post?'}
+					highlightedWords={['título']}
 				>
 					<ProgressBar
 						range={5}
-						value={1}
+						value={2}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
@@ -112,7 +112,7 @@ function InsertServiceName({ route, navigation }: InsertServiceNameScreenProps) 
 					lastInput
 					textAlign={'left'}
 					fontSize={16}
-					placeholder={'ex: motoboy para entregas'}
+					placeholder={'ex: marcenaria'}
 					keyboardType={'default'}
 					textIsValid={serviceNameIsValid && !keyboardOpened}
 					validateText={(text: string) => validateServiceName(text)}
