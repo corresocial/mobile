@@ -5,7 +5,7 @@ import { ButtonsContainer, Container } from './styles'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import Uncheck from '../../../assets/icons/x-white.svg'
-import Check from '../../../assets/icons/check-white.svg'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { InsertServicePictureScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
@@ -52,7 +52,7 @@ function InsertServicePicture({ navigation }: InsertServicePictureScreenProps) {
 						highlightedWords={['não', 'precisa']}
 						SecondSvgIcon={Uncheck}
 						svgIconScale={['40%', '18%']}
-						onPress={() => navigation.navigate('InsertServiceName')}
+						onPress={() => navigation.navigate('SelectSaleOrExchange')}
 					/>
 					<PrimaryButton
 						flexDirection={'row-reverse'}
@@ -61,7 +61,7 @@ function InsertServicePicture({ navigation }: InsertServicePictureScreenProps) {
 						labelColor={theme.white3}
 						label={'opa, vou adicionar'}
 						highlightedWords={['vou', 'adicionar']}
-						SvgIcon={Check}
+						SvgIcon={CheckWhiteIcon}
 						svgIconScale={['40%', '25%']}
 						onPress={() => navigation.navigate('ServicePicturePreview')}
 					/>

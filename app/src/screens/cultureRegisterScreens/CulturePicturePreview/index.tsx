@@ -94,7 +94,7 @@ function CulturePicturePreview({ route, navigation }: CulturePicturePreviewScree
 					labelColor={theme.white3}
 					fontSize={18}
 					SvgIcon={CheckIcon}
-					svgIconScale={['30%', '18%']}
+					svgIconScale={['40%', '25%']}
 					highlightedWords={['continuar']}
 					onPress={savePictures}
 				/>

@@ -12,7 +12,7 @@ import {
 } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import Check from '../../../assets/icons/check-white.svg'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { vacancyCategories, updateVacancyTags } from '../../../utils/postsCategories/vacancyCategories'
 import { sortArray } from '../../../common/auxiliaryFunctions'
@@ -221,7 +221,7 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
 								color={theme.green3}
 								label={'continuar'}
 								labelColor={theme.white3}
-								SvgIcon={Check}
+								SvgIcon={CheckWhiteIcon}
 								svgIconScale={['40%', '25%']}
 								onPress={saveTags}
 							/>

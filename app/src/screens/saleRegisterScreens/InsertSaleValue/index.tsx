@@ -6,7 +6,7 @@ import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { ButtonsContainer, Container } from './styles'
-import Check from '../../../assets/icons/check-white.svg'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -129,7 +129,7 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 								color={theme.green3}
 								label={'continuar'}
 								labelColor={theme.white3}
-								SvgIcon={Check}
+								SvgIcon={CheckWhiteIcon}
 								svgIconScale={['40%', '25%']}
 								onPress={saveSaleValue}
 							/>

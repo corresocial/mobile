@@ -12,7 +12,7 @@ import {
 } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import Check from '../../../assets/icons/check-white.svg'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { cultureCategories, updateCultureTags } from '../../../utils/postsCategories/cultureCategories'
 import { sortArray } from '../../../common/auxiliaryFunctions'
@@ -219,7 +219,7 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
 								color={theme.green3}
 								label={'continuar'}
 								labelColor={theme.white3}
-								SvgIcon={Check}
+								SvgIcon={CheckWhiteIcon}
 								svgIconScale={['40%', '25%']}
 								onPress={saveTags}
 							/>

@@ -5,7 +5,7 @@ import { ButtonsContainer, Container } from './styles'
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import Uncheck from '../../../assets/icons/uncheck.svg'
-import Check from '../../../assets/icons/check-white.svg'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { InsertCulturePictureScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
@@ -73,7 +73,7 @@ function InsertCulturePicture({ navigation }: InsertCulturePictureScreenProps) {
 						labelColor={theme.white3}
 						label={'opa, vou adicionar'}
 						highlightedWords={['vou', 'adicionar']}
-						SvgIcon={Check}
+						SvgIcon={CheckWhiteIcon}
 						svgIconScale={['22%', '18%']}
 						onPress={() => navigation.navigate('CulturePicturePreview')}
 					/>

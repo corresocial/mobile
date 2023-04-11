@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { theme } from '../../../common/theme'
 import { ButtonContainerBottom, Container, MapContainer } from './styles'
 import Uncheck from '../../../assets/icons/uncheck.svg'
-import Check from '../../../assets/icons/check-white.svg'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { getLocationViewDescription, getLocationViewHighlightedWords, getLocationViewIcon, getLocationViewTitle } from '../../../utils/locationMessages'
 
@@ -99,7 +99,7 @@ function LocationViewPreview({ route, navigation }: LocationViewPreviewScreenPro
 					highlightedWords={['isso', 'mesmo']}
 					fontSize={16}
 					labelColor={theme.white3}
-					SvgIcon={Check}
+					SvgIcon={CheckWhiteIcon}
 					svgIconScale={['30%', '20%']}
 					onPress={saveLocation}
 

@@ -5,7 +5,7 @@ import * as Location from 'expo-location'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from './styles'
-import Check from '../../../assets/icons/check-white.svg'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import MapPointOrange from '../../../assets/icons/mapPoint-orange.svg'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
@@ -288,7 +288,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 							color={theme.green3}
 							label={'continuar'}
 							labelColor={theme.white3}
-							SvgIcon={Check}
+							SvgIcon={CheckWhiteIcon}
 							svgIconScale={['30%', '15%']}
 							onPress={saveLocation}
 						/>

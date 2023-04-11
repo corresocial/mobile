@@ -9,7 +9,7 @@ import {
 } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import Check from '../../../assets/icons/check-white.svg'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { SelectWorkWeekdaysScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { DaysOfWeek } from '../../../services/firebase/types'
@@ -126,7 +126,7 @@ function SelectWorkWeekdays({ route, navigation }: SelectWorkWeekdaysScreenProps
 							color={theme.green3}
 							label={'continuar'}
 							labelColor={theme.white3}
-							SvgIcon={Check}
+							SvgIcon={CheckWhiteIcon}
 							svgIconScale={['30%', '15%']}
 							onPress={saveWorkWeekdays}
 						/>

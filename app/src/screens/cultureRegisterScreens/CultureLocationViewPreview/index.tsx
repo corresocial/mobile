@@ -5,7 +5,7 @@ import { getDownloadURL } from 'firebase/storage'
 import { theme } from '../../../common/theme'
 import { ButtonContainerBottom, Container, MapContainer } from './styles'
 import Uncheck from '../../../assets/icons/uncheck.svg'
-import Check from '../../../assets/icons/check-white.svg'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { createPost } from '../../../services/firebase/post/createPost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
@@ -278,7 +278,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 									highlightedWords={['isso', 'mesmo']}
 									fontSize={16}
 									labelColor={theme.white3}
-									SvgIcon={Check}
+									SvgIcon={CheckWhiteIcon}
 									svgIconScale={['30%', '20%']}
 									onPress={saveLocation}
 								/>

@@ -6,7 +6,7 @@ import { getLocationViewDescription, getLocationViewHighlightedWords, getLocatio
 import { theme } from '../../../common/theme'
 import { ButtonContainerBottom, Container, MapContainer } from './styles'
 import Uncheck from '../../../assets/icons/uncheck.svg'
-import Check from '../../../assets/icons/check-white.svg'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { SocialImpactLocationViewPreviewScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 import { LocationViewType } from '../../../services/firebase/types'
@@ -108,7 +108,7 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 					highlightedWords={['isso', 'mesmo']}
 					fontSize={16}
 					labelColor={theme.white3}
-					SvgIcon={Check}
+					SvgIcon={CheckWhiteIcon}
 					svgIconScale={['30%', '20%']}
 					onPress={saveLocation}
 

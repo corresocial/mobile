@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { Container, PicturePreviewContainer } from './styles'
+import { Container, PicturePreviewContainer, TopArea } from './styles'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import CheckIcon from '../../../assets/icons/check-white.svg'
@@ -18,6 +18,7 @@ import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { HorizontalListPictures } from '../../../components/HorizontalListPictures'
+import { BackButton } from '../../../components/_buttons/BackButton'
 
 function ServicePicturePreview({ route, navigation }: ServicePicturePreviewScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
@@ -63,11 +64,21 @@ function ServicePicturePreview({ route, navigation }: ServicePicturePreviewScree
 				onClose={() => setCameraOpened(false)}
 				cameraOpened={cameraOpened}
 			/>
+
 			<DefaultHeaderContainer
 				relativeHeight={'85%'}
 				backgroundColor={theme.purple2}
 				withoutPadding
+				flexDirection={'column'}
+				justifyContent={'space-between'}
 			>
+				<TopArea>
+					<BackButton onPress={() => navigation.goBack()} hasSigh />
+					<InstructionCard
+						message={picturesPack.length > 1 ? 'ficaram boas?' : 'ficou boa?'}
+						highlightedWords={['boas', 'boa']}
+					/>
+				</TopArea>
 				<PicturePreviewContainer>
 					<PhotoPortrait
 						pictureUri={picturesPack[pictureIndexSelected]}
@@ -81,11 +92,6 @@ function ServicePicturePreview({ route, navigation }: ServicePicturePreviewScree
 						openCamera={() => setCameraOpened(true)}
 						onSelectPicture={setPictureIndexSelected}
 					/>
-					<InstructionCard
-						message={'ficaram boas?'}
-						highlightedWords={['boas']}
-						flex={0}
-					/>
 				</PicturePreviewContainer>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
@@ -96,7 +102,7 @@ function ServicePicturePreview({ route, navigation }: ServicePicturePreviewScree
 					labelColor={theme.white3}
 					fontSize={18}
 					SvgIcon={CheckIcon}
-					svgIconScale={['30%', '18%']}
+					svgIconScale={['40%', '25%']}
 					highlightedWords={['continuar']}
 					onPress={savePictures}
 				/>
