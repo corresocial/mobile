@@ -236,7 +236,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 				textAlign={'left'}
 				invalidTextAfterSubmit={invalidAddressAfterSubmit}
 				fontSize={16}
-				placeholder={'ex: rua, bairro, cidade, etc...'}
+				placeholder={'digite o endereço do serviço'}
 				keyboardType={'default'}
 				returnKeyType={'search'}
 				onPressKeyboardSubmit={getAddressCoordinates}
@@ -289,7 +289,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 							label={'continuar'}
 							labelColor={theme.white3}
 							SvgIcon={CheckWhiteIcon}
-							svgIconScale={['30%', '15%']}
+							svgIconScale={['40%', '25%']}
 							onPress={saveLocation}
 						/>
 					</ButtonContainerBottom>

@@ -35,7 +35,7 @@ function SelectLocationView({ route, navigation }: SelectLocationViewScreenProps
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
+					fontSize={17}
 					message={'como você prefere que outros usuários vejam sua localização?'}
 					highlightedWords={['como', 'você', 'prefere', 'vejam', 'sua', 'localização']}
 				>

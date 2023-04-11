@@ -5,7 +5,7 @@ import { getLocationViewDescription, getLocationViewHighlightedWords, getLocatio
 
 import { theme } from '../../../common/theme'
 import { ButtonContainerBottom, Container, MapContainer } from './styles'
-import Uncheck from '../../../assets/icons/uncheck.svg'
+import XWhiteIcon from '../../../assets/icons/x-white.svg'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { SocialImpactLocationViewPreviewScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
@@ -97,8 +97,8 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 					highlightedWords={['não', 'curti']}
 					labelColor={theme.white3}
 					fontSize={16}
-					SvgIcon={Uncheck}
-					svgIconScale={['30%', '20%']}
+					SecondSvgIcon={XWhiteIcon}
+					svgIconScale={['40%', '18%']}
 					onPress={() => navigation.goBack()}
 				/>
 				<PrimaryButton
@@ -109,7 +109,7 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 					fontSize={16}
 					labelColor={theme.white3}
 					SvgIcon={CheckWhiteIcon}
-					svgIconScale={['30%', '20%']}
+					svgIconScale={['40%', '25%']}
 					onPress={saveLocation}
 
 				/>

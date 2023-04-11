@@ -77,7 +77,7 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(26)}
+				minHeight={relativeScreenHeight(22)}
 				relativeHeight={'28%'}
 				centralized
 				backgroundColor={theme.purple2}
@@ -85,7 +85,7 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
+					fontSize={17}
 					message={'o que você aceita em troca?'}
 					highlightedWords={['o', 'que', 'em', 'troca']}
 				>
@@ -110,7 +110,7 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 					invalidBackgroundColor={theme.red1}
 					invalidBorderBottomColor={theme.red5}
 					maxLength={100}
-					fontSize={18}
+					fontSize={17}
 					lastInput
 					textAlign={'left'}
 					placeholder={'ex: troco por uma marmita'}

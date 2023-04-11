@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { ButtonsContainer, Container } from './styles'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import Uncheck from '../../../assets/icons/x-white.svg'
+import XWhiteIcon from '../../../assets/icons/x-white.svg'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { InsertServicePictureScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
@@ -50,7 +50,7 @@ function InsertServicePicture({ navigation }: InsertServicePictureScreenProps) {
 						labelColor={theme.white3}
 						label={'não precisa, valew'}
 						highlightedWords={['não', 'precisa']}
-						SecondSvgIcon={Uncheck}
+						SecondSecondSvgIcon={XWhiteIcon}
 						svgIconScale={['40%', '18%']}
 						onPress={() => navigation.navigate('SelectSaleOrExchange')}
 					/>

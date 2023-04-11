@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 import { ButtonContainerBottom, Container, MapContainer } from './styles'
-import Uncheck from '../../../assets/icons/uncheck.svg'
+import XWhiteIcon from '../../../assets/icons/x-white.svg'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { getLocationViewDescription, getLocationViewHighlightedWords, getLocationViewIcon, getLocationViewTitle } from '../../../utils/locationMessages'
@@ -88,8 +88,8 @@ function LocationViewPreview({ route, navigation }: LocationViewPreviewScreenPro
 					highlightedWords={['não', 'curti']}
 					labelColor={theme.white3}
 					fontSize={16}
-					SvgIcon={Uncheck}
-					svgIconScale={['30%', '20%']}
+					SecondSvgIcon={XWhiteIcon}
+					svgIconScale={['40%', '18%']}
 					onPress={() => navigation.goBack()}
 				/>
 				<PrimaryButton
@@ -100,7 +100,7 @@ function LocationViewPreview({ route, navigation }: LocationViewPreviewScreenPro
 					fontSize={16}
 					labelColor={theme.white3}
 					SvgIcon={CheckWhiteIcon}
-					svgIconScale={['30%', '20%']}
+					svgIconScale={['40%', '25%']}
 					onPress={saveLocation}
 
 				/>

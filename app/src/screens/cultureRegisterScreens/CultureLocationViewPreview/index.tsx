@@ -4,7 +4,7 @@ import { Animated, StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 import { theme } from '../../../common/theme'
 import { ButtonContainerBottom, Container, MapContainer } from './styles'
-import Uncheck from '../../../assets/icons/uncheck.svg'
+import XWhiteIcon from '../../../assets/icons/x-white.svg'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { createPost } from '../../../services/firebase/post/createPost'

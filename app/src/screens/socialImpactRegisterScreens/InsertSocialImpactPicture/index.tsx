@@ -4,7 +4,7 @@ import { Platform, StatusBar } from 'react-native'
 import { ButtonsContainer, Container } from './styles'
 import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import Uncheck from '../../../assets/icons/uncheck.svg'
+import XWhiteIcon from '../../../assets/icons/x-white.svg'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { InsertSocialImpactPictureScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
@@ -50,7 +50,7 @@ function InsertSocialImpactPicture({ navigation }: InsertSocialImpactPictureScre
 						labelColor={theme.white3}
 						label={'não precisa, valew'}
 						highlightedWords={['não', 'precisa,']}
-						SecondSvgIcon={Uncheck}
+						SecondSecondSvgIcon={XWhiteIcon}
 						svgIconScale={['40%', '18%']}
 						onPress={() => navigation.navigate('SelectSocialImpactExhibitionRange')}
 					/>

@@ -16,6 +16,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
@@ -38,20 +39,21 @@ function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenP
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={'27%'}
+				minHeight={relativeScreenHeight(22)}
+				relativeHeight={'24%'}
 				centralized
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
-					message={'você entrega seu serviço?'}
-					highlightedWords={['entrega', 'seu', 'serviço']}
+					fontSize={17}
+					message={'você faz entregas ou atende à distância?'}
+					highlightedWords={['entregas', 'atende', 'à', 'distância']}
 				>
 					<ProgressBar
 						range={5}
-						value={5}
+						value={4}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
@@ -66,8 +68,8 @@ function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenP
 						labelColor={theme.black4}
 						fontSize={18}
 						textAlign={'left'}
-						label={'não entrego'}
-						highlightedWords={['não']}
+						label={'comprador busca'}
+						highlightedWords={['comprador']}
 						onPress={() => saveDeliveryMethod('unavailable')}
 					/>
 					<PrimaryButton
@@ -77,8 +79,8 @@ function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenP
 						labelColor={theme.black4}
 						fontSize={18}
 						textAlign={'left'}
-						label={'entrego perto de mim'}
-						highlightedWords={['perto', 'de', 'mim']}
+						label={'entrego na região'}
+						highlightedWords={['na', 'região']}
 						onPress={() => saveDeliveryMethod('near')}
 					/>
 					<PrimaryButton
@@ -99,7 +101,7 @@ function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenP
 						labelColor={theme.black4}
 						fontSize={18}
 						textAlign={'left'}
-						label={'entrego no brasil inteiro'}
+						label={'atendo no brasil inteiro'}
 						highlightedWords={['brasil', 'inteiro']}
 						onPress={() => saveDeliveryMethod('country')}
 					/>

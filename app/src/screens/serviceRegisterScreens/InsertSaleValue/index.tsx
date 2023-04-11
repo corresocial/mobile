@@ -7,7 +7,6 @@ import { ButtonsContainer, Container } from './styles'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 
 import { InsertSaleValueScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
@@ -81,7 +80,7 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(26)}
+				minHeight={relativeScreenHeight(22)}
 				relativeHeight={'22%'}
 				centralized
 				backgroundColor={theme.purple2}
@@ -89,7 +88,7 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
+					fontSize={17}
 					message={'por quanto você vende?'}
 					highlightedWords={['quanto']}
 				>
@@ -116,10 +115,9 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 					lastInput
 					maxLength={100}
 					textAlign={'left'}
-					fontSize={18}
-					placeholder={'ex: 100'}
-					keyboardType={'numeric'}
-					filterText={filterLeavingOnlyNumbers}
+					fontSize={16}
+					placeholder={'ex: 15 reais a hora'}
+					keyboardType={'default'}
 					textIsValid={saleValueIsValid && !keyboardOpened}
 					validateText={(text: string) => validateSaleValue(text)}
 					onChangeText={(text: string) => setSaleValue(text)}
