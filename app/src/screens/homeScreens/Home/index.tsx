@@ -397,6 +397,7 @@ function Home({ navigation }: HomeScreenProps) {
 								owner={item.owner}
 								navigateToProfile={navigateToProfile}
 								onPress={() => goToPostView(item)}
+								postType={item.postType}
 							/>
 						)}
 						// onEndReached={() => console.log('findMoreNearPosts(Pagination)')}
