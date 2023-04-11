@@ -6,5 +6,5 @@ interface SighProps {
 }
 
 export const Sigh = styled.View<SighProps>`
-	margin-right: ${(props) => (props.hasSigh ? RFValue(15) : 0)}px;
+	margin-right: ${(props) => (props.hasSigh ? RFValue(10) : 0)}px;
 `

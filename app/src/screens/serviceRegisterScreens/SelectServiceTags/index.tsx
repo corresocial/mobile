@@ -12,7 +12,7 @@ import {
 } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import Check from '../../../assets/icons/check.svg'
+import CheckIcon from '../../../assets/icons/check-white.svg'
 
 import { serviceCategories, updateServiceTags } from '../../../utils/postsCategories/serviceCategories'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
@@ -28,10 +28,9 @@ import { SelectButtonsContainer } from '../../../components/_containers/SelectBu
 import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { ProgressBar } from '../../../components/ProgressBar'
 import { LineInput } from '../../../components/LineInput'
 import { SelectedTagsHorizontalList } from '../../../components/SelectedTagsHorizontalList'
+import { InfoCard } from '../../../components/_cards/InfoCard'
 
 function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
@@ -60,9 +59,9 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 					<SelectButton
 						key={uuid()}
 						width={relativeScreenWidth(38)}
-						height={relativeScreenHeight(10)}
+						height={relativeScreenHeight(8.6)}
 						label={tagName}
-						fontSize={15}
+						fontSize={14}
 						boldLabel
 						backgroundSelected={theme.purple1}
 						onSelect={() => onSelectTag(tagName)}
@@ -96,6 +95,8 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 
 	const getCurrentCategoryLabel = () => serviceCategories[getServiceCategorySelected()].label
 
+	const categoryLabelSelectedIsLarge = () => getCurrentCategoryLabelHightlighted().length > 1
+
 	const addNewTag = () => {
 		const lowerCaseTag = textTag.toLowerCase()
 
@@ -126,7 +127,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 		setServiceDataOnContext({
 			tags: selectedTags
 		})
-		navigation.navigate('SelectSaleOrExchange')
+		navigation.navigate('InsertServiceName')
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode
@@ -135,23 +136,19 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 		<Container>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(25)}
-				relativeHeight={'25%'}
+				minHeight={categoryLabelSelectedIsLarge() ? relativeScreenHeight(22) : relativeScreenHeight(18)}
 				centralized
+				grow
 				backgroundColor={theme.purple2}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
-				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={18}
-					message={`dentro de ${getCurrentCategoryLabel()}, quais palavras tem a ver com seu serviço?`}
-					highlightedWords={[...getCurrentCategoryLabelHightlighted(), 'tem', 'a', 'ver']}
-				>
-					<ProgressBar
-						range={5}
-						value={2}
-					/>
-				</InstructionCard>
+				<InfoCard
+					title={getCurrentCategoryLabel()}
+					titleFontSize={26}
+					description={`que tipo de ${getCurrentCategoryLabel()} você quer anunciar?`}
+					highlightedWords={[...getCurrentCategoryLabelHightlighted()]}
+					color={theme.white3}
+				/>
 			</DefaultHeaderContainer>
 			<ContainerBottom
 				style={{
@@ -180,6 +177,16 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 						onChangeText={(text: string) => setTextTag(text)}
 					/>
 				</InputTagArea>
+				{
+					!keyboardOpened && !!selectedTags.length
+					&& (
+						< SelectedTagsHorizontalList
+							backgroundSelected={theme.purple1}
+							selectedTags={selectedTags}
+							onSelectTag={onSelectTag}
+						/>
+					)
+				}
 				<SelectButtonsContainer
 					backgroundColor={theme.white2}
 				>
@@ -194,16 +201,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 							overflow: 'scroll',
 						}}
 					>
-						{
-							!keyboardOpened && !!selectedTags.length
-							&& (
-								< SelectedTagsHorizontalList
-									backgroundSelected={theme.purple1}
-									selectedTags={selectedTags}
-									onSelectTag={onSelectTag}
-								/>
-							)
-						}
+
 						<TagsUnselectedArea>
 							{renderUnselectedTags()}
 						</TagsUnselectedArea>
@@ -220,8 +218,8 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 									color={theme.green3}
 									label={'continuar'}
 									labelColor={theme.white3}
-									SvgIcon={Check}
-									svgIconScale={['30%', '15%']}
+									SvgIcon={CheckIcon}
+									svgIconScale={['40%', '25%']}
 									onPress={saveTags}
 								/>
 							</FloatButtonContainer>

@@ -33,7 +33,7 @@ function SelectServiceCategory({ route, navigation }: SelectServiceCategoryScree
 				<SelectButton
 					key={uuid()}
 					width={'45%'}
-					height={relativeScreenHeight(11)}
+					height={relativeScreenHeight(10.1)}
 					label={category.label}
 					boldLabel
 					onSelect={() => onSelectCategory(category.value as ServiceCategories)}
@@ -58,13 +58,13 @@ function SelectServiceCategory({ route, navigation }: SelectServiceCategoryScree
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
-					message={'em qual categoria seu serviço se encaixa?'}
-					highlightedWords={['categoria', 'seu', 'serviço']}
+					fontSize={17}
+					message={'em qual categoria seu post se encaixa?'}
+					highlightedWords={['categoria', 'seu', 'post']}
 				>
 					<ProgressBar
 						range={5}
-						value={2}
+						value={1}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>

@@ -50,7 +50,7 @@ function ServicePicturePreview({ route, navigation }: ServicePicturePreviewScree
 		setServiceDataOnContext({
 			picturesUrl: picturesPack
 		})
-		navigation.navigate('SelectServiceCategory')
+		navigation.navigate('SelectSaleOrExchange')
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode

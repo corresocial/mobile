@@ -52,7 +52,7 @@ function InsertServicePicture({ navigation }: InsertServicePictureScreenProps) {
 						highlightedWords={['não', 'precisa']}
 						SvgIcon={Uncheck}
 						svgIconScale={['22%', '18%']}
-						onPress={() => navigation.navigate('SelectServiceCategory')}
+						onPress={() => navigation.navigate('InsertServiceName')}
 					/>
 					<PrimaryButton
 						flexDirection={'row-reverse'}

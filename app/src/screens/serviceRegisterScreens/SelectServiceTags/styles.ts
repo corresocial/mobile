@@ -22,7 +22,7 @@ export const TagsUnselectedArea = styled.View`
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
-    margin-bottom: 30px;
+    margin-bottom: ${relativeScreenHeight(5)}px;
     flexWrap: wrap;
 `
 

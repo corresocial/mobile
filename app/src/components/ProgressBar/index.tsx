@@ -12,10 +12,9 @@ function ProgressBar({ value, range }: ProgressBarProps) {
 		<Container>
 			<IndicatorLabel>{`${value} de ${range}`}</IndicatorLabel>
 			<IndicatorBarBottom>
-				<IndicatorBarSurface
-					style={{
-						width: `${(100 / range) * value}%`
-					}}
+				<IndicatorBarSurface style={{
+					width: `${(100 / range) * value}%`
+				}}
 				/>
 			</IndicatorBarBottom>
 		</Container>

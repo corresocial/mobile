@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { ScrollView } from 'react-native'
 import uuid from 'react-uuid'
 
-import { TagsSelectedArea } from './styles'
+import { Sigh, TagsSelectedArea } from './styles'
 import xThin from '../../assets/icons/x-thin.svg'
 import { relativeScreenWidth } from '../../common/screenDimensions'
 
@@ -50,6 +50,7 @@ function SelectedTagsHorizontalList({ selectedTags, backgroundSelected, onSelect
 				scrollsToTop
 				contentContainerStyle={{ paddingLeft: relativeScreenWidth(2) }}
 			>
+				<Sigh />
 				{renderSelectedTags()}
 			</ScrollView>
 		</TagsSelectedArea>

@@ -28,24 +28,24 @@ export function ServiceStack() {
 	return (
 		<ServiceProvider>
 			<Stack.Navigator
-				initialRouteName={'InsertServiceName'}
+				initialRouteName={'SelectServiceCategory'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
 					...TransitionPresets.SlideFromRightIOS,
 				}}
 			>
-				<Stack.Screen name={'InsertServiceDescription'} component={InsertServiceDescription} />
-				<Stack.Screen name={'InsertServiceName'} component={InsertServiceName} />
-				<Stack.Screen name={'InsertServicePicture'} component={InsertServicePicture} />
-				<Stack.Screen name={'ServicePicturePreview'} component={ServicePicturePreview} />
 				<Stack.Screen name={'SelectServiceCategory'} component={SelectServiceCategory} />
 				<Stack.Screen name={'SelectServiceTags'} component={SelectServiceTags} />
+				<Stack.Screen name={'InsertServiceName'} component={InsertServiceName} />
+				<Stack.Screen name={'InsertServiceDescription'} component={InsertServiceDescription} />
+				<Stack.Screen name={'InsertServicePicture'} component={InsertServicePicture} />
+				<Stack.Screen name={'ServicePicturePreview'} component={ServicePicturePreview} />
 				<Stack.Screen name={'SelectSaleOrExchange'} component={SelectSaleOrExchange} />
 				<Stack.Screen name={'InsertExchangeValue'} component={InsertExchangeValue} />
 				<Stack.Screen name={'InsertSaleValue'} component={InsertSaleValue} />
-				<Stack.Screen name={'InsertServicePrestationLocation'} component={InsertServicePrestationLocation} />
 				<Stack.Screen name={'SelectLocationView'} component={SelectLocationView} />
+				<Stack.Screen name={'InsertServicePrestationLocation'} component={InsertServicePrestationLocation} />
 				<Stack.Screen name={'LocationViewPreview'} component={LocationViewPreview} />
 				<Stack.Screen name={'SelectDeliveryMethod'} component={SelectDeliveryMethod} />
 				<Stack.Screen name={'SelectServiceFrequency'} component={SelectServiceFrequency} />
