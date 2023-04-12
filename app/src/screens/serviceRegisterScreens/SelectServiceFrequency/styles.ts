@@ -8,5 +8,5 @@ export const ButtonsContainer = styled.View`
    width: 100%;
    height: 100%;
    justify-content: space-between ;
-   padding-vertical: 10%;
+   padding-vertical: 5%;
 `

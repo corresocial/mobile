@@ -29,6 +29,7 @@ function SelectedTagsHorizontalList({ selectedTags, backgroundSelected, onSelect
 			width={'auto'}
 			height={'auto'}
 			label={tagName}
+			flexSelected={1}
 			fontSize={12}
 			boldLabel
 			marginHorizontal={relativeScreenWidth(3)}

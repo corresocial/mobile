@@ -2,9 +2,10 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Animated, Keyboard, Platform, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
-import { ButtonContainer, Container, InputsContainer, TwoPoints } from './styles'
+import { ButtonContainer, Container, InputsContainer, SkipButtonContainer, TwoPoints } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
 
 import { filterLeavingOnlyNumbers, formatHour } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
@@ -86,6 +87,8 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 	}
 
 	const closingTimeIsAfterOpening = () => {
+		if (!serviceDataContext.openingHour && !editDataContext.unsaved.openingHour) return true
+
 		const openingHour = new Date(editDataContext.unsaved.openingHour || serviceDataContext.openingHour as Date)
 		const closingHour = new Date()
 		closingHour.setHours(parseInt(hours), parseInt(minutes))
@@ -109,7 +112,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		})
 	}
 
-	const saveServicePost = async () => {
+	const saveServicePost = async (skipSaveTime?: boolean) => {
 		if (!closingTimeIsAfterOpening()) {
 			setInvalidTimeAfterSubmit(true)
 			return
@@ -125,7 +128,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 
 		setIsLoading(true)
 
-		const serviceData = getCompleteServiceDataFromContext() as ServiceCollection
+		const serviceData = skipSaveTime ? { ...serviceDataContext } : getCompleteServiceDataFromContext() as ServiceCollection
 		const servicePictures = extractServicePictures(serviceData)
 
 		try {
@@ -259,7 +262,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		}
 		return invalidTimeAfterSubmit
 			? 'O horário de início informado é superior ao horário de encerramento'
-			: 'que horas você para de trabalhar?'
+			: 'que horas você termina?'
 	}
 
 	const getHighlightedHeaderMessage = () => {
@@ -268,7 +271,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		}
 		return invalidTimeAfterSubmit
 			? ['horário', 'de', 'início', 'encerramento']
-			: ['que', 'horas', 'para', 'de', 'trabalhar']
+			: ['que', 'horas', 'para', 'termina']
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -291,7 +294,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={invalidTimeAfterSubmit ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={(screenHeight + statusBarHeight) * 0.27}
+				minHeight={relativeScreenHeight(22)}
 				relativeHeight={'22%'}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
@@ -299,7 +302,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
+					fontSize={17}
 					message={getHeaderMessage()}
 					highlightedWords={getHighlightedHeaderMessage()}
 				>
@@ -382,6 +385,24 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 							)
 					}
 				</ButtonContainer>
+				{
+					(!hoursIsValid || !minutesIsValid) && !keyboardOpened
+						? (
+							<SkipButtonContainer>
+								<PrimaryButton
+									flexDirection={'row-reverse'}
+									color={theme.yellow3}
+									label={'pular'}
+									highlightedWords={['pular']}
+									labelColor={theme.black4}
+									SecondSvgIcon={DeniedWhiteIcon}
+									svgIconScale={['40%', '18%']}
+									onPress={() => saveServicePost(true)}
+								/>
+							</SkipButtonContainer>
+						)
+						: <></>
+				}
 			</FormContainer>
 		</Container>
 	)

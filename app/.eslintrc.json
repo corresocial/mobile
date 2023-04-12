@@ -57,6 +57,7 @@
 				"children": "always"
 			}
 		],
+		"react/jsx-no-useless-fragment": "off",
 		"indent": [
 			"error",
 			"tab",

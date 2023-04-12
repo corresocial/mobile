@@ -190,7 +190,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						breakRow
 						smallFontSize={14}
 						largeFontSize={25}
-						exchanveFontSize={14}
+						exchangeFontSize={14}
 					/>
 				</UserAndValueContainer>
 				<Sigh />

@@ -192,7 +192,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						breakRow
 						smallFontSize={14}
 						largeFontSize={25}
-						exchanveFontSize={14}
+						exchangeFontSize={14}
 					/>
 				</UserAndValueContainer>
 				<Sigh />

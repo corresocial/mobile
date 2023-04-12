@@ -7,6 +7,7 @@ import CalendarToday from '../../../assets/icons/calendarToday.svg'
 import CalendarEveryday from '../../../assets/icons/calendarEveryday.svg'
 import CalendarSomeday from '../../../assets/icons/calendarSomeday.svg'
 import CalendarBusinessDay from '../../../assets/icons/calendarBusinessDay.svg'
+import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
 
 import { SelectServiceFrequencyScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { DaysOfWeek, WeekdaysFrequency } from '../../../services/firebase/types'
@@ -20,6 +21,8 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
@@ -99,22 +102,27 @@ function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScr
 		}
 	}
 
+	const skipScreen = () => {
+		navigation.navigate('InsertOpeningHour')
+	}
+
 	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={'27%'}
+				minHeight={relativeScreenHeight(20)}
+				relativeHeight={'22%'}
 				centralized
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
-					message={'com que frequência você vende/vai vender seu serviço?'}
-					highlightedWords={['com', 'que', 'frequência', 'seu', 'serviço']}
+					fontSize={17}
+					message={'quando?'}
+					highlightedWords={['quando']}
 				>
 					<ProgressBar
 						range={5}
@@ -177,6 +185,16 @@ function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScr
 						leftSideWidth={'20%'}
 						leftSideColor={theme.green2}
 						onPress={() => saveServiceFrequency('businessDay')}
+					/>
+					<PrimaryButton
+						flexDirection={'row-reverse'}
+						color={theme.yellow3}
+						label={'pular'}
+						highlightedWords={['pular']}
+						labelColor={theme.black4}
+						SecondSvgIcon={DeniedWhiteIcon}
+						svgIconScale={['40%', '18%']}
+						onPress={skipScreen}
 					/>
 				</ButtonsContainer>
 			</FormContainer>

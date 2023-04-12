@@ -23,6 +23,32 @@ interface SaleOrExchangeCardProps {
 }
 
 function SaleOrExchangeCard({ title, saleValue, exchangeValue, withoutExchangePresentation }: SaleOrExchangeCardProps) {
+	const renderSaleValue = () => {
+		if (saleValue === 'a combinar') {
+			return (
+				<SaleValueArea>
+					<SmallFont>
+						{saleValue}
+					</SmallFont>
+				</SaleValueArea>
+			)
+		}
+
+		return (
+			<SaleValueArea>
+				<SmallFont>
+					{'r$'}
+				</SmallFont>
+				<LargeFont>
+					{saleValue}
+				</LargeFont>
+				<Decimals>
+					{',00'}
+				</Decimals>
+			</SaleValueArea>
+		)
+	}
+
 	return (
 		<DefaultCardContainer>
 			<DefaultHeaderTitle
@@ -30,21 +56,7 @@ function SaleOrExchangeCard({ title, saleValue, exchangeValue, withoutExchangePr
 				SvgIcon={DollarIcon}
 				dimensions={30}
 			/>
-			{
-				saleValue && (
-					<SaleValueArea>
-						<SmallFont>
-							{'r$'}
-						</SmallFont>
-						<LargeFont>
-							{saleValue}
-						</LargeFont>
-						<Decimals>
-							{',00'}
-						</Decimals>
-					</SaleValueArea>
-				)
-			}
+			{saleValue && renderSaleValue()}
 			{
 				!!saleValue && !!exchangeValue && (
 					<SmallFont>
