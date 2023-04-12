@@ -21,6 +21,7 @@ import { SelectDaysOfWeek } from '../../../screens/serviceRegisterScreens/Select
 import { InsertOpeningHour } from '../../../screens/serviceRegisterScreens/InsertOpeningHour'
 import { InsertClosingHour } from '../../../screens/serviceRegisterScreens/InsertClosingHour'
 import { ServiceProvider } from '../../../contexts/ServiceContext'
+import { SelectSaleValueType } from '../../../screens/serviceRegisterScreens/SelectSaleValueType'
 
 const Stack = createStackNavigator<ServiceStackParamList>()
 
@@ -42,8 +43,9 @@ export function ServiceStack() {
 				<Stack.Screen name={'InsertServicePicture'} component={InsertServicePicture} />
 				<Stack.Screen name={'ServicePicturePreview'} component={ServicePicturePreview} />
 				<Stack.Screen name={'SelectSaleOrExchange'} component={SelectSaleOrExchange} />
-				<Stack.Screen name={'InsertExchangeValue'} component={InsertExchangeValue} />
+				<Stack.Screen name={'SelectSaleValueType'} component={SelectSaleValueType} />
 				<Stack.Screen name={'InsertSaleValue'} component={InsertSaleValue} />
+				<Stack.Screen name={'InsertExchangeValue'} component={InsertExchangeValue} />
 				<Stack.Screen name={'SelectLocationView'} component={SelectLocationView} />
 				<Stack.Screen name={'InsertServicePrestationLocation'} component={InsertServicePrestationLocation} />
 				<Stack.Screen name={'LocationViewPreview'} component={LocationViewPreview} />

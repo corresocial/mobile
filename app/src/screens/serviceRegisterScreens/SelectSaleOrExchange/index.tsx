@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
@@ -15,23 +15,25 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
+import { ServiceContext } from '../../../contexts/ServiceContext'
 
 function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
+	const { setServiceDataOnContext } = useContext(ServiceContext)
+
 	const savePaymentType = (paymentType: PaymentType) => {
 		switch (paymentType) {
 			case 'sale': {
-				navigation.navigate('InsertSaleValue', {
-				})
+				setServiceDataOnContext({ exchangeValue: '' })
+				navigation.navigate('SelectSaleValueType', { bothPaymentType: false })
 				break
 			}
 			case 'exchange': {
+				setServiceDataOnContext({ saleValue: '' })
 				navigation.navigate('InsertExchangeValue')
 				break
 			}
 			case 'both': {
-				navigation.navigate('InsertSaleValue', {
-					bothPaymentType: true
-				})
+				navigation.navigate('SelectSaleValueType', { bothPaymentType: true })
 				break
 			}
 			default: return false

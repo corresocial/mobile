@@ -9,8 +9,9 @@ export type ServiceStackParamList = {
 	SelectServiceCategory: { editMode: boolean } | undefined
 	SelectServiceTags: { categorySelected: ServiceCategories, editMode?: boolean }
 	SelectSaleOrExchange: undefined
-	InsertExchangeValue: { editMode: boolean, initialValue: string } | undefined
+	SelectSaleValueType: { bothPaymentType: boolean }
 	InsertSaleValue: { bothPaymentType: boolean, editMode?: boolean, initialValue?: string }
+	InsertExchangeValue: { editMode: boolean, initialValue: string } | undefined
 	SelectLocationView: { editMode: boolean, initialValue?: LatLong } | undefined
 	InsertServicePrestationLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
 	LocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
