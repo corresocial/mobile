@@ -18,6 +18,8 @@ export type LocationViewType = 'private' | 'approximate' | 'public'
 
 export type WeekdaysFrequency = 'today' | 'everyday' | 'someday' | 'businessDay'
 
+export type PostRange = 'near' | 'city' | 'country'
+
 export type DeliveryMethod = 'unavailable' | 'near' | 'city' | 'country'
 
 export type DaysOfWeek = 'seg' | 'ter' | 'qua' | 'qui' | 'sex' | 'sab' | 'dom'

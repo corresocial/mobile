@@ -36,7 +36,7 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 					navigation.navigate('InsertExchangeValue')
 					return
 				}
-				navigation.navigate('SelectLocationView')
+				navigation.navigate('SelectServiceRange')
 				break
 			}
 			default: return false

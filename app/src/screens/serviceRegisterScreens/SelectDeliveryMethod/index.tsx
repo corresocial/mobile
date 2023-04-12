@@ -29,7 +29,7 @@ function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenP
 			return
 		}
 
-		setServiceDataOnContext({ range: deliveryMethod })
+		setServiceDataOnContext({ deliveryMethod })
 		navigation.navigate('SelectServiceFrequency')
 	}
 

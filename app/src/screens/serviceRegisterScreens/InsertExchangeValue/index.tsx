@@ -67,7 +67,7 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 			setServiceDataOnContext({
 				exchangeValue
 			})
-			navigation.navigate('SelectLocationView')
+			navigation.navigate('SelectServiceRange')
 		}
 	}
 

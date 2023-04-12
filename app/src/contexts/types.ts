@@ -1,6 +1,7 @@
 import {
 	CultureType,
 	DaysOfWeek,
+	PostRange,
 	DeliveryMethod,
 	EventRepeatType,
 	ExhibitionPlaceType,
@@ -49,7 +50,7 @@ export type LocationData = {
 }
 
 export type ServiceData = {
-	description?: string // on context
+	description?: string
 	title?: string
 	category?: string
 	tags?: string[]
@@ -57,7 +58,8 @@ export type ServiceData = {
 	saleValue?: string
 	exchangeValue?: string
 	locationView?: LocationViewType
-	range?: DeliveryMethod
+	range?: PostRange
+	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
 	attendanceWeekDays?: DaysOfWeek[]
 	openingHour?: Date

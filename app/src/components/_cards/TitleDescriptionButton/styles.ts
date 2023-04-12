@@ -25,12 +25,40 @@ export const Title = styled.Text`
     width: 100%;
     font-family: Arvo_400Regular;
     font-size:  ${RFValue(22)}px;
-    color: ${({ theme }) => theme.black3}
+    color: ${({ theme }) => theme.black4}
 `
 
 export const Description = styled.Text`
     width: 100%;
     font-family: Arvo_400Regular;
     font-size:  ${RFValue(14)}px;
-    color: ${({ theme }) => theme.black3}
+    color: ${({ theme }) => theme.black4}
+`
+
+export const Footer = styled.View`
+    width: 100%;
+	flex-direction: row;
+	align-items: flex-end;
+	justify-content: flex-end;
+`
+
+export const SmallThinFont = styled.Text`
+	text-align: right;
+    font-family: Arvo_400Regular;
+    font-size:  ${RFValue(18)}px;
+    color: ${({ theme }) => theme.black4}
+`
+
+export const SmallStrongFont = styled.Text`
+	text-align: right;
+    font-family: Arvo_700Bold;
+    font-size:  ${RFValue(18)}px;
+    color: ${({ theme }) => theme.black4}
+`
+
+export const LargeStrongFont = styled.Text`
+	text-align: right;
+    font-family: Arvo_700Bold;
+    font-size:  ${RFValue(25)}px;
+    color: ${({ theme }) => theme.black4}
 `

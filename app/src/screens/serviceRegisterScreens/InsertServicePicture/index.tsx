@@ -50,7 +50,7 @@ function InsertServicePicture({ navigation }: InsertServicePictureScreenProps) {
 						labelColor={theme.white3}
 						label={'não precisa, valew'}
 						highlightedWords={['não', 'precisa']}
-						SecondSecondSvgIcon={XWhiteIcon}
+						SecondSvgIcon={XWhiteIcon}
 						svgIconScale={['40%', '18%']}
 						onPress={() => navigation.navigate('SelectSaleOrExchange')}
 					/>
