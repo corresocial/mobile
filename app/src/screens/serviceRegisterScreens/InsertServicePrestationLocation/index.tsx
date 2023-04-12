@@ -6,10 +6,11 @@ import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from './styles'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-import MapPointOrange from '../../../assets/icons/mapPoint-orange.svg'
+import MapPointWhiteIcon from '../../../assets/icons/mapPoint-white.svg'
+import MapPointOrangeIcon from '../../../assets/icons/mapPoint-orange.svg'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
-import { getLocationViewDescription, getLocationViewHighlightedWords, getLocationViewTitle } from '../../../utils/locationMessages'
+import { generateLocationHeaderText, getPossessivePronoun, getRelativeLocationView, getRelativeRange } from '../../../utils/locationMessages'
 
 import { InsertServicePrestationLocationScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { Coordinates } from '../../../services/firebase/types'
@@ -37,7 +38,7 @@ const defaultDeltaCoordinates = {
 }
 
 function InsertServicePrestationLocation({ route, navigation }: InsertServicePrestationLocationScreenProps) {
-	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [hasPermission, setHasPermission] = useState(false)
@@ -203,23 +204,24 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 	}
 
 	const { locationView } = route.params
+	const { range: postRange } = serviceDataContext
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(22)}
-				relativeHeight={relativeScreenHeight(28)}
+				minHeight={relativeScreenHeight(18)}
+				relativeHeight={relativeScreenHeight(18)}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 				borderBottomWidth={0}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InfoCard
-					title={getLocationViewTitle(locationView, someInvalidFieldSubimitted())}
-					titleFontSize={24}
-					description={getLocationViewDescription(locationView, someInvalidFieldSubimitted())}
-					highlightedWords={[...getLocationViewHighlightedWords(locationView, someInvalidFieldSubimitted())]}
+					title={`${getRelativeRange(postRange)} - ${getRelativeLocationView(locationView)}`}
+					titleFontSize={18}
+					description={generateLocationHeaderText(locationView, postRange)}
+					highlightedWords={[`${getRelativeRange(postRange)},`, getRelativeRange(postRange), getRelativeLocationView(locationView), getPossessivePronoun(postRange)]}
 					height={'100%'}
 					color={theme.white3}
 				/>
@@ -255,11 +257,11 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 					zIndex: 3
 				}}
 				>
-					<MapPointOrange width={relativeScreenWidth(9.72)} height={relativeScreenWidth(9.72)} />
+					<MapPointOrangeIcon width={relativeScreenWidth(9.72)} height={relativeScreenWidth(9.72)} />
 				</View>
 				<ButtonContainer>
 					<PrimaryButton
-						relativeHeight={'10%'}
+						relativeHeight={relativeScreenHeight(8)}
 						minHeight={50}
 						flexDirection={'row-reverse'}
 						color={theme.white3}
@@ -267,7 +269,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 						highlightedWords={['minha', 'localização']}
 						labelColor={theme.black4}
 						fontSize={16}
-						SvgIcon={MapPointOrange}
+						SvgIcon={MapPointWhiteIcon}
 						svgIconScale={['60%', '15%']}
 						onPress={getCurrentPositionCoordinated}
 					/>
@@ -275,7 +277,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 				<CustomMapView
 					regionCoordinate={markerCoordinate || initialRegion}
 					markerCoordinate={null}
-					CustomMarker={MapPointOrange}
+					CustomMarker={MapPointWhiteIcon}
 					updateMarkerPosition={updateMarkerPosition}
 				/>
 			</MapContainer>

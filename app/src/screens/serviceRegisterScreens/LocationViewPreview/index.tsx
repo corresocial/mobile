@@ -3,10 +3,10 @@ import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 import { ButtonContainerBottom, Container, MapContainer } from './styles'
-import XWhiteIcon from '../../../assets/icons/x-white.svg'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
-import { getLocationViewDescription, getLocationViewHighlightedWords, getLocationViewIcon, getLocationViewTitle } from '../../../utils/locationMessages'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { generateLocationHeaderText, getLocationViewIcon, getPossessivePronoun, getRelativeLocationView, getRelativeRange } from '../../../utils/locationMessages'
 
 import { LocationViewPreviewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
@@ -17,6 +17,7 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { CustomMapView } from '../../../components/CustomMapView'
 import { InfoCard } from '../../../components/_cards/InfoCard'
+import { BackButton } from '../../../components/_buttons/BackButton'
 
 const defaultDeltaCoordinates = {
 	latitudeDelta: 0.004,
@@ -55,21 +56,27 @@ function LocationViewPreview({ route, navigation }: LocationViewPreviewScreenPro
 
 	const editModeIsTrue = () => route.params && route.params.editMode
 
+	const { locationView } = route.params
+	const { range: postRange } = serviceDataContext
+
 	return (
 		<Container >
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={'26%'}
+				minHeight={relativeScreenHeight(18)}
+				relativeHeight={relativeScreenHeight(18)}
 				centralized
 				backgroundColor={theme.purple2}
 				borderBottomWidth={0}
 			>
+				<BackButton onPress={() => navigation.goBack()} />
 				<InfoCard
+					title={`${getRelativeRange(postRange)} - ${getRelativeLocationView(locationView)}`}
+					titleFontSize={18}
+					description={generateLocationHeaderText(locationView, postRange)}
+					highlightedWords={[`${getRelativeRange(postRange)},`, getRelativeRange(postRange), getRelativeLocationView(locationView), getPossessivePronoun(postRange)]}
 					height={'100%'}
 					color={theme.white3}
-					title={getLocationViewTitle(route.params?.locationView)}
-					description={getLocationViewDescription(route.params?.locationView)}
-					highlightedWords={getLocationViewHighlightedWords(route.params?.locationView)}
 				/>
 			</DefaultHeaderContainer>
 			<MapContainer>
@@ -83,20 +90,8 @@ function LocationViewPreview({ route, navigation }: LocationViewPreviewScreenPro
 			<ButtonContainerBottom>
 				<PrimaryButton
 					flexDirection={'row-reverse'}
-					color={theme.red3}
-					label={'não curti, voltar'}
-					highlightedWords={['não', 'curti']}
-					labelColor={theme.white3}
-					fontSize={16}
-					SecondSvgIcon={XWhiteIcon}
-					svgIconScale={['40%', '18%']}
-					onPress={() => navigation.goBack()}
-				/>
-				<PrimaryButton
-					flexDirection={'row-reverse'}
 					color={theme.green3}
-					label={'isso mesmo, continuar'}
-					highlightedWords={['isso', 'mesmo']}
+					label={'continuar'}
 					fontSize={16}
 					labelColor={theme.white3}
 					SvgIcon={CheckWhiteIcon}

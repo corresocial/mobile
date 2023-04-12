@@ -11,9 +11,9 @@ export const MapContainer = styled.View`
 `
 
 export const ButtonContainerBottom = styled.View`
-    height: ${RFValue(150)}px; 
+    height: ${RFValue(150)}px;
     width: 100%;
-    justify-content: space-around;
+    justify-content: flex-end;
     padding-horizontal: ${RFValue(20)}px;
     position: absolute;
     bottom: 20px;

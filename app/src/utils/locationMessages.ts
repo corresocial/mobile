@@ -3,7 +3,7 @@ import Eye from '../assets/icons/eye.svg'
 import EyeHalfTraced from '../assets/icons/eyeHalfTraced.svg'
 import EyeTraced from '../assets/icons/eyeTraced.svg'
 
-import { LocationViewType } from '../services/firebase/types'
+import { LocationViewType, PostRange } from '../services/firebase/types'
 
 const getLocationViewTitle = (locationView: LocationViewType, error?: boolean) => {
 	if (error) return 'ops!'
@@ -44,9 +44,46 @@ const getLocationViewIcon = (locationView: LocationViewType, error?: boolean) =>
 	}
 }
 
+const getRelativeLocationView = (locationView: LocationViewType) => {
+	switch (locationView) {
+		case 'private': return 'privada'
+		case 'approximate': return 'aproximada'
+		case 'public': return 'pública'
+		default: return 'indefinida'
+	}
+}
+
+const getRelativeRange = (range: PostRange | undefined) => {
+	switch (range) {
+		case 'near': return 'região'
+		case 'city': return 'cidade'
+		case 'country': return 'país'
+		default: return 'indefinida'
+	}
+}
+
+const getPossessivePronoun = (range: PostRange | undefined) => {
+	return range !== 'country' ? 'sua' : 'seu'
+}
+
+const generateLocationHeaderText = (locationView: LocationViewType, range: PostRange | undefined) => {
+	const rangeLabel = `${getPossessivePronoun(range)} ${getRelativeRange(range)}`
+
+	switch (locationView) {
+		case 'private': return `seus posts podem ser vistos por pessoas da ${rangeLabel}, mas seu	endereço não é visível`
+		case 'approximate': return `seus posts aparecem para pessoas da ${rangeLabel} assim como sua	localização aproximada	`
+		case 'public': return `seus posts e seu	endereço são visíveis para pessoas da ${rangeLabel}`
+		default: return ''
+	}
+}
+
 export {
 	getLocationViewTitle,
 	getLocationViewDescription,
 	getLocationViewHighlightedWords,
-	getLocationViewIcon
+	getLocationViewIcon,
+	getRelativeLocationView,
+	getRelativeRange,
+	getPossessivePronoun,
+	generateLocationHeaderText
 }
