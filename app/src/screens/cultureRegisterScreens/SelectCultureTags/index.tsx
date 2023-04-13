@@ -33,7 +33,7 @@ import { InfoCard } from '../../../components/_cards/InfoCard'
 import { SelectedTagsHorizontalList } from '../../../components/SelectedTagsHorizontalList'
 
 function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) {
-	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+	const { setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [textTag, setTextTag] = useState('')
@@ -124,11 +124,7 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
 		}
 
 		setCultureDataOnContext({ tags: selectedTags })
-		if (cultureDataContext.cultureType === 'eventPost') {
-			navigation.navigate('InsertEntryValue')
-		} else {
-			navigation.navigate('SelectExhibitionPlace')
-		}
+		navigation.navigate('InsertCultureTitle')
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode

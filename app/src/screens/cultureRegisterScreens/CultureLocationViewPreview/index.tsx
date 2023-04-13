@@ -63,11 +63,8 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 		setCultureDataOnContext({
 			locationView: route.params.locationView
 		})
-		if (cultureDataContext.cultureType === 'eventPost') {
-			navigation.navigate('SelectEventRepeat')
-		} else {
-			await saveCulturePost()
-		}
+
+		navigation.navigate('InsertEntryValue')
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode
@@ -83,132 +80,6 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 			showShareModal: visibility,
 			lastPostTitle: postTitle
 		})
-	}
-
-	const saveCulturePost = async () => {
-		setIsLoading(true)
-
-		const cultureData = getCompleteCultureDataFromContext()
-		const culturePictures = extractCulturePictures(cultureData)
-
-		try {
-			const localUser = { ...getLocalUser() }
-			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
-
-			if (!culturePictures.length) {
-				const postId = await createPost(cultureData, localUser, 'posts', 'culture')
-				if (!postId) throw new Error('Não foi possível identificar o post')
-
-				await updateUserPost(
-					localUser,
-					postId,
-					cultureData
-				)
-				return
-			}
-
-			const picturePostsUrls: string[] = []
-			culturePictures.forEach(async (picturePath, index) => {
-				uploadImage(picturePath, 'posts', index).then(
-					({ uploadTask, blob }: any) => {
-						uploadTask.on(
-							'state_change',
-							() => { },
-							(err: any) => {
-								throw new Error(err)
-							},
-							() => {
-								getDownloadURL(uploadTask.snapshot.ref)
-									.then(
-										async (downloadURL) => {
-											blob.close()
-											picturePostsUrls.push(downloadURL)
-											if (picturePostsUrls.length === culturePictures.length) {
-												const cultureDataWithPicturesUrl = { ...cultureData, picturesUrl: picturePostsUrls }
-
-												const postId = await createPost(cultureDataWithPicturesUrl, localUser, 'posts', 'culture')
-												if (!postId) throw new Error('Não foi possível identificar o post')
-
-												await updateUserPost(
-													localUser,
-													postId,
-													cultureDataWithPicturesUrl
-												)
-											}
-										},
-									)
-							},
-						)
-					},
-				)
-			})
-		} catch (err) {
-			console.log(err)
-			setIsLoading(false)
-			setHasServerSideError(true)
-		}
-	}
-
-	const updateUserPost = async (
-		localUser: LocalUserData,
-		postId: string,
-		cultureDataPost: CultureData
-	) => {
-		const postData = {
-			...cultureDataPost,
-			postId,
-			postType: 'culture',
-			createdAt: new Date()
-		}
-
-		await updateDocField(
-			'users',
-			localUser.userId as string,
-			'posts',
-			postData,
-			true,
-		)
-			.then(() => {
-				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollection[] : []
-				setUserDataOnContext({
-					...localUser,
-					tourPerformed: true,
-					posts: [
-						...localUserPosts,
-						{
-							...postData,
-							owner: {
-								userId: localUser.userId,
-								name: localUser.name,
-								profilePictureUrl: localUser.profilePictureUrl
-							}
-						} as CultureCollection
-					],
-				})
-				setDataOnSecureStore('corre.user', {
-					...localUser,
-					tourPerformed: true,
-					posts: [
-						...localUserPosts,
-						{
-							...postData,
-							owner: {
-								userId: localUser.userId,
-								name: localUser.name,
-								profilePictureUrl: localUser.profilePictureUrl
-							}
-						},
-					],
-				})
-				setIsLoading(false)
-				showShareModal(true, postData.title)
-				navigation.navigate('HomeTab' as any)
-			})
-			.catch((err: any) => {
-				console.log(err)
-				setIsLoading(false)
-				setHasServerSideError(true)
-			})
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -267,7 +138,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 									highlightedWords={['não', 'curti']}
 									labelColor={theme.white3}
 									fontSize={16}
-									SvgIcon={Uncheck}
+									SvgIcon={XWhiteIcon}
 									svgIconScale={['30%', '20%']}
 									onPress={() => navigation.goBack()}
 								/>

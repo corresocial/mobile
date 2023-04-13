@@ -48,7 +48,7 @@ function CulturePicturePreview({ route, navigation }: CulturePicturePreviewScree
 		}
 
 		setCultureDataOnContext({ picturesUrl: picturesPack })
-		navigation.navigate('SelectCultureCategory')
+		navigation.navigate('SelectCultureLocationView')
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode

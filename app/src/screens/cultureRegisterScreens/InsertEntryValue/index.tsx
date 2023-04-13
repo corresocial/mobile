@@ -62,7 +62,7 @@ function InsertEntryValue({ route, navigation }: InsertEntryValueScreenProps) {
 		}
 
 		setCultureDataOnContext({ entryValue })
-		navigation.navigate('SelectEventPlaceModality')
+		navigation.navigate('SelectEventRepeat')
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode

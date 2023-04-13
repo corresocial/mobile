@@ -6,7 +6,6 @@ import { CultureStackParamList } from './types'
 
 import { CultureProvider } from '../../../contexts/CultureContext'
 
-import { SelectCultureType } from '../../../screens/cultureRegisterScreens/SelectCultureType'
 import { InsertCultureTitle } from '../../../screens/cultureRegisterScreens/InsertCultureTitle'
 import { InsertCultureDescription } from '../../../screens/cultureRegisterScreens/InsertCultureDescription'
 import { InsertCulturePicture } from '../../../screens/cultureRegisterScreens/InsertCulturePicture'
@@ -31,25 +30,25 @@ export function CultureStack() {
 	return (
 		<CultureProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectCultureType'}
+				initialRouteName={'SelectCultureCategory'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
 					...TransitionPresets.SlideFromRightIOS,
 				}}
 			>
-				<Stack.Screen name={'SelectCultureType'} component={SelectCultureType} />
+				<Stack.Screen name={'SelectCultureCategory'} component={SelectCultureCategory} />
+				<Stack.Screen name={'SelectCultureTags'} component={SelectCultureTags} />
+
 				<Stack.Screen name={'InsertCultureTitle'} component={InsertCultureTitle} />
 				<Stack.Screen name={'InsertCultureDescription'} component={InsertCultureDescription} />
 				<Stack.Screen name={'InsertCulturePicture'} component={InsertCulturePicture} />
 				<Stack.Screen name={'CulturePicturePreview'} component={CulturePicturePreview} />
-				<Stack.Screen name={'SelectCultureCategory'} component={SelectCultureCategory} />
-				<Stack.Screen name={'SelectCultureTags'} component={SelectCultureTags} />
 				<Stack.Screen name={'InsertEntryValue'} component={InsertEntryValue} />
 				<Stack.Screen name={'SelectExhibitionPlace'} component={SelectExhibitionPlace} />
 				<Stack.Screen name={'SelectEventPlaceModality'} component={SelectEventPlaceModality} />
-				<Stack.Screen name={'InsertCultureLocation'} component={InsertCultureLocation} />
 				<Stack.Screen name={'SelectCultureLocationView'} component={SelectCultureLocationView} />
+				<Stack.Screen name={'InsertCultureLocation'} component={InsertCultureLocation} />
 				<Stack.Screen name={'CultureLocationViewPreview'} component={CultureLocationViewPreview} />
 				<Stack.Screen name={'InsertEventStartDate'} component={InsertEventStartDate} />
 				<Stack.Screen name={'InsertEventStartHour'} component={InsertEventStartHour} />

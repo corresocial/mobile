@@ -2,7 +2,6 @@ import { CultureCategories, CultureType, LatLong, LocationViewType } from '../..
 import { UserStackParamList } from '../UserStack/types'
 
 export type CultureStackParamList = {
-	SelectCultureType: undefined
 	InsertCultureTitle: { editMode: boolean, initialValue: string, cultureType: CultureType } | undefined // cultureType: CultureType is edit auxiliary
 	InsertCultureDescription: { editMode: boolean, initialValue: string, cultureType: CultureType } | undefined
 	InsertCulturePicture: undefined
