@@ -1,10 +1,7 @@
-import { Keyboard, Platform, StatusBar } from 'react-native'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Keyboard, StatusBar } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
 
-import { ButtonsContainer, Container } from './styles'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
@@ -13,25 +10,13 @@ import { InsertSocialImpactDescriptionScreenProps } from '../../../routes/Stack/
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { EditContext } from '../../../contexts/EditContext'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { ProgressBar } from '../../../components/ProgressBar'
-import { LineInput } from '../../../components/LineInput'
+import { PostInputDescription } from '../../../components/_onboarding/PostInputDescription'
 
 function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpactDescriptionScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [socialImpactDescription, setSocialImpactDescription] = useState<string>(route.params?.initialValue || '')
-	const [socialImpactDescriptionIsValid, setSocialImpactDescriptionIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
-
-	const inputRefs = {
-		socialImpactDescriptionInput: useRef<React.MutableRefObject<any>>(null),
-	}
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -42,11 +27,6 @@ function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpact
 		return unsubscribe
 	}, [navigation])
 
-	useEffect(() => {
-		const validation = validateSocialImpactDescription(socialImpactDescription)
-		setSocialImpactDescriptionIsValid(validation)
-	}, [socialImpactDescription, keyboardOpened])
-
 	const validateSocialImpactDescription = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
@@ -55,82 +35,34 @@ function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpact
 		return false
 	}
 
-	const saveSocialImpactDescription = () => {
+	const saveSocialImpactDescription = (description: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ description: socialImpactDescription })
+			addNewUnsavedFieldToEditContext({ description })
 			navigation.goBack()
 			return
 		}
 
-		setSocialImpactDataOnContext({ description: socialImpactDescription })
+		setSocialImpactDataOnContext({ description })
 		navigation.navigate('InsertSocialImpactPicture')
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<>
 			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
-			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(28)}
-				relativeHeight={'26%'}
-				centralized
+			<PostInputDescription
 				backgroundColor={theme.pink2}
-			>
-				<BackButton onPress={() => navigation.goBack()} />
-				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={18}
-					message={'qual a descrição do seu post?'}
-					highlightedWords={['descrição']}
-				>
-					<ProgressBar
-						range={5}
-						value={2}
-					/>
-				</InstructionCard>
-			</DefaultHeaderContainer>
-			<FormContainer
-				backgroundColor={theme.white2}
-				justifyContent={'center'}
-			>
-				<LineInput
-					value={socialImpactDescription}
-					relativeWidth={'100%'}
-					initialNumberOfLines={2}
-					textInputRef={inputRefs.socialImpactDescriptionInput}
-					defaultBackgroundColor={theme.white2}
-					defaultBorderBottomColor={theme.black4}
-					validBackgroundColor={theme.pink1}
-					validBorderBottomColor={theme.pink5}
-					multiline
-					lastInput
-					textAlign={'left'}
-					fontSize={16}
-					placeholder={'ex: descreva o que será feito, qual o objetivo, metas, etc...'}
-					keyboardType={'default'}
-					textIsValid={socialImpactDescriptionIsValid && !keyboardOpened}
-					validateText={(text: string) => validateSocialImpactDescription(text)}
-					onChangeText={(text: string) => setSocialImpactDescription(text)}
-				/>
-				<ButtonsContainer>
-					{
-						socialImpactDescriptionIsValid && !keyboardOpened
-						&& (
-							<PrimaryButton
-								flexDirection={'row-reverse'}
-								color={theme.green3}
-								label={'continuar'}
-								labelColor={theme.white3}
-								SvgIcon={CheckWhiteIcon}
-								svgIconScale={['40%', '25%']}
-								onPress={saveSocialImpactDescription}
-							/>
-						)
-					}
-				</ButtonsContainer>
-			</FormContainer>
-		</Container>
+				validationColor={theme.pink1}
+				inputPlaceholder={'ex: projeto de arrecadação para o dia das crianças.'}
+				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
+				progress={[2, 5]}
+				keyboardOpened={keyboardOpened}
+				validateInputText={validateSocialImpactDescription}
+				navigateBackwards={() => navigation.goBack()}
+				saveTextData={saveSocialImpactDescription}
+			/>
+		</>
 	)
 }
 
