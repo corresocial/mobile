@@ -1,4 +1,5 @@
 import styled from 'styled-components/native'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.KeyboardAvoidingView`
     flex: 1;
@@ -20,4 +21,9 @@ export const TwoPoints = styled.Text`
 
 export const ButtonContainer = styled.View`
     width: 100%;
+`
+export const SkipButtonContainer = styled.View`
+    width: 100%;
+	position: absolute;
+	bottom: ${relativeScreenWidth(6)}px;
 `

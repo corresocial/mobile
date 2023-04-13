@@ -12,8 +12,7 @@ interface SaleProviderProps {
 }
 
 const initialValue = {
-	saleDataContext: {
-	},
+	saleDataContext: {},
 	setSaleDataOnContext: (data: SaleData) => { }
 }
 

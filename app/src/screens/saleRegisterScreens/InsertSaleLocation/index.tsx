@@ -210,7 +210,7 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(20)}
+				relativeHeight={relativeScreenHeight(22)}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 				borderBottomWidth={0}

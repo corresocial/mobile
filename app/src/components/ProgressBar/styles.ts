@@ -29,5 +29,5 @@ export const IndicatorBarBottom = styled.View`
 export const IndicatorBarSurface = styled.View`
 	border-radius: 100px;
     background-color: ${({ theme }) => theme.orange3}
-    height: 100%;
+    height: 105%;
 `

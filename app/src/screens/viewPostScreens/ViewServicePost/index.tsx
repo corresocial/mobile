@@ -261,15 +261,13 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						exchangeValue={getPostField('exchangeValue')}
 					/>
 					<Sigh />
-					{postData.locationView !== 'private' && (
-						<LocationViewCard
-							title={'localização'}
-							locationView={getPostField('locationView')}
-							isAuthor={isAuthor}
-							location={getPostField('location')}
-							textFontSize={16}
-						/>
-					)}
+					<LocationViewCard
+						title={'localização'}
+						locationView={getPostField('locationView')}
+						isAuthor={isAuthor}
+						location={getPostField('location')}
+						textFontSize={16}
+					/>
 					<Sigh />
 					<DateTimeCard
 						title={'dias e horários'}

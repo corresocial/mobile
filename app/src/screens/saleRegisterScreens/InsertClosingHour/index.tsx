@@ -2,9 +2,10 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Animated, Keyboard, Platform, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
-import { ButtonContainer, Container, InputsContainer, TwoPoints } from './styles'
+import { ButtonContainer, Container, InputsContainer, SkipButtonContainer, TwoPoints } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
 
 import { filterLeavingOnlyNumbers, formatHour } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
@@ -86,6 +87,8 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 	}
 
 	const closingTimeIsAfterOpening = () => {
+		if (!saleDataContext.openingHour && !editDataContext.unsaved.openingHour) return true
+
 		const openingHour = new Date(editDataContext.unsaved.openingHour || saleDataContext.openingHour as Date)
 		const closingHour = new Date()
 		closingHour.setHours(parseInt(hours), parseInt(minutes))
@@ -109,7 +112,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		})
 	}
 
-	const saveSalePost = async () => {
+	const saveSalePost = async (skipSaveTime?: boolean) => {
 		if (!closingTimeIsAfterOpening()) {
 			setInvalidTimeAfterSubmit(true)
 			return
@@ -125,7 +128,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 
 		setIsLoading(true)
 
-		const saleData = getCompleteSaleDataFromContext() as SaleCollection
+		const saleData = skipSaveTime ? { ...saleDataContext } : getCompleteSaleDataFromContext() as SaleCollection
 		const salePictures = extractSalePictures(saleData)
 
 		try {
@@ -242,7 +245,6 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 						},
 					],
 				})
-				console.log('Naviguei')
 				setIsLoading(false)
 				showShareModal(true, saleDataPost.title)
 				navigation.navigate('HomeTab')
@@ -260,7 +262,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		}
 		return invalidTimeAfterSubmit
 			? 'O horário de início informado é superior ao horário de encerramento'
-			: 'que horas você \npara de vender?'
+			: 'que horas você termina?'
 	}
 
 	const getHighlightedHeaderMessage = () => {
@@ -269,7 +271,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		}
 		return invalidTimeAfterSubmit
 			? ['horário', 'de', 'início', 'encerramento']
-			: ['que', 'horas', 'vender']
+			: ['que', 'horas', 'termina']
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -292,15 +294,14 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={invalidTimeAfterSubmit ? theme.red2 : theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={(screenHeight + statusBarHeight) * 0.27}
-				relativeHeight={'22%'}
+				relativeHeight={invalidTimeAfterSubmit ? relativeScreenHeight(28) : relativeScreenHeight(24)}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
+					fontSize={17}
 					message={getHeaderMessage()}
 					highlightedWords={getHighlightedHeaderMessage()}
 				>
@@ -383,6 +384,24 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 							)
 					}
 				</ButtonContainer>
+				{
+					(!hoursIsValid || !minutesIsValid) && !keyboardOpened
+						? (
+							<SkipButtonContainer>
+								<PrimaryButton
+									flexDirection={'row-reverse'}
+									color={theme.yellow3}
+									label={'pular'}
+									highlightedWords={['pular']}
+									labelColor={theme.black4}
+									SecondSvgIcon={DeniedWhiteIcon}
+									svgIconScale={['40%', '18%']}
+									onPress={() => saveSalePost(true)}
+								/>
+							</SkipButtonContainer>
+						)
+						: <></>
+				}
 			</FormContainer>
 		</Container>
 	)

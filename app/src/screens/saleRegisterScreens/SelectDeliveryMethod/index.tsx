@@ -16,6 +16,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
@@ -26,7 +27,7 @@ function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenP
 			addNewUnsavedFieldToEditContext({ range: deliveryMethod })
 			navigation.goBack()
 		} else {
-			setSaleDataOnContext({ range: deliveryMethod })
+			setSaleDataOnContext({ deliveryMethod })
 		}
 
 		navigation.navigate('SelectSaleFrequency')
@@ -38,16 +39,16 @@ function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenP
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={'27%'}
+				relativeHeight={relativeScreenHeight(24)}
 				centralized
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
-					message={'você pretende entregar seu item?'}
-					highlightedWords={['entregar', 'seu', 'item']}
+					fontSize={17}
+					message={'você faz entregas ou atende à distância?'}
+					highlightedWords={['entregas', 'atende', 'à', 'distância']}
 				>
 					<ProgressBar
 						range={5}
@@ -77,8 +78,8 @@ function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenP
 						labelColor={theme.black4}
 						fontSize={18}
 						textAlign={'left'}
-						label={'entrego perto de mim'}
-						highlightedWords={['perto', 'de', 'mim']}
+						label={'entrego na região'}
+						highlightedWords={['região', 'na']}
 						onPress={() => saveDeliveryMethod('near')}
 					/>
 					<PrimaryButton

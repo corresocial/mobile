@@ -10,6 +10,7 @@ import {
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
 
 import { SelectDaysOfWeekScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
 import { DaysOfWeek } from '../../../services/firebase/types'
@@ -87,20 +88,24 @@ function SelectDaysOfWeek({ route, navigation }: SelectDaysOfWeekScreenProps) {
 		navigation.navigate('InsertOpeningHour')
 	}
 
+	const skipScreen = () => {
+		navigation.navigate('InsertOpeningHour')
+	}
+
 	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={'22%'}
+				relativeHeight={relativeScreenHeight(24)}
 				centralized
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
+					fontSize={17}
 					message={'que dias da semana?'}
 					highlightedWords={['que', 'dias']}
 				>
@@ -118,20 +123,34 @@ function SelectDaysOfWeek({ route, navigation }: SelectDaysOfWeekScreenProps) {
 				</WeekdaysSelectedArea>
 			</SelectButtonsContainer>
 			{
-				!!selectedDays.length
-				&& (
-					<FloatButtonContainer>
-						<PrimaryButton
-							flexDirection={'row-reverse'}
-							color={theme.green3}
-							label={'continuar'}
-							labelColor={theme.white3}
-							SvgIcon={CheckWhiteIcon}
-							svgIconScale={['40%', '25%']}
-							onPress={saveDaysOfWeek}
-						/>
-					</FloatButtonContainer>
-				)
+				selectedDays.length
+					? (
+						<FloatButtonContainer>
+							<PrimaryButton
+								flexDirection={'row-reverse'}
+								color={theme.green3}
+								label={'continuar'}
+								labelColor={theme.white3}
+								SvgIcon={CheckWhiteIcon}
+								svgIconScale={['40%', '25%']}
+								onPress={saveDaysOfWeek}
+							/>
+						</FloatButtonContainer>
+					)
+					: (
+						<FloatButtonContainer>
+							<PrimaryButton
+								flexDirection={'row-reverse'}
+								color={theme.yellow3}
+								label={'pular'}
+								highlightedWords={['pular']}
+								labelColor={theme.black4}
+								SecondSvgIcon={DeniedWhiteIcon}
+								svgIconScale={['40%', '18%']}
+								onPress={skipScreen}
+							/>
+						</FloatButtonContainer>
+					)
 			}
 		</Container >
 	)

@@ -26,7 +26,7 @@ interface DateTimeCardProps {
 function DateTimeCard({
 	title,
 	weekDaysfrequency,
-	daysOfWeek,
+	daysOfWeek = [],
 	openingTime,
 	closingTime,
 	startDate,

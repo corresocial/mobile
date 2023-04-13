@@ -259,15 +259,13 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						exchangeValue={getPostField('exchangeValue')}
 					/>
 					<Sigh />
-					{postData.locationView !== 'private' && (
-						<LocationViewCard
-							title={'local de trabalho'}
-							locationView={getPostField('locationView')}
-							isAuthor={isAuthor}
-							textFontSize={16}
-							location={getPostField('location')}
-						/>
-					)}
+					<LocationViewCard
+						title={'local de trabalho'}
+						locationView={getPostField('locationView')}
+						isAuthor={isAuthor}
+						textFontSize={16}
+						location={getPostField('location')}
+					/>
 					<Sigh />
 					<DateTimeCard
 						title={'dias e horários'}
@@ -280,7 +278,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					<Sigh />
 					<DeliveryMethodCard
 						title={'entrega'}
-						deliveryMethod={getPostField('range')}
+						deliveryMethod={getPostField('deliveryMethod')}
 						textFontSize={16}
 					/>
 					<LastSigh />

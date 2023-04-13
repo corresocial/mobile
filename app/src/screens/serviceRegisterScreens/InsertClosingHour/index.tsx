@@ -294,7 +294,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={invalidTimeAfterSubmit ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(22)}
+				relativeHeight={invalidTimeAfterSubmit ? relativeScreenHeight(28) : relativeScreenHeight(24)}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>

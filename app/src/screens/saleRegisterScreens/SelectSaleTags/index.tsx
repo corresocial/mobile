@@ -129,7 +129,7 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 		setSaleDataOnContext({
 			tags: selectedTags
 		})
-		navigation.navigate('InsertSaleTitle')
+		navigation.navigate('SelectItemStatus')
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode

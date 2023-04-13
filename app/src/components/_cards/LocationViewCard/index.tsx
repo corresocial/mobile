@@ -71,13 +71,6 @@ function LocationViewCard({
 					<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
 						{showMessageWithHighlight('localização privada', ['privada'])}
 					</TextAddress>
-					{
-						isAuthor && (
-							<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
-								{formatAddress()}
-							</TextAddress>
-						)
-					}
 				</>
 			)
 		}
@@ -181,13 +174,13 @@ function LocationViewCard({
 				{renderFormatedAddress()}
 			</CardHeader>
 			{
-				((locationView !== 'private' || isAuthor) && locationView !== undefined) && !withoutMapView && (
+				((locationView !== 'private' || editable) && locationView !== undefined) && !withoutMapView && (
 					<MapArea >
 						<CustomMapView
 							regionCoordinate={getAddressCoordinates()}
 							markerCoordinate={getAddressCoordinates()}
-							CustomMarker={locationView === 'public' || (locationView === 'private' && isAuthor) ? MapPointOrangeIcon : undefined}
-							locationView={locationView === 'private' && isAuthor ? 'public' : locationView}
+							CustomMarker={locationView === 'public' || (locationView === 'private' && editable) ? MapPointOrangeIcon : undefined}
+							locationView={locationView === 'private' && editable ? 'public' : locationView}
 						/>
 						<NavigationApps >
 							<TouchableApp onPress={goToGoogleMapsApp}>

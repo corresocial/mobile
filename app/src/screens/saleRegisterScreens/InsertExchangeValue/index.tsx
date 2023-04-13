@@ -63,7 +63,7 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		}
 
 		setSaleDataOnContext({ exchangeValue })
-		navigation.navigate('SelectLocationView')
+		navigation.navigate('SelectSaleRange')
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode
@@ -72,15 +72,14 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(28)}
-				relativeHeight={'28%'}
+				relativeHeight={relativeScreenHeight(26)}
 				centralized
 				backgroundColor={theme.green2}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
+					fontSize={17}
 					message={'o que você aceita em troca?'}
 					highlightedWords={['o', 'que', 'em', 'troca']}
 				>
@@ -105,7 +104,7 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 					invalidBackgroundColor={theme.red1}
 					invalidBorderBottomColor={theme.red5}
 					maxLength={100}
-					fontSize={18}
+					fontSize={17}
 					lastInput
 					textAlign={'left'}
 					placeholder={'ex: troco por uma marmita'}

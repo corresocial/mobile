@@ -12,7 +12,8 @@ import {
 	UserCollection,
 	VacancyType,
 	WeekdaysFrequency,
-	WorkplaceType
+	WorkplaceType,
+	ItemStatus
 } from '../services/firebase/types'
 import { CurrentCategory, SearchParams } from '../services/maps/types'
 
@@ -89,6 +90,7 @@ export type SaleData = {
 	itemDescription?: string
 	tags?: string[]
 	category?: string
+	itemStatus?: ItemStatus
 	paymentType?: PaymentType
 	saleValue?: string
 	exchangeValue?: string

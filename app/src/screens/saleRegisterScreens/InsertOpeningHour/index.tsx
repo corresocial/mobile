@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Keyboard, Platform, StatusBar } from 'react-native'
 
-import { ButtonContainer, Container, InputsContainer, TwoPoints } from './styles'
+import { ButtonContainer, Container, InputsContainer, SkipButtonContainer, TwoPoints } from './styles'
 import { theme } from '../../../common/theme'
+import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
 
 import { filterLeavingOnlyNumbers, formatHour } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
@@ -17,7 +18,7 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { ProgressBar } from '../../../components/ProgressBar'
 
@@ -84,23 +85,26 @@ function InsertOpeningHour({ route, navigation }: InsertOpeningHourScreenProps) 
 		navigation.navigate('InsertClosingHour')
 	}
 
+	const skipScreen = () => {
+		navigation.navigate('InsertClosingHour')
+	}
+
 	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={(screenHeight + statusBarHeight) * 0.26}
-				relativeHeight={'22%'}
+				relativeHeight={relativeScreenHeight(24)}
 				centralized
 				backgroundColor={theme.green2}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
-					message={'que horas você está aberto para vender?'}
-					highlightedWords={['que', 'horas', 'aberto', 'vender']}
+					fontSize={17}
+					message={'que horas você começa?'}
+					highlightedWords={['que', 'horas', 'começa']}
 				>
 					<ProgressBar
 						range={5}
@@ -171,6 +175,24 @@ function InsertOpeningHour({ route, navigation }: InsertOpeningHourScreenProps) 
 						)
 					}
 				</ButtonContainer>
+				{
+					(!hoursIsValid || !minutesIsValid) && !keyboardOpened
+						? (
+							<SkipButtonContainer>
+								<PrimaryButton
+									flexDirection={'row-reverse'}
+									color={theme.yellow3}
+									label={'pular'}
+									highlightedWords={['pular']}
+									labelColor={theme.black4}
+									SecondSvgIcon={DeniedWhiteIcon}
+									svgIconScale={['40%', '18%']}
+									onPress={skipScreen}
+								/>
+							</SkipButtonContainer>
+						)
+						: <></>
+				}
 			</FormContainer>
 		</Container>
 	)

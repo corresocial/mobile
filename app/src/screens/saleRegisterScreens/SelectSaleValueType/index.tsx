@@ -1,14 +1,12 @@
 import React, { useContext } from 'react'
-import { StatusBar } from 'react-native'
 
-import { theme } from '../../../common/theme'
-
-import { SelectSaleValueTypeScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
+import { SelectSaleValueTypeScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 import { SaleValueType } from '../../../services/firebase/types'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { PaymentValueType } from '../../../components/_onboarding/PaymentValueType'
+import { theme } from '../../../common/theme'
 
 function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
@@ -28,7 +26,7 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 					navigation.navigate('InsertExchangeValue')
 					return
 				}
-				navigation.navigate('SelectServiceRange')
+				navigation.navigate('SelectSaleRange')
 				break
 			}
 			default: return false
@@ -36,15 +34,12 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 	}
 
 	return (
-		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-			<PaymentValueType
-				backgroundColor={theme.purple2}
-				navigateBackwards={() => navigation.goBack()}
-				savePaymentValueType={saveSaleValueType}
-				progress={[3, 5]}
-			/>
-		</>
+		<PaymentValueType
+			backgroundColor={theme.green2}
+			navigateBackwards={() => navigation.goBack()}
+			savePaymentValueType={saveSaleValueType}
+			progress={[3, 5]}
+		/>
 	)
 }
 

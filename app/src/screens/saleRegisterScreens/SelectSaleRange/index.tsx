@@ -3,17 +3,17 @@ import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 
-import { SelectServiceRangeScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
+import { SelectSaleRangeScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 import { PostRange as PostRangeType } from '../../../services/firebase/types'
+
+import { SaleContext } from '../../../contexts/SaleContext'
 import { PostRange } from '../../../components/_onboarding/PostRange'
 
-import { ServiceContext } from '../../../contexts/ServiceContext'
-
-function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps) {
-	const { setServiceDataOnContext } = useContext(ServiceContext)
+function SelectSaleRange({ navigation }: SelectSaleRangeScreenProps) {
+	const { setSaleDataOnContext } = useContext(SaleContext)
 
 	const savePostRange = (postRange: PostRangeType) => {
-		setServiceDataOnContext({ range: postRange })
+		setSaleDataOnContext({ range: postRange })
 		navigation.navigate('SelectLocationView')
 	}
 
@@ -21,7 +21,7 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 		<>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<PostRange
-				backgroundColor={theme.purple2}
+				backgroundColor={theme.green2}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
 				progress={[4, 5]}
@@ -30,4 +30,4 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 	)
 }
 
-export { SelectServiceRange }
+export { SelectSaleRange }

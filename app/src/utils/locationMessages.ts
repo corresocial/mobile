@@ -58,7 +58,7 @@ const getRelativeRange = (range: PostRange | undefined) => {
 		case 'near': return 'região'
 		case 'city': return 'cidade'
 		case 'country': return 'país'
-		default: return 'indefinida'
+		default: return 'local'
 	}
 }
 

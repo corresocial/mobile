@@ -7,6 +7,7 @@ import CalendarToday from '../../../assets/icons/calendarToday.svg'
 import CalendarEveryday from '../../../assets/icons/calendarEveryday.svg'
 import CalendarSomeday from '../../../assets/icons/calendarSomeday.svg'
 import CalendarBusinessDay from '../../../assets/icons/calendarBusinessDay.svg'
+import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
 
 import { SelectSaleFrequencyScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
 import { DaysOfWeek, WeekdaysFrequency } from '../../../services/firebase/types'
@@ -20,6 +21,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 
 function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
@@ -95,6 +97,10 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 			}
 			default: return false
 		}
+	}
+
+	const skipScreen = () => {
+		navigation.navigate('InsertOpeningHour')
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode
@@ -175,6 +181,16 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 						leftSideWidth={'20%'}
 						leftSideColor={theme.green2}
 						onPress={() => saveSaleFrequency('businessDay')}
+					/>
+					<PrimaryButton
+						flexDirection={'row-reverse'}
+						color={theme.yellow3}
+						label={'pular'}
+						highlightedWords={['pular']}
+						labelColor={theme.black4}
+						SecondSvgIcon={DeniedWhiteIcon}
+						svgIconScale={['40%', '18%']}
+						onPress={skipScreen}
 					/>
 				</ButtonsContainer>
 			</FormContainer>

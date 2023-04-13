@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
-import SalesCartWhiteIcon from '../../../assets/icons/salesCart-white.svg'
-import ExchangeWhiteIcon from '../../../assets/icons/exchange-white.svg'
+import UsedLabelWhiteIcon from '../../../assets/icons/usedLabel-white.svg'
+import GiftWhiteIcon from '../../../assets/icons/gift-white.svg'
 
-import { SelectPaymentTypeScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
-import { PaymentType } from '../../../services/firebase/types'
+import { SelectItemStatusScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
+import { ItemStatus } from '../../../services/firebase/types'
+
+import { SaleContext } from '../../../contexts/SaleContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -17,23 +19,12 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
-function SelectPaymentType({ navigation }: SelectPaymentTypeScreenProps) {
-	const savePaymentType = (paymentType: PaymentType) => {
-		switch (paymentType) {
-			case 'sale': {
-				navigation.navigate('SelectSaleValueType', { bothPaymentType: false })
-				break
-			}
-			case 'exchange': {
-				navigation.navigate('InsertExchangeValue')
-				break
-			}
-			case 'both': {
-				navigation.navigate('SelectSaleValueType', { bothPaymentType: true })
-				break
-			}
-			default: return false
-		}
+function SelectItemStatus({ navigation }: SelectItemStatusScreenProps) {
+	const { setSaleDataOnContext } = useContext(SaleContext)
+
+	const saveItemStatus = (itemStatus: ItemStatus) => {
+		setSaleDataOnContext({ itemStatus })
+		navigation.navigate('InsertSaleTitle')
 	}
 
 	return (
@@ -53,7 +44,7 @@ function SelectPaymentType({ navigation }: SelectPaymentTypeScreenProps) {
 				>
 					<ProgressBar
 						range={5}
-						value={3}
+						value={2}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
@@ -68,11 +59,11 @@ function SelectPaymentType({ navigation }: SelectPaymentTypeScreenProps) {
 						relativeHeight={'21%'}
 						labelColor={theme.black4}
 						fontSize={20}
-						label={'somente venda'}
-						highlightedWords={['venda']}
-						SvgIcon={SalesCartWhiteIcon}
-						svgIconScale={['35%', '18%']}
-						onPress={() => savePaymentType('sale')}
+						label={'item usado'}
+						highlightedWords={['usado']}
+						SvgIcon={UsedLabelWhiteIcon}
+						svgIconScale={['50%', '18%']}
+						onPress={() => saveItemStatus('new')}
 					/>
 					<PrimaryButton
 						flexDirection={'row-reverse'}
@@ -81,24 +72,11 @@ function SelectPaymentType({ navigation }: SelectPaymentTypeScreenProps) {
 						relativeHeight={'21%'}
 						labelColor={theme.black4}
 						fontSize={20}
-						label={'somente troca'}
-						highlightedWords={['troca']}
-						SvgIcon={ExchangeWhiteIcon}
-						svgIconScale={['35%', '18%']}
-						onPress={() => savePaymentType('exchange')}
-					/>
-					<PrimaryButton
-						justifyContent={'space-around'}
-						color={theme.white3}
-						relativeHeight={'21%'}
-						labelColor={theme.black4}
-						fontSize={20}
-						label={'venda \nou troca'}
-						highlightedWords={['venda', 'troca']}
-						SvgIcon={ExchangeWhiteIcon}
-						SecondSvgIcon={SalesCartWhiteIcon}
-						svgIconScale={['35%', '18%']}
-						onPress={() => savePaymentType('both')}
+						label={'item novo'}
+						highlightedWords={['novo']}
+						SvgIcon={GiftWhiteIcon}
+						svgIconScale={['50%', '18%']}
+						onPress={() => saveItemStatus('used')}
 					/>
 				</ButtonsContainer>
 			</FormContainer>
@@ -106,4 +84,4 @@ function SelectPaymentType({ navigation }: SelectPaymentTypeScreenProps) {
 	)
 }
 
-export { SelectPaymentType }
+export { SelectItemStatus }

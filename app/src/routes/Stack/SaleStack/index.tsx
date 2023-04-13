@@ -15,6 +15,7 @@ import { SalePicturePreview } from '../../../screens/saleRegisterScreens/SalePic
 import { SelectPaymentType } from '../../../screens/saleRegisterScreens/SelectPaymentType'
 import { InsertSaleValue } from '../../../screens/saleRegisterScreens/InsertSaleValue'
 import { InsertExchangeValue } from '../../../screens/saleRegisterScreens/InsertExchangeValue'
+import { SelectSaleValueType } from '../../../screens/saleRegisterScreens/SelectSaleValueType'
 import { InsertSaleLocation } from '../../../screens/saleRegisterScreens/InsertSaleLocation'
 import { SelectLocationView } from '../../../screens/saleRegisterScreens/SelectLocationView'
 import { LocationViewPreview } from '../../../screens/saleRegisterScreens/LocationViewPreview'
@@ -23,6 +24,8 @@ import { SelectSaleFrequency } from '../../../screens/saleRegisterScreens/Select
 import { SelectDaysOfWeek } from '../../../screens/saleRegisterScreens/SelectDaysOfWeek'
 import { InsertOpeningHour } from '../../../screens/saleRegisterScreens/InsertOpeningHour'
 import { InsertClosingHour } from '../../../screens/saleRegisterScreens/InsertClosingHour'
+import { SelectSaleRange } from '../../../screens/saleRegisterScreens/SelectSaleRange'
+import { SelectItemStatus } from '../../../screens/saleRegisterScreens/SelectItemStatus'
 
 const Stack = createStackNavigator<SaleStackParamList>()
 
@@ -39,13 +42,16 @@ export function SaleStack() {
 			>
 				<Stack.Screen name={'SelectSaleCategory'} component={SelectSaleCategory} />
 				<Stack.Screen name={'SelectSaleTags'} component={SelectSaleTags} />
+				<Stack.Screen name={'SelectItemStatus'} component={SelectItemStatus} />
 				<Stack.Screen name={'InsertSaleTitle'} component={InsertSaleTitle} />
 				<Stack.Screen name={'InsertItemDescription'} component={InsertItemDescription} />
 				<Stack.Screen name={'InsertSalePicture'} component={InsertSalePicture} />
 				<Stack.Screen name={'SalePicturePreview'} component={SalePicturePreview} />
 				<Stack.Screen name={'SelectPaymentType'} component={SelectPaymentType} />
+				<Stack.Screen name={'SelectSaleValueType'} component={SelectSaleValueType} />
 				<Stack.Screen name={'InsertSaleValue'} component={InsertSaleValue} />
 				<Stack.Screen name={'InsertExchangeValue'} component={InsertExchangeValue} />
+				<Stack.Screen name={'SelectSaleRange'} component={SelectSaleRange} />
 				<Stack.Screen name={'SelectLocationView'} component={SelectLocationView} />
 				<Stack.Screen name={'InsertSaleLocation'} component={InsertSaleLocation} />
 				<Stack.Screen name={'LocationViewPreview'} component={LocationViewPreview} />

@@ -16,6 +16,8 @@ export type ServiceCategory = typeof serviceCategories
 
 export type LocationViewType = 'private' | 'approximate' | 'public'
 
+export type ItemStatus = 'new' | 'used'
+
 export type WeekdaysFrequency = 'today' | 'everyday' | 'someday' | 'businessDay'
 
 export type PostRange = 'near' | 'city' | 'country'
@@ -226,6 +228,7 @@ export type SaleCollection = {
 	itemName?: string
 	itemDescription?: string
 	tags?: string[]
+	itemStatus?: ItemStatus
 	category?: string
 	paymentType?: PaymentType
 	saleValue?: string
@@ -271,11 +274,13 @@ export type SaleCollectionRemote = {
 	itemDescription: string
 	tags: string[]
 	category: string
+	itemStatus: ItemStatus
 	paymentType: PaymentType
 	saleValue: string
 	exchangeValue?: string
 	locationView: LocationViewType
-	range: DeliveryMethod
+	range?: PostRange
+	deliveryMethod?: DeliveryMethod
 	attendanceFrequency: WeekdaysFrequency
 	attendanceWeekDays: DaysOfWeek[]
 	openingHour: Date

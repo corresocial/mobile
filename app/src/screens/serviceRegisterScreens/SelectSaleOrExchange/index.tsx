@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
 import SalesCartWhiteIcon from '../../../assets/icons/salesCart-white.svg'
-import Exchange from '../../../assets/icons/exchange.svg'
+import ExchangeWhiteIcon from '../../../assets/icons/exchange-white.svg'
 
 import { SelectSaleOrExchangeScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { PaymentType } from '../../../services/firebase/types'
@@ -88,7 +88,7 @@ function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
 						fontSize={20}
 						label={'somente troca'}
 						highlightedWords={['troca']}
-						SvgIcon={Exchange}
+						SvgIcon={ExchangeWhiteIcon}
 						svgIconScale={['35%', '18%']}
 						onPress={() => savePaymentType('exchange')}
 					/>
@@ -100,7 +100,7 @@ function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
 						fontSize={20}
 						label={'venda \nou troca'}
 						highlightedWords={['venda', 'troca']}
-						SvgIcon={Exchange}
+						SvgIcon={ExchangeWhiteIcon}
 						SecondSvgIcon={SalesCartWhiteIcon}
 						svgIconScale={['35%', '18%']}
 						onPress={() => savePaymentType('both')}

@@ -60,7 +60,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 	}
 
 	const formatDaysOfWeek = () => {
-		const attendanceWeekDays = getPostField('attendanceWeekDays')
+		const attendanceWeekDays = getPostField('attendanceWeekDays') || []
 
 		const allDaysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
 		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => attendanceWeekDays.includes(weekDay))
