@@ -118,7 +118,7 @@ function LineInput({
 	}
 
 	const closeKeyboard = () => {
-		textInputRef.current.blur()
+		textInputRef && textInputRef.current.blur()
 	}
 
 	const resizeMultilineInput = (height: number) => {
