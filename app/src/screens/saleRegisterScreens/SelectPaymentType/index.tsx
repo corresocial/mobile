@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
-import SalesCartO from '../../../assets/icons/salesCart-o.svg'
+import SalesCartWhiteIcon from '../../../assets/icons/salesCart-white.svg'
 import Exchange from '../../../assets/icons/exchange.svg'
 
 import { SelectPaymentTypeScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
@@ -15,13 +15,13 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function SelectPaymentType({ navigation }: SelectPaymentTypeScreenProps) {
 	const savePaymentType = (paymentType: PaymentType) => {
 		switch (paymentType) {
 			case 'sale': {
-				navigation.navigate('InsertSaleValue', {
-				})
+				navigation.navigate('InsertSaleValue', { bothPaymentType: false })
 				break
 			}
 			case 'exchange': {
@@ -29,9 +29,7 @@ function SelectPaymentType({ navigation }: SelectPaymentTypeScreenProps) {
 				break
 			}
 			case 'both': {
-				navigation.navigate('InsertSaleValue', {
-					bothPaymentType: true
-				})
+				navigation.navigate('InsertSaleValue', { bothPaymentType: true })
 				break
 			}
 			default: return false
@@ -42,14 +40,14 @@ function SelectPaymentType({ navigation }: SelectPaymentTypeScreenProps) {
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={'22%'}
+				relativeHeight={relativeScreenHeight(24)}
 				centralized
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
+					fontSize={17}
 					message={'você vende, aceita troca ou os dois?'}
 					highlightedWords={['vende', 'aceita', 'troca', 'os', 'dois']}
 				>
@@ -72,7 +70,7 @@ function SelectPaymentType({ navigation }: SelectPaymentTypeScreenProps) {
 						fontSize={20}
 						label={'somente venda'}
 						highlightedWords={['venda']}
-						SvgIcon={SalesCartO}
+						SvgIcon={SalesCartWhiteIcon}
 						svgIconScale={['35%', '18%']}
 						onPress={() => savePaymentType('sale')}
 					/>
@@ -98,7 +96,7 @@ function SelectPaymentType({ navigation }: SelectPaymentTypeScreenProps) {
 						label={'venda \nou troca'}
 						highlightedWords={['venda', 'troca']}
 						SvgIcon={Exchange}
-						SecondSvgIcon={SalesCartO}
+						SecondSvgIcon={SalesCartWhiteIcon}
 						svgIconScale={['35%', '18%']}
 						onPress={() => savePaymentType('both')}
 					/>

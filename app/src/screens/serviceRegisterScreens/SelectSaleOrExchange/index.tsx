@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
-import SalesCartO from '../../../assets/icons/salesCart-o.svg'
+import SalesCartWhiteIcon from '../../../assets/icons/salesCart-white.svg'
 import Exchange from '../../../assets/icons/exchange.svg'
 
 import { SelectSaleOrExchangeScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
@@ -75,7 +75,7 @@ function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
 						fontSize={20}
 						label={'somente venda'}
 						highlightedWords={['venda']}
-						SvgIcon={SalesCartO}
+						SvgIcon={SalesCartWhiteIcon}
 						svgIconScale={['35%', '18%']}
 						onPress={() => savePaymentType('sale')}
 					/>
@@ -101,7 +101,7 @@ function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
 						label={'venda \nou troca'}
 						highlightedWords={['venda', 'troca']}
 						SvgIcon={Exchange}
-						SecondSvgIcon={SalesCartO}
+						SecondSvgIcon={SalesCartWhiteIcon}
 						svgIconScale={['35%', '18%']}
 						onPress={() => savePaymentType('both')}
 					/>

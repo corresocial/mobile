@@ -231,7 +231,8 @@ export type SaleCollection = {
 	saleValue?: string
 	exchangeValue?: string
 	locationView?: LocationViewType
-	range?: DeliveryMethod
+	range?: PostRange
+	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
 	attendanceWeekDays?: DaysOfWeek[]
 	openingHour?: Date

@@ -127,7 +127,7 @@ function SelectWorkWeekdays({ route, navigation }: SelectWorkWeekdaysScreenProps
 							label={'continuar'}
 							labelColor={theme.white3}
 							SvgIcon={CheckWhiteIcon}
-							svgIconScale={['30%', '15%']}
+							svgIconScale={['40%', '25%']}
 							onPress={saveWorkWeekdays}
 						/>
 					</FloatButtonContainer>

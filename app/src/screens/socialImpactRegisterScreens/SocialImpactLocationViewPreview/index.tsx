@@ -102,13 +102,12 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 					onPress={() => navigation.goBack()}
 				/>
 				<PrimaryButton
-					flexDirection={'row-reverse'}
 					color={theme.green3}
 					label={'isso mesmo, continuar'}
 					highlightedWords={['isso', 'mesmo']}
 					fontSize={16}
 					labelColor={theme.white3}
-					SvgIcon={CheckWhiteIcon}
+					SecondSvgIcon={CheckWhiteIcon}
 					svgIconScale={['40%', '25%']}
 					onPress={saveLocation}
 

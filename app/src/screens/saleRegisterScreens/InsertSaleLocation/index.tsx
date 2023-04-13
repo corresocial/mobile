@@ -6,10 +6,11 @@ import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from './styles'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-import MapPointOrange from '../../../assets/icons/mapPoint-orange.svg'
+import MapPointWhiteIcon from '../../../assets/icons/mapPoint-white.svg'
+import MapPointOrangeIcon from '../../../assets/icons/mapPoint-orange.svg'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
-import { getLocationViewDescription, getLocationViewHighlightedWords, getLocationViewTitle } from '../../../utils/locationMessages'
+import { generateLocationHeaderText, getPossessivePronoun, getRelativeLocationView, getRelativeRange } from '../../../utils/locationMessages'
 
 import { InsertSaleLocationScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
 import { Coordinates } from '../../../services/firebase/types'
@@ -37,7 +38,7 @@ const defaultDeltaCoordinates = {
 }
 
 function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { saleDataContext, setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [hasPermission, setHasPermission] = useState(false)
@@ -203,23 +204,23 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 	}
 
 	const { locationView } = route.params
+	const { range: postRange } = saleDataContext
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(22)}
-				relativeHeight={relativeScreenHeight(28)}
+				relativeHeight={relativeScreenHeight(20)}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 				borderBottomWidth={0}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InfoCard
-					title={getLocationViewTitle(locationView, someInvalidFieldSubimitted())}
-					titleFontSize={24}
-					description={getLocationViewDescription(locationView, someInvalidFieldSubimitted())}
-					highlightedWords={[...getLocationViewHighlightedWords(locationView, someInvalidFieldSubimitted())]}
+					title={`${getRelativeRange(postRange)} - ${getRelativeLocationView(locationView)}`}
+					titleFontSize={18}
+					description={generateLocationHeaderText(locationView, postRange)}
+					highlightedWords={[`${getRelativeRange(postRange)},`, getRelativeRange(postRange), getRelativeLocationView(locationView), getPossessivePronoun(postRange)]}
 					height={'100%'}
 					color={theme.white3}
 				/>
@@ -236,7 +237,7 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 				textAlign={'left'}
 				invalidTextAfterSubmit={invalidAddressAfterSubmit}
 				fontSize={16}
-				placeholder={'ex: rua, bairro, cidade, etc...'}
+				placeholder={'digite o endereço do serviço'}
 				keyboardType={'default'}
 				returnKeyType={'search'}
 				onPressKeyboardSubmit={getAddressCoordinates}
@@ -255,7 +256,7 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 					zIndex: 3
 				}}
 				>
-					<MapPointOrange width={relativeScreenWidth(9.72)} height={relativeScreenWidth(9.72)} />
+					<MapPointOrangeIcon width={relativeScreenWidth(9.72)} height={relativeScreenWidth(9.72)} />
 				</View>
 				<ButtonContainer>
 					<PrimaryButton
@@ -267,7 +268,7 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 						highlightedWords={['minha', 'localização']}
 						labelColor={theme.black4}
 						fontSize={16}
-						SvgIcon={MapPointOrange}
+						SvgIcon={MapPointWhiteIcon}
 						svgIconScale={['60%', '15%']}
 						onPress={getCurrentPositionCoordinated}
 					/>
@@ -275,7 +276,7 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 				<CustomMapView
 					regionCoordinate={markerCoordinate || initialRegion}
 					markerCoordinate={null}
-					CustomMarker={MapPointOrange}
+					CustomMarker={MapPointWhiteIcon}
 					updateMarkerPosition={updateMarkerPosition}
 				/>
 			</MapContainer>
@@ -289,7 +290,7 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 							label={'continuar'}
 							labelColor={theme.white3}
 							SvgIcon={CheckWhiteIcon}
-							svgIconScale={['30%', '15%']}
+							svgIconScale={['40%', '25%']}
 							onPress={saveLocation}
 						/>
 					</ButtonContainerBottom>

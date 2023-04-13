@@ -136,7 +136,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 		<Container>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={categoryLabelSelectedIsLarge() ? relativeScreenHeight(22) : relativeScreenHeight(18)}
+				minHeight={categoryLabelSelectedIsLarge() ? relativeScreenHeight(24) : relativeScreenHeight(18)}
 				centralized
 				grow
 				backgroundColor={theme.purple2}

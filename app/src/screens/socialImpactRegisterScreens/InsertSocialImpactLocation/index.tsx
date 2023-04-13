@@ -208,7 +208,7 @@ function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLoc
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.pink2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(22)}
+				minHeight={relativeScreenHeight(24)}
 				relativeHeight={relativeScreenHeight(28)}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
@@ -289,7 +289,7 @@ function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLoc
 							label={'continuar'}
 							labelColor={theme.white3}
 							SvgIcon={CheckWhiteIcon}
-							svgIconScale={['30%', '15%']}
+							svgIconScale={['40%', '25%']}
 							onPress={saveLocation}
 						/>
 					</ButtonContainerBottom>

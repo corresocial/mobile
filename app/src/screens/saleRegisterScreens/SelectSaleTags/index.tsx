@@ -61,9 +61,9 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 					<SelectButton
 						key={uuid()}
 						width={relativeScreenWidth(38)}
-						height={relativeScreenHeight(10)}
+						height={relativeScreenHeight(8.6)}
 						label={tagName}
-						fontSize={15}
+						fontSize={14}
 						boldLabel
 						backgroundSelected={theme.green1}
 						onSelect={() => onSelectTag(tagName)}
@@ -138,9 +138,9 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 		<Container>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={categoryLabelSelectedIsLarge() ? relativeScreenHeight(25) : relativeScreenHeight(20)}
-				relativeHeight={categoryLabelSelectedIsLarge() ? '30%' : '24%'}
+				minHeight={categoryLabelSelectedIsLarge() ? relativeScreenHeight(24) : relativeScreenHeight(18)}
 				centralized
+				grow
 				backgroundColor={theme.green2}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
@@ -181,6 +181,16 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 						onChangeText={(text: string) => setTextTag(text)}
 					/>
 				</InputTagArea>
+				{
+					!keyboardOpened && !!selectedTags.length
+					&& (
+						< SelectedTagsHorizontalList
+							backgroundSelected={theme.green1}
+							selectedTags={selectedTags}
+							onSelectTag={onSelectTag}
+						/>
+					)
+				}
 				<SelectButtonsContainer
 					backgroundColor={theme.white2}
 				>
@@ -195,16 +205,6 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 							overflow: 'scroll',
 						}}
 					>
-						{
-							!keyboardOpened && !!selectedTags.length
-							&& (
-								< SelectedTagsHorizontalList
-									backgroundSelected={theme.green1}
-									selectedTags={selectedTags}
-									onSelectTag={onSelectTag}
-								/>
-							)
-						}
 						<TagsUnselectedArea>
 							{renderUnselectedTags()}
 						</TagsUnselectedArea>

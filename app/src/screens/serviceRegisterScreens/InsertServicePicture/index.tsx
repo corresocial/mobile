@@ -21,7 +21,7 @@ function InsertServicePicture({ navigation }: InsertServicePictureScreenProps) {
 		<Container>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(24)}
+				relativeHeight={relativeScreenHeight(26)}
 				centralized
 				backgroundColor={theme.purple2}
 			>
@@ -47,8 +47,8 @@ function InsertServicePicture({ navigation }: InsertServicePictureScreenProps) {
 						color={theme.red3}
 						relativeHeight={'25%'}
 						labelColor={theme.white3}
-						label={'não precisa, valew'}
-						highlightedWords={['não', 'precisa']}
+						label={'não, obrigado'}
+						highlightedWords={['não']}
 						SecondSvgIcon={XWhiteIcon}
 						svgIconScale={['40%', '18%']}
 						onPress={() => navigation.navigate('SelectSaleOrExchange')}

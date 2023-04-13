@@ -385,24 +385,22 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 					}
 				</ButtonContainer>
 				{
-					isLoading
-						? <Loader />
-						: (!hoursIsValid || !minutesIsValid) && !keyboardOpened
-							? (
-								<SkipButtonContainer>
-									<PrimaryButton
-										flexDirection={'row-reverse'}
-										color={theme.yellow3}
-										label={'pular'}
-										highlightedWords={['pular']}
-										labelColor={theme.black4}
-										SecondSvgIcon={DeniedWhiteIcon}
-										svgIconScale={['40%', '18%']}
-										onPress={() => saveServicePost(true)}
-									/>
-								</SkipButtonContainer>
-							)
-							: <></>
+					(!hoursIsValid || !minutesIsValid) && !keyboardOpened
+						? (
+							<SkipButtonContainer>
+								<PrimaryButton
+									flexDirection={'row-reverse'}
+									color={theme.yellow3}
+									label={'pular'}
+									highlightedWords={['pular']}
+									labelColor={theme.black4}
+									SecondSvgIcon={DeniedWhiteIcon}
+									svgIconScale={['40%', '18%']}
+									onPress={() => saveServicePost(true)}
+								/>
+							</SkipButtonContainer>
+						)
+						: <></>
 				}
 			</FormContainer>
 		</Container>

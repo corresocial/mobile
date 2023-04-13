@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 
 import { StatusBar } from 'react-native'
-import { Container, PicturePreviewContainer } from './styles'
+import { Container, PicturePreviewContainer, TopArea } from './styles'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import CheckIcon from '../../../assets/icons/check-white.svg'
@@ -18,6 +18,7 @@ import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { HorizontalListPictures } from '../../../components/HorizontalListPictures'
+import { BackButton } from '../../../components/_buttons/BackButton'
 
 function SalePicturePreview({ route, navigation }: SalePicturePreviewScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
@@ -65,7 +66,16 @@ function SalePicturePreview({ route, navigation }: SalePicturePreviewScreenProps
 				relativeHeight={'85%'}
 				backgroundColor={theme.green2}
 				withoutPadding
+				flexDirection={'column'}
+				justifyContent={'space-between'}
 			>
+				<TopArea>
+					<BackButton onPress={() => navigation.goBack()} hasSigh />
+					<InstructionCard
+						message={picturesPack.length > 1 ? 'ficaram boas?' : 'ficou boa?'}
+						highlightedWords={['boas', 'boa']}
+					/>
+				</TopArea>
 				<PicturePreviewContainer>
 					<PhotoPortrait
 						pictureUri={picturesPack[pictureIndexSelected]}
@@ -78,11 +88,6 @@ function SalePicturePreview({ route, navigation }: SalePicturePreviewScreenProps
 						pictureUriSelected={pictureIndexSelected}
 						openCamera={() => setCameraOpened(true)}
 						onSelectPicture={setPictureIndexSelected}
-					/>
-					<InstructionCard
-						message={'ficaram boas?'}
-						highlightedWords={['boas']}
-						flex={0}
 					/>
 				</PicturePreviewContainer>
 			</DefaultHeaderContainer>

@@ -74,17 +74,16 @@ function InsertSaleTitle({ route, navigation }: InsertSaleTitleScreenProps) {
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(28)}
-				relativeHeight={'22%'}
+				relativeHeight={relativeScreenHeight(24)}
 				centralized
 				backgroundColor={theme.green2}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
-					message={'qual vai ser o título do seu anúncio?'}
-					highlightedWords={['título', 'anúnciow']}
+					fontSize={17}
+					message={'qual o título do seu post?'}
+					highlightedWords={['título']}
 				>
 					<ProgressBar
 						range={5}

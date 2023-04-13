@@ -17,12 +17,12 @@ export const InputTagArea = styled.View`
 `
 
 export const TagsUnselectedArea = styled.View`
-    padding-horizontal: ${relativeScreenWidth(3)}px;
+	padding-horizontal: ${relativeScreenWidth(3)}px;
     width: 100%;
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
-    margin-bottom: 30px;
+    margin-bottom: ${relativeScreenHeight(5)}px;
     flexWrap: wrap;
 `
 
@@ -31,11 +31,12 @@ export const FloatButtonContainer = styled.View`
     align-items: center;
     justify-content: center;
     width: 85%;
+    height: 15%;
     position: absolute;
     bottom: ${relativeScreenHeight(1.4)}px;
 `
 
 export const Sigh = styled.View`
-    height: ${relativeScreenHeight(10)}px;
+	height: ${relativeScreenHeight(10)}px;
     width: 100%;
 `

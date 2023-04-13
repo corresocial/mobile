@@ -2,7 +2,7 @@ import React from 'react'
 import { StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import XWhiteIcon from '../../../assets/icons/x-white.svg'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
@@ -21,16 +21,15 @@ function InsertSalePicture({ navigation }: InsertSalePictureScreenProps) {
 		<Container>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={(screenHeight + statusBarHeight) * 0.26}
-				relativeHeight={'22%'}
+				relativeHeight={relativeScreenHeight(26)}
 				centralized
 				backgroundColor={theme.green2}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
-					message={'que tal adicionar algumas fotos para atrair clientes?'}
+					fontSize={17}
+					message={'que tal adicionar algumas fotos?'}
 					highlightedWords={['adicionar', 'algumas', 'fotos']}
 				>
 					<ProgressBar
@@ -48,8 +47,8 @@ function InsertSalePicture({ navigation }: InsertSalePictureScreenProps) {
 						color={theme.red3}
 						relativeHeight={'30%'}
 						labelColor={theme.white3}
-						label={'não precisa, valew'}
-						highlightedWords={['não', 'precisa']}
+						label={'não, obrigado'}
+						highlightedWords={['não']}
 						SecondSvgIcon={XWhiteIcon}
 						svgIconScale={['40%', '18%']}
 						onPress={() => navigation.navigate('SelectPaymentType')}
@@ -62,7 +61,7 @@ function InsertSalePicture({ navigation }: InsertSalePictureScreenProps) {
 						label={'opa, vou adicionar'}
 						highlightedWords={['vou', 'adicionar']}
 						SvgIcon={CheckWhiteIcon}
-						svgIconScale={['22%', '18%']}
+						svgIconScale={['40%', '25%']}
 						onPress={() => navigation.navigate('SalePicturePreview')}
 					/>
 				</ButtonsContainer>

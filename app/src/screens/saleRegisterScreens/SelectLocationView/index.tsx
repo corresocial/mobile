@@ -15,6 +15,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { TitleDescriptionButton } from '../../../components/_cards/TitleDescriptionButton'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function SelectLocationView({ route, navigation }: SelectLocationViewScreenProps) {
 	const saveLocationViewType = (locationViewType: LocationViewType) => {
@@ -28,14 +29,14 @@ function SelectLocationView({ route, navigation }: SelectLocationViewScreenProps
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={'28%'}
+				relativeHeight={relativeScreenHeight(26)}
 				centralized
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
+					fontSize={17}
 					message={'como você prefere que outros usuários vejam sua localização?'}
 					highlightedWords={['como,', 'você', 'prefere', 'vejam', 'sua', 'localização']}
 				>

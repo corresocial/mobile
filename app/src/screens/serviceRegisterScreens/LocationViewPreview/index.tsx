@@ -88,15 +88,13 @@ function LocationViewPreview({ route, navigation }: LocationViewPreviewScreenPro
 			</MapContainer>
 			<ButtonContainerBottom>
 				<PrimaryButton
-					flexDirection={'row-reverse'}
 					color={theme.green3}
 					label={'continuar'}
 					fontSize={16}
 					labelColor={theme.white3}
-					SvgIcon={CheckWhiteIcon}
+					SecondSvgIcon={CheckWhiteIcon}
 					svgIconScale={['40%', '25%']}
 					onPress={saveLocation}
-
 				/>
 			</ButtonContainerBottom>
 		</Container>

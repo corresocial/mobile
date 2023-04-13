@@ -51,16 +51,16 @@ function SelectSaleCategory({ route, navigation }: SelectSaleCategoryScreenProps
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={'22%'}
+				relativeHeight={relativeScreenHeight(24)}
 				centralized
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
-					message={'em qual categoria seu item se encaixa?'}
-					highlightedWords={['categoria', 'seu', 'item']}
+					fontSize={17}
+					message={'em qual categoria seu post se encaixa?'}
+					highlightedWords={['categoria', 'seu', 'post']}
 				>
 					<ProgressBar
 						range={5}

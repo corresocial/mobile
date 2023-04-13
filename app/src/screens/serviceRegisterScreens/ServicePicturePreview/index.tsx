@@ -64,7 +64,6 @@ function ServicePicturePreview({ route, navigation }: ServicePicturePreviewScree
 				onClose={() => setCameraOpened(false)}
 				cameraOpened={cameraOpened}
 			/>
-
 			<DefaultHeaderContainer
 				relativeHeight={'85%'}
 				backgroundColor={theme.purple2}

@@ -72,17 +72,16 @@ function InsertItemDescription({ route, navigation }: InsertItemDescriptionScree
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(28)}
-				relativeHeight={'26%'}
+				relativeHeight={relativeScreenHeight(26)}
 				centralized
 				backgroundColor={theme.green2}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
-					message={'escreva uma descrição para o seu item'}
-					highlightedWords={['descrição', 'o', 'seu', 'item']}
+					fontSize={17}
+					message={'escreva uma descrição para o seu post'}
+					highlightedWords={['descrição', 'o', 'seu', 'post']}
 				>
 					<ProgressBar
 						range={5}

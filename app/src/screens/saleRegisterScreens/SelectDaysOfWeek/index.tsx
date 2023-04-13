@@ -127,7 +127,7 @@ function SelectDaysOfWeek({ route, navigation }: SelectDaysOfWeekScreenProps) {
 							label={'continuar'}
 							labelColor={theme.white3}
 							SvgIcon={CheckWhiteIcon}
-							svgIconScale={['30%', '15%']}
+							svgIconScale={['40%', '25%']}
 							onPress={saveDaysOfWeek}
 						/>
 					</FloatButtonContainer>

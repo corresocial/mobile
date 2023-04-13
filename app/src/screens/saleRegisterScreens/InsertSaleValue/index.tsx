@@ -1,8 +1,6 @@
 import { Keyboard, Platform, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
-
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { ButtonsContainer, Container } from './styles'
@@ -77,15 +75,14 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(28)}
-				relativeHeight={'22%'}
+				relativeHeight={relativeScreenHeight(24)}
 				centralized
 				backgroundColor={theme.green2}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
+					fontSize={17}
 					message={'por quanto você vende?'}
 					highlightedWords={['quanto']}
 				>
@@ -112,10 +109,9 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 					lastInput
 					maxLength={100}
 					textAlign={'left'}
-					fontSize={18}
-					placeholder={'ex: 100'}
-					keyboardType={'numeric'}
-					filterText={filterLeavingOnlyNumbers}
+					fontSize={16}
+					placeholder={'ex: 15 reais a hora'}
+					keyboardType={'default'}
 					textIsValid={saleValueIsValid && !keyboardOpened}
 					validateText={(text: string) => validateSaleValue(text)}
 					onChangeText={(text: string) => setSaleValue(text)}
