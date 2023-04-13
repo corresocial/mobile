@@ -21,16 +21,10 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const getVacancyRange = (workplace: WorkplaceType) => {
-		if (workplace === 'homeoffice') return 'country'
-		return 'city'
-	}
-
 	const saveWorkplaceType = (workplace: WorkplaceType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({
 				workplace,
-				range: getVacancyRange(workplace),
 				location: { country: 'Brasil', city: 'any' }
 			})
 			navigation.goBack()
@@ -39,17 +33,10 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 
 		setVacancyDataOnContext({
 			workplace,
-			range: getVacancyRange(workplace),
 			location: { country: 'Brasil', city: 'any' }
 		})
 
-		if (workplace === 'homeoffice') {
-			navigation.navigate('SelectVacancyCategory')
-		} else {
-			navigation.navigate('InsertWorkplaceLocation', {
-				workplace
-			})
-		}
+		navigation.navigate('SelectVacancyType')
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode

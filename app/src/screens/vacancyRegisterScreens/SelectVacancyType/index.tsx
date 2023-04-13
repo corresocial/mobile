@@ -18,7 +18,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveVacancyType = (vacancyType: VacancyType) => {
@@ -29,6 +29,12 @@ function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) 
 		}
 
 		setVacancyDataOnContext({ vacancyType })
+		console.log(vacancyDataContext.workplace)
+		if (vacancyDataContext.workplace !== 'homeoffice') {
+			navigation.navigate('InsertWorkplaceLocation', {} as any)
+			return
+		}
+
 		switch (vacancyType) {
 			case 'professional': {
 				navigation.navigate('SelectWorkWeekdays')
