@@ -13,7 +13,7 @@ export const IndicatorLabel = styled.Text`
     font-size: ${RFValue(14)}px;
     font-family: Arvo_400Regular;
     margin-bottom: ${relativeScreenHeight(1)}px;
-	border-radius: 50px;
+	border-radius: 100px;
 `
 
 export const IndicatorBarBottom = styled.View`
@@ -23,11 +23,11 @@ export const IndicatorBarBottom = styled.View`
     border: ${relativeScreenWidth(0.7)}px solid ${({ theme }) => theme.black3}
     border-right-width: ${relativeScreenWidth(3)}px;
     overflow: hidden;
-	border-radius: 50px;
+	border-radius: 100px;
 `
 
 export const IndicatorBarSurface = styled.View`
-	border-radius: 50px;
+	border-radius: 100px;
     background-color: ${({ theme }) => theme.orange3}
     height: 100%;
 `

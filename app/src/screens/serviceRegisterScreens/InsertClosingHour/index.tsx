@@ -294,8 +294,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={invalidTimeAfterSubmit ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(22)}
-				relativeHeight={'22%'}
+				relativeHeight={relativeScreenHeight(22)}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
@@ -386,22 +385,24 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 					}
 				</ButtonContainer>
 				{
-					(!hoursIsValid || !minutesIsValid) && !keyboardOpened
-						? (
-							<SkipButtonContainer>
-								<PrimaryButton
-									flexDirection={'row-reverse'}
-									color={theme.yellow3}
-									label={'pular'}
-									highlightedWords={['pular']}
-									labelColor={theme.black4}
-									SecondSvgIcon={DeniedWhiteIcon}
-									svgIconScale={['40%', '18%']}
-									onPress={() => saveServicePost(true)}
-								/>
-							</SkipButtonContainer>
-						)
-						: <></>
+					isLoading
+						? <Loader />
+						: (!hoursIsValid || !minutesIsValid) && !keyboardOpened
+							? (
+								<SkipButtonContainer>
+									<PrimaryButton
+										flexDirection={'row-reverse'}
+										color={theme.yellow3}
+										label={'pular'}
+										highlightedWords={['pular']}
+										labelColor={theme.black4}
+										SecondSvgIcon={DeniedWhiteIcon}
+										svgIconScale={['40%', '18%']}
+										onPress={() => saveServicePost(true)}
+									/>
+								</SkipButtonContainer>
+							)
+							: <></>
 				}
 			</FormContainer>
 		</Container>

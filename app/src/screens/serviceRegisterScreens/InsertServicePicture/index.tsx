@@ -21,8 +21,7 @@ function InsertServicePicture({ navigation }: InsertServicePictureScreenProps) {
 		<Container>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(20)}
-				relativeHeight={'24%'}
+				relativeHeight={relativeScreenHeight(24)}
 				centralized
 				backgroundColor={theme.purple2}
 			>

@@ -77,8 +77,7 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(22)}
-				relativeHeight={'28%'}
+				relativeHeight={relativeScreenHeight(24)}
 				centralized
 				backgroundColor={theme.purple2}
 			>

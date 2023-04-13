@@ -1,6 +1,6 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { relativeScreenHeight, statusBarHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
     flex: 1;
@@ -12,7 +12,6 @@ export const PicturePreviewContainer = styled.View`
     padding-horizontal: ${RFValue(15)}px;
     justify-content: space-around;
     align-items: center;
-    margin-top: ${-statusBarHeight}px;
 `
 
 export const TopArea = styled.View`

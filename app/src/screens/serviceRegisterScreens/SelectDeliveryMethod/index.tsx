@@ -39,8 +39,7 @@ function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenP
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(22)}
-				relativeHeight={'24%'}
+				relativeHeight={relativeScreenHeight(24)}
 				centralized
 				backgroundColor={theme.white3}
 			>

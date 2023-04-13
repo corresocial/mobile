@@ -210,8 +210,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(18)}
-				relativeHeight={relativeScreenHeight(18)}
+				relativeHeight={relativeScreenHeight(20)}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 				borderBottomWidth={0}

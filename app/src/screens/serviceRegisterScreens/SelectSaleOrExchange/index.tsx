@@ -16,6 +16,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { ServiceContext } from '../../../contexts/ServiceContext'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
@@ -44,14 +45,14 @@ function SelectSaleOrExchange({ navigation }: SelectSaleOrExchangeScreenProps) {
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={'22%'}
+				relativeHeight={relativeScreenHeight(24)}
 				centralized
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
+					fontSize={17}
 					message={'você vende, aceita troca ou os dois ?'}
 					highlightedWords={['vende', 'aceita', 'troca', 'os', 'dois']}
 				>

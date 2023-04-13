@@ -76,8 +76,7 @@ function InsertServiceName({ route, navigation }: InsertServiceNameScreenProps) 
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(20)}
-				relativeHeight={'22%'}
+				relativeHeight={relativeScreenHeight(22)}
 				centralized
 				backgroundColor={theme.purple2}
 			>

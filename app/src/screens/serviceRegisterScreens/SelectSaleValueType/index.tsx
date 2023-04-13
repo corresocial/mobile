@@ -17,6 +17,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
@@ -47,7 +48,7 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={'22%'}
+				relativeHeight={relativeScreenHeight(24)}
 				centralized
 				backgroundColor={theme.white3}
 			>

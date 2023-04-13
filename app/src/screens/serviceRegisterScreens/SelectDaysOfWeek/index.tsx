@@ -101,7 +101,7 @@ function SelectDaysOfWeek({ route, navigation }: SelectDaysOfWeekScreenProps) {
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={'22%'}
+				relativeHeight={relativeScreenHeight(22)}
 				centralized
 				backgroundColor={theme.white3}
 			>
