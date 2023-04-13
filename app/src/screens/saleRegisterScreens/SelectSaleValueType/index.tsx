@@ -39,9 +39,9 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<PaymentValueType
 				backgroundColor={theme.green2}
+				progress={[3, 5]}
 				navigateBackwards={() => navigation.goBack()}
 				savePaymentValueType={saveSaleValueType}
-				progress={[3, 5]}
 			/>
 		</>
 	)

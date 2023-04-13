@@ -2,25 +2,24 @@ import React from 'react'
 import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
-
-import { InsertSalePictureScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
-
 import { PostPicture } from '../../../components/_onboarding/PostPicture'
 
-function InsertSalePicture({ navigation }: InsertSalePictureScreenProps) {
+import { InsertVacancyPictureScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
+
+function InsertVacancyPicture({ navigation }: InsertVacancyPictureScreenProps) {
 	const skipPostPicture = () => {
-		navigation.navigate('SelectPaymentType')
+		navigation.navigate('SelectWorkplace')
 	}
 
 	const navigateToPicturePreview = () => {
-		navigation.navigate('SalePicturePreview')
+		navigation.navigate('VacancyPicturePreview')
 	}
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
 			<PostPicture
-				backgroundColor={theme.green2}
+				backgroundColor={theme.yellow2}
 				progress={[2, 5]}
 				navigateBackwards={() => navigation.goBack()}
 				skipPostPicture={skipPostPicture}
@@ -30,4 +29,4 @@ function InsertSalePicture({ navigation }: InsertSalePictureScreenProps) {
 	)
 }
 
-export { InsertSalePicture }
+export { InsertVacancyPicture }

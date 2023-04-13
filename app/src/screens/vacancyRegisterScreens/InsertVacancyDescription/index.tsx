@@ -43,7 +43,7 @@ function InsertVacancyDescription({ route, navigation }: InsertVacancyDescriptio
 		}
 
 		setVacancyDataOnContext({ description })
-		navigation.navigate('SelectWorkplace')
+		navigation.navigate('InsertVacancyPicture')
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode

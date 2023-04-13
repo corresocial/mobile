@@ -3,15 +3,15 @@ import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 
-import { SalePicturePreviewScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
+import { VacancyPicturePreviewScreenProps } from '../../../routes/Stack/vacancyStack/stackScreenProps'
 
-import { SaleContext } from '../../../contexts/SaleContext'
+import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostPicturePreview } from '../../../components/_onboarding/PostPicturePreview'
 
-function SalePicturePreview({ route, navigation }: SalePicturePreviewScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext)
+function VacancyPicturePreview({ route, navigation }: VacancyPicturePreviewScreenProps) {
+	const { setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const savePictures = (picturesUri: string[]) => {
@@ -21,17 +21,17 @@ function SalePicturePreview({ route, navigation }: SalePicturePreviewScreenProps
 			return
 		}
 
-		setSaleDataOnContext({ picturesUrl: picturesUri })
-		navigation.navigate('SelectPaymentType')
+		setVacancyDataOnContext({ picturesUrl: picturesUri })
+		navigation.navigate('SelectWorkplace')
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
 			<PostPicturePreview
-				backgroundColor={theme.green2}
+				backgroundColor={theme.yellow2}
 				editMode={editModeIsTrue()}
 				initialValue={route.params?.initialValue || []}
 				navigateBackwards={() => navigation.goBack()}
@@ -41,4 +41,4 @@ function SalePicturePreview({ route, navigation }: SalePicturePreviewScreenProps
 	)
 }
 
-export { SalePicturePreview }
+export { VacancyPicturePreview }

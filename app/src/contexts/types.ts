@@ -134,6 +134,7 @@ export type VacancyData = {
 	endWorkDate?: Date
 	startWorkHour?: Date
 	endWorkHour?: Date
+	picturesUrl?: string[]
 	tags?: string[]
 	category?: string
 	location?: {
