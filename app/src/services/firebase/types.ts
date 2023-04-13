@@ -10,6 +10,10 @@ export type VacancyCategories = keyof typeof vacancyCategories
 export type CultureCategories = keyof typeof cultureCategories
 export type SocialImpactCategories = keyof typeof socialImpactCategories
 
+export type PostCategoriesType = SaleCategories & ServiceCategories & VacancyCategories & CultureCategories & SocialImpactCategories
+
+export type PostCategoriesObject = typeof saleCategories | typeof serviceCategories | typeof vacancyCategories | typeof cultureCategories | typeof socialImpactCategories
+
 export type Id = string
 
 export type ServiceCategory = typeof serviceCategories

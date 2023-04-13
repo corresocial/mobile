@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { StatusBar } from 'react-native'
 
 import { SelectSaleValueTypeScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 import { SaleValueType } from '../../../services/firebase/types'
@@ -34,12 +35,15 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 	}
 
 	return (
-		<PaymentValueType
-			backgroundColor={theme.green2}
-			navigateBackwards={() => navigation.goBack()}
-			savePaymentValueType={saveSaleValueType}
-			progress={[3, 5]}
-		/>
+		<>
+			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<PaymentValueType
+				backgroundColor={theme.green2}
+				navigateBackwards={() => navigation.goBack()}
+				savePaymentValueType={saveSaleValueType}
+				progress={[3, 5]}
+			/>
+		</>
 	)
 }
 

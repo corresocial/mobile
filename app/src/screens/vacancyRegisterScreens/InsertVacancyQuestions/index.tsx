@@ -194,7 +194,7 @@ function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProp
 								label={vacancyLength() < 1 ? 'não precisa, continuar' : 'continuar'}
 								highlightedWords={['não', 'precisa']}
 								labelColor={theme.white3}
-								SvgIcon={vacancyLength() < 1 ? Uncheck : Check}
+								SvgIcon={vacancyLength() < 1 ? XWhiteIcon : CheckWhiteIcon}
 								svgIconScale={['30%', '15%']}
 								onPress={saveVacancyQuestions}
 							/>
