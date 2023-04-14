@@ -43,7 +43,7 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		}
 
 		setSaleDataOnContext({ exchangeValue: value })
-		// navigation.navigate('SelectSaleRange')
+		navigation.navigate('SelectVacancyRange')
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode

@@ -10,7 +10,8 @@ export type CultureStackParamList = {
 	SelectCultureTags: { categorySelected: CultureCategories, editMode?: boolean }
 	InsertEntryValue: { editMode: boolean, initialValue: string } | undefined
 	SelectExhibitionPlace: { editMode: boolean } | undefined
-	SelectEventPlaceModality: { editMode: boolean } | undefined
+	SelectEventPlaceModality: undefined
+	SelectCultureRange: { editMode: boolean } | undefined
 	SelectCultureLocationView: { editMode: boolean, initialValue: LatLong } | undefined
 	InsertCultureLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
 	CultureLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }

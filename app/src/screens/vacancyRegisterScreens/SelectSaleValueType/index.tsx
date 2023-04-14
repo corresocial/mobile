@@ -27,8 +27,7 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 					navigation.navigate('InsertExchangeValue')
 					return
 				}
-				console.log('a')
-				//  navigation.navigate('SelectVacancyRange')
+				navigation.navigate('SelectVacancyRange')
 				break
 			}
 			default: return false

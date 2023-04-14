@@ -9,7 +9,7 @@ import { PostPicture } from '../../../components/_onboarding/PostPicture'
 
 function InsertSocialImpactPicture({ navigation }: InsertSocialImpactPictureScreenProps) {
 	const skipPostPicture = () => {
-		navigation.navigate('SelectSocialImpactLocationView')
+		navigation.navigate('SelectSocialImpactRange')
 	}
 
 	const navigateToPicturePreview = () => {

@@ -12,10 +12,11 @@ import { InsertSocialImpactTitle } from '../../../screens/socialImpactRegisterSc
 import { InsertSocialImpactDescription } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactDescription'
 import { InsertSocialImpactPicture } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactPicture'
 import { SocialImpactPicturePreview } from '../../../screens/socialImpactRegisterScreens/SocialImpactPicturePreview'
-import { SelectSocialImpactExhibitionRange } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactExhibitionRange'
 import { SelectSocialImpactLocationView } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactLocationView'
+import { SelectSocialImpactRange } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactRange'
 import { InsertSocialImpactLocation } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactLocation'
 import { SocialImpactLocationViewPreview } from '../../../screens/socialImpactRegisterScreens/SocialImpactLocationViewPreview'
+import { SelectSocialImpactExhibitionRange } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactExhibitionRange'
 import { SelectDaysOfWeek } from '../../../screens/socialImpactRegisterScreens/SelectDaysOfWeek'
 import { InsertOpeningHour } from '../../../screens/socialImpactRegisterScreens/InsertOpeningHour'
 import { InsertClosingHour } from '../../../screens/socialImpactRegisterScreens/InsertClosingHour'
@@ -41,6 +42,7 @@ export function SocialImpactStack() {
 				<Stack.Screen name={'InsertSocialImpactPicture'} component={InsertSocialImpactPicture} />
 				<Stack.Screen name={'SocialImpactPicturePreview'} component={SocialImpactPicturePreview} />
 				<Stack.Screen name={'SelectSocialImpactExhibitionRange'} component={SelectSocialImpactExhibitionRange} />
+				<Stack.Screen name={'SelectSocialImpactRange'} component={SelectSocialImpactRange} />
 				<Stack.Screen name={'InsertSocialImpactLocation'} component={InsertSocialImpactLocation} />
 				<Stack.Screen name={'SelectSocialImpactLocationView'} component={SelectSocialImpactLocationView} />
 				<Stack.Screen name={'SocialImpactLocationViewPreview'} component={SocialImpactLocationViewPreview} />

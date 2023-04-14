@@ -15,6 +15,7 @@ import { SelectCultureTags } from '../../../screens/cultureRegisterScreens/Selec
 import { InsertEntryValue } from '../../../screens/cultureRegisterScreens/InsertEntryValue'
 import { SelectExhibitionPlace } from '../../../screens/cultureRegisterScreens/SelectExhibitionPlace'
 import { SelectEventPlaceModality } from '../../../screens/cultureRegisterScreens/SelectEventPlaceModality'
+import { SelectCultureRange } from '../../../screens/cultureRegisterScreens/SelectCultureRange'
 import { SelectCultureLocationView } from '../../../screens/cultureRegisterScreens/SelectCultureLocationView'
 import { InsertCultureLocation } from '../../../screens/cultureRegisterScreens/InsertCultureLocation'
 import { CultureLocationViewPreview } from '../../../screens/cultureRegisterScreens/CultureLocationViewPreview'
@@ -47,6 +48,7 @@ export function CultureStack() {
 				<Stack.Screen name={'InsertEntryValue'} component={InsertEntryValue} />
 				<Stack.Screen name={'SelectExhibitionPlace'} component={SelectExhibitionPlace} />
 				<Stack.Screen name={'SelectEventPlaceModality'} component={SelectEventPlaceModality} />
+				<Stack.Screen name={'SelectCultureRange'} component={SelectCultureRange} />
 				<Stack.Screen name={'SelectCultureLocationView'} component={SelectCultureLocationView} />
 				<Stack.Screen name={'InsertCultureLocation'} component={InsertCultureLocation} />
 				<Stack.Screen name={'CultureLocationViewPreview'} component={CultureLocationViewPreview} />

@@ -22,7 +22,7 @@ function SocialImpactPicturePreview({ route, navigation }: SocialImpactPicturePr
 		}
 
 		setSocialImpactDataOnContext({ picturesUrl: picturesUri })
-		navigation.navigate('SelectSocialImpactLocationView')
+		navigation.navigate('SelectSocialImpactRange')
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode

@@ -21,12 +21,7 @@ function SelectEventPlaceModality({ navigation }: SelectEventPlaceModalityScreen
 
 	const saveEventPlaceModality = (eventPlaceModality: PlaceModalityType) => {
 		setCultureDataOnContext({ eventPlaceModality })
-
-		if (eventPlaceModality !== 'online') {
-			navigation.navigate('SelectCultureLocationView')
-		} else {
-			navigation.navigate('SelectEventRepeat')
-		}
+		navigation.navigate('SelectCultureRange')
 	}
 
 	return (

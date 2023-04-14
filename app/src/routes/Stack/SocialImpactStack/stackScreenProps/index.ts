@@ -9,6 +9,7 @@ export type SocialImpactPicturePreviewScreenProps = NativeStackScreenProps<Socia
 export type SelectSocialImpactCategoryScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactCategory'>
 export type SelectSocialImpactTagsScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactTags'>
 export type SelectSocialImpactExhibitionRangeScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactExhibitionRange'>
+export type SelectSocialImpactRangeScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactRange'>
 export type InsertSocialImpactLocationScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactLocation'>
 export type SelectSocialImpactLocationViewScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactLocationView'>
 export type SocialImpactLocationViewPreviewScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SocialImpactLocationViewPreview'>
