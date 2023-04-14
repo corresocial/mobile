@@ -26,7 +26,7 @@ export const RecentPostsContainer = styled.View`
 `
 
 export const FlatList = styled.FlatList`
-	margin: ${RFValue(15)}px 0;
+	margin-bottom: ${RFValue(35)}px;
 `
 
 export const Sigh = styled.View`
