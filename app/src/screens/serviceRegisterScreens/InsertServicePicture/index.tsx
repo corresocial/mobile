@@ -8,7 +8,7 @@ import { InsertServicePictureScreenProps } from '../../../routes/Stack/ServiceSt
 
 function InsertServicePicture({ navigation }: InsertServicePictureScreenProps) {
 	const skipPostPicture = () => {
-		navigation.navigate('SelectSaleOrExchange')
+		navigation.navigate('SelectPaymentType')
 	}
 
 	const navigateToPicturePreview = () => {

@@ -29,23 +29,23 @@ function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) 
 		}
 
 		setVacancyDataOnContext({ vacancyType })
-		console.log(vacancyDataContext.workplace)
+
 		if (vacancyDataContext.workplace !== 'homeoffice') {
-			navigation.navigate('InsertWorkplaceLocation', {} as any)
+			navigation.navigate('SelectPaymentType', {} as any)
 			return
 		}
 
 		switch (vacancyType) {
 			case 'professional': {
-				navigation.navigate('SelectWorkWeekdays')
+				navigation.navigate('SelectPaymentType')
 				break
 			}
 			case 'temporary': {
-				navigation.navigate('InsertWorkStartDate')
+				navigation.navigate('SelectPaymentType')
 				break
 			}
 			case 'beak': {
-				navigation.navigate('InsertWorkStartDate')
+				navigation.navigate('SelectPaymentType')
 				break
 			}
 			default: return false

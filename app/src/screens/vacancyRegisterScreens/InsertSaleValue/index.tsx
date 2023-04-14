@@ -3,17 +3,16 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { theme } from '../../../common/theme'
 
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-
-import { InsertSaleValueScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-
-import { ServiceContext } from '../../../contexts/ServiceContext'
+import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
+
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+import { InsertSaleValueScreenProps } from '../../../routes/Stack/vacancyStack/stackScreenProps'
 
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
-	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -39,15 +38,14 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ saleValue: value })
 			navigation.goBack()
-			return
 		}
 
-		setServiceDataOnContext({ saleValue: value })
+		setSaleDataOnContext({ saleValue: value })
 
 		if (route.params.bothPaymentType) {
 			navigation.navigate('InsertExchangeValue')
 		} else {
-			navigation.navigate('SelectServiceRange')
+			// navigation.navigate('SelectSaleRange')
 		}
 	}
 
@@ -55,13 +53,13 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
 			<PostInputText
-				backgroundColor={theme.purple2}
-				validationColor={theme.purple1}
-				customTitle={'por quanto você vende?'}
+				backgroundColor={theme.yellow2}
+				validationColor={theme.yellow1}
+				customTitle={'quanto paga?'}
 				customHighlight={['quanto']}
-				inputPlaceholder={'ex: 120 reais a diária'}
+				inputPlaceholder={'ex: 100 reais a diária'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[3, 5]}
 				keyboardOpened={keyboardOpened}

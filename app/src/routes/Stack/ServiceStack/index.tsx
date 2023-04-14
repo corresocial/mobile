@@ -9,7 +9,7 @@ import { SelectServiceCategory } from '../../../screens/serviceRegisterScreens/S
 import { InsertServicePicture } from '../../../screens/serviceRegisterScreens/InsertServicePicture'
 import { ServicePicturePreview } from '../../../screens/serviceRegisterScreens/ServicePicturePreview'
 import { SelectServiceTags } from '../../../screens/serviceRegisterScreens/SelectServiceTags'
-import { SelectSaleOrExchange } from '../../../screens/serviceRegisterScreens/SelectSaleOrExchange'
+import { SelectPaymentType } from '../../../screens/serviceRegisterScreens/SelectPaymentType'
 import { InsertExchangeValue } from '../../../screens/serviceRegisterScreens/InsertExchangeValue'
 import { InsertServicePrestationLocation } from '../../../screens/serviceRegisterScreens/InsertServicePrestationLocation'
 import { InsertSaleValue } from '../../../screens/serviceRegisterScreens/InsertSaleValue'
@@ -43,7 +43,7 @@ export function ServiceStack() {
 				<Stack.Screen name={'InsertServiceDescription'} component={InsertServiceDescription} />
 				<Stack.Screen name={'InsertServicePicture'} component={InsertServicePicture} />
 				<Stack.Screen name={'ServicePicturePreview'} component={ServicePicturePreview} />
-				<Stack.Screen name={'SelectSaleOrExchange'} component={SelectSaleOrExchange} />
+				<Stack.Screen name={'SelectPaymentType'} component={SelectPaymentType} />
 				<Stack.Screen name={'SelectSaleValueType'} component={SelectSaleValueType} />
 				<Stack.Screen name={'InsertSaleValue'} component={InsertSaleValue} />
 				<Stack.Screen name={'InsertExchangeValue'} component={InsertExchangeValue} />

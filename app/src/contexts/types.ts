@@ -126,6 +126,7 @@ export type VacancyData = {
 	description?: string
 	vacancyType?: VacancyType
 	workplace?: WorkplaceType
+	paymentType?: PaymentType
 	range?: ExhibitionPlaceType
 	companyDescription?: string
 	questions?: string[]

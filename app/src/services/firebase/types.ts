@@ -30,7 +30,7 @@ export type DeliveryMethod = 'unavailable' | 'near' | 'city' | 'country'
 
 export type DaysOfWeek = 'seg' | 'ter' | 'qua' | 'qui' | 'sex' | 'sab' | 'dom'
 
-export type PaymentType = 'exchange' | 'sale' | 'both'
+export type PaymentType = 'sale' | 'exchange' | 'both'
 
 export type SaleValueType = 'fixed' | 'toMatch'
 

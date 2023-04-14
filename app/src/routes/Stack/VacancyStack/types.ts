@@ -9,6 +9,10 @@ export type VacancyStackParamList = {
 	InsertVacancyPicture: undefined
 	VacancyPicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectWorkplace: { editMode: boolean } | undefined
+	SelectPaymentType: { editMode: boolean } | undefined
+	InsertSaleValue: { bothPaymentType: boolean, editMode?: boolean, initialValue?: string }
+	InsertExchangeValue: { editMode: boolean, initialValue: string } | undefined
+	SelectSaleValueType: { bothPaymentType: boolean }
 	InsertWorkplaceLocation: { workplace: WorkplaceType, editMode?: boolean, initialValue?: LatLong }
 	SelectVacancyCategory: { editMode: boolean } | undefined
 	SelectVacancyTags: { categorySelected: VacancyCategories, editMode?: boolean }

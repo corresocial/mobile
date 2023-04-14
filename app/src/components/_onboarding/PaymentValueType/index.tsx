@@ -33,7 +33,7 @@ function PaymentValueType({ backgroundColor, progress, savePaymentValueType, nav
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
+					fontSize={17}
 					message={'tem preço fixo ou fica a combinar?'}
 					highlightedWords={['preço', 'fixo', 'a', 'combinar']}
 				>

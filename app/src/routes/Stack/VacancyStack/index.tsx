@@ -22,6 +22,10 @@ import { InsertWorkEndDate } from '../../../screens/vacancyRegisterScreens/Inser
 import { InsertWorkEndHour } from '../../../screens/vacancyRegisterScreens/InsertWorkEndHour'
 import { InsertVacancyPicture } from '../../../screens/vacancyRegisterScreens/InsertVacancyPicture'
 import { VacancyPicturePreview } from '../../../screens/vacancyRegisterScreens/VacancyPicturePreview'
+import { SelectPaymentType } from '../../../screens/vacancyRegisterScreens/SelectPaymentType'
+import { SelectSaleValueType } from '../../../screens/vacancyRegisterScreens/SelectSaleValueType'
+import { InsertSaleValue } from '../../../screens/vacancyRegisterScreens/InsertSaleValue'
+import { InsertExchangeValue } from '../../../screens/vacancyRegisterScreens/InsertExchangeValue'
 
 const Stack = createStackNavigator<VacancyStackParamList>()
 
@@ -44,6 +48,10 @@ export function VacancyStack() {
 				<Stack.Screen name={'InsertVacancyPicture'} component={InsertVacancyPicture} />
 				<Stack.Screen name={'VacancyPicturePreview'} component={VacancyPicturePreview} />
 				<Stack.Screen name={'SelectWorkplace'} component={SelectWorkplace} />
+				<Stack.Screen name={'SelectPaymentType'} component={SelectPaymentType} />
+				<Stack.Screen name={'InsertSaleValue'} component={InsertSaleValue} />
+				<Stack.Screen name={'InsertExchangeValue'} component={InsertExchangeValue} />
+				<Stack.Screen name={'SelectSaleValueType'} component={SelectSaleValueType} />
 				<Stack.Screen name={'SelectVacancyType'} component={SelectVacancyType} />
 				<Stack.Screen name={'InsertWorkplaceLocation'} component={InsertWorkplaceLocation} />
 				<Stack.Screen name={'SelectWorkWeekdays'} component={SelectWorkWeekdays} />

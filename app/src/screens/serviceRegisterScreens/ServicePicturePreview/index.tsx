@@ -24,7 +24,7 @@ function ServicePicturePreview({ route, navigation }: ServicePicturePreviewScree
 		setServiceDataOnContext({
 			picturesUrl: picturesUri
 		})
-		navigation.navigate('SelectSaleOrExchange')
+		navigation.navigate('SelectPaymentType')
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode

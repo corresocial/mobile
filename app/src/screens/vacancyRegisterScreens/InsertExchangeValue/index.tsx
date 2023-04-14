@@ -5,15 +5,15 @@ import { theme } from '../../../common/theme'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { InsertSaleValueScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
+import { InsertExchangeValueScreenProps } from '../../../routes/Stack/vacancyStack/stackScreenProps'
 
-import { ServiceContext } from '../../../contexts/ServiceContext'
+import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
-function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
-	const { setServiceDataOnContext } = useContext(ServiceContext)
+function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenProps) {
+	const { setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -27,7 +27,7 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 		return unsubscribe
 	}, [navigation])
 
-	const validateSaleValue = (text: string) => {
+	const validateExchangeValue = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
 			return true
@@ -35,42 +35,37 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 		return false
 	}
 
-	const saveSaleValue = (value: string) => {
+	const saveExchangeValue = (value: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ saleValue: value })
+			addNewUnsavedFieldToEditContext({ exchangeValue: value })
 			navigation.goBack()
 			return
 		}
 
-		setServiceDataOnContext({ saleValue: value })
-
-		if (route.params.bothPaymentType) {
-			navigation.navigate('InsertExchangeValue')
-		} else {
-			navigation.navigate('SelectServiceRange')
-		}
+		setSaleDataOnContext({ exchangeValue: value })
+		// navigation.navigate('SelectSaleRange')
 	}
 
 	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
 			<PostInputText
-				backgroundColor={theme.purple2}
-				validationColor={theme.purple1}
-				customTitle={'por quanto você vende?'}
-				customHighlight={['quanto']}
-				inputPlaceholder={'ex: 120 reais a diária'}
+				backgroundColor={theme.yellow2}
+				validationColor={theme.yellow1}
+				customTitle={'o que você aceita em troca?'}
+				customHighlight={['o', 'que', 'em', 'troca']}
+				inputPlaceholder={'ex: troco por coisas usadas'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[3, 5]}
 				keyboardOpened={keyboardOpened}
-				validateInputText={validateSaleValue}
+				validateInputText={validateExchangeValue}
 				navigateBackwards={() => navigation.goBack()}
-				saveTextData={saveSaleValue}
+				saveTextData={saveExchangeValue}
 			/>
 		</>
 	)
 }
 
-export { InsertSaleValue }
+export { InsertExchangeValue }

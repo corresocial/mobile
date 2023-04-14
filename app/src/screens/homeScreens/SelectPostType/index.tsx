@@ -18,7 +18,11 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
-function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
+interface SelectPostTypeProps {
+	withoutBackButton?: boolean
+}
+
+function SelectPostType({ navigation, withoutBackButton }: SelectPostTypeScreenProps & SelectPostTypeProps) {
 	return (
 		<Container>
 			<FocusAwareStatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
@@ -28,7 +32,11 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 				borderBottomWidth={0}
 				centralized
 			>
-				<BackButton onPress={() => navigation.goBack()} hasSigh />
+				{
+					!withoutBackButton
+						? <BackButton onPress={() => navigation.goBack()} hasSigh />
+						: <></>
+				}
 				<InstructionCard
 					message={'o que você vai \nanunciar?'}
 					highlightedWords={['\nanunciar']}

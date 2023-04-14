@@ -8,7 +8,7 @@ export type ServiceStackParamList = {
 	ServicePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectServiceCategory: { editMode: boolean } | undefined
 	SelectServiceTags: { categorySelected: ServiceCategories, editMode?: boolean }
-	SelectSaleOrExchange: undefined
+	SelectPaymentType: undefined
 	SelectSaleValueType: { bothPaymentType: boolean }
 	InsertSaleValue: { bothPaymentType: boolean, editMode?: boolean, initialValue?: string }
 	InsertExchangeValue: { editMode: boolean, initialValue: string } | undefined

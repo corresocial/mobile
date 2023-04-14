@@ -95,7 +95,7 @@ function PostTags({ backgroundColor, lightColor, currentCategory, addNewTag, sav
 
 	const getCurrentCategoryLabel = () => currentCategory.label
 
-	const categoryLabelSelectedIsLarge = () => getCurrentCategoryLabelHightlighted().length > 1
+	const categoryLabelSelectedIsLarge = () => getCurrentCategoryLabelHightlighted().length > 1 || getCurrentCategoryLabel().length > 14
 
 	return (
 		<Container>
