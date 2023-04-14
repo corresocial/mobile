@@ -1,5 +1,4 @@
 import {
-	CultureType,
 	DaysOfWeek,
 	PostRange,
 	DeliveryMethod,
@@ -125,6 +124,7 @@ export type VacancyData = {
 	title?: string
 	description?: string
 	vacancyType?: VacancyType
+	locationView?: LocationViewType
 	workplace?: WorkplaceType
 	paymentType?: PaymentType
 	range?: ExhibitionPlaceType
@@ -160,7 +160,6 @@ export type VacancyData = {
 export type CultureData = {
 	title?: string
 	description?: string
-	cultureType?: CultureType
 	locationView?: LocationViewType
 	range?: ExhibitionPlaceType
 	eventPlaceModality?: PlaceModalityType

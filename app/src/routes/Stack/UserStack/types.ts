@@ -1,7 +1,7 @@
 import { Chat } from '../../../@types/chat/types'
 import { LocalUserData } from '../../../contexts/types'
 import { ContactUsType } from '../../../services/discord/types'
-import { CultureCollectionRemote, CultureType, SaleCollectionRemote, ServiceCollectionRemote, SocialImpactCollectionRemote, SocialMedia, VacancyCollectionRemote } from '../../../services/firebase/types'
+import { CultureCollectionRemote, SaleCollectionRemote, ServiceCollectionRemote, SocialImpactCollectionRemote, SocialMedia, VacancyCollectionRemote } from '../../../services/firebase/types'
 import { ReportedTarget } from '../../../services/types'
 
 export type UserStackParamList = {
@@ -11,7 +11,7 @@ export type UserStackParamList = {
 	ServiceStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	SaleStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	VacancyStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
-	CultureStack: { screen: string, params: { editMode: boolean, initialValue: any, cultureType: CultureType } } | undefined
+	CultureStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	SocialImpactStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	EditProfile: { user: LocalUserData }
 	EditUserName: { userName: string, userId: string }

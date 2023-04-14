@@ -27,6 +27,7 @@ import { SelectSaleValueType } from '../../../screens/vacancyRegisterScreens/Sel
 import { InsertSaleValue } from '../../../screens/vacancyRegisterScreens/InsertSaleValue'
 import { InsertExchangeValue } from '../../../screens/vacancyRegisterScreens/InsertExchangeValue'
 import { SelectVacancyRange } from '../../../screens/vacancyRegisterScreens/SelectVacancyRange'
+import { SelectVacancyLocationView } from '../../../screens/vacancyRegisterScreens/SelectVacancyLocationView'
 
 const Stack = createStackNavigator<VacancyStackParamList>()
 
@@ -55,6 +56,7 @@ export function VacancyStack() {
 				<Stack.Screen name={'InsertExchangeValue'} component={InsertExchangeValue} />
 				<Stack.Screen name={'SelectSaleValueType'} component={SelectSaleValueType} />
 				<Stack.Screen name={'SelectVacancyRange'} component={SelectVacancyRange} />
+				<Stack.Screen name={'SelectVacancyLocationView'} component={SelectVacancyLocationView} />
 				<Stack.Screen name={'InsertWorkplaceLocation'} component={InsertWorkplaceLocation} />
 				<Stack.Screen name={'SelectWorkWeekdays'} component={SelectWorkWeekdays} />
 				<Stack.Screen name={'InsertVacancyQuestions'} component={InsertVacancyQuestions} />

@@ -18,7 +18,7 @@ function SelectVacancyRange({ navigation }: SelectVacancyRangeScreenProps) {
 		setVacancyDataOnContext({ range: postRange })
 
 		if (workplace !== 'homeoffice') {
-			// navigation.navigate('SelectVacancyLocationView')
+			navigation.navigate('SelectVacancyLocationView')
 		} else {
 			navigation.navigate('SelectWorkWeekdays')
 		}

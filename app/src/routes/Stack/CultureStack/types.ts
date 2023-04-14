@@ -1,12 +1,12 @@
-import { CultureCategories, CultureType, LatLong, LocationViewType } from '../../../services/firebase/types'
+import { CultureCategories, LatLong, LocationViewType } from '../../../services/firebase/types'
 import { UserStackParamList } from '../UserStack/types'
 
 export type CultureStackParamList = {
-	InsertCultureTitle: { editMode: boolean, initialValue: string, cultureType: CultureType } | undefined // cultureType: CultureType is edit auxiliary
-	InsertCultureDescription: { editMode: boolean, initialValue: string, cultureType: CultureType } | undefined
+	InsertCultureTitle: { editMode: boolean, initialValue: string } | undefined
+	InsertCultureDescription: { editMode: boolean, initialValue: string } | undefined
 	InsertCulturePicture: undefined
 	CulturePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
-	SelectCultureCategory: { editMode: boolean, cultureType: CultureType } | undefined
+	SelectCultureCategory: { editMode: boolean } | undefined
 	SelectCultureTags: { categorySelected: CultureCategories, editMode?: boolean }
 	InsertEntryValue: { editMode: boolean, initialValue: string } | undefined
 	SelectExhibitionPlace: { editMode: boolean } | undefined

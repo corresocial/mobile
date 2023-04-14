@@ -1,4 +1,4 @@
-import { DaysOfWeek, LatLong, VacancyCategories, WorkplaceType } from '../../../services/firebase/types'
+import { DaysOfWeek, LatLong, LocationViewType, VacancyCategories } from '../../../services/firebase/types'
 import { UserStackParamList } from '../UserStack/types'
 
 export type VacancyStackParamList = {
@@ -14,7 +14,8 @@ export type VacancyStackParamList = {
 	InsertExchangeValue: { editMode: boolean, initialValue: string } | undefined
 	SelectSaleValueType: { bothPaymentType: boolean }
 	SelectVacancyRange: undefined
-	InsertWorkplaceLocation: { workplace: WorkplaceType, editMode?: boolean, initialValue?: LatLong }
+	SelectVacancyLocationView: { editMode?: boolean, locationView: LocationViewType, initialValue?: LatLong } | undefined
+	InsertWorkplaceLocation: { editMode?: boolean, locationView: LocationViewType, initialValue?: LatLong } | undefined
 	SelectVacancyCategory: { editMode: boolean } | undefined
 	SelectVacancyTags: { categorySelected: VacancyCategories, editMode?: boolean }
 	SelectVacancyType: { editMode: boolean } | undefined

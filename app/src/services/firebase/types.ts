@@ -38,8 +38,6 @@ export type WorkplaceType = 'homeoffice' | 'presential' | 'hybrid'
 
 export type VacancyType = 'professional' | 'temporary' | 'beak'
 
-export type CultureType = 'artistProfile' | 'eventPost'
-
 export type ExhibitionPlaceType = 'near' | 'city' | 'country'
 
 export type PlaceModalityType = 'presential' | 'online' | 'both'
@@ -404,7 +402,6 @@ export type CultureCollection = {
 	postType?: PostType
 	title?: string
 	description?: string
-	cultureType?: CultureType
 	locationView?: LocationViewType
 	range?: ExhibitionPlaceType
 	eventPlaceModality?: PlaceModalityType
@@ -447,7 +444,6 @@ export type CultureCollectionRemote = {
 	postType: PostType
 	title: string
 	description: string
-	cultureType: CultureType
 	locationView: LocationViewType
 	range: ExhibitionPlaceType
 	eventPlaceModality?: PlaceModalityType
