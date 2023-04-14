@@ -14,7 +14,7 @@ import { InsertExchangeValue } from '../../../screens/serviceRegisterScreens/Ins
 import { InsertServicePrestationLocation } from '../../../screens/serviceRegisterScreens/InsertServicePrestationLocation'
 import { InsertSaleValue } from '../../../screens/serviceRegisterScreens/InsertSaleValue'
 import { SelectLocationView } from '../../../screens/serviceRegisterScreens/SelectLocationView'
-import { LocationViewPreview } from '../../../screens/serviceRegisterScreens/LocationViewPreview'
+import { ServiceLocationViewPreview } from '../../../screens/serviceRegisterScreens/ServiceLocationViewPreview'
 import { SelectDeliveryMethod } from '../../../screens/serviceRegisterScreens/SelectDeliveryMethod'
 import { SelectServiceFrequency } from '../../../screens/serviceRegisterScreens/SelectServiceFrequency'
 import { SelectDaysOfWeek } from '../../../screens/serviceRegisterScreens/SelectDaysOfWeek'
@@ -50,7 +50,7 @@ export function ServiceStack() {
 				<Stack.Screen name={'SelectServiceRange'} component={SelectServiceRange} />
 				<Stack.Screen name={'SelectLocationView'} component={SelectLocationView} />
 				<Stack.Screen name={'InsertServicePrestationLocation'} component={InsertServicePrestationLocation} />
-				<Stack.Screen name={'LocationViewPreview'} component={LocationViewPreview} />
+				<Stack.Screen name={'ServiceLocationViewPreview'} component={ServiceLocationViewPreview} />
 				<Stack.Screen name={'SelectDeliveryMethod'} component={SelectDeliveryMethod} />
 				<Stack.Screen name={'SelectServiceFrequency'} component={SelectServiceFrequency} />
 				<Stack.Screen name={'SelectDaysOfWeek'} component={SelectDaysOfWeek} />

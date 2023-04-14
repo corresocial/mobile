@@ -45,7 +45,7 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 			})
 		}
 
-		navigation.navigate('LocationViewPreview', {
+		navigation.navigate('SaleLocationViewPreview', {
 			locationView: route.params.locationView,
 			editMode: !!route.params?.editMode
 		})

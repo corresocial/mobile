@@ -3,9 +3,9 @@ import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 
-import { CultureLocationViewPreviewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
+import { SaleLocationViewPreviewScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
 
-import { CultureContext } from '../../../contexts/CultureContext'
+import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostLocationViewPreview } from '../../../components/_onboarding/PostLocationViewPreview'
@@ -15,12 +15,12 @@ const defaultDeltaCoordinates = {
 	longitudeDelta: 0.004
 }
 
-function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPreviewScreenProps) {
-	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewScreenProps) {
+	const { saleDataContext, setSaleDataOnContext } = useContext(SaleContext)
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const { locationView } = route.params
-	const { range: postRange } = cultureDataContext
+	const { range: postRange } = saleDataContext
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
@@ -33,12 +33,12 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 		}
 
 		return {
-			...cultureDataContext?.location?.coordinates,
+			...saleDataContext?.location?.coordinates,
 			...defaultDeltaCoordinates
 		}
 	}
 
-	const saveLocationView = async () => {
+	const saveLocationView = () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ locationView })
 			navigation.pop(2)
@@ -46,16 +46,15 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 			return
 		}
 
-		setCultureDataOnContext({ locationView })
-
-		navigation.navigate('InsertEntryValue')
+		setSaleDataOnContext({ locationView })
+		navigation.navigate('SelectDeliveryMethod')
 	}
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostLocationViewPreview
-				backgroundColor={theme.blue2}
+				backgroundColor={theme.green2}
 				saveLocationView={saveLocationView}
 				initialValue={getCurrentMarkerCoordinate()}
 				postRange={postRange || 'near'}
@@ -66,4 +65,4 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 	)
 }
 
-export { CultureLocationViewPreview }
+export { SaleLocationViewPreview }

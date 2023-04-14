@@ -47,7 +47,10 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 			}
 		})
 
-		navigation.navigate('SelectWorkWeekdays')
+		navigation.navigate('VacancyLocationViewPreview', {
+			locationView,
+			editMode: editModeIsTrue()
+		})
 	}
 
 	const markerCoordinateIsAccuracy = (markerCoordinate: Coordinates) => markerCoordinate?.latitudeDelta as number < 0.0065

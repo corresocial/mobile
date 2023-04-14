@@ -45,7 +45,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 			})
 		}
 
-		navigation.navigate('LocationViewPreview', {
+		navigation.navigate('ServiceLocationViewPreview', {
 			locationView,
 			editMode: editModeIsTrue()
 		})

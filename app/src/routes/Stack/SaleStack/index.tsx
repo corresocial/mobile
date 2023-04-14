@@ -18,7 +18,7 @@ import { InsertExchangeValue } from '../../../screens/saleRegisterScreens/Insert
 import { SelectSaleValueType } from '../../../screens/saleRegisterScreens/SelectSaleValueType'
 import { InsertSaleLocation } from '../../../screens/saleRegisterScreens/InsertSaleLocation'
 import { SelectLocationView } from '../../../screens/saleRegisterScreens/SelectLocationView'
-import { LocationViewPreview } from '../../../screens/saleRegisterScreens/LocationViewPreview'
+import { SaleLocationViewPreview } from '../../../screens/saleRegisterScreens/SaleLocationViewPreview'
 import { SelectDeliveryMethod } from '../../../screens/saleRegisterScreens/SelectDeliveryMethod'
 import { SelectSaleFrequency } from '../../../screens/saleRegisterScreens/SelectSaleFrequency'
 import { SelectDaysOfWeek } from '../../../screens/saleRegisterScreens/SelectDaysOfWeek'
@@ -54,7 +54,7 @@ export function SaleStack() {
 				<Stack.Screen name={'SelectSaleRange'} component={SelectSaleRange} />
 				<Stack.Screen name={'SelectLocationView'} component={SelectLocationView} />
 				<Stack.Screen name={'InsertSaleLocation'} component={InsertSaleLocation} />
-				<Stack.Screen name={'LocationViewPreview'} component={LocationViewPreview} />
+				<Stack.Screen name={'SaleLocationViewPreview'} component={SaleLocationViewPreview} />
 				<Stack.Screen name={'SelectDeliveryMethod'} component={SelectDeliveryMethod} />
 				<Stack.Screen name={'SelectSaleFrequency'} component={SelectSaleFrequency} />
 				<Stack.Screen name={'SelectDaysOfWeek'} component={SelectDaysOfWeek} />

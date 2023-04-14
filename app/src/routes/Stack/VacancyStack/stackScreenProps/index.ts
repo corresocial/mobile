@@ -15,6 +15,7 @@ export type InsertSaleValueScreenProps = NativeStackScreenProps<VacancyStackPara
 export type InsertExchangeValueScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertExchangeValue'>
 export type SelectVacancyRangeScreenProps = NativeStackScreenProps<VacancyStackParamList, 'SelectVacancyRange'>
 export type SelectVacancyLocationViewScreenProps = NativeStackScreenProps<VacancyStackParamList, 'SelectVacancyLocationView'>
+export type VacancyLocationViewPreviewScreenProps = NativeStackScreenProps<VacancyStackParamList, 'VacancyLocationViewPreview'>
 export type InsertWorkplaceLocationScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertWorkplaceLocation'>
 export type SelectVacancyCategoryScreenProps = NativeStackScreenProps<VacancyStackParamList, 'SelectVacancyCategory'>
 export type SelectVacancyTagsScreenProps = NativeStackScreenProps<VacancyStackParamList, 'SelectVacancyTags'>

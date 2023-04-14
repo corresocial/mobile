@@ -3,9 +3,9 @@ import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 
-import { CultureLocationViewPreviewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
+import { VacancyLocationViewPreviewScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
-import { CultureContext } from '../../../contexts/CultureContext'
+import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostLocationViewPreview } from '../../../components/_onboarding/PostLocationViewPreview'
@@ -15,12 +15,12 @@ const defaultDeltaCoordinates = {
 	longitudeDelta: 0.004
 }
 
-function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPreviewScreenProps) {
-	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+function VacancyLocationViewPreview({ route, navigation }: VacancyLocationViewPreviewScreenProps) {
+	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const { locationView } = route.params
-	const { range: postRange } = cultureDataContext
+	const { range: postRange } = vacancyDataContext
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
@@ -33,12 +33,12 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 		}
 
 		return {
-			...cultureDataContext?.location?.coordinates,
+			...vacancyDataContext?.location?.coordinates,
 			...defaultDeltaCoordinates
 		}
 	}
 
-	const saveLocationView = async () => {
+	const saveLocationView = () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ locationView })
 			navigation.pop(2)
@@ -46,16 +46,15 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 			return
 		}
 
-		setCultureDataOnContext({ locationView })
-
-		navigation.navigate('InsertEntryValue')
+		setVacancyDataOnContext({ locationView })
+		navigation.navigate('SelectWorkWeekdays')
 	}
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
 			<PostLocationViewPreview
-				backgroundColor={theme.blue2}
+				backgroundColor={theme.yellow2}
 				saveLocationView={saveLocationView}
 				initialValue={getCurrentMarkerCoordinate()}
 				postRange={postRange || 'near'}
@@ -66,4 +65,4 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 	)
 }
 
-export { CultureLocationViewPreview }
+export { VacancyLocationViewPreview }

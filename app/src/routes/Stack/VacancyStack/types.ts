@@ -15,6 +15,7 @@ export type VacancyStackParamList = {
 	SelectSaleValueType: { bothPaymentType: boolean }
 	SelectVacancyRange: undefined
 	SelectVacancyLocationView: { editMode?: boolean, locationView: LocationViewType, initialValue?: LatLong } | undefined
+	VacancyLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
 	InsertWorkplaceLocation: { editMode?: boolean, locationView: LocationViewType, initialValue?: LatLong }
 	SelectVacancyCategory: { editMode: boolean } | undefined
 	SelectVacancyTags: { categorySelected: VacancyCategories, editMode?: boolean }
