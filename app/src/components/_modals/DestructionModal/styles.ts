@@ -30,7 +30,7 @@ export const Content = styled.View`
     justify-content: space-between;
     border-color: ${({ theme }) => theme.black3}
     border-right-width: ${RFValue(11)}px;
-    `
+`
 
 export const Title = styled.Text`
 	font-family: Arvo_700Bold;
@@ -39,6 +39,11 @@ export const Title = styled.Text`
 `
 export const Description = styled.Text`
 	font-family: Arvo_400Regular;
+	font-size: ${RFValue(20)}px;
+	color: ${({ theme }) => theme.black3};
+`
+export const DescriptionTitle = styled.Text`
+	font-family: Arvo_700Bold;
 	font-size: ${RFValue(20)}px;
 	color: ${({ theme }) => theme.black3};
 `

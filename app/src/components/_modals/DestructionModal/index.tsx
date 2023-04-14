@@ -1,20 +1,18 @@
 import React from 'react'
 import { Modal } from 'react-native'
 
-import { RFValue } from 'react-native-responsive-fontsize'
 import {
-	CloseIcon,
 	Container,
 	Content,
 	Description,
 	ButtonsContainer,
 	Title,
 	TouchCloseArea,
+	DescriptionTitle,
 } from './styles'
 import { theme } from '../../../common/theme'
-import CheckIcon from '../../../assets/icons/check.svg'
-import XIcon from '../../../assets/icons/x.svg'
-import Uncheck from '../../../assets/icons/uncheck.svg'
+import CheckIcon from '../../../assets/icons/check-shadow.svg'
+import Uncheck from '../../../assets/icons/uncheck-shadow.svg'
 
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { FocusAwareStatusBar } from '../../FocusAwareStatusBar'
@@ -48,13 +46,10 @@ function DestructionModal({
 			<Container>
 				<TouchCloseArea onPress={closeModal}></TouchCloseArea>
 				<Content>
-					<CloseIcon onPress={closeModal}>
-						<XIcon width={RFValue(25)} height={RFValue(25)} />
-					</CloseIcon>
 					<Title>{`${title}`}</Title>
 					<Description>
 						{`você tem certeza que quer ${title} `}
-						<Title>{name}</Title>
+						<DescriptionTitle>{name}</DescriptionTitle>
 						{'?'}
 					</Description>
 
@@ -66,8 +61,9 @@ function DestructionModal({
 							label={`sim, ${title}`}
 							highlightedWords={['sim', 'apagar', 'post', 'denunciar']}
 							fontSize={18}
+							labelMarginLeft={5}
 							SvgIcon={CheckIcon}
-							svgIconScale={['40%', '16%']}
+							svgIconScale={['30%', '15%']}
 							onPress={onPressButton}
 						/>
 						<PrimaryButton
@@ -76,9 +72,10 @@ function DestructionModal({
 							label={'não, cancelar'}
 							highlightedWords={['não', 'cancelar']}
 							labelColor={theme.white3}
+							labelMarginLeft={5}
 							fontSize={18}
 							SvgIcon={Uncheck}
-							svgIconScale={['30%', '20%']}
+							svgIconScale={['30%', '15%']}
 							onPress={closeModal}
 						/>
 					</ButtonsContainer>
