@@ -7,7 +7,7 @@ import { theme } from '../../../common/theme'
 import VacancyIcon from '../../../assets/icons/vacancy.svg'
 import SocialImpactIcon from '../../../assets/icons/socialImpact.svg'
 import ServiceIcon from '../../../assets/icons/service.svg'
-import SaleIcon from '../../../assets/icons/sale.svg'
+import CommerceIcon from '../../../assets/icons/commerce-filled.svg'
 import CultureIcon from '../../../assets/icons/culture.svg'
 
 import { SelectPostTypeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -61,7 +61,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 					labelColor={theme.black3}
 					labelSize={18}
 					relativeHeight={'18%'}
-					SvgIcon={SaleIcon}
+					SvgIcon={CommerceIcon}
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.green2}
 					leftSideWidth={'30%'}
