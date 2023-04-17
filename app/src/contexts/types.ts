@@ -127,7 +127,7 @@ export type VacancyData = {
 	locationView?: LocationViewType
 	workplace?: WorkplaceType
 	paymentType?: PaymentType
-	range?: ExhibitionPlaceType
+	range?: PostRange
 	companyDescription?: string
 	questions?: string[]
 	workFrequency?: WeekdaysFrequency
@@ -162,9 +162,9 @@ export type CultureData = {
 	title?: string
 	description?: string
 	locationView?: LocationViewType
-	range?: ExhibitionPlaceType
+	range?: PostRange
 	eventPlaceModality?: PlaceModalityType
-	eventRepeat?: EventRepeatType
+	repeat?: EventRepeatType
 	entryValue?: string
 	exhibitionFrequency?: WeekdaysFrequency
 	exhibitionWeekDays?: DaysOfWeek[]
@@ -200,10 +200,11 @@ export type SocialImpactData = {
 	tags?: string[]
 	category?: string
 	locationView?: LocationViewType
-	range?: ExhibitionPlaceType
+	range?: PostRange
+	exhibitionPlace?: ExhibitionPlaceType
 	exhibitionFrequency?: WeekdaysFrequency
 	exhibitionWeekDays?: DaysOfWeek[]
-	socialImpactRepeat?: EventRepeatType
+	repeat?: EventRepeatType
 	openingHour?: Date
 	closingHour?: Date
 	picturesUrl?: string[]

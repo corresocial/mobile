@@ -405,7 +405,7 @@ export type CultureCollection = {
 	locationView?: LocationViewType
 	range?: ExhibitionPlaceType
 	eventPlaceModality?: PlaceModalityType
-	eventRepeat?: EventRepeatType
+	repeat?: EventRepeatType
 	entryValue?: string
 	eventStartDate?: Date
 	eventEndDate?: Date
@@ -447,7 +447,7 @@ export type CultureCollectionRemote = {
 	locationView: LocationViewType
 	range: ExhibitionPlaceType
 	eventPlaceModality?: PlaceModalityType
-	eventRepeat: EventRepeatType
+	repeat: EventRepeatType
 	entryValue: string
 	eventStartDate: Date
 	eventEndDate: Date
@@ -491,7 +491,7 @@ export type SocialImpactCollection = {
 	locationView?: LocationViewType
 	range?: ExhibitionPlaceType
 	exhibitionWeekDays?: DaysOfWeek[]
-	socialImpactRepeat?: EventRepeatType,
+	repeat?: EventRepeatType,
 	openingHour?: Date
 	closingHour?: Date
 	picturesUrl?: string[]
@@ -530,7 +530,7 @@ export type SocialImpactCollectionRemote = {
 	locationView: LocationViewType
 	range: ExhibitionPlaceType
 	exhibitionWeekDays: DaysOfWeek[]
-	socialImpactRepeat: EventRepeatType,
+	repeat: EventRepeatType,
 	openingHour: Date
 	closingHour: Date
 	picturesUrl: string[]

@@ -17,7 +17,7 @@ function SelectCultureFrequency({ route, navigation }: SelectCultureFrequencyScr
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertEventStartDate')
+	const skipScreen = () => navigation.navigate('SelectEventRepeat')
 
 	const saveCultureFrequency = (cultureFrequency: WeekdaysFrequency) => {
 		const daysOfWeek = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'] as DaysOfWeek[]
@@ -37,7 +37,7 @@ function SelectCultureFrequency({ route, navigation }: SelectCultureFrequencyScr
 					exhibitionFrequency: cultureFrequency,
 					exhibitionWeekDays: [daysOfWeek[new Date().getDay()]]
 				})
-				navigation.navigate('InsertEventStartDate')
+				navigation.navigate('SelectEventRepeat')
 				break
 			}
 			case 'everyday': {
@@ -54,7 +54,7 @@ function SelectCultureFrequency({ route, navigation }: SelectCultureFrequencyScr
 					exhibitionFrequency: cultureFrequency,
 					exhibitionWeekDays: [...daysOfWeek]
 				})
-				navigation.navigate('InsertEventStartDate')
+				navigation.navigate('SelectEventRepeat')
 				break
 			}
 			case 'someday': {
@@ -84,7 +84,7 @@ function SelectCultureFrequency({ route, navigation }: SelectCultureFrequencyScr
 					exhibitionFrequency: cultureFrequency,
 					exhibitionWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
 				})
-				navigation.navigate('InsertEventStartDate')
+				navigation.navigate('SelectEventRepeat')
 				break
 			}
 			default: return false

@@ -17,7 +17,7 @@ function SelectSocialImpactFrequency({ route, navigation }: SelectSocialImpactFr
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('SelectDaysOfWeek')
+	const skipScreen = () => navigation.navigate('SelectSocialImpactRepeat')
 
 	const saveSocialImpactFrequency = (socialImpactFrequency: WeekdaysFrequency) => {
 		const daysOfWeek = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'] as DaysOfWeek[]
@@ -37,7 +37,7 @@ function SelectSocialImpactFrequency({ route, navigation }: SelectSocialImpactFr
 					exhibitionFrequency: socialImpactFrequency,
 					exhibitionWeekDays: [daysOfWeek[new Date().getDay()]]
 				})
-				navigation.navigate('SelectDaysOfWeek')
+				navigation.navigate('SelectSocialImpactRepeat')
 				break
 			}
 			case 'everyday': {
@@ -54,7 +54,7 @@ function SelectSocialImpactFrequency({ route, navigation }: SelectSocialImpactFr
 					exhibitionFrequency: socialImpactFrequency,
 					exhibitionWeekDays: [...daysOfWeek]
 				})
-				navigation.navigate('SelectDaysOfWeek')
+				navigation.navigate('SelectSocialImpactRepeat')
 				break
 			}
 			case 'someday': {
@@ -84,7 +84,7 @@ function SelectSocialImpactFrequency({ route, navigation }: SelectSocialImpactFr
 					exhibitionFrequency: socialImpactFrequency,
 					exhibitionWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
 				})
-				navigation.navigate('SelectDaysOfWeek')
+				navigation.navigate('SelectSocialImpactRepeat')
 				break
 			}
 			default: return false

@@ -13,7 +13,6 @@ import { CulturePicturePreview } from '../../../screens/cultureRegisterScreens/C
 import { SelectCultureCategory } from '../../../screens/cultureRegisterScreens/SelectCultureCategory'
 import { SelectCultureTags } from '../../../screens/cultureRegisterScreens/SelectCultureTags'
 import { InsertEntryValue } from '../../../screens/cultureRegisterScreens/InsertEntryValue'
-import { SelectExhibitionPlace } from '../../../screens/cultureRegisterScreens/SelectExhibitionPlace'
 import { SelectEventPlaceModality } from '../../../screens/cultureRegisterScreens/SelectEventPlaceModality'
 import { SelectCultureRange } from '../../../screens/cultureRegisterScreens/SelectCultureRange'
 import { SelectCultureLocationView } from '../../../screens/cultureRegisterScreens/SelectCultureLocationView'
@@ -33,7 +32,7 @@ export function CultureStack() {
 	return (
 		<CultureProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectCultureFrequency'}
+				initialRouteName={'SelectCultureCategory'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
@@ -47,7 +46,6 @@ export function CultureStack() {
 				<Stack.Screen name={'InsertCulturePicture'} component={InsertCulturePicture} />
 				<Stack.Screen name={'CulturePicturePreview'} component={CulturePicturePreview} />
 				<Stack.Screen name={'InsertEntryValue'} component={InsertEntryValue} />
-				<Stack.Screen name={'SelectExhibitionPlace'} component={SelectExhibitionPlace} />
 				<Stack.Screen name={'SelectEventPlaceModality'} component={SelectEventPlaceModality} />
 				<Stack.Screen name={'SelectCultureRange'} component={SelectCultureRange} />
 				<Stack.Screen name={'SelectCultureLocationView'} component={SelectCultureLocationView} />

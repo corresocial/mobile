@@ -22,14 +22,14 @@ function InstructionCard({
 	fontSize,
 	fontSizeHighlighted,
 	lineHeight,
-	borderLeftWidth,
+	borderLeftWidth = 5,
 	flex = 1,
 	children
 }: InstructionCardProps) {
 	return (
 		<Container
 			style={{
-				borderLeftWidth: RFValue(borderLeftWidth) || 5,
+				borderLeftWidth: RFValue(borderLeftWidth),
 				flex
 			}}
 		>

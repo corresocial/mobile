@@ -46,7 +46,7 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 		}
 
 		setSocialImpactDataOnContext({ locationView })
-		navigation.navigate('SelectDaysOfWeek')
+		navigation.navigate('SelectSocialImpactExhibitionRange')
 	}
 
 	return (

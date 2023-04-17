@@ -72,12 +72,11 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 			>
 				<ButtonsContainer>
 					<PrimaryButton
-						justifyContent={'flex-start'}
+						justifyContent={'space-around'}
 						color={theme.white3}
 						relativeHeight={'18%'}
 						labelColor={theme.black4}
 						fontSize={18}
-						labelMarginLeft={'3%'}
 						SecondSvgIcon={ShopWhiteIcon}
 						svgIconScale={['40%', '25%']}
 						textAlign={'left'}
@@ -86,12 +85,11 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 						onPress={() => saveWorkplaceType('presential')}
 					/>
 					<PrimaryButton
-						justifyContent={'flex-start'}
+						justifyContent={'space-around'}
 						color={theme.white3}
 						relativeHeight={'18%'}
 						labelColor={theme.black4}
 						fontSize={18}
-						labelMarginLeft={'3%'}
 						SecondSvgIcon={ComputerAndPhoneWhiteIcon}
 						svgIconScale={['40%', '25%']}
 						textAlign={'left'}
@@ -100,12 +98,11 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 						onPress={() => saveWorkplaceType('homeoffice')}
 					/>
 					<PrimaryButton
-						justifyContent={'flex-start'}
+						justifyContent={'space-around'}
 						color={theme.white3}
 						relativeHeight={'18%'}
 						labelColor={theme.black4}
 						fontSize={18}
-						labelMarginLeft={'3%'}
 						SvgIcon={ComputerAndPhoneWhiteIcon}
 						SecondSvgIcon={ShopWhiteIcon}
 						svgIconScale={['40%', '25%']}

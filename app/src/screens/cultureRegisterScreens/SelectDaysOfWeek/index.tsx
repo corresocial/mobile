@@ -17,7 +17,7 @@ function SelectDaysOfWeek({ route, navigation }: SelectDaysOfWeekScreenProps) {
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertEventStartDate')
+	const skipScreen = () => navigation.navigate('SelectEventRepeat')
 
 	const saveDaysOfWeek = (selectedDaysOfWeek: DaysOfWeek[]) => {
 		if (editModeIsTrue()) {
@@ -27,7 +27,7 @@ function SelectDaysOfWeek({ route, navigation }: SelectDaysOfWeekScreenProps) {
 		}
 
 		setCultureDataOnContext({ exhibitionWeekDays: selectedDaysOfWeek })
-		navigation.navigate('InsertEventStartDate')
+		navigation.navigate('SelectEventRepeat')
 	}
 
 	return (

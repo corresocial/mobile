@@ -30,7 +30,7 @@ export function ServiceStack() {
 	return (
 		<ServiceProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectDeliveryMethod'}
+				initialRouteName={'SelectServiceCategory'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,

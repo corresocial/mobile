@@ -14,7 +14,7 @@ import { updateDocField } from '../../../services/firebase/common/updateDocField
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
 import { EditSocialImpactPostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { CultureCollection, DaysOfWeek, EventRepeatType, ExhibitionPlaceType, Id, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '../../../services/firebase/types'
+import { DaysOfWeek, EventRepeatType, ExhibitionPlaceType, Id, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '../../../services/firebase/types'
 import { SocialImpactStackParamList } from '../../../routes/Stack/SocialImpactStack/types'
 
 import { EditContext } from '../../../contexts/EditContext'
@@ -51,10 +51,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 			case 'sale': return 'da venda'
 			case 'vacancy': return 'da vaga'
 			case 'socialImpact': return 'da iniciativa'
-			case 'culture': {
-				const { cultureType } = postData as CultureCollection
-				return cultureType === 'artistProfile' ? 'do artista' : 'do evento'
-			}
+			case 'culture': return 'do evento'
 			default: return 'do post'
 		}
 	}
@@ -68,8 +65,8 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 	}
 
 	const renderSocialImpactRepeat = () => {
-		const socialImpactRepeat = getPostField('socialImpactRepeat') as EventRepeatType
-		switch (socialImpactRepeat) {
+		const repeat = getPostField('repeat') as EventRepeatType
+		switch (repeat) {
 			case 'unrepeatable': return 'não se repete'
 			case 'everyDay': return 'todos os dias'
 			case 'weekly': return 'uma vez por semana'
@@ -107,7 +104,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 
 	const getUserPostsWithoutEdited = () => {
 		const userPosts = userDataContext.posts || []
-		return userPosts.filter((post) => post.postId !== postData.postId)
+		return userPosts.filter((post: SocialImpactCollection) => post.postId !== postData.postId)
 	}
 
 	const editPost = async () => {
@@ -347,7 +344,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 					title={'repetição'}
 					highlightedWords={['repetição']}
 					value={renderSocialImpactRepeat() || '---'}
-					onEdit={() => navigateToEditScreen('SelectSocialImpactRepeat', 'socialImpactRepeat')}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactRepeat', 'repeat')}
 				/>
 				<Sigh />
 				<EditCard
