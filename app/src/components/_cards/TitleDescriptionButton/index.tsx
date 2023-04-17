@@ -43,7 +43,16 @@ function TitleDescriptionButton({
 	}
 
 	const renderRelativeFooterText = () => {
-		switch (footerText) {
+		if (footerText) {
+			return (
+				<Footer>
+					<SmallThinFont>{'plano '}</SmallThinFont>
+					<LargeStrongFont>{'gratuito'}</LargeStrongFont>
+					<SmallStrongFont>{''}</SmallStrongFont>
+				</Footer>
+			)
+		}
+		/* switch (footerText) {
 			case 'near': return (
 				<Footer>
 					<SmallThinFont>{'plano '}</SmallThinFont>
@@ -68,7 +77,7 @@ function TitleDescriptionButton({
 				</Footer>
 			)
 			default: return null
-		}
+		} */
 	}
 
 	return (
