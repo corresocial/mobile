@@ -46,7 +46,7 @@ function InsertItemDescription({ route, navigation }: InsertItemDescriptionScree
 		navigation.navigate('InsertSalePicture')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

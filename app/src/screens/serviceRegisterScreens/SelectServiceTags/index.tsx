@@ -42,7 +42,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 		navigation.navigate('InsertServiceName')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

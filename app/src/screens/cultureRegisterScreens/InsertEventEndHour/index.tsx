@@ -180,7 +180,7 @@ function InsertEventEndHour({ route, navigation }: InsertEventEndHourScreenProps
 		}
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const getCompleteCultureDataFromContext = () => {
 		const eventEndHour = new Date()

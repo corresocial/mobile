@@ -122,7 +122,7 @@ function InsertEventStartDate({ route, navigation }: InsertEventStartDateScreenP
 		navigation.navigate('InsertEventStartHour')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {

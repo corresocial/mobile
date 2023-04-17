@@ -88,7 +88,7 @@ function InsertWorkStartHour({ route, navigation }: InsertWorkStartHourScreenPro
 		}
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

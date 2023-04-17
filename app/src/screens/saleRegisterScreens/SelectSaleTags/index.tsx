@@ -42,7 +42,7 @@ function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 		navigation.navigate('SelectItemStatus')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

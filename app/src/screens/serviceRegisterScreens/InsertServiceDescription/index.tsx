@@ -47,7 +47,7 @@ function InsertServiceDescription({ route, navigation }: InsertServiceDescriptio
 		navigation.navigate('InsertServicePicture')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

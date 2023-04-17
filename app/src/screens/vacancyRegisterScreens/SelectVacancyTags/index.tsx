@@ -42,7 +42,7 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
 		navigation.navigate('InsertVacancyTitle')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

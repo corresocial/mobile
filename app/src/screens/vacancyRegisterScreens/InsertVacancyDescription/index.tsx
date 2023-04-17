@@ -46,7 +46,7 @@ function InsertVacancyDescription({ route, navigation }: InsertVacancyDescriptio
 		navigation.navigate('InsertVacancyPicture')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

@@ -45,7 +45,7 @@ function InsertServiceName({ route, navigation }: InsertServiceNameScreenProps) 
 		navigation.navigate('InsertServiceDescription')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

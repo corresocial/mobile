@@ -32,7 +32,7 @@ function SelectSocialImpactRepeat({ route, navigation }: SelectSocialImpactRepea
 		navigation.navigate('InsertOpeningHour')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<Container>

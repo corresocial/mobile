@@ -24,6 +24,8 @@ import { InsertEventStartHour } from '../../../screens/cultureRegisterScreens/In
 import { InsertEventEndDate } from '../../../screens/cultureRegisterScreens/InsertEventEndDate'
 import { InsertEventEndHour } from '../../../screens/cultureRegisterScreens/InsertEventEndHour'
 import { SelectEventRepeat } from '../../../screens/cultureRegisterScreens/SelectEventRepeat'
+import { SelectCultureFrequency } from '../../../screens/cultureRegisterScreens/SelectCultureFrequency'
+import { SelectDaysOfWeek } from '../../../screens/cultureRegisterScreens/SelectDaysOfWeek'
 
 const Stack = createStackNavigator<CultureStackParamList>()
 
@@ -31,7 +33,7 @@ export function CultureStack() {
 	return (
 		<CultureProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectCultureCategory'}
+				initialRouteName={'SelectCultureFrequency'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
@@ -40,7 +42,6 @@ export function CultureStack() {
 			>
 				<Stack.Screen name={'SelectCultureCategory'} component={SelectCultureCategory} />
 				<Stack.Screen name={'SelectCultureTags'} component={SelectCultureTags} />
-
 				<Stack.Screen name={'InsertCultureTitle'} component={InsertCultureTitle} />
 				<Stack.Screen name={'InsertCultureDescription'} component={InsertCultureDescription} />
 				<Stack.Screen name={'InsertCulturePicture'} component={InsertCulturePicture} />
@@ -52,6 +53,8 @@ export function CultureStack() {
 				<Stack.Screen name={'SelectCultureLocationView'} component={SelectCultureLocationView} />
 				<Stack.Screen name={'InsertCultureLocation'} component={InsertCultureLocation} />
 				<Stack.Screen name={'CultureLocationViewPreview'} component={CultureLocationViewPreview} />
+				<Stack.Screen name={'SelectCultureFrequency'} component={SelectCultureFrequency} />
+				<Stack.Screen name={'SelectDaysOfWeek'} component={SelectDaysOfWeek} />
 				<Stack.Screen name={'InsertEventStartDate'} component={InsertEventStartDate} />
 				<Stack.Screen name={'InsertEventStartHour'} component={InsertEventStartHour} />
 				<Stack.Screen name={'InsertEventEndDate'} component={InsertEventEndDate} />

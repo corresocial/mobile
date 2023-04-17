@@ -123,7 +123,7 @@ function InsertWorkEndDate({ route, navigation }: InsertWorkEndDateScreenProps) 
 		navigation.navigate('InsertWorkEndHour')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {

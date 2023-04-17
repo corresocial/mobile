@@ -45,7 +45,7 @@ function InsertVacancyTitle({ route, navigation }: InsertVacancyTitleScreenProps
 		navigation.navigate('InsertVacancyDescription')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

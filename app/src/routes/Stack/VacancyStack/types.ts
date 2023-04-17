@@ -17,6 +17,7 @@ export type VacancyStackParamList = {
 	SelectVacancyLocationView: { editMode?: boolean, locationView: LocationViewType, initialValue?: LatLong } | undefined
 	VacancyLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
 	InsertWorkplaceLocation: { editMode?: boolean, locationView: LocationViewType, initialValue?: LatLong }
+	SelectVacancyFrequency: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectVacancyCategory: { editMode: boolean } | undefined
 	SelectVacancyTags: { categorySelected: VacancyCategories, editMode?: boolean }
 	SelectVacancyType: { editMode: boolean } | undefined

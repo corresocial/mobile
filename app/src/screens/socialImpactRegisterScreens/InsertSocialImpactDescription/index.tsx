@@ -46,7 +46,7 @@ function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpact
 		navigation.navigate('InsertSocialImpactPicture')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

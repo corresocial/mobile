@@ -21,6 +21,7 @@ import { SelectDaysOfWeek } from '../../../screens/socialImpactRegisterScreens/S
 import { InsertOpeningHour } from '../../../screens/socialImpactRegisterScreens/InsertOpeningHour'
 import { InsertClosingHour } from '../../../screens/socialImpactRegisterScreens/InsertClosingHour'
 import { SelectSocialImpactRepeat } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactRepeat'
+import { SelectSocialImpactFrequency } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactFrequency'
 
 const Stack = createStackNavigator<SocialImpactStackParamList>()
 
@@ -28,7 +29,7 @@ export function SocialImpactStack() {
 	return (
 		<SocialImpactProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectSocialImpactCategory'}
+				initialRouteName={'SelectSocialImpactFrequency'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
@@ -46,6 +47,7 @@ export function SocialImpactStack() {
 				<Stack.Screen name={'InsertSocialImpactLocation'} component={InsertSocialImpactLocation} />
 				<Stack.Screen name={'SelectSocialImpactLocationView'} component={SelectSocialImpactLocationView} />
 				<Stack.Screen name={'SocialImpactLocationViewPreview'} component={SocialImpactLocationViewPreview} />
+				<Stack.Screen name={'SelectSocialImpactFrequency'} component={SelectSocialImpactFrequency} />
 				<Stack.Screen name={'SelectDaysOfWeek'} component={SelectDaysOfWeek} />
 				<Stack.Screen name={'InsertOpeningHour'} component={InsertOpeningHour} />
 				<Stack.Screen name={'InsertClosingHour'} component={InsertClosingHour} />

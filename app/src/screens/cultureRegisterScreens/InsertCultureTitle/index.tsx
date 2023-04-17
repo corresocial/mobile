@@ -45,7 +45,7 @@ function InsertCultureTitle({ route, navigation }: InsertCultureTitleScreenProps
 		navigation.navigate('InsertCultureDescription')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

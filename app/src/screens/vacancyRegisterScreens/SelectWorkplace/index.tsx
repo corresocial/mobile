@@ -3,6 +3,10 @@ import { StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
+import ShopWhiteIcon from '../../../assets/icons/shop-white.svg'
+import ComputerAndPhoneWhiteIcon from '../../../assets/icons/computerAndPhone-white.svg'
+
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 import { SelectWorkplaceScreenProps } from '../../../routes/Stack/vacancyStack/stackScreenProps'
 import { WorkplaceType } from '../../../services/firebase/types'
@@ -39,20 +43,21 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 		navigation.navigate('SelectVacancyType')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={'28%'}
+				minHeight={relativeScreenHeight(24)}
+				relativeHeight={relativeScreenHeight(24)}
 				centralized
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
+					fontSize={17}
 					message={'qual é o local de trabalho?'}
 					highlightedWords={['local,', 'de', 'trabalho']}
 				>
@@ -71,8 +76,10 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 						color={theme.white3}
 						relativeHeight={'18%'}
 						labelColor={theme.black4}
-						labelMarginLeft={'5%'}
 						fontSize={18}
+						labelMarginLeft={'3%'}
+						SecondSvgIcon={ShopWhiteIcon}
+						svgIconScale={['40%', '25%']}
 						textAlign={'left'}
 						label={'vaga presencial'}
 						highlightedWords={['presencial']}
@@ -83,8 +90,10 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 						color={theme.white3}
 						relativeHeight={'18%'}
 						labelColor={theme.black4}
-						labelMarginLeft={'5%'}
 						fontSize={18}
+						labelMarginLeft={'3%'}
+						SecondSvgIcon={ComputerAndPhoneWhiteIcon}
+						svgIconScale={['40%', '25%']}
 						textAlign={'left'}
 						label={'vaga homeoffice'}
 						highlightedWords={['homeoffice']}
@@ -95,8 +104,11 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 						color={theme.white3}
 						relativeHeight={'18%'}
 						labelColor={theme.black4}
-						labelMarginLeft={'5%'}
 						fontSize={18}
+						labelMarginLeft={'3%'}
+						SvgIcon={ComputerAndPhoneWhiteIcon}
+						SecondSvgIcon={ShopWhiteIcon}
+						svgIconScale={['40%', '25%']}
 						textAlign={'left'}
 						label={'vaga híbrida'}
 						highlightedWords={['híbrida']}

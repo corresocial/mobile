@@ -51,7 +51,7 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 		}
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

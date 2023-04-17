@@ -46,7 +46,7 @@ function InsertCultureDescription({ route, navigation }: InsertCultureDescriptio
 		navigation.navigate('InsertCulturePicture')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

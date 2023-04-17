@@ -37,7 +37,7 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
 		navigation.navigate('InsertCultureTitle')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

@@ -1,4 +1,4 @@
-import { CultureCategories, LatLong, LocationViewType } from '../../../services/firebase/types'
+import { CultureCategories, DaysOfWeek, LatLong, LocationViewType } from '../../../services/firebase/types'
 import { UserStackParamList } from '../UserStack/types'
 
 export type CultureStackParamList = {
@@ -15,6 +15,8 @@ export type CultureStackParamList = {
 	SelectCultureLocationView: { editMode: boolean, initialValue: LatLong } | undefined
 	InsertCultureLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
 	CultureLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
+	SelectCultureFrequency: { editMode?: boolean, initialValue: DaysOfWeek[] } | undefined
+	SelectDaysOfWeek: { editMode?: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectEventRepeat: { editMode: boolean } | undefined
 	InsertEventStartDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertEventStartHour: { editMode: boolean, initialValue: Date } | undefined

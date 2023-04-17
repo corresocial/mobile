@@ -123,7 +123,7 @@ function InsertEventEndDate({ route, navigation }: InsertEventEndDateScreenProps
 		navigation.navigate('InsertEventEndHour')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {

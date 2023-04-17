@@ -55,6 +55,10 @@ function InsertOpeningHour({ route, navigation }: InsertOpeningHourScreenProps) 
 		setMinutesIsValid(minutesValidation)
 	}, [hours, minutes, keyboardOpened])
 
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
+	const skipScreen = () => navigation.navigate('InsertClosingHour')
+
 	const validateHours = (text: string) => {
 		const isValid = text.length === 2 && parseInt(text) < 24
 		if (isValid) {
@@ -84,12 +88,6 @@ function InsertOpeningHour({ route, navigation }: InsertOpeningHourScreenProps) 
 		setSaleDataOnContext({ openingHour })
 		navigation.navigate('InsertClosingHour')
 	}
-
-	const skipScreen = () => {
-		navigation.navigate('InsertClosingHour')
-	}
-
-	const editModeIsTrue = () => route.params && route.params.editMode
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
