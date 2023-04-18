@@ -5,15 +5,15 @@ import { theme } from '../../../common/theme'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { InsertEventStartHourScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
+import { InsertSocialImpactStartHourScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
-import { CultureContext } from '../../../contexts/CultureContext'
+import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostStartTime } from '../../../components/_onboarding/PostStartTime'
 
-function InsertEventStartHour({ route, navigation }: InsertEventStartHourScreenProps) {
-	const { setCultureDataOnContext } = useContext(CultureContext)
+function InsertSocialImpactStartHour({ route, navigation }: InsertSocialImpactStartHourScreenProps) {
+	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -29,28 +29,28 @@ function InsertEventStartHour({ route, navigation }: InsertEventStartHourScreenP
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertEventEndHour')
+	const skipScreen = () => navigation.navigate('InsertSocialImpactEndHour')
 
 	const saveOpeningHour = (hour: string, minutes: string) => {
-		const eventStartHour = new Date()
-		eventStartHour.setHours(parseInt(hour), parseInt(minutes))
+		const startHour = new Date()
+		startHour.setHours(parseInt(hour), parseInt(minutes))
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ eventStartHour })
+			addNewUnsavedFieldToEditContext({ startHour })
 			navigation.goBack()
 			return
 		}
 
-		setCultureDataOnContext({ eventStartHour })
-		navigation.navigate('InsertEventEndDate')
+		setSocialImpactDataOnContext({ startHour })
+		navigation.navigate('InsertSocialImpactEndHour')
 	}
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
 			<PostStartTime
-				backgroundColor={theme.blue2}
-				validationColor={theme.blue1}
+				backgroundColor={theme.pink2}
+				validationColor={theme.pink1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
@@ -62,4 +62,4 @@ function InsertEventStartHour({ route, navigation }: InsertEventStartHourScreenP
 	)
 }
 
-export { InsertEventStartHour }
+export { InsertSocialImpactStartHour }

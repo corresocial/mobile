@@ -152,8 +152,8 @@ export type ServiceCollection = {
 	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
 	attendanceWeekDays?: DaysOfWeek[]
-	openingHour?: Date
-	closingHour?: Date
+	startHour?: Date
+	endHour?: Date
 	picturesUrl?: string[]
 	createdAt?: Date
 	location?: {
@@ -195,8 +195,8 @@ export type ServiceCollectionRemote = {
 	deliveryMethod?: DeliveryMethod
 	attendanceFrequency: WeekdaysFrequency
 	attendanceWeekDays?: DaysOfWeek[]
-	openingHour: Date
-	closingHour: Date
+	startHour: Date
+	endHour: Date
 	picturesUrl: string[]
 	createdAt: Date
 	location: {
@@ -240,8 +240,8 @@ export type SaleCollection = {
 	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
 	attendanceWeekDays?: DaysOfWeek[]
-	openingHour?: Date
-	closingHour?: Date
+	startHour?: Date
+	endHour?: Date
 	picturesUrl?: string[]
 	createdAt?: Date
 	location?: {
@@ -285,8 +285,8 @@ export type SaleCollectionRemote = {
 	deliveryMethod?: DeliveryMethod
 	attendanceFrequency: WeekdaysFrequency
 	attendanceWeekDays: DaysOfWeek[]
-	openingHour: Date
-	closingHour: Date
+	startHour: Date
+	endHour: Date
 	picturesUrl: string[]
 	createdAt: Date
 	location?: {
@@ -324,10 +324,10 @@ export type VacancyCollection = {
 	companyDescription?: string
 	questions?: string[]
 	workWeekdays?: DaysOfWeek[]
-	startWorkDate?: Date
+	startDate?: Date
 	endWorkDate?: Date
-	startWorkHour?: Date
-	endWorkHour?: Date
+	startHour?: Date
+	endHour?: Date
 	tags?: string[]
 	category?: string
 	createdAt?: Date
@@ -366,10 +366,10 @@ export type VacancyCollectionRemote = {
 	companyDescription: string
 	questions: string[]
 	workWeekdays: DaysOfWeek[]
-	startWorkDate: Date
+	startDate: Date
 	endWorkDate: Date
-	startWorkHour: Date
-	endWorkHour: Date
+	startHour: Date
+	endHour: Date
 	tags: string[]
 	category: string
 	createdAt: Date
@@ -407,10 +407,10 @@ export type CultureCollection = {
 	eventPlaceModality?: PlaceModalityType
 	repeat?: EventRepeatType
 	entryValue?: string
-	eventStartDate?: Date
-	eventEndDate?: Date
-	eventStartHour?: Date
-	eventEndHour?: Date
+	startDate?: Date
+	endDate?: Date
+	startHour?: Date
+	endHour?: Date
 	picturesUrl?: string[]
 	tags?: string[]
 	category?: string
@@ -449,10 +449,10 @@ export type CultureCollectionRemote = {
 	eventPlaceModality?: PlaceModalityType
 	repeat: EventRepeatType
 	entryValue: string
-	eventStartDate: Date
-	eventEndDate: Date
-	eventStartHour: Date
-	eventEndHour: Date
+	startDate: Date
+	endDate: Date
+	startHour: Date
+	endHour: Date
 	picturesUrl: string[]
 	tags: string[]
 	category: string
@@ -492,8 +492,8 @@ export type SocialImpactCollection = {
 	range?: ExhibitionPlaceType
 	exhibitionWeekDays?: DaysOfWeek[]
 	repeat?: EventRepeatType,
-	openingHour?: Date
-	closingHour?: Date
+	startHour?: Date
+	endHour?: Date
 	picturesUrl?: string[]
 	createdAt?: Date
 	location?: {
@@ -531,8 +531,8 @@ export type SocialImpactCollectionRemote = {
 	range: ExhibitionPlaceType
 	exhibitionWeekDays: DaysOfWeek[]
 	repeat: EventRepeatType,
-	openingHour: Date
-	closingHour: Date
+	startHour: Date
+	endHour: Date
 	picturesUrl: string[]
 	createdAt: Date
 	location: {

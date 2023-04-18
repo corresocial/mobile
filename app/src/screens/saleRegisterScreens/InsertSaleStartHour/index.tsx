@@ -5,15 +5,15 @@ import { theme } from '../../../common/theme'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { InsertEventStartDateScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
+import { InsertSaleStartHourScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
-import { CultureContext } from '../../../contexts/CultureContext'
+import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
 
-import { PostStartDate } from '../../../components/_onboarding/PostStartDate'
+import { PostStartTime } from '../../../components/_onboarding/PostStartTime'
 
-function InsertEventStartDate({ route, navigation }: InsertEventStartDateScreenProps) {
-	const { setCultureDataOnContext } = useContext(CultureContext)
+function InsertSaleStartHour({ route, navigation }: InsertSaleStartHourScreenProps) {
+	const { setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -29,36 +29,37 @@ function InsertEventStartDate({ route, navigation }: InsertEventStartDateScreenP
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertEventStartHour')
+	const skipScreen = () => navigation.navigate('InsertSaleEndHour')
 
-	const saveCultureStartDate = (year: string, month: string, day: string) => {
-		const eventStartDate = new Date(`${year}-${month}-${day}T12:00:00`)
+	const saveOpeningHour = (hour: string, minutes: string) => {
+		const startHour = new Date()
+		startHour.setHours(parseInt(hour), parseInt(minutes))
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ eventStartDate })
+			addNewUnsavedFieldToEditContext({ startHour })
 			navigation.goBack()
 			return
 		}
 
-		setCultureDataOnContext({ eventStartDate })
-		navigation.navigate('InsertEventStartHour')
+		setSaleDataOnContext({ startHour })
+		navigation.navigate('InsertSaleEndHour')
 	}
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
-			<PostStartDate
-				backgroundColor={theme.blue2}
-				validationColor={theme.blue1}
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
+			<PostStartTime
+				backgroundColor={theme.green2}
+				validationColor={theme.green1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
-				saveStartDate={saveCultureStartDate}
+				saveStartHour={saveOpeningHour}
 			/>
 		</>
 	)
 }
 
-export { InsertEventStartDate }
+export { InsertSaleStartHour }

@@ -264,8 +264,8 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 							<EditCard
 								title={'data de início'}
 								highlightedWords={['início']}
-								value={formatDate(getPostField('startWorkDate')) || '---'}
-								onEdit={() => navigateToEditScreen('InsertVacancyStartDate', 'startWorkDate')}
+								value={formatDate(getPostField('startDate')) || '---'}
+								onEdit={() => navigateToEditScreen('InsertVacancyStartDate', 'startDate')}
 							/>
 							<Sigh />
 						</>
@@ -274,8 +274,8 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 				<EditCard
 					title={'horário de início'}
 					highlightedWords={['início']}
-					value={formatHour(getPostField('startWorkHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertVacancyStartHour', 'startWorkHour')}
+					value={formatHour(getPostField('startHour')) || '---'}
+					onEdit={() => navigateToEditScreen('InsertVacancyStartHour', 'startHour')}
 				/>
 				<Sigh />
 				{
@@ -294,8 +294,8 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 				<EditCard
 					title={'horário de fim'}
 					highlightedWords={['fim']}
-					value={formatHour(getPostField('endWorkHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertVacancyEndHour', 'endWorkHour')}
+					value={formatHour(getPostField('endHour')) || '---'}
+					onEdit={() => navigateToEditScreen('InsertVacancyEndHour', 'endHour')}
 				/>
 				<LastSigh />
 			</Body>

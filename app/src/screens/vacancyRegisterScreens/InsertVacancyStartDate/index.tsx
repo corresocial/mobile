@@ -32,15 +32,15 @@ function InsertVacancyStartDate({ route, navigation }: InsertVacancyStartDateScr
 	const skipScreen = () => navigation.navigate('InsertVacancyStartHour')
 
 	const saveVacancyStartDate = (year: string, month: string, day: string) => {
-		const startWorkDate = new Date(`${year}-${month}-${day}T12:00:00`)
+		const startDate = new Date(`${year}-${month}-${day}T12:00:00`)
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ startWorkDate })
+			addNewUnsavedFieldToEditContext({ startDate })
 			navigation.goBack()
 			return
 		}
 
-		setVacancyDataOnContext({ startWorkDate })
+		setVacancyDataOnContext({ startDate })
 		navigation.navigate('InsertVacancyStartHour')
 	}
 

@@ -360,29 +360,29 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 							<EditCard
 								title={'data de início'}
 								highlightedWords={['início']}
-								value={formatDate(getPostField('eventStartDate')) || '---'}
-								onEdit={() => navigateToEditScreen('InsertEventStartDate', 'eventStartDate')}
+								value={formatDate(getPostField('startDate')) || '---'}
+								onEdit={() => navigateToEditScreen('InsertCultureStartDate', 'startDate')}
 							/>
 							<Sigh />
 							<EditCard
 								title={'horário de início'}
 								highlightedWords={['início']}
-								value={formatHour(getPostField('eventStartHour')) || '---'}
-								onEdit={() => navigateToEditScreen('InsertEventStartHour', 'eventStartHour')}
+								value={formatHour(getPostField('startHour')) || '---'}
+								onEdit={() => navigateToEditScreen('InsertCultureStartHour', 'startHour')}
 							/>
 							<Sigh />
 							<EditCard
 								title={'data de fim'}
 								highlightedWords={['fim']}
-								value={formatDate(getPostField('eventEndDate')) || '---'}
-								onEdit={() => navigateToEditScreen('InsertEventEndDate', 'eventEndDate')}
+								value={formatDate(getPostField('endDate')) || '---'}
+								onEdit={() => navigateToEditScreen('InsertCultureEndDate', 'endDate')}
 							/>
 							<Sigh />
 							<EditCard
 								title={'horário de fim'}
 								highlightedWords={['fim']}
-								value={formatHour(getPostField('eventEndHour')) || '---'}
-								onEdit={() => navigateToEditScreen('InsertEventEndHour', 'eventEndHour')}
+								value={formatHour(getPostField('endHour')) || '---'}
+								onEdit={() => navigateToEditScreen('InsertCultureEndHour', 'endHour')}
 							/>
 						</>
 					)

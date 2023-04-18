@@ -273,8 +273,8 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						title={'dias e horários'}
 						weekDaysfrequency={getPostField('attendanceFrequency')}
 						daysOfWeek={getPostField('attendanceWeekDays')}
-						openingTime={getPostField('openingHour')}
-						closingTime={getPostField('closingHour')}
+						openingTime={getPostField('startHour')}
+						closingTime={getPostField('endHour')}
 						textFontSize={14}
 					/>
 					<Sigh />

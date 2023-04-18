@@ -5,15 +5,15 @@ import { theme } from '../../../common/theme'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { InsertOpeningHourScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
+import { InsertCultureStartDateScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
-import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+import { CultureContext } from '../../../contexts/CultureContext'
 import { EditContext } from '../../../contexts/EditContext'
 
-import { PostStartTime } from '../../../components/_onboarding/PostStartTime'
+import { PostStartDate } from '../../../components/_onboarding/PostStartDate'
 
-function InsertOpeningHour({ route, navigation }: InsertOpeningHourScreenProps) {
-	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+function InsertCultureStartDate({ route, navigation }: InsertCultureStartDateScreenProps) {
+	const { setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -29,37 +29,36 @@ function InsertOpeningHour({ route, navigation }: InsertOpeningHourScreenProps) 
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertClosingHour')
+	const skipScreen = () => navigation.navigate('InsertCultureStartHour')
 
-	const saveOpeningHour = (hour: string, minutes: string) => {
-		const openingHour = new Date()
-		openingHour.setHours(parseInt(hour), parseInt(minutes))
+	const saveCultureStartDate = (year: string, month: string, day: string) => {
+		const startDate = new Date(`${year}-${month}-${day}T12:00:00`)
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ openingHour })
+			addNewUnsavedFieldToEditContext({ startDate })
 			navigation.goBack()
 			return
 		}
 
-		setSocialImpactDataOnContext({ openingHour })
-		navigation.navigate('InsertClosingHour')
+		setCultureDataOnContext({ startDate })
+		navigation.navigate('InsertCultureStartHour')
 	}
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
-			<PostStartTime
-				backgroundColor={theme.pink2}
-				validationColor={theme.pink1}
+			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+			<PostStartDate
+				backgroundColor={theme.blue2}
+				validationColor={theme.blue1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
-				saveStartHour={saveOpeningHour}
+				saveStartDate={saveCultureStartDate}
 			/>
 		</>
 	)
 }
 
-export { InsertOpeningHour }
+export { InsertCultureStartDate }

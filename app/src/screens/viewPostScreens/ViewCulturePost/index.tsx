@@ -208,7 +208,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 			<Body>
 				<ScrollView showsVerticalScrollIndicator={false} >
 					<DescriptionCard
-						title={`${postData.cultureType === 'artistProfile' ? 'sobre o artista' : 'descrição do rolê'}`}
+						title={'descrição do evento'}
 						text={getPostField('description')}
 						textFontSize={14}
 					/>
@@ -244,16 +244,16 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						textFontSize={16}
 					/>
 					{
-						getPostField('eventStartDate') && getPostField('eventEndDate')
+						getPostField('startDate') && getPostField('endDate')
 						&& (
 							<>
 								<Sigh />
 								<DateTimeCard
 									title={'dias e horários'}
-									openingTime={getPostField('eventStartHour')}
-									closingTime={getPostField('eventEndHour')}
-									startDate={getPostField('eventStartDate')}
-									endDate={getPostField('eventEndDate')}
+									openingTime={getPostField('startHour')}
+									closingTime={getPostField('endHour')}
+									startDate={getPostField('startDate')}
+									endDate={getPostField('endDate')}
 									textFontSize={14}
 								/>
 							</>

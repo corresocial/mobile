@@ -17,7 +17,7 @@ function SelectDaysOfWeek({ route, navigation }: SelectDaysOfWeekScreenProps) {
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertOpeningHour')
+	const skipScreen = () => navigation.navigate('InsertSaleStartHour')
 
 	const saveDaysOfWeek = (selectedDaysOfWeek: DaysOfWeek[]) => {
 		if (editModeIsTrue()) {
@@ -27,7 +27,7 @@ function SelectDaysOfWeek({ route, navigation }: SelectDaysOfWeekScreenProps) {
 		}
 
 		setSaleDataOnContext({ attendanceWeekDays: selectedDaysOfWeek })
-		navigation.navigate('InsertOpeningHour')
+		navigation.navigate('InsertSaleStartHour')
 	}
 
 	return (

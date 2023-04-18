@@ -17,8 +17,8 @@ export type CultureStackParamList = {
 	SelectCultureFrequency: { editMode?: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectDaysOfWeek: { editMode?: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectEventRepeat: { editMode: boolean } | undefined
-	InsertEventStartDate: { editMode: boolean, initialValue: Date } | undefined
-	InsertEventStartHour: { editMode: boolean, initialValue: Date } | undefined
-	InsertEventEndDate: { editMode: boolean, initialValue: Date } | undefined
-	InsertEventEndHour: { editMode: boolean, initialValue: Date } | undefined
+	InsertCultureStartDate: { editMode: boolean, initialValue: Date } | undefined
+	InsertCultureStartHour: { editMode: boolean, initialValue: Date } | undefined
+	InsertCultureEndDate: { editMode: boolean, initialValue: Date } | undefined
+	InsertCultureEndHour: { editMode: boolean, initialValue: Date } | undefined
 } & UserStackParamList

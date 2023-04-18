@@ -5,15 +5,15 @@ import { theme } from '../../../common/theme'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { InsertOpeningHourScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
+import { InsertCultureStartHourScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
-import { SaleContext } from '../../../contexts/SaleContext'
+import { CultureContext } from '../../../contexts/CultureContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostStartTime } from '../../../components/_onboarding/PostStartTime'
 
-function InsertOpeningHour({ route, navigation }: InsertOpeningHourScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext)
+function InsertCultureStartHour({ route, navigation }: InsertCultureStartHourScreenProps) {
+	const { setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -29,28 +29,28 @@ function InsertOpeningHour({ route, navigation }: InsertOpeningHourScreenProps) 
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertClosingHour')
+	const skipScreen = () => navigation.navigate('InsertCultureEndHour')
 
 	const saveOpeningHour = (hour: string, minutes: string) => {
-		const openingHour = new Date()
-		openingHour.setHours(parseInt(hour), parseInt(minutes))
+		const startHour = new Date()
+		startHour.setHours(parseInt(hour), parseInt(minutes))
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ openingHour })
+			addNewUnsavedFieldToEditContext({ startHour })
 			navigation.goBack()
 			return
 		}
 
-		setSaleDataOnContext({ openingHour })
-		navigation.navigate('InsertClosingHour')
+		setCultureDataOnContext({ startHour })
+		navigation.navigate('InsertCultureEndDate')
 	}
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
 			<PostStartTime
-				backgroundColor={theme.green2}
-				validationColor={theme.green1}
+				backgroundColor={theme.blue2}
+				validationColor={theme.blue1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
@@ -62,4 +62,4 @@ function InsertOpeningHour({ route, navigation }: InsertOpeningHourScreenProps) 
 	)
 }
 
-export { InsertOpeningHour }
+export { InsertCultureStartHour }

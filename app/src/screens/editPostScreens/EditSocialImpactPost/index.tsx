@@ -357,15 +357,15 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 				<EditCard
 					title={'horário de início'}
 					highlightedWords={['início']}
-					value={formatHour(getPostField('openingHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertOpeningHour', 'openingHour')}
+					value={formatHour(getPostField('startHour')) || '---'}
+					onEdit={() => navigateToEditScreen('InsertSocialImpactStartHour', 'startHour')}
 				/>
 				<Sigh />
 				<EditCard
 					title={'horário de fim'}
 					highlightedWords={['fim']}
-					value={formatHour(getPostField('closingHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertClosingHour', 'closingHour')}
+					value={formatHour(getPostField('endHour')) || '---'}
+					onEdit={() => navigateToEditScreen('InsertSocialImpactEndHour', 'endHour')}
 				/>
 				<LastSigh />
 			</Body>

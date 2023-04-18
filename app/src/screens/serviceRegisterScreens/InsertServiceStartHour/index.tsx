@@ -5,14 +5,14 @@ import { theme } from '../../../common/theme'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { InsertOpeningHourScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
+import { InsertServiceStartHourScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostStartTime } from '../../../components/_onboarding/PostStartTime'
 
-function InsertOpeningHour({ route, navigation }: InsertOpeningHourScreenProps) {
+function InsertServiceStartHour({ route, navigation }: InsertServiceStartHourScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
@@ -29,20 +29,20 @@ function InsertOpeningHour({ route, navigation }: InsertOpeningHourScreenProps) 
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertClosingHour')
+	const skipScreen = () => navigation.navigate('InsertServiceEndHour')
 
 	const saveOpeningHour = (hour: string, minutes: string) => {
-		const openingHour = new Date()
-		openingHour.setHours(parseInt(hour), parseInt(minutes))
+		const startHour = new Date()
+		startHour.setHours(parseInt(hour), parseInt(minutes))
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ openingHour })
+			addNewUnsavedFieldToEditContext({ startHour })
 			navigation.goBack()
 			return
 		}
 
-		setServiceDataOnContext({ openingHour })
-		navigation.navigate('InsertClosingHour')
+		setServiceDataOnContext({ startHour })
+		navigation.navigate('InsertServiceEndHour')
 	}
 
 	return (
@@ -62,4 +62,4 @@ function InsertOpeningHour({ route, navigation }: InsertOpeningHourScreenProps) 
 	)
 }
 
-export { InsertOpeningHour }
+export { InsertServiceStartHour }

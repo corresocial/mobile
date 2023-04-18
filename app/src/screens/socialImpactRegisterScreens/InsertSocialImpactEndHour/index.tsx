@@ -4,21 +4,21 @@ import { getDownloadURL } from 'firebase/storage'
 
 import { ButtonContainer, Container, InputsContainer, TwoPoints } from './styles'
 import { theme } from '../../../common/theme'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 
 import { filterLeavingOnlyNumbers, formatHour } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { uploadImage } from '../../../services/firebase/common/uploadPicture'
-import { createPost } from '../../../services/firebase/post/createPost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
+import { createPost } from '../../../services/firebase/post/createPost'
+import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
-import { InsertClosingHourScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-import { PostCollection, ServiceCollection } from '../../../services/firebase/types'
-import { LocalUserData, ServiceData } from '../../../contexts/types'
+import { InsertSocialImpactEndHourScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
+import { LocalUserData, SocialImpactData } from '../../../contexts/types'
+import { PostCollection, SocialImpactCollection } from '../../../services/firebase/types'
 
+import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { StateContext } from '../../../contexts/StateContext'
-import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -29,12 +29,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { Loader } from '../../../components/Loader'
-import { SkipButton } from '../../../components/_buttons/SkipButton'
 
-function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) {
+function InsertSocialImpactEndHour({ route, navigation }: InsertSocialImpactEndHourScreenProps) {
+	const { socialImpactDataContext } = useContext(SocialImpactContext)
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
-	const { serviceDataContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
 	const initialTime = formatHour(route.params?.initialValue as Date)
@@ -47,7 +46,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 	const [isLoading, setIsLoading] = useState(false)
 
 	const [invalidTimeAfterSubmit, setInvalidTimeAfterSubmit] = useState<boolean>(false)
-	const [hasServerSideError, setHasServerSideError] = useState<boolean>(false)
+	const [hasServerSideError, setHasServerSideError] = useState(false)
 
 	const inputRefs = {
 		hoursInput: useRef<React.MutableRefObject<any>>(null),
@@ -87,21 +86,19 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 	}
 
 	const closingTimeIsAfterOpening = () => {
-		if (!serviceDataContext.openingHour && !editDataContext.unsaved.openingHour) return true
-
-		const openingHour = new Date(editDataContext.unsaved.openingHour || serviceDataContext.openingHour as Date)
-		const closingHour = new Date()
-		closingHour.setHours(parseInt(hours), parseInt(minutes))
-		return openingHour.getTime() < closingHour.getTime()
+		const startHour = new Date(editDataContext.unsaved.startHour || socialImpactDataContext.startHour as Date)
+		const endHour = new Date()
+		endHour.setHours(parseInt(hours), parseInt(minutes))
+		return startHour.getTime() < endHour.getTime()
 	}
 
-	const getCompleteServiceDataFromContext = () => {
-		const closingHour = new Date()
-		closingHour.setHours(parseInt(hours), parseInt(minutes))
-		return { ...serviceDataContext, closingHour }
+	const getCompleteSocialImpactDataFromContext = () => {
+		const endHour = new Date()
+		endHour.setHours(parseInt(hours), parseInt(minutes))
+		return { ...socialImpactDataContext, endHour }
 	}
 
-	const extractServicePictures = (serviceData: ServiceData) => serviceData.picturesUrl as string[] || []
+	const extractSocialImpactPictures = (socialImpactData: SocialImpactData) => socialImpactData.picturesUrl as string[] || []
 
 	const getLocalUser = () => userDataContext
 
@@ -112,44 +109,44 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		})
 	}
 
-	const saveServicePost = async (skipSaveTime?: boolean) => {
+	const saveSocialImpactPost = async () => {
 		if (!closingTimeIsAfterOpening()) {
 			setInvalidTimeAfterSubmit(true)
 			return
 		}
 
 		if (editModeIsTrue()) {
-			const closingHour = new Date()
-			closingHour.setHours(parseInt(hours), parseInt(minutes))
-			addNewUnsavedFieldToEditContext({ closingHour })
+			const endHour = new Date()
+			endHour.setHours(parseInt(hours), parseInt(minutes))
+			addNewUnsavedFieldToEditContext({ endHour })
 			navigation.goBack()
 			return
 		}
 
 		setIsLoading(true)
 
-		const serviceData = skipSaveTime ? { ...serviceDataContext } : getCompleteServiceDataFromContext() as ServiceCollection
-		const servicePictures = extractServicePictures(serviceData)
+		const socialImpactData = getCompleteSocialImpactDataFromContext()
+		const socialImpactPictures = extractSocialImpactPictures(socialImpactData)
 
 		try {
 			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
-			if (!servicePictures.length) {
-				const postId = await createPost(serviceData, localUser, 'posts', 'service')
+			if (!socialImpactPictures.length) {
+				const postId = await createPost(socialImpactData, localUser, 'posts', 'socialImpact')
 				if (!postId) throw new Error('Não foi possível identificar o post')
 
 				await updateUserPost(
 					localUser,
 					postId,
-					serviceData
+					socialImpactData
 				)
 				return
 			}
 
 			const picturePostsUrls: string[] = []
-			servicePictures.forEach(async (servicePicture, index) => {
-				uploadImage(servicePicture, 'posts', index).then(
+			socialImpactPictures.forEach(async (socialImpactPicture, index) => {
+				uploadImage(socialImpactPicture, 'posts', index).then(
 					({ uploadTask, blob }: any) => {
 						uploadTask.on(
 							'state_change',
@@ -163,16 +160,16 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 										async (downloadURL) => {
 											blob.close()
 											picturePostsUrls.push(downloadURL)
-											if (picturePostsUrls.length === servicePictures.length) {
-												const serviceDataWithPicturesUrl = { ...serviceData, picturesUrl: picturePostsUrls }
+											if (picturePostsUrls.length === socialImpactPictures.length) {
+												const socialImpactDataWithPicturesUrl = { ...socialImpactData, picturesUrl: picturePostsUrls }
 
-												const postId = await createPost(serviceDataWithPicturesUrl, localUser, 'posts', 'service')
+												const postId = await createPost(socialImpactDataWithPicturesUrl, localUser, 'posts', 'socialImpact')
 												if (!postId) throw new Error('Não foi possível identificar o post')
 
 												await updateUserPost(
 													localUser,
 													postId,
-													serviceDataWithPicturesUrl
+													socialImpactDataWithPicturesUrl
 												)
 											}
 										},
@@ -184,9 +181,8 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 			})
 		} catch (err) {
 			console.log(err)
-			setInvalidTimeAfterSubmit(true)
-			setHasServerSideError(true)
 			setIsLoading(false)
+			setHasServerSideError(true)
 		}
 	}
 
@@ -195,16 +191,16 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 	const updateUserPost = async (
 		localUser: LocalUserData,
 		postId: string,
-		serviceDataPost: ServiceData,
+		socialImpactDataPost: SocialImpactData,
 	) => {
 		const postData = {
-			...serviceDataPost,
+			...socialImpactDataPost,
 			postId,
-			postType: 'service',
+			postType: 'socialImpact',
 			createdAt: new Date()
 		}
 
-		// delete postData.location
+		// delete PostData.location
 
 		await updateDocField(
 			'users',
@@ -227,7 +223,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 								name: localUser.name,
 								profilePictureUrl: localUser.profilePictureUrl
 							}
-						} as ServiceCollection
+						} as SocialImpactCollection,
 					],
 				})
 				setDataOnSecureStore('corre.user', {
@@ -246,7 +242,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 					],
 				})
 				setIsLoading(false)
-				showShareModal(true, serviceDataPost.title)
+				showShareModal(true, socialImpactDataPost.title)
 				navigation.navigate('HomeTab')
 			})
 			.catch((err: any) => {
@@ -262,7 +258,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		}
 		return invalidTimeAfterSubmit
 			? 'O horário de início informado é superior ao horário de encerramento'
-			: 'que horas você termina?'
+			: 'que horas termina?'
 	}
 
 	const getHighlightedHeaderMessage = () => {
@@ -271,12 +267,12 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		}
 		return invalidTimeAfterSubmit
 			? ['horário', 'de', 'início', 'encerramento']
-			: ['que', 'horas', 'para', 'termina']
+			: ['que', 'horas']
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
-		const existsError = invalidTimeAfterSubmit
+		const existsError = invalidTimeAfterSubmit || hasServerSideError
 
 		Animated.timing(headerBackgroundAnimatedValue.current, {
 			toValue: existsError ? 1 : 0,
@@ -286,22 +282,23 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 
 		return headerBackgroundAnimatedValue.current.interpolate({
 			inputRange: [0, 1],
-			outputRange: [theme.purple2, theme.red2],
+			outputRange: [theme.pink2, theme.red2],
 		})
 	}
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={invalidTimeAfterSubmit ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={invalidTimeAfterSubmit || hasServerSideError ? theme.red2 : theme.pink2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={invalidTimeAfterSubmit ? relativeScreenHeight(28) : relativeScreenHeight(24)}
+				minHeight={(screenHeight + statusBarHeight) * 0.27}
+				relativeHeight={'22%'}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={17}
+					fontSize={18}
 					message={getHeaderMessage()}
 					highlightedWords={getHighlightedHeaderMessage()}
 				>
@@ -323,13 +320,13 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 						nextInputRef={inputRefs.minutesInput}
 						defaultBackgroundColor={theme.white2}
 						defaultBorderBottomColor={theme.black4}
-						validBackgroundColor={theme.purple1}
-						validBorderBottomColor={theme.purple5}
+						validBackgroundColor={theme.pink1}
+						validBorderBottomColor={theme.pink5}
 						invalidBackgroundColor={theme.red1}
 						invalidBorderBottomColor={theme.red5}
 						maxLength={2}
 						fontSize={22}
-						invalidTextAfterSubmit={invalidTimeAfterSubmit}
+						invalidTextAfterSubmit={invalidTimeAfterSubmit || hasServerSideError}
 						placeholder={'18'}
 						keyboardType={'decimal-pad'}
 						filterText={filterLeavingOnlyNumbers}
@@ -348,13 +345,13 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 						previousInputRef={inputRefs.hoursInput}
 						defaultBackgroundColor={theme.white2}
 						defaultBorderBottomColor={theme.black4}
-						validBackgroundColor={theme.purple1}
-						validBorderBottomColor={theme.purple5}
+						validBackgroundColor={theme.pink1}
+						validBorderBottomColor={theme.pink5}
 						invalidBackgroundColor={theme.red1}
 						invalidBorderBottomColor={theme.red5}
 						maxLength={2}
 						fontSize={22}
-						invalidTextAfterSubmit={invalidTimeAfterSubmit}
+						invalidTextAfterSubmit={invalidTimeAfterSubmit || hasServerSideError}
 						placeholder={'00'}
 						keyboardType={'decimal-pad'}
 						lastInput
@@ -379,21 +376,14 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 									label={'continuar'}
 									labelColor={theme.white3}
 									highlightedWords={['continuar']}
-									onPress={saveServicePost}
+									onPress={saveSocialImpactPost}
 								/>
 							)
 					}
 				</ButtonContainer>
-				{
-					(!hoursIsValid || !minutesIsValid) && !keyboardOpened
-						? (
-							<SkipButton onPress={() => { }} />
-						)
-						: <></>
-				}
 			</FormContainer>
 		</Container>
 	)
 }
 
-export { InsertClosingHour }
+export { InsertSocialImpactEndHour }

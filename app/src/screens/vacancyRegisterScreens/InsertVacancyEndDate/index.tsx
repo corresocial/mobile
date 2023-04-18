@@ -101,7 +101,7 @@ function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenP
 		if (editModeIsTrue()) return true
 
 		const insertedDate = new Date(`${year}-${month}-${day}T23:59:59`)
-		const vacancyContextStartDate = vacancyDataContext.startWorkDate || new Date()
+		const vacancyContextStartDate = vacancyDataContext.startDate || new Date()
 		return vacancyContextStartDate.getTime() < insertedDate.getTime()
 	}
 
@@ -111,15 +111,15 @@ function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenP
 			return
 		}
 
-		const endWorkDate = new Date(`${year}-${month}-${day}T12:00:00`)
+		const endDate = new Date(`${year}-${month}-${day}T12:00:00`)
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ endWorkDate })
+			addNewUnsavedFieldToEditContext({ endDate })
 			navigation.goBack()
 			return
 		}
 
-		setVacancyDataOnContext({ endWorkDate })
+		setVacancyDataOnContext({ endDate })
 		navigation.navigate('InsertVacancyEndHour')
 	}
 

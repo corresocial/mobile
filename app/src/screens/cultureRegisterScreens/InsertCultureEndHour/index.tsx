@@ -13,7 +13,7 @@ import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { filterLeavingOnlyNumbers, formatHour } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { InsertEventEndHourScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
+import { InsertCultureEndHourScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 import { CultureContext } from '../../../contexts/CultureContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -31,7 +31,7 @@ import { CultureCollection, PostCollection } from '../../../services/firebase/ty
 import { CultureData, LocalUserData } from '../../../contexts/types'
 import { Loader } from '../../../components/Loader'
 
-function InsertEventEndHour({ route, navigation }: InsertEventEndHourScreenProps) {
+function InsertCultureEndHour({ route, navigation }: InsertCultureEndHourScreenProps) {
 	const { cultureDataContext } = useContext(CultureContext)
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
@@ -88,11 +88,11 @@ function InsertEventEndHour({ route, navigation }: InsertEventEndHourScreenProps
 	const closingTimeIsAfterOpening = () => {
 		if (editModeIsTrue()) return true
 
-		const eventStartHour = new Date(cultureDataContext.eventStartDate as Date)
-		const eventEndHour = new Date(cultureDataContext.eventEndDate as Date)
-		eventStartHour.setHours(cultureDataContext.eventStartHour?.getHours() as number, cultureDataContext.eventStartHour?.getMinutes() as number)
-		eventEndHour.setHours(parseInt(hours), parseInt(minutes))
-		return eventStartHour.getTime() < eventEndHour.getTime()
+		const startHour = new Date(cultureDataContext.startDate as Date)
+		const endHour = new Date(cultureDataContext.endDate as Date)
+		startHour.setHours(cultureDataContext.startHour?.getHours() as number, cultureDataContext.startHour?.getMinutes() as number)
+		endHour.setHours(parseInt(hours), parseInt(minutes))
+		return startHour.getTime() < endHour.getTime()
 	}
 
 	const saveCulturePost = async () => {
@@ -102,9 +102,9 @@ function InsertEventEndHour({ route, navigation }: InsertEventEndHourScreenProps
 		}
 
 		if (editModeIsTrue()) {
-			const eventEndHour = new Date()
-			eventEndHour.setHours(parseInt(hours), parseInt(minutes))
-			addNewUnsavedFieldToEditContext({ eventEndHour })
+			const endHour = new Date()
+			endHour.setHours(parseInt(hours), parseInt(minutes))
+			addNewUnsavedFieldToEditContext({ endHour })
 			navigation.goBack()
 			return
 		}
@@ -183,9 +183,9 @@ function InsertEventEndHour({ route, navigation }: InsertEventEndHourScreenProps
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const getCompleteCultureDataFromContext = () => {
-		const eventEndHour = new Date()
-		eventEndHour.setHours(parseInt(hours), parseInt(minutes))
-		return { ...cultureDataContext, eventEndHour }
+		const endHour = new Date()
+		endHour.setHours(parseInt(hours), parseInt(minutes))
+		return { ...cultureDataContext, endHour }
 	}
 
 	const extractCulturePictures = (cultureData: CultureData) => cultureData.picturesUrl as string[] || []
@@ -395,4 +395,4 @@ function InsertEventEndHour({ route, navigation }: InsertEventEndHourScreenProps
 	)
 }
 
-export { InsertEventEndHour }
+export { InsertCultureEndHour }

@@ -25,7 +25,7 @@ function SelectEventRepeat({ route, navigation }: SelectEventRepeatScreenProps) 
 		}
 
 		setCultureDataOnContext({ repeat })
-		navigation.navigate('InsertEventStartDate')
+		navigation.navigate('InsertCultureStartDate')
 	}
 
 	return (

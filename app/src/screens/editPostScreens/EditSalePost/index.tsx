@@ -14,7 +14,7 @@ import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
 import { EditSalePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { SaleStackParamList } from '../../../routes/Stack/SaleStack/types'
-import { CultureCollection, DaysOfWeek, Id, SaleCategories, SaleCollection, SaleCollectionRemote } from '../../../services/firebase/types'
+import { DaysOfWeek, Id, SaleCategories, SaleCollection, SaleCollectionRemote } from '../../../services/firebase/types'
 
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -51,10 +51,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 			case 'sale': return 'da venda'
 			case 'vacancy': return 'da vaga'
 			case 'socialImpact': return 'da iniciativa'
-			case 'culture': {
-				const { cultureType } = postData as CultureCollection
-				return cultureType === 'artistProfile' ? 'do artista' : 'do evento'
-			}
+			case 'culture': return 'do evento'
 			default: return 'do post'
 		}
 	}
@@ -349,15 +346,15 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 				<EditCard
 					title={'horário de início'}
 					highlightedWords={['início']}
-					value={formatHour(getPostField('openingHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertOpeningHour', 'openingHour')}
+					value={formatHour(getPostField('startHour')) || '---'}
+					onEdit={() => navigateToEditScreen('InsertSaleStartHour', 'startHour')}
 				/>
 				<Sigh />
 				<EditCard
 					title={'horário de fim'}
 					highlightedWords={['fim']}
-					value={formatHour(getPostField('closingHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertClosingHour', 'closingHour')}
+					value={formatHour(getPostField('endHour')) || '---'}
+					onEdit={() => navigateToEditScreen('InsertSaleEndHour', 'endHour')}
 				/>
 				<Sigh />
 				<EditCard

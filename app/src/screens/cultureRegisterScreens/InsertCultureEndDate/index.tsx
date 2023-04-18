@@ -7,7 +7,7 @@ import { theme } from '../../../common/theme'
 import { filterLeavingOnlyNumbers, formatDate } from '../../../common/auxiliaryFunctions'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { InsertEventEndDateScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
+import { InsertCultureEndDateScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 import { CultureContext } from '../../../contexts/CultureContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -21,7 +21,7 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function InsertEventEndDate({ route, navigation }: InsertEventEndDateScreenProps) {
+function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenProps) {
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
@@ -101,7 +101,7 @@ function InsertEventEndDate({ route, navigation }: InsertEventEndDateScreenProps
 		if (editModeIsTrue()) return true
 
 		const insertedDate = new Date(`${year}-${month}-${day}T23:59:59`)
-		const vacancyContextStartDate = cultureDataContext.eventStartDate || new Date()
+		const vacancyContextStartDate = cultureDataContext.startDate || new Date()
 		return vacancyContextStartDate.getTime() < insertedDate.getTime()
 	}
 
@@ -111,16 +111,16 @@ function InsertEventEndDate({ route, navigation }: InsertEventEndDateScreenProps
 			return
 		}
 
-		const eventEndDate = new Date(`${year}-${month}-${day}T12:00:00`)
+		const endDate = new Date(`${year}-${month}-${day}T12:00:00`)
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ eventEndDate })
+			addNewUnsavedFieldToEditContext({ endDate })
 			navigation.goBack()
 			return
 		}
 
-		setCultureDataOnContext({ eventEndDate })
-		navigation.navigate('InsertEventEndHour')
+		setCultureDataOnContext({ endDate })
+		navigation.navigate('InsertCultureEndHour')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -269,4 +269,4 @@ function InsertEventEndDate({ route, navigation }: InsertEventEndDateScreenProps
 	)
 }
 
-export { InsertEventEndDate }
+export { InsertCultureEndDate }

@@ -32,16 +32,16 @@ function InsertVacancyStartHour({ route, navigation }: InsertVacancyStartHourScr
 	const skipScreen = () => navigation.navigate('InsertVacancyEndDate')
 
 	const saveOpeningHour = (hour: string, minutes: string) => {
-		const startWorkHour = new Date()
-		startWorkHour.setHours(parseInt(hour), parseInt(minutes))
+		const startHour = new Date()
+		startHour.setHours(parseInt(hour), parseInt(minutes))
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ startWorkHour })
+			addNewUnsavedFieldToEditContext({ startHour })
 			navigation.goBack()
 			return
 		}
 
-		setVacancyDataOnContext({ startWorkHour })
+		setVacancyDataOnContext({ startHour })
 		if (vacancyDataContext.vacancyType === 'professional') {
 			navigation.navigate('InsertVacancyEndHour')
 		} else {

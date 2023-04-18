@@ -251,9 +251,9 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						title={'dias e horários'}
 						weekDaysfrequency={'someday'}
 						daysOfWeek={getPostField('vacancyType') === 'professional' ? getPostField('workWeekdays') : []}
-						openingTime={getPostField('startWorkHour')}
-						closingTime={getPostField('endWorkHour')}
-						startDate={getPostField('startWorkDate')}
+						openingTime={getPostField('startHour')}
+						closingTime={getPostField('endHour')}
+						startDate={getPostField('startDate')}
 						endDate={getPostField('endWorkDate')}
 						textFontSize={14}
 					/>

@@ -85,17 +85,17 @@ function InsertVacancyEndHour({ route, navigation }: InsertVacancyEndHourScreenP
 	const closingTimeIsAfterOpening = () => {
 		if (editModeIsTrue()) return true
 
-		const startWorkHour = new Date(vacancyDataContext.startWorkDate as Date || new Date())
-		const endWorkHour = new Date(vacancyDataContext.endWorkDate as Date || new Date())
-		startWorkHour.setHours(vacancyDataContext.startWorkHour?.getHours() as number, vacancyDataContext.startWorkHour?.getMinutes() as number)
-		endWorkHour.setHours(parseInt(hours), parseInt(minutes))
-		return startWorkHour.getTime() < endWorkHour.getTime()
+		const startHour = new Date(vacancyDataContext.startDate as Date || new Date())
+		const endHour = new Date(vacancyDataContext.endWorkDate as Date || new Date())
+		startHour.setHours(vacancyDataContext.startHour?.getHours() as number, vacancyDataContext.startHour?.getMinutes() as number)
+		endHour.setHours(parseInt(hours), parseInt(minutes))
+		return startHour.getTime() < endHour.getTime()
 	}
 
 	const getCompleteVacancyDataFromContext = () => {
-		const endWorkHour = new Date()
-		endWorkHour.setHours(parseInt(hours), parseInt(minutes))
-		return ({ ...vacancyDataContext, endWorkHour })
+		const endHour = new Date()
+		endHour.setHours(parseInt(hours), parseInt(minutes))
+		return ({ ...vacancyDataContext, endHour })
 	}
 
 	const getLocalUser = () => userDataContext
@@ -114,9 +114,9 @@ function InsertVacancyEndHour({ route, navigation }: InsertVacancyEndHourScreenP
 		}
 
 		if (editModeIsTrue()) {
-			const endWorkHour = new Date()
-			endWorkHour.setHours(parseInt(hours), parseInt(minutes))
-			addNewUnsavedFieldToEditContext({ endWorkHour })
+			const endHour = new Date()
+			endHour.setHours(parseInt(hours), parseInt(minutes))
+			addNewUnsavedFieldToEditContext({ endHour })
 			navigation.goBack()
 			return
 		}

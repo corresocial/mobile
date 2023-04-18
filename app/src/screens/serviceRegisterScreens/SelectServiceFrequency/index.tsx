@@ -17,7 +17,7 @@ function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScr
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertOpeningHour')
+	const skipScreen = () => navigation.navigate('InsertServiceStartHour')
 
 	const saveServiceFrequency = (serviceFrequency: WeekdaysFrequency) => {
 		const daysOfWeek = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'] as DaysOfWeek[]
@@ -37,7 +37,7 @@ function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScr
 					attendanceFrequency: serviceFrequency,
 					attendanceWeekDays: [daysOfWeek[new Date().getDay()]]
 				})
-				navigation.navigate('InsertOpeningHour')
+				navigation.navigate('InsertServiceStartHour')
 				break
 			}
 			case 'everyday': {
@@ -54,7 +54,7 @@ function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScr
 					attendanceFrequency: serviceFrequency,
 					attendanceWeekDays: [...daysOfWeek]
 				})
-				navigation.navigate('InsertOpeningHour')
+				navigation.navigate('InsertServiceStartHour')
 				break
 			}
 			case 'someday': {
@@ -86,7 +86,7 @@ function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScr
 					attendanceFrequency: serviceFrequency,
 					attendanceWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
 				})
-				navigation.navigate('InsertOpeningHour')
+				navigation.navigate('InsertServiceStartHour')
 				break
 			}
 			default: return false

@@ -39,8 +39,8 @@ serviceCollection: {
     range: enum('unavailable' | 'near' | 'city' | 'country'),
     attendanceFrequency: enum('today' | 'everyday' | 'someday' | 'businessDay')
     attendanceWeekDays: 'array[string]',
-    openingHour: 'date',
-    closingHour: 'date',
+    startHour: 'date',
+    endHour: 'date',
     createdAt: 'date',
     location: {
 		country: 'string',
@@ -77,8 +77,8 @@ saleCollection = {
     range: enum('unavailable' | 'near' | 'city' | 'country'),
     attendanceFrequency: enum('today' | 'everyday' | 'someday' | 'businessDay')
     attendanceWeekDays: 'array[string]',
-    openingHour: 'date',
-    closingHour: 'date',
+    startHour: 'date',
+    endHour: 'date',
     picturesUrl: 'array[string]',
     createdAt: 'date',
     location: {
@@ -114,8 +114,8 @@ vacancyCollection = {
     companyDescription: 'string'
     questions: string[]
     workWeekdays: DaysOfWeek[]
-    startWorkHour: 'date'
-    endWorkHour: 'date'
+    startHour: 'date'
+    endHour: 'date'
     tags: string[]
     createdAt: 'date'
     location: {
@@ -151,10 +151,10 @@ cultureCollection = {
     eventPlaceModality: enum('online' | 'both' | 'presential'),
     repeat: enum('unrepeatable' | 'weekly' | 'everyDay' | 'biweekly' | 'monthly'),
     entryValue: 'string',
-    eventStartDate: 'date',
-    eventEndDate: 'date',
-    eventStartHour: 'date',
-    eventEndHour: 'date',
+    startDate: 'date',
+    endDate: 'date',
+    startHour: 'date',
+    endHour: 'date',
     picturesUrl: 'array[string]',
     tags: 'array[string]',
     createdAt: 'date',
@@ -190,8 +190,8 @@ socialImpactCollection: {
 	range: enum('near' | 'city' | 'country'),
 	exhibitionWeekDays: 'array[string]',
 	repeat: enum('unrepeatable' | 'weekly' | 'everyDay' | 'biweekly' | 'monthly'),
-	openingHour: 'date',
-	closingHour: 'date',
+	startHour: 'date',
+	endHour: 'date',
 	picturesUrl: 'array[string]',
 	createdAt: 'date',
 	location: {

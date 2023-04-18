@@ -62,8 +62,8 @@ export type ServiceData = {
 	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
 	attendanceWeekDays?: DaysOfWeek[]
-	openingHour?: Date
-	closingHour?: Date
+	startHour?: Date
+	endHour?: Date
 	picturesUrl?: string[]
 	location?: {
 		country?: string
@@ -98,8 +98,8 @@ export type SaleData = {
 	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
 	attendanceWeekDays?: DaysOfWeek[]
-	openingHour?: Date
-	closingHour?: Date
+	startHour?: Date
+	endHour?: Date
 	picturesUrl?: string[]
 	location?: {
 		country?: string
@@ -132,10 +132,10 @@ export type VacancyData = {
 	questions?: string[]
 	workFrequency?: WeekdaysFrequency
 	workWeekdays?: DaysOfWeek[]
-	startWorkDate?: Date
-	endWorkDate?: Date
-	startWorkHour?: Date
-	endWorkHour?: Date
+	startDate?: Date
+	endDate?: Date
+	startHour?: Date
+	endHour?: Date
 	picturesUrl?: string[]
 	tags?: string[]
 	category?: string
@@ -168,10 +168,10 @@ export type CultureData = {
 	entryValue?: string
 	exhibitionFrequency?: WeekdaysFrequency
 	exhibitionWeekDays?: DaysOfWeek[]
-	eventStartDate?: Date
-	eventEndDate?: Date
-	eventStartHour?: Date
-	eventEndHour?: Date
+	startDate?: Date
+	endDate?: Date
+	startHour?: Date
+	endHour?: Date
 	picturesUrl?: string[]
 	tags?: string[]
 	category?: string
@@ -206,9 +206,9 @@ export type SocialImpactData = {
 	exhibitionWeekDays?: DaysOfWeek[]
 	repeat?: EventRepeatType
 	startDate?: Date
-	openingHour?: Date
+	startHour?: Date
 	endDate?: Date
-	closingHour?: Date
+	endHour?: Date
 	picturesUrl?: string[]
 	location?: {
 		country?: string

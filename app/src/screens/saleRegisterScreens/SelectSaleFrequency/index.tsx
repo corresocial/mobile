@@ -17,7 +17,7 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertOpeningHour')
+	const skipScreen = () => navigation.navigate('InsertSaleStartHour')
 
 	const saveSaleFrequency = (saleFrequency: WeekdaysFrequency) => {
 		const daysOfWeek = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'] as DaysOfWeek[]
@@ -37,7 +37,7 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 					attendanceFrequency: saleFrequency,
 					attendanceWeekDays: [daysOfWeek[new Date().getDay()]]
 				})
-				navigation.navigate('InsertOpeningHour')
+				navigation.navigate('InsertSaleStartHour')
 				break
 			}
 			case 'everyday': {
@@ -54,7 +54,7 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 					attendanceFrequency: saleFrequency,
 					attendanceWeekDays: [...daysOfWeek]
 				})
-				navigation.navigate('InsertOpeningHour')
+				navigation.navigate('InsertSaleStartHour')
 				break
 			}
 			case 'someday': {
@@ -84,7 +84,7 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 					attendanceFrequency: saleFrequency,
 					attendanceWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
 				})
-				navigation.navigate('InsertOpeningHour')
+				navigation.navigate('InsertSaleStartHour')
 				break
 			}
 			default: return false

@@ -25,7 +25,7 @@ function SelectSocialImpactRepeat({ route, navigation }: SelectSocialImpactRepea
 		}
 
 		setSocialImpactDataOnContext({ repeat })
-		navigation.navigate('InsertOpeningHour')
+		navigation.navigate('InsertSocialImpactStartHour')
 	}
 
 	return (

@@ -18,8 +18,8 @@ import { InsertSocialImpactLocation } from '../../../screens/socialImpactRegiste
 import { SocialImpactLocationViewPreview } from '../../../screens/socialImpactRegisterScreens/SocialImpactLocationViewPreview'
 import { SelectSocialImpactExhibitionRange } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactExhibitionRange'
 import { SelectDaysOfWeek } from '../../../screens/socialImpactRegisterScreens/SelectDaysOfWeek'
-import { InsertOpeningHour } from '../../../screens/socialImpactRegisterScreens/InsertOpeningHour'
-import { InsertClosingHour } from '../../../screens/socialImpactRegisterScreens/InsertClosingHour'
+import { InsertSocialImpactStartHour } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactStartHour'
+import { InsertSocialImpactEndHour } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactEndHour'
 import { SelectSocialImpactRepeat } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactRepeat'
 import { SelectSocialImpactFrequency } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactFrequency'
 import { InsertSocialImpactStartDate } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactStartDate'
@@ -51,8 +51,8 @@ export function SocialImpactStack() {
 				<Stack.Screen name={'SelectSocialImpactFrequency'} component={SelectSocialImpactFrequency} />
 				<Stack.Screen name={'SelectDaysOfWeek'} component={SelectDaysOfWeek} />
 				<Stack.Screen name={'InsertSocialImpactStartDate'} component={InsertSocialImpactStartDate} />
-				<Stack.Screen name={'InsertOpeningHour'} component={InsertOpeningHour} />
-				<Stack.Screen name={'InsertClosingHour'} component={InsertClosingHour} />
+				<Stack.Screen name={'InsertSocialImpactStartHour'} component={InsertSocialImpactStartHour} />
+				<Stack.Screen name={'InsertSocialImpactEndHour'} component={InsertSocialImpactEndHour} />
 				<Stack.Screen name={'SelectSocialImpactRepeat'} component={SelectSocialImpactRepeat} />
 			</Stack.Navigator>
 		</SocialImpactProvider>

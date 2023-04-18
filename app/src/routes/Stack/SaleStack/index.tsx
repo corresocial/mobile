@@ -22,8 +22,8 @@ import { SaleLocationViewPreview } from '../../../screens/saleRegisterScreens/Sa
 import { SelectDeliveryMethod } from '../../../screens/saleRegisterScreens/SelectDeliveryMethod'
 import { SelectSaleFrequency } from '../../../screens/saleRegisterScreens/SelectSaleFrequency'
 import { SelectDaysOfWeek } from '../../../screens/saleRegisterScreens/SelectDaysOfWeek'
-import { InsertOpeningHour } from '../../../screens/saleRegisterScreens/InsertOpeningHour'
-import { InsertClosingHour } from '../../../screens/saleRegisterScreens/InsertClosingHour'
+import { InsertSaleStartHour } from '../../../screens/saleRegisterScreens/InsertSaleStartHour'
+import { InsertSaleEndHour } from '../../../screens/saleRegisterScreens/InsertSaleEndHour'
 import { SelectSaleRange } from '../../../screens/saleRegisterScreens/SelectSaleRange'
 import { SelectItemStatus } from '../../../screens/saleRegisterScreens/SelectItemStatus'
 
@@ -33,7 +33,7 @@ export function SaleStack() {
 	return (
 		<SaleProvider>
 			<Stack.Navigator
-				initialRouteName={'InsertOpeningHour'}
+				initialRouteName={'InsertSaleStartHour'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
@@ -58,8 +58,8 @@ export function SaleStack() {
 				<Stack.Screen name={'SelectDeliveryMethod'} component={SelectDeliveryMethod} />
 				<Stack.Screen name={'SelectSaleFrequency'} component={SelectSaleFrequency} />
 				<Stack.Screen name={'SelectDaysOfWeek'} component={SelectDaysOfWeek} />
-				<Stack.Screen name={'InsertOpeningHour'} component={InsertOpeningHour} />
-				<Stack.Screen name={'InsertClosingHour'} component={InsertClosingHour} />
+				<Stack.Screen name={'InsertSaleStartHour'} component={InsertSaleStartHour} />
+				<Stack.Screen name={'InsertSaleEndHour'} component={InsertSaleEndHour} />
 			</Stack.Navigator>
 		</SaleProvider>
 	)

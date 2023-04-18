@@ -19,6 +19,6 @@ export type ServiceStackParamList = {
 	SelectDeliveryMethod: { editMode: boolean } | undefined
 	SelectServiceFrequency: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
-	InsertOpeningHour: { editMode: boolean, initialValue: Date } | undefined
-	InsertClosingHour: { editMode: boolean, initialValue: Date } | undefined
+	InsertServiceStartHour: { editMode: boolean, initialValue: Date } | undefined
+	InsertServiceEndHour: { editMode: boolean, initialValue: Date } | undefined
 } & UserStackParamList

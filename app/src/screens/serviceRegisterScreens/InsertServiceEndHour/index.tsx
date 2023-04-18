@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Animated, Keyboard, Platform, StatusBar } from 'react-native'
-
 import { getDownloadURL } from 'firebase/storage'
+
 import { ButtonContainer, Container, InputsContainer, TwoPoints } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
@@ -12,13 +12,13 @@ import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { createPost } from '../../../services/firebase/post/createPost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
 
-import { LocalUserData, SaleData } from '../../../contexts/types'
-import { InsertClosingHourScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
-import { PostCollection, SaleCollection } from '../../../services/firebase/types'
+import { InsertServiceEndHourScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
+import { PostCollection, ServiceCollection } from '../../../services/firebase/types'
+import { LocalUserData, ServiceData } from '../../../contexts/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 import { StateContext } from '../../../contexts/StateContext'
-import { SaleContext } from '../../../contexts/SaleContext'
+import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -31,10 +31,10 @@ import { ProgressBar } from '../../../components/ProgressBar'
 import { Loader } from '../../../components/Loader'
 import { SkipButton } from '../../../components/_buttons/SkipButton'
 
-function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) {
+function InsertServiceEndHour({ route, navigation }: InsertServiceEndHourScreenProps) {
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
-	const { saleDataContext } = useContext(SaleContext)
+	const { serviceDataContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
 	const initialTime = formatHour(route.params?.initialValue as Date)
@@ -87,21 +87,21 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 	}
 
 	const closingTimeIsAfterOpening = () => {
-		if (!saleDataContext.openingHour && !editDataContext.unsaved.openingHour) return true
+		if (!serviceDataContext.startHour && !editDataContext.unsaved.startHour) return true
 
-		const openingHour = new Date(editDataContext.unsaved.openingHour || saleDataContext.openingHour as Date)
-		const closingHour = new Date()
-		closingHour.setHours(parseInt(hours), parseInt(minutes))
-		return openingHour.getTime() < closingHour.getTime()
+		const startHour = new Date(editDataContext.unsaved.startHour || serviceDataContext.startHour as Date)
+		const endHour = new Date()
+		endHour.setHours(parseInt(hours), parseInt(minutes))
+		return startHour.getTime() < endHour.getTime()
 	}
 
-	const getCompleteSaleDataFromContext = () => {
-		const closingHour = new Date()
-		closingHour.setHours(parseInt(hours), parseInt(minutes))
-		return { ...saleDataContext, closingHour }
+	const getCompleteServiceDataFromContext = () => {
+		const endHour = new Date()
+		endHour.setHours(parseInt(hours), parseInt(minutes))
+		return { ...serviceDataContext, endHour }
 	}
 
-	const extractSalePictures = (saleData: SaleData) => saleData.picturesUrl as string[] || []
+	const extractServicePictures = (serviceData: ServiceData) => serviceData.picturesUrl as string[] || []
 
 	const getLocalUser = () => userDataContext
 
@@ -112,44 +112,44 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		})
 	}
 
-	const saveSalePost = async (skipSaveTime?: boolean) => {
+	const saveServicePost = async (skipSaveTime?: boolean) => {
 		if (!closingTimeIsAfterOpening()) {
 			setInvalidTimeAfterSubmit(true)
 			return
 		}
 
 		if (editModeIsTrue()) {
-			const closingHour = new Date()
-			closingHour.setHours(parseInt(hours), parseInt(minutes))
-			addNewUnsavedFieldToEditContext({ closingHour })
+			const endHour = new Date()
+			endHour.setHours(parseInt(hours), parseInt(minutes))
+			addNewUnsavedFieldToEditContext({ endHour })
 			navigation.goBack()
 			return
 		}
 
 		setIsLoading(true)
 
-		const saleData = skipSaveTime ? { ...saleDataContext } : getCompleteSaleDataFromContext() as SaleCollection
-		const salePictures = extractSalePictures(saleData)
+		const serviceData = skipSaveTime ? { ...serviceDataContext } : getCompleteServiceDataFromContext() as ServiceCollection
+		const servicePictures = extractServicePictures(serviceData)
 
 		try {
 			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
-			if (!salePictures.length) {
-				const postId = await createPost(saleData, localUser, 'posts', 'sale')
+			if (!servicePictures.length) {
+				const postId = await createPost(serviceData, localUser, 'posts', 'service')
 				if (!postId) throw new Error('Não foi possível identificar o post')
 
 				await updateUserPost(
 					localUser,
 					postId,
-					saleData
+					serviceData
 				)
 				return
 			}
 
 			const picturePostsUrls: string[] = []
-			salePictures.forEach(async (salePicture, index) => {
-				uploadImage(salePicture, 'posts', index).then(
+			servicePictures.forEach(async (servicePicture, index) => {
+				uploadImage(servicePicture, 'posts', index).then(
 					({ uploadTask, blob }: any) => {
 						uploadTask.on(
 							'state_change',
@@ -163,16 +163,16 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 										async (downloadURL) => {
 											blob.close()
 											picturePostsUrls.push(downloadURL)
-											if (picturePostsUrls.length === salePictures.length) {
-												const saleDataWithPicturesUrl = { ...saleData, picturesUrl: picturePostsUrls }
+											if (picturePostsUrls.length === servicePictures.length) {
+												const serviceDataWithPicturesUrl = { ...serviceData, picturesUrl: picturePostsUrls }
 
-												const postId = await createPost(saleDataWithPicturesUrl, localUser, 'posts', 'sale')
+												const postId = await createPost(serviceDataWithPicturesUrl, localUser, 'posts', 'service')
 												if (!postId) throw new Error('Não foi possível identificar o post')
 
 												await updateUserPost(
 													localUser,
 													postId,
-													saleDataWithPicturesUrl
+													serviceDataWithPicturesUrl
 												)
 											}
 										},
@@ -195,13 +195,13 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 	const updateUserPost = async (
 		localUser: LocalUserData,
 		postId: string,
-		saleDataPost: SaleData,
+		serviceDataPost: ServiceData,
 	) => {
 		const postData = {
-			...saleDataPost,
+			...serviceDataPost,
 			postId,
-			postType: 'sale',
-			createdAt: new Date(),
+			postType: 'service',
+			createdAt: new Date()
 		}
 
 		// delete postData.location
@@ -227,7 +227,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 								name: localUser.name,
 								profilePictureUrl: localUser.profilePictureUrl
 							}
-						} as SaleCollection
+						} as ServiceCollection
 					],
 				})
 				setDataOnSecureStore('corre.user', {
@@ -246,7 +246,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 					],
 				})
 				setIsLoading(false)
-				showShareModal(true, saleDataPost.title)
+				showShareModal(true, serviceDataPost.title)
 				navigation.navigate('HomeTab')
 			})
 			.catch((err: any) => {
@@ -271,7 +271,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 		}
 		return invalidTimeAfterSubmit
 			? ['horário', 'de', 'início', 'encerramento']
-			: ['que', 'horas', 'termina']
+			: ['que', 'horas', 'para', 'termina']
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -286,13 +286,13 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 
 		return headerBackgroundAnimatedValue.current.interpolate({
 			inputRange: [0, 1],
-			outputRange: [theme.green2, theme.red2],
+			outputRange: [theme.purple2, theme.red2],
 		})
 	}
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={invalidTimeAfterSubmit ? theme.red2 : theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={invalidTimeAfterSubmit ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={invalidTimeAfterSubmit ? relativeScreenHeight(28) : relativeScreenHeight(24)}
 				centralized
@@ -323,8 +323,8 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 						nextInputRef={inputRefs.minutesInput}
 						defaultBackgroundColor={theme.white2}
 						defaultBorderBottomColor={theme.black4}
-						validBackgroundColor={theme.green1}
-						validBorderBottomColor={theme.green5}
+						validBackgroundColor={theme.purple1}
+						validBorderBottomColor={theme.purple5}
 						invalidBackgroundColor={theme.red1}
 						invalidBorderBottomColor={theme.red5}
 						maxLength={2}
@@ -348,8 +348,8 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 						previousInputRef={inputRefs.hoursInput}
 						defaultBackgroundColor={theme.white2}
 						defaultBorderBottomColor={theme.black4}
-						validBackgroundColor={theme.green1}
-						validBorderBottomColor={theme.green5}
+						validBackgroundColor={theme.purple1}
+						validBorderBottomColor={theme.purple5}
 						invalidBackgroundColor={theme.red1}
 						invalidBorderBottomColor={theme.red5}
 						maxLength={2}
@@ -379,7 +379,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 									label={'continuar'}
 									labelColor={theme.white3}
 									highlightedWords={['continuar']}
-									onPress={saveSalePost}
+									onPress={saveServicePost}
 								/>
 							)
 					}
@@ -396,4 +396,4 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 	)
 }
 
-export { InsertClosingHour }
+export { InsertServiceEndHour }

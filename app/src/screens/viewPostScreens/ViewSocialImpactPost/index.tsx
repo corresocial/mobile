@@ -226,8 +226,8 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						title={'dias e horários'}
 						weekDaysfrequency={'someday'}
 						daysOfWeek={getPostField('exhibitionWeekDays')}
-						openingTime={getPostField('openingHour')}
-						closingTime={getPostField('closingHour')}
+						openingTime={getPostField('startHour')}
+						closingTime={getPostField('endHour')}
 						repetition={getPostField('repeat')}
 						textFontSize={14}
 					/>
