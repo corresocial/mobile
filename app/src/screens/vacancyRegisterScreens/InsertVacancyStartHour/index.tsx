@@ -5,14 +5,14 @@ import { theme } from '../../../common/theme'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { InsertWorkStartHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
+import { InsertVacancyStartHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostStartTime } from '../../../components/_onboarding/PostStartTime'
 
-function InsertWorkStartHour({ route, navigation }: InsertWorkStartHourScreenProps) {
+function InsertVacancyStartHour({ route, navigation }: InsertVacancyStartHourScreenProps) {
 	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
@@ -29,7 +29,7 @@ function InsertWorkStartHour({ route, navigation }: InsertWorkStartHourScreenPro
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertWorkEndDate')
+	const skipScreen = () => navigation.navigate('InsertVacancyEndDate')
 
 	const saveOpeningHour = (hour: string, minutes: string) => {
 		const startWorkHour = new Date()
@@ -43,9 +43,9 @@ function InsertWorkStartHour({ route, navigation }: InsertWorkStartHourScreenPro
 
 		setVacancyDataOnContext({ startWorkHour })
 		if (vacancyDataContext.vacancyType === 'professional') {
-			navigation.navigate('InsertWorkEndHour')
+			navigation.navigate('InsertVacancyEndHour')
 		} else {
-			navigation.navigate('InsertWorkEndDate')
+			navigation.navigate('InsertVacancyEndDate')
 		}
 	}
 
@@ -66,4 +66,4 @@ function InsertWorkStartHour({ route, navigation }: InsertWorkStartHourScreenPro
 	)
 }
 
-export { InsertWorkStartHour }
+export { InsertVacancyStartHour }

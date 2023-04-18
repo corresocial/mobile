@@ -10,7 +10,7 @@ import { updateDocField } from '../../../services/firebase/common/updateDocField
 import { filterLeavingOnlyNumbers, formatHour } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { InsertWorkEndHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
+import { InsertVacancyEndHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { PostCollection, VacancyCollection } from '../../../services/firebase/types'
 import { LocalUserData, VacancyData } from '../../../contexts/types'
 
@@ -28,7 +28,7 @@ import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { Loader } from '../../../components/Loader'
 
-function InsertWorkEndHour({ route, navigation }: InsertWorkEndHourScreenProps) {
+function InsertVacancyEndHour({ route, navigation }: InsertVacancyEndHourScreenProps) {
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { vacancyDataContext } = useContext(VacancyContext)
@@ -346,4 +346,4 @@ function InsertWorkEndHour({ route, navigation }: InsertWorkEndHourScreenProps) 
 	)
 }
 
-export { InsertWorkEndHour }
+export { InsertVacancyEndHour }

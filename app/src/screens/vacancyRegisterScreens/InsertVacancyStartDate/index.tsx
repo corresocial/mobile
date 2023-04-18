@@ -5,15 +5,15 @@ import { theme } from '../../../common/theme'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { InsertEventStartDateScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
+import { InsertVacancyStartDateScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
-import { CultureContext } from '../../../contexts/CultureContext'
+import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostStartDate } from '../../../components/_onboarding/PostStartDate'
 
-function InsertEventStartDate({ route, navigation }: InsertEventStartDateScreenProps) {
-	const { setCultureDataOnContext } = useContext(CultureContext)
+function InsertVacancyStartDate({ route, navigation }: InsertVacancyStartDateScreenProps) {
+	const { setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -29,36 +29,36 @@ function InsertEventStartDate({ route, navigation }: InsertEventStartDateScreenP
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertEventStartHour')
+	const skipScreen = () => navigation.navigate('InsertVacancyStartHour')
 
-	const saveCultureStartDate = (year: string, month: string, day: string) => {
-		const eventStartDate = new Date(`${year}-${month}-${day}T12:00:00`)
+	const saveVacancyStartDate = (year: string, month: string, day: string) => {
+		const startWorkDate = new Date(`${year}-${month}-${day}T12:00:00`)
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ eventStartDate })
+			addNewUnsavedFieldToEditContext({ startWorkDate })
 			navigation.goBack()
 			return
 		}
 
-		setCultureDataOnContext({ eventStartDate })
-		navigation.navigate('InsertEventStartHour')
+		setVacancyDataOnContext({ startWorkDate })
+		navigation.navigate('InsertVacancyStartHour')
 	}
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
 			<PostStartDate
-				backgroundColor={theme.blue2}
-				validationColor={theme.blue1}
+				backgroundColor={theme.yellow2}
+				validationColor={theme.yellow1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
-				saveStartDate={saveCultureStartDate}
+				saveStartDate={saveVacancyStartDate}
 			/>
 		</>
 	)
 }
 
-export { InsertEventStartDate }
+export { InsertVacancyStartDate }

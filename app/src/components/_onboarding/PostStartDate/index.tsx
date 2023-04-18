@@ -1,17 +1,13 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, Keyboard, Platform, StatusBar } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import { Animated, Platform, StatusBar } from 'react-native'
 
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 import { filterLeavingOnlyNumbers, formatDate } from '../../../common/auxiliaryFunctions'
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-
-import { InsertWorkStartDateScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
-
-import { VacancyContext } from '../../../contexts/VacancyContext'
-import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -20,21 +16,38 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { ProgressBar } from '../../../components/ProgressBar'
+import { SkipButton } from '../../_buttons/SkipButton'
 
-function InsertWorkStartDate({ route, navigation }: InsertWorkStartDateScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+interface PostStartDateProps {
+	backgroundColor: string
+	validationColor: string
+	progress: [value: number, range: number]
+	initialValue?: Date | string
+	keyboardOpened: boolean
+	navigateBackwards: () => void
+	skipScreen?: () => void
+	saveStartDate: (year: string, month: string, day: string) => void
+}
 
-	const initialTime = formatDate(route.params?.initialValue as Date)
+function PostStartDate({
+	backgroundColor,
+	validationColor,
+	progress,
+	initialValue,
+	keyboardOpened,
+	navigateBackwards,
+	skipScreen,
+	saveStartDate
+}: PostStartDateProps) {
+	const initialTime = initialValue ? formatDate(initialValue as Date) : false
 
-	const [day, setDay] = useState<string>(route.params?.initialValue ? initialTime.split('/')[0] : '')
-	const [month, setMonth] = useState<string>(route.params?.initialValue ? initialTime.split('/')[1] : '')
-	const [year, setYear] = useState<string>(route.params?.initialValue ? initialTime.split('/')[2] : '')
+	const [day, setDay] = useState<string>(initialTime ? initialTime.split('/')[0] : '')
+	const [month, setMonth] = useState<string>(initialTime ? initialTime.split('/')[1] : '')
+	const [year, setYear] = useState<string>(initialTime ? initialTime.split('/')[2] : '')
 
 	const [dayIsValid, setDayIsValid] = useState<boolean>(false)
 	const [monthIsValid, setMonthIsValid] = useState<boolean>(false)
 	const [yearIsValid, setYearIsValid] = useState<boolean>(false)
-	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 	const [invalidDateAfterSubmit, setInvalidDateAfterSubmit] = useState<boolean>(false)
 
 	const inputRefs = {
@@ -42,15 +55,6 @@ function InsertWorkStartDate({ route, navigation }: InsertWorkStartDateScreenPro
 		monthInput: useRef<React.MutableRefObject<any>>(null),
 		yearInput: useRef<React.MutableRefObject<any>>(null)
 	}
-
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			removeAllKeyboardEventListeners()
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
 
 	useEffect(() => {
 		const dayValidation = validateDay(day)
@@ -97,32 +101,21 @@ function InsertWorkStartDate({ route, navigation }: InsertWorkStartDateScreenPro
 		return data.getDate()
 	}
 
-	const insertedDateIsAfterCurrentDate = (insertedYear: string = year) => {
-		const insertedDate = new Date(`${insertedYear}-${month}-${day}T23:59:59`)
+	const insertedDateIsAfterCurrentDate = (insertedYear: string, insertedMonth: string, insertedDay: string) => {
+		const insertedDate = new Date(`${insertedYear}-${insertedMonth}-${insertedDay}T23:59:59`)
 		const currentDate = new Date()
 		const currentDateWithoutTimezone = new Date(`${currentDate.getUTCFullYear()}-${(currentDate.getUTCMonth() + 1 < 10) ? `0${currentDate.getUTCMonth() + 1}` : currentDate.getUTCMonth() + 1}-${(currentDate.getUTCDate() < 10) ? `0${currentDate.getUTCDate()}` : currentDate.getUTCDate()}`)
 		return insertedDate >= currentDateWithoutTimezone
 	}
 
-	const saveStartWorkDate = () => {
-		if (!insertedDateIsAfterCurrentDate()) {
+	const savePostDate = () => {
+		if (!insertedDateIsAfterCurrentDate(year, month, day)) {
 			setInvalidDateAfterSubmit(true)
 			return
 		}
 
-		const startWorkDate = new Date(`${year}-${month}-${day}T12:00:00`)
-
-		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ startWorkDate })
-			navigation.goBack()
-			return
-		}
-
-		setVacancyDataOnContext({ startWorkDate })
-		navigation.navigate('InsertWorkStartHour')
+		saveStartDate(day, month, year)
 	}
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
@@ -136,23 +129,23 @@ function InsertWorkStartDate({ route, navigation }: InsertWorkStartDateScreenPro
 
 		return headerBackgroundAnimatedValue.current.interpolate({
 			inputRange: [0, 1],
-			outputRange: [theme.yellow2, theme.red2],
+			outputRange: [backgroundColor, theme.red2],
 		})
 	}
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={invalidDateAfterSubmit ? theme.red2 : theme.yellow2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={invalidDateAfterSubmit ? theme.red2 : backgroundColor} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={(screenHeight + statusBarHeight) * 0.26}
-				relativeHeight={'22%'}
+				minHeight={!invalidDateAfterSubmit ? relativeScreenHeight(24) : relativeScreenHeight(28)}
+				relativeHeight={!invalidDateAfterSubmit ? relativeScreenHeight(24) : relativeScreenHeight(28)}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
-				<BackButton onPress={() => navigation.goBack()} />
+				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
+					fontSize={17}
 					message={
 						invalidDateAfterSubmit
 							? 'A data de início informada antecede a data atual'
@@ -165,8 +158,8 @@ function InsertWorkStartDate({ route, navigation }: InsertWorkStartDateScreenPro
 					}
 				>
 					<ProgressBar
-						range={5}
-						value={5}
+						value={progress[0]}
+						range={progress[1]}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
@@ -182,10 +175,10 @@ function InsertWorkStartDate({ route, navigation }: InsertWorkStartDateScreenPro
 						nextInputRef={inputRefs.monthInput}
 						defaultBackgroundColor={theme.white2}
 						defaultBorderBottomColor={theme.black4}
-						validBackgroundColor={theme.yellow1}
-						validBorderBottomColor={theme.yellow5}
+						validBackgroundColor={validationColor}
+						validBorderBottomColor={theme.blue5}
 						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.red5}
+						invalidBorderBottomColor={theme.black4}
 						maxLength={2}
 						fontSize={22}
 						placeholder={'dia'}
@@ -206,10 +199,10 @@ function InsertWorkStartDate({ route, navigation }: InsertWorkStartDateScreenPro
 						nextInputRef={inputRefs.yearInput}
 						defaultBackgroundColor={theme.white2}
 						defaultBorderBottomColor={theme.black4}
-						validBackgroundColor={theme.yellow1}
-						validBorderBottomColor={theme.yellow5}
+						validBackgroundColor={validationColor}
+						validBorderBottomColor={theme.blue5}
 						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.red5}
+						invalidBorderBottomColor={theme.black4}
 						maxLength={2}
 						fontSize={22}
 						placeholder={'mês'}
@@ -229,10 +222,10 @@ function InsertWorkStartDate({ route, navigation }: InsertWorkStartDateScreenPro
 						textInputRef={inputRefs.yearInput}
 						defaultBackgroundColor={theme.white2}
 						defaultBorderBottomColor={theme.black4}
-						validBackgroundColor={theme.yellow1}
-						validBorderBottomColor={theme.yellow5}
+						validBackgroundColor={validationColor}
+						validBorderBottomColor={theme.blue5}
 						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.red5}
+						invalidBorderBottomColor={theme.black4}
 						maxLength={4}
 						fontSize={22}
 						placeholder={'ano'}
@@ -253,19 +246,25 @@ function InsertWorkStartDate({ route, navigation }: InsertWorkStartDateScreenPro
 						&& (
 							<PrimaryButton
 								color={invalidDateAfterSubmit ? theme.red3 : theme.green3}
-								iconName={'arrow-right'}
-								iconColor={theme.white3}
 								label={'continuar'}
 								labelColor={theme.white3}
-								highlightedWords={['continuar']}
-								onPress={saveStartWorkDate}
+								SecondSvgIcon={CheckWhiteIcon}
+								svgIconScale={['40%', '25%']}
+								onPress={savePostDate}
 							/>
 						)
 					}
 				</ButtonContainer>
+				{
+					(!dayIsValid || !monthIsValid || !yearIsValid) && !keyboardOpened
+						? (
+							<SkipButton onPress={skipScreen} />
+						)
+						: <></>
+				}
 			</FormContainer>
 		</Container>
 	)
 }
 
-export { InsertWorkStartDate }
+export { PostStartDate }

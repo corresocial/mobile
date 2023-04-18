@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Platform } from 'react-native'
 
-import { ButtonContainer, Container, InputsContainer, SkipButtonContainer, TwoPoints } from './styles'
+import { ButtonContainer, Container, InputsContainer, TwoPoints } from './styles'
 import { theme } from '../../../common/theme'
-import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { filterLeavingOnlyNumbers, formatHour } from '../../../common/auxiliaryFunctions'
@@ -16,6 +15,7 @@ import { LineInput } from '../../../components/LineInput'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { ProgressBar } from '../../../components/ProgressBar'
+import { SkipButton } from '../../_buttons/SkipButton'
 
 interface PostStartTimeProps {
 	backgroundColor: string
@@ -76,6 +76,7 @@ function PostStartTime({
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<DefaultHeaderContainer
+				minHeight={relativeScreenHeight(24)}
 				relativeHeight={relativeScreenHeight(24)}
 				centralized
 				backgroundColor={backgroundColor}
@@ -158,18 +159,7 @@ function PostStartTime({
 				{
 					(!hoursIsValid || !minutesIsValid) && !keyboardOpened
 						? (
-							<SkipButtonContainer>
-								<PrimaryButton
-									flexDirection={'row-reverse'}
-									color={theme.yellow3}
-									label={'pular'}
-									highlightedWords={['pular']}
-									labelColor={theme.black4}
-									SecondSvgIcon={DeniedWhiteIcon}
-									svgIconScale={['50%', '18%']}
-									onPress={skipScreen}
-								/>
-							</SkipButtonContainer>
+							<SkipButton onPress={skipScreen} />
 						)
 						: <></>
 				}

@@ -265,7 +265,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 								title={'data de início'}
 								highlightedWords={['início']}
 								value={formatDate(getPostField('startWorkDate')) || '---'}
-								onEdit={() => navigateToEditScreen('InsertWorkStartDate', 'startWorkDate')}
+								onEdit={() => navigateToEditScreen('InsertVacancyStartDate', 'startWorkDate')}
 							/>
 							<Sigh />
 						</>
@@ -275,7 +275,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 					title={'horário de início'}
 					highlightedWords={['início']}
 					value={formatHour(getPostField('startWorkHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertWorkStartHour', 'startWorkHour')}
+					onEdit={() => navigateToEditScreen('InsertVacancyStartHour', 'startWorkHour')}
 				/>
 				<Sigh />
 				{
@@ -285,7 +285,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 								title={'data de fim'}
 								highlightedWords={['fim']}
 								value={formatDate(getPostField('endWorkDate')) || '---'}
-								onEdit={() => navigateToEditScreen('InsertWorkEndDate', 'endWorkDate')}
+								onEdit={() => navigateToEditScreen('InsertVacancyEndDate', 'endWorkDate')}
 							/>
 							<Sigh />
 						</>
@@ -295,7 +295,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 					title={'horário de fim'}
 					highlightedWords={['fim']}
 					value={formatHour(getPostField('endWorkHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertWorkEndHour', 'endWorkHour')}
+					onEdit={() => navigateToEditScreen('InsertVacancyEndHour', 'endWorkHour')}
 				/>
 				<LastSigh />
 			</Body>

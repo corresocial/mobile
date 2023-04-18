@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Animated, Keyboard, Platform, StatusBar } from 'react-native'
-
 import { getDownloadURL } from 'firebase/storage'
-import { ButtonContainer, Container, InputsContainer, SkipButtonContainer, TwoPoints } from './styles'
+
+import { ButtonContainer, Container, InputsContainer, TwoPoints } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
 
 import { filterLeavingOnlyNumbers, formatHour } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
@@ -30,6 +29,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { Loader } from '../../../components/Loader'
+import { SkipButton } from '../../../components/_buttons/SkipButton'
 
 function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) {
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
@@ -387,18 +387,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 				{
 					(!hoursIsValid || !minutesIsValid) && !keyboardOpened
 						? (
-							<SkipButtonContainer>
-								<PrimaryButton
-									flexDirection={'row-reverse'}
-									color={theme.yellow3}
-									label={'pular'}
-									highlightedWords={['pular']}
-									labelColor={theme.black4}
-									SecondSvgIcon={DeniedWhiteIcon}
-									svgIconScale={['50%', '18%']}
-									onPress={() => saveServicePost(true)}
-								/>
-							</SkipButtonContainer>
+							<SkipButton onPress={() => { }} />
 						)
 						: <></>
 				}

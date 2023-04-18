@@ -22,8 +22,8 @@ export type VacancyStackParamList = {
 	SelectVacancyTags: { categorySelected: VacancyCategories, editMode?: boolean }
 	SelectVacancyType: { editMode: boolean } | undefined
 	SelectWorkWeekdays: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
-	InsertWorkStartDate: { editMode: boolean, initialValue: Date } | undefined
-	InsertWorkEndDate: { editMode: boolean, initialValue: Date } | undefined
-	InsertWorkStartHour: { editMode: boolean, initialValue: Date } | undefined
-	InsertWorkEndHour: { editMode: boolean, initialValue: Date } | undefined
+	InsertVacancyStartDate: { editMode: boolean, initialValue: Date } | undefined
+	InsertVacancyEndDate: { editMode: boolean, initialValue: Date } | undefined
+	InsertVacancyStartHour: { editMode: boolean, initialValue: Date } | undefined
+	InsertVacancyEndHour: { editMode: boolean, initialValue: Date } | undefined
 } & UserStackParamList

@@ -205,7 +205,9 @@ export type SocialImpactData = {
 	exhibitionFrequency?: WeekdaysFrequency
 	exhibitionWeekDays?: DaysOfWeek[]
 	repeat?: EventRepeatType
+	startDate?: Date
 	openingHour?: Date
+	endDate?: Date
 	closingHour?: Date
 	picturesUrl?: string[]
 	location?: {

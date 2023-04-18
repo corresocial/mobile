@@ -16,10 +16,8 @@ import { SelectVacancyCategory } from '../../../screens/vacancyRegisterScreens/S
 import { SelectVacancyTags } from '../../../screens/vacancyRegisterScreens/SelectVacancyTags'
 import { SelectVacancyType } from '../../../screens/vacancyRegisterScreens/SelectVacancyType'
 import { SelectWorkWeekdays } from '../../../screens/vacancyRegisterScreens/SelectWorkWeekdays'
-import { InsertWorkStartDate } from '../../../screens/vacancyRegisterScreens/InsertWorkStartDate'
-import { InsertWorkStartHour } from '../../../screens/vacancyRegisterScreens/InsertWorkStartHour'
-import { InsertWorkEndDate } from '../../../screens/vacancyRegisterScreens/InsertWorkEndDate'
-import { InsertWorkEndHour } from '../../../screens/vacancyRegisterScreens/InsertWorkEndHour'
+import { InsertVacancyStartDate } from '../../../screens/vacancyRegisterScreens/InsertVacancyStartDate'
+import { InsertVacancyEndHour } from '../../../screens/vacancyRegisterScreens/InsertVacancyEndHour'
 import { InsertVacancyPicture } from '../../../screens/vacancyRegisterScreens/InsertVacancyPicture'
 import { VacancyPicturePreview } from '../../../screens/vacancyRegisterScreens/VacancyPicturePreview'
 import { SelectPaymentType } from '../../../screens/vacancyRegisterScreens/SelectPaymentType'
@@ -30,6 +28,8 @@ import { SelectVacancyRange } from '../../../screens/vacancyRegisterScreens/Sele
 import { SelectVacancyLocationView } from '../../../screens/vacancyRegisterScreens/SelectVacancyLocationView'
 import { VacancyLocationViewPreview } from '../../../screens/vacancyRegisterScreens/VacancyLocationViewPreview'
 import { SelectVacancyFrequency } from '../../../screens/vacancyRegisterScreens/SelectVacancyFrequency'
+import { InsertVacancyEndDate } from '../../../screens/vacancyRegisterScreens/InsertVacancyEndDate'
+import { InsertVacancyStartHour } from '../../../screens/vacancyRegisterScreens/InsertVacancyStartHour'
 
 const Stack = createStackNavigator<VacancyStackParamList>()
 
@@ -37,7 +37,7 @@ export function VacancyStack() {
 	return (
 		<VacancyProvider>
 			<Stack.Navigator
-				initialRouteName={'InsertWorkStartHour'}
+				initialRouteName={'InsertVacancyStartDate'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
@@ -64,10 +64,10 @@ export function VacancyStack() {
 				<Stack.Screen name={'SelectVacancyFrequency'} component={SelectVacancyFrequency} />
 				<Stack.Screen name={'SelectWorkWeekdays'} component={SelectWorkWeekdays} />
 				<Stack.Screen name={'InsertVacancyQuestions'} component={InsertVacancyQuestions} />
-				<Stack.Screen name={'InsertWorkStartDate'} component={InsertWorkStartDate} />
-				<Stack.Screen name={'InsertWorkStartHour'} component={InsertWorkStartHour} />
-				<Stack.Screen name={'InsertWorkEndDate'} component={InsertWorkEndDate} />
-				<Stack.Screen name={'InsertWorkEndHour'} component={InsertWorkEndHour} />
+				<Stack.Screen name={'InsertVacancyStartDate'} component={InsertVacancyStartDate} />
+				<Stack.Screen name={'InsertVacancyStartHour'} component={InsertVacancyStartHour} />
+				<Stack.Screen name={'InsertVacancyEndDate'} component={InsertVacancyEndDate} />
+				<Stack.Screen name={'InsertVacancyEndHour'} component={InsertVacancyEndHour} />
 			</Stack.Navigator>
 		</VacancyProvider>
 	)

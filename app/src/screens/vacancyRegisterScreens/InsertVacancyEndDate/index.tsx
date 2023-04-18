@@ -8,7 +8,7 @@ import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { filterLeavingOnlyNumbers, formatDate } from '../../../common/auxiliaryFunctions'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { InsertWorkEndDateScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
+import { InsertVacancyEndDateScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -21,7 +21,7 @@ import { LineInput } from '../../../components/LineInput'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function InsertWorkEndDate({ route, navigation }: InsertWorkEndDateScreenProps) {
+function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenProps) {
 	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
@@ -120,7 +120,7 @@ function InsertWorkEndDate({ route, navigation }: InsertWorkEndDateScreenProps) 
 		}
 
 		setVacancyDataOnContext({ endWorkDate })
-		navigation.navigate('InsertWorkEndHour')
+		navigation.navigate('InsertVacancyEndHour')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -269,4 +269,4 @@ function InsertWorkEndDate({ route, navigation }: InsertWorkEndDateScreenProps) 
 	)
 }
 
-export { InsertWorkEndDate }
+export { InsertVacancyEndDate }
