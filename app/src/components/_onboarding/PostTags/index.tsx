@@ -175,11 +175,10 @@ function PostTags({ backgroundColor, lightColor, currentCategory, addNewTag, sav
 						? (
 							<FloatButtonContainer>
 								<PrimaryButton
-									flexDirection={'row-reverse'}
 									color={theme.green3}
 									label={'continuar'}
 									labelColor={theme.white3}
-									SvgIcon={CheckIcon}
+									SecondSvgIcon={CheckIcon}
 									svgIconScale={['40%', '25%']}
 									onPress={() => savePostTags(selectedTags)}
 								/>

@@ -37,7 +37,7 @@ export function VacancyStack() {
 	return (
 		<VacancyProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectVacancyCategory'}
+				initialRouteName={'InsertWorkStartHour'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,

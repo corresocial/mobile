@@ -32,7 +32,7 @@ export function CultureStack() {
 	return (
 		<CultureProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectCultureCategory'}
+				initialRouteName={'InsertEventStartHour'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,

@@ -395,7 +395,7 @@ function InsertClosingHour({ route, navigation }: InsertClosingHourScreenProps) 
 									highlightedWords={['pular']}
 									labelColor={theme.black4}
 									SecondSvgIcon={DeniedWhiteIcon}
-									svgIconScale={['40%', '18%']}
+									svgIconScale={['50%', '18%']}
 									onPress={() => saveSalePost(true)}
 								/>
 							</SkipButtonContainer>

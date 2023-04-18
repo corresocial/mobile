@@ -30,7 +30,7 @@ export function ServiceStack() {
 	return (
 		<ServiceProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectServiceCategory'}
+				initialRouteName={'InsertOpeningHour'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
