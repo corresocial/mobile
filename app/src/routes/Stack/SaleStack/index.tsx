@@ -26,6 +26,7 @@ import { InsertSaleStartHour } from '../../../screens/saleRegisterScreens/Insert
 import { InsertSaleEndHour } from '../../../screens/saleRegisterScreens/InsertSaleEndHour'
 import { SelectSaleRange } from '../../../screens/saleRegisterScreens/SelectSaleRange'
 import { SelectItemStatus } from '../../../screens/saleRegisterScreens/SelectItemStatus'
+import { SaleReview } from '../../../screens/saleRegisterScreens/SaleReview'
 
 const Stack = createStackNavigator<SaleStackParamList>()
 
@@ -60,6 +61,7 @@ export function SaleStack() {
 				<Stack.Screen name={'SelectSaleDaysOfWeek'} component={SelectSaleDaysOfWeek} />
 				<Stack.Screen name={'InsertSaleStartHour'} component={InsertSaleStartHour} />
 				<Stack.Screen name={'InsertSaleEndHour'} component={InsertSaleEndHour} />
+				<Stack.Screen name={'SaleReview'} component={SaleReview} />
 			</Stack.Navigator>
 		</SaleProvider>
 	)

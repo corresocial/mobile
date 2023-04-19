@@ -22,4 +22,5 @@ export type SaleStackParamList = {
 	SelectSaleDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
 	InsertSaleStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertSaleEndHour: { editMode: boolean, initialValue: Date } | undefined
+	SaleReview: undefined
 } & UserStackParamList

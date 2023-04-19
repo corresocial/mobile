@@ -10,30 +10,30 @@ import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { createPost } from '../../../services/firebase/post/createPost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
 
-import { ServiceReviewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-import { PostCollection, ServiceCollection } from '../../../services/firebase/types'
-import { LocalUserData, ServiceData } from '../../../contexts/types'
+import { SaleReviewScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
+import { PostCollection, SaleCollection } from '../../../services/firebase/types'
+import { LocalUserData, SaleData } from '../../../contexts/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
-import { ServiceContext } from '../../../contexts/ServiceContext'
+import { SaleContext } from '../../../contexts/SaleContext'
 import { StateContext } from '../../../contexts/StateContext'
 
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { Loader } from '../../../components/Loader'
 
-function ServiceReview({ navigation }: ServiceReviewScreenProps) {
-	const { serviceDataContext } = useContext(ServiceContext)
+function SaleReview({ navigation }: SaleReviewScreenProps) {
+	const { saleDataContext } = useContext(SaleContext)
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 
 	const [hasError, setHasError] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState(false)
 
-	console.log('Contexto atual: Service')
-	console.log(serviceDataContext)
+	console.log('Contexto atual: Sale')
+	console.log(saleDataContext)
 
-	const extractServicePictures = (serviceData: ServiceData) => serviceData.picturesUrl as string[] || []
+	const extractSalePictures = (saleData: SaleData) => saleData.picturesUrl as string[] || []
 
 	const getLocalUser = () => userDataContext
 
@@ -44,31 +44,31 @@ function ServiceReview({ navigation }: ServiceReviewScreenProps) {
 		})
 	}
 
-	const saveServicePost = async () => {
+	const saveSalePost = async (skipSaveTime?: boolean) => {
 		setIsLoading(true)
 
-		const serviceData = { ...serviceDataContext } as ServiceCollection
-		const servicePictures = extractServicePictures(serviceData)
+		const saleData = { ...saleDataContext } as SaleCollection
+		const salePictures = extractSalePictures(saleData)
 
 		try {
 			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
-			if (!servicePictures.length) {
-				const postId = await createPost(serviceData, localUser, 'posts', 'service')
+			if (!salePictures.length) {
+				const postId = await createPost(saleData, localUser, 'posts', 'sale')
 				if (!postId) throw new Error('Não foi possível identificar o post')
 
 				await updateUserPost(
 					localUser,
 					postId,
-					serviceData
+					saleData
 				)
 				return
 			}
 
 			const picturePostsUrls: string[] = []
-			servicePictures.forEach(async (servicePicture, index) => {
-				uploadImage(servicePicture, 'posts', index).then(
+			salePictures.forEach(async (salePicture, index) => {
+				uploadImage(salePicture, 'posts', index).then(
 					({ uploadTask, blob }: any) => {
 						uploadTask.on(
 							'state_change',
@@ -82,16 +82,16 @@ function ServiceReview({ navigation }: ServiceReviewScreenProps) {
 										async (downloadURL) => {
 											blob.close()
 											picturePostsUrls.push(downloadURL)
-											if (picturePostsUrls.length === servicePictures.length) {
-												const serviceDataWithPicturesUrl = { ...serviceData, picturesUrl: picturePostsUrls }
+											if (picturePostsUrls.length === salePictures.length) {
+												const saleDataWithPicturesUrl = { ...saleData, picturesUrl: picturePostsUrls }
 
-												const postId = await createPost(serviceDataWithPicturesUrl, localUser, 'posts', 'service')
+												const postId = await createPost(saleDataWithPicturesUrl, localUser, 'posts', 'sale')
 												if (!postId) throw new Error('Não foi possível identificar o post')
 
 												await updateUserPost(
 													localUser,
 													postId,
-													serviceDataWithPicturesUrl
+													saleDataWithPicturesUrl
 												)
 												setIsLoading(false)
 											}
@@ -112,12 +112,12 @@ function ServiceReview({ navigation }: ServiceReviewScreenProps) {
 	const updateUserPost = async (
 		localUser: LocalUserData,
 		postId: string,
-		serviceDataPost: ServiceData,
+		saleDataPost: SaleData,
 	) => {
 		const postData = {
-			...serviceDataPost,
+			...saleDataPost,
 			postId,
-			postType: 'service',
+			postType: 'sale',
 			createdAt: new Date()
 		}
 
@@ -142,7 +142,7 @@ function ServiceReview({ navigation }: ServiceReviewScreenProps) {
 								name: localUser.name,
 								profilePictureUrl: localUser.profilePictureUrl
 							}
-						} as ServiceCollection
+						} as SaleCollection
 					],
 				})
 				setDataOnSecureStore('corre.user', {
@@ -161,7 +161,7 @@ function ServiceReview({ navigation }: ServiceReviewScreenProps) {
 					],
 				})
 				setIsLoading(false)
-				showShareModal(true, serviceDataPost.title)
+				showShareModal(true, saleDataPost.title)
 				navigation.navigate('HomeTab')
 			})
 			.catch((err: any) => {
@@ -191,7 +191,7 @@ function ServiceReview({ navigation }: ServiceReviewScreenProps) {
 									labelColor={theme.white3}
 									SecondSvgIcon={PlusWhiteIcon}
 									svgIconScale={['40%', '25%']}
-									onPress={saveServicePost}
+									onPress={saveSalePost}
 								/>
 							)
 					}
@@ -201,4 +201,4 @@ function ServiceReview({ navigation }: ServiceReviewScreenProps) {
 	)
 }
 
-export { ServiceReview }
+export { SaleReview }
