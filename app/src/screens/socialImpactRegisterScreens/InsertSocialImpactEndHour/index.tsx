@@ -49,10 +49,13 @@ function InsertSocialImpactEndHour({ route, navigation }: InsertSocialImpactEndH
 		<>
 			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
 			<PostTime
-				backgroundColor={theme.pink2}
-				validationColor={theme.pink1}
+				backgroundColor={theme.blue2}
+				validationColor={theme.blue1}
 				customTitle={'que horas você termina?'}
 				customHighlight={['que', 'horas', 'termina']}
+				editMode={editModeIsTrue()}
+				startDate={editDataContext.unsaved.startDate || socialImpactDataContext.startDate}
+				endDate={editDataContext.unsaved.startDate || socialImpactDataContext.startDate}
 				startTime={editDataContext.unsaved.startHour || socialImpactDataContext.startHour}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[5, 5]}

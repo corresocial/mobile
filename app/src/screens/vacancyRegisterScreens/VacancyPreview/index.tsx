@@ -10,30 +10,30 @@ import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { createPost } from '../../../services/firebase/post/createPost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
 
-import { SocialImpactReviewScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
-import { PostCollection, SocialImpactCollection } from '../../../services/firebase/types'
-import { LocalUserData, SocialImpactData } from '../../../contexts/types'
+import { VacancyReviewScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
+import { PostCollection, VacancyCollection } from '../../../services/firebase/types'
+import { LocalUserData, VacancyData } from '../../../contexts/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
-import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+import { VacancyContext } from '../../../contexts/VacancyContext'
 import { StateContext } from '../../../contexts/StateContext'
 
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { Loader } from '../../../components/Loader'
 
-function SocialImpactReview({ navigation }: SocialImpactReviewScreenProps) {
-	const { socialImpactDataContext } = useContext(SocialImpactContext)
+function VacancyReview({ navigation }: VacancyReviewScreenProps) {
+	const { vacancyDataContext } = useContext(VacancyContext)
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 
 	const [hasError, setHasError] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState(false)
 
-	console.log('Contexto atual: SocialImpact')
-	console.log(socialImpactDataContext)
+	console.log('Contexto atual: Vacancy')
+	console.log(vacancyDataContext)
 
-	const extractSocialImpactPictures = (socialImpactData: SocialImpactData) => socialImpactData.picturesUrl as string[] || []
+	const extractVacancyPictures = (vacancyData: VacancyData) => vacancyData.picturesUrl as string[] || []
 
 	const getLocalUser = () => userDataContext
 
@@ -44,31 +44,31 @@ function SocialImpactReview({ navigation }: SocialImpactReviewScreenProps) {
 		})
 	}
 
-	const saveSocialImpactPost = async () => {
+	const saveVacancyPost = async () => {
 		setIsLoading(true)
 
-		const socialImpactData = { ...socialImpactDataContext } as SocialImpactCollection
-		const socialImpactPictures = extractSocialImpactPictures(socialImpactData)
+		const vacancyData = { ...vacancyDataContext } as VacancyCollection
+		const vacancyPictures = extractVacancyPictures(vacancyData)
 
 		try {
 			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
-			if (!socialImpactPictures.length) {
-				const postId = await createPost(socialImpactData, localUser, 'posts', 'socialImpact')
+			if (!vacancyPictures.length) {
+				const postId = await createPost(vacancyData, localUser, 'posts', 'vacancy')
 				if (!postId) throw new Error('Não foi possível identificar o post')
 
 				await updateUserPost(
 					localUser,
 					postId,
-					socialImpactData
+					vacancyData
 				)
 				return
 			}
 
 			const picturePostsUrls: string[] = []
-			socialImpactPictures.forEach(async (socialImpactPicture, index) => {
-				uploadImage(socialImpactPicture, 'posts', index).then(
+			vacancyPictures.forEach(async (vacancyPicture, index) => {
+				uploadImage(vacancyPicture, 'posts', index).then(
 					({ uploadTask, blob }: any) => {
 						uploadTask.on(
 							'state_change',
@@ -82,16 +82,16 @@ function SocialImpactReview({ navigation }: SocialImpactReviewScreenProps) {
 										async (downloadURL) => {
 											blob.close()
 											picturePostsUrls.push(downloadURL)
-											if (picturePostsUrls.length === socialImpactPictures.length) {
-												const socialImpactDataWithPicturesUrl = { ...socialImpactData, picturesUrl: picturePostsUrls }
+											if (picturePostsUrls.length === vacancyPictures.length) {
+												const vacancyDataWithPicturesUrl = { ...vacancyData, picturesUrl: picturePostsUrls }
 
-												const postId = await createPost(socialImpactDataWithPicturesUrl, localUser, 'posts', 'socialImpact')
+												const postId = await createPost(vacancyDataWithPicturesUrl, localUser, 'posts', 'vacancy')
 												if (!postId) throw new Error('Não foi possível identificar o post')
 
 												await updateUserPost(
 													localUser,
 													postId,
-													socialImpactDataWithPicturesUrl
+													vacancyDataWithPicturesUrl
 												)
 												setIsLoading(false)
 											}
@@ -112,12 +112,12 @@ function SocialImpactReview({ navigation }: SocialImpactReviewScreenProps) {
 	const updateUserPost = async (
 		localUser: LocalUserData,
 		postId: string,
-		socialImpactDataPost: SocialImpactData,
+		vacancyDataPost: VacancyData,
 	) => {
 		const postData = {
-			...socialImpactDataPost,
+			...vacancyDataPost,
 			postId,
-			postType: 'socialImpact',
+			postType: 'vacancy',
 			createdAt: new Date()
 		}
 
@@ -142,7 +142,7 @@ function SocialImpactReview({ navigation }: SocialImpactReviewScreenProps) {
 								name: localUser.name,
 								profilePictureUrl: localUser.profilePictureUrl
 							}
-						} as SocialImpactCollection
+						} as VacancyCollection
 					],
 				})
 				setDataOnSecureStore('corre.user', {
@@ -161,7 +161,7 @@ function SocialImpactReview({ navigation }: SocialImpactReviewScreenProps) {
 					],
 				})
 				setIsLoading(false)
-				showShareModal(true, socialImpactDataPost.title)
+				showShareModal(true, vacancyDataPost.title)
 				navigation.navigate('HomeTab')
 			})
 			.catch((err: any) => {
@@ -191,7 +191,7 @@ function SocialImpactReview({ navigation }: SocialImpactReviewScreenProps) {
 									labelColor={theme.white3}
 									SecondSvgIcon={PlusWhiteIcon}
 									svgIconScale={['40%', '25%']}
-									onPress={saveSocialImpactPost}
+									onPress={saveVacancyPost}
 								/>
 							)
 					}
@@ -201,4 +201,4 @@ function SocialImpactReview({ navigation }: SocialImpactReviewScreenProps) {
 	)
 }
 
-export { SocialImpactReview }
+export { VacancyReview }

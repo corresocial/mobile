@@ -44,7 +44,7 @@ function SaleReview({ navigation }: SaleReviewScreenProps) {
 		})
 	}
 
-	const saveSalePost = async (skipSaveTime?: boolean) => {
+	const saveSalePost = async () => {
 		setIsLoading(true)
 
 		const saleData = { ...saleDataContext } as SaleCollection

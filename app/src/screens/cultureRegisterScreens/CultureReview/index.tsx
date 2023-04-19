@@ -44,7 +44,7 @@ function CultureReview({ navigation }: CultureReviewScreenProps) {
 		})
 	}
 
-	const saveCulturePost = async (skipSaveTime?: boolean) => {
+	const saveCulturePost = async () => {
 		setIsLoading(true)
 
 		const cultureData = { ...cultureDataContext } as CultureCollection

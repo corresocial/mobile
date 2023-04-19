@@ -95,14 +95,13 @@ function PostTime({
 		return registredStartHour.getTime() < endHour.getTime()
 	}
 
-	const closingTimeIsAfterOpening = () => {
+	const closingDateTimeIsAfterOpening = () => {
 		if (editMode) return true
-
-		const startHour = new Date(startDate as Date)
-		const endHour = new Date(endDate as Date)
-		startHour.setHours(startHour?.getHours() as number, startHour?.getMinutes() as number)
-		endHour.setHours(parseInt(hours), parseInt(minutes))
-		return startHour.getTime() < endHour.getTime()
+		const registredStartDate = new Date(startDate as Date)
+		const registredEndHour = new Date(endDate as Date)
+		registredStartDate.setHours(startTime?.getHours() || 0, startTime?.getMinutes() || 0)
+		registredEndHour.setHours(parseInt(hours), parseInt(minutes))
+		return registredStartDate.getTime() < registredEndHour.getTime()
 	}
 
 	const savePostTime = () => {
@@ -111,15 +110,15 @@ function PostTime({
 			return
 		}
 
-		if (startTime) {
-			if (!endTimeIsBiggerOfStartTime()) {
+		if (startDate && endDate && startDate) {
+			if (!closingDateTimeIsAfterOpening()) {
 				setInvalidTimeAfterSubmit(true)
 				return
 			}
 		}
 
-		if (startDate && endDate && startDate) {
-			if (!closingTimeIsAfterOpening()) {
+		if (startTime) {
+			if (!endTimeIsBiggerOfStartTime()) {
 				setInvalidTimeAfterSubmit(true)
 				return
 			}

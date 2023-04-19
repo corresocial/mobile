@@ -30,6 +30,7 @@ import { VacancyLocationViewPreview } from '../../../screens/vacancyRegisterScre
 import { SelectVacancyFrequency } from '../../../screens/vacancyRegisterScreens/SelectVacancyFrequency'
 import { InsertVacancyEndDate } from '../../../screens/vacancyRegisterScreens/InsertVacancyEndDate'
 import { InsertVacancyStartHour } from '../../../screens/vacancyRegisterScreens/InsertVacancyStartHour'
+import { VacancyReview } from '../../../screens/vacancyRegisterScreens/VacancyPreview'
 
 const Stack = createStackNavigator<VacancyStackParamList>()
 
@@ -68,6 +69,7 @@ export function VacancyStack() {
 				<Stack.Screen name={'InsertVacancyEndDate'} component={InsertVacancyEndDate} />
 				<Stack.Screen name={'InsertVacancyStartHour'} component={InsertVacancyStartHour} />
 				<Stack.Screen name={'InsertVacancyEndHour'} component={InsertVacancyEndHour} />
+				<Stack.Screen name={'VacancyReview'} component={VacancyReview} />
 			</Stack.Navigator>
 		</VacancyProvider>
 	)
