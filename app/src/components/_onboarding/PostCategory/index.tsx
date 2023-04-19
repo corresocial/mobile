@@ -44,6 +44,10 @@ function PostCategory({ backgroundColor, progress, categories, savePostCategory,
 		})
 	}
 
+	const categoriesAreOdd = () => {
+		return Object.keys(categories).length % 2 === 0
+	}
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -70,9 +74,9 @@ function PostCategory({ backgroundColor, progress, categories, savePostCategory,
 					backgroundColor={backgroundColor}
 				>
 					{renderSelectOptionsButtons() as any}
-					<SelectButton
+					< SelectButton
 						key={'others'}
-						width={'100%'}
+						width={categoriesAreOdd() ? '45%' : '100%'}
 						height={relativeScreenHeight(11)}
 						label={'outros'}
 						boldLabel
