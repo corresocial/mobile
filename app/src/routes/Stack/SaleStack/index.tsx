@@ -34,7 +34,7 @@ export function SaleStack() {
 	return (
 		<SaleProvider>
 			<Stack.Navigator
-				initialRouteName={'InsertSaleStartHour'}
+				initialRouteName={'SelectSaleCategory'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,

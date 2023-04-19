@@ -111,8 +111,7 @@ vacancyCollection = {
     vacancyType: enum('professional' | 'temporary' | 'beak')
     workplace: enum('homeoffice' | 'presential' | 'hybrid')
 	range: enum('near' | 'city' | 'country'),
-    companyDescription: 'string'
-    questions: string[]
+    importantPoints: string[]
     daysOfWeek: DaysOfWeek[]
     startHour: 'date'
     endHour: 'date'

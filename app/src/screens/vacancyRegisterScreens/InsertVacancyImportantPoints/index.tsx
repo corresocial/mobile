@@ -5,10 +5,9 @@ import uuid from 'react-uuid'
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import XWhiteIcon from '../../../assets/icons/x-white.svg'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
-import { InsertVacancyQuestionsScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
+import { InsertVacancyImportantPointsScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
@@ -20,12 +19,13 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
+import { SkipButton } from '../../../components/_buttons/SkipButton'
 
-function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProps) {
+function InsertVacancyImportantPoints({ navigation }: InsertVacancyImportantPointsScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
 
-	const [vacancyQuestion, setVacancyQuestion] = useState<string>('')
-	const [vacancyQuestions, setVacancyQuestions] = useState<string[]>([])
+	const [importantPointText, setImportantPointText] = useState('')
+	const [importantPointsList, setImportantPointsList] = useState<string[]>([])
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	const inputRefs = {
@@ -34,7 +34,7 @@ function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProp
 			useRef<React.MutableRefObject<any>>(null),
 			useRef<React.MutableRefObject<any>>(null)
 		],
-		vacancyQuestionInput: useRef<React.MutableRefObject<any>>(null),
+		importantPointTextInput: useRef<React.MutableRefObject<any>>(null),
 	}
 
 	useEffect(() => {
@@ -47,9 +47,9 @@ function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProp
 	}, [navigation])
 
 	useEffect(() => {
-	}, [vacancyQuestion, keyboardOpened])
+	}, [importantPointText, keyboardOpened])
 
-	const validateVacancyQuestions = (text: string) => {
+	const validateVacancyImportantPoints = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
 			return true
@@ -57,12 +57,12 @@ function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProp
 		return false
 	}
 
-	const renderVacanciesQuestionsSaved = () => {
-		if (!vacancyLength()) return null
-		return vacancyQuestions.map((currentQuestion, index) => (
+	const renderVacanciesImportantPointsSaved = () => {
+		if (!importantPointsLength()) return null
+		return importantPointsList.map((currentImportantPoint, index) => (
 			<LineInput
 				key={uuid()}
-				value={currentQuestion}
+				value={currentImportantPoint}
 				relativeWidth={'100%'}
 				textInputRef={inputRefs.inputCards[index]}
 				defaultBackgroundColor={theme.white2}
@@ -71,57 +71,57 @@ function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProp
 				validBorderBottomColor={theme.yellow5}
 				invalidBackgroundColor={theme.red1}
 				invalidBorderBottomColor={theme.red5}
-				editable={false}
 				maxLength={100}
 				lastInput
+				editable={false}
 				textAlign={'left'}
 				fontSize={16}
 				keyboardType={'default'}
 				textIsValid={true && !keyboardOpened}
-				onIconPress={() => removeQuestion(index)}
-				validateText={(text: string) => validateVacancyQuestions(text)}
-				onChangeText={(text: string) => { }}/* editQuestion(text, index) In case edit cardQuestion */
+				onIconPress={() => removeImportantPoint(index)}
+				validateText={(text: string) => validateVacancyImportantPoints(text)}
+				onChangeText={(text: string) => { }}/* editImportantPoint(text, index) In case edit cardImportantPoint */
 			/>
 		))
 	}
 
-	const vacancyLength = () => vacancyQuestions.length
+	const importantPointsLength = () => importantPointsList.length
 
-	const addNewQuestion = () => {
-		if (vacancyLength() === 3 || vacancyQuestion === '') return
-		setVacancyQuestions([...vacancyQuestions, vacancyQuestion])
-		setVacancyQuestion('')
+	const addNewImportantPoint = () => {
+		if (importantPointsLength() === 3 || importantPointText === '') return
+		setImportantPointsList([...importantPointsList, importantPointText])
+		setImportantPointText('')
+	}
+	/*
+		const editImportantPoint = (point: string, index: number) => {
+			const importantPoints = [...importantPointsList]
+			importantPoints[index] = point
+			setImportantPointsList(importantPoints)
+		} */
+
+	const removeImportantPoint = (index: number) => {
+		const importantPoints = [...importantPointsList]
+		delete importantPoints[index]
+		setImportantPointsList(importantPoints.filter((point) => point))
 	}
 
-	/* const editQuestion = (question: string, index: number) => {
-		const questions = [...vacancyQuestions]
-		questions[index] = question
-		setVacancyQuestions(questions)
-	} */
-
-	const removeQuestion = (index: number) => {
-		const questions = [...vacancyQuestions]
-		delete questions[index]
-		setVacancyQuestions(questions.filter((question) => !question))
+	const saveVacancyImportantPoints = () => {
+		setVacancyDataOnContext({ importantPoints: importantPointsList })
+		navigation.navigate('VacancyReview')
 	}
 
-	const saveVacancyQuestions = () => {
-		setVacancyDataOnContext({
-			questions: vacancyQuestions
-		})
-		navigation.navigate('InsertCompanyDescription')
-	}
+	const skipScreen = () => navigation.navigate('VacancyReview')
 
 	const getPlaceholder = () => {
-		switch (vacancyLength()) {
+		switch (importantPointsLength()) {
 			case 0: {
-				return '+ pergunta'
+				return '+ coisas importantes sobre você ou a vaga'
 			}
 			case 1: {
-				return '+ segunda pergunta'
+				return '+ segundo ponto'
 			}
 			case 2: {
-				return '+ terceira pergunta'
+				return '+ terceiro ponto'
 			}
 			default: return false
 		}
@@ -132,36 +132,39 @@ function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProp
 			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(26)}
-				relativeHeight={'22%'}
+				relativeHeight={relativeScreenHeight(26)}
 				centralized
 				backgroundColor={theme.yellow2}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
-					message={'quer adicionar até 3 perguntas para os candidatos?'}
-					highlightedWords={['adicionar', 'até', '3', 'perguntas']}
+					fontSize={17}
+					message={'quer adicionar até 3 pontos importantes?'}
+					highlightedWords={['adicionar', 'até', '3', 'pontos', 'importantes']}
 				>
 					<ProgressBar
+						value={5}
 						range={5}
-						value={2}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer
 				backgroundColor={theme.white2}
-				justifyContent={vacancyLength() < 1 ? 'center' : 'space-around'}
+				justifyContent={importantPointsLength() < 1 ? 'center' : 'space-around'}
 			>
 				<>
 					{
-						vacancyLength() < 3
+						/* !keyboardOpened && */ renderVacanciesImportantPointsSaved()
+					}
+					{
+						importantPointsLength() < 3
 						&& (
 							<LineInput
 								key={4}
-								value={vacancyQuestion}
+								value={importantPointText}
 								relativeWidth={'100%'}
-								textInputRef={inputRefs.vacancyQuestionInput}
+								textInputRef={inputRefs.importantPointTextInput}
 								defaultBackgroundColor={theme.white2}
 								defaultBorderBottomColor={theme.black4}
 								validBackgroundColor={theme.yellow1}
@@ -169,41 +172,48 @@ function InsertVacancyQuestions({ navigation }: InsertVacancyQuestionsScreenProp
 								invalidBackgroundColor={theme.red1}
 								invalidBorderBottomColor={theme.red5}
 								maxLength={100}
+								multiline={importantPointsList.length === 0}
 								lastInput
 								textAlign={'left'}
 								fontSize={16}
 								placeholder={getPlaceholder() || ''}
 								keyboardType={'default'}
-								onPressKeyboardSubmit={addNewQuestion}
+								onPressKeyboardSubmit={addNewImportantPoint}
 								validateText={(text: string) => false}
-								onChangeText={(text: string) => setVacancyQuestion(text)}
+								onChangeText={(text: string) => setImportantPointText(text)}
 							/>
 						)
-					}
-					{
-						!keyboardOpened && renderVacanciesQuestionsSaved()
 					}
 				</>
 				<ButtonsContainer>
 					{
-						!keyboardOpened
+						(importantPointsLength() > 0 && !keyboardOpened)
 						&& (
 							<PrimaryButton
-								flexDirection={'row-reverse'}
-								color={vacancyLength() < 1 ? theme.red3 : theme.green3}
-								label={vacancyLength() < 1 ? 'não precisa, continuar' : 'continuar'}
-								highlightedWords={['não', 'precisa']}
+								color={theme.green3}
+								label={'continuar'}
 								labelColor={theme.white3}
-								SvgIcon={vacancyLength() < 1 ? XWhiteIcon : CheckWhiteIcon}
-								svgIconScale={['30%', '15%']}
-								onPress={saveVacancyQuestions}
+								SecondSvgIcon={CheckWhiteIcon}
+								svgIconScale={['40%', '25%']}
+								onPress={saveVacancyImportantPoints}
 							/>
 						)
 					}
 				</ButtonsContainer>
+				{
+					(importantPointsLength() < 1 && !keyboardOpened)
+						? (
+							<SkipButton
+								customText={'pular'}
+								customHighlight={['pular']}
+								onPress={skipScreen}
+							/>
+						)
+						: <></>
+				}
 			</FormContainer>
 		</Container >
 	)
 }
 
-export { InsertVacancyQuestions }
+export { InsertVacancyImportantPoints }

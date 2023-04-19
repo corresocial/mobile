@@ -31,7 +31,7 @@ export function ServiceStack() {
 	return (
 		<ServiceProvider>
 			<Stack.Navigator
-				initialRouteName={'InsertServiceEndHour'}
+				initialRouteName={'SelectServiceCategory'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,

@@ -163,8 +163,8 @@ function LineInput({
 				width: relativeWidth,
 				...inputContainerStyle,
 			}}
-			activeOpacity={0}
-			underlayColor={validated ? validBackgroundColor : defaultBackgroundColor}
+			activeOpacity={onIconPress ? 0.8 : 0}
+			underlayColor={onIconPress ? 'transparent ' : validated ? validBackgroundColor : defaultBackgroundColor}
 			onPress={() => textInputRef.current.focus()}
 		>
 			<View
@@ -203,13 +203,13 @@ function LineInput({
 				{
 					onIconPress
 					&& (
-						<TouchableOpacity onPress={onIconPress}>
+						<TouchableOpacity onPress={onIconPress} >
 							<FontAwesome5
 								name={'minus'}
 								size={RFValue(20)}
 								color={validBorderBottomColor}
 								style={{
-									padding: 15
+									padding: 15,
 								}}
 							/>
 						</TouchableOpacity>

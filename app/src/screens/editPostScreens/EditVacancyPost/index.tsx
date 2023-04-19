@@ -205,13 +205,6 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 				/>
 				<Sigh />
 				<EditCard
-					title={'descrição da empresa'}
-					highlightedWords={['descrição']}
-					value={getPostField('companyDescription') || '---'}
-					onEdit={() => navigateToEditScreen('InsertCompanyDescription', 'companyDescription')}
-				/>
-				<Sigh />
-				<EditCard
 					title={'tipo de vaga'}
 					highlightedWords={['tipo']}
 					value={getRelativeVacancyType() || '---'}

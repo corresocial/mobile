@@ -29,7 +29,7 @@ function InsertVacancyEndHour({ route, navigation }: InsertVacancyEndHourScreenP
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('VacancyReview')
+	const skipScreen = () => navigation.navigate('InsertVacancyImportantPoints')
 
 	const saveEndTime = (hour: string, minutes: string) => {
 		const endHour = new Date()
@@ -42,7 +42,7 @@ function InsertVacancyEndHour({ route, navigation }: InsertVacancyEndHourScreenP
 		}
 
 		setVacancyDataOnContext({ endHour })
-		navigation.navigate('VacancyReview')
+		navigation.navigate('InsertVacancyImportantPoints')
 	}
 
 	return (

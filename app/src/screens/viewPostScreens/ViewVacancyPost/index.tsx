@@ -272,13 +272,6 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 							</>
 						)
 					}
-					<Sigh />
-					<DescriptionCard
-						title={'sobre a empresa'}
-						text={getPostField('companyDescription')}
-						textFontSize={14}
-						company
-					/>
 					<LastSigh />
 				</ScrollView>
 			</Body>

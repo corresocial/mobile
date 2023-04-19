@@ -32,7 +32,7 @@ export function SocialImpactStack() {
 	return (
 		<SocialImpactProvider>
 			<Stack.Navigator
-				initialRouteName={'InsertSocialImpactStartDate'}
+				initialRouteName={'SelectSocialImpactCategory'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,

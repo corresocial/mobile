@@ -128,8 +128,7 @@ export type VacancyData = {
 	workplace?: WorkplaceType
 	paymentType?: PaymentType
 	range?: PostRange
-	companyDescription?: string
-	questions?: string[]
+	importantPoints?: string[]
 	workFrequency?: WeekdaysFrequency
 	daysOfWeek?: DaysOfWeek[]
 	startDate?: Date
