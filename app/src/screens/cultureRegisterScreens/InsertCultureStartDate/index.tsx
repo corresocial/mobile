@@ -55,7 +55,7 @@ function InsertCultureStartDate({ route, navigation }: InsertCultureStartDateScr
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
-				saveStartDate={saveCultureStartDate}
+				saveDate={saveCultureStartDate}
 			/>
 		</>
 	)

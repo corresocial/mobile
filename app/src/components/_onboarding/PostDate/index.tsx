@@ -30,7 +30,7 @@ interface PostDateProps {
 	keyboardOpened: boolean
 	navigateBackwards: () => void
 	skipScreen?: () => void
-	saveStartDate: (year: string, month: string, day: string) => void
+	saveDate: (year: string, month: string, day: string) => void
 }
 
 function PostDate({
@@ -45,7 +45,7 @@ function PostDate({
 	keyboardOpened,
 	navigateBackwards,
 	skipScreen,
-	saveStartDate
+	saveDate
 }: PostDateProps) {
 	const initialTime = initialValue ? formatDate(initialValue as Date) : false
 
@@ -109,33 +109,33 @@ function PostDate({
 		return data.getDate()
 	}
 
-	const insertedDateIsAfterCurrentDate = (insertedYear: string, insertedMonth: string, insertedDay: string) => {
-		const insertedDate = new Date(`${insertedYear}-${insertedMonth}-${insertedDay}T23:59:59`)
+	const insertedDateIsAfterCurrentDate = () => {
+		const insertedDate = new Date(`${year}-${month}-${day}T23:59:59`)
 		const currentDate = new Date()
 		const currentDateWithoutTimezone = new Date(`${currentDate.getUTCFullYear()}-${(currentDate.getUTCMonth() + 1 < 10) ? `0${currentDate.getUTCMonth() + 1}` : currentDate.getUTCMonth() + 1}-${(currentDate.getUTCDate() < 10) ? `0${currentDate.getUTCDate()}` : currentDate.getUTCDate()}`)
 		return insertedDate >= currentDateWithoutTimezone
 	}
 
-	const endDateIsBiggerOfStartDate = (insertedYear: string, insertedMonth: string, insertedDay: string) => {
+	const endDateIsBiggerOfStartDate = () => {
 		if (editMode) return true
 
-		const insertedDate = new Date(`${insertedYear}-${insertedMonth}-${insertedDay}T23:59:59`)
+		const insertedDate = new Date(`${year}-${month}-${day}T23:59:59`)
 		const contextStartDate = startDate || new Date()
 		return contextStartDate.getTime() < insertedDate.getTime()
 	}
 
 	const savePostDate = () => {
 		if (startDate) {
-			if (!endDateIsBiggerOfStartDate(year, month, day)) {
+			if (!endDateIsBiggerOfStartDate()) {
 				setInvalidDateAfterSubmit(true)
 				return
 			}
-		} else if (!insertedDateIsAfterCurrentDate(year, month, day)) {
+		} else if (!insertedDateIsAfterCurrentDate()) {
 			setInvalidDateAfterSubmit(true)
 			return
 		}
 
-		saveStartDate(year, month, day)
+		saveDate(year, month, day)
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))

@@ -10,7 +10,7 @@ import { InsertSocialImpactStartHourScreenProps } from '../../../routes/Stack/So
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { EditContext } from '../../../contexts/EditContext'
 
-import { PostStartTime } from '../../../components/_onboarding/PostStartTime'
+import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertSocialImpactStartHour({ route, navigation }: InsertSocialImpactStartHourScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
@@ -31,7 +31,7 @@ function InsertSocialImpactStartHour({ route, navigation }: InsertSocialImpactSt
 
 	const skipScreen = () => navigation.navigate('InsertSocialImpactEndDate')
 
-	const saveOpeningHour = (hour: string, minutes: string) => {
+	const saveEndTime = (hour: string, minutes: string) => {
 		const startHour = new Date()
 		startHour.setHours(parseInt(hour), parseInt(minutes))
 
@@ -48,7 +48,7 @@ function InsertSocialImpactStartHour({ route, navigation }: InsertSocialImpactSt
 	return (
 		<>
 			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
-			<PostStartTime
+			<PostTime
 				backgroundColor={theme.pink2}
 				validationColor={theme.pink1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
@@ -56,7 +56,7 @@ function InsertSocialImpactStartHour({ route, navigation }: InsertSocialImpactSt
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
-				saveStartHour={saveOpeningHour}
+				saveTime={saveEndTime}
 			/>
 		</>
 	)

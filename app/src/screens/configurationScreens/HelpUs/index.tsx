@@ -12,7 +12,7 @@ import RightCurvedArrowIcon from '../../../assets/icons/rightCurvedArrow.svg'
 
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 
-import { HelpUsScreenProps } from '../../../routes/Stack/userStack/stackScreenProps'
+import { HelpUsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'

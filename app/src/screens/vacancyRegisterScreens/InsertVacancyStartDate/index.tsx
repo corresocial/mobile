@@ -55,7 +55,7 @@ function InsertVacancyStartDate({ route, navigation }: InsertVacancyStartDateScr
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
-				saveStartDate={saveVacancyStartDate}
+				saveDate={saveVacancyStartDate}
 			/>
 		</>
 	)

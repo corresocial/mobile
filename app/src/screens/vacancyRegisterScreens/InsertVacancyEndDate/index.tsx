@@ -13,7 +13,7 @@ import { PostDate } from '../../../components/_onboarding/PostDate'
 
 function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenProps) {
 	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -52,13 +52,13 @@ function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenP
 				customTitle={'quando termina?'}
 				customHighlight={['termina']}
 				editMode={editModeIsTrue()}
-				startDate={vacancyDataContext.startDate}
+				startDate={editDataContext.unsaved.startDate || vacancyDataContext.startDate}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
-				saveStartDate={saveVacancyStartDate}
+				saveDate={saveVacancyStartDate}
 			/>
 		</>
 	)

@@ -23,6 +23,7 @@ import { InsertServiceEndHour } from '../../../screens/serviceRegisterScreens/In
 import { ServiceProvider } from '../../../contexts/ServiceContext'
 import { SelectSaleValueType } from '../../../screens/serviceRegisterScreens/SelectSaleValueType'
 import { SelectServiceRange } from '../../../screens/serviceRegisterScreens/SelectServiceRange'
+import { ServiceReview } from '../../../screens/serviceRegisterScreens/ServiceReview'
 
 const Stack = createStackNavigator<ServiceStackParamList>()
 
@@ -30,7 +31,7 @@ export function ServiceStack() {
 	return (
 		<ServiceProvider>
 			<Stack.Navigator
-				initialRouteName={'InsertServiceStartHour'}
+				initialRouteName={'InsertServiceEndHour'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
@@ -56,6 +57,7 @@ export function ServiceStack() {
 				<Stack.Screen name={'SelectServiceDaysOfWeek'} component={SelectServiceDaysOfWeek} />
 				<Stack.Screen name={'InsertServiceStartHour'} component={InsertServiceStartHour} />
 				<Stack.Screen name={'InsertServiceEndHour'} component={InsertServiceEndHour} />
+				<Stack.Screen name={'ServiceReview'} component={ServiceReview} />
 			</Stack.Navigator>
 		</ServiceProvider>
 	)

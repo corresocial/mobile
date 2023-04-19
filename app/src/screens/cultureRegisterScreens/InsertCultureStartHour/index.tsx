@@ -10,7 +10,7 @@ import { InsertCultureStartHourScreenProps } from '../../../routes/Stack/Culture
 import { CultureContext } from '../../../contexts/CultureContext'
 import { EditContext } from '../../../contexts/EditContext'
 
-import { PostStartTime } from '../../../components/_onboarding/PostStartTime'
+import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertCultureStartHour({ route, navigation }: InsertCultureStartHourScreenProps) {
 	const { setCultureDataOnContext } = useContext(CultureContext)
@@ -31,7 +31,7 @@ function InsertCultureStartHour({ route, navigation }: InsertCultureStartHourScr
 
 	const skipScreen = () => navigation.navigate('InsertCultureEndDate')
 
-	const saveOpeningHour = (hour: string, minutes: string) => {
+	const saveEndTime = (hour: string, minutes: string) => {
 		const startHour = new Date()
 		startHour.setHours(parseInt(hour), parseInt(minutes))
 
@@ -48,7 +48,7 @@ function InsertCultureStartHour({ route, navigation }: InsertCultureStartHourScr
 	return (
 		<>
 			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
-			<PostStartTime
+			<PostTime
 				backgroundColor={theme.blue2}
 				validationColor={theme.blue1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
@@ -56,7 +56,7 @@ function InsertCultureStartHour({ route, navigation }: InsertCultureStartHourScr
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
-				saveStartHour={saveOpeningHour}
+				saveTime={saveEndTime}
 			/>
 		</>
 	)

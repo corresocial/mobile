@@ -55,7 +55,7 @@ function InsertSocialImpactStartDate({ route, navigation }: InsertSocialImpactSt
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
-				saveStartDate={saveSocialImpactStartDate}
+				saveDate={saveSocialImpactStartDate}
 			/>
 		</>
 	)

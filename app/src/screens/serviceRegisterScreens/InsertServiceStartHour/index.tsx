@@ -10,7 +10,7 @@ import { InsertServiceStartHourScreenProps } from '../../../routes/Stack/Service
 import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
 
-import { PostStartTime } from '../../../components/_onboarding/PostStartTime'
+import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertServiceStartHour({ route, navigation }: InsertServiceStartHourScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
@@ -31,7 +31,7 @@ function InsertServiceStartHour({ route, navigation }: InsertServiceStartHourScr
 
 	const skipScreen = () => navigation.navigate('InsertServiceEndHour')
 
-	const saveOpeningHour = (hour: string, minutes: string) => {
+	const saveEndTime = (hour: string, minutes: string) => {
 		const startHour = new Date()
 		startHour.setHours(parseInt(hour), parseInt(minutes))
 
@@ -48,7 +48,7 @@ function InsertServiceStartHour({ route, navigation }: InsertServiceStartHourScr
 	return (
 		<>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
-			<PostStartTime
+			<PostTime
 				backgroundColor={theme.purple2}
 				validationColor={theme.purple1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
@@ -56,7 +56,7 @@ function InsertServiceStartHour({ route, navigation }: InsertServiceStartHourScr
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
-				saveStartHour={saveOpeningHour}
+				saveTime={saveEndTime}
 			/>
 		</>
 	)

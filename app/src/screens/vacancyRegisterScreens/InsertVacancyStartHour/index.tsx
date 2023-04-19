@@ -10,7 +10,7 @@ import { InsertVacancyStartHourScreenProps } from '../../../routes/Stack/Vacancy
 import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
-import { PostStartTime } from '../../../components/_onboarding/PostStartTime'
+import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertVacancyStartHour({ route, navigation }: InsertVacancyStartHourScreenProps) {
 	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
@@ -31,7 +31,7 @@ function InsertVacancyStartHour({ route, navigation }: InsertVacancyStartHourScr
 
 	const skipScreen = () => navigation.navigate('InsertVacancyEndDate')
 
-	const saveOpeningHour = (hour: string, minutes: string) => {
+	const saveEndTime = (hour: string, minutes: string) => {
 		const startHour = new Date()
 		startHour.setHours(parseInt(hour), parseInt(minutes))
 
@@ -52,7 +52,7 @@ function InsertVacancyStartHour({ route, navigation }: InsertVacancyStartHourScr
 	return (
 		<>
 			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
-			<PostStartTime
+			<PostTime
 				backgroundColor={theme.yellow2}
 				validationColor={theme.yellow1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
@@ -60,7 +60,7 @@ function InsertVacancyStartHour({ route, navigation }: InsertVacancyStartHourScr
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
-				saveStartHour={saveOpeningHour}
+				saveTime={saveEndTime}
 			/>
 		</>
 	)

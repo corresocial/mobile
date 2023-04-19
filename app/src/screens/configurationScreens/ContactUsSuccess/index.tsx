@@ -5,7 +5,7 @@ import { Container, Body } from './styles'
 import { theme } from '../../../common/theme'
 import CheckIcon from '../../../assets/icons/check-white.svg'
 
-import { ContactUsSuccessScreenProps } from '../../../routes/Stack/userStack/stackScreenProps'
+import { ContactUsSuccessScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'

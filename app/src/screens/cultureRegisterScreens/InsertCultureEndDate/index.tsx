@@ -13,7 +13,7 @@ import { PostDate } from '../../../components/_onboarding/PostDate'
 
 function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenProps) {
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -52,13 +52,13 @@ function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenP
 				customTitle={'quando termina?'}
 				customHighlight={['termina']}
 				editMode={editModeIsTrue()}
-				startDate={cultureDataContext.startDate}
+				startDate={editDataContext.unsaved.startDate || cultureDataContext.startDate}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
-				saveStartDate={saveCultureStartDate}
+				saveDate={saveCultureStartDate}
 			/>
 		</>
 	)

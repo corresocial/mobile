@@ -8,7 +8,7 @@ import CheckIcon from '../../../assets/icons/check-white.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { ContactUsInsertMessageScreenProps } from '../../../routes/Stack/userStack/stackScreenProps'
+import { ContactUsInsertMessageScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 

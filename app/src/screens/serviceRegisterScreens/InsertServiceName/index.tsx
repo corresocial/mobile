@@ -53,7 +53,7 @@ function InsertServiceName({ route, navigation }: InsertServiceNameScreenProps) 
 			<PostInputText
 				backgroundColor={theme.purple2}
 				validationColor={theme.purple1}
-				inputPlaceholder={'ex: televisão 40"'}
+				inputPlaceholder={'ex: marcenaria'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[2, 5]}
 				keyboardOpened={keyboardOpened}

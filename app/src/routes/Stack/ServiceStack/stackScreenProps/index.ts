@@ -21,3 +21,4 @@ export type SelectServiceFrequencyScreenProps = NativeStackScreenProps<ServiceSt
 export type SelectServiceDaysOfWeekScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectServiceDaysOfWeek'>
 export type InsertServiceStartHourScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertServiceStartHour'>
 export type InsertServiceEndHourScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertServiceEndHour'>
+export type ServiceReviewScreenProps = NativeStackScreenProps<ServiceStackParamList, 'ServiceReview'>

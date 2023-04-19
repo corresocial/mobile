@@ -10,7 +10,7 @@ import { InsertSaleStartHourScreenProps } from '../../../routes/Stack/SaleStack/
 import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
 
-import { PostStartTime } from '../../../components/_onboarding/PostStartTime'
+import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertSaleStartHour({ route, navigation }: InsertSaleStartHourScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
@@ -31,7 +31,7 @@ function InsertSaleStartHour({ route, navigation }: InsertSaleStartHourScreenPro
 
 	const skipScreen = () => navigation.navigate('InsertSaleEndHour')
 
-	const saveOpeningHour = (hour: string, minutes: string) => {
+	const saveEndTime = (hour: string, minutes: string) => {
 		const startHour = new Date()
 		startHour.setHours(parseInt(hour), parseInt(minutes))
 
@@ -48,7 +48,7 @@ function InsertSaleStartHour({ route, navigation }: InsertSaleStartHourScreenPro
 	return (
 		<>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
-			<PostStartTime
+			<PostTime
 				backgroundColor={theme.green2}
 				validationColor={theme.green1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
@@ -56,7 +56,7 @@ function InsertSaleStartHour({ route, navigation }: InsertSaleStartHourScreenPro
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
-				saveStartHour={saveOpeningHour}
+				saveTime={saveEndTime}
 			/>
 		</>
 	)
