@@ -21,12 +21,12 @@ function SelectWorkWeekdays({ route, navigation }: SelectWorkWeekdaysScreenProps
 
 	const saveWorkWeekdays = (selectedDaysOfWeek: DaysOfWeek[]) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ workWeekdays: selectedDaysOfWeek })
+			addNewUnsavedFieldToEditContext({ daysOfWeek: selectedDaysOfWeek })
 			navigation.goBack()
 			return
 		}
 
-		setVacancyDataOnContext({ workWeekdays: selectedDaysOfWeek })
+		setVacancyDataOnContext({ daysOfWeek: selectedDaysOfWeek })
 		navigation.navigate('InsertVacancyStartHour')
 	}
 

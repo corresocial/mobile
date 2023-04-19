@@ -27,7 +27,7 @@ function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScr
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({
 						attendanceFrequency: serviceFrequency,
-						attendanceWeekDays: [daysOfWeek[new Date().getDay()]]
+						daysOfWeek: [daysOfWeek[new Date().getDay()]]
 					})
 					navigation.goBack()
 					return
@@ -35,7 +35,7 @@ function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScr
 
 				setServiceDataOnContext({
 					attendanceFrequency: serviceFrequency,
-					attendanceWeekDays: [daysOfWeek[new Date().getDay()]]
+					daysOfWeek: [daysOfWeek[new Date().getDay()]]
 				})
 				navigation.navigate('InsertServiceStartHour')
 				break
@@ -44,7 +44,7 @@ function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScr
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({
 						attendanceFrequency: serviceFrequency,
-						attendanceWeekDays: [...daysOfWeek]
+						daysOfWeek: [...daysOfWeek]
 					})
 					navigation.goBack()
 					return
@@ -52,7 +52,7 @@ function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScr
 
 				setServiceDataOnContext({
 					attendanceFrequency: serviceFrequency,
-					attendanceWeekDays: [...daysOfWeek]
+					daysOfWeek: [...daysOfWeek]
 				})
 				navigation.navigate('InsertServiceStartHour')
 				break
@@ -66,7 +66,7 @@ function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScr
 					})
 				}
 
-				navigation.navigate('SelectDaysOfWeek', {
+				navigation.navigate('SelectServiceDaysOfWeek', {
 					editMode: !!route.params?.editMode,
 					initialValue: route.params?.initialValue as DaysOfWeek[]
 				})
@@ -76,7 +76,7 @@ function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScr
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({
 						attendanceFrequency: serviceFrequency,
-						attendanceWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
+						daysOfWeek: ['seg', 'ter', 'qua', 'qui', 'sex']
 					})
 					navigation.goBack()
 					return
@@ -84,7 +84,7 @@ function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScr
 
 				setServiceDataOnContext({
 					attendanceFrequency: serviceFrequency,
-					attendanceWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
+					daysOfWeek: ['seg', 'ter', 'qua', 'qui', 'sex']
 				})
 				navigation.navigate('InsertServiceStartHour')
 				break

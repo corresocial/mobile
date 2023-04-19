@@ -27,7 +27,7 @@ function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScr
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({
 						workFrequency: vacancyFrequency,
-						workWeekdays: [daysOfWeek[new Date().getDay()]]
+						daysOfWeek: [daysOfWeek[new Date().getDay()]]
 					})
 					navigation.goBack()
 					return
@@ -35,7 +35,7 @@ function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScr
 
 				setVacancyDataOnContext({
 					workFrequency: vacancyFrequency,
-					workWeekdays: [daysOfWeek[new Date().getDay()]]
+					daysOfWeek: [daysOfWeek[new Date().getDay()]]
 				})
 				navigation.navigate('InsertVacancyStartHour')
 				break
@@ -44,7 +44,7 @@ function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScr
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({
 						workFrequency: vacancyFrequency,
-						workWeekdays: [...daysOfWeek]
+						daysOfWeek: [...daysOfWeek]
 					})
 					navigation.goBack()
 					return
@@ -52,7 +52,7 @@ function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScr
 
 				setVacancyDataOnContext({
 					workFrequency: vacancyFrequency,
-					workWeekdays: [...daysOfWeek]
+					daysOfWeek: [...daysOfWeek]
 				})
 				navigation.navigate('InsertVacancyStartHour')
 				break
@@ -74,7 +74,7 @@ function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScr
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({
 						workFrequency: vacancyFrequency,
-						workWeekdays: ['seg', 'ter', 'qua', 'qui', 'sex']
+						daysOfWeek: ['seg', 'ter', 'qua', 'qui', 'sex']
 					})
 					navigation.goBack()
 					return
@@ -82,7 +82,7 @@ function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScr
 
 				setVacancyDataOnContext({
 					workFrequency: vacancyFrequency,
-					workWeekdays: ['seg', 'ter', 'qua', 'qui', 'sex']
+					daysOfWeek: ['seg', 'ter', 'qua', 'qui', 'sex']
 				})
 				navigation.navigate('InsertVacancyStartHour')
 				break

@@ -3,39 +3,39 @@ import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 
-import { SelectDaysOfWeekScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
+import { SelectServiceDaysOfWeekScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { DaysOfWeek } from '../../../services/firebase/types'
 
-import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostDaysOfWeek } from '../../../components/_onboarding/PostDaysOfWeek'
 
-function SelectDaysOfWeek({ route, navigation }: SelectDaysOfWeekScreenProps) {
-	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+function SelectServiceDaysOfWeek({ route, navigation }: SelectServiceDaysOfWeekScreenProps) {
+	const { setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('SelectSocialImpactRepeat')
+	const skipScreen = () => navigation.navigate('InsertServiceStartHour')
 
 	const saveDaysOfWeek = (selectedDaysOfWeek: DaysOfWeek[]) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ exhibitionWeekDays: selectedDaysOfWeek })
+			addNewUnsavedFieldToEditContext({ daysOfWeek: selectedDaysOfWeek })
 			navigation.goBack()
 			return
 		}
 
-		setSocialImpactDataOnContext({ exhibitionWeekDays: selectedDaysOfWeek })
-		navigation.navigate('SelectSocialImpactRepeat')
+		setServiceDataOnContext({ daysOfWeek: selectedDaysOfWeek })
+		navigation.navigate('InsertServiceStartHour')
 	}
 
 	return (
 		<>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<PostDaysOfWeek
-				backgroundColor={theme.pink2}
-				validationColor={theme.pink1}
+				backgroundColor={theme.purple2}
+				validationColor={theme.purple1}
 				progress={[5, 5]}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : []}
 				skipScreen={skipScreen}
@@ -46,4 +46,4 @@ function SelectDaysOfWeek({ route, navigation }: SelectDaysOfWeekScreenProps) {
 	)
 }
 
-export { SelectDaysOfWeek }
+export { SelectServiceDaysOfWeek }

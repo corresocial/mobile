@@ -21,7 +21,7 @@ import { CultureLocationViewPreview } from '../../../screens/cultureRegisterScre
 import { InsertCultureEndHour } from '../../../screens/cultureRegisterScreens/InsertCultureEndHour'
 import { SelectEventRepeat } from '../../../screens/cultureRegisterScreens/SelectEventRepeat'
 import { SelectCultureFrequency } from '../../../screens/cultureRegisterScreens/SelectCultureFrequency'
-import { SelectDaysOfWeek } from '../../../screens/cultureRegisterScreens/SelectDaysOfWeek'
+import { SelectCultureDaysOfWeek } from '../../../screens/cultureRegisterScreens/SelectCultureDaysOfWeek'
 import { InsertCultureStartDate } from '../../../screens/cultureRegisterScreens/InsertCultureStartDate'
 import { InsertCultureStartHour } from '../../../screens/cultureRegisterScreens/InsertCultureStartHour'
 import { InsertCultureEndDate } from '../../../screens/cultureRegisterScreens/InsertCultureEndDate'
@@ -52,7 +52,7 @@ export function CultureStack() {
 				<Stack.Screen name={'InsertCultureLocation'} component={InsertCultureLocation} />
 				<Stack.Screen name={'CultureLocationViewPreview'} component={CultureLocationViewPreview} />
 				<Stack.Screen name={'SelectCultureFrequency'} component={SelectCultureFrequency} />
-				<Stack.Screen name={'SelectDaysOfWeek'} component={SelectDaysOfWeek} />
+				<Stack.Screen name={'SelectCultureDaysOfWeek'} component={SelectCultureDaysOfWeek} />
 				<Stack.Screen name={'InsertCultureStartDate'} component={InsertCultureStartDate} />
 				<Stack.Screen name={'InsertCultureStartHour'} component={InsertCultureStartHour} />
 				<Stack.Screen name={'InsertCultureEndDate'} component={InsertCultureEndDate} />

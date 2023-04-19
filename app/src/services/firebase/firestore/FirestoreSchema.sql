@@ -38,7 +38,7 @@ serviceCollection: {
 	exchangeValue: 'string'
     range: enum('unavailable' | 'near' | 'city' | 'country'),
     attendanceFrequency: enum('today' | 'everyday' | 'someday' | 'businessDay')
-    attendanceWeekDays: 'array[string]',
+    daysOfWeek: 'array[string]',
     startHour: 'date',
     endHour: 'date',
     createdAt: 'date',
@@ -76,7 +76,7 @@ saleCollection = {
     locationView: enum('private' | 'approximate' | 'public'),
     range: enum('unavailable' | 'near' | 'city' | 'country'),
     attendanceFrequency: enum('today' | 'everyday' | 'someday' | 'businessDay')
-    attendanceWeekDays: 'array[string]',
+    daysOfWeek: 'array[string]',
     startHour: 'date',
     endHour: 'date',
     picturesUrl: 'array[string]',
@@ -113,7 +113,7 @@ vacancyCollection = {
 	range: enum('near' | 'city' | 'country'),
     companyDescription: 'string'
     questions: string[]
-    workWeekdays: DaysOfWeek[]
+    daysOfWeek: DaysOfWeek[]
     startHour: 'date'
     endHour: 'date'
     tags: string[]
@@ -188,7 +188,7 @@ socialImpactCollection: {
 	tags: 'array[string]',
 	locationView: enum('private' | 'approximate' | 'public'),
 	range: enum('near' | 'city' | 'country'),
-	exhibitionWeekDays: 'array[string]',
+	daysOfWeek: 'array[string]',
 	repeat: enum('unrepeatable' | 'weekly' | 'everyDay' | 'biweekly' | 'monthly'),
 	startHour: 'date',
 	endHour: 'date',

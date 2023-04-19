@@ -18,7 +18,7 @@ export type ServiceStackParamList = {
 	ServiceLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
 	SelectDeliveryMethod: { editMode: boolean } | undefined
 	SelectServiceFrequency: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
-	SelectDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
+	SelectServiceDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
 	InsertServiceStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertServiceEndHour: { editMode: boolean, initialValue: Date } | undefined
 } & UserStackParamList

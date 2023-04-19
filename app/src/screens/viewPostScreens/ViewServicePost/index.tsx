@@ -272,7 +272,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					<DateTimeCard
 						title={'dias e horários'}
 						weekDaysfrequency={getPostField('attendanceFrequency')}
-						daysOfWeek={getPostField('attendanceWeekDays')}
+						daysOfWeek={getPostField('daysOfWeek')}
 						openingTime={getPostField('startHour')}
 						closingTime={getPostField('endHour')}
 						textFontSize={14}

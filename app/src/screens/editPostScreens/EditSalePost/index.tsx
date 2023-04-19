@@ -57,10 +57,10 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 	}
 
 	const formatDaysOfWeek = () => {
-		const attendanceWeekDays = getPostField('attendanceWeekDays') || []
+		const daysOfWeek = getPostField('daysOfWeek') || []
 
 		const allDaysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
-		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => attendanceWeekDays.includes(weekDay))
+		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => daysOfWeek.includes(weekDay))
 		return ordenedDaysOfWeek.toString().split(',').join(', ')
 	}
 
@@ -340,7 +340,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 					title={'dias da semana'}
 					highlightedWords={['semana']}
 					value={formatDaysOfWeek() || '---'}
-					onEdit={() => navigateToEditScreen('SelectSaleFrequency', 'attendanceWeekDays')}
+					onEdit={() => navigateToEditScreen('SelectSaleFrequency', 'daysOfWeek')}
 				/>
 				<Sigh />
 				<EditCard

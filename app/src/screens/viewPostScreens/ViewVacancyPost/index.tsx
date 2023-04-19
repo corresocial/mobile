@@ -250,7 +250,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 					<DateTimeCard
 						title={'dias e horários'}
 						weekDaysfrequency={'someday'}
-						daysOfWeek={getPostField('vacancyType') === 'professional' ? getPostField('workWeekdays') : []}
+						daysOfWeek={getPostField('vacancyType') === 'professional' ? getPostField('daysOfWeek') : []}
 						openingTime={getPostField('startHour')}
 						closingTime={getPostField('endHour')}
 						startDate={getPostField('startDate')}

@@ -151,7 +151,7 @@ export type ServiceCollection = {
 	range?: PostRange
 	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
-	attendanceWeekDays?: DaysOfWeek[]
+	daysOfWeek?: DaysOfWeek[]
 	startHour?: Date
 	endHour?: Date
 	picturesUrl?: string[]
@@ -194,7 +194,7 @@ export type ServiceCollectionRemote = {
 	range?: PostRange
 	deliveryMethod?: DeliveryMethod
 	attendanceFrequency: WeekdaysFrequency
-	attendanceWeekDays?: DaysOfWeek[]
+	daysOfWeek?: DaysOfWeek[]
 	startHour: Date
 	endHour: Date
 	picturesUrl: string[]
@@ -239,7 +239,7 @@ export type SaleCollection = {
 	range?: PostRange
 	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
-	attendanceWeekDays?: DaysOfWeek[]
+	daysOfWeek?: DaysOfWeek[]
 	startHour?: Date
 	endHour?: Date
 	picturesUrl?: string[]
@@ -284,7 +284,7 @@ export type SaleCollectionRemote = {
 	range?: PostRange
 	deliveryMethod?: DeliveryMethod
 	attendanceFrequency: WeekdaysFrequency
-	attendanceWeekDays: DaysOfWeek[]
+	daysOfWeek: DaysOfWeek[]
 	startHour: Date
 	endHour: Date
 	picturesUrl: string[]
@@ -323,7 +323,7 @@ export type VacancyCollection = {
 	range?: ExhibitionPlaceType
 	companyDescription?: string
 	questions?: string[]
-	workWeekdays?: DaysOfWeek[]
+	daysOfWeek?: DaysOfWeek[]
 	startDate?: Date
 	endWorkDate?: Date
 	startHour?: Date
@@ -365,7 +365,7 @@ export type VacancyCollectionRemote = {
 	range?: ExhibitionPlaceType
 	companyDescription: string
 	questions: string[]
-	workWeekdays: DaysOfWeek[]
+	daysOfWeek: DaysOfWeek[]
 	startDate: Date
 	endWorkDate: Date
 	startHour: Date
@@ -490,7 +490,7 @@ export type SocialImpactCollection = {
 	category?: string
 	locationView?: LocationViewType
 	range?: ExhibitionPlaceType
-	exhibitionWeekDays?: DaysOfWeek[]
+	daysOfWeek?: DaysOfWeek[]
 	repeat?: EventRepeatType,
 	startHour?: Date
 	endHour?: Date
@@ -529,7 +529,7 @@ export type SocialImpactCollectionRemote = {
 	category: string
 	locationView: LocationViewType
 	range: ExhibitionPlaceType
-	exhibitionWeekDays: DaysOfWeek[]
+	daysOfWeek: DaysOfWeek[]
 	repeat: EventRepeatType,
 	startHour: Date
 	endHour: Date

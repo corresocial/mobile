@@ -17,7 +17,7 @@ import { SelectSocialImpactRange } from '../../../screens/socialImpactRegisterSc
 import { InsertSocialImpactLocation } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactLocation'
 import { SocialImpactLocationViewPreview } from '../../../screens/socialImpactRegisterScreens/SocialImpactLocationViewPreview'
 import { SelectSocialImpactExhibitionRange } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactExhibitionRange'
-import { SelectDaysOfWeek } from '../../../screens/socialImpactRegisterScreens/SelectDaysOfWeek'
+import { SelectSocialImpactDaysOfWeek } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactDaysOfWeek'
 import { InsertSocialImpactStartHour } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactStartHour'
 import { InsertSocialImpactEndHour } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactEndHour'
 import { SelectSocialImpactRepeat } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactRepeat'
@@ -49,7 +49,7 @@ export function SocialImpactStack() {
 				<Stack.Screen name={'SocialImpactLocationViewPreview'} component={SocialImpactLocationViewPreview} />
 				<Stack.Screen name={'SelectSocialImpactExhibitionRange'} component={SelectSocialImpactExhibitionRange} />
 				<Stack.Screen name={'SelectSocialImpactFrequency'} component={SelectSocialImpactFrequency} />
-				<Stack.Screen name={'SelectDaysOfWeek'} component={SelectDaysOfWeek} />
+				<Stack.Screen name={'SelectSocialImpactDaysOfWeek'} component={SelectSocialImpactDaysOfWeek} />
 				<Stack.Screen name={'InsertSocialImpactStartDate'} component={InsertSocialImpactStartDate} />
 				<Stack.Screen name={'InsertSocialImpactStartHour'} component={InsertSocialImpactStartHour} />
 				<Stack.Screen name={'InsertSocialImpactEndHour'} component={InsertSocialImpactEndHour} />

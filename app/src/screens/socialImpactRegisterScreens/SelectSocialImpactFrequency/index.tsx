@@ -27,7 +27,7 @@ function SelectSocialImpactFrequency({ route, navigation }: SelectSocialImpactFr
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({
 						exhibitionFrequency: socialImpactFrequency,
-						exhibitionWeekDays: [daysOfWeek[new Date().getDay()]]
+						daysOfWeek: [daysOfWeek[new Date().getDay()]]
 					})
 					navigation.goBack()
 					return
@@ -35,7 +35,7 @@ function SelectSocialImpactFrequency({ route, navigation }: SelectSocialImpactFr
 
 				setSocialImpactDataOnContext({
 					exhibitionFrequency: socialImpactFrequency,
-					exhibitionWeekDays: [daysOfWeek[new Date().getDay()]]
+					daysOfWeek: [daysOfWeek[new Date().getDay()]]
 				})
 				navigation.navigate('SelectSocialImpactRepeat')
 				break
@@ -44,7 +44,7 @@ function SelectSocialImpactFrequency({ route, navigation }: SelectSocialImpactFr
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({
 						exhibitionFrequency: socialImpactFrequency,
-						exhibitionWeekDays: [...daysOfWeek]
+						daysOfWeek: [...daysOfWeek]
 					})
 					navigation.goBack()
 					return
@@ -52,7 +52,7 @@ function SelectSocialImpactFrequency({ route, navigation }: SelectSocialImpactFr
 
 				setSocialImpactDataOnContext({
 					exhibitionFrequency: socialImpactFrequency,
-					exhibitionWeekDays: [...daysOfWeek]
+					daysOfWeek: [...daysOfWeek]
 				})
 				navigation.navigate('SelectSocialImpactRepeat')
 				break
@@ -64,7 +64,7 @@ function SelectSocialImpactFrequency({ route, navigation }: SelectSocialImpactFr
 					setSocialImpactDataOnContext({ exhibitionFrequency: socialImpactFrequency })
 				}
 
-				navigation.navigate('SelectDaysOfWeek', {
+				navigation.navigate('SelectSocialImpactDaysOfWeek', {
 					editMode: !!route.params?.editMode,
 					initialValue: route.params?.initialValue as DaysOfWeek[]
 				})
@@ -74,7 +74,7 @@ function SelectSocialImpactFrequency({ route, navigation }: SelectSocialImpactFr
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({
 						exhibitionFrequency: socialImpactFrequency,
-						exhibitionWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
+						daysOfWeek: ['seg', 'ter', 'qua', 'qui', 'sex']
 					})
 					navigation.goBack()
 					return
@@ -82,7 +82,7 @@ function SelectSocialImpactFrequency({ route, navigation }: SelectSocialImpactFr
 
 				setSocialImpactDataOnContext({
 					exhibitionFrequency: socialImpactFrequency,
-					exhibitionWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
+					daysOfWeek: ['seg', 'ter', 'qua', 'qui', 'sex']
 				})
 				navigation.navigate('SelectSocialImpactRepeat')
 				break

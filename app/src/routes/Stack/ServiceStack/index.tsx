@@ -17,7 +17,7 @@ import { SelectLocationView } from '../../../screens/serviceRegisterScreens/Sele
 import { ServiceLocationViewPreview } from '../../../screens/serviceRegisterScreens/ServiceLocationViewPreview'
 import { SelectDeliveryMethod } from '../../../screens/serviceRegisterScreens/SelectDeliveryMethod'
 import { SelectServiceFrequency } from '../../../screens/serviceRegisterScreens/SelectServiceFrequency'
-import { SelectDaysOfWeek } from '../../../screens/serviceRegisterScreens/SelectDaysOfWeek'
+import { SelectServiceDaysOfWeek } from '../../../screens/serviceRegisterScreens/SelectServiceDaysOfWeek'
 import { InsertServiceStartHour } from '../../../screens/serviceRegisterScreens/InsertServiceStartHour'
 import { InsertServiceEndHour } from '../../../screens/serviceRegisterScreens/InsertServiceEndHour'
 import { ServiceProvider } from '../../../contexts/ServiceContext'
@@ -53,7 +53,7 @@ export function ServiceStack() {
 				<Stack.Screen name={'ServiceLocationViewPreview'} component={ServiceLocationViewPreview} />
 				<Stack.Screen name={'SelectDeliveryMethod'} component={SelectDeliveryMethod} />
 				<Stack.Screen name={'SelectServiceFrequency'} component={SelectServiceFrequency} />
-				<Stack.Screen name={'SelectDaysOfWeek'} component={SelectDaysOfWeek} />
+				<Stack.Screen name={'SelectServiceDaysOfWeek'} component={SelectServiceDaysOfWeek} />
 				<Stack.Screen name={'InsertServiceStartHour'} component={InsertServiceStartHour} />
 				<Stack.Screen name={'InsertServiceEndHour'} component={InsertServiceEndHour} />
 			</Stack.Navigator>

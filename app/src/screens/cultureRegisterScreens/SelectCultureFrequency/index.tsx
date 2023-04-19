@@ -27,7 +27,7 @@ function SelectCultureFrequency({ route, navigation }: SelectCultureFrequencyScr
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({
 						exhibitionFrequency: cultureFrequency,
-						exhibitionWeekDays: [daysOfWeek[new Date().getDay()]]
+						daysOfWeek: [daysOfWeek[new Date().getDay()]]
 					})
 					navigation.goBack()
 					return
@@ -35,7 +35,7 @@ function SelectCultureFrequency({ route, navigation }: SelectCultureFrequencyScr
 
 				setCultureDataOnContext({
 					exhibitionFrequency: cultureFrequency,
-					exhibitionWeekDays: [daysOfWeek[new Date().getDay()]]
+					daysOfWeek: [daysOfWeek[new Date().getDay()]]
 				})
 				navigation.navigate('SelectEventRepeat')
 				break
@@ -44,7 +44,7 @@ function SelectCultureFrequency({ route, navigation }: SelectCultureFrequencyScr
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({
 						exhibitionFrequency: cultureFrequency,
-						exhibitionWeekDays: [...daysOfWeek]
+						daysOfWeek: [...daysOfWeek]
 					})
 					navigation.goBack()
 					return
@@ -52,7 +52,7 @@ function SelectCultureFrequency({ route, navigation }: SelectCultureFrequencyScr
 
 				setCultureDataOnContext({
 					exhibitionFrequency: cultureFrequency,
-					exhibitionWeekDays: [...daysOfWeek]
+					daysOfWeek: [...daysOfWeek]
 				})
 				navigation.navigate('SelectEventRepeat')
 				break
@@ -64,7 +64,7 @@ function SelectCultureFrequency({ route, navigation }: SelectCultureFrequencyScr
 					setCultureDataOnContext({ exhibitionFrequency: cultureFrequency })
 				}
 
-				navigation.navigate('SelectDaysOfWeek', {
+				navigation.navigate('SelectCultureDaysOfWeek', {
 					editMode: !!route.params?.editMode,
 					initialValue: route.params?.initialValue as DaysOfWeek[]
 				})
@@ -74,7 +74,7 @@ function SelectCultureFrequency({ route, navigation }: SelectCultureFrequencyScr
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({
 						exhibitionFrequency: cultureFrequency,
-						exhibitionWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
+						daysOfWeek: ['seg', 'ter', 'qua', 'qui', 'sex']
 					})
 					navigation.goBack()
 					return
@@ -82,7 +82,7 @@ function SelectCultureFrequency({ route, navigation }: SelectCultureFrequencyScr
 
 				setCultureDataOnContext({
 					exhibitionFrequency: cultureFrequency,
-					exhibitionWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
+					daysOfWeek: ['seg', 'ter', 'qua', 'qui', 'sex']
 				})
 				navigation.navigate('SelectEventRepeat')
 				break

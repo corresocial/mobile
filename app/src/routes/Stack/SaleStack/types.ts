@@ -19,7 +19,7 @@ export type SaleStackParamList = {
 	SaleLocationViewPreview: { editMode?: boolean, locationView: LocationViewType }
 	SelectDeliveryMethod: { editMode: boolean } | undefined
 	SelectSaleFrequency: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
-	SelectDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
+	SelectSaleDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
 	InsertSaleStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertSaleEndHour: { editMode: boolean, initialValue: Date } | undefined
 } & UserStackParamList

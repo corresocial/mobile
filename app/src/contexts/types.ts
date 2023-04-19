@@ -61,7 +61,7 @@ export type ServiceData = {
 	range?: PostRange
 	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
-	attendanceWeekDays?: DaysOfWeek[]
+	daysOfWeek?: DaysOfWeek[]
 	startHour?: Date
 	endHour?: Date
 	picturesUrl?: string[]
@@ -97,7 +97,7 @@ export type SaleData = {
 	range?: PostRange
 	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
-	attendanceWeekDays?: DaysOfWeek[]
+	daysOfWeek?: DaysOfWeek[]
 	startHour?: Date
 	endHour?: Date
 	picturesUrl?: string[]
@@ -131,7 +131,7 @@ export type VacancyData = {
 	companyDescription?: string
 	questions?: string[]
 	workFrequency?: WeekdaysFrequency
-	workWeekdays?: DaysOfWeek[]
+	daysOfWeek?: DaysOfWeek[]
 	startDate?: Date
 	endDate?: Date
 	startHour?: Date
@@ -167,7 +167,7 @@ export type CultureData = {
 	repeat?: EventRepeatType
 	entryValue?: string
 	exhibitionFrequency?: WeekdaysFrequency
-	exhibitionWeekDays?: DaysOfWeek[]
+	daysOfWeek?: DaysOfWeek[]
 	startDate?: Date
 	endDate?: Date
 	startHour?: Date
@@ -203,7 +203,7 @@ export type SocialImpactData = {
 	range?: PostRange
 	exhibitionPlace?: ExhibitionPlaceType
 	exhibitionFrequency?: WeekdaysFrequency
-	exhibitionWeekDays?: DaysOfWeek[]
+	daysOfWeek?: DaysOfWeek[]
 	repeat?: EventRepeatType
 	startDate?: Date
 	startHour?: Date

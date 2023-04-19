@@ -18,6 +18,6 @@ export type SelectLocationViewScreenProps = NativeStackScreenProps<ServiceStackP
 export type ServiceLocationViewPreviewScreenProps = NativeStackScreenProps<ServiceStackParamList, 'ServiceLocationViewPreview'>
 export type SelectDeliveryMethodScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectDeliveryMethod'>
 export type SelectServiceFrequencyScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectServiceFrequency'>
-export type SelectDaysOfWeekScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectDaysOfWeek'>
+export type SelectServiceDaysOfWeekScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectServiceDaysOfWeek'>
 export type InsertServiceStartHourScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertServiceStartHour'>
 export type InsertServiceEndHourScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertServiceEndHour'>

@@ -15,7 +15,7 @@ export type SocialImpactStackParamList = {
 	SelectSocialImpactExhibitionRange: { editMode: boolean } | undefined
 	SelectSocialImpactExhibitionPlace: { editMode: boolean } | undefined
 	SelectSocialImpactFrequency: { editMode?: boolean, initialValue: DaysOfWeek[] } | undefined
-	SelectDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
+	SelectSocialImpactDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectSocialImpactRepeat: { editMode: boolean } | undefined
 	InsertSocialImpactStartDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertSocialImpactStartHour: { editMode: boolean, initialValue: Date } | undefined

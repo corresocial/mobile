@@ -15,7 +15,7 @@ export type CultureStackParamList = {
 	InsertCultureLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
 	CultureLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
 	SelectCultureFrequency: { editMode?: boolean, initialValue: DaysOfWeek[] } | undefined
-	SelectDaysOfWeek: { editMode?: boolean, initialValue: DaysOfWeek[] } | undefined
+	SelectCultureDaysOfWeek: { editMode?: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectEventRepeat: { editMode: boolean } | undefined
 	InsertCultureStartDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertCultureStartHour: { editMode: boolean, initialValue: Date } | undefined

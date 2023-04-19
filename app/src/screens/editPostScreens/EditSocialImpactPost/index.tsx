@@ -57,10 +57,10 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 	}
 
 	const formatDaysOfWeek = () => {
-		const attendanceWeekDays = getPostField('exhibitionWeekDays')
+		const daysOfWeek = getPostField('daysOfWeek')
 
 		const allDaysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
-		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => attendanceWeekDays.includes(weekDay))
+		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => daysOfWeek.includes(weekDay))
 		return ordenedDaysOfWeek.toString().split(',').join(', ')
 	}
 
@@ -351,7 +351,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 					title={'dias da semana'}
 					highlightedWords={['semana']}
 					value={formatDaysOfWeek() || '---'}
-					onEdit={() => navigateToEditScreen('SelectDaysOfWeek', 'exhibitionWeekDays')}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactDaysOfWeek', 'daysOfWeek')}
 				/>
 				<Sigh />
 				<EditCard

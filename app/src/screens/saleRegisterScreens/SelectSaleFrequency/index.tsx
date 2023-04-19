@@ -27,7 +27,7 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({
 						attendanceFrequency: saleFrequency,
-						attendanceWeekDays: [daysOfWeek[new Date().getDay()]]
+						daysOfWeek: [daysOfWeek[new Date().getDay()]]
 					})
 					navigation.goBack()
 					return
@@ -35,7 +35,7 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 
 				setSaleDataOnContext({
 					attendanceFrequency: saleFrequency,
-					attendanceWeekDays: [daysOfWeek[new Date().getDay()]]
+					daysOfWeek: [daysOfWeek[new Date().getDay()]]
 				})
 				navigation.navigate('InsertSaleStartHour')
 				break
@@ -44,7 +44,7 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({
 						attendanceFrequency: saleFrequency,
-						attendanceWeekDays: [...daysOfWeek]
+						daysOfWeek: [...daysOfWeek]
 					})
 					navigation.goBack()
 					return
@@ -52,7 +52,7 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 
 				setSaleDataOnContext({
 					attendanceFrequency: saleFrequency,
-					attendanceWeekDays: [...daysOfWeek]
+					daysOfWeek: [...daysOfWeek]
 				})
 				navigation.navigate('InsertSaleStartHour')
 				break
@@ -64,7 +64,7 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 					setSaleDataOnContext({ attendanceFrequency: saleFrequency })
 				}
 
-				navigation.navigate('SelectDaysOfWeek', {
+				navigation.navigate('SelectSaleDaysOfWeek', {
 					editMode: !!route.params?.editMode,
 					initialValue: route.params?.initialValue as DaysOfWeek[]
 				})
@@ -74,7 +74,7 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({
 						attendanceFrequency: saleFrequency,
-						attendanceWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
+						daysOfWeek: ['seg', 'ter', 'qua', 'qui', 'sex']
 					})
 					navigation.goBack()
 					return
@@ -82,7 +82,7 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 
 				setSaleDataOnContext({
 					attendanceFrequency: saleFrequency,
-					attendanceWeekDays: ['seg', 'ter', 'qua', 'qui', 'sex']
+					daysOfWeek: ['seg', 'ter', 'qua', 'qui', 'sex']
 				})
 				navigation.navigate('InsertSaleStartHour')
 				break
