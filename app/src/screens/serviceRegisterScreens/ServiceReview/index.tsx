@@ -187,7 +187,7 @@ function ServiceReview({ navigation }: ServiceReviewScreenProps) {
 							: (
 								<PrimaryButton
 									color={theme.green3}
-									label={'Publicar post'}
+									label={'publicar post'}
 									labelColor={theme.white3}
 									SecondSvgIcon={PlusWhiteIcon}
 									svgIconScale={['40%', '25%']}

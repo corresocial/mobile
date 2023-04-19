@@ -10,30 +10,30 @@ import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { createPost } from '../../../services/firebase/post/createPost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
 
-import { SaleReviewScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
-import { PostCollection, SaleCollection } from '../../../services/firebase/types'
-import { LocalUserData, SaleData } from '../../../contexts/types'
+import { CultureReviewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
+import { PostCollection, CultureCollection } from '../../../services/firebase/types'
+import { LocalUserData, CultureData } from '../../../contexts/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
-import { SaleContext } from '../../../contexts/SaleContext'
+import { CultureContext } from '../../../contexts/CultureContext'
 import { StateContext } from '../../../contexts/StateContext'
 
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { Loader } from '../../../components/Loader'
 
-function SaleReview({ navigation }: SaleReviewScreenProps) {
-	const { saleDataContext } = useContext(SaleContext)
+function CultureReview({ navigation }: CultureReviewScreenProps) {
+	const { cultureDataContext } = useContext(CultureContext)
 	const { setUserDataOnContext, userDataContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 
 	const [hasError, setHasError] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState(false)
 
-	console.log('Contexto atual: Sale')
-	console.log(saleDataContext)
+	console.log('Contexto atual: Culture')
+	console.log(cultureDataContext)
 
-	const extractSalePictures = (saleData: SaleData) => saleData.picturesUrl as string[] || []
+	const extractCulturePictures = (cultureData: CultureData) => cultureData.picturesUrl as string[] || []
 
 	const getLocalUser = () => userDataContext
 
@@ -44,31 +44,31 @@ function SaleReview({ navigation }: SaleReviewScreenProps) {
 		})
 	}
 
-	const saveSalePost = async (skipSaveTime?: boolean) => {
+	const saveCulturePost = async (skipSaveTime?: boolean) => {
 		setIsLoading(true)
 
-		const saleData = { ...saleDataContext } as SaleCollection
-		const salePictures = extractSalePictures(saleData)
+		const cultureData = { ...cultureDataContext } as CultureCollection
+		const culturePictures = extractCulturePictures(cultureData)
 
 		try {
 			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
-			if (!salePictures.length) {
-				const postId = await createPost(saleData, localUser, 'posts', 'sale')
+			if (!culturePictures.length) {
+				const postId = await createPost(cultureData, localUser, 'posts', 'culture')
 				if (!postId) throw new Error('Não foi possível identificar o post')
 
 				await updateUserPost(
 					localUser,
 					postId,
-					saleData
+					cultureData
 				)
 				return
 			}
 
 			const picturePostsUrls: string[] = []
-			salePictures.forEach(async (salePicture, index) => {
-				uploadImage(salePicture, 'posts', index).then(
+			culturePictures.forEach(async (culturePicture, index) => {
+				uploadImage(culturePicture, 'posts', index).then(
 					({ uploadTask, blob }: any) => {
 						uploadTask.on(
 							'state_change',
@@ -82,16 +82,16 @@ function SaleReview({ navigation }: SaleReviewScreenProps) {
 										async (downloadURL) => {
 											blob.close()
 											picturePostsUrls.push(downloadURL)
-											if (picturePostsUrls.length === salePictures.length) {
-												const saleDataWithPicturesUrl = { ...saleData, picturesUrl: picturePostsUrls }
+											if (picturePostsUrls.length === culturePictures.length) {
+												const cultureDataWithPicturesUrl = { ...cultureData, picturesUrl: picturePostsUrls }
 
-												const postId = await createPost(saleDataWithPicturesUrl, localUser, 'posts', 'sale')
+												const postId = await createPost(cultureDataWithPicturesUrl, localUser, 'posts', 'culture')
 												if (!postId) throw new Error('Não foi possível identificar o post')
 
 												await updateUserPost(
 													localUser,
 													postId,
-													saleDataWithPicturesUrl
+													cultureDataWithPicturesUrl
 												)
 												setIsLoading(false)
 											}
@@ -112,12 +112,12 @@ function SaleReview({ navigation }: SaleReviewScreenProps) {
 	const updateUserPost = async (
 		localUser: LocalUserData,
 		postId: string,
-		saleDataPost: SaleData,
+		cultureDataPost: CultureData,
 	) => {
 		const postData = {
-			...saleDataPost,
+			...cultureDataPost,
 			postId,
-			postType: 'sale',
+			postType: 'culture',
 			createdAt: new Date()
 		}
 
@@ -142,7 +142,7 @@ function SaleReview({ navigation }: SaleReviewScreenProps) {
 								name: localUser.name,
 								profilePictureUrl: localUser.profilePictureUrl
 							}
-						} as SaleCollection
+						} as CultureCollection
 					],
 				})
 				setDataOnSecureStore('corre.user', {
@@ -161,7 +161,7 @@ function SaleReview({ navigation }: SaleReviewScreenProps) {
 					],
 				})
 				setIsLoading(false)
-				showShareModal(true, saleDataPost.title)
+				showShareModal(true, cultureDataPost.title)
 				navigation.navigate('HomeTab')
 			})
 			.catch((err: any) => {
@@ -191,7 +191,7 @@ function SaleReview({ navigation }: SaleReviewScreenProps) {
 									labelColor={theme.white3}
 									SecondSvgIcon={PlusWhiteIcon}
 									svgIconScale={['40%', '25%']}
-									onPress={saveSalePost}
+									onPress={saveCulturePost}
 								/>
 							)
 					}
@@ -201,4 +201,4 @@ function SaleReview({ navigation }: SaleReviewScreenProps) {
 	)
 }
 
-export { SaleReview }
+export { CultureReview }

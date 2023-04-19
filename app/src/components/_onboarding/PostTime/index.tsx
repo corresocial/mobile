@@ -23,6 +23,9 @@ interface PostTimeProps {
 	customTitle?: string
 	customHighlight?: string[]
 	progress: [value: number, range: number]
+	editMode?: boolean
+	startDate?: Date
+	endDate?: Date
 	startTime?: Date
 	initialValue?: Date | string
 	keyboardOpened: boolean
@@ -37,6 +40,9 @@ function PostTime({
 	customTitle,
 	customHighlight,
 	progress,
+	editMode,
+	startDate,
+	endDate,
 	startTime,
 	initialValue,
 	keyboardOpened,
@@ -89,9 +95,31 @@ function PostTime({
 		return registredStartHour.getTime() < endHour.getTime()
 	}
 
+	const closingTimeIsAfterOpening = () => {
+		if (editMode) return true
+
+		const startHour = new Date(startDate as Date)
+		const endHour = new Date(endDate as Date)
+		startHour.setHours(startHour?.getHours() as number, startHour?.getMinutes() as number)
+		endHour.setHours(parseInt(hours), parseInt(minutes))
+		return startHour.getTime() < endHour.getTime()
+	}
+
 	const savePostTime = () => {
+		if (editMode) {
+			saveTime(hours, minutes)
+			return
+		}
+
 		if (startTime) {
 			if (!endTimeIsBiggerOfStartTime()) {
+				setInvalidTimeAfterSubmit(true)
+				return
+			}
+		}
+
+		if (startDate && endDate && startDate) {
+			if (!closingTimeIsAfterOpening()) {
 				setInvalidTimeAfterSubmit(true)
 				return
 			}

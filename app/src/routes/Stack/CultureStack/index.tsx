@@ -25,6 +25,7 @@ import { SelectCultureDaysOfWeek } from '../../../screens/cultureRegisterScreens
 import { InsertCultureStartDate } from '../../../screens/cultureRegisterScreens/InsertCultureStartDate'
 import { InsertCultureStartHour } from '../../../screens/cultureRegisterScreens/InsertCultureStartHour'
 import { InsertCultureEndDate } from '../../../screens/cultureRegisterScreens/InsertCultureEndDate'
+import { CultureReview } from '../../../screens/cultureRegisterScreens/CultureReview'
 
 const Stack = createStackNavigator<CultureStackParamList>()
 
@@ -53,11 +54,12 @@ export function CultureStack() {
 				<Stack.Screen name={'CultureLocationViewPreview'} component={CultureLocationViewPreview} />
 				<Stack.Screen name={'SelectCultureFrequency'} component={SelectCultureFrequency} />
 				<Stack.Screen name={'SelectCultureDaysOfWeek'} component={SelectCultureDaysOfWeek} />
+				<Stack.Screen name={'SelectEventRepeat'} component={SelectEventRepeat} />
 				<Stack.Screen name={'InsertCultureStartDate'} component={InsertCultureStartDate} />
 				<Stack.Screen name={'InsertCultureStartHour'} component={InsertCultureStartHour} />
 				<Stack.Screen name={'InsertCultureEndDate'} component={InsertCultureEndDate} />
 				<Stack.Screen name={'InsertCultureEndHour'} component={InsertCultureEndHour} />
-				<Stack.Screen name={'SelectEventRepeat'} component={SelectEventRepeat} />
+				<Stack.Screen name={'CultureReview'} component={CultureReview} />
 			</Stack.Navigator>
 		</CultureProvider>
 	)
