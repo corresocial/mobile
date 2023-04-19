@@ -5,7 +5,7 @@ import { theme } from '../../../common/theme'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { InsertExchangeValueScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
+import { InsertExchangeValueScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'

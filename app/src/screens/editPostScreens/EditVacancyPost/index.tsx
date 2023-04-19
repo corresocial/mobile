@@ -12,7 +12,7 @@ import { updateDocField } from '../../../services/firebase/common/updateDocField
 
 import { VacancyStackParamList } from '../../../routes/Stack/VacancyStack/types'
 import { EditVacancyPostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { CultureCollection, DaysOfWeek, Id, ServiceCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
+import { DaysOfWeek, Id, ServiceCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
 
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -42,10 +42,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 			case 'sale': return 'da venda'
 			case 'vacancy': return 'da vaga'
 			case 'socialImpact': return 'da iniciativa'
-			case 'culture': {
-				const { cultureType } = postData as CultureCollection
-				return cultureType === 'artistProfile' ? 'do artista' : 'do evento'
-			}
+			case 'culture': return 'do evento'
 			default: return 'do post'
 		}
 	}
@@ -284,8 +281,8 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 							<EditCard
 								title={'data de fim'}
 								highlightedWords={['fim']}
-								value={formatDate(getPostField('endWorkDate')) || '---'}
-								onEdit={() => navigateToEditScreen('InsertVacancyEndDate', 'endWorkDate')}
+								value={formatDate(getPostField('endDate')) || '---'}
+								onEdit={() => navigateToEditScreen('InsertVacancyEndDate', 'endDate')}
 							/>
 							<Sigh />
 						</>

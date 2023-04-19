@@ -5,15 +5,14 @@ import { theme } from '../../../common/theme'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { InsertSocialImpactStartDateScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
+import { InsertSocialImpactEndDateScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { EditContext } from '../../../contexts/EditContext'
-
 import { PostDate } from '../../../components/_onboarding/PostDate'
 
-function InsertSocialImpactStartDate({ route, navigation }: InsertSocialImpactStartDateScreenProps) {
-	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+function InsertSocialImpactEndDate({ route, navigation }: InsertSocialImpactEndDateScreenProps) {
+	const { socialImpactDataContext, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -29,19 +28,19 @@ function InsertSocialImpactStartDate({ route, navigation }: InsertSocialImpactSt
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertSocialImpactStartHour')
+	const skipScreen = () => navigation.navigate('InsertSocialImpactEndHour')
 
 	const saveSocialImpactStartDate = (year: string, month: string, day: string) => {
-		const startDate = new Date(`${year}-${month}-${day}T12:00:00`)
+		const endDate = new Date(`${year}-${month}-${day}T12:00:00`)
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ startDate })
+			addNewUnsavedFieldToEditContext({ endDate })
 			navigation.goBack()
 			return
 		}
 
-		setSocialImpactDataOnContext({ startDate })
-		navigation.navigate('InsertSocialImpactStartHour')
+		setSocialImpactDataOnContext({ endDate })
+		navigation.navigate('InsertSocialImpactEndHour')
 	}
 
 	return (
@@ -50,6 +49,10 @@ function InsertSocialImpactStartDate({ route, navigation }: InsertSocialImpactSt
 			<PostDate
 				backgroundColor={theme.pink2}
 				validationColor={theme.pink1}
+				customTitle={'quando termina?'}
+				customHighlight={['termina']}
+				editMode={editModeIsTrue()}
+				startDate={socialImpactDataContext.startDate}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
@@ -61,4 +64,4 @@ function InsertSocialImpactStartDate({ route, navigation }: InsertSocialImpactSt
 	)
 }
 
-export { InsertSocialImpactStartDate }
+export { InsertSocialImpactEndDate }

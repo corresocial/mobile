@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 
-import { SelectCultureFrequencyScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
+import { SelectCultureFrequencyScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { DaysOfWeek, WeekdaysFrequency } from '../../../services/firebase/types'
 
 import { CultureContext } from '../../../contexts/CultureContext'

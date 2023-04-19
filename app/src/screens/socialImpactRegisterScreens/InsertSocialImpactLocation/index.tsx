@@ -6,7 +6,7 @@ import { theme } from '../../../common/theme'
 import { generateGeohashes } from '../../../common/generateGeohashes'
 import { convertGeocodeToAddress } from '../../../services/maps/addressFormatter'
 
-import { InsertSocialImpactLocationScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
+import { InsertSocialImpactLocationScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 import { Coordinates } from '../../../services/firebase/types'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'

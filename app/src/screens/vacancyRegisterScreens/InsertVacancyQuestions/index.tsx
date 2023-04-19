@@ -8,7 +8,7 @@ import { relativeScreenHeight } from '../../../common/screenDimensions'
 import XWhiteIcon from '../../../assets/icons/x-white.svg'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
-import { InsertVacancyQuestionsScreenProps } from '../../../routes/Stack/vacancyStack/stackScreenProps'
+import { InsertVacancyQuestionsScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'

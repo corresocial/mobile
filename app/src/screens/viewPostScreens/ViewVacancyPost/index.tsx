@@ -254,7 +254,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						openingTime={getPostField('startHour')}
 						closingTime={getPostField('endHour')}
 						startDate={getPostField('startDate')}
-						endDate={getPostField('endWorkDate')}
+						endDate={getPostField('endDate')}
 						textFontSize={14}
 					/>
 					{

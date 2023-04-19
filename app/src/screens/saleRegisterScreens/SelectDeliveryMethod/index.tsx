@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 
-import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
+import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 import { DeliveryMethod } from '../../../services/firebase/types'
 
 import { SaleContext } from '../../../contexts/SaleContext'

@@ -86,7 +86,7 @@ function InsertVacancyEndHour({ route, navigation }: InsertVacancyEndHourScreenP
 		if (editModeIsTrue()) return true
 
 		const startHour = new Date(vacancyDataContext.startDate as Date || new Date())
-		const endHour = new Date(vacancyDataContext.endWorkDate as Date || new Date())
+		const endHour = new Date(vacancyDataContext.endDate as Date || new Date())
 		startHour.setHours(vacancyDataContext.startHour?.getHours() as number, vacancyDataContext.startHour?.getMinutes() as number)
 		endHour.setHours(parseInt(hours), parseInt(minutes))
 		return startHour.getTime() < endHour.getTime()

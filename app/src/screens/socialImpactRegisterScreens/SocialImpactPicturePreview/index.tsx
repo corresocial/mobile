@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 
-import { SocialImpactPicturePreviewScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
+import { SocialImpactPicturePreviewScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { EditContext } from '../../../contexts/EditContext'

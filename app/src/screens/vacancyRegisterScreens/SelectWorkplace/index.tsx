@@ -8,7 +8,7 @@ import ComputerAndPhoneWhiteIcon from '../../../assets/icons/computerAndPhone-wh
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
-import { SelectWorkplaceScreenProps } from '../../../routes/Stack/vacancyStack/stackScreenProps'
+import { SelectWorkplaceScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { WorkplaceType } from '../../../services/firebase/types'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'

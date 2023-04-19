@@ -9,7 +9,7 @@ import BrazilWhiteIcon from '../../../assets/icons/brazil-white.svg'
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
-import { SelectSocialImpactExhibitionRangeScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
+import { SelectSocialImpactExhibitionRangeScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 import { ExhibitionPlaceType } from '../../../services/firebase/types'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'

@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 
-import { SelectSaleDaysOfWeekScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
+import { SelectSaleDaysOfWeekScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 import { DaysOfWeek } from '../../../services/firebase/types'
 
 import { SaleContext } from '../../../contexts/SaleContext'

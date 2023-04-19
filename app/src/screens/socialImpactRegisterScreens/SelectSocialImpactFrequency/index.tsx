@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 
-import { SelectSocialImpactFrequencyScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
+import { SelectSocialImpactFrequencyScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 import { DaysOfWeek, WeekdaysFrequency } from '../../../services/firebase/types'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'

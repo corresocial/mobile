@@ -325,7 +325,7 @@ export type VacancyCollection = {
 	questions?: string[]
 	daysOfWeek?: DaysOfWeek[]
 	startDate?: Date
-	endWorkDate?: Date
+	endDate?: Date
 	startHour?: Date
 	endHour?: Date
 	tags?: string[]
@@ -367,7 +367,7 @@ export type VacancyCollectionRemote = {
 	questions: string[]
 	daysOfWeek: DaysOfWeek[]
 	startDate: Date
-	endWorkDate: Date
+	endDate: Date
 	startHour: Date
 	endHour: Date
 	tags: string[]

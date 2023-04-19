@@ -19,5 +19,6 @@ export type SocialImpactStackParamList = {
 	SelectSocialImpactRepeat: { editMode: boolean } | undefined
 	InsertSocialImpactStartDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertSocialImpactStartHour: { editMode: boolean, initialValue: Date } | undefined
+	InsertSocialImpactEndDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertSocialImpactEndHour: { editMode: boolean, initialValue: Date } | undefined
 } & UserStackParamList

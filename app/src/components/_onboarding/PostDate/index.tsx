@@ -9,36 +9,44 @@ import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 import { filterLeavingOnlyNumbers, formatDate } from '../../../common/auxiliaryFunctions'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { LineInput } from '../../../components/LineInput'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { ProgressBar } from '../../../components/ProgressBar'
+import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../_containers/FormContainer'
+import { PrimaryButton } from '../../_buttons/PrimaryButton'
+import { InstructionCard } from '../../_cards/InstructionCard'
+import { LineInput } from '../../LineInput'
+import { BackButton } from '../../_buttons/BackButton'
+import { ProgressBar } from '../../ProgressBar'
 import { SkipButton } from '../../_buttons/SkipButton'
 
-interface PostStartDateProps {
+interface PostDateProps {
 	backgroundColor: string
 	validationColor: string
+	customTitle?: string
+	customHighlight?: string[]
 	progress: [value: number, range: number]
+	editMode?: boolean
 	initialValue?: Date | string
+	startDate?: Date
 	keyboardOpened: boolean
 	navigateBackwards: () => void
 	skipScreen?: () => void
 	saveStartDate: (year: string, month: string, day: string) => void
 }
 
-function PostStartDate({
+function PostDate({
 	backgroundColor,
 	validationColor,
+	customTitle,
+	customHighlight,
 	progress,
+	editMode,
 	initialValue,
+	startDate,
 	keyboardOpened,
 	navigateBackwards,
 	skipScreen,
 	saveStartDate
-}: PostStartDateProps) {
+}: PostDateProps) {
 	const initialTime = initialValue ? formatDate(initialValue as Date) : false
 
 	const [day, setDay] = useState<string>(initialTime ? initialTime.split('/')[0] : '')
@@ -108,13 +116,26 @@ function PostStartDate({
 		return insertedDate >= currentDateWithoutTimezone
 	}
 
+	const endDateIsBiggerOfStartDate = (insertedYear: string, insertedMonth: string, insertedDay: string) => {
+		if (editMode) return true
+
+		const insertedDate = new Date(`${insertedYear}-${insertedMonth}-${insertedDay}T23:59:59`)
+		const contextStartDate = startDate || new Date()
+		return contextStartDate.getTime() < insertedDate.getTime()
+	}
+
 	const savePostDate = () => {
-		if (!insertedDateIsAfterCurrentDate(year, month, day)) {
+		if (startDate) {
+			if (!endDateIsBiggerOfStartDate(year, month, day)) {
+				setInvalidDateAfterSubmit(true)
+				return
+			}
+		} else if (!insertedDateIsAfterCurrentDate(year, month, day)) {
 			setInvalidDateAfterSubmit(true)
 			return
 		}
 
-		saveStartDate(day, month, year)
+		saveStartDate(year, month, day)
 	}
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -148,13 +169,13 @@ function PostStartDate({
 					fontSize={17}
 					message={
 						invalidDateAfterSubmit
-							? 'A data de início informada antecede a data atual'
-							: 'quando começa?'
+							? startDate ? 'a data informada antecede a data de início' : 'a data informada antecede a data atual'
+							: customTitle || 'quando começa?'
 					}
 					highlightedWords={
 						invalidDateAfterSubmit
 							? ['data', 'de', 'início', 'data', 'atual']
-							: ['começa']
+							: customHighlight || ['começa']
 					}
 				>
 					<ProgressBar
@@ -267,4 +288,4 @@ function PostStartDate({
 	)
 }
 
-export { PostStartDate }
+export { PostDate }

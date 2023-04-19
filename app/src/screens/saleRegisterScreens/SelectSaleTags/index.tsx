@@ -5,7 +5,7 @@ import { theme } from '../../../common/theme'
 
 import { saleCategories, updateSaleTags } from '../../../utils/postsCategories/saleCategories'
 
-import { SelectSaleTagsScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
+import { SelectSaleTagsScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'

@@ -7,7 +7,7 @@ import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { InsertSaleValueScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
+import { InsertSaleValueScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 

@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 
-import { SelectEventRepeatScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
+import { SelectEventRepeatScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { EventRepeatType } from '../../../services/firebase/types'
 
 import { CultureContext } from '../../../contexts/CultureContext'

@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { theme } from '../../../common/theme'
 
-import { InsertCultureTitleScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
+import { InsertCultureTitleScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 import { CultureContext } from '../../../contexts/CultureContext'

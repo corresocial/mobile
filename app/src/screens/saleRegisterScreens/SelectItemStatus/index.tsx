@@ -6,7 +6,7 @@ import { theme } from '../../../common/theme'
 import UsedLabelWhiteIcon from '../../../assets/icons/usedLabel-white.svg'
 import GiftWhiteIcon from '../../../assets/icons/gift-white.svg'
 
-import { SelectItemStatusScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
+import { SelectItemStatusScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 import { ItemStatus } from '../../../services/firebase/types'
 
 import { SaleContext } from '../../../contexts/SaleContext'

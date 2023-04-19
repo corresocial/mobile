@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
 
-import { SelectEventPlaceModalityScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
+import { SelectEventPlaceModalityScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { PlaceModalityType } from '../../../services/firebase/types'
 
 import { CultureContext } from '../../../contexts/CultureContext'

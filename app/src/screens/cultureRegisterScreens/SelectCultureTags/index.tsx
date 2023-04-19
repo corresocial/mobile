@@ -5,7 +5,7 @@ import { theme } from '../../../common/theme'
 
 import { cultureCategories, updateCultureTags } from '../../../utils/postsCategories/cultureCategories'
 
-import { SelectCultureTagsScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
+import { SelectCultureTagsScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 import { CultureContext } from '../../../contexts/CultureContext'
 import { EditContext } from '../../../contexts/EditContext'

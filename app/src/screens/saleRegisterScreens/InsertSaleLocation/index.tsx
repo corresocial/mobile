@@ -6,7 +6,7 @@ import { theme } from '../../../common/theme'
 import { generateGeohashes } from '../../../common/generateGeohashes'
 import { convertGeocodeToAddress } from '../../../services/maps/addressFormatter'
 
-import { InsertSaleLocationScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
+import { InsertSaleLocationScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'

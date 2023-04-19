@@ -29,7 +29,7 @@ function InsertSocialImpactStartHour({ route, navigation }: InsertSocialImpactSt
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertSocialImpactEndHour')
+	const skipScreen = () => navigation.navigate('InsertSocialImpactEndDate')
 
 	const saveOpeningHour = (hour: string, minutes: string) => {
 		const startHour = new Date()
@@ -42,7 +42,7 @@ function InsertSocialImpactStartHour({ route, navigation }: InsertSocialImpactSt
 		}
 
 		setSocialImpactDataOnContext({ startHour })
-		navigation.navigate('InsertSocialImpactEndHour')
+		navigation.navigate('InsertSocialImpactEndDate')
 	}
 
 	return (

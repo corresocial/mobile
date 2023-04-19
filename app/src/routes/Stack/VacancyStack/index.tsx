@@ -65,8 +65,8 @@ export function VacancyStack() {
 				<Stack.Screen name={'SelectWorkWeekdays'} component={SelectWorkWeekdays} />
 				<Stack.Screen name={'InsertVacancyQuestions'} component={InsertVacancyQuestions} />
 				<Stack.Screen name={'InsertVacancyStartDate'} component={InsertVacancyStartDate} />
-				<Stack.Screen name={'InsertVacancyStartHour'} component={InsertVacancyStartHour} />
 				<Stack.Screen name={'InsertVacancyEndDate'} component={InsertVacancyEndDate} />
+				<Stack.Screen name={'InsertVacancyStartHour'} component={InsertVacancyStartHour} />
 				<Stack.Screen name={'InsertVacancyEndHour'} component={InsertVacancyEndHour} />
 			</Stack.Navigator>
 		</VacancyProvider>

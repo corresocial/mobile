@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 
-import { SelectLocationViewScreenProps } from '../../../routes/Stack/saleStack/stackScreenProps'
+import { SelectLocationViewScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 import { LocationViewType } from '../../../services/firebase/types'
 
 import { PostLocationView } from '../../../components/_onboarding/PostLocationView'

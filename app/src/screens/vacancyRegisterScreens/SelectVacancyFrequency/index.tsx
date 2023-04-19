@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 
-import { SelectVacancyFrequencyScreenProps } from '../../../routes/Stack/vacancyStack/stackScreenProps'
+import { SelectVacancyFrequencyScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { DaysOfWeek, WeekdaysFrequency } from '../../../services/firebase/types'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'

@@ -6,7 +6,7 @@ import { theme } from '../../../common/theme'
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
-import { SelectVacancyTypeScreenProps } from '../../../routes/Stack/vacancyStack/stackScreenProps'
+import { SelectVacancyTypeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { VacancyType } from '../../../services/firebase/types'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'

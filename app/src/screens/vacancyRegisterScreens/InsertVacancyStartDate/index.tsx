@@ -10,7 +10,7 @@ import { InsertVacancyStartDateScreenProps } from '../../../routes/Stack/Vacancy
 import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
-import { PostStartDate } from '../../../components/_onboarding/PostStartDate'
+import { PostDate } from '../../../components/_onboarding/PostDate'
 
 function InsertVacancyStartDate({ route, navigation }: InsertVacancyStartDateScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
@@ -47,7 +47,7 @@ function InsertVacancyStartDate({ route, navigation }: InsertVacancyStartDateScr
 	return (
 		<>
 			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
-			<PostStartDate
+			<PostDate
 				backgroundColor={theme.yellow2}
 				validationColor={theme.yellow1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}

@@ -5,7 +5,7 @@ import { theme } from '../../../common/theme'
 
 import { socialImpactCategories, updateSocialImpactTags } from '../../../utils/postsCategories/socialImpactCategories'
 
-import { SelectSocialImpactTagsScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
+import { SelectSocialImpactTagsScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { EditContext } from '../../../contexts/EditContext'

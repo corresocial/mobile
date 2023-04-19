@@ -10,7 +10,7 @@ import { InsertCultureStartDateScreenProps } from '../../../routes/Stack/Culture
 import { CultureContext } from '../../../contexts/CultureContext'
 import { EditContext } from '../../../contexts/EditContext'
 
-import { PostStartDate } from '../../../components/_onboarding/PostStartDate'
+import { PostDate } from '../../../components/_onboarding/PostDate'
 
 function InsertCultureStartDate({ route, navigation }: InsertCultureStartDateScreenProps) {
 	const { setCultureDataOnContext } = useContext(CultureContext)
@@ -47,7 +47,7 @@ function InsertCultureStartDate({ route, navigation }: InsertCultureStartDateScr
 	return (
 		<>
 			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
-			<PostStartDate
+			<PostDate
 				backgroundColor={theme.blue2}
 				validationColor={theme.blue1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
