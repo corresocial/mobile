@@ -47,7 +47,7 @@ function VacancyLocationViewPreview({ route, navigation }: VacancyLocationViewPr
 		}
 
 		setVacancyDataOnContext({ locationView })
-		navigation.navigate('SelectWorkWeekdays')
+		navigation.navigate('SelectVacancyFrequency')
 	}
 
 	const getPlaceName = () => {

@@ -17,7 +17,7 @@ function SelectWorkWeekdays({ route, navigation }: SelectWorkWeekdaysScreenProps
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertVacancyStartHour')
+	const skipScreen = () => navigation.navigate('InsertVacancyStartDate')
 
 	const saveWorkWeekdays = (selectedDaysOfWeek: DaysOfWeek[]) => {
 		if (editModeIsTrue()) {
@@ -27,7 +27,7 @@ function SelectWorkWeekdays({ route, navigation }: SelectWorkWeekdaysScreenProps
 		}
 
 		setVacancyDataOnContext({ daysOfWeek: selectedDaysOfWeek })
-		navigation.navigate('InsertVacancyStartHour')
+		navigation.navigate('InsertVacancyStartDate')
 	}
 
 	return (

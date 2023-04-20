@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 
@@ -30,8 +30,10 @@ function SaleReview({ navigation }: SaleReviewScreenProps) {
 	const [hasError, setHasError] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState(false)
 
-	console.log('Contexto atual: Sale')
-	console.log(saleDataContext)
+	useEffect(() => {
+		console.log('Contexto atual: Sale')
+		console.log(saleDataContext)
+	}, [])
 
 	const extractSalePictures = (saleData: SaleData) => saleData.picturesUrl as string[] || []
 

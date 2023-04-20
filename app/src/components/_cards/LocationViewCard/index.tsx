@@ -177,6 +177,7 @@ function LocationViewCard({
 				((locationView !== 'private' || editable) && locationView !== undefined) && !withoutMapView && (
 					<MapArea >
 						<CustomMapView
+							scrollEnabled={false}
 							regionCoordinate={getAddressCoordinates()}
 							markerCoordinate={getAddressCoordinates()}
 							CustomMarker={locationView === 'public' || (locationView === 'private' && editable) ? MapPointOrangeIcon : undefined}

@@ -13,6 +13,7 @@ import { BackButton } from '../../_buttons/BackButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
 import { LineInput } from '../../LineInput'
 import { ProgressBar } from '../../ProgressBar'
+import { SkipButton } from '../../_buttons/SkipButton'
 
 interface PostInputTextProps {
 	backgroundColor: string
@@ -22,8 +23,9 @@ interface PostInputTextProps {
 	inputPlaceholder?: string
 	initialValue?: string
 	keyboardOpened?: boolean
-	validateInputText?: (text: string) => boolean
 	progress: [value: number, range: number]
+	validateInputText?: (text: string) => boolean
+	skipScreen?: () => void
 	saveTextData: (text: string) => void
 	navigateBackwards: () => void
 }
@@ -38,6 +40,7 @@ function PostInputText({
 	keyboardOpened,
 	progress,
 	validateInputText = (text: string) => true,
+	skipScreen,
 	saveTextData,
 	navigateBackwards
 }: PostInputTextProps) {
@@ -46,6 +49,7 @@ function PostInputText({
 
 	useEffect(() => {
 		const validation = validateInputText(inputText)
+		console.log(validation)
 		setInputTextIsValid(validation)
 	}, [inputText, keyboardOpened])
 
@@ -109,6 +113,13 @@ function PostInputText({
 						)
 					}
 				</ButtonsContainer>
+				{
+					skipScreen && !inputTextIsValid && !keyboardOpened
+						? (
+							<SkipButton onPress={skipScreen} />
+						)
+						: <></>
+				}
 			</FormContainer>
 		</Container>
 	)

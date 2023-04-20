@@ -241,6 +241,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 			</Header>
 			<Body>
 				<ScrollView showsVerticalScrollIndicator={false}>
+					<Sigh />
 					<DescriptionCard
 						title={'descrição do serviço'}
 						text={getPostField('description')}

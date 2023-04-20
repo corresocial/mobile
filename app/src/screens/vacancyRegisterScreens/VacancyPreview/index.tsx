@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 
@@ -30,8 +30,10 @@ function VacancyReview({ navigation }: VacancyReviewScreenProps) {
 	const [hasError, setHasError] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState(false)
 
-	console.log('Contexto atual: Vacancy')
-	console.log(vacancyDataContext)
+	useEffect(() => {
+		console.log('Contexto atual: Vacancy')
+		console.log(vacancyDataContext)
+	}, [])
 
 	const extractVacancyPictures = (vacancyData: VacancyData) => vacancyData.picturesUrl as string[] || []
 

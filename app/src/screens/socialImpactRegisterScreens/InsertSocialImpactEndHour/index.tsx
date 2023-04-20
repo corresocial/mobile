@@ -49,8 +49,8 @@ function InsertSocialImpactEndHour({ route, navigation }: InsertSocialImpactEndH
 		<>
 			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
 			<PostTime
-				backgroundColor={theme.blue2}
-				validationColor={theme.blue1}
+				backgroundColor={theme.pink2}
+				validationColor={theme.pink1}
 				customTitle={'que horas você termina?'}
 				customHighlight={['que', 'horas', 'termina']}
 				editMode={editModeIsTrue()}

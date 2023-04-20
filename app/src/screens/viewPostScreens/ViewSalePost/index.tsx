@@ -239,6 +239,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 			</Header>
 			<Body>
 				<ScrollView showsVerticalScrollIndicator={false}>
+					<Sigh />
 					<DescriptionCard
 						title={'descrição do produto'}
 						text={getPostField('itemDescription')}

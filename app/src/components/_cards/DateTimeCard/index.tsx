@@ -68,11 +68,27 @@ function DateTimeCard({
 	}
 
 	const renderStartDate = () => {
-		return showMessageWithHighlight(`●  começa dia ${formatDate(startDate as any)}`, [formatDate(startDate as any)])
+		if (!startDate) return <></>
+		return (
+			< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
+				{showMessageWithHighlight(
+					`●  começa dia ${formatDate(startDate as any)}`,
+					[formatDate(startDate as any)]
+				)}
+			</InfoRow>
+		)
 	}
 
 	const renderEndDate = () => {
-		return showMessageWithHighlight(`●  termina dia ${formatDate(endDate as any)}`, [formatDate(endDate as any)])
+		if (!endDate) return <></>
+		return (
+			< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
+				{showMessageWithHighlight(
+					`●  termina dia ${formatDate(endDate as any)}`,
+					[formatDate(endDate as any)]
+				)}
+			</InfoRow>
+		)
 	}
 
 	const renderOpeningAndClosingTime = () => {
@@ -128,12 +144,8 @@ function DateTimeCard({
 						: startDate || endDate
 							? (
 								<>
-									< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
-										{renderStartDate()}
-									</InfoRow>
-									< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
-										{renderEndDate()}
-									</InfoRow>
+									{renderStartDate()}
+									{renderEndDate()}
 								</>
 							)
 							: (

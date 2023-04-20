@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 
@@ -30,8 +30,10 @@ function ServiceReview({ navigation }: ServiceReviewScreenProps) {
 	const [hasError, setHasError] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState(false)
 
-	console.log('Contexto atual: Service')
-	console.log(serviceDataContext)
+	useEffect(() => {
+		console.log('Contexto atual: Service')
+		console.log(serviceDataContext)
+	})
 
 	const extractServicePictures = (serviceData: ServiceData) => serviceData.picturesUrl as string[] || []
 

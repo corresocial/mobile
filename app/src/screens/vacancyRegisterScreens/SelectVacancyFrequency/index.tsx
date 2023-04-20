@@ -12,7 +12,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostFrequency } from '../../../components/_onboarding/PostFrequency'
 
 function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -55,6 +55,12 @@ function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScr
 					daysOfWeek: [...daysOfWeek]
 				})
 				navigation.navigate('InsertVacancyStartHour')
+
+				if (vacancyDataContext.vacancyType === 'professional') {
+					navigation.navigate('InsertVacancyStartHour')
+				} else {
+					navigation.navigate('InsertVacancyStartDate')
+				}
 				break
 			}
 			case 'someday': {

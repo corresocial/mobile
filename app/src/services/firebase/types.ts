@@ -327,6 +327,7 @@ export type VacancyCollection = {
 	endDate?: Date
 	startHour?: Date
 	endHour?: Date
+	picturesUrl: string[]
 	tags?: string[]
 	category?: string
 	createdAt?: Date
@@ -368,6 +369,7 @@ export type VacancyCollectionRemote = {
 	endDate: Date
 	startHour: Date
 	endHour: Date
+	picturesUrl: string[]
 	tags: string[]
 	category: string
 	createdAt: Date
@@ -490,6 +492,8 @@ export type SocialImpactCollection = {
 	range?: ExhibitionPlaceType
 	daysOfWeek?: DaysOfWeek[]
 	repeat?: EventRepeatType,
+	startDate?: Date
+	endDate?: Date
 	startHour?: Date
 	endHour?: Date
 	picturesUrl?: string[]
@@ -529,6 +533,8 @@ export type SocialImpactCollectionRemote = {
 	range: ExhibitionPlaceType
 	daysOfWeek: DaysOfWeek[]
 	repeat: EventRepeatType,
+	startDate?: Date
+	endDate?: Date
 	startHour: Date
 	endHour: Date
 	picturesUrl: string[]

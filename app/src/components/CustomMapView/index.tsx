@@ -20,6 +20,7 @@ interface CustomMapViewProops {
 	postRange?: PostRange
 	placeColor?: string,
 	placeName?: string,
+	scrollEnabled?: boolean
 	CustomMarker?: React.FC<SvgProps>
 	locationView?: LocationViewType
 	updateMarkerPosition?: (event: any) => void
@@ -32,6 +33,7 @@ function CustomMapView({
 	postRange,
 	placeColor,
 	placeName,
+	scrollEnabled = true,
 	CustomMarker,
 	locationView = 'private',
 	updateMarkerPosition
@@ -102,7 +104,7 @@ function CustomMapView({
 	}
 
 	const getRegionCoordinates = () => {
-		if (!renderLimits) return regionCoordinate
+		if (!renderLimits || !rangeCoordinates) return regionCoordinate
 
 		const latDiff = rangeCoordinates[0].latitude - rangeCoordinates[2].latitude
 		const lgnDiff = rangeCoordinates[0].longitude - rangeCoordinates[2].longitude
@@ -153,6 +155,9 @@ function CustomMapView({
 				position: 'relative'
 			}}
 			cacheEnabled={false}
+			scrollEnabled={scrollEnabled}
+			pitchEnabled={scrollEnabled}
+			zoomEnabled={scrollEnabled}
 			region={locationView === 'approximate' && !renderLimits ? randomCoordinate : getRegionCoordinates()}
 			mapType={'standard'}
 			onRegionChangeComplete={(coordinates, details) => (!!details?.isGesture && updateMarkerPosition) && updateMarkerPosition(coordinates)}

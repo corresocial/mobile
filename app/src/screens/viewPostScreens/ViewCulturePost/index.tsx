@@ -207,6 +207,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 			</Header>
 			<Body>
 				<ScrollView showsVerticalScrollIndicator={false} >
+					<Sigh />
 					<DescriptionCard
 						title={'descrição do evento'}
 						text={getPostField('description')}

@@ -56,8 +56,8 @@ function SelectSocialImpactExhibitionRange({ route, navigation }: SelectSocialIm
 					highlightedWords={['onde']}
 				>
 					<ProgressBar
-						range={5}
-						value={5}
+						range={4}
+						value={4}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
