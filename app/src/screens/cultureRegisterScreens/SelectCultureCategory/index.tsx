@@ -33,7 +33,7 @@ function SelectCultureCategory({ route, navigation }: SelectCultureCategoryScree
 				categories={cultureCategories}
 				navigateBackwards={() => navigation.goBack()}
 				savePostCategory={onSelectCategory}
-				progress={[1, 5]}
+				progress={[1, 4]}
 			/>
 		</>
 	)

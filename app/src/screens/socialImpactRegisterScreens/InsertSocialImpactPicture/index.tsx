@@ -21,7 +21,7 @@ function InsertSocialImpactPicture({ navigation }: InsertSocialImpactPictureScre
 			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
 			<PostPicture
 				backgroundColor={theme.pink2}
-				progress={[2, 5]}
+				progress={[2, 4]}
 				navigateBackwards={() => navigation.goBack()}
 				skipPostPicture={skipPostPicture}
 				navigateToPicturePreview={navigateToPicturePreview}

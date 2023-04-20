@@ -54,7 +54,7 @@ function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenP
 				editMode={editModeIsTrue()}
 				startDate={editDataContext.unsaved.startDate || cultureDataContext.startDate}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[5, 5]}
+				progress={[4, 4]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

@@ -51,6 +51,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const flatListRef: RefObject<FlatList> = useRef(null)
 
 	useLayoutEffect(() => {
+		console.log(currentChat)
 		startMessagesListener(currentChat.chatId)
 	}, [currentChat])
 
@@ -64,7 +65,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const loadChatMessages = async () => {
 		const remoteChatData = await getRemoteChatData(currentChat.user1, currentChat.user2)
-		setCurrentChat(remoteChatData)
+		setCurrentChat(remoteChatData as any) // TODO Type
 
 		verifyUsersBlock()
 	}

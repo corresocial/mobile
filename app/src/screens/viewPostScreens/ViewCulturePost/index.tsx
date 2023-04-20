@@ -250,8 +250,8 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 								<Sigh />
 								<DateTimeCard
 									title={'dias e horários'}
-									openingTime={getPostField('startHour')}
-									closingTime={getPostField('endHour')}
+									startTime={getPostField('startHour')}
+									endTime={getPostField('endHour')}
 									startDate={getPostField('startDate')}
 									endDate={getPostField('endDate')}
 									textFontSize={14}

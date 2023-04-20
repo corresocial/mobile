@@ -23,6 +23,7 @@ function SelectServiceDaysOfWeek({ route, navigation }: SelectServiceDaysOfWeekS
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ daysOfWeek: selectedDaysOfWeek })
 			navigation.goBack()
+			navigation.goBack()
 			return
 		}
 

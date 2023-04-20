@@ -58,7 +58,7 @@ function InsertSocialImpactEndHour({ route, navigation }: InsertSocialImpactEndH
 				endDate={editDataContext.unsaved.startDate || socialImpactDataContext.startDate}
 				startTime={editDataContext.unsaved.startHour || socialImpactDataContext.startHour}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[5, 5]}
+				progress={[4, 4]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

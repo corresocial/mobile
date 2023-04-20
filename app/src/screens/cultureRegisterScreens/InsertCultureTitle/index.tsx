@@ -55,7 +55,7 @@ function InsertCultureTitle({ route, navigation }: InsertCultureTitleScreenProps
 				validationColor={theme.blue1}
 				inputPlaceholder={'ex: exposição de arte'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, 5]}
+				progress={[2, 4]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateCultureTitle}
 				navigateBackwards={() => navigation.goBack()}

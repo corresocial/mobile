@@ -52,7 +52,7 @@ function InsertCultureStartHour({ route, navigation }: InsertCultureStartHourScr
 				backgroundColor={theme.blue2}
 				validationColor={theme.blue1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[5, 5]}
+				progress={[4, 4]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

@@ -21,7 +21,7 @@ function SelectCultureLocationView({ route, navigation }: SelectCultureLocationV
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<PostLocationView
 				backgroundColor={theme.blue2}
-				progress={[4, 5]}
+				progress={[3, 4]}
 				saveLocationViewType={saveLocationViewType}
 				navigateBackwards={() => navigation.goBack()}
 			/>

@@ -60,7 +60,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 		const daysOfWeek = getPostField('daysOfWeek')
 
 		const allDaysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
-		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => daysOfWeek.includes(weekDay))
+		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => (daysOfWeek || []).includes(weekDay))
 		return ordenedDaysOfWeek.toString().split(',').join(', ')
 	}
 

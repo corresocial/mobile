@@ -56,7 +56,7 @@ function InsertCultureDescription({ route, navigation }: InsertCultureDescriptio
 				validationColor={theme.blue1}
 				inputPlaceholder={'ex: evento liberado pra geral do bairro'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, 5]}
+				progress={[2, 4]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateCultureDescription}
 				navigateBackwards={() => navigation.goBack()}

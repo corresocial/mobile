@@ -21,7 +21,7 @@ function InsertCulturePicture({ navigation }: InsertCulturePictureScreenProps) {
 			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
 			<PostPicture
 				backgroundColor={theme.blue2}
-				progress={[2, 5]}
+				progress={[2, 4]}
 				navigateBackwards={() => navigation.goBack()}
 				skipPostPicture={skipPostPicture}
 				navigateToPicturePreview={navigateToPicturePreview}

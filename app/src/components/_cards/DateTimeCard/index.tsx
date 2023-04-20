@@ -15,8 +15,8 @@ interface DateTimeCardProps {
 	title: string
 	weekDaysfrequency?: WeekdaysFrequency
 	daysOfWeek?: DaysOfWeek[]
-	openingTime: Date
-	closingTime: Date
+	startTime: Date
+	endTime: Date
 	startDate?: Date
 	endDate?: Date
 	textFontSize?: number
@@ -27,8 +27,8 @@ function DateTimeCard({
 	title,
 	weekDaysfrequency,
 	daysOfWeek = [],
-	openingTime,
-	closingTime,
+	startTime,
+	endTime,
 	startDate,
 	endDate,
 	textFontSize = 12,
@@ -76,9 +76,19 @@ function DateTimeCard({
 	}
 
 	const renderOpeningAndClosingTime = () => {
+		const formatedStartTime = formatHour(startTime)
+		const formatedEndTime = formatHour(endTime)
+
+		if ((formatedStartTime && !formatedEndTime) || (!formatedStartTime && formatedEndTime)) {
+			return showMessageWithHighlight(
+				`●  ${formatedStartTime ? 'começa' : 'termina'} às ${formatedStartTime} `,
+				[formatedStartTime || formatedEndTime]
+			)
+		}
+
 		return showMessageWithHighlight(
-			`●  das ${formatHour(openingTime)} as ${formatHour(closingTime)} `,
-			[formatHour(openingTime), formatHour(closingTime)]
+			`●  das ${formatedStartTime} as ${formatedEndTime} `,
+			[formatedStartTime, formatedEndTime]
 		)
 	}
 
@@ -132,9 +142,13 @@ function DateTimeCard({
 								</InfoRow>
 							)
 				}
-				<OpeningAndClosingTime style={{ fontSize: RFValue(textFontSize) }}>
-					{renderOpeningAndClosingTime()}
-				</OpeningAndClosingTime>
+				{
+					(startTime || endTime) && (
+						<OpeningAndClosingTime style={{ fontSize: RFValue(textFontSize) }}>
+							{renderOpeningAndClosingTime()}
+						</OpeningAndClosingTime>
+					)
+				}
 				{
 					repetition
 					&& (

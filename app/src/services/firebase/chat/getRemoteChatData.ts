@@ -4,12 +4,23 @@ import { Chat, UserIdentification } from '../../../@types/chat/types'
 import { Id } from '../types'
 
 async function getRemoteChatData(userSender: UserIdentification, userReceiver: UserIdentification) {
-	const chatId = `${userSender.userId}-${userReceiver.userId}`
+	const chatId1 = `${userSender.userId}-${userReceiver.userId}`
+	const chatId2 = `${userReceiver.userId}-${userSender.userId}`
 
-	if (await chatAlreadyExists(chatId)) {
-		const { user1, user2, messages } = await getRegistredChatData(chatId) as Chat
+	if (await chatAlreadyExists(chatId1)) {
+		const { user1, user2, messages } = await getRegistredChatData(chatId1) as Chat
 		return {
-			chatId,
+			chatId1,
+			user1,
+			user2,
+			messages,
+		}
+	}
+
+	if (await chatAlreadyExists(chatId2)) {
+		const { user1, user2, messages } = await getRegistredChatData(chatId2) as Chat
+		return {
+			chatId2,
 			user1,
 			user2,
 			messages,
@@ -17,7 +28,7 @@ async function getRemoteChatData(userSender: UserIdentification, userReceiver: U
 	}
 
 	return {
-		chatId,
+		chatId1,
 		user1: userSender,
 		user2: userReceiver,
 		messages: {},

@@ -31,7 +31,7 @@ function SelectCultureRange({ navigation }: SelectCultureRangeScreenProps) {
 				backgroundColor={theme.blue2}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
-				progress={[4, 5]}
+				progress={[3, 4]}
 			/>
 		</>
 	)

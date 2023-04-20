@@ -56,7 +56,7 @@ function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpact
 				validationColor={theme.pink1}
 				inputPlaceholder={'ex: projeto de arrecadação para o dia das crianças.'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, 5]}
+				progress={[2, 4]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSocialImpactDescription}
 				navigateBackwards={() => navigation.goBack()}

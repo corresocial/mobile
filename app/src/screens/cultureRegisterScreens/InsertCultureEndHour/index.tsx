@@ -58,7 +58,7 @@ function InsertCultureEndHour({ route, navigation }: InsertCultureEndHourScreenP
 				endDate={editDataContext.unsaved.startDate || cultureDataContext.startDate}
 				startTime={editDataContext.unsaved.startHour || cultureDataContext.startHour}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[5, 5]}
+				progress={[4, 4]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

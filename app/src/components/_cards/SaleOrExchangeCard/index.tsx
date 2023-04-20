@@ -8,10 +8,12 @@ import {
 	SaleValueArea,
 	ExchangeArea,
 	ExchangeText,
+	SmallFontBold,
 } from './styles'
 import DollarIcon from '../../../assets/icons/dollar.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { textHasOnlyNumbers } from '../../../utils/validationFunctions'
 
 import { DefaultCardContainer } from '../DefaultCardContainer'
 
@@ -24,12 +26,12 @@ interface SaleOrExchangeCardProps {
 
 function SaleOrExchangeCard({ title, saleValue, exchangeValue, withoutExchangePresentation }: SaleOrExchangeCardProps) {
 	const renderSaleValue = () => {
-		if (saleValue === 'a combinar') {
+		if (!textHasOnlyNumbers(saleValue)) {
 			return (
 				<SaleValueArea>
-					<SmallFont>
+					<SmallFontBold>
 						{saleValue}
-					</SmallFont>
+					</SmallFontBold>
 				</SaleValueArea>
 			)
 		}

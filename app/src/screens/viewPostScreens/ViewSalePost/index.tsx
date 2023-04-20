@@ -271,8 +271,8 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						title={'dias e horários'}
 						weekDaysfrequency={getPostField('attendanceFrequency')}
 						daysOfWeek={getPostField('daysOfWeek')}
-						openingTime={getPostField('startHour')}
-						closingTime={getPostField('endHour')}
+						startTime={getPostField('startHour')}
+						endTime={getPostField('endHour')}
 						textFontSize={14}
 					/>
 					<Sigh />

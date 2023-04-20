@@ -24,7 +24,7 @@ function SelectSocialImpactRange({ navigation }: SelectSocialImpactRangeScreenPr
 				backgroundColor={theme.pink2}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
-				progress={[4, 5]}
+				progress={[3, 4]}
 			/>
 		</>
 	)

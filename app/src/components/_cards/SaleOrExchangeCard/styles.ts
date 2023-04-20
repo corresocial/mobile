@@ -17,6 +17,10 @@ export const SmallFont = styled.Text`
 	font-size: ${RFValue(16)}px;
 	font-family: Arvo_400Regular;
 	padding-bottom: 1%;
+
+`
+export const SmallFontBold = styled(SmallFont)`
+	font-family: Arvo_700Bold;
 `
 
 export const LargeFont = styled.Text`

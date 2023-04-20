@@ -55,7 +55,7 @@ function InsertSocialImpactTitle({ route, navigation }: InsertSocialImpactTitleS
 				validationColor={theme.pink1}
 				inputPlaceholder={'ex: projeto criança feliz'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, 5]}
+				progress={[2, 4]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSocialImpactTitle}
 				navigateBackwards={() => navigation.goBack()}
