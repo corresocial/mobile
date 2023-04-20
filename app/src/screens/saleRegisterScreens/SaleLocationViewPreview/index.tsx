@@ -50,6 +50,15 @@ function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewS
 		navigation.navigate('SelectDeliveryMethod')
 	}
 
+	const getPlaceName = () => {
+		switch (postRange) {
+			case 'near': return 'near'
+			case 'city': return saleDataContext.location?.city || ''
+			case 'country': return 'Brasil'
+			default: return ''
+		}
+	}
+
 	return (
 		<>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
@@ -58,6 +67,8 @@ function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewS
 				saveLocationView={saveLocationView}
 				initialValue={getCurrentMarkerCoordinate()}
 				postRange={postRange || 'near'}
+				placeName={getPlaceName()}
+				placeColor={theme.transparence.green3}
 				locationViewSelected={route.params.locationView}
 				navigateBackwards={() => navigation.goBack()}
 			/>

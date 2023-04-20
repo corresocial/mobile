@@ -51,6 +51,15 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 		navigation.navigate('InsertEntryValue')
 	}
 
+	const getPlaceName = () => {
+		switch (postRange) {
+			case 'near': return 'near'
+			case 'city': return cultureDataContext.location?.city || ''
+			case 'country': return 'Brasil'
+			default: return ''
+		}
+	}
+
 	return (
 		<>
 			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
@@ -59,6 +68,8 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 				saveLocationView={saveLocationView}
 				initialValue={getCurrentMarkerCoordinate()}
 				postRange={postRange || 'near'}
+				placeName={getPlaceName()}
+				placeColor={theme.transparence.blue3}
 				locationViewSelected={route.params.locationView}
 				navigateBackwards={() => navigation.goBack()}
 			/>

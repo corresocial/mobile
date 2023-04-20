@@ -50,6 +50,15 @@ function VacancyLocationViewPreview({ route, navigation }: VacancyLocationViewPr
 		navigation.navigate('SelectWorkWeekdays')
 	}
 
+	const getPlaceName = () => {
+		switch (postRange) {
+			case 'near': return 'near'
+			case 'city': return vacancyDataContext.location?.city || ''
+			case 'country': return 'Brasil'
+			default: return ''
+		}
+	}
+
 	return (
 		<>
 			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
@@ -58,6 +67,8 @@ function VacancyLocationViewPreview({ route, navigation }: VacancyLocationViewPr
 				saveLocationView={saveLocationView}
 				initialValue={getCurrentMarkerCoordinate()}
 				postRange={postRange || 'near'}
+				placeName={getPlaceName()}
+				placeColor={theme.transparence.yellow3}
 				locationViewSelected={route.params.locationView}
 				navigateBackwards={() => navigation.goBack()}
 			/>

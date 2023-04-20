@@ -50,6 +50,15 @@ function ServiceLocationViewPreview({ route, navigation }: ServiceLocationViewPr
 		navigation.navigate('SelectDeliveryMethod')
 	}
 
+	const getPlaceName = () => {
+		switch (postRange) {
+			case 'near': return 'near'
+			case 'city': return serviceDataContext.location?.city || ''
+			case 'country': return 'Brasil'
+			default: return ''
+		}
+	}
+
 	return (
 		<>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
@@ -58,6 +67,8 @@ function ServiceLocationViewPreview({ route, navigation }: ServiceLocationViewPr
 				saveLocationView={saveLocationView}
 				initialValue={getCurrentMarkerCoordinate()}
 				postRange={postRange || 'near'}
+				placeName={getPlaceName()}
+				placeColor={theme.transparence.purple3}
 				locationViewSelected={route.params.locationView}
 				navigateBackwards={() => navigation.goBack()}
 			/>

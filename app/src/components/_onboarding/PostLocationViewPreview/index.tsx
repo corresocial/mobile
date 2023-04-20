@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { theme } from '../../../common/theme'
 import { ButtonContainerBottom, Container, MapContainer } from './styles'
@@ -7,6 +7,8 @@ import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import {
 	generateLocationHeaderText,
+	getLocationViewDescription,
+	getLocationViewHighlightedWords,
 	getLocationViewIcon,
 	getPossessivePronoun,
 	getRelativeLocationView,
@@ -25,6 +27,8 @@ interface PostLocationViewPreviewProps {
 	backgroundColor: string
 	locationViewSelected: LocationViewType
 	postRange: PostRange
+	placeName: string
+	placeColor: string
 	initialValue?: LatLong
 	navigateBackwards: () => void
 	saveLocationView: () => void
@@ -34,10 +38,14 @@ function PostLocationViewPreview({
 	backgroundColor,
 	locationViewSelected,
 	postRange,
+	placeName,
+	placeColor,
 	initialValue,
 	navigateBackwards,
 	saveLocationView
 }: PostLocationViewPreviewProps) {
+	const [firstStep, setFirstStep] = useState(true)
+
 	return (
 		<Container >
 			<DefaultHeaderContainer
@@ -46,12 +54,24 @@ function PostLocationViewPreview({
 				backgroundColor={backgroundColor}
 				borderBottomWidth={0}
 			>
-				<BackButton onPress={navigateBackwards} />
+				<BackButton onPress={() => (!firstStep ? setFirstStep(true) : navigateBackwards())} />
 				<InfoCard
-					title={`${getRelativeRange(postRange)} - ${getRelativeLocationView(locationViewSelected)}`}
+					title={
+						firstStep
+							? `localização \n${getRelativeLocationView(locationViewSelected)}`
+							: `seu alcance\n ●  ${getRelativeRange(postRange)}`
+					}
 					titleFontSize={18}
-					description={generateLocationHeaderText(locationViewSelected, postRange)}
-					highlightedWords={[`${getRelativeRange(postRange)},`, getRelativeRange(postRange), getRelativeLocationView(locationViewSelected), getPossessivePronoun(postRange)]}
+					description={
+						firstStep
+							? getLocationViewDescription(locationViewSelected)
+							: generateLocationHeaderText(locationViewSelected, postRange)
+					}
+					highlightedWords={
+						firstStep
+							? getLocationViewHighlightedWords(locationViewSelected)
+							: ['alcance\n', getPossessivePronoun(postRange), getRelativeRange(postRange)]
+					}
 					height={'100%'}
 					color={theme.white3}
 				/>
@@ -60,7 +80,11 @@ function PostLocationViewPreview({
 				<CustomMapView
 					regionCoordinate={initialValue}
 					markerCoordinate={initialValue}
-					CustomMarker={getLocationViewIcon(locationViewSelected)}
+					placeColor={placeColor}
+					placeName={placeName}
+					postRange={postRange}
+					CustomMarker={firstStep ? getLocationViewIcon(locationViewSelected) : undefined}
+					renderLimits={!firstStep}
 					locationView={locationViewSelected}
 				/>
 			</MapContainer>
@@ -72,7 +96,7 @@ function PostLocationViewPreview({
 					labelColor={theme.white3}
 					SecondSvgIcon={CheckWhiteIcon}
 					svgIconScale={['40%', '25%']}
-					onPress={saveLocationView}
+					onPress={() => (firstStep ? setFirstStep(false) : saveLocationView())}
 				/>
 			</ButtonContainerBottom>
 		</Container>

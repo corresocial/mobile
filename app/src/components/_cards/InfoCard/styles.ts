@@ -26,7 +26,6 @@ export const Title = styled.Text`
     font-family: Arvo_400Regular;
     font-size:  ${RFValue(22)}px;
     color: ${({ theme }) => theme.black4}
-	margin-bottom: ${relativeScreenHeight(2)}px;
 `
 
 export const Description = styled.Text`

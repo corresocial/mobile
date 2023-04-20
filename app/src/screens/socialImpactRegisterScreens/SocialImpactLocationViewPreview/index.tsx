@@ -49,6 +49,15 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 		navigation.navigate('SelectSocialImpactExhibitionRange')
 	}
 
+	const getPlaceName = () => {
+		switch (postRange) {
+			case 'near': return 'near'
+			case 'city': return socialImpactDataContext.location?.city || ''
+			case 'country': return 'Brasil'
+			default: return ''
+		}
+	}
+
 	return (
 		<>
 			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
@@ -57,6 +66,8 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 				saveLocationView={saveLocationView}
 				initialValue={getCurrentMarkerCoordinate()}
 				postRange={postRange || 'near'}
+				placeName={getPlaceName()}
+				placeColor={theme.transparence.pink3}
 				locationViewSelected={route.params.locationView}
 				navigateBackwards={() => navigation.goBack()}
 			/>

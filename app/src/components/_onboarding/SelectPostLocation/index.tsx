@@ -19,6 +19,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { LineInput } from '../../../components/LineInput'
 import { CustomMapView } from '../../../components/CustomMapView'
 import { InfoCard } from '../../../components/_cards/InfoCard'
+import { InstructionCard } from '../../_cards/InstructionCard'
 
 const initialRegion = {
 	latitude: -13.890303625634541,
@@ -189,19 +190,17 @@ function SelectPostLocation({
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : backgroundColor} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(22)}
+				minHeight={relativeScreenHeight(14)}
+				relativeHeight={relativeScreenHeight(14)}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 				borderBottomWidth={0}
 			>
 				<BackButton onPress={navigateBackwards} />
-				<InfoCard
-					title={`${getRelativeRange(postRange)} - ${getRelativeLocationView(locationView)}`}
-					titleFontSize={18}
-					description={generateLocationHeaderText(locationView, postRange)}
-					highlightedWords={[`${getRelativeRange(postRange)},`, getRelativeRange(postRange), getRelativeLocationView(locationView), getPossessivePronoun(postRange)]}
-					height={'100%'}
-					color={theme.white3}
+				<InstructionCard
+					message={'qual é o endereço?'}
+					highlightedWords={['endereço']}
+					fontSize={17}
 				/>
 			</DefaultHeaderContainer>
 			<LineInput

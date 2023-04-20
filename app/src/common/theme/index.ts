@@ -55,5 +55,11 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 	transparence: {
 		orange1: 'rgba(250, 153, 56, 0.7)',
 		orange2: 'rgba(250, 153, 56, 0.9)',
+
+		purple3: 'rgba(153, 71, 235, 0.25)',
+		green3: 'rgba(18, 161, 89, 0.25)',
+		yellow3: 'rgba(251, 206, 55, 0.25)',
+		blue3: 'rgba(48, 140, 232, 0.25)',
+		pink3: 'rgba(232, 48, 110, 0.25)'
 	}
 }

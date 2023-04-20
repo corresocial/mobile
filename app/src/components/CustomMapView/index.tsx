@@ -1,14 +1,25 @@
-import React from 'react'
-import MapView, { Circle, Marker } from 'react-native-maps'
+import React, { useEffect, useState } from 'react'
+import MapView, { Circle, Marker, Polygon } from 'react-native-maps'
 import { SvgProps } from 'react-native-svg'
 
 import { relativeScreenWidth } from '../../common/screenDimensions'
 
-import { Coordinates, LocationViewType } from '../../services/firebase/types'
+import { Coordinates, LatLong, LocationViewType, PostRange } from '../../services/firebase/types'
+import { getPlaceLimits } from '../../services/maps/getPlaceLimits'
+import { theme } from '../../common/theme'
+
+type PlaceLimits = {
+	northeast: { lat: number, lng: number },
+	southwest: { lat: number, lng: number }
+}
 
 interface CustomMapViewProops {
 	regionCoordinate: Coordinates | any
 	markerCoordinate: Coordinates | any
+	renderLimits?: boolean
+	postRange?: PostRange
+	placeColor?: string,
+	placeName?: string,
 	CustomMarker?: React.FC<SvgProps>
 	locationView?: LocationViewType
 	updateMarkerPosition?: (event: any) => void
@@ -17,12 +28,95 @@ interface CustomMapViewProops {
 function CustomMapView({
 	regionCoordinate,
 	markerCoordinate,
+	renderLimits,
+	postRange,
+	placeColor,
+	placeName,
 	CustomMarker,
 	locationView = 'private',
 	updateMarkerPosition
 
 }: CustomMapViewProops) {
+	const [rangeCoordinates, setRangeCoordinates] = useState<LatLong[]>([markerCoordinate])
+
 	const approximateRadius = 250
+
+	useEffect(() => {
+		getRangeLimits()
+	}, [])
+
+	const getRangeLimits = async () => {
+		if (placeName || placeName === 'near') {
+			if (postRange === 'near') {
+				setRangeCoordinates(nearByCoordinates())
+				return
+			}
+
+			const limits = await getPlaceLimits(placeName)
+			if (!limits) return false
+
+			setRangeCoordinates(ordenateCoordinates(limits))
+		}
+	}
+
+	const nearByCoordinates = () => {
+		return [
+			{
+				latitude: markerCoordinate.latitude - 0.0027,
+				longitude: markerCoordinate.longitude - 0.006
+			},
+			{
+				latitude: markerCoordinate.latitude + 0.0027,
+				longitude: markerCoordinate.longitude - 0.006
+			},
+			{
+				latitude: markerCoordinate.latitude + 0.0027,
+				longitude: markerCoordinate.longitude + 0.006
+			},
+			{
+				latitude: markerCoordinate.latitude - 0.0027,
+				longitude: markerCoordinate.longitude + 0.006
+			}
+		]
+	}
+
+	const ordenateCoordinates = ({ northeast, southwest }: PlaceLimits) => {
+		return [
+			{
+				latitude: northeast.lat,
+				longitude: northeast.lng
+			},
+			{
+				latitude: southwest.lat,
+				longitude: northeast.lng
+			},
+			{
+				latitude: southwest.lat,
+				longitude: southwest.lng
+			},
+			{
+				latitude: northeast.lat,
+				longitude: southwest.lng
+			}
+		]
+	}
+
+	const getRegionCoordinates = () => {
+		if (!renderLimits) return regionCoordinate
+
+		const latDiff = rangeCoordinates[0].latitude - rangeCoordinates[2].latitude
+		const lgnDiff = rangeCoordinates[0].longitude - rangeCoordinates[2].longitude
+		const customLatLng = {
+			latitude: rangeCoordinates[0].latitude - (latDiff / 2),
+			longitude: rangeCoordinates[0].longitude - (lgnDiff / 2),
+		}
+
+		const customCityDelta = (latDiff * 1.1 + (lgnDiff < 0.35 ? 0 : lgnDiff / 1.8))
+
+		if (rangeCoordinates.length && postRange === 'country') return { ...regionCoordinate, latitudeDelta: 55, longitudeDelta: 55 }
+		if (rangeCoordinates.length && postRange === 'city') return { ...customLatLng, latitudeDelta: customCityDelta, longitudeDelta: customCityDelta }
+		return { ...regionCoordinate, latitudeDelta: 0.014, longitudeDelta: 0.014 }
+	}
 
 	const generateRandomCoordinateOnRadius = () => {
 		if (!locationView) return null
@@ -59,7 +153,7 @@ function CustomMapView({
 				position: 'relative'
 			}}
 			cacheEnabled={false}
-			region={locationView === 'approximate' ? randomCoordinate as Coordinates : regionCoordinate}
+			region={locationView === 'approximate' && !renderLimits ? randomCoordinate : getRegionCoordinates()}
 			mapType={'standard'}
 			onRegionChangeComplete={(coordinates, details) => (!!details?.isGesture && updateMarkerPosition) && updateMarkerPosition(coordinates)}
 		>
@@ -68,7 +162,7 @@ function CustomMapView({
 				&& (
 					<>
 						{
-							locationView === 'approximate'
+							locationView === 'approximate' && !renderLimits
 							&& (
 								<Circle
 									center={{
@@ -77,9 +171,20 @@ function CustomMapView({
 									}}
 									radius={approximateRadius}
 									strokeWidth={4}
-									fillColor={'rgba(250, 153, 56, 0.25)'}
+									fillColor={'transparent'}
 								>
 								</Circle>
+							)
+						}
+						{
+							renderLimits
+							&& (
+								<Polygon
+									coordinates={rangeCoordinates}
+									fillColor={placeColor || 'rgba(250, 153, 56, 0.25)'}
+									strokeWidth={5}
+									strokeColor={theme.black4}
+								/>
 							)
 						}
 						{
