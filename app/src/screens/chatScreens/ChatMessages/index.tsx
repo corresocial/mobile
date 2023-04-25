@@ -58,10 +58,10 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	useEffect(() => {
 		loadChatMessages()
-		makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId)
+		makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId as Id)
 		return () => {
 			unsubscribeMessageListener(currentChat.chatId)
-			makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId)
+			makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId as Id)
 		}
 	}, [])
 
@@ -148,7 +148,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const blockUser = async () => {
 		const targetUserId = getReceiverUserId(currentChat.user1, currentChat.user2)
-		await blockUserId(targetUserId, userDataContext.userId)
+		await blockUserId(targetUserId, userDataContext.userId as Id)
 
 		setChatOptionsIsOpen(false)
 		setBlockedByOwner(true)
@@ -157,7 +157,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const unblockUser = async () => {
 		const blockedUserId = getReceiverUserId(currentChat.user1, currentChat.user2)
-		await unblockUserId(blockedUserId, userDataContext.userId)
+		await unblockUserId(blockedUserId, userDataContext.userId as Id)
 
 		setChatOptionsIsOpen(false)
 		setIsBlockedUser(false)

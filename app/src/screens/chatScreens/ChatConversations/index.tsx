@@ -115,6 +115,8 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	}
 
 	const sortChats = (a: Chat, b: Chat) => {
+		if (!a || !b || !Object.keys(a.messages).length || !Object.keys(b.messages).length) return 0
+
 		if (getLastMessageDateTime(a.messages, true) < getLastMessageDateTime(b.messages, true)) return 1
 		if (getLastMessageDateTime(a.messages, true) > getLastMessageDateTime(b.messages, true)) return -1
 		return 0

@@ -7,9 +7,13 @@ import { readFromDatabase } from '../services/firebase/chat/readFromDatabase'
 import { registerNewUser } from '../services/firebase/chat/registerNewUser'
 import { Id } from '../services/firebase/types'
 import { AuthContext } from './AuthContext'
+import { unsubscribeUserChatsListener } from '../services/firebase/chat/unsubscribeUserChatsListener'
+import { unsubscribeChatIdsListener } from '../services/firebase/chat/unsubscribeChatIdsListener'
 
 type ChatContextType = {
 	chatDataContext: Chat[]
+	initUserInstance: (userId?: Id) => void
+	removeChatListeners: () => void
 }
 
 interface ChatProviderProps {
@@ -17,7 +21,9 @@ interface ChatProviderProps {
 }
 
 const initialValue = {
-	chatDataContext: []
+	chatDataContext: [],
+	initUserInstance: (userId?: Id) => { },
+	removeChatListeners: () => { },
 }
 
 const ChatContext = createContext<ChatContextType>(initialValue)
@@ -26,34 +32,42 @@ function ChatProvider({ children }: ChatProviderProps) {
 	const { userDataContext } = useContext(AuthContext)
 
 	const [chatDataContext, setChatsOnContext] = useState<Chat[]>([])
+	const [chatIdList, setChatIdList] = useState<string[]>([])
 
 	useEffect(() => {
 		initUserInstance()
 	}, [])
 
-	const initUserInstance = async () => {
-		if (!await existsOnDatabase(userDataContext.userId)) {
-			await registerNewUser(userDataContext.userId, {
+	const initUserInstance = async (userId?: Id) => {
+		const idUser = userId || userDataContext.userId
+		console.log(idUser)
+		if (!await existsOnDatabase(userId || userDataContext.userId)) {
+			await registerNewUser(userId || userDataContext.userId, {
 				blockedUsers: [''],
 				chatIds: ['']
 			})
 		}
 		console.log('starting user instance...')
-		await startUserChatIdsListener(userDataContext.userId)
+
+		await startUserChatIdsListener(userDataContext.userId as Id)
 	}
 
 	const startUserChatIdsListener = async (userId: Id) => {
+		if (!userId) return false
 		const realTimeDatabaseRef = ref(realTimeDatabase, `${userId}`)
 		if (await existsOnDatabase(userId)) {
 			onValue(realTimeDatabaseRef, async (snapshot) => {
-				// console.log(`Listener userChatIds running... ${userId}`)
+				console.log(`Listener userChatIds running... ${userId}`)
 				const newUserChatIds = await loadUserChatIds(userDataContext.userId)
+				setChatIdList(newUserChatIds)
 				startChatListener(newUserChatIds)
 			})
 		}
 	}
 
-	const loadUserChatIds = async (userId: Id) => {
+	const loadUserChatIds = async (userId?: Id) => {
+		if (!userId) return []
+
 		return readFromDatabase([userId])
 			.then((user: UserDatabase[]) => {
 				const filteredChatIds = removeEqualsChatIds(user[0].chatIds)
@@ -66,7 +80,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 			const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
 			if (await existsOnDatabase(chatId)) {
 				onValue(realTimeDatabaseRef, async (snapshot) => {
-					// console.log('Listener chats running...')
+					console.log('Listener chats running...')
 					loadChats(chatIds)
 				})
 			} else {
@@ -91,18 +105,18 @@ function ChatProvider({ children }: ChatProviderProps) {
 			.filter((filteredChatIds) => filteredChatIds)
 	}
 
-	/* const updateChat = async (chatData: Chat) => {
-		const newChats = chatDataContext.map((chat) => {
-			if (chat.chatId === chatData.chatId) {
-				return chatData
-			}
-			return chat
-		})
+	const removeChatListeners = () => {
+		unsubscribeUserChatsListener(userDataContext.userId)
+		unsubscribeChatIdsListener(chatIdList)
+		setChatIdList([])
+		setChatsOnContext([])
+	}
 
-		setChatsOnContext(newChats)
-	} */
-
-	const chatProviderData = ({ chatDataContext })
+	const chatProviderData = ({
+		chatDataContext,
+		initUserInstance,
+		removeChatListeners
+	})
 
 	return (
 		<ChatContext.Provider value={chatProviderData as any} >

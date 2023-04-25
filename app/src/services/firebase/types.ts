@@ -82,6 +82,7 @@ export type SocialMedia = {
 }
 
 export type UserCollection = {
+	userId?: Id
 	name?: string
 	description?: string
 	profilePictureUrl?: string[]

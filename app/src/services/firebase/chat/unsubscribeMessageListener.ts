@@ -6,7 +6,6 @@ async function unsubscribeMessageListener(path: string) {
 	try {
 		const listenerRef = ref(realTimeDatabase, `${path}/messages`)
 		off(listenerRef)
-		console.log('off')
 		return true
 	} catch (err) {
 		console.log(err)
