@@ -39,8 +39,6 @@ function ChatProvider({ children }: ChatProviderProps) {
 	}, [])
 
 	const initUserInstance = async (userId?: Id) => {
-		const idUser = userId || userDataContext.userId
-		console.log(idUser)
 		if (!await existsOnDatabase(userId || userDataContext.userId)) {
 			await registerNewUser(userId || userDataContext.userId, {
 				blockedUsers: [''],
@@ -57,7 +55,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 		const realTimeDatabaseRef = ref(realTimeDatabase, `${userId}`)
 		if (await existsOnDatabase(userId)) {
 			onValue(realTimeDatabaseRef, async (snapshot) => {
-				console.log(`Listener userChatIds running... ${userId}`)
+				// console.log(`Listener userChatIds running... ${userId}`)
 				const newUserChatIds = await loadUserChatIds(userDataContext.userId)
 				setChatIdList(newUserChatIds)
 				startChatListener(newUserChatIds)
@@ -80,7 +78,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 			const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
 			if (await existsOnDatabase(chatId)) {
 				onValue(realTimeDatabaseRef, async (snapshot) => {
-					console.log('Listener chats running...')
+					// console.log('Listener chats running...')
 					loadChats(chatIds)
 				})
 			} else {
