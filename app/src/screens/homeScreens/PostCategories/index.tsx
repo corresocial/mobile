@@ -33,6 +33,8 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const [catalogIcons, setCatalogIcons] = useState([])
 	const [searchText, setSearchText] = useState('')
 
+	const { nearbyPosts } = locationDataContext
+
 	useEffect(() => {
 		setPostTypeOnSearchParams()
 		loadCatalogIcons()
@@ -60,6 +62,17 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			case 'culture': return theme.blue2
 			case 'socialImpact': return theme.pink2
 			default: return theme.orange2
+		}
+	}
+
+	const getInactiveCardColor = () => {
+		switch (route.params.postType) {
+			case 'service': return theme.purple1
+			case 'sale': return theme.green1
+			case 'vacancy': return theme.yellow1
+			case 'culture': return theme.blue1
+			case 'socialImpact': return theme.pink1
+			default: return theme.orange1
 		}
 	}
 
@@ -102,6 +115,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 		if (!currentCategory) {
 			return (
 				<CategoryCard
+					hasElements={false}
 					title={'sem catagorias'}
 					svgUri={''}
 					onPress={() => { }}
@@ -113,12 +127,15 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			? currentCategory
 			: filterCategories(currentCategory)
 
-		const ordenedCategories = Object.values(filtredCategories).sort(sortPostCategories as (a: unknown, b: unknown) => number)
+		const ordenedCategories = Object.values(filtredCategories).sort(sortPostCategories as (a: unknown, b: unknown) => (number))
 
 		return Object.entries(ordenedCategories as CategoryEntries).map((category) => {
 			if (category[1].label === 'outros') return null
+
 			return (
 				<CategoryCard
+					hasElements={!!(nearbyPosts.filter((post) => post.category === category[1].value)).length}
+					inactiveColor={getInactiveCardColor()}
 					key={uuid()}
 					title={category[1].label}
 					svgUri={getRelativeIconUrl(category[1].slug)}
@@ -145,6 +162,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const navigateToCategoryDetails = (categorySelected: MacroCategory) => {
 		const currentCategory = {
 			backgroundColor: getRelativeColor(),
+			inactiveColor: getInactiveCardColor(),
 			categoryName: categorySelected.value,
 			categoryTitle: categorySelected.label,
 			categoryIcon: getRelativeIconUrl(categorySelected.slug),
@@ -158,6 +176,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const navigateToResultScreen = () => {
 		const currentCategory = {
 			backgroundColor: getRelativeColor(),
+			inactiveColor: getInactiveCardColor(),
 			categoryName: '',
 			categoryTitle: '',
 			categoryIcon: '',

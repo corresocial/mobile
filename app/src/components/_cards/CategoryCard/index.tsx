@@ -8,9 +8,11 @@ interface CategoryCardProps {
 	title: string
 	withoutMargin?: boolean
 	svgUri?: string
+	hasElements: boolean;
+	inactiveColor?: string;
 	onPress: () => void
 }
-function CategoryCard({ title, withoutMargin, svgUri, onPress }: CategoryCardProps) {
+function CategoryCard({ title, hasElements, withoutMargin, svgUri, inactiveColor = 'white', onPress }: CategoryCardProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	function pressingButton() {
@@ -34,9 +36,12 @@ function CategoryCard({ title, withoutMargin, svgUri, onPress }: CategoryCardPro
 			activeOpacity={1}
 			style={{ marginBottom: !withoutMargin ? RFValue(15) : 0 }}
 		>
-			<ContainerInner style={{
-				marginLeft: buttonPressed ? 0 : RFValue(-7)
-			}}
+			<ContainerInner
+				hasElements={hasElements}
+				inactiveColor={inactiveColor}
+				style={{
+					marginLeft: buttonPressed ? 0 : RFValue(-7)
+				}}
 			>
 				{svgUri && <SvgUri uri={svgUri} width={'50%'} height={'50%'} />}
 				<Title>
