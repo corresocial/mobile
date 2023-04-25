@@ -1,6 +1,5 @@
 import 'react-native-gesture-handler'
 import React from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 
 import { UserStackParamList } from './types'
@@ -46,61 +45,55 @@ const Stack = createStackNavigator<UserStackParamList>()
 export function UserStack({ route }: any) {
 	const tourPerformed = (route.params && route.params.tourPerformed) || false
 
-	const queryClient = new QueryClient({
-		defaultOptions: { queries: { retry: 2 } },
-	})
-
 	return (
 		<ChatProvider>
-			<QueryClientProvider client={queryClient}>
-				<StateProvider>
-					<EditProvider>
-						<Stack.Navigator
-							initialRouteName={tourPerformed ? 'HomeTab' : 'WelcomeNewUser'}
-							screenOptions={{
-								headerShown: false,
-								gestureEnabled: true,
-								...TransitionPresets.SlideFromRightIOS,
-							}}
-						>
-							<Stack.Screen name={'WelcomeNewUser'} component={WelcomeNewUser} />
-							<Stack.Screen name={'HomeTab'} component={HomeTab} />
-							<Stack.Screen name={'SelectPostType'} component={SelectPostType} />
-							<Stack.Screen name={'ServiceStack'} component={ServiceStack} />
-							<Stack.Screen name={'SaleStack'} component={SaleStack} />
-							<Stack.Screen name={'VacancyStack'} component={VacancyStack} />
-							<Stack.Screen name={'CultureStack'} component={CultureStack} />
-							<Stack.Screen name={'SocialImpactStack'} component={SocialImpactStack} />
-							<Stack.Screen name={'EditProfile'} component={EditProfile} />
-							<Stack.Screen name={'EditUserName'} component={EditUserName} />
-							<Stack.Screen name={'EditUserDescription'} component={EditUserDescription} />
-							<Stack.Screen name={'EditUserPicture'} component={EditUserPicture} />
+			<StateProvider>
+				<EditProvider>
+					<Stack.Navigator
+						initialRouteName={tourPerformed ? 'HomeTab' : 'WelcomeNewUser'}
+						screenOptions={{
+							headerShown: false,
+							gestureEnabled: true,
+							...TransitionPresets.SlideFromRightIOS,
+						}}
+					>
+						<Stack.Screen name={'WelcomeNewUser'} component={WelcomeNewUser} />
+						<Stack.Screen name={'HomeTab'} component={HomeTab} />
+						<Stack.Screen name={'SelectPostType'} component={SelectPostType} />
+						<Stack.Screen name={'ServiceStack'} component={ServiceStack} />
+						<Stack.Screen name={'SaleStack'} component={SaleStack} />
+						<Stack.Screen name={'VacancyStack'} component={VacancyStack} />
+						<Stack.Screen name={'CultureStack'} component={CultureStack} />
+						<Stack.Screen name={'SocialImpactStack'} component={SocialImpactStack} />
+						<Stack.Screen name={'EditProfile'} component={EditProfile} />
+						<Stack.Screen name={'EditUserName'} component={EditUserName} />
+						<Stack.Screen name={'EditUserDescription'} component={EditUserDescription} />
+						<Stack.Screen name={'EditUserPicture'} component={EditUserPicture} />
 
-							<Stack.Screen name={'EditServicePost'} component={EditServicePost} />
-							<Stack.Screen name={'EditSalePost'} component={EditSalePost} />
-							<Stack.Screen name={'EditVacancyPost'} component={EditVacancyPost} />
-							<Stack.Screen name={'EditSocialImpactPost'} component={EditSocialImpactPost} />
-							<Stack.Screen name={'EditCulturePost'} component={EditCulturePost} />
+						<Stack.Screen name={'EditServicePost'} component={EditServicePost} />
+						<Stack.Screen name={'EditSalePost'} component={EditSalePost} />
+						<Stack.Screen name={'EditVacancyPost'} component={EditVacancyPost} />
+						<Stack.Screen name={'EditSocialImpactPost'} component={EditSocialImpactPost} />
+						<Stack.Screen name={'EditCulturePost'} component={EditCulturePost} />
 
-							<Stack.Screen name={'SocialMediaManagement'} component={SocialMediaManagement} />
-							<Stack.Screen name={'InsertLinkTitle'} component={InsertLinkTitle} />
-							<Stack.Screen name={'InsertLinkValue'} component={InsertLinkValue} />
-							<Stack.Screen name={'Configurations'} component={Configurations} />
-							<Stack.Screen name={'WhoWeAre'} component={WhoWeAre} />
-							<Stack.Screen name={'WhoWeAreIncome'} component={WhoWeAreIncome} />
-							<Stack.Screen name={'WhoWeAreCulture'} component={WhoWeAreCulture} />
-							<Stack.Screen name={'WhoWeAreTransformation'} component={WhoWeAreTransformation} />
-							<Stack.Screen name={'HelpUs'} component={HelpUs} />
-							<Stack.Screen name={'ContactUs'} component={ContactUs} />
-							<Stack.Screen name={'ContactUsInsertMessage'} component={ContactUsInsertMessage} />
-							<Stack.Screen name={'ContactUsSuccess'} component={ContactUsSuccess} />
-							<Stack.Screen name={'PrivacyAndSecurity'} component={PrivacyAndSecurity} />
+						<Stack.Screen name={'SocialMediaManagement'} component={SocialMediaManagement} />
+						<Stack.Screen name={'InsertLinkTitle'} component={InsertLinkTitle} />
+						<Stack.Screen name={'InsertLinkValue'} component={InsertLinkValue} />
+						<Stack.Screen name={'Configurations'} component={Configurations} />
+						<Stack.Screen name={'WhoWeAre'} component={WhoWeAre} />
+						<Stack.Screen name={'WhoWeAreIncome'} component={WhoWeAreIncome} />
+						<Stack.Screen name={'WhoWeAreCulture'} component={WhoWeAreCulture} />
+						<Stack.Screen name={'WhoWeAreTransformation'} component={WhoWeAreTransformation} />
+						<Stack.Screen name={'HelpUs'} component={HelpUs} />
+						<Stack.Screen name={'ContactUs'} component={ContactUs} />
+						<Stack.Screen name={'ContactUsInsertMessage'} component={ContactUsInsertMessage} />
+						<Stack.Screen name={'ContactUsSuccess'} component={ContactUsSuccess} />
+						<Stack.Screen name={'PrivacyAndSecurity'} component={PrivacyAndSecurity} />
 
-							<Stack.Screen name={'ChatMessages'} component={ChatMessages} />
-						</Stack.Navigator>
-					</EditProvider>
-				</StateProvider>
-			</QueryClientProvider>
+						<Stack.Screen name={'ChatMessages'} component={ChatMessages} />
+					</Stack.Navigator>
+				</EditProvider>
+			</StateProvider>
 		</ChatProvider>
 	)
 }

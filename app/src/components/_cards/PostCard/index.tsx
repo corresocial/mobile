@@ -28,13 +28,12 @@ interface PostCardProps {
 	owner: LocalUserData | any
 	navigateToProfile?: (userId: string) => void
 	onPress: () => void
-	postType?: string
 }
 
-function PostCard({ post, owner, navigateToProfile, onPress, postType }: PostCardProps) {
+function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 	const defineLabelColor = () => {
-		switch (postType) {
+		switch (post.postType) {
 			case 'service': {
 				return theme.purple3
 			}
@@ -54,7 +53,7 @@ function PostCard({ post, owner, navigateToProfile, onPress, postType }: PostCar
 				return theme.white1
 		}
 	}
-	
+
 	const renderShortName = () => {
 		if (owner.name && owner.name.split(' ').length < 3) return owner.name
 		const names = owner.name && (owner.name.split(' ') || [])
@@ -97,11 +96,11 @@ function PostCard({ post, owner, navigateToProfile, onPress, postType }: PostCar
 			<ContainerInner
 				style={{
 					marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0
-					
+
 				}}
 			>
-				<LeftSideLabel style={{ backgroundColor: defineLabelColor() }}/>
-				<LeftArea style={{ width: !arrayIsEmpty(post.picturesUrl) ? '59.5%' : '100%' }}>
+				<LeftSideLabel style={{ backgroundColor: defineLabelColor() }} />
+				<LeftArea style={{ width: !arrayIsEmpty(post.picturesUrl) ? '61.5%' : '97.5%' }}>
 					<LeftAreaLimits>
 						<Title
 							numberOfLines={(post.description && post.saleValue) || post.itemDescription ? 1 : 2}

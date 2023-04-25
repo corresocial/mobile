@@ -34,7 +34,7 @@ export const LeftArea = styled.View`
 `
 
 export const LeftSideLabel = styled.View`
-	padding: ${RFValue(7.5)}px;
+	width: 3.5%;
 `
 
 export const LeftAreaLimits = styled.View`
