@@ -33,6 +33,10 @@ export const LeftArea = styled.View`
 	padding: ${RFValue(7)}px;
 `
 
+export const LeftSideLabel = styled.View`
+	width: 3.5%;
+`
+
 export const LeftAreaLimits = styled.View`
 	flex: 1;
 	justify-content: space-between;
