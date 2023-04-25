@@ -3,6 +3,12 @@ import uuid from 'react-uuid'
 import { FlatList, Platform } from 'react-native'
 import { get, onValue, ref } from 'firebase/database'
 
+import { theme } from '../../../common/theme'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { Container, Header, Sigh } from './styles'
+import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
+import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
+
 import { getRemoteChatData } from '../../../services/firebase/chat/getRemoteChatData'
 import { registerNewChat } from '../../../services/firebase/chat/registerNewChat'
 import { setChatIdToUsers } from '../../../services/firebase/chat/setChatIdToUsers'
@@ -13,18 +19,13 @@ import { unblockUserId } from '../../../services/firebase/chat/unblockUser'
 import { getRemoteUser } from '../../../services/firebase/chat/getRemoteUser'
 import { cleanMessages } from '../../../services/firebase/chat/cleanMessages'
 import { realTimeDatabase } from '../../../services/firebase'
+import { unsubscribeMessageListener } from '../../../services/firebase/chat/unsubscribeMessageListener'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
 import { FlatListItem } from '../../../@types/global/types'
 import { Id } from '../../../services/firebase/types'
 import { Chat, Message, MessageObjects, UserIdentification } from '../../../@types/chat/types'
-
-import { theme } from '../../../common/theme'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import { Container, Header, Sigh } from './styles'
-import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
-import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
@@ -45,27 +46,29 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const [chatOptionsIsOpen, setChatOptionsIsOpen] = useState(false)
 	const [currentChat, setCurrentChat] = useState<Chat>(chatFromRoute)
 	const [messages, setMessages] = useState<MessageObjects>(currentChat.messages)
+	const [listenerHasStarted, setListenerHasStarted] = useState(false)
 	const [isBlockedUser, setIsBlockedUser] = useState(false)
 	const [blockedByOwner, setBlockedByOwner] = useState(false)
 
 	const flatListRef: RefObject<FlatList> = useRef(null)
 
 	useLayoutEffect(() => {
-		console.log(currentChat)
-		startMessagesListener(currentChat.chatId)
+		!listenerHasStarted && startMessagesListener(currentChat.chatId)
 	}, [currentChat])
 
 	useEffect(() => {
 		loadChatMessages()
 		makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId)
 		return () => {
+			unsubscribeMessageListener(currentChat.chatId)
 			makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId)
 		}
 	}, [])
 
 	const loadChatMessages = async () => {
 		const remoteChatData = await getRemoteChatData(currentChat.user1, currentChat.user2)
-		setCurrentChat(remoteChatData as any) // TODO Type
+		setCurrentChat({ ...remoteChatData, messages: { ...remoteChatData.messages } } as any) // TODO Type
+		setMessages({ ...remoteChatData.messages })
 
 		verifyUsersBlock()
 	}
@@ -86,10 +89,11 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const startMessagesListener = async (chatId: Id) => {
 		const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}/messages`)
 		if (await existsOnDatabase(chatId)) {
-			onValue(realTimeDatabaseRef, (snapshot) => {
+			setListenerHasStarted(true)
+			return onValue(realTimeDatabaseRef, (snapshot) => {
 				const listenerMessages = snapshot.val()
 				if (getLastMessageObjects(listenerMessages).owner !== userDataContext.userId) {
-					// console.log('Listener message running...')
+					console.log('Listener message running...')
 					setMessages(listenerMessages)
 				}
 			})
@@ -105,6 +109,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const existsOnDatabase = async (chatId: Id) => {
+		if (!chatId) return false
 		const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
 		return get(realTimeDatabaseRef)
 			.then((snapshot: any) => snapshot.exists())
@@ -241,7 +246,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			</Header>
 			<FlatList
 				ref={flatListRef}
-				data={messages ? getFilteredMessages() : []}
+				data={Object.values(messages || {}) ? getFilteredMessages() : []}
 				renderItem={({ item }: FlatListItem<Message>) => (
 					<MessageCard
 						message={item.message}

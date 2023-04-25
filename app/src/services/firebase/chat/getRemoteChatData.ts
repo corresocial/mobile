@@ -10,7 +10,7 @@ async function getRemoteChatData(userSender: UserIdentification, userReceiver: U
 	if (await chatAlreadyExists(chatId1)) {
 		const { user1, user2, messages } = await getRegistredChatData(chatId1) as Chat
 		return {
-			chatId1,
+			chatId: chatId1,
 			user1,
 			user2,
 			messages,
@@ -20,7 +20,7 @@ async function getRemoteChatData(userSender: UserIdentification, userReceiver: U
 	if (await chatAlreadyExists(chatId2)) {
 		const { user1, user2, messages } = await getRegistredChatData(chatId2) as Chat
 		return {
-			chatId2,
+			chatId: chatId2,
 			user1,
 			user2,
 			messages,
@@ -28,7 +28,7 @@ async function getRemoteChatData(userSender: UserIdentification, userReceiver: U
 	}
 
 	return {
-		chatId1,
+		chatId: chatId1,
 		user1: userSender,
 		user2: userReceiver,
 		messages: {},

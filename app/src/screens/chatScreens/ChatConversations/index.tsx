@@ -56,7 +56,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		const lastMessage = getLastMessageObjects(ordenerMessages as any)
 
 		if (inMiliseconds) {
-			return lastMessage.dateTime.toString() || Date.now().toString()
+			return (lastMessage && lastMessage.dateTime.toString()) || Date.now().toString()
 		}
 		return formatRelativeDate(lastMessage ? lastMessage.dateTime : new Date())
 	}

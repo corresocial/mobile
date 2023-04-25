@@ -188,17 +188,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		share(`${isLoggedUser ? `olá! me chamo ${getUserField('name')} e tô no corre.` : `olha quem eu encontrei no corre.\n${getUserField('name')}`}\n\nhttps://corre.social`)
 	}
 
-	/* const generateChatId = () => {
-		return `${userDataContext.userId}-${getUserField('userId')}`
-	} */
-
 	const openChat = async () => {
-		const userId1 = userDataContext.userId
-		const userId2 = getUserField('userId')
-
-		console.log(userId1)
-		console.log(userId2)
-
 		navigation.navigate('ChatMessages', {
 			chat: {
 				chatId: '',

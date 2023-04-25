@@ -5,7 +5,10 @@ import { Id } from '../types'
 import { readFromDatabase } from './readFromDatabase'
 
 async function makeAllUserMessagesAsRead(chatId: Id, userId: Id) {
+	if (!chatId || !userId) return false
 	const chatData: Chat[] = await readFromDatabase([chatId])
+
+	if (!chatData || !chatData.length) return false
 
 	const readedMessages = Object.values(chatData[0].messages).map((message) => {
 		if (message.owner !== userId) {
