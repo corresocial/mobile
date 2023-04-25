@@ -1,5 +1,5 @@
 import React, { createContext, useMemo, useState } from 'react'
-import { PostCollectionRemote } from '../services/firebase/types'
+import { PostCollectionRemote, PostType } from '../services/firebase/types'
 import { CurrentCategory, SearchParams } from '../services/maps/types'
 
 import { LocationData } from './types'
@@ -27,7 +27,7 @@ const initialValue = {
 			tag: '',
 			city: '',
 			country: '',
-			postType: '',
+			postType: '' as PostType,
 			geohashes: [],
 			coordinates: { lat: 0, lon: 0 }
 		},
@@ -45,7 +45,7 @@ const initialValue = {
 	setLocationDataOnContext: (data: LocationData) => { }
 }
 
-const LocationContext = createContext<LocationContextType>(initialValue) // TODO Types
+const LocationContext = createContext<LocationContextType>(initialValue)
 
 function LocationProvider({ children }: LocationProviderProps) {
 	const [locationDataContext, setLocationDataContext] = useState(initialValue.locationDataContext)

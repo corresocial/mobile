@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { StatusBar, ScrollView, Linking } from 'react-native'
+import { StatusBar, ScrollView } from 'react-native'
 
 import {
 	Body,
@@ -21,7 +21,6 @@ import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 import { arrayIsEmpty, formatRelativeDate, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { share } from '../../../common/share'
-import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 
 import { ViewVacancyPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { PostCollection, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
@@ -36,6 +35,7 @@ import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
+import { ImageCarousel } from '../../../components/ImageCarousel'
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -131,9 +131,25 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	}
 
 	const openChat = async () => {
-		const { cellNumber } = await getPrivateContacts(postData.owner.userId)
-		const message = `olá! vi que publicou ${getPostField('title')} no corre. Podemos conversar?`
-		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`)
+		const userId1 = userDataContext.userId
+		const userId2 = postData.owner.userId
+
+		navigation.navigate('ChatMessages', {
+			chat: {
+				chatId: '',
+				user1: {
+					userId: userId1,
+					name: userDataContext.name,
+					profilePictureUrl: userDataContext.profilePictureUrl[0] || ''
+				},
+				user2: {
+					userId: userId2,
+					name: postData.owner.name,
+					profilePictureUrl: getProfilePictureUrl() || ''
+				},
+				messages: {}
+			}
+		})
 	}
 
 	const reportPost = () => {
@@ -224,6 +240,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 			</Header>
 			<Body>
 				<ScrollView showsVerticalScrollIndicator={false} >
+					<Sigh />
 					<DescriptionCard
 						title={'descrição da vaga'}
 						text={getPostField('description')}
@@ -232,16 +249,14 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						{getVacancyDetails()}
 					</DescriptionCard>
 					<Sigh />
-					<DateTimeCard
-						title={'dias e horários'}
-						weekDaysfrequency={'someday'}
-						daysOfWeek={getPostField('vacancyType') === 'professional' ? getPostField('workWeekdays') : []}
-						openingTime={getPostField('startWorkHour')}
-						closingTime={getPostField('endWorkHour')}
-						startDate={getPostField('startWorkDate')}
-						endDate={getPostField('endWorkDate')}
-						textFontSize={14}
-					/>
+					{!arrayIsEmpty(getPostField('picturesUrl')) && (
+						<>
+							<ImageCarousel
+								picturesUrl={getPostField('picturesUrl') || []}
+							/>
+							<Sigh />
+						</>
+					)}
 					{
 						getPostField('workplace') !== 'homeoffice' && (
 							<>
@@ -258,11 +273,15 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						)
 					}
 					<Sigh />
-					<DescriptionCard
-						title={'sobre a empresa'}
-						text={getPostField('companyDescription')}
+					<DateTimeCard
+						title={'dias e horários'}
+						weekDaysfrequency={'someday'}
+						daysOfWeek={getPostField('vacancyType') === 'professional' ? getPostField('daysOfWeek') : []}
+						startTime={getPostField('startHour')}
+						endTime={getPostField('endHour')}
+						startDate={getPostField('startDate')}
+						endDate={getPostField('endDate')}
 						textFontSize={14}
-						company
 					/>
 					<LastSigh />
 				</ScrollView>

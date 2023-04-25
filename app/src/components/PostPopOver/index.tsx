@@ -6,7 +6,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { CloseIcon, Container, ContainerInner, PostTitle, Sigh } from './styles'
 import { relativeScreenHeight } from '../../common/screenDimensions'
 import { theme } from '../../common/theme'
-import XIcon from '../../assets/icons/x.svg'
+import XIcon from '../../assets/icons/x-white.svg'
 
 import { PostType } from '../../services/firebase/types'
 

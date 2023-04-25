@@ -35,7 +35,7 @@ function DefaultHeaderContainer({
 	return (
 		<Container
 			style={{
-				minHeight: RFValue(minHeight),
+				minHeight,
 				height: grow ? 'auto' : relativeHeight,
 				flexDirection,
 				backgroundColor,

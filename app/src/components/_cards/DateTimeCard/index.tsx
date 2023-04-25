@@ -15,8 +15,8 @@ interface DateTimeCardProps {
 	title: string
 	weekDaysfrequency?: WeekdaysFrequency
 	daysOfWeek?: DaysOfWeek[]
-	openingTime: Date
-	closingTime: Date
+	startTime: Date
+	endTime: Date
 	startDate?: Date
 	endDate?: Date
 	textFontSize?: number
@@ -26,9 +26,9 @@ interface DateTimeCardProps {
 function DateTimeCard({
 	title,
 	weekDaysfrequency,
-	daysOfWeek,
-	openingTime,
-	closingTime,
+	daysOfWeek = [],
+	startTime,
+	endTime,
 	startDate,
 	endDate,
 	textFontSize = 12,
@@ -68,17 +68,43 @@ function DateTimeCard({
 	}
 
 	const renderStartDate = () => {
-		return showMessageWithHighlight(`●  começa dia ${formatDate(startDate as any)}`, [formatDate(startDate as any)])
+		if (!startDate) return <></>
+		return (
+			< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
+				{showMessageWithHighlight(
+					`●  começa dia ${formatDate(startDate as any)}`,
+					[formatDate(startDate as any)]
+				)}
+			</InfoRow>
+		)
 	}
 
 	const renderEndDate = () => {
-		return showMessageWithHighlight(`●  termina dia ${formatDate(endDate as any)}`, [formatDate(endDate as any)])
+		if (!endDate) return <></>
+		return (
+			< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
+				{showMessageWithHighlight(
+					`●  termina dia ${formatDate(endDate as any)}`,
+					[formatDate(endDate as any)]
+				)}
+			</InfoRow>
+		)
 	}
 
 	const renderOpeningAndClosingTime = () => {
+		const formatedStartTime = formatHour(startTime)
+		const formatedEndTime = formatHour(endTime)
+
+		if ((formatedStartTime && !formatedEndTime) || (!formatedStartTime && formatedEndTime)) {
+			return showMessageWithHighlight(
+				`●  ${formatedStartTime ? 'começa' : 'termina'} às ${formatedStartTime} `,
+				[formatedStartTime || formatedEndTime]
+			)
+		}
+
 		return showMessageWithHighlight(
-			`●  das ${formatHour(openingTime)} as ${formatHour(closingTime)} `,
-			[formatHour(openingTime), formatHour(closingTime)]
+			`●  das ${formatedStartTime} as ${formatedEndTime} `,
+			[formatedStartTime, formatedEndTime]
 		)
 	}
 
@@ -118,12 +144,8 @@ function DateTimeCard({
 						: startDate || endDate
 							? (
 								<>
-									< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
-										{renderStartDate()}
-									</InfoRow>
-									< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
-										{renderEndDate()}
-									</InfoRow>
+									{renderStartDate()}
+									{renderEndDate()}
 								</>
 							)
 							: (
@@ -132,9 +154,13 @@ function DateTimeCard({
 								</InfoRow>
 							)
 				}
-				<OpeningAndClosingTime style={{ fontSize: RFValue(textFontSize) }}>
-					{renderOpeningAndClosingTime()}
-				</OpeningAndClosingTime>
+				{
+					(startTime || endTime) && (
+						<OpeningAndClosingTime style={{ fontSize: RFValue(textFontSize) }}>
+							{renderOpeningAndClosingTime()}
+						</OpeningAndClosingTime>
+					)
+				}
 				{
 					repetition
 					&& (

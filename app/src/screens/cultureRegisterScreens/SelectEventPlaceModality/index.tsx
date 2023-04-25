@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
 
-import { SelectEventPlaceModalityScreenProps } from '../../../routes/Stack/cultureStack/stackScreenProps'
+import { SelectEventPlaceModalityScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { PlaceModalityType } from '../../../services/firebase/types'
 
 import { CultureContext } from '../../../contexts/CultureContext'
@@ -17,16 +17,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectEventPlaceModality({ navigation }: SelectEventPlaceModalityScreenProps) {
-	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+	const { setCultureDataOnContext } = useContext(CultureContext)
 
 	const saveEventPlaceModality = (eventPlaceModality: PlaceModalityType) => {
 		setCultureDataOnContext({ eventPlaceModality })
-
-		if (eventPlaceModality !== 'online') {
-			navigation.navigate('SelectCultureLocationView')
-		} else {
-			navigation.navigate('SelectEventRepeat')
-		}
+		navigation.navigate('SelectCultureRange')
 	}
 
 	return (
@@ -45,8 +40,8 @@ function SelectEventPlaceModality({ navigation }: SelectEventPlaceModalityScreen
 					highlightedWords={['onde']}
 				>
 					<ProgressBar
-						range={cultureDataContext.cultureType === 'artistProfile' ? 3 : 5}
-						value={3}
+						range={4}
+						value={2}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>

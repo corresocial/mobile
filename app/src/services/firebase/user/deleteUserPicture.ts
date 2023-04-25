@@ -1,4 +1,4 @@
-import { deleteObject, ref } from 'firebase/storage'
+import { deleteObject, getMetadata, ref } from 'firebase/storage'
 import { storage } from '..'
 
 const deleteUserPicture = async (pictures: string[]) => {
@@ -8,6 +8,12 @@ const deleteUserPicture = async (pictures: string[]) => {
 		const picturePath = `pictures/users/${pictureUrl.substring(startIndex, endIndex)}`
 
 		const desertRef = ref(storage, picturePath)
+
+		const fileExists = await getMetadata(desertRef)
+			.then(() => true)
+			.catch(() => false)
+
+		if (!fileExists) return
 
 		const res = await deleteObject(desertRef)
 			.then(() => {

@@ -62,6 +62,7 @@ function LocationNearDropdown({
 				addressThin: '',
 			}
 		}
+
 		return {
 			addressHighlighted: `${address.formattedAddress.split(',')[0].trim()}${greaterThanThree ? `, ${address.formattedAddress.split(',')[1].trim()}` : ''}`,
 			addressThin: `${greaterThanThree ? address.formattedAddress.split(',')[2].trim() : address.formattedAddress.split(',')[1].trim()}${greaterThanThree ? ` - ${address.formattedAddress.split(',')[3].trim()}` : ''}`,
@@ -124,8 +125,8 @@ function LocationNearDropdown({
 												? <LoupIcon width={RFValue(22)} height={RFValue(22)} />
 												: (
 													<SmallButton
-														height={relativeScreenHeight(4.5)}
-														relativeWidth={relativeScreenHeight(4.5)}
+														height={relativeScreenHeight(5)}
+														relativeWidth={relativeScreenHeight(5)}
 														color={theme.white3}
 														onPress={() => {
 															clearAddressSuggestions()

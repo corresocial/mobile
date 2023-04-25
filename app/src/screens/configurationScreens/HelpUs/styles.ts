@@ -1,5 +1,3 @@
-import Constants from 'expo-constants'
-import { Platform } from 'react-native'
 import styled from 'styled-components/native'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 

@@ -35,7 +35,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 
 	const getRecentPosts = async () => {
 		const filteredPosts = locationDataContext.nearbyPosts.filter((post) => post.category === categoryName && arrayContains(post.tags, route.params.currentTagSelected))
-		setRecentPosts(filteredPosts) // TODO Type
+		setRecentPosts(filteredPosts)
 	}
 
 	const arrayContains = (array: string[], element: string) => {

@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
-import { Container, ButtonsContainer } from './styles'
 import { theme } from '../../../common/theme'
 
 import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
@@ -10,16 +9,13 @@ import { DeliveryMethod } from '../../../services/firebase/types'
 import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { ProgressBar } from '../../../components/ProgressBar'
+import { PostDeliveryMethod } from '../../../components/_onboarding/PostDeliveryMethod'
 
 function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const saveDeliveryMethod = (deliveryMethod: DeliveryMethod) => {
 		if (editModeIsTrue()) {
@@ -28,84 +24,20 @@ function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenP
 			return
 		}
 
-		setServiceDataOnContext({ range: deliveryMethod })
+		setServiceDataOnContext({ deliveryMethod })
 		navigation.navigate('SelectServiceFrequency')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
-
 	return (
-		<Container>
+		<>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-			<DefaultHeaderContainer
-				relativeHeight={'27%'}
-				centralized
-				backgroundColor={theme.white3}
-			>
-				<BackButton onPress={() => navigation.goBack()} />
-				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={18}
-					message={'você entrega seu serviço?'}
-					highlightedWords={['entrega', 'seu', 'serviço']}
-				>
-					<ProgressBar
-						range={5}
-						value={5}
-					/>
-				</InstructionCard>
-			</DefaultHeaderContainer>
-			<FormContainer
+			<PostDeliveryMethod
 				backgroundColor={theme.purple2}
-			>
-				<ButtonsContainer>
-					<PrimaryButton
-						justifyContent={'flex-start'}
-						color={theme.white3}
-						relativeHeight={'18%'}
-						labelColor={theme.black4}
-						fontSize={18}
-						textAlign={'left'}
-						label={'não entrego'}
-						highlightedWords={['não']}
-						onPress={() => saveDeliveryMethod('unavailable')}
-					/>
-					<PrimaryButton
-						justifyContent={'flex-start'}
-						color={theme.white3}
-						relativeHeight={'18%'}
-						labelColor={theme.black4}
-						fontSize={18}
-						textAlign={'left'}
-						label={'entrego perto de mim'}
-						highlightedWords={['perto', 'de', 'mim']}
-						onPress={() => saveDeliveryMethod('near')}
-					/>
-					<PrimaryButton
-						justifyContent={'flex-start'}
-						color={theme.white3}
-						relativeHeight={'18%'}
-						labelColor={theme.black4}
-						fontSize={18}
-						textAlign={'left'}
-						label={'entrego na cidade'}
-						highlightedWords={['na', 'cidade']}
-						onPress={() => saveDeliveryMethod('city')}
-					/>
-					<PrimaryButton
-						justifyContent={'flex-start'}
-						color={theme.white3}
-						relativeHeight={'18%'}
-						labelColor={theme.black4}
-						fontSize={18}
-						textAlign={'left'}
-						label={'entrego no brasil inteiro'}
-						highlightedWords={['brasil', 'inteiro']}
-						onPress={() => saveDeliveryMethod('country')}
-					/>
-				</ButtonsContainer>
-			</FormContainer>
-		</Container>
+				progress={[5, 5]}
+				navigateBackwards={() => navigation.goBack()}
+				saveDeliveryMethod={saveDeliveryMethod}
+			/>
+		</>
 	)
 }
 

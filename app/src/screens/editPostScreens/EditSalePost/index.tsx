@@ -4,7 +4,7 @@ import { getDownloadURL } from 'firebase/storage'
 
 import { Body, Container, Header, LastSigh, SaveButtonContainer, Sigh } from './styles'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import CheckIcon from '../../../assets/icons/check.svg'
+import CheckIcon from '../../../assets/icons/check-white.svg'
 
 import { saleCategories } from '../../../utils/postsCategories/saleCategories'
 import { arrayIsEmpty, formatHour } from '../../../common/auxiliaryFunctions'
@@ -14,7 +14,7 @@ import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
 import { EditSalePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { SaleStackParamList } from '../../../routes/Stack/SaleStack/types'
-import { CultureCollection, DaysOfWeek, Id, SaleCategories, SaleCollection, SaleCollectionRemote } from '../../../services/firebase/types'
+import { DaysOfWeek, Id, SaleCategories, SaleCollection, SaleCollectionRemote } from '../../../services/firebase/types'
 
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -51,19 +51,16 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 			case 'sale': return 'da venda'
 			case 'vacancy': return 'da vaga'
 			case 'socialImpact': return 'da iniciativa'
-			case 'culture': {
-				const { cultureType } = postData as CultureCollection
-				return cultureType === 'artistProfile' ? 'do artista' : 'do evento'
-			}
+			case 'culture': return 'do evento'
 			default: return 'do post'
 		}
 	}
 
 	const formatDaysOfWeek = () => {
-		const attendanceWeekDays = getPostField('attendanceWeekDays')
+		const daysOfWeek = getPostField('daysOfWeek') || []
 
 		const allDaysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
-		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => attendanceWeekDays.includes(weekDay))
+		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => daysOfWeek.includes(weekDay))
 		return ordenedDaysOfWeek.toString().split(',').join(', ')
 	}
 
@@ -96,7 +93,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 
 	const getUserPostsWithoutEdited = () => {
 		const userPosts = userDataContext.posts || []
-		return userPosts.filter((post) => post.postId !== postData.postId)
+		return userPosts.filter((post: SaleCollection) => post.postId !== postData.postId)
 	}
 
 	const editPost = async () => {
@@ -249,7 +246,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 		const category: SaleCategories = getPostField('category')
 		const tags = getPostField('tags')
 
-		return `	●  ${saleCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`// TODO WARN
+		return `	●  ${saleCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`
 	}
 
 	return (
@@ -343,21 +340,21 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 					title={'dias da semana'}
 					highlightedWords={['semana']}
 					value={formatDaysOfWeek() || '---'}
-					onEdit={() => navigateToEditScreen('SelectSaleFrequency', 'attendanceWeekDays')}
+					onEdit={() => navigateToEditScreen('SelectSaleFrequency', 'daysOfWeek')}
 				/>
 				<Sigh />
 				<EditCard
 					title={'horário de início'}
 					highlightedWords={['início']}
-					value={formatHour(getPostField('openingHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertOpeningHour', 'openingHour')}
+					value={formatHour(getPostField('startHour')) || '---'}
+					onEdit={() => navigateToEditScreen('InsertSaleStartHour', 'startHour')}
 				/>
 				<Sigh />
 				<EditCard
 					title={'horário de fim'}
 					highlightedWords={['fim']}
-					value={formatHour(getPostField('closingHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertClosingHour', 'closingHour')}
+					value={formatHour(getPostField('endHour')) || '---'}
+					onEdit={() => navigateToEditScreen('InsertSaleEndHour', 'endHour')}
 				/>
 				<Sigh />
 				<EditCard

@@ -1,6 +1,6 @@
-import Constants from 'expo-constants'
-import { Animated, Platform } from 'react-native'
+import { Animated } from 'react-native'
 import styled from 'styled-components/native'
+
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.View`

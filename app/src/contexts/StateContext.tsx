@@ -15,7 +15,7 @@ import { ShareModal } from '../components/_modals/ShareModal'
 type StateContextType = {
 	stateDataContext: StateData
 	setStateDataOnContext: (data: StateData) => void,
-	toggleTourModalVisibility: (visibility: boolean, navigation: any) => void // TODO type
+	toggleTourModalVisibility: (visibility: boolean, navigation: any) => void
 	toggleShareModalVisibility: (visibility: boolean) => void
 }
 
@@ -36,7 +36,7 @@ const initialValue = {
 const StateContext = createContext<StateContextType>(initialValue)
 
 type Handler = {
-	navigation: any // TODO type
+	navigation: any
 }
 
 function StateProvider({ children }: StateProviderProps) {

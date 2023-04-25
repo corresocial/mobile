@@ -12,7 +12,7 @@ import SlumIcon from '../../assets/icons/slum.svg'
 import LogoIcon from '../../assets/icons/logo.svg'
 
 import { SplashScreenProps } from '../../routes/Stack/AuthRegisterStack/stackScreenProps'
-import { UserData } from '../../contexts/types'
+import { LocalUserData } from '../../contexts/types'
 
 import { AuthContext } from '../../contexts/AuthContext'
 
@@ -38,7 +38,7 @@ function Splash({ navigation }: SplashScreenProps) {
 			const userJSON = await getDataFromSecureStore('corre.user', true)
 
 			if (localUserIsValid(userJSON)) {
-				const userObject: UserData = JSON.parse(userJSON as string)
+				const userObject: LocalUserData = JSON.parse(userJSON as string)
 				await setRemoteUserOnLocal(userObject.userId)
 				navigation.navigate('UserStack', {
 					tourPerformed: userObject.tourPerformed
@@ -58,7 +58,7 @@ function Splash({ navigation }: SplashScreenProps) {
 	const localUserIsValid = (userJSON: any) => {
 		try {
 			if (!userJSON) return false
-			const userObject: UserData = JSON.parse(userJSON as string)
+			const userObject: LocalUserData = JSON.parse(userJSON as string)
 			return Object.keys(userObject).includes('userId') && Object.keys(userObject).includes('name')
 		} catch (err) {
 			console.log(err)

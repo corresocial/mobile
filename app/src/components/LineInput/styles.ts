@@ -18,6 +18,7 @@ export const TextInput = styled.TextInput`
     font-size: 20px;
     font-family: Arvo_400Regular;
     text-align: center;
+	color: ${({ theme }) => theme.black4};
     padding: ${relativeScreenHeight(2)}px;
     max-Height: ${relativeScreenHeight(25)}px;
 

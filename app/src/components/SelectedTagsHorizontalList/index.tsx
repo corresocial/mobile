@@ -2,8 +2,9 @@ import React, { useRef } from 'react'
 import { ScrollView } from 'react-native'
 import uuid from 'react-uuid'
 
-import { TagsSelectedArea } from './styles'
-import { relativeScreenHeight, relativeScreenWidth } from '../../common/screenDimensions'
+import { Sigh, TagsSelectedArea } from './styles'
+import xThin from '../../assets/icons/x-thin.svg'
+import { relativeScreenWidth } from '../../common/screenDimensions'
 
 import { SelectButton } from '../_buttons/SelectButton'
 
@@ -25,15 +26,18 @@ function SelectedTagsHorizontalList({ selectedTags, backgroundSelected, onSelect
 	const renderSelectedTags = () => selectedTags.map((tagName) => (
 		<SelectButton
 			key={uuid()}
-			width={relativeScreenWidth(24)}
-			height={relativeScreenHeight(7)}
+			width={'auto'}
+			height={'auto'}
 			label={tagName}
+			flexSelected={1}
 			fontSize={12}
 			boldLabel
 			marginHorizontal={relativeScreenWidth(3)}
 			backgroundSelected={backgroundSelected}
 			selected
 			onSelect={() => onSelectTag(tagName)}
+			SvgIcon={xThin}
+			svgIconScale={['20', '12']}
 		/>
 	))
 
@@ -47,6 +51,7 @@ function SelectedTagsHorizontalList({ selectedTags, backgroundSelected, onSelect
 				scrollsToTop
 				contentContainerStyle={{ paddingLeft: relativeScreenWidth(2) }}
 			>
+				<Sigh />
 				{renderSelectedTags()}
 			</ScrollView>
 		</TagsSelectedArea>

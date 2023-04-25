@@ -9,7 +9,7 @@ interface SaleExchangeValueProps {
 	breakRow?: boolean
 	smallFontSize?: number,
 	largeFontSize?: number
-	exchanveFontSize?: number
+	exchangeFontSize?: number
 }
 
 function SaleExchangeValue({
@@ -18,12 +18,20 @@ function SaleExchangeValue({
 	breakRow,
 	smallFontSize = 12,
 	largeFontSize = 18,
-	exchanveFontSize = 18
+	exchangeFontSize = 18
 }: SaleExchangeValueProps) {
 	const hasSaleValue = !!saleValue
 	const hasExchangeValue = !!exchangeValue
 
 	if (!hasSaleValue && !hasExchangeValue) return null
+
+	if (saleValue === 'a combinar') {
+		return (
+			<LargeFont style={{ fontSize: RFValue(exchangeFontSize) }}>
+				{saleValue}
+			</LargeFont>
+		)
+	}
 
 	return (
 		<Container style={{ flexDirection: !breakRow ? 'row' : 'column' }}>
@@ -57,7 +65,7 @@ function SaleExchangeValue({
 				{
 					hasExchangeValue
 					&& (
-						<ExchangeWord style={{ fontSize: RFValue(exchanveFontSize), padding: breakRow ? '1%' : 0 }}>
+						<ExchangeWord style={{ fontSize: RFValue(exchangeFontSize), padding: breakRow ? '1%' : 0 }}>
 							{'troca'}
 						</ExchangeWord>
 					)

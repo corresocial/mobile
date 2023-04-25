@@ -6,7 +6,6 @@ import { CultureStackParamList } from './types'
 
 import { CultureProvider } from '../../../contexts/CultureContext'
 
-import { SelectCultureType } from '../../../screens/cultureRegisterScreens/SelectCultureType'
 import { InsertCultureTitle } from '../../../screens/cultureRegisterScreens/InsertCultureTitle'
 import { InsertCultureDescription } from '../../../screens/cultureRegisterScreens/InsertCultureDescription'
 import { InsertCulturePicture } from '../../../screens/cultureRegisterScreens/InsertCulturePicture'
@@ -14,16 +13,19 @@ import { CulturePicturePreview } from '../../../screens/cultureRegisterScreens/C
 import { SelectCultureCategory } from '../../../screens/cultureRegisterScreens/SelectCultureCategory'
 import { SelectCultureTags } from '../../../screens/cultureRegisterScreens/SelectCultureTags'
 import { InsertEntryValue } from '../../../screens/cultureRegisterScreens/InsertEntryValue'
-import { SelectExhibitionPlace } from '../../../screens/cultureRegisterScreens/SelectExhibitionPlace'
 import { SelectEventPlaceModality } from '../../../screens/cultureRegisterScreens/SelectEventPlaceModality'
+import { SelectCultureRange } from '../../../screens/cultureRegisterScreens/SelectCultureRange'
 import { SelectCultureLocationView } from '../../../screens/cultureRegisterScreens/SelectCultureLocationView'
 import { InsertCultureLocation } from '../../../screens/cultureRegisterScreens/InsertCultureLocation'
 import { CultureLocationViewPreview } from '../../../screens/cultureRegisterScreens/CultureLocationViewPreview'
-import { InsertEventStartDate } from '../../../screens/cultureRegisterScreens/InsertEventStartDate'
-import { InsertEventStartHour } from '../../../screens/cultureRegisterScreens/InsertEventStartHour'
-import { InsertEventEndDate } from '../../../screens/cultureRegisterScreens/InsertEventEndDate'
-import { InsertEventEndHour } from '../../../screens/cultureRegisterScreens/InsertEventEndHour'
+import { InsertCultureEndHour } from '../../../screens/cultureRegisterScreens/InsertCultureEndHour'
 import { SelectEventRepeat } from '../../../screens/cultureRegisterScreens/SelectEventRepeat'
+import { SelectCultureFrequency } from '../../../screens/cultureRegisterScreens/SelectCultureFrequency'
+import { SelectCultureDaysOfWeek } from '../../../screens/cultureRegisterScreens/SelectCultureDaysOfWeek'
+import { InsertCultureStartDate } from '../../../screens/cultureRegisterScreens/InsertCultureStartDate'
+import { InsertCultureStartHour } from '../../../screens/cultureRegisterScreens/InsertCultureStartHour'
+import { InsertCultureEndDate } from '../../../screens/cultureRegisterScreens/InsertCultureEndDate'
+import { CultureReview } from '../../../screens/cultureRegisterScreens/CultureReview'
 
 const Stack = createStackNavigator<CultureStackParamList>()
 
@@ -31,31 +33,33 @@ export function CultureStack() {
 	return (
 		<CultureProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectCultureType'}
+				initialRouteName={'SelectCultureCategory'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
 					...TransitionPresets.SlideFromRightIOS,
 				}}
 			>
-				<Stack.Screen name={'SelectCultureType'} component={SelectCultureType} />
+				<Stack.Screen name={'SelectCultureCategory'} component={SelectCultureCategory} />
+				<Stack.Screen name={'SelectCultureTags'} component={SelectCultureTags} />
 				<Stack.Screen name={'InsertCultureTitle'} component={InsertCultureTitle} />
 				<Stack.Screen name={'InsertCultureDescription'} component={InsertCultureDescription} />
 				<Stack.Screen name={'InsertCulturePicture'} component={InsertCulturePicture} />
 				<Stack.Screen name={'CulturePicturePreview'} component={CulturePicturePreview} />
-				<Stack.Screen name={'SelectCultureCategory'} component={SelectCultureCategory} />
-				<Stack.Screen name={'SelectCultureTags'} component={SelectCultureTags} />
 				<Stack.Screen name={'InsertEntryValue'} component={InsertEntryValue} />
-				<Stack.Screen name={'SelectExhibitionPlace'} component={SelectExhibitionPlace} />
 				<Stack.Screen name={'SelectEventPlaceModality'} component={SelectEventPlaceModality} />
-				<Stack.Screen name={'InsertCultureLocation'} component={InsertCultureLocation} />
+				<Stack.Screen name={'SelectCultureRange'} component={SelectCultureRange} />
 				<Stack.Screen name={'SelectCultureLocationView'} component={SelectCultureLocationView} />
+				<Stack.Screen name={'InsertCultureLocation'} component={InsertCultureLocation} />
 				<Stack.Screen name={'CultureLocationViewPreview'} component={CultureLocationViewPreview} />
-				<Stack.Screen name={'InsertEventStartDate'} component={InsertEventStartDate} />
-				<Stack.Screen name={'InsertEventStartHour'} component={InsertEventStartHour} />
-				<Stack.Screen name={'InsertEventEndDate'} component={InsertEventEndDate} />
-				<Stack.Screen name={'InsertEventEndHour'} component={InsertEventEndHour} />
+				<Stack.Screen name={'SelectCultureFrequency'} component={SelectCultureFrequency} />
+				<Stack.Screen name={'SelectCultureDaysOfWeek'} component={SelectCultureDaysOfWeek} />
 				<Stack.Screen name={'SelectEventRepeat'} component={SelectEventRepeat} />
+				<Stack.Screen name={'InsertCultureStartDate'} component={InsertCultureStartDate} />
+				<Stack.Screen name={'InsertCultureStartHour'} component={InsertCultureStartHour} />
+				<Stack.Screen name={'InsertCultureEndDate'} component={InsertCultureEndDate} />
+				<Stack.Screen name={'InsertCultureEndHour'} component={InsertCultureEndHour} />
+				<Stack.Screen name={'CultureReview'} component={CultureReview} />
 			</Stack.Navigator>
 		</CultureProvider>
 	)

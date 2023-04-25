@@ -32,7 +32,7 @@ export const MiniaturePortrait = styled.Image`
 `
 
 export const UserInfo = styled.View`
-	padding: ${RFValue(8)}px;
+	padding-horizontal: ${RFValue(8)}px;
 `
 
 export const TouchableArea = styled.TouchableOpacity`

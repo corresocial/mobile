@@ -174,7 +174,7 @@ exports.searchPostsByAlgolia = functions.https.onRequest(async (req, res) => {
 					: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 			})
 		])
-			.then((responses) => responses.reduce((acc, result) => { // TODO Type
+			.then((responses) => responses.reduce((acc, result) => {
 				if (result.hits.length > 0) {
 					const structuredPosts = result.hits.map((record, index) => {
 						const postData = structurePostObject(record)
@@ -209,7 +209,7 @@ const getGeohashFilter = (geohashes, geohashField, negativeClause) => {
 	}, '')
 }
 
-const getRangeFilter = (range, city, country) => { // TODO Type
+const getRangeFilter = (range, city, country) => {
 	if (range === 'nearby' || range === 'city') return `range:city AND location.city:'${city}'`
 	if (range === 'country') return `range:${range} AND location.country:'${country}'`
 	return ''

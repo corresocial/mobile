@@ -338,6 +338,42 @@ const serviceCategories = {
 		]
 	},
 
+	legal: {
+		label: 'jurídico',
+		value: 'legal',
+		slug: 'legal',
+		tags: [
+			'empresarial',
+			'advogado',
+			'estagio',
+			'trabalhista',
+			'tributario',
+			'civil',
+			'concurso',
+			'ambiental'
+		]
+	},
+
+	diversity: {
+		label: 'diversidade',
+		value: 'diversity',
+		slug: 'diversity',
+		tags: [
+			'cognitivas',
+			'fisicas',
+			'visuais',
+			'auditivas',
+			'negra',
+			'asiática',
+			'originária',
+			'amarela',
+			'parda',
+			'etária',
+			'lgbtqia',
+			'religiosa'
+		]
+	},
+
 	others: {
 		label: 'outros',
 		value: 'others',

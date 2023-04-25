@@ -8,10 +8,12 @@ import {
 	SaleValueArea,
 	ExchangeArea,
 	ExchangeText,
+	SmallFontBold,
 } from './styles'
 import DollarIcon from '../../../assets/icons/dollar.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { textHasOnlyNumbers } from '../../../utils/validationFunctions'
 
 import { DefaultCardContainer } from '../DefaultCardContainer'
 
@@ -23,6 +25,32 @@ interface SaleOrExchangeCardProps {
 }
 
 function SaleOrExchangeCard({ title, saleValue, exchangeValue, withoutExchangePresentation }: SaleOrExchangeCardProps) {
+	const renderSaleValue = () => {
+		if (!textHasOnlyNumbers(saleValue)) {
+			return (
+				<SaleValueArea>
+					<SmallFontBold>
+						{saleValue}
+					</SmallFontBold>
+				</SaleValueArea>
+			)
+		}
+
+		return (
+			<SaleValueArea>
+				<SmallFont>
+					{'r$'}
+				</SmallFont>
+				<LargeFont>
+					{saleValue}
+				</LargeFont>
+				<Decimals>
+					{',00'}
+				</Decimals>
+			</SaleValueArea>
+		)
+	}
+
 	return (
 		<DefaultCardContainer>
 			<DefaultHeaderTitle
@@ -30,21 +58,7 @@ function SaleOrExchangeCard({ title, saleValue, exchangeValue, withoutExchangePr
 				SvgIcon={DollarIcon}
 				dimensions={30}
 			/>
-			{
-				saleValue && (
-					<SaleValueArea>
-						<SmallFont>
-							{'r$'}
-						</SmallFont>
-						<LargeFont>
-							{saleValue}
-						</LargeFont>
-						<Decimals>
-							{',00'}
-						</Decimals>
-					</SaleValueArea>
-				)
-			}
+			{saleValue && renderSaleValue()}
 			{
 				!!saleValue && !!exchangeValue && (
 					<SmallFont>

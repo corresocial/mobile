@@ -118,7 +118,7 @@ function LineInput({
 	}
 
 	const closeKeyboard = () => {
-		textInputRef.current.blur()
+		textInputRef && textInputRef.current.blur()
 	}
 
 	const resizeMultilineInput = (height: number) => {
@@ -137,7 +137,7 @@ function LineInput({
 		}
 
 		return {
-			borderBottomColor: validated || textIsValid ? validBorderBottomColor : defaultBorderBottomColor,
+			borderBottomColor: validated || textIsValid ? theme.black4 : defaultBorderBottomColor,
 			backgroundColor: validated || textIsValid ? validBackgroundColor : defaultBackgroundColor
 		}
 	}
@@ -148,15 +148,8 @@ function LineInput({
 	}
 
 	const getTextInputStyle = () => {
-		if (error) {
-			return {
-				color: invalidBorderBottomColor
-			}
-		}
 		return {
-			color: invalidTextAfterSubmit
-				? invalidBorderBottomColor
-				: validated || textIsValid ? validBorderBottomColor : defaultBorderBottomColor,
+			color: theme.black4,
 			fontFamily: invalidTextAfterSubmit
 				? 'Arvo_400Regular'
 				: validated || textIsValid ? 'Arvo_700Bold' : 'Arvo_400Regular'
@@ -166,12 +159,12 @@ function LineInput({
 	return (
 		<Container
 			style={{
-				height: multiline ? multilineInputHeight : relativeScreenHeight(10), // 0.25
+				height: multiline ? multilineInputHeight : relativeScreenHeight(8), // 0.25
 				width: relativeWidth,
 				...inputContainerStyle,
 			}}
-			activeOpacity={0}
-			underlayColor={validated ? validBackgroundColor : defaultBackgroundColor}
+			activeOpacity={onIconPress ? 0.8 : 0}
+			underlayColor={onIconPress ? 'transparent ' : validated ? validBackgroundColor : defaultBackgroundColor}
 			onPress={() => textInputRef.current.focus()}
 		>
 			<View
@@ -210,13 +203,13 @@ function LineInput({
 				{
 					onIconPress
 					&& (
-						<TouchableOpacity onPress={onIconPress}>
+						<TouchableOpacity onPress={onIconPress} >
 							<FontAwesome5
 								name={'minus'}
 								size={RFValue(20)}
 								color={validBorderBottomColor}
 								style={{
-									padding: 15
+									padding: 15,
 								}}
 							/>
 						</TouchableOpacity>

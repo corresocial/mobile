@@ -44,7 +44,7 @@ async function searchPosts(searchText: string, searchParams: SearchParams) {
 					: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 			})
 		])
-			.then((responses) => responses.reduce((acc: any, result: any) => { // TODO Type
+			.then((responses) => responses.reduce((acc: any, result: any) => {
 				if (result.hits.length > 0) {
 					const structuredPosts: any[] = result.hits.map((record: any, index: number) => {
 						const postData = structurePostObject(record)

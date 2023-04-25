@@ -7,7 +7,8 @@ import {
 	RightArea,
 	SidePicture,
 	Title,
-	LeftAreaLimits
+	LeftAreaLimits,
+	LeftSideLabel
 } from './styles'
 
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
@@ -20,6 +21,8 @@ import { SmallUserIdentification } from '../../SmallUserIdentification'
 import { SaleExchangeValue } from '../../SaleExchangeValue'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 
+import { theme } from '../../../common/theme'
+
 interface PostCardProps {
 	post: PostCollection | any
 	owner: LocalUserData | any
@@ -29,6 +32,27 @@ interface PostCardProps {
 
 function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
+	const defineLabelColor = () => {
+		switch (post.postType) {
+			case 'service': {
+				return theme.purple3
+			}
+			case 'sale': {
+				return theme.green3
+			}
+			case 'vacancy': {
+				return theme.yellow3
+			}
+			case 'socialImpact': {
+				return theme.pink3
+			}
+			case 'culture': {
+				return theme.blue3
+			}
+			default:
+				return theme.white1
+		}
+	}
 
 	const renderShortName = () => {
 		if (owner.name && owner.name.split(' ').length < 3) return owner.name
@@ -72,9 +96,11 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 			<ContainerInner
 				style={{
 					marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0
+
 				}}
 			>
-				<LeftArea style={{ width: !arrayIsEmpty(post.picturesUrl) ? '65%' : '100%' }}>
+				<LeftSideLabel style={{ backgroundColor: defineLabelColor() }} />
+				<LeftArea style={{ width: !arrayIsEmpty(post.picturesUrl) ? '61.5%' : '97.5%' }}>
 					<LeftAreaLimits>
 						<Title
 							numberOfLines={(post.description && post.saleValue) || post.itemDescription ? 1 : 2}

@@ -36,6 +36,8 @@
 		"no-trailing-spaces": "off",
 		"no-multiple-empty-lines": "warn",
 		"max-len": "off",
+		"no-multi-spaces": "warn",
+		"key-spacing": "warn",
 		"semi": [
 			"warn",
 			"never"
@@ -55,6 +57,7 @@
 				"children": "always"
 			}
 		],
+		"react/jsx-no-useless-fragment": "off",
 		"indent": [
 			"error",
 			"tab",

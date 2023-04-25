@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { Body, Container, Header, LastSigh, SaveButtonContainer, Sigh } from './styles'
-import CheckIcon from '../../../assets/icons/check.svg'
+import CheckIcon from '../../../assets/icons/check-white.svg'
 
 import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
 import { formatDate, formatHour } from '../../../common/auxiliaryFunctions'
@@ -12,7 +12,7 @@ import { updateDocField } from '../../../services/firebase/common/updateDocField
 
 import { VacancyStackParamList } from '../../../routes/Stack/VacancyStack/types'
 import { EditVacancyPostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { CultureCollection, DaysOfWeek, Id, ServiceCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
+import { DaysOfWeek, Id, ServiceCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
 
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -36,25 +36,22 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 		clearUnsavedEditContext()
 	}, [])
 
-	const getRelativeTitle = () => { // TODO REFACTOR all edit screens
+	const getRelativeTitle = () => {
 		switch (postData.postType) {
 			case 'service': return 'do serviço'
 			case 'sale': return 'da venda'
 			case 'vacancy': return 'da vaga'
 			case 'socialImpact': return 'da iniciativa'
-			case 'culture': {
-				const { cultureType } = postData as CultureCollection
-				return cultureType === 'artistProfile' ? 'do artista' : 'do evento'
-			}
+			case 'culture': return 'do evento'
 			default: return 'do post'
 		}
 	}
 
 	const formatDaysOfWeek = () => {
-		const attendanceWeekDays = getPostField('workWeekdays')
+		const daysOfWeek = getPostField('daysOfWeek')
 
 		const allDaysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
-		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => attendanceWeekDays.includes(weekDay))
+		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => daysOfWeek.includes(weekDay))
 		return ordenedDaysOfWeek.toString().split(',').join(', ')
 	}
 
@@ -71,7 +68,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 
 	const getUserPostsWithoutEdited = () => {
 		const userPosts = userDataContext.posts || []
-		return userPosts.filter((post) => post.postId !== postData.postId)
+		return userPosts.filter((post: VacancyCollection) => post.postId !== postData.postId)
 	}
 
 	const editPost = async () => {
@@ -208,13 +205,6 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 				/>
 				<Sigh />
 				<EditCard
-					title={'descrição da empresa'}
-					highlightedWords={['descrição']}
-					value={getPostField('companyDescription') || '---'}
-					onEdit={() => navigateToEditScreen('InsertCompanyDescription', 'companyDescription')}
-				/>
-				<Sigh />
-				<EditCard
 					title={'tipo de vaga'}
 					highlightedWords={['tipo']}
 					value={getRelativeVacancyType() || '---'}
@@ -252,7 +242,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 								title={'dias da semana'}
 								highlightedWords={['semana']}
 								value={formatDaysOfWeek() || '---'}
-								onEdit={() => navigateToEditScreen('SelectWorkWeekdays', 'workWeekdays')}
+								onEdit={() => navigateToEditScreen('SelectWorkWeekdays', 'daysOfWeek')}
 							/>
 							<Sigh />
 						</>
@@ -264,8 +254,8 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 							<EditCard
 								title={'data de início'}
 								highlightedWords={['início']}
-								value={formatDate(getPostField('startWorkDate')) || '---'}
-								onEdit={() => navigateToEditScreen('InsertWorkStartDate', 'startWorkDate')}
+								value={formatDate(getPostField('startDate')) || '---'}
+								onEdit={() => navigateToEditScreen('InsertVacancyStartDate', 'startDate')}
 							/>
 							<Sigh />
 						</>
@@ -274,8 +264,8 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 				<EditCard
 					title={'horário de início'}
 					highlightedWords={['início']}
-					value={formatHour(getPostField('startWorkHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertWorkStartHour', 'startWorkHour')}
+					value={formatHour(getPostField('startHour')) || '---'}
+					onEdit={() => navigateToEditScreen('InsertVacancyStartHour', 'startHour')}
 				/>
 				<Sigh />
 				{
@@ -284,8 +274,8 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 							<EditCard
 								title={'data de fim'}
 								highlightedWords={['fim']}
-								value={formatDate(getPostField('endWorkDate')) || '---'}
-								onEdit={() => navigateToEditScreen('InsertWorkEndDate', 'endWorkDate')}
+								value={formatDate(getPostField('endDate')) || '---'}
+								onEdit={() => navigateToEditScreen('InsertVacancyEndDate', 'endDate')}
 							/>
 							<Sigh />
 						</>
@@ -294,8 +284,8 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 				<EditCard
 					title={'horário de fim'}
 					highlightedWords={['fim']}
-					value={formatHour(getPostField('endWorkHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertWorkEndHour', 'endWorkHour')}
+					value={formatHour(getPostField('endHour')) || '---'}
+					onEdit={() => navigateToEditScreen('InsertVacancyEndHour', 'endHour')}
 				/>
 				<LastSigh />
 			</Body>

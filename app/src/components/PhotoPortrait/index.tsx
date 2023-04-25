@@ -3,7 +3,7 @@ import { Image, ImageResizeMode } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
 import { CheckArea, Container, DeleteItemArea, NoPhotoContainer } from './styles'
-import TrashIcon from '../../assets/icons/trash.svg'
+import TrashIcon from '../../assets/icons/trash-red.svg'
 import NoPhoto from '../../assets/imgs/noPhoto.svg'
 import CheckOrange from '../../assets/icons/check-orange.svg'
 import { relativeScreenWidth } from '../../common/screenDimensions'

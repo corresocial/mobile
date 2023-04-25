@@ -1,6 +1,6 @@
 import {
-	CultureType,
 	DaysOfWeek,
+	PostRange,
 	DeliveryMethod,
 	EventRepeatType,
 	ExhibitionPlaceType,
@@ -11,7 +11,8 @@ import {
 	UserCollection,
 	VacancyType,
 	WeekdaysFrequency,
-	WorkplaceType
+	WorkplaceType,
+	ItemStatus
 } from '../services/firebase/types'
 import { CurrentCategory, SearchParams } from '../services/maps/types'
 
@@ -35,13 +36,6 @@ export interface LocalUserData extends UserCollection {
 	userIdentification?: UserIdentification
 }
 
-export interface UserData extends UserCollection {
-	userId?: string,
-	userIdentification?: UserIdentification,
-	verificationCodeId?: string,
-	cellNumber?: string
-}
-
 export interface StateData {
 	showTourModal?: boolean
 	showShareModal?: boolean
@@ -56,7 +50,7 @@ export type LocationData = {
 }
 
 export type ServiceData = {
-	description?: string // on context
+	description?: string
 	title?: string
 	category?: string
 	tags?: string[]
@@ -64,11 +58,12 @@ export type ServiceData = {
 	saleValue?: string
 	exchangeValue?: string
 	locationView?: LocationViewType
-	range?: DeliveryMethod
+	range?: PostRange
+	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
-	attendanceWeekDays?: DaysOfWeek[]
-	openingHour?: Date
-	closingHour?: Date
+	daysOfWeek?: DaysOfWeek[]
+	startHour?: Date
+	endHour?: Date
 	picturesUrl?: string[]
 	location?: {
 		country?: string
@@ -94,15 +89,17 @@ export type SaleData = {
 	itemDescription?: string
 	tags?: string[]
 	category?: string
+	itemStatus?: ItemStatus
 	paymentType?: PaymentType
 	saleValue?: string
 	exchangeValue?: string
 	locationView?: LocationViewType
-	range?: DeliveryMethod
+	range?: PostRange
+	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
-	attendanceWeekDays?: DaysOfWeek[]
-	openingHour?: Date
-	closingHour?: Date
+	daysOfWeek?: DaysOfWeek[]
+	startHour?: Date
+	endHour?: Date
 	picturesUrl?: string[]
 	location?: {
 		country?: string
@@ -127,15 +124,18 @@ export type VacancyData = {
 	title?: string
 	description?: string
 	vacancyType?: VacancyType
+	locationView?: LocationViewType
 	workplace?: WorkplaceType
-	range?: ExhibitionPlaceType
-	companyDescription?: string
-	questions?: string[]
-	workWeekdays?: DaysOfWeek[]
-	startWorkDate?: Date
-	endWorkDate?: Date
-	startWorkHour?: Date
-	endWorkHour?: Date
+	paymentType?: PaymentType
+	range?: PostRange
+	importantPoints?: string[]
+	workFrequency?: WeekdaysFrequency
+	daysOfWeek?: DaysOfWeek[]
+	startDate?: Date
+	endDate?: Date
+	startHour?: Date
+	endHour?: Date
+	picturesUrl?: string[]
 	tags?: string[]
 	category?: string
 	location?: {
@@ -160,16 +160,17 @@ export type VacancyData = {
 export type CultureData = {
 	title?: string
 	description?: string
-	cultureType?: CultureType
 	locationView?: LocationViewType
-	range?: ExhibitionPlaceType
+	range?: PostRange
 	eventPlaceModality?: PlaceModalityType
-	eventRepeat?: EventRepeatType
+	repeat?: EventRepeatType
 	entryValue?: string
-	eventStartDate?: Date
-	eventEndDate?: Date
-	eventStartHour?: Date
-	eventEndHour?: Date
+	exhibitionFrequency?: WeekdaysFrequency
+	daysOfWeek?: DaysOfWeek[]
+	startDate?: Date
+	endDate?: Date
+	startHour?: Date
+	endHour?: Date
 	picturesUrl?: string[]
 	tags?: string[]
 	category?: string
@@ -198,11 +199,15 @@ export type SocialImpactData = {
 	tags?: string[]
 	category?: string
 	locationView?: LocationViewType
-	range?: ExhibitionPlaceType
-	exhibitionWeekDays?: DaysOfWeek[]
-	socialImpactRepeat?: EventRepeatType
-	openingHour?: Date
-	closingHour?: Date
+	range?: PostRange
+	exhibitionPlace?: ExhibitionPlaceType
+	exhibitionFrequency?: WeekdaysFrequency
+	daysOfWeek?: DaysOfWeek[]
+	repeat?: EventRepeatType
+	startDate?: Date
+	startHour?: Date
+	endDate?: Date
+	endHour?: Date
 	picturesUrl?: string[]
 	location?: {
 		country?: string

@@ -10,6 +10,8 @@ async function updateAllOwnerOnPosts(
 	},
 	userPostIds: Id[]
 ) {
+	if (!userPostIds) return
+
 	userPostIds.map(async (postId) => {
 		const ref = doc(firestore, 'posts', postId)
 		await setDoc(
