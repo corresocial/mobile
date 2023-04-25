@@ -12,6 +12,7 @@ import {
 } from './styles'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 interface PrimaryButtonProps {
 	relativeWidth?: string
@@ -138,7 +139,8 @@ function PrimaryButton({
 								color: labelColor,
 								fontSize: RFValue(fontSize),
 								textAlign,
-								marginLeft: labelMarginLeft || 0
+								marginLeft: labelMarginLeft || 0,
+								marginRight: iconName ? relativeScreenWidth(3) : 0
 							}}
 							>
 								{showMessageWithHighlight(label, highlightedWords)}

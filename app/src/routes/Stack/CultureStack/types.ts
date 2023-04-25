@@ -1,23 +1,25 @@
-import { CultureCategories, CultureType, LatLong, LocationViewType } from '../../../services/firebase/types'
+import { CultureCategories, DaysOfWeek, LatLong, LocationViewType } from '../../../services/firebase/types'
 import { UserStackParamList } from '../UserStack/types'
 
 export type CultureStackParamList = {
-	SelectCultureType: undefined
-	InsertCultureTitle: { editMode: boolean, initialValue: string, cultureType: CultureType } | undefined // cultureType: CultureType is edit auxiliary
-	InsertCultureDescription: { editMode: boolean, initialValue: string, cultureType: CultureType } | undefined
+	InsertCultureTitle: { editMode: boolean, initialValue: string } | undefined
+	InsertCultureDescription: { editMode: boolean, initialValue: string } | undefined
 	InsertCulturePicture: undefined
 	CulturePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
-	SelectCultureCategory: { editMode: boolean, cultureType: CultureType } | undefined
+	SelectCultureCategory: { editMode: boolean } | undefined
 	SelectCultureTags: { categorySelected: CultureCategories, editMode?: boolean }
 	InsertEntryValue: { editMode: boolean, initialValue: string } | undefined
-	SelectExhibitionPlace: { editMode: boolean } | undefined
-	SelectEventPlaceModality: { editMode: boolean } | undefined
+	SelectEventPlaceModality: undefined
+	SelectCultureRange: { editMode: boolean } | undefined
 	SelectCultureLocationView: { editMode: boolean, initialValue: LatLong } | undefined
 	InsertCultureLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
 	CultureLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
+	SelectCultureFrequency: { editMode?: boolean, initialValue: DaysOfWeek[] } | undefined
+	SelectCultureDaysOfWeek: { editMode?: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectEventRepeat: { editMode: boolean } | undefined
-	InsertEventStartDate: { editMode: boolean, initialValue: Date } | undefined
-	InsertEventStartHour: { editMode: boolean, initialValue: Date } | undefined
-	InsertEventEndDate: { editMode: boolean, initialValue: Date } | undefined
-	InsertEventEndHour: { editMode: boolean, initialValue: Date } | undefined
+	InsertCultureStartDate: { editMode: boolean, initialValue: Date } | undefined
+	InsertCultureStartHour: { editMode: boolean, initialValue: Date } | undefined
+	InsertCultureEndDate: { editMode: boolean, initialValue: Date } | undefined
+	InsertCultureEndHour: { editMode: boolean, initialValue: Date } | undefined
+	CultureReview: undefined
 } & UserStackParamList

@@ -190,7 +190,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						breakRow
 						smallFontSize={14}
 						largeFontSize={25}
-						exchanveFontSize={14}
+						exchangeFontSize={14}
 					/>
 				</UserAndValueContainer>
 				<Sigh />
@@ -239,6 +239,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 			</Header>
 			<Body>
 				<ScrollView showsVerticalScrollIndicator={false}>
+					<Sigh />
 					<DescriptionCard
 						title={'descrição do produto'}
 						text={getPostField('itemDescription')}
@@ -259,28 +260,26 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						exchangeValue={getPostField('exchangeValue')}
 					/>
 					<Sigh />
-					{postData.locationView !== 'private' && (
-						<LocationViewCard
-							title={'local de trabalho'}
-							locationView={getPostField('locationView')}
-							isAuthor={isAuthor}
-							textFontSize={16}
-							location={getPostField('location')}
-						/>
-					)}
+					<LocationViewCard
+						title={'local de trabalho'}
+						locationView={getPostField('locationView')}
+						isAuthor={isAuthor}
+						textFontSize={16}
+						location={getPostField('location')}
+					/>
 					<Sigh />
 					<DateTimeCard
 						title={'dias e horários'}
 						weekDaysfrequency={getPostField('attendanceFrequency')}
-						daysOfWeek={getPostField('attendanceWeekDays')}
-						openingTime={getPostField('openingHour')}
-						closingTime={getPostField('closingHour')}
+						daysOfWeek={getPostField('daysOfWeek')}
+						startTime={getPostField('startHour')}
+						endTime={getPostField('endHour')}
 						textFontSize={14}
 					/>
 					<Sigh />
 					<DeliveryMethodCard
 						title={'entrega'}
-						deliveryMethod={getPostField('range')}
+						deliveryMethod={getPostField('deliveryMethod')}
 						textFontSize={16}
 					/>
 					<LastSigh />

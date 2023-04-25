@@ -8,15 +8,18 @@ export type ServiceStackParamList = {
 	ServicePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectServiceCategory: { editMode: boolean } | undefined
 	SelectServiceTags: { categorySelected: ServiceCategories, editMode?: boolean }
-	SelectSaleOrExchange: undefined
-	InsertExchangeValue: { editMode: boolean, initialValue: string } | undefined
+	SelectPaymentType: undefined
+	SelectSaleValueType: { bothPaymentType: boolean }
 	InsertSaleValue: { bothPaymentType: boolean, editMode?: boolean, initialValue?: string }
+	InsertExchangeValue: { editMode: boolean, initialValue: string } | undefined
+	SelectServiceRange: undefined
 	SelectLocationView: { editMode: boolean, initialValue?: LatLong } | undefined
 	InsertServicePrestationLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
-	LocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
+	ServiceLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
 	SelectDeliveryMethod: { editMode: boolean } | undefined
 	SelectServiceFrequency: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
-	SelectDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
-	InsertOpeningHour: { editMode: boolean, initialValue: Date } | undefined
-	InsertClosingHour: { editMode: boolean, initialValue: Date } | undefined
+	SelectServiceDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
+	InsertServiceStartHour: { editMode: boolean, initialValue: Date } | undefined
+	InsertServiceEndHour: { editMode: boolean, initialValue: Date } | undefined
+	ServiceReview: undefined
 } & UserStackParamList

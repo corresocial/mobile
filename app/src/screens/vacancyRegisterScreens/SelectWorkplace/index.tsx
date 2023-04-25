@@ -3,8 +3,12 @@ import { StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
+import ShopWhiteIcon from '../../../assets/icons/shop-white.svg'
+import ComputerAndPhoneWhiteIcon from '../../../assets/icons/computerAndPhone-white.svg'
 
-import { SelectWorkplaceScreenProps } from '../../../routes/Stack/vacancyStack/stackScreenProps'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+
+import { SelectWorkplaceScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { WorkplaceType } from '../../../services/firebase/types'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
@@ -21,16 +25,10 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const getVacancyRange = (workplace: WorkplaceType) => {
-		if (workplace === 'homeoffice') return 'country'
-		return 'city'
-	}
-
 	const saveWorkplaceType = (workplace: WorkplaceType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({
 				workplace,
-				range: getVacancyRange(workplace),
 				location: { country: 'Brasil', city: 'any' }
 			})
 			navigation.goBack()
@@ -39,33 +37,27 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 
 		setVacancyDataOnContext({
 			workplace,
-			range: getVacancyRange(workplace),
 			location: { country: 'Brasil', city: 'any' }
 		})
 
-		if (workplace === 'homeoffice') {
-			navigation.navigate('SelectVacancyCategory')
-		} else {
-			navigation.navigate('InsertWorkplaceLocation', {
-				workplace
-			})
-		}
+		navigation.navigate('SelectVacancyType')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={'28%'}
+				minHeight={relativeScreenHeight(24)}
+				relativeHeight={relativeScreenHeight(24)}
 				centralized
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
+					fontSize={17}
 					message={'qual é o local de trabalho?'}
 					highlightedWords={['local,', 'de', 'trabalho']}
 				>
@@ -80,36 +72,40 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 			>
 				<ButtonsContainer>
 					<PrimaryButton
-						justifyContent={'flex-start'}
+						justifyContent={'space-around'}
 						color={theme.white3}
 						relativeHeight={'18%'}
 						labelColor={theme.black4}
-						labelMarginLeft={'5%'}
 						fontSize={18}
+						SecondSvgIcon={ShopWhiteIcon}
+						svgIconScale={['40%', '25%']}
 						textAlign={'left'}
 						label={'vaga presencial'}
 						highlightedWords={['presencial']}
 						onPress={() => saveWorkplaceType('presential')}
 					/>
 					<PrimaryButton
-						justifyContent={'flex-start'}
+						justifyContent={'space-around'}
 						color={theme.white3}
 						relativeHeight={'18%'}
 						labelColor={theme.black4}
-						labelMarginLeft={'5%'}
 						fontSize={18}
+						SecondSvgIcon={ComputerAndPhoneWhiteIcon}
+						svgIconScale={['40%', '25%']}
 						textAlign={'left'}
 						label={'vaga homeoffice'}
 						highlightedWords={['homeoffice']}
 						onPress={() => saveWorkplaceType('homeoffice')}
 					/>
 					<PrimaryButton
-						justifyContent={'flex-start'}
+						justifyContent={'space-around'}
 						color={theme.white3}
 						relativeHeight={'18%'}
 						labelColor={theme.black4}
-						labelMarginLeft={'5%'}
 						fontSize={18}
+						SvgIcon={ComputerAndPhoneWhiteIcon}
+						SecondSvgIcon={ShopWhiteIcon}
+						svgIconScale={['40%', '25%']}
 						textAlign={'left'}
 						label={'vaga híbrida'}
 						highlightedWords={['híbrida']}

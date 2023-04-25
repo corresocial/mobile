@@ -35,6 +35,7 @@ import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
+import { ImageCarousel } from '../../../components/ImageCarousel'
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -239,6 +240,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 			</Header>
 			<Body>
 				<ScrollView showsVerticalScrollIndicator={false} >
+					<Sigh />
 					<DescriptionCard
 						title={'descrição da vaga'}
 						text={getPostField('description')}
@@ -247,16 +249,14 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						{getVacancyDetails()}
 					</DescriptionCard>
 					<Sigh />
-					<DateTimeCard
-						title={'dias e horários'}
-						weekDaysfrequency={'someday'}
-						daysOfWeek={getPostField('vacancyType') === 'professional' ? getPostField('workWeekdays') : []}
-						openingTime={getPostField('startWorkHour')}
-						closingTime={getPostField('endWorkHour')}
-						startDate={getPostField('startWorkDate')}
-						endDate={getPostField('endWorkDate')}
-						textFontSize={14}
-					/>
+					{!arrayIsEmpty(getPostField('picturesUrl')) && (
+						<>
+							<ImageCarousel
+								picturesUrl={getPostField('picturesUrl') || []}
+							/>
+							<Sigh />
+						</>
+					)}
 					{
 						getPostField('workplace') !== 'homeoffice' && (
 							<>
@@ -273,11 +273,15 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						)
 					}
 					<Sigh />
-					<DescriptionCard
-						title={'sobre a empresa'}
-						text={getPostField('companyDescription')}
+					<DateTimeCard
+						title={'dias e horários'}
+						weekDaysfrequency={'someday'}
+						daysOfWeek={getPostField('vacancyType') === 'professional' ? getPostField('daysOfWeek') : []}
+						startTime={getPostField('startHour')}
+						endTime={getPostField('endHour')}
+						startDate={getPostField('startDate')}
+						endDate={getPostField('endDate')}
 						textFontSize={14}
-						company
 					/>
 					<LastSigh />
 				</ScrollView>

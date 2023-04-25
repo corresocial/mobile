@@ -3,6 +3,12 @@ import uuid from 'react-uuid'
 import { FlatList, Platform } from 'react-native'
 import { get, onValue, ref } from 'firebase/database'
 
+import { theme } from '../../../common/theme'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { Container, Header, Sigh } from './styles'
+import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
+import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
+
 import { getRemoteChatData } from '../../../services/firebase/chat/getRemoteChatData'
 import { registerNewChat } from '../../../services/firebase/chat/registerNewChat'
 import { setChatIdToUsers } from '../../../services/firebase/chat/setChatIdToUsers'
@@ -13,18 +19,13 @@ import { unblockUserId } from '../../../services/firebase/chat/unblockUser'
 import { getRemoteUser } from '../../../services/firebase/chat/getRemoteUser'
 import { cleanMessages } from '../../../services/firebase/chat/cleanMessages'
 import { realTimeDatabase } from '../../../services/firebase'
+import { unsubscribeMessageListener } from '../../../services/firebase/chat/unsubscribeMessageListener'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
 import { FlatListItem } from '../../../@types/global/types'
 import { Id } from '../../../services/firebase/types'
 import { Chat, Message, MessageObjects, UserIdentification } from '../../../@types/chat/types'
-
-import { theme } from '../../../common/theme'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import { Container, Header, Sigh } from './styles'
-import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
-import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
@@ -45,26 +46,29 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const [chatOptionsIsOpen, setChatOptionsIsOpen] = useState(false)
 	const [currentChat, setCurrentChat] = useState<Chat>(chatFromRoute)
 	const [messages, setMessages] = useState<MessageObjects>(currentChat.messages)
+	const [listenerHasStarted, setListenerHasStarted] = useState(false)
 	const [isBlockedUser, setIsBlockedUser] = useState(false)
 	const [blockedByOwner, setBlockedByOwner] = useState(false)
 
 	const flatListRef: RefObject<FlatList> = useRef(null)
 
 	useLayoutEffect(() => {
-		startMessagesListener(currentChat.chatId)
+		!listenerHasStarted && startMessagesListener(currentChat.chatId)
 	}, [currentChat])
 
 	useEffect(() => {
 		loadChatMessages()
-		makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId)
+		makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId as Id)
 		return () => {
-			makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId)
+			unsubscribeMessageListener(currentChat.chatId)
+			makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId as Id)
 		}
 	}, [])
 
 	const loadChatMessages = async () => {
 		const remoteChatData = await getRemoteChatData(currentChat.user1, currentChat.user2)
-		setCurrentChat(remoteChatData)
+		setCurrentChat({ ...remoteChatData, messages: { ...remoteChatData.messages } } as any) // TODO Type
+		setMessages({ ...remoteChatData.messages })
 
 		verifyUsersBlock()
 	}
@@ -85,10 +89,11 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const startMessagesListener = async (chatId: Id) => {
 		const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}/messages`)
 		if (await existsOnDatabase(chatId)) {
-			onValue(realTimeDatabaseRef, (snapshot) => {
+			setListenerHasStarted(true)
+			return onValue(realTimeDatabaseRef, (snapshot) => {
 				const listenerMessages = snapshot.val()
 				if (getLastMessageObjects(listenerMessages).owner !== userDataContext.userId) {
-					// console.log('Listener message running...')
+					console.log('Listener message running...')
 					setMessages(listenerMessages)
 				}
 			})
@@ -104,6 +109,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const existsOnDatabase = async (chatId: Id) => {
+		if (!chatId) return false
 		const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
 		return get(realTimeDatabaseRef)
 			.then((snapshot: any) => snapshot.exists())
@@ -142,7 +148,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const blockUser = async () => {
 		const targetUserId = getReceiverUserId(currentChat.user1, currentChat.user2)
-		await blockUserId(targetUserId, userDataContext.userId)
+		await blockUserId(targetUserId, userDataContext.userId as Id)
 
 		setChatOptionsIsOpen(false)
 		setBlockedByOwner(true)
@@ -151,7 +157,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const unblockUser = async () => {
 		const blockedUserId = getReceiverUserId(currentChat.user1, currentChat.user2)
-		await unblockUserId(blockedUserId, userDataContext.userId)
+		await unblockUserId(blockedUserId, userDataContext.userId as Id)
 
 		setChatOptionsIsOpen(false)
 		setIsBlockedUser(false)
@@ -188,6 +194,13 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		return user1.name
 	}
 
+	const getUserId = (user1: UserIdentification, user2: UserIdentification) => {
+		if (userDataContext.userId === user1.userId) {
+			return user2.userId
+		}
+		return user1.userId
+	}
+
 	const getProfilePictureUrl = (user1: UserIdentification, user2: UserIdentification) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.profilePictureUrl
@@ -199,6 +212,17 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		return Object.values(messages || {}).filter((message: Message) => (
 			!message.justOwner || (message.justOwner && message.owner === userDataContext.userId))
 			&& (!message.userCanView || message.userCanView === userDataContext.userId))
+	}
+
+	const navigateToProfile = () => {
+		navigation.navigate('ChatStack' as any, { // TODO type
+			screen: 'ProfileChat',
+			params: {
+				userId: getUserId(currentChat.user1, currentChat.user2),
+				stackLabel: 'Chat'
+			}
+
+		})
 	}
 
 	return (
@@ -219,6 +243,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					width={'65%'}
 					userNameFontSize={15}
 					height={'100%'}
+					navigateToProfile={navigateToProfile}
 				/>
 				<ChatPopOver
 					userName={getUserName(currentChat.user1, currentChat.user2)}
@@ -240,7 +265,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			</Header>
 			<FlatList
 				ref={flatListRef}
-				data={messages ? getFilteredMessages() : []}
+				data={Object.values(messages || {}) ? getFilteredMessages() : []}
 				renderItem={({ item }: FlatListItem<Message>) => (
 					<MessageCard
 						message={item.message}

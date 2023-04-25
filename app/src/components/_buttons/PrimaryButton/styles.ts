@@ -27,15 +27,14 @@ export const ContainerSurface = styled.View`
     width: 100%;
     height: 100%;
     border-radius: ${RFValue(18)}px;
-    border: ${RFValue(2)}px solid black;
+    border: ${RFValue(3)}px solid black;
     padding-horizontal: ${RFValue(20)}px;
     position: absolute;
-	right: ${RFValue(8)}px;
+	right: ${RFValue(9)}px;
 `
 
 export const ButtonLabel = styled.Text`
     color: ${({ theme }) => theme.black4};
     font-family: Arvo_400Regular;
-    margin-right:  ${RFValue(15)}px;
     text-align: center;
 `

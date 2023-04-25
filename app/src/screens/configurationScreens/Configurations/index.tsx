@@ -7,16 +7,27 @@ import { theme } from '../../../common/theme'
 import { ConfigurationsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
+import { ChatContext } from '../../../contexts/ChatContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 
-function Configurations({ route, navigation }: ConfigurationsScreenProps) {
+function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const { deleteLocaluser } = useContext(AuthContext)
+	const { removeChatListeners } = useContext(ChatContext)
 
 	const performLogout = () => {
+		removeChatListeners()
 		deleteLocaluser()
-		navigation.navigate('AcceptAndContinue' as any)
+
+		navigateToInitialScreen()
+	}
+
+	const navigateToInitialScreen = () => {
+		navigation.reset({
+			index: 0,
+			routes: [{ name: 'AcceptAndContinue' as any }]
+		})
 	}
 
 	return (

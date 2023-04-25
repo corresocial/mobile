@@ -5,7 +5,7 @@ import { StatusBar } from 'react-native'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { Body, Container, Header, LastSigh, SaveButtonContainer, Sigh } from './styles'
-import CheckIcon from '../../../assets/icons/check.svg'
+import CheckIcon from '../../../assets/icons/check-white.svg'
 
 import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
 import { arrayIsEmpty, formatHour } from '../../../common/auxiliaryFunctions'
@@ -14,7 +14,7 @@ import { updateDocField } from '../../../services/firebase/common/updateDocField
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
 import { EditSocialImpactPostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { CultureCollection, DaysOfWeek, EventRepeatType, ExhibitionPlaceType, Id, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '../../../services/firebase/types'
+import { DaysOfWeek, EventRepeatType, ExhibitionPlaceType, Id, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '../../../services/firebase/types'
 import { SocialImpactStackParamList } from '../../../routes/Stack/SocialImpactStack/types'
 
 import { EditContext } from '../../../contexts/EditContext'
@@ -51,25 +51,22 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 			case 'sale': return 'da venda'
 			case 'vacancy': return 'da vaga'
 			case 'socialImpact': return 'da iniciativa'
-			case 'culture': {
-				const { cultureType } = postData as CultureCollection
-				return cultureType === 'artistProfile' ? 'do artista' : 'do evento'
-			}
+			case 'culture': return 'do evento'
 			default: return 'do post'
 		}
 	}
 
 	const formatDaysOfWeek = () => {
-		const attendanceWeekDays = getPostField('exhibitionWeekDays')
+		const daysOfWeek = getPostField('daysOfWeek')
 
 		const allDaysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
-		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => attendanceWeekDays.includes(weekDay))
+		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => daysOfWeek.includes(weekDay))
 		return ordenedDaysOfWeek.toString().split(',').join(', ')
 	}
 
 	const renderSocialImpactRepeat = () => {
-		const socialImpactRepeat = getPostField('socialImpactRepeat') as EventRepeatType
-		switch (socialImpactRepeat) {
+		const repeat = getPostField('repeat') as EventRepeatType
+		switch (repeat) {
 			case 'unrepeatable': return 'não se repete'
 			case 'everyDay': return 'todos os dias'
 			case 'weekly': return 'uma vez por semana'
@@ -107,7 +104,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 
 	const getUserPostsWithoutEdited = () => {
 		const userPosts = userDataContext.posts || []
-		return userPosts.filter((post) => post.postId !== postData.postId)
+		return userPosts.filter((post: SocialImpactCollection) => post.postId !== postData.postId)
 	}
 
 	const editPost = async () => {
@@ -347,28 +344,28 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 					title={'repetição'}
 					highlightedWords={['repetição']}
 					value={renderSocialImpactRepeat() || '---'}
-					onEdit={() => navigateToEditScreen('SelectSocialImpactRepeat', 'socialImpactRepeat')}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactRepeat', 'repeat')}
 				/>
 				<Sigh />
 				<EditCard
 					title={'dias da semana'}
 					highlightedWords={['semana']}
 					value={formatDaysOfWeek() || '---'}
-					onEdit={() => navigateToEditScreen('SelectDaysOfWeek', 'exhibitionWeekDays')}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactDaysOfWeek', 'daysOfWeek')}
 				/>
 				<Sigh />
 				<EditCard
 					title={'horário de início'}
 					highlightedWords={['início']}
-					value={formatHour(getPostField('openingHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertOpeningHour', 'openingHour')}
+					value={formatHour(getPostField('startHour')) || '---'}
+					onEdit={() => navigateToEditScreen('InsertSocialImpactStartHour', 'startHour')}
 				/>
 				<Sigh />
 				<EditCard
 					title={'horário de fim'}
 					highlightedWords={['fim']}
-					value={formatHour(getPostField('closingHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertClosingHour', 'closingHour')}
+					value={formatHour(getPostField('endHour')) || '---'}
+					onEdit={() => navigateToEditScreen('InsertSocialImpactEndHour', 'endHour')}
 				/>
 				<LastSigh />
 			</Body>

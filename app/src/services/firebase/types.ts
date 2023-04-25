@@ -10,25 +10,33 @@ export type VacancyCategories = keyof typeof vacancyCategories
 export type CultureCategories = keyof typeof cultureCategories
 export type SocialImpactCategories = keyof typeof socialImpactCategories
 
+export type PostCategoriesType = SaleCategories & ServiceCategories & VacancyCategories & CultureCategories & SocialImpactCategories
+
+export type PostCategoriesObject = typeof saleCategories | typeof serviceCategories | typeof vacancyCategories | typeof cultureCategories | typeof socialImpactCategories
+
 export type Id = string
 
 export type ServiceCategory = typeof serviceCategories
 
 export type LocationViewType = 'private' | 'approximate' | 'public'
 
+export type ItemStatus = 'new' | 'used'
+
 export type WeekdaysFrequency = 'today' | 'everyday' | 'someday' | 'businessDay'
+
+export type PostRange = 'near' | 'city' | 'country'
 
 export type DeliveryMethod = 'unavailable' | 'near' | 'city' | 'country'
 
 export type DaysOfWeek = 'seg' | 'ter' | 'qua' | 'qui' | 'sex' | 'sab' | 'dom'
 
-export type PaymentType = 'exchange' | 'sale' | 'both'
+export type PaymentType = 'sale' | 'exchange' | 'both'
+
+export type SaleValueType = 'fixed' | 'toMatch'
 
 export type WorkplaceType = 'homeoffice' | 'presential' | 'hybrid'
 
 export type VacancyType = 'professional' | 'temporary' | 'beak'
-
-export type CultureType = 'artistProfile' | 'eventPost'
 
 export type ExhibitionPlaceType = 'near' | 'city' | 'country'
 
@@ -74,6 +82,7 @@ export type SocialMedia = {
 }
 
 export type UserCollection = {
+	userId?: Id
 	name?: string
 	description?: string
 	profilePictureUrl?: string[]
@@ -140,11 +149,12 @@ export type ServiceCollection = {
 	saleValue?: string
 	exchangeValue?: string
 	locationView?: LocationViewType
-	range?: DeliveryMethod
+	range?: PostRange
+	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
-	attendanceWeekDays?: DaysOfWeek[]
-	openingHour?: Date
-	closingHour?: Date
+	daysOfWeek?: DaysOfWeek[]
+	startHour?: Date
+	endHour?: Date
 	picturesUrl?: string[]
 	createdAt?: Date
 	location?: {
@@ -182,11 +192,12 @@ export type ServiceCollectionRemote = {
 	saleValue?: string
 	exchangeValue?: string
 	locationView: LocationViewType
-	range: DeliveryMethod
+	range?: PostRange
+	deliveryMethod?: DeliveryMethod
 	attendanceFrequency: WeekdaysFrequency
-	attendanceWeekDays?: DaysOfWeek[]
-	openingHour: Date
-	closingHour: Date
+	daysOfWeek?: DaysOfWeek[]
+	startHour: Date
+	endHour: Date
 	picturesUrl: string[]
 	createdAt: Date
 	location: {
@@ -220,16 +231,18 @@ export type SaleCollection = {
 	itemName?: string
 	itemDescription?: string
 	tags?: string[]
+	itemStatus?: ItemStatus
 	category?: string
 	paymentType?: PaymentType
 	saleValue?: string
 	exchangeValue?: string
 	locationView?: LocationViewType
-	range?: DeliveryMethod
+	range?: PostRange
+	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
-	attendanceWeekDays?: DaysOfWeek[]
-	openingHour?: Date
-	closingHour?: Date
+	daysOfWeek?: DaysOfWeek[]
+	startHour?: Date
+	endHour?: Date
 	picturesUrl?: string[]
 	createdAt?: Date
 	location?: {
@@ -264,15 +277,17 @@ export type SaleCollectionRemote = {
 	itemDescription: string
 	tags: string[]
 	category: string
+	itemStatus: ItemStatus
 	paymentType: PaymentType
 	saleValue: string
 	exchangeValue?: string
 	locationView: LocationViewType
-	range: DeliveryMethod
+	range?: PostRange
+	deliveryMethod?: DeliveryMethod
 	attendanceFrequency: WeekdaysFrequency
-	attendanceWeekDays: DaysOfWeek[]
-	openingHour: Date
-	closingHour: Date
+	daysOfWeek: DaysOfWeek[]
+	startHour: Date
+	endHour: Date
 	picturesUrl: string[]
 	createdAt: Date
 	location?: {
@@ -307,13 +322,13 @@ export type VacancyCollection = {
 	vacancyType?: VacancyType
 	workplace?: WorkplaceType
 	range?: ExhibitionPlaceType
-	companyDescription?: string
-	questions?: string[]
-	workWeekdays?: DaysOfWeek[]
-	startWorkDate?: Date
-	endWorkDate?: Date
-	startWorkHour?: Date
-	endWorkHour?: Date
+	importantPoints?: string[]
+	daysOfWeek?: DaysOfWeek[]
+	startDate?: Date
+	endDate?: Date
+	startHour?: Date
+	endHour?: Date
+	picturesUrl: string[]
 	tags?: string[]
 	category?: string
 	createdAt?: Date
@@ -349,13 +364,13 @@ export type VacancyCollectionRemote = {
 	vacancyType: VacancyType
 	workplace: WorkplaceType
 	range?: ExhibitionPlaceType
-	companyDescription: string
-	questions: string[]
-	workWeekdays: DaysOfWeek[]
-	startWorkDate: Date
-	endWorkDate: Date
-	startWorkHour: Date
-	endWorkHour: Date
+	importantPoints: string[]
+	daysOfWeek: DaysOfWeek[]
+	startDate: Date
+	endDate: Date
+	startHour: Date
+	endHour: Date
+	picturesUrl: string[]
 	tags: string[]
 	category: string
 	createdAt: Date
@@ -388,16 +403,15 @@ export type CultureCollection = {
 	postType?: PostType
 	title?: string
 	description?: string
-	cultureType?: CultureType
 	locationView?: LocationViewType
 	range?: ExhibitionPlaceType
 	eventPlaceModality?: PlaceModalityType
-	eventRepeat?: EventRepeatType
+	repeat?: EventRepeatType
 	entryValue?: string
-	eventStartDate?: Date
-	eventEndDate?: Date
-	eventStartHour?: Date
-	eventEndHour?: Date
+	startDate?: Date
+	endDate?: Date
+	startHour?: Date
+	endHour?: Date
 	picturesUrl?: string[]
 	tags?: string[]
 	category?: string
@@ -431,16 +445,15 @@ export type CultureCollectionRemote = {
 	postType: PostType
 	title: string
 	description: string
-	cultureType: CultureType
 	locationView: LocationViewType
 	range: ExhibitionPlaceType
 	eventPlaceModality?: PlaceModalityType
-	eventRepeat: EventRepeatType
+	repeat: EventRepeatType
 	entryValue: string
-	eventStartDate: Date
-	eventEndDate: Date
-	eventStartHour: Date
-	eventEndHour: Date
+	startDate: Date
+	endDate: Date
+	startHour: Date
+	endHour: Date
 	picturesUrl: string[]
 	tags: string[]
 	category: string
@@ -478,10 +491,12 @@ export type SocialImpactCollection = {
 	category?: string
 	locationView?: LocationViewType
 	range?: ExhibitionPlaceType
-	exhibitionWeekDays?: DaysOfWeek[]
-	socialImpactRepeat?: EventRepeatType,
-	openingHour?: Date
-	closingHour?: Date
+	daysOfWeek?: DaysOfWeek[]
+	repeat?: EventRepeatType,
+	startDate?: Date
+	endDate?: Date
+	startHour?: Date
+	endHour?: Date
 	picturesUrl?: string[]
 	createdAt?: Date
 	location?: {
@@ -517,10 +532,12 @@ export type SocialImpactCollectionRemote = {
 	category: string
 	locationView: LocationViewType
 	range: ExhibitionPlaceType
-	exhibitionWeekDays: DaysOfWeek[]
-	socialImpactRepeat: EventRepeatType,
-	openingHour: Date
-	closingHour: Date
+	daysOfWeek: DaysOfWeek[]
+	repeat: EventRepeatType,
+	startDate?: Date
+	endDate?: Date
+	startHour: Date
+	endHour: Date
 	picturesUrl: string[]
 	createdAt: Date
 	location: {

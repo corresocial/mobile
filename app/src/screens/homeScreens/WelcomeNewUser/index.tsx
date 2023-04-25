@@ -3,8 +3,8 @@ import { BackHandler, StatusBar } from 'react-native'
 
 import { Container, ContainerButtons } from './styles'
 import { theme } from '../../../common/theme'
-import ShoppingBag from '../../../assets/icons/shoppingBag.svg'
-import SalesCart from '../../../assets/icons/salesCart.svg'
+import LoupWhiteIcon from '../../../assets/icons/loup-white.svg'
+import SalesCartWhiteIcon from '../../../assets/icons/salesCart-white.svg'
 
 import { updateUser } from '../../../services/firebase/user/updateUser'
 
@@ -93,11 +93,11 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 						leftSideColor={theme.orange3}
 						label={'para encontrar'}
 						labelAlign={'left'}
-						description={'quero encontrar um serviço, item para compra e/ou troca ou uma vaga de emprego'}
+						description={'Quero encontrar um serviço, item para compra e/ou troca, vagas e cultura.'}
 						highlightedWords={['para', 'encontrar']}
-						SvgIcon={ShoppingBag}
-						svgIconScale={['60%', '60%']}
-						leftSideWidth={'30%'}
+						SvgIcon={LoupWhiteIcon}
+						svgIconScale={['50%', '60%']}
+						leftSideWidth={'25%'}
 						onPress={goToHome}
 					/>
 					<OptionButton
@@ -105,11 +105,11 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 						leftSideColor={theme.orange3}
 						label={'para postar'}
 						labelAlign={'left'}
-						description={'quero postar vendas, serviços, vagas, iniciativas sociais ou cultura'}
+						description={'quero fazer vendas, anunciar meus serviços, vagas, iniciativas sociais ou arte.'}
 						highlightedWords={['para', 'postar']}
-						SvgIcon={SalesCart}
-						svgIconScale={['60%', '60%']}
-						leftSideWidth={'30%'}
+						SvgIcon={SalesCartWhiteIcon}
+						svgIconScale={['50%', '60%']}
+						leftSideWidth={'25%'}
 						onPress={goToProfile}
 					/>
 				</FormContainer>

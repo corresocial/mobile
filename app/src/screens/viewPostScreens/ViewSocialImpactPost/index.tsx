@@ -197,7 +197,8 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 				</OptionsArea>
 			</Header>
 			<Body>
-				<ScrollView showsVerticalScrollIndicator={false} >
+				<ScrollView showsVerticalScrollIndicator={false}	>
+					<Sigh />
 					<DescriptionCard
 						title={'descrição da iniciativa'}
 						text={getPostField('description')}
@@ -225,10 +226,12 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					<DateTimeCard
 						title={'dias e horários'}
 						weekDaysfrequency={'someday'}
-						daysOfWeek={getPostField('exhibitionWeekDays')}
-						openingTime={getPostField('openingHour')}
-						closingTime={getPostField('closingHour')}
-						repetition={getPostField('socialImpactRepeat')}
+						daysOfWeek={getPostField('daysOfWeek')}
+						startDate={getPostField('startHour')}
+						endDate={getPostField('startHour')}
+						startTime={getPostField('startHour')}
+						endTime={getPostField('endHour')}
+						repetition={getPostField('repeat')}
 						textFontSize={14}
 					/>
 					<LastSigh />

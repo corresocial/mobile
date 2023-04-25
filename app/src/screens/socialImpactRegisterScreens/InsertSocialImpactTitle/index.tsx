@@ -1,37 +1,21 @@
-import { Keyboard, Platform, StatusBar } from 'react-native'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Keyboard, StatusBar } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
 
-import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import Check from '../../../assets/icons/check.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { InsertSocialImpactTitleScreenProps } from '../../../routes/Stack/socialImpactStack/stackScreenProps'
+import { InsertSocialImpactTitleScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { EditContext } from '../../../contexts/EditContext'
-
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { LineInput } from '../../../components/LineInput'
-import { ProgressBar } from '../../../components/ProgressBar'
+import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertSocialImpactTitle({ route, navigation }: InsertSocialImpactTitleScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [socialImpactTitle, setSocialImpactTitle] = useState<string>(route.params?.initialValue || '')
-	const [socialImpactTitleIsValid, setSocialImpactTitleIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
-
-	const inputRefs = {
-		socialImpactTitleInput: useRef<React.MutableRefObject<any>>(null),
-	}
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -42,11 +26,6 @@ function InsertSocialImpactTitle({ route, navigation }: InsertSocialImpactTitleS
 		return unsubscribe
 	}, [navigation])
 
-	useEffect(() => {
-		const validation = validateSocialImpactTitle(socialImpactTitle)
-		setSocialImpactTitleIsValid(validation)
-	}, [socialImpactTitle, keyboardOpened])
-
 	const validateSocialImpactTitle = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
@@ -55,83 +34,34 @@ function InsertSocialImpactTitle({ route, navigation }: InsertSocialImpactTitleS
 		return false
 	}
 
-	const saveSocialImpactTitle = () => {
+	const saveSocialImpactTitle = (inputText: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ title: socialImpactTitle })
+			addNewUnsavedFieldToEditContext({ title: inputText })
 			navigation.goBack()
 			return
 		}
 
-		setSocialImpactDataOnContext({ title: socialImpactTitle })
+		setSocialImpactDataOnContext({ title: inputText })
 		navigation.navigate('InsertSocialImpactDescription')
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<>
 			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
-			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(26)}
-				relativeHeight={'22%'}
-				centralized
+			<PostInputText
 				backgroundColor={theme.pink2}
-			>
-				<BackButton onPress={() => navigation.goBack()} />
-				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={18}
-					message={'qual é o título do post?'}
-					highlightedWords={['título']}
-				>
-					<ProgressBar
-						range={5}
-						value={2}
-					/>
-				</InstructionCard>
-			</DefaultHeaderContainer>
-			<FormContainer
-				backgroundColor={theme.white2}
-				justifyContent={'center'}
-			>
-				<LineInput
-					value={socialImpactTitle}
-					relativeWidth={'100%'}
-					textInputRef={inputRefs.socialImpactTitleInput}
-					defaultBackgroundColor={theme.white2}
-					defaultBorderBottomColor={theme.black4}
-					validBackgroundColor={theme.pink1}
-					validBorderBottomColor={theme.pink5}
-					invalidBackgroundColor={theme.red1}
-					invalidBorderBottomColor={theme.red5}
-					maxLength={100}
-					lastInput
-					textAlign={'left'}
-					fontSize={16}
-					placeholder={'ex: projeto criança vive'}
-					keyboardType={'default'}
-					textIsValid={socialImpactTitleIsValid && !keyboardOpened}
-					validateText={(text: string) => validateSocialImpactTitle(text)}
-					onChangeText={(text: string) => setSocialImpactTitle(text)}
-				/>
-				<ButtonsContainer>
-					{
-						socialImpactTitleIsValid && !keyboardOpened
-						&& (
-							<PrimaryButton
-								flexDirection={'row-reverse'}
-								color={theme.green3}
-								label={'continuar'}
-								labelColor={theme.white3}
-								SvgIcon={Check}
-								svgIconScale={['30%', '15%']}
-								onPress={saveSocialImpactTitle}
-							/>
-						)
-					}
-				</ButtonsContainer>
-			</FormContainer>
-		</Container>
+				validationColor={theme.pink1}
+				inputPlaceholder={'ex: projeto criança feliz'}
+				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
+				progress={[2, 4]}
+				keyboardOpened={keyboardOpened}
+				validateInputText={validateSocialImpactTitle}
+				navigateBackwards={() => navigation.goBack()}
+				saveTextData={saveSocialImpactTitle}
+			/>
+		</>
 	)
 }
 

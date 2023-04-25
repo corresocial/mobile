@@ -192,7 +192,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						breakRow
 						smallFontSize={14}
 						largeFontSize={25}
-						exchanveFontSize={14}
+						exchangeFontSize={14}
 					/>
 				</UserAndValueContainer>
 				<Sigh />
@@ -241,6 +241,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 			</Header>
 			<Body>
 				<ScrollView showsVerticalScrollIndicator={false}>
+					<Sigh />
 					<DescriptionCard
 						title={'descrição do serviço'}
 						text={getPostField('description')}
@@ -261,22 +262,20 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						exchangeValue={getPostField('exchangeValue')}
 					/>
 					<Sigh />
-					{postData.locationView !== 'private' && (
-						<LocationViewCard
-							title={'localização'}
-							locationView={getPostField('locationView')}
-							isAuthor={isAuthor}
-							location={getPostField('location')}
-							textFontSize={16}
-						/>
-					)}
+					<LocationViewCard
+						title={'localização'}
+						locationView={getPostField('locationView')}
+						isAuthor={isAuthor}
+						location={getPostField('location')}
+						textFontSize={16}
+					/>
 					<Sigh />
 					<DateTimeCard
 						title={'dias e horários'}
 						weekDaysfrequency={getPostField('attendanceFrequency')}
-						daysOfWeek={getPostField('attendanceWeekDays')}
-						openingTime={getPostField('openingHour')}
-						closingTime={getPostField('closingHour')}
+						daysOfWeek={getPostField('daysOfWeek')}
+						startTime={getPostField('startHour')}
+						endTime={getPostField('endHour')}
 						textFontSize={14}
 					/>
 					<Sigh />

@@ -12,14 +12,19 @@ import { InsertSocialImpactTitle } from '../../../screens/socialImpactRegisterSc
 import { InsertSocialImpactDescription } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactDescription'
 import { InsertSocialImpactPicture } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactPicture'
 import { SocialImpactPicturePreview } from '../../../screens/socialImpactRegisterScreens/SocialImpactPicturePreview'
-import { SelectSocialImpactExhibitionRange } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactExhibitionRange'
-import { InsertSocialImpactLocation } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactLocation'
 import { SelectSocialImpactLocationView } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactLocationView'
+import { SelectSocialImpactRange } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactRange'
+import { InsertSocialImpactLocation } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactLocation'
 import { SocialImpactLocationViewPreview } from '../../../screens/socialImpactRegisterScreens/SocialImpactLocationViewPreview'
-import { SelectDaysOfWeek } from '../../../screens/socialImpactRegisterScreens/SelectDaysOfWeek'
-import { InsertOpeningHour } from '../../../screens/socialImpactRegisterScreens/InsertOpeningHour'
-import { InsertClosingHour } from '../../../screens/socialImpactRegisterScreens/InsertClosingHour'
+import { SelectSocialImpactExhibitionRange } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactExhibitionRange'
+import { SelectSocialImpactDaysOfWeek } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactDaysOfWeek'
+import { InsertSocialImpactStartHour } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactStartHour'
+import { InsertSocialImpactEndHour } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactEndHour'
 import { SelectSocialImpactRepeat } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactRepeat'
+import { SelectSocialImpactFrequency } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactFrequency'
+import { InsertSocialImpactStartDate } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactStartDate'
+import { InsertSocialImpactEndDate } from '../../../screens/socialImpactRegisterScreens/SocialImpactEndDate'
+import { SocialImpactReview } from '../../../screens/socialImpactRegisterScreens/SocialImpactReview'
 
 const Stack = createStackNavigator<SocialImpactStackParamList>()
 
@@ -40,14 +45,19 @@ export function SocialImpactStack() {
 				<Stack.Screen name={'InsertSocialImpactDescription'} component={InsertSocialImpactDescription} />
 				<Stack.Screen name={'InsertSocialImpactPicture'} component={InsertSocialImpactPicture} />
 				<Stack.Screen name={'SocialImpactPicturePreview'} component={SocialImpactPicturePreview} />
-				<Stack.Screen name={'SelectSocialImpactExhibitionRange'} component={SelectSocialImpactExhibitionRange} />
+				<Stack.Screen name={'SelectSocialImpactRange'} component={SelectSocialImpactRange} />
 				<Stack.Screen name={'InsertSocialImpactLocation'} component={InsertSocialImpactLocation} />
 				<Stack.Screen name={'SelectSocialImpactLocationView'} component={SelectSocialImpactLocationView} />
 				<Stack.Screen name={'SocialImpactLocationViewPreview'} component={SocialImpactLocationViewPreview} />
-				<Stack.Screen name={'SelectDaysOfWeek'} component={SelectDaysOfWeek} />
-				<Stack.Screen name={'InsertOpeningHour'} component={InsertOpeningHour} />
-				<Stack.Screen name={'InsertClosingHour'} component={InsertClosingHour} />
+				<Stack.Screen name={'SelectSocialImpactExhibitionRange'} component={SelectSocialImpactExhibitionRange} />
+				<Stack.Screen name={'SelectSocialImpactFrequency'} component={SelectSocialImpactFrequency} />
+				<Stack.Screen name={'SelectSocialImpactDaysOfWeek'} component={SelectSocialImpactDaysOfWeek} />
 				<Stack.Screen name={'SelectSocialImpactRepeat'} component={SelectSocialImpactRepeat} />
+				<Stack.Screen name={'InsertSocialImpactStartDate'} component={InsertSocialImpactStartDate} />
+				<Stack.Screen name={'InsertSocialImpactEndDate'} component={InsertSocialImpactEndDate} />
+				<Stack.Screen name={'InsertSocialImpactStartHour'} component={InsertSocialImpactStartHour} />
+				<Stack.Screen name={'InsertSocialImpactEndHour'} component={InsertSocialImpactEndHour} />
+				<Stack.Screen name={'SocialImpactReview'} component={SocialImpactReview} />
 			</Stack.Navigator>
 		</SocialImpactProvider>
 	)

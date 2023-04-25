@@ -77,6 +77,26 @@ const socialImpactCategories = {
 		tags: commonTags
 	},
 
+	diversity: {
+		label: 'diversidade',
+		value: 'diversity',
+		slug: 'diversity',
+		tags: [
+			'cognitivas',
+			'fisicas',
+			'visuais',
+			'auditivas',
+			'negra',
+			'asiática',
+			'originária',
+			'amarela',
+			'parda',
+			'etária',
+			'lgbtqia',
+			'religiosa'
+		]
+	},
+
 	others: {
 		label: 'outros',
 		value: 'others',

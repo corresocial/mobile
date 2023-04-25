@@ -6,14 +6,13 @@ import { PhoneAuthProvider, signInWithCredential, UserCredential } from 'firebas
 import { auth } from '../services/firebase'
 import { getUser } from '../services/firebase/user/getUser'
 
-import { UserData } from './types'
 import { UserCollection } from '../services/firebase/types'
 
 const phoneAuth = new PhoneAuthProvider(auth)
 
 type AuthContextType = {
-	userDataContext: UserData
-	setUserDataOnContext: (data: UserData) => void
+	userDataContext: UserCollection
+	setUserDataOnContext: (data: UserCollection) => void
 	getDataFromSecureStore: (key: string, requireAuthentication?: boolean) => Promise<string | false | null>
 	localUserIsValidToLogin: (userJSON: any, requireAuthentication?: boolean) => boolean | undefined
 	setDataOnSecureStore: (key: string, data: any) => Promise<boolean>
@@ -145,7 +144,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 		return userCredential
 	}
 
-	const setUserDataOnContext = (data: UserData) => {
+	const setUserDataOnContext = (data: UserCollection) => {
 		setUserDataContext({
 			...userDataContext, ...data
 		})

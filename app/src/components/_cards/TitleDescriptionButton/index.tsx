@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Container, ContainerInner, Description, Title } from './styles'
+import { Container, ContainerInner, Description, Footer, LargeStrongFont, SmallStrongFont, SmallThinFont, Title } from './styles'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { PostRange } from '../../../services/firebase/types'
 
 interface TitleDescriptionButtonProps {
 	height: string | number
@@ -12,6 +13,7 @@ interface TitleDescriptionButtonProps {
 	titleFontSize?: number
 	description: string
 	highlightedWords: string[]
+	footerText?: PostRange
 	onPress: () => void
 }
 
@@ -22,6 +24,7 @@ function TitleDescriptionButton({
 	titleFontSize = 22,
 	description,
 	highlightedWords,
+	footerText,
 	onPress
 }: TitleDescriptionButtonProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
@@ -37,6 +40,44 @@ function TitleDescriptionButton({
 	function releaseButton() {
 		setButtomPressed(false)
 		onPress()
+	}
+
+	const renderRelativeFooterText = () => {
+		if (footerText) {
+			return (
+				<Footer>
+					<SmallThinFont>{'plano '}</SmallThinFont>
+					<LargeStrongFont>{'gratuito'}</LargeStrongFont>
+					<SmallStrongFont>{''}</SmallStrongFont>
+				</Footer>
+			)
+		}
+		/* switch (footerText) {
+			case 'near': return (
+				<Footer>
+					<SmallThinFont>{'plano '}</SmallThinFont>
+					<LargeStrongFont>{'gratuito'}</LargeStrongFont>
+					<SmallStrongFont>{''}</SmallStrongFont>
+				</Footer>
+			)
+			case 'city': return (
+				<Footer>
+					<SmallThinFont>{'R$ '}</SmallThinFont>
+					<LargeStrongFont>{'20'}</LargeStrongFont>
+					<SmallThinFont>{',00 '}</SmallThinFont>
+					<SmallStrongFont>{'/ mês'}</SmallStrongFont>
+				</Footer>
+			)
+			case 'country': return (
+				<Footer>
+					<SmallThinFont>{'R$ '}</SmallThinFont>
+					<LargeStrongFont>{'40'}</LargeStrongFont>
+					<SmallThinFont>{',00 '}</SmallThinFont>
+					<SmallStrongFont>{'/ mês'}</SmallStrongFont>
+				</Footer>
+			)
+			default: return null
+		} */
 	}
 
 	return (
@@ -62,6 +103,7 @@ function TitleDescriptionButton({
 				<Description>
 					{showMessageWithHighlight(description, highlightedWords)}
 				</Description>
+				{renderRelativeFooterText()}
 			</ContainerInner>
 		</Container>
 	)

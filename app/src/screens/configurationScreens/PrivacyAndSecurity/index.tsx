@@ -7,7 +7,7 @@ import AngleLeftThin from '../../../assets/icons/angleLeftThin.svg'
 
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 
-import { PrivacyAndSecurityScreenProps } from '../../../routes/Stack/userStack/stackScreenProps'
+import { PrivacyAndSecurityScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'

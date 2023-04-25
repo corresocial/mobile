@@ -1,18 +1,29 @@
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Container } from './styles'
-import AngleLeft from '../../../assets/icons/angleLeft.svg'
+import AngleLeftIcon from '../../../assets/icons/angleLeft-white.svg'
+import { SmallButton } from '../SmallButton'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
+import { Sigh } from './styles'
 
 interface BackButtonProps {
+	hasSigh?: boolean
 	onPress: () => void
 }
 
-function BackButton({ onPress }: BackButtonProps) {
+function BackButton({ hasSigh, onPress }: BackButtonProps) {
 	return (
-		<Container onPress={onPress}>
-			<AngleLeft height={RFValue(25)} width={RFValue(25)} />
-		</Container>
+		<>
+			<SmallButton
+				relativeWidth={relativeScreenWidth(11)}
+				height={relativeScreenWidth(11)}
+				color={theme.white3}
+				SvgIcon={AngleLeftIcon}
+				onPress={onPress}
+				svgScale={['55%', '55%']}
+			/>
+			<Sigh hasSigh />
+		</>
 	)
 }
 

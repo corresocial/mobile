@@ -29,7 +29,7 @@ function Post({ navigation, route }: HomeTabScreenProps) {
 		}}
 		>
 			<FocusAwareStatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
-			<SelectPostType navigation={navigation as any} route={route as any} />
+			<SelectPostType navigation={navigation as any} route={route as any} withoutBackButton />
 		</View >
 	)
 }

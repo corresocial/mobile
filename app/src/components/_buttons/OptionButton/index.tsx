@@ -9,11 +9,13 @@ import {
 	ContainerBottom,
 	IconArea,
 	LabelDescriptionArea,
-	ButtonDescription
+	Description,
+	ShortDescription
 } from './styles'
 import { theme } from '../../../common/theme'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 interface OptionButtonProps {
 	color: string
@@ -28,6 +30,7 @@ interface OptionButtonProps {
 	leftSideWidth?: string | number
 	highlightedWords?: string[]
 	description?: string
+	shortDescription?: string
 	onPress: () => void
 }
 
@@ -35,7 +38,7 @@ function OptionButton({
 	color,
 	label,
 	labelColor,
-	labelSize = 20,
+	labelSize = 22,
 	relativeHeight,
 	labelAlign = 'center',
 	highlightedWords,
@@ -44,6 +47,7 @@ function OptionButton({
 	leftSideColor = theme.orange2,
 	leftSideWidth,
 	description,
+	shortDescription,
 	onPress
 }: OptionButtonProps) {
 	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
@@ -61,7 +65,9 @@ function OptionButton({
 		onPress()
 	}
 
-	const heightWithoutDescription = relativeHeight || RFValue(75)
+	const heightWithoutDescription = relativeHeight || relativeScreenHeight(10)
+
+	const buttomWithDescriptionHeight = description ? relativeScreenHeight(19) : relativeHeight
 
 	return (
 		<TouchableContainer
@@ -71,7 +77,7 @@ function OptionButton({
 		>
 			<ContainerBottom
 				style={{
-					height: description ? RFValue(137) : heightWithoutDescription
+					height: description || shortDescription ? buttomWithDescriptionHeight : heightWithoutDescription
 				}}
 			>
 				<ContainerSurface
@@ -100,9 +106,17 @@ function OptionButton({
 						{
 							description
 							&& (
-								<ButtonDescription>
+								<Description>
 									{description}
-								</ButtonDescription>
+								</Description>
+							)
+						}
+						{
+							shortDescription
+							&& (
+								<ShortDescription centralized>
+									{shortDescription}
+								</ShortDescription>
 							)
 						}
 					</LabelDescriptionArea>

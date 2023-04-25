@@ -56,7 +56,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		const lastMessage = getLastMessageObjects(ordenerMessages as any)
 
 		if (inMiliseconds) {
-			return lastMessage.dateTime.toString() || Date.now().toString()
+			return (lastMessage && lastMessage.dateTime.toString()) || Date.now().toString()
 		}
 		return formatRelativeDate(lastMessage ? lastMessage.dateTime : new Date())
 	}
@@ -93,6 +93,13 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		return user1.name
 	}
 
+	const getUserId = (user1: UserIdentification, user2: UserIdentification) => {
+		if (userDataContext.userId === user1.userId) {
+			return user2.userId
+		}
+		return user1.userId
+	}
+
 	const getProfilePictureUrl = (user1: UserIdentification, user2: UserIdentification) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.profilePictureUrl
@@ -115,9 +122,15 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	}
 
 	const sortChats = (a: Chat, b: Chat) => {
+		if (!a || !b || !Object.keys(a.messages).length || !Object.keys(b.messages).length) return 0
+
 		if (getLastMessageDateTime(a.messages, true) < getLastMessageDateTime(b.messages, true)) return 1
 		if (getLastMessageDateTime(a.messages, true) > getLastMessageDateTime(b.messages, true)) return -1
 		return 0
+	}
+
+	const navigateToProfile = (user1: UserIdentification, user2: UserIdentification) => {
+		navigation.navigate('ProfileChat', { userId: getUserId(user1, user2), stackLabel: 'Chat' })
 	}
 
 	return (
@@ -187,6 +200,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 												lastMessage={getLastMessage(item.messages)}
 												lastMessageTime={getLastMessageDateTime(item.messages)}
 												numberOfUnseenMessages={getNumberOfUnseenMessages(item.messages)}
+												navigateToProfile={() => navigateToProfile(item.user1, item.user2)}
 												onPress={() => navigateToChatMessages(item)}
 											/>
 										)

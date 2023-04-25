@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { ButtonsContainer, Container } from './styles'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import Check from '../../../assets/icons/check.svg'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { EditUserDescriptionScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -103,8 +103,8 @@ function EditUserDescription({ route, navigation }: EditUserDescriptionScreenPro
 								color={theme.green3}
 								label={'salvar'}
 								labelColor={theme.white3}
-								SvgIcon={Check}
-								svgIconScale={['30%', '15%']}
+								SvgIcon={CheckWhiteIcon}
+								svgIconScale={['40%', '25%']}
 								onPress={saveUserDescription}
 							/>
 						)

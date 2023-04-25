@@ -1,73 +1,31 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { ButtonsContainer, Container } from './styles'
-import { screenHeight, statusBarHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import Uncheck from '../../../assets/icons/uncheck.svg'
-import Check from '../../../assets/icons/check.svg'
+import { PostPicture } from '../../../components/_onboarding/PostPicture'
 
 import { InsertServicePictureScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { ProgressBar } from '../../../components/ProgressBar'
-
 function InsertServicePicture({ navigation }: InsertServicePictureScreenProps) {
+	const skipPostPicture = () => {
+		navigation.navigate('SelectPaymentType')
+	}
+
+	const navigateToPicturePreview = () => {
+		navigation.navigate('ServicePicturePreview')
+	}
+
 	return (
-		<Container>
+		<>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
-			<DefaultHeaderContainer
-				minHeight={(screenHeight + statusBarHeight) * 0.26}
-				relativeHeight={'22%'}
-				centralized
+			<PostPicture
 				backgroundColor={theme.purple2}
-			>
-				<BackButton onPress={() => navigation.goBack()} />
-				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={18}
-					message={'que tal adicionar algumas fotos para atrair clientes?'}
-					highlightedWords={['adicionar', 'algumas', 'fotos']}
-				>
-					<ProgressBar
-						range={5}
-						value={1}
-					/>
-				</InstructionCard>
-			</DefaultHeaderContainer>
-			<FormContainer
-				backgroundColor={theme.white3}
-			>
-				<ButtonsContainer>
-					<PrimaryButton
-						flexDirection={'row-reverse'}
-						color={theme.red3}
-						relativeHeight={'30%'}
-						labelColor={theme.white3}
-						label={'não precisa, valew'}
-						highlightedWords={['não', 'precisa']}
-						SvgIcon={Uncheck}
-						svgIconScale={['22%', '18%']}
-						onPress={() => navigation.navigate('SelectServiceCategory')}
-					/>
-					<PrimaryButton
-						flexDirection={'row-reverse'}
-						color={theme.green3}
-						relativeHeight={'30%'}
-						labelColor={theme.white3}
-						label={'opa, vou adicionar'}
-						highlightedWords={['vou', 'adicionar']}
-						SvgIcon={Check}
-						svgIconScale={['22%', '18%']}
-						onPress={() => navigation.navigate('ServicePicturePreview')}
-					/>
-				</ButtonsContainer>
-			</FormContainer>
-		</Container>
+				progress={[2, 5]}
+				navigateBackwards={() => navigation.goBack()}
+				skipPostPicture={skipPostPicture}
+				navigateToPicturePreview={navigateToPicturePreview}
+			/>
+		</>
 	)
 }
 

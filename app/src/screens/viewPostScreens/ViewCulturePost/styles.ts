@@ -29,7 +29,7 @@ export const OptionsArea = styled.View`
 export const Body = styled.View`
 	flex: 1;
 	background-color: ${({ theme }) => theme.blue2};
-	padding: ${relativeScreenWidth(3)}px;
+	padding-horizontal: ${relativeScreenWidth(3)}px;
 `
 
 export const Sigh = styled.View`
@@ -39,5 +39,5 @@ export const Sigh = styled.View`
 
 export const LastSigh = styled.View`
 	width: 100%;
-	height: ${relativeScreenHeight(10)}px;
+	height: ${relativeScreenHeight(13)}px;
 `

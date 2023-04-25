@@ -73,5 +73,5 @@ export const Sigh = styled.View`
 
 export const FooterSigh = styled.View`
 	width: 100%;
-	height: ${RFValue(280)}px;
+	height: ${relativeScreenHeight(10)}px;
 `

@@ -7,7 +7,7 @@ import AngleLeftThin from '../../../assets/icons/angleLeftThin.svg'
 
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 
-import { ContactUsScreenProps } from '../../../routes/Stack/userStack/stackScreenProps'
+import { ContactUsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'

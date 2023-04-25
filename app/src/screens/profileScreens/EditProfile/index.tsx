@@ -6,7 +6,7 @@ import { getDownloadURL } from 'firebase/storage'
 import { Body, Container, Header, SaveButtonContainer, Sigh } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import CheckIcon from '../../../assets/icons/check.svg'
+import CheckIcon from '../../../assets/icons/check-white.svg'
 
 import { updateAllOwnerOnPosts } from '../../../services/firebase/post/updateAllOwnerOnPosts'
 import { arrayIsEmpty } from '../../../common/auxiliaryFunctions'

@@ -1,38 +1,22 @@
-import { Keyboard, Platform, StatusBar } from 'react-native'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Keyboard, StatusBar } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
 
 import { theme } from '../../../common/theme'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { ButtonsContainer, Container } from './styles'
-import Check from '../../../assets/icons/check.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 
 import { InsertSaleValueScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { LineInput } from '../../../components/LineInput'
-import { ProgressBar } from '../../../components/ProgressBar'
+import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [saleValue, setSaleValue] = useState<string>(route.params?.initialValue || '')
-	const [saleValueIsValid, setSaleValueIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
-
-	const inputRefs = {
-		saleValueInput: useRef<React.MutableRefObject<any>>(null),
-	}
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -43,11 +27,6 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 		return unsubscribe
 	}, [navigation])
 
-	useEffect(() => {
-		const validation = validateSaleValue(saleValue)
-		setSaleValueIsValid(validation)
-	}, [saleValue, keyboardOpened])
-
 	const validateSaleValue = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
@@ -56,92 +35,41 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 		return false
 	}
 
-	const saveSaleValue = () => {
-		if (saleValueIsValid) {
-			if (editModeIsTrue()) {
-				addNewUnsavedFieldToEditContext({ saleValue })
-				navigation.goBack()
-				return
-			}
+	const saveSaleValue = (value: string) => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ saleValue: value })
+			navigation.goBack()
+			return
+		}
 
-			setServiceDataOnContext({
-				saleValue
-			})
-			if (route.params.bothPaymentType) {
-				navigation.navigate('InsertExchangeValue')
-			} else {
-				navigation.navigate('SelectLocationView')
-			}
+		setServiceDataOnContext({ saleValue: value })
+
+		if (route.params.bothPaymentType) {
+			navigation.navigate('InsertExchangeValue')
+		} else {
+			navigation.navigate('SelectServiceRange')
 		}
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+		<>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
-			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(26)}
-				relativeHeight={'22%'}
-				centralized
+			<PostInputText
 				backgroundColor={theme.purple2}
-			>
-				<BackButton onPress={() => navigation.goBack()} />
-				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={18}
-					message={'por quanto você vende?'}
-					highlightedWords={['quanto']}
-				>
-					<ProgressBar
-						range={5}
-						value={3}
-					/>
-				</InstructionCard>
-			</DefaultHeaderContainer>
-			<FormContainer
-				backgroundColor={theme.white2}
-				justifyContent={'center'}
-			>
-				<LineInput
-					value={saleValue}
-					relativeWidth={'100%'}
-					textInputRef={inputRefs.saleValueInput}
-					defaultBackgroundColor={theme.white2}
-					defaultBorderBottomColor={theme.black4}
-					validBackgroundColor={theme.purple1}
-					validBorderBottomColor={theme.purple5}
-					invalidBackgroundColor={theme.red1}
-					invalidBorderBottomColor={theme.red5}
-					lastInput
-					maxLength={100}
-					textAlign={'left'}
-					fontSize={18}
-					placeholder={'ex: 100'}
-					keyboardType={'numeric'}
-					filterText={filterLeavingOnlyNumbers}
-					textIsValid={saleValueIsValid && !keyboardOpened}
-					validateText={(text: string) => validateSaleValue(text)}
-					onChangeText={(text: string) => setSaleValue(text)}
-				/>
-				<ButtonsContainer>
-					{
-						saleValueIsValid && !keyboardOpened
-						&& (
-							<PrimaryButton
-								flexDirection={'row-reverse'}
-								color={theme.green3}
-								label={'continuar'}
-								labelColor={theme.white3}
-								SvgIcon={Check}
-								svgIconScale={['30%', '15%']}
-								onPress={saveSaleValue}
-							/>
-						)
-					}
-				</ButtonsContainer>
-			</FormContainer>
-		</Container>
+				validationColor={theme.purple1}
+				customTitle={'por quanto você vende?'}
+				customHighlight={['quanto']}
+				inputPlaceholder={'ex: 120 reais a diária'}
+				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
+				progress={[3, 5]}
+				keyboardOpened={keyboardOpened}
+				validateInputText={validateSaleValue}
+				navigateBackwards={() => navigation.goBack()}
+				saveTextData={saveSaleValue}
+			/>
+		</>
 	)
 }
 

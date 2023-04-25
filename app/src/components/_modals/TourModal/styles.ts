@@ -14,7 +14,6 @@ export const TouchCloseArea = styled.TouchableOpacity`
 `
 
 export const Content = styled.View`
-    height: ${RFValue(400)}px;
     width: 88%;
     background-color: ${({ theme }) => theme.white3}
     padding: ${RFValue(25)}px;
@@ -25,18 +24,21 @@ export const Content = styled.View`
     border-right-width: ${RFValue(11)}px;
  `
 
+export const Header = styled.View`
+	width: 100%;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+`
+
 export const Title = styled.Text`
+	margin-bottom: ${RFValue(20)}px;
     font-family: Arvo_400Regular;
     font-size: ${RFValue(24)}px;
     color: ${({ theme }) => theme.black3}
 `
 export const Description = styled.Text`
-    font-family: Arvo_400Regular;
-    font-size: ${RFValue(20)}px;
-    color: ${({ theme }) => theme.black3}
-`
-
-export const Question = styled.Text`
+	margin-bottom: ${RFValue(20)}px;
     font-family: Arvo_400Regular;
     font-size: ${RFValue(20)}px;
     color: ${({ theme }) => theme.black3}

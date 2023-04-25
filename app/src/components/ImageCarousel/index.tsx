@@ -71,6 +71,7 @@ function ImageCarousel({
 					height: '100%'
 				}}
 				loop
+				enabled={picturesUrl.length !== 1}
 				renderItem={({ item, index }) => item}
 				onSnapToItem={(index: number) => setCurrentCarouselIndex(index)}
 			/>

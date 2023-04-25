@@ -4,7 +4,9 @@ import { StatusBar } from 'react-native'
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
 
-import { SelectVacancyTypeScreenProps } from '../../../routes/Stack/vacancyStack/stackScreenProps'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+
+import { SelectVacancyTypeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { VacancyType } from '../../../services/firebase/types'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
@@ -18,7 +20,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveVacancyType = (vacancyType: VacancyType) => {
@@ -29,37 +31,44 @@ function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) 
 		}
 
 		setVacancyDataOnContext({ vacancyType })
+
+		if (vacancyDataContext.workplace !== 'homeoffice') {
+			navigation.navigate('SelectPaymentType', {} as any)
+			return
+		}
+
 		switch (vacancyType) {
 			case 'professional': {
-				navigation.navigate('SelectWorkWeekdays')
+				navigation.navigate('SelectPaymentType')
 				break
 			}
 			case 'temporary': {
-				navigation.navigate('InsertWorkStartDate')
+				navigation.navigate('SelectPaymentType')
 				break
 			}
 			case 'beak': {
-				navigation.navigate('InsertWorkStartDate')
+				navigation.navigate('SelectPaymentType')
 				break
 			}
 			default: return false
 		}
 	}
 
-	const editModeIsTrue = () => route.params && route.params.editMode
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={'28%'}
+				minHeight={relativeScreenHeight(24)}
+				relativeHeight={relativeScreenHeight(24)}
 				centralized
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={18}
+					fontSize={17}
 					message={'que tipo de vaga?'}
 					highlightedWords={['tipo', 'vaga']}
 				>

@@ -21,6 +21,7 @@ interface SelectButtonProps {
 	SvgIcon?: React.FC<SvgProps>
 	svgIconScale?: [height: string, width: string]
 	selected?: boolean
+	flexSelected?: 0 | 1
 	onSelect?: () => void
 }
 
@@ -38,6 +39,7 @@ function SelectButton({
 	SvgIcon,
 	svgIconScale,
 	selected = false,
+	flexSelected = 0,
 	onSelect
 }: SelectButtonProps) {
 	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
@@ -68,7 +70,7 @@ function SelectButton({
 					marginVertical: RFValue(marginVertical),
 					marginHorizontal: RFValue(marginHorizontal),
 					marginLeft: noDisplacement ? relativeScreenWidth(2.5) : 0,
-					flex: selected ? 1 : 0,
+					flex: selected ? flexSelected : 0,
 				}}
 			>
 				<ContainerSurface
@@ -76,7 +78,7 @@ function SelectButton({
 						paddingHorizontal: selected ? relativeScreenWidth(2.5) : 0,
 						backgroundColor: selected ? backgroundSelected : backgroundColor,
 						transform: [{ translateX: buttonPressed ? 0 : -relativeScreenWidth(selected ? 1.3 : 2) }],
-						height: selected ? 'auto' : height,
+						height,
 					}}
 				>
 					<Label

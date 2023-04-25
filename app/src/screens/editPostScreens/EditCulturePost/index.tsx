@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { Body, Container, Header, LastSigh, SaveButtonContainer, Sigh } from './styles'
-import CheckIcon from '../../../assets/icons/check.svg'
+import CheckIcon from '../../../assets/icons/check-white.svg'
 
 import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'
 import { arrayIsEmpty, formatDate, formatHour } from '../../../common/auxiliaryFunctions'
@@ -51,17 +51,14 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 			case 'sale': return 'da venda'
 			case 'vacancy': return 'da vaga'
 			case 'socialImpact': return 'da iniciativa'
-			case 'culture': {
-				const { cultureType } = postData as CultureCollection
-				return cultureType === 'artistProfile' ? 'do artista' : 'do evento'
-			}
+			case 'culture': return 'do evento'
 			default: return 'do post'
 		}
 	}
 
 	const renderCultureRepeat = () => {
-		const socialImpactRepeat = getPostField('eventRepeat') as EventRepeatType
-		switch (socialImpactRepeat) {
+		const repeat = getPostField('repeat') as EventRepeatType
+		switch (repeat) {
 			case 'unrepeatable': return 'não se repete'
 			case 'everyDay': return 'todos os dias'
 			case 'weekly': return 'uma vez por semana'
@@ -92,15 +89,14 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 			screen: screenName,
 			params: {
 				editMode: true,
-				initialValue: !especificField ? value : value[especificField],
-				cultureType: postData.cultureType
+				initialValue: !especificField ? value : value[especificField]
 			}
 		})
 	}
 
 	const getUserPostsWithoutEdited = () => {
 		const userPosts = userDataContext.posts || []
-		return userPosts.filter((post) => post.postId !== postData.postId)
+		return userPosts.filter((post: CultureCollectionRemote) => post.postId !== postData.postId)
 	}
 
 	const editPost = async () => {
@@ -318,7 +314,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 				/>
 				<Sigh />
 				{
-					postData.cultureType === 'eventPost' && (
+					getPostField('entryValue') && (
 						<>
 							<EditCard
 								title={'valor de entrada'}
@@ -330,8 +326,8 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 						</>
 					)
 				}
-				{
-					postData.cultureType === 'eventPost' && (
+				{/* {
+					postData.exhibitionPlace && (
 						<EditCard
 							title={'alcance de exibição'}
 							highlightedWords={['alcance']}
@@ -339,7 +335,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 							onEdit={() => navigateToEditScreen('SelectExhibitionPlace', 'range')}
 						/>
 					)
-				}
+				} */}
 				<Sigh />
 				<LocationViewCard
 					title={'localização'}
@@ -352,41 +348,41 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 				/>
 				<Sigh />
 				{
-					postData.cultureType === 'eventPost' && (
+					getPostField('entryValue') && (
 						<>
 							<EditCard
 								title={'repetição'}
 								highlightedWords={['repetição']}
 								value={renderCultureRepeat() || '---'}
-								onEdit={() => navigateToEditScreen('SelectEventRepeat', 'eventRepeat')}
+								onEdit={() => navigateToEditScreen('SelectEventRepeat', 'repeat')}
 							/>
 							<Sigh />
 							<EditCard
 								title={'data de início'}
 								highlightedWords={['início']}
-								value={formatDate(getPostField('eventStartDate')) || '---'}
-								onEdit={() => navigateToEditScreen('InsertEventStartDate', 'eventStartDate')}
+								value={formatDate(getPostField('startDate')) || '---'}
+								onEdit={() => navigateToEditScreen('InsertCultureStartDate', 'startDate')}
 							/>
 							<Sigh />
 							<EditCard
 								title={'horário de início'}
 								highlightedWords={['início']}
-								value={formatHour(getPostField('eventStartHour')) || '---'}
-								onEdit={() => navigateToEditScreen('InsertEventStartHour', 'eventStartHour')}
+								value={formatHour(getPostField('startHour')) || '---'}
+								onEdit={() => navigateToEditScreen('InsertCultureStartHour', 'startHour')}
 							/>
 							<Sigh />
 							<EditCard
 								title={'data de fim'}
 								highlightedWords={['fim']}
-								value={formatDate(getPostField('eventEndDate')) || '---'}
-								onEdit={() => navigateToEditScreen('InsertEventEndDate', 'eventEndDate')}
+								value={formatDate(getPostField('endDate')) || '---'}
+								onEdit={() => navigateToEditScreen('InsertCultureEndDate', 'endDate')}
 							/>
 							<Sigh />
 							<EditCard
 								title={'horário de fim'}
 								highlightedWords={['fim']}
-								value={formatHour(getPostField('eventEndHour')) || '---'}
-								onEdit={() => navigateToEditScreen('InsertEventEndHour', 'eventEndHour')}
+								value={formatHour(getPostField('endHour')) || '---'}
+								onEdit={() => navigateToEditScreen('InsertCultureEndHour', 'endHour')}
 							/>
 						</>
 					)

@@ -13,18 +13,21 @@ export const IndicatorLabel = styled.Text`
     font-size: ${RFValue(14)}px;
     font-family: Arvo_400Regular;
     margin-bottom: ${relativeScreenHeight(1)}px;
+	border-radius: 100px;
 `
 
 export const IndicatorBarBottom = styled.View`
     background-color: ${({ theme }) => theme.white3}
     width: 100%;
     height: ${relativeScreenHeight(1.4)}px;
-    border: ${relativeScreenWidth(0.5)}px solid ${({ theme }) => theme.black3}
-    border-right-width: ${relativeScreenWidth(2.5)}px;
+    border: ${relativeScreenWidth(0.7)}px solid ${({ theme }) => theme.black3}
+    border-right-width: ${relativeScreenWidth(3)}px;
     overflow: hidden;
+	border-radius: 100px;
 `
 
 export const IndicatorBarSurface = styled.View`
+	border-radius: 100px;
     background-color: ${({ theme }) => theme.orange3}
-    height: 100%;
+    height: 105%;
 `
