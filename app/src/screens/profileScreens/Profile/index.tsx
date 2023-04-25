@@ -124,38 +124,40 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}
 
 	const goToPostView = (item: PostCollection) => {
+		const stackLabel = route.params?.stackLabel || 'Home'
+
 		switch (item.postType) {
 			case 'service': {
 				navigation.navigate(
-					route.params?.userId ? 'ViewServicePostHome' : 'ViewServicePost' as any, // TODO Type
+					route.params?.userId ? `ViewServicePost${stackLabel}` : 'ViewServicePost' as any, // TODO Type
 					{ postData: { ...item, owner: getUserDataOnly() } }
 				)
 				break
 			}
 			case 'sale': {
 				navigation.navigate(
-					route.params?.userId ? 'ViewSalePostHome' : 'ViewSalePost' as any, // TODO Type
+					route.params?.userId ? `ViewSalePost${stackLabel}` : 'ViewSalePost' as any, // TODO Type
 					{ postData: { ...item, owner: getUserDataOnly() } }
 				)
 				break
 			}
 			case 'vacancy': {
 				navigation.navigate(
-					route.params?.userId ? 'ViewVacancyPostHome' : 'ViewVacancyPost' as any, // TODO Type
+					route.params?.userId ? `ViewVacancyPost${stackLabel}` : 'ViewVacancyPost' as any, // TODO Type
 					{ postData: { ...item, owner: getUserDataOnly() } }
 				)
 				break
 			}
 			case 'socialImpact': {
 				navigation.navigate(
-					route.params?.userId ? 'ViewSocialImpactPostHome' : 'ViewSocialImpactPost' as any, // TODO Type
+					route.params?.userId ? `ViewSocialImpactPost${stackLabel}` : 'ViewSocialImpactPost' as any, // TODO Type
 					{ postData: { ...item, owner: getUserDataOnly() } }
 				)
 				break
 			}
 			case 'culture': {
 				navigation.navigate(
-					route.params?.userId ? 'ViewCulturePostHome' : 'ViewCulturePost' as any, // TODO Type
+					route.params?.userId ? `ViewCulturePost${stackLabel}` : 'ViewCulturePost' as any, // TODO Type
 					{ postData: { ...item, owner: getUserDataOnly() } }
 				)
 				break
@@ -304,7 +306,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						</InfoArea>
 					</ProfileInfoContainer>
 					{
-						(userDescriptionIsExpanded || !isLoggedUser) && (
+						((userDescriptionIsExpanded || !isLoggedUser) && getUserField('description')) && (
 							<ExpandedUserDescriptionArea>
 								<ScrollView showsVerticalScrollIndicator={false}>
 									<TouchableOpacity onPress={() => setUserDescriptionIsExpanded(false)}>

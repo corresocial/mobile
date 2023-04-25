@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React,
+{ useState } from 'react'
 
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { Container, ContainerInner, LastMessageArea, UserInfo } from './styles'
@@ -13,10 +14,19 @@ interface ConversationCardProps {
 	lastMessage: string
 	lastMessageTime: string
 	numberOfUnseenMessages: number
+	navigateToProfile: () => void
 	onPress: () => void
 }
 
-function ConversationCard({ userName, lastMessage, profilePictureUrl, lastMessageTime, numberOfUnseenMessages, onPress }: ConversationCardProps) {
+function ConversationCard({
+	userName,
+	lastMessage,
+	profilePictureUrl,
+	lastMessageTime,
+	numberOfUnseenMessages,
+	navigateToProfile,
+	onPress
+}: ConversationCardProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	function pressingButton() {
@@ -48,6 +58,7 @@ function ConversationCard({ userName, lastMessage, profilePictureUrl, lastMessag
 						postDate={lastMessageTime}
 						width={'70%'}
 						height={'100%'}
+						navigateToProfile={navigateToProfile}
 					/>
 					<UnseenMessagesCount
 						height={relativeScreenHeight(5)}

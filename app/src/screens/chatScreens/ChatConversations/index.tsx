@@ -93,6 +93,13 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		return user1.name
 	}
 
+	const getUserId = (user1: UserIdentification, user2: UserIdentification) => {
+		if (userDataContext.userId === user1.userId) {
+			return user2.userId
+		}
+		return user1.userId
+	}
+
 	const getProfilePictureUrl = (user1: UserIdentification, user2: UserIdentification) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.profilePictureUrl
@@ -120,6 +127,10 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		if (getLastMessageDateTime(a.messages, true) < getLastMessageDateTime(b.messages, true)) return 1
 		if (getLastMessageDateTime(a.messages, true) > getLastMessageDateTime(b.messages, true)) return -1
 		return 0
+	}
+
+	const navigateToProfile = (user1: UserIdentification, user2: UserIdentification) => {
+		navigation.navigate('ProfileChat', { userId: getUserId(user1, user2), stackLabel: 'Chat' })
 	}
 
 	return (
@@ -189,6 +200,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 												lastMessage={getLastMessage(item.messages)}
 												lastMessageTime={getLastMessageDateTime(item.messages)}
 												numberOfUnseenMessages={getNumberOfUnseenMessages(item.messages)}
+												navigateToProfile={() => navigateToProfile(item.user1, item.user2)}
 												onPress={() => navigateToChatMessages(item)}
 											/>
 										)

@@ -194,6 +194,13 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		return user1.name
 	}
 
+	const getUserId = (user1: UserIdentification, user2: UserIdentification) => {
+		if (userDataContext.userId === user1.userId) {
+			return user2.userId
+		}
+		return user1.userId
+	}
+
 	const getProfilePictureUrl = (user1: UserIdentification, user2: UserIdentification) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.profilePictureUrl
@@ -205,6 +212,17 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		return Object.values(messages || {}).filter((message: Message) => (
 			!message.justOwner || (message.justOwner && message.owner === userDataContext.userId))
 			&& (!message.userCanView || message.userCanView === userDataContext.userId))
+	}
+
+	const navigateToProfile = () => {
+		navigation.navigate('ChatStack' as any, { // TODO type
+			screen: 'ProfileChat',
+			params: {
+				userId: getUserId(currentChat.user1, currentChat.user2),
+				stackLabel: 'Chat'
+			}
+
+		})
 	}
 
 	return (
@@ -225,6 +243,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					width={'65%'}
 					userNameFontSize={15}
 					height={'100%'}
+					navigateToProfile={navigateToProfile}
 				/>
 				<ChatPopOver
 					userName={getUserName(currentChat.user1, currentChat.user2)}
