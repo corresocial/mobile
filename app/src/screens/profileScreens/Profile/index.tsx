@@ -17,7 +17,8 @@ import {
 	ExpandedUserDescription,
 	ExpandedUserDescriptionArea,
 	AddSocialMediasButtonContainer,
-	VerticalSigh
+	VerticalSigh,
+	BodyPadding
 } from './styles'
 import { theme } from '../../../common/theme'
 import ChatIcon from '../../../assets/icons/chat.svg'
@@ -354,6 +355,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						<SmallButton
 							color={theme.orange3}
 							label={`compartilhar${isLoggedUser ? ' perfil' : ''}`}
+							labelColor={theme.black4}
 							highlightedWords={isLoggedUser ? ['compartilhar'] : []}
 							fontSize={12}
 							SvgIcon={ShareIcon}
@@ -385,20 +387,22 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 					selectedTags={selectedTags}
 					onSelectTag={onSelectTag}
 				/>
-				<FlatList
-					data={!selectedTags.length ? getUserPosts() : filtredUserPosts()}
-					renderItem={({ item }: any) => ( // TODO type
-						<PostCard
-							post={item}
-							owner={getUserField()}
-							onPress={() => goToPostView(item)}
-						/>
-					)}
-					showsVerticalScrollIndicator={false}
-					ItemSeparatorComponent={() => <Sigh />}
-					ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
-					ListFooterComponent={() => <FooterSigh />}
-				/>
+				<BodyPadding>
+					<FlatList
+						data={!selectedTags.length ? getUserPosts() : filtredUserPosts()}
+						renderItem={({ item }: any) => ( // TODO type
+							<PostCard
+								post={item}
+								owner={getUserField()}
+								onPress={() => goToPostView(item)}
+							/>
+						)}
+						showsVerticalScrollIndicator={false}
+						ItemSeparatorComponent={() => <Sigh />}
+						ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
+						ListFooterComponent={() => <FooterSigh />}
+					/>
+				</BodyPadding>
 			</Body>
 		</Container>
 	)

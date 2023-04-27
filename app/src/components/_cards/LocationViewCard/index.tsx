@@ -3,7 +3,7 @@ import { Linking } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CardHeader, MapArea, NavigationApps, TextAddress, TouchableApp } from './styles'
-import MapPointIcon from '../../../assets/icons/mapPoint.svg'
+import MapPointWhiteIcon from '../../../assets/icons/mapPoint-white.svg'
 import PencilIcon from '../../../assets/icons/pencil.svg'
 import MapPointOrangeIcon from '../../../assets/icons/mapPoint-orange.svg'
 import WazeIcon from '../../../assets/icons/waze.svg'
@@ -18,7 +18,7 @@ import { DefaultCardContainer } from '../DefaultCardContainer'
 import { CustomMapView } from '../../CustomMapView'
 
 interface LocationViewCardProps {
-	title: string
+	title?: string
 	online?: boolean
 	locationView?: LocationViewType
 	textFontSize?: number
@@ -33,7 +33,7 @@ function LocationViewCard({
 	title,
 	online,
 	locationView,
-	textFontSize = 12,
+	textFontSize = 14,
 	withoutMapView,
 	isAuthor = false,
 	editable,
@@ -75,16 +75,7 @@ function LocationViewCard({
 			)
 		}
 
-		if (locationView === 'approximate') {
-			if (isAuthor) {
-				return (
-					<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
-						{formatAddress()}
-					</TextAddress>
-				)
-			}
-			return
-		}
+		if (locationView === 'approximate') return
 
 		return (
 			<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
@@ -100,7 +91,7 @@ function LocationViewCard({
 			city,
 			state,
 		} = location
-		return `${street}, ${number}, ${city}, ${state}`
+		return `${street && `${street},`}${number && `${number},`}${city && `${city},`}${state}`
 	}
 
 	const getAddressCoordinates = () => {
@@ -164,9 +155,9 @@ function LocationViewCard({
 		<DefaultCardContainer withoutPadding>
 			<CardHeader>
 				<DefaultHeaderTitle
-					title={title}
+					title={title || 'local do post'}
 					onPressIcon={onEdit && onEdit}
-					SvgIcon={editable ? PencilIcon : MapPointIcon}
+					SvgIcon={editable ? PencilIcon : MapPointWhiteIcon}
 					dimensions={editable ? 20 : 30}
 					invertTextAndIcon={editable}
 					justifyContent={editable ? 'space-between' : 'flex-start'}

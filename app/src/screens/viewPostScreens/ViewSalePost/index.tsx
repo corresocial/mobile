@@ -12,7 +12,7 @@ import {
 } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
-import ShareIcon from '../../../assets/icons/share.svg'
+import ShareIcon from '../../../assets/icons/share-white.svg'
 import ChatIcon from '../../../assets/icons/chat.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 
@@ -205,7 +205,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						/>
 					)}
 					<SmallButton
-						color={theme.green2}
+						color={theme.green3}
 						label={isAuthor ? 'compartilhar' : 'comprar'}
 						fontSize={13}
 						SvgIcon={isAuthor ? ShareIcon : ChatIcon}

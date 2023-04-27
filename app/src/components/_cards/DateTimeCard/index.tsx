@@ -2,7 +2,7 @@ import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { DateTimeContainer, OpeningAndClosingTime, InfoRow } from './styles'
-import ClockIcon from '../../../assets/icons/clock.svg'
+import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
 
 import { formatDate, formatHour, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
@@ -31,7 +31,7 @@ function DateTimeCard({
 	endTime,
 	startDate,
 	endDate,
-	textFontSize = 12,
+	textFontSize = 14,
 	repetition
 }: DateTimeCardProps) {
 	const getRelativeWeekDaysfrequency = () => {
@@ -130,7 +130,7 @@ function DateTimeCard({
 		<DefaultCardContainer>
 			<DefaultHeaderTitle
 				title={title}
-				SvgIcon={ClockIcon}
+				SvgIcon={ClockWhiteIcon}
 				dimensions={35}
 			/>
 			<DateTimeContainer>

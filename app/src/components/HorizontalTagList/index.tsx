@@ -1,10 +1,7 @@
 import React from 'react'
 import uuid from 'react-uuid'
 
-import {
-	Container,
-	ScrollView,
-} from './styles'
+import { Container, HorizontalSigh, ScrollView } from './styles'
 import { theme } from '../../common/theme'
 import { relativeScreenHeight } from '../../common/screenDimensions'
 
@@ -12,12 +9,14 @@ import { FilterButton } from '../_buttons/FilterButton'
 
 interface HorizontalTagListProps {
 	tags: string[]
+	selectedColor?: string
 	selectedTags?: string[]
 	onSelectTag: (tag: string) => void
 }
 
 function HorizontalTagList({
 	tags,
+	selectedColor,
 	selectedTags = [],
 	onSelectTag,
 }: HorizontalTagListProps) {
@@ -27,22 +26,26 @@ function HorizontalTagList({
 		return (
 			< FilterButton
 				key={uuid()}
-				height={relativeScreenHeight(4)}
+				height={relativeScreenHeight(3.5)}
 				backgroundColor={theme.white3}
-				backgroundSelected={theme.orange1}
+				backgroundSelected={selectedColor || theme.orange1}
 				marginRight={10}
 				label={customTag}
 				fontSize={13}
 				selected={selectedTags.includes(tag)}
-				onSelect={() => onSelectTag(tag)}
+				onSelect={() => onSelectTag && onSelectTag(tag)}
 			/>
 		)
 	})
 
 	return (
 		<Container >
-			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
+			<ScrollView
+				horizontal
+				showsHorizontalScrollIndicator={false}
+			>
 				<Container>
+					<HorizontalSigh />
 					{renderTags()}
 				</Container>
 			</ScrollView>

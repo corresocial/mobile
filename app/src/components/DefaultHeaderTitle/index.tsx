@@ -79,7 +79,7 @@ function DefaultHeaderTitle({
 					)
 				}
 				<Title style={{
-					marginLeft: invertTextAndIcon ? 0 : RFValue(10),
+					marginLeft: invertTextAndIcon || !SvgIcon ? 0 : RFValue(10),
 					fontFamily: highlightedWords.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold',
 					fontSize: RFValue(fontSize)
 				}}

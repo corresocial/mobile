@@ -72,7 +72,7 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 				tabBarStyle: {
 					position: 'absolute',
 					height: relativeScreenHeight(10),
-					borderTopColor: theme.black3,
+					borderTopColor: theme.black4,
 					borderTopWidth: 5
 				}
 			}}
