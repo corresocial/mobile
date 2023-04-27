@@ -2,6 +2,7 @@ import React from 'react'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 
 import { Decimals, SmallFont, SmallFontBold } from './styles'
+import CashWhiteIcon from '../../../assets/icons/cash-white.svg'
 import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
 import SalesCartWhiteIcon from '../../../assets/icons/salesCart-white.svg'
 import ExchangeWhiteIcon from '../../../assets/icons/exchange-white.svg'
@@ -14,12 +15,14 @@ import { PostInfoRow } from '../../PostInfoRow'
 
 interface SaleOrExchangeCardProps {
 	title?: string
+	hightligtedWords?: string[]
 	saleValue?: string
 	exchangeValue?: string
 	showsValueType?: 'sale' | 'exchange' | 'both'
+	isCulturePost?: boolean
 }
 
-function SaleOrExchangeCard({ title, saleValue, exchangeValue, showsValueType }: SaleOrExchangeCardProps) {
+function SaleOrExchangeCard({ title, hightligtedWords, saleValue, exchangeValue, showsValueType, isCulturePost }: SaleOrExchangeCardProps) {
 	const getDefaultTitle = () => {
 		switch (showsValueType) {
 			case 'sale': return 'produto a venda'
@@ -52,6 +55,8 @@ function SaleOrExchangeCard({ title, saleValue, exchangeValue, showsValueType }:
 	}
 
 	const getRelativeValueIcon = (isExchange?: boolean) => {
+		if (isCulturePost) return false
+
 		if (showsValueType === 'exchange' || isExchange) {
 			return ExchangeWhiteIcon
 		}
@@ -67,8 +72,9 @@ function SaleOrExchangeCard({ title, saleValue, exchangeValue, showsValueType }:
 		<DefaultCardContainer>
 			<DefaultHeaderTitle
 				title={title || getDefaultTitle()}
-				highlightedWords={['venda', 'troca']}
-				dimensions={30}
+				highlightedWords={hightligtedWords || ['venda', 'troca']}
+				SvgIcon={isCulturePost && CashWhiteIcon}
+				dimensions={32}
 			/>
 			<PostInfoRow
 				text={getRelativeValue()}

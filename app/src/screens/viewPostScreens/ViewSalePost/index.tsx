@@ -218,7 +218,6 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					<SmallButton
 						color={theme.green3}
 						label={isAuthor ? 'compartilhar' : 'comprar'}
-						fontSize={13}
 						SvgIcon={isAuthor ? ShareWhiteIcon : ChatWhiteIcon}
 						relativeWidth={isAuthor ? '80%' : '63%'}
 						height={relativeScreenWidth(12)}

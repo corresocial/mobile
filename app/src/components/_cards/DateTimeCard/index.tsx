@@ -55,7 +55,7 @@ function DateTimeCard({
 			case 'today': return ['hoje']
 			case 'everyday': return ['todos']
 			case 'businessDay': return ['seg', 'sex']
-			case 'someday': return daysOfWeek
+			case 'someday': return daysOfWeek || []
 			default: return ['disponível']
 		}
 	}
@@ -68,7 +68,6 @@ function DateTimeCard({
 	}
 
 	const renderStartDate = () => {
-		if (!startDate) return <></>
 		return (
 			< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
 				{showMessageWithHighlight(
@@ -80,7 +79,6 @@ function DateTimeCard({
 	}
 
 	const renderEndDate = () => {
-		if (!endDate) return <></>
 		return (
 			< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
 				{showMessageWithHighlight(
@@ -122,7 +120,7 @@ function DateTimeCard({
 			case 'weekly': return showMessageWithHighlight('●  repete semanalmente', ['semanalmente'])
 			case 'biweekly': return showMessageWithHighlight('●  repete a cada 15 dias', ['15', 'dias'])
 			case 'monthly': return showMessageWithHighlight('●  repete mensalmnte', ['mensalmnte'])
-			default: return false
+			default: return ''
 		}
 	}
 
@@ -136,14 +134,16 @@ function DateTimeCard({
 			/>
 			<DateTimeContainer>
 				{
-					daysOfWeek?.length && (
-						< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
-							{renderWeekDayFrequency()}
-						</InfoRow>
-					)
+					daysOfWeek?.length
+						? (
+							<InfoRow style={{ fontSize: RFValue(textFontSize) }}>
+								{renderWeekDayFrequency()}
+							</InfoRow>
+						)
+						: <></>
 				}
 				{
-					!startDate && !endDate && !daysOfWeek?.length && (
+					(!startDate && !endDate && !daysOfWeek?.length) && (
 						<OpeningAndClosingTime style={{ fontSize: RFValue(textFontSize) }}>
 							{renderInvalidDateTimeWeekMessage()}
 						</OpeningAndClosingTime>
@@ -152,8 +152,8 @@ function DateTimeCard({
 				{
 					(startDate || endDate) && (
 						<>
-							{renderStartDate()}
-							{renderEndDate()}
+							{startDate && renderStartDate()}
+							{endDate && renderEndDate()}
 						</>
 					)
 				}

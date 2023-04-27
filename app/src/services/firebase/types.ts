@@ -409,6 +409,8 @@ export type CultureCollection = {
 	eventPlaceModality?: PlaceModalityType
 	repeat?: EventRepeatType
 	entryValue?: string
+	exhibitionFrequency?: WeekdaysFrequency
+	daysOfWeek?: DaysOfWeek[]
 	startDate?: Date
 	endDate?: Date
 	startHour?: Date
@@ -451,6 +453,8 @@ export type CultureCollectionRemote = {
 	eventPlaceModality?: PlaceModalityType
 	repeat: EventRepeatType
 	entryValue: string
+	exhibitionFrequency?: WeekdaysFrequency
+	daysOfWeek?: DaysOfWeek[]
 	startDate: Date
 	endDate: Date
 	startHour: Date

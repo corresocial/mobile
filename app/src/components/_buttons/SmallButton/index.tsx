@@ -26,7 +26,7 @@ function SmallButton({
 	label = '',
 	labelColor = theme.white3,
 	highlightedWords = [],
-	fontSize = 12,
+	fontSize = 13,
 	SvgIcon,
 	svgScale = label ? ['50%', '15%'] : ['50%', '80%'],
 	relativeWidth = '100%',
