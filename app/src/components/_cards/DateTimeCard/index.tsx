@@ -12,7 +12,7 @@ import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface DateTimeCardProps {
-	title: string
+	title?: string
 	weekDaysfrequency?: WeekdaysFrequency
 	daysOfWeek?: DaysOfWeek[]
 	startTime: Date
@@ -129,30 +129,33 @@ function DateTimeCard({
 	return (
 		<DefaultCardContainer>
 			<DefaultHeaderTitle
-				title={title}
+				title={title || 'dias e horários'}
+				highlightedWords={['dias', 'horários']}
 				SvgIcon={ClockWhiteIcon}
-				dimensions={35}
+				dimensions={32}
 			/>
 			<DateTimeContainer>
 				{
-					!startDate && !endDate && !daysOfWeek?.length
-						? (
-							<OpeningAndClosingTime style={{ fontSize: RFValue(textFontSize) }}>
-								{renderInvalidDateTimeWeekMessage()}
-							</OpeningAndClosingTime>
-						)
-						: startDate || endDate
-							? (
-								<>
-									{renderStartDate()}
-									{renderEndDate()}
-								</>
-							)
-							: (
-								< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
-									{renderWeekDayFrequency()}
-								</InfoRow>
-							)
+					daysOfWeek?.length && (
+						< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
+							{renderWeekDayFrequency()}
+						</InfoRow>
+					)
+				}
+				{
+					!startDate && !endDate && !daysOfWeek?.length && (
+						<OpeningAndClosingTime style={{ fontSize: RFValue(textFontSize) }}>
+							{renderInvalidDateTimeWeekMessage()}
+						</OpeningAndClosingTime>
+					)
+				}
+				{
+					(startDate || endDate) && (
+						<>
+							{renderStartDate()}
+							{renderEndDate()}
+						</>
+					)
 				}
 				{
 					(startTime || endTime) && (

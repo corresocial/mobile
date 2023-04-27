@@ -318,7 +318,6 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					/>
 					<VerticalSigh />
 					<DateTimeCard
-						title={'dias e horários'}
 						weekDaysfrequency={getPostField('attendanceFrequency')}
 						daysOfWeek={getPostField('daysOfWeek')}
 						startTime={getPostField('startHour')}

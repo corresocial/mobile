@@ -5,7 +5,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { Body, Container, FilterButtons, Header, InputContainer, LastSigh, SearchInput, VerticalSigh } from './styles'
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
-import ChatIcon from '../../../assets/icons/chat.svg'
+import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
 import PaperListIcon from '../../../assets/icons/paperList.svg'
 
 import { Id, PostCollection, PostCollectionRemote, PostType } from '../../../services/firebase/types'
@@ -158,7 +158,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 							height={'100%'}
 							width={'42%'}
 							selected={postResultsIsVisible}
-							SvgIcon={ChatIcon}
+							SvgIcon={ChatWhiteIcon}
 							onSelect={() => {
 								setPostResultsIsVisible(true)
 								setProfileResultsIsVisible(false)

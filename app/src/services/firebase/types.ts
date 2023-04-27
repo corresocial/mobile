@@ -332,6 +332,7 @@ export type VacancyCollection = {
 	tags?: string[]
 	category?: string
 	createdAt?: Date
+	locationView?: LocationViewType
 	location?: {
 		country?: string
 		state?: string
@@ -490,7 +491,9 @@ export type SocialImpactCollection = {
 	tags?: string[]
 	category?: string
 	locationView?: LocationViewType
-	range?: ExhibitionPlaceType
+	range?: PostRange
+	exhibitionPlace?: ExhibitionPlaceType
+	exhibitionFrequency?: WeekdaysFrequency
 	daysOfWeek?: DaysOfWeek[]
 	repeat?: EventRepeatType,
 	startDate?: Date
@@ -531,7 +534,9 @@ export type SocialImpactCollectionRemote = {
 	tags: string[]
 	category: string
 	locationView: LocationViewType
-	range: ExhibitionPlaceType
+	range?: PostRange
+	exhibitionPlace?: ExhibitionPlaceType
+	exhibitionFrequency?: WeekdaysFrequency
 	daysOfWeek: DaysOfWeek[]
 	repeat: EventRepeatType,
 	startDate?: Date

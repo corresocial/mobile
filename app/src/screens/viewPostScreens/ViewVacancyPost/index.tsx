@@ -15,8 +15,8 @@ import {
 import { theme } from '../../../common/theme'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 import ShareIcon from '../../../assets/icons/share-white.svg'
-import ChatIcon from '../../../assets/icons/chat.svg'
-import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
+import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
+import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 
 import { arrayIsEmpty, formatRelativeDate, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
@@ -211,7 +211,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						color={theme.green2}
 						label={isAuthor ? 'compartilhar' : 'me candidatar'}
 						fontSize={13}
-						SvgIcon={isAuthor ? ShareIcon : ChatIcon}
+						SvgIcon={isAuthor ? ShareIcon : ChatWhiteIcon}
 						relativeWidth={isAuthor ? '80%' : '63%'}
 						height={relativeScreenWidth(12)}
 						onPress={isAuthor ? sharePost : openChat}
@@ -230,7 +230,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 					>
 						<SmallButton
 							color={theme.white3}
-							SvgIcon={ThreeDotsIcon}
+							SvgIcon={ThreeDotsWhiteIcon}
 							relativeWidth={relativeScreenWidth(12)}
 							height={relativeScreenWidth(12)}
 							onPress={() => setPostOptionsIsOpen(true)}
@@ -262,26 +262,21 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 							<>
 								<Sigh />
 								<LocationViewCard
-									title={'local de trabalho'}
 									locationView={'public'}
 									withoutMapView={!getPostField('location').coordinates}
-									isAuthor={isAuthor}
 									location={getPostField('location')}
-									textFontSize={16}
 								/>
 							</>
 						)
 					}
 					<Sigh />
 					<DateTimeCard
-						title={'dias e horários'}
 						weekDaysfrequency={'someday'}
 						daysOfWeek={getPostField('vacancyType') === 'professional' ? getPostField('daysOfWeek') : []}
 						startTime={getPostField('startHour')}
 						endTime={getPostField('endHour')}
 						startDate={getPostField('startDate')}
 						endDate={getPostField('endDate')}
-						textFontSize={14}
 					/>
 					<LastSigh />
 				</ScrollView>

@@ -317,7 +317,6 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					/>
 					<VerticalSigh />
 					<DateTimeCard
-						title={'dias e horários'}
 						weekDaysfrequency={getPostField('attendanceFrequency')}
 						daysOfWeek={getPostField('daysOfWeek')}
 						startTime={getPostField('startHour')}

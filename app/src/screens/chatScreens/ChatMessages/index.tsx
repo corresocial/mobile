@@ -7,7 +7,7 @@ import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { Container, Header, Sigh } from './styles'
 import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
-import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
+import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 
 import { getRemoteChatData } from '../../../services/firebase/chat/getRemoteChatData'
 import { registerNewChat } from '../../../services/firebase/chat/registerNewChat'
@@ -93,7 +93,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			return onValue(realTimeDatabaseRef, (snapshot) => {
 				const listenerMessages = snapshot.val()
 				if (getLastMessageObjects(listenerMessages).owner !== userDataContext.userId) {
-					console.log('Listener message running...')
+					// console.log('Listener message running...')
 					setMessages(listenerMessages)
 				}
 			})
@@ -256,7 +256,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				>
 					<SmallButton
 						color={theme.white3}
-						SvgIcon={ThreeDotsIcon}
+						SvgIcon={ThreeDotsWhiteIcon}
 						relativeWidth={relativeScreenWidth(12)}
 						height={relativeScreenWidth(12)}
 						onPress={() => setChatOptionsIsOpen(true)}

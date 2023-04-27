@@ -156,7 +156,7 @@ function LocationViewCard({
 					title={title || 'local do post'}
 					onPressIcon={onEdit && onEdit}
 					SvgIcon={editable ? PencilIcon : MapPointWhiteIcon}
-					dimensions={editable ? 20 : 30}
+					dimensions={editable ? 20 : 32}
 					invertTextAndIcon={editable}
 					justifyContent={editable ? 'space-between' : 'flex-start'}
 				/>

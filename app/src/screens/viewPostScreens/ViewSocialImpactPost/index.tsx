@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView } from 'react-native'
 
-import { Body, Container, Header, LastSigh, OptionsArea, Sigh, UserAndValueContainer } from './styles'
+import { Body, Container, Header, OptionsArea, UserAndValueContainer } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
-import ShareIcon from '../../../assets/icons/share-white.svg'
-import ChatIcon from '../../../assets/icons/chat.svg'
-import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
+import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
+import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
+import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
@@ -27,6 +27,8 @@ import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
+import { VerticalSigh } from '../../../components/VerticalSigh'
+import { ExhibitionPlaceCard } from '../../../components/_cards/ExhibitionPlace'
 
 function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -45,6 +47,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		if (!route.params.postData || !route.params.postData.owner) return false
 		return userDataContext.userId === route.params.postData.owner.userId
 	}
+
 	const isAuthor = loggedUserIsOwner()
 	const { postData } = route.params as { postData: SocialImpactCollectionRemote }
 
@@ -88,6 +91,13 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social`)
 	}
 
+	const getUserProfilePictureFromContext = () => {
+		if (userDataContext && userDataContext.profilePictureUrl) {
+			return userDataContext.profilePictureUrl[0] || ''
+		}
+		return ''
+	}
+
 	const openChat = async () => {
 		const userId1 = userDataContext.userId
 		const userId2 = postData.owner.userId
@@ -96,9 +106,9 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 			chat: {
 				chatId: '',
 				user1: {
-					userId: userId1,
-					name: userDataContext.name,
-					profilePictureUrl: userDataContext.profilePictureUrl[0] || ''
+					userId: userId1 || '',
+					name: userDataContext.name || '',
+					profilePictureUrl: getUserProfilePictureFromContext()
 				},
 				user2: {
 					userId: userId2,
@@ -140,7 +150,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					onBackPress={() => navigation.goBack()}
 					text={getPostField('title')}
 				/>
-				<Sigh />
+				<VerticalSigh />
 				<UserAndValueContainer>
 					<SmallUserIdentification
 						userName={postData.owner ? postData.owner.name : 'usuário do corre.'}
@@ -152,13 +162,13 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						navigateToProfile={navigateToProfile}
 					/>
 				</UserAndValueContainer>
-				<Sigh />
+				<VerticalSigh />
 				<OptionsArea>
 					{
 						!isAuthor && (
 							<SmallButton
 								color={theme.white3}
-								SvgIcon={ShareIcon}
+								SvgIcon={ShareWhiteIcon}
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}
 								onPress={sharePost}
@@ -166,10 +176,10 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						)
 					}
 					<SmallButton
-						color={theme.green2}
+						color={theme.green3}
 						label={isAuthor ? 'compartilhar' : 'fortalecer'}
 						fontSize={13}
-						SvgIcon={isAuthor ? ShareIcon : ChatIcon}
+						SvgIcon={isAuthor ? ShareWhiteIcon : ChatWhiteIcon}
 						relativeWidth={isAuthor ? '80%' : '63%'}
 						height={relativeScreenWidth(12)}
 						onPress={isAuthor ? sharePost : openChat}
@@ -188,7 +198,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					>
 						<SmallButton
 							color={theme.white3}
-							SvgIcon={ThreeDotsIcon}
+							SvgIcon={ThreeDotsWhiteIcon}
 							relativeWidth={relativeScreenWidth(12)}
 							height={relativeScreenWidth(12)}
 							onPress={() => setPostOptionsIsOpen(true)}
@@ -198,43 +208,40 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 			</Header>
 			<Body>
 				<ScrollView showsVerticalScrollIndicator={false}	>
-					<Sigh />
+					<VerticalSigh />
 					<DescriptionCard
-						title={'descrição da iniciativa'}
 						text={getPostField('description')}
-						textFontSize={14}
 					/>
-					<Sigh />
+					<VerticalSigh />
 					{
 						!arrayIsEmpty(getPostField('picturesUrl')) && (
 							<>
 								<ImageCarousel
 									picturesUrl={getPostField('picturesUrl') || []}
 								/>
-								<Sigh />
+								<VerticalSigh />
 							</>
 						)
 					}
-					<LocationViewCard
-						title={'local da iniciativa'}
-						locationView={getPostField('locationView')}
-						isAuthor={isAuthor}
-						location={getPostField('location')}
-						textFontSize={16}
+					<ExhibitionPlaceCard
+						exhibitionPlace={getPostField('exhibitionPlace')}
 					/>
-					<Sigh />
+					<VerticalSigh />
+					<LocationViewCard
+						locationView={getPostField('locationView')}
+						location={getPostField('location')}
+					/>
+					<VerticalSigh />
 					<DateTimeCard
-						title={'dias e horários'}
-						weekDaysfrequency={'someday'}
+						weekDaysfrequency={getPostField('exhibitionFrequency')}
 						daysOfWeek={getPostField('daysOfWeek')}
 						startDate={getPostField('startHour')}
 						endDate={getPostField('startHour')}
 						startTime={getPostField('startHour')}
 						endTime={getPostField('endHour')}
 						repetition={getPostField('repeat')}
-						textFontSize={14}
 					/>
-					<LastSigh />
+					<VerticalSigh bottomNavigatorSpace />
 				</ScrollView>
 			</Body>
 		</Container>

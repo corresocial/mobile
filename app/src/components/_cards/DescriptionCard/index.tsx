@@ -21,7 +21,7 @@ function DescriptionCard({ title, text, children, textFontSize = 14 }: Descripti
 				title={title || 'descrição do post'}
 				highlightedWords={['descrição']}
 				SvgIcon={DescriptionWhiteIcon}
-				dimensions={30}
+				dimensions={32}
 			/>
 			<LongText style={{ fontSize: RFValue(textFontSize) }}>
 				{text}

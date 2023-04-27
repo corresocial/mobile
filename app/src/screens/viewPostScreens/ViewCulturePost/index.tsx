@@ -12,9 +12,9 @@ import {
 } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
-import ShareIcon from '../../../assets/icons/share-white.svg'
-import ChatIcon from '../../../assets/icons/chat.svg'
-import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
+import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
+import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
+import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
@@ -167,7 +167,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						!isAuthor && (
 							<SmallButton
 								color={theme.white3}
-								SvgIcon={ShareIcon}
+								SvgIcon={ShareWhiteIcon}
 								relativeWidth={relativeScreenWidth(11)}
 								height={relativeScreenWidth(11)}
 								onPress={sharePost}
@@ -178,7 +178,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						color={theme.green2}
 						label={isAuthor ? 'compartilhar' : 'conversar'}
 						fontSize={13}
-						SvgIcon={isAuthor ? ShareIcon : ChatIcon}
+						SvgIcon={isAuthor ? ShareWhiteIcon : ChatWhiteIcon}
 						relativeWidth={isAuthor ? '80%' : '63%'}
 						height={relativeScreenWidth(12)}
 						onPress={isAuthor ? sharePost : openChat}
@@ -197,7 +197,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					>
 						<SmallButton
 							color={theme.white3}
-							SvgIcon={ThreeDotsIcon}
+							SvgIcon={ThreeDotsWhiteIcon}
 							relativeWidth={relativeScreenWidth(12)}
 							height={relativeScreenWidth(12)}
 							onPress={() => setPostOptionsIsOpen(true)}
