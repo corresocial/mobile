@@ -21,10 +21,10 @@ import {
 	BodyPadding
 } from './styles'
 import { theme } from '../../../common/theme'
-import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
-import ShareWhiteIcon from '../../../assets/icons/share.svg'
+import ChatIcon from '../../../assets/icons/chat.svg'
+import ShareIcon from '../../../assets/icons/share.svg'
 import AtSign from '../../../assets/icons/atSign.svg'
-import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
+import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 import PencilIcon from '../../../assets/icons/pencil.svg'
 import GearIcon from '../../../assets/icons/gear.svg'
 import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
@@ -347,8 +347,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						<SmallButton
 							color={theme.white3}
 							label={isLoggedUser ? '' : 'chat'}
-							labelColor={theme.black4}
-							SvgIcon={isLoggedUser ? PencilIcon : ChatWhiteIcon}
+							SvgIcon={isLoggedUser ? PencilIcon : ChatIcon}
 							relativeWidth={isLoggedUser ? relativeScreenWidth(12) : '30%'}
 							height={relativeScreenWidth(12)}
 							onPress={isLoggedUser ? goToEditProfile : openChat}
@@ -359,7 +358,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							labelColor={theme.black4}
 							highlightedWords={isLoggedUser ? ['compartilhar'] : []}
 							fontSize={12}
-							SvgIcon={ShareWhiteIcon}
+							SvgIcon={ShareIcon}
 							relativeWidth={isLoggedUser ? '60%' : '45%'}
 							height={relativeScreenWidth(12)}
 							onPress={shareProfile}
@@ -373,7 +372,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						>
 							<SmallButton
 								color={theme.white3}
-								SvgIcon={isLoggedUser ? GearIcon : ThreeDotsWhiteIcon}
+								SvgIcon={isLoggedUser ? GearIcon : ThreeDotsIcon}
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}
 								onPress={openProfileOptions}

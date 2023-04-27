@@ -10,10 +10,11 @@ import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
+import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
 import { share } from '../../../common/share'
 
 import { ViewSocialImpactPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
-import { PostCollection, SocialImpactCollection, SocialImpactCollectionRemote } from '../../../services/firebase/types'
+import { PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -29,6 +30,7 @@ import { PostPopOver } from '../../../components/PostPopOver'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { ExhibitionPlaceCard } from '../../../components/_cards/ExhibitionPlace'
+import { HorizontalTagList } from '../../../components/HorizontalTagList'
 
 function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -138,6 +140,10 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })
 	}
 
+	const getCategoryLabel = () => {
+		return socialImpactCategories[getPostField('category') as SocialImpactCategories].label || ''
+	}
+
 	const getPostField = (fieldName: keyof SocialImpactCollection) => {
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
@@ -206,8 +212,15 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					</PostPopOver>
 				</OptionsArea>
 			</Header>
-			<Body>
-				<ScrollView showsVerticalScrollIndicator={false}	>
+			<ScrollView showsVerticalScrollIndicator={false}	>
+				<VerticalSigh />
+				<HorizontalTagList
+					tags={[getCategoryLabel(), ...getPostField('tags')]}
+					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
+					selectedColor={theme.pink1}
+					onSelectTag={() => { }}
+				/>
+				<Body>
 					<VerticalSigh />
 					<DescriptionCard
 						text={getPostField('description')}
@@ -242,9 +255,9 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						repetition={getPostField('repeat')}
 					/>
 					<VerticalSigh bottomNavigatorSpace />
-				</ScrollView>
-			</Body>
-		</Container>
+				</Body>
+			</ScrollView>
+		</Container >
 	)
 }
 
