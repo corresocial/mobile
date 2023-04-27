@@ -23,7 +23,6 @@ interface LocationViewCardProps {
 	locationView?: LocationViewType
 	textFontSize?: number
 	withoutMapView?: boolean
-	isAuthor?: boolean
 	editable?: boolean
 	location: Location
 	onEdit?: () => void
@@ -35,7 +34,6 @@ function LocationViewCard({
 	locationView,
 	textFontSize = 14,
 	withoutMapView,
-	isAuthor = false,
 	editable,
 	location,
 	onEdit

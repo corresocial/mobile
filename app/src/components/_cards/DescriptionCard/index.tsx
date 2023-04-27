@@ -2,8 +2,7 @@ import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { LongText } from './styles'
-import DescriptionIcon from '../../../assets/icons/description-white.svg'
-import ShopIcon from '../../../assets/icons/shop.svg'
+import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
@@ -11,18 +10,17 @@ import { DefaultCardContainer } from '../DefaultCardContainer'
 interface DescriptionCardProps {
 	title?: string
 	text: string
-	textFontSize: number
-	company?: boolean
+	textFontSize?: number
 	children?: React.ReactChild
 }
 
-function DescriptionCard({ title, text, textFontSize, company, children }: DescriptionCardProps) {
+function DescriptionCard({ title, text, children, textFontSize = 14 }: DescriptionCardProps) {
 	return (
 		<DefaultCardContainer>
 			<DefaultHeaderTitle
 				title={title || 'descrição do post'}
 				highlightedWords={['descrição']}
-				SvgIcon={company ? ShopIcon : DescriptionIcon}
+				SvgIcon={DescriptionWhiteIcon}
 				dimensions={30}
 			/>
 			<LongText style={{ fontSize: RFValue(textFontSize) }}>

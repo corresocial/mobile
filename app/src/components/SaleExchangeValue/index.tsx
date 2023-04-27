@@ -72,7 +72,7 @@ function SaleExchangeValue({
 					hasSaleValue && hasExchangeValue
 					&& (
 						<SmallFont style={{ fontSize: RFValue(smallFontSize) }}>
-							{'ou '}
+							{' ou '}
 						</SmallFont>
 					)
 				}

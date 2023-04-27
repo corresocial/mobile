@@ -17,8 +17,11 @@ import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { share } from '../../../common/share'
+import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
 
+import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
 import { ViewServicePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
+
 import {
 	PostCollection,
 	ServiceCategories,
@@ -40,10 +43,8 @@ import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
-import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
-import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
 
 function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -265,7 +266,6 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					<VerticalSigh />
 					<DescriptionCard
 						text={getPostField('description')}
-						textFontSize={14}
 					/>
 					<VerticalSigh />
 					{!arrayIsEmpty(getPostField('picturesUrl')) && (
@@ -276,6 +276,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 							<VerticalSigh />
 						</>
 					)}
+
 					{
 						getPostField('saleValue') && !getPostField('saleValue') && (
 							<>
@@ -310,9 +311,9 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 							</>
 						)
 					}
+
 					<LocationViewCard
 						locationView={getPostField('locationView')}
-						isAuthor={isAuthor}
 						location={getPostField('location')}
 					/>
 					<VerticalSigh />

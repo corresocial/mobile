@@ -17,10 +17,9 @@ import { PostInfoRow } from '../../PostInfoRow'
 interface DeliveryMethodCardProps {
 	title?: string
 	deliveryMethod?: DeliveryMethod
-	textFontSize?: number
 }
 
-function DeliveryMethodCard({ title, deliveryMethod, textFontSize = 14 }: DeliveryMethodCardProps) {
+function DeliveryMethodCard({ title, deliveryMethod }: DeliveryMethodCardProps) {
 	const getDeliveryMethodIcon = () => {
 		switch (deliveryMethod) {
 			case 'unavailable': return PeopleWhiteIcon

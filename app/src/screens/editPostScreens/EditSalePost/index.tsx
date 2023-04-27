@@ -65,8 +65,8 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 	}
 
 	const renderDeliveryMethod = () => {
-		const range = getPostField('range')
-		switch (range) {
+		const deliveryMethod = getPostField('deliveryMethod')
+		switch (deliveryMethod) {
 			case 'unavailable': return 'não entrega'
 			case 'near': return 'entrega perto'
 			case 'city': return 'entrega na cidade'
@@ -361,7 +361,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 					title={'entrega'}
 					highlightedWords={['entrega']}
 					value={renderDeliveryMethod() || '---'}
-					onEdit={() => navigateToEditScreen('SelectDeliveryMethod', 'range')}
+					onEdit={() => navigateToEditScreen('SelectDeliveryMethod', 'deliveryMethod')}
 				/>
 				<LastSigh />
 			</Body>

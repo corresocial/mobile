@@ -8,11 +8,13 @@ export const Container = styled.View`
 
 export const ValueArea = styled.View`
 	flex-direction: row;
+	align-self: flex-end;
 	align-items: flex-end;
 `
 
 export const ExchangeArea = styled.View`
 	flex-direction: row;
+	align-self: flex-end;
 	align-items: flex-end;
 `
 
@@ -26,6 +28,7 @@ export const LargeFont = styled.Text`
 	font-size: ${RFValue(18)}px;
 	font-family: Arvo_700Bold;
 	margin-left: 1px;
+	align-self: flex-end;
 `
 
 export const ExchangeWord = styled.Text`

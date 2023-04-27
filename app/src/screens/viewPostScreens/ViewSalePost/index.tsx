@@ -5,19 +5,19 @@ import {
 	Body,
 	Container,
 	Header,
-	LastSigh,
 	OptionsArea,
-	Sigh,
 	UserAndValueContainer,
 } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
-import ShareIcon from '../../../assets/icons/share-white.svg'
-import ChatIcon from '../../../assets/icons/chat.svg'
-import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
+import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
+import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
+import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
+import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
+import { saleCategories } from '../../../utils/postsCategories/saleCategories'
 import { share } from '../../../common/share'
 
 import { ViewSalePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
@@ -25,12 +25,9 @@ import { ViewSalePostScreenProps } from '../../../routes/Stack/ProfileStack/stac
 import { AuthContext } from '../../../contexts/AuthContext'
 import { EditContext } from '../../../contexts/EditContext'
 
+import { PostCollection, SaleCategories, SaleCollection, SaleCollectionRemote } from '../../../services/firebase/types'
+
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import {
-	PostCollection,
-	SaleCollection,
-	SaleCollectionRemote,
-} from '../../../services/firebase/types'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
 import { SaleExchangeValue } from '../../../components/SaleExchangeValue'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
@@ -41,7 +38,9 @@ import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
-import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
+import { VerticalSigh } from '../../../components/VerticalSigh'
+import { HorizontalTagList } from '../../../components/HorizontalTagList'
+import { ItemStatusCard } from '../../../components/_cards/ItemStatusCard'
 
 function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -60,6 +59,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 		if (!route.params.postData || !route.params.postData.owner) { return false }
 		return userDataContext.userId === route.params.postData.owner.userId
 	}
+
 	const isAuthor = loggedUserIsOwner()
 	const { postData } = route.params as { postData: SaleCollectionRemote }
 
@@ -112,6 +112,13 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 		)
 	}
 
+	const getUserProfilePictureFromContext = () => {
+		if (userDataContext && userDataContext.profilePictureUrl) {
+			return userDataContext.profilePictureUrl[0] || ''
+		}
+		return ''
+	}
+
 	const openChat = async () => {
 		const userId1 = userDataContext.userId
 		const userId2 = postData.owner.userId
@@ -120,9 +127,9 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 			chat: {
 				chatId: '',
 				user1: {
-					userId: userId1,
-					name: userDataContext.name,
-					profilePictureUrl: userDataContext.profilePictureUrl[0] || ''
+					userId: userId1 || '',
+					name: userDataContext.name || '',
+					profilePictureUrl: getUserProfilePictureFromContext()
 				},
 				user2: {
 					userId: userId2,
@@ -154,6 +161,10 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 		}) // TODO Type
 	}
 
+	const getCategoryLabel = () => {
+		return saleCategories[getPostField('category') as SaleCategories].label || ''
+	}
+
 	const getPostField = (fieldName: keyof SaleCollection) => {
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
@@ -169,7 +180,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					onBackPress={() => navigation.goBack()}
 					text={getPostField('title')}
 				/>
-				<Sigh />
+				<VerticalSigh />
 				<UserAndValueContainer>
 					<SmallUserIdentification
 						userName={
@@ -193,12 +204,12 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						exchangeFontSize={14}
 					/>
 				</UserAndValueContainer>
-				<Sigh />
+				<VerticalSigh />
 				<OptionsArea>
 					{!isAuthor && (
 						<SmallButton
 							color={theme.white3}
-							SvgIcon={ShareIcon}
+							SvgIcon={ShareWhiteIcon}
 							relativeWidth={relativeScreenWidth(12)}
 							height={relativeScreenWidth(12)}
 							onPress={sharePost}
@@ -208,7 +219,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						color={theme.green3}
 						label={isAuthor ? 'compartilhar' : 'comprar'}
 						fontSize={13}
-						SvgIcon={isAuthor ? ShareIcon : ChatIcon}
+						SvgIcon={isAuthor ? ShareWhiteIcon : ChatWhiteIcon}
 						relativeWidth={isAuthor ? '80%' : '63%'}
 						height={relativeScreenWidth(12)}
 						onPress={isAuthor ? sharePost : openChat}
@@ -229,7 +240,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					>
 						<SmallButton
 							color={theme.white3}
-							SvgIcon={ThreeDotsIcon}
+							SvgIcon={ThreeDotsWhiteIcon}
 							relativeWidth={relativeScreenWidth(12)}
 							height={relativeScreenWidth(12)}
 							onPress={() => setPostOptionsIsOpen(true)}
@@ -237,54 +248,88 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					</PostPopOver>
 				</OptionsArea>
 			</Header>
-			<Body>
-				<ScrollView showsVerticalScrollIndicator={false}>
-					<Sigh />
-					<DescriptionCard
-						title={'descrição do produto'}
-						text={getPostField('itemDescription')}
-						textFontSize={14}
+			<ScrollView showsVerticalScrollIndicator={false}>
+				<VerticalSigh />
+				<HorizontalTagList
+					tags={[getCategoryLabel(), ...getPostField('tags')]}
+					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
+					selectedColor={theme.green1}
+					onSelectTag={() => { }}
+				/>
+				<Body>
+					<VerticalSigh />
+					<ItemStatusCard
+						itemStatus={getPostField('itemStatus')}
 					/>
-					<Sigh />
+					<VerticalSigh />
+					<DescriptionCard
+						text={getPostField('itemDescription')}
+					/>
+					<VerticalSigh />
 					{!arrayIsEmpty(getPostField('picturesUrl')) && (
 						<>
 							<ImageCarousel
 								picturesUrl={getPostField('picturesUrl') || []}
 							/>
-							<Sigh />
+							<VerticalSigh />
 						</>
 					)}
-					<SaleOrExchangeCard
-						title={'venda ou troca'}
-						saleValue={getPostField('saleValue')}
-						exchangeValue={getPostField('exchangeValue')}
-					/>
-					<Sigh />
+
+					{
+						getPostField('saleValue') && !getPostField('saleValue') && (
+							<>
+								<SaleOrExchangeCard
+									saleValue={getPostField('saleValue')}
+									showsValueType={'sale'}
+								/>
+								<VerticalSigh />
+							</>
+						)
+					}
+					{
+						!getPostField('saleValue') && getPostField('saleValue') && (
+							<>
+								<SaleOrExchangeCard
+									exchangeValue={getPostField('exchangeValue')}
+									showsValueType={'exchange'}
+								/>
+								<VerticalSigh />
+							</>
+						)
+					}
+					{
+						getPostField('saleValue') && getPostField('saleValue') && (
+							<>
+								<SaleOrExchangeCard
+									saleValue={getPostField('saleValue')}
+									exchangeValue={getPostField('exchangeValue')}
+									showsValueType={'both'}
+								/>
+								<VerticalSigh />
+							</>
+						)
+					}
+
 					<LocationViewCard
 						title={'local de trabalho'}
 						locationView={getPostField('locationView')}
-						isAuthor={isAuthor}
-						textFontSize={16}
 						location={getPostField('location')}
 					/>
-					<Sigh />
+					<VerticalSigh />
 					<DateTimeCard
 						title={'dias e horários'}
 						weekDaysfrequency={getPostField('attendanceFrequency')}
 						daysOfWeek={getPostField('daysOfWeek')}
 						startTime={getPostField('startHour')}
 						endTime={getPostField('endHour')}
-						textFontSize={14}
 					/>
-					<Sigh />
+					<VerticalSigh />
 					<DeliveryMethodCard
-						title={'entrega'}
 						deliveryMethod={getPostField('deliveryMethod')}
-						textFontSize={16}
 					/>
-					<LastSigh />
-				</ScrollView>
-			</Body>
+					<VerticalSigh bottomNavigatorSpace />
+				</Body>
+			</ScrollView>
 		</Container>
 	)
 }

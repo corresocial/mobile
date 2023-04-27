@@ -49,7 +49,6 @@ function PostInputText({
 
 	useEffect(() => {
 		const validation = validateInputText(inputText)
-		console.log(validation)
 		setInputTextIsValid(validation)
 	}, [inputText, keyboardOpened])
 
