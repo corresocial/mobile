@@ -1,10 +1,20 @@
-import React, { RefObject, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, {
+	RefObject,
+	useContext,
+	useEffect,
+	useLayoutEffect,
+	useRef,
+	useState,
+} from 'react'
 import uuid from 'react-uuid'
 import { FlatList, Platform } from 'react-native'
 import { get, onValue, ref } from 'firebase/database'
 
 import { theme } from '../../../common/theme'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import {
+	relativeScreenHeight,
+	relativeScreenWidth,
+} from '../../../common/screenDimensions'
 import { Container, Header, Sigh } from './styles'
 import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
@@ -25,7 +35,12 @@ import { AuthContext } from '../../../contexts/AuthContext'
 
 import { FlatListItem } from '../../../@types/global/types'
 import { Id } from '../../../services/firebase/types'
-import { Chat, Message, MessageObjects, UserIdentification } from '../../../@types/chat/types'
+import {
+	Chat,
+	Message,
+	MessageObjects,
+	UserIdentification,
+} from '../../../@types/chat/types'
 
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
@@ -45,7 +60,9 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const [chatOptionsIsOpen, setChatOptionsIsOpen] = useState(false)
 	const [currentChat, setCurrentChat] = useState<Chat>(chatFromRoute)
-	const [messages, setMessages] = useState<MessageObjects>(currentChat.messages)
+	const [messages, setMessages] = useState<MessageObjects>(
+		currentChat.messages
+	)
 	const [listenerHasStarted, setListenerHasStarted] = useState(false)
 	const [isBlockedUser, setIsBlockedUser] = useState(false)
 	const [blockedByOwner, setBlockedByOwner] = useState(false)
@@ -58,29 +75,48 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	useEffect(() => {
 		loadChatMessages()
-		makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId as Id)
+		makeAllUserMessagesAsRead(
+			currentChat.chatId,
+			userDataContext.userId as Id
+		)
 		return () => {
 			unsubscribeMessageListener(currentChat.chatId)
-			makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId as Id)
+			makeAllUserMessagesAsRead(
+				currentChat.chatId,
+				userDataContext.userId as Id
+			)
 		}
 	}, [])
 
 	const loadChatMessages = async () => {
-		const remoteChatData = await getRemoteChatData(currentChat.user1, currentChat.user2)
-		setCurrentChat({ ...remoteChatData, messages: { ...remoteChatData.messages } } as any) // TODO Type
+		const remoteChatData = await getRemoteChatData(
+			currentChat.user1,
+			currentChat.user2
+		)
+		setCurrentChat({
+			...remoteChatData,
+			messages: { ...remoteChatData.messages },
+		} as any) // TODO Type
 		setMessages({ ...remoteChatData.messages })
 
 		verifyUsersBlock()
 	}
 
 	const verifyUsersBlock = async () => {
-		const { blockedUsers: blockedUsers1 } = await getRemoteUser(currentChat.user1.userId)
-		const { blockedUsers: blockedUsers2 } = await getRemoteUser(currentChat.user2.userId)
+		const { blockedUsers: blockedUsers1 } = await getRemoteUser(
+			currentChat.user1.userId
+		)
+		const { blockedUsers: blockedUsers2 } = await getRemoteUser(
+			currentChat.user2.userId
+		)
 		const blockedUsers = [...blockedUsers1, ...blockedUsers2]
 
-		const userIsBlocked = blockedUsers.includes(currentChat.user1.userId) || blockedUsers.includes(currentChat.user2.userId)
+		const userIsBlocked =			blockedUsers.includes(currentChat.user1.userId)
+			|| blockedUsers.includes(currentChat.user2.userId)
 
-		const userBlock = blockedUsers1.includes(currentChat.user2.userId) ? currentChat.user1.userId : currentChat.user2.userId
+		const userBlock = blockedUsers1.includes(currentChat.user2.userId)
+			? currentChat.user1.userId
+			: currentChat.user2.userId
 		setBlockedByOwner(userBlock === userDataContext.userId)
 		setIsBlockedUser(userIsBlocked)
 		return userIsBlocked
@@ -92,7 +128,10 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			setListenerHasStarted(true)
 			return onValue(realTimeDatabaseRef, (snapshot) => {
 				const listenerMessages = snapshot.val()
-				if (getLastMessageObjects(listenerMessages).owner !== userDataContext.userId) {
+				if (
+					getLastMessageObjects(listenerMessages).owner
+					!== userDataContext.userId
+				) {
 					console.log('Listener message running...')
 					setMessages(listenerMessages)
 				}
@@ -118,9 +157,12 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const submitMessage = async (text: string) => {
 		const newMessages = { ...messages, ...generateMessageObject(text) }
-		if (!await existsOnDatabase(currentChat.chatId)) {
+		if (!(await existsOnDatabase(currentChat.chatId))) {
 			await registerNewChat(currentChat)
-			await setChatIdToUsers([currentChat.user1.userId, currentChat.user2.userId], currentChat.chatId)
+			await setChatIdToUsers(
+				[currentChat.user1.userId, currentChat.user2.userId],
+				currentChat.chatId
+			)
 			await startMessagesListener(currentChat.chatId)
 		}
 
@@ -128,26 +170,35 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 		const userBlock = await verifyUsersBlock()
 		if (userBlock) {
-			sendMessage({
+			sendMessage(
+				{
+					message: text,
+					dateTime: Date.now(),
+					readed: false,
+					owner: userDataContext.userId as Id,
+					justOwner: true,
+				} as any,
+				currentChat.chatId
+			)
+			return
+		}
+
+		sendMessage(
+			{
 				message: text,
 				dateTime: Date.now(),
 				readed: false,
 				owner: userDataContext.userId as Id,
-				justOwner: true
-			} as any, currentChat.chatId)
-			return
-		}
-
-		sendMessage({
-			message: text,
-			dateTime: Date.now(),
-			readed: false,
-			owner: userDataContext.userId as Id,
-		}, currentChat.chatId)
+			},
+			currentChat.chatId
+		)
 	}
 
 	const blockUser = async () => {
-		const targetUserId = getReceiverUserId(currentChat.user1, currentChat.user2)
+		const targetUserId = getReceiverUserId(
+			currentChat.user1,
+			currentChat.user2
+		)
 		await blockUserId(targetUserId, userDataContext.userId as Id)
 
 		setChatOptionsIsOpen(false)
@@ -156,7 +207,10 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const unblockUser = async () => {
-		const blockedUserId = getReceiverUserId(currentChat.user1, currentChat.user2)
+		const blockedUserId = getReceiverUserId(
+			currentChat.user1,
+			currentChat.user2
+		)
 		await unblockUserId(blockedUserId, userDataContext.userId as Id)
 
 		setChatOptionsIsOpen(false)
@@ -164,7 +218,10 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const cleanConversation = async () => {
-		await cleanMessages(currentChat.chatId, getReceiverUserId(currentChat.user1, currentChat.user2))
+		await cleanMessages(
+			currentChat.chatId,
+			getReceiverUserId(currentChat.user1, currentChat.user2)
+		)
 		setMessages({})
 		setChatOptionsIsOpen(false)
 	}
@@ -175,33 +232,45 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				message: text,
 				dateTime: Date.now(),
 				readed: false,
-				owner: userDataContext.userId as Id
-			}
+				owner: userDataContext.userId as Id,
+			},
 		}
 	}
 
-	const getReceiverUserId = (user1: UserIdentification, user2: UserIdentification) => {
+	const getReceiverUserId = (
+		user1: UserIdentification,
+		user2: UserIdentification
+	) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.userId
 		}
 		return user1.userId
 	}
 
-	const getUserName = (user1: UserIdentification, user2: UserIdentification) => {
+	const getUserName = (
+		user1: UserIdentification,
+		user2: UserIdentification
+	) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.name
 		}
 		return user1.name
 	}
 
-	const getUserId = (user1: UserIdentification, user2: UserIdentification) => {
+	const getUserId = (
+		user1: UserIdentification,
+		user2: UserIdentification
+	) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.userId
 		}
 		return user1.userId
 	}
 
-	const getProfilePictureUrl = (user1: UserIdentification, user2: UserIdentification) => {
+	const getProfilePictureUrl = (
+		user1: UserIdentification,
+		user2: UserIdentification
+	) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.profilePictureUrl
 		}
@@ -209,25 +278,32 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const getFilteredMessages = () => {
-		return Object.values(messages || {}).filter((message: Message) => (
-			!message.justOwner || (message.justOwner && message.owner === userDataContext.userId))
-			&& (!message.userCanView || message.userCanView === userDataContext.userId))
+		return Object.values(messages || {}).filter(
+			(message: Message) => (!message.justOwner
+					|| (message.justOwner
+						&& message.owner === userDataContext.userId))
+				&& (!message.userCanView
+					|| message.userCanView === userDataContext.userId)
+		)
 	}
 
 	const navigateToProfile = () => {
-		navigation.navigate('ChatStack' as any, { // TODO type
+		navigation.navigate('ChatStack' as any, {
+			// TODO type
 			screen: 'ProfileChat',
 			params: {
 				userId: getUserId(currentChat.user1, currentChat.user2),
-				stackLabel: 'Chat'
-			}
-
+				stackLabel: 'Chat',
+			},
 		})
 	}
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<FocusAwareStatusBar
+				backgroundColor={theme.white3}
+				barStyle={'dark-content'}
+			/>
 			<Header>
 				<SmallButton
 					color={theme.white3}
@@ -238,15 +314,24 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				/>
 				<SmallUserIdentification
 					pictureDimensions={40}
-					userName={getUserName(currentChat.user1, currentChat.user2)}
-					profilePictureUrl={getProfilePictureUrl(currentChat.user1, currentChat.user2)}
+					userName={getUserName(
+						currentChat.user1,
+						currentChat.user2
+					)}
+					profilePictureUrl={getProfilePictureUrl(
+						currentChat.user1,
+						currentChat.user2
+					)}
 					width={'65%'}
 					userNameFontSize={15}
 					height={'100%'}
 					navigateToProfile={navigateToProfile}
 				/>
 				<ChatPopOver
-					userName={getUserName(currentChat.user1, currentChat.user2)}
+					userName={getUserName(
+						currentChat.user1,
+						currentChat.user2
+					)}
 					popoverVisibility={chatOptionsIsOpen}
 					closePopover={() => setChatOptionsIsOpen(false)}
 					blockUser={blockUser}
@@ -265,7 +350,11 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			</Header>
 			<FlatList
 				ref={flatListRef}
-				data={Object.values(messages || {}) ? getFilteredMessages() : []}
+				data={
+					Object.values(messages || {})
+						? getFilteredMessages()
+						: []
+				}
 				renderItem={({ item }: FlatListItem<Message>) => (
 					<MessageCard
 						message={item.message}
@@ -277,21 +366,35 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				)}
 				ListHeaderComponent={() => (
 					<WithoutPostsMessage
-						message={'tome cuidado ao passar informações pessoais e combine compras e trocas em locais seguros. em caso de serviços à domicílio, verifique o perfil de quem você está contratando'}
-						highlightedWords={['passar', 'informações', 'pessoais', 'combine', 'compras', 'trocas', 'locais', 'seguros', 'verifique', 'o', 'perfil']}
+						message={
+							'tome cuidado ao passar informações pessoais e combine compras e trocas em locais seguros. em caso de serviços à domicílio, verifique o perfil de quem você está contratando'
+						}
+						highlightedWords={[
+							'passar',
+							'informações',
+							'pessoais',
+							'combine',
+							'compras',
+							'trocas',
+							'locais',
+							'seguros',
+							'verifique',
+							'o',
+							'perfil',
+						]}
 						backgroundColor={theme.yellow1}
 					/>
 				)}
-				ListHeaderComponentStyle={{ marginBottom: relativeScreenHeight(2) }}
+				ListHeaderComponentStyle={{
+					marginBottom: relativeScreenHeight(2),
+				}}
 				showsVerticalScrollIndicator={false}
 				ItemSeparatorComponent={() => <Sigh />}
 				ListFooterComponent={() => <Sigh />}
 				onContentSizeChange={scrollToEnd}
 				onLayout={scrollToEnd}
 			/>
-			<ChatInput
-				submitMessage={submitMessage}
-			/>
+			<ChatInput submitMessage={submitMessage} />
 		</Container>
 	)
 }

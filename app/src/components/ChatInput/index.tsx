@@ -48,11 +48,14 @@ function ChatInput({ submitMessage }: ChatInputProps) {
 				onPressIn={pressingButton}
 				onPressOut={notPressingButton}
 				onPress={releaseButton}
+				style={{
+					backgroundColor: message ? theme.black4 : theme.white3,
+				}}
 			>
 				<SendButtonAreaInner
 					style={{
 						backgroundColor: message ? theme.green3 : theme.white3,
-						borderColor: message ? theme.black4 : theme.black2,
+						borderColor: message ? theme.black4 : theme.white3,
 						left: !message || buttonPressed ? -1 : -relativeScreenWidth(2),
 					}}
 				>

@@ -1,9 +1,10 @@
+import Constants from 'expo-constants'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { Platform } from 'react-native'
 import styled from 'styled-components/native'
 import { relativeScreenHeight, relativeScreenWidth } from '../../common/screenDimensions'
 
 export const Container = styled.View`
-	height: ${relativeScreenHeight(9)}px;
 	width: 100%;
 	background-color: ${({ theme }) => theme.white3};
 	flex-direction: row;
@@ -12,13 +13,13 @@ export const Container = styled.View`
 	border-top-width: ${RFValue(5)}px;
 	border-top-color: ${({ theme }) => theme.black4};
 	padding: ${RFValue(5)}px;
-	position: absolute;
+	padding-bottom:${Platform.OS === 'ios' ? 10 : RFValue(5)}px;
+	position: ${Platform.OS === 'ios' ? 'relative' : 'absolute'};
 	bottom: 0;
 `
 
 export const SendButtonArea = styled.TouchableOpacity`
-	border-radius: ${RFValue(32.5)}px;
-	border-bottom-right-radius: 0px;
+	border-radius: ${RFValue(15)}px;
 	border-color: ${({ theme }) => theme.black2};
 	background-color: ${({ theme }) => theme.black4};
 	height: ${relativeScreenHeight(6)}px;
@@ -29,9 +30,8 @@ export const SendButtonArea = styled.TouchableOpacity`
 `
 
 export const SendButtonAreaInner = styled.View`
-	border-radius: ${RFValue(30)}px;
+	border-radius: ${RFValue(15)}px;
 	border-width: ${RFValue(2.5)}px;
-	border-bottom-right-radius: 0px;
 	border-color: ${({ theme }) => theme.black2};
 	height: 100%;
 	width: 100%;
