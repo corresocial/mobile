@@ -5,25 +5,22 @@ import {
 	Body,
 	Container,
 	Header,
-	LastSigh,
 	OptionsArea,
-	Sigh,
 	UserAndValueContainer,
-	VacancyDetails,
-	VacancyDetailsItem
 } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
-import ShareIcon from '../../../assets/icons/share-white.svg'
+import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
 import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
 import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 
-import { arrayIsEmpty, formatRelativeDate, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { share } from '../../../common/share'
+import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
 
 import { ViewVacancyPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
-import { PostCollection, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
+import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -36,6 +33,12 @@ import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
 import { ImageCarousel } from '../../../components/ImageCarousel'
+import { VerticalSigh } from '../../../components/VerticalSigh'
+import { HorizontalTagList } from '../../../components/HorizontalTagList'
+import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
+import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
+import { VacancyTypeCard } from '../../../components/_cards/VacancyTypeCard'
+import { VacancyPurposeCard } from '../../../components/_cards/VacancyPurposeCard'
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -56,40 +59,6 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	}
 	const isAuthor = loggedUserIsOwner()
 	const { postData } = route.params as { postData: VacancyCollectionRemote }
-
-	const getVacancyDetails = () => {
-		const vacancyType = getRelativeVacancyType()
-		const workplace = getRelativeWorkPlace()
-
-		return (
-			<VacancyDetails>
-				<VacancyDetailsItem>
-					{showMessageWithHighlight(`●  vaga ${vacancyType}`, [vacancyType])}
-				</VacancyDetailsItem>
-				<VacancyDetailsItem>
-					{showMessageWithHighlight(`●  vaga ${workplace}`, [workplace])}
-				</VacancyDetailsItem>
-			</VacancyDetails>
-		)
-	}
-
-	const getRelativeVacancyType = () => {
-		switch (getPostField('vacancyType')) {
-			case 'beak': return 'bico'
-			case 'temporary': return 'temporária'
-			case 'professional': return 'profissional'
-			default: return '---'
-		}
-	}
-
-	const getRelativeWorkPlace = () => {
-		switch (getPostField('workplace')) {
-			case 'homeoffice': return 'home-office'
-			case 'presential': return 'presencial'
-			case 'hybrid': return 'híbrida'
-			default: return '---'
-		}
-	}
 
 	const renderFormatedPostDateTime = () => {
 		const formatedDate = formatRelativeDate(postData.createdAt)
@@ -130,6 +99,13 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social`)
 	}
 
+	const getUserProfilePictureFromContext = () => {
+		if (userDataContext && userDataContext.profilePictureUrl) {
+			return userDataContext.profilePictureUrl[0] || ''
+		}
+		return ''
+	}
+
 	const openChat = async () => {
 		const userId1 = userDataContext.userId
 		const userId2 = postData.owner.userId
@@ -138,9 +114,9 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 			chat: {
 				chatId: '',
 				user1: {
-					userId: userId1,
-					name: userDataContext.name,
-					profilePictureUrl: userDataContext.profilePictureUrl[0] || ''
+					userId: userId1 || '',
+					name: userDataContext.name || '',
+					profilePictureUrl: getUserProfilePictureFromContext()
 				},
 				user2: {
 					userId: userId2,
@@ -170,6 +146,10 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
 	}
 
+	const getCategoryLabel = () => {
+		return vacancyCategories[getPostField('category') as VacancyCategories].label || ''
+	}
+
 	const getPostField = (fieldName: keyof VacancyCollection) => {
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
@@ -182,7 +162,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 					onBackPress={() => navigation.goBack()}
 					text={getPostField('title')}
 				/>
-				<Sigh />
+				<VerticalSigh />
 				<UserAndValueContainer>
 					<SmallUserIdentification
 						userName={postData.owner ? postData.owner.name : 'usuário do corre.'}
@@ -194,13 +174,13 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						navigateToProfile={navigateToProfile}
 					/>
 				</UserAndValueContainer>
-				<Sigh />
+				<VerticalSigh />
 				<OptionsArea>
 					{
 						!isAuthor && (
 							<SmallButton
 								color={theme.white3}
-								SvgIcon={ShareIcon}
+								SvgIcon={ShareWhiteIcon}
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}
 								onPress={sharePost}
@@ -208,10 +188,9 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						)
 					}
 					<SmallButton
-						color={theme.green2}
+						color={theme.green3}
 						label={isAuthor ? 'compartilhar' : 'me candidatar'}
-						fontSize={13}
-						SvgIcon={isAuthor ? ShareIcon : ChatWhiteIcon}
+						SvgIcon={isAuthor ? ShareWhiteIcon : ChatWhiteIcon}
 						relativeWidth={isAuthor ? '80%' : '63%'}
 						height={relativeScreenWidth(12)}
 						onPress={isAuthor ? sharePost : openChat}
@@ -238,29 +217,96 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 					</PostPopOver>
 				</OptionsArea>
 			</Header>
-			<Body>
-				<ScrollView showsVerticalScrollIndicator={false} >
-					<Sigh />
+			<ScrollView showsVerticalScrollIndicator={false} >
+				<VerticalSigh />
+				<HorizontalTagList
+					tags={[getCategoryLabel(), ...getPostField('tags')]}
+					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
+					selectedColor={theme.yellow1}
+					onSelectTag={() => { }}
+				/>
+				<Body>
+					<VerticalSigh />
+					{
+						getPostField('vacancyPurpose') && (
+							<>
+								<VacancyPurposeCard
+									vacancyPurpose={getPostField('vacancyPurpose')}
+								/>
+								<VerticalSigh />
+							</>
+						)
+					}
 					<DescriptionCard
 						title={'descrição da vaga'}
 						text={getPostField('description')}
-						textFontSize={14}
-					>
-						{getVacancyDetails()}
-					</DescriptionCard>
-					<Sigh />
+					/>
+					<VerticalSigh />
 					{!arrayIsEmpty(getPostField('picturesUrl')) && (
 						<>
 							<ImageCarousel
 								picturesUrl={getPostField('picturesUrl') || []}
+								indicatorColor={theme.yellow1}
 							/>
-							<Sigh />
+							<VerticalSigh />
 						</>
 					)}
+					<PlaceModality
+						title={'local de trabalho'}
+						hightligtedWords={['local', 'trabalho']}
+						placeModality={getPostField('workplace')}
+						isVacancy
+					/>
+					<VerticalSigh />
+					<VacancyTypeCard
+						vacancyType={'temporary'}
+					/>
+					<VerticalSigh />
+
+					{
+						getPostField('saleValue') && !getPostField('exchangeValue') && (
+							<>
+								<SaleOrExchangeCard
+									title={'tipo de remuneração'}
+									hightligtedWords={['tipo', 'remuneração']}
+									saleValue={getPostField('saleValue')}
+									showsValueType={'sale'}
+								/>
+								<VerticalSigh />
+							</>
+						)
+					}
+					{
+						!getPostField('saleValue') && getPostField('exchangeValue') && (
+							<>
+								<SaleOrExchangeCard
+									title={'tipo de remuneração'}
+									hightligtedWords={['tipo', 'remuneração']}
+									exchangeValue={getPostField('exchangeValue')}
+									showsValueType={'exchange'}
+								/>
+								<VerticalSigh />
+							</>
+						)
+					}
+					{
+						getPostField('saleValue') && getPostField('exchangeValue') && (
+							<>
+								<SaleOrExchangeCard
+									title={'tipo de remuneração'}
+									hightligtedWords={['tipo', 'remuneração']}
+									saleValue={getPostField('saleValue')}
+									exchangeValue={getPostField('exchangeValue')}
+									showsValueType={'both'}
+									isPayment
+								/>
+							</>
+						)
+					}
 					{
 						getPostField('workplace') !== 'homeoffice' && (
 							<>
-								<Sigh />
+								<VerticalSigh />
 								<LocationViewCard
 									locationView={'public'}
 									withoutMapView={!getPostField('location').coordinates}
@@ -269,19 +315,19 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 							</>
 						)
 					}
-					<Sigh />
+					<VerticalSigh />
 					<DateTimeCard
 						weekDaysfrequency={'someday'}
-						daysOfWeek={getPostField('vacancyType') === 'professional' ? getPostField('daysOfWeek') : []}
+						daysOfWeek={getPostField('daysOfWeek')}
 						startTime={getPostField('startHour')}
 						endTime={getPostField('endHour')}
 						startDate={getPostField('startDate')}
 						endDate={getPostField('endDate')}
 					/>
-					<LastSigh />
-				</ScrollView>
-			</Body>
-		</Container>
+					<VerticalSigh bottomNavigatorSpace />
+				</Body>
+			</ScrollView>
+		</Container >
 	)
 }
 

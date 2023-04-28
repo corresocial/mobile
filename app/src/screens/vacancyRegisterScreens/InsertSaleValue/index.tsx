@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { theme } from '../../../common/theme'
 
-import { SaleContext } from '../../../contexts/SaleContext'
+import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
@@ -11,8 +11,8 @@ import { InsertSaleValueScreenProps } from '../../../routes/Stack/VacancyStack/s
 
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
-function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext)
+function InsertVacancyValue({ navigation, route }: InsertSaleValueScreenProps) {
+	const { setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -26,7 +26,7 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 		return unsubscribe
 	}, [navigation])
 
-	const validateSaleValue = (text: string) => {
+	const validateVacancyValue = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
 			return true
@@ -34,13 +34,13 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 		return false
 	}
 
-	const saveSaleValue = (value: string) => {
+	const saveVacancyValue = (saleValue: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ saleValue: value })
+			addNewUnsavedFieldToEditContext({ saleValue })
 			navigation.goBack()
 		}
 
-		setSaleDataOnContext({ saleValue: value })
+		setVacancyDataOnContext({ saleValue })
 
 		if (route.params.bothPaymentType) {
 			navigation.navigate('InsertExchangeValue')
@@ -63,12 +63,12 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[3, 5]}
 				keyboardOpened={keyboardOpened}
-				validateInputText={validateSaleValue}
+				validateInputText={validateVacancyValue}
 				navigateBackwards={() => navigation.goBack()}
-				saveTextData={saveSaleValue}
+				saveTextData={saveVacancyValue}
 			/>
 		</>
 	)
 }
 
-export { InsertSaleValue }
+export { InsertVacancyValue }

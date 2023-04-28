@@ -2,10 +2,10 @@ import React from 'react'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 
 import { Decimals, SmallFont, SmallFontBold } from './styles'
-import CashWhiteIcon from '../../../assets/icons/cash-white.svg'
 import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
 import SalesCartWhiteIcon from '../../../assets/icons/salesCart-white.svg'
 import ExchangeWhiteIcon from '../../../assets/icons/exchange-white.svg'
+import CashWhiteIcon from '../../../assets/icons/cash-white.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { textHasOnlyNumbers } from '../../../utils/validationFunctions'
@@ -20,9 +20,18 @@ interface SaleOrExchangeCardProps {
 	exchangeValue?: string
 	showsValueType?: 'sale' | 'exchange' | 'both'
 	isCulturePost?: boolean
+	isPayment?: boolean
 }
 
-function SaleOrExchangeCard({ title, hightligtedWords, saleValue, exchangeValue, showsValueType, isCulturePost }: SaleOrExchangeCardProps) {
+function SaleOrExchangeCard({
+	title,
+	hightligtedWords,
+	saleValue,
+	exchangeValue,
+	showsValueType,
+	isCulturePost,
+	isPayment
+}: SaleOrExchangeCardProps) {
 	const getDefaultTitle = () => {
 		switch (showsValueType) {
 			case 'sale': return 'produto a venda'
@@ -65,7 +74,7 @@ function SaleOrExchangeCard({ title, hightligtedWords, saleValue, exchangeValue,
 			return ChatWhiteIcon
 		}
 
-		return SalesCartWhiteIcon
+		return !isPayment ? SalesCartWhiteIcon : CashWhiteIcon
 	}
 
 	return (

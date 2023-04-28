@@ -272,13 +272,14 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						<>
 							<ImageCarousel
 								picturesUrl={getPostField('picturesUrl') || []}
+								indicatorColor={theme.purple1}
 							/>
 							<VerticalSigh />
 						</>
 					)}
 
 					{
-						getPostField('saleValue') && !getPostField('saleValue') && (
+						getPostField('saleValue') && !getPostField('exchangeValue') && (
 							<>
 								<SaleOrExchangeCard
 									saleValue={getPostField('saleValue')}
@@ -289,7 +290,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						)
 					}
 					{
-						!getPostField('saleValue') && getPostField('saleValue') && (
+						!getPostField('saleValue') && getPostField('exchangeValue') && (
 							<>
 								<SaleOrExchangeCard
 									exchangeValue={getPostField('exchangeValue')}
@@ -300,7 +301,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						)
 					}
 					{
-						getPostField('saleValue') && getPostField('saleValue') && (
+						getPostField('saleValue') && getPostField('exchangeValue') && (
 							<>
 								<SaleOrExchangeCard
 									saleValue={getPostField('saleValue')}

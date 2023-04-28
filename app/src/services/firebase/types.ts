@@ -44,6 +44,8 @@ export type PlaceModalityType = 'presential' | 'online' | 'both'
 
 export type EventRepeatType = 'unrepeatable' | 'everyDay' | 'weekly' | 'biweekly' | 'monthly'
 
+export type VacancyPurpose = 'findProffessional' | 'findVacancy'
+
 export type MacroCategory = {
 	label: string
 	value: string
@@ -316,6 +318,7 @@ export type SaleCollectionRemote = {
 
 export type VacancyCollection = {
 	postId?: string
+	vacancyPurpose?: VacancyPurpose
 	postType?: PostType
 	title?: string
 	description?: string
@@ -328,6 +331,8 @@ export type VacancyCollection = {
 	endDate?: Date
 	startHour?: Date
 	endHour?: Date
+	saleValue?: string
+	exchangeValue?: string
 	picturesUrl: string[]
 	tags?: string[]
 	category?: string
@@ -359,6 +364,7 @@ export type VacancyCollection = {
 
 export type VacancyCollectionRemote = {
 	postId: string
+	vacancyPurpose: VacancyPurpose
 	postType: PostType
 	title: string
 	description: string
@@ -371,10 +377,13 @@ export type VacancyCollectionRemote = {
 	endDate: Date
 	startHour: Date
 	endHour: Date
+	saleValue?: string
+	exchangeValue?: string
 	picturesUrl: string[]
 	tags: string[]
 	category: string
 	createdAt: Date
+	locationView?: LocationViewType
 	location: {
 		country?: string
 		state?: string

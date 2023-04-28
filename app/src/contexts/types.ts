@@ -12,7 +12,8 @@ import {
 	VacancyType,
 	WeekdaysFrequency,
 	WorkplaceType,
-	ItemStatus
+	ItemStatus,
+	VacancyPurpose
 } from '../services/firebase/types'
 import { CurrentCategory, SearchParams } from '../services/maps/types'
 
@@ -127,8 +128,11 @@ export type VacancyData = {
 	locationView?: LocationViewType
 	workplace?: WorkplaceType
 	paymentType?: PaymentType
+	saleValue?: string
+	exchangeValue?: string
 	range?: PostRange
 	importantPoints?: string[]
+	vacancyPurpose?: VacancyPurpose
 	workFrequency?: WeekdaysFrequency
 	daysOfWeek?: DaysOfWeek[]
 	startDate?: Date

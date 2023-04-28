@@ -4,6 +4,7 @@ import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
 import ComputerAndPhoneWhiteIcon from '../../../assets/icons/computerAndPhone-white.svg'
 import HandOnPersonWhiteIcon from '../../../assets/icons/handOnPerson-white.svg'
+import ShopWhiteIcon from '../../../assets/icons/shop-white.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
@@ -16,30 +17,37 @@ interface PlaceModalityProps {
 	title?: string
 	placeModality?: PlaceModalityType | WorkplaceType
 	hightligtedWords?: string[]
+	isVacancy?: boolean
 }
 
-function PlaceModality({ title, placeModality, hightligtedWords }: PlaceModalityProps) {
+function PlaceModality({ title, placeModality, hightligtedWords, isVacancy }: PlaceModalityProps) {
 	const getRelativePlaceModality = () => {
+		const prefix = isVacancy ? 'vaga ' : ''
+
 		switch (placeModality) {
-			case 'online': return showMessageWithHighlight('online', ['online'])
-			case 'presential': return showMessageWithHighlight('presencial', ['presencial'])
+			case 'presential': return showMessageWithHighlight(`${prefix}presencial`, ['presencial'])
+			case 'online': return showMessageWithHighlight(`${prefix}online`, ['online'])
+			case 'homeoffice': return showMessageWithHighlight('vaga de casa', ['de', 'casa'])
 			case 'both': return showMessageWithHighlight('online e presencial', ['online', 'presencial'])
-			default: return showMessageWithHighlight('modalidade do local indiponível', ['indiponível'])
+			case 'hybrid': return showMessageWithHighlight('vaga híbrida', ['híbrida'])
+			default: return showMessageWithHighlight('local indisponível', ['indisponível'])
 		}
 	}
 
 	const getRelativeValueIcon = () => {
 		switch (placeModality) {
 			case 'online': return ComputerAndPhoneWhiteIcon
-			case 'presential': return HandOnPersonWhiteIcon
+			case 'presential': return isVacancy ? ShopWhiteIcon : HandOnPersonWhiteIcon
 			case 'both': return ComputerAndPhoneWhiteIcon
+			case 'hybrid': return ShopWhiteIcon
+			case 'homeoffice': return ComputerAndPhoneWhiteIcon
 			default: return PinWhiteIcon
 		}
 	}
 
 	const getSecondSvgIcon = () => {
 		if (placeModality === 'both') return HandOnPersonWhiteIcon
-		if (placeModality === 'hybrid') return PinWhiteIcon
+		if (placeModality === 'hybrid') return ComputerAndPhoneWhiteIcon
 	}
 
 	return (

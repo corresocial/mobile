@@ -115,7 +115,7 @@ function DateTimeCard({
 
 	const renderRepetition = () => {
 		switch (repetition) {
-			case 'unrepeatable': return showMessageWithHighlight('●  não se repete', ['repete'])
+			case 'unrepeatable': return showMessageWithHighlight('●  não se repete', ['não', 'repete'])
 			case 'everyDay': return showMessageWithHighlight('●  repete todos os dias', ['todos', 'os', 'dias'])
 			case 'weekly': return showMessageWithHighlight('●  repete semanalmente', ['semanalmente'])
 			case 'biweekly': return showMessageWithHighlight('●  repete a cada 15 dias', ['15', 'dias'])

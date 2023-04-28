@@ -236,6 +236,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 							<>
 								<ImageCarousel
 									picturesUrl={getPostField('picturesUrl') || []}
+									indicatorColor={theme.blue1}
 								/>
 								<VerticalSigh />
 							</>
@@ -247,7 +248,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 								<PlaceModality
 									title={'como participar'}
 									hightligtedWords={['participar']}
-									placeModality={'both'}
+									placeModality={getPostField('eventPlaceModality')}
 								/>
 								<VerticalSigh />
 							</>

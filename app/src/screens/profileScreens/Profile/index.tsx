@@ -347,6 +347,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						<SmallButton
 							color={theme.white3}
 							label={isLoggedUser ? '' : 'chat'}
+							labelColor={theme.black4}
 							SvgIcon={isLoggedUser ? PencilIcon : ChatIcon}
 							relativeWidth={isLoggedUser ? relativeScreenWidth(12) : '30%'}
 							height={relativeScreenWidth(12)}
