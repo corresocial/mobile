@@ -6,7 +6,6 @@ import { get, onValue, ref } from 'firebase/database'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { Container, Header, Sigh } from './styles'
-import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
 import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 
 import { getRemoteChatData } from '../../../services/firebase/chat/getRemoteChatData'
@@ -37,6 +36,7 @@ import { sendMessage } from '../../../services/firebase/chat/sendMessage'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 
 import { ChatMessagesScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { BackButton } from '../../../components/_buttons/BackButton'
 
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -229,13 +229,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
-				<SmallButton
-					color={theme.white3}
-					SvgIcon={AngleLeftThinIcon}
-					relativeWidth={relativeScreenWidth(12)}
-					height={relativeScreenWidth(12)}
-					onPress={() => navigation.goBack()}
-				/>
+				<BackButton onPress={() => navigation.goBack()} />
 				<SmallUserIdentification
 					pictureDimensions={40}
 					userName={getUserName(currentChat.user1, currentChat.user2)}

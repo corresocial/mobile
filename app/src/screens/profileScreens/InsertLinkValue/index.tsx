@@ -5,7 +5,7 @@ import { updateUser } from '../../../services/firebase/user/updateUser'
 
 import { ButtonContainer, Container, HorizontalButtonsContainer, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
-import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
+import AngleLeftThinIcon from '../../../assets/icons/angleLeft-white.svg'
 
 import { InsertLinkValueScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { SocialMedia } from '../../../services/firebase/types'

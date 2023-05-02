@@ -5,19 +5,16 @@ import { share } from '../../../common/share'
 
 import { Container, ButtonsContainer, Sigh } from './styles'
 import { theme } from '../../../common/theme'
-import AngleLeftThin from '../../../assets/icons/angleLeftThin.svg'
 import DollarIcon from '../../../assets/icons/dollar.svg'
 import VoluntaryIcon from '../../../assets/icons/voluntary.svg'
 import RightCurvedArrowIcon from '../../../assets/icons/rightCurvedArrow.svg'
-
-import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 import { HelpUsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { SmallButton } from '../../../components/_buttons/SmallButton'
+import { BackButton } from '../../../components/_buttons/BackButton'
 
 function HelpUs({ navigation }: HelpUsScreenProps) {
 	const shareMessage = () => {
@@ -41,13 +38,7 @@ function HelpUs({ navigation }: HelpUsScreenProps) {
 				centralized
 				backgroundColor={theme.white3}
 			>
-				<SmallButton
-					relativeWidth={relativeScreenWidth(11)}
-					height={relativeScreenWidth(11)}
-					color={theme.white3}
-					SvgIcon={AngleLeftThin}
-					onPress={() => navigation.goBack()}
-				/>
+				<BackButton onPress={() => navigation.goBack()} />
 				<Sigh />
 				<InstructionCard
 					borderLeftWidth={3}

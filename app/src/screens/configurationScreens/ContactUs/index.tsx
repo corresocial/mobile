@@ -3,16 +3,13 @@ import { StatusBar } from 'react-native'
 
 import { Container, ButtonsContainer, Sigh } from './styles'
 import { theme } from '../../../common/theme'
-import AngleLeftThin from '../../../assets/icons/angleLeftThin.svg'
-
-import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 import { ContactUsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { SmallButton } from '../../../components/_buttons/SmallButton'
+import { BackButton } from '../../../components/_buttons/BackButton'
 
 function ContactUs({ navigation }: ContactUsScreenProps) {
 	return (
@@ -23,13 +20,7 @@ function ContactUs({ navigation }: ContactUsScreenProps) {
 				centralized
 				backgroundColor={theme.white3}
 			>
-				<SmallButton
-					relativeWidth={relativeScreenWidth(11)}
-					height={relativeScreenWidth(11)}
-					color={theme.white3}
-					SvgIcon={AngleLeftThin}
-					onPress={() => navigation.goBack()}
-				/>
+				<BackButton onPress={() => navigation.goBack()} />
 				<Sigh />
 				<InstructionCard
 					borderLeftWidth={3}

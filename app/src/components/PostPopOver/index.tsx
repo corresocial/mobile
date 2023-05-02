@@ -61,7 +61,7 @@ function PostPopOver({
 					</CloseIcon>
 					<PostTitle>{postTitle}</PostTitle>
 					{
-						!isAuthor
+						isAuthor
 							? isLoading
 								? <Loader />
 								: (

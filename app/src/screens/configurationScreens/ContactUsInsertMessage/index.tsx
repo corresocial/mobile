@@ -3,7 +3,7 @@ import { Keyboard, Platform, StatusBar } from 'react-native'
 
 import { Container, ButtonsContainer, Body } from './styles'
 import { theme } from '../../../common/theme'
-import AngleLeftThin from '../../../assets/icons/angleLeftThin.svg'
+import AngleLeftThin from '../../../assets/icons/angleLeft-white.svg'
 import CheckIcon from '../../../assets/icons/check-white.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
@@ -140,14 +140,12 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 									<PrimaryButton
 										color={theme.green3}
 										labelColor={theme.white3}
-										fontSize={18}
 										relativeWidth={'68%'}
 										relativeHeight={relativeScreenHeight(9.3)}
 										labelMarginLeft={5}
 										textAlign={'left'}
 										label={'continuar'}
 										SecondSvgIcon={CheckIcon}
-										svgIconScale={['30%', '15%']}
 										onPress={sendMessage}
 									/>
 								</ButtonsContainer>

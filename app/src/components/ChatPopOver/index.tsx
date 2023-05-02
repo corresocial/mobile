@@ -7,7 +7,7 @@ import { CloseIcon, Container, ContainerInner, Sigh, UserName } from './styles'
 import { relativeScreenHeight } from '../../common/screenDimensions'
 import { theme } from '../../common/theme'
 import XIcon from '../../assets/icons/x-white.svg'
-import BlockIcon from '../../assets/icons/block.svg'
+import DeniedWhiteIcon from '../../assets/icons/denied-white.svg'
 import TrashIcon from '../../assets/icons/trash-white.svg'
 
 import { PrimaryButton } from '../_buttons/PrimaryButton'
@@ -64,8 +64,7 @@ function ChatPopOver({
 						highlightedWords={[`${!userIsBlocked ? 'bloquear' : 'desbloquear'}`, 'usuário']}
 						labelColor={theme.white3}
 						fontSize={13}
-						SvgIcon={BlockIcon}
-						svgIconScale={['50%', '15%']}
+						SvgIcon={DeniedWhiteIcon}
 						minHeight={20}
 						relativeHeight={relativeScreenHeight(8)}
 					/>
@@ -78,7 +77,6 @@ function ChatPopOver({
 						labelColor={theme.white3}
 						fontSize={13}
 						SvgIcon={TrashIcon}
-						svgIconScale={['50%', '15%']}
 						minHeight={20}
 						relativeHeight={relativeScreenHeight(8)}
 					/>
