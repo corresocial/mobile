@@ -29,8 +29,8 @@ function ImageCarousel({
 
 	const renderCarouselIndicators = () => picturesUrl.map((_, index) => (
 		index === currentCarouselIndex
-			? <CarouselActiveIndicatorItem key={uuid()} indicatorColor={indicatorColor}></CarouselActiveIndicatorItem>
-			: <CarouselInactiveIndicatorItem key={uuid()}></CarouselInactiveIndicatorItem>
+			? <CarouselActiveIndicatorItem key={uuid()} indicatorColor={indicatorColor} />
+			: <CarouselInactiveIndicatorItem key={uuid()} indicatorColor={indicatorColor} />
 	))
 
 	const getCarouselPicture = () => picturesUrl.map((url) => (

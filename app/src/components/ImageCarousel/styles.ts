@@ -10,11 +10,11 @@ export const CarouselIndicatorContainer = styled.View`
     width: 100%;
 `
 
-interface CarouselActiveIndicatorItemProps {
+interface CarouseIndicatorItemProps {
 	indicatorColor?: string
 }
 
-export const CarouselActiveIndicatorItem = styled.View<CarouselActiveIndicatorItemProps>`
+export const CarouselActiveIndicatorItem = styled.View<CarouseIndicatorItemProps>`
     height: 15px;
     width: 16px;
     border-right-width: ${RFValue(3)}px;
@@ -26,12 +26,12 @@ export const CarouselActiveIndicatorItem = styled.View<CarouselActiveIndicatorIt
     margin-horizontal: 2px;
 `
 
-export const CarouselInactiveIndicatorItem = styled.View`
+export const CarouselInactiveIndicatorItem = styled.View<CarouseIndicatorItemProps>`
     height: 6px;
     width: 6px;
     border-radius: 10px;
     border-width: 2px;
-    border-color: ${({ theme }) => theme.black4};
-    background-color: ${({ theme }) => theme.black4};
+    border-color: ${({ theme, indicatorColor }) => indicatorColor || theme.orange3};
+	background-color: ${({ theme, indicatorColor }) => indicatorColor || theme.orange3};
     margin-horizontal: 2px;
 `

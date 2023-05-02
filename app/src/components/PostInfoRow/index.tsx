@@ -8,18 +8,21 @@ interface PostInfoRowProps {
 	text: string | ReactElement | (string | ReactElement)[]
 	SvgIcon?: React.FC<SvgProps> | false
 	SecondSvgIcon?: React.FC<SvgProps>
+	topic?: boolean
 	textFontSize?: number
 	withoutMarginTop?: boolean
 }
 
-function PostInfoRow({ text, SvgIcon, SecondSvgIcon, withoutMarginTop, textFontSize = 14 }: PostInfoRowProps) {
+function PostInfoRow({ text, topic, SvgIcon, SecondSvgIcon, withoutMarginTop, textFontSize = 14 }: PostInfoRowProps) {
 	return (
-		<Container withoutMarginTop={withoutMarginTop}>
+		<Container withoutMarginTop={withoutMarginTop} topic={topic}>
 			{SvgIcon && <SvgIcon width={RFValue(30)} height={RFValue(20)} />}
 			<PostInfoText
+				topic={topic}
 				hasSeccondSvgIcon={!!SecondSvgIcon}
 				style={{ fontSize: RFValue(textFontSize) }}
 			>
+				{topic ? '●  ' : ''}
 				{text}
 			</PostInfoText>
 			{SecondSvgIcon && <SecondSvgIcon width={RFValue(30)} height={RFValue(20)} />}

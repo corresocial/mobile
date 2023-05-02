@@ -39,6 +39,7 @@ import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCar
 import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
 import { VacancyTypeCard } from '../../../components/_cards/VacancyTypeCard'
 import { VacancyPurposeCard } from '../../../components/_cards/VacancyPurposeCard'
+import { ImportantPointsCard } from '../../../components/_cards/ImportantPointsCard'
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -324,6 +325,15 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						startDate={getPostField('startDate')}
 						endDate={getPostField('endDate')}
 					/>
+					<VerticalSigh />
+					{
+						(!getPostField('importantPoints') || getPostField('importantPoints').length)
+						&& (
+							<ImportantPointsCard
+								importantPoints={getPostField('importantPoints')}
+							/>
+						)
+					}
 					<VerticalSigh bottomNavigatorSpace />
 				</Body>
 			</ScrollView>
