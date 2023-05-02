@@ -8,7 +8,7 @@ import { relativeScreenHeight } from '../../common/screenDimensions'
 import { theme } from '../../common/theme'
 import XIcon from '../../assets/icons/x-white.svg'
 import BlockIcon from '../../assets/icons/block.svg'
-import TrashIcon from '../../assets/icons/trashRounded.svg'
+import TrashIcon from '../../assets/icons/trash-white.svg'
 
 import { PrimaryButton } from '../_buttons/PrimaryButton'
 import { FocusAwareStatusBar } from '../FocusAwareStatusBar'

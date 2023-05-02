@@ -89,7 +89,6 @@ function PostPicturePreview({
 					label={'sim, continuar'}
 					labelColor={theme.white3}
 					SvgIcon={CheckIcon}
-					svgIconScale={['40%', '25%']}
 					highlightedWords={['continuar']}
 					onPress={() => savePictures(picturesPack)}
 				/>

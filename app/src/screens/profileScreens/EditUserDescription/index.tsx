@@ -104,7 +104,6 @@ function EditUserDescription({ route, navigation }: EditUserDescriptionScreenPro
 								label={'salvar'}
 								labelColor={theme.white3}
 								SvgIcon={CheckWhiteIcon}
-								svgIconScale={['40%', '25%']}
 								onPress={saveUserDescription}
 							/>
 						)

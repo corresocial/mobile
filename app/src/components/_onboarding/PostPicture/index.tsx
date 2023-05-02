@@ -70,7 +70,6 @@ function PostPicture({ backgroundColor,
 						label={'opa, vou adicionar'}
 						highlightedWords={['vou', 'adicionar']}
 						SvgIcon={CheckWhiteIcon}
-						svgIconScale={['40%', '25%']}
 						onPress={navigateToPicturePreview}
 					/>
 				</ButtonsContainer>

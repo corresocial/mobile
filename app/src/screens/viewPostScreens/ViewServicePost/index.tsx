@@ -234,8 +234,6 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						postTitle={
 							getPostField('title') || 'publicação no corre.'
 						}
-						postId={postData.postId}
-						postType={postData.postType}
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}

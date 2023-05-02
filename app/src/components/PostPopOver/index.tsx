@@ -6,9 +6,10 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { CloseIcon, Container, ContainerInner, PostTitle, Sigh } from './styles'
 import { relativeScreenHeight } from '../../common/screenDimensions'
 import { theme } from '../../common/theme'
-import XIcon from '../../assets/icons/x-white.svg'
-
-import { PostType } from '../../services/firebase/types'
+import XWhiteIcon from '../../assets/icons/x-white.svg'
+import EditWhiteIcon from '../../assets/icons/edit-white.svg'
+import TrashWhiteIcon from '../../assets/icons/trash-white.svg'
+import DeniedWhiteIcon from '../../assets/icons/denied-white.svg'
 
 import { PrimaryButton } from '../_buttons/PrimaryButton'
 import { Loader } from '../Loader'
@@ -16,8 +17,6 @@ import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 
 interface PostPopOverProps {
 	postTitle?: string
-	postId?: string
-	postType?: PostType
 	isAuthor?: boolean
 	isLoading?: boolean
 	popoverVisibility: boolean
@@ -28,9 +27,8 @@ interface PostPopOverProps {
 	closePopover: () => void
 }
 
-function PostPopOver({ postTitle,
-	postId,
-	postType,
+function PostPopOver({
+	postTitle,
 	isAuthor = false,
 	isLoading = false,
 	popoverVisibility,
@@ -59,11 +57,11 @@ function PostPopOver({ postTitle,
 				<FocusAwareStatusBar backgroundColor={theme.transparence.orange2} barStyle={'dark-content'} />
 				<ContainerInner>
 					<CloseIcon onPress={closePopover}>
-						<XIcon width={RFValue(25)} height={RFValue(25)} />
+						<XWhiteIcon width={RFValue(25)} height={RFValue(25)} />
 					</CloseIcon>
 					<PostTitle>{postTitle}</PostTitle>
 					{
-						isAuthor
+						!isAuthor
 							? isLoading
 								? <Loader />
 								: (
@@ -72,13 +70,13 @@ function PostPopOver({ postTitle,
 											color={theme.green3}
 											onPress={editPost && editPost}
 											label={'editar post'}
-											highlightedWords={['editar', 'post']}
+											highlightedWords={['editar']}
 											labelColor={theme.white3}
+											SecondSvgIcon={EditWhiteIcon}
 											fontSize={14}
 											minHeight={20}
 											relativeHeight={relativeScreenHeight(8)}
 										/>
-
 										{
 											deletePost && (
 												<>
@@ -87,8 +85,9 @@ function PostPopOver({ postTitle,
 														color={theme.red3}
 														onPress={deletePost}
 														label={'apagar post'}
-														highlightedWords={['apagar', 'post']}
+														highlightedWords={['apagar']}
 														labelColor={theme.white3}
+														SvgIcon={TrashWhiteIcon}
 														fontSize={14}
 														minHeight={20}
 														relativeHeight={relativeScreenHeight(8)}
@@ -102,9 +101,10 @@ function PostPopOver({ postTitle,
 								<PrimaryButton
 									color={theme.red3}
 									onPress={goToComplaint && goToComplaint}
-									label={'denunciar'}
+									label={'denunciar post'}
 									highlightedWords={['denunciar']}
 									labelColor={theme.white3}
+									SvgIcon={DeniedWhiteIcon}
 									fontSize={14}
 									minHeight={20}
 									relativeHeight={relativeScreenHeight(8)}
