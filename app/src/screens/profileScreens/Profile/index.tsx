@@ -48,6 +48,7 @@ import { ProfilePopOver } from '../../../components/ProfilePopOver'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { updatePostFieldsName } from '../../../services/firebase/migrations/updatePostFieldsName'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -74,7 +75,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			setIsLoggedUser(false)
 			getProfileDataFromRemote(route.params.userId)
 		} else {
-			setIsLoggedUser(false)
+			setIsLoggedUser(true)
 		}
 	}, [])
 
@@ -363,7 +364,10 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							SvgIcon={ShareIcon}
 							relativeWidth={isLoggedUser ? '60%' : '45%'}
 							height={relativeScreenWidth(12)}
-							onPress={shareProfile}
+							// onPress={shareProfile}
+							onPress={() => {
+								updatePostFieldsName('services')
+							}}
 						/>
 						<ProfilePopOver
 							userName={getUserField('name') as string}

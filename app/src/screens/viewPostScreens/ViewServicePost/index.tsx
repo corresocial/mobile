@@ -236,7 +236,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						}
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
-						isAuthor={!isAuthor || false}
+						isAuthor={isAuthor || false}
 						isLoading={isLoading}
 						goToComplaint={reportPost}
 						editPost={goToEditPost}
