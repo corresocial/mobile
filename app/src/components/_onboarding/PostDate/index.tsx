@@ -270,7 +270,6 @@ function PostDate({
 								label={'continuar'}
 								labelColor={theme.white3}
 								SecondSvgIcon={CheckWhiteIcon}
-								svgIconScale={['40%', '25%']}
 								onPress={savePostDate}
 							/>
 						)

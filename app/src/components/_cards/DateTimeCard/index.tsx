@@ -1,8 +1,7 @@
 import React from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 
-import { DateTimeContainer, OpeningAndClosingTime, InfoRow } from './styles'
-import ClockIcon from '../../../assets/icons/clock.svg'
+import { DateTimeContainer } from './styles'
+import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
 
 import { formatDate, formatHour, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
@@ -10,9 +9,10 @@ import { DaysOfWeek, EventRepeatType, WeekdaysFrequency } from '../../../service
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
+import { PostInfoRow } from '../../PostInfoRow'
 
 interface DateTimeCardProps {
-	title: string
+	title?: string
 	weekDaysfrequency?: WeekdaysFrequency
 	daysOfWeek?: DaysOfWeek[]
 	startTime: Date
@@ -31,16 +31,16 @@ function DateTimeCard({
 	endTime,
 	startDate,
 	endDate,
-	textFontSize = 12,
+	textFontSize = 14,
 	repetition
 }: DateTimeCardProps) {
 	const getRelativeWeekDaysfrequency = () => {
 		switch (weekDaysfrequency) {
-			case 'today': return '●  só hoje'
-			case 'everyday': return '●  todos os dias'
-			case 'businessDay': return '●  seg à sex'
-			case 'someday': return `●  ${listDaysOfWeek()}`
-			default: return '●  não disponível'
+			case 'today': return 'só hoje'
+			case 'everyday': return 'todos os dias'
+			case 'businessDay': return 'seg à sex'
+			case 'someday': return `${listDaysOfWeek()}`
+			default: return 'não disponível'
 		}
 	}
 
@@ -55,7 +55,7 @@ function DateTimeCard({
 			case 'today': return ['hoje']
 			case 'everyday': return ['todos']
 			case 'businessDay': return ['seg', 'sex']
-			case 'someday': return daysOfWeek
+			case 'someday': return daysOfWeek || []
 			default: return ['disponível']
 		}
 	}
@@ -68,26 +68,26 @@ function DateTimeCard({
 	}
 
 	const renderStartDate = () => {
-		if (!startDate) return <></>
 		return (
-			< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
-				{showMessageWithHighlight(
-					`●  começa dia ${formatDate(startDate as any)}`,
-					[formatDate(startDate as any)]
+			<PostInfoRow
+				text={showMessageWithHighlight(
+					`começa dia ${formatDate(startDate as Date)}`,
+					[formatDate(startDate as Date)]
 				)}
-			</InfoRow>
+				topic
+			/>
 		)
 	}
 
 	const renderEndDate = () => {
-		if (!endDate) return <></>
 		return (
-			< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
-				{showMessageWithHighlight(
-					`●  termina dia ${formatDate(endDate as any)}`,
-					[formatDate(endDate as any)]
+			<PostInfoRow
+				text={showMessageWithHighlight(
+					`termina dia ${formatDate(endDate as Date)}`,
+					[formatDate(endDate as Date)]
 				)}
-			</InfoRow>
+				topic
+			/>
 		)
 	}
 
@@ -97,76 +97,85 @@ function DateTimeCard({
 
 		if ((formatedStartTime && !formatedEndTime) || (!formatedStartTime && formatedEndTime)) {
 			return showMessageWithHighlight(
-				`●  ${formatedStartTime ? 'começa' : 'termina'} às ${formatedStartTime} `,
+				`${formatedStartTime ? 'começa' : 'termina'} às ${formatedStartTime} `,
 				[formatedStartTime || formatedEndTime]
 			)
 		}
 
 		return showMessageWithHighlight(
-			`●  das ${formatedStartTime} as ${formatedEndTime} `,
+			`das ${formatedStartTime} as ${formatedEndTime} `,
 			[formatedStartTime, formatedEndTime]
 		)
 	}
 
 	const renderInvalidDateTimeWeekMessage = () => {
 		return showMessageWithHighlight(
-			'●  dias não definidos',
+			'dias e horários não definidos',
 			['não', 'definidos']
 		)
 	}
 
 	const renderRepetition = () => {
 		switch (repetition) {
-			case 'unrepeatable': return showMessageWithHighlight('●  não se repete', ['repete'])
-			case 'everyDay': return showMessageWithHighlight('●  repete todos os dias', ['todos', 'os', 'dias'])
-			case 'weekly': return showMessageWithHighlight('●  repete semanalmente', ['semanalmente'])
-			case 'biweekly': return showMessageWithHighlight('●  repete a cada 15 dias', ['15', 'dias'])
-			case 'monthly': return showMessageWithHighlight('●  repete mensalmnte', ['mensalmnte'])
-			default: return false
+			case 'unrepeatable': return showMessageWithHighlight('não se repete', ['não', 'repete'])
+			case 'everyDay': return showMessageWithHighlight('repete todos os dias', ['todos', 'os', 'dias'])
+			case 'weekly': return showMessageWithHighlight('repete semanalmente', ['semanalmente'])
+			case 'biweekly': return showMessageWithHighlight('repete a cada 15 dias', ['15', 'dias'])
+			case 'monthly': return showMessageWithHighlight('repete mensalmnte', ['mensalmnte'])
+			default: return ''
 		}
 	}
 
 	return (
 		<DefaultCardContainer>
 			<DefaultHeaderTitle
-				title={title}
-				SvgIcon={ClockIcon}
-				dimensions={35}
+				title={title || 'dias e horários'}
+				highlightedWords={['dias', 'horários']}
+				SvgIcon={ClockWhiteIcon}
+				dimensions={32}
 			/>
 			<DateTimeContainer>
 				{
-					!startDate && !endDate && !daysOfWeek?.length
+					daysOfWeek?.length
 						? (
-							<OpeningAndClosingTime style={{ fontSize: RFValue(textFontSize) }}>
-								{renderInvalidDateTimeWeekMessage()}
-							</OpeningAndClosingTime>
+							<PostInfoRow
+								text={renderWeekDayFrequency()}
+								topic
+							/>
 						)
-						: startDate || endDate
-							? (
-								<>
-									{renderStartDate()}
-									{renderEndDate()}
-								</>
-							)
-							: (
-								< InfoRow style={{ fontSize: RFValue(textFontSize) }}>
-									{renderWeekDayFrequency()}
-								</InfoRow>
-							)
+						: <></>
+				}
+				{
+					(!startDate && !endDate && !daysOfWeek?.length) && (
+						<PostInfoRow
+							text={renderInvalidDateTimeWeekMessage()}
+							topic
+						/>
+					)
+				}
+				{
+					(startDate || endDate) && (
+						<>
+							{startDate && renderStartDate()}
+							{endDate && renderEndDate()}
+						</>
+					)
 				}
 				{
 					(startTime || endTime) && (
-						<OpeningAndClosingTime style={{ fontSize: RFValue(textFontSize) }}>
-							{renderOpeningAndClosingTime()}
-						</OpeningAndClosingTime>
+						<PostInfoRow
+							text={renderOpeningAndClosingTime()}
+							topic
+						/>
 					)
 				}
 				{
 					repetition
 					&& (
-						<OpeningAndClosingTime style={{ fontSize: RFValue(textFontSize) }}>
-							{renderRepetition()}
-						</OpeningAndClosingTime>
+						<PostInfoRow
+							text={renderRepetition()}
+							topic
+						/>
 					)
 				}
 			</DateTimeContainer>

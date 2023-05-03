@@ -57,13 +57,17 @@ export const AddSocialMediasButtonContainer = styled.View`
 
 export const Body = styled.View`
     flex: 1;
+	padding-top: ${RFValue(12)}px;
     background-color: ${({ theme }) => theme.orange2};
-	padding: ${RFValue(12)}px;
 	overflow: visible;
 `
 
+export const BodyPadding = styled(Body)`
+	padding: ${RFValue(12)}px;
+`
+
 export const FlatList = styled.FlatList`
-	margin-top: ${RFValue(15)}px;
+
 `
 
 export const Sigh = styled.View`

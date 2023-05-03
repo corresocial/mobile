@@ -19,7 +19,7 @@ function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenP
 
 	const saveDeliveryMethod = (deliveryMethod: DeliveryMethod) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ range: deliveryMethod })
+			addNewUnsavedFieldToEditContext({ deliveryMethod })
 			navigation.goBack()
 		} else {
 			setSaleDataOnContext({ deliveryMethod })

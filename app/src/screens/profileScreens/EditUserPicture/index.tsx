@@ -5,7 +5,7 @@ import { Container, InstructionCardContainer } from './styles'
 import { screenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import ImagePlusIcon from '../../../assets/icons/imagePlus.svg'
-import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
+import AngleLeftThinIcon from '../../../assets/icons/angleLeft-white.svg'
 
 import { EditUserPictureScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 

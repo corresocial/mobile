@@ -7,13 +7,13 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertExchangeValueScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
-import { SaleContext } from '../../../contexts/SaleContext'
+import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -35,14 +35,14 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		return false
 	}
 
-	const saveExchangeValue = (value: string) => {
+	const saveExchangeValue = (exchangeValue: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ exchangeValue: value })
+			addNewUnsavedFieldToEditContext({ exchangeValue })
 			navigation.goBack()
 			return
 		}
 
-		setSaleDataOnContext({ exchangeValue: value })
+		setVacancyDataOnContext({ exchangeValue })
 		navigation.navigate('SelectVacancyRange')
 	}
 

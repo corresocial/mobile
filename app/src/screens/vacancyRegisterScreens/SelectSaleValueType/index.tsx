@@ -4,13 +4,13 @@ import { StatusBar } from 'react-native'
 import { SelectSaleValueTypeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { SaleValueType } from '../../../services/firebase/types'
 
-import { ServiceContext } from '../../../contexts/ServiceContext'
+import { VacancyContext } from '../../../contexts/VacancyContext'
 
 import { PaymentValueType } from '../../../components/_onboarding/PaymentValueType'
 import { theme } from '../../../common/theme'
 
 function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenProps) {
-	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { setVacancyDataOnContext } = useContext(VacancyContext)
 
 	const saveVacancyValueType = (paymentType: SaleValueType) => {
 		const { bothPaymentType } = route.params
@@ -21,7 +21,7 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 				break
 			}
 			case 'toMatch': {
-				setServiceDataOnContext({ saleValue: 'a combinar' })
+				setVacancyDataOnContext({ saleValue: 'a combinar' })
 
 				if (bothPaymentType) {
 					navigation.navigate('InsertExchangeValue')

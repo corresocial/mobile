@@ -31,13 +31,3 @@ export const Body = styled.View`
 	background-color: ${({ theme }) => theme.green2};
 	padding-horizontal: ${relativeScreenWidth(3)}px;
 `
-
-export const Sigh = styled.View`
-	width: 100%;
-	height: ${relativeScreenHeight(1.5)}px;
-`
-
-export const LastSigh = styled.View`
-	width: 100%;
-	height: ${relativeScreenHeight(13)}px;
-`

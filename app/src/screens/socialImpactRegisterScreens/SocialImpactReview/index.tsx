@@ -192,7 +192,6 @@ function SocialImpactReview({ navigation }: SocialImpactReviewScreenProps) {
 									label={'publicar post'}
 									labelColor={theme.white3}
 									SecondSvgIcon={PlusWhiteIcon}
-									svgIconScale={['40%', '25%']}
 									onPress={saveSocialImpactPost}
 								/>
 							)

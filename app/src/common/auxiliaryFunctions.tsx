@@ -119,7 +119,7 @@ const sortPostCategories = (a: MacroCategory, b: MacroCategory) => {
 	return 0
 }
 
-const sortPostsByCreatedData = (a: PostCollectionRemote, b: PostCollectionRemote) => {
+const sortPostsByCreatedData = (a: PostCollectionRemote | any, b: PostCollectionRemote | any) => {
 	if (a.createdAt < b.createdAt) return 1
 	if (a.createdAt > b.createdAt) return -1
 	return 0

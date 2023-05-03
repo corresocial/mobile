@@ -6,6 +6,9 @@ async function setChatIdToUsers(userIds: Id[], chatId: Id) {
 	userIds.forEach(async (userId) => {
 		const realTimeDatabaseRef = ref(realTimeDatabase, `${userId}/chatIds`)
 		const dataAlreadyRegistred = await getUserChatIds(userId) || []
+
+		if (!dataAlreadyRegistred.chatIds) return
+
 		const filteredRegistredChatIds = dataAlreadyRegistred.chatIds.filter((idChat: Id) => idChat)
 
 		const filteredChatIds = removeEqualsChatIds([...filteredRegistredChatIds, chatId])

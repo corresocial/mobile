@@ -20,7 +20,6 @@ export const PathBar = styled.Text`
 export const Title = styled.Text`
 	font-family: Arvo_400Regular;
 	font-size: ${RFValue(16)}px;
-	padding-horizontal: ${relativeScreenWidth(2.5)}px;
 	width: 85%;
 `
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TouchableWithoutFeedback } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
@@ -23,7 +23,7 @@ function FilterButton({
 	backgroundColor = theme.white3,
 	backgroundSelected,
 	label,
-	fontSize = 15,
+	fontSize = 13,
 	selected = false,
 	onSelect
 }: FilterButtonProps) {
@@ -43,21 +43,19 @@ function FilterButton({
 	}
 
 	return (
-		<TouchableWithoutFeedback
+		<TouchableOpacity
 			onPressIn={pressingButton}
 			onPressOut={notPressingButton}
 			onPress={releaseButton}
 		>
 			<ContainerBottom
 				style={{
-					width: label && label.length * RFValue(10),
 					height,
 					marginRight: RFValue(marginRight),
 				}}
 			>
 				<ContainerSurface
 					style={{
-						width: label && label.length * RFValue(10),
 						backgroundColor: selected ? backgroundSelected : backgroundColor,
 						marginRight: selected ? RFValue(-4) : buttonPressed ? RFValue(-5) : 0
 					}}
@@ -72,7 +70,7 @@ function FilterButton({
 					</Label>
 				</ContainerSurface>
 			</ContainerBottom>
-		</TouchableWithoutFeedback>
+		</TouchableOpacity>
 	)
 }
 

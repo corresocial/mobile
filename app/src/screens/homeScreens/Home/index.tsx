@@ -296,7 +296,7 @@ function Home({ navigation }: HomeScreenProps) {
 			navigation.navigate('Profile' as any) // TODO Type
 			return
 		}
-		navigation.navigate('ProfileHome', { userId })
+		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
 	}
 
 	return (
@@ -325,6 +325,7 @@ function Home({ navigation }: HomeScreenProps) {
 					fontSize={7.5}
 					onPress={() => navigateToPostCategories('socialImpact')}
 					label={'impacto'}
+					labelColor={theme.black4}
 					SvgIcon={SocialImpactIcon}
 					svgScale={['50%', '80%']}
 					flexDirection={'column'}
@@ -336,6 +337,7 @@ function Home({ navigation }: HomeScreenProps) {
 					fontSize={7.5}
 					onPress={() => navigateToPostCategories('sale')}
 					label={'comércio'}
+					labelColor={theme.black4}
 					SvgIcon={CommerceIcon}
 					svgScale={['50%', '80%']}
 					flexDirection={'column'}
@@ -347,6 +349,7 @@ function Home({ navigation }: HomeScreenProps) {
 					fontSize={7.5}
 					onPress={() => navigateToPostCategories('culture')}
 					label={'cultura'}
+					labelColor={theme.black4}
 					SvgIcon={CultureIcon}
 					svgScale={['50%', '80%']}
 					flexDirection={'column'}
@@ -358,6 +361,7 @@ function Home({ navigation }: HomeScreenProps) {
 					fontSize={7.5}
 					onPress={() => navigateToPostCategories('service')}
 					label={'serviços'}
+					labelColor={theme.black4}
 					SvgIcon={ServiceIcon}
 					svgScale={['50%', '80%']}
 					flexDirection={'column'}
@@ -369,6 +373,7 @@ function Home({ navigation }: HomeScreenProps) {
 					fontSize={7.5}
 					onPress={() => navigateToPostCategories('vacancy')}
 					label={'vagas'}
+					labelColor={theme.black4}
 					SvgIcon={VacancyIcon}
 					svgScale={['50%', '80%']}
 					flexDirection={'column'}

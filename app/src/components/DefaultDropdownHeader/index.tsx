@@ -5,7 +5,7 @@ import { IconArea } from '../LocationNearDropdown/styles'
 import { AddressSelectedArea, AddressSelectedText, InitialDropdown, InitialDropdownContainer, PresentationText } from './styles'
 import AngleDownIcon from '../../assets/icons/angleDown.svg'
 import AngleUpIcon from '../../assets/icons/angleUp.svg'
-import CityIcon from '../../assets/icons/city.svg'
+import CityIcon from '../../assets/icons/city-white.svg'
 
 interface DefaultDropdownHeaderProps {
 	text?: string
@@ -27,7 +27,7 @@ function DefaultDropdownHeader({
 				onPress={toggleDropdownVisibility}
 			>
 				<IconArea>
-					<CityIcon width={RFValue(35)} height={RFValue(35)} />
+					<CityIcon width={RFValue(30)} height={RFValue(30)} />
 				</IconArea>
 				<AddressSelectedArea>
 					<PresentationText>{'o que está rolando por perto de:'}</PresentationText>

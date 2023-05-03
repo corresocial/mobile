@@ -192,7 +192,6 @@ function ServiceReview({ navigation }: ServiceReviewScreenProps) {
 									label={'publicar post'}
 									labelColor={theme.white3}
 									SecondSvgIcon={PlusWhiteIcon}
-									svgIconScale={['40%', '25%']}
 									onPress={saveServicePost}
 								/>
 							)

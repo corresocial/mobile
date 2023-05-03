@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import { ButtonContainer, HorizontalButtonsContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
-import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
+import AngleLeftThinIcon from '../../../assets/icons/angleLeft-white.svg'
 
 import { InsertLinkTitleScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { SocialMedia } from '../../../services/firebase/types'

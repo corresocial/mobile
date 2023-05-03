@@ -14,12 +14,14 @@ import { PhotoPortrait } from '../PhotoPortrait'
 
 interface ImageCarouselProps {
 	marginVertical?: number
+	indicatorColor?: string
 	relativeWidth?: number
 	picturesUrl: string[] | undefined
 }
 
 function ImageCarousel({
 	marginVertical = 0,
+	indicatorColor,
 	relativeWidth = relativeScreenWidth(94),
 	picturesUrl = ['https://cdn-icons-png.flaticon.com/512/1695/1695213.png']
 }: ImageCarouselProps) {
@@ -27,8 +29,8 @@ function ImageCarousel({
 
 	const renderCarouselIndicators = () => picturesUrl.map((_, index) => (
 		index === currentCarouselIndex
-			? <CarouselActiveIndicatorItem key={uuid()}></CarouselActiveIndicatorItem>
-			: <CarouselInactiveIndicatorItem key={uuid()}></CarouselInactiveIndicatorItem>
+			? <CarouselActiveIndicatorItem key={uuid()} indicatorColor={indicatorColor} />
+			: <CarouselInactiveIndicatorItem key={uuid()} indicatorColor={indicatorColor} />
 	))
 
 	const getCarouselPicture = () => picturesUrl.map((url) => (

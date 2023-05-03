@@ -31,6 +31,6 @@ export const ContainerSurface = styled.View`
 
 export const ButtonLabel = styled.Text`
     margin-left: ${RFValue(8)}px;
-    color: ${({ theme }) => theme.black4};
+    color: ${({ theme }) => theme.white3};
     font-family: Arvo_700Bold;
 `

@@ -5,20 +5,19 @@ import {
 	Body,
 	Container,
 	Header,
-	LastSigh,
 	OptionsArea,
-	Sigh,
 	UserAndValueContainer
 } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
-import ShareIcon from '../../../assets/icons/share.svg'
-import ChatIcon from '../../../assets/icons/chat.svg'
-import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
+import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
+import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
+import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { share } from '../../../common/share'
+import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'
 
 import { ViewCulturePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
@@ -26,7 +25,7 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { CultureCollection, CultureCollectionRemote, PostCollection } from '../../../services/firebase/types'
+import { CultureCategories, CultureCollection, CultureCollectionRemote, PostCollection } from '../../../services/firebase/types'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
@@ -36,6 +35,9 @@ import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
+import { HorizontalTagList } from '../../../components/HorizontalTagList'
+import { VerticalSigh } from '../../../components/VerticalSigh'
+import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
 
 function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -97,6 +99,13 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social`)
 	}
 
+	const getUserProfilePictureFromContext = () => {
+		if (userDataContext && userDataContext.profilePictureUrl) {
+			return userDataContext.profilePictureUrl[0] || ''
+		}
+		return ''
+	}
+
 	const openChat = async () => {
 		const userId1 = userDataContext.userId
 		const userId2 = postData.owner.userId
@@ -105,9 +114,9 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 			chat: {
 				chatId: '',
 				user1: {
-					userId: userId1,
-					name: userDataContext.name,
-					profilePictureUrl: userDataContext.profilePictureUrl[0] || ''
+					userId: userId1 || '',
+					name: userDataContext.name || '',
+					profilePictureUrl: getUserProfilePictureFromContext()
 				},
 				user2: {
 					userId: userId2,
@@ -137,6 +146,10 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 		navigation.navigate('ProfileHome' as any, { userId: postData.owner.userId })// TODO Type
 	}
 
+	const getCategoryLabel = () => {
+		return cultureCategories[getPostField('category') as CultureCategories].label || ''
+	}
+
 	const getPostField = (fieldName: keyof CultureCollection) => {
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
@@ -149,7 +162,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					onBackPress={() => navigation.goBack()}
 					text={getPostField('title')}
 				/>
-				<Sigh />
+				<VerticalSigh />
 				<UserAndValueContainer>
 					<SmallUserIdentification
 						userName={postData.owner ? postData.owner.name : 'usuário do corre.'}
@@ -161,13 +174,13 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						navigateToProfile={navigateToProfile}
 					/>
 				</UserAndValueContainer>
-				<Sigh />
+				<VerticalSigh />
 				<OptionsArea>
 					{
 						!isAuthor && (
 							<SmallButton
 								color={theme.white3}
-								SvgIcon={ShareIcon}
+								SvgIcon={ShareWhiteIcon}
 								relativeWidth={relativeScreenWidth(11)}
 								height={relativeScreenWidth(11)}
 								onPress={sharePost}
@@ -175,10 +188,9 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						)
 					}
 					<SmallButton
-						color={theme.green2}
+						color={theme.green3}
 						label={isAuthor ? 'compartilhar' : 'conversar'}
-						fontSize={13}
-						SvgIcon={isAuthor ? ShareIcon : ChatIcon}
+						SvgIcon={isAuthor ? ShareWhiteIcon : ChatWhiteIcon}
 						relativeWidth={isAuthor ? '80%' : '63%'}
 						height={relativeScreenWidth(12)}
 						onPress={isAuthor ? sharePost : openChat}
@@ -197,7 +209,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					>
 						<SmallButton
 							color={theme.white3}
-							SvgIcon={ThreeDotsIcon}
+							SvgIcon={ThreeDotsWhiteIcon}
 							relativeWidth={relativeScreenWidth(12)}
 							height={relativeScreenWidth(12)}
 							onPress={() => setPostOptionsIsOpen(true)}
@@ -205,22 +217,40 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					</PostPopOver>
 				</OptionsArea>
 			</Header>
-			<Body>
-				<ScrollView showsVerticalScrollIndicator={false} >
-					<Sigh />
+			<ScrollView showsVerticalScrollIndicator={false} >
+				<VerticalSigh />
+				<HorizontalTagList
+					tags={[getCategoryLabel(), ...getPostField('tags')]}
+					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
+					selectedColor={theme.blue1}
+					onSelectTag={() => { }}
+				/>
+				<Body>
+					<VerticalSigh />
 					<DescriptionCard
-						title={'descrição do evento'}
 						text={getPostField('description')}
-						textFontSize={14}
 					/>
-					<Sigh />
+					<VerticalSigh />
 					{
 						!arrayIsEmpty(getPostField('picturesUrl')) && (
 							<>
 								<ImageCarousel
 									picturesUrl={getPostField('picturesUrl') || []}
+									indicatorColor={theme.blue1}
 								/>
-								<Sigh />
+								<VerticalSigh />
+							</>
+						)
+					}
+					{
+						getPostField('eventPlaceModality') && (
+							<>
+								<PlaceModality
+									title={'como participar'}
+									hightligtedWords={['participar']}
+									placeModality={getPostField('eventPlaceModality')}
+								/>
+								<VerticalSigh />
 							</>
 						)
 					}
@@ -228,42 +258,41 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						getPostField('entryValue') && (
 							<>
 								<SaleOrExchangeCard
-									title={'valor de entrada'}
-									exchangeValue={getPostField('entryValue')}
-									withoutExchangePresentation
+									title={'custo de entrada'}
+									hightligtedWords={['custo', 'entrada']}
+									saleValue={getPostField('entryValue')}
+									isCulturePost
 								/>
-								<Sigh />
+								<VerticalSigh />
 							</>
 						)
 					}
 					<LocationViewCard
-						title={'localização'}
 						online={getPostField('eventPlaceModality') === 'online'}
 						locationView={getPostField('locationView')}
-						isAuthor={isAuthor}
 						location={getPostField('location')}
-						textFontSize={16}
 					/>
 					{
 						getPostField('startDate') && getPostField('endDate')
 						&& (
 							<>
-								<Sigh />
+								<VerticalSigh />
 								<DateTimeCard
-									title={'dias e horários'}
-									startTime={getPostField('startHour')}
-									endTime={getPostField('endHour')}
+									weekDaysfrequency={getPostField('exhibitionFrequency')}
+									daysOfWeek={getPostField('daysOfWeek')}
+									repetition={getPostField('repeat')}
 									startDate={getPostField('startDate')}
 									endDate={getPostField('endDate')}
-									textFontSize={14}
+									startTime={getPostField('startHour')}
+									endTime={getPostField('endHour')}
 								/>
 							</>
 						)
 					}
-					<LastSigh />
-				</ScrollView>
-			</Body>
-		</Container>
+					<VerticalSigh bottomNavigatorSpace />
+				</Body>
+			</ScrollView>
+		</Container >
 	)
 }
 

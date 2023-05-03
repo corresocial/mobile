@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Container, Title } from './styles'
-import AngleRightIcon from '../../../assets/icons/angleRight-shadow.svg'
+import AngleRightIcon from '../../../assets/icons/angleRight.svg'
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 interface SubtitleCardProps {

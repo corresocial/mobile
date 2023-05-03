@@ -17,23 +17,23 @@ import {
 	ExpandedUserDescription,
 	ExpandedUserDescriptionArea,
 	AddSocialMediasButtonContainer,
-	VerticalSigh
+	VerticalSigh,
+	BodyPadding
 } from './styles'
 import { theme } from '../../../common/theme'
-import ChatIcon from '../../../assets/icons/chat.svg'
+import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
 import ShareIcon from '../../../assets/icons/share.svg'
 import AtSign from '../../../assets/icons/atSign.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 import PencilIcon from '../../../assets/icons/pencil.svg'
 import GearIcon from '../../../assets/icons/gear.svg'
-import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
 
 import { share } from '../../../common/share'
 import { getUser } from '../../../services/firebase/user/getUser'
 import { arrayIsEmpty, sortArray, sortPostsByCreatedData } from '../../../common/auxiliaryFunctions'
 
 import { LocalUserData } from '../../../contexts/types'
-import { Id, PostCollection, SocialMedia } from '../../../services/firebase/types'
+import { Id, PostCollection, SocialMedia, UserCollection } from '../../../services/firebase/types'
 import { HomeTabScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -47,6 +47,8 @@ import { PostCard } from '../../../components/_cards/PostCard'
 import { ProfilePopOver } from '../../../components/ProfilePopOver'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { updatePostFieldsName } from '../../../services/firebase/migrations/updatePostFieldsName'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -190,18 +192,25 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		share(`${isLoggedUser ? `olá! me chamo ${getUserField('name')} e tô no corre.` : `olha quem eu encontrei no corre.\n${getUserField('name')}`}\n\nhttps://corre.social`)
 	}
 
+	const getUserProfilePictureFromContext = () => {
+		if (userDataContext && userDataContext.profilePictureUrl) {
+			return userDataContext.profilePictureUrl[0] || ''
+		}
+		return ''
+	}
+
 	const openChat = async () => {
 		navigation.navigate('ChatMessages', {
 			chat: {
 				chatId: '',
 				user1: {
-					userId: userDataContext.userId,
-					name: userDataContext.name,
-					profilePictureUrl: userDataContext.profilePictureUrl[0] || ''
+					userId: userDataContext.userId || '',
+					name: userDataContext.name || '',
+					profilePictureUrl: getUserProfilePictureFromContext()
 				},
 				user2: {
-					userId: getUserField('userId'),
-					name: getUserField('name'),
+					userId: getUserField('userId') as Id,
+					name: getUserField('name') as string,
 					profilePictureUrl: getProfilePicture() || ''
 				},
 				messages: {}
@@ -222,7 +231,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		})
 	}
 
-	type UserDataFields = keyof LocalUserData
+	type UserDataFields = keyof UserCollection
 	const getUserField = (fieldName?: UserDataFields) => {
 		if (route.params && route.params.userId) {
 			if (!fieldName) return user
@@ -274,13 +283,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						{
 							!isLoggedUser && (
 								<>
-									<SmallButton
-										relativeWidth={relativeScreenWidth(11)}
-										height={relativeScreenWidth(11)}
-										color={theme.white3}
-										SvgIcon={AngleLeftThinIcon}
-										onPress={navigationToBack}
-									/>
+									<BackButton onPress={navigationToBack} hasSigh={false} />
 									<VerticalSigh />
 								</>
 							)
@@ -346,7 +349,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						<SmallButton
 							color={theme.white3}
 							label={isLoggedUser ? '' : 'chat'}
-							SvgIcon={isLoggedUser ? PencilIcon : ChatIcon}
+							labelColor={theme.black4}
+							SvgIcon={isLoggedUser ? PencilIcon : ChatWhiteIcon}
 							relativeWidth={isLoggedUser ? relativeScreenWidth(12) : '30%'}
 							height={relativeScreenWidth(12)}
 							onPress={isLoggedUser ? goToEditProfile : openChat}
@@ -354,6 +358,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						<SmallButton
 							color={theme.orange3}
 							label={`compartilhar${isLoggedUser ? ' perfil' : ''}`}
+							labelColor={theme.black4}
 							highlightedWords={isLoggedUser ? ['compartilhar'] : []}
 							fontSize={12}
 							SvgIcon={ShareIcon}
@@ -385,20 +390,22 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 					selectedTags={selectedTags}
 					onSelectTag={onSelectTag}
 				/>
-				<FlatList
-					data={!selectedTags.length ? getUserPosts() : filtredUserPosts()}
-					renderItem={({ item }: any) => ( // TODO type
-						<PostCard
-							post={item}
-							owner={getUserField()}
-							onPress={() => goToPostView(item)}
-						/>
-					)}
-					showsVerticalScrollIndicator={false}
-					ItemSeparatorComponent={() => <Sigh />}
-					ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
-					ListFooterComponent={() => <FooterSigh />}
-				/>
+				<BodyPadding>
+					<FlatList
+						data={!selectedTags.length ? getUserPosts() : filtredUserPosts()}
+						renderItem={({ item }: any) => ( // TODO type
+							<PostCard
+								post={item}
+								owner={getUserField()}
+								onPress={() => goToPostView(item)}
+							/>
+						)}
+						showsVerticalScrollIndicator={false}
+						ItemSeparatorComponent={() => <Sigh />}
+						ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
+						ListFooterComponent={() => <FooterSigh />}
+					/>
+				</BodyPadding>
 			</Body>
 		</Container>
 	)

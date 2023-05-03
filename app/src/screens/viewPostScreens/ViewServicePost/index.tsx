@@ -5,24 +5,26 @@ import {
 	Body,
 	Container,
 	Header,
-	LastSigh,
 	OptionsArea,
-	Sigh,
 	UserAndValueContainer,
 } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
-import ShareIcon from '../../../assets/icons/share.svg'
-import ChatIcon from '../../../assets/icons/chat.svg'
-import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
+import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
+import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
+import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { share } from '../../../common/share'
+import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
 
+import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
 import { ViewServicePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
+
 import {
 	PostCollection,
+	ServiceCategories,
 	ServiceCollection,
 	ServiceCollectionRemote,
 } from '../../../services/firebase/types'
@@ -41,7 +43,8 @@ import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
-import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
+import { VerticalSigh } from '../../../components/VerticalSigh'
+import { HorizontalTagList } from '../../../components/HorizontalTagList'
 
 function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -60,6 +63,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 		if (!route.params.postData || !route.params.postData.owner) { return false }
 		return userDataContext.userId === route.params.postData.owner.userId
 	}
+
 	const isAuthor = loggedUserIsOwner()
 	const { postData } = route.params as { postData: ServiceCollectionRemote }
 
@@ -114,6 +118,13 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 		)
 	}
 
+	const getUserProfilePictureFromContext = () => {
+		if (userDataContext && userDataContext.profilePictureUrl) {
+			return userDataContext.profilePictureUrl[0] || ''
+		}
+		return ''
+	}
+
 	const openChat = async () => {
 		const userId1 = userDataContext.userId
 		const userId2 = postData.owner.userId
@@ -122,9 +133,9 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 			chat: {
 				chatId: '',
 				user1: {
-					userId: userId1,
-					name: userDataContext.name,
-					profilePictureUrl: userDataContext.profilePictureUrl[0] || ''
+					userId: userId1 || '',
+					name: userDataContext.name || '',
+					profilePictureUrl: getUserProfilePictureFromContext()
 				},
 				user2: {
 					userId: userId2,
@@ -156,6 +167,10 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 		}) // TODO Type
 	}
 
+	const getCategoryLabel = () => {
+		return serviceCategories[getPostField('category') as ServiceCategories].label || ''
+	}
+
 	const getPostField = (fieldName: keyof ServiceCollection) => {
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
@@ -171,7 +186,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					onBackPress={() => navigation.goBack()}
 					text={getPostField('title')}
 				/>
-				<Sigh />
+				<VerticalSigh />
 				<UserAndValueContainer>
 					<SmallUserIdentification
 						userName={
@@ -195,22 +210,22 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						exchangeFontSize={14}
 					/>
 				</UserAndValueContainer>
-				<Sigh />
+				<VerticalSigh />
 				<OptionsArea>
 					{!isAuthor && (
 						<SmallButton
 							color={theme.white3}
-							SvgIcon={ShareIcon}
+							SvgIcon={ShareWhiteIcon}
 							relativeWidth={relativeScreenWidth(12)}
 							height={relativeScreenWidth(12)}
 							onPress={sharePost}
 						/>
 					)}
 					<SmallButton
-						color={theme.green2}
+						color={theme.green3}
 						label={isAuthor ? 'compartilhar' : 'contratar'}
 						fontSize={13}
-						SvgIcon={isAuthor ? ShareIcon : ChatIcon}
+						SvgIcon={isAuthor ? ShareWhiteIcon : ChatWhiteIcon}
 						relativeWidth={isAuthor ? '80%' : '63%'}
 						height={relativeScreenWidth(12)}
 						onPress={isAuthor ? sharePost : openChat}
@@ -219,8 +234,6 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						postTitle={
 							getPostField('title') || 'publicação no corre.'
 						}
-						postId={postData.postId}
-						postType={postData.postType}
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
@@ -231,7 +244,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					>
 						<SmallButton
 							color={theme.white3}
-							SvgIcon={ThreeDotsIcon}
+							SvgIcon={ThreeDotsWhiteIcon}
 							relativeWidth={relativeScreenWidth(12)}
 							height={relativeScreenWidth(12)}
 							onPress={() => setPostOptionsIsOpen(true)}
@@ -239,54 +252,83 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					</PostPopOver>
 				</OptionsArea>
 			</Header>
-			<Body>
-				<ScrollView showsVerticalScrollIndicator={false}>
-					<Sigh />
+			<ScrollView showsVerticalScrollIndicator={false}>
+				<VerticalSigh />
+				<HorizontalTagList
+					tags={[getCategoryLabel(), ...getPostField('tags')]}
+					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
+					selectedColor={theme.purple1}
+					onSelectTag={() => { }}
+				/>
+				<Body>
+					<VerticalSigh />
 					<DescriptionCard
-						title={'descrição do serviço'}
 						text={getPostField('description')}
-						textFontSize={14}
 					/>
-					<Sigh />
+					<VerticalSigh />
 					{!arrayIsEmpty(getPostField('picturesUrl')) && (
 						<>
 							<ImageCarousel
 								picturesUrl={getPostField('picturesUrl') || []}
+								indicatorColor={theme.purple1}
 							/>
-							<Sigh />
+							<VerticalSigh />
 						</>
 					)}
-					<SaleOrExchangeCard
-						title={'venda ou troca'}
-						saleValue={getPostField('saleValue')}
-						exchangeValue={getPostField('exchangeValue')}
-					/>
-					<Sigh />
+
+					{
+						getPostField('saleValue') && !getPostField('exchangeValue') && (
+							<>
+								<SaleOrExchangeCard
+									saleValue={getPostField('saleValue')}
+									showsValueType={'sale'}
+								/>
+								<VerticalSigh />
+							</>
+						)
+					}
+					{
+						!getPostField('saleValue') && getPostField('exchangeValue') && (
+							<>
+								<SaleOrExchangeCard
+									exchangeValue={getPostField('exchangeValue')}
+									showsValueType={'exchange'}
+								/>
+								<VerticalSigh />
+							</>
+						)
+					}
+					{
+						getPostField('saleValue') && getPostField('exchangeValue') && (
+							<>
+								<SaleOrExchangeCard
+									saleValue={getPostField('saleValue')}
+									exchangeValue={getPostField('exchangeValue')}
+									showsValueType={'both'}
+								/>
+								<VerticalSigh />
+							</>
+						)
+					}
+
 					<LocationViewCard
-						title={'localização'}
 						locationView={getPostField('locationView')}
-						isAuthor={isAuthor}
 						location={getPostField('location')}
-						textFontSize={16}
 					/>
-					<Sigh />
+					<VerticalSigh />
 					<DateTimeCard
-						title={'dias e horários'}
 						weekDaysfrequency={getPostField('attendanceFrequency')}
 						daysOfWeek={getPostField('daysOfWeek')}
 						startTime={getPostField('startHour')}
 						endTime={getPostField('endHour')}
-						textFontSize={14}
 					/>
-					<Sigh />
+					<VerticalSigh />
 					<DeliveryMethodCard
-						title={'entrega'}
-						deliveryMethod={getPostField('range')}
-						textFontSize={16}
+						deliveryMethod={getPostField('deliveryMethod')}
 					/>
-					<LastSigh />
-				</ScrollView>
-			</Body>
+					<VerticalSigh bottomNavigatorSpace />
+				</Body >
+			</ScrollView>
 		</Container>
 	)
 }

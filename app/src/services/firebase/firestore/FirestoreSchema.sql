@@ -1,3 +1,7 @@
+/*
+	Veja a documentação no NOTION
+ */
+
 usersCollection: {
     name: 'string',
     description: 'string',
@@ -37,8 +41,9 @@ serviceCollection: {
 	saleValue: 'float'
 	exchangeValue: 'string'
     range: enum('unavailable' | 'near' | 'city' | 'country'),
+    deliveryMethod: enum('unavailable' | 'near' | 'city' | 'country'),
     attendanceFrequency: enum('today' | 'everyday' | 'someday' | 'businessDay')
-    daysOfWeek: 'array[string]',
+    attendanceWeekDays: 'array[string]',
     startHour: 'date',
     endHour: 'date',
     createdAt: 'date',
@@ -67,16 +72,16 @@ serviceCollection: {
 saleCollection = {
     title: 'string',
     postType: enum('service' | 'sale' | 'vacancy' | 'socialImpact' | 'culture'),
-    itemName: 'string',
     itemDescription: 'string',
     tags: 'array[string]',
     paymentType: enum('exchange' | 'sale' | 'both'),
     saleValue: 'string',
     exchangeValue: 'string',
     locationView: enum('private' | 'approximate' | 'public'),
-    range: enum('unavailable' | 'near' | 'city' | 'country'),
+    range: enum('near' | 'city' | 'country'),
+    deliveryMethod: enum('unavailable' | 'near' | 'city' | 'country'),
     attendanceFrequency: enum('today' | 'everyday' | 'someday' | 'businessDay')
-    daysOfWeek: 'array[string]',
+    attendanceWeekDays: 'array[string]',
     startHour: 'date',
     endHour: 'date',
     picturesUrl: 'array[string]',
