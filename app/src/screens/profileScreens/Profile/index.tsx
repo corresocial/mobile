@@ -364,10 +364,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							SvgIcon={ShareIcon}
 							relativeWidth={isLoggedUser ? '60%' : '45%'}
 							height={relativeScreenWidth(12)}
-							// onPress={shareProfile}
-							onPress={() => {
-								updatePostFieldsName('services')
-							}}
+							onPress={shareProfile}
 						/>
 						<ProfilePopOver
 							userName={getUserField('name') as string}
