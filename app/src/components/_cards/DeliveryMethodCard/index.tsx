@@ -13,13 +13,15 @@ import { DeliveryMethod } from '../../../services/firebase/types'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { PostInfoRow } from '../../PostInfoRow'
+import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 
 interface DeliveryMethodCardProps {
 	title?: string
 	deliveryMethod?: DeliveryMethod
+	onEdit?: () => void
 }
 
-function DeliveryMethodCard({ title, deliveryMethod }: DeliveryMethodCardProps) {
+function DeliveryMethodCard({ title, deliveryMethod, onEdit }: DeliveryMethodCardProps) {
 	const getDeliveryMethodIcon = () => {
 		switch (deliveryMethod) {
 			case 'unavailable': return PeopleWhiteIcon
@@ -42,11 +44,13 @@ function DeliveryMethodCard({ title, deliveryMethod }: DeliveryMethodCardProps) 
 
 	return (
 		<DefaultCardContainer>
-			<DefaultHeaderTitle
-				title={title || 'entrega do post'}
-				highlightedWords={['entrega']}
-				dimensions={40}
-			/>
+			<EditHeaderContainer onPress={onEdit}>
+				<DefaultHeaderTitle
+					title={title || 'entrega do post'}
+					highlightedWords={['entrega']}
+					dimensions={40}
+				/>
+			</EditHeaderContainer>
 			<PostInfoRow
 				text={getDeliveryMethod()}
 				SvgIcon={getDeliveryMethodIcon()}

@@ -27,6 +27,8 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		return unsubscribe
 	}, [navigation])
 
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
 	const validateExchangeValue = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
@@ -35,18 +37,17 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		return false
 	}
 
-	const saveExchangeValue = (value: string) => {
+	const saveExchangeValue = (exchangeValue: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ exchangeValue: value })
+			addNewUnsavedFieldToEditContext({ exchangeValue })
+			navigation.pop(3)
 			navigation.goBack()
 			return
 		}
 
-		setServiceDataOnContext({ exchangeValue: value })
+		setServiceDataOnContext({ exchangeValue })
 		navigation.navigate('SelectServiceRange')
 	}
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

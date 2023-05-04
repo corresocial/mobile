@@ -198,8 +198,6 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 					/>
 					<PostPopOver
 						postTitle={getPostField('title') || 'publicação no corre.'}
-						postId={getPostField('postId')}
-						postType={getPostField('postType')}
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
@@ -263,42 +261,14 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						vacancyType={'temporary'}
 					/>
 					<VerticalSigh />
-
 					{
-						getPostField('saleValue') && !getPostField('exchangeValue') && (
-							<>
-								<SaleOrExchangeCard
-									title={'tipo de remuneração'}
-									hightligtedWords={['tipo', 'remuneração']}
-									saleValue={getPostField('saleValue')}
-									showsValueType={'sale'}
-								/>
-								<VerticalSigh />
-							</>
-						)
-					}
-					{
-						!getPostField('saleValue') && getPostField('exchangeValue') && (
-							<>
-								<SaleOrExchangeCard
-									title={'tipo de remuneração'}
-									hightligtedWords={['tipo', 'remuneração']}
-									exchangeValue={getPostField('exchangeValue')}
-									showsValueType={'exchange'}
-								/>
-								<VerticalSigh />
-							</>
-						)
-					}
-					{
-						getPostField('saleValue') && getPostField('exchangeValue') && (
+						(getPostField('saleValue') || getPostField('exchangeValue')) && (
 							<>
 								<SaleOrExchangeCard
 									title={'tipo de remuneração'}
 									hightligtedWords={['tipo', 'remuneração']}
 									saleValue={getPostField('saleValue')}
 									exchangeValue={getPostField('exchangeValue')}
-									showsValueType={'both'}
 									isPayment
 								/>
 							</>

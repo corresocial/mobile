@@ -61,7 +61,7 @@ function PostPicturePreview({
 				justifyContent={'space-between'}
 			>
 				<TopArea>
-					<BackButton onPress={navigateBackwards} hasSigh />
+					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
 						message={picturesPack.length > 1 ? 'ficaram boas?' : 'ficou boa?'}
 						highlightedWords={['boas', 'boa']}

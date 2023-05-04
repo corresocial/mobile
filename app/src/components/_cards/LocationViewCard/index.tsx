@@ -4,7 +4,6 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CardHeader, MapArea, NavigationApps, TextAddress, TouchableApp } from './styles'
 import MapPointWhiteIcon from '../../../assets/icons/mapPoint-white.svg'
-import PencilIcon from '../../../assets/icons/pencil.svg'
 import MapPointOrangeIcon from '../../../assets/icons/mapPoint-orange.svg'
 import WazeIcon from '../../../assets/icons/waze.svg'
 import GoogleMapsIcon from '../../../assets/icons/googleMaps.svg'
@@ -16,6 +15,7 @@ import { Location, LocationViewType } from '../../../services/firebase/types'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { CustomMapView } from '../../CustomMapView'
+import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 
 interface LocationViewCardProps {
 	title?: string
@@ -152,14 +152,14 @@ function LocationViewCard({
 	return (
 		<DefaultCardContainer withoutPadding>
 			<CardHeader>
-				<DefaultHeaderTitle
-					title={title || 'local do post'}
-					onPressIcon={onEdit && onEdit}
-					SvgIcon={editable ? PencilIcon : MapPointWhiteIcon}
-					dimensions={editable ? 20 : 32}
-					invertTextAndIcon={editable}
-					justifyContent={editable ? 'space-between' : 'flex-start'}
-				/>
+				<EditHeaderContainer onPress={onEdit}>
+					<DefaultHeaderTitle
+						title={title || 'local do post'}
+						onPressIcon={onEdit && onEdit}
+						SecondSvgIcon={MapPointWhiteIcon}
+						dimensions={editable ? 30 : 32}
+					/>
+				</EditHeaderContainer>
 				{renderFormatedAddress()}
 			</CardHeader>
 			{

@@ -4,6 +4,6 @@ import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 export const LongText = styled.Text`
 	padding-top: ${relativeScreenHeight(1)}px;
-	font-size: ${RFValue(12)}px;
+	font-size: ${RFValue(14)}px;
 	font-family: Arvo_400Regular;
 `

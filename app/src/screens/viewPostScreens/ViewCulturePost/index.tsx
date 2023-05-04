@@ -197,8 +197,6 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					/>
 					<PostPopOver
 						postTitle={getPostField('title') || 'publicação no corre.'}
-						postId={getPostField('postId')}
-						postType={getPostField('postType')}
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}

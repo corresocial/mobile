@@ -26,6 +26,7 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 		})
 		return unsubscribe
 	}, [navigation])
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const validateSaleValue = (text: string) => {
 		const isValid = (text).trim().length >= 1
@@ -35,23 +36,21 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 		return false
 	}
 
-	const saveSaleValue = (value: string) => {
+	const saveSaleValue = (saleValue: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ saleValue: value })
+			addNewUnsavedFieldToEditContext({ saleValue })
+			navigation.pop(2)
 			navigation.goBack()
-			return
+		} else {
+			setServiceDataOnContext({ saleValue })
 		}
 
-		setServiceDataOnContext({ saleValue: value })
-
 		if (route.params.bothPaymentType) {
-			navigation.navigate('InsertExchangeValue')
+			navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
 		} else {
 			navigation.navigate('SelectServiceRange')
 		}
 	}
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

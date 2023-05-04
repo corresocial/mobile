@@ -48,7 +48,6 @@ import { ProfilePopOver } from '../../../components/ProfilePopOver'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { BackButton } from '../../../components/_buttons/BackButton'
-import { updatePostFieldsName } from '../../../services/firebase/migrations/updatePostFieldsName'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

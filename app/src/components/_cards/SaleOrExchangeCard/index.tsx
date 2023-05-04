@@ -12,15 +12,16 @@ import { textHasOnlyNumbers } from '../../../utils/validationFunctions'
 
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { PostInfoRow } from '../../PostInfoRow'
+import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 
 interface SaleOrExchangeCardProps {
 	title?: string
 	hightligtedWords?: string[]
 	saleValue?: string
 	exchangeValue?: string
-	showsValueType?: 'sale' | 'exchange' | 'both'
 	isCulturePost?: boolean
 	isPayment?: boolean
+	onEdit?: () => void
 }
 
 function SaleOrExchangeCard({
@@ -28,21 +29,20 @@ function SaleOrExchangeCard({
 	hightligtedWords,
 	saleValue,
 	exchangeValue,
-	showsValueType,
 	isCulturePost,
-	isPayment
+	isPayment,
+	onEdit
 }: SaleOrExchangeCardProps) {
 	const getDefaultTitle = () => {
-		switch (showsValueType) {
-			case 'sale': return 'produto a venda'
-			case 'exchange': return 'produto a troca'
-			case 'both': return 'venda ou troca'
-			default: return 'valor do produto'
-		}
+		if (saleValue && !exchangeValue) return 'produto a venda'
+		if (exchangeValue && !saleValue) return 'produto a troca'
+		if (saleValue && exchangeValue) return 'venda ou troca'
+
+		return 'venda ou troca'
 	}
 
 	const getRelativeValue = () => {
-		if (showsValueType === 'exchange') {
+		if (exchangeValue && !saleValue) {
 			return showMessageWithHighlight(`${exchangeValue}`, exchangeValue?.split(' ') || [])
 		}
 
@@ -66,7 +66,7 @@ function SaleOrExchangeCard({
 	const getRelativeValueIcon = (isExchange?: boolean) => {
 		if (isCulturePost) return false
 
-		if (showsValueType === 'exchange' || isExchange) {
+		if ((exchangeValue && !saleValue) || isExchange) {
 			return ExchangeWhiteIcon
 		}
 
@@ -79,23 +79,31 @@ function SaleOrExchangeCard({
 
 	return (
 		<DefaultCardContainer>
-			<DefaultHeaderTitle
-				title={title || getDefaultTitle()}
-				highlightedWords={hightligtedWords || ['venda', 'troca']}
-				SvgIcon={isCulturePost && CashWhiteIcon}
-				dimensions={32}
-			/>
-			<PostInfoRow
-				text={getRelativeValue()}
-				SvgIcon={getRelativeValueIcon()}
-			/>
+			<EditHeaderContainer onPress={onEdit}>
+				<DefaultHeaderTitle
+					title={title || getDefaultTitle()}
+					highlightedWords={hightligtedWords || ['venda', 'troca']}
+					SvgIcon={isCulturePost && CashWhiteIcon}
+					dimensions={32}
+				/>
+			</EditHeaderContainer>
 			{
-				showsValueType === 'both' && (
-					<PostInfoRow
-						text={showMessageWithHighlight(`${exchangeValue}`, exchangeValue?.split(' ') || [])}
-						SvgIcon={getRelativeValueIcon(true)}
-						withoutMarginTop
-					/>
+				(saleValue || exchangeValue) && (
+					<>
+						<PostInfoRow
+							text={getRelativeValue()}
+							SvgIcon={getRelativeValueIcon()}
+						/>
+						{
+							saleValue && exchangeValue && (
+								<PostInfoRow
+									text={showMessageWithHighlight(`${exchangeValue}`, exchangeValue?.split(' ') || [])}
+									SvgIcon={getRelativeValueIcon(true)}
+									withoutMarginTop
+								/>
+							)
+						}
+					</>
 				)
 			}
 		</DefaultCardContainer>

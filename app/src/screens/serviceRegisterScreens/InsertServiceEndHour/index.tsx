@@ -29,7 +29,16 @@ function InsertServiceEndHour({ route, navigation }: InsertServiceEndHourScreenP
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('ServiceReview')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ endHour: '' })
+			navigation.goBack()
+			return
+		}
+
+		setServiceDataOnContext({ endHour: '' as any })
+		navigation.navigate('InsertServiceEndHour')
+	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
 		const endHour = new Date()

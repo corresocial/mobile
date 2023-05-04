@@ -3,7 +3,7 @@ import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CardHeader, PictureArea, Text, ValueContainer, ProfilePicture } from './styles'
-import PencilIcon from '../../../assets/icons/pencil.svg'
+import EditWhiteIcon from '../../../assets/icons/edit-white.svg'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
@@ -15,6 +15,7 @@ interface EditCardProps {
 	highlightedWords?: string[]
 	value?: string
 	profilePicturesUrl?: string[]
+	indicatorColor?: string
 	carousel?: boolean
 	SvgIcon?: React.FC<SvgProps>
 	SecondSvgIcon?: React.FC<SvgProps>
@@ -26,6 +27,7 @@ function EditCard({
 	highlightedWords = [],
 	value = '',
 	profilePicturesUrl = [],
+	indicatorColor,
 	carousel,
 	SvgIcon,
 	SecondSvgIcon,
@@ -44,9 +46,9 @@ function EditCard({
 					fontSize={20}
 					highlightedWords={highlightedWords}
 					onPressIcon={onEdit}
-					SvgIcon={SvgIcon || PencilIcon}
+					SvgIcon={SvgIcon || EditWhiteIcon}
 					SecondSvgIcon={SecondSvgIcon}
-					dimensions={20}
+					dimensions={30}
 					invertTextAndIcon
 					justifyContent={'space-between'}
 				/>
@@ -79,6 +81,7 @@ function EditCard({
 									? (
 										<ImageCarousel
 											picturesUrl={profilePicturesUrl}
+											indicatorColor={indicatorColor}
 											relativeWidth={relativeScreenWidth(90)}
 										/>
 									) : (

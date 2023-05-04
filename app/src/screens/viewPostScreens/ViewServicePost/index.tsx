@@ -18,10 +18,10 @@ import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunct
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { share } from '../../../common/share'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
+import { textHasOnlyNumbers } from '../../../utils/validationFunctions'
 
 import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
 import { ViewServicePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
-
 import {
 	PostCollection,
 	ServiceCategories,
@@ -171,7 +171,8 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 		return serviceCategories[getPostField('category') as ServiceCategories].label || ''
 	}
 
-	const getPostField = (fieldName: keyof ServiceCollection) => {
+	const getPostField = (fieldName: keyof ServiceCollection, allowNull?: boolean) => {
+		if (allowNull && editDataContext.saved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
 
@@ -198,17 +199,21 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						userNameFontSize={14}
 						pictureDimensions={45}
 						profilePictureUrl={getProfilePictureUrl() || ''}
-						width={'60%'}
+						width={textHasOnlyNumbers(getPostField('saleValue')) ? '60%' : '85%'}
 						navigateToProfile={navigateToProfile}
 					/>
-					<SaleExchangeValue
-						saleValue={getPostField('saleValue')}
-						exchangeValue={getPostField('exchangeValue')}
-						breakRow
-						smallFontSize={14}
-						largeFontSize={25}
-						exchangeFontSize={14}
-					/>
+					{
+						textHasOnlyNumbers(getPostField('saleValue')) && (
+							<SaleExchangeValue
+								saleValue={getPostField('saleValue')}
+								exchangeValue={getPostField('exchangeValue')}
+								breakRow
+								smallFontSize={14}
+								largeFontSize={25}
+								exchangeFontSize={14}
+							/>
+						)
+					}
 				</UserAndValueContainer>
 				<VerticalSigh />
 				<OptionsArea>
@@ -275,42 +280,17 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 							<VerticalSigh />
 						</>
 					)}
-
 					{
-						getPostField('saleValue') && !getPostField('exchangeValue') && (
+						(getPostField('saleValue') || getPostField('exchangeValue')) && (
 							<>
 								<SaleOrExchangeCard
-									saleValue={getPostField('saleValue')}
-									showsValueType={'sale'}
+									saleValue={getPostField('saleValue', true)}
+									exchangeValue={getPostField('exchangeValue', true)}
 								/>
 								<VerticalSigh />
 							</>
 						)
 					}
-					{
-						!getPostField('saleValue') && getPostField('exchangeValue') && (
-							<>
-								<SaleOrExchangeCard
-									exchangeValue={getPostField('exchangeValue')}
-									showsValueType={'exchange'}
-								/>
-								<VerticalSigh />
-							</>
-						)
-					}
-					{
-						getPostField('saleValue') && getPostField('exchangeValue') && (
-							<>
-								<SaleOrExchangeCard
-									saleValue={getPostField('saleValue')}
-									exchangeValue={getPostField('exchangeValue')}
-									showsValueType={'both'}
-								/>
-								<VerticalSigh />
-							</>
-						)
-					}
-
 					<LocationViewCard
 						locationView={getPostField('locationView')}
 						location={getPostField('location')}
@@ -318,9 +298,9 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					<VerticalSigh />
 					<DateTimeCard
 						weekDaysfrequency={getPostField('attendanceFrequency')}
-						daysOfWeek={getPostField('daysOfWeek')}
-						startTime={getPostField('startHour')}
-						endTime={getPostField('endHour')}
+						daysOfWeek={getPostField('daysOfWeek', true)}
+						startTime={getPostField('startHour', true)}
+						endTime={getPostField('endHour', true)}
 					/>
 					<VerticalSigh />
 					<DeliveryMethodCard

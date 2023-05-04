@@ -8,13 +8,22 @@ import { PostRange as PostRangeType } from '../../../services/firebase/types'
 import { PostRange } from '../../../components/_onboarding/PostRange'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const savePostRange = (postRange: PostRangeType) => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ range: postRange })
+		}
+
 		setServiceDataOnContext({ range: postRange })
-		navigation.navigate('SelectLocationView')
+
+		navigation.navigate('SelectLocationView', { ...route.params } as any) // TODO Type
 	}
 
 	return (

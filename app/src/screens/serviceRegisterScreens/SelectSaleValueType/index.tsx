@@ -7,28 +7,40 @@ import { SelectSaleValueTypeScreenProps } from '../../../routes/Stack/ServiceSta
 import { SaleValueType } from '../../../services/firebase/types'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { PaymentValueType } from '../../../components/_onboarding/PaymentValueType'
 
 function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const saveSaleValueType = (paymentType: SaleValueType) => {
 		const { bothPaymentType } = route.params
 
 		switch (paymentType) {
 			case 'fixed': {
-				navigation.navigate('InsertSaleValue', { bothPaymentType })
+				navigation.navigate('InsertSaleValue', { bothPaymentType, editMode: editModeIsTrue() })
 				break
 			}
 			case 'toMatch': {
-				setServiceDataOnContext({ saleValue: 'a combinar' })
-
-				if (bothPaymentType) {
-					navigation.navigate('InsertExchangeValue')
+				if (editModeIsTrue()) {
+					addNewUnsavedFieldToEditContext({ saleValue: 'a combinar' })
+					navigation.goBack()
+					navigation.goBack()
 					return
 				}
+
+				setServiceDataOnContext({ saleValue: 'a combinar' })
+				if (bothPaymentType) {
+					navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
+					return
+				}
+
 				navigation.navigate('SelectServiceRange')
+
 				break
 			}
 			default: return false

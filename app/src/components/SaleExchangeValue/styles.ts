@@ -28,7 +28,7 @@ export const LargeFont = styled.Text`
 	font-size: ${RFValue(18)}px;
 	font-family: Arvo_700Bold;
 	margin-left: 1px;
-	align-self: flex-end;
+	align-self: flex-start;
 `
 
 export const ExchangeWord = styled.Text`

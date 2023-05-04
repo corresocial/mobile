@@ -227,8 +227,6 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						postTitle={
 							getPostField('title') || 'publicação no corre.'
 						}
-						postId={postData.postId}
-						postType={postData.postType}
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
@@ -274,42 +272,17 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 							<VerticalSigh />
 						</>
 					)}
-
 					{
-						getPostField('saleValue') && !getPostField('exchangeValue') && (
-							<>
-								<SaleOrExchangeCard
-									saleValue={getPostField('saleValue')}
-									showsValueType={'sale'}
-								/>
-								<VerticalSigh />
-							</>
-						)
-					}
-					{
-						!getPostField('saleValue') && getPostField('exchangeValue') && (
-							<>
-								<SaleOrExchangeCard
-									exchangeValue={getPostField('exchangeValue')}
-									showsValueType={'exchange'}
-								/>
-								<VerticalSigh />
-							</>
-						)
-					}
-					{
-						getPostField('saleValue') && getPostField('exchangeValue') && (
+						(getPostField('saleValue') || getPostField('exchangeValue')) && (
 							<>
 								<SaleOrExchangeCard
 									saleValue={getPostField('saleValue')}
 									exchangeValue={getPostField('exchangeValue')}
-									showsValueType={'both'}
 								/>
 								<VerticalSigh />
 							</>
 						)
 					}
-
 					<LocationViewCard
 						title={'local de trabalho'}
 						locationView={getPostField('locationView')}

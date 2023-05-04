@@ -17,7 +17,17 @@ function SelectServiceDaysOfWeek({ route, navigation }: SelectServiceDaysOfWeekS
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertServiceStartHour')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ daysOfWeek: [] })
+			navigation.goBack()
+			navigation.goBack()
+			return
+		}
+
+		setServiceDataOnContext({ daysOfWeek: [] })
+		navigation.navigate('InsertServiceStartHour')
+	}
 
 	const saveDaysOfWeek = (selectedDaysOfWeek: DaysOfWeek[]) => {
 		if (editModeIsTrue()) {

@@ -8,11 +8,11 @@ export type ServiceStackParamList = {
 	ServicePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectServiceCategory: { editMode: boolean } | undefined
 	SelectServiceTags: { categorySelected: ServiceCategories, editMode?: boolean }
-	SelectPaymentType: undefined
-	SelectSaleValueType: { bothPaymentType: boolean }
+	SelectPaymentType: { editMode: boolean, initialValue?: string } | undefined
+	SelectSaleValueType: { bothPaymentType: boolean, editMode?: boolean, initialValue?: string }
 	InsertSaleValue: { bothPaymentType: boolean, editMode?: boolean, initialValue?: string }
-	InsertExchangeValue: { editMode: boolean, initialValue: string } | undefined
-	SelectServiceRange: undefined
+	InsertExchangeValue: { editMode: boolean, initialValue?: string } | undefined
+	SelectServiceRange: { editMode: boolean, initialValue?: LatLong } | undefined
 	SelectLocationView: { editMode: boolean, initialValue?: LatLong } | undefined
 	InsertServicePrestationLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
 	ServiceLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
