@@ -1,4 +1,4 @@
-import { SocialImpactCategories, LocationViewType, LatLong, DaysOfWeek } from '../../../services/firebase/types'
+import { SocialImpactCategories, LocationViewType, LatLong, DaysOfWeek, PostRange } from '../../../services/firebase/types'
 import { UserStackParamList } from '../UserStack/types'
 
 export type SocialImpactStackParamList = {
@@ -8,8 +8,8 @@ export type SocialImpactStackParamList = {
 	SocialImpactPicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectSocialImpactCategory: { editMode: boolean } | undefined
 	SelectSocialImpactTags: { categorySelected: SocialImpactCategories, editMode?: boolean }
-	SelectSocialImpactRange: { editMode: boolean, initialValue?: LatLong } | undefined
-	SelectSocialImpactLocationView: { editMode: boolean, initialValue?: LatLong } | undefined
+	SelectSocialImpactRange: { editMode: boolean } | undefined
+	SelectSocialImpactLocationView: { editMode: boolean, initialValue?: { coordinates: LatLong, postRange: PostRange } } | undefined
 	InsertSocialImpactLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
 	SocialImpactLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
 	SelectSocialImpactExhibitionRange: { editMode: boolean } | undefined

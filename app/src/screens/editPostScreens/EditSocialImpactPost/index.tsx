@@ -4,17 +4,20 @@ import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { Body, Container, Header, LastSigh, SaveButtonContainer, Sigh } from './styles'
-import CheckIcon from '../../../assets/icons/check-white.svg'
+import { Body, Container, Header, SaveButtonContainer } from './styles'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
+import CalendarEmptyIcon from '../../../assets/icons/calendarEmpty-unfilled.svg'
+import RecycleWhiteIcon from '../../../assets/icons/recycle-white.svg'
 
 import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
-import { arrayIsEmpty, formatHour } from '../../../common/auxiliaryFunctions'
+import { arrayIsEmpty, formatDate, formatHour, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { updatePost } from '../../../services/firebase/post/updatePost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
 import { EditSocialImpactPostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { DaysOfWeek, EventRepeatType, ExhibitionPlaceType, Id, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '../../../services/firebase/types'
+import { EventRepeatType, Id, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '../../../services/firebase/types'
 import { SocialImpactStackParamList } from '../../../routes/Stack/SocialImpactStack/types'
 
 import { EditContext } from '../../../contexts/EditContext'
@@ -26,6 +29,11 @@ import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Loader } from '../../../components/Loader'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
+import { VerticalSigh } from '../../../components/VerticalSigh'
+import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
+import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
+import { ExhibitionPlaceCard } from '../../../components/_cards/ExhibitionPlace'
+import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
 
 function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -45,59 +53,37 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 		return picturesUrl
 	}
 
-	const getRelativeTitle = () => {
-		switch (postData.postType) {
-			case 'service': return 'do serviço'
-			case 'sale': return 'da venda'
-			case 'vacancy': return 'da vaga'
-			case 'socialImpact': return 'da iniciativa'
-			case 'culture': return 'do evento'
-			default: return 'do post'
-		}
-	}
-
-	const formatDaysOfWeek = () => {
-		const daysOfWeek = getPostField('daysOfWeek')
-
-		const allDaysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
-		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => daysOfWeek.includes(weekDay))
-		return ordenedDaysOfWeek.toString().split(',').join(', ')
-	}
-
 	const renderSocialImpactRepeat = () => {
 		const repeat = getPostField('repeat') as EventRepeatType
 		switch (repeat) {
-			case 'unrepeatable': return 'não se repete'
-			case 'everyDay': return 'todos os dias'
-			case 'weekly': return 'uma vez por semana'
-			case 'biweekly': return 'a cada 15 dias'
-			case 'monthly': return '1 vez no mês'
+			case 'unrepeatable': return showMessageWithHighlight('não se repete', ['não'])
+			case 'everyDay': return showMessageWithHighlight('todos os dias', ['todos'])
+			case 'weekly': return showMessageWithHighlight('uma vez por semana', ['1', 'semana'])
+			case 'biweekly': return showMessageWithHighlight('a cada 15 dias', ['15'])
+			case 'monthly': return showMessageWithHighlight('1 vez no mês', ['1', 'mês'])
 			default: return '---'
 		}
 	}
 
-	const renderExhibitionRange = () => {
-		const range = getPostField('range') as ExhibitionPlaceType
-		switch (range) {
-			case 'near': return 'no bairro'
-			case 'city': return 'na cidade'
-			case 'country': return 'no país'
-			default: return '---'
-		}
-	}
-
-	const navigateToEditScreen = (screenName: keyof SocialImpactStackParamList, initialValue: keyof SocialImpactCollectionRemote, especificField?: string) => {
+	const navigateToEditScreen = (screenName: keyof SocialImpactStackParamList, initialValue: keyof SocialImpactCollectionRemote) => {
 		let value = getPostField(initialValue)
 
 		if (initialValue === 'picturesUrl') {
 			value = getPicturesUrl()
 		}
 
+		if (initialValue === 'location') {
+			value = {
+				coordinates: value.coordinates,
+				postRange: getPostField('range')
+			}
+		}
+
 		navigation.navigate('SocialImpactStack', {
 			screen: screenName,
 			params: {
 				editMode: true,
-				initialValue: !especificField ? value : value[especificField]
+				initialValue: value
 			}
 		})
 	}
@@ -249,7 +235,8 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 		navigation.goBack()
 	}
 
-	const getPostField = (fieldName: keyof SocialImpactCollection) => {
+	const getPostField = (fieldName: keyof SocialImpactCollection, allowNull?: boolean) => {
+		if (allowNull && editDataContext.unsaved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.unsaved[fieldName] || postData[fieldName]
 	}
 
@@ -281,7 +268,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 										label={'salvar alterações'}
 										highlightedWords={['salvar']}
 										fontSize={16}
-										SecondSvgIcon={CheckIcon}
+										SecondSvgIcon={CheckWhiteIcon}
 										svgIconScale={['35%', '18%']}
 										minHeight={relativeScreenHeight(6)}
 										relativeHeight={relativeScreenHeight(8)}
@@ -300,74 +287,95 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 					value={formatCategoryAndTags()}
 					onEdit={() => navigateToEditScreen('SelectSocialImpactCategory', 'tags')}
 				/>
-				<Sigh />
+				<VerticalSigh />
 				<EditCard
 					title={'título do post'}
 					highlightedWords={['título']}
 					value={getPostField('title')}
 					onEdit={() => navigateToEditScreen('InsertSocialImpactTitle', 'title')}
 				/>
-				<Sigh />
+				<VerticalSigh />
+				<DescriptionCard
+					text={getPostField('description')}
+					onEdit={() => navigateToEditScreen('InsertSocialImpactDescription', 'description')}
+				/>
+				<VerticalSigh />
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
 					profilePicturesUrl={getPicturesUrl()}
+					indicatorColor={theme.pink1}
 					carousel
 					onEdit={() => navigateToEditScreen('SocialImpactPicturePreview', 'picturesUrl')}
 				/>
-				<Sigh />
-				<EditCard
-					title={`descrição ${getRelativeTitle()}`}
-					highlightedWords={['descrição']}
-					value={getPostField('description') || '---'}
-					onEdit={() => navigateToEditScreen('InsertSocialImpactDescription', 'description')}
+				<VerticalSigh />
+				<PostRangeCard
+					postRange={getPostField('range')}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactRange', 'range')}
 				/>
-				<Sigh />
-				<EditCard
-					title={'alcance de exibição'}
-					highlightedWords={['alcance']}
-					value={renderExhibitionRange() || '---'}
-					onEdit={() => navigateToEditScreen('SelectSocialImpactExhibitionRange', 'range')}
-				/>
-				<Sigh />
+				<VerticalSigh />
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
 					textFontSize={16}
-					editable
-					isAuthor
 					location={getPostField('location')}
-					onEdit={() => navigateToEditScreen('SelectSocialImpactLocationView', 'location', 'coordinates')}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactLocationView', 'location')}
 				/>
-				<Sigh />
+				<VerticalSigh />
+				<ExhibitionPlaceCard
+					exhibitionPlace={getPostField('exhibitionPlace')}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactExhibitionRange', 'exhibitionPlace')}
+				/>
+				<VerticalSigh />
+				<DateTimeCard
+					title={'dias da semana'}
+					highlightedWords={['dias']}
+					weekDaysfrequency={getPostField('exhibitionFrequency')}
+					daysOfWeek={getPostField('daysOfWeek', true)}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactFrequency', 'daysOfWeek')}
+				/>
+				<VerticalSigh />
 				<EditCard
 					title={'repetição'}
 					highlightedWords={['repetição']}
+					SecondSvgIcon={RecycleWhiteIcon}
 					value={renderSocialImpactRepeat() || '---'}
 					onEdit={() => navigateToEditScreen('SelectSocialImpactRepeat', 'repeat')}
 				/>
-				<Sigh />
+				<VerticalSigh />
 				<EditCard
-					title={'dias da semana'}
-					highlightedWords={['semana']}
-					value={formatDaysOfWeek() || '---'}
-					onEdit={() => navigateToEditScreen('SelectSocialImpactDaysOfWeek', 'daysOfWeek')}
+					title={'que dia começa'}
+					highlightedWords={['começa']}
+					SecondSvgIcon={CalendarEmptyIcon}
+					value={formatDate(getPostField('startDate', true)) || '---'}
+					onEdit={() => navigateToEditScreen('InsertSocialImpactStartDate', 'startHour')}
 				/>
-				<Sigh />
+				<VerticalSigh />
 				<EditCard
-					title={'horário de início'}
-					highlightedWords={['início']}
-					value={formatHour(getPostField('startHour')) || '---'}
+					title={'que horas começa'}
+					highlightedWords={['começa']}
+					SecondSvgIcon={ClockWhiteIcon}
+					value={formatHour(getPostField('startHour', true)) || '---'}
 					onEdit={() => navigateToEditScreen('InsertSocialImpactStartHour', 'startHour')}
 				/>
-				<Sigh />
+				<VerticalSigh />
 				<EditCard
-					title={'horário de fim'}
-					highlightedWords={['fim']}
-					value={formatHour(getPostField('endHour')) || '---'}
+					title={'que dia termina'}
+					highlightedWords={['termina']}
+					SecondSvgIcon={CalendarEmptyIcon}
+					value={formatDate(getPostField('endDate', true)) || '---'}
+					onEdit={() => navigateToEditScreen('InsertSocialImpactEndDate', 'endHour')}
+				/>
+				<VerticalSigh />
+				<EditCard
+					title={'que horas termina'}
+					highlightedWords={['termina']}
+					SecondSvgIcon={ClockWhiteIcon}
+					value={formatHour(getPostField('endHour', true)) || '---'}
 					onEdit={() => navigateToEditScreen('InsertSocialImpactEndHour', 'endHour')}
 				/>
-				<LastSigh />
+				<VerticalSigh />
+				<VerticalSigh />
 			</Body>
 		</Container>
 	)

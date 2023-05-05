@@ -32,6 +32,7 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
+import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
 
 function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -51,18 +52,25 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 		return picturesUrl
 	}
 
-	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof ServiceCollectionRemote, especificField?: string) => {
+	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof ServiceCollectionRemote) => {
 		let value = getPostField(initialValue)
 
 		if (initialValue === 'picturesUrl') {
 			value = getPicturesUrl()
 		}
 
+		if (initialValue === 'location') {
+			value = {
+				coordinates: value.coordinates,
+				postRange: getPostField('range')
+			}
+		}
+
 		navigation.navigate('ServiceStack', {
 			screen: screenName,
 			params: {
 				editMode: true,
-				initialValue: !especificField ? value : value[especificField]
+				initialValue: value
 			}
 		})
 	}
@@ -294,12 +302,17 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 					onEdit={() => navigateToEditScreen('SelectPaymentType', 'saleValue')}
 				/>
 				<VerticalSigh />
+				<PostRangeCard
+					postRange={getPostField('range')}
+					onEdit={() => navigateToEditScreen('SelectServiceRange', 'range')}
+				/>
+				<VerticalSigh />
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
 					textFontSize={16}
 					location={getPostField('location')}
-					onEdit={() => navigateToEditScreen('SelectServiceRange', 'location', 'coordinates')}
+					onEdit={() => navigateToEditScreen('SelectLocationView', 'location')}
 				/>
 				<VerticalSigh />
 				<DeliveryMethodCard
@@ -311,21 +324,21 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 					title={'dias da semana'}
 					highlightedWords={['dias']}
 					weekDaysfrequency={getPostField('attendanceFrequency')}
-					daysOfWeek={getPostField('daysOfWeek')}
+					daysOfWeek={getPostField('daysOfWeek', true)}
 					onEdit={() => navigateToEditScreen('SelectServiceFrequency', 'daysOfWeek')}
 				/>
 				<VerticalSigh />
 				<EditCard
-					title={'horário de início'}
-					highlightedWords={['início']}
+					title={'que horas começa'}
+					highlightedWords={['começa']}
 					SecondSvgIcon={ClockWhiteIcon}
 					value={formatHour(getPostField('startHour', true)) || ' ---'}
 					onEdit={() => navigateToEditScreen('InsertServiceStartHour', 'startHour')}
 				/>
 				<VerticalSigh />
 				<EditCard
-					title={'horário de fim'}
-					highlightedWords={['fim']}
+					title={'que horas termina'}
+					highlightedWords={['termina']}
 					SecondSvgIcon={ClockWhiteIcon}
 					value={formatHour(getPostField('endHour', true)) || ' ---'}
 					onEdit={() => navigateToEditScreen('InsertServiceEndHour', 'endHour')}

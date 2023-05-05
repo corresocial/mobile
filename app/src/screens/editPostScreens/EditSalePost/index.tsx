@@ -33,6 +33,7 @@ import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCar
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { ItemStatusCard } from '../../../components/_cards/ItemStatusCard'
 import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
+import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
 
 function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -52,18 +53,25 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 		return picturesUrl
 	}
 
-	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof SaleCollectionRemote, especificField?: string) => {
+	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof SaleCollectionRemote) => {
 		let value = getPostField(initialValue)
 
 		if (initialValue === 'picturesUrl') {
 			value = getPicturesUrl()
 		}
 
+		if (initialValue === 'location') {
+			value = {
+				coordinates: value.coordinates,
+				postRange: getPostField('range')
+			}
+		}
+
 		navigation.navigate('SaleStack', {
 			screen: screenName,
 			params: {
 				editMode: true,
-				initialValue: !especificField ? value : value[especificField]
+				initialValue: value
 			}
 		})
 	}
@@ -299,12 +307,17 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 					onEdit={() => navigateToEditScreen('SelectPaymentType', 'saleValue')}
 				/>
 				<VerticalSigh />
+				<PostRangeCard
+					postRange={getPostField('range')}
+					onEdit={() => navigateToEditScreen('SelectSaleRange', 'range')}
+				/>
+				<VerticalSigh />
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
 					textFontSize={16}
 					location={getPostField('location')}
-					onEdit={() => navigateToEditScreen('SelectSaleRange', 'location', 'coordinates')}
+					onEdit={() => navigateToEditScreen('SelectLocationView', 'location')}
 				/>
 				<VerticalSigh />
 				<DeliveryMethodCard
@@ -316,21 +329,21 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 					title={'dias da semana'}
 					highlightedWords={['dias']}
 					weekDaysfrequency={getPostField('attendanceFrequency')}
-					daysOfWeek={getPostField('daysOfWeek')}
+					daysOfWeek={getPostField('daysOfWeek', true)}
 					onEdit={() => navigateToEditScreen('SelectSaleFrequency', 'daysOfWeek')}
 				/>
 				<VerticalSigh />
 				<EditCard
-					title={'horário de início'}
-					highlightedWords={['início']}
+					title={'que horas começa'}
+					highlightedWords={['começa']}
 					SecondSvgIcon={ClockWhiteIcon}
 					value={formatHour(getPostField('startHour', true)) || ' ---'}
 					onEdit={() => navigateToEditScreen('InsertSaleStartHour', 'startHour')}
 				/>
 				<VerticalSigh />
 				<EditCard
-					title={'horário de fim'}
-					highlightedWords={['fim']}
+					title={'que horas termina'}
+					highlightedWords={['termina']}
 					SecondSvgIcon={ClockWhiteIcon}
 					value={formatHour(getPostField('endHour', true)) || ' ---'}
 					onEdit={() => navigateToEditScreen('InsertSaleEndHour', 'endHour')}

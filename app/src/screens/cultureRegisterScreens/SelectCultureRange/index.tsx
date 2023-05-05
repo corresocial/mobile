@@ -22,6 +22,7 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ range: postRange })
+			navigation.goBack()
 		}
 
 		setCultureDataOnContext({ range: postRange })

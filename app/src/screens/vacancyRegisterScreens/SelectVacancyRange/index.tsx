@@ -22,14 +22,12 @@ function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps
 
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ range: postRange })
+			navigation.goBack()
 		}
 
 		setVacancyDataOnContext({ range: postRange })
 		if (workplace !== 'homeoffice') {
-			navigation.navigate('SelectVacancyLocationView', {
-				editMode: editModeIsTrue(),
-				initialValue: route.params?.initialValue
-			})
+			navigation.navigate('SelectVacancyLocationView')
 		} else {
 			navigation.navigate('SelectWorkWeekdays')
 		}

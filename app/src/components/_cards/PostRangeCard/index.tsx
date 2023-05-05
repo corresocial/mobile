@@ -14,15 +14,15 @@ import { DefaultCardContainer } from '../DefaultCardContainer'
 import { PostInfoRow } from '../../PostInfoRow'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 
-interface ExhibitionPlaceCardProps {
+interface PostRangeCardProps {
 	title?: string
-	exhibitionPlace?: ExhibitionPlaceType
+	postRange?: ExhibitionPlaceType
 	onEdit?: () => void
 }
 
-function ExhibitionPlaceCard({ title, exhibitionPlace, onEdit }: ExhibitionPlaceCardProps) {
-	const getExhibitionPlaceIcon = () => {
-		switch (exhibitionPlace) {
+function PostRangeCard({ title, postRange, onEdit }: PostRangeCardProps) {
+	const getRelativePostRangeIcon = () => {
+		switch (postRange) {
 			case 'near': return PinWhiteIcon
 			case 'city': return CityWhiteIcon
 			case 'country': return BrazilWhiteIcon
@@ -30,11 +30,11 @@ function ExhibitionPlaceCard({ title, exhibitionPlace, onEdit }: ExhibitionPlace
 		}
 	}
 
-	const getExhibitionPlace = () => {
-		switch (exhibitionPlace) {
-			case 'near': return showMessageWithHighlight('em um bairro', ['bairro'])
-			case 'city': return showMessageWithHighlight('em uma cidade', ['cidade'])
-			case 'country': return showMessageWithHighlight('no brasil', ['brasil'])
+	const getRelativePostRange = () => {
+		switch (postRange) {
+			case 'near': return showMessageWithHighlight('bairro', ['região'])
+			case 'city': return showMessageWithHighlight('cidade', ['cidade'])
+			case 'country': return showMessageWithHighlight('brasil', ['brasil'])
 			default: return '---'
 		}
 	}
@@ -43,17 +43,17 @@ function ExhibitionPlaceCard({ title, exhibitionPlace, onEdit }: ExhibitionPlace
 		<DefaultCardContainer>
 			<EditHeaderContainer onPress={onEdit}>
 				<DefaultHeaderTitle
-					title={title || 'local de atuação'}
-					highlightedWords={['local', 'atuação']}
+					title={title || 'alcance do post'}
+					highlightedWords={['alcance']}
 					dimensions={40}
 				/>
 			</EditHeaderContainer>
 			<PostInfoRow
-				text={getExhibitionPlace()}
-				SvgIcon={getExhibitionPlaceIcon()}
+				text={getRelativePostRange()}
+				SvgIcon={getRelativePostRangeIcon()}
 			/>
 		</DefaultCardContainer>
 	)
 }
 
-export { ExhibitionPlaceCard }
+export { PostRangeCard }

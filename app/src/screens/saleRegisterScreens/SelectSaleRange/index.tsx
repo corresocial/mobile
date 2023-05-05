@@ -20,13 +20,11 @@ function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 	const savePostRange = (postRange: PostRangeType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ range: postRange })
+			navigation.goBack()
 		}
 
 		setSaleDataOnContext({ range: postRange })
-		navigation.navigate('SelectLocationView', {
-			editMode: editModeIsTrue(),
-			initialValue: route.params?.initialValue
-		})
+		navigation.navigate('SelectLocationView')
 	}
 
 	return (

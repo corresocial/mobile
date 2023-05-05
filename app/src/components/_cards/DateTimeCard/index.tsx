@@ -1,4 +1,5 @@
 import React from 'react'
+import uuid from 'react-uuid'
 
 import { DateTimeContainer } from './styles'
 import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
@@ -169,6 +170,7 @@ function DateTimeCard({
 					daysOfWeek?.length
 						? (
 							<PostInfoRow
+								key={uuid()}
 								SvgIcon={onEdit ? getRelativeFrequencyIcon() : undefined}
 								text={renderWeekDayFrequency()}
 								topic={!onEdit}
@@ -179,6 +181,7 @@ function DateTimeCard({
 				{
 					(!startDate && !endDate && !daysOfWeek?.length && !startTime && !endTime) && (
 						<PostInfoRow
+							key={uuid()}
 							text={renderInvalidDateTimeWeekMessage()}
 							topic={!onEdit}
 						/>
@@ -195,6 +198,7 @@ function DateTimeCard({
 				{
 					(startTime || endTime) && (
 						<PostInfoRow
+							key={uuid()}
 							text={renderOpeningAndClosingTime()}
 							topic
 						/>
@@ -204,6 +208,7 @@ function DateTimeCard({
 					repetition
 					&& (
 						<PostInfoRow
+							key={uuid()}
 							text={renderRepetition()}
 							topic
 						/>

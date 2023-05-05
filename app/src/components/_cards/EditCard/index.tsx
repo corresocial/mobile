@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -13,7 +13,7 @@ import { relativeScreenWidth } from '../../../common/screenDimensions'
 interface EditCardProps {
 	title: string
 	highlightedWords?: string[]
-	value?: string
+	value?: string | (string | ReactElement)[]
 	profilePicturesUrl?: string[]
 	indicatorColor?: string
 	carousel?: boolean
@@ -60,17 +60,9 @@ function EditCard({
 							{
 								value && (
 									<ValueContainer>
-										{
-											value.length < 150
-												? (
-													<Text>
-														{value}
-													</Text>
-												)
-												: (
-													< Text numberOfLines={4}>{value}</Text>
-												)
-										}
+										<Text>
+											{value}
+										</Text>
 									</ValueContainer>
 								)
 							}
