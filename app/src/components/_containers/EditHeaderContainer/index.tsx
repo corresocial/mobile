@@ -17,7 +17,7 @@ function EditHeaderContainer({ children, onPress }: EditHeaderContainerProps) {
 			{
 				onPress && (
 					<TouchableOpacity onPress={onPress} >
-						<EditWhiteIcon width={RFValue(30)} height={RFValue(30)} />
+						<EditWhiteIcon width={RFValue(28)} height={RFValue(28)} />
 					</TouchableOpacity>
 				)
 			}

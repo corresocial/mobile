@@ -3,17 +3,20 @@ import { getDownloadURL } from 'firebase/storage'
 import { StatusBar } from 'react-native'
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { Body, Container, Header, LastSigh, SaveButtonContainer, Sigh } from './styles'
+import { Body, Container, Header, SaveButtonContainer } from './styles'
 import CheckIcon from '../../../assets/icons/check-white.svg'
+import RecycleWhiteIcon from '../../../assets/icons/recycle-white.svg'
+import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
+import CalendarEmptyIcon from '../../../assets/icons/calendarEmpty-unfilled.svg'
 
 import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'
-import { arrayIsEmpty, formatDate, formatHour } from '../../../common/auxiliaryFunctions'
+import { arrayIsEmpty, formatDate, formatHour, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { updatePost } from '../../../services/firebase/post/updatePost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
 import { EditCulturePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { CultureCategories, CultureCollection, CultureCollectionRemote, EventRepeatType, ExhibitionPlaceType } from '../../../services/firebase/types'
+import { CultureCategories, CultureCollection, CultureCollectionRemote, EventRepeatType } from '../../../services/firebase/types'
 import { CultureStackParamList } from '../../../routes/Stack/CultureStack/types'
 
 import { EditContext } from '../../../contexts/EditContext'
@@ -26,6 +29,12 @@ import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Loader } from '../../../components/Loader'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
+import { VerticalSigh } from '../../../components/VerticalSigh'
+import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
+import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
+import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
+import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
+import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
 
 function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -45,35 +54,14 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 		return picturesUrl
 	}
 
-	const getRelativeTitle = () => {
-		switch (postData.postType) {
-			case 'service': return 'do serviço'
-			case 'sale': return 'da venda'
-			case 'vacancy': return 'da vaga'
-			case 'socialImpact': return 'da iniciativa'
-			case 'culture': return 'do evento'
-			default: return 'do post'
-		}
-	}
-
 	const renderCultureRepeat = () => {
 		const repeat = getPostField('repeat') as EventRepeatType
 		switch (repeat) {
-			case 'unrepeatable': return 'não se repete'
-			case 'everyDay': return 'todos os dias'
-			case 'weekly': return 'uma vez por semana'
-			case 'biweekly': return 'a cada 15 dias'
-			case 'monthly': return '1 vez no mês'
-			default: return '---'
-		}
-	}
-
-	const renderExhibitionRange = () => {
-		const range = getPostField('range') as ExhibitionPlaceType
-		switch (range) {
-			case 'near': return 'no bairro'
-			case 'city': return 'na cidade'
-			case 'country': return 'no país'
+			case 'unrepeatable': return showMessageWithHighlight('não se repete', ['não'])
+			case 'everyDay': return showMessageWithHighlight('todos os dias', ['todos'])
+			case 'weekly': return showMessageWithHighlight('uma vez por semana', ['1', 'semana'])
+			case 'biweekly': return showMessageWithHighlight('a cada 15 dias', ['15'])
+			case 'monthly': return showMessageWithHighlight('1 vez no mês', ['1', 'mês'])
 			default: return '---'
 		}
 	}
@@ -85,18 +73,25 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 			value = getPicturesUrl()
 		}
 
+		if (initialValue === 'location') {
+			value = {
+				coordinates: value.coordinates,
+				postRange: getPostField('range')
+			}
+		}
+
 		navigation.navigate('CultureStack', {
 			screen: screenName,
 			params: {
 				editMode: true,
-				initialValue: !especificField ? value : value[especificField]
+				initialValue: value
 			}
 		})
 	}
 
 	const getUserPostsWithoutEdited = () => {
 		const userPosts = userDataContext.posts || []
-		return userPosts.filter((post: CultureCollectionRemote) => post.postId !== postData.postId)
+		return userPosts.filter((post: any) => post.postId !== postData.postId) // TODO Type
 	}
 
 	const editPost = async () => {
@@ -240,7 +235,8 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 		navigation.goBack()
 	}
 
-	const getPostField = (fieldName: keyof CultureCollection) => {
+	const getPostField = (fieldName: keyof CultureCollection, allowNull?: boolean) => {
+		if (allowNull && editDataContext.unsaved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.unsaved[fieldName] || postData[fieldName]
 	}
 
@@ -290,14 +286,26 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 					value={formatCategoryAndTags()}
 					onEdit={() => navigateToEditScreen('SelectCultureCategory', 'tags')}
 				/>
-				<Sigh />
+				<VerticalSigh />
+				<PlaceModality
+					title={'como participar'}
+					hightligtedWords={['participar']}
+					placeModality={getPostField('eventPlaceModality')}
+					onEdit={() => navigateToEditScreen('SelectEventPlaceModality', 'eventPlaceModality')}
+				/>
+				<VerticalSigh />
 				<EditCard
 					title={'título do post'}
 					highlightedWords={['título']}
 					value={getPostField('title')}
 					onEdit={() => navigateToEditScreen('InsertCultureTitle', 'title')}
 				/>
-				<Sigh />
+				<VerticalSigh />
+				<DescriptionCard
+					text={getPostField('description')}
+					onEdit={() => navigateToEditScreen('InsertCultureDescription', 'description')}
+				/>
+				<VerticalSigh />
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
@@ -305,89 +313,77 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 					carousel
 					onEdit={() => navigateToEditScreen('CulturePicturePreview', 'picturesUrl')}
 				/>
-				<Sigh />
-				<EditCard
-					title={`descrição ${getRelativeTitle()}`}
-					highlightedWords={['descrição']}
-					value={getPostField('description') || '---'}
-					onEdit={() => navigateToEditScreen('InsertCultureDescription', 'description')}
+				<VerticalSigh />
+				<PostRangeCard
+					postRange={getPostField('range')}
+					onEdit={() => navigateToEditScreen('SelectCultureRange', 'range')}
 				/>
-				<Sigh />
-				{
-					getPostField('entryValue') && (
-						<>
-							<EditCard
-								title={'valor de entrada'}
-								highlightedWords={['entrada']}
-								value={getPostField('entryValue') || '---'}
-								onEdit={() => navigateToEditScreen('InsertEntryValue', 'entryValue')}
-							/>
-							<Sigh />
-						</>
-					)
-				}
-				{/* {
-					postData.exhibitionPlace && (
-						<EditCard
-							title={'alcance de exibição'}
-							highlightedWords={['alcance']}
-							value={renderExhibitionRange() || '---'}
-							onEdit={() => navigateToEditScreen('SelectExhibitionPlace', 'range')}
-						/>
-					)
-				} */}
-				<Sigh />
+				<VerticalSigh />
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
 					textFontSize={16}
-					editable
-					isAuthor
 					location={getPostField('location')}
-					onEdit={() => navigateToEditScreen('SelectCultureLocationView', 'location', 'coordinates')}
+					onEdit={() => navigateToEditScreen('SelectCultureLocationView', 'location')}
 				/>
-				<Sigh />
-				{
-					getPostField('entryValue') && (
-						<>
-							<EditCard
-								title={'repetição'}
-								highlightedWords={['repetição']}
-								value={renderCultureRepeat() || '---'}
-								onEdit={() => navigateToEditScreen('SelectEventRepeat', 'repeat')}
-							/>
-							<Sigh />
-							<EditCard
-								title={'data de início'}
-								highlightedWords={['início']}
-								value={formatDate(getPostField('startDate')) || '---'}
-								onEdit={() => navigateToEditScreen('InsertCultureStartDate', 'startDate')}
-							/>
-							<Sigh />
-							<EditCard
-								title={'horário de início'}
-								highlightedWords={['início']}
-								value={formatHour(getPostField('startHour')) || '---'}
-								onEdit={() => navigateToEditScreen('InsertCultureStartHour', 'startHour')}
-							/>
-							<Sigh />
-							<EditCard
-								title={'data de fim'}
-								highlightedWords={['fim']}
-								value={formatDate(getPostField('endDate')) || '---'}
-								onEdit={() => navigateToEditScreen('InsertCultureEndDate', 'endDate')}
-							/>
-							<Sigh />
-							<EditCard
-								title={'horário de fim'}
-								highlightedWords={['fim']}
-								value={formatHour(getPostField('endHour')) || '---'}
-								onEdit={() => navigateToEditScreen('InsertCultureEndHour', 'endHour')}
-							/>
-						</>
-					)
-				}
-				<LastSigh />
+				<VerticalSigh />
+				<SaleOrExchangeCard
+					title={'custo de entrada'}
+					hightligtedWords={['custo', 'entrada']}
+					saleValue={getPostField('entryValue', true) || '---'}
+					onEdit={() => navigateToEditScreen('InsertEntryValue', 'entryValue')}
+					isCulturePost
+				/>
+				<VerticalSigh />
+				<DateTimeCard
+					title={'dias da semana'}
+					highlightedWords={['dias']}
+					weekDaysfrequency={getPostField('exhibitionFrequency')}
+					daysOfWeek={getPostField('daysOfWeek', true)}
+					onEdit={() => navigateToEditScreen('SelectCultureFrequency', 'daysOfWeek')}
+				/>
+				<VerticalSigh />
+				<EditCard
+					title={'repetição'}
+					highlightedWords={['repetição']}
+					SecondSvgIcon={RecycleWhiteIcon}
+					value={renderCultureRepeat() || '---'}
+					onEdit={() => navigateToEditScreen('SelectEventRepeat', 'repeat')}
+				/>
+				<VerticalSigh />
+				<EditCard
+					title={'que dia começa'}
+					highlightedWords={['começa']}
+					SecondSvgIcon={CalendarEmptyIcon}
+					value={formatDate(getPostField('startDate', true)) || '---'}
+					onEdit={() => navigateToEditScreen('InsertCultureStartDate', 'startDate')}
+				/>
+				<VerticalSigh />
+				<EditCard
+					title={'que horas começa'}
+					highlightedWords={['começa']}
+					SecondSvgIcon={ClockWhiteIcon}
+					value={formatHour(getPostField('startHour', true)) || '---'}
+					onEdit={() => navigateToEditScreen('InsertCultureStartHour', 'startHour')}
+				/>
+				<VerticalSigh />
+				<EditCard
+					title={'que dia termina'}
+					highlightedWords={['termina']}
+					SecondSvgIcon={CalendarEmptyIcon}
+					value={formatDate(getPostField('endDate', true)) || '---'}
+					onEdit={() => navigateToEditScreen('InsertCultureEndDate', 'endDate')}
+				/>
+				<VerticalSigh />
+				<EditCard
+					title={'que horas termina'}
+					highlightedWords={['termina']}
+					SecondSvgIcon={ClockWhiteIcon}
+					value={formatHour(getPostField('endHour', true)) || '---'}
+					onEdit={() => navigateToEditScreen('InsertCultureEndHour', 'endHour')}
+				/>
+				<VerticalSigh />
+				<VerticalSigh />
 			</Body>
 		</Container>
 	)

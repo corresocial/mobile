@@ -274,18 +274,13 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 							</>
 						)
 					}
-					{
-						getPostField('workplace') !== 'homeoffice' && (
-							<>
-								<VerticalSigh />
-								<LocationViewCard
-									locationView={'public'}
-									withoutMapView={!getPostField('location').coordinates}
-									location={getPostField('location')}
-								/>
-							</>
-						)
-					}
+					<VerticalSigh />
+					<LocationViewCard
+						online={getPostField('workplace') === 'homeoffice'}
+						locationView={getPostField('locationView')}
+						withoutMapView={!getPostField('location').coordinates}
+						location={getPostField('location')}
+					/>
 					<VerticalSigh />
 					<DateTimeCard
 						weekDaysfrequency={'someday'}

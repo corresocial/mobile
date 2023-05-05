@@ -54,7 +54,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 	}
 
 	const renderSocialImpactRepeat = () => {
-		const repeat = getPostField('repeat') as EventRepeatType
+		const repeat = getPostField('repeat', true) as EventRepeatType
 		switch (repeat) {
 			case 'unrepeatable': return showMessageWithHighlight('não se repete', ['não'])
 			case 'everyDay': return showMessageWithHighlight('todos os dias', ['todos'])

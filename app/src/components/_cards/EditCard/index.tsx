@@ -3,12 +3,12 @@ import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CardHeader, PictureArea, Text, ValueContainer, ProfilePicture } from './styles'
-import EditWhiteIcon from '../../../assets/icons/edit-white.svg'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { ImageCarousel } from '../../ImageCarousel'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
+import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 
 interface EditCardProps {
 	title: string
@@ -33,6 +33,18 @@ function EditCard({
 	SecondSvgIcon,
 	onEdit,
 }: EditCardProps) {
+	const isDateOrTimeOrObject = () => {
+		if (value) {
+			if (typeof value === 'string') {
+				return value.includes('/') || value.includes(':') || value.includes('-')
+			}
+			if (typeof value === 'object') {
+				return true
+			}
+		}
+		return false
+	}
+
 	return (
 		<DefaultCardContainer withoutPadding={!!profilePicturesUrl.length}>
 			<CardHeader
@@ -41,17 +53,15 @@ function EditCard({
 					paddingVertical: profilePicturesUrl.length ? RFValue(10) : 0
 				}}
 			>
-				<DefaultHeaderTitle
-					title={title}
-					fontSize={20}
-					highlightedWords={highlightedWords}
-					onPressIcon={onEdit}
-					SvgIcon={SvgIcon || EditWhiteIcon}
-					SecondSvgIcon={SecondSvgIcon}
-					dimensions={30}
-					invertTextAndIcon
-					justifyContent={'space-between'}
-				/>
+				<EditHeaderContainer onPress={onEdit}>
+					<DefaultHeaderTitle
+						title={title}
+						highlightedWords={highlightedWords}
+						SecondSvgIcon={SecondSvgIcon}
+						dimensions={30}
+						justifyContent={'space-between'}
+					/>
+				</EditHeaderContainer>
 			</CardHeader>
 			{
 				!profilePicturesUrl.length
@@ -61,6 +71,7 @@ function EditCard({
 								value && (
 									<ValueContainer>
 										<Text>
+											{isDateOrTimeOrObject() && '   '}
 											{value}
 										</Text>
 									</ValueContainer>
