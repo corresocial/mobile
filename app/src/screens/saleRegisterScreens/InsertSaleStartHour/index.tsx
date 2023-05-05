@@ -29,7 +29,16 @@ function InsertSaleStartHour({ route, navigation }: InsertSaleStartHourScreenPro
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertSaleEndHour')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ startHour: '' })
+			navigation.goBack()
+			return
+		}
+
+		setSaleDataOnContext({ startHour: '' as any })
+		navigation.navigate('InsertSaleEndHour')
+	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
 		const startHour = new Date()

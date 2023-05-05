@@ -17,11 +17,22 @@ function SelectSaleDaysOfWeek({ route, navigation }: SelectSaleDaysOfWeekScreenP
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertSaleStartHour')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ daysOfWeek: [] })
+			navigation.goBack()
+			navigation.goBack()
+			return
+		}
+
+		setSaleDataOnContext({ daysOfWeek: [] })
+		navigation.navigate('InsertSaleStartHour')
+	}
 
 	const saveDaysOfWeek = (selectedDaysOfWeek: DaysOfWeek[]) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ daysOfWeek: selectedDaysOfWeek })
+			navigation.goBack()
 			navigation.goBack()
 			return
 		}

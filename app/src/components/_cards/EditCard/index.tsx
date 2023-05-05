@@ -56,19 +56,25 @@ function EditCard({
 			{
 				!profilePicturesUrl.length
 					? (
-						<ValueContainer>
+						<>
 							{
-								value.length < 150
-									? (
-										<Text>
-											{value}
-										</Text>
-									)
-									: (
-										< Text numberOfLines={4}>{value}</Text>
-									)
+								value && (
+									<ValueContainer>
+										{
+											value.length < 150
+												? (
+													<Text>
+														{value}
+													</Text>
+												)
+												: (
+													< Text numberOfLines={4}>{value}</Text>
+												)
+										}
+									</ValueContainer>
+								)
 							}
-						</ValueContainer>
+						</>
 					)
 					: (
 						<PictureArea

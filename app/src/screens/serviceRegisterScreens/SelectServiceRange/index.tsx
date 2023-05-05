@@ -22,8 +22,10 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 		}
 
 		setServiceDataOnContext({ range: postRange })
-
-		navigation.navigate('SelectLocationView', { ...route.params } as any) // TODO Type
+		navigation.navigate('SelectLocationView', {
+			editMode: editModeIsTrue(),
+			initialValue: route.params?.initialValue
+		})
 	}
 
 	return (

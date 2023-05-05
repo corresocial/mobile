@@ -76,9 +76,7 @@ function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScr
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({ attendanceFrequency: serviceFrequency })
 				} else {
-					setServiceDataOnContext({
-						attendanceFrequency: serviceFrequency
-					})
+					setServiceDataOnContext({ attendanceFrequency: serviceFrequency })
 				}
 
 				navigation.navigate('SelectServiceDaysOfWeek', {

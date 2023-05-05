@@ -23,7 +23,6 @@ interface LocationViewCardProps {
 	locationView?: LocationViewType
 	textFontSize?: number
 	withoutMapView?: boolean
-	editable?: boolean
 	location: Location
 	onEdit?: () => void
 }
@@ -34,7 +33,6 @@ function LocationViewCard({
 	locationView,
 	textFontSize = 14,
 	withoutMapView,
-	editable,
 	location,
 	onEdit
 }: LocationViewCardProps) {
@@ -157,20 +155,20 @@ function LocationViewCard({
 						title={title || 'local do post'}
 						onPressIcon={onEdit && onEdit}
 						SecondSvgIcon={MapPointWhiteIcon}
-						dimensions={editable ? 30 : 32}
+						dimensions={onEdit ? 30 : 32}
 					/>
 				</EditHeaderContainer>
 				{renderFormatedAddress()}
 			</CardHeader>
 			{
-				((locationView !== 'private' || editable) && locationView !== undefined) && !withoutMapView && (
+				((locationView !== 'private' || onEdit) && locationView !== undefined) && !withoutMapView && (
 					<MapArea >
 						<CustomMapView
 							scrollEnabled={false}
 							regionCoordinate={getAddressCoordinates()}
 							markerCoordinate={getAddressCoordinates()}
-							CustomMarker={locationView === 'public' || (locationView === 'private' && editable) ? MapPointOrangeIcon : undefined}
-							locationView={locationView === 'private' && editable ? 'public' : locationView}
+							CustomMarker={locationView === 'public' || (locationView === 'private' && onEdit) ? MapPointOrangeIcon : undefined}
+							locationView={locationView === 'private' && onEdit ? 'public' : locationView}
 						/>
 						<NavigationApps >
 							<TouchableApp onPress={goToGoogleMapsApp}>

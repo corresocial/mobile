@@ -11,15 +11,16 @@ import { ItemStatus } from '../../../services/firebase/types'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { PostInfoRow } from '../../PostInfoRow'
+import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 
 interface ItemStatusCardProps {
 	title?: string
 	itemStatus?: ItemStatus
-	textFontSize?: number
+	onEdit?: () => void
 }
 
-function ItemStatusCard({ title, itemStatus, textFontSize = 14 }: ItemStatusCardProps) {
-	const getDeliveryMethodIcon = () => {
+function ItemStatusCard({ title, itemStatus, onEdit }: ItemStatusCardProps) {
+	const getRelativeItemStatusIcon = () => {
 		switch (itemStatus) {
 			case 'new': return GiftWhiteIcon
 			case 'used': return UserLabelWhiteIcon
@@ -27,24 +28,26 @@ function ItemStatusCard({ title, itemStatus, textFontSize = 14 }: ItemStatusCard
 		}
 	}
 
-	const getDeliveryMethod = () => {
+	const getRelativeItemStatus = () => {
 		switch (itemStatus) {
 			case 'new': return showMessageWithHighlight('produto novo', ['novo'])
 			case 'used': return showMessageWithHighlight('produto usado', ['usado'])
-			default: return ''
+			default: return 'indefinido'
 		}
 	}
 
 	return (
 		<DefaultCardContainer>
-			<DefaultHeaderTitle
-				title={title || 'estado do produto'}
-				highlightedWords={['estado']}
-				dimensions={40}
-			/>
+			<EditHeaderContainer onPress={onEdit}>
+				<DefaultHeaderTitle
+					title={title || 'estado do produto'}
+					highlightedWords={['estado']}
+					dimensions={40}
+				/>
+			</EditHeaderContainer>
 			<PostInfoRow
-				text={getDeliveryMethod()}
-				SvgIcon={getDeliveryMethodIcon()}
+				text={getRelativeItemStatus()}
+				SvgIcon={getRelativeItemStatusIcon()}
 			/>
 		</DefaultCardContainer>
 	)

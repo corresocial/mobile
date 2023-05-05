@@ -26,7 +26,7 @@ function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) 
 					setServiceDataOnContext({ exchangeValue: '' })
 				}
 
-				navigation.navigate('SelectSaleValueType', { bothPaymentType: false, editMode: !!route.params?.editMode })
+				navigation.navigate('SelectSaleValueType', { bothPaymentType: false, editMode: editModeIsTrue() })
 				break
 			}
 			case 'exchange': {
@@ -36,11 +36,11 @@ function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) 
 					setServiceDataOnContext({ saleValue: '' })
 				}
 
-				navigation.navigate('InsertExchangeValue', { editMode: !!route.params?.editMode })
+				navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
 				break
 			}
 			case 'both': {
-				navigation.navigate('SelectSaleValueType', { bothPaymentType: true, editMode: !!route.params?.editMode })
+				navigation.navigate('SelectSaleValueType', { bothPaymentType: true, editMode: editModeIsTrue() })
 				break
 			}
 			default: return false

@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { Body, Container, Header, SaveButtonContainer } from './styles'
-import CheckIcon from '../../../assets/icons/check-white.svg'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
 
 import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
@@ -56,12 +56,6 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 
 		if (initialValue === 'picturesUrl') {
 			value = getPicturesUrl()
-		}
-
-		if (initialValue === 'location') {
-			value = {
-				...value,
-			}
 		}
 
 		navigation.navigate('ServiceStack', {
@@ -253,7 +247,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 										label={'salvar alterações'}
 										highlightedWords={['salvar']}
 										fontSize={16}
-										SecondSvgIcon={CheckIcon}
+										SecondSvgIcon={CheckWhiteIcon}
 										svgIconScale={['35%', '18%']}
 										minHeight={relativeScreenHeight(6)}
 										relativeHeight={relativeScreenHeight(8)}
@@ -303,7 +297,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
-					editable
+					textFontSize={16}
 					location={getPostField('location')}
 					onEdit={() => navigateToEditScreen('SelectServiceRange', 'location', 'coordinates')}
 				/>
@@ -325,7 +319,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 					title={'horário de início'}
 					highlightedWords={['início']}
 					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('startHour', true)) || '---'}
+					value={formatHour(getPostField('startHour', true)) || ' ---'}
 					onEdit={() => navigateToEditScreen('InsertServiceStartHour', 'startHour')}
 				/>
 				<VerticalSigh />
@@ -333,7 +327,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 					title={'horário de fim'}
 					highlightedWords={['fim']}
 					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('endHour', true)) || '---'}
+					value={formatHour(getPostField('endHour', true)) || ' ---'}
 					onEdit={() => navigateToEditScreen('InsertServiceEndHour', 'endHour')}
 				/>
 				<VerticalSigh />

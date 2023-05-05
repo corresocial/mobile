@@ -26,6 +26,9 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 		})
 		return unsubscribe
 	}, [navigation])
+
+	const { bothPaymentType } = route.params
+
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const validateSaleValue = (text: string) => {
@@ -39,13 +42,16 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 	const saveSaleValue = (saleValue: string) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ saleValue })
-			navigation.pop(2)
-			navigation.goBack()
+
+			if (!bothPaymentType) {
+				navigation.pop(2)
+				navigation.goBack()
+			}
 		} else {
 			setServiceDataOnContext({ saleValue })
 		}
 
-		if (route.params.bothPaymentType) {
+		if (bothPaymentType) {
 			navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
 		} else {
 			navigation.navigate('SelectServiceRange')
@@ -61,7 +67,7 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 				customTitle={'por quanto você vende?'}
 				customHighlight={['quanto']}
 				inputPlaceholder={'ex: 120 reais a diária'}
-				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
+				// initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[3, 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSaleValue}

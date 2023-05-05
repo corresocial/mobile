@@ -40,7 +40,6 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 				}
 
 				navigation.navigate('SelectServiceRange')
-
 				break
 			}
 			default: return false

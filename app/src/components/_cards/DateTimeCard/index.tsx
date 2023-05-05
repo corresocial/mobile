@@ -2,10 +2,10 @@ import React from 'react'
 
 import { DateTimeContainer } from './styles'
 import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
-import CalendarToday from '../../../assets/icons/calendarToday.svg'
-import CalendarEveryday from '../../../assets/icons/calendarEveryday.svg'
-import CalendarSomeday from '../../../assets/icons/calendarSomeday.svg'
-import CalendarBusinessDay from '../../../assets/icons/calendarBusinessDay.svg'
+import CalendarToday from '../../../assets/icons/calendarToday-unfilled.svg'
+import CalendarEveryday from '../../../assets/icons/calendarEveryday-unfilled.svg'
+import CalendarSomeday from '../../../assets/icons/calendarSomeday-unfilled.svg'
+import CalendarBusinessDay from '../../../assets/icons/calendarBusinessDay-unfilled.svg'
 
 import { formatDate, formatHour, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 

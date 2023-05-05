@@ -2,9 +2,10 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 
-import { Body, Container, Header, LastSigh, SaveButtonContainer, Sigh } from './styles'
+import { Body, Container, Header, SaveButtonContainer } from './styles'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import CheckIcon from '../../../assets/icons/check-white.svg'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
 
 import { saleCategories } from '../../../utils/postsCategories/saleCategories'
 import { arrayIsEmpty, formatHour } from '../../../common/auxiliaryFunctions'
@@ -14,7 +15,7 @@ import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
 import { EditSalePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { SaleStackParamList } from '../../../routes/Stack/SaleStack/types'
-import { DaysOfWeek, Id, SaleCategories, SaleCollection, SaleCollectionRemote } from '../../../services/firebase/types'
+import { Id, SaleCategories, SaleCollection, SaleCollectionRemote } from '../../../services/firebase/types'
 
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -26,6 +27,12 @@ import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Loader } from '../../../components/Loader'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
+import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
+import { VerticalSigh } from '../../../components/VerticalSigh'
+import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
+import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
+import { ItemStatusCard } from '../../../components/_cards/ItemStatusCard'
+import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
 
 function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -43,36 +50,6 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 		const picturesUrl = getPostField('picturesUrl')
 		if (arrayIsEmpty(picturesUrl)) return []
 		return picturesUrl
-	}
-
-	const getRelativeTitle = () => {
-		switch (postData.postType) {
-			case 'service': return 'do serviço'
-			case 'sale': return 'da venda'
-			case 'vacancy': return 'da vaga'
-			case 'socialImpact': return 'da iniciativa'
-			case 'culture': return 'do evento'
-			default: return 'do post'
-		}
-	}
-
-	const formatDaysOfWeek = () => {
-		const daysOfWeek = getPostField('daysOfWeek') || []
-
-		const allDaysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
-		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => daysOfWeek.includes(weekDay))
-		return ordenedDaysOfWeek.toString().split(',').join(', ')
-	}
-
-	const renderDeliveryMethod = () => {
-		const deliveryMethod = getPostField('deliveryMethod')
-		switch (deliveryMethod) {
-			case 'unavailable': return 'não entrega'
-			case 'near': return 'entrega perto'
-			case 'city': return 'entrega na cidade'
-			case 'country': return 'entrega no país inteiro'
-			default: return '---'
-		}
 	}
 
 	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof SaleCollectionRemote, especificField?: string) => {
@@ -93,7 +70,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 
 	const getUserPostsWithoutEdited = () => {
 		const userPosts = userDataContext.posts || []
-		return userPosts.filter((post: SaleCollection) => post.postId !== postData.postId)
+		return userPosts.filter((post: any) => post.postId !== postData.postId) // TODO any
 	}
 
 	const editPost = async () => {
@@ -238,7 +215,8 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 		navigation.goBack()
 	}
 
-	const getPostField = (fieldName: keyof SaleCollection) => {
+	const getPostField = (fieldName: keyof SaleCollection, allowNull?: boolean) => {
+		if (allowNull && editDataContext.unsaved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.unsaved[fieldName] || postData[fieldName]
 	}
 
@@ -270,7 +248,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 										label={'salvar alterações'}
 										highlightedWords={['salvar']}
 										fontSize={16}
-										SecondSvgIcon={CheckIcon}
+										SecondSvgIcon={CheckWhiteIcon}
 										svgIconScale={['35%', '18%']}
 										minHeight={relativeScreenHeight(6)}
 										relativeHeight={relativeScreenHeight(8)}
@@ -278,7 +256,6 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 									/>
 								</SaveButtonContainer>
 							)
-
 					)
 				}
 			</Header>
@@ -289,81 +266,77 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 					value={formatCategoryAndTags()}
 					onEdit={() => navigateToEditScreen('SelectSaleCategory', 'tags')}
 				/>
-				<Sigh />
+				<VerticalSigh />
+				<ItemStatusCard
+					itemStatus={getPostField('itemStatus')}
+					onEdit={() => navigateToEditScreen('SelectItemStatus', 'itemStatus')}
+				/>
+				<VerticalSigh />
 				<EditCard
 					title={'título do post'}
 					highlightedWords={['título']}
 					value={getPostField('title')}
 					onEdit={() => navigateToEditScreen('InsertSaleTitle', 'title')}
 				/>
-				<Sigh />
+				<VerticalSigh />
+				<DescriptionCard
+					text={getPostField('itemDescription')}
+					onEdit={() => navigateToEditScreen('InsertItemDescription', 'itemDescription')}
+				/>
+				<VerticalSigh />
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
 					profilePicturesUrl={getPicturesUrl()}
+					indicatorColor={theme.green1}
 					carousel
 					onEdit={() => navigateToEditScreen('SalePicturePreview', 'picturesUrl')}
 				/>
-				<Sigh />
-				<EditCard
-					title={`descrição ${getRelativeTitle()}`}
-					highlightedWords={['descrição']}
-					value={getPostField('itemDescription') || '---'}
-					onEdit={() => navigateToEditScreen('InsertItemDescription', 'itemDescription')}
+				<VerticalSigh />
+				<SaleOrExchangeCard
+					saleValue={getPostField('saleValue', true)}
+					exchangeValue={getPostField('exchangeValue', true)}
+					onEdit={() => navigateToEditScreen('SelectPaymentType', 'saleValue')}
 				/>
-				<Sigh />
-				<EditCard
-					title={'valor de venda'}
-					highlightedWords={['venda']}
-					value={getPostField('saleValue') || '---'}
-					onEdit={() => navigateToEditScreen('InsertSaleValue', 'saleValue')}
-				/>
-				<Sigh />
-				<EditCard
-					title={'valor de troca'}
-					highlightedWords={['troca']}
-					value={getPostField('exchangeValue') || '---'}
-					onEdit={() => navigateToEditScreen('InsertExchangeValue', 'exchangeValue')}
-				/>
-				<Sigh />
+				<VerticalSigh />
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
 					textFontSize={16}
-					isAuthor
-					editable
 					location={getPostField('location')}
-					onEdit={() => navigateToEditScreen('SelectLocationView', 'location', 'coordinates')}
+					onEdit={() => navigateToEditScreen('SelectSaleRange', 'location', 'coordinates')}
 				/>
-				<Sigh />
-				<EditCard
+				<VerticalSigh />
+				<DeliveryMethodCard
+					deliveryMethod={getPostField('deliveryMethod')}
+					onEdit={() => navigateToEditScreen('SelectDeliveryMethod', 'deliveryMethod')}
+				/>
+				<VerticalSigh />
+				<DateTimeCard
 					title={'dias da semana'}
-					highlightedWords={['semana']}
-					value={formatDaysOfWeek() || '---'}
+					highlightedWords={['dias']}
+					weekDaysfrequency={getPostField('attendanceFrequency')}
+					daysOfWeek={getPostField('daysOfWeek')}
 					onEdit={() => navigateToEditScreen('SelectSaleFrequency', 'daysOfWeek')}
 				/>
-				<Sigh />
+				<VerticalSigh />
 				<EditCard
 					title={'horário de início'}
 					highlightedWords={['início']}
-					value={formatHour(getPostField('startHour')) || '---'}
+					SecondSvgIcon={ClockWhiteIcon}
+					value={formatHour(getPostField('startHour', true)) || ' ---'}
 					onEdit={() => navigateToEditScreen('InsertSaleStartHour', 'startHour')}
 				/>
-				<Sigh />
+				<VerticalSigh />
 				<EditCard
 					title={'horário de fim'}
 					highlightedWords={['fim']}
-					value={formatHour(getPostField('endHour')) || '---'}
+					SecondSvgIcon={ClockWhiteIcon}
+					value={formatHour(getPostField('endHour', true)) || ' ---'}
 					onEdit={() => navigateToEditScreen('InsertSaleEndHour', 'endHour')}
 				/>
-				<Sigh />
-				<EditCard
-					title={'entrega'}
-					highlightedWords={['entrega']}
-					value={renderDeliveryMethod() || '---'}
-					onEdit={() => navigateToEditScreen('SelectDeliveryMethod', 'deliveryMethod')}
-				/>
-				<LastSigh />
+				<VerticalSigh />
+				<VerticalSigh />
 			</Body>
 		</Container>
 	)

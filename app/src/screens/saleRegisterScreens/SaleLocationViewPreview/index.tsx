@@ -41,7 +41,7 @@ function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewS
 	const saveLocationView = () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ locationView })
-			navigation.pop(2)
+			navigation.pop(3)
 			navigation.goBack()
 			return
 		}
@@ -50,10 +50,18 @@ function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewS
 		navigation.navigate('SelectDeliveryMethod')
 	}
 
+	const getPostRange = () => {
+		if (editModeIsTrue()) {
+			return saleDataContext.range || 'near'
+		}
+
+		return postRange || 'near'
+	}
+
 	const getPlaceName = () => {
 		switch (postRange) {
 			case 'near': return 'near'
-			case 'city': return saleDataContext.location?.city || ''
+			case 'city': return editModeIsTrue() ? editDataContext.unsaved.location?.city : saleDataContext.location?.city
 			case 'country': return 'Brasil'
 			default: return ''
 		}
@@ -66,7 +74,7 @@ function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewS
 				backgroundColor={theme.green2}
 				saveLocationView={saveLocationView}
 				initialValue={getCurrentMarkerCoordinate()}
-				postRange={postRange || 'near'}
+				postRange={getPostRange()}
 				placeName={getPlaceName()}
 				placeColor={theme.transparence.green3}
 				locationViewSelected={route.params.locationView}

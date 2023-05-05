@@ -1,19 +1,19 @@
-import { DaysOfWeek, ItemStatus, LatLong, LocationViewType, SaleCategories } from '../../../services/firebase/types'
+import { DaysOfWeek, LatLong, LocationViewType, SaleCategories } from '../../../services/firebase/types'
 import { UserStackParamList } from '../UserStack/types'
 
 export type SaleStackParamList = {
 	SelectSaleCategory: { editMode: boolean } | undefined
 	SelectSaleTags: { categorySelected: SaleCategories, editMode?: boolean }
-	SelectItemStatus: { editMode: boolean, initialValue: ItemStatus } | undefined
+	SelectItemStatus: { editMode: boolean } | undefined
 	InsertSaleTitle: { editMode: boolean, initialValue: string } | undefined
 	InsertItemDescription: { editMode: boolean, initialValue: string } | undefined
 	InsertSalePicture: undefined
 	SalePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
-	SelectPaymentType: undefined
-	InsertSaleValue: { bothPaymentType: boolean, editMode?: boolean, initialValue?: string }
-	SelectSaleValueType: { bothPaymentType: boolean, editMode?: boolean, initialValue?: string }
-	InsertExchangeValue: { editMode: boolean, initialValue: string } | undefined
-	SelectSaleRange: undefined
+	SelectPaymentType: { editMode: boolean } | undefined
+	InsertSaleValue: { bothPaymentType: boolean, editMode?: boolean }
+	SelectSaleValueType: { bothPaymentType: boolean, editMode?: boolean }
+	InsertExchangeValue: { editMode: boolean } | undefined
+	SelectSaleRange: { editMode: boolean, initialValue?: LatLong } | undefined
 	SelectLocationView: { editMode: boolean, initialValue?: LatLong } | undefined
 	InsertSaleLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
 	SaleLocationViewPreview: { editMode?: boolean, locationView: LocationViewType }

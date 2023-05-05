@@ -7,14 +7,26 @@ import { SelectSaleRangeScreenProps } from '../../../routes/Stack/SaleStack/stac
 import { PostRange as PostRangeType } from '../../../services/firebase/types'
 
 import { SaleContext } from '../../../contexts/SaleContext'
+import { EditContext } from '../../../contexts/EditContext'
+
 import { PostRange } from '../../../components/_onboarding/PostRange'
 
-function SelectSaleRange({ navigation }: SelectSaleRangeScreenProps) {
+function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const savePostRange = (postRange: PostRangeType) => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ range: postRange })
+		}
+
 		setSaleDataOnContext({ range: postRange })
-		navigation.navigate('SelectLocationView')
+		navigation.navigate('SelectLocationView', {
+			editMode: editModeIsTrue(),
+			initialValue: route.params?.initialValue
+		})
 	}
 
 	return (

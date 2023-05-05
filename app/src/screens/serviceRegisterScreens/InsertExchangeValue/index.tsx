@@ -58,7 +58,7 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 				customTitle={'o que você aceita em troca?'}
 				customHighlight={['o', 'que', 'em', 'troca']}
 				inputPlaceholder={'ex: troco por uma marmita'}
-				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
+				// initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[3, 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateExchangeValue}
