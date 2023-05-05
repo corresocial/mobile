@@ -17,7 +17,22 @@ function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScr
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertVacancyStartHour')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({
+				workFrequency: '',
+				daysOfWeek: []
+			})
+			navigation.goBack()
+			return
+		}
+
+		setVacancyDataOnContext({
+			workFrequency: 'someday',
+			daysOfWeek: []
+		})
+		navigation.navigate('InsertVacancyStartHour')
+	}
 
 	const saveVacancyFrequency = (vacancyFrequency: WeekdaysFrequency) => {
 		const daysOfWeek = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'] as DaysOfWeek[]

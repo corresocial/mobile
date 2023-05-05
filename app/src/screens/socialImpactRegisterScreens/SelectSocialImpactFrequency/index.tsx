@@ -17,7 +17,22 @@ function SelectSocialImpactFrequency({ route, navigation }: SelectSocialImpactFr
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('SelectSocialImpactRepeat')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({
+				exhibitionFrequency: '',
+				daysOfWeek: []
+			})
+			navigation.goBack()
+			return
+		}
+
+		setSocialImpactDataOnContext({
+			exhibitionFrequency: 'someday',
+			daysOfWeek: []
+		})
+		navigation.navigate('SelectSocialImpactRepeat')
+	}
 
 	const saveSocialImpactFrequency = (socialImpactFrequency: WeekdaysFrequency) => {
 		const daysOfWeek = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'] as DaysOfWeek[]

@@ -29,7 +29,16 @@ function InsertSocialImpactEndHour({ route, navigation }: InsertSocialImpactEndH
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('SocialImpactReview')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ endHour: '' })
+			navigation.goBack()
+			return
+		}
+
+		setSocialImpactDataOnContext({ endHour: '' as any })
+		navigation.navigate('SocialImpactReview')
+	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
 		const endHour = new Date()

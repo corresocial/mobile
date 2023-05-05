@@ -5,20 +5,31 @@ import { theme } from '../../../common/theme'
 
 import { SelectVacancyRangeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { PostRange as PostRangeType } from '../../../services/firebase/types'
-import { PostRange } from '../../../components/_onboarding/PostRange'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
+import { EditContext } from '../../../contexts/EditContext'
 
-function SelectVacancyRange({ navigation }: SelectVacancyRangeScreenProps) {
+import { PostRange } from '../../../components/_onboarding/PostRange'
+
+function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps) {
 	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const savePostRange = (postRange: PostRangeType) => {
 		const { workplace } = vacancyDataContext
 
-		setVacancyDataOnContext({ range: postRange })
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ range: postRange })
+		}
 
+		setVacancyDataOnContext({ range: postRange })
 		if (workplace !== 'homeoffice') {
-			navigation.navigate('SelectVacancyLocationView')
+			navigation.navigate('SelectVacancyLocationView', {
+				editMode: editModeIsTrue(),
+				initialValue: route.params?.initialValue
+			})
 		} else {
 			navigation.navigate('SelectWorkWeekdays')
 		}

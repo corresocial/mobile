@@ -8,7 +8,7 @@ export type SocialImpactStackParamList = {
 	SocialImpactPicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectSocialImpactCategory: { editMode: boolean } | undefined
 	SelectSocialImpactTags: { categorySelected: SocialImpactCategories, editMode?: boolean }
-	SelectSocialImpactRange: undefined
+	SelectSocialImpactRange: { editMode: boolean, initialValue?: LatLong } | undefined
 	SelectSocialImpactLocationView: { editMode: boolean, initialValue?: LatLong } | undefined
 	InsertSocialImpactLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
 	SocialImpactLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }

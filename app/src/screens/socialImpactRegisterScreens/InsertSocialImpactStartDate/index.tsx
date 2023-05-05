@@ -29,7 +29,16 @@ function InsertSocialImpactStartDate({ route, navigation }: InsertSocialImpactSt
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertSocialImpactStartHour')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ startDate: '' })
+			navigation.goBack()
+			return
+		}
+
+		setSocialImpactDataOnContext({ startDate: '' as any })
+		navigation.navigate('InsertSocialImpactStartHour')
+	}
 
 	const saveSocialImpactStartDate = (year: string, month: string, day: string) => {
 		const startDate = new Date(`${year}-${month}-${day}T12:00:00`)

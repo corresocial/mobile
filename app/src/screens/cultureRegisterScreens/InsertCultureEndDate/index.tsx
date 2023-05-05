@@ -28,7 +28,16 @@ function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenP
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertCultureEndHour')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ endDate: '' })
+			navigation.goBack()
+			return
+		}
+
+		setCultureDataOnContext({ endDate: '' as any })
+		navigation.navigate('InsertCultureEndHour')
+	}
 
 	const saveCultureStartDate = (year: string, month: string, day: string) => {
 		const endDate = new Date(`${year}-${month}-${day}T12:00:00`)

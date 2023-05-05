@@ -41,7 +41,7 @@ function VacancyLocationViewPreview({ route, navigation }: VacancyLocationViewPr
 	const saveLocationView = () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ locationView })
-			navigation.pop(2)
+			navigation.pop(3)
 			navigation.goBack()
 			return
 		}
@@ -50,10 +50,18 @@ function VacancyLocationViewPreview({ route, navigation }: VacancyLocationViewPr
 		navigation.navigate('SelectVacancyFrequency')
 	}
 
+	const getPostRange = () => {
+		if (editModeIsTrue()) {
+			return vacancyDataContext.range || 'near'
+		}
+
+		return postRange || 'near'
+	}
+
 	const getPlaceName = () => {
 		switch (postRange) {
 			case 'near': return 'near'
-			case 'city': return vacancyDataContext.location?.city || ''
+			case 'city': return editModeIsTrue() ? editDataContext.unsaved.location?.city : vacancyDataContext.location?.city
 			case 'country': return 'Brasil'
 			default: return ''
 		}
@@ -66,7 +74,7 @@ function VacancyLocationViewPreview({ route, navigation }: VacancyLocationViewPr
 				backgroundColor={theme.yellow2}
 				saveLocationView={saveLocationView}
 				initialValue={getCurrentMarkerCoordinate()}
-				postRange={postRange || 'near'}
+				postRange={getPostRange()}
 				placeName={getPlaceName()}
 				placeColor={theme.transparence.yellow3}
 				locationViewSelected={route.params.locationView}

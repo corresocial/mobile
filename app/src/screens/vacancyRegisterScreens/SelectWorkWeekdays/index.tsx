@@ -17,11 +17,22 @@ function SelectWorkWeekdays({ route, navigation }: SelectWorkWeekdaysScreenProps
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertVacancyStartDate')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ daysOfWeek: [] })
+			navigation.goBack()
+			navigation.goBack()
+			return
+		}
+
+		setVacancyDataOnContext({ daysOfWeek: [] })
+		navigation.navigate('InsertVacancyStartDate')
+	}
 
 	const saveWorkWeekdays = (selectedDaysOfWeek: DaysOfWeek[]) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ daysOfWeek: selectedDaysOfWeek })
+			navigation.goBack()
 			navigation.goBack()
 			return
 		}
