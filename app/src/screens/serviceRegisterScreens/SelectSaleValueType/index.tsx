@@ -28,12 +28,15 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 			case 'toMatch': {
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({ saleValue: 'a combinar' })
-					navigation.goBack()
-					navigation.goBack()
-					return
+					if (!bothPaymentType) {
+						navigation.goBack()
+						navigation.goBack()
+						return
+					}
+				} else {
+					setServiceDataOnContext({ saleValue: 'a combinar' })
 				}
 
-				setServiceDataOnContext({ saleValue: 'a combinar' })
 				if (bothPaymentType) {
 					navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
 					return

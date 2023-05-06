@@ -13,8 +13,12 @@ export const ValueContainer = styled.View`
 	padding-bottom: ${RFValue(5)}px;
 `
 
-export const Text = styled.Text`
-	font-family: Arvo_400Regular;
+interface TextProps {
+	bold?: boolean
+}
+
+export const Text = styled.Text<TextProps>`
+	font-family: ${({ bold }) => (bold ? 'Arvo_700Bold' : 'Arvo_400Regular')};
 	font-size: ${RFValue(14)}px;
 `
 

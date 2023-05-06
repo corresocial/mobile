@@ -151,7 +151,8 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		return vacancyCategories[getPostField('category') as VacancyCategories].label || ''
 	}
 
-	const getPostField = (fieldName: keyof VacancyCollection) => {
+	const getPostField = (fieldName: keyof VacancyCollection, allowNull?: boolean) => {
+		if (allowNull && editDataContext.saved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
 
@@ -226,16 +227,10 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 				/>
 				<Body>
 					<VerticalSigh />
-					{
-						getPostField('vacancyPurpose') && (
-							<>
-								<VacancyPurposeCard
-									vacancyPurpose={getPostField('vacancyPurpose')}
-								/>
-								<VerticalSigh />
-							</>
-						)
-					}
+					<VacancyPurposeCard
+						vacancyPurpose={getPostField('vacancyPurpose') || 'findProffessional'}
+					/>
+					<VerticalSigh />
 					<DescriptionCard
 						title={'descrição da vaga'}
 						text={getPostField('description')}
@@ -258,22 +253,16 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 					/>
 					<VerticalSigh />
 					<VacancyTypeCard
-						vacancyType={'temporary'}
+						vacancyType={getPostField('vacancyType')}
 					/>
 					<VerticalSigh />
-					{
-						(getPostField('saleValue') || getPostField('exchangeValue')) && (
-							<>
-								<SaleOrExchangeCard
-									title={'tipo de remuneração'}
-									hightligtedWords={['tipo', 'remuneração']}
-									saleValue={getPostField('saleValue')}
-									exchangeValue={getPostField('exchangeValue')}
-									isPayment
-								/>
-							</>
-						)
-					}
+					<SaleOrExchangeCard
+						title={'tipo de remuneração'}
+						hightligtedWords={['tipo', 'remuneração']}
+						saleValue={getPostField('saleValue', true)}
+						exchangeValue={getPostField('exchangeValue', true)}
+						isPayment
+					/>
 					<VerticalSigh />
 					<LocationViewCard
 						online={getPostField('workplace') === 'homeoffice'}
@@ -283,17 +272,16 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 					/>
 					<VerticalSigh />
 					<DateTimeCard
-						weekDaysfrequency={'someday'}
-						daysOfWeek={getPostField('daysOfWeek')}
-						startTime={getPostField('startHour')}
-						endTime={getPostField('endHour')}
-						startDate={getPostField('startDate')}
-						endDate={getPostField('endDate')}
+						weekDaysfrequency={getPostField('workFrequency')}
+						daysOfWeek={getPostField('daysOfWeek', true)}
+						startTime={getPostField('startHour', true)}
+						endTime={getPostField('endHour', true)}
+						startDate={getPostField('startDate', true)}
+						endDate={getPostField('endDate', true)}
 					/>
 					<VerticalSigh />
 					{
-						(!getPostField('importantPoints') || getPostField('importantPoints').length)
-						&& (
+						!!(getPostField('importantPoints') && getPostField('importantPoints').length) && (
 							<ImportantPointsCard
 								importantPoints={getPostField('importantPoints')}
 							/>

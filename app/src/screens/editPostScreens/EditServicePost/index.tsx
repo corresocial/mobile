@@ -333,6 +333,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 					highlightedWords={['começa']}
 					SecondSvgIcon={ClockWhiteIcon}
 					value={formatHour(getPostField('startHour', true)) || ' ---'}
+					valueBold
 					onEdit={() => navigateToEditScreen('InsertServiceStartHour', 'startHour')}
 				/>
 				<VerticalSigh />
@@ -341,6 +342,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 					highlightedWords={['termina']}
 					SecondSvgIcon={ClockWhiteIcon}
 					value={formatHour(getPostField('endHour', true)) || ' ---'}
+					valueBold
 					onEdit={() => navigateToEditScreen('InsertServiceEndHour', 'endHour')}
 				/>
 				<VerticalSigh />

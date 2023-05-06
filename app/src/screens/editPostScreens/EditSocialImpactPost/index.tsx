@@ -348,6 +348,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 					highlightedWords={['começa']}
 					SecondSvgIcon={CalendarEmptyIcon}
 					value={formatDate(getPostField('startDate', true)) || '---'}
+					valueBold
 					onEdit={() => navigateToEditScreen('InsertSocialImpactStartDate', 'startHour')}
 				/>
 				<VerticalSigh />
@@ -356,6 +357,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 					highlightedWords={['começa']}
 					SecondSvgIcon={ClockWhiteIcon}
 					value={formatHour(getPostField('startHour', true)) || '---'}
+					valueBold
 					onEdit={() => navigateToEditScreen('InsertSocialImpactStartHour', 'startHour')}
 				/>
 				<VerticalSigh />
@@ -364,6 +366,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 					highlightedWords={['termina']}
 					SecondSvgIcon={CalendarEmptyIcon}
 					value={formatDate(getPostField('endDate', true)) || '---'}
+					valueBold
 					onEdit={() => navigateToEditScreen('InsertSocialImpactEndDate', 'endHour')}
 				/>
 				<VerticalSigh />
@@ -372,6 +375,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 					highlightedWords={['termina']}
 					SecondSvgIcon={ClockWhiteIcon}
 					value={formatHour(getPostField('endHour', true)) || '---'}
+					valueBold
 					onEdit={() => navigateToEditScreen('InsertSocialImpactEndHour', 'endHour')}
 				/>
 				<VerticalSigh />

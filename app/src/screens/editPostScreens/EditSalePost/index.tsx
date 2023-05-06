@@ -338,6 +338,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 					highlightedWords={['começa']}
 					SecondSvgIcon={ClockWhiteIcon}
 					value={formatHour(getPostField('startHour', true)) || ' ---'}
+					valueBold
 					onEdit={() => navigateToEditScreen('InsertSaleStartHour', 'startHour')}
 				/>
 				<VerticalSigh />
@@ -346,6 +347,7 @@ function EditSalePost({ route, navigation }: EditSalePostScreenProps) {
 					highlightedWords={['termina']}
 					SecondSvgIcon={ClockWhiteIcon}
 					value={formatHour(getPostField('endHour', true)) || ' ---'}
+					valueBold
 					onEdit={() => navigateToEditScreen('InsertSaleEndHour', 'endHour')}
 				/>
 				<VerticalSigh />

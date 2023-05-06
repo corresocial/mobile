@@ -31,21 +31,19 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({
-				locationView: 'public',
 				location: {
 					...completeAddress,
 					...geohashObject
 				}
 			})
-			navigation.goBack()
-			return
+		} else {
+			setVacancyDataOnContext({
+				location: {
+					...completeAddress,
+					...geohashObject
+				}
+			})
 		}
-		setVacancyDataOnContext({
-			location: {
-				...completeAddress,
-				...geohashObject
-			}
-		})
 
 		navigation.navigate('VacancyLocationViewPreview', {
 			locationView,

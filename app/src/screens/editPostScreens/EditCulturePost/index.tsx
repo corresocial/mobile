@@ -356,6 +356,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 					highlightedWords={['começa']}
 					SecondSvgIcon={CalendarEmptyIcon}
 					value={formatDate(getPostField('startDate', true)) || '---'}
+					valueBold
 					onEdit={() => navigateToEditScreen('InsertCultureStartDate', 'startDate')}
 				/>
 				<VerticalSigh />
@@ -364,6 +365,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 					highlightedWords={['começa']}
 					SecondSvgIcon={ClockWhiteIcon}
 					value={formatHour(getPostField('startHour', true)) || '---'}
+					valueBold
 					onEdit={() => navigateToEditScreen('InsertCultureStartHour', 'startHour')}
 				/>
 				<VerticalSigh />
@@ -372,6 +374,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 					highlightedWords={['termina']}
 					SecondSvgIcon={CalendarEmptyIcon}
 					value={formatDate(getPostField('endDate', true)) || '---'}
+					valueBold
 					onEdit={() => navigateToEditScreen('InsertCultureEndDate', 'endDate')}
 				/>
 				<VerticalSigh />
@@ -380,6 +383,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 					highlightedWords={['termina']}
 					SecondSvgIcon={ClockWhiteIcon}
 					value={formatHour(getPostField('endHour', true)) || '---'}
+					valueBold
 					onEdit={() => navigateToEditScreen('InsertCultureEndHour', 'endHour')}
 				/>
 				<VerticalSigh />

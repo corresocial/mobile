@@ -15,6 +15,7 @@ interface EditCardProps {
 	highlightedWords?: string[]
 	value?: string | (string | ReactElement)[]
 	profilePicturesUrl?: string[]
+	valueBold?: boolean
 	indicatorColor?: string
 	carousel?: boolean
 	SvgIcon?: React.FC<SvgProps>
@@ -26,6 +27,7 @@ function EditCard({
 	title,
 	highlightedWords = [],
 	value = '',
+	valueBold,
 	profilePicturesUrl = [],
 	indicatorColor,
 	carousel,
@@ -44,7 +46,6 @@ function EditCard({
 		}
 		return false
 	}
-
 	return (
 		<DefaultCardContainer withoutPadding={!!profilePicturesUrl.length}>
 			<CardHeader
@@ -58,6 +59,7 @@ function EditCard({
 						title={title}
 						highlightedWords={highlightedWords}
 						SecondSvgIcon={SecondSvgIcon}
+						fontSize={20}
 						dimensions={30}
 						justifyContent={'space-between'}
 					/>
@@ -70,7 +72,7 @@ function EditCard({
 							{
 								value && (
 									<ValueContainer>
-										<Text>
+										<Text bold={valueBold}>
 											{isDateOrTimeOrObject() && '   '}
 											{value}
 										</Text>

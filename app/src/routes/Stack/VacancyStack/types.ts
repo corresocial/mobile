@@ -4,14 +4,14 @@ import { UserStackParamList } from '../UserStack/types'
 export type VacancyStackParamList = {
 	InsertVacancyTitle: { editMode: boolean, initialValue: string } | undefined
 	InsertVacancyDescription: { editMode: boolean, initialValue: string } | undefined
-	InsertVacancyImportantPoints: undefined
+	InsertVacancyImportantPoints: { editMode: boolean, initialValue: string[] } | undefined
 	InsertVacancyPicture: undefined
 	VacancyPicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectWorkplace: { editMode: boolean } | undefined
 	SelectPaymentType: { editMode: boolean } | undefined
-	InsertSaleValue: { bothPaymentType: boolean, editMode?: boolean, initialValue?: string }
-	InsertExchangeValue: { editMode: boolean, initialValue: string } | undefined
-	SelectSaleValueType: { bothPaymentType: boolean }
+	InsertSaleValue: { bothPaymentType: boolean, editMode?: boolean }
+	InsertExchangeValue: { editMode: boolean } | undefined
+	SelectSaleValueType: { bothPaymentType: boolean, editMode?: boolean }
 	SelectVacancyRange: { editMode?: boolean } | undefined
 	SelectVacancyLocationView: { editMode?: boolean, initialValue?: { coordinates: LatLong, postRange: PostRange } } | undefined
 	VacancyLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }

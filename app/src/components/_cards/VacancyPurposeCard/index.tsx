@@ -11,14 +11,16 @@ import { VacancyPurpose } from '../../../services/firebase/types'
 
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { PostInfoRow } from '../../PostInfoRow'
+import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 
 interface VacancyPurposeCardProps {
 	title?: string
 	vacancyPurpose?: VacancyPurpose
 	hightligtedWords?: string[]
+	onEdit?: () => void
 }
 
-function VacancyPurposeCard({ title, vacancyPurpose, hightligtedWords }: VacancyPurposeCardProps) {
+function VacancyPurposeCard({ title, vacancyPurpose, hightligtedWords, onEdit }: VacancyPurposeCardProps) {
 	const getRelativeVacancyPurposeCard = () => {
 		switch (vacancyPurpose) {
 			case 'findProffessional': return showMessageWithHighlight('procurando profissional', ['profissional'])
@@ -37,11 +39,13 @@ function VacancyPurposeCard({ title, vacancyPurpose, hightligtedWords }: Vacancy
 
 	return (
 		<DefaultCardContainer>
-			<DefaultHeaderTitle
-				title={title || 'tipo de post'}
-				highlightedWords={hightligtedWords || ['tipo']}
-				dimensions={30}
-			/>
+			<EditHeaderContainer onPress={onEdit}>
+				<DefaultHeaderTitle
+					title={title || 'tipo de post'}
+					highlightedWords={hightligtedWords || ['tipo']}
+					dimensions={30}
+				/>
+			</EditHeaderContainer>
 			<PostInfoRow
 				text={getRelativeVacancyPurposeCard()}
 				SvgIcon={getRelativeValueIcon()}

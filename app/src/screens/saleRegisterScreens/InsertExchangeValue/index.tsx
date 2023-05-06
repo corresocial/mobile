@@ -27,6 +27,8 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		return unsubscribe
 	}, [navigation])
 
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
 	const validateExchangeValue = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
@@ -46,8 +48,6 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		setSaleDataOnContext({ exchangeValue })
 		navigation.navigate('SelectSaleRange')
 	}
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

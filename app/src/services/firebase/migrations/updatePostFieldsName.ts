@@ -113,9 +113,10 @@ const migratePostFields = async (posts: PostCollection[]) => {
 				currentPost.vacancyPurpose = 'findProffessional'
 				// currentPost.picturesUrl = []
 				currentPost.locationView = 'approximate'
+				currentPost.workFrequency = 'someday'
 
 				if (currentPost.questions) currentPost.importantPoints = currentPost.questions
-				if (currentPost.workWeekdays) currentPost.daysOfWeek = currentPost.workWeekdays
+				if (currentPost.workWeekdays) currentPost.daysOfWeek = currentPost.workWeekdays || []
 				if (currentPost.startWorkDate) currentPost.startDate = currentPost.startWorkDate
 				if (currentPost.endWorkDate) currentPost.endDate = currentPost.endWorkDate
 				if (currentPost.startWorkHour) currentPost.startHour = currentPost.startWorkHour
