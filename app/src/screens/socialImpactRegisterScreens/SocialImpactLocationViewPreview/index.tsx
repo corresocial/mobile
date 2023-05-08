@@ -37,10 +37,18 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 		}
 	}
 
+	const getPostRange = () => {
+		if (editModeIsTrue()) {
+			return socialImpactDataContext.range || 'near'
+		}
+
+		return postRange || 'near'
+	}
+
 	const saveLocationView = () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ locationView })
-			navigation.pop(2)
+			navigation.pop(3)
 			navigation.goBack()
 			return
 		}
@@ -50,9 +58,9 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 	}
 
 	const getPlaceName = () => {
-		switch (postRange) {
+		switch (getPostRange()) {
 			case 'near': return 'near'
-			case 'city': return socialImpactDataContext.location?.city || ''
+			case 'city': return editModeIsTrue() ? editDataContext.unsaved.location?.city : socialImpactDataContext.location?.city
 			case 'country': return 'Brasil'
 			default: return ''
 		}
@@ -65,7 +73,7 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 				backgroundColor={theme.pink2}
 				saveLocationView={saveLocationView}
 				initialValue={getCurrentMarkerCoordinate()}
-				postRange={postRange || 'near'}
+				postRange={getPostRange()}
 				placeName={getPlaceName()}
 				placeColor={theme.transparence.pink3}
 				locationViewSelected={route.params.locationView}

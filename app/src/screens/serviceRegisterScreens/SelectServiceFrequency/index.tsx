@@ -17,7 +17,22 @@ function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScr
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertServiceStartHour')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({
+				attendanceFrequency: '',
+				daysOfWeek: []
+			})
+			navigation.goBack()
+			return
+		}
+
+		setServiceDataOnContext({
+			attendanceFrequency: 'someday',
+			daysOfWeek: []
+		})
+		navigation.navigate('InsertServiceStartHour')
+	}
 
 	const saveServiceFrequency = (serviceFrequency: WeekdaysFrequency) => {
 		const daysOfWeek = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'] as DaysOfWeek[]
@@ -61,9 +76,7 @@ function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScr
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({ attendanceFrequency: serviceFrequency })
 				} else {
-					setServiceDataOnContext({
-						attendanceFrequency: serviceFrequency
-					})
+					setServiceDataOnContext({ attendanceFrequency: serviceFrequency })
 				}
 
 				navigation.navigate('SelectServiceDaysOfWeek', {

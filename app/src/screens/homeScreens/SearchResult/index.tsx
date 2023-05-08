@@ -159,6 +159,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 							width={'42%'}
 							selected={postResultsIsVisible}
 							SvgIcon={ChatWhiteIcon}
+							svgIconScale={['60%', '25%']}
 							onSelect={() => {
 								setPostResultsIsVisible(true)
 								setProfileResultsIsVisible(false)
@@ -174,6 +175,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 							width={'42%'}
 							selected={profileResultsIsVisible}
 							SvgIcon={PaperListIcon}
+							svgIconScale={['60%', '25%']}
 							onSelect={() => {
 								setProfileResultsIsVisible(true)
 								setPostResultsIsVisible(false)

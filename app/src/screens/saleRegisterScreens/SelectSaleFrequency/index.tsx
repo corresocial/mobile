@@ -17,7 +17,22 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertSaleStartHour')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({
+				attendanceFrequency: '',
+				daysOfWeek: []
+			})
+			navigation.goBack()
+			return
+		}
+
+		setSaleDataOnContext({
+			attendanceFrequency: 'someday',
+			daysOfWeek: []
+		})
+		navigation.navigate('InsertSaleStartHour')
+	}
 
 	const saveSaleFrequency = (saleFrequency: WeekdaysFrequency) => {
 		const daysOfWeek = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'] as DaysOfWeek[]

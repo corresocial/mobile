@@ -12,15 +12,17 @@ import { PlaceModalityType, WorkplaceType } from '../../../services/firebase/typ
 
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { PostInfoRow } from '../../PostInfoRow'
+import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 
 interface PlaceModalityProps {
 	title?: string
 	placeModality?: PlaceModalityType | WorkplaceType
 	hightligtedWords?: string[]
 	isVacancy?: boolean
+	onEdit?: () => void
 }
 
-function PlaceModality({ title, placeModality, hightligtedWords, isVacancy }: PlaceModalityProps) {
+function PlaceModality({ title, placeModality, hightligtedWords, isVacancy, onEdit }: PlaceModalityProps) {
 	const getRelativePlaceModality = () => {
 		const prefix = isVacancy ? 'vaga ' : ''
 
@@ -52,11 +54,13 @@ function PlaceModality({ title, placeModality, hightligtedWords, isVacancy }: Pl
 
 	return (
 		<DefaultCardContainer>
-			<DefaultHeaderTitle
-				title={title || 'como vai ser'}
-				highlightedWords={hightligtedWords || ['como']}
-				dimensions={30}
-			/>
+			<EditHeaderContainer onPress={onEdit}>
+				<DefaultHeaderTitle
+					title={title || 'como vai ser'}
+					highlightedWords={hightligtedWords || ['como']}
+					dimensions={30}
+				/>
+			</EditHeaderContainer>
 			<PostInfoRow
 				text={getRelativePlaceModality()}
 				SvgIcon={getRelativeValueIcon()}

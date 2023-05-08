@@ -106,7 +106,7 @@ function PostInputText({
 								label={'continuar'}
 								labelColor={theme.white3}
 								SvgIcon={CheckWhiteIcon}
-								onPress={() => saveTextData(inputText)}
+								onPress={() => saveTextData(inputText.trim())}
 							/>
 						)
 					}

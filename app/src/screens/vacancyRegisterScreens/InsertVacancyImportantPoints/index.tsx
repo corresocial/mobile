@@ -11,6 +11,7 @@ import { InsertVacancyImportantPointsScreenProps } from '../../../routes/Stack/V
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -21,11 +22,12 @@ import { LineInput } from '../../../components/LineInput'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { SkipButton } from '../../../components/_buttons/SkipButton'
 
-function InsertVacancyImportantPoints({ navigation }: InsertVacancyImportantPointsScreenProps) {
+function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImportantPointsScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [importantPointText, setImportantPointText] = useState('')
-	const [importantPointsList, setImportantPointsList] = useState<string[]>([])
+	const [importantPointsList, setImportantPointsList] = useState<string[]>(route.params?.initialValue || [])
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	const inputRefs = {
@@ -48,6 +50,8 @@ function InsertVacancyImportantPoints({ navigation }: InsertVacancyImportantPoin
 
 	useEffect(() => {
 	}, [importantPointText, keyboardOpened])
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const validateVacancyImportantPoints = (text: string) => {
 		const isValid = (text).trim().length >= 1
@@ -80,7 +84,7 @@ function InsertVacancyImportantPoints({ navigation }: InsertVacancyImportantPoin
 				textIsValid={true && !keyboardOpened}
 				onIconPress={() => removeImportantPoint(index)}
 				validateText={(text: string) => validateVacancyImportantPoints(text)}
-				onChangeText={(text: string) => { }}/* editImportantPoint(text, index) In case edit cardImportantPoint */
+				onChangeText={(text: string) => { }}
 			/>
 		))
 	}
@@ -92,12 +96,6 @@ function InsertVacancyImportantPoints({ navigation }: InsertVacancyImportantPoin
 		setImportantPointsList([...importantPointsList, importantPointText])
 		setImportantPointText('')
 	}
-	/*
-		const editImportantPoint = (point: string, index: number) => {
-			const importantPoints = [...importantPointsList]
-			importantPoints[index] = point
-			setImportantPointsList(importantPoints)
-		} */
 
 	const removeImportantPoint = (index: number) => {
 		const importantPoints = [...importantPointsList]
@@ -105,12 +103,27 @@ function InsertVacancyImportantPoints({ navigation }: InsertVacancyImportantPoin
 		setImportantPointsList(importantPoints.filter((point) => point))
 	}
 
-	const saveVacancyImportantPoints = () => {
-		setVacancyDataOnContext({ importantPoints: importantPointsList })
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ importantPoints: [] })
+			navigation.goBack()
+			return
+		}
+
+		setVacancyDataOnContext({ importantPoints: [] })
 		navigation.navigate('VacancyReview')
 	}
 
-	const skipScreen = () => navigation.navigate('VacancyReview')
+	const saveVacancyImportantPoints = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ importantPoints: importantPointsList })
+			navigation.goBack()
+			return
+		}
+
+		setVacancyDataOnContext({ importantPoints: importantPointsList })
+		navigation.navigate('VacancyReview')
+	}
 
 	const getPlaceholder = () => {
 		switch (importantPointsLength()) {

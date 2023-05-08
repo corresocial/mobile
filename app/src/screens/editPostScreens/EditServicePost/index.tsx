@@ -3,8 +3,9 @@ import { getDownloadURL } from 'firebase/storage'
 import { StatusBar } from 'react-native'
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { Body, Container, Header, LastSigh, SaveButtonContainer, Sigh } from './styles'
-import CheckIcon from '../../../assets/icons/check-white.svg'
+import { Body, Container, Header, SaveButtonContainer } from './styles'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
 
 import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
 import { arrayIsEmpty, formatHour } from '../../../common/auxiliaryFunctions'
@@ -13,7 +14,7 @@ import { updateDocField } from '../../../services/firebase/common/updateDocField
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
 import { EditServicePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { DaysOfWeek, Id, ServiceCategories, ServiceCollection, ServiceCollectionRemote } from '../../../services/firebase/types'
+import { Id, ServiceCategories, ServiceCollection, ServiceCollectionRemote } from '../../../services/firebase/types'
 import { ServiceStackParamList } from '../../../routes/Stack/ServiceStack/types'
 
 import { EditContext } from '../../../contexts/EditContext'
@@ -26,6 +27,12 @@ import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Loader } from '../../../components/Loader'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
+import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
+import { VerticalSigh } from '../../../components/VerticalSigh'
+import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
+import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
+import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
+import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
 
 function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -45,55 +52,32 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 		return picturesUrl
 	}
 
-	const getRelativeTitle = () => {
-		switch (postData.postType) {
-			case 'service': return 'do serviço'
-			case 'sale': return 'da venda'
-			case 'vacancy': return 'da vaga'
-			case 'socialImpact': return 'da iniciativa'
-			case 'culture': return 'do evento'
-			default: return 'do post'
-		}
-	}
-
-	const formatDaysOfWeek = () => {
-		const daysOfWeek = getPostField('daysOfWeek')
-
-		const allDaysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
-		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => (daysOfWeek || []).includes(weekDay))
-		return ordenedDaysOfWeek.toString().split(',').join(', ')
-	}
-
-	const renderDeliveryMethod = () => {
-		const deliveryMethod = getPostField('deliveryMethod')
-		switch (deliveryMethod) {
-			case 'unavailable': return 'não entrega'
-			case 'near': return 'entrega perto'
-			case 'city': return 'entrega na cidade'
-			case 'country': return 'entrega no país inteiro'
-			default: return '---'
-		}
-	}
-
-	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof ServiceCollectionRemote, especificField?: string) => {
+	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof ServiceCollectionRemote) => {
 		let value = getPostField(initialValue)
 
 		if (initialValue === 'picturesUrl') {
 			value = getPicturesUrl()
 		}
 
+		if (initialValue === 'location') {
+			value = {
+				coordinates: value.coordinates,
+				postRange: getPostField('range')
+			}
+		}
+
 		navigation.navigate('ServiceStack', {
 			screen: screenName,
 			params: {
 				editMode: true,
-				initialValue: !especificField ? value : value[especificField]
+				initialValue: value
 			}
 		})
 	}
 
 	const getUserPostsWithoutEdited = () => {
 		const userPosts = userDataContext.posts || []
-		return userPosts.filter((post: ServiceCollection) => post.postId !== postData.postId)
+		return userPosts.filter((post: any) => post.postId !== postData.postId) // TODO Type ServiceCollection
 	}
 
 	const editPost = async () => {
@@ -238,7 +222,8 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 		navigation.goBack()
 	}
 
-	const getPostField = (fieldName: keyof ServiceCollection) => {
+	const getPostField = (fieldName: keyof ServiceCollection, allowNull?: boolean) => {
+		if (allowNull && editDataContext.unsaved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.unsaved[fieldName] || postData[fieldName]
 	}
 
@@ -270,7 +255,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 										label={'salvar alterações'}
 										highlightedWords={['salvar']}
 										fontSize={16}
-										SecondSvgIcon={CheckIcon}
+										SecondSvgIcon={CheckWhiteIcon}
 										svgIconScale={['35%', '18%']}
 										minHeight={relativeScreenHeight(6)}
 										relativeHeight={relativeScreenHeight(8)}
@@ -289,81 +274,79 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 					value={formatCategoryAndTags()}
 					onEdit={() => navigateToEditScreen('SelectServiceCategory', 'tags')}
 				/>
-				<Sigh />
+				<VerticalSigh />
 				<EditCard
 					title={'título do post'}
 					highlightedWords={['título']}
 					value={getPostField('title')}
 					onEdit={() => navigateToEditScreen('InsertServiceName', 'title')}
 				/>
-				<Sigh />
+				<VerticalSigh />
+				<DescriptionCard
+					text={getPostField('description')}
+					onEdit={() => navigateToEditScreen('InsertServiceDescription', 'description')}
+				/>
+				<VerticalSigh />
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
 					profilePicturesUrl={getPicturesUrl()}
+					indicatorColor={theme.purple1}
 					carousel
 					onEdit={() => navigateToEditScreen('ServicePicturePreview', 'picturesUrl')}
 				/>
-				<Sigh />
-				<EditCard
-					title={`descrição ${getRelativeTitle()}`}
-					highlightedWords={['descrição']}
-					value={getPostField('description') || '---'}
-					onEdit={() => navigateToEditScreen('InsertServiceDescription', 'description')}
+				<VerticalSigh />
+				<SaleOrExchangeCard
+					saleValue={getPostField('saleValue', true)}
+					exchangeValue={getPostField('exchangeValue', true)}
+					onEdit={() => navigateToEditScreen('SelectPaymentType', 'saleValue')}
 				/>
-				<Sigh />
-				<EditCard
-					title={'valor de venda'}
-					highlightedWords={['venda']}
-					value={getPostField('saleValue') || '---'}
-					onEdit={() => navigateToEditScreen('InsertSaleValue', 'saleValue')}
+				<VerticalSigh />
+				<PostRangeCard
+					postRange={getPostField('range')}
+					onEdit={() => navigateToEditScreen('SelectServiceRange', 'range')}
 				/>
-				<Sigh />
-				<EditCard
-					title={'valor de troca'}
-					highlightedWords={['troca']}
-					value={getPostField('exchangeValue') || '---'}
-					onEdit={() => navigateToEditScreen('InsertExchangeValue', 'exchangeValue')}
-				/>
-				<Sigh />
+				<VerticalSigh />
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
 					textFontSize={16}
-					editable
-					isAuthor
 					location={getPostField('location')}
-					onEdit={() => navigateToEditScreen('SelectLocationView', 'location', 'coordinates')}
+					onEdit={() => navigateToEditScreen('SelectLocationView', 'location')}
 				/>
-				<Sigh />
-				<EditCard
-					title={'dias da semana'}
-					highlightedWords={['semana']}
-					value={formatDaysOfWeek() || '---'}
-					onEdit={() => navigateToEditScreen('SelectServiceFrequency', 'daysOfWeek')}
-				/>
-				<Sigh />
-				<EditCard
-					title={'horário de início'}
-					highlightedWords={['início']}
-					value={formatHour(getPostField('startHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertServiceStartHour', 'startHour')}
-				/>
-				<Sigh />
-				<EditCard
-					title={'horário de fim'}
-					highlightedWords={['fim']}
-					value={formatHour(getPostField('endHour')) || '---'}
-					onEdit={() => navigateToEditScreen('InsertServiceEndHour', 'endHour')}
-				/>
-				<Sigh />
-				<EditCard
-					title={'entrega'}
-					highlightedWords={['entrega']}
-					value={renderDeliveryMethod() || '---'}
+				<VerticalSigh />
+				<DeliveryMethodCard
+					deliveryMethod={getPostField('deliveryMethod')}
 					onEdit={() => navigateToEditScreen('SelectDeliveryMethod', 'deliveryMethod')}
 				/>
-				<LastSigh />
+				<VerticalSigh />
+				<DateTimeCard
+					title={'dias da semana'}
+					highlightedWords={['dias']}
+					weekDaysfrequency={getPostField('attendanceFrequency')}
+					daysOfWeek={getPostField('daysOfWeek', true)}
+					onEdit={() => navigateToEditScreen('SelectServiceFrequency', 'daysOfWeek')}
+				/>
+				<VerticalSigh />
+				<EditCard
+					title={'que horas começa'}
+					highlightedWords={['começa']}
+					SecondSvgIcon={ClockWhiteIcon}
+					value={formatHour(getPostField('startHour', true)) || ' ---'}
+					valueBold
+					onEdit={() => navigateToEditScreen('InsertServiceStartHour', 'startHour')}
+				/>
+				<VerticalSigh />
+				<EditCard
+					title={'que horas termina'}
+					highlightedWords={['termina']}
+					SecondSvgIcon={ClockWhiteIcon}
+					value={formatHour(getPostField('endHour', true)) || ' ---'}
+					valueBold
+					onEdit={() => navigateToEditScreen('InsertServiceEndHour', 'endHour')}
+				/>
+				<VerticalSigh />
+				<VerticalSigh />
 			</Body>
 		</Container>
 	)

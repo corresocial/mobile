@@ -1,20 +1,22 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CardHeader, PictureArea, Text, ValueContainer, ProfilePicture } from './styles'
-import PencilIcon from '../../../assets/icons/pencil.svg'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { ImageCarousel } from '../../ImageCarousel'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
+import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 
 interface EditCardProps {
 	title: string
 	highlightedWords?: string[]
-	value?: string
+	value?: string | (string | ReactElement)[]
 	profilePicturesUrl?: string[]
+	valueBold?: boolean
+	indicatorColor?: string
 	carousel?: boolean
 	SvgIcon?: React.FC<SvgProps>
 	SecondSvgIcon?: React.FC<SvgProps>
@@ -25,12 +27,25 @@ function EditCard({
 	title,
 	highlightedWords = [],
 	value = '',
+	valueBold,
 	profilePicturesUrl = [],
+	indicatorColor,
 	carousel,
 	SvgIcon,
 	SecondSvgIcon,
 	onEdit,
 }: EditCardProps) {
+	const isDateOrTimeOrObject = () => {
+		if (value) {
+			if (typeof value === 'string') {
+				return value.includes('/') || value.includes(':') || value.includes('-')
+			}
+			if (typeof value === 'object') {
+				return true
+			}
+		}
+		return false
+	}
 	return (
 		<DefaultCardContainer withoutPadding={!!profilePicturesUrl.length}>
 			<CardHeader
@@ -39,34 +54,32 @@ function EditCard({
 					paddingVertical: profilePicturesUrl.length ? RFValue(10) : 0
 				}}
 			>
-				<DefaultHeaderTitle
-					title={title}
-					fontSize={20}
-					highlightedWords={highlightedWords}
-					onPressIcon={onEdit}
-					SvgIcon={SvgIcon || PencilIcon}
-					SecondSvgIcon={SecondSvgIcon}
-					dimensions={20}
-					invertTextAndIcon
-					justifyContent={'space-between'}
-				/>
+				<EditHeaderContainer onPress={onEdit}>
+					<DefaultHeaderTitle
+						title={title}
+						highlightedWords={highlightedWords}
+						SecondSvgIcon={SecondSvgIcon}
+						fontSize={20}
+						dimensions={30}
+						justifyContent={'space-between'}
+					/>
+				</EditHeaderContainer>
 			</CardHeader>
 			{
 				!profilePicturesUrl.length
 					? (
-						<ValueContainer>
+						<>
 							{
-								value.length < 150
-									? (
-										<Text>
+								value && (
+									<ValueContainer>
+										<Text bold={valueBold}>
+											{isDateOrTimeOrObject() && '   '}
 											{value}
 										</Text>
-									)
-									: (
-										< Text numberOfLines={4}>{value}</Text>
-									)
+									</ValueContainer>
+								)
 							}
-						</ValueContainer>
+						</>
 					)
 					: (
 						<PictureArea
@@ -79,6 +92,7 @@ function EditCard({
 									? (
 										<ImageCarousel
 											picturesUrl={profilePicturesUrl}
+											indicatorColor={indicatorColor}
 											relativeWidth={relativeScreenWidth(90)}
 										/>
 									) : (

@@ -8,6 +8,7 @@ import { SelectEventPlaceModalityScreenProps } from '../../../routes/Stack/Cultu
 import { PlaceModalityType } from '../../../services/firebase/types'
 
 import { CultureContext } from '../../../contexts/CultureContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -16,10 +17,18 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
-function SelectEventPlaceModality({ navigation }: SelectEventPlaceModalityScreenProps) {
+function SelectEventPlaceModality({ route, navigation }: SelectEventPlaceModalityScreenProps) {
 	const { setCultureDataOnContext } = useContext(CultureContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const saveEventPlaceModality = (eventPlaceModality: PlaceModalityType) => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ eventPlaceModality })
+			navigation.goBack()
+		}
+
 		setCultureDataOnContext({ eventPlaceModality })
 		navigation.navigate('SelectCultureRange')
 	}

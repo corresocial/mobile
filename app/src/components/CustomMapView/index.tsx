@@ -40,12 +40,19 @@ function CustomMapView({
 
 }: CustomMapViewProops) {
 	const [rangeCoordinates, setRangeCoordinates] = useState<LatLong[]>([markerCoordinate])
+	const [randomCoordinate, setRandomCoordinates] = useState<LatLong>()
 
 	const approximateRadius = 250
 
 	useEffect(() => {
 		getRangeLimits()
+		getRandomCoordinates()
 	}, [])
+
+	const getRandomCoordinates = () => {
+		const randomLatLng = generateRandomCoordinateOnRadius()
+		setRandomCoordinates(randomLatLng as any) // TODO Type
+	}
 
 	const getRangeLimits = async () => {
 		if (placeName || placeName === 'near') {
@@ -104,7 +111,7 @@ function CustomMapView({
 	}
 
 	const getRegionCoordinates = () => {
-		if (!renderLimits || !rangeCoordinates) return regionCoordinate
+		if (!renderLimits || !rangeCoordinates || !rangeCoordinates[0] || rangeCoordinates.length < 3) return regionCoordinate
 
 		const latDiff = rangeCoordinates[0].latitude - rangeCoordinates[2].latitude
 		const lgnDiff = rangeCoordinates[0].longitude - rangeCoordinates[2].longitude
@@ -145,8 +152,6 @@ function CustomMapView({
 		}
 		return -(approximateRadius * detachmentRandom)
 	}
-
-	const randomCoordinate = generateRandomCoordinateOnRadius()
 
 	return (
 		<MapView

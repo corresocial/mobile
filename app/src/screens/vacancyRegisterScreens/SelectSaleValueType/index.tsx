@@ -5,28 +5,42 @@ import { SelectSaleValueTypeScreenProps } from '../../../routes/Stack/VacancySta
 import { SaleValueType } from '../../../services/firebase/types'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { PaymentValueType } from '../../../components/_onboarding/PaymentValueType'
 import { theme } from '../../../common/theme'
 
 function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveVacancyValueType = (paymentType: SaleValueType) => {
 		const { bothPaymentType } = route.params
 
+		const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
 		switch (paymentType) {
 			case 'fixed': {
-				navigation.navigate('InsertSaleValue', { bothPaymentType })
+				navigation.navigate('InsertSaleValue', { bothPaymentType, editMode: editModeIsTrue() })
 				break
 			}
 			case 'toMatch': {
-				setVacancyDataOnContext({ saleValue: 'a combinar' })
+				if (editModeIsTrue()) {
+					addNewUnsavedFieldToEditContext({ saleValue: 'a combinar' })
+					if (!bothPaymentType) {
+						navigation.goBack()
+						navigation.goBack()
+						return
+					}
+				} else {
+					setVacancyDataOnContext({ saleValue: 'a combinar' })
+				}
 
 				if (bothPaymentType) {
-					navigation.navigate('InsertExchangeValue')
+					navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
 					return
 				}
+
 				navigation.navigate('SelectVacancyRange')
 				break
 			}

@@ -29,7 +29,16 @@ function InsertCultureStartHour({ route, navigation }: InsertCultureStartHourScr
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertCultureEndDate')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ startHour: '' })
+			navigation.goBack()
+			return
+		}
+
+		setCultureDataOnContext({ startHour: '' as any })
+		navigation.navigate('InsertCultureEndDate')
+	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
 		const startHour = new Date()

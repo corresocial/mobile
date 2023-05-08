@@ -29,7 +29,16 @@ function InsertCultureEndHour({ route, navigation }: InsertCultureEndHourScreenP
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('CultureReview')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ endHour: '' })
+			navigation.goBack()
+			return
+		}
+
+		setCultureDataOnContext({ endHour: '' as any })
+		navigation.navigate('CultureReview')
+	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
 		const endHour = new Date()

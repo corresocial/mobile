@@ -33,7 +33,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const [catalogIcons, setCatalogIcons] = useState([])
 	const [searchText, setSearchText] = useState('')
 
-	const { nearbyPosts } = locationDataContext
+	const nearbyPosts = locationDataContext.nearbyPosts || []
 
 	useEffect(() => {
 		setPostTypeOnSearchParams()

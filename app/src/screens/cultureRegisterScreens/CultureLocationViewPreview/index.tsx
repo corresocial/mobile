@@ -41,20 +41,27 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 	const saveLocationView = async () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ locationView })
-			navigation.pop(2)
+			navigation.pop(3)
 			navigation.goBack()
 			return
 		}
 
 		setCultureDataOnContext({ locationView })
-
 		navigation.navigate('InsertEntryValue')
 	}
 
+	const getPostRange = () => {
+		if (editModeIsTrue()) {
+			return cultureDataContext.range || 'near'
+		}
+
+		return postRange || 'near'
+	}
+
 	const getPlaceName = () => {
-		switch (postRange) {
+		switch (getPostRange()) {
 			case 'near': return 'near'
-			case 'city': return cultureDataContext.location?.city || ''
+			case 'city': return editModeIsTrue() ? editDataContext.unsaved.location?.city : cultureDataContext.location?.city
 			case 'country': return 'Brasil'
 			default: return ''
 		}
@@ -67,7 +74,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 				backgroundColor={theme.blue2}
 				saveLocationView={saveLocationView}
 				initialValue={getCurrentMarkerCoordinate()}
-				postRange={postRange || 'near'}
+				postRange={getPostRange()}
 				placeName={getPlaceName()}
 				placeColor={theme.transparence.blue3}
 				locationViewSelected={route.params.locationView}

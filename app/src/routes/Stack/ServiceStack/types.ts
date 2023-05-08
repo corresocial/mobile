@@ -1,4 +1,4 @@
-import { LatLong, DaysOfWeek, LocationViewType, ServiceCategories } from '../../../services/firebase/types'
+import { LatLong, DaysOfWeek, LocationViewType, ServiceCategories, PostRange } from '../../../services/firebase/types'
 import { UserStackParamList } from '../UserStack/types'
 
 export type ServiceStackParamList = {
@@ -8,12 +8,12 @@ export type ServiceStackParamList = {
 	ServicePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectServiceCategory: { editMode: boolean } | undefined
 	SelectServiceTags: { categorySelected: ServiceCategories, editMode?: boolean }
-	SelectPaymentType: undefined
-	SelectSaleValueType: { bothPaymentType: boolean }
-	InsertSaleValue: { bothPaymentType: boolean, editMode?: boolean, initialValue?: string }
-	InsertExchangeValue: { editMode: boolean, initialValue: string } | undefined
-	SelectServiceRange: undefined
-	SelectLocationView: { editMode: boolean, initialValue?: LatLong } | undefined
+	SelectPaymentType: { editMode: boolean } | undefined
+	SelectSaleValueType: { bothPaymentType: boolean, editMode?: boolean }
+	InsertSaleValue: { bothPaymentType: boolean, editMode?: boolean }
+	InsertExchangeValue: { editMode: boolean } | undefined
+	SelectServiceRange: { editMode: boolean } | undefined
+	SelectLocationView: { editMode: boolean, initialValue?: { coordinates: LatLong, postRange: PostRange } } | undefined
 	InsertServicePrestationLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
 	ServiceLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
 	SelectDeliveryMethod: { editMode: boolean } | undefined

@@ -324,6 +324,7 @@ export type VacancyCollection = {
 	workplace?: WorkplaceType
 	range?: ExhibitionPlaceType
 	importantPoints?: string[]
+	workFrequency?: WeekdaysFrequency
 	daysOfWeek?: DaysOfWeek[]
 	startDate?: Date
 	endDate?: Date
@@ -370,7 +371,8 @@ export type VacancyCollectionRemote = {
 	workplace: WorkplaceType
 	range?: ExhibitionPlaceType
 	importantPoints: string[]
-	daysOfWeek: DaysOfWeek[]
+	workFrequency?: WeekdaysFrequency
+	daysOfWeek?: DaysOfWeek[]
 	startDate: Date
 	endDate: Date
 	startHour: Date

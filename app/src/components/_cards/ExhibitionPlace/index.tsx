@@ -12,14 +12,16 @@ import { ExhibitionPlaceType } from '../../../services/firebase/types'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { PostInfoRow } from '../../PostInfoRow'
+import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 
 interface ExhibitionPlaceCardProps {
 	title?: string
 	exhibitionPlace?: ExhibitionPlaceType
+	onEdit?: () => void
 }
 
-function ExhibitionPlaceCard({ title, exhibitionPlace }: ExhibitionPlaceCardProps) {
-	const getDeliveryMethodIcon = () => {
+function ExhibitionPlaceCard({ title, exhibitionPlace, onEdit }: ExhibitionPlaceCardProps) {
+	const getExhibitionPlaceIcon = () => {
 		switch (exhibitionPlace) {
 			case 'near': return PinWhiteIcon
 			case 'city': return CityWhiteIcon
@@ -28,7 +30,7 @@ function ExhibitionPlaceCard({ title, exhibitionPlace }: ExhibitionPlaceCardProp
 		}
 	}
 
-	const getDeliveryMethod = () => {
+	const getExhibitionPlace = () => {
 		switch (exhibitionPlace) {
 			case 'near': return showMessageWithHighlight('em um bairro', ['bairro'])
 			case 'city': return showMessageWithHighlight('em uma cidade', ['cidade'])
@@ -39,14 +41,16 @@ function ExhibitionPlaceCard({ title, exhibitionPlace }: ExhibitionPlaceCardProp
 
 	return (
 		<DefaultCardContainer>
-			<DefaultHeaderTitle
-				title={title || 'local de atuação'}
-				highlightedWords={['local', 'atuação']}
-				dimensions={40}
-			/>
+			<EditHeaderContainer onPress={onEdit}>
+				<DefaultHeaderTitle
+					title={title || 'local de atuação'}
+					highlightedWords={['local', 'atuação']}
+					dimensions={40}
+				/>
+			</EditHeaderContainer>
 			<PostInfoRow
-				text={getDeliveryMethod()}
-				SvgIcon={getDeliveryMethodIcon()}
+				text={getExhibitionPlace()}
+				SvgIcon={getExhibitionPlaceIcon()}
 			/>
 		</DefaultCardContainer>
 	)

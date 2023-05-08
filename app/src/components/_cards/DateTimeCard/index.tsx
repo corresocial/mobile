@@ -1,7 +1,12 @@
 import React from 'react'
+import uuid from 'react-uuid'
 
 import { DateTimeContainer } from './styles'
 import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
+import CalendarToday from '../../../assets/icons/calendarToday-unfilled.svg'
+import CalendarEveryday from '../../../assets/icons/calendarEveryday-unfilled.svg'
+import CalendarSomeday from '../../../assets/icons/calendarSomeday-unfilled.svg'
+import CalendarBusinessDay from '../../../assets/icons/calendarBusinessDay-unfilled.svg'
 
 import { formatDate, formatHour, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
@@ -10,30 +15,39 @@ import { DaysOfWeek, EventRepeatType, WeekdaysFrequency } from '../../../service
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { PostInfoRow } from '../../PostInfoRow'
+import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 
 interface DateTimeCardProps {
 	title?: string
+	highlightedWords?: string[]
 	weekDaysfrequency?: WeekdaysFrequency
 	daysOfWeek?: DaysOfWeek[]
-	startTime: Date
-	endTime: Date
+	startTime?: Date
+	endTime?: Date
 	startDate?: Date
 	endDate?: Date
-	textFontSize?: number
 	repetition?: EventRepeatType
+	onEdit?: () => void
 }
 
 function DateTimeCard({
 	title,
+	highlightedWords,
 	weekDaysfrequency,
 	daysOfWeek = [],
 	startTime,
 	endTime,
 	startDate,
 	endDate,
-	textFontSize = 14,
-	repetition
+	repetition,
+	onEdit
 }: DateTimeCardProps) {
+	const listDaysOfWeek = () => {
+		const allDaysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
+		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => daysOfWeek?.includes(weekDay))
+		return ordenedDaysOfWeek?.toString().split(',').join(', ')
+	}
+
 	const getRelativeWeekDaysfrequency = () => {
 		switch (weekDaysfrequency) {
 			case 'today': return 'só hoje'
@@ -42,12 +56,6 @@ function DateTimeCard({
 			case 'someday': return `${listDaysOfWeek()}`
 			default: return 'não disponível'
 		}
-	}
-
-	const listDaysOfWeek = () => {
-		const allDaysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
-		const ordenedDaysOfWeek = allDaysOfWeek.filter((weekDay: DaysOfWeek) => daysOfWeek?.includes(weekDay))
-		return ordenedDaysOfWeek?.toString().split(',').join(', ')
 	}
 
 	const getRelativeHighlight = () => {
@@ -60,7 +68,21 @@ function DateTimeCard({
 		}
 	}
 
+	const getRelativeFrequencyIcon = () => {
+		switch (weekDaysfrequency) {
+			case 'today': return CalendarToday
+			case 'everyday': return CalendarEveryday
+			case 'businessDay': return CalendarBusinessDay
+			case 'someday': return CalendarSomeday
+			default: return CalendarToday
+		}
+	}
+
 	const renderWeekDayFrequency = () => {
+		if (onEdit && weekDaysfrequency === 'someday') {
+			return showMessageWithHighlight(`alguns dias \n${getRelativeWeekDaysfrequency()}`, ['alguns'], `\n${getRelativeWeekDaysfrequency()}`.split(', '))
+		}
+
 		return showMessageWithHighlight(
 			getRelativeWeekDaysfrequency(),
 			getRelativeHighlight()
@@ -92,12 +114,12 @@ function DateTimeCard({
 	}
 
 	const renderOpeningAndClosingTime = () => {
-		const formatedStartTime = formatHour(startTime)
-		const formatedEndTime = formatHour(endTime)
+		const formatedStartTime = formatHour(startTime as Date)
+		const formatedEndTime = formatHour(endTime as Date)
 
-		if ((formatedStartTime && !formatedEndTime) || (!formatedStartTime && formatedEndTime)) {
+		if ((startTime && !endTime) || (!startTime && endTime)) {
 			return showMessageWithHighlight(
-				`${formatedStartTime ? 'começa' : 'termina'} às ${formatedStartTime} `,
+				`${formatedStartTime ? 'começa' : 'termina'} às ${formatedStartTime || formatedEndTime}`,
 				[formatedStartTime || formatedEndTime]
 			)
 		}
@@ -109,6 +131,13 @@ function DateTimeCard({
 	}
 
 	const renderInvalidDateTimeWeekMessage = () => {
+		if (onEdit) {
+			return showMessageWithHighlight(
+				'dias não definidos',
+				['não', 'definidos']
+			)
+		}
+
 		return showMessageWithHighlight(
 			'dias e horários não definidos',
 			['não', 'definidos']
@@ -128,28 +157,33 @@ function DateTimeCard({
 
 	return (
 		<DefaultCardContainer>
-			<DefaultHeaderTitle
-				title={title || 'dias e horários'}
-				highlightedWords={['dias', 'horários']}
-				SvgIcon={ClockWhiteIcon}
-				dimensions={32}
-			/>
-			<DateTimeContainer>
+			<EditHeaderContainer onPress={onEdit}>
+				<DefaultHeaderTitle
+					title={title || 'dias e horários'}
+					highlightedWords={highlightedWords || ['dias', 'horários']}
+					SvgIcon={!onEdit ? ClockWhiteIcon : undefined}
+					dimensions={32}
+				/>
+			</EditHeaderContainer>
+			<DateTimeContainer editable={onEdit}>
 				{
 					daysOfWeek?.length
 						? (
 							<PostInfoRow
+								key={uuid()}
+								SvgIcon={onEdit ? getRelativeFrequencyIcon() : undefined}
 								text={renderWeekDayFrequency()}
-								topic
+								topic={!onEdit}
 							/>
 						)
 						: <></>
 				}
 				{
-					(!startDate && !endDate && !daysOfWeek?.length) && (
+					(!startDate && !endDate && !daysOfWeek?.length && !startTime && !endTime) && (
 						<PostInfoRow
+							key={uuid()}
 							text={renderInvalidDateTimeWeekMessage()}
-							topic
+							topic={!onEdit}
 						/>
 					)
 				}
@@ -164,6 +198,7 @@ function DateTimeCard({
 				{
 					(startTime || endTime) && (
 						<PostInfoRow
+							key={uuid()}
 							text={renderOpeningAndClosingTime()}
 							topic
 						/>
@@ -173,6 +208,7 @@ function DateTimeCard({
 					repetition
 					&& (
 						<PostInfoRow
+							key={uuid()}
 							text={renderRepetition()}
 							topic
 						/>

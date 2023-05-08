@@ -12,14 +12,16 @@ import { VacancyType } from '../../../services/firebase/types'
 
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { PostInfoRow } from '../../PostInfoRow'
+import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 
 interface VacancyTypeCardProps {
 	title?: string
 	vacancyType?: VacancyType
 	hightligtedWords?: string[]
+	onEdit?: () => void
 }
 
-function VacancyTypeCard({ title, vacancyType, hightligtedWords }: VacancyTypeCardProps) {
+function VacancyTypeCard({ title, vacancyType, hightligtedWords, onEdit }: VacancyTypeCardProps) {
 	const getRelativeVacancyTypeCard = () => {
 		switch (vacancyType) {
 			case 'beak': return showMessageWithHighlight('um bico', ['bico'])
@@ -40,11 +42,13 @@ function VacancyTypeCard({ title, vacancyType, hightligtedWords }: VacancyTypeCa
 
 	return (
 		<DefaultCardContainer>
-			<DefaultHeaderTitle
-				title={title || 'tipo de vaga'}
-				highlightedWords={hightligtedWords || ['tipo', 'vaga']}
-				dimensions={30}
-			/>
+			<EditHeaderContainer onPress={onEdit}>
+				<DefaultHeaderTitle
+					title={title || 'tipo de vaga'}
+					highlightedWords={hightligtedWords || ['tipo', 'vaga']}
+					dimensions={30}
+				/>
+			</EditHeaderContainer>
 			<PostInfoRow
 				text={getRelativeVacancyTypeCard()}
 				SvgIcon={getRelativeValueIcon()}

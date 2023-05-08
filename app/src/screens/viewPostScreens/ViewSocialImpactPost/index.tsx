@@ -144,7 +144,8 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		return socialImpactCategories[getPostField('category') as SocialImpactCategories].label || ''
 	}
 
-	const getPostField = (fieldName: keyof SocialImpactCollection) => {
+	const getPostField = (fieldName: keyof SocialImpactCollection, allowNull?: boolean) => {
+		if (allowNull && editDataContext.saved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
 
@@ -192,8 +193,6 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					/>
 					<PostPopOver
 						postTitle={getPostField('title') || 'publicação no corre.'}
-						postId={getPostField('postId')}
-						postType={getPostField('postType')}
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
@@ -248,11 +247,11 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					<VerticalSigh />
 					<DateTimeCard
 						weekDaysfrequency={getPostField('exhibitionFrequency')}
-						daysOfWeek={getPostField('daysOfWeek')}
-						startDate={getPostField('startHour')}
-						endDate={getPostField('startHour')}
-						startTime={getPostField('startHour')}
-						endTime={getPostField('endHour')}
+						daysOfWeek={getPostField('daysOfWeek', true)}
+						startDate={getPostField('startHour', true)}
+						endDate={getPostField('startHour', true)}
+						startTime={getPostField('startHour', true)}
+						endTime={getPostField('endHour', true)}
 						repetition={getPostField('repeat')}
 					/>
 					<VerticalSigh bottomNavigatorSpace />

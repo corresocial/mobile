@@ -26,6 +26,10 @@ function InsertVacancyValue({ navigation, route }: InsertSaleValueScreenProps) {
 		return unsubscribe
 	}, [navigation])
 
+	const { bothPaymentType } = route.params
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
 	const validateVacancyValue = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
@@ -37,10 +41,14 @@ function InsertVacancyValue({ navigation, route }: InsertSaleValueScreenProps) {
 	const saveVacancyValue = (saleValue: string) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ saleValue })
-			navigation.goBack()
-		}
 
-		setVacancyDataOnContext({ saleValue })
+			if (!bothPaymentType) {
+				navigation.pop(2)
+				navigation.goBack()
+			}
+		} else {
+			setVacancyDataOnContext({ saleValue })
+		}
 
 		if (route.params.bothPaymentType) {
 			navigation.navigate('InsertExchangeValue')
@@ -48,8 +56,6 @@ function InsertVacancyValue({ navigation, route }: InsertSaleValueScreenProps) {
 			navigation.navigate('SelectVacancyRange')
 		}
 	}
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>
@@ -60,7 +66,7 @@ function InsertVacancyValue({ navigation, route }: InsertSaleValueScreenProps) {
 				customTitle={'quanto paga?'}
 				customHighlight={['quanto']}
 				inputPlaceholder={'ex: 100 reais a diária'}
-				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
+				// initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[3, 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateVacancyValue}

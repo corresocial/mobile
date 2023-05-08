@@ -150,7 +150,8 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 		return cultureCategories[getPostField('category') as CultureCategories].label || ''
 	}
 
-	const getPostField = (fieldName: keyof CultureCollection) => {
+	const getPostField = (fieldName: keyof CultureCollection, allowNull?: boolean) => {
+		if (allowNull && editDataContext.saved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
 
@@ -197,8 +198,6 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					/>
 					<PostPopOver
 						postTitle={getPostField('title') || 'publicação no corre.'}
-						postId={getPostField('postId')}
-						postType={getPostField('postType')}
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
@@ -242,25 +241,19 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 							</>
 						)
 					}
+					<PlaceModality
+						title={'como participar'}
+						hightligtedWords={['participar']}
+						placeModality={getPostField('eventPlaceModality')}
+					/>
+					<VerticalSigh />
 					{
-						getPostField('eventPlaceModality') && (
-							<>
-								<PlaceModality
-									title={'como participar'}
-									hightligtedWords={['participar']}
-									placeModality={getPostField('eventPlaceModality')}
-								/>
-								<VerticalSigh />
-							</>
-						)
-					}
-					{
-						getPostField('entryValue') && (
+						getPostField('entryValue', true) && (
 							<>
 								<SaleOrExchangeCard
 									title={'custo de entrada'}
 									hightligtedWords={['custo', 'entrada']}
-									saleValue={getPostField('entryValue')}
+									saleValue={getPostField('entryValue', true)}
 									isCulturePost
 								/>
 								<VerticalSigh />
@@ -272,23 +265,16 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						locationView={getPostField('locationView')}
 						location={getPostField('location')}
 					/>
-					{
-						getPostField('startDate') && getPostField('endDate')
-						&& (
-							<>
-								<VerticalSigh />
-								<DateTimeCard
-									weekDaysfrequency={getPostField('exhibitionFrequency')}
-									daysOfWeek={getPostField('daysOfWeek')}
-									repetition={getPostField('repeat')}
-									startDate={getPostField('startDate')}
-									endDate={getPostField('endDate')}
-									startTime={getPostField('startHour')}
-									endTime={getPostField('endHour')}
-								/>
-							</>
-						)
-					}
+					<VerticalSigh />
+					<DateTimeCard
+						weekDaysfrequency={getPostField('exhibitionFrequency')}
+						daysOfWeek={getPostField('daysOfWeek', true)}
+						repetition={getPostField('repeat', true)}
+						startDate={getPostField('startDate', true)}
+						endDate={getPostField('endDate', true)}
+						startTime={getPostField('startHour', true)}
+						endTime={getPostField('endHour')}
+					/>
 					<VerticalSigh bottomNavigatorSpace />
 				</Body>
 			</ScrollView>

@@ -27,6 +27,10 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 		return unsubscribe
 	}, [navigation])
 
+	const { bothPaymentType } = route.params
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
 	const validateSaleValue = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
@@ -35,23 +39,24 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 		return false
 	}
 
-	const saveSaleValue = (value: string) => {
+	const saveSaleValue = (saleValue: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ saleValue: value })
-			navigation.goBack()
-			return
+			addNewUnsavedFieldToEditContext({ saleValue })
+
+			if (!bothPaymentType) {
+				navigation.pop(2)
+				navigation.goBack()
+			}
+		} else {
+			setServiceDataOnContext({ saleValue })
 		}
 
-		setServiceDataOnContext({ saleValue: value })
-
-		if (route.params.bothPaymentType) {
-			navigation.navigate('InsertExchangeValue')
+		if (bothPaymentType) {
+			navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
 		} else {
 			navigation.navigate('SelectServiceRange')
 		}
 	}
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>
@@ -62,7 +67,7 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 				customTitle={'por quanto você vende?'}
 				customHighlight={['quanto']}
 				inputPlaceholder={'ex: 120 reais a diária'}
-				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
+				// initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[3, 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSaleValue}
