@@ -10,7 +10,7 @@ interface DefaultHeaderTitleProps {
 	title: string
 	fontSize?: number
 	highlightedWords?: string[]
-	SvgIcon?: React.FC<SvgProps>
+	SvgIcon?: React.FC<SvgProps> | false
 	SecondSvgIcon?: React.FC<SvgProps>
 	dimensions?: number
 	invertTextAndIcon?: boolean
@@ -79,7 +79,7 @@ function DefaultHeaderTitle({
 					)
 				}
 				<Title style={{
-					marginLeft: invertTextAndIcon ? 0 : RFValue(10),
+					marginLeft: invertTextAndIcon || !SvgIcon ? 0 : RFValue(10),
 					fontFamily: highlightedWords.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold',
 					fontSize: RFValue(fontSize)
 				}}

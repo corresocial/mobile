@@ -26,6 +26,8 @@ function InsertServiceName({ route, navigation }: InsertServiceNameScreenProps) 
 		return unsubscribe
 	}, [navigation])
 
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
 	const validateServiceTitle = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
@@ -44,8 +46,6 @@ function InsertServiceName({ route, navigation }: InsertServiceNameScreenProps) 
 		setServiceDataOnContext({ title: inputText })
 		navigation.navigate('InsertServiceDescription')
 	}
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>

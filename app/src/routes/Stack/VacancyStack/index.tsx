@@ -20,7 +20,7 @@ import { InsertVacancyPicture } from '../../../screens/vacancyRegisterScreens/In
 import { VacancyPicturePreview } from '../../../screens/vacancyRegisterScreens/VacancyPicturePreview'
 import { SelectPaymentType } from '../../../screens/vacancyRegisterScreens/SelectPaymentType'
 import { SelectSaleValueType } from '../../../screens/vacancyRegisterScreens/SelectSaleValueType'
-import { InsertSaleValue } from '../../../screens/vacancyRegisterScreens/InsertSaleValue'
+import { InsertVacancyValue } from '../../../screens/vacancyRegisterScreens/InsertSaleValue'
 import { InsertExchangeValue } from '../../../screens/vacancyRegisterScreens/InsertExchangeValue'
 import { SelectVacancyRange } from '../../../screens/vacancyRegisterScreens/SelectVacancyRange'
 import { SelectVacancyLocationView } from '../../../screens/vacancyRegisterScreens/SelectVacancyLocationView'
@@ -30,6 +30,7 @@ import { InsertVacancyEndDate } from '../../../screens/vacancyRegisterScreens/In
 import { InsertVacancyStartHour } from '../../../screens/vacancyRegisterScreens/InsertVacancyStartHour'
 import { VacancyReview } from '../../../screens/vacancyRegisterScreens/VacancyPreview'
 import { InsertVacancyImportantPoints } from '../../../screens/vacancyRegisterScreens/InsertVacancyImportantPoints'
+import { SelectVacancyPurpose } from '../../../screens/vacancyRegisterScreens/SelectVacancyPurpose'
 
 const Stack = createStackNavigator<VacancyStackParamList>()
 
@@ -37,13 +38,14 @@ export function VacancyStack() {
 	return (
 		<VacancyProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectVacancyCategory'}
+				initialRouteName={'SelectVacancyPurpose'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
 					...TransitionPresets.SlideFromRightIOS,
 				}}
 			>
+				<Stack.Screen name={'SelectVacancyPurpose'} component={SelectVacancyPurpose} />
 				<Stack.Screen name={'SelectVacancyCategory'} component={SelectVacancyCategory} />
 				<Stack.Screen name={'SelectVacancyTags'} component={SelectVacancyTags} />
 				<Stack.Screen name={'InsertVacancyTitle'} component={InsertVacancyTitle} />
@@ -53,7 +55,7 @@ export function VacancyStack() {
 				<Stack.Screen name={'SelectWorkplace'} component={SelectWorkplace} />
 				<Stack.Screen name={'SelectVacancyType'} component={SelectVacancyType} />
 				<Stack.Screen name={'SelectPaymentType'} component={SelectPaymentType} />
-				<Stack.Screen name={'InsertSaleValue'} component={InsertSaleValue} />
+				<Stack.Screen name={'InsertSaleValue'} component={InsertVacancyValue} />
 				<Stack.Screen name={'InsertExchangeValue'} component={InsertExchangeValue} />
 				<Stack.Screen name={'SelectSaleValueType'} component={SelectSaleValueType} />
 				<Stack.Screen name={'SelectVacancyRange'} component={SelectVacancyRange} />

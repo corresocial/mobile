@@ -3,8 +3,7 @@ import { Linking } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CardHeader, MapArea, NavigationApps, TextAddress, TouchableApp } from './styles'
-import MapPointIcon from '../../../assets/icons/mapPoint.svg'
-import PencilIcon from '../../../assets/icons/pencil.svg'
+import MapPointWhiteIcon from '../../../assets/icons/mapPoint-white.svg'
 import MapPointOrangeIcon from '../../../assets/icons/mapPoint-orange.svg'
 import WazeIcon from '../../../assets/icons/waze.svg'
 import GoogleMapsIcon from '../../../assets/icons/googleMaps.svg'
@@ -16,15 +15,14 @@ import { Location, LocationViewType } from '../../../services/firebase/types'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { CustomMapView } from '../../CustomMapView'
+import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 
 interface LocationViewCardProps {
-	title: string
+	title?: string
 	online?: boolean
 	locationView?: LocationViewType
 	textFontSize?: number
 	withoutMapView?: boolean
-	isAuthor?: boolean
-	editable?: boolean
 	location: Location
 	onEdit?: () => void
 }
@@ -33,10 +31,8 @@ function LocationViewCard({
 	title,
 	online,
 	locationView,
-	textFontSize = 12,
+	textFontSize = 14,
 	withoutMapView,
-	isAuthor = false,
-	editable,
 	location,
 	onEdit
 }: LocationViewCardProps) {
@@ -75,16 +71,7 @@ function LocationViewCard({
 			)
 		}
 
-		if (locationView === 'approximate') {
-			if (isAuthor) {
-				return (
-					<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
-						{formatAddress()}
-					</TextAddress>
-				)
-			}
-			return
-		}
+		if (locationView === 'approximate') return
 
 		return (
 			<TextAddress style={{ fontSize: RFValue(textFontSize) }}>
@@ -100,7 +87,7 @@ function LocationViewCard({
 			city,
 			state,
 		} = location
-		return `${street}, ${number}, ${city}, ${state}`
+		return `${street && `${street},`}${number && `${number},`}${city && `${city},`}${state}`
 	}
 
 	const getAddressCoordinates = () => {
@@ -163,25 +150,25 @@ function LocationViewCard({
 	return (
 		<DefaultCardContainer withoutPadding>
 			<CardHeader>
-				<DefaultHeaderTitle
-					title={title}
-					onPressIcon={onEdit && onEdit}
-					SvgIcon={editable ? PencilIcon : MapPointIcon}
-					dimensions={editable ? 20 : 30}
-					invertTextAndIcon={editable}
-					justifyContent={editable ? 'space-between' : 'flex-start'}
-				/>
+				<EditHeaderContainer onPress={onEdit}>
+					<DefaultHeaderTitle
+						title={title || 'local do post'}
+						onPressIcon={onEdit && onEdit}
+						SecondSvgIcon={MapPointWhiteIcon}
+						dimensions={onEdit ? 30 : 32}
+					/>
+				</EditHeaderContainer>
 				{renderFormatedAddress()}
 			</CardHeader>
 			{
-				((locationView !== 'private' || editable) && locationView !== undefined) && !withoutMapView && (
+				((locationView !== 'private' || onEdit) && locationView !== undefined) && !withoutMapView && (
 					<MapArea >
 						<CustomMapView
 							scrollEnabled={false}
 							regionCoordinate={getAddressCoordinates()}
 							markerCoordinate={getAddressCoordinates()}
-							CustomMarker={locationView === 'public' || (locationView === 'private' && editable) ? MapPointOrangeIcon : undefined}
-							locationView={locationView === 'private' && editable ? 'public' : locationView}
+							CustomMarker={locationView === 'public' || (locationView === 'private' && onEdit) ? MapPointOrangeIcon : undefined}
+							locationView={locationView === 'private' && onEdit ? 'public' : locationView}
 						/>
 						<NavigationApps >
 							<TouchableApp onPress={goToGoogleMapsApp}>

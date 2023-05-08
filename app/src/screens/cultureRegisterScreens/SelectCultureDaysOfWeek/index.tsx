@@ -17,11 +17,22 @@ function SelectCultureDaysOfWeek({ route, navigation }: SelectCultureDaysOfWeekS
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('SelectEventRepeat')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ daysOfWeek: [] })
+			navigation.goBack()
+			navigation.goBack()
+			return
+		}
+
+		setCultureDataOnContext({ daysOfWeek: [] })
+		navigation.navigate('SelectEventRepeat')
+	}
 
 	const saveDaysOfWeek = (selectedDaysOfWeek: DaysOfWeek[]) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ daysOfWeek: selectedDaysOfWeek })
+			navigation.goBack()
 			navigation.goBack()
 			return
 		}

@@ -10,6 +10,7 @@ import { SelectItemStatusScreenProps } from '../../../routes/Stack/SaleStack/sta
 import { ItemStatus } from '../../../services/firebase/types'
 
 import { SaleContext } from '../../../contexts/SaleContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
@@ -19,10 +20,19 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
-function SelectItemStatus({ navigation }: SelectItemStatusScreenProps) {
+function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const saveItemStatus = (itemStatus: ItemStatus) => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ itemStatus })
+			navigation.goBack()
+			return
+		}
+
 		setSaleDataOnContext({ itemStatus })
 		navigation.navigate('InsertSaleTitle')
 	}
@@ -63,7 +73,7 @@ function SelectItemStatus({ navigation }: SelectItemStatusScreenProps) {
 						highlightedWords={['usado']}
 						SvgIcon={UsedLabelWhiteIcon}
 						svgIconScale={['50%', '18%']}
-						onPress={() => saveItemStatus('new')}
+						onPress={() => saveItemStatus('used')}
 					/>
 					<PrimaryButton
 						flexDirection={'row-reverse'}
@@ -76,7 +86,7 @@ function SelectItemStatus({ navigation }: SelectItemStatusScreenProps) {
 						highlightedWords={['novo']}
 						SvgIcon={GiftWhiteIcon}
 						svgIconScale={['50%', '18%']}
-						onPress={() => saveItemStatus('used')}
+						onPress={() => saveItemStatus('new')}
 					/>
 				</ButtonsContainer>
 			</FormContainer>

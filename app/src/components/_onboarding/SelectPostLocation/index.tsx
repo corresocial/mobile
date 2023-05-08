@@ -268,7 +268,6 @@ function SelectPostLocation({
 							label={'continuar'}
 							labelColor={theme.white3}
 							SvgIcon={CheckWhiteIcon}
-							svgIconScale={['40%', '25%']}
 							onPress={() => saveLocation(markerCoordinate)}
 						/>
 					</ButtonContainerBottom>

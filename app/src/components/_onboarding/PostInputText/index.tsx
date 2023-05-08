@@ -49,7 +49,6 @@ function PostInputText({
 
 	useEffect(() => {
 		const validation = validateInputText(inputText)
-		console.log(validation)
 		setInputTextIsValid(validation)
 	}, [inputText, keyboardOpened])
 
@@ -107,8 +106,7 @@ function PostInputText({
 								label={'continuar'}
 								labelColor={theme.white3}
 								SvgIcon={CheckWhiteIcon}
-								svgIconScale={['40%', '25%']}
-								onPress={() => saveTextData(inputText)}
+								onPress={() => saveTextData(inputText.trim())}
 							/>
 						)
 					}

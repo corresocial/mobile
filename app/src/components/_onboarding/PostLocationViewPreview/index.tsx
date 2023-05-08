@@ -95,7 +95,6 @@ function PostLocationViewPreview({
 					fontSize={16}
 					labelColor={theme.white3}
 					SecondSvgIcon={CheckWhiteIcon}
-					svgIconScale={['40%', '25%']}
 					onPress={() => (firstStep ? setFirstStep(false) : saveLocationView())}
 				/>
 			</ButtonContainerBottom>

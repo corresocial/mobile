@@ -5,20 +5,32 @@ import { theme } from '../../../common/theme'
 
 import { SelectCultureRangeScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { PostRange as PostRangeType } from '../../../services/firebase/types'
-import { PostRange } from '../../../components/_onboarding/PostRange'
 
+import { EditContext } from '../../../contexts/EditContext'
 import { CultureContext } from '../../../contexts/CultureContext'
 
-function SelectCultureRange({ navigation }: SelectCultureRangeScreenProps) {
+import { PostRange } from '../../../components/_onboarding/PostRange'
+
+function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps) {
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const savePostRange = (postRange: PostRangeType) => {
 		const { eventPlaceModality } = cultureDataContext
 
-		setCultureDataOnContext({ range: postRange })
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ range: postRange })
+			navigation.goBack()
+		}
 
+		setCultureDataOnContext({ range: postRange })
 		if (eventPlaceModality !== 'online') {
-			navigation.navigate('SelectCultureLocationView')
+			navigation.navigate('SelectCultureLocationView', {
+				editMode: editModeIsTrue(),
+				initialValue: route.params?.initialValue
+			})
 		} else {
 			navigation.navigate('InsertEntryValue')
 		}

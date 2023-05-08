@@ -61,7 +61,7 @@ function PostPicturePreview({
 				justifyContent={'space-between'}
 			>
 				<TopArea>
-					<BackButton onPress={navigateBackwards} hasSigh />
+					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
 						message={picturesPack.length > 1 ? 'ficaram boas?' : 'ficou boa?'}
 						highlightedWords={['boas', 'boa']}
@@ -89,7 +89,6 @@ function PostPicturePreview({
 					label={'sim, continuar'}
 					labelColor={theme.white3}
 					SvgIcon={CheckIcon}
-					svgIconScale={['40%', '25%']}
 					highlightedWords={['continuar']}
 					onPress={() => savePictures(picturesPack)}
 				/>

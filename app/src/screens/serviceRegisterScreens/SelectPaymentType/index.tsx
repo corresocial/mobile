@@ -7,26 +7,40 @@ import { SelectPaymentTypeScreenProps } from '../../../routes/Stack/ServiceStack
 import { PaymentType } from '../../../services/firebase/types'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
+import { EditContext } from '../../../contexts/EditContext'
 
 import { PaymentMethod } from '../../../components/_onboarding/PaymentMethod'
 
-function SelectPaymentType({ navigation }: SelectPaymentTypeScreenProps) {
+function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const savePaymentType = (paymentType: PaymentType) => {
 		switch (paymentType) {
 			case 'sale': {
-				setServiceDataOnContext({ exchangeValue: '' })
-				navigation.navigate('SelectSaleValueType', { bothPaymentType: false })
+				if (editModeIsTrue()) {
+					addNewUnsavedFieldToEditContext({ exchangeValue: '' })
+				} else {
+					setServiceDataOnContext({ exchangeValue: '' })
+				}
+
+				navigation.navigate('SelectSaleValueType', { bothPaymentType: false, editMode: editModeIsTrue() })
 				break
 			}
 			case 'exchange': {
-				setServiceDataOnContext({ saleValue: '' })
-				navigation.navigate('InsertExchangeValue')
+				if (editModeIsTrue()) {
+					addNewUnsavedFieldToEditContext({ saleValue: '' })
+				} else {
+					setServiceDataOnContext({ saleValue: '' })
+				}
+
+				navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
 				break
 			}
 			case 'both': {
-				navigation.navigate('SelectSaleValueType', { bothPaymentType: true })
+				navigation.navigate('SelectSaleValueType', { bothPaymentType: true, editMode: editModeIsTrue() })
 				break
 			}
 			default: return false

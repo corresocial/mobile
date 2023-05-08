@@ -28,7 +28,16 @@ function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenP
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertVacancyEndHour')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ endDate: '' })
+			navigation.goBack()
+			return
+		}
+
+		setVacancyDataOnContext({ endDate: '' as any })
+		navigation.navigate('InsertVacancyEndHour')
+	}
 
 	const saveVacancyStartDate = (year: string, month: string, day: string) => {
 		const endDate = new Date(`${year}-${month}-${day}T12:00:00`)

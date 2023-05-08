@@ -27,6 +27,8 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		return unsubscribe
 	}, [navigation])
 
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
 	const validateExchangeValue = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
@@ -35,18 +37,17 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		return false
 	}
 
-	const saveExchangeValue = (value: string) => {
+	const saveExchangeValue = (exchangeValue: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ exchangeValue: value })
+			addNewUnsavedFieldToEditContext({ exchangeValue })
+			navigation.pop(3)
 			navigation.goBack()
 			return
 		}
 
-		setSaleDataOnContext({ exchangeValue: value })
+		setSaleDataOnContext({ exchangeValue })
 		navigation.navigate('SelectSaleRange')
 	}
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>
@@ -57,7 +58,7 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 				customTitle={'o que você aceita em troca?'}
 				customHighlight={['o', 'que', 'em', 'troca']}
 				inputPlaceholder={'ex: troco por uma marmita'}
-				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
+				// initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[3, 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateExchangeValue}

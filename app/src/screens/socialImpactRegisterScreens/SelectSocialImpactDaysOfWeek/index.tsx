@@ -17,11 +17,22 @@ function SelectSocialImpactDaysOfWeek({ route, navigation }: SelectSocialImpactD
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('SelectSocialImpactRepeat')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ daysOfWeek: [] })
+			navigation.goBack()
+			navigation.goBack()
+			return
+		}
+
+		setSocialImpactDataOnContext({ daysOfWeek: [] })
+		navigation.navigate('SelectSocialImpactRepeat')
+	}
 
 	const saveDaysOfWeek = (selectedDaysOfWeek: DaysOfWeek[]) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ daysOfWeek: selectedDaysOfWeek })
+			navigation.goBack()
 			navigation.goBack()
 			return
 		}

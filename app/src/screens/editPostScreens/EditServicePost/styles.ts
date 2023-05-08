@@ -23,11 +23,3 @@ export const SaveButtonContainer = styled.View`
 	padding-horizontal: ${relativeScreenWidth(3)}px;
 	padding-top: ${relativeScreenHeight(3)}px;
  `
-
-export const Sigh = styled.View`
-	height: ${relativeScreenHeight(1.25)}px;
- `
-
-export const LastSigh = styled.View`
-	height: ${relativeScreenHeight(3.75)}px;
- `

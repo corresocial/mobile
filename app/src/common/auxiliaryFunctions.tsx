@@ -1,8 +1,10 @@
 import React from 'react'
 import { Text } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
 import uuid from 'react-uuid'
 import { formatDistance, formatRelative, isValid, format } from 'date-fns'
 import brasilLocale from 'date-fns/locale/pt-BR'
+
 import { MacroCategory, PostCollectionRemote } from '../services/firebase/types'
 
 const arrayIsEmpty = (array: any) => {
@@ -15,7 +17,7 @@ const arrayIsEmpty = (array: any) => {
 	}
 }
 
-const showMessageWithHighlight = (message: string, highlightedWords?: string[], fontSizeHighlighted?: number) => {
+const showMessageWithHighlight = (message: string, highlightedWords?: string[], subtitleWords: string[] = []) => {
 	if (!highlightedWords) return message
 
 	const words = message.split(/ /gi)
@@ -34,14 +36,12 @@ const showMessageWithHighlight = (message: string, highlightedWords?: string[], 
 				<Text
 					style={{
 						fontFamily: 'Arvo_700Bold',
-						fontSize: fontSizeHighlighted
 					}}
 					key={uuid()}
 				>
 					{`${wordWithoutSymbols}`}
 					<Text style={{
 						fontFamily: 'Arvo_400Regular',
-						fontSize: fontSizeHighlighted
 					}}
 					>
 						{`${symbolRemoved} `}
@@ -49,6 +49,19 @@ const showMessageWithHighlight = (message: string, highlightedWords?: string[], 
 				</Text >
 			)
 		}
+
+		if (subtitleWords.length && subtitleWords.includes(wordWithoutSymbols as never)) {
+			return (
+				<Text style={{
+					fontFamily: 'Arvo_400Regular',
+					fontSize: RFValue(12)
+				}}
+				>
+					{`${word} `}
+				</Text>
+			)
+		}
+
 		return `${wordWithoutSymbols}${symbolRemoved} `
 	})
 
@@ -119,7 +132,7 @@ const sortPostCategories = (a: MacroCategory, b: MacroCategory) => {
 	return 0
 }
 
-const sortPostsByCreatedData = (a: PostCollectionRemote, b: PostCollectionRemote) => {
+const sortPostsByCreatedData = (a: PostCollectionRemote | any, b: PostCollectionRemote | any) => {
 	if (a.createdAt < b.createdAt) return 1
 	if (a.createdAt > b.createdAt) return -1
 	return 0

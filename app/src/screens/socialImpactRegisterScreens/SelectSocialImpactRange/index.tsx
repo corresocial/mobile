@@ -5,14 +5,24 @@ import { theme } from '../../../common/theme'
 
 import { SelectSocialImpactRangeScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 import { PostRange as PostRangeType } from '../../../services/firebase/types'
-import { PostRange } from '../../../components/_onboarding/PostRange'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
+import { EditContext } from '../../../contexts/EditContext'
 
-function SelectSocialImpactRange({ navigation }: SelectSocialImpactRangeScreenProps) {
+import { PostRange } from '../../../components/_onboarding/PostRange'
+
+function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const savePostRange = (postRange: PostRangeType) => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ range: postRange })
+			navigation.goBack()
+		}
+
 		setSocialImpactDataOnContext({ range: postRange })
 		navigation.navigate('SelectSocialImpactLocationView')
 	}

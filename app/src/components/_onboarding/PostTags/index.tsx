@@ -179,7 +179,6 @@ function PostTags({ backgroundColor, lightColor, currentCategory, addNewTag, sav
 									label={'continuar'}
 									labelColor={theme.white3}
 									SecondSvgIcon={CheckIcon}
-									svgIconScale={['40%', '25%']}
 									onPress={() => savePostTags(selectedTags)}
 								/>
 							</FloatButtonContainer>

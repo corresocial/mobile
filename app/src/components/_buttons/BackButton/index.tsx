@@ -22,7 +22,7 @@ function BackButton({ hasSigh, onPress }: BackButtonProps) {
 				onPress={onPress}
 				svgScale={['55%', '55%']}
 			/>
-			<Sigh hasSigh />
+			<Sigh hasSigh={!hasSigh} />
 		</>
 	)
 }

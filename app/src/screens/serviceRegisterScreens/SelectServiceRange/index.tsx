@@ -5,14 +5,24 @@ import { theme } from '../../../common/theme'
 
 import { SelectServiceRangeScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { PostRange as PostRangeType } from '../../../services/firebase/types'
-import { PostRange } from '../../../components/_onboarding/PostRange'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
+import { EditContext } from '../../../contexts/EditContext'
+
+import { PostRange } from '../../../components/_onboarding/PostRange'
 
 function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const savePostRange = (postRange: PostRangeType) => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ range: postRange })
+			navigation.goBack()
+		}
+
 		setServiceDataOnContext({ range: postRange })
 		navigation.navigate('SelectLocationView')
 	}

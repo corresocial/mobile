@@ -3,7 +3,7 @@ import React from 'react'
 import { ButtonsContainer, Container, Sigh } from './styles'
 import { theme } from '../../../common/theme'
 import HandOnMoneyWhiteIcon from '../../../assets/icons/handOnMoney-white.svg'
-import ChatIcon from '../../../assets/icons/chatTabIconInactive.svg'
+import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
 
 import { SaleValueType } from '../../../services/firebase/types'
 
@@ -68,7 +68,7 @@ function PaymentValueType({ backgroundColor, progress, savePaymentValueType, nav
 						fontSize={20}
 						label={'a combinar'}
 						highlightedWords={['combinar']}
-						SecondSvgIcon={ChatIcon}
+						SecondSvgIcon={ChatWhiteIcon}
 						svgIconScale={['35%', '18%']}
 						onPress={() => savePaymentValueType('toMatch')}
 					/>

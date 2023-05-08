@@ -7,13 +7,13 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertExchangeValueScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
-import { SaleContext } from '../../../contexts/SaleContext'
+import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -27,6 +27,8 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		return unsubscribe
 	}, [navigation])
 
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
 	const validateExchangeValue = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
@@ -35,18 +37,17 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		return false
 	}
 
-	const saveExchangeValue = (value: string) => {
+	const saveExchangeValue = (exchangeValue: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ exchangeValue: value })
+			addNewUnsavedFieldToEditContext({ exchangeValue })
+			navigation.pop(3)
 			navigation.goBack()
 			return
 		}
 
-		setSaleDataOnContext({ exchangeValue: value })
+		setVacancyDataOnContext({ exchangeValue })
 		navigation.navigate('SelectVacancyRange')
 	}
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>
@@ -57,7 +58,7 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 				customTitle={'o que você aceita em troca?'}
 				customHighlight={['o', 'que', 'em', 'troca']}
 				inputPlaceholder={'ex: troco por coisas usadas'}
-				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
+				// initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[3, 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateExchangeValue}

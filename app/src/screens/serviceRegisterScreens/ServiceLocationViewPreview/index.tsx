@@ -41,7 +41,7 @@ function ServiceLocationViewPreview({ route, navigation }: ServiceLocationViewPr
 	const saveLocationView = () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ locationView })
-			navigation.pop(2)
+			navigation.pop(3)
 			navigation.goBack()
 			return
 		}
@@ -50,10 +50,18 @@ function ServiceLocationViewPreview({ route, navigation }: ServiceLocationViewPr
 		navigation.navigate('SelectDeliveryMethod')
 	}
 
+	const getPostRange = () => {
+		if (editModeIsTrue()) {
+			return serviceDataContext.range || 'near'
+		}
+
+		return postRange || 'near'
+	}
+
 	const getPlaceName = () => {
-		switch (postRange) {
+		switch (getPostRange()) {
 			case 'near': return 'near'
-			case 'city': return serviceDataContext.location?.city || ''
+			case 'city': return editModeIsTrue() ? editDataContext.unsaved.location?.city : serviceDataContext.location?.city
 			case 'country': return 'Brasil'
 			default: return ''
 		}
@@ -66,7 +74,7 @@ function ServiceLocationViewPreview({ route, navigation }: ServiceLocationViewPr
 				backgroundColor={theme.purple2}
 				saveLocationView={saveLocationView}
 				initialValue={getCurrentMarkerCoordinate()}
-				postRange={postRange || 'near'}
+				postRange={getPostRange()}
 				placeName={getPlaceName()}
 				placeColor={theme.transparence.purple3}
 				locationViewSelected={route.params.locationView}

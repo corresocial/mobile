@@ -1,14 +1,11 @@
 import React from 'react'
 import { SvgProps, SvgUri } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
-import { theme } from '../../common/theme'
 
 import { Container, PathBar, PathTitle, Title } from './styles'
-import AngleLeftThin from '../../assets/icons/angleLeftThin.svg'
 
-import { SmallButton } from '../_buttons/SmallButton'
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
-import { relativeScreenWidth } from '../../common/screenDimensions'
+import { BackButton } from '../_buttons/BackButton'
 
 interface DefaultPostViewHeaderProps {
 	text?: string
@@ -47,13 +44,7 @@ function DefaultPostViewHeader({
 
 	return (
 		<Container>
-			<SmallButton
-				relativeWidth={relativeScreenWidth(11)}
-				height={relativeScreenWidth(11)}
-				color={theme.white3}
-				SvgIcon={AngleLeftThin}
-				onPress={onBackPress}
-			/>
+			<BackButton onPress={onBackPress} />
 			{
 				showResults
 					? <PathTitle>{text}</PathTitle>
@@ -65,7 +56,6 @@ function DefaultPostViewHeader({
 				style={{
 					fontFamily: highlightedWords.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold',
 					width: getTitleWidth(),
-					paddingLeft: SvgIcon ? 0 : RFValue(10),
 					fontSize: path ? RFValue(15) : RFValue(20)
 				}}
 			>

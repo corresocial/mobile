@@ -2,6 +2,7 @@ import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, Decimals, LargeFont, SmallFont, ValueArea, ExchangeArea, ExchangeWord } from './styles'
+import { textHasOnlyNumbers } from '../../utils/validationFunctions'
 
 interface SaleExchangeValueProps {
 	saleValue?: string | undefined
@@ -35,37 +36,52 @@ function SaleExchangeValue({
 
 	return (
 		<Container style={{ flexDirection: !breakRow ? 'row' : 'column' }}>
-			<ValueArea>
-				{
-					hasSaleValue
-					&& (
-						<>
-							<SmallFont style={{ fontSize: RFValue(smallFontSize) }}>
-								{'r$'}
-							</SmallFont>
-							<LargeFont style={{ fontSize: RFValue(largeFontSize) }}>
-								{saleValue}
-							</LargeFont>
-							<Decimals style={{ fontSize: RFValue(smallFontSize) }}>
-								{',00'}
-							</Decimals>
-						</>
+			{
+				textHasOnlyNumbers(saleValue)
+					? (
+						<ValueArea>
+							{
+								hasSaleValue
+								&& (
+									<>
+										<SmallFont style={{ fontSize: RFValue(smallFontSize) }}>
+											{'r$'}
+										</SmallFont>
+										<LargeFont style={{ fontSize: RFValue(largeFontSize) }}>
+											{saleValue}
+										</LargeFont>
+										<Decimals style={{ fontSize: RFValue(smallFontSize) }}>
+											{',00'}
+										</Decimals>
+									</>
+								)
+							}
+						</ValueArea>
 					)
-				}
-			</ValueArea>
+					: (
+						<ExchangeWord
+							style={{ fontSize: RFValue(smallFontSize) }}
+							numberOfLines={1}
+						>
+							{saleValue}
+						</ExchangeWord>
+					)
+			}
 			<ExchangeArea>
 				{
 					hasSaleValue && hasExchangeValue
 					&& (
 						<SmallFont style={{ fontSize: RFValue(smallFontSize) }}>
-							{'ou '}
+							{' ou '}
 						</SmallFont>
 					)
 				}
 				{
 					hasExchangeValue
 					&& (
-						<ExchangeWord style={{ fontSize: RFValue(exchangeFontSize), padding: breakRow ? '1%' : 0 }}>
+						<ExchangeWord
+							style={{ fontSize: RFValue(exchangeFontSize), padding: breakRow ? '1%' : 0 }}
+						>
 							{'troca'}
 						</ExchangeWord>
 					)

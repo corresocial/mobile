@@ -44,6 +44,8 @@ export type PlaceModalityType = 'presential' | 'online' | 'both'
 
 export type EventRepeatType = 'unrepeatable' | 'everyDay' | 'weekly' | 'biweekly' | 'monthly'
 
+export type VacancyPurpose = 'findProffessional' | 'findVacancy'
+
 export type MacroCategory = {
 	label: string
 	value: string
@@ -228,7 +230,6 @@ export type SaleCollection = {
 	postId?: string
 	postType?: PostType
 	title?: string
-	itemName?: string
 	itemDescription?: string
 	tags?: string[]
 	itemStatus?: ItemStatus
@@ -273,7 +274,6 @@ export type SaleCollectionRemote = {
 	postId: string
 	postType: PostType
 	title: string
-	itemName: string
 	itemDescription: string
 	tags: string[]
 	category: string
@@ -316,6 +316,7 @@ export type SaleCollectionRemote = {
 
 export type VacancyCollection = {
 	postId?: string
+	vacancyPurpose?: VacancyPurpose
 	postType?: PostType
 	title?: string
 	description?: string
@@ -323,15 +324,19 @@ export type VacancyCollection = {
 	workplace?: WorkplaceType
 	range?: ExhibitionPlaceType
 	importantPoints?: string[]
+	workFrequency?: WeekdaysFrequency
 	daysOfWeek?: DaysOfWeek[]
 	startDate?: Date
 	endDate?: Date
 	startHour?: Date
 	endHour?: Date
+	saleValue?: string
+	exchangeValue?: string
 	picturesUrl: string[]
 	tags?: string[]
 	category?: string
 	createdAt?: Date
+	locationView?: LocationViewType
 	location?: {
 		country?: string
 		state?: string
@@ -358,6 +363,7 @@ export type VacancyCollection = {
 
 export type VacancyCollectionRemote = {
 	postId: string
+	vacancyPurpose: VacancyPurpose
 	postType: PostType
 	title: string
 	description: string
@@ -365,15 +371,19 @@ export type VacancyCollectionRemote = {
 	workplace: WorkplaceType
 	range?: ExhibitionPlaceType
 	importantPoints: string[]
-	daysOfWeek: DaysOfWeek[]
+	workFrequency?: WeekdaysFrequency
+	daysOfWeek?: DaysOfWeek[]
 	startDate: Date
 	endDate: Date
 	startHour: Date
 	endHour: Date
+	saleValue?: string
+	exchangeValue?: string
 	picturesUrl: string[]
 	tags: string[]
 	category: string
 	createdAt: Date
+	locationView?: LocationViewType
 	location: {
 		country?: string
 		state?: string
@@ -408,6 +418,8 @@ export type CultureCollection = {
 	eventPlaceModality?: PlaceModalityType
 	repeat?: EventRepeatType
 	entryValue?: string
+	exhibitionFrequency?: WeekdaysFrequency
+	daysOfWeek?: DaysOfWeek[]
 	startDate?: Date
 	endDate?: Date
 	startHour?: Date
@@ -450,6 +462,8 @@ export type CultureCollectionRemote = {
 	eventPlaceModality?: PlaceModalityType
 	repeat: EventRepeatType
 	entryValue: string
+	exhibitionFrequency?: WeekdaysFrequency
+	daysOfWeek?: DaysOfWeek[]
 	startDate: Date
 	endDate: Date
 	startHour: Date
@@ -490,7 +504,9 @@ export type SocialImpactCollection = {
 	tags?: string[]
 	category?: string
 	locationView?: LocationViewType
-	range?: ExhibitionPlaceType
+	range?: PostRange
+	exhibitionPlace?: ExhibitionPlaceType
+	exhibitionFrequency?: WeekdaysFrequency
 	daysOfWeek?: DaysOfWeek[]
 	repeat?: EventRepeatType,
 	startDate?: Date
@@ -531,7 +547,9 @@ export type SocialImpactCollectionRemote = {
 	tags: string[]
 	category: string
 	locationView: LocationViewType
-	range: ExhibitionPlaceType
+	range?: PostRange
+	exhibitionPlace?: ExhibitionPlaceType
+	exhibitionFrequency?: WeekdaysFrequency
 	daysOfWeek: DaysOfWeek[]
 	repeat: EventRepeatType,
 	startDate?: Date

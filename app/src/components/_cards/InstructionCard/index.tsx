@@ -9,7 +9,6 @@ interface InstructionCardProps {
 	message: string
 	highlightedWords?: string[]
 	fontSize?: number
-	fontSizeHighlighted?: number
 	lineHeight?: number
 	borderLeftWidth?: number
 	flex?: number
@@ -20,7 +19,6 @@ function InstructionCard({
 	message,
 	highlightedWords,
 	fontSize,
-	fontSizeHighlighted,
 	lineHeight,
 	borderLeftWidth = 5,
 	flex = 1,
@@ -39,7 +37,7 @@ function InstructionCard({
 					lineHeight: lineHeight ? RFValue(lineHeight) : RFValue(22),
 				}}
 			>
-				{showMessageWithHighlight(message, highlightedWords, fontSizeHighlighted)}
+				{showMessageWithHighlight(message, highlightedWords)}
 			</Message>
 			{children}
 		</Container>

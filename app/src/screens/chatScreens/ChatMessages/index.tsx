@@ -16,8 +16,7 @@ import {
 	relativeScreenWidth,
 } from '../../../common/screenDimensions'
 import { Container, Header, Sigh } from './styles'
-import AngleLeftThinIcon from '../../../assets/icons/angleLeftThin.svg'
-import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
+import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 
 import { getRemoteChatData } from '../../../services/firebase/chat/getRemoteChatData'
 import { registerNewChat } from '../../../services/firebase/chat/registerNewChat'
@@ -52,6 +51,7 @@ import { sendMessage } from '../../../services/firebase/chat/sendMessage'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 
 import { ChatMessagesScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { BackButton } from '../../../components/_buttons/BackButton'
 
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -128,11 +128,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			setListenerHasStarted(true)
 			return onValue(realTimeDatabaseRef, (snapshot) => {
 				const listenerMessages = snapshot.val()
-				if (
-					getLastMessageObjects(listenerMessages).owner
-					!== userDataContext.userId
-				) {
-					console.log('Listener message running...')
+				if (getLastMessageObjects(listenerMessages).owner !== userDataContext.userId) {
+					// console.log('Listener message running...')
 					setMessages(listenerMessages)
 				}
 			})
@@ -305,13 +302,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				barStyle={'dark-content'}
 			/>
 			<Header>
-				<SmallButton
-					color={theme.white3}
-					SvgIcon={AngleLeftThinIcon}
-					relativeWidth={relativeScreenWidth(12)}
-					height={relativeScreenWidth(12)}
-					onPress={() => navigation.goBack()}
-				/>
+				<BackButton onPress={() => navigation.goBack()} />
 				<SmallUserIdentification
 					pictureDimensions={40}
 					userName={getUserName(
@@ -341,7 +332,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				>
 					<SmallButton
 						color={theme.white3}
-						SvgIcon={ThreeDotsIcon}
+						SvgIcon={ThreeDotsWhiteIcon}
 						relativeWidth={relativeScreenWidth(12)}
 						height={relativeScreenWidth(12)}
 						onPress={() => setChatOptionsIsOpen(true)}

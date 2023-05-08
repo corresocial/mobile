@@ -17,7 +17,22 @@ function SelectCultureFrequency({ route, navigation }: SelectCultureFrequencyScr
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('SelectEventRepeat')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({
+				exhibitionFrequency: '',
+				daysOfWeek: []
+			})
+			navigation.goBack()
+			return
+		}
+
+		setCultureDataOnContext({
+			exhibitionFrequency: 'someday',
+			daysOfWeek: []
+		})
+		navigation.navigate('SelectEventRepeat')
+	}
 
 	const saveCultureFrequency = (cultureFrequency: WeekdaysFrequency) => {
 		const daysOfWeek = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'] as DaysOfWeek[]

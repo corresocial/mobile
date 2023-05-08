@@ -29,7 +29,16 @@ function InsertSaleEndHour({ route, navigation }: InsertSaleEndHourScreenProps) 
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('SaleReview')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ endHour: '' })
+			navigation.goBack()
+			return
+		}
+
+		setSaleDataOnContext({ endHour: '' as any })
+		navigation.navigate('SaleReview')
+	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
 		const endHour = new Date()

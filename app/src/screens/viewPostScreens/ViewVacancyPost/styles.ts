@@ -1,11 +1,9 @@
-import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
 	background-color: ${({ theme }) => theme.yellow2};
-
 `
 
 export const Header = styled.View`
@@ -32,24 +30,4 @@ export const Body = styled.View`
 	flex: 1;
 	background-color: ${({ theme }) => theme.yellow2};
 	padding-horizontal: ${relativeScreenWidth(3)}px;
-`
-
-export const Sigh = styled.View`
-	width: 100%;
-	height: ${relativeScreenHeight(1.5)}px;
-`
-
-export const VacancyDetails = styled.View`
-	width: 100%;
-`
-
-export const VacancyDetailsItem = styled.Text`
-	width: 100%;
-	font-family: Arvo_400Regular;
-	font-size: ${RFValue(14)}px;
-`
-
-export const LastSigh = styled.View`
-	width: 100%;
-	height: ${relativeScreenHeight(13)}px;
 `

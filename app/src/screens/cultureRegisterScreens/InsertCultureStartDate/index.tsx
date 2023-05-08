@@ -29,7 +29,16 @@ function InsertCultureStartDate({ route, navigation }: InsertCultureStartDateScr
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('InsertCultureStartHour')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ startDate: '' })
+			navigation.goBack()
+			return
+		}
+
+		setCultureDataOnContext({ startDate: '' as any })
+		navigation.navigate('InsertCultureStartHour')
+	}
 
 	const saveCultureStartDate = (year: string, month: string, day: string) => {
 		const startDate = new Date(`${year}-${month}-${day}T12:00:00`)

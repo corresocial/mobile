@@ -54,7 +54,7 @@ function PrimaryButton({
 	iconColor,
 	SvgIcon,
 	SecondSvgIcon,
-	svgIconScale,
+	svgIconScale = ['40%', '25%'],
 	keyboardHideButton = true,
 	startsHidden = false,
 	justifyContent,

@@ -78,7 +78,6 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 						labelColor={theme.black4}
 						fontSize={18}
 						SecondSvgIcon={ShopWhiteIcon}
-						svgIconScale={['40%', '25%']}
 						textAlign={'left'}
 						label={'vaga presencial'}
 						highlightedWords={['presencial']}
@@ -91,7 +90,6 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 						labelColor={theme.black4}
 						fontSize={18}
 						SecondSvgIcon={ComputerAndPhoneWhiteIcon}
-						svgIconScale={['40%', '25%']}
 						textAlign={'left'}
 						label={'vaga homeoffice'}
 						highlightedWords={['homeoffice']}
@@ -105,7 +103,6 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 						fontSize={18}
 						SvgIcon={ComputerAndPhoneWhiteIcon}
 						SecondSvgIcon={ShopWhiteIcon}
-						svgIconScale={['40%', '25%']}
 						textAlign={'left'}
 						label={'vaga híbrida'}
 						highlightedWords={['híbrida']}

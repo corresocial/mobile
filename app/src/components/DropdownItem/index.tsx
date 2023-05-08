@@ -3,7 +3,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Address, AddressArea, Container, HighlightedAddress, IconArea } from './styles'
 import AngleRightIcon from '../../assets/icons/angleRight.svg'
-import ClockIcon from '../../assets/icons/clock.svg'
+import ClockIcon from '../../assets/icons/clock-white.svg'
 import { theme } from '../../common/theme'
 
 interface DropdownItemProps {
