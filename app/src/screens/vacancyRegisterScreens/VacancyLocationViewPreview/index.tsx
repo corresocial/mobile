@@ -59,7 +59,7 @@ function VacancyLocationViewPreview({ route, navigation }: VacancyLocationViewPr
 	}
 
 	const getPlaceName = () => {
-		switch (postRange) {
+		switch (getPostRange()) {
 			case 'near': return 'near'
 			case 'city': return editModeIsTrue() ? editDataContext.unsaved.location?.city : vacancyDataContext.location?.city
 			case 'country': return 'Brasil'

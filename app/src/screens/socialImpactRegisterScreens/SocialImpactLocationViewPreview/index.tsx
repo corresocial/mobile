@@ -58,7 +58,7 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 	}
 
 	const getPlaceName = () => {
-		switch (postRange) {
+		switch (getPostRange()) {
 			case 'near': return 'near'
 			case 'city': return editModeIsTrue() ? editDataContext.unsaved.location?.city : socialImpactDataContext.location?.city
 			case 'country': return 'Brasil'

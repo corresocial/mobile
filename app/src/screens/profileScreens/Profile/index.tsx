@@ -327,6 +327,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 									<SmallButton
 										color={theme.white3}
 										label={'adicionar redes'}
+										labelColor={theme.black4}
 										highlightedWords={['redes']}
 										fontSize={12}
 										SvgIcon={AtSign}

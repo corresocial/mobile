@@ -63,7 +63,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 			value = getPicturesUrl()
 		}
 
-		if (initialValue === 'location') {
+		if (initialValue === 'location' && value) {
 			value = {
 				coordinates: value.coordinates,
 				postRange: getPostField('range')
@@ -338,6 +338,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 					locationView={getPostField('locationView')}
 					textFontSize={16}
 					location={getPostField('location')}
+					withoutMapView={!(getPostField('location') && getPostField('location').coordinates)}
 					onEdit={() => navigateToEditScreen('SelectVacancyLocationView', 'location')}
 				/>
 				<VerticalSigh />

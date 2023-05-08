@@ -59,7 +59,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 	}
 
 	const getPlaceName = () => {
-		switch (postRange) {
+		switch (getPostRange()) {
 			case 'near': return 'near'
 			case 'city': return editModeIsTrue() ? editDataContext.unsaved.location?.city : cultureDataContext.location?.city
 			case 'country': return 'Brasil'

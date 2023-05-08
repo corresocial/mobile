@@ -267,7 +267,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 					<LocationViewCard
 						online={getPostField('workplace') === 'homeoffice'}
 						locationView={getPostField('locationView')}
-						withoutMapView={!getPostField('location').coordinates}
+						withoutMapView={!(getPostField('location') && getPostField('location').coordinates)}
 						location={getPostField('location')}
 					/>
 					<VerticalSigh />

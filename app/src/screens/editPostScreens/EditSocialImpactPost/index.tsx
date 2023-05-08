@@ -349,7 +349,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 					SecondSvgIcon={CalendarEmptyIcon}
 					value={formatDate(getPostField('startDate', true)) || '---'}
 					valueBold
-					onEdit={() => navigateToEditScreen('InsertSocialImpactStartDate', 'startHour')}
+					onEdit={() => navigateToEditScreen('InsertSocialImpactStartDate', 'startDate')}
 				/>
 				<VerticalSigh />
 				<EditCard
@@ -367,7 +367,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostScreenP
 					SecondSvgIcon={CalendarEmptyIcon}
 					value={formatDate(getPostField('endDate', true)) || '---'}
 					valueBold
-					onEdit={() => navigateToEditScreen('InsertSocialImpactEndDate', 'endHour')}
+					onEdit={() => navigateToEditScreen('InsertSocialImpactEndDate', 'endDate')}
 				/>
 				<VerticalSigh />
 				<EditCard

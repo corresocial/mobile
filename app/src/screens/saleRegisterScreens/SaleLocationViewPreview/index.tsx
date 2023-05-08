@@ -59,7 +59,7 @@ function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewS
 	}
 
 	const getPlaceName = () => {
-		switch (postRange) {
+		switch (getPostRange()) {
 			case 'near': return 'near'
 			case 'city': return editModeIsTrue() ? editDataContext.unsaved.location?.city : saleDataContext.location?.city
 			case 'country': return 'Brasil'

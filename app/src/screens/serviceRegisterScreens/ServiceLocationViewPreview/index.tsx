@@ -59,7 +59,7 @@ function ServiceLocationViewPreview({ route, navigation }: ServiceLocationViewPr
 	}
 
 	const getPlaceName = () => {
-		switch (postRange) {
+		switch (getPostRange()) {
 			case 'near': return 'near'
 			case 'city': return editModeIsTrue() ? editDataContext.unsaved.location?.city : serviceDataContext.location?.city
 			case 'country': return 'Brasil'
