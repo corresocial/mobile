@@ -8,12 +8,12 @@ export const Container = styled.View`
 	flex: 1;
 	background-color: ${({ theme }) => theme.orange2};
 	padding-bottom: ${relativeScreenHeight(10)}px;
-`
+	`
 
 export const Header = styled.View`
-	padding-top:${Platform.OS === 'ios' ? Constants.statusBarHeight : 0}px;
 	width: 100%;
 	padding: ${RFValue(12)}px;
+	padding-top:${Platform.OS === 'ios' ? Constants.statusBarHeight : 0}px;
 	flex-direction: row;
 	justify-content: space-between;
 	background-color: ${({ theme }) => theme.white3};
