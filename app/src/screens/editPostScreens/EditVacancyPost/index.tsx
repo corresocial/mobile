@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
@@ -275,7 +275,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 			<Body>
 				<VacancyPurposeCard
 					vacancyPurpose={getPostField('vacancyPurpose') || 'findProffessional'}
-					onEdit={() => Alert.alert('In development...')}
+					onEdit={() => navigateToEditScreen('SelectVacancyPurpose', 'vacancyPurpose')}
 				/>
 				<VerticalSigh />
 				<EditCard
