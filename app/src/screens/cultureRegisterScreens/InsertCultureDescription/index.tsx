@@ -13,7 +13,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostInputDescription } from '../../../components/_onboarding/PostInputDescription'
 
 function InsertCultureDescription({ route, navigation }: InsertCultureDescriptionScreenProps) {
-	const { setCultureDataOnContext } = useContext(CultureContext)
+	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -56,7 +56,7 @@ function InsertCultureDescription({ route, navigation }: InsertCultureDescriptio
 				validationColor={theme.blue1}
 				inputPlaceholder={'ex: evento liberado pra geral do bairro'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, 4]}
+				progress={[2, isSecondPost ? 2 : 4]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateCultureDescription}
 				navigateBackwards={() => navigation.goBack()}

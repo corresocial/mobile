@@ -45,13 +45,16 @@ function CultureProvider({ children }: CultureProviderProps) {
 		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
 
 		setCultureDataContext({
-			range: lastUserPost.range, // EDIT
+			range: lastUserPost.range,
 			locationView: lastUserPost.locationView,
 			location: lastUserPost.location,
-			deliveryMethod: lastUserPost.deliveryMethod,
-			attendanceFrequency: lastUserPost.attendanceFrequency,
+			entryValue: lastUserPost.entryValue,
+			exhibitionFrequency: lastUserPost.exhibitionFrequency,
 			daysOfWeek: lastUserPost.daysOfWeek,
+			repeat: lastUserPost.repeat,
+			startDate: lastUserPost.startDate,
 			startHour: lastUserPost.startHour,
+			endDate: lastUserPost.endDate,
 			endHour: lastUserPost.endHour,
 		})
 		setIsSecondPost(true)
