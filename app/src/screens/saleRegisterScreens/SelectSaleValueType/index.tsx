@@ -11,7 +11,7 @@ import { PaymentValueType } from '../../../components/_onboarding/PaymentValueTy
 import { theme } from '../../../common/theme'
 
 function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -41,6 +41,10 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 					return
 				}
 
+				if (isSecondPost) {
+					return navigation.navigate('SaleReview')
+				}
+
 				navigation.navigate('SelectSaleRange')
 				break
 			}
@@ -53,7 +57,7 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<PaymentValueType
 				backgroundColor={theme.green2}
-				progress={[3, 5]}
+				progress={[3, isSecondPost ? 3 : 5]}
 				navigateBackwards={() => navigation.goBack()}
 				savePaymentValueType={saveSaleValueType}
 			/>

@@ -1,14 +1,15 @@
 import React, { createContext, useMemo, useState, useContext } from 'react'
 
 import { ServiceData } from './types'
+import { ServiceCollectionRemote } from '../services/firebase/types'
+
 import { AuthContext } from './AuthContext'
-import { PostCollectionRemote } from '../services/firebase/types'
 
 type ServiceContextType = {
 	isSecondPost: boolean
 	serviceDataContext: ServiceData
-	setServiceDataOnContext: (data: ServiceData) => void,
-	getAditionalDataFromLastPost: () => void,
+	setServiceDataOnContext: (data: ServiceData) => void
+	getAditionalDataFromLastPost: () => void
 }
 
 interface ServiceProviderProps {
@@ -31,19 +32,17 @@ function ServiceProvider({ children }: ServiceProviderProps) {
 	const [serviceDataContext, setServiceDataContext] = useState(initialValue.serviceDataContext)
 
 	const setServiceDataOnContext = async (data: ServiceData) => {
-		setServiceDataContext({
-			...serviceDataContext, ...data
-		})
+		setServiceDataContext({ ...serviceDataContext, ...data })
 	}
 
 	const getAditionalDataFromLastPost = () => {
 		const userPosts = userDataContext.posts || []
 		if (!userPosts || (userPosts && userPosts.length < 1)) return
 
-		const lastUserPost: PostCollectionRemote | any = userPosts[userPosts.length - 1] || {} // TODO Type
+		const lastUserPost: ServiceCollectionRemote | any = userPosts[userPosts.length - 1] || {} // TODO Type
 		if (Object.keys(lastUserPost).length < 1) return
 
-		console.log(`lastUserPost Title: ${lastUserPost.title}`)
+		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
 
 		setServiceDataContext({
 			range: lastUserPost.range,
