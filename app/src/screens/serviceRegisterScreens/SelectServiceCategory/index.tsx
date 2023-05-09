@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
@@ -13,7 +13,13 @@ import { ServiceContext } from '../../../contexts/ServiceContext'
 import { PostCategory } from '../../../components/_onboarding/PostCategory'
 
 function SelectServiceCategory({ route, navigation }: SelectServiceCategoryScreenProps) {
-	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { isSecondPost, setServiceDataOnContext, getAditionalDataFromLastPost } = useContext(ServiceContext)
+
+	useEffect(() => {
+		if (!route.params?.editMode) {
+			getAditionalDataFromLastPost()
+		}
+	}, [])
 
 	const onSelectCategory = (categoryName: ServiceCategories) => {
 		setServiceDataOnContext({ category: categoryName })
@@ -26,7 +32,7 @@ function SelectServiceCategory({ route, navigation }: SelectServiceCategoryScree
 			<PostCategory
 				backgroundColor={theme.purple2}
 				categories={serviceCategories}
-				progress={[1, 5]}
+				progress={[1, isSecondPost ? 3 : 5]}
 				navigateBackwards={() => navigation.goBack()}
 				savePostCategory={onSelectCategory}
 			/>

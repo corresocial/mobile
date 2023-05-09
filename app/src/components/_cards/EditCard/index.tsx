@@ -20,6 +20,7 @@ interface EditCardProps {
 	carousel?: boolean
 	SvgIcon?: React.FC<SvgProps>
 	SecondSvgIcon?: React.FC<SvgProps>
+	navigateIcon?: boolean
 	onEdit?: () => void
 }
 
@@ -33,6 +34,7 @@ function EditCard({
 	carousel,
 	SvgIcon,
 	SecondSvgIcon,
+	navigateIcon,
 	onEdit,
 }: EditCardProps) {
 	const isDateOrTimeOrObject = () => {
@@ -54,7 +56,7 @@ function EditCard({
 					paddingVertical: profilePicturesUrl.length ? RFValue(10) : 0
 				}}
 			>
-				<EditHeaderContainer onPress={onEdit}>
+				<EditHeaderContainer onPress={onEdit} navigateIcon={navigateIcon}>
 					<DefaultHeaderTitle
 						title={title}
 						highlightedWords={highlightedWords}

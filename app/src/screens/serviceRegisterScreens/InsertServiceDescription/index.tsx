@@ -13,7 +13,7 @@ import { ServiceContext } from '../../../contexts/ServiceContext'
 import { PostInputDescription } from '../../../components/_onboarding/PostInputDescription'
 
 function InsertServiceDescription({ route, navigation }: InsertServiceDescriptionScreenProps) {
-	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { isSecondPost, setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -38,7 +38,6 @@ function InsertServiceDescription({ route, navigation }: InsertServiceDescriptio
 	const saveServiceDescription = (description: string) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ description })
-
 			navigation.goBack()
 			return
 		}
@@ -57,7 +56,7 @@ function InsertServiceDescription({ route, navigation }: InsertServiceDescriptio
 				validationColor={theme.purple1}
 				inputPlaceholder={'ex: marcenaria especializada em projetos.'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, 5]}
+				progress={[2, isSecondPost ? 3 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateServiceDescription}
 				navigateBackwards={() => navigation.goBack()}

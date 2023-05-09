@@ -12,7 +12,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PaymentValueType } from '../../../components/_onboarding/PaymentValueType'
 
 function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenProps) {
-	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { isSecondPost, setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -42,6 +42,10 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 					return
 				}
 
+				if (isSecondPost) {
+					return navigation.navigate('ServiceReview')
+				}
+
 				navigation.navigate('SelectServiceRange')
 				break
 			}
@@ -56,7 +60,7 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 				backgroundColor={theme.purple2}
 				navigateBackwards={() => navigation.goBack()}
 				savePaymentValueType={saveSaleValueType}
-				progress={[3, 5]}
+				progress={[3, isSecondPost ? 3 : 5]}
 			/>
 		</>
 	)

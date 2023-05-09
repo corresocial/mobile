@@ -282,7 +282,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						{
 							!isLoggedUser && (
 								<>
-									<BackButton onPress={navigationToBack} hasSigh={false} />
+									<BackButton onPress={navigationToBack} withoutSigh={false} />
 									<VerticalSigh />
 								</>
 							)

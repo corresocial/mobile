@@ -5,8 +5,6 @@ import uuid from 'react-uuid'
 import { Body, Container, Header, NewLinkButtonContainer, Sigh } from './styles'
 import { theme } from '../../../common/theme'
 import PlusIcon from '../../../assets/icons/plus.svg'
-import PencilIcon from '../../../assets/icons/pencil.svg'
-import AngleRightIcon from '../../../assets/icons/angleRight.svg'
 
 import { SocialMediaManagementScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { SocialMedia } from '../../../services/firebase/types'
@@ -47,8 +45,8 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 				<View key={uuid()}>
 					<EditCard
 						title={socialMedia.title}
-						SvgIcon={route.params.isAuthor ? PencilIcon : AngleRightIcon}
 						SecondSvgIcon={getRelativeSocialMediaIcon(socialMedia.title)}
+						navigateIcon={!route.params.isAuthor}
 						value={`${socialMedia.link.replace(socialMediaUrl(socialMedia.title, ''), '') || ''}`}
 						onEdit={() => onPressIcon(socialMedia, index)}
 					/>

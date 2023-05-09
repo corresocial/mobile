@@ -12,7 +12,7 @@ import { PostInputText } from '../../../components/_onboarding/PostInputText'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 function InsertServiceName({ route, navigation }: InsertServiceNameScreenProps) {
-	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { isSecondPost, setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -55,7 +55,7 @@ function InsertServiceName({ route, navigation }: InsertServiceNameScreenProps) 
 				validationColor={theme.purple1}
 				inputPlaceholder={'ex: marcenaria'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, 5]}
+				progress={[2, isSecondPost ? 3 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateServiceTitle}
 				navigateBackwards={() => navigation.goBack()}
