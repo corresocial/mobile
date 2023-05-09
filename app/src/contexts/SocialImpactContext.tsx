@@ -44,13 +44,16 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
 
 		setSocialImpactDataContext({
-			range: lastUserPost.range, // EDIT
+			range: lastUserPost.range,
 			locationView: lastUserPost.locationView,
 			location: lastUserPost.location,
-			deliveryMethod: lastUserPost.deliveryMethod,
-			attendanceFrequency: lastUserPost.attendanceFrequency,
+			exhibitionPlace: lastUserPost.exhibitionPlace,
+			exhibitionFrequency: lastUserPost.exhibitionFrequency,
 			daysOfWeek: lastUserPost.daysOfWeek,
+			repeat: lastUserPost.repeat,
+			startDate: lastUserPost.startDate,
 			startHour: lastUserPost.startHour,
+			endDate: lastUserPost.endDate,
 			endHour: lastUserPost.endHour,
 		})
 		setIsSecondPost(true)

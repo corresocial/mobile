@@ -13,7 +13,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostInputDescription } from '../../../components/_onboarding/PostInputDescription'
 
 function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpactDescriptionScreenProps) {
-	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -56,7 +56,7 @@ function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpact
 				validationColor={theme.pink1}
 				inputPlaceholder={'ex: projeto de arrecadação para o dia das crianças.'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, 4]}
+				progress={[2, isSecondPost ? 2 : 4]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSocialImpactDescription}
 				navigateBackwards={() => navigation.goBack()}

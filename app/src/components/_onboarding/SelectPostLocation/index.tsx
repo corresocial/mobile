@@ -190,8 +190,8 @@ function SelectPostLocation({
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : backgroundColor} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(14)}
-				relativeHeight={relativeScreenHeight(14)}
+				minHeight={relativeScreenHeight(20)}
+				relativeHeight={relativeScreenHeight(20)}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 				borderBottomWidth={0}
