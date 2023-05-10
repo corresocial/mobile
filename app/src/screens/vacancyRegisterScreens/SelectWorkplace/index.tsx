@@ -22,7 +22,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveWorkplaceType = (workplace: WorkplaceType) => {
@@ -62,8 +62,8 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 					highlightedWords={['local,', 'de', 'trabalho']}
 				>
 					<ProgressBar
-						range={5}
-						value={3}
+						value={2}
+						range={isSecondPost ? 3 : 5}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>

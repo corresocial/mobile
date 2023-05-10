@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
@@ -21,8 +21,14 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 
 function SelectVacancyPurpose({ route, navigation }: SelectVacancyPurposeScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { setVacancyDataOnContext, getAditionalDataFromLastPost } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+
+	useEffect(() => {
+		if (!route.params?.editMode) {
+			getAditionalDataFromLastPost()
+		}
+	}, [])
 
 	const saveWorkplaceType = (vacancyPurpose: VacancyPurpose) => {
 		if (editModeIsTrue()) {

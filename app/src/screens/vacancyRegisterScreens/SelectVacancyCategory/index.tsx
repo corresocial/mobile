@@ -13,12 +13,10 @@ import { VacancyContext } from '../../../contexts/VacancyContext'
 import { PostCategory } from '../../../components/_onboarding/PostCategory'
 
 function SelectVacancyCategory({ route, navigation }: SelectVacancyCategoryScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
 
 	const onSelectCategory = (categoryName: VacancyCategories) => {
-		setVacancyDataOnContext({
-			category: categoryName
-		})
+		setVacancyDataOnContext({ category: categoryName })
 		navigation.navigate('SelectVacancyTags', { categorySelected: categoryName, ...route.params })
 	}
 
@@ -28,9 +26,9 @@ function SelectVacancyCategory({ route, navigation }: SelectVacancyCategoryScree
 			<PostCategory
 				backgroundColor={theme.yellow2}
 				categories={vacancyCategories}
+				progress={[1, isSecondPost ? 3 : 5]}
 				navigateBackwards={() => navigation.goBack()}
 				savePostCategory={onSelectCategory}
-				progress={[1, 5]}
 			/>
 		</>
 	)

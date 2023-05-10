@@ -48,11 +48,13 @@ function VacancyProvider({ children }: VacancyProviderProps) {
 			range: lastUserPost.range,
 			locationView: lastUserPost.locationView,
 			location: lastUserPost.location,
-			deliveryMethod: lastUserPost.deliveryMethod,
-			attendanceFrequency: lastUserPost.attendanceFrequency,
+			attendanceFrequency: lastUserPost.workFrequency,
 			daysOfWeek: lastUserPost.daysOfWeek,
+			startDate: lastUserPost.startDate,
 			startHour: lastUserPost.startHour,
+			endDate: lastUserPost.endDate,
 			endHour: lastUserPost.endHour,
+			importantPoints: lastUserPost.importantPoints,
 		})
 		setIsSecondPost(true)
 	}

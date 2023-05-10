@@ -11,7 +11,7 @@ import { PaymentValueType } from '../../../components/_onboarding/PaymentValueTy
 import { theme } from '../../../common/theme'
 
 function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveVacancyValueType = (paymentType: SaleValueType) => {
@@ -41,6 +41,10 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 					return
 				}
 
+				if (isSecondPost) {
+					return navigation.navigate('VacancyReview')
+				}
+
 				navigation.navigate('SelectVacancyRange')
 				break
 			}
@@ -53,7 +57,7 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<PaymentValueType
 				backgroundColor={theme.yellow2}
-				progress={[3, 5]}
+				progress={[3, isSecondPost ? 3 : 5]}
 				navigateBackwards={() => navigation.goBack()}
 				savePaymentValueType={saveVacancyValueType}
 			/>
