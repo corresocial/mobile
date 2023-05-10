@@ -302,10 +302,16 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						startTime={getPostField('startHour', true)}
 						endTime={getPostField('endHour', true)}
 					/>
-					<VerticalSigh />
-					<DeliveryMethodCard
-						deliveryMethod={getPostField('deliveryMethod')}
-					/>
+					{
+						getPostField('deliveryMethod') && (
+							<>
+								<VerticalSigh />
+								<DeliveryMethodCard
+									deliveryMethod={getPostField('deliveryMethod')}
+								/>
+							</>
+						)
+					}
 					<VerticalSigh bottomNavigatorSpace />
 				</Body >
 			</ScrollView>

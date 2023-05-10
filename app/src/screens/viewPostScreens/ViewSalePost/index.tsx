@@ -296,10 +296,16 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						startTime={getPostField('startHour', true)}
 						endTime={getPostField('endHour', true)}
 					/>
-					<VerticalSigh />
-					<DeliveryMethodCard
-						deliveryMethod={getPostField('deliveryMethod')}
-					/>
+					{
+						getPostField('deliveryMethod') && (
+							<>
+								<VerticalSigh />
+								<DeliveryMethodCard
+									deliveryMethod={getPostField('deliveryMethod')}
+								/>
+							</>
+						)
+					}
 					<VerticalSigh bottomNavigatorSpace />
 				</Body>
 			</ScrollView>

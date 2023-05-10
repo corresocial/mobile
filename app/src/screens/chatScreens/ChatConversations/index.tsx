@@ -126,7 +126,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	}
 
 	const sortChats = (a: Chat, b: Chat) => {
-		if (!chatsIsValid(a, b)) return 0
+		if (!chatsIsValid(a, b)) return -1
 
 		if (getLastMessageDateTime(a.messages, true) < getLastMessageDateTime(b.messages, true)) return 1
 		if (getLastMessageDateTime(a.messages, true) > getLastMessageDateTime(b.messages, true)) return -1
