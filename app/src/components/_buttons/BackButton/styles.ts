@@ -2,9 +2,9 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
 interface SighProps {
-	hasSigh: boolean
+	withoutSigh: boolean
 }
 
 export const Sigh = styled.View<SighProps>`
-	margin-right: ${(props) => (props.hasSigh ? RFValue(10) : 0)}px;
+	margin-right: ${(props) => (props.withoutSigh ? RFValue(10) : 0)}px;
 `

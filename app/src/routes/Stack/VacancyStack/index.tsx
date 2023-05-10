@@ -28,7 +28,7 @@ import { VacancyLocationViewPreview } from '../../../screens/vacancyRegisterScre
 import { SelectVacancyFrequency } from '../../../screens/vacancyRegisterScreens/SelectVacancyFrequency'
 import { InsertVacancyEndDate } from '../../../screens/vacancyRegisterScreens/InsertVacancyEndDate'
 import { InsertVacancyStartHour } from '../../../screens/vacancyRegisterScreens/InsertVacancyStartHour'
-import { VacancyReview } from '../../../screens/vacancyRegisterScreens/VacancyPreview'
+import { VacancyReview } from '../../../screens/vacancyRegisterScreens/VacancyReview'
 import { InsertVacancyImportantPoints } from '../../../screens/vacancyRegisterScreens/InsertVacancyImportantPoints'
 import { SelectVacancyPurpose } from '../../../screens/vacancyRegisterScreens/SelectVacancyPurpose'
 

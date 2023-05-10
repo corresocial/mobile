@@ -13,7 +13,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -46,6 +46,11 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		}
 
 		setSaleDataOnContext({ exchangeValue })
+
+		if (isSecondPost) {
+			return navigation.navigate('SaleReview')
+		}
+
 		navigation.navigate('SelectSaleRange')
 	}
 
@@ -59,7 +64,7 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 				customHighlight={['o', 'que', 'em', 'troca']}
 				inputPlaceholder={'ex: troco por uma marmita'}
 				// initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[3, 5]}
+				progress={[3, isSecondPost ? 3 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateExchangeValue}
 				navigateBackwards={() => navigation.goBack()}

@@ -20,7 +20,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 
 function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) {
-	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { isSecondPost, vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveVacancyType = (vacancyType: VacancyType) => {
@@ -73,8 +73,8 @@ function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) 
 					highlightedWords={['tipo', 'vaga']}
 				>
 					<ProgressBar
-						range={5}
-						value={4}
+						range={isSecondPost ? 3 : 5}
+						value={2}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>

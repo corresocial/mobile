@@ -21,7 +21,7 @@ import { ProgressBar } from '../../../components/ProgressBar'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -53,8 +53,8 @@ function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
 					highlightedWords={['vende', 'aceita', 'troca', 'os', 'dois']}
 				>
 					<ProgressBar
-						range={5}
 						value={2}
+						range={isSecondPost ? 3 : 5}
 					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>

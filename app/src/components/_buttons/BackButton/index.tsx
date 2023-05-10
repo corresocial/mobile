@@ -7,11 +7,11 @@ import { theme } from '../../../common/theme'
 import { Sigh } from './styles'
 
 interface BackButtonProps {
-	hasSigh?: boolean
+	withoutSigh?: boolean
 	onPress: () => void
 }
 
-function BackButton({ hasSigh, onPress }: BackButtonProps) {
+function BackButton({ withoutSigh, onPress }: BackButtonProps) {
 	return (
 		<>
 			<SmallButton
@@ -22,7 +22,7 @@ function BackButton({ hasSigh, onPress }: BackButtonProps) {
 				onPress={onPress}
 				svgScale={['55%', '55%']}
 			/>
-			<Sigh hasSigh={!hasSigh} />
+			<Sigh withoutSigh={!withoutSigh} />
 		</>
 	)
 }

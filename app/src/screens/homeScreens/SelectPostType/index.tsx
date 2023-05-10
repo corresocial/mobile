@@ -17,6 +17,7 @@ import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 interface SelectPostTypeProps {
 	withoutBackButton?: boolean
@@ -28,13 +29,13 @@ function SelectPostType({ navigation, withoutBackButton }: SelectPostTypeScreenP
 			<FocusAwareStatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				backgroundColor={theme.orange2}
-				relativeHeight={'20%'}
+				relativeHeight={relativeScreenHeight(20)}
 				borderBottomWidth={0}
 				centralized
 			>
 				{
 					!withoutBackButton
-						? <BackButton onPress={() => navigation.goBack()} hasSigh />
+						? <BackButton onPress={() => navigation.goBack()} withoutSigh />
 						: <></>
 				}
 				<InstructionCard

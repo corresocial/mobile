@@ -121,8 +121,12 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		return chatDataContext.sort(sortChats)
 	}
 
+	const chatsIsValid = (a: Chat, b: Chat) => {
+		return (!a || !b || (a && !Object.keys(a)) || (b && !Object.keys(b)))
+	}
+
 	const sortChats = (a: Chat, b: Chat) => {
-		if (!a || !b || !Object.keys(a.messages).length || !Object.keys(b.messages).length) return 0
+		if (!chatsIsValid(a, b)) return 0
 
 		if (getLastMessageDateTime(a.messages, true) < getLastMessageDateTime(b.messages, true)) return 1
 		if (getLastMessageDateTime(a.messages, true) > getLastMessageDateTime(b.messages, true)) return -1

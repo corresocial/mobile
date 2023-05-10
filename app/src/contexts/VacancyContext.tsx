@@ -1,10 +1,15 @@
-import React, { createContext, useMemo, useState } from 'react'
+import React, { createContext, useContext, useMemo, useState } from 'react'
 
 import { VacancyData } from './types'
+import { VacancyCollectionRemote } from '../services/firebase/types'
+
+import { AuthContext } from './AuthContext'
 
 type VacancyContextType = {
+	isSecondPost: boolean
 	vacancyDataContext: VacancyData
 	setVacancyDataOnContext: (data: VacancyData) => void
+	getAditionalDataFromLastPost: () => void
 }
 
 interface VacancyProviderProps {
@@ -12,25 +17,53 @@ interface VacancyProviderProps {
 }
 
 const initialValue = {
-	vacancyDataContext: {
-	},
-	setVacancyDataOnContext: (data: VacancyData) => { }
+	isSecondPost: false,
+	vacancyDataContext: {},
+	setVacancyDataOnContext: (data: VacancyData) => { },
+	getAditionalDataFromLastPost: () => { }
 }
 
 const VacancyContext = createContext<VacancyContextType>(initialValue)
 
 function VacancyProvider({ children }: VacancyProviderProps) {
+	const { userDataContext } = useContext(AuthContext)
+
+	const [isSecondPost, setIsSecondPost] = useState(false)
 	const [vacancyDataContext, setVacancyDataContext] = useState(initialValue.vacancyDataContext)
 
 	const setVacancyDataOnContext = async (data: VacancyData) => {
+		setVacancyDataContext({ ...vacancyDataContext, ...data })
+	}
+
+	const getAditionalDataFromLastPost = () => {
+		const userPosts = userDataContext.posts || []
+		if (!userPosts || (userPosts && userPosts.length < 1)) return
+
+		const lastUserPost: VacancyCollectionRemote | any = userPosts[userPosts.length - 1] || {} // TODO Type
+		if (Object.keys(lastUserPost).length < 1) return
+
+		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
+
 		setVacancyDataContext({
-			...vacancyDataContext, ...data
+			range: lastUserPost.range,
+			locationView: lastUserPost.locationView,
+			location: lastUserPost.location,
+			attendanceFrequency: lastUserPost.workFrequency,
+			daysOfWeek: lastUserPost.daysOfWeek,
+			startDate: lastUserPost.startDate,
+			startHour: lastUserPost.startHour,
+			endDate: lastUserPost.endDate,
+			endHour: lastUserPost.endHour,
+			importantPoints: lastUserPost.importantPoints,
 		})
+		setIsSecondPost(true)
 	}
 
 	const vacanyDataProvider = useMemo(() => ({
+		isSecondPost,
 		vacancyDataContext,
-		setVacancyDataOnContext
+		setVacancyDataOnContext,
+		getAditionalDataFromLastPost
 	}), [vacancyDataContext])
 
 	return (

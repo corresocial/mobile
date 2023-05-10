@@ -282,7 +282,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						{
 							!isLoggedUser && (
 								<>
-									<BackButton onPress={navigationToBack} hasSigh={false} />
+									<BackButton onPress={navigationToBack} withoutSigh={false} />
 									<VerticalSigh />
 								</>
 							)
@@ -293,6 +293,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							borderWidth={3}
 							borderRightWidth={8}
 							pictureUri={getProfilePicture()}
+							checked={!!getUserField('verified')}
 						/>
 						<InfoArea>
 							<UserName numberOfLines={3} >{getUserField('name')}</UserName>

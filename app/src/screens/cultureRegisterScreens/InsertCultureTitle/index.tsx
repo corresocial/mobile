@@ -12,7 +12,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertCultureTitle({ route, navigation }: InsertCultureTitleScreenProps) {
-	const { setCultureDataOnContext } = useContext(CultureContext)
+	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -55,7 +55,7 @@ function InsertCultureTitle({ route, navigation }: InsertCultureTitleScreenProps
 				validationColor={theme.blue1}
 				inputPlaceholder={'ex: exposição de arte'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, 4]}
+				progress={[2, isSecondPost ? 2 : 4]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateCultureTitle}
 				navigateBackwards={() => navigation.goBack()}

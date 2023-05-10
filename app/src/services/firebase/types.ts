@@ -88,6 +88,7 @@ export type UserCollection = {
 	name?: string
 	description?: string
 	profilePictureUrl?: string[]
+	verified?: boolean
 	tourPerformed?: boolean
 	tags?: string[]
 	category?: string

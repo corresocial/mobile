@@ -1,10 +1,15 @@
-import React, { createContext, useMemo, useState } from 'react'
+import React, { createContext, useMemo, useState, useContext } from 'react'
 
 import { ServiceData } from './types'
+import { ServiceCollectionRemote } from '../services/firebase/types'
+
+import { AuthContext } from './AuthContext'
 
 type ServiceContextType = {
+	isSecondPost: boolean
 	serviceDataContext: ServiceData
 	setServiceDataOnContext: (data: ServiceData) => void
+	getAditionalDataFromLastPost: () => void
 }
 
 interface ServiceProviderProps {
@@ -12,24 +17,51 @@ interface ServiceProviderProps {
 }
 
 const initialValue = {
+	isSecondPost: false,
 	serviceDataContext: {},
-	setServiceDataOnContext: (data: ServiceData) => { }
+	setServiceDataOnContext: (data: ServiceData) => { },
+	getAditionalDataFromLastPost: () => { }
 }
 
 const ServiceContext = createContext<ServiceContextType>(initialValue)
 
 function ServiceProvider({ children }: ServiceProviderProps) {
+	const { userDataContext } = useContext(AuthContext)
+
+	const [isSecondPost, setIsSecondPost] = useState(false)
 	const [serviceDataContext, setServiceDataContext] = useState(initialValue.serviceDataContext)
 
 	const setServiceDataOnContext = async (data: ServiceData) => {
+		setServiceDataContext({ ...serviceDataContext, ...data })
+	}
+
+	const getAditionalDataFromLastPost = () => {
+		const userPosts = userDataContext.posts || []
+		if (!userPosts || (userPosts && userPosts.length < 1)) return
+
+		const lastUserPost: ServiceCollectionRemote | any = userPosts[userPosts.length - 1] || {} // TODO Type
+		if (Object.keys(lastUserPost).length < 1) return
+
+		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
+
 		setServiceDataContext({
-			...serviceDataContext, ...data
+			range: lastUserPost.range,
+			locationView: lastUserPost.locationView,
+			location: lastUserPost.location,
+			deliveryMethod: lastUserPost.deliveryMethod,
+			attendanceFrequency: lastUserPost.attendanceFrequency,
+			daysOfWeek: lastUserPost.daysOfWeek,
+			startHour: lastUserPost.startHour,
+			endHour: lastUserPost.endHour,
 		})
+		setIsSecondPost(true)
 	}
 
 	const serviceProviderData = useMemo(() => ({
+		isSecondPost,
 		serviceDataContext,
-		setServiceDataOnContext
+		setServiceDataOnContext,
+		getAditionalDataFromLastPost
 	}), [serviceDataContext])
 
 	return (

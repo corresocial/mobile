@@ -13,7 +13,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertSaleTitle({ route, navigation }: InsertSaleTitleScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -56,7 +56,7 @@ function InsertSaleTitle({ route, navigation }: InsertSaleTitleScreenProps) {
 				validationColor={theme.green1}
 				inputPlaceholder={'ex: televisão 40"'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, 5]}
+				progress={[2, isSecondPost ? 3 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSaleTitle}
 				navigateBackwards={() => navigation.goBack()}

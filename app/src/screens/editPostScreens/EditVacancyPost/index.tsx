@@ -268,7 +268,6 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostScreenProps) {
 									/>
 								</SaveButtonContainer>
 							)
-
 					)
 				}
 			</Header>

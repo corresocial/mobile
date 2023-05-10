@@ -12,7 +12,7 @@ import { InsertSaleValueScreenProps } from '../../../routes/Stack/SaleStack/stac
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -53,6 +53,10 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 		if (route.params.bothPaymentType) {
 			navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
 		} else {
+			if (isSecondPost) {
+				return navigation.navigate('SaleReview')
+			}
+
 			navigation.navigate('SelectSaleRange')
 		}
 	}
@@ -67,7 +71,7 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 				customHighlight={['quanto']}
 				inputPlaceholder={'ex: 100 reais'}
 				// initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[3, 5]}
+				progress={[3, isSecondPost ? 3 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSaleValue}
 				navigateBackwards={() => navigation.goBack()}

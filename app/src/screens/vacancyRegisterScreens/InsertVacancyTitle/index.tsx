@@ -12,7 +12,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertVacancyTitle({ route, navigation }: InsertVacancyTitleScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -55,7 +55,7 @@ function InsertVacancyTitle({ route, navigation }: InsertVacancyTitleScreenProps
 				validationColor={theme.yellow1}
 				inputPlaceholder={'ex: pedreiro'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, 5]}
+				progress={[2, isSecondPost ? 3 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateVacancyTitle}
 				navigateBackwards={() => navigation.goBack()}

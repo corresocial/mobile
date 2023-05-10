@@ -12,7 +12,7 @@ import { InsertSaleValueScreenProps } from '../../../routes/Stack/VacancyStack/s
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertVacancyValue({ navigation, route }: InsertSaleValueScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -53,6 +53,10 @@ function InsertVacancyValue({ navigation, route }: InsertSaleValueScreenProps) {
 		if (route.params.bothPaymentType) {
 			navigation.navigate('InsertExchangeValue')
 		} else {
+			if (isSecondPost) {
+				return navigation.navigate('VacancyReview')
+			}
+
 			navigation.navigate('SelectVacancyRange')
 		}
 	}
@@ -67,7 +71,7 @@ function InsertVacancyValue({ navigation, route }: InsertSaleValueScreenProps) {
 				customHighlight={['quanto']}
 				inputPlaceholder={'ex: 100 reais a diária'}
 				// initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[3, 5]}
+				progress={[3, isSecondPost ? 3 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateVacancyValue}
 				navigateBackwards={() => navigation.goBack()}

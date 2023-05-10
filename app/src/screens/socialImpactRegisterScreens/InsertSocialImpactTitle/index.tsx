@@ -12,7 +12,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertSocialImpactTitle({ route, navigation }: InsertSocialImpactTitleScreenProps) {
-	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -55,7 +55,7 @@ function InsertSocialImpactTitle({ route, navigation }: InsertSocialImpactTitleS
 				validationColor={theme.pink1}
 				inputPlaceholder={'ex: projeto criança feliz'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, 4]}
+				progress={[2, isSecondPost ? 2 : 4]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSocialImpactTitle}
 				navigateBackwards={() => navigation.goBack()}

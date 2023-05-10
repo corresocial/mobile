@@ -13,7 +13,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
-	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { isSecondPost, setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -54,6 +54,10 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 		if (bothPaymentType) {
 			navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
 		} else {
+			if (isSecondPost) {
+				return navigation.navigate('ServiceReview')
+			}
+
 			navigation.navigate('SelectServiceRange')
 		}
 	}
@@ -68,7 +72,7 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 				customHighlight={['quanto']}
 				inputPlaceholder={'ex: 120 reais a diária'}
 				// initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[3, 5]}
+				progress={[3, isSecondPost ? 3 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSaleValue}
 				navigateBackwards={() => navigation.goBack()}

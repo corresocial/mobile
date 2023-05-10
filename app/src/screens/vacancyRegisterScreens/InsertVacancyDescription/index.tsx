@@ -13,7 +13,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostInputDescription } from '../../../components/_onboarding/PostInputDescription'
 
 function InsertVacancyDescription({ route, navigation }: InsertVacancyDescriptionScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -56,7 +56,7 @@ function InsertVacancyDescription({ route, navigation }: InsertVacancyDescriptio
 				validationColor={theme.yellow1}
 				inputPlaceholder={'ex: procuro um pedreiro que possa trabalhar final de semana'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, 5]}
+				progress={[2, isSecondPost ? 3 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateVacancyDescription}
 				navigateBackwards={() => navigation.goBack()}
