@@ -297,8 +297,8 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 			})
 		} catch (err) {
 			console.log(err)
-			setHasError(true)
 			setIsLoading(false)
+			setHasError(true)
 		}
 	}
 
@@ -375,8 +375,8 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		if (!unsavedPost) return navigation.goBack()
 
 		Alert.alert(
-			'Alerta',
-			`Você tem certeza que deseja descartar o post ${getPostField('title')}?`,
+			'atenção!',
+			`você tem certeza que deseja descartar o post "${getPostField('title')}"?`,
 			[
 				{ text: 'Não', style: 'destructive' },
 				{ text: 'Sim', onPress: () => navigation.goBack() },
@@ -417,7 +417,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 										color={theme.green3}
 										label={unsavedPost ? 'publicar post' : 'salvar alterações'}
 										labelColor={theme.white3}
-										highlightedWords={['salvar']}
+										highlightedWords={unsavedPost ? ['publicar'] : ['salvar']}
 										fontSize={16}
 										SecondSvgIcon={unsavedPost ? PlusWhiteIcon : CheckWhiteIcon}
 										svgIconScale={['35%', '18%']}

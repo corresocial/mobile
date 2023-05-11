@@ -111,7 +111,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		)
 		const blockedUsers = [...blockedUsers1, ...blockedUsers2]
 
-		const userIsBlocked =			blockedUsers.includes(currentChat.user1.userId)
+		const userIsBlocked = blockedUsers.includes(currentChat.user1.userId)
 			|| blockedUsers.includes(currentChat.user2.userId)
 
 		const userBlock = blockedUsers1.includes(currentChat.user2.userId)
@@ -277,8 +277,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const getFilteredMessages = () => {
 		return Object.values(messages || {}).filter(
 			(message: Message) => (!message.justOwner
-					|| (message.justOwner
-						&& message.owner === userDataContext.userId))
+				|| (message.justOwner
+					&& message.owner === userDataContext.userId))
 				&& (!message.userCanView
 					|| message.userCanView === userDataContext.userId)
 		)
@@ -313,7 +313,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 						currentChat.user1,
 						currentChat.user2
 					)}
-					width={'65%'}
+					width={'60%'}
 					userNameFontSize={15}
 					height={'100%'}
 					navigateToProfile={navigateToProfile}

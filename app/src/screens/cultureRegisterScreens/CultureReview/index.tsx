@@ -106,8 +106,8 @@ function CultureReview({ navigation }: CultureReviewScreenProps) {
 			})
 		} catch (err) {
 			console.log(err)
-			setHasError(true)
 			setIsLoading(false)
+			setHasError(true)
 		}
 	}
 

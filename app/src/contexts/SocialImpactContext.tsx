@@ -44,17 +44,17 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
 
 		setSocialImpactDataContext({
-			range: lastUserPost.range,
-			locationView: lastUserPost.locationView,
-			location: lastUserPost.location,
-			exhibitionPlace: lastUserPost.exhibitionPlace,
-			exhibitionFrequency: lastUserPost.exhibitionFrequency,
-			daysOfWeek: lastUserPost.daysOfWeek,
-			repeat: lastUserPost.repeat,
-			startDate: lastUserPost.startDate,
-			startHour: lastUserPost.startHour,
-			endDate: lastUserPost.endDate,
-			endHour: lastUserPost.endHour,
+			range: lastUserPost.range || '',
+			locationView: lastUserPost.locationView || '',
+			location: lastUserPost.location || '',
+			exhibitionPlace: lastUserPost.exhibitionPlace || '',
+			exhibitionFrequency: lastUserPost.exhibitionFrequency || 'someday',
+			daysOfWeek: lastUserPost.daysOfWeek || [],
+			repeat: lastUserPost.repeat || 'unrepeatable',
+			startDate: lastUserPost.startDate || '',
+			startHour: lastUserPost.startHour || '',
+			endDate: lastUserPost.endDate || '',
+			endHour: lastUserPost.endHour || '',
 		})
 		setIsSecondPost(true)
 	}

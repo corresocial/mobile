@@ -58,7 +58,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		if (inMiliseconds) {
 			return (lastMessage && lastMessage.dateTime.toString()) || Date.now().toString()
 		}
-		return formatRelativeDate(lastMessage ? lastMessage.dateTime : new Date())
+		return formatRelativeDate(lastMessage ? lastMessage.dateTime : '')
 	}
 
 	const getNumberOfUnseenMessages = (messages: MessageObjects) => {

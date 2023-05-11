@@ -80,11 +80,6 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 			}
 		}
 
-		/* navigation.reset({
-			index: 0,
-			routes: [{ name: 'AcceptAndContinue' as any }]
-		}) */
-
 		navigation.navigate('ServiceStack', {
 			screen: screenName,
 			params: {
@@ -210,8 +205,8 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 			})
 		} catch (err) {
 			console.log(err)
-			setHasError(true)
 			setIsLoading(false)
+			setHasError(true)
 		}
 	}
 
@@ -379,8 +374,8 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		if (!unsavedPost) return navigation.goBack()
 
 		Alert.alert(
-			'Alerta',
-			`Você tem certeza que deseja descartar o post ${getPostField('title')}?`,
+			'atenção!',
+			`você tem certeza que deseja descartar o post "${getPostField('title')}"?`,
 			[
 				{ text: 'Não', style: 'destructive' },
 				{ text: 'Sim', onPress: () => navigation.goBack() },
@@ -421,7 +416,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 										color={theme.green3}
 										label={unsavedPost ? 'publicar post' : 'salvar alterações'}
 										labelColor={theme.white3}
-										highlightedWords={['salvar']}
+										highlightedWords={unsavedPost ? ['publicar'] : ['salvar']}
 										fontSize={16}
 										SecondSvgIcon={unsavedPost ? PlusWhiteIcon : CheckWhiteIcon}
 										svgIconScale={['35%', '18%']}

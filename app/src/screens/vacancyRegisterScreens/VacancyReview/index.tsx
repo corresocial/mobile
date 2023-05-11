@@ -106,8 +106,8 @@ function VacancyReview({ navigation }: VacancyReviewScreenProps) {
 			})
 		} catch (err) {
 			console.log(err)
-			setHasError(true)
 			setIsLoading(false)
+			setHasError(true)
 		}
 	}
 

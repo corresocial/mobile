@@ -11,7 +11,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostPicturePreview } from '../../../components/_onboarding/PostPicturePreview'
 
 function SocialImpactPicturePreview({ route, navigation }: SocialImpactPicturePreviewScreenProps) {
-	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { isSecondPost, socialImpactDataContext, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const savePictures = (picturesUri: string[]) => {
@@ -24,7 +24,17 @@ function SocialImpactPicturePreview({ route, navigation }: SocialImpactPicturePr
 		setSocialImpactDataOnContext({ picturesUrl: picturesUri })
 
 		if (isSecondPost) {
-			return navigation.navigate('SocialImpactReview')
+			navigation.reset({
+				index: 0,
+				routes: [{
+					name: 'EditSocialImpactPostReview',
+					params: {
+						postData: { ...socialImpactDataContext, picturesUrl: picturesUri },
+						unsavedPost: true
+					}
+				}]
+			})
+			return
 		}
 
 		navigation.navigate('SelectSocialImpactRange')
