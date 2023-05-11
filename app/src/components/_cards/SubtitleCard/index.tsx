@@ -12,7 +12,7 @@ interface SubtitleCardProps {
 
 function SubtitleCard({ text, highlightedText, onPress }: SubtitleCardProps) {
 	return (
-		<Container onPress={onPress && onPress()} activeOpacity={0.7}>
+		<Container onPress={onPress && onPress} activeOpacity={0.7}>
 			<Title>{showMessageWithHighlight(text, highlightedText)}</Title>
 			{onPress && <AngleRightIcon width={'6%'} height={'100%'} />}
 		</Container>

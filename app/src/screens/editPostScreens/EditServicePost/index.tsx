@@ -376,6 +376,8 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 	}
 
 	const cancelAllChangesAndGoBack = () => {
+		if (!unsavedPost) return navigation.goBack()
+
 		Alert.alert(
 			'Alerta',
 			`Você tem certeza que deseja descartar o post ${getPostField('title')}?`,
@@ -385,7 +387,6 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 			],
 			{ cancelable: false }
 		)
-		// navigation.goBack()
 	}
 
 	const getPostField = (fieldName: keyof ServiceCollection, allowNull?: boolean) => {
@@ -407,7 +408,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 				<DefaultPostViewHeader
 					text={unsavedPost ? 'revisar seu post' : 'editar seu post'}
 					highlightedWords={unsavedPost ? ['revisar'] : ['editar']}
-					destructiveButton
+					destructiveButton={unsavedPost}
 					onBackPress={cancelAllChangesAndGoBack}
 				/>
 				{
@@ -416,35 +417,18 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 							? <Loader />
 							: (
 								<SaveButtonContainer>
-									{
-										unsavedPost
-											? (
-												<PrimaryButton
-													color={theme.green3}
-													label={'publicar post'}
-													labelColor={theme.white3}
-													fontSize={16}
-													SecondSvgIcon={PlusWhiteIcon}
-													minHeight={relativeScreenHeight(6)}
-													relativeHeight={relativeScreenHeight(8)}
-													onPress={saveServicePost}
-												/>
-											)
-											: (
-												<PrimaryButton
-													color={theme.green3}
-													labelColor={theme.white3}
-													label={'salvar alterações'}
-													highlightedWords={['salvar']}
-													fontSize={16}
-													SecondSvgIcon={CheckWhiteIcon}
-													svgIconScale={['35%', '18%']}
-													minHeight={relativeScreenHeight(6)}
-													relativeHeight={relativeScreenHeight(8)}
-													onPress={editPost}
-												/>
-											)
-									}
+									<PrimaryButton
+										color={theme.green3}
+										label={unsavedPost ? 'publicar post' : 'salvar alterações'}
+										labelColor={theme.white3}
+										highlightedWords={['salvar']}
+										fontSize={16}
+										SecondSvgIcon={unsavedPost ? PlusWhiteIcon : CheckWhiteIcon}
+										svgIconScale={['35%', '18%']}
+										minHeight={relativeScreenHeight(6)}
+										relativeHeight={relativeScreenHeight(8)}
+										onPress={unsavedPost ? saveServicePost : editPost}
+									/>
 								</SaveButtonContainer>
 							)
 

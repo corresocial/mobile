@@ -134,7 +134,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 
 			return (
 				<CategoryCard
-					hasElements={!!(nearbyPosts.filter((post) => post.category === category[1].value)).length}
+					hasElements={!!(nearbyPosts.filter((post) => (post.category === category[1].value && post.postType === locationDataContext.searchParams.postType))).length}
 					inactiveColor={getInactiveCardColor()}
 					key={uuid()}
 					title={category[1].label}

@@ -37,7 +37,7 @@ function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 			if (tagName === 'outros') return null
 			return (
 				<CategoryCard
-					hasElements={!!((nearbyPosts.map((post) => post.tags.filter((tag) => tag === tagName))).filter((element) => element.map((e) => e.length > 0).length).length)}
+					hasElements={!!((nearbyPosts.map((post) => post.tags.filter((tag) => tag === tagName && post.postType === locationDataContext.searchParams.postType))).filter((element) => element.map((e) => e.length > 0).length).length)}
 					inactiveColor={inactiveColor}
 					key={uuid()}
 					title={tagName}

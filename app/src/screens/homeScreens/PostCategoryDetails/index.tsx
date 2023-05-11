@@ -43,7 +43,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	} = locationDataContext.currentCategory
 
 	const getRecentPosts = async () => {
-		const filteredPosts = locationDataContext.nearbyPosts.filter((post) => post.category === categoryName)
+		const filteredPosts = locationDataContext.nearbyPosts.filter((post) => post.category === categoryName && post.postType === locationDataContext.searchParams.postType)
 		setRecentPosts(filteredPosts)
 	}
 
@@ -101,7 +101,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 			navigation.navigate('Profile' as any)// TODO Type
 			return
 		}
-		navigation.navigate('ProfileHome', { userId })
+		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
 	}
 
 	return (
@@ -142,7 +142,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 						ListFooterComponent={<HorizontalSigh />}
 						renderItem={({ item }) => (
 							<CategoryCard
-								hasElements={!!(nearbyPosts.filter((post) => post.category === categoryName && post.tags.includes(item))).length}
+								hasElements={!!(nearbyPosts.filter((post) => post.category === categoryName && post.tags.includes(item) && post.postType === locationDataContext.searchParams.postType)).length}
 								inactiveColor={inactiveColor}
 								title={item}
 								withoutMargin
