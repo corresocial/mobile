@@ -49,7 +49,7 @@ function ServiceProvider({ children }: ServiceProviderProps) {
 			locationView: lastUserPost.locationView || '',
 			location: lastUserPost.location || '',
 			deliveryMethod: lastUserPost.deliveryMethod || '',
-			attendanceFrequency: lastUserPost.attendanceFrequency || '',
+			attendanceFrequency: lastUserPost.attendanceFrequency || 'someday',
 			daysOfWeek: lastUserPost.daysOfWeek || '',
 			startHour: lastUserPost.startHour || '',
 			endHour: lastUserPost.endHour || '',

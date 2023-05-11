@@ -15,7 +15,7 @@ import { updateDocField } from '../../../services/firebase/common/updateDocField
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { createPost } from '../../../services/firebase/post/createPost'
 
-import { EditServicePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { EditServicePostReviewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { Id, PostCollection, ServiceCategories, ServiceCollection, ServiceCollectionRemote } from '../../../services/firebase/types'
 import { ServiceStackParamList } from '../../../routes/Stack/ServiceStack/types'
 import { LocalUserData, ServiceData } from '../../../contexts/types'
@@ -40,7 +40,7 @@ import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 
-function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
+function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
 	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
@@ -150,7 +150,7 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 
 	const getLocalUser = () => userDataContext
 
-	const saveServicePost = async () => {
+	const saveServicePost = async () => { // VIEW CONTEXT
 		setIsLoading(true)
 
 		const serviceData = { ...postData, ...editDataContext.unsaved } as ServiceCollection
@@ -431,7 +431,6 @@ function EditServicePost({ route, navigation }: EditServicePostScreenProps) {
 									/>
 								</SaveButtonContainer>
 							)
-
 					)
 				}
 			</Header>

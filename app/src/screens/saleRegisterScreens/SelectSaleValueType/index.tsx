@@ -11,7 +11,7 @@ import { PaymentValueType } from '../../../components/_onboarding/PaymentValueTy
 import { theme } from '../../../common/theme'
 
 function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenProps) {
-	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)
+	const { isSecondPost, saleDataContext, setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -42,7 +42,17 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 				}
 
 				if (isSecondPost) {
-					return navigation.navigate('SaleReview')
+					navigation.reset({
+						index: 0,
+						routes: [{
+							name: 'EditSalePostReview',
+							params: {
+								postData: { ...saleDataContext, saleValue: 'a combinar' },
+								unsavedPost: true
+							}
+						}]
+					})
+					return
 				}
 
 				navigation.navigate('SelectSaleRange')

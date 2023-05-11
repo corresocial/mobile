@@ -45,14 +45,14 @@ function SaleProvider({ children }: SaleProviderProps) {
 		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
 
 		setSaleDataContext({
-			range: lastUserPost.range,
-			locationView: lastUserPost.locationView,
-			location: lastUserPost.location,
-			deliveryMethod: lastUserPost.deliveryMethod,
-			attendanceFrequency: lastUserPost.attendanceFrequency,
-			daysOfWeek: lastUserPost.daysOfWeek,
-			startHour: lastUserPost.startHour,
-			endHour: lastUserPost.endHour,
+			range: lastUserPost.range || '',
+			locationView: lastUserPost.locationView || '',
+			location: lastUserPost.location || '',
+			deliveryMethod: lastUserPost.deliveryMethod || '',
+			attendanceFrequency: lastUserPost.attendanceFrequency || 'someday',
+			daysOfWeek: lastUserPost.daysOfWeek || [],
+			startHour: lastUserPost.startHour || '',
+			endHour: lastUserPost.endHour || '',
 		})
 		setIsSecondPost(true)
 	}

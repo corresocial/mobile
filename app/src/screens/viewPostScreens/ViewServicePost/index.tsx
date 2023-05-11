@@ -199,14 +199,14 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						userNameFontSize={14}
 						pictureDimensions={45}
 						profilePictureUrl={getProfilePictureUrl() || ''}
-						width={textHasOnlyNumbers(getPostField('saleValue')) ? '60%' : '85%'}
+						width={textHasOnlyNumbers(getPostField('saleValue', true)) ? '60%' : '85%'}
 						navigateToProfile={navigateToProfile}
 					/>
 					{
-						textHasOnlyNumbers(getPostField('saleValue')) && (
+						textHasOnlyNumbers(getPostField('saleValue', true)) && (
 							<SaleExchangeValue
-								saleValue={getPostField('saleValue')}
-								exchangeValue={getPostField('exchangeValue')}
+								saleValue={getPostField('saleValue', true)}
+								exchangeValue={getPostField('exchangeValue', true)}
 								breakRow
 								smallFontSize={14}
 								largeFontSize={25}

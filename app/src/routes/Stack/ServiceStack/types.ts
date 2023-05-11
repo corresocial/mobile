@@ -21,6 +21,5 @@ export type ServiceStackParamList = {
 	SelectServiceDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
 	InsertServiceStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertServiceEndHour: { editMode: boolean, initialValue: Date } | undefined
-
 	EditServicePostReview: { postData: ServiceCollectionRemote, unsavedPost?: boolean }
 } & UserStackParamList

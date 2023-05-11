@@ -57,7 +57,6 @@ export function ServiceStack() {
 				<Stack.Screen name={'SelectServiceDaysOfWeek'} component={SelectServiceDaysOfWeek} />
 				<Stack.Screen name={'InsertServiceStartHour'} component={InsertServiceStartHour} />
 				<Stack.Screen name={'InsertServiceEndHour'} component={InsertServiceEndHour} />
-
 				<Stack.Screen name={'EditServicePostReview'} component={EditServicePost} />
 			</Stack.Navigator>
 		</ServiceProvider>

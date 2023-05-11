@@ -41,6 +41,7 @@ import { PostPopOver } from '../../../components/PostPopOver'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { ItemStatusCard } from '../../../components/_cards/ItemStatusCard'
+import { textHasOnlyNumbers } from '../../../utils/validationFunctions'
 
 function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -193,17 +194,22 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						userNameFontSize={14}
 						profilePictureUrl={getProfilePictureUrl() || ''}
 						pictureDimensions={45}
-						width={'60%'}
+						width={textHasOnlyNumbers(getPostField('saleValue', true)) ? '60%' : '85%'}
 						navigateToProfile={navigateToProfile}
 					/>
-					<SaleExchangeValue
-						saleValue={getPostField('saleValue')}
-						exchangeValue={getPostField('exchangeValue')}
-						breakRow
-						smallFontSize={14}
-						largeFontSize={25}
-						exchangeFontSize={14}
-					/>
+					{
+						textHasOnlyNumbers(getPostField('saleValue', true)) && (
+							<SaleExchangeValue
+								saleValue={getPostField('saleValue', true)}
+								exchangeValue={getPostField('exchangeValue', true)}
+								breakRow
+								smallFontSize={14}
+								largeFontSize={25}
+								exchangeFontSize={14}
+							/>
+						)
+					}
+
 				</UserAndValueContainer>
 				<VerticalSigh />
 				<OptionsArea>
