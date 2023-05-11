@@ -13,7 +13,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
-	const { isSecondPost, setServiceDataOnContext } = useContext(ServiceContext)
+	const { isSecondPost, serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -55,7 +55,17 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 			navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
 		} else {
 			if (isSecondPost) {
-				return navigation.navigate('ServiceReview')
+				navigation.reset({
+					index: 0,
+					routes: [{
+						name: 'EditServicePostReview',
+						params: {
+							postData: { ...serviceDataContext, saleValue },
+							unsavedPost: true
+						}
+					}]
+				})
+				return
 			}
 
 			navigation.navigate('SelectServiceRange')

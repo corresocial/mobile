@@ -8,7 +8,7 @@ import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { theme } from '../../../common/theme'
 
 interface SmallButtonProps {
-	color: string
+	color?: string
 	label?: string
 	labelColor?: string
 	highlightedWords?: string[]
@@ -63,7 +63,7 @@ function SmallButton({
 			>
 				<ContainerSurface
 					style={{
-						backgroundColor: color,
+						backgroundColor: color || theme.white3,
 						marginRight: buttonPressed ? RFValue(-4) : 0,
 						height,
 						flexDirection,

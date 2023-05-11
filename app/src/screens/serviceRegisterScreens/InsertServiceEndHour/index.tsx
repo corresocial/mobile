@@ -51,7 +51,17 @@ function InsertServiceEndHour({ route, navigation }: InsertServiceEndHourScreenP
 		}
 
 		setServiceDataOnContext({ endHour })
-		navigation.navigate('ServiceReview')
+
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'EditServicePostReview',
+				params: {
+					postData: { ...serviceDataContext, endHour },
+					unsavedPost: true
+				}
+			}]
+		})
 	}
 
 	return (

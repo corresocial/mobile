@@ -2,16 +2,22 @@ import React from 'react'
 import { SvgProps, SvgUri } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Container, PathBar, PathTitle, Title } from './styles'
+import { theme } from '../../common/theme'
+import { relativeScreenWidth } from '../../common/screenDimensions'
+import { Container, PathBar, PathTitle, SmallButtonRightSpace, Title } from './styles'
+import XWhiteIcon from '../../assets/icons/x-white.svg'
 
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
+
 import { BackButton } from '../_buttons/BackButton'
+import { SmallButton } from '../_buttons/SmallButton'
 
 interface DefaultPostViewHeaderProps {
 	text?: string
 	highlightedWords?: string[]
 	path?: boolean
 	showResults?: boolean
+	destructiveButton?: boolean
 	svgUri?: string
 	SvgIcon?: React.FC<SvgProps>
 	onBackPress: () => void
@@ -22,6 +28,7 @@ function DefaultPostViewHeader({
 	highlightedWords = [],
 	path,
 	showResults,
+	destructiveButton,
 	svgUri,
 	SvgIcon,
 	onBackPress
@@ -44,7 +51,22 @@ function DefaultPostViewHeader({
 
 	return (
 		<Container>
-			<BackButton onPress={onBackPress} />
+			{
+				!destructiveButton
+					? <BackButton onPress={onBackPress} />
+					: (
+						<>
+							<SmallButton
+								color={theme.red3}
+								SvgIcon={XWhiteIcon}
+								relativeWidth={relativeScreenWidth(11)}
+								height={relativeScreenWidth(11)}
+								onPress={onBackPress}
+							/>
+							<SmallButtonRightSpace />
+						</>
+					)
+			}
 			{
 				showResults
 					? <PathTitle>{text}</PathTitle>

@@ -209,7 +209,6 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 				<OptionsArea>
 					{!isAuthor && (
 						<SmallButton
-							color={theme.white3}
 							SvgIcon={ShareWhiteIcon}
 							relativeWidth={relativeScreenWidth(12)}
 							height={relativeScreenWidth(12)}
@@ -237,7 +236,6 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						deletePost={deleteRemotePost}
 					>
 						<SmallButton
-							color={theme.white3}
 							SvgIcon={ThreeDotsWhiteIcon}
 							relativeWidth={relativeScreenWidth(12)}
 							height={relativeScreenWidth(12)}

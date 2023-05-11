@@ -12,7 +12,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PaymentValueType } from '../../../components/_onboarding/PaymentValueType'
 
 function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenProps) {
-	const { isSecondPost, setServiceDataOnContext } = useContext(ServiceContext)
+	const { isSecondPost, serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -43,7 +43,17 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 				}
 
 				if (isSecondPost) {
-					return navigation.navigate('ServiceReview')
+					navigation.reset({
+						index: 0,
+						routes: [{
+							name: 'EditServicePostReview',
+							params: {
+								postData: { ...serviceDataContext, saleValue: 'a combinar' },
+								unsavedPost: true
+							}
+						}]
+					})
+					return
 				}
 
 				navigation.navigate('SelectServiceRange')

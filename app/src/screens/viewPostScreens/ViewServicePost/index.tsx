@@ -219,7 +219,6 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 				<OptionsArea>
 					{!isAuthor && (
 						<SmallButton
-							color={theme.white3}
 							SvgIcon={ShareWhiteIcon}
 							relativeWidth={relativeScreenWidth(12)}
 							height={relativeScreenWidth(12)}
@@ -248,7 +247,6 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						deletePost={deleteRemotePost}
 					>
 						<SmallButton
-							color={theme.white3}
 							SvgIcon={ThreeDotsWhiteIcon}
 							relativeWidth={relativeScreenWidth(12)}
 							height={relativeScreenWidth(12)}

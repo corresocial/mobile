@@ -13,7 +13,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenProps) {
-	const { isSecondPost, setServiceDataOnContext } = useContext(ServiceContext)
+	const { isSecondPost, serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -48,7 +48,17 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		setServiceDataOnContext({ exchangeValue })
 
 		if (isSecondPost) {
-			return navigation.navigate('ServiceReview')
+			navigation.reset({
+				index: 0,
+				routes: [{
+					name: 'EditServicePostReview',
+					params: {
+						postData: { ...serviceDataContext, exchangeValue },
+						unsavedPost: true
+					}
+				}]
+			})
+			return
 		}
 
 		navigation.navigate('SelectServiceRange')

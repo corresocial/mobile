@@ -2,7 +2,6 @@ import Constants from 'expo-constants'
 import { Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { relativeScreenWidth } from '../../common/screenDimensions'
 
 export const Container = styled.View`
 	padding-top:${Platform.OS === 'ios' ? Constants.statusBarHeight : 0}px;
@@ -28,4 +27,8 @@ export const PathTitle = styled.Text`
 	font-size: ${RFValue(16)}px;
 	padding-horizontal: ${RFValue(10)}px;
 	max-width: 50%;
+`
+
+export const SmallButtonRightSpace = styled.View`
+	margin-right: ${RFValue(10)}px;
 `
