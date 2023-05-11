@@ -1,4 +1,4 @@
-import { CultureCategories, DaysOfWeek, LatLong, LocationViewType, PostRange } from '../../../services/firebase/types'
+import { CultureCategories, CultureCollectionRemote, DaysOfWeek, LatLong, LocationViewType, PostRange } from '../../../services/firebase/types'
 import { UserStackParamList } from '../UserStack/types'
 
 export type CultureStackParamList = {
@@ -21,5 +21,5 @@ export type CultureStackParamList = {
 	InsertCultureStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertCultureEndDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertCultureEndHour: { editMode: boolean, initialValue: Date } | undefined
-	CultureReview: undefined
+	EditCulturePostReview: { postData: CultureCollectionRemote, unsavedPost?: boolean }
 } & UserStackParamList

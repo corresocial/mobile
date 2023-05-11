@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { getDownloadURL } from 'firebase/storage'
-import { StatusBar } from 'react-native'
+import { StatusBar, Alert } from 'react-native'
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { Body, Container, Header, SaveButtonContainer } from './styles'
-import CheckIcon from '../../../assets/icons/check-white.svg'
+import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonContainer } from './styles'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import PlusWhiteIcon from '../../../assets/icons/plusTabIconInactive.svg'
 import RecycleWhiteIcon from '../../../assets/icons/recycle-white.svg'
 import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
 import CalendarEmptyIcon from '../../../assets/icons/calendarEmpty-unfilled.svg'
@@ -15,12 +16,13 @@ import { updatePost } from '../../../services/firebase/post/updatePost'
 import { updateDocField } from '../../../services/firebase/common/updateDocField'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 
-import { EditCulturePostScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { CultureCategories, CultureCollection, CultureCollectionRemote, EventRepeatType } from '../../../services/firebase/types'
+import { EditCulturePostReviewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
+import { CultureCategories, CultureCollection, CultureCollectionRemote, EventRepeatType, PostCollection } from '../../../services/firebase/types'
 import { CultureStackParamList } from '../../../routes/Stack/CultureStack/types'
 
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
+import { StateContext } from '../../../contexts/StateContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { EditCard } from '../../../components/_cards/EditCard'
@@ -35,14 +37,26 @@ import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
 import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
+import { createPost } from '../../../services/firebase/post/createPost'
+import { CultureData, LocalUserData } from '../../../contexts/types'
+import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
+import { PostCard } from '../../../components/_cards/PostCard'
 
-function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
+function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
+	const { setStateDataOnContext } = useContext(StateContext)
 
 	const [isLoading, setIsLoading] = useState(false)
+	const [hasError, setHasError] = useState(false)
 
-	const { postData } = route.params
+	const owner = {
+		userId: userDataContext.userId,
+		name: userDataContext.name,
+		profilePictureUrl: userDataContext.profilePictureUrl
+	}
+
+	const { postData, unsavedPost } = route.params
 
 	useEffect(() => {
 		clearUnsavedEditContext()
@@ -231,8 +245,156 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 		})
 	}
 
+	const extractCulturePictures = (cultureData: CultureData) => cultureData.picturesUrl as string[] || []
+
+	const getLocalUser = () => userDataContext
+
+	const showShareModal = (visibility: boolean, postTitle?: string) => {
+		setStateDataOnContext({
+			showShareModal: visibility,
+			lastPostTitle: postTitle
+		})
+	}
+
+	const saveCulturePost = async () => {
+		setIsLoading(true)
+
+		const cultureData = { ...postData, ...editDataContext.unsaved } as CultureCollection
+		const culturePictures = extractCulturePictures(cultureData)
+
+		try {
+			const localUser = { ...getLocalUser() }
+			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
+
+			if (!culturePictures.length) {
+				const postId = await createPost(cultureData, localUser, 'posts', 'culture')
+				if (!postId) throw new Error('Não foi possível identificar o post')
+
+				await updateUserPost(
+					localUser,
+					postId,
+					cultureData
+				)
+				return
+			}
+
+			const picturePostsUrls: string[] = []
+			culturePictures.forEach(async (culturePicture, index) => {
+				uploadImage(culturePicture, 'posts', index).then(
+					({ uploadTask, blob }: any) => {
+						uploadTask.on(
+							'state_change',
+							() => { },
+							(err: any) => {
+								throw new Error(err)
+							},
+							() => {
+								getDownloadURL(uploadTask.snapshot.ref)
+									.then(
+										async (downloadURL) => {
+											blob.close()
+											picturePostsUrls.push(downloadURL)
+											if (picturePostsUrls.length === culturePictures.length) {
+												const cultureDataWithPicturesUrl = { ...cultureData, picturesUrl: picturePostsUrls }
+
+												const postId = await createPost(cultureDataWithPicturesUrl, localUser, 'posts', 'culture')
+												if (!postId) throw new Error('Não foi possível identificar o post')
+
+												await updateUserPost(
+													localUser,
+													postId,
+													cultureDataWithPicturesUrl
+												)
+												setIsLoading(false)
+											}
+										},
+									)
+							},
+						)
+					},
+				)
+			})
+		} catch (err) {
+			console.log(err)
+			setIsLoading(false)
+			setHasError(true)
+		}
+	}
+
+	const updateUserPost = async (
+		localUser: LocalUserData,
+		postId: string,
+		cultureDataPost: CultureData,
+	) => {
+		const postDataToSave = {
+			...cultureDataPost,
+			postId,
+			postType: 'culture',
+			createdAt: new Date()
+		}
+
+		await updateDocField(
+			'users',
+			localUser.userId as string,
+			'posts',
+			postDataToSave,
+			true,
+		)
+			.then(() => {
+				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollection[] : []
+				setUserDataOnContext({
+					...localUser,
+					tourPerformed: true,
+					posts: [
+						...localUserPosts,
+						{
+							...postDataToSave,
+							owner: {
+								userId: localUser.userId,
+								name: localUser.name,
+								profilePictureUrl: localUser.profilePictureUrl
+							}
+						} as CultureCollection
+					],
+				})
+				setDataOnSecureStore('corre.user', {
+					...localUser,
+					tourPerformed: true,
+					posts: [
+						...localUserPosts,
+						{
+							...postDataToSave,
+							owner: {
+								userId: localUser.userId,
+								name: localUser.name,
+								profilePictureUrl: localUser.profilePictureUrl
+							}
+						},
+					],
+				})
+				setIsLoading(false)
+				showShareModal(true, cultureDataPost.title)
+				navigation.navigate('HomeTab')
+			})
+			.catch((err: any) => {
+				console.log(err)
+				setIsLoading(false)
+				setHasError(true)
+			})
+	}
+
 	const cancelAllChangesAndGoBack = () => {
-		navigation.goBack()
+		if (!unsavedPost) return navigation.goBack()
+
+		Alert.alert(
+			'atenção!',
+			`você tem certeza que deseja descartar o post "${getPostField('title')}"?`,
+			[
+				{ text: 'Não', style: 'destructive' },
+				{ text: 'Sim', onPress: () => navigation.goBack() },
+			],
+			{ cancelable: false }
+		)
 	}
 
 	const getPostField = (fieldName: keyof CultureCollection, allowNull?: boolean) => {
@@ -252,27 +414,28 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
+					text={unsavedPost ? 'revisar seu post' : 'editar seu post'}
+					highlightedWords={unsavedPost ? ['revisar'] : ['editar']}
+					destructiveButton={unsavedPost}
 					onBackPress={cancelAllChangesAndGoBack}
-					text={'editar seu post'}
-					highlightedWords={['editar']}
 				/>
 				{
-					Object.keys(editDataContext.unsaved).length > 0 && (
+					(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost) && (
 						isLoading
 							? <Loader />
 							: (
 								<SaveButtonContainer>
 									<PrimaryButton
 										color={theme.green3}
+										label={unsavedPost ? 'publicar post' : 'salvar alterações'}
 										labelColor={theme.white3}
-										label={'salvar alterações'}
-										highlightedWords={['salvar']}
+										highlightedWords={unsavedPost ? ['publicar'] : ['salvar']}
 										fontSize={16}
-										SecondSvgIcon={CheckIcon}
+										SecondSvgIcon={unsavedPost ? PlusWhiteIcon : CheckWhiteIcon}
 										svgIconScale={['35%', '18%']}
 										minHeight={relativeScreenHeight(6)}
 										relativeHeight={relativeScreenHeight(8)}
-										onPress={editPost}
+										onPress={unsavedPost ? saveCulturePost : editPost}
 									/>
 								</SaveButtonContainer>
 							)
@@ -280,114 +443,140 @@ function EditCulturePost({ route, navigation }: EditCulturePostScreenProps) {
 				}
 			</Header>
 			<Body>
-				<EditCard
-					title={'tags do post'}
-					highlightedWords={['tags']}
-					value={formatCategoryAndTags()}
-					onEdit={() => navigateToEditScreen('SelectCultureCategory', 'tags')}
-				/>
-				<VerticalSigh />
-				<PlaceModality
-					title={'como participar'}
-					hightligtedWords={['participar']}
-					placeModality={getPostField('eventPlaceModality')}
-					onEdit={() => navigateToEditScreen('SelectEventPlaceModality', 'eventPlaceModality')}
-				/>
-				<VerticalSigh />
-				<EditCard
-					title={'título do post'}
-					highlightedWords={['título']}
-					value={getPostField('title')}
-					onEdit={() => navigateToEditScreen('InsertCultureTitle', 'title')}
-				/>
-				<VerticalSigh />
-				<DescriptionCard
-					text={getPostField('description')}
-					onEdit={() => navigateToEditScreen('InsertCultureDescription', 'description')}
-				/>
-				<VerticalSigh />
-				<EditCard
-					title={'fotos do post'}
-					highlightedWords={['fotos']}
-					profilePicturesUrl={getPicturesUrl()}
-					carousel
-					onEdit={() => navigateToEditScreen('CulturePicturePreview', 'picturesUrl')}
-				/>
-				<VerticalSigh />
-				<PostRangeCard
-					postRange={getPostField('range')}
-					onEdit={() => navigateToEditScreen('SelectCultureRange', 'range')}
-				/>
-				<VerticalSigh />
-				<LocationViewCard
-					title={'localização'}
-					locationView={getPostField('locationView')}
-					textFontSize={16}
-					location={getPostField('location')}
-					onEdit={() => navigateToEditScreen('SelectCultureLocationView', 'location')}
-				/>
-				<VerticalSigh />
-				<SaleOrExchangeCard
-					title={'custo de entrada'}
-					hightligtedWords={['custo', 'entrada']}
-					saleValue={getPostField('entryValue', true) || '---'}
-					onEdit={() => navigateToEditScreen('InsertEntryValue', 'entryValue')}
-					isCulturePost
-				/>
-				<VerticalSigh />
-				<DateTimeCard
-					title={'dias da semana'}
-					highlightedWords={['dias']}
-					weekDaysfrequency={getPostField('exhibitionFrequency')}
-					daysOfWeek={getPostField('daysOfWeek', true)}
-					onEdit={() => navigateToEditScreen('SelectCultureFrequency', 'daysOfWeek')}
-				/>
-				<VerticalSigh />
-				<EditCard
-					title={'repetição'}
-					highlightedWords={['repetição']}
-					SecondSvgIcon={RecycleWhiteIcon}
-					value={renderCultureRepeat() || '---'}
-					onEdit={() => navigateToEditScreen('SelectEventRepeat', 'repeat')}
-				/>
-				<VerticalSigh />
-				<EditCard
-					title={'que dia começa'}
-					highlightedWords={['começa']}
-					SecondSvgIcon={CalendarEmptyIcon}
-					value={formatDate(getPostField('startDate', true)) || '---'}
-					valueBold
-					onEdit={() => navigateToEditScreen('InsertCultureStartDate', 'startDate')}
-				/>
-				<VerticalSigh />
-				<EditCard
-					title={'que horas começa'}
-					highlightedWords={['começa']}
-					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('startHour', true)) || '---'}
-					valueBold
-					onEdit={() => navigateToEditScreen('InsertCultureStartHour', 'startHour')}
-				/>
-				<VerticalSigh />
-				<EditCard
-					title={'que dia termina'}
-					highlightedWords={['termina']}
-					SecondSvgIcon={CalendarEmptyIcon}
-					value={formatDate(getPostField('endDate', true)) || '---'}
-					valueBold
-					onEdit={() => navigateToEditScreen('InsertCultureEndDate', 'endDate')}
-				/>
-				<VerticalSigh />
-				<EditCard
-					title={'que horas termina'}
-					highlightedWords={['termina']}
-					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('endHour', true)) || '---'}
-					valueBold
-					onEdit={() => navigateToEditScreen('InsertCultureEndHour', 'endHour')}
-				/>
-				<VerticalSigh />
-				<VerticalSigh />
+				{
+					unsavedPost && (
+						<>
+							<SubtitleCard
+								text={'seu post'}
+								highlightedText={['post']}
+							/>
+							<VerticalSigh />
+							<PostCardContainer>
+								<PostCard
+									owner={owner}
+									post={{ ...postData, ...editDataContext.unsaved, postType: 'culture', createdAt: new Date() }}
+									onPress={() => { }}
+								/>
+							</PostCardContainer>
+							<VerticalSigh />
+							<SubtitleCard
+								text={'detalhes do post'}
+								highlightedText={['detalhes']}
+							/>
+						</>
+					)
+				}
+				<BodyPadding>
+					<VerticalSigh />
+					<EditCard
+						title={'tags do post'}
+						highlightedWords={['tags']}
+						value={formatCategoryAndTags()}
+						onEdit={() => navigateToEditScreen('SelectCultureCategory', 'tags')}
+					/>
+					<VerticalSigh />
+					<PlaceModality
+						title={'como participar'}
+						hightligtedWords={['participar']}
+						placeModality={getPostField('eventPlaceModality')}
+						onEdit={() => navigateToEditScreen('SelectEventPlaceModality', 'eventPlaceModality')}
+					/>
+					<VerticalSigh />
+					<EditCard
+						title={'título do post'}
+						highlightedWords={['título']}
+						value={getPostField('title')}
+						onEdit={() => navigateToEditScreen('InsertCultureTitle', 'title')}
+					/>
+					<VerticalSigh />
+					<DescriptionCard
+						text={getPostField('description')}
+						onEdit={() => navigateToEditScreen('InsertCultureDescription', 'description')}
+					/>
+					<VerticalSigh />
+					<EditCard
+						title={'fotos do post'}
+						highlightedWords={['fotos']}
+						profilePicturesUrl={getPicturesUrl()}
+						carousel
+						onEdit={() => navigateToEditScreen('CulturePicturePreview', 'picturesUrl')}
+					/>
+					<VerticalSigh />
+					<PostRangeCard
+						postRange={getPostField('range')}
+						onEdit={() => navigateToEditScreen('SelectCultureRange', 'range')}
+					/>
+					<VerticalSigh />
+					<LocationViewCard
+						title={'localização'}
+						locationView={getPostField('locationView')}
+						textFontSize={16}
+						location={getPostField('location')}
+						onEdit={() => navigateToEditScreen('SelectCultureLocationView', 'location')}
+					/>
+					<VerticalSigh />
+					<SaleOrExchangeCard
+						title={'custo de entrada'}
+						hightligtedWords={['custo', 'entrada']}
+						saleValue={getPostField('entryValue', true) || '---'}
+						onEdit={() => navigateToEditScreen('InsertEntryValue', 'entryValue')}
+						isCulturePost
+					/>
+					<VerticalSigh />
+					<DateTimeCard
+						title={'dias da semana'}
+						highlightedWords={['dias']}
+						weekDaysfrequency={getPostField('exhibitionFrequency')}
+						daysOfWeek={getPostField('daysOfWeek', true)}
+						onEdit={() => navigateToEditScreen('SelectCultureFrequency', 'daysOfWeek')}
+					/>
+					<VerticalSigh />
+					<EditCard
+						title={'repetição'}
+						highlightedWords={['repetição']}
+						SecondSvgIcon={RecycleWhiteIcon}
+						value={renderCultureRepeat() || '---'}
+						onEdit={() => navigateToEditScreen('SelectEventRepeat', 'repeat')}
+					/>
+					<VerticalSigh />
+					<EditCard
+						title={'que dia começa'}
+						highlightedWords={['começa']}
+						SecondSvgIcon={CalendarEmptyIcon}
+						value={formatDate(getPostField('startDate', true)) || '---'}
+						valueBold
+						onEdit={() => navigateToEditScreen('InsertCultureStartDate', 'startDate')}
+					/>
+					<VerticalSigh />
+					<EditCard
+						title={'que horas começa'}
+						highlightedWords={['começa']}
+						SecondSvgIcon={ClockWhiteIcon}
+						value={formatHour(getPostField('startHour', true)) || '---'}
+						valueBold
+						onEdit={() => navigateToEditScreen('InsertCultureStartHour', 'startHour')}
+					/>
+					<VerticalSigh />
+					<EditCard
+						title={'que dia termina'}
+						highlightedWords={['termina']}
+						SecondSvgIcon={CalendarEmptyIcon}
+						value={formatDate(getPostField('endDate', true)) || '---'}
+						valueBold
+						onEdit={() => navigateToEditScreen('InsertCultureEndDate', 'endDate')}
+					/>
+					<VerticalSigh />
+					<EditCard
+						title={'que horas termina'}
+						highlightedWords={['termina']}
+						SecondSvgIcon={ClockWhiteIcon}
+						value={formatHour(getPostField('endHour', true)) || '---'}
+						valueBold
+						onEdit={() => navigateToEditScreen('InsertCultureEndHour', 'endHour')}
+					/>
+					<VerticalSigh />
+					<VerticalSigh />
+				</BodyPadding>
 			</Body>
 		</Container>
 	)

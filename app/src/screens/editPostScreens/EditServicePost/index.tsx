@@ -4,8 +4,8 @@ import { StatusBar, Alert } from 'react-native'
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonContainer } from './styles'
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import PlusWhiteIcon from '../../../assets/icons/plusTabIconInactive.svg'
 
 import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
@@ -145,7 +145,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 
 	const getLocalUser = () => userDataContext
 
-	const saveServicePost = async () => { // VIEW CONTEXT
+	const saveServicePost = async () => {
 		setIsLoading(true)
 
 		const serviceData = { ...postData, ...editDataContext.unsaved } as ServiceCollection

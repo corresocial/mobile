@@ -11,7 +11,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostPicturePreview } from '../../../components/_onboarding/PostPicturePreview'
 
 function CulturePicturePreview({ route, navigation }: CulturePicturePreviewScreenProps) {
-	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)
+	const { isSecondPost, cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const savePictures = (picturesUri: string[]) => {
@@ -24,7 +24,17 @@ function CulturePicturePreview({ route, navigation }: CulturePicturePreviewScree
 		setCultureDataOnContext({ picturesUrl: picturesUri })
 
 		if (isSecondPost) {
-			return navigation.navigate('CultureReview')
+			navigation.reset({
+				index: 0,
+				routes: [{
+					name: 'EditCulturePostReview',
+					params: {
+						postData: { ...cultureDataContext, picturesUrl: picturesUri },
+						unsavedPost: true
+					}
+				}]
+			})
+			return
 		}
 
 		navigation.navigate('SelectCultureLocationView')
