@@ -44,20 +44,6 @@ function VacancyProvider({ children }: VacancyProviderProps) {
 
 		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
 
-		console.log(`
-		{
-			${lastUserPost.range},
-			${lastUserPost.locationView},
-			${lastUserPost.location},
-			${lastUserPost.workFrequency},
-			${lastUserPost.daysOfWeek},
-			${lastUserPost.startDate},
-			${lastUserPost.startHour},
-			${lastUserPost.endDate},
-			${lastUserPost.endHour},
-			${lastUserPost.importantPoints},
-		}`)
-
 		setVacancyDataContext({
 			range: lastUserPost.range || '',
 			locationView: lastUserPost.locationView || '',

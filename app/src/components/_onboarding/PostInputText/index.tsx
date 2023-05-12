@@ -86,7 +86,6 @@ function PostInputText({
 					validBorderBottomColor={theme.black4}
 					invalidBackgroundColor={theme.red1}
 					invalidBorderBottomColor={theme.red5}
-					maxLength={100}
 					lastInput
 					textAlign={'left'}
 					fontSize={16}

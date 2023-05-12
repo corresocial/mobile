@@ -75,7 +75,6 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 				validBorderBottomColor={theme.yellow5}
 				invalidBackgroundColor={theme.red1}
 				invalidBorderBottomColor={theme.red5}
-				maxLength={100}
 				lastInput
 				editable={false}
 				textAlign={'left'}
@@ -204,7 +203,6 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 								validBorderBottomColor={theme.yellow5}
 								invalidBackgroundColor={theme.red1}
 								invalidBorderBottomColor={theme.red5}
-								maxLength={100}
 								multiline={importantPointsList.length === 0}
 								lastInput
 								textAlign={'left'}

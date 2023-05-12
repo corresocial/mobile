@@ -102,9 +102,7 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 				<LeftSideLabel style={{ backgroundColor: defineLabelColor() }} />
 				<LeftArea style={{ width: !arrayIsEmpty(post.picturesUrl) ? '61.5%' : '97.5%' }}>
 					<LeftAreaLimits>
-						<Title
-							numberOfLines={(post.description && post.saleValue) || post.itemDescription ? 1 : 2}
-						>
+						<Title numberOfLines={(post.description && post.saleValue) || post.itemDescription ? 2 : 2}>
 							{post.title}
 						</Title>
 						<SmallUserIdentification
