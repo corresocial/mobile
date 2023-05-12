@@ -25,6 +25,7 @@ import { SelectSocialImpactFrequency } from '../../../screens/socialImpactRegist
 import { InsertSocialImpactStartDate } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactStartDate'
 import { InsertSocialImpactEndDate } from '../../../screens/socialImpactRegisterScreens/SocialImpactEndDate'
 import { EditSocialImpactPost } from '../../../screens/editPostScreens/EditSocialImpactPost'
+import { SelectSocialImpactType } from '../../../screens/socialImpactRegisterScreens/SocialImpactType'
 
 const Stack = createStackNavigator<SocialImpactStackParamList>()
 
@@ -32,13 +33,14 @@ export function SocialImpactStack() {
 	return (
 		<SocialImpactProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectSocialImpactCategory'}
+				initialRouteName={'SelectSocialImpactType'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
 					...TransitionPresets.SlideFromRightIOS,
 				}}
 			>
+				<Stack.Screen name={'SelectSocialImpactType'} component={SelectSocialImpactType} />
 				<Stack.Screen name={'SelectSocialImpactCategory'} component={SelectSocialImpactCategory} />
 				<Stack.Screen name={'SelectSocialImpactTags'} component={SelectSocialImpactTags} />
 				<Stack.Screen name={'InsertSocialImpactTitle'} component={InsertSocialImpactTitle} />

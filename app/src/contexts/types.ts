@@ -13,7 +13,8 @@ import {
 	WeekdaysFrequency,
 	WorkplaceType,
 	ItemStatus,
-	VacancyPurpose
+	VacancyPurpose,
+	SocialImpactType
 } from '../services/firebase/types'
 import { CurrentCategory, SearchParams } from '../services/maps/types'
 
@@ -198,6 +199,7 @@ export type CultureData = {
 }
 
 export type SocialImpactData = {
+	socialImpactType?: SocialImpactType
 	title?: string
 	description?: string
 	tags?: string[]
