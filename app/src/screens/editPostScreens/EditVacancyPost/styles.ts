@@ -15,8 +15,11 @@ export const Header = styled.View`
 export const Body = styled.ScrollView`
 	flex: 1;
 	background-color: ${({ theme }) => theme.yellow2}
-	padding: ${relativeScreenWidth(3.5)}px;
  `
+
+export const BodyPadding = styled(Body)`
+	padding: ${relativeScreenWidth(3.5)}px;
+`
 
 export const SaveButtonContainer = styled.View`
 	width: 100%;
@@ -24,10 +27,7 @@ export const SaveButtonContainer = styled.View`
 	padding-top: ${relativeScreenHeight(3)}px;
  `
 
-export const Sigh = styled.View`
-	height: ${relativeScreenHeight(1.25)}px;
- `
-
-export const LastSigh = styled.View`
-	height: ${relativeScreenHeight(3.75)}px;
- `
+export const PostCardContainer = styled.View`
+	background-color: ${({ theme }) => theme.yellow2}
+	padding: ${relativeScreenWidth(3.5)}px;
+`

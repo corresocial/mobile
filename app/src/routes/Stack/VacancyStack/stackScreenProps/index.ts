@@ -26,4 +26,4 @@ export type InsertVacancyEndDateScreenProps = NativeStackScreenProps<VacancyStac
 export type InsertVacancyStartDateScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertVacancyStartDate'>
 export type InsertVacancyStartHourScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertVacancyStartHour'>
 export type InsertVacancyEndHourScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertVacancyEndHour'>
-export type VacancyReviewScreenProps = NativeStackScreenProps<VacancyStackParamList, 'VacancyReview'>
+export type EditVacancyPostReviewScreenProps = NativeStackScreenProps<VacancyStackParamList, 'EditVacancyPostReview'>

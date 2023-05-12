@@ -52,6 +52,7 @@ import { SmallButton } from '../../../components/_buttons/SmallButton'
 
 import { ChatMessagesScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { HorizontalSigh } from '../../homeScreens/PostCategoryDetails/styles'
 
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -180,15 +181,12 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			return
 		}
 
-		sendMessage(
-			{
-				message: text,
-				dateTime: Date.now(),
-				readed: false,
-				owner: userDataContext.userId as Id,
-			},
-			currentChat.chatId
-		)
+		sendMessage({
+			message: text,
+			dateTime: Date.now(),
+			readed: false,
+			owner: userDataContext.userId as Id,
+		}, currentChat.chatId)
 	}
 
 	const blockUser = async () => {
@@ -234,40 +232,28 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		}
 	}
 
-	const getReceiverUserId = (
-		user1: UserIdentification,
-		user2: UserIdentification
-	) => {
+	const getReceiverUserId = (user1: UserIdentification, user2: UserIdentification) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.userId
 		}
 		return user1.userId
 	}
 
-	const getUserName = (
-		user1: UserIdentification,
-		user2: UserIdentification
-	) => {
+	const getUserName = (user1: UserIdentification, user2: UserIdentification) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.name
 		}
 		return user1.name
 	}
 
-	const getUserId = (
-		user1: UserIdentification,
-		user2: UserIdentification
-	) => {
+	const getUserId = (user1: UserIdentification, user2: UserIdentification) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.userId
 		}
 		return user1.userId
 	}
 
-	const getProfilePictureUrl = (
-		user1: UserIdentification,
-		user2: UserIdentification
-	) => {
+	const getProfilePictureUrl = (user1: UserIdentification, user2: UserIdentification) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.profilePictureUrl
 		}
@@ -318,6 +304,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					height={'100%'}
 					navigateToProfile={navigateToProfile}
 				/>
+				<HorizontalSigh />
 				<ChatPopOver
 					userName={getUserName(
 						currentChat.user1,

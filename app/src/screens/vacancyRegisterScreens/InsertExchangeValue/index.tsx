@@ -13,7 +13,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenProps) {
-	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { isSecondPost, vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -48,7 +48,17 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		setVacancyDataOnContext({ exchangeValue })
 
 		if (isSecondPost) {
-			return navigation.navigate('VacancyReview')
+			navigation.reset({
+				index: 0,
+				routes: [{
+					name: 'EditVacancyPostReview',
+					params: {
+						postData: { ...vacancyDataContext, exchangeValue },
+						unsavedPost: true
+					}
+				}]
+			})
+			return
 		}
 
 		navigation.navigate('SelectVacancyRange')

@@ -236,31 +236,19 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					tourPerformed: true,
 					posts: [
 						...localUserPosts,
-						{
-							...postDataToSave,
-							owner: {
-								userId: localUser.userId,
-								name: localUser.name,
-								profilePictureUrl: localUser.profilePictureUrl
-							}
-						} as ServiceCollection
+						{ ...postDataToSave, owner } as ServiceCollection
 					],
 				})
+
 				setDataOnSecureStore('corre.user', {
 					...localUser,
 					tourPerformed: true,
 					posts: [
 						...localUserPosts,
-						{
-							...postDataToSave,
-							owner: {
-								userId: localUser.userId,
-								name: localUser.name,
-								profilePictureUrl: localUser.profilePictureUrl
-							}
-						},
+						{ ...postDataToSave, owner }
 					],
 				})
+
 				setIsLoading(false)
 				showShareModal(true, serviceDataPost.title)
 				navigation.navigate('HomeTab')
@@ -437,7 +425,6 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 								text={'seu post'}
 								highlightedText={['post']}
 							/>
-							<VerticalSigh />
 							<PostCardContainer>
 								<PostCard
 									owner={owner}
@@ -445,7 +432,6 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 									onPress={() => { }}
 								/>
 							</PostCardContainer>
-							<VerticalSigh />
 							<SubtitleCard
 								text={'detalhes do post'}
 								highlightedText={['detalhes']}

@@ -55,9 +55,14 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		const ordenerMessages = Object.values(chatMessages).sort(sortChatMessages)
 		const lastMessage = getLastMessageObjects(ordenerMessages as any)
 
+		// console.log(inMiliseconds) // Why undefined?
 		if (inMiliseconds) {
+			// console.log('Miliseconds')
+			// console.log(`${lastMessage.owner} = ${(lastMessage && lastMessage.dateTime.toString()) || Date.now().toString()}`)
 			return (lastMessage && lastMessage.dateTime.toString()) || Date.now().toString()
 		}
+		// console.log(`${lastMessage.owner} = ${formatRelativeDate(lastMessage ? lastMessage.dateTime : '')}`)
+		// console.log('------------------------------------------------------------------------------------------------------')
 		return formatRelativeDate(lastMessage ? lastMessage.dateTime : '')
 	}
 
@@ -128,8 +133,11 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	const sortChats = (a: Chat, b: Chat) => {
 		if (!chatsIsValid(a, b)) return -1
 
-		if (getLastMessageDateTime(a.messages, true) < getLastMessageDateTime(b.messages, true)) return 1
-		if (getLastMessageDateTime(a.messages, true) > getLastMessageDateTime(b.messages, true)) return -1
+		const lastMessageA = getLastMessageDateTime(a.messages, true)
+		const lastMessageB = getLastMessageDateTime(b.messages, true)
+
+		if (lastMessageA < lastMessageB) return -1
+		if (lastMessageA > lastMessageB) return 1
 		return 0
 	}
 

@@ -28,9 +28,9 @@ import { VacancyLocationViewPreview } from '../../../screens/vacancyRegisterScre
 import { SelectVacancyFrequency } from '../../../screens/vacancyRegisterScreens/SelectVacancyFrequency'
 import { InsertVacancyEndDate } from '../../../screens/vacancyRegisterScreens/InsertVacancyEndDate'
 import { InsertVacancyStartHour } from '../../../screens/vacancyRegisterScreens/InsertVacancyStartHour'
-import { VacancyReview } from '../../../screens/vacancyRegisterScreens/VacancyReview'
 import { InsertVacancyImportantPoints } from '../../../screens/vacancyRegisterScreens/InsertVacancyImportantPoints'
 import { SelectVacancyPurpose } from '../../../screens/vacancyRegisterScreens/SelectVacancyPurpose'
+import { EditVacancyPost } from '../../../screens/editPostScreens/EditVacancyPost'
 
 const Stack = createStackNavigator<VacancyStackParamList>()
 
@@ -69,7 +69,7 @@ export function VacancyStack() {
 				<Stack.Screen name={'InsertVacancyStartHour'} component={InsertVacancyStartHour} />
 				<Stack.Screen name={'InsertVacancyEndHour'} component={InsertVacancyEndHour} />
 				<Stack.Screen name={'InsertVacancyImportantPoints'} component={InsertVacancyImportantPoints} />
-				<Stack.Screen name={'VacancyReview'} component={VacancyReview} />
+				<Stack.Screen name={'EditVacancyPostReview'} component={EditVacancyPost} />
 			</Stack.Navigator>
 		</VacancyProvider>
 	)
