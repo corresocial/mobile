@@ -4,10 +4,12 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { Container, Message } from './styles'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { theme } from '../../../common/theme'
 
 interface InstructionCardProps {
 	message: string
 	highlightedWords?: string[]
+	backgroundColor?: string
 	fontSize?: number
 	lineHeight?: number
 	borderLeftWidth?: number
@@ -18,6 +20,7 @@ interface InstructionCardProps {
 function InstructionCard({
 	message,
 	highlightedWords,
+	backgroundColor,
 	fontSize,
 	lineHeight,
 	borderLeftWidth = 5,
@@ -28,7 +31,9 @@ function InstructionCard({
 		<Container
 			style={{
 				borderLeftWidth: RFValue(borderLeftWidth),
-				flex
+				flex,
+				backgroundColor: backgroundColor || theme.white3,
+				padding: RFValue(7) || RFValue(15)
 			}}
 		>
 			<Message

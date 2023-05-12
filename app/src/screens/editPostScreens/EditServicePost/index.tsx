@@ -39,6 +39,7 @@ import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCar
 import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
 
 function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -395,8 +396,23 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					onBackPress={cancelAllChangesAndGoBack}
 				/>
 				{
+					hasError && (
+						<>
+							<VerticalSigh height={relativeScreenHeight(2)} />
+							<InstructionCard
+								message={'opa! \nalgo deu errado, tente novamente. '}
+								highlightedWords={['\nalgo', 'deu', 'errado']}
+								backgroundColor={theme.red1}
+								flex={0}
+								fontSize={14}
+								lineHeight={20}
+							/>
+						</>
+					)
+				}
+				{
 					(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost) && (
-						isLoading
+						isLoading && !hasError
 							? <Loader />
 							: (
 								<SaveButtonContainer>
@@ -417,7 +433,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					)
 				}
 			</Header>
-			<Body>
+			<Body hasError={hasError}>
 				{
 					unsavedPost && (
 						<>
@@ -425,7 +441,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 								text={'seu post'}
 								highlightedText={['post']}
 							/>
-							<PostCardContainer>
+							<PostCardContainer hasError={hasError}>
 								<PostCard
 									owner={owner}
 									post={{ ...postData, ...editDataContext.unsaved, postType: 'service', createdAt: new Date() }}
@@ -439,7 +455,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 						</>
 					)
 				}
-				<BodyPadding>
+				<BodyPadding hasError={hasError}>
 					<VerticalSigh />
 					<EditCard
 						title={'tags do post'}
