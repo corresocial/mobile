@@ -41,7 +41,7 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 	const saveLocationView = async () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ locationView })
-			navigation.pop(3)
+			navigation.pop(2)
 			navigation.goBack()
 			return
 		}

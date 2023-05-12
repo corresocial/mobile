@@ -40,6 +40,7 @@ import { StateContext } from '../../../contexts/StateContext'
 import { createPost } from '../../../services/firebase/post/createPost'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
 
 function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -238,6 +239,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const getLocalUser = () => userDataContext
 
 	const saveSalePost = async () => {
+		setHasError(false)
 		setIsLoading(true)
 
 		const saleData = { ...postData, ...editDataContext.unsaved } as SaleCollection
@@ -408,8 +410,24 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					onBackPress={cancelAllChangesAndGoBack}
 				/>
 				{
+					hasError && (
+						<>
+							<VerticalSigh height={relativeScreenHeight(2)} />
+							<InstructionCard
+								message={'opa! \nalgo deu errado, tente novamente. '}
+								highlightedWords={['\nalgo', 'deu', 'errado']}
+								backgroundColor={theme.red1}
+								flex={0}
+								fontSize={14}
+								lineHeight={20}
+								padding={7}
+							/>
+						</>
+					)
+				}
+				{
 					(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost) && (
-						isLoading
+						isLoading && !hasError
 							? <Loader />
 							: (
 								<SaveButtonContainer>
@@ -438,15 +456,13 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 								text={'seu post'}
 								highlightedText={['post']}
 							/>
-							<VerticalSigh />
-							<PostCardContainer>
+							<PostCardContainer hasError={hasError}>
 								<PostCard
 									owner={owner}
 									post={{ ...postData, ...editDataContext.unsaved, postType: 'sale', createdAt: new Date() }}
 									onPress={() => { }}
 								/>
 							</PostCardContainer>
-							<VerticalSigh />
 							<SubtitleCard
 								text={'detalhes do post'}
 								highlightedText={['detalhes']}
@@ -454,8 +470,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 						</>
 					)
 				}
-				<BodyPadding>
-					<VerticalSigh />
+				<BodyPadding hasError={hasError}>
 					<EditCard
 						title={'tags do post'}
 						highlightedWords={['tags']}

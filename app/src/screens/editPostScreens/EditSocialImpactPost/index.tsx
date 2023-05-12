@@ -40,6 +40,7 @@ import { createPost } from '../../../services/firebase/post/createPost'
 import { LocalUserData, SocialImpactData } from '../../../contexts/types'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
 
 function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -257,6 +258,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	}
 
 	const saveSocialImpactPost = async () => {
+		setHasError(false)
 		setIsLoading(true)
 
 		const socialImpactData = { ...postData, ...editDataContext.unsaved } as SocialImpactCollection
@@ -420,8 +422,24 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					onBackPress={cancelAllChangesAndGoBack}
 				/>
 				{
+					hasError && (
+						<>
+							<VerticalSigh height={relativeScreenHeight(2)} />
+							<InstructionCard
+								message={'opa! \nalgo deu errado, tente novamente. '}
+								highlightedWords={['\nalgo', 'deu', 'errado']}
+								backgroundColor={theme.red1}
+								flex={0}
+								fontSize={14}
+								lineHeight={20}
+								padding={7}
+							/>
+						</>
+					)
+				}
+				{
 					(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost) && (
-						isLoading
+						isLoading && !hasError
 							? <Loader />
 							: (
 								<SaveButtonContainer>
@@ -439,7 +457,6 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 									/>
 								</SaveButtonContainer>
 							)
-
 					)
 				}
 			</Header>
@@ -451,15 +468,13 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 								text={'seu post'}
 								highlightedText={['post']}
 							/>
-							<VerticalSigh />
-							<PostCardContainer>
+							<PostCardContainer hasError={hasError}>
 								<PostCard
 									owner={owner}
 									post={{ ...postData, ...editDataContext.unsaved, postType: 'socialImpact', createdAt: new Date() }}
 									onPress={() => { }}
 								/>
 							</PostCardContainer>
-							<VerticalSigh />
 							<SubtitleCard
 								text={'detalhes do post'}
 								highlightedText={['detalhes']}
@@ -467,7 +482,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 						</>
 					)
 				}
-				<BodyPadding>
+				<BodyPadding hasError={hasError}>
 					<EditCard
 						title={'tags do post'}
 						highlightedWords={['tags']}

@@ -41,7 +41,7 @@ function VacancyLocationViewPreview({ route, navigation }: VacancyLocationViewPr
 	const saveLocationView = () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ locationView })
-			navigation.pop(3)
+			navigation.pop(2)
 			navigation.goBack()
 			return
 		}

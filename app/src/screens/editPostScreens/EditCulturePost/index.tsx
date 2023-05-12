@@ -41,6 +41,7 @@ import { createPost } from '../../../services/firebase/post/createPost'
 import { CultureData, LocalUserData } from '../../../contexts/types'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
 
 function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -257,6 +258,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 	}
 
 	const saveCulturePost = async () => {
+		setHasError(false)
 		setIsLoading(true)
 
 		const cultureData = { ...postData, ...editDataContext.unsaved } as CultureCollection
@@ -420,8 +422,24 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					onBackPress={cancelAllChangesAndGoBack}
 				/>
 				{
+					hasError && (
+						<>
+							<VerticalSigh height={relativeScreenHeight(2)} />
+							<InstructionCard
+								message={'opa! \nalgo deu errado, tente novamente. '}
+								highlightedWords={['\nalgo', 'deu', 'errado']}
+								backgroundColor={theme.red1}
+								flex={0}
+								fontSize={14}
+								lineHeight={20}
+								padding={7}
+							/>
+						</>
+					)
+				}
+				{
 					(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost) && (
-						isLoading
+						isLoading && !hasError
 							? <Loader />
 							: (
 								<SaveButtonContainer>
@@ -450,15 +468,13 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 								text={'seu post'}
 								highlightedText={['post']}
 							/>
-							<VerticalSigh />
-							<PostCardContainer>
+							<PostCardContainer hasError={hasError}>
 								<PostCard
 									owner={owner}
 									post={{ ...postData, ...editDataContext.unsaved, postType: 'culture', createdAt: new Date() }}
 									onPress={() => { }}
 								/>
 							</PostCardContainer>
-							<VerticalSigh />
 							<SubtitleCard
 								text={'detalhes do post'}
 								highlightedText={['detalhes']}
@@ -466,8 +482,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 						</>
 					)
 				}
-				<BodyPadding>
-					<VerticalSigh />
+				<BodyPadding hasError={hasError}>
 					<EditCard
 						title={'tags do post'}
 						highlightedWords={['tags']}

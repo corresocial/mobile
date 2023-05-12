@@ -147,6 +147,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 	const getLocalUser = () => userDataContext
 
 	const saveServicePost = async () => {
+		setHasError(false)
 		setIsLoading(true)
 
 		const serviceData = { ...postData, ...editDataContext.unsaved } as ServiceCollection
@@ -406,6 +407,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 								flex={0}
 								fontSize={14}
 								lineHeight={20}
+								padding={7}
 							/>
 						</>
 					)
@@ -433,7 +435,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					)
 				}
 			</Header>
-			<Body hasError={hasError}>
+			<Body >
 				{
 					unsavedPost && (
 						<>
@@ -456,7 +458,6 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					)
 				}
 				<BodyPadding hasError={hasError}>
-					<VerticalSigh />
 					<EditCard
 						title={'tags do post'}
 						highlightedWords={['tags']}

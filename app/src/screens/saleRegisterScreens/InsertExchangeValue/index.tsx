@@ -14,7 +14,7 @@ import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenProps) {
 	const { isSecondPost, saleDataContext, setSaleDataOnContext } = useContext(SaleContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -37,11 +37,27 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		return false
 	}
 
+	const navigateToEditScreen = () => {
+		if (editDataContext.unsaved.saleValue) {
+			if (editDataContext.unsaved.saleValue === 'a combinar') {
+				navigation.pop(2)
+				navigation.goBack()
+			} else {
+				navigation.pop(3)
+				navigation.goBack()
+			}
+
+			return
+		}
+
+		navigation.goBack()
+		navigation.goBack()
+	}
+
 	const saveExchangeValue = (exchangeValue: string) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ exchangeValue })
-			navigation.pop(3)
-			navigation.goBack()
+			navigateToEditScreen()
 			return
 		}
 

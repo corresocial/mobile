@@ -43,6 +43,7 @@ import { LocalUserData, VacancyData } from '../../../contexts/types'
 import { createPost } from '../../../services/firebase/post/createPost'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
 
 function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -59,8 +60,6 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	}
 
 	const { postData, unsavedPost } = route.params
-
-	console.log(postData)
 
 	useEffect(() => {
 		clearUnsavedEditContext()
@@ -251,6 +250,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	}
 
 	const saveVacancyPost = async () => {
+		setHasError(false)
 		setIsLoading(true)
 
 		const vacancyData = { ...postData, ...editDataContext.unsaved } as VacancyCollection
@@ -414,8 +414,24 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					onBackPress={cancelAllChangesAndGoBack}
 				/>
 				{
+					hasError && (
+						<>
+							<VerticalSigh height={relativeScreenHeight(2)} />
+							<InstructionCard
+								message={'opa! \nalgo deu errado, tente novamente. '}
+								highlightedWords={['\nalgo', 'deu', 'errado']}
+								backgroundColor={theme.red1}
+								flex={0}
+								fontSize={14}
+								lineHeight={20}
+								padding={7}
+							/>
+						</>
+					)
+				}
+				{
 					(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost) && (
-						isLoading
+						isLoading && !hasError
 							? <Loader />
 							: (
 								<SaveButtonContainer>
@@ -444,7 +460,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 								text={'seu post'}
 								highlightedText={['post']}
 							/>
-							<PostCardContainer>
+							<PostCardContainer hasError={hasError}>
 								<PostCard
 									owner={owner}
 									post={{ ...postData, ...editDataContext.unsaved, postType: 'vacancy', createdAt: new Date() }}
@@ -458,7 +474,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 						</>
 					)
 				}
-				<BodyPadding>
+				<BodyPadding hasError={hasError}>
 					<VacancyPurposeCard
 						vacancyPurpose={getPostField('vacancyPurpose') || 'findProffessional'}
 						onEdit={() => navigateToEditScreen('SelectVacancyPurpose', 'vacancyPurpose')}

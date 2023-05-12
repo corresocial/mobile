@@ -10,6 +10,7 @@ interface InstructionCardProps {
 	message: string
 	highlightedWords?: string[]
 	backgroundColor?: string
+	padding?: number
 	fontSize?: number
 	lineHeight?: number
 	borderLeftWidth?: number
@@ -21,6 +22,7 @@ function InstructionCard({
 	message,
 	highlightedWords,
 	backgroundColor,
+	padding = 15,
 	fontSize,
 	lineHeight,
 	borderLeftWidth = 5,
@@ -33,7 +35,7 @@ function InstructionCard({
 				borderLeftWidth: RFValue(borderLeftWidth),
 				flex,
 				backgroundColor: backgroundColor || theme.white3,
-				padding: RFValue(7) || RFValue(15)
+				padding: RFValue(padding)
 			}}
 		>
 			<Message
