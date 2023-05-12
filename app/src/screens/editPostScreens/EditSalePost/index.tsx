@@ -374,7 +374,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	}
 
 	const cancelAllChangesAndGoBack = () => {
-		if (!unsavedPost) return navigation.goBack()
+		if (!(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost)) return navigation.goBack()
 
 		Alert.alert(
 			'atenção!',
@@ -406,7 +406,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 				<DefaultPostViewHeader
 					text={unsavedPost ? 'revisar seu post' : 'editar seu post'}
 					highlightedWords={unsavedPost ? ['revisar'] : ['editar']}
-					destructiveButton={unsavedPost}
+					destructiveButton={(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost)}
 					onBackPress={cancelAllChangesAndGoBack}
 				/>
 				{
