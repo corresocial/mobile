@@ -52,6 +52,7 @@ import { SmallButton } from '../../../components/_buttons/SmallButton'
 
 import { ChatMessagesScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { HorizontalSigh } from '../../homeScreens/PostCategoryDetails/styles'
 
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -111,7 +112,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		)
 		const blockedUsers = [...blockedUsers1, ...blockedUsers2]
 
-		const userIsBlocked =			blockedUsers.includes(currentChat.user1.userId)
+		const userIsBlocked = blockedUsers.includes(currentChat.user1.userId)
 			|| blockedUsers.includes(currentChat.user2.userId)
 
 		const userBlock = blockedUsers1.includes(currentChat.user2.userId)
@@ -180,15 +181,12 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			return
 		}
 
-		sendMessage(
-			{
-				message: text,
-				dateTime: Date.now(),
-				readed: false,
-				owner: userDataContext.userId as Id,
-			},
-			currentChat.chatId
-		)
+		sendMessage({
+			message: text,
+			dateTime: Date.now(),
+			readed: false,
+			owner: userDataContext.userId as Id,
+		}, currentChat.chatId)
 	}
 
 	const blockUser = async () => {
@@ -234,40 +232,28 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		}
 	}
 
-	const getReceiverUserId = (
-		user1: UserIdentification,
-		user2: UserIdentification
-	) => {
+	const getReceiverUserId = (user1: UserIdentification, user2: UserIdentification) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.userId
 		}
 		return user1.userId
 	}
 
-	const getUserName = (
-		user1: UserIdentification,
-		user2: UserIdentification
-	) => {
+	const getUserName = (user1: UserIdentification, user2: UserIdentification) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.name
 		}
 		return user1.name
 	}
 
-	const getUserId = (
-		user1: UserIdentification,
-		user2: UserIdentification
-	) => {
+	const getUserId = (user1: UserIdentification, user2: UserIdentification) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.userId
 		}
 		return user1.userId
 	}
 
-	const getProfilePictureUrl = (
-		user1: UserIdentification,
-		user2: UserIdentification
-	) => {
+	const getProfilePictureUrl = (user1: UserIdentification, user2: UserIdentification) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.profilePictureUrl
 		}
@@ -277,8 +263,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const getFilteredMessages = () => {
 		return Object.values(messages || {}).filter(
 			(message: Message) => (!message.justOwner
-					|| (message.justOwner
-						&& message.owner === userDataContext.userId))
+				|| (message.justOwner
+					&& message.owner === userDataContext.userId))
 				&& (!message.userCanView
 					|| message.userCanView === userDataContext.userId)
 		)
@@ -313,11 +299,12 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 						currentChat.user1,
 						currentChat.user2
 					)}
-					width={'65%'}
+					width={'60%'}
 					userNameFontSize={15}
 					height={'100%'}
 					navigateToProfile={navigateToProfile}
 				/>
+				<HorizontalSigh />
 				<ChatPopOver
 					userName={getUserName(
 						currentChat.user1,

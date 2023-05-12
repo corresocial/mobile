@@ -37,7 +37,17 @@ function InsertCultureEndHour({ route, navigation }: InsertCultureEndHourScreenP
 		}
 
 		setCultureDataOnContext({ endHour: '' as any })
-		navigation.navigate('CultureReview')
+
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'EditCulturePostReview',
+				params: {
+					postData: { ...cultureDataContext, endHour: '' },
+					unsavedPost: true
+				}
+			}]
+		})
 	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
@@ -51,7 +61,17 @@ function InsertCultureEndHour({ route, navigation }: InsertCultureEndHourScreenP
 		}
 
 		setCultureDataOnContext({ endHour })
-		navigation.navigate('CultureReview')
+
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'EditCulturePostReview',
+				params: {
+					postData: { ...cultureDataContext, endHour },
+					unsavedPost: true
+				}
+			}]
+		})
 	}
 
 	return (

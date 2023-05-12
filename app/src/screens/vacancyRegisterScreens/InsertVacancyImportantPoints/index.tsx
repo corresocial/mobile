@@ -23,7 +23,7 @@ import { ProgressBar } from '../../../components/ProgressBar'
 import { SkipButton } from '../../../components/_buttons/SkipButton'
 
 function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImportantPointsScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [importantPointText, setImportantPointText] = useState('')
@@ -111,7 +111,17 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 		}
 
 		setVacancyDataOnContext({ importantPoints: [] })
-		navigation.navigate('VacancyReview')
+
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'EditVacancyPostReview',
+				params: {
+					postData: { ...vacancyDataContext, importantPoints: [] },
+					unsavedPost: true
+				}
+			}]
+		})
 	}
 
 	const saveVacancyImportantPoints = () => {
@@ -122,7 +132,17 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 		}
 
 		setVacancyDataOnContext({ importantPoints: importantPointsList })
-		navigation.navigate('VacancyReview')
+
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'EditVacancyPostReview',
+				params: {
+					postData: { ...vacancyDataContext, importantPoints: importantPointsList },
+					unsavedPost: true
+				}
+			}]
+		})
 	}
 
 	const getPlaceholder = () => {

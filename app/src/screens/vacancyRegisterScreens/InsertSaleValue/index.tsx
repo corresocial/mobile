@@ -12,7 +12,7 @@ import { InsertSaleValueScreenProps } from '../../../routes/Stack/VacancyStack/s
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertVacancyValue({ navigation, route }: InsertSaleValueScreenProps) {
-	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { isSecondPost, vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -54,7 +54,17 @@ function InsertVacancyValue({ navigation, route }: InsertSaleValueScreenProps) {
 			navigation.navigate('InsertExchangeValue')
 		} else {
 			if (isSecondPost) {
-				return navigation.navigate('VacancyReview')
+				navigation.reset({
+					index: 0,
+					routes: [{
+						name: 'EditVacancyPostReview',
+						params: {
+							postData: { ...vacancyDataContext, saleValue },
+							unsavedPost: true
+						}
+					}]
+				})
+				return
 			}
 
 			navigation.navigate('SelectVacancyRange')

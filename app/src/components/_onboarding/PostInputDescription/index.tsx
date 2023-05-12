@@ -85,7 +85,6 @@ function PostInputDescription({
 					defaultBorderBottomColor={theme.black4}
 					validBackgroundColor={validationColor}
 					validBorderBottomColor={theme.black4}
-					maxLength={100}
 					lastInput
 					textAlign={'left'}
 					fontSize={16}

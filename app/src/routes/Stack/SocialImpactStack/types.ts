@@ -1,4 +1,4 @@
-import { SocialImpactCategories, LocationViewType, LatLong, DaysOfWeek, PostRange } from '../../../services/firebase/types'
+import { SocialImpactCategories, LocationViewType, LatLong, DaysOfWeek, PostRange, SocialImpactCollectionRemote } from '../../../services/firebase/types'
 import { UserStackParamList } from '../UserStack/types'
 
 export type SocialImpactStackParamList = {
@@ -21,5 +21,5 @@ export type SocialImpactStackParamList = {
 	InsertSocialImpactStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertSocialImpactEndDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertSocialImpactEndHour: { editMode: boolean, initialValue: Date } | undefined
-	SocialImpactReview: undefined
+	EditSocialImpactPostReview: { postData: SocialImpactCollectionRemote, unsavedPost?: boolean }
 } & UserStackParamList

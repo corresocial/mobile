@@ -21,4 +21,4 @@ export type InsertSocialImpactEndDateScreenProps = NativeStackScreenProps<Social
 export type InsertSocialImpactStartHourScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactStartHour'>
 export type InsertSocialImpactEndHourScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactEndHour'>
 export type SelectSocialImpactRepeatScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactRepeat'>
-export type SocialImpactReviewScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SocialImpactReview'>
+export type EditSocialImpactPostReviewScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'EditSocialImpactPostReview'>

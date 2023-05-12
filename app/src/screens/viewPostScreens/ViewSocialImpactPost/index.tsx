@@ -202,7 +202,6 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						deletePost={deleteRemotePost}
 					>
 						<SmallButton
-							color={theme.white3}
 							SvgIcon={ThreeDotsWhiteIcon}
 							relativeWidth={relativeScreenWidth(12)}
 							height={relativeScreenWidth(12)}

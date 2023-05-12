@@ -348,7 +348,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 					}
 					<OptionsArea>
 						<SmallButton
-							color={theme.white3}
 							label={isLoggedUser ? '' : 'chat'}
 							labelColor={theme.black4}
 							SvgIcon={isLoggedUser ? PencilIcon : ChatWhiteIcon}

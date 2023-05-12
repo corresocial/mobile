@@ -27,18 +27,12 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 
 	const saveWorkplaceType = (workplace: WorkplaceType) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({
-				workplace,
-				location: { country: 'Brasil', city: 'any' }
-			})
+			addNewUnsavedFieldToEditContext({ workplace })
 			navigation.goBack()
 			return
 		}
 
-		setVacancyDataOnContext({
-			workplace,
-			location: { country: 'Brasil', city: 'any' }
-		})
+		setVacancyDataOnContext({ workplace })
 
 		navigation.navigate('SelectVacancyType')
 	}

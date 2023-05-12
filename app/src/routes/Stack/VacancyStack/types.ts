@@ -1,4 +1,4 @@
-import { DaysOfWeek, LatLong, LocationViewType, PostRange, VacancyCategories } from '../../../services/firebase/types'
+import { DaysOfWeek, LatLong, LocationViewType, PostRange, VacancyCategories, VacancyCollectionRemote } from '../../../services/firebase/types'
 import { UserStackParamList } from '../UserStack/types'
 
 export type VacancyStackParamList = {
@@ -26,5 +26,5 @@ export type VacancyStackParamList = {
 	InsertVacancyEndDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertVacancyStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertVacancyEndHour: { editMode: boolean, initialValue: Date } | undefined
-	VacancyReview: undefined
+	EditVacancyPostReview: { postData: VacancyCollectionRemote, unsavedPost?: boolean }
 } & UserStackParamList

@@ -22,4 +22,4 @@ export type SelectSaleFrequencyScreenProps = NativeStackScreenProps<SaleStackPar
 export type SelectSaleDaysOfWeekScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectSaleDaysOfWeek'>
 export type InsertSaleStartHourScreenProps = NativeStackScreenProps<SaleStackParamList, 'InsertSaleStartHour'>
 export type InsertSaleEndHourScreenProps = NativeStackScreenProps<SaleStackParamList, 'InsertSaleEndHour'>
-export type SaleReviewScreenProps = NativeStackScreenProps<SaleStackParamList, 'SaleReview'>
+export type EditSalePostReviewScreenProps = NativeStackScreenProps<SaleStackParamList, 'EditSalePostReview'>

@@ -12,9 +12,16 @@ export const Header = styled.View`
  	padding: ${relativeScreenWidth(4)}px;
  `
 
-export const Body = styled.ScrollView`
+interface ErrorProps {
+	hasError: boolean
+}
+
+export const Body = styled.ScrollView<ErrorProps>`
 	flex: 1;
-	background-color: ${({ theme }) => theme.purple2}
+ `
+
+export const BodyPadding = styled(Body) <ErrorProps>`
+	background-color: ${({ theme, hasError }) => (hasError ? theme.red2 : theme.purple2)};
 	padding: ${relativeScreenWidth(3.5)}px;
  `
 
@@ -22,4 +29,9 @@ export const SaveButtonContainer = styled.View`
 	width: 100%;
 	padding-horizontal: ${relativeScreenWidth(3)}px;
 	padding-top: ${relativeScreenHeight(3)}px;
+ `
+
+export const PostCardContainer = styled.View<ErrorProps>`
+	background-color: ${({ theme, hasError }) => (hasError ? theme.red2 : theme.purple2)};
+	padding: ${relativeScreenWidth(3.5)}px;
  `

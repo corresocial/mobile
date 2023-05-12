@@ -199,14 +199,14 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						userNameFontSize={14}
 						pictureDimensions={45}
 						profilePictureUrl={getProfilePictureUrl() || ''}
-						width={textHasOnlyNumbers(getPostField('saleValue')) ? '60%' : '85%'}
+						width={textHasOnlyNumbers(getPostField('saleValue', true)) ? '60%' : '85%'}
 						navigateToProfile={navigateToProfile}
 					/>
 					{
-						textHasOnlyNumbers(getPostField('saleValue')) && (
+						textHasOnlyNumbers(getPostField('saleValue', true)) && (
 							<SaleExchangeValue
-								saleValue={getPostField('saleValue')}
-								exchangeValue={getPostField('exchangeValue')}
+								saleValue={getPostField('saleValue', true)}
+								exchangeValue={getPostField('exchangeValue', true)}
 								breakRow
 								smallFontSize={14}
 								largeFontSize={25}
@@ -219,7 +219,6 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 				<OptionsArea>
 					{!isAuthor && (
 						<SmallButton
-							color={theme.white3}
 							SvgIcon={ShareWhiteIcon}
 							relativeWidth={relativeScreenWidth(12)}
 							height={relativeScreenWidth(12)}
@@ -248,7 +247,6 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						deletePost={deleteRemotePost}
 					>
 						<SmallButton
-							color={theme.white3}
 							SvgIcon={ThreeDotsWhiteIcon}
 							relativeWidth={relativeScreenWidth(12)}
 							height={relativeScreenWidth(12)}
@@ -302,10 +300,16 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						startTime={getPostField('startHour', true)}
 						endTime={getPostField('endHour', true)}
 					/>
-					<VerticalSigh />
-					<DeliveryMethodCard
-						deliveryMethod={getPostField('deliveryMethod')}
-					/>
+					{
+						getPostField('deliveryMethod') && (
+							<>
+								<VerticalSigh />
+								<DeliveryMethodCard
+									deliveryMethod={getPostField('deliveryMethod')}
+								/>
+							</>
+						)
+					}
 					<VerticalSigh bottomNavigatorSpace />
 				</Body >
 			</ScrollView>

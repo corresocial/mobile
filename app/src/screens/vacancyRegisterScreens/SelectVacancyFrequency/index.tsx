@@ -31,7 +31,7 @@ function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScr
 			workFrequency: 'someday',
 			daysOfWeek: []
 		})
-		navigation.navigate('InsertVacancyStartHour')
+		navigation.navigate('InsertVacancyStartDate')
 	}
 
 	const saveVacancyFrequency = (vacancyFrequency: WeekdaysFrequency) => {
@@ -52,7 +52,7 @@ function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScr
 					workFrequency: vacancyFrequency,
 					daysOfWeek: [daysOfWeek[new Date().getDay()]]
 				})
-				navigation.navigate('InsertVacancyStartHour')
+				navigation.navigate('InsertVacancyStartDate')
 				break
 			}
 			case 'everyday': {
@@ -69,10 +69,10 @@ function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScr
 					workFrequency: vacancyFrequency,
 					daysOfWeek: [...daysOfWeek]
 				})
-				navigation.navigate('InsertVacancyStartHour')
+				navigation.navigate('InsertVacancyStartDate')
 
 				if (vacancyDataContext.vacancyType === 'professional') {
-					navigation.navigate('InsertVacancyStartHour')
+					navigation.navigate('InsertVacancyStartDate')
 				} else {
 					navigation.navigate('InsertVacancyStartDate')
 				}
@@ -105,7 +105,7 @@ function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScr
 					workFrequency: vacancyFrequency,
 					daysOfWeek: ['seg', 'ter', 'qua', 'qui', 'sex']
 				})
-				navigation.navigate('InsertVacancyStartHour')
+				navigation.navigate('InsertVacancyStartDate')
 				break
 			}
 			default: return false

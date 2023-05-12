@@ -44,17 +44,31 @@ function VacancyProvider({ children }: VacancyProviderProps) {
 
 		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
 
+		console.log(`
+		{
+			${lastUserPost.range},
+			${lastUserPost.locationView},
+			${lastUserPost.location},
+			${lastUserPost.workFrequency},
+			${lastUserPost.daysOfWeek},
+			${lastUserPost.startDate},
+			${lastUserPost.startHour},
+			${lastUserPost.endDate},
+			${lastUserPost.endHour},
+			${lastUserPost.importantPoints},
+		}`)
+
 		setVacancyDataContext({
-			range: lastUserPost.range,
-			locationView: lastUserPost.locationView,
-			location: lastUserPost.location,
-			attendanceFrequency: lastUserPost.workFrequency,
-			daysOfWeek: lastUserPost.daysOfWeek,
-			startDate: lastUserPost.startDate,
-			startHour: lastUserPost.startHour,
-			endDate: lastUserPost.endDate,
-			endHour: lastUserPost.endHour,
-			importantPoints: lastUserPost.importantPoints,
+			range: lastUserPost.range || '',
+			locationView: lastUserPost.locationView || '',
+			location: lastUserPost.location || '',
+			attendanceFrequency: lastUserPost.workFrequency || 'someday',
+			daysOfWeek: lastUserPost.daysOfWeek || [],
+			startDate: lastUserPost.startDate || '',
+			startHour: lastUserPost.startHour || '',
+			endDate: lastUserPost.endDate || '',
+			endHour: lastUserPost.endHour || '',
+			importantPoints: lastUserPost.importantPoints || [],
 		})
 		setIsSecondPost(true)
 	}

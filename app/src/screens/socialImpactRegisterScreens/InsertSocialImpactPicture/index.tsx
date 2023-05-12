@@ -10,11 +10,21 @@ import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { PostPicture } from '../../../components/_onboarding/PostPicture'
 
 function InsertSocialImpactPicture({ navigation }: InsertSocialImpactPictureScreenProps) {
-	const { isSecondPost } = useContext(SocialImpactContext)
+	const { isSecondPost, socialImpactDataContext } = useContext(SocialImpactContext)
 
 	const skipPostPicture = () => {
 		if (isSecondPost) {
-			return navigation.navigate('SocialImpactReview')
+			navigation.reset({
+				index: 0,
+				routes: [{
+					name: 'EditSocialImpactPostReview',
+					params: {
+						postData: { ...socialImpactDataContext },
+						unsavedPost: true
+					}
+				}]
+			})
+			return
 		}
 
 		navigation.navigate('SelectSocialImpactRange')

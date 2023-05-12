@@ -37,7 +37,17 @@ function InsertSocialImpactEndHour({ route, navigation }: InsertSocialImpactEndH
 		}
 
 		setSocialImpactDataOnContext({ endHour: '' as any })
-		navigation.navigate('SocialImpactReview')
+
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'EditSocialImpactPostReview',
+				params: {
+					postData: { ...socialImpactDataContext, endHour: '' },
+					unsavedPost: true
+				}
+			}]
+		})
 	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
@@ -51,7 +61,17 @@ function InsertSocialImpactEndHour({ route, navigation }: InsertSocialImpactEndH
 		}
 
 		setSocialImpactDataOnContext({ endHour })
-		navigation.navigate('SocialImpactReview')
+
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'EditSocialImpactPostReview',
+				params: {
+					postData: { ...socialImpactDataContext, endHour },
+					unsavedPost: true
+				}
+			}]
+		})
 	}
 
 	return (

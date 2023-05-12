@@ -12,7 +12,7 @@ import { InsertSaleValueScreenProps } from '../../../routes/Stack/SaleStack/stac
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
-	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)
+	const { isSecondPost, saleDataContext, setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -54,7 +54,17 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 			navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
 		} else {
 			if (isSecondPost) {
-				return navigation.navigate('SaleReview')
+				navigation.reset({
+					index: 0,
+					routes: [{
+						name: 'EditSalePostReview',
+						params: {
+							postData: { ...saleDataContext, saleValue },
+							unsavedPost: true
+						}
+					}]
+				})
+				return
 			}
 
 			navigation.navigate('SelectSaleRange')

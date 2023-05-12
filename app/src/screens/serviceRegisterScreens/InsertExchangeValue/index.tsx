@@ -13,8 +13,8 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenProps) {
-	const { isSecondPost, setServiceDataOnContext } = useContext(ServiceContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { isSecondPost, serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
+	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -37,18 +37,44 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		return false
 	}
 
+	const navigateToEditScreen = () => {
+		if (editDataContext.unsaved.saleValue) {
+			if (editDataContext.unsaved.saleValue === 'a combinar') {
+				navigation.pop(2)
+				navigation.goBack()
+			} else {
+				navigation.pop(3)
+				navigation.goBack()
+			}
+
+			return
+		}
+
+		navigation.goBack()
+		navigation.goBack()
+	}
+
 	const saveExchangeValue = (exchangeValue: string) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ exchangeValue })
-			navigation.pop(3)
-			navigation.goBack()
+			navigateToEditScreen()
 			return
 		}
 
 		setServiceDataOnContext({ exchangeValue })
 
 		if (isSecondPost) {
-			return navigation.navigate('ServiceReview')
+			navigation.reset({
+				index: 0,
+				routes: [{
+					name: 'EditServicePostReview',
+					params: {
+						postData: { ...serviceDataContext, exchangeValue },
+						unsavedPost: true
+					}
+				}]
+			})
+			return
 		}
 
 		navigation.navigate('SelectServiceRange')

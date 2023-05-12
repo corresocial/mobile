@@ -37,7 +37,16 @@ function InsertSaleEndHour({ route, navigation }: InsertSaleEndHourScreenProps) 
 		}
 
 		setSaleDataOnContext({ endHour: '' as any })
-		navigation.navigate('SaleReview')
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'EditSalePostReview',
+				params: {
+					postData: { ...saleDataContext, endHour: '' },
+					unsavedPost: true
+				}
+			}]
+		})
 	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
@@ -51,7 +60,16 @@ function InsertSaleEndHour({ route, navigation }: InsertSaleEndHourScreenProps) 
 		}
 
 		setSaleDataOnContext({ endHour })
-		navigation.navigate('SaleReview')
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'EditSalePostReview',
+				params: {
+					postData: { ...saleDataContext, endHour },
+					unsavedPost: true
+				}
+			}]
+		})
 	}
 
 	return (

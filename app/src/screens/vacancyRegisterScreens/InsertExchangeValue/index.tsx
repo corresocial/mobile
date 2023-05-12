@@ -13,8 +13,8 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenProps) {
-	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { isSecondPost, vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -37,18 +37,44 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		return false
 	}
 
+	const navigateToEditScreen = () => {
+		if (editDataContext.unsaved.saleValue) {
+			if (editDataContext.unsaved.saleValue === 'a combinar') {
+				navigation.pop(2)
+				navigation.goBack()
+			} else {
+				navigation.pop(3)
+				navigation.goBack()
+			}
+
+			return
+		}
+
+		navigation.goBack()
+		navigation.goBack()
+	}
+
 	const saveExchangeValue = (exchangeValue: string) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ exchangeValue })
-			navigation.pop(3)
-			navigation.goBack()
+			navigateToEditScreen()
 			return
 		}
 
 		setVacancyDataOnContext({ exchangeValue })
 
 		if (isSecondPost) {
-			return navigation.navigate('VacancyReview')
+			navigation.reset({
+				index: 0,
+				routes: [{
+					name: 'EditVacancyPostReview',
+					params: {
+						postData: { ...vacancyDataContext, exchangeValue },
+						unsavedPost: true
+					}
+				}]
+			})
+			return
 		}
 
 		navigation.navigate('SelectVacancyRange')

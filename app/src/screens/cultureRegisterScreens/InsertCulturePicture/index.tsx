@@ -10,11 +10,21 @@ import { CultureContext } from '../../../contexts/CultureContext'
 import { PostPicture } from '../../../components/_onboarding/PostPicture'
 
 function InsertCulturePicture({ navigation }: InsertCulturePictureScreenProps) {
-	const { isSecondPost } = useContext(CultureContext)
+	const { isSecondPost, cultureDataContext } = useContext(CultureContext)
 
 	const skipPostPicture = () => {
 		if (isSecondPost) {
-			return navigation.navigate('CultureReview')
+			navigation.reset({
+				index: 0,
+				routes: [{
+					name: 'EditCulturePostReview',
+					params: {
+						postData: { ...cultureDataContext },
+						unsavedPost: true
+					}
+				}]
+			})
+			return
 		}
 
 		navigation.navigate('SelectEventPlaceModality')

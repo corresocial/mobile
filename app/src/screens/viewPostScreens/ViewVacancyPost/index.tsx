@@ -208,7 +208,6 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						deletePost={deleteRemotePost}
 					>
 						<SmallButton
-							color={theme.white3}
 							SvgIcon={ThreeDotsWhiteIcon}
 							relativeWidth={relativeScreenWidth(12)}
 							height={relativeScreenWidth(12)}
