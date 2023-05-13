@@ -48,7 +48,7 @@ function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScr
 			<PrimaryButton
 				justifyContent={'space-around'}
 				color={theme.white3}
-				relativeHeight={'25%'}
+				relativeHeight={'22%'}
 				labelColor={theme.black4}
 				SecondSvgIcon={PaperInfoWhite}
 				label={'conteúdo \ninformativo'}
@@ -58,7 +58,7 @@ function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScr
 			<PrimaryButton
 				justifyContent={'space-around'}
 				color={theme.white3}
-				relativeHeight={'25%'}
+				relativeHeight={'22%'}
 				labelColor={theme.black4}
 				SecondSvgIcon={HeartAndPersonWhiteIcon}
 				label={'iniciativa social'}
@@ -68,7 +68,7 @@ function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScr
 			<PrimaryButton
 				justifyContent={'space-around'}
 				color={theme.white3}
-				relativeHeight={'25%'}
+				relativeHeight={'22%'}
 				labelColor={theme.black4}
 				SecondSvgIcon={HandOnHeartWhiteIcon}
 				label={'doação ou \nvoluntariado'}

@@ -2,6 +2,7 @@ import { CultureCategories, CultureCollectionRemote, DaysOfWeek, LatLong, Locati
 import { UserStackParamList } from '../UserStack/types'
 
 export type CultureStackParamList = {
+	SelectCultureType: { editMode: boolean } | undefined
 	InsertCultureTitle: { editMode: boolean, initialValue: string } | undefined
 	InsertCultureDescription: { editMode: boolean, initialValue: string } | undefined
 	InsertCulturePicture: undefined
