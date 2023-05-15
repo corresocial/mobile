@@ -41,7 +41,7 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
-			removeAllKeyboardEventListeners()
+			if (Platform.OS === 'android') removeAllKeyboardEventListeners()
 			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
 			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
 		})
