@@ -41,6 +41,7 @@ import { LocalUserData, SocialImpactData } from '../../../contexts/types'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { SocialImpactTypeCard } from '../../../components/_cards/SocialImpactType'
 
 function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -483,6 +484,12 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					)
 				}
 				<BodyPadding hasError={hasError}>
+					<SocialImpactTypeCard
+						title={'tipo de impacto'}
+						socialImpactType={getPostField('socialImpactType')}
+						onEdit={() => navigateToEditScreen('SelectSocialImpactType', 'socialImpactType')}
+					/>
+					<VerticalSigh />
 					<EditCard
 						title={'tags do post'}
 						highlightedWords={['tags']}

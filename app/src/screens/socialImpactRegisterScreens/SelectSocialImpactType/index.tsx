@@ -19,10 +19,12 @@ function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScr
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	useEffect(() => {
-		if (!route.params?.editMode) {
+		if (!editModeIsTrue()) {
 			getAditionalDataFromLastPost()
 		}
 	}, [])
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const saveWorkplaceType = (socialImpactType: SocialImpactType) => {
 		if (editModeIsTrue()) {
@@ -35,8 +37,6 @@ function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScr
 
 		navigation.navigate('SelectSocialImpactCategory')
 	}
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<PostSelectButton

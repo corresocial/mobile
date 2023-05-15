@@ -42,6 +42,7 @@ import { CultureData, LocalUserData } from '../../../contexts/types'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
 
 function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -483,6 +484,12 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					)
 				}
 				<BodyPadding hasError={hasError}>
+					<CultureTypeCard
+						title={'tipo de cultura'}
+						cultureType={getPostField('cultureType')}
+						onEdit={() => navigateToEditScreen('SelectCultureType', 'cultureType')}
+					/>
+					<VerticalSigh />
 					<EditCard
 						title={'tags do post'}
 						highlightedWords={['tags']}

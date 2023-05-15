@@ -51,7 +51,7 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 				labelColor={theme.black4}
 				SecondSvgIcon={ColorPaletWhiteIcon}
 				label={'postando arte'}
-				highlightedWords={['postando']}
+				highlightedWords={['arte']}
 				onPress={() => saveWorkplaceType('art')}
 			/>
 			<PrimaryButton
@@ -61,7 +61,7 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 				labelColor={theme.black4}
 				SecondSvgIcon={CalendarEverydayWhiteIcon}
 				label={'postando evento'}
-				highlightedWords={['postando']}
+				highlightedWords={['evento']}
 				onPress={() => saveWorkplaceType('event')}
 			/>
 			<PrimaryButton
@@ -71,7 +71,7 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 				labelColor={theme.black4}
 				SecondSvgIcon={BooksWhiteIcon}
 				label={'postando educação'}
-				highlightedWords={['postando']}
+				highlightedWords={['educação']}
 				onPress={() => saveWorkplaceType('education')}
 			/>
 		</PostSelectButton>

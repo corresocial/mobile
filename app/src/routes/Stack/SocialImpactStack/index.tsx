@@ -25,7 +25,7 @@ import { SelectSocialImpactFrequency } from '../../../screens/socialImpactRegist
 import { InsertSocialImpactStartDate } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactStartDate'
 import { InsertSocialImpactEndDate } from '../../../screens/socialImpactRegisterScreens/SocialImpactEndDate'
 import { EditSocialImpactPost } from '../../../screens/editPostScreens/EditSocialImpactPost'
-import { SelectSocialImpactType } from '../../../screens/socialImpactRegisterScreens/SocialImpactType'
+import { SelectSocialImpactType } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactType'
 
 const Stack = createStackNavigator<SocialImpactStackParamList>()
 
