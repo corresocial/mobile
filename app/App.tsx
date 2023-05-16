@@ -21,19 +21,23 @@ import { LoaderProvider } from './src/contexts/LoaderContext'
 import { ErrorBoundaryFallback } from './src/screens/ErrorBoundaryFallback'
 import { errorHandler } from './src/utils/errorHandler'
 
-// Sentry.init(sentryConfig)
+Sentry.init(sentryConfig)
 LogBox.ignoreLogs(ignoredLogs)
 
 function App() {
 	const [fontsLoaded]: boolean[] = useFonts({
-		Arvo_400Regular, Arvo_700Bold
+		Arvo_400Regular,
+		Arvo_700Bold,
 	})
 
 	if (!fontsLoaded) {
 		return (
-			<View style={{
-				flex: 1, alignItems: 'center', justifyContent: 'center'
-			}}
+			<View
+				style={{
+					flex: 1,
+					alignItems: 'center',
+					justifyContent: 'center',
+				}}
 			>
 				<ActivityIndicator size={'large'} color={theme.orange3} />
 			</View>
@@ -41,15 +45,18 @@ function App() {
 	}
 
 	return (
-		// <ErrorBoundary FallbackComponent={ErrorBoundaryFallback} onError={errorHandler}>
-		<NavigationContainer>
-			<ThemeProvider theme={theme}>
-				<LoaderProvider>
-					<AuthRegisterStack />
-				</LoaderProvider>
-			</ThemeProvider>
-		</NavigationContainer>
-		// </ErrorBoundary>
+		<ErrorBoundary
+			FallbackComponent={ErrorBoundaryFallback}
+			onError={errorHandler}
+		>
+			<NavigationContainer>
+				<ThemeProvider theme={theme}>
+					<LoaderProvider>
+						<AuthRegisterStack />
+					</LoaderProvider>
+				</ThemeProvider>
+			</NavigationContainer>
+		</ErrorBoundary>
 	)
 }
 
