@@ -377,7 +377,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 				})
 				setIsLoading(false)
 				showShareModal(true, socialImpactDataPost.title)
-				navigation.navigate('HomeTab')
+				navigation.navigate('ViewSocialImpactPost' as any, { postData: { ...postDataToSave, owner } }) // TODO Type
 			})
 			.catch((err: any) => {
 				console.log(err)

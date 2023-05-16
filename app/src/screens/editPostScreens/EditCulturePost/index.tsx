@@ -377,7 +377,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				})
 				setIsLoading(false)
 				showShareModal(true, cultureDataPost.title)
-				navigation.navigate('HomeTab')
+				navigation.navigate('ViewCulturePost' as any, { postData: { ...postDataToSave, owner } }) // TODO Type
 			})
 			.catch((err: any) => {
 				console.log(err)

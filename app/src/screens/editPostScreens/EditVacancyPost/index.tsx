@@ -368,7 +368,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 				})
 				setIsLoading(false)
 				showShareModal(true, vacancyDataPost.title)
-				navigation.navigate('HomeTab')
+				navigation.navigate('ViewVacancyPost' as any, { postData: { ...postDataToSave, owner } }) // TODO Type
 			})
 			.catch((err: any) => {
 				console.log(err)

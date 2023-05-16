@@ -253,7 +253,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 
 				setIsLoading(false)
 				showShareModal(true, serviceDataPost.title)
-				navigation.navigate('HomeTab')
+				navigation.navigate('ViewServicePost' as any, { postData: { ...postDataToSave, owner } }) // TODO Type
 			})
 			.catch((err: any) => {
 				console.log(err)

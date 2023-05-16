@@ -357,7 +357,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 				})
 				setIsLoading(false)
 				showShareModal(true, saleDataPost.title)
-				navigation.navigate('HomeTab')
+				navigation.navigate('ViewSalePost' as any, { postData: { ...postDataToSave, owner } }) // TODO Type
 			})
 			.catch((err: any) => {
 				console.log(err)
