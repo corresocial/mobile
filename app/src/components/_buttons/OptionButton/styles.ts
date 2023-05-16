@@ -1,0 +1,71 @@
+import * as Animatable from 'react-native-animatable'
+import { RFValue } from 'react-native-responsive-fontsize'
+import styled from 'styled-components/native'
+
+export const Container = styled.TouchableWithoutFeedback`
+   width: 100%;
+`
+export const TouchableContainer = styled.TouchableWithoutFeedback`
+    width: 100%;
+    background-color: ${({ theme }) => theme.white2}
+`
+
+export const ContainerBottom = styled(Animatable.View)`
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-radius: ${RFValue(13)}px;
+    position: relative;
+    background-color: ${({ theme }) => theme.black4};
+`
+
+export const ContainerSurface = styled.View`
+    flex-direction: row;
+	height: 100%;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border-radius:${RFValue(13)}px;
+    border: ${RFValue(2.5)}px solid black;
+    background-color: ${({ theme }) => theme.white3};
+    overflow: hidden;
+    position: absolute;
+	right: ${RFValue(8)}px;
+`
+
+export const IconArea = styled.View`
+    background-color: ${({ theme }) => theme.orange3}
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+`
+
+export const LabelDescriptionArea = styled.View`
+    flex: 1;
+    padding-vertical: ${RFValue(15)}px;
+    padding-horizontal: ${RFValue(15)}px;
+    height: 100%;
+    justify-content: space-around;
+`
+
+export const ButtonLabel = styled.Text`
+    color: ${({ theme }) => theme.black4};
+    font-size: ${RFValue(20)}px;
+    font-family: Arvo_400Regular;
+`
+
+export const Description = styled.Text`
+    color: ${({ theme }) => theme.black4};
+    font-family: Arvo_400Regular;
+`
+
+export const ShortDescription = styled.Text`
+	width: 100%;
+	align-self: center;
+	text-align: center;
+	font-size: ${RFValue(11)}px;
+	margin-top: 3%;
+    color: ${({ theme }) => theme.black4};
+    font-family: Arvo_400Regular;
+`

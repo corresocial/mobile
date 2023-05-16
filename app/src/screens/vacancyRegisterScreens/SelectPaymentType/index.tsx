@@ -1,0 +1,67 @@
+import React, { useContext } from 'react'
+import { StatusBar } from 'react-native'
+
+import { theme } from '../../../common/theme'
+
+import { SelectPaymentTypeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
+import { PaymentType } from '../../../services/firebase/types'
+
+import { VacancyContext } from '../../../contexts/VacancyContext'
+import { EditContext } from '../../../contexts/EditContext'
+
+import { PaymentMethod } from '../../../components/_onboarding/PaymentMethod'
+
+function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) {
+	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
+	const savePaymentType = (paymentType: PaymentType) => {
+		switch (paymentType) {
+			case 'sale': {
+				if (editModeIsTrue()) {
+					addNewUnsavedFieldToEditContext({ exchangeValue: '' })
+				} else {
+					setVacancyDataOnContext({ exchangeValue: '' })
+				}
+
+				navigation.navigate('SelectSaleValueType', { bothPaymentType: false, editMode: editModeIsTrue() })
+				break
+			}
+			case 'exchange': {
+				if (editModeIsTrue()) {
+					addNewUnsavedFieldToEditContext({ saleValue: '' })
+				} else {
+					setVacancyDataOnContext({ saleValue: '' })
+				}
+
+				navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
+				break
+			}
+			case 'both': {
+				setVacancyDataOnContext({ paymentType })
+				navigation.navigate('SelectSaleValueType', { bothPaymentType: true, editMode: editModeIsTrue() })
+				break
+			}
+			default: return false
+		}
+	}
+
+	return (
+		<>
+			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<PaymentMethod
+				backgroundColor={theme.yellow2}
+				customTitle={'qual é o tipo de remuneração?'}
+				customHighlight={['tipo', 'de', 'remuneração']}
+				isVacancy
+				progress={[3, isSecondPost ? 3 : 5]}
+				navigateBackwards={() => navigation.goBack()}
+				savePaymentMethod={savePaymentType}
+			/>
+		</>
+	)
+}
+
+export { SelectPaymentType }

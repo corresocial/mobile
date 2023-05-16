@@ -1,0 +1,127 @@
+import React, { useContext } from 'react'
+import { StatusBar } from 'react-native'
+
+import { ButtonsContainer, Container } from './styles'
+import { theme } from '../../../common/theme'
+
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+
+import { SelectVacancyTypeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
+import { VacancyType } from '../../../services/firebase/types'
+
+import { VacancyContext } from '../../../contexts/VacancyContext'
+import { EditContext } from '../../../contexts/EditContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { ProgressBar } from '../../../components/ProgressBar'
+
+function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) {
+	const { isSecondPost, vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+
+	const saveVacancyType = (vacancyType: VacancyType) => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ vacancyType })
+			navigation.goBack()
+			return
+		}
+
+		setVacancyDataOnContext({ vacancyType })
+
+		if (vacancyDataContext.workplace !== 'homeoffice') {
+			navigation.navigate('SelectPaymentType', {} as any)
+			return
+		}
+
+		switch (vacancyType) {
+			case 'professional': {
+				navigation.navigate('SelectPaymentType')
+				break
+			}
+			case 'temporary': {
+				navigation.navigate('SelectPaymentType')
+				break
+			}
+			case 'beak': {
+				navigation.navigate('SelectPaymentType')
+				break
+			}
+			default: return false
+		}
+	}
+
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
+	return (
+		<Container>
+			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<DefaultHeaderContainer
+				minHeight={relativeScreenHeight(24)}
+				relativeHeight={relativeScreenHeight(24)}
+				centralized
+				backgroundColor={theme.white3}
+			>
+				<BackButton onPress={() => navigation.goBack()} />
+				<InstructionCard
+					borderLeftWidth={3}
+					fontSize={17}
+					message={'que tipo de vaga?'}
+					highlightedWords={['tipo', 'vaga']}
+				>
+					<ProgressBar
+						range={isSecondPost ? 3 : 5}
+						value={2}
+					/>
+				</InstructionCard>
+			</DefaultHeaderContainer>
+			<FormContainer
+				backgroundColor={theme.yellow2}
+			>
+				<ButtonsContainer>
+					<PrimaryButton
+						justifyContent={'flex-start'}
+						color={theme.white3}
+						relativeHeight={'18%'}
+						labelColor={theme.black4}
+						labelMarginLeft={'5%'}
+						fontSize={18}
+						textAlign={'left'}
+						label={'vaga profissional'}
+						highlightedWords={['profissional']}
+						onPress={() => saveVacancyType('professional')}
+					/>
+					<PrimaryButton
+						justifyContent={'flex-start'}
+						color={theme.white3}
+						relativeHeight={'18%'}
+						labelColor={theme.black4}
+						labelMarginLeft={'5%'}
+						fontSize={18}
+						textAlign={'left'}
+						label={'vaga temporária'}
+						highlightedWords={['temporária']}
+						onPress={() => saveVacancyType('temporary')}
+					/>
+					<PrimaryButton
+						justifyContent={'flex-start'}
+						color={theme.white3}
+						relativeHeight={'18%'}
+						labelColor={theme.black4}
+						labelMarginLeft={'5%'}
+						fontSize={18}
+						textAlign={'left'}
+						label={'um bico'}
+						highlightedWords={['bico']}
+						onPress={() => saveVacancyType('beak')}
+					/>
+				</ButtonsContainer>
+			</FormContainer>
+		</Container>
+	)
+}
+
+export { SelectVacancyType }

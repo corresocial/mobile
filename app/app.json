@@ -1,0 +1,108 @@
+{
+	"expo": {
+		"name": "corre",
+		"owner": "corresocial",
+		"scheme": "corre",
+		"slug": "corresocial",
+		"version": "0.1.4",
+		"orientation": "portrait",
+		"userInterfaceStyle": "light",
+		"icon": "./assets/icon.png",
+		"splash": {
+			"image": "./assets/splash-screen.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#FA9938",
+			"statusBar": {
+				"style": "dark"
+			}
+		},
+		"hooks": {
+			"postPublish": [
+				{
+					"file": "sentry-expo/upload-sourcemaps",
+					"config": {
+						"organization": "corre",
+						"project": "react-native",
+						"authToken": "3b362edd3fb24fddbade3f5ff7b716e464a34d4896ab42b096211200f5a09031"
+					}
+				}
+			]
+		},
+		"plugins": [
+			"sentry-expo",
+			[
+				"expo-media-library",
+				{
+					"photosPermission": "Allow corre to access your photos.",
+					"savePhotosPermission": "Allow corre to save photos.",
+					"isAccessMediaLocationEnabled": true
+				}
+			],
+			"expo-image-picker",
+			[
+				"expo-build-properties",
+				{
+					"ios": {
+						"useFrameworks": "static"
+					}
+				}
+			],
+			"./plugins/react-native-maps-plugin.js",
+			"sentry-expo"
+		],
+		"updates": {
+			"fallbackToCacheTimeout": 0,
+			"url": "https://u.expo.dev/82d2d182-5397-4921-9056-8aa7efc9a9a4"
+		},
+		"assetBundlePatterns": [
+			"**/*"
+		],
+		"ios": {
+			"buildNumber": "1",
+			"supportsTablet": true,
+			"bundleIdentifier": "corre",
+			"splash": {
+				"image": "./assets/splash-screen.png",
+				"resizeMode": "contain",
+				"backgroundColor": "#FA9938"
+			},
+			"config": {
+				"googleMapsApiKey": "AIzaSyBrGDvR0_6TR9qitGcSjV3bfF4yWzWXXCU"
+			}
+		},
+		"android": {
+			"versionCode": 1,
+			"package": "com.corresocial.corresocial",
+			"icon": "./assets/icon.png",
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/adaptive-icon-foreground.png",
+				"backgroundColor": "#FA9938"
+			},
+			"permissions": [
+				"android.permission.LOCATION",
+				"android.permission.ACCESS_FINE_LOCATION",
+				"android.permission.READ_EXTERNAL_STORAGE",
+				"android.permission.WRITE_EXTERNAL_STORAGE",
+				"android.permission.USE_FINGERPRINT",
+				"android.permission.FOREGROUND_SERVICE",
+				"android.permission.CAMERA"
+			],
+			"config": {
+				"googleMaps": {
+					"apiKey": "AIzaSyAlcLXDLUQs4B6cF9yVeqckia8LlEKBfRY"
+				}
+			}
+		},
+		"web": {
+			"favicon": "./assets/favicon.png"
+		},
+		"extra": {
+			"eas": {
+				"projectId": "82d2d182-5397-4921-9056-8aa7efc9a9a4"
+			}
+		},
+		"runtimeVersion": {
+			"policy": "sdkVersion"
+		}
+	}
+}

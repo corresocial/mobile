@@ -1,0 +1,141 @@
+{
+	"extends": [
+		"airbnb"
+	],
+	"plugins": [
+		"@typescript-eslint",
+		"react",
+		"react-native"
+	],
+	"parser": "@typescript-eslint/parser",
+	"ignorePatterns": [
+		"assets/**/**",
+		"services/firebase/index.ts",
+		"ignoredLogs.ts",
+		"*.d.ts",
+		"*.json",
+		"*.svg",
+		"*.sql"
+	],
+	"rules": {
+		"import/no-unresolved": 0,
+		"import/no-default-export": "error",
+		"import/prefer-default-export": "off",
+		"import/extensions": "off",
+		"react/jsx-filename-extension": [
+			1,
+			{
+				"extensions": [
+					".jsx",
+					".tsx",
+					".ts"
+				]
+			}
+		],
+		"linebreak-style": "off",
+		"no-trailing-spaces": "off",
+		"no-multiple-empty-lines": "warn",
+		"max-len": "off",
+		"no-multi-spaces": "warn",
+		"key-spacing": "warn",
+		"semi": [
+			"warn",
+			"never"
+		],
+		"quotes": [
+			"error",
+			"single"
+		],
+		"jsx-quotes": [
+			"error",
+			"prefer-single"
+		],
+		"react/jsx-curly-brace-presence": [
+			"error",
+			{
+				"props": "always",
+				"children": "always"
+			}
+		],
+		"react/jsx-no-useless-fragment": "off",
+		"indent": [
+			"error",
+			"tab",
+			{
+				"SwitchCase": 1
+			}
+		],
+		"react/jsx-indent": [
+			"error",
+			"tab"
+		],
+		"no-unused-vars": [
+			"warn",
+			{
+				"args": "none",
+				"caughtErrors": "none"
+			}
+		],
+		"no-unused-expressions": [
+			"error",
+			{
+				"allowShortCircuit": true,
+				"allowTernary": true
+			}
+		],
+		"react/jsx-indent-props": [
+			"error",
+			"tab"
+		],
+		"object-curly-spacing": "warn",
+		"object-curly-newline": "off",
+		"arrow-body-style": "off",
+		/* [
+			"error",
+			{
+				"ObjectExpression": "never",
+				"ObjectPattern": {
+					"multiline": true,
+					"minProperties": 5
+				},
+				"ImportDeclaration": {
+					"multiline": true,
+					"minProperties": 5
+				},
+				"ExportDeclaration": {
+					"multiline": true,
+					"minProperties": 5
+				}
+			}
+		] */
+		"eqeqeq": [
+			"error",
+			"always"
+		],
+		"camelcase": [
+			"error",
+			{
+				"allow": [
+					"Arvo_400Regular",
+					"Arvo_700Bold"
+				]
+			}
+		],
+		"react/self-closing-comp": "off",
+		"no-tabs": "off",
+		"no-console": "off",
+		"eol-last": "off",
+		"react/jsx-tag-spacing": "off",
+		"comma-dangle": "off",
+		"no-use-before-define": "off",
+		"radix": "off",
+		"react/jsx-no-bind": "off",
+		"react/state-in-constructor": "off",
+		"consistent-return": "off",
+		"react/jsx-no-constructed-context-values": "off",
+		"react/require-default-props": "off",
+		"no-nested-ternary": "off", // Fix
+		"react/no-unstable-nested-components": "off", // Exclude this row
+		"react/jsx-props-no-spreading": "off" // Exclude this row
+	}
+}

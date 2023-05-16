@@ -1,0 +1,38 @@
+{
+	"cli": {
+		"version": ">= 3.6.0",
+		"promptToConfigurePushNotifications": false
+	},
+	"build": {
+		"development": {
+			"developmentClient": false,
+			"distribution": "internal",
+			"ios": {
+				"resourceClass": "m1-medium"
+			},
+			"channel": "development"
+		},
+		"preview": {
+			"distribution": "internal",
+			"ios": {
+				"resourceClass": "m1-medium"
+			},
+			"env": {
+				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
+			},
+			"channel": "preview"
+		},
+		"production": {
+			"ios": {
+				"resourceClass": "m1-medium"
+			},
+			"env": {
+				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"
+			},
+			"channel": "production"
+		}
+	},
+	"submit": {
+		"production": {}
+	}
+}

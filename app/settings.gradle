@@ -1,0 +1,2 @@
+rootProject.name = 'corre'
+include ':app'

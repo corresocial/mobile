@@ -1,0 +1,121 @@
+import React, { useContext, useEffect, useState } from 'react'
+import { BackHandler, StatusBar } from 'react-native'
+
+import { Container, ContainerButtons } from './styles'
+import { theme } from '../../../common/theme'
+import LoupWhiteIcon from '../../../assets/icons/loup-white.svg'
+import SalesCartWhiteIcon from '../../../assets/icons/salesCart-white.svg'
+
+import { updateUser } from '../../../services/firebase/user/updateUser'
+
+import { WelcomeNewUserScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { Id } from '../../../services/firebase/types'
+
+import { AuthContext } from '../../../contexts/AuthContext'
+import { StateContext } from '../../../contexts/StateContext'
+
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { OptionButton } from '../../../components/_buttons/OptionButton'
+
+function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { setStateDataOnContext } = useContext(StateContext)
+
+	const [userName, setUserName] = useState('amigo')
+
+	useEffect(() => {
+		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
+	})
+
+	const onPressBackHandler = () => {
+		if (navigation.isFocused()) {
+			BackHandler.exitApp()
+			return true
+		}
+		return false
+	}
+
+	useEffect(() => {
+		getUserNameFromLocal()
+	}, [])
+
+	const getUserNameFromLocal = async () => {
+		if (!userDataContext.userId) {
+			navigation.navigate('InsertPhone' as any) // TODO Type
+		}
+		setUserName(userDataContext.name || 'amigo')
+	}
+
+	const goToHome = () => {
+		setStateDataOnContext({
+			showTourModal: false
+		})
+		setUserTourPerformed()
+		navigation.navigate('HomeTab', { showsInFirstTab: true })
+	}
+
+	const setUserTourPerformed = async () => {
+		console.log(userDataContext.userId)
+		await updateUser(userDataContext.userId as Id, {
+			tourPerformed: true
+		})
+		setUserDataOnContext({ tourPerformed: true })
+	}
+
+	const goToProfile = () => {
+		setStateDataOnContext({
+			showTourModal: true
+		})
+		navigation.navigate('HomeTab')
+	}
+
+	return (
+		<Container >
+			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<DefaultHeaderContainer
+				centralized
+				backgroundColor={theme.orange2}
+				relativeHeight={'30%'}
+			>
+				<InstructionCard
+					message={`olá, ${userName.split(' ')[0]} \npor que você \ntá no corre.?`}
+					highlightedWords={[userName.split(' ')[0], '\ntá', 'no', 'corre.']}
+					fontSize={24}
+					lineHeight={30}
+				/>
+			</DefaultHeaderContainer>
+			<ContainerButtons>
+				<FormContainer backgroundColor={theme.white2} >
+					<OptionButton
+						color={theme.white3}
+						leftSideColor={theme.orange3}
+						label={'para encontrar'}
+						labelAlign={'left'}
+						description={'Quero encontrar um serviço, item para compra e/ou troca, vagas e cultura.'}
+						highlightedWords={['para', 'encontrar']}
+						SvgIcon={LoupWhiteIcon}
+						svgIconScale={['50%', '60%']}
+						leftSideWidth={'25%'}
+						onPress={goToHome}
+					/>
+					<OptionButton
+						color={theme.white3}
+						leftSideColor={theme.orange3}
+						label={'para postar'}
+						labelAlign={'left'}
+						description={'quero fazer vendas, anunciar meus serviços, vagas, iniciativas sociais ou arte.'}
+						highlightedWords={['para', 'postar']}
+						SvgIcon={SalesCartWhiteIcon}
+						svgIconScale={['50%', '60%']}
+						leftSideWidth={'25%'}
+						onPress={goToProfile}
+					/>
+				</FormContainer>
+			</ContainerButtons>
+		</Container>
+	)
+}
+
+export { WelcomeNewUser }
