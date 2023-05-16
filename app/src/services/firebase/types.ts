@@ -46,6 +46,10 @@ export type EventRepeatType = 'unrepeatable' | 'everyDay' | 'weekly' | 'biweekly
 
 export type VacancyPurpose = 'findProffessional' | 'findVacancy'
 
+export type SocialImpactType = 'informative' | 'iniciative' | 'donation'
+
+export type CultureType = 'art' | 'event' | 'education'
+
 export type MacroCategory = {
 	label: string
 	value: string
@@ -411,6 +415,7 @@ export type VacancyCollectionRemote = {
 
 export type CultureCollection = {
 	postId?: string
+	cultureType?: CultureType
 	postType?: PostType
 	title?: string
 	description?: string
@@ -455,6 +460,7 @@ export type CultureCollection = {
 
 export type CultureCollectionRemote = {
 	postId: string
+	cultureType: CultureType
 	postType: PostType
 	title: string
 	description: string
@@ -499,6 +505,7 @@ export type CultureCollectionRemote = {
 
 export type SocialImpactCollection = {
 	postId?: string
+	socialImpactType?: SocialImpactType
 	postType?: PostType
 	title?: string
 	description?: string
@@ -542,6 +549,7 @@ export type SocialImpactCollection = {
 
 export type SocialImpactCollectionRemote = {
 	postId: string
+	socialImpactType: SocialImpactType
 	postType: PostType
 	title: string
 	description: string

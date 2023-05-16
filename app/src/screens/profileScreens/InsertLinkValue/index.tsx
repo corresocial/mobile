@@ -129,7 +129,6 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 						validBorderBottomColor={theme.orange5}
 						invalidBackgroundColor={theme.red1}
 						invalidBorderBottomColor={theme.red5}
-						maxLength={50}
 						lastInput
 						invalidTextAfterSubmit={invalidLinkValueAfterSubmit}
 						placeholder={isDefaultSocialMedia(route.params.socialMedia.title) ? 'ex: corresocial' : 'ex: www.facebook.com/eu'}

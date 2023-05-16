@@ -92,6 +92,7 @@ function DateTimeCard({
 	const renderStartDate = () => {
 		return (
 			<PostInfoRow
+				key={uuid()}
 				text={showMessageWithHighlight(
 					`começa dia ${formatDate(startDate as Date)}`,
 					[formatDate(startDate as Date)]
@@ -104,6 +105,7 @@ function DateTimeCard({
 	const renderEndDate = () => {
 		return (
 			<PostInfoRow
+				key={uuid()}
 				text={showMessageWithHighlight(
 					`termina dia ${formatDate(endDate as Date)}`,
 					[formatDate(endDate as Date)]

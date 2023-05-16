@@ -41,6 +41,7 @@ import { LocalUserData, SocialImpactData } from '../../../contexts/types'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { SocialImpactTypeCard } from '../../../components/_cards/SocialImpactType'
 
 function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -376,7 +377,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 				})
 				setIsLoading(false)
 				showShareModal(true, socialImpactDataPost.title)
-				navigation.navigate('HomeTab')
+				navigation.navigate('ViewSocialImpactPost' as any, { postData: { ...postDataToSave, owner } }) // TODO Type
 			})
 			.catch((err: any) => {
 				console.log(err)
@@ -386,7 +387,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	}
 
 	const cancelAllChangesAndGoBack = () => {
-		if (!unsavedPost) return navigation.goBack()
+		if (!(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost)) return navigation.goBack()
 
 		Alert.alert(
 			'atenção!',
@@ -418,7 +419,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 				<DefaultPostViewHeader
 					text={unsavedPost ? 'revisar seu post' : 'editar seu post'}
 					highlightedWords={unsavedPost ? ['revisar'] : ['editar']}
-					destructiveButton={unsavedPost}
+					destructiveButton={(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost)}
 					onBackPress={cancelAllChangesAndGoBack}
 				/>
 				{
@@ -483,6 +484,12 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					)
 				}
 				<BodyPadding hasError={hasError}>
+					<SocialImpactTypeCard
+						title={'tipo de impacto'}
+						socialImpactType={getPostField('socialImpactType')}
+						onEdit={() => navigateToEditScreen('SelectSocialImpactType', 'socialImpactType')}
+					/>
+					<VerticalSigh />
 					<EditCard
 						title={'tags do post'}
 						highlightedWords={['tags']}

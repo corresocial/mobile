@@ -31,6 +31,7 @@ import { deletePostPictures } from '../../../services/firebase/post/deletePostPi
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { ExhibitionPlaceCard } from '../../../components/_cards/ExhibitionPlace'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
+import { SocialImpactTypeCard } from '../../../components/_cards/SocialImpactType'
 
 function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -219,6 +220,11 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					onSelectTag={() => { }}
 				/>
 				<Body>
+					<VerticalSigh />
+					<SocialImpactTypeCard
+						title={'tipo de impacto'}
+						socialImpactType={getPostField('socialImpactType')}
+					/>
 					<VerticalSigh />
 					<DescriptionCard
 						text={getPostField('description')}

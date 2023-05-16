@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
@@ -13,13 +13,7 @@ import { CultureContext } from '../../../contexts/CultureContext'
 import { PostCategory } from '../../../components/_onboarding/PostCategory'
 
 function SelectCultureCategory({ route, navigation }: SelectCultureCategoryScreenProps) {
-	const { isSecondPost, setCultureDataOnContext, getAditionalDataFromLastPost } = useContext(CultureContext)
-
-	useEffect(() => {
-		if (!route.params?.editMode) {
-			getAditionalDataFromLastPost()
-		}
-	}, [])
+	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)
 
 	const onSelectCategory = (categoryName: CultureCategories) => {
 		setCultureDataOnContext({

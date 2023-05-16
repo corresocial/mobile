@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
@@ -13,13 +13,7 @@ import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { PostCategory } from '../../../components/_onboarding/PostCategory'
 
 function SelectSocialImpactCategory({ route, navigation }: SelectSocialImpactCategoryScreenProps) {
-	const { isSecondPost, setSocialImpactDataOnContext, getAditionalDataFromLastPost } = useContext(SocialImpactContext)
-
-	useEffect(() => {
-		if (!route.params?.editMode) {
-			getAditionalDataFromLastPost()
-		}
-	}, [])
+	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 
 	const onSelectCategory = (categoryName: SocialImpactCategories) => {
 		setSocialImpactDataOnContext({

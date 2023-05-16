@@ -26,6 +26,7 @@ import { InsertCultureStartDate } from '../../../screens/cultureRegisterScreens/
 import { InsertCultureStartHour } from '../../../screens/cultureRegisterScreens/InsertCultureStartHour'
 import { InsertCultureEndDate } from '../../../screens/cultureRegisterScreens/InsertCultureEndDate'
 import { EditCulturePost } from '../../../screens/editPostScreens/EditCulturePost'
+import { SelectCultureType } from '../../../screens/cultureRegisterScreens/SelectCultureType'
 
 const Stack = createStackNavigator<CultureStackParamList>()
 
@@ -33,13 +34,14 @@ export function CultureStack() {
 	return (
 		<CultureProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectCultureCategory'}
+				initialRouteName={'SelectCultureType'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
 					...TransitionPresets.SlideFromRightIOS,
 				}}
 			>
+				<Stack.Screen name={'SelectCultureType'} component={SelectCultureType} />
 				<Stack.Screen name={'SelectCultureCategory'} component={SelectCultureCategory} />
 				<Stack.Screen name={'SelectCultureTags'} component={SelectCultureTags} />
 				<Stack.Screen name={'InsertCultureTitle'} component={InsertCultureTitle} />

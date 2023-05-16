@@ -2,6 +2,7 @@ import { SocialImpactCategories, LocationViewType, LatLong, DaysOfWeek, PostRang
 import { UserStackParamList } from '../UserStack/types'
 
 export type SocialImpactStackParamList = {
+	SelectSocialImpactType: { editMode: boolean } | undefined
 	InsertSocialImpactTitle: { editMode: boolean, initialValue: string } | undefined
 	InsertSocialImpactDescription: { editMode: boolean, initialValue: string } | undefined
 	InsertSocialImpactPicture: undefined

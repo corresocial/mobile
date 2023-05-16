@@ -130,8 +130,6 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 		const ordenedCategories = Object.values(filtredCategories).sort(sortPostCategories as (a: unknown, b: unknown) => (number))
 
 		return Object.entries(ordenedCategories as CategoryEntries).map((category) => {
-			if (category[1].label === 'outros') return null
-
 			return (
 				<CategoryCard
 					hasElements={!!(nearbyPosts.filter((post) => (post.category === category[1].value && post.postType === locationDataContext.searchParams.postType))).length}

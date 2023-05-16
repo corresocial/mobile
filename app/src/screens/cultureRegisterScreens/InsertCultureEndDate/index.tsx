@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Keyboard, StatusBar } from 'react-native'
+import { Keyboard, Platform, StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 
@@ -19,7 +19,7 @@ function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenP
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
-			removeAllKeyboardEventListeners()
+			if (Platform.OS === 'android') removeAllKeyboardEventListeners()
 			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
 			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
 		})

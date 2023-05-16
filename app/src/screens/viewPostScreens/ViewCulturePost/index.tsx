@@ -38,6 +38,7 @@ import { deletePostPictures } from '../../../services/firebase/post/deletePostPi
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
+import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
 
 function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -224,6 +225,11 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					onSelectTag={() => { }}
 				/>
 				<Body>
+					<VerticalSigh />
+					<CultureTypeCard
+						title={'tipo de cultura'}
+						cultureType={getPostField('cultureType')}
+					/>
 					<VerticalSigh />
 					<DescriptionCard
 						text={getPostField('description')}

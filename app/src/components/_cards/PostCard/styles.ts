@@ -4,7 +4,7 @@ import { relativeScreenHeight, relativeScreenWidth } from '../../../common/scree
 
 export const Container = styled.TouchableOpacity`
 	width: 98%;
-	height: ${relativeScreenHeight(20)}px;
+	height: ${relativeScreenHeight(22)}px;
     background-color: ${({ theme }) => theme.black4};
     border-radius: ${RFValue(13)}px;
     position: relative;
@@ -30,7 +30,8 @@ export const LeftArea = styled.View`
 	width: 65%;
 	height: 100%;
 	background-color: ${({ theme }) => theme.white3};
-	padding: ${RFValue(7)}px;
+	padding-horizontal: ${RFValue(7)}px;
+	padding-vertical: ${RFValue(4)}px;
 `
 
 export const LeftSideLabel = styled.View`

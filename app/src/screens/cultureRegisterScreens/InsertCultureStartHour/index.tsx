@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Keyboard, StatusBar } from 'react-native'
+import { Keyboard, StatusBar, Platform } from 'react-native'
 
 import { theme } from '../../../common/theme'
 
@@ -20,7 +20,7 @@ function InsertCultureStartHour({ route, navigation }: InsertCultureStartHourScr
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
-			removeAllKeyboardEventListeners()
+			if (Platform.OS === 'android') removeAllKeyboardEventListeners()
 			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
 			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
 		})

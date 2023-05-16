@@ -253,7 +253,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 
 				setIsLoading(false)
 				showShareModal(true, serviceDataPost.title)
-				navigation.navigate('HomeTab')
+				navigation.navigate('ViewServicePost' as any, { postData: { ...postDataToSave, owner } }) // TODO Type
 			})
 			.catch((err: any) => {
 				console.log(err)
@@ -361,7 +361,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 	}
 
 	const cancelAllChangesAndGoBack = () => {
-		if (!unsavedPost) return navigation.goBack()
+		if (!(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost)) return navigation.goBack()
 
 		Alert.alert(
 			'atenção!',
@@ -393,7 +393,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 				<DefaultPostViewHeader
 					text={unsavedPost ? 'revisar seu post' : 'editar seu post'}
 					highlightedWords={unsavedPost ? ['revisar'] : ['editar']}
-					destructiveButton={unsavedPost}
+					destructiveButton={(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost)}
 					onBackPress={cancelAllChangesAndGoBack}
 				/>
 				{

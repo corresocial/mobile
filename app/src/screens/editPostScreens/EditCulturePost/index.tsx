@@ -42,6 +42,7 @@ import { CultureData, LocalUserData } from '../../../contexts/types'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
 
 function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -376,7 +377,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				})
 				setIsLoading(false)
 				showShareModal(true, cultureDataPost.title)
-				navigation.navigate('HomeTab')
+				navigation.navigate('ViewCulturePost' as any, { postData: { ...postDataToSave, owner } }) // TODO Type
 			})
 			.catch((err: any) => {
 				console.log(err)
@@ -386,7 +387,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 	}
 
 	const cancelAllChangesAndGoBack = () => {
-		if (!unsavedPost) return navigation.goBack()
+		if (!(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost)) return navigation.goBack()
 
 		Alert.alert(
 			'atenção!',
@@ -418,7 +419,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				<DefaultPostViewHeader
 					text={unsavedPost ? 'revisar seu post' : 'editar seu post'}
 					highlightedWords={unsavedPost ? ['revisar'] : ['editar']}
-					destructiveButton={unsavedPost}
+					destructiveButton={(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost)}
 					onBackPress={cancelAllChangesAndGoBack}
 				/>
 				{
@@ -483,6 +484,12 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					)
 				}
 				<BodyPadding hasError={hasError}>
+					<CultureTypeCard
+						title={'tipo de cultura'}
+						cultureType={getPostField('cultureType')}
+						onEdit={() => navigateToEditScreen('SelectCultureType', 'cultureType')}
+					/>
+					<VerticalSigh />
 					<EditCard
 						title={'tags do post'}
 						highlightedWords={['tags']}

@@ -123,7 +123,9 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	}
 
 	const getOrdenedChatsByDateTime = () => {
-		return chatDataContext.sort(sortChats)
+		// chatDataContext.sort(sortChats).map((chat, index) => console.log(`${index} ${chat.user2.name}`))
+		const currentChatData = [...chatDataContext]
+		return currentChatData.sort(sortChats)
 	}
 
 	const chatsIsValid = (a: Chat, b: Chat) => {
@@ -131,7 +133,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	}
 
 	const sortChats = (a: Chat, b: Chat) => {
-		if (!chatsIsValid(a, b)) return -1
+		if (chatsIsValid(a, b)) return -1
 
 		const lastMessageA = getLastMessageDateTime(a.messages, true)
 		const lastMessageB = getLastMessageDateTime(b.messages, true)
