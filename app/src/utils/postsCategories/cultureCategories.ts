@@ -150,17 +150,13 @@ const cultureCategories = {
 		value: 'diversity',
 		slug: 'diversity',
 		tags: [
-			'cognitivas',
-			'fisicas',
-			'visuais',
-			'auditivas',
-			'negra',
-			'asiática',
-			'originária',
-			'amarela',
-			'parda',
+			'cognitiva',
+			'física',
+			'visual',
+			'auditiva',
+			'racial',
 			'etária',
-			'lgbtqia',
+			'LGBTQIA+',
 			'religiosa'
 		]
 	},
