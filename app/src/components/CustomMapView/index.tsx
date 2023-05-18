@@ -71,20 +71,20 @@ function CustomMapView({
 	const nearByCoordinates = () => {
 		return [
 			{
-				latitude: markerCoordinate.latitude - 0.0027,
-				longitude: markerCoordinate.longitude - 0.006
+				latitude: markerCoordinate.latitude - 0.0060,
+				longitude: markerCoordinate.longitude - 0.013
 			},
 			{
-				latitude: markerCoordinate.latitude + 0.0027,
-				longitude: markerCoordinate.longitude - 0.006
+				latitude: markerCoordinate.latitude + 0.0060,
+				longitude: markerCoordinate.longitude - 0.013
 			},
 			{
-				latitude: markerCoordinate.latitude + 0.0027,
-				longitude: markerCoordinate.longitude + 0.006
+				latitude: markerCoordinate.latitude + 0.0060,
+				longitude: markerCoordinate.longitude + 0.013
 			},
 			{
-				latitude: markerCoordinate.latitude - 0.0027,
-				longitude: markerCoordinate.longitude + 0.006
+				latitude: markerCoordinate.latitude - 0.0060,
+				longitude: markerCoordinate.longitude + 0.013
 			}
 		]
 	}
@@ -124,7 +124,7 @@ function CustomMapView({
 
 		if (rangeCoordinates.length && postRange === 'country') return { ...regionCoordinate, latitudeDelta: 55, longitudeDelta: 55 }
 		if (rangeCoordinates.length && postRange === 'city') return { ...customLatLng, latitudeDelta: customCityDelta, longitudeDelta: customCityDelta }
-		return { ...regionCoordinate, latitudeDelta: 0.014, longitudeDelta: 0.014 }
+		return { ...regionCoordinate, latitudeDelta: 0.028, longitudeDelta: 0.028 }
 	}
 
 	const generateRandomCoordinateOnRadius = () => {
