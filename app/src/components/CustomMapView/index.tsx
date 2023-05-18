@@ -42,7 +42,7 @@ function CustomMapView({
 	const [rangeCoordinates, setRangeCoordinates] = useState<LatLong[]>([markerCoordinate])
 	const [randomCoordinate, setRandomCoordinates] = useState<LatLong>()
 
-	const approximateRadius = 250
+	const approximateRadius = 500
 
 	useEffect(() => {
 		getRangeLimits()
@@ -71,20 +71,20 @@ function CustomMapView({
 	const nearByCoordinates = () => {
 		return [
 			{
-				latitude: markerCoordinate.latitude - 0.0060,
-				longitude: markerCoordinate.longitude - 0.013
+				latitude: markerCoordinate.latitude - 0.0027,
+				longitude: markerCoordinate.longitude - 0.006
 			},
 			{
-				latitude: markerCoordinate.latitude + 0.0060,
-				longitude: markerCoordinate.longitude - 0.013
+				latitude: markerCoordinate.latitude + 0.0027,
+				longitude: markerCoordinate.longitude - 0.006
 			},
 			{
-				latitude: markerCoordinate.latitude + 0.0060,
-				longitude: markerCoordinate.longitude + 0.013
+				latitude: markerCoordinate.latitude + 0.0027,
+				longitude: markerCoordinate.longitude + 0.006
 			},
 			{
-				latitude: markerCoordinate.latitude - 0.0060,
-				longitude: markerCoordinate.longitude + 0.013
+				latitude: markerCoordinate.latitude - 0.0027,
+				longitude: markerCoordinate.longitude + 0.006
 			}
 		]
 	}
@@ -120,11 +120,11 @@ function CustomMapView({
 			longitude: rangeCoordinates[0].longitude - (lgnDiff / 2),
 		}
 
-		const customCityDelta = (latDiff * 1.1 + (lgnDiff < 0.35 ? 0 : lgnDiff / 1.8))
+		const customCityDelta = (latDiff * 1.5 + (lgnDiff < 0.35 ? 0 : lgnDiff / 1.8))
 
 		if (rangeCoordinates.length && postRange === 'country') return { ...regionCoordinate, latitudeDelta: 55, longitudeDelta: 55 }
 		if (rangeCoordinates.length && postRange === 'city') return { ...customLatLng, latitudeDelta: customCityDelta, longitudeDelta: customCityDelta }
-		return { ...regionCoordinate, latitudeDelta: 0.028, longitudeDelta: 0.028 }
+		return { ...regionCoordinate, latitudeDelta: 0.014, longitudeDelta: 0.014 }
 	}
 
 	const generateRandomCoordinateOnRadius = () => {
@@ -135,8 +135,8 @@ function CustomMapView({
 		} as Coordinates
 
 		const newCoordinates = {
-			latitudeDelta: 0.006,
-			longitudeDelta: 0.006,
+			latitudeDelta: 0.012,
+			longitudeDelta: 0.012,
 			latitude: realCoordinates.latitude + getRandomDetachment(),
 			longitude: realCoordinates.longitude + getRandomDetachment()
 		}
