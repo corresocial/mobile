@@ -1,27 +1,27 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Keyboard, Platform, StatusBar } from 'react-native'
 
-import { Container, ButtonsContainer, Body } from './styles'
+import { Container } from './styles'
 import { theme } from '../../../common/theme'
-import AngleLeftThin from '../../../assets/icons/angleLeft-white.svg'
 import CheckIcon from '../../../assets/icons/check-white.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+import { sendContactUsMessageToDiscord } from '../../../services/discord/contactUs'
+import { sendContactUsMessageToNotion } from '../../../services/notion/contactUs'
 
 import { ContactUsInsertMessageScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { NotionPage } from '../../../services/notion/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { LineInput } from '../../../components/LineInput'
 import { InfoCard } from '../../../components/_cards/InfoCard'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import { sendContactUsMessageToDiscord } from '../../../services/discord/contactUs'
-import { sendContactUsMessageToNotion } from '../../../services/notion/contactUs'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { Loader } from '../../../components/Loader'
-import { NotionPage } from '../../../services/notion/types'
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { FormContainer } from '../../../components/_containers/FormContainer'
 
 function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -95,6 +95,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 				centralized
 				backgroundColor={theme.orange2}
 			>
+				<BackButton onPress={() => navigation.goBack()} />
 				<InfoCard
 					title={route.params.title}
 					titleFontSize={24}
@@ -104,7 +105,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 					color={theme.white3}
 				/>
 			</DefaultHeaderContainer>
-			<Body>
+			<FormContainer >
 				<LineInput
 					value={message}
 					relativeWidth={'100%'}
@@ -129,30 +130,20 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 						isLoading
 							? <Loader />
 							: (
-								<ButtonsContainer>
-									<SmallButton
-										relativeWidth={relativeScreenWidth(17)}
-										height={relativeScreenWidth(17)}
-										color={theme.white3}
-										SvgIcon={AngleLeftThin}
-										onPress={() => navigation.goBack()}
-									/>
-									<PrimaryButton
-										color={theme.green3}
-										labelColor={theme.white3}
-										relativeWidth={'68%'}
-										relativeHeight={relativeScreenHeight(9.3)}
-										labelMarginLeft={5}
-										textAlign={'left'}
-										label={'continuar'}
-										SecondSvgIcon={CheckIcon}
-										onPress={sendMessage}
-									/>
-								</ButtonsContainer>
+								<PrimaryButton
+									color={theme.green3}
+									labelColor={theme.white3}
+									relativeHeight={relativeScreenHeight(9.3)}
+									labelMarginLeft={5}
+									textAlign={'left'}
+									label={'continuar'}
+									SecondSvgIcon={CheckIcon}
+									onPress={sendMessage}
+								/>
 							)
 					)
 				}
-			</Body>
+			</FormContainer>
 		</Container >
 	)
 }

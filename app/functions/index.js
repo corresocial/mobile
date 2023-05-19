@@ -113,7 +113,7 @@ const filterLocation = (posts, userId) => {
 }
 
 const getRandomDetachment = () => {
-	const approximateRadius = 125
+	const approximateRadius = 400
 
 	const binaryRandom = Math.round(Math.random())
 	const detachmentRandom = Math.round(Math.random() * (55 - 10) + 10) / 10000000

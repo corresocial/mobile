@@ -100,7 +100,7 @@ function PostTags({ backgroundColor, lightColor, currentCategory, addNewTag, sav
 	return (
 		<Container>
 			<DefaultHeaderContainer
-				minHeight={categoryLabelSelectedIsLarge() ? relativeScreenHeight(24) : relativeScreenHeight(18)}
+				minHeight={categoryLabelSelectedIsLarge() ? relativeScreenHeight(26) : relativeScreenHeight(22)}
 				centralized
 				grow
 				backgroundColor={backgroundColor}

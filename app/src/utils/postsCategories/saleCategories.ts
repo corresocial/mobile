@@ -5,6 +5,35 @@ export const updateSaleTags = (category: SaleCategories, tag: string) => {
 }
 
 const saleCategories = {
+	foodAndDrink: {
+		label: 'comida e bebida',
+		value: 'foodAndDrink',
+		slug: 'foodAndDrink',
+		tags: [
+			'cerveja',
+			'vinho',
+			'marmita',
+			'pizza',
+			'japonesa',
+			'gastronomia',
+			'drinks',
+			'gin',
+			'vodka',
+			'chopp',
+			'bar',
+			'gourmet',
+			'restaurante',
+			'lúpulo',
+			'vegetariano',
+			'hamburguer',
+			'gourmet',
+			'vegano',
+			'petisco',
+			'porcoes',
+			'padaria'
+		]
+	},
+
 	used: {
 		label: 'usados',
 		value: 'used',
@@ -315,17 +344,13 @@ const saleCategories = {
 		value: 'diversity',
 		slug: 'diversity',
 		tags: [
-			'cognitivas',
-			'fisicas',
-			'visuais',
-			'auditivas',
-			'negra',
-			'asiática',
-			'originária',
-			'amarela',
-			'parda',
+			'cognitiva',
+			'física',
+			'visual',
+			'auditiva',
+			'racial',
 			'etária',
-			'lgbtqia',
+			'LGBTQIAP+',
 			'religiosa'
 		]
 	},

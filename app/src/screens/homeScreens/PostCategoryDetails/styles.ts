@@ -35,12 +35,11 @@ export const SearchInput = styled.TextInput`
 
 export const Body = styled.View`
 	flex: 1;
-	padding-vertical: ${RFValue(15)}px;
 	padding-bottom: 0px;
 `
 
 export const TagsContainer = styled.View`
-	padding-vertical: ${RFValue(15)}px;
+	padding-bottom: ${RFValue(15)}px;
 	align-items: center;
 	justify-content: center;
 `

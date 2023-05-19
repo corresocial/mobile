@@ -125,11 +125,19 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 				</InputContainer>
 			</Header>
 			<Body style={{ backgroundColor }}>
-				<SubtitleCard
-					text={`todas categorias ${categoryTitle}`}
-					highlightedText={['todas', ...categoryTitle.split(' ')]}
-					onPress={viewAllTags}
-				/>
+				{
+					categoryName !== 'others' && (
+						<>
+							<VerticalSigh />
+							<SubtitleCard
+								text={`todas categorias ${categoryTitle}`}
+								highlightedText={['todas', ...categoryTitle.split(' ')]}
+								onPress={viewAllTags}
+							/>
+							<VerticalSigh />
+						</>
+					)
+				}
 				<TagsContainer>
 					<FlatList
 						data={getFiltredCategoryTags()}
