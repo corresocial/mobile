@@ -411,7 +411,7 @@ const vacancyCategories = {
 			'auditiva',
 			'racial',
 			'etária',
-			'LGBTQIA+',
+			'LGBTQIAP+',
 			'religiosa'
 		]
 	},

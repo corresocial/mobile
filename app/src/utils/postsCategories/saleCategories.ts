@@ -350,7 +350,7 @@ const saleCategories = {
 			'auditiva',
 			'racial',
 			'etária',
-			'LGBTQIA+',
+			'LGBTQIAP+',
 			'religiosa'
 		]
 	},

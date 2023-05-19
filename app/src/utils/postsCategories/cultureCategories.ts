@@ -156,7 +156,7 @@ const cultureCategories = {
 			'auditiva',
 			'racial',
 			'etária',
-			'LGBTQIA+',
+			'LGBTQIAP+',
 			'religiosa'
 		]
 	},

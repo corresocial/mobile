@@ -365,7 +365,7 @@ const serviceCategories = {
 			'auditiva',
 			'racial',
 			'etária',
-			'LGBTQIA+',
+			'LGBTQIAP+',
 			'religiosa'
 		]
 	},

@@ -88,7 +88,7 @@ const socialImpactCategories = {
 			'auditiva',
 			'racial',
 			'etária',
-			'LGBTQIA+',
+			'LGBTQIAP+',
 			'religiosa'
 		]
 	},
