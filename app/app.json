@@ -4,7 +4,7 @@
 		"owner": "corresocial",
 		"scheme": "corre",
 		"slug": "corresocial",
-		"version": "0.2.0",
+		"version": "0.2.1",
 		"orientation": "portrait",
 		"userInterfaceStyle": "light",
 		"icon": "./assets/icon.png",
@@ -58,7 +58,7 @@
 			"**/*"
 		],
 		"ios": {
-			"buildNumber": "11",
+			"buildNumber": "13",
 			"supportsTablet": true,
 			"bundleIdentifier": "corre",
 			"splash": {
@@ -71,7 +71,7 @@
 			}
 		},
 		"android": {
-			"versionCode": 11,
+			"versionCode": 13,
 			"package": "com.corresocial.corresocial",
 			"icon": "./assets/icon.png",
 			"adaptiveIcon": {
