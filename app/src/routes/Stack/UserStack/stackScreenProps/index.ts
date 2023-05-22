@@ -36,4 +36,5 @@ export type PrivacyAndSecurityScreenProps = NativeStackScreenProps<UserStackPara
 
 export type ChatMessagesScreenProps = NativeStackScreenProps<UserStackParamList, 'ChatMessages'>
 
-export type SelectPaymentPlanScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectPaymentPlan'>
+export type SelectSubscriptionPlanScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectSubscriptionPlan'>
+export type SelectSubsciptionPaymentMethodScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectSubsciptionPaymentMethod'>

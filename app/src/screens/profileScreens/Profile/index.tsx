@@ -379,7 +379,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}
 								// onPress={openProfileOptions}
-								onPress={() => navigation.navigate('SelectPaymentPlan')}
+								onPress={() => navigation.navigate('SelectSubscriptionPlan')}
 
 							/>
 						</ProfilePopOver>

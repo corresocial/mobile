@@ -39,5 +39,6 @@ export type UserStackParamList = {
 
 	ChatMessages: { chat: Chat }
 
-	SelectPaymentPlan: { editMode: boolean } | undefined
+	SelectSubscriptionPlan: { editMode: boolean } | undefined
+	SelectSubsciptionPaymentMethod: { editMode: boolean } | undefined
 }

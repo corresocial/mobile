@@ -39,7 +39,8 @@ import { EditVacancyPost } from '../../../screens/editPostScreens/EditVacancyPos
 import { EditSocialImpactPost } from '../../../screens/editPostScreens/EditSocialImpactPost'
 import { EditCulturePost } from '../../../screens/editPostScreens/EditCulturePost'
 import { ChatMessages } from '../../../screens/chatScreens/ChatMessages'
-import { SelectPaymentPlan } from '../../../screens/paymentSystemScreens/SelectPaymentPlan'
+import { SelectSubscriptionPlan } from '../../../screens/paymentSystemScreens/SelectSubscriptionPlan'
+import { SelectSubsciptionPaymentMethod } from '../../../screens/paymentSystemScreens/SelectSubsciptionPaymentMethod'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -93,7 +94,8 @@ export function UserStack({ route }: any) {
 
 						<Stack.Screen name={'ChatMessages'} component={ChatMessages} />
 
-						<Stack.Screen name={'SelectPaymentPlan'} component={SelectPaymentPlan} />
+						<Stack.Screen name={'SelectSubscriptionPlan'} component={SelectSubscriptionPlan} />
+						<Stack.Screen name={'SelectSubsciptionPaymentMethod'} component={SelectSubsciptionPaymentMethod} />
 					</Stack.Navigator>
 				</EditProvider>
 			</StateProvider>

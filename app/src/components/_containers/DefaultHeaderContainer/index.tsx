@@ -4,7 +4,8 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 import { Container, FooterTextArea } from './styles'
-import { PaymentSubtitle } from '../../PaymentSubtitle'
+import { SmallInstructionCard } from '../../SmallInstructionCard'
+import { VerticalSigh } from '../../VerticalSigh'
 
 interface DefaultHeaderContainerProps {
 	children: ReactElement | ReactElement[]
@@ -14,6 +15,7 @@ interface DefaultHeaderContainerProps {
 	flexDirection?: string
 	justifyContent?: string
 	footerText?: string | (string | ReactElement<any, string | JSXElementConstructor<any>>)[]
+	footerTextHighlighted?: string | (string | ReactElement<any, string | JSXElementConstructor<any>>)[]
 	minHeight?: number
 	borderBottomWidth?: number
 	grow?: boolean
@@ -28,6 +30,7 @@ function DefaultHeaderContainer({
 	flexDirection = 'row',
 	justifyContent,
 	footerText,
+	footerTextHighlighted,
 	backgroundColor,
 	minHeight = 0,
 	borderBottomWidth = 5,
@@ -55,11 +58,20 @@ function DefaultHeaderContainer({
 			</Container >
 			{
 				footerText && (
-					<FooterTextArea style={{}}>
-						<PaymentSubtitle text={footerText} />
+					<FooterTextArea style={{ borderBottomWidth: !FooterTextArea ? 0 : RFValue(borderBottomWidth) }}>
+						<SmallInstructionCard text={footerText} />
+						{
+							footerTextHighlighted && (
+								<>
+									<VerticalSigh />
+									<SmallInstructionCard text={footerTextHighlighted} highlight />
+								</>
+							)
+						}
 					</FooterTextArea>
 				)
 			}
+
 		</>
 	)
 }

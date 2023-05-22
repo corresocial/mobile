@@ -5,7 +5,7 @@ import { theme } from '../../../common/theme'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
-import { PaymentPlan as PaymentPlantype } from '../../../services/firebase/types'
+import { SubscriptionPlan as SubscriptionPlantype } from '../../../services/firebase/types'
 
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../_containers/FormContainer'
@@ -14,15 +14,15 @@ import { InstructionCard } from '../../_cards/InstructionCard'
 import { TitleDescriptionButton } from '../../_cards/TitleDescriptionButton'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 
-interface PaymentPlanProps {
+interface SubscriptionPlanProps {
 	backgroundColor: string
 	headerFooterText: string | (string | ReactElement<any, string | JSXElementConstructor<any>>)[]
-	savePaymentPlan: (paymentPlan: PaymentPlantype) => void
+	saveSubscriptionPlan: (subscriptionPlan: SubscriptionPlantype) => void
 	navigateBackwards: () => void
 }
 
-function PaymentPlan({ backgroundColor, headerFooterText, savePaymentPlan, navigateBackwards }: PaymentPlanProps) {
-	const [planSelected, setPlanSelected] = useState<PaymentPlantype>()
+function SubscriptionPlan({ backgroundColor, headerFooterText, saveSubscriptionPlan, navigateBackwards }: SubscriptionPlanProps) {
+	const [planSelected, setPlanSelected] = useState<SubscriptionPlantype>()
 
 	return (
 		<Container>
@@ -74,7 +74,7 @@ function PaymentPlan({ backgroundColor, headerFooterText, savePaymentPlan, navig
 								label={'continuar'}
 								labelColor={theme.white3}
 								SecondSvgIcon={CheckWhiteIcon}
-								onPress={() => savePaymentPlan(planSelected)}
+								onPress={() => saveSubscriptionPlan(planSelected)}
 							/>
 						)
 					}
@@ -84,4 +84,4 @@ function PaymentPlan({ backgroundColor, headerFooterText, savePaymentPlan, navig
 	)
 }
 
-export { PaymentPlan }
+export { SubscriptionPlan }
