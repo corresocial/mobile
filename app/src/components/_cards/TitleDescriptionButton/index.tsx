@@ -4,27 +4,32 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { Container, ContainerInner, Description, Footer, LargeStrongFont, SmallStrongFont, SmallThinFont, Title } from './styles'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-import { PostRange } from '../../../services/firebase/types'
 
 interface TitleDescriptionButtonProps {
 	height: string | number
 	color: string
+	activeColor?: string
 	title: string
 	titleFontSize?: number
 	description: string
 	highlightedWords: string[]
-	footerText?: PostRange
+	footerValue?: string
+	yearly?: boolean
+	selected?: boolean
 	onPress: () => void
 }
 
 function TitleDescriptionButton({
 	height,
 	color,
+	activeColor,
 	title,
 	titleFontSize = 22,
 	description,
 	highlightedWords,
-	footerText,
+	footerValue,
+	yearly,
+	selected,
 	onPress
 }: TitleDescriptionButtonProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
@@ -42,42 +47,27 @@ function TitleDescriptionButton({
 		onPress()
 	}
 
-	const renderRelativeFooterText = () => {
-		if (footerText) {
+	const renderRelativeFooterValue = () => {
+		if (footerValue) {
+			if (footerValue === 'free') {
+				return (
+					<Footer>
+						<SmallThinFont>{'plano '}</SmallThinFont>
+						<LargeStrongFont>{'gratuito'}</LargeStrongFont>
+						<SmallStrongFont>{''}</SmallStrongFont>
+					</Footer>
+				)
+			}
+
 			return (
 				<Footer>
-					<SmallThinFont>{'plano '}</SmallThinFont>
-					<LargeStrongFont>{'gratuito'}</LargeStrongFont>
-					<SmallStrongFont>{''}</SmallStrongFont>
+					<SmallThinFont>{'R$ '}</SmallThinFont>
+					<LargeStrongFont>{footerValue}</LargeStrongFont>
+					<SmallThinFont>{',00 '}</SmallThinFont>
+					<SmallStrongFont>{yearly ? '/ ano' : '/ mês'}</SmallStrongFont>
 				</Footer>
 			)
 		}
-		/* switch (footerText) {
-			case 'near': return (
-				<Footer>
-					<SmallThinFont>{'plano '}</SmallThinFont>
-					<LargeStrongFont>{'gratuito'}</LargeStrongFont>
-					<SmallStrongFont>{''}</SmallStrongFont>
-				</Footer>
-			)
-			case 'city': return (
-				<Footer>
-					<SmallThinFont>{'R$ '}</SmallThinFont>
-					<LargeStrongFont>{'20'}</LargeStrongFont>
-					<SmallThinFont>{',00 '}</SmallThinFont>
-					<SmallStrongFont>{'/ mês'}</SmallStrongFont>
-				</Footer>
-			)
-			case 'country': return (
-				<Footer>
-					<SmallThinFont>{'R$ '}</SmallThinFont>
-					<LargeStrongFont>{'40'}</LargeStrongFont>
-					<SmallThinFont>{',00 '}</SmallThinFont>
-					<SmallStrongFont>{'/ mês'}</SmallStrongFont>
-				</Footer>
-			)
-			default: return null
-		} */
 	}
 
 	return (
@@ -86,8 +76,8 @@ function TitleDescriptionButton({
 		>
 			<ContainerInner
 				style={{
-					backgroundColor: color,
-					marginLeft: buttonPressed ? RFValue(5) : 0
+					backgroundColor: !selected ? color : activeColor,
+					marginLeft: buttonPressed || selected ? RFValue(5) : 0
 				}}
 				onPressIn={pressingButton}
 				onPressOut={notPressingButton}
@@ -103,7 +93,7 @@ function TitleDescriptionButton({
 				<Description>
 					{showMessageWithHighlight(description, highlightedWords)}
 				</Description>
-				{renderRelativeFooterText()}
+				{renderRelativeFooterValue()}
 			</ContainerInner>
 		</Container>
 	)

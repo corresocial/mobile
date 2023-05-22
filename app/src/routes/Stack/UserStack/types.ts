@@ -38,4 +38,6 @@ export type UserStackParamList = {
 	PrivacyAndSecurity: undefined
 
 	ChatMessages: { chat: Chat }
+
+	SelectPaymentPlan: { editMode: boolean } | undefined
 }

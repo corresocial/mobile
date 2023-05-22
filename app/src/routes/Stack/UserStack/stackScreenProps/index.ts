@@ -35,3 +35,5 @@ export type ContactUsSuccessScreenProps = NativeStackScreenProps<UserStackParamL
 export type PrivacyAndSecurityScreenProps = NativeStackScreenProps<UserStackParamList, 'PrivacyAndSecurity'>
 
 export type ChatMessagesScreenProps = NativeStackScreenProps<UserStackParamList, 'ChatMessages'>
+
+export type SelectPaymentPlanScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectPaymentPlan'>
