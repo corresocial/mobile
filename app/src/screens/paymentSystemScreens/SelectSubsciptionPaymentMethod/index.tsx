@@ -17,7 +17,6 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { ButtonsContainer } from './styles'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciptionPaymentMethodScreenProps) {
@@ -35,7 +34,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 		}
 
 		// setSocialImpactDataOnContext({ subscriptionPaymentMethod })
-		// navigation.navigate('')
+		navigation.navigate('FinishSubscriptionPaymentByPix')
 	}
 
 	const getRelativePostRangeText = () => {

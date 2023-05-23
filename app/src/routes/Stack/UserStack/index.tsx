@@ -41,6 +41,7 @@ import { EditCulturePost } from '../../../screens/editPostScreens/EditCulturePos
 import { ChatMessages } from '../../../screens/chatScreens/ChatMessages'
 import { SelectSubscriptionPlan } from '../../../screens/paymentSystemScreens/SelectSubscriptionPlan'
 import { SelectSubsciptionPaymentMethod } from '../../../screens/paymentSystemScreens/SelectSubsciptionPaymentMethod'
+import { FinishSubscriptionPaymentByPix } from '../../../screens/paymentSystemScreens/FinishSubscriptionPaymentByPix'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -96,6 +97,7 @@ export function UserStack({ route }: any) {
 
 						<Stack.Screen name={'SelectSubscriptionPlan'} component={SelectSubscriptionPlan} />
 						<Stack.Screen name={'SelectSubsciptionPaymentMethod'} component={SelectSubsciptionPaymentMethod} />
+						<Stack.Screen name={'FinishSubscriptionPaymentByPix'} component={FinishSubscriptionPaymentByPix} />
 					</Stack.Navigator>
 				</EditProvider>
 			</StateProvider>

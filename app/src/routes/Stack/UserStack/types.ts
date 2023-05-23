@@ -41,4 +41,5 @@ export type UserStackParamList = {
 
 	SelectSubscriptionPlan: { editMode: boolean } | undefined
 	SelectSubsciptionPaymentMethod: { editMode: boolean } | undefined
+	FinishSubscriptionPaymentByPix: { editMode: boolean } | undefined
 }
