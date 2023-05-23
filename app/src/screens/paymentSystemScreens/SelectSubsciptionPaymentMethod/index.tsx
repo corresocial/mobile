@@ -34,7 +34,12 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 		}
 
 		// setSocialImpactDataOnContext({ subscriptionPaymentMethod })
-		navigation.navigate('FinishSubscriptionPaymentByPix')
+		if (subscriptionPaymentMethod === 'pix') {
+			navigation.navigate('FinishSubscriptionPaymentByPix')
+			return
+		}
+
+		navigation.navigate('FinishSubscriptionPaymentByCard')
 	}
 
 	const getRelativePostRangeText = () => {
@@ -97,7 +102,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 						svgIconScale={['50%', '50%']}
 						leftSideColor={theme.green3}
 						leftSideWidth={'28%'}
-						onPress={() => navigateToFinishSale('pix')}
+						onPress={() => navigateToFinishSale('creditCard')}
 					/>
 					<OptionButton
 						color={theme.white3}
@@ -109,7 +114,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 						svgIconScale={['50%', '50%']}
 						leftSideColor={theme.green3}
 						leftSideWidth={'28%'}
-						onPress={() => navigateToFinishSale('pix')}
+						onPress={() => navigateToFinishSale('debitCard')}
 					/>
 				</ButtonsContainer>
 			</FormContainer>

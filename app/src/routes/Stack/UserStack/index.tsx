@@ -42,6 +42,7 @@ import { ChatMessages } from '../../../screens/chatScreens/ChatMessages'
 import { SelectSubscriptionPlan } from '../../../screens/paymentSystemScreens/SelectSubscriptionPlan'
 import { SelectSubsciptionPaymentMethod } from '../../../screens/paymentSystemScreens/SelectSubsciptionPaymentMethod'
 import { FinishSubscriptionPaymentByPix } from '../../../screens/paymentSystemScreens/FinishSubscriptionPaymentByPix'
+import { FinishSubscriptionPaymentByCard } from '../../../screens/paymentSystemScreens/FinishSubscriptionPaymentByCard'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -98,6 +99,7 @@ export function UserStack({ route }: any) {
 						<Stack.Screen name={'SelectSubscriptionPlan'} component={SelectSubscriptionPlan} />
 						<Stack.Screen name={'SelectSubsciptionPaymentMethod'} component={SelectSubsciptionPaymentMethod} />
 						<Stack.Screen name={'FinishSubscriptionPaymentByPix'} component={FinishSubscriptionPaymentByPix} />
+						<Stack.Screen name={'FinishSubscriptionPaymentByCard'} component={FinishSubscriptionPaymentByCard} />
 					</Stack.Navigator>
 				</EditProvider>
 			</StateProvider>

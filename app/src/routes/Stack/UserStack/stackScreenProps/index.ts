@@ -39,3 +39,4 @@ export type ChatMessagesScreenProps = NativeStackScreenProps<UserStackParamList,
 export type SelectSubscriptionPlanScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectSubscriptionPlan'>
 export type SelectSubsciptionPaymentMethodScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectSubsciptionPaymentMethod'>
 export type FinishSubscriptionPaymentByPixScreenProps = NativeStackScreenProps<UserStackParamList, 'FinishSubscriptionPaymentByPix'>
+export type FinishSubscriptionPaymentByCardScreenProps = NativeStackScreenProps<UserStackParamList, 'FinishSubscriptionPaymentByCard'>
