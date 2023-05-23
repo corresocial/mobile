@@ -115,7 +115,18 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const getRecentAddresses = async () => {
 		const addresses = await getRecentAddressFromStorage()
+		// addresses.forEach((address) => console.log(address), console.log('\n\n'))
 		setRecentAddresses(addresses)
+	}
+
+	const getLastRecentAddress = () => {
+		if (recentAddresses && recentAddresses.length) {
+			return {
+				lat: recentAddresses[0].lat,
+				lon: recentAddresses[0].lon
+			}
+		}
+		return false
 	}
 
 	const findNearPosts = async (
@@ -124,7 +135,7 @@ function Home({ navigation }: HomeScreenProps) {
 		alternativeCoordinates?: LatLong,
 		refresh?: boolean
 	) => {
-		if (!locationIsEnable) return
+		if (!hasLocationPermission) return requestPermissions()
 
 		try {
 			refresh ? setFlatListIsLoading(true) : setLoaderIsVisible(true)
@@ -132,8 +143,8 @@ function Home({ navigation }: HomeScreenProps) {
 
 			let searchParams = {} as SearchParams
 			if (currentPosition) {
-				const coordinates = await getCurrentPositionCoordinates()
-				searchParams = await getSearchParams(coordinates)
+				const coordinates = await locationIsEnable() ? await getCurrentPositionCoordinates() : getLastRecentAddress() || getCurrentPositionCoordinates()
+				searchParams = await getSearchParams(coordinates as LatLong)
 			} else {
 				const coordinates = alternativeCoordinates || (await getSearchedAddressCoordinates(searchText))
 				searchParams = await getSearchParams(coordinates as LatLong) // address converter
@@ -170,7 +181,7 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const getCurrentPositionCoordinates = async () => {
-		const currentPositionCoordinate = await Location.getCurrentPositionAsync()
+		const currentPositionCoordinate = await Location.getCurrentPositionAsync({ mayShowUserSettingsDialog: true })
 
 		return {
 			lat: currentPositionCoordinate.coords.latitude,
