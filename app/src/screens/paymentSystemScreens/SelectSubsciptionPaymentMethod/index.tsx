@@ -2,7 +2,8 @@ import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import PixWhiteIcon from '../../../assets/icons/pix-white.svg'
+import CardWhiteIcon from '../../../assets/icons/card-white.svg'
 
 import { SelectSubsciptionPaymentMethodScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { SubscriptionPaymentMethod, PostRange, SubscriptionPlan } from '../../../services/firebase/types'
@@ -17,6 +18,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { ButtonsContainer } from './styles'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciptionPaymentMethodScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
@@ -26,7 +28,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const saveSubscriptionPaymentMethod = (subscriptionPaymentMethod: SubscriptionPaymentMethod) => {
+	const navigateToFinishSale = (subscriptionPaymentMethod: SubscriptionPaymentMethod) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ subscriptionPaymentMethod })
 			navigation.goBack()
@@ -58,7 +60,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 		<>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(15)}
+				relativeHeight={relativeScreenHeight(18)}
 				centralized
 				backgroundColor={theme.white3}
 				footerText={getRelativePostRangeText()}
@@ -74,14 +76,42 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.orange2}>
 				<ButtonsContainer>
-
-					{/* <PrimaryButton
-						color={theme.green3}
-						label={'continuar'}
-						labelColor={theme.white3}
-						SecondSvgIcon={CheckWhiteIcon}
-						onPress={() => { }}
-					/> */}
+					<OptionButton
+						color={theme.white3}
+						label={'usar pix'}
+						highlightedWords={['pix']}
+						labelSize={18}
+						relativeHeight={'18%'}
+						SvgIcon={PixWhiteIcon}
+						svgIconScale={['50%', '50%']}
+						leftSideColor={theme.green3}
+						leftSideWidth={'28%'}
+						onPress={() => navigateToFinishSale('pix')}
+					/>
+					<OptionButton
+						color={theme.white3}
+						label={'cartão de crédito'}
+						highlightedWords={['crédito']}
+						labelSize={18}
+						relativeHeight={'18%'}
+						SvgIcon={CardWhiteIcon}
+						svgIconScale={['50%', '50%']}
+						leftSideColor={theme.green3}
+						leftSideWidth={'28%'}
+						onPress={() => navigateToFinishSale('pix')}
+					/>
+					<OptionButton
+						color={theme.white3}
+						label={'cartão de débito'}
+						highlightedWords={['débito']}
+						labelSize={18}
+						relativeHeight={'18%'}
+						SvgIcon={CardWhiteIcon}
+						svgIconScale={['50%', '50%']}
+						leftSideColor={theme.green3}
+						leftSideWidth={'28%'}
+						onPress={() => navigateToFinishSale('pix')}
+					/>
 				</ButtonsContainer>
 			</FormContainer>
 		</>
