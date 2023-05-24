@@ -103,7 +103,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 	useEffect(() => {
 		if (hasLocationPermission) {
-			findNearPosts('', true, null as any, false, false) // TRUE
+			findNearPosts('', true, null as any, false, true) // TRUE to get recentLocation
 		}
 	}, [hasLocationPermission])
 
@@ -138,13 +138,10 @@ function Home({ navigation }: HomeScreenProps) {
 		firstLoad?: boolean
 	) => {
 		if (!hasLocationPermission) return requestPermissions()
-		await Location.getCurrentPositionAsync({})
 
 		try {
 			refresh ? setFlatListIsLoading(true) : setLoaderIsVisible(true)
 			setSearchEnded(false)
-			console.log(currentPosition)
-			console.log(!firstLoad)
 			let searchParams = {} as SearchParams
 			if (currentPosition) {
 				const coordinates = currentPosition && !firstLoad ? await getCurrentPositionCoordinates() : getLastRecentAddress() || await getCurrentPositionCoordinates()
@@ -154,7 +151,6 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong) // address converter
 			}
 
-			console.log(searchParams)
 			const nearbyPosts = await getPostsByLocationCloud(
 				searchParams,
 				userDataContext.userId as Id
@@ -187,8 +183,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const getCurrentPositionCoordinates = async () => {
 		console.log('Localização atual')
-		const currentPositionCoordinate = await Location.getCurrentPositionAsync({})
-		console.log(currentPositionCoordinate)
+		const currentPositionCoordinate = await Location.getCurrentPositionAsync()
 		console.log('Localização obtida')
 
 		return {
