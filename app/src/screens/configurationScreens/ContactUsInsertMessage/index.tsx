@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Keyboard, Platform, StatusBar } from 'react-native'
+import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
@@ -46,7 +46,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 	}, [message, keyboardOpened])
 
 	const inputRefs = {
-		itemDescriptionInput: useRef<React.MutableRefObject<any>>(null),
+		itemDescriptionInput: useRef<TextInput>(null),
 	}
 
 	const validateItemDescription = (text: string) => {

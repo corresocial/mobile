@@ -38,6 +38,7 @@
 		"@sentry/react-native": "^4.9.0",
 		"algoliasearch": "^4.14.2",
 		"axios": "^1.2.1",
+		"cpf-cnpj-validator": "^1.0.3",
 		"date-fns": "^2.29.3",
 		"expo": "~47.0.12",
 		"expo-application": "~5.0.1",

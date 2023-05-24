@@ -1,4 +1,4 @@
-import { Alert, Animated, Platform, StatusBar } from 'react-native'
+import { Alert, Animated, Platform, StatusBar, TextInput } from 'react-native'
 import React, { useContext, useRef, useState } from 'react'
 import { UserCredential } from 'firebase/auth'
 
@@ -32,12 +32,12 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 	const [hasServerSideError, setHasServerSideError] = useState(false)
 
 	const inputRefs = {
-		inputCodeRef01: useRef<React.MutableRefObject<any>>(null),
-		inputCodeRef02: useRef<React.MutableRefObject<any>>(null),
-		inputCodeRef03: useRef<React.MutableRefObject<any>>(null),
-		inputCodeRef04: useRef<React.MutableRefObject<any>>(null),
-		inputCodeRef05: useRef<React.MutableRefObject<any>>(null),
-		inputCodeRef06: useRef<React.MutableRefObject<any>>(null)
+		inputCodeRef01: useRef<TextInput>(null),
+		inputCodeRef02: useRef<TextInput>(null),
+		inputCodeRef03: useRef<TextInput>(null),
+		inputCodeRef04: useRef<TextInput>(null),
+		inputCodeRef05: useRef<TextInput>(null),
+		inputCodeRef06: useRef<TextInput>(null)
 	}
 
 	const inputsConfig = [

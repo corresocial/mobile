@@ -1,4 +1,4 @@
-import { Animated, StatusBar, Platform } from 'react-native'
+import { Animated, StatusBar, Platform, TextInput } from 'react-native'
 import React, { useContext, useRef, useState } from 'react'
 
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
@@ -47,8 +47,8 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 	const [hasServerSideError, setHasServerSideError] = useState(false)
 
 	const inputRefs = {
-		DDDInput: useRef<React.MutableRefObject<any>>(null),
-		cellNumberInput: useRef<React.MutableRefObject<any>>(null)
+		DDDInput: useRef<TextInput>(null),
+		cellNumberInput: useRef<TextInput>(null)
 	}
 
 	const validateDDD = (text: string) => {

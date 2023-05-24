@@ -1,4 +1,4 @@
-import { Animated, Keyboard, StatusBar, Platform } from 'react-native'
+import { Animated, Keyboard, StatusBar, Platform, TextInput } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonContainer, Container, InputsContainer } from './styles'
@@ -25,7 +25,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 	const [invalidNameAfterSubmit, setInvaliNameAfterSubmit] = useState<boolean>(false)
 	const [alreadyLoaded, setAlreadyLoaded] = useState<boolean>(false)
 	const inputRefs = {
-		nameInput: useRef<React.MutableRefObject<any>>(null),
+		nameInput: useRef<TextInput>(null),
 	}
 
 	useEffect(() => {
