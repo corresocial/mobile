@@ -103,7 +103,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 	useEffect(() => {
 		if (hasLocationPermission) {
-			findNearPosts('', true)
+			findNearPosts('', true, null as any, false, false) // TRUE
 		}
 	}, [hasLocationPermission])
 
@@ -120,6 +120,7 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const getLastRecentAddress = () => {
+		console.log('Localização recente')
 		if (recentAddresses && recentAddresses.length) {
 			return {
 				lat: recentAddresses[0].lat,
@@ -133,23 +134,27 @@ function Home({ navigation }: HomeScreenProps) {
 		searchText: string,
 		currentPosition?: boolean,
 		alternativeCoordinates?: LatLong,
-		refresh?: boolean
+		refresh?: boolean,
+		firstLoad?: boolean
 	) => {
 		if (!hasLocationPermission) return requestPermissions()
+		await Location.getCurrentPositionAsync({})
 
 		try {
 			refresh ? setFlatListIsLoading(true) : setLoaderIsVisible(true)
 			setSearchEnded(false)
-
+			console.log(currentPosition)
+			console.log(!firstLoad)
 			let searchParams = {} as SearchParams
 			if (currentPosition) {
-				const coordinates = await locationIsEnable() ? await getCurrentPositionCoordinates() : getLastRecentAddress() || getCurrentPositionCoordinates()
+				const coordinates = currentPosition && !firstLoad ? await getCurrentPositionCoordinates() : getLastRecentAddress() || await getCurrentPositionCoordinates()
 				searchParams = await getSearchParams(coordinates as LatLong)
 			} else {
 				const coordinates = alternativeCoordinates || (await getSearchedAddressCoordinates(searchText))
 				searchParams = await getSearchParams(coordinates as LatLong) // address converter
 			}
 
+			console.log(searchParams)
 			const nearbyPosts = await getPostsByLocationCloud(
 				searchParams,
 				userDataContext.userId as Id
@@ -181,7 +186,10 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const getCurrentPositionCoordinates = async () => {
-		const currentPositionCoordinate = await Location.getCurrentPositionAsync({ mayShowUserSettingsDialog: true })
+		console.log('Localização atual')
+		const currentPositionCoordinate = await Location.getCurrentPositionAsync({})
+		console.log(currentPositionCoordinate)
+		console.log('Localização obtida')
 
 		return {
 			lat: currentPositionCoordinate.coords.latitude,
