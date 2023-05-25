@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
+import * as Location from 'expo-location'
 
 import {
 	Body,
@@ -181,8 +182,30 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		})
 	}
 
-	const goToEditProfile = () => {
-		navigation.navigate('EditProfile' as any, { user })
+	const goToEditProfile = async () => {
+		try {
+			const positionThis = await new Promise((resolve, reject) => {
+				Location.watchPositionAsync({
+					accuracy: Location.Accuracy.Highest,
+					timeInterval: 1000,
+					distanceInterval: 1,
+				}, (position) => {
+					resolve(position)
+				})
+					.catch((error) => {
+						console.log('Erro ao obter a localização:', error)
+						reject(error)
+					})
+			})
+
+			console.log('Posição atual:')
+			console.log(positionThis)
+			return positionThis
+		} catch (error) {
+			console.log('Deu erro:', error)
+			return null
+		}
+		// navigation.navigate('EditProfile' as any, { user })
 	}
 
 	const navigationToBack = () => navigation.goBack()
