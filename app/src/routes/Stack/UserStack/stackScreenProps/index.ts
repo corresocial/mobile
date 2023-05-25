@@ -40,3 +40,4 @@ export type SelectSubscriptionPlanScreenProps = NativeStackScreenProps<UserStack
 export type SelectSubsciptionPaymentMethodScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectSubsciptionPaymentMethod'>
 export type FinishSubscriptionPaymentByPixScreenProps = NativeStackScreenProps<UserStackParamList, 'FinishSubscriptionPaymentByPix'>
 export type FinishSubscriptionPaymentByCardScreenProps = NativeStackScreenProps<UserStackParamList, 'FinishSubscriptionPaymentByCard'>
+export type SubscriptionPaymentResultScreenProps = NativeStackScreenProps<UserStackParamList, 'SubscriptionPaymentResult'>

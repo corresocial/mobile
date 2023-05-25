@@ -43,6 +43,7 @@ import { SelectSubscriptionPlan } from '../../../screens/paymentSystemScreens/Se
 import { SelectSubsciptionPaymentMethod } from '../../../screens/paymentSystemScreens/SelectSubsciptionPaymentMethod'
 import { FinishSubscriptionPaymentByPix } from '../../../screens/paymentSystemScreens/FinishSubscriptionPaymentByPix'
 import { FinishSubscriptionPaymentByCard } from '../../../screens/paymentSystemScreens/FinishSubscriptionPaymentByCard'
+import { SubscriptionPaymentResult } from '../../../screens/paymentSystemScreens/SubscriptionPaymentResult'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -100,6 +101,7 @@ export function UserStack({ route }: any) {
 						<Stack.Screen name={'SelectSubsciptionPaymentMethod'} component={SelectSubsciptionPaymentMethod} />
 						<Stack.Screen name={'FinishSubscriptionPaymentByPix'} component={FinishSubscriptionPaymentByPix} />
 						<Stack.Screen name={'FinishSubscriptionPaymentByCard'} component={FinishSubscriptionPaymentByCard} />
+						<Stack.Screen name={'SubscriptionPaymentResult'} component={SubscriptionPaymentResult} />
 					</Stack.Navigator>
 				</EditProvider>
 			</StateProvider>

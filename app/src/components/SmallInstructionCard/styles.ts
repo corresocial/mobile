@@ -3,10 +3,15 @@ import styled from 'styled-components/native'
 
 interface CardHighlighProps {
 	highlight: boolean
+	error: boolean
 }
 
 export const Container = styled.View<CardHighlighProps>`
-	background-color: ${({ theme, highlight }) => (highlight ? theme.green1 : theme.white3)};
+	background-color: ${({ theme, highlight, error }) => (
+		highlight
+			? error ? theme.red1 : theme.green1
+			: theme.white3
+	)};
 	border-left-width: ${({ highlight }) => (highlight ? RFValue(4) : RFValue(2))}px;
 	border-left-color: ${({ theme }) => theme.black4};
 	padding-vertical: ${RFValue(4)}px;

@@ -100,6 +100,10 @@ function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPayme
 		return false
 	}
 
+	const performPayment = () => {
+		navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true })
+	}
+
 	const getRelativePostRangeText = () => {
 		const subscriptionPlanText = getRelativeSubscriptionPlanText()
 		switch (postRange) {
@@ -264,7 +268,7 @@ function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPayme
 						fontSize={18}
 						labelColor={theme.white3}
 						SecondSvgIcon={CardWhiteIcon}
-						onPress={() => { }}
+						onPress={performPayment}
 					/>
 				</Body>
 			</BodyScrollable>

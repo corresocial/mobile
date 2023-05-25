@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Clipboard } from 'react-native'
 
 import { theme } from '../../../common/theme'
@@ -28,8 +28,12 @@ function FinishSubscriptionPaymentByPix({ navigation }: FinishSubscriptionPaymen
 	const postRange: PostRange | any = 'near' // Route or context // TODO Type
 	const subscriptionPlan: SubscriptionPlan | any = 'monthly' // Route or context // TODO Type
 
-	const [pixKey, setPixKey] = useState('aasdZ|zgKKJgKJgkGKjgKLJiuBkKgKGlgLGGG6554BGjVGjg')
+	const [pixKey, setPixKey] = useState('https://corre.social')
 	const [keyWasJustCopied, setKeyWasJustCopied] = useState(false)
+
+	useEffect(() => {
+		setPixKey('https://corre.social')
+	})
 
 	const copyToClipboard = () => {
 		if (pixKey) {
@@ -57,6 +61,10 @@ function FinishSubscriptionPaymentByPix({ navigation }: FinishSubscriptionPaymen
 			case 'yearly': return 'anual'
 			default: return ''
 		}
+	}
+
+	const performPayment = () => {
+		navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false })
 	}
 
 	return (
@@ -126,7 +134,7 @@ function FinishSubscriptionPaymentByPix({ navigation }: FinishSubscriptionPaymen
 						label={'como funciona?'}
 						highlightedWords={['como', 'funciona']}
 						SecondSvgIcon={QuestionMarkWhiteIcon}
-						onPress={() => { }}
+						onPress={performPayment}
 					/>
 				</Body>
 			</BodyScrollable>
