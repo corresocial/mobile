@@ -2,62 +2,38 @@ import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
+import { ButtonsContainer } from './styles'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import PixWhiteIcon from '../../../assets/icons/pix-white.svg'
 import CardWhiteIcon from '../../../assets/icons/card-white.svg'
 
+import { getRangeSubscriptionPlanText } from '../../../utils/subscription/commonMessages'
+
 import { SelectSubsciptionPaymentMethodScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { SubscriptionPaymentMethod, PostRange, SubscriptionPlan } from '../../../services/firebase/types'
+import { SubscriptionPaymentMethod } from '../../../services/firebase/types'
 
-import { EditContext } from '../../../contexts/EditContext'
+import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
 
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { FormContainer } from '../../../components/_containers/FormContainer'
-import { ButtonsContainer } from './styles'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
-function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciptionPaymentMethodScreenProps) {
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+function SelectSubsciptionPaymentMethod({ navigation }: SelectSubsciptionPaymentMethodScreenProps) {
+	const { subscriptionDataContext, setSubscriptionDataOnContext } = useContext(SubscriptionContext)
 
-	const postRange: PostRange | any = 'near' // Route or context // TODO Type
-	const subscriptionPlan: SubscriptionPlan | any = 'monthly' // Route or context // TODO Type
+	const { postRange, subscriptionPlan } = subscriptionDataContext
 
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+	const navigateToPaymentScreen = (subscriptionPaymentMethod: SubscriptionPaymentMethod) => {
+		setSubscriptionDataOnContext({ subscriptionPaymentMethod })
 
-	const navigateToFinishSale = (subscriptionPaymentMethod: SubscriptionPaymentMethod) => {
-		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ subscriptionPaymentMethod })
-			navigation.goBack()
-		}
-
-		// setSocialImpactDataOnContext({ subscriptionPaymentMethod })
 		if (subscriptionPaymentMethod === 'pix') {
 			navigation.navigate('FinishSubscriptionPaymentByPix')
 			return
 		}
 
 		navigation.navigate('FinishSubscriptionPaymentByCard')
-	}
-
-	const getRelativePostRangeText = () => {
-		const subscriptionPlanText = getRelativeSubscriptionPlanText()
-		switch (postRange) {
-			case 'near': return showMessageWithHighlight(`plano região${subscriptionPlanText && ` - ${subscriptionPlanText}`}`, ['região', subscriptionPlanText])
-			case 'city': return showMessageWithHighlight(`plano cidade${subscriptionPlanText && ` - ${subscriptionPlanText}`}`, ['cidade', subscriptionPlanText])
-			case 'country': return showMessageWithHighlight(`plano país${subscriptionPlanText && ` - ${subscriptionPlanText}`}`, ['país', subscriptionPlanText])
-			default: return showMessageWithHighlight('plano não definido', ['não', 'definido'])
-		}
-	}
-
-	const getRelativeSubscriptionPlanText = () => {
-		switch (subscriptionPlan) {
-			case 'monthly': return 'mensal'
-			case 'yearly': return 'anual'
-			default: return ''
-		}
 	}
 
 	return (
@@ -67,7 +43,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 				relativeHeight={relativeScreenHeight(18)}
 				centralized
 				backgroundColor={theme.white3}
-				footerText={getRelativePostRangeText()}
+				footerText={getRangeSubscriptionPlanText(postRange, subscriptionPlan)}
 				footerTextHighlighted={'r$ 20,00'}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
@@ -90,7 +66,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 						svgIconScale={['50%', '50%']}
 						leftSideColor={theme.green3}
 						leftSideWidth={'28%'}
-						onPress={() => navigateToFinishSale('pix')}
+						onPress={() => navigateToPaymentScreen('pix')}
 					/>
 					<OptionButton
 						color={theme.white3}
@@ -102,7 +78,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 						svgIconScale={['50%', '50%']}
 						leftSideColor={theme.green3}
 						leftSideWidth={'28%'}
-						onPress={() => navigateToFinishSale('creditCard')}
+						onPress={() => navigateToPaymentScreen('creditCard')}
 					/>
 					<OptionButton
 						color={theme.white3}
@@ -114,7 +90,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 						svgIconScale={['50%', '50%']}
 						leftSideColor={theme.green3}
 						leftSideWidth={'28%'}
-						onPress={() => navigateToFinishSale('debitCard')}
+						onPress={() => navigateToPaymentScreen('debitCard')}
 					/>
 				</ButtonsContainer>
 			</FormContainer>

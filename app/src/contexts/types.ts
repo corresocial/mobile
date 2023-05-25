@@ -15,9 +15,17 @@ import {
 	ItemStatus,
 	VacancyPurpose,
 	SocialImpactType,
-	CultureType
+	CultureType,
+	SubscriptionPlan,
+	SubscriptionPaymentMethod
 } from '../services/firebase/types'
 import { CurrentCategory, SearchParams } from '../services/maps/types'
+
+export type SubscriptionData = {
+	postRange?: PostRange
+	subscriptionPlan?: SubscriptionPlan
+	subscriptionPaymentMethod?: SubscriptionPaymentMethod
+}
 
 export type UserIdentification = {
 	uid: string

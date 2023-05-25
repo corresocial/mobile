@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { ProgressBar } from '../ProgressBar'
 
@@ -6,33 +6,56 @@ import { Container, CounterText } from './styles'
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
 
 interface TimerProps {
-	initialTimeInMinutes?: number
+	initialTimeInMinutes: number
 	label?: string
 	counterTextOnly?: boolean
+	resetTimer?: boolean
 	onTimeIsOver?: () => void
 }
 
-function Timer({ label, initialTimeInMinutes, counterTextOnly, onTimeIsOver }: TimerProps) {
-	const totalSeconds = initialTimeInMinutes ? initialTimeInMinutes * 60 : 5 * 60
+type Timeout = ReturnType<typeof setTimeout>
+
+function Timer({ label, initialTimeInMinutes, counterTextOnly, resetTimer, onTimeIsOver }: TimerProps) {
+	const calculateTotalSeconds = () => {
+		return initialTimeInMinutes ? initialTimeInMinutes * 60 : 5 * 60
+	}
+
+	const totalSeconds = calculateTotalSeconds()
 
 	const [secondsLeft, setSecondsLeft] = useState(totalSeconds)
+	const timerRef = useRef<Timeout | null>(null)
 
 	useEffect(() => {
-		const timer = setInterval(() => {
+		startTimer()
+		return stopTimer
+	}, [])
+
+	useEffect(() => {
+		setSecondsLeft(calculateTotalSeconds())
+		restartTimer()
+	}, [resetTimer])
+
+	const startTimer = () => {
+		timerRef.current = setInterval(() => {
 			setSecondsLeft((previousTime) => {
 				if (previousTime <= 0) {
+					if (timerRef.current) clearInterval(timerRef.current)
 					onTimeIsOver && onTimeIsOver()
-					clearInterval(timer)
 					return 0
 				}
 				return previousTime - 1
 			})
 		}, 1000)
+	}
 
-		return () => {
-			clearInterval(timer)
-		}
-	}, [])
+	const stopTimer = () => {
+		if (timerRef.current) clearInterval(timerRef.current)
+	}
+
+	const restartTimer = () => {
+		stopTimer()
+		startTimer()
+	}
 
 	const formatTime = (time: number) => {
 		return time < 10 ? `0${time}` : `${time}`
@@ -59,7 +82,7 @@ function Timer({ label, initialTimeInMinutes, counterTextOnly, onTimeIsOver }: T
 					)
 				}
 			</CounterText>
-			<ProgressBar range={totalSeconds} value={secondsLeft} withoutIndicator />
+			<ProgressBar range={calculateTotalSeconds()} value={secondsLeft} withoutIndicator />
 		</Container>
 	)
 }

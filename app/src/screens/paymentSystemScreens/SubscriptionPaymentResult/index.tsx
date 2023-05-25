@@ -1,4 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
+
+import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
+
+import { SubscriptionPaymentResultScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 import { theme } from '../../../common/theme'
 import { Body, Container } from './styles'
@@ -8,45 +14,24 @@ import XWhiteIcon from '../../../assets/icons/x-white.svg'
 import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
 import SloganHashtag from '../../../assets/imgs/sloganHashtag.svg'
 
-import { SubscriptionPaymentResultScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { PostRange, SubscriptionPlan } from '../../../services/firebase/types'
-
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { SmallInstructionCard } from '../../../components/SmallInstructionCard'
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { PostCard } from '../../../components/_cards/PostCard'
+import { getRangeSubscriptionPlanText } from '../../../utils/subscription/commonMessages'
 
 function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentResultScreenProps) {
-	const postRange: PostRange | any = 'near' // Route or context // TODO Type
-	const subscriptionPlan: SubscriptionPlan | any = 'monthly' // Route or context // TODO Type
+	const { subscriptionDataContext } = useContext(SubscriptionContext)
+
+	const { postRange, subscriptionPlan } = subscriptionDataContext
 
 	const successfulPayment = !!route.params.successfulPayment
 
 	const checkPaymentData = () => {
 		navigation.goBack()
-	}
-
-	const getRelativePostRangeText = () => {
-		const subscriptionPlanText = getRelativeSubscriptionPlanText()
-		switch (postRange) {
-			case 'near': return showMessageWithHighlight(`plano região${subscriptionPlanText && ` - ${subscriptionPlanText}`}`, ['região', subscriptionPlanText])
-			case 'city': return showMessageWithHighlight(`plano cidade${subscriptionPlanText && ` - ${subscriptionPlanText}`}`, ['cidade', subscriptionPlanText])
-			case 'country': return showMessageWithHighlight(`plano país${subscriptionPlanText && ` - ${subscriptionPlanText}`}`, ['país', subscriptionPlanText])
-			default: return showMessageWithHighlight('plano não definido', ['não', 'definido'])
-		}
-	}
-
-	const getRelativeSubscriptionPlanText = () => {
-		switch (subscriptionPlan) {
-			case 'monthly': return 'mensal'
-			case 'yearly': return 'anual'
-			default: return ''
-		}
 	}
 
 	return (
@@ -66,7 +51,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 					flex={0}
 				>
 					<VerticalSigh />
-					<SmallInstructionCard text={getRelativePostRangeText()} />
+					<SmallInstructionCard text={getRangeSubscriptionPlanText(postRange, subscriptionPlan)} />
 					<VerticalSigh />
 					<SmallInstructionCard text={'r$ 20,00'} highlight error={!successfulPayment} />
 				</InstructionCard>
@@ -89,8 +74,8 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 						? (
 							<>
 								<PostCard
-									owner={{ name: 'a', profilePictureUrl: '', userId: 1 }}
-									post={{ description: 'a', title: 'title', saleValue: '20', postId: 2, postType: 'service' }}
+									owner={{ name: 'mock.user', profilePictureUrl: '', userId: 1 }}
+									post={{ description: 'mock.description', title: 'mocked post', saleValue: '20', postId: 2, postType: 'service', createdAt: new Date() }}
 									onPress={() => { }}
 								/>
 
@@ -102,7 +87,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 									flex={0}
 								>
 									<VerticalSigh />
-									<SloganHashtag width={relativeScreenWidth(70)} height={relativeScreenWidth(10)} />
+									<SloganHashtag width={relativeScreenWidth(75)} height={relativeScreenWidth(10)} />
 								</InstructionCard>
 							</>
 						)

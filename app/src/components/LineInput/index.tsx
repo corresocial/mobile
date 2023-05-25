@@ -7,14 +7,15 @@ import {
 	ReturnKeyTypeOptions,
 	TouchableOpacity,
 	TextInputKeyPressEventData,
-	View
+	View,
+	TextInputProps,
 } from 'react-native'
 
 import { Container, TextInput } from './styles'
 import { relativeScreenHeight } from '../../common/screenDimensions'
 import { theme } from '../../common/theme'
 
-interface LineInputProps {
+interface LineInputProps extends TextInputProps {
 	value: string
 	relativeWidth: string
 	relativeHeight?: number
@@ -32,7 +33,6 @@ interface LineInputProps {
 	secureTextEntry?: boolean
 	invalidTextAfterSubmit?: boolean
 	fontSize?: number
-	textAlign?: 'auto' | 'left' | 'right' | 'center' | 'justify' | undefined
 	multiline?: boolean
 	editable?: boolean
 	placeholder?: string
@@ -83,7 +83,8 @@ function LineInput({
 	textIsValid = false,
 	filterText,
 	validateText = () => false,
-	onChangeText
+	onChangeText,
+	...propsRest
 }: LineInputProps) {
 	const lineHeight = relativeScreenHeight(5)
 	const minLineHeight = initialNumberOfLines * (initialNumberOfLines <= 2 ? relativeScreenHeight(5) : relativeScreenHeight(4.4))
@@ -175,6 +176,7 @@ function LineInput({
 				}}
 			>
 				<TextInput
+					{...propsRest}
 					style={[getTextInputStyle(), {
 						fontSize: RFValue(fontSize),
 						textAlign: textAlign || 'center',

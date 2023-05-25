@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useContext } from 'react'
 import { cpf, cnpj } from 'cpf-cnpj-validator'
 
 import { Keyboard, TextInput, View } from 'react-native'
@@ -8,9 +8,9 @@ import DollarWhiteIcon from '../../../assets/icons/dollar.svg'
 import CardWhiteIcon from '../../../assets/icons/card-white.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+import { getRangeSubscriptionPlanText } from '../../../utils/subscription/commonMessages'
 
 import { FinishSubscriptionPaymentByCardScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { PostRange, SubscriptionPlan } from '../../../services/firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
@@ -23,10 +23,12 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { LineInput } from '../../../components/LineInput'
+import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
 
 function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPaymentByCardScreenProps) {
-	const postRange: PostRange | any = 'near' // Route or context // TODO Type
-	const subscriptionPlan: SubscriptionPlan | any = 'monthly' // Route or context // TODO Type
+	const { subscriptionDataContext } = useContext(SubscriptionContext)
+
+	const { postRange, subscriptionPlan } = subscriptionDataContext
 
 	const [cardNumber, setCardNumber] = useState('')
 	const [cardExpiringDate, setCardExpiringDate] = useState('')
@@ -35,12 +37,14 @@ function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPayme
 	const [holderDocumentNumber, setHolderDocumentNumber] = useState('')
 
 	const [cardholderNameIsValid, setCardholderNameIsValid] = useState(false)
+	const [isCardholderNameFocused, setIsCardholderNameFocused] = useState(false)
+
 	const [keyboardOpened, setKeyboardOpened] = useState(false)
 
 	const cardNumberRef = useRef<TextInput>(null)
 	const cardExpiringDateRef = useRef<TextInput>(null)
 	const cardCVVRef = useRef<TextInput>(null)
-	const cardholderNameRef = useRef<TextInput>(null)
+	const cardholderNameRef = useRef<TextInput | null>(null)
 	const holderDocumentNumberRef = useRef<TextInput>(null)
 
 	useEffect(() => {
@@ -57,6 +61,14 @@ function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPayme
 		setCardholderNameIsValid(validation)
 	}, [cardholderName, keyboardOpened])
 
+	const handleFocus = () => {
+		setIsCardholderNameFocused(true)
+	}
+
+	const handleBlur = () => {
+		setIsCardholderNameFocused(false)
+	}
+
 	const validateCardNumber = (value: string) => {
 		const cleanedValue = value.replace(/\s/g, '')
 		if (/^\d{16}$/.test(cleanedValue)) {
@@ -66,7 +78,7 @@ function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPayme
 	}
 
 	const validateCardExpiringDate = (value: string) => {
-		if (/^(0[1-9]|1[0-2])\d{2}$/.test(value)) {
+		if (/^(0[1-9]|1[0-2])\/\d{2}$/.test(value)) {
 			return true
 		}
 		return false
@@ -100,29 +112,57 @@ function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPayme
 		return false
 	}
 
+	const cardDataAreValid = () => {
+		const isCardNumberValid = validateCardNumber(cardNumber)
+		const isCardExpiringDateValid = validateCardExpiringDate(cardExpiringDate)
+		const isCardCVVValid = validateCardCVV(cardCVV)
+		const isCardholderNameValid = validateCardHoldername(cardholderName)
+		const isHolderDocumentNumberValid = validateHolderDocumentNumber(holderDocumentNumber)
+
+		return (
+			isCardNumberValid
+			&& isCardExpiringDateValid
+			&& isCardCVVValid
+			&& isCardholderNameValid
+			&& isHolderDocumentNumberValid
+		)
+	}
+
 	const performPayment = () => {
-		navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true })
-	}
+		console.log({
+			cardNumber,
+			cardExpiringDate,
+			cardCVV,
+			cardholderName,
+			holderDocumentNumber
+		})
 
-	const getRelativePostRangeText = () => {
-		const subscriptionPlanText = getRelativeSubscriptionPlanText()
-		switch (postRange) {
-			case 'near': return showMessageWithHighlight(`plano região${subscriptionPlanText && ` - ${subscriptionPlanText}`}`, ['região', subscriptionPlanText])
-			case 'city': return showMessageWithHighlight(`plano cidade${subscriptionPlanText && ` - ${subscriptionPlanText}`}`, ['cidade', subscriptionPlanText])
-			case 'country': return showMessageWithHighlight(`plano país${subscriptionPlanText && ` - ${subscriptionPlanText}`}`, ['país', subscriptionPlanText])
-			default: return showMessageWithHighlight('plano não definido', ['não', 'definido'])
+		if (cardDataAreValid()) {
+			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true })
 		}
+
+		console.log('invalid data')
 	}
 
-	const getRelativeSubscriptionPlanText = () => {
-		switch (subscriptionPlan) {
-			case 'monthly': return 'mensal'
-			case 'yearly': return 'anual'
-			default: return ''
+	const applyCardExpiringDateMask = (text: string) => {
+		const cleanedText = text.replace(/\D/g, '')
+
+		let maskedText = cleanedText
+		if (cleanedText.length > 2) {
+			maskedText = `${cleanedText.slice(0, 2)}/${cleanedText.slice(2)}`
 		}
+
+		setCardExpiringDate(maskedText)
 	}
 
-	const isCardholderNameFocused = cardholderNameRef.current?.isFocused() ?? false
+	const renderPaymentStatus = () => {
+		return showMessageWithHighlight(
+			`adicionar \ncartão de ${subscriptionDataContext.subscriptionPaymentMethod === 'creditCard'
+				? 'crédito'
+				: 'débito'}`,
+			['adicionar']
+		)
+	}
 
 	return (
 		<Container>
@@ -145,7 +185,7 @@ function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPayme
 						<DollarWhiteIcon width={30} height={30} />
 						<Title>{showMessageWithHighlight('resumo de valores', ['resumo'])}</Title>
 					</TitleArea>
-					<SmallInstructionCard text={getRelativePostRangeText()} />
+					<SmallInstructionCard text={getRangeSubscriptionPlanText(postRange, subscriptionPlan)} />
 					<VerticalSigh />
 					<SmallInstructionCard text={'r$ 20,00'} highlight />
 
@@ -158,7 +198,7 @@ function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPayme
 							height={relativeScreenHeight(7)}
 							relativeWidth={relativeScreenHeight(10)}
 						/>
-						<PaymentStatusText>{showMessageWithHighlight('adicionar \ncartão de crédito', ['adicionar'])}</PaymentStatusText>
+						<PaymentStatusText>{renderPaymentStatus()}</PaymentStatusText>
 					</PaymentStatusArea>
 					<LineInput
 						value={cardNumber}
@@ -194,11 +234,11 @@ function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPayme
 							invalidBorderBottomColor={theme.red5}
 							textAlign={'left'}
 							fontSize={16}
-							maxLength={4}
+							maxLength={5}
 							placeholder={'validade'}
 							keyboardType={'numeric'}
 							validateText={(text: string) => validateCardExpiringDate(text)}
-							onChangeText={(text: string) => setCardExpiringDate(text)}
+							onChangeText={(text: string) => applyCardExpiringDateMask(text)}
 						/>
 						<LineInput
 							value={cardCVV}
@@ -236,9 +276,10 @@ function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPayme
 						fontSize={16}
 						placeholder={'nome do titular'}
 						keyboardType={'default'}
-						textIsValid={cardholderNameIsValid && !isCardholderNameFocused}
-						// validateText={(text: string) => validateCardHoldername(text)}
+						textIsValid={cardholderNameIsValid && ((!keyboardOpened && !isCardholderNameFocused) || (keyboardOpened && isCardholderNameFocused))}
 						onChangeText={(text: string) => setCardholderName(text)}
+						onFocus={handleFocus}
+						onBlur={handleBlur}
 					/>
 					<VerticalSigh />
 					<LineInput

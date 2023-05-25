@@ -3,39 +3,23 @@ import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { getRangePlanText } from '../../../utils/subscription/commonMessages'
 
 import { SelectSubscriptionPlanScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { SubscriptionPlan as SubscriptionPlanType, PostRange } from '../../../services/firebase/types'
+import { SubscriptionPlan as SubscriptionPlanType } from '../../../services/firebase/types'
 
-import { EditContext } from '../../../contexts/EditContext'
+import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
 
 import { SubscriptionPlan } from '../../../components/_onboarding/SubscriptionPlan'
 
 function SelectSubscriptionPlan({ route, navigation }: SelectSubscriptionPlanScreenProps) {
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
 
-	const postRange: PostRange = 'near' // Route or context
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+	const postRange = route.params?.postRange || 'near'
 
 	const saveSubscriptionPlan = (subscriptionPlan: SubscriptionPlanType) => {
-		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ subscriptionPlan })
-			navigation.goBack()
-		}
-
-		// setSocialImpactDataOnContext({ subscriptionPlan })
+		setSubscriptionDataOnContext({ subscriptionPlan, postRange })
 		navigation.navigate('SelectSubsciptionPaymentMethod')
-	}
-
-	const getRelativePostRangeText = () => {
-		switch (postRange as any) { // TODO TYPE
-			case 'near': return showMessageWithHighlight('plano região', ['região'])
-			case 'city': return showMessageWithHighlight('plano cidade', ['cidade'])
-			case 'country': return showMessageWithHighlight('plano país', ['país'])
-			default: return showMessageWithHighlight('plano não definido', ['não', 'definido'])
-		}
 	}
 
 	return (
@@ -43,7 +27,7 @@ function SelectSubscriptionPlan({ route, navigation }: SelectSubscriptionPlanScr
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<SubscriptionPlan
 				backgroundColor={theme.orange2}
-				headerFooterText={getRelativePostRangeText()}
+				headerFooterText={getRangePlanText(postRange)}
 				navigateBackwards={() => navigation.goBack()}
 				saveSubscriptionPlan={saveSubscriptionPlan}
 			/>

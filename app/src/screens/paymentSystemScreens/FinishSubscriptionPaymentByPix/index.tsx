@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Clipboard } from 'react-native'
 
 import { theme } from '../../../common/theme'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { Body, BodyScrollable, Container, PaymentStatusArea, PaymentStatusText, QRCodeArea, TimerArea, Title, TitleArea } from './styles'
 import DollarWhiteIcon from '../../../assets/icons/dollar.svg'
 import PixWhiteIcon from '../../../assets/icons/pix-white.svg'
 import CopyWhiteIcon from '../../../assets/icons/copy-white.svg'
 import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
 
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { getRangeSubscriptionPlanText } from '../../../utils/subscription/commonMessages'
+
 import { FinishSubscriptionPaymentByPixScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { PostRange, SubscriptionPlan } from '../../../services/firebase/types'
+
+import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { SmallInstructionCard } from '../../../components/SmallInstructionCard'
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
@@ -25,15 +28,37 @@ import { Timer } from '../../../components/Timer'
 import { CustomQRCode } from '../../../components/CustomQRCode'
 
 function FinishSubscriptionPaymentByPix({ navigation }: FinishSubscriptionPaymentByPixScreenProps) {
-	const postRange: PostRange | any = 'near' // Route or context // TODO Type
-	const subscriptionPlan: SubscriptionPlan | any = 'monthly' // Route or context // TODO Type
+	const { subscriptionDataContext } = useContext(SubscriptionContext)
+
+	const { postRange, subscriptionPlan } = subscriptionDataContext
+
+	const defaultPixKeyExpiryTimeInMinutes = 5
 
 	const [pixKey, setPixKey] = useState('https://corre.social')
+	const [pixKeyExpiryTimeInMinutes, setPixKeyExpiryTimeInMinutes] = useState(defaultPixKeyExpiryTimeInMinutes)
+	const [pixKeyHasExpired, setPixKeyHasExpired] = useState(true)
+	const [resetTimer, setResetTimer] = useState(false)
 	const [keyWasJustCopied, setKeyWasJustCopied] = useState(false)
 
 	useEffect(() => {
+		navigation.addListener('focus', () => {
+			if (pixKeyHasExpired) {
+				generateNewPixKey()
+			}
+		})
+	}, [navigation])
+
+	const generateNewPixKey = () => {
+		console.log('Nova chave pix')
 		setPixKey('https://corre.social')
-	})
+		setPixKeyHasExpired(false)
+		setPixKeyExpiryTimeInMinutes(defaultPixKeyExpiryTimeInMinutes)
+		restartPixKeyExpiryTimer()
+	}
+
+	const restartPixKeyExpiryTimer = () => {
+		setResetTimer(!resetTimer)
+	}
 
 	const copyToClipboard = () => {
 		if (pixKey) {
@@ -42,24 +67,6 @@ function FinishSubscriptionPaymentByPix({ navigation }: FinishSubscriptionPaymen
 			setTimeout(() => {
 				setKeyWasJustCopied(false)
 			}, 3000)
-		}
-	}
-
-	const getRelativePostRangeText = () => {
-		const subscriptionPlanText = getRelativeSubscriptionPlanText()
-		switch (postRange) {
-			case 'near': return showMessageWithHighlight(`plano região${subscriptionPlanText && ` - ${subscriptionPlanText}`}`, ['região', subscriptionPlanText])
-			case 'city': return showMessageWithHighlight(`plano cidade${subscriptionPlanText && ` - ${subscriptionPlanText}`}`, ['cidade', subscriptionPlanText])
-			case 'country': return showMessageWithHighlight(`plano país${subscriptionPlanText && ` - ${subscriptionPlanText}`}`, ['país', subscriptionPlanText])
-			default: return showMessageWithHighlight('plano não definido', ['não', 'definido'])
-		}
-	}
-
-	const getRelativeSubscriptionPlanText = () => {
-		switch (subscriptionPlan) {
-			case 'monthly': return 'mensal'
-			case 'yearly': return 'anual'
-			default: return ''
 		}
 	}
 
@@ -88,7 +95,7 @@ function FinishSubscriptionPaymentByPix({ navigation }: FinishSubscriptionPaymen
 						<DollarWhiteIcon width={30} height={30} />
 						<Title>{showMessageWithHighlight('resumo de valores', ['resumo'])}</Title>
 					</TitleArea>
-					<SmallInstructionCard text={getRelativePostRangeText()} />
+					<SmallInstructionCard text={getRangeSubscriptionPlanText(postRange, subscriptionPlan)} />
 					<VerticalSigh />
 					<SmallInstructionCard text={'r$ 20,00'} highlight />
 
@@ -106,9 +113,10 @@ function FinishSubscriptionPaymentByPix({ navigation }: FinishSubscriptionPaymen
 
 					<TimerArea>
 						<Timer
-							initialTimeInMinutes={5}
+							initialTimeInMinutes={pixKeyExpiryTimeInMinutes}
 							label={'tempo para pagar  - '}
-							onTimeIsOver={() => console.log('O tempo acabou')}
+							resetTimer={resetTimer}
+							onTimeIsOver={generateNewPixKey}
 						/>
 					</TimerArea>
 
