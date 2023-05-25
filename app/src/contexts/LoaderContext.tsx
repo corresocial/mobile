@@ -1,19 +1,18 @@
-import React, { createContext, useMemo, useState } from 'react'
-
+import React, { createContext, useMemo, useState, useCallback } from 'react'
 import { LoaderModal } from '../components/_modals/LoaderModal'
 
 type LoaderContextType = {
-	loaderIsVisible: boolean,
-	setLoaderIsVisible: (visibility: boolean) => void
-}
+	loaderIsVisible: boolean;
+	setLoaderIsVisible: (visibility: boolean) => void;
+};
 
 interface LoaderProviderProps {
-	children: React.ReactNode
+	children: React.ReactNode;
 }
 
-const initialValue = {
+const initialValue: LoaderContextType = {
 	loaderIsVisible: false,
-	setLoaderIsVisible: (visibility: boolean) => { }
+	setLoaderIsVisible: () => { },
 }
 
 const LoaderContext = createContext<LoaderContextType>(initialValue)
@@ -21,10 +20,14 @@ const LoaderContext = createContext<LoaderContextType>(initialValue)
 function LoaderProvider({ children }: LoaderProviderProps) {
 	const [loaderIsVisible, setLoaderIsVisible] = useState(initialValue.loaderIsVisible)
 
+	const memoizedSetLoaderIsVisible = useCallback((visibility: boolean) => {
+		setLoaderIsVisible(visibility)
+	}, [])
+
 	const loaderDataProvider = useMemo(() => ({
 		loaderIsVisible,
-		setLoaderIsVisible
-	}), [loaderIsVisible])
+		setLoaderIsVisible: memoizedSetLoaderIsVisible,
+	}), [loaderIsVisible, memoizedSetLoaderIsVisible])
 
 	return (
 		<LoaderContext.Provider value={loaderDataProvider}>
