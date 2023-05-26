@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { ViewStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
@@ -16,7 +17,7 @@ interface SmallButtonProps {
 	SvgIcon?: React.FC<SvgProps>
 	svgScale?: [height: string, width: string]
 	relativeWidth?: string | number
-	flexDirection?: string
+	flexDirection?: ViewStyle['flexDirection']
 	height?: number
 	onPress: () => void
 }
@@ -67,7 +68,7 @@ function SmallButton({
 						marginRight: buttonPressed ? RFValue(-4) : 0,
 						height,
 						flexDirection,
-					} as { [key: string]: React.CSSProperties }}
+					}}
 				>
 					{
 						!!SvgIcon && (
