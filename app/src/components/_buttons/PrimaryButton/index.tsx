@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Keyboard, TextStyle } from 'react-native'
+import { Keyboard, TextStyle, ViewStyle } from 'react-native'
 import { FontAwesome5 as Icon } from '@expo/vector-icons'
 import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
@@ -33,8 +33,8 @@ interface PrimaryButtonProps {
 	keyboardHideButton?: boolean
 	startsHidden?: boolean
 	highlightedWords?: string[]
-	justifyContent?: string
-	flexDirection?: string
+	justifyContent?: ViewStyle['justifyContent']
+	flexDirection?: ViewStyle['flexDirection']
 	onPress: (() => void) | undefined
 }
 
@@ -119,7 +119,7 @@ function PrimaryButton({
 					height: relativeHeight || RFValue(65),
 					minHeight: RFValue(minHeight),
 					justifyContent
-				} as { [key: string]: React.CSSProperties }}
+				}}
 			>
 				<ContainerSurface
 					style={{
@@ -128,7 +128,7 @@ function PrimaryButton({
 						justifyContent: justifyContent || 'center',
 						minHeight: RFValue(minHeight),
 						marginRight: buttonPressed ? RFValue(-7) : 0,
-					} as { [key: string]: React.CSSProperties }}
+					}}
 				>
 					{
 						!!SecondSvgIcon && <SecondSvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />

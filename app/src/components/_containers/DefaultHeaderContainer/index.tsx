@@ -1,5 +1,5 @@
 import React, { JSXElementConstructor, ReactElement } from 'react'
-import { Animated } from 'react-native'
+import { Animated, ViewStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 
@@ -12,8 +12,8 @@ interface DefaultHeaderContainerProps {
 	backgroundColor: string | Animated.AnimatedInterpolation<string>
 	relativeHeight?: string | Animated.AnimatedInterpolation<string> | number
 	centralized?: boolean
-	flexDirection?: string
-	justifyContent?: string
+	flexDirection?: ViewStyle['flexDirection']
+	justifyContent?: ViewStyle['justifyContent']
 	footerText?: string | (string | ReactElement<any, string | JSXElementConstructor<any>>)[]
 	footerTextHighlighted?: string | (string | ReactElement<any, string | JSXElementConstructor<any>>)[]
 	minHeight?: number
@@ -52,7 +52,7 @@ function DefaultHeaderContainer({
 					paddingBottom: footerText ? 0 : paddingVertical ? RFValue(paddingVertical) : relativeScreenWidth(5),
 					alignItems: centralized ? 'center' : 'flex-start',
 					justifyContent: justifyContent || (centralized ? 'center' : 'flex-start'),
-				} as { [key: string]: React.CSSProperties }}
+				}}
 			>
 				{children}
 			</Container >

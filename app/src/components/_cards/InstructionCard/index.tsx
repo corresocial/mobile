@@ -1,4 +1,5 @@
 import React from 'react'
+import { ViewStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, Message } from './styles'
@@ -14,7 +15,7 @@ interface InstructionCardProps {
 	fontSize?: number
 	lineHeight?: number
 	borderLeftWidth?: number
-	flex?: number
+	flex?: ViewStyle['flex']
 	children?: React.ReactElement | React.ReactElement[] | never | never[]
 }
 

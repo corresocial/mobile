@@ -29,7 +29,6 @@ interface LineInputProps extends TextInputProps {
 	validBorderBottomColor: string
 	invalidBackgroundColor?: string
 	invalidBorderBottomColor?: string
-	maxLength?: number
 	secureTextEntry?: boolean
 	invalidTextAfterSubmit?: boolean
 	fontSize?: number
