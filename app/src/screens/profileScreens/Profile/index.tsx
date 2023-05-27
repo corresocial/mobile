@@ -378,9 +378,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 								SvgIcon={isLoggedUser ? GearIcon : ThreeDotsIcon}
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}
-								// onPress={openProfileOptions}
-								onPress={() => navigation.navigate('SelectSubscriptionPlan')}
-
+								onPress={openProfileOptions}
 							/>
 						</ProfilePopOver>
 					</OptionsArea>
