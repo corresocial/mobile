@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { Alert } from 'react-native'
 
 import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
 
@@ -46,7 +47,15 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 	}
 
 	const cancelPost = () => {
-		navigation.pop(5)
+		Alert.alert(
+			'atenção!',
+			`você tem certeza que deseja descartar o post "${subscriptionDataContext.currentPost?.title}"?`,
+			[
+				{ text: 'Não', style: 'destructive' },
+				{ text: 'Sim', onPress: () => { navigation.pop(5) } },
+			],
+			{ cancelable: false }
+		)
 	}
 
 	return (

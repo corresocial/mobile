@@ -14,7 +14,6 @@ import { FinishSubscriptionPaymentByCardScreenProps } from '../../../routes/Stac
 
 import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
-import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
@@ -145,7 +144,11 @@ function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPayme
 			await updateUserSubscription(userSubscription)
 
 			setLoaderIsVisible(false)
-			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true })
+
+			// DEV_ONLY
+			const paymentResult = Math.random() > 0.5
+
+			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: paymentResult }) // TRUE
 		} catch (err: any) { // Veirfy stripe erros
 			console.log(err)
 			setLoaderIsVisible(false)
