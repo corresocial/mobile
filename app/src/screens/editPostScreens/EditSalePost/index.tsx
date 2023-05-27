@@ -43,15 +43,15 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		clearUnsavedEditContext()
 	}, [])
 
+	const getPostField = (fieldName: keyof SaleCollection, allowNull?: boolean) => {
+		if (allowNull && editDataContext.unsaved[fieldName] === '' && postData[fieldName]) return ''
+		return editDataContext.unsaved[fieldName] || postData[fieldName]
+	}
+
 	const getPicturesUrl = () => {
 		const picturesUrl = getPostField('picturesUrl')
 		if (arrayIsEmpty(picturesUrl)) return []
 		return picturesUrl
-	}
-
-	const getPostField = (fieldName: keyof SaleCollection, allowNull?: boolean) => {
-		if (allowNull && editDataContext.unsaved[fieldName] === '' && postData[fieldName]) return ''
-		return editDataContext.unsaved[fieldName] || postData[fieldName]
 	}
 
 	const formatCategoryAndTags = () => {

@@ -42,15 +42,15 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		clearUnsavedEditContext()
 	}, [])
 
+	const getPostField = (fieldName: keyof ServiceCollection, allowNull?: boolean) => {
+		if (allowNull && editDataContext.unsaved[fieldName] === '' && postData[fieldName]) return ''
+		return editDataContext.unsaved[fieldName] || postData[fieldName]
+	}
+
 	const getPicturesUrl = () => {
 		const picturesUrl = getPostField('picturesUrl')
 		if (arrayIsEmpty(picturesUrl)) return []
 		return picturesUrl
-	}
-
-	const getPostField = (fieldName: keyof ServiceCollection, allowNull?: boolean) => {
-		if (allowNull && editDataContext.unsaved[fieldName] === '' && postData[fieldName]) return ''
-		return editDataContext.unsaved[fieldName] || postData[fieldName]
 	}
 
 	const formatCategoryAndTags = () => {
