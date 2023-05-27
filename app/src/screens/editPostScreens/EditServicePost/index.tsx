@@ -48,6 +48,18 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		return picturesUrl
 	}
 
+	const getPostField = (fieldName: keyof ServiceCollection, allowNull?: boolean) => {
+		if (allowNull && editDataContext.unsaved[fieldName] === '' && postData[fieldName]) return ''
+		return editDataContext.unsaved[fieldName] || postData[fieldName]
+	}
+
+	const showShareModal = (visibility: boolean, postTitle?: string) => {
+		setStateDataOnContext({
+			showShareModal: visibility,
+			lastPostTitle: postTitle
+		})
+	}
+
 	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof ServiceCollectionRemote) => {
 		let value = getPostField(initialValue)
 
@@ -69,18 +81,6 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 				initialValue: value
 			}
 		})
-	}
-
-	const showShareModal = (visibility: boolean, postTitle?: string) => {
-		setStateDataOnContext({
-			showShareModal: visibility,
-			lastPostTitle: postTitle
-		})
-	}
-
-	const getPostField = (fieldName: keyof ServiceCollection, allowNull?: boolean) => {
-		if (allowNull && editDataContext.unsaved[fieldName] === '' && postData[fieldName]) return ''
-		return editDataContext.unsaved[fieldName] || postData[fieldName]
 	}
 
 	const formatCategoryAndTags = () => {
