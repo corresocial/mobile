@@ -18,7 +18,7 @@ function SelectSubscriptionPlan({ route, navigation }: SelectSubscriptionPlanScr
 	const postRange = route.params?.postRange || 'near'
 
 	const saveSubscriptionPlan = (subscriptionPlan: SubscriptionPlanType) => {
-		setSubscriptionDataOnContext({ subscriptionPlan, postRange })
+		setSubscriptionDataOnContext({ subscriptionPlan, subscriptionRange: postRange })
 		navigation.navigate('SelectSubsciptionPaymentMethod')
 	}
 

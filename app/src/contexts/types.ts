@@ -16,15 +16,13 @@ import {
 	VacancyPurpose,
 	SocialImpactType,
 	CultureType,
-	SubscriptionPlan,
-	SubscriptionPaymentMethod
+	PostCollection,
+	UserSubscription
 } from '../services/firebase/types'
 import { CurrentCategory, SearchParams } from '../services/maps/types'
 
-export type SubscriptionData = {
-	postRange?: PostRange
-	subscriptionPlan?: SubscriptionPlan
-	subscriptionPaymentMethod?: SubscriptionPaymentMethod
+export interface SubscriptionData extends UserSubscription {
+	currentPost?: PostCollection
 }
 
 export type UserIdentification = {

@@ -22,16 +22,31 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { getRangeSubscriptionPlanText } from '../../../utils/subscription/commonMessages'
+import { EditContext } from '../../../contexts/EditContext'
 
 function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentResultScreenProps) {
 	const { subscriptionDataContext } = useContext(SubscriptionContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const { postRange, subscriptionPlan } = subscriptionDataContext
+	const { subscriptionRange, subscriptionPlan, currentPost } = subscriptionDataContext
 
 	const successfulPayment = !!route.params.successfulPayment
 
 	const checkPaymentData = () => {
 		navigation.goBack()
+	}
+
+	const setNearRangeAsDefault = () => {
+		addNewUnsavedFieldToEditContext({ range: 'near' })
+		backToPostReview()
+	}
+
+	const backToPostReview = () => {
+		navigation.pop(4)
+	}
+
+	const cancelPost = () => {
+		navigation.pop(5)
 	}
 
 	return (
@@ -51,7 +66,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 					flex={0}
 				>
 					<VerticalSigh />
-					<SmallInstructionCard text={getRangeSubscriptionPlanText(postRange, subscriptionPlan)} />
+					<SmallInstructionCard text={getRangeSubscriptionPlanText(subscriptionRange, subscriptionPlan)} />
 					<VerticalSigh />
 					<SmallInstructionCard text={'r$ 20,00'} highlight error={!successfulPayment} />
 				</InstructionCard>
@@ -74,8 +89,8 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 						? (
 							<>
 								<PostCard
-									owner={{ name: 'mock.user', profilePictureUrl: '', userId: 1 }}
-									post={{ description: 'mock.description', title: 'mocked post', saleValue: '20', postId: 2, postType: 'service', createdAt: new Date() }}
+									owner={(currentPost && currentPost.owner) || { name: 'mock.user', profilePictureUrl: '', userId: 1 }}
+									post={currentPost || { description: 'mock.description', title: 'mocked post', saleValue: '20', postId: 2, postType: 'service', createdAt: new Date() }}
 									onPress={() => { }}
 								/>
 
@@ -106,7 +121,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 								fontSize={18}
 								labelColor={theme.white3}
 								SecondSvgIcon={CheckWhiteIcon}
-								onPress={() => { }}
+								onPress={backToPostReview}
 							/>
 						)
 						: (
@@ -130,7 +145,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 									textAlign={'center'}
 									fontSize={16}
 									SecondSvgIcon={PinWhiteIcon}
-									onPress={() => { }}
+									onPress={setNearRangeAsDefault}
 								/>
 								<PrimaryButton
 									color={theme.red3}
@@ -140,7 +155,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 									relativeHeight={relativeScreenHeight(11)}
 									fontSize={16}
 									SvgIcon={XWhiteIcon}
-									onPress={() => { }}
+									onPress={cancelPost}
 								/>
 							</>
 						)

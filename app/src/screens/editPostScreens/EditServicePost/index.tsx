@@ -7,6 +7,7 @@ import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonCont
 import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import PlusWhiteIcon from '../../../assets/icons/plusTabIconInactive.svg'
+import HandOnMoneyWhiteIcon from '../../../assets/icons/handOnMoney-white.svg'
 
 import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
 import { arrayIsEmpty, formatHour } from '../../../common/auxiliaryFunctions'
@@ -23,6 +24,7 @@ import { LocalUserData, ServiceData } from '../../../contexts/types'
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { StateContext } from '../../../contexts/StateContext'
+import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { EditCard } from '../../../components/_cards/EditCard'
@@ -42,6 +44,7 @@ import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 
 function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps) {
+	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
 	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
@@ -386,6 +389,70 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		return `   ●  ${serviceCategories[category].label}\n	 ●  ${tags.map((tag: string) => ` #${tag}`)}`
 	}
 
+	const userSubscribeIsValid = () => {
+		console.log(`range CURRENT: ${getPostField('range')}`)
+
+		if (!userDataContext.subscription) {
+			if (getPostField('range') === 'near') return true
+			return false
+		}
+
+		const rangeOnContext = userDataContext.subscription.subscriptionRange
+
+		console.log(`range CONTEXT: ${rangeOnContext}`)
+
+		if (rangeOnContext === 'near' && getPostField('range') === 'city') return false
+		if (rangeOnContext === 'near' && getPostField('range') === 'country') return false
+		if (rangeOnContext === 'city' && getPostField('range') === 'country') return false
+
+		return true
+	}
+
+	const getHeaderButtonLabel = () => {
+		if (!userSubscribeIsValid()) {
+			return 'ir para pagamento'
+		}
+		return unsavedPost ? 'publicar post' : 'salvar alterações'
+	}
+
+	const getHeaderButtonLabelHighlightedWords = () => {
+		if (!userSubscribeIsValid()) {
+			return ['pagamento']
+		}
+		return unsavedPost ? ['publicar'] : ['salvar']
+	}
+
+	const getHeaderButtonIcon = () => {
+		if (!userSubscribeIsValid()) {
+			return HandOnMoneyWhiteIcon
+		}
+		return unsavedPost ? PlusWhiteIcon : CheckWhiteIcon
+	}
+
+	const getHeaderButtonHandler = () => {
+		if (!userSubscribeIsValid()) {
+			return navigateToSubscriptionContext
+		}
+		return unsavedPost ? saveServicePost : editPost
+	}
+
+	const navigateToSubscriptionContext = () => {
+		setSubscriptionDataOnContext({
+			currentPost: {
+				...postData,
+				...editDataContext.unsaved,
+				postType: 'service',
+				createdAt: new Date(),
+				owner: {
+					userId: userDataContext.userId,
+					name: userDataContext.name,
+					profilePictureUrl: userDataContext.profilePictureUrl
+				}
+			}
+		})
+		navigation.navigate('SelectSubscriptionPlan', { postRange: getPostField('range') })
+	}
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -420,15 +487,15 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 								<SaveButtonContainer>
 									<PrimaryButton
 										color={theme.green3}
-										label={unsavedPost ? 'publicar post' : 'salvar alterações'}
+										label={getHeaderButtonLabel()}
 										labelColor={theme.white3}
-										highlightedWords={unsavedPost ? ['publicar'] : ['salvar']}
+										highlightedWords={getHeaderButtonLabelHighlightedWords()}
 										fontSize={16}
-										SecondSvgIcon={unsavedPost ? PlusWhiteIcon : CheckWhiteIcon}
+										SecondSvgIcon={getHeaderButtonIcon()}
 										svgIconScale={['35%', '18%']}
 										minHeight={relativeScreenHeight(6)}
 										relativeHeight={relativeScreenHeight(8)}
-										onPress={unsavedPost ? saveServicePost : editPost}
+										onPress={getHeaderButtonHandler()}
 									/>
 								</SaveButtonContainer>
 							)

@@ -3,6 +3,7 @@ import { cultureCategories } from '../../utils/postsCategories/cultureCategories
 import { saleCategories } from '../../utils/postsCategories/saleCategories'
 import { vacancyCategories } from '../../utils/postsCategories/vacancyCategories'
 import { socialImpactCategories } from '../../utils/postsCategories/socialImpactCategories'
+import { SubscriptionData } from '../../contexts/types'
 
 export type SaleCategories = keyof typeof saleCategories
 export type ServiceCategories = keyof typeof serviceCategories
@@ -91,6 +92,12 @@ export type SocialMedia = {
 	link: string
 }
 
+export type UserSubscription = {
+	subscriptionRange?: PostRange
+	subscriptionPlan?: SubscriptionPlan
+	subscriptionPaymentMethod?: SubscriptionPaymentMethod
+}
+
 export type UserCollection = {
 	userId?: Id
 	name?: string
@@ -107,7 +114,8 @@ export type UserCollection = {
 	locationView?: LocationViewType
 	cellNumber?: string // private
 	socialMedias?: SocialMedia[]
-	location?: { // private
+	subscription?: UserSubscription
+	location?: {
 		country?: string
 		state?: string
 		city?: string

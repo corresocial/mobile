@@ -15,6 +15,7 @@ import { getRangeSubscriptionPlanText } from '../../../utils/subscription/common
 import { FinishSubscriptionPaymentByPixScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
+import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
@@ -28,9 +29,10 @@ import { Timer } from '../../../components/Timer'
 import { CustomQRCode } from '../../../components/CustomQRCode'
 
 function FinishSubscriptionPaymentByPix({ navigation }: FinishSubscriptionPaymentByPixScreenProps) {
-	const { subscriptionDataContext } = useContext(SubscriptionContext)
+	const { subscriptionDataContext, updateUserSubscription } = useContext(SubscriptionContext)
+	const { setLoaderIsVisible } = useContext(LoaderContext)
 
-	const { postRange, subscriptionPlan } = subscriptionDataContext
+	const { subscriptionRange, subscriptionPlan, subscriptionPaymentMethod } = subscriptionDataContext
 
 	const defaultPixKeyExpiryTimeInMinutes = 5
 
@@ -70,8 +72,25 @@ function FinishSubscriptionPaymentByPix({ navigation }: FinishSubscriptionPaymen
 		}
 	}
 
-	const performPayment = () => {
-		navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false })
+	const performSubscriptionPayment = async () => {
+		try {
+			setLoaderIsVisible(true)
+			const userSubscription = {
+				subscriptionRange,
+				subscriptionPlan,
+				subscriptionPaymentMethod
+			}
+
+			await updateUserSubscription(userSubscription)
+
+			setLoaderIsVisible(false)
+			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true })
+			// }
+		} catch (err: any) { // Veirfy stripe erros
+			console.log(err)
+			setLoaderIsVisible(false)
+			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false })
+		}
 	}
 
 	return (
@@ -95,7 +114,7 @@ function FinishSubscriptionPaymentByPix({ navigation }: FinishSubscriptionPaymen
 						<DollarWhiteIcon width={30} height={30} />
 						<Title>{showMessageWithHighlight('resumo de valores', ['resumo'])}</Title>
 					</TitleArea>
-					<SmallInstructionCard text={getRangeSubscriptionPlanText(postRange, subscriptionPlan)} />
+					<SmallInstructionCard text={getRangeSubscriptionPlanText(subscriptionRange, subscriptionPlan)} />
 					<VerticalSigh />
 					<SmallInstructionCard text={'r$ 20,00'} highlight />
 
@@ -142,7 +161,7 @@ function FinishSubscriptionPaymentByPix({ navigation }: FinishSubscriptionPaymen
 						label={'como funciona?'}
 						highlightedWords={['como', 'funciona']}
 						SecondSvgIcon={QuestionMarkWhiteIcon}
-						onPress={performPayment}
+						onPress={performSubscriptionPayment}
 					/>
 				</Body>
 			</BodyScrollable>

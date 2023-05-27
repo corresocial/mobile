@@ -12,6 +12,10 @@ import { getRangeSubscriptionPlanText } from '../../../utils/subscription/common
 
 import { FinishSubscriptionPaymentByCardScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
+import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
+import { LoaderContext } from '../../../contexts/LoaderContext'
+import { AuthContext } from '../../../contexts/AuthContext'
+
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
@@ -23,12 +27,12 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { LineInput } from '../../../components/LineInput'
-import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
 
 function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPaymentByCardScreenProps) {
-	const { subscriptionDataContext } = useContext(SubscriptionContext)
+	const { subscriptionDataContext, updateUserSubscription } = useContext(SubscriptionContext)
+	const { setLoaderIsVisible } = useContext(LoaderContext)
 
-	const { postRange, subscriptionPlan } = subscriptionDataContext
+	const { subscriptionRange, subscriptionPlan, subscriptionPaymentMethod } = subscriptionDataContext
 
 	const [cardNumber, setCardNumber] = useState('')
 	const [cardExpiringDate, setCardExpiringDate] = useState('')
@@ -128,20 +132,25 @@ function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPayme
 		)
 	}
 
-	const performPayment = () => {
-		console.log({
-			cardNumber,
-			cardExpiringDate,
-			cardCVV,
-			cardholderName,
-			holderDocumentNumber
-		})
+	const performSubscriptionPayment = async () => {
+		// if(!cardDataAreValid()) return
+		try {
+			setLoaderIsVisible(true)
+			const userSubscription = {
+				subscriptionRange,
+				subscriptionPlan,
+				subscriptionPaymentMethod
+			}
 
-		if (cardDataAreValid()) {
+			await updateUserSubscription(userSubscription)
+
+			setLoaderIsVisible(false)
 			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true })
+		} catch (err: any) { // Veirfy stripe erros
+			console.log(err)
+			setLoaderIsVisible(false)
+			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false })
 		}
-
-		console.log('invalid data')
 	}
 
 	const applyCardExpiringDateMask = (text: string) => {
@@ -185,7 +194,7 @@ function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPayme
 						<DollarWhiteIcon width={30} height={30} />
 						<Title>{showMessageWithHighlight('resumo de valores', ['resumo'])}</Title>
 					</TitleArea>
-					<SmallInstructionCard text={getRangeSubscriptionPlanText(postRange, subscriptionPlan)} />
+					<SmallInstructionCard text={getRangeSubscriptionPlanText(subscriptionRange, subscriptionPlan)} />
 					<VerticalSigh />
 					<SmallInstructionCard text={'r$ 20,00'} highlight />
 
@@ -309,7 +318,7 @@ function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPayme
 						fontSize={18}
 						labelColor={theme.white3}
 						SecondSvgIcon={CardWhiteIcon}
-						onPress={performPayment}
+						onPress={performSubscriptionPayment}
 					/>
 				</Body>
 			</BodyScrollable>

@@ -23,7 +23,7 @@ import { OptionButton } from '../../../components/_buttons/OptionButton'
 function SelectSubsciptionPaymentMethod({ navigation }: SelectSubsciptionPaymentMethodScreenProps) {
 	const { subscriptionDataContext, setSubscriptionDataOnContext } = useContext(SubscriptionContext)
 
-	const { postRange, subscriptionPlan } = subscriptionDataContext
+	const { subscriptionRange, subscriptionPlan } = subscriptionDataContext
 
 	const navigateToPaymentScreen = (subscriptionPaymentMethod: SubscriptionPaymentMethod) => {
 		setSubscriptionDataOnContext({ subscriptionPaymentMethod })
@@ -43,7 +43,7 @@ function SelectSubsciptionPaymentMethod({ navigation }: SelectSubsciptionPayment
 				relativeHeight={relativeScreenHeight(18)}
 				centralized
 				backgroundColor={theme.white3}
-				footerText={getRangeSubscriptionPlanText(postRange, subscriptionPlan)}
+				footerText={getRangeSubscriptionPlanText(subscriptionRange, subscriptionPlan)}
 				footerTextHighlighted={'r$ 20,00'}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
