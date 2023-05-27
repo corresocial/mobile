@@ -23,6 +23,7 @@ function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ range: postRange })
 			navigation.goBack()
+			return
 		}
 
 		setVacancyDataOnContext({ range: postRange })

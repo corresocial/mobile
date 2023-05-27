@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { getDownloadURL } from 'firebase/storage'
 import { StatusBar, Alert } from 'react-native'
 
-import { Id, PostCollection, ServiceCollection, ServiceCollectionRemote, UserCollection } from '../../services/firebase/types'
-import { LocalUserData, ServiceData } from '../../contexts/types'
+import { Id, PostCollection, PostCollectionRemote, UserCollection } from '../../services/firebase/types'
+import { LocalUserData } from '../../contexts/types'
 
 import { updatePost } from '../../services/firebase/post/updatePost'
 import { updateDocField } from '../../services/firebase/common/updateDocField'
@@ -42,15 +42,16 @@ type EditContextFragment = {
 }
 
 interface EditPostProps {
-	initialPostData: ServiceCollectionRemote
+	initialPostData: PostCollectionRemote
 	owner?: PostCollection['owner']
+	backgroundColor: string
 	unsavedPost?: boolean
 	children: React.ReactNode | React.ReactNode[]
 	navigateBackwards: () => void
-	navigateToPostView: (postData: PostCollection) => void
+	navigateToPostView: (postData: PostCollectionRemote) => void
 	navigateToSubscriptionContext: () => void
 	showShareModal: (visibility: boolean, postTitle?: string) => void
-	getPostField: (fieldName: keyof ServiceCollection, allowNull?: boolean) => any // TODO Type
+	getPostField: (fieldName: keyof PostCollectionRemote, allowNull?: boolean) => any // TODO Type return
 	userContext: UserContextFragment
 	editContext: EditContextFragment
 }
@@ -58,6 +59,7 @@ interface EditPostProps {
 function EditPost({
 	initialPostData,
 	owner,
+	backgroundColor,
 	unsavedPost,
 	children,
 	editContext,
@@ -80,7 +82,7 @@ function EditPost({
 
 	const getUserPostsWithoutEdited = () => {
 		const userPosts = userDataContext.posts || []
-		return userPosts.filter((post: any) => post.postId !== initialPostData.postId) // TODO Type ServiceCollection
+		return userPosts.filter((post: PostCollection) => post.postId !== initialPostData.postId)
 	}
 
 	const editPost = async () => {
@@ -130,23 +132,23 @@ function EditPost({
 		}
 	}
 
-	const extractServicePictures = (postData: ServiceData) => postData.picturesUrl as string[] || []
+	const extractPostPictures = (postData: PostCollectionRemote) => postData.picturesUrl as string[] || []
 
 	const getLocalUser = () => userDataContext
 
-	const saveServicePost = async () => {
+	const savePost = async () => {
 		setHasError(false)
 		setIsLoading(true)
 
-		const postData = { ...initialPostData, ...editDataContext.unsaved } as ServiceCollection
-		const servicePictures = extractServicePictures(postData)
+		const postData = { ...initialPostData, ...editDataContext.unsaved } as PostCollectionRemote
+		const postPictures = extractPostPictures(postData)
 
 		try {
 			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
-			if (!servicePictures.length) {
-				const postId = await createPost(postData, localUser, 'posts', 'service')
+			if (!postPictures.length) {
+				const postId = await createPost(postData, localUser, 'posts', postData.postType)
 				if (!postId) throw new Error('Não foi possível identificar o post')
 
 				await updateUserPost(
@@ -158,8 +160,8 @@ function EditPost({
 			}
 
 			const picturePostsUrls: string[] = []
-			servicePictures.forEach(async (servicePicture, index) => {
-				uploadImage(servicePicture, 'posts', index).then(
+			postPictures.forEach(async (postPicture, index) => {
+				uploadImage(postPicture, 'posts', index).then(
 					({ uploadTask, blob }: any) => {
 						uploadTask.on(
 							'state_change',
@@ -173,10 +175,10 @@ function EditPost({
 										async (downloadURL) => {
 											blob.close()
 											picturePostsUrls.push(downloadURL)
-											if (picturePostsUrls.length === servicePictures.length) {
+											if (picturePostsUrls.length === postPictures.length) {
 												const postDataWithPicturesUrl = { ...postData, picturesUrl: picturePostsUrls }
 
-												const postId = await createPost(postDataWithPicturesUrl, localUser, 'posts', 'service')
+												const postId = await createPost(postDataWithPicturesUrl, localUser, 'posts', postData.postType)
 												if (!postId) throw new Error('Não foi possível identificar o post')
 
 												await updateUserPost(
@@ -203,12 +205,12 @@ function EditPost({
 	const updateUserPost = async (
 		localUser: LocalUserData,
 		postId: string,
-		postData: ServiceData,
+		postData: PostCollectionRemote,
 	) => {
 		const postDataToSave = {
 			...postData,
 			postId,
-			postType: 'service',
+			postType: postData.postType,
 			createdAt: new Date()
 		}
 
@@ -220,13 +222,13 @@ function EditPost({
 			true,
 		)
 			.then(() => {
-				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollection[] : []
+				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollectionRemote[] : []
 				userContext.setUserDataOnContext({
 					...localUser,
 					tourPerformed: true,
 					posts: [
 						...localUserPosts,
-						{ ...postDataToSave, owner } as ServiceCollection
+						{ ...postDataToSave, owner } as PostCollectionRemote
 					],
 				})
 
@@ -332,7 +334,7 @@ function EditPost({
 		return picturePostsUrls
 	}
 
-	const updateUserContext = (postAfterEdit: ServiceCollection) => {
+	const updateUserContext = (postAfterEdit: PostCollectionRemote) => {
 		userContext.setUserDataOnContext({
 			posts: [
 				...getUserPostsWithoutEdited(),
@@ -356,7 +358,7 @@ function EditPost({
 	}
 
 	const userSubscribeIsValid = () => {
-		console.log(`range CURRENT: ${getPostField('range')}`)
+		console.log(`POST range: ${getPostField('range')}`)
 
 		if (!userDataContext.subscription) {
 			if (getPostField('range') === 'near') return true
@@ -365,7 +367,8 @@ function EditPost({
 
 		const rangeOnContext = userDataContext.subscription.subscriptionRange
 
-		console.log(`range CONTEXT: ${rangeOnContext}`)
+		console.log(`USER range: ${rangeOnContext}`)
+		console.log('------------------------------------')
 
 		if (rangeOnContext === 'near' && getPostField('range') === 'city') return false
 		if (rangeOnContext === 'near' && getPostField('range') === 'country') return false
@@ -399,7 +402,7 @@ function EditPost({
 		if (!userSubscribeIsValid()) {
 			return navigateToSubscriptionContext
 		}
-		return unsavedPost ? saveServicePost : editPost
+		return unsavedPost ? savePost : editPost
 	}
 
 	return (
@@ -459,7 +462,7 @@ function EditPost({
 								text={'seu post'}
 								highlightedText={['post']}
 							/>
-							<PostCardContainer hasError={hasError}>
+							<PostCardContainer backgroundColor={backgroundColor} hasError={hasError}>
 								<PostCard
 									owner={owner}
 									post={{ ...initialPostData, ...editDataContext.unsaved, createdAt: new Date() }}
@@ -473,9 +476,9 @@ function EditPost({
 						</>
 					)
 				}
-				<BodyPadding hasError={hasError}>
+				<BodyPadding backgroundColor={backgroundColor} hasError={hasError} >
 					{children}
-					<VerticalSigh />
+					<VerticalSigh height={relativeScreenHeight(1.5)} />
 				</BodyPadding >
 			</Body>
 		</Container>

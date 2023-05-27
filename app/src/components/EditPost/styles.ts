@@ -12,16 +12,17 @@ export const Header = styled.View`
  	padding: ${relativeScreenWidth(4)}px;
  `
 
-interface ErrorProps {
-	hasError: boolean
+interface EditPostStyleProps {
+	hasError?: boolean
+	backgroundColor?: string
 }
 
-export const Body = styled.ScrollView<ErrorProps>`
+export const Body = styled.ScrollView<EditPostStyleProps>`
 	flex: 1;
  `
 
-export const BodyPadding = styled(Body) <ErrorProps>`
-	background-color: ${({ theme, hasError }) => (hasError ? theme.red2 : theme.purple2)};
+export const BodyPadding = styled(Body) <EditPostStyleProps>`
+	background-color: ${({ theme, hasError, backgroundColor }) => (hasError ? theme.red2 : backgroundColor || theme.orange2)};
 	padding: ${relativeScreenWidth(3.5)}px;
  `
 
@@ -31,7 +32,7 @@ export const SaveButtonContainer = styled.View`
 	padding-top: ${relativeScreenHeight(3)}px;
  `
 
-export const PostCardContainer = styled.View<ErrorProps>`
-	background-color: ${({ theme, hasError }) => (hasError ? theme.red2 : theme.purple2)};
+export const PostCardContainer = styled.View<EditPostStyleProps>`
+	background-color: ${({ theme, hasError, backgroundColor }) => (hasError ? theme.red2 : backgroundColor || theme.orange2)};
 	padding: ${relativeScreenWidth(3.5)}px;
  `

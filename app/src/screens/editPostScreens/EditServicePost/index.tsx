@@ -53,11 +53,26 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		return editDataContext.unsaved[fieldName] || postData[fieldName]
 	}
 
+	const formatCategoryAndTags = () => {
+		const category: ServiceCategories = getPostField('category')
+		const tags = getPostField('tags')
+
+		return `   ●  ${serviceCategories[category].label}\n	 ●  ${tags.map((tag: string) => ` #${tag}`)}`
+	}
+
 	const showShareModal = (visibility: boolean, postTitle?: string) => {
 		setStateDataOnContext({
 			showShareModal: visibility,
 			lastPostTitle: postTitle
 		})
+	}
+
+	const navigateBackwards = () => {
+		navigation.goBack()
+	}
+
+	const navigateToPostView = (servicePostData: PostCollection) => {
+		navigation.navigate('ViewServicePost' as any, { postData: servicePostData })
 	}
 
 	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof ServiceCollectionRemote) => {
@@ -81,21 +96,6 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 				initialValue: value
 			}
 		})
-	}
-
-	const formatCategoryAndTags = () => {
-		const category: ServiceCategories = getPostField('category')
-		const tags = getPostField('tags')
-
-		return `   ●  ${serviceCategories[category].label}\n	 ●  ${tags.map((tag: string) => ` #${tag}`)}`
-	}
-
-	const navigateBackwards = () => {
-		navigation.goBack()
-	}
-
-	const navigateToPostView = (servicePostData: PostCollection) => {
-		navigation.navigate('ViewServicePost' as any, { postData: servicePostData }) // TODO Type // xxx
 	}
 
 	const navigateToSubscriptionContext = () => {
@@ -131,6 +131,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		<EditPost
 			initialPostData={{ ...postData, postType: 'service' }}
 			owner={owner}
+			backgroundColor={theme.purple2}
 			unsavedPost={unsavedPost}
 			navigateBackwards={navigateBackwards}
 			navigateToPostView={navigateToPostView}
@@ -217,7 +218,6 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 				valueBold
 				onEdit={() => navigateToEditScreen('InsertServiceEndHour', 'endHour')}
 			/>
-			<VerticalSigh />
 		</EditPost>
 	)
 }

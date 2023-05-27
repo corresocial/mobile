@@ -3,7 +3,6 @@ import { cultureCategories } from '../../utils/postsCategories/cultureCategories
 import { saleCategories } from '../../utils/postsCategories/saleCategories'
 import { vacancyCategories } from '../../utils/postsCategories/vacancyCategories'
 import { socialImpactCategories } from '../../utils/postsCategories/socialImpactCategories'
-import { SubscriptionData } from '../../contexts/types'
 
 export type SaleCategories = keyof typeof saleCategories
 export type ServiceCategories = keyof typeof serviceCategories
