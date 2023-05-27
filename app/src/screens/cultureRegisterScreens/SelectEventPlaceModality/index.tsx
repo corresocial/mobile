@@ -27,6 +27,7 @@ function SelectEventPlaceModality({ route, navigation }: SelectEventPlaceModalit
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ eventPlaceModality })
 			navigation.goBack()
+			return
 		}
 
 		setCultureDataOnContext({ eventPlaceModality })
