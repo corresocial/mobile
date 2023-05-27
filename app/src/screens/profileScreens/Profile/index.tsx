@@ -181,7 +181,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		})
 	}
 
-	const goToEditProfile = () => {
+	const goToEditProfile = async () => {
 		navigation.navigate('EditProfile' as any, { user })
 	}
 

@@ -25,10 +25,11 @@ import {
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
 import { searchAddressByText } from '../../../services/maps/searchAddressByText'
-import { structureAddress } from '../../../services/maps/addressFormatter'
-import { getRecentAddressFromStorage } from '../../../services/maps/recentAddresses'
+import { structureAddress } from '../../../utils/maps/addressFormatter'
+import { getLastRecentAddress, getRecentAdressesFromStorage } from '../../../utils/maps/recentAddresses'
 import { getPostsByLocationCloud } from '../../../services/cloudFunctions/getPostsByLocationCloud'
 // import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
+import { getCurrentLocation } from '../../../utils/maps/getCurrentLocation'
 
 import {
 	SearchParams,
@@ -103,7 +104,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 	useEffect(() => {
 		if (hasLocationPermission) {
-			findNearPosts('', true)
+			findNearPosts('', true, null as any, false, true)
 		}
 	}, [hasLocationPermission])
 
@@ -114,7 +115,8 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const getRecentAddresses = async () => {
-		const addresses = await getRecentAddressFromStorage()
+		const addresses = await getRecentAdressesFromStorage()
+		// addresses.forEach((address) => console.log(address), console.log('\n\n'))
 		setRecentAddresses(addresses)
 	}
 
@@ -122,18 +124,18 @@ function Home({ navigation }: HomeScreenProps) {
 		searchText: string,
 		currentPosition?: boolean,
 		alternativeCoordinates?: LatLong,
-		refresh?: boolean
+		refresh?: boolean,
+		firstLoad?: boolean
 	) => {
-		if (!locationIsEnable) return
+		if (!hasLocationPermission) return requestPermissions()
 
 		try {
 			refresh ? setFlatListIsLoading(true) : setLoaderIsVisible(true)
 			setSearchEnded(false)
-
 			let searchParams = {} as SearchParams
 			if (currentPosition) {
-				const coordinates = await getCurrentPositionCoordinates()
-				searchParams = await getSearchParams(coordinates)
+				const coordinates = await getCurrentPositionCoordinates(firstLoad)
+				searchParams = await getSearchParams(coordinates as LatLong)
 			} else {
 				const coordinates = alternativeCoordinates || (await getSearchedAddressCoordinates(searchText))
 				searchParams = await getSearchParams(coordinates as LatLong) // address converter
@@ -143,6 +145,7 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams,
 				userDataContext.userId as Id
 			)
+
 			// const nearbyPosts = await getPostsByLocation(searchParams)
 			setNearPosts(nearbyPosts || [])
 
@@ -169,13 +172,27 @@ function Home({ navigation }: HomeScreenProps) {
 		)
 	}
 
-	const getCurrentPositionCoordinates = async () => {
-		const currentPositionCoordinate = await Location.getCurrentPositionAsync()
+	const getCurrentPositionCoordinates = async (firstLoad?: boolean) => {
+		try {
+			const currentPosition: Location.LocationObject = await getCurrentLocation()
 
-		return {
-			lat: currentPositionCoordinate.coords.latitude,
-			lon: currentPositionCoordinate.coords.longitude,
-		} as LatLong
+			return {
+				lat: currentPosition.coords.latitude,
+				lon: currentPosition.coords.longitude
+			} as LatLong
+		} catch (error) {
+			console.log(error)
+
+			const recentPosition = getLastRecentAddress(recentAddresses)
+			if (!recentPosition) {
+				return null
+			}
+
+			return {
+				lat: recentPosition.lat,
+				lon: recentPosition.lon,
+			} as LatLong
+		}
 	}
 
 	const getSearchedAddressCoordinates = async (searchText: string) => {

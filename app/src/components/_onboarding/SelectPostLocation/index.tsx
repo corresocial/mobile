@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Animated, LayoutChangeEvent, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
 import * as Location from 'expo-location'
 
@@ -9,17 +9,17 @@ import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import MapPointWhiteIcon from '../../../assets/icons/mapPoint-white.svg'
 import MapPointOrangeIcon from '../../../assets/icons/mapPoint-orange.svg'
 
-import { generateLocationHeaderText, getPossessivePronoun, getRelativeLocationView, getRelativeRange } from '../../../utils/locationMessages'
+import { Coordinates, LatLong } from '../../../services/firebase/types'
 
-import { Coordinates, LatLong, LocationViewType, PostRange } from '../../../services/firebase/types'
+import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { LineInput } from '../../../components/LineInput'
 import { CustomMapView } from '../../../components/CustomMapView'
-import { InfoCard } from '../../../components/_cards/InfoCard'
 import { InstructionCard } from '../../_cards/InstructionCard'
+import { getCurrentLocation } from '../../../utils/maps/getCurrentLocation'
 
 const initialRegion = {
 	latitude: -13.890303625634541,
@@ -37,8 +37,6 @@ interface SelectPostLocationProps {
 	backgroundColor: string
 	validationColor: string
 	searchPlaceholder: string
-	locationView: LocationViewType
-	postRange: PostRange
 	initialValue?: LatLong
 	navigateBackwards: () => void
 	saveLocation: (markerCoordinate: Coordinates) => void
@@ -48,12 +46,12 @@ function SelectPostLocation({
 	backgroundColor,
 	validationColor,
 	searchPlaceholder,
-	locationView,
-	postRange,
 	initialValue,
 	saveLocation,
 	navigateBackwards
 }: SelectPostLocationProps) {
+	const { setLoaderIsVisible } = useContext(LoaderContext)
+
 	const [hasPermission, setHasPermission] = useState(false)
 	const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(null)
 	const [address, setAddress] = useState('')
@@ -88,23 +86,31 @@ function SelectPostLocation({
 		const permission = await requestLocationPermission()
 		if (!permission) return
 
-		const currentPositionCoordinate = await Location.getCurrentPositionAsync()
-		const geolocationCoordinates = {
-			latitude: currentPositionCoordinate.coords.latitude,
-			longitude: currentPositionCoordinate.coords.longitude
+		try {
+			setLoaderIsVisible(true)
+			const currentPositionCoordinate: Location.LocationObject = await getCurrentLocation()
+
+			const geolocationCoordinates = {
+				latitude: currentPositionCoordinate.coords.latitude,
+				longitude: currentPositionCoordinate.coords.longitude
+			}
+
+			setMarkerCoordinate({
+				...defaultDeltaCoordinates,
+				...geolocationCoordinates,
+			})
+			setValidAddress(false)
+			setAddress('')
+
+			convertGeocodeToAddress(
+				geolocationCoordinates.latitude,
+				geolocationCoordinates.longitude
+			)
+			setLoaderIsVisible(false)
+		} catch (error) {
+			setLoaderIsVisible(false)
+			console.log(error)
 		}
-
-		setMarkerCoordinate({
-			...defaultDeltaCoordinates,
-			...geolocationCoordinates,
-		})
-		setValidAddress(false)
-		setAddress('')
-
-		convertGeocodeToAddress(
-			geolocationCoordinates.latitude,
-			geolocationCoordinates.longitude
-		)
 	}
 
 	const getAddressCoordinates = async () => {
