@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Container, ContainerInner, Description, Footer, LargeStrongFont, SmallStrongFont, SmallThinFont, Title } from './styles'
+import { theme } from '../../../common/theme'
+import { Container, ContainerInner, Description, Footer, LargeStrongFont, SmallStrongFont, SmallThinFont, Title, TitleArea } from './styles'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+
+import { SmallButton } from '../../_buttons/SmallButton'
 
 interface TitleDescriptionButtonProps {
 	height: string | number
@@ -16,6 +21,7 @@ interface TitleDescriptionButtonProps {
 	footerValue?: string
 	yearly?: boolean
 	selected?: boolean
+	checked?: boolean
 	onPress: () => void
 }
 
@@ -30,6 +36,7 @@ function TitleDescriptionButton({
 	footerValue,
 	yearly,
 	selected,
+	checked,
 	onPress
 }: TitleDescriptionButtonProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
@@ -83,13 +90,23 @@ function TitleDescriptionButton({
 				onPressOut={notPressingButton}
 				onPress={releaseButton}
 			>
-				<Title
-					style={{
-						fontSize: RFValue(titleFontSize)
-					}}
-				>
-					{showMessageWithHighlight(title, highlightedWords)}
-				</Title>
+				<TitleArea>
+					<Title checked={checked} fontSize={titleFontSize}>
+						{showMessageWithHighlight(title, highlightedWords)}
+					</Title>
+					{
+						checked && (
+							<SmallButton
+								color={theme.green3}
+								SvgIcon={CheckWhiteIcon}
+								svgScale={['60%', '60%']}
+								height={relativeScreenHeight(5)}
+								relativeWidth={relativeScreenHeight(6)}
+								onPress={() => { }}
+							/>
+						)
+					}
+				</TitleArea>
 				<Description>
 					{showMessageWithHighlight(description, highlightedWords)}
 				</Description>

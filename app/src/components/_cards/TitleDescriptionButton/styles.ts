@@ -21,10 +21,20 @@ export const ContainerInner = styled.TouchableOpacity`
 	left: ${RFValue(-5)}px;
 `
 
-export const Title = styled.Text`
-    width: 100%;
+export const TitleArea = styled.View`
+	flex-direction: row;
+	justify-content: space-between;
+`
+
+interface TitleProps {
+	checked?: boolean
+	fontSize?: number
+}
+
+export const Title = styled.Text<TitleProps>`
+    width: ${({ checked }) => (checked ? '70%' : '100%')};
+    font-size:  ${({ fontSize }) => (fontSize ? RFValue(fontSize) : RFValue(22))}px;
     font-family: Arvo_400Regular;
-    font-size:  ${RFValue(22)}px;
     color: ${({ theme }) => theme.black4}
 `
 

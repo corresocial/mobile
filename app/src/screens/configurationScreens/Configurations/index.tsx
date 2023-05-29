@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
-import { Body, Container, Header, Sigh } from './styles'
+import { Body, Container, Header } from './styles'
 import { theme } from '../../../common/theme'
 
 import { ConfigurationsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -11,6 +11,7 @@ import { ChatContext } from '../../../contexts/ChatContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { VerticalSigh } from '../../../components/VerticalSigh'
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const { deleteLocaluser } = useContext(AuthContext)
@@ -28,6 +29,10 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 			index: 0,
 			routes: [{ name: 'AcceptAndContinue' as any }]
 		})
+	}
+
+	const performUserSubscription = () => {
+		navigation.navigate('EditSubscriptionRange')
 	}
 
 	return (
@@ -49,7 +54,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					highlightedWords={['somos']}
 					onPress={() => navigation.navigate('WhoWeAre')}
 				/>
-				<Sigh />
+				<VerticalSigh />
 				<PrimaryButton
 					color={theme.white3}
 					label={'nos ajude'}
@@ -59,7 +64,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					highlightedWords={['ajude']}
 					onPress={() => navigation.navigate('HelpUs')}
 				/>
-				<Sigh />
+				<VerticalSigh />
 				<PrimaryButton
 					color={theme.white3}
 					label={'fale conosco'}
@@ -69,7 +74,17 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					highlightedWords={['conosco']}
 					onPress={() => navigation.navigate('ContactUs')}
 				/>
-				<Sigh />
+				<VerticalSigh />
+				<PrimaryButton
+					color={theme.white3}
+					label={'faça uma doação'}
+					fontSize={20}
+					justifyContent={'flex-start'}
+					textAlign={'left'}
+					highlightedWords={['doação']}
+					onPress={performUserSubscription}
+				/>
+				<VerticalSigh />
 				<PrimaryButton
 					color={theme.white3}
 					label={'privacidade e segurança'}
@@ -79,9 +94,9 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					highlightedWords={['privacidade', 'segurança']}
 					onPress={() => navigation.navigate('PrivacyAndSecurity')}
 				/>
-				<Sigh />
+				<VerticalSigh />
 				<PrimaryButton
-					color={theme.red2}
+					color={theme.red3}
 					label={'sair'}
 					fontSize={20}
 					justifyContent={'flex-start'}
@@ -89,7 +104,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					highlightedWords={['sair']}
 					onPress={performLogout}
 				/>
-				<Sigh />
+				<VerticalSigh />
 			</Body>
 		</Container >
 	)
