@@ -116,7 +116,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 				}
 			}
 		})
-		navigation.navigate('SelectSubscriptionPlan', { postRange: getPostField('range') })
+		navigation.navigate('SelectSubscriptionPlan', { postRange: getPostField('range'), postReview: true })
 	}
 
 	const userContext = {

@@ -25,13 +25,15 @@ import { Loader } from '../../../components/Loader'
 function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionScreenProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)
 
+	const [hasError, setHasError] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 
-	const { postRange } = route.params
+	const { postRange, leaveFromPaidSubscription } = route.params
 
 	const cancelSubscription = async () => {
 		try {
 			setIsLoading(true)
+			setHasError(false)
 			const userSubscription: UserSubscription = {
 				subscriptionRange: 'near',
 				subscriptionPlan: '',
@@ -42,12 +44,28 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 			setIsLoading(false)
 			navigation.goBack()
 		} catch (err) {
+			setHasError(true)
 			setIsLoading(false)
 		}
 	}
 
 	const editPaymentMethod = () => {
 		navigation.navigate('SelectSubsciptionPaymentMethod')
+	}
+
+	const getHeaderTitle = () => {
+		if (leaveFromPaidSubscription) return `cancelar \nplano ${getRangeText(leaveFromPaidSubscription)}`
+		return !hasError ? `plano ${getRangeText(postRange)}` : 'opa'
+	}
+
+	const getHeaderDescription = () => {
+		if (leaveFromPaidSubscription) return `tem certeza que quer cancelar seu plano ${getRangeText(leaveFromPaidSubscription)} e voltar para plano região?`
+		return !hasError ? 'estas são as opções disponíveis para o seu plano' : 'algo deu errado ao cancelar assinatura, \ntente novamente'
+	}
+
+	const getHeaderHighlightedWords = () => {
+		if (leaveFromPaidSubscription) return ['cancelar', 'cancelar', 'seu', 'plano', getRangeText(leaveFromPaidSubscription), 'e', 'voltar', 'para', 'plano', 'região']
+		return !hasError ? [getRangeText(postRange)] : ['opa', 'algo', 'deu', 'errado', 'ao', 'cancelar']
 	}
 
 	return (
@@ -63,9 +81,10 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={16}
-					title={`plano ${getRangeText(postRange)}`}
-					message={'estas são as opções disponíveis para o seu plano'}
-					highlightedWords={[getRangeText(postRange)]}
+					backgroundColor={!hasError ? theme.white3 : theme.red1}
+					title={getHeaderTitle()}
+					message={getHeaderDescription()}
+					highlightedWords={getHeaderHighlightedWords()}
 				/>
 			</DefaultHeaderContainer>
 			<FormContainer
@@ -73,15 +92,15 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 				justifyContent={'center'}
 			>
 				{
-					isLoading
+					isLoading && !hasError
 						? <Loader />
 						: (
 							<>
 								<PrimaryButton
 									color={theme.red3}
-									label={'cancelar assinatura'}
+									label={leaveFromPaidSubscription ? `cancelar plano ${getRangeText(leaveFromPaidSubscription)}` : 'cancelar assinatura'}
 									labelColor={theme.white3}
-									highlightedWords={['cancelar']}
+									highlightedWords={leaveFromPaidSubscription ? ['cancelar', getRangeText(leaveFromPaidSubscription)] : ['cancelar']}
 									fontSize={16}
 									SvgIcon={XWhiteIcon}
 									svgIconScale={['40%', '20%']}
@@ -89,16 +108,20 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 									onPress={cancelSubscription}
 								/>
 								<VerticalSigh height={relativeScreenHeight(5)} />
-								<PrimaryButton
-									color={theme.white3}
-									label={'mudar forma \nde pagamento'}
-									highlightedWords={['pagamento']}
-									fontSize={16}
-									SecondSvgIcon={EditWhiteIcon}
-									svgIconScale={['40%', '20%']}
-									relativeHeight={relativeScreenHeight(10)}
-									onPress={editPaymentMethod}
-								/>
+								{
+									!leaveFromPaidSubscription && (
+										<PrimaryButton
+											color={theme.white3}
+											label={'mudar forma \nde pagamento'}
+											highlightedWords={['pagamento']}
+											fontSize={16}
+											SecondSvgIcon={EditWhiteIcon}
+											svgIconScale={['40%', '20%']}
+											relativeHeight={relativeScreenHeight(10)}
+											onPress={editPaymentMethod}
+										/>
+									)
+								}
 							</>
 						)
 				}

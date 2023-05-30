@@ -128,7 +128,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				}
 			}
 		})
-		navigation.navigate('SelectSubscriptionPlan', { postRange: getPostField('range') })
+		navigation.navigate('SelectSubscriptionPlan', { postRange: getPostField('range'), postReview: true })
 	}
 
 	const userContext = {

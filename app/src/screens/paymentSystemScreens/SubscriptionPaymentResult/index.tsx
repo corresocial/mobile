@@ -33,7 +33,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 
 	const { subscriptionRange, subscriptionPlan, currentPost } = subscriptionDataContext
 
-	const successfulPayment = !!route.params.successfulPayment
+	const { successfulPayment, postReview } = route.params
 
 	const checkPaymentData = () => {
 		navigation.goBack()
@@ -42,24 +42,28 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 	const setNearRangeAsDefault = () => {
 		addNewUnsavedFieldToEditContext({ range: 'near' })
 		setUserDataOnContext({ subscription: { ...userDataContext.subscription, subscriptionRange: 'near' } })
-		backToPostReview()
+		backToInitialStackScreen()
 	}
 
-	const backToPostReview = () => {
+	const backToInitialStackScreen = () => {
 		navigation.pop(4)
 	}
 
 	const cancelPost = () => {
 		Alert.alert(
 			'atenção!',
-			`você tem certeza que deseja descartar o post "${subscriptionDataContext.currentPost?.title}"?`,
+			!postReview
+				? 'você tem certeza que deseja desistir da assinatura?'
+				: `você tem certeza que deseja descartar o post "${subscriptionDataContext.currentPost?.title}"?`,
 			[
 				{ text: 'Não', style: 'destructive' },
-				{ text: 'Sim', onPress: () => { navigation.pop(5) } },
+				{ text: 'Sim', onPress: () => { backToInitialStackScreen() } },
 			],
 			{ cancelable: false }
 		)
 	}
+
+	console.log(postReview)
 
 	return (
 		<Container>
@@ -101,7 +105,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 						? (
 							<>
 								{
-									currentPost && (
+									(currentPost && postReview) && (
 										<PostCard
 											owner={currentPost && currentPost.owner}
 											post={currentPost}
@@ -132,12 +136,12 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 						? (
 							<PrimaryButton
 								color={theme.green3}
-								label={'ir para o post'}
+								label={!postReview ? 'finalizar' : 'ir para o post'}
 								highlightedWords={['ir', 'para', 'o', 'post']}
 								fontSize={18}
 								labelColor={theme.white3}
 								SecondSvgIcon={CheckWhiteIcon}
-								onPress={backToPostReview}
+								onPress={backToInitialStackScreen}
 							/>
 						)
 						: (
@@ -152,20 +156,24 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 									SecondSvgIcon={DescriptionWhiteIcon}
 									onPress={checkPaymentData}
 								/>
-								<PrimaryButton
-									color={theme.yellow3}
-									label={'usar alcance região \n(gratuito)'}
-									highlightedWords={['alcance', 'região']}
-									labelColor={theme.black4}
-									relativeHeight={relativeScreenHeight(11)}
-									textAlign={'center'}
-									fontSize={16}
-									SecondSvgIcon={PinWhiteIcon}
-									onPress={setNearRangeAsDefault}
-								/>
+								{
+									postReview && (
+										<PrimaryButton
+											color={theme.yellow3}
+											label={'usar alcance região \n(gratuito)'}
+											highlightedWords={['alcance', 'região']}
+											labelColor={theme.black4}
+											relativeHeight={relativeScreenHeight(11)}
+											textAlign={'center'}
+											fontSize={16}
+											SecondSvgIcon={PinWhiteIcon}
+											onPress={setNearRangeAsDefault}
+										/>
+									)
+								}
 								<PrimaryButton
 									color={theme.red3}
-									label={'cancelar postagem'}
+									label={!postReview ? 'cancelar alterações' : 'cancelar postagem'}
 									highlightedWords={['cancelar']}
 									labelColor={theme.white3}
 									relativeHeight={relativeScreenHeight(11)}

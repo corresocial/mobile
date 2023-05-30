@@ -15,7 +15,6 @@ import { getRangeSubscriptionPlanText } from '../../../utils/subscription/common
 import { FinishSubscriptionPaymentByPixScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
@@ -27,10 +26,10 @@ import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Timer } from '../../../components/Timer'
 import { CustomQRCode } from '../../../components/CustomQRCode'
+import { Loader } from '../../../components/Loader'
 
-function FinishSubscriptionPaymentByPix({ navigation }: FinishSubscriptionPaymentByPixScreenProps) {
+function FinishSubscriptionPaymentByPix({ route, navigation }: FinishSubscriptionPaymentByPixScreenProps) {
 	const { subscriptionDataContext, updateUserSubscription } = useContext(SubscriptionContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const { subscriptionRange, subscriptionPlan, subscriptionPaymentMethod } = subscriptionDataContext
 
@@ -41,6 +40,8 @@ function FinishSubscriptionPaymentByPix({ navigation }: FinishSubscriptionPaymen
 	const [pixKeyHasExpired, setPixKeyHasExpired] = useState(true)
 	const [resetTimer, setResetTimer] = useState(false)
 	const [keyWasJustCopied, setKeyWasJustCopied] = useState(false)
+
+	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
 		navigation.addListener('focus', () => {
@@ -74,7 +75,7 @@ function FinishSubscriptionPaymentByPix({ navigation }: FinishSubscriptionPaymen
 
 	const performSubscriptionPayment = async () => {
 		try {
-			setLoaderIsVisible(true)
+			setIsLoading(true)
 			const userSubscription = {
 				subscriptionRange,
 				subscriptionPlan,
@@ -83,13 +84,13 @@ function FinishSubscriptionPaymentByPix({ navigation }: FinishSubscriptionPaymen
 
 			await updateUserSubscription(userSubscription)
 
-			setLoaderIsVisible(false)
-			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true })
+			setIsLoading(false)
+			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true, postReview: !!route.params?.postReview })
 			// }
 		} catch (err: any) { // Veirfy stripe erros
 			console.log(err)
-			setLoaderIsVisible(false)
-			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false })
+			setIsLoading(false)
+			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false, postReview: !!route.params?.postReview })
 		}
 	}
 
@@ -140,10 +141,17 @@ function FinishSubscriptionPaymentByPix({ navigation }: FinishSubscriptionPaymen
 					</TimerArea>
 
 					<QRCodeArea>
-						<CustomQRCode
-							value={pixKey}
-							keyWasJustCopied={keyWasJustCopied}
-						/>
+						{
+							isLoading
+								? <Loader flex />
+								: (
+									<CustomQRCode
+										value={pixKey}
+										keyWasJustCopied={keyWasJustCopied}
+									/>
+								)
+
+						}
 					</QRCodeArea>
 
 					<PrimaryButton

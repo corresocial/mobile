@@ -19,7 +19,7 @@ function SelectSubscriptionPlan({ route, navigation }: SelectSubscriptionPlanScr
 
 	const saveSubscriptionPlan = (subscriptionPlan: SubscriptionPlanType) => {
 		setSubscriptionDataOnContext({ subscriptionPlan, subscriptionRange: postRange })
-		navigation.navigate('SelectSubsciptionPaymentMethod')
+		navigation.navigate('SelectSubsciptionPaymentMethod', { postReview: !!route.params.postReview })
 	}
 
 	return (

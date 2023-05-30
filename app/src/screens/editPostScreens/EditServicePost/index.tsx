@@ -112,7 +112,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 				}
 			}
 		})
-		navigation.navigate('SelectSubscriptionPlan', { postRange: getPostField('range') })
+		navigation.navigate('SelectSubscriptionPlan', { postRange: getPostField('range'), postReview: true })
 	}
 
 	const userContext = {

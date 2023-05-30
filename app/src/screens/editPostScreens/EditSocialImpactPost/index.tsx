@@ -126,7 +126,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 				}
 			}
 		})
-		navigation.navigate('SelectSubscriptionPlan', { postRange: getPostField('range') })
+		navigation.navigate('SelectSubscriptionPlan', { postRange: getPostField('range'), postReview: true })
 	}
 
 	const userContext = {

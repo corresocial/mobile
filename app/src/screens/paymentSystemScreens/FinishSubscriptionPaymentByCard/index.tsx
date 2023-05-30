@@ -13,7 +13,6 @@ import { getRangeSubscriptionPlanText } from '../../../utils/subscription/common
 import { FinishSubscriptionPaymentByCardScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
-import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
@@ -26,10 +25,10 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { LineInput } from '../../../components/LineInput'
+import { Loader } from '../../../components/Loader'
 
-function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPaymentByCardScreenProps) {
+function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscriptionPaymentByCardScreenProps) {
 	const { subscriptionDataContext, updateUserSubscription } = useContext(SubscriptionContext)
-	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const { subscriptionRange, subscriptionPlan, subscriptionPaymentMethod } = subscriptionDataContext
 
@@ -41,6 +40,7 @@ function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPayme
 
 	const [cardholderNameIsValid, setCardholderNameIsValid] = useState(false)
 	const [isCardholderNameFocused, setIsCardholderNameFocused] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const [keyboardOpened, setKeyboardOpened] = useState(false)
 
@@ -134,25 +134,25 @@ function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPayme
 	const performSubscriptionPayment = async () => {
 		// if(!cardDataAreValid()) return
 		try {
-			setLoaderIsVisible(true)
+			setIsLoading(true)
 			const userSubscription = {
 				subscriptionRange,
 				subscriptionPlan,
 				subscriptionPaymentMethod
 			}
 
-			await updateUserSubscription(userSubscription)
-
-			setLoaderIsVisible(false)
-
 			// DEV_ONLY
 			const paymentResult = Math.random() > 0.5
 
-			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: paymentResult }) // TRUE
+			paymentResult && await updateUserSubscription(userSubscription)
+
+			setIsLoading(false)
+
+			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: paymentResult, ...route.params }) // TRUE
 		} catch (err: any) { // Veirfy stripe erros
 			console.log(err)
-			setLoaderIsVisible(false)
-			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false })
+			setIsLoading(false)
+			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false, ...route.params })
 		}
 	}
 
@@ -314,15 +314,21 @@ function FinishSubscriptionPaymentByCard({ navigation }: FinishSubscriptionPayme
 						onChangeText={(text: string) => setHolderDocumentNumber(text)}
 					/>
 					<VerticalSigh height={relativeScreenHeight(5)} />
-					<PrimaryButton
-						color={theme.green3}
-						label={'usar cartão'}
-						highlightedWords={['cartão']}
-						fontSize={18}
-						labelColor={theme.white3}
-						SecondSvgIcon={CardWhiteIcon}
-						onPress={performSubscriptionPayment}
-					/>
+					{
+						isLoading
+							? <Loader />
+							: (
+								<PrimaryButton
+									color={theme.green3}
+									label={'usar cartão'}
+									highlightedWords={['cartão']}
+									fontSize={18}
+									labelColor={theme.white3}
+									SecondSvgIcon={CardWhiteIcon}
+									onPress={performSubscriptionPayment}
+								/>
+							)
+					}
 				</Body>
 			</BodyScrollable>
 		</Container >

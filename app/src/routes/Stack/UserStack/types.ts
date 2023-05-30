@@ -47,11 +47,11 @@ export type UserStackParamList = {
 
 	ChatMessages: { chat: Chat }
 
-	SelectSubscriptionRange: undefined
-	EditCurrentSubscription: { postRange: PostRange }
-	SelectSubscriptionPlan: { editMode?: boolean, postRange: PostRange }
-	SelectSubsciptionPaymentMethod: { editMode: boolean } | undefined
-	FinishSubscriptionPaymentByPix: { editMode: boolean } | undefined
-	FinishSubscriptionPaymentByCard: { editMode: boolean } | undefined
-	SubscriptionPaymentResult: { successfulPayment: boolean }
+	SelectSubscriptionRange: { postReview?: boolean }
+	EditCurrentSubscription: { postReview?: boolean, postRange: PostRange, leaveFromPaidSubscription?: PostRange | '' }
+	SelectSubscriptionPlan: { postReview?: boolean, postRange: PostRange }
+	SelectSubsciptionPaymentMethod: { postReview?: boolean } | undefined
+	FinishSubscriptionPaymentByPix: { postReview?: boolean } | undefined
+	FinishSubscriptionPaymentByCard: { postReview?: boolean } | undefined
+	SubscriptionPaymentResult: { postReview?: boolean, successfulPayment: boolean }
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Alert, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 import uuid from 'react-uuid'
 
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -31,7 +31,9 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 	const manageSubscriptionRange = (postRange: PostRange) => {
 		switch (postRange) {
 			case 'near': {
-				Alert.alert('O que fazer quando o usuário tocar no região??')
+				if (postRangeHasSelected(postRange)) return
+				const leaveFromPaidSubscription = postRange !== currentSubscriptionRange ? currentSubscriptionRange : ''
+				navigation.navigate('EditCurrentSubscription', { postRange, leaveFromPaidSubscription })
 				break
 			}
 			case 'city': {
@@ -99,6 +101,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 		{
 			id: 'near',
 			component: <TitleDescriptionButton
+				key={uuid()}
 				height={relativeScreenHeight(20)}
 				color={theme.white3}
 				title={'região'}
@@ -112,6 +115,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 		{
 			id: 'city',
 			component: <TitleDescriptionButton
+				key={uuid()}
 				height={relativeScreenHeight(20)}
 				color={theme.white3}
 				title={'cidade'}
@@ -125,6 +129,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 		{
 			id: 'country',
 			component: <TitleDescriptionButton
+				key={uuid()}
 				height={relativeScreenHeight(20)}
 				color={theme.white3}
 				title={'brasil'}

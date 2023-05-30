@@ -1,5 +1,6 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
@@ -47,5 +48,5 @@ export const TimerArea = styled.View`
 `
 
 export const QRCodeArea = styled.View`
-
+	height: ${relativeScreenHeight(41)}px;
 `

@@ -20,7 +20,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
-function SelectSubsciptionPaymentMethod({ navigation }: SelectSubsciptionPaymentMethodScreenProps) {
+function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciptionPaymentMethodScreenProps) {
 	const { subscriptionDataContext, setSubscriptionDataOnContext } = useContext(SubscriptionContext)
 
 	const { subscriptionRange, subscriptionPlan } = subscriptionDataContext
@@ -29,11 +29,11 @@ function SelectSubsciptionPaymentMethod({ navigation }: SelectSubsciptionPayment
 		setSubscriptionDataOnContext({ subscriptionPaymentMethod })
 
 		if (subscriptionPaymentMethod === 'pix') {
-			navigation.navigate('FinishSubscriptionPaymentByPix')
+			navigation.navigate('FinishSubscriptionPaymentByPix', { postReview: !!route.params?.postReview })
 			return
 		}
 
-		navigation.navigate('FinishSubscriptionPaymentByCard')
+		navigation.navigate('FinishSubscriptionPaymentByCard', { postReview: !!route.params?.postReview })
 	}
 
 	return (
