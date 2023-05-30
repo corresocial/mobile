@@ -1,6 +1,15 @@
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
 import { PostRange, SubscriptionPlan } from '../../services/firebase/types'
 
+const getRangeText = (postRange: PostRange) => {
+	switch (postRange) {
+		case 'near': return 'região'
+		case 'city': return 'cidade'
+		case 'country': return 'brasil'
+		default: return 'indefinido'
+	}
+}
+
 const getRangePlanText = (postRange: PostRange) => {
 	switch (postRange) {
 		case 'near': return showMessageWithHighlight('plano região', ['região'])
@@ -28,4 +37,4 @@ const getRelativeSubscriptionPlanText = (subscriptionPlan?: SubscriptionPlan) =>
 	}
 }
 
-export { getRangePlanText, getRangeSubscriptionPlanText }
+export { getRangeText, getRangePlanText, getRangeSubscriptionPlanText }

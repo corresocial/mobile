@@ -13,6 +13,7 @@ import { SmallButton } from '../../_buttons/SmallButton'
 interface TitleDescriptionButtonProps {
 	height: string | number
 	color: string
+	textColor?: string
 	activeColor?: string
 	title: string
 	titleFontSize?: number
@@ -28,6 +29,7 @@ interface TitleDescriptionButtonProps {
 function TitleDescriptionButton({
 	height,
 	color,
+	textColor,
 	activeColor,
 	title,
 	titleFontSize = 22,
@@ -91,7 +93,11 @@ function TitleDescriptionButton({
 				onPress={releaseButton}
 			>
 				<TitleArea>
-					<Title checked={checked} fontSize={titleFontSize}>
+					<Title
+						fontSize={titleFontSize}
+						textColor={textColor}
+						checked={checked}
+					>
 						{showMessageWithHighlight(title, highlightedWords)}
 					</Title>
 					{
@@ -107,7 +113,7 @@ function TitleDescriptionButton({
 						)
 					}
 				</TitleArea>
-				<Description>
+				<Description textColor={textColor}>
 					{showMessageWithHighlight(description, highlightedWords)}
 				</Description>
 				{renderRelativeFooterValue()}

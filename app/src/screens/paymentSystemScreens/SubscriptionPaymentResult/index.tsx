@@ -2,6 +2,8 @@ import React, { useContext } from 'react'
 import { Alert } from 'react-native'
 
 import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
+import { EditContext } from '../../../contexts/EditContext'
+import { AuthContext } from '../../../contexts/AuthContext'
 
 import { SubscriptionPaymentResultScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -23,10 +25,10 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { getRangeSubscriptionPlanText } from '../../../utils/subscription/commonMessages'
-import { EditContext } from '../../../contexts/EditContext'
 
 function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentResultScreenProps) {
 	const { subscriptionDataContext } = useContext(SubscriptionContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const { subscriptionRange, subscriptionPlan, currentPost } = subscriptionDataContext
@@ -39,6 +41,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 
 	const setNearRangeAsDefault = () => {
 		addNewUnsavedFieldToEditContext({ range: 'near' })
+		setUserDataOnContext({ subscription: { ...userDataContext.subscription, subscriptionRange: 'near' } })
 		backToPostReview()
 	}
 
@@ -97,11 +100,15 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 					successfulPayment
 						? (
 							<>
-								<PostCard
-									owner={(currentPost && currentPost.owner) || { name: 'mock.user', profilePictureUrl: '', userId: 1 }}
-									post={currentPost || { description: 'mock.description', title: 'mocked post', saleValue: '20', postId: 2, postType: 'service', createdAt: new Date() }}
-									onPress={() => { }}
-								/>
+								{
+									currentPost && (
+										<PostCard
+											owner={currentPost && currentPost.owner}
+											post={currentPost}
+											onPress={() => { }}
+										/>
+									)
+								}
 
 								<InstructionCard
 									message={'obrigado por usar nosso aplicativo! \n\njuntos, vamos conectar todos a um futuro melhor'}

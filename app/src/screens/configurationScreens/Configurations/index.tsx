@@ -32,7 +32,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 	}
 
 	const performUserSubscription = () => {
-		navigation.navigate('EditSubscriptionRange')
+		navigation.navigate('SelectSubscriptionRange')
 	}
 
 	return (
@@ -97,6 +97,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				<VerticalSigh />
 				<PrimaryButton
 					color={theme.red3}
+					labelColor={theme.white3}
 					label={'sair'}
 					fontSize={20}
 					justifyContent={'flex-start'}

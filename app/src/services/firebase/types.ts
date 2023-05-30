@@ -26,9 +26,9 @@ export type WeekdaysFrequency = 'today' | 'everyday' | 'someday' | 'businessDay'
 
 export type PostRange = 'near' | 'city' | 'country'
 
-export type SubscriptionPlan = 'monthly' | 'yearly'
+export type SubscriptionPlan = 'monthly' | 'yearly' | ''
 
-export type SubscriptionPaymentMethod = 'pix' | 'creditCard' | 'debitCard'
+export type SubscriptionPaymentMethod = 'pix' | 'creditCard' | 'debitCard' | ''
 
 export type DeliveryMethod = 'unavailable' | 'near' | 'city' | 'country'
 

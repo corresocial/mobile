@@ -47,7 +47,8 @@ export type UserStackParamList = {
 
 	ChatMessages: { chat: Chat }
 
-	EditSubscriptionRange: undefined
+	SelectSubscriptionRange: undefined
+	EditCurrentSubscription: { postRange: PostRange }
 	SelectSubscriptionPlan: { editMode?: boolean, postRange: PostRange }
 	SelectSubsciptionPaymentMethod: { editMode: boolean } | undefined
 	FinishSubscriptionPaymentByPix: { editMode: boolean } | undefined
