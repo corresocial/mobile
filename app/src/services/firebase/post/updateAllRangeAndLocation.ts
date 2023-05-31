@@ -7,7 +7,11 @@ type PostRangeLocation = {
 	location: PostCollectionRemote['location']
 }
 
-async function updateAllRangeAndLocation(userOwner: PostCollectionRemote['owner'], userPosts: PostCollection[], newPostRangeLocation: PostRangeLocation) {
+async function updateAllRangeAndLocation(
+	userOwner: PostCollectionRemote['owner'],
+	userPosts: PostCollection[],
+	newPostRangeLocation: PostRangeLocation
+) {
 	if (!userPosts) return console.log('não possui posts')
 
 	const updatedUserPosts = await updatePosts(userPosts, newPostRangeLocation)
@@ -30,6 +34,8 @@ async function updateAllRangeAndLocation(userOwner: PostCollectionRemote['owner'
 		.catch((err: any) => {
 			console.log(err)
 		})
+
+	return updatedUserPosts
 }
 
 const updatePosts = async (posts: PostCollection[], newPostRangeLocation: PostRangeLocation) => {

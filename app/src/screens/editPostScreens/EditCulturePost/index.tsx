@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react'
+import { Alert } from 'react-native'
 
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -34,7 +35,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
 
-	const owner = {
+	const owner: any = { // TODO Type
 		userId: userDataContext.userId,
 		name: userDataContext.name,
 		profilePictureUrl: userDataContext.profilePictureUrl
@@ -112,6 +113,42 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				initialValue: value
 			}
 		})
+	}
+
+	const checkChangeLocationAlertIsRequired = () => {
+		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectCultureLocationView', 'location')
+
+		switch (userDataContext.subscription?.subscriptionRange) {
+			case 'near': {
+				Alert.alert(
+					'atenção!',
+					'você possui o plano região, ao trocar a localização, todos os seus posts terão a localização trocada, deseja continuar?',
+					[
+						{ text: 'Não', style: 'destructive' },
+						{ text: 'Sim', onPress: () => navigateToEditScreen('SelectCultureLocationView', 'location') }
+					],
+					{ cancelable: false }
+				)
+				break
+			}
+			case 'city': {
+				Alert.alert(
+					'atenção!',
+					'você possui o plano cidade, ao trocar a localização, todos os seus posts terão a localização trocada para esta cidade, deseja continuar?',
+					[
+						{ text: 'Não', style: 'destructive' },
+						{ text: 'Sim', onPress: () => navigateToEditScreen('SelectCultureLocationView', 'location') }
+					],
+					{ cancelable: false }
+				)
+				break
+			}
+			case 'country': {
+				navigateToEditScreen('SelectCultureLocationView', 'location')
+				break
+			}
+			default: navigateToEditScreen('SelectCultureLocationView', 'location')
+		}
 	}
 
 	const navigateToSubscriptionContext = () => {
@@ -207,7 +244,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				locationView={getPostField('locationView')}
 				textFontSize={16}
 				location={getPostField('location')}
-				onEdit={() => navigateToEditScreen('SelectCultureLocationView', 'location')}
+				onEdit={checkChangeLocationAlertIsRequired}
 			/>
 			<VerticalSigh />
 			<SaleOrExchangeCard

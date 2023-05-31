@@ -81,8 +81,8 @@ function EditPost({
 		editContext.clearUnsavedEditContext()
 	}, [])
 
-	const getUserPostsWithoutEdited = () => {
-		const userPosts = userDataContext.posts || []
+	const getUserPostsWithoutEdited = (updatedLocationPosts?: PostCollectionRemote[]) => {
+		const userPosts = updatedLocationPosts || userDataContext.posts || []
 		return userPosts.filter((post: PostCollection) => post.postId !== initialPostData.postId)
 	}
 
@@ -99,20 +99,21 @@ function EditPost({
 		try {
 			setIsLoading(true)
 
+			let userPostsUpdated: any = [] // TODO Type
 			if (locationHasChanged()) {
-				updateAllRangeAndLocation(
-					owner, //	TODO Type
-					userContext.userDataContext.posts || [],
+				userPostsUpdated = await updateAllRangeAndLocation(
+					owner,
+					getUserPostsWithoutEdited(),
 					{
 						range: getPostField('range'),
 						location: getPostField('location')
-					},
+					}
 				)
 			}
 
 			if ((editDataContext.unsaved.picturesUrl && editDataContext.unsaved.picturesUrl.length > 0) && !allPicturesAlreadyUploaded()) {
 				console.log('with pictures')
-				await performPicturesUpload()
+				await performPicturesUpload(userPostsUpdated)
 				return
 			}
 			console.log('without pictures')
@@ -140,7 +141,7 @@ function EditPost({
 				[postDataToSave, ...getUserPostsWithoutEdited()]
 			)
 
-			updateUserContext(postDataToSave)
+			updateUserContext(postDataToSave, userPostsUpdated)
 			changeStateOfEditedFields()
 			setIsLoading(false)
 			navigateBackwards()
@@ -286,7 +287,7 @@ function EditPost({
 		return editDataContext.unsaved.picturesUrl.filter((url: string) => url.includes('https://')).length === editDataContext.unsaved.picturesUrl.length
 	}
 
-	const performPicturesUpload = async () => {
+	const performPicturesUpload = async (postsUpdated?: PostCollection[]) => {
 		const picturesNotUploaded = editDataContext.unsaved.picturesUrl.filter((url: string) => !url.includes('https://')) || []
 		const picturesAlreadyUploaded = editDataContext.unsaved.picturesUrl.filter((url: string) => url.includes('https://')) || []
 
@@ -334,7 +335,7 @@ function EditPost({
 											)
 
 											changeStateOfEditedFields([...picturePostsUrls, ...picturesAlreadyUploaded])
-											updateUserContext(postDataToSave)
+											updateUserContext(postDataToSave, postsUpdated || [])
 											setIsLoading(false)
 											// navigation.goBack()
 										}
@@ -353,12 +354,14 @@ function EditPost({
 		return picturePostsUrls
 	}
 
-	const updateUserContext = (postAfterEdit: PostCollectionRemote) => {
+	const updateUserContext = (postAfterEdit: PostCollectionRemote | false, updatedLocationPosts?: PostCollectionRemote[]) => {
 		userContext.setUserDataOnContext({
-			posts: [
-				...getUserPostsWithoutEdited(),
-				postAfterEdit
-			]
+			posts: postAfterEdit
+				? [
+					...(updatedLocationPosts || getUserPostsWithoutEdited()),
+					postAfterEdit
+				]
+				: [...(updatedLocationPosts || getUserPostsWithoutEdited())]
 		})
 	}
 

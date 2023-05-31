@@ -99,7 +99,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		})
 	}
 
-	const checkSubscriptionSituation = () => {
+	const checkChangeLocationAlertIsRequired = () => {
 		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectLocationView', 'location')
 
 		switch (userDataContext.subscription?.subscriptionRange) {
@@ -222,7 +222,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 				locationView={getPostField('locationView')}
 				textFontSize={16}
 				location={getPostField('location')}
-				onEdit={checkSubscriptionSituation}
+				onEdit={checkChangeLocationAlertIsRequired}
 			/>
 			<VerticalSigh />
 			<DeliveryMethodCard

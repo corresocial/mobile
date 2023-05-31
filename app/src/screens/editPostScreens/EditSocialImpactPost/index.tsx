@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 
+import { Alert } from 'react-native'
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { StateContext } from '../../../contexts/StateContext'
@@ -34,7 +35,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
 
 	const { postData, unsavedPost } = route.params
-	const owner = {
+	const owner: any = { // TODO Type
 		userId: userDataContext.userId,
 		name: userDataContext.name,
 		profilePictureUrl: userDataContext.profilePictureUrl
@@ -110,6 +111,42 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 				initialValue: value
 			}
 		})
+	}
+
+	const checkChangeLocationAlertIsRequired = () => {
+		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectSocialImpactLocationView', 'location')
+
+		switch (userDataContext.subscription?.subscriptionRange) {
+			case 'near': {
+				Alert.alert(
+					'atenção!',
+					'você possui o plano região, ao trocar a localização, todos os seus posts terão a localização trocada, deseja continuar?',
+					[
+						{ text: 'Não', style: 'destructive' },
+						{ text: 'Sim', onPress: () => navigateToEditScreen('SelectSocialImpactLocationView', 'location') }
+					],
+					{ cancelable: false }
+				)
+				break
+			}
+			case 'city': {
+				Alert.alert(
+					'atenção!',
+					'você possui o plano cidade, ao trocar a localização, todos os seus posts terão a localização trocada para esta cidade, deseja continuar?',
+					[
+						{ text: 'Não', style: 'destructive' },
+						{ text: 'Sim', onPress: () => navigateToEditScreen('SelectSocialImpactLocationView', 'location') }
+					],
+					{ cancelable: false }
+				)
+				break
+			}
+			case 'country': {
+				navigateToEditScreen('SelectSocialImpactLocationView', 'location')
+				break
+			}
+			default: navigateToEditScreen('SelectSocialImpactLocationView', 'location')
+		}
 	}
 
 	const navigateToSubscriptionContext = () => {
@@ -199,7 +236,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 				locationView={getPostField('locationView')}
 				textFontSize={16}
 				location={getPostField('location')}
-				onEdit={() => navigateToEditScreen('SelectSocialImpactLocationView', 'location')}
+				onEdit={checkChangeLocationAlertIsRequired}
 			/>
 			<VerticalSigh />
 			<ExhibitionPlaceCard
