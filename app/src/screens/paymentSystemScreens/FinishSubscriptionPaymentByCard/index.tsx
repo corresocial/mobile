@@ -141,14 +141,10 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 				subscriptionPaymentMethod
 			}
 
-			// DEV_ONLY
-			const paymentResult = Math.random() > 0.5
-
-			paymentResult && await updateUserSubscription(userSubscription)
+			await updateUserSubscription(userSubscription)
 
 			setIsLoading(false)
-
-			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: paymentResult, ...route.params }) // TRUE
+			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true, ...route.params })
 		} catch (err: any) { // Veirfy stripe erros
 			console.log(err)
 			setIsLoading(false)

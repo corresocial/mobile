@@ -10,11 +10,15 @@ type PostRangeLocation = {
 async function updateAllRangeAndLocation(
 	userOwner: PostCollectionRemote['owner'],
 	userPosts: PostCollection[],
-	newPostRangeLocation: PostRangeLocation
+	newPostRangeLocation: PostRangeLocation,
+	subscriptionChange?: boolean
 ) {
 	if (!userPosts) return console.log('não possui posts')
 
-	const updatedUserPosts = await updatePosts(userPosts, newPostRangeLocation)
+	let updatedUserPosts = await updatePostsLocation(userPosts, newPostRangeLocation)
+	if (subscriptionChange) {
+		updatedUserPosts = await updatePostsRange(userPosts, newPostRangeLocation)
+	}
 
 	updatedUserPosts.map(async (post) => {
 		if (!post.postId) return
@@ -38,27 +42,58 @@ async function updateAllRangeAndLocation(
 	return updatedUserPosts
 }
 
-const updatePosts = async (posts: PostCollection[], newPostRangeLocation: PostRangeLocation) => {
+const updatePostsLocation = async (posts: PostCollection[], newPostRangeLocation: PostRangeLocation) => {
 	if (!posts) return []
 
 	const updatedPosts = posts.map((post) => {
-		if (newPostRangeLocation.range === 'near') {
-			return {
-				...post,
-				location: newPostRangeLocation.location
-			}
-		}
-
-		if (newPostRangeLocation.range === 'city') {
-			if (newPostRangeLocation.location?.city !== post.location?.city) {
+		switch (newPostRangeLocation.range) {
+			case 'near': {
 				return {
 					...post,
-					location: newPostRangeLocation.location
+					location: newPostRangeLocation.location || post.location
 				}
 			}
+			case 'city': {
+				if (newPostRangeLocation.location?.city !== post.location?.city) {
+					return {
+						...post,
+						location: newPostRangeLocation.location || post.location
+					}
+				}
+				return post
+			}
+			default: return post
 		}
+	})
 
-		return post
+	return updatedPosts
+}
+
+const updatePostsRange = async (posts: PostCollection[], newPostRangeLocation: PostRangeLocation) => {
+	if (!posts) return []
+
+	const updatedPosts = posts.map((post) => {
+		switch (newPostRangeLocation.range) {
+			case 'near': {
+				return {
+					...post,
+					range: newPostRangeLocation.range,
+				}
+			}
+			case 'city': {
+				return {
+					...post,
+					range: newPostRangeLocation.range,
+				}
+			}
+			case 'country': {
+				return {
+					...post,
+					range: newPostRangeLocation.range
+				}
+			}
+			default: return post
+		}
 	})
 
 	return updatedPosts

@@ -86,7 +86,6 @@ function FinishSubscriptionPaymentByPix({ route, navigation }: FinishSubscriptio
 
 			setIsLoading(false)
 			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true, postReview: !!route.params?.postReview })
-			// }
 		} catch (err: any) { // Veirfy stripe erros
 			console.log(err)
 			setIsLoading(false)

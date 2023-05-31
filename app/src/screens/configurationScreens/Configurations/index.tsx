@@ -77,11 +77,11 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				<VerticalSigh />
 				<PrimaryButton
 					color={theme.white3}
-					label={'faça uma doação'}
+					label={'assinatura corre.'}
 					fontSize={20}
 					justifyContent={'flex-start'}
 					textAlign={'left'}
-					highlightedWords={['doação']}
+					highlightedWords={['corre']}
 					onPress={performUserSubscription}
 				/>
 				<VerticalSigh />

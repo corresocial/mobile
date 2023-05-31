@@ -20,19 +20,20 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 
-	const [currentSubscriptionRange, setCurrentSubscriptionRange] = useState<PostRange>('near')
+	const [currentSubscriptionRange, setCurrentSubscriptionRange] = useState<PostRange>(userDataContext.subscription?.subscriptionRange || 'near')
 
 	useEffect(() => {
 		const currentRange = userDataContext.subscription?.subscriptionRange || 'near'
 		setCurrentSubscriptionRange(currentRange)
-	})
+		console.log(currentRange)
+	}, [userDataContext.subscription?.subscriptionRange])
 
 	const manageSubscriptionRange = (postRange: PostRange) => {
 		switch (postRange) {
 			case 'near': {
 				if (postRangeHasSelected(postRange)) return
 				const leaveFromPaidSubscription = postRange !== currentSubscriptionRange ? currentSubscriptionRange : ''
-				navigation.navigate('EditCurrentSubscription', { postRange, leaveFromPaidSubscription })
+				navigation.navigate('EditCurrentSubscription', { postRange: leaveFromPaidSubscription ? currentSubscriptionRange : 'near', leaveFromPaidSubscription })
 				break
 			}
 			case 'city': {

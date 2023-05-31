@@ -44,7 +44,7 @@ function SubscriptionProvider({ children }: SubscriptionProviderProps) {
 
 	const updateLocalUserSubscription = async (userSubscription: UserSubscription) => {
 		setUserDataOnContext({ subscription: userSubscription })
-		await setDataOnSecureStore('corre.user', { subscription: userSubscription })
+		await setDataOnSecureStore('corre.user', { ...userDataContext, subscription: userSubscription })
 	}
 
 	const updateRemoteUserSubscription = async (userSubscription: UserSubscription) => {

@@ -335,7 +335,7 @@ function EditPost({
 											)
 
 											changeStateOfEditedFields([...picturePostsUrls, ...picturesAlreadyUploaded])
-											updateUserContext(postDataToSave, postsUpdated || [])
+											updateUserContext(postDataToSave, postsUpdated as any[]) // TODO Type
 											setIsLoading(false)
 											// navigation.goBack()
 										}
@@ -354,7 +354,7 @@ function EditPost({
 		return picturePostsUrls
 	}
 
-	const updateUserContext = (postAfterEdit: PostCollectionRemote | false, updatedLocationPosts?: PostCollectionRemote[]) => {
+	const updateUserContext = (postAfterEdit: PostCollectionRemote | false, updatedLocationPosts?: PostCollectionRemote[] | []) => {
 		userContext.setUserDataOnContext({
 			posts: postAfterEdit
 				? [

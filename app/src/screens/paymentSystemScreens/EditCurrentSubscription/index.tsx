@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Alert, StatusBar } from 'react-native'
 
+import { AuthContext } from '../../../contexts/AuthContext'
 import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
@@ -11,7 +12,7 @@ import EditWhiteIcon from '../../../assets/icons/edit-white.svg'
 
 import { getRangeText } from '../../../utils/subscription/commonMessages'
 
-import { UserSubscription } from '../../../services/firebase/types'
+import { PostCollection, PostCollectionRemote, UserSubscription } from '../../../services/firebase/types'
 import { EditCurrentSubscriptionScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -21,19 +22,27 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { Loader } from '../../../components/Loader'
+import { updateAllRangeAndLocation } from '../../../services/firebase/post/updateAllRangeAndLocation'
 
 function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionScreenProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 
 	const [hasError, setHasError] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 
-	const { postRange, leaveFromPaidSubscription } = route.params
+	const { postRange: currentRangeSubscription, leaveFromPaidSubscription } = route.params
+
+	const owner: PostCollection['owner'] = {
+		userId: userDataContext.userId,
+		name: userDataContext.name,
+		profilePictureUrl: userDataContext.profilePictureUrl
+	}
 
 	const cancelSubscription = () => {
 		Alert.alert(
 			'atenção!',
-			`você tem certeza que deseja cancelar a assinatura "${getRangeText(postRange)}"?`,
+			`você tem certeza que deseja cancelar a assinatura "${getRangeText(currentRangeSubscription)}"?`,
 			[
 				{ text: 'Não', style: 'destructive' },
 				{ text: 'Sim', onPress: () => { handleCalcelSubscription() } },
@@ -53,6 +62,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 			}
 
 			await updateUserSubscription(userSubscription)
+			await updateSubscriptionDependentPosts(userSubscription)
 			setIsLoading(false)
 			navigation.goBack()
 		} catch (err) {
@@ -61,13 +71,38 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 		}
 	}
 
+	const updateSubscriptionDependentPosts = async (userSubscription: UserSubscription) => {
+		console.log(`${currentRangeSubscription} --> near`)
+
+		const userPosts: PostCollection[] = userDataContext.posts || []
+		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
+
+		if (!lastUserPost) return
+
+		const userPostsUpdated = await updateAllRangeAndLocation(
+			owner as any, // TODO Type
+			userDataContext.posts || [],
+			{
+				range: 'near',
+				location: lastUserPost.location// DEFINE
+			},
+			true
+		)
+
+		updateUserContext(userSubscription, userPostsUpdated as any[]) // TODO Type
+	}
+
+	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostCollectionRemote[] | []) => {
+		setUserDataOnContext({ subscription: { ...userSubscription }, posts: updatedLocationPosts })
+	}
+
 	const editPaymentMethod = () => {
 		navigation.navigate('SelectSubsciptionPaymentMethod')
 	}
 
 	const getHeaderTitle = () => {
 		if (leaveFromPaidSubscription) return `cancelar \nplano ${getRangeText(leaveFromPaidSubscription)}`
-		return !hasError ? `plano ${getRangeText(postRange)}` : 'opa'
+		return !hasError ? `plano ${getRangeText(currentRangeSubscription)}` : 'opa'
 	}
 
 	const getHeaderDescription = () => {
@@ -77,7 +112,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 
 	const getHeaderHighlightedWords = () => {
 		if (leaveFromPaidSubscription) return ['cancelar', 'cancelar', 'seu', 'plano', getRangeText(leaveFromPaidSubscription), 'e', 'voltar', 'para', 'plano', 'região']
-		return !hasError ? [getRangeText(postRange)] : ['opa', 'algo', 'deu', 'errado', 'ao', 'cancelar']
+		return !hasError ? [getRangeText(currentRangeSubscription)] : ['opa', 'algo', 'deu', 'errado', 'ao', 'cancelar']
 	}
 
 	return (
