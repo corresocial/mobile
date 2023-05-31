@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { StatusBar } from 'react-native'
+import { Alert, StatusBar } from 'react-native'
 
 import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
 
@@ -30,7 +30,19 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 
 	const { postRange, leaveFromPaidSubscription } = route.params
 
-	const cancelSubscription = async () => {
+	const cancelSubscription = () => {
+		Alert.alert(
+			'atenção!',
+			`você tem certeza que deseja cancelar a assinatura "${getRangeText(postRange)}"?`,
+			[
+				{ text: 'Não', style: 'destructive' },
+				{ text: 'Sim', onPress: () => { handleCalcelSubscription() } },
+			],
+			{ cancelable: false }
+		)
+	}
+
+	const handleCalcelSubscription = async () => {
 		try {
 			setIsLoading(true)
 			setHasError(false)

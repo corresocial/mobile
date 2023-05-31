@@ -47,7 +47,7 @@ export type UserStackParamList = {
 
 	ChatMessages: { chat: Chat }
 
-	SelectSubscriptionRange: { postReview?: boolean }
+	SelectSubscriptionRange: { postReview: boolean } | undefined
 	EditCurrentSubscription: { postReview?: boolean, postRange: PostRange, leaveFromPaidSubscription?: PostRange | '' }
 	SelectSubscriptionPlan: { postReview?: boolean, postRange: PostRange }
 	SelectSubsciptionPaymentMethod: { postReview?: boolean } | undefined

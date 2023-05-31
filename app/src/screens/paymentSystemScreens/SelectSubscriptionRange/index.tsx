@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { StatusBar } from 'react-native'
-import uuid from 'react-uuid'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
@@ -74,9 +73,9 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 					/>
 				) */
 				return (
-					<React.Fragment key={uuid()}>
+					< >
 						{rangeCard.component}
-					</React.Fragment>
+					</>
 				)
 			}
 			return <></>
@@ -87,10 +86,10 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 		return rangeCards.map((rangeCard) => {
 			if (currentSubscriptionRange !== rangeCard.id) {
 				return (
-					<React.Fragment key={uuid()}>
+					< >
 						{rangeCard.component}
-						<VerticalSigh />
-					</React.Fragment>
+						< VerticalSigh />
+					</>
 				)
 			}
 			return <></>
@@ -101,7 +100,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 		{
 			id: 'near',
 			component: <TitleDescriptionButton
-				key={uuid()}
+				key={'near'}
 				height={relativeScreenHeight(20)}
 				color={theme.white3}
 				title={'região'}
@@ -115,7 +114,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 		{
 			id: 'city',
 			component: <TitleDescriptionButton
-				key={uuid()}
+				key={'city'}
 				height={relativeScreenHeight(20)}
 				color={theme.white3}
 				title={'cidade'}
@@ -129,7 +128,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 		{
 			id: 'country',
 			component: <TitleDescriptionButton
-				key={uuid()}
+				key={'country'}
 				height={relativeScreenHeight(20)}
 				color={theme.white3}
 				title={'brasil'}

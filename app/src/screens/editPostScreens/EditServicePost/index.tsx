@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 
+import { Alert } from 'react-native'
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { StateContext } from '../../../contexts/StateContext'
@@ -32,7 +33,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 	const { setStateDataOnContext } = useContext(StateContext)
 
 	const { postData, unsavedPost } = route.params
-	const owner = {
+	const owner: any = { // TODO Type
 		userId: userDataContext.userId,
 		name: userDataContext.name,
 		profilePictureUrl: userDataContext.profilePictureUrl
@@ -96,6 +97,42 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 				initialValue: value
 			}
 		})
+	}
+
+	const checkSubscriptionSituation = () => {
+		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectLocationView', 'location')
+
+		switch (userDataContext.subscription?.subscriptionRange) {
+			case 'near': {
+				Alert.alert(
+					'atenção!',
+					'você possui o plano região, ao trocar a localização, todos os seus posts terão a localização trocada, deseja continuar?',
+					[
+						{ text: 'Não', style: 'destructive' },
+						{ text: 'Sim', onPress: () => navigateToEditScreen('SelectLocationView', 'location') }
+					],
+					{ cancelable: false }
+				)
+				break
+			}
+			case 'city': {
+				Alert.alert(
+					'atenção!',
+					'você possui o plano cidade, ao trocar a localização, todos os seus posts terão a localização trocada para esta cidade, deseja continuar?',
+					[
+						{ text: 'Não', style: 'destructive' },
+						{ text: 'Sim', onPress: () => navigateToEditScreen('SelectLocationView', 'location') }
+					],
+					{ cancelable: false }
+				)
+				break
+			}
+			case 'country': {
+				navigateToEditScreen('SelectLocationView', 'location')
+				break
+			}
+			default: navigateToEditScreen('SelectLocationView', 'location')
+		}
 	}
 
 	const navigateToSubscriptionContext = () => {
@@ -185,7 +222,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 				locationView={getPostField('locationView')}
 				textFontSize={16}
 				location={getPostField('location')}
-				onEdit={() => navigateToEditScreen('SelectLocationView', 'location')}
+				onEdit={checkSubscriptionSituation}
 			/>
 			<VerticalSigh />
 			<DeliveryMethodCard

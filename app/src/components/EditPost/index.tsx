@@ -25,6 +25,7 @@ import { VerticalSigh } from '../../components/VerticalSigh'
 import { PostCard } from '../../components/_cards/PostCard'
 import { SubtitleCard } from '../../components/_cards/SubtitleCard'
 import { InstructionCard } from '../../components/_cards/InstructionCard'
+import { updateAllRangeAndLocation } from '../../services/firebase/post/updateAllRangeAndLocation'
 
 type UserContextFragment = {
 	userDataContext: UserCollection;
@@ -43,7 +44,7 @@ type EditContextFragment = {
 
 interface EditPostProps {
 	initialPostData: PostCollectionRemote
-	owner?: PostCollection['owner']
+	owner: PostCollectionRemote['owner']
 	backgroundColor: string
 	unsavedPost?: boolean
 	children: React.ReactNode | React.ReactNode[]
@@ -85,11 +86,29 @@ function EditPost({
 		return userPosts.filter((post: PostCollection) => post.postId !== initialPostData.postId)
 	}
 
+	const locationHasChanged = () => {
+		if (Object.keys(editDataContext.unsaved).includes('location') || userContext.userDataContext.subscription?.subscriptionRange !== 'country') {
+			return true
+		}
+		return false
+	}
+
 	const editPost = async () => {
 		if (!editDataContext.unsaved) return
 
 		try {
 			setIsLoading(true)
+
+			if (locationHasChanged()) {
+				updateAllRangeAndLocation(
+					owner, //	TODO Type
+					userContext.userDataContext.posts || [],
+					{
+						range: getPostField('range'),
+						location: getPostField('location')
+					},
+				)
+			}
 
 			if ((editDataContext.unsaved.picturesUrl && editDataContext.unsaved.picturesUrl.length > 0) && !allPicturesAlreadyUploaded()) {
 				console.log('with pictures')
