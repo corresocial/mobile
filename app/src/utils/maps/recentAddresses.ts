@@ -1,7 +1,17 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { AddressSearchResult } from './types'
+import { AddressSearchResult } from '../../services/maps/types'
 
-const getRecentAddressFromStorage = async () => {
+const getLastRecentAddress = (recentAddresses: AddressSearchResult[]) => {
+	if (recentAddresses && recentAddresses.length) {
+		return {
+			lat: recentAddresses[0].lat,
+			lon: recentAddresses[0].lon
+		}
+	}
+	return {}
+}
+
+const getRecentAdressesFromStorage = async () => {
 	const storageAddresses = await AsyncStorage.getItem('corre.addresses')
 	if (storageAddresses) {
 		const addressesList = JSON.parse(storageAddresses)
@@ -11,7 +21,7 @@ const getRecentAddressFromStorage = async () => {
 }
 
 const setRecentAddressOnStorage = async (data: AddressSearchResult) => {
-	const storedAddresses = await getRecentAddressFromStorage()
+	const storedAddresses = await getRecentAdressesFromStorage()
 
 	const filtredAddress = storedAddresses.filter((address: any) => address.formattedAddress !== data.formattedAddress)
 	const allAddresses = [...filtredAddress, { ...data, recent: true }]
@@ -24,4 +34,8 @@ const setRecentAddressOnStorage = async (data: AddressSearchResult) => {
 	return true
 }
 
-export { getRecentAddressFromStorage, setRecentAddressOnStorage }
+export {
+	getLastRecentAddress,
+	getRecentAdressesFromStorage,
+	setRecentAddressOnStorage
+}

@@ -6,15 +6,15 @@ import { AnimationContainer, Container } from './styles'
 import buildingColorPassingDark from '../../assets/animations/buildingColorPassingLight.json'
 
 interface LoaderProps {
-	flex?: boolean
+	animationScale?: number
 }
 
-function Loader({ flex }: LoaderProps) {
+function Loader({ animationScale }: LoaderProps) {
 	const animation = useRef<any>(null)
 
 	return (
-		<Container style={{ flex: flex ? 1 : 0 }}>
-			<AnimationContainer >
+		<Container>
+			<AnimationContainer animationScale={animationScale}>
 				<LottieView
 					source={buildingColorPassingDark}
 					ref={animation}

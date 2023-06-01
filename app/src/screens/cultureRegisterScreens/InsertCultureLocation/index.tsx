@@ -12,7 +12,7 @@ import { CultureContext } from '../../../contexts/CultureContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { SelectPostLocation } from '../../../components/_onboarding/SelectPostLocation'
-import { convertGeocodeToAddress } from '../../../services/maps/addressFormatter'
+import { convertGeocodeToAddress } from '../../../utils/maps/addressFormatter'
 
 function InsertCultureLocation({ route, navigation }: InsertCultureLocationScreenProps) {
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
