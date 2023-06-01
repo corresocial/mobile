@@ -1,5 +1,6 @@
 import React from 'react'
 import { Modal } from 'react-native'
+import { SvgProps } from 'react-native-svg'
 
 import {
 	Container,
@@ -41,10 +42,12 @@ interface CustomModalProps {
 	closeModal: () => void
 	affirmativeButton?: {
 		label: string
+		CustomIcon?: React.FC<SvgProps>
 		onPress: () => void
 	}
 	negativeButton?: {
 		label: string
+		CustomIcon?: React.FC<SvgProps>
 		onPress: () => void
 	}
 }
@@ -85,6 +88,7 @@ function CustomModal({
 								)
 							}
 						</Header>
+
 						{
 							firstParagraph && (
 								<Description bolded={firstParagraph.bolded}>
@@ -106,11 +110,11 @@ function CustomModal({
 										color={theme.red3}
 										labelColor={theme.white3}
 										label={negativeButton.label}
-										highlightedWords={negativeButton.label.split(', ')}
+										highlightedWords={[...negativeButton.label.split(' '), ...negativeButton.label.split(', ')]}
 										fontSize={16}
-										SvgIcon={XWhiteIcon}
+										SecondSvgIcon={negativeButton.CustomIcon || XWhiteIcon}
 										svgIconScale={['40%', '25%']}
-										onPress={() => { }}
+										onPress={negativeButton.onPress && negativeButton.onPress}
 									/>
 									<VerticalSigh />
 								</>
@@ -122,11 +126,11 @@ function CustomModal({
 									color={theme.green3}
 									labelColor={theme.white3}
 									label={affirmativeButton.label}
-									highlightedWords={affirmativeButton.label.split(', ')}
+									highlightedWords={[...affirmativeButton.label.split(' '), ...affirmativeButton.label.split(', ')]}
 									fontSize={16}
-									SecondSvgIcon={CheckWhiteIcon}
+									SecondSvgIcon={affirmativeButton.CustomIcon || CheckWhiteIcon}
 									svgIconScale={['40%', '25%']}
-									onPress={() => { }}
+									onPress={affirmativeButton.onPress && affirmativeButton.onPress}
 								/>
 							)
 						}

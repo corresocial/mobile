@@ -31,6 +31,7 @@ export const ContentInner = styled.View`
 	width: 100%;
 	background-color: ${({ theme }) => theme.white3}
 	padding: ${RFValue(25)}px;
+	padding-top: ${RFValue(15)}px;
 	border-radius: ${RFValue(10)}px;
 	justify-content: space-between;
 `
@@ -39,12 +40,12 @@ export const Header = styled.View`
 	width: 100%;
 	flex-direction: row;
 	justify-content: space-between;
-	align-items: flex-start;
+	align-items: center;
+	margin-bottom: ${RFValue(20)}px;
 `
 
 export const Title = styled.Text`
 	flex: 1;
-	margin-bottom: ${RFValue(20)}px;
     font-family: Arvo_700Bold;
     font-size: ${RFValue(22)}px;
     color: ${({ theme }) => theme.black3}
