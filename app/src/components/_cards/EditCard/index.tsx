@@ -96,6 +96,7 @@ function EditCard({
 											picturesUrl={profilePicturesUrl}
 											indicatorColor={indicatorColor}
 											relativeWidth={relativeScreenWidth(90)}
+											withoutBorder
 										/>
 									) : (
 										<ProfilePicture

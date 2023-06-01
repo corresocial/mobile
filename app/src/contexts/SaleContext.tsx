@@ -45,7 +45,7 @@ function SaleProvider({ children }: SaleProviderProps) {
 		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
 
 		setSaleDataContext({
-			range: lastUserPost.range || '',
+			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',
 			location: lastUserPost.location || '',
 			deliveryMethod: lastUserPost.deliveryMethod || '',

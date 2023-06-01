@@ -21,6 +21,7 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ range: postRange })
 			navigation.goBack()
+			return
 		}
 
 		setSocialImpactDataOnContext({ range: postRange })

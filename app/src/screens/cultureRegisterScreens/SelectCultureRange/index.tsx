@@ -23,14 +23,12 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ range: postRange })
 			navigation.goBack()
+			return
 		}
 
 		setCultureDataOnContext({ range: postRange })
 		if (eventPlaceModality !== 'online') {
-			navigation.navigate('SelectCultureLocationView', {
-				editMode: editModeIsTrue(),
-				initialValue: route.params?.initialValue
-			})
+			navigation.navigate('SelectCultureLocationView')
 		} else {
 			navigation.navigate('InsertEntryValue')
 		}

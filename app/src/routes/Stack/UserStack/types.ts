@@ -1,7 +1,15 @@
 import { Chat } from '../../../@types/chat/types'
 import { LocalUserData } from '../../../contexts/types'
 import { ContactUsType } from '../../../services/discord/types'
-import { CultureCollectionRemote, SaleCollectionRemote, ServiceCollectionRemote, SocialImpactCollectionRemote, SocialMedia, VacancyCollectionRemote } from '../../../services/firebase/types'
+import {
+	CultureCollectionRemote,
+	PostRange,
+	SaleCollectionRemote,
+	ServiceCollectionRemote,
+	SocialImpactCollectionRemote,
+	SocialMedia,
+	VacancyCollectionRemote
+} from '../../../services/firebase/types'
 import { ReportedTarget } from '../../../services/types'
 
 export type UserStackParamList = {
@@ -38,4 +46,12 @@ export type UserStackParamList = {
 	PrivacyAndSecurity: undefined
 
 	ChatMessages: { chat: Chat }
+
+	SelectSubscriptionRange: { postReview: boolean } | undefined
+	EditCurrentSubscription: { postReview?: boolean, postRange: PostRange, leaveFromPaidSubscription?: PostRange | '' }
+	SelectSubscriptionPlan: { postReview?: boolean, postRange: PostRange }
+	SelectSubsciptionPaymentMethod: { postReview?: boolean } | undefined
+	FinishSubscriptionPaymentByPix: { postReview?: boolean } | undefined
+	FinishSubscriptionPaymentByCard: { postReview?: boolean } | undefined
+	SubscriptionPaymentResult: { postReview?: boolean, successfulPayment: boolean }
 }

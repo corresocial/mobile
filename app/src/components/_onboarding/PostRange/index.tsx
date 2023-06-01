@@ -51,7 +51,7 @@ function PostRange({ backgroundColor, progress, savePostRange, navigateBackwards
 						title={'região'}
 						description={'a pessoas encontram seus posts e perfil  no bairro'}
 						highlightedWords={['região']}
-						footerText={'near'}
+						footerValue={'free'}
 						onPress={() => savePostRange('near')}
 					/>
 					<TitleDescriptionButton
@@ -60,7 +60,7 @@ function PostRange({ backgroundColor, progress, savePostRange, navigateBackwards
 						title={'cidade'}
 						description={'seus posts aparecem na cidade inteira, também pode postar em bairros!'}
 						highlightedWords={['cidade', 'também', 'pode', 'postar', 'em', 'bairros!']}
-						footerText={'city'}
+						footerValue={'free'}
 						onPress={() => savePostRange('city')}
 					/>
 					<TitleDescriptionButton
@@ -69,7 +69,7 @@ function PostRange({ backgroundColor, progress, savePostRange, navigateBackwards
 						title={'brasil'}
 						description={'postagens aparecem em cidades vizinhas e no brasil inteiro.'}
 						highlightedWords={['brasil']}
-						footerText={'country'}
+						footerValue={'free'}
 						onPress={() => savePostRange('country')}
 					/>
 				</ButtonsContainer>

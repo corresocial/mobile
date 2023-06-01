@@ -21,6 +21,7 @@ function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ range: postRange })
 			navigation.goBack()
+			return
 		}
 
 		setSaleDataOnContext({ range: postRange })

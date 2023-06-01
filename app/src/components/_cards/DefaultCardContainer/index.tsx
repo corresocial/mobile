@@ -1,11 +1,12 @@
 import React, { ReactElement } from 'react'
+import { ViewStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, ContainerInner } from './styles'
 
 interface DefaultCardContainerProps {
 	withoutPadding?: boolean
-	flex?: 0 | 1
+	flex?: ViewStyle['flex']
 	children: ReactElement<any, any> | ReactElement<any, any>[] | any
 }
 

@@ -22,8 +22,7 @@ type AuthContextType = {
 	validateVerificationCode: (verificationCodeId: string, verificationCode: string) => Promise<UserCredential>
 }
 
-const AuthContext = createContext<AuthContextType>({
-} as AuthContextType)
+const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 
 interface AuthProviderProps {
 	children: React.ReactNode
@@ -73,7 +72,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 	const setDataOnSecureStore = async (key: string, data: any) => {
 		try {
-			await SecureStore.setItemAsync(key, JSON.stringify(data))
+			await SecureStore.setItemAsync(key, JSON.stringify({ ...userDataContext, ...data }))
 			return true
 		} catch (err) {
 			console.log(`Error: ${err}`)

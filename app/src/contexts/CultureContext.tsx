@@ -45,7 +45,7 @@ function CultureProvider({ children }: CultureProviderProps) {
 		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
 
 		setCultureDataContext({
-			range: lastUserPost.range || '',
+			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',
 			location: lastUserPost.location || '',
 			entryValue: lastUserPost.entryValue || '',

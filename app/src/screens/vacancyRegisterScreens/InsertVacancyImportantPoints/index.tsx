@@ -1,4 +1,4 @@
-import { Keyboard, Platform, StatusBar } from 'react-native'
+import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import uuid from 'react-uuid'
 
@@ -32,11 +32,11 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 
 	const inputRefs = {
 		inputCards: [
-			useRef<React.MutableRefObject<any>>(null),
-			useRef<React.MutableRefObject<any>>(null),
-			useRef<React.MutableRefObject<any>>(null)
+			useRef<TextInput>(null),
+			useRef<TextInput>(null),
+			useRef<TextInput>(null)
 		],
-		importantPointTextInput: useRef<React.MutableRefObject<any>>(null),
+		importantPointTextInput: useRef<TextInput>(null),
 	}
 
 	useEffect(() => {

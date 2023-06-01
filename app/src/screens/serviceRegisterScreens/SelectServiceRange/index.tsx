@@ -16,11 +16,11 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
-
 	const savePostRange = (postRange: PostRangeType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ range: postRange })
 			navigation.goBack()
+			return
 		}
 
 		setServiceDataOnContext({ range: postRange })

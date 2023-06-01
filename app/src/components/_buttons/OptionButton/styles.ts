@@ -15,7 +15,7 @@ export const ContainerBottom = styled(Animatable.View)`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    border-radius: ${RFValue(13)}px;
+    border-radius: ${RFValue(15)}px;
     position: relative;
     background-color: ${({ theme }) => theme.black4};
 `
@@ -26,7 +26,7 @@ export const ContainerSurface = styled.View`
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    border-radius:${RFValue(13)}px;
+    border-radius:${RFValue(15)}px;
     border: ${RFValue(2.5)}px solid black;
     background-color: ${({ theme }) => theme.white3};
     overflow: hidden;
@@ -36,7 +36,7 @@ export const ContainerSurface = styled.View`
 
 export const IconArea = styled.View`
     background-color: ${({ theme }) => theme.orange3}
-    height: 100%;
+    height: 101%;
     align-items: center;
     justify-content: center;
 `

@@ -1,6 +1,15 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
+interface TextProps {
+	textColor?: string
+}
+
+interface TitleProps extends TextProps {
+	checked?: boolean
+	fontSize?: number
+}
+
 export const Container = styled.View`
 	width: 100%;
     background-color: ${({ theme }) => theme.black4};
@@ -21,18 +30,23 @@ export const ContainerInner = styled.TouchableOpacity`
 	left: ${RFValue(-5)}px;
 `
 
-export const Title = styled.Text`
-    width: 100%;
-    font-family: Arvo_400Regular;
-    font-size:  ${RFValue(22)}px;
-    color: ${({ theme }) => theme.black4}
+export const TitleArea = styled.View`
+	flex-direction: row;
+	justify-content: space-between;
 `
 
-export const Description = styled.Text`
+export const Title = styled.Text<TitleProps>`
+    width: ${({ checked }) => (checked ? '70%' : '100%')};
+    font-size:  ${({ fontSize }) => (fontSize ? RFValue(fontSize) : RFValue(22))}px;
+    color:  ${({ textColor, theme }) => (textColor || theme.black4)};
+    font-family: Arvo_400Regular;
+`
+
+export const Description = styled.Text<TextProps>`
     width: 100%;
     font-family: Arvo_400Regular;
     font-size:  ${RFValue(14)}px;
-    color: ${({ theme }) => theme.black4}
+	color:  ${({ textColor, theme }) => (textColor || theme.black4)};
 `
 
 export const Footer = styled.View`

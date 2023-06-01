@@ -26,6 +26,10 @@ export type WeekdaysFrequency = 'today' | 'everyday' | 'someday' | 'businessDay'
 
 export type PostRange = 'near' | 'city' | 'country'
 
+export type SubscriptionPlan = 'monthly' | 'yearly' | ''
+
+export type SubscriptionPaymentMethod = 'pix' | 'creditCard' | 'debitCard' | ''
+
 export type DeliveryMethod = 'unavailable' | 'near' | 'city' | 'country'
 
 export type DaysOfWeek = 'seg' | 'ter' | 'qua' | 'qui' | 'sex' | 'sab' | 'dom'
@@ -87,6 +91,12 @@ export type SocialMedia = {
 	link: string
 }
 
+export type UserSubscription = {
+	subscriptionRange?: PostRange
+	subscriptionPlan?: SubscriptionPlan
+	subscriptionPaymentMethod?: SubscriptionPaymentMethod
+}
+
 export type UserCollection = {
 	userId?: Id
 	name?: string
@@ -103,7 +113,8 @@ export type UserCollection = {
 	locationView?: LocationViewType
 	cellNumber?: string // private
 	socialMedias?: SocialMedia[]
-	location?: { // private
+	subscription?: UserSubscription
+	location?: {
 		country?: string
 		state?: string
 		city?: string

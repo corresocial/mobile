@@ -52,7 +52,6 @@ function SelectPostType({ navigation, withoutBackButton }: SelectPostTypeScreenP
 					color={theme.white3}
 					label={'um serviço'}
 					highlightedWords={['um', 'serviço']}
-					labelColor={theme.black3}
 					labelSize={18}
 					relativeHeight={'16%'}
 					shortDescription={'ofereço um serviço'}
@@ -66,7 +65,6 @@ function SelectPostType({ navigation, withoutBackButton }: SelectPostTypeScreenP
 					color={theme.white3}
 					label={'uma venda'}
 					highlightedWords={['uma', 'venda']}
-					labelColor={theme.black3}
 					labelSize={18}
 					relativeHeight={'16%'}
 					shortDescription={'comércios, venda de novos ou usados'}
@@ -80,7 +78,6 @@ function SelectPostType({ navigation, withoutBackButton }: SelectPostTypeScreenP
 					color={theme.white3}
 					label={'uma vaga'}
 					highlightedWords={['uma', 'vaga']}
-					labelColor={theme.black3}
 					labelSize={18}
 					relativeHeight={'16%'}
 					shortDescription={'procurando vaga ou profissional'}
@@ -94,7 +91,6 @@ function SelectPostType({ navigation, withoutBackButton }: SelectPostTypeScreenP
 					color={theme.white3}
 					label={'impacto social'}
 					highlightedWords={['impacto', 'social']}
-					labelColor={theme.black3}
 					labelSize={18}
 					relativeHeight={'16%'}
 					shortDescription={'iniciativas, voluntários e doações'}
@@ -108,7 +104,6 @@ function SelectPostType({ navigation, withoutBackButton }: SelectPostTypeScreenP
 					color={theme.white3}
 					label={'cultura'}
 					highlightedWords={['cultura']}
-					labelColor={theme.black3}
 					labelSize={18}
 					relativeHeight={'16%'}
 					shortDescription={'arte, eventos e educação'}

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Animated, Platform, StatusBar } from 'react-native'
+import { Animated, Platform, StatusBar, TextInput } from 'react-native'
 
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
@@ -59,9 +59,9 @@ function PostDate({
 	const [invalidDateAfterSubmit, setInvalidDateAfterSubmit] = useState<boolean>(false)
 
 	const inputRefs = {
-		dayInput: useRef<React.MutableRefObject<any>>(null),
-		monthInput: useRef<React.MutableRefObject<any>>(null),
-		yearInput: useRef<React.MutableRefObject<any>>(null)
+		dayInput: useRef<TextInput>(null),
+		monthInput: useRef<TextInput>(null),
+		yearInput: useRef<TextInput>(null)
 	}
 
 	useEffect(() => {
