@@ -7,7 +7,7 @@ import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import { ScrollContainer, Container, CardArea } from './styles'
 
-import { PostRange } from '../../../services/firebase/types'
+import { PostCollection, PostRange } from '../../../services/firebase/types'
 import { SelectSubscriptionRangeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -16,16 +16,17 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { TitleDescriptionButton } from '../../../components/_cards/TitleDescriptionButton'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { VerticalSigh } from '../../../components/VerticalSigh'
+import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeChangeConfirmatiomModal'
 
 function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 
 	const [currentSubscriptionRange, setCurrentSubscriptionRange] = useState<PostRange>(userDataContext.subscription?.subscriptionRange || 'near')
+	const [rangeChangeModalIsVisible, setRangeChangeModalIsVisible] = useState(false)
 
 	useEffect(() => {
 		const currentRange = userDataContext.subscription?.subscriptionRange || 'near'
 		setCurrentSubscriptionRange(currentRange)
-		console.log(currentRange)
 	}, [userDataContext.subscription?.subscriptionRange])
 
 	const manageSubscriptionRange = (postRange: PostRange) => {
@@ -40,6 +41,12 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				if (postRangeHasSelected(postRange)) {
 					return navigation.navigate('EditCurrentSubscription', { postRange })
 				}
+
+				if (userDataContext.subscription?.subscriptionRange === 'country') {
+					toggleRangeChangeModalVisibility()
+					return
+				}
+
 				navigation.navigate('SelectSubscriptionPlan', { postRange })
 				break
 			}
@@ -57,11 +64,25 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 	const postRangeHasSelected = (postRange: PostRange) => {
 		return currentSubscriptionRange === postRange
 	}
+	const toggleRangeChangeModalVisibility = () => {
+		setRangeChangeModalIsVisible(!rangeChangeModalIsVisible)
+	}
+
+	const getLastUserPost = () => {
+		const userPosts: PostCollection[] = userDataContext.posts || []
+		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
+		return lastUserPost
+	}
+
+	const getLastUserPostLocationcity = () => {
+		const lastUserPost: PostCollection = getLastUserPost()
+		return lastUserPost?.location?.city || ''
+	}
 
 	const renderSelectedRangeCard = () => {
 		return rangeCards.map((rangeCard) => {
 			if (currentSubscriptionRange === rangeCard.id) {
-				/* return (
+				/* return ( // ERRO AO PROCESSAR PAGAMENTO
 					<TitleDescriptionButton
 						height={relativeScreenHeight(13)}
 						color={theme.red3}
@@ -145,6 +166,13 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<RangeChangeConfirmationModal
+				visibility={rangeChangeModalIsVisible}
+				newRangeSelected={'city'}
+				currentCity={getLastUserPostLocationcity()}
+				onPressButton={() => navigation.navigate('SelectSubscriptionPlan', { postRange: 'city' })}
+				closeModal={toggleRangeChangeModalVisibility}
+			/>
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(22)}
 				centralized

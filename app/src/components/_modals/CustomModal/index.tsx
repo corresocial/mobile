@@ -62,6 +62,11 @@ function CustomModal({
 	affirmativeButton,
 	negativeButton
 }: CustomModalProps) {
+	const closeModalAfterOnPress = (onPress: () => void) => {
+		onPress && onPress()
+		closeModal()
+	}
+
 	return (
 		<Modal
 			transparent
@@ -112,9 +117,9 @@ function CustomModal({
 										label={negativeButton.label}
 										highlightedWords={[...negativeButton.label.split(' '), ...negativeButton.label.split(', ')]}
 										fontSize={16}
-										SecondSvgIcon={negativeButton.CustomIcon || XWhiteIcon}
+										SvgIcon={negativeButton.CustomIcon || XWhiteIcon}
 										svgIconScale={['40%', '25%']}
-										onPress={negativeButton.onPress && negativeButton.onPress}
+										onPress={() => closeModalAfterOnPress(negativeButton.onPress)}
 									/>
 									<VerticalSigh />
 								</>
@@ -130,7 +135,7 @@ function CustomModal({
 									fontSize={16}
 									SecondSvgIcon={affirmativeButton.CustomIcon || CheckWhiteIcon}
 									svgIconScale={['40%', '25%']}
-									onPress={affirmativeButton.onPress && affirmativeButton.onPress}
+									onPress={() => closeModalAfterOnPress(affirmativeButton.onPress)}
 								/>
 							)
 						}

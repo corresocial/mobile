@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Alert, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
@@ -23,6 +23,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { Loader } from '../../../components/Loader'
 import { updateAllRangeAndLocation } from '../../../services/firebase/post/updateAllRangeAndLocation'
+import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeChangeConfirmatiomModal'
 
 function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionScreenProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)
@@ -30,6 +31,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 
 	const [hasError, setHasError] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
+	const [rangeChangeModalIsVisible, setRangeChangeModalIsVisible] = useState(false)
 
 	const { postRange: currentRangeSubscription, leaveFromPaidSubscription } = route.params
 
@@ -39,19 +41,15 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 		profilePictureUrl: userDataContext.profilePictureUrl
 	}
 
-	const cancelSubscription = () => {
-		Alert.alert(
-			'atenção!',
-			`você tem certeza que deseja cancelar a assinatura "${getRangeText(currentRangeSubscription)}"?`,
-			[
-				{ text: 'Não', style: 'destructive' },
-				{ text: 'Sim', onPress: () => { handleCalcelSubscription() } },
-			],
-			{ cancelable: false }
-		)
+	const onPressCancelSubscriptionButton = () => {
+		toggleRangeChangeModalVisibility()
 	}
 
-	const handleCalcelSubscription = async () => {
+	const toggleRangeChangeModalVisibility = () => {
+		setRangeChangeModalIsVisible(!rangeChangeModalIsVisible)
+	}
+
+	const updateSubscriptionRange = async () => {
 		try {
 			setIsLoading(true)
 			setHasError(false)
@@ -74,11 +72,9 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 	const updateSubscriptionDependentPosts = async (userSubscription: UserSubscription) => {
 		console.log(`${currentRangeSubscription} --> near`)
 
-		const userPosts: PostCollection[] = userDataContext.posts || []
-		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
+		const lastUserPost: PostCollection = getLastUserPost()
 
 		if (!lastUserPost) return
-
 		const userPostsUpdated = await updateAllRangeAndLocation(
 			owner as any, // TODO Type
 			userDataContext.posts || [],
@@ -90,6 +86,17 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 		)
 
 		updateUserContext(userSubscription, userPostsUpdated as any[]) // TODO Type
+	}
+
+	const getLastUserPost = () => {
+		const userPosts: PostCollection[] = userDataContext.posts || []
+		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
+		return lastUserPost
+	}
+
+	const getLastUserPostLocationcity = () => {
+		const lastUserPost: PostCollection = getLastUserPost()
+		return lastUserPost?.location?.city || ''
 	}
 
 	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostCollectionRemote[] | []) => {
@@ -118,6 +125,13 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<RangeChangeConfirmationModal
+				visibility={rangeChangeModalIsVisible}
+				currentCity={getLastUserPostLocationcity()}
+				newRangeSelected={'near'}
+				onPressButton={updateSubscriptionRange}
+				closeModal={toggleRangeChangeModalVisibility}
+			/>
 			<DefaultHeaderContainer
 				relativeHeight={'45%'}
 				centralized
@@ -152,7 +166,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 									SvgIcon={XWhiteIcon}
 									svgIconScale={['40%', '20%']}
 									relativeHeight={relativeScreenHeight(10)}
-									onPress={cancelSubscription}
+									onPress={onPressCancelSubscriptionButton}
 								/>
 								<VerticalSigh height={relativeScreenHeight(5)} />
 								{

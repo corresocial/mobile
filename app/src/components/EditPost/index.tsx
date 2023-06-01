@@ -101,6 +101,7 @@ function EditPost({
 
 			let userPostsUpdated: any = [] // TODO Type
 			if (locationHasChanged()) {
+				console.log(`locationHasChanged: ${locationHasChanged()}`)
 				userPostsUpdated = await updateAllRangeAndLocation(
 					owner,
 					getUserPostsWithoutEdited(),
@@ -109,6 +110,7 @@ function EditPost({
 						location: getPostField('location')
 					}
 				)
+				console.log(userPostsUpdated)
 			}
 
 			if ((editDataContext.unsaved.picturesUrl && editDataContext.unsaved.picturesUrl.length > 0) && !allPicturesAlreadyUploaded()) {
@@ -355,13 +357,15 @@ function EditPost({
 	}
 
 	const updateUserContext = (postAfterEdit: PostCollectionRemote | false, updatedLocationPosts?: PostCollectionRemote[] | []) => {
+		const allPosts = updatedLocationPosts && updatedLocationPosts.length ? [...updatedLocationPosts] : [...getUserPostsWithoutEdited()]
+
 		userContext.setUserDataOnContext({
 			posts: postAfterEdit
 				? [
-					...(updatedLocationPosts || getUserPostsWithoutEdited()),
+					...allPosts,
 					postAfterEdit
 				]
-				: [...(updatedLocationPosts || getUserPostsWithoutEdited())]
+				: [...allPosts]
 		})
 	}
 
