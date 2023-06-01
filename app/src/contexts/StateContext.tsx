@@ -9,8 +9,8 @@ import { StateData } from './types'
 
 import { AuthContext } from './AuthContext'
 
-import { TourModal } from '../components/_modals/TourModal'
 import { ShareModal } from '../components/_modals/ShareModal'
+import { TourModal } from '../components/_modals/TourModal'
 
 type StateContextType = {
 	stateDataContext: StateData
@@ -46,9 +46,7 @@ function StateProvider({ children }: StateProviderProps) {
 	const [handlerTourModalButton, setHandlerTourModalButton] = useState<Handler>()
 
 	const setStateDataOnContext = async (data: StateData) => {
-		setStateDataContext({
-			...stateDataContext, ...data
-		})
+		setStateDataContext({ ...stateDataContext, ...data })
 	}
 
 	const sharePost = () => {
@@ -72,14 +70,20 @@ function StateProvider({ children }: StateProviderProps) {
 	const navigateToTour = () => {
 		if (handlerTourModalButton) {
 			handlerTourModalButton.navigation.navigate('SelectPostType')
-			setStateDataOnContext({
-				showTourModal: false
-			})
+			setStateDataOnContext({ showTourModal: false })
 			setUserTourPerformed()
 		} else {
-			Alert.alert('Ops!', 'Deu bug na navegação, chama o suport!! haha!')
+			Alert.alert('ops!', 'não foi possível iniciar o tour')
+			setStateDataOnContext({ showTourModal: false })
 		}
 	}
+
+	const closeTourModal = () => {
+		setStateDataOnContext({ showTourModal: false })
+		setUserTourPerformed()
+	}
+
+	const closeShareModal = () => setStateDataOnContext({ showShareModal: false })
 
 	const setUserTourPerformed = async () => {
 		await updateUser(userDataContext.userId as Id, {
@@ -99,21 +103,13 @@ function StateProvider({ children }: StateProviderProps) {
 		<StateContext.Provider value={stateProviderData}>
 			<TourModal
 				visibility={stateDataContext.showTourModal}
-				closeModal={() => {
-					setStateDataOnContext({
-						showTourModal: false
-					})
-					setUserTourPerformed()
-				}}
+				closeModal={closeTourModal}
 				onPressButton={navigateToTour}
 			/>
+
 			<ShareModal
 				visibility={stateDataContext.showShareModal}
-				closeModal={() => {
-					setStateDataOnContext({
-						showShareModal: false
-					})
-				}}
+				closeModal={closeShareModal}
 				onPressButton={sharePost}
 			/>
 			{children}

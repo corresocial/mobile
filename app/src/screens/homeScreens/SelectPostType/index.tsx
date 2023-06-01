@@ -35,7 +35,7 @@ function SelectPostType({ navigation, withoutBackButton }: SelectPostTypeScreenP
 			>
 				{
 					!withoutBackButton
-						? <BackButton onPress={() => navigation.goBack()} withoutSigh />
+						? <BackButton onPress={() => navigation.goBack()} />
 						: <></>
 				}
 				<InstructionCard
