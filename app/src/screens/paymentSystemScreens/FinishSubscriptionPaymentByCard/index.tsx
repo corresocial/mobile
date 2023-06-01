@@ -152,6 +152,18 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 		}
 	}
 
+	const applyCardNumberMask = (text: string) => {
+		const cleanedText = text.replace(/\D/g, '')
+
+		let maskedText = cleanedText
+
+		if (cleanedText.length > 4) {
+			maskedText = maskedText.replace(/(\d{4})(?=\d)/g, '$1 ')
+		}
+
+		setCardNumber(maskedText)
+	}
+
 	const applyCardExpiringDateMask = (text: string) => {
 		const cleanedText = text.replace(/\D/g, '')
 
@@ -221,11 +233,11 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 						invalidBorderBottomColor={theme.red5}
 						textAlign={'left'}
 						fontSize={16}
-						maxLength={16}
+						maxLength={19}
 						placeholder={'número do cartão'}
 						keyboardType={'numeric'}
 						validateText={(text: string) => validateCardNumber(text)}
-						onChangeText={(text: string) => setCardNumber(text)}
+						onChangeText={(text: string) => applyCardNumberMask(text)}
 					/>
 					<VerticalSigh />
 					<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
