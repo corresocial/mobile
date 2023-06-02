@@ -11,6 +11,7 @@ import XWhiteIcon from '../../../assets/icons/x-white.svg'
 import EditWhiteIcon from '../../../assets/icons/edit-white.svg'
 
 import { getRangeText } from '../../../utils/subscription/commonMessages'
+import { getTextualAddress } from '../../../utils/maps/addressFormatter'
 
 import { PostCollection, PostCollectionRemote, UserSubscription } from '../../../services/firebase/types'
 import { EditCurrentSubscriptionScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -94,9 +95,10 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 		return lastUserPost
 	}
 
-	const getLastUserPostLocationcity = () => {
+	const getLastPostAddress = () => {
 		const lastUserPost: PostCollection = getLastUserPost()
-		return lastUserPost?.location?.city || ''
+		console.log(getTextualAddress(lastUserPost?.location))
+		return getTextualAddress(lastUserPost?.location)
 	}
 
 	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostCollectionRemote[] | []) => {
@@ -127,7 +129,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<RangeChangeConfirmationModal
 				visibility={rangeChangeModalIsVisible}
-				currentCity={getLastUserPostLocationcity()}
+				currentPostAddress={getLastPostAddress()}
 				newRangeSelected={'near'}
 				onPressButton={updateSubscriptionRange}
 				closeModal={toggleRangeChangeModalVisibility}

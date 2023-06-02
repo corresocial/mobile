@@ -3,12 +3,14 @@ import { StatusBar } from 'react-native'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
+import { PostCollection, PostRange } from '../../../services/firebase/types'
+import { SelectSubscriptionRangeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import { ScrollContainer, Container, CardArea } from './styles'
 
-import { PostCollection, PostRange } from '../../../services/firebase/types'
-import { SelectSubscriptionRangeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { getTextualAddress } from '../../../utils/maps/addressFormatter'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
@@ -74,9 +76,9 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 		return lastUserPost
 	}
 
-	const getLastUserPostLocationcity = () => {
+	const getLastPostAddress = () => {
 		const lastUserPost: PostCollection = getLastUserPost()
-		return lastUserPost?.location?.city || ''
+		return getTextualAddress(lastUserPost?.location)
 	}
 
 	const renderSelectedRangeCard = () => {
@@ -169,7 +171,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 			<RangeChangeConfirmationModal
 				visibility={rangeChangeModalIsVisible}
 				newRangeSelected={'city'}
-				currentCity={getLastUserPostLocationcity()}
+				currentPostAddress={getLastPostAddress()}
 				onPressButton={() => navigation.navigate('SelectSubscriptionPlan', { postRange: 'city' })}
 				closeModal={toggleRangeChangeModalVisibility}
 			/>

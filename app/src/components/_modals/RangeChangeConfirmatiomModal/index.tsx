@@ -6,7 +6,7 @@ import { PostRange } from '../../../services/firebase/types'
 interface RangeChangeConfirmationModalProps {
 	visibility: boolean
 	newRangeSelected: PostRange
-	currentCity: string
+	currentPostAddress: string
 	closeModal: () => void
 	onPressButton: () => void
 }
@@ -14,26 +14,26 @@ interface RangeChangeConfirmationModalProps {
 function RangeChangeConfirmationModal({
 	visibility,
 	newRangeSelected,
-	currentCity = '',
+	currentPostAddress,
 	closeModal,
 	onPressButton
 }: RangeChangeConfirmationModalProps) {
 	const getFirstParagraphText = () => {
 		return newRangeSelected === 'near'
-			? 'o plano região cobrirá apenas a última localização selecionada'
-			: `o plano cidade cobrirá apenas a cidade${currentCity ? ` de ${currentCity}` : ''}`
+			? 'o plano região cobrirá apenas a região da localização:'
+			: 'o plano cidade cobrirá apenas a localização:'
 	}
 
 	const getFirstParagraphHighlightedWords = () => {
 		return newRangeSelected === 'near'
-			? ['região', 'última', 'localização', 'selecionada']
-			: ['cidade', ...currentCity.split(' ')]
+			? ['região', 'da', 'localização:']
+			: ['cidade']
 	}
 
 	const getSecondParagraphText = () => {
 		return newRangeSelected === 'near'
-			? 'se você mudar aqui, todos seus posts serão movidos para a mesma localização'
-			: `se você mudar aqui, todos seus posts fora${currentCity ? ` de ${currentCity}` : ' da cidade do último post'} serão movidos para a mesma`
+			? 'se você mudar aqui, todos seus posts fora da região serão movidos'
+			: 'se você mudar aqui, todos seus posts vão mudar de cidade'
 	}
 
 	return (
@@ -48,6 +48,7 @@ function RangeChangeConfirmationModal({
 				text: getSecondParagraphText(),
 				bolded: true
 			}}
+			listItemText={currentPostAddress}
 			closeModal={closeModal}
 			affirmativeButton={{
 				label: 'sim, alterar',

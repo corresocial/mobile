@@ -14,7 +14,7 @@ interface LocationChangeConfirmationModalProps {
 function LocationChangeConfirmationModal({
 	visibility,
 	newRangeSelected,
-	currentPostAddress = '',
+	currentPostAddress,
 	closeModal,
 	onPressButton
 }: LocationChangeConfirmationModalProps) {
@@ -26,14 +26,14 @@ function LocationChangeConfirmationModal({
 
 	const getFirstParagraphHighlightedWords = () => {
 		return newRangeSelected === 'near'
-			? ['região', 'última', 'localização', 'selecionada']
-			: ['cidade', ...currentPostAddress.split(' ')]
+			? ['região', 'da', 'localização:']
+			: ['cidade']
 	}
 
 	const getSecondParagraphText = () => {
 		return newRangeSelected === 'near'
 			? 'se você mudar aqui, todos seus posts vão mudar de região'
-			: `se você mudar aqui, todos seus posts fora${currentPostAddress ? ` de ${currentPostAddress}` : ' da cidade do último post'} serão movidos para a mesma`
+			: 'se você mudar aqui, todos seus posts vão mudar de cidade'
 	}
 
 	return (
