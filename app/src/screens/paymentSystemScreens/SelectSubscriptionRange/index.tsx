@@ -128,7 +128,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				title={'região'}
 				description={'a pessoas encontram seus posts  no bairro'}
 				highlightedWords={['região', 'bairro']}
-				footerValue={currentSubscriptionRange === 'near' ? 'edit' : 'free'}
+				footerValue={'free'}
 				checked={currentSubscriptionRange === 'near'}
 				onPress={() => manageSubscriptionRange('near')}
 			/>

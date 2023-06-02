@@ -17,7 +17,7 @@ async function updateAllRangeAndLocation(
 
 	let updatedUserPosts = await updatePostsLocation(userPosts, newPostRangeLocation)
 	if (subscriptionChange) {
-		updatedUserPosts = await updatePostsRange(userPosts, newPostRangeLocation)
+		updatedUserPosts = await updatePostsRange(updatedUserPosts, newPostRangeLocation)
 	}
 
 	updatedUserPosts.map(async (post) => {

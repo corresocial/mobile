@@ -80,7 +80,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 			userDataContext.posts || [],
 			{
 				range: 'near',
-				location: lastUserPost.location// DEFINE
+				location: lastUserPost.location
 			},
 			true
 		)
