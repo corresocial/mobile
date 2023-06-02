@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { theme } from '../../../common/theme'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
-import { convertGeocodeToAddress } from '../../../services/maps/addressFormatter'
+import { convertGeocodeToAddress } from '../../../utils/maps/addressFormatter'
 
 import { InsertWorkplaceLocationScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { Coordinates } from '../../../services/firebase/types'

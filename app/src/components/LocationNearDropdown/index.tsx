@@ -21,7 +21,7 @@ import LoupIcon from '../../assets/icons/loup.svg'
 import XIcon from '../../assets/icons/x-thin.svg'
 import MapIcon from '../../assets/icons/map.svg'
 
-import { setRecentAddressOnStorage } from '../../services/maps/recentAddresses'
+import { setRecentAddressOnStorage } from '../../utils/maps/recentAddresses'
 
 import { AddressSearchResult, LatLong, SelectedAddressRender } from '../../services/maps/types'
 

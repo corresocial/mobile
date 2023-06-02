@@ -139,13 +139,13 @@ const sortPostsByCreatedData = (a: PostCollectionRemote | any, b: PostCollection
 }
 
 export {
-	arrayIsEmpty,
-	showMessageWithHighlight,
-	filterLeavingOnlyNumbers,
-	formatDate,
-	formatHour,
-	formatRelativeDate,
-	sortArray,
-	sortPostCategories,
-	sortPostsByCreatedData
+	arrayIsEmpty, // array validation
+	showMessageWithHighlight, // string highlight
+	filterLeavingOnlyNumbers, // string filter
+	formatDate, // date validation
+	formatHour, //  date validation
+	formatRelativeDate, // date validation
+	sortArray, // sort array
+	sortPostCategories, // sort array
+	sortPostsByCreatedData //  sort post array
 }
