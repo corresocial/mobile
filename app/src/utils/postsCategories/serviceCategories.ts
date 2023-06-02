@@ -39,7 +39,107 @@ const serviceCategories = {
 			'reforma'
 		]
 	},
-
+	art: {
+		label: 'arte',
+		value: 'art',
+		slug: 'art',
+		tags: [
+			'acessorios',
+			'tinta',
+			'ferramentas',
+			'madeira',
+			'quadro',
+			'decoraçao',
+			'derua',
+			'dança',
+			'audiovisual',
+			'cenicas',
+			'tattoo',
+			'artesanato',
+			'literatura',
+			'popart',
+			'musica',
+			'instrumentos',
+			'pintura',
+			'caligrafia',
+			'papeis',
+			'gravuras',
+			'modelagem',
+			'desenho']
+	},
+	autoAndParts: {
+		label: 'automóveis e peças',
+		value: 'autoAndParts',
+		slug: 'autoAndParts',
+		tags: [
+			'moto',
+			'usado',
+			'novo',
+			'onibus',
+			'van',
+			'peças',
+			'oficina',
+			'mecanico',
+			'financiamento',
+			'consorcio',
+			'van',
+			'caminhao',
+			'seguros',
+			'carro',
+			'computador',
+			'celular',
+			'pneu',
+			'farol',
+			'camera',
+			'caminhao'
+		]
+	},
+	clothesAndAccessories: {
+		label: 'roupas e acessórios',
+		value: 'clothesAndAccessories',
+		slug: 'clothesAndAccessories',
+		tags: [
+			'camiseta',
+			'calça',
+			'intima',
+			'masculino',
+			'feminino',
+			'blusa',
+			'frio',
+			'moletom',
+			'praia',
+			'calor',
+			'festa',
+			'vestido',
+			'saia',
+			'shorts',
+			'chinelo',
+			'tenis',
+			'bota',
+		]
+	},
+	toys: {
+		label: 'infantil',
+		value: 'toys',
+		slug: 'toys',
+		tags: [
+			'alugar',
+			'festa',
+			'baby',
+			'bebe',
+			'crianças',
+			'adolescentes',
+			'bonecos',
+			'carros',
+			'colecionáveis',
+			'jogos',
+			'acessórios',
+			'montar',
+			'quebra-cabeças',
+			'arte',
+			'pelúcia',
+		]
+	},
 	health: {
 		label: 'saúde',
 		value: 'health',
@@ -67,7 +167,6 @@ const serviceCategories = {
 			'nutrição'
 		]
 	},
-
 	leisure: {
 		label: 'lazer',
 		value: 'leisure',
@@ -136,32 +235,56 @@ const serviceCategories = {
 		]
 	},
 
-	foodAndDrink: {
-		label: 'comida e bebida',
-		value: 'foodAndDrink',
-		slug: 'foodAndDrink',
+	food: {
+		label: 'comida',
+		value: 'food',
+		slug: 'food',
 		tags: [
-			'cerveja',
-			'vinho',
 			'marmita',
 			'pizza',
 			'japonesa',
 			'gastronomia',
-			'drinks',
-			'gin',
-			'vodka',
-			'chopp',
-			'bar',
 			'gourmet',
 			'restaurante',
-			'lúpulo',
 			'vegetariano',
 			'hamburguer',
 			'gourmet',
 			'vegano',
+			'pastel',
 			'petisco',
 			'porcoes',
-			'padaria'
+			'padaria',
+			'brasileira',
+			'italiana',
+			'chinesa',
+			'churrasco',
+			'cozinha',
+			'fast food',
+		]
+	},
+	techAndCellPhone: {
+		label: 'tecnologia',
+		value: 'techAndCellPhone',
+		slug: 'techAndCellPhone',
+		tags: [
+			'tv',
+			'celular',
+			'computador',
+			'cabos',
+			'carregadores',
+			'software',
+			'assistencia',
+			'adaptador',
+			'suportes',
+			'gamer',
+			'fones'
+		]
+	},
+	drink: {
+		label: 'bebida',
+		value: 'drink',
+		slug: 'drink',
+		tags: ['cerveja', 'vinho', 'drinks', 'gin', 'vodka', 'chopp', 'bar', 'refrigerante', 'agua', 'suco',
 		]
 	},
 
