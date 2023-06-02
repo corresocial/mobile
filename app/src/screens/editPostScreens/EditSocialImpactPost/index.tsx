@@ -1,6 +1,5 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
-import { Alert } from 'react-native'
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { StateContext } from '../../../contexts/StateContext'
@@ -11,6 +10,7 @@ import { EventRepeatType, PostCollection, SocialImpactCategories, SocialImpactCo
 import { SocialImpactStackParamList } from '../../../routes/Stack/SocialImpactStack/types'
 
 import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
+import { getTextualAddress } from '../../../utils/maps/addressFormatter'
 import { arrayIsEmpty, formatDate, formatHour, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
@@ -27,12 +27,15 @@ import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
 import { theme } from '../../../common/theme'
+import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 
 function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
 	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
+
+	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
 
 	const { postData, unsavedPost } = route.params
 	const owner: any = { // TODO Type
@@ -113,39 +116,28 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 		})
 	}
 
+	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectSocialImpactLocationView', 'location')
+
+	const getLastUserPost = () => {
+		const userPosts: PostCollection[] = userDataContext.posts || []
+		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
+		return lastUserPost
+	}
+
+	const getLastPostAddress = () => {
+		const lastUserPost: PostCollection = getLastUserPost()
+		return getTextualAddress(lastUserPost?.location)
+	}
+
+	const toggleRangeChangeModalVisibility = () => {
+		setLocationChangeModalIsVisible(!locationChangeModalIsVisible)
+	}
+
 	const checkChangeLocationAlertIsRequired = () => {
 		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectSocialImpactLocationView', 'location')
 
-		switch (userDataContext.subscription?.subscriptionRange) {
-			case 'near': {
-				Alert.alert(
-					'atenção!',
-					'você possui o plano região, ao trocar a localização, todos os seus posts terão a localização trocada, deseja continuar?',
-					[
-						{ text: 'Não', style: 'destructive' },
-						{ text: 'Sim', onPress: () => navigateToEditScreen('SelectSocialImpactLocationView', 'location') }
-					],
-					{ cancelable: false }
-				)
-				break
-			}
-			case 'city': {
-				Alert.alert(
-					'atenção!',
-					'você possui o plano cidade, ao trocar a localização, todos os seus posts terão a localização trocada para esta cidade, deseja continuar?',
-					[
-						{ text: 'Não', style: 'destructive' },
-						{ text: 'Sim', onPress: () => navigateToEditScreen('SelectSocialImpactLocationView', 'location') }
-					],
-					{ cancelable: false }
-				)
-				break
-			}
-			case 'country': {
-				navigateToEditScreen('SelectSocialImpactLocationView', 'location')
-				break
-			}
-			default: navigateToEditScreen('SelectSocialImpactLocationView', 'location')
+		if (userDataContext.subscription?.subscriptionRange) {
+			toggleRangeChangeModalVisibility()
 		}
 	}
 
@@ -179,123 +171,133 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	}
 
 	return (
-		<EditPost
-			initialPostData={{ ...postData, postType: 'socialImpact' }}
-			owner={owner}
-			backgroundColor={theme.pink2}
-			unsavedPost={unsavedPost}
-			navigateBackwards={navigateBackwards}
-			navigateToPostView={navigateToPostView}
-			navigateToSubscriptionContext={navigateToSubscriptionContext}
-			showShareModal={showShareModal}
-			getPostField={getPostField}
-			userContext={userContext}
-			editContext={editContext}
-		>
-			<SocialImpactTypeCard
-				title={'tipo de impacto'}
-				socialImpactType={getPostField('socialImpactType')}
-				onEdit={() => navigateToEditScreen('SelectSocialImpactType', 'socialImpactType')}
+		<>
+			<LocationChangeConfirmationModal
+				visibility={locationChangeModalIsVisible}
+				currentPostAddress={getLastPostAddress()}
+				newRangeSelected={'near'}
+				onPressButton={navigateToEditLocationScreen}
+				closeModal={toggleRangeChangeModalVisibility}
 			/>
-			<VerticalSigh />
-			<EditCard
-				title={'tags do post'}
-				highlightedWords={['tags']}
-				value={formatCategoryAndTags()}
-				onEdit={() => navigateToEditScreen('SelectSocialImpactCategory', 'tags')}
-			/>
-			<VerticalSigh />
-			<EditCard
-				title={'título do post'}
-				highlightedWords={['título']}
-				value={getPostField('title')}
-				onEdit={() => navigateToEditScreen('InsertSocialImpactTitle', 'title')}
-			/>
-			<VerticalSigh />
-			<DescriptionCard
-				text={getPostField('description')}
-				onEdit={() => navigateToEditScreen('InsertSocialImpactDescription', 'description')}
-			/>
-			<VerticalSigh />
-			<EditCard
-				title={'fotos do post'}
-				highlightedWords={['fotos']}
-				profilePicturesUrl={getPicturesUrl()}
-				indicatorColor={theme.pink1}
-				carousel
-				onEdit={() => navigateToEditScreen('SocialImpactPicturePreview', 'picturesUrl')}
-			/>
-			<VerticalSigh />
-			<PostRangeCard
-				postRange={getPostField('range')}
-				onEdit={() => navigateToEditScreen('SelectSocialImpactRange', 'range')}
-			/>
-			<VerticalSigh />
-			<LocationViewCard
-				title={'localização'}
-				locationView={getPostField('locationView')}
-				textFontSize={16}
-				location={getPostField('location')}
-				onEdit={checkChangeLocationAlertIsRequired}
-			/>
-			<VerticalSigh />
-			<ExhibitionPlaceCard
-				exhibitionPlace={getPostField('exhibitionPlace')}
-				onEdit={() => navigateToEditScreen('SelectSocialImpactExhibitionRange', 'exhibitionPlace')}
-			/>
-			<VerticalSigh />
-			<DateTimeCard
-				title={'dias da semana'}
-				highlightedWords={['dias']}
-				weekDaysfrequency={getPostField('exhibitionFrequency')}
-				daysOfWeek={getPostField('daysOfWeek', true)}
-				onEdit={() => navigateToEditScreen('SelectSocialImpactFrequency', 'daysOfWeek')}
-			/>
-			<VerticalSigh />
-			<EditCard
-				title={'repetição'}
-				highlightedWords={['repetição']}
-				SecondSvgIcon={RecycleWhiteIcon}
-				value={renderSocialImpactRepeat() || '---'}
-				onEdit={() => navigateToEditScreen('SelectSocialImpactRepeat', 'repeat')}
-			/>
-			<VerticalSigh />
-			<EditCard
-				title={'que dia começa'}
-				highlightedWords={['começa']}
-				SecondSvgIcon={CalendarEmptyIcon}
-				value={formatDate(getPostField('startDate', true)) || '---'}
-				valueBold
-				onEdit={() => navigateToEditScreen('InsertSocialImpactStartDate', 'startDate')}
-			/>
-			<VerticalSigh />
-			<EditCard
-				title={'que horas começa'}
-				highlightedWords={['começa']}
-				SecondSvgIcon={ClockWhiteIcon}
-				value={formatHour(getPostField('startHour', true)) || '---'}
-				valueBold
-				onEdit={() => navigateToEditScreen('InsertSocialImpactStartHour', 'startHour')}
-			/>
-			<VerticalSigh />
-			<EditCard
-				title={'que dia termina'}
-				highlightedWords={['termina']}
-				SecondSvgIcon={CalendarEmptyIcon}
-				value={formatDate(getPostField('endDate', true)) || '---'}
-				valueBold
-				onEdit={() => navigateToEditScreen('InsertSocialImpactEndDate', 'endDate')}
-			/>
-			<VerticalSigh />
-			<EditCard
-				title={'que horas termina'}
-				highlightedWords={['termina']}
-				SecondSvgIcon={ClockWhiteIcon}
-				value={formatHour(getPostField('endHour', true)) || '---'}
-				valueBold
-				onEdit={() => navigateToEditScreen('InsertSocialImpactEndHour', 'endHour')}
-			/>
-		</EditPost>
+
+			<EditPost
+				initialPostData={{ ...postData, postType: 'socialImpact' }}
+				owner={owner}
+				backgroundColor={theme.pink2}
+				unsavedPost={unsavedPost}
+				navigateBackwards={navigateBackwards}
+				navigateToPostView={navigateToPostView}
+				navigateToSubscriptionContext={navigateToSubscriptionContext}
+				showShareModal={showShareModal}
+				getPostField={getPostField}
+				userContext={userContext}
+				editContext={editContext}
+			>
+				<SocialImpactTypeCard
+					title={'tipo de impacto'}
+					socialImpactType={getPostField('socialImpactType')}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactType', 'socialImpactType')}
+				/>
+				<VerticalSigh />
+				<EditCard
+					title={'tags do post'}
+					highlightedWords={['tags']}
+					value={formatCategoryAndTags()}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactCategory', 'tags')}
+				/>
+				<VerticalSigh />
+				<EditCard
+					title={'título do post'}
+					highlightedWords={['título']}
+					value={getPostField('title')}
+					onEdit={() => navigateToEditScreen('InsertSocialImpactTitle', 'title')}
+				/>
+				<VerticalSigh />
+				<DescriptionCard
+					text={getPostField('description')}
+					onEdit={() => navigateToEditScreen('InsertSocialImpactDescription', 'description')}
+				/>
+				<VerticalSigh />
+				<EditCard
+					title={'fotos do post'}
+					highlightedWords={['fotos']}
+					profilePicturesUrl={getPicturesUrl()}
+					indicatorColor={theme.pink1}
+					carousel
+					onEdit={() => navigateToEditScreen('SocialImpactPicturePreview', 'picturesUrl')}
+				/>
+				<VerticalSigh />
+				<PostRangeCard
+					postRange={getPostField('range')}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactRange', 'range')}
+				/>
+				<VerticalSigh />
+				<LocationViewCard
+					title={'localização'}
+					locationView={getPostField('locationView')}
+					textFontSize={16}
+					location={getPostField('location')}
+					onEdit={checkChangeLocationAlertIsRequired}
+				/>
+				<VerticalSigh />
+				<ExhibitionPlaceCard
+					exhibitionPlace={getPostField('exhibitionPlace')}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactExhibitionRange', 'exhibitionPlace')}
+				/>
+				<VerticalSigh />
+				<DateTimeCard
+					title={'dias da semana'}
+					highlightedWords={['dias']}
+					weekDaysfrequency={getPostField('exhibitionFrequency')}
+					daysOfWeek={getPostField('daysOfWeek', true)}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactFrequency', 'daysOfWeek')}
+				/>
+				<VerticalSigh />
+				<EditCard
+					title={'repetição'}
+					highlightedWords={['repetição']}
+					SecondSvgIcon={RecycleWhiteIcon}
+					value={renderSocialImpactRepeat() || '---'}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactRepeat', 'repeat')}
+				/>
+				<VerticalSigh />
+				<EditCard
+					title={'que dia começa'}
+					highlightedWords={['começa']}
+					SecondSvgIcon={CalendarEmptyIcon}
+					value={formatDate(getPostField('startDate', true)) || '---'}
+					valueBold
+					onEdit={() => navigateToEditScreen('InsertSocialImpactStartDate', 'startDate')}
+				/>
+				<VerticalSigh />
+				<EditCard
+					title={'que horas começa'}
+					highlightedWords={['começa']}
+					SecondSvgIcon={ClockWhiteIcon}
+					value={formatHour(getPostField('startHour', true)) || '---'}
+					valueBold
+					onEdit={() => navigateToEditScreen('InsertSocialImpactStartHour', 'startHour')}
+				/>
+				<VerticalSigh />
+				<EditCard
+					title={'que dia termina'}
+					highlightedWords={['termina']}
+					SecondSvgIcon={CalendarEmptyIcon}
+					value={formatDate(getPostField('endDate', true)) || '---'}
+					valueBold
+					onEdit={() => navigateToEditScreen('InsertSocialImpactEndDate', 'endDate')}
+				/>
+				<VerticalSigh />
+				<EditCard
+					title={'que horas termina'}
+					highlightedWords={['termina']}
+					SecondSvgIcon={ClockWhiteIcon}
+					value={formatHour(getPostField('endHour', true)) || '---'}
+					valueBold
+					onEdit={() => navigateToEditScreen('InsertSocialImpactEndHour', 'endHour')}
+				/>
+			</EditPost>
+		</>
 	)
 }
 

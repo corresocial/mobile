@@ -1,0 +1,65 @@
+import React from 'react'
+
+import { CustomModal } from '../CustomModal'
+import { PostRange } from '../../../services/firebase/types'
+
+interface LocationChangeConfirmationModalProps {
+	visibility: boolean
+	newRangeSelected: PostRange
+	currentPostAddress: string
+	closeModal: () => void
+	onPressButton: () => void
+}
+
+function LocationChangeConfirmationModal({
+	visibility,
+	newRangeSelected,
+	currentPostAddress = '',
+	closeModal,
+	onPressButton
+}: LocationChangeConfirmationModalProps) {
+	const getFirstParagraphText = () => {
+		return newRangeSelected === 'near'
+			? 'o plano região cobrirá apenas a região da localização:'
+			: `seu plano cidade cobre apenas a cidade${currentPostAddress ? ` de ${currentPostAddress}` : ''}`
+	}
+
+	const getFirstParagraphHighlightedWords = () => {
+		return newRangeSelected === 'near'
+			? ['região', 'última', 'localização', 'selecionada']
+			: ['cidade', ...currentPostAddress.split(' ')]
+	}
+
+	const getSecondParagraphText = () => {
+		return newRangeSelected === 'near'
+			? 'se você mudar aqui, todos seus posts vão mudar de região'
+			: `se você mudar aqui, todos seus posts fora${currentPostAddress ? ` de ${currentPostAddress}` : ' da cidade do último post'} serão movidos para a mesma`
+	}
+
+	return (
+		<CustomModal
+			visibility={visibility}
+			title={'alterar localização'}
+			firstParagraph={{
+				text: getFirstParagraphText(),
+				highlightedWords: getFirstParagraphHighlightedWords()
+			}}
+			listItemText={currentPostAddress}
+			secondParagraph={{
+				text: getSecondParagraphText(),
+				bolded: true
+			}}
+			closeModal={closeModal}
+			affirmativeButton={{
+				label: 'sim, alterar',
+				onPress: onPressButton
+			}}
+			negativeButton={{
+				label: 'não, cancelar',
+				onPress: closeModal
+			}}
+		/>
+	)
+}
+
+export { LocationChangeConfirmationModal }

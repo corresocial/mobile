@@ -38,6 +38,7 @@ interface CustomModalProps {
 		bolded?: boolean
 		highlightedWords?: string[]
 	},
+	listItemText?: string
 	closeButton?: boolean,
 	closeModal: () => void
 	affirmativeButton?: {
@@ -56,9 +57,10 @@ function CustomModal({
 	visibility,
 	title,
 	firstParagraph,
+	secondParagraph,
+	listItemText,
 	closeButton,
 	closeModal,
-	secondParagraph,
 	affirmativeButton,
 	negativeButton
 }: CustomModalProps) {
@@ -96,46 +98,59 @@ function CustomModal({
 
 						{
 							firstParagraph && (
-								<Description bolded={firstParagraph.bolded}>
+								<Description
+									bolded={firstParagraph.bolded}
+									fontSize={firstParagraph.fontSize}
+								>
 									{showMessageWithHighlight(firstParagraph.text || '', firstParagraph.highlightedWords)}
 								</Description>
 							)
 						}
 						{
+							listItemText && (
+								<Description fontSize={14} bolded>
+									{`•  ${listItemText}`}
+								</Description>
+							)
+						}
+						{
 							secondParagraph && (
-								<Description bolded={secondParagraph.bolded}>
+								<Description
+									bolded={secondParagraph.bolded}
+									fontSize={secondParagraph.fontSize}
+								>
 									{showMessageWithHighlight(secondParagraph.text || '', secondParagraph.highlightedWords)}
 								</Description>
 							)
 						}
 						{
-							negativeButton && (
+							affirmativeButton && (
 								<>
 									<PrimaryButton
-										color={theme.red3}
+										color={theme.green3}
 										labelColor={theme.white3}
-										label={negativeButton.label}
-										highlightedWords={[...negativeButton.label.split(' '), ...negativeButton.label.split(', ')]}
+										label={affirmativeButton.label}
+										highlightedWords={[...affirmativeButton.label.split(' '), ...affirmativeButton.label.split(', ')]}
 										fontSize={16}
-										SvgIcon={negativeButton.CustomIcon || XWhiteIcon}
+										SecondSvgIcon={affirmativeButton.CustomIcon || CheckWhiteIcon}
 										svgIconScale={['40%', '25%']}
-										onPress={() => closeModalAfterOnPress(negativeButton.onPress)}
+										onPress={() => closeModalAfterOnPress(affirmativeButton.onPress)}
 									/>
 									<VerticalSigh />
 								</>
 							)
 						}
 						{
-							affirmativeButton && (
+							negativeButton && (
 								<PrimaryButton
-									color={theme.green3}
+									color={theme.red3}
 									labelColor={theme.white3}
-									label={affirmativeButton.label}
-									highlightedWords={[...affirmativeButton.label.split(' '), ...affirmativeButton.label.split(', ')]}
+									label={negativeButton.label}
+									highlightedWords={[...negativeButton.label.split(' '), ...negativeButton.label.split(', ')]}
 									fontSize={16}
-									SecondSvgIcon={affirmativeButton.CustomIcon || CheckWhiteIcon}
+									SvgIcon={negativeButton.CustomIcon || XWhiteIcon}
 									svgIconScale={['40%', '25%']}
-									onPress={() => closeModalAfterOnPress(affirmativeButton.onPress)}
+									onPress={() => closeModalAfterOnPress(negativeButton.onPress)}
 								/>
 							)
 						}

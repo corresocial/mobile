@@ -138,7 +138,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 								color={theme.green3}
 								label={!postReview ? 'finalizar' : 'ir para o post'}
 								highlightedWords={['ir', 'para', 'o', 'post']}
-								fontSize={18}
+								fontSize={17}
 								labelColor={theme.white3}
 								SecondSvgIcon={CheckWhiteIcon}
 								onPress={backToInitialStackScreen}

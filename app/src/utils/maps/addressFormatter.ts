@@ -1,4 +1,5 @@
 import * as Location from 'expo-location'
+import { PostCollection } from '../../services/firebase/types'
 
 const convertGeocodeToAddress = async (latitude: number, longitude: number) => {
 	const geocodeAddress = await Location.reverseGeocodeAsync({
@@ -24,4 +25,8 @@ const structureAddress = (geocodeAddress: Location.LocationGeocodedAddress[], la
 	}
 })
 
-export { structureAddress, convertGeocodeToAddress }
+const getTextualAddress = (address: PostCollection['location']) => {
+	return `${address?.street || ''}, ${address?.number || ''}, ${address?.district || ''} - ${address?.city || ''}`
+}
+
+export { convertGeocodeToAddress, structureAddress, getTextualAddress }
