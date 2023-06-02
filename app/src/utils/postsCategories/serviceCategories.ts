@@ -72,7 +72,6 @@ const serviceCategories = {
 		value: 'autoAndParts',
 		slug: 'autoAndParts',
 		tags: [
-			'carro',
 			'moto',
 			'usado',
 			'novo',
@@ -95,7 +94,52 @@ const serviceCategories = {
 			'caminhao'
 		]
 	},
-
+	clothesAndAccessories: {
+		label: 'roupas e acessórios',
+		value: 'clothesAndAccessories',
+		slug: 'clothesAndAccessories',
+		tags: [
+			'camiseta',
+			'calça',
+			'intima',
+			'masculino',
+			'feminino',
+			'blusa',
+			'frio',
+			'moletom',
+			'praia',
+			'calor',
+			'festa',
+			'vestido',
+			'saia',
+			'shorts',
+			'chinelo',
+			'tenis',
+			'bota',
+		]
+	},
+	toys: {
+		label: 'infantil',
+		value: 'toys',
+		slug: 'toys',
+		tags: [
+			'alugar',
+			'festa',
+			'baby',
+			'bebe',
+			'crianças',
+			'adolescentes',
+			'bonecos',
+			'carros',
+			'colecionáveis',
+			'jogos',
+			'acessórios',
+			'montar',
+			'quebra-cabeças',
+			'arte',
+			'pelúcia',
+		]
+	},
 	health: {
 		label: 'saúde',
 		value: 'health',
@@ -123,7 +167,6 @@ const serviceCategories = {
 			'nutrição'
 		]
 	},
-
 	leisure: {
 		label: 'lazer',
 		value: 'leisure',
@@ -217,6 +260,24 @@ const serviceCategories = {
 			'churrasco',
 			'cozinha',
 			'fast food',
+		]
+	},
+	techAndCellPhone: {
+		label: 'tecnologia',
+		value: 'techAndCellPhone',
+		slug: 'techAndCellPhone',
+		tags: [
+			'tv',
+			'celular',
+			'computador',
+			'cabos',
+			'carregadores',
+			'software',
+			'assistencia',
+			'adaptador',
+			'suportes',
+			'gamer',
+			'fones'
 		]
 	},
 	drink: {

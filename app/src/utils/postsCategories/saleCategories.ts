@@ -18,7 +18,6 @@ const saleCategories = {
 			'restaurante',
 			'vegetariano',
 			'hamburguer',
-			'gourmet',
 			'vegano',
 			'pastel',
 			'petisco',
@@ -154,7 +153,6 @@ const saleCategories = {
 		value: 'autoAndParts',
 		slug: 'autoAndParts',
 		tags: [
-			'carro',
 			'moto',
 			'usado',
 			'novo',
@@ -165,8 +163,6 @@ const saleCategories = {
 			'mecanico',
 			'financiamento',
 			'consorcio',
-			'van',
-			'caminhao',
 			'seguros',
 			'carro',
 			'computador',
@@ -177,9 +173,32 @@ const saleCategories = {
 			'caminhao'
 		]
 	},
+	animals: {
+		label: 'bichos',
+		value: 'animals',
+		slug: 'pets',
+		tags: [
+			'cachorro',
+			'dog',
+			'gato',
+			'veterinario',
+			'cirurgia',
+			'dogs',
+			'imagem',
+			'adestramento',
+			'petshop',
+			'agrupecuaria',
+			'gado',
+			'boi',
+			'passaros',
+			'racao',
+			'farmacia',
+			'petshop'
+		]
+	},
 
 	toys: {
-		label: 'brinquedos',
+		label: 'infantil',
 		value: 'toys',
 		slug: 'toys',
 		tags: [
@@ -259,6 +278,7 @@ const saleCategories = {
 			'feminino',
 			'infantil',
 			'ciclismo',
+			'skate',
 			'caminhada e corrida',
 			'fitness',
 			'camping',
@@ -364,7 +384,60 @@ const saleCategories = {
 			'religiosa'
 		]
 	},
-
+	health: {
+		label: 'saúde',
+		value: 'health',
+		slug: 'health',
+		tags: [
+			'medico',
+			'enfermagem',
+			'dermatologia',
+			'hospital',
+			'prontosocorre',
+			'clinica',
+			'fitness',
+			'bemestar',
+			'dieta',
+			'foco',
+			'academia',
+			'treino',
+			'emagreciment',
+			'musculação',
+			'personaltrainer',
+			'crossfit',
+			'musculacao',
+			'bodybuilding',
+			'modafitness',
+			'nutrição'
+		]
+	},
+	beautyWellBeing: {
+		label: 'beleza e bem-estar',
+		value: 'beautyWellBeing',
+		slug: 'beauty',
+		tags: [
+			'bem-estar',
+			'moda',
+			'makeup',
+			'maquiagem',
+			'cuidados',
+			'unha',
+			'salao',
+			'cabeleleiro',
+			'cabelo',
+			'mulher',
+			'homem',
+			'barbeiro',
+			'corte',
+			'bemestar',
+			'maquiagem',
+			'maquiadora',
+			'hairstyle',
+			'sobrancelhas',
+			'depilacao',
+			'dermatologia'
+		]
+	},
 	others: {
 		label: 'outros',
 		value: 'others',
