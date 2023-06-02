@@ -39,6 +39,62 @@ const serviceCategories = {
 			'reforma'
 		]
 	},
+	art: {
+		label: 'arte',
+		value: 'art',
+		slug: 'art',
+		tags: [
+			'acessorios',
+			'tinta',
+			'ferramentas',
+			'madeira',
+			'quadro',
+			'decoraçao',
+			'derua',
+			'dança',
+			'audiovisual',
+			'cenicas',
+			'tattoo',
+			'artesanato',
+			'literatura',
+			'popart',
+			'musica',
+			'instrumentos',
+			'pintura',
+			'caligrafia',
+			'papeis',
+			'gravuras',
+			'modelagem',
+			'desenho']
+	},
+	autoAndParts: {
+		label: 'automóveis e peças',
+		value: 'autoAndParts',
+		slug: 'autoAndParts',
+		tags: [
+			'carro',
+			'moto',
+			'usado',
+			'novo',
+			'onibus',
+			'van',
+			'peças',
+			'oficina',
+			'mecanico',
+			'financiamento',
+			'consorcio',
+			'van',
+			'caminhao',
+			'seguros',
+			'carro',
+			'computador',
+			'celular',
+			'pneu',
+			'farol',
+			'camera',
+			'caminhao'
+		]
+	},
 
 	health: {
 		label: 'saúde',
@@ -136,32 +192,38 @@ const serviceCategories = {
 		]
 	},
 
-	foodAndDrink: {
-		label: 'comida e bebida',
-		value: 'foodAndDrink',
-		slug: 'foodAndDrink',
+	food: {
+		label: 'comida',
+		value: 'food',
+		slug: 'food',
 		tags: [
-			'cerveja',
-			'vinho',
 			'marmita',
 			'pizza',
 			'japonesa',
 			'gastronomia',
-			'drinks',
-			'gin',
-			'vodka',
-			'chopp',
-			'bar',
 			'gourmet',
 			'restaurante',
-			'lúpulo',
 			'vegetariano',
 			'hamburguer',
 			'gourmet',
 			'vegano',
+			'pastel',
 			'petisco',
 			'porcoes',
-			'padaria'
+			'padaria',
+			'brasileira',
+			'italiana',
+			'chinesa',
+			'churrasco',
+			'cozinha',
+			'fast food',
+		]
+	},
+	drink: {
+		label: 'bebida',
+		value: 'drink',
+		slug: 'drink',
+		tags: ['cerveja', 'vinho', 'drinks', 'gin', 'vodka', 'chopp', 'bar', 'refrigerante', 'agua', 'suco',
 		]
 	},
 

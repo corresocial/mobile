@@ -5,32 +5,38 @@ export const updateSaleTags = (category: SaleCategories, tag: string) => {
 }
 
 const saleCategories = {
-	foodAndDrink: {
-		label: 'comida e bebida',
-		value: 'foodAndDrink',
-		slug: 'foodAndDrink',
+	food: {
+		label: 'comida',
+		value: 'food',
+		slug: 'food',
 		tags: [
-			'cerveja',
-			'vinho',
 			'marmita',
 			'pizza',
 			'japonesa',
 			'gastronomia',
-			'drinks',
-			'gin',
-			'vodka',
-			'chopp',
-			'bar',
 			'gourmet',
 			'restaurante',
-			'lúpulo',
 			'vegetariano',
 			'hamburguer',
 			'gourmet',
 			'vegano',
+			'pastel',
 			'petisco',
 			'porcoes',
-			'padaria'
+			'padaria',
+			'brasileira',
+			'italiana',
+			'chinesa',
+			'churrasco',
+			'cozinha',
+			'fast food',
+		]
+	},
+	drink: {
+		label: 'bebida',
+		value: 'drink',
+		slug: 'drink',
+		tags: ['cerveja', 'vinho', 'drinks', 'gin', 'vodka', 'chopp', 'bar', 'refrigerante', 'agua', 'suco',
 		]
 	},
 
@@ -298,10 +304,15 @@ const saleCategories = {
 			'tinta',
 			'ferramentas',
 			'madeira',
-			'pinceis',
 			'quadro',
 			'decoraçao',
 			'derua',
+			'dança',
+			'audiovisual',
+			'cenicas',
+			'tattoo',
+			'artesanato',
+			'literatura',
 			'popart',
 			'musica',
 			'instrumentos',
@@ -310,8 +321,7 @@ const saleCategories = {
 			'papeis',
 			'gravuras',
 			'modelagem',
-			'desenho',
-		]
+			'desenho']
 	},
 
 	clothesAndAccessories: {
