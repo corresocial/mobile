@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
@@ -10,12 +10,21 @@ import { EditContext } from '../../../contexts/EditContext'
 import { CultureContext } from '../../../contexts/CultureContext'
 
 import { PostRange } from '../../../components/_onboarding/PostRange'
+import { RangePresentationModal } from '../../../components/_modals/RangePresentationModal'
 
 function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps) {
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
+	const [rangePresentationModalIsVisible, setRangePresentationModalIsVisible] = useState(false)
+
+	useEffect(() => {
+		if (!editModeIsTrue()) setRangePresentationModalIsVisible(true)
+	}, [])
+
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
+	const closeRangePresentationModal = () => setRangePresentationModalIsVisible(false)
 
 	const savePostRange = (postRange: PostRangeType) => {
 		const { eventPlaceModality } = cultureDataContext
@@ -37,6 +46,11 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 	return (
 		<>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<RangePresentationModal
+				visibility={rangePresentationModalIsVisible}
+				onPressButton={closeRangePresentationModal}
+				closeModal={closeRangePresentationModal}
+			/>
 			<PostRange
 				backgroundColor={theme.blue2}
 				navigateBackwards={() => navigation.goBack()}

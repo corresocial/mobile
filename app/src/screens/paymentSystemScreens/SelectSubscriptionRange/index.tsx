@@ -128,7 +128,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				title={'região'}
 				description={'a pessoas encontram seus posts  no bairro'}
 				highlightedWords={['região', 'bairro']}
-				footerValue={'free'}
+				footerValue={currentSubscriptionRange === 'near' ? 'edit' : 'free'}
 				checked={currentSubscriptionRange === 'near'}
 				onPress={() => manageSubscriptionRange('near')}
 			/>
@@ -142,7 +142,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				title={'cidade'}
 				description={'seus posts aparecem na cidade inteira, também pode postar em bairros!'}
 				highlightedWords={['cidade', 'também', 'pode', 'postar', 'em', 'bairros']}
-				footerValue={'20'}
+				footerValue={currentSubscriptionRange === 'city' ? 'edit' : '20'}
 				checked={currentSubscriptionRange === 'city'}
 				onPress={() => manageSubscriptionRange('city')}
 			/>
@@ -156,7 +156,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				title={'brasil'}
 				description={'postagens aparecem em cidades vizinhas e no brasil inteiro.'}
 				highlightedWords={['brasil', 'cidades', 'vizinhas', 'no', 'brasil', 'inteiro']}
-				footerValue={'40'}
+				footerValue={currentSubscriptionRange === 'country' ? 'edit' : '40'}
 				checked={currentSubscriptionRange === 'country'}
 				onPress={() => manageSubscriptionRange('country')}
 			/>

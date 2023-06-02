@@ -14,7 +14,7 @@ function Loader({ flex, animationScale }: LoaderProps) {
 	const animation = useRef<any>(null)
 
 	return (
-		<Container style={{ flex: 1 }}>
+		<Container style={{ flex: flex ? 1 : 0 }}>
 			<AnimationContainer animationScale={animationScale}>
 				<LottieView
 					source={buildingColorPassingDark}

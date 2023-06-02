@@ -63,7 +63,15 @@ function TitleDescriptionButton({
 					<Footer>
 						<SmallThinFont>{'plano '}</SmallThinFont>
 						<LargeStrongFont>{'gratuito'}</LargeStrongFont>
-						<SmallStrongFont>{''}</SmallStrongFont>
+					</Footer>
+				)
+			}
+
+			if (footerValue === 'edit') {
+				return (
+					<Footer>
+						<SmallThinFont>{'editar '}</SmallThinFont>
+						<LargeStrongFont>{'plano'}</LargeStrongFont>
 					</Footer>
 				)
 			}

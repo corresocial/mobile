@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
@@ -10,12 +10,21 @@ import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostRange } from '../../../components/_onboarding/PostRange'
+import { RangePresentationModal } from '../../../components/_modals/RangePresentationModal'
 
 function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
+	const [rangePresentationModalIsVisible, setRangePresentationModalIsVisible] = useState(false)
+
+	useEffect(() => {
+		if (!editModeIsTrue()) setRangePresentationModalIsVisible(true)
+	}, [])
+
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
+	const closeRangePresentationModal = () => setRangePresentationModalIsVisible(false)
 
 	const savePostRange = (postRange: PostRangeType) => {
 		if (editModeIsTrue()) {
@@ -31,6 +40,11 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 	return (
 		<>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<RangePresentationModal
+				visibility={rangePresentationModalIsVisible}
+				onPressButton={closeRangePresentationModal}
+				closeModal={closeRangePresentationModal}
+			/>
 			<PostRange
 				backgroundColor={theme.pink2}
 				navigateBackwards={() => navigation.goBack()}
