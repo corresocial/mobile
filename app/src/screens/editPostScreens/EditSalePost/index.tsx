@@ -123,9 +123,12 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const checkChangeLocationAlertIsRequired = () => {
 		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectLocationView', 'location')
 
-		if (userDataContext.subscription?.subscriptionRange) {
+		if (userDataContext.subscription?.subscriptionRange === 'near') {
 			toggleRangeChangeModalVisibility()
+			return
 		}
+
+		navigateToEditScreen('SelectLocationView', 'location')
 	}
 
 	const navigateToSubscriptionContext = () => {

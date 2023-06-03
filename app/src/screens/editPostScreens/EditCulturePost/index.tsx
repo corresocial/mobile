@@ -138,9 +138,12 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 	const checkChangeLocationAlertIsRequired = () => {
 		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectCultureLocationView', 'location')
 
-		if (userDataContext.subscription?.subscriptionRange) {
+		if (userDataContext.subscription?.subscriptionRange === 'near') {
 			toggleRangeChangeModalVisibility()
+			return
 		}
+
+		navigateToEditScreen('SelectCultureLocationView', 'location')
 	}
 
 	const navigateToSubscriptionContext = () => {

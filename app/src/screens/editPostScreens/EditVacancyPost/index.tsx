@@ -126,9 +126,12 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	const checkChangeLocationAlertIsRequired = () => {
 		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectVacancyLocationView', 'location')
 
-		if (userDataContext.subscription?.subscriptionRange) {
+		if (userDataContext.subscription?.subscriptionRange === 'near') {
 			toggleRangeChangeModalVisibility()
+			return
 		}
+
+		navigateToEditScreen('SelectVacancyLocationView', 'location')
 	}
 
 	const navigateToSubscriptionContext = () => {

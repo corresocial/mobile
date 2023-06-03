@@ -136,9 +136,12 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	const checkChangeLocationAlertIsRequired = () => {
 		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectSocialImpactLocationView', 'location')
 
-		if (userDataContext.subscription?.subscriptionRange) {
+		if (userDataContext.subscription?.subscriptionRange === 'near') {
 			toggleRangeChangeModalVisibility()
+			return
 		}
+
+		navigateToEditScreen('SelectSocialImpactLocationView', 'location')
 	}
 
 	const navigateToSubscriptionContext = () => {

@@ -110,7 +110,6 @@ function EditPost({
 						location: getPostField('location')
 					}
 				)
-				console.log(userPostsUpdated)
 			}
 
 			if ((editDataContext.unsaved.picturesUrl && editDataContext.unsaved.picturesUrl.length > 0) && !allPicturesAlreadyUploaded()) {
@@ -383,18 +382,17 @@ function EditPost({
 		)
 	}
 
-	const userSubscribeIsValid = () => {
-		console.log(`POST range: ${getPostField('range')}`)
+	console.log(userDataContext.subscription?.subscriptionRange as any)
+	console.log('------------------------------------')
+	console.log(`POST range: ${getPostField('range')}`)
 
+	const userSubscribeIsValid = () => {
 		if (!userDataContext.subscription) {
 			if (getPostField('range') === 'near') return true
 			return false
 		}
 
 		const rangeOnContext = userDataContext.subscription.subscriptionRange
-
-		console.log(`USER range: ${rangeOnContext}`)
-		console.log('------------------------------------')
 
 		if (rangeOnContext === 'near' && getPostField('range') === 'city') return false
 		if (rangeOnContext === 'near' && getPostField('range') === 'country') return false
