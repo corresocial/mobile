@@ -165,6 +165,19 @@ function EditPost({
 		const postPictures = extractPostPictures(postData)
 
 		try {
+			let userPostsUpdated: any = [] // TODO Type
+			if (locationHasChanged()) {
+				console.log(`locationHasChanged: ${locationHasChanged()}`)
+				userPostsUpdated = await updateAllRangeAndLocation(
+					owner,
+					getUserPostsWithoutEdited(),
+					{
+						range: getPostField('range'),
+						location: getPostField('location')
+					}
+				)
+			}
+
 			const localUser = { ...getLocalUser() }
 			if (!localUser.userId) throw new Error('Não foi possível identificar o usuário')
 
@@ -175,7 +188,8 @@ function EditPost({
 				await updateUserPost(
 					localUser,
 					postId,
-					postData
+					postData,
+					userPostsUpdated
 				)
 				return
 			}
@@ -205,7 +219,8 @@ function EditPost({
 												await updateUserPost(
 													localUser,
 													postId,
-													postDataWithPicturesUrl
+													postDataWithPicturesUrl,
+													userPostsUpdated
 												)
 												setIsLoading(false)
 											}
@@ -227,6 +242,7 @@ function EditPost({
 		localUser: LocalUserData,
 		postId: string,
 		postData: PostCollectionRemote,
+		postsUpdated?: PostCollection[]
 	) => {
 		const postDataToSave = {
 			...postData,
@@ -235,6 +251,7 @@ function EditPost({
 			createdAt: new Date()
 		}
 
+		console.log(postsUpdated)
 		await updateDocField(
 			'users',
 			localUser.userId as string,
@@ -243,7 +260,7 @@ function EditPost({
 			true,
 		)
 			.then(() => {
-				const localUserPosts = localUser.posts ? [...localUser.posts] as PostCollectionRemote[] : []
+				const localUserPosts = postsUpdated || localUser.posts ? [...localUser.posts as any] as PostCollectionRemote[] : [] // TODO Type
 				userContext.setUserDataOnContext({
 					...localUser,
 					tourPerformed: true,
