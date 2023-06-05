@@ -33,6 +33,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 	const [hasError, setHasError] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 	const [rangeChangeModalIsVisible, setRangeChangeModalIsVisible] = useState(false)
+	const [rangeChangeConfirmationModalIsVisible, setRangeChangeConfirmationModalIsVisible] = useState(false)
 
 	const { postRange: currentRangeSubscription, leaveFromPaidSubscription } = route.params
 
@@ -48,6 +49,10 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 
 	const toggleRangeChangeModalVisibility = () => {
 		setRangeChangeModalIsVisible(!rangeChangeModalIsVisible)
+	}
+
+	const toggleRangeChangeConfirmationModalVisibility = () => {
+		setRangeChangeConfirmationModalIsVisible(!rangeChangeConfirmationModalIsVisible)
 	}
 
 	const updateSubscriptionRange = async () => {
@@ -97,7 +102,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 
 	const getLastPostAddress = () => {
 		const lastUserPost: PostCollection = getLastUserPost()
-		console.log(getTextualAddress(lastUserPost?.location))
+		console.log(`last address: ${getTextualAddress(lastUserPost?.location)}`)
 		return getTextualAddress(lastUserPost?.location)
 	}
 
@@ -131,8 +136,16 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 				visibility={rangeChangeModalIsVisible}
 				currentPostAddress={getLastPostAddress()}
 				newRangeSelected={'near'}
-				onPressButton={updateSubscriptionRange}
+				onPressButton={toggleRangeChangeConfirmationModalVisibility}
 				closeModal={toggleRangeChangeModalVisibility}
+			/>
+			<RangeChangeConfirmationModal
+				visibility={rangeChangeConfirmationModalIsVisible}
+				currentPostAddress={getLastPostAddress()}
+				newRangeSelected={'near'}
+				confirmation
+				onPressButton={updateSubscriptionRange}
+				closeModal={toggleRangeChangeConfirmationModalVisibility}
 			/>
 			<DefaultHeaderContainer
 				relativeHeight={'45%'}

@@ -37,8 +37,8 @@ interface CustomModalProps {
 		fontSize?: number
 		bolded?: boolean
 		highlightedWords?: string[]
-	},
-	listItemText?: string
+	} | false,
+	listItemText?: string | false
 	closeButton?: boolean,
 	closeModal: () => void
 	affirmativeButton?: {

@@ -7,6 +7,7 @@ interface RangeChangeConfirmationModalProps {
 	visibility: boolean
 	newRangeSelected: PostRange
 	currentPostAddress: string
+	confirmation?: boolean
 	closeModal: () => void
 	onPressButton: () => void
 }
@@ -15,16 +16,21 @@ function RangeChangeConfirmationModal({
 	visibility,
 	newRangeSelected,
 	currentPostAddress,
+	confirmation,
 	closeModal,
 	onPressButton
 }: RangeChangeConfirmationModalProps) {
 	const getFirstParagraphText = () => {
+		if (confirmation) return 'você tem certeza?'
+
 		return newRangeSelected === 'near'
 			? 'o plano região cobrirá apenas a região da localização:'
 			: 'o plano cidade cobrirá apenas a localização:'
 	}
 
 	const getFirstParagraphHighlightedWords = () => {
+		if (confirmation) return []
+
 		return newRangeSelected === 'near'
 			? ['região', 'da', 'localização:']
 			: ['cidade']
@@ -44,11 +50,11 @@ function RangeChangeConfirmationModal({
 				text: getFirstParagraphText(),
 				highlightedWords: getFirstParagraphHighlightedWords()
 			}}
-			secondParagraph={{
+			secondParagraph={!confirmation && {
 				text: getSecondParagraphText(),
 				bolded: true
 			}}
-			listItemText={currentPostAddress}
+			listItemText={!confirmation && currentPostAddress}
 			closeModal={closeModal}
 			affirmativeButton={{
 				label: 'sim, alterar',
