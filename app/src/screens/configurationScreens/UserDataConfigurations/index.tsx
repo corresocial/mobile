@@ -1,9 +1,16 @@
-import React, { useState } from 'react'
-
-import { UserDataConfigurationsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import React, { useState, useContext } from 'react'
 
 import { Container } from './styles'
+
 import { theme } from '../../../common/theme'
+
+import { removeAllUserData } from '../../../services/firebase/user/removeAllUserData'
+
+import { UserDataConfigurationsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { Id, PostCollection } from '../../../services/firebase/types'
+
+import { AuthContext } from '../../../contexts/AuthContext'
+
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton'
@@ -13,8 +20,12 @@ import { TitleDescriptionButton } from '../../../components/_cards/TitleDescript
 import { BeForgottenConfirmationModal } from '../../../components/_modals/BeForgottenConfirmationModal'
 import { Loader } from '../../../components/Loader'
 import { CustomModal } from '../../../components/_modals/CustomModal'
+import { ChatContext } from '../../../contexts/ChatContext'
 
 function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProps) {
+	const { userDataContext, deleteLocaluser } = useContext(AuthContext)
+	const { removeChatListeners } = useContext(ChatContext)
+
 	const [beForgottenConfirmationModalIsVisible, setBeForgottenConfirmationModalIsVisible] = useState(false)
 	const [successModalIsVisible, setSuccessModalIsVisible] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
@@ -32,12 +43,32 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 	}
 
 	const deleteAllUserData = async () => {
-		setIsLoading(true)
-		setTimeout(() => {
+		try {
+			setIsLoading(true)
+			await removeAllUserData(
+				userDataContext.userId as Id,
+				userDataContext.profilePictureUrl || [],
+				userDataContext.posts as PostCollection[]
+			).then(() => toggleSuccessModalVisibility())
 			setIsLoading(false)
-			setSuccessModalIsVisible(true)
-		}, 3000)
-		console.log('deleteAllUserData')
+		} catch (error) {
+			console.log(error)
+			setIsLoading(false)
+		}
+	}
+
+	const performLogout = () => {
+		removeChatListeners()
+		deleteLocaluser()
+
+		navigateToInitialScreen()
+	}
+
+	const navigateToInitialScreen = () => {
+		navigation.reset({
+			index: 0,
+			routes: [{ name: 'AcceptAndContinue' as any }]
+		})
 	}
 
 	return (
@@ -54,10 +85,10 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 					text: 'agradecemos por fazer parte de nossa rede, e esperamos te encontrar em um futuro próximo.'
 				}}
 				affirmativeButton={{
-					label: 'ir para home',
-					onPress: () => navigation.goBack()
+					label: 'sair da conta',
+					onPress: performLogout
 				}}
-				closeModal={toggleSuccessModalVisibility}
+				closeModal={() => { }}
 			/>
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(24)}
