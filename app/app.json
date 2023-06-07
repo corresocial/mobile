@@ -59,6 +59,11 @@
 		],
 		"ios": {
 			"buildNumber": "14",
+			"infoPlist": {
+				"NSCameraUsageDescription": "Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.",
+				"NSLocationWhenInUseUsageDescription": "Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts.",
+				"NSPhotoLibraryUsageDescription": "Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você."
+			},
 			"supportsTablet": true,
 			"bundleIdentifier": "corre",
 			"splash": {
