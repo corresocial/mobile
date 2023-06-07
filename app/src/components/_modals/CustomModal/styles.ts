@@ -3,6 +3,7 @@ import styled from 'styled-components/native'
 
 interface DescriptionProps {
 	bolded?: boolean
+	fontSize?: number
 }
 
 export const Container = styled.View`
@@ -54,6 +55,6 @@ export const Title = styled.Text`
 export const Description = styled.Text<DescriptionProps>`
 	margin-bottom: ${RFValue(20)}px;
     font-family: ${({ bolded }) => (bolded ? 'Arvo_700Bold' : 'Arvo_400Regular')};
-    font-size: ${RFValue(17)}px;
+    font-size: ${({ fontSize }) => (fontSize ? RFValue(fontSize) : RFValue(17))}px;
     color: ${({ theme }) => theme.black3}
 `
