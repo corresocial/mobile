@@ -15,7 +15,20 @@ export const Container = styled.TouchableOpacity`
 `
 
 export const Title = styled.Text`
-	width: 90%;
+	width: 70%;
 	font-family: Arvo_400Regular;
 	font-size: ${RFValue(16)}px;
+`
+
+export const RightArea = styled.View`
+	flex: 1;
+	height: 100%;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-end;
+`
+
+export const RightAreaText = styled.Text`
+	font-family: Arvo_400Regular;
+	font-size: ${RFValue(14)}px;
 `

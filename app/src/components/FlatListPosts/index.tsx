@@ -31,18 +31,16 @@ function FlatListPosts({
 			showsVerticalScrollIndicator={false}
 			contentContainerStyle={{
 				padding: RFValue(10),
-				paddingTop: flatListIsLoading
-					? relativeScreenHeight(10)
-					: RFValue(10)
+				paddingTop: relativeScreenHeight(2)
 			}}
 			ItemSeparatorComponent={() => <VerticalSigh />}
-			ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
-			ListFooterComponent={<VerticalSigh height={relativeScreenHeight(40)} />}
+			ListHeaderComponentStyle={{ marginBottom: RFValue(0) }}
+			ListFooterComponent={<VerticalSigh />}
 			onEndReached={onEndReached}
 			refreshControl={(
 				<RefreshControl
 					colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3, theme.purple3, theme.yellow3, theme.red3]}
-					refreshing={!!flatListIsLoading}
+					refreshing={/* !!flatListIsLoading */false}
 					progressBackgroundColor={theme.white3}
 					onRefresh={onRefresh && onRefresh}
 				/>

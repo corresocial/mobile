@@ -147,6 +147,7 @@ const serviceCategories = {
 		tags: [
 			'medico',
 			'enfermagem',
+			'psicologia',
 			'dermatologia',
 			'hospital',
 			'prontosocorre',
@@ -263,7 +264,7 @@ const serviceCategories = {
 		]
 	},
 	techAndCellPhone: {
-		label: 'tecnologia',
+		label: 'eletrônicos e assistência',
 		value: 'techAndCellPhone',
 		slug: 'techAndCellPhone',
 		tags: [

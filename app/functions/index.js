@@ -14,8 +14,11 @@ exports.getFeedPosts = functions.https.onRequest(async (req, res) => { // req. s
 		const cityPosts = await getCityPosts(collectionRef, searchParams, nearPostIds)
 		const countryPosts = await getCountryPosts(collectionRef, searchParams, nearPostIds)
 
-		const allPosts = [...nearbyPosts, ...cityPosts, ...countryPosts]
-		const postsWithLocationFilter = filterLocation(allPosts, userId)
+		const postsWithLocationFilter = {
+			nearby: filterLocation(nearbyPosts, userId),
+			city: filterLocation(cityPosts, userId),
+			country: filterLocation(countryPosts, userId)
+		}
 
 		return res.status(200).send(postsWithLocationFilter)
 	} catch (err) {
