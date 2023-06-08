@@ -32,10 +32,18 @@ async function getPostsByLocation(searchParams: SearchParams) {
 		const cityPosts = await getCityPosts(collectionRef, searchParams, nearPostIds)
 		const countryPosts = await getCountryPosts(collectionRef, searchParams, nearPostIds)
 
-		return [...nearbyPosts, ...cityPosts, ...countryPosts]
+		return {
+			nearby: nearbyPosts,
+			city: cityPosts,
+			country: countryPosts
+		}
 	} catch (err) {
 		console.log(err)
-		return []
+		return {
+			nearby: [],
+			city: [],
+			country: []
+		}
 	}
 }
 

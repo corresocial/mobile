@@ -6,17 +6,9 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import {
 	Container,
 	DropdownContainer,
-	FooterSigh,
-	HorizontalPostTypes,
-	RecentPostsContainer,
-	Sigh,
+	RecentPostsContainer
 } from './styles'
 import { theme } from '../../../common/theme'
-import SocialImpactIcon from '../../../assets/icons/socialImpact-filled.svg'
-import CommerceIcon from '../../../assets/icons/commerce.svg'
-import CultureIcon from '../../../assets/icons/culture-filled.svg'
-import ServiceIcon from '../../../assets/icons/service-filled.svg'
-import VacancyIcon from '../../../assets/icons/vacancy-filled.svg'
 
 import {
 	relativeScreenHeight,
@@ -28,7 +20,7 @@ import { searchAddressByText } from '../../../services/maps/searchAddressByText'
 import { structureAddress } from '../../../utils/maps/addressFormatter'
 import { getLastRecentAddress, getRecentAdressesFromStorage } from '../../../utils/maps/recentAddresses'
 import { getPostsByLocationCloud } from '../../../services/cloudFunctions/getPostsByLocationCloud'
-// import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
+import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
 import { getCurrentLocation } from '../../../utils/maps/getCurrentLocation'
 
 import {
@@ -51,10 +43,25 @@ import { RequestLocation } from '../../../components/RequestLocation'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { HomeCatalogMenu } from '../../../components/HomeCatalogMenu'
+import { VerticalSigh } from '../../../components/VerticalSigh'
+import { FlatListPosts } from '../../../components/FlatListPosts'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
 	addressThin: '',
+}
+
+const initialNearPosts = {
+	nearby: [],
+	city: [],
+	country: []
+}
+
+type NearPosts = {
+	nearby: PostCollection[],
+	city: PostCollection[],
+	country: PostCollection[],
 }
 
 function Home({ navigation }: HomeScreenProps) {
@@ -64,7 +71,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const [selectedAddress, setSelectedAddress] = useState<SelectedAddressRender>(initialSelectedAddress)
 	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])
-	const [nearPosts, setNearPosts] = useState<PostCollection[]>([])
+	const [nearPosts, setNearPosts] = useState<NearPosts>(initialNearPosts)
 	const [addressSuggestions, setAddressSuggestions] = useState<AddressSearchResult[]>([])
 	const [hasLocationPermission, setHasLocationPermission] = useState(false)
 	const [hasLocationEnable, setHasLocationEnable] = useState(false)
@@ -141,21 +148,29 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong) // address converter
 			}
 
-			const nearbyPosts = await getPostsByLocationCloud(
+			/* const nearbyPosts = await getPostsByLocationCloud(
 				searchParams,
 				userDataContext.userId as Id
-			)
+			) */
 
-			// const nearbyPosts = await getPostsByLocation(searchParams)
-			setNearPosts(nearbyPosts || [])
+			const nearbyPosts = await getPostsByLocation(searchParams)
+
+			/* console.log(nearbyPosts.nearby.map((post: any) => post.title))
+			console.log('----------------------------------------------------------------------------------------')
+			console.log(nearbyPosts.city.map((post: any) => post.title))
+			console.log('----------------------------------------------------------------------------------------')
+			console.log(nearbyPosts.country.map((post: any) => post.title))
+			console.log('----------------------------------------------------------------------------------------') */
+
+			setNearPosts(nearbyPosts || { nearby: [], city: [], country: [] })
 
 			refresh ? setFlatListIsLoading(false) : setLoaderIsVisible(false)
 			setSearchEnded(true)
-			setLocationDataOnContext({
+			/* setLocationDataOnContext({
 				searchParams,
 				nearbyPosts,
 				lastRefreshInMilliseconds: Date.now(),
-			})
+			}) */
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)
@@ -334,116 +349,96 @@ function Home({ navigation }: HomeScreenProps) {
 					findAddressSuggestions={findAddressSuggestions}
 				/>
 			</DropdownContainer>
-			<HorizontalPostTypes>
-				<SmallButton
-					relativeWidth={relativeScreenWidth(15)}
-					height={relativeScreenWidth(15)}
-					color={'white'}
-					fontSize={7.5}
-					onPress={() => navigateToPostCategories('socialImpact')}
-					label={'impacto'}
-					labelColor={theme.black4}
-					SvgIcon={SocialImpactIcon}
-					svgScale={['50%', '80%']}
-					flexDirection={'column'}
-				/>
-				<SmallButton
-					relativeWidth={relativeScreenWidth(15)}
-					height={relativeScreenWidth(15)}
-					color={'white'}
-					fontSize={7.5}
-					onPress={() => navigateToPostCategories('sale')}
-					label={'comércio'}
-					labelColor={theme.black4}
-					SvgIcon={CommerceIcon}
-					svgScale={['50%', '80%']}
-					flexDirection={'column'}
-				/>
-				<SmallButton
-					relativeWidth={relativeScreenWidth(15)}
-					height={relativeScreenWidth(15)}
-					color={'white'}
-					fontSize={7.5}
-					onPress={() => navigateToPostCategories('culture')}
-					label={'cultura'}
-					labelColor={theme.black4}
-					SvgIcon={CultureIcon}
-					svgScale={['50%', '80%']}
-					flexDirection={'column'}
-				/>
-				<SmallButton
-					relativeWidth={relativeScreenWidth(15)}
-					height={relativeScreenWidth(15)}
-					color={'white'}
-					fontSize={7.5}
-					onPress={() => navigateToPostCategories('service')}
-					label={'serviços'}
-					labelColor={theme.black4}
-					SvgIcon={ServiceIcon}
-					svgScale={['50%', '80%']}
-					flexDirection={'column'}
-				/>
-				<SmallButton
-					relativeWidth={relativeScreenWidth(15)}
-					height={relativeScreenWidth(15)}
-					color={'white'}
-					fontSize={7.5}
-					onPress={() => navigateToPostCategories('vacancy')}
-					label={'vagas'}
-					labelColor={theme.black4}
-					SvgIcon={VacancyIcon}
-					svgScale={['50%', '80%']}
-					flexDirection={'column'}
-				/>
-			</HorizontalPostTypes>
+			<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
 			<RecentPostsContainer>
-				<SubtitleCard
-					text={'posts de recentes'}
-					highlightedText={['recentes']}
-					onPress={() => { }}
-				/>
-				{!hasLocationEnable && !nearPosts.length && (
+				{/* {!hasLocationEnable && !nearPosts.length && ( // UNCOMENT
 					<RequestLocation
 						getLocationPermissions={() => {
 							requestPermissions()
 							findNearPosts('', true)
 						}}
 					/>
-				)}
-				{nearPosts.length ? (
-					<FlatList
-						data={nearPosts}
-						renderItem={({ item }) => (
-							<PostCard
-								post={item}
-								owner={item.owner}
-								navigateToProfile={navigateToProfile}
-								onPress={() => goToPostView(item)}
-							/>
-						)}
-						// onEndReached={() => console.log('findMoreNearPosts(Pagination)')}
-						showsVerticalScrollIndicator={false}
-						contentContainerStyle={{
-							padding: RFValue(10),
-							paddingTop: flatListIsLoading
-								? relativeScreenHeight(10)
-								: RFValue(10),
-						}}
-						ItemSeparatorComponent={() => <Sigh />}
-						ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
-						ListFooterComponent={<FooterSigh />}
-						refreshControl={(
-							<RefreshControl
-								colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3, theme.purple3, theme.yellow3, theme.red3]}
-								refreshing={flatListIsLoading}
-								progressBackgroundColor={theme.white3}
-								onRefresh={refreshFlatlist}
-							/>
-						)}
-					/>
-				) : (
-					hasLocationEnable
-					&& searchEnded && (
+				)} */}
+				{
+					(nearPosts.nearby && nearPosts.nearby.length)
+						? (
+							<>
+								<SubtitleCard
+									text={'perto de você'}
+									highlightedText={['perto']}
+									onPress={() => { }}
+								/>
+								<FlatListPosts
+									data={nearPosts.nearby}
+									renderItem={(item) => (
+										<PostCard
+											post={item}
+											owner={item.owner}
+											navigateToProfile={navigateToProfile}
+											onPress={() => goToPostView(item)}
+										/>
+									)}
+									flatListIsLoading={flatListIsLoading}
+									onEndReached={refreshFlatlist}
+								/>
+							</>
+						)
+						: <></>
+				}
+				{
+					(nearPosts.city && nearPosts.city.length)
+						? (
+							<>
+								<SubtitleCard
+									text={'na cidade'}
+									highlightedText={['cidade']}
+									onPress={() => { }}
+								/>
+								<FlatListPosts
+									data={nearPosts.city}
+									renderItem={(item) => (
+										<PostCard
+											post={item}
+											owner={item.owner}
+											navigateToProfile={navigateToProfile}
+											onPress={() => goToPostView(item)}
+										/>
+									)}
+									flatListIsLoading={flatListIsLoading}
+									onEndReached={refreshFlatlist}
+								/>
+							</>
+						)
+						: <></>
+				}
+				{
+					(nearPosts.country && nearPosts.country.length)
+						? (
+							<>
+								<SubtitleCard
+									text={'no país'}
+									highlightedText={['país']}
+									onPress={() => { }}
+								/>
+								<FlatListPosts
+									data={nearPosts.country}
+									renderItem={(item) => (
+										<PostCard
+											post={item}
+											owner={item.owner}
+											navigateToProfile={navigateToProfile}
+											onPress={() => goToPostView(item)}
+										/>
+									)}
+									flatListIsLoading={flatListIsLoading}
+									onEndReached={refreshFlatlist}
+								/>
+							</>
+						)
+						: <></>
+				}
+				{
+					hasLocationEnable && searchEnded && (
 						<WithoutPostsMessage
 							title={'opa!'}
 							message={
@@ -451,7 +446,7 @@ function Home({ navigation }: HomeScreenProps) {
 							}
 						/>
 					)
-				)}
+				}
 			</RecentPostsContainer>
 		</Container>
 	)
