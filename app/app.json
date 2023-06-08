@@ -39,6 +39,14 @@
 				}
 			],
 			"expo-image-picker",
+			{
+				"photosPermission": "Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts.",
+				"cameraPermission": "Você precisa permitir o acesso a camera para tirar fotos de perfil e posts."
+			},
+			"expo-camera",
+			{
+				"cameraPermission": "Você precisa permitir o acesso a camera para tirar fotos de perfil e posts."
+			},
 			[
 				"expo-build-properties",
 				{
@@ -61,10 +69,9 @@
 			"buildNumber": "16",
 			"infoPlist": {
 				"NSCameraUsageDescription": "Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.",
-				"NSLocationWhenInUseUsageDescription": "Você precisa permitir o acesso a localização para escolher fotos de perfil e posts.",
-				"NSPhotoLibraryUsageDescription": "Você precisa permitir o acesso a  galeria para encontrar posts e perfis perto de você.",
+				"NSLocationWhenInUseUsageDescription": "Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.",
+				"NSPhotoLibraryUsageDescription": "Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts.",
 				"NSFaceIDUsageDescription": "Usamos o bloquei do app com TouchID ou FaceID para garantir a segurança da sua conta."
-
 			},
 			"supportsTablet": true,
 			"bundleIdentifier": "corre",
