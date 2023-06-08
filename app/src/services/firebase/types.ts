@@ -145,6 +145,12 @@ export type PostCollection = ServiceCollection | SaleCollection | VacancyCollect
 
 export type PostCollectionRemote = ServiceCollectionRemote | SaleCollectionRemote | VacancyCollectionRemote | CultureCollectionRemote | SocialImpactCollectionRemote
 
+export type FeedPosts = {
+	nearby: PostCollectionRemote[],
+	city: PostCollectionRemote[],
+	country: PostCollectionRemote[],
+}
+
 export type ServiceCollection = {
 	postId?: string
 	postType: PostType

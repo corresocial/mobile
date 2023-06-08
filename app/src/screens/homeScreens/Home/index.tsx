@@ -23,7 +23,7 @@ import {
 	AddressSearchResult,
 	SelectedAddressRender,
 } from '../../../services/maps/types'
-import { PostCollection, PostType } from '../../../services/firebase/types'
+import { FeedPosts, PostCollection, PostType } from '../../../services/firebase/types'
 import { HomeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 import { LocationContext } from '../../../contexts/LocationContext'
@@ -44,16 +44,10 @@ const initialSelectedAddress = {
 	addressThin: '',
 }
 
-const initialNearPosts = {
+const initialFeedPosts = {
 	nearby: [],
 	city: [],
 	country: []
-}
-
-type NearPosts = {
-	nearby: PostCollection[],
-	city: PostCollection[],
-	country: PostCollection[],
 }
 
 function Home({ navigation }: HomeScreenProps) {
@@ -63,7 +57,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const [selectedAddress, setSelectedAddress] = useState<SelectedAddressRender>(initialSelectedAddress)
 	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])
-	const [feedPosts, setFeedPosts] = useState<NearPosts>(initialNearPosts)
+	const [feedPosts, setFeedPosts] = useState<FeedPosts>(initialFeedPosts)
 	const [addressSuggestions, setAddressSuggestions] = useState<AddressSearchResult[]>([])
 	const [hasLocationPermission, setHasLocationPermission] = useState(false)
 	const [hasLocationEnable, setHasLocationEnable] = useState(false)
@@ -97,7 +91,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 	useEffect(() => {
 		if (hasLocationPermission) {
-			findNearPosts('', true, null as any, false, true)
+			findFeedPosts('', true, null as any, false, true)
 		}
 	}, [hasLocationPermission])
 
@@ -112,7 +106,7 @@ function Home({ navigation }: HomeScreenProps) {
 		setRecentAddresses(addresses)
 	}
 
-	const findNearPosts = async (
+	const findFeedPosts = async (
 		searchText: string,
 		currentPosition?: boolean,
 		alternativeCoordinates?: LatLong,
@@ -144,11 +138,11 @@ function Home({ navigation }: HomeScreenProps) {
 
 			refresh ? setFlatListIsLoading(false) : setLoaderIsVisible(false)
 			setSearchEnded(true)
-			/* setLocationDataOnContext({
+			setLocationDataOnContext({
 				searchParams,
-				remoteFeedPosts,
+				feedPosts: remoteFeedPosts,
 				lastRefreshInMilliseconds: Date.now(),
-			}) */
+			})
 		} catch (err) {
 			console.log(err)
 			setLoaderIsVisible(false)
@@ -157,7 +151,7 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const refreshFlatlist = async () => {
-		await findNearPosts(
+		await findFeedPosts(
 			'',
 			false,
 			locationDataContext.searchParams.coordinates || null,
@@ -342,7 +336,7 @@ function Home({ navigation }: HomeScreenProps) {
 					selectAddress={setSelectedAddress}
 					saveRecentAddresses={saveRecentAddresses}
 					clearAddressSuggestions={clearAddressSuggestions}
-					findNearPosts={findNearPosts}
+					findNearPosts={findFeedPosts}
 					findAddressSuggestions={findAddressSuggestions}
 				/>
 			</DropdownContainer>
@@ -352,7 +346,7 @@ function Home({ navigation }: HomeScreenProps) {
 					<RequestLocation
 						getLocationPermissions={() => {
 							requestPermissions()
-							findNearPosts('', true)
+							findFeedPosts('', true)
 						}}
 					/>
 				)}

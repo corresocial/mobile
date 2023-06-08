@@ -27,11 +27,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	const [searchText, setSearchText] = useState('')
 	const [recentPosts, setRecentPosts] = useState<PostCollection[]>([])
 
-	const { nearbyPosts } = locationDataContext
-
-	useEffect(() => {
-		getRecentPosts()
-	}, [])
+	const feedPosts = [...locationDataContext.feedPosts.nearby, ...locationDataContext.feedPosts.city, ...locationDataContext.feedPosts.country] || []
 
 	const {
 		backgroundColor,
@@ -42,14 +38,38 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 		inactiveColor
 	} = locationDataContext.currentCategory
 
+	useEffect(() => {
+		getRecentPosts()
+	}, [])
+
+	const getFeedPostsTags = () => {
+		const userPostTags = feedPosts.reduce((acc: any[], current: PostCollection) => {
+			if (!current.tags || current.category !== categoryName) return [...acc]
+			const filtredCurrentTags = current.tags.filter((tag) => !acc.includes(tag))
+			return [...acc, ...filtredCurrentTags as string[]]
+		}, [])
+
+		return userPostTags
+	}
+
 	const getRecentPosts = async () => {
-		const filteredPosts = locationDataContext.nearbyPosts.filter((post) => post.category === categoryName && post.postType === locationDataContext.searchParams.postType)
+		const filteredPosts = feedPosts.filter((post) => post.category === categoryName && post.postType === locationDataContext.searchParams.postType)
 		setRecentPosts(filteredPosts)
 	}
 
 	const getFiltredCategoryTags = () => {
-		if (!searchText) return categoryTags.sort(sortArray)
-		const filtredTags = categoryTags.filter((tag) => !!tag.match(new RegExp(`${searchText}`, 'i'))?.length)
+		const allTags = [...categoryTags, ...getFeedPostsTags()]
+
+		if (!searchText) {
+			return allTags
+				.filter((tag, index, array) => array.indexOf(tag) === index)
+				.sort(sortArray)
+		}
+
+		const filtredTags = allTags
+			.filter((tag) => !!tag.match(new RegExp(`${searchText}`, 'i'))?.length)
+
+		console.log(filtredTags)
 		return filtredTags.sort(sortArray)
 	}
 
@@ -150,7 +170,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 						ListFooterComponent={<HorizontalSigh />}
 						renderItem={({ item }) => (
 							<CategoryCard
-								hasElements={!!(nearbyPosts.filter((post) => post.category === categoryName && post.tags.includes(item) && post.postType === locationDataContext.searchParams.postType)).length}
+								hasElements={!!(feedPosts.filter((post) => post.category === categoryName && post.tags.includes(item) && post.postType === locationDataContext.searchParams.postType)).length}
 								inactiveColor={inactiveColor}
 								title={item}
 								withoutMargin

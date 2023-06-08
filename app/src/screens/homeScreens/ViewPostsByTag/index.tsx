@@ -23,6 +23,8 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	const [searchText, setSearchText] = useState('')
 	const [recentPosts, setRecentPosts] = useState<PostCollection[]>([])
 
+	const feedPosts = [...locationDataContext.feedPosts.nearby, ...locationDataContext.feedPosts.city, ...locationDataContext.feedPosts.country] || []
+
 	useEffect(() => {
 		getRecentPosts()
 	}, [])
@@ -34,7 +36,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	} = locationDataContext.currentCategory
 
 	const getRecentPosts = async () => {
-		const filteredPosts = locationDataContext.nearbyPosts.filter((post) => post.category === categoryName && arrayContains(post.tags, route.params.currentTagSelected))
+		const filteredPosts = feedPosts.filter((post) => post.category === categoryName && arrayContains(post.tags, route.params.currentTagSelected))
 		setRecentPosts(filteredPosts)
 	}
 

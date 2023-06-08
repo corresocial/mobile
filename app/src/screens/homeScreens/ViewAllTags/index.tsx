@@ -15,30 +15,44 @@ import { SelectButtonsContainer } from '../../../components/_containers/SelectBu
 import { sortArray } from '../../../common/auxiliaryFunctions'
 import { LocationContext } from '../../../contexts/LocationContext'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { PostCollection } from '../../../services/firebase/types'
 
 function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 	const { locationDataContext } = useContext(LocationContext)
 
-	const { nearbyPosts } = locationDataContext
-
 	const [searchText, setSearchText] = useState('')
 
+	const feedPosts = [...locationDataContext.feedPosts.nearby, ...locationDataContext.feedPosts.city, ...locationDataContext.feedPosts.country] || []
+	const { inactiveColor, categoryName, categoryTags } = locationDataContext.currentCategory
+
+	const getFeedPostsTags = () => {
+		const userPostTags = feedPosts.reduce((acc: any[], current: PostCollection) => {
+			if (!current.tags || current.category !== categoryName) return [...acc]
+			const filtredCurrentTags = current.tags.filter((tag) => !acc.includes(tag))
+			return [...acc, ...filtredCurrentTags as string[]]
+		}, [])
+
+		return userPostTags
+	}
+
 	const renderFiltredCategories = () => {
-		const { inactiveColor } = locationDataContext.currentCategory
-		const { categoryName } = locationDataContext.currentCategory
-		let { categoryTags } = locationDataContext.currentCategory
+		let allTags = [...categoryTags, ...getFeedPostsTags()]
 
 		if (searchText) {
-			categoryTags = categoryTags.filter((tag) => !!tag.match(new RegExp(`${searchText}`, 'i'))?.length)
+			allTags = allTags
+				.filter((tag, index, array) => array.indexOf(tag) === index)
+				.filter((tag) => !!tag.match(new RegExp(`${searchText}`, 'i'))?.length)
 		}
 
-		categoryTags = categoryTags.sort(sortArray)
+		allTags = allTags
+			.filter((tag, index, array) => array.indexOf(tag) === index)
+			.sort(sortArray)
 
-		return categoryTags.map((tagName: string) => {
+		return allTags.map((tagName: string) => {
 			if (tagName === 'outros') return null
 			return (
 				<CategoryCard
-					hasElements={!!((nearbyPosts.map((post) => post.tags.filter((tag) => post.category === categoryName && tag === tagName && post.postType === locationDataContext.searchParams.postType))).filter((element) => element.map((e) => e.length > 0).length).length)}
+					hasElements={!!((feedPosts.map((post) => post.tags.filter((tag) => post.category === categoryName && tag === tagName && post.postType === locationDataContext.searchParams.postType))).filter((element) => element.map((e) => e.length > 0).length).length)}
 					inactiveColor={inactiveColor}
 					key={uuid()}
 					title={tagName}
