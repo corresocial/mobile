@@ -1,5 +1,3 @@
-import Constants from 'expo-constants'
-import { Platform } from 'react-native'
 import styled from 'styled-components/native'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
@@ -18,7 +16,7 @@ export const Header = styled.View`
 
 export const Body = styled.View`
 	flex: 1;
-	background-color: ${({ theme }) => theme.white1};
+	background-color: ${({ theme }) => theme.orange3};
 	padding-vertical:  ${relativeScreenWidth(4)}px;
 	padding-horizontal: ${relativeScreenWidth(7)}px;
 `

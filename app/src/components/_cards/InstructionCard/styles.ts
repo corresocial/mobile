@@ -14,3 +14,9 @@ export const Message = styled.Text`
     line-height: ${RFValue(22)}px;
     flex-wrap: wrap;
 `
+
+export const MessageTitle = styled.Text`
+	font-size: ${RFValue(22)}px;
+	font-family: Arvo_400Regular;
+	color: ${({ theme }) => theme.black4};
+`
