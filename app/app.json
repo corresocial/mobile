@@ -38,15 +38,16 @@
 					"isAccessMediaLocationEnabled": true
 				}
 			],
-			"expo-image-picker",
+			["expo-image-picker",
 			{
 				"photosPermission": "Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts.",
 				"cameraPermission": "Você precisa permitir o acesso a camera para tirar fotos de perfil e posts."
-			},
-			"expo-camera",
+			}
+		],
+			["expo-camera",
 			{
 				"cameraPermission": "Você precisa permitir o acesso a camera para tirar fotos de perfil e posts."
-			},
+			}],
 			[
 				"expo-build-properties",
 				{
