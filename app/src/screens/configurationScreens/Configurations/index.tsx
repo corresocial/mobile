@@ -81,8 +81,9 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				/>
 				<Sigh />
 				<PrimaryButton
-					color={theme.red2}
+					color={theme.red3}
 					label={'sair'}
+					labelColor={theme.white3}
 					fontSize={20}
 					justifyContent={'flex-start'}
 					textAlign={'left'}
