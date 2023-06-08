@@ -391,6 +391,7 @@ const saleCategories = {
 		tags: [
 			'medico',
 			'enfermagem',
+			'psicologia',
 			'dermatologia',
 			'hospital',
 			'prontosocorre',
