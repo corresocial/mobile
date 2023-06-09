@@ -48,7 +48,14 @@
 				}
 			],
 			"./plugins/react-native-maps-plugin.js",
-			"sentry-expo"
+			"sentry-expo",
+			[
+				"@stripe/stripe-react-native",
+				{
+					"merchantIdentifier": "",
+					"enableGooglePay": false
+				}
+			]
 		],
 		"updates": {
 			"fallbackToCacheTimeout": 0,

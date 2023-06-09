@@ -112,7 +112,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				return (
 					< >
 						{rangeCard.component}
-						< VerticalSigh />
+						< VerticalSigh key={rangeCard.id} />
 					</>
 				)
 			}
@@ -124,7 +124,6 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 		{
 			id: 'near',
 			component: <TitleDescriptionButton
-				key={'near'}
 				height={relativeScreenHeight(20)}
 				color={theme.white3}
 				title={'região'}
@@ -138,7 +137,6 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 		{
 			id: 'city',
 			component: <TitleDescriptionButton
-				key={'city'}
 				height={relativeScreenHeight(20)}
 				color={theme.white3}
 				title={'cidade'}
@@ -152,7 +150,6 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 		{
 			id: 'country',
 			component: <TitleDescriptionButton
-				key={'country'}
 				height={relativeScreenHeight(20)}
 				color={theme.white3}
 				title={'brasil'}
