@@ -4,6 +4,7 @@ import * as Location from 'expo-location'
 
 import {
 	Container,
+	ContainerPadding,
 	DropdownContainer,
 	RecentPostsContainer
 } from './styles'
@@ -38,6 +39,7 @@ import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { HomeCatalogMenu } from '../../../components/HomeCatalogMenu'
 import { FlatListPosts } from '../../../components/FlatListPosts'
+import { VerticalSigh } from '../../../components/VerticalSigh'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -314,12 +316,14 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const renderPostItem = (item: PostCollection) => (
-		<PostCard
-			post={item}
-			owner={item.owner}
-			navigateToProfile={navigateToProfile}
-			onPress={() => goToPostView(item)}
-		/>
+		<ContainerPadding>
+			<PostCard
+				post={item}
+				owner={item.owner}
+				navigateToProfile={navigateToProfile}
+				onPress={() => goToPostView(item)}
+			/>
+		</ContainerPadding>
 	)
 
 	return (
@@ -353,65 +357,74 @@ function Home({ navigation }: HomeScreenProps) {
 				{
 					(feedPosts.nearby && feedPosts.nearby.length)
 						? (
-							<>
-								<SubtitleCard
-									text={'perto de você'}
-									highlightedText={['perto']}
-									seeMoreText
-									onPress={() => { }}
-								/>
-								<FlatListPosts
-									data={getFirstFiveItems(feedPosts.nearby)}
-									renderItem={renderPostItem}
-									flatListIsLoading={flatListIsLoading}
-									onEndReached={refreshFlatlist}
-								/>
-							</>
+							<FlatListPosts
+								data={getFirstFiveItems(feedPosts.nearby)}
+								headerComponent={() => (
+									<>
+										<SubtitleCard
+											text={'perto de você'}
+											highlightedText={['perto']}
+											seeMoreText
+											onPress={() => { }}
+										/>
+										<VerticalSigh />
+									</>
+								)}
+								renderItem={renderPostItem}
+								flatListIsLoading={flatListIsLoading}
+								onEndReached={refreshFlatlist}
+							/>
 						)
 						: <></>
 				}
 				{
 					(feedPosts.city && feedPosts.city.length)
 						? (
-							<>
-								<SubtitleCard
-									text={'na cidade'}
-									highlightedText={['cidade']}
-									seeMoreText
-									onPress={() => { }}
-								/>
-								<FlatListPosts
-									data={getFirstFiveItems(feedPosts.city)}
-									renderItem={renderPostItem}
-									flatListIsLoading={flatListIsLoading}
-									onEndReached={refreshFlatlist}
-								/>
-							</>
+							<FlatListPosts
+								data={getFirstFiveItems(feedPosts.city)}
+								headerComponent={() => (
+									<>
+										<SubtitleCard
+											text={'na cidade'}
+											highlightedText={['cidade']}
+											seeMoreText
+											onPress={() => { }}
+										/>
+										<VerticalSigh />
+									</>
+								)}
+								renderItem={renderPostItem}
+								flatListIsLoading={flatListIsLoading}
+								onEndReached={refreshFlatlist}
+							/>
 						)
 						: <></>
 				}
 				{
 					(feedPosts.country && feedPosts.country.length)
 						? (
-							<>
-								<SubtitleCard
-									text={'no país'}
-									highlightedText={['país']}
-									seeMoreText
-									onPress={() => { }}
-								/>
-								<FlatListPosts
-									data={getFirstFiveItems(feedPosts.country)}
-									renderItem={renderPostItem}
-									flatListIsLoading={flatListIsLoading}
-									onEndReached={refreshFlatlist}
-								/>
-							</>
+							<FlatListPosts
+								data={getFirstFiveItems(feedPosts.country)}
+								headerComponent={() => (
+									<>
+										<SubtitleCard
+											text={'no país'}
+											highlightedText={['país']}
+											seeMoreText
+											onPress={() => { }}
+										/>
+										<VerticalSigh />
+									</>
+								)}
+								renderItem={renderPostItem}
+								flatListIsLoading={flatListIsLoading}
+								onEndReached={refreshFlatlist}
+							/>
 						)
 						: <></>
 				}
 				{
-					hasLocationEnable && searchEnded && (
+					hasLocationEnable && searchEnded && !hasAnyPost() && (
 						<WithoutPostsMessage
 							title={'opa!'}
 							message={

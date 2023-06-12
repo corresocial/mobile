@@ -19,3 +19,7 @@ export const DropdownContainer = styled.View`
 export const RecentPostsContainer = styled.ScrollView`
 	flex: 1;
 `
+
+export const ContainerPadding = styled.ScrollView`
+	padding-horizontal: ${RFValue(10)}px;
+`

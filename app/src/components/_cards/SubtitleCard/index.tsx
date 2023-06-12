@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { RFValue } from 'react-native-responsive-fontsize'
 import { Container, RightArea, RightAreaText, Title } from './styles'
 import AngleRightIcon from '../../../assets/icons/angleRight.svg'
 
@@ -18,7 +19,7 @@ function SubtitleCard({ text, highlightedText, seeMoreText, onPress }: SubtitleC
 			<Title>{showMessageWithHighlight(text, highlightedText)}</Title>
 			<RightArea>
 				{seeMoreText && <RightAreaText>{showMessageWithHighlight('ver mais', ['mais'])}</RightAreaText>}
-				{onPress && <AngleRightIcon width={'40%'} height={'100%'} />}
+				{onPress && <AngleRightIcon width={'40%'} height={RFValue(18)} />}
 			</RightArea>
 		</Container>
 	)

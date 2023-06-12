@@ -4,12 +4,12 @@ import { FlatList, RefreshControl } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { PostCollection } from '../../services/firebase/types'
 
-import { relativeScreenHeight } from '../../common/screenDimensions'
 import { VerticalSigh } from '../VerticalSigh'
 import { theme } from '../../common/theme'
 
 interface FlatListPostsProps {
 	data: PostCollection[]
+	headerComponent?: JSXElementConstructor<any>
 	flatListIsLoading?: boolean
 	renderItem: (post: PostCollection) => ReactElement<any, string | JSXElementConstructor<any>> | null
 	onEndReached?: () => void
@@ -19,6 +19,7 @@ interface FlatListPostsProps {
 
 function FlatListPosts({
 	data,
+	headerComponent,
 	flatListIsLoading,
 	renderItem,
 	onEndReached,
@@ -29,11 +30,8 @@ function FlatListPosts({
 			data={data}
 			renderItem={({ item }) => renderItem(item)}
 			showsVerticalScrollIndicator={false}
-			contentContainerStyle={{
-				padding: RFValue(10),
-				paddingTop: relativeScreenHeight(2)
-			}}
 			ItemSeparatorComponent={() => <VerticalSigh />}
+			ListHeaderComponent={headerComponent}
 			ListHeaderComponentStyle={{ marginBottom: RFValue(0) }}
 			ListFooterComponent={<VerticalSigh />}
 			onEndReached={onEndReached}
