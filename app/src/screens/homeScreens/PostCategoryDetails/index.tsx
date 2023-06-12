@@ -21,6 +21,7 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { FlatListPosts } from '../../../components/FlatListPosts'
 import { VerticalSigh } from '../../../components/VerticalSigh'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -40,19 +41,17 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	} = locationDataContext.currentCategory
 
 	const filterPostsByCategory = () => {
-		if (searchText) {
-			return {
-				nearby: locationDataContext.feedPosts.nearby.filter((post: PostCollectionRemote) => post.category === categoryName && post.postType === locationDataContext.searchParams.postType && !!post.title.match(new RegExp(`${searchText}`, 'i'))?.length) || [],
-				city: locationDataContext.feedPosts.city.filter((post: PostCollectionRemote) => post.category === categoryName && post.postType === locationDataContext.searchParams.postType && !!post.title.match(new RegExp(`${searchText}`, 'i'))?.length) || [],
-				country: locationDataContext.feedPosts.country.filter((post: PostCollectionRemote) => post.category === categoryName && post.postType === locationDataContext.searchParams.postType && !!post.title.match(new RegExp(`${searchText}`, 'i'))?.length) || []
-			}
-		}
-
 		return {
-			nearby: locationDataContext.feedPosts.nearby.filter((post: PostCollectionRemote) => post.category === categoryName && post.postType === locationDataContext.searchParams.postType && !!post.title.match(new RegExp(`${searchText}`, 'i'))?.length) || [],
-			city: locationDataContext.feedPosts.city.filter((post: PostCollectionRemote) => post.category === categoryName && post.postType === locationDataContext.searchParams.postType && !!post.title.match(new RegExp(`${searchText}`, 'i'))?.length) || [],
-			country: locationDataContext.feedPosts.country.filter((post: PostCollectionRemote) => post.category === categoryName && post.postType === locationDataContext.searchParams.postType && !!post.title.match(new RegExp(`${searchText}`, 'i'))?.length) || []
+			nearby: locationDataContext.feedPosts.nearby.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || [],
+			city: locationDataContext.feedPosts.city.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || [],
+			country: locationDataContext.feedPosts.country.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || []
 		}
+	}
+
+	const filterPostsByRange = (post: PostCollectionRemote) => {
+		return post.category === categoryName
+			&& post.postType === locationDataContext.searchParams.postType
+			&& !!post.title.match(new RegExp(`${searchText}`, 'i'))?.length
 	}
 
 	const filteredFeedPosts = filterPostsByCategory()
@@ -79,7 +78,6 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 		const filtredTags = allTags
 			.filter((tag) => !!tag.match(new RegExp(`${searchText}`, 'i'))?.length)
 
-		console.log(filtredTags)
 		return filtredTags.sort(sortArray)
 	}
 
@@ -213,7 +211,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 						? (
 							<>
 								<FlatListPosts
-									data={getFirstFiveItems(filteredFeedPosts.country)}
+									data={getFirstFiveItems(filteredFeedPosts.nearby)}
 									headerComponent={() => (
 										<>
 											<SubtitleCard
@@ -283,6 +281,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 						)
 						: <></>
 				}
+				<VerticalSigh height={relativeScreenHeight(10)} />
 				{
 					!hasAnyPost() && (
 						<WithoutPostsMessage

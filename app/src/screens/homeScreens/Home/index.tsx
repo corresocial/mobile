@@ -40,6 +40,7 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { HomeCatalogMenu } from '../../../components/HomeCatalogMenu'
 import { FlatListPosts } from '../../../components/FlatListPosts'
 import { VerticalSigh } from '../../../components/VerticalSigh'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -71,6 +72,11 @@ function Home({ navigation }: HomeScreenProps) {
 		locationIsEnable()
 	})
 
+	useEffect(() => {
+		requestPermissions()
+		getRecentAddresses()
+	}, [])
+
 	const onPressBackHandler = () => {
 		if (navigation.isFocused()) {
 			BackHandler.exitApp()
@@ -80,8 +86,9 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	useEffect(() => {
-		requestPermissions()
-		getRecentAddresses()
+		if (hasLocationPermission && !hasAnyPost()) {
+			findFeedPosts('', true, null as any, false, true)
+		}
 	}, [])
 
 	const requestPermissions = async () => {
@@ -90,12 +97,6 @@ function Home({ navigation }: HomeScreenProps) {
 			setHasLocationPermission(true)
 		}
 	}
-
-	useEffect(() => {
-		if (hasLocationPermission) {
-			findFeedPosts('', true, null as any, false, true)
-		}
-	}, [hasLocationPermission])
 
 	const locationIsEnable = async () => {
 		const locationEnabled = await Location.hasServicesEnabledAsync()
@@ -423,6 +424,7 @@ function Home({ navigation }: HomeScreenProps) {
 						)
 						: <></>
 				}
+				<VerticalSigh height={relativeScreenHeight(10)} />
 				{
 					hasLocationEnable && searchEnded && !hasAnyPost() && (
 						<WithoutPostsMessage

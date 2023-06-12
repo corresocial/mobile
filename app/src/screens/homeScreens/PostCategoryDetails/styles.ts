@@ -1,5 +1,6 @@
 import styled from 'styled-components/native'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
@@ -33,7 +34,7 @@ export const SearchInput = styled.TextInput`
 
 export const Body = styled.ScrollView`
 	flex: 1;
-	padding-bottom: 0px;
+	padding-bottom: ${relativeScreenHeight(10)}px;
 `
 
 export const TagsContainer = styled.View`
