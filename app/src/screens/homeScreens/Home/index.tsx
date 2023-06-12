@@ -89,7 +89,7 @@ function Home({ navigation }: HomeScreenProps) {
 		if (hasLocationPermission && !hasAnyPost()) {
 			findFeedPosts('', true, null as any, false, true)
 		}
-	}, [])
+	}, [hasLocationPermission])
 
 	const requestPermissions = async () => {
 		const { status } = await Location.requestForegroundPermissionsAsync()
