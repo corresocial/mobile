@@ -37,7 +37,8 @@ interface CustomModalProps {
 		fontSize?: number
 		bolded?: boolean
 		highlightedWords?: string[]
-	},
+	} | false,
+	listItemText?: string | false
 	closeButton?: boolean,
 	closeModal: () => void
 	affirmativeButton?: {
@@ -56,12 +57,18 @@ function CustomModal({
 	visibility,
 	title,
 	firstParagraph,
+	secondParagraph,
+	listItemText,
 	closeButton,
 	closeModal,
-	secondParagraph,
 	affirmativeButton,
 	negativeButton
 }: CustomModalProps) {
+	const closeModalAfterOnPress = (onPress: () => void) => {
+		onPress && onPress()
+		closeModal()
+	}
+
 	return (
 		<Modal
 			transparent
@@ -91,33 +98,29 @@ function CustomModal({
 
 						{
 							firstParagraph && (
-								<Description bolded={firstParagraph.bolded}>
+								<Description
+									bolded={firstParagraph.bolded}
+									fontSize={firstParagraph.fontSize}
+								>
 									{showMessageWithHighlight(firstParagraph.text || '', firstParagraph.highlightedWords)}
 								</Description>
 							)
 						}
 						{
-							secondParagraph && (
-								<Description bolded={secondParagraph.bolded}>
-									{showMessageWithHighlight(secondParagraph.text || '', secondParagraph.highlightedWords)}
+							listItemText && (
+								<Description fontSize={14} bolded>
+									{`•  ${listItemText}`}
 								</Description>
 							)
 						}
 						{
-							negativeButton && (
-								<>
-									<PrimaryButton
-										color={theme.red3}
-										labelColor={theme.white3}
-										label={negativeButton.label}
-										highlightedWords={[...negativeButton.label.split(' '), ...negativeButton.label.split(', ')]}
-										fontSize={16}
-										SecondSvgIcon={negativeButton.CustomIcon || XWhiteIcon}
-										svgIconScale={['40%', '25%']}
-										onPress={negativeButton.onPress && negativeButton.onPress}
-									/>
-									<VerticalSigh />
-								</>
+							secondParagraph && (
+								<Description
+									bolded={secondParagraph.bolded}
+									fontSize={secondParagraph.fontSize}
+								>
+									{showMessageWithHighlight(secondParagraph.text || '', secondParagraph.highlightedWords)}
+								</Description>
 							)
 						}
 						{
@@ -130,7 +133,22 @@ function CustomModal({
 									fontSize={16}
 									SecondSvgIcon={affirmativeButton.CustomIcon || CheckWhiteIcon}
 									svgIconScale={['40%', '25%']}
-									onPress={affirmativeButton.onPress && affirmativeButton.onPress}
+									onPress={() => closeModalAfterOnPress(affirmativeButton.onPress)}
+								/>
+							)
+						}
+						{negativeButton && <VerticalSigh />}
+						{
+							negativeButton && (
+								<PrimaryButton
+									color={theme.red3}
+									labelColor={theme.white3}
+									label={negativeButton.label}
+									highlightedWords={[...negativeButton.label.split(' '), ...negativeButton.label.split(', ')]}
+									fontSize={16}
+									SvgIcon={negativeButton.CustomIcon || XWhiteIcon}
+									svgIconScale={['40%', '25%']}
+									onPress={() => closeModalAfterOnPress(negativeButton.onPress)}
 								/>
 							)
 						}

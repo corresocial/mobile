@@ -30,7 +30,10 @@ function PrivacyAndSecurity({ navigation }: PrivacyAndSecurityScreenProps) {
 				>
 				</InstructionCard>
 			</DefaultHeaderContainer>
-			<TermsOfService onPress={() => navigation.navigate('Configurations')} />
+			<TermsOfService
+				calledFromConfig
+				onPress={() => navigation.navigate('UserDataConfigurations')}
+			/>
 		</Container>
 	)
 }
