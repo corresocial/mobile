@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { StatusBar } from 'react-native'
+import { Alert, StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 import { ButtonsContainer } from './styles'
@@ -57,7 +57,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 			<FormContainer backgroundColor={theme.orange2}>
 				<ButtonsContainer>
 					<OptionButton
-						color={theme.white3}
+						color={theme.white1}
 						label={'usar pix'}
 						highlightedWords={['pix']}
 						labelSize={18}
@@ -66,7 +66,8 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 						svgIconScale={['50%', '50%']}
 						leftSideColor={theme.green3}
 						leftSideWidth={'28%'}
-						onPress={() => navigateToPaymentScreen('pix')}
+						onPress={() => Alert.alert('Em breve...')}
+					// onPress={() => navigateToPaymentScreen('pix')}
 					/>
 					<OptionButton
 						color={theme.white3}
@@ -81,7 +82,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 						onPress={() => navigateToPaymentScreen('creditCard')}
 					/>
 					<OptionButton
-						color={theme.white3}
+						color={theme.white1}
 						label={'cartão de débito'}
 						highlightedWords={['débito']}
 						labelSize={18}
@@ -90,7 +91,8 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 						svgIconScale={['50%', '50%']}
 						leftSideColor={theme.green3}
 						leftSideWidth={'28%'}
-						onPress={() => navigateToPaymentScreen('debitCard')}
+						onPress={() => Alert.alert('Em breve...')}
+					// onPress={() => navigateToPaymentScreen('debitCard')}
 					/>
 				</ButtonsContainer>
 			</FormContainer>

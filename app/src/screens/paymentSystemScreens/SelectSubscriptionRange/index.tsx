@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import { StatusBar } from 'react-native'
 
 import { AuthContext } from '../../../contexts/AuthContext'
+import { StripeContext } from '../../../contexts/StripeContext'
 
 import { PostCollection, PostRange } from '../../../services/firebase/types'
 import { SelectSubscriptionRangeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -22,6 +23,7 @@ import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeC
 
 function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
+	const { stripeProductsPlans } = useContext(StripeContext)
 
 	const [currentSubscriptionRange, setCurrentSubscriptionRange] = useState<PostRange>(userDataContext.subscription?.subscriptionRange || 'near')
 	const [rangeChangeModalIsVisible, setRangeChangeModalIsVisible] = useState(false)
@@ -142,7 +144,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				title={'cidade'}
 				description={'seus posts aparecem na cidade inteira, também pode postar em bairros!'}
 				highlightedWords={['cidade', 'também', 'pode', 'postar', 'em', 'bairros']}
-				footerValue={currentSubscriptionRange === 'city' ? 'edit' : '20'}
+				footerValue={currentSubscriptionRange === 'city' ? 'edit' : stripeProductsPlans.cityMonthly.price}
 				checked={currentSubscriptionRange === 'city'}
 				onPress={() => manageSubscriptionRange('city')}
 			/>
@@ -155,7 +157,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				title={'brasil'}
 				description={'postagens aparecem em cidades vizinhas e no brasil inteiro.'}
 				highlightedWords={['brasil', 'cidades', 'vizinhas', 'no', 'brasil', 'inteiro']}
-				footerValue={currentSubscriptionRange === 'country' ? 'edit' : '40'}
+				footerValue={currentSubscriptionRange === 'country' ? 'edit' : stripeProductsPlans.countryMonthly.price}
 				checked={currentSubscriptionRange === 'country'}
 				onPress={() => manageSubscriptionRange('country')}
 			/>

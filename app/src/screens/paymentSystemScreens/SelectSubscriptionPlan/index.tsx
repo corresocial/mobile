@@ -9,11 +9,13 @@ import { SelectSubscriptionPlanScreenProps } from '../../../routes/Stack/UserSta
 import { SubscriptionPlan as SubscriptionPlanType } from '../../../services/firebase/types'
 
 import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
+import { StripeContext } from '../../../contexts/StripeContext'
 
 import { SubscriptionPlan } from '../../../components/_onboarding/SubscriptionPlan'
 
 function SelectSubscriptionPlan({ route, navigation }: SelectSubscriptionPlanScreenProps) {
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
+	const { stripeProductsPlans } = useContext(StripeContext)
 
 	const postRange = route.params?.postRange || 'near'
 
@@ -27,6 +29,8 @@ function SelectSubscriptionPlan({ route, navigation }: SelectSubscriptionPlanScr
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<SubscriptionPlan
 				backgroundColor={theme.orange2}
+				plansAvailable={stripeProductsPlans}
+				postRange={postRange}
 				headerFooterText={getRangePlanText(postRange)}
 				navigateBackwards={() => navigation.goBack()}
 				saveSubscriptionPlan={saveSubscriptionPlan}

@@ -5,7 +5,8 @@ import { theme } from '../../../common/theme'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
-import { SubscriptionPlan as SubscriptionPlantype } from '../../../services/firebase/types'
+import { PostRange, SubscriptionPlan as SubscriptionPlantype } from '../../../services/firebase/types'
+import { StripeProducts } from '../../../services/stripe/types'
 
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../_containers/FormContainer'
@@ -16,13 +17,27 @@ import { PrimaryButton } from '../../_buttons/PrimaryButton'
 
 interface SubscriptionPlanProps {
 	backgroundColor: string
+	plansAvailable: StripeProducts
+	postRange: PostRange
 	headerFooterText: string | (string | ReactElement<any, string | JSXElementConstructor<any>>)[]
 	saveSubscriptionPlan: (subscriptionPlan: SubscriptionPlantype) => void
 	navigateBackwards: () => void
 }
 
-function SubscriptionPlan({ backgroundColor, headerFooterText, saveSubscriptionPlan, navigateBackwards }: SubscriptionPlanProps) {
+function SubscriptionPlan({ backgroundColor, plansAvailable, postRange, headerFooterText, saveSubscriptionPlan, navigateBackwards }: SubscriptionPlanProps) {
 	const [planSelected, setPlanSelected] = useState<SubscriptionPlantype>()
+
+	const getRelativeMonthlyPrice = () => {
+		if (postRange === 'city') return plansAvailable.cityMonthly.price
+		if (postRange === 'country') return plansAvailable.countryMonthly.price
+		return 'unavailable'
+	}
+
+	const getRelativeYearlyPrice = () => {
+		if (postRange === 'city') return plansAvailable.cityYearly.price
+		if (postRange === 'country') return plansAvailable.countryYearly.price
+		return 'unavailable'
+	}
 
 	return (
 		<Container>
@@ -51,7 +66,7 @@ function SubscriptionPlan({ backgroundColor, headerFooterText, saveSubscriptionP
 						title={'assinatura mensal'}
 						description={'cobrado todo mês no seu cartão, cancele quando quiser'}
 						highlightedWords={['assinatura', 'mensal', 'cancele', 'quando', 'quiser']}
-						footerValue={'40'}
+						footerValue={getRelativeMonthlyPrice()}
 						selected={planSelected === 'monthly'}
 						onPress={() => setPlanSelected('monthly')}
 					/>
@@ -62,7 +77,7 @@ function SubscriptionPlan({ backgroundColor, headerFooterText, saveSubscriptionP
 						title={'assinatura anual'}
 						description={'pagamento único com 20% de desconto'}
 						highlightedWords={['assinatura', 'anual', '20%', 'de', 'desconto']}
-						footerValue={'190'}
+						footerValue={getRelativeYearlyPrice()}
 						yearly
 						selected={planSelected === 'yearly'}
 						onPress={() => setPlanSelected('yearly')}
