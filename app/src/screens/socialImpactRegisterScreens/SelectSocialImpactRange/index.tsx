@@ -8,6 +8,7 @@ import { PostRange as PostRangeType } from '../../../services/firebase/types'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { EditContext } from '../../../contexts/EditContext'
+import { StripeContext } from '../../../contexts/StripeContext'
 
 import { PostRange } from '../../../components/_onboarding/PostRange'
 import { RangePresentationModal } from '../../../components/_modals/RangePresentationModal'
@@ -15,6 +16,7 @@ import { RangePresentationModal } from '../../../components/_modals/RangePresent
 function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { stripeProductsPlans } = useContext(StripeContext)
 
 	const [rangePresentationModalIsVisible, setRangePresentationModalIsVisible] = useState(false)
 
@@ -47,6 +49,7 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 			/>
 			<PostRange
 				backgroundColor={theme.pink2}
+				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
 				progress={[3, 4]}

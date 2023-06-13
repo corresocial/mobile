@@ -1,7 +1,12 @@
 export type StripeProducts = {
-	[key: string]: {
-		id: string
-		name: string
-		price: string
-	};
+	cityMonthly: StripeProduct,
+	cityYearly: StripeProduct,
+	countryMonthly: StripeProduct,
+	countryYearly: StripeProduct
+}
+
+export type StripeProduct = {
+	id: string
+	name: string
+	price: string
 }

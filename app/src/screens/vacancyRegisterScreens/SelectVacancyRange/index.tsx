@@ -8,6 +8,7 @@ import { PostRange as PostRangeType } from '../../../services/firebase/types'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
+import { StripeContext } from '../../../contexts/StripeContext'
 
 import { PostRange } from '../../../components/_onboarding/PostRange'
 import { RangePresentationModal } from '../../../components/_modals/RangePresentationModal'
@@ -15,6 +16,7 @@ import { RangePresentationModal } from '../../../components/_modals/RangePresent
 function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps) {
 	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { stripeProductsPlans } = useContext(StripeContext)
 
 	const [rangePresentationModalIsVisible, setRangePresentationModalIsVisible] = useState(false)
 
@@ -53,6 +55,7 @@ function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps
 			/>
 			<PostRange
 				backgroundColor={theme.yellow2}
+				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
 				progress={[4, 5]}

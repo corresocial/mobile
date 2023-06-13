@@ -76,6 +76,15 @@ function TitleDescriptionButton({
 				)
 			}
 
+			if (footerValue === 'unavailable') {
+				return (
+					<Footer>
+						<SmallThinFont>{'plano '}</SmallThinFont>
+						<LargeStrongFont>{'indisponível'}</LargeStrongFont>
+					</Footer>
+				)
+			}
+
 			return (
 				<Footer>
 					<SmallThinFont>{'R$ '}</SmallThinFont>

@@ -253,8 +253,8 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					<DateTimeCard
 						weekDaysfrequency={getPostField('exhibitionFrequency')}
 						daysOfWeek={getPostField('daysOfWeek', true)}
-						startDate={getPostField('startHour', true)}
-						endDate={getPostField('startHour', true)}
+						startDate={getPostField('startDate', true)}
+						endDate={getPostField('endDate', true)}
 						startTime={getPostField('startHour', true)}
 						endTime={getPostField('endHour', true)}
 						repetition={getPostField('repeat')}

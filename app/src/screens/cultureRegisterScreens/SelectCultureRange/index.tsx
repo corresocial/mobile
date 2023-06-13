@@ -8,6 +8,7 @@ import { PostRange as PostRangeType } from '../../../services/firebase/types'
 
 import { EditContext } from '../../../contexts/EditContext'
 import { CultureContext } from '../../../contexts/CultureContext'
+import { StripeContext } from '../../../contexts/StripeContext'
 
 import { PostRange } from '../../../components/_onboarding/PostRange'
 import { RangePresentationModal } from '../../../components/_modals/RangePresentationModal'
@@ -15,6 +16,7 @@ import { RangePresentationModal } from '../../../components/_modals/RangePresent
 function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps) {
 	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { stripeProductsPlans } = useContext(StripeContext)
 
 	const [rangePresentationModalIsVisible, setRangePresentationModalIsVisible] = useState(false)
 
@@ -53,6 +55,7 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 			/>
 			<PostRange
 				backgroundColor={theme.blue2}
+				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
 				progress={[3, 4]}

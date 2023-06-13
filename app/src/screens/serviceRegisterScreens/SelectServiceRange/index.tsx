@@ -8,6 +8,7 @@ import { PostRange as PostRangeType } from '../../../services/firebase/types'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
+import { StripeContext } from '../../../contexts/StripeContext'
 
 import { PostRange } from '../../../components/_onboarding/PostRange'
 import { RangePresentationModal } from '../../../components/_modals/RangePresentationModal'
@@ -15,6 +16,7 @@ import { RangePresentationModal } from '../../../components/_modals/RangePresent
 function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { stripeProductsPlans } = useContext(StripeContext)
 
 	const [rangePresentationModalIsVisible, setRangePresentationModalIsVisible] = useState(false)
 
@@ -47,6 +49,7 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 			/>
 			<PostRange
 				backgroundColor={theme.purple2}
+				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
 				progress={[4, 5]}

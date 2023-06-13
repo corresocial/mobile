@@ -47,7 +47,7 @@ import { SubscriptionPaymentResult } from '../../../screens/paymentSystemScreens
 import { SubscriptionProvider } from '../../../contexts/SubscriptionContext'
 import { SelectSubscriptionRange } from '../../../screens/paymentSystemScreens/SelectSubscriptionRange'
 import { EditCurrentSubscription } from '../../../screens/paymentSystemScreens/EditCurrentSubscription'
-import { StripeProvider } from '../../../contexts/StripeProvider'
+import { StripeProvider } from '../../../contexts/StripeContext'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
