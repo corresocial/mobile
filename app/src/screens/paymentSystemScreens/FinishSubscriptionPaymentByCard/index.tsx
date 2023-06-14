@@ -5,7 +5,7 @@ import { cpf, cnpj } from 'cpf-cnpj-validator'
 import { STRIPE_API_URL } from '@env'
 
 import { Alert, Keyboard, TextInput, View } from 'react-native'
-import { initPaymentSheet, confirmPayment, useStripe } from '@stripe/stripe-react-native'
+import { CardFormView, confirmPayment, useStripe, createPaymentMethod, CardForm, CardField } from '@stripe/stripe-react-native'
 import { CardParams } from '@stripe/stripe-react-native/lib/typescript/src/types/PaymentMethod'
 import { theme } from '../../../common/theme'
 import { Body, BodyScrollable, Container, PaymentStatusArea, PaymentStatusText, Title, TitleArea } from './styles'
@@ -31,9 +31,21 @@ import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { LineInput } from '../../../components/LineInput'
 import { Loader } from '../../../components/Loader'
+import { StripeContext } from '../../../contexts/StripeContext'
 
 function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscriptionPaymentByCardScreenProps) {
 	const { subscriptionDataContext, updateUserSubscription } = useContext(SubscriptionContext)
+	const {
+		getCustomerPaymentMethods,
+		createCustomPaymentMethod,
+		attachPaymentMethodToCustomer,
+		setDefaultPaymentMethodToCustomer,
+		createCustomer,
+		createSubscription,
+		getCustomerSubscriptions,
+		performPaymentConfirm,
+		cancelSubscription,
+	} = useContext(StripeContext)
 
 	const { subscriptionRange, subscriptionPlan, subscriptionPaymentMethod } = subscriptionDataContext
 
@@ -158,111 +170,72 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 		}
 	}
 
-	/* const ephemeralKey = await axios.post(
-			`${STRIPE_API_URL}/ephemeral_keys`,
-			{ customer: customerId },
-			{
-				headers: {
-					Authorization: 'bearer sk_test_51Mw5LNEpbbWylPkQ22X0dlJ5opvdjR0qYsIk3pWvDFilNPFJMi9zRx1Y8xV8fTu18xC8azzEmWusnwHnJ3BvzPi000MGcIVjxu',
-					'Content-Type': 'application/x-www-form-urlencoded',
-					'Stripe-Version': '2022-11-15'
-				}
-			}
-		)
-		console.log(`ephemeralKey: ${ephemeralKey.data.secret}`)
-		*/
-
 	const performSubscriptionTest = async () => {
 		try {
-			// const { customerId } = await createCustomer()
-			const customerId = 'cus_O4mfQ1KEgNPfRw'
+			/* const { error, paymentMethod } = await createCustomPaymentMethod()
+			const paymentMethodId = paymentMethod?.id || ''
+			console.log(paymentMethodId)
+			if (error) {
+				Alert.alert('Deu ruim ao criar metodo de pagamento ')
+				console.log(error)
+				return
+			}
+
+			const { customerId } = await createCustomer(paymentMethodId) */
+			/* const customerId = 'cus_O55Fs1mdmT8YR3'
 			console.log(`customerId: ${customerId}`)
 
-			const { subscriptionId, subscriptionClientSecret } = await performSubscription(customerId)
+			const { subscriptionId, subscriptionClientSecret } = await createSubscription(customerId)
 
 			console.log(`subscriptionId: ${subscriptionId}`)
-			console.log(`subscriptionClientSecret: ${subscriptionClientSecret}`)
+			console.log(`subscriptionClientSecret: ${subscriptionClientSecret}`) */
 
-			/* const { error, paymentIntent } = await confirmPayment(
-				subscriptionClientSecret,
-				{
-					paymentMethodType: 'Card', // paymentMethodID
-					paymentMethodData: {
-						billingDetails: {
-							name: 'primeira fatura',
-						}
-					}
-				}
-			)
+			/* const { error: err, paymentIntent } = await performPaymentConfirm(paymentMethodId, subscriptionClientSecret)
 
-			if (error) {
-				console.log(error)
+			if (err) {
+				console.log(err)
 			}
 
 			console.log(paymentIntent) */
+
+			/*
+			{"amount": 6000, "canceledAt": "0", "captureMethod": "Automatic", "clientSecret": "pi_3NIv5vEpbbWylPkQ0N1c6Orv_secret_yQnjB385PzFfXqlWXN7JBIoR4", "confirmationMethod": "Automatic", "created": "1686754487000", "currency": "brl", "description": "Subscription creation",
+"id": "pi_3NIv5vEpbbWylPkQ0N1c6Orv", "lastPaymentError": null, "livemode": false, "nextAction": null, "paymentMethodId": "pm_1NIv5uEpbbWylPkQdHlF62l3", "receiptEmail": null, "shipping": null, "status": "Succeeded"}
+ */
+			// const response = await cancelSubscription('sub_1NIv4XEpbbWylPkQynvT3K10')
+			// console.log(response)
+
+			/* const { error, paymentMethod } = await createCustomPaymentMethod()
+
+			console.log(error)
+			if (error) return
+
+			const attach = await attachPaymentMethodToCustomer('cus_O55Fs1mdmT8YR3', paymentMethod.id)
+
+			if (!attach) {
+				console.log('Deu merda')
+				return
+			}
+
+			const response = await setDefaultPaymentMethodToCustomer('cus_O55Fs1mdmT8YR3', paymentMethod.id)
+			if (!response) {
+				console.log('Deu merda')
+				return
+			}
+
+			console.log('Customer atualizado:')
+
+			const result = await getCustomerPaymentMethods('cus_O55Fs1mdmT8YR3')
+			// console.log(response.data.data[0].card)
+			console.log(result && result.id) */
+
+			/* const res = await getCustomerSubscriptions('cus_O4mfQ1KEgNPfRw')
+
+			console.log(res.id) */
 		} catch (err) {
 			console.log('Erro')
 			console.log(err)
 		}
-	}
-
-	const createCustomer = async () => {
-		const customerData = JSON.stringify(
-			{
-				name: 'corre.subscription',
-				email: 'XXXXXXXXXXXXXXX',
-				description: 'teste',
-				phone: '+5511999999999',
-				address: {
-					line1: 'Rua dois',
-					line2: 'Bairro dois',
-					city: 'Cidade dois',
-					state: 'SP',
-					country: 'Brasil',
-					postal_code: '01001-000'
-				}
-			}
-		)
-
-		const result = await axios.post(
-			`${STRIPE_API_URL}/customers`, // CAN SET PAYMENT METHOD DEFAUL
-			customerData,
-			{
-				headers: {
-					Authorization: 'bearer sk_test_51Mw5LNEpbbWylPkQ22X0dlJ5opvdjR0qYsIk3pWvDFilNPFJMi9zRx1Y8xV8fTu18xC8azzEmWusnwHnJ3BvzPi000MGcIVjxu',
-					contentType: 'application/x-www-form-urlencoded'
-				}
-			}
-		)
-
-		return { customerId: result.data.id }
-	}
-
-	const performSubscription = async (customerId: string) => { // CARD 4000000760000002
-		const postData = {
-			customer: customerId,
-			items: [
-				{
-					price: 'price_1Mw5PPEpbbWylPkQXylEhX0a', // Substitua pelo ID real do preço/produto
-				},
-			],
-			payment_behavior: 'default_incomplete', // incompleto
-			expand: ['latest_invoice.payment_intent'],
-		}
-
-		const config = {
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-				Authorization: 'bearer sk_test_51Mw5LNEpbbWylPkQ22X0dlJ5opvdjR0qYsIk3pWvDFilNPFJMi9zRx1Y8xV8fTu18xC8azzEmWusnwHnJ3BvzPi000MGcIVjxu'
-			},
-		}
-
-		const response = await axios.post(`${STRIPE_API_URL}/subscriptions`, postData, config)
-
-		const subscriptionId = response.data.id
-		const subscriptionClientSecret = response.data.latest_invoice.payment_intent.client_secret
-
-		return { subscriptionId, subscriptionClientSecret }
 	}
 
 	const applyCardNumberMask = (text: string) => {
@@ -333,7 +306,19 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 						/>
 						<PaymentStatusText>{renderPaymentStatus()}</PaymentStatusText>
 					</PaymentStatusArea>
-					<LineInput
+					<CardForm
+						/* postalCodeEnabled={false}
+						countryEnabled={false} */
+						onFormComplete={(cardDetails) => {
+							console.log('card details', cardDetails)
+						}}
+						cardStyle={{
+							borderWidth: 0,
+							fontFamily: 'Arvo_700Bold',
+						}}
+						style={{ flex: 1, height: relativeScreenHeight(40), width: '100%', borderWidth: 0 }}
+					/>
+					{/* <LineInput
 						value={cardNumber}
 						relativeWidth={'100%'}
 						textInputRef={cardNumberRef}
@@ -434,7 +419,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 						validateText={(text: string) => validateHolderDocumentNumber(text)}
 						onChangeText={(text: string) => setHolderDocumentNumber(text)}
 					/>
-					<VerticalSigh height={relativeScreenHeight(5)} />
+					<VerticalSigh height={relativeScreenHeight(5)} /> */}
 					{
 						isLoading
 							? <Loader />
