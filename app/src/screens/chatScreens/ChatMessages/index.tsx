@@ -1,3 +1,4 @@
+import { get, onValue, ref } from 'firebase/database'
 import React, {
 	RefObject,
 	useContext,
@@ -6,52 +7,52 @@ import React, {
 	useRef,
 	useState,
 } from 'react'
-import uuid from 'react-uuid'
 import { FlatList, Platform } from 'react-native'
-import { get, onValue, ref } from 'firebase/database'
+import uuid from 'react-uuid'
 
-import { theme } from '../../../common/theme'
+import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
+import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import {
 	relativeScreenHeight,
 	relativeScreenWidth,
 } from '../../../common/screenDimensions'
-import { Container, Header, Sigh } from './styles'
-import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
-
+import { theme } from '../../../common/theme'
+import { realTimeDatabase } from '../../../services/firebase'
+import { blockUserId } from '../../../services/firebase/chat/blockUser'
+import { cleanMessages } from '../../../services/firebase/chat/cleanMessages'
 import { getRemoteChatData } from '../../../services/firebase/chat/getRemoteChatData'
+import { getRemoteUser } from '../../../services/firebase/chat/getRemoteUser'
+import { makeAllUserMessagesAsRead } from '../../../services/firebase/chat/makeAllUserMessagesAsRead'
 import { registerNewChat } from '../../../services/firebase/chat/registerNewChat'
 import { setChatIdToUsers } from '../../../services/firebase/chat/setChatIdToUsers'
-import { makeAllUserMessagesAsRead } from '../../../services/firebase/chat/makeAllUserMessagesAsRead'
-import { getLastMessageObjects } from '../../../utils/chat'
-import { blockUserId } from '../../../services/firebase/chat/blockUser'
 import { unblockUserId } from '../../../services/firebase/chat/unblockUser'
-import { getRemoteUser } from '../../../services/firebase/chat/getRemoteUser'
-import { cleanMessages } from '../../../services/firebase/chat/cleanMessages'
-import { realTimeDatabase } from '../../../services/firebase'
 import { unsubscribeMessageListener } from '../../../services/firebase/chat/unsubscribeMessageListener'
+import { getLastMessageObjects } from '../../../utils/chat'
+import { Container, Header, IsBlockedContainer, Sigh } from './styles'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
-import { FlatListItem } from '../../../@types/global/types'
-import { Id } from '../../../services/firebase/types'
 import {
 	Chat,
 	Message,
 	MessageObjects,
-	UserIdentification,
+	UserIdentification
 } from '../../../@types/chat/types'
+import { FlatListItem } from '../../../@types/global/types'
+import { Id } from '../../../services/firebase/types'
 
-import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ChatInput } from '../../../components/ChatInput'
-import { MessageCard } from '../../../components/MessageCard'
 import { ChatPopOver } from '../../../components/ChatPopOver'
-import { sendMessage } from '../../../services/firebase/chat/sendMessage'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { MessageCard } from '../../../components/MessageCard'
+import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
+import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
+import { sendMessage } from '../../../services/firebase/chat/sendMessage'
 
-import { ChatMessagesScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { ChatMessagesScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { HorizontalSigh } from '../../homeScreens/PostCategoryDetails/styles'
 
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
@@ -328,19 +329,15 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			</Header>
 			<FlatList
 				ref={flatListRef}
-				data={
-					Object.values(messages || {})
-						? getFilteredMessages()
-						: []
-				}
+				data={Object.values(messages || {}) ? getFilteredMessages() : []}
 				renderItem={({ item }: FlatListItem<Message>) => (
 					<MessageCard
 						message={item.message}
 						dateTime={item.dateTime}
 						owner={isUserOwner(item.owner)}
 						errorSending={false}
-						sendAgain={() => console.log('senderAgain')}
-					/>
+						sendAgain={() => console.log('sendAgain')}
+					/>		
 				)}
 				ListHeaderComponent={() => (
 					<WithoutPostsMessage
@@ -368,13 +365,34 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				}}
 				showsVerticalScrollIndicator={false}
 				ItemSeparatorComponent={() => <Sigh />}
-				ListFooterComponent={() => <Sigh />}
+				ListFooterComponent={() => {
+					if (isBlockedUser) {
+						return (
+							<IsBlockedContainer>
+								<PrimaryButton
+									color={theme.red3}
+									labelColor={theme.white3}
+									label={'usuário bloqueado'}
+									highlightedWords={['usuário', 'bloqueado']}
+									fontSize={14}
+									SvgIcon={DeniedWhiteIcon}
+									svgIconScale={['70%', '20%']}
+									minHeight={20}
+									relativeHeight={relativeScreenHeight(8)}
+									onPress={() => unblockUser()}
+								/>
+							</IsBlockedContainer>
+						) 
+					} return <></>
+				}}
 				onContentSizeChange={scrollToEnd}
 				onLayout={scrollToEnd}
 			/>
+			
 			<ChatInput submitMessage={submitMessage} />
 		</Container>
 	)
 }
 
 export { ChatMessages }
+
