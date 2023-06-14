@@ -88,6 +88,7 @@
 		"react-query": "^3.39.3",
 		"react-uuid": "^2.0.0",
 		"sentry-expo": "~6.0.0",
+		"stripe": "^12.9.0",
 		"styled-components": "^5.3.5"
 	},
 	"devDependencies": {

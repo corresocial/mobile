@@ -1,7 +1,12 @@
+/* eslint-disable camelcase */
 import React, { useState, useRef, useEffect, useContext } from 'react'
+import axios from 'axios'
 import { cpf, cnpj } from 'cpf-cnpj-validator'
+import { STRIPE_API_URL } from '@env'
 
-import { Keyboard, TextInput, View } from 'react-native'
+import { Alert, Keyboard, TextInput, View } from 'react-native'
+import { initPaymentSheet, confirmPayment, useStripe } from '@stripe/stripe-react-native'
+import { CardParams } from '@stripe/stripe-react-native/lib/typescript/src/types/PaymentMethod'
 import { theme } from '../../../common/theme'
 import { Body, BodyScrollable, Container, PaymentStatusArea, PaymentStatusText, Title, TitleArea } from './styles'
 import DollarWhiteIcon from '../../../assets/icons/dollar.svg'
@@ -32,7 +37,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 
 	const { subscriptionRange, subscriptionPlan, subscriptionPaymentMethod } = subscriptionDataContext
 
-	const [cardNumber, setCardNumber] = useState('')
+	const [cardNumber, setCardNumber] = useState('') // 4000000760000002
 	const [cardExpiringDate, setCardExpiringDate] = useState('')
 	const [cardCVV, setCardCVV] = useState('')
 	const [cardholderName, setCardholderName] = useState('')
@@ -141,15 +146,123 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 				subscriptionPaymentMethod
 			}
 
-			await updateUserSubscription(userSubscription)
+			await performSubscriptionTest()
+			// await updateUserSubscription(userSubscription)
 
 			setIsLoading(false)
-			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true, ...route.params })
+			// navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true, ...route.params })
 		} catch (err: any) { // Veirfy stripe erros
 			console.log(err)
 			setIsLoading(false)
-			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false, ...route.params })
+			// navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false, ...route.params })
 		}
+	}
+
+	/* const ephemeralKey = await axios.post(
+			`${STRIPE_API_URL}/ephemeral_keys`,
+			{ customer: customerId },
+			{
+				headers: {
+					Authorization: 'bearer sk_test_51Mw5LNEpbbWylPkQ22X0dlJ5opvdjR0qYsIk3pWvDFilNPFJMi9zRx1Y8xV8fTu18xC8azzEmWusnwHnJ3BvzPi000MGcIVjxu',
+					'Content-Type': 'application/x-www-form-urlencoded',
+					'Stripe-Version': '2022-11-15'
+				}
+			}
+		)
+		console.log(`ephemeralKey: ${ephemeralKey.data.secret}`)
+		*/
+
+	const performSubscriptionTest = async () => {
+		try {
+			// const { customerId } = await createCustomer()
+			const customerId = 'cus_O4mfQ1KEgNPfRw'
+			console.log(`customerId: ${customerId}`)
+
+			const { subscriptionId, subscriptionClientSecret } = await performSubscription(customerId)
+
+			console.log(`subscriptionId: ${subscriptionId}`)
+			console.log(`subscriptionClientSecret: ${subscriptionClientSecret}`)
+
+			/* const { error, paymentIntent } = await confirmPayment(
+				subscriptionClientSecret,
+				{
+					paymentMethodType: 'Card', // paymentMethodID
+					paymentMethodData: {
+						billingDetails: {
+							name: 'primeira fatura',
+						}
+					}
+				}
+			)
+
+			if (error) {
+				console.log(error)
+			}
+
+			console.log(paymentIntent) */
+		} catch (err) {
+			console.log('Erro')
+			console.log(err)
+		}
+	}
+
+	const createCustomer = async () => {
+		const customerData = JSON.stringify(
+			{
+				name: 'corre.subscription',
+				email: 'XXXXXXXXXXXXXXX',
+				description: 'teste',
+				phone: '+5511999999999',
+				address: {
+					line1: 'Rua dois',
+					line2: 'Bairro dois',
+					city: 'Cidade dois',
+					state: 'SP',
+					country: 'Brasil',
+					postal_code: '01001-000'
+				}
+			}
+		)
+
+		const result = await axios.post(
+			`${STRIPE_API_URL}/customers`, // CAN SET PAYMENT METHOD DEFAUL
+			customerData,
+			{
+				headers: {
+					Authorization: 'bearer sk_test_51Mw5LNEpbbWylPkQ22X0dlJ5opvdjR0qYsIk3pWvDFilNPFJMi9zRx1Y8xV8fTu18xC8azzEmWusnwHnJ3BvzPi000MGcIVjxu',
+					contentType: 'application/x-www-form-urlencoded'
+				}
+			}
+		)
+
+		return { customerId: result.data.id }
+	}
+
+	const performSubscription = async (customerId: string) => { // CARD 4000000760000002
+		const postData = {
+			customer: customerId,
+			items: [
+				{
+					price: 'price_1Mw5PPEpbbWylPkQXylEhX0a', // Substitua pelo ID real do preço/produto
+				},
+			],
+			payment_behavior: 'default_incomplete', // incompleto
+			expand: ['latest_invoice.payment_intent'],
+		}
+
+		const config = {
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				Authorization: 'bearer sk_test_51Mw5LNEpbbWylPkQ22X0dlJ5opvdjR0qYsIk3pWvDFilNPFJMi9zRx1Y8xV8fTu18xC8azzEmWusnwHnJ3BvzPi000MGcIVjxu'
+			},
+		}
+
+		const response = await axios.post(`${STRIPE_API_URL}/subscriptions`, postData, config)
+
+		const subscriptionId = response.data.id
+		const subscriptionClientSecret = response.data.latest_invoice.payment_intent.client_secret
+
+		return { subscriptionId, subscriptionClientSecret }
 	}
 
 	const applyCardNumberMask = (text: string) => {
