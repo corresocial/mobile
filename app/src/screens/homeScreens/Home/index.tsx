@@ -24,7 +24,7 @@ import {
 	AddressSearchResult,
 	SelectedAddressRender,
 } from '../../../services/maps/types'
-import { FeedPosts, PostCollection, PostType } from '../../../services/firebase/types'
+import { FeedPosts, PostCollection, PostRange, PostType } from '../../../services/firebase/types'
 import { HomeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 import { LocationContext } from '../../../contexts/LocationContext'
@@ -306,6 +306,15 @@ function Home({ navigation }: HomeScreenProps) {
 		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
 	}
 
+	const viewPostsByRange = (postRange: PostRange) => {
+		switch (postRange) {
+			case 'near': return navigation.navigate('ViewPostByRange', { postsByRange: feedPosts.nearby })
+			case 'city': return navigation.navigate('ViewPostByRange', { postsByRange: feedPosts.city })
+			case 'country': return navigation.navigate('ViewPostByRange', { postsByRange: feedPosts.country })
+			default: return false
+		}
+	}
+
 	const hasAnyPost = () => {
 		return feedPosts.nearby.length > 0 || feedPosts.city.length > 0 || feedPosts.country.length > 0
 	}
@@ -366,7 +375,7 @@ function Home({ navigation }: HomeScreenProps) {
 											text={'perto de você'}
 											highlightedText={['perto']}
 											seeMoreText
-											onPress={() => { }}
+											onPress={() => viewPostsByRange('near')}
 										/>
 										<VerticalSigh />
 									</>
@@ -389,7 +398,7 @@ function Home({ navigation }: HomeScreenProps) {
 											text={'na cidade'}
 											highlightedText={['cidade']}
 											seeMoreText
-											onPress={() => { }}
+											onPress={() => viewPostsByRange('city')}
 										/>
 										<VerticalSigh />
 									</>
@@ -412,7 +421,7 @@ function Home({ navigation }: HomeScreenProps) {
 											text={'no país'}
 											highlightedText={['país']}
 											seeMoreText
-											onPress={() => { }}
+											onPress={() => viewPostsByRange('country')}
 										/>
 										<VerticalSigh />
 									</>

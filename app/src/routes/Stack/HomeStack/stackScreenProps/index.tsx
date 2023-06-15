@@ -3,6 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { HomeStackParamList } from '../types'
 
 export type HomeScreenProps = NativeStackScreenProps<HomeStackParamList, 'Home'>
+export type ViewPostByRangeScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewPostByRange'>
 export type ViewServicePostScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewServicePostHome'>
 export type ViewSalePostScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewSalePostHome'>
 export type ViewVacancyPostScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewVacancyPostHome'>
