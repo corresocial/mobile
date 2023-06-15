@@ -308,9 +308,9 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const viewPostsByRange = (postRange: PostRange) => {
 		switch (postRange) {
-			case 'near': return navigation.navigate('ViewPostByRange', { postsByRange: feedPosts.nearby })
-			case 'city': return navigation.navigate('ViewPostByRange', { postsByRange: feedPosts.city })
-			case 'country': return navigation.navigate('ViewPostByRange', { postsByRange: feedPosts.country })
+			case 'near': return navigation.navigate('ViewPostByRange', { postsByRange: feedPosts.nearby, postRange: 'near' })
+			case 'city': return navigation.navigate('ViewPostByRange', { postsByRange: feedPosts.city, postRange: 'city' })
+			case 'country': return navigation.navigate('ViewPostByRange', { postsByRange: feedPosts.country, postRange: 'country' })
 			default: return false
 		}
 	}

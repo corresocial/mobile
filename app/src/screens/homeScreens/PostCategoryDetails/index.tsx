@@ -6,7 +6,7 @@ import { Body, Container, ContainerPadding, Header, HorizontalSigh, InputContain
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
 
-import { PostCollection, PostCollectionRemote } from '../../../services/firebase/types'
+import { PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
 import { PostCategoryDetailsScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 import { LocationContext } from '../../../contexts/LocationContext'
@@ -87,6 +87,28 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 
 	const viewAllTags = async () => {
 		navigation.navigate('ViewAllTags')
+	}
+
+	const viewPostsByRange = (postRange: PostRange) => {
+		switch (postRange) {
+			case 'near': return navigation.navigate('ViewPostByRange', {
+				postsByRange: filteredFeedPosts.nearby,
+				postRange,
+				postType: locationDataContext.searchParams.postType as PostType
+			})
+			case 'city': return navigation.navigate('ViewPostByRange', {
+				postsByRange: filteredFeedPosts.city,
+				postRange,
+				postType: locationDataContext.searchParams.postType as PostType
+
+			})
+			case 'country': return navigation.navigate('ViewPostByRange', {
+				postsByRange: filteredFeedPosts.country,
+				postRange,
+				postType: locationDataContext.searchParams.postType as PostType
+			})
+			default: return false
+		}
 	}
 
 	const goToPostView = (item: PostCollection) => {
@@ -218,7 +240,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 												text={'perto de você'}
 												highlightedText={['perto']}
 												seeMoreText
-												onPress={() => { }}
+												onPress={() => viewPostsByRange('near')}
 											/>
 											<VerticalSigh />
 										</>
@@ -243,7 +265,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 												text={'na cidade'}
 												highlightedText={['cidade']}
 												seeMoreText
-												onPress={() => { }}
+												onPress={() => viewPostsByRange('city')}
 											/>
 											<VerticalSigh />
 										</>
@@ -268,7 +290,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 												text={'no país'}
 												highlightedText={['país']}
 												seeMoreText
-												onPress={() => { }}
+												onPress={() => viewPostsByRange('country')}
 											/>
 											<VerticalSigh />
 										</>

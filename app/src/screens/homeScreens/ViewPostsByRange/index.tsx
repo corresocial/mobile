@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Keyboard, Platform } from 'react-native'
+import { Keyboard } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 import { Body, Container, ContainerPadding, Header, InputContainer, SearchInput } from './styles'
 import { theme } from '../../../common/theme'
@@ -26,27 +25,15 @@ function ViewPostByRange({ route, navigation }: ViewPostByRangeScreenProps) {
 	const [searchText, setSearchText] = useState('')
 	const [keyboardOpened, setKeyboardOpened] = useState(false)
 
+	const { postRange, postType } = route.params
+
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
-			// if (Platform.OS === 'android') removeAllKeyboardEventListeners()
 			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
 			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
 		})
 		return unsubscribe
 	}, [navigation])
-	/* const filterPostsByCategory = () => {
-		return {
-			nearby: locationDataContext.feedPosts.nearby.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || [],
-			city: locationDataContext.feedPosts.city.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || [],
-			country: locationDataContext.feedPosts.country.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || []
-		}
-	} */
-
-	/* const filterPostsByRange = (post: PostCollectionRemote) => {
-		return post.category === categoryName
-			&& post.postType === locationDataContext.searchParams.postType
-			&& !!post.title.match(new RegExp(`${searchText}`, 'i'))?.length
-	} */
 
 	const getFilteredPostsBySearch = () => {
 		const { postsByRange } = route.params
@@ -93,6 +80,26 @@ function ViewPostByRange({ route, navigation }: ViewPostByRangeScreenProps) {
 		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
 	}
 
+	const getRelativeTitle = () => {
+		switch (postRange) {
+			case 'near': return 'perto de você'
+			case 'city': return 'na cidade'
+			case 'country': return 'no país'
+			default: return 'posts recentes'
+		}
+	}
+
+	const getRelativeBackgroundColor = () => {
+		switch (postType) {
+			case 'service': return theme.purple2
+			case 'sale': return theme.green2
+			case 'vacancy': return theme.yellow2
+			case 'culture': return theme.blue2
+			case 'socialImpact': return theme.pink2
+			default: return theme.orange2
+		}
+	}
+
 	const renderPostItem = (item: PostCollection) => (
 		<ContainerPadding>
 			<PostCard
@@ -109,7 +116,8 @@ function ViewPostByRange({ route, navigation }: ViewPostByRangeScreenProps) {
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
-					text={'perto de você'}
+					text={getRelativeTitle()}
+					highlightedWords={['você', 'cidade', 'país', 'recentes']}
 					onBackPress={() => navigation.goBack()}
 				/>
 				<InputContainer>
@@ -123,7 +131,7 @@ function ViewPostByRange({ route, navigation }: ViewPostByRangeScreenProps) {
 					/>
 				</InputContainer>
 			</Header>
-			<Body style={{ backgroundColor: theme.orange2 }}>
+			<Body style={{ backgroundColor: getRelativeBackgroundColor() }}>
 				{
 					(postsByRange && postsByRange.length)
 						? (
@@ -141,7 +149,7 @@ function ViewPostByRange({ route, navigation }: ViewPostByRangeScreenProps) {
 						)
 						: <></>
 				}
-				<VerticalSigh height={keyboardOpened ? relativeScreenHeight(10) : 0} />
+				<VerticalSigh height={!keyboardOpened ? relativeScreenHeight(10) : 1} />
 				{
 					(!postsByRange || (postsByRange && postsByRange.length < 1)) && (
 						<WithoutPostsMessage

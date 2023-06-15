@@ -62,7 +62,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const getRelativePath = () => {
 		if (route.params.searchParams.tag) return route.params.searchParams.tag
 		if (route.params.searchParams.category) return route.params.categoryLabel
-		return getRelativeTitle(locationDataContext.searchParams.postType)
+		return getRelativeTitle(locationDataContext.searchParams.postType as PostType)
 	}
 
 	const getRelativeTitle = (postType: PostType) => {

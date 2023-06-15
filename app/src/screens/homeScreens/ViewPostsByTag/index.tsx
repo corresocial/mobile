@@ -7,7 +7,7 @@ import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
 
-import { PostCollection, PostCollectionRemote } from '../../../services/firebase/types'
+import { PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
 import { ViewPostsByTagScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -94,6 +94,28 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
 	}
 
+	const viewPostsByRange = (postRange: PostRange) => {
+		switch (postRange) {
+			case 'near': return navigation.navigate('ViewPostByRange', {
+				postsByRange: filteredFeedPosts.nearby,
+				postRange,
+				postType: locationDataContext.searchParams.postType as PostType
+			})
+			case 'city': return navigation.navigate('ViewPostByRange', {
+				postsByRange: filteredFeedPosts.city,
+				postRange,
+				postType: locationDataContext.searchParams.postType as PostType
+
+			})
+			case 'country': return navigation.navigate('ViewPostByRange', {
+				postsByRange: filteredFeedPosts.country,
+				postRange,
+				postType: locationDataContext.searchParams.postType as PostType
+			})
+			default: return false
+		}
+	}
+
 	const getFirstFiveItems = (items: any[]) => {
 		if (!items) return []
 		if (items.length >= 5) return items.slice(0, 5)
@@ -150,7 +172,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 													text={'perto de você'}
 													highlightedText={['perto']}
 													seeMoreText
-													onPress={() => { }}
+													onPress={() => viewPostsByRange('near')}
 												/>
 												<VerticalSigh />
 											</>
@@ -175,7 +197,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 													text={'na cidade'}
 													highlightedText={['cidade']}
 													seeMoreText
-													onPress={() => { }}
+													onPress={() => viewPostsByRange('city')}
 												/>
 												<VerticalSigh />
 											</>
@@ -200,7 +222,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 													text={'no país'}
 													highlightedText={['país']}
 													seeMoreText
-													onPress={() => { }}
+													onPress={() => viewPostsByRange('country')}
 												/>
 												<VerticalSigh />
 											</>
