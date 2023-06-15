@@ -4,6 +4,7 @@ import { Alert } from 'react-native'
 import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
 import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
+import { StripeContext } from '../../../contexts/StripeContext'
 
 import { SubscriptionPaymentResultScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -30,6 +31,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 	const { subscriptionDataContext } = useContext(SubscriptionContext)
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { getRangePlanPrice } = useContext(StripeContext)
 
 	const { subscriptionRange, subscriptionPlan, currentPost } = subscriptionDataContext
 
@@ -63,7 +65,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 		)
 	}
 
-	console.log(postReview)
+	const { price } = getRangePlanPrice(subscriptionRange, subscriptionPlan)
 
 	return (
 		<Container>
@@ -84,7 +86,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 					<VerticalSigh />
 					<SmallInstructionCard text={getRangeSubscriptionPlanText(subscriptionRange, subscriptionPlan)} />
 					<VerticalSigh />
-					<SmallInstructionCard text={'r$ 20,00'} highlight error={!successfulPayment} />
+					<SmallInstructionCard text={`r$ ${price},00`} highlight error={!successfulPayment} />
 				</InstructionCard>
 				{
 					!successfulPayment

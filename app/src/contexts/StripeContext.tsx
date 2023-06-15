@@ -1,10 +1,13 @@
 /* eslint-disable camelcase */
 import React, { createContext, useEffect, useState } from 'react'
-import { StripeProvider as StripeProviderRaw, CardFormView, confirmPayment, useStripe, createPaymentMethod, CardForm, CardField } from '@stripe/stripe-react-native'
-import { STRIPE_PUBLISHABLE_KEY, STRIPE_API_URL } from '@env'
 import axios from 'axios'
+import { StripeProvider as StripeProviderRaw, confirmPayment, createPaymentMethod } from '@stripe/stripe-react-native'
+
+import { STRIPE_PUBLISHABLE_KEY, STRIPE_API_URL, STRIPE_SECRET_KEY } from '@env'
 import { getStripePlans, getStripeProducts } from '../services/stripe/products'
+
 import { StripeProducts } from '../services/stripe/types'
+import { PostRange, SubscriptionPlan } from '../services/firebase/types'
 
 interface StripeContextProps {
 	children: React.ReactElement
@@ -12,42 +15,48 @@ interface StripeContextProps {
 
 interface StripeContextState {
 	stripeProductsPlans: StripeProducts
-	createCustomer: (paymentMethodId: string) => Promise<any>
+	getRangePlanPrice: (subscriptionRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => ({ price: string, priceId: string })
+	createCustomer: (name: string, paymentMethodId: string) => Promise<any>
 	getCustomerPaymentMethods: (customerId: string) => Promise<any>
 	createCustomPaymentMethod: () => Promise<any>
 	attachPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => Promise<any>
 	setDefaultPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => Promise<any>
 	getCustomerSubscriptions: (customerId: string) => Promise<any>
-	createSubscription: (customerId: string, paymentMethodId?: string) => Promise<any>
+	createSubscription: (customerId: string, priceId: string) => Promise<any>
 	performPaymentConfirm: (paymentMethodId: string, subscriptionClientSecret: string) => Promise<any>
 	cancelSubscription: (subscriptionId: string) => Promise<any>
 }
 
+const defaultPlan = { id: '', name: '', price: '', priceId: '' }
+
+const defaultStripeProducts = {
+	cityMonthly: { ...defaultPlan },
+	cityYearly: { ...defaultPlan },
+	countryMonthly: { ...defaultPlan },
+	countryYearly: { ...defaultPlan }
+}
+
 export const StripeContext = createContext<StripeContextState>({
-	stripeProductsPlans: {
-		cityMonthly: { id: '', name: '', price: '' },
-		cityYearly: { id: '', name: '', price: '' },
-		countryMonthly: { id: '', name: '', price: '' },
-		countryYearly: { id: '', name: '', price: '' }
-	},
-	createCustomer: () => new Promise(() => { }),
+	stripeProductsPlans: { ...defaultStripeProducts },
+	getRangePlanPrice: (subscriptionRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => ({ price: '', priceId: '' }),
+	createCustomer: (name: string, paymentMethodId: string) => new Promise(() => { }),
 	getCustomerPaymentMethods: (customerId: string) => new Promise(() => { }),
 	createCustomPaymentMethod: () => new Promise(() => { }),
 	attachPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => new Promise(() => { }),
 	setDefaultPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => new Promise(() => { }),
 	getCustomerSubscriptions: (customerId: string) => new Promise(() => { }),
-	createSubscription: (customerId: string, paymentMethodId?: string) => new Promise(() => { }),
+	createSubscription: (customerId: string, priceId: string) => new Promise(() => { }),
 	performPaymentConfirm: (paymentMethodId: string, subscriptionClientSecret: string) => new Promise(() => { }),
 	cancelSubscription: (subscriptionId: string) => new Promise(() => { })
 })
 
 const defaultAxiosHeader = {
 	'Content-Type': 'application/x-www-form-urlencoded',
-	Authorization: 'bearer sk_test_51Mw5LNEpbbWylPkQ22X0dlJ5opvdjR0qYsIk3pWvDFilNPFJMi9zRx1Y8xV8fTu18xC8azzEmWusnwHnJ3BvzPi000MGcIVjxu'
+	Authorization: `bearer ${STRIPE_SECRET_KEY}`
 }
 
 export function StripeProvider({ children }: StripeContextProps) {
-	const [stripeProductsPlans, setStripeProductsPlans] = useState({})
+	const [stripeProductsPlans, setStripeProductsPlans] = useState<StripeProducts>(defaultStripeProducts)
 
 	useEffect(() => {
 		getProducts()
@@ -60,14 +69,49 @@ export function StripeProvider({ children }: StripeContextProps) {
 
 			setStripeProductsPlans(remoteStripeProductsPlans)
 			console.log('Produtos do Stripe obtidos com sucesso!')
-			/*
-						Object.values(stripeProductsPlans).forEach((plan) => {
-							console.log(plan)
-							console.log('\n')
-		}) */
 		} catch (error) {
 			console.error('Erro ao obter os produtos do Stripe:', error)
 		}
+	}
+
+	const getRangePlanPrice = (subscriptionRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => {
+		if (!subscriptionRange || !subscriptionPlan) return { price: '', priceId: '' }
+
+		switch (subscriptionPlan) {
+			case 'monthly': {
+				if (subscriptionRange === 'city') {
+					return {
+						price: stripeProductsPlans.cityMonthly.price,
+						priceId: stripeProductsPlans.cityMonthly.priceId
+					}
+				}
+				if (subscriptionRange === 'country') {
+					return {
+						price: stripeProductsPlans.countryMonthly.price,
+						priceId: stripeProductsPlans.countryMonthly.priceId
+					}
+				}
+				break
+			}
+			case 'yearly': {
+				if (subscriptionRange === 'city') {
+					return {
+						price: stripeProductsPlans.cityYearly.price,
+						priceId: stripeProductsPlans.cityYearly.priceId
+					}
+				}
+				if (subscriptionRange === 'country') {
+					return {
+						price: stripeProductsPlans.countryYearly.price,
+						priceId: stripeProductsPlans.countryYearly.priceId
+					}
+				}
+				break
+			}
+			default: return { price: '', priceId: '' }
+		}
+
+		return { price: '', priceId: '' }
 	}
 
 	async function getCustomerPaymentMethods(customerId: string) {
@@ -88,12 +132,12 @@ export function StripeProvider({ children }: StripeContextProps) {
 			paymentMethodType: 'Card',
 			paymentMethodData: {
 				billingDetails: {
-					name: 'corre.teste.paymentMethod',
+					name: 'Credit Card',
 				}
 			}
 		})
 
-		return { error, paymentMethod }
+		return { error, paymentMethodId: paymentMethod?.id }
 	}
 
 	async function attachPaymentMethodToCustomer(customerId: string, paymentMethodId: string) {
@@ -118,9 +162,21 @@ export function StripeProvider({ children }: StripeContextProps) {
 		return true
 	}
 
-	async function createCustomer(paymentMethodId: string) {
+	/* async function customerAlreadyRegistred(customerId: string) {
+		const response = await axios.get(`${STRIPE_API_URL}/customers`, {
+			params: {
+				customer: customerId,
+				status: 'active',
+			},
+			headers: { ...defaultAxiosHeader }
+		})
+
+		return response.data.data.length > 0 ? response.data.data[0] : null
+	} */
+
+	async function createCustomer(name: string, paymentMethodId: string) {
 		const customerData = {
-			name: 'corre.teste.after.paymnet',
+			name,
 			description: 'Assinante do corre',
 			phone: '+12123451234',
 			address: {},
@@ -134,8 +190,8 @@ export function StripeProvider({ children }: StripeContextProps) {
 				headers: { ...defaultAxiosHeader }
 			}
 		)
-
-		return { customerId: result.data.id }
+		const customerId = result.data.id
+		return customerId
 	}
 
 	async function getCustomerSubscriptions(customerId: string) {
@@ -147,19 +203,23 @@ export function StripeProvider({ children }: StripeContextProps) {
 			headers: { ...defaultAxiosHeader }
 		})
 
-		return response.data.data.length > 0 ? response.data.data[0] : null
+		const subscriptionsId = response.data.data.length > 0
+			? response.data.data.map((subscription: any) => subscription.id) // TODO Type
+			: null
+
+		return subscriptionsId
 	}
 
-	async function createSubscription(customerId: string, paymentMethodId?: string) { // CARD 4000000760000002
+	async function createSubscription(customerId: string, priceId: string) { // CARD 4000000760000002
 		const postData = {
 			customer: customerId,
 			items: [
 				{
-					price: 'price_1Mw5PPEpbbWylPkQXylEhX0a', // Substitua pelo ID real do preço/produto
+					price: priceId, // Substitua pelo ID real do preço/produto
 				},
 			],
-			default_payment_method: paymentMethodId,
-			payment_behavior: 'default_incomplete', // error_if_incomplete
+			// default_payment_method: paymentMethodId,
+			payment_behavior: 'error_if_incomplete', // error_if_incomplete
 			expand: ['latest_invoice.payment_intent'],
 		}
 
@@ -175,9 +235,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 
 	async function cancelSubscription(subscriptionId: string) {
 		const config = { headers: { ...defaultAxiosHeader } }
-
 		const response = await axios.delete(`${STRIPE_API_URL}/subscriptions/${subscriptionId}`, config)
-
 		return response.data
 	}
 
@@ -202,6 +260,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 		<StripeContext.Provider
 			value={{
 				stripeProductsPlans: stripeProductsPlans as StripeProducts,
+				getRangePlanPrice,
 				createCustomer,
 				createCustomPaymentMethod,
 				getCustomerSubscriptions,
@@ -210,7 +269,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 				performPaymentConfirm,
 				getCustomerPaymentMethods,
 				attachPaymentMethodToCustomer,
-				setDefaultPaymentMethodToCustomer
+				setDefaultPaymentMethodToCustomer,
 			}}
 		>
 			<StripeProviderRaw publishableKey={STRIPE_PUBLISHABLE_KEY}>

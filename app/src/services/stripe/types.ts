@@ -9,4 +9,5 @@ export type StripeProduct = {
 	id: string
 	name: string
 	price: string
+	priceId: string
 }

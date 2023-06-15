@@ -19,9 +19,11 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
+import { StripeContext } from '../../../contexts/StripeContext'
 
 function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciptionPaymentMethodScreenProps) {
 	const { subscriptionDataContext, setSubscriptionDataOnContext } = useContext(SubscriptionContext)
+	const { getRangePlanPrice } = useContext(StripeContext)
 
 	const { subscriptionRange, subscriptionPlan } = subscriptionDataContext
 
@@ -36,6 +38,8 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 		navigation.navigate('FinishSubscriptionPaymentByCard', { postReview: !!route.params?.postReview })
 	}
 
+	const { price } = getRangePlanPrice(subscriptionRange, subscriptionPlan)
+
 	return (
 		<>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -44,7 +48,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 				centralized
 				backgroundColor={theme.white3}
 				footerText={getRangeSubscriptionPlanText(subscriptionRange, subscriptionPlan)}
-				footerTextHighlighted={'r$ 20,00'}
+				footerTextHighlighted={`r$ ${price},00`}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard

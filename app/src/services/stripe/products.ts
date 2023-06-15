@@ -21,7 +21,8 @@ async function getStripePlans(stripeProducts: any[]) {
 			[`${productRange}${productPlan}`]: {
 				id: product.id,
 				name: product.name,
-				price,
+				priceId: product.default_price,
+				price
 			},
 		}
 	}, {})
@@ -34,7 +35,9 @@ async function getPriceValueById(priceId: string) {
 		headers: { Authorization: 'bearer sk_test_51Mw5LNEpbbWylPkQ22X0dlJ5opvdjR0qYsIk3pWvDFilNPFJMi9zRx1Y8xV8fTu18xC8azzEmWusnwHnJ3BvzPi000MGcIVjxu' },
 	})
 
-	return (priceResponse.data.unit_amount / 100).toFixed(0)
+	const priceValue = (priceResponse.data.unit_amount / 100).toFixed(0)
+
+	return priceValue
 }
 
 export { getStripeProducts, getStripePlans }

@@ -95,6 +95,8 @@ export type UserSubscription = {
 	subscriptionRange?: PostRange
 	subscriptionPlan?: SubscriptionPlan
 	subscriptionPaymentMethod?: SubscriptionPaymentMethod
+	customerId?: Id
+	subscriptionId?: Id
 }
 
 export type UserCollection = {

@@ -1,23 +1,18 @@
-/* eslint-disable camelcase */
-import React, { useState, useRef, useEffect, useContext } from 'react'
-import axios from 'axios'
-import { cpf, cnpj } from 'cpf-cnpj-validator'
-import { STRIPE_API_URL } from '@env'
+import React, { useState, useContext } from 'react'
 
-import { Alert, Keyboard, TextInput, View } from 'react-native'
-import { CardFormView, confirmPayment, useStripe, createPaymentMethod, CardForm, CardField } from '@stripe/stripe-react-native'
-import { CardParams } from '@stripe/stripe-react-native/lib/typescript/src/types/PaymentMethod'
+import { CardForm } from '@stripe/stripe-react-native'
 import { theme } from '../../../common/theme'
 import { Body, BodyScrollable, Container, PaymentStatusArea, PaymentStatusText, Title, TitleArea } from './styles'
 import DollarWhiteIcon from '../../../assets/icons/dollar.svg'
 import CardWhiteIcon from '../../../assets/icons/card-white.svg'
 
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 import { getRangeSubscriptionPlanText } from '../../../utils/subscription/commonMessages'
 
 import { FinishSubscriptionPaymentByCardScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
+import { StripeContext } from '../../../contexts/StripeContext'
+import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
@@ -29,140 +24,53 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { LineInput } from '../../../components/LineInput'
 import { Loader } from '../../../components/Loader'
-import { StripeContext } from '../../../contexts/StripeContext'
 
 function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscriptionPaymentByCardScreenProps) {
+	const { userDataContext } = useContext(AuthContext)
 	const { subscriptionDataContext, updateUserSubscription } = useContext(SubscriptionContext)
 	const {
-		getCustomerPaymentMethods,
+		getRangePlanPrice,
 		createCustomPaymentMethod,
-		attachPaymentMethodToCustomer,
 		setDefaultPaymentMethodToCustomer,
 		createCustomer,
 		createSubscription,
 		getCustomerSubscriptions,
-		performPaymentConfirm,
 		cancelSubscription,
 	} = useContext(StripeContext)
 
 	const { subscriptionRange, subscriptionPlan, subscriptionPaymentMethod } = subscriptionDataContext
 
-	const [cardNumber, setCardNumber] = useState('') // 4000000760000002
-	const [cardExpiringDate, setCardExpiringDate] = useState('')
-	const [cardCVV, setCardCVV] = useState('')
-	const [cardholderName, setCardholderName] = useState('')
-	const [holderDocumentNumber, setHolderDocumentNumber] = useState('')
-
-	const [cardholderNameIsValid, setCardholderNameIsValid] = useState(false)
-	const [isCardholderNameFocused, setIsCardholderNameFocused] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 
-	const [keyboardOpened, setKeyboardOpened] = useState(false)
-
-	const cardNumberRef = useRef<TextInput>(null)
-	const cardExpiringDateRef = useRef<TextInput>(null)
-	const cardCVVRef = useRef<TextInput>(null)
-	const cardholderNameRef = useRef<TextInput | null>(null)
-	const holderDocumentNumberRef = useRef<TextInput>(null)
-
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			removeAllKeyboardEventListeners()
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
-
-	useEffect(() => {
-		const validation = validateCardHoldername(cardholderName)
-		setCardholderNameIsValid(validation)
-	}, [cardholderName, keyboardOpened])
-
-	const handleFocus = () => {
-		setIsCardholderNameFocused(true)
-	}
-
-	const handleBlur = () => {
-		setIsCardholderNameFocused(false)
-	}
-
-	const validateCardNumber = (value: string) => {
-		const cleanedValue = value.replace(/\s/g, '')
-		if (/^\d{16}$/.test(cleanedValue)) {
-			return true
-		}
-		return false
-	}
-
-	const validateCardExpiringDate = (value: string) => {
-		if (/^(0[1-9]|1[0-2])\/\d{2}$/.test(value)) {
-			return true
-		}
-		return false
-	}
-
-	const validateCardCVV = (value: string) => {
-		if (/^\d{3,4}$/.test(value)) {
-			return true
-		}
-		return false
-	}
-
-	const validateCardHoldername = (value: string) => {
-		if (/^[a-zA-Z\s-]+$/.test(value)) {
-			return true
-		}
-		return false
-	}
-
-	const validateHolderDocumentNumber = (value: string) => {
-		const cleanedValue = value.replace(/\D/g, '')
-
-		if (cleanedValue.length === 11) {
-			return cpf.isValid(cleanedValue)
-		}
-
-		if (cleanedValue.length === 14) {
-			return cnpj.isValid(cleanedValue)
-		}
-
-		return false
-	}
-
-	const cardDataAreValid = () => {
-		const isCardNumberValid = validateCardNumber(cardNumber)
-		const isCardExpiringDateValid = validateCardExpiringDate(cardExpiringDate)
-		const isCardCVVValid = validateCardCVV(cardCVV)
-		const isCardholderNameValid = validateCardHoldername(cardholderName)
-		const isHolderDocumentNumberValid = validateHolderDocumentNumber(holderDocumentNumber)
-
-		return (
-			isCardNumberValid
-			&& isCardExpiringDateValid
-			&& isCardCVVValid
-			&& isCardholderNameValid
-			&& isHolderDocumentNumberValid
-		)
-	}
+	const { price, priceId } = getRangePlanPrice(subscriptionRange, subscriptionPlan)
 
 	const performSubscriptionPayment = async () => {
-		// if(!cardDataAreValid()) return
 		try {
 			setIsLoading(true)
+
+			const { customerId, subscriptionId } = await performSubscriptionTest()
+
+			if (!customerId || !subscriptionId) {
+				navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false, ...route.params })
+				throw new Error('customerId ou subscriptionId inválido')
+			}
+
+			console.log(`customerId: ${customerId}`)
+			console.log(`subscriptionId: ${subscriptionId}`)
+
 			const userSubscription = {
 				subscriptionRange,
 				subscriptionPlan,
-				subscriptionPaymentMethod
+				subscriptionPaymentMethod,
+				customerId,
+				subscriptionId
 			}
 
-			await performSubscriptionTest()
-			// await updateUserSubscription(userSubscription)
+			await updateUserSubscription(userSubscription)
 
 			setIsLoading(false)
-			// navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true, ...route.params })
+			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true, ...route.params })
 		} catch (err: any) { // Veirfy stripe erros
 			console.log(err)
 			setIsLoading(false)
@@ -171,94 +79,70 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 	}
 
 	const performSubscriptionTest = async () => {
+		const customerData = {
+			name: userDataContext.name || 'usuário do corre.',
+			customerId: userDataContext.subscription?.customerId || ''
+		}
+
 		try {
-			/* const { error, paymentMethod } = await createCustomPaymentMethod()
-			const paymentMethodId = paymentMethod?.id || ''
-			console.log(paymentMethodId)
-			if (error) {
-				Alert.alert('Deu ruim ao criar metodo de pagamento ')
-				console.log(error)
-				return
-			}
-
-			const { customerId } = await createCustomer(paymentMethodId) */
-			/* const customerId = 'cus_O55Fs1mdmT8YR3'
-			console.log(`customerId: ${customerId}`)
-
-			const { subscriptionId, subscriptionClientSecret } = await createSubscription(customerId)
-
-			console.log(`subscriptionId: ${subscriptionId}`)
-			console.log(`subscriptionClientSecret: ${subscriptionClientSecret}`) */
-
-			/* const { error: err, paymentIntent } = await performPaymentConfirm(paymentMethodId, subscriptionClientSecret)
-
-			if (err) {
-				console.log(err)
-			}
-
-			console.log(paymentIntent) */
-
 			/*
-			{"amount": 6000, "canceledAt": "0", "captureMethod": "Automatic", "clientSecret": "pi_3NIv5vEpbbWylPkQ0N1c6Orv_secret_yQnjB385PzFfXqlWXN7JBIoR4", "confirmationMethod": "Automatic", "created": "1686754487000", "currency": "brl", "description": "Subscription creation",
-"id": "pi_3NIv5vEpbbWylPkQ0N1c6Orv", "lastPaymentError": null, "livemode": false, "nextAction": null, "paymentMethodId": "pm_1NIv5uEpbbWylPkQdHlF62l3", "receiptEmail": null, "shipping": null, "status": "Succeeded"}
- */
-			// const response = await cancelSubscription('sub_1NIv4XEpbbWylPkQynvT3K10')
-			// console.log(response)
+				subscriptionId,
+				customerId,
+				subscriptionClientSecret,
+			 */
 
-			/* const { error, paymentMethod } = await createCustomPaymentMethod()
+			const { error, paymentMethodId } = await createCustomPaymentMethod()
+			if (error) throw new Error(error.message)
 
-			console.log(error)
-			if (error) return
+			console.log('\n')
+			console.log('Método de pagamento criado...')
+			console.log(`paymentMethodId: ${paymentMethodId}`)
+			console.log('\n')
 
-			const attach = await attachPaymentMethodToCustomer('cus_O55Fs1mdmT8YR3', paymentMethod.id)
+			let customerId = ''
+			if (customerData.customerId) {
+				customerId = customerData.customerId
+				console.log('Usuário já cadastrado...')
+			} else {
+				customerId = await createCustomer(customerData.name, paymentMethodId)
+				console.log('Usuário cadastrado...')
 
-			if (!attach) {
-				console.log('Deu merda')
-				return
+				const response = await setDefaultPaymentMethodToCustomer(customerId, paymentMethodId)
+				if (!response) throw new Error('Não foi possível atribuir um método de pagamento default...')
 			}
 
-			const response = await setDefaultPaymentMethodToCustomer('cus_O55Fs1mdmT8YR3', paymentMethod.id)
-			if (!response) {
-				console.log('Deu merda')
-				return
+			if (!customerId) throw new Error('customerId inválido')
+			console.log(`customerId: ${customerId}`)
+			console.log('\n')
+
+			const subscriptionsId = await getCustomerSubscriptions(customerId)
+			if (subscriptionsId) {
+				subscriptionsId.forEach(async (subscriptionId: string) => cancelSubscription(subscriptionId))
+				console.log('Assinatura anterior cancelada...')
+				console.log('\n')
 			}
 
-			console.log('Customer atualizado:')
+			const { subscriptionId, subscriptionClientSecret } = await createSubscription(customerId, priceId)
 
-			const result = await getCustomerPaymentMethods('cus_O55Fs1mdmT8YR3')
-			// console.log(response.data.data[0].card)
-			console.log(result && result.id) */
+			if (!subscriptionId) throw new Error('subscriptionId inválida')
+			if (!subscriptionClientSecret) throw new Error('subscriptionClientSecret inválida')
+			console.log('Subscription criada...')
+			console.log(`subscriptionId: ${subscriptionId}`)
+			console.log(`subscriptionClientSecret: ${subscriptionClientSecret}`)
+			console.log('\n')
 
-			/* const res = await getCustomerSubscriptions('cus_O4mfQ1KEgNPfRw')
+			// const { error: err, paymentIntent } = await performPaymentConfirm(paymentMethodId, subscriptionClientSecret)
 
-			console.log(res.id) */
+			// if (err) throw new Error(err.message)
+			// console.log('Pagamento confirmado...')
+			// console.log('\n')
+
+			return { customerId, subscriptionId }
 		} catch (err) {
-			console.log('Erro')
+			console.log('Erro ao lidar com o stripe...')
 			console.log(err)
+			return {}
 		}
-	}
-
-	const applyCardNumberMask = (text: string) => {
-		const cleanedText = text.replace(/\D/g, '')
-
-		let maskedText = cleanedText
-
-		if (cleanedText.length > 4) {
-			maskedText = maskedText.replace(/(\d{4})(?=\d)/g, '$1 ')
-		}
-
-		setCardNumber(maskedText)
-	}
-
-	const applyCardExpiringDateMask = (text: string) => {
-		const cleanedText = text.replace(/\D/g, '')
-
-		let maskedText = cleanedText
-		if (cleanedText.length > 2) {
-			maskedText = `${cleanedText.slice(0, 2)}/${cleanedText.slice(2)}`
-		}
-
-		setCardExpiringDate(maskedText)
 	}
 
 	const renderPaymentStatus = () => {
@@ -293,7 +177,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 					</TitleArea>
 					<SmallInstructionCard text={getRangeSubscriptionPlanText(subscriptionRange, subscriptionPlan)} />
 					<VerticalSigh />
-					<SmallInstructionCard text={'r$ 20,00'} highlight />
+					<SmallInstructionCard text={`r$ ${price},00`} highlight />
 
 					<PaymentStatusArea>
 						<SmallButton
@@ -318,108 +202,6 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 						}}
 						style={{ flex: 1, height: relativeScreenHeight(40), width: '100%', borderWidth: 0 }}
 					/>
-					{/* <LineInput
-						value={cardNumber}
-						relativeWidth={'100%'}
-						textInputRef={cardNumberRef}
-						nextInputRef={cardExpiringDateRef}
-						defaultBackgroundColor={theme.white3}
-						defaultBorderBottomColor={theme.black4}
-						validBackgroundColor={theme.green1}
-						validBorderBottomColor={theme.black4}
-						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.red5}
-						textAlign={'left'}
-						fontSize={16}
-						maxLength={19}
-						placeholder={'número do cartão'}
-						keyboardType={'numeric'}
-						validateText={(text: string) => validateCardNumber(text)}
-						onChangeText={(text: string) => applyCardNumberMask(text)}
-					/>
-					<VerticalSigh />
-					<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-						<LineInput
-							value={cardExpiringDate}
-							relativeWidth={'45%'}
-							textInputRef={cardExpiringDateRef}
-							nextInputRef={cardCVVRef}
-							defaultBackgroundColor={theme.white3}
-							defaultBorderBottomColor={theme.black4}
-							validBackgroundColor={theme.green1}
-							validBorderBottomColor={theme.black4}
-							invalidBackgroundColor={theme.red1}
-							invalidBorderBottomColor={theme.red5}
-							textAlign={'left'}
-							fontSize={16}
-							maxLength={5}
-							placeholder={'validade'}
-							keyboardType={'numeric'}
-							validateText={(text: string) => validateCardExpiringDate(text)}
-							onChangeText={(text: string) => applyCardExpiringDateMask(text)}
-						/>
-						<LineInput
-							value={cardCVV}
-							relativeWidth={'45%'}
-							textInputRef={cardCVVRef}
-							nextInputRef={cardholderNameRef}
-							defaultBackgroundColor={theme.white3}
-							defaultBorderBottomColor={theme.black4}
-							validBackgroundColor={theme.green1}
-							validBorderBottomColor={theme.black4}
-							invalidBackgroundColor={theme.red1}
-							invalidBorderBottomColor={theme.red5}
-							textAlign={'left'}
-							fontSize={16}
-							maxLength={3}
-							placeholder={'CVV'}
-							keyboardType={'numeric'}
-							validateText={(text: string) => validateCardCVV(text)}
-							onChangeText={(text: string) => setCardCVV(text)}
-						/>
-					</View>
-					<VerticalSigh />
-					<LineInput
-						relativeWidth={'100%'}
-						value={cardholderName}
-						textInputRef={cardholderNameRef}
-						nextInputRef={holderDocumentNumberRef}
-						defaultBackgroundColor={theme.white3}
-						defaultBorderBottomColor={theme.black4}
-						validBackgroundColor={theme.green1}
-						validBorderBottomColor={theme.black4}
-						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.red5}
-						textAlign={'left'}
-						fontSize={16}
-						placeholder={'nome do titular'}
-						keyboardType={'default'}
-						textIsValid={cardholderNameIsValid && ((!keyboardOpened && !isCardholderNameFocused) || (keyboardOpened && isCardholderNameFocused))}
-						onChangeText={(text: string) => setCardholderName(text)}
-						onFocus={handleFocus}
-						onBlur={handleBlur}
-					/>
-					<VerticalSigh />
-					<LineInput
-						value={holderDocumentNumber}
-						relativeWidth={'100%'}
-						textInputRef={holderDocumentNumberRef}
-						lastInput
-						defaultBackgroundColor={theme.white3}
-						defaultBorderBottomColor={theme.black4}
-						validBackgroundColor={theme.green1}
-						validBorderBottomColor={theme.black4}
-						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.red5}
-						textAlign={'left'}
-						fontSize={16}
-						maxLength={14}
-						placeholder={'CPF/CNPJ do titular'}
-						keyboardType={'numeric'}
-						validateText={(text: string) => validateHolderDocumentNumber(text)}
-						onChangeText={(text: string) => setHolderDocumentNumber(text)}
-					/>
-					<VerticalSigh height={relativeScreenHeight(5)} /> */}
 					{
 						isLoading
 							? <Loader />
