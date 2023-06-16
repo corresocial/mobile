@@ -14,10 +14,12 @@ import { LocationContext } from '../../../contexts/LocationContext'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
-import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { DefaultPostCard } from '../../../components/_cards/DefaultPostCard'
+import { AuthContext } from '../../../contexts/AuthContext'
 
 function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
+	const { userDataContext } = useContext(AuthContext)
 	const { locationDataContext } = useContext(LocationContext)
 
 	const [searchText, setSearchText] = useState('')
@@ -68,6 +70,14 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 		}
 	}
 
+	const navigateToProfile = (userId: string) => {
+		if (userDataContext.userId === userId) {
+			navigation.navigate('Profile' as any)// TODO Type
+			return
+		}
+		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
+	}
+
 	const navigateToResultScreen = () => {
 		const customSearchParams = {
 			...locationDataContext.searchParams,
@@ -108,12 +118,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 					/>
 					{
 						!recentPosts.length
-							? (
-								<WithoutPostsMessage
-									title={'poxa!'}
-									message={'parece que não temos nenhum post nessa categoria, nosso time já está sabendo e irá resolver!'}
-								/>
-							)
+							? <DefaultPostCard navigateToProfile={navigateToProfile} />
 							: (
 								<FlatList
 									data={recentPosts}
