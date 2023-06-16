@@ -2,23 +2,23 @@ import React, { useContext, useEffect, useState } from 'react'
 import { FlatList } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
-import { Body, Container, Header, HorizontalSigh, InputContainer, LastSigh, SearchInput, TagsContainer, VerticalSigh } from './styles'
-import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
+import { theme } from '../../../common/theme'
+import { Body, Container, Header, HorizontalSigh, InputContainer, LastSigh, SearchInput, TagsContainer, VerticalSigh } from './styles'
 
-import { PostCollection } from '../../../services/firebase/types'
 import { PostCategoryDetailsScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
+import { PostCollection } from '../../../services/firebase/types'
 
 import { LocationContext } from '../../../contexts/LocationContext'
 
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { CategoryCard } from '../../../components/_cards/CategoryCard'
-import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
-import { PostCard } from '../../../components/_cards/PostCard'
 import { sortArray } from '../../../common/auxiliaryFunctions'
-import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
+import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { CategoryCard } from '../../../components/_cards/CategoryCard'
+import { PostCard } from '../../../components/_cards/PostCard'
+import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { AuthContext } from '../../../contexts/AuthContext'
+import { DefaultPostCard } from '../../../components/_cards/DefaultPostCard'
 
 function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -166,12 +166,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 				/>
 				{
 					!recentPosts.length
-						? (
-							<WithoutPostsMessage
-								title={'poxa!'}
-								message={'parece que não temos nenhum post nessa categoria, nosso time já está sabendo e irá resolver!'}
-							/>
-						)
+						? <DefaultPostCard navigateToProfile={navigateToProfile} />
 						: (
 							<FlatList
 								data={recentPosts}
