@@ -72,11 +72,6 @@ function Home({ navigation }: HomeScreenProps) {
 		locationIsEnable()
 	}, [])
 
-	useEffect(() => {
-		// requestPermissions()
-		getRecentAddresses()
-	}, [])
-
 	const onPressBackHandler = () => {
 		if (navigation.isFocused()) {
 			BackHandler.exitApp()
@@ -86,14 +81,24 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	useEffect(() => {
-		findFeedPosts('', true, null as any, false, true)
+		requestPermissions()
+		getRecentAddresses()
 	}, [])
 
+	useEffect(() => {
+		if (hasLocationPermission) {
+			findFeedPosts('', true, null as any, false, true)
+		}
+	}, [hasLocationPermission])
+
 	const requestPermissions = async () => {
+		if (hasLocationPermission) return true
 		const { status } = await Location.requestForegroundPermissionsAsync()
 		if (status === 'granted') {
 			setHasLocationPermission(true)
+			return true
 		}
+		return false
 	}
 
 	const locationIsEnable = async () => {
@@ -114,15 +119,13 @@ function Home({ navigation }: HomeScreenProps) {
 		refresh?: boolean,
 		firstLoad?: boolean
 	) => {
-		if (!hasLocationPermission) return requestPermissions()
-
-		console.log('startFeedPosts')
+		if (!hasLocationPermission) return
 
 		try {
 			refresh ? setFlatListIsLoading(true) : setLoaderIsVisible(true)
 			setSearchEnded(false)
 			let searchParams = {} as SearchParams
-			if (currentPosition) {
+			if (currentPosition || !hasLocationPermission) {
 				const coordinates = await getCurrentPositionCoordinates(firstLoad)
 				searchParams = await getSearchParams(coordinates as LatLong)
 			} else {
@@ -134,9 +137,7 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams, // Update return of cloud function
 				userDataContext.userId as Id
 			) */
-			console.log('beforeFeedPosts')
 			const remoteFeedPosts = await getPostsByLocation(searchParams)
-			console.log('afterFeedPosts')
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
 			refresh ? setFlatListIsLoading(false) : setLoaderIsVisible(false)
@@ -153,14 +154,14 @@ function Home({ navigation }: HomeScreenProps) {
 		}
 	}
 
-	const refreshFlatlist = async () => {
+	/* const refreshFlatlist = async () => {
 		await findFeedPosts(
 			'',
 			false,
 			locationDataContext.searchParams.coordinates || null,
 			true
 		)
-	}
+	} */
 
 	const getCurrentPositionCoordinates = async (firstLoad?: boolean) => {
 		try {
@@ -175,6 +176,8 @@ function Home({ navigation }: HomeScreenProps) {
 					lon: recentPosition.lon,
 				} as LatLong
 			}
+
+			if (!hasLocationPermission && !await requestPermissions()) return
 
 			const currentPosition: Location.LocationObject = await getCurrentLocation()
 			return {
@@ -393,7 +396,7 @@ function Home({ navigation }: HomeScreenProps) {
 								)}
 								renderItem={renderPostItem}
 								flatListIsLoading={flatListIsLoading}
-								onEndReached={refreshFlatlist}
+							// onEndReached={refreshFlatlist}
 							/>
 						)
 						: <></>
@@ -416,7 +419,7 @@ function Home({ navigation }: HomeScreenProps) {
 								)}
 								renderItem={renderPostItem}
 								flatListIsLoading={flatListIsLoading}
-								onEndReached={refreshFlatlist}
+							/* onEndReached={refreshFlatlist} */
 							/>
 						)
 						: <></>
@@ -439,7 +442,7 @@ function Home({ navigation }: HomeScreenProps) {
 								)}
 								renderItem={renderPostItem}
 								flatListIsLoading={flatListIsLoading}
-								onEndReached={refreshFlatlist}
+							/* onEndReached={refreshFlatlist} */
 							/>
 						)
 						: <></>

@@ -38,7 +38,7 @@ function FlatListPosts({
 			refreshControl={(
 				<RefreshControl
 					colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3, theme.purple3, theme.yellow3, theme.red3]}
-					refreshing={/* !!flatListIsLoading */false}
+					refreshing={/* !!flatListIsLoading */ false}
 					progressBackgroundColor={theme.white3}
 					onRefresh={onRefresh && onRefresh}
 				/>

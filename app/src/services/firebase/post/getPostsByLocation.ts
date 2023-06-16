@@ -27,11 +27,9 @@ async function getPostsByLocation(searchParams: SearchParams) {
 	try {
 		const collectionRef = collection(firestore, 'posts')
 
-		console.log('beforeRange')
 		const { nearbyPosts, nearPostIds } = await getNearbyPosts(collectionRef, searchParams)
 		const cityPosts = await getCityPosts(collectionRef, searchParams, nearPostIds)
 		const countryPosts = await getCountryPosts(collectionRef, searchParams, nearPostIds)
-		console.log('afterRange')
 
 		return {
 			nearby: nearbyPosts,
