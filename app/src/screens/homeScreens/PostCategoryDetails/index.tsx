@@ -308,9 +308,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 					!hasAnyPost() && (
 						<WithoutPostsMessage
 							title={'opa!'}
-							message={
-								'parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'
-							}
+							message={'parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'}
 						/>
 					)
 				}

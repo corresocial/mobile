@@ -32,10 +32,9 @@ export const SearchInput = styled.TextInput`
 	text-align: center;
 `
 
-export const Body = styled.View`
+export const Body = styled.ScrollView`
 	flex: 1;
-	padding-vertical: ${RFValue(15)}px;
-	padding-bottom: 0px;
+	padding-top: ${RFValue(15)}px;
 `
 
 export const TagsContainer = styled.View`
@@ -54,16 +53,6 @@ export const HorizontalSigh = styled.View`
 	width: ${RFValue(10)}px;
 `
 
-export const VerticalSigh = styled.View`
-	width: 20%;
-	height: ${RFValue(10)}px;
-`
-
-export const LastSigh = styled.View`
-	width: 100%;
-	height: ${relativeScreenHeight(10)}px;
-`
-
 export const FilterButtons = styled.View`
 	width: 100%;
 	height: ${relativeScreenHeight(8)}px;
@@ -71,4 +60,8 @@ export const FilterButtons = styled.View`
 	justify-content: space-around;
 	align-items: center;
 	margin-bottom: ${RFValue(10)}px;
+`
+
+export const ContainerPadding = styled.ScrollView`
+	padding-horizontal: ${RFValue(10)}px;
 `

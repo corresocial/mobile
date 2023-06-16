@@ -10,7 +10,7 @@ import { MacroCategory, PostCollectionRemote } from '../services/firebase/types'
 const arrayIsEmpty = (array: any) => {
 	try {
 		if (!Array.isArray(array)) return true
-		if (array.length < 1) return true
+		if (!array.length) return true
 		return false
 	} catch (err) {
 		return true

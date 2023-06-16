@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import { FeedPosts, PostCollection, PostCollectionRemote } from '../firebase/types'
 import { SearchParams } from '../maps/types'
 import { postsIndex } from './index'
 
@@ -58,12 +59,38 @@ async function searchPosts(searchText: string, searchParams: SearchParams) {
 
 		results.forEach((post: any) => console.log(`${post.title} - ${post.postType} - ${post.range}`))
 
-		return results
+		return spreadPostsByRange(results) as FeedPosts
 	} catch (err) {
 		console.log(err)
 		console.log('Erro ao buscar posts no algolia, file:searchPosts')
 		return []
 	}
+}
+
+interface FilteredPosts {
+	nearby: PostCollectionRemote[];
+	city: PostCollectionRemote[];
+	country: PostCollectionRemote[];
+}
+
+const spreadPostsByRange = (posts: PostCollectionRemote[]) => {
+	const result: FilteredPosts = {
+		nearby: [],
+		city: [],
+		country: []
+	}
+
+	posts.forEach((post) => {
+		if (post.range === 'near') {
+			result.nearby.push(post)
+		} else if (post.range === 'city') {
+			result.city.push(post)
+		} else if (post.range === 'country') {
+			result.country.push(post)
+		}
+	})
+
+	return result
 }
 
 const getPostTypeFilter = (postType: string) => {

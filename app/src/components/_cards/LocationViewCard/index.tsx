@@ -108,7 +108,7 @@ function LocationViewCard({
 	}
 
 	const goToGoogleMapsApp = async () => {
-		if (Object.keys(location).length < 1) return false
+		if (!Object.keys(location).length) return false
 		const googleMapsUrl = getGoogleMapUrl()
 		const supportedLink = await Linking.canOpenURL(googleMapsUrl)
 		if (!supportedLink) {
@@ -137,7 +137,7 @@ function LocationViewCard({
 	}
 
 	const goToWazeApp = async () => {
-		if (Object.keys(location).length < 1) return false
+		if (!Object.keys(location).length) return false
 		const wazeUrl = `https://waze.com/ul?ll=${location.coordinates?.latitude},${location.coordinates?.longitude}&z=17`
 		const supportedLink = await Linking.canOpenURL(wazeUrl)
 		if (!supportedLink) {
