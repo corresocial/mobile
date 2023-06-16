@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { BackHandler } from 'react-native'
 import * as Location from 'expo-location'
 
 import {
@@ -56,7 +55,7 @@ const initialFeedPosts = {
 function Home({ navigation }: HomeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
-	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
+	const { /* locationDataContext, */ setLocationDataOnContext } = useContext(LocationContext)
 
 	const [selectedAddress, setSelectedAddress] = useState<SelectedAddressRender>(initialSelectedAddress)
 	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])
@@ -68,21 +67,8 @@ function Home({ navigation }: HomeScreenProps) {
 	const [flatListIsLoading, setFlatListIsLoading] = useState(false)
 
 	useEffect(() => {
-		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
-		locationIsEnable()
-	}, [])
-
-	const onPressBackHandler = () => {
-		if (navigation.isFocused()) {
-			BackHandler.exitApp()
-			return true
-		}
-		return false
-	}
-
-	useEffect(() => {
 		requestPermissions()
-		getRecentAddresses()
+		loadRecentAddresses()
 	}, [])
 
 	useEffect(() => {
@@ -107,7 +93,7 @@ function Home({ navigation }: HomeScreenProps) {
 		return locationEnabled
 	}
 
-	const getRecentAddresses = async () => {
+	const loadRecentAddresses = async () => {
 		const addresses = await getRecentAdressesFromStorage()
 		setRecentAddresses(addresses)
 	}
@@ -120,6 +106,7 @@ function Home({ navigation }: HomeScreenProps) {
 		firstLoad?: boolean
 	) => {
 		if (!hasLocationPermission) return
+		locationIsEnable()
 
 		try {
 			refresh ? setFlatListIsLoading(true) : setLoaderIsVisible(true)
@@ -155,29 +142,22 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	/* const refreshFlatlist = async () => {
-		await findFeedPosts(
-			'',
-			false,
-			locationDataContext.searchParams.coordinates || null,
-			true
-		)
+		console.log('refresh')
+		 await findFeedPosts('', false, locationDataContext.searchParams.coordinates || null, true)
 	} */
 
 	const getCurrentPositionCoordinates = async (firstLoad?: boolean) => {
 		try {
 			if (firstLoad) {
 				const recentPosition = getLastRecentAddress(recentAddresses)
-				if (!recentPosition) {
-					return null
+
+				if (recentPosition) {
+					return {
+						lat: recentPosition.lat,
+						lon: recentPosition.lon,
+					} as LatLong
 				}
-
-				return {
-					lat: recentPosition.lat,
-					lon: recentPosition.lon,
-				} as LatLong
 			}
-
-			if (!hasLocationPermission && !await requestPermissions()) return
 
 			const currentPosition: Location.LocationObject = await getCurrentLocation()
 			return {

@@ -4,7 +4,6 @@ import { UserStackParamList } from '../UserStack/types'
 
 export type HomeStackParamList = {
 	Home: { userId?: string }
-	ViewPostByRange: { postsByRange: PostCollectionRemote[], postRange: PostRange, postType?: PostType }
 	ViewServicePostHome: { postData: PostCollection }
 	ViewSalePostHome: { postData: PostCollection }
 	ViewVacancyPostHome: { postData: PostCollection }

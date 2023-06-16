@@ -8,7 +8,7 @@ const getLastRecentAddress = (recentAddresses: AddressSearchResult[]) => {
 			lon: recentAddresses[0].lon
 		}
 	}
-	return {}
+	return null
 }
 
 const getRecentAdressesFromStorage = async () => {

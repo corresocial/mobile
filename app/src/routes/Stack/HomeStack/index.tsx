@@ -36,7 +36,6 @@ export function HomeStack({ route }: any) {
 					}}
 				>
 					<Stack.Screen name={'Home'} component={Home} />
-					<Stack.Screen name={'ViewPostByRange'} component={ViewPostByRange} />
 					<Stack.Screen name={'ViewServicePostHome'} component={ViewServicePost} />
 					<Stack.Screen name={'ViewSalePostHome'} component={ViewSalePost} />
 					<Stack.Screen name={'ViewVacancyPostHome'} component={ViewVacancyPost} />

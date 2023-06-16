@@ -1,11 +1,12 @@
 import { Chat } from '../../../@types/chat/types'
 import { LocalUserData } from '../../../contexts/types'
 import { ContactUsType } from '../../../services/discord/types'
-import { CultureCollectionRemote, SaleCollectionRemote, ServiceCollectionRemote, SocialImpactCollectionRemote, SocialMedia, VacancyCollectionRemote } from '../../../services/firebase/types'
+import { CultureCollectionRemote, PostCollectionRemote, PostRange, PostType, SaleCollectionRemote, ServiceCollectionRemote, SocialImpactCollectionRemote, SocialMedia, VacancyCollectionRemote } from '../../../services/firebase/types'
 import { ReportedTarget } from '../../../services/types'
 
 export type UserStackParamList = {
 	WelcomeNewUser: undefined
+	ViewPostByRange: { postsByRange: PostCollectionRemote[], postRange: PostRange, postType?: PostType }
 	HomeTab: { tourCompleted?: boolean, showShareModal?: boolean, showsInFirstTab?: boolean } | undefined
 	SelectPostType: undefined
 	ServiceStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
