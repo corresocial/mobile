@@ -70,10 +70,10 @@ function Home({ navigation }: HomeScreenProps) {
 	useEffect(() => {
 		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
 		locationIsEnable()
-	})
+	}, [])
 
 	useEffect(() => {
-		requestPermissions()
+		// requestPermissions()
 		getRecentAddresses()
 	}, [])
 
@@ -86,10 +86,8 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	useEffect(() => {
-		if (hasLocationPermission && !hasAnyPost()) {
-			findFeedPosts('', true, null as any, false, true)
-		}
-	}, [hasLocationPermission])
+		findFeedPosts('', true, null as any, false, true)
+	}, [])
 
 	const requestPermissions = async () => {
 		const { status } = await Location.requestForegroundPermissionsAsync()
@@ -118,6 +116,8 @@ function Home({ navigation }: HomeScreenProps) {
 	) => {
 		if (!hasLocationPermission) return requestPermissions()
 
+		console.log('startFeedPosts')
+
 		try {
 			refresh ? setFlatListIsLoading(true) : setLoaderIsVisible(true)
 			setSearchEnded(false)
@@ -134,9 +134,9 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams, // Update return of cloud function
 				userDataContext.userId as Id
 			) */
-
+			console.log('beforeFeedPosts')
 			const remoteFeedPosts = await getPostsByLocation(searchParams)
-
+			console.log('afterFeedPosts')
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
 			refresh ? setFlatListIsLoading(false) : setLoaderIsVisible(false)
@@ -164,8 +164,19 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const getCurrentPositionCoordinates = async (firstLoad?: boolean) => {
 		try {
-			const currentPosition: Location.LocationObject = await getCurrentLocation()
+			if (firstLoad) {
+				const recentPosition = getLastRecentAddress(recentAddresses)
+				if (!recentPosition) {
+					return null
+				}
 
+				return {
+					lat: recentPosition.lat,
+					lon: recentPosition.lon,
+				} as LatLong
+			}
+
+			const currentPosition: Location.LocationObject = await getCurrentLocation()
 			return {
 				lat: currentPosition.coords.latitude,
 				lon: currentPosition.coords.longitude

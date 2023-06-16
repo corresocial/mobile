@@ -27,9 +27,11 @@ async function getPostsByLocation(searchParams: SearchParams) {
 	try {
 		const collectionRef = collection(firestore, 'posts')
 
+		console.log('beforeRange')
 		const { nearbyPosts, nearPostIds } = await getNearbyPosts(collectionRef, searchParams)
 		const cityPosts = await getCityPosts(collectionRef, searchParams, nearPostIds)
 		const countryPosts = await getCountryPosts(collectionRef, searchParams, nearPostIds)
+		console.log('afterRange')
 
 		return {
 			nearby: nearbyPosts,
@@ -61,7 +63,7 @@ const getNearbyPosts = async (collectionRef: CollectionReference<DocumentData>, 
 	snapshotNearby.forEach((doc) => {
 		posts.push({ ...doc.data(), postId: doc.id })
 		nearPostIds.push(doc.id)
-		console.log(`Nearby: ${doc.data().title} - ${doc.data().range} ------- ${doc.data().postType}`)
+		// console.log(`Nearby: ${doc.data().title} - ${doc.data().range} ------- ${doc.data().postType}`)
 	})
 
 	return { nearbyPosts: posts, nearPostIds }
@@ -81,7 +83,7 @@ const getCityPosts = async (collectionRef: CollectionReference<DocumentData>, se
 	snapshotCity.forEach((doc) => {
 		if (!nearPostIds.includes(doc.id)) {
 			posts.push({ ...doc.data(), postId: doc.id })
-			console.log(`City: ${doc.data().title} - ${doc.data().range} ------- ${doc.data().postType}`)
+			// console.log(`City: ${doc.data().title} - ${doc.data().range} ------- ${doc.data().postType}`)
 		}
 	})
 
@@ -105,7 +107,7 @@ const getCountryPosts = async (collectionRef: CollectionReference<DocumentData>,
 	snapshotCountry.forEach((doc) => {
 		if (!nearPostIds.includes(doc.id)) {
 			posts.push({ ...doc.data(), postId: doc.id })
-			console.log(`Country: ${doc.data().title} - ${doc.data().range} ------- ${doc.data().postType}`)
+			// console.log(`Country: ${doc.data().title} - ${doc.data().range} ------- ${doc.data().postType}`)
 		}
 	})
 
