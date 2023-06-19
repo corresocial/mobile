@@ -40,7 +40,7 @@ import { EditSocialImpactPost } from '../../../screens/editPostScreens/EditSocia
 import { EditCulturePost } from '../../../screens/editPostScreens/EditCulturePost'
 import { ChatMessages } from '../../../screens/chatScreens/ChatMessages'
 import { UserDataConfigurations } from '../../../screens/configurationScreens/UserDataConfigurations'
-import { ViewPostByRange } from '../../../screens/homeScreens/ViewPostsByRange'
+import { ViewPostsByRange } from '../../../screens/homeScreens/ViewPostsByRange'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -61,7 +61,7 @@ export function UserStack({ route }: any) {
 					>
 						<Stack.Screen name={'WelcomeNewUser'} component={WelcomeNewUser} />
 						<Stack.Screen name={'HomeTab'} component={HomeTab} />
-						<Stack.Screen name={'ViewPostByRange'} component={ViewPostByRange} />
+						<Stack.Screen name={'ViewPostsByRange'} component={ViewPostsByRange} />
 						<Stack.Screen name={'SelectPostType'} component={SelectPostType} />
 						<Stack.Screen name={'ServiceStack'} component={ServiceStack} />
 						<Stack.Screen name={'SaleStack'} component={SaleStack} />

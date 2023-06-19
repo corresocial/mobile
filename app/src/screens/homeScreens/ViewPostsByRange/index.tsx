@@ -1,15 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Keyboard } from 'react-native'
+import React, { useContext, useState } from 'react'
+import { Platform } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Body, Container, ContainerPadding, Header, InputContainer, SearchInput } from './styles'
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 import { PostCollection, PostCollectionRemote } from '../../../services/firebase/types'
-import { ViewPostByRangeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
+import { ViewPostsByRangeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { PostCard } from '../../../components/_cards/PostCard'
@@ -19,21 +18,12 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { FlatListPosts } from '../../../components/FlatListPosts'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 
-function ViewPostByRange({ route, navigation }: ViewPostByRangeScreenProps) {
+function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 
 	const [searchText, setSearchText] = useState('')
-	const [keyboardOpened, setKeyboardOpened] = useState(false)
 
 	const { postRange, postType } = route.params
-
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
 
 	const getFilteredPostsBySearch = () => {
 		const { postsByRange } = route.params
@@ -112,7 +102,7 @@ function ViewPostByRange({ route, navigation }: ViewPostByRangeScreenProps) {
 	)
 
 	return (
-		<Container>
+		<Container deviceIsIOS={Platform.OS === 'ios'}>
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
@@ -131,7 +121,10 @@ function ViewPostByRange({ route, navigation }: ViewPostByRangeScreenProps) {
 					/>
 				</InputContainer>
 			</Header>
-			<Body style={{ backgroundColor: getRelativeBackgroundColor() }}>
+			<Body
+				style={{ backgroundColor: getRelativeBackgroundColor() }}
+				behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+			>
 				{
 					(postsByRange && postsByRange.length)
 						? (
@@ -149,7 +142,6 @@ function ViewPostByRange({ route, navigation }: ViewPostByRangeScreenProps) {
 						)
 						: <></>
 				}
-				<VerticalSigh height={!keyboardOpened ? relativeScreenHeight(10) : 1} />
 				{
 					(!postsByRange || (postsByRange && !postsByRange.length)) && (
 						<WithoutPostsMessage
@@ -163,4 +155,4 @@ function ViewPostByRange({ route, navigation }: ViewPostByRangeScreenProps) {
 	)
 }
 
-export { ViewPostByRange }
+export { ViewPostsByRange }

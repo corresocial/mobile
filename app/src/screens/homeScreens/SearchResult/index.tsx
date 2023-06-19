@@ -143,18 +143,18 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 
 	const viewPostsByRange = (postRange: PostRange) => {
 		switch (postRange) {
-			case 'near': return navigation.navigate('ViewPostByRange', {
+			case 'near': return navigation.navigate('ViewPostsByRange', {
 				postsByRange: resultPosts.nearby,
 				postRange,
 				postType: locationDataContext.searchParams.postType as PostType
 			})
-			case 'city': return navigation.navigate('ViewPostByRange', {
+			case 'city': return navigation.navigate('ViewPostsByRange', {
 				postsByRange: resultPosts.city,
 				postRange,
 				postType: locationDataContext.searchParams.postType as PostType
 
 			})
-			case 'country': return navigation.navigate('ViewPostByRange', {
+			case 'country': return navigation.navigate('ViewPostsByRange', {
 				postsByRange: resultPosts.country,
 				postRange,
 				postType: locationDataContext.searchParams.postType as PostType

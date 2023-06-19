@@ -31,7 +31,7 @@ export const SearchInput = styled.TextInput`
 	text-align: center;
 `
 
-export const Body = styled.View`
+export const Body = styled.KeyboardAvoidingView`
 	flex: 1;
 `
 

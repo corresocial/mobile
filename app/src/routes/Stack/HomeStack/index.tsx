@@ -19,7 +19,6 @@ import { ViewAllTags } from '../../../screens/homeScreens/ViewAllTags'
 import { ViewPostsByTag } from '../../../screens/homeScreens/ViewPostsByTag'
 import { SearchResult } from '../../../screens/homeScreens/SearchResult'
 import { Profile } from '../../../screens/profileScreens/Profile'
-import { ViewPostByRange } from '../../../screens/homeScreens/ViewPostsByRange'
 
 const Stack = createStackNavigator<HomeStackParamList>()
 

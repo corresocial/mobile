@@ -96,18 +96,18 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 
 	const viewPostsByRange = (postRange: PostRange) => {
 		switch (postRange) {
-			case 'near': return navigation.navigate('ViewPostByRange', {
+			case 'near': return navigation.navigate('ViewPostsByRange', {
 				postsByRange: filteredFeedPosts.nearby,
 				postRange,
 				postType: locationDataContext.searchParams.postType as PostType
 			})
-			case 'city': return navigation.navigate('ViewPostByRange', {
+			case 'city': return navigation.navigate('ViewPostsByRange', {
 				postsByRange: filteredFeedPosts.city,
 				postRange,
 				postType: locationDataContext.searchParams.postType as PostType
 
 			})
-			case 'country': return navigation.navigate('ViewPostByRange', {
+			case 'country': return navigation.navigate('ViewPostsByRange', {
 				postsByRange: filteredFeedPosts.country,
 				postRange,
 				postType: locationDataContext.searchParams.postType as PostType

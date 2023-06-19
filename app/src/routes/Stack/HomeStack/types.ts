@@ -1,4 +1,4 @@
-import { PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
+import { PostCollection, PostType } from '../../../services/firebase/types'
 import { SearchParams } from '../../../services/maps/types'
 import { UserStackParamList } from '../UserStack/types'
 
