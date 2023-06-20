@@ -3,7 +3,7 @@ import { FeedPosts, PostCollection, PostCollectionRemote } from '../firebase/typ
 import { SearchParams } from '../maps/types'
 import { postsIndex } from './index'
 
-async function searchPosts(searchText: string, searchParams: SearchParams) {
+async function searchPosts(searchText: string, searchParams: SearchParams, searchByRange?: boolean) {
 	try {
 		const searchFilters = {
 			cityFilter: '',
@@ -15,10 +15,15 @@ async function searchPosts(searchText: string, searchParams: SearchParams) {
 			tagFilter: '',
 		}
 
-		const searchOnly = false
+		console.log(searchParams)
 
-		if (!searchOnly) {
-			const geohashField = searchParams.range === 'nearby' ? 'geohashNearby' : 'geohashCity'
+		if (searchByRange) {
+			const geohashField = 'geohashNearby'
+			searchFilters.geohashFilter = searchParams.range === 'near' ? getGeohashFilter(searchParams.geohashes, geohashField) : ''
+			searchFilters.cityFilter = searchParams.range === 'city' ? getRangeFilter('city', searchParams.city, searchParams.country) : ''
+			searchFilters.countryFilter = searchParams.range === 'country' ? getRangeFilter('country', searchParams.country, searchParams.country) : ''
+		} else {
+			const geohashField = 'geohashNearby'
 			searchFilters.postTypeFilter = getPostTypeFilter(searchParams.postType)
 			searchFilters.geohashFilter = getGeohashFilter(searchParams.geohashes, geohashField)
 			searchFilters.geohashExceptionFilter = getGeohashFilter(searchParams.geohashes, geohashField, true)
@@ -28,30 +33,48 @@ async function searchPosts(searchText: string, searchParams: SearchParams) {
 			searchFilters.tagFilter = getTagFilter(searchParams.tag)
 		}
 
-		const results = await Promise.all([
-			await postsIndex.search(searchText, { // Near
-				filters: searchOnly
-					? ''
-					: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
-			}),
-			await postsIndex.search(searchText, { // City
-				filters: searchOnly
-					? ''
-					: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND ${searchFilters.cityFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
-			}),
-			await postsIndex.search(searchText, { // Country
-				filters: searchOnly
-					? ''
-					: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
-			})
-		])
+		/* return {
+			nearby: [],
+			city: [],
+			country: []
+		} */
+
+		console.log(searchByRange)
+		console.log(searchParams.range)
+		console.log(searchParams.city)
+		console.log(`${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`)
+
+		const results = await Promise.all(
+			searchByRange
+				? [
+					searchParams.range === 'near' && await postsIndex.search(searchText, { // Near
+						filters: searchFilters.geohashFilter
+					}),
+					searchParams.range === 'city' && await postsIndex.search(searchText, { // City
+						filters: searchFilters.cityFilter
+					}),
+					searchParams.range === 'country' && await postsIndex.search(searchText, { // Country
+						filters: searchFilters.countryFilter
+					})
+				]
+				: [
+					await postsIndex.search(searchText, { // Near
+						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+					}),
+					await postsIndex.search(searchText, { // City
+						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND ${searchFilters.cityFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+					}),
+					await postsIndex.search(searchText, { // Country
+						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+					})
+				]
+		)
 			.then((responses) => responses.reduce((acc: any, result: any) => {
-				if (result.hits.length > 0) {
+				if (result && result.hits && result.hits.length > 0) {
 					const structuredPosts: any[] = result.hits.map((record: any, index: number) => {
 						const postData = structurePostObject(record)
 						return postData
 					})
-
 					return [...acc, ...structuredPosts]
 				}
 				return acc

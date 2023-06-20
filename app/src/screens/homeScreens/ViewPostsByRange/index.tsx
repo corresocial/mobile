@@ -7,23 +7,27 @@ import { Body, Container, ContainerPadding, Header, InputContainer, SearchInput 
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
 
-import { PostCollection, PostCollectionRemote } from '../../../services/firebase/types'
+import { PostCollection, PostCollectionRemote, PostRange } from '../../../services/firebase/types'
 import { ViewPostsByRangeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
+
+import { LocationContext } from '../../../contexts/LocationContext'
+import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { AuthContext } from '../../../contexts/AuthContext'
 import { FlatListPosts } from '../../../components/FlatListPosts'
 import { VerticalSigh } from '../../../components/VerticalSigh'
+import { SearchParams } from '../../../services/maps/types'
 
 function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
+	const { locationDataContext } = useContext(LocationContext)
 
 	const [searchText, setSearchText] = useState('')
 
-	const { postRange, postType } = route.params
+	const { postRange, postType, searchByRange } = route.params
 
 	const getFilteredPostsBySearch = () => {
 		const { postsByRange } = route.params
@@ -68,6 +72,27 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 			return
 		}
 		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
+	}
+
+	const navigateToResultScreen = () => {
+		const customSearchParams = searchByRange
+			? {
+				range: postRange,
+				geohashes: locationDataContext.searchParams.geohashes,
+				city: locationDataContext.searchParams.city,
+				country: locationDataContext.searchParams.country,
+				searchText,
+				category: '',
+			}
+			: {
+				...locationDataContext.searchParams,
+				searchText,
+				category: locationDataContext.currentCategory.categoryName,
+			}
+
+		const categoryLabel = searchByRange ? getRelativeTitle() : locationDataContext.currentCategory.categoryTitle
+
+		navigation.navigate('SearchResult', { searchParams: customSearchParams as SearchParams, categoryLabel, searchByRange })
 	}
 
 	const getRelativeTitle = () => {
@@ -117,7 +142,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
-					// onSubmitEditing={navigateToResultScreen}
+						onSubmitEditing={navigateToResultScreen}
 					/>
 				</InputContainer>
 			</Header>

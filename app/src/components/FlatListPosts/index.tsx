@@ -12,6 +12,7 @@ interface FlatListPostsProps {
 	data: PostCollection[]
 	headerComponent?: JSXElementConstructor<any>
 	flatListIsLoading?: boolean
+	withoutFooter?: boolean
 	renderItem: (post: PostCollection) => ReactElement<any, string | JSXElementConstructor<any>> | null
 	onEndReached?: () => void
 	onRefresh?: () => void
@@ -22,6 +23,7 @@ function FlatListPosts({
 	data,
 	headerComponent,
 	flatListIsLoading,
+	withoutFooter,
 	renderItem,
 	onEndReached,
 	onRefresh
@@ -36,7 +38,7 @@ function FlatListPosts({
 			ItemSeparatorComponent={() => <VerticalSigh />}
 			ListHeaderComponent={headerComponent}
 			ListHeaderComponentStyle={{ marginBottom: RFValue(0) }}
-			ListFooterComponent={<VerticalSigh height={deviceIsIOS ? relativeScreenHeight(4) : relativeScreenHeight(1.5)} />}
+			ListFooterComponent={withoutFooter ? <></> : <VerticalSigh height={deviceIsIOS ? relativeScreenHeight(4) : relativeScreenHeight(1.5)} />}
 			onEndReached={onEndReached}
 			refreshControl={(
 				<RefreshControl

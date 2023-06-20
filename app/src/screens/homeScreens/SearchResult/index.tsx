@@ -8,7 +8,7 @@ import LoupIcon from '../../../assets/icons/loup.svg'
 import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
 import PaperListIcon from '../../../assets/icons/paperList.svg'
 
-import { FeedPosts, Id, PostCollection, PostRange, PostType } from '../../../services/firebase/types'
+import { FeedPosts, PostCollection, PostRange, PostType } from '../../../services/firebase/types'
 import { SearchResultScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 import { LocationContext } from '../../../contexts/LocationContext'
@@ -46,6 +46,9 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 
 	const [keyboardOpened, setKeyboardOpened] = useState(false)
 
+	const { searchByRange } = route.params
+	console.log(`searchByRange: ${searchByRange}`)
+
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
 			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
@@ -67,7 +70,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 
 		setLoaderIsVisible(true)
 		// await searchPostsCloud(algoliaSearchText, searchParamsFromRoute, userDataContext.userId as Id)
-		await searchPosts(algoliaSearchText, searchParamsFromRoute)
+		await searchPosts(algoliaSearchText, searchParamsFromRoute, searchByRange)
 			.then((posts) => {
 				setResultPosts(posts as FeedPosts)
 				if (!searchText) setSearchText(route.params.searchParams.searchText)
@@ -123,13 +126,14 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	}
 
 	const getOneToneMoreLight = () => {
+		if (searchByRange) return theme.orange1
 		switch (locationDataContext.searchParams.postType) {
 			case 'service': return theme.purple1
 			case 'sale': return theme.green1
 			case 'vacancy': return theme.yellow1
 			case 'socialImpact': return theme.pink1
 			case 'culture': return theme.blue1
-			default: return 'white'
+			default: return theme.orange1
 		}
 	}
 
@@ -145,18 +149,18 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 		switch (postRange) {
 			case 'near': return navigation.navigate('ViewPostsByRange', {
 				postsByRange: resultPosts.nearby,
-				postRange,
+				postRange: searchByRange ? '' : postRange,
 				postType: locationDataContext.searchParams.postType as PostType
 			})
 			case 'city': return navigation.navigate('ViewPostsByRange', {
 				postsByRange: resultPosts.city,
-				postRange,
+				postRange: searchByRange ? '' : postRange,
 				postType: locationDataContext.searchParams.postType as PostType
 
 			})
 			case 'country': return navigation.navigate('ViewPostsByRange', {
 				postsByRange: resultPosts.country,
-				postRange,
+				postRange: searchByRange ? '' : postRange,
 				postType: locationDataContext.searchParams.postType as PostType
 			})
 			default: return false
@@ -191,10 +195,10 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
-					text={getRelativePath()}
+					text={searchByRange ? route.params.categoryLabel : getRelativePath()}
 					// SvgIcon={getCategoryIcon()}
-					showResults
-					path
+					showResults={!searchByRange}
+					path={!searchByRange}
 					onBackPress={() => navigation.goBack()}
 				/>
 				<InputContainer>
@@ -209,7 +213,10 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 				</InputContainer>
 			</Header>
 			<KeyboardAvoidingView style={{ flex: 1 }}>
-				<Body style={{ backgroundColor: locationDataContext.currentCategory.backgroundColor }}>
+				<Body
+					style={{ backgroundColor: searchByRange ? theme.orange2 : locationDataContext.currentCategory.backgroundColor }}
+					showsVerticalScrollIndicator={false}
+				>
 					<FilterButtons>
 						<SelectButton
 							backgroundColor={theme.white3}
@@ -255,15 +262,20 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 													data={getFirstFiveItems(resultPosts.nearby)}
 													headerComponent={() => (
 														<>
-															<SubtitleCard
-																text={'perto de você'}
-																highlightedText={['perto']}
-																seeMoreText
-																onPress={() => viewPostsByRange('near')}
-															/>
+															{
+																!searchByRange && (
+																	<SubtitleCard
+																		text={'perto de você'}
+																		highlightedText={['perto']}
+																		seeMoreText
+																		onPress={() => viewPostsByRange('near')}
+																	/>
+																)
+															}
 															<VerticalSigh />
 														</>
 													)}
+													withoutFooter={!!(resultPosts.city && resultPosts.city.length) && searchByRange}
 													renderItem={renderPostItem}
 												// flatListIsLoading={flatListIsLoading}
 												// onEndReached={refreshFlatlist}
@@ -280,15 +292,20 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 													data={getFirstFiveItems(resultPosts.city)}
 													headerComponent={() => (
 														<>
-															<SubtitleCard
-																text={'na cidade'}
-																highlightedText={['cidade']}
-																seeMoreText
-																onPress={() => viewPostsByRange('city')}
-															/>
+															{
+																!searchByRange && (
+																	<SubtitleCard
+																		text={'na cidade'}
+																		highlightedText={['cidade']}
+																		seeMoreText
+																		onPress={() => viewPostsByRange('city')}
+																	/>
+																)
+															}
 															<VerticalSigh />
 														</>
 													)}
+													withoutFooter={!!(resultPosts.country && resultPosts.country.length) && searchByRange}
 													renderItem={renderPostItem}
 												// flatListIsLoading={flatListIsLoading}
 												// onEndReached={refreshFlatlist}
@@ -305,12 +322,16 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 													data={getFirstFiveItems(resultPosts.country)}
 													headerComponent={() => (
 														<>
-															<SubtitleCard
-																text={'no país'}
-																highlightedText={['país']}
-																seeMoreText
-																onPress={() => viewPostsByRange('country')}
-															/>
+															{
+																!searchByRange && (
+																	<SubtitleCard
+																		text={'no país'}
+																		highlightedText={['país']}
+																		seeMoreText
+																		onPress={() => viewPostsByRange('country')}
+																	/>
+																)
+															}
 															<VerticalSigh />
 														</>
 													)}

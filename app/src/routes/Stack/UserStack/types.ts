@@ -6,7 +6,7 @@ import { ReportedTarget } from '../../../services/types'
 
 export type UserStackParamList = {
 	WelcomeNewUser: undefined
-	ViewPostsByRange: { postsByRange: PostCollectionRemote[], postRange: PostRange, postType?: PostType }
+	ViewPostsByRange: { postsByRange: PostCollectionRemote[], postRange: PostRange | '', postType?: PostType, searchByRange?: boolean }
 	HomeTab: { tourCompleted?: boolean, showShareModal?: boolean, showsInFirstTab?: boolean } | undefined
 	SelectPostType: undefined
 	ServiceStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined

@@ -129,6 +129,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 			refresh ? setFlatListIsLoading(false) : setLoaderIsVisible(false)
 			setSearchEnded(true)
+			console.log(searchParams)
 			setLocationDataOnContext({
 				searchParams,
 				feedPosts: remoteFeedPosts,
@@ -302,9 +303,9 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const viewPostsByRange = (postRange: PostRange) => {
 		switch (postRange) {
-			case 'near': return navigation.navigate('ViewPostsByRange', { postsByRange: feedPosts.nearby, postRange: 'near' })
-			case 'city': return navigation.navigate('ViewPostsByRange', { postsByRange: feedPosts.city, postRange: 'city' })
-			case 'country': return navigation.navigate('ViewPostsByRange', { postsByRange: feedPosts.country, postRange: 'country' })
+			case 'near': return navigation.navigate('ViewPostsByRange', { postsByRange: feedPosts.nearby, postRange: 'near', searchByRange: true })
+			case 'city': return navigation.navigate('ViewPostsByRange', { postsByRange: feedPosts.city, postRange: 'city', searchByRange: true })
+			case 'country': return navigation.navigate('ViewPostsByRange', { postsByRange: feedPosts.country, postRange: 'country', searchByRange: true })
 			default: return false
 		}
 	}
@@ -407,27 +408,29 @@ function Home({ navigation }: HomeScreenProps) {
 				{
 					(feedPosts.country && feedPosts.country.length)
 						? (
-							<FlatListPosts
-								data={getFirstFiveItems(feedPosts.country)}
-								headerComponent={() => (
-									<>
-										<SubtitleCard
-											text={'no país'}
-											highlightedText={['país']}
-											seeMoreText
-											onPress={() => viewPostsByRange('country')}
-										/>
-										<VerticalSigh />
-									</>
-								)}
-								renderItem={renderPostItem}
-								flatListIsLoading={flatListIsLoading}
-							/* onEndReached={refreshFlatlist} */
-							/>
+							<>
+								<FlatListPosts
+									data={getFirstFiveItems(feedPosts.country)}
+									headerComponent={() => (
+										<>
+											<SubtitleCard
+												text={'no país'}
+												highlightedText={['país']}
+												seeMoreText
+												onPress={() => viewPostsByRange('country')}
+											/>
+											<VerticalSigh />
+										</>
+									)}
+									renderItem={renderPostItem}
+									flatListIsLoading={flatListIsLoading}
+								/* onEndReached={refreshFlatlist} */
+								/>
+								<VerticalSigh height={relativeScreenHeight(10)} />
+							</>
 						)
 						: <></>
 				}
-				<VerticalSigh height={relativeScreenHeight(10)} />
 				{
 					hasLocationEnable && searchEnded && !hasAnyPost() && (
 						<WithoutPostsMessage
