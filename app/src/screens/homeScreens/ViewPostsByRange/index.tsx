@@ -7,7 +7,7 @@ import { Body, Container, ContainerPadding, Header, InputContainer, SearchInput 
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
 
-import { PostCollection, PostCollectionRemote, PostRange } from '../../../services/firebase/types'
+import { PostCollection, PostCollectionRemote } from '../../../services/firebase/types'
 import { ViewPostsByRangeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 import { LocationContext } from '../../../contexts/LocationContext'
