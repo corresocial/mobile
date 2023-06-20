@@ -231,11 +231,11 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 									// flatListIsLoading={flatListIsLoading}
 									// onEndReached={refreshFlatlist}
 									/>
-									<VerticalSigh height={relativeScreenHeight(10)} />
 								</>
 							)
 							: <></>
 					}
+					<VerticalSigh height={relativeScreenHeight(10)} />
 					{
 						!hasAnyPost() && (
 							<WithoutPostsMessage

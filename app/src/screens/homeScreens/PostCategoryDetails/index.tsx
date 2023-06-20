@@ -299,11 +299,11 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 								// flatListIsLoading={flatListIsLoading}
 								// onEndReached={refreshFlatlist}
 								/>
-								<VerticalSigh height={relativeScreenHeight(10)} />
 							</>
 						)
 						: <></>
 				}
+				<VerticalSigh height={relativeScreenHeight(10)} />
 				{
 					!hasAnyPost() && (
 						<WithoutPostsMessage

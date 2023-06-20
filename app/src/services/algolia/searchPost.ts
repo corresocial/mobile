@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { FeedPosts, PostCollection, PostCollectionRemote } from '../firebase/types'
+import { FeedPosts, PostCollectionRemote } from '../firebase/types'
 import { SearchParams } from '../maps/types'
 import { postsIndex } from './index'
 
