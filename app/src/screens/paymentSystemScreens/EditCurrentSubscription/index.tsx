@@ -3,6 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
+import { StripeContext } from '../../../contexts/StripeContext'
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
@@ -28,6 +29,7 @@ import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeC
 
 function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionScreenProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)
+	const { cancelSubscription } = useContext(StripeContext)
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 
 	const [hasError, setHasError] = useState(false)
@@ -55,24 +57,32 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 		setRangeChangeConfirmationModalIsVisible(!rangeChangeConfirmationModalIsVisible)
 	}
 
-	const updateSubscriptionRange = async () => {
+	const handleCancelSubscription = async () => {
 		try {
 			setIsLoading(true)
 			setHasError(false)
-			const userSubscription: UserSubscription = {
-				subscriptionRange: 'near',
-				subscriptionPlan: '',
-				subscriptionPaymentMethod: ''
-			}
 
-			await updateUserSubscription(userSubscription)
-			await updateSubscriptionDependentPosts(userSubscription)
+			const userSubscriptionId = userDataContext.subscription?.subscriptionId || ''
+			userSubscriptionId && await cancelSubscription(userSubscriptionId)
+
+			await updateSubscriptionRange()
 			setIsLoading(false)
 			navigation.goBack()
 		} catch (err) {
 			setHasError(true)
 			setIsLoading(false)
 		}
+	}
+
+	const updateSubscriptionRange = async () => {
+		const userSubscription: UserSubscription = {
+			subscriptionRange: 'near',
+			subscriptionPlan: '',
+			subscriptionPaymentMethod: ''
+		}
+
+		await updateUserSubscription(userSubscription)
+		await updateSubscriptionDependentPosts(userSubscription)
 	}
 
 	const updateSubscriptionDependentPosts = async (userSubscription: UserSubscription) => {
@@ -139,12 +149,12 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 				onPressButton={toggleRangeChangeConfirmationModalVisibility}
 				closeModal={toggleRangeChangeModalVisibility}
 			/>
-			<RangeChangeConfirmationModal
+			<RangeChangeConfirmationModal // Second
 				visibility={rangeChangeConfirmationModalIsVisible}
 				currentPostAddress={getLastPostAddress()}
 				newRangeSelected={'near'}
 				confirmation
-				onPressButton={updateSubscriptionRange}
+				onPressButton={handleCancelSubscription}
 				closeModal={toggleRangeChangeConfirmationModalVisibility}
 			/>
 			<DefaultHeaderContainer

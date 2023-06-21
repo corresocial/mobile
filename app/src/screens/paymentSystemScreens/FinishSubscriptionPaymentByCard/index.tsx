@@ -192,7 +192,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 					</PaymentStatusArea>
 					<CardForm
 						/* postalCodeEnabled={false}
-						countryEnabled={false} */
+						 countryEnabled={false} */
 						onFormComplete={(cardDetails) => {
 							console.log('card details', cardDetails)
 						}}
