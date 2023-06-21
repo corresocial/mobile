@@ -23,6 +23,7 @@ interface StripeContextState {
 	setDefaultPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => Promise<any>
 	getCustomerSubscriptions: (customerId: string) => Promise<any>
 	createSubscription: (customerId: string, priceId: string) => Promise<any>
+	updateStripeSubscription: (subscriptionId: string, priceId: string) => Promise<any>
 	performPaymentConfirm: (paymentMethodId: string, subscriptionClientSecret: string) => Promise<any>
 	cancelSubscription: (subscriptionId: string) => Promise<any>
 }
@@ -46,8 +47,9 @@ export const StripeContext = createContext<StripeContextState>({
 	setDefaultPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => new Promise(() => { }),
 	getCustomerSubscriptions: (customerId: string) => new Promise(() => { }),
 	createSubscription: (customerId: string, priceId: string) => new Promise(() => { }),
+	updateStripeSubscription: (subscriptionId: string, priceId: string) => new Promise(() => { }),
+	cancelSubscription: (subscriptionId: string) => new Promise(() => { }),
 	performPaymentConfirm: (paymentMethodId: string, subscriptionClientSecret: string) => new Promise(() => { }),
-	cancelSubscription: (subscriptionId: string) => new Promise(() => { })
 })
 
 const defaultAxiosHeader = {
@@ -233,6 +235,36 @@ export function StripeProvider({ children }: StripeContextProps) {
 		return { subscriptionId, subscriptionClientSecret }
 	}
 
+	async function updateStripeSubscription(subscriptionId: string, newPrice: string) {
+		const config = { headers: { ...defaultAxiosHeader } }
+
+		const response = await axios.get(`${STRIPE_API_URL}/subscriptions/${subscriptionId}`, config)
+		const subscription = response.data
+		console.log(subscription.id)
+
+		const subscriptionData = {
+			proration_behavior: 'always_invoice',
+			cancel_at_period_end: false,
+			proration_date: Math.floor(Date.now() / 1000),
+			items: [
+				{
+					id: subscription.items.data[0].id,
+					price: newPrice,
+				},
+			]
+		}
+
+		try {
+			await axios.post(`${STRIPE_API_URL}/subscriptions/${subscriptionId}`, subscriptionData, config)
+		} catch (error: any) {
+			if (error.response) {
+				console.log('Status:', error.response.status)
+				console.log('Data:', error.response.data)
+				console.log('Headers:', error.response.headers)
+			}
+		}
+	}
+
 	async function cancelSubscription(subscriptionId: string) {
 		const config = { headers: { ...defaultAxiosHeader } }
 		const response = await axios.delete(`${STRIPE_API_URL}/subscriptions/${subscriptionId}`, config)
@@ -265,6 +297,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 				createCustomPaymentMethod,
 				getCustomerSubscriptions,
 				createSubscription,
+				updateStripeSubscription,
 				cancelSubscription,
 				performPaymentConfirm,
 				getCustomerPaymentMethods,

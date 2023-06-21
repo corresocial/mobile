@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { useState, useContext } from 'react'
 
 import { CardForm } from '@stripe/stripe-react-native'
@@ -36,7 +37,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 		createCustomer,
 		createSubscription,
 		getCustomerSubscriptions,
-		cancelSubscription,
+		updateStripeSubscription
 	} = useContext(StripeContext)
 
 	const { subscriptionRange, subscriptionPlan, subscriptionPaymentMethod } = subscriptionDataContext
@@ -48,8 +49,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 	const performSubscriptionPayment = async () => {
 		try {
 			setIsLoading(true)
-
-			const { customerId, subscriptionId } = await performSubscriptionTest()
+			const { customerId, subscriptionId } = await performSubscriptionRegister()
 
 			if (!customerId || !subscriptionId) {
 				navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false, ...route.params })
@@ -78,19 +78,17 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 		}
 	}
 
-	const performSubscriptionTest = async () => {
+	const performSubscriptionRegister = async () => {
 		const customerData = {
 			name: userDataContext.name || 'usuário do corre.',
 			customerId: userDataContext.subscription?.customerId || ''
 		}
+		// Cidade mensal - price_1Mw5MdEpbbWylPkQ23YkbLFR 35
+		// Pais mensal - price_1Mw5PPEpbbWylPkQXylEhX0a 60
+		// Cidade anual - price_1NJ3YFEpbbWylPkQWqvhQ3R2 315
+		// Pais anual - price_1NJ3YxEpbbWylPkQFmsO9DHp 540
 
 		try {
-			/*
-				subscriptionId,
-				customerId,
-				subscriptionClientSecret,
-			 */
-
 			const { error, paymentMethodId } = await createCustomPaymentMethod()
 			if (error) throw new Error(error.message)
 
@@ -99,7 +97,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			console.log(`paymentMethodId: ${paymentMethodId}`)
 			console.log('\n')
 
-			let customerId = ''
+			let customerId = customerData.customerId || ''
 			if (customerData.customerId) {
 				customerId = customerData.customerId
 				console.log('Usuário já cadastrado...')
@@ -117,27 +115,31 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 
 			const subscriptionsId = await getCustomerSubscriptions(customerId)
 			if (subscriptionsId) {
-				subscriptionsId.forEach(async (subscriptionId: string) => cancelSubscription(subscriptionId))
-				console.log('Assinatura anterior cancelada...')
-				console.log('\n')
+				await updateStripeSubscription(subscriptionsId[0], priceId)
+				// subscriptionsId.forEach(async (subscriptionId: string) => cancelSubscription(subscriptionId))
+				// console.log('Assinatura anterior cancelada...')
+				// console.log('\n')
+				console.log('Assinatura atualizada...')
+			} else {
+				const { subscriptionId/* , subscriptionClientSecret */ } = await createSubscription(customerId, priceId)
+				console.log('Assinatura criada...')
+				return { customerId, subscriptionId }
 			}
 
-			const { subscriptionId, subscriptionClientSecret } = await createSubscription(customerId, priceId)
-
-			if (!subscriptionId) throw new Error('subscriptionId inválida')
-			if (!subscriptionClientSecret) throw new Error('subscriptionClientSecret inválida')
-			console.log('Subscription criada...')
-			console.log(`subscriptionId: ${subscriptionId}`)
-			console.log(`subscriptionClientSecret: ${subscriptionClientSecret}`)
-			console.log('\n')
-
-			// const { error: err, paymentIntent } = await performPaymentConfirm(paymentMethodId, subscriptionClientSecret)
-
-			// if (err) throw new Error(err.message)
-			// console.log('Pagamento confirmado...')
+			// if (!subscriptionId) throw new Error('subscriptionId inválida')
+			// if (!subscriptionClientSecret) throw new Error('subscriptionClientSecret inválida')
+			// console.log('Subscription criada...')
+			// console.log(`subscriptionId: ${subscriptionId}`)
+			// console.log(`subscriptionClientSecret: ${subscriptionClientSecret}`)
 			// console.log('\n')
 
-			return { customerId, subscriptionId }
+			/* const { error: err, paymentIntent } = await performPaymentConfirm(paymentMethodId, subscriptionClientSecret)
+
+			if (err) throw new Error(err.message)
+			console.log('Pagamento confirmado...')
+			console.log('\n')
+ */
+			return { customerId, subscriptionId: subscriptionsId[0] }
 		} catch (err) {
 			console.log('Erro ao lidar com o stripe...')
 			console.log(err)
