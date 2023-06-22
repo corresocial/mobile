@@ -29,7 +29,7 @@ import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeC
 
 function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionScreenProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)
-	const { cancelSubscription } = useContext(StripeContext)
+	const { cancelSubscription, refundSubscriptionValue } = useContext(StripeContext)
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 
 	const [hasError, setHasError] = useState(false)
@@ -63,11 +63,16 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 			setHasError(false)
 
 			const userSubscriptionId = userDataContext.subscription?.subscriptionId || ''
-			userSubscriptionId && await cancelSubscription(userSubscriptionId)
-
-			await updateSubscriptionRange()
-			setIsLoading(false)
-			navigation.goBack()
+			const customerId = userDataContext.subscription?.customerId || ''
+			if (userSubscriptionId) {
+				await refundSubscriptionValue(customerId, userSubscriptionId)
+				await cancelSubscription(userSubscriptionId)
+				await updateSubscriptionRange()
+				setIsLoading(false)
+				navigation.goBack()
+				return
+			}
+			throw new Error('O usuário não possui nenhuma assinatura no momento')
 		} catch (err) {
 			setHasError(true)
 			setIsLoading(false)
@@ -76,6 +81,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 
 	const updateSubscriptionRange = async () => {
 		const userSubscription: UserSubscription = {
+			subscriptionId: '',
 			subscriptionRange: 'near',
 			subscriptionPlan: '',
 			subscriptionPaymentMethod: ''
@@ -112,7 +118,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 
 	const getLastPostAddress = () => {
 		const lastUserPost: PostCollection = getLastUserPost()
-		console.log(`last address: ${getTextualAddress(lastUserPost?.location)}`)
+		// console.log(`last address: ${getTextualAddress(lastUserPost?.location)}`)
 		return getTextualAddress(lastUserPost?.location)
 	}
 

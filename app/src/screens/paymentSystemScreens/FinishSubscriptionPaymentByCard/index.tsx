@@ -78,15 +78,16 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 		}
 	}
 
+	// Cidade mensal - price_1Mw5MdEpbbWylPkQ23YkbLFR 35
+	// Pais mensal - price_1Mw5PPEpbbWylPkQXylEhX0a 60
+	// Cidade anual - price_1NJ3YFEpbbWylPkQWqvhQ3R2 315
+	// Pais anual - price_1NJ3YxEpbbWylPkQFmsO9DHp 540
+
 	const performSubscriptionRegister = async () => {
 		const customerData = {
 			name: userDataContext.name || 'usuário do corre.',
 			customerId: userDataContext.subscription?.customerId || ''
 		}
-		// Cidade mensal - price_1Mw5MdEpbbWylPkQ23YkbLFR 35
-		// Pais mensal - price_1Mw5PPEpbbWylPkQXylEhX0a 60
-		// Cidade anual - price_1NJ3YFEpbbWylPkQWqvhQ3R2 315
-		// Pais anual - price_1NJ3YxEpbbWylPkQFmsO9DHp 540
 
 		try {
 			const { error, paymentMethodId } = await createCustomPaymentMethod()
@@ -98,8 +99,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			console.log('\n')
 
 			let customerId = customerData.customerId || ''
-			if (customerData.customerId) {
-				customerId = customerData.customerId
+			if (customerId) {
 				console.log('Usuário já cadastrado...')
 			} else {
 				customerId = await createCustomer(customerData.name, paymentMethodId)
@@ -116,9 +116,9 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			const subscriptionsId = await getCustomerSubscriptions(customerId)
 			if (subscriptionsId) {
 				await updateStripeSubscription(subscriptionsId[0], priceId)
-				// subscriptionsId.forEach(async (subscriptionId: string) => cancelSubscription(subscriptionId))
-				// console.log('Assinatura anterior cancelada...')
-				// console.log('\n')
+				/* subscriptionsId.forEach(async (subscriptionId: string) => cancelSubscription(subscriptionId))
+				console.log('Assinatura anterior cancelada...')
+				console.log('\n') */
 				console.log('Assinatura atualizada...')
 			} else {
 				const { subscriptionId/* , subscriptionClientSecret */ } = await createSubscription(customerId, priceId)
