@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import * as Location from 'expo-location'
 
+import { RefreshControl } from 'react-native'
 import {
 	Container,
 	ContainerPadding,
@@ -55,7 +56,7 @@ const initialFeedPosts = {
 function Home({ navigation }: HomeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
-	const { /* locationDataContext, */ setLocationDataOnContext } = useContext(LocationContext)
+	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
 
 	const [selectedAddress, setSelectedAddress] = useState<SelectedAddressRender>(initialSelectedAddress)
 	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])
@@ -64,7 +65,7 @@ function Home({ navigation }: HomeScreenProps) {
 	const [hasLocationPermission, setHasLocationPermission] = useState(false)
 	const [hasLocationEnable, setHasLocationEnable] = useState(false)
 	const [searchEnded, setSearchEnded] = useState(false)
-	const [flatListIsLoading, setFlatListIsLoading] = useState(false)
+	const [feedIsUpdating, setFeedIsUpdating] = useState(false)
 
 	useEffect(() => {
 		requestPermissions()
@@ -109,7 +110,7 @@ function Home({ navigation }: HomeScreenProps) {
 		locationIsEnable()
 
 		try {
-			refresh ? setFlatListIsLoading(true) : setLoaderIsVisible(true)
+			refresh ? setFeedIsUpdating(true) : setLoaderIsVisible(true)
 			setSearchEnded(false)
 			let searchParams = {} as SearchParams
 			if (currentPosition || !hasLocationPermission) {
@@ -127,9 +128,8 @@ function Home({ navigation }: HomeScreenProps) {
 			const remoteFeedPosts = await getPostsByLocation(searchParams)
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
-			refresh ? setFlatListIsLoading(false) : setLoaderIsVisible(false)
+			refresh ? setFeedIsUpdating(false) : setLoaderIsVisible(false)
 			setSearchEnded(true)
-			console.log(searchParams)
 			setLocationDataOnContext({
 				searchParams,
 				feedPosts: remoteFeedPosts,
@@ -142,10 +142,10 @@ function Home({ navigation }: HomeScreenProps) {
 		}
 	}
 
-	/* const refreshFlatlist = async () => {
+	const refreshFeedPosts = async () => {
 		console.log('refresh')
-		 await findFeedPosts('', false, locationDataContext.searchParams.coordinates || null, true)
-	} */
+		await findFeedPosts('', false, locationDataContext.searchParams.coordinates || null, true)
+	}
 
 	const getCurrentPositionCoordinates = async (firstLoad?: boolean) => {
 		try {
@@ -350,7 +350,16 @@ function Home({ navigation }: HomeScreenProps) {
 				/>
 			</DropdownContainer>
 			<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
-			<RecentPostsContainer>
+			<RecentPostsContainer
+				refreshControl={(
+					<RefreshControl
+						colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3, theme.purple3, theme.yellow3, theme.red3]}
+						refreshing={feedIsUpdating}
+						progressBackgroundColor={theme.white3}
+						onRefresh={refreshFeedPosts}
+					/>
+				)}
+			>
 				{!hasLocationEnable && !hasAnyPost() && (
 					<RequestLocation
 						getLocationPermissions={() => {
@@ -376,8 +385,8 @@ function Home({ navigation }: HomeScreenProps) {
 									</>
 								)}
 								renderItem={renderPostItem}
-								flatListIsLoading={flatListIsLoading}
-							// onEndReached={refreshFlatlist}
+								flatListIsLoading={feedIsUpdating}
+							// onEndReached={refreshFeedPosts}
 							/>
 						)
 						: <></>
@@ -399,8 +408,8 @@ function Home({ navigation }: HomeScreenProps) {
 									</>
 								)}
 								renderItem={renderPostItem}
-								flatListIsLoading={flatListIsLoading}
-							/* onEndReached={refreshFlatlist} */
+								flatListIsLoading={feedIsUpdating}
+							/* onEndReached={refreshFeedPosts} */
 							/>
 						)
 						: <></>
@@ -423,8 +432,8 @@ function Home({ navigation }: HomeScreenProps) {
 										</>
 									)}
 									renderItem={renderPostItem}
-									flatListIsLoading={flatListIsLoading}
-								/* onEndReached={refreshFlatlist} */
+									flatListIsLoading={feedIsUpdating}
+								/* onEndReached={refreshFeedPosts} */
 								/>
 								<VerticalSigh height={relativeScreenHeight(10)} />
 							</>
