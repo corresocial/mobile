@@ -138,8 +138,8 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		const lastMessageA = getLastMessageDateTime(a.messages, true)
 		const lastMessageB = getLastMessageDateTime(b.messages, true)
 
-		if (lastMessageA < lastMessageB) return -1
-		if (lastMessageA > lastMessageB) return 1
+		if (lastMessageA < lastMessageB) return 1
+		if (lastMessageA > lastMessageB) return -1
 		return 0
 	}
 
