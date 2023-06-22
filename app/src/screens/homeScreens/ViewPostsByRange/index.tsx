@@ -157,6 +157,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 								<FlatListPosts
 									data={postsByRange}
 									renderItem={renderPostItem}
+									estimatedItemSize={198}
 									headerComponent={() => (
 										<VerticalSigh />
 									)}
