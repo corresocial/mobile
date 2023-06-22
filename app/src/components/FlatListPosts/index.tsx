@@ -1,5 +1,6 @@
 import React, { JSXElementConstructor, ReactElement } from 'react'
-import { FlatList, Platform, RefreshControl } from 'react-native'
+import { Platform, RefreshControl } from 'react-native'
+import { FlashList } from '@shopify/flash-list'
 
 import { RFValue } from 'react-native-responsive-fontsize'
 import { PostCollection } from '../../services/firebase/types'
@@ -13,6 +14,7 @@ interface FlatListPostsProps {
 	headerComponent?: JSXElementConstructor<any>
 	flatListIsLoading?: boolean
 	withoutFooter?: boolean
+	estimatedItemSize?: number
 	renderItem: (post: PostCollection) => ReactElement<any, string | JSXElementConstructor<any>> | null
 	onEndReached?: () => void
 	onRefresh?: () => void
@@ -25,15 +27,17 @@ function FlatListPosts({
 	flatListIsLoading,
 	withoutFooter,
 	renderItem,
+	estimatedItemSize,
 	onEndReached,
 	onRefresh
 }: FlatListPostsProps) {
 	const deviceIsIOS = Platform.OS === 'ios'
 
 	return (
-		<FlatList
+		<FlashList
 			data={data}
 			renderItem={({ item }) => renderItem(item)}
+			estimatedItemSize={estimatedItemSize || 198}
 			showsVerticalScrollIndicator={false}
 			ItemSeparatorComponent={() => <VerticalSigh />}
 			ListHeaderComponent={headerComponent}
