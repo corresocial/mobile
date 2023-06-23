@@ -356,7 +356,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					],
 				})
 				setIsLoading(false)
-				showShareModal(true, saleDataPost.title)
+				showShareModal(true, saleDataPost.title, postId)
 				navigation.navigate('ViewSalePost' as any, { postData: { ...postDataToSave, owner } }) // TODO Type
 			})
 			.catch((err: any) => {
@@ -366,10 +366,11 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 			})
 	}
 
-	const showShareModal = (visibility: boolean, postTitle?: string) => {
+	const showShareModal = (visibility: boolean, postTitle?: string, postId?: string) => {
 		setStateDataOnContext({
 			showShareModal: visibility,
-			lastPostTitle: postTitle
+			lastPostTitle: postTitle,
+			lastPostId: postId
 		})
 	}
 

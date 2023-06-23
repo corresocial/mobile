@@ -97,7 +97,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	}
 
 	const sharePost = () => {
-		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social`)
+		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social/p/${getPostField('postId')}`)
 	}
 
 	const getUserProfilePictureFromContext = () => {
@@ -148,7 +148,11 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	}
 
 	const getCategoryLabel = () => {
-		return vacancyCategories[getPostField('category') as VacancyCategories].label || ''
+		const categoryField = getPostField('category') as VacancyCategories
+		if (Object.keys(vacancyCategories).includes(categoryField)) {
+			return vacancyCategories[categoryField].label
+		}
+		return ''
 	}
 
 	const getPostField = (fieldName: keyof VacancyCollection, allowNull?: boolean) => {

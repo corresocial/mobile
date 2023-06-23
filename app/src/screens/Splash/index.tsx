@@ -33,6 +33,13 @@ function Splash({ navigation }: SplashScreenProps) {
 		}, 1000)
 	}, [])
 
+	const navigateToInitialScreen = () => {
+		navigation.reset({
+			index: 0,
+			routes: [{ name: 'AcceptAndContinue' as any }]
+		})
+	}
+
 	const redirectToApp = async () => {
 		try {
 			const userJSON = await getDataFromSecureStore('corre.user', true)
@@ -44,11 +51,11 @@ function Splash({ navigation }: SplashScreenProps) {
 					tourPerformed: userObject.tourPerformed
 				})
 			} else {
-				navigation.navigate('AcceptAndContinue')
+				navigateToInitialScreen()
 				// throw 'Usuário não authenticado localmente!' // Faz com que o usuário fique em loop
 			}
 		} catch (err) {
-			navigation.navigate('AcceptAndContinue')
+			navigateToInitialScreen()
 			/* setTimeout(() => { // Faz com que o usuário fique em loop
 				redirectToApp()
 			}, 3000) */

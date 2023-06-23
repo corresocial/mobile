@@ -97,7 +97,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	}
 
 	const sharePost = () => {
-		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social`)
+		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social/p/${getPostField('postId')}`)
 	}
 
 	const getUserProfilePictureFromContext = () => {
@@ -148,7 +148,11 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	}
 
 	const getCategoryLabel = () => {
-		return cultureCategories[getPostField('category') as CultureCategories].label || ''
+		const categoryField = getPostField('category') as CultureCategories
+		if (Object.keys(cultureCategories).includes(categoryField)) {
+			return cultureCategories[categoryField].label
+		}
+		return ''
 	}
 
 	const getPostField = (fieldName: keyof CultureCollection, allowNull?: boolean) => {

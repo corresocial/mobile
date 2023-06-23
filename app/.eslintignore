@@ -1,4 +1,3 @@
-/src/@types/**/*
 /src/assets/**/*
 /src/tests/**/*
 /src/services/firebase/index.ts

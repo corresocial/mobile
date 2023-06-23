@@ -1,34 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { BackHandler, FlatList, RefreshControl } from 'react-native'
 import * as Location from 'expo-location'
-import { RFValue } from 'react-native-responsive-fontsize'
 
+import { RefreshControl } from 'react-native'
 import {
 	Container,
+	ContainerPadding,
 	DropdownContainer,
-	FooterSigh,
-	HorizontalPostTypes,
-	RecentPostsContainer,
-	Sigh,
+	RecentPostsContainer
 } from './styles'
 import { theme } from '../../../common/theme'
-import SocialImpactIcon from '../../../assets/icons/socialImpact-filled.svg'
-import CommerceIcon from '../../../assets/icons/commerce.svg'
-import CultureIcon from '../../../assets/icons/culture-filled.svg'
-import ServiceIcon from '../../../assets/icons/service-filled.svg'
-import VacancyIcon from '../../../assets/icons/vacancy-filled.svg'
-
-import {
-	relativeScreenHeight,
-	relativeScreenWidth,
-} from '../../../common/screenDimensions'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
 import { searchAddressByText } from '../../../services/maps/searchAddressByText'
 import { structureAddress } from '../../../utils/maps/addressFormatter'
 import { getLastRecentAddress, getRecentAdressesFromStorage } from '../../../utils/maps/recentAddresses'
-import { getPostsByLocationCloud } from '../../../services/cloudFunctions/getPostsByLocationCloud'
-// import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
+// import { getPostsByLocationCloud } from '../../../services/cloudFunctions/getPostsByLocationCloud'
+import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
 import { getCurrentLocation } from '../../../utils/maps/getCurrentLocation'
 
 import {
@@ -37,7 +24,7 @@ import {
 	AddressSearchResult,
 	SelectedAddressRender,
 } from '../../../services/maps/types'
-import { Id, PostCollection, PostType } from '../../../services/firebase/types'
+import { FeedPosts, PostCollection, PostRange, PostType } from '../../../services/firebase/types'
 import { HomeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 import { LocationContext } from '../../../contexts/LocationContext'
@@ -46,15 +33,24 @@ import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { LocationNearDropdown } from '../../../components/LocationNearDropdown'
 import { PostCard } from '../../../components/_cards/PostCard'
-import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { RequestLocation } from '../../../components/RequestLocation'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { HomeCatalogMenu } from '../../../components/HomeCatalogMenu'
+import { FlatListPosts } from '../../../components/FlatListPosts'
+import { VerticalSigh } from '../../../components/VerticalSigh'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
 	addressThin: '',
+}
+
+const initialFeedPosts = {
+	nearby: [],
+	city: [],
+	country: []
 }
 
 function Home({ navigation }: HomeScreenProps) {
@@ -64,49 +60,33 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const [selectedAddress, setSelectedAddress] = useState<SelectedAddressRender>(initialSelectedAddress)
 	const [recentAddresses, setRecentAddresses] = useState<AddressSearchResult[]>([])
-	const [nearPosts, setNearPosts] = useState<PostCollection[]>([])
+	const [feedPosts, setFeedPosts] = useState<FeedPosts>(initialFeedPosts)
 	const [addressSuggestions, setAddressSuggestions] = useState<AddressSearchResult[]>([])
 	const [hasLocationPermission, setHasLocationPermission] = useState(false)
 	const [hasLocationEnable, setHasLocationEnable] = useState(false)
 	const [searchEnded, setSearchEnded] = useState(false)
-	const [flatListIsLoading, setFlatListIsLoading] = useState(false)
+	const [feedIsUpdating, setFeedIsUpdating] = useState(false)
 
 	useEffect(() => {
-		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
-		locationIsEnable()
-	})
+		requestPermissions()
+		loadRecentAddresses()
+	}, [])
 
-	/* useEffect(() => { //Reload location on back to screen
-		navigation.addListener('focus', () => {
-			findNearPosts('', true)
-		})
-	}, [navigation]) */
+	useEffect(() => {
+		if (hasLocationPermission) {
+			findFeedPosts('', true, null as any, false, true)
+		}
+	}, [hasLocationPermission])
 
-	const onPressBackHandler = () => {
-		if (navigation.isFocused()) {
-			BackHandler.exitApp()
+	const requestPermissions = async () => {
+		if (hasLocationPermission) return true
+		const { status } = await Location.requestForegroundPermissionsAsync()
+		if (status === 'granted') {
+			setHasLocationPermission(true)
 			return true
 		}
 		return false
 	}
-
-	useEffect(() => {
-		requestPermissions()
-		getRecentAddresses()
-	}, [])
-
-	const requestPermissions = async () => {
-		const { status } = await Location.requestForegroundPermissionsAsync()
-		if (status === 'granted') {
-			setHasLocationPermission(true)
-		}
-	}
-
-	useEffect(() => {
-		if (hasLocationPermission) {
-			findNearPosts('', true, null as any, false, true)
-		}
-	}, [hasLocationPermission])
 
 	const locationIsEnable = async () => {
 		const locationEnabled = await Location.hasServicesEnabledAsync()
@@ -114,46 +94,45 @@ function Home({ navigation }: HomeScreenProps) {
 		return locationEnabled
 	}
 
-	const getRecentAddresses = async () => {
+	const loadRecentAddresses = async () => {
 		const addresses = await getRecentAdressesFromStorage()
-		// addresses.forEach((address) => console.log(address), console.log('\n\n'))
 		setRecentAddresses(addresses)
 	}
 
-	const findNearPosts = async (
+	const findFeedPosts = async (
 		searchText: string,
 		currentPosition?: boolean,
 		alternativeCoordinates?: LatLong,
 		refresh?: boolean,
 		firstLoad?: boolean
 	) => {
-		if (!hasLocationPermission) return requestPermissions()
+		if (!hasLocationPermission) return
+		locationIsEnable()
 
 		try {
-			refresh ? setFlatListIsLoading(true) : setLoaderIsVisible(true)
+			refresh ? setFeedIsUpdating(true) : setLoaderIsVisible(true)
 			setSearchEnded(false)
 			let searchParams = {} as SearchParams
-			if (currentPosition) {
+			if (currentPosition || !hasLocationPermission) {
 				const coordinates = await getCurrentPositionCoordinates(firstLoad)
 				searchParams = await getSearchParams(coordinates as LatLong)
 			} else {
 				const coordinates = alternativeCoordinates || (await getSearchedAddressCoordinates(searchText))
-				searchParams = await getSearchParams(coordinates as LatLong) // address converter
+				searchParams = await getSearchParams(coordinates as LatLong)
 			}
 
-			const nearbyPosts = await getPostsByLocationCloud(
-				searchParams,
+			/* const remoteFeedPosts = await getPostsByLocationCloud(
+				searchParams, // Update return of cloud function
 				userDataContext.userId as Id
-			)
+			) */
+			const remoteFeedPosts = await getPostsByLocation(searchParams)
+			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
-			// const nearbyPosts = await getPostsByLocation(searchParams)
-			setNearPosts(nearbyPosts || [])
-
-			refresh ? setFlatListIsLoading(false) : setLoaderIsVisible(false)
+			refresh ? setFeedIsUpdating(false) : setLoaderIsVisible(false)
 			setSearchEnded(true)
 			setLocationDataOnContext({
 				searchParams,
-				nearbyPosts,
+				feedPosts: remoteFeedPosts,
 				lastRefreshInMilliseconds: Date.now(),
 			})
 		} catch (err) {
@@ -163,19 +142,25 @@ function Home({ navigation }: HomeScreenProps) {
 		}
 	}
 
-	const refreshFlatlist = async () => {
-		await findNearPosts(
-			'',
-			false,
-			locationDataContext.searchParams.coordinates || null,
-			true
-		)
+	const refreshFeedPosts = async () => {
+		console.log('refresh')
+		await findFeedPosts('', false, locationDataContext.searchParams.coordinates || null, true)
 	}
 
 	const getCurrentPositionCoordinates = async (firstLoad?: boolean) => {
 		try {
-			const currentPosition: Location.LocationObject = await getCurrentLocation()
+			if (firstLoad) {
+				const recentPosition = getLastRecentAddress(recentAddresses)
 
+				if (recentPosition) {
+					return {
+						lat: recentPosition.lat,
+						lon: recentPosition.lon,
+					} as LatLong
+				}
+			}
+
+			const currentPosition: Location.LocationObject = await getCurrentLocation()
 			return {
 				lat: currentPosition.coords.latitude,
 				lon: currentPosition.coords.longitude
@@ -316,6 +301,36 @@ function Home({ navigation }: HomeScreenProps) {
 		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
 	}
 
+	const viewPostsByRange = (postRange: PostRange) => {
+		switch (postRange) {
+			case 'near': return navigation.navigate('ViewPostsByRange', { postsByRange: feedPosts.nearby, postRange: 'near', searchByRange: true })
+			case 'city': return navigation.navigate('ViewPostsByRange', { postsByRange: feedPosts.city, postRange: 'city', searchByRange: true })
+			case 'country': return navigation.navigate('ViewPostsByRange', { postsByRange: feedPosts.country, postRange: 'country', searchByRange: true })
+			default: return false
+		}
+	}
+
+	const hasAnyPost = () => {
+		return feedPosts.nearby.length > 0 || feedPosts.city.length > 0 || feedPosts.country.length > 0
+	}
+
+	const getFirstFiveItems = (items: any[]) => {
+		if (!items) return []
+		if (items.length >= 5) return items.slice(0, 5)
+		return items
+	}
+
+	const renderPostItem = (item: PostCollection) => (
+		<ContainerPadding>
+			<PostCard
+				post={item}
+				owner={item.owner}
+				navigateToProfile={navigateToProfile}
+				onPress={() => goToPostView(item)}
+			/>
+		</ContainerPadding>
+	)
+
 	return (
 		<Container>
 			<FocusAwareStatusBar
@@ -330,120 +345,103 @@ function Home({ navigation }: HomeScreenProps) {
 					selectAddress={setSelectedAddress}
 					saveRecentAddresses={saveRecentAddresses}
 					clearAddressSuggestions={clearAddressSuggestions}
-					findNearPosts={findNearPosts}
+					findNearPosts={findFeedPosts}
 					findAddressSuggestions={findAddressSuggestions}
 				/>
 			</DropdownContainer>
-			<HorizontalPostTypes>
-				<SmallButton
-					relativeWidth={relativeScreenWidth(15)}
-					height={relativeScreenWidth(15)}
-					color={'white'}
-					fontSize={7.5}
-					onPress={() => navigateToPostCategories('socialImpact')}
-					label={'impacto'}
-					labelColor={theme.black4}
-					SvgIcon={SocialImpactIcon}
-					svgScale={['50%', '80%']}
-					flexDirection={'column'}
-				/>
-				<SmallButton
-					relativeWidth={relativeScreenWidth(15)}
-					height={relativeScreenWidth(15)}
-					color={'white'}
-					fontSize={7.5}
-					onPress={() => navigateToPostCategories('sale')}
-					label={'comércio'}
-					labelColor={theme.black4}
-					SvgIcon={CommerceIcon}
-					svgScale={['50%', '80%']}
-					flexDirection={'column'}
-				/>
-				<SmallButton
-					relativeWidth={relativeScreenWidth(15)}
-					height={relativeScreenWidth(15)}
-					color={'white'}
-					fontSize={7.5}
-					onPress={() => navigateToPostCategories('culture')}
-					label={'cultura'}
-					labelColor={theme.black4}
-					SvgIcon={CultureIcon}
-					svgScale={['50%', '80%']}
-					flexDirection={'column'}
-				/>
-				<SmallButton
-					relativeWidth={relativeScreenWidth(15)}
-					height={relativeScreenWidth(15)}
-					color={'white'}
-					fontSize={7.5}
-					onPress={() => navigateToPostCategories('service')}
-					label={'serviços'}
-					labelColor={theme.black4}
-					SvgIcon={ServiceIcon}
-					svgScale={['50%', '80%']}
-					flexDirection={'column'}
-				/>
-				<SmallButton
-					relativeWidth={relativeScreenWidth(15)}
-					height={relativeScreenWidth(15)}
-					color={'white'}
-					fontSize={7.5}
-					onPress={() => navigateToPostCategories('vacancy')}
-					label={'vagas'}
-					labelColor={theme.black4}
-					SvgIcon={VacancyIcon}
-					svgScale={['50%', '80%']}
-					flexDirection={'column'}
-				/>
-			</HorizontalPostTypes>
-			<RecentPostsContainer>
-				<SubtitleCard
-					text={'posts de recentes'}
-					highlightedText={['recentes']}
-					onPress={() => { }}
-				/>
-				{!hasLocationEnable && !nearPosts.length && (
+			<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
+			<RecentPostsContainer
+				refreshControl={(
+					<RefreshControl
+						colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3, theme.purple3, theme.yellow3, theme.red3]}
+						refreshing={feedIsUpdating}
+						progressBackgroundColor={theme.white3}
+						onRefresh={refreshFeedPosts}
+					/>
+				)}
+			>
+				{!hasLocationEnable && !hasAnyPost() && (
 					<RequestLocation
 						getLocationPermissions={() => {
 							requestPermissions()
-							findNearPosts('', true)
+							findFeedPosts('', true)
 						}}
 					/>
 				)}
-				{nearPosts.length ? (
-					<FlatList
-						data={nearPosts}
-						renderItem={({ item }) => (
-							<PostCard
-								post={item}
-								owner={item.owner}
-								navigateToProfile={navigateToProfile}
-								onPress={() => goToPostView(item)}
+				{
+					(feedPosts.nearby && feedPosts.nearby.length)
+						? (
+							<FlatListPosts
+								data={getFirstFiveItems(feedPosts.nearby)}
+								headerComponent={() => (
+									<>
+										<SubtitleCard
+											text={'perto de você'}
+											highlightedText={['perto']}
+											seeMoreText
+											onPress={() => viewPostsByRange('near')}
+										/>
+										<VerticalSigh />
+									</>
+								)}
+								renderItem={renderPostItem}
+								flatListIsLoading={feedIsUpdating}
+							// onEndReached={refreshFeedPosts}
 							/>
-						)}
-						// onEndReached={() => console.log('findMoreNearPosts(Pagination)')}
-						showsVerticalScrollIndicator={false}
-						contentContainerStyle={{
-							padding: RFValue(10),
-							paddingTop: flatListIsLoading
-								? relativeScreenHeight(10)
-								: RFValue(10),
-						}}
-						ItemSeparatorComponent={() => <Sigh />}
-						ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
-						ListFooterComponent={<FooterSigh />}
-						refreshControl={(
-							<RefreshControl
-								colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3, theme.purple3, theme.yellow3, theme.red3]}
-								refreshing={flatListIsLoading}
-								progressBackgroundColor={theme.white3}
-								onRefresh={refreshFlatlist}
+						)
+						: <></>
+				}
+				{
+					(feedPosts.city && feedPosts.city.length)
+						? (
+							<FlatListPosts
+								data={getFirstFiveItems(feedPosts.city)}
+								headerComponent={() => (
+									<>
+										<SubtitleCard
+											text={'na cidade'}
+											highlightedText={['cidade']}
+											seeMoreText
+											onPress={() => viewPostsByRange('city')}
+										/>
+										<VerticalSigh />
+									</>
+								)}
+								renderItem={renderPostItem}
+								flatListIsLoading={feedIsUpdating}
+							/* onEndReached={refreshFeedPosts} */
 							/>
-						)}
-					/>
-				) : (
-					hasLocationEnable
-					&& searchEnded && (
+						)
+						: <></>
+				}
+				{
+					(feedPosts.country && feedPosts.country.length)
+						? (
+							<>
+								<FlatListPosts
+									data={getFirstFiveItems(feedPosts.country)}
+									headerComponent={() => (
+										<>
+											<SubtitleCard
+												text={'no país'}
+												highlightedText={['país']}
+												seeMoreText
+												onPress={() => viewPostsByRange('country')}
+											/>
+											<VerticalSigh />
+										</>
+									)}
+									renderItem={renderPostItem}
+									flatListIsLoading={feedIsUpdating}
+								/* onEndReached={refreshFeedPosts} */
+								/>
+								<VerticalSigh height={relativeScreenHeight(10)} />
+							</>
+						)
+						: <></>
+				}
+				{
+					hasLocationEnable && searchEnded && !hasAnyPost() && (
 						<WithoutPostsMessage
 							title={'opa!'}
 							message={
@@ -451,7 +449,7 @@ function Home({ navigation }: HomeScreenProps) {
 							}
 						/>
 					)
-				)}
+				}
 			</RecentPostsContainer>
 		</Container>
 	)

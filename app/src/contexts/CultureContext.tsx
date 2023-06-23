@@ -37,10 +37,10 @@ function CultureProvider({ children }: CultureProviderProps) {
 
 	const getAditionalDataFromLastPost = () => {
 		const userPosts = userDataContext.posts || []
-		if (!userPosts || (userPosts && userPosts.length < 1)) return
+		if (!userPosts || (userPosts && !userPosts.length)) return
 
 		const lastUserPost: CultureCollectionRemote | any = userPosts[userPosts.length - 1] || {} // TODO Type
-		if (Object.keys(lastUserPost).length < 1) return
+		if (!Object.keys(lastUserPost).length) return
 
 		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
 

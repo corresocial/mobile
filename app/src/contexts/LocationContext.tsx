@@ -1,5 +1,5 @@
 import React, { createContext, useMemo, useState } from 'react'
-import { PostCollectionRemote, PostType } from '../services/firebase/types'
+import { FeedPosts, PostType } from '../services/firebase/types'
 import { CurrentCategory, SearchParams } from '../services/maps/types'
 
 import { LocationData } from './types'
@@ -8,7 +8,7 @@ type LocationContextType = {
 	locationDataContext: {
 		searchParams: SearchParams
 		currentCategory: CurrentCategory
-		nearbyPosts: PostCollectionRemote[]
+		feedPosts: FeedPosts
 		lastRefreshInMilliseconds: number
 	}
 	setLocationDataOnContext: (data: LocationData) => void
@@ -39,7 +39,7 @@ const initialValue = {
 			categoryIcon: '',
 			categoryTags: []
 		},
-		nearbyPosts: [],
+		feedPosts: { nearby: [], city: [], country: [] },
 		lastRefreshInMilliseconds: Date.now(),
 	},
 	setLocationDataOnContext: (data: LocationData) => { }

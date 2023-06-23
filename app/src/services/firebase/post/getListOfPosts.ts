@@ -17,7 +17,7 @@ type FilterMethod = 'category' | 'tags'
 
 async function getListOfPosts(postsIdentification: PostIdentificationItem[], filterMethod?: FilterMethod, filterText?: string) {
 	try {
-		if (postsIdentification.length < 1) return []
+		if (!postsIdentification.length) return []
 
 		const allPosts = postsIdentification.map(async (post: PostIdentificationItem) => {
 			const queryList = filterMethod

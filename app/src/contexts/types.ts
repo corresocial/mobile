@@ -7,7 +7,6 @@ import {
 	LocationViewType,
 	PaymentType,
 	PlaceModalityType,
-	PostCollectionRemote,
 	UserCollection,
 	VacancyType,
 	WeekdaysFrequency,
@@ -15,7 +14,8 @@ import {
 	ItemStatus,
 	VacancyPurpose,
 	SocialImpactType,
-	CultureType
+	CultureType,
+	FeedPosts
 } from '../services/firebase/types'
 import { CurrentCategory, SearchParams } from '../services/maps/types'
 
@@ -43,12 +43,13 @@ export interface StateData {
 	showTourModal?: boolean
 	showShareModal?: boolean
 	lastPostTitle?: string
+	lastPostId?: string
 }
 
 export type LocationData = {
 	searchParams?: SearchParams
 	currentCategory?: CurrentCategory
-	nearbyPosts?: PostCollectionRemote[]
+	feedPosts?: FeedPosts
 	lastRefreshInMilliseconds?: number
 }
 

@@ -56,7 +56,7 @@ function LocationNearDropdown({
 
 	const getFormattedAddress = (address: AddressSearchResult) => {
 		const greaterThanThree = address.formattedAddress.split(',').length > 3
-		if (Object.keys(address).length < 1) {
+		if (!Object.keys(address).length) {
 			return {
 				addressHighlighted: '',
 				addressThin: '',
@@ -121,7 +121,7 @@ function LocationNearDropdown({
 								<DropdownHeader>
 									<IconArea>
 										{
-											searchText.length < 1
+											!searchText.length
 												? <LoupIcon width={RFValue(22)} height={RFValue(22)} />
 												: (
 													<SmallButton
@@ -170,7 +170,7 @@ function LocationNearDropdown({
 					}
 					<Sigh />
 					{
-						searchText.length < 1 && (
+						!searchText.length && (
 							<MyLocationButtonContainer>
 								<PrimaryButton
 									keyboardHideButton={false}
@@ -191,7 +191,7 @@ function LocationNearDropdown({
 					}
 					<Sigh />
 					<FlatList
-						data={searchText.length < 1 ? recentAddresses : addressSuggestions}
+						data={!searchText.length ? recentAddresses : addressSuggestions}
 						showsVerticalScrollIndicator={false} // Item
 						renderItem={({ item }) => (
 							<DropdownItem

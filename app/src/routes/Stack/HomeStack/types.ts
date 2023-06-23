@@ -13,6 +13,6 @@ export type HomeStackParamList = {
 	PostCategoryDetails: undefined
 	ViewAllTags: undefined
 	ViewPostsByTag: { currentTagSelected: string }
-	SearchResult: { searchParams: SearchParams, categoryLabel?: string }
-	ProfileHome: { userId: string, stackLabel: string }
+	SearchResult: { searchParams: SearchParams, categoryLabel?: string, searchByRange?: boolean }
+	ProfileHome: { userId: string, stackLabel?: string }
 } & UserStackParamList

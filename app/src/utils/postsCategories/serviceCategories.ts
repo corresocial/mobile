@@ -147,6 +147,7 @@ const serviceCategories = {
 		tags: [
 			'medico',
 			'enfermagem',
+			'psicologia',
 			'dermatologia',
 			'psicologia',
 			'hospital',

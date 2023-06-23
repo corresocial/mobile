@@ -108,9 +108,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	}
 
 	const sharePost = () => {
-		share(
-			`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social`
-		)
+		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social/p/${getPostField('postId')}`)
 	}
 
 	const getUserProfilePictureFromContext = () => {
@@ -163,7 +161,11 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	}
 
 	const getCategoryLabel = () => {
-		return saleCategories[getPostField('category') as SaleCategories].label || ''
+		const categoryField = getPostField('category') as SaleCategories
+		if (Object.keys(saleCategories).includes(categoryField)) {
+			return saleCategories[categoryField].label
+		}
+		return ''
 	}
 
 	const getPostField = (fieldName: keyof SaleCollection, allowNull?: boolean) => {
