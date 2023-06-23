@@ -43,6 +43,7 @@ export interface StateData {
 	showTourModal?: boolean
 	showShareModal?: boolean
 	lastPostTitle?: string
+	lastPostId?: string
 }
 
 export type LocationData = {

@@ -251,10 +251,11 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 
 	const getLocalUser = () => userDataContext
 
-	const showShareModal = (visibility: boolean, postTitle?: string) => {
+	const showShareModal = (visibility: boolean, postTitle?: string, postId?: string) => {
 		setStateDataOnContext({
 			showShareModal: visibility,
-			lastPostTitle: postTitle
+			lastPostTitle: postTitle,
+			lastPostId: postId
 		})
 	}
 
@@ -376,7 +377,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					],
 				})
 				setIsLoading(false)
-				showShareModal(true, cultureDataPost.title)
+				showShareModal(true, cultureDataPost.title, postId)
 				navigation.navigate('ViewCulturePost' as any, { postData: { ...postDataToSave, owner } }) // TODO Type
 			})
 			.catch((err: any) => {

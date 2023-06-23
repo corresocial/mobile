@@ -251,10 +251,11 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 
 	const getLocalUser = () => userDataContext
 
-	const showShareModal = (visibility: boolean, postTitle?: string) => {
+	const showShareModal = (visibility: boolean, postTitle?: string, postId?: string) => {
 		setStateDataOnContext({
 			showShareModal: visibility,
-			lastPostTitle: postTitle
+			lastPostTitle: postTitle,
+			lastPostId: postId
 		})
 	}
 
@@ -376,7 +377,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					],
 				})
 				setIsLoading(false)
-				showShareModal(true, socialImpactDataPost.title)
+				showShareModal(true, socialImpactDataPost.title, postId)
 				navigation.navigate('ViewSocialImpactPost' as any, { postData: { ...postDataToSave, owner } }) // TODO Type
 			})
 			.catch((err: any) => {

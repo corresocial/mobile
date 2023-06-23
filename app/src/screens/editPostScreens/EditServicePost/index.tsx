@@ -252,7 +252,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 				})
 
 				setIsLoading(false)
-				showShareModal(true, serviceDataPost.title)
+				showShareModal(true, serviceDataPost.title, postId)
 				navigation.navigate('ViewServicePost' as any, { postData: { ...postDataToSave, owner } }) // TODO Type
 			})
 			.catch((err: any) => {
@@ -262,10 +262,11 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 			})
 	}
 
-	const showShareModal = (visibility: boolean, postTitle?: string) => {
+	const showShareModal = (visibility: boolean, postTitle?: string, postId?: string) => {
 		setStateDataOnContext({
 			showShareModal: visibility,
-			lastPostTitle: postTitle
+			lastPostTitle: postTitle,
+			lastPostId: postId
 		})
 	}
 

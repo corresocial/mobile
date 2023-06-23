@@ -242,10 +242,11 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 
 	const getLocalUser = () => userDataContext
 
-	const showShareModal = (visibility: boolean, postTitle?: string) => {
+	const showShareModal = (visibility: boolean, postTitle?: string, postId?: string) => {
 		setStateDataOnContext({
 			showShareModal: visibility,
-			lastPostTitle: postTitle
+			lastPostTitle: postTitle,
+			lastPostId: postId
 		})
 	}
 
@@ -367,7 +368,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					],
 				})
 				setIsLoading(false)
-				showShareModal(true, vacancyDataPost.title)
+				showShareModal(true, vacancyDataPost.title, postId)
 				navigation.navigate('ViewVacancyPost' as any, { postData: { ...postDataToSave, owner } }) // TODO Type
 			})
 			.catch((err: any) => {
