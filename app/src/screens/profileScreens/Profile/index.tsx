@@ -188,7 +188,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	const navigationToBack = () => navigation.goBack()
 
 	const shareProfile = async () => {
-		share(`${isLoggedUser ? `olá! me chamo ${getUserField('name')} e tô no corre.` : `olha quem eu encontrei no corre.\n${getUserField('name')}`}\n\nhttps://corre.social`)
+		share(`${isLoggedUser ? `olá! me chamo ${getUserField('name')} e tô no corre.` : `olha quem eu encontrei no corre.\n${getUserField('name')}`}\n\nhttps://corre.social/u/${getUserField('userId')}`)
 	}
 
 	const getUserProfilePictureFromContext = () => {

@@ -91,7 +91,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	}
 
 	const sharePost = () => {
-		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social`)
+		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social/p/${getPostField('postId')}`)
 	}
 
 	const getUserProfilePictureFromContext = () => {
@@ -142,7 +142,11 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	}
 
 	const getCategoryLabel = () => {
-		return socialImpactCategories[getPostField('category') as SocialImpactCategories].label || ''
+		const categoryField = getPostField('category') as SocialImpactCategories
+		if (Object.keys(socialImpactCategories).includes(categoryField)) {
+			return socialImpactCategories[categoryField].label
+		}
+		return ''
 	}
 
 	const getPostField = (fieldName: keyof SocialImpactCollection, allowNull?: boolean) => {

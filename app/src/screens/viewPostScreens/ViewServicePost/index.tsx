@@ -111,11 +111,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	}
 
 	const sharePost = () => {
-		share(
-			`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField(
-				'title'
-			)} no corre.\n\nhttps://corre.social`
-		)
+		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social/p/${getPostField('postId')}`)
 	}
 
 	const getUserProfilePictureFromContext = () => {
@@ -168,7 +164,11 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	}
 
 	const getCategoryLabel = () => {
-		return serviceCategories[getPostField('category') as ServiceCategories].label || ''
+		const categoryField = getPostField('category') as ServiceCategories
+		if (Object.keys(serviceCategories).includes(categoryField)) {
+			return serviceCategories[categoryField].label
+		}
+		return ''
 	}
 
 	const getPostField = (fieldName: keyof ServiceCollection, allowNull?: boolean) => {
