@@ -149,6 +149,7 @@ const serviceCategories = {
 			'enfermagem',
 			'psicologia',
 			'dermatologia',
+			'psicologia',
 			'hospital',
 			'prontosocorre',
 			'clinica',
@@ -311,7 +312,6 @@ const serviceCategories = {
 			'quimica',
 			'arte',
 			'dança',
-			'psicologia',
 			'uberlândia',
 			'education',
 			'sucesso'

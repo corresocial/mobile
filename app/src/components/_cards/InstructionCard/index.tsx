@@ -1,25 +1,28 @@
 import React from 'react'
+import { ViewStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Container, Message } from './styles'
+import { Container, Message, MessageTitle } from './styles'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { theme } from '../../../common/theme'
 
 interface InstructionCardProps {
 	message: string
+	title?: string
 	highlightedWords?: string[]
 	backgroundColor?: string
 	padding?: number
 	fontSize?: number
 	lineHeight?: number
 	borderLeftWidth?: number
-	flex?: number
-	children?: React.ReactElement | never[]
+	flex?: ViewStyle['flex']
+	children?: React.ReactElement | React.ReactElement[] | never | never[]
 }
 
 function InstructionCard({
 	message,
+	title,
 	highlightedWords,
 	backgroundColor,
 	padding = 15,
@@ -38,6 +41,7 @@ function InstructionCard({
 				padding: RFValue(padding)
 			}}
 		>
+			{title && <MessageTitle>{showMessageWithHighlight(title, highlightedWords)}</MessageTitle>}
 			<Message
 				style={{
 					fontSize: fontSize ? RFValue(fontSize) : RFValue(20),

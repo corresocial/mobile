@@ -4,22 +4,22 @@ import {
 	Container,
 	ContainerInner,
 	LeftArea,
+	LeftAreaLimits,
+	LeftSideLabel,
 	RightArea,
 	SidePicture,
-	Title,
-	LeftAreaLimits,
-	LeftSideLabel
+	Title
 } from './styles'
 
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
 
 import { PostCollection } from '../../../services/firebase/types'
 
-import { LeftLineCard } from '../LeftLineCard'
-import { LocalUserData } from '../../../contexts/types'
-import { SmallUserIdentification } from '../../SmallUserIdentification'
-import { SaleExchangeValue } from '../../SaleExchangeValue'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
+import { LocalUserData } from '../../../contexts/types'
+import { SaleExchangeValue } from '../../SaleExchangeValue'
+import { SmallUserIdentification } from '../../SmallUserIdentification'
+import { LeftLineCard } from '../LeftLineCard'
 
 import { theme } from '../../../common/theme'
 
@@ -50,7 +50,7 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 				return theme.blue3
 			}
 			default:
-				return theme.white1
+				return theme.orange3
 		}
 	}
 
@@ -145,3 +145,4 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 }
 
 export { PostCard }
+

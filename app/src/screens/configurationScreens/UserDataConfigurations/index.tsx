@@ -28,7 +28,9 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 
 	const [beForgottenConfirmationModalIsVisible, setBeForgottenConfirmationModalIsVisible] = useState(false)
 	const [successModalIsVisible, setSuccessModalIsVisible] = useState(false)
+
 	const [isLoading, setIsLoading] = useState(false)
+	const [hasError, setHasError] = useState(false)
 
 	const beForgotten = () => {
 		toggleBeForgottenConfirmationModalVisibility()
@@ -44,6 +46,7 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 
 	const deleteAllUserData = async () => {
 		try {
+			setHasError(false)
 			setIsLoading(true)
 			await removeAllUserData(
 				userDataContext.userId as Id,
@@ -52,6 +55,7 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 			).then(() => toggleSuccessModalVisibility())
 			setIsLoading(false)
 		} catch (error) {
+			setHasError(true)
 			console.log(error)
 			setIsLoading(false)
 		}
@@ -97,13 +101,19 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
+					backgroundColor={!hasError ? theme.white3 : theme.red1}
+					title={hasError ? 'opa, algo deu errado ao deletar' : ''}
+					message={!hasError ? 'o que você quer fazer com seus dados?' : 'tente novamente em alguns instantes'}
+					fontSize={16}
+					highlightedWords={
+						!hasError
+							? ['seus', 'dados']
+							: ['algo', 'deu', 'errado', 'ao', 'deletar']
+					}
 					borderLeftWidth={3}
-					fontSize={17}
-					message={'o que você quer fazer com seus dados?'}
-					highlightedWords={['seus', 'dados']}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.orange2}>
+			<FormContainer backgroundColor={!hasError ? theme.orange2 : theme.red2}>
 				{
 					isLoading
 						? (
