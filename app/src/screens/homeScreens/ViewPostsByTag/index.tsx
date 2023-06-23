@@ -16,7 +16,6 @@ import { LocationContext } from '../../../contexts/LocationContext'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
-import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { FlatListPosts } from '../../../components/FlatListPosts'
 import { VerticalSigh } from '../../../components/VerticalSigh'
@@ -122,9 +121,9 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 		return items
 	}
 
-	const hasAnyPost = () => {
+	/* const hasAnyPost = () => {
 		return (filteredFeedPosts.nearby.length > 0 || filteredFeedPosts.city.length > 0 || filteredFeedPosts.country.length > 0)
-	}
+	} */
 
 	const renderPostItem = (item: PostCollection) => (
 		<ContainerPadding>
@@ -236,7 +235,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 							: <></>
 					}
 					<VerticalSigh height={relativeScreenHeight(10)} />
-					{
+					{/* {
 						!hasAnyPost() && (
 							<WithoutPostsMessage
 								title={'opa!'}
@@ -245,7 +244,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 								}
 							/>
 						)
-					}
+					} */}
 				</Body>
 			</KeyboardAvoidingView>
 		</Container>

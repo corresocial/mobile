@@ -15,7 +15,6 @@ import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { PostCard } from '../../../components/_cards/PostCard'
-import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { FlatListPosts } from '../../../components/FlatListPosts'
 import { VerticalSigh } from '../../../components/VerticalSigh'
@@ -168,14 +167,14 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 						)
 						: <></>
 				}
-				{
+				{/* {
 					(!postsByRange || (postsByRange && !postsByRange.length)) && (
 						<WithoutPostsMessage
 							title={'opa!'}
 							message={'parece que não temos nenhum post {perto de você}, nosso time já está sabendo e irá resolver!'}
 						/>
 					)
-				}
+				} */}
 			</Body>
 		</Container>
 	)

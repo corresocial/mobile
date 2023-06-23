@@ -16,7 +16,6 @@ import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { sortArray } from '../../../common/auxiliaryFunctions'
-import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { FlatListPosts } from '../../../components/FlatListPosts'
@@ -171,9 +170,9 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 		</ContainerPadding>
 	)
 
-	const hasAnyPost = () => {
+	/* const hasAnyPost = () => {
 		return (filteredFeedPosts.nearby.length > 0 || filteredFeedPosts.city.length > 0 || filteredFeedPosts.country.length > 0)
-	}
+	} */
 
 	return (
 		<Container>
@@ -304,14 +303,14 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 						: <></>
 				}
 				<VerticalSigh height={relativeScreenHeight(10)} />
-				{
+				{/* {
 					!hasAnyPost() && (
 						<WithoutPostsMessage
 							title={'opa!'}
 							message={'parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'}
 						/>
 					)
-				}
+				} */}
 			</Body>
 		</Container>
 	)
