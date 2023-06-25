@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { ScrollView, TouchableOpacity } from 'react-native'
+import { ScrollView, TouchableOpacity, Text, View, Image } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { SvgProps } from 'react-native-svg'
 
 import {
 	Body,
@@ -16,14 +17,17 @@ import {
 	FooterSigh,
 	ExpandedUserDescription,
 	ExpandedUserDescriptionArea,
-	AddSocialMediasButtonContainer,
 	VerticalSigh,
-	BodyPadding
+	BodyPadding,
+	VerticalPaddingContainer
 } from './styles'
 import { theme } from '../../../common/theme'
 import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
 import ShareIcon from '../../../assets/icons/share.svg'
 import AtSign from '../../../assets/icons/atSign.svg'
+import LeaderLabel from '../../../assets/icons/leaderLabel.svg'
+import VerifiedLabel from '../../../assets/icons/verifiedLabel.svg'
+import ImpactLabel from '../../../assets/icons/impactLabel.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 import PencilIcon from '../../../assets/icons/pencil.svg'
 import GearIcon from '../../../assets/icons/gear.svg'
@@ -44,7 +48,7 @@ import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { PostCard } from '../../../components/_cards/PostCard'
-import { ProfilePopOver } from '../../../components/ProfilePopOver'
+import { PopOver } from '../../../components/PopOver'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { BackButton } from '../../../components/_buttons/BackButton'
@@ -57,7 +61,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	const [user, setUser] = useState<LocalUserData>({})
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
 	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
-
 	/* useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
 			if (route.params && route.params.userId) {
@@ -80,13 +83,14 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const getProfileDataFromRemote = async (userId: string) => {
 		const remoteUser = await getUser(userId)
-		const { profilePictureUrl, name, posts, description, socialMedias } = remoteUser as LocalUserData
+		const { profilePictureUrl, name, posts, description, profileType, socialMedias } = remoteUser as LocalUserData
 		setUser({
 			userId,
 			name,
 			socialMedias,
 			description,
 			profilePictureUrl: profilePictureUrl || [],
+			profileType,
 			posts
 		})
 	}
@@ -293,16 +297,60 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							borderWidth={3}
 							borderRightWidth={8}
 							pictureUri={getProfilePicture()}
-							checked={!!getUserField('verified')}
+
 						/>
 						<InfoArea>
 							<UserName numberOfLines={3} >{getUserField('name')}</UserName>
+							{((userDataContext.profileType === 'leader' && isLoggedUser) || user.profileType === 'leader') && (
+								<VerticalPaddingContainer>
+									<ProfileInfoContainer>
+										<LeaderLabel
+											height={RFValue(22)}
+											width={RFValue(22)}
+											marginRight={RFValue(6)}
+										/>
+										<UserDescription>
+											{'líder social'}
+										</UserDescription>
+									</ProfileInfoContainer>
+								</VerticalPaddingContainer>
+							)}
+							{((userDataContext.profileType === 'verified' && isLoggedUser) || user.profileType === 'verified') && (
+								<VerticalPaddingContainer>
+									<ProfileInfoContainer>
+										<VerifiedLabel
+											height={RFValue(22)}
+											width={RFValue(22)}
+											marginRight={RFValue(6)}
+										/>
+										<UserDescription>
+											{'perfil verificado'}
+										</UserDescription>
+									</ProfileInfoContainer>
+								</VerticalPaddingContainer>
+							)}
+							{((userDataContext.profileType === 'impact' && isLoggedUser) || user.profileType === 'impact') && (
+								<VerticalPaddingContainer>
+									<ProfileInfoContainer>
+										<ImpactLabel
+											height={RFValue(22)}
+											width={RFValue(22)}
+											marginRight={RFValue(6)}
+										/>
+										<UserDescription>
+											{'perfil de impacto'}
+										</UserDescription>
+									</ProfileInfoContainer>
+								</VerticalPaddingContainer>
+							)}
 							{
 								!userDescriptionIsExpanded && isLoggedUser && (
 									<TouchableOpacity onPress={() => getUserField('description') && setUserDescriptionIsExpanded(true)}>
 										<UserDescription numberOfLines={3}>
-											{getUserField('description')}
+											{getUserField('description') || 'você pode adicionar uma descrição em "editar".'}
 										</UserDescription>
+										{getUserField('description').length >= 88 && (
+											<Text style={{ fontWeight: 'bold' }}>{'mostrar mais'}</Text>)}
 									</TouchableOpacity>
 								)
 							}
@@ -324,20 +372,25 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 					{
 						isLoggedUser && arrayIsEmpty(getUserField('socialMedias'))
 							? (
-								<AddSocialMediasButtonContainer >
-									<SmallButton
-										color={theme.white3}
-										label={'adicionar redes'}
-										labelColor={theme.black4}
-										highlightedWords={['redes']}
-										fontSize={12}
-										SvgIcon={AtSign}
-										svgScale={['60%', '10%']}
-										relativeWidth={'100%'}
-										height={relativeScreenHeight(5)}
-										onPress={openSocialMediaManagement}
-									/>
-								</AddSocialMediasButtonContainer >
+								// <AddSocialMediasButtonContainer >
+								// 	<SmallButton
+								// 		color={theme.white3}
+								// 		label={'adicionar redes'}
+								// 		labelColor={theme.black4}
+								// 		highlightedWords={['redes']}
+								// 		fontSize={12}
+								// 		SvgIcon={AtSign}
+								// 		svgScale={['60%', '10%']}
+								// 		relativeWidth={'100%'}
+								// 		height={relativeScreenHeight(5)}
+								// 		onPress={openSocialMediaManagement}
+								// 	/>
+								// </AddSocialMediasButtonContainer >
+								<VerticalPaddingContainer>
+									<UserDescription>
+										{'Você pode adicionar redes sociais e contatos em "editar".'}
+									</UserDescription>
+								</VerticalPaddingContainer>
 							)
 							: (
 								<HorizontalSocialMediaList
@@ -348,30 +401,32 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 					}
 					<OptionsArea>
 						<SmallButton
-							label={isLoggedUser ? '' : 'chat'}
+							label={isLoggedUser ? 'editar' : 'chat'}
 							labelColor={theme.black4}
 							SvgIcon={isLoggedUser ? PencilIcon : ChatWhiteIcon}
-							relativeWidth={isLoggedUser ? relativeScreenWidth(12) : '30%'}
+							relativeWidth={'30%'}
 							height={relativeScreenWidth(12)}
 							onPress={isLoggedUser ? goToEditProfile : openChat}
 						/>
 						<SmallButton
 							color={theme.orange3}
-							label={`compartilhar${isLoggedUser ? ' perfil' : ''}`}
+							label={'compartilhar'}
 							labelColor={theme.black4}
 							highlightedWords={isLoggedUser ? ['compartilhar'] : []}
 							fontSize={12}
 							SvgIcon={ShareIcon}
-							relativeWidth={isLoggedUser ? '60%' : '45%'}
+							relativeWidth={isLoggedUser ? '50%' : '45%'}
 							height={relativeScreenWidth(12)}
 							onPress={shareProfile}
 						/>
-						<ProfilePopOver
-							userName={getUserField('name') as string}
-							buttonLabel={isLoggedUser ? 'sair' : 'denunciar'}
+						<PopOver
+							title={getUserField('name') as string}
+							isLeader={!isLoggedUser && userDataContext.profileType === 'leader'}
+							buttonLabel={'denunciar'}
 							popoverVisibility={profileOptionsIsOpen}
 							closePopover={() => setProfileOptionsIsOpen(false)}
 							onPress={reportUser}
+
 						>
 							<SmallButton
 								color={theme.white3}
@@ -380,7 +435,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 								height={relativeScreenWidth(12)}
 								onPress={openProfileOptions}
 							/>
-						</ProfilePopOver>
+						</PopOver>
 					</OptionsArea>
 				</ProfileHeader>
 			</DefaultHeaderContainer>

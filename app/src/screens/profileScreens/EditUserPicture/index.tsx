@@ -5,7 +5,8 @@ import { Container, InstructionCardContainer } from './styles'
 import { screenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import ImagePlusIcon from '../../../assets/icons/imagePlus.svg'
-import AngleLeftThinIcon from '../../../assets/icons/angleLeft-white.svg'
+import Check from '../../../assets/icons/check-white.svg'
+import X from '../../../assets/icons/x-white.svg'
 
 import { EditUserPictureScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -53,7 +54,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 				setPictureUri={setPictureUri}
 			/>
 			<DefaultHeaderContainer
-				relativeHeight={'80%'}
+				relativeHeight={'60%'}
 				centralized
 				withoutPadding
 				flexDirection={'column'}
@@ -71,25 +72,37 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 
 				/>
 				<InstructionCardContainer>
-					<PrimaryButton
-						color={theme.white3}
-						label={'mudar foto'}
-						fontSize={22}
-						labelColor={theme.black4}
-						highlightedWords={['mudar']}
-						SecondSvgIcon={ImagePlusIcon}
-						svgIconScale={['35%', '20%']}
-						onPress={openCamera}
-					/>
 				</InstructionCardContainer>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
 				<PrimaryButton
 					color={theme.white3}
-					label={'voltar'}
+					label={'tirar outra?'}
+					fontSize={22}
+					labelColor={theme.black4}
+					highlightedWords={['tirar', 'outra']}
+					SecondSvgIcon={ImagePlusIcon}
+					svgIconScale={['35%', '20%']}
+					onPress={openCamera}
+				/>
+				<PrimaryButton
+					color={theme.yellow3}
+					label={'cancelar'}
 					fontSize={18}
 					labelColor={theme.black4}
-					SecondSvgIcon={AngleLeftThinIcon}
+					SecondSvgIcon={X}
+					svgIconScale={['32%', '20%']}
+					onPress={() => {
+						setPictureUri(userDataContext.profilePictureUrl[0])
+						navigation.goBack()
+					}}
+				/>
+				<PrimaryButton
+					color={theme.green3}
+					label={'confirmar'}
+					fontSize={18}
+					labelColor={theme.white3}
+					SecondSvgIcon={Check}
 					svgIconScale={['32%', '20%']}
 					onPress={saveUserPicture}
 				/>

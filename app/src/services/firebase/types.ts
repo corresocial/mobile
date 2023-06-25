@@ -100,6 +100,7 @@ export type UserCollection = {
 	updatedAt?: Date
 	posts?: PostCollection[]
 	ads?: AdsCollection[]
+	profileType: string
 	locationView?: LocationViewType
 	cellNumber?: string // private
 	socialMedias?: SocialMedia[]

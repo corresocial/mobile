@@ -20,7 +20,12 @@ interface DefaultPostViewHeaderProps {
 	destructiveButton?: boolean
 	svgUri?: string
 	SvgIcon?: React.FC<SvgProps>
+	endButton?: boolean
+	endButtonColor?: string
+	endButtonSvgIcon?: React.FC<SvgProps>
+	endButtonText?: string
 	onBackPress: () => void
+	endButtonPress: () => void
 }
 
 function DefaultPostViewHeader({
@@ -31,12 +36,18 @@ function DefaultPostViewHeader({
 	destructiveButton,
 	svgUri,
 	SvgIcon,
+	endButton,
+	endButtonColor,
+	endButtonSvgIcon,
+	endButtonText,
+	endButtonPress,
 	onBackPress
 }: DefaultPostViewHeaderProps) {
 	const getTitleWidth = () => {
 		if (SvgIcon && path) return '50%'
 		if (SvgIcon && !path) return '65%'
 		if (path && !SvgIcon) return '65%'
+		if (endButton) return '70%'
 		return '85%'
 	}
 
@@ -87,6 +98,17 @@ function DefaultPostViewHeader({
 						: showMessageWithHighlight(text, highlightedWords)
 				}
 			</Title>
+			{ endButton && (
+
+				<SmallButton
+					color={endButtonColor}
+					text={endButtonText}
+					SvgIcon={endButtonSvgIcon}
+					relativeWidth={relativeScreenWidth(11)}
+					height={relativeScreenWidth(11)}
+					onPress={endButtonPress}
+				/>
+			)}
 		</Container>
 	)
 }

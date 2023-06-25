@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Linking, ScrollView, StatusBar, View } from 'react-native'
 import uuid from 'react-uuid'
 
 import { Body, Container, Header, NewLinkButtonContainer, Sigh } from './styles'
 import { theme } from '../../../common/theme'
 import PlusIcon from '../../../assets/icons/plus.svg'
+import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
+import TrashRedIcon from '../../../assets/icons/trash-red.svg'
+import AngleRightIcon from '../../../assets/icons/angleRight.svg'
 
 import { SocialMediaManagementScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { SocialMedia } from '../../../services/firebase/types'
@@ -16,14 +19,19 @@ import { EditCard } from '../../../components/_cards/EditCard'
 import { getRelativeSocialMediaIcon, isDefaultSocialMedia, mergeWithDefaultSocialMedia, socialMediaUrl, sortSocialMedias } from '../../../utils/socialMedias'
 
 function SocialMediaManagement({ route, navigation }: SocialMediaManagementScreenProps) {
+	const [deleteSocial, setDeleteSocial] = useState(false)
+
+	const endButtonPress = () => {
+		setDeleteSocial(!deleteSocial)
+	}
+	console.log(deleteSocial)
 	const onPressIcon = async (socialMedia: SocialMedia, index: number) => {
-		if (route.params.isAuthor) {
+		if (route.params.isAuthor && !deleteSocial) {
 			if (isDefaultSocialMedia(socialMedia.title)) {
 				navigation.navigate('InsertLinkValue', { socialMedia, index })
-				return
 			}
-
-			navigation.navigate('InsertLinkTitle', { socialMedia: { ...socialMedia }, index })
+		} else if (deleteSocial) {
+			console.log('perguntar pro wellington como é melhor fazer')
 		} else {
 			const validUrl = await Linking.canOpenURL(socialMedia.link || '')
 			if (validUrl) {
@@ -32,6 +40,10 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 				console.log('URL inválida')
 			}
 		}
+	}
+	const getEndIcon = () => {
+		if (route.params.isAuthor && !deleteSocial) return AngleRightIcon
+		if (deleteSocial) return TrashRedIcon
 	}
 
 	const renderSocialMedias = () => {
@@ -45,8 +57,8 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 				<View key={uuid()}>
 					<EditCard
 						title={socialMedia.title}
+						RightIcon={getEndIcon()}
 						SecondSvgIcon={getRelativeSocialMediaIcon(socialMedia.title)}
-						navigateIcon={!route.params.isAuthor}
 						value={`${socialMedia.link.replace(socialMediaUrl(socialMedia.title, ''), '') || ''}`}
 						onEdit={() => onPressIcon(socialMedia, index)}
 					/>
@@ -63,6 +75,10 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
 					text={'redes'}
+					endButton
+					endButtonSvgIcon={TrashWhiteIcon}
+					endButtonColor={deleteSocial ? theme.yellow3 : theme.red3}
+					endButtonPress={endButtonPress}
 				/>
 			</Header>
 			<Body>

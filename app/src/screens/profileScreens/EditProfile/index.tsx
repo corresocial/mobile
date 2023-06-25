@@ -55,6 +55,14 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 				})
 				break
 			}
+			case 'SocialMediaManagement': {
+				navigation.navigate('SocialMediaManagement' as any, {
+					userId: userDataContext.userId || '',
+					socialMedias: userDataContext.socialMedias || [],
+					isAuthor: true
+				})
+				break
+			}
 			case 'EditUserPicture': {
 				navigation.navigate(screenName, {
 					profilePictureUrl: getProfilePictureUrl(),
@@ -190,13 +198,6 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 				<ScrollView showsVerticalScrollIndicator={false}>
 					<Sigh />
 					<EditCard
-						title={'sua foto'}
-						highlightedWords={['foto']}
-						profilePicturesUrl={[getProfilePictureUrl()] || []}
-						onEdit={() => goToEditScreen('EditUserPicture')}
-					/>
-					<Sigh />
-					<EditCard
 						title={'seu nome'}
 						highlightedWords={['nome']}
 						value={editDataContext.unsaved.name || userDataContext.name}
@@ -208,6 +209,19 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 						highlightedWords={['descrição']}
 						value={editDataContext.unsaved.description || userDataContext.description}
 						onEdit={() => goToEditScreen('EditUserDescription')}
+					/>
+					<Sigh />
+					<EditCard
+						title={'redes sociais'}
+						highlightedWords={['sociais']}
+						onEdit={() => goToEditScreen('SocialMediaManagement')}
+					/>
+					<Sigh />
+					<EditCard
+						title={'sua foto'}
+						highlightedWords={['foto']}
+						profilePicturesUrl={[getProfilePictureUrl()] || []}
+						onEdit={() => goToEditScreen('EditUserPicture')}
 					/>
 					<Sigh />
 				</ScrollView>
