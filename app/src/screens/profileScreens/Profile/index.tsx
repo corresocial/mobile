@@ -23,7 +23,7 @@ import {
 } from './styles'
 import { theme } from '../../../common/theme'
 import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
-import ShareIcon from '../../../assets/icons/share.svg'
+import ShareIcon from '../../../assets/icons/share-white.svg'
 import AtSign from '../../../assets/icons/atSign.svg'
 import LeaderLabel from '../../../assets/icons/leaderLabel.svg'
 import VerifiedLabel from '../../../assets/icons/verifiedLabel.svg'
