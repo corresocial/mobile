@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { createContext, useEffect, useState } from 'react'
+import React, { useContext, createContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { StripeProvider as StripeProviderRaw, confirmPayment, createPaymentMethod } from '@stripe/stripe-react-native'
 
@@ -8,6 +8,8 @@ import { getStripePlans, getStripeProducts } from '../services/stripe/products'
 
 import { StripeProducts } from '../services/stripe/types'
 import { PostRange, SubscriptionPlan } from '../services/firebase/types'
+import { AuthContext } from './AuthContext'
+import { dateHasExpired } from '../common/auxiliaryFunctions'
 
 interface StripeContextProps {
 	children: React.ReactElement
@@ -15,6 +17,7 @@ interface StripeContextProps {
 
 interface StripeContextState {
 	stripeProductsPlans: StripeProducts
+	subscriptionHasActive: boolean,
 	getRangePlanPrice: (subscriptionRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => ({ price: string, priceId: string })
 	createCustomer: (name: string, paymentMethodId: string) => Promise<any>
 	getCustomerPaymentMethods: (customerId: string) => Promise<any>
@@ -40,6 +43,7 @@ const defaultStripeProducts = {
 
 export const StripeContext = createContext<StripeContextState>({
 	stripeProductsPlans: { ...defaultStripeProducts },
+	subscriptionHasActive: true,
 	getRangePlanPrice: (subscriptionRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => ({ price: '', priceId: '' }),
 	createCustomer: (name: string, paymentMethodId: string) => new Promise(() => { }),
 	getCustomerPaymentMethods: (customerId: string) => new Promise(() => { }),
@@ -62,10 +66,16 @@ const defaultAxiosHeader = {
 const axiosConfig = { headers: { ...defaultAxiosHeader } }
 
 export function StripeProvider({ children }: StripeContextProps) {
+	const { userDataContext } = useContext(AuthContext)
+
 	const [stripeProductsPlans, setStripeProductsPlans] = useState<StripeProducts>(defaultStripeProducts)
+	const [subscriptionHasActive, setSubscriptionHasActive] = useState(true)
 
 	useEffect(() => {
 		getProducts()
+		if (userHasSubscription()) {
+			checkCurrentSubscriptionStatus()
+		}
 	}, [])
 
 	async function getProducts() {
@@ -129,7 +139,6 @@ export function StripeProvider({ children }: StripeContextProps) {
 			headers: { ...defaultAxiosHeader }
 		})
 
-		console.log(response.data)
 		return response.data.data.length > 0 ? response.data.data[0] : null
 	}
 
@@ -203,7 +212,36 @@ export function StripeProvider({ children }: StripeContextProps) {
 		return customerId
 	}
 
-	async function getCustomerSubscriptions(customerId: string) {
+	const checkCurrentSubscriptionStatus = async () => {
+		try {
+			const customerId = userDataContext.subscription?.customerId
+			if (!customerId) return
+
+			const res = await getCustomerSubscriptions(customerId, true)
+			if (!res || !res.length) throw new Error('Não há faturas ativas')
+
+			const endSubscriptionDate = res[0].current_period_end * 1000
+			const currentDate = Math.floor(Date.now()) // 1 mês e 8 horas 2657984000
+
+			// console.log(new Date(endSubscriptionDate * 1000))
+			// console.log(new Date(currentDate * 1000))
+
+			if (dateHasExpired(endSubscriptionDate, currentDate, 1)) {
+				console.log('A fatura da assinatura está em dia.')
+				setSubscriptionHasActive(true)
+			} else {
+				console.log('A fatura da assinatura está atrasada.')
+				setSubscriptionHasActive(false)
+			}
+		} catch (err: any) {
+			console.log('A assinatura está com problemas')
+			setSubscriptionHasActive(false)
+		}
+	}
+
+	const userHasSubscription = () => userDataContext.subscription && userDataContext.subscription.subscriptionRange !== 'near'
+
+	async function getCustomerSubscriptions(customerId: string, returnLastSubscriptionData?: boolean) {
 		const response = await axios.get(`${STRIPE_API_URL}/subscriptions`, {
 			params: {
 				customer: customerId,
@@ -213,7 +251,9 @@ export function StripeProvider({ children }: StripeContextProps) {
 		})
 
 		const subscriptionsId = response.data.data.length > 0
-			? response.data.data.map((subscription: any) => subscription.id) // TODO Type
+			? returnLastSubscriptionData
+				? response.data.data
+				: response.data.data.map((subscription: any) => subscription.id) // TODO Type
 			: null
 
 		return subscriptionsId
@@ -247,15 +287,12 @@ export function StripeProvider({ children }: StripeContextProps) {
 
 	const getLastUserPaymentIntentId = async (customerId: string, subscriptionId: string) => {
 		const query = `customer: '${customerId}' AND amount>1 AND status: 'succeeded'`
-		console.log(query)
 		const res = await axios.get(`${STRIPE_API_URL}/payment_intents/search?query=${encodeURIComponent(query)}`, axiosConfig)
-		console.log(res.data.data[0])
 		return res.data.data[0].id
 	}
 
 	async function updateStripeSubscription(subscriptionId: string, newPrice: string) {
 		const remoteSubscriptionData = await getSubscriptionData(subscriptionId)
-		console.log(remoteSubscriptionData.id)
 
 		const subscriptionData = {
 			proration_behavior: 'always_invoice',
@@ -274,30 +311,20 @@ export function StripeProvider({ children }: StripeContextProps) {
 
 	async function cancelSubscription(subscriptionId: string) {
 		const response = await axios.delete(`${STRIPE_API_URL}/subscriptions/${subscriptionId}`, axiosConfig)
+
+		setSubscriptionHasActive(true)
 		return response.data
 	}
 
 	async function refundSubscriptionValue(customerId: string, subscriptionId: string) {
-		try {
-			const paymentIntentId = await getLastUserPaymentIntentId(customerId, subscriptionId)
+		const paymentIntentId = await getLastUserPaymentIntentId(customerId, subscriptionId)
 
-			console.log(paymentIntentId)
-
-			const refundsData = {
-				payment_intent: paymentIntentId,
-				// amount: 1000 // Set refunds value in cents
-			}
-
-			const response = await axios.post(`${STRIPE_API_URL}/refunds`, refundsData, axiosConfig)
-			console.log(response.data)
-		} catch (error: any) {
-			if (error.response) {
-				console.log('Status:', error.response.status)
-				console.log('Data:', error.response.data)
-				console.log('Headers:', error.response.headers)
-				throw new Error(error)
-			}
+		const refundsData = {
+			payment_intent: paymentIntentId,
+			// amount: 1000 // Set refunds value in cents
 		}
+
+		await axios.post(`${STRIPE_API_URL}/refunds`, refundsData, axiosConfig)
 	}
 
 	async function performPaymentConfirm(paymentMethodId: string, subscriptionClientSecret: string) {
@@ -321,6 +348,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 		<StripeContext.Provider
 			value={{
 				stripeProductsPlans: stripeProductsPlans as StripeProducts,
+				subscriptionHasActive,
 				getRangePlanPrice,
 				createCustomer,
 				createCustomPaymentMethod,

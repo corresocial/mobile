@@ -64,7 +64,9 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 
 			const userSubscriptionId = userDataContext.subscription?.subscriptionId || ''
 			const customerId = userDataContext.subscription?.customerId || ''
-			if (userSubscriptionId) {
+			console.log(userSubscriptionId)
+			console.log(customerId)
+			if (userSubscriptionId && customerId) {
 				await refundSubscriptionValue(customerId, userSubscriptionId)
 				await cancelSubscription(userSubscriptionId)
 				await updateSubscriptionRange()
@@ -81,6 +83,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 
 	const updateSubscriptionRange = async () => {
 		const userSubscription: UserSubscription = {
+			customerId: userDataContext.subscription?.customerId,
 			subscriptionId: '',
 			subscriptionRange: 'near',
 			subscriptionPlan: '',

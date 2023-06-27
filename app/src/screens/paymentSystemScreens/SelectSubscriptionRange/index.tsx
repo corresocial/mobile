@@ -20,10 +20,11 @@ import { TitleDescriptionButton } from '../../../components/_cards/TitleDescript
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeChangeConfirmatiomModal'
+import { getRangeText } from '../../../utils/subscription/commonMessages'
 
 function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { stripeProductsPlans } = useContext(StripeContext)
+	const { stripeProductsPlans, subscriptionHasActive } = useContext(StripeContext)
 
 	const [currentSubscriptionRange, setCurrentSubscriptionRange] = useState<PostRange>(userDataContext.subscription?.subscriptionRange || 'near')
 	const [rangeChangeModalIsVisible, setRangeChangeModalIsVisible] = useState(false)
@@ -86,18 +87,21 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 	const renderSelectedRangeCard = () => {
 		return rangeCards.map((rangeCard) => {
 			if (currentSubscriptionRange === rangeCard.id) {
-				/* return ( // ERRO AO PROCESSAR PAGAMENTO
-					<TitleDescriptionButton
-						height={relativeScreenHeight(13)}
-						color={theme.red3}
-						textColor={theme.white3}
-						title={getRangeText(currentSubscriptionRange)}
-						description={'não conseguimos processar seu pagamento'}
-						highlightedWords={[getRangeText(currentSubscriptionRange), 'não', 'conseguimos', 'processar', 'seu', 'pagamento']}
-						checked={currentSubscriptionRange === 'near'}
-						onPress={() => manageSubscriptionRange('near')}
-					/>
-				) */
+				if (!subscriptionHasActive) {
+					return ( // ERRO AO PROCESSAR PAGAMENTO
+						<TitleDescriptionButton
+							height={relativeScreenHeight(13)}
+							color={theme.red3}
+							textColor={theme.white3}
+							title={getRangeText(currentSubscriptionRange)}
+							description={'não conseguimos processar seu pagamento'}
+							highlightedWords={[getRangeText(currentSubscriptionRange), 'não', 'conseguimos', 'processar', 'seu', 'pagamento']}
+							checked={currentSubscriptionRange === 'near'}
+							onPress={() => manageSubscriptionRange('near')}
+						/>
+					)
+				}
+
 				return (
 					< >
 						{rangeCard.component}

@@ -120,6 +120,13 @@ const getNewDate = (date: any) => {
 	return new Date(date)
 }
 
+function dateHasExpired(date1InMilliseconds: number, date2InMilliseconds: number, numberOfDays: number = 1) {
+	const diff = Math.abs(date1InMilliseconds - date2InMilliseconds)
+	const differenceDaysInMilliseconds = numberOfDays * 24 * 60 * 60 * 1000
+	if (diff > differenceDaysInMilliseconds) return true
+	return false
+}
+
 const sortArray = (a: string, b: string) => {
 	if (a < b) return -1
 	if (a > b) return 1
@@ -145,6 +152,7 @@ export {
 	formatDate, // date validation
 	formatHour, //  date validation
 	formatRelativeDate, // date validation
+	dateHasExpired,
 	sortArray, // sort array
 	sortPostCategories, // sort array
 	sortPostsByCreatedData //  sort post array

@@ -32,7 +32,6 @@ function SubscriptionProvider({ children }: SubscriptionProviderProps) {
 	const [subscriptionDataContext, setSubscriptionDataContext] = useState(initialValue.subscriptionDataContext)
 
 	const setSubscriptionDataOnContext = useCallback((data: SubscriptionData) => {
-		console.log({ ...subscriptionDataContext, ...data })
 		setSubscriptionDataContext((prevData) => ({ ...prevData, ...data }))
 	}, [])
 
@@ -43,8 +42,8 @@ function SubscriptionProvider({ children }: SubscriptionProviderProps) {
 	}, [])
 
 	const updateLocalUserSubscription = async (userSubscription: UserSubscription) => {
-		setUserDataOnContext({ subscription: { customerId: userDataContext.subscription?.customerId || 'why customer?', ...userSubscription } })
-		await setDataOnSecureStore('corre.user', { ...userDataContext, subscription: { customerId: userDataContext.subscription?.customerId || 'why customer?', ...userSubscription } })
+		setUserDataOnContext({ subscription: { ...userDataContext.subscription, ...userSubscription } })
+		await setDataOnSecureStore('corre.user', { ...userDataContext, subscription: { customerId: userDataContext.subscription?.customerId, ...userSubscription } })
 	}
 
 	const updateRemoteUserSubscription = async (userSubscription: UserSubscription) => {

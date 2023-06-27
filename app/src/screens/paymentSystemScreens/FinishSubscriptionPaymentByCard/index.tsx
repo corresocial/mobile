@@ -104,6 +104,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			console.log(`paymentMethodId: ${paymentMethodId}`)
 			console.log('\n')
 
+			console.log(customerData)
 			let customerId = customerData.customerId || ''
 			if (customerId) {
 				console.log('Usuário já cadastrado...')
