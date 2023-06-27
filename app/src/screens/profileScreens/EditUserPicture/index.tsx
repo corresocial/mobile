@@ -21,7 +21,7 @@ import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal
 
 function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext, clearUnsavedEditFieldContext } = useContext(EditContext)
 
 	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(true)
 	const [profilePictureUrl, setProfilePictureUrl] = useState<string>(route.params.profilePictureUrl)
@@ -31,7 +31,9 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	}
 
 	const setPictureUri = (pictureUri: string) => {
-		addNewUnsavedFieldToEditContext({ profilePictureUrl: pictureUri })
+		if (pictureUri !== userDataContext.profilePictureUrl[0]) {
+			addNewUnsavedFieldToEditContext({ profilePictureUrl: pictureUri })
+		}
 		setProfilePictureUrl(pictureUri)
 	}
 
@@ -93,6 +95,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 					SecondSvgIcon={X}
 					svgIconScale={['32%', '20%']}
 					onPress={() => {
+						clearUnsavedEditFieldContext('profilePictureUrl')
 						setPictureUri(userDataContext.profilePictureUrl[0])
 						navigation.goBack()
 					}}

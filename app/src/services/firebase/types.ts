@@ -87,12 +87,19 @@ export type SocialMedia = {
 	link: string
 }
 
+export type VerifiedLabelName = 'leader' | 'impact' | 'default'
+
+export type VerifiedType = {
+	type: VerifiedLabelName
+	by: string
+	at: Date
+}
+
 export type UserCollection = {
 	userId?: Id
 	name?: string
 	description?: string
 	profilePictureUrl?: string[]
-	verified?: boolean
 	tourPerformed?: boolean
 	tags?: string[]
 	category?: string
@@ -100,7 +107,7 @@ export type UserCollection = {
 	updatedAt?: Date
 	posts?: PostCollection[]
 	ads?: AdsCollection[]
-	profileType: string
+	verified: VerifiedType
 	locationView?: LocationViewType
 	cellNumber?: string // private
 	socialMedias?: SocialMedia[]

@@ -29,7 +29,7 @@ import LeaderLabel from '../../../assets/icons/leaderLabel.svg'
 import VerifiedLabel from '../../../assets/icons/verifiedLabel.svg'
 import ImpactLabel from '../../../assets/icons/impactLabel.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
-import PencilIcon from '../../../assets/icons/pencil.svg'
+import EditIcon from '../../../assets/icons/edit-white.svg'
 import GearIcon from '../../../assets/icons/gear.svg'
 
 import { share } from '../../../common/share'
@@ -37,7 +37,7 @@ import { getUser } from '../../../services/firebase/user/getUser'
 import { arrayIsEmpty, sortArray, sortPostsByCreatedData } from '../../../common/auxiliaryFunctions'
 
 import { LocalUserData } from '../../../contexts/types'
-import { Id, PostCollection, SocialMedia, UserCollection } from '../../../services/firebase/types'
+import { Id, PostCollection, SocialMedia, UserCollection, VerifiedLabelName, VerifiedType } from '../../../services/firebase/types'
 import { HomeTabScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -52,10 +52,10 @@ import { PopOver } from '../../../components/PopOver'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { updateUser } from '../../../services/firebase/user/updateUser'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
 	const [user, setUser] = useState<LocalUserData>({})
@@ -83,18 +83,17 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const getProfileDataFromRemote = async (userId: string) => {
 		const remoteUser = await getUser(userId)
-		const { profilePictureUrl, name, posts, description, profileType, socialMedias } = remoteUser as LocalUserData
+		const { profilePictureUrl, name, posts, description, verified, socialMedias } = remoteUser as LocalUserData
 		setUser({
 			userId,
 			name,
 			socialMedias,
 			description,
 			profilePictureUrl: profilePictureUrl || [],
-			profileType,
+			verified,
 			posts
 		})
 	}
-
 	const getUserPostTags = () => {
 		const posts = getUserPosts()
 		const userPostTags = posts.reduce((acc: any[], current: PostCollection) => {
@@ -271,6 +270,16 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		return userDataContext.posts ? userDataContext.posts.sort(sortPostsByCreatedData) : []
 	}
 
+	const verifyUserProfile = async (label:VerifiedLabelName) => {
+		if (user.userId && userDataContext.userId) {
+			await updateUser(user.userId, { verified: {
+				type: label,
+				by: userDataContext.userId,
+				at: new Date()
+			} })
+		}
+	}
+
 	return (
 		<Container style={{ flex: 1 }}>
 			<FocusAwareStatusBar backgroundColor={profileOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3} barStyle={'dark-content'} />
@@ -301,7 +310,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						/>
 						<InfoArea>
 							<UserName numberOfLines={3} >{getUserField('name')}</UserName>
-							{((userDataContext.profileType === 'leader' && isLoggedUser) || user.profileType === 'leader') && (
+							{(((userDataContext.verified && userDataContext.verified.type === 'leader') && isLoggedUser) || (user.verified && user.verified.type === 'leader')) && (
 								<VerticalPaddingContainer>
 									<ProfileInfoContainer>
 										<LeaderLabel
@@ -315,7 +324,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 									</ProfileInfoContainer>
 								</VerticalPaddingContainer>
 							)}
-							{((userDataContext.profileType === 'verified' && isLoggedUser) || user.profileType === 'verified') && (
+							{(((userDataContext.verified && userDataContext.verified.type === 'default') && isLoggedUser) || (user.verified && user.verified.type === 'default')) && (
 								<VerticalPaddingContainer>
 									<ProfileInfoContainer>
 										<VerifiedLabel
@@ -329,7 +338,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 									</ProfileInfoContainer>
 								</VerticalPaddingContainer>
 							)}
-							{((userDataContext.profileType === 'impact' && isLoggedUser) || user.profileType === 'impact') && (
+							{(((userDataContext.verified && userDataContext.verified.type) === 'impact' && isLoggedUser) || (user.verified && user.verified.type === 'impact')) && (
 								<VerticalPaddingContainer>
 									<ProfileInfoContainer>
 										<ImpactLabel
@@ -346,11 +355,11 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							{
 								!userDescriptionIsExpanded && isLoggedUser && (
 									<TouchableOpacity onPress={() => getUserField('description') && setUserDescriptionIsExpanded(true)}>
-										<UserDescription numberOfLines={3}>
+										<UserDescription numberOfLines={2}>
 											{getUserField('description') || 'você pode adicionar uma descrição em "editar".'}
 										</UserDescription>
-										{getUserField('description').length >= 88 && (
-											<Text style={{ fontWeight: 'bold' }}>{'mostrar mais'}</Text>)}
+										{/* {getUserField('description').length >= 88 && (
+											<Text style={{ fontWeight: 'bold' }}>{'mostrar mais'}</Text>)} */}
 									</TouchableOpacity>
 								)
 							}
@@ -403,7 +412,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						<SmallButton
 							label={isLoggedUser ? 'editar' : 'chat'}
 							labelColor={theme.black4}
-							SvgIcon={isLoggedUser ? PencilIcon : ChatWhiteIcon}
+							SvgIcon={isLoggedUser ? EditIcon : ChatWhiteIcon}
+							svgScale={['85%', '25%']}
 							relativeWidth={'30%'}
 							height={relativeScreenWidth(12)}
 							onPress={isLoggedUser ? goToEditProfile : openChat}
@@ -421,12 +431,12 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						/>
 						<PopOver
 							title={getUserField('name') as string}
-							isLeader={!isLoggedUser && userDataContext.profileType === 'leader'}
+							isVerifiable={!isLoggedUser && (userDataContext.verified && userDataContext.verified.type === 'leader') && (user && !user.verified)}
 							buttonLabel={'denunciar'}
 							popoverVisibility={profileOptionsIsOpen}
 							closePopover={() => setProfileOptionsIsOpen(false)}
 							onPress={reportUser}
-
+							onPressVerify={verifyUserProfile}
 						>
 							<SmallButton
 								color={theme.white3}

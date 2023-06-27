@@ -25,6 +25,7 @@ import { Loader } from '../../../components/Loader'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { deleteUserPicture } from '../../../services/firebase/user/deleteUserPicture'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
+import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 
 function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
@@ -77,7 +78,9 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	const getProfilePictureUrl = () => {
 		if (userDataContext && !userDataContext.profilePictureUrl && !editDataContext.unsaved.profilePictureUrl) return ''
 		if (arrayIsEmpty([editDataContext.unsaved.profilePictureUrl]) && arrayIsEmpty(userDataContext.profilePictureUrl)) return ''
-		return editDataContext.unsaved.profilePictureUrl || (userDataContext && userDataContext.profilePictureUrl && userDataContext.profilePictureUrl[0])
+		if (editDataContext.unsaved.profilePictureUrl === '') return ''
+		if (editDataContext.unsaved.profilePictureUrl) return editDataContext.unsaved.profilePictureUrl
+		if (userDataContext && userDataContext.profilePictureUrl && userDataContext.profilePictureUrl[0]) return userDataContext.profilePictureUrl[0]
 	}
 
 	const updateUserData = async () => {
@@ -212,10 +215,12 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					/>
 					<Sigh />
 					<EditCard
-						title={'redes sociais'}
-						highlightedWords={['sociais']}
+						title={'links e contato'}
+						highlightedWords={['links', 'contato']}
 						onEdit={() => goToEditScreen('SocialMediaManagement')}
-					/>
+					>
+						<HorizontalSocialMediaList socialMedias={userDataContext.socialMedias}/>
+					</EditCard>
 					<Sigh />
 					<EditCard
 						title={'sua foto'}

@@ -41,11 +41,12 @@ function EditUserDescription({ route, navigation }: EditUserDescriptionScreenPro
 	}, [profileDescription, keyboardOpened])
 
 	const validateProfileDescription = (text: string) => {
-		const isValid = (text).trim().length >= 1
-		if (isValid && !keyboardOpened) {
-			return true
-		}
-		return false
+		return true
+		// const isValid = (text).trim().length >= 1
+		// if (isValid && !keyboardOpened) {
+		// 	return true
+		// }
+		// return false
 	}
 
 	const saveUserDescription = async () => {

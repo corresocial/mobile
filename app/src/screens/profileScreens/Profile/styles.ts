@@ -7,6 +7,7 @@ export const Container = styled.View`
 `
 
 export const ProfileHeader = styled.View`
+	padding-top: 10px;
     width: 100%;
 `
 

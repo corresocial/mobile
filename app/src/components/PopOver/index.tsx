@@ -8,41 +8,50 @@ import { relativeScreenHeight } from '../../common/screenDimensions'
 import { theme } from '../../common/theme'
 import XIcon from '../../assets/icons/x-white.svg'
 import VerifiedLabel from '../../assets/icons/verifiedLabel.svg'
+import ImpactLabel from '../../assets/icons/impactLabel.svg'
 
 import { PrimaryButton } from '../_buttons/PrimaryButton'
 import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 import { VerifyUserConfirmationModal } from '../_modals/VerifyUserConfirmationModal'
+import { VerifiedLabelName } from '../../services/firebase/types'
 
 interface PopOverProps {
 	title?: string
-	isLeader: boolean
+	isVerifiable: boolean
 	popoverVisibility: boolean
 	buttonLabel: string
 	buttonTwoLabel: string
 	buttonThreeLabel: string
 	children: React.ReactChild
 	onPress?: () => void
+	onPressVerify: (label:VerifiedLabelName) => void
 	goToConfig?: () => void
 	closePopover: () => void
 }
 
 function PopOver({
 	title,
-	isLeader,
+	isVerifiable,
 	popoverVisibility,
 	buttonLabel,
 	buttonTwoLabel,
 	buttonThreeLabel,
 	children,
 	onPress,
+	onPressVerify,
 	goToConfig,
 	closePopover
 }: PopOverProps) {
 	const [verifyUserModal, setVerifyUserModal] = useState(false)
+	const [verifyImpactUserModal, setVerifyImpactUserModal] = useState(false)
 
 	const toggleVerifyUserModal = () => {
 		setVerifyUserModal(!verifyUserModal)
 	}
+	const toggleVerifyImpactUserModal = () => {
+		setVerifyImpactUserModal(!verifyImpactUserModal)
+	}
+
 	return (
 		<Popover
 			isVisible={popoverVisibility}
@@ -60,8 +69,15 @@ function PopOver({
 		>
 			<VerifyUserConfirmationModal
 				visibility={verifyUserModal}
-				onPressButton={() => console.log('onPressButton')}
+				title={'verificar perfil'}
+				onPressButton={() => onPressVerify('default')}
 				closeModal={toggleVerifyUserModal}
+			/>
+			<VerifyUserConfirmationModal
+				visibility={verifyImpactUserModal}
+				title={'tornar de impacto'}
+				onPressButton={() => onPressVerify('impact')}
+				closeModal={toggleVerifyImpactUserModal}
 			/>
 			<Container>
 				<FocusAwareStatusBar backgroundColor={theme.transparence.orange2} barStyle={'dark-content'} />
@@ -95,19 +111,33 @@ function PopOver({
 						minHeight={20}
 						relativeHeight={relativeScreenHeight(8)}
 					/>
-					<Sigh />
-					{ isLeader && (
-						<PrimaryButton
-							color={theme.orange3}
-							onPress={toggleVerifyUserModal}
-							SvgIcon={VerifiedLabel}
-							label={'verificar perfil'}
-							highlightedWords={['verificar']}
-							labelColor={theme.black3}
-							fontSize={14}
-							minHeight={20}
-							relativeHeight={relativeScreenHeight(8)}
-						/>
+					{ isVerifiable && (
+						<>
+							<Sigh />
+							<PrimaryButton
+								color={theme.orange3}
+								onPress={toggleVerifyUserModal}
+								SvgIcon={VerifiedLabel}
+								label={'verificar perfil'}
+								highlightedWords={['verificar']}
+								labelColor={theme.black3}
+								fontSize={14}
+								minHeight={20}
+								relativeHeight={relativeScreenHeight(8)}
+							/>
+							<Sigh />
+							<PrimaryButton
+								color={theme.pink3}
+								onPress={toggleVerifyImpactUserModal}
+								SvgIcon={ImpactLabel}
+								label={'tornar de impacto'}
+								highlightedWords={['impacto']}
+								labelColor={theme.white3}
+								fontSize={14}
+								minHeight={20}
+								relativeHeight={relativeScreenHeight(8)}
+							/>
+						</>
 					)}
 				</ContainerInner>
 			</Container>

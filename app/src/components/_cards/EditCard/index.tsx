@@ -21,6 +21,7 @@ interface EditCardProps {
 	SvgIcon?: React.FC<SvgProps>
 	SecondSvgIcon?: React.FC<SvgProps>
 	RightIcon?: React.FC<SvgProps>
+	children?: ReactElement
 	onEdit?: () => void
 }
 
@@ -35,6 +36,7 @@ function EditCard({
 	SvgIcon,
 	SecondSvgIcon,
 	RightIcon,
+	children,
 	onEdit,
 }: EditCardProps) {
 	const isDateOrTimeOrObject = () => {
@@ -49,7 +51,7 @@ function EditCard({
 		return false
 	}
 	return (
-		<DefaultCardContainer withoutPadding={!!profilePicturesUrl.length}>
+		<DefaultCardContainer >
 			<CardHeader
 				style={{
 					paddingHorizontal: profilePicturesUrl.length ? RFValue(15) : 0,
@@ -111,6 +113,7 @@ function EditCard({
 						</PictureArea>
 					)
 			}
+			{children && children}
 		</DefaultCardContainer >
 	)
 }

@@ -19,19 +19,11 @@ import { EditCard } from '../../../components/_cards/EditCard'
 import { getRelativeSocialMediaIcon, isDefaultSocialMedia, mergeWithDefaultSocialMedia, socialMediaUrl, sortSocialMedias } from '../../../utils/socialMedias'
 
 function SocialMediaManagement({ route, navigation }: SocialMediaManagementScreenProps) {
-	const [deleteSocial, setDeleteSocial] = useState(false)
-
-	const endButtonPress = () => {
-		setDeleteSocial(!deleteSocial)
-	}
-	console.log(deleteSocial)
 	const onPressIcon = async (socialMedia: SocialMedia, index: number) => {
-		if (route.params.isAuthor && !deleteSocial) {
+		if (route.params.isAuthor) {
 			if (isDefaultSocialMedia(socialMedia.title)) {
 				navigation.navigate('InsertLinkValue', { socialMedia, index })
 			}
-		} else if (deleteSocial) {
-			console.log('perguntar pro wellington como é melhor fazer')
 		} else {
 			const validUrl = await Linking.canOpenURL(socialMedia.link || '')
 			if (validUrl) {
@@ -42,8 +34,7 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 		}
 	}
 	const getEndIcon = () => {
-		if (route.params.isAuthor && !deleteSocial) return AngleRightIcon
-		if (deleteSocial) return TrashRedIcon
+		if (!route.params.isAuthor) return AngleRightIcon
 	}
 
 	const renderSocialMedias = () => {
@@ -75,10 +66,6 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
 					text={'redes'}
-					endButton
-					endButtonSvgIcon={TrashWhiteIcon}
-					endButtonColor={deleteSocial ? theme.yellow3 : theme.red3}
-					endButtonPress={endButtonPress}
 				/>
 			</Header>
 			<Body>
