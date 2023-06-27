@@ -45,14 +45,20 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 	const [isLoading, setIsLoading] = useState(false)
 
 	const { price, priceId } = getRangePlanPrice(subscriptionRange, subscriptionPlan)
+	const editPaymentMethod = route.params?.editPaymentMethod
 
 	const performSubscriptionPayment = async () => {
 		try {
 			setIsLoading(true)
-			const { customerId, subscriptionId } = await performSubscriptionRegister()
+			const { customerId, subscriptionId, stopped } = await performSubscriptionRegister()
+
+			if (stopped) {
+				navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true, ...route.params })
+				return
+			}
 
 			if (!customerId || !subscriptionId) {
-				navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false, ...route.params })
+				navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false })
 				throw new Error('customerId ou subscriptionId inválido')
 			}
 
@@ -74,7 +80,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 		} catch (err: any) { // Veirfy stripe erros
 			console.log(err)
 			setIsLoading(false)
-			// navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false, ...route.params })
+			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false, ...route.params })
 		}
 	}
 
@@ -101,6 +107,9 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			let customerId = customerData.customerId || ''
 			if (customerId) {
 				console.log('Usuário já cadastrado...')
+
+				const response = await setDefaultPaymentMethodToCustomer(customerId, paymentMethodId, true)
+				if (!response) throw new Error('Não foi possível atribuir um método de pagamento default...')
 			} else {
 				customerId = await createCustomer(customerData.name, paymentMethodId)
 				console.log('Usuário cadastrado...')
@@ -112,6 +121,11 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			if (!customerId) throw new Error('customerId inválido')
 			console.log(`customerId: ${customerId}`)
 			console.log('\n')
+
+			if (editPaymentMethod) {
+				navigation.goBack()
+				return { customerId: '', subscriptionId: '', stopped: true }
+			}
 
 			const subscriptionsId = await getCustomerSubscriptions(customerId)
 			if (subscriptionsId) {
@@ -140,9 +154,15 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			console.log('\n')
  */
 			return { customerId, subscriptionId: subscriptionsId[0] }
-		} catch (err) {
+		} catch (error: any) {
 			console.log('Erro ao lidar com o stripe...')
-			console.log(err)
+			if (error.response) {
+				console.log('Status:', error.response.status)
+				console.log('Data:', error.response.data)
+				console.log('Headers:', error.response.headers)
+				throw new Error(error)
+			}
+			console.log(error)
 			return {}
 		}
 	}

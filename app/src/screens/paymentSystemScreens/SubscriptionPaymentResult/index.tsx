@@ -35,7 +35,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 
 	const { subscriptionRange, subscriptionPlan, currentPost } = subscriptionDataContext
 
-	const { successfulPayment, postReview } = route.params
+	const { successfulPayment, postReview, editPaymentMethod } = route.params
 
 	const checkPaymentData = () => {
 		navigation.goBack()
@@ -48,6 +48,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 	}
 
 	const backToInitialStackScreen = () => {
+		if (editPaymentMethod) return navigation.pop(2)
 		navigation.pop(4)
 	}
 
@@ -65,6 +66,11 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 		)
 	}
 
+	const getResultTitle = () => {
+		if (editPaymentMethod) return 'cartão \natualizado com sucesso!'
+		return editPaymentMethod ? 'pagamento \nrealizado com sucesso!' : 'opa, o pagamento falhou!'
+	}
+
 	const { price } = getRangePlanPrice(subscriptionRange, subscriptionPlan)
 
 	return (
@@ -78,8 +84,8 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 				justifyContent={successfulPayment ? 'space-around' : 'center'}
 			>
 				<InstructionCard
-					message={successfulPayment ? 'pagamento \nrealizado com sucesso!' : 'opa, o pagamento falhou!'}
-					highlightedWords={successfulPayment ? ['\nrealizado', 'com', 'sucesso!'] : ['falhou!']}
+					message={getResultTitle()}
+					highlightedWords={successfulPayment ? ['\nrealizado', '\natualizado', 'com', 'sucesso!'] : ['falhou!']}
 					fontSize={20}
 					flex={0}
 				>

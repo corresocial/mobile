@@ -20,7 +20,7 @@ interface StripeContextState {
 	getCustomerPaymentMethods: (customerId: string) => Promise<any>
 	createCustomPaymentMethod: () => Promise<any>
 	attachPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => Promise<any>
-	setDefaultPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => Promise<any>
+	setDefaultPaymentMethodToCustomer: (customerId: string, paymentMethodId: string, attach?: boolean) => Promise<any>
 	getCustomerSubscriptions: (customerId: string) => Promise<any>
 	createSubscription: (customerId: string, priceId: string) => Promise<any>
 	updateStripeSubscription: (subscriptionId: string, priceId: string) => Promise<any>
@@ -156,7 +156,9 @@ export function StripeProvider({ children }: StripeContextProps) {
 		return true
 	}
 
-	async function setDefaultPaymentMethodToCustomer(customerId: string, paymentMethodId: string) {
+	async function setDefaultPaymentMethodToCustomer(customerId: string, paymentMethodId: string, attach?: boolean) {
+		attach && await attachPaymentMethodToCustomer(customerId, paymentMethodId)
+
 		await axios.post(`${STRIPE_API_URL}/customers/${customerId}`, {
 			invoice_settings: {
 				default_payment_method: paymentMethodId

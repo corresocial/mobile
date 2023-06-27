@@ -127,7 +127,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 	}
 
 	const editPaymentMethod = () => {
-		navigation.navigate('SelectSubsciptionPaymentMethod')
+		navigation.navigate('FinishSubscriptionPaymentByCard', { editPaymentMethod: true })
 	}
 
 	const getHeaderTitle = () => {

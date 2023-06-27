@@ -35,7 +35,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 			return
 		}
 
-		navigation.navigate('FinishSubscriptionPaymentByCard', { postReview: !!route.params?.postReview })
+		navigation.navigate('FinishSubscriptionPaymentByCard', { postReview: !!route.params?.postReview, ...route.params })
 	}
 
 	const { price } = getRangePlanPrice(subscriptionRange, subscriptionPlan)

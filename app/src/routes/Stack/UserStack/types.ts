@@ -52,6 +52,6 @@ export type UserStackParamList = {
 	SelectSubscriptionPlan: { postReview?: boolean, postRange: PostRange }
 	SelectSubsciptionPaymentMethod: { postReview?: boolean } | undefined
 	FinishSubscriptionPaymentByPix: { postReview?: boolean } | undefined
-	FinishSubscriptionPaymentByCard: { postReview?: boolean } | undefined
-	SubscriptionPaymentResult: { postReview?: boolean, successfulPayment: boolean }
+	FinishSubscriptionPaymentByCard: { postReview?: boolean, editPaymentMethod?: boolean } | undefined
+	SubscriptionPaymentResult: { postReview?: boolean, editPaymentMethod?: boolean, successfulPayment: boolean }
 }
