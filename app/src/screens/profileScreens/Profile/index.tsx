@@ -53,6 +53,7 @@ import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialm
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { updateUser } from '../../../services/firebase/user/updateUser'
+import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -467,6 +468,26 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						)}
 						showsVerticalScrollIndicator={false}
 						ItemSeparatorComponent={() => <Sigh />}
+						ListHeaderComponent={() => isLoggedUser && userDataContext.posts && userDataContext.posts.length == 0 && (
+							<WithoutPostsMessage
+								title={'faça uma postagem!'}
+								message={
+									'você precisa fazer um post para que outras pessoas possam te encontrem\ncaso veio aqui apenas para procurar, não se preocupe.'
+								}
+								highlightedWords={[
+									'precisa',
+									'fazer',
+									'um',
+									'post',
+									'outras',
+									'pessoas',
+									'possam',
+									'te',
+									'encontrar',
+								]}
+								backgroundColor={theme.yellow1}
+							/>
+						)}
 						ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
 						ListFooterComponent={() => <FooterSigh />}
 					/>
