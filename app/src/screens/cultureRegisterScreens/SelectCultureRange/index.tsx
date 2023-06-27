@@ -12,28 +12,23 @@ import { CultureContext } from '../../../contexts/CultureContext'
 import { PostRange } from '../../../components/_onboarding/PostRange'
 
 function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps) {
-	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+	const { setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	const savePostRange = (postRange: PostRangeType) => {
-		const { eventPlaceModality } = cultureDataContext
-
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ range: postRange })
 			navigation.goBack()
 		}
 
 		setCultureDataOnContext({ range: postRange })
-		if (eventPlaceModality !== 'online') {
-			navigation.navigate('SelectCultureLocationView', {
-				editMode: editModeIsTrue(),
-				initialValue: route.params?.initialValue
-			})
-		} else {
-			navigation.navigate('InsertEntryValue')
-		}
+
+		navigation.navigate('SelectCultureLocationView', {
+			editMode: editModeIsTrue(),
+			initialValue: route.params?.initialValue
+		})
 	}
 
 	return (

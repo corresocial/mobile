@@ -107,7 +107,7 @@ export type UserCollection = {
 	updatedAt?: Date
 	posts?: PostCollection[]
 	ads?: AdsCollection[]
-	verified: VerifiedType
+	verified?: VerifiedType
 	locationView?: LocationViewType
 	cellNumber?: string // private
 	socialMedias?: SocialMedia[]
