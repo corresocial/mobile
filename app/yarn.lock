@@ -11465,7 +11465,9 @@
     "signal-exit" "^3.0.2"
 
 "write-file-atomic@^4.0.0", "write-file-atomic@^4.0.1":
-  "version" "4.0.1"
+  "integrity" "sha512-7KxauUdBmSdWnmpaGFg+ppNjKF8uNLry8LyzjauQDOVONfFLNKrKvQOxZ/VuTIcS/gge/YNahf5RIIQWTSarlg=="
+  "resolved" "https://registry.npmjs.org/write-file-atomic/-/write-file-atomic-4.0.2.tgz"
+  "version" "4.0.2"
   dependencies:
     "imurmurhash" "^0.1.4"
     "signal-exit" "^3.0.7"

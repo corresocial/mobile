@@ -184,7 +184,8 @@ export function StripeProvider({ children }: StripeContextProps) {
 		const customerData = {
 			name,
 			description: 'Assinante do corre',
-			phone: '+12123451234',
+			phone: '',
+			email: '',
 			address: {},
 			payment_method: paymentMethodId,
 		}

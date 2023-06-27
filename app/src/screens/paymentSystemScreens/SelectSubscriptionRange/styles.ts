@@ -3,7 +3,9 @@ import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
+	background-color: ${({ theme }) => theme.orange2};
 `
+
 export const ScrollContainer = styled.ScrollView`
 	flex: 1;
 `
