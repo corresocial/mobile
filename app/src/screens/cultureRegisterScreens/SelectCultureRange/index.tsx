@@ -26,14 +26,10 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 		}
 
 		setCultureDataOnContext({ range: postRange })
-		if (eventPlaceModality !== 'online') {
-			navigation.navigate('SelectCultureLocationView', {
-				editMode: editModeIsTrue(),
-				initialValue: route.params?.initialValue
-			})
-		} else {
-			navigation.navigate('InsertEntryValue')
-		}
+		navigation.navigate('SelectCultureLocationView', {
+			editMode: editModeIsTrue(),
+			initialValue: route.params?.initialValue
+		})
 	}
 
 	return (
