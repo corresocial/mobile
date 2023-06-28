@@ -30,6 +30,7 @@ interface StripeContextState {
 	cancelSubscription: (subscriptionId: string) => Promise<any>
 	refundSubscriptionValue: (customerId: string, subscriptionId: string) => Promise<any>
 	performPaymentConfirm: (paymentMethodId: string, subscriptionClientSecret: string) => Promise<any>
+	sendReceiptByEmail: (customerId: string) => Promise<any>
 }
 
 const defaultPlan = { id: '', name: '', price: '', priceId: '' }
@@ -56,6 +57,7 @@ export const StripeContext = createContext<StripeContextState>({
 	cancelSubscription: (subscriptionId: string) => new Promise(() => { }),
 	refundSubscriptionValue: (customerId: string, subscriptionId: string) => new Promise(() => { }),
 	performPaymentConfirm: (paymentMethodId: string, subscriptionClientSecret: string) => new Promise(() => { }),
+	sendReceiptByEmail: (customerId: string) => new Promise(() => { }),
 })
 
 const defaultAxiosHeader = {
@@ -265,9 +267,10 @@ export function StripeProvider({ children }: StripeContextProps) {
 					price: priceId, // Substitua pelo ID real do preço/produto
 				},
 			],
-			// default_payment_method: paymentMethodId,
 			payment_behavior: 'error_if_incomplete', // error_if_incomplete
 			expand: ['latest_invoice.payment_intent'],
+			/* 	collection_method: 'send_invoice',
+				days_until_due: 30, */
 		}
 
 		const response = await axios.post(`${STRIPE_API_URL}/subscriptions`, postData, axiosConfig)
@@ -283,10 +286,17 @@ export function StripeProvider({ children }: StripeContextProps) {
 		return res.data
 	}
 
-	const getLastUserPaymentIntentId = async (customerId: string, subscriptionId: string) => {
+	const getLastUserPaymentIntentId = async (customerId: string) => {
 		const query = `customer: '${customerId}' AND amount>1 AND status: 'succeeded'`
 		const res = await axios.get(`${STRIPE_API_URL}/payment_intents/search?query=${encodeURIComponent(query)}`, axiosConfig)
 		return res.data.data[0].id
+	}
+
+	const getLastUserPaymentInvoiceId = async (customerId: string) => {
+		const query = `customer: '${customerId}' AND amount>1 AND status: 'succeeded'`
+		const res = await axios.get(`${STRIPE_API_URL}/payment_intents/search?query=${encodeURIComponent(query)}`, axiosConfig)
+
+		return res.data.data[0].invoice || ''
 	}
 
 	async function updateStripeSubscription(subscriptionId: string, newPrice: string) {
@@ -315,14 +325,18 @@ export function StripeProvider({ children }: StripeContextProps) {
 	}
 
 	async function refundSubscriptionValue(customerId: string, subscriptionId: string) {
-		const paymentIntentId = await getLastUserPaymentIntentId(customerId, subscriptionId)
+		try {
+			const paymentIntentId = await getLastUserPaymentIntentId(customerId)
 
-		const refundsData = {
-			payment_intent: paymentIntentId,
-			// amount: 1000 // Set refunds value in cents
+			const refundsData = {
+				payment_intent: paymentIntentId,
+				// amount: 1000 // Set refunds value in cents
+			}
+
+			await axios.post(`${STRIPE_API_URL}/refunds`, refundsData, axiosConfig)
+		} catch (err) {
+			return null
 		}
-
-		await axios.post(`${STRIPE_API_URL}/refunds`, refundsData, axiosConfig)
 	}
 
 	async function performPaymentConfirm(paymentMethodId: string, subscriptionClientSecret: string) {
@@ -333,13 +347,28 @@ export function StripeProvider({ children }: StripeContextProps) {
 				paymentMethodData: {
 					paymentMethodId,
 					billingDetails: {
-						name: 'corre.teste.confirmPayment',
+						name: 'Pagamento de fatura',
 					}
 				}
 			}
 		)
 
 		return { error: err, paymentIntent }
+	}
+
+	const sendReceiptByEmail = async (customerId: string) => {
+		const invoiceId = await getLastUserPaymentInvoiceId(customerId)
+
+		console.log(invoiceId)
+		const customerData = {
+			amount: 100,
+			currency: 'BRL',
+			payment_method_types: ['card'],
+			receipt_email: 'wellingtonsouza.wsa100@gmail.com'
+		}
+
+		const result = await axios.post(`${STRIPE_API_URL}/payment_intents`, { ...customerData }, axiosConfig)
+		console.log(result.data)
 	}
 
 	return (
@@ -359,6 +388,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 				attachPaymentMethodToCustomer,
 				refundSubscriptionValue,
 				setDefaultPaymentMethodToCustomer,
+				sendReceiptByEmail
 			}}
 		>
 			<StripeProviderRaw publishableKey={STRIPE_PUBLISHABLE_KEY}>
