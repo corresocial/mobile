@@ -88,8 +88,9 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 		return rangeCards.map((rangeCard) => {
 			if (currentSubscriptionRange === rangeCard.id) {
 				if (!subscriptionHasActive) {
-					return ( // ERRO AO PROCESSAR PAGAMENTO
+					return (
 						<TitleDescriptionButton
+							key={'planError'}
 							height={relativeScreenHeight(13)}
 							color={theme.red3}
 							textColor={theme.white3}
@@ -103,12 +104,12 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				}
 
 				return (
-					< >
+					<React.Fragment key={rangeCard.id}>
 						{rangeCard.component}
-					</>
+					</React.Fragment>
 				)
 			}
-			return <></>
+			return null
 		})
 	}
 
@@ -116,13 +117,13 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 		return rangeCards.map((rangeCard) => {
 			if (currentSubscriptionRange !== rangeCard.id) {
 				return (
-					< >
+					<React.Fragment key={rangeCard.id}>
 						{rangeCard.component}
-						< VerticalSigh key={rangeCard.id} />
-					</>
+						<VerticalSigh />
+					</React.Fragment>
 				)
 			}
-			return <></>
+			return null
 		})
 	}
 
