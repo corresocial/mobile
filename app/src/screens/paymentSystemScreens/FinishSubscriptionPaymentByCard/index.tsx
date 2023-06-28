@@ -2,6 +2,8 @@
 import React, { useState, useContext } from 'react'
 
 import { CardForm } from '@stripe/stripe-react-native'
+import { CardBrand } from '@stripe/stripe-react-native/lib/typescript/src/types/Token'
+import { Details } from '@stripe/stripe-react-native/lib/typescript/src/types/components/CardFormView'
 import { theme } from '../../../common/theme'
 import { Body, BodyScrollable, Container, PaymentStatusArea, PaymentStatusText, Title, TitleArea } from './styles'
 import DollarWhiteIcon from '../../../assets/icons/dollar.svg'
@@ -27,6 +29,20 @@ import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Loader } from '../../../components/Loader'
 
+type CustomCardDetails = {
+	brand: CardBrand
+	expiryMonth: number
+	expiryYear: number
+	last4: string
+}
+
+type RemoteCardDetails = {
+	brand: CardBrand
+	exp_month: number
+	exp_year: number
+	last4: string
+}
+
 function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscriptionPaymentByCardScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { subscriptionDataContext, updateUserSubscription } = useContext(SubscriptionContext)
@@ -37,11 +53,13 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 		createCustomer,
 		createSubscription,
 		getCustomerSubscriptions,
-		updateStripeSubscription
+		updateStripeSubscription,
+		getCustomerPaymentMethods
 	} = useContext(StripeContext)
 
 	const { subscriptionRange, subscriptionPlan, subscriptionPaymentMethod } = subscriptionDataContext
 
+	const [cardDetails, setCardDetails] = useState<CustomCardDetails>({ brand: 'Unknown', expiryMonth: 1, expiryYear: 2023, last4: '' })
 	const [isLoading, setIsLoading] = useState(false)
 
 	const { price, priceId } = getRangePlanPrice(subscriptionRange, subscriptionPlan)
@@ -96,6 +114,13 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 		}
 
 		try {
+			let cardAlreadyRegistered = false
+			if (customerData.customerId) {
+				const { card: remoteCard } = await getCustomerPaymentMethods(userDataContext.subscription?.customerId || '')
+				cardAlreadyRegistered = cardDataAreEquals(cardDetails, remoteCard)
+			}
+			console.log(`cardAlreadyRegistered - ${cardAlreadyRegistered}`)
+
 			const { error, paymentMethodId } = await createCustomPaymentMethod()
 			if (error) throw new Error(error.message)
 
@@ -104,13 +129,14 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			console.log(`paymentMethodId: ${paymentMethodId}`)
 			console.log('\n')
 
-			console.log(customerData)
 			let customerId = customerData.customerId || ''
 			if (customerId) {
 				console.log('Usuário já cadastrado...')
 
-				const response = await setDefaultPaymentMethodToCustomer(customerId, paymentMethodId, true)
-				if (!response) throw new Error('Não foi possível atribuir um método de pagamento default...')
+				if (!cardAlreadyRegistered) {
+					const response = await setDefaultPaymentMethodToCustomer(customerId, paymentMethodId, true)
+					if (!response) throw new Error('Não foi possível atribuir um método de pagamento default...')
+				}
 			} else {
 				customerId = await createCustomer(customerData.name, paymentMethodId)
 				console.log('Usuário cadastrado...')
@@ -141,12 +167,12 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 				return { customerId, subscriptionId }
 			}
 
-			// if (!subscriptionId) throw new Error('subscriptionId inválida')
-			// if (!subscriptionClientSecret) throw new Error('subscriptionClientSecret inválida')
-			// console.log('Subscription criada...')
-			// console.log(`subscriptionId: ${subscriptionId}`)
-			// console.log(`subscriptionClientSecret: ${subscriptionClientSecret}`)
-			// console.log('\n')
+			/* if (!subscriptionId) throw new Error('subscriptionId inválida')
+			if (!subscriptionClientSecret) throw new Error('subscriptionClientSecret inválida')
+			console.log('Subscription criada...')
+			console.log(`subscriptionId: ${subscriptionId}`)
+			console.log(`subscriptionClientSecret: ${subscriptionClientSecret}`)
+			console.log('\n') */
 
 			/* const { error: err, paymentIntent } = await performPaymentConfirm(paymentMethodId, subscriptionClientSecret)
 
@@ -175,6 +201,28 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 				: 'débito'}`,
 			['adicionar']
 		)
+	}
+
+	const cardDataAreEquals = (currentCard: CustomCardDetails, remoteCard: RemoteCardDetails) => {
+		console.log(`${currentCard.brand} - ${remoteCard.brand}`)
+		if (currentCard.brand.toLowerCase() !== remoteCard.brand.toLowerCase()) return false
+		console.log(`${currentCard.last4} - ${remoteCard.last4}`)
+		if (currentCard.last4 !== remoteCard.last4) return false
+		console.log(`${currentCard.expiryMonth} - ${remoteCard.exp_month}`)
+		if (currentCard.expiryMonth !== remoteCard.exp_month) return false
+		console.log(`${currentCard.expiryYear} - ${remoteCard.exp_year}`)
+		if (currentCard.expiryYear !== remoteCard.exp_year) return false
+		return true
+	}
+
+	const saveCardDetailsOnCompleteForm = (cardData: Details) => {
+		console.log('Card details', cardData)
+		setCardDetails({
+			brand: cardData.brand,
+			expiryMonth: cardData.expiryMonth,
+			expiryYear: cardData.expiryYear,
+			last4: cardData.last4
+		})
 	}
 
 	return (
@@ -214,11 +262,9 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 						<PaymentStatusText>{renderPaymentStatus()}</PaymentStatusText>
 					</PaymentStatusArea>
 					<CardForm
-						/* postalCodeEnabled={false}
+						/*  postalCodeEnabled={false}
 						 countryEnabled={false} */
-						onFormComplete={(cardDetails) => {
-							console.log('card details', cardDetails)
-						}}
+						onFormComplete={(cardData) => saveCardDetailsOnCompleteForm(cardData)}
 						cardStyle={{
 							borderWidth: 0,
 							fontFamily: 'Arvo_700Bold',

@@ -34,7 +34,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 		setCurrentSubscriptionRange(currentRange)
 	}, [userDataContext.subscription?.subscriptionRange])
 
-	const manageSubscriptionRange = (postRange: PostRange) => {
+	const manageSubscriptionRange = async (postRange: PostRange) => {
 		switch (postRange) {
 			case 'near': {
 				if (postRangeHasSelected(postRange)) return

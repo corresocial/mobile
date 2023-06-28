@@ -68,7 +68,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 
 	const getResultTitle = () => {
 		if (editPaymentMethod) return 'cartão \natualizado com sucesso!'
-		return editPaymentMethod ? 'pagamento \nrealizado com sucesso!' : 'opa, o pagamento falhou!'
+		return successfulPayment ? 'pagamento \nrealizado com sucesso!' : 'opa, o pagamento falhou!'
 	}
 
 	const { price } = getRangePlanPrice(subscriptionRange, subscriptionPlan)

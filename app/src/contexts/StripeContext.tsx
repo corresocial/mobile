@@ -136,7 +136,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 				customer: customerId,
 				type: 'card',
 			},
-			headers: { ...defaultAxiosHeader }
+			...axiosConfig
 		})
 
 		return response.data.data.length > 0 ? response.data.data[0] : null
@@ -156,11 +156,13 @@ export function StripeProvider({ children }: StripeContextProps) {
 	}
 
 	async function attachPaymentMethodToCustomer(customerId: string, paymentMethodId: string) {
-		await axios.post(`${STRIPE_API_URL}/payment_methods/${paymentMethodId}/attach`, {
-			customer: customerId,
-		}, {
-			headers: { ...defaultAxiosHeader }
-		})
+		await axios.post(
+			`${STRIPE_API_URL}/payment_methods/${paymentMethodId}/attach`,
+			{
+				customer: customerId,
+			},
+			axiosConfig
+		)
 
 		return true
 	}
@@ -168,13 +170,15 @@ export function StripeProvider({ children }: StripeContextProps) {
 	async function setDefaultPaymentMethodToCustomer(customerId: string, paymentMethodId: string, attach?: boolean) {
 		attach && await attachPaymentMethodToCustomer(customerId, paymentMethodId)
 
-		await axios.post(`${STRIPE_API_URL}/customers/${customerId}`, {
-			invoice_settings: {
-				default_payment_method: paymentMethodId
+		await axios.post(
+			`${STRIPE_API_URL}/customers/${customerId}`,
+			{
+				invoice_settings: {
+					default_payment_method: paymentMethodId
+				},
 			},
-		}, {
-			headers: { ...defaultAxiosHeader }
-		})
+			axiosConfig
+		)
 
 		return true
 	}
@@ -185,7 +189,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 				customer: customerId,
 				status: 'active',
 			},
-			headers: { ...defaultAxiosHeader }
+			...axiosConfig
 		})
 
 		return response.data.data.length > 0 ? response.data.data[0] : null
@@ -201,13 +205,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 			payment_method: paymentMethodId,
 		}
 
-		const result = await axios.post(
-			`${STRIPE_API_URL}/customers`, // CAN SET PAYMENT METHOD DEFAUL
-			{ ...customerData },
-			{
-				headers: { ...defaultAxiosHeader }
-			}
-		)
+		const result = await axios.post(`${STRIPE_API_URL}/customers`, { ...customerData }, axiosConfig)
 		const customerId = result.data.id
 		return customerId
 	}
@@ -247,7 +245,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 				customer: customerId,
 				status: 'active',
 			},
-			headers: { ...defaultAxiosHeader }
+			...axiosConfig
 		})
 
 		const subscriptionsId = response.data.data.length > 0
