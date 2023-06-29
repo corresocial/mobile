@@ -3,7 +3,7 @@ import React from 'react'
 import { CustomModal } from '../CustomModal'
 import { VerifiedLabelName } from '../../../services/firebase/types'
 
-interface ProfileVerifiedModal {
+interface ProfileVerifiedModalProps {
 	visibility: boolean;
 	label: VerifiedLabelName;
 	closeModal: () => void;
@@ -13,7 +13,7 @@ function ProfileVerifiedModal({
 	visibility,
 	label,
 	closeModal,
-}: ProfileVerifiedModal) {
+}: ProfileVerifiedModalProps) {
 	const getTitle = () => {
 		if (label === 'leader') {
 			return 'líder social'
