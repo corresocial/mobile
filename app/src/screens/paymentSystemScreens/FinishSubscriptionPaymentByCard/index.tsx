@@ -4,6 +4,7 @@ import React, { useState, useContext } from 'react'
 import { CardForm } from '@stripe/stripe-react-native'
 import { CardBrand } from '@stripe/stripe-react-native/lib/typescript/src/types/Token'
 import { Details } from '@stripe/stripe-react-native/lib/typescript/src/types/components/CardFormView'
+import { Platform } from 'react-native'
 import { theme } from '../../../common/theme'
 import { Body, BodyScrollable, Container, PaymentStatusArea, PaymentStatusText, Title, TitleArea } from './styles'
 import DollarWhiteIcon from '../../../assets/icons/dollar.svg'
@@ -239,8 +240,8 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 					fontSize={20}
 				/>
 			</DefaultHeaderContainer>
-			<BodyScrollable >
-				<Body >
+			<Body behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+				<BodyScrollable >
 					<TitleArea>
 						<DollarWhiteIcon width={30} height={30} />
 						<Title>{showMessageWithHighlight('resumo de valores', ['resumo'])}</Title>
@@ -271,8 +272,8 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 						}}
 						style={{
 							flex: 1,
-							height: relativeScreenHeight(40),
 							width: '100%',
+							height: 300
 						}}
 					/>
 					{
@@ -290,8 +291,8 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 								/>
 							)
 					}
-				</Body>
-			</BodyScrollable>
+				</BodyScrollable>
+			</Body>
 		</Container >
 	)
 }
