@@ -17,14 +17,14 @@ import { VerifiedLabelName } from '../../services/firebase/types'
 
 interface PopOverProps {
 	title?: string
-	isVerifiable: boolean
+	isVerifiable?: boolean
 	popoverVisibility: boolean
 	buttonLabel: string
-	buttonTwoLabel: string
-	buttonThreeLabel: string
+	buttonTwoLabel?: string
+	buttonThreeLabel?: string
 	children: React.ReactChild
 	onPress?: () => void
-	onPressVerify: (label:VerifiedLabelName) => void
+	onPressVerify: (label: VerifiedLabelName) => void
 	goToConfig?: () => void
 	closePopover: () => void
 }
@@ -111,7 +111,7 @@ function PopOver({
 						minHeight={20}
 						relativeHeight={relativeScreenHeight(8)}
 					/>
-					{ isVerifiable && (
+					{isVerifiable && (
 						<>
 							<Sigh />
 							<PrimaryButton

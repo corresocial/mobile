@@ -5,7 +5,7 @@ import { VerifiedLabelName } from '../../../services/firebase/types'
 
 interface ProfileVerifiedModalProps {
 	visibility: boolean;
-	label: VerifiedLabelName;
+	label?: VerifiedLabelName;
 	closeModal: () => void;
 }
 

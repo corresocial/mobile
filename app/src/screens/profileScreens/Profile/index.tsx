@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { ScrollView, TouchableOpacity, Text, View, Image } from 'react-native'
+import { ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import {
@@ -62,6 +62,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { updateUser } from '../../../services/firebase/user/updateUser'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ProfileVerifiedModal } from '../../../components/_modals/ProfileVerifiedModal'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -339,17 +340,18 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	return (
 		<Container style={{ flex: 1 }}>
-			{((userDataContext.verified && isLoggedUser) || user.verified) && (
-				<ProfileVerifiedModal
-					visibility={toggleVerifiedModal}
-					closeModal={() => setToggleVerifiedModal(!toggleVerifiedModal)}
-					label={
-						isLoggedUser
-							? userDataContext.verified.type
-							: user.verified.type
-					}
-				/>
-			)}
+			{((userDataContext && userDataContext.verified && isLoggedUser) || (user && user.verified))
+				&& (
+					<ProfileVerifiedModal
+						visibility={toggleVerifiedModal}
+						closeModal={() => setToggleVerifiedModal(!toggleVerifiedModal)}
+						label={
+							isLoggedUser
+								? userDataContext.verified?.type
+								: user.verified?.type
+						}
+					/>
+				)}
 			<FocusAwareStatusBar
 				backgroundColor={
 					profileOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3
@@ -389,7 +391,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 								&& userDataContext.verified.type === 'leader'
 								&& isLoggedUser)
 								|| (user.verified
-									&& user.verified.type === 'leader')) && (
+									&& user.verified.type === 'leader'))
+								&& (
 									<VerticalPaddingContainer>
 										<TouchableOpacity
 											onPress={() => setToggleVerifiedModal(true)}
@@ -398,7 +401,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 												<LeaderLabel
 													height={RFValue(22)}
 													width={RFValue(22)}
-													marginRight={RFValue(6)}
+													style={{ marginRight: RFValue(6) }}
 												/>
 
 												<UserDescription>
@@ -412,7 +415,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 								&& userDataContext.verified.type === 'default'
 								&& isLoggedUser)
 								|| (user.verified
-									&& user.verified.type === 'default')) && (
+									&& user.verified.type === 'default'))
+								&& (
 									<VerticalPaddingContainer>
 										<TouchableOpacity
 											onPress={() => setToggleVerifiedModal(true)}
@@ -421,7 +425,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 												<VerifiedLabel
 													height={RFValue(22)}
 													width={RFValue(22)}
-													marginRight={RFValue(6)}
+													style={{ marginRight: RFValue(6) }}
 												/>
 												<UserDescription>
 													{'perfil verificado'}
@@ -434,7 +438,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 								&& userDataContext.verified.type) === 'impact'
 								&& isLoggedUser)
 								|| (user.verified
-									&& user.verified.type === 'impact')) && (
+									&& user.verified.type === 'impact'))
+								&& (
 									<VerticalPaddingContainer>
 										<TouchableOpacity
 											onPress={() => setToggleVerifiedModal(true)}
@@ -443,7 +448,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 												<ImpactLabel
 													height={RFValue(22)}
 													width={RFValue(22)}
-													marginRight={RFValue(6)}
+													style={{ marginRight: RFValue(6) }}
 												/>
 												<UserDescription>
 													{'perfil de impacto'}
@@ -468,7 +473,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						</InfoArea>
 					</ProfileInfoContainer>
 					{(userDescriptionIsExpanded || !isLoggedUser)
-						&& getUserField('description') && (
+						&& getUserField('description')
+						&& (
 							<ExpandedUserDescriptionArea>
 								<ScrollView
 									showsVerticalScrollIndicator={false}
@@ -483,22 +489,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 								</ScrollView>
 							</ExpandedUserDescriptionArea>
 						)}
-					{isLoggedUser
-						&& arrayIsEmpty(getUserField('socialMedias')) ? (
-						// <AddSocialMediasButtonContainer >
-						// 	<SmallButton
-						// 		color={theme.white3}
-						// 		label={'adicionar redes'}
-						// 		labelColor={theme.black4}
-						// 		highlightedWords={['redes']}
-						// 		fontSize={12}
-						// 		SvgIcon={AtSign}
-						// 		svgScale={['60%', '10%']}
-						// 		relativeWidth={'100%'}
-						// 		height={relativeScreenHeight(5)}
-						// 		onPress={openSocialMediaManagement}
-						// 	/>
-						// </AddSocialMediasButtonContainer >
+					{isLoggedUser && arrayIsEmpty(getUserField('socialMedias')) ? (
 						<VerticalPaddingContainer>
 							<UserDescription>
 								{
@@ -591,7 +582,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						ItemSeparatorComponent={() => <Sigh />}
 						ListHeaderComponent={() => isLoggedUser
 							&& userDataContext.posts
-							&& userDataContext.posts.length === 0 && (
+							&& userDataContext.posts.length === 0
+							&& (
 								<WithoutPostsMessage
 									title={'faça uma postagem!'}
 									message={
