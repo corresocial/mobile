@@ -51,7 +51,6 @@ import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { sendMessage } from '../../../services/firebase/chat/sendMessage'
 
 import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { ChatMessagesScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { HorizontalSigh } from '../../homeScreens/PostCategoryDetails/styles'
 
@@ -337,7 +336,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 						owner={isUserOwner(item.owner)}
 						errorSending={false}
 						sendAgain={() => console.log('sendAgain')}
-					/>		
+					/>
 				)}
 				ListHeaderComponent={() => (
 					<WithoutPostsMessage
@@ -366,33 +365,30 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				showsVerticalScrollIndicator={false}
 				ItemSeparatorComponent={() => <Sigh />}
 				ListFooterComponent={() => {
-					if (isBlockedUser) {
+					if (isBlockedUser && blockedByOwner) {
 						return (
 							<IsBlockedContainer>
-								<PrimaryButton
+								<SmallButton
+									height={relativeScreenHeight(5)}
 									color={theme.red3}
 									labelColor={theme.white3}
 									label={'usuário bloqueado'}
 									highlightedWords={['usuário', 'bloqueado']}
 									fontSize={14}
 									SvgIcon={DeniedWhiteIcon}
-									svgIconScale={['70%', '20%']}
-									minHeight={20}
-									relativeHeight={relativeScreenHeight(8)}
 									onPress={() => unblockUser()}
 								/>
 							</IsBlockedContainer>
-						) 
+						)
 					} return <></>
 				}}
 				onContentSizeChange={scrollToEnd}
 				onLayout={scrollToEnd}
 			/>
-			
+
 			<ChatInput submitMessage={submitMessage} />
 		</Container>
 	)
 }
 
 export { ChatMessages }
-
