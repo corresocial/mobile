@@ -60,7 +60,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.orange2}>
 				<ButtonsContainer>
-					<OptionButton
+					{/* <OptionButton
 						color={theme.white1}
 						label={'usar pix'}
 						highlightedWords={['pix']}
@@ -72,7 +72,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 						leftSideWidth={'28%'}
 						onPress={() => Alert.alert('Em breve...')}
 					// onPress={() => navigateToPaymentScreen('pix')}
-					/>
+					/> */}
 					<OptionButton
 						color={theme.white3}
 						label={'cartão de crédito'}
@@ -85,7 +85,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 						leftSideWidth={'28%'}
 						onPress={() => navigateToPaymentScreen('creditCard')}
 					/>
-					<OptionButton
+					{/* <OptionButton
 						color={theme.white1}
 						label={'cartão de débito'}
 						highlightedWords={['débito']}
@@ -97,7 +97,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 						leftSideWidth={'28%'}
 						onPress={() => Alert.alert('Em breve...')}
 					// onPress={() => navigateToPaymentScreen('debitCard')}
-					/>
+					/> */}
 				</ButtonsContainer>
 			</FormContainer>
 		</>

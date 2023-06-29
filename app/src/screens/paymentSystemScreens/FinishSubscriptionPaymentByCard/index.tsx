@@ -54,8 +54,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 		createSubscription,
 		getCustomerSubscriptions,
 		updateStripeSubscription,
-		getCustomerPaymentMethods,
-		performPaymentConfirm
+		getCustomerPaymentMethods
 	} = useContext(StripeContext)
 
 	const { subscriptionRange, subscriptionPlan, subscriptionPaymentMethod } = subscriptionDataContext
@@ -141,6 +140,8 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			} else {
 				customerId = await createCustomer(customerData.name, paymentMethodId)
 				console.log('Usuário cadastrado...')
+
+				await updateUserSubscription({ ...userDataContext.subscription, customerId })
 
 				const response = await setDefaultPaymentMethodToCustomer(customerId, paymentMethodId)
 				if (!response) throw new Error('Não foi possível atribuir um método de pagamento default...')
@@ -266,8 +267,13 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 						cardStyle={{
 							borderWidth: 0,
 							fontFamily: 'Arvo_700Bold',
+							borderRadius: 20,
 						}}
-						style={{ flex: 1, height: relativeScreenHeight(40), width: '100%', borderWidth: 0 }}
+						style={{
+							flex: 1,
+							height: relativeScreenHeight(40),
+							width: '100%',
+						}}
 					/>
 					{
 						isLoading
