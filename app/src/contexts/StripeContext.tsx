@@ -6,7 +6,7 @@ import { StripeProvider as StripeProviderRaw, confirmPayment, createPaymentMetho
 import { STRIPE_PUBLISHABLE_KEY, STRIPE_API_URL, STRIPE_SECRET_KEY } from '@env'
 import { getStripePlans, getStripeProducts } from '../services/stripe/products'
 
-import { StripeProducts } from '../services/stripe/types'
+import { CustomerData, StripeProducts } from '../services/stripe/types'
 import { PostRange, SubscriptionPlan } from '../services/firebase/types'
 import { AuthContext } from './AuthContext'
 import { dateHasExpired } from '../common/auxiliaryFunctions'
@@ -21,6 +21,7 @@ interface StripeContextState {
 	getRangePlanPrice: (subscriptionRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => ({ price: string, priceId: string })
 	createCustomer: (name: string, paymentMethodId: string) => Promise<any>
 	getCustomerPaymentMethods: (customerId: string) => Promise<any>
+	updateStripeCustomer: (customerId: string, customerData: CustomerData) => Promise<any> // TODO Type
 	createCustomPaymentMethod: () => Promise<any>
 	attachPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => Promise<any>
 	setDefaultPaymentMethodToCustomer: (customerId: string, paymentMethodId: string, attach?: boolean) => Promise<any>
@@ -48,6 +49,7 @@ export const StripeContext = createContext<StripeContextState>({
 	getRangePlanPrice: (subscriptionRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => ({ price: '', priceId: '' }),
 	createCustomer: (name: string, paymentMethodId: string) => new Promise(() => { }),
 	getCustomerPaymentMethods: (customerId: string) => new Promise(() => { }),
+	updateStripeCustomer: (customerId: string, customerData: CustomerData) => new Promise(() => { }),
 	createCustomPaymentMethod: () => new Promise(() => { }),
 	attachPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => new Promise(() => { }),
 	setDefaultPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => new Promise(() => { }),
@@ -142,6 +144,14 @@ export function StripeProvider({ children }: StripeContextProps) {
 		})
 
 		return response.data.data.length > 0 ? response.data.data[0] : null
+	}
+
+	async function updateStripeCustomer(customerId: string, customerData: CustomerData) {
+		await axios.post(
+			`${STRIPE_API_URL}/customers/${customerId}`,
+			{ ...customerData },
+			axiosConfig
+		)
 	}
 
 	async function createCustomPaymentMethod() {
@@ -366,7 +376,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 		console.log('Charges atualizadas')
 		console.log(receiptUrl)
 
-		console.log(res.data.receipt_email)
+		console.log(`New Email: ${res.data.receipt_email}`)
 		return receiptUrl
 	}
 
@@ -377,6 +387,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 				subscriptionHasActive,
 				getRangePlanPrice,
 				createCustomer,
+				updateStripeCustomer,
 				createCustomPaymentMethod,
 				getCustomerSubscriptions,
 				createSubscription,

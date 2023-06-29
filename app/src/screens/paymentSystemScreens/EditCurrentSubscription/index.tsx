@@ -9,6 +9,7 @@ import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import { Container } from './styles'
 import XWhiteIcon from '../../../assets/icons/x-white.svg'
+import AtSignWhiteIcon from '../../../assets/icons/atSign-white.svg'
 import EditWhiteIcon from '../../../assets/icons/edit-white.svg'
 
 import { getRangeText } from '../../../utils/subscription/commonMessages'
@@ -26,14 +27,16 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 import { Loader } from '../../../components/Loader'
 import { updateAllRangeAndLocation } from '../../../services/firebase/post/updateAllRangeAndLocation'
 import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeChangeConfirmatiomModal'
+import { InsertUserEmailModal } from '../../../components/_modals/InsertUserEmailModal'
 
 function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionScreenProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)
-	const { cancelSubscription, refundSubscriptionValue } = useContext(StripeContext)
+	const { cancelSubscription, refundSubscriptionValue, sendReceiptByEmail, updateStripeCustomer } = useContext(StripeContext)
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 
 	const [hasError, setHasError] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
+	const [insertUserEmailModalIsVisible, setInsertUserEmailModalIsVisible] = useState(false)
 	const [rangeChangeModalIsVisible, setRangeChangeModalIsVisible] = useState(false)
 	const [rangeChangeConfirmationModalIsVisible, setRangeChangeConfirmationModalIsVisible] = useState(false)
 
@@ -57,6 +60,10 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 		setRangeChangeConfirmationModalIsVisible(!rangeChangeConfirmationModalIsVisible)
 	}
 
+	const toggleInsertUserEmailModalVisibility = () => {
+		setInsertUserEmailModalIsVisible(!insertUserEmailModalIsVisible)
+	}
+
 	const handleCancelSubscription = async () => {
 		try {
 			setIsLoading(true)
@@ -75,7 +82,10 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 				return
 			}
 			throw new Error('O usuário não possui nenhuma assinatura no momento')
-		} catch (err) {
+		} catch (err: any) {
+			console.log(err)
+			console.log('Status:', err.response.status)
+			console.log('Data:', err.response.data)
 			setHasError(true)
 			setIsLoading(false)
 		}
@@ -148,6 +158,27 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 		return !hasError ? [getRangeText(currentRangeSubscription)] : ['opa', 'algo', 'deu', 'errado', 'ao', 'cancelar']
 	}
 
+	const saveUserEmail = async (email?: string) => {
+		if (!email || !userDataContext.subscription?.customerId) return
+		try {
+			setIsLoading(true)
+			await sendReceiptByEmail(userDataContext.subscription?.customerId || '', email)
+			await updateStripeCustomer(userDataContext.subscription?.customerId, { email })
+			await updateUserSubscription({ ...userDataContext.subscription, receiptEmail: email })
+			setIsLoading(false)
+			navigation.goBack()
+		} catch (error: any) {
+			setIsLoading(false)
+			console.log('Erro ao lidar com o stripe...')
+			if (error.response) {
+				console.log('Status:', error.response.status)
+				console.log('Data:', error.response.data)
+				throw new Error(error)
+			}
+			return {}
+		}
+	}
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -158,13 +189,19 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 				onPressButton={toggleRangeChangeConfirmationModalVisibility}
 				closeModal={toggleRangeChangeModalVisibility}
 			/>
-			<RangeChangeConfirmationModal // Second
+			<RangeChangeConfirmationModal // Second confirmation
 				visibility={rangeChangeConfirmationModalIsVisible}
 				currentPostAddress={getLastPostAddress()}
 				newRangeSelected={'near'}
 				confirmation
 				onPressButton={handleCancelSubscription}
 				closeModal={toggleRangeChangeConfirmationModalVisibility}
+			/>
+			<InsertUserEmailModal // Second confirmation
+				initialInputValue={userDataContext.subscription?.receiptEmail || ''}
+				visibility={insertUserEmailModalIsVisible}
+				onPressButton={saveUserEmail}
+				closeModal={toggleInsertUserEmailModalVisibility}
 			/>
 			<DefaultHeaderContainer
 				relativeHeight={'45%'}
@@ -193,6 +230,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 							<>
 								<PrimaryButton
 									color={theme.red3}
+									keyboardHideButton={false}
 									label={leaveFromPaidSubscription ? `cancelar plano ${getRangeText(leaveFromPaidSubscription)}` : 'cancelar assinatura'}
 									labelColor={theme.white3}
 									highlightedWords={leaveFromPaidSubscription ? ['cancelar', getRangeText(leaveFromPaidSubscription)] : ['cancelar']}
@@ -202,19 +240,35 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 									relativeHeight={relativeScreenHeight(10)}
 									onPress={onPressCancelSubscriptionButton}
 								/>
-								<VerticalSigh height={relativeScreenHeight(5)} />
+								<VerticalSigh height={relativeScreenHeight(3)} />
 								{
 									!leaveFromPaidSubscription && (
-										<PrimaryButton
-											color={theme.white3}
-											label={'mudar forma \nde pagamento'}
-											highlightedWords={['pagamento']}
-											fontSize={16}
-											SecondSvgIcon={EditWhiteIcon}
-											svgIconScale={['40%', '20%']}
-											relativeHeight={relativeScreenHeight(10)}
-											onPress={editPaymentMethod}
-										/>
+										<>
+											<PrimaryButton
+												color={theme.green3}
+												keyboardHideButton={false}
+												label={'receber recibo por e-mail'}
+												labelColor={theme.white3}
+												highlightedWords={['recibo', 'por', 'e-mail']}
+												fontSize={16}
+												SecondSvgIcon={AtSignWhiteIcon}
+												svgIconScale={['40%', '20%']}
+												relativeHeight={relativeScreenHeight(10)}
+												onPress={toggleInsertUserEmailModalVisibility}
+											/>
+											<VerticalSigh height={relativeScreenHeight(3)} />
+											<PrimaryButton
+												color={theme.white3}
+												keyboardHideButton={false}
+												label={'mudar forma \nde pagamento'}
+												highlightedWords={['pagamento']}
+												fontSize={16}
+												SecondSvgIcon={EditWhiteIcon}
+												svgIconScale={['40%', '20%']}
+												relativeHeight={relativeScreenHeight(10)}
+												onPress={editPaymentMethod}
+											/>
+										</>
 									)
 								}
 							</>

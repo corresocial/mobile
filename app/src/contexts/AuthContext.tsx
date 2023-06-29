@@ -144,6 +144,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 	}
 
 	const setUserDataOnContext = (data: UserCollection) => {
+		console.log(data)
 		setUserDataContext({
 			...userDataContext, ...data
 		})

@@ -109,7 +109,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 
 	const performSubscriptionRegister = async () => {
 		const customerData = {
-			name: userDataContext.name || 'usuário do corre.',
+			name: `${userDataContext.name}-${userDataContext.userId}` || 'usuário do corre.',
 			customerId: userDataContext.subscription?.customerId || ''
 		}
 

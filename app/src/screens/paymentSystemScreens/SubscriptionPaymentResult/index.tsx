@@ -67,7 +67,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 	}
 
 	const getResultTitle = () => {
-		if (editPaymentMethod) return 'cartão \natualizado com sucesso!'
+		if (editPaymentMethod) return successfulPayment ? 'cartão \natualizado com sucesso!' : 'opa, atualização do cartão falhou!'
 		return successfulPayment ? 'pagamento \nrealizado com sucesso!' : 'opa, o pagamento falhou!'
 	}
 

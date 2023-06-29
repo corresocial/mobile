@@ -101,7 +101,6 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			return
 		}
 
-		console.log(editDataContext.unsaved.profilePictureUrl)
 		await uploadImage(editDataContext.unsaved.profilePictureUrl, 'users')
 			.then(
 				({ uploadTask, blob }: any) => {

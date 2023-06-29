@@ -1,3 +1,4 @@
+import { TextInputProps } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
@@ -57,4 +58,12 @@ export const Description = styled.Text<DescriptionProps>`
     font-family: ${({ bolded }) => (bolded ? 'Arvo_700Bold' : 'Arvo_400Regular')};
     font-size: ${({ fontSize }) => (fontSize ? RFValue(fontSize) : RFValue(17))}px;
     color: ${({ theme }) => theme.black3}
+`
+
+export const TextInput = styled.TextInput<TextInputProps>`
+	font-family: Arvo_400Regular;
+	font-size: ${RFValue(13)}px;
+	margin: ${RFValue(20)}px 0px;
+	padding: ${RFValue(10)}px;
+	border-bottom-width: ${RFValue(5)}px;
 `

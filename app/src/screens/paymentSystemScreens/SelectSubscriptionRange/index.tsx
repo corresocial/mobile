@@ -24,7 +24,7 @@ import { getRangeText } from '../../../utils/subscription/commonMessages'
 
 function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { stripeProductsPlans, subscriptionHasActive, sendReceiptByEmail } = useContext(StripeContext)
+	const { stripeProductsPlans, subscriptionHasActive } = useContext(StripeContext)
 
 	const [currentSubscriptionRange, setCurrentSubscriptionRange] = useState<PostRange>(userDataContext.subscription?.subscriptionRange || 'near')
 	const [rangeChangeModalIsVisible, setRangeChangeModalIsVisible] = useState(false)
@@ -35,18 +35,6 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 	}, [userDataContext.subscription?.subscriptionRange])
 
 	const manageSubscriptionRange = async (postRange: PostRange) => {
-		/* 	try {
-				await sendReceiptByEmail(userDataContext.subscription?.customerId || '', 'wellington@gmail.com')
-			} catch (error: any) {
-				console.log('Erro ao lidar com o stripe...')
-				console.log(error)
-				if (error.response) {
-					console.log('Status:', error.response.status)
-					console.log('Data:', error.response.data)
-					throw new Error(error)
-				}
-				return {}
-			} */
 		switch (postRange) {
 			case 'near': {
 				if (postRangeHasSelected(postRange)) return

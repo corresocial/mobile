@@ -97,6 +97,7 @@ export type UserSubscription = {
 	subscriptionPaymentMethod?: SubscriptionPaymentMethod
 	customerId?: Id
 	subscriptionId?: Id
+	receiptEmail?: string
 }
 
 export type UserCollection = {

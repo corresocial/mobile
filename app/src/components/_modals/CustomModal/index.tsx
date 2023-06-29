@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Modal } from 'react-native'
 import { SvgProps } from 'react-native-svg'
 
@@ -9,7 +9,8 @@ import {
 	Description,
 	Header,
 	Title,
-	TouchCloseArea
+	TouchCloseArea,
+	TextInput
 } from './styles'
 import { theme } from '../../../common/theme'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
@@ -41,15 +42,19 @@ interface CustomModalProps {
 	listItemText?: string | false
 	closeButton?: boolean,
 	closeModal: () => void
+	customInput?: {
+		placeholder: string
+		initialValue: string
+	}
 	affirmativeButton?: {
 		label: string
 		CustomIcon?: React.FC<SvgProps>
-		onPress: () => void
+		onPress: (value?: string) => void
 	}
 	negativeButton?: {
 		label: string
 		CustomIcon?: React.FC<SvgProps>
-		onPress: () => void
+		onPress: (value?: string) => void
 	}
 }
 
@@ -59,13 +64,16 @@ function CustomModal({
 	firstParagraph,
 	secondParagraph,
 	listItemText,
+	customInput,
 	closeButton,
 	closeModal,
 	affirmativeButton,
 	negativeButton
 }: CustomModalProps) {
-	const closeModalAfterOnPress = (onPress: () => void) => {
-		onPress && onPress()
+	const [textInput, setTextInput] = useState(customInput?.initialValue || '')
+
+	const closeModalAfterOnPress = (onPress: (value?: string) => void) => {
+		onPress && onPress(textInput)
 		closeModal()
 	}
 
@@ -123,6 +131,17 @@ function CustomModal({
 								</Description>
 							)
 						}
+						{
+							customInput && (
+								<TextInput
+									keyboardType={'email-address'}
+									placeholder={customInput.placeholder}
+									value={textInput}
+									onChangeText={(text: string) => setTextInput(text.trim().toLowerCase())}
+								/>
+							)
+						}
+
 						{
 							affirmativeButton && (
 								<>
