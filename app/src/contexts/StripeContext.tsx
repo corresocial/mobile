@@ -30,7 +30,7 @@ interface StripeContextState {
 	cancelSubscription: (subscriptionId: string) => Promise<any>
 	refundSubscriptionValue: (customerId: string, subscriptionId: string) => Promise<any>
 	performPaymentConfirm: (paymentMethodId: string, subscriptionClientSecret: string) => Promise<any>
-	sendReceiptByEmail: (customerId: string) => Promise<any>
+	sendReceiptByEmail: (customerId: string, email: string) => Promise<any>
 }
 
 const defaultPlan = { id: '', name: '', price: '', priceId: '' }
@@ -57,7 +57,7 @@ export const StripeContext = createContext<StripeContextState>({
 	cancelSubscription: (subscriptionId: string) => new Promise(() => { }),
 	refundSubscriptionValue: (customerId: string, subscriptionId: string) => new Promise(() => { }),
 	performPaymentConfirm: (paymentMethodId: string, subscriptionClientSecret: string) => new Promise(() => { }),
-	sendReceiptByEmail: (customerId: string) => new Promise(() => { }),
+	sendReceiptByEmail: (customerId: string, email: string) => new Promise(() => { }),
 })
 
 const defaultAxiosHeader = {
@@ -292,13 +292,6 @@ export function StripeProvider({ children }: StripeContextProps) {
 		return res.data.data[0].id
 	}
 
-	const getLastUserPaymentInvoiceId = async (customerId: string) => {
-		const query = `customer: '${customerId}' AND amount>1 AND status: 'succeeded'`
-		const res = await axios.get(`${STRIPE_API_URL}/payment_intents/search?query=${encodeURIComponent(query)}`, axiosConfig)
-
-		return res.data.data[0].invoice || ''
-	}
-
 	async function updateStripeSubscription(subscriptionId: string, newPrice: string) {
 		const remoteSubscriptionData = await getSubscriptionData(subscriptionId)
 
@@ -356,19 +349,25 @@ export function StripeProvider({ children }: StripeContextProps) {
 		return { error: err, paymentIntent }
 	}
 
-	const sendReceiptByEmail = async (customerId: string) => {
-		const invoiceId = await getLastUserPaymentInvoiceId(customerId)
+	const sendReceiptByEmail = async (customerId: string, email: string) => {
+		const query = `customer: '${customerId}' AND status: 'succeeded'`
+		const result = await axios.get(`${STRIPE_API_URL}/charges/search?query=${encodeURIComponent(query)}`, axiosConfig)
 
-		console.log(invoiceId)
-		const customerData = {
-			amount: 100,
-			currency: 'BRL',
-			payment_method_types: ['card'],
-			receipt_email: 'wellingtonsouza.wsa100@gmail.com'
+		const receiptUrl = result.data.data[0].receipt_url
+		const chargeId = result.data.data[0].id
+
+		console.log(`chargeId: ${chargeId}`)
+
+		const emailOptions = {
+			receipt_email: email,
 		}
 
-		const result = await axios.post(`${STRIPE_API_URL}/payment_intents`, { ...customerData }, axiosConfig)
-		console.log(result.data)
+		const res = await axios.post(`${STRIPE_API_URL}/charges/${chargeId}`, emailOptions, axiosConfig)
+		console.log('Charges atualizadas')
+		console.log(receiptUrl)
+
+		console.log(res.data.receipt_email)
+		return receiptUrl
 	}
 
 	return (

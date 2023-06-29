@@ -35,18 +35,18 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 	}, [userDataContext.subscription?.subscriptionRange])
 
 	const manageSubscriptionRange = async (postRange: PostRange) => {
-		/* try {
-			await sendReceiptByEmail(userDataContext.subscription?.customerId || '')
-		} catch (error: any) {
-			console.log('Erro ao lidar com o stripe...')
-			console.log(error)
-			if (error.response) {
-				console.log('Status:', error.response.status)
-				console.log('Data:', error.response.data)
-				throw new Error(error)
-			}
-			return {}
-		} */
+		/* 	try {
+				await sendReceiptByEmail(userDataContext.subscription?.customerId || '', 'wellington@gmail.com')
+			} catch (error: any) {
+				console.log('Erro ao lidar com o stripe...')
+				console.log(error)
+				if (error.response) {
+					console.log('Status:', error.response.status)
+					console.log('Data:', error.response.data)
+					throw new Error(error)
+				}
+				return {}
+			} */
 		switch (postRange) {
 			case 'near': {
 				if (postRangeHasSelected(postRange)) return
