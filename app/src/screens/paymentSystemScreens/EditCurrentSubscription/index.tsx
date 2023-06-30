@@ -28,6 +28,7 @@ import { Loader } from '../../../components/Loader'
 import { updateAllRangeAndLocation } from '../../../services/firebase/post/updateAllRangeAndLocation'
 import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeChangeConfirmatiomModal'
 import { InsertUserEmailModal } from '../../../components/_modals/InsertUserEmailModal'
+import { emailIsValid } from '../../../common/auxiliaryFunctions'
 
 function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionScreenProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)
@@ -82,10 +83,10 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 				return
 			}
 			throw new Error('O usuário não possui nenhuma assinatura no momento')
-		} catch (err: any) {
-			console.log(err)
-			console.log('Status:', err.response.status)
-			console.log('Data:', err.response.data)
+		} catch (error: any) {
+			console.log(error)
+			console.log('Status:', error.response.status)
+			console.log('Data:', error.response.data)
 			setHasError(true)
 			setIsLoading(false)
 		}
@@ -150,17 +151,19 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 
 	const getHeaderDescription = () => {
 		if (leaveFromPaidSubscription) return `tem certeza que quer cancelar seu plano ${getRangeText(leaveFromPaidSubscription)} e voltar para plano região?`
-		return !hasError ? 'estas são as opções disponíveis para o seu plano' : 'algo deu errado ao cancelar assinatura, \ntente novamente'
+		return !hasError ? 'estas são as opções disponíveis para o seu plano' : 'algo deu errado, \ntente novamente'
 	}
 
 	const getHeaderHighlightedWords = () => {
 		if (leaveFromPaidSubscription) return ['cancelar', 'cancelar', 'seu', 'plano', getRangeText(leaveFromPaidSubscription), 'e', 'voltar', 'para', 'plano', 'região']
-		return !hasError ? [getRangeText(currentRangeSubscription)] : ['opa', 'algo', 'deu', 'errado', 'ao', 'cancelar']
+		return !hasError ? [getRangeText(currentRangeSubscription)] : ['opa', 'algo', 'deu', 'errado']
 	}
 
 	const saveUserEmail = async (email?: string) => {
-		if (!email || !userDataContext.subscription?.customerId) return
 		try {
+			setHasError(true)
+			if (!email || !emailIsValid(email) || !userDataContext.subscription?.customerId) throw new Error('Email Inválido')
+
 			setIsLoading(true)
 			await sendReceiptByEmail(userDataContext.subscription?.customerId || '', email)
 			await updateStripeCustomer(userDataContext.subscription?.customerId, { email })
@@ -168,14 +171,14 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 			setIsLoading(false)
 			navigation.goBack()
 		} catch (error: any) {
-			setIsLoading(false)
 			console.log('Erro ao lidar com o stripe...')
 			if (error.response) {
+				console.log(error)
 				console.log('Status:', error.response.status)
 				console.log('Data:', error.response.data)
-				throw new Error(error)
 			}
-			return {}
+			setHasError(true)
+			setIsLoading(false)
 		}
 	}
 

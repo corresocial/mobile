@@ -145,6 +145,12 @@ const sortPostsByCreatedData = (a: PostCollectionRemote | any, b: PostCollection
 	return 0
 }
 
+const emailIsValid = (email?: string) => {
+	if (!email) return false
+	const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+	return email.match(emailRegex)
+}
+
 export {
 	arrayIsEmpty, // array validation
 	showMessageWithHighlight, // string highlight
@@ -155,5 +161,6 @@ export {
 	dateHasExpired,
 	sortArray, // sort array
 	sortPostCategories, // sort array
-	sortPostsByCreatedData //  sort post array
+	sortPostsByCreatedData, //  sort post array
+	emailIsValid
 }

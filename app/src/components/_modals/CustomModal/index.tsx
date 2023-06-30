@@ -146,6 +146,7 @@ function CustomModal({
 							affirmativeButton && (
 								<>
 									<PrimaryButton
+										keyboardHideButton={false}
 										color={theme.green3}
 										labelColor={theme.white3}
 										label={affirmativeButton.label}
@@ -162,6 +163,7 @@ function CustomModal({
 						{
 							negativeButton && (
 								<PrimaryButton
+									keyboardHideButton={false}
 									color={theme.red3}
 									labelColor={theme.white3}
 									label={negativeButton.label}
