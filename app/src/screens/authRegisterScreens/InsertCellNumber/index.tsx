@@ -17,6 +17,7 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
+import { Loader } from '../../../components/Loader'
 
 const firebaseConfig = Firebase ? Firebase.options : undefined
 
@@ -45,6 +46,7 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 	const [invalidDDDAfterSubmit, setInvalidDDDAfterSubmit] = useState<boolean>(false)
 	const [invalidCellNumberAfterSubmit, setInvalidCellNumberAfterSubmit] = useState<boolean>(false)
 	const [hasServerSideError, setHasServerSideError] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const inputRefs = {
 		DDDInput: useRef<React.MutableRefObject<any>>(null),
@@ -76,25 +78,30 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 	const someInvalidFieldSubimitted = () => invalidDDDAfterSubmit || invalidCellNumberAfterSubmit
 
 	const getVeficationCode = async () => {
-		const DDDIsValid = validateDDD(DDD)
-		const cellNumberIsValid = validateCellNumber(cellNumber)
+		try {
+			setIsLoading(true)
 
-		const completeCellNumber = `+55${DDD}${cellNumber}`
+			const DDDIsValid = validateDDD(DDD)
+			const cellNumberIsValid = validateCellNumber(cellNumber)
 
-		if (DDDIsValid && cellNumberIsValid) {
-			await sendSMS(completeCellNumber, recaptchaVerifier.current)
-				.then((verificationCodeId) => {
-					navigation.navigate('InsertConfirmationCode', {
-						cellNumber: completeCellNumber, verificationCodeId
+			const completeCellNumber = `+55${DDD}${cellNumber}`
+
+			if (DDDIsValid && cellNumberIsValid) {
+				await sendSMS(completeCellNumber, recaptchaVerifier.current)
+					.then((verificationCodeId) => {
+						navigation.navigate('InsertConfirmationCode', {
+							cellNumber: completeCellNumber, verificationCodeId
+						})
 					})
-				})
-				.catch((err) => {
-					console.log(err)
-					setHasServerSideError(true)
-				})
-		} else {
-			!DDDIsValid && setInvalidDDDAfterSubmit(true)
-			!cellNumberIsValid && setInvalidCellNumberAfterSubmit(true)
+			} else {
+				!DDDIsValid && setInvalidDDDAfterSubmit(true)
+				!cellNumberIsValid && setInvalidCellNumberAfterSubmit(true)
+			}
+			setIsLoading(false)
+		} catch (error: any) {
+			setIsLoading(false)
+			console.log(error)
+			setHasServerSideError(true)
 		}
 	}
 
@@ -189,16 +196,22 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 						onChangeText={(text: string) => setCellNumber(text)}
 					/>
 				</InputsContainer>
-				<PrimaryButton
-					color={someInvalidFieldSubimitted() || hasServerSideError ? theme.red3 : theme.purple3}
-					iconName={'arrow-right'}
-					iconColor={theme.white3}
-					label={'continuar'}
-					labelColor={theme.white3}
-					highlightedWords={['continuar']}
-					startsHidden
-					onPress={getVeficationCode}
-				/>
+				{
+					isLoading
+						? <Loader />
+						: (
+							<PrimaryButton
+								color={someInvalidFieldSubimitted() || hasServerSideError ? theme.red3 : theme.purple3}
+								iconName={'arrow-right'}
+								iconColor={theme.white3}
+								label={'continuar'}
+								labelColor={theme.white3}
+								highlightedWords={['continuar']}
+								startsHidden
+								onPress={getVeficationCode}
+							/>
+						)
+				}
 			</FormContainer>
 		</Container>
 	)
