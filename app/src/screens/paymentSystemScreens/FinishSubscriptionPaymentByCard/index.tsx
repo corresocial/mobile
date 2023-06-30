@@ -1,10 +1,10 @@
-/* eslint-disable camelcase */
 import React, { useState, useContext } from 'react'
 
 import { CardForm } from '@stripe/stripe-react-native'
 import { CardBrand } from '@stripe/stripe-react-native/lib/typescript/src/types/Token'
 import { Details } from '@stripe/stripe-react-native/lib/typescript/src/types/components/CardFormView'
-import { Platform } from 'react-native'
+import { Platform, View } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
 import { theme } from '../../../common/theme'
 import { Body, BodyScrollable, Container, PaymentStatusArea, PaymentStatusText, Title, TitleArea } from './styles'
 import DollarWhiteIcon from '../../../assets/icons/dollar.svg'
@@ -99,11 +99,6 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false, ...route.params })
 		}
 	}
-
-	// Cidade mensal - price_1Mw5MdEpbbWylPkQ23YkbLFR 35
-	// Pais mensal - price_1Mw5PPEpbbWylPkQXylEhX0a 60
-	// Cidade anual - price_1NJ3YFEpbbWylPkQWqvhQ3R2 315
-	// Pais anual - price_1NJ3YxEpbbWylPkQFmsO9DHp 540
 
 	const performSubscriptionRegister = async () => {
 		const customerData = {
@@ -218,7 +213,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 				/>
 			</DefaultHeaderContainer>
 			<Body behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-				<BodyScrollable >
+				<BodyScrollable contentContainerStyle={{ padding: RFValue(17) }} >
 					<TitleArea>
 						<DollarWhiteIcon width={30} height={30} />
 						<Title>{showMessageWithHighlight('resumo de valores', ['resumo'])}</Title>
@@ -239,19 +234,10 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 						<PaymentStatusText>{renderPaymentStatus()}</PaymentStatusText>
 					</PaymentStatusArea>
 					<CardForm
-						/*  postalCodeEnabled={false}
-						 countryEnabled={false} */
+						postalCodeEnabled={false} // Por que funciona???
 						onFormComplete={(cardData) => saveCardDetailsOnCompleteForm(cardData)}
-						cardStyle={{
-							borderWidth: 0,
-							fontFamily: 'Arvo_700Bold',
-							borderRadius: 20,
-						}}
-						style={{
-							flex: 1,
-							width: '100%',
-							height: 300
-						}}
+						cardStyle={{ fontFamily: 'Arvo_700Bold' }}
+						style={{ flex: 1, width: '100%', height: relativeScreenHeight(40) }}
 					/>
 					{
 						isLoading

@@ -8,7 +8,6 @@ export const Container = styled.View`
 
 export const BodyScrollable = styled.ScrollView`
 	flex: 1;
-	padding: ${RFValue(17)}px;
 	background-color: ${({ theme }) => theme.white3};
 `
 
