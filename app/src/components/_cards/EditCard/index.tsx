@@ -51,7 +51,7 @@ function EditCard({
 		return false
 	}
 	return (
-		<DefaultCardContainer >
+		<DefaultCardContainer withoutPadding={!!profilePicturesUrl.length}>
 			<CardHeader
 				style={{
 					paddingHorizontal: profilePicturesUrl.length ? RFValue(15) : 0,
@@ -98,6 +98,7 @@ function EditCard({
 											picturesUrl={profilePicturesUrl}
 											indicatorColor={indicatorColor}
 											relativeWidth={relativeScreenWidth(90)}
+											withoutBorder
 										/>
 									) : (
 										<ProfilePicture
