@@ -89,6 +89,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 			if (currentSubscriptionRange === rangeCard.id) {
 				if (!subscriptionHasActive) {
 					return (
+
 						<TitleDescriptionButton
 							key={'planError'}
 							height={relativeScreenHeight(13)}
@@ -97,7 +98,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 							title={getRangeText(currentSubscriptionRange)}
 							description={'não conseguimos processar seu pagamento'}
 							highlightedWords={[getRangeText(currentSubscriptionRange), 'não', 'conseguimos', 'processar', 'seu', 'pagamento']}
-							checked={currentSubscriptionRange === 'near'}
+							// checked={currentSubscriptionRange === rangeCard.id}
 							onPress={() => manageSubscriptionRange('near')}
 						/>
 					)
@@ -129,7 +130,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 
 	const rangeCards = [
 		{
-			id: 'near',
+			id: 'near' as PostRange,
 			component: <TitleDescriptionButton
 				height={relativeScreenHeight(20)}
 				color={theme.white3}
@@ -142,7 +143,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 			/>
 		},
 		{
-			id: 'city',
+			id: 'city' as PostRange,
 			component: <TitleDescriptionButton
 				height={relativeScreenHeight(20)}
 				color={theme.white3}
@@ -155,7 +156,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 			/>
 		},
 		{
-			id: 'country',
+			id: 'country' as PostRange,
 			component: <TitleDescriptionButton
 				height={relativeScreenHeight(20)}
 				color={theme.white3}

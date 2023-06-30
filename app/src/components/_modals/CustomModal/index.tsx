@@ -41,6 +41,7 @@ interface CustomModalProps {
 	} | false,
 	listItemText?: string | false
 	closeButton?: boolean,
+	closeModalOnPressButton?: boolean,
 	closeModal: () => void
 	customInput?: {
 		placeholder: string
@@ -66,6 +67,7 @@ function CustomModal({
 	listItemText,
 	customInput,
 	closeButton,
+	closeModalOnPressButton = true,
 	closeModal,
 	affirmativeButton,
 	negativeButton
@@ -74,7 +76,7 @@ function CustomModal({
 
 	const closeModalAfterOnPress = (onPress: (value?: string) => void) => {
 		onPress && onPress(textInput)
-		closeModal()
+		closeModalOnPressButton && closeModal()
 	}
 
 	return (

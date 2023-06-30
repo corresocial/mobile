@@ -4,6 +4,7 @@ import { relativeScreenHeight, relativeScreenWidth } from '../../common/screenDi
 export const Container = styled.View`
  	flex: 1;
 	position: relative;
+	background-color: ${({ theme }) => theme.white3}
  `
 
 export const Header = styled.View`

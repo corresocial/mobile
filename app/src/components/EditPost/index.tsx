@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { getDownloadURL } from 'firebase/storage'
 import { StatusBar, Alert } from 'react-native'
 
@@ -26,6 +26,7 @@ import { PostCard } from '../../components/_cards/PostCard'
 import { SubtitleCard } from '../../components/_cards/SubtitleCard'
 import { InstructionCard } from '../../components/_cards/InstructionCard'
 import { updateAllRangeAndLocation } from '../../services/firebase/post/updateAllRangeAndLocation'
+import { StripeContext } from '../../contexts/StripeContext'
 
 type UserContextFragment = {
 	userDataContext: UserCollection;
@@ -74,6 +75,7 @@ function EditPost({
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)
 
+	const { subscriptionHasActive } = useContext(StripeContext) // TODO Migrar para fora do componente
 	const { editDataContext } = editContext
 	const { userDataContext } = userContext
 
@@ -95,6 +97,13 @@ function EditPost({
 
 	const editPost = async () => {
 		if (!editDataContext.unsaved) return
+
+		const postDataToSave = { ...initialPostData, ...editDataContext.unsaved }
+
+		if (postDataToSave.range !== 'near' && !subscriptionHasActive) {
+			Alert.alert('ops!', 'parece que a sua assinatura não está em dia, acesse as configurações e regule seu plano')
+			return
+		}
 
 		try {
 			setIsLoading(true)
@@ -119,7 +128,6 @@ function EditPost({
 			}
 			console.log('without pictures')
 
-			const postDataToSave = { ...initialPostData, ...editDataContext.unsaved }
 			delete postDataToSave.owner
 
 			const registredPicturesUrl = initialPostData.picturesUrl || []
@@ -158,11 +166,15 @@ function EditPost({
 	const getLocalUser = () => userDataContext
 
 	const savePost = async () => {
-		setHasError(false)
-		setIsLoading(true)
-
 		const postData = { ...initialPostData, ...editDataContext.unsaved } as PostCollectionRemote
 		const postPictures = extractPostPictures(postData)
+
+		if (postData.range !== 'near' && !subscriptionHasActive) {
+			Alert.alert('ops!', 'parece que a sua assinatura não está em dia, acesse as configurações e regule seu plano')
+			return
+		}
+		setHasError(false)
+		setIsLoading(true)
 
 		try {
 			let userPostsUpdated: any = [] // TODO Type

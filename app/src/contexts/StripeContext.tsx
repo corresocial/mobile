@@ -231,7 +231,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 			if (!res || !res.length) throw new Error('Não há faturas ativas')
 
 			const endSubscriptionDate = res[0].current_period_end * 1000
-			const currentDate = Math.floor(Date.now()) // 1 mês e 8 horas 2657984000
+			const currentDate = Math.floor(Date.now())
 
 			// console.log(new Date(endSubscriptionDate * 1000))
 			// console.log(new Date(currentDate * 1000))
@@ -240,6 +240,9 @@ export function StripeProvider({ children }: StripeContextProps) {
 				console.log('A fatura da assinatura está em dia.')
 				setSubscriptionHasActive(true)
 			} else {
+				if (dateHasExpired(endSubscriptionDate, currentDate, 37)) {
+					console.log('expirou 7 dias ')
+				}
 				console.log('A fatura da assinatura está atrasada.')
 				setSubscriptionHasActive(false)
 			}
