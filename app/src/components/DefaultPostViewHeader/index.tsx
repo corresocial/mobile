@@ -25,7 +25,7 @@ interface DefaultPostViewHeaderProps {
 	endButtonSvgIcon?: React.FC<SvgProps>
 	endButtonText?: string
 	onBackPress: () => void
-	endButtonPress: () => void
+	endButtonPress?: () => void
 }
 
 function DefaultPostViewHeader({
@@ -98,15 +98,15 @@ function DefaultPostViewHeader({
 						: showMessageWithHighlight(text, highlightedWords)
 				}
 			</Title>
-			{ endButton && (
+			{endButton && (
 
 				<SmallButton
 					color={endButtonColor}
-					text={endButtonText}
+					label={endButtonText}
 					SvgIcon={endButtonSvgIcon}
 					relativeWidth={relativeScreenWidth(11)}
 					height={relativeScreenWidth(11)}
-					onPress={endButtonPress}
+					onPress={() => endButtonPress && endButtonPress}
 				/>
 			)}
 		</Container>

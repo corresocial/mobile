@@ -41,12 +41,11 @@ function EditUserDescription({ route, navigation }: EditUserDescriptionScreenPro
 	}, [profileDescription, keyboardOpened])
 
 	const validateProfileDescription = (text: string) => {
-		return true
-		// const isValid = (text).trim().length >= 1
-		// if (isValid && !keyboardOpened) {
-		// 	return true
-		// }
-		// return false
+		const isValid = (text).trim().length >= 1
+		if (isValid && !keyboardOpened) {
+			return true
+		}
+		return false
 	}
 
 	const saveUserDescription = async () => {
@@ -97,14 +96,14 @@ function EditUserDescription({ route, navigation }: EditUserDescriptionScreenPro
 				/>
 				<ButtonsContainer>
 					{
-						profileDescriptionIsValid && !keyboardOpened
+						!keyboardOpened
 						&& (
 							<PrimaryButton
 								flexDirection={'row'}
 								color={theme.green3}
 								label={'salvar'}
 								labelColor={theme.white3}
-								SvgIcon={CheckWhiteIcon}
+								SecondSvgIcon={CheckWhiteIcon}
 								onPress={saveUserDescription}
 							/>
 						)

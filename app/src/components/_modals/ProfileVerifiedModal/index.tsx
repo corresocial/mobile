@@ -43,7 +43,7 @@ function ProfileVerifiedModal({
 			visibility={visibility}
 			title={getTitle()}
 			firstParagraph={{
-				text: getParagraph(),
+				text: getParagraph()
 			}}
 			closeModal={closeModal}
 			affirmativeButton={{

@@ -210,7 +210,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					<EditCard
 						title={'sua descrição'}
 						highlightedWords={['descrição']}
-						value={editDataContext.unsaved.description || userDataContext.description}
+						value={editDataContext.unsaved.description === '' || editDataContext.unsaved.description ? editDataContext.unsaved.description : userDataContext.description}
 						onEdit={() => goToEditScreen('EditUserDescription')}
 					/>
 					<Sigh />
@@ -219,7 +219,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 						highlightedWords={['links', 'contato']}
 						onEdit={() => goToEditScreen('SocialMediaManagement')}
 					>
-						<HorizontalSocialMediaList socialMedias={userDataContext.socialMedias}/>
+						<HorizontalSocialMediaList socialMedias={userDataContext.socialMedias} onPress={() => { }} />
 					</EditCard>
 					<Sigh />
 					<EditCard
