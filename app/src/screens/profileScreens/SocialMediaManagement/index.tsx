@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Linking, ScrollView, StatusBar, View } from 'react-native'
 import uuid from 'react-uuid'
 
 import { Body, Container, Header, NewLinkButtonContainer, Sigh } from './styles'
 import { theme } from '../../../common/theme'
 import PlusIcon from '../../../assets/icons/plus.svg'
-import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
-import TrashRedIcon from '../../../assets/icons/trash-red.svg'
 import AngleRightIcon from '../../../assets/icons/angleRight.svg'
 
 import { SocialMediaManagementScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -23,7 +21,10 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 		if (route.params.isAuthor) {
 			if (isDefaultSocialMedia(socialMedia.title)) {
 				navigation.navigate('InsertLinkValue', { socialMedia, index })
+				return
 			}
+
+			navigation.navigate('InsertLinkTitle', { socialMedia: { ...socialMedia }, index })
 		} else {
 			const validUrl = await Linking.canOpenURL(socialMedia.link || '')
 			if (validUrl) {
