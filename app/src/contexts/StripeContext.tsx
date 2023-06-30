@@ -10,6 +10,7 @@ import { CustomerData, StripeProducts } from '../services/stripe/types'
 import { PostRange, SubscriptionPlan } from '../services/firebase/types'
 import { AuthContext } from './AuthContext'
 import { dateHasExpired } from '../common/auxiliaryFunctions'
+import { SubscriptionAlertModal } from '../components/_modals/SubscriptionAlertModal'
 
 interface StripeContextProps {
 	children: React.ReactElement
@@ -74,6 +75,8 @@ export function StripeProvider({ children }: StripeContextProps) {
 
 	const [stripeProductsPlans, setStripeProductsPlans] = useState<StripeProducts>(defaultStripeProducts)
 	const [subscriptionHasActive, setSubscriptionHasActive] = useState(true)
+
+	const [invalidSubscriptionModalIsVisible, setInvalidSubscriptionModalIsVisible] = useState(false)
 
 	useEffect(() => {
 		getProducts()
@@ -231,20 +234,33 @@ export function StripeProvider({ children }: StripeContextProps) {
 			if (!res || !res.length) throw new Error('Não há faturas ativas')
 
 			const endSubscriptionDate = res[0].current_period_end * 1000
-			const currentDate = Math.floor(Date.now())
+			const currentDate = Math.floor(Date.now()) //  + 2596000000 + (0 * 86400000)
 
-			// console.log(new Date(endSubscriptionDate * 1000))
-			// console.log(new Date(currentDate * 1000))
+			console.log(new Date(endSubscriptionDate))
+			console.log(new Date(currentDate))
 
 			if (dateHasExpired(endSubscriptionDate, currentDate, 1)) {
-				console.log('STRIPE: A fatura da assinatura está em dia')
-				setSubscriptionHasActive(true)
-			} else {
-				if (dateHasExpired(endSubscriptionDate, currentDate, 37)) {
-					console.log('expirou 7 dias ')
+				if (dateHasExpired(endSubscriptionDate, currentDate, 7)) {
+					console.log('STRIPE: Fatura atrasada (7 dias)')
+					toggleInvalidSubscriptionModalVisibility()
+					return
 				}
-				console.log('STRIPE: A fatura da assinatura está atrasada.')
+				if (dateHasExpired(endSubscriptionDate, currentDate, 5)) {
+					console.log('STRIPE: Fatura atrasada (5 dias)')
+					toggleInvalidSubscriptionModalVisibility()
+					return
+				}
+				if (dateHasExpired(endSubscriptionDate, currentDate, 3)) {
+					console.log('STRIPE: Fatura atrasada (3 dias)')
+					toggleInvalidSubscriptionModalVisibility()
+					return
+				}
+				toggleInvalidSubscriptionModalVisibility()
+				console.log('STRIPE: Fatura atrasada.')
 				setSubscriptionHasActive(false)
+			} else {
+				console.log('STRIPE: Fatura em dia')
+				setSubscriptionHasActive(true)
 			}
 		} catch (err: any) {
 			console.log('STRIPE: A assinatura está com problemas')
@@ -380,6 +396,10 @@ export function StripeProvider({ children }: StripeContextProps) {
 		return receiptUrl
 	}
 
+	const toggleInvalidSubscriptionModalVisibility = () => {
+		setInvalidSubscriptionModalIsVisible(!invalidSubscriptionModalIsVisible)
+	}
+
 	return (
 		<StripeContext.Provider
 			value={{
@@ -401,6 +421,11 @@ export function StripeProvider({ children }: StripeContextProps) {
 				sendReceiptByEmail
 			}}
 		>
+			<SubscriptionAlertModal
+				visibility={invalidSubscriptionModalIsVisible}
+				closeModal={toggleInvalidSubscriptionModalVisibility}
+				onPressButton={toggleInvalidSubscriptionModalVisibility}
+			/>
 			<StripeProviderRaw publishableKey={STRIPE_PUBLISHABLE_KEY}>
 				{children}
 			</StripeProviderRaw>
