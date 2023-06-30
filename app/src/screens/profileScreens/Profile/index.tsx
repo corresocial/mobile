@@ -462,9 +462,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 									onPress={() => getUserField('description')
 										&& setUserDescriptionIsExpanded(true)}
 								>
-									<UserDescription numberOfLines={2}>
-										{getUserField('description')
-											|| 'você pode adicionar uma descrição em "editar".'}
+									<UserDescription numberOfLines={3}>
+										{getUserField('description') || 'você pode adicionar uma descrição em "editar".'}
 									</UserDescription>
 									{/* {getUserField('description').length >= 88 && (
 											<Text style={{ fontWeight: 'bold' }}>{'mostrar mais'}</Text>)} */}
