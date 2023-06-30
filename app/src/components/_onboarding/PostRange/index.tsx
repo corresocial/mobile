@@ -23,8 +23,6 @@ interface PostRangeProps {
 }
 
 function PostRange({ backgroundColor, plansAvailable, progress, savePostRange, navigateBackwards }: PostRangeProps) {
-	console.log(plansAvailable)
-
 	return (
 		<Container>
 			<DefaultHeaderContainer

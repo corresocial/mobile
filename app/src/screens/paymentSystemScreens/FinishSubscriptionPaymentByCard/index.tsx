@@ -81,9 +81,6 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 				throw new Error('customerId ou subscriptionId inválido')
 			}
 
-			console.log(`customerId: ${customerId}`)
-			console.log(`subscriptionId: ${subscriptionId}`)
-
 			const userSubscription = {
 				subscriptionRange,
 				subscriptionPlan,
@@ -96,7 +93,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 
 			setIsLoading(false)
 			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true, ...route.params })
-		} catch (err: any) { // Veirfy stripe erros
+		} catch (err: any) { // Check stripe erros
 			console.log(err)
 			setIsLoading(false)
 			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false, ...route.params })
@@ -120,15 +117,14 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 				const { card: remoteCard } = await getCustomerPaymentMethods(userDataContext.subscription?.customerId || '')
 				cardAlreadyRegistered = cardDataAreEquals(cardDetails, remoteCard)
 			}
-			console.log(`cardAlreadyRegistered - ${cardAlreadyRegistered}`)
+
+			console.log('Card details:', cardDetails)
+			console.log(`Cartão já registrado: ${cardAlreadyRegistered ? 'SIM' : 'NÃO'}`)
 
 			const { error, paymentMethodId } = await createCustomPaymentMethod()
 			if (error) throw new Error(error.message)
 
-			console.log('\n')
 			console.log('Método de pagamento criado...')
-			console.log(`paymentMethodId: ${paymentMethodId}`)
-			console.log('\n')
 
 			let customerId = customerData.customerId || ''
 			if (customerId) {
@@ -149,8 +145,6 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			}
 
 			if (!customerId) throw new Error('customerId inválido')
-			console.log(`customerId: ${customerId}`)
-			console.log('\n')
 
 			if (editPaymentMethod) {
 				navigation.goBack()
@@ -166,24 +160,12 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 				console.log('Assinatura criada...')
 				return { customerId, subscriptionId }
 
-				/* if (!subscriptionId) throw new Error('subscriptionId inválida')
+				/* if (!subscriptionId) throw new Error('subscriptionId inválida') // Payment confirm
 				if (!subscriptionClientSecret) throw new Error('subscriptionClientSecret inválida')
-				console.log('Subscription criada...')
-				console.log(`subscriptionId: ${subscriptionId}`)
-				console.log(`subscriptionClientSecret: ${subscriptionClientSecret}`)
-				console.log('\n')
 				 const { error: err, paymentIntent } = await performPaymentConfirm(paymentMethodId, subscriptionClientSecret) */
 			}
-
-			/*
-						if (err) throw new Error(err.message)
-						console.log('Pagamento confirmado...')
-						console.log('\n')
-			 */
 			return { customerId, subscriptionId: subscriptionsId[0] }
 		} catch (error: any) {
-			console.log('Erro ao lidar com o stripe...')
-			console.log(error)
 			if (error.response) {
 				console.log('Status:', error.response.status)
 				console.log('Data:', error.response.data)
@@ -204,19 +186,14 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 	}
 
 	const cardDataAreEquals = (currentCard: CustomCardDetails, remoteCard: RemoteCardDetails) => {
-		console.log(`${currentCard.brand} - ${remoteCard.brand}`)
 		if (currentCard.brand.toLowerCase() !== remoteCard.brand.toLowerCase()) return false
-		console.log(`${currentCard.last4} - ${remoteCard.last4}`)
 		if (currentCard.last4 !== remoteCard.last4) return false
-		console.log(`${currentCard.expiryMonth} - ${remoteCard.exp_month}`)
 		if (currentCard.expiryMonth !== remoteCard.exp_month) return false
-		console.log(`${currentCard.expiryYear} - ${remoteCard.exp_year}`)
 		if (currentCard.expiryYear !== remoteCard.exp_year) return false
 		return true
 	}
 
 	const saveCardDetailsOnCompleteForm = (cardData: Details) => {
-		console.log('Card details', cardData)
 		setCardDetails({
 			brand: cardData.brand,
 			expiryMonth: cardData.expiryMonth,

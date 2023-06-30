@@ -88,7 +88,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 			const remoteStripeProductsPlans = await getStripePlans(stripeProducts)
 
 			setStripeProductsPlans(remoteStripeProductsPlans)
-			console.log('Produtos do Stripe obtidos com sucesso!')
+			console.log('STRIPE: Produtos do Stripe obtidos com sucesso!')
 		} catch (error) {
 			console.error('Erro ao obter os produtos do Stripe:', error)
 		}
@@ -237,17 +237,17 @@ export function StripeProvider({ children }: StripeContextProps) {
 			// console.log(new Date(currentDate * 1000))
 
 			if (dateHasExpired(endSubscriptionDate, currentDate, 1)) {
-				console.log('A fatura da assinatura está em dia.')
+				console.log('STRIPE: A fatura da assinatura está em dia')
 				setSubscriptionHasActive(true)
 			} else {
 				if (dateHasExpired(endSubscriptionDate, currentDate, 37)) {
 					console.log('expirou 7 dias ')
 				}
-				console.log('A fatura da assinatura está atrasada.')
+				console.log('STRIPE: A fatura da assinatura está atrasada.')
 				setSubscriptionHasActive(false)
 			}
 		} catch (err: any) {
-			console.log('A assinatura está com problemas')
+			console.log('STRIPE: A assinatura está com problemas')
 			setSubscriptionHasActive(false)
 		}
 	}
@@ -369,16 +369,13 @@ export function StripeProvider({ children }: StripeContextProps) {
 		const receiptUrl = result.data.data[0].receipt_url
 		const chargeId = result.data.data[0].id
 
-		console.log(`chargeId: ${chargeId}`)
-
 		const emailOptions = {
 			receipt_email: email,
 		}
 
 		const res = await axios.post(`${STRIPE_API_URL}/charges/${chargeId}`, emailOptions, axiosConfig)
-		console.log('Charges atualizadas')
-		console.log(receiptUrl)
-
+		console.log('Charges atualizadas...')
+		console.log(`Último recibo: ${receiptUrl}`)
 		console.log(`New Email: ${res.data.receipt_email}`)
 		return receiptUrl
 	}

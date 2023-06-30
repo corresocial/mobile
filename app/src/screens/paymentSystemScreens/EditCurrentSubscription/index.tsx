@@ -72,8 +72,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 
 			const userSubscriptionId = userDataContext.subscription?.subscriptionId || ''
 			const customerId = userDataContext.subscription?.customerId || ''
-			console.log(userSubscriptionId)
-			console.log(customerId)
+
 			if (userSubscriptionId && customerId) {
 				await refundSubscriptionValue(customerId, userSubscriptionId)
 				await cancelSubscription(userSubscriptionId)

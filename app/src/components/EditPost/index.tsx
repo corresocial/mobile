@@ -122,11 +122,11 @@ function EditPost({
 			}
 
 			if ((editDataContext.unsaved.picturesUrl && editDataContext.unsaved.picturesUrl.length > 0) && !allPicturesAlreadyUploaded()) {
-				console.log('with pictures')
+				console.log('With pictures')
 				await performPicturesUpload(userPostsUpdated)
 				return
 			}
-			console.log('without pictures')
+			console.log('Without pictures')
 
 			delete postDataToSave.owner
 
@@ -263,7 +263,6 @@ function EditPost({
 			createdAt: new Date()
 		}
 
-		console.log(postsUpdated)
 		await updateDocField(
 			'users',
 			localUser.userId as string,
@@ -410,10 +409,6 @@ function EditPost({
 			{ cancelable: false }
 		)
 	}
-
-	console.log(userDataContext.subscription?.subscriptionRange as any)
-	console.log('------------------------------------')
-	console.log(`POST range: ${getPostField('range')}`)
 
 	const userSubscribeIsValid = () => {
 		if (!userDataContext.subscription) {
