@@ -15,6 +15,7 @@ import { PhotoPortrait } from '../PhotoPortrait'
 interface ImageCarouselProps {
 	marginVertical?: number
 	indicatorColor?: string
+	withoutBorder?: boolean
 	relativeWidth?: number
 	picturesUrl: string[] | undefined
 }
@@ -22,6 +23,7 @@ interface ImageCarouselProps {
 function ImageCarousel({
 	marginVertical = 0,
 	indicatorColor,
+	withoutBorder,
 	relativeWidth = relativeScreenWidth(94),
 	picturesUrl = ['https://cdn-icons-png.flaticon.com/512/1695/1695213.png']
 }: ImageCarouselProps) {
@@ -43,8 +45,8 @@ function ImageCarousel({
 			}}
 		>
 			<PhotoPortrait
-				borderWidth={0}
-				borderRightWidth={0}
+				borderWidth={withoutBorder ? 0 : 2.5}
+				borderRightWidth={withoutBorder ? 0 : 8}
 				height={'100%'}
 				width={'100%'}
 				pictureUri={url}

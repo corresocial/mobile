@@ -110,6 +110,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 			setIsLoading(false)
 			navigateToNextScreen(localUser.tourPerformed)
+			return
 		}
 		console.log('Not updated')
 

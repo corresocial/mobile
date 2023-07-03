@@ -25,6 +25,7 @@ import { Loader } from '../../../components/Loader'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { deleteUserPicture } from '../../../services/firebase/user/deleteUserPicture'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
+import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 
 function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
@@ -55,6 +56,14 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 				})
 				break
 			}
+			case 'SocialMediaManagement': {
+				navigation.navigate('SocialMediaManagement' as any, {
+					userId: userDataContext.userId || '',
+					socialMedias: userDataContext.socialMedias || [],
+					isAuthor: true
+				})
+				break
+			}
 			case 'EditUserPicture': {
 				navigation.navigate(screenName, {
 					profilePictureUrl: getProfilePictureUrl(),
@@ -69,7 +78,9 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	const getProfilePictureUrl = () => {
 		if (userDataContext && !userDataContext.profilePictureUrl && !editDataContext.unsaved.profilePictureUrl) return ''
 		if (arrayIsEmpty([editDataContext.unsaved.profilePictureUrl]) && arrayIsEmpty(userDataContext.profilePictureUrl)) return ''
-		return editDataContext.unsaved.profilePictureUrl || (userDataContext && userDataContext.profilePictureUrl && userDataContext.profilePictureUrl[0])
+		if (editDataContext.unsaved.profilePictureUrl === '') return ''
+		if (editDataContext.unsaved.profilePictureUrl) return editDataContext.unsaved.profilePictureUrl
+		if (userDataContext && userDataContext.profilePictureUrl && userDataContext.profilePictureUrl[0]) return userDataContext.profilePictureUrl[0]
 	}
 
 	const updateUserData = async () => {
@@ -190,13 +201,6 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 				<ScrollView showsVerticalScrollIndicator={false}>
 					<Sigh />
 					<EditCard
-						title={'sua foto'}
-						highlightedWords={['foto']}
-						profilePicturesUrl={[getProfilePictureUrl()] || []}
-						onEdit={() => goToEditScreen('EditUserPicture')}
-					/>
-					<Sigh />
-					<EditCard
 						title={'seu nome'}
 						highlightedWords={['nome']}
 						value={editDataContext.unsaved.name || userDataContext.name}
@@ -206,8 +210,23 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					<EditCard
 						title={'sua descrição'}
 						highlightedWords={['descrição']}
-						value={editDataContext.unsaved.description || userDataContext.description}
+						value={editDataContext.unsaved.description === '' || editDataContext.unsaved.description ? editDataContext.unsaved.description : userDataContext.description}
 						onEdit={() => goToEditScreen('EditUserDescription')}
+					/>
+					<Sigh />
+					<EditCard
+						title={'links e contato'}
+						highlightedWords={['links', 'contato']}
+						onEdit={() => goToEditScreen('SocialMediaManagement')}
+					>
+						<HorizontalSocialMediaList socialMedias={userDataContext.socialMedias} onPress={() => { }} />
+					</EditCard>
+					<Sigh />
+					<EditCard
+						title={'sua foto'}
+						highlightedWords={['foto']}
+						profilePicturesUrl={[getProfilePictureUrl()] || []}
+						onEdit={() => goToEditScreen('EditUserPicture')}
 					/>
 					<Sigh />
 				</ScrollView>
