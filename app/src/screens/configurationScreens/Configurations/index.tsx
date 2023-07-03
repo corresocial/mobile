@@ -11,15 +11,16 @@ import { ChatContext } from '../../../contexts/ChatContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { getAndUpdateUserToken } from '../../../services/firebase/chat/getAndUpdateUserToken'
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {
-	const { deleteLocaluser } = useContext(AuthContext)
+	const { userDataContext, deleteLocaluser } = useContext(AuthContext)
 	const { removeChatListeners } = useContext(ChatContext)
 
 	const performLogout = () => {
 		removeChatListeners()
+		getAndUpdateUserToken(userDataContext.userId, null)
 		deleteLocaluser()
-
 		navigateToInitialScreen()
 	}
 

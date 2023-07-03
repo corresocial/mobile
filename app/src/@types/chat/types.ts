@@ -38,6 +38,7 @@ export type MessageObjects = {
 export type UserDatabase = {
 	blockedUsers: string[]
 	chatIds: string[]
+	tokenNotifications?: string
 }
 
 export type UserIdentification = {

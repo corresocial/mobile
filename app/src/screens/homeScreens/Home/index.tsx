@@ -1,7 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import * as Location from 'expo-location'
+import * as Device from 'expo-device'
+import * as Notifications from 'expo-notifications'
+import { Platform, RefreshControl } from 'react-native'
 
-import { RefreshControl } from 'react-native'
 import {
 	Container,
 	ContainerPadding,
@@ -41,6 +43,7 @@ import { HomeCatalogMenu } from '../../../components/HomeCatalogMenu'
 import { FlatListPosts } from '../../../components/FlatListPosts'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { getAndUpdateUserToken } from '../../../services/firebase/chat/getAndUpdateUserToken'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -67,6 +70,11 @@ function Home({ navigation }: HomeScreenProps) {
 	const [searchEnded, setSearchEnded] = useState(false)
 	const [feedIsUpdating, setFeedIsUpdating] = useState(false)
 
+	const [expoPushToken, setExpoPushToken] = useState('')
+	const [notification, setNotification] = useState(false)
+	const notificationListener = useRef()
+	const responseListener = useRef()
+
 	useEffect(() => {
 		requestPermissions()
 		loadRecentAddresses()
@@ -87,6 +95,64 @@ function Home({ navigation }: HomeScreenProps) {
 		}
 		return false
 	}
+
+	async function registerForPushNotificationsAsync() {
+		let token
+
+		if (Platform.OS === 'android') {
+			await Notifications.setNotificationChannelAsync('default', {
+				name: 'default',
+				importance: Notifications.AndroidImportance.MAX,
+				vibrationPattern: [0, 250, 250, 250],
+				lightColor: '#FF231F7C',
+			})
+		}
+
+		if (Device.isDevice) {
+			const { status: existingStatus } = await Notifications.getPermissionsAsync()
+			let finalStatus = existingStatus
+			if (existingStatus !== 'granted') {
+				const { status } = await Notifications.requestPermissionsAsync()
+				finalStatus = status
+			}
+			if (finalStatus !== 'granted') {
+				console.log('não permitiu notificações')
+				await getAndUpdateUserToken(userDataContext.userId, null)
+				return
+			}
+			token = (await Notifications.getExpoPushTokenAsync()).data
+			await getAndUpdateUserToken(userDataContext.userId, token)
+		} else {
+			alert('Must use physical device for Push Notifications')
+		}
+
+		return token
+	}
+
+	Notifications.setNotificationHandler({
+		handleNotification: async () => ({
+			shouldShowAlert: true,
+			shouldPlaySound: false,
+			shouldSetBadge: false,
+		}),
+	})
+
+	useEffect(() => {
+		registerForPushNotificationsAsync().then((token) => setExpoPushToken(token))
+
+		notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
+			setNotification(notification)
+		})
+
+		responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
+			console.log(response)
+		})
+
+		return () => {
+			Notifications.removeNotificationSubscription(notificationListener.current)
+			Notifications.removeNotificationSubscription(responseListener.current)
+		}
+	}, [])
 
 	const locationIsEnable = async () => {
 		const locationEnabled = await Location.hasServicesEnabledAsync()
@@ -122,9 +188,9 @@ function Home({ navigation }: HomeScreenProps) {
 			}
 
 			/* const remoteFeedPosts = await getPostsByLocationCloud(
-				searchParams, // Update return of cloud function
-				userDataContext.userId as Id
-			) */
+					searchParams, // Update return of cloud function
+					userDataContext.userId as Id
+				) */
 			const remoteFeedPosts = await getPostsByLocation(searchParams)
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
