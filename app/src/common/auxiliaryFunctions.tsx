@@ -120,10 +120,18 @@ const getNewDate = (date: any) => {
 	return new Date(date)
 }
 
-function dateHasExpired(date1InMilliseconds: number, date2InMilliseconds: number, numberOfDays: number = 1) {
+function dateHasExpired(
+	date1InMilliseconds: number,
+	date2InMilliseconds: number,
+	numberOfDays: number = 1,
+	returnNumberOfExpiredDays: boolean = false
+) {
 	if (date2InMilliseconds - date1InMilliseconds <= 0) return false
 	const diff = Math.abs(date2InMilliseconds - date1InMilliseconds)
 	const differenceDaysInMilliseconds = numberOfDays * 24 * 60 * 60 * 1000
+
+	if (returnNumberOfExpiredDays) return parseInt((diff / 1000 / 60 / 60 / 24).toFixed(0))
+
 	if (diff >= differenceDaysInMilliseconds || (diff / 1000 / 60 / 60 / 24) >= numberOfDays) return true
 	return false
 }
