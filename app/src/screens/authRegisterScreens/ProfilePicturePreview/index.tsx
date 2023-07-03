@@ -111,7 +111,6 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 			setIsLoading(false)
 			navigateToNextScreen(localUser.tourPerformed)
 		}
-		console.log('Not updated')
 
 		await uploadImage(profilePicture[0], 'users')
 			.then(
