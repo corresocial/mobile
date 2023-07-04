@@ -243,9 +243,21 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 									onPress={onPressCancelSubscriptionButton}
 								/>
 								<VerticalSigh height={relativeScreenHeight(3)} />
+								<PrimaryButton
+									color={theme.white3}
+									keyboardHideButton={false}
+									label={'mudar forma \nde pagamento'}
+									highlightedWords={['pagamento']}
+									fontSize={16}
+									SecondSvgIcon={EditWhiteIcon}
+									svgIconScale={['40%', '20%']}
+									relativeHeight={relativeScreenHeight(10)}
+									onPress={editPaymentMethod}
+								/>
 								{
 									!leaveFromPaidSubscription && (
 										<>
+											<VerticalSigh height={relativeScreenHeight(3)} />
 											<PrimaryButton
 												color={theme.green3}
 												keyboardHideButton={false}
@@ -258,18 +270,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 												relativeHeight={relativeScreenHeight(10)}
 												onPress={toggleInsertUserEmailModalVisibility}
 											/>
-											<VerticalSigh height={relativeScreenHeight(3)} />
-											<PrimaryButton
-												color={theme.white3}
-												keyboardHideButton={false}
-												label={'mudar forma \nde pagamento'}
-												highlightedWords={['pagamento']}
-												fontSize={16}
-												SecondSvgIcon={EditWhiteIcon}
-												svgIconScale={['40%', '20%']}
-												relativeHeight={relativeScreenHeight(10)}
-												onPress={editPaymentMethod}
-											/>
+
 										</>
 									)
 								}

@@ -71,7 +71,10 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 		return successfulPayment ? 'pagamento \nrealizado com sucesso!' : 'opa, o pagamento falhou!'
 	}
 
-	const { price } = getRangePlanPrice(subscriptionRange, subscriptionPlan)
+	const { price } = getRangePlanPrice(
+		editPaymentMethod ? userDataContext.subscription?.subscriptionRange : subscriptionRange,
+		editPaymentMethod ? userDataContext.subscription?.subscriptionPlan : subscriptionPlan
+	)
 
 	return (
 		<Container>

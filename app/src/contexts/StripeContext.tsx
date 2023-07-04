@@ -235,12 +235,12 @@ export function StripeProvider({ children }: StripeContextProps) {
 			const endSubscriptionDate = res[0].current_period_end * 1000
 			const currentDate = Math.floor(Date.now() + 2596000000 + (4 * 86400000)) //  + 2596000000 + (0 * 86400000)
 
-			console.log(new Date(endSubscriptionDate))
-			console.log(new Date(currentDate))
+			/* console.log(new Date(endSubscriptionDate))
+			console.log(new Date(currentDate)) */
 
 			if (dateHasExpired(endSubscriptionDate, currentDate, 1)) {
 				const numberOfExpiredDays = dateHasExpired(endSubscriptionDate, currentDate, 7, true)
-				console.log(numberOfExpiredDays)
+				console.log(`STRIPE: Dias expirados: ${numberOfExpiredDays} dias`)
 				showSubscriptionAlertWithCustomMessage(numberOfExpiredDays as number)
 				setSubscriptionHasActive(false)
 			} else {
@@ -287,6 +287,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 
 		await updateUserSubscription(userSubscription)
 		await updateSubscriptionDependentPosts(userSubscription)
+		setSubscriptionHasActive(true)
 	}
 
 	const updateSubscriptionDependentPosts = async (userSubscription: UserSubscription) => {
@@ -330,7 +331,6 @@ export function StripeProvider({ children }: StripeContextProps) {
 		}
 
 		if (numberOfExpiredDays && numberOfExpiredDays > 7) {
-			console.log('cancela geral')
 			await handleCancelSubscription(alreadyCanceled)
 			setNumberOfSubscriptionExpiredDays(numberOfExpiredDays as number)
 		}
@@ -355,6 +355,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 				: response.data.data.map((subscription: any) => subscription.id) // TODO Type
 			: null
 
+		setSubscriptionHasActive(true)
 		return subscriptionsId
 	}
 
@@ -473,11 +474,6 @@ export function StripeProvider({ children }: StripeContextProps) {
 	const navigateToEditCurrentPlanScreen = () => {
 		navigation.navigate('Configurations') // TODO Type
 		navigation.navigate('SelectSubscriptionRange')
-		/* navigation.navigate('EditCurrentSubscription', {
-			postReview: false,
-			postRange: 'near',
-			leaveFromPaidSubscription: userDataContext.subscription?.subscriptionRange
-		} as never) */
 	}
 
 	return (

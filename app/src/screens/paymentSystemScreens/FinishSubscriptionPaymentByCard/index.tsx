@@ -55,7 +55,9 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 		createSubscription,
 		getCustomerSubscriptions,
 		updateStripeSubscription,
-		getCustomerPaymentMethods
+		getCustomerPaymentMethods,
+		subscriptionHasActive,
+		cancelSubscription
 	} = useContext(StripeContext)
 
 	const { subscriptionRange, subscriptionPlan, subscriptionPaymentMethod } = subscriptionDataContext
@@ -63,8 +65,11 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 	const [cardDetails, setCardDetails] = useState<CustomCardDetails>({ brand: 'Unknown', expiryMonth: 1, expiryYear: 2023, last4: '' })
 	const [isLoading, setIsLoading] = useState(false)
 
-	const { price, priceId } = getRangePlanPrice(subscriptionRange, subscriptionPlan)
 	const editPaymentMethod = route.params?.editPaymentMethod
+	const { price, priceId } = getRangePlanPrice(
+		editPaymentMethod ? userDataContext.subscription?.subscriptionRange : subscriptionRange,
+		editPaymentMethod ? userDataContext.subscription?.subscriptionPlan : subscriptionPlan
+	)
 
 	const performSubscriptionPayment = async () => {
 		try {
@@ -142,12 +147,18 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			if (!customerId) throw new Error('customerId inválido')
 
 			if (editPaymentMethod) {
-				navigation.goBack()
-				return { customerId: '', subscriptionId: '', stopped: true }
+				if (subscriptionHasActive) {
+					navigation.goBack()
+					return { customerId: '', subscriptionId: '', stopped: true }
+				}
 			}
 
-			const subscriptionsId = await getCustomerSubscriptions(customerId)
-			if (subscriptionsId) {
+			let subscriptionsId = await getCustomerSubscriptions(customerId)
+			!subscriptionHasActive && subscriptionsId.forEach(async (subscriptionId: string) => cancelSubscription(subscriptionId))
+			console.log('Assinatura anterior cancelada...')
+			subscriptionsId = subscriptionHasActive ? subscriptionsId : []
+
+			if (subscriptionsId && subscriptionsId.length) {
 				await updateStripeSubscription(subscriptionsId[0], priceId)
 				console.log('Assinatura atualizada...')
 			} else {
