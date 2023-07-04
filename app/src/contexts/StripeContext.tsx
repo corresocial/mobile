@@ -233,7 +233,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 			}
 
 			const endSubscriptionDate = res[0].current_period_end * 1000
-			const currentDate = Math.floor(Date.now() + 2596000000 + (4 * 86400000)) //  + 2596000000 + (0 * 86400000)
+			const currentDate = Math.floor(Date.now()) //  + 2596000000 + (0 * 86400000)
 
 			/* console.log(new Date(endSubscriptionDate))
 			console.log(new Date(currentDate)) */
