@@ -92,7 +92,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		const localUser = JSON.parse(localUserJSON as string)
 		setIsLoading(true)
 
-		if (localUser.profilePictureUrl.length && localUser.profilePictureUrl[0] === profilePicture[0]) {
+		if (localUser.profilePictureUrl && localUser.profilePictureUrl.length && localUser.profilePictureUrl[0] === profilePicture[0]) {
 			const currentUser = {
 				name: userData.userName,
 				profilePictureUrl: profilePicture,

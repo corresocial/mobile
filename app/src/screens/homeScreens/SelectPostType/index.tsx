@@ -29,7 +29,7 @@ function SelectPostType({ navigation, withoutBackButton }: SelectPostTypeScreenP
 			<FocusAwareStatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				backgroundColor={theme.orange2}
-				relativeHeight={relativeScreenHeight(20)}
+				relativeHeight={withoutBackButton ? relativeScreenHeight(20) : relativeScreenHeight(25)}
 				borderBottomWidth={0}
 				centralized
 			>

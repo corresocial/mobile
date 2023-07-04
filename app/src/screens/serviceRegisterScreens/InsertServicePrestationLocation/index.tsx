@@ -45,7 +45,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 
 	const getLastPostCity = () => {
 		const lastUserPost: PostCollection = getLastUserPost()
-		return lastUserPost.location?.city || ''
+		return lastUserPost && lastUserPost.location ? lastUserPost.location?.city || '' : ''
 	}
 
 	const toggleRangeChangeModalVisibility = () => {

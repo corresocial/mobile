@@ -123,7 +123,7 @@ function Home({ navigation }: HomeScreenProps) {
 			token = (await Notifications.getExpoPushTokenAsync()).data
 			await getAndUpdateUserToken(userDataContext.userId, token)
 		} else {
-			alert('Must use physical device for Push Notifications')
+			console.log('Must use physical device for Push Notifications')
 		}
 
 		return token

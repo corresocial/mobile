@@ -13,7 +13,7 @@ async function updateAllRangeAndLocation(
 	newPostRangeLocation: PostRangeLocation,
 	subscriptionChange?: boolean
 ) {
-	if (!userPosts) return console.log('não possui posts')
+	if (!userPosts || (userPosts && !userPosts.length)) return console.log('não possui posts')
 
 	let updatedUserPosts = await updatePostsLocation(userPosts, newPostRangeLocation)
 	if (subscriptionChange) {

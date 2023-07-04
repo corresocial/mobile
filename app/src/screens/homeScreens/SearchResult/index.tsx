@@ -185,7 +185,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	)
 
 	const hasAnyPost = () => {
-		return ((resultPosts && resultPosts.nearby.length > 0) || (resultPosts && resultPosts.city.length > 0) || (resultPosts && resultPosts.country.length > 0))
+		return ((resultPosts.nearby && resultPosts.nearby.length > 0) || (resultPosts.city && resultPosts.city.length > 0) || (resultPosts.country && resultPosts.country.length > 0))
 	}
 
 	const currentCategoryColorLight = getOneToneMoreLight()

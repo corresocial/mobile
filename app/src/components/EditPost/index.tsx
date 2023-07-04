@@ -52,7 +52,7 @@ interface EditPostProps {
 	navigateBackwards: () => void
 	navigateToPostView: (postData: PostCollectionRemote) => void
 	navigateToSubscriptionContext: () => void
-	showShareModal: (visibility: boolean, postTitle?: string) => void
+	showShareModal: (visibility: boolean, postTitle?: string, postId?: string) => void
 	getPostField: (fieldName: keyof PostCollectionRemote, allowNull?: boolean) => any // TODO Type return
 	userContext: UserContextFragment
 	editContext: EditContextFragment
@@ -85,10 +85,10 @@ function EditPost({
 
 	const getUserPostsWithoutEdited = (updatedLocationPosts?: PostCollectionRemote[]) => {
 		const userPosts = updatedLocationPosts || userDataContext.posts || []
-		return userPosts.filter((post: PostCollection) => post.postId !== initialPostData.postId)
+		return userPosts.filter((post: PostCollection) => post.postId !== initialPostData.postId) || []
 	}
 
-	const locationHasChanged = () => {
+	const locationHasChanged = () => { // TODO Aprimorar função
 		if (Object.keys(editDataContext.unsaved).includes('location') || userContext.userDataContext.subscription?.subscriptionRange !== 'country') {
 			return true
 		}
@@ -282,7 +282,7 @@ function EditPost({
 				})
 
 				setIsLoading(false)
-				showShareModal(true, postData.title)
+				showShareModal(true, postDataToSave.title, postDataToSave.postId)
 				navigateToPostView({ ...postDataToSave, owner } as any) // TODO
 			})
 			.catch((err: any) => {
@@ -357,7 +357,7 @@ function EditPost({
 											changeStateOfEditedFields([...picturePostsUrls, ...picturesAlreadyUploaded])
 											updateUserContext(postDataToSave, postsUpdated as any[]) // TODO Type
 											setIsLoading(false)
-											// navigation.goBack()
+											navigateBackwards()
 										}
 									},
 								)
