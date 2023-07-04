@@ -445,7 +445,7 @@ function EditPost({
 			<DefaultConfirmationModal
 				visibility={defaultConfirmationModalIsVisible}
 				title={'descartar'}
-				text={`você tem certeza que deseja descartar o post ${getPostField('title')}?`}
+				text={`você tem certeza que deseja descartar as alterações realizadas no post ${getPostField('title')}?`}
 				highlightedWords={[...getPostField('title').split(' ')]}
 				buttonKeyword={'descartar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
