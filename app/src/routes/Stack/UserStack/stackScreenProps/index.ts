@@ -37,3 +37,11 @@ export type PrivacyAndSecurityScreenProps = NativeStackScreenProps<UserStackPara
 export type UserDataConfigurationsScreenProps = NativeStackScreenProps<UserStackParamList, 'UserDataConfigurations'>
 
 export type ChatMessagesScreenProps = NativeStackScreenProps<UserStackParamList, 'ChatMessages'>
+
+export type SelectSubscriptionRangeScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectSubscriptionRange'>
+export type SelectSubscriptionPlanScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectSubscriptionPlan'>
+export type SelectSubsciptionPaymentMethodScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectSubsciptionPaymentMethod'>
+export type FinishSubscriptionPaymentByPixScreenProps = NativeStackScreenProps<UserStackParamList, 'FinishSubscriptionPaymentByPix'>
+export type FinishSubscriptionPaymentByCardScreenProps = NativeStackScreenProps<UserStackParamList, 'FinishSubscriptionPaymentByCard'>
+export type SubscriptionPaymentResultScreenProps = NativeStackScreenProps<UserStackParamList, 'SubscriptionPaymentResult'>
+export type EditCurrentSubscriptionScreenProps = NativeStackScreenProps<UserStackParamList, 'EditCurrentSubscription'>

@@ -16,7 +16,7 @@ export const Message = styled.Text`
 `
 
 export const MessageTitle = styled.Text`
-	font-size: ${RFValue(22)}px;
+	font-size: ${RFValue(24)}px;
 	font-family: Arvo_400Regular;
 	color: ${({ theme }) => theme.black4};
 `

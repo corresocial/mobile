@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
@@ -7,26 +7,74 @@ import { generateGeohashes } from '../../../common/generateGeohashes'
 import { convertGeocodeToAddress } from '../../../utils/maps/addressFormatter'
 
 import { InsertWorkplaceLocationScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
-import { Coordinates } from '../../../services/firebase/types'
+import { Coordinates, PostCollection } from '../../../services/firebase/types'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
+import { AuthContext } from '../../../contexts/AuthContext'
 
 import { SelectPostLocation } from '../../../components/_onboarding/SelectPostLocation'
+import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 
 function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationScreenProps) {
-	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { userDataContext } = useContext(AuthContext)
+	const { setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const { locationView } = route.params
-	const { range: postRange } = vacancyDataContext
+	const [currentMarkerCoodinate, setCurrentMarkerCoordinate] = useState<Coordinates>()
+	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
+
+	const { locationView, initialValue } = route.params
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const saveLocation = async (markerCoordinate: Coordinates) => {
-		if (!markerCoordinateIsAccuracy(markerCoordinate)) return
+	const userSubscriptionIsCity = () => userDataContext.subscription?.subscriptionRange === 'city'
 
-		const completeAddress = await convertGeocodeToAddress(markerCoordinate?.latitude as number, markerCoordinate?.longitude as number)
+	const userHasSomePost = () => userDataContext.posts && userDataContext.posts.length > 0
+
+	const currentLocationIsInAnotherCity = (city: string) => {
+		if (!city) return false
+		return city !== getLastPostCity()
+	}
+
+	const getLastUserPost = () => {
+		const userPosts: PostCollection[] = userDataContext.posts || []
+		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
+		return lastUserPost
+	}
+
+	const getLastPostCity = () => {
+		const lastUserPost: PostCollection = getLastUserPost()
+		return lastUserPost.location?.city || ''
+	}
+
+	const toggleRangeChangeModalVisibility = () => {
+		setLocationChangeModalIsVisible(!locationChangeModalIsVisible)
+	}
+
+	const saveLocation = async (markerCoordinate: Coordinates, rangeVerified?: boolean) => {
+		const coordinates = !rangeVerified ? markerCoordinate : currentMarkerCoodinate
+
+		if (!rangeVerified) {
+			setCurrentMarkerCoordinate(coordinates)
+			if (!coordinates) return
+			if (!markerCoordinateIsAccuracy(coordinates as Coordinates)) return
+		}
+
+		const completeAddress = await convertGeocodeToAddress(coordinates?.latitude as number, coordinates?.longitude as number)
+
+		if (!rangeVerified) {
+			if (
+				userSubscriptionIsCity()
+				&& editModeIsTrue()
+				&& userHasSomePost()
+				&& currentLocationIsInAnotherCity(completeAddress.city)
+			) {
+				toggleRangeChangeModalVisibility()
+				return
+			}
+		}
+
 		const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
 
 		if (editModeIsTrue()) {
@@ -56,13 +104,19 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 	return (
 		<>
 			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
+			<LocationChangeConfirmationModal
+				visibility={locationChangeModalIsVisible}
+				currentPostAddress={getLastPostCity()}
+				newRangeSelected={'city'}
+				onPressButton={() => saveLocation(currentMarkerCoodinate as Coordinates, true)}
+				closeModal={toggleRangeChangeModalVisibility}
+			/>
+
 			<SelectPostLocation
 				backgroundColor={theme.yellow2}
 				validationColor={theme.yellow1}
 				searchPlaceholder={'digite o endereço da vaga'}
-				locationView={locationView}
-				postRange={postRange || 'near'}
-				initialValue={editModeIsTrue() ? route.params?.initialValue : { latitude: 0, longitude: 0 }}
+				initialValue={editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }}
 				navigateBackwards={() => navigation.goBack()}
 				saveLocation={saveLocation}
 			/>

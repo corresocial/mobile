@@ -8,7 +8,7 @@ import { updatePost } from '../post/updatePost'
 import { CultureCollectionRemote, PostCollection, SaleCollectionRemote, ServiceCollectionRemote, SocialImpactCollectionRemote, VacancyCollectionRemote } from '../types'
 import { updateUser } from '../user/updateUser'
 
-const updatePostFieldsName = async () => { // Set Collection Name
+const updatePostFieldsName = async () => {
 	const docs: any = []
 
 	const usersQuery = query(collection(firestore, 'users'))

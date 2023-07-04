@@ -45,7 +45,7 @@ function ServiceProvider({ children }: ServiceProviderProps) {
 		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
 
 		setServiceDataContext({
-			range: lastUserPost.range || '',
+			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',
 			location: lastUserPost.location || '',
 			deliveryMethod: lastUserPost.deliveryMethod || '',

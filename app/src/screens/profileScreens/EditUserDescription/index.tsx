@@ -1,4 +1,4 @@
-import { Keyboard, Platform, StatusBar } from 'react-native'
+import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles'
@@ -24,7 +24,7 @@ function EditUserDescription({ route, navigation }: EditUserDescriptionScreenPro
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	const inputRefs = {
-		profileDescriptionInput: useRef<React.MutableRefObject<any>>(null),
+		profileDescriptionInput: useRef<TextInput>(null),
 	}
 
 	useEffect(() => {

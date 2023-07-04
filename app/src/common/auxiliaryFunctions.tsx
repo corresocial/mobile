@@ -120,6 +120,22 @@ const getNewDate = (date: any) => {
 	return new Date(date)
 }
 
+function dateHasExpired(
+	date1InMilliseconds: number,
+	date2InMilliseconds: number,
+	numberOfDays: number = 1,
+	returnNumberOfExpiredDays: boolean = false
+) {
+	if (date2InMilliseconds - date1InMilliseconds <= 0) return false
+	const diff = Math.abs(date2InMilliseconds - date1InMilliseconds)
+	const differenceDaysInMilliseconds = numberOfDays * 24 * 60 * 60 * 1000
+
+	if (returnNumberOfExpiredDays) return parseInt((diff / 1000 / 60 / 60 / 24).toFixed(0))
+
+	if (diff >= differenceDaysInMilliseconds || (diff / 1000 / 60 / 60 / 24) >= numberOfDays) return true
+	return false
+}
+
 const sortArray = (a: string, b: string) => {
 	if (a < b) return -1
 	if (a > b) return 1
@@ -138,6 +154,12 @@ const sortPostsByCreatedData = (a: PostCollectionRemote | any, b: PostCollection
 	return 0
 }
 
+const emailIsValid = (email?: string) => {
+	if (!email) return false
+	const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+	return email.match(emailRegex)
+}
+
 export {
 	arrayIsEmpty, // array validation
 	showMessageWithHighlight, // string highlight
@@ -145,7 +167,9 @@ export {
 	formatDate, // date validation
 	formatHour, //  date validation
 	formatRelativeDate, // date validation
+	dateHasExpired,
 	sortArray, // sort array
 	sortPostCategories, // sort array
-	sortPostsByCreatedData //  sort post array
+	sortPostsByCreatedData, //  sort post array
+	emailIsValid
 }

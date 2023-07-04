@@ -1,8 +1,21 @@
+import { StackNavigationProp } from '@react-navigation/stack'
 import { Chat } from '../../../@types/chat/types'
 import { LocalUserData } from '../../../contexts/types'
 import { ContactUsType } from '../../../services/discord/types'
-import { CultureCollectionRemote, PostCollectionRemote, PostRange, PostType, SaleCollectionRemote, ServiceCollectionRemote, SocialImpactCollectionRemote, SocialMedia, VacancyCollectionRemote } from '../../../services/firebase/types'
+import {
+	CultureCollectionRemote,
+	PostCollectionRemote,
+	PostRange,
+	PostType,
+	SaleCollectionRemote,
+	ServiceCollectionRemote,
+	SocialImpactCollectionRemote,
+	SocialMedia,
+	VacancyCollectionRemote
+} from '../../../services/firebase/types'
 import { ReportedTarget } from '../../../services/types'
+
+export type UserStackNavigationProps = StackNavigationProp<UserStackParamList>
 
 export type UserStackParamList = {
 	WelcomeNewUser: undefined
@@ -40,4 +53,12 @@ export type UserStackParamList = {
 	UserDataConfigurations: undefined
 
 	ChatMessages: { chat: Chat }
+
+	SelectSubscriptionRange: { postReview: boolean } | undefined
+	EditCurrentSubscription: { postReview?: boolean, postRange: PostRange, leaveFromPaidSubscription?: PostRange | '' }
+	SelectSubscriptionPlan: { postReview?: boolean, postRange: PostRange }
+	SelectSubsciptionPaymentMethod: { postReview?: boolean } | undefined
+	FinishSubscriptionPaymentByPix: { postReview?: boolean } | undefined
+	FinishSubscriptionPaymentByCard: { postReview?: boolean, editPaymentMethod?: boolean } | undefined
+	SubscriptionPaymentResult: { postReview?: boolean, editPaymentMethod?: boolean, successfulPayment: boolean }
 }

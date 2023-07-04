@@ -37,7 +37,7 @@ function CulturePicturePreview({ route, navigation }: CulturePicturePreviewScree
 			return
 		}
 
-		navigation.navigate('SelectCultureLocationView')
+		navigation.navigate('SelectEventPlaceModality')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

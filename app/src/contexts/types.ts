@@ -15,9 +15,15 @@ import {
 	VacancyPurpose,
 	SocialImpactType,
 	CultureType,
+	PostCollection,
+	UserSubscription,
 	FeedPosts
 } from '../services/firebase/types'
 import { CurrentCategory, SearchParams } from '../services/maps/types'
+
+export interface SubscriptionData extends UserSubscription {
+	currentPost?: PostCollection
+}
 
 export type UserIdentification = {
 	uid: string

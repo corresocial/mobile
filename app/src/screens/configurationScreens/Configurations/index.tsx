@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
-import { Body, Container, Header, Sigh } from './styles'
+import { Body, Container, Header } from './styles'
 import { theme } from '../../../common/theme'
 
 import { ConfigurationsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -12,6 +12,8 @@ import { ChatContext } from '../../../contexts/ChatContext'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { getAndUpdateUserToken } from '../../../services/firebase/chat/getAndUpdateUserToken'
+import { VerticalSigh } from '../../../components/VerticalSigh'
+import { Id } from '../../../services/firebase/types'
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const { userDataContext, deleteLocaluser } = useContext(AuthContext)
@@ -19,7 +21,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 
 	const performLogout = () => {
 		removeChatListeners()
-		getAndUpdateUserToken(userDataContext.userId, null)
+		getAndUpdateUserToken(userDataContext.userId as Id, null)
 		deleteLocaluser()
 		navigateToInitialScreen()
 	}
@@ -29,6 +31,10 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 			index: 0,
 			routes: [{ name: 'AcceptAndContinue' as any }]
 		})
+	}
+
+	const performUserSubscription = () => {
+		navigation.navigate('SelectSubscriptionRange')
 	}
 
 	return (
@@ -50,7 +56,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					highlightedWords={['somos']}
 					onPress={() => navigation.navigate('WhoWeAre')}
 				/>
-				<Sigh />
+				<VerticalSigh />
 				<PrimaryButton
 					color={theme.white3}
 					label={'nos ajude'}
@@ -60,7 +66,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					highlightedWords={['ajude']}
 					onPress={() => navigation.navigate('HelpUs')}
 				/>
-				<Sigh />
+				<VerticalSigh />
 				<PrimaryButton
 					color={theme.white3}
 					label={'fale conosco'}
@@ -70,7 +76,17 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					highlightedWords={['conosco']}
 					onPress={() => navigation.navigate('ContactUs')}
 				/>
-				<Sigh />
+				<VerticalSigh />
+				<PrimaryButton
+					color={theme.white3}
+					label={'assinatura corre.'}
+					fontSize={20}
+					justifyContent={'flex-start'}
+					textAlign={'left'}
+					highlightedWords={['corre']}
+					onPress={performUserSubscription}
+				/>
+				<VerticalSigh />
 				<PrimaryButton
 					color={theme.white3}
 					label={'privacidade e segurança'}
@@ -80,18 +96,18 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					highlightedWords={['privacidade', 'segurança']}
 					onPress={() => navigation.navigate('PrivacyAndSecurity')}
 				/>
-				<Sigh />
+				<VerticalSigh />
 				<PrimaryButton
 					color={theme.red3}
-					label={'sair'}
 					labelColor={theme.white3}
+					label={'sair'}
 					fontSize={20}
 					justifyContent={'flex-start'}
 					textAlign={'left'}
 					highlightedWords={['sair']}
 					onPress={performLogout}
 				/>
-				<Sigh />
+				<VerticalSigh />
 			</Body>
 		</Container >
 	)

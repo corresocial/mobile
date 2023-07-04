@@ -1,4 +1,4 @@
-import { Animated, Keyboard, Platform, StatusBar } from 'react-native'
+import { Animated, Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonContainer, Container, InputsContainer } from './styles'
@@ -23,7 +23,7 @@ function EditUserName({ navigation, route }: EditUserNameScreenProps) {
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 	const [invalidNameAfterSubmit, setInvaliNameAfterSubmit] = useState<boolean>(false)
 	const inputRefs = {
-		nameInput: useRef<React.MutableRefObject<any>>(null),
+		nameInput: useRef<TextInput>(null),
 	}
 
 	useEffect(() => {

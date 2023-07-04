@@ -12,15 +12,17 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { TitleDescriptionButton } from '../../../components/_cards/TitleDescriptionButton'
+import { StripeProducts } from '../../../services/stripe/types'
 
 interface PostRangeProps {
 	backgroundColor: string
+	plansAvailable: StripeProducts
 	progress: [value: number, range: number]
 	savePostRange: (postRange: PostRangeType) => void
 	navigateBackwards: () => void
 }
 
-function PostRange({ backgroundColor, progress, savePostRange, navigateBackwards }: PostRangeProps) {
+function PostRange({ backgroundColor, plansAvailable, progress, savePostRange, navigateBackwards }: PostRangeProps) {
 	return (
 		<Container>
 			<DefaultHeaderContainer
@@ -51,7 +53,7 @@ function PostRange({ backgroundColor, progress, savePostRange, navigateBackwards
 						title={'região'}
 						description={'a pessoas encontram seus posts e perfil  no bairro'}
 						highlightedWords={['região']}
-						footerText={'near'}
+						footerValue={'free'}
 						onPress={() => savePostRange('near')}
 					/>
 					<TitleDescriptionButton
@@ -60,8 +62,8 @@ function PostRange({ backgroundColor, progress, savePostRange, navigateBackwards
 						title={'cidade'}
 						description={'seus posts aparecem na cidade inteira, também pode postar em bairros!'}
 						highlightedWords={['cidade', 'também', 'pode', 'postar', 'em', 'bairros!']}
-						footerText={'city'}
-						onPress={() => savePostRange('city')}
+						footerValue={plansAvailable.cityMonthly.price || 'unavailable'}
+						onPress={() => plansAvailable.cityMonthly.price && savePostRange('city')}
 					/>
 					<TitleDescriptionButton
 						height={'28%'}
@@ -69,8 +71,8 @@ function PostRange({ backgroundColor, progress, savePostRange, navigateBackwards
 						title={'brasil'}
 						description={'postagens aparecem em cidades vizinhas e no brasil inteiro.'}
 						highlightedWords={['brasil']}
-						footerText={'country'}
-						onPress={() => savePostRange('country')}
+						footerValue={plansAvailable.countryMonthly.price || 'unavailable'}
+						onPress={() => plansAvailable.countryMonthly.price && savePostRange('country')}
 					/>
 				</ButtonsContainer>
 			</FormContainer>

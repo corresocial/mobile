@@ -5,12 +5,13 @@ import { Container, IndicatorBarBottom, IndicatorBarSurface, IndicatorLabel } fr
 interface ProgressBarProps {
 	range: number
 	value: number
+	withoutIndicator?: boolean
 }
 
-function ProgressBar({ value, range }: ProgressBarProps) {
+function ProgressBar({ value, range, withoutIndicator }: ProgressBarProps) {
 	return (
 		<Container>
-			<IndicatorLabel>{`${value} de ${range}`}</IndicatorLabel>
+			{!withoutIndicator && <IndicatorLabel>{`${value} de ${range}`}</IndicatorLabel>}
 			<IndicatorBarBottom>
 				<IndicatorBarSurface style={{
 					width: `${(100 / range) * value}%`

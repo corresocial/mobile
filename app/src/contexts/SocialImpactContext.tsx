@@ -44,7 +44,7 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
 
 		setSocialImpactDataContext({
-			range: lastUserPost.range || '',
+			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',
 			location: lastUserPost.location || '',
 			exhibitionPlace: lastUserPost.exhibitionPlace || '',

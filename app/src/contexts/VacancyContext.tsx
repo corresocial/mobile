@@ -45,7 +45,7 @@ function VacancyProvider({ children }: VacancyProviderProps) {
 		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
 
 		setVacancyDataContext({
-			range: lastUserPost.range || '',
+			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',
 			location: lastUserPost.location || '',
 			attendanceFrequency: lastUserPost.workFrequency || 'someday',

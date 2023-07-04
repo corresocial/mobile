@@ -23,7 +23,7 @@ function SelectLocationView({ route, navigation }: SelectLocationViewScreenProps
 		navigation.navigate('InsertServicePrestationLocation', {
 			locationView: locationViewType,
 			editMode: editModeIsTrue(),
-			initialValue: route.params?.initialValue?.coordinates
+			initialValue: route.params?.initialValue?.coordinates,
 		})
 	}
 

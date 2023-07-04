@@ -32,6 +32,7 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 import { ExhibitionPlaceCard } from '../../../components/_cards/ExhibitionPlace'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { SocialImpactTypeCard } from '../../../components/_cards/SocialImpactType'
+import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 
 function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -39,6 +40,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
+	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 
 	useEffect(() => {
 		return () => {
@@ -154,8 +156,22 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
 
+	const toggleDefaultConfirmationModalVisibility = () => {
+		setPostOptionsIsOpen(false)
+		setTimeout(() => setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible), 300)
+	}
+
 	return (
 		<Container>
+			<DefaultConfirmationModal
+				visibility={defaultConfirmationModalIsVisible}
+				title={'apagar post'}
+				text={`você tem certeza que deseja apagar o post ${getPostField('title')}?`}
+				highlightedWords={[...getPostField('title').split(' ')]}
+				buttonKeyword={'apagar'}
+				closeModal={toggleDefaultConfirmationModalVisibility}
+				onPressButton={deleteRemotePost}
+			/>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
@@ -204,7 +220,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						isLoading={isLoading}
 						goToComplaint={reportPost}
 						editPost={goToEditPost}
-						deletePost={deleteRemotePost}
+						deletePost={toggleDefaultConfirmationModalVisibility}
 					>
 						<SmallButton
 							SvgIcon={ThreeDotsWhiteIcon}
@@ -257,8 +273,8 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					<DateTimeCard
 						weekDaysfrequency={getPostField('exhibitionFrequency')}
 						daysOfWeek={getPostField('daysOfWeek', true)}
-						startDate={getPostField('startHour', true)}
-						endDate={getPostField('startHour', true)}
+						startDate={getPostField('startDate', true)}
+						endDate={getPostField('endDate', true)}
 						startTime={getPostField('startHour', true)}
 						endTime={getPostField('endHour', true)}
 						repetition={getPostField('repeat')}

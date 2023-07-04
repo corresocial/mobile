@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
-import { Keyboard, Platform, StatusBar } from 'react-native'
+import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
 import { updateUser } from '../../../services/firebase/user/updateUser'
 
@@ -33,7 +33,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const [isLoading, setIsLoading] = useState(false)
 
 	const inputRefs = {
-		linkValueInput: useRef<React.MutableRefObject<any>>(null),
+		linkValueInput: useRef<TextInput>(null),
 	}
 
 	useEffect(() => {

@@ -20,4 +20,7 @@ declare module '@env' {
 	export const NOTION_APPICONS_KEY: string
 	export const FIRESTORE_REAL_TIME_DATABASE: string
 	export const DSN_SENTRY: string
+	export const STRIPE_PUBLISHABLE_KEY: string
+	export const STRIPE_SECRET_KEY: string
+	export const STRIPE_API_URL: string
 }

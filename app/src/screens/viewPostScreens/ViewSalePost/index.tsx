@@ -42,6 +42,7 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { ItemStatusCard } from '../../../components/_cards/ItemStatusCard'
 import { textHasOnlyNumbers } from '../../../utils/validationFunctions'
+import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 
 function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -49,6 +50,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
+	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 
 	useEffect(() => {
 		return () => {
@@ -173,8 +175,22 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
 
+	const toggleDefaultConfirmationModalVisibility = () => {
+		setPostOptionsIsOpen(false)
+		setTimeout(() => setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible), 300)
+	}
+
 	return (
 		<Container>
+			<DefaultConfirmationModal
+				visibility={defaultConfirmationModalIsVisible}
+				title={'apagar post'}
+				text={`você tem certeza que deseja apagar o post ${getPostField('title')}?`}
+				highlightedWords={[...getPostField('title').split(' ')]}
+				buttonKeyword={'apagar'}
+				closeModal={toggleDefaultConfirmationModalVisibility}
+				onPressButton={deleteRemotePost}
+			/>
 			<StatusBar
 				backgroundColor={theme.white3}
 				barStyle={'dark-content'}
@@ -241,7 +257,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						isLoading={isLoading}
 						goToComplaint={reportPost}
 						editPost={goToEditPost}
-						deletePost={deleteRemotePost}
+						deletePost={toggleDefaultConfirmationModalVisibility}
 					>
 						<SmallButton
 							SvgIcon={ThreeDotsWhiteIcon}

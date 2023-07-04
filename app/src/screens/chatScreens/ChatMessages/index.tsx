@@ -53,6 +53,7 @@ import { sendMessage } from '../../../services/firebase/chat/sendMessage'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { ChatMessagesScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { HorizontalSigh } from '../../homeScreens/PostCategoryDetails/styles'
+import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -67,6 +68,9 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const [listenerHasStarted, setListenerHasStarted] = useState(false)
 	const [isBlockedUser, setIsBlockedUser] = useState(false)
 	const [blockedByOwner, setBlockedByOwner] = useState(false)
+
+	const [blockConfirmationModalIsVisible, setBlockConfirmationModalIsVisible] = useState(false)
+	const [clearMessagesConfirmationModalIsVisible, setCleanMessagesConfirmationModalIsVisible] = useState(false)
 
 	const flatListRef: RefObject<FlatList> = useRef(null)
 
@@ -281,8 +285,36 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		})
 	}
 
+	const toggleBlockConfirmationModalVisibility = () => {
+		setChatOptionsIsOpen(false)
+		setTimeout(() => setBlockConfirmationModalIsVisible(!blockConfirmationModalIsVisible), 400)
+	}
+
+	const toggleCleanMessagesConfirmationModalVisibility = () => {
+		setChatOptionsIsOpen(false)
+		setTimeout(() => setCleanMessagesConfirmationModalIsVisible(!clearMessagesConfirmationModalIsVisible), 400)
+	}
+
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+			<DefaultConfirmationModal // BLOCK
+				visibility={blockConfirmationModalIsVisible}
+				title={isBlockedUser ? 'desbloquear' : 'bloquear'}
+				text={`você tem certeza que deseja ${isBlockedUser ? 'desbloquear' : 'bloquear'} ${getUserName(currentChat.user1, currentChat.user2)}?`}
+				highlightedWords={[...getUserName(currentChat.user1, currentChat.user2).split(' ')]}
+				buttonKeyword={isBlockedUser ? 'desbloquear' : 'bloquear'}
+				closeModal={toggleBlockConfirmationModalVisibility}
+				onPressButton={isBlockedUser ? unblockUser : blockUser}
+			/>
+			<DefaultConfirmationModal // CLEAR MESSAGES
+				visibility={clearMessagesConfirmationModalIsVisible}
+				title={'apagar'}
+				text={`você tem certeza que deseja apagar as mensagens com ${getUserName(currentChat.user1, currentChat.user2)}?`}
+				highlightedWords={[...getUserName(currentChat.user1, currentChat.user2).split(' ')]}
+				buttonKeyword={'apagar'}
+				closeModal={toggleCleanMessagesConfirmationModalVisibility}
+				onPressButton={cleanConversation}
+			/>
 			<FocusAwareStatusBar
 				backgroundColor={theme.white3}
 				barStyle={'dark-content'}
@@ -312,10 +344,10 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					)}
 					popoverVisibility={chatOptionsIsOpen}
 					closePopover={() => setChatOptionsIsOpen(false)}
-					blockUser={blockUser}
-					unblockUser={unblockUser}
+					blockUser={toggleBlockConfirmationModalVisibility}
+					unblockUser={toggleBlockConfirmationModalVisibility}
 					userIsBlocked={blockedByOwner && isBlockedUser}
-					cleanConversation={cleanConversation}
+					cleanConversation={toggleCleanMessagesConfirmationModalVisibility}
 				>
 					<SmallButton
 						color={theme.white3}

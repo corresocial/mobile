@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View, ViewStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
@@ -14,7 +14,7 @@ interface DefaultHeaderTitleProps {
 	SecondSvgIcon?: React.FC<SvgProps>
 	dimensions?: number
 	invertTextAndIcon?: boolean
-	justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'
+	justifyContent?: ViewStyle['justifyContent']
 	onPressIcon?: () => void
 }
 
