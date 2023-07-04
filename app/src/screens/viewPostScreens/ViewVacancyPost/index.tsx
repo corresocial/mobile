@@ -40,6 +40,7 @@ import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
 import { VacancyTypeCard } from '../../../components/_cards/VacancyTypeCard'
 import { VacancyPurposeCard } from '../../../components/_cards/VacancyPurposeCard'
 import { ImportantPointsCard } from '../../../components/_cards/ImportantPointsCard'
+import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -47,6 +48,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
+	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 
 	useEffect(() => {
 		return () => {
@@ -156,8 +158,22 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
 
+	const toggleDefaultConfirmationModalVisibility = () => {
+		setPostOptionsIsOpen(false)
+		setTimeout(() => setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible), 300)
+	}
+
 	return (
 		<Container>
+			<DefaultConfirmationModal
+				visibility={defaultConfirmationModalIsVisible}
+				title={'apagar post'}
+				text={`você tem certeza que deseja apagar o post ${getPostField('title')}?`}
+				highlightedWords={[...getPostField('title').split(' ')]}
+				buttonKeyword={'apagar'}
+				closeModal={toggleDefaultConfirmationModalVisibility}
+				onPressButton={deleteRemotePost}
+			/>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
@@ -205,7 +221,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						isLoading={isLoading}
 						goToComplaint={reportPost}
 						editPost={goToEditPost}
-						deletePost={deleteRemotePost}
+						deletePost={toggleDefaultConfirmationModalVisibility}
 					>
 						<SmallButton
 							SvgIcon={ThreeDotsWhiteIcon}

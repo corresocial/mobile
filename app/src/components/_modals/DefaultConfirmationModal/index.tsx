@@ -35,7 +35,7 @@ function DefaultConfirmationModal({
 				onPress: onPressButton
 			}}
 			negativeButton={{
-				label: `não${buttonKeyword ? `, ${buttonKeyword}` : ''}`,
+				label: 'não, cancelar',
 				onPress: closeModal
 			}}
 		/>
