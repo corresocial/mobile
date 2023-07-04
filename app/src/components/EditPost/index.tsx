@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getDownloadURL } from 'firebase/storage'
-import { StatusBar, Alert } from 'react-native'
+import { StatusBar } from 'react-native'
 
 import { Id, PostCollection, PostCollectionRemote, UserCollection } from '../../services/firebase/types'
 import { LocalUserData } from '../../contexts/types'
@@ -26,6 +26,7 @@ import { PostCard } from '../../components/_cards/PostCard'
 import { SubtitleCard } from '../../components/_cards/SubtitleCard'
 import { InstructionCard } from '../../components/_cards/InstructionCard'
 import { updateAllRangeAndLocation } from '../../services/firebase/post/updateAllRangeAndLocation'
+import { DefaultConfirmationModal } from '../_modals/DefaultConfirmationModal'
 
 type UserContextFragment = {
 	userDataContext: UserCollection;
@@ -73,6 +74,7 @@ function EditPost({
 }: EditPostProps) {
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)
+	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 
 	const { editDataContext } = editContext
 	const { userDataContext } = userContext
@@ -388,15 +390,11 @@ function EditPost({
 	const cancelAllChangesAndGoBack = () => {
 		if (!(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost)) return navigateBackwards()
 
-		Alert.alert(
-			'atenção!',
-			`você tem certeza que deseja descartar o post "${getPostField('title')}"?`,
-			[
-				{ text: 'Não', style: 'destructive' },
-				{ text: 'Sim', onPress: () => { navigateBackwards() } },
-			],
-			{ cancelable: false }
-		)
+		toggleDefaultConfirmationModalVisibility()
+	}
+
+	const toggleDefaultConfirmationModalVisibility = () => {
+		setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible)
 	}
 
 	const userSubscribeIsValid = () => {
@@ -444,6 +442,15 @@ function EditPost({
 
 	return (
 		<Container>
+			<DefaultConfirmationModal
+				visibility={defaultConfirmationModalIsVisible}
+				title={'descartar'}
+				text={`você tem certeza que deseja descartar o post ${getPostField('title')}?`}
+				highlightedWords={[...getPostField('title').split(' ')]}
+				buttonKeyword={'descartar'}
+				closeModal={toggleDefaultConfirmationModalVisibility}
+				onPressButton={navigateBackwards}
+			/>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
