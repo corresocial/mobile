@@ -33,13 +33,13 @@ async function updateAllRangeAndLocation(
 			})
 	})
 
-	await updateUser(userOwner.userId, { posts: updatedUserPosts })
-		.then(() => console.log(`success updatedUserPosts: ${userOwner.userId}`))
+	return updateUser(userOwner.userId, { posts: updatedUserPosts })
+		.then(() => {
+			return updatedUserPosts
+		})
 		.catch((err: any) => {
 			console.log(err)
 		})
-
-	return updatedUserPosts
 }
 
 const updatePostsLocation = async (posts: PostCollection[], newPostRangeLocation: PostRangeLocation) => {

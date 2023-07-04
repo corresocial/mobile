@@ -4,13 +4,17 @@ import axios from 'axios'
 import { StripeProvider as StripeProviderRaw, confirmPayment, createPaymentMethod } from '@stripe/stripe-react-native'
 
 import { STRIPE_PUBLISHABLE_KEY, STRIPE_API_URL, STRIPE_SECRET_KEY } from '@env'
+import { useNavigation } from '@react-navigation/native'
 import { getStripePlans, getStripeProducts } from '../services/stripe/products'
+import { updateAllRangeAndLocation } from '../services/firebase/post/updateAllRangeAndLocation'
 
 import { CustomerData, StripeProducts } from '../services/stripe/types'
-import { PostRange, SubscriptionPlan } from '../services/firebase/types'
+import { PostCollection, PostCollectionRemote, PostRange, SubscriptionPlan, UserSubscription } from '../services/firebase/types'
 import { AuthContext } from './AuthContext'
 import { dateHasExpired } from '../common/auxiliaryFunctions'
 import { SubscriptionAlertModal } from '../components/_modals/SubscriptionAlertModal'
+import { SubscriptionContext } from './SubscriptionContext'
+import { UserStackNavigationProps } from '../routes/Stack/UserStack/types'
 
 interface StripeContextProps {
 	children: React.ReactElement
@@ -71,13 +75,16 @@ const defaultAxiosHeader = {
 const axiosConfig = { headers: { ...defaultAxiosHeader } }
 
 export function StripeProvider({ children }: StripeContextProps) {
-	const { userDataContext } = useContext(AuthContext)
+	const { updateUserSubscription } = useContext(SubscriptionContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 
 	const [stripeProductsPlans, setStripeProductsPlans] = useState<StripeProducts>(defaultStripeProducts)
 	const [subscriptionHasActive, setSubscriptionHasActive] = useState(true)
 
 	const [invalidSubscriptionAlertModalIsVisible, setSubscriptionAlertModalIsVisible] = useState(false)
 	const [numberOfSubscriptionExpiredDays, setNumberOfSubscriptionExpiredDays] = useState(0)
+
+	const navigation = useNavigation<UserStackNavigationProps>()
 
 	useEffect(() => {
 		getProducts()
@@ -199,18 +206,6 @@ export function StripeProvider({ children }: StripeContextProps) {
 		return true
 	}
 
-	/* async function customerAlreadyRegistred(customerId: string) {
-		const response = await axios.get(`${STRIPE_API_URL}/customers`, {
-			params: {
-				customer: customerId,
-				status: 'active',
-			},
-			...axiosConfig
-		})
-
-		return response.data.data.length > 0 ? response.data.data[0] : null
-	} */
-
 	async function createCustomer(name: string, paymentMethodId: string) {
 		const customerData = {
 			name,
@@ -232,10 +227,13 @@ export function StripeProvider({ children }: StripeContextProps) {
 			if (!customerId) return
 
 			const res = await getCustomerSubscriptions(customerId, true)
-			if (!res || !res.length) throw new Error('Não há faturas ativas')
+			if (!res || !res.length) {
+				showSubscriptionAlertWithCustomMessage(10 as number, true)
+				throw new Error('Não há faturas ativas')
+			}
 
 			const endSubscriptionDate = res[0].current_period_end * 1000
-			const currentDate = Math.floor(Date.now() + 2596000000 + (5 * 86400000)) //  + 2596000000 + (0 * 86400000)
+			const currentDate = Math.floor(Date.now() + 2596000000 + (4 * 86400000)) //  + 2596000000 + (0 * 86400000)
 
 			console.log(new Date(endSubscriptionDate))
 			console.log(new Date(currentDate))
@@ -250,13 +248,90 @@ export function StripeProvider({ children }: StripeContextProps) {
 				setSubscriptionHasActive(true)
 			}
 		} catch (err: any) {
+			console.log(err)
 			console.log('STRIPE: A assinatura está com problemas')
 			setSubscriptionHasActive(false)
 		}
 	}
 
-	const showSubscriptionAlertWithCustomMessage = (numberOfExpiredDays: number) => {
+	// Abstrair
+
+	const handleCancelSubscription = async (alreadyCanceled?: boolean) => {
+		try {
+			const userSubscriptionId = userDataContext.subscription?.subscriptionId || ''
+			const customerId = userDataContext.subscription?.customerId || ''
+
+			if (userSubscriptionId && customerId) {
+				// await refundSubscriptionValue(customerId, userSubscriptionId)
+				!alreadyCanceled && await cancelSubscription(userSubscriptionId)
+				await updateSubscriptionRange()
+				setSubscriptionHasActive(true)
+				return
+			}
+			throw new Error('O usuário não possui nenhuma assinatura no momento')
+		} catch (error: any) {
+			console.log(error)
+			console.log('Status:', error.response.status)
+			console.log('Data:', error.response.data)
+		}
+	}
+
+	const updateSubscriptionRange = async () => {
+		const userSubscription: UserSubscription = {
+			customerId: userDataContext.subscription?.customerId,
+			subscriptionId: '',
+			subscriptionRange: 'near',
+			subscriptionPlan: '',
+			subscriptionPaymentMethod: ''
+		}
+
+		await updateUserSubscription(userSubscription)
+		await updateSubscriptionDependentPosts(userSubscription)
+	}
+
+	const updateSubscriptionDependentPosts = async (userSubscription: UserSubscription) => {
+		const lastUserPost: PostCollection = getLastUserPost()
+
+		const owner: PostCollection['owner'] = {
+			userId: userDataContext.userId,
+			name: userDataContext.name,
+			profilePictureUrl: userDataContext.profilePictureUrl
+		}
+
+		if (!lastUserPost) return
+		const userPostsUpdated = await updateAllRangeAndLocation(
+			owner as any, // TODO Type
+			userDataContext.posts || [],
+			{
+				range: 'near',
+				location: lastUserPost.location
+			},
+			true
+		)
+
+		updateUserContext(userSubscription, userPostsUpdated as any[]) // TODO Type
+	}
+
+	const getLastUserPost = () => {
+		const userPosts: PostCollection[] = userDataContext.posts || []
+		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
+		return lastUserPost
+	}
+
+	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostCollectionRemote[] | []) => {
+		setUserDataOnContext({ subscription: { ...userSubscription }, posts: updatedLocationPosts })
+	}
+
+	// Abstrair ˆˆˆ
+
+	const showSubscriptionAlertWithCustomMessage = async (numberOfExpiredDays: number, alreadyCanceled?: boolean) => {
 		if (numberOfExpiredDays && numberOfExpiredDays <= 7) {
+			setNumberOfSubscriptionExpiredDays(numberOfExpiredDays as number)
+		}
+
+		if (numberOfExpiredDays && numberOfExpiredDays > 7) {
+			console.log('cancela geral')
+			await handleCancelSubscription(alreadyCanceled)
 			setNumberOfSubscriptionExpiredDays(numberOfExpiredDays as number)
 		}
 
@@ -395,6 +470,16 @@ export function StripeProvider({ children }: StripeContextProps) {
 		setSubscriptionAlertModalIsVisible(!invalidSubscriptionAlertModalIsVisible)
 	}
 
+	const navigateToEditCurrentPlanScreen = () => {
+		navigation.navigate('Configurations') // TODO Type
+		navigation.navigate('SelectSubscriptionRange')
+		/* navigation.navigate('EditCurrentSubscription', {
+			postReview: false,
+			postRange: 'near',
+			leaveFromPaidSubscription: userDataContext.subscription?.subscriptionRange
+		} as never) */
+	}
+
 	return (
 		<StripeContext.Provider
 			value={{
@@ -420,7 +505,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 				numberOfExpiredDays={numberOfSubscriptionExpiredDays}
 				visibility={invalidSubscriptionAlertModalIsVisible}
 				closeModal={toggleInvalidSubscriptionModalVisibility}
-				onPressButton={toggleInvalidSubscriptionModalVisibility}
+				onPressButton={navigateToEditCurrentPlanScreen}
 			/>
 			<StripeProviderRaw publishableKey={STRIPE_PUBLISHABLE_KEY}>
 				{children}

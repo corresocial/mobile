@@ -1,4 +1,7 @@
 import React from 'react'
+
+import GearWhiteIcon from '../../../assets/icons/gear-white.svg'
+
 import { CustomModal } from '../CustomModal'
 
 interface SubscriptionAlertModalProps {
@@ -14,11 +17,11 @@ function SubscriptionAlertModal({ numberOfExpiredDays, visibility, closeModal, o
 	const getRelativeFirstParagraph = () => {
 		return remainingSubscriptionDays >= 0 && remainingSubscriptionDays < 8
 			? {
-				text: `sua assinatura não pode ser renovada e será cancelada em ${remainingSubscriptionDays || 'menos de 1'} ${remainingSubscriptionDays <= 1 ? 'dia' : 'dias'}`,
+				text: `sua assinatura não pôde ser renovada e será cancelada em ${remainingSubscriptionDays || 'menos de 1'} ${remainingSubscriptionDays <= 1 ? 'dia' : 'dias'}`,
 				highlightedWords: [`${remainingSubscriptionDays}`, 'dias', 'alguns', 'dia', 'menos', 'de', '1']
 			}
 			: {
-				text: 'Sua assinatura não pode ser renovada e foi cancelada!',
+				text: 'Sua assinatura não pôde ser renovada e foi cancelada!',
 				highlightedWords: ['assinatura', 'cancelada!']
 			}
 	}
@@ -33,16 +36,22 @@ function SubscriptionAlertModal({ numberOfExpiredDays, visibility, closeModal, o
 			highlightedWords: ['corre', 'assine', 'um', 'plano']
 		}
 
+	const title = remainingSubscriptionDays >= 0 && remainingSubscriptionDays < 8
+		? 'vixi!'
+		: 'já era!'
+
 	return (
 		<CustomModal
 			visibility={visibility}
-			title={'opa!'}
+			title={title}
 			firstParagraph={getRelativeFirstParagraph()}
 			secondParagraph={{ ...secondParagraph }}
 			closeModal={closeModal}
+			closeButton
 			affirmativeButton={{
-				label: 'entendi',
-				onPress: onPressButton
+				label: 'ir para \nconfigurações',
+				onPress: onPressButton,
+				CustomIcon: GearWhiteIcon
 			}}
 		/>
 	)
