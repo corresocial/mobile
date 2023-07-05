@@ -10,6 +10,7 @@ import React, {
 import { FlatList, Platform } from 'react-native'
 import uuid from 'react-uuid'
 
+import { FlashList } from '@shopify/flash-list'
 import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
 import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import {
@@ -54,6 +55,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { ChatMessagesScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { HorizontalSigh } from '../../homeScreens/PostCategoryDetails/styles'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
+import { VerticalSigh } from '../../../components/VerticalSigh'
 
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -358,7 +360,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					/>
 				</ChatPopOver>
 			</Header>
-			<FlatList
+			<FlashList
 				ref={flatListRef}
 				data={Object.values(messages || {}) ? getFilteredMessages() : []}
 				renderItem={({ item }: FlatListItem<Message>) => (
@@ -412,7 +414,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 								/>
 							</IsBlockedContainer>
 						)
-					} return <></>
+					}
+					return <VerticalSigh />
 				}}
 				onContentSizeChange={scrollToEnd}
 				onLayout={scrollToEnd}
