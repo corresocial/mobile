@@ -47,7 +47,6 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const [keyboardOpened, setKeyboardOpened] = useState(false)
 
 	const { searchByRange } = route.params
-	console.log(`searchByRange: ${searchByRange}`)
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -69,8 +68,8 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 		console.log(`SEARCH TEXT: ${algoliaSearchText}`)
 
 		setLoaderIsVisible(true)
-		// await searchPostsCloud(algoliaSearchText, searchParamsFromRoute, userDataContext.userId as Id)
 		await searchPosts(algoliaSearchText, searchParamsFromRoute, searchByRange)
+			// await searchPostsCloud(algoliaSearchText, searchParamsFromRoute, searchByRange || false, userDataContext.userId as Id)
 			.then((posts) => {
 				setResultPosts(posts as FeedPosts)
 				if (!searchText) setSearchText(route.params.searchParams.searchText)

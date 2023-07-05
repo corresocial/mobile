@@ -7,7 +7,7 @@ import React, {
 	useRef,
 	useState,
 } from 'react'
-import { FlatList, Platform } from 'react-native'
+import { Platform } from 'react-native'
 import uuid from 'react-uuid'
 
 import { FlashList } from '@shopify/flash-list'
@@ -74,7 +74,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const [blockConfirmationModalIsVisible, setBlockConfirmationModalIsVisible] = useState(false)
 	const [clearMessagesConfirmationModalIsVisible, setCleanMessagesConfirmationModalIsVisible] = useState(false)
 
-	const flatListRef: RefObject<FlatList> = useRef(null)
+	const flatListRef: RefObject<any> = useRef(null)
 
 	useLayoutEffect(() => {
 		!listenerHasStarted && startMessagesListener(currentChat.chatId)
@@ -396,6 +396,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				ListHeaderComponentStyle={{
 					marginBottom: relativeScreenHeight(2),
 				}}
+				estimatedItemSize={71}
 				showsVerticalScrollIndicator={false}
 				ItemSeparatorComponent={() => <Sigh />}
 				ListFooterComponent={() => {
