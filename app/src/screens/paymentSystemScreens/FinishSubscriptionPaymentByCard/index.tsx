@@ -213,7 +213,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			<FocusAwareStatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				backgroundColor={theme.orange2}
-				relativeHeight={relativeScreenHeight(16)}
+				relativeHeight={relativeScreenHeight(22)}
 				centralized
 			>
 				<BackButton onPress={() => navigation.goBack()} />
@@ -248,7 +248,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 						postalCodeEnabled={false} // Por que funciona???
 						onFormComplete={(cardData) => saveCardDetailsOnCompleteForm(cardData)}
 						cardStyle={{ fontFamily: 'Arvo_700Bold' }}
-						style={{ flex: 1, width: '100%', height: relativeScreenHeight(40) }}
+						style={{ flex: 1, width: '100%', height: relativeScreenHeight(34) }}
 					/>
 					{
 						isLoading
