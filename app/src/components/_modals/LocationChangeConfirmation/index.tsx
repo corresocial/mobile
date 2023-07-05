@@ -20,8 +20,8 @@ function LocationChangeConfirmationModal({
 }: LocationChangeConfirmationModalProps) {
 	const getFirstParagraphText = () => {
 		return newRangeSelected === 'near'
-			? 'o plano região cobrirá apenas a região da localização:'
-			: 'o plano cidade cobrirá apenas a localização:'
+			? 'o plano região cobre apenas a região da localização:'
+			: 'o plano cidade cobre apenas a localização:'
 	}
 
 	const getFirstParagraphHighlightedWords = () => {

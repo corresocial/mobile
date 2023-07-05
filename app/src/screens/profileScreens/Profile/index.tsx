@@ -513,7 +513,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							labelColor={theme.black4}
 							SvgIcon={isLoggedUser ? EditIcon : ChatWhiteIcon}
 							svgScale={['85%', '25%']}
-							relativeWidth={'30%'}
+							relativeWidth={'28%'}
 							height={relativeScreenWidth(12)}
 							onPress={isLoggedUser ? goToEditProfile : openChat}
 						/>

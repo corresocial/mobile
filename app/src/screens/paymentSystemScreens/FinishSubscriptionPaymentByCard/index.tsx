@@ -11,6 +11,7 @@ import DollarWhiteIcon from '../../../assets/icons/dollar.svg'
 import CardWhiteIcon from '../../../assets/icons/card-white.svg'
 
 import { getRangeSubscriptionPlanText } from '../../../utils/subscription/commonMessages'
+import { updateAllRangeAndLocation } from '../../../services/firebase/post/updateAllRangeAndLocation'
 
 import { FinishSubscriptionPaymentByCardScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -29,6 +30,7 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Loader } from '../../../components/Loader'
+import { PostCollection, PostCollectionRemote, UserSubscription } from '../../../services/firebase/types'
 
 type CustomCardDetails = {
 	brand: CardBrand
@@ -45,7 +47,7 @@ type RemoteCardDetails = {
 }
 
 function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscriptionPaymentByCardScreenProps) {
-	const { userDataContext } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 	const { subscriptionDataContext, updateUserSubscription } = useContext(SubscriptionContext)
 	const {
 		getRangePlanPrice,
@@ -95,7 +97,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			}
 
 			await updateUserSubscription(userSubscription)
-
+			await updateSubscriptionDependentPosts(userSubscription)
 			setIsLoading(false)
 			navigateToResultScreen(true, route.params)
 		} catch (err: any) { // Check stripe erros
@@ -103,6 +105,39 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			setIsLoading(false)
 			navigateToResultScreen(false, route.params)
 		}
+	}
+
+	const updateSubscriptionDependentPosts = async (userSubscription: UserSubscription) => {
+		const lastUserPost: PostCollection = getLastUserPost()
+
+		const owner: PostCollection['owner'] = {
+			userId: userDataContext.userId,
+			name: userDataContext.name,
+			profilePictureUrl: userDataContext.profilePictureUrl
+		}
+
+		if (!lastUserPost) return
+		const userPostsUpdated = await updateAllRangeAndLocation(
+			owner as any, // TODO Type
+			userDataContext.posts || [],
+			{
+				range: 'near',
+				location: lastUserPost.location
+			},
+			true
+		)
+
+		updateUserContext(userSubscription, userPostsUpdated as any[]) // TODO Type
+	}
+
+	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostCollectionRemote[] | []) => {
+		setUserDataOnContext({ subscription: { ...userSubscription }, posts: updatedLocationPosts })
+	}
+
+	const getLastUserPost = () => {
+		const userPosts: PostCollection[] = userDataContext.posts || []
+		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
+		return lastUserPost
 	}
 
 	const navigateToResultScreen = (successfulPayment: boolean, routeParams: any) => {

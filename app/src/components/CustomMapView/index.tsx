@@ -165,7 +165,7 @@ function CustomMapView({
 			zoomEnabled={scrollEnabled}
 			region={locationView === 'approximate' && !renderLimits ? randomCoordinate : getRegionCoordinates()}
 			mapType={'standard'}
-			onRegionChangeComplete={(coordinates, details) => (!!details?.isGesture && updateMarkerPosition) && updateMarkerPosition(coordinates)}
+			onRegionChangeComplete={(coordinates) => (updateMarkerPosition && updateMarkerPosition(coordinates))}
 		>
 			{
 				markerCoordinate

@@ -13,7 +13,7 @@ async function updateAllRangeAndLocation(
 	newPostRangeLocation: PostRangeLocation,
 	subscriptionChange?: boolean
 ) {
-	if (!userPosts || (userPosts && !userPosts.length)) return console.log('não possui posts')
+	if (!userPosts || (userPosts && !userPosts.length)) return console.log('Usuário não outros posts')
 
 	let updatedUserPosts = await updatePostsLocation(userPosts, newPostRangeLocation)
 	if (subscriptionChange) {
@@ -27,7 +27,9 @@ async function updateAllRangeAndLocation(
 			...post,
 			owner: { ...userOwner }
 		})
-			.then(() => console.log(`success: ${post.postId}`))
+			.then(() => {
+				console.log(`success: ${post.postId}`)
+			})
 			.catch((err: any) => {
 				console.log(err)
 			})
