@@ -180,7 +180,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 
 	const toggleDefaultConfirmationModalVisibility = () => {
 		setPostOptionsIsOpen(false)
-		setTimeout(() => setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible), 300)
+		setTimeout(() => setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible), 400)
 	}
 
 	return (
