@@ -96,6 +96,7 @@ export type VerifiedLabelName = 'leader' | 'impact' | 'default'
 export type VerifiedType = {
 	type: VerifiedLabelName
 	by: string
+	name: string
 	at: Date
 }
 
