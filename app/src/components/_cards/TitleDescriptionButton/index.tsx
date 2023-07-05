@@ -58,11 +58,29 @@ function TitleDescriptionButton({
 
 	const renderRelativeFooterValue = () => {
 		if (footerValue) {
+			if (footerValue === 'current') {
+				return (
+					<Footer>
+						<SmallThinFont>{'seu'}</SmallThinFont>
+						<LargeStrongFont>{' plano'}</LargeStrongFont>
+					</Footer>
+				)
+			}
+
+			if (footerValue === 'included') {
+				return (
+					<Footer>
+						<SmallThinFont>{'incluso no'}</SmallThinFont>
+						<LargeStrongFont>{' plano'}</LargeStrongFont>
+					</Footer>
+				)
+			}
+
 			if (footerValue === 'free') {
 				return (
 					<Footer>
-						<SmallThinFont>{'plano '}</SmallThinFont>
-						<LargeStrongFont>{'gratuito'}</LargeStrongFont>
+						<SmallThinFont>{'plano'}</SmallThinFont>
+						<LargeStrongFont>{' gratuito'}</LargeStrongFont>
 					</Footer>
 				)
 			}
@@ -70,8 +88,8 @@ function TitleDescriptionButton({
 			if (footerValue === 'edit') {
 				return (
 					<Footer>
-						<SmallThinFont>{'editar '}</SmallThinFont>
-						<LargeStrongFont>{'plano'}</LargeStrongFont>
+						<SmallThinFont>{'editar'}</SmallThinFont>
+						<LargeStrongFont>{' plano'}</LargeStrongFont>
 					</Footer>
 				)
 			}
@@ -79,8 +97,8 @@ function TitleDescriptionButton({
 			if (footerValue === 'unavailable') {
 				return (
 					<Footer>
-						<SmallThinFont>{'plano '}</SmallThinFont>
-						<LargeStrongFont>{'indisponível'}</LargeStrongFont>
+						<SmallThinFont>{'plano'}</SmallThinFont>
+						<LargeStrongFont>{' indisponível'}</LargeStrongFont>
 					</Footer>
 				)
 			}
