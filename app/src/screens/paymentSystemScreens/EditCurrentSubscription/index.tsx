@@ -49,8 +49,16 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 		profilePictureUrl: userDataContext.profilePictureUrl
 	}
 
+	const userHasAnyPost = () => {
+		return userDataContext.posts && userDataContext.posts.length
+	}
+
 	const onPressCancelSubscriptionButton = () => {
-		toggleRangeChangeModalVisibility()
+		if (userHasAnyPost()) {
+			toggleRangeChangeModalVisibility()
+			return
+		}
+		toggleRangeChangeConfirmationModalVisibility()
 	}
 
 	const toggleRangeChangeModalVisibility = () => {
