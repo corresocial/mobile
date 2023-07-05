@@ -49,7 +49,7 @@ function PostLocationViewPreview({
 	return (
 		<Container >
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(22)}
+				relativeHeight={relativeScreenHeight(24)}
 				centralized
 				backgroundColor={backgroundColor}
 				borderBottomWidth={0}

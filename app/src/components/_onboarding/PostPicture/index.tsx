@@ -30,7 +30,7 @@ function PostPicture({ backgroundColor,
 	return (
 		<Container>
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(26)}
+				relativeHeight={relativeScreenHeight(28)}
 				centralized
 				backgroundColor={backgroundColor}
 			>

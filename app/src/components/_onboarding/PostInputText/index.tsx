@@ -55,8 +55,8 @@ function PostInputText({
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(24)}
-				relativeHeight={relativeScreenHeight(24)}
+				minHeight={relativeScreenHeight(26)}
+				relativeHeight={relativeScreenHeight(26)}
 				centralized
 				backgroundColor={backgroundColor}
 			>

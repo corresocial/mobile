@@ -26,7 +26,7 @@ function PostRange({ backgroundColor, plansAvailable, progress, savePostRange, n
 	return (
 		<Container>
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(24)}
+				relativeHeight={relativeScreenHeight(26)}
 				centralized
 				backgroundColor={theme.white3}
 			>
