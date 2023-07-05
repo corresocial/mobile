@@ -42,8 +42,6 @@ function ServiceProvider({ children }: ServiceProviderProps) {
 		const lastUserPost: ServiceCollectionRemote | any = userPosts[userPosts.length - 1] || {} // TODO Type
 		if (!Object.keys(lastUserPost).length) return
 
-
-
 		setServiceDataContext({
 			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',

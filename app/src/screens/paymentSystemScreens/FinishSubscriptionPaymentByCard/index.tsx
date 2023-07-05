@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 
 import { CardForm } from '@stripe/stripe-react-native'
 import { CardBrand } from '@stripe/stripe-react-native/lib/typescript/src/types/Token'

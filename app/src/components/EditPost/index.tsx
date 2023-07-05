@@ -141,11 +141,11 @@ function EditPost({
 			userPostsUpdated = userPostsUpdated.length ? userPostsUpdated : getUserPostsWithoutEdited()
 
 			if ((editDataContext.unsaved.picturesUrl && editDataContext.unsaved.picturesUrl.length > 0) && !allPicturesAlreadyUploaded()) {
-				console.log('With pictures')
+				console.log('Fotos modificadas')
 				await performPicturesUpload(userPostsUpdated)
 				return
 			}
-			console.log('Without pictures')
+			console.log('Fotos não modificadas')
 
 			delete postDataToSave.owner
 

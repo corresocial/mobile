@@ -5,7 +5,6 @@ import { SvgProps } from 'react-native-svg'
 
 import { Container } from './styles'
 import EditWhiteIcon from '../../../assets/icons/edit-white.svg'
-import AngleRightIcon from '../../../assets/icons/angleRight.svg'
 
 interface EditHeaderContainerProps {
 	children: React.ReactNode

@@ -1,10 +1,9 @@
 import React, { useContext } from 'react'
-import { Alert, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 import { ButtonsContainer } from './styles'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import PixWhiteIcon from '../../../assets/icons/pix-white.svg'
 import CardWhiteIcon from '../../../assets/icons/card-white.svg'
 
 import { getRangeSubscriptionPlanText } from '../../../utils/subscription/commonMessages'
