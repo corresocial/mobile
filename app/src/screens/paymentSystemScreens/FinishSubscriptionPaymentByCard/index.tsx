@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 
 import { CardForm } from '@stripe/stripe-react-native'
 import { CardBrand } from '@stripe/stripe-react-native/lib/typescript/src/types/Token'
@@ -77,12 +77,12 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			const { customerId, subscriptionId, stopped } = await performSubscriptionRegister()
 
 			if (stopped) {
-				navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true, ...route.params })
+				navigateToResultScreen(true, route.params)
 				return
 			}
 
 			if (!customerId || !subscriptionId) {
-				navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false })
+				navigateToResultScreen(true, {})
 				throw new Error('customerId ou subscriptionId inválido')
 			}
 
@@ -97,12 +97,16 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			await updateUserSubscription(userSubscription)
 
 			setIsLoading(false)
-			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true, ...route.params })
+			navigateToResultScreen(true, route.params)
 		} catch (err: any) { // Check stripe erros
 			console.log(err)
 			setIsLoading(false)
-			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false, ...route.params })
+			navigateToResultScreen(false, route.params)
 		}
+	}
+
+	const navigateToResultScreen = (successfulPayment: boolean, routeParams: any) => {
+		navigation.navigate('SubscriptionPaymentResult', { successfulPayment, ...routeParams })
 	}
 
 	const performSubscriptionRegister = async () => {
@@ -155,7 +159,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 
 			let subscriptionsId = await getCustomerSubscriptions(customerId)
 			!subscriptionHasActive && subscriptionsId.forEach(async (subscriptionId: string) => cancelSubscription(subscriptionId))
-			console.log('Assinatura anterior cancelada...')
+			!subscriptionHasActive && console.log('Assinatura anterior cancelada...')
 			subscriptionsId = subscriptionHasActive ? subscriptionsId : []
 
 			if (subscriptionsId && subscriptionsId.length) {

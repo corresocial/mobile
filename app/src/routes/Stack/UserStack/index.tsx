@@ -113,7 +113,11 @@ export function UserStack({ route }: any) {
 									<Stack.Screen name={'SelectSubsciptionPaymentMethod'} component={SelectSubsciptionPaymentMethod} />
 									<Stack.Screen name={'FinishSubscriptionPaymentByPix'} component={FinishSubscriptionPaymentByPix} />
 									<Stack.Screen name={'FinishSubscriptionPaymentByCard'} component={FinishSubscriptionPaymentByCard} />
-									<Stack.Screen name={'SubscriptionPaymentResult'} component={SubscriptionPaymentResult} />
+									<Stack.Screen
+										options={{ gestureEnabled: false }}
+										name={'SubscriptionPaymentResult'}
+										component={SubscriptionPaymentResult}
+									/>
 									<Stack.Screen name={'SelectSubscriptionRange'} component={SelectSubscriptionRange} />
 									<Stack.Screen name={'EditCurrentSubscription'} component={EditCurrentSubscription} />
 								</Stack.Navigator>

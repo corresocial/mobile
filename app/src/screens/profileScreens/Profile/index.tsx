@@ -72,6 +72,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
 	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
 	const [toggleVerifiedModal, setToggleVerifiedModal] = useState(false)
+
 	/* useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
 			if (route.params && route.params.userId) {
