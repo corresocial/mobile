@@ -30,6 +30,14 @@
 		},
 		"plugins": [
 			[
+				"expo-build-properties",
+				{
+					"ios": {
+						"useFrameworks": "static"
+					}
+				}
+			],
+			[
 				"expo-media-library",
 				{
 					"photosPermission": "Allow corre to access your photos.",
@@ -48,14 +56,6 @@
 				"expo-camera",
 				{
 					"cameraPermission": "Você precisa permitir o acesso a camera para tirar fotos de perfil e posts."
-				}
-			],
-			[
-				"expo-build-properties",
-				{
-					"ios": {
-						"useFrameworks": "static"
-					}
 				}
 			],
 			[
@@ -88,7 +88,7 @@
 				"NSCameraUsageDescription": "Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.",
 				"NSLocationWhenInUseUsageDescription": "Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.",
 				"NSPhotoLibraryUsageDescription": "Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts.",
-				"NSFaceIDUsageDescription": "Usamos o bloquei do app com TouchID ou FaceID para garantir a segurança da sua conta.",
+				"NSFaceIDUsageDescription": "Usamos o bloquei do app com TouchID ou FaceID para garantir a segurança da sua conta."
 			},
 			"supportsTablet": true,
 			"bundleIdentifier": "corre",
