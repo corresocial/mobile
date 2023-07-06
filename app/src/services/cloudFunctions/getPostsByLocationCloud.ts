@@ -5,7 +5,7 @@ import { Id } from '../firebase/types'
 import { SearchParams } from '../maps/types'
 
 const getPostsByLocationCloud = async (searchParams: SearchParams, userId: Id) => {
-	return axios.post(`${FIREBASE_CLOUD_URL}/getFeedPosts`, { searchParams, userId })
+	return axios.post(`${FIREBASE_CLOUD_URL}/getFeedPostsBeta`, { searchParams, userId })
 		.then((res) => res.data)
 		.catch((err) => {
 			console.log(err)
