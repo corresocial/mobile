@@ -37,6 +37,7 @@ type CustomCardDetails = {
 	expiryMonth: number
 	expiryYear: number
 	last4: string
+	complete: boolean
 }
 
 type RemoteCardDetails = {
@@ -64,7 +65,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 
 	const { subscriptionRange, subscriptionPlan, subscriptionPaymentMethod } = subscriptionDataContext
 
-	const [cardDetails, setCardDetails] = useState<CustomCardDetails>({ brand: 'Unknown', expiryMonth: 1, expiryYear: 2023, last4: '' })
+	const [cardDetails, setCardDetails] = useState<CustomCardDetails>({ brand: 'Unknown', expiryMonth: 1, expiryYear: 2023, last4: '', complete: false })
 	const [isLoading, setIsLoading] = useState(false)
 
 	const editPaymentMethod = route.params?.editPaymentMethod
@@ -239,11 +240,13 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 	}
 
 	const saveCardDetailsOnCompleteForm = (cardData: Details) => {
+		console.log(cardData)
 		setCardDetails({
 			brand: cardData.brand,
 			expiryMonth: cardData.expiryMonth,
 			expiryYear: cardData.expiryYear,
-			last4: cardData.last4
+			last4: cardData.last4,
+			complete: cardData.complete
 		})
 	}
 
@@ -284,25 +287,31 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 						<PaymentStatusText>{renderPaymentStatus()}</PaymentStatusText>
 					</PaymentStatusArea>
 					<CardForm
-						postalCodeEnabled={false} // Por que funciona???
+						placeholders={{
+							number: 'Número do cartão',
+							postalCode: 'CEP',
+						}}
+						// postalCodeEnabled={false} // Por que funciona???
 						onFormComplete={(cardData) => saveCardDetailsOnCompleteForm(cardData)}
 						cardStyle={{ fontFamily: 'Arvo_700Bold' }}
 						style={{ flex: 1, width: '100%', height: relativeScreenHeight(34) }}
 					/>
 					{
-						isLoading
-							? <Loader />
-							: (
-								<PrimaryButton
-									color={theme.green3}
-									label={'usar cartão'}
-									highlightedWords={['cartão']}
-									fontSize={18}
-									labelColor={theme.white3}
-									SecondSvgIcon={CardWhiteIcon}
-									onPress={performSubscriptionPayment}
-								/>
-							)
+						cardDetails.complete
+							? isLoading
+								? <Loader />
+								: (
+									<PrimaryButton
+										color={theme.green3}
+										label={'usar cartão'}
+										highlightedWords={['cartão']}
+										fontSize={18}
+										labelColor={theme.white3}
+										SecondSvgIcon={CardWhiteIcon}
+										onPress={performSubscriptionPayment}
+									/>
+								)
+							: <></>
 					}
 				</BodyScrollable>
 			</Body>
