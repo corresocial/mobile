@@ -4,7 +4,7 @@
 		"owner": "corresocial",
 		"scheme": "corre",
 		"slug": "corresocial",
-		"version": "0.2.4",
+		"version": "0.3.0",
 		"orientation": "portrait",
 		"userInterfaceStyle": "light",
 		"icon": "./assets/icon.png",
@@ -29,7 +29,6 @@
 			]
 		},
 		"plugins": [
-			"sentry-expo",
 			[
 				"expo-media-library",
 				{
@@ -38,16 +37,19 @@
 					"isAccessMediaLocationEnabled": true
 				}
 			],
-			["expo-image-picker",
-			{
-				"photosPermission": "Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts.",
-				"cameraPermission": "Você precisa permitir o acesso a camera para tirar fotos de perfil e posts."
-			}
-		],
-			["expo-camera",
-			{
-				"cameraPermission": "Você precisa permitir o acesso a camera para tirar fotos de perfil e posts."
-			}],
+			[
+				"expo-image-picker",
+				{
+					"photosPermission": "Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts.",
+					"cameraPermission": "Você precisa permitir o acesso a camera para tirar fotos de perfil e posts."
+				}
+			],
+			[
+				"expo-camera",
+				{
+					"cameraPermission": "Você precisa permitir o acesso a camera para tirar fotos de perfil e posts."
+				}
+			],
 			[
 				"expo-build-properties",
 				{
@@ -59,10 +61,10 @@
 			[
 				"expo-notifications",
 				{
-				  "icon": "./assets/notification-icon.png",
-				  "color": "#FA9938"
+					"icon": "./assets/notification-icon.png",
+					"color": "#FA9938"
 				}
-			  ],
+			],
 			"./plugins/react-native-maps-plugin.js",
 			"sentry-expo",
 			[
@@ -81,13 +83,12 @@
 			"**/*"
 		],
 		"ios": {
-			"buildNumber": "22",
+			"buildNumber": "23",
 			"infoPlist": {
 				"NSCameraUsageDescription": "Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.",
 				"NSLocationWhenInUseUsageDescription": "Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.",
 				"NSPhotoLibraryUsageDescription": "Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts.",
 				"NSFaceIDUsageDescription": "Usamos o bloquei do app com TouchID ou FaceID para garantir a segurança da sua conta.",
-				"UIBackgroundModes": ["remote-notifications"]
 			},
 			"supportsTablet": true,
 			"bundleIdentifier": "corre",
@@ -101,7 +102,7 @@
 			}
 		},
 		"android": {
-			"versionCode": 22,
+			"versionCode": 23,
 			"package": "com.corresocial.corresocial",
 			"icon": "./assets/icon.png",
 			"adaptiveIcon": {
