@@ -292,8 +292,8 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 							<ImageCarousel
 								picturesUrl={getPostField('picturesUrl') || []}
 								indicatorColor={theme.purple1}
+								square
 							/>
-							<VerticalSigh />
 						</>
 					)}
 					{

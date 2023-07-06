@@ -291,8 +291,8 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 							<ImageCarousel
 								picturesUrl={getPostField('picturesUrl') || []}
 								indicatorColor={theme.green1}
+								square
 							/>
-							<VerticalSigh />
 						</>
 					)}
 					{

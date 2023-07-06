@@ -261,6 +261,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 								<ImageCarousel
 									picturesUrl={getPostField('picturesUrl') || []}
 									indicatorColor={theme.blue1}
+									square
 								/>
 								<VerticalSigh />
 							</>

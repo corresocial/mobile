@@ -3,6 +3,7 @@ import { Modal, StatusBar, View } from 'react-native'
 import { Camera, CameraType, FlashMode } from 'expo-camera'
 import { FontAwesome5, Ionicons } from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker'
+import * as ImageManipulator from 'expo-image-manipulator'
 
 import {
 	CameraContainer,
@@ -80,20 +81,34 @@ function CustomCameraModal({
 		const result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
 			allowsEditing: true,
-			aspect: [1, 1],
-			quality: 0.5,
+			aspect: [1, 1]
 		})
 
 		if (!result.canceled) {
-			setPictureUri(result.assets[0].uri)
+			const imageUri = result.assets[0].uri
+
+			const { uri: compressedUri } = await ImageManipulator.manipulateAsync(
+				imageUri,
+				[{ resize: { height: 1080, width: 1080 } }],
+				{ compress: 0.5, format: ImageManipulator.SaveFormat.JPEG }
+			)
+
+			setPictureUri(compressedUri)
 			onClose()
 		}
 	}
 
 	const takePicture = async () => {
 		if (cameraRef.current !== null) {
-			const data = await cameraRef.current.takePictureAsync()
-			setPictureUri(data.uri)
+			const { uri: imageUri } = await cameraRef.current.takePictureAsync()
+
+			const { uri: compressedUri } = await ImageManipulator.manipulateAsync(
+				imageUri,
+				[{ resize: { height: 1080, width: 1080 } }],
+				{ compress: 0.5, format: ImageManipulator.SaveFormat.JPEG }
+			)
+
+			setPictureUri(compressedUri)
 			onClose()
 		}
 	}

@@ -17,6 +17,7 @@ interface ImageCarouselProps {
 	indicatorColor?: string
 	withoutBorder?: boolean
 	relativeWidth?: number
+	square?: boolean
 	picturesUrl: string[] | undefined
 }
 
@@ -25,6 +26,7 @@ function ImageCarousel({
 	indicatorColor,
 	withoutBorder,
 	relativeWidth = relativeScreenWidth(94),
+	square,
 	picturesUrl = ['https://cdn-icons-png.flaticon.com/512/1695/1695213.png']
 }: ImageCarouselProps) {
 	const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
@@ -39,7 +41,7 @@ function ImageCarousel({
 		<View
 			style={{
 				width: '100%',
-				height: relativeScreenHeight(28),
+				height: square ? relativeWidth : relativeScreenHeight(28),
 				overflow: 'hidden',
 				borderWidth: 0
 			}}
@@ -60,7 +62,7 @@ function ImageCarousel({
 		<View
 			style={{
 				width: '100%',
-				height: relativeScreenHeight(28),
+				height: square ? relativeWidth : relativeScreenHeight(28),
 				marginVertical: RFValue(marginVertical)
 			}}
 		>
