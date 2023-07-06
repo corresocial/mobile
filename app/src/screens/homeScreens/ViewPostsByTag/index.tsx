@@ -17,10 +17,12 @@ import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+
 import { FlatListPosts } from '../../../components/FlatListPosts'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 
 function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
+	const { userDataContext } = useContext(AuthContext)
 	const { locationDataContext } = useContext(LocationContext)
 	const { userDataContext } = useContext(AuthContext)
 
@@ -73,6 +75,14 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 			}
 			default: return false
 		}
+	}
+
+	const navigateToProfile = (userId: string) => {
+		if (userDataContext.userId === userId) {
+			navigation.navigate('Profile' as any)// TODO Type
+			return
+		}
+		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
 	}
 
 	const navigateToResultScreen = () => {
