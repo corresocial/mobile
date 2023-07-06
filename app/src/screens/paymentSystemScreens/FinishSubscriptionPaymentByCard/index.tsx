@@ -240,7 +240,6 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 	}
 
 	const saveCardDetailsOnCompleteForm = (cardData: Details) => {
-		console.log(cardData)
 		setCardDetails({
 			brand: cardData.brand,
 			expiryMonth: cardData.expiryMonth,
