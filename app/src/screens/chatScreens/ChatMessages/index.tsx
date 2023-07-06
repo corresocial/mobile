@@ -1,3 +1,4 @@
+import { get, onValue, ref } from 'firebase/database'
 import React, {
 	RefObject,
 	useContext,
@@ -6,53 +7,55 @@ import React, {
 	useRef,
 	useState,
 } from 'react'
+import { Platform } from 'react-native'
 import uuid from 'react-uuid'
-import { FlatList, Platform } from 'react-native'
-import { get, onValue, ref } from 'firebase/database'
 
-import { theme } from '../../../common/theme'
+import { FlashList } from '@shopify/flash-list'
+import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
+import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import {
 	relativeScreenHeight,
 	relativeScreenWidth,
 } from '../../../common/screenDimensions'
-import { Container, Header, Sigh } from './styles'
-import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
-
+import { theme } from '../../../common/theme'
+import { realTimeDatabase } from '../../../services/firebase'
+import { blockUserId } from '../../../services/firebase/chat/blockUser'
+import { cleanMessages } from '../../../services/firebase/chat/cleanMessages'
 import { getRemoteChatData } from '../../../services/firebase/chat/getRemoteChatData'
+import { getRemoteUser } from '../../../services/firebase/chat/getRemoteUser'
+import { makeAllUserMessagesAsRead } from '../../../services/firebase/chat/makeAllUserMessagesAsRead'
 import { registerNewChat } from '../../../services/firebase/chat/registerNewChat'
 import { setChatIdToUsers } from '../../../services/firebase/chat/setChatIdToUsers'
-import { makeAllUserMessagesAsRead } from '../../../services/firebase/chat/makeAllUserMessagesAsRead'
-import { getLastMessageObjects } from '../../../utils/chat'
-import { blockUserId } from '../../../services/firebase/chat/blockUser'
 import { unblockUserId } from '../../../services/firebase/chat/unblockUser'
-import { getRemoteUser } from '../../../services/firebase/chat/getRemoteUser'
-import { cleanMessages } from '../../../services/firebase/chat/cleanMessages'
-import { realTimeDatabase } from '../../../services/firebase'
 import { unsubscribeMessageListener } from '../../../services/firebase/chat/unsubscribeMessageListener'
+import { getLastMessageObjects } from '../../../utils/chat'
+import { Container, Header, IsBlockedContainer, Sigh } from './styles'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
-import { FlatListItem } from '../../../@types/global/types'
-import { Id } from '../../../services/firebase/types'
 import {
 	Chat,
 	Message,
 	MessageObjects,
-	UserIdentification,
+	UserIdentification
 } from '../../../@types/chat/types'
+import { FlatListItem } from '../../../@types/global/types'
+import { Id } from '../../../services/firebase/types'
 
-import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ChatInput } from '../../../components/ChatInput'
-import { MessageCard } from '../../../components/MessageCard'
 import { ChatPopOver } from '../../../components/ChatPopOver'
-import { sendMessage } from '../../../services/firebase/chat/sendMessage'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { MessageCard } from '../../../components/MessageCard'
+import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
+import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
+import { sendMessage } from '../../../services/firebase/chat/sendMessage'
 
-import { ChatMessagesScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { ChatMessagesScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { HorizontalSigh } from '../../homeScreens/PostCategoryDetails/styles'
+import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
+import { VerticalSigh } from '../../../components/VerticalSigh'
 
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -68,7 +71,10 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const [isBlockedUser, setIsBlockedUser] = useState(false)
 	const [blockedByOwner, setBlockedByOwner] = useState(false)
 
-	const flatListRef: RefObject<FlatList> = useRef(null)
+	const [blockConfirmationModalIsVisible, setBlockConfirmationModalIsVisible] = useState(false)
+	const [clearMessagesConfirmationModalIsVisible, setCleanMessagesConfirmationModalIsVisible] = useState(false)
+
+	const flatListRef: RefObject<any> = useRef(null)
 
 	useLayoutEffect(() => {
 		!listenerHasStarted && startMessagesListener(currentChat.chatId)
@@ -281,8 +287,36 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		})
 	}
 
+	const toggleBlockConfirmationModalVisibility = () => {
+		setChatOptionsIsOpen(false)
+		setTimeout(() => setBlockConfirmationModalIsVisible(!blockConfirmationModalIsVisible), 400)
+	}
+
+	const toggleCleanMessagesConfirmationModalVisibility = () => {
+		setChatOptionsIsOpen(false)
+		setTimeout(() => setCleanMessagesConfirmationModalIsVisible(!clearMessagesConfirmationModalIsVisible), 400)
+	}
+
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+			<DefaultConfirmationModal // BLOCK
+				visibility={blockConfirmationModalIsVisible}
+				title={isBlockedUser ? 'desbloquear' : 'bloquear'}
+				text={`você tem certeza que deseja ${isBlockedUser ? 'desbloquear' : 'bloquear'} ${getUserName(currentChat.user1, currentChat.user2)}?`}
+				highlightedWords={[...getUserName(currentChat.user1, currentChat.user2).split(' ')]}
+				buttonKeyword={isBlockedUser ? 'desbloquear' : 'bloquear'}
+				closeModal={toggleBlockConfirmationModalVisibility}
+				onPressButton={isBlockedUser ? unblockUser : blockUser}
+			/>
+			<DefaultConfirmationModal // CLEAR MESSAGES
+				visibility={clearMessagesConfirmationModalIsVisible}
+				title={'apagar'}
+				text={`você tem certeza que deseja apagar as mensagens com ${getUserName(currentChat.user1, currentChat.user2)}?`}
+				highlightedWords={[...getUserName(currentChat.user1, currentChat.user2).split(' ')]}
+				buttonKeyword={'apagar'}
+				closeModal={toggleCleanMessagesConfirmationModalVisibility}
+				onPressButton={cleanConversation}
+			/>
 			<FocusAwareStatusBar
 				backgroundColor={theme.white3}
 				barStyle={'dark-content'}
@@ -312,10 +346,10 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					)}
 					popoverVisibility={chatOptionsIsOpen}
 					closePopover={() => setChatOptionsIsOpen(false)}
-					blockUser={blockUser}
-					unblockUser={unblockUser}
+					blockUser={toggleBlockConfirmationModalVisibility}
+					unblockUser={toggleBlockConfirmationModalVisibility}
 					userIsBlocked={blockedByOwner && isBlockedUser}
-					cleanConversation={cleanConversation}
+					cleanConversation={toggleCleanMessagesConfirmationModalVisibility}
 				>
 					<SmallButton
 						color={theme.white3}
@@ -326,20 +360,16 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					/>
 				</ChatPopOver>
 			</Header>
-			<FlatList
+			<FlashList
 				ref={flatListRef}
-				data={
-					Object.values(messages || {})
-						? getFilteredMessages()
-						: []
-				}
+				data={Object.values(messages || {}) ? getFilteredMessages() : []}
 				renderItem={({ item }: FlatListItem<Message>) => (
 					<MessageCard
 						message={item.message}
 						dateTime={item.dateTime}
 						owner={isUserOwner(item.owner)}
 						errorSending={false}
-						sendAgain={() => console.log('senderAgain')}
+						sendAgain={() => console.log('sendAgain')}
 					/>
 				)}
 				ListHeaderComponent={() => (
@@ -366,12 +396,32 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				ListHeaderComponentStyle={{
 					marginBottom: relativeScreenHeight(2),
 				}}
+				estimatedItemSize={71}
 				showsVerticalScrollIndicator={false}
 				ItemSeparatorComponent={() => <Sigh />}
-				ListFooterComponent={() => <Sigh />}
+				ListFooterComponent={() => {
+					if (isBlockedUser && blockedByOwner) {
+						return (
+							<IsBlockedContainer>
+								<SmallButton
+									height={relativeScreenHeight(5)}
+									color={theme.red3}
+									labelColor={theme.white3}
+									label={'usuário bloqueado'}
+									highlightedWords={['usuário', 'bloqueado']}
+									fontSize={14}
+									SvgIcon={DeniedWhiteIcon}
+									onPress={() => unblockUser()}
+								/>
+							</IsBlockedContainer>
+						)
+					}
+					return <VerticalSigh />
+				}}
 				onContentSizeChange={scrollToEnd}
 				onLayout={scrollToEnd}
 			/>
+
 			<ChatInput submitMessage={submitMessage} />
 		</Container>
 	)

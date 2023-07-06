@@ -1,4 +1,4 @@
-import { Keyboard, Platform, StatusBar } from 'react-native'
+import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 
 import { ButtonContainer, HorizontalButtonsContainer, Container, InputsContainer } from './styles'
@@ -22,7 +22,7 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 	const [invalidLinkTitleAfterSubmit, setInvaliLinkTitleAfterSubmit] = useState<boolean>(false)
 	const inputRefs = {
-		linkTitleInput: useRef<React.MutableRefObject<any>>(null),
+		linkTitleInput: useRef<TextInput>(null),
 	}
 
 	useEffect(() => {

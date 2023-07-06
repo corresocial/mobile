@@ -23,6 +23,7 @@ function ShareModal({ visibility, closeModal, onPressButton }: ShareModalProps) 
 				text: 'que tal começar compartilhando nas redes?! para mais pessoas ainda comprarem de você!?',
 				highlightedWords: ['compartilhando', 'nas', 'redes?!']
 			}}
+			closeModalOnPressButton={false}
 			closeButton
 			closeModal={closeModal}
 			affirmativeButton={{

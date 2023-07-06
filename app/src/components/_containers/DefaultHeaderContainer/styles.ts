@@ -11,3 +11,9 @@ export const Container = styled(Animated.View)`
     transition: background-color 1s ease;
     flex-direction: row;
 `
+
+export const FooterTextArea = styled.View`
+	background-color: ${({ theme }) => theme.white3};
+ 	padding: ${RFValue(10)}px;
+	borderBottomWidth: 0px;
+`

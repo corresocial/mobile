@@ -5,10 +5,10 @@
 import { collection, query, getDocs } from 'firebase/firestore'
 import { firestore } from '..'
 import { updatePost } from '../post/updatePost'
-import { CultureCollectionRemote, PostCollection, PostCollectionType, PostType, SaleCollectionRemote, ServiceCollection, ServiceCollectionRemote, SocialImpactCollectionRemote, VacancyCollectionRemote } from '../types'
+import { CultureCollectionRemote, PostCollection, SaleCollectionRemote, ServiceCollectionRemote, SocialImpactCollectionRemote, VacancyCollectionRemote } from '../types'
 import { updateUser } from '../user/updateUser'
 
-const updatePostFieldsName = async () => { // Set Collection Name
+const updatePostFieldsName = async () => {
 	const docs: any = []
 
 	const usersQuery = query(collection(firestore, 'users'))
@@ -45,7 +45,7 @@ const updatePostFieldsName = async () => { // Set Collection Name
 			// }
 		})
 
-		await updateUser(doc.userId, { posts: userPosts })
+		await updateUser(doc.userId, { posts: userPosts as PostCollection[] })
 			.then(() => console.log(`success userPosts: ${doc.userId}`))
 			.catch((err: any) => {
 				console.log(err)
@@ -61,7 +61,7 @@ const migratePostFields = async (posts: PostCollection[]) => {
 	const updatedPosts = posts.map(((post) => {
 		switch (post.postType) {
 			case 'service': {
-				const currentPost: ServiceCollectionRemote = { ...post }
+				const currentPost: ServiceCollectionRemote | any = { ...post }
 
 				if (!currentPost.range) currentPost.range = 'near'
 				currentPost.deliveryMethod = currentPost.range || 'unavailable'
@@ -88,7 +88,7 @@ const migratePostFields = async (posts: PostCollection[]) => {
 				return currentPost
 			}
 			case 'sale': {
-				const currentPost: SaleCollectionRemote = { ...post }
+				const currentPost: SaleCollectionRemote | any = { ...post }
 
 				if (!currentPost.itemStatus) currentPost.itemStatus = 'used'
 
@@ -118,7 +118,7 @@ const migratePostFields = async (posts: PostCollection[]) => {
 				return currentPost
 			}
 			case 'vacancy': {
-				const currentPost: VacancyCollectionRemote = { ...post }
+				const currentPost: VacancyCollectionRemote | any = { ...post }
 
 				currentPost.vacancyPurpose = 'findProffessional'
 				// currentPost.picturesUrl = []
@@ -158,7 +158,7 @@ const migratePostFields = async (posts: PostCollection[]) => {
 				return currentPost
 			}
 			case 'socialImpact': {
-				const currentPost: SocialImpactCollectionRemote = { ...post }
+				const currentPost: SocialImpactCollectionRemote | any = { ...post }
 
 				// currentPost.exhibitionFrequency = ''
 				// currentPost.startDate = ''
@@ -193,7 +193,7 @@ const migratePostFields = async (posts: PostCollection[]) => {
 				return currentPost
 			}
 			case 'culture': {
-				const currentPost: CultureCollectionRemote = { ...post }
+				const currentPost: CultureCollectionRemote | any = { ...post }
 
 				currentPost.exhibitionFrequency = 'someday'
 				currentPost.daysOfWeek = []
@@ -226,71 +226,6 @@ const migratePostFields = async (posts: PostCollection[]) => {
 				if (currentPost.range === 'unavailable') {
 					currentPost.range = 'near'
 				}
-				return currentPost
-			}
-			default: {
-				// console.log(`Problema no post de id${post.postId}`)
-				return post
-			}
-		}
-	}))
-
-	return updatedPosts
-}
-
-const removePostFields = async (posts: PostCollection[]) => {
-	if (!posts) return []
-
-	const updatedPosts = posts.map(((post) => {
-		if (post.postType !== 'service') return post
-		switch (post.postType) {
-			case 'service': {
-				const currentPost: ServiceCollectionRemote = { ...post }
-				delete currentPost.openingHour
-				delete currentPost.closingHour
-				delete currentPost.attendanceWeekDays
-
-				return currentPost
-			}
-			case 'sale': {
-				const currentPost: SaleCollectionRemote = { ...post }
-				delete currentPost.openingHour
-				delete currentPost.closingHour
-				delete currentPost.attendanceWeekDays
-				delete currentPost.itemName
-
-				return currentPost
-			}
-			case 'vacancy': {
-				const currentPost: VacancyCollectionRemote = { ...post }
-				delete currentPost.questions
-				delete currentPost.workWeekdays
-				delete currentPost.startWorkDate
-				delete currentPost.endWorkDate
-				delete currentPost.startWorkHour
-				delete currentPost.endWorkHour
-				delete currentPost.companyDescription
-
-				return currentPost
-			}
-			case 'socialImpact': {
-				const currentPost: SocialImpactCollectionRemote = { ...post }
-				delete currentPost.openingHour
-				delete currentPost.closingHour
-				delete currentPost.socialImpactRepeat
-				delete currentPost.exhibitionWeekDays
-
-				return currentPost
-			}
-			case 'culture': {
-				const currentPost: CultureCollectionRemote = { ...post }
-				delete currentPost.cultureType
-				delete currentPost.eventRepeat
-				delete currentPost.eventStartDate
-				delete currentPost.eventEndDate
-				delete currentPost.eventStartHour
-				delete currentPost.eventEndHour
-
 				return currentPost
 			}
 			default: {

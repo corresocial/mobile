@@ -15,14 +15,18 @@ import { PhotoPortrait } from '../PhotoPortrait'
 interface ImageCarouselProps {
 	marginVertical?: number
 	indicatorColor?: string
+	withoutBorder?: boolean
 	relativeWidth?: number
+	square?: boolean
 	picturesUrl: string[] | undefined
 }
 
 function ImageCarousel({
 	marginVertical = 0,
 	indicatorColor,
+	withoutBorder,
 	relativeWidth = relativeScreenWidth(94),
+	square,
 	picturesUrl = ['https://cdn-icons-png.flaticon.com/512/1695/1695213.png']
 }: ImageCarouselProps) {
 	const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
@@ -37,14 +41,14 @@ function ImageCarousel({
 		<View
 			style={{
 				width: '100%',
-				height: relativeScreenHeight(28),
+				height: square ? relativeWidth : relativeScreenHeight(28),
 				overflow: 'hidden',
 				borderWidth: 0
 			}}
 		>
 			<PhotoPortrait
-				borderWidth={0}
-				borderRightWidth={0}
+				borderWidth={withoutBorder ? 0 : 2.5}
+				borderRightWidth={withoutBorder ? 0 : 8}
 				height={'100%'}
 				width={'100%'}
 				pictureUri={url}
@@ -58,7 +62,7 @@ function ImageCarousel({
 		<View
 			style={{
 				width: '100%',
-				height: relativeScreenHeight(28),
+				height: square ? relativeWidth : relativeScreenHeight(28),
 				marginVertical: RFValue(marginVertical)
 			}}
 		>

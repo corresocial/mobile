@@ -1,6 +1,5 @@
 import styled from 'styled-components/native'
 import { RFValue } from 'react-native-responsive-fontsize'
-
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
@@ -33,9 +32,9 @@ export const SearchInput = styled.TextInput`
 	text-align: center;
 `
 
-export const Body = styled.View`
+export const Body = styled.ScrollView`
 	flex: 1;
-	padding-bottom: 0px;
+	padding-bottom: ${relativeScreenHeight(10)}px;
 `
 
 export const TagsContainer = styled.View`
@@ -44,22 +43,11 @@ export const TagsContainer = styled.View`
 	justify-content: center;
 `
 
-export const HorizontalPadding = styled.View`
-	width: 100%;
-	padding-horizontal: ${RFValue(15)}px;
-`
-
 export const HorizontalSigh = styled.View`
 	height: 20%;
 	width: ${RFValue(10)}px;
 `
 
-export const VerticalSigh = styled.View`
-	width: 20%;
-	height: ${RFValue(10)}px;
-`
-
-export const LastSigh = styled.View`
-	width: 100%;
-	height: ${relativeScreenHeight(10)}px;
+export const ContainerPadding = styled.ScrollView`
+	padding-horizontal: ${RFValue(10)}px;
 `

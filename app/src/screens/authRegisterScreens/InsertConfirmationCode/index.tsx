@@ -1,4 +1,4 @@
-import { Alert, Animated, Platform, StatusBar } from 'react-native'
+import { Alert, Animated, Platform, StatusBar, TextInput } from 'react-native'
 import React, { useContext, useRef, useState } from 'react'
 import { UserCredential } from 'firebase/auth'
 
@@ -17,6 +17,7 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
+import { Loader } from '../../../components/Loader'
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
 	const { validateVerificationCode, setRemoteUserOnLocal } = useContext(AuthContext)
@@ -30,14 +31,15 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 
 	const [invalidCodeAfterSubmit, setInvaliCodeAfterSubmit] = useState<boolean>(false)
 	const [hasServerSideError, setHasServerSideError] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const inputRefs = {
-		inputCodeRef01: useRef<React.MutableRefObject<any>>(null),
-		inputCodeRef02: useRef<React.MutableRefObject<any>>(null),
-		inputCodeRef03: useRef<React.MutableRefObject<any>>(null),
-		inputCodeRef04: useRef<React.MutableRefObject<any>>(null),
-		inputCodeRef05: useRef<React.MutableRefObject<any>>(null),
-		inputCodeRef06: useRef<React.MutableRefObject<any>>(null)
+		inputCodeRef01: useRef<TextInput>(null),
+		inputCodeRef02: useRef<TextInput>(null),
+		inputCodeRef03: useRef<TextInput>(null),
+		inputCodeRef04: useRef<TextInput>(null),
+		inputCodeRef05: useRef<TextInput>(null),
+		inputCodeRef06: useRef<TextInput>(null)
 	}
 
 	const inputsConfig = [
@@ -104,31 +106,36 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 	}
 
 	const sendConfirmationCode = () => {
-		const completeCode = mergeAllInputCodes()
-		const completeCodeIsValid = completeCode.length === 6
+		try {
+			setIsLoading(true)
 
-		if (completeCodeIsValid) {
-			const { cellNumber } = route.params
-			const verificationCodeId = route.params.verificationCodeId as string
+			const completeCode = mergeAllInputCodes()
+			const completeCodeIsValid = completeCode.length === 6
 
-			validateVerificationCode(verificationCodeId, completeCode)
-				.then(async (userCredential: UserCredential) => {
-					const userIdentification = await extractUserIdentification(userCredential)
-					await setRemoteUserOnLocal(userIdentification.uid)
-					return userIdentification
-				})
-				.then((userIdentification) => {
-					navigation.navigate('InsertName', {
-						cellNumber,
-						userIdentification
+			if (completeCodeIsValid) {
+				const { cellNumber } = route.params
+				const verificationCodeId = route.params.verificationCodeId as string
+
+				validateVerificationCode(verificationCodeId, completeCode)
+					.then(async (userCredential: UserCredential) => {
+						const userIdentification = await extractUserIdentification(userCredential)
+						await setRemoteUserOnLocal(userIdentification.uid)
+						return userIdentification
 					})
-				})
-				.catch((err) => {
-					console.log(err.code)
-					verificationCodeErrorTreatment(err.code)
-				})
-		} else {
-			!completeCodeIsValid && setInvaliCodeAfterSubmit(true)
+					.then((userIdentification) => {
+						setIsLoading(false)
+						navigation.navigate('InsertName', {
+							cellNumber,
+							userIdentification
+						})
+					})
+			} else {
+				!completeCodeIsValid && setInvaliCodeAfterSubmit(true)
+			}
+		} catch (error: any) {
+			setIsLoading(false)
+			console.log(error.code)
+			verificationCodeErrorTreatment(error.code)
 		}
 	}
 
@@ -222,7 +229,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 									relativeWidth={'14%'}
 									textInputRef={inputConfig.ref}
 									lastInput={isLastInput}
-									previousInputRef={!isFirstInput && inputsConfig[index - 1].ref}
+									previousInputRef={isLastInput ? null : !isFirstInput && inputsConfig[index - 1].ref}
 									nextInputRef={!isLastInput && inputsConfig[index + 1].ref}
 									defaultBackgroundColor={theme.white2}
 									defaultBorderBottomColor={theme.black4}
@@ -246,19 +253,20 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				</InputsContainer>
 				<ButtonContainer>
 					{
-						allInputCodesIsValid()
-						&& (
-							<PrimaryButton
-								color={someInvalidFieldSubimitted() || hasServerSideError ? theme.red3 : theme.blue3}
-								iconName={'arrow-right'}
-								iconColor={theme.white3}
-								label={'continuar'}
-								labelColor={theme.white3}
-								highlightedWords={['continuar']}
-								startsHidden
-								onPress={sendConfirmationCode}
-							/>
-						)
+						isLoading
+							? <Loader />
+							: allInputCodesIsValid() && (
+								<PrimaryButton
+									color={someInvalidFieldSubimitted() || hasServerSideError ? theme.red3 : theme.blue3}
+									iconName={'arrow-right'}
+									iconColor={theme.white3}
+									label={'continuar'}
+									labelColor={theme.white3}
+									highlightedWords={['continuar']}
+									startsHidden
+									onPress={sendConfirmationCode}
+								/>
+							)
 					}
 				</ButtonContainer>
 			</FormContainer>

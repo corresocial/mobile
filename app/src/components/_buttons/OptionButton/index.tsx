@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { TextStyle } from 'react-native'
 import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -23,7 +24,7 @@ interface OptionButtonProps {
 	labelColor?: string
 	labelSize?: number
 	relativeHeight?: string
-	labelAlign?: 'auto' | 'left' | 'right' | 'center' | 'justify' | undefined
+	labelAlign?: TextStyle['textAlign']
 	SvgIcon?: React.FC<SvgProps>
 	svgIconScale?: [height: string, width: string]
 	leftSideColor?: string
@@ -84,7 +85,7 @@ function OptionButton({
 					style={{
 						backgroundColor: color,
 						marginRight: buttonPressed ? RFValue(-7) : 0
-					} as { [key: string]: React.CSSProperties }}
+					}}
 				>
 					<IconArea
 						style={{

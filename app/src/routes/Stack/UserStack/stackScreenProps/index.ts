@@ -3,6 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { UserStackParamList } from '../types'
 
 export type WelcomeNewUserScreenProps = NativeStackScreenProps<UserStackParamList, 'WelcomeNewUser'>
+export type ViewPostsByRangeScreenProps = NativeStackScreenProps<UserStackParamList, 'ViewPostsByRange'>
 export type HomeTabScreenProps = NativeStackScreenProps<UserStackParamList, 'HomeTab'>
 export type SelectPostTypeScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectPostType'>
 export type TourScreenProps = NativeStackScreenProps<UserStackParamList, 'ServiceStack'>
@@ -36,3 +37,11 @@ export type PrivacyAndSecurityScreenProps = NativeStackScreenProps<UserStackPara
 export type UserDataConfigurationsScreenProps = NativeStackScreenProps<UserStackParamList, 'UserDataConfigurations'>
 
 export type ChatMessagesScreenProps = NativeStackScreenProps<UserStackParamList, 'ChatMessages'>
+
+export type SelectSubscriptionRangeScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectSubscriptionRange'>
+export type SelectSubscriptionPlanScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectSubscriptionPlan'>
+export type SelectSubsciptionPaymentMethodScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectSubsciptionPaymentMethod'>
+export type FinishSubscriptionPaymentByPixScreenProps = NativeStackScreenProps<UserStackParamList, 'FinishSubscriptionPaymentByPix'>
+export type FinishSubscriptionPaymentByCardScreenProps = NativeStackScreenProps<UserStackParamList, 'FinishSubscriptionPaymentByCard'>
+export type SubscriptionPaymentResultScreenProps = NativeStackScreenProps<UserStackParamList, 'SubscriptionPaymentResult'>
+export type EditCurrentSubscriptionScreenProps = NativeStackScreenProps<UserStackParamList, 'EditCurrentSubscription'>

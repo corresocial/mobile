@@ -26,3 +26,10 @@ export const Sigh = styled.View`
 	width: 100%;
 	height: ${relativeScreenHeight(1)}px;
 `
+
+export const IsBlockedContainer = styled.View`
+	width: 100%;
+	padding: ${relativeScreenHeight(1)}px ${RFValue(12)}px ${RFValue(12)}px ${RFValue(17)}px;
+	justify-content: center;
+	align-items: center;
+`

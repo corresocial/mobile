@@ -7,6 +7,7 @@ export const Container = styled.View`
 `
 
 export const ProfileHeader = styled.View`
+	padding-top: 10px;
     width: 100%;
 `
 
@@ -51,8 +52,8 @@ export const OptionsArea = styled.View`
     justify-content: space-between;
 `
 
-export const AddSocialMediasButtonContainer = styled.View`
-	padding-vertical: ${relativeScreenHeight(1.5)}px;
+export const VerticalPaddingContainer = styled.View`
+	padding-vertical: ${relativeScreenHeight(1)}px;
 `
 
 export const Body = styled.View`

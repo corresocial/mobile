@@ -1,30 +1,44 @@
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Container, ContainerInner, Description, Footer, LargeStrongFont, SmallStrongFont, SmallThinFont, Title } from './styles'
+import { theme } from '../../../common/theme'
+import { Container, ContainerInner, Description, Footer, LargeStrongFont, SmallStrongFont, SmallThinFont, Title, TitleArea } from './styles'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-import { PostRange } from '../../../services/firebase/types'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+
+import { SmallButton } from '../../_buttons/SmallButton'
 
 interface TitleDescriptionButtonProps {
 	height: string | number
 	color: string
+	textColor?: string
+	activeColor?: string
 	title: string
 	titleFontSize?: number
 	description: string
 	highlightedWords: string[]
-	footerText?: PostRange
+	footerValue?: string
+	yearly?: boolean
+	selected?: boolean
+	checked?: boolean
 	onPress: () => void
 }
 
 function TitleDescriptionButton({
 	height,
 	color,
+	textColor,
+	activeColor,
 	title,
 	titleFontSize = 22,
 	description,
 	highlightedWords,
-	footerText,
+	footerValue,
+	yearly,
+	selected,
+	checked,
 	onPress
 }: TitleDescriptionButtonProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
@@ -42,42 +56,62 @@ function TitleDescriptionButton({
 		onPress()
 	}
 
-	const renderRelativeFooterText = () => {
-		if (footerText) {
+	const renderRelativeFooterValue = () => {
+		if (footerValue) {
+			if (footerValue === 'current') {
+				return (
+					<Footer>
+						<SmallThinFont>{'seu'}</SmallThinFont>
+						<LargeStrongFont>{' plano'}</LargeStrongFont>
+					</Footer>
+				)
+			}
+
+			if (footerValue === 'included') {
+				return (
+					<Footer>
+						<SmallThinFont>{'incluso no'}</SmallThinFont>
+						<LargeStrongFont>{' plano'}</LargeStrongFont>
+					</Footer>
+				)
+			}
+
+			if (footerValue === 'free') {
+				return (
+					<Footer>
+						<SmallThinFont>{'plano'}</SmallThinFont>
+						<LargeStrongFont>{' gratuito'}</LargeStrongFont>
+					</Footer>
+				)
+			}
+
+			if (footerValue === 'edit') {
+				return (
+					<Footer>
+						<SmallThinFont>{'editar'}</SmallThinFont>
+						<LargeStrongFont>{' plano'}</LargeStrongFont>
+					</Footer>
+				)
+			}
+
+			if (footerValue === 'unavailable') {
+				return (
+					<Footer>
+						<SmallThinFont>{'plano'}</SmallThinFont>
+						<LargeStrongFont>{' indisponível'}</LargeStrongFont>
+					</Footer>
+				)
+			}
+
 			return (
 				<Footer>
-					<SmallThinFont>{'plano '}</SmallThinFont>
-					<LargeStrongFont>{'gratuito'}</LargeStrongFont>
-					<SmallStrongFont>{''}</SmallStrongFont>
+					<SmallThinFont>{'R$ '}</SmallThinFont>
+					<LargeStrongFont>{footerValue}</LargeStrongFont>
+					<SmallThinFont>{',00 '}</SmallThinFont>
+					<SmallStrongFont>{yearly ? '/ ano' : '/ mês'}</SmallStrongFont>
 				</Footer>
 			)
 		}
-		/* switch (footerText) {
-			case 'near': return (
-				<Footer>
-					<SmallThinFont>{'plano '}</SmallThinFont>
-					<LargeStrongFont>{'gratuito'}</LargeStrongFont>
-					<SmallStrongFont>{''}</SmallStrongFont>
-				</Footer>
-			)
-			case 'city': return (
-				<Footer>
-					<SmallThinFont>{'R$ '}</SmallThinFont>
-					<LargeStrongFont>{'20'}</LargeStrongFont>
-					<SmallThinFont>{',00 '}</SmallThinFont>
-					<SmallStrongFont>{'/ mês'}</SmallStrongFont>
-				</Footer>
-			)
-			case 'country': return (
-				<Footer>
-					<SmallThinFont>{'R$ '}</SmallThinFont>
-					<LargeStrongFont>{'40'}</LargeStrongFont>
-					<SmallThinFont>{',00 '}</SmallThinFont>
-					<SmallStrongFont>{'/ mês'}</SmallStrongFont>
-				</Footer>
-			)
-			default: return null
-		} */
 	}
 
 	return (
@@ -86,24 +120,38 @@ function TitleDescriptionButton({
 		>
 			<ContainerInner
 				style={{
-					backgroundColor: color,
-					marginLeft: buttonPressed ? RFValue(5) : 0
+					backgroundColor: !selected ? color : activeColor,
+					marginLeft: buttonPressed || selected ? RFValue(5) : 0
 				}}
 				onPressIn={pressingButton}
 				onPressOut={notPressingButton}
 				onPress={releaseButton}
 			>
-				<Title
-					style={{
-						fontSize: RFValue(titleFontSize)
-					}}
-				>
-					{showMessageWithHighlight(title, highlightedWords)}
-				</Title>
-				<Description>
+				<TitleArea>
+					<Title
+						fontSize={titleFontSize}
+						textColor={textColor}
+						checked={checked}
+					>
+						{showMessageWithHighlight(title, highlightedWords)}
+					</Title>
+					{
+						checked && (
+							<SmallButton
+								color={theme.green3}
+								SvgIcon={CheckWhiteIcon}
+								svgScale={['60%', '60%']}
+								height={relativeScreenHeight(5)}
+								relativeWidth={relativeScreenHeight(6)}
+								onPress={() => { }}
+							/>
+						)
+					}
+				</TitleArea>
+				<Description textColor={textColor}>
 					{showMessageWithHighlight(description, highlightedWords)}
 				</Description>
-				{renderRelativeFooterText()}
+				{renderRelativeFooterValue()}
 			</ContainerInner>
 		</Container>
 	)

@@ -145,4 +145,3 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 }
 
 export { PostCard }
-

@@ -45,7 +45,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 				chatIds: ['']
 			})
 		}
-		console.log('starting user instance...')
+		console.log('CHAT: Usuário ativo...')
 
 		await startUserChatIdsListener(userDataContext.userId as Id)
 	}

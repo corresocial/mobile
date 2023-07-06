@@ -6,7 +6,8 @@ type EditContextType = {
 	editDataContext: { unsaved: any, saved: any }
 	addNewUnsavedFieldToEditContext: (dataObject: any) => void
 	clearEditContext: () => void
-	clearUnsavedEditContext: () => void
+	clearUnsavedEditContext: () => void,
+	clearUnsavedEditFieldContext: (field: any) => void
 	setEditDataOnContext: (data: any) => void,
 }
 
@@ -22,7 +23,8 @@ const initialValue = {
 	addNewUnsavedFieldToEditContext: (dataObject: any) => { },
 	clearUnsavedEditContext: () => { },
 	clearEditContext: () => { },
-	setEditDataOnContext: (data: any) => { }
+	setEditDataOnContext: (data: any) => { },
+	clearUnsavedEditFieldContext: (data:any) => { }
 }
 
 const EditContext = createContext<EditContextType>(initialValue)
@@ -50,6 +52,15 @@ function EditProvider({ children }: EditProviderProps) {
 		})
 	}
 
+	const clearUnsavedEditFieldContext = (field:any) => {
+		const editContextUnsaved = { ...editDataContext.unsaved }
+		delete editContextUnsaved[field]
+		setEditDataContext({
+			unsaved: editContextUnsaved,
+			saved: editDataContext.saved
+		})
+	}
+
 	const clearEditContext = () => {
 		setEditDataContext({
 			unsaved: {},
@@ -62,7 +73,8 @@ function EditProvider({ children }: EditProviderProps) {
 		addNewUnsavedFieldToEditContext,
 		setEditDataOnContext,
 		clearUnsavedEditContext,
-		clearEditContext
+		clearEditContext,
+		clearUnsavedEditFieldContext
 	}), [editDataContext])
 
 	return (

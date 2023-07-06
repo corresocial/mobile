@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Animated, Platform, StatusBar } from 'react-native'
+import { Animated, Platform, StatusBar, TextInput } from 'react-native'
 
 import { ButtonContainer, Container, InputsContainer, TwoPoints } from './styles'
 import { theme } from '../../../common/theme'
@@ -66,8 +66,8 @@ function PostTime({
 	}, [hours, minutes, keyboardOpened])
 
 	const inputRefs = {
-		hoursInput: useRef<React.MutableRefObject<any>>(null),
-		minutesInput: useRef<React.MutableRefObject<any>>(null)
+		hoursInput: useRef<TextInput>(null),
+		minutesInput: useRef<TextInput>(null)
 	}
 
 	const validateHours = (text: string) => {

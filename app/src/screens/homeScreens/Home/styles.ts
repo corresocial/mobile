@@ -14,23 +14,10 @@ export const DropdownContainer = styled.View`
 	padding-horizontal: ${RFValue(10)}px;
 `
 
-export const HorizontalPostTypes = styled.View`
-	flex-direction: row;
-	width: 100%;
-	justify-content: space-around;
-	margin-vertical: ${RFValue(15)}px;
+export const RecentPostsContainer = styled.ScrollView`
+	flex: 1;
 `
 
-export const RecentPostsContainer = styled.View`
-
-`
-
-export const Sigh = styled.View`
-	width: 100%;
-	height: ${RFValue(10)}px;
-`
-
-export const FooterSigh = styled.View`
-	width: 100%;
-	height: ${RFValue(280)}px;
+export const ContainerPadding = styled.ScrollView`
+	padding-horizontal: ${RFValue(10)}px;
 `

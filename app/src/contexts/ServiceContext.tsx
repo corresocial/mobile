@@ -37,15 +37,13 @@ function ServiceProvider({ children }: ServiceProviderProps) {
 
 	const getAditionalDataFromLastPost = () => {
 		const userPosts = userDataContext.posts || []
-		if (!userPosts || (userPosts && userPosts.length < 1)) return
+		if (!userPosts || (userPosts && !userPosts.length)) return
 
 		const lastUserPost: ServiceCollectionRemote | any = userPosts[userPosts.length - 1] || {} // TODO Type
-		if (Object.keys(lastUserPost).length < 1) return
-
-		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
+		if (!Object.keys(lastUserPost).length) return
 
 		setServiceDataContext({
-			range: lastUserPost.range || '',
+			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',
 			location: lastUserPost.location || '',
 			deliveryMethod: lastUserPost.deliveryMethod || '',

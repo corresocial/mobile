@@ -1,18 +1,18 @@
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { SvgProps } from 'react-native-svg'
 
 import { Container } from './styles'
 import EditWhiteIcon from '../../../assets/icons/edit-white.svg'
-import AngleRightIcon from '../../../assets/icons/angleRight.svg'
 
 interface EditHeaderContainerProps {
 	children: React.ReactNode
-	navigateIcon?: boolean
+	RightIcon?: React.FC<SvgProps>
 	onPress?: () => void
 }
 
-function EditHeaderContainer({ children, navigateIcon, onPress }: EditHeaderContainerProps) {
+function EditHeaderContainer({ children, RightIcon, onPress }: EditHeaderContainerProps) {
 	return (
 		<Container>
 			{children}
@@ -20,9 +20,9 @@ function EditHeaderContainer({ children, navigateIcon, onPress }: EditHeaderCont
 				onPress && (
 					<TouchableOpacity onPress={onPress} >
 						{
-							!navigateIcon
+							!RightIcon
 								? <EditWhiteIcon width={RFValue(28)} height={RFValue(28)} />
-								: <AngleRightIcon width={RFValue(22)} height={RFValue(22)} />
+								: <RightIcon width={RFValue(22)} height={RFValue(22)} />
 						}
 					</TouchableOpacity>
 				)

@@ -39,6 +39,7 @@ import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
 import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
+import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 
 function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -46,6 +47,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
+	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 
 	useEffect(() => {
 		return () => {
@@ -97,7 +99,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	}
 
 	const sharePost = () => {
-		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social`)
+		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social/p/${getPostField('postId')}`)
 	}
 
 	const getUserProfilePictureFromContext = () => {
@@ -148,7 +150,11 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	}
 
 	const getCategoryLabel = () => {
-		return cultureCategories[getPostField('category') as CultureCategories].label || ''
+		const categoryField = getPostField('category') as CultureCategories
+		if (Object.keys(cultureCategories).includes(categoryField)) {
+			return cultureCategories[categoryField].label
+		}
+		return ''
 	}
 
 	const getPostField = (fieldName: keyof CultureCollection, allowNull?: boolean) => {
@@ -156,8 +162,22 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
 
+	const toggleDefaultConfirmationModalVisibility = () => {
+		setPostOptionsIsOpen(false)
+		setTimeout(() => setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible), 400)
+	}
+
 	return (
 		<Container>
+			<DefaultConfirmationModal
+				visibility={defaultConfirmationModalIsVisible}
+				title={'apagar post'}
+				text={`você tem certeza que deseja apagar o post ${getPostField('title')}?`}
+				highlightedWords={[...getPostField('title').split(' ')]}
+				buttonKeyword={'apagar'}
+				closeModal={toggleDefaultConfirmationModalVisibility}
+				onPressButton={deleteRemotePost}
+			/>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
@@ -205,7 +225,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						isLoading={isLoading}
 						goToComplaint={reportPost}
 						editPost={goToEditPost}
-						deletePost={deleteRemotePost}
+						deletePost={toggleDefaultConfirmationModalVisibility}
 					>
 						<SmallButton
 							SvgIcon={ThreeDotsWhiteIcon}
@@ -241,6 +261,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 								<ImageCarousel
 									picturesUrl={getPostField('picturesUrl') || []}
 									indicatorColor={theme.blue1}
+									square
 								/>
 								<VerticalSigh />
 							</>

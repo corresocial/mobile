@@ -26,6 +26,10 @@ export type WeekdaysFrequency = 'today' | 'everyday' | 'someday' | 'businessDay'
 
 export type PostRange = 'near' | 'city' | 'country'
 
+export type SubscriptionPlan = 'monthly' | 'yearly' | ''
+
+export type SubscriptionPaymentMethod = 'pix' | 'creditCard' | 'debitCard' | ''
+
 export type DeliveryMethod = 'unavailable' | 'near' | 'city' | 'country'
 
 export type DaysOfWeek = 'seg' | 'ter' | 'qua' | 'qui' | 'sex' | 'sab' | 'dom'
@@ -87,12 +91,29 @@ export type SocialMedia = {
 	link: string
 }
 
+export type VerifiedLabelName = 'leader' | 'impact' | 'default'
+
+export type VerifiedType = {
+	type: VerifiedLabelName
+	by: string
+	name: string
+	at: Date
+}
+
+export type UserSubscription = {
+	subscriptionRange?: PostRange
+	subscriptionPlan?: SubscriptionPlan
+	subscriptionPaymentMethod?: SubscriptionPaymentMethod
+	customerId?: Id
+	subscriptionId?: Id
+	receiptEmail?: string
+}
+
 export type UserCollection = {
 	userId?: Id
 	name?: string
 	description?: string
 	profilePictureUrl?: string[]
-	verified?: boolean
 	tourPerformed?: boolean
 	tags?: string[]
 	category?: string
@@ -100,10 +121,12 @@ export type UserCollection = {
 	updatedAt?: Date
 	posts?: PostCollection[]
 	ads?: AdsCollection[]
+	verified?: VerifiedType
 	locationView?: LocationViewType
 	cellNumber?: string // private
 	socialMedias?: SocialMedia[]
-	location?: { // private
+	subscription?: UserSubscription
+	location?: {
 		country?: string
 		state?: string
 		city?: string
@@ -144,6 +167,12 @@ export type PostCollectionType = 'posts' | 'services' | 'sales' | 'vacancies' | 
 export type PostCollection = ServiceCollection | SaleCollection | VacancyCollection | CultureCollection | SocialImpactCollection
 
 export type PostCollectionRemote = ServiceCollectionRemote | SaleCollectionRemote | VacancyCollectionRemote | CultureCollectionRemote | SocialImpactCollectionRemote
+
+export type FeedPosts = {
+	nearby: PostCollectionRemote[],
+	city: PostCollectionRemote[],
+	country: PostCollectionRemote[],
+}
 
 export type ServiceCollection = {
 	postId?: string

@@ -20,7 +20,7 @@ export const IndicatorBarBottom = styled.View`
     background-color: ${({ theme }) => theme.white3}
     width: 100%;
     height: ${relativeScreenHeight(1.4)}px;
-    border: ${relativeScreenWidth(0.7)}px solid ${({ theme }) => theme.black3}
+    border: ${relativeScreenWidth(0.7)}px solid ${({ theme }) => theme.black4}
     border-right-width: ${relativeScreenWidth(3)}px;
     overflow: hidden;
 	border-radius: 100px;

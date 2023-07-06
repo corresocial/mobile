@@ -1,0 +1,12 @@
+import { RFValue } from 'react-native-responsive-fontsize'
+import styled from 'styled-components/native'
+
+export const Container = styled.View`
+	align-items: center;
+	width: 100%;
+`
+
+export const CounterText = styled.Text`
+	font-family: Arvo_400Regular;
+	font-size: ${RFValue(13)}px;
+`

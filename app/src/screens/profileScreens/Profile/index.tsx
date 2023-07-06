@@ -16,24 +16,36 @@ import {
 	FooterSigh,
 	ExpandedUserDescription,
 	ExpandedUserDescriptionArea,
-	AddSocialMediasButtonContainer,
 	VerticalSigh,
-	BodyPadding
+	BodyPadding,
+	VerticalPaddingContainer,
 } from './styles'
 import { theme } from '../../../common/theme'
 import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
-import ShareIcon from '../../../assets/icons/share.svg'
-import AtSign from '../../../assets/icons/atSign.svg'
+import ShareIcon from '../../../assets/icons/share-white.svg'
+import LeaderLabel from '../../../assets/icons/leaderLabel.svg'
+import VerifiedLabel from '../../../assets/icons/verifiedLabel.svg'
+import ImpactLabel from '../../../assets/icons/impactLabel.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
-import PencilIcon from '../../../assets/icons/pencil.svg'
+import EditIcon from '../../../assets/icons/edit-white.svg'
 import GearIcon from '../../../assets/icons/gear.svg'
 
 import { share } from '../../../common/share'
 import { getUser } from '../../../services/firebase/user/getUser'
-import { arrayIsEmpty, sortArray, sortPostsByCreatedData } from '../../../common/auxiliaryFunctions'
+import {
+	arrayIsEmpty,
+	sortArray,
+	sortPostsByCreatedData,
+} from '../../../common/auxiliaryFunctions'
 
 import { LocalUserData } from '../../../contexts/types'
-import { Id, PostCollection, SocialMedia, UserCollection } from '../../../services/firebase/types'
+import {
+	Id,
+	PostCollection,
+	SocialMedia,
+	UserCollection,
+	VerifiedLabelName,
+} from '../../../services/firebase/types'
 import { HomeTabScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -41,22 +53,25 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { PostCard } from '../../../components/_cards/PostCard'
-import { ProfilePopOver } from '../../../components/ProfilePopOver'
+import { PopOver } from '../../../components/PopOver'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { updateUser } from '../../../services/firebase/user/updateUser'
+import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
+import { ProfileVerifiedModal } from '../../../components/_modals/ProfileVerifiedModal'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
 	const [user, setUser] = useState<LocalUserData>({})
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
 	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
+	const [toggleVerifiedModal, setToggleVerifiedModal] = useState(false)
 
 	/* useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -80,24 +95,36 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const getProfileDataFromRemote = async (userId: string) => {
 		const remoteUser = await getUser(userId)
-		const { profilePictureUrl, name, posts, description, socialMedias } = remoteUser as LocalUserData
+		const {
+			profilePictureUrl,
+			name,
+			posts,
+			description,
+			verified,
+			socialMedias,
+		} = remoteUser as LocalUserData
 		setUser({
 			userId,
 			name,
 			socialMedias,
 			description,
 			profilePictureUrl: profilePictureUrl || [],
-			posts
+			verified,
+			posts,
 		})
 	}
-
 	const getUserPostTags = () => {
 		const posts = getUserPosts()
-		const userPostTags = posts.reduce((acc: any[], current: PostCollection) => {
-			if (!current.tags) return [...acc]
-			const filtredCurrentTags = current.tags.filter((tag) => !acc.includes(tag))
-			return [...acc, ...filtredCurrentTags as string[]]
-		}, [])
+		const userPostTags = posts.reduce(
+			(acc: any[], current: PostCollection) => {
+				if (!current.tags) return [...acc]
+				const filtredCurrentTags = current.tags.filter(
+					(tag) => !acc.includes(tag)
+				)
+				return [...acc, ...(filtredCurrentTags as string[])]
+			},
+			[]
+		)
 
 		return userPostTags.sort(sortArray) as string[]
 	}
@@ -116,7 +143,9 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	const onSelectTag = (tagName: string) => {
 		const currentSelectedTags = [...selectedTags]
 		if (currentSelectedTags.includes(tagName)) {
-			const selectedTagsFiltred = currentSelectedTags.filter((tag) => tag !== tagName)
+			const selectedTagsFiltred = currentSelectedTags.filter(
+				(tag) => tag !== tagName
+			)
 			setSelectedTags(selectedTagsFiltred)
 		} else {
 			currentSelectedTags.push(tagName)
@@ -130,45 +159,58 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		switch (item.postType) {
 			case 'service': {
 				navigation.navigate(
-					route.params?.userId ? `ViewServicePost${stackLabel}` : 'ViewServicePost' as any, // TODO Type
+					route.params?.userId
+						? `ViewServicePost${stackLabel}`
+						: ('ViewServicePost' as any), // TODO Type
 					{ postData: { ...item, owner: getUserDataOnly() } }
 				)
 				break
 			}
 			case 'sale': {
 				navigation.navigate(
-					route.params?.userId ? `ViewSalePost${stackLabel}` : 'ViewSalePost' as any, // TODO Type
+					route.params?.userId
+						? `ViewSalePost${stackLabel}`
+						: ('ViewSalePost' as any), // TODO Type
 					{ postData: { ...item, owner: getUserDataOnly() } }
 				)
 				break
 			}
 			case 'vacancy': {
 				navigation.navigate(
-					route.params?.userId ? `ViewVacancyPost${stackLabel}` : 'ViewVacancyPost' as any, // TODO Type
+					route.params?.userId
+						? `ViewVacancyPost${stackLabel}`
+						: ('ViewVacancyPost' as any), // TODO Type
 					{ postData: { ...item, owner: getUserDataOnly() } }
 				)
 				break
 			}
 			case 'socialImpact': {
 				navigation.navigate(
-					route.params?.userId ? `ViewSocialImpactPost${stackLabel}` : 'ViewSocialImpactPost' as any, // TODO Type
+					route.params?.userId
+						? `ViewSocialImpactPost${stackLabel}`
+						: ('ViewSocialImpactPost' as any), // TODO Type
 					{ postData: { ...item, owner: getUserDataOnly() } }
 				)
 				break
 			}
 			case 'culture': {
 				navigation.navigate(
-					route.params?.userId ? `ViewCulturePost${stackLabel}` : 'ViewCulturePost' as any, // TODO Type
+					route.params?.userId
+						? `ViewCulturePost${stackLabel}`
+						: ('ViewCulturePost' as any), // TODO Type
 					{ postData: { ...item, owner: getUserDataOnly() } }
 				)
 				break
 			}
-			default: return false
+			default:
+				return false
 		}
 	}
 
 	const openProfileOptions = () => {
-		!isLoggedUser ? setProfileOptionsIsOpen(true) : navigation.navigate('Configurations')
+		!isLoggedUser
+			? setProfileOptionsIsOpen(true)
+			: navigation.navigate('Configurations')
 	}
 
 	const reportUser = () => {
@@ -177,7 +219,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			title: 'denunciar',
 			contactUsType: 'denúncia',
 			reportedId: getUserField('userId') as Id,
-			reportedType: 'user'
+			reportedType: 'user',
 		})
 	}
 
@@ -188,7 +230,14 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	const navigationToBack = () => navigation.goBack()
 
 	const shareProfile = async () => {
-		share(`${isLoggedUser ? `olá! me chamo ${getUserField('name')} e tô no corre.` : `olha quem eu encontrei no corre.\n${getUserField('name')}`}\n\nhttps://corre.social`)
+		share(
+			`${isLoggedUser
+				? `olá! me chamo ${getUserField('name')} e tô no corre.`
+				: `olha quem eu encontrei no corre.\n${getUserField(
+					'name'
+				)}`
+			}\n\nhttps://corre.social/u/${getUserField('userId')}`
+		)
 	}
 
 	const getUserProfilePictureFromContext = () => {
@@ -205,15 +254,15 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 				user1: {
 					userId: userDataContext.userId || '',
 					name: userDataContext.name || '',
-					profilePictureUrl: getUserProfilePictureFromContext()
+					profilePictureUrl: getUserProfilePictureFromContext(),
 				},
 				user2: {
 					userId: getUserField('userId') as Id,
 					name: getUserField('name') as string,
-					profilePictureUrl: getProfilePicture() || ''
+					profilePictureUrl: getProfilePicture() || '',
 				},
-				messages: {}
-			}
+				messages: {},
+			},
 		})
 
 		// [DEPRECATED]
@@ -226,11 +275,11 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		navigation.navigate('SocialMediaManagement' as any, {
 			userId: getUserField('userId'),
 			socialMedias: getUserField('socialMedias') || [],
-			isAuthor: isLoggedUser
+			isAuthor: isLoggedUser,
 		})
 	}
 
-	type UserDataFields = keyof UserCollection
+	type UserDataFields = keyof UserCollection;
 	const getUserField = (fieldName?: UserDataFields) => {
 		if (route.params && route.params.userId) {
 			if (!fieldName) return user
@@ -257,19 +306,61 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		if (route.params && route.params.userId) {
 			return user.profilePictureUrl ? user.profilePictureUrl[0] : ''
 		}
-		return userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
+		return userDataContext.profilePictureUrl
+			? userDataContext.profilePictureUrl[0]
+			: ''
 	}
 
 	const getUserPosts = () => {
 		if (route.params && route.params.userId) {
-			return user.posts ? user.posts.sort(sortPostsByCreatedData as (a: PostCollection, b: PostCollection) => number) : []
+			return user.posts
+				? user.posts.sort(
+					sortPostsByCreatedData as (
+						a: PostCollection,
+						b: PostCollection
+					) => number
+				)
+				: []
 		}
-		return userDataContext.posts ? userDataContext.posts.sort(sortPostsByCreatedData) : []
+		return userDataContext.posts
+			? userDataContext.posts.sort(sortPostsByCreatedData)
+			: []
+	}
+
+	const verifyUserProfile = async (label: VerifiedLabelName) => {
+		if (user.userId && userDataContext.userId) {
+			await updateUser(user.userId, {
+				verified: {
+					type: label,
+					by: userDataContext.userId,
+					at: new Date(),
+					name: userDataContext.name || ''
+				},
+			})
+			user.userId && await getProfileDataFromRemote(user.userId)
+		}
 	}
 
 	return (
 		<Container style={{ flex: 1 }}>
-			<FocusAwareStatusBar backgroundColor={profileOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3} barStyle={'dark-content'} />
+			{((userDataContext && userDataContext.verified && isLoggedUser) || (user && user.verified))
+				&& (
+					<ProfileVerifiedModal
+						visibility={toggleVerifiedModal}
+						closeModal={() => setToggleVerifiedModal(!toggleVerifiedModal)}
+						label={
+							isLoggedUser
+								? userDataContext.verified?.type
+								: user.verified?.type
+						}
+					/>
+				)}
+			<FocusAwareStatusBar
+				backgroundColor={
+					profileOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3
+				}
+				barStyle={'dark-content'}
+			/>
 			<DefaultHeaderContainer
 				backgroundColor={theme.white3}
 				centralized={false}
@@ -279,108 +370,191 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			>
 				<ProfileHeader>
 					<ProfileInfoContainer>
-						{
-							!isLoggedUser && (
-								<>
-									<BackButton onPress={navigationToBack} withoutSigh={false} />
-									<VerticalSigh />
-								</>
-							)
-						}
+						{!isLoggedUser && (
+							<>
+								<BackButton
+									onPress={navigationToBack}
+									withoutSigh={false}
+								/>
+								<VerticalSigh />
+							</>
+						)}
 						<PhotoPortrait
 							height={isLoggedUser ? RFValue(95) : RFValue(65)}
 							width={isLoggedUser ? RFValue(100) : RFValue(70)}
 							borderWidth={3}
 							borderRightWidth={8}
 							pictureUri={getProfilePicture()}
-							checked={!!getUserField('verified')}
 						/>
 						<InfoArea>
-							<UserName numberOfLines={3} >{getUserField('name')}</UserName>
-							{
-								!userDescriptionIsExpanded && isLoggedUser && (
-									<TouchableOpacity onPress={() => getUserField('description') && setUserDescriptionIsExpanded(true)}>
-										<UserDescription numberOfLines={3}>
-											{getUserField('description')}
-										</UserDescription>
-									</TouchableOpacity>
-								)
-							}
+							<UserName numberOfLines={3}>
+								{getUserField('name')}
+							</UserName>
+							{((userDataContext.verified
+								&& userDataContext.verified.type === 'leader'
+								&& isLoggedUser)
+								|| (user.verified
+									&& user.verified.type === 'leader'))
+								&& (
+									<VerticalPaddingContainer>
+										<TouchableOpacity
+											onPress={() => setToggleVerifiedModal(true)}
+										>
+											<ProfileInfoContainer>
+												<LeaderLabel
+													height={RFValue(22)}
+													width={RFValue(22)}
+													style={{ marginRight: RFValue(6) }}
+												/>
+
+												<UserDescription>
+													{'líder social'}
+												</UserDescription>
+											</ProfileInfoContainer>
+										</TouchableOpacity>
+									</VerticalPaddingContainer>
+								)}
+							{((userDataContext.verified
+								&& userDataContext.verified.type === 'default'
+								&& isLoggedUser)
+								|| (user.verified
+									&& user.verified.type === 'default'))
+								&& (
+									<VerticalPaddingContainer>
+										<TouchableOpacity
+											onPress={() => setToggleVerifiedModal(true)}
+										>
+											<ProfileInfoContainer>
+												<VerifiedLabel
+													height={RFValue(22)}
+													width={RFValue(22)}
+													style={{ marginRight: RFValue(6) }}
+												/>
+												<UserDescription>
+													{'perfil verificado'}
+												</UserDescription>
+											</ProfileInfoContainer>
+										</TouchableOpacity>
+									</VerticalPaddingContainer>
+								)}
+							{(((userDataContext.verified
+								&& userDataContext.verified.type) === 'impact'
+								&& isLoggedUser)
+								|| (user.verified
+									&& user.verified.type === 'impact'))
+								&& (
+									<VerticalPaddingContainer>
+										<TouchableOpacity
+											onPress={() => setToggleVerifiedModal(true)}
+										>
+											<ProfileInfoContainer>
+												<ImpactLabel
+													height={RFValue(22)}
+													width={RFValue(22)}
+													style={{ marginRight: RFValue(6) }}
+												/>
+												<UserDescription>
+													{'perfil de impacto'}
+												</UserDescription>
+											</ProfileInfoContainer>
+										</TouchableOpacity>
+									</VerticalPaddingContainer>
+								)}
+							{!userDescriptionIsExpanded && isLoggedUser && (
+								<TouchableOpacity
+									onPress={() => getUserField('description')
+										&& setUserDescriptionIsExpanded(true)}
+								>
+									<UserDescription numberOfLines={3}>
+										{getUserField('description') || 'você pode adicionar uma descrição em "editar".'}
+									</UserDescription>
+									{/* {getUserField('description').length >= 88 && (
+											<Text style={{ fontWeight: 'bold' }}>{'mostrar mais'}</Text>)} */}
+								</TouchableOpacity>
+							)}
 						</InfoArea>
 					</ProfileInfoContainer>
-					{
-						((userDescriptionIsExpanded || !isLoggedUser) && getUserField('description')) && (
+					{(userDescriptionIsExpanded || !isLoggedUser)
+						&& getUserField('description')
+						&& (
 							<ExpandedUserDescriptionArea>
-								<ScrollView showsVerticalScrollIndicator={false}>
-									<TouchableOpacity onPress={() => setUserDescriptionIsExpanded(false)}>
-										<ExpandedUserDescription >
+								<ScrollView
+									showsVerticalScrollIndicator={false}
+								>
+									<TouchableOpacity
+										onPress={() => setUserDescriptionIsExpanded(false)}
+									>
+										<ExpandedUserDescription>
 											{getUserField('description')}
 										</ExpandedUserDescription>
 									</TouchableOpacity>
 								</ScrollView>
 							</ExpandedUserDescriptionArea>
-						)
-					}
-					{
-						isLoggedUser && arrayIsEmpty(getUserField('socialMedias'))
-							? (
-								<AddSocialMediasButtonContainer >
-									<SmallButton
-										color={theme.white3}
-										label={'adicionar redes'}
-										labelColor={theme.black4}
-										highlightedWords={['redes']}
-										fontSize={12}
-										SvgIcon={AtSign}
-										svgScale={['60%', '10%']}
-										relativeWidth={'100%'}
-										height={relativeScreenHeight(5)}
-										onPress={openSocialMediaManagement}
-									/>
-								</AddSocialMediasButtonContainer >
-							)
-							: (
-								<HorizontalSocialMediaList
-									socialMedias={getUserField('socialMedias') as SocialMedia[]}
-									onPress={openSocialMediaManagement}
-								/>
-							)
-					}
+						)}
+					{isLoggedUser && arrayIsEmpty(getUserField('socialMedias')) ? (
+						<VerticalPaddingContainer>
+							<UserDescription>
+								{
+									'Você pode adicionar redes sociais e contatos em "editar".'
+								}
+							</UserDescription>
+						</VerticalPaddingContainer>
+					) : (
+						<HorizontalSocialMediaList
+							socialMedias={
+								getUserField('socialMedias') as SocialMedia[]
+							}
+							onPress={openSocialMediaManagement}
+						/>
+					)}
 					<OptionsArea>
 						<SmallButton
-							label={isLoggedUser ? '' : 'chat'}
+							label={isLoggedUser ? 'editar' : 'chat'}
 							labelColor={theme.black4}
-							SvgIcon={isLoggedUser ? PencilIcon : ChatWhiteIcon}
-							relativeWidth={isLoggedUser ? relativeScreenWidth(12) : '30%'}
+							SvgIcon={isLoggedUser ? EditIcon : ChatWhiteIcon}
+							svgScale={['85%', '25%']}
+							relativeWidth={'28%'}
 							height={relativeScreenWidth(12)}
 							onPress={isLoggedUser ? goToEditProfile : openChat}
 						/>
 						<SmallButton
 							color={theme.orange3}
-							label={`compartilhar${isLoggedUser ? ' perfil' : ''}`}
+							label={'compartilhar'}
 							labelColor={theme.black4}
-							highlightedWords={isLoggedUser ? ['compartilhar'] : []}
+							highlightedWords={
+								isLoggedUser ? ['compartilhar'] : []
+							}
 							fontSize={12}
 							SvgIcon={ShareIcon}
-							relativeWidth={isLoggedUser ? '60%' : '45%'}
+							relativeWidth={isLoggedUser ? '50%' : '45%'}
 							height={relativeScreenWidth(12)}
 							onPress={shareProfile}
 						/>
-						<ProfilePopOver
-							userName={getUserField('name') as string}
-							buttonLabel={isLoggedUser ? 'sair' : 'denunciar'}
+						<PopOver
+							title={getUserField('name') as string}
+							isVerifiable={
+								!isLoggedUser
+								&& userDataContext.verified
+								&& userDataContext.verified.type === 'leader'
+								&& user
+								&& !user.verified
+							}
+							buttonLabel={'denunciar'}
 							popoverVisibility={profileOptionsIsOpen}
 							closePopover={() => setProfileOptionsIsOpen(false)}
 							onPress={reportUser}
+							onPressVerify={verifyUserProfile}
 						>
 							<SmallButton
 								color={theme.white3}
-								SvgIcon={isLoggedUser ? GearIcon : ThreeDotsIcon}
+								SvgIcon={
+									isLoggedUser ? GearIcon : ThreeDotsIcon
+								}
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}
 								onPress={openProfileOptions}
 							/>
-						</ProfilePopOver>
+						</PopOver>
 					</OptionsArea>
 				</ProfileHeader>
 			</DefaultHeaderContainer>
@@ -392,8 +566,14 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 				/>
 				<BodyPadding>
 					<FlatList
-						data={!selectedTags.length ? getUserPosts() : filtredUserPosts()}
-						renderItem={({ item }: any) => ( // TODO type
+						data={
+							!selectedTags.length
+								? getUserPosts()
+								: filtredUserPosts()
+						}
+						renderItem={(
+							{ item }: any // TODO type
+						) => (
 							<PostCard
 								post={item}
 								owner={getUserField()}
@@ -402,6 +582,29 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						)}
 						showsVerticalScrollIndicator={false}
 						ItemSeparatorComponent={() => <Sigh />}
+						ListHeaderComponent={() => isLoggedUser
+							&& userDataContext.posts
+							&& userDataContext.posts.length === 0
+							&& (
+								<WithoutPostsMessage
+									title={'faça uma postagem!'}
+									message={
+										'você precisa fazer um post para que outras pessoas possam te encontrem\ncaso veio aqui apenas para procurar, não se preocupe.'
+									}
+									highlightedWords={[
+										'precisa',
+										'fazer',
+										'um',
+										'post',
+										'outras',
+										'pessoas',
+										'possam',
+										'te',
+										'encontrar',
+									]}
+									backgroundColor={theme.yellow1}
+								/>
+							)}
 						ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
 						ListFooterComponent={() => <FooterSigh />}
 					/>

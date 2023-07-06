@@ -1,8 +1,9 @@
-import { Animated, Keyboard, Platform, StatusBar } from 'react-native'
+import { Animated, Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { EditUserNameScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -22,7 +23,7 @@ function EditUserName({ navigation, route }: EditUserNameScreenProps) {
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 	const [invalidNameAfterSubmit, setInvaliNameAfterSubmit] = useState<boolean>(false)
 	const inputRefs = {
-		nameInput: useRef<React.MutableRefObject<any>>(null),
+		nameInput: useRef<TextInput>(null),
 	}
 
 	useEffect(() => {
@@ -66,13 +67,13 @@ function EditUserName({ navigation, route }: EditUserNameScreenProps) {
 
 		return headerBackgroundAnimatedValue.current.interpolate({
 			inputRange: [0, 1],
-			outputRange: [theme.green2, theme.red2],
+			outputRange: [theme.orange2, theme.red2],
 		})
 	}
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized
@@ -99,8 +100,8 @@ function EditUserName({ navigation, route }: EditUserNameScreenProps) {
 						textInputRef={inputRefs.nameInput}
 						defaultBackgroundColor={theme.white2}
 						defaultBorderBottomColor={theme.black4}
-						validBackgroundColor={theme.green1}
-						validBorderBottomColor={theme.green5}
+						validBackgroundColor={theme.orange1}
+						validBorderBottomColor={theme.orange5}
 						invalidBackgroundColor={theme.red1}
 						invalidBorderBottomColor={theme.red5}
 						maxLength={50}
@@ -117,13 +118,11 @@ function EditUserName({ navigation, route }: EditUserNameScreenProps) {
 						nameIsValid && !keyboardOpened
 						&& (
 							<PrimaryButton
-								color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
-								iconName={'arrow-right'}
-								iconColor={theme.white3}
+								flexDirection={'row'}
+								color={theme.green3}
 								label={'salvar'}
 								labelColor={theme.white3}
-								highlightedWords={['salvar']}
-								startsHidden={false}
+								SecondSvgIcon={CheckWhiteIcon}
 								onPress={saveUserName}
 							/>
 						)

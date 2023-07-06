@@ -1,4 +1,4 @@
-import { Keyboard, Platform, StatusBar } from 'react-native'
+import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles'
@@ -24,7 +24,7 @@ function EditUserDescription({ route, navigation }: EditUserDescriptionScreenPro
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	const inputRefs = {
-		profileDescriptionInput: useRef<React.MutableRefObject<any>>(null),
+		profileDescriptionInput: useRef<TextInput>(null),
 	}
 
 	useEffect(() => {
@@ -55,12 +55,12 @@ function EditUserDescription({ route, navigation }: EditUserDescriptionScreenPro
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(28)}
 				relativeHeight={'26%'}
 				centralized
-				backgroundColor={theme.purple2}
+				backgroundColor={theme.orange2}
 			>
 				{/* <BackButton onPress={() => navigation.goBack()} /> */}
 				<InstructionCard
@@ -82,8 +82,8 @@ function EditUserDescription({ route, navigation }: EditUserDescriptionScreenPro
 					textInputRef={inputRefs.profileDescriptionInput}
 					defaultBackgroundColor={theme.white2}
 					defaultBorderBottomColor={theme.black4}
-					validBackgroundColor={theme.purple1}
-					validBorderBottomColor={theme.purple5}
+					validBackgroundColor={theme.orange1}
+					validBorderBottomColor={theme.orange5}
 					multiline
 					lastInput
 					textAlign={'left'}
@@ -96,14 +96,14 @@ function EditUserDescription({ route, navigation }: EditUserDescriptionScreenPro
 				/>
 				<ButtonsContainer>
 					{
-						profileDescriptionIsValid && !keyboardOpened
+						!keyboardOpened
 						&& (
 							<PrimaryButton
 								flexDirection={'row'}
 								color={theme.green3}
 								label={'salvar'}
 								labelColor={theme.white3}
-								SvgIcon={CheckWhiteIcon}
+								SecondSvgIcon={CheckWhiteIcon}
 								onPress={saveUserDescription}
 							/>
 						)

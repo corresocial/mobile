@@ -33,7 +33,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const [catalogIcons, setCatalogIcons] = useState([])
 	const [searchText, setSearchText] = useState('')
 
-	const nearbyPosts = locationDataContext.nearbyPosts || []
+	const feedPosts = [...locationDataContext.feedPosts.nearby, ...locationDataContext.feedPosts.city, ...locationDataContext.feedPosts.country] || []
 
 	useEffect(() => {
 		setPostTypeOnSearchParams()
@@ -132,7 +132,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 		return Object.entries(ordenedCategories as CategoryEntries).map((category) => {
 			return (
 				<CategoryCard
-					hasElements={!!(nearbyPosts.filter((post) => (post.category === category[1].value && post.postType === locationDataContext.searchParams.postType))).length}
+					hasElements={!!(feedPosts.filter((post) => (post.category === category[1].value && post.postType === locationDataContext.searchParams.postType))).length}
 					inactiveColor={getInactiveCardColor()}
 					key={uuid()}
 					title={category[1].label}

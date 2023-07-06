@@ -16,6 +16,7 @@ import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
+import { VerticalSigh } from '../../VerticalSigh'
 
 interface PostCategoryProps {
 	backgroundColor: string
@@ -52,7 +53,7 @@ function PostCategory({ backgroundColor, progress, categories, savePostCategory,
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(24)}
+				relativeHeight={relativeScreenHeight(26)}
 				centralized
 				backgroundColor={theme.white3}
 			>
@@ -83,6 +84,7 @@ function PostCategory({ backgroundColor, progress, categories, savePostCategory,
 						onSelect={() => savePostCategory('others')}
 					/>
 				</SelectButtonsContainer>
+				<VerticalSigh height={relativeScreenHeight(4)} />
 			</ScrollView>
 		</Container>
 	)

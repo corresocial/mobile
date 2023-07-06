@@ -92,6 +92,27 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		const localUser = JSON.parse(localUserJSON as string)
 		setIsLoading(true)
 
+		if (localUser.profilePictureUrl && localUser.profilePictureUrl.length && localUser.profilePictureUrl[0] === profilePicture[0]) {
+			const currentUser = {
+				name: userData.userName,
+				profilePictureUrl: profilePicture,
+				tourPerformed: !!localUser.tourPerformed
+			}
+
+			await updateUser(userData.userIdentification.uid, currentUser)
+			await updateUserPrivateData(
+				{ cellNumber: userData.cellNumber },
+				userData.userIdentification.uid,
+				'contacts',
+			)
+
+			await setRemoteUserOnLocal(userData.userIdentification.uid)
+
+			setIsLoading(false)
+			navigateToNextScreen(localUser.tourPerformed)
+			return
+		}
+
 		await uploadImage(profilePicture[0], 'users')
 			.then(
 				({ uploadTask, blob }: any) => {

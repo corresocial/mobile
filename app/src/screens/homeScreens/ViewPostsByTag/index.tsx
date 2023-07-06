@@ -1,33 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { KeyboardAvoidingView, FlatList } from 'react-native'
+import React, { useContext, useState } from 'react'
+import { KeyboardAvoidingView } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
-import { Body, Container, Header, InputContainer, LastSigh, SearchInput, VerticalSigh } from './styles'
+import { Body, Container, ContainerPadding, Header, InputContainer, SearchInput } from './styles'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
 
-import { PostCollection } from '../../../services/firebase/types'
+import { PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
 import { ViewPostsByTagScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
+import { AuthContext } from '../../../contexts/AuthContext'
 import { LocationContext } from '../../../contexts/LocationContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { DefaultPostCard } from '../../../components/_cards/DefaultPostCard'
-import { AuthContext } from '../../../contexts/AuthContext'
+
+import { FlatListPosts } from '../../../components/FlatListPosts'
+import { VerticalSigh } from '../../../components/VerticalSigh'
 
 function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { locationDataContext } = useContext(LocationContext)
+	const { userDataContext } = useContext(AuthContext)
 
 	const [searchText, setSearchText] = useState('')
-	const [recentPosts, setRecentPosts] = useState<PostCollection[]>([])
-
-	useEffect(() => {
-		getRecentPosts()
-	}, [])
 
 	const {
 		backgroundColor,
@@ -35,14 +34,22 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 		categoryName,
 	} = locationDataContext.currentCategory
 
-	const getRecentPosts = async () => {
-		const filteredPosts = locationDataContext.nearbyPosts.filter((post) => post.category === categoryName && arrayContains(post.tags, route.params.currentTagSelected))
-		setRecentPosts(filteredPosts)
+	const filterPostsByCategory = () => {
+		return {
+			nearby: locationDataContext.feedPosts.nearby.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || [],
+			city: locationDataContext.feedPosts.city.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || [],
+			country: locationDataContext.feedPosts.country.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || []
+		}
 	}
 
-	const arrayContains = (array: string[], element: string) => {
-		return array.includes(element)
+	const filterPostsByRange = (post: PostCollectionRemote) => {
+		return post.category === categoryName
+			&& post.postType === locationDataContext.searchParams.postType
+			&& !!post.title.match(new RegExp(`${searchText}`, 'i'))?.length
+			&& !!post.tags.includes(route.params.currentTagSelected)
 	}
+
+	const filteredFeedPosts = filterPostsByCategory()
 
 	const goToPostView = (item: PostCollection) => {
 		switch (item.postType) {
@@ -88,6 +95,57 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle, })
 	}
 
+	const navigateToProfile = (userId: string) => {
+		if (userDataContext.userId === userId) {
+			navigation.navigate('Profile' as any)// TODO Type
+			return
+		}
+		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
+	}
+
+	const viewPostsByRange = (postRange: PostRange) => {
+		switch (postRange) {
+			case 'near': return navigation.navigate('ViewPostsByRange', {
+				postsByRange: filteredFeedPosts.nearby,
+				postRange,
+				postType: locationDataContext.searchParams.postType as PostType
+			})
+			case 'city': return navigation.navigate('ViewPostsByRange', {
+				postsByRange: filteredFeedPosts.city,
+				postRange,
+				postType: locationDataContext.searchParams.postType as PostType
+
+			})
+			case 'country': return navigation.navigate('ViewPostsByRange', {
+				postsByRange: filteredFeedPosts.country,
+				postRange,
+				postType: locationDataContext.searchParams.postType as PostType
+			})
+			default: return false
+		}
+	}
+
+	const getFirstFiveItems = (items: any[]) => {
+		if (!items) return []
+		if (items.length >= 5) return items.slice(0, 5)
+		return items
+	}
+
+	/* const hasAnyPost = () => {
+		return (filteredFeedPosts.nearby.length > 0 || filteredFeedPosts.city.length > 0 || filteredFeedPosts.country.length > 0)
+	} */
+
+	const renderPostItem = (item: PostCollection) => (
+		<ContainerPadding>
+			<PostCard
+				post={item}
+				owner={item.owner}
+				navigateToProfile={navigateToProfile}
+				onPress={() => goToPostView(item)}
+			/>
+		</ContainerPadding>
+	)
+
 	return (
 		<Container>
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -111,32 +169,92 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 			</Header>
 			<KeyboardAvoidingView style={{ flex: 1 }}>
 				<Body style={{ backgroundColor }}>
-					<SubtitleCard
-						text={'posts de recentes'}
-						highlightedText={['recentes']}
-						onPress={() => { }}
-					/>
 					{
-						!recentPosts.length
-							? <DefaultPostCard navigateToProfile={navigateToProfile} />
-							: (
-								<FlatList
-									data={recentPosts}
-									renderItem={({ item }) => (
-										<PostCard
-											post={item}
-											owner={item.owner}
-											onPress={() => goToPostView(item)}
-										/>
-									)}
-									showsVerticalScrollIndicator={false}
-									contentContainerStyle={{ padding: RFValue(10) }}
-									ItemSeparatorComponent={() => <VerticalSigh />}
-									ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
-									ListFooterComponent={<LastSigh />}
-								/>
+						(filteredFeedPosts.nearby && filteredFeedPosts.nearby.length)
+							? (
+								<>
+									<FlatListPosts
+										data={getFirstFiveItems(filteredFeedPosts.nearby)}
+										headerComponent={() => (
+											<>
+												<SubtitleCard
+													text={'perto de você'}
+													highlightedText={['perto']}
+													seeMoreText
+													onPress={() => viewPostsByRange('near')}
+												/>
+												<VerticalSigh />
+											</>
+										)}
+										renderItem={renderPostItem}
+									// flatListIsLoading={flatListIsLoading}
+									// onEndReached={refreshFlatlist}
+									/>
+								</>
 							)
+							: <></>
 					}
+					{
+						(filteredFeedPosts.city && filteredFeedPosts.city.length)
+							? (
+								<>
+									<FlatListPosts
+										data={getFirstFiveItems(filteredFeedPosts.city)}
+										headerComponent={() => (
+											<>
+												<SubtitleCard
+													text={'na cidade'}
+													highlightedText={['cidade']}
+													seeMoreText
+													onPress={() => viewPostsByRange('city')}
+												/>
+												<VerticalSigh />
+											</>
+										)}
+										renderItem={renderPostItem}
+									// flatListIsLoading={flatListIsLoading}
+									// onEndReached={refreshFlatlist}
+									/>
+								</>
+							)
+							: <></>
+					}
+					{
+						(filteredFeedPosts.country && filteredFeedPosts.country.length)
+							? (
+								<>
+									<FlatListPosts
+										data={getFirstFiveItems(filteredFeedPosts.country)}
+										headerComponent={() => (
+											<>
+												<SubtitleCard
+													text={'no país'}
+													highlightedText={['país']}
+													seeMoreText
+													onPress={() => viewPostsByRange('country')}
+												/>
+												<VerticalSigh />
+											</>
+										)}
+										renderItem={renderPostItem}
+									// flatListIsLoading={flatListIsLoading}
+									// onEndReached={refreshFlatlist}
+									/>
+								</>
+							)
+							: <></>
+					}
+					<VerticalSigh height={relativeScreenHeight(10)} />
+					{/* {
+						!hasAnyPost() && (
+							<WithoutPostsMessage
+								title={'opa!'}
+								message={
+									'parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'
+								}
+							/>
+						)
+					} */}
 				</Body>
 			</KeyboardAvoidingView>
 		</Container>

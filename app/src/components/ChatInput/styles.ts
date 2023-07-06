@@ -1,4 +1,3 @@
-import Constants from 'expo-constants'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { Platform } from 'react-native'
 import styled from 'styled-components/native'

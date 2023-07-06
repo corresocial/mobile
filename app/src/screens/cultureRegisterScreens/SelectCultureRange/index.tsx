@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
@@ -8,39 +8,54 @@ import { PostRange as PostRangeType } from '../../../services/firebase/types'
 
 import { EditContext } from '../../../contexts/EditContext'
 import { CultureContext } from '../../../contexts/CultureContext'
+import { StripeContext } from '../../../contexts/StripeContext'
+import { AuthContext } from '../../../contexts/AuthContext'
 
 import { PostRange } from '../../../components/_onboarding/PostRange'
+import { RangePresentationModal } from '../../../components/_modals/RangePresentationModal'
 
 function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps) {
-	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+	const { userDataContext } = useContext(AuthContext)
+	const { setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { stripeProductsPlans } = useContext(StripeContext)
+
+	const [rangePresentationModalIsVisible, setRangePresentationModalIsVisible] = useState(false)
+
+	useEffect(() => {
+		if (!editModeIsTrue()) setRangePresentationModalIsVisible(true)
+	}, [])
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const savePostRange = (postRange: PostRangeType) => {
-		const { eventPlaceModality } = cultureDataContext
+	const closeRangePresentationModal = () => setRangePresentationModalIsVisible(false)
 
+	const savePostRange = (postRange: PostRangeType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ range: postRange })
 			navigation.goBack()
+			return
 		}
 
 		setCultureDataOnContext({ range: postRange })
-		if (eventPlaceModality !== 'online') {
-			navigation.navigate('SelectCultureLocationView', {
-				editMode: editModeIsTrue(),
-				initialValue: route.params?.initialValue
-			})
-		} else {
-			navigation.navigate('InsertEntryValue')
-		}
+		navigation.navigate('SelectCultureLocationView', {
+			editMode: editModeIsTrue(),
+			initialValue: route.params?.initialValue
+		})
 	}
 
 	return (
 		<>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<RangePresentationModal
+				visibility={rangePresentationModalIsVisible}
+				onPressButton={closeRangePresentationModal}
+				closeModal={closeRangePresentationModal}
+			/>
 			<PostRange
 				backgroundColor={theme.blue2}
+				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
+				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
 				progress={[3, 4]}

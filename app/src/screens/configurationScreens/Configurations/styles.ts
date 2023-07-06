@@ -20,8 +20,3 @@ export const Body = styled.View`
 	padding-vertical:  ${relativeScreenWidth(4)}px;
 	padding-horizontal: ${relativeScreenWidth(7)}px;
 `
-
-export const Sigh = styled.View`
-	width: 100%;
-	height: ${relativeScreenWidth(3)}px;
-`

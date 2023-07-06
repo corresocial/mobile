@@ -12,19 +12,41 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { TitleDescriptionButton } from '../../../components/_cards/TitleDescriptionButton'
+import { StripeProducts } from '../../../services/stripe/types'
 
 interface PostRangeProps {
 	backgroundColor: string
+	plansAvailable: StripeProducts
+	userSubscriptionRange: PostRangeType
 	progress: [value: number, range: number]
 	savePostRange: (postRange: PostRangeType) => void
 	navigateBackwards: () => void
 }
 
-function PostRange({ backgroundColor, progress, savePostRange, navigateBackwards }: PostRangeProps) {
+function PostRange({ backgroundColor, plansAvailable, userSubscriptionRange, progress, savePostRange, navigateBackwards }: PostRangeProps) {
+	const getRelativeFooterValue = (range: PostRangeType) => {
+		switch (range) {
+			case 'near': {
+				if (userSubscriptionRange !== 'near') return 'included'
+				return 'free'
+			}
+			case 'city': {
+				if (userSubscriptionRange === 'country') return 'included'
+				if (userSubscriptionRange === 'city') return 'current'
+				return plansAvailable.cityMonthly.price || 'unavailable'
+			}
+			case 'country': {
+				if (userSubscriptionRange === 'country') return 'current'
+				return plansAvailable.countryMonthly.price || 'unavailable'
+			}
+			default: return ''
+		}
+	}
+
 	return (
 		<Container>
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(24)}
+				relativeHeight={relativeScreenHeight(26)}
 				centralized
 				backgroundColor={theme.white3}
 			>
@@ -51,7 +73,8 @@ function PostRange({ backgroundColor, progress, savePostRange, navigateBackwards
 						title={'região'}
 						description={'a pessoas encontram seus posts e perfil  no bairro'}
 						highlightedWords={['região']}
-						footerText={'near'}
+						footerValue={getRelativeFooterValue('near')}
+						checked={userSubscriptionRange === 'near'}
 						onPress={() => savePostRange('near')}
 					/>
 					<TitleDescriptionButton
@@ -60,8 +83,9 @@ function PostRange({ backgroundColor, progress, savePostRange, navigateBackwards
 						title={'cidade'}
 						description={'seus posts aparecem na cidade inteira, também pode postar em bairros!'}
 						highlightedWords={['cidade', 'também', 'pode', 'postar', 'em', 'bairros!']}
-						footerText={'city'}
-						onPress={() => savePostRange('city')}
+						footerValue={getRelativeFooterValue('city')}
+						checked={userSubscriptionRange === 'city'}
+						onPress={() => plansAvailable.cityMonthly.price && savePostRange('city')}
 					/>
 					<TitleDescriptionButton
 						height={'28%'}
@@ -69,8 +93,9 @@ function PostRange({ backgroundColor, progress, savePostRange, navigateBackwards
 						title={'brasil'}
 						description={'postagens aparecem em cidades vizinhas e no brasil inteiro.'}
 						highlightedWords={['brasil']}
-						footerText={'country'}
-						onPress={() => savePostRange('country')}
+						footerValue={getRelativeFooterValue('country')}
+						checked={userSubscriptionRange === 'country'}
+						onPress={() => plansAvailable.countryMonthly.price && savePostRange('country')}
 					/>
 				</ButtonsContainer>
 			</FormContainer>
