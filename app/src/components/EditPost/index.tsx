@@ -88,10 +88,33 @@ function EditPost({
 		return userPosts.filter((post: PostCollection) => post.postId !== initialPostData.postId) || []
 	}
 
-	const locationHasChanged = () => { // TODO Aprimorar função
-		if (Object.keys(editDataContext.unsaved).includes('location') || userContext.userDataContext.subscription?.subscriptionRange !== 'country') {
-			return true
+	const locationRangeChanged = () => { // TODO Aprimorar função
+		// Se near location foi editada && location.latitute ou latitude foi editada
+		// Se city location foi editada && location city unsaved ou initialData city foi editada
+
+		if (userDataContext.subscription?.subscriptionRange === 'near') {
+			return Object.keys(editDataContext.unsaved).includes('location')
+				&& editDataContext.unsaved
+				&& editDataContext.unsaved.location
+				&& editDataContext.unsaved.location.coordinates
+				&& initialPostData.location?.coordinates
+				&& (
+					editDataContext.unsaved.location.coordinates.latitude !== initialPostData.location?.coordinates.latitude
+					|| editDataContext.unsaved.location.coordinates.longitude !== initialPostData.location?.coordinates.longitude
+				)
 		}
+
+		if (userDataContext.subscription?.subscriptionRange === 'city') {
+			return Object.keys(editDataContext.unsaved).includes('location')
+				&& editDataContext.unsaved
+				&& editDataContext.unsaved.location
+				&& editDataContext.unsaved.location.coordinates
+				&& initialPostData.location?.coordinates
+				&& (
+					editDataContext.unsaved.location.city !== initialPostData.location?.city
+				)
+		}
+
 		return false
 	}
 
@@ -104,8 +127,7 @@ function EditPost({
 			setIsLoading(true)
 
 			let userPostsUpdated: any = [] // TODO Type
-			if (locationHasChanged()) {
-				console.log(`locationHasChanged: ${locationHasChanged()}`)
+			if (locationRangeChanged()) {
 				userPostsUpdated = await updateAllRangeAndLocation(
 					owner,
 					getUserPostsWithoutEdited(),
@@ -116,12 +138,14 @@ function EditPost({
 				)
 			}
 
+			userPostsUpdated = userPostsUpdated.length ? userPostsUpdated : getUserPostsWithoutEdited()
+
 			if ((editDataContext.unsaved.picturesUrl && editDataContext.unsaved.picturesUrl.length > 0) && !allPicturesAlreadyUploaded()) {
-				console.log('With pictures')
+				console.log('Fotos modificadas')
 				await performPicturesUpload(userPostsUpdated)
 				return
 			}
-			console.log('Without pictures')
+			console.log('Fotos não modificadas')
 
 			delete postDataToSave.owner
 
@@ -142,7 +166,7 @@ function EditPost({
 				'users',
 				userDataContext.userId as Id,
 				'posts',
-				[postDataToSave, ...getUserPostsWithoutEdited()]
+				[postDataToSave, ...userPostsUpdated]
 			)
 
 			updateUserContext(postDataToSave, userPostsUpdated)
@@ -169,8 +193,8 @@ function EditPost({
 
 		try {
 			let userPostsUpdated: any = [] // TODO Type
-			if (locationHasChanged()) {
-				console.log(`locationHasChanged: ${locationHasChanged()}`)
+			if (locationRangeChanged()) {
+				console.log(`localização ou range mudaram: ${locationRangeChanged()}`)
 				userPostsUpdated = await updateAllRangeAndLocation(
 					owner,
 					getUserPostsWithoutEdited(),

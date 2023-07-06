@@ -9,11 +9,13 @@ import { PostRange as PostRangeType } from '../../../services/firebase/types'
 import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
 import { StripeContext } from '../../../contexts/StripeContext'
+import { AuthContext } from '../../../contexts/AuthContext'
 
 import { PostRange } from '../../../components/_onboarding/PostRange'
 import { RangePresentationModal } from '../../../components/_modals/RangePresentationModal'
 
 function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps) {
+	const { userDataContext } = useContext(AuthContext)
 	const { setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
@@ -49,6 +51,7 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 			/>
 			<PostRange
 				backgroundColor={theme.purple2}
+				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}

@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { Alert } from 'react-native'
+import React, { useContext, useEffect } from 'react'
+import { Alert, BackHandler } from 'react-native'
 
 import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -36,6 +36,18 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 	const { subscriptionRange, subscriptionPlan, currentPost } = subscriptionDataContext
 
 	const { successfulPayment, postReview, editPaymentMethod } = route.params
+
+	useEffect(() => {
+		BackHandler.addEventListener('hardwareBackPress', onPressBackHandler)
+	})
+
+	const onPressBackHandler = () => {
+		if (navigation.isFocused()) {
+			backToInitialStackScreen()
+			return true
+		}
+		return false
+	}
 
 	const checkPaymentData = () => {
 		navigation.goBack()

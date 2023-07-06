@@ -9,11 +9,13 @@ import { PostRange as PostRangeType } from '../../../services/firebase/types'
 import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
 import { StripeContext } from '../../../contexts/StripeContext'
+import { AuthContext } from '../../../contexts/AuthContext'
 
 import { PostRange } from '../../../components/_onboarding/PostRange'
 import { RangePresentationModal } from '../../../components/_modals/RangePresentationModal'
 
 function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
+	const { userDataContext } = useContext(AuthContext)
 	const { setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
@@ -49,6 +51,7 @@ function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 			/>
 			<PostRange
 				backgroundColor={theme.green2}
+				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}

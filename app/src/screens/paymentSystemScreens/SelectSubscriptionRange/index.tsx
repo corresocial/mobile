@@ -48,8 +48,10 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				}
 
 				if (userDataContext.subscription?.subscriptionRange === 'country') {
-					toggleRangeChangeModalVisibility()
-					return
+					if (userHasAnyPost()) {
+						toggleRangeChangeModalVisibility()
+						return
+					}
 				}
 
 				navigation.navigate('SelectSubscriptionPlan', { postRange })
@@ -64,6 +66,10 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 			}
 			default: return false
 		}
+	}
+
+	const userHasAnyPost = () => {
+		return userDataContext.posts && userDataContext.posts.length
 	}
 
 	const postRangeHasSelected = (postRange: PostRange) => {

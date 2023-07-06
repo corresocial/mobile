@@ -180,7 +180,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 
 	const toggleDefaultConfirmationModalVisibility = () => {
 		setPostOptionsIsOpen(false)
-		setTimeout(() => setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible), 300)
+		setTimeout(() => setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible), 400)
 	}
 
 	return (
@@ -292,8 +292,8 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 							<ImageCarousel
 								picturesUrl={getPostField('picturesUrl') || []}
 								indicatorColor={theme.purple1}
+								square
 							/>
-							<VerticalSigh />
 						</>
 					)}
 					{

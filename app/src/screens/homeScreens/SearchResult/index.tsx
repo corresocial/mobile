@@ -21,7 +21,7 @@ import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { searchPosts } from '../../../services/algolia/searchPost'
-import { searchPostsCloud } from '../../../services/cloudFunctions/searchPostsCloud'
+// import { searchPostsCloud } from '../../../services/cloudFunctions/searchPostsCloud'
 import { FlatListPosts } from '../../../components/FlatListPosts'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
@@ -47,7 +47,6 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const [keyboardOpened, setKeyboardOpened] = useState(false)
 
 	const { searchByRange } = route.params
-	console.log(`searchByRange: ${searchByRange}`)
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -69,8 +68,8 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 		console.log(`SEARCH TEXT: ${algoliaSearchText}`)
 
 		setLoaderIsVisible(true)
-		// await searchPostsCloud(algoliaSearchText, searchParamsFromRoute, userDataContext.userId as Id)
 		await searchPosts(algoliaSearchText, searchParamsFromRoute, searchByRange)
+			// await searchPostsCloud(algoliaSearchText, searchParamsFromRoute, searchByRange || false, userDataContext.userId as Id)
 			.then((posts) => {
 				setResultPosts(posts as FeedPosts)
 				if (!searchText) setSearchText(route.params.searchParams.searchText)

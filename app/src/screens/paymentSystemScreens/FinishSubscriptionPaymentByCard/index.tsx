@@ -11,6 +11,7 @@ import DollarWhiteIcon from '../../../assets/icons/dollar.svg'
 import CardWhiteIcon from '../../../assets/icons/card-white.svg'
 
 import { getRangeSubscriptionPlanText } from '../../../utils/subscription/commonMessages'
+import { updateAllRangeAndLocation } from '../../../services/firebase/post/updateAllRangeAndLocation'
 
 import { FinishSubscriptionPaymentByCardScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -29,6 +30,7 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Loader } from '../../../components/Loader'
+import { PostCollection, PostCollectionRemote, UserSubscription } from '../../../services/firebase/types'
 
 type CustomCardDetails = {
 	brand: CardBrand
@@ -45,7 +47,7 @@ type RemoteCardDetails = {
 }
 
 function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscriptionPaymentByCardScreenProps) {
-	const { userDataContext } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
 	const { subscriptionDataContext, updateUserSubscription } = useContext(SubscriptionContext)
 	const {
 		getRangePlanPrice,
@@ -77,12 +79,12 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			const { customerId, subscriptionId, stopped } = await performSubscriptionRegister()
 
 			if (stopped) {
-				navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true, ...route.params })
+				navigateToResultScreen(true, route.params)
 				return
 			}
 
 			if (!customerId || !subscriptionId) {
-				navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false })
+				navigateToResultScreen(true, {})
 				throw new Error('customerId ou subscriptionId inválido')
 			}
 
@@ -95,14 +97,51 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			}
 
 			await updateUserSubscription(userSubscription)
-
+			await updateSubscriptionDependentPosts(userSubscription)
 			setIsLoading(false)
-			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: true, ...route.params })
+			navigateToResultScreen(true, route.params)
 		} catch (err: any) { // Check stripe erros
 			console.log(err)
 			setIsLoading(false)
-			navigation.navigate('SubscriptionPaymentResult', { successfulPayment: false, ...route.params })
+			navigateToResultScreen(false, route.params)
 		}
+	}
+
+	const updateSubscriptionDependentPosts = async (userSubscription: UserSubscription) => {
+		const lastUserPost: PostCollection = getLastUserPost()
+
+		const owner: PostCollection['owner'] = {
+			userId: userDataContext.userId,
+			name: userDataContext.name,
+			profilePictureUrl: userDataContext.profilePictureUrl
+		}
+
+		if (!lastUserPost) return
+		const userPostsUpdated = await updateAllRangeAndLocation(
+			owner as any, // TODO Type
+			userDataContext.posts || [],
+			{
+				range: 'near',
+				location: lastUserPost.location
+			},
+			true
+		)
+
+		updateUserContext(userSubscription, userPostsUpdated as any[]) // TODO Type
+	}
+
+	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostCollectionRemote[] | []) => {
+		setUserDataOnContext({ subscription: { ...userSubscription }, posts: updatedLocationPosts })
+	}
+
+	const getLastUserPost = () => {
+		const userPosts: PostCollection[] = userDataContext.posts || []
+		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
+		return lastUserPost
+	}
+
+	const navigateToResultScreen = (successfulPayment: boolean, routeParams: any) => {
+		navigation.navigate('SubscriptionPaymentResult', { successfulPayment, ...routeParams })
 	}
 
 	const performSubscriptionRegister = async () => {
@@ -155,7 +194,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 
 			let subscriptionsId = await getCustomerSubscriptions(customerId)
 			!subscriptionHasActive && subscriptionsId.forEach(async (subscriptionId: string) => cancelSubscription(subscriptionId))
-			console.log('Assinatura anterior cancelada...')
+			!subscriptionHasActive && console.log('Assinatura anterior cancelada...')
 			subscriptionsId = subscriptionHasActive ? subscriptionsId : []
 
 			if (subscriptionsId && subscriptionsId.length) {
@@ -213,7 +252,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			<FocusAwareStatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				backgroundColor={theme.orange2}
-				relativeHeight={relativeScreenHeight(16)}
+				relativeHeight={relativeScreenHeight(22)}
 				centralized
 			>
 				<BackButton onPress={() => navigation.goBack()} />
@@ -248,7 +287,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 						postalCodeEnabled={false} // Por que funciona???
 						onFormComplete={(cardData) => saveCardDetailsOnCompleteForm(cardData)}
 						cardStyle={{ fontFamily: 'Arvo_700Bold' }}
-						style={{ flex: 1, width: '100%', height: relativeScreenHeight(40) }}
+						style={{ flex: 1, width: '100%', height: relativeScreenHeight(34) }}
 					/>
 					{
 						isLoading

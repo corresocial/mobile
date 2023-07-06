@@ -40,7 +40,7 @@ function PaymentMethod({
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(24)}
+				relativeHeight={relativeScreenHeight(26)}
 				centralized
 				backgroundColor={theme.white3}
 			>

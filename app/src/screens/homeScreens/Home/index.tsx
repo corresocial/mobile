@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+/* eslint-disable no-unused-vars */
+import React, { MutableRefObject, useContext, useEffect, useRef, useState } from 'react'
 import * as Location from 'expo-location'
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
@@ -26,7 +27,7 @@ import {
 	AddressSearchResult,
 	SelectedAddressRender,
 } from '../../../services/maps/types'
-import { FeedPosts, PostCollection, PostRange, PostType } from '../../../services/firebase/types'
+import { FeedPosts, Id, PostCollection, PostRange, PostType } from '../../../services/firebase/types'
 import { HomeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 import { LocationContext } from '../../../contexts/LocationContext'
@@ -70,10 +71,10 @@ function Home({ navigation }: HomeScreenProps) {
 	const [searchEnded, setSearchEnded] = useState(false)
 	const [feedIsUpdating, setFeedIsUpdating] = useState(false)
 
-	const [expoPushToken, setExpoPushToken] = useState('')
-	const [notification, setNotification] = useState(false)
-	const notificationListener = useRef()
-	const responseListener = useRef()
+	const [expoPushTokenState, setExpoPushToken] = useState('') // TODO Refactor
+	const [notificationState, setNotification] = useState(false)
+	const notificationListener: MutableRefObject<any> = useRef()
+	const responseListener: MutableRefObject<any> = useRef()
 
 	useEffect(() => {
 		requestPermissions()
@@ -117,11 +118,11 @@ function Home({ navigation }: HomeScreenProps) {
 			}
 			if (finalStatus !== 'granted') {
 				console.log('não permitiu notificações')
-				await getAndUpdateUserToken(userDataContext.userId, null)
+				await getAndUpdateUserToken(userDataContext.userId as Id, null)
 				return
 			}
 			token = (await Notifications.getExpoPushTokenAsync()).data
-			await getAndUpdateUserToken(userDataContext.userId, token)
+			await getAndUpdateUserToken(userDataContext.userId as Id, token)
 		} else {
 			console.log('Must use physical device for Push Notifications')
 		}
@@ -138,10 +139,10 @@ function Home({ navigation }: HomeScreenProps) {
 	})
 
 	useEffect(() => {
-		registerForPushNotificationsAsync().then((token) => setExpoPushToken(token))
+		registerForPushNotificationsAsync().then((token) => setExpoPushToken(token || ''))
 
 		notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
-			setNotification(notification)
+			setNotification(!!notification)
 		})
 
 		responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {

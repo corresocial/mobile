@@ -42,8 +42,6 @@ function CultureProvider({ children }: CultureProviderProps) {
 		const lastUserPost: CultureCollectionRemote | any = userPosts[userPosts.length - 1] || {} // TODO Type
 		if (!Object.keys(lastUserPost).length) return
 
-		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
-
 		setCultureDataContext({
 			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',

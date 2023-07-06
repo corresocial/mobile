@@ -15,26 +15,29 @@ function ProfileVerifiedModal({
 	closeModal,
 }: ProfileVerifiedModalProps) {
 	const getTitle = () => {
-		if (label === 'leader') {
-			return 'líder social'
-		}
-		if (label === 'default') {
-			return 'perfil verificado'
-		}
-		if (label === 'impact') {
-			return 'perfil de impacto'
+		switch (label) {
+			case 'leader': return 'líder social'
+			case 'default': return 'perfil verificado'
+			case 'impact': return 'perfil de impacto'
+			default: return ''
 		}
 	}
 
 	const getParagraph = () => {
-		if (label === 'leader') {
-			return 'esse perfil pertence a um líder social do corre. nunca passe informações pessoais para ninguém!'
+		switch (label) {
+			case 'leader': return 'esse perfil pertence a um líder social do corre. nunca passe informações pessoais para ninguém!'
+			case 'default': return 'esse perfil foi verificado por nossa organização. ainda sim, nunca passe informações pessoais para ninguém!'
+			case 'impact': return 'esse perfil foi verificado por nossa organização e é um cidadão com maior necessidade de contratação, visibilidade e doações! nunca passe informações pessoais para ninguém!'
+			default: return ''
 		}
-		if (label === 'default') {
-			return 'essse perfil foi verificado por nossa organização. ainda sim, nunca passe informações pessoais para ninguém!'
-		}
-		if (label === 'impact') {
-			return 'esse perfil foi verificado por nossa organização e é um cidadão com maior necessidade de contratação, visibilidade e doações! nunca passe informações pessoais para ninguém!'
+	}
+
+	const getHighlightedWords = () => {
+		switch (label) {
+			case 'leader': return ['nunca', 'passe', 'informações', 'pessoais']
+			case 'default': return ['nunca', 'passe', 'informações', 'pessoais']
+			case 'impact': return ['nunca', 'passe', 'informações', 'pessoais']
+			default: return []
 		}
 	}
 
@@ -43,7 +46,8 @@ function ProfileVerifiedModal({
 			visibility={visibility}
 			title={getTitle()}
 			firstParagraph={{
-				text: getParagraph()
+				text: getParagraph(),
+				highlightedWords: getHighlightedWords()
 			}}
 			closeModal={closeModal}
 			affirmativeButton={{

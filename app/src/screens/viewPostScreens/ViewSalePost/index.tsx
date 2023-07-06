@@ -177,7 +177,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 
 	const toggleDefaultConfirmationModalVisibility = () => {
 		setPostOptionsIsOpen(false)
-		setTimeout(() => setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible), 300)
+		setTimeout(() => setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible), 400)
 	}
 
 	return (
@@ -291,8 +291,8 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 							<ImageCarousel
 								picturesUrl={getPostField('picturesUrl') || []}
 								indicatorColor={theme.green1}
+								square
 							/>
-							<VerticalSigh />
 						</>
 					)}
 					{

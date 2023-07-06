@@ -164,7 +164,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 
 	const toggleDefaultConfirmationModalVisibility = () => {
 		setPostOptionsIsOpen(false)
-		setTimeout(() => setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible), 300)
+		setTimeout(() => setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible), 400)
 	}
 
 	return (
@@ -260,8 +260,8 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 							<ImageCarousel
 								picturesUrl={getPostField('picturesUrl') || []}
 								indicatorColor={theme.yellow1}
+								square
 							/>
-							<VerticalSigh />
 						</>
 					)}
 					<PlaceModality

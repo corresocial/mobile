@@ -158,7 +158,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 
 	const toggleDefaultConfirmationModalVisibility = () => {
 		setPostOptionsIsOpen(false)
-		setTimeout(() => setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible), 300)
+		setTimeout(() => setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible), 400)
 	}
 
 	return (
@@ -256,8 +256,8 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 								<ImageCarousel
 									picturesUrl={getPostField('picturesUrl') || []}
 									indicatorColor={theme.pink1}
+									square
 								/>
-								<VerticalSigh />
 							</>
 						)
 					}

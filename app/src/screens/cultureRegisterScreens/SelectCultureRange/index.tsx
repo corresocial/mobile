@@ -9,11 +9,13 @@ import { PostRange as PostRangeType } from '../../../services/firebase/types'
 import { EditContext } from '../../../contexts/EditContext'
 import { CultureContext } from '../../../contexts/CultureContext'
 import { StripeContext } from '../../../contexts/StripeContext'
+import { AuthContext } from '../../../contexts/AuthContext'
 
 import { PostRange } from '../../../components/_onboarding/PostRange'
 import { RangePresentationModal } from '../../../components/_modals/RangePresentationModal'
 
 function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps) {
+	const { userDataContext } = useContext(AuthContext)
 	const { setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
@@ -52,6 +54,7 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 			/>
 			<PostRange
 				backgroundColor={theme.blue2}
+				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}

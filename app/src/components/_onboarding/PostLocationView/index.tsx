@@ -28,7 +28,7 @@ function PostLocationView({ backgroundColor, progress, saveLocationViewType, nav
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(26)}
+				relativeHeight={relativeScreenHeight(28)}
 				centralized
 				backgroundColor={theme.white3}
 			>

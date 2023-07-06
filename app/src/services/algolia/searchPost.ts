@@ -39,10 +39,10 @@ async function searchPosts(searchText: string, searchParams: SearchParams, searc
 			country: []
 		} */
 
-		console.log(searchByRange)
+		/* console.log(searchByRange)
 		console.log(searchParams.range)
 		console.log(searchParams.city)
-		console.log(`${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`)
+		console.log(`${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`) */
 
 		const results = await Promise.all(
 			searchByRange

@@ -42,8 +42,6 @@ function SaleProvider({ children }: SaleProviderProps) {
 		const lastUserPost: SaleCollectionRemote | any = userPosts[userPosts.length - 1] || {} // TODO Type
 		if (!Object.keys(lastUserPost).length) return
 
-		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
-
 		setSaleDataContext({
 			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',

@@ -135,7 +135,7 @@ const postsIndex = client.initIndex('postsIndex')
 
 exports.searchPostsByAlgolia = functions.https.onRequest(async (req, res) => {
 	try {
-		const { searchText, searchParams, userId } = req.body
+		const { searchText, searchParams, searchByRange, userId } = req.body
 
 		const searchFilters = {
 			cityFilter: '',
@@ -147,10 +147,13 @@ exports.searchPostsByAlgolia = functions.https.onRequest(async (req, res) => {
 			tagFilter: '',
 		}
 
-		const searchOnly = false
-
-		if (!searchOnly) {
-			const geohashField = searchParams.range === 'nearby' ? 'geohashNearby' : 'geohashCity'
+		if (searchByRange) {
+			const geohashField = 'geohashNearby'
+			searchFilters.geohashFilter = searchParams.range === 'near' ? getGeohashFilter(searchParams.geohashes, geohashField) : ''
+			searchFilters.cityFilter = searchParams.range === 'city' ? getRangeFilter('city', searchParams.city, searchParams.country) : ''
+			searchFilters.countryFilter = searchParams.range === 'country' ? getRangeFilter('country', searchParams.country, searchParams.country) : ''
+		} else {
+			const geohashField = 'geohashNearby'
 			searchFilters.postTypeFilter = getPostTypeFilter(searchParams.postType)
 			searchFilters.geohashFilter = getGeohashFilter(searchParams.geohashes, geohashField)
 			searchFilters.geohashExceptionFilter = getGeohashFilter(searchParams.geohashes, geohashField, true)
@@ -160,44 +163,72 @@ exports.searchPostsByAlgolia = functions.https.onRequest(async (req, res) => {
 			searchFilters.tagFilter = getTagFilter(searchParams.tag)
 		}
 
-		const results = await Promise.all([
-			await postsIndex.search(searchText, { // Near
-				filters: searchOnly
-					? ''
-					: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
-			}),
-			await postsIndex.search(searchText, { // City
-				filters: searchOnly
-					? ''
-					: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND ${searchFilters.cityFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
-			}),
-			await postsIndex.search(searchText, { // Country
-				filters: searchOnly
-					? ''
-					: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
-			})
-		])
+		const results = await Promise.all(
+			searchByRange
+				? [
+					searchParams.range === 'near' && await postsIndex.search(searchText, { // Near
+						filters: searchFilters.geohashFilter
+					}),
+					searchParams.range === 'city' && await postsIndex.search(searchText, { // City
+						filters: searchFilters.cityFilter
+					}),
+					searchParams.range === 'country' && await postsIndex.search(searchText, { // Country
+						filters: searchFilters.countryFilter
+					})
+				]
+				: [
+					await postsIndex.search(searchText, { // Near
+						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+					}),
+					await postsIndex.search(searchText, { // City
+						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND ${searchFilters.cityFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+					}),
+					await postsIndex.search(searchText, { // Country
+						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+					})
+				]
+		)
 			.then((responses) => responses.reduce((acc, result) => {
-				if (result.hits.length > 0) {
+				if (result && result.hits && result.hits.length > 0) {
 					const structuredPosts = result.hits.map((record, index) => {
 						const postData = structurePostObject(record)
 						return postData
 					})
-
 					return [...acc, ...structuredPosts]
 				}
 				return acc
 			}, []),)
 
 		const postsWithLocationFilter = filterLocation(results, userId)
+		const postsByRange = spreadPostsByRange(postsWithLocationFilter)
 
-		return res.status(200).send(postsWithLocationFilter)
+		return res.status(200).send(postsByRange)
 	} catch (err) {
 		console.log(err)
 		console.log('Erro ao buscar posts no algolia, file:searchPosts')
 		return res.status(500).send(err)
 	}
 })
+
+const spreadPostsByRange = (posts) => {
+	const result = {
+		nearby: [],
+		city: [],
+		country: []
+	}
+
+	posts.forEach((post) => {
+		if (post.range === 'near') {
+			result.nearby.push(post)
+		} else if (post.range === 'city') {
+			result.city.push(post)
+		} else if (post.range === 'country') {
+			result.country.push(post)
+		}
+	})
+
+	return result
+}
 
 const getPostTypeFilter = (postType) => {
 	return `postType:${postType}`

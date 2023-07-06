@@ -41,8 +41,6 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 		const lastUserPost: SocialImpactCollectionRemote | any = userPosts[userPosts.length - 1] || {} // TODO Type
 		if (!Object.keys(lastUserPost).length) return
 
-		console.log(`Dados extraidos do post: ${lastUserPost.title}`)
-
 		setSocialImpactDataContext({
 			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',
