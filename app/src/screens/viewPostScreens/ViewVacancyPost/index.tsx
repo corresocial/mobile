@@ -260,8 +260,8 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 							<ImageCarousel
 								picturesUrl={getPostField('picturesUrl') || []}
 								indicatorColor={theme.yellow1}
+								square
 							/>
-							<VerticalSigh />
 						</>
 					)}
 					<PlaceModality

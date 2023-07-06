@@ -256,8 +256,8 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 								<ImageCarousel
 									picturesUrl={getPostField('picturesUrl') || []}
 									indicatorColor={theme.pink1}
+									square
 								/>
-								<VerticalSigh />
 							</>
 						)
 					}

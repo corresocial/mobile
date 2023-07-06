@@ -6,7 +6,7 @@ export const CarouselIndicatorContainer = styled.View`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    bottom: ${RFValue(15)}px;
+    bottom: 10%;
     width: 100%;
 `
 
