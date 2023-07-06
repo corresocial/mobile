@@ -16,6 +16,7 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { AuthContext } from '../../../contexts/AuthContext'
+
 import { FlatListPosts } from '../../../components/FlatListPosts'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
