@@ -71,10 +71,6 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 		// await searchPosts(algoliaSearchText, searchParamsFromRoute, searchByRange)
 		await searchPostsCloud(algoliaSearchText, searchParamsFromRoute, searchByRange || false, userDataContext.userId as Id)
 			.then((posts) => {
-				console.log(Object.keys(posts))
-				console.log(Object.keys(posts.nearby))
-				console.log(Object.keys(posts.city))
-				console.log(Object.keys(posts.country))
 				setResultPosts(posts as FeedPosts)
 				if (!searchText) setSearchText(route.params.searchParams.searchText)
 				setLoaderIsVisible(false)
