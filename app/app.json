@@ -38,7 +38,7 @@
 					"android": {
 						"compileSdkVersion": 33,
 						"targetSdkVersion": 33,
-						"buildToolsVersion": "33.0.0"
+						"buildToolsVersion": "31.0.0"
 					}
 				}
 			],
@@ -118,8 +118,10 @@
 			"permissions": [
 				"android.permission.LOCATION",
 				"android.permission.ACCESS_FINE_LOCATION",
-				"android.permission.READ_EXTERNAL_STORAGE",
+				"android.permission.READ_MEDIA_IMAGES",
+				"android.permission.READ_MEDIA_VIDEO",
 				"android.permission.WRITE_EXTERNAL_STORAGE",
+				"android.permission.READ_EXTERNAL_STORAGE",
 				"android.permission.USE_FINGERPRINT",
 				"android.permission.FOREGROUND_SERVICE",
 				"android.permission.CAMERA"
