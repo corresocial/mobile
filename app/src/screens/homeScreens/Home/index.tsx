@@ -17,8 +17,8 @@ import { generateGeohashes } from '../../../common/generateGeohashes'
 import { searchAddressByText } from '../../../services/maps/searchAddressByText'
 import { structureAddress } from '../../../utils/maps/addressFormatter'
 import { getLastRecentAddress, getRecentAdressesFromStorage } from '../../../utils/maps/recentAddresses'
-// import { getPostsByLocationCloud } from '../../../services/cloudFunctions/getPostsByLocationCloud'
-import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
+import { getPostsByLocationCloud } from '../../../services/cloudFunctions/getPostsByLocationCloud'
+// import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
 import { getCurrentLocation } from '../../../utils/maps/getCurrentLocation'
 
 import {
@@ -188,11 +188,11 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong)
 			}
 
-			/* const remoteFeedPosts = await getPostsByLocationCloud(
-					searchParams, // Update return of cloud function
-					userDataContext.userId as Id
-				) */
-			const remoteFeedPosts = await getPostsByLocation(searchParams)
+			const remoteFeedPosts = await getPostsByLocationCloud(
+				searchParams, // Update return of cloud function
+				userDataContext.userId as Id
+			)
+			// const remoteFeedPosts = await getPostsByLocation(searchParams)
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
 			refresh ? setFeedIsUpdating(false) : setLoaderIsVisible(false)
