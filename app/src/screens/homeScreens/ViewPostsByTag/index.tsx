@@ -24,7 +24,6 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { locationDataContext } = useContext(LocationContext)
-	const { userDataContext } = useContext(AuthContext)
 
 	const [searchText, setSearchText] = useState('')
 
@@ -93,14 +92,6 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 			tag: route.params.currentTagSelected
 		}
 		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle, })
-	}
-
-	const navigateToProfile = (userId: string) => {
-		if (userDataContext.userId === userId) {
-			navigation.navigate('Profile' as any)// TODO Type
-			return
-		}
-		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
 	}
 
 	const viewPostsByRange = (postRange: PostRange) => {

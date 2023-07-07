@@ -30,6 +30,19 @@
 		},
 		"plugins": [
 			[
+				"expo-build-properties",
+				{
+					"ios": {
+						"useFrameworks": "static"
+					},
+					"android": {
+						"compileSdkVersion": 33,
+						"targetSdkVersion": 33,
+						"buildToolsVersion": "33.0.0"
+					}
+				}
+			],
+			[
 				"expo-media-library",
 				{
 					"photosPermission": "Allow corre to access your photos.",
