@@ -64,14 +64,6 @@
 				}
 			],
 			[
-				"expo-build-properties",
-				{
-					"ios": {
-						"useFrameworks": "static"
-					}
-				}
-			],
-			[
 				"expo-notifications",
 				{
 					"icon": "./assets/notification-icon.png",
@@ -101,7 +93,7 @@
 				"NSCameraUsageDescription": "Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.",
 				"NSLocationWhenInUseUsageDescription": "Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.",
 				"NSPhotoLibraryUsageDescription": "Você precisa permitir o acesso a galeria para escolher fotos de perfil e posts.",
-				"NSFaceIDUsageDescription": "Usamos o bloquei do app com TouchID ou FaceID para garantir a segurança da sua conta.",
+				"NSFaceIDUsageDescription": "Usamos o bloquei do app com TouchID ou FaceID para garantir a segurança da sua conta."
 			},
 			"supportsTablet": true,
 			"bundleIdentifier": "corre",
