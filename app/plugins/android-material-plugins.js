@@ -11,7 +11,7 @@ module.exports = function androidStyles(config) {
 					...s,
 					$: {
 						name: 'AppTheme',
-						parent: 'Theme.MaterialComponents.DayNight.NoActionBar',
+						parent: 'Theme.MaterialComponents.Light.NoActionBar',
 					},
 				}
 			}
