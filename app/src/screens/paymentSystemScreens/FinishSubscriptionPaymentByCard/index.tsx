@@ -292,7 +292,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 						}}
 						// postalCodeEnabled={false} // Por que funciona???
 						onFormComplete={(cardData) => saveCardDetailsOnCompleteForm(cardData)}
-						cardStyle={{ fontFamily: 'Arvo_700Bold' }}
+						cardStyle={{ fontFamily: 'Arvo_700Bold', textColor: theme.black4, placeholderColor: theme.black1 }}
 						style={{ flex: 1, width: '100%', height: relativeScreenHeight(34) }}
 					/>
 					{

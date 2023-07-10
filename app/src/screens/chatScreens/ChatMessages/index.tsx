@@ -148,7 +148,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const scrollToEnd = () => {
-		flatListRef.current?.scrollToEnd({ animated: true })
+		!!(messages && messages.length) && flatListRef.current?.scrollToEnd({ animated: true })
 	}
 
 	const existsOnDatabase = async (chatId: Id) => {
