@@ -71,6 +71,7 @@
 				}
 			],
 			"./plugins/react-native-maps-plugin.js",
+			"./plugins/android-material-plugins.js",
 			"sentry-expo",
 			[
 				"@stripe/stripe-react-native",
