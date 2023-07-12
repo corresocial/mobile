@@ -7,6 +7,16 @@ export type AddressSearchResult = {
 	recent?: boolean
 }
 
+export type GeocodeAddress = {
+	city?: string;
+	country?: string;
+	street?: string;
+	number?: string;
+	state?: string;
+	district?: string;
+	postalCode?: string;
+}
+
 export type LatLong = {
 	lat: number,
 	lon: number
