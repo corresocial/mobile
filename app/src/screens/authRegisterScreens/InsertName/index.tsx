@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
@@ -162,10 +163,10 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 						&& (
 							<PrimaryButton
 								color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
-								iconName={'arrow-right'}
-								iconColor={theme.white3}
-								label={'continuar'}
+								flexDirection={'row-reverse'}
+								SvgIcon={CheckWhiteIcon}
 								labelColor={theme.white3}
+								label={'continuar'}
 								highlightedWords={['continuar']}
 								startsHidden={false}
 								onPress={sendUserDataToNextScreen}

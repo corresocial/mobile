@@ -12,6 +12,7 @@ import {
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import Logo from '../../../assets/icons/logo.svg'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { AcceptAndContinueScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
@@ -100,9 +101,10 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
 					{'do corre.social'}
 				</TermsLabel>
 				<PrimaryButton
+					flexDirection={'row-reverse'}
 					label={'aceitar e continuar'}
+					SvgIcon={CheckWhiteIcon}
 					labelColor={theme.black4}
-					iconName={'arrow-right'}
 					color={theme.orange3}
 					highlightedWords={['continuar']}
 					onPress={navigateToInsertPhoneScreen}
