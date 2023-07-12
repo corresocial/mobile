@@ -278,7 +278,7 @@ function Home({ navigation }: HomeScreenProps) {
 		return {
 			range: 'nearby',
 			city: structuredAddress.city,
-			country: structuredAddress.country,
+			country: structuredAddress.country.toLowerCase() === 'brazil' ? 'Brasil' : 'Brasil',
 			postType: 'service',
 			coordinates,
 			geohashes: geohashObject.geohashNearby,
