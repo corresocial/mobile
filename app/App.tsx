@@ -45,18 +45,18 @@ function App() {
 	}
 
 	return (
-		<ErrorBoundary
-			FallbackComponent={ErrorBoundaryFallback}
-			onError={errorHandler}
-		>
-			<NavigationContainer>
-				<ThemeProvider theme={theme}>
-					<LoaderProvider>
-						<AuthRegisterStack />
-					</LoaderProvider>
-				</ThemeProvider>
-			</NavigationContainer>
-		</ErrorBoundary>
+		// <ErrorBoundary
+		// 	FallbackComponent={ErrorBoundaryFallback}
+		// 	onError={errorHandler}
+		// >
+		<NavigationContainer>
+			<ThemeProvider theme={theme}>
+				<LoaderProvider>
+					<AuthRegisterStack />
+				</LoaderProvider>
+			</ThemeProvider>
+		</NavigationContainer>
+		// </ErrorBoundary>
 	)
 }
 

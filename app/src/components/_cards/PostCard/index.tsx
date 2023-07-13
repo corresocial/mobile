@@ -102,7 +102,7 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 				<LeftSideLabel style={{ backgroundColor: defineLabelColor() }} />
 				<LeftArea style={{ width: !arrayIsEmpty(post.picturesUrl) ? '61.5%' : '97.5%' }}>
 					<LeftAreaLimits>
-						<Title numberOfLines={(post.description && post.saleValue) || post.itemDescription ? 2 : 2}>
+						<Title numberOfLines={(post.description && post.saleValue) || post.description ? 2 : 2}>
 							{post.title}
 						</Title>
 						<SmallUserIdentification
@@ -112,10 +112,10 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 							navigateToProfile={() => navigateToProfile && navigateToProfile(owner.userId)}
 						/>
 						{
-							(post.description || post.itemDescription)
+							(post.description || '')
 							&& (
 								<LeftLineCard
-									text={post.description || post.itemDescription}
+									text={post.description}
 									fontSize={12}
 									height={'25%'}
 									numberOfLines={2}

@@ -37,12 +37,12 @@ function InsertItemDescription({ route, navigation }: InsertItemDescriptionScree
 
 	const saveItemDescription = (description: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ itemDescription: description })
+			addNewUnsavedFieldToEditContext({ description })
 			navigation.goBack()
 			return
 		}
 
-		setSaleDataOnContext({ itemDescription: description })
+		setSaleDataOnContext({ description })
 		navigation.navigate('InsertSalePicture')
 	}
 

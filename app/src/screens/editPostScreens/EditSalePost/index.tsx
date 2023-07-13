@@ -198,8 +198,8 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 				/>
 				<VerticalSigh />
 				<DescriptionCard
-					text={getPostField('itemDescription')}
-					onEdit={() => navigateToEditScreen('InsertItemDescription', 'itemDescription')}
+					text={getPostField('description')}
+					onEdit={() => navigateToEditScreen('InsertItemDescription', 'description')}
 				/>
 				<VerticalSigh />
 				<EditCard
