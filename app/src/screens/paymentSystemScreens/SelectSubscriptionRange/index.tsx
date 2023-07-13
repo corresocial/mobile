@@ -23,7 +23,7 @@ import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeC
 import { getRangeText } from '../../../utils/subscription/commonMessages'
 
 function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenProps) {
-	const { userDataContext } = useContext(AuthContext)
+	const { userDataContext, getLastUserPost } = useContext(AuthContext)
 	const { stripeProductsPlans, subscriptionHasActive } = useContext(StripeContext)
 
 	const [currentSubscriptionRange, setCurrentSubscriptionRange] = useState<PostRange>(userDataContext.subscription?.subscriptionRange || 'near')
@@ -77,12 +77,6 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 	}
 	const toggleRangeChangeModalVisibility = () => {
 		setRangeChangeModalIsVisible(!rangeChangeModalIsVisible)
-	}
-
-	const getLastUserPost = () => {
-		const userPosts: PostCollection[] = userDataContext.posts || []
-		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
-		return lastUserPost
 	}
 
 	const getLastPostAddress = () => {

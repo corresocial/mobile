@@ -17,7 +17,7 @@ import { SelectPostLocation } from '../../../components/_onboarding/SelectPostLo
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 
 function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationScreenProps) {
-	const { userDataContext } = useContext(AuthContext)
+	const { userDataContext, getLastUserPost } = useContext(AuthContext)
 	const { setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
@@ -35,12 +35,6 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 	const currentLocationIsInAnotherCity = (city: string) => {
 		if (!city) return false
 		return city !== getLastPostCity()
-	}
-
-	const getLastUserPost = () => {
-		const userPosts: PostCollection[] = userDataContext.posts || []
-		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
-		return lastUserPost
 	}
 
 	const getLastPostCity = () => {

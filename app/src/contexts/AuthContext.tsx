@@ -6,7 +6,7 @@ import { PhoneAuthProvider, signInWithCredential, UserCredential } from 'firebas
 import { auth } from '../services/firebase'
 import { getUser } from '../services/firebase/user/getUser'
 
-import { UserCollection } from '../services/firebase/types'
+import { PostCollection, UserCollection } from '../services/firebase/types'
 
 const phoneAuth = new PhoneAuthProvider(auth)
 
@@ -18,6 +18,7 @@ type AuthContextType = {
 	setDataOnSecureStore: (key: string, data: any) => Promise<boolean>
 	deleteLocaluser: () => Promise<void>
 	setRemoteUserOnLocal: (uid?: string) => Promise<boolean | undefined>
+	getLastUserPost: () => PostCollection | {}
 	sendSMS: (completeNumber: string, recaptchaVerifier: any) => Promise<string>
 	validateVerificationCode: (verificationCodeId: string, verificationCode: string) => Promise<UserCredential>
 }
@@ -149,6 +150,16 @@ function AuthProvider({ children }: AuthProviderProps) {
 		})
 	}
 
+	const getLastUserPost = () => {
+		try {
+			const { posts: userPosts }: PostCollection[] | any = userDataContext
+			const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
+			return lastUserPost
+		} catch (err) {
+			return []
+		}
+	}
+
 	/* const authDataProvider = React.useMemo(() => ({
 		userDataContext,
 		setUserDataOnContext,
@@ -171,6 +182,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 				setDataOnSecureStore,
 				deleteLocaluser,
 				setRemoteUserOnLocal,
+				getLastUserPost,
 				sendSMS,
 				validateVerificationCode
 			}}

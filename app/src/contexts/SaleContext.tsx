@@ -26,7 +26,7 @@ const initialValue = {
 const SaleContext = createContext<SaleContextType>(initialValue)
 
 function SaleProvider({ children }: SaleProviderProps) {
-	const { userDataContext } = useContext(AuthContext)
+	const { userDataContext, getLastUserPost } = useContext(AuthContext)
 
 	const [isSecondPost, setIsSecondPost] = useState(false)
 	const [saleDataContext, setSaleDataContext] = useState(initialValue.saleDataContext)
@@ -39,7 +39,7 @@ function SaleProvider({ children }: SaleProviderProps) {
 		const userPosts = userDataContext.posts || []
 		if (!userPosts || (userPosts && !userPosts.length)) return
 
-		const lastUserPost: SaleCollectionRemote | any = userPosts[userPosts.length - 1] || {} // TODO Type
+		const lastUserPost: SaleCollectionRemote | any = getLastUserPost() || {} // TODO Type
 		if (!Object.keys(lastUserPost).length) return
 
 		setSaleDataContext({

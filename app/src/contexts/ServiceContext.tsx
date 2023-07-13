@@ -26,7 +26,7 @@ const initialValue = {
 const ServiceContext = createContext<ServiceContextType>(initialValue)
 
 function ServiceProvider({ children }: ServiceProviderProps) {
-	const { userDataContext } = useContext(AuthContext)
+	const { userDataContext, getLastUserPost } = useContext(AuthContext)
 
 	const [isSecondPost, setIsSecondPost] = useState(false)
 	const [serviceDataContext, setServiceDataContext] = useState(initialValue.serviceDataContext)
@@ -36,10 +36,7 @@ function ServiceProvider({ children }: ServiceProviderProps) {
 	}
 
 	const getAditionalDataFromLastPost = () => {
-		const userPosts = userDataContext.posts || []
-		if (!userPosts || (userPosts && !userPosts.length)) return
-
-		const lastUserPost: ServiceCollectionRemote | any = userPosts[userPosts.length - 1] || {} // TODO Type
+		const lastUserPost: ServiceCollectionRemote | any = getLastUserPost() || {} // TODO Type
 		if (!Object.keys(lastUserPost).length) return
 
 		setServiceDataContext({
