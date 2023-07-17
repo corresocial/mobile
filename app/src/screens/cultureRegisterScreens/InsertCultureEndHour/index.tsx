@@ -84,7 +84,7 @@ function InsertCultureEndHour({ route, navigation }: InsertCultureEndHourScreenP
 				customHighlight={['que', 'horas', 'termina']}
 				editMode={editModeIsTrue()}
 				startDate={editDataContext.unsaved.startDate || cultureDataContext.startDate}
-				endDate={editDataContext.unsaved.startDate || cultureDataContext.startDate}
+				endDate={editDataContext.unsaved.endDate || cultureDataContext.endDate}
 				startTime={editDataContext.unsaved.startHour || cultureDataContext.startHour}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[4, 4]}

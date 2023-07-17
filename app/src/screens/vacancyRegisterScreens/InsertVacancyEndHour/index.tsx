@@ -64,7 +64,7 @@ function InsertVacancyEndHour({ route, navigation }: InsertVacancyEndHourScreenP
 				customHighlight={['que', 'horas', 'termina']}
 				editMode={editModeIsTrue()}
 				startDate={editDataContext.unsaved.startDate || vacancyDataContext.startDate}
-				endDate={editDataContext.unsaved.startDate || vacancyDataContext.startDate}
+				endDate={editDataContext.unsaved.endDate || vacancyDataContext.endDate}
 				startTime={editDataContext.unsaved.startHour || vacancyDataContext.startHour}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[5, 5]}
