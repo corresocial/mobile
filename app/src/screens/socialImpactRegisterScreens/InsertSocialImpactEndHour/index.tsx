@@ -84,7 +84,7 @@ function InsertSocialImpactEndHour({ route, navigation }: InsertSocialImpactEndH
 				customHighlight={['que', 'horas', 'termina']}
 				editMode={editModeIsTrue()}
 				startDate={editDataContext.unsaved.startDate || socialImpactDataContext.startDate}
-				endDate={editDataContext.unsaved.startDate || socialImpactDataContext.startDate}
+				endDate={editDataContext.unsaved.endDate || socialImpactDataContext.endDate}
 				startTime={editDataContext.unsaved.startHour || socialImpactDataContext.startHour}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[4, 4]}

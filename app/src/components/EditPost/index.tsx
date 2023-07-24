@@ -277,16 +277,15 @@ function EditPost({
 			postType: postData.postType,
 			createdAt: new Date()
 		}
-
 		await updateDocField(
 			'users',
 			localUser.userId as string,
 			'posts',
-			postDataToSave,
-			true,
+			userDataContext.posts ? postDataToSave : [postDataToSave],
+			!!userDataContext.posts,
 		)
 			.then(() => {
-				const localUserPosts = postsUpdated || localUser.posts ? [...localUser.posts as any] as PostCollectionRemote[] : [] // TODO Type
+				const localUserPosts = localUser.posts ? [...localUser.posts as any] as PostCollectionRemote[] : [] // TODO Type
 				userContext.setUserDataOnContext({
 					...localUser,
 					tourPerformed: true,
@@ -295,7 +294,6 @@ function EditPost({
 						{ ...postDataToSave, owner } as PostCollectionRemote
 					],
 				})
-
 				userContext.setDataOnSecureStore('corre.user', {
 					...localUser,
 					tourPerformed: true,

@@ -165,7 +165,7 @@ function LineInput({
 			}}
 			activeOpacity={onIconPress ? 0.8 : 0}
 			underlayColor={onIconPress ? 'transparent ' : validated ? validBackgroundColor : defaultBackgroundColor}
-			onPress={() => textInputRef.current.focus()}
+			onPress={() => textInputRef && textInputRef.current.focus()}
 		>
 			<View
 				style={onIconPress && {

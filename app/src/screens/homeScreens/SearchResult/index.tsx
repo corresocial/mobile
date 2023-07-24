@@ -8,7 +8,7 @@ import LoupIcon from '../../../assets/icons/loup.svg'
 import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
 import PaperListIcon from '../../../assets/icons/paperList.svg'
 
-import { FeedPosts, PostCollection, PostRange, PostType } from '../../../services/firebase/types'
+import { FeedPosts, Id, PostCollection, PostRange, PostType } from '../../../services/firebase/types'
 import { SearchResultScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 import { LocationContext } from '../../../contexts/LocationContext'
@@ -20,8 +20,8 @@ import { PostCard } from '../../../components/_cards/PostCard'
 import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { searchPosts } from '../../../services/algolia/searchPost'
-// import { searchPostsCloud } from '../../../services/cloudFunctions/searchPostsCloud'
+// import { searchPosts } from '../../../services/algolia/searchPost'
+import { searchPostsCloud } from '../../../services/cloudFunctions/searchPostsCloud'
 import { FlatListPosts } from '../../../components/FlatListPosts'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
@@ -68,8 +68,8 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 		console.log(`SEARCH TEXT: ${algoliaSearchText}`)
 
 		setLoaderIsVisible(true)
-		await searchPosts(algoliaSearchText, searchParamsFromRoute, searchByRange)
-			// await searchPostsCloud(algoliaSearchText, searchParamsFromRoute, searchByRange || false, userDataContext.userId as Id)
+		// await searchPosts(algoliaSearchText, searchParamsFromRoute, searchByRange)
+		await searchPostsCloud(algoliaSearchText, searchParamsFromRoute, searchByRange || false, userDataContext.userId as Id)
 			.then((posts) => {
 				setResultPosts(posts as FeedPosts)
 				if (!searchText) setSearchText(route.params.searchParams.searchText)

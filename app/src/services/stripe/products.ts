@@ -1,9 +1,10 @@
 import axios from 'axios'
+import { STRIPE_SECRET_KEY } from '@env'
 import { StripeProducts } from './types'
 
 async function getStripeProducts() {
 	const result = await axios.get('https://api.stripe.com/v1/products', {
-		headers: { Authorization: 'bearer sk_test_51Mw5LNEpbbWylPkQ22X0dlJ5opvdjR0qYsIk3pWvDFilNPFJMi9zRx1Y8xV8fTu18xC8azzEmWusnwHnJ3BvzPi000MGcIVjxu' },
+		headers: { Authorization: `bearer ${STRIPE_SECRET_KEY}` },
 	})
 
 	return result.data.data
@@ -32,7 +33,7 @@ async function getStripePlans(stripeProducts: any[]) {
 
 async function getPriceValueById(priceId: string) {
 	const priceResponse = await axios.get(`https://api.stripe.com/v1/prices/${priceId}`, {
-		headers: { Authorization: 'bearer sk_test_51Mw5LNEpbbWylPkQ22X0dlJ5opvdjR0qYsIk3pWvDFilNPFJMi9zRx1Y8xV8fTu18xC8azzEmWusnwHnJ3BvzPi000MGcIVjxu' },
+		headers: { Authorization: `bearer ${STRIPE_SECRET_KEY}` }
 	})
 
 	const priceValue = (priceResponse.data.unit_amount / 100).toFixed(0)
