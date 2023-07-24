@@ -96,7 +96,7 @@ export type ServiceData = {
 
 export type SaleData = {
 	title?: string
-	itemDescription?: string
+	description?: string
 	tags?: string[]
 	category?: string
 	itemStatus?: ItemStatus

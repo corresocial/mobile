@@ -17,7 +17,7 @@ import { SelectPostLocation } from '../../../components/_onboarding/SelectPostLo
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 
 function InsertServicePrestationLocation({ route, navigation }: InsertServicePrestationLocationScreenProps) {
-	const { userDataContext } = useContext(AuthContext)
+	const { userDataContext, getLastUserPost } = useContext(AuthContext)
 	const { setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
@@ -35,12 +35,6 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 	const currentLocationIsInAnotherCity = (city: string) => {
 		if (!city) return false
 		return city !== getLastPostCity()
-	}
-
-	const getLastUserPost = () => {
-		const userPosts: PostCollection[] = userDataContext.posts || []
-		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
-		return lastUserPost
 	}
 
 	const getLastPostCity = () => {

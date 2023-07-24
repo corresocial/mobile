@@ -4,6 +4,7 @@ import React, { useContext, useRef, useState } from 'react'
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
 import { Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import Firebase from '../../../services/firebase'
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
@@ -202,10 +203,10 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 						: (
 							<PrimaryButton
 								color={someInvalidFieldSubimitted() || hasServerSideError ? theme.red3 : theme.purple3}
-								iconName={'arrow-right'}
-								iconColor={theme.white3}
-								label={'continuar'}
+								flexDirection={'row-reverse'}
+								SvgIcon={CheckWhiteIcon}
 								labelColor={theme.white3}
+								label={'continuar'}
 								highlightedWords={['continuar']}
 								startsHidden
 								onPress={getVeficationCode}

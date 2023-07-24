@@ -17,7 +17,7 @@ import { convertGeocodeToAddress } from '../../../utils/maps/addressFormatter'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 
 function InsertCultureLocation({ route, navigation }: InsertCultureLocationScreenProps) {
-	const { userDataContext } = useContext(AuthContext)
+	const { userDataContext, getLastUserPost } = useContext(AuthContext)
 	const { setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
@@ -35,12 +35,6 @@ function InsertCultureLocation({ route, navigation }: InsertCultureLocationScree
 	const currentLocationIsInAnotherCity = (city: string) => {
 		if (!city) return false
 		return city !== getLastPostCity()
-	}
-
-	const getLastUserPost = () => {
-		const userPosts: PostCollection[] = userDataContext.posts || []
-		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
-		return lastUserPost
 	}
 
 	const getLastPostCity = () => {

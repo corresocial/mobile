@@ -6,6 +6,7 @@ import { updateUser } from '../../../services/firebase/user/updateUser'
 import { ButtonContainer, Container, HorizontalButtonsContainer, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
 import AngleLeftThinIcon from '../../../assets/icons/angleLeft-white.svg'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { InsertLinkValueScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { SocialMedia } from '../../../services/firebase/types'
@@ -156,8 +157,8 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 											<PrimaryButton
 												color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
 												relativeWidth={'68%'}
-												iconName={'arrow-right'}
-												iconColor={theme.white3}
+												flexDirection={'row-reverse'}
+												SvgIcon={CheckWhiteIcon}
 												label={'continuar'}
 												labelColor={theme.white3}
 												highlightedWords={['continuar']}

@@ -26,7 +26,7 @@ const initialValue = {
 const CultureContext = createContext<CultureContextType>(initialValue)
 
 function CultureProvider({ children }: CultureProviderProps) {
-	const { userDataContext } = useContext(AuthContext)
+	const { userDataContext, getLastUserPost } = useContext(AuthContext)
 
 	const [isSecondPost, setIsSecondPost] = useState(false)
 	const [cultureDataContext, setCultureDataContext] = useState(initialValue.cultureDataContext)
@@ -39,7 +39,7 @@ function CultureProvider({ children }: CultureProviderProps) {
 		const userPosts = userDataContext.posts || []
 		if (!userPosts || (userPosts && !userPosts.length)) return
 
-		const lastUserPost: CultureCollectionRemote | any = userPosts[userPosts.length - 1] || {} // TODO Type
+		const lastUserPost: CultureCollectionRemote | any = getLastUserPost() || {} // TODO Type
 		if (!Object.keys(lastUserPost).length) return
 
 		setCultureDataContext({

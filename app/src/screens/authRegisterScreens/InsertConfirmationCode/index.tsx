@@ -4,6 +4,7 @@ import { UserCredential } from 'firebase/auth'
 
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 
@@ -258,10 +259,10 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 							: allInputCodesIsValid() && (
 								<PrimaryButton
 									color={someInvalidFieldSubimitted() || hasServerSideError ? theme.red3 : theme.blue3}
-									iconName={'arrow-right'}
-									iconColor={theme.white3}
-									label={'continuar'}
+									flexDirection={'row-reverse'}
+									SvgIcon={CheckWhiteIcon}
 									labelColor={theme.white3}
+									label={'continuar'}
 									highlightedWords={['continuar']}
 									startsHidden
 									onPress={sendConfirmationCode}

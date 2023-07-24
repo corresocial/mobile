@@ -5,6 +5,8 @@ import { getDownloadURL } from 'firebase/storage'
 import { Container, InstructionCardContainer } from './styles'
 import { screenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import ImageWhiteIcon from '../../../assets/icons/imagePlus.svg'
 
 import { updateUser } from '../../../services/firebase/user/updateUser'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
@@ -221,8 +223,8 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 							<>
 								<PrimaryButton
 									color={theme.green3}
-									iconName={'arrow-right'}
-									iconColor={theme.white3}
+									flexDirection={'row-reverse'}
+									SvgIcon={CheckWhiteIcon}
 									label={'tá ótima, continuar'}
 									labelColor={theme.white3}
 									highlightedWords={['continuar']}
@@ -230,8 +232,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 								/>
 								<PrimaryButton
 									color={theme.yellow3}
-									iconName={'images'}
-									iconColor={theme.black4}
+									SvgIcon={ImageWhiteIcon}
 									label={'nem, escolher outra'}
 									labelColor={theme.black4}
 									highlightedWords={['escolher', 'outra']}

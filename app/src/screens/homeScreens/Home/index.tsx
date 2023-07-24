@@ -3,7 +3,8 @@ import React, { MutableRefObject, useContext, useEffect, useRef, useState } from
 import * as Location from 'expo-location'
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
-import { Platform, RefreshControl } from 'react-native'
+import { Alert, Platform, RefreshControl } from 'react-native'
+import { getLocales } from 'expo-localization'
 
 import {
 	Container,
@@ -15,7 +16,7 @@ import { theme } from '../../../common/theme'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
 import { searchAddressByText } from '../../../services/maps/searchAddressByText'
-import { structureAddress } from '../../../utils/maps/addressFormatter'
+import { structureAddress, structureExpoLocationAddress } from '../../../utils/maps/addressFormatter'
 import { getLastRecentAddress, getRecentAdressesFromStorage } from '../../../utils/maps/recentAddresses'
 import { getPostsByLocationCloud } from '../../../services/cloudFunctions/getPostsByLocationCloud'
 // import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
@@ -26,6 +27,7 @@ import {
 	LatLong,
 	AddressSearchResult,
 	SelectedAddressRender,
+	GeocodeAddress,
 } from '../../../services/maps/types'
 import { FeedPosts, Id, PostCollection, PostRange, PostType } from '../../../services/firebase/types'
 import { HomeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
@@ -45,6 +47,7 @@ import { FlatListPosts } from '../../../components/FlatListPosts'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { getAndUpdateUserToken } from '../../../services/firebase/chat/getAndUpdateUserToken'
+import { getReverseGeocodeByMapsApi } from '../../../services/maps/getReverseGeocodeByMapsApi'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -264,7 +267,13 @@ function Home({ navigation }: HomeScreenProps) {
 			coordinates.lat,
 			coordinates.lon
 		)
-		const structuredAddress = structureAddress(address)
+
+		const deviceLanguage = getLocales()[0].languageCode
+
+		const structuredAddress = deviceLanguage === 'pt'
+			? structureExpoLocationAddress(address as Location.LocationGeocodedAddress[], coordinates.lat, coordinates.lon)
+			: structureAddress(address as GeocodeAddress, coordinates.lat, coordinates.lon)
+
 		const geohashObject = generateGeohashes(
 			coordinates.lat,
 			coordinates.lon
@@ -289,10 +298,17 @@ function Home({ navigation }: HomeScreenProps) {
 		latitude: number,
 		longitude: number
 	) => {
-		const geocodeAddress = await Location.reverseGeocodeAsync({
-			latitude,
-			longitude,
-		})
+		const deviceLanguage = getLocales()[0].languageCode
+
+		if (deviceLanguage === 'pt') { // change structure Function
+			const geocodeAddress = await Location.reverseGeocodeAsync({
+				latitude,
+				longitude,
+			})
+			return geocodeAddress
+		}
+
+		const geocodeAddress = await getReverseGeocodeByMapsApi(latitude, longitude)
 		return geocodeAddress
 	}
 

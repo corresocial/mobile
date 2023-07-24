@@ -25,7 +25,7 @@ const initialValue = {
 const SocialImpactContext = createContext<SocialImpactContextType>(initialValue)
 
 function SocialImpactProvider({ children }: SocialImpactProviderProps) {
-	const { userDataContext } = useContext(AuthContext)
+	const { userDataContext, getLastUserPost } = useContext(AuthContext)
 
 	const [isSecondPost, setIsSecondPost] = useState(false)
 	const [socialImpactDataContext, setSocialImpactDataContext] = useState(initialValue.socialImpactDataContext)
@@ -35,10 +35,7 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 	}
 
 	const getAditionalDataFromLastPost = () => {
-		const userPosts = userDataContext.posts || []
-		if (!userPosts || (userPosts && !userPosts.length)) return
-
-		const lastUserPost: SocialImpactCollectionRemote | any = userPosts[userPosts.length - 1] || {} // TODO Type
+		const lastUserPost: SocialImpactCollectionRemote | any = getLastUserPost() || {} // TODO Type
 		if (!Object.keys(lastUserPost).length) return
 
 		setSocialImpactDataContext({

@@ -149,13 +149,13 @@ function SelectPostLocation({
 			longitude
 		})
 
-		const structuredAddress = structureAddress(geocodeAddress)
+		const structuredAddress = structureExpoLocationAddress(geocodeAddress)
 		setInvalidAddressAfterSubmit(false)
 
 		return structuredAddress
 	}
 
-	const structureAddress = (geocodeAddress: Location.LocationGeocodedAddress[]) => ({
+	const structureExpoLocationAddress = (geocodeAddress: Location.LocationGeocodedAddress[]) => ({
 		country: geocodeAddress[0].country || '',
 		state: geocodeAddress[0].region || '',
 		city: geocodeAddress[0].city || geocodeAddress[0].subregion || '',

@@ -3,6 +3,8 @@ import { Animated, StatusBar } from 'react-native'
 
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import xWhiteIcon from '../../../assets/icons/x-white.svg'
 
 import { updateUserPrivateData } from '../../../services/firebase/user/updateUserPrivateData'
 import { updateUser } from '../../../services/firebase/user/updateUser'
@@ -160,18 +162,17 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 							<>
 								<PrimaryButton
 									color={theme.green3}
-									iconName={'images'}
-									iconColor={theme.white3}
-									label={'claro, vou adicionar'}
+									flexDirection={'row-reverse'}
+									SvgIcon={CheckWhiteIcon}
 									labelColor={theme.white3}
+									label={'claro, vou adicionar'}
 									highlightedWords={['vou', 'adicionar']}
 									onPress={navigateToProfilePicture}
 								/>
 								<PrimaryButton
 									color={theme.red3}
-									iconName={'arrow-right'}
-									iconColor={theme.white3}
-									label={'nem quero, valew'}
+									SvgIcon={xWhiteIcon}
+									label={'nem quero, valeu'}
 									labelColor={theme.white3}
 									highlightedWords={['nem', 'quero']}
 									onPress={saveUserData}

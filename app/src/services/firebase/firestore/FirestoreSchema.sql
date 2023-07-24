@@ -72,7 +72,7 @@ serviceCollection: {
 saleCollection = {
     title: 'string',
     postType: enum('service' | 'sale' | 'vacancy' | 'socialImpact' | 'culture'),
-    itemDescription: 'string',
+    description: 'string',
     tags: 'array[string]',
     paymentType: enum('exchange' | 'sale' | 'both'),
     saleValue: 'string',

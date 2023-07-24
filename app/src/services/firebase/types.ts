@@ -264,7 +264,7 @@ export type SaleCollection = {
 	postId?: string
 	postType?: PostType
 	title?: string
-	itemDescription?: string
+	description?: string
 	tags?: string[]
 	itemStatus?: ItemStatus
 	category?: string
@@ -308,7 +308,7 @@ export type SaleCollectionRemote = {
 	postId: string
 	postType: PostType
 	title: string
-	itemDescription: string
+	description: string
 	tags: string[]
 	category: string
 	itemStatus: ItemStatus

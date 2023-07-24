@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Keyboard, TextStyle, ViewStyle } from 'react-native'
-import { FontAwesome5 as Icon } from '@expo/vector-icons'
 import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -23,8 +22,6 @@ interface PrimaryButtonProps {
 	labelColor?: string
 	labelMarginLeft?: number | string
 	iconName?: string
-	iconColor?: string
-	iconSize?: number
 	SvgIcon?: React.FC<SvgProps>
 	SecondSvgIcon?: React.FC<SvgProps>
 	svgIconScale?: [height: string, width: string]
@@ -50,8 +47,6 @@ function PrimaryButton({
 	iconName,
 	fontSize = 18,
 	textAlign = 'center',
-	iconSize,
-	iconColor,
 	SvgIcon,
 	SecondSvgIcon,
 	svgIconScale = ['40%', '25%'],
@@ -146,16 +141,10 @@ function PrimaryButton({
 								{showMessageWithHighlight(label, highlightedWords)}
 							</ButtonLabel>
 						)}
-					{!!SvgIcon
-						&& <SvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />}
-					{!!iconName
-						&& (
-							<Icon
-								name={iconName || 'question'}
-								size={iconSize || 22}
-								color={iconColor || labelColor}
-							/>
-						)}
+					{
+						!!SvgIcon
+						&& <SvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />
+					}
 				</ContainerSurface>
 			</ContainerBottom>
 		</TouchableContainer>

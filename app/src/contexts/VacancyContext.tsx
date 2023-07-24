@@ -26,7 +26,7 @@ const initialValue = {
 const VacancyContext = createContext<VacancyContextType>(initialValue)
 
 function VacancyProvider({ children }: VacancyProviderProps) {
-	const { userDataContext } = useContext(AuthContext)
+	const { userDataContext, getLastUserPost } = useContext(AuthContext)
 
 	const [isSecondPost, setIsSecondPost] = useState(false)
 	const [vacancyDataContext, setVacancyDataContext] = useState(initialValue.vacancyDataContext)
@@ -39,7 +39,7 @@ function VacancyProvider({ children }: VacancyProviderProps) {
 		const userPosts = userDataContext.posts || []
 		if (!userPosts || (userPosts && !userPosts.length)) return
 
-		const lastUserPost: VacancyCollectionRemote | any = userPosts[userPosts.length - 1] || {} // TODO Type
+		const lastUserPost: VacancyCollectionRemote | any = getLastUserPost() || {} // TODO Type
 		if (!Object.keys(lastUserPost).length) return
 
 		setVacancyDataContext({

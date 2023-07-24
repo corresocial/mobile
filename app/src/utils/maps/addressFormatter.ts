@@ -1,5 +1,6 @@
 import * as Location from 'expo-location'
 import { PostCollection } from '../../services/firebase/types'
+import { GeocodeAddress } from '../../services/maps/types'
 
 const convertGeocodeToAddress = async (latitude: number, longitude: number) => {
 	const geocodeAddress = await Location.reverseGeocodeAsync({
@@ -7,11 +8,25 @@ const convertGeocodeToAddress = async (latitude: number, longitude: number) => {
 		longitude
 	})
 
-	const structuredAddress = structureAddress(geocodeAddress, latitude, longitude)
+	const structuredAddress = structureExpoLocationAddress(geocodeAddress, latitude, longitude)
 	return structuredAddress
 }
 
-const structureAddress = (geocodeAddress: Location.LocationGeocodedAddress[], latitude?: number, longitude?: number) => ({
+const structureAddress = (geocodeAddress: GeocodeAddress, latitude?: number, longitude?: number) => ({
+	country: geocodeAddress.country || '',
+	state: geocodeAddress.state || '',
+	city: geocodeAddress.city || '',
+	street: geocodeAddress.street || '',
+	district: geocodeAddress.district || '',
+	number: geocodeAddress.number || '',
+	postalCode: geocodeAddress.postalCode || '',
+	coordinates: {
+		latitude,
+		longitude
+	}
+})
+
+const structureExpoLocationAddress = (geocodeAddress: Location.LocationGeocodedAddress[], latitude?: number, longitude?: number) => ({
 	country: geocodeAddress[0].country || '',
 	state: geocodeAddress[0].region || '',
 	city: geocodeAddress[0].city || geocodeAddress[0].subregion || '',
@@ -29,4 +44,4 @@ const getTextualAddress = (address: PostCollection['location']) => {
 	return `${address?.street || ''}, ${address?.number || ''}, ${address?.district || ''} - ${address?.city || ''}`
 }
 
-export { convertGeocodeToAddress, structureAddress, getTextualAddress }
+export { convertGeocodeToAddress, structureAddress, structureExpoLocationAddress, getTextualAddress }
