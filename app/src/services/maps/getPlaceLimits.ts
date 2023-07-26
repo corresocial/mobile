@@ -1,5 +1,7 @@
-import { MAPS_API } from '@env'
 import axios from 'axios'
+import { getEnvVars } from '../../../environment'
+
+const { MAPS_API } = getEnvVars()
 
 async function getPlaceLimits(query: string) {
 	const res = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${query}&region=BR&language=pt&key=${MAPS_API}`)

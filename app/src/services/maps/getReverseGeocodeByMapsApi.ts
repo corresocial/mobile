@@ -1,5 +1,7 @@
-import { MAPS_API } from '@env'
 import axios from 'axios'
+import { getEnvVars } from '../../../environment'
+
+const { MAPS_API } = getEnvVars()
 
 async function getReverseGeocodeByMapsApi(latitude: number, longitude: number) {
 	const res = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&region=BR&language=pt&key=${MAPS_API}`)

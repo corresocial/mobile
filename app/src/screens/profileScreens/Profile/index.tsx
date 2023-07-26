@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Alert, ScrollView, TouchableOpacity } from 'react-native'
+import { ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import {
@@ -63,7 +63,6 @@ import { updateUser } from '../../../services/firebase/user/updateUser'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ProfileVerifiedModal } from '../../../components/_modals/ProfileVerifiedModal'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
-import { getEnvVars } from '../../../../environment'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -86,10 +85,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}, [navigation]) */
 
 	useEffect(() => {
-		const { STRIPE_PUBLISHABLE_KEY, ENVIRONMENT } = getEnvVars()
-		Alert.alert(ENVIRONMENT)
-		Alert.alert(STRIPE_PUBLISHABLE_KEY)
-
 		if (route.params && route.params.userId) {
 			setIsLoggedUser(false)
 			getProfileDataFromRemote(route.params.userId)

@@ -1,7 +1,9 @@
 /* eslint-disable camelcase */
-import { NOTION_FALECONOSCO_ID, NOTION_FALECONOSCO_KEY } from '@env'
 import uuid from 'react-uuid'
 import { ContactUsOptions } from './types'
+import { getEnvVars } from '../../../environment'
+
+const { NOTION_FALECONOSCO_ID, NOTION_FALECONOSCO_KEY } = getEnvVars()
 
 async function sendContactUsMessageToNotion({
 	userId,
