@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import 'react-native-gesture-handler'
 import * as Sentry from 'sentry-expo'
 import React from 'react'
@@ -21,7 +22,9 @@ import { LoaderProvider } from './src/contexts/LoaderContext'
 import { ErrorBoundaryFallback } from './src/screens/ErrorBoundaryFallback'
 import { errorHandler } from './src/utils/errorHandler'
 
-// Sentry.init(sentryConfig)
+if (!__DEV__) {
+	Sentry.init(sentryConfig)
+}
 LogBox.ignoreLogs(ignoredLogs)
 
 function App() {

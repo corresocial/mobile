@@ -25,7 +25,6 @@ import { FlatListPosts } from '../../../components/FlatListPosts'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { VerticalSigh } from '../../../components/VerticalSigh'
-import { searchPosts } from '../../../services/algolia/searchPost'
 
 const initialFeedPosts = {
 	nearby: [],
