@@ -20,12 +20,12 @@ import { PostCard } from '../../../components/_cards/PostCard'
 import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-// import { searchPosts } from '../../../services/algolia/searchPost'
 import { searchPostsCloud } from '../../../services/cloudFunctions/searchPostsCloud'
 import { FlatListPosts } from '../../../components/FlatListPosts'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { VerticalSigh } from '../../../components/VerticalSigh'
+import { searchPosts } from '../../../services/algolia/searchPost'
 
 const initialFeedPosts = {
 	nearby: [],
