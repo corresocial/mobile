@@ -71,7 +71,12 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 		// await searchPosts(algoliaSearchText, searchParamsFromRoute, searchByRange)
 		await searchPostsCloud(algoliaSearchText, searchParamsFromRoute, searchByRange || false, userDataContext.userId as Id)
 			.then((posts) => {
-				setResultPosts(posts as FeedPosts)
+				if (!posts) {
+					setResultPosts(initialFeedPosts as FeedPosts)
+				} else {
+					setResultPosts(posts as FeedPosts)
+				}
+
 				if (!searchText) setSearchText(route.params.searchParams.searchText)
 				setLoaderIsVisible(false)
 			})
