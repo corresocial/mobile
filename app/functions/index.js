@@ -1,13 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 
 /*
-	CHECK ALGOLIA_ID & ALGOLIA_KEY
+	CONFIGURE ALGOLIA_ID & ALGOLIA_KEY MANUALMENTE DE ACORDO COM O AMBIENTE
+
 */
 
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
-
-const { ALGOLIA_ID, ALGOLIA_KEY } = process.env
 
 admin.initializeApp()
 
@@ -136,9 +135,8 @@ const getRandomDetachment = () => {
 /// ///  SearchByAlgolia
 
 const algoliasearch = require('algoliasearch')
-const { getEnvVars } = require('../environment')
 
-const client = algoliasearch(ALGOLIA_ID, ALGOLIA_KEY)
+const client = algoliasearch('ALGOLIA_ID', 'ALGOLIA_KEY')
 const postsIndex = client.initIndex('postsIndex')
 
 exports.searchPostsByAlgoliaBeta = functions.https.onRequest(async (req, res) => {
