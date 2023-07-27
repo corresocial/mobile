@@ -35,6 +35,10 @@ function App() {
 
 	if (!fontsLoaded) {
 		return (
+			// <ErrorBoundary
+			// 	FallbackComponent={ErrorBoundaryFallback}
+			// 	onError={errorHandler}
+			// >
 			<View
 				style={{
 					flex: 1,
@@ -44,6 +48,7 @@ function App() {
 			>
 				<ActivityIndicator size={'large'} color={theme.orange3} />
 			</View>
+			// </ErrorBoundary>
 		)
 	}
 
