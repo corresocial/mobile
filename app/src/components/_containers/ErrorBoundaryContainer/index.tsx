@@ -9,6 +9,10 @@ interface ErrorBoundaryContainerProps {
 }
 
 function ErrorBoundaryContainer({ children }: ErrorBoundaryContainerProps) {
+	if (!__DEV__) {
+		return children
+	}
+
 	return (
 		<ErrorBoundary
 			FallbackComponent={ErrorBoundaryFallback}
