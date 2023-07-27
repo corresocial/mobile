@@ -1,10 +1,17 @@
 /* eslint-disable no-underscore-dangle */
+
+/*
+	CHECK ALGOLIA_ID & ALGOLIA_KEY
+*/
+
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
 
+const { ALGOLIA_ID, ALGOLIA_KEY } = process.env
+
 admin.initializeApp()
 
-exports.getFeedPosts = functions.https.onRequest(async (req, res) => { // req. searchParams
+exports.getFeedPostsBeta = functions.https.onRequest(async (req, res) => { // req. searchParams
 	try {
 		const collectionRef = admin.firestore().collection('posts')
 
@@ -129,11 +136,12 @@ const getRandomDetachment = () => {
 /// ///  SearchByAlgolia
 
 const algoliasearch = require('algoliasearch')
+const { getEnvVars } = require('../environment')
 
-const client = algoliasearch('89VF10SON5', 'f2c235b283f57730dac356331ce3fac2')
+const client = algoliasearch(ALGOLIA_ID, ALGOLIA_KEY)
 const postsIndex = client.initIndex('postsIndex')
 
-exports.searchPostsByAlgolia = functions.https.onRequest(async (req, res) => {
+exports.searchPostsByAlgoliaBeta = functions.https.onRequest(async (req, res) => {
 	try {
 		const { searchText, searchParams, searchByRange, userId } = req.body
 
