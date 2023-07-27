@@ -206,7 +206,9 @@ exports.searchPostsByAlgoliaBeta = functions.https.onRequest(async (req, res) =>
 			}, []),)
 
 		const postsWithLocationFilter = filterLocation(results, userId)
-		const postsByRange = spreadPostsByRange(postsWithLocationFilter)
+		const filteredPosts = removeDuplicatesByPostId(postsWithLocationFilter)
+
+		const postsByRange = spreadPostsByRange(filteredPosts)
 
 		return res.status(200).send(postsByRange)
 	} catch (err) {
@@ -215,6 +217,10 @@ exports.searchPostsByAlgoliaBeta = functions.https.onRequest(async (req, res) =>
 		return res.status(500).send(err)
 	}
 })
+
+function removeDuplicatesByPostId(results) {
+	return results.filter((post, index, self) => index === self.findIndex((p) => p.postId === post.postId))
+}
 
 const spreadPostsByRange = (posts) => {
 	const result = {
@@ -250,7 +256,7 @@ const getGeohashFilter = (geohashes, geohashField, negativeClause) => {
 }
 
 const getRangeFilter = (range, city, country) => {
-	if (range === 'nearby' || range === 'city') return `range:city AND location.city:'${city}'`
+	if (range === 'nearby' || range === 'city') return ` (range:city OR range:country) AND location.city:'${city}'`
 	if (range === 'country') return `range:${range} AND location.country:'${country}'`
 	return ''
 }
