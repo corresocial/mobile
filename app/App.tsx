@@ -5,7 +5,6 @@ import React from 'react'
 import { ThemeProvider } from 'styled-components'
 import { NavigationContainer } from '@react-navigation/native'
 import { ActivityIndicator, LogBox, View } from 'react-native'
-import ErrorBoundary from 'react-native-error-boundary'
 
 import {
 	useFonts,
@@ -19,8 +18,7 @@ import { sentryConfig } from './src/services/sentry'
 
 import { AuthRegisterStack } from './src/routes/Stack/AuthRegisterStack'
 import { LoaderProvider } from './src/contexts/LoaderContext'
-import { ErrorBoundaryFallback } from './src/screens/ErrorBoundaryFallback'
-import { errorHandler } from './src/utils/errorHandler'
+import { ErrorBoundaryContainer } from './src/components/_containers/ErrorBoundaryContainer'
 
 if (!__DEV__) {
 	Sentry.init(sentryConfig)
@@ -42,10 +40,7 @@ function App() {
 	}
 
 	return (
-		<ErrorBoundary
-			FallbackComponent={ErrorBoundaryFallback}
-			onError={errorHandler}
-		>
+		<ErrorBoundaryContainer>
 			<NavigationContainer>
 				<ThemeProvider theme={theme}>
 					<LoaderProvider>
@@ -53,7 +48,7 @@ function App() {
 					</LoaderProvider>
 				</ThemeProvider>
 			</NavigationContainer>
-		</ErrorBoundary>
+		</ErrorBoundaryContainer>
 	)
 }
 
