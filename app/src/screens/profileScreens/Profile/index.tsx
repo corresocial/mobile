@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import { ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { FlashList } from '@shopify/flash-list'
 import {
 	Body,
 	Container,
@@ -565,7 +566,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 					onSelectTag={onSelectTag}
 				/>
 				<BodyPadding>
-					<FlatList
+					<FlashList
+						estimatedItemSize={100}
 						data={
 							!selectedTags.length
 								? getUserPosts()
