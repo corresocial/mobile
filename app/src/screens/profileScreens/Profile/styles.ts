@@ -59,7 +59,7 @@ export const VerticalPaddingContainer = styled.View`
 
 export const Body = styled.View`
     flex: 1;
-	height: ${relativeScreenHeight(60)}px;
+	height: ${relativeScreenHeight(70)}px;
 	padding-top: ${RFValue(12)}px;
     background-color: ${({ theme }) => theme.orange2};
 	overflow: visible;

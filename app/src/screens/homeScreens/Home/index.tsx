@@ -48,6 +48,7 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { getAndUpdateUserToken } from '../../../services/firebase/chat/getAndUpdateUserToken'
 import { getReverseGeocodeByMapsApi } from '../../../services/maps/getReverseGeocodeByMapsApi'
+import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -196,7 +197,7 @@ function Home({ navigation }: HomeScreenProps) {
 				userDataContext.userId as Id
 			)
 
-			// const remoteFeedPosts = await getPostsByLocation(searchParams)
+			//  const remoteFeedPosts = await getPostsByLocation(searchParams)
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
 			refresh ? setFeedIsUpdating(false) : setLoaderIsVisible(false)

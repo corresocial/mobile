@@ -12,7 +12,6 @@ import {
 	ProfileInfoContainer,
 	UserDescription,
 	UserName,
-	FlatList,
 	Sigh,
 	FooterSigh,
 	ExpandedUserDescription,
@@ -584,10 +583,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						)}
 						showsVerticalScrollIndicator={false}
 						ItemSeparatorComponent={() => <Sigh />}
-						ListHeaderComponent={() => isLoggedUser
-							&& (!userDataContext.posts
-								|| userDataContext.posts.length === 0)
-							&& (
+						ListHeaderComponent={() => (isLoggedUser && (!userDataContext.posts || userDataContext.posts.length === 0)
+							? (
 								<WithoutPostsMessage
 									title={'faça uma postagem!'}
 									message={
@@ -606,7 +603,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 									]}
 									backgroundColor={theme.yellow1}
 								/>
-							)}
+							)
+							: <></>)}
 						ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
 						ListFooterComponent={() => <FooterSigh />}
 					/>
