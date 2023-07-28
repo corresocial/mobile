@@ -1,6 +1,8 @@
 // eslint-disable-next-line import/no-unresolved
-import { ERROS_WEBHOOK } from '@env'
 import { sendContactUsMessageToNotion } from '../services/notion/contactUs'
+import { getEnvVars } from '../../environment'
+
+const { ERROS_WEBHOOK } = getEnvVars()
 
 export const errorHandler = async (error: Error, stackTrace: any) => {
 	console.log(error)

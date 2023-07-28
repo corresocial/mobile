@@ -1,4 +1,6 @@
-import { DSN_SENTRY } from '@env'
+import { getEnvVars } from '../../../environment'
+
+const { DSN_SENTRY } = getEnvVars()
 
 const sentryConfig = {
 	dsn: DSN_SENTRY,

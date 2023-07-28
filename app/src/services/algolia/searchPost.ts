@@ -15,8 +15,6 @@ async function searchPosts(searchText: string, searchParams: SearchParams, searc
 			tagFilter: '',
 		}
 
-		console.log(searchParams)
-
 		if (searchByRange) {
 			const geohashField = 'geohashNearby'
 			searchFilters.geohashFilter = searchParams.range === 'near' ? getGeohashFilter(searchParams.geohashes, geohashField) : ''
@@ -32,17 +30,6 @@ async function searchPosts(searchText: string, searchParams: SearchParams, searc
 			searchFilters.categoryFilter = getCategoryFilter(searchParams.category)
 			searchFilters.tagFilter = getTagFilter(searchParams.tag)
 		}
-
-		/* return {
-			nearby: [],
-			city: [],
-			country: []
-		} */
-
-		/* console.log(searchByRange)
-		console.log(searchParams.range)
-		console.log(searchParams.city)
-		console.log(`${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`) */
 
 		const results = await Promise.all(
 			searchByRange
@@ -82,12 +69,20 @@ async function searchPosts(searchText: string, searchParams: SearchParams, searc
 
 		results.forEach((post: any) => console.log(`${post.title} - ${post.postType} - ${post.range}`))
 
-		return spreadPostsByRange(results) as FeedPosts
+		const filteredResults = removeDuplicatesByPostId(results)
+
+		results.forEach((post: any) => console.log(`${post.title} - ${post.postType} - ${post.range}`))
+
+		return spreadPostsByRange(filteredResults) as FeedPosts
 	} catch (err) {
 		console.log(err)
 		console.log('Erro ao buscar posts no algolia, file:searchPosts')
 		return []
 	}
+}
+
+function removeDuplicatesByPostId(results: PostCollectionRemote[]) {
+	return results.filter((post, index, self) => index === self.findIndex((p) => p.postId === post.postId))
 }
 
 interface FilteredPosts {
@@ -130,7 +125,7 @@ const getGeohashFilter = (geohashes: string[], geohashField: string, negativeCla
 }
 
 const getRangeFilter = (range: string, city: string, country: string) => { // TODO Type
-	if (range === 'nearby' || range === 'city') return `range:city AND location.city:'${city}'`
+	if (range === 'nearby' || range === 'city') return `(range:city OR range:country) AND location.city:'${city}'`
 	if (range === 'country') return `range:${range} AND location.country:'${country}'`
 	return ''
 }

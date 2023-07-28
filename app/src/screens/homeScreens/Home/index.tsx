@@ -195,6 +195,7 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams, // Update return of cloud function
 				userDataContext.userId as Id
 			)
+
 			// const remoteFeedPosts = await getPostsByLocation(searchParams)
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
@@ -521,7 +522,7 @@ function Home({ navigation }: HomeScreenProps) {
 								<VerticalSigh height={relativeScreenHeight(10)} />
 							</>
 						)
-						: <></>
+						: <VerticalSigh height={relativeScreenHeight(10)} />
 				}
 				{
 					hasLocationEnable && searchEnded && !hasAnyPost() && (

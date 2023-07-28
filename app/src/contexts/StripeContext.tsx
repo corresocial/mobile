@@ -3,7 +3,6 @@ import React, { useContext, createContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { StripeProvider as StripeProviderRaw, confirmPayment, createPaymentMethod } from '@stripe/stripe-react-native'
 
-import { STRIPE_PUBLISHABLE_KEY, STRIPE_API_URL, STRIPE_SECRET_KEY } from '@env'
 import { useNavigation } from '@react-navigation/native'
 import { getStripePlans, getStripeProducts } from '../services/stripe/products'
 import { updateAllRangeAndLocation } from '../services/firebase/post/updateAllRangeAndLocation'
@@ -15,6 +14,7 @@ import { dateHasExpired } from '../common/auxiliaryFunctions'
 import { SubscriptionAlertModal } from '../components/_modals/SubscriptionAlertModal'
 import { SubscriptionContext } from './SubscriptionContext'
 import { UserStackNavigationProps } from '../routes/Stack/UserStack/types'
+import { getEnvVars } from '../../environment'
 
 interface StripeContextProps {
 	children: React.ReactElement
@@ -66,6 +66,8 @@ export const StripeContext = createContext<StripeContextState>({
 	performPaymentConfirm: (paymentMethodId: string, subscriptionClientSecret: string) => new Promise(() => { }),
 	sendReceiptByEmail: (customerId: string, email: string) => new Promise(() => { }),
 })
+
+const { STRIPE_PUBLISHABLE_KEY, STRIPE_API_URL, STRIPE_SECRET_KEY } = getEnvVars()
 
 const defaultAxiosHeader = {
 	'Content-Type': 'application/x-www-form-urlencoded',

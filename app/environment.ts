@@ -1,0 +1,166 @@
+/* eslint-disable camelcase */
+/* eslint-disable no-undef */
+import {
+	ENVIRONMENT,
+	FIREBASE_apiKey,
+	FIREBASE_projectId,
+	FIREBASE_authDomain,
+	FIREBASE_storageBucket,
+	FIREBASE_messagingSenderId,
+	FIREBASE_appId,
+	FIREBASE_measurementId,
+	FIREBASE_databaseURL,
+	FIREBASE_CLOUD_URL,
+	FIRESTORE_REAL_TIME_DATABASE,
+	MAPS_API,
+	ALGOLIA_ID,
+	ALGOLIA_KEY,
+	STRIPE_PUBLISHABLE_KEY,
+	STRIPE_SECRET_KEY,
+	STRIPE_API_URL,
+	PROD_FIREBASE_apiKey,
+	PROD_FIREBASE_authDomain,
+	PROD_FIREBASE_databaseURL,
+	PROD_FIREBASE_projectId,
+	PROD_FIREBASE_storageBucket,
+	PROD_FIREBASE_messagingSenderId,
+	PROD_FIREBASE_appId,
+	PROD_FIREBASE_measurementId,
+	PROD_FIREBASE_CLOUD_URL,
+	PROD_FIRESTORE_REAL_TIME_DATABASE,
+	PROD_ALGOLIA_ID,
+	PROD_ALGOLIA_KEY,
+	PROD_MAPS_API,
+	PROD_STRIPE_PUBLISHABLE_KEY,
+	PROD_STRIPE_SECRET_KEY,
+	PROD_STRIPE_API_URL,
+	NOTION_FALECONOSCO_ID,
+	NOTION_FALECONOSCO_KEY,
+	NOTION_APPICONS_ID,
+	NOTION_APPICONS_KEY,
+	DENUNCIAR_WEBHOOK,
+	ERROS_WEBHOOK,
+	FALECONOSCO_WEBHOOK,
+	SENTRY_AUTH_TOKEN,
+	DSN_SENTRY,
+} from '@env'
+
+type EnvironmentVars = {
+	ENVIRONMENT: string,
+	FIREBASE_apiKey: string
+	FIREBASE_projectId: string
+	FIREBASE_authDomain: string
+	FIREBASE_storageBucket: string
+	FIREBASE_messagingSenderId: string
+	FIREBASE_appId: string
+	FIREBASE_measurementId: string
+	FIREBASE_databaseURL: string
+	FIREBASE_CLOUD_URL: string
+	FIRESTORE_REAL_TIME_DATABASE: string
+	MAPS_API: string
+	ALGOLIA_ID: string
+	ALGOLIA_KEY: string
+	STRIPE_PUBLISHABLE_KEY: string
+	STRIPE_SECRET_KEY: string
+	STRIPE_API_URL: string
+	NOTION_FALECONOSCO_ID: string
+	NOTION_FALECONOSCO_KEY: string
+	NOTION_APPICONS_ID: string
+	NOTION_APPICONS_KEY: string
+	DENUNCIAR_WEBHOOK: string
+	ERROS_WEBHOOK: string
+	FALECONOSCO_WEBHOOK: string
+	SENTRY_AUTH_TOKEN: string
+	DSN_SENTRY: string
+}
+
+const commonEnvVars = {
+	NOTION_FALECONOSCO_ID,
+	NOTION_FALECONOSCO_KEY,
+	NOTION_APPICONS_ID,
+	NOTION_APPICONS_KEY,
+	DENUNCIAR_WEBHOOK,
+	ERROS_WEBHOOK,
+	FALECONOSCO_WEBHOOK,
+	SENTRY_AUTH_TOKEN,
+	DSN_SENTRY
+}
+
+const ENV = {
+	dev: {
+		ENVIRONMENT,
+		FIREBASE_apiKey,
+		FIREBASE_projectId,
+		FIREBASE_authDomain,
+		FIREBASE_storageBucket,
+		FIREBASE_messagingSenderId,
+		FIREBASE_appId,
+		FIREBASE_measurementId,
+		FIREBASE_databaseURL,
+		FIREBASE_CLOUD_URL,
+		FIRESTORE_REAL_TIME_DATABASE,
+		MAPS_API,
+		ALGOLIA_ID,
+		ALGOLIA_KEY,
+		STRIPE_PUBLISHABLE_KEY,
+		STRIPE_SECRET_KEY,
+		STRIPE_API_URL,
+		...commonEnvVars
+	},
+	staging: {
+		ENVIRONMENT,
+		FIREBASE_apiKey,
+		FIREBASE_projectId,
+		FIREBASE_authDomain,
+		FIREBASE_storageBucket,
+		FIREBASE_messagingSenderId,
+		FIREBASE_appId,
+		FIREBASE_measurementId,
+		FIREBASE_databaseURL,
+		FIREBASE_CLOUD_URL,
+		FIRESTORE_REAL_TIME_DATABASE,
+		MAPS_API,
+		ALGOLIA_ID,
+		ALGOLIA_KEY,
+		STRIPE_PUBLISHABLE_KEY,
+		STRIPE_SECRET_KEY,
+		STRIPE_API_URL,
+		...commonEnvVars
+	},
+
+	prod: {
+		ENVIRONMENT,
+		FIREBASE_apiKey: PROD_FIREBASE_apiKey,
+		FIREBASE_projectId: PROD_FIREBASE_projectId,
+		FIREBASE_authDomain: PROD_FIREBASE_authDomain,
+		FIREBASE_storageBucket: PROD_FIREBASE_storageBucket,
+		FIREBASE_messagingSenderId: PROD_FIREBASE_messagingSenderId,
+		FIREBASE_appId: PROD_FIREBASE_appId,
+		FIREBASE_measurementId: PROD_FIREBASE_measurementId,
+		FIREBASE_databaseURL: PROD_FIREBASE_databaseURL,
+		FIREBASE_CLOUD_URL: PROD_FIREBASE_CLOUD_URL,
+		FIRESTORE_REAL_TIME_DATABASE: PROD_FIRESTORE_REAL_TIME_DATABASE,
+		MAPS_API: PROD_MAPS_API,
+		ALGOLIA_ID: PROD_ALGOLIA_ID,
+		ALGOLIA_KEY: PROD_ALGOLIA_KEY,
+		STRIPE_PUBLISHABLE_KEY: PROD_STRIPE_PUBLISHABLE_KEY,
+		STRIPE_SECRET_KEY: PROD_STRIPE_SECRET_KEY,
+		STRIPE_API_URL: PROD_STRIPE_API_URL,
+		...commonEnvVars
+	}
+}
+
+const getEnvVars = () => {
+	console.log(ENVIRONMENT)
+	if (ENVIRONMENT === 'dev' || !ENVIRONMENT) {
+		return ENV.dev as EnvironmentVars
+	} if (ENVIRONMENT === 'staging') {
+		return ENV.staging as EnvironmentVars
+	} if (ENVIRONMENT === 'prod') {
+		return ENV.prod as EnvironmentVars
+	}
+
+	return {} as EnvironmentVars
+}
+
+export { getEnvVars }
