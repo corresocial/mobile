@@ -342,7 +342,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}
 
 	return (
-		<Container style={{ flex: 1 }}>
+		<Container showsVerticalScrollIndicator={false}>
 			{((userDataContext && userDataContext.verified && isLoggedUser) || (user && user.verified))
 				&& (
 					<ProfileVerifiedModal
