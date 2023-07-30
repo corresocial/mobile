@@ -1,5 +1,5 @@
 import React from 'react'
-import { SvgProps, SvgUri } from 'react-native-svg'
+import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { theme } from '../../common/theme'
@@ -18,8 +18,8 @@ interface DefaultPostViewHeaderProps {
 	path?: boolean
 	showResults?: boolean
 	destructiveButton?: boolean
-	svgUri?: string
-	SvgIcon?: React.FC<SvgProps>
+	smallIconArea?: boolean
+	SvgIcon?: React.FC<SvgProps> | null
 	endButton?: boolean
 	endButtonColor?: string
 	endButtonSvgIcon?: React.FC<SvgProps>
@@ -34,7 +34,7 @@ function DefaultPostViewHeader({
 	path,
 	showResults,
 	destructiveButton,
-	svgUri,
+	smallIconArea,
 	SvgIcon,
 	endButton,
 	endButtonColor,
@@ -52,8 +52,8 @@ function DefaultPostViewHeader({
 	}
 
 	const renderSvgIcon = () => {
-		if (svgUri) {
-			return <SvgUri uri={svgUri} width={'15%'} height={'60%'} />
+		if (smallIconArea && SvgIcon) {
+			return <SvgIcon width={'20%'} height={'60%'} />
 		}
 		if (SvgIcon) {
 			return <SvgIcon width={'25%'} height={'60%'} />

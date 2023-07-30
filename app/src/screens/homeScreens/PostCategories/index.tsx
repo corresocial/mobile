@@ -3,6 +3,7 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import uuid from 'react-uuid'
 
 import { RFValue } from 'react-native-responsive-fontsize'
+import { SvgProps } from 'react-native-svg'
 import { Body, Container, Header, InputContainer, LastSigh, SearchInput } from './styles'
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
@@ -25,7 +26,7 @@ import { SelectButtonsContainer } from '../../../components/_containers/SelectBu
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { getCatalogIcons } from '../../../services/notion/getCatalogIcons'
 
-type CategoryEntries = [string & { label: string, value: string, slug: string, tags: string[] }]
+type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 
 function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
@@ -117,7 +118,6 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 				<CategoryCard
 					hasElements={false}
 					title={'sem catagorias'}
-					svgUri={''}
 					onPress={() => { }}
 				/>
 			)
@@ -163,7 +163,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			inactiveColor: getInactiveCardColor(),
 			categoryName: categorySelected.value,
 			categoryTitle: categorySelected.label,
-			categoryIcon: getRelativeIconUrl(categorySelected.slug),
+			categorySvgIcon: categorySelected.SvgIcon,
 			categoryTags: categorySelected.tags
 		}
 
@@ -177,7 +177,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			inactiveColor: getInactiveCardColor(),
 			categoryName: '',
 			categoryTitle: '',
-			categoryIcon: '',
+			categorySvgIcon: null,
 			categoryTags: ['']
 		}
 

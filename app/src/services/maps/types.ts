@@ -1,3 +1,6 @@
+import React from 'react'
+import { SvgProps } from 'react-native-svg'
+
 import { PostType } from '../firebase/types'
 
 export type AddressSearchResult = {
@@ -39,7 +42,7 @@ export type CurrentCategory = {
 	inactiveColor: string
 	categoryName: string
 	categoryTitle: string
-	categoryIcon: string
+	categorySvgIcon: React.FC<SvgProps> | null
 	categoryTags: string[]
 }
 

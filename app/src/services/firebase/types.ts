@@ -1,3 +1,6 @@
+import React from 'react'
+import { SvgProps } from 'react-native-svg'
+
 import { serviceCategories } from '../../utils/postsCategories/serviceCategories'
 import { cultureCategories } from '../../utils/postsCategories/cultureCategories'
 import { saleCategories } from '../../utils/postsCategories/saleCategories'
@@ -57,7 +60,7 @@ export type CultureType = 'art' | 'event' | 'education'
 export type MacroCategory = {
 	label: string
 	value: string
-	slug: string
+	SvgIcon: React.FC<SvgProps>
 	tags: string[]
 }
 
