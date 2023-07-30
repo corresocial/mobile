@@ -1,4 +1,9 @@
 /* eslint-disable camelcase */
+
+/*
+	[deprecated] = 30/jul/2023
+*/
+
 import axios from 'axios'
 import { getEnvVars } from '../../../environment'
 

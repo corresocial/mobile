@@ -24,32 +24,19 @@ import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { getCatalogIcons } from '../../../services/notion/getCatalogIcons'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 
 function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
 
-	const [catalogIcons, setCatalogIcons] = useState([])
 	const [searchText, setSearchText] = useState('')
 
 	const feedPosts = [...locationDataContext.feedPosts.nearby, ...locationDataContext.feedPosts.city, ...locationDataContext.feedPosts.country] || []
 
 	useEffect(() => {
 		setPostTypeOnSearchParams()
-		loadCatalogIcons()
 	}, [])
-
-	const loadCatalogIcons = async () => {
-		return getCatalogIcons()
-			.then((icons) => {
-				setCatalogIcons(icons)
-			})
-			.catch((err) => {
-				console.log(err)
-			})
-	}
 
 	const setPostTypeOnSearchParams = () => {
 		setLocationDataOnContext({ searchParams: { ...locationDataContext.searchParams, postType: route.params.postType } })
@@ -86,18 +73,6 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			case 'socialImpact': return socialImpactCategories
 			default: return null
 		}
-	}
-
-	const getRelativeIconUrl = (categorySlug: string) => {
-		if (!catalogIcons.length) return ''
-		const icon = catalogIcons.reduce((total: any, current: any) => { // TODO Type
-			if (current.iconSlug === categorySlug) {
-				return current
-			}
-			return total
-		}, {})
-
-		return icon.iconUri || ''
 	}
 
 	const getRelativeTitle = () => {
