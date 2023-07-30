@@ -58,6 +58,7 @@ const getNearbyPosts = async (collectionRef, searchParams) => {
 const getCityPosts = async (collectionRef, searchParams, nearPostIds = []) => {
 	const queryCity = collectionRef
 		.where('location.city', '==', searchParams.city)
+		.where('range', '==', 'city')
 		.orderBy('createdAt', 'desc')
 
 	return queryCity.get()

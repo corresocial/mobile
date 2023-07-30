@@ -74,6 +74,7 @@ const getCityPosts = async (collectionRef: CollectionReference<DocumentData>, se
 	const queryCity = query(
 		collectionRef,
 		where('location.city', '==', searchParams.city),
+		where('range', '==', 'city'),
 		orderBy('createdAt', 'desc')
 	)
 

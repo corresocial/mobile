@@ -1,5 +1,15 @@
 import { CultureCategories } from '../../services/firebase/types'
 
+import MusicIcon from '../../assets/icons/categories/music.svg'
+import DanceAndBalletIcon from '../../assets/icons/categories/danceAndBallet.svg'
+import CulturePaintingIcon from '../../assets/icons/categories/culturePainting.svg'
+import AudiovisualIcon from '../../assets/icons/categories/audiovisual.svg'
+import ScenicIcon from '../../assets/icons/categories/scenic.svg'
+import TattooAndPiercingIcon from '../../assets/icons/categories/tattooAndPiercing.svg'
+import CraftsmanshipIcon from '../../assets/icons/categories/craftsmanship.svg'
+import DiversityIcon from '../../assets/icons/categories/diversity.svg'
+import OthersIcon from '../../assets/icons/categories/others.svg'
+
 export const updateCultureTags = (category: CultureCategories, tag: string) => {
 	cultureCategories[category].tags = [...cultureCategories[category].tags, tag]
 }
@@ -8,7 +18,7 @@ const cultureCategories = {
 	music: {
 		label: 'música',
 		value: 'music',
-		slug: 'music',
+		SvgIcon: MusicIcon,
 		tags: [
 			'rap',
 			'banda',
@@ -41,7 +51,7 @@ const cultureCategories = {
 	dance: {
 		label: 'dança',
 		value: 'dance',
-		slug: 'danceAndBallet',
+		SvgIcon: DanceAndBalletIcon,
 		tags: [
 			'balé',
 			'axé',
@@ -61,7 +71,7 @@ const cultureCategories = {
 	painting: {
 		label: 'pintura',
 		value: 'painting',
-		slug: 'culturePainting',
+		SvgIcon: CulturePaintingIcon,
 		tags: [
 			'óleo',
 			'aquarela',
@@ -75,7 +85,7 @@ const cultureCategories = {
 	audiovisual: {
 		label: 'audiovisual',
 		value: 'audiovisual',
-		slug: 'audiovisual',
+		SvgIcon: AudiovisualIcon,
 		tags: [
 			'captacao',
 			'animação',
@@ -92,7 +102,7 @@ const cultureCategories = {
 	scenic: {
 		label: 'cênicas',
 		value: 'scenic',
-		slug: 'scenic',
+		SvgIcon: ScenicIcon,
 		tags: [
 			'ator',
 			'teatro',
@@ -110,7 +120,7 @@ const cultureCategories = {
 	tattooAndPiercing: {
 		label: 'tattoo e piercing',
 		value: 'tattooAndPiercing',
-		slug: 'tattooAndPiercing',
+		SvgIcon: TattooAndPiercingIcon,
 		tags: [
 			'blackwork',
 			'aquarela',
@@ -130,7 +140,7 @@ const cultureCategories = {
 	craftsmanship: {
 		label: 'artesanato',
 		value: 'craftsmanship',
-		slug: 'craftsmanship',
+		SvgIcon: CraftsmanshipIcon,
 		tags: [
 			'crochê',
 			'tear',
@@ -148,7 +158,7 @@ const cultureCategories = {
 	diversity: {
 		label: 'diversidade',
 		value: 'diversity',
-		slug: 'diversity',
+		SvgIcon: DiversityIcon,
 		tags: [
 			'cognitiva',
 			'física',
@@ -164,7 +174,7 @@ const cultureCategories = {
 	others: {
 		label: 'outros',
 		value: 'others',
-		slug: 'others',
+		SvgIcon: OthersIcon,
 		tags: []
 	}
 }

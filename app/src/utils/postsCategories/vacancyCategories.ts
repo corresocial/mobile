@@ -1,5 +1,28 @@
 import { VacancyCategories } from '../../services/firebase/types'
 
+import ManagementIcon from '../../assets/icons/categories/management.svg'
+import FoodIcon from '../../assets/icons/categories/food.svg'
+import BeaksIcon from '../../assets/icons/categories/beaks.svg'
+import CltIcon from '../../assets/icons/categories/clt.svg'
+import StudentAndInternshipIcon from '../../assets/icons/categories/studentAndInternship.svg'
+import MeiIcon from '../../assets/icons/categories/mei.svg'
+import PartTimeIcon from '../../assets/icons/categories/partTime.svg'
+import HealthIcon from '../../assets/icons/categories/health.svg'
+import BeautyWellBeingIcon from '../../assets/icons/categories/beautyWellBeing.svg'
+import EducationIcon from '../../assets/icons/categories/education.svg'
+import AudiovisualIcon from '../../assets/icons/categories/audiovisual.svg'
+import CultureIcon from '../../assets/icons/categories/culture.svg'
+import GovernmentIcon from '../../assets/icons/categories/government.svg'
+import RealEstateIcon from '../../assets/icons/categories/realEstate.svg'
+import MarketingIcon from '../../assets/icons/categories/marketing.svg'
+import SecurityIcon from '../../assets/icons/categories/security.svg'
+import CommercialIcon from '../../assets/icons/categories/commercial.svg'
+import LegalIcon from '../../assets/icons/categories/legal.svg'
+import TechIcon from '../../assets/icons/categories/tech.svg'
+import TransportIcon from '../../assets/icons/categories/transport.svg'
+import DiversityIcon from '../../assets/icons/categories/diversity.svg'
+import OthersIcon from '../../assets/icons/categories/others.svg'
+
 export const updateVacancyTags = (category: VacancyCategories, tag: string) => {
 	vacancyCategories[category].tags = [...vacancyCategories[category].tags, tag]
 }
@@ -8,7 +31,7 @@ const vacancyCategories = {
 	management: {
 		label: 'administração',
 		value: 'management',
-		slug: 'management',
+		SvgIcon: ManagementIcon,
 		tags: [
 			'gestor',
 			'logistica',
@@ -24,7 +47,7 @@ const vacancyCategories = {
 	food: {
 		label: 'alimentação',
 		value: 'food',
-		slug: 'food',
+		SvgIcon: FoodIcon,
 		tags: [
 			'cozinheiro',
 			'garçom',
@@ -43,7 +66,7 @@ const vacancyCategories = {
 	beaks: {
 		label: 'bicos',
 		value: 'beaks',
-		slug: 'beaks',
+		SvgIcon: BeaksIcon,
 		tags: [
 			'limpeza',
 			'design',
@@ -65,7 +88,7 @@ const vacancyCategories = {
 	CLT: {
 		label: 'CLT',
 		value: 'CLT',
-		slug: 'clt',
+		SvgIcon: CltIcon,
 		tags: [
 			'administracao',
 			'alimentação',
@@ -89,7 +112,7 @@ const vacancyCategories = {
 	studentAndInternship: {
 		label: 'estudante e estágio',
 		value: 'studentAndInternship',
-		slug: 'studentAndInternship',
+		SvgIcon: StudentAndInternshipIcon,
 		tags: [
 			'administracao',
 			'alimentação',
@@ -113,7 +136,7 @@ const vacancyCategories = {
 	MEI: {
 		label: 'MEI',
 		value: 'MEI',
-		slug: 'mei',
+		SvgIcon: MeiIcon,
 		tags: [
 			'administracao',
 			'alimentação',
@@ -137,7 +160,7 @@ const vacancyCategories = {
 	partTime: {
 		label: 'meio período',
 		value: 'partTime',
-		slug: 'partTime',
+		SvgIcon: PartTimeIcon,
 		tags: [
 			'administracao',
 			'alimentação',
@@ -161,7 +184,7 @@ const vacancyCategories = {
 	health: {
 		label: 'saúde',
 		value: 'health',
-		slug: 'health',
+		SvgIcon: HealthIcon,
 		tags: [
 			'enfermagem',
 			'medico',
@@ -182,7 +205,7 @@ const vacancyCategories = {
 	beauty: {
 		label: 'beleza',
 		value: 'beauty',
-		slug: 'beauty',
+		SvgIcon: BeautyWellBeingIcon,
 		tags: [
 			'cabelereiro',
 			'manicure',
@@ -198,7 +221,7 @@ const vacancyCategories = {
 	culture: {
 		label: 'cultura',
 		value: 'culture',
-		slug: 'culture',
+		SvgIcon: CultureIcon,
 		tags: [
 			'audiovisual',
 			'eventos',
@@ -219,7 +242,7 @@ const vacancyCategories = {
 	education: {
 		label: 'educação',
 		value: 'education',
-		slug: 'education',
+		SvgIcon: EducationIcon,
 		tags: [
 			'químico',
 			'físico',
@@ -237,7 +260,7 @@ const vacancyCategories = {
 	government: {
 		label: 'governo',
 		value: 'government',
-		slug: 'government',
+		SvgIcon: GovernmentIcon,
 		tags: [
 			'segurança',
 			'atendente',
@@ -259,7 +282,7 @@ const vacancyCategories = {
 	audiovisual: {
 		label: 'audiovisual',
 		value: 'audiovisual',
-		slug: 'audiovisual',
+		SvgIcon: AudiovisualIcon,
 		tags: [
 			'fotografia',
 			'produção',
@@ -276,7 +299,7 @@ const vacancyCategories = {
 	realEstate: {
 		label: 'imobiliária',
 		value: 'realEstate',
-		slug: 'realEstate',
+		SvgIcon: RealEstateIcon,
 		tags: [
 			'consultor',
 			'corretor',
@@ -293,7 +316,7 @@ const vacancyCategories = {
 	legal: {
 		label: 'jurídico',
 		value: 'legal',
-		slug: 'legal',
+		SvgIcon: LegalIcon,
 		tags: [
 			'empresarial',
 			'advogado',
@@ -309,7 +332,7 @@ const vacancyCategories = {
 	marketing: {
 		label: 'marketing',
 		value: 'marketing',
-		slug: 'marketing',
+		SvgIcon: MarketingIcon,
 		tags: [
 			'gerente',
 			'agente',
@@ -330,7 +353,7 @@ const vacancyCategories = {
 	tech: {
 		label: 'tecnologia',
 		value: 'tech',
-		slug: 'tech',
+		SvgIcon: TechIcon,
 		tags: [
 			'programador',
 			'designer',
@@ -349,7 +372,7 @@ const vacancyCategories = {
 	security: {
 		label: 'segurança',
 		value: 'security',
-		slug: 'security',
+		SvgIcon: SecurityIcon,
 		tags: [
 			'eventos',
 			'publico',
@@ -367,7 +390,7 @@ const vacancyCategories = {
 	transport: {
 		label: 'transporte',
 		value: 'transport',
-		slug: 'transport',
+		SvgIcon: TransportIcon,
 		tags: [
 			'uber',
 			'motoboy',
@@ -385,7 +408,7 @@ const vacancyCategories = {
 	commercial: {
 		label: 'comercial',
 		value: 'commercial',
-		slug: 'commercial',
+		SvgIcon: CommercialIcon,
 		tags: [
 			'representante',
 			'vendedor',
@@ -403,7 +426,7 @@ const vacancyCategories = {
 	diversity: {
 		label: 'diversidade',
 		value: 'diversity',
-		slug: 'diversity',
+		SvgIcon: DiversityIcon,
 		tags: [
 			'cognitiva',
 			'física',
@@ -419,7 +442,7 @@ const vacancyCategories = {
 	others: {
 		label: 'outros',
 		value: 'others',
-		slug: 'others',
+		SvgIcon: OthersIcon,
 		tags: []
 	},
 }

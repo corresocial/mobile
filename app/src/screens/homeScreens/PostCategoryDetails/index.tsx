@@ -33,7 +33,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 
 	const {
 		backgroundColor,
-		categoryIcon,
+		categorySvgIcon,
 		categoryName,
 		categoryTags,
 		categoryTitle,
@@ -181,7 +181,8 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 			<Header>
 				<DefaultPostViewHeader
 					text={categoryTitle}
-					svgUri={categoryIcon}
+					SvgIcon={categorySvgIcon}
+					smallIconArea
 					onBackPress={() => navigation.goBack()}
 				/>
 				<InputContainer>
