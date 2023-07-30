@@ -1,5 +1,16 @@
 import { SocialImpactCategories } from '../../services/firebase/types'
 
+import OngsIcon from '../../assets/icons/categories/ongs.svg'
+import PopularIniciativesIcon from '../../assets/icons/categories/popularIniciatives.svg'
+import CharityBazaarsIcon from '../../assets/icons/categories/charityBazaars.svg'
+import AssociationsIcon from '../../assets/icons/categories/associations.svg'
+import CollectiveIcon from '../../assets/icons/categories/collective.svg'
+import SocialProjectsIcon from '../../assets/icons/categories/socialProjects.svg'
+import VolounteeringIcon from '../../assets/icons/categories/volounteering.svg'
+import DonationHeartIcon from '../../assets/icons/categories/donationHeart.svg'
+import DiversityIcon from '../../assets/icons/categories/diversity.svg'
+import OthersIcon from '../../assets/icons/categories/others.svg'
+
 export const updateSocialImpactTags = (category: SocialImpactCategories, tag: string) => {
 	socialImpactCategories[category].tags = [...socialImpactCategories[category].tags, tag]
 }
@@ -25,62 +36,62 @@ const socialImpactCategories = {
 	ONGs: {
 		label: 'ONGs',
 		value: 'ONGs',
-		slug: 'ongs',
+		SvgIcon: OngsIcon,
 		tags: commonTags
 	},
 
 	popularIniciatives: {
 		label: 'iniciativas populares',
 		value: 'popularIniciatives',
-		slug: 'popularIniciatives',
+		SvgIcon: PopularIniciativesIcon,
 		tags: commonTags
 	},
 
 	charityBazaars: {
 		label: 'bazares beneficentes',
 		value: 'charityBazaars',
-		slug: 'charityBazaars',
+		SvgIcon: CharityBazaarsIcon,
 		tags: commonTags
 	},
 
 	associations: {
 		label: 'associações',
 		value: 'associations',
-		slug: 'associations',
+		SvgIcon: AssociationsIcon,
 		tags: commonTags
 	},
 	collective: {
 		label: 'coletivos',
 		value: 'collective',
-		slug: 'collective',
+		SvgIcon: CollectiveIcon,
 		tags: commonTags
 	},
 
 	socialProjects: {
 		label: 'projetos sociais',
 		value: 'socialProjects',
-		slug: 'socialProjects',
+		SvgIcon: SocialProjectsIcon,
 		tags: commonTags
 	},
 
 	volounteering: {
 		label: 'voluntariado',
 		value: 'volounteering',
-		slug: 'volounteering',
+		SvgIcon: VolounteeringIcon,
 		tags: commonTags
 	},
 
 	donations: {
 		label: 'doações',
 		value: 'donations',
-		slug: 'donationHeart',
+		SvgIcon: DonationHeartIcon,
 		tags: commonTags
 	},
 
 	diversity: {
 		label: 'diversidade',
 		value: 'diversity',
-		slug: 'diversity',
+		SvgIcon: DiversityIcon,
 		tags: [
 			'cognitiva',
 			'física',
@@ -96,7 +107,7 @@ const socialImpactCategories = {
 	others: {
 		label: 'outros',
 		value: 'others',
-		slug: 'others',
+		SvgIcon: OthersIcon,
 		tags: []
 	},
 }

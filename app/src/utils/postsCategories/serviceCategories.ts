@@ -1,5 +1,28 @@
 import { ServiceCategories } from '../../services/firebase/types'
 
+import ArtIcon from '../../assets/icons/categories/art.svg'
+import AnimalIcon from '../../assets/icons/categories/animals.svg'
+import HouseIcon from '../../assets/icons/categories/house.svg'
+import AutoAndPartsIcon from '../../assets/icons/categories/autoAndParts.svg'
+import ClothesAndAccessoriesIcon from '../../assets/icons/categories/clothesAndAccessories.svg'
+import ToysIcon from '../../assets/icons/categories/toys.svg'
+import HealthIcon from '../../assets/icons/categories/health.svg'
+import LeisureIcon from '../../assets/icons/categories/leisure.svg'
+import TransportIcon from '../../assets/icons/categories/transport.svg'
+import SportIcon from '../../assets/icons/categories/sport.svg'
+import FoodIcon from '../../assets/icons/categories/food.svg'
+import TechAndCellPhoneIcon from '../../assets/icons/categories/techAndCellPhone.svg'
+import TechIcon from '../../assets/icons/categories/tech.svg'
+import DrinkIcon from '../../assets/icons/categories/drink.svg'
+import EducationIcon from '../../assets/icons/categories/education.svg'
+import BeautyWellBeingIcon from '../../assets/icons/categories/beautyWellBeing.svg'
+import FinancesIcon from '../../assets/icons/categories/finances.svg'
+import TravelIcon from '../../assets/icons/categories/travel.svg'
+import EventsIcon from '../../assets/icons/categories/events.svg'
+import LegalIcon from '../../assets/icons/categories/legal.svg'
+import DiversityIcon from '../../assets/icons/categories/diversity.svg'
+import OthersIcon from '../../assets/icons/categories/others.svg'
+
 export const updateServiceTags = (category: ServiceCategories, tag: string) => {
 	serviceCategories[category].tags = [...serviceCategories[category].tags, tag]
 }
@@ -7,8 +30,8 @@ export const updateServiceTags = (category: ServiceCategories, tag: string) => {
 const serviceCategories = {
 	house: {
 		label: 'casa',
-		value: 'house',
-		slug: 'house',
+		value: 'House',
+		SvgIcon: HouseIcon,
 		tags: [
 			'casa',
 			'arquitetura',
@@ -42,7 +65,7 @@ const serviceCategories = {
 	art: {
 		label: 'arte',
 		value: 'art',
-		slug: 'art',
+		SvgIcon: ArtIcon,
 		tags: [
 			'acessorios',
 			'tinta',
@@ -70,7 +93,7 @@ const serviceCategories = {
 	autoAndParts: {
 		label: 'automóveis e peças',
 		value: 'autoAndParts',
-		slug: 'autoAndParts',
+		SvgIcon: AutoAndPartsIcon,
 		tags: [
 			'moto',
 			'usado',
@@ -97,7 +120,7 @@ const serviceCategories = {
 	clothesAndAccessories: {
 		label: 'roupas e acessórios',
 		value: 'clothesAndAccessories',
-		slug: 'clothesAndAccessories',
+		SvgIcon: ClothesAndAccessoriesIcon,
 		tags: [
 			'camiseta',
 			'calça',
@@ -121,7 +144,7 @@ const serviceCategories = {
 	toys: {
 		label: 'infantil',
 		value: 'toys',
-		slug: 'toys',
+		SvgIcon: ToysIcon,
 		tags: [
 			'alugar',
 			'festa',
@@ -143,7 +166,7 @@ const serviceCategories = {
 	health: {
 		label: 'saúde',
 		value: 'health',
-		slug: 'health',
+		SvgIcon: HealthIcon,
 		tags: [
 			'medico',
 			'enfermagem',
@@ -172,7 +195,7 @@ const serviceCategories = {
 	leisure: {
 		label: 'lazer',
 		value: 'leisure',
-		slug: 'leisure',
+		SvgIcon: LeisureIcon,
 		tags: [
 			'turismo',
 			'praia',
@@ -193,7 +216,7 @@ const serviceCategories = {
 	transport: {
 		label: 'transporte',
 		value: 'transport',
-		slug: 'transport',
+		SvgIcon: TransportIcon,
 		tags: [
 			'onibus',
 			'rodoviario',
@@ -218,7 +241,7 @@ const serviceCategories = {
 	sport: {
 		label: 'esporte',
 		value: 'sport',
-		slug: 'sport',
+		SvgIcon: SportIcon,
 		tags: [
 			'futebol',
 			'fitness',
@@ -240,7 +263,7 @@ const serviceCategories = {
 	food: {
 		label: 'comida',
 		value: 'food',
-		slug: 'food',
+		SvgIcon: FoodIcon,
 		tags: [
 			'marmita',
 			'pizza',
@@ -267,7 +290,7 @@ const serviceCategories = {
 	techAndCellPhone: {
 		label: 'eletrônicos e assistência',
 		value: 'techAndCellPhone',
-		slug: 'techAndCellPhone',
+		SvgIcon: TechAndCellPhoneIcon,
 		tags: [
 			'tv',
 			'celular',
@@ -285,7 +308,7 @@ const serviceCategories = {
 	drink: {
 		label: 'bebida',
 		value: 'drink',
-		slug: 'drink',
+		SvgIcon: DrinkIcon,
 		tags: ['cerveja', 'vinho', 'drinks', 'gin', 'vodka', 'chopp', 'bar', 'refrigerante', 'agua', 'suco',
 		]
 	},
@@ -293,7 +316,7 @@ const serviceCategories = {
 	education: {
 		label: 'educação',
 		value: 'education',
-		slug: 'education',
+		SvgIcon: EducationIcon,
 		tags: [
 			'educação',
 			'matemática',
@@ -321,7 +344,7 @@ const serviceCategories = {
 	tech: {
 		label: 'tecnologia',
 		value: 'tech',
-		slug: 'tech',
+		SvgIcon: TechIcon,
 		tags: [
 			'assistencia',
 			'inovação',
@@ -347,7 +370,7 @@ const serviceCategories = {
 	beautyWellBeing: {
 		label: 'beleza e bem-estar',
 		value: 'beautyWellBeing',
-		slug: 'beauty',
+		SvgIcon: BeautyWellBeingIcon,
 		tags: [
 			'bem-estar',
 			'moda',
@@ -375,7 +398,7 @@ const serviceCategories = {
 	animals: {
 		label: 'bichos',
 		value: 'animals',
-		slug: 'pets',
+		SvgIcon: AnimalIcon,
 		tags: [
 			'cachorro',
 			'dog',
@@ -399,7 +422,7 @@ const serviceCategories = {
 	finances: {
 		label: 'financeiro',
 		value: 'finances',
-		slug: 'finances',
+		SvgIcon: FinancesIcon,
 		tags: [
 			'financeiro',
 			'empreendedorismo',
@@ -418,7 +441,7 @@ const serviceCategories = {
 	travel: {
 		label: 'viagem',
 		value: 'travel',
-		slug: 'travel',
+		SvgIcon: TravelIcon,
 		tags: [
 			'viagem',
 			'natureza',
@@ -441,7 +464,7 @@ const serviceCategories = {
 	events: {
 		label: 'eventos',
 		value: 'events',
-		slug: 'businessDayEvent',
+		SvgIcon: EventsIcon,
 		tags: [
 			'casamento',
 			'festas',
@@ -465,7 +488,7 @@ const serviceCategories = {
 	legal: {
 		label: 'jurídico',
 		value: 'legal',
-		slug: 'legal',
+		SvgIcon: LegalIcon,
 		tags: [
 			'empresarial',
 			'advogado',
@@ -481,7 +504,7 @@ const serviceCategories = {
 	diversity: {
 		label: 'diversidade',
 		value: 'diversity',
-		slug: 'diversity',
+		SvgIcon: DiversityIcon,
 		tags: [
 			'cognitiva',
 			'física',
@@ -497,7 +520,7 @@ const serviceCategories = {
 	others: {
 		label: 'outros',
 		value: 'others',
-		slug: 'others',
+		SvgIcon: OthersIcon,
 		tags: []
 	},
 }

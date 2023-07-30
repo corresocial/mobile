@@ -136,7 +136,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 					inactiveColor={getInactiveCardColor()}
 					key={uuid()}
 					title={category[1].label}
-					svgUri={getRelativeIconUrl(category[1].slug)}
+					SvgIcon={category[1].SvgIcon}
 					onPress={() => navigateToCategoryDetails(category[1])}
 				/>
 			)
