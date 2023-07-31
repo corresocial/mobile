@@ -17,6 +17,7 @@ import {
 	HorizontalSigh,
 	BodyPadding,
 	VerticalPaddingContainer,
+	PostPadding,
 } from './styles'
 import { theme } from '../../../common/theme'
 import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
@@ -565,32 +566,35 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			</DefaultHeaderContainer>
 
 			<Body>
-				<HorizontalTagList
-					tags={getUserPostTags()}
-					selectedTags={selectedTags}
-					onSelectTag={onSelectTag}
-				/>
 				<BodyPadding>
 					<FlashList
+						ListHeaderComponent={() => {
+							return (
+								<HorizontalTagList
+									tags={getUserPostTags()}
+									selectedTags={selectedTags}
+									onSelectTag={onSelectTag}
+								/>
+							)
+						}}
 						estimatedItemSize={100}
 						data={
 							!selectedTags.length
 								? getUserPosts()
 								: filtredUserPosts()
 						}
-						renderItem={(
-							{ item }: any // TODO type
-						) => (
-							<PostCard
-								post={item}
-								owner={getUserField()}
-								onPress={() => goToPostView(item)}
-							/>
+						renderItem={({ item }: any) => ( // TODO type
+							<PostPadding>
+								<PostCard
+									post={item}
+									owner={getUserField()}
+									onPress={() => goToPostView(item)}
+								/>
+							</PostPadding>
 						)}
 						showsVerticalScrollIndicator={false}
 						ItemSeparatorComponent={() => <VerticalSigh height={relativeScreenHeight(0.8)} />}
-						// ListHeaderComponent={}
-						ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
+						ListHeaderComponentStyle={{ marginVertical: relativeScreenHeight(2) }}
 						ListFooterComponent={() => (isLoggedUser && (!userDataContext.posts || userDataContext.posts.length === 0)
 							? (
 								<WithoutPostsMessage

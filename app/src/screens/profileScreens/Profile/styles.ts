@@ -60,13 +60,18 @@ export const VerticalPaddingContainer = styled.View`
 export const Body = styled.View`
     flex: 1;
 	height: ${relativeScreenHeight(70)}px;
-	padding-top: ${RFValue(12)}px;
+	// padding-top: ${RFValue(5)}px;
     background-color: ${({ theme }) => theme.orange2};
 	overflow: visible;
 `
 
+export const PostPadding = styled.View`
+	padding-horizontal: 10px;
+
+`
+
 export const BodyPadding = styled(Body)`
-	padding: ${RFValue(12)}px;
+	/* padding: ${RFValue(12)}px; */
 `
 
 export const FlatList = styled.FlatList`
