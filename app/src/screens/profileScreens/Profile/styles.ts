@@ -2,7 +2,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
-export const Container = styled.ScrollView`
+export const Container = styled.View`
     flex: 1;
 	background-color: ${({ theme }) => theme.white3};
 `
@@ -17,7 +17,7 @@ export const ProfileInfoContainer = styled.View`
 	align-items: center;
 `
 
-export const VerticalSigh = styled.View`
+export const HorizontalSigh = styled.View`
 	height: 100%;
 	width: ${relativeScreenWidth(3)}px;
 `
@@ -71,14 +71,4 @@ export const BodyPadding = styled(Body)`
 
 export const FlatList = styled.FlatList`
 
-`
-
-export const Sigh = styled.View`
-	width: 100%;
-	height: ${RFValue(5)}px;
-`
-
-export const FooterSigh = styled.View`
-	width: 100%;
-	height: ${RFValue(64)}px;
 `

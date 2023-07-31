@@ -35,7 +35,7 @@ export const SearchInput = styled.TextInput`
 
 export const Body = styled.View`
 	flex: 1;
-	padding: ${RFValue(15)}px;
+	padding-horizontal: ${RFValue(15)}px;
 	padding-bottom: 0px;
 `
 

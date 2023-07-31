@@ -12,11 +12,9 @@ import {
 	ProfileInfoContainer,
 	UserDescription,
 	UserName,
-	Sigh,
-	FooterSigh,
 	ExpandedUserDescription,
 	ExpandedUserDescriptionArea,
-	VerticalSigh,
+	HorizontalSigh,
 	BodyPadding,
 	VerticalPaddingContainer,
 } from './styles'
@@ -62,7 +60,8 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { updateUser } from '../../../services/firebase/user/updateUser'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ProfileVerifiedModal } from '../../../components/_modals/ProfileVerifiedModal'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { VerticalSigh } from '../../../components/VerticalSigh'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -72,17 +71,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
 	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
 	const [toggleVerifiedModal, setToggleVerifiedModal] = useState(false)
-
-	/* useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			if (route.params && route.params.userId) {
-				getProfileDataFromRemote(route.params.userId)
-			} else {
-				getProfileDataFromLocal()
-			}
-		})
-		return unsubscribe
-	}, [navigation]) */
 
 	useEffect(() => {
 		if (route.params && route.params.userId) {
@@ -158,7 +146,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 		switch (item.postType) {
 			case 'service': {
-				navigation.navigate(
+				navigation.push(
 					route.params?.userId
 						? `ViewServicePost${stackLabel}`
 						: ('ViewServicePost' as any), // TODO Type
@@ -167,7 +155,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 				break
 			}
 			case 'sale': {
-				navigation.navigate(
+				navigation.push(
 					route.params?.userId
 						? `ViewSalePost${stackLabel}`
 						: ('ViewSalePost' as any), // TODO Type
@@ -176,7 +164,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 				break
 			}
 			case 'vacancy': {
-				navigation.navigate(
+				navigation.push(
 					route.params?.userId
 						? `ViewVacancyPost${stackLabel}`
 						: ('ViewVacancyPost' as any), // TODO Type
@@ -185,7 +173,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 				break
 			}
 			case 'socialImpact': {
-				navigation.navigate(
+				navigation.push(
 					route.params?.userId
 						? `ViewSocialImpactPost${stackLabel}`
 						: ('ViewSocialImpactPost' as any), // TODO Type
@@ -194,7 +182,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 				break
 			}
 			case 'culture': {
-				navigation.navigate(
+				navigation.push(
 					route.params?.userId
 						? `ViewCulturePost${stackLabel}`
 						: ('ViewCulturePost' as any), // TODO Type
@@ -264,11 +252,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 				messages: {},
 			},
 		})
-
-		// [DEPRECATED]
-		/* const { cellNumber } = await getPrivateContacts(getUserField('userId') as string)
-		const message = 'olá! vi que está no corre. Podemos conversar?'
-		Linking.openURL(`whatsapp://send?text=${message}&phone=${cellNumber}`) */
 	}
 
 	const openSocialMediaManagement = () => {
@@ -341,9 +324,104 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		}
 	}
 
+	const renderUserVerifiedType = () => {
+		if (!hasAnyVerifiedUser()) return
+
+		const verifiedLabel = getVerifiedUserType()
+		if (!verifiedLabel) return
+
+		return (
+			<VerticalPaddingContainer>
+				<TouchableOpacity onPress={() => setToggleVerifiedModal(true)}>
+					<ProfileInfoContainer>
+						{getRelativeVerifiedIndentifier(verifiedLabel)}
+					</ProfileInfoContainer>
+				</TouchableOpacity>
+			</VerticalPaddingContainer>
+		)
+	}
+
+	const hasAnyVerifiedUser = () => {
+		return ((userDataContext && userDataContext.verified && isLoggedUser) || (user && user.verified))
+	}
+
+	const getVerifiedUserType = () => {
+		if (verifiedUserTypeIs('default')) return 'default'
+		if (verifiedUserTypeIs('impact')) return 'impact'
+		if (verifiedUserTypeIs('leader')) return 'leader'
+		return ''
+	}
+
+	const verifiedUserTypeIs = (verifiedLabel: VerifiedLabelName) => {
+		return (
+			(
+				userDataContext.verified
+				&& userDataContext.verified.type === verifiedLabel
+				&& isLoggedUser
+			)
+			|| (
+				user.verified
+				&& user.verified.type === verifiedLabel
+			)
+		)
+	}
+
+	const getRelativeVerifiedIndentifier = (verifiedLabel: VerifiedLabelName) => {
+		switch (verifiedLabel) {
+			case 'default': {
+				return (
+					<>
+						<VerifiedLabel
+							height={RFValue(22)}
+							width={RFValue(22)}
+							style={{ marginRight: RFValue(6) }}
+						/>
+						<UserDescription>
+							{'perfil verificado'}
+						</UserDescription>
+					</>
+				)
+			}
+			case 'impact': {
+				return (
+					<>
+						<ImpactLabel
+							height={RFValue(22)}
+							width={RFValue(22)}
+							style={{ marginRight: RFValue(6) }}
+						/>
+						<UserDescription>
+							{'perfil de impacto'}
+						</UserDescription>
+					</>
+				)
+			}
+			case 'leader': {
+				return (
+					<>
+						<LeaderLabel
+							height={RFValue(22)}
+							width={RFValue(22)}
+							style={{ marginRight: RFValue(6) }}
+						/>
+						<UserDescription>
+							{'líder social'}
+						</UserDescription>
+					</>
+				)
+			}
+			default: return <></>
+		}
+	}
+
 	return (
-		<Container showsVerticalScrollIndicator={false}>
-			{((userDataContext && userDataContext.verified && isLoggedUser) || (user && user.verified))
+		<Container >
+			<FocusAwareStatusBar
+				backgroundColor={theme.white3}
+				barStyle={'dark-content'}
+			/>
+			{
+				hasAnyVerifiedUser()
 				&& (
 					<ProfileVerifiedModal
 						visibility={toggleVerifiedModal}
@@ -354,13 +432,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 								: user.verified?.type
 						}
 					/>
-				)}
-			<FocusAwareStatusBar
-				backgroundColor={
-					profileOptionsIsOpen ? 'rgba(0,0,0,0.5)' : theme.white3
-				}
-				barStyle={'dark-content'}
-			/>
+				)
+			}
 			<DefaultHeaderContainer
 				backgroundColor={theme.white3}
 				centralized={false}
@@ -370,15 +443,17 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			>
 				<ProfileHeader>
 					<ProfileInfoContainer>
-						{!isLoggedUser && (
-							<>
-								<BackButton
-									onPress={navigationToBack}
-									withoutSigh={false}
-								/>
-								<VerticalSigh />
-							</>
-						)}
+						{
+							!isLoggedUser && (
+								<>
+									<BackButton
+										onPress={navigationToBack}
+										withoutSigh={false}
+									/>
+									<HorizontalSigh />
+								</>
+							)
+						}
 						<PhotoPortrait
 							height={isLoggedUser ? RFValue(95) : RFValue(65)}
 							width={isLoggedUser ? RFValue(100) : RFValue(70)}
@@ -390,123 +465,55 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							<UserName numberOfLines={3}>
 								{getUserField('name')}
 							</UserName>
-							{((userDataContext.verified
-								&& userDataContext.verified.type === 'leader'
-								&& isLoggedUser)
-								|| (user.verified
-									&& user.verified.type === 'leader'))
-								&& (
-									<VerticalPaddingContainer>
-										<TouchableOpacity
-											onPress={() => setToggleVerifiedModal(true)}
-										>
-											<ProfileInfoContainer>
-												<LeaderLabel
-													height={RFValue(22)}
-													width={RFValue(22)}
-													style={{ marginRight: RFValue(6) }}
-												/>
-
-												<UserDescription>
-													{'líder social'}
-												</UserDescription>
-											</ProfileInfoContainer>
-										</TouchableOpacity>
-									</VerticalPaddingContainer>
-								)}
-							{((userDataContext.verified
-								&& userDataContext.verified.type === 'default'
-								&& isLoggedUser)
-								|| (user.verified
-									&& user.verified.type === 'default'))
-								&& (
-									<VerticalPaddingContainer>
-										<TouchableOpacity
-											onPress={() => setToggleVerifiedModal(true)}
-										>
-											<ProfileInfoContainer>
-												<VerifiedLabel
-													height={RFValue(22)}
-													width={RFValue(22)}
-													style={{ marginRight: RFValue(6) }}
-												/>
-												<UserDescription>
-													{'perfil verificado'}
-												</UserDescription>
-											</ProfileInfoContainer>
-										</TouchableOpacity>
-									</VerticalPaddingContainer>
-								)}
-							{(((userDataContext.verified
-								&& userDataContext.verified.type) === 'impact'
-								&& isLoggedUser)
-								|| (user.verified
-									&& user.verified.type === 'impact'))
-								&& (
-									<VerticalPaddingContainer>
-										<TouchableOpacity
-											onPress={() => setToggleVerifiedModal(true)}
-										>
-											<ProfileInfoContainer>
-												<ImpactLabel
-													height={RFValue(22)}
-													width={RFValue(22)}
-													style={{ marginRight: RFValue(6) }}
-												/>
-												<UserDescription>
-													{'perfil de impacto'}
-												</UserDescription>
-											</ProfileInfoContainer>
-										</TouchableOpacity>
-									</VerticalPaddingContainer>
-								)}
-							{!userDescriptionIsExpanded && isLoggedUser && (
-								<TouchableOpacity
-									onPress={() => getUserField('description')
-										&& setUserDescriptionIsExpanded(true)}
-								>
-									<UserDescription numberOfLines={3}>
-										{getUserField('description') || 'você pode adicionar uma descrição em "editar".'}
-									</UserDescription>
-									{/* {getUserField('description').length >= 88 && (
-											<Text style={{ fontWeight: 'bold' }}>{'mostrar mais'}</Text>)} */}
-								</TouchableOpacity>
-							)}
+							{
+								renderUserVerifiedType()
+							}
+							{
+								!userDescriptionIsExpanded && isLoggedUser && (
+									<TouchableOpacity
+										onPress={() => getUserField('description')
+											&& setUserDescriptionIsExpanded(true)}
+									>
+										<UserDescription numberOfLines={3}>
+											{getUserField('description') || 'você pode adicionar uma descrição em "editar".'}
+										</UserDescription>
+									</TouchableOpacity>
+								)
+							}
 						</InfoArea>
 					</ProfileInfoContainer>
-					{(userDescriptionIsExpanded || !isLoggedUser)
+					{
+						(userDescriptionIsExpanded || !isLoggedUser)
 						&& getUserField('description')
 						&& (
 							<ExpandedUserDescriptionArea>
-								<ScrollView
-									showsVerticalScrollIndicator={false}
-								>
-									<TouchableOpacity
-										onPress={() => setUserDescriptionIsExpanded(false)}
-									>
+								<ScrollView showsVerticalScrollIndicator={false}	>
+									<TouchableOpacity onPress={() => setUserDescriptionIsExpanded(false)}>
 										<ExpandedUserDescription>
 											{getUserField('description')}
 										</ExpandedUserDescription>
 									</TouchableOpacity>
 								</ScrollView>
 							</ExpandedUserDescriptionArea>
-						)}
-					{isLoggedUser && arrayIsEmpty(getUserField('socialMedias')) ? (
-						<VerticalPaddingContainer>
-							<UserDescription>
-								{
-									'Você pode adicionar redes sociais e contatos em "editar".'
-								}
-							</UserDescription>
-						</VerticalPaddingContainer>
-					) : (
-						<HorizontalSocialMediaList
-							socialMedias={
-								getUserField('socialMedias') as SocialMedia[]
-							}
-							onPress={openSocialMediaManagement}
-						/>
-					)}
+						)
+					}
+
+					{
+						isLoggedUser && arrayIsEmpty(getUserField('socialMedias'))
+							? (
+								<VerticalPaddingContainer>
+									<UserDescription>
+										{'Você pode adicionar redes sociais e contatos em "editar".'}
+									</UserDescription>
+								</VerticalPaddingContainer>
+							) : (
+								<HorizontalSocialMediaList
+									socialMedias={getUserField('socialMedias') as SocialMedia[]}
+									onPress={openSocialMediaManagement}
+								/>
+							)
+					}
+
 					<OptionsArea>
 						<SmallButton
 							label={isLoggedUser ? 'editar' : 'chat'}
@@ -547,9 +554,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						>
 							<SmallButton
 								color={theme.white3}
-								SvgIcon={
-									isLoggedUser ? GearIcon : ThreeDotsIcon
-								}
+								SvgIcon={isLoggedUser ? GearIcon : ThreeDotsIcon}
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}
 								onPress={openProfileOptions}
@@ -558,6 +563,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 					</OptionsArea>
 				</ProfileHeader>
 			</DefaultHeaderContainer>
+
 			<Body>
 				<HorizontalTagList
 					tags={getUserPostTags()}
@@ -582,31 +588,22 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							/>
 						)}
 						showsVerticalScrollIndicator={false}
-						ItemSeparatorComponent={() => <Sigh />}
-						ListHeaderComponent={() => (isLoggedUser && (!userDataContext.posts || userDataContext.posts.length === 0)
+						ItemSeparatorComponent={() => <VerticalSigh height={relativeScreenHeight(0.8)} />}
+						// ListHeaderComponent={}
+						ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
+						ListFooterComponent={() => (isLoggedUser && (!userDataContext.posts || userDataContext.posts.length === 0)
 							? (
 								<WithoutPostsMessage
 									title={'faça uma postagem!'}
 									message={
 										'você precisa fazer um post para que outras pessoas possam te encontrem\ncaso veio aqui apenas para procurar, não se preocupe.'
 									}
-									highlightedWords={[
-										'precisa',
-										'fazer',
-										'um',
-										'post',
-										'outras',
-										'pessoas',
-										'possam',
-										'te',
-										'encontrar',
-									]}
+									highlightedWords={['precisa', 'fazer', 'um', 'post', 'outras', 'pessoas', 'possam', 'te', 'encontrar',]}
 									backgroundColor={theme.yellow1}
 								/>
 							)
-							: <></>)}
-						ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
-						ListFooterComponent={() => <FooterSigh />}
+							: <VerticalSigh height={relativeScreenHeight(11)} />
+						)}
 					/>
 				</BodyPadding>
 			</Body>
