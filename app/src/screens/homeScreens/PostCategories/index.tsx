@@ -24,6 +24,7 @@ import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { VerticalSigh } from '../../../components/VerticalSigh'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 
@@ -184,6 +185,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			<KeyboardAvoidingView style={{ flex: 1 }}>
 				<Body style={{ backgroundColor: getRelativeColor() }}>
 					<ScrollView showsVerticalScrollIndicator={false}>
+						<VerticalSigh />
 						<SelectButtonsContainer backgroundColor={'transparent'} noPadding>
 							{renderCategories()}
 						</SelectButtonsContainer>
