@@ -300,13 +300,11 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		if (route.params && route.params.userId) {
 			return user.posts
 				? user.posts.sort(
-					sortPostsByCreatedData as (
-						a: PostCollection,
-						b: PostCollection
-					) => number
+					sortPostsByCreatedData as (a: PostCollection, b: PostCollection) => number
 				)
 				: []
 		}
+
 		return userDataContext.posts
 			? userDataContext.posts.sort(sortPostsByCreatedData)
 			: []
