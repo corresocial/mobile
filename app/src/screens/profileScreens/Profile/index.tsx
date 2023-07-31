@@ -15,9 +15,10 @@ import {
 	ExpandedUserDescription,
 	ExpandedUserDescriptionArea,
 	HorizontalSigh,
-	BodyPadding,
 	VerticalPaddingContainer,
 	PostPadding,
+	SafeAreaViewContainer,
+	OffBounceBackground,
 } from './styles'
 import { theme } from '../../../common/theme'
 import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
@@ -421,6 +422,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 				backgroundColor={theme.white3}
 				barStyle={'dark-content'}
 			/>
+			<SafeAreaViewContainer />
 			{
 				hasAnyVerifiedUser()
 				&& (
@@ -435,146 +437,154 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 					/>
 				)
 			}
-			<DefaultHeaderContainer
-				backgroundColor={theme.white3}
-				centralized={false}
-				grow
-				borderBottomWidth={0}
-				paddingVertical={15}
+			<OffBounceBackground
+				colors={[theme.white3, theme.orange2]}
+				locations={[0.5, 0.5]}
 			>
-				<ProfileHeader>
-					<ProfileInfoContainer>
-						{
-							!isLoggedUser && (
-								<>
-									<BackButton
-										onPress={navigationToBack}
-										withoutSigh={false}
-									/>
-									<HorizontalSigh />
-								</>
-							)
-						}
-						<PhotoPortrait
-							height={isLoggedUser ? RFValue(95) : RFValue(65)}
-							width={isLoggedUser ? RFValue(100) : RFValue(70)}
-							borderWidth={3}
-							borderRightWidth={8}
-							pictureUri={getProfilePicture()}
-						/>
-						<InfoArea>
-							<UserName numberOfLines={3}>
-								{getUserField('name')}
-							</UserName>
-							{
-								renderUserVerifiedType()
-							}
-							{
-								!userDescriptionIsExpanded && isLoggedUser && (
-									<TouchableOpacity
-										onPress={() => getUserField('description')
-											&& setUserDescriptionIsExpanded(true)}
-									>
-										<UserDescription numberOfLines={3}>
-											{getUserField('description') || 'você pode adicionar uma descrição em "editar".'}
-										</UserDescription>
-									</TouchableOpacity>
-								)
-							}
-						</InfoArea>
-					</ProfileInfoContainer>
-					{
-						(userDescriptionIsExpanded || !isLoggedUser)
-						&& getUserField('description')
-						&& (
-							<ExpandedUserDescriptionArea>
-								<ScrollView showsVerticalScrollIndicator={false}	>
-									<TouchableOpacity onPress={() => setUserDescriptionIsExpanded(false)}>
-										<ExpandedUserDescription>
-											{getUserField('description')}
-										</ExpandedUserDescription>
-									</TouchableOpacity>
-								</ScrollView>
-							</ExpandedUserDescriptionArea>
-						)
-					}
-
-					{
-						isLoggedUser && arrayIsEmpty(getUserField('socialMedias'))
-							? (
-								<VerticalPaddingContainer>
-									<UserDescription>
-										{'Você pode adicionar redes sociais e contatos em "editar".'}
-									</UserDescription>
-								</VerticalPaddingContainer>
-							) : (
-								<HorizontalSocialMediaList
-									socialMedias={getUserField('socialMedias') as SocialMedia[]}
-									onPress={openSocialMediaManagement}
-								/>
-							)
-					}
-
-					<OptionsArea>
-						<SmallButton
-							label={isLoggedUser ? 'editar' : 'chat'}
-							labelColor={theme.black4}
-							SvgIcon={isLoggedUser ? EditIcon : ChatWhiteIcon}
-							svgScale={['85%', '25%']}
-							relativeWidth={'28%'}
-							height={relativeScreenWidth(12)}
-							onPress={isLoggedUser ? goToEditProfile : openChat}
-						/>
-						<SmallButton
-							color={theme.orange3}
-							label={'compartilhar'}
-							labelColor={theme.black4}
-							highlightedWords={
-								isLoggedUser ? ['compartilhar'] : []
-							}
-							fontSize={12}
-							SvgIcon={ShareIcon}
-							relativeWidth={isLoggedUser ? '50%' : '45%'}
-							height={relativeScreenWidth(12)}
-							onPress={shareProfile}
-						/>
-						<PopOver
-							title={getUserField('name') as string}
-							isVerifiable={
-								!isLoggedUser
-								&& userDataContext.verified
-								&& userDataContext.verified.type === 'leader'
-								&& user
-								&& !user.verified
-							}
-							buttonLabel={'denunciar'}
-							popoverVisibility={profileOptionsIsOpen}
-							closePopover={() => setProfileOptionsIsOpen(false)}
-							onPress={reportUser}
-							onPressVerify={verifyUserProfile}
-						>
-							<SmallButton
-								color={theme.white3}
-								SvgIcon={isLoggedUser ? GearIcon : ThreeDotsIcon}
-								relativeWidth={relativeScreenWidth(12)}
-								height={relativeScreenWidth(12)}
-								onPress={openProfileOptions}
-							/>
-						</PopOver>
-					</OptionsArea>
-				</ProfileHeader>
-			</DefaultHeaderContainer>
-
-			<Body>
-				<BodyPadding>
+				<Body>
 					<FlashList
 						ListHeaderComponent={() => {
 							return (
-								<HorizontalTagList
-									tags={getUserPostTags()}
-									selectedTags={selectedTags}
-									onSelectTag={onSelectTag}
-								/>
+								<>
+									<DefaultHeaderContainer
+										backgroundColor={theme.white3}
+										centralized={false}
+										grow
+										withoutIOSPadding
+										borderBottomWidth={0}
+										paddingVertical={15}
+									>
+										<ProfileHeader>
+											<ProfileInfoContainer>
+												{
+													!isLoggedUser && (
+														<>
+															<BackButton
+																onPress={navigationToBack}
+																withoutSigh={false}
+															/>
+															<HorizontalSigh />
+														</>
+													)
+												}
+												<PhotoPortrait
+													height={isLoggedUser ? RFValue(95) : RFValue(65)}
+													width={isLoggedUser ? RFValue(100) : RFValue(70)}
+													borderWidth={3}
+													borderRightWidth={8}
+													pictureUri={getProfilePicture()}
+												/>
+												<InfoArea>
+													<UserName numberOfLines={3}>
+														{getUserField('name')}
+													</UserName>
+													{
+														renderUserVerifiedType()
+													}
+													{
+														!userDescriptionIsExpanded && isLoggedUser && (
+															<TouchableOpacity
+																onPress={() => getUserField('description')
+																	&& setUserDescriptionIsExpanded(true)}
+															>
+																<UserDescription numberOfLines={3}>
+																	{getUserField('description') || 'você pode adicionar uma descrição em "editar".'}
+																</UserDescription>
+															</TouchableOpacity>
+														)
+													}
+												</InfoArea>
+											</ProfileInfoContainer>
+											{
+												(userDescriptionIsExpanded || !isLoggedUser)
+												&& getUserField('description')
+												&& (
+													<ExpandedUserDescriptionArea>
+														<ScrollView showsVerticalScrollIndicator={false}	>
+															<TouchableOpacity onPress={() => setUserDescriptionIsExpanded(false)}>
+																<ExpandedUserDescription>
+																	{getUserField('description')}
+																</ExpandedUserDescription>
+															</TouchableOpacity>
+														</ScrollView>
+													</ExpandedUserDescriptionArea>
+												)
+											}
+
+											{
+												isLoggedUser && arrayIsEmpty(getUserField('socialMedias'))
+													? (
+														<VerticalPaddingContainer>
+															<UserDescription>
+																{'Você pode adicionar redes sociais e contatos em "editar".'}
+															</UserDescription>
+														</VerticalPaddingContainer>
+													) : (
+														<HorizontalSocialMediaList
+															socialMedias={getUserField('socialMedias') as SocialMedia[]}
+															onPress={openSocialMediaManagement}
+														/>
+													)
+											}
+
+											<OptionsArea>
+												<SmallButton
+													label={isLoggedUser ? 'editar' : 'chat'}
+													labelColor={theme.black4}
+													SvgIcon={isLoggedUser ? EditIcon : ChatWhiteIcon}
+													svgScale={['85%', '25%']}
+													relativeWidth={'28%'}
+													height={relativeScreenWidth(12)}
+													onPress={isLoggedUser ? goToEditProfile : openChat}
+												/>
+												<SmallButton
+													color={theme.orange3}
+													label={'compartilhar'}
+													labelColor={theme.black4}
+													highlightedWords={
+														isLoggedUser ? ['compartilhar'] : []
+													}
+													fontSize={12}
+													SvgIcon={ShareIcon}
+													relativeWidth={isLoggedUser ? '50%' : '45%'}
+													height={relativeScreenWidth(12)}
+													onPress={shareProfile}
+												/>
+												<PopOver
+													title={getUserField('name') as string}
+													isVerifiable={
+														!isLoggedUser
+														&& userDataContext.verified
+														&& userDataContext.verified.type === 'leader'
+														&& user
+														&& !user.verified
+													}
+													buttonLabel={'denunciar'}
+													popoverVisibility={profileOptionsIsOpen}
+													closePopover={() => setProfileOptionsIsOpen(false)}
+													onPress={reportUser}
+													onPressVerify={verifyUserProfile}
+												>
+													<SmallButton
+														color={theme.white3}
+														SvgIcon={isLoggedUser ? GearIcon : ThreeDotsIcon}
+														relativeWidth={relativeScreenWidth(12)}
+														height={relativeScreenWidth(12)}
+														onPress={openProfileOptions}
+													/>
+												</PopOver>
+											</OptionsArea>
+										</ProfileHeader>
+									</DefaultHeaderContainer>
+									<VerticalSigh />
+									<HorizontalTagList
+										tags={getUserPostTags()}
+										selectedTags={selectedTags}
+										onSelectTag={onSelectTag}
+									/>
+									<VerticalSigh />
+								</>
+
 							)
 						}}
 						estimatedItemSize={100}
@@ -594,7 +604,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						)}
 						showsVerticalScrollIndicator={false}
 						ItemSeparatorComponent={() => <VerticalSigh height={relativeScreenHeight(0.8)} />}
-						ListHeaderComponentStyle={{ marginVertical: relativeScreenHeight(2) }}
+						contentContainerStyle={{ backgroundColor: theme.orange2 }}
+						// ListHeaderComponentStyle={{ marginVertical: relativeScreenHeight(2) }}
 						ListFooterComponent={() => (isLoggedUser && (!userDataContext.posts || userDataContext.posts.length === 0)
 							? (
 								<WithoutPostsMessage
@@ -609,9 +620,9 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							: <VerticalSigh height={relativeScreenHeight(11)} />
 						)}
 					/>
-				</BodyPadding>
-			</Body>
-		</Container>
+				</Body>
+			</OffBounceBackground>
+		</Container >
 	)
 }
 

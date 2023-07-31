@@ -1,5 +1,7 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+import { SafeAreaViewProps } from 'react-native-safe-area-context'
+import { LinearGradient } from 'expo-linear-gradient'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
@@ -8,7 +10,6 @@ export const Container = styled.View`
 `
 
 export const ProfileHeader = styled.View`
-	padding-top: 10px;
     width: 100%;
 `
 
@@ -53,27 +54,25 @@ export const OptionsArea = styled.View`
     justify-content: space-between;
 `
 
+export const SafeAreaViewContainer = styled.SafeAreaView<SafeAreaViewProps>`
+	flex: 0;
+	background-color: ${({ theme }) => theme.white3};
+`
+
 export const VerticalPaddingContainer = styled.View`
 	padding-vertical: ${relativeScreenHeight(1)}px;
 `
 
-export const Body = styled.View`
+export const OffBounceBackground = styled(LinearGradient as any)`
+	flex: 1;
+`
+
+export const Body = styled.SafeAreaView`
     flex: 1;
 	height: ${relativeScreenHeight(70)}px;
-	// padding-top: ${RFValue(5)}px;
-    background-color: ${({ theme }) => theme.orange2};
 	overflow: visible;
 `
 
 export const PostPadding = styled.View`
-	padding-horizontal: 10px;
-
-`
-
-export const BodyPadding = styled(Body)`
-	/* padding: ${RFValue(12)}px; */
-`
-
-export const FlatList = styled.FlatList`
-
+	padding-horizontal: ${relativeScreenWidth(2)}px;
 `
