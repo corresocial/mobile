@@ -3,9 +3,8 @@ import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
 import { updateUser } from '../../../services/firebase/user/updateUser'
 
-import { ButtonContainer, Container, HorizontalButtonsContainer, InputsContainer } from './styles'
+import { ButtonContainer, Container, HeaderLinkCardContainer, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
-import AngleLeftThinIcon from '../../../assets/icons/angleLeft-white.svg'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { InsertLinkValueScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -18,9 +17,8 @@ import { LineInput } from '../../../components/LineInput'
 import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { Loader } from '../../../components/Loader'
-import { defaultSocialMediaTitles, getRelativeSocialMediaIcon, isDefaultSocialMedia, mergeWithDefaultSocialMedia, socialMediaUrl, sortSocialMedias } from '../../../utils/socialMedias'
-import { SmallButton } from '../../../components/_buttons/SmallButton'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
+import { defaultSocialMediaTitles, isDefaultSocialMedia, mergeWithDefaultSocialMedia, socialMediaUrl, sortSocialMedias } from '../../../utils/socialMedias'
+import { BackButton } from '../../../components/_buttons/BackButton'
 
 function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const { setUserDataOnContext, userDataContext } = useContext(AuthContext)
@@ -104,6 +102,8 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 		return { socialMedias: currentSocialMedias.filter((socialMedia) => socialMedia.link) }
 	}
 
+	const navigateBackwards = () => navigation.goBack()
+
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
@@ -112,11 +112,13 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 				centralized
 				backgroundColor={theme.orange2}
 			>
-				<HeaderLinkCard
-					title={'inserir link'}
-					value={'cola o seu link aí pra gente'}
-					SvgIcon={getRelativeSocialMediaIcon(route.params.socialMedia.title)}
-				/>
+				<BackButton onPress={navigateBackwards} />
+				<HeaderLinkCardContainer>
+					<HeaderLinkCard
+						title={'inserir link'}
+						value={'cola o seu link aí pra gente'}
+					/>
+				</HeaderLinkCardContainer>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
 				<InputsContainer>
@@ -131,6 +133,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 						invalidBackgroundColor={theme.red1}
 						invalidBorderBottomColor={theme.red5}
 						lastInput
+						fontSize={16}
 						invalidTextAfterSubmit={invalidLinkValueAfterSubmit}
 						placeholder={isDefaultSocialMedia(route.params.socialMedia.title) ? 'ex: corresocial' : 'ex: www.facebook.com/eu'}
 						keyboardType={'default'}
@@ -146,29 +149,17 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 								{
 									!keyboardOpened
 									&& (
-										<HorizontalButtonsContainer>
-											<SmallButton
-												relativeWidth={relativeScreenWidth(17)}
-												height={relativeScreenWidth(17)}
-												color={theme.white3}
-												SvgIcon={AngleLeftThinIcon}
-												onPress={() => navigation.goBack()}
-											/>
-											<PrimaryButton
-												color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
-												relativeWidth={'68%'}
-												flexDirection={'row-reverse'}
-												SvgIcon={CheckWhiteIcon}
-												label={'continuar'}
-												labelColor={theme.white3}
-												highlightedWords={['continuar']}
-												startsHidden={false}
-												onPress={saveLinkValue}
-											/>
-										</HorizontalButtonsContainer>
+										<PrimaryButton
+											color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
+											SecondSvgIcon={CheckWhiteIcon}
+											label={'continuar'}
+											labelColor={theme.white3}
+											highlightedWords={['continuar']}
+											startsHidden={false}
+											onPress={saveLinkValue}
+										/>
 									)
 								}
-
 							</ButtonContainer>
 						)
 				}

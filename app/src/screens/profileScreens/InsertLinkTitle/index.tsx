@@ -84,6 +84,7 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 						invalidBackgroundColor={theme.red1}
 						invalidBorderBottomColor={theme.red5}
 						lastInput
+						fontSize={16}
 						invalidTextAfterSubmit={invalidLinkTitleAfterSubmit}
 						placeholder={'ex: site de receitas'}
 						keyboardType={'default'}
