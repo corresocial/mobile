@@ -17,13 +17,13 @@ import { LineInput } from '../../../components/LineInput'
 import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { Loader } from '../../../components/Loader'
-import { isDefaultSocialMedia, mergeWithDefaultSocialMedia, sortSocialMedias } from '../../../utils/socialMedias'
+import { isDefaultSocialMedia, mergeWithDefaultSocialMedia, sortSocialMedias, socialMediaUrl } from '../../../utils/socialMedias'
 import { BackButton } from '../../../components/_buttons/BackButton'
 
 function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const { setUserDataOnContext, userDataContext } = useContext(AuthContext)
 
-	const initialLinkValue = route.params.socialMedia.link || ''
+	const initialLinkValue = route.params.socialMedia ? route.params.socialMedia.link.replace(socialMediaUrl(route.params.socialMedia.title, ''), '') : ''
 
 	const [linkValue, setInputLinkValue] = useState<string>(initialLinkValue || '')
 	const [linkValueIsValid, setLinkValueIsValid] = useState<boolean>(false)
@@ -59,8 +59,8 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 
 	const saveLinkValue = async () => {
 		setInvaliLinkValueAfterSubmit(false)
-		if (linkValue !== '') {
-			if (!linkValue.includes('https://') && !linkValue.includes('www')) {
+		if (linkValue !== '' && !isDefaultSocialMedia(route.params.socialMedia.title)) {
+			if (!linkValue.includes('http') && !linkValue.includes('www')) {
 				setInvaliLinkValueAfterSubmit(true)
 				return
 			}
@@ -74,6 +74,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 			navigation.navigate('SocialMediaManagement', { socialMedias: socialMediaData.socialMedias, isAuthor: true })
 		} catch (err) {
 			console.log(err)
+			setInvaliLinkValueAfterSubmit(true)
 			setIsLoading(false)
 		}
 		setIsLoading(false)
@@ -86,9 +87,14 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 		currentSocialMedias = currentSocialMedias.sort(sortSocialMedias)
 
 		const socialMediaEditableIndex = route.params.index
+		const socialMediaTitle = route.params.socialMedia.title
 
 		if (linkValue.slice(0, 3) === 'www') {
-			completeLink = `https://${linkValue}`
+			completeLink = `http://${linkValue}`
+		}
+
+		if (isDefaultSocialMedia(socialMediaTitle) && !linkValue.includes('http') && !linkValue.includes('www')) {
+			completeLink = socialMediaUrl(socialMediaTitle, linkValue)
 		}
 
 		if (socialMediaEditableIndex || socialMediaEditableIndex === 0) {
@@ -122,7 +128,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 				<HeaderLinkCardContainer>
 					<HeaderLinkCard
 						title={invalidLinkValueAfterSubmit ? 'link inválido' : 'inserir link'}
-						value={invalidLinkValueAfterSubmit ? 'insira um link válido' : 'cola o seu link aí pra gente'}
+						value={invalidLinkValueAfterSubmit ? 'insira um link válido' : isDefaultSocialMedia(route.params.socialMedia.title) ? 'cola o seu @ aí pra gente' : 'cola o seu link aí pra gente'}
 					/>
 				</HeaderLinkCardContainer>
 			</DefaultHeaderContainer>
@@ -143,7 +149,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 						autoCapitalize={'none'}
 						autoCorrect={false}
 						invalidTextAfterSubmit={invalidLinkValueAfterSubmit}
-						placeholder={isDefaultSocialMedia(route.params.socialMedia.title) ? 'ex: corresocial' : 'ex: www.facebook.com/eu'}
+						placeholder={isDefaultSocialMedia(route.params.socialMedia.title) ? 'ex: corresocial' : 'ex: www.facebook.com/corre'}
 						keyboardType={'url'}
 						textIsValid={linkValueIsValid && !keyboardOpened}
 						onChangeText={(text: string) => setInputLinkValue(text)}
