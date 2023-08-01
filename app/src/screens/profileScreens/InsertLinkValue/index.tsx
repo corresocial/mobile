@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
-import { Alert, Keyboard, Platform, StatusBar, TextInput } from 'react-native'
+import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
 import { updateUser } from '../../../services/firebase/user/updateUser'
 
@@ -57,12 +57,11 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 		return false
 	}
 
-	const someInvalidFieldSubimitted = () => invalidLinkValueAfterSubmit
-
 	const saveLinkValue = async () => {
+		setInvaliLinkValueAfterSubmit(false)
 		if (linkValue !== '') {
 			if (!linkValue.includes('https://') && !linkValue.includes('www')) {
-				Alert.alert('Invalid')
+				setInvaliLinkValueAfterSubmit(true)
 				return
 			}
 		}
@@ -113,17 +112,17 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={invalidLinkValueAfterSubmit ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}
 				centralized
-				backgroundColor={theme.orange2}
+				backgroundColor={invalidLinkValueAfterSubmit ? theme.red2 : theme.orange2}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<HeaderLinkCardContainer>
 					<HeaderLinkCard
-						title={'inserir link'}
-						value={'cola o seu link aí pra gente'}
+						title={invalidLinkValueAfterSubmit ? 'link inválido' : 'inserir link'}
+						value={invalidLinkValueAfterSubmit ? 'insira um link válido' : 'cola o seu link aí pra gente'}
 					/>
 				</HeaderLinkCardContainer>
 			</DefaultHeaderContainer>
@@ -159,7 +158,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 									!keyboardOpened
 									&& (
 										<PrimaryButton
-											color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
+											color={theme.green3}
 											SecondSvgIcon={CheckWhiteIcon}
 											label={'continuar'}
 											labelColor={theme.white3}

@@ -24,7 +24,3 @@ export const Body = styled(Animated.View)`
 	background-color: ${({ theme }) => theme.orange2}
 	padding-horizontal: ${relativeScreenWidth(3.5)}px;
  `
-
-export const Sigh = styled.View`
-	height: ${relativeScreenHeight(1.25)}px;
- `
