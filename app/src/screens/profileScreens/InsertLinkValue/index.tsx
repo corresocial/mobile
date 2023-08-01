@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
-import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
+import { Alert, Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
 import { updateUser } from '../../../services/firebase/user/updateUser'
 
@@ -23,7 +23,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const { setUserDataOnContext, userDataContext } = useContext(AuthContext)
 
-	const initialLinkValue = route.params.socialMedia ? route.params.socialMedia.link.replace(socialMediaUrl(route.params.socialMedia.title, ''), '') : ''
+	const initialLinkValue = route.params.socialMedia.link || ''
 
 	const [linkValue, setInputLinkValue] = useState<string>(initialLinkValue || '')
 	const [linkValueIsValid, setLinkValueIsValid] = useState<boolean>(false)
@@ -60,6 +60,13 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const someInvalidFieldSubimitted = () => invalidLinkValueAfterSubmit
 
 	const saveLinkValue = async () => {
+		if (linkValue !== '') {
+			if (!linkValue.includes('https://') && !linkValue.includes('www')) {
+				Alert.alert('Invalid')
+				return
+			}
+		}
+
 		setIsLoading(true)
 		try {
 			const socialMediaData = await getSocialMediaData()
@@ -74,15 +81,15 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	}
 
 	const getSocialMediaData = async () => {
+		let completeLink = linkValue
+
 		let currentSocialMedias = mergeWithDefaultSocialMedia(userDataContext.socialMedias as SocialMedia[] || []) || [] as SocialMedia[]
 		currentSocialMedias = currentSocialMedias.sort(sortSocialMedias)
 
 		const socialMediaEditableIndex = route.params.index
 
-		let completeLink: string = defaultSocialMediaTitles.includes(route.params.socialMedia.title) ? `${socialMediaUrl(route.params.socialMedia.title, linkValue)}` : linkValue
-
-		if (socialMediaUrl(route.params.socialMedia.title, '') === socialMediaUrl(route.params.socialMedia.title, linkValue)) {
-			completeLink = ''
+		if (linkValue.slice(0, 3) === 'www') {
+			completeLink = `https://${linkValue}`
 		}
 
 		if (socialMediaEditableIndex || socialMediaEditableIndex === 0) {
@@ -134,9 +141,11 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 						invalidBorderBottomColor={theme.red5}
 						lastInput
 						fontSize={16}
+						autoCapitalize={'none'}
+						autoCorrect={false}
 						invalidTextAfterSubmit={invalidLinkValueAfterSubmit}
 						placeholder={isDefaultSocialMedia(route.params.socialMedia.title) ? 'ex: corresocial' : 'ex: www.facebook.com/eu'}
-						keyboardType={'default'}
+						keyboardType={'url'}
 						textIsValid={linkValueIsValid && !keyboardOpened}
 						onChangeText={(text: string) => setInputLinkValue(text)}
 					/>
