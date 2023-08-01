@@ -114,7 +114,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 			>
 				<HeaderLinkCard
 					title={'inserir link'}
-					value={isDefaultSocialMedia(route.params.socialMedia.title) ? 'cola o seu @ aí pra gente' : 'cola o seu link aí pra gente'}
+					value={'cola o seu link aí pra gente'}
 					SvgIcon={getRelativeSocialMediaIcon(route.params.socialMedia.title)}
 				/>
 			</DefaultHeaderContainer>

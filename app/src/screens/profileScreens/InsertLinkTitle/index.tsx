@@ -1,9 +1,8 @@
 import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 
-import { ButtonContainer, HorizontalButtonsContainer, Container, InputsContainer } from './styles'
+import { ButtonContainer, Container, InputsContainer, HeaderLinkCardContainer } from './styles'
 import { theme } from '../../../common/theme'
-import AngleLeftThinIcon from '../../../assets/icons/angleLeft-white.svg'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { InsertLinkTitleScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -14,8 +13,7 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { LineInput } from '../../../components/LineInput'
 import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'
-import { SmallButton } from '../../../components/_buttons/SmallButton'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
+import { BackButton } from '../../../components/_buttons/BackButton'
 
 function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 	const [linkTitle, setInputLinkTitle] = useState<string>(route.params.socialMedia?.title || '')
@@ -65,10 +63,13 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 				centralized
 				backgroundColor={theme.orange2}
 			>
-				<HeaderLinkCard
-					title={'título do link'}
-					value={'qual o título do link para que os usuários'}
-				/>
+				<BackButton onPress={() => navigation.goBack()} />
+				<HeaderLinkCardContainer>
+					<HeaderLinkCard
+						title={'título do link'}
+						value={'qual o título do link para que os usuários identifiquem?'}
+					/>
+				</HeaderLinkCardContainer>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
 				<InputsContainer>
@@ -94,38 +95,14 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 					{
 						linkTitleIsValid && !keyboardOpened
 						&& (
-							<HorizontalButtonsContainer>
-								<SmallButton
-									relativeWidth={relativeScreenWidth(17)}
-									height={relativeScreenWidth(17)}
-									color={theme.white3}
-									SvgIcon={AngleLeftThinIcon}
-									onPress={() => navigation.goBack()}
-								/>
-								<PrimaryButton
-									color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
-									relativeWidth={'68%'}
-									flexDirection={'row-reverse'}
-									SvgIcon={CheckWhiteIcon}
-									label={'continuar'}
-									labelColor={theme.white3}
-									highlightedWords={['continuar']}
-									startsHidden={false}
-									onPress={saveLinkTitle}
-								/>
-							</HorizontalButtonsContainer>
-						)
-					}
-					{
-						!linkTitle && !keyboardOpened && (
 							<PrimaryButton
-								color={theme.white3}
-								SecondSvgIcon={AngleLeftThinIcon}
-								svgIconScale={['32%', '20%']}
-								label={'voltar'}
-								labelColor={theme.black4}
+								color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
+								SecondSvgIcon={CheckWhiteIcon}
+								label={'continuar'}
+								labelColor={theme.white3}
+								highlightedWords={['continuar']}
 								startsHidden={false}
-								onPress={() => navigation.goBack()}
+								onPress={saveLinkTitle}
 							/>
 						)
 					}
