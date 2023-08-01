@@ -55,6 +55,8 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 		})
 	}
 
+	const navigateBackwards = () => navigation.goBack()
+
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
@@ -63,7 +65,7 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 				centralized
 				backgroundColor={theme.orange2}
 			>
-				<BackButton onPress={() => navigation.goBack()} />
+				<BackButton onPress={navigateBackwards} />
 				<HeaderLinkCardContainer>
 					<HeaderLinkCard
 						title={'título do link'}

@@ -17,7 +17,7 @@ import { LineInput } from '../../../components/LineInput'
 import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { Loader } from '../../../components/Loader'
-import { defaultSocialMediaTitles, isDefaultSocialMedia, mergeWithDefaultSocialMedia, socialMediaUrl, sortSocialMedias } from '../../../utils/socialMedias'
+import { isDefaultSocialMedia, mergeWithDefaultSocialMedia, sortSocialMedias } from '../../../utils/socialMedias'
 import { BackButton } from '../../../components/_buttons/BackButton'
 
 function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
