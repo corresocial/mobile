@@ -15,6 +15,7 @@ import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { EditCard } from '../../../components/_cards/EditCard'
 import { getRelativeSocialMediaIcon, isDefaultSocialMedia, mergeWithDefaultSocialMedia, socialMediaUrl, sortSocialMedias } from '../../../utils/socialMedias'
+import { VerticalSigh } from '../../../components/VerticalSigh'
 
 function SocialMediaManagement({ route, navigation }: SocialMediaManagementScreenProps) {
 	const onPressIcon = async (socialMedia: SocialMedia, index: number) => {
@@ -27,6 +28,8 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 			navigation.navigate('InsertLinkTitle', { socialMedia: { ...socialMedia }, index })
 		} else {
 			const validUrl = await Linking.canOpenURL(socialMedia.link || '')
+			console.log(validUrl)
+			console.log(socialMedia.link)
 			if (validUrl) {
 				Linking.openURL(socialMedia.link)
 			} else {
@@ -89,7 +92,7 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 							: <Sigh />
 					}
 					{renderSocialMedias()}
-					<Sigh />
+					<VerticalSigh height={relativeScreenHeight(4)} />
 				</ScrollView>
 			</Body>
 		</Container >

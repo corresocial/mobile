@@ -3,7 +3,7 @@ import * as Sentry from 'sentry-expo'
 
 import { Animated, ScrollView, StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
-import { Body, Container, Header, SaveButtonContainer, Sigh } from './styles'
+import { Body, Container, Header, SaveButtonContainer } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import CheckIcon from '../../../assets/icons/check-white.svg'
@@ -26,6 +26,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { deleteUserPicture } from '../../../services/firebase/user/deleteUserPicture'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
+import { VerticalSigh } from '../../../components/VerticalSigh'
 
 function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
@@ -198,21 +199,21 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			</Header>
 			<Body style={{ backgroundColor: animateDefaultHeaderBackgound() }}	>
 				<ScrollView showsVerticalScrollIndicator={false}>
-					<Sigh />
+					<VerticalSigh />
 					<EditCard
 						title={'seu nome'}
 						highlightedWords={['nome']}
 						value={editDataContext.unsaved.name || userDataContext.name}
 						onEdit={() => goToEditScreen('EditUserName')}
 					/>
-					<Sigh />
+					<VerticalSigh />
 					<EditCard
 						title={'sua descrição'}
 						highlightedWords={['descrição']}
 						value={editDataContext.unsaved.description === '' || editDataContext.unsaved.description ? editDataContext.unsaved.description : userDataContext.description}
 						onEdit={() => goToEditScreen('EditUserDescription')}
 					/>
-					<Sigh />
+					<VerticalSigh />
 					<EditCard
 						title={'links e contato'}
 						highlightedWords={['links', 'contato']}
@@ -220,14 +221,14 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					>
 						<HorizontalSocialMediaList socialMedias={userDataContext.socialMedias} onPress={() => { }} />
 					</EditCard>
-					<Sigh />
+					<VerticalSigh />
 					<EditCard
 						title={'sua foto'}
 						highlightedWords={['foto']}
 						profilePicturesUrl={[getProfilePictureUrl()] || []}
 						onEdit={() => goToEditScreen('EditUserPicture')}
 					/>
-					<Sigh />
+					<VerticalSigh height={relativeScreenHeight(5)} />
 				</ScrollView>
 			</Body>
 		</Container>

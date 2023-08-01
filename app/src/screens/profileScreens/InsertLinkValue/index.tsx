@@ -3,9 +3,8 @@ import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
 import { updateUser } from '../../../services/firebase/user/updateUser'
 
-import { ButtonContainer, Container, HorizontalButtonsContainer, InputsContainer } from './styles'
+import { ButtonContainer, Container, HeaderLinkCardContainer, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
-import AngleLeftThinIcon from '../../../assets/icons/angleLeft-white.svg'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { InsertLinkValueScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -18,9 +17,8 @@ import { LineInput } from '../../../components/LineInput'
 import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { Loader } from '../../../components/Loader'
-import { defaultSocialMediaTitles, getRelativeSocialMediaIcon, isDefaultSocialMedia, mergeWithDefaultSocialMedia, socialMediaUrl, sortSocialMedias } from '../../../utils/socialMedias'
-import { SmallButton } from '../../../components/_buttons/SmallButton'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
+import { isDefaultSocialMedia, mergeWithDefaultSocialMedia, sortSocialMedias, socialMediaUrl } from '../../../utils/socialMedias'
+import { BackButton } from '../../../components/_buttons/BackButton'
 
 function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const { setUserDataOnContext, userDataContext } = useContext(AuthContext)
@@ -59,9 +57,15 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 		return false
 	}
 
-	const someInvalidFieldSubimitted = () => invalidLinkValueAfterSubmit
-
 	const saveLinkValue = async () => {
+		setInvaliLinkValueAfterSubmit(false)
+		if (linkValue !== '' && !isDefaultSocialMedia(route.params.socialMedia.title)) {
+			if (!linkValue.includes('http') && !linkValue.includes('www')) {
+				setInvaliLinkValueAfterSubmit(true)
+				return
+			}
+		}
+
 		setIsLoading(true)
 		try {
 			const socialMediaData = await getSocialMediaData()
@@ -70,21 +74,27 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 			navigation.navigate('SocialMediaManagement', { socialMedias: socialMediaData.socialMedias, isAuthor: true })
 		} catch (err) {
 			console.log(err)
+			setInvaliLinkValueAfterSubmit(true)
 			setIsLoading(false)
 		}
 		setIsLoading(false)
 	}
 
 	const getSocialMediaData = async () => {
+		let completeLink = linkValue
+
 		let currentSocialMedias = mergeWithDefaultSocialMedia(userDataContext.socialMedias as SocialMedia[] || []) || [] as SocialMedia[]
 		currentSocialMedias = currentSocialMedias.sort(sortSocialMedias)
 
 		const socialMediaEditableIndex = route.params.index
+		const socialMediaTitle = route.params.socialMedia.title
 
-		let completeLink: string = defaultSocialMediaTitles.includes(route.params.socialMedia.title) ? `${socialMediaUrl(route.params.socialMedia.title, linkValue)}` : linkValue
+		if (linkValue.slice(0, 3) === 'www') {
+			completeLink = `http://${linkValue}`
+		}
 
-		if (socialMediaUrl(route.params.socialMedia.title, '') === socialMediaUrl(route.params.socialMedia.title, linkValue)) {
-			completeLink = ''
+		if (isDefaultSocialMedia(socialMediaTitle) && !linkValue.includes('http') && !linkValue.includes('www')) {
+			completeLink = socialMediaUrl(socialMediaTitle, linkValue)
 		}
 
 		if (socialMediaEditableIndex || socialMediaEditableIndex === 0) {
@@ -104,19 +114,23 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 		return { socialMedias: currentSocialMedias.filter((socialMedia) => socialMedia.link) }
 	}
 
+	const navigateBackwards = () => navigation.goBack()
+
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={invalidLinkValueAfterSubmit ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}
 				centralized
-				backgroundColor={theme.orange2}
+				backgroundColor={invalidLinkValueAfterSubmit ? theme.red2 : theme.orange2}
 			>
-				<HeaderLinkCard
-					title={'inserir link'}
-					value={isDefaultSocialMedia(route.params.socialMedia.title) ? 'cola o seu @ aí pra gente' : 'cola o seu link aí pra gente'}
-					SvgIcon={getRelativeSocialMediaIcon(route.params.socialMedia.title)}
-				/>
+				<BackButton onPress={navigateBackwards} />
+				<HeaderLinkCardContainer>
+					<HeaderLinkCard
+						title={invalidLinkValueAfterSubmit ? 'link inválido' : 'inserir link'}
+						value={invalidLinkValueAfterSubmit ? 'insira um link válido' : isDefaultSocialMedia(route.params.socialMedia.title) ? 'cola o seu @ aí pra gente' : 'cola o seu link aí pra gente'}
+					/>
+				</HeaderLinkCardContainer>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
 				<InputsContainer>
@@ -131,9 +145,12 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 						invalidBackgroundColor={theme.red1}
 						invalidBorderBottomColor={theme.red5}
 						lastInput
+						fontSize={16}
+						autoCapitalize={'none'}
+						autoCorrect={false}
 						invalidTextAfterSubmit={invalidLinkValueAfterSubmit}
-						placeholder={isDefaultSocialMedia(route.params.socialMedia.title) ? 'ex: corresocial' : 'ex: www.facebook.com/eu'}
-						keyboardType={'default'}
+						placeholder={isDefaultSocialMedia(route.params.socialMedia.title) ? 'ex: corresocial' : 'ex: www.facebook.com/corre'}
+						keyboardType={'url'}
 						textIsValid={linkValueIsValid && !keyboardOpened}
 						onChangeText={(text: string) => setInputLinkValue(text)}
 					/>
@@ -146,29 +163,17 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 								{
 									!keyboardOpened
 									&& (
-										<HorizontalButtonsContainer>
-											<SmallButton
-												relativeWidth={relativeScreenWidth(17)}
-												height={relativeScreenWidth(17)}
-												color={theme.white3}
-												SvgIcon={AngleLeftThinIcon}
-												onPress={() => navigation.goBack()}
-											/>
-											<PrimaryButton
-												color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
-												relativeWidth={'68%'}
-												flexDirection={'row-reverse'}
-												SvgIcon={CheckWhiteIcon}
-												label={'continuar'}
-												labelColor={theme.white3}
-												highlightedWords={['continuar']}
-												startsHidden={false}
-												onPress={saveLinkValue}
-											/>
-										</HorizontalButtonsContainer>
+										<PrimaryButton
+											color={theme.green3}
+											SecondSvgIcon={CheckWhiteIcon}
+											label={'continuar'}
+											labelColor={theme.white3}
+											highlightedWords={['continuar']}
+											startsHidden={false}
+											onPress={saveLinkValue}
+										/>
 									)
 								}
-
 							</ButtonContainer>
 						)
 				}

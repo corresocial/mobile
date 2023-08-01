@@ -12,13 +12,10 @@ export const InputsContainer = styled.View`
     align-items: center;
 `
 
-export const HorizontalButtonsContainer = styled.View`
-   width: 100%;
-   flex-direction: row;
-   justify-content: space-between;
-   align-items: center;
-`
-
 export const ButtonContainer = styled.View`
     width: 100%;
+`
+
+export const HeaderLinkCardContainer = styled.View`
+    width: 85%;
 `
