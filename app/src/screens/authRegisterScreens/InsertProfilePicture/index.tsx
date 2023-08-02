@@ -21,7 +21,7 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { Id, PostCollection } from '../../../services/firebase/types'
+import { Id, PostCollection, UserCollection } from '../../../services/firebase/types'
 import { Loader } from '../../../components/Loader'
 
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
@@ -55,12 +55,11 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 	const saveUserData = async () => {
 		const userData = getRouteParams()
 		const localUserJSON = await getDataFromSecureStore('corre.user')
-		const localUser = JSON.parse(localUserJSON as string) || {
-		}
+		const localUser = JSON.parse(localUserJSON as string) || {}
 
 		try {
 			setIsLoading(true)
-			await saveInFirebase(userData, localUser.tourPerformed)
+			await saveInFirebase(userData, localUser.tourPerformed, localUser.createdAt)
 			// await saveOnLocal(userData, localUser)
 			if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
 				await deleteUserPicture(userDataContext.profilePictureUrl || [])
@@ -80,12 +79,18 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		}
 	}
 
-	const saveInFirebase = async (userData: RegisterUserData, tourPerformed: boolean) => {
-		await updateUser(userData.userIdentification.uid, {
+	const saveInFirebase = async (userData: RegisterUserData, tourPerformed: boolean, userCreatedAt: Date) => { // TODO Type
+		const userObject: UserCollection = {
 			name: userData.userName,
 			profilePictureUrl: [],
-			tourPerformed: !!tourPerformed,
-		})
+			tourPerformed: !!tourPerformed
+		}
+
+		if (!userCreatedAt) {
+			userObject.createdAt = new Date()
+		}
+
+		await updateUser(userData.userIdentification.uid, userObject)
 
 		await updateUserPrivateData(
 			{
