@@ -98,7 +98,8 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 			const currentUser = {
 				name: userData.userName,
 				profilePictureUrl: profilePicture,
-				tourPerformed: !!localUser.tourPerformed
+				tourPerformed: !!localUser.tourPerformed,
+				createdAt: new Date()
 			}
 
 			await updateUser(userData.userIdentification.uid, currentUser)
@@ -129,7 +130,8 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 									const currentUser = {
 										name: userData.userName,
 										profilePictureUrl: [profilePictureUrl as string],
-										tourPerformed: !!localUser.tourPerformed
+										tourPerformed: !!localUser.tourPerformed,
+										createdAt: new Date()
 									}
 
 									await updateUser(userData.userIdentification.uid, currentUser)

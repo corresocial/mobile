@@ -85,6 +85,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 			name: userData.userName,
 			profilePictureUrl: [],
 			tourPerformed: !!tourPerformed,
+			createdAt: new Date()
 		})
 
 		await updateUserPrivateData(
