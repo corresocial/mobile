@@ -63,7 +63,6 @@ import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ProfileVerifiedModal } from '../../../components/_modals/ProfileVerifiedModal'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { VerticalSigh } from '../../../components/VerticalSigh'
-import { insertNewFieldOnUsers } from '../../../services/firebase/migrations/insertNewFieldOnUsers'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -214,8 +213,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}
 
 	const goToEditProfile = async () => {
-		await insertNewFieldOnUsers()
-		/* navigation.navigate('EditProfile' as any, { user }) */
+		navigation.navigate('EditProfile' as any, { user })
 	}
 
 	const navigationToBack = () => navigation.goBack()
