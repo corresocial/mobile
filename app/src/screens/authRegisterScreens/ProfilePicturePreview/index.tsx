@@ -16,7 +16,7 @@ import { deleteUserPicture } from '../../../services/firebase/user/deleteUserPic
 import { updateAllOwnerOnPosts } from '../../../services/firebase/post/updateAllOwnerOnPosts'
 
 import { ProfilePicturePreviewScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
-import { Id, PostCollection } from '../../../services/firebase/types'
+import { Id, PostCollection, UserCollection } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
@@ -95,11 +95,14 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		setIsLoading(true)
 
 		if (localUser.profilePictureUrl && localUser.profilePictureUrl.length && localUser.profilePictureUrl[0] === profilePicture[0]) {
-			const currentUser = {
+			const currentUser: UserCollection = {
 				name: userData.userName,
 				profilePictureUrl: profilePicture,
 				tourPerformed: !!localUser.tourPerformed,
-				createdAt: new Date()
+			}
+
+			if (!localUser.createdAt) {
+				currentUser.createdAt = new Date()
 			}
 
 			await updateUser(userData.userIdentification.uid, currentUser)
@@ -127,11 +130,14 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 							blob.close()
 							getDownloadURL(uploadTask.snapshot.ref)
 								.then(async (profilePictureUrl) => {
-									const currentUser = {
+									const currentUser: UserCollection = {
 										name: userData.userName,
 										profilePictureUrl: [profilePictureUrl as string],
 										tourPerformed: !!localUser.tourPerformed,
-										createdAt: new Date()
+									}
+
+									if (!localUser.createdAt) {
+										currentUser.createdAt = new Date()
 									}
 
 									await updateUser(userData.userIdentification.uid, currentUser)
