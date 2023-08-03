@@ -66,6 +66,7 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
+
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
 	const [user, setUser] = useState<LocalUserData>({})
@@ -316,7 +317,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 					type: label,
 					by: userDataContext.userId,
 					at: new Date(),
-					name: user.name || ''
+					name: userDataContext.name || ''
 				},
 			})
 			user.userId && await getProfileDataFromRemote(user.userId)
@@ -435,8 +436,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 				)
 			}
 			<OffBounceBackground
-				colors={[theme.white3, theme.orange2]}
-				locations={[0.5, 0.5]}
+				colors={[theme.white3, theme.orange2, theme.orange2, theme.orange2]}
+				locations={[0.25, 0.25, 0.25, 0.25]}
 			>
 				<Body>
 					<FlatList
