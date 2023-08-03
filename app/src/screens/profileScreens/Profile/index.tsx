@@ -421,6 +421,11 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		return userDescription.slice(0, 160)
 	}
 
+	const descriptionIsLarge = () => {
+		const description = getUserField('description') as string || ''
+		return description.length > 160
+	}
+
 	return (
 		<Container >
 			<FocusAwareStatusBar
@@ -510,10 +515,10 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 																activeOpacity={0.9}
 																onPress={() => (isLoggedUser ? setUserDescriptionIsExpanded(false) : setHostDescriptionIsExpanded(!hostDescriptionIsExpanded))}
 															>
-																<ExpandedUserDescription numberOfLines={hostDescriptionIsExpanded ? 0 : 5} >
+																<ExpandedUserDescription numberOfLines={hostDescriptionIsExpanded ? 0 : 7} >
 																	{`${hostDescriptionIsExpanded || userDescriptionIsExpanded ? getUserField('description') : getShortDescription()}`}
 																	<SeeMoreLabel>
-																		{hostDescriptionIsExpanded || userDescriptionIsExpanded ? '  mostrar menos' : '  ...mostrar mais'}
+																		{hostDescriptionIsExpanded || userDescriptionIsExpanded ? '  mostrar menos' : descriptionIsLarge() && '  ...mostrar mais'}
 																	</SeeMoreLabel>
 																</ExpandedUserDescription>
 															</TouchableOpacity>
