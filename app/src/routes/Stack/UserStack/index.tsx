@@ -40,7 +40,6 @@ import { EditSocialImpactPost } from '../../../screens/editPostScreens/EditSocia
 import { EditCulturePost } from '../../../screens/editPostScreens/EditCulturePost'
 import { ChatMessages } from '../../../screens/chatScreens/ChatMessages'
 import { UserDataConfigurations } from '../../../screens/configurationScreens/UserDataConfigurations'
-import { ViewPostsByRange } from '../../../screens/homeScreens/ViewPostsByRange'
 import { LocationProvider } from '../../../contexts/LocationContext'
 import { SelectSubscriptionPlan } from '../../../screens/paymentSystemScreens/SelectSubscriptionPlan'
 import { SelectSubsciptionPaymentMethod } from '../../../screens/paymentSystemScreens/SelectSubsciptionPaymentMethod'
@@ -74,7 +73,6 @@ export function UserStack({ route }: any) {
 								>
 									<Stack.Screen name={'WelcomeNewUser'} component={WelcomeNewUser} />
 									<Stack.Screen name={'HomeTab'} component={HomeTab} />
-									<Stack.Screen name={'ViewPostsByRange'} component={ViewPostsByRange} />
 									<Stack.Screen name={'SelectPostType'} component={SelectPostType} />
 									<Stack.Screen name={'ServiceStack'} component={ServiceStack} />
 									<Stack.Screen name={'SaleStack'} component={SaleStack} />

@@ -18,6 +18,6 @@ export const RecentPostsContainer = styled.ScrollView`
 	flex: 1;
 `
 
-export const ContainerPadding = styled.ScrollView`
+export const ContainerPadding = styled.View`
 	padding-horizontal: ${RFValue(10)}px;
 `

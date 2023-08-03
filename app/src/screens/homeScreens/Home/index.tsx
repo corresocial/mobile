@@ -215,7 +215,7 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const refreshFeedPosts = async () => {
-		console.log('refresh')
+		console.log('refreshing feed...')
 		await findFeedPosts('', false, locationDataContext.searchParams.coordinates || null, true)
 	}
 
