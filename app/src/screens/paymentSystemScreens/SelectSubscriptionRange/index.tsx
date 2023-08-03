@@ -21,13 +21,10 @@ import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeChangeConfirmatiomModal'
 import { getRangeText } from '../../../utils/subscription/commonMessages'
-import { setFreeTrialPlans } from '../../../services/stripe/scripts/setFreeTrialPlans'
-import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
 
 function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenProps) {
 	const { userDataContext, getLastUserPost } = useContext(AuthContext)
-	const { updateUserSubscription } = useContext(SubscriptionContext)
-	const { stripeProductsPlans, subscriptionHasActive, createCustomer, createSubscription } = useContext(StripeContext)
+	const { stripeProductsPlans, subscriptionHasActive } = useContext(StripeContext)
 
 	const [currentSubscriptionRange, setCurrentSubscriptionRange] = useState<PostRange>(userDataContext.subscription?.subscriptionRange || 'near')
 	const [rangeChangeModalIsVisible, setRangeChangeModalIsVisible] = useState(false)
@@ -38,7 +35,6 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 	}, [userDataContext.subscription?.subscriptionRange])
 
 	const manageSubscriptionRange = async (postRange: PostRange) => {
-		// await setFreeTrialPlans(['RMCJAuUhLjSmAu3kgjTzRjjZ2jB2'], createCustomer, createSubscription, updateUserSubscription)
 		switch (postRange) {
 			case 'near': {
 				if (postRangeHasSelected(postRange)) return
@@ -185,7 +181,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				closeModal={toggleRangeChangeModalVisibility}
 			/>
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(22)}
+				relativeHeight={relativeScreenHeight(26)}
 				centralized
 				backgroundColor={theme.white3}
 				borderBottomWidth={0}

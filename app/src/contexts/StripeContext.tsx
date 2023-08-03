@@ -230,7 +230,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 			const customerId = userDataContext.subscription?.customerId
 			if (!customerId) return
 
-			const res = await getCustomerSubscriptions(customerId, true)
+			const res = await getCustomerSubscriptions(customerId, true, true)
 			if (!res || !res.length) {
 				showSubscriptionAlertWithCustomMessage(10 as number, true)
 				throw new Error('Não há faturas ativas')
@@ -266,7 +266,6 @@ export function StripeProvider({ children }: StripeContextProps) {
 			const customerId = userDataContext.subscription?.customerId || ''
 
 			if (userSubscriptionId && customerId) {
-				// await refundSubscriptionValue(customerId, userSubscriptionId)
 				!alreadyCanceled && await cancelSubscription(userSubscriptionId)
 				await updateSubscriptionRange()
 				setSubscriptionHasActive(true)
@@ -338,14 +337,25 @@ export function StripeProvider({ children }: StripeContextProps) {
 
 	const userHasSubscription = () => userDataContext.subscription && userDataContext.subscription.subscriptionRange !== 'near'
 
-	async function getCustomerSubscriptions(customerId: string, returnLastSubscriptionData?: boolean) {
-		const response = await axios.get(`${STRIPE_API_URL}/subscriptions`, {
-			params: {
-				customer: customerId,
-				status: 'active',
-			},
-			...axiosConfig
-		})
+	async function getCustomerSubscriptions(customerId: string, returnLastSubscriptionData?: boolean, requestTrialSubscriptions?: boolean) {
+		const response = requestTrialSubscriptions
+			? (
+				await axios.get(`${STRIPE_API_URL}/subscriptions`, {
+					params: {
+						customer: customerId,
+						status: 'trialing',
+					},
+					...axiosConfig
+				}))
+			: (
+				await axios.get(`${STRIPE_API_URL}/subscriptions`, {
+					params: {
+						customer: customerId,
+						status: 'active',
+					},
+					...axiosConfig
+				})
+			)
 
 		const subscriptionsId = response.data.data.length > 0
 			? returnLastSubscriptionData

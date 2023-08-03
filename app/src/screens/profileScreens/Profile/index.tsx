@@ -66,6 +66,7 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
+
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
 	const [user, setUser] = useState<LocalUserData>({})
