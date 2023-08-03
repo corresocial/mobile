@@ -2,6 +2,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 import { SafeAreaViewProps } from 'react-native-safe-area-context'
 import { LinearGradient } from 'expo-linear-gradient'
+import { TextProps } from 'react-native'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
@@ -44,7 +45,13 @@ export const ExpandedUserDescriptionArea = styled.View`
 	width: 100%;
 `
 
-export const ExpandedUserDescription = styled.Text`
+export const SeeMoreLabel = styled.Text`
+	font-size: ${RFValue(12)}px;
+	font-family: Arvo_400Regular;
+	color: ${({ theme }) => theme.orange4};
+`
+
+export const ExpandedUserDescription = styled.Text<TextProps>`
 	font-size: ${RFValue(12)}px;
 	font-family: Arvo_400Regular;
 `

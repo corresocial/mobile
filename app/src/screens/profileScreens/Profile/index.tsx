@@ -18,6 +18,7 @@ import {
 	PostPadding,
 	SafeAreaViewContainer,
 	OffBounceBackground,
+	SeeMoreLabel,
 } from './styles'
 import { theme } from '../../../common/theme'
 import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
@@ -69,6 +70,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
+	const [hostDescriptionIsExpanded, setHostDescriptionIsExpanded] = useState(false)
 	const [user, setUser] = useState<LocalUserData>({})
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
 	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
@@ -414,6 +416,11 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		}
 	}
 
+	const getShortDescription = () => {
+		const userDescription = getUserField('description') as string || ''
+		return userDescription.slice(0, 160)
+	}
+
 	return (
 		<Container >
 			<FocusAwareStatusBar
@@ -499,9 +506,15 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 												&& (
 													<ExpandedUserDescriptionArea>
 														<ScrollView showsVerticalScrollIndicator={false}	>
-															<TouchableOpacity onPress={() => setUserDescriptionIsExpanded(false)}>
-																<ExpandedUserDescription>
-																	{getUserField('description')}
+															<TouchableOpacity
+																activeOpacity={0.9}
+																onPress={() => (isLoggedUser ? setUserDescriptionIsExpanded(false) : setHostDescriptionIsExpanded(!hostDescriptionIsExpanded))}
+															>
+																<ExpandedUserDescription numberOfLines={hostDescriptionIsExpanded ? 0 : 5} >
+																	{`${hostDescriptionIsExpanded || userDescriptionIsExpanded ? getUserField('description') : getShortDescription()}`}
+																	<SeeMoreLabel>
+																		{hostDescriptionIsExpanded || userDescriptionIsExpanded ? '  mostrar menos' : '  ...mostrar mais'}
+																	</SeeMoreLabel>
 																</ExpandedUserDescription>
 															</TouchableOpacity>
 														</ScrollView>
