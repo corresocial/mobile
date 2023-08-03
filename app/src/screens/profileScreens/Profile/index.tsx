@@ -317,7 +317,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 					type: label,
 					by: userDataContext.userId,
 					at: new Date(),
-					name: user.name || ''
+					name: userDataContext.name || ''
 				},
 			})
 			user.userId && await getProfileDataFromRemote(user.userId)
