@@ -436,8 +436,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 				)
 			}
 			<OffBounceBackground
-				colors={[theme.white3, theme.orange2]}
-				locations={[0.5, 0.5]}
+				colors={[theme.white3, theme.orange2, theme.orange2, theme.orange2]}
+				locations={[0.25, 0.25, 0.25, 0.25]}
 			>
 				<Body>
 					<FlatList
