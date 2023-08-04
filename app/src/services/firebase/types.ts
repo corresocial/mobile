@@ -107,9 +107,9 @@ export type UserSubscription = {
 	subscriptionRange?: PostRange
 	subscriptionPlan?: SubscriptionPlan
 	subscriptionPaymentMethod?: SubscriptionPaymentMethod
+	receiptEmail?: string
 	customerId?: Id
 	subscriptionId?: Id
-	receiptEmail?: string
 }
 
 export type UserCollection = {
@@ -123,25 +123,9 @@ export type UserCollection = {
 	createdAt?: Date
 	updatedAt?: Date
 	posts?: PostCollection[]
-	ads?: AdsCollection[]
 	verified?: VerifiedType
-	locationView?: LocationViewType
-	cellNumber?: string // private
 	socialMedias?: SocialMedia[]
 	subscription?: UserSubscription
-	location?: {
-		country?: string
-		state?: string
-		city?: string
-		district?: string
-		street?: string
-		residenceNumber?: number
-		reference?: string
-		coordinates?: { lat: number, lng: number }
-		geohash?: string
-		geohashNear?: string[]
-		geohashCity?: string[]
-	}
 }
 
 export type PrivateAddress = {
