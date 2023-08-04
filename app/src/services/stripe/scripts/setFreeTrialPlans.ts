@@ -1,5 +1,7 @@
 /*
-	CALL in ProfileScreen(exemplo)
+	CALL in Profile screen(example)
+	const { createCustomer, createSubscription, stripeProductsPlans } = useContext(StripeContext)
+
 	await setFreeTrialPlans(
 			[ ], 				  // array of userIds
 			createCustomer, 	  // from StripeContext
@@ -25,6 +27,11 @@ async function setFreeTrialPlans(
 	try {
 		if (!priceId || typeof priceId !== 'string') {
 			console.log('priceId is required')
+			return
+		}
+
+		if (!userIds || userIds.length === 0) {
+			console.log('userIds is required')
 			return
 		}
 
