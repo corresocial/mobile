@@ -89,7 +89,6 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 			if (currentSubscriptionRange === rangeCard.id) {
 				if (!subscriptionHasActive) {
 					return (
-
 						<TitleDescriptionButton
 							key={'planError'}
 							height={relativeScreenHeight(13)}

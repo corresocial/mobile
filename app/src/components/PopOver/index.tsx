@@ -9,22 +9,25 @@ import { theme } from '../../common/theme'
 import XIcon from '../../assets/icons/x-white.svg'
 import VerifiedLabel from '../../assets/icons/verifiedLabel.svg'
 import ImpactLabel from '../../assets/icons/impactLabel.svg'
+import HanOnMoneyWhiteIcon from '../../assets/icons/handOnMoney-white.svg'
+import DeniedWhiteIcon from '../../assets/icons/denied-white.svg'
 
 import { PrimaryButton } from '../_buttons/PrimaryButton'
 import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 import { VerifyUserConfirmationModal } from '../_modals/VerifyUserConfirmationModal'
-import { VerifiedLabelName } from '../../services/firebase/types'
+import { PostRange, VerifiedLabelName } from '../../services/firebase/types'
+import { SelectSubscriptionPlanModal } from '../_modals/SelectSubscriptionPlanModal'
 
 interface PopOverProps {
 	title?: string
 	isVerifiable?: boolean
+	isAdmin?: boolean
 	popoverVisibility: boolean
 	buttonLabel: string
-	buttonTwoLabel?: string
-	buttonThreeLabel?: string
 	children: React.ReactChild
 	onPress?: () => void
 	onPressVerify: (label: VerifiedLabelName) => void
+	setFreeTrialToProfile: (subscriptionPlan: PostRange) => void
 	goToConfig?: () => void
 	closePopover: () => void
 }
@@ -32,24 +35,41 @@ interface PopOverProps {
 function PopOver({
 	title,
 	isVerifiable,
+	isAdmin,
 	popoverVisibility,
 	buttonLabel,
-	buttonTwoLabel,
-	buttonThreeLabel,
 	children,
 	onPress,
 	onPressVerify,
 	goToConfig,
+	setFreeTrialToProfile,
 	closePopover
 }: PopOverProps) {
 	const [verifyUserModal, setVerifyUserModal] = useState(false)
 	const [verifyImpactUserModal, setVerifyImpactUserModal] = useState(false)
+	const [freeTrielUserModal, setFreeTrielUserModal] = useState(false)
+	const [selectedSubscriptionPlanModal, setSelectSubscriptionPlanModal] = useState(false)
 
 	const toggleVerifyUserModal = () => {
 		setVerifyUserModal(!verifyUserModal)
 	}
+
 	const toggleVerifyImpactUserModal = () => {
 		setVerifyImpactUserModal(!verifyImpactUserModal)
+	}
+
+	const toggleFreeTrialUserModal = () => {
+		setFreeTrielUserModal(!freeTrielUserModal)
+	}
+
+	const selectPlan = async (plan: PostRange) => {
+		await setFreeTrialToProfile(plan) // TODO Rsolve
+		toggleSelectSubscriptionPlanModal()
+		closePopover()
+	}
+
+	const toggleSelectSubscriptionPlanModal = () => {
+		setSelectSubscriptionPlanModal(!selectedSubscriptionPlanModal)
 	}
 
 	return (
@@ -79,6 +99,18 @@ function PopOver({
 				onPressButton={() => onPressVerify('impact')}
 				closeModal={toggleVerifyImpactUserModal}
 			/>
+			<VerifyUserConfirmationModal
+				visibility={freeTrielUserModal}
+				title={'dar assinatura'}
+				subject={'dar assinatura gratuita'}
+				onPressButton={toggleSelectSubscriptionPlanModal}
+				closeModal={toggleFreeTrialUserModal}
+			/>
+			<SelectSubscriptionPlanModal
+				visibility={selectedSubscriptionPlanModal}
+				onSelectPlan={(plan: PostRange) => selectPlan(plan)}
+				closeModal={toggleSelectSubscriptionPlanModal}
+			/>
 			<Container>
 				<FocusAwareStatusBar backgroundColor={theme.transparence.orange2} barStyle={'dark-content'} />
 				<ContainerInner>
@@ -104,8 +136,9 @@ function PopOver({
 					<PrimaryButton
 						color={theme.red3}
 						onPress={onPress && onPress}
+						SvgIcon={DeniedWhiteIcon}
 						label={buttonLabel}
-						highlightedWords={[buttonLabel]}
+						highlightedWords={[buttonLabel.split(' ')[0]]}
 						labelColor={theme.white3}
 						fontSize={14}
 						minHeight={20}
@@ -115,12 +148,12 @@ function PopOver({
 						<>
 							<Sigh />
 							<PrimaryButton
-								color={theme.orange3}
+								color={theme.green3}
 								onPress={toggleVerifyUserModal}
-								SvgIcon={VerifiedLabel}
+								SecondSvgIcon={VerifiedLabel}
 								label={'verificar perfil'}
 								highlightedWords={['verificar']}
-								labelColor={theme.black3}
+								labelColor={theme.white3}
 								fontSize={14}
 								minHeight={20}
 								relativeHeight={relativeScreenHeight(8)}
@@ -129,16 +162,35 @@ function PopOver({
 							<PrimaryButton
 								color={theme.pink3}
 								onPress={toggleVerifyImpactUserModal}
-								SvgIcon={ImpactLabel}
+								SecondSvgIcon={ImpactLabel}
 								label={'tornar de impacto'}
-								highlightedWords={['impacto']}
+								highlightedWords={['tornar', 'impacto']}
 								labelColor={theme.white3}
 								fontSize={14}
 								minHeight={20}
 								relativeHeight={relativeScreenHeight(8)}
 							/>
+
 						</>
 					)}
+					{
+						isAdmin && (
+							<>
+								<Sigh />
+								<PrimaryButton
+									color={theme.blue3}
+									onPress={toggleFreeTrialUserModal}
+									SecondSvgIcon={HanOnMoneyWhiteIcon}
+									label={'dar assinatura'}
+									highlightedWords={['assinatura']}
+									labelColor={theme.white3}
+									fontSize={14}
+									minHeight={20}
+									relativeHeight={relativeScreenHeight(8)}
+								/>
+							</>
+						)
+					}
 				</ContainerInner>
 			</Container>
 		</Popover >

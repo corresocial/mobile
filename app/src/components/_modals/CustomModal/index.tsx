@@ -56,7 +56,8 @@ interface CustomModalProps {
 		label: string
 		CustomIcon?: React.FC<SvgProps>
 		onPress: (value?: string) => void
-	}
+	},
+	children?: React.ReactElement | React.ReactElement[]
 }
 
 function CustomModal({
@@ -70,7 +71,8 @@ function CustomModal({
 	closeModalOnPressButton = true,
 	closeModal,
 	affirmativeButton,
-	negativeButton
+	negativeButton,
+	children
 }: CustomModalProps) {
 	const [textInput, setTextInput] = useState(customInput?.initialValue || '')
 
@@ -105,6 +107,7 @@ function CustomModal({
 								)
 							}
 						</Header>
+						{children}
 
 						{
 							firstParagraph && (
