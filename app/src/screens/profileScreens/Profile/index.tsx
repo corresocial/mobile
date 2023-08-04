@@ -90,7 +90,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}, [])
 
 	const getProfileDataFromRemote = async (userId: string) => {
-		console.log('remote')
 		const remoteUser = await getUser(userId)
 		const {
 			profilePictureUrl,
@@ -101,7 +100,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			socialMedias,
 			subscription
 		} = remoteUser as LocalUserData
-		console.log(subscription?.subscriptionRange)
 		setUser({
 			userId,
 			name,
@@ -335,7 +333,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}
 
 	const setFreeTrialToProfile = async (plan: PostRange) => {
-		if (user.userId) return
+		if (!user.userId) return
 		const priceId = plan === 'country' ? stripeProductsPlans.countryMonthly.priceId : stripeProductsPlans.cityMonthly.priceId
 
 		await setFreeTrialPlans(
@@ -344,10 +342,10 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			createSubscription, // from StripeContext
 			plan, // range
 			'monthly', // plan
-			priceId
+			priceId,
+			() => getProfileDataFromRemote(user.userId || '')
 		)
-
-		user.userId && await getProfileDataFromRemote(user.userId)
+		// user.userId && await getProfileDataFromRemote(user.userId)
 	}
 
 	const renderUserVerifiedType = () => {
@@ -606,8 +604,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 													popoverVisibility={profileOptionsIsOpen}
 													closePopover={() => setProfileOptionsIsOpen(false)}
 													onPress={reportUser}
-													setFreeTrialToProfile={setFreeTrialToProfile}
 													onPressVerify={verifyUserProfile}
+													setFreeTrialToProfile={setFreeTrialToProfile}
 												>
 													<SmallButton
 														color={theme.white3}

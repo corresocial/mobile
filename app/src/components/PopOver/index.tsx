@@ -63,9 +63,9 @@ function PopOver({
 	}
 
 	const selectPlan = async (plan: PostRange) => {
-		await setFreeTrialToProfile(plan) // TODO Rsolve
 		toggleSelectSubscriptionPlanModal()
 		closePopover()
+		await setFreeTrialToProfile(plan) // TODO Resolve
 	}
 
 	const toggleSelectSubscriptionPlanModal = () => {

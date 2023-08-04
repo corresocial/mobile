@@ -7,6 +7,7 @@ import CountryWhiteIcon from '../../../assets/icons/brazil-white.svg'
 import { CustomModal } from '../CustomModal'
 import { VerticalSigh } from '../../VerticalSigh'
 import { PostRange } from '../../../services/firebase/types'
+import { OptionButton } from '../../_buttons/OptionButton'
 
 interface SelectSubscriptionPlanModalProps {
 	visibility: boolean
@@ -22,28 +23,29 @@ function SelectSubscriptionPlanModal({ visibility, closeModal, onSelectPlan }: S
 			closeButton
 			closeModal={closeModal}
 		>
-			<PrimaryButton
-				justifyContent={'space-around'}
-				color={theme.orange3}
-				labelColor={theme.white3}
+			<VerticalSigh />
+			<OptionButton
+				color={theme.white3}
 				label={'cidade'}
 				highlightedWords={['cidade']}
-				fontSize={16}
+				labelSize={16}
 				SvgIcon={CityWhiteIcon}
-				svgIconScale={['40%', '25%']}
-				onPress={async () => onSelectPlan('city')}
+				svgIconScale={['50%', '50%']}
+				leftSideColor={theme.orange3}
+				leftSideWidth={'28%'}
+				onPress={() => onSelectPlan('city')}
 			/>
 			<VerticalSigh />
-			<PrimaryButton
-				justifyContent={'space-around'}
-				color={theme.orange3}
-				labelColor={theme.white3}
+			<OptionButton
+				color={theme.white3}
 				label={'país'}
 				highlightedWords={['país']}
-				fontSize={16}
+				labelSize={16}
 				SvgIcon={CountryWhiteIcon}
-				svgIconScale={['40%', '25%']}
-				onPress={() => onSelectPlan('country')}
+				svgIconScale={['50%', '50%']}
+				leftSideColor={theme.orange3}
+				leftSideWidth={'28%'}
+				onPress={async () => onSelectPlan('country')}
 			/>
 		</CustomModal>
 	)
