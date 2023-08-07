@@ -42,6 +42,7 @@ import { LocalUserData } from '../../../contexts/types'
 import {
 	Id,
 	PostCollection,
+	PostRange,
 	SocialMedia,
 	UserCollection,
 	VerifiedLabelName,
@@ -64,9 +65,12 @@ import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ProfileVerifiedModal } from '../../../components/_modals/ProfileVerifiedModal'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { VerticalSigh } from '../../../components/VerticalSigh'
+import { setFreeTrialPlans } from '../../../services/stripe/scripts/setFreeTrialPlans'
+import { StripeContext } from '../../../contexts/StripeContext'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
+	const { createCustomer, createSubscription, stripeProductsPlans } = useContext(StripeContext)
 
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
@@ -94,6 +98,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			description,
 			verified,
 			socialMedias,
+			subscription
 		} = remoteUser as LocalUserData
 		setUser({
 			userId,
@@ -102,6 +107,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			description,
 			profilePictureUrl: profilePictureUrl || [],
 			verified,
+			subscription,
 			posts,
 		})
 	}
@@ -324,6 +330,22 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			})
 			user.userId && await getProfileDataFromRemote(user.userId)
 		}
+	}
+
+	const setFreeTrialToProfile = async (plan: PostRange) => {
+		if (!user.userId) return
+		const priceId = plan === 'country' ? stripeProductsPlans.countryMonthly.priceId : stripeProductsPlans.cityMonthly.priceId
+
+		await setFreeTrialPlans(
+			[user.userId || ''], // array of userIds
+			createCustomer, // from StripeContext
+			createSubscription, // from StripeContext
+			plan, // range
+			'monthly', // plan
+			priceId,
+			() => getProfileDataFromRemote(user.userId || '')
+		)
+		// user.userId && await getProfileDataFromRemote(user.userId)
 	}
 
 	const renderUserVerifiedType = () => {
@@ -571,15 +593,19 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 													isVerifiable={
 														!isLoggedUser
 														&& userDataContext.verified
-														&& userDataContext.verified.type === 'leader'
+														&& (userDataContext.verified.type === 'leader' || userDataContext.verified.type === 'admin')
 														&& user
 														&& !user.verified
 													}
-													buttonLabel={'denunciar'}
+													isAdmin={userDataContext.verified && userDataContext.verified.type === 'admin' && (
+														(user.subscription && user.subscription.subscriptionRange === 'near') || !user.subscription
+													)}
+													buttonLabel={'denunciar perfil'}
 													popoverVisibility={profileOptionsIsOpen}
 													closePopover={() => setProfileOptionsIsOpen(false)}
 													onPress={reportUser}
 													onPressVerify={verifyUserProfile}
+													setFreeTrialToProfile={setFreeTrialToProfile}
 												>
 													<SmallButton
 														color={theme.white3}

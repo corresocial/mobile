@@ -23,6 +23,7 @@ async function setFreeTrialPlans(
 	subscriptionRange: PostRange,
 	subscriptionPlan: SubscriptionPlan,
 	priceId: string,
+	callback?: () => Promise<void>
 ) {
 	try {
 		if (!priceId || typeof priceId !== 'string') {
@@ -61,6 +62,10 @@ async function setFreeTrialPlans(
 			console.log(userSubscription)
 
 			await updateUser(userId, { subscription: userSubscription })
+
+			callback && await callback()
+
+			return true
 		})
 	} catch (error: any) {
 		if (error.response) {
