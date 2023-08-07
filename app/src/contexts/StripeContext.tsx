@@ -368,8 +368,9 @@ export function StripeProvider({ children }: StripeContextProps) {
 	}
 
 	async function createSubscription(customerId: string, priceId: string, freeTrial?: boolean) { // CARD 4000000760000002
+		const trialEndDate = Math.round((Date.now() / 1000)) + 31650000
 		const freeTrialParams = freeTrial
-			? { trial_end: 1721098740 } // 15/07/2024 23:59
+			? { trial_end: trialEndDate } // 15/07/2024 23:59
 			: {}
 
 		const postData = {
