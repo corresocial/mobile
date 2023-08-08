@@ -128,6 +128,10 @@ export type UserCollection = {
 	subscription?: UserSubscription
 }
 
+export type PrivateUserCollection = {
+	cellNumber: string
+}
+
 export type PrivateAddress = {
 	postType?: string
 	locationView?: LocationViewType

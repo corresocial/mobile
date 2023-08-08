@@ -3,7 +3,7 @@ import { Animated, StatusBar } from 'react-native'
 
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import AddPictureWhiteIcon from '../../../assets/icons/addPicture-white.svg'
 import xWhiteIcon from '../../../assets/icons/x-white.svg'
 
 import { updateUserPrivateData } from '../../../services/firebase/user/updateUserPrivateData'
@@ -23,6 +23,8 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { Id, PostCollection, UserCollection } from '../../../services/firebase/types'
 import { Loader } from '../../../components/Loader'
+import { VerticalSigh } from '../../../components/VerticalSigh'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
 	const { userDataContext, getDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
@@ -32,8 +34,8 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 
 	const headerMessages = {
 		instruction: {
-			text: 'que tal uma foto de perfil?',
-			highlightedWords: ['foto', 'de', 'perfil']
+			text: 'que tal adicionar uma \nfoto de perfil?',
+			highlightedWords: ['\nfoto', 'de', 'perfil']
 		},
 		serverSideError: {
 			text: 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
@@ -93,26 +95,11 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		await updateUser(userData.userIdentification.uid, userObject)
 
 		await updateUserPrivateData(
-			{
-				cellNumber: userData.cellNumber
-			},
+			{ cellNumber: userData.cellNumber },
 			userData.userIdentification.uid,
 			'contacts',
 		)
 	}
-
-	/* 	const saveOnLocal = async (userData: RegisterUserData, localUser: UserCollection) => {
-		await setDataOnSecureStore('corre.user', {
-			userId: userData.userIdentification.uid,
-			name: userData.userName,
-			profilePictureUrl: [],
-			identification: userData.userIdentification,
-		})
-
-		setUserDataOnContext({
-
-		})
-	} */
 
 	const navigateToNextScreen = (tourPerformed: boolean) => {
 		navigation.navigate('UserStack', {
@@ -159,28 +146,30 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 					highlightedWords={getHeaderHighlightedWords()}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white2}>
+			<FormContainer backgroundColor={theme.white2} justifyContent={'center'}>
 				{
 					isLoading
 						? <Loader />
 						: (
 							<>
 								<PrimaryButton
-									color={theme.green3}
-									flexDirection={'row-reverse'}
-									SvgIcon={CheckWhiteIcon}
-									labelColor={theme.white3}
-									label={'claro, vou adicionar'}
-									highlightedWords={['vou', 'adicionar']}
-									onPress={navigateToProfilePicture}
-								/>
-								<PrimaryButton
 									color={theme.red3}
 									SvgIcon={xWhiteIcon}
-									label={'nem quero, valeu'}
+									label={'não, obrigado'}
 									labelColor={theme.white3}
-									highlightedWords={['nem', 'quero']}
+									highlightedWords={['não']}
 									onPress={saveUserData}
+								/>
+								<VerticalSigh height={relativeScreenHeight(3)} />
+								<PrimaryButton
+									color={theme.green3}
+									flexDirection={'row-reverse'}
+									SvgIcon={AddPictureWhiteIcon}
+									svgIconScale={['50%', '25%']}
+									labelColor={theme.white3}
+									label={'opa, claro!'}
+									highlightedWords={['claro!']}
+									onPress={navigateToProfilePicture}
 								/>
 							</>
 						)
