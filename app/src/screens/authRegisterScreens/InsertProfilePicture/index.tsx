@@ -164,7 +164,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 									highlightedWords={['não']}
 									onPress={saveUserData}
 								/>
-								<VerticalSigh height={relativeScreenHeight(3)} />
+								<VerticalSigh height={relativeScreenHeight(5)} />
 								<PrimaryButton
 									color={theme.green3}
 									flexDirection={'row-reverse'}

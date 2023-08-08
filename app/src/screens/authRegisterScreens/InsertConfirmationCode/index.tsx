@@ -19,6 +19,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { Loader } from '../../../components/Loader'
+import { BackButton } from '../../../components/_buttons/BackButton'
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
 	const { validateVerificationCode, setRemoteUserOnLocal } = useContext(AuthContext)
@@ -144,7 +145,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		if (errorCode === 'auth/code-expired') {
 			Alert.alert('ops!', 'Seu código de verificação expirou, solicite novamente', [
 				{
-					text: 'OK', onPress: () => navigation.goBack()
+					text: 'OK', onPress: () => navigateBackwards()
 				}
 			])
 		}
@@ -188,6 +189,8 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		return headerMessages.instruction.highlightedWords
 	}
 
+	const navigateBackwards = () => navigation.goBack()
+
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
 		const existsError = someInvalidFieldSubimitted() || hasServerSideError
@@ -212,6 +215,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
+				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
 					message={getHeaderMessage()}
 					highlightedWords={getHeaderHighlightedWords()}
