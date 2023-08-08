@@ -25,6 +25,7 @@ import { Id, PostCollection, UserCollection } from '../../../services/firebase/t
 import { Loader } from '../../../components/Loader'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { BackButton } from '../../../components/_buttons/BackButton'
 
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
 	const { userDataContext, getDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
@@ -117,6 +118,8 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		return headerMessages.instruction.highlightedWords
 	}
 
+	const navigateBackwards = () => navigation.goBack()
+
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
 		const existsError = hasServerSideError
@@ -141,6 +144,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
+				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
 					message={getHeaderMessage()}
 					highlightedWords={getHeaderHighlightedWords()}
@@ -174,7 +178,6 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 							</>
 						)
 				}
-
 			</FormContainer>
 		</Container >
 	)

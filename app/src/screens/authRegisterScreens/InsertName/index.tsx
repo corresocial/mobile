@@ -16,6 +16,7 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
+import { BackButton } from '../../../components/_buttons/BackButton'
 
 function InsertName({ navigation, route }: InsertNameScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -97,6 +98,8 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 		}
 	}
 
+	const navigateBackwards = () => navigation.goBack()
+
 	const someInvalidFieldSubimitted = () => invalidNameAfterSubmit
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -123,6 +126,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
+				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
 					message={
 						someInvalidFieldSubimitted()

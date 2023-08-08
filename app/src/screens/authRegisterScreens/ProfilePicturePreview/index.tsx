@@ -6,7 +6,7 @@ import { Container, InstructionCardContainer } from './styles'
 import { screenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-import ImageWhiteIcon from '../../../assets/icons/imagePlus.svg'
+import AddPictureWhiteIcon from '../../../assets/icons/addPicture-white.svg'
 
 import { updateUser } from '../../../services/firebase/user/updateUser'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
@@ -27,6 +27,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal'
 import { Loader } from '../../../components/Loader'
+import { BackButton } from '../../../components/_buttons/BackButton'
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
 	const { setRemoteUserOnLocal, userDataContext, getDataFromSecureStore } = useContext(AuthContext)
@@ -38,7 +39,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 	const headerMessages = {
 		instruction: {
-			text: 'ficou boa?',
+			text: 'está boa?',
 			highlightedWords: ['boa']
 		},
 		serverSideError: {
@@ -176,6 +177,8 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 			})
 	}
 
+	const navigateBackwards = () => navigation.goBack()
+
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
 		const existsError = hasServerSideError
@@ -193,7 +196,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	}
 
 	if (!profilePicture.length && !cameraModalVisibility) {
-		navigation.goBack()
+		navigateBackwards()
 	}
 
 	return (
@@ -214,14 +217,15 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 				justifyContent={'space-around'}
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
-				<PhotoPortrait pictureUri={profilePicture[0]} width={screenWidth} height={screenWidth} />
 				<InstructionCardContainer>
+					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
-						flex={0}
+						flex={1}
 						message={getHeaderMessage()}
 						highlightedWords={getHeaderHighlightedWords()}
 					/>
 				</InstructionCardContainer>
+				<PhotoPortrait pictureUri={profilePicture[0]} width={screenWidth} height={screenWidth} />
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
 				{
@@ -233,14 +237,14 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 									color={theme.green3}
 									flexDirection={'row-reverse'}
 									SvgIcon={CheckWhiteIcon}
-									label={'tá ótima, continuar'}
+									label={'tá ótima, bora'}
 									labelColor={theme.white3}
-									highlightedWords={['continuar']}
+									highlightedWords={['bora']}
 									onPress={saveUserData}
 								/>
 								<PrimaryButton
 									color={theme.yellow3}
-									SvgIcon={ImageWhiteIcon}
+									SvgIcon={AddPictureWhiteIcon}
 									label={'nem, escolher outra'}
 									labelColor={theme.black4}
 									highlightedWords={['escolher', 'outra']}
