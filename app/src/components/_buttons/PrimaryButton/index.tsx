@@ -169,7 +169,7 @@ function PrimaryButton({
 						!!timer && (
 							!!buttonDisabled && (
 								<Timer
-									initialTimeInMinutes={0.5}
+									initialTimeInMinutes={0.05}
 									counterTextOnly
 									resetTimer={timerReset}
 									onTimeIsOver={() => {

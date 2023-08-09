@@ -2,6 +2,7 @@ import { Animated, Platform, StatusBar, TextInput, View } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { UserCredential } from 'firebase/auth'
 
+import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
@@ -20,9 +21,14 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { Loader } from '../../../components/Loader'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { Id } from '../../../services/firebase/types'
+import Firebase from '../../../services/firebase'
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
-	const { validateVerificationCode, setRemoteUserOnLocal } = useContext(AuthContext)
+	const { validateVerificationCode, setRemoteUserOnLocal, sendSMS } = useContext(AuthContext)
+
+	const recaptchaVerifier = React.useRef(null)
+	const firebaseConfig = Firebase ? Firebase.options : undefined
 
 	const [inputCode01, setInputCode01] = useState<string>('')
 	const [inputCode02, setInputCode02] = useState<string>('')
@@ -30,6 +36,8 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 	const [inputCode04, setInputCode04] = useState<string>('')
 	const [inputCode05, setInputCode05] = useState<string>('')
 	const [inputCode06, setInputCode06] = useState<string>('')
+
+	const [confirmationCodeId, setConfirmationCodeId] = useState<string>('')
 
 	const [invalidCodeAfterSubmit, setInvalidCodeAfterSubmit] = useState<boolean>(false)
 	const [expiredCodeAfterSubmit, setExpiredCodeAfterSubmit] = useState<boolean>(false)
@@ -139,7 +147,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 
 			if (completeCodeIsValid) {
 				const { cellNumber } = route.params
-				const verificationCodeId = route.params.verificationCodeId as string
+				const verificationCodeId = confirmationCodeId || route.params.verificationCodeId as string
 
 				await validateVerificationCode(verificationCodeId, completeCode)
 					.then(async (userCredential: UserCredential) => {
@@ -222,6 +230,19 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		return theme.blue1
 	}
 
+	const resendConfirmationCode = async () => {
+		setExpiredCodeAfterSubmit(false)
+		setInvalidCodeAfterSubmit(false)
+		clearAllCodeInputs()
+
+		await sendSMS(route.params.cellNumber, recaptchaVerifier.current)
+			.then((verificationCodeId: Id) => {
+				setConfirmationCodeId(verificationCodeId)
+				console.log('confirmationCodeId: ', verificationCodeId)
+			})
+			.catch((error) => console.log(error))
+	}
+
 	const navigateBackwards = () => navigation.goBack()
 
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
@@ -243,6 +264,12 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.blue2} barStyle={'dark-content'} />
+			<FirebaseRecaptchaVerifierModal
+				ref={recaptchaVerifier}
+				firebaseConfig={firebaseConfig}
+				languageCode={'pt-BR'}
+				attemptInvisibleVerification
+			/>
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized
@@ -307,7 +334,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 								/>
 							)
 					}
-					<View style={{ display: !allInputCodesIsValid() || expiredCodeAfterSubmit ? 'flex' : 'none' }}>
+					<View style={{ display: !allInputCodesIsValid() || expiredCodeAfterSubmit || invalidCodeAfterSubmit ? 'flex' : 'none' }}>
 						<PrimaryButton
 							disabled
 							timer
@@ -318,10 +345,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 							label={'reenviar código'}
 							highlightedWords={['reenviar', 'código']}
 							startsHidden={false}
-							onPress={() => {
-								setExpiredCodeAfterSubmit(false)
-								clearAllCodeInputs()
-							}}
+							onPress={resendConfirmationCode}
 						/>
 					</View>
 				</ButtonContainer>
