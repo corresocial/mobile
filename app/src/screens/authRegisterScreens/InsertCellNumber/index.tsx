@@ -34,7 +34,7 @@ const headerMessages = {
 	},
 	serverSideError: {
 		text: 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
-		highlightedWords: ['do', 'nosso', 'lado,']
+		highlightedWords: ['do', 'nosso', 'lado']
 	}
 }
 
@@ -171,7 +171,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 						validBackgroundColor={!authByWhatsapp ? theme.purple1 : theme.green1}
 						validBorderBottomColor={!authByWhatsapp ? theme.purple5 : theme.green5}
 						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.red5}
+						invalidBorderBottomColor={theme.black4}
 						maxLength={2}
 						invalidTextAfterSubmit={invalidDDDAfterSubmit}
 						placeholder={'12'}
@@ -191,7 +191,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 						validBackgroundColor={!authByWhatsapp ? theme.purple1 : theme.green1}
 						validBorderBottomColor={!authByWhatsapp ? theme.purple5 : theme.green5}
 						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.red5}
+						invalidBorderBottomColor={theme.black4}
 						maxLength={9}
 						invalidTextAfterSubmit={invalidCellNumberAfterSubmit}
 						placeholder={'123451234'}

@@ -1,5 +1,5 @@
-import { Alert, Animated, Platform, StatusBar, TextInput } from 'react-native'
-import React, { useContext, useRef, useState } from 'react'
+import { Animated, Platform, StatusBar, TextInput, View } from 'react-native'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { UserCredential } from 'firebase/auth'
 
 import { ButtonContainer, Container, InputsContainer } from './styles'
@@ -31,7 +31,9 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 	const [inputCode05, setInputCode05] = useState<string>('')
 	const [inputCode06, setInputCode06] = useState<string>('')
 
-	const [invalidCodeAfterSubmit, setInvaliCodeAfterSubmit] = useState<boolean>(false)
+	const [invalidCodeAfterSubmit, setInvalidCodeAfterSubmit] = useState<boolean>(false)
+	const [expiredCodeAfterSubmit, setExpiredCodeAfterSubmit] = useState<boolean>(false)
+	const [insertedCodeIsValid, setInsertedCodeIsValid] = useState<boolean>(false)
 	const [hasServerSideError, setHasServerSideError] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -93,21 +95,42 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 			highlightedWords: ['\ncódigo', 'tá', 'errado']
 		},
 		serverSideError: {
-			text: 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
-			highlightedWords: ['do', 'nosso', 'lado,']
+			expired: {
+				text: 'opa! parece que o código expirou',
+				highlightedWords: ['código', 'expirou']
+			},
+			invalid: {
+				text: 'opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
+				highlightedWords: ['do', 'nosso', 'lado,']
+			}
 		}
+	}
+
+	useEffect(() => {
+		const validation = allInputCodesIsValid()
+		setInsertedCodeIsValid(validation)
+	}, [expiredCodeAfterSubmit])
+
+	const clearAllCodeInputs = () => {
+		setInputCode01('')
+		setInputCode02('')
+		setInputCode03('')
+		setInputCode04('')
+		setInputCode05('')
+		setInputCode06('')
 	}
 
 	const validateCode = (text: string) => {
 		const isValid = text.length === 1
 		if (isValid) {
-			setInvaliCodeAfterSubmit(false)
+			setInvalidCodeAfterSubmit(false)
+			setExpiredCodeAfterSubmit(false)
 			return true
 		}
 		return false
 	}
 
-	const sendConfirmationCode = () => {
+	const sendConfirmationCode = async () => {
 		try {
 			setIsLoading(true)
 
@@ -118,7 +141,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				const { cellNumber } = route.params
 				const verificationCodeId = route.params.verificationCodeId as string
 
-				validateVerificationCode(verificationCodeId, completeCode)
+				await validateVerificationCode(verificationCodeId, completeCode)
 					.then(async (userCredential: UserCredential) => {
 						const userIdentification = await extractUserIdentification(userCredential)
 						await setRemoteUserOnLocal(userIdentification.uid)
@@ -132,7 +155,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 						})
 					})
 			} else {
-				!completeCodeIsValid && setInvaliCodeAfterSubmit(true)
+				!completeCodeIsValid && setInvalidCodeAfterSubmit(true)
 			}
 		} catch (error: any) {
 			setIsLoading(false)
@@ -142,18 +165,14 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 	}
 
 	const verificationCodeErrorTreatment = (errorCode: string) => {
+		console.log(errorCode)
 		if (errorCode === 'auth/code-expired') {
-			Alert.alert('ops!', 'Seu código de verificação expirou, solicite novamente', [
-				{
-					text: 'OK', onPress: () => navigateBackwards()
-				}
-			])
+			return setExpiredCodeAfterSubmit(true)
 		}
 		if (errorCode === 'auth/invalid-verification-code') {
-			setInvaliCodeAfterSubmit(true)
-		} else {
-			setHasServerSideError(true)
+			return setInvalidCodeAfterSubmit(true)
 		}
+		setHasServerSideError(true)
 	}
 
 	const extractUserIdentification = async ({ user }: UserCredential) => {
@@ -175,18 +194,32 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 
 	const mergeAllInputCodes = () => inputsConfig.reduce((amount, current) => amount + current.field, '')
 
-	const someInvalidFieldSubimitted = () => invalidCodeAfterSubmit
+	const someInvalidFieldSubimitted = () => invalidCodeAfterSubmit || expiredCodeAfterSubmit
 
 	const getHeaderMessage = () => {
+		if (hasServerSideError && expiredCodeAfterSubmit) return headerMessages.serverSideError.expired.text
+		if (hasServerSideError && invalidCodeAfterSubmit) return headerMessages.serverSideError.invalid.text
 		if (someInvalidFieldSubimitted()) return headerMessages.clientSideError.text
-		if (hasServerSideError) return headerMessages.serverSideError.text
 		return headerMessages.instruction.text
 	}
 
 	const getHeaderHighlightedWords = () => {
+		if (hasServerSideError && expiredCodeAfterSubmit) return headerMessages.serverSideError.expired.highlightedWords
+		if (hasServerSideError && invalidCodeAfterSubmit) return headerMessages.serverSideError.invalid.highlightedWords
 		if (someInvalidFieldSubimitted()) return headerMessages.clientSideError.highlightedWords
-		if (hasServerSideError) return headerMessages.serverSideError.highlightedWords
 		return headerMessages.instruction.highlightedWords
+	}
+
+	const getRelativeHeaderErrorStyle = () => {
+		if (expiredCodeAfterSubmit) return theme.yellow2
+		if (invalidCodeAfterSubmit) return theme.red2
+		return theme.blue2
+	}
+
+	const getRelativeInputErrorStyle = () => {
+		if (expiredCodeAfterSubmit) return theme.yellow1
+		if (invalidCodeAfterSubmit) return theme.red1
+		return theme.blue1
 	}
 
 	const navigateBackwards = () => navigation.goBack()
@@ -203,7 +236,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 
 		return headerBackgroundAnimatedValue.current.interpolate({
 			inputRange: [0, 1],
-			outputRange: [theme.blue2, theme.red2],
+			outputRange: [theme.blue2, getRelativeHeaderErrorStyle()],
 		})
 	}
 
@@ -240,10 +273,11 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 									defaultBorderBottomColor={theme.black4}
 									validBackgroundColor={theme.blue1}
 									validBorderBottomColor={theme.blue5}
-									invalidBackgroundColor={theme.red1}
-									invalidBorderBottomColor={theme.red5}
+									invalidBackgroundColor={getRelativeInputErrorStyle()}
+									invalidBorderBottomColor={theme.black4}
 									maxLength={1}
-									invalidTextAfterSubmit={invalidCodeAfterSubmit}
+									textIsValid={insertedCodeIsValid}
+									invalidTextAfterSubmit={invalidCodeAfterSubmit || expiredCodeAfterSubmit}
 									placeholder={'0'}
 									keyboardType={'decimal-pad'}
 									selectTextOnFocus
@@ -260,9 +294,9 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 					{
 						isLoading
 							? <Loader />
-							: allInputCodesIsValid() && (
+							: allInputCodesIsValid() && !expiredCodeAfterSubmit && (
 								<PrimaryButton
-									color={someInvalidFieldSubimitted() || hasServerSideError ? theme.red3 : theme.blue3}
+									color={theme.green3}
 									flexDirection={'row-reverse'}
 									SvgIcon={CheckWhiteIcon}
 									labelColor={theme.white3}
@@ -273,9 +307,26 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 								/>
 							)
 					}
+					<View style={{ display: !allInputCodesIsValid() || expiredCodeAfterSubmit ? 'flex' : 'none' }}>
+						<PrimaryButton
+							disabled
+							timer
+							color={theme.yellow3}
+							flexDirection={'row-reverse'}
+							justifyContent={'space-around'}
+							labelColor={theme.black4}
+							label={'reenviar código'}
+							highlightedWords={['reenviar', 'código']}
+							startsHidden={false}
+							onPress={() => {
+								setExpiredCodeAfterSubmit(false)
+								clearAllCodeInputs()
+							}}
+						/>
+					</View>
 				</ButtonContainer>
 			</FormContainer>
-		</Container>
+		</Container >
 	)
 }
 

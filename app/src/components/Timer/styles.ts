@@ -3,10 +3,10 @@ import styled from 'styled-components/native'
 
 export const Container = styled.View`
 	align-items: center;
-	width: 100%;
+	width: auto;
 `
 
 export const CounterText = styled.Text`
-	font-family: Arvo_400Regular;
+	font-family: Arvo_700Bold;
 	font-size: ${RFValue(13)}px;
 `
