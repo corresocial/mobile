@@ -81,10 +81,7 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 				/>
 			</Header>
 			<Body>
-				<ScrollView
-					showsVerticalScrollIndicator={false}
-					contentContainerStyle={{ flex: 1 }}
-				>
+				<ScrollView showsVerticalScrollIndicator={false}>
 					{
 						route.params.isAuthor
 							? (

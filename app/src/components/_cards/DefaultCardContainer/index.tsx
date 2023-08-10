@@ -32,7 +32,6 @@ function DefaultCardContainer({
 
 	function releaseButton() {
 		setButtomPressed(false)
-		console.log('pressed')
 		onPress && onPress()
 	}
 
