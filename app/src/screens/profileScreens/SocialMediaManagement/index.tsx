@@ -1,5 +1,5 @@
 import React from 'react'
-import { Linking, ScrollView, StatusBar, View } from 'react-native'
+import { ScrollView, StatusBar, View } from 'react-native'
 import uuid from 'react-uuid'
 
 import { Body, Container, Header, NewLinkButtonContainer, Sigh } from './styles'
@@ -14,7 +14,14 @@ import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { EditCard } from '../../../components/_cards/EditCard'
-import { getRelativeSocialMediaIcon, isDefaultSocialMedia, mergeWithDefaultSocialMedia, socialMediaUrl, sortSocialMedias } from '../../../utils/socialMedias'
+import {
+	getRelativeSocialMediaIcon,
+	isDefaultSocialMedia,
+	mergeWithDefaultSocialMedia,
+	openURL,
+	socialMediaUrl,
+	sortSocialMedias
+} from '../../../utils/socialMedias'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 
 function SocialMediaManagement({ route, navigation }: SocialMediaManagementScreenProps) {
@@ -28,18 +35,6 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 			navigation.navigate('InsertLinkTitle', { socialMedia: { ...socialMedia }, index })
 		} else {
 			await openURL(socialMedia)
-		}
-	}
-
-	const openURL = async (socialMedia: SocialMedia) => {
-		if (!socialMedia.link || socialMediaUrl(socialMedia.title, '') === socialMedia.link) return
-		console.log(socialMedia.link)
-
-		const validUrl = await Linking.canOpenURL(socialMedia.link || '')
-		if (validUrl) {
-			Linking.openURL(socialMedia.link)
-		} else {
-			console.log('URL inválida')
 		}
 	}
 

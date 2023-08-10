@@ -1,3 +1,4 @@
+import { Linking } from 'react-native'
 import LinkClipIcon from '../assets/icons/linkClip.svg'
 import LinkedinIcon from '../assets/icons/linkedin.svg'
 import FacebookIcon from '../assets/icons/facebook.svg'
@@ -121,6 +122,18 @@ const sortSocialMedias = (socialMediaA: SocialMedia, socialMediaB: SocialMedia) 
 	return 0
 }
 
+const openURL = async (socialMedia: SocialMedia) => {
+	if (!socialMedia.link || socialMediaUrl(socialMedia.title, '') === socialMedia.link) return
+	console.log(socialMedia.link)
+
+	const validUrl = await Linking.canOpenURL(socialMedia.link || '')
+	if (validUrl) {
+		Linking.openURL(socialMedia.link)
+	} else {
+		console.log('URL inválida')
+	}
+}
+
 export {
 	defaultSocialMedias,
 	getRelativeSocialMediaIcon,
@@ -129,4 +142,5 @@ export {
 	socialMediaUrl,
 	mergeWithDefaultSocialMedia,
 	sortSocialMedias,
+	openURL
 }

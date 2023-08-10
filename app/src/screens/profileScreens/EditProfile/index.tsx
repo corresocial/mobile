@@ -27,6 +27,7 @@ import { deleteUserPicture } from '../../../services/firebase/user/deleteUserPic
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 import { VerticalSigh } from '../../../components/VerticalSigh'
+import { openURL } from '../../../utils/socialMedias'
 
 function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
@@ -219,7 +220,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 						highlightedWords={['links', 'contato']}
 						onEdit={() => goToEditScreen('SocialMediaManagement')}
 					>
-						<HorizontalSocialMediaList socialMedias={userDataContext.socialMedias} onPress={() => { }} />
+						<HorizontalSocialMediaList socialMedias={userDataContext.socialMedias} onPress={openURL} />
 					</EditCard>
 					<VerticalSigh />
 					<EditCard

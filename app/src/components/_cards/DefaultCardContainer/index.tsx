@@ -40,9 +40,14 @@ function DefaultCardContainer({
 		setCardHeight(height)
 	}
 
+	const pressionableStyle = {
+		flex,
+		height: cardHeight
+	}
+
 	return (
 		<Container
-			style={{ flex, height: cardHeight }}
+			style={pressionable && pressionableStyle}
 			activeOpacity={1}
 			onPressIn={pressionable && pressingButton}
 			onPressOut={pressionable && notPressingButton}
