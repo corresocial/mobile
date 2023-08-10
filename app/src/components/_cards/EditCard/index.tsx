@@ -16,6 +16,7 @@ interface EditCardProps {
 	value?: string | (string | ReactElement)[]
 	profilePicturesUrl?: string[]
 	valueBold?: boolean
+	pressionable?: boolean
 	indicatorColor?: string
 	carousel?: boolean
 	SvgIcon?: React.FC<SvgProps>
@@ -23,6 +24,7 @@ interface EditCardProps {
 	RightIcon?: React.FC<SvgProps>
 	children?: ReactElement
 	onEdit?: () => void
+	onPress?: () => void
 }
 
 function EditCard({
@@ -33,11 +35,13 @@ function EditCard({
 	profilePicturesUrl = [],
 	indicatorColor,
 	carousel,
+	pressionable,
 	SvgIcon,
 	SecondSvgIcon,
 	RightIcon,
 	children,
 	onEdit,
+	onPress,
 }: EditCardProps) {
 	const isDateOrTimeOrObject = () => {
 		if (value) {
@@ -51,7 +55,11 @@ function EditCard({
 		return false
 	}
 	return (
-		<DefaultCardContainer withoutPadding={!!profilePicturesUrl.length}>
+		<DefaultCardContainer
+			withoutPadding={!!profilePicturesUrl.length}
+			pressionable={pressionable}
+			onPress={pressionable ? onPress || onEdit : () => { }}
+		>
 			<CardHeader
 				style={{
 					paddingHorizontal: profilePicturesUrl.length ? RFValue(15) : 0,

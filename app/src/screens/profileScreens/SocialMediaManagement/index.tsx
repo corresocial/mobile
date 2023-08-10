@@ -27,14 +27,22 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 
 			navigation.navigate('InsertLinkTitle', { socialMedia: { ...socialMedia }, index })
 		} else {
-			const validUrl = await Linking.canOpenURL(socialMedia.link || '')
-			if (validUrl) {
-				Linking.openURL(socialMedia.link)
-			} else {
-				console.log('URL inválida')
-			}
+			await openURL(socialMedia)
 		}
 	}
+
+	const openURL = async (socialMedia: SocialMedia) => {
+		if (!socialMedia.link || socialMediaUrl(socialMedia.title, '') === socialMedia.link) return
+		console.log(socialMedia.link)
+
+		const validUrl = await Linking.canOpenURL(socialMedia.link || '')
+		if (validUrl) {
+			Linking.openURL(socialMedia.link)
+		} else {
+			console.log('URL inválida')
+		}
+	}
+
 	const getEndIcon = () => {
 		if (!route.params.isAuthor) return AngleRightIcon
 	}
@@ -53,9 +61,11 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 						RightIcon={getEndIcon()}
 						SecondSvgIcon={getRelativeSocialMediaIcon(socialMedia.title)}
 						value={`${socialMedia.link.replace(socialMediaUrl(socialMedia.title, ''), '') || ''}`}
+						pressionable
+						onPress={() => openURL(socialMedia)}
 						onEdit={() => onPressIcon(socialMedia, index)}
 					/>
-					<Sigh />
+					<VerticalSigh />
 				</View>
 			)
 		}, false)
@@ -71,7 +81,10 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 				/>
 			</Header>
 			<Body>
-				<ScrollView showsVerticalScrollIndicator={false}>
+				<ScrollView
+					showsVerticalScrollIndicator={false}
+					contentContainerStyle={{ flex: 1 }}
+				>
 					{
 						route.params.isAuthor
 							? (
