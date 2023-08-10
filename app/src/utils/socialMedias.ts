@@ -124,7 +124,6 @@ const sortSocialMedias = (socialMediaA: SocialMedia, socialMediaB: SocialMedia) 
 
 const openURL = async (socialMedia: SocialMedia) => {
 	if (!socialMedia.link || socialMediaUrl(socialMedia.title, '') === socialMedia.link) return
-	console.log(socialMedia.link)
 
 	const validUrl = await Linking.canOpenURL(socialMedia.link || '')
 	if (validUrl) {

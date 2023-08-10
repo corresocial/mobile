@@ -46,7 +46,9 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 		const mergedSocialMedias = mergeWithDefaultSocialMedia(route.params.socialMedias)
 		const ordenedSocialMedias = mergedSocialMedias.sort(sortSocialMedias)
 
-		const socialMediaToRender = !route.params.isAuthor ? ordenedSocialMedias.filter((socialMedia) => socialMedia.link) : [...ordenedSocialMedias]
+		const socialMediaToRender = !route.params.isAuthor
+			? ordenedSocialMedias.filter((socialMedia) => socialMedia.link && socialMediaUrl(socialMedia.title, '') !== socialMedia.link)
+			: [...ordenedSocialMedias]
 
 		return socialMediaToRender.map((socialMedia, index) => {
 			return (
