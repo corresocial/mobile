@@ -112,8 +112,6 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 	}
 
 	const hasSubscriptionDowngrade = (newRange?: PostRange, oldRange?: PostRange) => {
-		console.log(newRange)
-		console.log(oldRange)
 		if (!newRange || !oldRange) return true
 		return newRange === 'near' || (oldRange === 'country' && newRange === 'city')
 	}
