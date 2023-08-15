@@ -130,14 +130,10 @@ function dateHasExpired(
 	const diff = Math.abs(endDateInMilliseconds - startDateInMilliseconds)
 	const differenceDaysInMilliseconds = numberOfDays * 24 * 60 * 60 * 1000
 
-	console.log(parseInt((diff / 1000 / 60 / 60 / 24).toFixed(0)))
 	if (returnNumberOfExpiredDays) return parseInt((diff / 1000 / 60 / 60 / 24).toFixed(0))
 
-	console.log(diff)
-	console.log(differenceDaysInMilliseconds)
-	console.log(`${(diff / 1000 / 60 / 60 / 24)} - ${numberOfDays}`)
-	if (diff <= differenceDaysInMilliseconds || (diff / 1000 / 60 / 60 / 24) >= numberOfDays) return true
-	return false
+	if (diff <= differenceDaysInMilliseconds || (diff / 1000 / 60 / 60 / 24) >= numberOfDays) return false
+	return true
 }
 
 const sortArray = (a: string, b: string) => {

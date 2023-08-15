@@ -232,14 +232,15 @@ export function StripeProvider({ children }: StripeContextProps) {
 			const customerId = userDataContext.subscription?.customerId
 			if (!customerId) return
 
-			const res = await getCustomerSubscriptions(customerId, true, true)
-			if (!res || !res.length) {
+			const freeSubscription = await getCustomerSubscriptions(customerId, true, true)
+			const paidSubscription = await getCustomerSubscriptions(customerId, true)
+			if ((!paidSubscription || !paidSubscription.length) && (!freeSubscription || !freeSubscription.length)) {
 				showSubscriptionAlertWithCustomMessage(10 as number, true)
 				throw new Error('Não há faturas ativas')
 			}
 
-			const endSubscriptionDate = res[0].current_period_end * 1000
-			const currentDate = Math.floor(Date.now()) //  + 2596000000 + (0 * 86400000)
+			const endSubscriptionDate = paidSubscription && paidSubscription.length ? paidSubscription[0].current_period_end * 1000 : freeSubscription[0].current_period_end * 1000
+			const currentDate = Math.floor(Date.now() + 2596000000 + (340 * 86400000)) //  + 2596000000 + (0 * 86400000)
 
 			/* console.log(new Date(endSubscriptionDate))
 			console.log(new Date(currentDate)) */
