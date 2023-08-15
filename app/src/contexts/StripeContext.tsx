@@ -240,7 +240,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 			}
 
 			const endSubscriptionDate = paidSubscription && paidSubscription.length ? paidSubscription[0].current_period_end * 1000 : freeSubscription[0].current_period_end * 1000
-			const currentDate = Math.floor(Date.now() + 2596000000 + (340 * 86400000)) //  + 2596000000 + (0 * 86400000)
+			const currentDate = Math.floor(Date.now()) //  + 2596000000 + (0 * 86400000)
 
 			/* console.log(new Date(endSubscriptionDate))
 			console.log(new Date(currentDate)) */
