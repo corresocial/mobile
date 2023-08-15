@@ -231,6 +231,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 			if (!customerId) return
 
 			const res = await getCustomerSubscriptions(customerId, true, true)
+			console.log(res)
 			if (!res || !res.length) {
 				showSubscriptionAlertWithCustomMessage(10 as number, true)
 				throw new Error('Não há faturas ativas')
@@ -239,11 +240,11 @@ export function StripeProvider({ children }: StripeContextProps) {
 			const endSubscriptionDate = res[0].current_period_end * 1000
 			const currentDate = Math.floor(Date.now()) //  + 2596000000 + (0 * 86400000)
 
-			/* console.log(new Date(endSubscriptionDate))
-			console.log(new Date(currentDate)) */
+			console.log(new Date(endSubscriptionDate))
+			console.log(new Date(currentDate))
 
-			if (dateHasExpired(endSubscriptionDate, currentDate, 1)) {
-				const numberOfExpiredDays = dateHasExpired(endSubscriptionDate, currentDate, 7, true)
+			if (dateHasExpired(currentDate, endSubscriptionDate, 1)) {
+				const numberOfExpiredDays = dateHasExpired(currentDate, endSubscriptionDate, 7, true)
 				console.log(`STRIPE: Dias expirados: ${numberOfExpiredDays} dias`)
 				showSubscriptionAlertWithCustomMessage(numberOfExpiredDays as number)
 				setSubscriptionHasActive(false)
@@ -332,7 +333,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 			setNumberOfSubscriptionExpiredDays(numberOfExpiredDays as number)
 		}
 
-		setSubscriptionAlertModalIsVisible(!invalidSubscriptionAlertModalIsVisible)
+		toggleInvalidSubscriptionModalVisibility()
 	}
 
 	const userHasSubscription = () => userDataContext.subscription && userDataContext.subscription.subscriptionRange !== 'near'
