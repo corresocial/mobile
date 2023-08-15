@@ -30,7 +30,7 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Loader } from '../../../components/Loader'
-import { PostCollection, PostCollectionRemote, UserSubscription } from '../../../services/firebase/types'
+import { PostCollection, PostCollectionRemote, PostRange, UserSubscription } from '../../../services/firebase/types'
 
 type CustomCardDetails = {
 	brand: CardBrand
@@ -98,7 +98,10 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			}
 
 			await updateUserSubscription(userSubscription)
-			await updateSubscriptionDependentPosts(userSubscription)
+
+			if (hasSubscriptionDowngrade(subscriptionRange, userDataContext.subscription?.subscriptionRange)) {
+				await updateSubscriptionDependentPosts(userSubscription)
+			}
 			setIsLoading(false)
 			navigateToResultScreen(true, route.params)
 		} catch (err: any) { // Check stripe erros
@@ -106,6 +109,13 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			setIsLoading(false)
 			navigateToResultScreen(false, route.params)
 		}
+	}
+
+	const hasSubscriptionDowngrade = (newRange?: PostRange, oldRange?: PostRange) => {
+		console.log(newRange)
+		console.log(oldRange)
+		if (!newRange || !oldRange) return true
+		return newRange === 'near' || (oldRange === 'country' && newRange === 'city')
 	}
 
 	const updateSubscriptionDependentPosts = async (userSubscription: UserSubscription) => {
