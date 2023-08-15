@@ -68,7 +68,7 @@ const socialMediaUrl = (socialMediaTitle: string, atSign: string) => {
 		case 'spotify': return `https://open.spotify.com/artist/${customAtSign}`
 		case 'tiktok': return `https://www.tiktok.com/@${customAtSign}`
 		case 'soundcloud': return `https://soundcloud.com/${customAtSign}`
-		default: return `https://www.google.com/search?client=opera&q=${customAtSign}`
+		default: return `https://www.google.com/search?&q=${customAtSign}`
 	}
 }
 
