@@ -156,6 +156,8 @@ export function StripeProvider({ children }: StripeContextProps) {
 			...axiosConfig
 		})
 
+		if (response.data && !response.data.length) return false
+
 		return response.data.data.length > 0 ? response.data.data[0] : null
 	}
 

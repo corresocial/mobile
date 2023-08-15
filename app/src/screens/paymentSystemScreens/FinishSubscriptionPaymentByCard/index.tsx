@@ -148,8 +148,9 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 		try {
 			let cardAlreadyRegistered = false
 			if (customerData.customerId) {
-				const { card: remoteCard } = await getCustomerPaymentMethods(userDataContext.subscription?.customerId || '')
-				cardAlreadyRegistered = cardDataAreEquals(cardDetails, remoteCard)
+				const card = await getCustomerPaymentMethods(userDataContext.subscription?.customerId || '')
+
+				cardAlreadyRegistered = !card ? false : cardDataAreEquals(cardDetails, card)
 			}
 
 			console.log('Card details:', cardDetails)
