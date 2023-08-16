@@ -70,7 +70,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					text={'configurações'}
 				/>
 			</Header>
-			<Body>
+			<Body showsVerticalScrollIndicator={false}>
 				<SubscriptionButton onPress={performUserSubscription} />
 				<VerticalSigh />
 				<OptionButton

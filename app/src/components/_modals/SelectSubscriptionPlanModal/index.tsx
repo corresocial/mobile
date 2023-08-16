@@ -1,6 +1,5 @@
 import React from 'react'
 import { theme } from '../../../common/theme'
-import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import CityWhiteIcon from '../../../assets/icons/city-white.svg'
 import CountryWhiteIcon from '../../../assets/icons/brazil-white.svg'
 
