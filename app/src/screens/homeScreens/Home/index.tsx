@@ -436,6 +436,8 @@ function Home({ navigation }: HomeScreenProps) {
 		)
 	}
 
+	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
+
 	return (
 		<Container>
 			<FocusAwareStatusBar
@@ -444,6 +446,7 @@ function Home({ navigation }: HomeScreenProps) {
 			/>
 			<SubscriptionInfoModal
 				visibility={subscriptionModalIsVisible}
+				profilePictureUri={profilePictureUrl}
 				closeModal={() => setSubscriptionModalIsVisible(false)}
 				onPressButton={navigateToSelectSubscriptionRange}
 			/>

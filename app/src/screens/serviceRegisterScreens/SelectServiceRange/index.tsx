@@ -41,11 +41,14 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 		navigation.navigate('SelectLocationView')
 	}
 
+	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
+
 	return (
 		<>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<SubscriptionInfoModal
 				visibility={subscriptionModalIsVisible}
+				profilePictureUri={profilePictureUrl}
 				withoutNegativeOption
 				closeModal={() => setSubscriptionModalIsVisible(false)}
 				onPressButton={closeSubscriptionInfoModal}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { BottomSafeAreaColor, Container, SubscriptionButtonContainer } from './styles'
 import { theme } from '../../../common/theme'
@@ -19,13 +19,18 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
 import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionInfoModal'
+import { AuthContext } from '../../../contexts/AuthContext'
 
 function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
+	const { userDataContext } = useContext(AuthContext)
+
 	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = React.useState(false)
 
 	const navigateToSelectSubscriptionRange = () => {
 		navigation.navigate('SelectSubscriptionRange')
 	}
+
+	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
 	return (
 		<>
@@ -33,6 +38,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 				<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 				<SubscriptionInfoModal
 					visibility={subscriptionModalIsVisible}
+					profilePictureUri={profilePictureUrl}
 					closeModal={() => setSubscriptionModalIsVisible(false)}
 					onPressButton={navigateToSelectSubscriptionRange}
 				/>
