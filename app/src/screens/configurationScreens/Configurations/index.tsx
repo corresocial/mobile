@@ -71,7 +71,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				/>
 			</Header>
 			<Body showsVerticalScrollIndicator={false}>
-				<SubscriptionButton onPress={performUserSubscription} />
+				<SubscriptionButton customTitle={'assinatura corre.'} onPress={performUserSubscription} />
 				<VerticalSigh />
 				<OptionButton
 					color={theme.white3}

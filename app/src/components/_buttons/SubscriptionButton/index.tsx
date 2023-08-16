@@ -6,17 +6,18 @@ import { OptionButton } from '../OptionButton'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 interface SubscriptionButtonProps {
+	customTitle?: string
 	onPress: () => void
 }
 
-function SubscriptionButton({ onPress }: SubscriptionButtonProps) {
+function SubscriptionButton({ customTitle = '', onPress }: SubscriptionButtonProps) {
 	const theme = useTheme()
 
 	return (
 		<OptionButton
 			color={theme.white3}
-			label={'apoie o corre.'}
-			highlightedWords={['apoie', 'o', 'corre']}
+			label={customTitle || 'apoie o corre.'}
+			highlightedWords={[...customTitle.split(' '), 'corre'] || ['apoie', 'o', 'corre']}
 			labelSize={18}
 			relativeHeight={relativeScreenHeight(12)}
 			shortDescription={'com uma assinatura mensal você alcança muito mais clientes e ajuda cidadãos do nosso país'}

@@ -18,11 +18,23 @@ import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
+import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionInfoModal'
 
 function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
+	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = React.useState(false)
+
+	const navigateToSelectSubscriptionRange = () => {
+		navigation.navigate('SelectSubscriptionRange')
+	}
+
 	return (
 		<Container>
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<SubscriptionInfoModal
+				visibility={subscriptionModalIsVisible}
+				closeModal={() => setSubscriptionModalIsVisible(false)}
+				onPressButton={navigateToSelectSubscriptionRange}
+			/>
 			<SubtitleCard
 				text={'criar post'}
 				highlightedText={['post']}
@@ -103,7 +115,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 				SvgIcon={HandOnMoneyWhiteIcon}
 			/>
 			<SubscriptionButtonContainer>
-				<SubscriptionButton onPress={() => { }} />
+				<SubscriptionButton onPress={() => setSubscriptionModalIsVisible(true)} />
 			</SubscriptionButtonContainer>
 		</Container>
 	)
