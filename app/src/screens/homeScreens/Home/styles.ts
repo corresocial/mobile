@@ -20,4 +20,9 @@ export const RecentPostsContainer = styled.ScrollView`
 
 export const ContainerPadding = styled.View`
 	padding-horizontal: ${RFValue(10)}px;
+	align-items: flex-end;
+`
+
+export const AdSubscriptionContainer = styled.View`
+	padding-horizontal: ${RFValue(15)}px;
 `

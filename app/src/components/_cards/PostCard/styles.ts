@@ -8,20 +8,17 @@ export const Container = styled.TouchableOpacity`
     background-color: ${({ theme }) => theme.black4};
     border-radius: ${RFValue(13)}px;
     position: relative;
-	overflow: visible;
 	margin-left: ${relativeScreenWidth(1.9)}px;
 `
 
 export const ContainerInner = styled.View`
 	width: 100%;
     height: 100%;
-
+	flex-direction: row;
 	background-color: ${({ theme }) => theme.white3};
     border: ${RFValue(3)}px solid ${({ theme }) => theme.black4};
-
     border-radius: ${RFValue(13)}px;
     position: absolute;
-	flex-direction: row;
 	overflow: hidden;
 	left: ${-relativeScreenWidth(2)}px;
 `

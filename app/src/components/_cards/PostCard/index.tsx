@@ -96,7 +96,6 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 			<ContainerInner
 				style={{
 					marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0
-
 				}}
 			>
 				<LeftSideLabel style={{ backgroundColor: defineLabelColor() }} />

@@ -11,27 +11,23 @@ export const TouchableContainer = styled.TouchableWithoutFeedback`
 `
 
 export const ContainerBottom = styled(Animatable.View)`
-    width: 100%;
+    width: 98%;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
     border-radius: ${RFValue(15)}px;
     position: relative;
     background-color: ${({ theme }) => theme.black4};
 `
 
 export const ContainerSurface = styled.View`
-    flex-direction: row;
+	width: 100%;
 	height: 100%;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    border-radius:${RFValue(15)}px;
-    border: ${RFValue(2.5)}px solid black;
+	flex-direction: row;
     background-color: ${({ theme }) => theme.white3};
-    overflow: hidden;
+    border: ${RFValue(2.5)}px solid black;
+    border-radius:${RFValue(15)}px;
     position: absolute;
-	right: ${RFValue(8)}px;
+    overflow: hidden;
+	left: ${-RFValue(8)}px;
 `
 
 export const IconArea = styled.View`

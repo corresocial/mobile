@@ -84,7 +84,7 @@ function OptionButton({
 				<ContainerSurface
 					style={{
 						backgroundColor: color,
-						marginRight: buttonPressed ? RFValue(-7) : 0
+						marginLeft: buttonPressed ? RFValue(7) : 0
 					}}
 				>
 					<IconArea
