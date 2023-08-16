@@ -6,6 +6,8 @@ export const Container = styled.View`
 `
 
 export const InstructionCardContainer = styled.View`
+	flex-direction: row;
+	align-items: center;
     width: 90%;
     margin-top: ${relativeScreenHeight(1)}px;
 `

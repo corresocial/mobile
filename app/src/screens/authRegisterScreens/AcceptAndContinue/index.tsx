@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Alert, BackHandler, StatusBar } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { BackHandler, StatusBar } from 'react-native'
 
 import {
 	Container,
@@ -16,8 +16,6 @@ import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { AcceptAndContinueScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
-import { AuthContext } from '../../../contexts/AuthContext'
-
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { TermsOfServiceModal } from '../../../components/_modals/TermsOfServiceModal'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
@@ -26,13 +24,11 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 
 const presentationTexts = [
 	'rede social, de verdade',
-	'aqui você pode anunciar seu trampo, vender coisas usadas e encontrar novas oportunidades para fazer um dinheiro.',
-	'além disso, quando você usa o corre, você ajuda outras pessoas com nossas iniciativas sociais.',
+	'aqui você pode postar e encontrar de tudo, seu trabalho, comércio, cultura e iniciativa social  no seu bairro, cidade e país!',
+	'além disso, quando você usa e assina o corre., você ajuda nossa organização a digitalizar pessoas em estado de vulnerabilidade ajudando elas a gerarem mais renda cultura e cidadania!',
 ]
 
 function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
-	const { deleteLocaluser } = useContext(AuthContext)
-
 	const [termsVisibility, setTermsVisibility] = useState<boolean>(false)
 
 	useEffect(() => {
@@ -56,19 +52,14 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
 	}
 
 	const navigateToInsertPhoneScreen = () => {
-		navigation.navigate('InsertCellNumber')
-	}
-
-	const cleanLocalStorage = async () => { // DevOnly
-		await deleteLocaluser()
-		Alert.alert('Certo!', 'Dados do local storage apagados, recarregue a aplicação!')
+		navigation.navigate('InsertCellNumber', { authByWhatsapp: false })
 	}
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.orange3} barStyle={'dark-content'} />
 			<TermsOfServiceModal visibility={termsVisibility} closeModal={hideTermsOfServiceModal} />
-			<DefaultHeaderContainer relativeHeight={'55%'} backgroundColor={theme.orange2} withoutPadding>
+			<DefaultHeaderContainer relativeHeight={'55%'} backgroundColor={theme.orange3} withoutPadding>
 				<CustomCarousel>
 					<CarouselItemContainer >
 						<Logo height={relativeScreenHeight(7)} width={relativeScreenWidth(50)} />
@@ -77,14 +68,14 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
 					<CarouselItemContainer>
 						<InstructionCard
 							message={presentationTexts[1]}
-							highlightedWords={['anunciar', 'vender', 'encontrar', 'fazer', 'um', 'dinheiro']}
+							highlightedWords={['postar', 'encontrar', 'de', 'tudo', 'trabalho', 'comércio', 'cultura', 'iniciativa', 'social']}
 							flex={0}
 						/>
 					</CarouselItemContainer>
 					<CarouselItemContainer>
 						<InstructionCard
 							message={presentationTexts[2]}
-							highlightedWords={['usa', 'o', 'corre', 'ajuda', 'iniciativas', 'sociais']}
+							highlightedWords={['usa', 'assina', 'o', 'corre.', 'ajuda', 'estado', 'de', 'vulnerabilidade', 'sociais']}
 							flex={0}
 						/>
 					</CarouselItemContainer>
@@ -93,7 +84,7 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
 			<TermsButtonContainer>
 				<TermsLabel>
 					{'ao clicar em "aceitar e continuar" você aceita com os'}
-					<TermsLabelHighlight onPress={showTermsOfServiceModal} onLongPress={cleanLocalStorage}>
+					<TermsLabelHighlight onPress={showTermsOfServiceModal}>
 						{' '}
 						{'termos de serviço e privacidade'}
 						{' '}
@@ -101,12 +92,11 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
 					{'do corre.social'}
 				</TermsLabel>
 				<PrimaryButton
-					flexDirection={'row-reverse'}
 					label={'aceitar e continuar'}
-					SvgIcon={CheckWhiteIcon}
-					labelColor={theme.black4}
-					color={theme.orange3}
-					highlightedWords={['continuar']}
+					SecondSvgIcon={CheckWhiteIcon}
+					labelColor={theme.white3}
+					color={theme.green3}
+					highlightedWords={['aceitar', 'continuar']}
 					onPress={navigateToInsertPhoneScreen}
 				/>
 			</TermsButtonContainer>

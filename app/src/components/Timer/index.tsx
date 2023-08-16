@@ -82,7 +82,7 @@ function Timer({ label, initialTimeInMinutes, counterTextOnly, resetTimer, onTim
 					)
 				}
 			</CounterText>
-			<ProgressBar range={calculateTotalSeconds()} value={secondsLeft} withoutIndicator />
+			< ProgressBar range={calculateTotalSeconds()} value={secondsLeft} withoutIndicator />
 		</Container>
 	)
 }

@@ -4,7 +4,7 @@ import * as Sentry from 'sentry-expo'
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
 import { NavigationContainer } from '@react-navigation/native'
-import { ActivityIndicator, LogBox, View } from 'react-native'
+import { ActivityIndicator, LogBox } from 'react-native'
 
 import {
 	useFonts,
@@ -20,6 +20,7 @@ import { sentryConfig } from './src/services/sentry'
 import { AuthRegisterStack } from './src/routes/Stack/AuthRegisterStack'
 import { LoaderProvider } from './src/contexts/LoaderContext'
 import { ErrorBoundaryContainer } from './src/components/_containers/ErrorBoundaryContainer'
+import { LoaderContainer } from './App.styles'
 
 console.log(__DEV__)
 if (!__DEV__ && ENVIRONMENT !== 'dev') {
@@ -35,9 +36,9 @@ function App() {
 
 	if (!fontsLoaded) {
 		return (
-			<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
-				<ActivityIndicator size={'large'} color={theme.orange3} />
-			</View>
+			<LoaderContainer style={{ backgroundColor: theme.orange3 }}>
+				<ActivityIndicator size={'large'} color={theme.orange4} />
+			</LoaderContainer>
 		)
 	}
 
