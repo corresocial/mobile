@@ -20,7 +20,6 @@ import {
 	mergeWithDefaultSocialMedia,
 	openURL,
 	socialMediaUrl,
-	sortSocialMedias
 } from '../../../utils/socialMedias'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 
@@ -44,11 +43,10 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 
 	const renderSocialMedias = () => {
 		const mergedSocialMedias = mergeWithDefaultSocialMedia(route.params.socialMedias)
-		const ordenedSocialMedias = mergedSocialMedias.sort(sortSocialMedias)
 
 		const socialMediaToRender = !route.params.isAuthor
-			? ordenedSocialMedias.filter((socialMedia) => socialMedia.link && socialMediaUrl(socialMedia.title, '') !== socialMedia.link)
-			: [...ordenedSocialMedias]
+			? mergedSocialMedias.filter((socialMedia) => socialMedia.link && socialMediaUrl(socialMedia.title, '') !== socialMedia.link)
+			: [...mergedSocialMedias]
 
 		return socialMediaToRender.map((socialMedia, index) => {
 			return (

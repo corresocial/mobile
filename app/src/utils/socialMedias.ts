@@ -14,7 +14,11 @@ import { SocialMedia } from '../services/firebase/types'
 
 const defaultSocialMedias = [
 	{
-		title: 'linkedin',
+		title: 'instagram',
+		link: ''
+	},
+	{
+		title: 'whatsapp',
 		link: ''
 	},
 	{
@@ -22,15 +26,15 @@ const defaultSocialMedias = [
 		link: ''
 	},
 	{
-		title: 'instagram',
-		link: ''
-	},
-	{
 		title: 'twitter',
 		link: ''
 	},
 	{
-		title: 'whatsapp',
+		title: 'linkedin',
+		link: ''
+	},
+	{
+		title: 'tiktok',
 		link: ''
 	},
 	{
@@ -39,10 +43,6 @@ const defaultSocialMedias = [
 	},
 	{
 		title: 'spotify',
-		link: ''
-	},
-	{
-		title: 'tiktok',
 		link: ''
 	},
 	{
@@ -89,7 +89,7 @@ const getRelativeSocialMediaIcon = (title: string) => {
 
 const mergeWithDefaultSocialMedia = (userSocialMedias: SocialMedia[]) => {
 	const linkTitlesAlreadyFiltered = [] as string[]
-	const socialMedias = [...defaultSocialMedias, ...userSocialMedias].map((socialMedia) => {
+	const socialMedias = [...userSocialMedias, ...defaultSocialMedias].map((socialMedia) => {
 		const fillSocialMedia = userSocialMedias.reduce((acc, current) => {
 			if (socialMedia.title === current.title && current.link) {
 				return current
