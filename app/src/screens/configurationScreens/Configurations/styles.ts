@@ -17,6 +17,4 @@ export const Header = styled.View`
 export const Body = styled.ScrollView`
 	flex: 1;
 	background-color: ${({ theme }) => theme.orange2};
-	padding-vertical:  ${relativeScreenWidth(4)}px;
-	padding-horizontal: ${relativeScreenWidth(7)}px;
 `

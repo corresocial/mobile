@@ -22,7 +22,7 @@ import { getAndUpdateUserToken } from '../../../services/firebase/chat/getAndUpd
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { Id } from '../../../services/firebase/types'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
 import { share } from '../../../common/share'
 
@@ -70,7 +70,13 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					text={'configurações'}
 				/>
 			</Header>
-			<Body showsVerticalScrollIndicator={false}>
+			<Body
+				showsVerticalScrollIndicator={false}
+				contentContainerStyle={{
+					paddingVertical: relativeScreenWidth(4),
+					paddingHorizontal: relativeScreenWidth(5)
+				}}
+			>
 				<SubscriptionButton customTitle={'assinatura corre.'} onPress={performUserSubscription} />
 				<VerticalSigh />
 				<OptionButton

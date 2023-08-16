@@ -12,6 +12,7 @@ export const TouchableContainer = styled.TouchableWithoutFeedback`
 
 export const ContainerBottom = styled(Animatable.View)`
     width: 98%;
+	align-self: flex-end;
     flex-direction: row;
     border-radius: ${RFValue(15)}px;
     position: relative;
