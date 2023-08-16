@@ -23,7 +23,7 @@ interface OptionButtonProps {
 	label: string
 	labelColor?: string
 	labelSize?: number
-	relativeHeight?: string
+	relativeHeight?: string | number
 	labelAlign?: TextStyle['textAlign']
 	SvgIcon?: React.FC<SvgProps>
 	svgIconScale?: [height: string, width: string]

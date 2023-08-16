@@ -2,13 +2,17 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 
+interface ContainerProps {
+	hasIcon?: boolean
+}
+
 // ghost margin-bottom
-export const Container = styled.TouchableOpacity`
+export const Container = styled.TouchableOpacity<ContainerProps>`
 	margin-bottom: -1px;
 	flex-direction: row;
 	background-color: ${({ theme }) => theme.white3};
 	align-items: center;
-	justify-content: space-between;
+	justify-content: ${({ hasIcon }) => (hasIcon ? 'flex-start' : 'space-between')};
 	padding: ${relativeScreenWidth(2.7)}px;
 	border-left-width: ${relativeScreenWidth(1.4)}px;
 	border-color: ${({ theme }) => theme.black4};
