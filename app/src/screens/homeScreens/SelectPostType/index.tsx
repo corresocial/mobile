@@ -19,14 +19,10 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
 
-interface SelectPostTypeProps {
-	withoutBackButton?: boolean
-}
-
-function SelectPostType({ navigation, withoutBackButton }: SelectPostTypeScreenProps & SelectPostTypeProps) {
+function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	return (
 		<Container>
-			<FocusAwareStatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<SubtitleCard
 				text={'criar post'}
 				highlightedText={['post']}
@@ -107,7 +103,7 @@ function SelectPostType({ navigation, withoutBackButton }: SelectPostTypeScreenP
 				SvgIcon={HandOnMoneyWhiteIcon}
 			/>
 			<SubscriptionButtonContainer>
-				<SubscriptionButton />
+				<SubscriptionButton onPress={() => { }} />
 			</SubscriptionButtonContainer>
 		</Container>
 	)

@@ -8,7 +8,7 @@ export const Container = styled.SafeAreaView`
 
 export const SubscriptionButtonContainer = styled.View`
 	background-color: ${({ theme }) => theme.orange2};
-	padding: ${RFValue(15)}px;
+	padding: ${RFValue(25)}px;
 	align-items: center;
 	justify-content: center;
 `

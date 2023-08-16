@@ -46,9 +46,14 @@ export const Header = styled.View`
 	margin-bottom: ${RFValue(20)}px;
 `
 
-export const Title = styled.Text`
+interface TitleProps {
+	hasHighlightedWords?: boolean
+
+}
+
+export const Title = styled.Text<TitleProps>`
 	flex: 1;
-    font-family: Arvo_700Bold;
+    font-family: ${({ hasHighlightedWords }) => (hasHighlightedWords ? 'Arvo_400Regular' : 'Arvo_700Bold')};
     font-size: ${RFValue(22)}px;
     color: ${({ theme }) => theme.black3}
 `
