@@ -11,6 +11,7 @@ import { relativeScreenWidth } from '../../common/screenDimensions'
 interface PhotoPortraitProps {
 	width: number | string
 	height: number | string
+	circle?: boolean
 	borderWidth?: number
 	borderRightWidth?: number
 	resizeMode?: ImageResizeMode | undefined
@@ -23,6 +24,7 @@ interface PhotoPortraitProps {
 function PhotoPortrait({
 	width,
 	height,
+	circle,
 	borderWidth = 5,
 	borderRightWidth = 10,
 	pictureUri,
@@ -33,6 +35,7 @@ function PhotoPortrait({
 }: PhotoPortraitProps) {
 	return (
 		<Container
+			circle={circle}
 			style={{
 				height,
 				width,
@@ -48,13 +51,13 @@ function PhotoPortrait({
 							source={{
 								uri: pictureUri
 							}}
-							width={0}
+							width={0} // TODO fix
 							height={0}
 							style={{
 								resizeMode,
 								width: '100%',
 								height: '100%',
-								borderRadius: RFValue(10),
+								borderRadius: circle ? RFValue(500) : RFValue(10),
 							}}
 						/>
 					)

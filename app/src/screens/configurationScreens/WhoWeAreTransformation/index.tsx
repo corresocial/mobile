@@ -1,17 +1,24 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { Body, Container, Header, Sigh, Title, TextMedium, ButtonContainer } from './styles'
+import { Body, Container, Header, Title, ButtonContainer, ContainerContent, Description } from './styles'
 import { theme } from '../../../common/theme'
+import HandOnCorreWhiteIcon from '../../../assets/icons/handOnCorre.svg'
 
 import { WhoWeAreTransformationScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { DefaultCardContainer } from '../../../components/_cards/DefaultCardContainer'
-import { DescriptionWithLeftTracing } from '../../../components/DescriptionWithLeftTracing'
+import { VerticalSigh } from '../../../components/VerticalSigh'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function WhoWeAreTransformation({ navigation }: WhoWeAreTransformationScreenProps) {
+	const navigateToHelpUs = () => {
+		navigation.navigate('Configurations')
+		navigation.navigate('HelpUs')
+	}
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -24,25 +31,28 @@ function WhoWeAreTransformation({ navigation }: WhoWeAreTransformationScreenProp
 			</Header>
 			<Body>
 				<DefaultCardContainer flex={1}>
-					<Sigh />
-					<Title>{'transformação'}</Title>
-					<TextMedium>{'democracia como sempre devia ter sido.'}</TextMedium>
-					<DescriptionWithLeftTracing
-						text={'colhendo dados em entrevistas e encontros de moradores, abaixos assinados e enquetes criamos planos de ação para priorizar e reivindicar melhorias nas comunidades de baixa renda.'}
-					/>
-					<TextMedium>{'tudo gerido por líderes locais, que entendem a realidade de onde vem!'}</TextMedium>
-					<Sigh />
+					<ContainerContent>
+						<Title>{'transformação'}</Title>
+						<VerticalSigh height={relativeScreenHeight(3)} />
+						<Description>
+							{'colhemos dados em entrevistas, encontros com moradores e enquetes para criar planos de ação e priorizar melhorias nas comunidades de baixa renda.'}
+						</Description>
+						<VerticalSigh height={relativeScreenHeight(3)} />
+						<Description>
+							{'tudo gerido por líderes locais, que entendem a realidade de onde vem!'}
+						</Description>
+					</ContainerContent>
 				</DefaultCardContainer>
-				<Sigh />
+				<VerticalSigh />
 				<ButtonContainer>
 					<PrimaryButton
 						color={theme.orange3}
-						label={'apoie o corre.!'}
-						fontSize={20}
-						onPress={() => {
-							navigation.navigate('Configurations')
-							navigation.navigate('HelpUs')
-						}}
+						label={'acensão social!'}
+						highlightedWords={['acensão']}
+						SecondSvgIcon={HandOnCorreWhiteIcon}
+						svgIconScale={['50%', '30%']}
+						fontSize={18}
+						onPress={navigateToHelpUs}
 					/>
 				</ButtonContainer>
 			</Body>

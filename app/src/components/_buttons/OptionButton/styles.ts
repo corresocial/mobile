@@ -11,27 +11,24 @@ export const TouchableContainer = styled.TouchableWithoutFeedback`
 `
 
 export const ContainerBottom = styled(Animatable.View)`
-    width: 100%;
+    width: 98%;
+	align-self: flex-end;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
     border-radius: ${RFValue(15)}px;
     position: relative;
     background-color: ${({ theme }) => theme.black4};
 `
 
 export const ContainerSurface = styled.View`
-    flex-direction: row;
+	width: 100%;
 	height: 100%;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    border-radius:${RFValue(15)}px;
-    border: ${RFValue(2.5)}px solid black;
+	flex-direction: row;
     background-color: ${({ theme }) => theme.white3};
-    overflow: hidden;
+    border: ${RFValue(2.5)}px solid black;
+    border-radius:${RFValue(15)}px;
     position: absolute;
-	right: ${RFValue(8)}px;
+    overflow: hidden;
+	left: ${-RFValue(8)}px;
 `
 
 export const IconArea = styled.View`
@@ -43,8 +40,8 @@ export const IconArea = styled.View`
 
 export const LabelDescriptionArea = styled.View`
     flex: 1;
-    padding-vertical: ${RFValue(15)}px;
-    padding-horizontal: ${RFValue(15)}px;
+    padding-vertical: ${RFValue(12)}px;
+    padding-horizontal: ${RFValue(12)}px;
     height: 100%;
     justify-content: space-around;
 `

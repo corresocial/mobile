@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
@@ -12,7 +12,7 @@ import { StripeContext } from '../../../contexts/StripeContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 
 import { PostRange } from '../../../components/_onboarding/PostRange'
-import { RangePresentationModal } from '../../../components/_modals/RangePresentationModal'
+import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionInfoModal'
 
 function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -20,15 +20,15 @@ function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
-	const [rangePresentationModalIsVisible, setRangePresentationModalIsVisible] = useState(false)
+	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = React.useState(false)
 
 	useEffect(() => {
-		if (!editModeIsTrue()) setRangePresentationModalIsVisible(true)
+		if (!editModeIsTrue()) setSubscriptionModalIsVisible(true)
 	}, [])
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const closeRangePresentationModal = () => setRangePresentationModalIsVisible(false)
+	const closeSubscriptionInfoModal = () => setSubscriptionModalIsVisible(false)
 
 	const savePostRange = (postRange: PostRangeType) => {
 		const { workplace } = vacancyDataContext
@@ -47,13 +47,17 @@ function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps
 		}
 	}
 
+	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
+
 	return (
 		<>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-			<RangePresentationModal
-				visibility={rangePresentationModalIsVisible}
-				onPressButton={closeRangePresentationModal}
-				closeModal={closeRangePresentationModal}
+			<SubscriptionInfoModal
+				visibility={subscriptionModalIsVisible}
+				profilePictureUri={profilePictureUrl}
+				withoutNegativeOption
+				closeModal={() => setSubscriptionModalIsVisible(false)}
+				onPressButton={closeSubscriptionInfoModal}
 			/>
 			<PostRange
 				backgroundColor={theme.yellow2}

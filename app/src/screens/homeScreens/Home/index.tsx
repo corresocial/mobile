@@ -7,6 +7,7 @@ import { Alert, Platform, RefreshControl } from 'react-native'
 import { getLocales } from 'expo-localization'
 
 import {
+	AdSubscriptionContainer,
 	Container,
 	ContainerPadding,
 	DropdownContainer,
@@ -49,6 +50,8 @@ import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { getAndUpdateUserToken } from '../../../services/firebase/chat/getAndUpdateUserToken'
 import { getReverseGeocodeByMapsApi } from '../../../services/maps/getReverseGeocodeByMapsApi'
 import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
+import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
+import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionInfoModal'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -74,6 +77,8 @@ function Home({ navigation }: HomeScreenProps) {
 	const [hasLocationEnable, setHasLocationEnable] = useState(false)
 	const [searchEnded, setSearchEnded] = useState(false)
 	const [feedIsUpdating, setFeedIsUpdating] = useState(false)
+
+	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = React.useState(false)
 
 	const [expoPushTokenState, setExpoPushToken] = useState('') // TODO Refactor
 	const [notificationState, setNotification] = useState(false)
@@ -405,22 +410,45 @@ function Home({ navigation }: HomeScreenProps) {
 		return items
 	}
 
-	const renderPostItem = (item: PostCollection) => (
-		<ContainerPadding>
-			<PostCard
-				post={item}
-				owner={item.owner}
-				navigateToProfile={navigateToProfile}
-				onPress={() => goToPostView(item)}
-			/>
-		</ContainerPadding>
-	)
+	const navigateToSelectSubscriptionRange = () => {
+		navigation.navigate('SelectSubscriptionRange')
+	}
+
+	const renderPostItem = (item: PostCollection) => {
+		if (item as string === 'subscriptionAd') {
+			return (
+				<ContainerPadding>
+					<SubscriptionButton onPress={() => setSubscriptionModalIsVisible(true)} />
+				</ContainerPadding>
+			)
+		}
+
+		return (
+			<ContainerPadding>
+				<PostCard
+					post={item}
+					owner={item.owner}
+					navigateToProfile={navigateToProfile}
+					onPress={() => goToPostView(item)}
+				/>
+			</ContainerPadding>
+
+		)
+	}
+
+	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
 	return (
 		<Container>
 			<FocusAwareStatusBar
 				backgroundColor={theme.orange2}
 				barStyle={'dark-content'}
+			/>
+			<SubscriptionInfoModal
+				visibility={subscriptionModalIsVisible}
+				profilePictureUri={profilePictureUrl}
+				closeModal={() => setSubscriptionModalIsVisible(false)}
+				onPressButton={navigateToSelectSubscriptionRange}
 			/>
 			<DropdownContainer>
 				<LocationNearDropdown
@@ -457,7 +485,7 @@ function Home({ navigation }: HomeScreenProps) {
 					(feedPosts.nearby && feedPosts.nearby.length)
 						? (
 							<FlatListPosts
-								data={getFirstFiveItems(feedPosts.nearby)}
+								data={['subscriptionAd', ...getFirstFiveItems(feedPosts.nearby)]}
 								headerComponent={() => (
 									<>
 										<SubtitleCard
