@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { Body, Container, ContainerContent, Header, Sigh, BoldPhrase, ButtonContainer, Description } from './styles'
 import { theme } from '../../../common/theme'
-import Logo from '../../../assets/icons/logo.svg'
+import Logo from '../../../assets/icons/logoBuilding.svg'
 import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
 
 import { WhoWeAreScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
