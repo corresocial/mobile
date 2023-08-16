@@ -52,7 +52,7 @@ function AcceptAndContinue({ navigation }: AcceptAndContinueScreenProps) {
 	}
 
 	const navigateToInsertPhoneScreen = () => {
-		navigation.navigate('SelectAuthMethod')
+		navigation.navigate('InsertCellNumber', { authByWhatsapp: false })
 	}
 
 	return (

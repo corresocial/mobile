@@ -180,6 +180,9 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		if (errorCode === 'auth/invalid-verification-code') {
 			return setInvalidCodeAfterSubmit(true)
 		}
+		if (errorCode === 'auth/invalid-verification-id') {
+			return setInvalidCodeAfterSubmit(true)
+		}
 		setHasServerSideError(true)
 	}
 
@@ -334,7 +337,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 								/>
 							)
 					}
-					<View style={{ display: !allInputCodesIsValid() || expiredCodeAfterSubmit || invalidCodeAfterSubmit ? 'flex' : 'none' }}>
+					{/* <View style={{ display: !allInputCodesIsValid() || expiredCodeAfterSubmit || invalidCodeAfterSubmit ? 'flex' : 'none' }}>
 						<PrimaryButton
 							disabled
 							timer
@@ -347,7 +350,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 							startsHidden={false}
 							onPress={resendConfirmationCode}
 						/>
-					</View>
+					</View> */}
 				</ButtonContainer>
 			</FormContainer>
 		</Container >
