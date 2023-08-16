@@ -43,8 +43,8 @@ export const IconArea = styled.View`
 
 export const LabelDescriptionArea = styled.View`
     flex: 1;
-    padding-vertical: ${RFValue(15)}px;
-    padding-horizontal: ${RFValue(15)}px;
+    padding-vertical: ${RFValue(12)}px;
+    padding-horizontal: ${RFValue(12)}px;
     height: 100%;
     justify-content: space-around;
 `

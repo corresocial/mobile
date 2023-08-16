@@ -4,7 +4,6 @@ import { Container, SubscriptionButtonContainer } from './styles'
 import { theme } from '../../../common/theme'
 
 import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
-import LogoOutlinedWhiteIcon from '../../../assets/icons/logo-outlined.svg'
 import HandOnMoneyWhiteIcon from '../../../assets/icons/handOnMoney-white.svg'
 import VacancyWhiteIcon from '../../../assets/icons/vacancy-white.svg'
 import SocialImpactWhiteIcon from '../../../assets/icons/socialImpact-white.svg'
@@ -17,8 +16,8 @@ import { SelectPostTypeScreenProps } from '../../../routes/Stack/UserStack/stack
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
+import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
 
 interface SelectPostTypeProps {
 	withoutBackButton?: boolean
@@ -108,19 +107,7 @@ function SelectPostType({ navigation, withoutBackButton }: SelectPostTypeScreenP
 				SvgIcon={HandOnMoneyWhiteIcon}
 			/>
 			<SubscriptionButtonContainer>
-				<OptionButton
-					color={theme.white3}
-					label={'apoie o corre.'}
-					highlightedWords={['apoie', 'o', 'corre']}
-					labelSize={18}
-					relativeHeight={relativeScreenHeight(12)}
-					shortDescription={'com uma assinatura mensal você alcança muito mais clientes e ajuda cidadãos do nosso país'}
-					SvgIcon={LogoOutlinedWhiteIcon}
-					svgIconScale={['65%', '65%']}
-					leftSideColor={theme.pink3}
-					leftSideWidth={'25%'}
-					onPress={() => { }}
-				/>
+				<SubscriptionButton />
 			</SubscriptionButtonContainer>
 		</Container>
 	)
