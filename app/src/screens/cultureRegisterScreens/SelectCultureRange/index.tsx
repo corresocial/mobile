@@ -29,7 +29,7 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const closeRangePresentationModal = () => setSubscriptionModalIsVisible(false)
+	const closeSubscriptionInfoModal = () => setSubscriptionModalIsVisible(false)
 
 	const savePostRange = (postRange: PostRangeType) => {
 		if (editModeIsTrue()) {
@@ -52,7 +52,7 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 				visibility={subscriptionModalIsVisible}
 				withoutNegativeOption
 				closeModal={() => setSubscriptionModalIsVisible(false)}
-				onPressButton={closeRangePresentationModal}
+				onPressButton={closeSubscriptionInfoModal}
 			/>
 
 			<PostRange

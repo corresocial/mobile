@@ -28,7 +28,7 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const closeRangePresentationModal = () => setSubscriptionModalIsVisible(false)
+	const closeSubscriptionInfoModal = () => setSubscriptionModalIsVisible(false)
 
 	const savePostRange = (postRange: PostRangeType) => {
 		if (editModeIsTrue()) {
@@ -48,7 +48,7 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 				visibility={subscriptionModalIsVisible}
 				withoutNegativeOption
 				closeModal={() => setSubscriptionModalIsVisible(false)}
-				onPressButton={closeRangePresentationModal}
+				onPressButton={closeSubscriptionInfoModal}
 			/>
 			<PostRange
 				backgroundColor={theme.purple2}

@@ -28,7 +28,7 @@ function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const closeRangePresentationModal = () => setSubscriptionModalIsVisible(false)
+	const closeSubscriptionInfoModal = () => setSubscriptionModalIsVisible(false)
 
 	const savePostRange = (postRange: PostRangeType) => {
 		if (editModeIsTrue()) {
@@ -48,7 +48,7 @@ function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 				visibility={subscriptionModalIsVisible}
 				withoutNegativeOption
 				closeModal={() => setSubscriptionModalIsVisible(false)}
-				onPressButton={closeRangePresentationModal}
+				onPressButton={closeSubscriptionInfoModal}
 			/>
 			<PostRange
 				backgroundColor={theme.green2}

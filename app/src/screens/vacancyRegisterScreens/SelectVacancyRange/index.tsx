@@ -28,7 +28,7 @@ function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const closeRangePresentationModal = () => setSubscriptionModalIsVisible(false)
+	const closeSubscriptionInfoModal = () => setSubscriptionModalIsVisible(false)
 
 	const savePostRange = (postRange: PostRangeType) => {
 		const { workplace } = vacancyDataContext
@@ -54,7 +54,7 @@ function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps
 				visibility={subscriptionModalIsVisible}
 				withoutNegativeOption
 				closeModal={() => setSubscriptionModalIsVisible(false)}
-				onPressButton={closeRangePresentationModal}
+				onPressButton={closeSubscriptionInfoModal}
 			/>
 			<PostRange
 				backgroundColor={theme.yellow2}
