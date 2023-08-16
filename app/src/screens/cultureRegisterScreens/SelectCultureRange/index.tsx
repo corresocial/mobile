@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
@@ -12,7 +12,8 @@ import { StripeContext } from '../../../contexts/StripeContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 
 import { PostRange } from '../../../components/_onboarding/PostRange'
-import { RangePresentationModal } from '../../../components/_modals/RangePresentationModal'
+
+import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionInfoModal'
 
 function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -20,15 +21,15 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
-	const [rangePresentationModalIsVisible, setRangePresentationModalIsVisible] = useState(false)
+	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = React.useState(false)
 
 	useEffect(() => {
-		if (!editModeIsTrue()) setRangePresentationModalIsVisible(true)
+		if (!editModeIsTrue()) setSubscriptionModalIsVisible(true)
 	}, [])
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const closeRangePresentationModal = () => setRangePresentationModalIsVisible(false)
+	const closeRangePresentationModal = () => setSubscriptionModalIsVisible(false)
 
 	const savePostRange = (postRange: PostRangeType) => {
 		if (editModeIsTrue()) {
@@ -47,11 +48,13 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 	return (
 		<>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-			<RangePresentationModal
-				visibility={rangePresentationModalIsVisible}
+			<SubscriptionInfoModal
+				visibility={subscriptionModalIsVisible}
+				withoutNegativeOption
+				closeModal={() => setSubscriptionModalIsVisible(false)}
 				onPressButton={closeRangePresentationModal}
-				closeModal={closeRangePresentationModal}
 			/>
+
 			<PostRange
 				backgroundColor={theme.blue2}
 				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}

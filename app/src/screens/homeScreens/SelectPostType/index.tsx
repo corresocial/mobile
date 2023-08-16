@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Container, SubscriptionButtonContainer } from './styles'
+import { BottomSafeAreaColor, Container, SubscriptionButtonContainer } from './styles'
 import { theme } from '../../../common/theme'
 
 import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
@@ -28,96 +28,99 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	}
 
 	return (
-		<Container>
-			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-			<SubscriptionInfoModal
-				visibility={subscriptionModalIsVisible}
-				closeModal={() => setSubscriptionModalIsVisible(false)}
-				onPressButton={navigateToSelectSubscriptionRange}
-			/>
-			<SubtitleCard
-				text={'criar post'}
-				highlightedText={['post']}
-				SvgIcon={DescriptionWhiteIcon}
-			/>
-			<FormContainer
-				backgroundColor={theme.orange2}
-			>
-				<OptionButton
-					color={theme.white3}
-					label={'um serviço'}
-					highlightedWords={['um', 'serviço']}
-					labelSize={18}
-					relativeHeight={'17%'}
-					shortDescription={'ofereço um serviço'}
-					SvgIcon={ServiceWhiteIcon}
-					svgIconScale={['75%', '75%']}
-					leftSideColor={theme.purple3}
-					leftSideWidth={'25%'}
-					onPress={() => navigation.navigate('ServiceStack')}
+		<>
+			<Container>
+				<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+				<SubscriptionInfoModal
+					visibility={subscriptionModalIsVisible}
+					closeModal={() => setSubscriptionModalIsVisible(false)}
+					onPressButton={navigateToSelectSubscriptionRange}
 				/>
-				<OptionButton
-					color={theme.white3}
-					label={'uma venda'}
-					highlightedWords={['uma', 'venda']}
-					labelSize={18}
-					relativeHeight={'17%'}
-					shortDescription={'venda de novos ou usados'}
-					SvgIcon={SaleCartWhiteIcon}
-					svgIconScale={['75%', '75%']}
-					leftSideColor={theme.green3}
-					leftSideWidth={'25%'}
-					onPress={() => navigation.navigate('SaleStack')}
+				<SubtitleCard
+					text={'criar post'}
+					highlightedText={['post']}
+					SvgIcon={DescriptionWhiteIcon}
 				/>
-				<OptionButton
-					color={theme.white3}
-					label={'uma vaga'}
-					highlightedWords={['uma', 'vaga']}
-					labelSize={18}
-					relativeHeight={'17%'}
-					shortDescription={'procurando vaga ou profissional'}
-					SvgIcon={VacancyWhiteIcon}
-					svgIconScale={['75%', '75%']}
-					leftSideColor={theme.yellow3}
-					leftSideWidth={'25%'}
-					onPress={() => navigation.navigate('VacancyStack')}
+				<FormContainer
+					backgroundColor={theme.orange2}
+				>
+					<OptionButton
+						color={theme.white3}
+						label={'um serviço'}
+						highlightedWords={['um', 'serviço']}
+						labelSize={18}
+						relativeHeight={'17%'}
+						shortDescription={'ofereço um serviço'}
+						SvgIcon={ServiceWhiteIcon}
+						svgIconScale={['75%', '75%']}
+						leftSideColor={theme.purple3}
+						leftSideWidth={'25%'}
+						onPress={() => navigation.navigate('ServiceStack')}
+					/>
+					<OptionButton
+						color={theme.white3}
+						label={'uma venda'}
+						highlightedWords={['uma', 'venda']}
+						labelSize={18}
+						relativeHeight={'17%'}
+						shortDescription={'venda de novos ou usados'}
+						SvgIcon={SaleCartWhiteIcon}
+						svgIconScale={['75%', '75%']}
+						leftSideColor={theme.green3}
+						leftSideWidth={'25%'}
+						onPress={() => navigation.navigate('SaleStack')}
+					/>
+					<OptionButton
+						color={theme.white3}
+						label={'uma vaga'}
+						highlightedWords={['uma', 'vaga']}
+						labelSize={18}
+						relativeHeight={'17%'}
+						shortDescription={'procurando vaga ou profissional'}
+						SvgIcon={VacancyWhiteIcon}
+						svgIconScale={['75%', '75%']}
+						leftSideColor={theme.yellow3}
+						leftSideWidth={'25%'}
+						onPress={() => navigation.navigate('VacancyStack')}
+					/>
+					<OptionButton
+						color={theme.white3}
+						label={'impacto social'}
+						highlightedWords={['impacto', 'social']}
+						labelSize={18}
+						relativeHeight={'17%'}
+						shortDescription={'iniciativas, doações, etc'}
+						SvgIcon={SocialImpactWhiteIcon}
+						svgIconScale={['75%', '75%']}
+						leftSideColor={theme.pink3}
+						leftSideWidth={'25%'}
+						onPress={() => navigation.navigate('SocialImpactStack')}
+					/>
+					<OptionButton
+						color={theme.white3}
+						label={'cultura'}
+						highlightedWords={['cultura']}
+						labelSize={18}
+						relativeHeight={'17%'}
+						shortDescription={'arte, eventos e educação'}
+						SvgIcon={CultureWhiteIcon}
+						svgIconScale={['75%', '75%']}
+						leftSideColor={theme.blue3}
+						leftSideWidth={'25%'}
+						onPress={() => navigation.navigate('CultureStack')}
+					/>
+				</FormContainer>
+				<SubtitleCard
+					text={'assinar o corre.'}
+					highlightedText={['corre']}
+					SvgIcon={HandOnMoneyWhiteIcon}
 				/>
-				<OptionButton
-					color={theme.white3}
-					label={'impacto social'}
-					highlightedWords={['impacto', 'social']}
-					labelSize={18}
-					relativeHeight={'17%'}
-					shortDescription={'iniciativas, doações, etc'}
-					SvgIcon={SocialImpactWhiteIcon}
-					svgIconScale={['75%', '75%']}
-					leftSideColor={theme.pink3}
-					leftSideWidth={'25%'}
-					onPress={() => navigation.navigate('SocialImpactStack')}
-				/>
-				<OptionButton
-					color={theme.white3}
-					label={'cultura'}
-					highlightedWords={['cultura']}
-					labelSize={18}
-					relativeHeight={'17%'}
-					shortDescription={'arte, eventos e educação'}
-					SvgIcon={CultureWhiteIcon}
-					svgIconScale={['75%', '75%']}
-					leftSideColor={theme.blue3}
-					leftSideWidth={'25%'}
-					onPress={() => navigation.navigate('CultureStack')}
-				/>
-			</FormContainer>
-			<SubtitleCard
-				text={'assinar o corre.'}
-				highlightedText={['corre']}
-				SvgIcon={HandOnMoneyWhiteIcon}
-			/>
-			<SubscriptionButtonContainer>
-				<SubscriptionButton onPress={() => setSubscriptionModalIsVisible(true)} />
-			</SubscriptionButtonContainer>
-		</Container>
+				<SubscriptionButtonContainer>
+					<SubscriptionButton onPress={() => setSubscriptionModalIsVisible(true)} />
+				</SubscriptionButtonContainer>
+			</Container>
+			<BottomSafeAreaColor safeAreaColor={theme.orange2} withoutFlex />
+		</>
 	)
 }
 
