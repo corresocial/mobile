@@ -1,3 +1,4 @@
+import { Linking } from 'react-native'
 import LinkClipIcon from '../assets/icons/linkClip.svg'
 import LinkedinIcon from '../assets/icons/linkedin.svg'
 import FacebookIcon from '../assets/icons/facebook.svg'
@@ -13,7 +14,11 @@ import { SocialMedia } from '../services/firebase/types'
 
 const defaultSocialMedias = [
 	{
-		title: 'linkedin',
+		title: 'instagram',
+		link: ''
+	},
+	{
+		title: 'whatsapp',
 		link: ''
 	},
 	{
@@ -21,15 +26,15 @@ const defaultSocialMedias = [
 		link: ''
 	},
 	{
-		title: 'instagram',
-		link: ''
-	},
-	{
 		title: 'twitter',
 		link: ''
 	},
 	{
-		title: 'whatsapp',
+		title: 'linkedin',
+		link: ''
+	},
+	{
+		title: 'tiktok',
 		link: ''
 	},
 	{
@@ -38,10 +43,6 @@ const defaultSocialMedias = [
 	},
 	{
 		title: 'spotify',
-		link: ''
-	},
-	{
-		title: 'tiktok',
 		link: ''
 	},
 	{
@@ -65,9 +66,9 @@ const socialMediaUrl = (socialMediaTitle: string, atSign: string) => {
 		case 'whatsapp': return `https://wa.me/${customAtSign}`
 		case 'youtube': return `https://www.youtube.com/@${customAtSign}`
 		case 'spotify': return `https://open.spotify.com/artist/${customAtSign}`
-		case 'tiktok': return `https://www.tiktok.com/${customAtSign}`
+		case 'tiktok': return `https://www.tiktok.com/@${customAtSign}`
 		case 'soundcloud': return `https://soundcloud.com/${customAtSign}`
-		default: return `https://www.google.com/search?client=opera&q=${customAtSign}`
+		default: return `https://www.google.com/search?&q=${customAtSign}`
 	}
 }
 
@@ -88,7 +89,7 @@ const getRelativeSocialMediaIcon = (title: string) => {
 
 const mergeWithDefaultSocialMedia = (userSocialMedias: SocialMedia[]) => {
 	const linkTitlesAlreadyFiltered = [] as string[]
-	const socialMedias = [...defaultSocialMedias, ...userSocialMedias].map((socialMedia) => {
+	const socialMedias = [...userSocialMedias, ...defaultSocialMedias].map((socialMedia) => {
 		const fillSocialMedia = userSocialMedias.reduce((acc, current) => {
 			if (socialMedia.title === current.title && current.link) {
 				return current
@@ -121,6 +122,17 @@ const sortSocialMedias = (socialMediaA: SocialMedia, socialMediaB: SocialMedia) 
 	return 0
 }
 
+const openURL = async (socialMedia: SocialMedia) => {
+	if (!socialMedia.link || socialMediaUrl(socialMedia.title, '') === socialMedia.link) return
+
+	const validUrl = await Linking.canOpenURL(socialMedia.link || '')
+	if (validUrl) {
+		Linking.openURL(socialMedia.link)
+	} else {
+		console.log('URL inválida')
+	}
+}
+
 export {
 	defaultSocialMedias,
 	getRelativeSocialMediaIcon,
@@ -129,4 +141,5 @@ export {
 	socialMediaUrl,
 	mergeWithDefaultSocialMedia,
 	sortSocialMedias,
+	openURL
 }

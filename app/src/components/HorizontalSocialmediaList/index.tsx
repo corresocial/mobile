@@ -19,19 +19,22 @@ import TikTokIcon from '../../assets/icons/tiktok.svg'
 import SoundCloudIcon from '../../assets/icons/soundcloud.svg'
 import { SocialMedia } from '../../services/firebase/types'
 import { relativeScreenHeight } from '../../common/screenDimensions'
+import { socialMediaUrl } from '../../utils/socialMedias'
 
 interface HorizontalSocialMediaListProps {
 	socialMedias: SocialMedia[] | undefined
-	onPress: () => void
+	onPress: (socialMedia: SocialMedia) => void
 }
 
 function HorizontalSocialMediaList({ socialMedias = [], onPress }: HorizontalSocialMediaListProps) {
 	const renderSocialMedias = () => {
+		const filteredSocialMedias = socialMedias.filter((socialMedia) => socialMedia.link && socialMediaUrl(socialMedia.title, '') !== socialMedia.link)
+
 		return (
-			socialMedias.map((socialMedia) => (
+			filteredSocialMedias.map((socialMedia) => (
 				<TouchableIcon
 					key={uuid()}
-					onPress={onPress}
+					onPress={() => (onPress && onPress(socialMedia))}
 				>
 					{getRelativeSocialMediaIcon(socialMedia.title)}
 				</TouchableIcon>

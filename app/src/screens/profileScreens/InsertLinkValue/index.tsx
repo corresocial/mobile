@@ -111,7 +111,9 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 				}]
 		}
 
-		return { socialMedias: currentSocialMedias.filter((socialMedia) => socialMedia.link) }
+		return {
+			socialMedias: currentSocialMedias.filter((socialMedia) => socialMedia.link && socialMedia.link !== socialMediaUrl(socialMedia.title, ''))
+		}
 	}
 
 	const navigateBackwards = () => navigation.goBack()

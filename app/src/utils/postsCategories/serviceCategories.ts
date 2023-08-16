@@ -30,7 +30,7 @@ export const updateServiceTags = (category: ServiceCategories, tag: string) => {
 const serviceCategories = {
 	house: {
 		label: 'casa',
-		value: 'House',
+		value: 'house',
 		SvgIcon: HouseIcon,
 		tags: [
 			'casa',
