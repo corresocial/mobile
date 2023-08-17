@@ -115,7 +115,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		const posts = getUserPosts()
 		const userPostTags = posts.reduce(
 			(acc: any[], current: PostCollection) => {
-				if (!current.tags) return [...acc]
+				if (!current || !current.tags?.length) return [...acc]
 				const filtredCurrentTags = current.tags.filter(
 					(tag) => !acc.includes(tag)
 				)
@@ -330,6 +330,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			})
 			user.userId && await getProfileDataFromRemote(user.userId)
 		}
+		setProfileOptionsIsOpen(false)
 	}
 
 	const setFreeTrialToProfile = async (plan: PostRange) => {
