@@ -21,7 +21,7 @@ export const Container = styled.View<ContainerProps>`
 export const NoPhotoContainer = styled.View`
 	flex: 1;
     background-color: ${({ theme }) => theme.white3};
-	border-radius: ${RFValue(10)}px;
+	border-radius: ${RFValue(8)}px;
 	overflow: hidden;
 `
 

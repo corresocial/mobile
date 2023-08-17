@@ -235,15 +235,15 @@ export function StripeProvider({ children }: StripeContextProps) {
 			const freeSubscription = await getCustomerSubscriptions(customerId, true, true)
 			const paidSubscription = await getCustomerSubscriptions(customerId, true)
 			if ((!paidSubscription || !paidSubscription.length) && (!freeSubscription || !freeSubscription.length)) {
-				showSubscriptionAlertWithCustomMessage(10 as number, true)
+				showSubscriptionAlertWithCustomMessage(10, true)
 				throw new Error('Não há faturas ativas')
 			}
 
 			const endSubscriptionDate = paidSubscription && paidSubscription.length ? paidSubscription[0].current_period_end * 1000 : freeSubscription[0].current_period_end * 1000
 			const currentDate = Math.floor(Date.now()) //  + 2596000000 + (0 * 86400000)
 
-			/* console.log(new Date(endSubscriptionDate))
-			console.log(new Date(currentDate)) */
+			/* console.log(new Date(currentDate))
+			console.log(new Date(endSubscriptionDate)) */
 
 			if (dateHasExpired(currentDate, endSubscriptionDate, 1)) {
 				const numberOfExpiredDays = dateHasExpired(currentDate, endSubscriptionDate, 7, true)
@@ -326,11 +326,11 @@ export function StripeProvider({ children }: StripeContextProps) {
 	// Abstrair ˆˆˆ
 
 	const showSubscriptionAlertWithCustomMessage = async (numberOfExpiredDays: number, alreadyCanceled?: boolean) => {
-		if (numberOfExpiredDays && numberOfExpiredDays <= 7) {
+		if (numberOfExpiredDays <= 7) {
 			setNumberOfSubscriptionExpiredDays(numberOfExpiredDays as number)
 		}
 
-		if (numberOfExpiredDays && numberOfExpiredDays > 7) {
+		if (numberOfExpiredDays > 7) {
 			await handleCancelSubscription(alreadyCanceled)
 			setNumberOfSubscriptionExpiredDays(numberOfExpiredDays as number)
 		}

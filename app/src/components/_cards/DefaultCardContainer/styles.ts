@@ -1,24 +1,16 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-export const Container = styled.TouchableOpacity`
+export const Container = styled.View`
+	width: 100%;
 	background-color: ${({ theme }) => theme.black4};
+	border: ${RFValue(2.5)}px solid black;
+	border-right-width: ${RFValue(7.5)}px;
 	border-radius: ${RFValue(17.5)}px;
-	position: relative;
-	width: 98%;
-	alignSelf:
-	flex-end;
-	position: relative;
+	overflow: hidden;
 `
 
-interface ContainerInnerProps {
-	pressionable?: boolean
-}
-
-export const ContainerInner = styled.View<ContainerInnerProps>`
+export const ContainerInner = styled.View`
 	background-color: ${({ theme }) => theme.white3};
 	border-radius: ${RFValue(15)}px;
-	border: ${RFValue(2.5)}px solid black;
-	right: ${RFValue(5)}px;
-	position: ${({ pressionable }) => (pressionable ? 'absolute' : 'relative')};
 `

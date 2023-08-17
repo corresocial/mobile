@@ -26,7 +26,7 @@ function WhoWeAre({ navigation }: WhoWeAreScreenProps) {
 			</Header>
 			<Body>
 				<Logo width={'65%'} height={'40%'} />
-				<DefaultCardContainer >
+				<DefaultCardContainer flex={1}>
 					<ContainerContent>
 						<BoldPhrase>{'o corre. é trabalho,'}</BoldPhrase>
 						<BoldPhrase>{'o corre. é cultura,'}</BoldPhrase>

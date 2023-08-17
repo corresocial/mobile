@@ -126,9 +126,9 @@ function dateHasExpired(
 	numberOfDays: number = 1,
 	returnNumberOfExpiredDays: boolean = false
 ) {
-	if (endDateInMilliseconds - startDateInMilliseconds <= 0 && !returnNumberOfExpiredDays) return true
+	if ((endDateInMilliseconds + 86400000) - startDateInMilliseconds <= 0 && !returnNumberOfExpiredDays) return true // 1 dia para efetivação do pagamento
 	const diff = Math.abs(endDateInMilliseconds - startDateInMilliseconds)
-	const differenceDaysInMilliseconds = numberOfDays * 24 * 60 * 60 * 1000
+	const differenceDaysInMilliseconds = (numberOfDays * 24 * 60 * 60 * 1000)
 
 	if (returnNumberOfExpiredDays) return parseInt((diff / 1000 / 60 / 60 / 24).toFixed(0))
 
