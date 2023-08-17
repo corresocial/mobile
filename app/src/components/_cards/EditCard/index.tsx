@@ -5,7 +5,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { CardHeader, PictureArea, Text, ValueContainer, ProfilePicture } from './styles'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
-import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 import { ImageCarousel } from '../../ImageCarousel'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
@@ -55,7 +55,7 @@ function EditCard({
 		return false
 	}
 	return (
-		<DefaultCardContainer
+		<DefaultTouchableCardContainer
 			withoutPadding={!!profilePicturesUrl.length}
 			pressionable={pressionable}
 			onPress={pressionable ? onPress || onEdit : () => { }}
@@ -123,7 +123,7 @@ function EditCard({
 					)
 			}
 			{children && children}
-		</DefaultCardContainer >
+		</DefaultTouchableCardContainer >
 	)
 }
 
