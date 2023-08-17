@@ -1,13 +1,17 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-export const Container = styled.TouchableOpacity`
+interface ContainerProps {
+	flex?: number
+}
+
+export const Container = styled.TouchableOpacity<ContainerProps>`
+	flex: ${({ flex }) => flex};
 	background-color: ${({ theme }) => theme.black4};
 	border-radius: ${RFValue(17.5)}px;
 	position: relative;
 	width: 98%;
-	alignSelf:
-	flex-end;
+	alignSelf: flex-end;
 	position: relative;
 `
 

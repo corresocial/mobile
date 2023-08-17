@@ -25,7 +25,7 @@ function WhoWeAreIncome({ navigation }: WhoWeAreIncomeScreenProps) {
 				/>
 			</Header>
 			<Body>
-				<DefaultCardContainer flex={1}>
+				<DefaultCardContainer flex={1} >
 					<ContainerContent>
 						<Title>{'gerar renda.'}</Title>
 						<VerticalSigh height={relativeScreenHeight(3)} />

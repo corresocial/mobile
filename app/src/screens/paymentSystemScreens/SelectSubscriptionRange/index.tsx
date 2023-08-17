@@ -189,7 +189,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={15}
-					title={'alcance corre.'}
+					title={'assinatura corre.'}
 					message={'aqui você vê o plano que assinou, outros planos disponíveis'}
 					highlightedWords={['corre']}
 				/>

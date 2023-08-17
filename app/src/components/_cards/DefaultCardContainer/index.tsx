@@ -47,6 +47,7 @@ function DefaultCardContainer({
 
 	return (
 		<Container
+			flex={flex}
 			style={pressionable && pressionableStyle}
 			activeOpacity={1}
 			onPressIn={pressionable && pressingButton}
