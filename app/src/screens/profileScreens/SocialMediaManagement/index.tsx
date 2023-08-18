@@ -1,5 +1,5 @@
 import React from 'react'
-import { Linking, ScrollView, StatusBar, View } from 'react-native'
+import { ScrollView, StatusBar, View } from 'react-native'
 import uuid from 'react-uuid'
 
 import { Body, Container, Header, NewLinkButtonContainer, Sigh } from './styles'
@@ -14,7 +14,14 @@ import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { EditCard } from '../../../components/_cards/EditCard'
-import { getRelativeSocialMediaIcon, isDefaultSocialMedia, mergeWithDefaultSocialMedia, socialMediaUrl, sortSocialMedias } from '../../../utils/socialMedias'
+import {
+	getRelativeSocialMediaIcon,
+	isDefaultSocialMedia,
+	mergeWithDefaultSocialMedia,
+	openURL,
+	socialMediaUrl,
+} from '../../../utils/socialMedias'
+import { VerticalSigh } from '../../../components/VerticalSigh'
 
 function SocialMediaManagement({ route, navigation }: SocialMediaManagementScreenProps) {
 	const onPressIcon = async (socialMedia: SocialMedia, index: number) => {
@@ -26,23 +33,20 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 
 			navigation.navigate('InsertLinkTitle', { socialMedia: { ...socialMedia }, index })
 		} else {
-			const validUrl = await Linking.canOpenURL(socialMedia.link || '')
-			if (validUrl) {
-				Linking.openURL(socialMedia.link)
-			} else {
-				console.log('URL inválida')
-			}
+			await openURL(socialMedia)
 		}
 	}
+
 	const getEndIcon = () => {
 		if (!route.params.isAuthor) return AngleRightIcon
 	}
 
 	const renderSocialMedias = () => {
 		const mergedSocialMedias = mergeWithDefaultSocialMedia(route.params.socialMedias)
-		const ordenedSocialMedias = mergedSocialMedias.sort(sortSocialMedias)
 
-		const socialMediaToRender = !route.params.isAuthor ? ordenedSocialMedias.filter((socialMedia) => socialMedia.link) : [...ordenedSocialMedias]
+		const socialMediaToRender = !route.params.isAuthor
+			? mergedSocialMedias.filter((socialMedia) => socialMedia.link && socialMediaUrl(socialMedia.title, '') !== socialMedia.link)
+			: [...mergedSocialMedias]
 
 		return socialMediaToRender.map((socialMedia, index) => {
 			return (
@@ -52,9 +56,11 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 						RightIcon={getEndIcon()}
 						SecondSvgIcon={getRelativeSocialMediaIcon(socialMedia.title)}
 						value={`${socialMedia.link.replace(socialMediaUrl(socialMedia.title, ''), '') || ''}`}
+						pressionable
+						onPress={() => openURL(socialMedia)}
 						onEdit={() => onPressIcon(socialMedia, index)}
 					/>
-					<Sigh />
+					<VerticalSigh />
 				</View>
 			)
 		}, false)
@@ -89,7 +95,7 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 							: <Sigh />
 					}
 					{renderSocialMedias()}
-					<Sigh />
+					<VerticalSigh height={relativeScreenHeight(4)} />
 				</ScrollView>
 			</Body>
 		</Container >

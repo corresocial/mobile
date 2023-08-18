@@ -1,10 +1,17 @@
 // eslint-disable-next-line import/no-unresolved
-import { ERROS_WEBHOOK } from '@env'
 import { sendContactUsMessageToNotion } from '../services/notion/contactUs'
+import { getEnvVars } from '../../environment'
+
+const { ERROS_WEBHOOK } = getEnvVars()
 
 export const errorHandler = async (error: Error, stackTrace: any) => {
 	console.log(error)
 	console.log(stackTrace)
+
+	// eslint-disable-next-line no-undef
+	if (__DEV__) {
+		return
+	}
 
 	const errorLocationRegexResult = stackTrace.match(/in (([a-zA-Z]+\s+)+)\(created by (([a-zA-Z]+)+)\)/i) || []
 	const errorLocation = errorLocationRegexResult.length ? errorLocationRegexResult[0] : 'undefined'

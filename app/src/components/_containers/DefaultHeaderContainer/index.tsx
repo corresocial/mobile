@@ -18,6 +18,7 @@ interface DefaultHeaderContainerProps {
 	footerTextHighlighted?: string | (string | ReactElement<any, string | JSXElementConstructor<any>>)[]
 	minHeight?: number
 	borderBottomWidth?: number
+	withoutIOSPadding?: boolean
 	grow?: boolean
 	paddingVertical?: number
 	withoutPadding?: boolean
@@ -34,6 +35,7 @@ function DefaultHeaderContainer({
 	backgroundColor,
 	minHeight = 0,
 	borderBottomWidth = 5,
+	withoutIOSPadding,
 	grow,
 	paddingVertical,
 	withoutPadding
@@ -41,6 +43,7 @@ function DefaultHeaderContainer({
 	return (
 		<>
 			<Container
+				withoutIOSPadding={withoutIOSPadding}
 				style={{
 					minHeight,
 					height: grow ? 'auto' : relativeHeight,

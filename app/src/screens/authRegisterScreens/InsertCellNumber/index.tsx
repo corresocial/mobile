@@ -4,6 +4,7 @@ import React, { useContext, useRef, useState } from 'react'
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
 import { Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import Firebase from '../../../services/firebase'
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
@@ -18,6 +19,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
 import { Loader } from '../../../components/Loader'
+import { BackButton } from '../../../components/_buttons/BackButton'
 
 const firebaseConfig = Firebase ? Firebase.options : undefined
 
@@ -32,11 +34,11 @@ const headerMessages = {
 	},
 	serverSideError: {
 		text: 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
-		highlightedWords: ['do', 'nosso', 'lado,']
+		highlightedWords: ['do', 'nosso', 'lado']
 	}
 }
 
-export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
+export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenProps) {
 	const { sendSMS } = useContext(AuthContext)
 
 	const recaptchaVerifier = React.useRef(null)
@@ -52,6 +54,8 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 		DDDInput: useRef<TextInput>(null),
 		cellNumberInput: useRef<TextInput>(null)
 	}
+
+	const { authByWhatsapp } = route.params
 
 	const validateDDD = (text: string) => {
 		setHasServerSideError(false)
@@ -117,6 +121,8 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 		return headerMessages.instruction.highlightedWords
 	}
 
+	const navigateBackwards = () => navigation.goBack()
+
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
 		const existsError = someInvalidFieldSubimitted() || hasServerSideError
@@ -129,13 +135,13 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 
 		return headerBackgroundAnimatedValue.current.interpolate({
 			inputRange: [0, 1],
-			outputRange: [theme.purple2, theme.red2],
+			outputRange: [!authByWhatsapp ? theme.purple2 : theme.green2, theme.red2],
 		})
 	}
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : !authByWhatsapp ? theme.purple2 : theme.green2} barStyle={'dark-content'} />
 			<FirebaseRecaptchaVerifierModal
 				ref={recaptchaVerifier}
 				firebaseConfig={firebaseConfig}
@@ -147,6 +153,7 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
+				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
 					message={getHeaderMessage()}
 					highlightedWords={getHeaderHighlightedWords()}
@@ -161,10 +168,10 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 						nextInputRef={inputRefs.cellNumberInput}
 						defaultBackgroundColor={theme.white2}
 						defaultBorderBottomColor={theme.black4}
-						validBackgroundColor={theme.purple1}
-						validBorderBottomColor={theme.purple5}
+						validBackgroundColor={!authByWhatsapp ? theme.purple1 : theme.green1}
+						validBorderBottomColor={!authByWhatsapp ? theme.purple5 : theme.green5}
 						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.red5}
+						invalidBorderBottomColor={theme.black4}
 						maxLength={2}
 						invalidTextAfterSubmit={invalidDDDAfterSubmit}
 						placeholder={'12'}
@@ -181,10 +188,10 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 						previousInputRef={inputRefs.DDDInput}
 						defaultBackgroundColor={theme.white2}
 						defaultBorderBottomColor={theme.black4}
-						validBackgroundColor={theme.purple1}
-						validBorderBottomColor={theme.purple5}
+						validBackgroundColor={!authByWhatsapp ? theme.purple1 : theme.green1}
+						validBorderBottomColor={!authByWhatsapp ? theme.purple5 : theme.green5}
 						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.red5}
+						invalidBorderBottomColor={theme.black4}
 						maxLength={9}
 						invalidTextAfterSubmit={invalidCellNumberAfterSubmit}
 						placeholder={'123451234'}
@@ -201,11 +208,11 @@ export function InsertCellNumber({ navigation }: InsertCellNumberScreenProps) {
 						? <Loader />
 						: (
 							<PrimaryButton
-								color={someInvalidFieldSubimitted() || hasServerSideError ? theme.red3 : theme.purple3}
-								iconName={'arrow-right'}
-								iconColor={theme.white3}
-								label={'continuar'}
+								color={theme.green3}
+								flexDirection={'row-reverse'}
+								SvgIcon={CheckWhiteIcon}
 								labelColor={theme.white3}
+								label={'continuar'}
 								highlightedWords={['continuar']}
 								startsHidden
 								onPress={getVeficationCode}

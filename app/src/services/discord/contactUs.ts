@@ -1,5 +1,7 @@
-import { FALECONOSCO_WEBHOOK, ERROS_WEBHOOK, DENUNCIAR_WEBHOOK } from '@env'
+import { getEnvVars } from '../../../environment'
 import { ContactUsOptions } from './types'
+
+const { FALECONOSCO_WEBHOOK, ERROS_WEBHOOK, DENUNCIAR_WEBHOOK } = getEnvVars()
 
 async function sendContactUsMessageToDiscord({
 	userId,

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Keyboard, TextStyle, ViewStyle } from 'react-native'
-import { FontAwesome5 as Icon } from '@expo/vector-icons'
 import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -13,18 +12,20 @@ import {
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
+import { Timer } from '../../Timer'
+import { theme } from '../../../common/theme'
 
 interface PrimaryButtonProps {
 	relativeWidth?: string
 	relativeHeight?: string | number
+	disabled?: boolean
 	minHeight?: number
 	color: string
 	label?: string
 	labelColor?: string
 	labelMarginLeft?: number | string
 	iconName?: string
-	iconColor?: string
-	iconSize?: number
+	timer?: boolean
 	SvgIcon?: React.FC<SvgProps>
 	SecondSvgIcon?: React.FC<SvgProps>
 	svgIconScale?: [height: string, width: string]
@@ -42,6 +43,7 @@ function PrimaryButton({
 	relativeWidth,
 	relativeHeight,
 	minHeight = 65,
+	disabled,
 	color,
 	labelColor,
 	label,
@@ -50,8 +52,7 @@ function PrimaryButton({
 	iconName,
 	fontSize = 18,
 	textAlign = 'center',
-	iconSize,
-	iconColor,
+	timer,
 	SvgIcon,
 	SecondSvgIcon,
 	svgIconScale = ['40%', '25%'],
@@ -61,7 +62,9 @@ function PrimaryButton({
 	flexDirection,
 	onPress
 }: PrimaryButtonProps) {
-	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
+	const [buttonPressed, setButtomPressed] = useState<boolean>(disabled || false)
+	const [buttonDisabled, setButtonDisabled] = useState<boolean>(disabled || false)
+	const [timerReset, setTimerReset] = useState<boolean>(disabled || false)
 	const [buttonVisibility, setButtonVisibility] = useState<boolean>(true)
 
 	const buttonRef = useRef<any>()
@@ -80,6 +83,10 @@ function PrimaryButton({
 		}
 	}, [])
 
+	const resetTimer = () => {
+		setTimerReset((previous) => !previous)
+	}
+
 	const hideButton = async () => {
 		if (!buttonRef.current) return
 		buttonRef.current.fadeOutDown(400).then((endState: any) => endState.finished && setButtonVisibility(false))
@@ -92,14 +99,23 @@ function PrimaryButton({
 	}
 
 	function pressingButton() {
+		if (buttonDisabled) return
 		setButtomPressed(true)
 	}
 
 	function notPressingButton() {
+		if (buttonDisabled) return
 		setButtomPressed(false)
 	}
 
 	function releaseButton() {
+		if (buttonDisabled) return
+		if (timer) {
+			resetTimer()
+			setButtonDisabled(true)
+			setButtomPressed(true)
+		}
+
 		setButtomPressed(false)
 		onPress && onPress()
 	}
@@ -123,7 +139,7 @@ function PrimaryButton({
 			>
 				<ContainerSurface
 					style={{
-						backgroundColor: color,
+						backgroundColor: buttonDisabled ? theme.white3 : color,
 						flexDirection: flexDirection || 'row',
 						justifyContent: justifyContent || 'center',
 						minHeight: RFValue(minHeight),
@@ -146,16 +162,24 @@ function PrimaryButton({
 								{showMessageWithHighlight(label, highlightedWords)}
 							</ButtonLabel>
 						)}
-					{!!SvgIcon
-						&& <SvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />}
-					{!!iconName
-						&& (
-							<Icon
-								name={iconName || 'question'}
-								size={iconSize || 22}
-								color={iconColor || labelColor}
-							/>
-						)}
+					{
+						!!SvgIcon && <SvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />
+					}
+					{
+						!!timer && (
+							!!buttonDisabled && (
+								<Timer
+									initialTimeInMinutes={0.05}
+									counterTextOnly
+									resetTimer={timerReset}
+									onTimeIsOver={() => {
+										setButtonDisabled(false)
+										setButtomPressed(false)
+									}}
+								/>
+							)
+						)
+					}
 				</ContainerSurface>
 			</ContainerBottom>
 		</TouchableContainer>

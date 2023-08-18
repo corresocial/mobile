@@ -5,7 +5,9 @@ import { getStorage } from 'firebase/storage'
 import { getFunctions } from 'firebase/functions'
 import { getDatabase } from "firebase/database";
 
-import {
+import { getEnvVars } from '../../../environment'
+
+const {
 	FIREBASE_apiKey,
 	FIREBASE_authDomain,
 	FIREBASE_databaseURL,
@@ -15,7 +17,7 @@ import {
 	FIREBASE_appId,
 	FIREBASE_measurementId,
 	FIRESTORE_REAL_TIME_DATABASE
-} from '@env'
+} = getEnvVars()
 
 const firebaseConfig = {
 	apiKey: FIREBASE_apiKey,

@@ -7,7 +7,11 @@ export const Container = styled.View`
 	background-color: ${({ theme }) => theme.white3};
 `
 
-export const ContainerContent = styled.View``
+export const ContainerContent = styled.View`
+	padding: ${RFValue(10)}px;
+	align-items: flex-start;
+	justify-content: center;
+`
 
 export const Header = styled.View`
 	justify-content: space-between;
@@ -24,24 +28,15 @@ export const Body = styled.View`
 	padding-vertical:  ${relativeScreenWidth(4)}px;
 `
 
-export const BoldPhrase = styled.Text`
-	font-size: ${RFValue(18)}px;
-	font-family: Arvo_700Bold;
-`
-
 export const Title = styled.Text`
 	font-size: ${RFValue(30)}px;
 	font-family: Arvo_700Bold;
 `
 
-export const TextMedium = styled.Text`
-	font-size: ${RFValue(20)}px;
+export const Description = styled.Text`
 	font-family: Arvo_400Regular;
-`
-
-export const Sigh = styled.View`
-	width: 100%;
-	height: ${relativeScreenWidth(6)}px;
+	line-height: ${RFValue(20)}px;
+	font-size: ${RFValue(18)}px;
 `
 
 export const ButtonContainer = styled.View`

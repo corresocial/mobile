@@ -1,15 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Animated } from 'react-native'
 
-import {
-	Container,
-	BuildingsContainer,
-	BottomLine,
-	LogoContainer
-} from './styles'
-import { relativeScreenHeight, relativeScreenWidth, screenHeight } from '../../common/screenDimensions'
-import SlumIcon from '../../assets/icons/slum.svg'
-import LogoIcon from '../../assets/icons/logo.svg'
+import { Container, LogoContainer } from './styles'
+import { relativeScreenWidth, screenHeight } from '../../common/screenDimensions'
+import LogoBuildingIcon from '../../assets/icons/logoBuilding.svg'
 
 import { SplashScreenProps } from '../../routes/Stack/AuthRegisterStack/stackScreenProps'
 import { LocalUserData } from '../../contexts/types'
@@ -75,19 +69,9 @@ function Splash({ navigation }: SplashScreenProps) {
 
 	return (
 		<Container>
-			<LogoContainer style={{
-				opacity: imagesSvgOpacity
-			}}
-			>
-				<LogoIcon width={relativeScreenWidth(50)} height={screenHeight} />
+			<LogoContainer style={{ opacity: imagesSvgOpacity }}>
+				<LogoBuildingIcon width={relativeScreenWidth(40)} height={screenHeight} />
 			</LogoContainer>
-			<BuildingsContainer style={{
-				opacity: imagesSvgOpacity
-			}}
-			>
-				<SlumIcon width={relativeScreenWidth(80)} height={relativeScreenHeight(12)} />
-			</BuildingsContainer>
-			<BottomLine />
 		</Container>
 	)
 }

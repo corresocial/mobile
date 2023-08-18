@@ -5,7 +5,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { CardHeader, PictureArea, Text, ValueContainer, ProfilePicture } from './styles'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
-import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 import { ImageCarousel } from '../../ImageCarousel'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
@@ -16,6 +16,7 @@ interface EditCardProps {
 	value?: string | (string | ReactElement)[]
 	profilePicturesUrl?: string[]
 	valueBold?: boolean
+	pressionable?: boolean
 	indicatorColor?: string
 	carousel?: boolean
 	SvgIcon?: React.FC<SvgProps>
@@ -23,6 +24,7 @@ interface EditCardProps {
 	RightIcon?: React.FC<SvgProps>
 	children?: ReactElement
 	onEdit?: () => void
+	onPress?: () => void
 }
 
 function EditCard({
@@ -33,11 +35,13 @@ function EditCard({
 	profilePicturesUrl = [],
 	indicatorColor,
 	carousel,
+	pressionable,
 	SvgIcon,
 	SecondSvgIcon,
 	RightIcon,
 	children,
 	onEdit,
+	onPress,
 }: EditCardProps) {
 	const isDateOrTimeOrObject = () => {
 		if (value) {
@@ -51,7 +55,11 @@ function EditCard({
 		return false
 	}
 	return (
-		<DefaultCardContainer withoutPadding={!!profilePicturesUrl.length}>
+		<DefaultTouchableCardContainer
+			withoutPadding={!!profilePicturesUrl.length}
+			pressionable={pressionable}
+			onPress={pressionable ? onPress || onEdit : () => { }}
+		>
 			<CardHeader
 				style={{
 					paddingHorizontal: profilePicturesUrl.length ? RFValue(15) : 0,
@@ -115,7 +123,7 @@ function EditCard({
 					)
 			}
 			{children && children}
-		</DefaultCardContainer >
+		</DefaultTouchableCardContainer >
 	)
 }
 

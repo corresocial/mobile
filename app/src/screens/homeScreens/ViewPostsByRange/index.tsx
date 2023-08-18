@@ -19,6 +19,7 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { FlatListPosts } from '../../../components/FlatListPosts'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { SearchParams } from '../../../services/maps/types'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -156,7 +157,6 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 								<FlatListPosts
 									data={postsByRange}
 									renderItem={renderPostItem}
-									estimatedItemSize={198}
 									headerComponent={() => (
 										<VerticalSigh />
 									)}
@@ -167,14 +167,15 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 						)
 						: <></>
 				}
+				<VerticalSigh height={relativeScreenHeight(10)} />
 				{/* {
 					(!postsByRange || (postsByRange && !postsByRange.length)) && (
 						<WithoutPostsMessage
-							title={'opa!'}
-							message={'parece que não temos nenhum post {perto de você}, nosso time já está sabendo e irá resolver!'}
+						title={'opa!'}
+						message={'parece que não temos nenhum post {perto de você}, nosso time já está sabendo e irá resolver!'}
 						/>
-					)
-				} */}
+						)
+					} */}
 			</Body>
 		</Container>
 	)

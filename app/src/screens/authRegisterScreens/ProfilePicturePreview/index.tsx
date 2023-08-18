@@ -5,6 +5,8 @@ import { getDownloadURL } from 'firebase/storage'
 import { Container, InstructionCardContainer } from './styles'
 import { screenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import AddPictureWhiteIcon from '../../../assets/icons/addPicture-white.svg'
 
 import { updateUser } from '../../../services/firebase/user/updateUser'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
@@ -14,7 +16,7 @@ import { deleteUserPicture } from '../../../services/firebase/user/deleteUserPic
 import { updateAllOwnerOnPosts } from '../../../services/firebase/post/updateAllOwnerOnPosts'
 
 import { ProfilePicturePreviewScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
-import { Id, PostCollection } from '../../../services/firebase/types'
+import { Id, PostCollection, UserCollection } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
@@ -25,6 +27,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal'
 import { Loader } from '../../../components/Loader'
+import { BackButton } from '../../../components/_buttons/BackButton'
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
 	const { setRemoteUserOnLocal, userDataContext, getDataFromSecureStore } = useContext(AuthContext)
@@ -36,7 +39,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 	const headerMessages = {
 		instruction: {
-			text: 'ficou boa?',
+			text: 'está boa?',
 			highlightedWords: ['boa']
 		},
 		serverSideError: {
@@ -93,10 +96,14 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		setIsLoading(true)
 
 		if (localUser.profilePictureUrl && localUser.profilePictureUrl.length && localUser.profilePictureUrl[0] === profilePicture[0]) {
-			const currentUser = {
+			const currentUser: UserCollection = {
 				name: userData.userName,
 				profilePictureUrl: profilePicture,
-				tourPerformed: !!localUser.tourPerformed
+				tourPerformed: !!localUser.tourPerformed,
+			}
+
+			if (!localUser.createdAt) {
+				currentUser.createdAt = new Date()
 			}
 
 			await updateUser(userData.userIdentification.uid, currentUser)
@@ -124,10 +131,14 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 							blob.close()
 							getDownloadURL(uploadTask.snapshot.ref)
 								.then(async (profilePictureUrl) => {
-									const currentUser = {
+									const currentUser: UserCollection = {
 										name: userData.userName,
 										profilePictureUrl: [profilePictureUrl as string],
-										tourPerformed: !!localUser.tourPerformed
+										tourPerformed: !!localUser.tourPerformed,
+									}
+
+									if (!localUser.createdAt) {
+										currentUser.createdAt = new Date()
 									}
 
 									await updateUser(userData.userIdentification.uid, currentUser)
@@ -166,6 +177,8 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 			})
 	}
 
+	const navigateBackwards = () => navigation.goBack()
+
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
 		const existsError = hasServerSideError
@@ -183,7 +196,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	}
 
 	if (!profilePicture.length && !cameraModalVisibility) {
-		navigation.goBack()
+		navigateBackwards()
 	}
 
 	return (
@@ -204,14 +217,15 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 				justifyContent={'space-around'}
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
-				<PhotoPortrait pictureUri={profilePicture[0]} width={screenWidth} height={screenWidth} />
 				<InstructionCardContainer>
+					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
-						flex={0}
+						flex={1}
 						message={getHeaderMessage()}
 						highlightedWords={getHeaderHighlightedWords()}
 					/>
 				</InstructionCardContainer>
+				<PhotoPortrait pictureUri={profilePicture[0]} width={screenWidth} height={screenWidth} />
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
 				{
@@ -221,17 +235,16 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 							<>
 								<PrimaryButton
 									color={theme.green3}
-									iconName={'arrow-right'}
-									iconColor={theme.white3}
-									label={'tá ótima, continuar'}
+									flexDirection={'row-reverse'}
+									SvgIcon={CheckWhiteIcon}
+									label={'tá ótima, bora'}
 									labelColor={theme.white3}
-									highlightedWords={['continuar']}
+									highlightedWords={['bora']}
 									onPress={saveUserData}
 								/>
 								<PrimaryButton
 									color={theme.yellow3}
-									iconName={'images'}
-									iconColor={theme.black4}
+									SvgIcon={AddPictureWhiteIcon}
 									label={'nem, escolher outra'}
 									labelColor={theme.black4}
 									highlightedWords={['escolher', 'outra']}

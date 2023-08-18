@@ -1,3 +1,6 @@
+import React from 'react'
+import { SvgProps } from 'react-native-svg'
+
 import { serviceCategories } from '../../utils/postsCategories/serviceCategories'
 import { cultureCategories } from '../../utils/postsCategories/cultureCategories'
 import { saleCategories } from '../../utils/postsCategories/saleCategories'
@@ -57,7 +60,7 @@ export type CultureType = 'art' | 'event' | 'education'
 export type MacroCategory = {
 	label: string
 	value: string
-	slug: string
+	SvgIcon: React.FC<SvgProps>
 	tags: string[]
 }
 
@@ -91,7 +94,7 @@ export type SocialMedia = {
 	link: string
 }
 
-export type VerifiedLabelName = 'leader' | 'impact' | 'default'
+export type VerifiedLabelName = 'leader' | 'impact' | 'default' | 'admin'
 
 export type VerifiedType = {
 	type: VerifiedLabelName
@@ -104,9 +107,9 @@ export type UserSubscription = {
 	subscriptionRange?: PostRange
 	subscriptionPlan?: SubscriptionPlan
 	subscriptionPaymentMethod?: SubscriptionPaymentMethod
+	receiptEmail?: string
 	customerId?: Id
 	subscriptionId?: Id
-	receiptEmail?: string
 }
 
 export type UserCollection = {
@@ -120,25 +123,13 @@ export type UserCollection = {
 	createdAt?: Date
 	updatedAt?: Date
 	posts?: PostCollection[]
-	ads?: AdsCollection[]
 	verified?: VerifiedType
-	locationView?: LocationViewType
-	cellNumber?: string // private
 	socialMedias?: SocialMedia[]
 	subscription?: UserSubscription
-	location?: {
-		country?: string
-		state?: string
-		city?: string
-		district?: string
-		street?: string
-		residenceNumber?: number
-		reference?: string
-		coordinates?: { lat: number, lng: number }
-		geohash?: string
-		geohashNear?: string[]
-		geohashCity?: string[]
-	}
+}
+
+export type PrivateUserCollection = {
+	cellNumber: string
 }
 
 export type PrivateAddress = {
@@ -264,7 +255,7 @@ export type SaleCollection = {
 	postId?: string
 	postType?: PostType
 	title?: string
-	itemDescription?: string
+	description?: string
 	tags?: string[]
 	itemStatus?: ItemStatus
 	category?: string
@@ -308,7 +299,7 @@ export type SaleCollectionRemote = {
 	postId: string
 	postType: PostType
 	title: string
-	itemDescription: string
+	description: string
 	tags: string[]
 	category: string
 	itemStatus: ItemStatus

@@ -29,7 +29,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 
 	const {
 		backgroundColor,
-		categoryIcon,
+		categorySvgIcon,
 		categoryName,
 	} = locationDataContext.currentCategory
 
@@ -143,7 +143,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 			<Header>
 				<DefaultPostViewHeader
 					text={route.params.currentTagSelected}
-					svgUri={categoryIcon}
+					SvgIcon={categorySvgIcon}
 					path
 					onBackPress={() => navigation.goBack()}
 				/>

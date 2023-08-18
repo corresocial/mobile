@@ -3,9 +3,11 @@ import React, { MutableRefObject, useContext, useEffect, useRef, useState } from
 import * as Location from 'expo-location'
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
-import { Platform, RefreshControl } from 'react-native'
+import { Alert, Platform, RefreshControl } from 'react-native'
+import { getLocales } from 'expo-localization'
 
 import {
+	AdSubscriptionContainer,
 	Container,
 	ContainerPadding,
 	DropdownContainer,
@@ -15,7 +17,7 @@ import { theme } from '../../../common/theme'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
 import { searchAddressByText } from '../../../services/maps/searchAddressByText'
-import { structureAddress } from '../../../utils/maps/addressFormatter'
+import { structureAddress, structureExpoLocationAddress } from '../../../utils/maps/addressFormatter'
 import { getLastRecentAddress, getRecentAdressesFromStorage } from '../../../utils/maps/recentAddresses'
 import { getPostsByLocationCloud } from '../../../services/cloudFunctions/getPostsByLocationCloud'
 // import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
@@ -26,6 +28,7 @@ import {
 	LatLong,
 	AddressSearchResult,
 	SelectedAddressRender,
+	GeocodeAddress,
 } from '../../../services/maps/types'
 import { FeedPosts, Id, PostCollection, PostRange, PostType } from '../../../services/firebase/types'
 import { HomeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
@@ -45,6 +48,10 @@ import { FlatListPosts } from '../../../components/FlatListPosts'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { getAndUpdateUserToken } from '../../../services/firebase/chat/getAndUpdateUserToken'
+import { getReverseGeocodeByMapsApi } from '../../../services/maps/getReverseGeocodeByMapsApi'
+import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
+import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
+import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionInfoModal'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -70,6 +77,8 @@ function Home({ navigation }: HomeScreenProps) {
 	const [hasLocationEnable, setHasLocationEnable] = useState(false)
 	const [searchEnded, setSearchEnded] = useState(false)
 	const [feedIsUpdating, setFeedIsUpdating] = useState(false)
+
+	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = React.useState(false)
 
 	const [expoPushTokenState, setExpoPushToken] = useState('') // TODO Refactor
 	const [notificationState, setNotification] = useState(false)
@@ -192,7 +201,8 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams, // Update return of cloud function
 				userDataContext.userId as Id
 			)
-			// const remoteFeedPosts = await getPostsByLocation(searchParams)
+
+			//  const remoteFeedPosts = await getPostsByLocation(searchParams)
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
 			refresh ? setFeedIsUpdating(false) : setLoaderIsVisible(false)
@@ -210,7 +220,7 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const refreshFeedPosts = async () => {
-		console.log('refresh')
+		console.log('refreshing feed...')
 		await findFeedPosts('', false, locationDataContext.searchParams.coordinates || null, true)
 	}
 
@@ -264,7 +274,13 @@ function Home({ navigation }: HomeScreenProps) {
 			coordinates.lat,
 			coordinates.lon
 		)
-		const structuredAddress = structureAddress(address)
+
+		const deviceLanguage = getLocales()[0].languageCode
+
+		const structuredAddress = deviceLanguage === 'pt'
+			? structureExpoLocationAddress(address as Location.LocationGeocodedAddress[], coordinates.lat, coordinates.lon)
+			: structureAddress(address as GeocodeAddress, coordinates.lat, coordinates.lon)
+
 		const geohashObject = generateGeohashes(
 			coordinates.lat,
 			coordinates.lon
@@ -289,10 +305,17 @@ function Home({ navigation }: HomeScreenProps) {
 		latitude: number,
 		longitude: number
 	) => {
-		const geocodeAddress = await Location.reverseGeocodeAsync({
-			latitude,
-			longitude,
-		})
+		const deviceLanguage = getLocales()[0].languageCode
+
+		if (deviceLanguage === 'pt') { // change structure Function
+			const geocodeAddress = await Location.reverseGeocodeAsync({
+				latitude,
+				longitude,
+			})
+			return geocodeAddress
+		}
+
+		const geocodeAddress = await getReverseGeocodeByMapsApi(latitude, longitude)
 		return geocodeAddress
 	}
 
@@ -387,22 +410,45 @@ function Home({ navigation }: HomeScreenProps) {
 		return items
 	}
 
-	const renderPostItem = (item: PostCollection) => (
-		<ContainerPadding>
-			<PostCard
-				post={item}
-				owner={item.owner}
-				navigateToProfile={navigateToProfile}
-				onPress={() => goToPostView(item)}
-			/>
-		</ContainerPadding>
-	)
+	const navigateToSelectSubscriptionRange = () => {
+		navigation.navigate('SelectSubscriptionRange')
+	}
+
+	const renderPostItem = (item: PostCollection) => {
+		if (item as string === 'subscriptionAd') {
+			return (
+				<ContainerPadding>
+					<SubscriptionButton onPress={() => setSubscriptionModalIsVisible(true)} />
+				</ContainerPadding>
+			)
+		}
+
+		return (
+			<ContainerPadding>
+				<PostCard
+					post={item}
+					owner={item.owner}
+					navigateToProfile={navigateToProfile}
+					onPress={() => goToPostView(item)}
+				/>
+			</ContainerPadding>
+
+		)
+	}
+
+	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
 	return (
 		<Container>
 			<FocusAwareStatusBar
 				backgroundColor={theme.orange2}
 				barStyle={'dark-content'}
+			/>
+			<SubscriptionInfoModal
+				visibility={subscriptionModalIsVisible}
+				profilePictureUri={profilePictureUrl}
+				closeModal={() => setSubscriptionModalIsVisible(false)}
+				onPressButton={navigateToSelectSubscriptionRange}
 			/>
 			<DropdownContainer>
 				<LocationNearDropdown
@@ -439,7 +485,7 @@ function Home({ navigation }: HomeScreenProps) {
 					(feedPosts.nearby && feedPosts.nearby.length)
 						? (
 							<FlatListPosts
-								data={getFirstFiveItems(feedPosts.nearby)}
+								data={['subscriptionAd', ...getFirstFiveItems(feedPosts.nearby)]}
 								headerComponent={() => (
 									<>
 										<SubtitleCard
@@ -505,7 +551,7 @@ function Home({ navigation }: HomeScreenProps) {
 								<VerticalSigh height={relativeScreenHeight(10)} />
 							</>
 						)
-						: <></>
+						: <VerticalSigh height={relativeScreenHeight(10)} />
 				}
 				{
 					hasLocationEnable && searchEnded && !hasAnyPost() && (

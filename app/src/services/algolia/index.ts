@@ -1,5 +1,7 @@
 import algoliasearch from 'algoliasearch'
-import { ALGOLIA_ID, ALGOLIA_KEY } from '@env'
+import { getEnvVars } from '../../../environment'
+
+const { ALGOLIA_ID, ALGOLIA_KEY } = getEnvVars()
 
 export const searchClient = algoliasearch(ALGOLIA_ID, ALGOLIA_KEY)
 

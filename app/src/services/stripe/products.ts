@@ -1,6 +1,8 @@
 import axios from 'axios'
-import { STRIPE_SECRET_KEY } from '@env'
 import { StripeProducts } from './types'
+import { getEnvVars } from '../../../environment'
+
+const { STRIPE_SECRET_KEY } = getEnvVars()
 
 async function getStripeProducts() {
 	const result = await axios.get('https://api.stripe.com/v1/products', {

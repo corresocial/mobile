@@ -28,8 +28,8 @@ async function getPostsByLocation(searchParams: SearchParams) {
 		const collectionRef = collection(firestore, 'posts')
 
 		const { nearbyPosts, nearPostIds } = await getNearbyPosts(collectionRef, searchParams)
-		const cityPosts = await getCityPosts(collectionRef, searchParams, nearPostIds)
-		const countryPosts = await getCountryPosts(collectionRef, searchParams, nearPostIds)
+		const { cityPosts, cityPostIds } = await getCityPosts(collectionRef, searchParams, nearPostIds)
+		const countryPosts = await getCountryPosts(collectionRef, searchParams, nearPostIds, cityPostIds)
 
 		return {
 			nearby: nearbyPosts,
@@ -69,10 +69,12 @@ const getNearbyPosts = async (collectionRef: CollectionReference<DocumentData>, 
 
 const getCityPosts = async (collectionRef: CollectionReference<DocumentData>, searchParams: SearchParams, nearPostIds: string[] = []) => {
 	const posts: any = []
+	const cityPostIds: string[] = []
+
 	const queryCity = query(
 		collectionRef,
-		// where('range', '=', 'city'), // Removed
 		where('location.city', '==', searchParams.city),
+		where('range', '==', 'city'),
 		orderBy('createdAt', 'desc')
 	)
 
@@ -81,29 +83,33 @@ const getCityPosts = async (collectionRef: CollectionReference<DocumentData>, se
 	snapshotCity.forEach((doc) => {
 		if (!nearPostIds.includes(doc.id)) {
 			posts.push({ ...doc.data(), postId: doc.id })
+			cityPostIds.push(doc.id)
 			// console.log(`City: ${doc.data().title} - ${doc.data().range} ------- ${doc.data().postType}`)
 		}
 	})
 
-	return posts
+	return { cityPosts: posts, cityPostIds }
 }
 
-const getCountryPosts = async (collectionRef: CollectionReference<DocumentData>, searchParams: SearchParams, nearPostIds: string[] = []) => {
+const getCountryPosts = async (
+	collectionRef: CollectionReference<DocumentData>,
+	searchParams: SearchParams,
+	nearPostIds: string[] = [],
+	cityPostIds: string[] = []
+) => {
 	const posts: any = []
 
 	const countryQuery = query(
 		collectionRef,
 		where('location.country', '==', searchParams.country),
 		where('range', '==', 'country'),
-		where('location.city', '!=', searchParams.city), // Excepcion
-		orderBy('location.city', 'asc'),
 		orderBy('createdAt', 'desc')
 	)
 
 	const snapshotCountry = await getDocs(countryQuery)
 
 	snapshotCountry.forEach((doc) => {
-		if (!nearPostIds.includes(doc.id)) {
+		if (!nearPostIds.includes(doc.id) || !cityPostIds.includes(doc.id)) {
 			posts.push({ ...doc.data(), postId: doc.id })
 			// console.log(`Country: ${doc.data().title} - ${doc.data().range} ------- ${doc.data().postType}`)
 		}

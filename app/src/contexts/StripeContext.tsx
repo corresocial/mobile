@@ -3,7 +3,6 @@ import React, { useContext, createContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { StripeProvider as StripeProviderRaw, confirmPayment, createPaymentMethod } from '@stripe/stripe-react-native'
 
-import { STRIPE_PUBLISHABLE_KEY, STRIPE_API_URL, STRIPE_SECRET_KEY } from '@env'
 import { useNavigation } from '@react-navigation/native'
 import { getStripePlans, getStripeProducts } from '../services/stripe/products'
 import { updateAllRangeAndLocation } from '../services/firebase/post/updateAllRangeAndLocation'
@@ -15,6 +14,7 @@ import { dateHasExpired } from '../common/auxiliaryFunctions'
 import { SubscriptionAlertModal } from '../components/_modals/SubscriptionAlertModal'
 import { SubscriptionContext } from './SubscriptionContext'
 import { UserStackNavigationProps } from '../routes/Stack/UserStack/types'
+import { getEnvVars } from '../../environment'
 
 interface StripeContextProps {
 	children: React.ReactElement
@@ -24,14 +24,14 @@ interface StripeContextState {
 	stripeProductsPlans: StripeProducts
 	subscriptionHasActive: boolean,
 	getRangePlanPrice: (subscriptionRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => ({ price: string, priceId: string })
-	createCustomer: (name: string, paymentMethodId: string) => Promise<any>
+	createCustomer: (name: string, paymentMethodId: string, userTrial?: boolean) => Promise<any>
 	getCustomerPaymentMethods: (customerId: string) => Promise<any>
 	updateStripeCustomer: (customerId: string, customerData: CustomerData) => Promise<any> // TODO Type
 	createCustomPaymentMethod: () => Promise<any>
 	attachPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => Promise<any>
 	setDefaultPaymentMethodToCustomer: (customerId: string, paymentMethodId: string, attach?: boolean) => Promise<any>
 	getCustomerSubscriptions: (customerId: string) => Promise<any>
-	createSubscription: (customerId: string, priceId: string) => Promise<any>
+	createSubscription: (customerId: string, priceId: string, freeTrial?: boolean) => Promise<any>
 	updateStripeSubscription: (subscriptionId: string, priceId: string) => Promise<any>
 	cancelSubscription: (subscriptionId: string) => Promise<any>
 	refundSubscriptionValue: (customerId: string, subscriptionId: string) => Promise<any>
@@ -52,20 +52,22 @@ export const StripeContext = createContext<StripeContextState>({
 	stripeProductsPlans: { ...defaultStripeProducts },
 	subscriptionHasActive: true,
 	getRangePlanPrice: (subscriptionRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => ({ price: '', priceId: '' }),
-	createCustomer: (name: string, paymentMethodId: string) => new Promise(() => { }),
+	createCustomer: (name: string, paymentMethodId: string, userTrial?: boolean) => new Promise(() => { }),
 	getCustomerPaymentMethods: (customerId: string) => new Promise(() => { }),
 	updateStripeCustomer: (customerId: string, customerData: CustomerData) => new Promise(() => { }),
 	createCustomPaymentMethod: () => new Promise(() => { }),
 	attachPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => new Promise(() => { }),
 	setDefaultPaymentMethodToCustomer: (customerId: string, paymentMethodId: string) => new Promise(() => { }),
 	getCustomerSubscriptions: (customerId: string) => new Promise(() => { }),
-	createSubscription: (customerId: string, priceId: string) => new Promise(() => { }),
+	createSubscription: (customerId: string, priceId: string, freeTrial?: boolean) => new Promise(() => { }),
 	updateStripeSubscription: (subscriptionId: string, priceId: string) => new Promise(() => { }),
 	cancelSubscription: (subscriptionId: string) => new Promise(() => { }),
 	refundSubscriptionValue: (customerId: string, subscriptionId: string) => new Promise(() => { }),
 	performPaymentConfirm: (paymentMethodId: string, subscriptionClientSecret: string) => new Promise(() => { }),
 	sendReceiptByEmail: (customerId: string, email: string) => new Promise(() => { }),
 })
+
+const { STRIPE_PUBLISHABLE_KEY, STRIPE_API_URL, STRIPE_SECRET_KEY } = getEnvVars()
 
 const defaultAxiosHeader = {
 	'Content-Type': 'application/x-www-form-urlencoded',
@@ -76,7 +78,7 @@ const axiosConfig = { headers: { ...defaultAxiosHeader } }
 
 export function StripeProvider({ children }: StripeContextProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 
 	const [stripeProductsPlans, setStripeProductsPlans] = useState<StripeProducts>(defaultStripeProducts)
 	const [subscriptionHasActive, setSubscriptionHasActive] = useState(true)
@@ -154,6 +156,8 @@ export function StripeProvider({ children }: StripeContextProps) {
 			...axiosConfig
 		})
 
+		if (response.data && !response.data.length) return false
+
 		return response.data.data.length > 0 ? response.data.data[0] : null
 	}
 
@@ -206,7 +210,7 @@ export function StripeProvider({ children }: StripeContextProps) {
 		return true
 	}
 
-	async function createCustomer(name: string, paymentMethodId: string) {
+	async function createCustomer(name: string, paymentMethodId: string, userTrial?: boolean) {
 		const customerData = {
 			name,
 			description: 'Assinante do corre',
@@ -214,7 +218,9 @@ export function StripeProvider({ children }: StripeContextProps) {
 			email: '',
 			address: {},
 			payment_method: paymentMethodId,
-		}
+		} as CustomerData
+
+		if (userTrial) delete customerData.payment_method
 
 		const result = await axios.post(`${STRIPE_API_URL}/customers`, { ...customerData }, axiosConfig)
 		const customerId = result.data.id
@@ -226,20 +232,21 @@ export function StripeProvider({ children }: StripeContextProps) {
 			const customerId = userDataContext.subscription?.customerId
 			if (!customerId) return
 
-			const res = await getCustomerSubscriptions(customerId, true)
-			if (!res || !res.length) {
-				showSubscriptionAlertWithCustomMessage(10 as number, true)
+			const freeSubscription = await getCustomerSubscriptions(customerId, true, true)
+			const paidSubscription = await getCustomerSubscriptions(customerId, true)
+			if ((!paidSubscription || !paidSubscription.length) && (!freeSubscription || !freeSubscription.length)) {
+				showSubscriptionAlertWithCustomMessage(10, true)
 				throw new Error('Não há faturas ativas')
 			}
 
-			const endSubscriptionDate = res[0].current_period_end * 1000
+			const endSubscriptionDate = paidSubscription && paidSubscription.length ? paidSubscription[0].current_period_end * 1000 : freeSubscription[0].current_period_end * 1000
 			const currentDate = Math.floor(Date.now()) //  + 2596000000 + (0 * 86400000)
 
-			/* console.log(new Date(endSubscriptionDate))
-			console.log(new Date(currentDate)) */
+			/* console.log(new Date(currentDate))
+			console.log(new Date(endSubscriptionDate)) */
 
-			if (dateHasExpired(endSubscriptionDate, currentDate, 1)) {
-				const numberOfExpiredDays = dateHasExpired(endSubscriptionDate, currentDate, 7, true)
+			if (dateHasExpired(currentDate, endSubscriptionDate, 1)) {
+				const numberOfExpiredDays = dateHasExpired(currentDate, endSubscriptionDate, 7, true)
 				console.log(`STRIPE: Dias expirados: ${numberOfExpiredDays} dias`)
 				showSubscriptionAlertWithCustomMessage(numberOfExpiredDays as number)
 				setSubscriptionHasActive(false)
@@ -262,7 +269,6 @@ export function StripeProvider({ children }: StripeContextProps) {
 			const customerId = userDataContext.subscription?.customerId || ''
 
 			if (userSubscriptionId && customerId) {
-				// await refundSubscriptionValue(customerId, userSubscriptionId)
 				!alreadyCanceled && await cancelSubscription(userSubscriptionId)
 				await updateSubscriptionRange()
 				setSubscriptionHasActive(true)
@@ -313,12 +319,6 @@ export function StripeProvider({ children }: StripeContextProps) {
 		updateUserContext(userSubscription, userPostsUpdated as any[]) // TODO Type
 	}
 
-	const getLastUserPost = () => {
-		const userPosts: PostCollection[] = userDataContext.posts || []
-		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
-		return lastUserPost
-	}
-
 	const updateUserContext = (userSubscription: UserSubscription, updatedLocationPosts?: PostCollectionRemote[] | []) => {
 		setUserDataOnContext({ subscription: { ...userSubscription }, posts: updatedLocationPosts })
 	}
@@ -326,28 +326,39 @@ export function StripeProvider({ children }: StripeContextProps) {
 	// Abstrair ˆˆˆ
 
 	const showSubscriptionAlertWithCustomMessage = async (numberOfExpiredDays: number, alreadyCanceled?: boolean) => {
-		if (numberOfExpiredDays && numberOfExpiredDays <= 7) {
+		if (numberOfExpiredDays <= 7) {
 			setNumberOfSubscriptionExpiredDays(numberOfExpiredDays as number)
 		}
 
-		if (numberOfExpiredDays && numberOfExpiredDays > 7) {
+		if (numberOfExpiredDays > 7) {
 			await handleCancelSubscription(alreadyCanceled)
 			setNumberOfSubscriptionExpiredDays(numberOfExpiredDays as number)
 		}
 
-		setSubscriptionAlertModalIsVisible(!invalidSubscriptionAlertModalIsVisible)
+		toggleInvalidSubscriptionModalVisibility()
 	}
 
 	const userHasSubscription = () => userDataContext.subscription && userDataContext.subscription.subscriptionRange !== 'near'
 
-	async function getCustomerSubscriptions(customerId: string, returnLastSubscriptionData?: boolean) {
-		const response = await axios.get(`${STRIPE_API_URL}/subscriptions`, {
-			params: {
-				customer: customerId,
-				status: 'active',
-			},
-			...axiosConfig
-		})
+	async function getCustomerSubscriptions(customerId: string, returnLastSubscriptionData?: boolean, requestTrialSubscriptions?: boolean) {
+		const response = requestTrialSubscriptions
+			? (
+				await axios.get(`${STRIPE_API_URL}/subscriptions`, {
+					params: {
+						customer: customerId,
+						status: 'trialing',
+					},
+					...axiosConfig
+				}))
+			: (
+				await axios.get(`${STRIPE_API_URL}/subscriptions`, {
+					params: {
+						customer: customerId,
+						status: 'active',
+					},
+					...axiosConfig
+				})
+			)
 
 		const subscriptionsId = response.data.data.length > 0
 			? returnLastSubscriptionData
@@ -359,7 +370,12 @@ export function StripeProvider({ children }: StripeContextProps) {
 		return subscriptionsId
 	}
 
-	async function createSubscription(customerId: string, priceId: string) { // CARD 4000000760000002
+	async function createSubscription(customerId: string, priceId: string, freeTrial?: boolean) { // CARD 4000000760000002
+		const trialEndDate = Math.round((Date.now() / 1000)) + 31650000
+		const freeTrialParams = freeTrial
+			? { trial_end: trialEndDate } // 15/07/2024 23:59
+			: {}
+
 		const postData = {
 			customer: customerId,
 			items: [
@@ -367,16 +383,15 @@ export function StripeProvider({ children }: StripeContextProps) {
 					price: priceId, // Substitua pelo ID real do preço/produto
 				},
 			],
+			...freeTrialParams,
 			payment_behavior: 'error_if_incomplete', // error_if_incomplete
 			expand: ['latest_invoice.payment_intent'],
-			/* 	collection_method: 'send_invoice',
-				days_until_due: 30, */
 		}
 
 		const response = await axios.post(`${STRIPE_API_URL}/subscriptions`, postData, axiosConfig)
 
 		const subscriptionId = response.data.id
-		const subscriptionClientSecret = response.data.latest_invoice.payment_intent.client_secret
+		const subscriptionClientSecret = response.data.latest_invoice && response.data.latest_invoice.payment_intent && response.data.latest_invoice.payment_intent.client_secret
 
 		return { subscriptionId, subscriptionClientSecret }
 	}

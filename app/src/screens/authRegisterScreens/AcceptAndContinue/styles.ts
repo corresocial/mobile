@@ -34,7 +34,7 @@ export const TermsLabel = styled.Text`
 `
 
 export const TermsLabelHighlight = styled.Text`
-    color: ${({ theme }) => theme.orange4};
+    color: ${({ theme }) => theme.orange3};
     font-size:${RFValue(18)}px;
     text-align: center;
     font-family: Arvo_700Bold;

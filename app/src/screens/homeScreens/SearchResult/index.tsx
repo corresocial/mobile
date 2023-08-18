@@ -20,7 +20,6 @@ import { PostCard } from '../../../components/_cards/PostCard'
 import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-// import { searchPosts } from '../../../services/algolia/searchPost'
 import { searchPostsCloud } from '../../../services/cloudFunctions/searchPostsCloud'
 import { FlatListPosts } from '../../../components/FlatListPosts'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
@@ -71,7 +70,12 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 		// await searchPosts(algoliaSearchText, searchParamsFromRoute, searchByRange)
 		await searchPostsCloud(algoliaSearchText, searchParamsFromRoute, searchByRange || false, userDataContext.userId as Id)
 			.then((posts) => {
-				setResultPosts(posts as FeedPosts)
+				if (!posts) {
+					setResultPosts(initialFeedPosts as FeedPosts)
+				} else {
+					setResultPosts(posts as FeedPosts)
+				}
+
 				if (!searchText) setSearchText(route.params.searchParams.searchText)
 				setLoaderIsVisible(false)
 			})

@@ -7,7 +7,12 @@ export const Container = styled.View`
 	background-color: ${({ theme }) => theme.white3};
 `
 
-export const ContainerContent = styled.View``
+export const ContainerContent = styled.View`
+	height: ${relativeScreenHeight(30)}px;
+	padding: ${RFValue(10)}px;
+	align-items: flex-start;
+	justify-content: center;
+`
 
 export const Header = styled.View`
 	justify-content: space-between;
@@ -19,6 +24,8 @@ export const Header = styled.View`
 
 export const Body = styled.View`
 	flex: 1;
+	align-items: center;
+	justify-content: center;
 	background-color: ${({ theme }) => theme.orange2};
 	padding-horizontal: ${relativeScreenWidth(7)}px;
 	padding-vertical:  ${relativeScreenWidth(4)}px;
@@ -34,7 +41,14 @@ export const Sigh = styled.View`
 	height: ${relativeScreenWidth(6)}px;
 `
 
+export const Description = styled.Text`
+	font-family: Arvo_400Regular;
+	line-height: ${RFValue(20)}px;
+	font-size: ${RFValue(16)}px;
+`
+
 export const ButtonContainer = styled.View`
+	align-self: flex-end;
 	margin-vertical: ${relativeScreenHeight(2)}px;
 	width: 100%;
 `

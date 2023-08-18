@@ -5,6 +5,7 @@ import { theme } from '../../common/theme'
 import { Container, LinkButtonsContainer } from './styles'
 import PlusWhiteIcon from '../../assets/icons/plusTabIconInactive.svg'
 import DescriptionWhiteIcon from '../../assets/icons/description-white.svg'
+import XWhiteIcon from '../../assets/icons/x-white.svg'
 
 import { PrimaryButton } from '../_buttons/PrimaryButton'
 
@@ -43,7 +44,7 @@ function TermsOfService({ calledFromConfig, onPress }: TermsOfServiceProps) {
 				/>
 			</LinkButtonsContainer>
 			{
-				calledFromConfig && (
+				calledFromConfig ? (
 					<PrimaryButton
 						color={theme.red3}
 						label={'meus dados'}
@@ -54,7 +55,19 @@ function TermsOfService({ calledFromConfig, onPress }: TermsOfServiceProps) {
 						SvgIcon={DescriptionWhiteIcon}
 						onPress={onPress}
 					/>
+				) : (
+					<PrimaryButton
+						color={theme.red3}
+						label={'fechar'}
+						fontSize={16}
+						highlightedWords={['fechar']}
+						justifyContent={'space-between'}
+						labelColor={theme.white3}
+						SvgIcon={XWhiteIcon}
+						onPress={onPress}
+					/>
 				)
+
 			}
 		</Container>
 	)

@@ -1,5 +1,27 @@
 import { SaleCategories } from '../../services/firebase/types'
 
+import FoodIcon from '../../assets/icons/categories/food.svg'
+import DrinkIcon from '../../assets/icons/categories/drink.svg'
+import TechAndCellPhoneIcon from '../../assets/icons/categories/techAndCellPhone.svg'
+import UsedIcon from '../../assets/icons/categories/used.svg'
+import HomeAppliancesIcon from '../../assets/icons/categories/homeAppliances.svg'
+import HouseIcon from '../../assets/icons/categories/house.svg'
+import FurnitureIcon from '../../assets/icons/categories/furniture.svg'
+import PropertiesIcon from '../../assets/icons/categories/properties.svg'
+import AutoAndPartsIcon from '../../assets/icons/categories/autoAndParts.svg'
+import AnimalsIcon from '../../assets/icons/categories/animals.svg'
+import ToysIcon from '../../assets/icons/categories/toys.svg'
+import BooksIcon from '../../assets/icons/categories/books.svg'
+import SchoolAndStationeryIcon from '../../assets/icons/categories/schoolAndStationery.svg'
+import SportIcon from '../../assets/icons/categories/sport.svg'
+import ToolsAndConstructionIcon from '../../assets/icons/categories/toolsAndConstruction.svg'
+import ArtIcon from '../../assets/icons/categories/art.svg'
+import ClothesAndAccessoriesIcon from '../../assets/icons/categories/clothesAndAccessories.svg'
+import DiversityIcon from '../../assets/icons/categories/diversity.svg'
+import HealthIcon from '../../assets/icons/categories/health.svg'
+import BeautyWellBeingIcon from '../../assets/icons/categories/beautyWellBeing.svg'
+import OthersIcon from '../../assets/icons/categories/others.svg'
+
 export const updateSaleTags = (category: SaleCategories, tag: string) => {
 	saleCategories[category].tags = [...saleCategories[category].tags, tag]
 }
@@ -8,7 +30,7 @@ const saleCategories = {
 	food: {
 		label: 'comida',
 		value: 'food',
-		slug: 'food',
+		SvgIcon: FoodIcon,
 		tags: [
 			'marmita',
 			'pizza',
@@ -34,7 +56,7 @@ const saleCategories = {
 	drink: {
 		label: 'bebida',
 		value: 'drink',
-		slug: 'drink',
+		SvgIcon: DrinkIcon,
 		tags: ['cerveja', 'vinho', 'drinks', 'gin', 'vodka', 'chopp', 'bar', 'refrigerante', 'agua', 'suco',
 		]
 	},
@@ -42,7 +64,7 @@ const saleCategories = {
 	used: {
 		label: 'usados',
 		value: 'used',
-		slug: 'used',
+		SvgIcon: UsedIcon,
 		tags: [
 			'eletrodomésticos',
 			'tecnologia e celular',
@@ -63,7 +85,7 @@ const saleCategories = {
 	homeAppliances: {
 		label: 'eletrodomésticos',
 		value: 'homeAppliances',
-		slug: 'homeAppliances',
+		SvgIcon: HomeAppliancesIcon,
 		tags: [
 			'microondas',
 			'máquina de lavar',
@@ -80,7 +102,7 @@ const saleCategories = {
 	techAndCellPhone: {
 		label: 'tecnologia',
 		value: 'techAndCellPhone',
-		slug: 'techAndCellPhone',
+		SvgIcon: TechAndCellPhoneIcon,
 		tags: [
 			'tv',
 			'celular',
@@ -99,7 +121,7 @@ const saleCategories = {
 	house: {
 		label: 'casa',
 		value: 'house',
-		slug: 'house',
+		SvgIcon: HouseIcon,
 		tags: [
 			'utensilios',
 			'decoracao',
@@ -114,7 +136,7 @@ const saleCategories = {
 	furniture: {
 		label: 'móveis',
 		value: 'furniture',
-		slug: 'furniture',
+		SvgIcon: FurnitureIcon,
 		tags: [
 			'sofa',
 			'cama',
@@ -131,7 +153,7 @@ const saleCategories = {
 	properties: {
 		label: 'imóveis',
 		value: 'properties',
-		slug: 'properties',
+		SvgIcon: PropertiesIcon,
 		tags: [
 			'sala',
 			'casa',
@@ -151,7 +173,7 @@ const saleCategories = {
 	autoAndParts: {
 		label: 'automóveis e peças',
 		value: 'autoAndParts',
-		slug: 'autoAndParts',
+		SvgIcon: AutoAndPartsIcon,
 		tags: [
 			'moto',
 			'usado',
@@ -176,7 +198,7 @@ const saleCategories = {
 	animals: {
 		label: 'bichos',
 		value: 'animals',
-		slug: 'pets',
+		SvgIcon: AnimalsIcon,
 		tags: [
 			'cachorro',
 			'dog',
@@ -200,7 +222,7 @@ const saleCategories = {
 	toys: {
 		label: 'infantil',
 		value: 'toys',
-		slug: 'toys',
+		SvgIcon: ToysIcon,
 		tags: [
 			'alugar',
 			'festa',
@@ -223,7 +245,7 @@ const saleCategories = {
 	books: {
 		label: 'livros',
 		value: 'books',
-		slug: 'books',
+		SvgIcon: BooksIcon,
 		tags: [
 			'infantis',
 			'crianças',
@@ -250,7 +272,7 @@ const saleCategories = {
 	schoolAndStationery: {
 		label: 'escola e papelaria',
 		value: 'schoolAndStationery',
-		slug: 'schoolAndStationery',
+		SvgIcon: SchoolAndStationeryIcon,
 		tags: [
 			'papelaria',
 			'livros',
@@ -269,7 +291,7 @@ const saleCategories = {
 	sport: {
 		label: 'esporte',
 		value: 'sport',
-		slug: 'sport',
+		SvgIcon: SportIcon,
 		tags: [
 			'tenis',
 			'raquete',
@@ -298,7 +320,7 @@ const saleCategories = {
 	toolsAndConstruction: {
 		label: 'ferramentas e construção',
 		value: 'toolsAndConstruction',
-		slug: 'toolsAndConstruction',
+		SvgIcon: ToolsAndConstructionIcon,
 		tags: [
 			'automecanica',
 			'contruçao',
@@ -318,7 +340,7 @@ const saleCategories = {
 	art: {
 		label: 'arte',
 		value: 'art',
-		slug: 'art',
+		SvgIcon: ArtIcon,
 		tags: [
 			'acessorios',
 			'tinta',
@@ -347,7 +369,7 @@ const saleCategories = {
 	clothesAndAccessories: {
 		label: 'roupas e acessórios',
 		value: 'clothesAndAccessories',
-		slug: 'clothesAndAccessories',
+		SvgIcon: ClothesAndAccessoriesIcon,
 		tags: [
 			'camiseta',
 			'calça',
@@ -372,7 +394,7 @@ const saleCategories = {
 	diversity: {
 		label: 'diversidade',
 		value: 'diversity',
-		slug: 'diversity',
+		SvgIcon: DiversityIcon,
 		tags: [
 			'cognitiva',
 			'física',
@@ -387,7 +409,7 @@ const saleCategories = {
 	health: {
 		label: 'saúde',
 		value: 'health',
-		slug: 'health',
+		SvgIcon: HealthIcon,
 		tags: [
 			'medico',
 			'enfermagem',
@@ -415,7 +437,7 @@ const saleCategories = {
 	beautyWellBeing: {
 		label: 'beleza e bem-estar',
 		value: 'beautyWellBeing',
-		slug: 'beauty',
+		SvgIcon: BeautyWellBeingIcon,
 		tags: [
 			'bem-estar',
 			'moda',
@@ -442,7 +464,7 @@ const saleCategories = {
 	others: {
 		label: 'outros',
 		value: 'others',
-		slug: 'others',
+		SvgIcon: OthersIcon,
 		tags: []
 	},
 }

@@ -30,7 +30,7 @@ import { LocationChangeConfirmationModal } from '../../../components/_modals/Loc
 function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps) {
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, setDataOnSecureStore, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 
 	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
@@ -104,12 +104,6 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 	}
 
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectLocationView', 'location')
-
-	const getLastUserPost = () => {
-		const userPosts: PostCollection[] = userDataContext.posts || []
-		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
-		return lastUserPost
-	}
 
 	const getLastPostAddress = () => {
 		const lastUserPost: PostCollection = getLastUserPost()

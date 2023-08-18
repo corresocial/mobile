@@ -14,6 +14,7 @@ import { InsertName } from '../../../screens/authRegisterScreens/InsertName'
 import { InsertProfilePicture } from '../../../screens/authRegisterScreens/InsertProfilePicture'
 import { ProfilePicturePreview } from '../../../screens/authRegisterScreens/ProfilePicturePreview'
 import { UserStack } from '../UserStack'
+import { SelectAuthMethod } from '../../../screens/authRegisterScreens/SelectAuthMethod'
 
 const Stack = createStackNavigator<AuthRegisterStackParamList>()
 
@@ -36,6 +37,7 @@ export function AuthRegisterStack() {
 						...TransitionPresets.FadeFromBottomAndroid
 					}}
 				/>
+				<Stack.Screen name={'SelectAuthMethod'} component={SelectAuthMethod} />
 				<Stack.Screen name={'InsertCellNumber'} component={InsertCellNumber} />
 				<Stack.Screen name={'InsertConfirmationCode'} component={InsertConfirmationCode} />
 				<Stack.Screen name={'InsertName'} component={InsertName} />

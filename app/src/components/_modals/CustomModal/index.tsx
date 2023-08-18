@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Modal } from 'react-native'
 import { SvgProps } from 'react-native-svg'
 
+import { RFValue } from 'react-native-responsive-fontsize'
 import {
 	Container,
 	ContentInner,
@@ -27,6 +28,8 @@ import { relativeScreenWidth } from '../../../common/screenDimensions'
 interface CustomModalProps {
 	visibility: boolean
 	title?: string
+	titleHighlightedWords?: string[]
+	TitleIcon?: React.FC<SvgProps>
 	firstParagraph?: {
 		text?: string
 		fontSize?: number
@@ -56,12 +59,15 @@ interface CustomModalProps {
 		label: string
 		CustomIcon?: React.FC<SvgProps>
 		onPress: (value?: string) => void
-	}
+	},
+	children?: React.ReactElement | React.ReactElement[]
 }
 
 function CustomModal({
 	visibility,
 	title,
+	titleHighlightedWords,
+	TitleIcon,
 	firstParagraph,
 	secondParagraph,
 	listItemText,
@@ -70,7 +76,8 @@ function CustomModal({
 	closeModalOnPressButton = true,
 	closeModal,
 	affirmativeButton,
-	negativeButton
+	negativeButton,
+	children
 }: CustomModalProps) {
 	const [textInput, setTextInput] = useState(customInput?.initialValue || '')
 
@@ -78,6 +85,8 @@ function CustomModal({
 		onPress && onPress(textInput)
 		closeModalOnPressButton && closeModal()
 	}
+
+	const iconStyle = { marginLeft: -RFValue(8), marginRight: RFValue(15) }
 
 	return (
 		<Modal
@@ -92,7 +101,13 @@ function CustomModal({
 				<Content>
 					<ContentInner>
 						<Header>
-							<Title>{title}</Title>
+							{TitleIcon && <TitleIcon width={'20%'} height={'70%'} style={iconStyle} />}
+							<Title
+								hasHighlightedWords={!!titleHighlightedWords}
+							>
+								{titleHighlightedWords ? showMessageWithHighlight(title || '', titleHighlightedWords) : title}
+
+							</Title>
 							{
 								closeButton && (
 									<SmallButton
@@ -105,6 +120,7 @@ function CustomModal({
 								)
 							}
 						</Header>
+						{children}
 
 						{
 							firstParagraph && (

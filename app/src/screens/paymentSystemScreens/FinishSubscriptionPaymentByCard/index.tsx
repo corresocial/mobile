@@ -30,7 +30,7 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Loader } from '../../../components/Loader'
-import { PostCollection, PostCollectionRemote, UserSubscription } from '../../../services/firebase/types'
+import { PostCollection, PostCollectionRemote, PostRange, UserSubscription } from '../../../services/firebase/types'
 
 type CustomCardDetails = {
 	brand: CardBrand
@@ -48,7 +48,7 @@ type RemoteCardDetails = {
 }
 
 function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscriptionPaymentByCardScreenProps) {
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 	const { subscriptionDataContext, updateUserSubscription } = useContext(SubscriptionContext)
 	const {
 		getRangePlanPrice,
@@ -98,7 +98,10 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			}
 
 			await updateUserSubscription(userSubscription)
-			await updateSubscriptionDependentPosts(userSubscription)
+
+			if (hasSubscriptionDowngrade(subscriptionRange, userDataContext.subscription?.subscriptionRange)) {
+				await updateSubscriptionDependentPosts(userSubscription)
+			}
 			setIsLoading(false)
 			navigateToResultScreen(true, route.params)
 		} catch (err: any) { // Check stripe erros
@@ -106,6 +109,11 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 			setIsLoading(false)
 			navigateToResultScreen(false, route.params)
 		}
+	}
+
+	const hasSubscriptionDowngrade = (newRange?: PostRange, oldRange?: PostRange) => {
+		if (!newRange || !oldRange) return true
+		return newRange === 'near' || (oldRange === 'country' && newRange === 'city')
 	}
 
 	const updateSubscriptionDependentPosts = async (userSubscription: UserSubscription) => {
@@ -135,12 +143,6 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 		setUserDataOnContext({ subscription: { ...userSubscription }, posts: updatedLocationPosts })
 	}
 
-	const getLastUserPost = () => {
-		const userPosts: PostCollection[] = userDataContext.posts || []
-		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
-		return lastUserPost
-	}
-
 	const navigateToResultScreen = (successfulPayment: boolean, routeParams: any) => {
 		navigation.navigate('SubscriptionPaymentResult', { successfulPayment, ...routeParams })
 	}
@@ -154,8 +156,9 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 		try {
 			let cardAlreadyRegistered = false
 			if (customerData.customerId) {
-				const { card: remoteCard } = await getCustomerPaymentMethods(userDataContext.subscription?.customerId || '')
-				cardAlreadyRegistered = cardDataAreEquals(cardDetails, remoteCard)
+				const card = await getCustomerPaymentMethods(userDataContext.subscription?.customerId || '')
+
+				cardAlreadyRegistered = !card ? false : cardDataAreEquals(cardDetails, card)
 			}
 
 			console.log('Card details:', cardDetails)

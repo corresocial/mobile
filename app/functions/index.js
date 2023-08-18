@@ -1,18 +1,23 @@
 /* eslint-disable no-underscore-dangle */
+
+/*
+	CONFIGURE ALGOLIA_ID & ALGOLIA_KEY MANUALMENTE DE ACORDO COM O AMBIENTE
+*/
+
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
 
 admin.initializeApp()
 
-exports.getFeedPosts = functions.https.onRequest(async (req, res) => { // req. searchParams
+exports.getFeedPostsBeta = functions.https.onRequest(async (req, res) => { // req. searchParams
 	try {
 		const collectionRef = admin.firestore().collection('posts')
 
 		const { searchParams, userId } = req.body
 
 		const { nearbyPosts, nearPostIds } = await getNearbyPosts(collectionRef, searchParams)
-		const cityPosts = await getCityPosts(collectionRef, searchParams, nearPostIds)
-		const countryPosts = await getCountryPosts(collectionRef, searchParams, nearPostIds)
+		const { cityPosts, cityPostIds } = await getCityPosts(collectionRef, searchParams, nearPostIds)
+		const countryPosts = await getCountryPosts(collectionRef, searchParams, nearPostIds, cityPostIds)
 
 		const postsWithLocationFilter = {
 			nearby: filterLocation(nearbyPosts, userId),
@@ -52,34 +57,40 @@ const getNearbyPosts = async (collectionRef, searchParams) => {
 
 const getCityPosts = async (collectionRef, searchParams, nearPostIds = []) => {
 	const queryCity = collectionRef
-		// .where('range', '==', 'city') Removed
 		.where('location.city', '==', searchParams.city)
+		.where('range', '==', 'city')
 		.orderBy('createdAt', 'desc')
 
 	return queryCity.get()
 		.then((snapshotCity) => {
 			const posts = []
+			const cityPostIds = []
 
 			snapshotCity.forEach((doc) => {
 				if (!nearPostIds.includes(doc.id)) {
 					posts.push({ ...doc.data(), postId: doc.id })
+					cityPostIds.push(doc.id)
 					// console.log(`City: ${doc.data().title} - ${doc.data().range} ------- ${doc.data().postType}`)
 				}
 			})
 
-			return posts
+			return { cityPosts: posts, cityPostIds }
 		})
 		.catch((err) => {
-			return err
+			console.log(err)
+			return []
 		})
 }
 
-const getCountryPosts = async (collectionRef, searchParams, nearPostIds = []) => {
+const getCountryPosts = async (
+	collectionRef,
+	searchParams,
+	nearPostIds = [],
+	cityPostIds = []
+) => {
 	const countryQuery = collectionRef
 		.where('location.country', '==', searchParams.country)
 		.where('range', '==', 'country')
-		.where('location.city', '!=', searchParams.city) // Excepcion
-		.orderBy('location.city', 'asc')
 		.orderBy('createdAt', 'desc')
 
 	return countryQuery.get()
@@ -87,7 +98,7 @@ const getCountryPosts = async (collectionRef, searchParams, nearPostIds = []) =>
 			const posts = []
 
 			snapshotCountry.forEach((doc) => {
-				if (!nearPostIds.includes(doc.id)) {
+				if (!nearPostIds.includes(doc.id) || !cityPostIds.includes(doc.id)) {
 					posts.push({ ...doc.data(), postId: doc.id })
 					// console.log(`Country: ${doc.data().title} - ${doc.data().range} ------- ${doc.data().postType}`)
 				}
@@ -130,10 +141,10 @@ const getRandomDetachment = () => {
 
 const algoliasearch = require('algoliasearch')
 
-const client = algoliasearch('89VF10SON5', 'f2c235b283f57730dac356331ce3fac2')
+const client = algoliasearch('ALGOLIA_ID', 'ALGOLIA_KEY')
 const postsIndex = client.initIndex('postsIndex')
 
-exports.searchPostsByAlgolia = functions.https.onRequest(async (req, res) => {
+exports.searchPostsByAlgoliaBeta = functions.https.onRequest(async (req, res) => {
 	try {
 		const { searchText, searchParams, searchByRange, userId } = req.body
 
@@ -200,7 +211,9 @@ exports.searchPostsByAlgolia = functions.https.onRequest(async (req, res) => {
 			}, []),)
 
 		const postsWithLocationFilter = filterLocation(results, userId)
-		const postsByRange = spreadPostsByRange(postsWithLocationFilter)
+		const filteredPosts = removeDuplicatesByPostId(postsWithLocationFilter)
+
+		const postsByRange = spreadPostsByRange(filteredPosts)
 
 		return res.status(200).send(postsByRange)
 	} catch (err) {
@@ -209,6 +222,10 @@ exports.searchPostsByAlgolia = functions.https.onRequest(async (req, res) => {
 		return res.status(500).send(err)
 	}
 })
+
+function removeDuplicatesByPostId(results) {
+	return results.filter((post, index, self) => index === self.findIndex((p) => p.postId === post.postId))
+}
 
 const spreadPostsByRange = (posts) => {
 	const result = {
@@ -244,7 +261,7 @@ const getGeohashFilter = (geohashes, geohashField, negativeClause) => {
 }
 
 const getRangeFilter = (range, city, country) => {
-	if (range === 'nearby' || range === 'city') return `range:city AND location.city:'${city}'`
+	if (range === 'nearby' || range === 'city') return ` (range:city OR range:country) AND location.city:'${city}'`
 	if (range === 'country') return `range:${range} AND location.country:'${country}'`
 	return ''
 }

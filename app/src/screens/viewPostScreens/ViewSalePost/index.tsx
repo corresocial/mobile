@@ -283,7 +283,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					/>
 					<VerticalSigh />
 					<DescriptionCard
-						text={getPostField('itemDescription')}
+						text={getPostField('description')}
 					/>
 					<VerticalSigh />
 					{!arrayIsEmpty(getPostField('picturesUrl')) && (

@@ -23,7 +23,7 @@ import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeC
 import { getRangeText } from '../../../utils/subscription/commonMessages'
 
 function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenProps) {
-	const { userDataContext } = useContext(AuthContext)
+	const { userDataContext, getLastUserPost } = useContext(AuthContext)
 	const { stripeProductsPlans, subscriptionHasActive } = useContext(StripeContext)
 
 	const [currentSubscriptionRange, setCurrentSubscriptionRange] = useState<PostRange>(userDataContext.subscription?.subscriptionRange || 'near')
@@ -79,12 +79,6 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 		setRangeChangeModalIsVisible(!rangeChangeModalIsVisible)
 	}
 
-	const getLastUserPost = () => {
-		const userPosts: PostCollection[] = userDataContext.posts || []
-		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
-		return lastUserPost
-	}
-
 	const getLastPostAddress = () => {
 		const lastUserPost: PostCollection = getLastUserPost()
 		return getTextualAddress(lastUserPost?.location)
@@ -95,7 +89,6 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 			if (currentSubscriptionRange === rangeCard.id) {
 				if (!subscriptionHasActive) {
 					return (
-
 						<TitleDescriptionButton
 							key={'planError'}
 							height={relativeScreenHeight(13)}
@@ -187,7 +180,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				closeModal={toggleRangeChangeModalVisibility}
 			/>
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(22)}
+				relativeHeight={relativeScreenHeight(26)}
 				centralized
 				backgroundColor={theme.white3}
 				borderBottomWidth={0}
@@ -196,7 +189,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={15}
-					title={'alcance corre.'}
+					title={'assinatura corre.'}
 					message={'aqui você vê o plano que assinou, outros planos disponíveis'}
 					highlightedWords={['corre']}
 				/>

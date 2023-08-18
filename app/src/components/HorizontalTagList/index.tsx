@@ -20,23 +20,30 @@ function HorizontalTagList({
 	selectedTags = [],
 	onSelectTag,
 }: HorizontalTagListProps) {
-	const renderTags = () => tags.map((tag) => {
-		const customTag = tag.length !== 3 ? tag : ` ${tag} `
+	const renderTags = () => {
+		const ordenedSelectedTags = tags.filter((tag) => selectedTags.includes(tag))
+		const ordenedUnselectedTags = tags.filter((tag) => !selectedTags.includes(tag))
 
-		return (
-			< FilterButton
-				key={uuid()}
-				height={relativeScreenHeight(3.5)}
-				backgroundColor={theme.white3}
-				backgroundSelected={selectedColor || theme.orange1}
-				marginRight={10}
-				label={customTag}
-				fontSize={13}
-				selected={selectedTags.includes(tag)}
-				onSelect={() => onSelectTag && onSelectTag(tag)}
-			/>
-		)
-	})
+		const ordenedTags = [...ordenedSelectedTags, ...ordenedUnselectedTags]
+
+		return ordenedTags.map((tag) => {
+			const customTag = tag.length !== 3 ? tag : ` ${tag} `
+
+			return (
+				< FilterButton
+					key={uuid()}
+					height={relativeScreenHeight(3.5)}
+					backgroundColor={theme.white3}
+					backgroundSelected={selectedColor || theme.orange1}
+					marginRight={10}
+					label={customTag}
+					fontSize={13}
+					selected={selectedTags.includes(tag)}
+					onSelect={() => onSelectTag && onSelectTag(tag)}
+				/>
+			)
+		})
+	}
 
 	return (
 		<Container >

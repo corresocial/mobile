@@ -121,19 +121,19 @@ const getNewDate = (date: any) => {
 }
 
 function dateHasExpired(
-	date1InMilliseconds: number,
-	date2InMilliseconds: number,
+	startDateInMilliseconds: number,
+	endDateInMilliseconds: number,
 	numberOfDays: number = 1,
 	returnNumberOfExpiredDays: boolean = false
 ) {
-	if (date2InMilliseconds - date1InMilliseconds <= 0) return false
-	const diff = Math.abs(date2InMilliseconds - date1InMilliseconds)
-	const differenceDaysInMilliseconds = numberOfDays * 24 * 60 * 60 * 1000
+	if ((endDateInMilliseconds + 86400000) - startDateInMilliseconds <= 0 && !returnNumberOfExpiredDays) return true // 1 dia para efetivação do pagamento
+	const diff = Math.abs(endDateInMilliseconds - startDateInMilliseconds)
+	const differenceDaysInMilliseconds = (numberOfDays * 24 * 60 * 60 * 1000)
 
 	if (returnNumberOfExpiredDays) return parseInt((diff / 1000 / 60 / 60 / 24).toFixed(0))
 
-	if (diff >= differenceDaysInMilliseconds || (diff / 1000 / 60 / 60 / 24) >= numberOfDays) return true
-	return false
+	if (diff <= differenceDaysInMilliseconds || (diff / 1000 / 60 / 60 / 24) >= numberOfDays) return false
+	return true
 }
 
 const sortArray = (a: string, b: string) => {
@@ -149,8 +149,11 @@ const sortPostCategories = (a: MacroCategory, b: MacroCategory) => {
 }
 
 const sortPostsByCreatedData = (a: PostCollectionRemote | any, b: PostCollectionRemote | any) => {
-	if (a.createdAt < b.createdAt) return 1
-	if (a.createdAt > b.createdAt) return -1
+	const createdAtA = getNewDate(a.createdAt)
+	const createdAtB = getNewDate(b.createdAt)
+
+	if (createdAtA < createdAtB) return 1
+	if (createdAtA > createdAtB) return -1
 	return 0
 }
 

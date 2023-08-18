@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
@@ -15,6 +16,7 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
+import { BackButton } from '../../../components/_buttons/BackButton'
 
 function InsertName({ navigation, route }: InsertNameScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -78,23 +80,25 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 			if (profilePictureUrl.length) {
 				navigation.navigate('InsertProfilePicture', {
 					...userData,
-					userName: inputName,
+					userName: inputName.trim(),
 					profilePictureUrl
 				})
 				return navigation.navigate('ProfilePicturePreview', {
 					...userData,
-					userName: inputName,
+					userName: inputName.trim(),
 					profilePictureUrl
 				})
 			}
 			navigation.navigate('InsertProfilePicture', {
 				...userData,
-				userName: inputName
+				userName: inputName.trim()
 			})
 		} else {
 			!userNameIsValid && setInvaliNameAfterSubmit(true)
 		}
 	}
+
+	const navigateBackwards = () => navigation.goBack()
 
 	const someInvalidFieldSubimitted = () => invalidNameAfterSubmit
 
@@ -122,16 +126,17 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
+				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
 					message={
 						someInvalidFieldSubimitted()
 							? 'não deu!\nparece que este nome é \nmuito curto '
-							: 'boa!\n\nagora vamos \ncriar o seu perfil'
+							: 'boa! \n\nescolha o nome do seu perfil'
 					}
 					highlightedWords={
 						someInvalidFieldSubimitted()
 							? ['\nmuito', 'curto']
-							: ['\ncriar', 'o', 'seu', 'perfil']
+							: ['boa!', 'seu', 'perfil']
 					}
 				/>
 			</DefaultHeaderContainer>
@@ -162,10 +167,10 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 						&& (
 							<PrimaryButton
 								color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
-								iconName={'arrow-right'}
-								iconColor={theme.white3}
-								label={'continuar'}
+								flexDirection={'row-reverse'}
+								SvgIcon={CheckWhiteIcon}
 								labelColor={theme.white3}
+								label={'continuar'}
 								highlightedWords={['continuar']}
 								startsHidden={false}
 								onPress={sendUserDataToNextScreen}

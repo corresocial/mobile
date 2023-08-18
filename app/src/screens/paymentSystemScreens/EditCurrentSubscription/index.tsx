@@ -33,7 +33,7 @@ import { emailIsValid } from '../../../common/auxiliaryFunctions'
 function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionScreenProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)
 	const { cancelSubscription, refundSubscriptionValue, sendReceiptByEmail, updateStripeCustomer } = useContext(StripeContext)
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, getLastUserPost } = useContext(AuthContext)
 
 	const [hasError, setHasError] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
@@ -129,12 +129,6 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 		)
 
 		updateUserContext(userSubscription, userPostsUpdated as any[]) // TODO Type
-	}
-
-	const getLastUserPost = () => {
-		const userPosts: PostCollection[] = userDataContext.posts || []
-		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
-		return lastUserPost
 	}
 
 	const getLastPostAddress = () => {

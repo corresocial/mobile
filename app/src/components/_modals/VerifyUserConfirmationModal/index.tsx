@@ -5,6 +5,7 @@ import { CustomModal } from '../CustomModal'
 interface VerifyUserConfirmationModalProps {
 	visibility: boolean
 	title: string
+	subject?: string
 	closeModal: () => void
 	onPressButton: () => void
 }
@@ -12,6 +13,7 @@ interface VerifyUserConfirmationModalProps {
 function VerifyUserConfirmationModal({
 	visibility,
 	title,
+	subject,
 	closeModal,
 	onPressButton
 }: VerifyUserConfirmationModalProps) {
@@ -20,8 +22,8 @@ function VerifyUserConfirmationModal({
 			visibility={visibility}
 			title={title}
 			firstParagraph={{
-				text: 'você tem certeza qaue quer verificar esse perfil?',
-				highlightedWords: ['certeza', 'verificar']
+				text: `você tem certeza que quer ${`${subject} para` || 'verificar'} esse perfil?`,
+				highlightedWords: ['certeza', 'verificar', ...subject?.split(' ') || '']
 			}}
 			closeModal={closeModal}
 			affirmativeButton={{

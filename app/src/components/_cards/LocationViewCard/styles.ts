@@ -18,7 +18,7 @@ export const MapArea = styled.View`
 	width: 100%;
 	height: ${relativeScreenHeight(30)}px;
 	border-width: ${RFValue(2)}px;
-	border-radius: ${RFValue(15)}px;
+	border-radius: ${RFValue(13)}px;
 	overflow: hidden;
 	position: relative;
 `

@@ -3,6 +3,7 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import uuid from 'react-uuid'
 
 import { RFValue } from 'react-native-responsive-fontsize'
+import { SvgProps } from 'react-native-svg'
 import { Body, Container, Header, InputContainer, LastSigh, SearchInput } from './styles'
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup.svg'
@@ -23,32 +24,20 @@ import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { getCatalogIcons } from '../../../services/notion/getCatalogIcons'
+import { VerticalSigh } from '../../../components/VerticalSigh'
 
-type CategoryEntries = [string & { label: string, value: string, slug: string, tags: string[] }]
+type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 
 function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
 
-	const [catalogIcons, setCatalogIcons] = useState([])
 	const [searchText, setSearchText] = useState('')
 
 	const feedPosts = [...locationDataContext.feedPosts.nearby, ...locationDataContext.feedPosts.city, ...locationDataContext.feedPosts.country] || []
 
 	useEffect(() => {
 		setPostTypeOnSearchParams()
-		loadCatalogIcons()
 	}, [])
-
-	const loadCatalogIcons = async () => {
-		return getCatalogIcons()
-			.then((icons) => {
-				setCatalogIcons(icons)
-			})
-			.catch((err) => {
-				console.log(err)
-			})
-	}
 
 	const setPostTypeOnSearchParams = () => {
 		setLocationDataOnContext({ searchParams: { ...locationDataContext.searchParams, postType: route.params.postType } })
@@ -87,18 +76,6 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 		}
 	}
 
-	const getRelativeIconUrl = (categorySlug: string) => {
-		if (!catalogIcons.length) return ''
-		const icon = catalogIcons.reduce((total: any, current: any) => { // TODO Type
-			if (current.iconSlug === categorySlug) {
-				return current
-			}
-			return total
-		}, {})
-
-		return icon.iconUri || ''
-	}
-
 	const getRelativeTitle = () => {
 		switch (route.params.postType) {
 			case 'service': return 'serviços' as PostType
@@ -117,7 +94,6 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 				<CategoryCard
 					hasElements={false}
 					title={'sem catagorias'}
-					svgUri={''}
 					onPress={() => { }}
 				/>
 			)
@@ -136,7 +112,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 					inactiveColor={getInactiveCardColor()}
 					key={uuid()}
 					title={category[1].label}
-					svgUri={getRelativeIconUrl(category[1].slug)}
+					SvgIcon={category[1].SvgIcon}
 					onPress={() => navigateToCategoryDetails(category[1])}
 				/>
 			)
@@ -163,7 +139,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			inactiveColor: getInactiveCardColor(),
 			categoryName: categorySelected.value,
 			categoryTitle: categorySelected.label,
-			categoryIcon: getRelativeIconUrl(categorySelected.slug),
+			categorySvgIcon: categorySelected.SvgIcon,
 			categoryTags: categorySelected.tags
 		}
 
@@ -177,7 +153,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			inactiveColor: getInactiveCardColor(),
 			categoryName: '',
 			categoryTitle: '',
-			categoryIcon: '',
+			categorySvgIcon: null,
 			categoryTags: ['']
 		}
 
@@ -209,6 +185,7 @@ function PostCategories({ route, navigation }: PostCategoriesScreenProps) {
 			<KeyboardAvoidingView style={{ flex: 1 }}>
 				<Body style={{ backgroundColor: getRelativeColor() }}>
 					<ScrollView showsVerticalScrollIndicator={false}>
+						<VerticalSigh />
 						<SelectButtonsContainer backgroundColor={'transparent'} noPadding>
 							{renderCategories()}
 						</SelectButtonsContainer>

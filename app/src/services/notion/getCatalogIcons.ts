@@ -1,6 +1,13 @@
 /* eslint-disable camelcase */
-import { NOTION_APPICONS_ID, NOTION_APPICONS_KEY } from '@env'
+
+/*
+	[deprecated] = 30/jul/2023
+*/
+
 import axios from 'axios'
+import { getEnvVars } from '../../../environment'
+
+const { NOTION_APPICONS_ID, NOTION_APPICONS_KEY } = getEnvVars()
 
 async function getCatalogIcons() {
 	const options = {

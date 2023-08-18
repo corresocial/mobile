@@ -46,7 +46,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 	}, [message, keyboardOpened])
 
 	const inputRefs = {
-		itemDescriptionInput: useRef<TextInput>(null),
+		descriptionInput: useRef<TextInput>(null),
 	}
 
 	const validateItemDescription = (text: string) => {
@@ -110,7 +110,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 					value={message}
 					relativeWidth={'100%'}
 					initialNumberOfLines={2}
-					textInputRef={inputRefs.itemDescriptionInput}
+					textInputRef={inputRefs.descriptionInput}
 					defaultBackgroundColor={theme.white2}
 					defaultBorderBottomColor={theme.black4}
 					validBackgroundColor={theme.orange1}

@@ -32,7 +32,7 @@ import { LocationChangeConfirmationModal } from '../../../components/_modals/Loc
 
 function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, setDataOnSecureStore, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
 
@@ -120,12 +120,6 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 	}
 
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectCultureLocationView', 'location')
-
-	const getLastUserPost = () => {
-		const userPosts: PostCollection[] = userDataContext.posts || []
-		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
-		return lastUserPost
-	}
 
 	const getLastPostAddress = () => {
 		const lastUserPost: PostCollection = getLastUserPost()

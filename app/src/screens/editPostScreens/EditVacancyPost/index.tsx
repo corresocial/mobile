@@ -33,7 +33,7 @@ import { LocationChangeConfirmationModal } from '../../../components/_modals/Loc
 
 function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
-	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
+	const { userDataContext, setUserDataOnContext, setDataOnSecureStore, getLastUserPost } = useContext(AuthContext)
 	const { setStateDataOnContext } = useContext(StateContext)
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
 
@@ -108,12 +108,6 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	}
 
 	const navigateToEditLocationScreen = () => navigateToEditScreen('SelectVacancyLocationView', 'location')
-
-	const getLastUserPost = () => {
-		const userPosts: PostCollection[] = userDataContext.posts || []
-		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
-		return lastUserPost
-	}
 
 	const getLastPostAddress = () => {
 		const lastUserPost: PostCollection = getLastUserPost()

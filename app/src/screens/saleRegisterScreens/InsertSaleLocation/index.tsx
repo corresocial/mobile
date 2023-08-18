@@ -17,7 +17,7 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 
 function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps) {
-	const { userDataContext } = useContext(AuthContext)
+	const { userDataContext, getLastUserPost } = useContext(AuthContext)
 	const { setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
@@ -35,12 +35,6 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 	const currentLocationIsInAnotherCity = (city: string) => {
 		if (!city) return false
 		return city !== getLastPostCity()
-	}
-
-	const getLastUserPost = () => {
-		const userPosts: PostCollection[] = userDataContext.posts || []
-		const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
-		return lastUserPost
 	}
 
 	const getLastPostCity = () => {
