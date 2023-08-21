@@ -3,8 +3,9 @@ import React from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 
 import { ServiceStackParamList } from './types'
+
+import { InsertServiceTitle } from '../../../screens/serviceRegisterScreens/InsertServiceTitle'
 import { InsertServiceDescription } from '../../../screens/serviceRegisterScreens/InsertServiceDescription'
-import { InsertServiceName } from '../../../screens/serviceRegisterScreens/InsertServiceName'
 import { SelectServiceCategory } from '../../../screens/serviceRegisterScreens/SelectServiceCategory'
 import { InsertServicePicture } from '../../../screens/serviceRegisterScreens/InsertServicePicture'
 import { ServicePicturePreview } from '../../../screens/serviceRegisterScreens/ServicePicturePreview'
@@ -40,7 +41,7 @@ export function ServiceStack() {
 			>
 				<Stack.Screen name={'SelectServiceCategory'} component={SelectServiceCategory} />
 				<Stack.Screen name={'SelectServiceTags'} component={SelectServiceTags} />
-				<Stack.Screen name={'InsertServiceName'} component={InsertServiceName} />
+				<Stack.Screen name={'InsertServiceTitle'} component={InsertServiceTitle} />
 				<Stack.Screen name={'InsertServiceDescription'} component={InsertServiceDescription} />
 				<Stack.Screen name={'InsertServicePicture'} component={InsertServicePicture} />
 				<Stack.Screen name={'ServicePicturePreview'} component={ServicePicturePreview} />

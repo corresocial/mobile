@@ -3,7 +3,7 @@ import { UserStackParamList } from '../UserStack/types'
 
 export type ServiceStackParamList = {
 	InsertServiceDescription: { editMode: boolean, initialValue: string } | undefined
-	InsertServiceName: { editMode: boolean, initialValue: string } | undefined
+	InsertServiceTitle: { editMode: boolean, initialValue: string } | undefined
 	InsertServicePicture: undefined
 	ServicePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectServiceCategory: { editMode: boolean } | undefined

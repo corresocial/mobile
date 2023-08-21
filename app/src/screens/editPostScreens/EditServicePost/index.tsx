@@ -189,7 +189,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					title={'título do post'}
 					highlightedWords={['título']}
 					value={getPostField('title')}
-					onEdit={() => navigateToEditScreen('InsertServiceName', 'title')}
+					onEdit={() => navigateToEditScreen('InsertServiceTitle', 'title')}
 				/>
 				<VerticalSigh />
 				<DescriptionCard

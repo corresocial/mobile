@@ -3,7 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { ServiceStackParamList } from '../types'
 
 export type InsertServiceDescriptionScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertServiceDescription'>
-export type InsertServiceNameScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertServiceName'>
+export type InsertServiceTitleScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertServiceTitle'>
 export type InsertServicePictureScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertServicePicture'>
 export type ServicePicturePreviewScreenProps = NativeStackScreenProps<ServiceStackParamList, 'ServicePicturePreview'>
 export type SelectServiceCategoryScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectServiceCategory'>

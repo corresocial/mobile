@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { theme } from '../../../common/theme'
 
-import { InsertServiceNameScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
+import { InsertServiceTitleScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -11,7 +11,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-function InsertServiceName({ route, navigation }: InsertServiceNameScreenProps) {
+function InsertServiceTitle({ route, navigation }: InsertServiceTitleScreenProps) {
 	const { isSecondPost, setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
@@ -65,4 +65,4 @@ function InsertServiceName({ route, navigation }: InsertServiceNameScreenProps) 
 	)
 }
 
-export { InsertServiceName }
+export { InsertServiceTitle }
