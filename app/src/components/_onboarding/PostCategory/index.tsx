@@ -59,9 +59,10 @@ function PostCategory({ backgroundColor, progress, categories, savePostCategory,
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={17}
-					message={'em qual categoria seu post se encaixa?'}
+					reducedPaddingVertical
+					borderLeftWidth={8}
+					fontSize={16}
+					message={'a qual categoria pertence?'}
 					highlightedWords={['categoria', 'seu', 'post']}
 				>
 					<ProgressBar

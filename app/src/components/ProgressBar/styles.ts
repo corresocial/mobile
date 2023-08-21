@@ -10,7 +10,7 @@ export const Container = styled.View`
 export const IndicatorLabel = styled.Text`
     width: 100%;
     text-align: center;
-    font-size: ${RFValue(14)}px;
+    font-size: ${RFValue(12)}px;
     font-family: Arvo_400Regular;
     margin-bottom: ${relativeScreenHeight(1)}px;
 	border-radius: 100px;

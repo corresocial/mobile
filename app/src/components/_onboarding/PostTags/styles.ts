@@ -13,7 +13,7 @@ export const ContainerBottom = styled.View`
 export const InputTagArea = styled.View`
     width: 100%;
     padding-horizontal: ${relativeScreenWidth(4)}px;
-    padding-top: ${relativeScreenHeight(1.4)}px;
+    padding-vertical: ${relativeScreenHeight(2)}px;
 `
 
 export const TagsUnselectedArea = styled.View`

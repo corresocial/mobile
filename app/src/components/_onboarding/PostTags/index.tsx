@@ -21,10 +21,10 @@ import { SelectButtonsContainer } from '../../../components/_containers/SelectBu
 import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { LineInput } from '../../../components/LineInput'
 import { SelectedTagsHorizontalList } from '../../../components/SelectedTagsHorizontalList'
 import { InfoCard } from '../../../components/_cards/InfoCard'
 import { MacroCategory } from '../../../services/firebase/types'
+import { SearchInput } from '../../_inputs/SearchInput'
 
 interface PostTagsProps {
 	backgroundColor: string
@@ -78,9 +78,11 @@ function PostTags({ backgroundColor, lightColor, currentCategory, addNewTag, sav
 
 		if (!lowerCaseTag.length) return
 		if (currentCategory.tags.includes(lowerCaseTag as never)) {
+			onSelectTag(lowerCaseTag)
 			setTextTag('')
-			return onSelectTag(lowerCaseTag)
+			return
 		}
+
 		const currentTagsSelected = [...selectedTags]
 		currentTagsSelected.push(lowerCaseTag)
 		setSelectedTags(currentTagsSelected)
@@ -96,6 +98,10 @@ function PostTags({ backgroundColor, lightColor, currentCategory, addNewTag, sav
 	const getCurrentCategoryLabel = () => currentCategory.label
 
 	const categoryLabelSelectedIsLarge = () => getCurrentCategoryLabelHightlighted().length > 1 || getCurrentCategoryLabel().length > 14
+
+	const textAlreadyATag = (text: string) => {
+		return selectedTags.includes(text.toLowerCase()) || currentCategory.tags.includes(text.toLowerCase())
+	}
 
 	return (
 		<Container>
@@ -116,26 +122,13 @@ function PostTags({ backgroundColor, lightColor, currentCategory, addNewTag, sav
 			</DefaultHeaderContainer>
 			<ContainerBottom>
 				<InputTagArea >
-					<LineInput
+					<SearchInput
 						value={textTag}
-						relativeWidth={'100%'}
-						defaultBackgroundColor={theme.white2}
-						defaultBorderBottomColor={theme.black4}
 						validBackgroundColor={lightColor}
-						validBorderBottomColor={theme.black4}
-						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.red5}
-						textAlign={'left'}
-						lastInput
-						fontSize={16}
-						blurOnSubmit
-						invalidTextAfterSubmit={false}
-						placeholder={'digite ou escolha alguma das opções'}
-						keyboardType={'default'}
-						textIsValid={currentCategory.tags.includes(textTag as never)}
-						textInputRef={null}
-						onPressKeyboardSubmit={saveNewTag}
+						validateText={textAlreadyATag}
+						autoCapitalize={'none'}
 						onChangeText={(text: string) => setTextTag(text)}
+						onPressKeyboardSubmit={saveNewTag}
 					/>
 				</InputTagArea>
 				{
