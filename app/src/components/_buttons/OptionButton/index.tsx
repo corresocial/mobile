@@ -19,7 +19,7 @@ import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 interface OptionButtonProps {
-	color: string
+	color?: string
 	label: string
 	labelColor?: string
 	labelSize?: number
@@ -83,7 +83,7 @@ function OptionButton({
 			>
 				<ContainerSurface
 					style={{
-						backgroundColor: color,
+						backgroundColor: color || theme.white3,
 						marginLeft: buttonPressed ? RFValue(7) : 0
 					}}
 				>

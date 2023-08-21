@@ -80,7 +80,6 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				<SubscriptionButton customTitle={'assinatura corre.'} onPress={performUserSubscription} />
 				<VerticalSigh />
 				<OptionButton
-					color={theme.white3}
 					label={'quem somos'}
 					highlightedWords={['quem', 'somos']}
 					labelSize={18}
@@ -93,7 +92,6 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				/>
 				<VerticalSigh />
 				<OptionButton
-					color={theme.white3}
 					label={'fale conosco'}
 					highlightedWords={['fale', 'conosco']}
 					relativeHeight={relativeScreenHeight(9)}
@@ -106,7 +104,6 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				/>
 				<VerticalSigh />
 				<OptionButton
-					color={theme.white3}
 					label={'faça uma doação'}
 					highlightedWords={['faça', 'uma', 'doação']}
 					relativeHeight={relativeScreenHeight(9)}
@@ -119,7 +116,6 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				/>
 				<VerticalSigh />
 				<OptionButton
-					color={theme.white3}
 					label={'seja voluntário'}
 					highlightedWords={['seja', 'voluntário']}
 					relativeHeight={relativeScreenHeight(9)}
@@ -132,7 +128,6 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				/>
 				<VerticalSigh />
 				<OptionButton
-					color={theme.white3}
 					label={'compartilhe'}
 					highlightedWords={['compartilhe']}
 					relativeHeight={relativeScreenHeight(9)}
@@ -145,7 +140,6 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				/>
 				<VerticalSigh />
 				<OptionButton
-					color={theme.white3}
 					label={'privacidade \ne segurança'}
 					highlightedWords={['privacidade', 'segurança']}
 					relativeHeight={relativeScreenHeight(10)}

@@ -10,8 +10,8 @@ import { VacancyPurpose } from '../../../services/firebase/types'
 import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function SelectVacancyPurpose({ route, navigation }: SelectVacancyPurposeScreenProps) {
 	const { setVacancyDataOnContext, getAditionalDataFromLastPost } = useContext(VacancyContext)
@@ -44,26 +44,26 @@ function SelectVacancyPurpose({ route, navigation }: SelectVacancyPurposeScreenP
 			backgroundColor={theme.yellow2}
 			navigateBackwards={() => navigation.goBack()}
 		>
-			<PrimaryButton
-				justifyContent={'space-around'}
-				color={theme.white3}
-				relativeHeight={'25%'}
-				labelColor={theme.black4}
-				fontSize={16}
-				SecondSvgIcon={PersonWithSuitCaseIcon}
+			<OptionButton
 				label={'procurando \numa vaga'}
 				highlightedWords={['\numa', 'vaga']}
+				labelSize={18}
+				relativeHeight={'28%'}
+				SvgIcon={PersonWithSuitCaseIcon}
+				svgIconScale={['50%', '50%']}
+				leftSideColor={theme.yellow3}
+				leftSideWidth={'22%'}
 				onPress={() => saveWorkplaceType('findVacancy')}
 			/>
-			<PrimaryButton
-				justifyContent={'space-around'}
-				color={theme.white3}
-				relativeHeight={'25%'}
-				labelColor={theme.black4}
-				fontSize={16}
-				SecondSvgIcon={SuitCaseIcon}
+			<OptionButton
 				label={'procurando \num profissional'}
 				highlightedWords={['\num', 'profissional']}
+				labelSize={18}
+				relativeHeight={'28%'}
+				SvgIcon={SuitCaseIcon}
+				svgIconScale={['50%', '50%']}
+				leftSideColor={theme.yellow3}
+				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('findProffessional')}
 			/>
 		</PostSelectButton>

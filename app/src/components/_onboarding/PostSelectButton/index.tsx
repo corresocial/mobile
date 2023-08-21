@@ -23,15 +23,16 @@ function PostSelectButton({ title, highlightedWords, backgroundColor, children, 
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(26)}
-				relativeHeight={relativeScreenHeight(26)}
+				minHeight={relativeScreenHeight(30)}
+				relativeHeight={relativeScreenHeight(30)}
 				centralized
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={17}
+					reducedPaddingVertical
+					borderLeftWidth={8}
+					fontSize={16}
 					message={title}
 					highlightedWords={highlightedWords}
 				/>
