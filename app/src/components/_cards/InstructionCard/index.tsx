@@ -41,7 +41,7 @@ function InstructionCard({
 				flex,
 				backgroundColor: backgroundColor || theme.white3,
 				padding: RFValue(padding),
-				paddingVertical: reducedPaddingVertical ? RFValue(8) : RFValue(padding),
+				paddingVertical: reducedPaddingVertical ? RFValue(10) : RFValue(padding),
 			}}
 		>
 			{title && <MessageTitle>{showMessageWithHighlight(title, highlightedWords)}</MessageTitle>}

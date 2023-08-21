@@ -21,5 +21,4 @@ export const TextInput = styled.TextInput`
 	color: ${({ theme }) => theme.black4};
     padding: ${relativeScreenHeight(2)}px;
     max-Height: ${relativeScreenHeight(25)}px;
-
 `
