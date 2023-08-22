@@ -1,6 +1,7 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { TextInputProps } from 'react-native'
 
+import { useTheme } from 'styled-components'
 import { Container, SideArea, TextInput } from './styles'
 import LoupWhiteIcon from '../../../assets/icons/loup-white.svg'
 import XWhiteIcon from '../../../assets/icons/x-white.svg'
@@ -23,7 +24,10 @@ function SearchInput({
 	onChangeText,
 	...propsRest
 }: SearchInputProps) {
+	const theme = useTheme()
 	const inputRef = useRef()
+
+	const [focused, setFocused] = useState(false)
 
 	const clearInput = () => onChangeText('')
 
@@ -34,6 +38,7 @@ function SearchInput({
 			activeOpacity={1}
 			textIsValid={validateText && validateText(value)}
 			validBackgroundColor={validBackgroundColor}
+			focused={focused}
 		>
 			{
 				!somethingWasTyped && (
@@ -48,8 +53,10 @@ function SearchInput({
 				value={value}
 				keyboardType={keyboardType || 'ascii-capable'}
 				placeholder={placeholder || 'buscar'}
-				// placeholderTextColor={theme.black1}
+				placeholderTextColor={theme.black1}
 				returnKeyType={'search'}
+				onFocus={() => setFocused(true)}
+				onBlur={() => setFocused(false)}
 				onChangeText={onChangeText}
 				onSubmitEditing={onPressKeyboardSubmit}
 			/>

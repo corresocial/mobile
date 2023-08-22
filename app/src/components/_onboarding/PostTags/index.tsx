@@ -141,9 +141,7 @@ function PostTags({ backgroundColor, lightColor, currentCategory, addNewTag, sav
 						/>
 					)
 				}
-				<SelectButtonsContainer
-					backgroundColor={theme.white2}
-				>
+				<SelectButtonsContainer backgroundColor={theme.white3}>
 					<ScrollView
 						showsVerticalScrollIndicator={false}
 						style={{

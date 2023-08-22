@@ -5,16 +5,17 @@ import { relativeScreenWidth } from '../../../common/screenDimensions'
 interface ContainerProps {
 	textIsValid?: boolean
 	validBackgroundColor?: string
+	focused: boolean
 }
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
     width: 100%;
 	min-height: ${RFValue(40)}px;
 	padding-horizontal: ${RFValue(5)}px;
-	background-color: ${({ theme, textIsValid, validBackgroundColor }) => (
+	background-color: ${({ theme, textIsValid, focused, validBackgroundColor }) => (
 		textIsValid && validBackgroundColor
 			? validBackgroundColor
-			: theme.white1
+			: focused ? theme.white3 : theme.white2
 	)};
     height: ${relativeScreenWidth(14)}px;
     aling-items: center;

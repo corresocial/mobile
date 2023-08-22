@@ -11,9 +11,9 @@ import { FormContainer } from '../../_containers/FormContainer'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { BackButton } from '../../_buttons/BackButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
-import { LineInput } from '../../LineInput'
 import { ProgressBar } from '../../ProgressBar'
 import { SkipButton } from '../../_buttons/SkipButton'
+import { InlineInput } from '../../_inputs/InlineInput'
 
 interface PostInputTextProps {
 	backgroundColor: string
@@ -74,12 +74,11 @@ function PostInputText({
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white2}
+				backgroundColor={theme.white3}
 				justifyContent={'center'}
 			>
-				<LineInput
+				<InlineInput
 					value={inputText}
-					relativeWidth={'100%'}
 					defaultBackgroundColor={theme.white2}
 					defaultBorderBottomColor={theme.black4}
 					validBackgroundColor={validationColor}
