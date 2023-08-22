@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 
 import { theme } from '../../../common/theme'
 import ColorPaletWhiteIcon from '../../../assets/icons/colorPalet-white.svg'
-import CalendarEverydayWhiteIcon from '../../../assets/icons/calendarEveryday-unfilled.svg'
+import CalendarEverydayWhiteIcon from '../../../assets/icons/calendarSomeday-white.svg'
 import BooksWhiteIcon from '../../../assets/icons/books-white.svg'
 
 import { SelectCultureTypeScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
@@ -11,8 +11,8 @@ import { CultureType } from '../../../services/firebase/types'
 import { CultureContext } from '../../../contexts/CultureContext'
 import { EditContext } from '../../../contexts/EditContext'
 
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) {
 	const { setCultureDataOnContext, getAditionalDataFromLastPost } = useContext(CultureContext)
@@ -41,37 +41,41 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 		<PostSelectButton
 			title={'você está \npostando sobre arte, \num evento ou educação?'}
 			highlightedWords={['arte', 'evento', 'educação']}
-			backgroundColor={theme.blue2}
+			headerBackgroundColor={theme.blue2}
+			backgroundColor={theme.white3}
 			navigateBackwards={() => navigation.goBack()}
 		>
-			<PrimaryButton
-				justifyContent={'space-around'}
-				color={theme.white3}
-				relativeHeight={'22%'}
-				labelColor={theme.black4}
-				SecondSvgIcon={ColorPaletWhiteIcon}
+			<OptionButton
 				label={'postando arte'}
 				highlightedWords={['arte']}
+				labelSize={18}
+				relativeHeight={'28%'}
+				SvgIcon={ColorPaletWhiteIcon}
+				svgIconScale={['50%', '50%']}
+				leftSideColor={theme.blue3}
+				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('art')}
 			/>
-			<PrimaryButton
-				justifyContent={'space-around'}
-				color={theme.white3}
-				relativeHeight={'22%'}
-				labelColor={theme.black4}
-				SecondSvgIcon={CalendarEverydayWhiteIcon}
+			<OptionButton
 				label={'postando evento'}
 				highlightedWords={['evento']}
+				labelSize={18}
+				relativeHeight={'28%'}
+				SvgIcon={CalendarEverydayWhiteIcon}
+				svgIconScale={['70%', '70%']}
+				leftSideColor={theme.blue3}
+				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('event')}
 			/>
-			<PrimaryButton
-				justifyContent={'space-around'}
-				color={theme.white3}
-				relativeHeight={'22%'}
-				labelColor={theme.black4}
-				SecondSvgIcon={BooksWhiteIcon}
+			<OptionButton
 				label={'postando educação'}
 				highlightedWords={['educação']}
+				labelSize={18}
+				relativeHeight={'28%'}
+				SvgIcon={BooksWhiteIcon}
+				svgIconScale={['60%', '60%']}
+				leftSideColor={theme.blue3}
+				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('education')}
 			/>
 		</PostSelectButton>
