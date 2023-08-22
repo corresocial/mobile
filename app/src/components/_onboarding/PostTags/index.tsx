@@ -134,7 +134,7 @@ function PostTags({ backgroundColor, lightColor, currentCategory, addNewTag, sav
 				{
 					!!selectedTags.length
 					&& (
-						< SelectedTagsHorizontalList
+						<SelectedTagsHorizontalList
 							backgroundSelected={lightColor}
 							selectedTags={selectedTags}
 							onSelectTag={onSelectTag}

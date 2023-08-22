@@ -40,6 +40,13 @@ export const LeftArea = styled.View`
 	border-color: ${({ theme }) => theme.black4};
 `
 
+export const LeftSideText = styled.Text`
+	text-align: center;
+	color: ${({ theme }) => theme.white3};
+	font-size: ${RFValue(12)}px;
+	font-family: Arvo_400Regular;
+`
+
 export const LabelDescriptionArea = styled.View`
     flex: 1;
     padding-vertical: ${RFValue(12)}px;
@@ -59,11 +66,15 @@ export const Description = styled.Text`
     font-family: Arvo_400Regular;
 `
 
-export const ShortDescription = styled.Text`
+interface ShortDescriptionProps {
+	fontSize?: number
+}
+
+export const ShortDescription = styled.Text<ShortDescriptionProps>`
 	width: 100%;
 	align-self: center;
 	text-align: center;
-	font-size: ${RFValue(11)}px;
+	font-size: ${({ fontSize }) => (fontSize || RFValue(11))}px;
 	margin-top: 3%;
     color: ${({ theme }) => theme.black4};
     font-family: Arvo_400Regular;

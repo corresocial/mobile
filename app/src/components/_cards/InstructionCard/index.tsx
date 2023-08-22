@@ -13,7 +13,6 @@ interface InstructionCardProps {
 	highlightedWords?: string[]
 	backgroundColor?: string
 	padding?: number
-	reducedPaddingVertical?: boolean
 	fontSize?: number
 	lineHeight?: number
 	borderLeftWidth?: number
@@ -27,10 +26,9 @@ function InstructionCard({
 	highlightedWords,
 	backgroundColor,
 	padding = 15,
-	reducedPaddingVertical,
 	fontSize,
 	lineHeight,
-	borderLeftWidth = 5,
+	borderLeftWidth = 8,
 	flex = 1,
 	children
 }: InstructionCardProps) {
@@ -41,7 +39,7 @@ function InstructionCard({
 				flex,
 				backgroundColor: backgroundColor || theme.white3,
 				padding: RFValue(padding),
-				paddingVertical: reducedPaddingVertical ? RFValue(10) : RFValue(padding),
+				paddingVertical: RFValue(14),
 			}}
 		>
 			{title && <MessageTitle>{showMessageWithHighlight(title, highlightedWords)}</MessageTitle>}

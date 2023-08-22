@@ -11,7 +11,8 @@ import {
 	LeftArea,
 	LabelDescriptionArea,
 	Description,
-	ShortDescription
+	ShortDescription,
+	LeftSideText
 } from './styles'
 import { theme } from '../../../common/theme'
 
@@ -29,9 +30,12 @@ interface OptionButtonProps {
 	svgIconScale?: [height: string, width: string]
 	leftSideColor?: string
 	leftSideWidth?: string | number
+	leftSideText?: string
 	highlightedWords?: string[]
 	description?: string
 	shortDescription?: string
+	shortDescriptionFontSize?: number
+	shortDescriptionHighlightedWords?: string[]
 	onPress: () => void
 }
 
@@ -47,8 +51,11 @@ function OptionButton({
 	svgIconScale,
 	leftSideColor = theme.orange2,
 	leftSideWidth,
+	leftSideText,
 	description,
 	shortDescription,
+	shortDescriptionFontSize,
+	shortDescriptionHighlightedWords = [],
 	onPress
 }: OptionButtonProps) {
 	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
@@ -94,6 +101,11 @@ function OptionButton({
 						}}
 					>
 						{SvgIcon && <SvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />}
+						{
+							leftSideText && (
+								<LeftSideText>{showMessageWithHighlight(leftSideText, ['\ngrátis', '35,00', '60,00'])}</LeftSideText>
+							)
+						}
 					</LeftArea>
 					<LabelDescriptionArea>
 						<ButtonLabel style={{
@@ -115,8 +127,8 @@ function OptionButton({
 						{
 							shortDescription
 							&& (
-								<ShortDescription centralized>
-									{shortDescription}
+								<ShortDescription fontSize={shortDescriptionFontSize} >
+									{showMessageWithHighlight(shortDescription, shortDescriptionHighlightedWords)}
 								</ShortDescription>
 							)
 						}

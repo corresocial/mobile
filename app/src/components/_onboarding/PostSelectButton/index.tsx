@@ -31,8 +31,6 @@ function PostSelectButton({ title, highlightedWords, headerBackgroundColor, back
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					reducedPaddingVertical
-					borderLeftWidth={8}
 					fontSize={16}
 					message={title}
 					highlightedWords={highlightedWords}

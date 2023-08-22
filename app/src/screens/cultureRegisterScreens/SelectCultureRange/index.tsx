@@ -57,7 +57,6 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 				closeModal={() => setSubscriptionModalIsVisible(false)}
 				onPressButton={closeSubscriptionInfoModal}
 			/>
-
 			<PostRange
 				backgroundColor={theme.blue2}
 				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}

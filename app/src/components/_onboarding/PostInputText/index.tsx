@@ -62,7 +62,6 @@ function PostInputText({
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					borderLeftWidth={8}
 					fontSize={16}
 					message={customTitle || 'qual o título do seu post?'}
 					highlightedWords={customHighlight || ['título']}

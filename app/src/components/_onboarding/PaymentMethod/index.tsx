@@ -46,7 +46,6 @@ function PaymentMethod({
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					borderLeftWidth={3}
 					fontSize={17}
 					message={customTitle || 'você vende, aceita troca ou os dois ?'}
 					highlightedWords={customHighlight || ['vende', 'aceita', 'troca', 'os', 'dois']}

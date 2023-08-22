@@ -34,8 +34,7 @@ function PostLocationView({ backgroundColor, progress, saveLocationViewType, nav
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={17}
+					fontSize={16}
 					message={'como você prefere que outros usuários vejam sua localização?'}
 					highlightedWords={['como', 'você', 'prefere', 'vejam', 'sua', 'localização']}
 				>

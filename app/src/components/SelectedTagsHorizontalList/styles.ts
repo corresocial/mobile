@@ -7,7 +7,7 @@ export const TagsSelectedArea = styled.View`
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
-    margin-top: ${relativeScreenHeight(4)}px;
+    margin-top: ${relativeScreenHeight(1)}px;
 	overflow: visible;
 `
 

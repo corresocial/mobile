@@ -61,8 +61,7 @@ function PostInputDescription({
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={17}
+					fontSize={16}
 					message={customTitle || 'escreva uma descrição para o seu post?'}
 					highlightedWords={customHighlight || ['descrição', 'o', 'seu', 'post']}
 				>
