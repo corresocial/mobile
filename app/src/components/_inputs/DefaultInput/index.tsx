@@ -14,7 +14,7 @@ import { BottomLine, Container, ContainerInner, TextInput } from './styles'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 
-interface InlineInputProps extends TextInputProps {
+interface DefaultInputProps extends TextInputProps {
 	value: string
 	relativeWidth?: string
 	initialNumberOfLines?: number
@@ -22,11 +22,7 @@ interface InlineInputProps extends TextInputProps {
 	previousInputRef?: any
 	nextInputRef?: any
 	defaultBackgroundColor: string
-	defaultBorderBottomColor: string
 	validBackgroundColor: string
-	validBorderBottomColor: string
-	invalidBackgroundColor?: string
-	invalidBorderBottomColor?: string
 	secureTextEntry?: boolean
 	invalidTextAfterSubmit?: boolean
 	fontSize?: number
@@ -47,7 +43,7 @@ interface InlineInputProps extends TextInputProps {
 	onChangeText: (text: string) => void
 }
 
-function InlineInput({
+function DefaultInput({
 	value,
 	relativeWidth = '100%',
 	initialNumberOfLines = 2,
@@ -55,11 +51,7 @@ function InlineInput({
 	previousInputRef,
 	nextInputRef,
 	defaultBackgroundColor,
-	defaultBorderBottomColor,
 	validBackgroundColor,
-	validBorderBottomColor,
-	invalidBackgroundColor = theme.red1,
-	invalidBorderBottomColor = theme.red5,
 	maxLength,
 	secureTextEntry,
 	invalidTextAfterSubmit = false,
@@ -81,7 +73,7 @@ function InlineInput({
 	validateText = () => false,
 	onChangeText,
 	...propsRest
-}: InlineInputProps) {
+}: DefaultInputProps) {
 	const lineHeight = relativeScreenHeight(5)
 	const minLineHeight = initialNumberOfLines * (initialNumberOfLines <= 2 ? relativeScreenHeight(5) : relativeScreenHeight(4.4))
 	const maxLineHeight = relativeScreenHeight(25)
@@ -130,13 +122,12 @@ function InlineInput({
 
 		if (invalidTextAfterSubmit || error) {
 			return {
-				borderBottomColor: invalidBorderBottomColor,
-				backgroundColor: invalidBackgroundColor,
+				backgroundColor: theme.red1,
 			}
 		}
 
 		return {
-			borderBottomColor: validated || textIsValid ? theme.black4 : defaultBorderBottomColor,
+			borderBottomColor: theme.black4,
 			backgroundColor: validated || textIsValid ? validBackgroundColor : focused ? theme.white3 : customDefaultBackgroundColor
 		}
 	}
@@ -198,7 +189,7 @@ function InlineInput({
 							<FontAwesome5
 								name={'minus'}
 								size={RFValue(20)}
-								color={validBorderBottomColor}
+								color={theme.black4}
 								style={{ padding: 15 }}
 							/>
 						</TouchableOpacity>
@@ -210,4 +201,4 @@ function InlineInput({
 	)
 }
 
-export { InlineInput }
+export { DefaultInput }

@@ -13,7 +13,7 @@ import { BackButton } from '../../_buttons/BackButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
 import { ProgressBar } from '../../ProgressBar'
 import { SkipButton } from '../../_buttons/SkipButton'
-import { InlineInput } from '../../_inputs/InlineInput'
+import { DefaultInput } from '../../_inputs/DefaultInput'
 
 interface PostInputTextProps {
 	backgroundColor: string
@@ -77,14 +77,10 @@ function PostInputText({
 				backgroundColor={theme.white3}
 				justifyContent={'center'}
 			>
-				<InlineInput
+				<DefaultInput
 					value={inputText}
 					defaultBackgroundColor={theme.white2}
-					defaultBorderBottomColor={theme.black4}
 					validBackgroundColor={validationColor}
-					validBorderBottomColor={theme.black4}
-					invalidBackgroundColor={theme.red1}
-					invalidBorderBottomColor={theme.red5}
 					lastInput
 					textAlign={'left'}
 					fontSize={16}
