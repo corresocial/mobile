@@ -48,6 +48,22 @@ function ServiceLocationViewPreview({ route, navigation }: ServiceLocationViewPr
 
 		setServiceDataOnContext({ locationView })
 		navigation.navigate('SelectDeliveryMethod')
+
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'EditServicePostReview',
+				params: {
+					postData: {
+						...serviceDataContext,
+						locationView,
+						paymentType: serviceDataContext.paymentType || 'sale',
+						saleValue: serviceDataContext.saleValue || 'a combinar'
+					},
+					unsavedPost: true
+				}
+			}]
+		})
 	}
 
 	const getPostRange = () => {

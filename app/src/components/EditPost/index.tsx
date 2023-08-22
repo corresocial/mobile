@@ -462,6 +462,15 @@ function EditPost({
 		return unsavedPost ? savePost : editPost
 	}
 
+	const presentationPostCardData = {
+		...initialPostData,
+		...editDataContext.unsaved,
+		createdAt: new Date(),
+		description: (editDataContext.unsaved.description || initialPostData.description) || 'escreva uma descrição para seu post',
+		paymentType: (editDataContext.unsaved.paymentType || initialPostData.paymentType) || 'sale', // TODO Type
+		saleValue: (editDataContext.unsaved.saleValue || initialPostData.saleValue) || 'a combinar'
+	}
+
 	return (
 		<Container>
 			<DefaultConfirmationModal
@@ -531,7 +540,7 @@ function EditPost({
 							<PostCardContainer backgroundColor={backgroundColor} hasError={hasError}>
 								<PostCard
 									owner={owner}
-									post={{ ...initialPostData, ...editDataContext.unsaved, createdAt: new Date() }}
+									post={presentationPostCardData}
 									onPress={() => { }}
 								/>
 							</PostCardContainer>

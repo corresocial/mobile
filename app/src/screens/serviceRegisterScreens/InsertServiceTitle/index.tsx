@@ -44,7 +44,7 @@ function InsertServiceTitle({ route, navigation }: InsertServiceTitleScreenProps
 		}
 
 		setServiceDataOnContext({ title: inputText })
-		navigation.navigate('InsertServiceDescription')
+		navigation.navigate('SelectServiceRange')
 	}
 
 	return (

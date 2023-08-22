@@ -163,7 +163,6 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 				onPressButton={navigateToEditLocationScreen}
 				closeModal={toggleRangeChangeModalVisibility}
 			/>
-
 			<EditPost
 				initialPostData={{ ...postData, postType: 'service' }}
 				owner={owner}

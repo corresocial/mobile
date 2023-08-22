@@ -33,11 +33,10 @@ function InsertServiceEndHour({ route, navigation }: InsertServiceEndHourScreenP
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endHour: '' })
 			navigation.goBack()
-			return
+			// return
 		}
 
-		setServiceDataOnContext({ endHour: '' as any })
-		navigation.reset({
+		/* navigation.reset({
 			index: 0,
 			routes: [{
 				name: 'EditServicePostReview',
@@ -46,7 +45,7 @@ function InsertServiceEndHour({ route, navigation }: InsertServiceEndHourScreenP
 					unsavedPost: true
 				}
 			}]
-		})
+		}) */
 	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
@@ -56,12 +55,12 @@ function InsertServiceEndHour({ route, navigation }: InsertServiceEndHourScreenP
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endHour })
 			navigation.goBack()
-			return
+			// return
 		}
 
-		setServiceDataOnContext({ endHour })
+		/* setServiceDataOnContext({ endHour }) */
 
-		navigation.reset({
+		/* navigation.reset({
 			index: 0,
 			routes: [{
 				name: 'EditServicePostReview',
@@ -70,7 +69,7 @@ function InsertServiceEndHour({ route, navigation }: InsertServiceEndHourScreenP
 					unsavedPost: true
 				}
 			}]
-		})
+		}) */
 	}
 
 	return (
