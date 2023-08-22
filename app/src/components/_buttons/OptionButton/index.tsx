@@ -31,6 +31,7 @@ interface OptionButtonProps {
 	leftSideColor?: string
 	leftSideWidth?: string | number
 	leftSideText?: string
+	leftSideTextColor?: string | boolean
 	highlightedWords?: string[]
 	description?: string
 	shortDescription?: string
@@ -52,6 +53,7 @@ function OptionButton({
 	leftSideColor = theme.orange2,
 	leftSideWidth,
 	leftSideText,
+	leftSideTextColor,
 	description,
 	shortDescription,
 	shortDescriptionFontSize,
@@ -103,7 +105,9 @@ function OptionButton({
 						{SvgIcon && <SvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />}
 						{
 							leftSideText && (
-								<LeftSideText>{showMessageWithHighlight(leftSideText, ['\ngrátis', '35,00', '60,00'])}</LeftSideText>
+								<LeftSideText leftSideTextColor={leftSideTextColor}>
+									{showMessageWithHighlight(leftSideText, ['\ngrátis', '35,00', '60,00'])}
+								</LeftSideText>
 							)
 						}
 					</LeftArea>

@@ -40,9 +40,13 @@ export const LeftArea = styled.View`
 	border-color: ${({ theme }) => theme.black4};
 `
 
-export const LeftSideText = styled.Text`
+interface LeftSideTextProps {
+	leftSideTextColor?: string
+}
+
+export const LeftSideText = styled.Text<LeftSideTextProps>`
 	text-align: center;
-	color: ${({ theme }) => theme.white3};
+	color: ${({ theme, leftSideTextColor }) => leftSideTextColor || theme.white3};
 	font-size: ${RFValue(12)}px;
 	font-family: Arvo_400Regular;
 `

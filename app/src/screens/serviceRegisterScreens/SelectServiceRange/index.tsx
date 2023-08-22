@@ -55,6 +55,7 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 			/>
 			<PostRange
 				backgroundColor={theme.purple2}
+				itemsColor={theme.purple3}
 				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}

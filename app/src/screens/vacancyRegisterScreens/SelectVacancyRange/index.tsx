@@ -61,6 +61,8 @@ function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps
 			/>
 			<PostRange
 				backgroundColor={theme.yellow2}
+				itemsColor={theme.yellow3}
+				isVacancy
 				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}

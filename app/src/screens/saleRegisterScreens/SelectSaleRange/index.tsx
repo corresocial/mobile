@@ -55,6 +55,7 @@ function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 			/>
 			<PostRange
 				backgroundColor={theme.green2}
+				itemsColor={theme.green3}
 				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}

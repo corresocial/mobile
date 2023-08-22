@@ -19,6 +19,8 @@ import { OptionButton } from '../../_buttons/OptionButton'
 
 interface PostRangeProps {
 	backgroundColor: string
+	itemsColor: string
+	isVacancy?: boolean
 	plansAvailable: StripeProducts
 	userSubscriptionRange: PostRangeType
 	progress: [value: number, range: number]
@@ -26,7 +28,7 @@ interface PostRangeProps {
 	navigateBackwards: () => void
 }
 
-function PostRange({ backgroundColor, plansAvailable, userSubscriptionRange, progress, savePostRange, navigateBackwards }: PostRangeProps) {
+function PostRange({ backgroundColor, itemsColor, isVacancy, plansAvailable, userSubscriptionRange, progress, savePostRange, navigateBackwards }: PostRangeProps) {
 	const getRelativeFooterValue = (range: PostRangeType) => {
 		switch (range) {
 			case 'near': {
@@ -78,9 +80,10 @@ function PostRange({ backgroundColor, plansAvailable, userSubscriptionRange, pro
 						relativeHeight={'26%'}
 						SvgIcon={MapPointWhiteIcon}
 						svgIconScale={['40%', '40%']}
-						leftSideColor={theme.purple3}
+						leftSideColor={itemsColor}
 						leftSideWidth={'25%'}
 						leftSideText={getRelativeFooterValue('near')}
+						leftSideTextColor={isVacancy && theme.black4}
 						onPress={() => savePostRange('near')}
 					/>
 					<OptionButton
@@ -92,9 +95,10 @@ function PostRange({ backgroundColor, plansAvailable, userSubscriptionRange, pro
 						relativeHeight={'26%'}
 						SvgIcon={CityWhiteIcon}
 						svgIconScale={['50%', '60%']}
-						leftSideColor={theme.purple3}
+						leftSideColor={itemsColor}
 						leftSideWidth={'25%'}
 						leftSideText={getRelativeFooterValue('city')}
+						leftSideTextColor={isVacancy && theme.black4}
 						onPress={() => plansAvailable.cityMonthly.price && savePostRange('city')}
 					/>
 					<OptionButton
@@ -106,9 +110,10 @@ function PostRange({ backgroundColor, plansAvailable, userSubscriptionRange, pro
 						relativeHeight={'26%'}
 						SvgIcon={BrazilWhiteIcon}
 						svgIconScale={['50%', '50%']}
-						leftSideColor={theme.purple3}
+						leftSideColor={itemsColor}
 						leftSideWidth={'25%'}
 						leftSideText={getRelativeFooterValue('country')}
+						leftSideTextColor={isVacancy && theme.black4}
 						onPress={() => plansAvailable.countryMonthly.price && savePostRange('country')}
 					/>
 				</ButtonsContainer>

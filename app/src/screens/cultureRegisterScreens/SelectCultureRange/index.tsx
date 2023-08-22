@@ -59,6 +59,7 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 			/>
 			<PostRange
 				backgroundColor={theme.blue2}
+				itemsColor={theme.blue3}
 				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}

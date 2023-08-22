@@ -32,6 +32,7 @@ function SelectVacancyLocationView({ route, navigation }: SelectVacancyLocationV
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<PostLocationView
 				backgroundColor={theme.yellow2}
+				itemsColor={theme.yellow3}
 				progress={[4, 5]}
 				saveLocationViewType={saveLocationViewType}
 				navigateBackwards={() => navigation.goBack()}
