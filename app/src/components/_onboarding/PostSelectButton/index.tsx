@@ -13,20 +13,21 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 interface PostSelectButtonProps {
 	title: string
 	highlightedWords: string[]
+	headerBackgroundColor?: string
 	backgroundColor: string
 	children?: React.ReactNode[]
 	navigateBackwards: () => void
 }
 
-function PostSelectButton({ title, highlightedWords, backgroundColor, children, navigateBackwards }: PostSelectButtonProps) {
+function PostSelectButton({ title, highlightedWords, headerBackgroundColor, backgroundColor, children, navigateBackwards }: PostSelectButtonProps) {
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={headerBackgroundColor || theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(30)}
 				relativeHeight={relativeScreenHeight(30)}
 				centralized
-				backgroundColor={theme.white3}
+				backgroundColor={headerBackgroundColor || theme.white3}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard

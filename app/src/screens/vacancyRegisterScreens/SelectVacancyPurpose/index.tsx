@@ -39,33 +39,35 @@ function SelectVacancyPurpose({ route, navigation }: SelectVacancyPurposeScreenP
 
 	return (
 		<PostSelectButton
-			title={'você está \nprocurando uma vaga \nou está \nprocurando um profissional?'}
-			highlightedWords={['uma', 'vaga', 'um', 'profissional']}
-			backgroundColor={theme.yellow2}
+			title={'você está \nprocurando uma vaga \nou um profissional?'}
+			highlightedWords={['vaga', 'profissional']}
+			headerBackgroundColor={theme.yellow2}
+			backgroundColor={theme.white3}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton
-				label={'procurando \numa vaga'}
-				highlightedWords={['\numa', 'vaga']}
-				labelSize={18}
-				relativeHeight={'28%'}
-				SvgIcon={PersonWithSuitCaseIcon}
-				svgIconScale={['50%', '50%']}
-				leftSideColor={theme.yellow3}
-				leftSideWidth={'22%'}
-				onPress={() => saveWorkplaceType('findVacancy')}
-			/>
-			<OptionButton
-				label={'procurando \num profissional'}
-				highlightedWords={['\num', 'profissional']}
+				label={'procurando \nprofissional'}
+				highlightedWords={['\nprofissional']}
 				labelSize={18}
 				relativeHeight={'28%'}
 				SvgIcon={SuitCaseIcon}
-				svgIconScale={['50%', '50%']}
+				svgIconScale={['55%', '55%']}
 				leftSideColor={theme.yellow3}
 				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('findProffessional')}
 			/>
+			<OptionButton
+				label={'procurando \nvaga'}
+				highlightedWords={['\nvaga']}
+				labelSize={18}
+				relativeHeight={'28%'}
+				SvgIcon={PersonWithSuitCaseIcon}
+				svgIconScale={['55%', '55%']}
+				leftSideColor={theme.yellow3}
+				leftSideWidth={'25%'}
+				onPress={() => saveWorkplaceType('findVacancy')}
+			/>
+
 		</PostSelectButton>
 	)
 }
