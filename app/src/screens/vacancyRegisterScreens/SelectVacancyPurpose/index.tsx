@@ -51,7 +51,7 @@ function SelectVacancyPurpose({ route, navigation }: SelectVacancyPurposeScreenP
 				labelSize={18}
 				relativeHeight={'28%'}
 				SvgIcon={SuitCaseIcon}
-				svgIconScale={['55%', '55%']}
+				svgIconScale={['50%', '50%']}
 				leftSideColor={theme.yellow3}
 				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('findProffessional')}
@@ -62,7 +62,7 @@ function SelectVacancyPurpose({ route, navigation }: SelectVacancyPurposeScreenP
 				labelSize={18}
 				relativeHeight={'28%'}
 				SvgIcon={PersonWithSuitCaseIcon}
-				svgIconScale={['55%', '55%']}
+				svgIconScale={['45%', '45%']}
 				leftSideColor={theme.yellow3}
 				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('findVacancy')}

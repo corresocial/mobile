@@ -12,7 +12,7 @@ import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScreenProps) {
 	const { setSocialImpactDataOnContext, getAditionalDataFromLastPost } = useContext(SocialImpactContext)
@@ -40,39 +40,43 @@ function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScr
 
 	return (
 		<PostSelectButton
-			title={'você está postando um informativo, um iniciativa social, ou uma doação?'}
+			title={'você está postando \num informativo, \num iniciativa social, \nou uma doação?'}
 			highlightedWords={['informativo', 'iniciativa', 'social', 'doação']}
-			backgroundColor={theme.pink2}
+			headerBackgroundColor={theme.pink2}
+			backgroundColor={theme.white3}
 			navigateBackwards={() => navigation.goBack()}
 		>
-			<PrimaryButton
-				justifyContent={'space-around'}
-				color={theme.white3}
-				relativeHeight={'22%'}
-				labelColor={theme.black4}
-				SecondSvgIcon={PaperInfoWhite}
+			<OptionButton
 				label={'conteúdo \ninformativo'}
 				highlightedWords={['\ninformativo']}
+				labelSize={18}
+				relativeHeight={'28%'}
+				SvgIcon={PaperInfoWhite}
+				svgIconScale={['45%', '45%']}
+				leftSideColor={theme.pink3}
+				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('informative')}
 			/>
-			<PrimaryButton
-				justifyContent={'space-around'}
-				color={theme.white3}
-				relativeHeight={'22%'}
-				labelColor={theme.black4}
-				SecondSvgIcon={HeartAndPersonWhiteIcon}
+			<OptionButton
 				label={'iniciativa social'}
 				highlightedWords={['social']}
+				labelSize={18}
+				relativeHeight={'28%'}
+				SvgIcon={HeartAndPersonWhiteIcon}
+				svgIconScale={['50%', '50%']}
+				leftSideColor={theme.pink3}
+				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('iniciative')}
 			/>
-			<PrimaryButton
-				justifyContent={'space-around'}
-				color={theme.white3}
-				relativeHeight={'22%'}
-				labelColor={theme.black4}
-				SecondSvgIcon={HandOnHeartWhiteIcon}
+			<OptionButton
 				label={'doação ou \nvoluntariado'}
 				highlightedWords={['doação', '\nvoluntariado']}
+				labelSize={18}
+				relativeHeight={'28%'}
+				SvgIcon={HandOnHeartWhiteIcon}
+				svgIconScale={['50%', '50%']}
+				leftSideColor={theme.pink3}
+				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('donation')}
 			/>
 		</PostSelectButton>
