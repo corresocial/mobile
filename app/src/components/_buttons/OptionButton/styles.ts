@@ -14,7 +14,7 @@ export const ContainerBottom = styled(Animatable.View)`
     width: 98%;
 	align-self: flex-end;
     flex-direction: row;
-    border-radius: ${RFValue(15)}px;
+    border-radius: ${RFValue(20)}px;
     position: relative;
     background-color: ${({ theme }) => theme.black4};
 `
@@ -24,18 +24,20 @@ export const ContainerSurface = styled.View`
 	height: 100%;
 	flex-direction: row;
     background-color: ${({ theme }) => theme.white3};
-    border: ${RFValue(2.5)}px solid black;
-    border-radius:${RFValue(15)}px;
+    border: ${RFValue(3.5)}px solid black;
+    border-radius:${RFValue(20)}px;
     position: absolute;
     overflow: hidden;
 	left: ${-RFValue(8)}px;
 `
 
-export const IconArea = styled.View`
+export const LeftArea = styled.View`
     background-color: ${({ theme }) => theme.orange3}
     height: 101%;
     align-items: center;
     justify-content: center;
+	border-right-width: ${RFValue(3.5)}px;
+	border-color: ${({ theme }) => theme.black4};
 `
 
 export const LabelDescriptionArea = styled.View`

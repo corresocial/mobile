@@ -8,7 +8,7 @@ import {
 	TouchableContainer,
 	ContainerSurface,
 	ContainerBottom,
-	IconArea,
+	LeftArea,
 	LabelDescriptionArea,
 	Description,
 	ShortDescription
@@ -87,14 +87,14 @@ function OptionButton({
 						marginLeft: buttonPressed ? RFValue(7) : 0
 					}}
 				>
-					<IconArea
+					<LeftArea
 						style={{
 							backgroundColor: leftSideColor,
 							width: leftSideWidth
 						}}
 					>
 						{SvgIcon && <SvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />}
-					</IconArea>
+					</LeftArea>
 					<LabelDescriptionArea>
 						<ButtonLabel style={{
 							color: labelColor,
