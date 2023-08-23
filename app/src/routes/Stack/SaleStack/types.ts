@@ -7,7 +7,6 @@ export type SaleStackParamList = {
 	SelectItemStatus: { editMode: boolean } | undefined
 	InsertSaleTitle: { editMode: boolean, initialValue: string } | undefined
 	InsertItemDescription: { editMode: boolean, initialValue: string } | undefined
-	InsertSalePicture: undefined
 	SalePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectPaymentType: { editMode: boolean } | undefined
 	InsertSaleValue: { bothPaymentType: boolean, editMode?: boolean }

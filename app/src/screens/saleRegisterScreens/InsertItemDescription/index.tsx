@@ -43,7 +43,7 @@ function InsertItemDescription({ route, navigation }: InsertItemDescriptionScree
 		}
 
 		setSaleDataOnContext({ description })
-		navigation.navigate('InsertSalePicture')
+		navigation.navigate('SalePicturePreview')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
