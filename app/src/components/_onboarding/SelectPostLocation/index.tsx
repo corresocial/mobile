@@ -216,29 +216,6 @@ function SelectPostLocation({
 					fontSize={17}
 				/>
 			</DefaultHeaderContainer>
-			{/* <LineInput
-				value={address}
-				relativeWidth={'100%'}
-				defaultBackgroundColor={validAddress ? validationColor : theme.white3}
-				defaultBorderBottomColor={validAddress ? theme.black4 : theme.black4}
-				validBackgroundColor={validationColor}
-				validBorderBottomColor={theme.black4}
-				invalidBackgroundColor={theme.red1}
-				invalidBorderBottomColor={theme.red5}
-				textAlign={'left'}
-				invalidTextAfterSubmit={invalidAddressAfterSubmit}
-				fontSize={16}
-				placeholder={'rua, bairro, etc'}
-				keyboardType={'default'}
-				returnKeyType={'search'}
-				onPressKeyboardSubmit={getAddressCoordinates}
-				textIsValid={validAddress}
-				validateText={(text: string) => validateAddress(text)}
-				onChangeText={(text: string) => {
-					setAddress(text)
-					setInvalidAddressAfterSubmit(false)
-				}}
-			/> */}
 			<MapContainer onLayout={({ nativeEvent }: LayoutChangeEvent) => !mapContainerDimensions.width && setMapContainerDimensions(nativeEvent.layout)}>
 				<SearchInputContainer>
 					<SearchInput
