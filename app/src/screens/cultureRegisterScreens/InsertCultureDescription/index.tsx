@@ -43,7 +43,7 @@ function InsertCultureDescription({ route, navigation }: InsertCultureDescriptio
 		}
 
 		setCultureDataOnContext({ description })
-		navigation.navigate('InsertCulturePicture')
+		navigation.navigate('CulturePicturePreview')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
