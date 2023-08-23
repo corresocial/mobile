@@ -54,6 +54,7 @@ function EditCard({
 		}
 		return false
 	}
+
 	return (
 		<DefaultTouchableCardContainer
 			withoutPadding={!!profilePicturesUrl.length}
