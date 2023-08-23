@@ -9,17 +9,19 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { ProgressBar } from '../../ProgressBar'
 
 interface PostSelectButtonProps {
 	title: string
 	highlightedWords: string[]
 	headerBackgroundColor?: string
 	backgroundColor: string
+	progress?: number[]
 	children?: React.ReactNode[]
 	navigateBackwards: () => void
 }
 
-function PostSelectButton({ title, highlightedWords, headerBackgroundColor, backgroundColor, children, navigateBackwards }: PostSelectButtonProps) {
+function PostSelectButton({ title, highlightedWords, headerBackgroundColor, backgroundColor, progress, children, navigateBackwards }: PostSelectButtonProps) {
 	return (
 		<Container>
 			<StatusBar backgroundColor={headerBackgroundColor || theme.white3} barStyle={'dark-content'} />
@@ -34,7 +36,9 @@ function PostSelectButton({ title, highlightedWords, headerBackgroundColor, back
 					fontSize={16}
 					message={title}
 					highlightedWords={highlightedWords}
-				/>
+				>
+					{progress && <ProgressBar value={progress[0]} range={progress[1]} />}
+				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={backgroundColor}>
 				<ButtonsContainer numberOfChildrens={children ? children.length : 0}>

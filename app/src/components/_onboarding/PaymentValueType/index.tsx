@@ -1,80 +1,54 @@
 import React from 'react'
 
-import { ButtonsContainer, Container, Sigh } from './styles'
 import { theme } from '../../../common/theme'
 import HandOnMoneyWhiteIcon from '../../../assets/icons/handOnMoney-white.svg'
 import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
 
 import { SaleValueType } from '../../../services/firebase/types'
 
-import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../_containers/FormContainer'
-import { BackButton } from '../../_buttons/BackButton'
-import { PrimaryButton } from '../../_buttons/PrimaryButton'
-import { InstructionCard } from '../../_cards/InstructionCard'
-import { ProgressBar } from '../../ProgressBar'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { PostSelectButton } from '../PostSelectButton'
+import { OptionButton } from '../../_buttons/OptionButton'
 
 interface PaymentValueTypeProps {
 	backgroundColor: string
+	itemsColor: string
 	progress: [value: number, range: number]
 	savePaymentValueType: (paymentType: SaleValueType) => void
 	navigateBackwards: () => void
 }
 
-function PaymentValueType({ backgroundColor, progress, savePaymentValueType, navigateBackwards }: PaymentValueTypeProps) {
+function PaymentValueType({ backgroundColor, itemsColor, progress, savePaymentValueType, navigateBackwards }: PaymentValueTypeProps) {
 	return (
-		<Container>
-			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(26)}
-				centralized
-				backgroundColor={theme.white3}
-			>
-				<BackButton onPress={navigateBackwards} />
-				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={17}
-					message={'tem preço fixo ou fica a combinar?'}
-					highlightedWords={['preço', 'fixo', 'a', 'combinar']}
-				>
-					<ProgressBar
-						value={progress[0]}
-						range={progress[1]}
-					/>
-				</InstructionCard>
-			</DefaultHeaderContainer>
-			<FormContainer
-				backgroundColor={backgroundColor}
-			>
-				<ButtonsContainer>
-					<PrimaryButton
-						justifyContent={'space-around'}
-						color={theme.white3}
-						relativeHeight={'21%'}
-						labelColor={theme.black4}
-						fontSize={20}
-						label={'preço fixo'}
-						highlightedWords={['fixo']}
-						SecondSvgIcon={HandOnMoneyWhiteIcon}
-						svgIconScale={['80%', '22%']}
-						onPress={() => savePaymentValueType('fixed')}
-					/>
-					<Sigh />
-					<PrimaryButton
-						justifyContent={'space-around'}
-						color={theme.white3}
-						relativeHeight={'21%'}
-						labelColor={theme.black4}
-						fontSize={20}
-						label={'a combinar'}
-						highlightedWords={['combinar']}
-						SecondSvgIcon={ChatWhiteIcon}
-						svgIconScale={['35%', '18%']}
-						onPress={() => savePaymentValueType('toMatch')}
-					/>
-				</ButtonsContainer>
-			</FormContainer>
-		</Container>
+		<PostSelectButton
+			title={'tem preço fixo ou fica a combinar?'}
+			highlightedWords={['preço', 'fixo', 'a', 'combinar']}
+			headerBackgroundColor={backgroundColor}
+			backgroundColor={theme.white3}
+			navigateBackwards={navigateBackwards}
+		>
+			<OptionButton
+				label={'preço fixo'}
+				highlightedWords={['fixo']}
+				labelSize={18}
+				relativeHeight={'28%'}
+				SvgIcon={HandOnMoneyWhiteIcon}
+				svgIconScale={['70%', '70%']}
+				leftSideColor={itemsColor}
+				leftSideWidth={'25%'}
+				onPress={() => savePaymentValueType('fixed')}
+			/>
+			<OptionButton
+				label={'a combinar'}
+				highlightedWords={['combinar']}
+				labelSize={18}
+				relativeHeight={'28%'}
+				SvgIcon={ChatWhiteIcon}
+				svgIconScale={['50%', '50%']}
+				leftSideColor={itemsColor}
+				leftSideWidth={'25%'}
+				onPress={() => savePaymentValueType('toMatch')}
+			/>
+		</PostSelectButton>
 	)
 }
 

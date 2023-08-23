@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { Container, PicturePreviewContainer, TopArea } from './styles'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import CheckIcon from '../../../assets/icons/check-white.svg'
 
@@ -13,6 +13,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { HorizontalListPictures } from '../../../components/HorizontalListPictures'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { VerticalSigh } from '../../VerticalSigh'
 
 interface PostPicturePreviewProps {
 	backgroundColor: string
@@ -54,7 +55,7 @@ function PostPicturePreview({
 				cameraOpened={cameraOpened}
 			/>
 			<DefaultHeaderContainer
-				relativeHeight={'85%'}
+				relativeHeight={relativeScreenHeight(80)}
 				backgroundColor={backgroundColor}
 				withoutPadding
 				flexDirection={'column'}
@@ -67,6 +68,7 @@ function PostPicturePreview({
 						highlightedWords={['boas', 'boa']}
 					/>
 				</TopArea>
+				{/* <VerticalSigh height={relativeScreenWidth(7)} /> */}
 				<PicturePreviewContainer>
 					<PhotoPortrait
 						pictureUri={picturesPack[pictureIndexSelected]}
@@ -74,6 +76,7 @@ function PostPicturePreview({
 						height={relativeScreenWidth(89)}
 						deleteCurrentPicture={deleteCurrentPicture}
 					/>
+					<VerticalSigh height={relativeScreenWidth(7)} />
 					<HorizontalListPictures
 						picturesUri={picturesPack}
 						pictureUriSelected={pictureIndexSelected}

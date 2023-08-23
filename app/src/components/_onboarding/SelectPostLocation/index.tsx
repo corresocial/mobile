@@ -244,11 +244,11 @@ function SelectPostLocation({
 				</View>
 				<ButtonContainer>
 					<PrimaryButton
-						relativeHeight={relativeScreenHeight(8)}
+						relativeHeight={relativeScreenHeight(7)}
 						minHeight={50}
 						flexDirection={'row-reverse'}
 						color={theme.white3}
-						label={'usar minha localização'}
+						label={'   usar minha localização'}
 						highlightedWords={['minha', 'localização']}
 						labelColor={theme.black4}
 						fontSize={16}
