@@ -49,9 +49,10 @@ function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) 
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<PaymentMethod
 				backgroundColor={theme.purple2}
+				itemsColor={theme.purple3}
 				progress={[3, isSecondPost ? 3 : 5]}
 				navigateBackwards={() => navigation.goBack()}
 				savePaymentMethod={savePaymentType}

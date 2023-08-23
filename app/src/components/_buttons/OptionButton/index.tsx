@@ -27,6 +27,7 @@ interface OptionButtonProps {
 	relativeHeight?: string | number
 	labelAlign?: TextStyle['textAlign']
 	SvgIcon?: React.FC<SvgProps>
+	SecondSvgIcon?: React.FC<SvgProps>
 	svgIconScale?: [height: string, width: string]
 	leftSideColor?: string
 	leftSideWidth?: string | number
@@ -49,6 +50,7 @@ function OptionButton({
 	labelAlign = 'center',
 	highlightedWords,
 	SvgIcon,
+	SecondSvgIcon,
 	svgIconScale,
 	leftSideColor = theme.orange2,
 	leftSideWidth,
@@ -103,6 +105,7 @@ function OptionButton({
 						}}
 					>
 						{SvgIcon && <SvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />}
+						{SecondSvgIcon && <SecondSvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />}
 						{
 							leftSideText && (
 								<LeftSideText leftSideTextColor={leftSideTextColor}>
