@@ -50,7 +50,7 @@ function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScr
 				label={'conteúdo \ninformativo'}
 				highlightedWords={['\ninformativo']}
 				labelSize={18}
-				relativeHeight={'28%'}
+				relativeHeight={'25%'}
 				SvgIcon={PaperInfoWhite}
 				svgIconScale={['45%', '45%']}
 				leftSideColor={theme.pink3}
@@ -61,7 +61,7 @@ function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScr
 				label={'iniciativa social'}
 				highlightedWords={['social']}
 				labelSize={18}
-				relativeHeight={'28%'}
+				relativeHeight={'25%'}
 				SvgIcon={HeartAndPersonWhiteIcon}
 				svgIconScale={['50%', '50%']}
 				leftSideColor={theme.pink3}
@@ -72,7 +72,7 @@ function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScr
 				label={'doação ou \nvoluntariado'}
 				highlightedWords={['doação', '\nvoluntariado']}
 				labelSize={18}
-				relativeHeight={'28%'}
+				relativeHeight={'25%'}
 				SvgIcon={HandOnHeartWhiteIcon}
 				svgIconScale={['50%', '50%']}
 				leftSideColor={theme.pink3}

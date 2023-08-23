@@ -42,7 +42,7 @@ function PaymentMethod({
 		<Container>
 			<StatusBar backgroundColor={backgroundColor} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(26)}
+				relativeHeight={relativeScreenHeight(28)}
 				centralized
 				backgroundColor={backgroundColor}
 			>
@@ -63,10 +63,10 @@ function PaymentMethod({
 			>
 				<ButtonsContainer>
 					<OptionButton
-						label={isVacancy ? 'um pagamento' : 'somente \nvenda'}
-						highlightedWords={isVacancy ? ['pagamento'] : ['\nvenda']}
+						label={isVacancy ? 'um \npagamento' : 'somente \nvenda'}
+						highlightedWords={isVacancy ? ['\npagamento'] : ['\nvenda']}
 						labelSize={18}
-						relativeHeight={'21%'}
+						relativeHeight={'22%'}
 						SvgIcon={isVacancy ? CashWhiteIcon : SalesCartWhiteIcon}
 						svgIconScale={['55%', '55%']}
 						leftSideColor={itemsColor}
@@ -77,8 +77,8 @@ function PaymentMethod({
 						label={isVacancy ? 'uma \ntroca' : 'somente \ntroca'}
 						highlightedWords={['\ntroca']}
 						labelSize={18}
-						relativeHeight={'21%'}
-						SvgIcon={isVacancy ? CashWhiteIcon : ExchangeWhiteIcon}
+						relativeHeight={'22%'}
+						SvgIcon={isVacancy ? ExchangeWhiteIcon : CashWhiteIcon}
 						svgIconScale={['55%', '55%']}
 						leftSideColor={itemsColor}
 						leftSideWidth={'25%'}

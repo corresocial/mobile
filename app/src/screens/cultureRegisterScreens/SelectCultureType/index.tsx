@@ -49,7 +49,7 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 				label={'postando arte'}
 				highlightedWords={['arte']}
 				labelSize={18}
-				relativeHeight={'28%'}
+				relativeHeight={'25%'}
 				SvgIcon={ColorPaletWhiteIcon}
 				svgIconScale={['50%', '50%']}
 				leftSideColor={theme.blue3}
@@ -60,7 +60,7 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 				label={'postando evento'}
 				highlightedWords={['evento']}
 				labelSize={18}
-				relativeHeight={'28%'}
+				relativeHeight={'25%'}
 				SvgIcon={CalendarEverydayWhiteIcon}
 				svgIconScale={['70%', '70%']}
 				leftSideColor={theme.blue3}
@@ -71,7 +71,7 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 				label={'postando educação'}
 				highlightedWords={['educação']}
 				labelSize={18}
-				relativeHeight={'28%'}
+				relativeHeight={'25%'}
 				SvgIcon={BooksWhiteIcon}
 				svgIconScale={['60%', '60%']}
 				leftSideColor={theme.blue3}

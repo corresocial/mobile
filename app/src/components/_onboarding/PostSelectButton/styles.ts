@@ -12,8 +12,8 @@ export const ButtonsContainer = styled.View<ButtonsContainerProps>`
 	padding-vertical: ${({ numberOfChildrens }) => {
 		switch (numberOfChildrens) {
 			case 2: return '20%'
-			case 3: return '15%'
-			default: return '15%'
+			case 3: return '10%'
+			default: return '10%'
 		}
 	}};
 	width: 100%;
