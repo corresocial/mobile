@@ -210,7 +210,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					title={'como participar'}
 					hightligtedWords={['participar']}
 					placeModality={getPostField('eventPlaceModality')}
-					onEdit={() => navigateToEditScreen('SelectEventPlaceModality', 'eventPlaceModality')}
+					onEdit={() => navigateToEditScreen('SelectCulturePlaceModality', 'eventPlaceModality')}
 				/>
 				<VerticalSigh />
 				<EditCard
