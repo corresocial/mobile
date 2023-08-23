@@ -67,7 +67,6 @@ function SelectVacancyPurpose({ route, navigation }: SelectVacancyPurposeScreenP
 				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('findVacancy')}
 			/>
-
 		</PostSelectButton>
 	)
 }

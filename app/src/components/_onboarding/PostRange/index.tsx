@@ -32,17 +32,17 @@ function PostRange({ backgroundColor, itemsColor, isVacancy, plansAvailable, use
 	const getRelativeFooterValue = (range: PostRangeType) => {
 		switch (range) {
 			case 'near': {
-				if (userSubscriptionRange !== 'near') return 'incluído \nno plano'
+				if (userSubscriptionRange !== 'near') return 'incluso \nno plano'
 				return 'plano \ngrátis'
 			}
 			case 'city': {
-				if (userSubscriptionRange === 'country') return 'included'
-				if (userSubscriptionRange === 'city') return 'current'
-				return `r$ ${plansAvailable.cityMonthly.price},00 \n/ mês` || 'unavailable'
+				if (userSubscriptionRange === 'country') return 'incluso \nno plano'
+				if (userSubscriptionRange === 'city') return 'seu \nplano'
+				return `r$ ${plansAvailable.cityMonthly.price},00 \n/ mês` || 'indisponível'
 			}
 			case 'country': {
-				if (userSubscriptionRange === 'country') return 'current'
-				return `r$ ${plansAvailable.countryMonthly.price},00 \n/ mês` || 'unavailable'
+				if (userSubscriptionRange === 'country') return 'seu \nplano'
+				return `r$ ${plansAvailable.countryMonthly.price},00 \n/ mês` || 'indisponível'
 			}
 			default: return ''
 		}

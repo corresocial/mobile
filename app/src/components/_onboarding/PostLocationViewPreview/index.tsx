@@ -58,7 +58,7 @@ function PostLocationViewPreview({
 				<InfoCard
 					title={
 						firstStep
-							? `localização \n${getRelativeLocationView(locationViewSelected)}`
+							? `localização⠀ \n${getRelativeLocationView(locationViewSelected)}`
 							: `seu alcance\n ●  ${getRelativeRange(postRange)}`
 					}
 					titleFontSize={18}

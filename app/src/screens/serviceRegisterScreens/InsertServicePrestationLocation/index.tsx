@@ -105,7 +105,6 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 				onPressButton={() => saveLocation(currentMarkerCoodinate as Coordinates, true)}
 				closeModal={toggleRangeChangeModalVisibility}
 			/>
-
 			<SelectPostLocation
 				backgroundColor={theme.purple2}
 				validationColor={theme.purple1}
