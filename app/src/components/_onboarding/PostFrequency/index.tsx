@@ -3,10 +3,10 @@ import { StatusBar } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
-import CalendarToday from '../../../assets/icons/calendarToday-unfilled.svg'
-import CalendarEveryday from '../../../assets/icons/calendarEveryday-unfilled.svg'
-import CalendarSomeday from '../../../assets/icons/calendarSomeday-unfilled.svg'
-import CalendarBusinessDay from '../../../assets/icons/calendarBusinessDay-unfilled.svg'
+import CalendarToday from '../../../assets/icons/calendarToday-white.svg'
+import CalendarEveryday from '../../../assets/icons/calendarEveryday-white.svg'
+import CalendarSomeday from '../../../assets/icons/calendarSomeday-white.svg'
+import CalendarBusinessDay from '../../../assets/icons/calendarBusinessDay-white.svg'
 import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
 
 import { WeekdaysFrequency } from '../../../services/firebase/types'
@@ -17,7 +17,6 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 interface PostFrequencyProps {
@@ -39,16 +38,15 @@ function PostFrequency({
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(24)}
+				relativeHeight={relativeScreenHeight(26)}
 				centralized
-				backgroundColor={theme.white3}
+				backgroundColor={backgroundColor}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={17}
-					message={'quando?'}
-					highlightedWords={['quando']}
+					fontSize={16}
+					message={'qual é a frequência?'}
+					highlightedWords={['qual', 'é', 'a', 'frequência']}
 				>
 					<ProgressBar
 						value={progress[0]}
@@ -57,62 +55,54 @@ function PostFrequency({
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={backgroundColor}
+				backgroundColor={theme.white3}
 			>
 				<ButtonsContainer>
 					<OptionButton
 						color={theme.white3}
 						label={'só hoje'}
 						highlightedWords={['hoje']}
-						labelColor={theme.black3}
-						labelSize={20}
-						labelAlign={'left'}
+						labelSize={18}
 						SvgIcon={CalendarToday}
-						svgIconScale={['50%', '50%']}
-						leftSideWidth={'20%'}
-						leftSideColor={theme.orange2}
+						svgIconScale={['70%', '70%']}
+						leftSideWidth={'25%'}
+						leftSideColor={theme.orange3}
 						onPress={() => savePostFrequency('today')}
 					/>
 					<OptionButton
 						color={theme.white3}
 						label={'todos os dias'}
 						highlightedWords={['todos']}
-						labelColor={theme.black3}
-						labelSize={20}
-						labelAlign={'left'}
+						labelSize={18}
 						SvgIcon={CalendarEveryday}
-						svgIconScale={['50%', '50%']}
-						leftSideWidth={'20%'}
-						leftSideColor={theme.red2}
+						svgIconScale={['70%', '70%']}
+						leftSideWidth={'25%'}
+						leftSideColor={theme.purple3}
 						onPress={() => savePostFrequency('everyday')}
 					/>
 					<OptionButton
 						color={theme.white3}
 						label={'alguns dias'}
 						highlightedWords={['alguns']}
-						labelColor={theme.black3}
-						labelSize={20}
-						labelAlign={'left'}
+						labelSize={18}
 						SvgIcon={CalendarSomeday}
-						svgIconScale={['50%', '50%']}
-						leftSideWidth={'20%'}
-						leftSideColor={theme.yellow2}
+						svgIconScale={['70%', '70%']}
+						leftSideWidth={'25%'}
+						leftSideColor={theme.yellow3}
 						onPress={() => savePostFrequency('someday')}
 					/>
 					<OptionButton
 						color={theme.white3}
 						label={'dias comerciais'}
 						highlightedWords={['comerciais']}
-						labelColor={theme.black3}
-						labelSize={20}
-						labelAlign={'left'}
+						labelSize={18}
 						SvgIcon={CalendarBusinessDay}
-						svgIconScale={['50%', '50%']}
-						leftSideWidth={'20%'}
-						leftSideColor={theme.green2}
+						svgIconScale={['70%', '70%']}
+						leftSideWidth={'25%'}
+						leftSideColor={theme.green3}
 						onPress={() => savePostFrequency('businessDay')}
 					/>
-					<PrimaryButton
+					{/* <PrimaryButton
 						flexDirection={'row-reverse'}
 						color={theme.yellow3}
 						label={'pular'}
@@ -121,7 +111,7 @@ function PostFrequency({
 						SecondSvgIcon={DeniedWhiteIcon}
 						svgIconScale={['40%', '18%']}
 						onPress={skipScreen}
-					/>
+					/> */}
 				</ButtonsContainer>
 			</FormContainer>
 		</Container>
