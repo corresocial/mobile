@@ -7,7 +7,6 @@ import { ServiceStackParamList } from './types'
 import { InsertServiceTitle } from '../../../screens/serviceRegisterScreens/InsertServiceTitle'
 import { InsertServiceDescription } from '../../../screens/serviceRegisterScreens/InsertServiceDescription'
 import { SelectServiceCategory } from '../../../screens/serviceRegisterScreens/SelectServiceCategory'
-import { InsertServicePicture } from '../../../screens/serviceRegisterScreens/InsertServicePicture'
 import { ServicePicturePreview } from '../../../screens/serviceRegisterScreens/ServicePicturePreview'
 import { SelectServiceTags } from '../../../screens/serviceRegisterScreens/SelectServiceTags'
 import { SelectPaymentType } from '../../../screens/serviceRegisterScreens/SelectPaymentType'
@@ -43,7 +42,6 @@ export function ServiceStack() {
 				<Stack.Screen name={'SelectServiceTags'} component={SelectServiceTags} />
 				<Stack.Screen name={'InsertServiceTitle'} component={InsertServiceTitle} />
 				<Stack.Screen name={'InsertServiceDescription'} component={InsertServiceDescription} />
-				<Stack.Screen name={'InsertServicePicture'} component={InsertServicePicture} />
 				<Stack.Screen name={'ServicePicturePreview'} component={ServicePicturePreview} />
 				<Stack.Screen name={'SelectPaymentType'} component={SelectPaymentType} />
 				<Stack.Screen name={'SelectSaleValueType'} component={SelectSaleValueType} />

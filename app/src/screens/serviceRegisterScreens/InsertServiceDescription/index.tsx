@@ -43,7 +43,7 @@ function InsertServiceDescription({ route, navigation }: InsertServiceDescriptio
 		}
 
 		setServiceDataOnContext({ description })
-		navigation.navigate('InsertServicePicture')
+		navigation.navigate('ServicePicturePreview')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

@@ -4,7 +4,6 @@ import { ServiceStackParamList } from '../types'
 
 export type InsertServiceDescriptionScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertServiceDescription'>
 export type InsertServiceTitleScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertServiceTitle'>
-export type InsertServicePictureScreenProps = NativeStackScreenProps<ServiceStackParamList, 'InsertServicePicture'>
 export type ServicePicturePreviewScreenProps = NativeStackScreenProps<ServiceStackParamList, 'ServicePicturePreview'>
 export type SelectServiceCategoryScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectServiceCategory'>
 export type SelectServiceTagsScreenProps = NativeStackScreenProps<ServiceStackParamList, 'SelectServiceTags'>
