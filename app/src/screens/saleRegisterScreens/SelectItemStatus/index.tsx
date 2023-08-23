@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 import { theme } from '../../../common/theme'
 import UsedLabelWhiteIcon from '../../../assets/icons/usedLabel-white.svg'
@@ -14,8 +14,14 @@ import { PostSelectButton } from '../../../components/_onboarding/PostSelectButt
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { setSaleDataOnContext, getAditionalDataFromLastPost } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+
+	useEffect(() => {
+		if (!route.params?.editMode) {
+			getAditionalDataFromLastPost()
+		}
+	}, [])
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
@@ -27,7 +33,7 @@ function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
 		}
 
 		setSaleDataOnContext({ itemStatus })
-		navigation.navigate('InsertSaleTitle')
+		navigation.navigate('SelectSaleCategory')
 	}
 
 	return (

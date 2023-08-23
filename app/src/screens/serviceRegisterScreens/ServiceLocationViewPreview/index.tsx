@@ -58,7 +58,8 @@ function ServiceLocationViewPreview({ route, navigation }: ServiceLocationViewPr
 						...serviceDataContext,
 						locationView,
 						paymentType: serviceDataContext.paymentType || 'sale',
-						saleValue: serviceDataContext.saleValue || 'a combinar'
+						saleValue: serviceDataContext.saleValue || 'a combinar',
+						deliveryMethod: serviceDataContext.deliveryMethod || 'unavailable',
 					},
 					unsavedPost: true
 				}

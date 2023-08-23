@@ -34,16 +34,16 @@ export function SaleStack() {
 	return (
 		<SaleProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectSaleCategory'}
+				initialRouteName={'SelectItemStatus'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
 					...TransitionPresets.SlideFromRightIOS,
 				}}
 			>
+				<Stack.Screen name={'SelectItemStatus'} component={SelectItemStatus} />
 				<Stack.Screen name={'SelectSaleCategory'} component={SelectSaleCategory} />
 				<Stack.Screen name={'SelectSaleTags'} component={SelectSaleTags} />
-				<Stack.Screen name={'SelectItemStatus'} component={SelectItemStatus} />
 				<Stack.Screen name={'InsertSaleTitle'} component={InsertSaleTitle} />
 				<Stack.Screen name={'InsertItemDescription'} component={InsertItemDescription} />
 				<Stack.Screen name={'InsertSalePicture'} component={InsertSalePicture} />

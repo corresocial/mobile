@@ -43,7 +43,7 @@ function InsertSaleTitle({ route, navigation }: InsertSaleTitleScreenProps) {
 		}
 
 		setSaleDataOnContext({ title: inputText })
-		navigation.navigate('InsertItemDescription')
+		navigation.navigate('SelectSaleRange')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
