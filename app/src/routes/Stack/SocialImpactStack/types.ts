@@ -5,7 +5,6 @@ export type SocialImpactStackParamList = {
 	SelectSocialImpactType: { editMode: boolean } | undefined
 	InsertSocialImpactTitle: { editMode: boolean, initialValue: string } | undefined
 	InsertSocialImpactDescription: { editMode: boolean, initialValue: string } | undefined
-	InsertSocialImpactPicture: undefined
 	SocialImpactPicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectSocialImpactCategory: { editMode: boolean } | undefined
 	SelectSocialImpactTags: { categorySelected: SocialImpactCategories, editMode?: boolean }

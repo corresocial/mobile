@@ -10,7 +10,6 @@ import { SelectSocialImpactCategory } from '../../../screens/socialImpactRegiste
 import { SelectSocialImpactTags } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactTags'
 import { InsertSocialImpactTitle } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactTitle'
 import { InsertSocialImpactDescription } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactDescription'
-import { InsertSocialImpactPicture } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactPicture'
 import { SocialImpactPicturePreview } from '../../../screens/socialImpactRegisterScreens/SocialImpactPicturePreview'
 import { SelectSocialImpactLocationView } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactLocationView'
 import { SelectSocialImpactRange } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactRange'
@@ -45,7 +44,6 @@ export function SocialImpactStack() {
 				<Stack.Screen name={'SelectSocialImpactTags'} component={SelectSocialImpactTags} />
 				<Stack.Screen name={'InsertSocialImpactTitle'} component={InsertSocialImpactTitle} />
 				<Stack.Screen name={'InsertSocialImpactDescription'} component={InsertSocialImpactDescription} />
-				<Stack.Screen name={'InsertSocialImpactPicture'} component={InsertSocialImpactPicture} />
 				<Stack.Screen name={'SocialImpactPicturePreview'} component={SocialImpactPicturePreview} />
 				<Stack.Screen name={'SelectSocialImpactRange'} component={SelectSocialImpactRange} />
 				<Stack.Screen name={'InsertSocialImpactLocation'} component={InsertSocialImpactLocation} />
