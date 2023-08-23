@@ -8,7 +8,6 @@ export type VacancyStackParamList = {
 	InsertVacancyTitle: { editMode: boolean, initialValue: string } | undefined
 	InsertVacancyDescription: { editMode: boolean, initialValue: string } | undefined
 	InsertVacancyImportantPoints: { editMode: boolean, initialValue: string[] } | undefined
-	InsertVacancyPicture: undefined
 	VacancyPicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectWorkplace: { editMode: boolean } | undefined
 	SelectPaymentType: { editMode: boolean } | undefined
