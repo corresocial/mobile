@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Animated, LayoutChangeEvent, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
+import { Animated, Keyboard, LayoutChangeEvent, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
 import * as Location from 'expo-location'
 
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import { ButtonContainer, ButtonContainerBottom, Container, MapContainer } from './styles'
+import { ButtonContainerBottom, Container, MapContainer, MyLocationButtonContainer, SearchInputContainer } from './styles'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import MapPointWhiteIcon from '../../../assets/icons/mapPoint-white.svg'
 import MapPointOrangeIcon from '../../../assets/icons/mapPoint-orange.svg'
@@ -16,10 +16,11 @@ import { LoaderContext } from '../../../contexts/LoaderContext'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { LineInput } from '../../../components/LineInput'
 import { CustomMapView } from '../../../components/CustomMapView'
 import { InstructionCard } from '../../_cards/InstructionCard'
 import { getCurrentLocation } from '../../../utils/maps/getCurrentLocation'
+import { SearchInput } from '../../_inputs/SearchInput'
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 const initialRegion = {
 	latitude: -13.890303625634541,
@@ -36,7 +37,6 @@ const defaultDeltaCoordinates = {
 interface SelectPostLocationProps {
 	backgroundColor: string
 	validationColor: string
-	searchPlaceholder: string
 	initialValue?: LatLong
 	navigateBackwards: () => void
 	saveLocation: (markerCoordinate: Coordinates) => void
@@ -45,7 +45,6 @@ interface SelectPostLocationProps {
 function SelectPostLocation({
 	backgroundColor,
 	validationColor,
-	searchPlaceholder,
 	initialValue,
 	saveLocation,
 	navigateBackwards
@@ -62,6 +61,14 @@ function SelectPostLocation({
 	const [validAddress, setValidAddress] = useState(false)
 	const [invalidAddressAfterSubmit, setInvalidAddressAfterSubmit] = useState<boolean>(false)
 
+	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+
+	useEffect(() => {
+		removeAllKeyboardEventListeners()
+		Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+		Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+	}, [keyboardOpened])
+
 	useEffect(() => {
 		if (initialValue?.latitude && initialValue?.longitude) {
 			setMarkerCoordinate({ ...defaultDeltaCoordinates, ...initialValue })
@@ -76,11 +83,11 @@ function SelectPostLocation({
 
 	const someInvalidFieldSubimitted = () => invalidAddressAfterSubmit
 
-	const validateAddress = (text: string) => {
+	/* const validateAddress = (text: string) => {
 		setInvalidAddressAfterSubmit(false)
 		setValidAddress(false)
 		return validAddress
-	}
+	} */
 
 	const getCurrentPositionCoordinated = async () => {
 		const permission = await requestLocationPermission()
@@ -209,7 +216,7 @@ function SelectPostLocation({
 					fontSize={17}
 				/>
 			</DefaultHeaderContainer>
-			<LineInput
+			{/* <LineInput
 				value={address}
 				relativeWidth={'100%'}
 				defaultBackgroundColor={validAddress ? validationColor : theme.white3}
@@ -221,7 +228,7 @@ function SelectPostLocation({
 				textAlign={'left'}
 				invalidTextAfterSubmit={invalidAddressAfterSubmit}
 				fontSize={16}
-				placeholder={searchPlaceholder || 'digite o endereço do post'}
+				placeholder={'rua, bairro, etc'}
 				keyboardType={'default'}
 				returnKeyType={'search'}
 				onPressKeyboardSubmit={getAddressCoordinates}
@@ -231,8 +238,22 @@ function SelectPostLocation({
 					setAddress(text)
 					setInvalidAddressAfterSubmit(false)
 				}}
-			/>
+			/> */}
 			<MapContainer onLayout={({ nativeEvent }: LayoutChangeEvent) => !mapContainerDimensions.width && setMapContainerDimensions(nativeEvent.layout)}>
+				<SearchInputContainer>
+					<SearchInput
+						value={address}
+						validBackgroundColor={validationColor}
+						validateText={() => (validAddress && !invalidAddressAfterSubmit && !keyboardOpened)}
+						autoCapitalize={'none'}
+						placeholder={'rua, bairro, etc'}
+						onChangeText={(text: string) => {
+							setAddress(text)
+							setInvalidAddressAfterSubmit(false)
+						}}
+						onPressKeyboardSubmit={getAddressCoordinates}
+					/>
+				</SearchInputContainer>
 				<View style={{
 					position: 'absolute',
 					top: mapContainerDimensions.height / 2 - (relativeScreenWidth(9.72)),
@@ -242,7 +263,7 @@ function SelectPostLocation({
 				>
 					<MapPointOrangeIcon width={relativeScreenWidth(9.72)} height={relativeScreenWidth(9.72)} />
 				</View>
-				<ButtonContainer>
+				<MyLocationButtonContainer>
 					<PrimaryButton
 						relativeHeight={relativeScreenHeight(7)}
 						minHeight={50}
@@ -256,7 +277,7 @@ function SelectPostLocation({
 						svgIconScale={['60%', '15%']}
 						onPress={getCurrentPositionCoordinated}
 					/>
-				</ButtonContainer>
+				</MyLocationButtonContainer>
 				<CustomMapView
 					regionCoordinate={markerCoordinate || initialRegion}
 					markerCoordinate={null}

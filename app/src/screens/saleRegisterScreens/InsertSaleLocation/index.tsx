@@ -109,7 +109,6 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 			<SelectPostLocation
 				backgroundColor={theme.green2}
 				validationColor={theme.green1}
-				searchPlaceholder={'digite o endereço de venda'}
 				initialValue={editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }}
 				navigateBackwards={() => navigation.goBack()}
 				saveLocation={saveLocation}
