@@ -8,9 +8,10 @@ import {
 	WeekdaysSelectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import XBoldIcon from '../../../assets/icons/x-bold.svg'
 
 import { DaysOfWeek } from '../../../services/firebase/types'
 
@@ -44,19 +45,34 @@ function PostDaysOfWeek({
 	const [selectedDays, setSelectedDays] = useState<DaysOfWeek[]>(initialValue || [])
 	const daysOfWeek = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'] as DaysOfWeek[]
 
+	const getDayOfWeekLabel = (dayOfWeek: DaysOfWeek) => {
+		switch (dayOfWeek) {
+			case 'seg': return 'segunda'
+			case 'ter': return 'terça'
+			case 'qua': return 'quarta'
+			case 'qui': return 'quinta'
+			case 'sex': return 'sexta'
+			case 'sab': return 'sábado'
+			case 'dom': return 'domingo'
+			default: return 'nenhum'
+		}
+	}
+
 	const renderDaysOfWeek = () => daysOfWeek.map((dayOfWeek, index) => {
 		if (dayOfWeek === 'dom') {
 			return (
 				<Row key={dayOfWeek}>
 					<SelectButton
-						width={relativeScreenWidth(41)}
+						width={'100%'}
 						height={relativeScreenHeight(11)}
 						marginVertical={10}
-						label={dayOfWeek}
+						label={getDayOfWeekLabel(dayOfWeek)}
 						flexSelected={0}
-						fontSize={24}
+						fontSize={16}
 						backgroundSelected={validationColor}
 						selected={selectedDays.includes(dayOfWeek)}
+						SvgIcon={selectedDays.includes(dayOfWeek) ? XBoldIcon : null}
+						svgIconScale={['20%', '10%']}
 						onSelect={() => onSelectDay(dayOfWeek)}
 					/>
 				</Row>
@@ -66,13 +82,15 @@ function PostDaysOfWeek({
 		return (
 			<SelectButton
 				key={dayOfWeek}
-				width={relativeScreenWidth(41)}
+				width={'45%'}
 				height={relativeScreenHeight(11)}
 				marginVertical={10}
-				label={dayOfWeek}
-				fontSize={24}
+				label={getDayOfWeekLabel(dayOfWeek)}
+				fontSize={16}
 				backgroundSelected={validationColor}
 				selected={selectedDays.includes(dayOfWeek)}
+				SvgIcon={selectedDays.includes(dayOfWeek) ? XBoldIcon : null}
+				svgIconScale={['20%', '10%']}
 				onSelect={() => onSelectDay(dayOfWeek)}
 			/>
 		)
@@ -99,8 +117,7 @@ function PostDaysOfWeek({
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={17}
+					fontSize={16}
 					message={'que dias da semana?'}
 					highlightedWords={['que', 'dias']}
 				>

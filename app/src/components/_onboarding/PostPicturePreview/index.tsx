@@ -92,10 +92,9 @@ function PostPicturePreview({
 				<PrimaryButton
 					flexDirection={'row-reverse'}
 					color={theme.green3}
-					label={'sim, continuar'}
+					label={'continuar'}
 					labelColor={theme.white3}
 					SvgIcon={CheckIcon}
-					highlightedWords={['continuar']}
 					onPress={() => savePictures(picturesPack)}
 				/>
 			</FormContainer>
