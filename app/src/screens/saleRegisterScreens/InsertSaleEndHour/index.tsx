@@ -13,7 +13,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertSaleEndHour({ route, navigation }: InsertSaleEndHourScreenProps) {
-	const { saleDataContext, setSaleDataOnContext } = useContext(SaleContext)
+	const { saleDataContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -33,20 +33,7 @@ function InsertSaleEndHour({ route, navigation }: InsertSaleEndHourScreenProps) 
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endHour: '' })
 			navigation.goBack()
-			return
 		}
-
-		setSaleDataOnContext({ endHour: '' as any })
-		navigation.reset({
-			index: 0,
-			routes: [{
-				name: 'EditSalePostReview',
-				params: {
-					postData: { ...saleDataContext, endHour: '' },
-					unsavedPost: true
-				}
-			}]
-		})
 	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
@@ -56,20 +43,7 @@ function InsertSaleEndHour({ route, navigation }: InsertSaleEndHourScreenProps) 
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endHour })
 			navigation.goBack()
-			return
 		}
-
-		setSaleDataOnContext({ endHour })
-		navigation.reset({
-			index: 0,
-			routes: [{
-				name: 'EditSalePostReview',
-				params: {
-					postData: { ...saleDataContext, endHour },
-					unsavedPost: true
-				}
-			}]
-		})
 	}
 
 	return (

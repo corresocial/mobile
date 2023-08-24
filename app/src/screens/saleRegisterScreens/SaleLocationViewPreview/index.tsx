@@ -47,7 +47,23 @@ function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewS
 		}
 
 		setSaleDataOnContext({ locationView })
-		navigation.navigate('SelectDeliveryMethod')
+
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'EditSalePostReview',
+				params: {
+					postData: {
+						...saleDataContext,
+						locationView,
+						paymentType: saleDataContext.paymentType || 'sale',
+						saleValue: saleDataContext.saleValue || 'a combinar',
+						deliveryMethod: saleDataContext.deliveryMethod || 'unavailable',
+					},
+					unsavedPost: true
+				}
+			}]
+		})
 	}
 
 	const getPostRange = () => {

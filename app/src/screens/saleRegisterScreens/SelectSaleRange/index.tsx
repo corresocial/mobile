@@ -16,14 +16,14 @@ import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionI
 
 function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
 	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = React.useState(false)
 
 	useEffect(() => {
-		if (!editModeIsTrue()) setSubscriptionModalIsVisible(true)
+		if (!editModeIsTrue() && !isSecondPost) setSubscriptionModalIsVisible(true)
 	}, [])
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

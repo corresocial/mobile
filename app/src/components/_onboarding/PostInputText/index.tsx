@@ -65,8 +65,8 @@ function PostInputText({
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
 					fontSize={16}
-					message={customTitle || 'qual o título do seu post?'}
-					highlightedWords={customHighlight || ['título']}
+					message={'fala tudo sobre o que você tá postando'}
+					highlightedWords={['tudo', 'o', 'que', 'você', 'tá', 'postando']}
 				>
 					{
 						progress && (
@@ -91,7 +91,7 @@ function PostInputText({
 					fontSize={16}
 					multiline
 					initialNumberOfLines={multiline ? 1 : 1}
-					placeholder={inputPlaceholder}
+					placeholder={inputPlaceholder || 'descreva seu post...'}
 					keyboardType={'default'}
 					textIsValid={inputTextIsValid && !keyboardOpened}
 					validateText={(text: string) => validateInputText(text)}

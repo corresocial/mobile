@@ -47,9 +47,11 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 				navigation.pop(2)
 				navigation.goBack()
 			}
-		} else {
-			setServiceDataOnContext({ saleValue })
+
+			return
 		}
+
+		setServiceDataOnContext({ saleValue })
 
 		if (bothPaymentType) {
 			navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })

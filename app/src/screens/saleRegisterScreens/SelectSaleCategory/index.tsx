@@ -26,7 +26,7 @@ function SelectSaleCategory({ route, navigation }: SelectSaleCategoryScreenProps
 			<PostCategory
 				backgroundColor={theme.green2}
 				categories={saleCategories}
-				progress={[1, isSecondPost ? 3 : 5]}
+				progress={[2, isSecondPost ? 4 : 5]}
 				navigateBackwards={() => navigation.goBack()}
 				savePostCategory={onSelectCategory}
 			/>

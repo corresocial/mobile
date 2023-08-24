@@ -46,9 +46,11 @@ function InsertVacancyValue({ navigation, route }: InsertSaleValueScreenProps) {
 				navigation.pop(2)
 				navigation.goBack()
 			}
-		} else {
-			setVacancyDataOnContext({ saleValue })
+
+			return
 		}
+
+		setVacancyDataOnContext({ saleValue })
 
 		if (route.params.bothPaymentType) {
 			navigation.navigate('InsertExchangeValue')

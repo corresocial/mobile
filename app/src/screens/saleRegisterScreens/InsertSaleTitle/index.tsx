@@ -54,9 +54,8 @@ function InsertSaleTitle({ route, navigation }: InsertSaleTitleScreenProps) {
 			<PostInputText
 				backgroundColor={theme.green2}
 				validationColor={theme.green1}
-				inputPlaceholder={'ex: televisão 40"'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, isSecondPost ? 3 : 5]}
+				progress={[3, isSecondPost ? 4 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSaleTitle}
 				navigateBackwards={() => navigation.goBack()}
