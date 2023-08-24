@@ -3,7 +3,7 @@ import { ImageResizeMode } from 'react-native'
 
 import { Container, DeleteItemArea, NoPhotoContainer, PortraitImage } from './styles'
 import { relativeScreenWidth } from '../../common/screenDimensions'
-import XWhiteIcon from '../../assets/icons/x-white.svg'
+import ThashWhiteIcon from '../../assets/icons/trash-white.svg'
 import NoPhoto from '../../assets/imgs/noPhoto.svg'
 
 import { SmallButton } from '../_buttons/SmallButton'
@@ -66,7 +66,7 @@ function PhotoPortrait({
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}
 								color={theme.red3}
-								SvgIcon={XWhiteIcon}
+								SvgIcon={ThashWhiteIcon}
 								svgScale={['55%', '55%']}
 								onPress={deleteCurrentPicture}
 							/>
