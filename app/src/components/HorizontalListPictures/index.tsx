@@ -2,7 +2,6 @@ import React from 'react'
 import uuid from 'react-uuid'
 
 import {
-	AddNewPicturesButton,
 	Container,
 	PictureItemButtom,
 	ScrollView,
@@ -10,6 +9,9 @@ import {
 	Picture,
 } from './styles'
 import AddPictureWhiteIcon from '../../assets/icons/addPicture-white.svg'
+import { SmallButton } from '../_buttons/SmallButton'
+import { relativeScreenWidth } from '../../common/screenDimensions'
+import { HorizontalSpacing } from '../HorizontalSpacing'
 
 interface HorizontalListPicturesProps {
 	picturesUri: string[]
@@ -27,9 +29,7 @@ function HorizontalListPictures({ picturesUri, pictureUriSelected, onSelectPictu
 		>
 			<PicturePortrait pictureSelected={pictureUriSelected === index}>
 				<Picture
-					source={{
-						uri: pictureUri
-					}}
+					source={{ uri: pictureUri }}
 					width={100}
 					height={100}
 				/>
@@ -39,11 +39,17 @@ function HorizontalListPictures({ picturesUri, pictureUriSelected, onSelectPictu
 
 	return (
 		<Container >
-			<ScrollView horizontal>
+			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
+				<HorizontalSpacing width={relativeScreenWidth(4)} />
 				<Container>
-					<AddNewPicturesButton onPress={openCamera}>
-						<AddPictureWhiteIcon width={'50%'} height={'50%'} />
-					</AddNewPicturesButton>
+					<SmallButton
+						onPress={openCamera}
+						relativeWidth={relativeScreenWidth(20)}
+						height={relativeScreenWidth(20)}
+						SvgIcon={AddPictureWhiteIcon}
+						svgScale={['50%', '50%']}
+					/>
+					<HorizontalSpacing />
 					{renderPictures()}
 				</Container>
 			</ScrollView>

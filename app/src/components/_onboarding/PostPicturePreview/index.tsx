@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Container, PicturePreviewContainer, TopArea } from './styles'
+import { Container, HorizontalListPicturesContainer, PicturePreviewContainer, TopArea } from './styles'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import CheckIcon from '../../../assets/icons/check-white.svg'
@@ -71,19 +71,22 @@ function PostPicturePreview({
 				</TopArea>
 				<PicturePreviewContainer>
 					<PhotoPortrait
+						resizeMode={'cover'}
 						pictureUri={picturesPack[pictureIndexSelected]}
 						width={relativeScreenWidth(90)}
 						height={relativeScreenWidth(89)}
 						deleteCurrentPicture={deleteCurrentPicture}
 					/>
 					<VerticalSigh height={relativeScreenWidth(7)} />
+				</PicturePreviewContainer>
+				<HorizontalListPicturesContainer>
 					<HorizontalListPictures
 						picturesUri={picturesPack}
 						pictureUriSelected={pictureIndexSelected}
 						openCamera={() => setCameraOpened(true)}
 						onSelectPicture={setPictureIndexSelected}
 					/>
-				</PicturePreviewContainer>
+				</HorizontalListPicturesContainer>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2}>
 				<PrimaryButton

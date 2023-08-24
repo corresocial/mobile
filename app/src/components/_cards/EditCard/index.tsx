@@ -111,9 +111,7 @@ function EditCard({
 										/>
 									) : (
 										<ProfilePicture
-											source={{
-												uri: profilePicturesUrl[0] || 'https://www.softdownload.com.br/wp-content/uploads/2018/03/como_trocar_foto_perfil_facebook.jpg'
-											}}
+											source={{ uri: profilePicturesUrl[0] || 'https://www.softdownload.com.br/wp-content/uploads/2018/03/como_trocar_foto_perfil_facebook.jpg' }}
 											width={0}
 											height={0}
 										/>

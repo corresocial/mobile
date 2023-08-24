@@ -13,20 +13,8 @@ export const Container = styled.View`
     align-items: center;
 `
 
-export const AddNewPicturesButton = styled.TouchableOpacity`
-    width: ${relativeScreenWidth(20) + RFValue(4)}px;
-    height: ${relativeScreenWidth(20)}px;
-    border: ${RFValue(3.5)}px solid ${({ theme }) => theme.black4};
-    background-color: ${({ theme }) => theme.white3};
-    border-right-width: ${RFValue(8)}px;
-    border-radius: ${RFValue(15)}px;
-    align-items: center;
-    justify-content: center;
-    margin-right: ${RFValue(10)}px;
-`
-
 export const PictureItemButtom = styled.TouchableOpacity<PicturePortraitProps>`
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.black4};
 	margin-right: ${RFValue(10)}px;
 	overflow: hidden;
 	align-items: center;
@@ -46,7 +34,7 @@ export const PicturePortrait = styled.View<PicturePortraitProps>`
 	width: ${relativeScreenWidth(16)}px;
 	height: ${relativeScreenWidth(16)}px;
 	border-color:  ${({ theme }) => theme.black4};
-	background-color: ${({ theme }) => theme.white3};
+	background-color: ${({ theme }) => theme.black4};
 	border-radius: ${RFValue(12)}px;
 	align-items: center;
 	justify-content: center;

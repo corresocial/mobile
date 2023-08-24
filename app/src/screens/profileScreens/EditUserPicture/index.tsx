@@ -31,7 +31,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	}
 
 	const setPictureUri = (pictureUri: string) => {
-		if (pictureUri !== userDataContext.profilePictureUrl[0]) {
+		if (userDataContext.profilePictureUrl && pictureUri !== userDataContext.profilePictureUrl[0]) {
 			addNewUnsavedFieldToEditContext({ profilePictureUrl: pictureUri })
 		}
 		setProfilePictureUrl(pictureUri)
@@ -96,7 +96,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 					svgIconScale={['32%', '20%']}
 					onPress={() => {
 						clearUnsavedEditFieldContext('profilePictureUrl')
-						setPictureUri(userDataContext.profilePictureUrl[0])
+						setPictureUri(userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : '')
 						navigation.goBack()
 					}}
 				/>

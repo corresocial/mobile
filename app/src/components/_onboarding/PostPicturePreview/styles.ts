@@ -20,3 +20,8 @@ export const TopArea = styled.View`
 	flex-direction: row;
 	align-items: center;
 `
+
+export const HorizontalListPicturesContainer = styled.View`
+	flex-direction: row;
+	justify-content: center;
+`
