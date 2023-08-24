@@ -30,9 +30,10 @@ function SelectEventRepeat({ route, navigation }: SelectEventRepeatScreenProps) 
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
 			<PostRepeat
 				backgroundColor={theme.blue2}
+				itemsColor={theme.blue3}
 				progress={[4, 4]}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRepeat={saveCultureRepeat}
