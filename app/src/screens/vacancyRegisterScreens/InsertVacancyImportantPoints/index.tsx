@@ -10,7 +10,6 @@ import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import { InsertVacancyImportantPointsScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -22,7 +21,6 @@ import { LineInput } from '../../../components/LineInput'
 import { SkipButton } from '../../../components/_buttons/SkipButton'
 
 function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImportantPointsScreenProps) {
-	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [importantPointText, setImportantPointText] = useState('')
@@ -105,42 +103,14 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ importantPoints: [] })
 			navigation.goBack()
-			return
 		}
-
-		setVacancyDataOnContext({ importantPoints: [] })
-
-		navigation.reset({
-			index: 0,
-			routes: [{
-				name: 'EditVacancyPostReview',
-				params: {
-					postData: { ...vacancyDataContext, importantPoints: [] },
-					unsavedPost: true
-				}
-			}]
-		})
 	}
 
 	const saveVacancyImportantPoints = () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ importantPoints: importantPointsList })
 			navigation.goBack()
-			return
 		}
-
-		setVacancyDataOnContext({ importantPoints: importantPointsList })
-
-		navigation.reset({
-			index: 0,
-			routes: [{
-				name: 'EditVacancyPostReview',
-				params: {
-					postData: { ...vacancyDataContext, importantPoints: importantPointsList },
-					unsavedPost: true
-				}
-			}]
-		})
 	}
 
 	const getPlaceholder = () => {

@@ -14,7 +14,7 @@ import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
 
 function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveWorkplaceType = (workplace: WorkplaceType) => {
@@ -37,7 +37,7 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 			highlightedWords={['local,', 'de', 'trabalho']}
 			headerBackgroundColor={theme.yellow2}
 			backgroundColor={theme.white3}
-			progress={[3, 5]}
+			progress={[4, isSecondPost ? 6 : 7]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton

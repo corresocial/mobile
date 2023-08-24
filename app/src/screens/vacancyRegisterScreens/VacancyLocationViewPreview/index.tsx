@@ -16,7 +16,7 @@ const defaultDeltaCoordinates = {
 }
 
 function VacancyLocationViewPreview({ route, navigation }: VacancyLocationViewPreviewScreenProps) {
-	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { vacancyDataContext } = useContext(VacancyContext)
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const { locationView } = route.params
@@ -46,8 +46,21 @@ function VacancyLocationViewPreview({ route, navigation }: VacancyLocationViewPr
 			return
 		}
 
-		setVacancyDataOnContext({ locationView })
-		navigation.navigate('SelectVacancyFrequency')
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'EditVacancyPostReview',
+				params: {
+					postData: {
+						...vacancyDataContext,
+						locationView,
+						paymentType: vacancyDataContext.paymentType || 'sale',
+						saleValue: vacancyDataContext.saleValue || 'a combinar',
+					},
+					unsavedPost: true
+				}
+			}]
+		})
 	}
 
 	const getPostRange = () => {

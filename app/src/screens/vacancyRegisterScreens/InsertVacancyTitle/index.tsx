@@ -42,7 +42,7 @@ function InsertVacancyTitle({ route, navigation }: InsertVacancyTitleScreenProps
 		}
 
 		setVacancyDataOnContext({ title: inputText })
-		navigation.navigate('InsertVacancyDescription')
+		navigation.navigate('SelectWorkplace')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -53,9 +53,8 @@ function InsertVacancyTitle({ route, navigation }: InsertVacancyTitleScreenProps
 			<PostInputText
 				backgroundColor={theme.yellow2}
 				validationColor={theme.yellow1}
-				inputPlaceholder={'ex: pedreiro'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, isSecondPost ? 3 : 5]}
+				progress={[3, isSecondPost ? 6 : 7]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateVacancyTitle}
 				navigateBackwards={() => navigation.goBack()}

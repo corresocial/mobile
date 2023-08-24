@@ -16,7 +16,7 @@ import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionI
 
 function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
@@ -31,8 +31,6 @@ function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps
 	const closeSubscriptionInfoModal = () => setSubscriptionModalIsVisible(false)
 
 	const savePostRange = (postRange: PostRangeType) => {
-		const { workplace } = vacancyDataContext
-
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ range: postRange })
 			navigation.goBack()
@@ -40,11 +38,7 @@ function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps
 		}
 
 		setVacancyDataOnContext({ range: postRange })
-		if (workplace !== 'homeoffice') {
-			navigation.navigate('SelectVacancyLocationView')
-		} else {
-			navigation.navigate('SelectWorkWeekdays')
-		}
+		navigation.navigate('SelectVacancyLocationView')
 	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
@@ -67,7 +61,7 @@ function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
-				progress={[4, 5]}
+				progress={[6, isSecondPost ? 6 : 7]}
 			/>
 		</>
 	)

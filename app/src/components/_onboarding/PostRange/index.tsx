@@ -74,8 +74,8 @@ function PostRange({ backgroundColor, itemsColor, isVacancy, plansAvailable, use
 					<OptionButton
 						label={'região'}
 						highlightedWords={['região']}
-						shortDescription={'cobrado todo mês \nno seu cartão, \ncancele quando quiser'}
-						shortDescriptionHighlightedWords={['\ncancele', 'quando', 'quiser']}
+						shortDescription={'a pessoas encontram seus \nposts e perfil  no bairro'}
+						shortDescriptionHighlightedWords={['bairro']}
 						shortDescriptionFontSize={14}
 						relativeHeight={'26%'}
 						SvgIcon={MapPointWhiteIcon}

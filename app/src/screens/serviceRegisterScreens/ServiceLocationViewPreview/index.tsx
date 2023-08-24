@@ -16,7 +16,7 @@ const defaultDeltaCoordinates = {
 }
 
 function ServiceLocationViewPreview({ route, navigation }: ServiceLocationViewPreviewScreenProps) {
-	const { serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
+	const { serviceDataContext } = useContext(ServiceContext)
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const { locationView } = route.params
@@ -45,9 +45,6 @@ function ServiceLocationViewPreview({ route, navigation }: ServiceLocationViewPr
 			navigation.goBack()
 			return
 		}
-
-		setServiceDataOnContext({ locationView })
-		navigation.navigate('SelectDeliveryMethod')
 
 		navigation.reset({
 			index: 0,

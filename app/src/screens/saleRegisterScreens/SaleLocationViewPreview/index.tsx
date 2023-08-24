@@ -16,7 +16,7 @@ const defaultDeltaCoordinates = {
 }
 
 function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewScreenProps) {
-	const { saleDataContext, setSaleDataOnContext } = useContext(SaleContext)
+	const { saleDataContext } = useContext(SaleContext)
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const { locationView } = route.params
@@ -45,8 +45,6 @@ function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewS
 			navigation.goBack()
 			return
 		}
-
-		setSaleDataOnContext({ locationView })
 
 		navigation.reset({
 			index: 0,

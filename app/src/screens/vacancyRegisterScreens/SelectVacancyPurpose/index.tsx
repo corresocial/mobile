@@ -14,7 +14,7 @@ import { PostSelectButton } from '../../../components/_onboarding/PostSelectButt
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function SelectVacancyPurpose({ route, navigation }: SelectVacancyPurposeScreenProps) {
-	const { setVacancyDataOnContext, getAditionalDataFromLastPost } = useContext(VacancyContext)
+	const { isSecondPost, setVacancyDataOnContext, getAditionalDataFromLastPost } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	useEffect(() => {
@@ -43,6 +43,7 @@ function SelectVacancyPurpose({ route, navigation }: SelectVacancyPurposeScreenP
 			highlightedWords={['vaga', 'profissional']}
 			headerBackgroundColor={theme.yellow2}
 			backgroundColor={theme.white3}
+			progress={[1, isSecondPost ? 6 : 7]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton

@@ -15,7 +15,7 @@ import { PostSelectButton } from '../../../components/_onboarding/PostSelectButt
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) {
-	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveVacancyType = (vacancyType: VacancyType) => {
@@ -27,26 +27,7 @@ function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) 
 
 		setVacancyDataOnContext({ vacancyType })
 
-		if (vacancyDataContext.workplace !== 'homeoffice') {
-			navigation.navigate('SelectPaymentType', {} as any)
-			return
-		}
-
-		switch (vacancyType) {
-			case 'professional': {
-				navigation.navigate('SelectPaymentType')
-				break
-			}
-			case 'temporary': {
-				navigation.navigate('SelectPaymentType')
-				break
-			}
-			case 'beak': {
-				navigation.navigate('SelectPaymentType')
-				break
-			}
-			default: return false
-		}
+		navigation.navigate('SelectVacancyRange', {} as any)
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -57,6 +38,7 @@ function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) 
 			highlightedWords={['tipo', 'vaga']}
 			headerBackgroundColor={theme.yellow2}
 			backgroundColor={theme.white3}
+			progress={[5, isSecondPost ? 6 : 7]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton
