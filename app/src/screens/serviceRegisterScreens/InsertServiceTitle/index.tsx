@@ -51,11 +51,14 @@ function InsertServiceTitle({ route, navigation }: InsertServiceTitleScreenProps
 		<>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<PostInputText
+				customTitle={'fala tudo sobre o que você tá postando'}
+				customHighlight={['tudo', 'o', 'que', 'você', 'tá', 'postando']}
+				multiline
 				backgroundColor={theme.purple2}
 				validationColor={theme.purple1}
-				inputPlaceholder={'ex: marcenaria'}
+				inputPlaceholder={'descreva seu post...'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, isSecondPost ? 3 : 5]}
+				progress={[2, isSecondPost ? 3 : 4]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateServiceTitle}
 				navigateBackwards={() => navigation.goBack()}

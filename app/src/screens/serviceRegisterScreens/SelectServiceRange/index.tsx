@@ -16,14 +16,14 @@ import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionI
 
 function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { isSecondPost, setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
 	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = React.useState(false)
 
 	useEffect(() => {
-		if (!editModeIsTrue()) setSubscriptionModalIsVisible(true)
+		if (!editModeIsTrue() && !isSecondPost) setSubscriptionModalIsVisible(true)
 	}, [])
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -60,7 +60,7 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
-				progress={[3, 5]}
+				progress={[3, isSecondPost ? 3 : 4]}
 			/>
 		</>
 	)

@@ -20,6 +20,7 @@ interface PostInputTextProps {
 	validationColor: string
 	customTitle?: string
 	customHighlight?: string[]
+	multiline?: boolean
 	inputPlaceholder?: string
 	initialValue?: string
 	keyboardOpened?: boolean
@@ -35,6 +36,7 @@ function PostInputText({
 	validationColor,
 	customTitle,
 	customHighlight,
+	multiline,
 	inputPlaceholder,
 	initialValue,
 	keyboardOpened,
@@ -55,8 +57,8 @@ function PostInputText({
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(26)}
-				relativeHeight={relativeScreenHeight(26)}
+				minHeight={relativeScreenHeight(28)}
+				relativeHeight={relativeScreenHeight(28)}
 				centralized
 				backgroundColor={backgroundColor}
 			>
@@ -87,6 +89,8 @@ function PostInputText({
 					lastInput
 					textAlign={'left'}
 					fontSize={16}
+					multiline
+					initialNumberOfLines={multiline ? 1 : 1}
 					placeholder={inputPlaceholder}
 					keyboardType={'default'}
 					textIsValid={inputTextIsValid && !keyboardOpened}
