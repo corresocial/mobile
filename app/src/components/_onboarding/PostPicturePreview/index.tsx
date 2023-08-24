@@ -64,11 +64,11 @@ function PostPicturePreview({
 				<TopArea>
 					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
-						message={picturesPack.length > 1 ? 'ficaram boas?' : 'ficou boa?'}
-						highlightedWords={['boas', 'boa']}
+						fontSize={18}
+						message={'e aí. gostou?'}
+						highlightedWords={['gostou']}
 					/>
 				</TopArea>
-				{/* <VerticalSigh height={relativeScreenWidth(7)} /> */}
 				<PicturePreviewContainer>
 					<PhotoPortrait
 						pictureUri={picturesPack[pictureIndexSelected]}

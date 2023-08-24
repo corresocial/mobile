@@ -32,8 +32,8 @@ export const DeleteItemArea = styled.TouchableOpacity`
     width: ${relativeScreenWidth(14)}px;
     height: ${relativeScreenWidth(14)}px;
     padding:  ${relativeScreenWidth(2.5)}px;
-    bottom:  ${relativeScreenWidth(1.25)}px;;
-    right:  ${relativeScreenWidth(1.25)}px;;
+    bottom:  ${relativeScreenWidth(2)}px;;
+    right:  ${relativeScreenWidth(2)}px;;
 `
 
 export const CheckArea = styled.View`

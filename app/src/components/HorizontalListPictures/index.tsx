@@ -9,7 +9,7 @@ import {
 	PicturePortrait,
 	Picture,
 } from './styles'
-import AddPictureIcon from '../../assets/icons/addPicture.svg'
+import AddPictureWhiteIcon from '../../assets/icons/addPicture-white.svg'
 
 interface HorizontalListPicturesProps {
 	picturesUri: string[]
@@ -21,16 +21,11 @@ interface HorizontalListPicturesProps {
 function HorizontalListPictures({ picturesUri, pictureUriSelected, onSelectPicture, openCamera }: HorizontalListPicturesProps) {
 	const renderPictures = () => picturesUri.map((pictureUri, index) => (
 		<PictureItemButtom
+			pictureSelected={pictureUriSelected === index}
 			key={uuid()}
 			onPress={() => onSelectPicture(index)}
 		>
-			<PicturePortrait
-				style={{
-					opacity: pictureUriSelected === index ? 1 : 0.5,
-					borderWidth: pictureUriSelected === index ? 3 : 2,
-					borderRightWidth: pictureUriSelected === index ? 4 : 3
-				}}
-			>
+			<PicturePortrait pictureSelected={pictureUriSelected === index}>
 				<Picture
 					source={{
 						uri: pictureUri
@@ -47,7 +42,7 @@ function HorizontalListPictures({ picturesUri, pictureUriSelected, onSelectPictu
 			<ScrollView horizontal>
 				<Container>
 					<AddNewPicturesButton onPress={openCamera}>
-						<AddPictureIcon width={'50%'} height={'50%'} />
+						<AddPictureWhiteIcon width={'50%'} height={'50%'} />
 					</AddNewPicturesButton>
 					{renderPictures()}
 				</Container>

@@ -3,10 +3,12 @@ import { Image, ImageResizeMode } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
 import { CheckArea, Container, DeleteItemArea, NoPhotoContainer } from './styles'
-import TrashIcon from '../../assets/icons/trash-red.svg'
+import XWhiteIcon from '../../assets/icons/x-white.svg'
 import NoPhoto from '../../assets/imgs/noPhoto.svg'
 import CheckOrange from '../../assets/icons/check-orange.svg'
 import { relativeScreenWidth } from '../../common/screenDimensions'
+import { SmallButton } from '../_buttons/SmallButton'
+import { theme } from '../../common/theme'
 
 interface PhotoPortraitProps {
 	width: number | string
@@ -48,9 +50,7 @@ function PhotoPortrait({
 				pictureUri
 					? (
 						<Image
-							source={{
-								uri: pictureUri
-							}}
+							source={{ uri: pictureUri }}
 							width={0} // TODO fix
 							height={0}
 							style={{
@@ -71,7 +71,14 @@ function PhotoPortrait({
 				deleteCurrentPicture && pictureUri
 					? (
 						<DeleteItemArea onPress={deleteCurrentPicture}>
-							<TrashIcon width={'100%'} height={'100%'} />
+							<SmallButton
+								relativeWidth={relativeScreenWidth(12)}
+								height={relativeScreenWidth(12)}
+								color={theme.red3}
+								SvgIcon={XWhiteIcon}
+								svgScale={['55%', '55%']}
+								onPress={deleteCurrentPicture}
+							/>
 						</DeleteItemArea>
 					)
 					: null
