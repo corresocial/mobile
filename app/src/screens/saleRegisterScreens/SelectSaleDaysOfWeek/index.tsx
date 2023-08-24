@@ -47,7 +47,6 @@ function SelectSaleDaysOfWeek({ route, navigation }: SelectSaleDaysOfWeekScreenP
 			<PostDaysOfWeek
 				backgroundColor={theme.green2}
 				validationColor={theme.green1}
-				progress={[5, 5]}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : []}
 				skipScreen={skipScreen}
 				navigateBackwards={() => navigation.goBack()}

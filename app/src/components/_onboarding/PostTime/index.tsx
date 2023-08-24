@@ -14,7 +14,6 @@ import { InstructionCard } from '../../_cards/InstructionCard'
 import { LineInput } from '../../LineInput'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../_buttons/BackButton'
-import { ProgressBar } from '../../ProgressBar'
 import { SkipButton } from '../../_buttons/SkipButton'
 
 interface PostTimeProps {
@@ -22,7 +21,6 @@ interface PostTimeProps {
 	validationColor: string
 	customTitle?: string
 	customHighlight?: string[]
-	progress: [value: number, range: number]
 	editMode?: boolean
 	startDate?: Date
 	endDate?: Date
@@ -39,7 +37,6 @@ function PostTime({
 	validationColor,
 	customTitle,
 	customHighlight,
-	progress,
 	editMode,
 	startDate,
 	endDate,
@@ -171,10 +168,6 @@ function PostTime({
 							: customHighlight || ['que', 'horas', 'começa']
 					}
 				>
-					<ProgressBar
-						value={progress[0]}
-						range={progress[1]}
-					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer

@@ -34,7 +34,6 @@ function SelectEventRepeat({ route, navigation }: SelectEventRepeatScreenProps) 
 			<PostRepeat
 				backgroundColor={theme.blue2}
 				itemsColor={theme.blue3}
-				progress={[4, 4]}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRepeat={saveCultureRepeat}
 			/>

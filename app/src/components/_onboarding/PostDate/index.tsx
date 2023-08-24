@@ -15,7 +15,6 @@ import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
 import { LineInput } from '../../LineInput'
 import { BackButton } from '../../_buttons/BackButton'
-import { ProgressBar } from '../../ProgressBar'
 import { SkipButton } from '../../_buttons/SkipButton'
 
 interface PostDateProps {
@@ -23,7 +22,6 @@ interface PostDateProps {
 	validationColor: string
 	customTitle?: string
 	customHighlight?: string[]
-	progress: [value: number, range: number]
 	editMode?: boolean
 	initialValue?: Date | string
 	startDate?: Date
@@ -38,7 +36,6 @@ function PostDate({
 	validationColor,
 	customTitle,
 	customHighlight,
-	progress,
 	editMode,
 	initialValue,
 	startDate,
@@ -166,7 +163,7 @@ function PostDate({
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={17}
+					fontSize={16}
 					message={
 						invalidDateAfterSubmit
 							? startDate ? 'a data informada antecede a data de início' : 'a data informada antecede a data atual'
@@ -178,10 +175,6 @@ function PostDate({
 							: customHighlight || ['começa']
 					}
 				>
-					<ProgressBar
-						value={progress[0]}
-						range={progress[1]}
-					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer

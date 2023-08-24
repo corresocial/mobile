@@ -7,7 +7,6 @@ import CalendarToday from '../../../assets/icons/calendarToday-white.svg'
 import CalendarEveryday from '../../../assets/icons/calendarEveryday-white.svg'
 import CalendarSomeday from '../../../assets/icons/calendarSomeday-white.svg'
 import CalendarBusinessDay from '../../../assets/icons/calendarBusinessDay-white.svg'
-import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
 
 import { WeekdaysFrequency } from '../../../services/firebase/types'
 
@@ -15,13 +14,11 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { ProgressBar } from '../../../components/ProgressBar'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 interface PostFrequencyProps {
 	backgroundColor: string
-	progress: [value: number, range: number]
 	navigateBackwards: () => void
 	skipScreen?: () => void
 	savePostFrequency: (serviceFrequency: WeekdaysFrequency) => void
@@ -29,7 +26,6 @@ interface PostFrequencyProps {
 
 function PostFrequency({
 	backgroundColor,
-	progress,
 	navigateBackwards,
 	skipScreen,
 	savePostFrequency
@@ -48,10 +44,6 @@ function PostFrequency({
 					message={'qual é a frequência?'}
 					highlightedWords={['qual', 'é', 'a', 'frequência']}
 				>
-					<ProgressBar
-						value={progress[0]}
-						range={progress[1]}
-					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer

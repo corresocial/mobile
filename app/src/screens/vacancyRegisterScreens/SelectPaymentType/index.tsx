@@ -12,7 +12,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PaymentMethod } from '../../../components/_onboarding/PaymentMethod'
 
 function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) {
-	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -57,7 +57,6 @@ function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) 
 				customTitle={'qual é o tipo de remuneração?'}
 				customHighlight={['tipo', 'de', 'remuneração']}
 				isVacancy
-				progress={[3, isSecondPost ? 3 : 5]}
 				navigateBackwards={() => navigation.goBack()}
 				savePaymentMethod={savePaymentType}
 			/>

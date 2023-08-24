@@ -15,7 +15,6 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { ProgressBar } from '../../../components/ProgressBar'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { OptionButton } from '../../_buttons/OptionButton'
 import { VerticalSigh } from '../../VerticalSigh'
@@ -23,12 +22,11 @@ import { VerticalSigh } from '../../VerticalSigh'
 interface PostRepeatProps {
 	backgroundColor: string
 	itemsColor: string
-	progress: [value: number, range: number]
 	savePostRepeat: (repeat: EventRepeatType) => void
 	navigateBackwards: () => void
 }
 
-function PostRepeat({ backgroundColor, itemsColor, progress, savePostRepeat, navigateBackwards }: PostRepeatProps) {
+function PostRepeat({ backgroundColor, itemsColor, savePostRepeat, navigateBackwards }: PostRepeatProps) {
 	return (
 		<Container>
 			<StatusBar backgroundColor={backgroundColor} barStyle={'dark-content'} />
@@ -43,10 +41,6 @@ function PostRepeat({ backgroundColor, itemsColor, progress, savePostRepeat, nav
 					message={'se repete?'}
 					highlightedWords={['repete']}
 				>
-					<ProgressBar
-						value={progress[0]}
-						range={progress[1]}
-					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer

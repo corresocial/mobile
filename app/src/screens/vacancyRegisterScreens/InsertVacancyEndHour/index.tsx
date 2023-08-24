@@ -67,7 +67,6 @@ function InsertVacancyEndHour({ route, navigation }: InsertVacancyEndHourScreenP
 				endDate={editDataContext.unsaved.endDate || vacancyDataContext.endDate}
 				startTime={editDataContext.unsaved.startHour || vacancyDataContext.startHour}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

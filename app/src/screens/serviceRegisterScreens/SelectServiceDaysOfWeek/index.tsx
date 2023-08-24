@@ -47,7 +47,6 @@ function SelectServiceDaysOfWeek({ route, navigation }: SelectServiceDaysOfWeekS
 			<PostDaysOfWeek
 				backgroundColor={theme.purple2}
 				validationColor={theme.purple1}
-				progress={[5, 5]}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : []}
 				skipScreen={skipScreen}
 				navigateBackwards={() => navigation.goBack()}

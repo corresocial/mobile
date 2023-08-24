@@ -21,12 +21,10 @@ import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { ProgressBar } from '../../../components/ProgressBar'
 
 interface PostDaysOfWeekProps {
 	backgroundColor: string
 	validationColor: string
-	progress: [value: number, range: number]
 	initialValue?: DaysOfWeek[]
 	navigateBackwards: () => void
 	skipScreen?: () => void
@@ -36,7 +34,6 @@ interface PostDaysOfWeekProps {
 function PostDaysOfWeek({
 	backgroundColor,
 	validationColor,
-	progress,
 	initialValue,
 	navigateBackwards,
 	skipScreen,
@@ -121,10 +118,6 @@ function PostDaysOfWeek({
 					message={'que dias da semana?'}
 					highlightedWords={['que', 'dias']}
 				>
-					<ProgressBar
-						value={progress[1]}
-						range={progress[0]}
-					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<SelectButtonsContainer

@@ -19,7 +19,6 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
-import { ProgressBar } from '../../../components/ProgressBar'
 import { SkipButton } from '../../../components/_buttons/SkipButton'
 
 function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImportantPointsScreenProps) {
@@ -175,10 +174,6 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 					message={'quer adicionar até 3 pontos importantes?'}
 					highlightedWords={['adicionar', 'até', '3', 'pontos', 'importantes']}
 				>
-					<ProgressBar
-						value={5}
-						range={5}
-					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer

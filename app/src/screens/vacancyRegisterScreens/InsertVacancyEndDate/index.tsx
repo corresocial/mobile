@@ -63,7 +63,6 @@ function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenP
 				editMode={editModeIsTrue()}
 				startDate={editDataContext.unsaved.startDate || vacancyDataContext.startDate}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

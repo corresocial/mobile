@@ -66,10 +66,14 @@ function PostInputText({
 					message={customTitle || 'qual o título do seu post?'}
 					highlightedWords={customHighlight || ['título']}
 				>
-					<ProgressBar
-						value={progress[0]}
-						range={progress[1]}
-					/>
+					{
+						progress && (
+							<ProgressBar
+								value={progress[0]}
+								range={progress[1]}
+							/>
+						)
+					}
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer

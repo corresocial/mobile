@@ -60,7 +60,6 @@ function InsertVacancyStartDate({ route, navigation }: InsertVacancyStartDateScr
 				backgroundColor={theme.yellow2}
 				validationColor={theme.yellow1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

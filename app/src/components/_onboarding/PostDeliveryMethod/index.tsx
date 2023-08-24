@@ -13,19 +13,17 @@ import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer
 import { FormContainer } from '../../_containers/FormContainer'
 import { BackButton } from '../../_buttons/BackButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
-import { ProgressBar } from '../../ProgressBar'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { OptionButton } from '../../_buttons/OptionButton'
 
 interface PostDeliveryMethodProps {
 	backgroundColor: string
 	itemsColor: string
-	progress: [value: number, range: number]
 	navigateBackwards: () => void
 	saveDeliveryMethod: (deliveryMethod: DeliveryMethod) => void
 }
 
-function PostDeliveryMethod({ backgroundColor, itemsColor, progress, navigateBackwards, saveDeliveryMethod }: PostDeliveryMethodProps) {
+function PostDeliveryMethod({ backgroundColor, itemsColor, navigateBackwards, saveDeliveryMethod }: PostDeliveryMethodProps) {
 	return (
 		<Container>
 			<DefaultHeaderContainer
@@ -39,10 +37,6 @@ function PostDeliveryMethod({ backgroundColor, itemsColor, progress, navigateBac
 					message={'você faz entregas ou \natende à distância?'}
 					highlightedWords={['entregas', '\natende', 'à', 'distância']}
 				>
-					<ProgressBar
-						value={progress[0]}
-						range={progress[1]}
-					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer

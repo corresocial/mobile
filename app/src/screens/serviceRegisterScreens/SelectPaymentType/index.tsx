@@ -12,7 +12,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PaymentMethod } from '../../../components/_onboarding/PaymentMethod'
 
 function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) {
-	const { isSecondPost, setServiceDataOnContext } = useContext(ServiceContext)
+	const { setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -53,7 +53,6 @@ function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) 
 			<PaymentMethod
 				backgroundColor={theme.purple2}
 				itemsColor={theme.purple3}
-				progress={[3, isSecondPost ? 3 : 5]}
 				navigateBackwards={() => navigation.goBack()}
 				savePaymentMethod={savePaymentType}
 			/>

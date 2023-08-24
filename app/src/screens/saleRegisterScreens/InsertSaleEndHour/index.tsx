@@ -82,7 +82,6 @@ function InsertSaleEndHour({ route, navigation }: InsertSaleEndHourScreenProps) 
 				customHighlight={['que', 'horas', 'termina']}
 				startTime={editDataContext.unsaved.startHour || saleDataContext.startHour}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

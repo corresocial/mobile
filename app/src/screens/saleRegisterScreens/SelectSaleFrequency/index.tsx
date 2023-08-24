@@ -111,7 +111,6 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<PostFrequency
 				backgroundColor={theme.green2}
-				progress={[5, 5]}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
 				savePostFrequency={saveSaleFrequency}

@@ -13,7 +13,6 @@ import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer
 import { FormContainer } from '../../_containers/FormContainer'
 import { BackButton } from '../../_buttons/BackButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
-import { ProgressBar } from '../../ProgressBar'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { OptionButton } from '../../_buttons/OptionButton'
 
@@ -23,7 +22,6 @@ interface PaymentMethodProps {
 	customTitle?: string
 	customHighlight?: string[]
 	isVacancy?: boolean
-	progress: [value: number, range: number]
 	savePaymentMethod: (paymentType: PaymentType) => void
 	navigateBackwards: () => void
 }
@@ -34,7 +32,6 @@ function PaymentMethod({
 	customTitle,
 	customHighlight,
 	isVacancy,
-	progress,
 	savePaymentMethod,
 	navigateBackwards
 }: PaymentMethodProps) {
@@ -48,14 +45,10 @@ function PaymentMethod({
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					fontSize={17}
+					fontSize={16}
 					message={customTitle || 'você vende, aceita troca ou os dois ?'}
 					highlightedWords={customHighlight || ['vende', 'aceita', 'troca', 'os', 'dois']}
 				>
-					<ProgressBar
-						value={progress[0]}
-						range={progress[1]}
-					/>
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer

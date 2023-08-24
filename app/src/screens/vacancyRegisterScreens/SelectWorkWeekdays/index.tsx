@@ -47,7 +47,6 @@ function SelectWorkWeekdays({ route, navigation }: SelectWorkWeekdaysScreenProps
 			<PostDaysOfWeek
 				backgroundColor={theme.yellow2}
 				validationColor={theme.yellow1}
-				progress={[5, 5]}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : []}
 				skipScreen={skipScreen}
 				navigateBackwards={() => navigation.goBack()}

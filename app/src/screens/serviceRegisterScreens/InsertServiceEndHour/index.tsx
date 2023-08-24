@@ -13,7 +13,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertServiceEndHour({ route, navigation }: InsertServiceEndHourScreenProps) {
-	const { serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
+	const { serviceDataContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -82,7 +82,6 @@ function InsertServiceEndHour({ route, navigation }: InsertServiceEndHourScreenP
 				customHighlight={['que', 'horas', 'termina']}
 				startTime={editDataContext.unsaved.startHour || serviceDataContext.startHour}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

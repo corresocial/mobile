@@ -34,7 +34,6 @@ function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenP
 			<PostDeliveryMethod
 				backgroundColor={theme.purple2}
 				itemsColor={theme.purple3}
-				progress={[5, 5]}
 				navigateBackwards={() => navigation.goBack()}
 				saveDeliveryMethod={saveDeliveryMethod}
 			/>

@@ -111,7 +111,6 @@ function SelectCultureFrequency({ route, navigation }: SelectCultureFrequencyScr
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<PostFrequency
 				backgroundColor={theme.blue2}
-				progress={[4, 4]}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
 				savePostFrequency={saveCultureFrequency}
