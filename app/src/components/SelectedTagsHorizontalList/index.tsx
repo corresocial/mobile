@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native'
 import uuid from 'react-uuid'
 
 import { Sigh, TagsSelectedArea } from './styles'
-import xThin from '../../assets/icons/x-thin.svg'
+import xBold from '../../assets/icons/x-bold.svg'
 import { relativeScreenWidth } from '../../common/screenDimensions'
 
 import { SelectButton } from '../_buttons/SelectButton'
@@ -36,7 +36,7 @@ function SelectedTagsHorizontalList({ selectedTags, backgroundSelected, onSelect
 			backgroundSelected={backgroundSelected}
 			selected
 			onSelect={() => onSelectTag(tagName)}
-			SvgIcon={xThin}
+			SvgIcon={xBold}
 			svgIconScale={['20', '12']}
 		/>
 	))
