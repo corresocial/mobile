@@ -13,7 +13,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertCultureEndHour({ route, navigation }: InsertCultureEndHourScreenProps) {
-	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+	const { cultureDataContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -33,21 +33,7 @@ function InsertCultureEndHour({ route, navigation }: InsertCultureEndHourScreenP
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endHour: '' })
 			navigation.goBack()
-			return
 		}
-
-		setCultureDataOnContext({ endHour: '' as any })
-
-		navigation.reset({
-			index: 0,
-			routes: [{
-				name: 'EditCulturePostReview',
-				params: {
-					postData: { ...cultureDataContext, endHour: '' },
-					unsavedPost: true
-				}
-			}]
-		})
 	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
@@ -57,21 +43,7 @@ function InsertCultureEndHour({ route, navigation }: InsertCultureEndHourScreenP
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endHour })
 			navigation.goBack()
-			return
 		}
-
-		setCultureDataOnContext({ endHour })
-
-		navigation.reset({
-			index: 0,
-			routes: [{
-				name: 'EditCulturePostReview',
-				params: {
-					postData: { ...cultureDataContext, endHour },
-					unsavedPost: true
-				}
-			}]
-		})
 	}
 
 	return (

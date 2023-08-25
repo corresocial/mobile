@@ -11,7 +11,7 @@ import { CultureContext } from '../../../contexts/CultureContext'
 import { PostLocationView } from '../../../components/_onboarding/PostLocationView'
 
 function SelectCultureLocationView({ route, navigation }: SelectCultureLocationViewScreenProps) {
-	const { setCultureDataOnContext } = useContext(CultureContext)
+	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
@@ -33,7 +33,7 @@ function SelectCultureLocationView({ route, navigation }: SelectCultureLocationV
 			<PostLocationView
 				backgroundColor={theme.blue2}
 				itemsColor={theme.blue3}
-				progress={[3, 4]}
+				progress={[3, isSecondPost ? 4 : 5]}
 				saveLocationViewType={saveLocationViewType}
 				navigateBackwards={() => navigation.goBack()}
 			/>

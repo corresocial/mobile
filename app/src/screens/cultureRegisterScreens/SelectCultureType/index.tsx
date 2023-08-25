@@ -15,7 +15,7 @@ import { PostSelectButton } from '../../../components/_onboarding/PostSelectButt
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) {
-	const { setCultureDataOnContext, getAditionalDataFromLastPost } = useContext(CultureContext)
+	const { isSecondPost, setCultureDataOnContext, getAditionalDataFromLastPost } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	useEffect(() => {
@@ -43,6 +43,7 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 			highlightedWords={['arte', 'evento', 'educação']}
 			headerBackgroundColor={theme.blue2}
 			backgroundColor={theme.white3}
+			progress={[1, isSecondPost ? 4 : 5]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton

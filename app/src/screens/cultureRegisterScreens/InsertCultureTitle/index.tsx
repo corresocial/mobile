@@ -42,7 +42,7 @@ function InsertCultureTitle({ route, navigation }: InsertCultureTitleScreenProps
 		}
 
 		setCultureDataOnContext({ title: inputText })
-		navigation.navigate('InsertCultureDescription')
+		navigation.navigate('SelectCultureRange')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -51,11 +51,11 @@ function InsertCultureTitle({ route, navigation }: InsertCultureTitleScreenProps
 		<>
 			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
 			<PostInputText
+				multiline
 				backgroundColor={theme.blue2}
 				validationColor={theme.blue1}
-				inputPlaceholder={'ex: exposição de arte'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, isSecondPost ? 2 : 4]}
+				progress={[3, isSecondPost ? 4 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateCultureTitle}
 				navigateBackwards={() => navigation.goBack()}

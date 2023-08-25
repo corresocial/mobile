@@ -17,7 +17,7 @@ import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionI
 
 function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { setCultureDataOnContext } = useContext(CultureContext)
+	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
@@ -64,7 +64,7 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
-				progress={[3, 4]}
+				progress={[3, isSecondPost ? 4 : 5]}
 			/>
 		</>
 	)

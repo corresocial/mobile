@@ -12,13 +12,13 @@ interface ContainerProps {
 export const Container = styled.TouchableOpacity<ContainerProps>`
 	width: ${({ width }) => width || '100%'};
 	height: ${({ multiline, multilineInputHeight }) => (multiline ? multilineInputHeight : relativeScreenHeight(9))}px;
-	min-height: ${RFValue(52)}px;
+	min-height: ${RFValue(42)}px;
 	min-width: ${RFValue(42)}px;
 
     aling-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 	padding-horizontal: ${RFValue(20)}px;
-	padding-top: ${RFValue(10)}px;
+	padding-top: ${RFValue(12)}px;
 	padding-bottom: ${RFValue(20)}px;
 	border-radius: ${RFValue(15)}px;
 	overflow: hidden;
@@ -30,7 +30,7 @@ interface ContainerInnerProps {
 
 export const ContainerInner = styled.View<ContainerInnerProps>`
 	flexDirection: column;
-	justifyContent: space-between;
+	justifyContent: center;
 
 	${({ hasIcon }) => hasIcon && (
 		`alignItems: center;
@@ -60,9 +60,9 @@ export const TextInput = styled.TextInput<TextInputProps>`
 	text-align-vertical: ${({ hasMultiline }) => (hasMultiline ? 'top' : 'center')};
 	width: ${({ hasIcon }) => (hasIcon ? '85%' : '100%')};
 
-
     font-family: Arvo_400Regular;
     text-align: center;
+    text-justify: center;
 	color: ${({ theme }) => theme.black4};
     padding-vertical: ${relativeScreenHeight(1.5)}px;
     max-Height: ${relativeScreenHeight(25)}px;

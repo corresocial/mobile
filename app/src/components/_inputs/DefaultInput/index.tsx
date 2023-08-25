@@ -46,7 +46,7 @@ interface DefaultInputProps extends TextInputProps {
 function DefaultInput({
 	value,
 	relativeWidth = '100%',
-	initialNumberOfLines = 2,
+	initialNumberOfLines = 1,
 	textInputRef,
 	previousInputRef,
 	nextInputRef,
@@ -76,7 +76,7 @@ function DefaultInput({
 }: DefaultInputProps) {
 	const lineHeight = relativeScreenHeight(6)
 	const minLineHeight = initialNumberOfLines * (initialNumberOfLines <= 2 ? relativeScreenHeight(5) : relativeScreenHeight(4.4))
-	const maxLineHeight = relativeScreenHeight(25)
+	const maxLineHeight = relativeScreenHeight(20)
 
 	const [focused, setFocused] = useState<boolean>(false)
 	const [validated, setValidated] = useState<boolean>(false)

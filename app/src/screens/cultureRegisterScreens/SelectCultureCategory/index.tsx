@@ -32,7 +32,7 @@ function SelectCultureCategory({ route, navigation }: SelectCultureCategoryScree
 			<PostCategory
 				backgroundColor={theme.blue2}
 				categories={cultureCategories}
-				progress={[1, isSecondPost ? 2 : 4]}
+				progress={[2, isSecondPost ? 4 : 5]}
 				navigateBackwards={() => navigation.goBack()}
 				savePostCategory={onSelectCategory}
 			/>

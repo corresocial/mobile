@@ -87,10 +87,8 @@ function PostInputText({
 					defaultBackgroundColor={theme.white2}
 					validBackgroundColor={validationColor}
 					lastInput
-					textAlign={'left'}
 					fontSize={16}
 					multiline={multiline}
-					initialNumberOfLines={multiline ? 1 : 1}
 					placeholder={inputPlaceholder || 'descreva seu post...'}
 					keyboardType={'default'}
 					textIsValid={inputTextIsValid && !keyboardOpened}
