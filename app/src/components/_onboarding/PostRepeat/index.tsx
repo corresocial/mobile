@@ -40,8 +40,7 @@ function PostRepeat({ backgroundColor, itemsColor, savePostRepeat, navigateBackw
 					fontSize={16}
 					message={'se repete?'}
 					highlightedWords={['repete']}
-				>
-				</InstructionCard>
+				/>
 			</DefaultHeaderContainer>
 			<FormContainer
 				backgroundColor={theme.white3}

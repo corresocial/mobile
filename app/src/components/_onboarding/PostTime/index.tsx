@@ -167,8 +167,7 @@ function PostTime({
 							? ['antecede', 'horário', 'de', 'início']
 							: customHighlight || ['que', 'horas', 'começa']
 					}
-				>
-				</InstructionCard>
+				/>
 			</DefaultHeaderContainer>
 			<FormContainer
 				backgroundColor={theme.white2}

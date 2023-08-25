@@ -68,8 +68,7 @@ function EditUserDescription({ route, navigation }: EditUserDescriptionScreenPro
 					fontSize={18}
 					message={'edite a descrição do seu perfil'}
 					highlightedWords={['descrição', 'perfil']}
-				>
-				</InstructionCard>
+				/>
 			</DefaultHeaderContainer>
 			<FormContainer
 				backgroundColor={theme.white2}

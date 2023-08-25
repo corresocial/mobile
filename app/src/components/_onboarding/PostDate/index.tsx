@@ -174,8 +174,7 @@ function PostDate({
 							? ['data', 'de', 'início', 'data', 'atual']
 							: customHighlight || ['começa']
 					}
-				>
-				</InstructionCard>
+				/>
 			</DefaultHeaderContainer>
 			<FormContainer
 				backgroundColor={theme.white2}

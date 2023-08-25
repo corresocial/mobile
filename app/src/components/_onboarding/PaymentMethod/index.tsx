@@ -48,8 +48,7 @@ function PaymentMethod({
 					fontSize={16}
 					message={customTitle || 'você vende, aceita troca ou os dois ?'}
 					highlightedWords={customHighlight || ['vende', 'aceita', 'troca', 'os', 'dois']}
-				>
-				</InstructionCard>
+				/>
 			</DefaultHeaderContainer>
 			<FormContainer
 				backgroundColor={theme.white3}

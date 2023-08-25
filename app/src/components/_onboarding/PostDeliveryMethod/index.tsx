@@ -36,8 +36,7 @@ function PostDeliveryMethod({ backgroundColor, itemsColor, navigateBackwards, sa
 					fontSize={16}
 					message={'você faz entregas ou \natende à distância?'}
 					highlightedWords={['entregas', '\natende', 'à', 'distância']}
-				>
-				</InstructionCard>
+				/>
 			</DefaultHeaderContainer>
 			<FormContainer
 				backgroundColor={theme.white3}

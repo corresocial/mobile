@@ -43,8 +43,7 @@ function PostFrequency({
 					fontSize={16}
 					message={'qual é a frequência?'}
 					highlightedWords={['qual', 'é', 'a', 'frequência']}
-				>
-				</InstructionCard>
+				/>
 			</DefaultHeaderContainer>
 			<FormContainer
 				backgroundColor={theme.white3}
@@ -94,16 +93,6 @@ function PostFrequency({
 						leftSideColor={theme.green3}
 						onPress={() => savePostFrequency('businessDay')}
 					/>
-					{/* <PrimaryButton
-						flexDirection={'row-reverse'}
-						color={theme.yellow3}
-						label={'pular'}
-						highlightedWords={['pular']}
-						labelColor={theme.black4}
-						SecondSvgIcon={DeniedWhiteIcon}
-						svgIconScale={['40%', '18%']}
-						onPress={skipScreen}
-					/> */}
 				</ButtonsContainer>
 			</FormContainer>
 		</Container>

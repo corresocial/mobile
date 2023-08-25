@@ -117,8 +117,7 @@ function PostDaysOfWeek({
 					fontSize={16}
 					message={'que dias da semana?'}
 					highlightedWords={['que', 'dias']}
-				>
-				</InstructionCard>
+				/>
 			</DefaultHeaderContainer>
 			<SelectButtonsContainer
 				backgroundColor={backgroundColor}

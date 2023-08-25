@@ -143,8 +143,7 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 					fontSize={17}
 					message={'quer adicionar até 3 pontos importantes?'}
 					highlightedWords={['adicionar', 'até', '3', 'pontos', 'importantes']}
-				>
-				</InstructionCard>
+				/>
 			</DefaultHeaderContainer>
 			<FormContainer
 				backgroundColor={theme.white2}

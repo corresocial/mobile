@@ -24,14 +24,7 @@ function SelectCultureFrequency({ route, navigation }: SelectCultureFrequencyScr
 				daysOfWeek: []
 			})
 			navigation.goBack()
-			return
 		}
-
-		setCultureDataOnContext({
-			exhibitionFrequency: 'someday',
-			daysOfWeek: []
-		})
-		navigation.navigate('SelectEventRepeat')
 	}
 
 	const saveCultureFrequency = (cultureFrequency: WeekdaysFrequency) => {
