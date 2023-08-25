@@ -7,13 +7,11 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertSocialImpactStartDateScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
-import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostDate } from '../../../components/_onboarding/PostDate'
 
 function InsertSocialImpactStartDate({ route, navigation }: InsertSocialImpactStartDateScreenProps) {
-	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -33,11 +31,7 @@ function InsertSocialImpactStartDate({ route, navigation }: InsertSocialImpactSt
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ startDate: '' })
 			navigation.goBack()
-			return
 		}
-
-		setSocialImpactDataOnContext({ startDate: '' as any })
-		navigation.navigate('InsertSocialImpactStartHour')
 	}
 
 	const saveSocialImpactStartDate = (year: string, month: string, day: string) => {
@@ -46,11 +40,7 @@ function InsertSocialImpactStartDate({ route, navigation }: InsertSocialImpactSt
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ startDate })
 			navigation.goBack()
-			return
 		}
-
-		setSocialImpactDataOnContext({ startDate })
-		navigation.navigate('InsertSocialImpactStartHour')
 	}
 
 	return (

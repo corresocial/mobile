@@ -7,13 +7,11 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertServiceStartHourScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
-import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertServiceStartHour({ route, navigation }: InsertServiceStartHourScreenProps) {
-	const { setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -33,25 +31,18 @@ function InsertServiceStartHour({ route, navigation }: InsertServiceStartHourScr
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ startHour: '' })
 			navigation.goBack()
-			return
 		}
-
-		setServiceDataOnContext({ startHour: '' as any })
-		navigation.navigate('InsertServiceEndHour')
 	}
 
-	const saveEndTime = (hour: string, minutes: string) => {
+	const saveStartTime = (hour: string, minutes: string) => {
 		const startHour = new Date()
 		startHour.setHours(parseInt(hour), parseInt(minutes))
+		const ISOStringDateTime = new Date(startHour.getTime())
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ startHour })
+			addNewUnsavedFieldToEditContext({ startHour: ISOStringDateTime })
 			navigation.goBack()
-			return
 		}
-
-		setServiceDataOnContext({ startHour })
-		navigation.navigate('InsertServiceEndHour')
 	}
 
 	return (
@@ -64,7 +55,7 @@ function InsertServiceStartHour({ route, navigation }: InsertServiceStartHourScr
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
-				saveTime={saveEndTime}
+				saveTime={saveStartTime}
 			/>
 		</>
 	)

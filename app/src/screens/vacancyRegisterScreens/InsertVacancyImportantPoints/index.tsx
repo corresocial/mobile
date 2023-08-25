@@ -18,7 +18,6 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { LineInput } from '../../../components/LineInput'
-import { SkipButton } from '../../../components/_buttons/SkipButton'
 
 function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImportantPointsScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
@@ -194,17 +193,6 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 						)
 					}
 				</ButtonsContainer>
-				{
-					(importantPointsLength() < 1 && !keyboardOpened)
-						? (
-							<SkipButton
-								customText={'pular'}
-								customHighlight={['pular']}
-								onPress={skipScreen}
-							/>
-						)
-						: <></>
-				}
 			</FormContainer>
 		</Container >
 	)

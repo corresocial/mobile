@@ -12,7 +12,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostDate } from '../../../components/_onboarding/PostDate'
 
 function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenProps) {
-	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+	const { cultureDataContext } = useContext(CultureContext)
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -32,11 +32,7 @@ function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenP
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endDate: '' })
 			navigation.goBack()
-			return
 		}
-
-		setCultureDataOnContext({ endDate: '' as any })
-		navigation.navigate('InsertCultureEndHour')
 	}
 
 	const saveCultureStartDate = (year: string, month: string, day: string) => {
@@ -45,11 +41,7 @@ function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenP
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endDate })
 			navigation.goBack()
-			return
 		}
-
-		setCultureDataOnContext({ endDate })
-		navigation.navigate('InsertCultureEndHour')
 	}
 
 	return (

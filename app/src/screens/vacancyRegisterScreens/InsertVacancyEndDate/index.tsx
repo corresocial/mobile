@@ -12,7 +12,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostDate } from '../../../components/_onboarding/PostDate'
 
 function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenProps) {
-	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { vacancyDataContext } = useContext(VacancyContext)
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -32,11 +32,7 @@ function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenP
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endDate: '' })
 			navigation.goBack()
-			return
 		}
-
-		setVacancyDataOnContext({ endDate: '' as any })
-		navigation.navigate('InsertVacancyEndHour')
 	}
 
 	const saveVacancyStartDate = (year: string, month: string, day: string) => {
@@ -45,11 +41,7 @@ function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenP
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endDate })
 			navigation.goBack()
-			return
 		}
-
-		setVacancyDataOnContext({ endDate })
-		navigation.navigate('InsertVacancyEndHour')
 	}
 
 	return (

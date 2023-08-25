@@ -12,7 +12,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostDate } from '../../../components/_onboarding/PostDate'
 
 function InsertSocialImpactEndDate({ route, navigation }: InsertSocialImpactEndDateScreenProps) {
-	const { socialImpactDataContext, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { socialImpactDataContext } = useContext(SocialImpactContext)
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -32,11 +32,7 @@ function InsertSocialImpactEndDate({ route, navigation }: InsertSocialImpactEndD
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endDate: '' })
 			navigation.goBack()
-			return
 		}
-
-		setSocialImpactDataOnContext({ endDate: '' as any })
-		navigation.navigate('InsertSocialImpactEndHour')
 	}
 
 	const saveSocialImpactStartDate = (year: string, month: string, day: string) => {
@@ -45,11 +41,7 @@ function InsertSocialImpactEndDate({ route, navigation }: InsertSocialImpactEndD
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endDate })
 			navigation.goBack()
-			return
 		}
-
-		setSocialImpactDataOnContext({ endDate })
-		navigation.navigate('InsertSocialImpactEndHour')
 	}
 
 	return (

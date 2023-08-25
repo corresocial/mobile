@@ -13,7 +13,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertVacancyEndHour({ route, navigation }: InsertVacancyEndHourScreenProps) {
-	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { vacancyDataContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -33,25 +33,18 @@ function InsertVacancyEndHour({ route, navigation }: InsertVacancyEndHourScreenP
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endHour: '' })
 			navigation.goBack()
-			return
 		}
-
-		setVacancyDataOnContext({ endHour: '' as any })
-		navigation.navigate('InsertVacancyImportantPoints')
 	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
 		const endHour = new Date()
 		endHour.setHours(parseInt(hour), parseInt(minutes))
+		const ISOStringDateTime = new Date(endHour.getTime())
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ endHour })
+			addNewUnsavedFieldToEditContext({ endHour: ISOStringDateTime })
 			navigation.goBack()
-			return
 		}
-
-		setVacancyDataOnContext({ endHour })
-		navigation.navigate('InsertVacancyImportantPoints')
 	}
 
 	return (

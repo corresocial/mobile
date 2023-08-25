@@ -4,8 +4,9 @@ import { Animated, Platform, StatusBar, TextInput } from 'react-native'
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 import { filterLeavingOnlyNumbers, formatDate } from '../../../common/auxiliaryFunctions'
 
@@ -13,9 +14,10 @@ import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer
 import { FormContainer } from '../../_containers/FormContainer'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
-import { LineInput } from '../../LineInput'
 import { BackButton } from '../../_buttons/BackButton'
-import { SkipButton } from '../../_buttons/SkipButton'
+import { DefaultInput } from '../../_inputs/DefaultInput'
+import { HorizontalSpacing } from '../../HorizontalSpacing'
+import { SmallButton } from '../../_buttons/SmallButton'
 
 interface PostDateProps {
 	backgroundColor: string
@@ -162,36 +164,47 @@ function PostDate({
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					borderLeftWidth={3}
 					fontSize={16}
 					message={
 						invalidDateAfterSubmit
 							? startDate ? 'a data informada antecede a data de início' : 'a data informada antecede a data atual'
-							: customTitle || 'quando começa?'
+							: customTitle || 'que dia começa?'
 					}
 					highlightedWords={
 						invalidDateAfterSubmit
 							? ['data', 'de', 'início', 'data', 'atual']
-							: customHighlight || ['começa']
+							: customHighlight || ['dia', 'começa']
 					}
 				/>
+				{
+					skipScreen ? (
+						<>
+							<HorizontalSpacing />
+							<SmallButton
+								SvgIcon={TrashWhiteIcon}
+								color={theme.red3}
+								height={relativeScreenWidth(11)}
+								relativeWidth={relativeScreenWidth(11)}
+								svgScale={['60%', '60%']}
+								onPress={skipScreen}
+							/>
+						</>
+					)
+						: <></>
+				}
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white2}
+				backgroundColor={theme.white3}
 				justifyContent={'center'}
 			>
 				<InputsContainer>
-					<LineInput
+					<DefaultInput
 						value={day}
-						relativeWidth={'30%'}
+						relativeWidth={'28%'}
 						textInputRef={inputRefs.dayInput}
 						nextInputRef={inputRefs.monthInput}
 						defaultBackgroundColor={theme.white2}
-						defaultBorderBottomColor={theme.black4}
 						validBackgroundColor={validationColor}
-						validBorderBottomColor={theme.blue5}
-						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.black4}
 						maxLength={2}
 						fontSize={22}
 						placeholder={'dia'}
@@ -204,18 +217,14 @@ function PostDate({
 							invalidDateAfterSubmit && setInvalidDateAfterSubmit(false)
 						}}
 					/>
-					<LineInput
+					<DefaultInput
 						value={month}
 						relativeWidth={'30%'}
 						previousInputRef={inputRefs.dayInput}
 						textInputRef={inputRefs.monthInput}
 						nextInputRef={inputRefs.yearInput}
 						defaultBackgroundColor={theme.white2}
-						defaultBorderBottomColor={theme.black4}
 						validBackgroundColor={validationColor}
-						validBorderBottomColor={theme.blue5}
-						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.black4}
 						maxLength={2}
 						fontSize={22}
 						placeholder={'mês'}
@@ -228,17 +237,13 @@ function PostDate({
 							invalidDateAfterSubmit && setInvalidDateAfterSubmit(false)
 						}}
 					/>
-					<LineInput
+					<DefaultInput
 						value={year}
-						relativeWidth={'30%'}
+						relativeWidth={'35%'}
 						previousInputRef={inputRefs.monthInput}
 						textInputRef={inputRefs.yearInput}
 						defaultBackgroundColor={theme.white2}
-						defaultBorderBottomColor={theme.black4}
 						validBackgroundColor={validationColor}
-						validBorderBottomColor={theme.blue5}
-						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.black4}
 						maxLength={4}
 						fontSize={22}
 						placeholder={'ano'}
@@ -258,7 +263,7 @@ function PostDate({
 						allFiedsIsValid() && !keyboardOpened && existsThisDayOnMonth()
 						&& (
 							<PrimaryButton
-								color={invalidDateAfterSubmit ? theme.red3 : theme.green3}
+								color={theme.green3}
 								label={'continuar'}
 								labelColor={theme.white3}
 								SecondSvgIcon={CheckWhiteIcon}
@@ -267,13 +272,6 @@ function PostDate({
 						)
 					}
 				</ButtonContainer>
-				{
-					(!dayIsValid || !monthIsValid || !yearIsValid) && !keyboardOpened
-						? (
-							<SkipButton onPress={skipScreen} />
-						)
-						: <></>
-				}
 			</FormContainer>
 		</Container>
 	)

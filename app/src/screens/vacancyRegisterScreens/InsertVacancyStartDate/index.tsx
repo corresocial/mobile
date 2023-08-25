@@ -7,13 +7,11 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertVacancyStartDateScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
-import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostDate } from '../../../components/_onboarding/PostDate'
 
 function InsertVacancyStartDate({ route, navigation }: InsertVacancyStartDateScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -33,11 +31,7 @@ function InsertVacancyStartDate({ route, navigation }: InsertVacancyStartDateScr
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ startDate: '' })
 			navigation.goBack()
-			return
 		}
-
-		setVacancyDataOnContext({ startDate: '' as any })
-		navigation.navigate('InsertVacancyStartHour')
 	}
 
 	const saveVacancyStartDate = (year: string, month: string, day: string) => {
@@ -46,11 +40,7 @@ function InsertVacancyStartDate({ route, navigation }: InsertVacancyStartDateScr
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ startDate })
 			navigation.goBack()
-			return
 		}
-
-		setVacancyDataOnContext({ startDate })
-		navigation.navigate('InsertVacancyStartHour')
 	}
 
 	return (

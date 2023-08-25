@@ -39,9 +39,10 @@ function InsertCultureEndHour({ route, navigation }: InsertCultureEndHourScreenP
 	const saveEndTime = (hour: string, minutes: string) => {
 		const endHour = new Date()
 		endHour.setHours(parseInt(hour), parseInt(minutes))
+		const ISOStringDateTime = new Date(endHour.getTime())
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ endHour })
+			addNewUnsavedFieldToEditContext({ endHour: ISOStringDateTime })
 			navigation.goBack()
 		}
 	}
