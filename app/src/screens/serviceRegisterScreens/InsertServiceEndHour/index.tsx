@@ -53,8 +53,8 @@ function InsertServiceEndHour({ route, navigation }: InsertServiceEndHourScreenP
 			<PostTime
 				backgroundColor={theme.purple2}
 				validationColor={theme.purple1}
-				customTitle={'que horas você termina?'}
-				customHighlight={['que', 'horas', 'termina']}
+				customTitle={'que horas termina?'}
+				customHighlight={['horas', 'termina']}
 				startTime={editDataContext.unsaved.startHour || serviceDataContext.startHour}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				keyboardOpened={keyboardOpened}

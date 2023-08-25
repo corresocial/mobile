@@ -53,8 +53,8 @@ function InsertCultureEndHour({ route, navigation }: InsertCultureEndHourScreenP
 			<PostTime
 				backgroundColor={theme.blue2}
 				validationColor={theme.blue1}
-				customTitle={'que horas você termina?'}
-				customHighlight={['que', 'horas', 'termina']}
+				customTitle={'que horas termina?'}
+				customHighlight={['horas', 'termina']}
 				editMode={editModeIsTrue()}
 				startDate={editDataContext.unsaved.startDate || cultureDataContext.startDate}
 				endDate={editDataContext.unsaved.endDate || cultureDataContext.endDate}

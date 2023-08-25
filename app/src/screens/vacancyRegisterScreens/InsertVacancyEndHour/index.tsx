@@ -53,8 +53,8 @@ function InsertVacancyEndHour({ route, navigation }: InsertVacancyEndHourScreenP
 			<PostTime
 				backgroundColor={theme.yellow2}
 				validationColor={theme.yellow1}
-				customTitle={'que horas você termina?'}
-				customHighlight={['que', 'horas', 'termina']}
+				customTitle={'que horas termina?'}
+				customHighlight={['horas', 'termina']}
 				editMode={editModeIsTrue()}
 				startDate={editDataContext.unsaved.startDate || vacancyDataContext.startDate}
 				endDate={editDataContext.unsaved.endDate || vacancyDataContext.endDate}

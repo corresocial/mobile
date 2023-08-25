@@ -50,8 +50,8 @@ function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenP
 			<PostDate
 				backgroundColor={theme.yellow2}
 				validationColor={theme.yellow1}
-				customTitle={'quando termina?'}
-				customHighlight={['termina']}
+				customTitle={'que dia termina?'}
+				customHighlight={['dia', 'termina']}
 				editMode={editModeIsTrue()}
 				startDate={editDataContext.unsaved.startDate || vacancyDataContext.startDate}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}

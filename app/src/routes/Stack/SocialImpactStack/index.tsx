@@ -22,7 +22,7 @@ import { InsertSocialImpactEndHour } from '../../../screens/socialImpactRegister
 import { SelectSocialImpactRepeat } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactRepeat'
 import { SelectSocialImpactFrequency } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactFrequency'
 import { InsertSocialImpactStartDate } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactStartDate'
-import { InsertSocialImpactEndDate } from '../../../screens/socialImpactRegisterScreens/SocialImpactEndDate'
+import { InsertSocialImpactEndDate } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactEndDate'
 import { EditSocialImpactPost } from '../../../screens/editPostScreens/EditSocialImpactPost'
 import { SelectSocialImpactType } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactType'
 

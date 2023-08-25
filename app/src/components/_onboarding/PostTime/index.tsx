@@ -154,17 +154,16 @@ function PostTime({
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={17}
+					fontSize={16}
 					message={
 						invalidTimeAfterSubmit
 							? 'o horário informado antecede o horário de início'
-							: customTitle || 'que horas você começa?'
+							: customTitle || 'que horas começa?'
 					}
 					highlightedWords={
 						invalidTimeAfterSubmit
 							? ['antecede', 'horário', 'de', 'início']
-							: customHighlight || ['que', 'horas', 'começa']
+							: customHighlight || ['horas', 'começa']
 					}
 				/>
 				{

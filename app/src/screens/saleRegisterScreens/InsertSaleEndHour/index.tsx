@@ -53,8 +53,8 @@ function InsertSaleEndHour({ route, navigation }: InsertSaleEndHourScreenProps) 
 			<PostTime
 				backgroundColor={theme.green2}
 				validationColor={theme.green1}
-				customTitle={'que horas você termina?'}
-				customHighlight={['que', 'horas', 'termina']}
+				customTitle={'que horas termina?'}
+				customHighlight={['horas', 'termina']}
 				startTime={editDataContext.unsaved.startHour || saleDataContext.startHour}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				keyboardOpened={keyboardOpened}

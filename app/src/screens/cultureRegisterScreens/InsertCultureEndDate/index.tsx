@@ -50,8 +50,8 @@ function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenP
 			<PostDate
 				backgroundColor={theme.blue2}
 				validationColor={theme.blue1}
-				customTitle={'quando termina?'}
-				customHighlight={['termina']}
+				customTitle={'que dia termina?'}
+				customHighlight={['dia', 'termina']}
 				editMode={editModeIsTrue()}
 				startDate={editDataContext.unsaved.startDate || cultureDataContext.startDate}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
