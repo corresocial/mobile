@@ -52,6 +52,7 @@ function InsertSaleTitle({ route, navigation }: InsertSaleTitleScreenProps) {
 		<>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostInputText
+				multiline
 				backgroundColor={theme.green2}
 				validationColor={theme.green1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}

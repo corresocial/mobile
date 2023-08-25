@@ -15,7 +15,7 @@ import { PostSelectButton } from '../../../components/_onboarding/PostSelectButt
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScreenProps) {
-	const { setSocialImpactDataOnContext, getAditionalDataFromLastPost } = useContext(SocialImpactContext)
+	const { isSecondPost, setSocialImpactDataOnContext, getAditionalDataFromLastPost } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	useEffect(() => {
@@ -44,6 +44,7 @@ function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScr
 			highlightedWords={['informativo', 'iniciativa', 'social', 'doação']}
 			headerBackgroundColor={theme.pink2}
 			backgroundColor={theme.white3}
+			progress={[1, isSecondPost ? 5 : 6]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton

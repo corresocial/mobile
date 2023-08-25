@@ -51,6 +51,7 @@ function InsertVacancyTitle({ route, navigation }: InsertVacancyTitleScreenProps
 		<>
 			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
 			<PostInputText
+				multiline
 				backgroundColor={theme.yellow2}
 				validationColor={theme.yellow1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}

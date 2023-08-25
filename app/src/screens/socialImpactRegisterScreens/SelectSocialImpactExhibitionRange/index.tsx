@@ -15,7 +15,7 @@ import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
 
 function SelectSocialImpactExhibitionRange({ route, navigation }: SelectSocialImpactExhibitionRangeScreenProps) {
-	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveSocialImpactExhibitionRange = (exhibitionPlace: ExhibitionPlaceType) => {
@@ -26,7 +26,7 @@ function SelectSocialImpactExhibitionRange({ route, navigation }: SelectSocialIm
 		}
 
 		setSocialImpactDataOnContext({ exhibitionPlace })
-		navigation.navigate('SelectSocialImpactFrequency')
+		navigation.navigate('InsertSocialImpactTitle')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -37,6 +37,7 @@ function SelectSocialImpactExhibitionRange({ route, navigation }: SelectSocialIm
 			highlightedWords={['onde']}
 			headerBackgroundColor={theme.pink2}
 			backgroundColor={theme.white3}
+			progress={[4, isSecondPost ? 5 : 6]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton

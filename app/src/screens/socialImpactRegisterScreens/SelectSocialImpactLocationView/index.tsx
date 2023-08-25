@@ -32,7 +32,7 @@ function SelectSocialImpactLocationView({ route, navigation }: SelectSocialImpac
 			<PostLocationView
 				backgroundColor={theme.pink2}
 				itemsColor={theme.pink3}
-				progress={[3, 4]}
+				progress={[6, 6]}
 				saveLocationViewType={saveLocationViewType}
 				navigateBackwards={() => navigation.goBack()}
 			/>

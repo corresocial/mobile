@@ -42,7 +42,7 @@ function InsertSocialImpactTitle({ route, navigation }: InsertSocialImpactTitleS
 		}
 
 		setSocialImpactDataOnContext({ title: inputText })
-		navigation.navigate('InsertSocialImpactDescription')
+		navigation.navigate('SelectSocialImpactRange')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -51,11 +51,12 @@ function InsertSocialImpactTitle({ route, navigation }: InsertSocialImpactTitleS
 		<>
 			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
 			<PostInputText
+				multiline
 				backgroundColor={theme.pink2}
 				validationColor={theme.pink1}
 				inputPlaceholder={'ex: projeto criança feliz'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, isSecondPost ? 2 : 4]}
+				progress={[3, isSecondPost ? 5 : 6]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSocialImpactTitle}
 				navigateBackwards={() => navigation.goBack()}

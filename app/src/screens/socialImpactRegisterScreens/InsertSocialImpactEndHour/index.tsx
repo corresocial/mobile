@@ -13,7 +13,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertSocialImpactEndHour({ route, navigation }: InsertSocialImpactEndHourScreenProps) {
-	const { socialImpactDataContext, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { socialImpactDataContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -33,21 +33,7 @@ function InsertSocialImpactEndHour({ route, navigation }: InsertSocialImpactEndH
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endHour: '' })
 			navigation.goBack()
-			return
 		}
-
-		setSocialImpactDataOnContext({ endHour: '' as any })
-
-		navigation.reset({
-			index: 0,
-			routes: [{
-				name: 'EditSocialImpactPostReview',
-				params: {
-					postData: { ...socialImpactDataContext, endHour: '' },
-					unsavedPost: true
-				}
-			}]
-		})
 	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
@@ -57,21 +43,7 @@ function InsertSocialImpactEndHour({ route, navigation }: InsertSocialImpactEndH
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endHour })
 			navigation.goBack()
-			return
 		}
-
-		setSocialImpactDataOnContext({ endHour })
-
-		navigation.reset({
-			index: 0,
-			routes: [{
-				name: 'EditSocialImpactPostReview',
-				params: {
-					postData: { ...socialImpactDataContext, endHour },
-					unsavedPost: true
-				}
-			}]
-		})
 	}
 
 	return (

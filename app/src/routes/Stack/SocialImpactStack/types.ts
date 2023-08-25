@@ -13,7 +13,6 @@ export type SocialImpactStackParamList = {
 	InsertSocialImpactLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
 	SocialImpactLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
 	SelectSocialImpactExhibitionRange: { editMode: boolean } | undefined
-	SelectSocialImpactExhibitionPlace: { editMode: boolean } | undefined
 	SelectSocialImpactFrequency: { editMode?: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectSocialImpactDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectSocialImpactRepeat: { editMode: boolean } | undefined

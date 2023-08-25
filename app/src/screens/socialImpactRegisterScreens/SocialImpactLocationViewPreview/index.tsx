@@ -15,7 +15,7 @@ const defaultDeltaCoordinates = {
 }
 
 function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLocationViewPreviewScreenProps) {
-	const { socialImpactDataContext, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { socialImpactDataContext, } = useContext(SocialImpactContext)
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const { locationView } = route.params
@@ -53,8 +53,20 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 			return
 		}
 
-		setSocialImpactDataOnContext({ locationView })
-		navigation.navigate('SelectSocialImpactExhibitionRange')
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'EditSocialImpactPostReview',
+				params: {
+					postData: {
+						...socialImpactDataContext,
+						locationView,
+						repeat: 'unrepeatable'
+					},
+					unsavedPost: true
+				}
+			}]
+		})
 	}
 
 	const getPlaceName = () => {

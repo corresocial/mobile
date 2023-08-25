@@ -16,7 +16,7 @@ import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionI
 
 function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
@@ -60,7 +60,7 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
-				progress={[3, 4]}
+				progress={[5, isSecondPost ? 5 : 6]}
 			/>
 		</>
 	)
