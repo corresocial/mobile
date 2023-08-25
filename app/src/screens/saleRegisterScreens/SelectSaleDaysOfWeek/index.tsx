@@ -6,13 +6,11 @@ import { theme } from '../../../common/theme'
 import { SelectSaleDaysOfWeekScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 import { DaysOfWeek } from '../../../services/firebase/types'
 
-import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostDaysOfWeek } from '../../../components/_onboarding/PostDaysOfWeek'
 
 function SelectSaleDaysOfWeek({ route, navigation }: SelectSaleDaysOfWeekScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -22,11 +20,7 @@ function SelectSaleDaysOfWeek({ route, navigation }: SelectSaleDaysOfWeekScreenP
 			addNewUnsavedFieldToEditContext({ daysOfWeek: [] })
 			navigation.goBack()
 			navigation.goBack()
-			return
 		}
-
-		setSaleDataOnContext({ daysOfWeek: [] })
-		navigation.navigate('InsertSaleStartHour')
 	}
 
 	const saveDaysOfWeek = (selectedDaysOfWeek: DaysOfWeek[]) => {
@@ -34,11 +28,7 @@ function SelectSaleDaysOfWeek({ route, navigation }: SelectSaleDaysOfWeekScreenP
 			addNewUnsavedFieldToEditContext({ daysOfWeek: selectedDaysOfWeek })
 			navigation.goBack()
 			navigation.goBack()
-			return
 		}
-
-		setSaleDataOnContext({ daysOfWeek: selectedDaysOfWeek })
-		navigation.navigate('InsertSaleStartHour')
 	}
 
 	return (

@@ -6,13 +6,11 @@ import { theme } from '../../../common/theme'
 import { SelectVacancyFrequencyScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { DaysOfWeek, WeekdaysFrequency } from '../../../services/firebase/types'
 
-import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostFrequency } from '../../../components/_onboarding/PostFrequency'
 
 function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScreenProps) {
-	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -24,14 +22,7 @@ function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScr
 				daysOfWeek: []
 			})
 			navigation.goBack()
-			return
 		}
-
-		setVacancyDataOnContext({
-			workFrequency: 'someday',
-			daysOfWeek: []
-		})
-		navigation.navigate('InsertVacancyStartDate')
 	}
 
 	const saveVacancyFrequency = (vacancyFrequency: WeekdaysFrequency) => {
@@ -45,14 +36,7 @@ function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScr
 						daysOfWeek: [daysOfWeek[new Date().getDay()]]
 					})
 					navigation.goBack()
-					return
 				}
-
-				setVacancyDataOnContext({
-					workFrequency: vacancyFrequency,
-					daysOfWeek: [daysOfWeek[new Date().getDay()]]
-				})
-				navigation.navigate('InsertVacancyStartDate')
 				break
 			}
 			case 'everyday': {
@@ -62,27 +46,12 @@ function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScr
 						daysOfWeek: [...daysOfWeek]
 					})
 					navigation.goBack()
-					return
-				}
-
-				setVacancyDataOnContext({
-					workFrequency: vacancyFrequency,
-					daysOfWeek: [...daysOfWeek]
-				})
-				navigation.navigate('InsertVacancyStartDate')
-
-				if (vacancyDataContext.vacancyType === 'professional') {
-					navigation.navigate('InsertVacancyStartDate')
-				} else {
-					navigation.navigate('InsertVacancyStartDate')
 				}
 				break
 			}
 			case 'someday': {
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({ workFrequency: vacancyFrequency })
-				} else {
-					setVacancyDataOnContext({ workFrequency: vacancyFrequency })
 				}
 
 				navigation.navigate('SelectWorkWeekdays', {
@@ -98,14 +67,7 @@ function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScr
 						daysOfWeek: ['seg', 'ter', 'qua', 'qui', 'sex']
 					})
 					navigation.goBack()
-					return
 				}
-
-				setVacancyDataOnContext({
-					workFrequency: vacancyFrequency,
-					daysOfWeek: ['seg', 'ter', 'qua', 'qui', 'sex']
-				})
-				navigation.navigate('InsertVacancyStartDate')
 				break
 			}
 			default: return false

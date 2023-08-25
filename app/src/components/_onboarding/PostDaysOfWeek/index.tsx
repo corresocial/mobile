@@ -8,8 +8,8 @@ import {
 	WeekdaysSelectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import XBoldIcon from '../../../assets/icons/x-bold.svg'
 
@@ -21,6 +21,8 @@ import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { HorizontalSpacing } from '../../HorizontalSpacing'
+import { SmallButton } from '../../_buttons/SmallButton'
 
 interface PostDaysOfWeekProps {
 	backgroundColor: string
@@ -106,21 +108,37 @@ function PostDaysOfWeek({
 
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={backgroundColor} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(24)}
 				centralized
-				backgroundColor={theme.white3}
+				backgroundColor={backgroundColor}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
 					fontSize={16}
-					message={'que dias da semana?'}
-					highlightedWords={['que', 'dias']}
+					message={'qual é a frequência?'}
+					highlightedWords={['frequência']}
 				/>
+				{
+					skipScreen ? (
+						<>
+							<HorizontalSpacing />
+							<SmallButton
+								SvgIcon={TrashWhiteIcon}
+								color={theme.red3}
+								height={relativeScreenWidth(11)}
+								relativeWidth={relativeScreenWidth(11)}
+								svgScale={['60%', '60%']}
+								onPress={skipScreen}
+							/>
+						</>
+					)
+						: <></>
+				}
 			</DefaultHeaderContainer>
 			<SelectButtonsContainer
-				backgroundColor={backgroundColor}
+				backgroundColor={theme.white3}
 			>
 				<WeekdaysSelectedArea>
 					{renderDaysOfWeek()}
@@ -141,20 +159,7 @@ function PostDaysOfWeek({
 							/>
 						</FloatButtonContainer>
 					)
-					: (
-						<FloatButtonContainer>
-							<PrimaryButton
-								flexDirection={'row-reverse'}
-								color={theme.yellow3}
-								label={'pular'}
-								highlightedWords={['pular']}
-								labelColor={theme.black4}
-								SecondSvgIcon={DeniedWhiteIcon}
-								svgIconScale={['40%', '18%']}
-								onPress={skipScreen}
-							/>
-						</FloatButtonContainer>
-					)
+					: null
 			}
 		</Container >
 	)

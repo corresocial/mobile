@@ -7,6 +7,7 @@ import CalendarToday from '../../../assets/icons/calendarToday-white.svg'
 import CalendarEveryday from '../../../assets/icons/calendarEveryday-white.svg'
 import CalendarSomeday from '../../../assets/icons/calendarSomeday-white.svg'
 import CalendarBusinessDay from '../../../assets/icons/calendarBusinessDay-white.svg'
+import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 
 import { WeekdaysFrequency } from '../../../services/firebase/types'
 
@@ -15,7 +16,9 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { HorizontalSpacing } from '../../HorizontalSpacing'
+import { SmallButton } from '../../_buttons/SmallButton'
 
 interface PostFrequencyProps {
 	backgroundColor: string
@@ -42,8 +45,24 @@ function PostFrequency({
 				<InstructionCard
 					fontSize={16}
 					message={'qual é a frequência?'}
-					highlightedWords={['qual', 'é', 'a', 'frequência']}
+					highlightedWords={['frequência']}
 				/>
+				{
+					skipScreen ? (
+						<>
+							<HorizontalSpacing />
+							<SmallButton
+								SvgIcon={TrashWhiteIcon}
+								color={theme.red3}
+								height={relativeScreenWidth(11)}
+								relativeWidth={relativeScreenWidth(11)}
+								svgScale={['60%', '60%']}
+								onPress={skipScreen}
+							/>
+						</>
+					)
+						: <></>
+				}
 			</DefaultHeaderContainer>
 			<FormContainer
 				backgroundColor={theme.white3}

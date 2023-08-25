@@ -6,13 +6,11 @@ import { theme } from '../../../common/theme'
 import { SelectServiceDaysOfWeekScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { DaysOfWeek } from '../../../services/firebase/types'
 
-import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostDaysOfWeek } from '../../../components/_onboarding/PostDaysOfWeek'
 
 function SelectServiceDaysOfWeek({ route, navigation }: SelectServiceDaysOfWeekScreenProps) {
-	const { setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -22,11 +20,7 @@ function SelectServiceDaysOfWeek({ route, navigation }: SelectServiceDaysOfWeekS
 			addNewUnsavedFieldToEditContext({ daysOfWeek: [] })
 			navigation.goBack()
 			navigation.goBack()
-			return
 		}
-
-		setServiceDataOnContext({ daysOfWeek: [] })
-		navigation.navigate('InsertServiceStartHour')
 	}
 
 	const saveDaysOfWeek = (selectedDaysOfWeek: DaysOfWeek[]) => {
@@ -34,11 +28,7 @@ function SelectServiceDaysOfWeek({ route, navigation }: SelectServiceDaysOfWeekS
 			addNewUnsavedFieldToEditContext({ daysOfWeek: selectedDaysOfWeek })
 			navigation.goBack()
 			navigation.goBack()
-			return
 		}
-
-		setServiceDataOnContext({ daysOfWeek: selectedDaysOfWeek })
-		navigation.navigate('InsertServiceStartHour')
 	}
 
 	return (
