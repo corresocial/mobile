@@ -233,7 +233,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		return theme.blue1
 	}
 
-	/* const resendConfirmationCode = async () => {
+	const resendConfirmationCode = async () => {
 		setExpiredCodeAfterSubmit(false)
 		setInvalidCodeAfterSubmit(false)
 		clearAllCodeInputs()
@@ -244,7 +244,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				console.log('confirmationCodeId: ', verificationCodeId)
 			})
 			.catch((error) => console.log(error))
-	} */
+	}
 
 	const navigateBackwards = () => navigation.goBack()
 
