@@ -467,8 +467,6 @@ function EditPost({
 		...editDataContext.unsaved,
 		createdAt: new Date(),
 		description: (editDataContext.unsaved.description || initialPostData.description) || 'escreva uma descrição para seu post',
-		paymentType: (editDataContext.unsaved.paymentType || initialPostData.paymentType) || '', // TODO Type
-		saleValue: (editDataContext.unsaved.saleValue || initialPostData.saleValue) || ''
 	}
 
 	return (

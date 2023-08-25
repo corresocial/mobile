@@ -24,7 +24,7 @@ interface PostInputTextProps {
 	inputPlaceholder?: string
 	initialValue?: string
 	keyboardOpened?: boolean
-	progress: [value: number, range: number]
+	progress?: [value: number, range: number]
 	validateInputText?: (text: string) => boolean
 	skipScreen?: () => void
 	saveTextData: (text: string) => void
@@ -65,8 +65,8 @@ function PostInputText({
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
 					fontSize={16}
-					message={'fala tudo sobre o que você tá postando'}
-					highlightedWords={['tudo', 'o', 'que', 'você', 'tá', 'postando']}
+					message={customTitle || 'fala tudo sobre o que você tá postando'}
+					highlightedWords={customHighlight || ['tudo', 'o', 'que', 'você', 'tá', 'postando']}
 				>
 					{
 						progress && (
@@ -89,7 +89,7 @@ function PostInputText({
 					lastInput
 					textAlign={'left'}
 					fontSize={16}
-					multiline
+					multiline={multiline}
 					initialNumberOfLines={multiline ? 1 : 1}
 					placeholder={inputPlaceholder || 'descreva seu post...'}
 					keyboardType={'default'}

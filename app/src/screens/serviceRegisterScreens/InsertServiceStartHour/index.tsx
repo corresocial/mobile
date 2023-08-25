@@ -61,7 +61,6 @@ function InsertServiceStartHour({ route, navigation }: InsertServiceStartHourScr
 				backgroundColor={theme.purple2}
 				validationColor={theme.purple1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

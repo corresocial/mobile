@@ -59,7 +59,6 @@ function InsertEntryValue({ route, navigation }: InsertEntryValueScreenProps) {
 				customHighlight={['custo', 'de', 'entrada']}
 				inputPlaceholder={'ex: 25,00'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[4, 4]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateEntryValue}
 				navigateBackwards={() => navigation.goBack()}

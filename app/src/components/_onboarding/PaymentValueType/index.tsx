@@ -12,12 +12,11 @@ import { OptionButton } from '../../_buttons/OptionButton'
 interface PaymentValueTypeProps {
 	backgroundColor: string
 	itemsColor: string
-	progress: [value: number, range: number]
 	savePaymentValueType: (paymentType: SaleValueType) => void
 	navigateBackwards: () => void
 }
 
-function PaymentValueType({ backgroundColor, itemsColor, progress, savePaymentValueType, navigateBackwards }: PaymentValueTypeProps) {
+function PaymentValueType({ backgroundColor, itemsColor, savePaymentValueType, navigateBackwards }: PaymentValueTypeProps) {
 	return (
 		<PostSelectButton
 			title={'tem preço fixo ou fica a combinar?'}

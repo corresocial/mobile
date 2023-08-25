@@ -6,13 +6,11 @@ import { theme } from '../../../common/theme'
 import { SelectSaleValueTypeScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { SaleValueType } from '../../../services/firebase/types'
 
-import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PaymentValueType } from '../../../components/_onboarding/PaymentValueType'
 
 function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenProps) {
-	const { isSecondPost, serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -28,35 +26,18 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 			case 'toMatch': {
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({ saleValue: 'a combinar' })
+
 					if (!bothPaymentType) {
 						navigation.goBack()
 						navigation.goBack()
 						return
 					}
-				} else {
-					setServiceDataOnContext({ saleValue: 'a combinar' })
 				}
 
 				if (bothPaymentType) {
 					navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
-					return
 				}
 
-				if (isSecondPost) {
-					navigation.reset({
-						index: 0,
-						routes: [{
-							name: 'EditServicePostReview',
-							params: {
-								postData: { ...serviceDataContext, saleValue: 'a combinar' },
-								unsavedPost: true
-							}
-						}]
-					})
-					return
-				}
-
-				navigation.navigate('SelectServiceRange')
 				break
 			}
 			default: return false
@@ -71,7 +52,6 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 				itemsColor={theme.purple3}
 				navigateBackwards={() => navigation.goBack()}
 				savePaymentValueType={saveSaleValueType}
-				progress={[3, isSecondPost ? 3 : 5]}
 			/>
 		</>
 	)
