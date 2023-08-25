@@ -50,8 +50,8 @@ function InsertSocialImpactEndDate({ route, navigation }: InsertSocialImpactEndD
 			<PostDate
 				backgroundColor={theme.pink2}
 				validationColor={theme.pink1}
-				customTitle={'quando termina?'}
-				customHighlight={['termina']}
+				customTitle={'que dia termina?'}
+				customHighlight={['dia', 'termina']}
 				editMode={editModeIsTrue()}
 				startDate={editDataContext.unsaved.startDate || socialImpactDataContext.startDate}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
