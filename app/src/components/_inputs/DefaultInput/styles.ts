@@ -64,6 +64,5 @@ export const TextInput = styled.TextInput<TextInputProps>`
     text-align: center;
     text-justify: center;
 	color: ${({ theme }) => theme.black4};
-    padding-vertical: ${relativeScreenHeight(1.5)}px;
     max-Height: ${relativeScreenHeight(25)}px;
 `

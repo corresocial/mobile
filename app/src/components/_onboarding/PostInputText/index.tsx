@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../_containers/FormContainer'
@@ -12,8 +13,9 @@ import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { BackButton } from '../../_buttons/BackButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
 import { ProgressBar } from '../../ProgressBar'
-import { SkipButton } from '../../_buttons/SkipButton'
 import { DefaultInput } from '../../_inputs/DefaultInput'
+import { HorizontalSpacing } from '../../HorizontalSpacing'
+import { SmallButton } from '../../_buttons/SmallButton'
 
 interface PostInputTextProps {
 	backgroundColor: string
@@ -77,6 +79,22 @@ function PostInputText({
 						)
 					}
 				</InstructionCard>
+				{
+					skipScreen ? (
+						<>
+							<HorizontalSpacing />
+							<SmallButton
+								SvgIcon={TrashWhiteIcon}
+								color={theme.red3}
+								height={relativeScreenWidth(11)}
+								relativeWidth={relativeScreenWidth(11)}
+								svgScale={['60%', '60%']}
+								onPress={skipScreen}
+							/>
+						</>
+					)
+						: <></>
+				}
 			</DefaultHeaderContainer>
 			<FormContainer
 				backgroundColor={theme.white3}
@@ -110,13 +128,6 @@ function PostInputText({
 						)
 					}
 				</ButtonsContainer>
-				{
-					skipScreen && !inputTextIsValid && !keyboardOpened
-						? (
-							<SkipButton onPress={skipScreen} />
-						)
-						: <></>
-				}
 			</FormContainer>
 		</Container>
 	)
