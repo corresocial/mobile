@@ -37,7 +37,7 @@ function SelectSocialImpactExhibitionRange({ route, navigation }: SelectSocialIm
 			highlightedWords={['onde']}
 			headerBackgroundColor={theme.pink2}
 			backgroundColor={theme.white3}
-			progress={[4, isSecondPost ? 5 : 6]}
+			progress={[3, isSecondPost ? 5 : 6]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton

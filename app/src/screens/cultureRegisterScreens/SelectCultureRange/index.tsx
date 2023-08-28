@@ -80,7 +80,7 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
-				progress={[3, isSecondPost ? 4 : 5]}
+				progress={[4, isSecondPost ? 4 : 5]}
 			/>
 		</>
 	)
