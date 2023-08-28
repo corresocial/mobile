@@ -16,7 +16,7 @@ import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionI
 
 function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { isSecondPost, setServiceDataOnContext } = useContext(ServiceContext)
+	const { isSecondPost, serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
@@ -37,8 +37,27 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 			return
 		}
 
-		setServiceDataOnContext({ range: postRange })
-		navigation.navigate('SelectLocationView')
+		if (isSecondPost) {
+			navigation.reset({
+				index: 0,
+				routes: [{
+					name: 'EditServicePostReview',
+					params: {
+						postData: {
+							...serviceDataContext,
+							range: postRange,
+							paymentType: serviceDataContext.paymentType || 'sale',
+							saleValue: serviceDataContext.saleValue || 'a combinar',
+							deliveryMethod: serviceDataContext.deliveryMethod || 'unavailable',
+						},
+						unsavedPost: true
+					}
+				}]
+			})
+		} else {
+			setServiceDataOnContext({ range: postRange })
+			navigation.navigate('SelectLocationView')
+		}
 	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
