@@ -7,11 +7,13 @@ interface ContainerProps {
 	multiline?: boolean
 	multilineInputHeight?: number
 	width?: string
+	height?: number
+	onIconPress?: boolean
 }
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
 	width: ${({ width }) => width || '100%'};
-	height: ${({ multiline, multilineInputHeight }) => (multiline ? multilineInputHeight : relativeScreenHeight(9))}px;
+	height: ${({ multiline, multilineInputHeight, height }) => (multiline ? height || multilineInputHeight : relativeScreenHeight(9))}px;
 	min-height: ${RFValue(42)}px;
 	min-width: ${RFValue(42)}px;
 
@@ -22,6 +24,16 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
 	padding-bottom: ${RFValue(20)}px;
 	border-radius: ${RFValue(15)}px;
 	overflow: hidden;
+
+	${({ onIconPress }) => {
+		if (onIconPress) {
+			return (`
+				justify-content: center;
+				padding-top: ${RFValue(5)}px;
+				padding-bottom: ${RFValue(5)}px;
+			`)
+		}
+	}}
 `
 
 interface ContainerInnerProps {
@@ -47,20 +59,20 @@ interface TextInputProps {
 	fontSize: number
 	textAlign?: TextStyle['textAlign']
 	width?: string
+	height?: number
 	hasMultiline?: boolean
 	hasIcon?: boolean
 	textAlignVertical?: TextStyle['textAlignVertical']
 }
 
 export const TextInput = styled.TextInput<TextInputProps>`
-    height: 100%;
+    height: ${({ height }) => (height ? `${height}px` : '100%')};
 	font-size: ${({ fontSize }) => RFValue(fontSize)}px;
 	text-align: ${({ textAlign }) => textAlign};
 	text-align-vertical: ${({ hasMultiline }) => (hasMultiline ? 'top' : 'center')};
 	width: ${({ hasIcon }) => (hasIcon ? '85%' : '100%')};
 
     font-family: Arvo_400Regular;
-    text-align: center;
     text-justify: center;
 	color: ${({ theme }) => theme.black4};
     max-Height: ${relativeScreenHeight(25)}px;

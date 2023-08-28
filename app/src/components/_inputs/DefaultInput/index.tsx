@@ -17,6 +17,7 @@ import PlusWhiteIcon from '../../../assets/icons/plusTabIconInactive.svg'
 interface DefaultInputProps extends TextInputProps {
 	value: string
 	relativeWidth?: string
+	fixedHeight?: number
 	initialNumberOfLines?: number
 	textInputRef?: any
 	previousInputRef?: any
@@ -49,6 +50,7 @@ interface DefaultInputProps extends TextInputProps {
 function DefaultInput({
 	value,
 	relativeWidth = '100%',
+	fixedHeight,
 	initialNumberOfLines = 1,
 	textInputRef,
 	previousInputRef,
@@ -153,15 +155,17 @@ function DefaultInput({
 	}
 
 	const moveToEditableInput = () => {
-		/* uneditableMethod && uneditableMethod(value)
-		onIconPress && onIconPress() */
+		uneditableMethod && uneditableMethod(value)
+		onIconPress && onIconPress()
 	}
 
 	return (
 		<Container
 			width={relativeWidth}
+			height={fixedHeight}
 			multiline={multiline}
 			multilineInputHeight={multilineInputHeight}
+			onIconPress={!!onIconPress}
 			style={{ ...generateInputContainerStyle() }}
 			activeOpacity={onIconPress ? 0.8 : 1}
 			underlayColor={onIconPress ? 'transparent ' : validated ? validBackgroundColor : defaultBackgroundColor}
@@ -181,19 +185,20 @@ function DefaultInput({
 					fontSize={fontSize}
 					textAlign={textAlign}
 					hasIcon={!!onIconPress}
+					height={fixedHeight}
 					style={[getTextInputStyle()]}
 					ref={textInputRef}
 					value={value}
 					maxLength={maxLength}
 					multiline={multiline}
-					numberOfLines={7}
+					numberOfLines={onIconPress ? 3 : 7}
 					onContentSizeChange={({ nativeEvent: { contentSize: { width, height } } }: any) => resizeMultilineInput(height)}
 					secureTextEntry={secureTextEntry}
 					keyboardType={keyboardType || 'ascii-capable'}
 					placeholder={placeholder}
 					returnKeyType={returnKeyType || (lastInput ? 'done' : 'next')}
 					blurOnSubmit={blurOnSubmit}
-					editable={editable}
+					// editable={editable}
 					selectTextOnFocus={selectTextOnFocus}
 					onFocus={() => (editable ? setFocused(true) : moveToEditableInput())}
 					onBlur={() => setFocused(false)}

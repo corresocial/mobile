@@ -4,8 +4,9 @@ import uuid from 'react-uuid'
 
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 
 import { InsertVacancyImportantPointsScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
@@ -18,6 +19,8 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { DefaultInput } from '../../../components/_inputs/DefaultInput'
+import { HorizontalSpacing } from '../../../components/HorizontalSpacing'
+import { SmallButton } from '../../../components/_buttons/SmallButton'
 
 function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImportantPointsScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
@@ -68,6 +71,7 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 				key={uuid()}
 				value={currentImportantPoint}
 				relativeWidth={'100%'}
+				fixedHeight={75}
 				textInputRef={inputRefs.inputCards[index]}
 				defaultBackgroundColor={theme.white2}
 				validBackgroundColor={theme.yellow1}
@@ -101,12 +105,12 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 		setImportantPointsList(importantPoints.filter((point) => point))
 	}
 
-	/* const skipScreen = () => {
+	const skipScreen = () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ importantPoints: [] })
 			navigation.goBack()
 		}
-	} */
+	}
 
 	const saveVacancyImportantPoints = () => {
 		if (editModeIsTrue()) {
@@ -145,6 +149,22 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 					message={'quer adicionar até 3 pontos importantes?'}
 					highlightedWords={['adicionar', 'até', '3', 'pontos', 'importantes']}
 				/>
+				{
+					skipScreen ? (
+						<>
+							<HorizontalSpacing />
+							<SmallButton
+								SvgIcon={TrashWhiteIcon}
+								color={theme.red3}
+								height={relativeScreenWidth(11)}
+								relativeWidth={relativeScreenWidth(11)}
+								svgScale={['60%', '60%']}
+								onPress={skipScreen}
+							/>
+						</>
+					)
+						: <></>
+				}
 			</DefaultHeaderContainer>
 			<FormContainer
 				backgroundColor={theme.white3}
