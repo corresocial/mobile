@@ -7,14 +7,12 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertVacancyEndHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
-import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertVacancyEndHour({ route, navigation }: InsertVacancyEndHourScreenProps) {
-	const { vacancyDataContext } = useContext(VacancyContext)
-	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -55,10 +53,6 @@ function InsertVacancyEndHour({ route, navigation }: InsertVacancyEndHourScreenP
 				validationColor={theme.yellow1}
 				customTitle={'que horas termina?'}
 				customHighlight={['horas', 'termina']}
-				editMode={editModeIsTrue()}
-				startDate={editDataContext.unsaved.startDate || vacancyDataContext.startDate}
-				endDate={editDataContext.unsaved.endDate || vacancyDataContext.endDate}
-				startTime={editDataContext.unsaved.startHour || vacancyDataContext.startHour}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}

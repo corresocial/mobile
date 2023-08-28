@@ -7,14 +7,12 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertSocialImpactEndHourScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
-import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertSocialImpactEndHour({ route, navigation }: InsertSocialImpactEndHourScreenProps) {
-	const { socialImpactDataContext } = useContext(SocialImpactContext)
-	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -55,10 +53,6 @@ function InsertSocialImpactEndHour({ route, navigation }: InsertSocialImpactEndH
 				validationColor={theme.pink1}
 				customTitle={'que horas termina?'}
 				customHighlight={['horas', 'termina']}
-				editMode={editModeIsTrue()}
-				startDate={editDataContext.unsaved.startDate || socialImpactDataContext.startDate}
-				endDate={editDataContext.unsaved.endDate || socialImpactDataContext.endDate}
-				startTime={editDataContext.unsaved.startHour || socialImpactDataContext.startHour}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}

@@ -7,14 +7,12 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertSaleEndHourScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
-import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertSaleEndHour({ route, navigation }: InsertSaleEndHourScreenProps) {
-	const { saleDataContext } = useContext(SaleContext)
-	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -55,7 +53,6 @@ function InsertSaleEndHour({ route, navigation }: InsertSaleEndHourScreenProps) 
 				validationColor={theme.green1}
 				customTitle={'que horas termina?'}
 				customHighlight={['horas', 'termina']}
-				startTime={editDataContext.unsaved.startHour || saleDataContext.startHour}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}

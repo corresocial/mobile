@@ -7,14 +7,12 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertCultureEndHourScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
-import { CultureContext } from '../../../contexts/CultureContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertCultureEndHour({ route, navigation }: InsertCultureEndHourScreenProps) {
-	const { cultureDataContext } = useContext(CultureContext)
-	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -55,10 +53,6 @@ function InsertCultureEndHour({ route, navigation }: InsertCultureEndHourScreenP
 				validationColor={theme.blue1}
 				customTitle={'que horas termina?'}
 				customHighlight={['horas', 'termina']}
-				editMode={editModeIsTrue()}
-				startDate={editDataContext.unsaved.startDate || cultureDataContext.startDate}
-				endDate={editDataContext.unsaved.endDate || cultureDataContext.endDate}
-				startTime={editDataContext.unsaved.startHour || cultureDataContext.startHour}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}

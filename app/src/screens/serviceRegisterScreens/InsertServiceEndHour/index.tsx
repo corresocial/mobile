@@ -7,14 +7,12 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertServiceEndHourScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
-import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertServiceEndHour({ route, navigation }: InsertServiceEndHourScreenProps) {
-	const { serviceDataContext } = useContext(ServiceContext)
-	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -55,7 +53,6 @@ function InsertServiceEndHour({ route, navigation }: InsertServiceEndHourScreenP
 				validationColor={theme.purple1}
 				customTitle={'que horas termina?'}
 				customHighlight={['horas', 'termina']}
-				startTime={editDataContext.unsaved.startHour || serviceDataContext.startHour}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}

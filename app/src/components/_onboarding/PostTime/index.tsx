@@ -23,10 +23,6 @@ interface PostTimeProps {
 	validationColor: string
 	customTitle?: string
 	customHighlight?: string[]
-	editMode?: boolean
-	startDate?: Date
-	endDate?: Date
-	startTime?: Date
 	initialValue?: Date | string
 	keyboardOpened: boolean
 	navigateBackwards: () => void
@@ -39,10 +35,6 @@ function PostTime({
 	validationColor,
 	customTitle,
 	customHighlight,
-	editMode,
-	startDate,
-	endDate,
-	startTime,
 	initialValue,
 	keyboardOpened,
 	navigateBackwards,
@@ -85,45 +77,7 @@ function PostTime({
 		return false
 	}
 
-	const endTimeIsBiggerOfStartTime = () => {
-		if (!startTime) return true
-
-		const registredStartHour = new Date(startTime)
-		const endHour = new Date()
-		endHour.setHours(parseInt(hours), parseInt(minutes))
-		return registredStartHour.getTime() < endHour.getTime()
-	}
-
-	const closingDateTimeIsAfterOpening = () => {
-		if (editMode) return true
-		const registredStartDate = new Date(startDate as Date)
-		const registredEndDate = new Date(endDate as Date)
-		registredStartDate.setHours(startTime?.getHours() || 0, startTime?.getMinutes() || 0)
-		registredEndDate.setHours(parseInt(hours), parseInt(minutes))
-
-		registredEndDate.getTime()
-		return registredStartDate.getTime() < registredEndDate.getTime()
-	}
-
 	const savePostTime = () => {
-		if (editMode) {
-			saveTime(hours, minutes)
-			return
-		}
-
-		if (startDate && endDate) {
-			if (!closingDateTimeIsAfterOpening()) {
-				setInvalidTimeAfterSubmit(true)
-				return
-			}
-		}
-
-		if (startTime && !startDate && !endDate) {
-			if (!endTimeIsBiggerOfStartTime()) {
-				setInvalidTimeAfterSubmit(true)
-				return
-			}
-		}
 		saveTime(hours, minutes)
 	}
 
