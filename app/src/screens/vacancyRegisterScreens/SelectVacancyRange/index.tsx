@@ -16,7 +16,7 @@ import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionI
 
 function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { isSecondPost, vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
@@ -37,8 +37,26 @@ function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps
 			return
 		}
 
-		setVacancyDataOnContext({ range: postRange })
-		navigation.navigate('SelectVacancyLocationView')
+		if (isSecondPost) {
+			navigation.reset({
+				index: 0,
+				routes: [{
+					name: 'EditVacancyPostReview',
+					params: {
+						postData: {
+							...vacancyDataContext,
+							range: postRange,
+							paymentType: vacancyDataContext.paymentType || 'sale',
+							saleValue: vacancyDataContext.saleValue || 'a combinar',
+						},
+						unsavedPost: true
+					}
+				}]
+			})
+		} else {
+			setVacancyDataOnContext({ range: postRange })
+			navigation.navigate('SelectVacancyLocationView')
+		}
 	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
