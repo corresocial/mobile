@@ -16,7 +16,7 @@ import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionI
 
 function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { isSecondPost, socialImpactDataContext, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
@@ -37,8 +37,25 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 			return
 		}
 
-		setSocialImpactDataOnContext({ range: postRange })
-		navigation.navigate('SelectSocialImpactLocationView')
+		if (isSecondPost) {
+			navigation.reset({
+				index: 0,
+				routes: [{
+					name: 'EditSocialImpactPostReview',
+					params: {
+						postData: {
+							...socialImpactDataContext,
+							range: postRange,
+							repeat: 'unrepeatable'
+						},
+						unsavedPost: true
+					}
+				}]
+			})
+		} else {
+			setSocialImpactDataOnContext({ range: postRange })
+			navigation.navigate('SelectSocialImpactLocationView')
+		}
 	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
