@@ -45,9 +45,7 @@ function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps
 					params: {
 						postData: {
 							...vacancyDataContext,
-							range: postRange,
-							paymentType: vacancyDataContext.paymentType || 'sale',
-							saleValue: vacancyDataContext.saleValue || 'a combinar',
+							range: postRange
 						},
 						unsavedPost: true
 					}

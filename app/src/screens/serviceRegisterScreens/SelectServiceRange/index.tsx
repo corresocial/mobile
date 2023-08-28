@@ -45,10 +45,7 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 					params: {
 						postData: {
 							...serviceDataContext,
-							range: postRange,
-							paymentType: serviceDataContext.paymentType || 'sale',
-							saleValue: serviceDataContext.saleValue || 'a combinar',
-							deliveryMethod: serviceDataContext.deliveryMethod || 'unavailable',
+							range: postRange
 						},
 						unsavedPost: true
 					}

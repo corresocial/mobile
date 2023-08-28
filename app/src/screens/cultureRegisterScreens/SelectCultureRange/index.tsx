@@ -17,7 +17,7 @@ import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionI
 
 function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)
+	const { isSecondPost, cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
@@ -38,11 +38,27 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 			return
 		}
 
-		setCultureDataOnContext({ range: postRange })
-		navigation.navigate('SelectCultureLocationView', {
-			editMode: editModeIsTrue(),
-			initialValue: route.params?.initialValue
-		})
+		if (isSecondPost) {
+			navigation.reset({
+				index: 0,
+				routes: [{
+					name: 'EditCulturePostReview',
+					params: {
+						postData: {
+							...cultureDataContext,
+							range: postRange
+						},
+						unsavedPost: true
+					}
+				}]
+			})
+		} else {
+			setCultureDataOnContext({ range: postRange })
+			navigation.navigate('SelectCultureLocationView', {
+				editMode: editModeIsTrue(),
+				initialValue: route.params?.initialValue
+			})
+		}
 	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
