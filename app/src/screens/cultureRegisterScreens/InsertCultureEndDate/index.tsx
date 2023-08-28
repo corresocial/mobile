@@ -7,13 +7,11 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertCultureEndDateScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
-import { CultureContext } from '../../../contexts/CultureContext'
 import { EditContext } from '../../../contexts/EditContext'
 import { PostDate } from '../../../components/_onboarding/PostDate'
 
 function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenProps) {
-	const { cultureDataContext } = useContext(CultureContext)
-	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -52,8 +50,6 @@ function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenP
 				validationColor={theme.blue1}
 				customTitle={'que dia termina?'}
 				customHighlight={['dia', 'termina']}
-				editMode={editModeIsTrue()}
-				startDate={editDataContext.unsaved.startDate || cultureDataContext.startDate}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}

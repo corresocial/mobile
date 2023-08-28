@@ -7,13 +7,11 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertVacancyEndDateScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
-import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 import { PostDate } from '../../../components/_onboarding/PostDate'
 
 function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenProps) {
-	const { vacancyDataContext } = useContext(VacancyContext)
-	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -52,8 +50,6 @@ function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenP
 				validationColor={theme.yellow1}
 				customTitle={'que dia termina?'}
 				customHighlight={['dia', 'termina']}
-				editMode={editModeIsTrue()}
-				startDate={editDataContext.unsaved.startDate || vacancyDataContext.startDate}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}

@@ -7,13 +7,11 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertSocialImpactEndDateScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
-import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { EditContext } from '../../../contexts/EditContext'
 import { PostDate } from '../../../components/_onboarding/PostDate'
 
 function InsertSocialImpactEndDate({ route, navigation }: InsertSocialImpactEndDateScreenProps) {
-	const { socialImpactDataContext } = useContext(SocialImpactContext)
-	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -52,8 +50,6 @@ function InsertSocialImpactEndDate({ route, navigation }: InsertSocialImpactEndD
 				validationColor={theme.pink1}
 				customTitle={'que dia termina?'}
 				customHighlight={['dia', 'termina']}
-				editMode={editModeIsTrue()}
-				startDate={editDataContext.unsaved.startDate || socialImpactDataContext.startDate}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}

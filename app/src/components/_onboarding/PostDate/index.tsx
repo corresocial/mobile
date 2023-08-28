@@ -24,9 +24,7 @@ interface PostDateProps {
 	validationColor: string
 	customTitle?: string
 	customHighlight?: string[]
-	editMode?: boolean
 	initialValue?: Date | string
-	startDate?: Date
 	keyboardOpened: boolean
 	navigateBackwards: () => void
 	skipScreen?: () => void
@@ -38,9 +36,7 @@ function PostDate({
 	validationColor,
 	customTitle,
 	customHighlight,
-	editMode,
 	initialValue,
-	startDate,
 	keyboardOpened,
 	navigateBackwards,
 	skipScreen,
@@ -115,21 +111,8 @@ function PostDate({
 		return insertedDate >= currentDateWithoutTimezone
 	}
 
-	const endDateIsBiggerOfStartDate = () => {
-		if (editMode) return true
-
-		const insertedDate = new Date(`${year}-${month}-${day}T23:59:59`)
-		const contextStartDate = startDate || new Date()
-		return contextStartDate.getTime() < insertedDate.getTime()
-	}
-
 	const savePostDate = () => {
-		if (startDate) {
-			if (!endDateIsBiggerOfStartDate()) {
-				setInvalidDateAfterSubmit(true)
-				return
-			}
-		} else if (!insertedDateIsAfterCurrentDate()) {
+		if (!insertedDateIsAfterCurrentDate()) {
 			setInvalidDateAfterSubmit(true)
 			return
 		}
@@ -167,12 +150,12 @@ function PostDate({
 					fontSize={16}
 					message={
 						invalidDateAfterSubmit
-							? startDate ? 'a data informada antecede a data de início' : 'a data informada antecede a data atual'
+							? 'a data informada antecede a data atual'
 							: customTitle || 'que dia começa?'
 					}
 					highlightedWords={
 						invalidDateAfterSubmit
-							? ['data', 'de', 'início', 'data', 'atual']
+							? ['data', 'atual']
 							: customHighlight || ['dia', 'começa']
 					}
 				/>
