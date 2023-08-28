@@ -17,7 +17,7 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { LineInput } from '../../../components/LineInput'
+import { DefaultInput } from '../../../components/_inputs/DefaultInput'
 
 function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImportantPointsScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
@@ -57,26 +57,29 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 		return false
 	}
 
+	const moveToEditableInput = (text: string) => {
+		setImportantPointText(text)
+	}
+
 	const renderVacanciesImportantPointsSaved = () => {
-		if (!importantPointsLength()) return null
+		if (!importantPointsLength() || keyboardOpened) return null
 		return importantPointsList.map((currentImportantPoint, index) => (
-			<LineInput
+			<DefaultInput
 				key={uuid()}
 				value={currentImportantPoint}
 				relativeWidth={'100%'}
 				textInputRef={inputRefs.inputCards[index]}
 				defaultBackgroundColor={theme.white2}
-				defaultBorderBottomColor={theme.black4}
 				validBackgroundColor={theme.yellow1}
-				validBorderBottomColor={theme.yellow5}
-				invalidBackgroundColor={theme.red1}
-				invalidBorderBottomColor={theme.red5}
+				withoutBottomLine
+				multiline
 				lastInput
 				editable={false}
+				uneditableMethod={moveToEditableInput}
 				textAlign={'left'}
 				fontSize={16}
 				keyboardType={'default'}
-				textIsValid={true && !keyboardOpened}
+				textIsValid
 				onIconPress={() => removeImportantPoint(index)}
 				validateText={(text: string) => validateVacancyImportantPoints(text)}
 				onChangeText={(text: string) => { }}
@@ -98,12 +101,12 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 		setImportantPointsList(importantPoints.filter((point) => point))
 	}
 
-	const skipScreen = () => {
+	/* const skipScreen = () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ importantPoints: [] })
 			navigation.goBack()
 		}
-	}
+	} */
 
 	const saveVacancyImportantPoints = () => {
 		if (editModeIsTrue()) {
@@ -115,13 +118,13 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 	const getPlaceholder = () => {
 		switch (importantPointsLength()) {
 			case 0: {
-				return '+ coisas importantes sobre você ou a vaga'
+				return 'pontos importantes'
 			}
 			case 1: {
-				return '+ segundo ponto'
+				return 'segundo ponto'
 			}
 			case 2: {
-				return '+ terceiro ponto'
+				return 'terceiro ponto'
 			}
 			default: return false
 		}
@@ -138,14 +141,13 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={17}
+					fontSize={16}
 					message={'quer adicionar até 3 pontos importantes?'}
 					highlightedWords={['adicionar', 'até', '3', 'pontos', 'importantes']}
 				/>
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white2}
+				backgroundColor={theme.white3}
 				justifyContent={importantPointsLength() < 1 ? 'center' : 'space-around'}
 			>
 				<>
@@ -155,21 +157,21 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 					{
 						importantPointsLength() < 3
 						&& (
-							<LineInput
+							<DefaultInput
 								key={4}
 								value={importantPointText}
 								relativeWidth={'100%'}
 								textInputRef={inputRefs.importantPointTextInput}
 								defaultBackgroundColor={theme.white2}
-								defaultBorderBottomColor={theme.black4}
 								validBackgroundColor={theme.yellow1}
-								validBorderBottomColor={theme.yellow5}
-								invalidBackgroundColor={theme.red1}
-								invalidBorderBottomColor={theme.red5}
-								multiline={importantPointsList.length === 0}
+								withoutBottomLine
 								lastInput
-								textAlign={'left'}
+								multiline
 								fontSize={16}
+								onIconPress={!keyboardOpened ? () => { } : null}
+								iconPosition={'left'}
+								textAlignVertical={'center'}
+								textAlign={'center'}
 								placeholder={getPlaceholder() || ''}
 								keyboardType={'default'}
 								onPressKeyboardSubmit={addNewImportantPoint}

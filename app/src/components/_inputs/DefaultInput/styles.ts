@@ -29,14 +29,13 @@ interface ContainerInnerProps {
 }
 
 export const ContainerInner = styled.View<ContainerInnerProps>`
-	flexDirection: column;
-	justifyContent: center;
+	justify-content: center;
 
-	${({ hasIcon }) => hasIcon && (
-		`alignItems: center;
-		justifyContent: space-between;`
+${({ hasIcon }) => hasIcon && (
+		`flex-direction: row;
+		align-items: center;
+		justify-content: space-between;`
 	)}
-
 `
 
 export const BottomLine = styled.View<ContainerInnerProps>`
@@ -65,4 +64,9 @@ export const TextInput = styled.TextInput<TextInputProps>`
     text-justify: center;
 	color: ${({ theme }) => theme.black4};
     max-Height: ${relativeScreenHeight(25)}px;
+`
+
+export const SideButtonContainer = styled.TouchableOpacity`
+	justify-content: center;
+	align-items: center;
 `

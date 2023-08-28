@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
-import { FontAwesome5 } from '@expo/vector-icons'
 import {
 	KeyboardTypeOptions,
 	NativeSyntheticEvent,
 	ReturnKeyTypeOptions,
-	TouchableOpacity,
 	TextInputKeyPressEventData,
 	TextInputProps,
 } from 'react-native'
 
-import { BottomLine, Container, ContainerInner, TextInput } from './styles'
+import { BottomLine, Container, ContainerInner, SideButtonContainer, TextInput } from './styles'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
+import MinusWhiteIcon from '../../../assets/icons/minus-white.svg'
+import PlusWhiteIcon from '../../../assets/icons/plusTabIconInactive.svg'
 
 interface DefaultInputProps extends TextInputProps {
 	value: string
@@ -26,6 +26,7 @@ interface DefaultInputProps extends TextInputProps {
 	secureTextEntry?: boolean
 	invalidTextAfterSubmit?: boolean
 	fontSize?: number
+	withoutBottomLine?: boolean
 	multiline?: boolean
 	editable?: boolean
 	placeholder?: string
@@ -36,7 +37,9 @@ interface DefaultInputProps extends TextInputProps {
 	blurOnSubmit?: boolean
 	returnKeyType?: ReturnKeyTypeOptions
 	selectTextOnFocus?: boolean
-	onIconPress?: () => void
+	iconPosition?: 'left' | 'right'
+	uneditableMethod?: (text: string) => void
+	onIconPress?: (() => void) | null
 	onPressKeyboardSubmit?: () => void
 	filterText?: (text: string) => string
 	validateText?: (text: string) => boolean
@@ -57,13 +60,16 @@ function DefaultInput({
 	invalidTextAfterSubmit = false,
 	fontSize = 20,
 	textAlign = 'center',
+	withoutBottomLine,
 	multiline,
 	editable,
 	placeholder,
 	keyboardType,
 	returnKeyType,
 	blurOnSubmit = true,
+	iconPosition = 'right',
 	onIconPress,
+	uneditableMethod,
 	onPressKeyboardSubmit,
 	selectTextOnFocus,
 	error,
@@ -146,6 +152,11 @@ function DefaultInput({
 		}
 	}
 
+	const moveToEditableInput = () => {
+		/* uneditableMethod && uneditableMethod(value)
+		onIconPress && onIconPress() */
+	}
+
 	return (
 		<Container
 			width={relativeWidth}
@@ -154,9 +165,17 @@ function DefaultInput({
 			style={{ ...generateInputContainerStyle() }}
 			activeOpacity={onIconPress ? 0.8 : 1}
 			underlayColor={onIconPress ? 'transparent ' : validated ? validBackgroundColor : defaultBackgroundColor}
-			onPress={() => textInputRef && textInputRef.current.focus()}
+			onPress={() => (!editable ? moveToEditableInput() : textInputRef && textInputRef.current.focus())}
 		>
 			<ContainerInner hasIcon={!!onIconPress}>
+				{
+					onIconPress && iconPosition === 'left'
+					&& (
+						<SideButtonContainer onPress={onIconPress} >
+							<PlusWhiteIcon width={RFValue(30)} height={RFValue(30)} />
+						</SideButtonContainer>
+					)
+				}
 				<TextInput
 					{...propsRest}
 					fontSize={fontSize}
@@ -166,7 +185,6 @@ function DefaultInput({
 					ref={textInputRef}
 					value={value}
 					maxLength={maxLength}
-					editable={editable}
 					multiline={multiline}
 					numberOfLines={7}
 					onContentSizeChange={({ nativeEvent: { contentSize: { width, height } } }: any) => resizeMultilineInput(height)}
@@ -175,27 +193,23 @@ function DefaultInput({
 					placeholder={placeholder}
 					returnKeyType={returnKeyType || (lastInput ? 'done' : 'next')}
 					blurOnSubmit={blurOnSubmit}
+					editable={editable}
 					selectTextOnFocus={selectTextOnFocus}
-					onFocus={() => setFocused(true)}
+					onFocus={() => (editable ? setFocused(true) : moveToEditableInput())}
 					onBlur={() => setFocused(false)}
 					onSubmitEditing={nextInputRef ? setFocusToNextInput : onPressKeyboardSubmit}
 					onChangeText={(text: string) => ValidateAndChange(text)}
 					onKeyPress={(key: NativeSyntheticEvent<TextInputKeyPressEventData>) => performKeyPress(key)}
 				/>
 				{
-					onIconPress
+					onIconPress && iconPosition === 'right'
 					&& (
-						<TouchableOpacity onPress={onIconPress} >
-							<FontAwesome5
-								name={'minus'}
-								size={RFValue(20)}
-								color={theme.black4}
-								style={{ padding: 15 }}
-							/>
-						</TouchableOpacity>
+						<SideButtonContainer onPress={onIconPress} >
+							<MinusWhiteIcon width={RFValue(30)} height={RFValue(30)} />
+						</SideButtonContainer>
 					)
 				}
-				<BottomLine style={{ ...inputContainerStyle }} />
+				{!withoutBottomLine && <BottomLine style={{ ...inputContainerStyle }} />}
 			</ContainerInner>
 		</Container>
 	)
