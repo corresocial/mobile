@@ -16,7 +16,7 @@ import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionI
 
 function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)
+	const { isSecondPost, saleDataContext, setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
@@ -37,8 +37,27 @@ function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 			return
 		}
 
-		setSaleDataOnContext({ range: postRange })
-		navigation.navigate('SelectLocationView')
+		if (isSecondPost) {
+			navigation.reset({
+				index: 0,
+				routes: [{
+					name: 'EditSalePostReview',
+					params: {
+						postData: {
+							...saleDataContext,
+							range: postRange,
+							paymentType: saleDataContext.paymentType || 'sale',
+							saleValue: saleDataContext.saleValue || 'a combinar',
+							deliveryMethod: saleDataContext.deliveryMethod || 'unavailable',
+						},
+						unsavedPost: true
+					}
+				}]
+			})
+		} else {
+			setSaleDataOnContext({ range: postRange })
+			navigation.navigate('SelectLocationView')
+		}
 	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
@@ -60,7 +79,7 @@ function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
-				progress={[4, 5]}
+				progress={[4, isSecondPost ? 4 : 5]}
 			/>
 		</>
 	)

@@ -14,7 +14,7 @@ import { PostSelectButton } from '../../../components/_onboarding/PostSelectButt
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
-	const { setSaleDataOnContext, getAditionalDataFromLastPost } = useContext(SaleContext)
+	const { isSecondPost, setSaleDataOnContext, getAditionalDataFromLastPost } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	useEffect(() => {
@@ -42,7 +42,7 @@ function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
 			highlightedWords={['novo', 'usado']}
 			headerBackgroundColor={theme.green2}
 			backgroundColor={theme.white3}
-			progress={[1, 5]}
+			progress={[1, isSecondPost ? 4 : 5]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton
