@@ -154,7 +154,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 	const getLastUserPost = () => {
 		try {
 			const { posts: userPosts }: PostCollection[] | any = userDataContext
-			const lastUserPost: PostCollection = userPosts[userPosts.length - 1]
+			const lastUserPost: PostCollection = userPosts[0]
 			return lastUserPost
 		} catch (err) {
 			return []
