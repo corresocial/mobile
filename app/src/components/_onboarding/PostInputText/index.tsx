@@ -18,6 +18,7 @@ import { HorizontalSpacing } from '../../HorizontalSpacing'
 import { SmallButton } from '../../_buttons/SmallButton'
 
 interface PostInputTextProps {
+	height?: string
 	backgroundColor: string
 	validationColor: string
 	customTitle?: string
@@ -34,6 +35,7 @@ interface PostInputTextProps {
 }
 
 function PostInputText({
+	height,
 	backgroundColor,
 	validationColor,
 	customTitle,
@@ -54,13 +56,13 @@ function PostInputText({
 	useEffect(() => {
 		const validation = validateInputText(inputText)
 		setInputTextIsValid(validation)
-	}, [inputText, keyboardOpened])
+	}, [inputText])
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(28)}
-				relativeHeight={relativeScreenHeight(28)}
+				relativeHeight={height || relativeScreenHeight(28)}
 				centralized
 				backgroundColor={backgroundColor}
 			>

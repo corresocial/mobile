@@ -64,7 +64,7 @@ function DefaultInput({
 	textAlign = 'center',
 	withoutBottomLine,
 	multiline,
-	editable,
+	editable = true,
 	placeholder,
 	keyboardType,
 	returnKeyType,
