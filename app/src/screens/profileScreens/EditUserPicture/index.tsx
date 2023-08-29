@@ -76,7 +76,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 				<InstructionCardContainer>
 				</InstructionCardContainer>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white2}>
+			<FormContainer >
 				<PrimaryButton
 					color={theme.white3}
 					label={'tirar outra?'}

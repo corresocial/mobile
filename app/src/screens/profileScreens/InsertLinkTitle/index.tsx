@@ -11,15 +11,16 @@ import { SocialMedia } from '../../../services/firebase/types'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { LineInput } from '../../../components/LineInput'
 import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { DefaultInput } from '../../../components/_inputs/DefaultInput'
 
 function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 	const [linkTitle, setInputLinkTitle] = useState<string>(route.params.socialMedia?.title || '')
 	const [linkTitleIsValid, setLinkTitleIsValid] = useState<boolean>(false)
+
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
-	const [invalidLinkTitleAfterSubmit, setInvaliLinkTitleAfterSubmit] = useState<boolean>(false)
+
 	const inputRefs = {
 		linkTitleInput: useRef<TextInput>(null),
 	}
@@ -34,19 +35,16 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 
 	useEffect(() => {
 		const validation = validateLinkTitle(linkTitle)
-		setLinkTitleIsValid(validation)
-	}, [linkTitle])
+		if (validation) setLinkTitleIsValid(validation)
+	}, [linkTitle, keyboardOpened])
 
 	const validateLinkTitle = (text: string) => {
 		const isValid = (text)?.trim().length >= 1
-		if (isValid) {
-			setInvaliLinkTitleAfterSubmit(false)
+		if (isValid && !keyboardOpened) {
 			return true
 		}
 		return false
 	}
-
-	const someInvalidFieldSubimitted = () => invalidLinkTitleAfterSubmit
 
 	const saveLinkTitle = async () => {
 		navigation.navigate('InsertLinkValue', {
@@ -59,7 +57,7 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={'50%'}
 				centralized
@@ -73,21 +71,17 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 					/>
 				</HeaderLinkCardContainer>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white2}>
+			<FormContainer >
 				<InputsContainer>
-					<LineInput
+					<DefaultInput
 						value={linkTitle}
 						relativeWidth={'100%'}
 						textInputRef={inputRefs.linkTitleInput}
 						defaultBackgroundColor={theme.white2}
-						defaultBorderBottomColor={theme.black4}
 						validBackgroundColor={theme.orange1}
-						validBorderBottomColor={theme.orange5}
-						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.red5}
 						lastInput
+						multiline
 						fontSize={16}
-						invalidTextAfterSubmit={invalidLinkTitleAfterSubmit}
 						placeholder={'ex: site de receitas'}
 						keyboardType={'default'}
 						textIsValid={linkTitleIsValid && !keyboardOpened}
@@ -99,7 +93,7 @@ function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 						linkTitleIsValid && !keyboardOpened
 						&& (
 							<PrimaryButton
-								color={someInvalidFieldSubimitted() ? theme.red3 : theme.green3}
+								color={theme.green3}
 								SecondSvgIcon={CheckWhiteIcon}
 								label={'continuar'}
 								labelColor={theme.white3}

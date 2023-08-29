@@ -105,7 +105,7 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 					color={theme.white3}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white3}>
+			<FormContainer >
 				<DefaultInput
 					value={message}
 					relativeWidth={'100%'}

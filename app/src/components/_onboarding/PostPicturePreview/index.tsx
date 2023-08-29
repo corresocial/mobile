@@ -88,7 +88,7 @@ function PostPicturePreview({
 					/>
 				</HorizontalListPicturesContainer>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white2}>
+			<FormContainer >
 				<PrimaryButton
 					flexDirection={'row-reverse'}
 					color={theme.green3}

@@ -284,7 +284,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 					highlightedWords={getHeaderHighlightedWords()}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white3}>
+			<FormContainer >
 				<InputsContainer>
 					{
 						inputsConfig.map((inputConfig, index) => {

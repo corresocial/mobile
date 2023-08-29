@@ -140,7 +140,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 					}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white3}>
+			<FormContainer >
 				<InputsContainer>
 					<DefaultInput
 						value={inputName}

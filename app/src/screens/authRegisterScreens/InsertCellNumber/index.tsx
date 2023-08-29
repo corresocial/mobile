@@ -159,7 +159,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 					highlightedWords={getHeaderHighlightedWords()}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white3}>
+			<FormContainer >
 				<InputsContainer>
 					<DefaultInput
 						value={DDD}
