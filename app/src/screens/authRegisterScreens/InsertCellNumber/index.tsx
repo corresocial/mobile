@@ -17,9 +17,9 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { LineInput } from '../../../components/LineInput'
 import { Loader } from '../../../components/Loader'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { DefaultInput } from '../../../components/_inputs/DefaultInput'
 
 const firebaseConfig = Firebase ? Firebase.options : undefined
 
@@ -159,19 +159,15 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 					highlightedWords={getHeaderHighlightedWords()}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white2}>
+			<FormContainer backgroundColor={theme.white3}>
 				<InputsContainer>
-					<LineInput
+					<DefaultInput
 						value={DDD}
-						relativeWidth={'18%'}
+						relativeWidth={'30%'}
 						textInputRef={inputRefs.DDDInput}
 						nextInputRef={inputRefs.cellNumberInput}
 						defaultBackgroundColor={theme.white2}
-						defaultBorderBottomColor={theme.black4}
 						validBackgroundColor={!authByWhatsapp ? theme.purple1 : theme.green1}
-						validBorderBottomColor={!authByWhatsapp ? theme.purple5 : theme.green5}
-						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.black4}
 						maxLength={2}
 						invalidTextAfterSubmit={invalidDDDAfterSubmit}
 						placeholder={'12'}
@@ -181,17 +177,13 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 						validateText={(text: string) => validateDDD(text)}
 						onChangeText={(text: string) => setDDD(text)}
 					/>
-					<LineInput
+					<DefaultInput
 						value={cellNumber}
-						relativeWidth={'77%'}
+						relativeWidth={'65%'}
 						textInputRef={inputRefs.cellNumberInput}
 						previousInputRef={inputRefs.DDDInput}
 						defaultBackgroundColor={theme.white2}
-						defaultBorderBottomColor={theme.black4}
 						validBackgroundColor={!authByWhatsapp ? theme.purple1 : theme.green1}
-						validBorderBottomColor={!authByWhatsapp ? theme.purple5 : theme.green5}
-						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.black4}
 						maxLength={9}
 						invalidTextAfterSubmit={invalidCellNumberAfterSubmit}
 						placeholder={'123451234'}

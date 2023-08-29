@@ -45,7 +45,7 @@ function InstructionCard({
 			{title && <MessageTitle>{showMessageWithHighlight(title, highlightedWords)}</MessageTitle>}
 			<Message
 				style={{
-					fontSize: fontSize ? RFValue(fontSize) : RFValue(20),
+					fontSize: fontSize ? RFValue(fontSize) : RFValue(18),
 					lineHeight: lineHeight ? RFValue(lineHeight) : RFValue(22),
 				}}
 			>

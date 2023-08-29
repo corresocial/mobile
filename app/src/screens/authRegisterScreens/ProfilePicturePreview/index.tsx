@@ -227,7 +227,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 				</InstructionCardContainer>
 				<PhotoPortrait pictureUri={profilePicture[0]} width={screenWidth} height={screenWidth} />
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white2}>
+			<FormContainer backgroundColor={theme.white3}>
 				{
 					isLoading
 						? <Loader />

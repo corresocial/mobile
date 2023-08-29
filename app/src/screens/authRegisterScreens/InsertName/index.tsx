@@ -15,7 +15,7 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { LineInput } from '../../../components/LineInput'
+import { DefaultInput } from '../../../components/_inputs/DefaultInput'
 import { BackButton } from '../../../components/_buttons/BackButton'
 
 function InsertName({ navigation, route }: InsertNameScreenProps) {
@@ -122,7 +122,7 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={'55%'}
+				relativeHeight={'50%'}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
@@ -131,28 +131,26 @@ function InsertName({ navigation, route }: InsertNameScreenProps) {
 					message={
 						someInvalidFieldSubimitted()
 							? 'não deu!\nparece que este nome é \nmuito curto '
-							: 'boa! \n\nescolha o nome do seu perfil'
+							: 'boa! \n\nagora escolha o nome do seu perfil'
 					}
 					highlightedWords={
 						someInvalidFieldSubimitted()
 							? ['\nmuito', 'curto']
-							: ['boa!', 'seu', 'perfil']
+							: ['boa!', 'nome', 'do', 'seu', 'perfil']
 					}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white2}>
+			<FormContainer backgroundColor={theme.white3}>
 				<InputsContainer>
-					<LineInput
+					<DefaultInput
 						value={inputName}
 						relativeWidth={'100%'}
 						textInputRef={inputRefs.nameInput}
 						defaultBackgroundColor={theme.white2}
-						defaultBorderBottomColor={theme.black4}
 						validBackgroundColor={theme.green1}
-						validBorderBottomColor={theme.green5}
-						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.red5}
 						maxLength={50}
+						fontSize={16}
+						multiline
 						lastInput
 						invalidTextAfterSubmit={invalidNameAfterSubmit}
 						placeholder={'qual é o seu nome?'}
