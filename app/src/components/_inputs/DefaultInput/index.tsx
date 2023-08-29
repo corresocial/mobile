@@ -120,13 +120,7 @@ function DefaultInput({
 
 	const resizeMultilineInput = (height: number) => {
 		if (!multiline) return
-		console.log(`height: ${height}`)
-		// console.log(`height + (lineHeight): ${height + (lineHeight)}`)
-		// console.log(`multilineInputHeight: ${multilineInputHeight}`)
-		console.log(`multilineInputHeight: ${multilineInputHeight}`)
 
-		console.log(`height <= multilineInputHeight: ${height <= multilineInputHeight}`)
-		console.log(`height <= maxLineHeight: ${height <= maxLineHeight}`)
 		if (height >= maxLineHeight) {
 			setMultilineInputHeight(maxLineHeight)
 			return
