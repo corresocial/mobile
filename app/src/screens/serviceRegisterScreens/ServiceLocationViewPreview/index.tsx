@@ -58,7 +58,8 @@ function ServiceLocationViewPreview({ route, navigation }: ServiceLocationViewPr
 						saleValue: serviceDataContext.saleValue || 'a combinar',
 						deliveryMethod: serviceDataContext.deliveryMethod || 'unavailable',
 					},
-					unsavedPost: true
+					unsavedPost: true,
+					showPresentationModal: true,
 				}
 			}]
 		})

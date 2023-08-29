@@ -10,7 +10,7 @@ import { VerticalSigh } from '../../VerticalSigh'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { PhotoPortrait } from '../../PhotoPortrait'
 
-interface SubscriptionInfoModalProps {
+interface SubscriptionPresentationModalProps {
 	visibility: boolean
 	withoutNegativeOption?: boolean
 	profilePictureUri?: string
@@ -18,13 +18,13 @@ interface SubscriptionInfoModalProps {
 	onPressButton: () => void
 }
 
-function SubscriptionInfoModal({
+function SubscriptionPresentationModal({
 	visibility,
 	withoutNegativeOption,
 	profilePictureUri,
 	closeModal,
 	onPressButton
-}: SubscriptionInfoModalProps) {
+}: SubscriptionPresentationModalProps) {
 	return (
 		<CustomModal
 			visibility={visibility}
@@ -82,4 +82,4 @@ function SubscriptionInfoModal({
 	)
 }
 
-export { SubscriptionInfoModal }
+export { SubscriptionPresentationModal }

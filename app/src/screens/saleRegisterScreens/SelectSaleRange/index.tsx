@@ -12,7 +12,7 @@ import { StripeContext } from '../../../contexts/StripeContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 
 import { PostRange } from '../../../components/_onboarding/PostRange'
-import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionInfoModal'
+import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
 
 function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -28,7 +28,7 @@ function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const closeSubscriptionInfoModal = () => setSubscriptionModalIsVisible(false)
+	const closeSubscriptionPresentationModal = () => setSubscriptionModalIsVisible(false)
 
 	const savePostRange = (postRange: PostRangeType) => {
 		if (editModeIsTrue()) {
@@ -62,12 +62,12 @@ function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 	return (
 		<>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
-			<SubscriptionInfoModal
+			<SubscriptionPresentationModal
 				visibility={subscriptionModalIsVisible}
 				profilePictureUri={profilePictureUrl}
 				withoutNegativeOption
 				closeModal={() => setSubscriptionModalIsVisible(false)}
-				onPressButton={closeSubscriptionInfoModal}
+				onPressButton={closeSubscriptionPresentationModal}
 			/>
 			<PostRange
 				backgroundColor={theme.green2}

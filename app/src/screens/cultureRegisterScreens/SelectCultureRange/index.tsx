@@ -13,7 +13,7 @@ import { AuthContext } from '../../../contexts/AuthContext'
 
 import { PostRange } from '../../../components/_onboarding/PostRange'
 
-import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionInfoModal'
+import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
 
 function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -29,7 +29,7 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const closeSubscriptionInfoModal = () => setSubscriptionModalIsVisible(false)
+	const closeSubscriptionPresentationModal = () => setSubscriptionModalIsVisible(false)
 
 	const savePostRange = (postRange: PostRangeType) => {
 		if (editModeIsTrue()) {
@@ -66,12 +66,12 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 	return (
 		<>
 			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
-			<SubscriptionInfoModal
+			<SubscriptionPresentationModal
 				visibility={subscriptionModalIsVisible}
 				profilePictureUri={profilePictureUrl}
 				withoutNegativeOption
 				closeModal={() => setSubscriptionModalIsVisible(false)}
-				onPressButton={closeSubscriptionInfoModal}
+				onPressButton={closeSubscriptionPresentationModal}
 			/>
 			<PostRange
 				backgroundColor={theme.blue2}

@@ -51,7 +51,7 @@ import { getAndUpdateUserToken } from '../../../services/firebase/chat/getAndUpd
 import { getReverseGeocodeByMapsApi } from '../../../services/maps/getReverseGeocodeByMapsApi'
 import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
 import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
-import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionInfoModal'
+import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -444,7 +444,7 @@ function Home({ navigation }: HomeScreenProps) {
 				backgroundColor={theme.orange2}
 				barStyle={'dark-content'}
 			/>
-			<SubscriptionInfoModal
+			<SubscriptionPresentationModal
 				visibility={subscriptionModalIsVisible}
 				profilePictureUri={profilePictureUrl}
 				closeModal={() => setSubscriptionModalIsVisible(false)}
