@@ -21,14 +21,14 @@ import {
 	SeeMoreLabel,
 } from './styles'
 import { theme } from '../../../common/theme'
-import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
+import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
 import ShareIcon from '../../../assets/icons/share-white.svg'
 import LeaderLabel from '../../../assets/icons/leaderLabel.svg'
 import VerifiedLabel from '../../../assets/icons/verifiedLabel.svg'
 import ImpactLabel from '../../../assets/icons/impactLabel.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 import EditIcon from '../../../assets/icons/edit-white.svg'
-import GearIcon from '../../../assets/icons/gear.svg'
+import GearIcon from '../../../assets/icons/gear-white.svg'
 
 import { share } from '../../../common/share'
 import { getUser } from '../../../services/firebase/user/getUser'

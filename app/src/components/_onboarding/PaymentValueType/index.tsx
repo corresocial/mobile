@@ -2,7 +2,7 @@ import React from 'react'
 
 import { theme } from '../../../common/theme'
 import HandOnMoneyWhiteIcon from '../../../assets/icons/handOnMoney-white.svg'
-import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
+import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
 
 import { SaleValueType } from '../../../services/firebase/types'
 

@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { theme } from '../../../common/theme'
 import SuitCaseWhiteIcon from '../../../assets/icons/suitCase-white.svg'
 import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
-import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
+import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
 
 import { SelectVacancyTypeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { VacancyType } from '../../../services/firebase/types'

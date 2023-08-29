@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { FlatList } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
-import LoupIcon from '../../../assets/icons/loup.svg'
+import LoupIcon from '../../../assets/icons/loup-white.svg'
 import { theme } from '../../../common/theme'
 import { Body, Container, ContainerPadding, Header, HorizontalSigh, InputContainer, SearchInput, TagsContainer } from './styles'
 

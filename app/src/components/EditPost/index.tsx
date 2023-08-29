@@ -15,7 +15,7 @@ import { theme } from '../../common/theme'
 import { relativeScreenHeight } from '../../common/screenDimensions'
 import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonContainer } from './styles'
 import CheckWhiteIcon from '../../assets/icons/check-white.svg'
-import PlusWhiteIcon from '../../assets/icons/plusTabIconInactive.svg'
+import PlusWhiteIcon from '../../assets/icons/plus-white.svg'
 import HandOnMoneyWhiteIcon from '../../assets/icons/handOnMoney-white.svg'
 
 import { DefaultPostViewHeader } from '../../components/DefaultPostViewHeader'

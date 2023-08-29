@@ -2,7 +2,7 @@ import React from 'react'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 
 import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
-import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
+import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
 import SuitCaseWhiteIcon from '../../../assets/icons/suitCase-white.svg'
 import ClockNumeredWhiteIcon from '../../../assets/icons/clockNumered-white.svg'
 

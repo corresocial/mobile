@@ -12,7 +12,7 @@ import { BottomLine, Container, ContainerInner, SideButtonContainer, TextInput }
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import MinusWhiteIcon from '../../../assets/icons/minus-white.svg'
-import PlusWhiteIcon from '../../../assets/icons/plusTabIconInactive.svg'
+import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
 
 interface DefaultInputProps extends TextInputProps {
 	value: string

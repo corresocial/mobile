@@ -2,7 +2,7 @@ import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Address, AddressArea, Container, HighlightedAddress, IconArea } from './styles'
-import AngleRightIcon from '../../assets/icons/angleRight.svg'
+import AngleRightWhitetIcon from '../../assets/icons/angleRight-white.svg'
 import ClockIcon from '../../assets/icons/clock-white.svg'
 import { theme } from '../../common/theme'
 
@@ -60,7 +60,7 @@ function DropdownItem({ selected, dropdownData, recent, findNearPosts }: Dropdow
 			</AddressArea>
 			<IconArea>
 				{
-					!selected && <AngleRightIcon width={RFValue(18)} height={RFValue(18)} />
+					!selected && <AngleRightWhitetIcon width={RFValue(18)} height={RFValue(18)} />
 				}
 			</IconArea>
 		</Container>

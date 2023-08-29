@@ -21,8 +21,8 @@ import {
 } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import XIcon from '../../../assets/icons/x-thin.svg'
-import LoupIcon from '../../../assets/icons/loupTabIconInactive.svg'
+import XIcon from '../../../assets/icons/x-white.svg'
+import LoupIcon from '../../../assets/icons/loup-white.svg'
 
 import { MessageObjects, Chat, UserIdentification, Message } from '../../../@types/chat/types'
 import { ChatConversationsScreenProps } from '../../../routes/Stack/ChatStack/stackScreenProps'

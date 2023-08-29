@@ -2,7 +2,7 @@ import React from 'react'
 
 import GiftWhiteIcon from '../../../assets/icons/gift-white.svg'
 import UserLabelWhiteIcon from '../../../assets/icons/usedLabel-white.svg'
-import TruckIcon from '../../../assets/icons/truck.svg'
+import TruckWhiteIcon from '../../../assets/icons/truck-white.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
@@ -24,7 +24,7 @@ function ItemStatusCard({ title, itemStatus, onEdit }: ItemStatusCardProps) {
 		switch (itemStatus) {
 			case 'new': return GiftWhiteIcon
 			case 'used': return UserLabelWhiteIcon
-			default: return TruckIcon
+			default: return TruckWhiteIcon
 		}
 	}
 

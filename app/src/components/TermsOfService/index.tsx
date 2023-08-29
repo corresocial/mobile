@@ -3,7 +3,7 @@ import { Linking } from 'react-native'
 
 import { theme } from '../../common/theme'
 import { Container, LinkButtonsContainer } from './styles'
-import PlusWhiteIcon from '../../assets/icons/plusTabIconInactive.svg'
+import PlusWhiteIcon from '../../assets/icons/plus-white.svg'
 import DescriptionWhiteIcon from '../../assets/icons/description-white.svg'
 import XWhiteIcon from '../../assets/icons/x-white.svg'
 

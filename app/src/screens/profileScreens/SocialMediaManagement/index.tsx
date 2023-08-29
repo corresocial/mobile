@@ -4,8 +4,8 @@ import uuid from 'react-uuid'
 
 import { Body, Container, Header, NewLinkButtonContainer, Sigh } from './styles'
 import { theme } from '../../../common/theme'
-import PlusIcon from '../../../assets/icons/plus.svg'
-import AngleRightIcon from '../../../assets/icons/angleRight.svg'
+import PlusIcon from '../../../assets/icons/plus-white.svg'
+import AngleRightWhitetIcon from '../../../assets/icons/angleRight-white.svg'
 
 import { SocialMediaManagementScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { SocialMedia } from '../../../services/firebase/types'
@@ -38,7 +38,7 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 	}
 
 	const getEndIcon = () => {
-		if (!route.params.isAuthor) return AngleRightIcon
+		if (!route.params.isAuthor) return AngleRightWhitetIcon
 	}
 
 	const renderSocialMedias = () => {

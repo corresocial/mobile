@@ -3,7 +3,7 @@ import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 import { Container, RightArea, RightAreaText, Title } from './styles'
-import AngleRightIcon from '../../../assets/icons/angleRight.svg'
+import AngleRightWhitetIcon from '../../../assets/icons/angleRight-white.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
@@ -26,7 +26,7 @@ function SubtitleCard({ text, highlightedText, seeMoreText, SvgIcon, onPress }: 
 			<Title>{showMessageWithHighlight(text, highlightedText)}</Title>
 			<RightArea>
 				{seeMoreText && <RightAreaText>{showMessageWithHighlight('ver mais', ['mais'])}</RightAreaText>}
-				{onPress && <AngleRightIcon width={'40%'} height={RFValue(18)} />}
+				{onPress && <AngleRightWhitetIcon width={'40%'} height={RFValue(18)} />}
 			</RightArea>
 		</Container>
 	)

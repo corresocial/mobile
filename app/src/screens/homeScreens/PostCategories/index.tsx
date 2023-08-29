@@ -6,7 +6,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 import { Body, Container, Header, InputContainer, LastSigh, SearchInput } from './styles'
 import { theme } from '../../../common/theme'
-import LoupIcon from '../../../assets/icons/loup.svg'
+import LoupIcon from '../../../assets/icons/loup-white.svg'
 
 import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
 import { saleCategories } from '../../../utils/postsCategories/saleCategories'
