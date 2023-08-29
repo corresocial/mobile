@@ -61,7 +61,7 @@ function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<SubscriptionInfoModal
 				visibility={subscriptionModalIsVisible}
 				profilePictureUri={profilePictureUrl}

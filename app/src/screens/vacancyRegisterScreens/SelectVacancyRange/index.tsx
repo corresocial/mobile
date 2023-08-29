@@ -61,7 +61,7 @@ function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
 			<SubscriptionInfoModal
 				visibility={subscriptionModalIsVisible}
 				profilePictureUri={profilePictureUrl}

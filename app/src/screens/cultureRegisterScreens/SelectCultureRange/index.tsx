@@ -65,7 +65,7 @@ function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
 			<SubscriptionInfoModal
 				visibility={subscriptionModalIsVisible}
 				profilePictureUri={profilePictureUrl}

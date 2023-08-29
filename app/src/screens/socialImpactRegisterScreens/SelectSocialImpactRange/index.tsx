@@ -62,7 +62,7 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
 			<SubscriptionInfoModal
 				visibility={subscriptionModalIsVisible}
 				profilePictureUri={profilePictureUrl}

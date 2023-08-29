@@ -61,7 +61,7 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
 			<SubscriptionInfoModal
 				visibility={subscriptionModalIsVisible}
 				profilePictureUri={profilePictureUrl}
