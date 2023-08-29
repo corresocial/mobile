@@ -63,7 +63,7 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 				labelSize={18}
 				relativeHeight={'25%'}
 				SvgIcon={CalendarEverydayWhiteIcon}
-				svgIconScale={['70%', '70%']}
+				svgIconScale={['50%', '50%']}
 				leftSideColor={theme.blue3}
 				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('event')}

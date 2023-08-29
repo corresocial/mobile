@@ -74,7 +74,7 @@ function PostFrequency({
 						highlightedWords={['hoje']}
 						labelSize={18}
 						SvgIcon={CalendarToday}
-						svgIconScale={['70%', '70%']}
+						svgIconScale={['50%', '50%']}
 						leftSideWidth={'25%'}
 						leftSideColor={theme.orange3}
 						onPress={() => savePostFrequency('today')}
@@ -85,7 +85,7 @@ function PostFrequency({
 						highlightedWords={['todos']}
 						labelSize={18}
 						SvgIcon={CalendarEveryday}
-						svgIconScale={['70%', '70%']}
+						svgIconScale={['50%', '50%']}
 						leftSideWidth={'25%'}
 						leftSideColor={theme.purple3}
 						onPress={() => savePostFrequency('everyday')}
@@ -96,7 +96,7 @@ function PostFrequency({
 						highlightedWords={['alguns']}
 						labelSize={18}
 						SvgIcon={CalendarSomeday}
-						svgIconScale={['70%', '70%']}
+						svgIconScale={['50%', '50%']}
 						leftSideWidth={'25%'}
 						leftSideColor={theme.yellow3}
 						onPress={() => savePostFrequency('someday')}
@@ -107,7 +107,7 @@ function PostFrequency({
 						highlightedWords={['comerciais']}
 						labelSize={18}
 						SvgIcon={CalendarBusinessDay}
-						svgIconScale={['70%', '70%']}
+						svgIconScale={['50%', '50%']}
 						leftSideWidth={'25%'}
 						leftSideColor={theme.green3}
 						onPress={() => savePostFrequency('businessDay')}

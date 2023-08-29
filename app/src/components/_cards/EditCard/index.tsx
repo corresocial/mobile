@@ -19,7 +19,6 @@ interface EditCardProps {
 	pressionable?: boolean
 	indicatorColor?: string
 	carousel?: boolean
-	SvgIcon?: React.FC<SvgProps>
 	SecondSvgIcon?: React.FC<SvgProps>
 	RightIcon?: React.FC<SvgProps>
 	children?: ReactElement
@@ -36,7 +35,6 @@ function EditCard({
 	indicatorColor,
 	carousel,
 	pressionable,
-	SvgIcon,
 	SecondSvgIcon,
 	RightIcon,
 	children,
@@ -72,7 +70,6 @@ function EditCard({
 						title={title}
 						highlightedWords={highlightedWords}
 						SecondSvgIcon={SecondSvgIcon}
-						fontSize={20}
 						dimensions={30}
 						justifyContent={'space-between'}
 					/>
