@@ -56,7 +56,7 @@ function PostInputText({
 	useEffect(() => {
 		const validation = validateInputText(inputText)
 		setInputTextIsValid(validation)
-	}, [inputText])
+	}, [inputText, keyboardOpened])
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

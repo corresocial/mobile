@@ -71,6 +71,8 @@ export const TextInput = styled.TextInput<TextInputProps>`
 	text-align: ${({ textAlign }) => textAlign};
 	text-align-vertical: ${({ hasMultiline }) => (hasMultiline ? 'top' : 'center')};
 	width: ${({ hasIcon }) => (hasIcon ? '85%' : '100%')};
+	margin-vertical: ${RFValue(5)}px;
+	padding-right: ${RFValue(5)}px;
 
     font-family: Arvo_400Regular;
     text-justify: center;

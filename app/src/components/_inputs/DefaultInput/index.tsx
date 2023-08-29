@@ -82,9 +82,9 @@ function DefaultInput({
 	onChangeText,
 	...propsRest
 }: DefaultInputProps) {
-	const lineHeight = relativeScreenHeight(6)
+	const lineHeight = relativeScreenHeight(5.5)
 	const minLineHeight = initialNumberOfLines * (initialNumberOfLines <= 2 ? relativeScreenHeight(5) : relativeScreenHeight(4.4))
-	const maxLineHeight = relativeScreenHeight(20)
+	const maxLineHeight = relativeScreenHeight(25.5)
 
 	const [focused, setFocused] = useState<boolean>(false)
 	const [validated, setValidated] = useState<boolean>(false)
@@ -120,8 +120,25 @@ function DefaultInput({
 
 	const resizeMultilineInput = (height: number) => {
 		if (!multiline) return
-		if (height >= (multilineInputHeight - lineHeight) && height <= maxLineHeight) {
-			setMultilineInputHeight(height + lineHeight) // borderBottom
+		console.log(`height: ${height}`)
+		// console.log(`height + (lineHeight): ${height + (lineHeight)}`)
+		// console.log(`multilineInputHeight: ${multilineInputHeight}`)
+		console.log(`multilineInputHeight: ${multilineInputHeight}`)
+
+		console.log(`height <= multilineInputHeight: ${height <= multilineInputHeight}`)
+		console.log(`height <= maxLineHeight: ${height <= maxLineHeight}`)
+		if (height >= maxLineHeight) {
+			setMultilineInputHeight(maxLineHeight)
+			return
+		}
+
+		if (height <= multilineInputHeight) {
+			setMultilineInputHeight(height + lineHeight)
+			return
+		}
+
+		if (height >= multilineInputHeight && height <= maxLineHeight) {
+			setMultilineInputHeight(height + lineHeight)
 		}
 	}
 
@@ -181,6 +198,7 @@ function DefaultInput({
 					)
 				}
 				<TextInput
+					showsVerticalScrollIndicator={false}
 					{...propsRest}
 					fontSize={fontSize}
 					textAlign={textAlign}
