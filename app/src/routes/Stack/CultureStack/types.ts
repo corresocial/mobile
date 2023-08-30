@@ -3,7 +3,6 @@ import { UserStackParamList } from '../UserStack/types'
 
 export type CultureStackParamList = {
 	SelectCultureType: { editMode: boolean } | undefined
-	InsertCultureTitle: { editMode: boolean, initialValue: string } | undefined
 	InsertCultureDescription: { editMode: boolean, initialValue: string } | undefined
 	CulturePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectCultureCategory: { editMode: boolean } | undefined

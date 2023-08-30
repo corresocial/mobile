@@ -217,20 +217,6 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					onEdit={() => navigateToEditScreen('SelectCultureCategory', 'tags')}
 				/>
 				<VerticalSigh />
-				<PlaceModality
-					title={'como participar'}
-					hightligtedWords={['participar']}
-					placeModality={getPostField('eventPlaceModality')}
-					onEdit={() => navigateToEditScreen('SelectCulturePlaceModality', 'eventPlaceModality')}
-				/>
-				<VerticalSigh />
-				<EditCard
-					title={'título do post'}
-					highlightedWords={['título']}
-					value={getPostField('title')}
-					onEdit={() => navigateToEditScreen('InsertCultureTitle', 'title')}
-				/>
-				<VerticalSigh />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertCultureDescription', 'description')}
@@ -263,6 +249,13 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					saleValue={getPostField('entryValue', true) || '---'}
 					onEdit={() => navigateToEditScreen('InsertEntryValue', 'entryValue')}
 					isCulturePost
+				/>
+				<VerticalSigh />
+				<PlaceModality
+					title={'como participar'}
+					hightligtedWords={['participar']}
+					placeModality={getPostField('eventPlaceModality')}
+					onEdit={() => navigateToEditScreen('SelectCulturePlaceModality', 'eventPlaceModality')}
 				/>
 				<VerticalSigh />
 				<DateTimeCard
