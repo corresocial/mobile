@@ -15,6 +15,13 @@ function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) 
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ saleValue: '', exchangeValue: '' })
+			navigation.goBack()
+		}
+	}
+
 	const savePaymentType = (paymentType: PaymentType) => {
 		switch (paymentType) {
 			case 'sale': {
@@ -47,6 +54,7 @@ function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) 
 			<PaymentMethod
 				backgroundColor={theme.purple2}
 				itemsColor={theme.purple3}
+				skipScreen={skipScreen}
 				navigateBackwards={() => navigation.goBack()}
 				savePaymentMethod={savePaymentType}
 			/>

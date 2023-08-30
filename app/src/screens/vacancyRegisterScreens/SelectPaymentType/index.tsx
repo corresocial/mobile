@@ -15,6 +15,13 @@ function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) 
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ saleValue: '', exchangeValue: '' })
+			navigation.goBack()
+		}
+	}
+
 	const savePaymentType = (paymentType: PaymentType) => {
 		switch (paymentType) {
 			case 'sale': {
@@ -50,6 +57,7 @@ function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) 
 				customTitle={'qual é o tipo de remuneração?'}
 				customHighlight={['tipo', 'de', 'remuneração']}
 				isVacancy
+				skipScreen={skipScreen}
 				navigateBackwards={() => navigation.goBack()}
 				savePaymentMethod={savePaymentType}
 			/>

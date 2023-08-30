@@ -54,8 +54,6 @@ function VacancyLocationViewPreview({ route, navigation }: VacancyLocationViewPr
 					postData: {
 						...vacancyDataContext,
 						locationView,
-						paymentType: vacancyDataContext.paymentType || 'sale',
-						saleValue: vacancyDataContext.saleValue || 'a combinar',
 					},
 					unsavedPost: true,
 					showPresentationModal: true

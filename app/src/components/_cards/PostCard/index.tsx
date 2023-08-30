@@ -124,7 +124,7 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 												/>
 											</SaleValueContainerInner>
 										</SaleValueContainer>
-										<VerticalSigh height={RFValue(4)} />
+										<VerticalSigh height={RFValue(8)} />
 									</>
 								)
 							}
