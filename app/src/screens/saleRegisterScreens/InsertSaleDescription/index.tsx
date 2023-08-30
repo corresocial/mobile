@@ -5,14 +5,14 @@ import { theme } from '../../../common/theme'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { InsertSaleTitleScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
+import { InsertSaleDescriptionScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
-function InsertSaleTitle({ route, navigation }: InsertSaleTitleScreenProps) {
+function InsertSaleDescription({ route, navigation }: InsertSaleDescriptionScreenProps) {
 	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
@@ -27,7 +27,7 @@ function InsertSaleTitle({ route, navigation }: InsertSaleTitleScreenProps) {
 		return unsubscribe
 	}, [navigation])
 
-	const validateSaleTitle = (text: string) => {
+	const validateSaleDescription = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
 			return true
@@ -35,14 +35,14 @@ function InsertSaleTitle({ route, navigation }: InsertSaleTitleScreenProps) {
 		return false
 	}
 
-	const saveSaleTitle = (inputText: string) => {
+	const saveSaleDescription = (inputText: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ title: inputText })
+			addNewUnsavedFieldToEditContext({ description: inputText })
 			navigation.goBack()
 			return
 		}
 
-		setSaleDataOnContext({ title: inputText })
+		setSaleDataOnContext({ description: inputText })
 		navigation.navigate('SelectSaleRange')
 	}
 
@@ -58,12 +58,12 @@ function InsertSaleTitle({ route, navigation }: InsertSaleTitleScreenProps) {
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[3, isSecondPost ? 4 : 5]}
 				keyboardOpened={keyboardOpened}
-				validateInputText={validateSaleTitle}
+				validateInputText={validateSaleDescription}
 				navigateBackwards={() => navigation.goBack()}
-				saveTextData={saveSaleTitle}
+				saveTextData={saveSaleDescription}
 			/>
 		</>
 	)
 }
 
-export { InsertSaleTitle }
+export { InsertSaleDescription }

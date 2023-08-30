@@ -14,7 +14,7 @@ import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
 import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
 import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 
-import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
+import { arrayIsEmpty, formatRelativeDate, getShortText } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
 import { saleCategories } from '../../../utils/postsCategories/saleCategories'
@@ -110,7 +110,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	}
 
 	const sharePost = () => {
-		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social/p/${getPostField('postId')}`)
+		share(`${isAuthor ? 'tô' : 'estão'} anunciando lá no corre.\n\nhttps://corre.social/p/${getPostField('postId')}`)
 	}
 
 	const getUserProfilePictureFromContext = () => {
@@ -185,8 +185,8 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 			<DefaultConfirmationModal
 				visibility={defaultConfirmationModalIsVisible}
 				title={'apagar post'}
-				text={`você tem certeza que deseja apagar o post ${getPostField('title')}?`}
-				highlightedWords={[...getPostField('title').split(' ')]}
+				text={`você tem certeza que deseja apagar o post ${getShortText(getPostField('description'), 70)}?`}
+				highlightedWords={[...getShortText(getPostField('description'), 70).split(' ')]}
 				buttonKeyword={'apagar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
 				onPressButton={deleteRemotePost}
@@ -198,7 +198,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
-					text={getPostField('title')}
+					text={getPostField('description')}
 				/>
 				<VerticalSigh />
 				<UserAndValueContainer>
@@ -248,9 +248,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						onPress={isAuthor ? sharePost : openChat}
 					/>
 					<PostPopOver
-						postTitle={
-							getPostField('title') || 'publicação no corre.'
-						}
+						postTitle={getShortText(getPostField('description'), 45) || 'publicação no corre.'}
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}

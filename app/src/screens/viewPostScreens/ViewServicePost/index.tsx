@@ -252,9 +252,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						onPress={isAuthor ? sharePost : openChat}
 					/>
 					<PostPopOver
-						postTitle={
-							getShortText(getPostField('description'), 45) || 'publicação no corre.'
-						}
+						postTitle={getShortText(getPostField('description'), 45) || 'publicação no corre.'}
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
