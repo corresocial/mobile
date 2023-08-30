@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import { Container, PicturePreviewContainer, TopArea } from './styles'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
+import { Container, HorizontalListPicturesContainer, PicturePreviewContainer, TopArea } from './styles'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import CheckIcon from '../../../assets/icons/check-white.svg'
 
@@ -13,6 +13,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { HorizontalListPictures } from '../../../components/HorizontalListPictures'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { VerticalSigh } from '../../VerticalSigh'
 
 interface PostPicturePreviewProps {
 	backgroundColor: string
@@ -54,7 +55,7 @@ function PostPicturePreview({
 				cameraOpened={cameraOpened}
 			/>
 			<DefaultHeaderContainer
-				relativeHeight={'85%'}
+				relativeHeight={relativeScreenHeight(80)}
 				backgroundColor={backgroundColor}
 				withoutPadding
 				flexDirection={'column'}
@@ -63,33 +64,37 @@ function PostPicturePreview({
 				<TopArea>
 					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
-						message={picturesPack.length > 1 ? 'ficaram boas?' : 'ficou boa?'}
-						highlightedWords={['boas', 'boa']}
+						fontSize={18}
+						message={'e aí. gostou?'}
+						highlightedWords={['gostou']}
 					/>
 				</TopArea>
 				<PicturePreviewContainer>
 					<PhotoPortrait
+						resizeMode={'cover'}
 						pictureUri={picturesPack[pictureIndexSelected]}
 						width={relativeScreenWidth(90)}
 						height={relativeScreenWidth(89)}
 						deleteCurrentPicture={deleteCurrentPicture}
 					/>
+					<VerticalSigh height={relativeScreenWidth(7)} />
+				</PicturePreviewContainer>
+				<HorizontalListPicturesContainer>
 					<HorizontalListPictures
 						picturesUri={picturesPack}
 						pictureUriSelected={pictureIndexSelected}
 						openCamera={() => setCameraOpened(true)}
 						onSelectPicture={setPictureIndexSelected}
 					/>
-				</PicturePreviewContainer>
+				</HorizontalListPicturesContainer>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white2}>
+			<FormContainer >
 				<PrimaryButton
 					flexDirection={'row-reverse'}
 					color={theme.green3}
-					label={'sim, continuar'}
+					label={'continuar'}
 					labelColor={theme.white3}
 					SvgIcon={CheckIcon}
-					highlightedWords={['continuar']}
 					onPress={() => savePictures(picturesPack)}
 				/>
 			</FormContainer>

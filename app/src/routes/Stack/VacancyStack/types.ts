@@ -8,7 +8,6 @@ export type VacancyStackParamList = {
 	InsertVacancyTitle: { editMode: boolean, initialValue: string } | undefined
 	InsertVacancyDescription: { editMode: boolean, initialValue: string } | undefined
 	InsertVacancyImportantPoints: { editMode: boolean, initialValue: string[] } | undefined
-	InsertVacancyPicture: undefined
 	VacancyPicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectWorkplace: { editMode: boolean } | undefined
 	SelectPaymentType: { editMode: boolean } | undefined
@@ -26,5 +25,5 @@ export type VacancyStackParamList = {
 	InsertVacancyEndDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertVacancyStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertVacancyEndHour: { editMode: boolean, initialValue: Date } | undefined
-	EditVacancyPostReview: { postData: VacancyCollectionRemote, unsavedPost?: boolean }
+	EditVacancyPostReview: { postData: VacancyCollectionRemote, unsavedPost?: boolean, showPresentationModal?: boolean }
 } & UserStackParamList

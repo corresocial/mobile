@@ -39,7 +39,7 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 		setServiceDataOnContext({
 			tags: tagsSelected
 		})
-		navigation.navigate('InsertServiceName')
+		navigation.navigate('InsertServiceTitle')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

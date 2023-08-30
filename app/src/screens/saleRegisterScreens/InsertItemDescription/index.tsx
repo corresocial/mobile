@@ -13,7 +13,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostInputDescription } from '../../../components/_onboarding/PostInputDescription'
 
 function InsertItemDescription({ route, navigation }: InsertItemDescriptionScreenProps) {
-	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)
+	const { setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -43,7 +43,7 @@ function InsertItemDescription({ route, navigation }: InsertItemDescriptionScree
 		}
 
 		setSaleDataOnContext({ description })
-		navigation.navigate('InsertSalePicture')
+		navigation.navigate('SalePicturePreview')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -56,7 +56,6 @@ function InsertItemDescription({ route, navigation }: InsertItemDescriptionScree
 				validationColor={theme.green1}
 				inputPlaceholder={'ex: sofá azul usado em sala de espera.'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, isSecondPost ? 3 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSaleDescription}
 				navigateBackwards={() => navigation.goBack()}

@@ -4,14 +4,12 @@ import { StatusBar } from 'react-native'
 import { SelectSaleValueTypeScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 import { SaleValueType } from '../../../services/firebase/types'
 
-import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PaymentValueType } from '../../../components/_onboarding/PaymentValueType'
 import { theme } from '../../../common/theme'
 
 function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenProps) {
-	const { isSecondPost, saleDataContext, setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -27,35 +25,18 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 			case 'toMatch': {
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({ saleValue: 'a combinar' })
+
 					if (!bothPaymentType) {
 						navigation.goBack()
 						navigation.goBack()
 						return
 					}
-				} else {
-					setSaleDataOnContext({ saleValue: 'a combinar' })
 				}
 
 				if (bothPaymentType) {
 					navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
-					return
 				}
 
-				if (isSecondPost) {
-					navigation.reset({
-						index: 0,
-						routes: [{
-							name: 'EditSalePostReview',
-							params: {
-								postData: { ...saleDataContext, saleValue: 'a combinar' },
-								unsavedPost: true
-							}
-						}]
-					})
-					return
-				}
-
-				navigation.navigate('SelectSaleRange')
 				break
 			}
 			default: return false
@@ -64,10 +45,10 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PaymentValueType
 				backgroundColor={theme.green2}
-				progress={[3, isSecondPost ? 3 : 5]}
+				itemsColor={theme.green3}
 				navigateBackwards={() => navigation.goBack()}
 				savePaymentValueType={saveSaleValueType}
 			/>

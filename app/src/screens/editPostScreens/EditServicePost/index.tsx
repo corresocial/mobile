@@ -26,6 +26,7 @@ import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCar
 import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
 import { EditPost } from '../../../components/EditPost'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
+import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
 
 function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps) {
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
@@ -34,8 +35,9 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 	const { setStateDataOnContext } = useContext(StateContext)
 
 	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
+	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
-	const { postData, unsavedPost } = route.params
+	const { postData, unsavedPost, showPresentationModal } = route.params
 	const owner: any = { // TODO Type
 		userId: userDataContext.userId,
 		name: userDataContext.name,
@@ -43,6 +45,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 	}
 
 	useEffect(() => {
+		showPresentationModal && togglePostReviewPresentationModalVisibility()
 		clearUnsavedEditContext()
 	}, [])
 
@@ -114,6 +117,10 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		setLocationChangeModalIsVisible(!locationChangeModalIsVisible)
 	}
 
+	const togglePostReviewPresentationModalVisibility = () => {
+		setPostReviewPresentationModalIsVisible(!postReviewPresentationModalIsVisible)
+	}
+
 	const checkChangeLocationAlertIsRequired = () => {
 		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectLocationView', 'location')
 
@@ -163,6 +170,10 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 				onPressButton={navigateToEditLocationScreen}
 				closeModal={toggleRangeChangeModalVisibility}
 			/>
+			<PostReviewPresentationModal
+				visibility={postReviewPresentationModalIsVisible}
+				onPressButton={togglePostReviewPresentationModalVisibility}
+			/>
 
 			<EditPost
 				initialPostData={{ ...postData, postType: 'service' }}
@@ -189,7 +200,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					title={'título do post'}
 					highlightedWords={['título']}
 					value={getPostField('title')}
-					onEdit={() => navigateToEditScreen('InsertServiceName', 'title')}
+					onEdit={() => navigateToEditScreen('InsertServiceTitle', 'title')}
 				/>
 				<VerticalSigh />
 				<DescriptionCard

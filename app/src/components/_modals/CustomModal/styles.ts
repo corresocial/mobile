@@ -1,11 +1,6 @@
-import { TextInputProps } from 'react-native'
+import { TextInputProps, TextStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-
-interface DescriptionProps {
-	bolded?: boolean
-	fontSize?: number
-}
 
 export const Container = styled.View`
     height: 100%;
@@ -48,7 +43,6 @@ export const Header = styled.View`
 
 interface TitleProps {
 	hasHighlightedWords?: boolean
-
 }
 
 export const Title = styled.Text<TitleProps>`
@@ -58,10 +52,17 @@ export const Title = styled.Text<TitleProps>`
     color: ${({ theme }) => theme.black3}
 `
 
+interface DescriptionProps {
+	bolded?: boolean
+	fontSize?: number
+	textAlign?: TextStyle['textAlign']
+}
+
 export const Description = styled.Text<DescriptionProps>`
 	margin-bottom: ${RFValue(20)}px;
     font-family: ${({ bolded }) => (bolded ? 'Arvo_700Bold' : 'Arvo_400Regular')};
     font-size: ${({ fontSize }) => (fontSize ? RFValue(fontSize) : RFValue(17))}px;
+    text-align: ${({ textAlign }) => (textAlign || 'left')};
     color: ${({ theme }) => theme.black3}
 `
 

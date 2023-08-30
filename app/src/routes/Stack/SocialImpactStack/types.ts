@@ -5,7 +5,6 @@ export type SocialImpactStackParamList = {
 	SelectSocialImpactType: { editMode: boolean } | undefined
 	InsertSocialImpactTitle: { editMode: boolean, initialValue: string } | undefined
 	InsertSocialImpactDescription: { editMode: boolean, initialValue: string } | undefined
-	InsertSocialImpactPicture: undefined
 	SocialImpactPicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectSocialImpactCategory: { editMode: boolean } | undefined
 	SelectSocialImpactTags: { categorySelected: SocialImpactCategories, editMode?: boolean }
@@ -14,7 +13,6 @@ export type SocialImpactStackParamList = {
 	InsertSocialImpactLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
 	SocialImpactLocationViewPreview: { locationView: LocationViewType, editMode?: boolean }
 	SelectSocialImpactExhibitionRange: { editMode: boolean } | undefined
-	SelectSocialImpactExhibitionPlace: { editMode: boolean } | undefined
 	SelectSocialImpactFrequency: { editMode?: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectSocialImpactDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
 	SelectSocialImpactRepeat: { editMode: boolean } | undefined
@@ -22,5 +20,5 @@ export type SocialImpactStackParamList = {
 	InsertSocialImpactStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertSocialImpactEndDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertSocialImpactEndHour: { editMode: boolean, initialValue: Date } | undefined
-	EditSocialImpactPostReview: { postData: SocialImpactCollectionRemote, unsavedPost?: boolean }
+	EditSocialImpactPostReview: { postData: SocialImpactCollectionRemote, unsavedPost?: boolean, showPresentationModal?: boolean }
 } & UserStackParamList

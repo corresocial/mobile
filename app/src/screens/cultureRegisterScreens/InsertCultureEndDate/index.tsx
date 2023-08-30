@@ -7,13 +7,11 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertCultureEndDateScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
-import { CultureContext } from '../../../contexts/CultureContext'
 import { EditContext } from '../../../contexts/EditContext'
 import { PostDate } from '../../../components/_onboarding/PostDate'
 
 function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenProps) {
-	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
-	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -32,11 +30,7 @@ function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenP
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endDate: '' })
 			navigation.goBack()
-			return
 		}
-
-		setCultureDataOnContext({ endDate: '' as any })
-		navigation.navigate('InsertCultureEndHour')
 	}
 
 	const saveCultureStartDate = (year: string, month: string, day: string) => {
@@ -45,11 +39,7 @@ function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenP
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endDate })
 			navigation.goBack()
-			return
 		}
-
-		setCultureDataOnContext({ endDate })
-		navigation.navigate('InsertCultureEndHour')
 	}
 
 	return (
@@ -58,12 +48,9 @@ function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenP
 			<PostDate
 				backgroundColor={theme.blue2}
 				validationColor={theme.blue1}
-				customTitle={'quando termina?'}
-				customHighlight={['termina']}
-				editMode={editModeIsTrue()}
-				startDate={editDataContext.unsaved.startDate || cultureDataContext.startDate}
+				customTitle={'que dia termina?'}
+				customHighlight={['dia', 'termina']}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[4, 4]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

@@ -7,14 +7,12 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertVacancyEndHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
-import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertVacancyEndHour({ route, navigation }: InsertVacancyEndHourScreenProps) {
-	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
-	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -33,25 +31,18 @@ function InsertVacancyEndHour({ route, navigation }: InsertVacancyEndHourScreenP
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endHour: '' })
 			navigation.goBack()
-			return
 		}
-
-		setVacancyDataOnContext({ endHour: '' as any })
-		navigation.navigate('InsertVacancyImportantPoints')
 	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
 		const endHour = new Date()
 		endHour.setHours(parseInt(hour), parseInt(minutes))
+		const ISOStringDateTime = new Date(endHour.getTime())
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ endHour })
+			addNewUnsavedFieldToEditContext({ endHour: ISOStringDateTime })
 			navigation.goBack()
-			return
 		}
-
-		setVacancyDataOnContext({ endHour })
-		navigation.navigate('InsertVacancyImportantPoints')
 	}
 
 	return (
@@ -60,14 +51,9 @@ function InsertVacancyEndHour({ route, navigation }: InsertVacancyEndHourScreenP
 			<PostTime
 				backgroundColor={theme.yellow2}
 				validationColor={theme.yellow1}
-				customTitle={'que horas você termina?'}
-				customHighlight={['que', 'horas', 'termina']}
-				editMode={editModeIsTrue()}
-				startDate={editDataContext.unsaved.startDate || vacancyDataContext.startDate}
-				endDate={editDataContext.unsaved.endDate || vacancyDataContext.endDate}
-				startTime={editDataContext.unsaved.startHour || vacancyDataContext.startHour}
+				customTitle={'que horas termina?'}
+				customHighlight={['horas', 'termina']}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

@@ -3,27 +3,31 @@ import React, { useEffect, useState } from 'react'
 
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../_containers/FormContainer'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { BackButton } from '../../_buttons/BackButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
-import { LineInput } from '../../LineInput'
 import { ProgressBar } from '../../ProgressBar'
-import { SkipButton } from '../../_buttons/SkipButton'
+import { DefaultInput } from '../../_inputs/DefaultInput'
+import { HorizontalSpacing } from '../../HorizontalSpacing'
+import { SmallButton } from '../../_buttons/SmallButton'
 
 interface PostInputTextProps {
+	height?: string
 	backgroundColor: string
 	validationColor: string
 	customTitle?: string
 	customHighlight?: string[]
+	multiline?: boolean
 	inputPlaceholder?: string
 	initialValue?: string
 	keyboardOpened?: boolean
-	progress: [value: number, range: number]
+	progress?: [value: number, range: number]
 	validateInputText?: (text: string) => boolean
 	skipScreen?: () => void
 	saveTextData: (text: string) => void
@@ -31,10 +35,12 @@ interface PostInputTextProps {
 }
 
 function PostInputText({
+	height,
 	backgroundColor,
 	validationColor,
 	customTitle,
 	customHighlight,
+	multiline,
 	inputPlaceholder,
 	initialValue,
 	keyboardOpened,
@@ -55,41 +61,55 @@ function PostInputText({
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(26)}
-				relativeHeight={relativeScreenHeight(26)}
+				minHeight={relativeScreenHeight(28)}
+				relativeHeight={height || relativeScreenHeight(28)}
 				centralized
 				backgroundColor={backgroundColor}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={17}
-					message={customTitle || 'qual o título do seu post?'}
-					highlightedWords={customHighlight || ['título']}
+					fontSize={16}
+					message={customTitle || 'fala tudo sobre o que você tá postando'}
+					highlightedWords={customHighlight || ['tudo', 'o', 'que', 'você', 'tá', 'postando']}
 				>
-					<ProgressBar
-						value={progress[0]}
-						range={progress[1]}
-					/>
+					{
+						progress && (
+							<ProgressBar
+								value={progress[0]}
+								range={progress[1]}
+							/>
+						)
+					}
 				</InstructionCard>
+				{
+					skipScreen ? (
+						<>
+							<HorizontalSpacing />
+							<SmallButton
+								SvgIcon={TrashWhiteIcon}
+								color={theme.red3}
+								height={relativeScreenWidth(11)}
+								relativeWidth={relativeScreenWidth(11)}
+								svgScale={['60%', '60%']}
+								onPress={skipScreen}
+							/>
+						</>
+					)
+						: <></>
+				}
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white2}
+				backgroundColor={theme.white3}
 				justifyContent={'center'}
 			>
-				<LineInput
+				<DefaultInput
 					value={inputText}
-					relativeWidth={'100%'}
 					defaultBackgroundColor={theme.white2}
-					defaultBorderBottomColor={theme.black4}
 					validBackgroundColor={validationColor}
-					validBorderBottomColor={theme.black4}
-					invalidBackgroundColor={theme.red1}
-					invalidBorderBottomColor={theme.red5}
 					lastInput
-					textAlign={'left'}
 					fontSize={16}
-					placeholder={inputPlaceholder}
+					multiline={multiline}
+					placeholder={inputPlaceholder || 'descreva seu post...'}
 					keyboardType={'default'}
 					textIsValid={inputTextIsValid && !keyboardOpened}
 					validateText={(text: string) => validateInputText(text)}
@@ -110,13 +130,6 @@ function PostInputText({
 						)
 					}
 				</ButtonsContainer>
-				{
-					skipScreen && !inputTextIsValid && !keyboardOpened
-						? (
-							<SkipButton onPress={skipScreen} />
-						)
-						: <></>
-				}
 			</FormContainer>
 		</Container>
 	)

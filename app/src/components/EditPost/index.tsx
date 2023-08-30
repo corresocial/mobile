@@ -15,7 +15,7 @@ import { theme } from '../../common/theme'
 import { relativeScreenHeight } from '../../common/screenDimensions'
 import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonContainer } from './styles'
 import CheckWhiteIcon from '../../assets/icons/check-white.svg'
-import PlusWhiteIcon from '../../assets/icons/plusTabIconInactive.svg'
+import PlusWhiteIcon from '../../assets/icons/plus-white.svg'
 import HandOnMoneyWhiteIcon from '../../assets/icons/handOnMoney-white.svg'
 
 import { DefaultPostViewHeader } from '../../components/DefaultPostViewHeader'
@@ -462,6 +462,13 @@ function EditPost({
 		return unsavedPost ? savePost : editPost
 	}
 
+	const presentationPostCardData = {
+		...initialPostData,
+		...editDataContext.unsaved,
+		createdAt: new Date(),
+		description: (editDataContext.unsaved.description || initialPostData.description) || 'escreva uma descrição para seu post',
+	}
+
 	return (
 		<Container>
 			<DefaultConfirmationModal
@@ -520,7 +527,7 @@ function EditPost({
 					)
 				}
 			</Header>
-			<Body >
+			<Body backgroundColor={backgroundColor}>
 				{
 					unsavedPost && (
 						<>
@@ -531,7 +538,7 @@ function EditPost({
 							<PostCardContainer backgroundColor={backgroundColor} hasError={hasError}>
 								<PostCard
 									owner={owner}
-									post={{ ...initialPostData, ...editDataContext.unsaved, createdAt: new Date() }}
+									post={presentationPostCardData}
 									onPress={() => { }}
 								/>
 							</PostCardContainer>

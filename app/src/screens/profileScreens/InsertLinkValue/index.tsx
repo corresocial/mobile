@@ -13,12 +13,12 @@ import { SocialMedia } from '../../../services/firebase/types'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { LineInput } from '../../../components/LineInput'
 import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { Loader } from '../../../components/Loader'
 import { isDefaultSocialMedia, mergeWithDefaultSocialMedia, sortSocialMedias, socialMediaUrl } from '../../../utils/socialMedias'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { DefaultInput } from '../../../components/_inputs/DefaultInput'
 
 function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const { setUserDataOnContext, userDataContext } = useContext(AuthContext)
@@ -27,6 +27,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 
 	const [linkValue, setInputLinkValue] = useState<string>(initialLinkValue || '')
 	const [linkValueIsValid, setLinkValueIsValid] = useState<boolean>(false)
+
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 	const [invalidLinkValueAfterSubmit, setInvaliLinkValueAfterSubmit] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState(false)
@@ -45,8 +46,8 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 
 	useEffect(() => {
 		const validation = validateLinkValue(linkValue)
-		setLinkValueIsValid(validation)
-	}, [linkValue])
+		if (validation) setLinkValueIsValid(validation)
+	}, [linkValue, keyboardOpened])
 
 	const validateLinkValue = (text: string) => {
 		const isValid = (text)?.trim().length >= 1
@@ -134,19 +135,16 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 					/>
 				</HeaderLinkCardContainer>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white2}>
+			<FormContainer >
 				<InputsContainer>
-					<LineInput
+					<DefaultInput
 						value={linkValue}
 						relativeWidth={'100%'}
 						textInputRef={inputRefs.linkValueInput}
 						defaultBackgroundColor={theme.white2}
-						defaultBorderBottomColor={theme.black4}
 						validBackgroundColor={theme.orange1}
-						validBorderBottomColor={theme.orange5}
-						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.red5}
 						lastInput
+						multiline
 						fontSize={16}
 						autoCapitalize={'none'}
 						autoCorrect={false}

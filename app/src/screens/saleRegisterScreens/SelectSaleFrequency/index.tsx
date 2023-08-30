@@ -6,13 +6,11 @@ import { theme } from '../../../common/theme'
 import { SelectSaleFrequencyScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 import { DaysOfWeek, WeekdaysFrequency } from '../../../services/firebase/types'
 
-import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostFrequency } from '../../../components/_onboarding/PostFrequency'
 
 function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -24,14 +22,7 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 				daysOfWeek: []
 			})
 			navigation.goBack()
-			return
 		}
-
-		setSaleDataOnContext({
-			attendanceFrequency: 'someday',
-			daysOfWeek: []
-		})
-		navigation.navigate('InsertSaleStartHour')
 	}
 
 	const saveSaleFrequency = (saleFrequency: WeekdaysFrequency) => {
@@ -45,14 +36,7 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 						daysOfWeek: [daysOfWeek[new Date().getDay()]]
 					})
 					navigation.goBack()
-					return
 				}
-
-				setSaleDataOnContext({
-					attendanceFrequency: saleFrequency,
-					daysOfWeek: [daysOfWeek[new Date().getDay()]]
-				})
-				navigation.navigate('InsertSaleStartHour')
 				break
 			}
 			case 'everyday': {
@@ -62,21 +46,12 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 						daysOfWeek: [...daysOfWeek]
 					})
 					navigation.goBack()
-					return
 				}
-
-				setSaleDataOnContext({
-					attendanceFrequency: saleFrequency,
-					daysOfWeek: [...daysOfWeek]
-				})
-				navigation.navigate('InsertSaleStartHour')
 				break
 			}
 			case 'someday': {
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({ attendanceFrequency: saleFrequency })
-				} else {
-					setSaleDataOnContext({ attendanceFrequency: saleFrequency })
 				}
 
 				navigation.navigate('SelectSaleDaysOfWeek', {
@@ -92,14 +67,8 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 						daysOfWeek: ['seg', 'ter', 'qua', 'qui', 'sex']
 					})
 					navigation.goBack()
-					return
 				}
 
-				setSaleDataOnContext({
-					attendanceFrequency: saleFrequency,
-					daysOfWeek: ['seg', 'ter', 'qua', 'qui', 'sex']
-				})
-				navigation.navigate('InsertSaleStartHour')
 				break
 			}
 			default: return false
@@ -111,7 +80,6 @@ function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenPro
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<PostFrequency
 				backgroundColor={theme.green2}
-				progress={[5, 5]}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
 				savePostFrequency={saveSaleFrequency}

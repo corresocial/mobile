@@ -3,7 +3,7 @@ import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 
 import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
 import ColorPaletWhiteIcon from '../../../assets/icons/colorPalet-white.svg'
-import CalendarEverydayWhiteIcon from '../../../assets/icons/calendarEveryday-unfilled.svg'
+import CalendarEverydayWhiteIcon from '../../../assets/icons/calendarEveryday-white.svg'
 import BooksWhiteIcon from '../../../assets/icons/books-white.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'

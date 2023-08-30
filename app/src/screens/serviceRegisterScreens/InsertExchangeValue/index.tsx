@@ -7,13 +7,11 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertExchangeValueScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
-import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenProps) {
-	const { isSecondPost, serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -58,26 +56,7 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ exchangeValue })
 			navigateToEditScreen()
-			return
 		}
-
-		setServiceDataOnContext({ exchangeValue })
-
-		if (isSecondPost) {
-			navigation.reset({
-				index: 0,
-				routes: [{
-					name: 'EditServicePostReview',
-					params: {
-						postData: { ...serviceDataContext, exchangeValue },
-						unsavedPost: true
-					}
-				}]
-			})
-			return
-		}
-
-		navigation.navigate('SelectServiceRange')
 	}
 
 	return (
@@ -89,8 +68,6 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 				customTitle={'o que você aceita em troca?'}
 				customHighlight={['o', 'que', 'em', 'troca']}
 				inputPlaceholder={'ex: troco por uma marmita'}
-				// initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[3, isSecondPost ? 3 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateExchangeValue}
 				navigateBackwards={() => navigation.goBack()}

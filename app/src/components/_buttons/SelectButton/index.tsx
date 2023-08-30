@@ -18,7 +18,7 @@ interface SelectButtonProps {
 	boldLabel?: boolean
 	noDisplacement?: boolean
 	fontSize?: number
-	SvgIcon?: React.FC<SvgProps>
+	SvgIcon?: React.FC<SvgProps> | null
 	svgIconScale?: [height: string, width: string]
 	selected?: boolean
 	flexSelected?: 0 | 1
@@ -77,7 +77,7 @@ function SelectButton({
 					style={{
 						paddingHorizontal: selected ? relativeScreenWidth(2.5) : 0,
 						backgroundColor: selected ? backgroundSelected : backgroundColor,
-						transform: [{ translateX: buttonPressed ? 0 : -relativeScreenWidth(selected ? 1.3 : 2) }],
+						transform: [{ translateX: buttonPressed ? 0 : -relativeScreenWidth(selected ? 0.3 : 2) }],
 						height,
 					}}
 				>

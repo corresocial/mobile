@@ -3,7 +3,7 @@ import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CardHeader, ValueContainer, Text } from './styles'
-import ClipIcon from '../../../assets/icons/clip.svg'
+import ClipWhiteIcon from '../../../assets/icons/clip-white.svg'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
@@ -38,7 +38,7 @@ function HeaderLinkCard({
 					fontSize={24}
 					highlightedWords={highlightedWords}
 					onPressIcon={onEdit}
-					SvgIcon={SvgIcon || ClipIcon}
+					SvgIcon={SvgIcon || ClipWhiteIcon}
 					dimensions={25}
 				/>
 			</CardHeader>

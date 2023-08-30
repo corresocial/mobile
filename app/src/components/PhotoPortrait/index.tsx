@@ -1,12 +1,13 @@
 import React from 'react'
-import { Image, ImageResizeMode } from 'react-native'
+import { ImageResizeMode } from 'react-native'
 
-import { RFValue } from 'react-native-responsive-fontsize'
-import { CheckArea, Container, DeleteItemArea, NoPhotoContainer } from './styles'
-import TrashIcon from '../../assets/icons/trash-red.svg'
-import NoPhoto from '../../assets/imgs/noPhoto.svg'
-import CheckOrange from '../../assets/icons/check-orange.svg'
+import { Container, DeleteItemArea, NoPhotoContainer, PortraitImage } from './styles'
 import { relativeScreenWidth } from '../../common/screenDimensions'
+import ThashWhiteIcon from '../../assets/icons/trash-white.svg'
+import NoPhoto from '../../assets/imgs/noPhoto.svg'
+
+import { SmallButton } from '../_buttons/SmallButton'
+import { theme } from '../../common/theme'
 
 interface PhotoPortraitProps {
 	width: number | string
@@ -17,7 +18,6 @@ interface PhotoPortraitProps {
 	resizeMode?: ImageResizeMode | undefined
 	pictureUri: string
 	maxWidth?: number
-	checked?: boolean
 	deleteCurrentPicture?: () => void
 }
 
@@ -30,35 +30,26 @@ function PhotoPortrait({
 	pictureUri,
 	resizeMode = 'contain',
 	maxWidth = relativeScreenWidth(90),
-	checked = false,
 	deleteCurrentPicture
 }: PhotoPortraitProps) {
 	return (
 		<Container
 			circle={circle}
-			style={{
-				height,
-				width,
-				maxWidth,
-				borderWidth: RFValue(borderWidth),
-				borderRightWidth: RFValue(borderRightWidth),
-			}}
+			height={height}
+			width={width}
+			maxWidth={maxWidth}
+			borderWidth={borderWidth}
+			borderRightWidth={borderRightWidth}
 		>
 			{
 				pictureUri
 					? (
-						<Image
-							source={{
-								uri: pictureUri
-							}}
-							width={0} // TODO fix
+						<PortraitImage
+							source={{ uri: pictureUri }}
+							width={0} // TODO fix, why is running?
 							height={0}
-							style={{
-								resizeMode,
-								width: '100%',
-								height: '100%',
-								borderRadius: circle ? RFValue(500) : RFValue(10),
-							}}
+							resizeMode={resizeMode}
+							circle={circle}
 						/>
 					)
 					: (
@@ -71,20 +62,19 @@ function PhotoPortrait({
 				deleteCurrentPicture && pictureUri
 					? (
 						<DeleteItemArea onPress={deleteCurrentPicture}>
-							<TrashIcon width={'100%'} height={'100%'} />
+							<SmallButton
+								relativeWidth={relativeScreenWidth(12)}
+								height={relativeScreenWidth(12)}
+								color={theme.red3}
+								SvgIcon={ThashWhiteIcon}
+								svgScale={['55%', '55%']}
+								onPress={deleteCurrentPicture}
+							/>
 						</DeleteItemArea>
 					)
 					: null
 			}
-			{
-				checked
-				&& (
-					<CheckArea>
-						<CheckOrange width={'100%'} height={'100%'} />
-					</CheckArea>
-				)
-			}
-		</Container>
+		</Container >
 	)
 }
 

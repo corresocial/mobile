@@ -24,7 +24,7 @@ interface PostInputDescriptionProps {
 	initialNumberOfRows?: number
 	keyboardOpened?: boolean
 	validateInputText?: (text: string) => boolean
-	progress: [value: number, range: number]
+	progress?: [value: number, range: number]
 	saveTextData: (text: string) => void
 	navigateBackwards: () => void
 }
@@ -61,15 +61,18 @@ function PostInputDescription({
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={17}
+					fontSize={16}
 					message={customTitle || 'escreva uma descrição para o seu post?'}
 					highlightedWords={customHighlight || ['descrição', 'o', 'seu', 'post']}
 				>
-					<ProgressBar
-						value={progress[0]}
-						range={progress[1]}
-					/>
+					{
+						progress && (
+							<ProgressBar
+								value={progress[0]}
+								range={progress[1]}
+							/>
+						)
+					}
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer

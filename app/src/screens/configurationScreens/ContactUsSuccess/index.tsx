@@ -34,8 +34,7 @@ function ContactUsSuccess({ route, navigation }: ContactUsSuccessScreenProps) {
 					message={'pronto! \n\nrecebemos seu feedback, nossa equipe vai avalizar e tratar o ocorrido.'}
 					highlightedWords={['\n\nrecebemos', 'seu', 'feedback', 'avaliar', 'tratar']}
 					fontSize={18}
-				>
-				</InstructionCard>
+				/>
 			</DefaultHeaderContainer>
 			<Body>
 				<PrimaryButton

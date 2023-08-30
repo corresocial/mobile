@@ -3,106 +3,105 @@ import { StatusBar } from 'react-native'
 
 import { Container, ButtonsContainer } from './styles'
 import { theme } from '../../../common/theme'
+import CalendarInfinityWhiteIcon from '../../../assets/icons/calendarInfinity-white.svg'
+import CalendarWeeklyWhiteIcon from '../../../assets/icons/calendarWeekly-white.svg'
+import CalendarBiweeklyWhiteIcon from '../../../assets/icons/calendarBiweekly-white.svg'
+import CalendarMonthlyWhiteIcon from '../../../assets/icons/calendarMonthly-white.svg'
+import CalendarXWhiteIcon from '../../../assets/icons/calendarX-white.svg'
 
 import { EventRepeatType } from '../../../services/firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { ProgressBar } from '../../../components/ProgressBar'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { OptionButton } from '../../_buttons/OptionButton'
+import { VerticalSigh } from '../../VerticalSigh'
 
 interface PostRepeatProps {
 	backgroundColor: string
-	progress: [value: number, range: number]
+	itemsColor: string
 	savePostRepeat: (repeat: EventRepeatType) => void
 	navigateBackwards: () => void
 }
 
-function PostRepeat({ backgroundColor, progress, savePostRepeat, navigateBackwards }: PostRepeatProps) {
+function PostRepeat({ backgroundColor, itemsColor, savePostRepeat, navigateBackwards }: PostRepeatProps) {
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={backgroundColor} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(22)}
-				relativeHeight={relativeScreenHeight(22)}
+				relativeHeight={relativeScreenHeight(26)}
 				centralized
-				backgroundColor={theme.white3}
+				backgroundColor={backgroundColor}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={17}
+					fontSize={16}
 					message={'se repete?'}
 					highlightedWords={['repete']}
-				>
-					<ProgressBar
-						value={progress[0]}
-						range={progress[1]}
-					/>
-				</InstructionCard>
+				/>
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={backgroundColor}
+				backgroundColor={theme.white3}
 			>
 				<ButtonsContainer>
-					<PrimaryButton
-						justifyContent={'flex-start'}
-						color={theme.white3}
-						relativeHeight={'16%'}
-						labelColor={theme.black4}
-						fontSize={18}
-						textAlign={'left'}
-						label={'1 vez por semana'}
-						highlightedWords={['1', 'vez', 'por', 'semana']}
-						onPress={() => savePostRepeat('weekly')}
-					/>
-					<PrimaryButton
-						justifyContent={'flex-start'}
-						color={theme.white3}
-						relativeHeight={'16%'}
-						labelColor={theme.black4}
-						fontSize={18}
-						textAlign={'left'}
+					<OptionButton
 						label={'todos os dias'}
-						highlightedWords={['todos', 'os', 'dias']}
+						highlightedWords={['todos']}
+						labelSize={18}
+						relativeHeight={'15%'}
+						SvgIcon={CalendarInfinityWhiteIcon}
+						svgIconScale={['80%', '80%']}
+						leftSideColor={itemsColor}
+						leftSideWidth={'25%'}
 						onPress={() => savePostRepeat('everyDay')}
 					/>
-					<PrimaryButton
-						justifyContent={'flex-start'}
-						color={theme.white3}
-						relativeHeight={'16%'}
-						labelColor={theme.black4}
-						fontSize={18}
-						textAlign={'left'}
+					<OptionButton
+						label={'1 vez por semana'}
+						highlightedWords={['1', 'vez', 'semana']}
+						labelSize={18}
+						relativeHeight={'15%'}
+						SvgIcon={CalendarWeeklyWhiteIcon}
+						svgIconScale={['80%', '80%']}
+						leftSideColor={itemsColor}
+						leftSideWidth={'25%'}
+						onPress={() => savePostRepeat('weekly')}
+					/>
+					<OptionButton
 						label={'a cada 15 dias'}
-						highlightedWords={['a', 'cada', '15', 'dias']}
+						highlightedWords={['15', 'dias']}
+						labelSize={18}
+						relativeHeight={'15%'}
+						SvgIcon={CalendarBiweeklyWhiteIcon}
+						svgIconScale={['80%', '80%']}
+						leftSideColor={itemsColor}
+						leftSideWidth={'25%'}
 						onPress={() => savePostRepeat('biweekly')}
 					/>
-					<PrimaryButton
-						justifyContent={'flex-start'}
-						color={theme.white3}
-						relativeHeight={'16%'}
-						labelColor={theme.black4}
-						fontSize={18}
-						textAlign={'left'}
+					<OptionButton
 						label={'1 vez no mês'}
-						highlightedWords={['1', 'vez', 'no', 'mês']}
+						highlightedWords={['1', 'vez', 'mês']}
+						labelSize={18}
+						relativeHeight={'15%'}
+						SvgIcon={CalendarMonthlyWhiteIcon}
+						svgIconScale={['80%', '80%']}
+						leftSideColor={itemsColor}
+						leftSideWidth={'25%'}
 						onPress={() => savePostRepeat('monthly')}
 					/>
-					<PrimaryButton
-						justifyContent={'flex-start'}
-						color={theme.white3}
-						relativeHeight={'16%'}
-						labelColor={theme.black4}
-						fontSize={18}
-						textAlign={'left'}
+					<OptionButton
 						label={'não se repete'}
-						highlightedWords={['não', 'se', 'repete']}
+						highlightedWords={['não', 'repete']}
+						labelSize={18}
+						relativeHeight={'15%'}
+						SvgIcon={CalendarXWhiteIcon}
+						svgIconScale={['80%', '80%']}
+						leftSideColor={itemsColor}
+						leftSideWidth={'25%'}
 						onPress={() => savePostRepeat('unrepeatable')}
 					/>
+					<VerticalSigh />
 				</ButtonsContainer>
 			</FormContainer>
 		</Container>

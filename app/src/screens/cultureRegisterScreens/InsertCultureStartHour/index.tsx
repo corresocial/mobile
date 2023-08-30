@@ -7,13 +7,11 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertCultureStartHourScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
-import { CultureContext } from '../../../contexts/CultureContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertCultureStartHour({ route, navigation }: InsertCultureStartHourScreenProps) {
-	const { setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -33,25 +31,18 @@ function InsertCultureStartHour({ route, navigation }: InsertCultureStartHourScr
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ startHour: '' })
 			navigation.goBack()
-			return
 		}
-
-		setCultureDataOnContext({ startHour: '' as any })
-		navigation.navigate('InsertCultureEndDate')
 	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
 		const startHour = new Date()
 		startHour.setHours(parseInt(hour), parseInt(minutes))
+		const ISOStringDateTime = new Date(startHour.getTime())
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ startHour })
+			addNewUnsavedFieldToEditContext({ startHour: ISOStringDateTime })
 			navigation.goBack()
-			return
 		}
-
-		setCultureDataOnContext({ startHour })
-		navigation.navigate('InsertCultureEndDate')
 	}
 
 	return (
@@ -61,7 +52,6 @@ function InsertCultureStartHour({ route, navigation }: InsertCultureStartHourScr
 				backgroundColor={theme.blue2}
 				validationColor={theme.blue1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[4, 4]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

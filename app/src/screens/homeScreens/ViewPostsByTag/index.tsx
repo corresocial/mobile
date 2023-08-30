@@ -5,7 +5,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { Body, Container, ContainerPadding, Header, InputContainer, SearchInput } from './styles'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import LoupIcon from '../../../assets/icons/loup.svg'
+import LoupIcon from '../../../assets/icons/loup-white.svg'
 
 import { PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
 import { ViewPostsByTagScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'

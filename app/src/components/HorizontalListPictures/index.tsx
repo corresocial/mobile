@@ -2,14 +2,16 @@ import React from 'react'
 import uuid from 'react-uuid'
 
 import {
-	AddNewPicturesButton,
 	Container,
 	PictureItemButtom,
 	ScrollView,
 	PicturePortrait,
 	Picture,
 } from './styles'
-import AddPictureIcon from '../../assets/icons/addPicture.svg'
+import AddPictureWhiteIcon from '../../assets/icons/addPicture-white.svg'
+import { SmallButton } from '../_buttons/SmallButton'
+import { relativeScreenWidth } from '../../common/screenDimensions'
+import { HorizontalSpacing } from '../HorizontalSpacing'
 
 interface HorizontalListPicturesProps {
 	picturesUri: string[]
@@ -21,20 +23,13 @@ interface HorizontalListPicturesProps {
 function HorizontalListPictures({ picturesUri, pictureUriSelected, onSelectPicture, openCamera }: HorizontalListPicturesProps) {
 	const renderPictures = () => picturesUri.map((pictureUri, index) => (
 		<PictureItemButtom
+			pictureSelected={pictureUriSelected === index}
 			key={uuid()}
 			onPress={() => onSelectPicture(index)}
 		>
-			<PicturePortrait
-				style={{
-					opacity: pictureUriSelected === index ? 1 : 0.5,
-					borderWidth: pictureUriSelected === index ? 3 : 2,
-					borderRightWidth: pictureUriSelected === index ? 4 : 3
-				}}
-			>
+			<PicturePortrait pictureSelected={pictureUriSelected === index}>
 				<Picture
-					source={{
-						uri: pictureUri
-					}}
+					source={{ uri: pictureUri }}
 					width={100}
 					height={100}
 				/>
@@ -44,11 +39,17 @@ function HorizontalListPictures({ picturesUri, pictureUriSelected, onSelectPictu
 
 	return (
 		<Container >
-			<ScrollView horizontal>
+			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
+				<HorizontalSpacing width={relativeScreenWidth(4)} />
 				<Container>
-					<AddNewPicturesButton onPress={openCamera}>
-						<AddPictureIcon width={'50%'} height={'50%'} />
-					</AddNewPicturesButton>
+					<SmallButton
+						onPress={openCamera}
+						relativeWidth={relativeScreenWidth(20)}
+						height={relativeScreenWidth(20)}
+						SvgIcon={AddPictureWhiteIcon}
+						svgScale={['50%', '50%']}
+					/>
+					<HorizontalSpacing />
 					{renderPictures()}
 				</Container>
 			</ScrollView>

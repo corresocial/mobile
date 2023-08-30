@@ -4,6 +4,7 @@ import { Animated, Platform, StatusBar, TextInput } from 'react-native'
 import { ButtonContainer, Container, InputsContainer, TwoPoints } from './styles'
 import { theme } from '../../../common/theme'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 
 import { filterLeavingOnlyNumbers, formatHour } from '../../../common/auxiliaryFunctions'
 
@@ -11,22 +12,17 @@ import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer
 import { FormContainer } from '../../_containers/FormContainer'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
-import { LineInput } from '../../LineInput'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { BackButton } from '../../_buttons/BackButton'
-import { ProgressBar } from '../../ProgressBar'
-import { SkipButton } from '../../_buttons/SkipButton'
+import { HorizontalSpacing } from '../../HorizontalSpacing'
+import { SmallButton } from '../../_buttons/SmallButton'
+import { DefaultInput } from '../../_inputs/DefaultInput'
 
 interface PostTimeProps {
 	backgroundColor: string
 	validationColor: string
 	customTitle?: string
 	customHighlight?: string[]
-	progress: [value: number, range: number]
-	editMode?: boolean
-	startDate?: Date
-	endDate?: Date
-	startTime?: Date
 	initialValue?: Date | string
 	keyboardOpened: boolean
 	navigateBackwards: () => void
@@ -39,11 +35,6 @@ function PostTime({
 	validationColor,
 	customTitle,
 	customHighlight,
-	progress,
-	editMode,
-	startDate,
-	endDate,
-	startTime,
 	initialValue,
 	keyboardOpened,
 	navigateBackwards,
@@ -86,48 +77,7 @@ function PostTime({
 		return false
 	}
 
-	const endTimeIsBiggerOfStartTime = () => {
-		if (!startTime) return true
-
-		const registredStartHour = new Date(startTime)
-		const endHour = new Date()
-		endHour.setHours(parseInt(hours), parseInt(minutes))
-		return registredStartHour.getTime() < endHour.getTime()
-	}
-
-	const closingDateTimeIsAfterOpening = () => {
-		if (editMode) return true
-		const registredStartDate = new Date(startDate as Date)
-		const registredEndDate = new Date(endDate as Date)
-		registredStartDate.setHours(startTime?.getHours() || 0, startTime?.getMinutes() || 0)
-		registredEndDate.setHours(parseInt(hours), parseInt(minutes))
-		console.log(registredStartDate)
-		console.log(registredEndDate)
-		console.log(registredStartDate.getTime() < registredEndDate.getTime())
-		console.log(registredStartDate < registredEndDate)
-		registredEndDate.getTime()
-		return registredStartDate.getTime() < registredEndDate.getTime()
-	}
-
 	const savePostTime = () => {
-		if (editMode) {
-			saveTime(hours, minutes)
-			return
-		}
-
-		if (startDate && endDate) {
-			if (!closingDateTimeIsAfterOpening()) {
-				setInvalidTimeAfterSubmit(true)
-				return
-			}
-		}
-
-		if (startTime && !startDate && !endDate) {
-			if (!endTimeIsBiggerOfStartTime()) {
-				setInvalidTimeAfterSubmit(true)
-				return
-			}
-		}
 		saveTime(hours, minutes)
 	}
 
@@ -158,41 +108,47 @@ function PostTime({
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={17}
+					fontSize={16}
 					message={
 						invalidTimeAfterSubmit
 							? 'o horário informado antecede o horário de início'
-							: customTitle || 'que horas você começa?'
+							: customTitle || 'que horas começa?'
 					}
 					highlightedWords={
 						invalidTimeAfterSubmit
 							? ['antecede', 'horário', 'de', 'início']
-							: customHighlight || ['que', 'horas', 'começa']
+							: customHighlight || ['horas', 'começa']
 					}
-				>
-					<ProgressBar
-						value={progress[0]}
-						range={progress[1]}
-					/>
-				</InstructionCard>
+				/>
+				{
+					skipScreen ? (
+						<>
+							<HorizontalSpacing />
+							<SmallButton
+								SvgIcon={TrashWhiteIcon}
+								color={theme.red3}
+								height={relativeScreenWidth(11)}
+								relativeWidth={relativeScreenWidth(11)}
+								svgScale={['60%', '60%']}
+								onPress={skipScreen}
+							/>
+						</>
+					)
+						: <></>
+				}
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white2}
+				backgroundColor={theme.white3}
 				justifyContent={'center'}
 			>
 				<InputsContainer>
-					<LineInput
+					<DefaultInput
 						value={hours}
 						relativeWidth={'40%'}
 						textInputRef={inputRefs.hoursInput}
 						nextInputRef={inputRefs.minutesInput}
 						defaultBackgroundColor={theme.white2}
-						defaultBorderBottomColor={theme.black4}
 						validBackgroundColor={validationColor}
-						validBorderBottomColor={theme.black4}
-						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.black4}
 						maxLength={2}
 						fontSize={22}
 						placeholder={'08'}
@@ -206,17 +162,13 @@ function PostTime({
 						}}
 					/>
 					<TwoPoints>{':'}</TwoPoints>
-					<LineInput
+					<DefaultInput
 						value={minutes}
 						relativeWidth={'40%'}
 						textInputRef={inputRefs.minutesInput}
 						previousInputRef={inputRefs.hoursInput}
 						defaultBackgroundColor={theme.white2}
-						defaultBorderBottomColor={theme.black4}
 						validBackgroundColor={validationColor}
-						validBorderBottomColor={theme.black4}
-						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.black4}
 						maxLength={2}
 						fontSize={22}
 						placeholder={'00'}
@@ -246,13 +198,6 @@ function PostTime({
 						)
 					}
 				</ButtonContainer>
-				{
-					(!hoursIsValid || !minutesIsValid) && !keyboardOpened
-						? (
-							<SkipButton onPress={skipScreen} />
-						)
-						: <></>
-				}
 			</FormContainer>
 		</Container>
 	)

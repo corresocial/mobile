@@ -7,13 +7,11 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertExchangeValueScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
-import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenProps) {
-	const { isSecondPost, vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -58,26 +56,7 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ exchangeValue })
 			navigateToEditScreen()
-			return
 		}
-
-		setVacancyDataOnContext({ exchangeValue })
-
-		if (isSecondPost) {
-			navigation.reset({
-				index: 0,
-				routes: [{
-					name: 'EditVacancyPostReview',
-					params: {
-						postData: { ...vacancyDataContext, exchangeValue },
-						unsavedPost: true
-					}
-				}]
-			})
-			return
-		}
-
-		navigation.navigate('SelectVacancyRange')
 	}
 
 	return (
@@ -89,8 +68,6 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 				customTitle={'o que você aceita em troca?'}
 				customHighlight={['o', 'que', 'em', 'troca']}
 				inputPlaceholder={'ex: troco por coisas usadas'}
-				// initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[3, isSecondPost ? 3 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateExchangeValue}
 				navigateBackwards={() => navigation.goBack()}

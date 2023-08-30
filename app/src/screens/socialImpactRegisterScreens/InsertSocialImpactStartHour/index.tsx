@@ -7,13 +7,11 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertSocialImpactStartHourScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
-import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertSocialImpactStartHour({ route, navigation }: InsertSocialImpactStartHourScreenProps) {
-	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -33,25 +31,18 @@ function InsertSocialImpactStartHour({ route, navigation }: InsertSocialImpactSt
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ startHour: '' })
 			navigation.goBack()
-			return
 		}
-
-		setSocialImpactDataOnContext({ startHour: '' as any })
-		navigation.navigate('InsertSocialImpactEndDate')
 	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
 		const startHour = new Date()
 		startHour.setHours(parseInt(hour), parseInt(minutes))
+		const ISOStringDateTime = new Date(startHour.getTime())
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ startHour })
+			addNewUnsavedFieldToEditContext({ startHour: ISOStringDateTime })
 			navigation.goBack()
-			return
 		}
-
-		setSocialImpactDataOnContext({ startHour })
-		navigation.navigate('InsertSocialImpactEndDate')
 	}
 
 	return (
@@ -61,7 +52,6 @@ function InsertSocialImpactStartHour({ route, navigation }: InsertSocialImpactSt
 				backgroundColor={theme.pink2}
 				validationColor={theme.pink1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[4, 4]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

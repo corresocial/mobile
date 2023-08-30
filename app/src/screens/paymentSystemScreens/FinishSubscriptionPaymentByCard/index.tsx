@@ -7,7 +7,7 @@ import { Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { theme } from '../../../common/theme'
 import { Body, BodyScrollable, Container, PaymentStatusArea, PaymentStatusText, Title, TitleArea } from './styles'
-import DollarWhiteIcon from '../../../assets/icons/dollar.svg'
+import DollarWhiteIcon from '../../../assets/icons/dollar-white.svg'
 import CardWhiteIcon from '../../../assets/icons/card-white.svg'
 
 import { getRangeSubscriptionPlanText } from '../../../utils/subscription/commonMessages'

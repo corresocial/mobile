@@ -5,7 +5,7 @@ import uuid from 'react-uuid'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { Body, Container, Header, InputContainer, LastSigh, SearchInput } from './styles'
 import { theme } from '../../../common/theme'
-import LoupIcon from '../../../assets/icons/loup.svg'
+import LoupIcon from '../../../assets/icons/loup-white.svg'
 
 import { ViewAllTagsScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 

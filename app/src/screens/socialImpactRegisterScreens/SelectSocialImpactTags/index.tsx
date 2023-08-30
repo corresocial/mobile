@@ -37,7 +37,7 @@ function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScr
 		}
 
 		setSocialImpactDataOnContext({ tags: tagsSelected })
-		navigation.navigate('InsertSocialImpactTitle')
+		navigation.navigate('SelectSocialImpactExhibitionRange')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

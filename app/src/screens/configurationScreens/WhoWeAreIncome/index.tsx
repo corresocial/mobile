@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { Body, Container, Header, Title, ButtonContainer, Description, ContainerContent } from './styles'
 import { theme } from '../../../common/theme'
-import PlusWhiteIcon from '../../../assets/icons/plusTabIconInactive.svg'
+import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
 
 import { WhoWeAreIncomeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 

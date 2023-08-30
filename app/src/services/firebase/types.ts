@@ -355,6 +355,7 @@ export type VacancyCollection = {
 	endDate?: Date
 	startHour?: Date
 	endHour?: Date
+	paymentType?: PaymentType
 	saleValue?: string
 	exchangeValue?: string
 	picturesUrl: string[]
@@ -402,6 +403,7 @@ export type VacancyCollectionRemote = {
 	endDate: Date
 	startHour: Date
 	endHour: Date
+	paymentType: PaymentType
 	saleValue?: string
 	exchangeValue?: string
 	picturesUrl: string[]

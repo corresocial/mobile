@@ -7,13 +7,11 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertSaleStartHourScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
-import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertSaleStartHour({ route, navigation }: InsertSaleStartHourScreenProps) {
-	const { setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -33,25 +31,18 @@ function InsertSaleStartHour({ route, navigation }: InsertSaleStartHourScreenPro
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ startHour: '' })
 			navigation.goBack()
-			return
 		}
-
-		setSaleDataOnContext({ startHour: '' as any })
-		navigation.navigate('InsertSaleEndHour')
 	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
 		const startHour = new Date()
 		startHour.setHours(parseInt(hour), parseInt(minutes))
+		const ISOStringDateTime = new Date(startHour.getTime())
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ startHour })
+			addNewUnsavedFieldToEditContext({ startHour: ISOStringDateTime })
 			navigation.goBack()
-			return
 		}
-
-		setSaleDataOnContext({ startHour })
-		navigation.navigate('InsertSaleEndHour')
 	}
 
 	return (
@@ -61,7 +52,6 @@ function InsertSaleStartHour({ route, navigation }: InsertSaleStartHourScreenPro
 				backgroundColor={theme.green2}
 				validationColor={theme.green1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

@@ -5,7 +5,6 @@ import { SocialImpactStackParamList } from '../types'
 export type SelectSocialImpactTypeScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactType'>
 export type InsertSocialImpactTitleScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactTitle'>
 export type InsertSocialImpactDescriptionScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactDescription'>
-export type InsertSocialImpactPictureScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactPicture'>
 export type SocialImpactPicturePreviewScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SocialImpactPicturePreview'>
 export type SelectSocialImpactCategoryScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactCategory'>
 export type SelectSocialImpactTagsScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactTags'>
@@ -14,7 +13,6 @@ export type SelectSocialImpactRangeScreenProps = NativeStackScreenProps<SocialIm
 export type InsertSocialImpactLocationScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactLocation'>
 export type SelectSocialImpactLocationViewScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactLocationView'>
 export type SocialImpactLocationViewPreviewScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SocialImpactLocationViewPreview'>
-export type SelectSocialImpactExhibitionPlaceScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactExhibitionPlace'>
 export type SelectSocialImpactFrequencyScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactFrequency'>
 export type SelectSocialImpactDaysOfWeekScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactDaysOfWeek'>
 export type InsertSocialImpactStartDateScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactStartDate'>

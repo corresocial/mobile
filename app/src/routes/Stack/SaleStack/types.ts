@@ -7,7 +7,6 @@ export type SaleStackParamList = {
 	SelectItemStatus: { editMode: boolean } | undefined
 	InsertSaleTitle: { editMode: boolean, initialValue: string } | undefined
 	InsertItemDescription: { editMode: boolean, initialValue: string } | undefined
-	InsertSalePicture: undefined
 	SalePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectPaymentType: { editMode: boolean } | undefined
 	InsertSaleValue: { bothPaymentType: boolean, editMode?: boolean }
@@ -22,5 +21,5 @@ export type SaleStackParamList = {
 	SelectSaleDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
 	InsertSaleStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertSaleEndHour: { editMode: boolean, initialValue: Date } | undefined
-	EditSalePostReview: { postData: SaleCollectionRemote, unsavedPost?: boolean }
+	EditSalePostReview: { postData: SaleCollectionRemote, unsavedPost?: boolean, showPresentationModal?: boolean }
 } & UserStackParamList

@@ -18,7 +18,7 @@ import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
-import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionInfoModal'
+import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
 import { AuthContext } from '../../../contexts/AuthContext'
 
 function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
@@ -36,7 +36,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 		<>
 			<Container>
 				<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-				<SubscriptionInfoModal
+				<SubscriptionPresentationModal
 					visibility={subscriptionModalIsVisible}
 					profilePictureUri={profilePictureUrl}
 					closeModal={() => setSubscriptionModalIsVisible(false)}

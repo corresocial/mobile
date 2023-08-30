@@ -51,8 +51,7 @@ function HelpUs({ navigation }: HelpUsScreenProps) {
 					fontSize={16}
 					message={'renda + cultura + impacto social = ascensão social, e você pode fazer parte dessa transformação conosco!'}
 					highlightedWords={['renda', '+', 'cultura', 'impacto', 'social', '=', 'ascensão']}
-				>
-				</InstructionCard>
+				/>
 			</DefaultHeaderContainer>
 			<ButtonsContainer>
 				<PrimaryButton

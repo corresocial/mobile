@@ -16,7 +16,7 @@ const defaultDeltaCoordinates = {
 }
 
 function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewScreenProps) {
-	const { saleDataContext, setSaleDataOnContext } = useContext(SaleContext)
+	const { saleDataContext } = useContext(SaleContext)
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const { locationView } = route.params
@@ -46,8 +46,23 @@ function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewS
 			return
 		}
 
-		setSaleDataOnContext({ locationView })
-		navigation.navigate('SelectDeliveryMethod')
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'EditSalePostReview',
+				params: {
+					postData: {
+						...saleDataContext,
+						locationView,
+						paymentType: saleDataContext.paymentType || 'sale',
+						saleValue: saleDataContext.saleValue || 'a combinar',
+						deliveryMethod: saleDataContext.deliveryMethod || 'unavailable',
+					},
+					unsavedPost: true,
+					showPresentationModal: true
+				}
+			}]
+		})
 	}
 
 	const getPostRange = () => {

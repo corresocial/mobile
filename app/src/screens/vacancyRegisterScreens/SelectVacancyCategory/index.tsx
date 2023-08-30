@@ -26,7 +26,7 @@ function SelectVacancyCategory({ route, navigation }: SelectVacancyCategoryScree
 			<PostCategory
 				backgroundColor={theme.yellow2}
 				categories={vacancyCategories}
-				progress={[1, isSecondPost ? 3 : 5]}
+				progress={[2, isSecondPost ? 6 : 7]}
 				navigateBackwards={() => navigation.goBack()}
 				savePostCategory={onSelectCategory}
 			/>

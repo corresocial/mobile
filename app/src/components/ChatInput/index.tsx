@@ -4,8 +4,8 @@ import { relativeScreenWidth } from '../../common/screenDimensions'
 
 import { theme } from '../../common/theme'
 import { Container, InputMessage, SendButtonArea, SendButtonAreaInner } from './styles'
-import AngleRightIcon from '../../assets/icons/angleRight.svg'
-import AngleRightInactiveIcon from '../../assets/icons/angleRightInactive.svg'
+import AngleRightWhitetIcon from '../../assets/icons/angleRight-white.svg'
+import AngleRightDisabledIcon from '../../assets/icons/angleRight-disabled.svg'
 
 interface ChatInputProps {
 	submitMessage: (text: string) => void
@@ -61,8 +61,8 @@ function ChatInput({ submitMessage }: ChatInputProps) {
 				>
 					{
 						message
-							? <AngleRightIcon width={'45%'} height={'60%'} />
-							: <AngleRightInactiveIcon width={'45%'} height={'60%'} />
+							? <AngleRightWhitetIcon width={'45%'} height={'60%'} />
+							: <AngleRightDisabledIcon width={'45%'} height={'60%'} />
 					}
 				</SendButtonAreaInner>
 			</SendButtonArea>

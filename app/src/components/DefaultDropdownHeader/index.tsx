@@ -3,8 +3,8 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { IconArea } from '../LocationNearDropdown/styles'
 import { AddressSelectedArea, AddressSelectedText, InitialDropdown, InitialDropdownContainer, PresentationText } from './styles'
-import AngleDownIcon from '../../assets/icons/angleDown.svg'
-import AngleUpIcon from '../../assets/icons/angleUp.svg'
+import AngleDownWhiteIcon from '../../assets/icons/angleDown-white.svg'
+import AngleUpWhiteIcon from '../../assets/icons/angleUp-white.svg'
 import CityIcon from '../../assets/icons/city-white.svg'
 
 interface DefaultDropdownHeaderProps {
@@ -39,12 +39,12 @@ function DefaultDropdownHeader({
 					absolute
 						? (
 							<IconArea >
-								<AngleUpIcon width={RFValue(22)} height={RFValue(22)} />
+								<AngleUpWhiteIcon width={RFValue(22)} height={RFValue(22)} />
 							</IconArea>
 						)
 						: (
 							<IconArea >
-								<AngleDownIcon width={RFValue(22)} height={RFValue(22)} />
+								<AngleDownWhiteIcon width={RFValue(22)} height={RFValue(22)} />
 							</IconArea>
 						)
 				}

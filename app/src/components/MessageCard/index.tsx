@@ -5,7 +5,7 @@ import { formatRelativeDate } from '../../common/auxiliaryFunctions'
 
 import { theme } from '../../common/theme'
 import { Container, DateTimeArea, MessageContainer, MessageContainerInner, RelativeDateTime, TextMessage } from './styles'
-import ArrowRightCircle from '../../assets/icons/arrowRightCircle.svg'
+import ArrowRightCircleWhiteIcon from '../../assets/icons/arrowRightCircle-white.svg'
 
 interface MessageCardProps {
 	message: any
@@ -52,7 +52,7 @@ function MessageCard({ message, dateTime, owner, errorSending, sendAgain }: Mess
 						{message}
 					</TextMessage>
 					<DateTimeArea style={{ justifyContent: !errorSending ? 'flex-end' : 'space-between' }}>
-						{errorSending && <ArrowRightCircle width={'15%'} height={'100%'} />}
+						{errorSending && <ArrowRightCircleWhiteIcon width={'15%'} height={'100%'} />}
 						<RelativeDateTime
 							style={{
 								color: !errorSending ? theme.black4 : theme.white3

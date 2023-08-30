@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
 import { saleCategories } from '../../../utils/postsCategories/saleCategories'
@@ -13,13 +13,7 @@ import { SaleContext } from '../../../contexts/SaleContext'
 import { PostCategory } from '../../../components/_onboarding/PostCategory'
 
 function SelectSaleCategory({ route, navigation }: SelectSaleCategoryScreenProps) {
-	const { isSecondPost, setSaleDataOnContext, getAditionalDataFromLastPost } = useContext(SaleContext)
-
-	useEffect(() => {
-		if (!route.params?.editMode) {
-			getAditionalDataFromLastPost()
-		}
-	}, [])
+	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)
 
 	const onSelectCategory = (categoryName: SaleCategories) => {
 		setSaleDataOnContext({ category: categoryName })
@@ -32,7 +26,7 @@ function SelectSaleCategory({ route, navigation }: SelectSaleCategoryScreenProps
 			<PostCategory
 				backgroundColor={theme.green2}
 				categories={saleCategories}
-				progress={[1, isSecondPost ? 3 : 5]}
+				progress={[2, isSecondPost ? 4 : 5]}
 				navigateBackwards={() => navigation.goBack()}
 				savePostCategory={onSelectCategory}
 			/>

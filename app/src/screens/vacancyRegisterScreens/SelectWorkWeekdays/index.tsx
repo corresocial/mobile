@@ -6,13 +6,11 @@ import { theme } from '../../../common/theme'
 import { SelectWorkWeekdaysScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { DaysOfWeek } from '../../../services/firebase/types'
 
-import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostDaysOfWeek } from '../../../components/_onboarding/PostDaysOfWeek'
 
 function SelectWorkWeekdays({ route, navigation }: SelectWorkWeekdaysScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -22,11 +20,7 @@ function SelectWorkWeekdays({ route, navigation }: SelectWorkWeekdaysScreenProps
 			addNewUnsavedFieldToEditContext({ daysOfWeek: [] })
 			navigation.goBack()
 			navigation.goBack()
-			return
 		}
-
-		setVacancyDataOnContext({ daysOfWeek: [] })
-		navigation.navigate('InsertVacancyStartDate')
 	}
 
 	const saveWorkWeekdays = (selectedDaysOfWeek: DaysOfWeek[]) => {
@@ -34,11 +28,7 @@ function SelectWorkWeekdays({ route, navigation }: SelectWorkWeekdaysScreenProps
 			addNewUnsavedFieldToEditContext({ daysOfWeek: selectedDaysOfWeek })
 			navigation.goBack()
 			navigation.goBack()
-			return
 		}
-
-		setVacancyDataOnContext({ daysOfWeek: selectedDaysOfWeek })
-		navigation.navigate('InsertVacancyStartDate')
 	}
 
 	return (
@@ -47,7 +37,6 @@ function SelectWorkWeekdays({ route, navigation }: SelectWorkWeekdaysScreenProps
 			<PostDaysOfWeek
 				backgroundColor={theme.yellow2}
 				validationColor={theme.yellow1}
-				progress={[5, 5]}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : []}
 				skipScreen={skipScreen}
 				navigateBackwards={() => navigation.goBack()}

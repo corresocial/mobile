@@ -30,10 +30,10 @@ function SelectSocialImpactRepeat({ route, navigation }: SelectSocialImpactRepea
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
 			<PostRepeat
 				backgroundColor={theme.pink2}
-				progress={[4, 4]}
+				itemsColor={theme.pink3}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRepeat={saveSocialImpactRepeat}
 			/>

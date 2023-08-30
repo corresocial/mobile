@@ -17,8 +17,8 @@ import {
 } from './styles'
 import { theme } from '../../common/theme'
 import { relativeScreenHeight, statusBarHeight } from '../../common/screenDimensions'
-import LoupIcon from '../../assets/icons/loup.svg'
-import XIcon from '../../assets/icons/x-thin.svg'
+import LoupIcon from '../../assets/icons/loup-white.svg'
+import XIcon from '../../assets/icons/x-white.svg'
 import MapIcon from '../../assets/icons/map.svg'
 
 import { setRecentAddressOnStorage } from '../../utils/maps/recentAddresses'

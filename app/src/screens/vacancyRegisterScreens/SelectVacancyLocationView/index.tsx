@@ -11,7 +11,7 @@ import { VacancyContext } from '../../../contexts/VacancyContext'
 import { PostLocationView } from '../../../components/_onboarding/PostLocationView'
 
 function SelectVacancyLocationView({ route, navigation }: SelectVacancyLocationViewScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
+	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
@@ -32,7 +32,8 @@ function SelectVacancyLocationView({ route, navigation }: SelectVacancyLocationV
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<PostLocationView
 				backgroundColor={theme.yellow2}
-				progress={[4, 5]}
+				itemsColor={theme.yellow3}
+				progress={[7, isSecondPost ? 6 : 7]}
 				saveLocationViewType={saveLocationViewType}
 				navigateBackwards={() => navigation.goBack()}
 			/>

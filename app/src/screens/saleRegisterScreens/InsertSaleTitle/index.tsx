@@ -43,7 +43,7 @@ function InsertSaleTitle({ route, navigation }: InsertSaleTitleScreenProps) {
 		}
 
 		setSaleDataOnContext({ title: inputText })
-		navigation.navigate('InsertItemDescription')
+		navigation.navigate('SelectSaleRange')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -52,11 +52,11 @@ function InsertSaleTitle({ route, navigation }: InsertSaleTitleScreenProps) {
 		<>
 			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostInputText
+				multiline
 				backgroundColor={theme.green2}
 				validationColor={theme.green1}
-				inputPlaceholder={'ex: televisão 40"'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, isSecondPost ? 3 : 5]}
+				progress={[3, isSecondPost ? 4 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSaleTitle}
 				navigateBackwards={() => navigation.goBack()}

@@ -27,8 +27,7 @@ function ContactUs({ navigation }: ContactUsScreenProps) {
 					fontSize={15}
 					message={'sobre o que você quer falar com a gente?'}
 					highlightedWords={['o', 'que']}
-				>
-				</InstructionCard>
+				/>
 			</DefaultHeaderContainer>
 			<ButtonsContainer>
 				<PrimaryButton

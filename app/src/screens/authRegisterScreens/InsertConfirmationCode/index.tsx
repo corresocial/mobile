@@ -1,4 +1,4 @@
-import { Animated, Platform, StatusBar, TextInput, View } from 'react-native'
+import { Animated, Platform, StatusBar, TextInput } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { UserCredential } from 'firebase/auth'
 
@@ -284,7 +284,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 					highlightedWords={getHeaderHighlightedWords()}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white2}>
+			<FormContainer >
 				<InputsContainer>
 					{
 						inputsConfig.map((inputConfig, index) => {

@@ -2,7 +2,7 @@ import React from 'react'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 
 import { Decimals, SmallFont, SmallFontBold } from './styles'
-import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
+import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
 import SalesCartWhiteIcon from '../../../assets/icons/salesCart-white.svg'
 import ExchangeWhiteIcon from '../../../assets/icons/exchange-white.svg'
 import CashWhiteIcon from '../../../assets/icons/cash-white.svg'

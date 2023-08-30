@@ -32,7 +32,7 @@ function SelectServiceCategory({ route, navigation }: SelectServiceCategoryScree
 			<PostCategory
 				backgroundColor={theme.purple2}
 				categories={serviceCategories}
-				progress={[1, isSecondPost ? 3 : 5]}
+				progress={[1, isSecondPost ? 3 : 4]}
 				navigateBackwards={() => navigation.goBack()}
 				savePostCategory={onSelectCategory}
 			/>

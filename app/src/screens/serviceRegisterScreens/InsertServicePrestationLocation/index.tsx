@@ -105,11 +105,9 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 				onPressButton={() => saveLocation(currentMarkerCoodinate as Coordinates, true)}
 				closeModal={toggleRangeChangeModalVisibility}
 			/>
-
 			<SelectPostLocation
 				backgroundColor={theme.purple2}
 				validationColor={theme.purple1}
-				searchPlaceholder={'digite o endereço do serviço'}
 				initialValue={editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }}
 				navigateBackwards={() => navigation.goBack()}
 				saveLocation={saveLocation}

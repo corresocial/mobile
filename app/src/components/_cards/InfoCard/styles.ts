@@ -15,7 +15,7 @@ export const ContainerInner = styled.View`
     height:${relativeScreenHeight(10)}px;
     background-color: ${({ theme }) => theme.white3};
     border-radius: ${RFValue(17)}px;
-    border: ${RFValue(2.5)}px solid ${({ theme }) => theme.black4};
+    border: ${RFValue(3.2)}px solid ${({ theme }) => theme.black4};
     padding-vertical: ${RFValue(10)}px;
     padding-horizontal: ${RFValue(15)}px;
     justify-content: space-around;

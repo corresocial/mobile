@@ -7,13 +7,11 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertSaleValueScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
-import { ServiceContext } from '../../../contexts/ServiceContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
-	const { isSecondPost, serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -47,28 +45,10 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 				navigation.pop(2)
 				navigation.goBack()
 			}
-		} else {
-			setServiceDataOnContext({ saleValue })
 		}
 
 		if (bothPaymentType) {
 			navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
-		} else {
-			if (isSecondPost) {
-				navigation.reset({
-					index: 0,
-					routes: [{
-						name: 'EditServicePostReview',
-						params: {
-							postData: { ...serviceDataContext, saleValue },
-							unsavedPost: true
-						}
-					}]
-				})
-				return
-			}
-
-			navigation.navigate('SelectServiceRange')
 		}
 	}
 
@@ -81,8 +61,6 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 				customTitle={'por quanto você vende?'}
 				customHighlight={['quanto']}
 				inputPlaceholder={'ex: 120 reais a diária'}
-				// initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[3, isSecondPost ? 3 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSaleValue}
 				navigateBackwards={() => navigation.goBack()}

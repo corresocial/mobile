@@ -33,7 +33,7 @@ function SelectSocialImpactCategory({ route, navigation }: SelectSocialImpactCat
 				categories={socialImpactCategories}
 				navigateBackwards={() => navigation.goBack()}
 				savePostCategory={onSelectCategory}
-				progress={[1, isSecondPost ? 2 : 4]}
+				progress={[2, isSecondPost ? 5 : 6]}
 			/>
 		</>
 	)

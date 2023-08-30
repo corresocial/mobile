@@ -48,7 +48,7 @@ function ImageCarousel({
 		>
 			<PhotoPortrait
 				borderWidth={withoutBorder ? 0 : 2.5}
-				borderRightWidth={withoutBorder ? 0 : 8}
+				borderRightWidth={withoutBorder ? 0 : 10}
 				height={'100%'}
 				width={'100%'}
 				pictureUri={url}

@@ -29,6 +29,7 @@ import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
 import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
 import { EditPost } from '../../../components/EditPost'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
+import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
 
 function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -37,6 +38,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
 
 	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
+	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
 	const owner: any = { // TODO Type
 		userId: userDataContext.userId,
@@ -44,9 +46,10 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		profilePictureUrl: userDataContext.profilePictureUrl
 	}
 
-	const { postData, unsavedPost } = route.params
+	const { postData, unsavedPost, showPresentationModal } = route.params
 
 	useEffect(() => {
+		showPresentationModal && togglePostReviewPresentationModalVisibility()
 		clearUnsavedEditContext()
 	}, [])
 
@@ -130,6 +133,10 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		setLocationChangeModalIsVisible(!locationChangeModalIsVisible)
 	}
 
+	const togglePostReviewPresentationModalVisibility = () => {
+		setPostReviewPresentationModalIsVisible(!postReviewPresentationModalIsVisible)
+	}
+
 	const checkChangeLocationAlertIsRequired = () => {
 		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectCultureLocationView', 'location')
 
@@ -179,6 +186,10 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				onPressButton={navigateToEditLocationScreen}
 				closeModal={toggleRangeChangeModalVisibility}
 			/>
+			<PostReviewPresentationModal
+				visibility={postReviewPresentationModalIsVisible}
+				onPressButton={togglePostReviewPresentationModalVisibility}
+			/>
 
 			<EditPost
 				initialPostData={{ ...postData, postType: 'culture' }}
@@ -210,7 +221,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					title={'como participar'}
 					hightligtedWords={['participar']}
 					placeModality={getPostField('eventPlaceModality')}
-					onEdit={() => navigateToEditScreen('SelectEventPlaceModality', 'eventPlaceModality')}
+					onEdit={() => navigateToEditScreen('SelectCulturePlaceModality', 'eventPlaceModality')}
 				/>
 				<VerticalSigh />
 				<EditCard

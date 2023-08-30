@@ -53,7 +53,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			}
 			case 'EditUserDescription': {
 				navigation.navigate('EditUserDescription', {
-					userDescription: userDataContext.description || '',
+					userDescription: editDataContext.unsaved.description || userDataContext.description || '',
 					userId: userDataContext.userId || ''
 				})
 				break

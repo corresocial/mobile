@@ -3,8 +3,7 @@ import { UserStackParamList } from '../UserStack/types'
 
 export type ServiceStackParamList = {
 	InsertServiceDescription: { editMode: boolean, initialValue: string } | undefined
-	InsertServiceName: { editMode: boolean, initialValue: string } | undefined
-	InsertServicePicture: undefined
+	InsertServiceTitle: { editMode: boolean, initialValue: string } | undefined
 	ServicePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectServiceCategory: { editMode: boolean } | undefined
 	SelectServiceTags: { categorySelected: ServiceCategories, editMode?: boolean }
@@ -21,5 +20,5 @@ export type ServiceStackParamList = {
 	SelectServiceDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
 	InsertServiceStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertServiceEndHour: { editMode: boolean, initialValue: Date } | undefined
-	EditServicePostReview: { postData: ServiceCollectionRemote, unsavedPost?: boolean }
+	EditServicePostReview: { postData: ServiceCollectionRemote, unsavedPost?: boolean, showPresentationModal?: boolean }
 } & UserStackParamList

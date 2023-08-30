@@ -159,7 +159,7 @@ function PrimaryButton({
 								marginRight: iconName ? relativeScreenWidth(3) : 0
 							}}
 							>
-								{showMessageWithHighlight(label, highlightedWords)}
+								{showMessageWithHighlight(label, highlightedWords || label.split(' '))}
 							</ButtonLabel>
 						)}
 					{

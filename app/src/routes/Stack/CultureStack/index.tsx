@@ -8,12 +8,11 @@ import { CultureProvider } from '../../../contexts/CultureContext'
 
 import { InsertCultureTitle } from '../../../screens/cultureRegisterScreens/InsertCultureTitle'
 import { InsertCultureDescription } from '../../../screens/cultureRegisterScreens/InsertCultureDescription'
-import { InsertCulturePicture } from '../../../screens/cultureRegisterScreens/InsertCulturePicture'
 import { CulturePicturePreview } from '../../../screens/cultureRegisterScreens/CulturePicturePreview'
 import { SelectCultureCategory } from '../../../screens/cultureRegisterScreens/SelectCultureCategory'
 import { SelectCultureTags } from '../../../screens/cultureRegisterScreens/SelectCultureTags'
 import { InsertEntryValue } from '../../../screens/cultureRegisterScreens/InsertEntryValue'
-import { SelectEventPlaceModality } from '../../../screens/cultureRegisterScreens/SelectEventPlaceModality'
+import { SelectCulturePlaceModality } from '../../../screens/cultureRegisterScreens/SelectCulturePlaceModality'
 import { SelectCultureRange } from '../../../screens/cultureRegisterScreens/SelectCultureRange'
 import { SelectCultureLocationView } from '../../../screens/cultureRegisterScreens/SelectCultureLocationView'
 import { InsertCultureLocation } from '../../../screens/cultureRegisterScreens/InsertCultureLocation'
@@ -46,10 +45,9 @@ export function CultureStack() {
 				<Stack.Screen name={'SelectCultureTags'} component={SelectCultureTags} />
 				<Stack.Screen name={'InsertCultureTitle'} component={InsertCultureTitle} />
 				<Stack.Screen name={'InsertCultureDescription'} component={InsertCultureDescription} />
-				<Stack.Screen name={'InsertCulturePicture'} component={InsertCulturePicture} />
 				<Stack.Screen name={'CulturePicturePreview'} component={CulturePicturePreview} />
 				<Stack.Screen name={'InsertEntryValue'} component={InsertEntryValue} />
-				<Stack.Screen name={'SelectEventPlaceModality'} component={SelectEventPlaceModality} />
+				<Stack.Screen name={'SelectCulturePlaceModality'} component={SelectCulturePlaceModality} />
 				<Stack.Screen name={'SelectCultureRange'} component={SelectCultureRange} />
 				<Stack.Screen name={'SelectCultureLocationView'} component={SelectCultureLocationView} />
 				<Stack.Screen name={'InsertCultureLocation'} component={InsertCultureLocation} />
