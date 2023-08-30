@@ -39,7 +39,7 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
 		setVacancyDataOnContext({
 			tags: tagsSelected
 		})
-		navigation.navigate('InsertVacancyTitle')
+		navigation.navigate('InsertVacancyDescription')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
