@@ -28,6 +28,7 @@ import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
 import { theme } from '../../../common/theme'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
+import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
 
 function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -36,8 +37,9 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
 
 	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
+	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
-	const { postData, unsavedPost } = route.params
+	const { postData, unsavedPost, showPresentationModal } = route.params
 	const owner: any = { // TODO Type
 		userId: userDataContext.userId,
 		name: userDataContext.name,
@@ -45,6 +47,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	}
 
 	useEffect(() => {
+		showPresentationModal && togglePostReviewPresentationModalVisibility()
 		clearUnsavedEditContext()
 	}, [])
 
@@ -128,6 +131,10 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 		setLocationChangeModalIsVisible(!locationChangeModalIsVisible)
 	}
 
+	const togglePostReviewPresentationModalVisibility = () => {
+		setPostReviewPresentationModalIsVisible(!postReviewPresentationModalIsVisible)
+	}
+
 	const checkChangeLocationAlertIsRequired = () => {
 		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectSocialImpactLocationView', 'location')
 
@@ -176,6 +183,10 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 				newRangeSelected={'near'}
 				onPressButton={navigateToEditLocationScreen}
 				closeModal={toggleRangeChangeModalVisibility}
+			/>
+			<PostReviewPresentationModal
+				visibility={postReviewPresentationModalIsVisible}
+				onPressButton={togglePostReviewPresentationModalVisibility}
 			/>
 
 			<EditPost

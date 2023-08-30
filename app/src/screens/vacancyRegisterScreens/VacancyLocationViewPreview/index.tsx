@@ -57,7 +57,8 @@ function VacancyLocationViewPreview({ route, navigation }: VacancyLocationViewPr
 						paymentType: vacancyDataContext.paymentType || 'sale',
 						saleValue: vacancyDataContext.saleValue || 'a combinar',
 					},
-					unsavedPost: true
+					unsavedPost: true,
+					showPresentationModal: true
 				}
 			}]
 		})

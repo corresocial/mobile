@@ -63,7 +63,8 @@ function SocialImpactLocationViewPreview({ navigation, route }: SocialImpactLoca
 						locationView,
 						repeat: 'unrepeatable'
 					},
-					unsavedPost: true
+					unsavedPost: true,
+					showPresentationModal: true
 				}
 			}]
 		})

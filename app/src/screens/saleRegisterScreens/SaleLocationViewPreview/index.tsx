@@ -58,7 +58,8 @@ function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewS
 						saleValue: saleDataContext.saleValue || 'a combinar',
 						deliveryMethod: saleDataContext.deliveryMethod || 'unavailable',
 					},
-					unsavedPost: true
+					unsavedPost: true,
+					showPresentationModal: true
 				}
 			}]
 		})

@@ -59,7 +59,7 @@ function ServiceLocationViewPreview({ route, navigation }: ServiceLocationViewPr
 						deliveryMethod: serviceDataContext.deliveryMethod || 'unavailable',
 					},
 					unsavedPost: true,
-					showPresentationModal: true,
+					showPresentationModal: true
 				}
 			}]
 		})

@@ -56,7 +56,8 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 						locationView,
 						repeat: 'unrepeatable'
 					},
-					unsavedPost: true
+					unsavedPost: true,
+					showPresentationModal: true
 				}
 			}]
 		})

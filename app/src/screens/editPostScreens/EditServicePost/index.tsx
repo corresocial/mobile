@@ -174,6 +174,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 				visibility={postReviewPresentationModalIsVisible}
 				onPressButton={togglePostReviewPresentationModalVisibility}
 			/>
+
 			<EditPost
 				initialPostData={{ ...postData, postType: 'service' }}
 				owner={owner}

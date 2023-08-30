@@ -20,5 +20,5 @@ export type SocialImpactStackParamList = {
 	InsertSocialImpactStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertSocialImpactEndDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertSocialImpactEndHour: { editMode: boolean, initialValue: Date } | undefined
-	EditSocialImpactPostReview: { postData: SocialImpactCollectionRemote, unsavedPost?: boolean }
+	EditSocialImpactPostReview: { postData: SocialImpactCollectionRemote, unsavedPost?: boolean, showPresentationModal?: boolean }
 } & UserStackParamList
