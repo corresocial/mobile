@@ -42,7 +42,7 @@ export const PortraitImage = styled.Image<PortraitImageProps>`
 export const NoPhotoContainer = styled.View`
 	flex: 1;
     background-color: ${({ theme }) => theme.white3};
-	border-radius: ${RFValue(8)}px;
+	border-radius: ${RFValue(14)}px;
 	overflow: hidden;
 `
 
