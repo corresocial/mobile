@@ -49,7 +49,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 	const { postData, unsavedPost, showPresentationModal } = route.params
 
 	useEffect(() => {
-		togglePostReviewPresentationModalVisibility()
+		showPresentationModal && togglePostReviewPresentationModalVisibility()
 		clearUnsavedEditContext()
 	}, [])
 
