@@ -26,7 +26,7 @@ function SelectSocialImpactExhibitionRange({ route, navigation }: SelectSocialIm
 		}
 
 		setSocialImpactDataOnContext({ exhibitionPlace })
-		navigation.navigate('InsertSocialImpactTitle')
+		navigation.navigate('InsertSocialImpactDescription')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
