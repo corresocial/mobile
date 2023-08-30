@@ -30,8 +30,9 @@ interface SideAreaProps {
 
 export const LeftArea = styled.View<SideAreaProps>`
 	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.orange1};
-	width: ${({ hasPictureOrSaleValue }) => (hasPictureOrSaleValue ? '31%' : `${0}px`)};
+	width: ${({ hasPictureOrSaleValue }) => (hasPictureOrSaleValue ? '32%' : `${0}px`)};
 	height: 100%;
+	flex: 1;
 	overflow: hidden;
 `
 
@@ -65,26 +66,26 @@ export const SaleValueContainerInner = styled.View`
 	padding-horizontal: ${RFValue(4)}px;
 	padding-vertical: ${RFValue(1)}px;
 	background-color: ${({ theme }) => theme.white3};
-	`
+`
 
 export const LeftSideLabel = styled.View`
 	width: 3%;
-	`
+`
 
 export const TitleContainer = styled.View`
 	border-left-width: ${RFValue(2.5)}px;
 	padding-horizontal: ${RFValue(6)}px;
 	overflow: hidden;
 	border-color: ${({ theme }) => theme.black4};
-	`
+`
 
 export const Title = styled.Text`
 	font-family: Arvo_700Bold;
 	font-size: ${RFValue(15)}px;
-	`
+`
 
 export const RightArea = styled.View<Omit<SideAreaProps, 'backgroundColor'>>`
-	width: ${({ hasPictureOrSaleValue }) => (hasPictureOrSaleValue ? '66.5%' : '97.5%')};
+	width: ${({ hasPictureOrSaleValue }) => (hasPictureOrSaleValue ? '67%' : '98%')};
 	height: 100%;
 	background-color: ${({ theme }) => theme.white3};
 	padding-horizontal: ${RFValue(7)}px;
