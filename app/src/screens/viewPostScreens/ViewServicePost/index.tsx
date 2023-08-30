@@ -34,7 +34,6 @@ import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
-import { SaleExchangeValue } from '../../../components/SaleExchangeValue'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { ImageCarousel } from '../../../components/ImageCarousel'
@@ -219,18 +218,6 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						width={textHasOnlyNumbers(getPostField('saleValue', true)) ? '60%' : '85%'}
 						navigateToProfile={navigateToProfile}
 					/>
-					{
-						textHasOnlyNumbers(getPostField('saleValue', true)) && (
-							<SaleExchangeValue
-								saleValue={getPostField('saleValue', true)}
-								exchangeValue={getPostField('exchangeValue', true)}
-								breakRow
-								smallFontSize={14}
-								largeFontSize={25}
-								exchangeFontSize={14}
-							/>
-						)
-					}
 				</UserAndValueContainer>
 				<VerticalSigh />
 				<OptionsArea>
