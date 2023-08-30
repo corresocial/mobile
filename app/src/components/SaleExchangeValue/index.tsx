@@ -59,30 +59,24 @@ function SaleExchangeValue({
 						</ValueArea>
 					)
 					: (
-						<ExchangeWord
-							style={{ fontSize: RFValue(smallFontSize) }}
-							numberOfLines={1}
-						>
-							{saleValue}
-						</ExchangeWord>
+						hasSaleValue && (
+							<ExchangeWord
+								style={{ fontSize: RFValue(smallFontSize) }}
+								numberOfLines={1}
+							>
+								{'vendo'}
+							</ExchangeWord>
+						)
 					)
 			}
 			<ExchangeArea>
-				{
-					hasSaleValue && hasExchangeValue && breakRow
-					&& (
-						<SmallFont style={{ fontSize: RFValue(smallFontSize) }}>
-							{' ou '}
-						</SmallFont>
-					)
-				}
 				{
 					hasExchangeValue
 					&& (
 						<ExchangeWord
 							style={{ fontSize: RFValue(exchangeFontSize), padding: breakRow ? '1%' : 0 }}
 						>
-							{'troca'}
+							{`${hasSaleValue ? ' ou ' : ''}troca`}
 						</ExchangeWord>
 					)
 				}

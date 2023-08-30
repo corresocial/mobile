@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { RFValue } from 'react-native-responsive-fontsize'
 import {
 	Container,
 	ContainerInner,
@@ -100,35 +101,38 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 				style={{ marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0 }}
 			>
 				<LeftArea
-					hasPictureOrSaleValue={!arrayIsEmpty(post.picturesUrl) || post.saleValue}
+					hasPictureOrSaleValue={!arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue}
 					backgroundColor={defineLabelColor(true)}
 				>
 					{
-						!arrayIsEmpty(post.picturesUrl) && (
-							<SidePicture
-								source={{
-									uri: (!arrayIsEmpty(post.picturesUrl) && post.picturesUrl[0]) || '',
-								}}
-							/>
-						)
-					}
-					{
-						post.saleValue && (
-							<SaleValueContainer >
-								<SaleValueContainerInner>
-									<SaleExchangeValue
-										smallFontSize={12}
-										largeFontSize={12}
-										exchangeFontSize={12}
-										saleValue={post.saleValue}
-									/>
-								</SaleValueContainerInner>
-							</SaleValueContainer>
-						)
+						<SidePicture
+							hasPicture={!arrayIsEmpty(post.picturesUrl)}
+							source={!arrayIsEmpty(post.picturesUrl) ? { uri: post.picturesUrl[0] } : {}}
+						>
+							{
+								(post.saleValue || post.exchangeValue) && (
+									<>
+										<SaleValueContainer >
+											<SaleValueContainerInner>
+												<SaleExchangeValue
+													smallFontSize={12}
+													largeFontSize={12}
+													exchangeFontSize={12}
+													saleValue={post.saleValue}
+													exchangeValue={post.exchangeValue}
+													breakRow
+												/>
+											</SaleValueContainerInner>
+										</SaleValueContainer>
+										<VerticalSigh height={RFValue(4)} />
+									</>
+								)
+							}
+						</SidePicture>
 					}
 				</LeftArea>
 				<LeftSideLabel style={{ backgroundColor: defineLabelColor() }} />
-				<RightArea hasPictureOrSaleValue={!arrayIsEmpty(post.picturesUrl) || post.saleValue}>
+				<RightArea hasPictureOrSaleValue={!arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue}>
 					<RightAreaLimits>
 						<TitleContainer>
 							<Title numberOfLines={post.description ? 3 : 2}>
@@ -145,7 +149,7 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 					</RightAreaLimits>
 				</RightArea>
 			</ContainerInner>
-		</Container>
+		</Container >
 	)
 }
 

@@ -3,19 +3,14 @@ import styled from 'styled-components/native'
 
 export const Container = styled.View`
 	flex-direction: row;
-	width: 40%;
 `
 
 export const ValueArea = styled.View`
 	flex-direction: row;
-	align-self: flex-end;
-	align-items: flex-end;
 `
 
 export const ExchangeArea = styled.View`
 	flex-direction: row;
-	align-self: flex-end;
-	align-items: flex-end;
 `
 
 export const SmallFont = styled.Text`

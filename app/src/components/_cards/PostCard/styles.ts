@@ -35,26 +35,31 @@ export const LeftArea = styled.View<SideAreaProps>`
 	overflow: hidden;
 `
 
-export const SidePicture = styled.ImageBackground`
+interface SidePictureProps {
+	hasPicture: boolean
+}
+
+export const SidePicture = styled.ImageBackground<SidePictureProps>`
 	width: 100%;
 	height: 100%;
 	resize-mode: contain;
+	align-items: center;
+	justify-content: ${({ hasPicture }) => (hasPicture ? 'flex-end' : 'center')};
+	flex: 1;
 `
 
 export const SaleValueContainer = styled.View`
+	background-color: red;
 	border-width: ${RFValue(2)}px;
 	border-right-width: ${RFValue(5)}px;
 	border-color: ${({ theme }) => theme.black4};
 	border-radius: ${RFValue(7)}px;
 	background-color: ${({ theme }) => theme.black4};
-	position: absolute;
 	align-self: center;
 	align-content: center;
-	bottom: 7%;
 `
 
 export const SaleValueContainerInner = styled.View`
-	flex: 1;
 	border-color: ${({ theme }) => theme.black4};
 	border-radius: ${RFValue(5)}px;
 	padding-horizontal: ${RFValue(4)}px;
@@ -80,7 +85,6 @@ export const Title = styled.Text`
 
 export const RightArea = styled.View<Omit<SideAreaProps, 'backgroundColor'>>`
 	width: ${({ hasPictureOrSaleValue }) => (hasPictureOrSaleValue ? '66.5%' : '97.5%')};
-	width: 65%;
 	height: 100%;
 	background-color: ${({ theme }) => theme.white3};
 	padding-horizontal: ${RFValue(7)}px;
@@ -89,6 +93,6 @@ export const RightArea = styled.View<Omit<SideAreaProps, 'backgroundColor'>>`
 
 export const RightAreaLimits = styled.View`
 	flex: 1;
-	justify-content: center; // between?
+	justify-content: center; // space-around?
 	overflow: hidden;
 `

@@ -77,8 +77,8 @@ function PostLocationView({ backgroundColor, itemsColor, progress, saveLocationV
 						onPress={() => saveLocationViewType('approximate')}
 					/>
 					<OptionButton
-						label={'aproximada'}
-						highlightedWords={['aproximada']}
+						label={'pública'}
+						highlightedWords={['pública']}
 						shortDescription={'os usuários podem ver \nexatamente onde você está'}
 						shortDescriptionHighlightedWords={['\nexatamente', 'onde', 'você', 'está']}
 						shortDescriptionFontSize={14}
