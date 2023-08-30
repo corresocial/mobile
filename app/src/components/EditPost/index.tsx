@@ -27,6 +27,7 @@ import { SubtitleCard } from '../../components/_cards/SubtitleCard'
 import { InstructionCard } from '../../components/_cards/InstructionCard'
 import { updateAllRangeAndLocation } from '../../services/firebase/post/updateAllRangeAndLocation'
 import { DefaultConfirmationModal } from '../_modals/DefaultConfirmationModal'
+import { getShortText } from '../../common/auxiliaryFunctions'
 
 type UserContextFragment = {
 	userDataContext: UserCollection;
@@ -474,8 +475,8 @@ function EditPost({
 			<DefaultConfirmationModal
 				visibility={defaultConfirmationModalIsVisible}
 				title={'descartar'}
-				text={`você tem certeza que deseja descartar as alterações realizadas no post ${getPostField('title')}?`}
-				highlightedWords={[...getPostField('title').split(' ')]}
+				text={`você tem certeza que deseja descartar as alterações realizadas no post ${getShortText(getPostField('description'), 70)}?`}
+				highlightedWords={[...getShortText(getPostField('description'), 70).split(' ')]}
 				buttonKeyword={'descartar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
 				onPressButton={navigateBackwards}

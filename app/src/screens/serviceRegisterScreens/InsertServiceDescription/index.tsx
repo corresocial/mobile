@@ -3,14 +3,13 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { theme } from '../../../common/theme'
 
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-
 import { InsertServiceDescriptionScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
-import { EditContext } from '../../../contexts/EditContext'
 import { ServiceContext } from '../../../contexts/ServiceContext'
+import { EditContext } from '../../../contexts/EditContext'
 
-import { PostInputDescription } from '../../../components/_onboarding/PostInputDescription'
+import { PostInputText } from '../../../components/_onboarding/PostInputText'
+import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 function InsertServiceDescription({ route, navigation }: InsertServiceDescriptionScreenProps) {
 	const { isSecondPost, setServiceDataOnContext } = useContext(ServiceContext)
@@ -27,6 +26,8 @@ function InsertServiceDescription({ route, navigation }: InsertServiceDescriptio
 		return unsubscribe
 	}, [navigation])
 
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
 	const validateServiceDescription = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
@@ -35,28 +36,26 @@ function InsertServiceDescription({ route, navigation }: InsertServiceDescriptio
 		return false
 	}
 
-	const saveServiceDescription = (description: string) => {
+	const saveServiceDescription = (inputText: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ description })
+			addNewUnsavedFieldToEditContext({ description: inputText })
 			navigation.goBack()
 			return
 		}
 
-		setServiceDataOnContext({ description })
-		navigation.navigate('ServicePicturePreview')
+		setServiceDataOnContext({ description: inputText })
+		navigation.navigate('SelectServiceRange')
 	}
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
-			<PostInputDescription
+			<PostInputText
+				multiline
 				backgroundColor={theme.purple2}
 				validationColor={theme.purple1}
-				inputPlaceholder={'ex: marcenaria especializada em projetos.'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, isSecondPost ? 3 : 5]}
+				progress={[2, isSecondPost ? 3 : 4]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateServiceDescription}
 				navigateBackwards={() => navigation.goBack()}
