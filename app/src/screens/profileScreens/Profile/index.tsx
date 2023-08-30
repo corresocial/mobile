@@ -594,11 +594,11 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 													isVerifiable={
 														!isLoggedUser
 														&& userDataContext.verified
-														&& (userDataContext.verified.type === 'leader' || userDataContext.verified.type === 'admin')
+														&& (userDataContext.verified.type === 'leader' || userDataContext.verified.admin)
 														&& user
 														&& !user.verified
 													}
-													isAdmin={userDataContext.verified && userDataContext.verified.type === 'admin' && (
+													isAdmin={userDataContext.verified && userDataContext.verified.admin && (
 														(user.subscription && user.subscription.subscriptionRange === 'near') || !user.subscription
 													)}
 													buttonLabel={'denunciar perfil'}

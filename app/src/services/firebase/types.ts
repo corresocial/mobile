@@ -94,13 +94,14 @@ export type SocialMedia = {
 	link: string
 }
 
-export type VerifiedLabelName = 'leader' | 'impact' | 'default' | 'admin'
+export type VerifiedLabelName = 'leader' | 'impact' | 'default'
 
 export type VerifiedType = {
 	type: VerifiedLabelName
 	by: string
 	name: string
 	at: Date
+	admin?: boolean
 }
 
 export type UserSubscription = {
