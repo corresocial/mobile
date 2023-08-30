@@ -38,7 +38,7 @@ export const ExchangeWord = styled.Text`
 
 export const Decimals = styled.Text`
 	font-size: ${RFValue(12)}px;
-	font-family: Arvo_400Regular;
+	font-family: Arvo_700Bold;
 	margin-right: 1%;
 	padding-bottom: 1%;
 `

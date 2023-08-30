@@ -28,7 +28,7 @@ function SaleExchangeValue({
 
 	if (saleValue === 'a combinar') {
 		return (
-			<LargeFont style={{ fontSize: RFValue(exchangeFontSize) }}>
+			<LargeFont style={{ fontSize: RFValue(exchangeFontSize - 0.5) }}>
 				{saleValue}
 			</LargeFont>
 		)
@@ -69,7 +69,7 @@ function SaleExchangeValue({
 			}
 			<ExchangeArea>
 				{
-					hasSaleValue && hasExchangeValue
+					hasSaleValue && hasExchangeValue && breakRow
 					&& (
 						<SmallFont style={{ fontSize: RFValue(smallFontSize) }}>
 							{' ou '}
