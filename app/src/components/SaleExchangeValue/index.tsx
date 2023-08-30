@@ -3,6 +3,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, Decimals, LargeFont, SmallFont, ValueArea, ExchangeArea, ExchangeWord } from './styles'
 import { textHasOnlyNumbers } from '../../utils/validationFunctions'
+import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
 
 interface SaleExchangeValueProps {
 	saleValue?: string | undefined
@@ -74,9 +75,9 @@ function SaleExchangeValue({
 					hasExchangeValue
 					&& (
 						<ExchangeWord
-							style={{ fontSize: RFValue(exchangeFontSize), padding: breakRow ? '1%' : 0 }}
+							style={{ fontSize: RFValue(exchangeFontSize), fontFamily: 'Arvo_400Regular' }}
 						>
-							{`${hasSaleValue ? ' ou ' : ''}troca`}
+							{showMessageWithHighlight(`${hasSaleValue ? ' ou ' : ''}troca`, ['troca'])}
 						</ExchangeWord>
 					)
 				}

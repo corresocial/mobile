@@ -6,13 +6,11 @@ import { theme } from '../../../common/theme'
 import { SelectPaymentTypeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { PaymentType } from '../../../services/firebase/types'
 
-import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PaymentMethod } from '../../../components/_onboarding/PaymentMethod'
 
 function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) {
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -22,8 +20,6 @@ function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) 
 			case 'sale': {
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({ exchangeValue: '' })
-				} else {
-					setVacancyDataOnContext({ exchangeValue: '' })
 				}
 
 				navigation.navigate('SelectSaleValueType', { bothPaymentType: false, editMode: editModeIsTrue() })
@@ -32,15 +28,12 @@ function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) 
 			case 'exchange': {
 				if (editModeIsTrue()) {
 					addNewUnsavedFieldToEditContext({ saleValue: '' })
-				} else {
-					setVacancyDataOnContext({ saleValue: '' })
 				}
 
 				navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
 				break
 			}
 			case 'both': {
-				setVacancyDataOnContext({ paymentType })
 				navigation.navigate('SelectSaleValueType', { bothPaymentType: true, editMode: editModeIsTrue() })
 				break
 			}
