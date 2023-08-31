@@ -109,7 +109,6 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	}
 
 	const sharePost = () => {
-		console.log(isAuthor)
 		share(`Olha o que ${isAuthor ? 'estou anunciando' : 'encontrei'} no corre.\n\n${getShortText(getPostField('description'), 170)}\n\nhttps://corre.social/p/${getPostField('postId')}`)
 	}
 

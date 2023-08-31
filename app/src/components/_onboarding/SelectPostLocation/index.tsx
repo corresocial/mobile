@@ -213,7 +213,7 @@ function SelectPostLocation({
 				<InstructionCard
 					message={'qual é o endereço?'}
 					highlightedWords={['endereço']}
-					fontSize={17}
+					fontSize={16}
 				/>
 			</DefaultHeaderContainer>
 			<MapContainer onLayout={({ nativeEvent }: LayoutChangeEvent) => !mapContainerDimensions.width && setMapContainerDimensions(nativeEvent.layout)}>

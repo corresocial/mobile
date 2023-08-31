@@ -57,7 +57,7 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 				labelSize={18}
 				relativeHeight={'25%'}
 				SvgIcon={ComputerAndPhoneWhiteIcon}
-				svgIconScale={['65%', '65%']}
+				svgIconScale={['55%', '55%']}
 				leftSideColor={theme.yellow3}
 				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('homeoffice')}
@@ -69,7 +69,7 @@ function SelectWorkplace({ route, navigation }: SelectWorkplaceScreenProps) {
 				relativeHeight={'25%'}
 				SvgIcon={ShopWhiteIcon}
 				SecondSvgIcon={ComputerAndPhoneWhiteIcon}
-				svgIconScale={['40%', '50%']}
+				svgIconScale={['40%', '55%']}
 				leftSideColor={theme.yellow3}
 				leftSideWidth={'25%'}
 				onPress={() => saveWorkplaceType('hybrid')}
