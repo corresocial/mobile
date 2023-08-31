@@ -112,7 +112,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	}
 
 	const sharePost = () => {
-		share(`${isAuthor ? 'tô' : 'estão'} anunciando lá no corre.\n\nhttps://corre.social/p/${getPostField('postId')}`)
+		share(`Olha o que ${isAuthor ? 'estou anunciando' : 'encontrei'} no corre.\n\n${getShortText(getPostField('description'), 170)}\n\nhttps://corre.social/p/${getPostField('postId')}`)
 	}
 
 	const getUserProfilePictureFromContext = () => {
