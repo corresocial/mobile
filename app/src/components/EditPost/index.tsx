@@ -305,7 +305,7 @@ function EditPost({
 				})
 
 				setIsLoading(false)
-				showShareModal(true, postDataToSave.title, postDataToSave.postId)
+				showShareModal(true, getShortText(postDataToSave.description, 70), postDataToSave.postId)
 				navigateToPostView({ ...postDataToSave, owner } as any) // TODO
 			})
 			.catch((err: any) => {
