@@ -18,7 +18,7 @@ export const Container = styled.View<ContainerProps>`
 	max-width: ${({ maxWidth }) => maxWidth}px;
 	border-width: ${({ borderWidth }) => (borderWidth ? RFValue(borderWidth) : 0)}px;
 	border-right-width: ${({ borderRightWidth }) => (borderRightWidth ? RFValue(borderRightWidth) : 0)}px;
-	border-radius: ${({ circle }) => (circle ? RFValue(500) : RFValue(18))}px;
+	border-radius: ${({ circle }) => (circle ? RFValue(500) : RFValue(13))}px;
 
     background-color: ${({ theme }) => theme.black4};
     border-color: ${({ theme }) => theme.black4};
@@ -36,13 +36,13 @@ export const PortraitImage = styled.Image<PortraitImageProps>`
 	width: 100%;
 	height: 100%;
 	resize-mode: ${({ resizeMode }) => resizeMode || 'cover'};
-	border-radius: ${({ circle }) => (circle ? RFValue(500) : RFValue(13))}px;
+	border-radius: ${({ circle }) => (circle ? RFValue(500) : RFValue(9))}px;
 `
 
 export const NoPhotoContainer = styled.View`
 	flex: 1;
     background-color: ${({ theme }) => theme.white3};
-	border-radius: ${RFValue(14)}px;
+	border-radius: ${RFValue(10)}px;
 	overflow: hidden;
 `
 
