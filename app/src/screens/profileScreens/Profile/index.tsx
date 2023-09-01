@@ -131,11 +131,22 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		const posts = getUserPosts()
 		return posts.filter((post: any) => {
 			const matchs = selectedTags.map((tag: string) => {
-				if (post.postType === tag) return true
+				if (getRelativeMacroTagLabel(post.postType) === tag) return true
 				return false
 			}, [])
 			return !!matchs.includes(true)
 		})
+	}
+
+	const getRelativeMacroTagLabel = (macroTag: string): string => {
+		switch (macroTag) {
+			case 'sale': return 'vendas'
+			case 'service': return 'serviços'
+			case 'vacancy': return 'vagas'
+			case 'culture': return 'cultura'
+			case 'socialImpact': return 'impacto social'
+			default: return ''
+		}
 	}
 
 	const onSelectTag = (tagName: string) => {
@@ -623,6 +634,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 									<HorizontalTagList
 										tags={getUserPostMacroTags()}
 										selectedTags={selectedTags}
+										filterSelectedTags={getRelativeMacroTagLabel}
 										onSelectTag={onSelectTag}
 									/>
 									<VerticalSigh />
