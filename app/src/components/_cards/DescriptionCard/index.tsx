@@ -19,6 +19,10 @@ interface DescriptionCardProps {
 }
 
 function DescriptionCard({ title, text, hightligtedWords, children, textFontSize = 14, onEdit }: DescriptionCardProps) {
+	const sumarizedSubscriptionSize = 200
+
+	const showResizeLabel = text.length >= sumarizedSubscriptionSize
+
 	const [escriptionIsExpanded, setDescriptionIsExpanded] = useState(false)
 
 	const toggleDescriptionIsExpanded = () => {
@@ -38,8 +42,8 @@ function DescriptionCard({ title, text, hightligtedWords, children, textFontSize
 				/>
 			</EditHeaderContainer>
 			<LongText style={{ fontSize: RFValue(textFontSize) }}>
-				{escriptionIsExpanded ? text : getShortText(text, 200)}
-				<SeeMoreLabel onPress={toggleDescriptionIsExpanded}>{escriptionIsExpanded ? ' mostrar menos' : 'mostrar mais'}</SeeMoreLabel>
+				{escriptionIsExpanded && showResizeLabel ? text : getShortText(text, sumarizedSubscriptionSize)}
+				{showResizeLabel && <SeeMoreLabel onPress={toggleDescriptionIsExpanded}>{escriptionIsExpanded ? ' mostrar menos' : 'mostrar mais'}</SeeMoreLabel>}
 			</LongText>
 			{children}
 		</DefaultCardContainer>
