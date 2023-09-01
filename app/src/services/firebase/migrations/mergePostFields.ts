@@ -94,6 +94,7 @@ const migrateFields = (userPosts: any[], doc: any) => {
 					const postsDesnormalized = {
 						...post,
 						description: `${post.title ? `${post.title}. ` : ''}${post.description || ''} `,
+						...customDateTimes
 					}
 
 					if (postsDesnormalized.owner) delete postsDesnormalized.owner

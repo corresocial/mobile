@@ -234,8 +234,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}
 
 	const goToEditProfile = async () => {
-		mergePostFields()
-		// navigation.navigate('EditProfile' as any, { user })
+		navigation.navigate('EditProfile' as any, { user })
 	}
 
 	const navigationToBack = () => navigation.goBack()
