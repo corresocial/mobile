@@ -65,7 +65,7 @@ function SaleExchangeValue({
 								style={{ fontSize: RFValue(smallFontSize) }}
 								numberOfLines={1}
 							>
-								{'vendo'}
+								{'vende'}
 							</ExchangeWord>
 						)
 					)

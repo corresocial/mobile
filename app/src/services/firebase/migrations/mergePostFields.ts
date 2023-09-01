@@ -16,9 +16,9 @@ const mergePostFields = async () => {
 
 	const userSnapshot = await getDocs(usersQuery)
 	userSnapshot.forEach((doc) => {
-		if (doc.id === 'ndlE8OSkN5apjwcVKqWlSjhTIcI2') { // MOCK USER
-			docs.push({ userId: doc.id, ...doc.data() })
-		}
+		// if (doc.id === 'ndlE8OSkN5apjwcVKqWlSjhTIcI2') { // MOCK USER
+		docs.push({ userId: doc.id, ...doc.data() })
+		// }
 	})
 
 	docs.map(async (doc: any) => {
