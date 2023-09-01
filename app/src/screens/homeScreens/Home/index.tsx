@@ -7,7 +7,6 @@ import { Alert, Platform, RefreshControl } from 'react-native'
 import { getLocales } from 'expo-localization'
 
 import {
-	AdSubscriptionContainer,
 	Container,
 	ContainerPadding,
 	DropdownContainer,
@@ -20,7 +19,7 @@ import { searchAddressByText } from '../../../services/maps/searchAddressByText'
 import { structureAddress, structureExpoLocationAddress } from '../../../utils/maps/addressFormatter'
 import { getLastRecentAddress, getRecentAdressesFromStorage } from '../../../utils/maps/recentAddresses'
 import { getPostsByLocationCloud } from '../../../services/cloudFunctions/getPostsByLocationCloud'
-// import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
+import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
 import { getCurrentLocation } from '../../../utils/maps/getCurrentLocation'
 
 import {
@@ -49,7 +48,6 @@ import { VerticalSigh } from '../../../components/VerticalSigh'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { getAndUpdateUserToken } from '../../../services/firebase/chat/getAndUpdateUserToken'
 import { getReverseGeocodeByMapsApi } from '../../../services/maps/getReverseGeocodeByMapsApi'
-import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
 import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
 import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
 
@@ -202,7 +200,7 @@ function Home({ navigation }: HomeScreenProps) {
 				userDataContext.userId as Id
 			)
 
-			//  const remoteFeedPosts = await getPostsByLocation(searchParams)
+			// const remoteFeedPosts = await getPostsByLocation(searchParams)
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
 			refresh ? setFeedIsUpdating(false) : setLoaderIsVisible(false)
