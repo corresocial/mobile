@@ -67,7 +67,6 @@ import { relativeScreenHeight, relativeScreenWidth } from '../../../common/scree
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { setFreeTrialPlans } from '../../../services/stripe/scripts/setFreeTrialPlans'
 import { StripeContext } from '../../../contexts/StripeContext'
-import { mergePostFields } from '../../../services/firebase/migrations/mergePostFields'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
