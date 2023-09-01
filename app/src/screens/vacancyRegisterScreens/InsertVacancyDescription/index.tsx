@@ -36,12 +36,12 @@ function InsertVacancyDescription({ route, navigation }: InsertVacancyDescriptio
 
 	const saveVacancyTitle = (inputText: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ description: inputText })
+			addNewUnsavedFieldToEditContext({ title: inputText, description: inputText })
 			navigation.goBack()
 			return
 		}
 
-		setVacancyDataOnContext({ description: inputText })
+		setVacancyDataOnContext({ title: inputText, description: inputText })
 		navigation.navigate('SelectWorkplace')
 	}
 

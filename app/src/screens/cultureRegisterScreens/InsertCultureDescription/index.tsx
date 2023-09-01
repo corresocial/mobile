@@ -36,12 +36,12 @@ function InsertCultureDescription({ route, navigation }: InsertCultureDescriptio
 
 	const saveCultureTitle = (inputText: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ description: inputText })
+			addNewUnsavedFieldToEditContext({ title: inputText, description: inputText })
 			navigation.goBack()
 			return
 		}
 
-		setCultureDataOnContext({ description: inputText })
+		setCultureDataOnContext({ title: inputText, description: inputText })
 		navigation.navigate('SelectCultureRange')
 	}
 
