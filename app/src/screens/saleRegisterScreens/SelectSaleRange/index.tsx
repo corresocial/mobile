@@ -45,7 +45,8 @@ function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 					params: {
 						postData: {
 							...saleDataContext,
-							range: postRange
+							range: postRange,
+							deliveryMethod: saleDataContext.deliveryMethod || 'unavailable',
 						},
 						unsavedPost: true
 					}
