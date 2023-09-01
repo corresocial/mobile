@@ -44,7 +44,7 @@ function SelectCulturePlaceModality({ route, navigation }: SelectCulturePlaceMod
 				labelSize={18}
 				relativeHeight={'25%'}
 				SvgIcon={ComputerAndPhoneWhiteIcon}
-				svgIconScale={['70%', '70%']}
+				svgIconScale={['55%', '55%']}
 				leftSideColor={theme.blue3}
 				leftSideWidth={'25%'}
 				onPress={() => saveEventPlaceModality('online')}

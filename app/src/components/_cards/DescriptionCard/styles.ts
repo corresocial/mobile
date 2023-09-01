@@ -7,3 +7,9 @@ export const LongText = styled.Text`
 	font-size: ${RFValue(14)}px;
 	font-family: Arvo_400Regular;
 `
+
+export const SeeMoreLabel = styled.Text`
+	font-size: ${RFValue(12)}px;
+	font-family: Arvo_400Regular;
+	color: ${({ theme }) => theme.orange4};
+`

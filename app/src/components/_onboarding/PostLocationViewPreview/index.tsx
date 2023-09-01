@@ -61,7 +61,7 @@ function PostLocationViewPreview({
 							? `localização⠀ \n${getRelativeLocationView(locationViewSelected)}`
 							: `seu alcance\n ●  ${getRelativeRange(postRange)}`
 					}
-					titleFontSize={18}
+					titleFontSize={22}
 					description={
 						firstStep
 							? getLocationViewDescription(locationViewSelected)

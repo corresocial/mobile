@@ -201,16 +201,9 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					onEdit={() => navigateToEditScreen('SelectItemStatus', 'itemStatus')}
 				/>
 				<VerticalSigh />
-				<EditCard
-					title={'título do post'}
-					highlightedWords={['título']}
-					value={getPostField('title')}
-					onEdit={() => navigateToEditScreen('InsertSaleTitle', 'title')}
-				/>
-				<VerticalSigh />
 				<DescriptionCard
 					text={getPostField('description')}
-					onEdit={() => navigateToEditScreen('InsertItemDescription', 'description')}
+					onEdit={() => navigateToEditScreen('InsertSaleDescription', 'description')}
 				/>
 				<VerticalSigh />
 				<EditCard

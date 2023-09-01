@@ -54,8 +54,6 @@ function ServiceLocationViewPreview({ route, navigation }: ServiceLocationViewPr
 					postData: {
 						...serviceDataContext,
 						locationView,
-						paymentType: serviceDataContext.paymentType || 'sale',
-						saleValue: serviceDataContext.saleValue || 'a combinar',
 						deliveryMethod: serviceDataContext.deliveryMethod || 'unavailable',
 					},
 					unsavedPost: true,

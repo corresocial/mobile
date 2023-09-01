@@ -21,7 +21,7 @@ interface ContainerInnerProps {
 
 export const ContainerInner = styled.View<ContainerInnerProps>`
 	background-color: ${({ theme }) => theme.white3};
-	border-radius: ${RFValue(15)}px;
+	border-radius: ${RFValue(18)}px;
 	border: ${RFValue(2.5)}px solid black;
 	right: ${RFValue(5)}px;
 	position: ${({ pressionable }) => (pressionable ? 'absolute' : 'relative')};

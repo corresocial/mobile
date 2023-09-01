@@ -54,8 +54,6 @@ function SaleLocationViewPreview({ route, navigation }: SaleLocationViewPreviewS
 					postData: {
 						...saleDataContext,
 						locationView,
-						paymentType: saleDataContext.paymentType || 'sale',
-						saleValue: saleDataContext.saleValue || 'a combinar',
 						deliveryMethod: saleDataContext.deliveryMethod || 'unavailable',
 					},
 					unsavedPost: true,

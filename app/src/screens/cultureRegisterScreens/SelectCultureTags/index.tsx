@@ -34,7 +34,7 @@ function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) 
 		}
 
 		setCultureDataOnContext({ tags: tagsSelected })
-		navigation.navigate('InsertCultureTitle')
+		navigation.navigate('InsertCultureDescription')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

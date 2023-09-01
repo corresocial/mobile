@@ -163,6 +163,12 @@ const emailIsValid = (email?: string) => {
 	return email.match(emailRegex)
 }
 
+const getShortText = (longText: string, size: number) => {
+	if (!longText) return ''
+	if (longText.length <= size) return longText
+	return `${longText.slice(0, size)}...`
+}
+
 export {
 	arrayIsEmpty, // array validation
 	showMessageWithHighlight, // string highlight
@@ -174,5 +180,6 @@ export {
 	sortArray, // sort array
 	sortPostCategories, // sort array
 	sortPostsByCreatedData, //  sort post array
-	emailIsValid
+	emailIsValid,
+	getShortText
 }

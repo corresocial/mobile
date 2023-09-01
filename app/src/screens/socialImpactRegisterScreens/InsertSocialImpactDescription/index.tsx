@@ -9,8 +9,7 @@ import { InsertSocialImpactDescriptionScreenProps } from '../../../routes/Stack/
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { EditContext } from '../../../contexts/EditContext'
-
-import { PostInputDescription } from '../../../components/_onboarding/PostInputDescription'
+import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpactDescriptionScreenProps) {
 	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
@@ -27,7 +26,7 @@ function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpact
 		return unsubscribe
 	}, [navigation])
 
-	const validateSocialImpactDescription = (text: string) => {
+	const validateSocialImpactTitle = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
 			return true
@@ -35,15 +34,15 @@ function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpact
 		return false
 	}
 
-	const saveSocialImpactDescription = (description: string) => {
+	const saveSocialImpactTitle = (inputText: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ description })
+			addNewUnsavedFieldToEditContext({ description: inputText })
 			navigation.goBack()
 			return
 		}
 
-		setSocialImpactDataOnContext({ description })
-		navigation.navigate('SocialImpactPicturePreview')
+		setSocialImpactDataOnContext({ description: inputText })
+		navigation.navigate('SelectSocialImpactRange')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -51,16 +50,17 @@ function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpact
 	return (
 		<>
 			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
-			<PostInputDescription
+			<PostInputText
+				multiline
 				backgroundColor={theme.pink2}
 				validationColor={theme.pink1}
-				inputPlaceholder={'ex: projeto de arrecadação para o dia das crianças.'}
+				inputPlaceholder={'ex: projeto criança feliz'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, isSecondPost ? 2 : 4]}
+				progress={[4, isSecondPost ? 5 : 6]}
 				keyboardOpened={keyboardOpened}
-				validateInputText={validateSocialImpactDescription}
+				validateInputText={validateSocialImpactTitle}
 				navigateBackwards={() => navigation.goBack()}
-				saveTextData={saveSocialImpactDescription}
+				saveTextData={saveSocialImpactTitle}
 			/>
 		</>
 	)

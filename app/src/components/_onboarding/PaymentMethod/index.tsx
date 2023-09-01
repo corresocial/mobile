@@ -6,6 +6,7 @@ import { theme } from '../../../common/theme'
 import SalesCartWhiteIcon from '../../../assets/icons/salesCart-white.svg'
 import ExchangeWhiteIcon from '../../../assets/icons/exchange-white.svg'
 import CashWhiteIcon from '../../../assets/icons/cash-white.svg'
+import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 
 import { PaymentType } from '../../../services/firebase/types'
 
@@ -13,8 +14,10 @@ import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer
 import { FormContainer } from '../../_containers/FormContainer'
 import { BackButton } from '../../_buttons/BackButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { OptionButton } from '../../_buttons/OptionButton'
+import { HorizontalSpacing } from '../../HorizontalSpacing'
+import { SmallButton } from '../../_buttons/SmallButton'
 
 interface PaymentMethodProps {
 	backgroundColor: string
@@ -22,6 +25,7 @@ interface PaymentMethodProps {
 	customTitle?: string
 	customHighlight?: string[]
 	isVacancy?: boolean
+	skipScreen?: () => void
 	savePaymentMethod: (paymentType: PaymentType) => void
 	navigateBackwards: () => void
 }
@@ -32,8 +36,9 @@ function PaymentMethod({
 	customTitle,
 	customHighlight,
 	isVacancy,
-	savePaymentMethod,
-	navigateBackwards
+	skipScreen,
+	navigateBackwards,
+	savePaymentMethod
 }: PaymentMethodProps) {
 	return (
 		<Container>
@@ -49,6 +54,22 @@ function PaymentMethod({
 					message={customTitle || 'você vende, aceita troca ou os dois ?'}
 					highlightedWords={customHighlight || ['vende', 'aceita', 'troca', 'os', 'dois']}
 				/>
+				{
+					skipScreen ? (
+						<>
+							<HorizontalSpacing />
+							<SmallButton
+								SvgIcon={TrashWhiteIcon}
+								color={theme.red3}
+								height={relativeScreenWidth(11)}
+								relativeWidth={relativeScreenWidth(11)}
+								svgScale={['60%', '60%']}
+								onPress={skipScreen}
+							/>
+						</>
+					)
+						: <></>
+				}
 			</DefaultHeaderContainer>
 			<FormContainer
 				backgroundColor={theme.white3}

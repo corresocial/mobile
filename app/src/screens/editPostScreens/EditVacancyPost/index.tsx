@@ -204,13 +204,6 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					onEdit={() => navigateToEditScreen('SelectVacancyCategory', 'tags')}
 				/>
 				<VerticalSigh />
-				<EditCard
-					title={'título do post'}
-					highlightedWords={['título']}
-					value={getPostField('title')}
-					onEdit={() => navigateToEditScreen('InsertVacancyTitle', 'title')}
-				/>
-				<VerticalSigh />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertVacancyDescription', 'description')}

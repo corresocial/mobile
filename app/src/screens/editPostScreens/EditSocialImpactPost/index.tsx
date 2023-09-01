@@ -215,13 +215,6 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					onEdit={() => navigateToEditScreen('SelectSocialImpactCategory', 'tags')}
 				/>
 				<VerticalSigh />
-				<EditCard
-					title={'título do post'}
-					highlightedWords={['título']}
-					value={getPostField('title')}
-					onEdit={() => navigateToEditScreen('InsertSocialImpactTitle', 'title')}
-				/>
-				<VerticalSigh />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertSocialImpactDescription', 'description')}

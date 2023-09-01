@@ -44,7 +44,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	const filterPostsByRange = (post: PostCollectionRemote) => {
 		return post.category === categoryName
 			&& post.postType === locationDataContext.searchParams.postType
-			&& !!post.title.match(new RegExp(`${searchText}`, 'i'))?.length
+			&& !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length
 			&& !!post.tags.includes(route.params.currentTagSelected)
 	}
 

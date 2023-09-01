@@ -48,7 +48,7 @@ function InsertVacancyValue({ navigation, route }: InsertSaleValueScreenProps) {
 		}
 
 		if (bothPaymentType) {
-			navigation.navigate('InsertExchangeValue')
+			navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
 		}
 	}
 

@@ -3,16 +3,17 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { theme } from '../../../common/theme'
 
-import { InsertCultureTitleScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { CultureContext } from '../../../contexts/CultureContext'
+import { InsertSaleDescriptionScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
+
+import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
-function InsertCultureTitle({ route, navigation }: InsertCultureTitleScreenProps) {
-	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)
+function InsertSaleDescription({ route, navigation }: InsertSaleDescriptionScreenProps) {
+	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -26,7 +27,7 @@ function InsertCultureTitle({ route, navigation }: InsertCultureTitleScreenProps
 		return unsubscribe
 	}, [navigation])
 
-	const validateCultureTitle = (text: string) => {
+	const validateSaleDescription = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
 			return true
@@ -34,35 +35,35 @@ function InsertCultureTitle({ route, navigation }: InsertCultureTitleScreenProps
 		return false
 	}
 
-	const saveCultureTitle = (inputText: string) => {
+	const saveSaleDescription = (inputText: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ title: inputText })
+			addNewUnsavedFieldToEditContext({ description: inputText })
 			navigation.goBack()
 			return
 		}
 
-		setCultureDataOnContext({ title: inputText })
-		navigation.navigate('SelectCultureRange')
+		setSaleDataOnContext({ description: inputText })
+		navigation.navigate('SelectSaleRange')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.blue2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostInputText
 				multiline
-				backgroundColor={theme.blue2}
-				validationColor={theme.blue1}
+				backgroundColor={theme.green2}
+				validationColor={theme.green1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[3, isSecondPost ? 4 : 5]}
 				keyboardOpened={keyboardOpened}
-				validateInputText={validateCultureTitle}
+				validateInputText={validateSaleDescription}
 				navigateBackwards={() => navigation.goBack()}
-				saveTextData={saveCultureTitle}
+				saveTextData={saveSaleDescription}
 			/>
 		</>
 	)
 }
 
-export { InsertCultureTitle }
+export { InsertSaleDescription }

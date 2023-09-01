@@ -5,7 +5,6 @@ export type VacancyStackParamList = {
 	SelectVacancyPurpose: { editMode: boolean } | undefined
 	SelectVacancyCategory: { editMode: boolean } | undefined
 	SelectVacancyTags: { categorySelected: VacancyCategories, editMode?: boolean }
-	InsertVacancyTitle: { editMode: boolean, initialValue: string } | undefined
 	InsertVacancyDescription: { editMode: boolean, initialValue: string } | undefined
 	InsertVacancyImportantPoints: { editMode: boolean, initialValue: string[] } | undefined
 	VacancyPicturePreview: { editMode: boolean, initialValue: string[] } | undefined

@@ -67,11 +67,11 @@ async function searchPosts(searchText: string, searchParams: SearchParams, searc
 				return acc
 			}, []),)
 
-		results.forEach((post: any) => console.log(`${post.title} - ${post.postType} - ${post.range}`))
+		results.forEach((post: any) => console.log(`${post.description} - ${post.postType} - ${post.range}`))
 
 		const filteredResults = removeDuplicatesByPostId(results)
 
-		results.forEach((post: any) => console.log(`${post.title} - ${post.postType} - ${post.range}`))
+		results.forEach((post: any) => console.log(`${post.description} - ${post.postType} - ${post.range}`))
 
 		return spreadPostsByRange(filteredResults) as FeedPosts
 	} catch (err) {

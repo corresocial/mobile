@@ -51,7 +51,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	const filterPostsByRange = (post: PostCollectionRemote) => {
 		return post.category === categoryName
 			&& post.postType === locationDataContext.searchParams.postType
-			&& !!post.title.match(new RegExp(`${searchText}`, 'i'))?.length
+			&& !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length
 	}
 
 	const filteredFeedPosts = filterPostsByCategory()

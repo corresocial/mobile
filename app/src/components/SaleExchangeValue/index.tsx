@@ -3,6 +3,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, Decimals, LargeFont, SmallFont, ValueArea, ExchangeArea, ExchangeWord } from './styles'
 import { textHasOnlyNumbers } from '../../utils/validationFunctions'
+import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
 
 interface SaleExchangeValueProps {
 	saleValue?: string | undefined
@@ -28,7 +29,7 @@ function SaleExchangeValue({
 
 	if (saleValue === 'a combinar') {
 		return (
-			<LargeFont style={{ fontSize: RFValue(exchangeFontSize) }}>
+			<LargeFont style={{ fontSize: RFValue(exchangeFontSize - 0.5) }}>
 				{saleValue}
 			</LargeFont>
 		)
@@ -59,30 +60,24 @@ function SaleExchangeValue({
 						</ValueArea>
 					)
 					: (
-						<ExchangeWord
-							style={{ fontSize: RFValue(smallFontSize) }}
-							numberOfLines={1}
-						>
-							{saleValue}
-						</ExchangeWord>
+						hasSaleValue && (
+							<ExchangeWord
+								style={{ fontSize: RFValue(smallFontSize) }}
+								numberOfLines={1}
+							>
+								{'vendo'}
+							</ExchangeWord>
+						)
 					)
 			}
 			<ExchangeArea>
 				{
-					hasSaleValue && hasExchangeValue
-					&& (
-						<SmallFont style={{ fontSize: RFValue(smallFontSize) }}>
-							{' ou '}
-						</SmallFont>
-					)
-				}
-				{
 					hasExchangeValue
 					&& (
 						<ExchangeWord
-							style={{ fontSize: RFValue(exchangeFontSize), padding: breakRow ? '1%' : 0 }}
+							style={{ fontSize: RFValue(exchangeFontSize), fontFamily: 'Arvo_400Regular' }}
 						>
-							{'troca'}
+							{showMessageWithHighlight(`${hasSaleValue ? ' ou ' : ''}troca`, ['troca'])}
 						</ExchangeWord>
 					)
 				}

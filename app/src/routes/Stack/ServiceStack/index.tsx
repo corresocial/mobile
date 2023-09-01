@@ -4,11 +4,10 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 
 import { ServiceStackParamList } from './types'
 
-import { InsertServiceTitle } from '../../../screens/serviceRegisterScreens/InsertServiceTitle'
-import { InsertServiceDescription } from '../../../screens/serviceRegisterScreens/InsertServiceDescription'
 import { SelectServiceCategory } from '../../../screens/serviceRegisterScreens/SelectServiceCategory'
-import { ServicePicturePreview } from '../../../screens/serviceRegisterScreens/ServicePicturePreview'
 import { SelectServiceTags } from '../../../screens/serviceRegisterScreens/SelectServiceTags'
+import { InsertServiceDescription } from '../../../screens/serviceRegisterScreens/InsertServiceDescription'
+import { ServicePicturePreview } from '../../../screens/serviceRegisterScreens/ServicePicturePreview'
 import { SelectPaymentType } from '../../../screens/serviceRegisterScreens/SelectPaymentType'
 import { InsertExchangeValue } from '../../../screens/serviceRegisterScreens/InsertExchangeValue'
 import { InsertServicePrestationLocation } from '../../../screens/serviceRegisterScreens/InsertServicePrestationLocation'
@@ -40,7 +39,6 @@ export function ServiceStack() {
 			>
 				<Stack.Screen name={'SelectServiceCategory'} component={SelectServiceCategory} />
 				<Stack.Screen name={'SelectServiceTags'} component={SelectServiceTags} />
-				<Stack.Screen name={'InsertServiceTitle'} component={InsertServiceTitle} />
 				<Stack.Screen name={'InsertServiceDescription'} component={InsertServiceDescription} />
 				<Stack.Screen name={'ServicePicturePreview'} component={ServicePicturePreview} />
 				<Stack.Screen name={'SelectPaymentType'} component={SelectPaymentType} />

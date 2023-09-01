@@ -33,7 +33,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 		const { postsByRange } = route.params
 
 		if (searchText) {
-			return postsByRange.filter((post: PostCollectionRemote) => !!post.title.match(new RegExp(`${searchText}`, 'i'))?.length)
+			return postsByRange.filter((post: PostCollectionRemote) => !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length)
 		}
 		return postsByRange
 	}

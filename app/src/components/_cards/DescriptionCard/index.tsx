@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { LongText } from './styles'
+import { LongText, SeeMoreLabel } from './styles'
 import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import { getShortText } from '../../../common/auxiliaryFunctions'
 
 interface DescriptionCardProps {
 	title?: string
@@ -18,6 +19,16 @@ interface DescriptionCardProps {
 }
 
 function DescriptionCard({ title, text, hightligtedWords, children, textFontSize = 14, onEdit }: DescriptionCardProps) {
+	const sumarizedSubscriptionSize = 200
+
+	const showResizeLabel = text.length >= sumarizedSubscriptionSize
+
+	const [escriptionIsExpanded, setDescriptionIsExpanded] = useState(false)
+
+	const toggleDescriptionIsExpanded = () => {
+		setDescriptionIsExpanded((previousState) => !previousState)
+	}
+
 	return (
 		<DefaultCardContainer>
 			<EditHeaderContainer
@@ -31,7 +42,8 @@ function DescriptionCard({ title, text, hightligtedWords, children, textFontSize
 				/>
 			</EditHeaderContainer>
 			<LongText style={{ fontSize: RFValue(textFontSize) }}>
-				{text}
+				{escriptionIsExpanded && showResizeLabel ? text : getShortText(text, sumarizedSubscriptionSize)}
+				{showResizeLabel && <SeeMoreLabel onPress={toggleDescriptionIsExpanded}>{escriptionIsExpanded ? ' mostrar menos' : 'mostrar mais'}</SeeMoreLabel>}
 			</LongText>
 			{children}
 		</DefaultCardContainer>

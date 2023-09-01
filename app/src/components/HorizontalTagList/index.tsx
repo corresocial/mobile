@@ -11,6 +11,7 @@ interface HorizontalTagListProps {
 	tags: string[]
 	selectedColor?: string
 	selectedTags?: string[]
+	filterSelectedTags?: (tag: string) => string
 	onSelectTag: (tag: string) => void
 }
 
@@ -18,13 +19,18 @@ function HorizontalTagList({
 	tags,
 	selectedColor,
 	selectedTags = [],
+	filterSelectedTags,
 	onSelectTag,
 }: HorizontalTagListProps) {
 	const renderTags = () => {
 		const ordenedSelectedTags = tags.filter((tag) => selectedTags.includes(tag))
 		const ordenedUnselectedTags = tags.filter((tag) => !selectedTags.includes(tag))
 
-		const ordenedTags = [...ordenedSelectedTags, ...ordenedUnselectedTags]
+		let ordenedTags = [...ordenedSelectedTags, ...ordenedUnselectedTags]
+
+		if (filterSelectedTags) {
+			ordenedTags = ordenedTags.map((tag) => filterSelectedTags(tag))
+		}
 
 		return ordenedTags.map((tag) => {
 			const customTag = tag.length !== 3 ? tag : ` ${tag} `

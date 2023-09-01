@@ -1,14 +1,18 @@
 import React, { useState } from 'react'
 
+import { RFValue } from 'react-native-responsive-fontsize'
 import {
 	Container,
 	ContainerInner,
 	LeftArea,
-	LeftAreaLimits,
 	LeftSideLabel,
 	RightArea,
+	RightAreaLimits,
+	SaleValueContainer,
+	SaleValueContainerInner,
 	SidePicture,
-	Title
+	Title,
+	TitleContainer
 } from './styles'
 
 import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
@@ -19,9 +23,9 @@ import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { LocalUserData } from '../../../contexts/types'
 import { SaleExchangeValue } from '../../SaleExchangeValue'
 import { SmallUserIdentification } from '../../SmallUserIdentification'
-import { LeftLineCard } from '../LeftLineCard'
 
 import { theme } from '../../../common/theme'
+import { VerticalSigh } from '../../VerticalSigh'
 
 interface PostCardProps {
 	post: PostCollection | any
@@ -32,25 +36,25 @@ interface PostCardProps {
 
 function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
-	const defineLabelColor = () => {
+	const defineLabelColor = (lightColor?: boolean) => {
 		switch (post.postType) {
 			case 'service': {
-				return theme.purple3
+				return lightColor ? theme.purple1 : theme.purple3
 			}
 			case 'sale': {
-				return theme.green3
+				return lightColor ? theme.green1 : theme.green3
 			}
 			case 'vacancy': {
-				return theme.yellow3
+				return lightColor ? theme.yellow1 : theme.yellow3
 			}
 			case 'socialImpact': {
-				return theme.pink3
+				return lightColor ? theme.pink1 : theme.pink3
 			}
 			case 'culture': {
-				return theme.blue3
+				return lightColor ? theme.blue1 : theme.blue3
 			}
 			default:
-				return theme.orange3
+				return lightColor ? theme.orange1 : theme.orange3
 		}
 	}
 
@@ -94,52 +98,58 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 			onPress={releaseButton}
 		>
 			<ContainerInner
-				style={{
-					marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0
-				}}
+				style={{ marginLeft: buttonPressed ? relativeScreenWidth(1.7) : 0 }}
 			>
+				<LeftArea
+					hasPictureOrSaleValue={!arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue}
+					backgroundColor={defineLabelColor(true)}
+				>
+					{
+						<SidePicture
+							hasPicture={!arrayIsEmpty(post.picturesUrl)}
+							source={!arrayIsEmpty(post.picturesUrl) ? { uri: post.picturesUrl[0] } : {}}
+						>
+							{
+								(post.saleValue || post.exchangeValue) && (
+									<>
+										<SaleValueContainer >
+											<SaleValueContainerInner>
+												<SaleExchangeValue
+													smallFontSize={12}
+													largeFontSize={12}
+													exchangeFontSize={12}
+													saleValue={post.saleValue}
+													exchangeValue={post.exchangeValue}
+													breakRow
+												/>
+											</SaleValueContainerInner>
+										</SaleValueContainer>
+										<VerticalSigh height={RFValue(8)} />
+									</>
+								)
+							}
+						</SidePicture>
+					}
+				</LeftArea>
 				<LeftSideLabel style={{ backgroundColor: defineLabelColor() }} />
-				<LeftArea style={{ width: !arrayIsEmpty(post.picturesUrl) ? '61.5%' : '97.5%' }}>
-					<LeftAreaLimits>
-						<Title numberOfLines={(post.description && post.saleValue) || post.description ? 2 : 2}>
-							{post.title}
-						</Title>
+				<RightArea hasPictureOrSaleValue={!arrayIsEmpty(post.picturesUrl) || post.saleValue || post.exchangeValue}>
+					<RightAreaLimits>
+						<TitleContainer>
+							<Title numberOfLines={post.description ? 3 : 2}>
+								{post.description}
+							</Title>
+						</TitleContainer>
+						<VerticalSigh />
 						<SmallUserIdentification
 							userName={renderShortName()}
 							postDate={renderFormatedPostDateTime()}
 							profilePictureUrl={getProfilePictureUrl()}
 							navigateToProfile={() => navigateToProfile && navigateToProfile(owner.userId)}
 						/>
-						{
-							(post.description || '')
-							&& (
-								<LeftLineCard
-									text={post.description}
-									fontSize={12}
-									height={'25%'}
-									numberOfLines={2}
-								/>
-							)
-						}
-						<SaleExchangeValue
-							saleValue={post.saleValue}
-							exchangeValue={post.exchangeValue}
-						/>
-					</LeftAreaLimits>
-				</LeftArea>
-				<RightArea style={{ width: !arrayIsEmpty(post.picturesUrl) ? '36%' : 0 }}>
-					{
-						!arrayIsEmpty(post.picturesUrl) && (
-							<SidePicture
-								source={{
-									uri: (!arrayIsEmpty(post.picturesUrl) && post.picturesUrl[0]),
-								}}
-							/>
-						)
-					}
+					</RightAreaLimits>
 				</RightArea>
 			</ContainerInner>
-		</Container>
+		</Container >
 	)
 }
 

@@ -6,7 +6,6 @@ import { CultureStackParamList } from './types'
 
 import { CultureProvider } from '../../../contexts/CultureContext'
 
-import { InsertCultureTitle } from '../../../screens/cultureRegisterScreens/InsertCultureTitle'
 import { InsertCultureDescription } from '../../../screens/cultureRegisterScreens/InsertCultureDescription'
 import { CulturePicturePreview } from '../../../screens/cultureRegisterScreens/CulturePicturePreview'
 import { SelectCultureCategory } from '../../../screens/cultureRegisterScreens/SelectCultureCategory'
@@ -43,7 +42,6 @@ export function CultureStack() {
 				<Stack.Screen name={'SelectCultureType'} component={SelectCultureType} />
 				<Stack.Screen name={'SelectCultureCategory'} component={SelectCultureCategory} />
 				<Stack.Screen name={'SelectCultureTags'} component={SelectCultureTags} />
-				<Stack.Screen name={'InsertCultureTitle'} component={InsertCultureTitle} />
 				<Stack.Screen name={'InsertCultureDescription'} component={InsertCultureDescription} />
 				<Stack.Screen name={'CulturePicturePreview'} component={CulturePicturePreview} />
 				<Stack.Screen name={'InsertEntryValue'} component={InsertEntryValue} />

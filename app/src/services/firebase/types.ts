@@ -94,13 +94,14 @@ export type SocialMedia = {
 	link: string
 }
 
-export type VerifiedLabelName = 'leader' | 'impact' | 'default' | 'admin'
+export type VerifiedLabelName = 'leader' | 'impact' | 'default'
 
 export type VerifiedType = {
 	type: VerifiedLabelName
 	by: string
 	name: string
 	at: Date
+	admin?: boolean
 }
 
 export type UserSubscription = {
@@ -212,7 +213,7 @@ export type ServiceCollectionRemote = {
 	postId: string
 	postType: PostType
 	title: string
-	description?: string
+	description: string
 	tags: string[]
 	category: string
 	paymentType: PaymentType
