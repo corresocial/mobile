@@ -170,6 +170,7 @@ const getShortText = (longText: string, size: number) => {
 }
 
 export {
+	getNewDate,
 	arrayIsEmpty, // array validation
 	showMessageWithHighlight, // string highlight
 	filterLeavingOnlyNumbers, // string filter

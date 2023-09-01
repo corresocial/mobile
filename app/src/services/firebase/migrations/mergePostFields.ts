@@ -16,9 +16,9 @@ const mergePostFields = async () => {
 
 	const userSnapshot = await getDocs(usersQuery)
 	userSnapshot.forEach((doc) => {
-		// if (doc.id === 'A9xyLZluxJhEfQbpjggYPAxaV9u2') { // MOCK USER
-		docs.push({ userId: doc.id, ...doc.data() })
-		// }
+		if (doc.id === 'ndlE8OSkN5apjwcVKqWlSjhTIcI2') { // MOCK USER
+			docs.push({ userId: doc.id, ...doc.data() })
+		}
 	})
 
 	docs.map(async (doc: any) => {
@@ -91,16 +91,13 @@ const migrateFields = (userPosts: any[], doc: any) => {
 			})
 				.then(() => {
 					console.log(`success: ${post.postId}`)
-					return {
+					const postsDesnormalized = {
 						...post,
 						description: `${post.title ? `${post.title}. ` : ''}${post.description || ''} `,
-						...customDateTimes,
-						owner: {
-							name: doc.name,
-							userId: doc.userId,
-							profilePictureUrl: doc.profilePictureUrl || []
-						}
 					}
+
+					if (postsDesnormalized.owner) delete postsDesnormalized.owner
+					return postsDesnormalized
 				})
 				.catch((err: any) => {
 					console.log(err)

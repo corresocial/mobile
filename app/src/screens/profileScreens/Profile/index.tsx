@@ -67,6 +67,7 @@ import { relativeScreenHeight, relativeScreenWidth } from '../../../common/scree
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { setFreeTrialPlans } from '../../../services/stripe/scripts/setFreeTrialPlans'
 import { StripeContext } from '../../../contexts/StripeContext'
+import { mergePostFields } from '../../../services/firebase/migrations/mergePostFields'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -233,7 +234,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}
 
 	const goToEditProfile = async () => {
-		navigation.navigate('EditProfile' as any, { user })
+		mergePostFields()
+		// navigation.navigate('EditProfile' as any, { user })
 	}
 
 	const navigationToBack = () => navigation.goBack()
