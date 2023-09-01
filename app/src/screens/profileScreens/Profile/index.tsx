@@ -111,15 +111,15 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			posts,
 		})
 	}
-	const getUserPostTags = () => {
+	const getUserPostMacroTags = () => {
 		const posts = getUserPosts()
 		const userPostTags = posts.reduce(
 			(acc: any[], current: PostCollection) => {
-				if (!current || !current.tags?.length) return [...acc]
-				const filtredCurrentTags = current.tags.filter(
-					(tag) => !acc.includes(tag)
-				)
-				return [...acc, ...(filtredCurrentTags as string[])]
+				if (acc.includes(current.postType)) {
+					return [...acc]
+				}
+
+				return [...acc, current.postType]
 			},
 			[]
 		)
@@ -131,7 +131,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		const posts = getUserPosts()
 		return posts.filter((post: any) => {
 			const matchs = selectedTags.map((tag: string) => {
-				if (post.tags?.includes(tag)) return true
+				if (post.postType === tag) return true
 				return false
 			}, [])
 			return !!matchs.includes(true)
@@ -621,7 +621,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 									</DefaultHeaderContainer>
 									<VerticalSigh />
 									<HorizontalTagList
-										tags={getUserPostTags()}
+										tags={getUserPostMacroTags()}
 										selectedTags={selectedTags}
 										onSelectTag={onSelectTag}
 									/>
