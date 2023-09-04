@@ -108,7 +108,7 @@
 			}
 		},
 		"android": {
-			"versionCode": 29,
+			"versionCode": 30,
 			"package": "com.corresocial.corresocial",
 			"icon": "./assets/icon.png",
 			"adaptiveIcon": {
