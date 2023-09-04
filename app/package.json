@@ -1,6 +1,6 @@
 {
 	"name": "corre",
-	"version": "4.0.0",
+	"version": "0.4.0",
 	"scripts": {
 		"start": "expo start --dev-client",
 		"test": "jest --detectOpenHandles",
