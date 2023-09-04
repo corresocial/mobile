@@ -6060,6 +6060,11 @@
     "compare-versions" "^3.4.0"
     "invariant" "^2.2.4"
 
+"expo-network@^5.4.0":
+  "integrity" "sha512-6Hdm6CRmt7KpEYSTp9Q0fH1V63Y3tLlgkZfJBqJHksxEP/ooOjBLsK8M09q+FiWsStByI/PKj6NO86+uymz5ig=="
+  "resolved" "https://registry.npmjs.org/expo-network/-/expo-network-5.4.0.tgz"
+  "version" "5.4.0"
+
 "expo-notifications@~0.17.0":
   "integrity" "sha512-PPjV5WaL5iIKAqi/qsNUVf0g4htz+Mx+6tZ/Py7vIurAHbA2PymgV7UPSEB1gUbhzi5PZMGj/DNFJpSZwgqmNg=="
   "resolved" "https://registry.npmjs.org/expo-notifications/-/expo-notifications-0.17.0.tgz"
