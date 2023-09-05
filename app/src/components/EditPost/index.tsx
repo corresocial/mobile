@@ -18,6 +18,7 @@ import CheckWhiteIcon from '../../assets/icons/check-white.svg'
 import PlusWhiteIcon from '../../assets/icons/plus-white.svg'
 import HandOnMoneyWhiteIcon from '../../assets/icons/handOnMoney-white.svg'
 import WirelessOffWhiteIcon from '../../assets/icons/wirelessOff-white.svg'
+import TrashWhiteIcon from '../../assets/icons/trash-white.svg'
 
 import { DefaultPostViewHeader } from '../../components/DefaultPostViewHeader'
 import { PrimaryButton } from '../../components/_buttons/PrimaryButton'
@@ -30,6 +31,7 @@ import { updateAllRangeAndLocation } from '../../services/firebase/post/updateAl
 import { DefaultConfirmationModal } from '../_modals/DefaultConfirmationModal'
 import { getShortText } from '../../common/auxiliaryFunctions'
 import { getNetworkStatus } from '../../utils/deviceNetwork'
+import { deletePostByDescription, setOfflinePost } from '../../utils/offlinePost'
 
 type UserContextFragment = {
 	userDataContext: UserCollection;
@@ -51,6 +53,7 @@ interface EditPostProps {
 	owner: PostCollectionRemote['owner']
 	backgroundColor: string
 	unsavedPost?: boolean
+	offlinePost?: boolean
 	children: React.ReactNode | React.ReactNode[]
 	navigateBackwards: () => void
 	navigateToPostView: (postData: PostCollectionRemote) => void
@@ -66,6 +69,7 @@ function EditPost({
 	owner,
 	backgroundColor,
 	unsavedPost,
+	offlinePost,
 	children,
 	editContext,
 	userContext,
@@ -78,7 +82,7 @@ function EditPost({
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
-	const [networkConnectionIsValid, setNetworkConnectionIsValid] = useState(true)
+	const [networkConnectionIsValid, setNetworkConnectionIsValid] = useState(false)
 
 	const { editDataContext } = editContext
 	const { userDataContext } = userContext
@@ -198,12 +202,17 @@ function EditPost({
 	const savePost = async () => {
 		const hasValidConnection = await checkNetworkStatus()
 
-		if (hasValidConnection) {
+		const postData = { ...initialPostData, ...editDataContext.unsaved } as PostCollectionRemote
+
+		console.log(hasValidConnection)
+		console.log(offlinePost)
+		if (hasValidConnection && !offlinePost) {
 			console.log(hasValidConnection)
+			setOfflinePost({ ...postData, owner })
+			navigateBackwards()
 			return
 		}
 
-		const postData = { ...initialPostData, ...editDataContext.unsaved } as PostCollectionRemote
 		const postPictures = extractPostPictures(postData)
 
 		setHasError(false)
@@ -428,7 +437,10 @@ function EditPost({
 	}
 
 	const cancelAllChangesAndGoBack = () => {
-		if (!(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost)) return navigateBackwards()
+		if ((!Object.keys(editDataContext.unsaved).length) && offlinePost) {
+			navigateBackwards()
+			return
+		}
 
 		toggleDefaultConfirmationModalVisibility()
 	}
@@ -450,6 +462,11 @@ function EditPost({
 		if (rangeOnContext === 'city' && getPostField('range') === 'country') return false
 
 		return true
+	}
+
+	const removeOfflinePost = async () => {
+		await deletePostByDescription(initialPostData.description)
+		navigateBackwards()
 	}
 
 	const getHeaderButtonLabel = () => {
@@ -486,12 +503,10 @@ function EditPost({
 	}
 
 	const getHeaderButtonHandler = () => {
-		if (networkConnectionIsValid) {
-			if (!userSubscribeIsValid()) {
-				return navigateToSubscriptionContext
-			}
-			return unsavedPost ? savePost : editPost
+		if (!userSubscribeIsValid()) {
+			return navigateToSubscriptionContext
 		}
+		return unsavedPost ? savePost : editPost
 	}
 
 	const presentationPostCardData = {
@@ -517,8 +532,12 @@ function EditPost({
 				<DefaultPostViewHeader
 					text={unsavedPost ? 'revisar seu post' : 'editar seu post'}
 					highlightedWords={unsavedPost ? ['revisar'] : ['editar']}
-					destructiveButton={(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost)}
+					destructiveButton={((!!Object.keys(editDataContext.unsaved).length || unsavedPost) && !offlinePost)}
 					onBackPress={cancelAllChangesAndGoBack}
+					endButton={offlinePost}
+					endButtonColor={theme.red3}
+					endButtonSvgIcon={TrashWhiteIcon}
+					endButtonPress={removeOfflinePost}
 				/>
 				{
 					hasError && (

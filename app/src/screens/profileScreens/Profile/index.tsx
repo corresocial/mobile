@@ -29,6 +29,7 @@ import ImpactLabel from '../../../assets/icons/impactLabel.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 import EditIcon from '../../../assets/icons/edit-white.svg'
 import GearIcon from '../../../assets/icons/gear-white.svg'
+import WirelessOffWhiteIcon from '../../../assets/icons/wirelessOff-white.svg'
 
 import { share } from '../../../common/share'
 import { getUser } from '../../../services/firebase/user/getUser'
@@ -67,6 +68,7 @@ import { relativeScreenHeight, relativeScreenWidth } from '../../../common/scree
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { setFreeTrialPlans } from '../../../services/stripe/scripts/setFreeTrialPlans'
 import { StripeContext } from '../../../contexts/StripeContext'
+import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -637,6 +639,21 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 										filterSelectedTags={getRelativeMacroTagLabel}
 										onSelectTag={onSelectTag}
 									/>
+									<VerticalSigh />
+									<PostPadding>
+										<OptionButton
+											label={'você tem tantos posts'}
+											shortDescription={'você já pode postá-los'}
+											highlightedWords={['posts']}
+											labelSize={18}
+											relativeHeight={relativeScreenHeight(8)}
+											leftSideWidth={'25%'}
+											leftSideColor={theme.yellow3}
+											SvgIcon={WirelessOffWhiteIcon}
+											svgIconScale={['60%', '60%']}
+											onPress={() => navigation.navigate('OfflinePostsManagement')}
+										/>
+									</PostPadding>
 									<VerticalSigh />
 								</>
 

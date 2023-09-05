@@ -169,7 +169,6 @@ export type FeedPosts = {
 export type ServiceCollection = {
 	postId?: string
 	postType: PostType
-	title?: string
 	tags?: string[]
 	description?: string
 	category?: string

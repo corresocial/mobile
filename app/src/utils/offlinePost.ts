@@ -2,9 +2,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { PostCollection } from '../services/firebase/types'
 
 const getOfflinePosts = async () => {
-	const storageAddresses = await AsyncStorage.getItem('corre.offlinePosts')
-	if (storageAddresses) {
-		const addressesList = JSON.parse(storageAddresses)
+	const storedPosts = await AsyncStorage.getItem('corre.offlinePosts')
+	if (storedPosts) {
+		const addressesList = JSON.parse(storedPosts)
 		return addressesList
 	}
 	return [] as PostCollection[]
@@ -13,17 +13,23 @@ const getOfflinePosts = async () => {
 const setOfflinePost = async (newPost: PostCollection) => {
 	const storedPosts = await getOfflinePosts()
 
-	const allAddresses = [...storedPosts, { ...newPost }]
+	const allOfflinePosts = [...storedPosts, { ...newPost }]
 
-	if (allAddresses.length > 10) {
-		allAddresses.shift()
-	}
+	await AsyncStorage.setItem('corre.offlinePosts', JSON.stringify(allOfflinePosts))
+	return true
+}
 
-	await AsyncStorage.setItem('corre.addresses', JSON.stringify(allAddresses))
+const deletePostByDescription = async (description: string) => {
+	const storedPosts = await getOfflinePosts()
+
+	const filteredPosts = storedPosts.filter((post: PostCollection) => post.description !== description)
+
+	await AsyncStorage.setItem('corre.offlinePosts', JSON.stringify(filteredPosts))
 	return true
 }
 
 export {
 	getOfflinePosts,
-	setOfflinePost
+	setOfflinePost,
+	deletePostByDescription
 }

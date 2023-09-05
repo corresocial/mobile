@@ -99,14 +99,13 @@ function DefaultPostViewHeader({
 				}
 			</Title>
 			{endButton && (
-
 				<SmallButton
 					color={endButtonColor}
 					label={endButtonText}
 					SvgIcon={endButtonSvgIcon}
 					relativeWidth={relativeScreenWidth(11)}
 					height={relativeScreenWidth(11)}
-					onPress={() => endButtonPress && endButtonPress}
+					onPress={() => endButtonPress && endButtonPress()}
 				/>
 			)}
 		</Container>

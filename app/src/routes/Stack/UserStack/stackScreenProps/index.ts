@@ -4,6 +4,7 @@ import { UserStackParamList } from '../types'
 
 export type WelcomeNewUserScreenProps = NativeStackScreenProps<UserStackParamList, 'WelcomeNewUser'>
 export type ViewPostsByRangeScreenProps = NativeStackScreenProps<UserStackParamList, 'ViewPostsByRange'>
+export type OfflinePostsManagementScreenProps = NativeStackScreenProps<UserStackParamList, 'OfflinePostsManagement'>
 export type HomeTabScreenProps = NativeStackScreenProps<UserStackParamList, 'HomeTab'>
 export type SelectPostTypeScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectPostType'>
 export type TourScreenProps = NativeStackScreenProps<UserStackParamList, 'ServiceStack'>
