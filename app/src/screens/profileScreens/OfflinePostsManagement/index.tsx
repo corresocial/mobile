@@ -41,6 +41,11 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 
 	const loadOfflinePosts = async () => {
 		const storedOfflinePosts = await getOfflinePosts()
+
+		if (!storedOfflinePosts || !storedOfflinePosts.length) {
+			navigation.goBack()
+		}
+
 		setOfflinePosts(storedOfflinePosts)
 	}
 

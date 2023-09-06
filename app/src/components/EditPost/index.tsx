@@ -32,6 +32,7 @@ import { DefaultConfirmationModal } from '../_modals/DefaultConfirmationModal'
 import { getShortText } from '../../common/auxiliaryFunctions'
 import { getNetworkStatus } from '../../utils/deviceNetwork'
 import { deletePostByDescription, setOfflinePost } from '../../utils/offlinePost'
+import { WithoutNetworkConnectionAlert } from '../_modals/WithoutNetworkConnectionAlert'
 
 type UserContextFragment = {
 	userDataContext: UserCollection;
@@ -82,6 +83,7 @@ function EditPost({
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
+	const [offlinePostAlertModalIsVisible, setOfflinePostAlertModalIsVisible] = useState(false)
 	const [networkConnectionIsValid, setNetworkConnectionIsValid] = useState(false)
 
 	const { editDataContext } = editContext
@@ -89,7 +91,7 @@ function EditPost({
 
 	useEffect(() => {
 		editContext.clearUnsavedEditContext()
-		// checkNetworkStatus()
+		checkNetworkStatus()
 	}, [])
 
 	const checkNetworkStatus = async () => {
@@ -204,10 +206,7 @@ function EditPost({
 
 		const postData = { ...initialPostData, ...editDataContext.unsaved } as PostCollectionRemote
 
-		console.log(hasValidConnection)
-		console.log(offlinePost)
 		if (hasValidConnection && !offlinePost) {
-			console.log(hasValidConnection)
 			setOfflinePost({ ...postData, owner })
 			navigateBackwards()
 			return
@@ -215,7 +214,7 @@ function EditPost({
 
 		const postPictures = extractPostPictures(postData)
 
-		setHasError(false)
+		setHasError(true)
 		setIsLoading(true)
 
 		try {
@@ -437,7 +436,7 @@ function EditPost({
 	}
 
 	const cancelAllChangesAndGoBack = () => {
-		if ((!Object.keys(editDataContext.unsaved).length) && offlinePost) {
+		if ((!Object.keys(editDataContext.unsaved).length) && !offlinePost && !unsavedPost) {
 			navigateBackwards()
 			return
 		}
@@ -448,6 +447,8 @@ function EditPost({
 	const toggleDefaultConfirmationModalVisibility = () => {
 		setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible)
 	}
+
+	const closeOfflinePostAlertModal = () => setOfflinePostAlertModalIsVisible(false)
 
 	const userSubscribeIsValid = () => {
 		if (!userDataContext.subscription) {
@@ -526,6 +527,10 @@ function EditPost({
 				buttonKeyword={'descartar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
 				onPressButton={navigateBackwards}
+			/>
+			<WithoutNetworkConnectionAlert
+				visibility={offlinePostAlertModalIsVisible}
+				onPressButton={closeOfflinePostAlertModal}
 			/>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>

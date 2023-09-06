@@ -31,7 +31,7 @@ export type UserStackParamList = {
 	EditUserName: { userName: string, userId: string }
 	EditUserDescription: { userDescription: string, userId: string }
 	EditUserPicture: { profilePictureUrl: string, userId: string }
-	EditServicePost: { postData: ServiceCollectionRemote, unsavedPost: boolean }
+	EditServicePost: { postData: ServiceCollectionRemote, unsavedPost: boolean, offlinePost?: boolean }
 	EditSalePost: { postData: SaleCollectionRemote, unsavedPost: boolean }
 	EditVacancyPost: { postData: VacancyCollectionRemote, unsavedPost: boolean }
 	EditSocialImpactPost: { postData: SocialImpactCollectionRemote, unsavedPost: boolean }
