@@ -206,7 +206,7 @@ function EditPost({
 
 		const postData = { ...initialPostData, ...editDataContext.unsaved } as PostCollectionRemote
 
-		if (hasValidConnection && !offlinePost) {
+		if (!hasValidConnection && !offlinePost) {
 			setOfflinePost({ ...postData, owner })
 			navigateBackwards()
 			return
@@ -214,7 +214,7 @@ function EditPost({
 
 		const postPictures = extractPostPictures(postData)
 
-		setHasError(true)
+		setHasError(false)
 		setIsLoading(true)
 
 		try {
