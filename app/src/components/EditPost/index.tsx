@@ -208,7 +208,7 @@ function EditPost({
 
 		if (offlinePost && !hasValidConnection) return
 
-		if ((hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
+		if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
 			setOfflinePost({ ...postData, owner })
 			navigateBackwards()
 			return
@@ -306,8 +306,6 @@ function EditPost({
 			Alert.alert('Error', 'First went wrong')
 			setIsLoading(false)
 			setHasError(true)
-		} finally {
-			console.log('finally')
 		}
 	}
 
