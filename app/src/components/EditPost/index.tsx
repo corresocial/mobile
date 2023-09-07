@@ -206,7 +206,9 @@ function EditPost({
 
 		const postData = { ...initialPostData, ...editDataContext.unsaved } as PostCollectionRemote
 
-		if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
+		if (offlinePost && !hasValidConnection) return
+
+		if ((hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
 			setOfflinePost({ ...postData, owner })
 			navigateBackwards()
 			return
@@ -255,6 +257,7 @@ function EditPost({
 					userPostsUpdated
 				)
 				clearTimeout(timeoutId)
+				offlinePost && deleteOfflinePostByDescription(postData.description)
 				return
 			}
 
@@ -288,6 +291,7 @@ function EditPost({
 												)
 
 												clearTimeout(timeoutId)
+												offlinePost && deleteOfflinePostByDescription(postData.description)
 												setIsLoading(false)
 											}
 										},
@@ -355,6 +359,10 @@ function EditPost({
 				setIsLoading(false)
 				setHasError(true)
 			})
+	}
+
+	const deleteOfflinePostByDescription = async (description: string) => {
+		await deletePostByDescription(description)
 	}
 
 	const changeStateOfEditedFields = (uploadedPictures?: string[]) => {
