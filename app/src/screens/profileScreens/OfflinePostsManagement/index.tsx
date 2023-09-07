@@ -68,13 +68,17 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 
 		const savedPosts = []
 
-		for await (const post of offlinePosts as PostCollectionRemote[]) {
-			const currentPost = await saveAndReturnPost(post, savedPosts)
-			await deletePostByDescription(post.description)
-			savedPosts.push(currentPost)
-		}
+		try {
+			for await (const post of offlinePosts as PostCollectionRemote[]) {
+				const currentPost = await saveAndReturnPost(post, savedPosts)
+				await deletePostByDescription(post.description)
+				savedPosts.push(currentPost)
+			}
 
-		navigation.goBack()
+			navigation.goBack()
+		} catch (err) {
+			setHasError(true)
+		}
 	}
 
 	async function saveAndReturnPost(post: any, savedPosts: any) {
@@ -235,8 +239,25 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 		/>
 	)
 
+	const getActionButtonLabel = () => {
+		if (hasError) return 'tentar novamente'
+		return allOfflinePostsOnRange() ? 'publicar todos os posts' : 'ir para pagamento'
+	}
+
+	const getActionButtonLabelHighlighted = () => {
+		if (hasError) return ['novamente']
+		return allOfflinePostsOnRange() ? ['publicar'] : ['pagamento']
+	}
+
 	const naigateToReviewPost = (post: PostCollection) => {
-		navigation.navigate('EditServicePost', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+		switch (post.postType) {
+			case 'service': return navigation.navigate('EditServicePost', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+			case 'sale': return navigation.navigate('EditSalePost', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+			case 'vacancy': return navigation.navigate('EditVacancyPost', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+			case 'culture': return navigation.navigate('EditCulturePost', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+			case 'socialImpact': return navigation.navigate('EditSocialImpactPost', { postData: { ...post } as any, unsavedPost: true, offlinePost: true })
+			default: return null
+		}
 	}
 
 	return (
@@ -245,8 +266,8 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
-					text={'posts não enviados'}
-					highlightedWords={['não', 'enviados']}
+					text={hasError ? 'opa! algo deu errado' : 'posts não enviados'}
+					highlightedWords={hasError ? ['opa!'] : ['não', 'enviados']}
 				/>
 				{
 					isLoading
@@ -255,8 +276,8 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 							<SaveButtonContainer>
 								<PrimaryButton
 									color={theme.green3}
-									label={allOfflinePostsOnRange() ? 'publicar todos os posts' : 'ir para pagamento'}
-									highlightedWords={allOfflinePostsOnRange() ? ['publicar'] : ['pagamento']}
+									label={getActionButtonLabel()}
+									highlightedWords={getActionButtonLabelHighlighted()}
 									labelColor={theme.white3}
 									fontSize={16}
 									SecondSvgIcon={allOfflinePostsOnRange() ? AngleRightWhiteIcon : HandOnMoneyWhiteIcon}
@@ -270,7 +291,7 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 				}
 
 			</Header>
-			<Body>
+			<Body backgroundColor={hasError && theme.red2}>
 				{
 					<FlatListPosts
 						data={offlinePosts}

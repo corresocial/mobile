@@ -32,10 +32,10 @@ export type UserStackParamList = {
 	EditUserDescription: { userDescription: string, userId: string }
 	EditUserPicture: { profilePictureUrl: string, userId: string }
 	EditServicePost: { postData: ServiceCollectionRemote, unsavedPost: boolean, offlinePost?: boolean }
-	EditSalePost: { postData: SaleCollectionRemote, unsavedPost: boolean }
-	EditVacancyPost: { postData: VacancyCollectionRemote, unsavedPost: boolean }
-	EditSocialImpactPost: { postData: SocialImpactCollectionRemote, unsavedPost: boolean }
-	EditCulturePost: { postData: CultureCollectionRemote, unsavedPost: boolean }
+	EditSalePost: { postData: SaleCollectionRemote, unsavedPost: boolean, offlinePost?: boolean }
+	EditVacancyPost: { postData: VacancyCollectionRemote, unsavedPost: boolean, offlinePost?: boolean }
+	EditSocialImpactPost: { postData: SocialImpactCollectionRemote, unsavedPost: boolean, offlinePost?: boolean }
+	EditCulturePost: { postData: CultureCollectionRemote, unsavedPost: boolean, offlinePost?: boolean }
 	OfflinePostsManagement: undefined
 
 	SocialMediaManagement: { socialMedias: SocialMedia[], isAuthor?: boolean }

@@ -17,11 +17,15 @@ export const Header = styled.View`
 	padding-horizontal: ${relativeScreenWidth(3.5)}px;
 `
 
-export const Body = styled.View`
+interface BodyProps {
+	backgroundColor?: string
+}
+
+export const Body = styled.View<BodyProps>`
 	flex: 1;
 	width: 100%;
 	height: 92%;
-	background-color: ${({ theme }) => theme.orange2};
+	background-color: ${({ theme, backgroundColor }) => backgroundColor || theme.orange2};
 	padding-horizontal: ${relativeScreenWidth(3.5)}px;
 `
 
