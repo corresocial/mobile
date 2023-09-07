@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getDownloadURL } from 'firebase/storage'
-import { StatusBar } from 'react-native'
+import { Alert, StatusBar } from 'react-native'
 
 import { Id, PostCollection, PostCollectionRemote, UserCollection } from '../../services/firebase/types'
 import { LocalUserData } from '../../contexts/types'
@@ -206,7 +206,7 @@ function EditPost({
 
 		const postData = { ...initialPostData, ...editDataContext.unsaved } as PostCollectionRemote
 
-		if (!hasValidConnection && !offlinePost) {
+		if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
 			setOfflinePost({ ...postData, owner })
 			navigateBackwards()
 			return
@@ -216,6 +216,13 @@ function EditPost({
 
 		setHasError(false)
 		setIsLoading(true)
+
+		const timeoutId = setTimeout(() => {
+			setIsLoading(false)
+			setHasError(false)
+			toggleOfflinePostAlertModal()
+			setNetworkConnectionIsValid(false)
+		}, 10000)
 
 		try {
 			let userPostsUpdated: any = [] // TODO Type
@@ -244,6 +251,7 @@ function EditPost({
 					postData,
 					userPostsUpdated
 				)
+				clearTimeout(timeoutId)
 				return
 			}
 
@@ -275,6 +283,8 @@ function EditPost({
 													postDataWithPicturesUrl,
 													userPostsUpdated
 												)
+
+												clearTimeout(timeoutId)
 												setIsLoading(false)
 											}
 										},
@@ -286,8 +296,11 @@ function EditPost({
 			})
 		} catch (err) {
 			console.log(err)
+			Alert.alert('Error', 'First went wrong')
 			setIsLoading(false)
 			setHasError(true)
+		} finally {
+			console.log('finally')
 		}
 	}
 
@@ -335,6 +348,7 @@ function EditPost({
 			})
 			.catch((err: any) => {
 				console.log(err)
+				Alert.alert('Error', 'Second went wrong')
 				setIsLoading(false)
 				setHasError(true)
 			})
@@ -411,6 +425,7 @@ function EditPost({
 								)
 								.catch((err) => {
 									console.log(err)
+									Alert.alert('Error', 'Picture went wrong')
 									setIsLoading(false)
 								})
 						},
@@ -448,7 +463,7 @@ function EditPost({
 		setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible)
 	}
 
-	const closeOfflinePostAlertModal = () => setOfflinePostAlertModalIsVisible(false)
+	const toggleOfflinePostAlertModal = () => setOfflinePostAlertModalIsVisible((previousState) => !previousState)
 
 	const userSubscribeIsValid = () => {
 		if (!userDataContext.subscription) {
@@ -530,7 +545,7 @@ function EditPost({
 			/>
 			<WithoutNetworkConnectionAlert
 				visibility={offlinePostAlertModalIsVisible}
-				onPressButton={closeOfflinePostAlertModal}
+				onPressButton={toggleOfflinePostAlertModal}
 			/>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>

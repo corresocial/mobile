@@ -93,13 +93,13 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			setIsLoggedUser(false)
 			getProfileDataFromRemote(route.params.userId)
 		} else {
-			checkNetworkConnection()
 			setIsLoggedUser(true)
 		}
 	}, [])
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
+			checkNetworkConnection()
 			checkHasOfflinePosts()
 		})
 
