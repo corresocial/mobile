@@ -217,12 +217,15 @@ function EditPost({
 		setHasError(false)
 		setIsLoading(true)
 
-		const timeoutId = setTimeout(() => {
-			setIsLoading(false)
-			setHasError(false)
-			toggleOfflinePostAlertModal()
-			setNetworkConnectionIsValid(false)
-		}, 10000)
+		let timeoutId: any
+		if (!offlinePost) {
+			timeoutId = setTimeout(() => {
+				setIsLoading(false)
+				setHasError(false)
+				toggleOfflinePostAlertModal()
+				setNetworkConnectionIsValid(false)
+			}, 15000)
+		}
 
 		try {
 			let userPostsUpdated: any = [] // TODO Type

@@ -46,7 +46,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		profilePictureUrl: userDataContext.profilePictureUrl
 	}
 
-	const { postData, unsavedPost, showPresentationModal } = route.params
+	const { postData, unsavedPost, offlinePost, showPresentationModal } = route.params
 
 	useEffect(() => {
 		showPresentationModal && togglePostReviewPresentationModalVisibility()
@@ -196,6 +196,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				owner={owner}
 				backgroundColor={theme.blue2}
 				unsavedPost={unsavedPost}
+				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
 				navigateToPostView={navigateToPostView}
 				navigateToSubscriptionContext={navigateToSubscriptionContext}
