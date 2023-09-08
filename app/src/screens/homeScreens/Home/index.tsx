@@ -414,6 +414,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const renderPostItem = (item: PostCollection) => {
 		if (item as string === 'subscriptionAd') {
+			if (userDataContext.subscription && userDataContext.subscription.subscriptionRange !== 'near') return <></>
 			return (
 				<ContainerPadding>
 					<SubscriptionButton onPress={() => setSubscriptionModalIsVisible(true)} />
