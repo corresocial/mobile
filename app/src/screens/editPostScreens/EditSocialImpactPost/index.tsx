@@ -93,6 +93,10 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 		navigation.goBack()
 	}
 
+	const navigateToProfile = () => {
+		navigation.navigate('Profile' as any) // TODO Type
+	}
+
 	const navigateToPostView = (socialImpactPostData: PostCollection) => {
 		navigation.navigate('ViewSocialImpactPost' as any, { postData: socialImpactPostData })
 	}
@@ -196,6 +200,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 				unsavedPost={unsavedPost}
 				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
+				navigateToProfile={navigateToProfile}
 				navigateToPostView={navigateToPostView}
 				navigateToSubscriptionContext={navigateToSubscriptionContext}
 				showShareModal={showShareModal}

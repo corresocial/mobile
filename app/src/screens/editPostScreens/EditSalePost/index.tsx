@@ -80,6 +80,10 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		navigation.goBack()
 	}
 
+	const navigateToProfile = () => {
+		navigation.navigate('Profile' as any) // TODO Type
+	}
+
 	const navigateToPostView = (salePostData: PostCollection) => {
 		navigation.navigate('ViewSalePost' as any, { postData: salePostData }) // TODO Type // xxx
 	}
@@ -183,6 +187,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 				unsavedPost={unsavedPost}
 				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
+				navigateToProfile={navigateToProfile}
 				navigateToPostView={navigateToPostView}
 				navigateToSubscriptionContext={navigateToSubscriptionContext}
 				showShareModal={showShareModal}

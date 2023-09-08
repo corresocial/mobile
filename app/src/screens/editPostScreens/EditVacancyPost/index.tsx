@@ -83,6 +83,10 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 		navigation.goBack()
 	}
 
+	const navigateToProfile = () => {
+		navigation.navigate('Profile' as any) // TODO Type
+	}
+
 	const navigateToPostView = (vacancyPostData: PostCollection) => {
 		navigation.navigate('ViewVacancyPost' as any, { postData: vacancyPostData })
 	}
@@ -186,6 +190,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 				unsavedPost={unsavedPost}
 				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
+				navigateToProfile={navigateToProfile}
 				navigateToPostView={navigateToPostView}
 				navigateToSubscriptionContext={navigateToSubscriptionContext}
 				showShareModal={showShareModal}

@@ -79,6 +79,10 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		navigation.goBack()
 	}
 
+	const navigateToProfile = () => {
+		navigation.navigate('Profile' as any) // TODO Type
+	}
+
 	const navigateToPostView = (servicePostData: PostCollection) => {
 		navigation.navigate('ViewServicePost' as any, { postData: servicePostData })
 	}
@@ -182,6 +186,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 				unsavedPost={unsavedPost}
 				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
+				navigateToProfile={navigateToProfile}
 				navigateToPostView={navigateToPostView}
 				navigateToSubscriptionContext={navigateToSubscriptionContext}
 				showShareModal={showShareModal}

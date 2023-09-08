@@ -57,6 +57,7 @@ interface EditPostProps {
 	offlinePost?: boolean
 	children: React.ReactNode | React.ReactNode[]
 	navigateBackwards: () => void
+	navigateToProfile?: () => void
 	navigateToPostView: (postData: PostCollectionRemote) => void
 	navigateToSubscriptionContext: () => void
 	showShareModal: (visibility: boolean, postTitle?: string, postId?: string) => void
@@ -75,6 +76,7 @@ function EditPost({
 	editContext,
 	userContext,
 	navigateBackwards,
+	navigateToProfile,
 	navigateToPostView,
 	navigateToSubscriptionContext,
 	showShareModal,
@@ -208,9 +210,9 @@ function EditPost({
 
 		if (offlinePost && !hasValidConnection) return
 
-		if ((hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
-			setOfflinePost({ ...postData, owner })
-			navigateBackwards()
+		if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
+			await setOfflinePost({ ...postData, owner })
+			navigateToProfile && navigateToProfile()
 			return
 		}
 

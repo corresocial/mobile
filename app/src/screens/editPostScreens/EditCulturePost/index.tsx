@@ -95,6 +95,10 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		navigation.goBack()
 	}
 
+	const navigateToProfile = () => {
+		navigation.navigate('Profile' as any) // TODO Type
+	}
+
 	const navigateToPostView = (culturePostData: PostCollection) => {
 		navigation.navigate('ViewCulturePost' as any, { postData: culturePostData })
 	}
@@ -198,6 +202,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				unsavedPost={unsavedPost}
 				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
+				navigateToProfile={navigateToProfile}
 				navigateToPostView={navigateToPostView}
 				navigateToSubscriptionContext={navigateToSubscriptionContext}
 				showShareModal={showShareModal}
