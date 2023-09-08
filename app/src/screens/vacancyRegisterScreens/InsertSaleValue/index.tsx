@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { theme } from '../../../common/theme'
 
-import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
@@ -12,7 +11,6 @@ import { InsertSaleValueScreenProps } from '../../../routes/Stack/VacancyStack/s
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertVacancyValue({ navigation, route }: InsertSaleValueScreenProps) {
-	const { isSecondPost, vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -45,29 +43,12 @@ function InsertVacancyValue({ navigation, route }: InsertSaleValueScreenProps) {
 			if (!bothPaymentType) {
 				navigation.pop(2)
 				navigation.goBack()
-			}
-		} else {
-			setVacancyDataOnContext({ saleValue })
-		}
-
-		if (route.params.bothPaymentType) {
-			navigation.navigate('InsertExchangeValue')
-		} else {
-			if (isSecondPost) {
-				navigation.reset({
-					index: 0,
-					routes: [{
-						name: 'EditVacancyPostReview',
-						params: {
-							postData: { ...vacancyDataContext, saleValue },
-							unsavedPost: true
-						}
-					}]
-				})
 				return
 			}
+		}
 
-			navigation.navigate('SelectVacancyRange')
+		if (bothPaymentType) {
+			navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
 		}
 	}
 
@@ -80,8 +61,6 @@ function InsertVacancyValue({ navigation, route }: InsertSaleValueScreenProps) {
 				customTitle={'quanto paga?'}
 				customHighlight={['quanto']}
 				inputPlaceholder={'ex: 100 reais a diária'}
-				// initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[3, isSecondPost ? 3 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateVacancyValue}
 				navigateBackwards={() => navigation.goBack()}

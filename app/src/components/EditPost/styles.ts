@@ -20,6 +20,7 @@ interface EditPostStyleProps {
 
 export const Body = styled.ScrollView<EditPostStyleProps>`
 	flex: 1;
+	background-color: ${({ theme, backgroundColor }) => (backgroundColor || theme.white3)};
  `
 
 export const BodyPadding = styled(Body) <EditPostStyleProps>`

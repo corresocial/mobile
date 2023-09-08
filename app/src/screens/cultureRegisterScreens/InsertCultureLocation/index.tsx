@@ -109,7 +109,6 @@ function InsertCultureLocation({ route, navigation }: InsertCultureLocationScree
 			<SelectPostLocation
 				backgroundColor={theme.blue2}
 				validationColor={theme.blue1}
-				searchPlaceholder={'digite o endereço do rolê'}
 				initialValue={editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }}
 				navigateBackwards={() => navigation.goBack()}
 				saveLocation={saveLocation}

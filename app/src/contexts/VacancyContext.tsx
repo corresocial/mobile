@@ -46,7 +46,7 @@ function VacancyProvider({ children }: VacancyProviderProps) {
 			range: userDataContext.subscription?.subscriptionRange || 'near',
 			locationView: lastUserPost.locationView || '',
 			location: lastUserPost.location || '',
-			attendanceFrequency: lastUserPost.workFrequency || 'someday',
+			attendanceFrequency: lastUserPost.workFrequency || '',
 			daysOfWeek: lastUserPost.daysOfWeek || [],
 			startDate: lastUserPost.startDate || '',
 			startHour: lastUserPost.startHour || '',

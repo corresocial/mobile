@@ -43,7 +43,7 @@ function SocialImpactProvider({ children }: SocialImpactProviderProps) {
 			locationView: lastUserPost.locationView || '',
 			location: lastUserPost.location || '',
 			exhibitionPlace: lastUserPost.exhibitionPlace || '',
-			exhibitionFrequency: lastUserPost.exhibitionFrequency || 'someday',
+			exhibitionFrequency: lastUserPost.exhibitionFrequency || '',
 			daysOfWeek: lastUserPost.daysOfWeek || [],
 			repeat: lastUserPost.repeat || 'unrepeatable',
 			startDate: lastUserPost.startDate || '',

@@ -6,13 +6,11 @@ import { theme } from '../../../common/theme'
 import { InsertEntryValueScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { CultureContext } from '../../../contexts/CultureContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertEntryValue({ route, navigation }: InsertEntryValueScreenProps) {
-	const { setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -28,7 +26,12 @@ function InsertEntryValue({ route, navigation }: InsertEntryValueScreenProps) {
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const skipScreen = () => navigation.navigate('SelectCultureFrequency')
+	const skipScreen = () => {
+		if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ entryValue: '' })
+			navigation.goBack()
+		}
+	}
 
 	const validateEntryValue = (text: string) => {
 		const isValid = (text).trim().length >= 1
@@ -42,11 +45,7 @@ function InsertEntryValue({ route, navigation }: InsertEntryValueScreenProps) {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ entryValue })
 			navigation.goBack()
-			return
 		}
-
-		setCultureDataOnContext({ entryValue })
-		navigation.navigate('SelectEventRepeat')
 	}
 
 	return (
@@ -57,9 +56,8 @@ function InsertEntryValue({ route, navigation }: InsertEntryValueScreenProps) {
 				validationColor={theme.blue1}
 				customTitle={'tem custo de entrada?'}
 				customHighlight={['custo', 'de', 'entrada']}
-				inputPlaceholder={'ex: 25,00'}
+				inputPlaceholder={'ex: 1kg de alimento'}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[4, 4]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateEntryValue}
 				navigateBackwards={() => navigation.goBack()}

@@ -3,10 +3,8 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { VacancyStackParamList } from '../types'
 
 export type SelectVacancyPurposeScreenProps = NativeStackScreenProps<VacancyStackParamList, 'SelectVacancyPurpose'>
-export type InsertVacancyTitleScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertVacancyTitle'>
 export type InsertVacancyDescriptionScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertVacancyDescription'>
 export type InsertVacancyImportantPointsScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertVacancyImportantPoints'>
-export type InsertVacancyPictureScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertVacancyPicture'>
 export type VacancyPicturePreviewScreenProps = NativeStackScreenProps<VacancyStackParamList, 'VacancyPicturePreview'>
 export type SelectWorkplaceScreenProps = NativeStackScreenProps<VacancyStackParamList, 'SelectWorkplace'>
 export type SelectPaymentTypeScreenProps = NativeStackScreenProps<VacancyStackParamList, 'SelectPaymentType'>

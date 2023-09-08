@@ -21,14 +21,14 @@ import {
 	SeeMoreLabel,
 } from './styles'
 import { theme } from '../../../common/theme'
-import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
+import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
 import ShareIcon from '../../../assets/icons/share-white.svg'
 import LeaderLabel from '../../../assets/icons/leaderLabel.svg'
 import VerifiedLabel from '../../../assets/icons/verifiedLabel.svg'
 import ImpactLabel from '../../../assets/icons/impactLabel.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 import EditIcon from '../../../assets/icons/edit-white.svg'
-import GearIcon from '../../../assets/icons/gear.svg'
+import GearIcon from '../../../assets/icons/gear-white.svg'
 
 import { share } from '../../../common/share'
 import { getUser } from '../../../services/firebase/user/getUser'
@@ -111,15 +111,15 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			posts,
 		})
 	}
-	const getUserPostTags = () => {
+	const getUserPostMacroTags = () => {
 		const posts = getUserPosts()
 		const userPostTags = posts.reduce(
 			(acc: any[], current: PostCollection) => {
-				if (!current || !current.tags?.length) return [...acc]
-				const filtredCurrentTags = current.tags.filter(
-					(tag) => !acc.includes(tag)
-				)
-				return [...acc, ...(filtredCurrentTags as string[])]
+				if (acc.includes(current.postType)) {
+					return [...acc]
+				}
+
+				return [...acc, current.postType]
 			},
 			[]
 		)
@@ -131,11 +131,22 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		const posts = getUserPosts()
 		return posts.filter((post: any) => {
 			const matchs = selectedTags.map((tag: string) => {
-				if (post.tags?.includes(tag)) return true
+				if (getRelativeMacroTagLabel(post.postType) === tag) return true
 				return false
 			}, [])
 			return !!matchs.includes(true)
 		})
+	}
+
+	const getRelativeMacroTagLabel = (macroTag: string): string => {
+		switch (macroTag) {
+			case 'sale': return 'vendas'
+			case 'service': return 'serviços'
+			case 'vacancy': return 'vagas'
+			case 'culture': return 'cultura'
+			case 'socialImpact': return 'impacto social'
+			default: return ''
+		}
 	}
 
 	const onSelectTag = (tagName: string) => {
@@ -594,11 +605,11 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 													isVerifiable={
 														!isLoggedUser
 														&& userDataContext.verified
-														&& (userDataContext.verified.type === 'leader' || userDataContext.verified.type === 'admin')
+														&& (userDataContext.verified.type === 'leader' || userDataContext.verified.admin)
 														&& user
 														&& !user.verified
 													}
-													isAdmin={userDataContext.verified && userDataContext.verified.type === 'admin' && (
+													isAdmin={userDataContext.verified && userDataContext.verified.admin && (
 														(user.subscription && user.subscription.subscriptionRange === 'near') || !user.subscription
 													)}
 													buttonLabel={'denunciar perfil'}
@@ -621,8 +632,9 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 									</DefaultHeaderContainer>
 									<VerticalSigh />
 									<HorizontalTagList
-										tags={getUserPostTags()}
+										tags={getUserPostMacroTags()}
 										selectedTags={selectedTags}
+										filterSelectedTags={getRelativeMacroTagLabel}
 										onSelectTag={onSelectTag}
 									/>
 									<VerticalSigh />

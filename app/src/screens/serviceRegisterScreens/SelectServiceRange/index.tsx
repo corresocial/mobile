@@ -12,23 +12,23 @@ import { StripeContext } from '../../../contexts/StripeContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 
 import { PostRange } from '../../../components/_onboarding/PostRange'
-import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionInfoModal'
+import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
 
 function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { isSecondPost, serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
 	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = React.useState(false)
 
 	useEffect(() => {
-		if (!editModeIsTrue()) setSubscriptionModalIsVisible(true)
+		if (!editModeIsTrue() && !isSecondPost) setSubscriptionModalIsVisible(true)
 	}, [])
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const closeSubscriptionInfoModal = () => setSubscriptionModalIsVisible(false)
+	const closeSubscriptionPresentationModal = () => setSubscriptionModalIsVisible(false)
 
 	const savePostRange = (postRange: PostRangeType) => {
 		if (editModeIsTrue()) {
@@ -37,29 +37,47 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 			return
 		}
 
-		setServiceDataOnContext({ range: postRange })
-		navigation.navigate('SelectLocationView')
+		if (isSecondPost) {
+			navigation.reset({
+				index: 0,
+				routes: [{
+					name: 'EditServicePostReview',
+					params: {
+						postData: {
+							...serviceDataContext,
+							range: postRange,
+							deliveryMethod: serviceDataContext.deliveryMethod || 'unavailable',
+						},
+						unsavedPost: true
+					}
+				}]
+			})
+		} else {
+			setServiceDataOnContext({ range: postRange })
+			navigation.navigate('SelectLocationView')
+		}
 	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-			<SubscriptionInfoModal
+			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<SubscriptionPresentationModal
 				visibility={subscriptionModalIsVisible}
 				profilePictureUri={profilePictureUrl}
 				withoutNegativeOption
 				closeModal={() => setSubscriptionModalIsVisible(false)}
-				onPressButton={closeSubscriptionInfoModal}
+				onPressButton={closeSubscriptionPresentationModal}
 			/>
 			<PostRange
 				backgroundColor={theme.purple2}
+				itemsColor={theme.purple3}
 				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
-				progress={[4, 5]}
+				progress={[3, isSecondPost ? 3 : 4]}
 			/>
 		</>
 	)

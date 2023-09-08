@@ -3,14 +3,12 @@ import { UserStackParamList } from '../UserStack/types'
 
 export type CultureStackParamList = {
 	SelectCultureType: { editMode: boolean } | undefined
-	InsertCultureTitle: { editMode: boolean, initialValue: string } | undefined
 	InsertCultureDescription: { editMode: boolean, initialValue: string } | undefined
-	InsertCulturePicture: undefined
 	CulturePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectCultureCategory: { editMode: boolean } | undefined
 	SelectCultureTags: { categorySelected: CultureCategories, editMode?: boolean }
 	InsertEntryValue: { editMode: boolean, initialValue: string } | undefined
-	SelectEventPlaceModality: { editMode: boolean } | undefined
+	SelectCulturePlaceModality: { editMode: boolean } | undefined
 	SelectCultureRange: { editMode: boolean, initialValue?: { coordinates: LatLong, postRange: PostRange } } | undefined
 	SelectCultureLocationView: { editMode: boolean, initialValue?: { coordinates: LatLong, postRange: PostRange } } | undefined
 	InsertCultureLocation: { locationView: LocationViewType, editMode?: boolean, initialValue?: LatLong }
@@ -22,5 +20,5 @@ export type CultureStackParamList = {
 	InsertCultureStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertCultureEndDate: { editMode: boolean, initialValue: Date } | undefined
 	InsertCultureEndHour: { editMode: boolean, initialValue: Date } | undefined
-	EditCulturePostReview: { postData: CultureCollectionRemote, unsavedPost?: boolean }
+	EditCulturePostReview: { postData: CultureCollectionRemote, unsavedPost?: boolean, showPresentationModal?: boolean }
 } & UserStackParamList

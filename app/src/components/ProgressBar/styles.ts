@@ -4,13 +4,13 @@ import { relativeScreenHeight, relativeScreenWidth } from '../../common/screenDi
 
 export const Container = styled.View`
     width: 100%;
-    margin-top: ${relativeScreenHeight(2.2)}px;
+    margin-top: ${relativeScreenHeight(2)}px;
 `
 
 export const IndicatorLabel = styled.Text`
     width: 100%;
     text-align: center;
-    font-size: ${RFValue(14)}px;
+    font-size: ${RFValue(12)}px;
     font-family: Arvo_400Regular;
     margin-bottom: ${relativeScreenHeight(1)}px;
 	border-radius: 100px;
@@ -19,7 +19,7 @@ export const IndicatorLabel = styled.Text`
 export const IndicatorBarBottom = styled.View`
     background-color: ${({ theme }) => theme.white3}
     width: 100%;
-    height: ${relativeScreenHeight(1.4)}px;
+    height: ${relativeScreenHeight(1.3)}px;
     border: ${relativeScreenWidth(0.7)}px solid ${({ theme }) => theme.black4}
     border-right-width: ${relativeScreenWidth(3)}px;
     overflow: hidden;

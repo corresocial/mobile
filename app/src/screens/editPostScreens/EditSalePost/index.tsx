@@ -27,6 +27,7 @@ import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
 import { EditCard } from '../../../components/_cards/EditCard'
 import { EditPost } from '../../../components/EditPost'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
+import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
 
 function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
@@ -35,8 +36,9 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const { setStateDataOnContext } = useContext(StateContext)
 
 	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
+	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
-	const { postData, unsavedPost } = route.params
+	const { postData, unsavedPost, showPresentationModal } = route.params
 	const owner: any = { // TODO Type
 		userId: userDataContext.userId,
 		name: userDataContext.name,
@@ -44,6 +46,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	}
 
 	useEffect(() => {
+		showPresentationModal && togglePostReviewPresentationModalVisibility()
 		clearUnsavedEditContext()
 	}, [])
 
@@ -115,6 +118,10 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		setLocationChangeModalIsVisible(!locationChangeModalIsVisible)
 	}
 
+	const togglePostReviewPresentationModalVisibility = () => {
+		setPostReviewPresentationModalIsVisible(!postReviewPresentationModalIsVisible)
+	}
+
 	const checkChangeLocationAlertIsRequired = () => {
 		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectLocationView', 'location')
 
@@ -164,6 +171,10 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 				onPressButton={navigateToEditLocationScreen}
 				closeModal={toggleRangeChangeModalVisibility}
 			/>
+			<PostReviewPresentationModal
+				visibility={postReviewPresentationModalIsVisible}
+				onPressButton={togglePostReviewPresentationModalVisibility}
+			/>
 
 			<EditPost
 				initialPostData={{ ...postData, postType: 'sale' }}
@@ -190,16 +201,9 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					onEdit={() => navigateToEditScreen('SelectItemStatus', 'itemStatus')}
 				/>
 				<VerticalSigh />
-				<EditCard
-					title={'título do post'}
-					highlightedWords={['título']}
-					value={getPostField('title')}
-					onEdit={() => navigateToEditScreen('InsertSaleTitle', 'title')}
-				/>
-				<VerticalSigh />
 				<DescriptionCard
 					text={getPostField('description')}
-					onEdit={() => navigateToEditScreen('InsertItemDescription', 'description')}
+					onEdit={() => navigateToEditScreen('InsertSaleDescription', 'description')}
 				/>
 				<VerticalSigh />
 				<EditCard

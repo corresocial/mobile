@@ -180,7 +180,8 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				closeModal={toggleRangeChangeModalVisibility}
 			/>
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(26)}
+				relativeHeight={relativeScreenHeight(30)}
+				grow
 				centralized
 				backgroundColor={theme.white3}
 				borderBottomWidth={0}
@@ -190,7 +191,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 					borderLeftWidth={3}
 					fontSize={15}
 					title={'assinatura corre.'}
-					message={'aqui você vê o plano que assinou, outros planos disponíveis'}
+					message={'com uma assinatura você alcança mais clientes E ao mesmo tempo apoia nossa iniciativa social'}
 					highlightedWords={['corre']}
 				/>
 			</DefaultHeaderContainer>

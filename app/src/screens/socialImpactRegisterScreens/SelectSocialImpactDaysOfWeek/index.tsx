@@ -6,13 +6,11 @@ import { theme } from '../../../common/theme'
 import { SelectSocialImpactDaysOfWeekScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 import { DaysOfWeek } from '../../../services/firebase/types'
 
-import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostDaysOfWeek } from '../../../components/_onboarding/PostDaysOfWeek'
 
 function SelectSocialImpactDaysOfWeek({ route, navigation }: SelectSocialImpactDaysOfWeekScreenProps) {
-	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
@@ -22,11 +20,7 @@ function SelectSocialImpactDaysOfWeek({ route, navigation }: SelectSocialImpactD
 			addNewUnsavedFieldToEditContext({ daysOfWeek: [] })
 			navigation.goBack()
 			navigation.goBack()
-			return
 		}
-
-		setSocialImpactDataOnContext({ daysOfWeek: [] })
-		navigation.navigate('SelectSocialImpactRepeat')
 	}
 
 	const saveDaysOfWeek = (selectedDaysOfWeek: DaysOfWeek[]) => {
@@ -34,11 +28,7 @@ function SelectSocialImpactDaysOfWeek({ route, navigation }: SelectSocialImpactD
 			addNewUnsavedFieldToEditContext({ daysOfWeek: selectedDaysOfWeek })
 			navigation.goBack()
 			navigation.goBack()
-			return
 		}
-
-		setSocialImpactDataOnContext({ daysOfWeek: selectedDaysOfWeek })
-		navigation.navigate('SelectSocialImpactRepeat')
 	}
 
 	return (
@@ -47,7 +37,6 @@ function SelectSocialImpactDaysOfWeek({ route, navigation }: SelectSocialImpactD
 			<PostDaysOfWeek
 				backgroundColor={theme.pink2}
 				validationColor={theme.pink1}
-				progress={[4, 4]}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : []}
 				skipScreen={skipScreen}
 				navigateBackwards={() => navigation.goBack()}

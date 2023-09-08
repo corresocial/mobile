@@ -6,96 +6,107 @@ import { theme } from '../../../common/theme'
 import SalesCartWhiteIcon from '../../../assets/icons/salesCart-white.svg'
 import ExchangeWhiteIcon from '../../../assets/icons/exchange-white.svg'
 import CashWhiteIcon from '../../../assets/icons/cash-white.svg'
+import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 
 import { PaymentType } from '../../../services/firebase/types'
 
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../_containers/FormContainer'
 import { BackButton } from '../../_buttons/BackButton'
-import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
-import { ProgressBar } from '../../ProgressBar'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { OptionButton } from '../../_buttons/OptionButton'
+import { HorizontalSpacing } from '../../HorizontalSpacing'
+import { SmallButton } from '../../_buttons/SmallButton'
 
 interface PaymentMethodProps {
 	backgroundColor: string
+	itemsColor: string
 	customTitle?: string
 	customHighlight?: string[]
 	isVacancy?: boolean
-	progress: [value: number, range: number]
+	skipScreen?: () => void
 	savePaymentMethod: (paymentType: PaymentType) => void
 	navigateBackwards: () => void
 }
 
 function PaymentMethod({
 	backgroundColor,
+	itemsColor,
 	customTitle,
 	customHighlight,
 	isVacancy,
-	progress,
-	savePaymentMethod,
-	navigateBackwards
+	skipScreen,
+	navigateBackwards,
+	savePaymentMethod
 }: PaymentMethodProps) {
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={backgroundColor} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(26)}
+				relativeHeight={relativeScreenHeight(28)}
 				centralized
-				backgroundColor={theme.white3}
+				backgroundColor={backgroundColor}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={17}
+					fontSize={16}
 					message={customTitle || 'você vende, aceita troca ou os dois ?'}
 					highlightedWords={customHighlight || ['vende', 'aceita', 'troca', 'os', 'dois']}
-				>
-					<ProgressBar
-						value={progress[0]}
-						range={progress[1]}
-					/>
-				</InstructionCard>
+				/>
+				{
+					skipScreen ? (
+						<>
+							<HorizontalSpacing />
+							<SmallButton
+								SvgIcon={TrashWhiteIcon}
+								color={theme.red3}
+								height={relativeScreenWidth(11)}
+								relativeWidth={relativeScreenWidth(11)}
+								svgScale={['60%', '60%']}
+								onPress={skipScreen}
+							/>
+						</>
+					)
+						: <></>
+				}
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={backgroundColor}
+				backgroundColor={theme.white3}
 			>
 				<ButtonsContainer>
-					<PrimaryButton
-						justifyContent={'space-around'}
-						color={theme.white3}
-						relativeHeight={'21%'}
-						labelColor={theme.black4}
-						fontSize={20}
-						label={isVacancy ? 'um pagamento' : 'somente venda'}
-						highlightedWords={['venda', 'pagamento']}
-						SecondSvgIcon={isVacancy ? CashWhiteIcon : SalesCartWhiteIcon}
-						svgIconScale={['35%', '18%']}
+					<OptionButton
+						label={isVacancy ? 'um \npagamento' : 'somente \nvenda'}
+						highlightedWords={isVacancy ? ['\npagamento'] : ['\nvenda']}
+						labelSize={18}
+						relativeHeight={'22%'}
+						SvgIcon={isVacancy ? CashWhiteIcon : SalesCartWhiteIcon}
+						svgIconScale={['55%', '55%']}
+						leftSideColor={itemsColor}
+						leftSideWidth={'25%'}
 						onPress={() => savePaymentMethod('sale')}
 					/>
-					<PrimaryButton
-						justifyContent={'space-around'}
-						color={theme.white3}
-						relativeHeight={'21%'}
-						labelColor={theme.black4}
-						fontSize={20}
-						label={isVacancy ? 'uma troca' : 'somente troca'}
-						highlightedWords={['troca']}
-						SecondSvgIcon={ExchangeWhiteIcon}
-						svgIconScale={['35%', '18%']}
+					<OptionButton
+						label={isVacancy ? 'uma \ntroca' : 'somente \ntroca'}
+						highlightedWords={['\ntroca']}
+						labelSize={18}
+						relativeHeight={'22%'}
+						SvgIcon={isVacancy ? ExchangeWhiteIcon : CashWhiteIcon}
+						svgIconScale={['55%', '55%']}
+						leftSideColor={itemsColor}
+						leftSideWidth={'25%'}
 						onPress={() => savePaymentMethod('exchange')}
 					/>
-					<PrimaryButton
-						justifyContent={'space-around'}
-						color={theme.white3}
-						relativeHeight={'21%'}
-						labelColor={theme.black4}
-						fontSize={20}
+					<OptionButton
 						label={`${isVacancy ? 'pagamento' : 'venda'} \nou troca`}
 						highlightedWords={['venda', 'troca', 'pagamento']}
-						SvgIcon={ExchangeWhiteIcon}
-						SecondSvgIcon={isVacancy ? CashWhiteIcon : SalesCartWhiteIcon}
-						svgIconScale={['35%', '18%']}
+						labelSize={18}
+						relativeHeight={'23%'}
+						SvgIcon={isVacancy ? CashWhiteIcon : SalesCartWhiteIcon}
+						SecondSvgIcon={ExchangeWhiteIcon}
+						svgIconScale={['45%', '55%']}
+						leftSideColor={itemsColor}
+						leftSideWidth={'25%'}
 						onPress={() => savePaymentMethod('both')}
 					/>
 				</ButtonsContainer>

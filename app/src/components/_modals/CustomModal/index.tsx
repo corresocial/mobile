@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Modal } from 'react-native'
+import { Modal, TextStyle } from 'react-native'
 import { SvgProps } from 'react-native-svg'
 
 import { RFValue } from 'react-native-responsive-fontsize'
@@ -34,12 +34,14 @@ interface CustomModalProps {
 		text?: string
 		fontSize?: number
 		bolded?: boolean
+		textAlign?: TextStyle['textAlign']
 		highlightedWords?: string[]
 	},
 	secondParagraph?: {
 		text?: string
 		fontSize?: number
 		bolded?: boolean
+		textAlign?: TextStyle['textAlign']
 		highlightedWords?: string[]
 	} | false,
 	listItemText?: string | false
@@ -101,7 +103,7 @@ function CustomModal({
 				<Content>
 					<ContentInner>
 						<Header>
-							{TitleIcon && <TitleIcon width={'20%'} height={'70%'} style={iconStyle} />}
+							{TitleIcon && <TitleIcon width={'20%'} height={'100%'} style={iconStyle} />}
 							<Title
 								hasHighlightedWords={!!titleHighlightedWords}
 							>
@@ -127,6 +129,7 @@ function CustomModal({
 								<Description
 									bolded={firstParagraph.bolded}
 									fontSize={firstParagraph.fontSize}
+									textAlign={firstParagraph.textAlign}
 								>
 									{showMessageWithHighlight(firstParagraph.text || '', firstParagraph.highlightedWords)}
 								</Description>
@@ -174,7 +177,7 @@ function CustomModal({
 										svgIconScale={['40%', '25%']}
 										onPress={() => closeModalAfterOnPress(affirmativeButton.onPress)}
 									/>
-									<VerticalSigh />
+									{negativeButton && <VerticalSigh />}
 								</>
 							)
 						}

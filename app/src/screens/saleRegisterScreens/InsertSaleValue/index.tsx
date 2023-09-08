@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { theme } from '../../../common/theme'
 
-import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
@@ -12,7 +11,6 @@ import { InsertSaleValueScreenProps } from '../../../routes/Stack/SaleStack/stac
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
-	const { isSecondPost, saleDataContext, setSaleDataOnContext } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -46,28 +44,10 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 				navigation.pop(2)
 				navigation.goBack()
 			}
-		} else {
-			setSaleDataOnContext({ saleValue })
 		}
 
-		if (route.params.bothPaymentType) {
+		if (bothPaymentType) {
 			navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
-		} else {
-			if (isSecondPost) {
-				navigation.reset({
-					index: 0,
-					routes: [{
-						name: 'EditSalePostReview',
-						params: {
-							postData: { ...saleDataContext, saleValue },
-							unsavedPost: true
-						}
-					}]
-				})
-				return
-			}
-
-			navigation.navigate('SelectSaleRange')
 		}
 	}
 
@@ -80,8 +60,6 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 				customTitle={'por quanto você vende?'}
 				customHighlight={['quanto']}
 				inputPlaceholder={'ex: 100 reais'}
-				// initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[3, isSecondPost ? 3 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSaleValue}
 				navigateBackwards={() => navigation.goBack()}

@@ -1,10 +1,11 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { getLocationViewDescription, getLocationViewHighlightedWords, getLocationViewTitle } from '../../../utils/locationMessages'
-
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
+import EyeDashedWhiteIcon from '../../../assets/icons/eyeDashed-white.svg'
+import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
+import EyeWhiteIcon from '../../../assets/icons/eye-white.svg'
 
 import { LocationViewType } from '../../../services/firebase/types'
 
@@ -13,29 +14,29 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
-import { TitleDescriptionButton } from '../../../components/_cards/TitleDescriptionButton'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { OptionButton } from '../../_buttons/OptionButton'
 
 interface PostLocationViewProps {
 	backgroundColor: string
+	itemsColor: string
 	progress: [value: number, range: number]
 	saveLocationViewType: (locationView: LocationViewType) => void
 	navigateBackwards: () => void
 }
 
-function PostLocationView({ backgroundColor, progress, saveLocationViewType, navigateBackwards }: PostLocationViewProps) {
+function PostLocationView({ backgroundColor, itemsColor, progress, saveLocationViewType, navigateBackwards }: PostLocationViewProps) {
 	return (
 		<Container>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={backgroundColor} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(28)}
 				centralized
-				backgroundColor={theme.white3}
+				backgroundColor={backgroundColor}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={17}
+					fontSize={16}
 					message={'como você prefere que outros usuários vejam sua localização?'}
 					highlightedWords={['como', 'você', 'prefere', 'vejam', 'sua', 'localização']}
 				>
@@ -46,31 +47,46 @@ function PostLocationView({ backgroundColor, progress, saveLocationViewType, nav
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={backgroundColor}
+				backgroundColor={theme.white3}
 			>
 				<ButtonsContainer>
-					<TitleDescriptionButton
-						height={'28%'}
-						color={theme.white3}
-						title={getLocationViewTitle('private')}
-						description={getLocationViewDescription('private')}
-						highlightedWords={getLocationViewHighlightedWords('private')}
+					<OptionButton
+						label={'privada'}
+						highlightedWords={['privada']}
+						shortDescription={'os usuários podem \nver seu perfil, mas não tem \nacesso a sua localização'}
+						shortDescriptionHighlightedWords={['mas', 'não', 'tem', '\nacesso', 'a', 'sua', 'localização']}
+						shortDescriptionFontSize={14}
+						relativeHeight={'26%'}
+						SvgIcon={EyeDashedWhiteIcon}
+						svgIconScale={['50%', '60%']}
+						leftSideColor={itemsColor}
+						leftSideWidth={'25%'}
 						onPress={() => saveLocationViewType('private')}
 					/>
-					<TitleDescriptionButton
-						height={'28%'}
-						color={theme.white3}
-						title={getLocationViewTitle('approximate')}
-						description={getLocationViewDescription('approximate')}
-						highlightedWords={getLocationViewHighlightedWords('approximate')}
+					<OptionButton
+						label={'aproximada'}
+						highlightedWords={['aproximada']}
+						shortDescription={'os usuários podem ver a \nsua região aproximada'}
+						shortDescriptionHighlightedWords={['\nsua', 'região', 'aproximada']}
+						shortDescriptionFontSize={14}
+						relativeHeight={'26%'}
+						SvgIcon={PinWhiteIcon}
+						svgIconScale={['40%', '45%']}
+						leftSideColor={itemsColor}
+						leftSideWidth={'25%'}
 						onPress={() => saveLocationViewType('approximate')}
 					/>
-					<TitleDescriptionButton
-						height={'28%'}
-						color={theme.white3}
-						title={getLocationViewTitle('public')}
-						description={getLocationViewDescription('public')}
-						highlightedWords={getLocationViewHighlightedWords('public')}
+					<OptionButton
+						label={'pública'}
+						highlightedWords={['pública']}
+						shortDescription={'os usuários podem ver \nexatamente onde você está'}
+						shortDescriptionHighlightedWords={['\nexatamente', 'onde', 'você', 'está']}
+						shortDescriptionFontSize={14}
+						relativeHeight={'26%'}
+						SvgIcon={EyeWhiteIcon}
+						svgIconScale={['50%', '60%']}
+						leftSideColor={itemsColor}
+						leftSideWidth={'25%'}
 						onPress={() => saveLocationViewType('public')}
 					/>
 				</ButtonsContainer>

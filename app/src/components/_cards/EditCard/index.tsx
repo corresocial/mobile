@@ -19,7 +19,6 @@ interface EditCardProps {
 	pressionable?: boolean
 	indicatorColor?: string
 	carousel?: boolean
-	SvgIcon?: React.FC<SvgProps>
 	SecondSvgIcon?: React.FC<SvgProps>
 	RightIcon?: React.FC<SvgProps>
 	children?: ReactElement
@@ -36,7 +35,6 @@ function EditCard({
 	indicatorColor,
 	carousel,
 	pressionable,
-	SvgIcon,
 	SecondSvgIcon,
 	RightIcon,
 	children,
@@ -54,6 +52,7 @@ function EditCard({
 		}
 		return false
 	}
+
 	return (
 		<DefaultTouchableCardContainer
 			withoutPadding={!!profilePicturesUrl.length}
@@ -71,7 +70,6 @@ function EditCard({
 						title={title}
 						highlightedWords={highlightedWords}
 						SecondSvgIcon={SecondSvgIcon}
-						fontSize={20}
 						dimensions={30}
 						justifyContent={'space-between'}
 					/>
@@ -110,9 +108,7 @@ function EditCard({
 										/>
 									) : (
 										<ProfilePicture
-											source={{
-												uri: profilePicturesUrl[0] || 'https://www.softdownload.com.br/wp-content/uploads/2018/03/como_trocar_foto_perfil_facebook.jpg'
-											}}
+											source={{ uri: profilePicturesUrl[0] || 'https://www.softdownload.com.br/wp-content/uploads/2018/03/como_trocar_foto_perfil_facebook.jpg' }}
 											width={0}
 											height={0}
 										/>

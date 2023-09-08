@@ -109,7 +109,6 @@ function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLoc
 			<SelectPostLocation
 				backgroundColor={theme.pink2}
 				validationColor={theme.pink1}
-				searchPlaceholder={'digite o endereço da iniciativa'}
 				initialValue={editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }}
 				navigateBackwards={() => navigation.goBack()}
 				saveLocation={saveLocation}

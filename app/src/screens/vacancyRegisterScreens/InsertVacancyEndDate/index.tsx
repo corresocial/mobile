@@ -7,13 +7,11 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertVacancyEndDateScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
-import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 import { PostDate } from '../../../components/_onboarding/PostDate'
 
 function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenProps) {
-	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
-	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -32,11 +30,7 @@ function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenP
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endDate: '' })
 			navigation.goBack()
-			return
 		}
-
-		setVacancyDataOnContext({ endDate: '' as any })
-		navigation.navigate('InsertVacancyEndHour')
 	}
 
 	const saveVacancyStartDate = (year: string, month: string, day: string) => {
@@ -45,11 +39,7 @@ function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenP
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endDate })
 			navigation.goBack()
-			return
 		}
-
-		setVacancyDataOnContext({ endDate })
-		navigation.navigate('InsertVacancyEndHour')
 	}
 
 	return (
@@ -58,12 +48,9 @@ function InsertVacancyEndDate({ route, navigation }: InsertVacancyEndDateScreenP
 			<PostDate
 				backgroundColor={theme.yellow2}
 				validationColor={theme.yellow1}
-				customTitle={'quando termina?'}
-				customHighlight={['termina']}
-				editMode={editModeIsTrue()}
-				startDate={editDataContext.unsaved.startDate || vacancyDataContext.startDate}
+				customTitle={'que dia termina?'}
+				customHighlight={['dia', 'termina']}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

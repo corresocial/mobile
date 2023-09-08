@@ -7,13 +7,11 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertVacancyStartHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
-import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertVacancyStartHour({ route, navigation }: InsertVacancyStartHourScreenProps) {
-	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -33,28 +31,17 @@ function InsertVacancyStartHour({ route, navigation }: InsertVacancyStartHourScr
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ startHour: '' })
 			navigation.goBack()
-			return
 		}
-
-		setVacancyDataOnContext({ startHour: '' as any })
-		navigation.navigate('InsertVacancyEndDate')
 	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
 		const startHour = new Date()
 		startHour.setHours(parseInt(hour), parseInt(minutes))
+		const ISOStringDateTime = new Date(startHour.getTime())
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ startHour })
+			addNewUnsavedFieldToEditContext({ startHour: ISOStringDateTime })
 			navigation.goBack()
-			return
-		}
-
-		setVacancyDataOnContext({ startHour })
-		if (vacancyDataContext.vacancyType === 'professional') {
-			navigation.navigate('InsertVacancyEndHour')
-		} else {
-			navigation.navigate('InsertVacancyEndDate')
 		}
 	}
 
@@ -65,7 +52,6 @@ function InsertVacancyStartHour({ route, navigation }: InsertVacancyStartHourScr
 				backgroundColor={theme.yellow2}
 				validationColor={theme.yellow1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

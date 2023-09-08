@@ -28,7 +28,11 @@ exports.getFeedPostsBeta = functions.https.onRequest(async (req, res) => { // re
 		return res.status(200).send(postsWithLocationFilter)
 	} catch (err) {
 		console.log(err)
-		return res.status(500).send(err)
+		return res.status(500).send({
+			nearby: [],
+			city: [],
+			country: []
+		})
 	}
 })
 
@@ -51,7 +55,7 @@ const getNearbyPosts = async (collectionRef, searchParams) => {
 			return { nearbyPosts: posts, nearPostIds }
 		})
 		.catch((err) => {
-			return err
+			return []
 		})
 }
 
@@ -98,7 +102,7 @@ const getCountryPosts = async (
 			const posts = []
 
 			snapshotCountry.forEach((doc) => {
-				if (!nearPostIds.includes(doc.id) || !cityPostIds.includes(doc.id)) {
+				if (!nearPostIds.includes(doc.id) && !cityPostIds.includes(doc.id)) {
 					posts.push({ ...doc.data(), postId: doc.id })
 					// console.log(`Country: ${doc.data().title} - ${doc.data().range} ------- ${doc.data().postType}`)
 				}

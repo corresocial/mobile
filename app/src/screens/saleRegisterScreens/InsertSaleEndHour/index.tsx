@@ -7,14 +7,12 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertSaleEndHourScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
-import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostTime } from '../../../components/_onboarding/PostTime'
 
 function InsertSaleEndHour({ route, navigation }: InsertSaleEndHourScreenProps) {
-	const { saleDataContext, setSaleDataOnContext } = useContext(SaleContext)
-	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -33,43 +31,18 @@ function InsertSaleEndHour({ route, navigation }: InsertSaleEndHourScreenProps) 
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ endHour: '' })
 			navigation.goBack()
-			return
 		}
-
-		setSaleDataOnContext({ endHour: '' as any })
-		navigation.reset({
-			index: 0,
-			routes: [{
-				name: 'EditSalePostReview',
-				params: {
-					postData: { ...saleDataContext, endHour: '' },
-					unsavedPost: true
-				}
-			}]
-		})
 	}
 
 	const saveEndTime = (hour: string, minutes: string) => {
 		const endHour = new Date()
 		endHour.setHours(parseInt(hour), parseInt(minutes))
+		const ISOStringDateTime = new Date(endHour.getTime())
 
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ endHour })
+			addNewUnsavedFieldToEditContext({ endHour: ISOStringDateTime })
 			navigation.goBack()
-			return
 		}
-
-		setSaleDataOnContext({ endHour })
-		navigation.reset({
-			index: 0,
-			routes: [{
-				name: 'EditSalePostReview',
-				params: {
-					postData: { ...saleDataContext, endHour },
-					unsavedPost: true
-				}
-			}]
-		})
 	}
 
 	return (
@@ -78,11 +51,9 @@ function InsertSaleEndHour({ route, navigation }: InsertSaleEndHourScreenProps) 
 			<PostTime
 				backgroundColor={theme.green2}
 				validationColor={theme.green1}
-				customTitle={'que horas você termina?'}
-				customHighlight={['que', 'horas', 'termina']}
-				startTime={editDataContext.unsaved.startHour || saleDataContext.startHour}
+				customTitle={'que horas termina?'}
+				customHighlight={['horas', 'termina']}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[5, 5]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

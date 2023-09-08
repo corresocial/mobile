@@ -43,12 +43,12 @@ function ImageCarousel({
 				width: '100%',
 				height: square ? relativeWidth : relativeScreenHeight(28),
 				overflow: 'hidden',
-				borderWidth: 0
+				borderWidth: 0,
 			}}
 		>
 			<PhotoPortrait
 				borderWidth={withoutBorder ? 0 : 2.5}
-				borderRightWidth={withoutBorder ? 0 : 8}
+				borderRightWidth={withoutBorder ? 0 : 10}
 				height={'100%'}
 				width={'100%'}
 				pictureUri={url}
@@ -84,7 +84,7 @@ function ImageCarousel({
 			<CarouselIndicatorContainer>
 				{renderCarouselIndicators()}
 			</CarouselIndicatorContainer>
-		</View>
+		</View >
 
 	)
 }

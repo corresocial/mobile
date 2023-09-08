@@ -38,6 +38,7 @@ export const SearchInputContainer = styled.View`
 	width: 100%;
 	flex-direction: row;
 	justify-content: space-between;
+	align-items: center;
 	padding: ${RFValue(5)}px;
 	border-bottom-width: ${RFValue(3)}px;
 	border-bottom-color: ${({ theme }) => theme.black4}

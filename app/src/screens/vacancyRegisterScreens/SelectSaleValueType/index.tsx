@@ -4,14 +4,12 @@ import { StatusBar } from 'react-native'
 import { SelectSaleValueTypeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { SaleValueType } from '../../../services/firebase/types'
 
-import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PaymentValueType } from '../../../components/_onboarding/PaymentValueType'
 import { theme } from '../../../common/theme'
 
 function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenProps) {
-	const { isSecondPost, vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const saveVacancyValueType = (paymentType: SaleValueType) => {
@@ -32,30 +30,12 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 						navigation.goBack()
 						return
 					}
-				} else {
-					setVacancyDataOnContext({ saleValue: 'a combinar' })
 				}
 
 				if (bothPaymentType) {
 					navigation.navigate('InsertExchangeValue', { editMode: editModeIsTrue() })
-					return
 				}
 
-				if (isSecondPost) {
-					navigation.reset({
-						index: 0,
-						routes: [{
-							name: 'EditVacancyPostReview',
-							params: {
-								postData: { ...vacancyDataContext, saleValue: 'a combinar' },
-								unsavedPost: true
-							}
-						}]
-					})
-					return
-				}
-
-				navigation.navigate('SelectVacancyRange')
 				break
 			}
 			default: return false
@@ -64,10 +44,10 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
 			<PaymentValueType
 				backgroundColor={theme.yellow2}
-				progress={[3, isSecondPost ? 3 : 5]}
+				itemsColor={theme.yellow3}
 				navigateBackwards={() => navigation.goBack()}
 				savePaymentValueType={saveVacancyValueType}
 			/>

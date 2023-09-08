@@ -32,7 +32,8 @@ function SelectLocationView({ route, navigation }: SelectLocationViewScreenProps
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<PostLocationView
 				backgroundColor={theme.purple2}
-				progress={[4, 5]}
+				itemsColor={theme.purple3}
+				progress={[4, 4]}
 				saveLocationViewType={saveLocationViewType}
 				navigateBackwards={() => navigation.goBack()}
 			/>

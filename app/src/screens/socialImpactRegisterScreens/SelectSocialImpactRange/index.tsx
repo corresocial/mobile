@@ -12,23 +12,23 @@ import { StripeContext } from '../../../contexts/StripeContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 
 import { PostRange } from '../../../components/_onboarding/PostRange'
-import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionInfoModal'
+import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
 
 function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)
+	const { isSecondPost, socialImpactDataContext, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
 	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = React.useState(false)
 
 	useEffect(() => {
-		if (!editModeIsTrue()) setSubscriptionModalIsVisible(true)
+		if (!editModeIsTrue() && !isSecondPost) setSubscriptionModalIsVisible(true)
 	}, [])
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const closeSubscriptionInfoModal = () => setSubscriptionModalIsVisible(false)
+	const closeSubscriptionPresentationModal = () => setSubscriptionModalIsVisible(false)
 
 	const savePostRange = (postRange: PostRangeType) => {
 		if (editModeIsTrue()) {
@@ -37,29 +37,47 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 			return
 		}
 
-		setSocialImpactDataOnContext({ range: postRange })
-		navigation.navigate('SelectSocialImpactLocationView')
+		if (isSecondPost) {
+			navigation.reset({
+				index: 0,
+				routes: [{
+					name: 'EditSocialImpactPostReview',
+					params: {
+						postData: {
+							...socialImpactDataContext,
+							range: postRange,
+							repeat: 'unrepeatable'
+						},
+						unsavedPost: true
+					}
+				}]
+			})
+		} else {
+			setSocialImpactDataOnContext({ range: postRange })
+			navigation.navigate('SelectSocialImpactLocationView')
+		}
 	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-			<SubscriptionInfoModal
+			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
+			<SubscriptionPresentationModal
 				visibility={subscriptionModalIsVisible}
 				profilePictureUri={profilePictureUrl}
 				withoutNegativeOption
 				closeModal={() => setSubscriptionModalIsVisible(false)}
-				onPressButton={closeSubscriptionInfoModal}
+				onPressButton={closeSubscriptionPresentationModal}
 			/>
 			<PostRange
 				backgroundColor={theme.pink2}
+				itemsColor={theme.pink3}
 				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
-				progress={[3, 4]}
+				progress={[5, isSecondPost ? 5 : 6]}
 			/>
 		</>
 	)

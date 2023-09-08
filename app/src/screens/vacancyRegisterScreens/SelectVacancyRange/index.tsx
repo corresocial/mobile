@@ -12,38 +12,48 @@ import { StripeContext } from '../../../contexts/StripeContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 
 import { PostRange } from '../../../components/_onboarding/PostRange'
-import { SubscriptionInfoModal } from '../../../components/_modals/SubscriptionInfoModal'
+import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
 
 function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
+	const { isSecondPost, vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { stripeProductsPlans } = useContext(StripeContext)
 
 	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = React.useState(false)
 
 	useEffect(() => {
-		if (!editModeIsTrue()) setSubscriptionModalIsVisible(true)
+		if (!editModeIsTrue() && !isSecondPost) setSubscriptionModalIsVisible(true)
 	}, [])
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const closeSubscriptionInfoModal = () => setSubscriptionModalIsVisible(false)
+	const closeSubscriptionPresentationModal = () => setSubscriptionModalIsVisible(false)
 
 	const savePostRange = (postRange: PostRangeType) => {
-		const { workplace } = vacancyDataContext
-
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ range: postRange })
 			navigation.goBack()
 			return
 		}
 
-		setVacancyDataOnContext({ range: postRange })
-		if (workplace !== 'homeoffice') {
-			navigation.navigate('SelectVacancyLocationView')
+		if (isSecondPost) {
+			navigation.reset({
+				index: 0,
+				routes: [{
+					name: 'EditVacancyPostReview',
+					params: {
+						postData: {
+							...vacancyDataContext,
+							range: postRange
+						},
+						unsavedPost: true
+					}
+				}]
+			})
 		} else {
-			navigation.navigate('SelectWorkWeekdays')
+			setVacancyDataOnContext({ range: postRange })
+			navigation.navigate('SelectVacancyLocationView')
 		}
 	}
 
@@ -51,21 +61,23 @@ function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
-			<SubscriptionInfoModal
+			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
+			<SubscriptionPresentationModal
 				visibility={subscriptionModalIsVisible}
 				profilePictureUri={profilePictureUrl}
 				withoutNegativeOption
 				closeModal={() => setSubscriptionModalIsVisible(false)}
-				onPressButton={closeSubscriptionInfoModal}
+				onPressButton={closeSubscriptionPresentationModal}
 			/>
 			<PostRange
 				backgroundColor={theme.yellow2}
+				itemsColor={theme.yellow3}
+				isVacancy
 				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
-				progress={[4, 5]}
+				progress={[6, isSecondPost ? 6 : 7]}
 			/>
 		</>
 	)

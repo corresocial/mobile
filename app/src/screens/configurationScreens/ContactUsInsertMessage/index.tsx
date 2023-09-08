@@ -16,12 +16,12 @@ import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { LineInput } from '../../../components/LineInput'
 import { InfoCard } from '../../../components/_cards/InfoCard'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { Loader } from '../../../components/Loader'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { FormContainer } from '../../../components/_containers/FormContainer'
+import { DefaultInput } from '../../../components/_inputs/DefaultInput'
 
 function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -106,18 +106,14 @@ function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScr
 				/>
 			</DefaultHeaderContainer>
 			<FormContainer >
-				<LineInput
+				<DefaultInput
 					value={message}
 					relativeWidth={'100%'}
-					initialNumberOfLines={2}
 					textInputRef={inputRefs.descriptionInput}
 					defaultBackgroundColor={theme.white2}
-					defaultBorderBottomColor={theme.black4}
 					validBackgroundColor={theme.orange1}
-					validBorderBottomColor={theme.orange5}
 					multiline
 					lastInput
-					textAlign={'left'}
 					fontSize={16}
 					placeholder={'detalhes o ocorrido...'}
 					keyboardType={'default'}

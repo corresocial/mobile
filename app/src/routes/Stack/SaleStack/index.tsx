@@ -8,9 +8,7 @@ import { SaleProvider } from '../../../contexts/SaleContext'
 
 import { SelectSaleCategory } from '../../../screens/saleRegisterScreens/SelectSaleCategory'
 import { SelectSaleTags } from '../../../screens/saleRegisterScreens/SelectSaleTags'
-import { InsertSaleTitle } from '../../../screens/saleRegisterScreens/InsertSaleTitle'
-import { InsertItemDescription } from '../../../screens/saleRegisterScreens/InsertItemDescription'
-import { InsertSalePicture } from '../../../screens/saleRegisterScreens/InsertSalePicture'
+import { InsertSaleDescription } from '../../../screens/saleRegisterScreens/InsertSaleDescription'
 import { SalePicturePreview } from '../../../screens/saleRegisterScreens/SalePicturePreview'
 import { SelectPaymentType } from '../../../screens/saleRegisterScreens/SelectPaymentType'
 import { InsertSaleValue } from '../../../screens/saleRegisterScreens/InsertSaleValue'
@@ -34,19 +32,17 @@ export function SaleStack() {
 	return (
 		<SaleProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectSaleCategory'}
+				initialRouteName={'SelectItemStatus'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
 					...TransitionPresets.SlideFromRightIOS,
 				}}
 			>
+				<Stack.Screen name={'SelectItemStatus'} component={SelectItemStatus} />
 				<Stack.Screen name={'SelectSaleCategory'} component={SelectSaleCategory} />
 				<Stack.Screen name={'SelectSaleTags'} component={SelectSaleTags} />
-				<Stack.Screen name={'SelectItemStatus'} component={SelectItemStatus} />
-				<Stack.Screen name={'InsertSaleTitle'} component={InsertSaleTitle} />
-				<Stack.Screen name={'InsertItemDescription'} component={InsertItemDescription} />
-				<Stack.Screen name={'InsertSalePicture'} component={InsertSalePicture} />
+				<Stack.Screen name={'InsertSaleDescription'} component={InsertSaleDescription} />
 				<Stack.Screen name={'SalePicturePreview'} component={SalePicturePreview} />
 				<Stack.Screen name={'SelectPaymentType'} component={SelectPaymentType} />
 				<Stack.Screen name={'SelectSaleValueType'} component={SelectSaleValueType} />

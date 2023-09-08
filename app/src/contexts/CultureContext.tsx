@@ -47,7 +47,7 @@ function CultureProvider({ children }: CultureProviderProps) {
 			locationView: lastUserPost.locationView || '',
 			location: lastUserPost.location || '',
 			entryValue: lastUserPost.entryValue || '',
-			exhibitionFrequency: lastUserPost.exhibitionFrequency || 'someday',
+			exhibitionFrequency: lastUserPost.exhibitionFrequency || '',
 			daysOfWeek: lastUserPost.daysOfWeek || [],
 			repeat: lastUserPost.repeat || 'unrepeatable',
 			startDate: lastUserPost.startDate || '',

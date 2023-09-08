@@ -27,8 +27,7 @@ function PrivacyAndSecurity({ navigation }: PrivacyAndSecurityScreenProps) {
 					fontSize={15}
 					message={'privacidade e segurança'}
 					highlightedWords={['privacidade', 'segurança']}
-				>
-				</InstructionCard>
+				/>
 			</DefaultHeaderContainer>
 			<TermsOfService
 				calledFromConfig

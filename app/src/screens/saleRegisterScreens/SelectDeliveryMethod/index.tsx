@@ -30,10 +30,10 @@ function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenP
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostDeliveryMethod
 				backgroundColor={theme.green2}
-				progress={[5, 5]}
+				itemsColor={theme.green3}
 				navigateBackwards={() => navigation.goBack()}
 				saveDeliveryMethod={saveDeliveryMethod}
 			/>

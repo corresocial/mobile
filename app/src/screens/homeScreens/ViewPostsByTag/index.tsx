@@ -5,7 +5,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { Body, Container, ContainerPadding, Header, InputContainer, SearchInput } from './styles'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import LoupIcon from '../../../assets/icons/loup.svg'
+import LoupIcon from '../../../assets/icons/loup-white.svg'
 
 import { PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
 import { ViewPostsByTagScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
@@ -44,7 +44,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	const filterPostsByRange = (post: PostCollectionRemote) => {
 		return post.category === categoryName
 			&& post.postType === locationDataContext.searchParams.postType
-			&& !!post.title.match(new RegExp(`${searchText}`, 'i'))?.length
+			&& !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length
 			&& !!post.tags.includes(route.params.currentTagSelected)
 	}
 

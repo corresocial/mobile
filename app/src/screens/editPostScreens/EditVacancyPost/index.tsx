@@ -30,6 +30,7 @@ import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
 import { ImportantPointsCard } from '../../../components/_cards/ImportantPointsCard'
 import { EditPost } from '../../../components/EditPost'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
+import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
 
 function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -38,8 +39,9 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
 
 	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
+	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
-	const { postData, unsavedPost } = route.params
+	const { postData, unsavedPost, showPresentationModal } = route.params
 	const owner: any = { // TODO Type
 		userId: userDataContext.userId,
 		name: userDataContext.name,
@@ -47,6 +49,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	}
 
 	useEffect(() => {
+		showPresentationModal && togglePostReviewPresentationModalVisibility()
 		clearUnsavedEditContext()
 	}, [])
 
@@ -118,6 +121,10 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 		setLocationChangeModalIsVisible(!locationChangeModalIsVisible)
 	}
 
+	const togglePostReviewPresentationModalVisibility = () => {
+		setPostReviewPresentationModalIsVisible(!postReviewPresentationModalIsVisible)
+	}
+
 	const checkChangeLocationAlertIsRequired = () => {
 		if (userDataContext.posts && userDataContext.posts.length < 1) navigateToEditScreen('SelectVacancyLocationView', 'location')
 
@@ -167,6 +174,10 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 				onPressButton={navigateToEditLocationScreen}
 				closeModal={toggleRangeChangeModalVisibility}
 			/>
+			<PostReviewPresentationModal
+				visibility={postReviewPresentationModalIsVisible}
+				onPressButton={togglePostReviewPresentationModalVisibility}
+			/>
 
 			<EditPost
 				initialPostData={{ ...postData, postType: 'vacancy' }}
@@ -191,13 +202,6 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					highlightedWords={['tags']}
 					value={formatCategoryAndTags()}
 					onEdit={() => navigateToEditScreen('SelectVacancyCategory', 'tags')}
-				/>
-				<VerticalSigh />
-				<EditCard
-					title={'título do post'}
-					highlightedWords={['título']}
-					value={getPostField('title')}
-					onEdit={() => navigateToEditScreen('InsertVacancyTitle', 'title')}
 				/>
 				<VerticalSigh />
 				<DescriptionCard

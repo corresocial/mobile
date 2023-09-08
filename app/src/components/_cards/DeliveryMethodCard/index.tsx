@@ -4,7 +4,7 @@ import PeopleWhiteIcon from '../../../assets/icons/people-white.svg'
 import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
 import CityWhiteIcon from '../../../assets/icons/city-white.svg'
 import BrazilWhiteIcon from '../../../assets/icons/brazil-white.svg'
-import TruckIcon from '../../../assets/icons/truck.svg'
+import TruckWhiteIcon from '../../../assets/icons/truck-white.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
@@ -28,7 +28,7 @@ function DeliveryMethodCard({ title, deliveryMethod, onEdit }: DeliveryMethodCar
 			case 'near': return PinWhiteIcon
 			case 'city': return CityWhiteIcon
 			case 'country': return BrazilWhiteIcon
-			default: return TruckIcon
+			default: return TruckWhiteIcon
 		}
 	}
 

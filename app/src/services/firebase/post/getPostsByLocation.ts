@@ -109,7 +109,7 @@ const getCountryPosts = async (
 	const snapshotCountry = await getDocs(countryQuery)
 
 	snapshotCountry.forEach((doc) => {
-		if (!nearPostIds.includes(doc.id) || !cityPostIds.includes(doc.id)) {
+		if (!nearPostIds.includes(doc.id) && !cityPostIds.includes(doc.id)) {
 			posts.push({ ...doc.data(), postId: doc.id })
 			// console.log(`Country: ${doc.data().title} - ${doc.data().range} ------- ${doc.data().postType}`)
 		}

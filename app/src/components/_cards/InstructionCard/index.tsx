@@ -28,7 +28,7 @@ function InstructionCard({
 	padding = 15,
 	fontSize,
 	lineHeight,
-	borderLeftWidth = 5,
+	borderLeftWidth = 8,
 	flex = 1,
 	children
 }: InstructionCardProps) {
@@ -38,13 +38,14 @@ function InstructionCard({
 				borderLeftWidth: RFValue(borderLeftWidth),
 				flex,
 				backgroundColor: backgroundColor || theme.white3,
-				padding: RFValue(padding)
+				padding: RFValue(padding),
+				paddingVertical: RFValue(14),
 			}}
 		>
 			{title && <MessageTitle>{showMessageWithHighlight(title, highlightedWords)}</MessageTitle>}
 			<Message
 				style={{
-					fontSize: fontSize ? RFValue(fontSize) : RFValue(20),
+					fontSize: fontSize ? RFValue(fontSize) : RFValue(18),
 					lineHeight: lineHeight ? RFValue(lineHeight) : RFValue(22),
 				}}
 			>

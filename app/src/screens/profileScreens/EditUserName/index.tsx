@@ -1,30 +1,18 @@
-import { Animated, Keyboard, Platform, StatusBar, TextInput } from 'react-native'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Keyboard, StatusBar } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
 
-import { ButtonContainer, Container, InputsContainer } from './styles'
 import { theme } from '../../../common/theme'
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { EditUserNameScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { EditContext } from '../../../contexts/EditContext'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { LineInput } from '../../../components/LineInput'
+import { PostInputText } from '../../../components/_onboarding/PostInputText'
 
 function EditUserName({ navigation, route }: EditUserNameScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [inputName, setInputName] = useState<string>(route.params.userName)
-	const [nameIsValid, setInputNameIsValid] = useState<boolean>(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
-	const [invalidNameAfterSubmit, setInvaliNameAfterSubmit] = useState<boolean>(false)
-	const inputRefs = {
-		nameInput: useRef<TextInput>(null),
-	}
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -34,103 +22,38 @@ function EditUserName({ navigation, route }: EditUserNameScreenProps) {
 		return unsubscribe
 	}, [navigation])
 
-	useEffect(() => {
-		const validation = validateName(inputName)
-		setInputNameIsValid(validation)
-	}, [inputName])
-
 	const validateName = (text: string) => {
 		const isValid = (text)?.trim().length >= 1
-		if (isValid) {
-			setInvaliNameAfterSubmit(false)
+		if (isValid && !keyboardOpened) {
 			return true
 		}
 		return false
 	}
 
-	const someInvalidFieldSubimitted = () => invalidNameAfterSubmit
-
-	const saveUserName = async () => {
-		addNewUnsavedFieldToEditContext({ name: inputName })
+	const saveUserName = async (name: string) => {
+		addNewUnsavedFieldToEditContext({ name })
 		navigation.goBack()
 	}
 
-	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
-	const animateDefaultHeaderBackgound = () => {
-		const existsError = someInvalidFieldSubimitted()
-
-		Animated.timing(headerBackgroundAnimatedValue.current, {
-			toValue: existsError ? 1 : 0,
-			duration: 300,
-			useNativeDriver: false,
-		}).start()
-
-		return headerBackgroundAnimatedValue.current.interpolate({
-			inputRange: [0, 1],
-			outputRange: [theme.orange2, theme.red2],
-		})
-	}
-
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={someInvalidFieldSubimitted() ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
-			<DefaultHeaderContainer
-				relativeHeight={'55%'}
-				centralized
-				backgroundColor={animateDefaultHeaderBackgound()}
-			>
-				<InstructionCard
-					message={
-						someInvalidFieldSubimitted()
-							? 'ops! \nparece que algo deu errado do nosso lado! \npor favor tente novamente em alguns instantes'
-							: 'edite o seu nome'
-					}
-					highlightedWords={
-						someInvalidFieldSubimitted()
-							? ['ops,', '\nparece', 'que', 'algo', 'deu', 'errado', 'do', 'nosso', 'lado!']
-							: ['nome']
-					}
-				/>
-			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white2}>
-				<InputsContainer>
-					<LineInput
-						value={inputName}
-						relativeWidth={'100%'}
-						textInputRef={inputRefs.nameInput}
-						defaultBackgroundColor={theme.white2}
-						defaultBorderBottomColor={theme.black4}
-						validBackgroundColor={theme.orange1}
-						validBorderBottomColor={theme.orange5}
-						invalidBackgroundColor={theme.red1}
-						invalidBorderBottomColor={theme.red5}
-						maxLength={50}
-						lastInput
-						invalidTextAfterSubmit={invalidNameAfterSubmit}
-						placeholder={'qual é o seu nome?'}
-						keyboardType={'default'}
-						textIsValid={nameIsValid && !keyboardOpened}
-						onChangeText={(text: string) => setInputName(text)}
-					/>
-				</InputsContainer>
-				<ButtonContainer>
-					{
-						nameIsValid && !keyboardOpened
-						&& (
-							<PrimaryButton
-								flexDirection={'row'}
-								color={theme.green3}
-								label={'salvar'}
-								labelColor={theme.white3}
-								SecondSvgIcon={CheckWhiteIcon}
-								onPress={saveUserName}
-							/>
-						)
+		<>
+			<StatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
+			<PostInputText
+				height={'50%'}
+				customTitle={'edite o seu nome'}
+				customHighlight={['nome']}
+				multiline
+				inputPlaceholder={'qual é o seu nome?'}
+				backgroundColor={theme.orange2}
+				validationColor={theme.orange1}
+				initialValue={route.params.userName}
+				keyboardOpened={keyboardOpened}
+				validateInputText={validateName}
+				navigateBackwards={() => navigation.goBack()}
+				saveTextData={saveUserName}
+			/>
+		</>
 
-					}
-				</ButtonContainer>
-			</FormContainer>
-		</Container>
 	)
 }
 

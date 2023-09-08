@@ -13,36 +13,37 @@ export const Container = styled.View`
     align-items: center;
 `
 
-export const AddNewPicturesButton = styled.TouchableOpacity`
-    width: ${relativeScreenWidth(20)}px;
-    height: ${relativeScreenWidth(20)}px;
-    border: 3px solid ${({ theme }) => theme.black4};
-    background-color: ${({ theme }) => theme.white3};
-    border-right-width: ${RFValue(4)}px;
-    border-radius: 15px;
-    align-items: center;
-    justify-content: center;
-    margin-right: ${RFValue(10)}px;
+export const PictureItemButtom = styled.TouchableOpacity<PicturePortraitProps>`
+	background-color: ${({ theme }) => theme.black4};
+	margin-right: ${RFValue(10)}px;
+	overflow: hidden;
+	align-items: center;
+	justify-content: center;
+	border-radius: ${RFValue(15)}px;
+
+	opacity: ${({ pictureSelected }) => (pictureSelected ? 1 : 0.5)};
+	borderWidth: ${({ pictureSelected }) => (pictureSelected ? RFValue(2) : RFValue(3))}px;
+	borderRightWidth: ${({ pictureSelected }) => (pictureSelected ? RFValue(3) : RFValue(6))}px;
 `
 
-export const PictureItemButtom = styled.TouchableOpacity`
+interface PicturePortraitProps {
+	pictureSelected: boolean
+}
 
-`
+export const PicturePortrait = styled.View<PicturePortraitProps>`
+	width: ${relativeScreenWidth(16)}px;
+	height: ${relativeScreenWidth(16)}px;
+	border-color:  ${({ theme }) => theme.black4};
+	background-color: ${({ theme }) => theme.black4};
+	border-radius: ${RFValue(12)}px;
+	align-items: center;
+	justify-content: center;
 
-export const PicturePortrait = styled.View`
-    width: ${relativeScreenWidth(16)}px;
-    height: ${relativeScreenWidth(16)}px;
-    border: 2px ${({ theme }) => theme.black4};
-    background-color: ${({ theme }) => theme.white3};
-    border-radius: 15px;
-    align-items: center;
-    justify-content: center;
-    margin-right: ${RFValue(10)}px;
-    overflow: hidden;
+	overflow: hidden;
 `
 
 export const Picture = styled.Image`
-    resize-mode: contain;
-    width: ${relativeScreenWidth(16)}px;
-    height: ${relativeScreenWidth(16)}px;
+    resize-mode: cover;
+    width: 100%;
+    height: 100%;
 `

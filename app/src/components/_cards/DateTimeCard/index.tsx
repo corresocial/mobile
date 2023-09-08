@@ -3,10 +3,10 @@ import uuid from 'react-uuid'
 
 import { DateTimeContainer } from './styles'
 import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
-import CalendarToday from '../../../assets/icons/calendarToday-unfilled.svg'
-import CalendarEveryday from '../../../assets/icons/calendarEveryday-unfilled.svg'
-import CalendarSomeday from '../../../assets/icons/calendarSomeday-unfilled.svg'
-import CalendarBusinessDay from '../../../assets/icons/calendarBusinessDay-unfilled.svg'
+import CalendarToday from '../../../assets/icons/calendarToday-white.svg'
+import CalendarEveryday from '../../../assets/icons/calendarEveryday-white.svg'
+import CalendarSomeday from '../../../assets/icons/calendarSomeday-white.svg'
+import CalendarBusinessDay from '../../../assets/icons/calendarBusinessDay-white.svg'
 
 import { formatDate, formatHour, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 

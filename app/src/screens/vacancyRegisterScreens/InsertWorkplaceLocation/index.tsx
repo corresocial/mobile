@@ -109,7 +109,6 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 			<SelectPostLocation
 				backgroundColor={theme.yellow2}
 				validationColor={theme.yellow1}
-				searchPlaceholder={'digite o endereço da vaga'}
 				initialValue={editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }}
 				navigateBackwards={() => navigation.goBack()}
 				saveLocation={saveLocation}

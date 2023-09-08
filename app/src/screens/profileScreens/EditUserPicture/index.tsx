@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { Container, InstructionCardContainer } from './styles'
 import { screenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import ImagePlusIcon from '../../../assets/icons/imagePlus.svg'
+import ImagePlusIcon from '../../../assets/icons/addPicture-white.svg'
 import Check from '../../../assets/icons/check-white.svg'
 import X from '../../../assets/icons/x-white.svg'
 
@@ -31,7 +31,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	}
 
 	const setPictureUri = (pictureUri: string) => {
-		if (pictureUri !== userDataContext.profilePictureUrl[0]) {
+		if (userDataContext.profilePictureUrl && pictureUri !== userDataContext.profilePictureUrl[0]) {
 			addNewUnsavedFieldToEditContext({ profilePictureUrl: pictureUri })
 		}
 		setProfilePictureUrl(pictureUri)
@@ -76,7 +76,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 				<InstructionCardContainer>
 				</InstructionCardContainer>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white2}>
+			<FormContainer >
 				<PrimaryButton
 					color={theme.white3}
 					label={'tirar outra?'}
@@ -96,7 +96,7 @@ function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 					svgIconScale={['32%', '20%']}
 					onPress={() => {
 						clearUnsavedEditFieldContext('profilePictureUrl')
-						setPictureUri(userDataContext.profilePictureUrl[0])
+						setPictureUri(userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : '')
 						navigation.goBack()
 					}}
 				/>

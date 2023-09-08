@@ -16,7 +16,7 @@ const defaultDeltaCoordinates = {
 }
 
 function ServiceLocationViewPreview({ route, navigation }: ServiceLocationViewPreviewScreenProps) {
-	const { serviceDataContext, setServiceDataOnContext } = useContext(ServiceContext)
+	const { serviceDataContext } = useContext(ServiceContext)
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const { locationView } = route.params
@@ -46,8 +46,21 @@ function ServiceLocationViewPreview({ route, navigation }: ServiceLocationViewPr
 			return
 		}
 
-		setServiceDataOnContext({ locationView })
-		navigation.navigate('SelectDeliveryMethod')
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'EditServicePostReview',
+				params: {
+					postData: {
+						...serviceDataContext,
+						locationView,
+						deliveryMethod: serviceDataContext.deliveryMethod || 'unavailable',
+					},
+					unsavedPost: true,
+					showPresentationModal: true
+				}
+			}]
+		})
 	}
 
 	const getPostRange = () => {

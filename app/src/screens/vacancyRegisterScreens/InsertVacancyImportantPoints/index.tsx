@@ -4,13 +4,13 @@ import uuid from 'react-uuid'
 
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 
 import { InsertVacancyImportantPointsScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -18,12 +18,11 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { LineInput } from '../../../components/LineInput'
-import { ProgressBar } from '../../../components/ProgressBar'
-import { SkipButton } from '../../../components/_buttons/SkipButton'
+import { DefaultInput } from '../../../components/_inputs/DefaultInput'
+import { HorizontalSpacing } from '../../../components/HorizontalSpacing'
+import { SmallButton } from '../../../components/_buttons/SmallButton'
 
 function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImportantPointsScreenProps) {
-	const { vacancyDataContext, setVacancyDataOnContext } = useContext(VacancyContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [importantPointText, setImportantPointText] = useState('')
@@ -61,26 +60,30 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 		return false
 	}
 
+	const moveToEditableInput = (text: string) => {
+		setImportantPointText(text)
+	}
+
 	const renderVacanciesImportantPointsSaved = () => {
-		if (!importantPointsLength()) return null
+		if (!importantPointsLength() || keyboardOpened) return null
 		return importantPointsList.map((currentImportantPoint, index) => (
-			<LineInput
+			<DefaultInput
 				key={uuid()}
 				value={currentImportantPoint}
 				relativeWidth={'100%'}
+				fixedHeight={75}
 				textInputRef={inputRefs.inputCards[index]}
 				defaultBackgroundColor={theme.white2}
-				defaultBorderBottomColor={theme.black4}
 				validBackgroundColor={theme.yellow1}
-				validBorderBottomColor={theme.yellow5}
-				invalidBackgroundColor={theme.red1}
-				invalidBorderBottomColor={theme.red5}
+				withoutBottomLine
+				multiline
 				lastInput
 				editable={false}
+				uneditableMethod={moveToEditableInput}
 				textAlign={'left'}
 				fontSize={16}
 				keyboardType={'default'}
-				textIsValid={true && !keyboardOpened}
+				textIsValid
 				onIconPress={() => removeImportantPoint(index)}
 				validateText={(text: string) => validateVacancyImportantPoints(text)}
 				onChangeText={(text: string) => { }}
@@ -106,54 +109,26 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ importantPoints: [] })
 			navigation.goBack()
-			return
 		}
-
-		setVacancyDataOnContext({ importantPoints: [] })
-
-		navigation.reset({
-			index: 0,
-			routes: [{
-				name: 'EditVacancyPostReview',
-				params: {
-					postData: { ...vacancyDataContext, importantPoints: [] },
-					unsavedPost: true
-				}
-			}]
-		})
 	}
 
 	const saveVacancyImportantPoints = () => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ importantPoints: importantPointsList })
 			navigation.goBack()
-			return
 		}
-
-		setVacancyDataOnContext({ importantPoints: importantPointsList })
-
-		navigation.reset({
-			index: 0,
-			routes: [{
-				name: 'EditVacancyPostReview',
-				params: {
-					postData: { ...vacancyDataContext, importantPoints: importantPointsList },
-					unsavedPost: true
-				}
-			}]
-		})
 	}
 
 	const getPlaceholder = () => {
 		switch (importantPointsLength()) {
 			case 0: {
-				return '+ coisas importantes sobre você ou a vaga'
+				return 'pontos importantes'
 			}
 			case 1: {
-				return '+ segundo ponto'
+				return 'segundo ponto'
 			}
 			case 2: {
-				return '+ terceiro ponto'
+				return 'terceiro ponto'
 			}
 			default: return false
 		}
@@ -170,19 +145,29 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={17}
+					fontSize={16}
 					message={'quer adicionar até 3 pontos importantes?'}
 					highlightedWords={['adicionar', 'até', '3', 'pontos', 'importantes']}
-				>
-					<ProgressBar
-						value={5}
-						range={5}
-					/>
-				</InstructionCard>
+				/>
+				{
+					skipScreen ? (
+						<>
+							<HorizontalSpacing />
+							<SmallButton
+								SvgIcon={TrashWhiteIcon}
+								color={theme.red3}
+								height={relativeScreenWidth(11)}
+								relativeWidth={relativeScreenWidth(11)}
+								svgScale={['60%', '60%']}
+								onPress={skipScreen}
+							/>
+						</>
+					)
+						: <></>
+				}
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={theme.white2}
+				backgroundColor={theme.white3}
 				justifyContent={importantPointsLength() < 1 ? 'center' : 'space-around'}
 			>
 				<>
@@ -192,21 +177,21 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 					{
 						importantPointsLength() < 3
 						&& (
-							<LineInput
+							<DefaultInput
 								key={4}
 								value={importantPointText}
 								relativeWidth={'100%'}
 								textInputRef={inputRefs.importantPointTextInput}
 								defaultBackgroundColor={theme.white2}
-								defaultBorderBottomColor={theme.black4}
 								validBackgroundColor={theme.yellow1}
-								validBorderBottomColor={theme.yellow5}
-								invalidBackgroundColor={theme.red1}
-								invalidBorderBottomColor={theme.red5}
-								multiline={importantPointsList.length === 0}
+								withoutBottomLine
 								lastInput
-								textAlign={'left'}
+								multiline
 								fontSize={16}
+								onIconPress={!keyboardOpened ? () => { } : null}
+								iconPosition={'left'}
+								textAlignVertical={'center'}
+								textAlign={'center'}
 								placeholder={getPlaceholder() || ''}
 								keyboardType={'default'}
 								onPressKeyboardSubmit={addNewImportantPoint}
@@ -230,17 +215,6 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 						)
 					}
 				</ButtonsContainer>
-				{
-					(importantPointsLength() < 1 && !keyboardOpened)
-						? (
-							<SkipButton
-								customText={'pular'}
-								customHighlight={['pular']}
-								onPress={skipScreen}
-							/>
-						)
-						: <></>
-				}
 			</FormContainer>
 		</Container >
 	)

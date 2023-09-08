@@ -4,7 +4,7 @@ import { StatusBar } from 'react-native'
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
 import WhatsAppWhiteIcon from '../../../assets/icons/whatsapp.svg'
-import SmartphoneIcon from '../../../assets/icons/smartphone.svg'
+import SmartphoneWhiteIcon from '../../../assets/icons/smartphone-white.svg'
 
 import { SelectAuthMethodScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
@@ -42,7 +42,7 @@ function SelectAuthMethod({ navigation }: SelectAuthMethodScreenProps) {
 			<FormContainer backgroundColor={theme.white2} justifyContent={'center'}>
 				<PrimaryButton
 					color={theme.purple3}
-					SecondSvgIcon={SmartphoneIcon}
+					SecondSvgIcon={SmartphoneWhiteIcon}
 					svgIconScale={['50%', '25%']}
 					label={'sms'}
 					highlightedWords={['sms']}

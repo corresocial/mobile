@@ -8,9 +8,7 @@ import { SocialImpactProvider } from '../../../contexts/SocialImpactContext'
 
 import { SelectSocialImpactCategory } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactCategory'
 import { SelectSocialImpactTags } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactTags'
-import { InsertSocialImpactTitle } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactTitle'
 import { InsertSocialImpactDescription } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactDescription'
-import { InsertSocialImpactPicture } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactPicture'
 import { SocialImpactPicturePreview } from '../../../screens/socialImpactRegisterScreens/SocialImpactPicturePreview'
 import { SelectSocialImpactLocationView } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactLocationView'
 import { SelectSocialImpactRange } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactRange'
@@ -23,7 +21,7 @@ import { InsertSocialImpactEndHour } from '../../../screens/socialImpactRegister
 import { SelectSocialImpactRepeat } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactRepeat'
 import { SelectSocialImpactFrequency } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactFrequency'
 import { InsertSocialImpactStartDate } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactStartDate'
-import { InsertSocialImpactEndDate } from '../../../screens/socialImpactRegisterScreens/SocialImpactEndDate'
+import { InsertSocialImpactEndDate } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactEndDate'
 import { EditSocialImpactPost } from '../../../screens/editPostScreens/EditSocialImpactPost'
 import { SelectSocialImpactType } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactType'
 
@@ -43,9 +41,7 @@ export function SocialImpactStack() {
 				<Stack.Screen name={'SelectSocialImpactType'} component={SelectSocialImpactType} />
 				<Stack.Screen name={'SelectSocialImpactCategory'} component={SelectSocialImpactCategory} />
 				<Stack.Screen name={'SelectSocialImpactTags'} component={SelectSocialImpactTags} />
-				<Stack.Screen name={'InsertSocialImpactTitle'} component={InsertSocialImpactTitle} />
 				<Stack.Screen name={'InsertSocialImpactDescription'} component={InsertSocialImpactDescription} />
-				<Stack.Screen name={'InsertSocialImpactPicture'} component={InsertSocialImpactPicture} />
 				<Stack.Screen name={'SocialImpactPicturePreview'} component={SocialImpactPicturePreview} />
 				<Stack.Screen name={'SelectSocialImpactRange'} component={SelectSocialImpactRange} />
 				<Stack.Screen name={'InsertSocialImpactLocation'} component={InsertSocialImpactLocation} />

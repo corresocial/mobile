@@ -7,13 +7,11 @@ import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctio
 
 import { InsertCultureStartDateScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
-import { CultureContext } from '../../../contexts/CultureContext'
 import { EditContext } from '../../../contexts/EditContext'
 
 import { PostDate } from '../../../components/_onboarding/PostDate'
 
 function InsertCultureStartDate({ route, navigation }: InsertCultureStartDateScreenProps) {
-	const { setCultureDataOnContext } = useContext(CultureContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -33,11 +31,7 @@ function InsertCultureStartDate({ route, navigation }: InsertCultureStartDateScr
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ startDate: '' })
 			navigation.goBack()
-			return
 		}
-
-		setCultureDataOnContext({ startDate: '' as any })
-		navigation.navigate('InsertCultureStartHour')
 	}
 
 	const saveCultureStartDate = (year: string, month: string, day: string) => {
@@ -46,11 +40,7 @@ function InsertCultureStartDate({ route, navigation }: InsertCultureStartDateScr
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ startDate })
 			navigation.goBack()
-			return
 		}
-
-		setCultureDataOnContext({ startDate })
-		navigation.navigate('InsertCultureStartHour')
 	}
 
 	return (
@@ -60,7 +50,6 @@ function InsertCultureStartDate({ route, navigation }: InsertCultureStartDateScr
 				backgroundColor={theme.blue2}
 				validationColor={theme.blue1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[4, 4]}
 				keyboardOpened={keyboardOpened}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}

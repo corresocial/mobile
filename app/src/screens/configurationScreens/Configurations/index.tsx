@@ -5,7 +5,7 @@ import { Body, Container, Header } from './styles'
 import { theme } from '../../../common/theme'
 import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
 import XWhiteIcon from '../../../assets/icons/x-white.svg'
-import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
+import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
 import HandOnMoneyWhiteIcon from '../../../assets/icons/handOnMoney-white.svg'
 import HandOnHeartWhiteIcon from '../../../assets/icons/handOnHeart-white.svg'
 import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
@@ -80,7 +80,6 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				<SubscriptionButton customTitle={'assinatura corre.'} onPress={performUserSubscription} />
 				<VerticalSigh />
 				<OptionButton
-					color={theme.white3}
 					label={'quem somos'}
 					highlightedWords={['quem', 'somos']}
 					labelSize={18}
@@ -93,7 +92,6 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				/>
 				<VerticalSigh />
 				<OptionButton
-					color={theme.white3}
 					label={'fale conosco'}
 					highlightedWords={['fale', 'conosco']}
 					relativeHeight={relativeScreenHeight(9)}
@@ -106,7 +104,6 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				/>
 				<VerticalSigh />
 				<OptionButton
-					color={theme.white3}
 					label={'faça uma doação'}
 					highlightedWords={['faça', 'uma', 'doação']}
 					relativeHeight={relativeScreenHeight(9)}
@@ -119,7 +116,6 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				/>
 				<VerticalSigh />
 				<OptionButton
-					color={theme.white3}
 					label={'seja voluntário'}
 					highlightedWords={['seja', 'voluntário']}
 					relativeHeight={relativeScreenHeight(9)}
@@ -132,7 +128,6 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				/>
 				<VerticalSigh />
 				<OptionButton
-					color={theme.white3}
 					label={'compartilhe'}
 					highlightedWords={['compartilhe']}
 					relativeHeight={relativeScreenHeight(9)}
@@ -145,7 +140,6 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				/>
 				<VerticalSigh />
 				<OptionButton
-					color={theme.white3}
 					label={'privacidade \ne segurança'}
 					highlightedWords={['privacidade', 'segurança']}
 					relativeHeight={relativeScreenHeight(10)}

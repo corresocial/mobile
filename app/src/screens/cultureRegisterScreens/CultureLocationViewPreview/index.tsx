@@ -16,7 +16,7 @@ const defaultDeltaCoordinates = {
 }
 
 function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPreviewScreenProps) {
-	const { cultureDataContext, setCultureDataOnContext } = useContext(CultureContext)
+	const { cultureDataContext } = useContext(CultureContext)
 	const { editDataContext, addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const { locationView } = route.params
@@ -46,8 +46,21 @@ function CultureLocationViewPreview({ navigation, route }: CultureLocationViewPr
 			return
 		}
 
-		setCultureDataOnContext({ locationView })
-		navigation.navigate('InsertEntryValue')
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'EditCulturePostReview',
+				params: {
+					postData: {
+						...cultureDataContext,
+						locationView,
+						repeat: 'unrepeatable'
+					},
+					unsavedPost: true,
+					showPresentationModal: true
+				}
+			}]
+		})
 	}
 
 	const getPostRange = () => {

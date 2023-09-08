@@ -44,7 +44,7 @@ function ServiceProvider({ children }: ServiceProviderProps) {
 			locationView: lastUserPost.locationView || '',
 			location: lastUserPost.location || '',
 			deliveryMethod: lastUserPost.deliveryMethod || '',
-			attendanceFrequency: lastUserPost.attendanceFrequency || 'someday',
+			attendanceFrequency: lastUserPost.attendanceFrequency || '',
 			daysOfWeek: lastUserPost.daysOfWeek || '',
 			startHour: lastUserPost.startHour || '',
 			endHour: lastUserPost.endHour || '',

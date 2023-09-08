@@ -6,7 +6,6 @@ import { VacancyStackParamList } from './types'
 
 import { VacancyProvider } from '../../../contexts/VacancyContext'
 
-import { InsertVacancyTitle } from '../../../screens/vacancyRegisterScreens/InsertVacancyTitle'
 import { InsertVacancyDescription } from '../../../screens/vacancyRegisterScreens/InsertVacancyDescription'
 import { SelectWorkplace } from '../../../screens/vacancyRegisterScreens/SelectWorkplace'
 import { InsertWorkplaceLocation } from '../../../screens/vacancyRegisterScreens/InsertWorkplaceLocation'
@@ -16,7 +15,6 @@ import { SelectVacancyType } from '../../../screens/vacancyRegisterScreens/Selec
 import { SelectWorkWeekdays } from '../../../screens/vacancyRegisterScreens/SelectWorkWeekdays'
 import { InsertVacancyStartDate } from '../../../screens/vacancyRegisterScreens/InsertVacancyStartDate'
 import { InsertVacancyEndHour } from '../../../screens/vacancyRegisterScreens/InsertVacancyEndHour'
-import { InsertVacancyPicture } from '../../../screens/vacancyRegisterScreens/InsertVacancyPicture'
 import { VacancyPicturePreview } from '../../../screens/vacancyRegisterScreens/VacancyPicturePreview'
 import { SelectPaymentType } from '../../../screens/vacancyRegisterScreens/SelectPaymentType'
 import { SelectSaleValueType } from '../../../screens/vacancyRegisterScreens/SelectSaleValueType'
@@ -48,9 +46,7 @@ export function VacancyStack() {
 				<Stack.Screen name={'SelectVacancyPurpose'} component={SelectVacancyPurpose} />
 				<Stack.Screen name={'SelectVacancyCategory'} component={SelectVacancyCategory} />
 				<Stack.Screen name={'SelectVacancyTags'} component={SelectVacancyTags} />
-				<Stack.Screen name={'InsertVacancyTitle'} component={InsertVacancyTitle} />
 				<Stack.Screen name={'InsertVacancyDescription'} component={InsertVacancyDescription} />
-				<Stack.Screen name={'InsertVacancyPicture'} component={InsertVacancyPicture} />
 				<Stack.Screen name={'VacancyPicturePreview'} component={VacancyPicturePreview} />
 				<Stack.Screen name={'SelectWorkplace'} component={SelectWorkplace} />
 				<Stack.Screen name={'SelectVacancyType'} component={SelectVacancyType} />

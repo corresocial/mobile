@@ -3,6 +3,9 @@ import React from 'react'
 import { ButtonsContainer, Container } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
+import MapPointWhiteIcon from '../../../assets/icons/mapPoint-white.svg'
+import CityWhiteIcon from '../../../assets/icons/city-white.svg'
+import BrazilWhiteIcon from '../../../assets/icons/brazil-white.svg'
 
 import { PostRange as PostRangeType } from '../../../services/firebase/types'
 
@@ -11,11 +14,13 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
-import { TitleDescriptionButton } from '../../../components/_cards/TitleDescriptionButton'
 import { StripeProducts } from '../../../services/stripe/types'
+import { OptionButton } from '../../_buttons/OptionButton'
 
 interface PostRangeProps {
 	backgroundColor: string
+	itemsColor: string
+	isVacancy?: boolean
 	plansAvailable: StripeProducts
 	userSubscriptionRange: PostRangeType
 	progress: [value: number, range: number]
@@ -23,21 +28,21 @@ interface PostRangeProps {
 	navigateBackwards: () => void
 }
 
-function PostRange({ backgroundColor, plansAvailable, userSubscriptionRange, progress, savePostRange, navigateBackwards }: PostRangeProps) {
+function PostRange({ backgroundColor, itemsColor, isVacancy, plansAvailable, userSubscriptionRange, progress, savePostRange, navigateBackwards }: PostRangeProps) {
 	const getRelativeFooterValue = (range: PostRangeType) => {
 		switch (range) {
 			case 'near': {
-				if (userSubscriptionRange !== 'near') return 'included'
-				return 'free'
+				if (userSubscriptionRange !== 'near') return 'incluso \nno plano'
+				return 'plano \ngrátis'
 			}
 			case 'city': {
-				if (userSubscriptionRange === 'country') return 'included'
-				if (userSubscriptionRange === 'city') return 'current'
-				return plansAvailable.cityMonthly.price || 'unavailable'
+				if (userSubscriptionRange === 'country') return 'incluso \nno plano'
+				if (userSubscriptionRange === 'city') return 'seu \nplano'
+				return `r$ ${plansAvailable.cityMonthly.price},00 \n/ mês` || 'indisponível'
 			}
 			case 'country': {
-				if (userSubscriptionRange === 'country') return 'current'
-				return plansAvailable.countryMonthly.price || 'unavailable'
+				if (userSubscriptionRange === 'country') return 'seu \nplano'
+				return `r$ ${plansAvailable.countryMonthly.price},00 \n/ mês` || 'indisponível'
 			}
 			default: return ''
 		}
@@ -46,16 +51,15 @@ function PostRange({ backgroundColor, plansAvailable, userSubscriptionRange, pro
 	return (
 		<Container>
 			<DefaultHeaderContainer
-				relativeHeight={relativeScreenHeight(26)}
+				relativeHeight={relativeScreenHeight(28)}
 				centralized
-				backgroundColor={theme.white3}
+				backgroundColor={backgroundColor}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					borderLeftWidth={3}
-					fontSize={17}
-					message={'qual alcance você vai querer para esse post?'}
-					highlightedWords={['alcance']}
+					fontSize={16}
+					message={'onde você quer que sua postagem seja divulgada?'}
+					highlightedWords={['onde', 'seja', 'divulgada']}
 				>
 					<ProgressBar
 						value={progress[0]}
@@ -64,37 +68,52 @@ function PostRange({ backgroundColor, plansAvailable, userSubscriptionRange, pro
 				</InstructionCard>
 			</DefaultHeaderContainer>
 			<FormContainer
-				backgroundColor={backgroundColor}
+				backgroundColor={theme.white3}
 			>
 				<ButtonsContainer>
-					<TitleDescriptionButton
-						height={'28%'}
-						color={theme.white3}
-						title={'região'}
-						description={'a pessoas encontram seus posts e perfil  no bairro'}
+					<OptionButton
+						label={'região'}
 						highlightedWords={['região']}
-						footerValue={getRelativeFooterValue('near')}
-						checked={userSubscriptionRange === 'near'}
+						shortDescription={'a pessoas encontram seus \nposts e perfil  no bairro'}
+						shortDescriptionHighlightedWords={['bairro']}
+						shortDescriptionFontSize={14}
+						relativeHeight={'26%'}
+						SvgIcon={MapPointWhiteIcon}
+						svgIconScale={['40%', '40%']}
+						leftSideColor={itemsColor}
+						leftSideWidth={'25%'}
+						leftSideText={getRelativeFooterValue('near')}
+						leftSideTextColor={isVacancy && theme.black4}
 						onPress={() => savePostRange('near')}
 					/>
-					<TitleDescriptionButton
-						height={'28%'}
-						color={theme.white3}
-						title={'cidade'}
-						description={'seus posts aparecem na cidade inteira, também pode postar em bairros!'}
-						highlightedWords={['cidade', 'também', 'pode', 'postar', 'em', 'bairros!']}
-						footerValue={getRelativeFooterValue('city')}
-						checked={userSubscriptionRange === 'city'}
+					<OptionButton
+						label={'cidade'}
+						highlightedWords={['cidade']}
+						shortDescription={'seus posts aparecem \nna cidade inteira, \ntambém pode postar em \nbairros específicos!'}
+						shortDescriptionHighlightedWords={['cidade', 'inteira', '\nbairros', 'específicos!']}
+						shortDescriptionFontSize={14}
+						relativeHeight={'26%'}
+						SvgIcon={CityWhiteIcon}
+						svgIconScale={['50%', '60%']}
+						leftSideColor={itemsColor}
+						leftSideWidth={'25%'}
+						leftSideText={getRelativeFooterValue('city')}
+						leftSideTextColor={isVacancy && theme.black4}
 						onPress={() => plansAvailable.cityMonthly.price && savePostRange('city')}
 					/>
-					<TitleDescriptionButton
-						height={'28%'}
-						color={theme.white3}
-						title={'brasil'}
-						description={'postagens aparecem em cidades vizinhas e no brasil inteiro.'}
+					<OptionButton
+						label={'brasil'}
 						highlightedWords={['brasil']}
-						footerValue={getRelativeFooterValue('country')}
-						checked={userSubscriptionRange === 'country'}
+						shortDescription={'postagens aparecem \nem cidades vizinhas \ne no brasil inteiro'}
+						shortDescriptionHighlightedWords={['cidades', 'vizinhas', 'brasil', 'inteiro']}
+						shortDescriptionFontSize={14}
+						relativeHeight={'26%'}
+						SvgIcon={BrazilWhiteIcon}
+						svgIconScale={['50%', '50%']}
+						leftSideColor={itemsColor}
+						leftSideWidth={'25%'}
+						leftSideText={getRelativeFooterValue('country')}
+						leftSideTextColor={isVacancy && theme.black4}
 						onPress={() => plansAvailable.countryMonthly.price && savePostRange('country')}
 					/>
 				</ButtonsContainer>

@@ -11,10 +11,10 @@ import {
 import { theme } from '../../../common/theme'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
-import ChatWhiteIcon from '../../../assets/icons/chatTabIconInactive.svg'
+import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
 import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 
-import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
+import { arrayIsEmpty, formatRelativeDate, getShortText } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
 import { saleCategories } from '../../../utils/postsCategories/saleCategories'
@@ -29,7 +29,6 @@ import { PostCollection, SaleCategories, SaleCollection, SaleCollectionRemote } 
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
-import { SaleExchangeValue } from '../../../components/SaleExchangeValue'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { ImageCarousel } from '../../../components/ImageCarousel'
@@ -110,7 +109,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	}
 
 	const sharePost = () => {
-		share(`${isAuthor ? 'tô' : 'estão'} anunciando ${getPostField('title')} no corre.\n\nhttps://corre.social/p/${getPostField('postId')}`)
+		share(`Olha o que ${isAuthor ? 'estou anunciando' : 'encontrei'} no corre.\n\n${getShortText(getPostField('description'), 170)}\n\nhttps://corre.social/p/${getPostField('postId')}`)
 	}
 
 	const getUserProfilePictureFromContext = () => {
@@ -185,8 +184,8 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 			<DefaultConfirmationModal
 				visibility={defaultConfirmationModalIsVisible}
 				title={'apagar post'}
-				text={`você tem certeza que deseja apagar o post ${getPostField('title')}?`}
-				highlightedWords={[...getPostField('title').split(' ')]}
+				text={`você tem certeza que deseja apagar o post ${getShortText(getPostField('description'), 70)}?`}
+				highlightedWords={[...getShortText(getPostField('description'), 70).split(' ')]}
 				buttonKeyword={'apagar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
 				onPressButton={deleteRemotePost}
@@ -198,7 +197,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
-					text={getPostField('title')}
+					text={getPostField('description')}
 				/>
 				<VerticalSigh />
 				<UserAndValueContainer>
@@ -215,19 +214,6 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						width={textHasOnlyNumbers(getPostField('saleValue', true)) ? '60%' : '85%'}
 						navigateToProfile={navigateToProfile}
 					/>
-					{
-						textHasOnlyNumbers(getPostField('saleValue', true)) && (
-							<SaleExchangeValue
-								saleValue={getPostField('saleValue', true)}
-								exchangeValue={getPostField('exchangeValue', true)}
-								breakRow
-								smallFontSize={14}
-								largeFontSize={25}
-								exchangeFontSize={14}
-							/>
-						)
-					}
-
 				</UserAndValueContainer>
 				<VerticalSigh />
 				<OptionsArea>
@@ -248,9 +234,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						onPress={isAuthor ? sharePost : openChat}
 					/>
 					<PostPopOver
-						postTitle={
-							getPostField('title') || 'publicação no corre.'
-						}
+						postTitle={getShortText(getPostField('description'), 45) || 'publicação no corre.'}
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
