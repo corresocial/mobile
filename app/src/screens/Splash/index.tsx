@@ -40,7 +40,7 @@ function Splash({ navigation }: SplashScreenProps) {
 
 			if (localUserIsValid(userJSON)) {
 				const userObject: LocalUserData = JSON.parse(userJSON as string)
-				await setRemoteUserOnLocal(userObject.userId)
+				await setRemoteUserOnLocal(userObject.userId, userObject)
 				navigation.navigate('UserStack', {
 					tourPerformed: userObject.tourPerformed
 				})

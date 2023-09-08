@@ -119,8 +119,6 @@ export type UserCollection = {
 	description?: string
 	profilePictureUrl?: string[]
 	tourPerformed?: boolean
-	tags?: string[]
-	category?: string
 	createdAt?: Date
 	updatedAt?: Date
 	posts?: PostCollection[]
