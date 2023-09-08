@@ -208,7 +208,7 @@ function EditPost({
 
 		if (offlinePost && !hasValidConnection) return
 
-		if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
+		if ((hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
 			setOfflinePost({ ...postData, owner })
 			navigateBackwards()
 			return
