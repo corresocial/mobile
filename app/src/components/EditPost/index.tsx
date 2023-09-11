@@ -216,6 +216,8 @@ function EditPost({
 			return
 		}
 
+		await setOfflinePost({ ...postData, owner })
+
 		const postPictures = extractPostPictures(postData)
 
 		setHasError(false)
@@ -228,7 +230,7 @@ function EditPost({
 				setHasError(false)
 				toggleOfflinePostAlertModal()
 				setNetworkConnectionIsValid(false)
-			}, 15000)
+			}, 30000)
 		}
 
 		try {
@@ -258,8 +260,9 @@ function EditPost({
 					postData,
 					userPostsUpdated
 				)
+
 				clearTimeout(timeoutId)
-				offlinePost && deleteOfflinePostByDescription(postData.description)
+				deleteOfflinePostByDescription(postData.description)
 				return
 			}
 
@@ -293,7 +296,7 @@ function EditPost({
 												)
 
 												clearTimeout(timeoutId)
-												offlinePost && deleteOfflinePostByDescription(postData.description)
+												deleteOfflinePostByDescription(postData.description)
 												setIsLoading(false)
 											}
 										},

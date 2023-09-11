@@ -22,7 +22,15 @@ const getOfflinePosts = async () => {
 const setOfflinePost = async (newPost: PostCollection) => {
 	const storedPosts = await getOfflinePosts()
 
-	const allOfflinePosts = [...storedPosts, { ...newPost }]
+	const filteredPosts = storedPosts.reduce((acc: PostCollection[], post: PostCollection) => {
+		if (post.description === newPost.description) {
+			return [...acc]
+		}
+
+		return [...acc, { ...post }]
+	}, [])
+
+	const allOfflinePosts = [...filteredPosts, { ...newPost }]
 
 	await AsyncStorage.setItem('corre.offlinePosts', JSON.stringify(allOfflinePosts))
 	return true
