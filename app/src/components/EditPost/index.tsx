@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getDownloadURL } from 'firebase/storage'
-import { StatusBar } from 'react-native'
+import { Alert, StatusBar } from 'react-native'
 
 import { Id, PostCollection, PostCollectionRemote, UserCollection } from '../../services/firebase/types'
 import { LocalUserData } from '../../contexts/types'
@@ -17,6 +17,8 @@ import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonCont
 import CheckWhiteIcon from '../../assets/icons/check-white.svg'
 import PlusWhiteIcon from '../../assets/icons/plus-white.svg'
 import HandOnMoneyWhiteIcon from '../../assets/icons/handOnMoney-white.svg'
+import WirelessOffWhiteIcon from '../../assets/icons/wirelessOff-white.svg'
+import TrashWhiteIcon from '../../assets/icons/trash-white.svg'
 
 import { DefaultPostViewHeader } from '../../components/DefaultPostViewHeader'
 import { PrimaryButton } from '../../components/_buttons/PrimaryButton'
@@ -28,6 +30,9 @@ import { InstructionCard } from '../../components/_cards/InstructionCard'
 import { updateAllRangeAndLocation } from '../../services/firebase/post/updateAllRangeAndLocation'
 import { DefaultConfirmationModal } from '../_modals/DefaultConfirmationModal'
 import { getShortText } from '../../common/auxiliaryFunctions'
+import { getNetworkStatus } from '../../utils/deviceNetwork'
+import { deletePostByDescription, setOfflinePost } from '../../utils/offlinePost'
+import { WithoutNetworkConnectionAlert } from '../_modals/WithoutNetworkConnectionAlert'
 
 type UserContextFragment = {
 	userDataContext: UserCollection;
@@ -49,8 +54,10 @@ interface EditPostProps {
 	owner: PostCollectionRemote['owner']
 	backgroundColor: string
 	unsavedPost?: boolean
+	offlinePost?: boolean
 	children: React.ReactNode | React.ReactNode[]
 	navigateBackwards: () => void
+	navigateToProfile?: () => void
 	navigateToPostView: (postData: PostCollectionRemote) => void
 	navigateToSubscriptionContext: () => void
 	showShareModal: (visibility: boolean, postTitle?: string, postId?: string) => void
@@ -64,10 +71,12 @@ function EditPost({
 	owner,
 	backgroundColor,
 	unsavedPost,
+	offlinePost,
 	children,
 	editContext,
 	userContext,
 	navigateBackwards,
+	navigateToProfile,
 	navigateToPostView,
 	navigateToSubscriptionContext,
 	showShareModal,
@@ -76,13 +85,22 @@ function EditPost({
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
+	const [offlinePostAlertModalIsVisible, setOfflinePostAlertModalIsVisible] = useState(false)
+	const [networkConnectionIsValid, setNetworkConnectionIsValid] = useState(false)
 
 	const { editDataContext } = editContext
 	const { userDataContext } = userContext
 
 	useEffect(() => {
 		editContext.clearUnsavedEditContext()
+		checkNetworkStatus()
 	}, [])
+
+	const checkNetworkStatus = async () => {
+		const networkStatus = await getNetworkStatus()
+		setNetworkConnectionIsValid(!!networkStatus.isConnected && !!networkStatus.isInternetReachable)
+		return !!networkStatus.isConnected && !!networkStatus.isInternetReachable
+	}
 
 	const getUserPostsWithoutEdited = (updatedLocationPosts?: PostCollectionRemote[]) => {
 		const userPosts = updatedLocationPosts || userDataContext.posts || []
@@ -186,11 +204,34 @@ function EditPost({
 	const getLocalUser = () => userDataContext
 
 	const savePost = async () => {
+		const hasValidConnection = await checkNetworkStatus()
+
 		const postData = { ...initialPostData, ...editDataContext.unsaved } as PostCollectionRemote
+
+		if (offlinePost && !hasValidConnection) return
+
+		if ((!hasValidConnection && !offlinePost) || !networkConnectionIsValid) {
+			await setOfflinePost({ ...postData, owner })
+			navigateToProfile && navigateToProfile()
+			return
+		}
+
+		await setOfflinePost({ ...postData, owner })
+
 		const postPictures = extractPostPictures(postData)
 
 		setHasError(false)
 		setIsLoading(true)
+
+		let timeoutId: any
+		if (!offlinePost) {
+			timeoutId = setTimeout(() => {
+				setIsLoading(false)
+				setHasError(false)
+				toggleOfflinePostAlertModal()
+				setNetworkConnectionIsValid(false)
+			}, 30000)
+		}
 
 		try {
 			let userPostsUpdated: any = [] // TODO Type
@@ -219,6 +260,9 @@ function EditPost({
 					postData,
 					userPostsUpdated
 				)
+
+				clearTimeout(timeoutId)
+				deleteOfflinePostByDescription(postData.description)
 				return
 			}
 
@@ -250,6 +294,9 @@ function EditPost({
 													postDataWithPicturesUrl,
 													userPostsUpdated
 												)
+
+												clearTimeout(timeoutId)
+												deleteOfflinePostByDescription(postData.description)
 												setIsLoading(false)
 											}
 										},
@@ -261,6 +308,7 @@ function EditPost({
 			})
 		} catch (err) {
 			console.log(err)
+			Alert.alert('Error', 'First went wrong')
 			setIsLoading(false)
 			setHasError(true)
 		}
@@ -310,9 +358,14 @@ function EditPost({
 			})
 			.catch((err: any) => {
 				console.log(err)
+				Alert.alert('Error', 'Second went wrong')
 				setIsLoading(false)
 				setHasError(true)
 			})
+	}
+
+	const deleteOfflinePostByDescription = async (description: string) => {
+		await deletePostByDescription(description)
 	}
 
 	const changeStateOfEditedFields = (uploadedPictures?: string[]) => {
@@ -386,6 +439,7 @@ function EditPost({
 								)
 								.catch((err) => {
 									console.log(err)
+									Alert.alert('Error', 'Picture went wrong')
 									setIsLoading(false)
 								})
 						},
@@ -411,7 +465,10 @@ function EditPost({
 	}
 
 	const cancelAllChangesAndGoBack = () => {
-		if (!(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost)) return navigateBackwards()
+		if ((!Object.keys(editDataContext.unsaved).length) && !offlinePost && !unsavedPost) {
+			navigateBackwards()
+			return
+		}
 
 		toggleDefaultConfirmationModalVisibility()
 	}
@@ -419,6 +476,8 @@ function EditPost({
 	const toggleDefaultConfirmationModalVisibility = () => {
 		setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible)
 	}
+
+	const toggleOfflinePostAlertModal = () => setOfflinePostAlertModalIsVisible((previousState) => !previousState)
 
 	const userSubscribeIsValid = () => {
 		if (!userDataContext.subscription) {
@@ -435,7 +494,16 @@ function EditPost({
 		return true
 	}
 
+	const removeOfflinePost = async () => {
+		await deletePostByDescription(initialPostData.description)
+		navigateBackwards()
+	}
+
 	const getHeaderButtonLabel = () => {
+		if (!networkConnectionIsValid) {
+			return 'salvar post offline'
+		}
+
 		if (!userSubscribeIsValid()) {
 			return 'ir para pagamento'
 		}
@@ -443,6 +511,10 @@ function EditPost({
 	}
 
 	const getHeaderButtonLabelHighlightedWords = () => {
+		if (!networkConnectionIsValid) {
+			return ['offline']
+		}
+
 		if (!userSubscribeIsValid()) {
 			return ['pagamento']
 		}
@@ -450,6 +522,10 @@ function EditPost({
 	}
 
 	const getHeaderButtonIcon = () => {
+		if (!networkConnectionIsValid) {
+			return WirelessOffWhiteIcon
+		}
+
 		if (!userSubscribeIsValid()) {
 			return HandOnMoneyWhiteIcon
 		}
@@ -481,13 +557,21 @@ function EditPost({
 				closeModal={toggleDefaultConfirmationModalVisibility}
 				onPressButton={navigateBackwards}
 			/>
+			<WithoutNetworkConnectionAlert
+				visibility={offlinePostAlertModalIsVisible}
+				onPressButton={toggleOfflinePostAlertModal}
+			/>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
 					text={unsavedPost ? 'revisar seu post' : 'editar seu post'}
 					highlightedWords={unsavedPost ? ['revisar'] : ['editar']}
-					destructiveButton={(Object.keys(editDataContext.unsaved).length > 0 || unsavedPost)}
+					destructiveButton={((!!Object.keys(editDataContext.unsaved).length || unsavedPost) && !offlinePost)}
 					onBackPress={cancelAllChangesAndGoBack}
+					endButton={offlinePost}
+					endButtonColor={theme.red3}
+					endButtonSvgIcon={TrashWhiteIcon}
+					endButtonPress={removeOfflinePost}
 				/>
 				{
 					hasError && (
@@ -512,16 +596,16 @@ function EditPost({
 							: (
 								<SaveButtonContainer>
 									<PrimaryButton
-										color={theme.green3}
+										color={networkConnectionIsValid ? theme.green3 : theme.yellow3}
 										label={getHeaderButtonLabel()}
-										labelColor={theme.white3}
+										labelColor={networkConnectionIsValid ? theme.white3 : theme.black4}
 										highlightedWords={getHeaderButtonLabelHighlightedWords()}
 										fontSize={16}
 										SecondSvgIcon={getHeaderButtonIcon()}
-										svgIconScale={['35%', '18%']}
+										svgIconScale={['40%', '20%']}
 										minHeight={relativeScreenHeight(6)}
 										relativeHeight={relativeScreenHeight(8)}
-										onPress={getHeaderButtonHandler()}
+										onPress={getHeaderButtonHandler() as any} // TODO Type
 									/>
 								</SaveButtonContainer>
 							)

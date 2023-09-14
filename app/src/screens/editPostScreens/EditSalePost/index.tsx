@@ -38,7 +38,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
 	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
-	const { postData, unsavedPost, showPresentationModal } = route.params
+	const { postData, unsavedPost, offlinePost, showPresentationModal } = route.params
 	const owner: any = { // TODO Type
 		userId: userDataContext.userId,
 		name: userDataContext.name,
@@ -78,6 +78,10 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 
 	const navigateBackwards = () => {
 		navigation.goBack()
+	}
+
+	const navigateToProfile = () => {
+		navigation.navigate('Profile' as any) // TODO Type
 	}
 
 	const navigateToPostView = (salePostData: PostCollection) => {
@@ -181,7 +185,9 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 				owner={owner}
 				backgroundColor={theme.green2}
 				unsavedPost={unsavedPost}
+				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
+				navigateToProfile={navigateToProfile}
 				navigateToPostView={navigateToPostView}
 				navigateToSubscriptionContext={navigateToSubscriptionContext}
 				showShareModal={showShareModal}

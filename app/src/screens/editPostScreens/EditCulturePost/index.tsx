@@ -46,7 +46,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		profilePictureUrl: userDataContext.profilePictureUrl
 	}
 
-	const { postData, unsavedPost, showPresentationModal } = route.params
+	const { postData, unsavedPost, offlinePost, showPresentationModal } = route.params
 
 	useEffect(() => {
 		showPresentationModal && togglePostReviewPresentationModalVisibility()
@@ -93,6 +93,10 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 
 	const navigateBackwards = () => {
 		navigation.goBack()
+	}
+
+	const navigateToProfile = () => {
+		navigation.navigate('Profile' as any) // TODO Type
 	}
 
 	const navigateToPostView = (culturePostData: PostCollection) => {
@@ -196,7 +200,9 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				owner={owner}
 				backgroundColor={theme.blue2}
 				unsavedPost={unsavedPost}
+				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
+				navigateToProfile={navigateToProfile}
 				navigateToPostView={navigateToPostView}
 				navigateToSubscriptionContext={navigateToSubscriptionContext}
 				showShareModal={showShareModal}
