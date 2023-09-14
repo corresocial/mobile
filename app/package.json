@@ -14,6 +14,7 @@
 		"update-staging": "eas update --branch staging --message",
 		"update-prod": "eas update --branch production --message",
 		"build-android-dev": "eas build --platform android --profile development",
+		"build-android-dev-local": "eas build --platform android --profile development --local",
 		"build-ios-dev": "eas build --platform ios --profile development",
 		"build-android-staging": "eas build --platform android --profile staging",
 		"build-ios-staging": "eas build --platform ios --profile staging",
