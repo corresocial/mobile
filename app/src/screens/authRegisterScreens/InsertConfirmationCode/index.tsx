@@ -3,9 +3,11 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { UserCredential } from 'firebase/auth'
 
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
-import { ButtonContainer, Container, InputsContainer } from './styles'
+import { RFValue } from 'react-native-responsive-fontsize'
+import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
 import { theme } from '../../../common/theme'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import SmartphoneWhiteIcon from '../../../assets/icons/smartphone-white.svg'
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 
@@ -23,6 +25,7 @@ import { Loader } from '../../../components/Loader'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { Id } from '../../../services/firebase/types'
 import Firebase from '../../../services/firebase'
+import { VerticalSigh } from '../../../components/VerticalSigh'
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
 	const { validateVerificationCode, setRemoteUserOnLocal, sendSMS, userDataContext } = useContext(AuthContext)
@@ -157,7 +160,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 					})
 					.then((userIdentification) => {
 						setIsLoading(false)
-						if (userDataContext.newUser) {
+						if (userDataContext.name) { // TODO Check user exists
 							navigation.navigate('InsertName', {
 								cellNumber,
 								userIdentification
@@ -243,6 +246,12 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 		return theme.blue1
 	}
 
+	const getFormatedCellNumber = () => {
+		const numbetWithoutCountryCode = route.params.cellNumber.slice(3)
+		const numberWithDDDSpace = `${numbetWithoutCountryCode.slice(0, 2)} ${numbetWithoutCountryCode.slice(2)}`
+		return numberWithDDDSpace
+	}
+
 	const resendConfirmationCode = async () => {
 		setExpiredCodeAfterSubmit(false)
 		setInvalidCodeAfterSubmit(false)
@@ -284,15 +293,29 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				attemptInvisibleVerification
 			/>
 			<DefaultHeaderContainer
+				flexDirection={'column'}
 				relativeHeight={'55%'}
 				centralized
 				backgroundColor={animateDefaultHeaderBackgound()}
 			>
-				<BackButton onPress={navigateBackwards} />
-				<InstructionCard
-					message={getHeaderMessage()}
-					highlightedWords={getHeaderHighlightedWords()}
-				/>
+				<InstructionButtonContainer>
+					<BackButton onPress={navigateBackwards} />
+					<InstructionCard
+						message={getHeaderMessage()}
+						highlightedWords={getHeaderHighlightedWords()}
+					/>
+				</InstructionButtonContainer>
+				<VerticalSigh />
+				<InstructionButtonContainer withPaddingLeft>
+					<InstructionCard
+						borderLeftWidth={RFValue(4)}
+						message={getFormatedCellNumber()}
+						highlightedWords={getFormatedCellNumber().split(' ')}
+
+					>
+						{/* <SmartphoneWhiteIcon width={50} height={50} /> */}
+					</InstructionCard>
+				</InstructionButtonContainer>
 			</DefaultHeaderContainer>
 			<FormContainer >
 				<InputsContainer>
