@@ -26,7 +26,7 @@ const presentationTexts = [
 ]
 
 function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps) {
-	const { getDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
+	const { getUserDataFromSecureStore, setRemoteUserOnLocal, setUserDataOnContext } = useContext(AuthContext)
 
 	const [termsVisibility, setTermsVisibility] = useState<boolean>(false)
 
@@ -51,16 +51,18 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 	}
 
 	const navigateToAuthFlow = () => {
+		setUserDataOnContext({ newUser: false })
 		navigation.navigate('SelectAuthMethod')
 	}
 
 	const navigateToRegisterFlow = () => {
+		setUserDataOnContext({ newUser: true })
 		navigation.navigate('AcceptTermsAndConditions')
 	}
 
 	const redirectToApp = async () => {
 		try {
-			const localUser = await getDataFromSecureStore(true, true)
+			const localUser = await getUserDataFromSecureStore(true, true)
 
 			if (localUser) {
 				await setRemoteUserOnLocal(localUser.userId, localUser)

@@ -10,7 +10,7 @@ import { SplashScreenProps } from '../../routes/Stack/AuthRegisterStack/stackScr
 import { AuthContext } from '../../contexts/AuthContext'
 
 function Splash({ navigation }: SplashScreenProps) {
-	const { hasValidLocalUser, getDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
+	const { hasValidLocalUser, getUserDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [imagesSvgOpacity] = useState(new Animated.Value(0))
 
@@ -41,16 +41,16 @@ function Splash({ navigation }: SplashScreenProps) {
 			const hasLocalUser = await hasValidLocalUser()
 
 			if (hasLocalUser) {
-				const localUser = await getDataFromSecureStore(true)
+				const localUser = await getUserDataFromSecureStore(true)
 				await setRemoteUserOnLocal(localUser.userId, localUser)
 				navigation.navigate('UserStack', { tourPerformed: localUser.tourPerformed })
 			} else {
-				const storedUser = await getDataFromSecureStore(false, true)
+				const storedUser = await getUserDataFromSecureStore(false, true)
 				navigateToInitialScreen(storedUser.userId, storedUser.name)
 			}
 		} catch (err) {
 			console.log(err)
-			const storedUser = await getDataFromSecureStore(false, true)
+			const storedUser = await getUserDataFromSecureStore(false, true)
 			navigateToInitialScreen(storedUser.userId, storedUser.name)
 		}
 	}

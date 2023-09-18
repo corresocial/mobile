@@ -12,8 +12,8 @@ const phoneAuth = new PhoneAuthProvider(auth)
 
 type AuthContextType = {
 	userDataContext: UserCollection
-	setUserDataOnContext: (data: UserCollection) => void
-	getDataFromSecureStore: (requireAuthentication?: boolean, accountIdentifier?: boolean) => Promise<UserCollection>
+	setUserDataOnContext: (data: UserCollection | { newUser?: boolean }) => void
+	getUserDataFromSecureStore: (requireAuthentication?: boolean, accountIdentifier?: boolean) => Promise<UserCollection>
 	hasValidLocalUser: () => Promise<boolean>
 	setDataOnSecureStore: (key: string, data: any) => Promise<boolean>
 	deleteLocaluser: () => Promise<void>
@@ -32,7 +32,7 @@ interface AuthProviderProps {
 function AuthProvider({ children }: AuthProviderProps) {
 	const [userDataContext, setUserDataContext] = useState({})
 
-	const getDataFromSecureStore = async (requireAuthentication?: boolean, accountIdentifier?: boolean) => {
+	const getUserDataFromSecureStore = async (requireAuthentication?: boolean, accountIdentifier?: boolean) => {
 		try {
 			if (requireAuthentication) {
 				const storedUser = await handleMethodWithAuthentication(getLocalUserData)
@@ -158,7 +158,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 		return userCredential
 	}
 
-	const setUserDataOnContext = (data: UserCollection) => {
+	const setUserDataOnContext = (data: UserCollection | { newUser?: boolean }) => {
 		setUserDataContext({
 			...userDataContext, ...data
 		})
@@ -177,7 +177,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 	/* const authDataProvider = React.useMemo(() => ({
 		userDataContext,
 		setUserDataOnContext,
-		getDataFromSecureStore,
+		getUserDataFromSecureStore,
 		hasValidLocalUser,
 		setDataOnSecureStore,
 		deleteLocaluser,
@@ -191,7 +191,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 			value={{
 				userDataContext,
 				setUserDataOnContext,
-				getDataFromSecureStore,
+				getUserDataFromSecureStore,
 				hasValidLocalUser,
 				setDataOnSecureStore,
 				deleteLocaluser,

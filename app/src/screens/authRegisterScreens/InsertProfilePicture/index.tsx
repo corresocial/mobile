@@ -28,7 +28,7 @@ import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton'
 
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
-	const { userDataContext, getDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
+	const { userDataContext, getUserDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasServerSideError, setHasServerSideError] = useState(false)
@@ -57,7 +57,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 
 	const saveUserData = async () => {
 		const userData = getRouteParams()
-		const localUser = await getDataFromSecureStore()
+		const localUser = await getUserDataFromSecureStore()
 
 		try {
 			setIsLoading(true)

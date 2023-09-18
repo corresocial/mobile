@@ -30,7 +30,7 @@ import { Loader } from '../../../components/Loader'
 import { BackButton } from '../../../components/_buttons/BackButton'
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
-	const { setRemoteUserOnLocal, userDataContext, getDataFromSecureStore } = useContext(AuthContext)
+	const { setRemoteUserOnLocal, userDataContext, getUserDataFromSecureStore } = useContext(AuthContext)
 
 	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(true)
 	const [profilePicture, setProfilePicture] = useState<string[]>([])
@@ -87,7 +87,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 	const saveUserData = async () => {
 		const userData = getRouteParams()
-		const localUser = await getDataFromSecureStore()
+		const localUser = await getUserDataFromSecureStore()
 
 		if (!profilePicture.length) return
 
