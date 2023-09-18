@@ -57,11 +57,9 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		setHasServerSideError(true)
 	}
 
-	const navigateToNextScreen = async (tourPerformed: boolean) => {
+	const navigateToNextScreen = async (tourPerformed?: boolean) => {
 		setHasServerSideError(false)
-		return navigation.navigate('UserStack', {
-			tourPerformed
-		})
+		return navigation.navigate('UserStack', { tourPerformed })
 	}
 
 	const backToCustomCamera = () => {
@@ -89,10 +87,10 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 	const saveUserData = async () => {
 		const userData = getRouteParams()
-		const localUserJSON = await getDataFromSecureStore('corre.user')
+		const localUser = await getDataFromSecureStore()
 
 		if (!profilePicture.length) return
-		const localUser = JSON.parse(localUserJSON as string)
+
 		setIsLoading(true)
 
 		if (localUser.profilePictureUrl && localUser.profilePictureUrl.length && localUser.profilePictureUrl[0] === profilePicture[0]) {

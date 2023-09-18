@@ -40,7 +40,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const navigateToInitialScreen = () => {
 		navigation.reset({
 			index: 0,
-			routes: [{ name: 'AcceptAndContinue' as any }]
+			routes: [{ name: 'SelectAuthRegister' as any }]
 		})
 	}
 

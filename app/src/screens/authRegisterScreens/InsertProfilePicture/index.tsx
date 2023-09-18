@@ -57,12 +57,11 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 
 	const saveUserData = async () => {
 		const userData = getRouteParams()
-		const localUserJSON = await getDataFromSecureStore('corre.user')
-		const localUser = JSON.parse(localUserJSON as string) || {}
+		const localUser = await getDataFromSecureStore()
 
 		try {
 			setIsLoading(true)
-			await saveInFirebase(userData, localUser.tourPerformed, localUser.createdAt)
+			await saveInFirebase(userData, !!localUser.tourPerformed, localUser.createdAt)
 			// await saveOnLocal(userData, localUser)
 			if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
 				await deleteUserPicture(userDataContext.profilePictureUrl || [])
@@ -82,8 +81,8 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		}
 	}
 
-	const saveInFirebase = async (userData: RegisterUserData, tourPerformed: boolean, userCreatedAt: Date) => { // TODO Type
-		const userObject: UserCollection = {
+	const saveInFirebase = async (userData: RegisterUserData, tourPerformed: boolean, userCreatedAt?: Date) => { // TODO Type
+		const userObject: Partial<UserCollection> = {
 			name: userData.userName,
 			profilePictureUrl: [],
 			tourPerformed: !!tourPerformed
@@ -102,7 +101,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		)
 	}
 
-	const navigateToNextScreen = (tourPerformed: boolean) => {
+	const navigateToNextScreen = (tourPerformed?: boolean) => {
 		navigation.navigate('UserStack', {
 			tourPerformed
 		})

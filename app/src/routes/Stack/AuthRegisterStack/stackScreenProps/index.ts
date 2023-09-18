@@ -3,7 +3,8 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { AuthRegisterStackParamList } from '../types'
 
 export type SplashScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'Splash'>
-export type AcceptAndContinueScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'AcceptAndContinue'>
+export type SelectAuthRegisterScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'SelectAuthRegister'>
+export type AcceptTermsAndConditionsScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'AcceptTermsAndConditions'>
 export type SelectAuthMethodScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'SelectAuthMethod'>
 export type InsertCellNumberScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'InsertCellNumber'>
 export type InsertConfirmationCodeScreenProps = NativeStackScreenProps<AuthRegisterStackParamList, 'InsertConfirmationCode'>
