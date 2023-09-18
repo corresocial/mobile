@@ -39,7 +39,8 @@
 						"compileSdkVersion": 33,
 						"targetSdkVersion": 33,
 						"buildToolsVersion": "31.0.0",
-						"enableProguardInReleaseBuilds": true
+						"enableProguardInReleaseBuilds": true,
+						"extraProguardRules": "-keep public class com.horcrux.svg.** {*;}"
 					}
 				}
 			],
