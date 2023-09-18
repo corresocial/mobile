@@ -25,7 +25,7 @@ import { Id } from '../../../services/firebase/types'
 import Firebase from '../../../services/firebase'
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
-	const { validateVerificationCode, setRemoteUserOnLocal, sendSMS } = useContext(AuthContext)
+	const { validateVerificationCode, setRemoteUserOnLocal, sendSMS, userDataContext } = useContext(AuthContext)
 
 	const recaptchaVerifier = React.useRef(null)
 	const firebaseConfig = Firebase ? Firebase.options : undefined
@@ -157,9 +157,19 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 					})
 					.then((userIdentification) => {
 						setIsLoading(false)
-						navigation.navigate('InsertName', {
-							cellNumber,
-							userIdentification
+						if (userDataContext.newUser) {
+							navigation.navigate('InsertName', {
+								cellNumber,
+								userIdentification
+							})
+						}
+
+						navigation.reset({
+							index: 0,
+							routes: [{
+								name: 'UserStack',
+								params: { tourPerformed: true }
+							}],
 						})
 					})
 			} else {

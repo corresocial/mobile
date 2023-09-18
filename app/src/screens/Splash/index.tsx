@@ -43,7 +43,13 @@ function Splash({ navigation }: SplashScreenProps) {
 			if (hasLocalUser) {
 				const localUser = await getUserDataFromSecureStore(true)
 				await setRemoteUserOnLocal(localUser.userId, localUser)
-				navigation.navigate('UserStack', { tourPerformed: localUser.tourPerformed })
+				navigation.reset({
+					index: 0,
+					routes: [{
+						name: 'UserStack',
+						params: { tourPerformed: localUser.tourPerformed }
+					}],
+				})
 			} else {
 				const storedUser = await getUserDataFromSecureStore(false, true)
 				navigateToInitialScreen(storedUser.userId, storedUser.name)

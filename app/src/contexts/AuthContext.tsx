@@ -12,7 +12,7 @@ const phoneAuth = new PhoneAuthProvider(auth)
 
 type AuthContextType = {
 	userDataContext: UserCollection
-	setUserDataOnContext: (data: UserCollection | { newUser?: boolean }) => void
+	setUserDataOnContext: (data: UserCollection) => void
 	getUserDataFromSecureStore: (requireAuthentication?: boolean, accountIdentifier?: boolean) => Promise<UserCollection>
 	hasValidLocalUser: () => Promise<boolean>
 	setDataOnSecureStore: (key: string, data: any) => Promise<boolean>
@@ -158,7 +158,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 		return userCredential
 	}
 
-	const setUserDataOnContext = (data: UserCollection | { newUser?: boolean }) => {
+	const setUserDataOnContext = (data: UserCollection) => {
 		setUserDataContext({
 			...userDataContext, ...data
 		})

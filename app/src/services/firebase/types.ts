@@ -125,6 +125,7 @@ export type UserCollection = {
 	verified?: VerifiedType
 	socialMedias?: SocialMedia[]
 	subscription?: UserSubscription
+	newUser?: boolean // local only
 }
 
 export type PrivateUserCollection = {
