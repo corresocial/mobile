@@ -55,8 +55,6 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 		cellNumberInput: useRef<TextInput>(null)
 	}
 
-	const { authByWhatsapp } = route.params
-
 	const validateDDD = (text: string) => {
 		setHasServerSideError(false)
 
@@ -135,13 +133,13 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 
 		return headerBackgroundAnimatedValue.current.interpolate({
 			inputRange: [0, 1],
-			outputRange: [!authByWhatsapp ? theme.purple2 : theme.green2, theme.red2],
+			outputRange: [theme.purple2, theme.red2],
 		})
 	}
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : !authByWhatsapp ? theme.purple2 : theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
 			<FirebaseRecaptchaVerifierModal
 				ref={recaptchaVerifier}
 				firebaseConfig={firebaseConfig}
@@ -167,7 +165,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 						textInputRef={inputRefs.DDDInput}
 						nextInputRef={inputRefs.cellNumberInput}
 						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={!authByWhatsapp ? theme.purple1 : theme.green1}
+						validBackgroundColor={theme.purple1}
 						maxLength={2}
 						invalidTextAfterSubmit={invalidDDDAfterSubmit}
 						placeholder={'12'}
@@ -183,7 +181,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 						textInputRef={inputRefs.cellNumberInput}
 						previousInputRef={inputRefs.DDDInput}
 						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={!authByWhatsapp ? theme.purple1 : theme.green1}
+						validBackgroundColor={theme.purple1}
 						maxLength={9}
 						invalidTextAfterSubmit={invalidCellNumberAfterSubmit}
 						placeholder={'123451234'}

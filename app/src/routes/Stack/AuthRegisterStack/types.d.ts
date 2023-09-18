@@ -3,7 +3,7 @@ export type AuthRegisterStackParamList = {
 	SelectAuthRegister: { userId?: string, userName?: string }
 	AcceptTermsAndConditions: undefined
 	SelectAuthMethod: undefined
-	InsertCellNumber: { authByWhatsapp?: boolean }
+	InsertCellNumber: undefined
 	InsertConfirmationCode: {
 		cellNumber: string,
 		verificationCodeId: string | void

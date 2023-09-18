@@ -3,7 +3,8 @@ import { StatusBar } from 'react-native'
 
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
-import WhatsAppWhiteIcon from '../../../assets/icons/whatsapp.svg'
+import GoogleWhiteIcon from '../../../assets/icons/google-white.svg'
+import AppleWhiteIcon from '../../../assets/icons/apple-white.svg'
 import SmartphoneWhiteIcon from '../../../assets/icons/smartphone-white.svg'
 
 import { SelectAuthMethodScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
@@ -12,18 +13,22 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { VerticalSigh } from '../../../components/VerticalSigh'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton'
 
-type AuthMethod = 'sms' | 'whatsapp'
-
 function SelectAuthMethod({ navigation }: SelectAuthMethodScreenProps) {
-	const navigateToInsertCellNumberScreen = async (authMethod: AuthMethod) => {
-		navigation.navigate('InsertCellNumber', { authByWhatsapp: authMethod === 'whatsapp' })
+	const navigateBackwards = () => navigation.goBack()
+
+	const performSigninWithCellNumber = async () => {
+		navigation.navigate('InsertCellNumber')
 	}
 
-	const navigateBackwards = () => navigation.goBack()
+	const performSigninWithGoogle = () => {
+		console.log('performSigninWithGoogle')
+	}
+
+	const performSigninWithApple = () => {
+		console.log('performSigninWithApple')
+	}
 
 	return (
 		<Container >
@@ -35,29 +40,37 @@ function SelectAuthMethod({ navigation }: SelectAuthMethodScreenProps) {
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					message={'como você quer acessar o corre.?'}
-					highlightedWords={['como', 'acessar', 'o', 'corre.']}
+					message={'como você prefere entrar?'}
+					highlightedWords={['entrar']}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white2} justifyContent={'center'}>
-				<PrimaryButton
-					color={theme.purple3}
-					SecondSvgIcon={SmartphoneWhiteIcon}
-					svgIconScale={['50%', '25%']}
-					label={'sms'}
-					highlightedWords={['sms']}
-					labelColor={theme.white3}
-					onPress={() => navigateToInsertCellNumberScreen('sms')}
-				/>
-				<VerticalSigh height={relativeScreenHeight(5)} />
+			<FormContainer backgroundColor={theme.white2} justifyContent={'space-around'}>
 				<PrimaryButton
 					color={theme.green3}
-					SecondSvgIcon={WhatsAppWhiteIcon}
+					SecondSvgIcon={SmartphoneWhiteIcon}
+					svgIconScale={['50%', '25%']}
+					label={'telefone'}
+					highlightedWords={['telefone']}
+					labelColor={theme.white3}
+					onPress={performSigninWithCellNumber}
+				/>
+				<PrimaryButton
+					color={theme.purple3}
+					SecondSvgIcon={GoogleWhiteIcon}
 					svgIconScale={['50%', '25%']}
 					labelColor={theme.white3}
-					label={'whatsapp'}
-					highlightedWords={['whatsapp']}
-					onPress={() => navigateToInsertCellNumberScreen('whatsapp')}
+					label={'google'}
+					highlightedWords={['google']}
+					onPress={performSigninWithGoogle}
+				/>
+				<PrimaryButton
+					color={theme.purple3}
+					SecondSvgIcon={AppleWhiteIcon}
+					svgIconScale={['50%', '25%']}
+					labelColor={theme.white3}
+					label={'apple'}
+					highlightedWords={['apple']}
+					onPress={performSigninWithApple}
 				/>
 			</FormContainer>
 		</Container >
