@@ -1,7 +1,11 @@
 import * as Network from 'expo-network'
 
 function getNetworkStatus() {
-	return Network.getNetworkStateAsync()
+	if (Network) {
+		return Network.getNetworkStateAsync()
+	}
+
+	return true
 }
 
 export { getNetworkStatus }
