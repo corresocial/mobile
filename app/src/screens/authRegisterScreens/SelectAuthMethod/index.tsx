@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
+import * as Google from 'expo-auth-session/providers/google'
+import * as WebBrowser from 'expo-web-browser'
 
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
@@ -14,16 +16,74 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { getEnvVars } from '../../../../environment'
+import { generateGoogleAuthCredential } from '../../../services/firebase/user/generateGoogleAuthCredential'
+import { signinByCredential } from '../../../services/firebase/user/signingByCredential'
+import { AuthContext } from '../../../contexts/AuthContext'
+
+WebBrowser.maybeCompleteAuthSession()
+const { AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
 
 function SelectAuthMethod({ navigation }: SelectAuthMethodScreenProps) {
+	const { setRemoteUserOnLocal } = useContext(AuthContext)
+
+	const keys = {
+		expoClientId: AUTH_EXPO_CLIENT_ID,
+		androidClientId: AUTH_ANDROID_CLIENT_ID,
+		iosClientId: AUTH_IOS_CLIENT_ID
+	}
+
+	const [tokenGoogle, setTokenGoogle] = React.useState<string | undefined>()
+	const [request, response, promptAsyncGoogle] = Google.useAuthRequest(keys, {
+		projectNameForProxy: '@corresocial/corresocial'
+	})
+
+	React.useEffect(() => {
+		if (response?.type === 'success') {
+			const { authentication } = response
+			setTokenGoogle(authentication?.accessToken)
+		}
+	}, [response])
+
 	const navigateBackwards = () => navigation.goBack()
 
 	const performSigninWithCellNumber = async () => {
 		navigation.navigate('InsertCellNumber')
 	}
 
-	const performSigninWithGoogle = () => {
-		console.log('performSigninWithGoogle')
+	const performSigninWithGoogle = async () => {
+		try {
+			if (tokenGoogle) {
+				const googleCredential = generateGoogleAuthCredential(tokenGoogle)
+				const { userId, email: loggedEmail } = await signinByCredential(googleCredential)
+
+				if (userId) {
+					const userLoadedOnContext = await setRemoteUserOnLocal(userId)
+
+					console.log(loggedEmail)
+					if (userLoadedOnContext) { // if (!userLoadedOnContext) {
+						navigation.navigate('InsertName', {
+							userIdentification: { uid: userId },
+							email: loggedEmail || '',
+							cellNumber: ''
+						})
+						return
+					}
+
+					navigation.reset({
+						index: 0,
+						routes: [{
+							name: 'UserStack',
+							params: { tourPerformed: true }
+						}],
+					})
+				}
+			} else {
+				promptAsyncGoogle({ projectNameForProxy: '@corresocial/corresocial' })
+			}
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	const performSigninWithApple = () => {

@@ -7,7 +7,6 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
 import { theme } from '../../../common/theme'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-import SmartphoneWhiteIcon from '../../../assets/icons/smartphone-white.svg'
 
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 
@@ -160,7 +159,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 					})
 					.then((userIdentification) => {
 						setIsLoading(false)
-						if (userDataContext.name) { // TODO Check user exists
+						if (userDataContext.name) { // TODO Check user exists, this check is useless
 							navigation.navigate('InsertName', {
 								cellNumber,
 								userIdentification

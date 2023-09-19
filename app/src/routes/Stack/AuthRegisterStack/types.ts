@@ -1,3 +1,5 @@
+import { UserIdentification } from '../../../contexts/types'
+
 export type AuthRegisterStackParamList = {
 	Splash: undefined
 	SelectAuthRegister: { userId?: string, userName?: string }
@@ -10,16 +12,19 @@ export type AuthRegisterStackParamList = {
 	}
 	InsertName: {
 		cellNumber: string
+		email?: string
 		userIdentification: UserIdentification
 	}
 	InsertProfilePicture: {
 		cellNumber: string,
+		email?: string
 		userName: string,
 		profilePictureUrl?: string[]
 		userIdentification: UserIdentification
 	}
 	ProfilePicturePreview: {
 		cellNumber: string,
+		email?: string
 		userName: string,
 		profilePictureUrl?: string[]
 		userIdentification: UserIdentification

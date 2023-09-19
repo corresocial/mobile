@@ -94,8 +94,9 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		setIsLoading(true)
 
 		if (localUser.profilePictureUrl && localUser.profilePictureUrl.length && localUser.profilePictureUrl[0] === profilePicture[0]) {
-			const currentUser: UserCollection = {
+			const currentUser: Partial<UserCollection> = {
 				name: userData.userName,
+				email: userData.email,
 				profilePictureUrl: profilePicture,
 				tourPerformed: !!localUser.tourPerformed,
 			}

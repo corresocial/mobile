@@ -84,6 +84,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 	const saveInFirebase = async (userData: RegisterUserData, tourPerformed: boolean, userCreatedAt?: Date) => { // TODO Type
 		const userObject: Partial<UserCollection> = {
 			name: userData.userName,
+			email: userData.email,
 			profilePictureUrl: [],
 			tourPerformed: !!tourPerformed
 		}
