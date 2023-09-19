@@ -12,9 +12,7 @@
 			"image": "./assets/splash-screen.png",
 			"resizeMode": "contain",
 			"backgroundColor": "#FA9938",
-			"statusBar": {
-				"style": "dark"
-			}
+			"statusBarStyle": "dark"
 		},
 		"hooks": {
 			"postPublish": [
