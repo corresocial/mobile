@@ -12,9 +12,7 @@
 			"image": "./assets/splash-screen.png",
 			"resizeMode": "contain",
 			"backgroundColor": "#FA9938",
-			"statusBar": {
-				"style": "dark"
-			}
+			"statusBarStyle": "dark"
 		},
 		"hooks": {
 			"postPublish": [
@@ -39,7 +37,8 @@
 						"compileSdkVersion": 33,
 						"targetSdkVersion": 33,
 						"buildToolsVersion": "31.0.0",
-						"enableProguardInReleaseBuilds": true
+						"enableProguardInReleaseBuilds": true,
+						"extraProguardRules": "-keep public class com.horcrux.svg.** {*;}"
 					}
 				}
 			],
