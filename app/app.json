@@ -103,9 +103,6 @@
 				"image": "./assets/splash-screen.png",
 				"resizeMode": "contain",
 				"backgroundColor": "#FA9938"
-			},
-			"config": {
-				"googleMapsApiKey": "AIzaSyBrGDvR0_6TR9qitGcSjV3bfF4yWzWXXCU"
 			}
 		},
 		"android": {
@@ -116,7 +113,6 @@
 				"foregroundImage": "./assets/adaptive-icon-foreground.png",
 				"backgroundColor": "#FA9938"
 			},
-			"googleServicesFile": "./google-services.json",
 			"permissions": [
 				"android.permission.LOCATION",
 				"android.permission.ACCESS_FINE_LOCATION",
@@ -127,12 +123,7 @@
 				"android.permission.USE_FINGERPRINT",
 				"android.permission.FOREGROUND_SERVICE",
 				"android.permission.CAMERA"
-			],
-			"config": {
-				"googleMaps": {
-					"apiKey": "AIzaSyAlcLXDLUQs4B6cF9yVeqckia8LlEKBfRY"
-				}
-			}
+			]
 		},
 		"web": {
 			"favicon": "./assets/favicon.png"
