@@ -5,7 +5,10 @@ function getNetworkStatus() {
 		return Network.getNetworkStateAsync()
 	}
 
-	return true
+	return {
+		isConnected: true,
+		isInternetReachable: true
+	}
 }
 
 export { getNetworkStatus }

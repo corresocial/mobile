@@ -102,6 +102,9 @@
 				"image": "./assets/splash-screen.png",
 				"resizeMode": "contain",
 				"backgroundColor": "#FA9938"
+			},
+			"config": {
+				"googleMapsApiKey": "AIzaSyByHEvqex_HGZSlr2Ehu7t813I1ypQLXb0"
 			}
 		},
 		"android": {
@@ -122,7 +125,12 @@
 				"android.permission.USE_FINGERPRINT",
 				"android.permission.FOREGROUND_SERVICE",
 				"android.permission.CAMERA"
-			]
+			],
+			"config": {
+				"googleMaps": {
+					"apiKey": "AIzaSyCtTtFXVIpwlf6QuhaEIJaA20lUatzRSxk"
+				}
+			}
 		},
 		"web": {
 			"favicon": "./assets/favicon.png"
