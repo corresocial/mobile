@@ -123,11 +123,11 @@ function AuthProvider({ children }: AuthProviderProps) {
 			if (localUserData?.userId) {
 				const currentUser = { ...localUserData }
 				setUserDataContext({ ...currentUser })
-			} else {
-				console.log('Nenhum usuário local localizado')
-				return false
+				return true
 			}
-			return true
+
+			console.log('Nenhum usuário local localizado')
+			return false
 		}
 	}
 

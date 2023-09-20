@@ -60,8 +60,8 @@ function SelectAuthMethod({ navigation }: SelectAuthMethodScreenProps) {
 				if (userId) {
 					const userLoadedOnContext = await setRemoteUserOnLocal(userId)
 
-					console.log(loggedEmail)
-					if (userLoadedOnContext) { // if (!userLoadedOnContext) {
+					console.log(`UserHasAccount: ${userLoadedOnContext}`)
+					if (!userLoadedOnContext) { // if (!userLoadedOnContext) {
 						navigation.navigate('InsertName', {
 							userIdentification: { uid: userId },
 							email: loggedEmail || '',
@@ -79,7 +79,7 @@ function SelectAuthMethod({ navigation }: SelectAuthMethodScreenProps) {
 					})
 				}
 			} else {
-				promptAsyncGoogle({ projectNameForProxy: '@corresocial/corresocial' })
+				await promptAsyncGoogle({ projectNameForProxy: '@corresocial/corresocial' })
 			}
 		} catch (error) {
 			console.log(error)

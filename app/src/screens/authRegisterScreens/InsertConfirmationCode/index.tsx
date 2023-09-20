@@ -27,7 +27,7 @@ import Firebase from '../../../services/firebase'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
-	const { validateVerificationCode, setRemoteUserOnLocal, sendSMS, userDataContext } = useContext(AuthContext)
+	const { validateVerificationCode, setRemoteUserOnLocal, sendSMS } = useContext(AuthContext)
 
 	const recaptchaVerifier = React.useRef(null)
 	const firebaseConfig = Firebase ? Firebase.options : undefined
@@ -97,7 +97,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 
 	const headerMessages = {
 		instruction: {
-			text: 'passa o código que\nte mandamos aí',
+			text: 'passa o código que\nte mandamos no número:',
 			highlightedWords: ['código']
 		},
 		clientSideError: {
@@ -154,12 +154,10 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				await validateVerificationCode(verificationCodeId, completeCode)
 					.then(async (userCredential: UserCredential) => {
 						const userIdentification = await extractUserIdentification(userCredential)
-						await setRemoteUserOnLocal(userIdentification.uid)
-						return userIdentification
-					})
-					.then((userIdentification) => {
+						const userHasAccount = await setRemoteUserOnLocal(userIdentification.uid)
+
 						setIsLoading(false)
-						if (userDataContext.name) { // TODO Check user exists, this check is useless
+						if (!userHasAccount) { // TODO Check user exists, this check is useless
 							navigation.navigate('InsertName', {
 								cellNumber,
 								userIdentification
@@ -300,6 +298,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				<InstructionButtonContainer>
 					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
+						fontSize={16}
 						message={getHeaderMessage()}
 						highlightedWords={getHeaderHighlightedWords()}
 					/>
@@ -307,6 +306,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				<VerticalSigh />
 				<InstructionButtonContainer withPaddingLeft>
 					<InstructionCard
+						fontSize={16}
 						borderLeftWidth={RFValue(4)}
 						message={getFormatedCellNumber()}
 						highlightedWords={getFormatedCellNumber().split(' ')}
