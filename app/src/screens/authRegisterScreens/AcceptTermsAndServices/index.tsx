@@ -42,7 +42,7 @@ function AcceptTermsAndConditions({ navigation }: AcceptTermsAndConditionsScreen
 	}
 
 	const navigateToSelectRegisterMethod = () => {
-		navigation.navigate('SelectAuthMethod')
+		navigation.navigate('SelectAuthMethod', { newUser: true })
 	}
 
 	const navigateBackwards = () => navigation.goBack()

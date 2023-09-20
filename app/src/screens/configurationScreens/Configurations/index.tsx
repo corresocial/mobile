@@ -40,7 +40,12 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const navigateToInitialScreen = () => {
 		navigation.reset({
 			index: 0,
-			routes: [{ name: 'SelectAuthRegister' as any }]
+			routes: [{
+				name: 'SelectAuthRegister' as any, // TODO Type
+				params: {
+					userId: ''
+				}
+			}]
 		})
 	}
 

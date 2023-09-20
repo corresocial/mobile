@@ -4,7 +4,7 @@ export type AuthRegisterStackParamList = {
 	Splash: undefined
 	SelectAuthRegister: { userId?: string, userName?: string }
 	AcceptTermsAndConditions: undefined
-	SelectAuthMethod: undefined
+	SelectAuthMethod: { newUser?: boolean }
 	InsertCellNumber: undefined
 	InsertConfirmationCode: {
 		cellNumber: string,

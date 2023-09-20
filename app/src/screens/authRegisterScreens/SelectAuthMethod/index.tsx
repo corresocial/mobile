@@ -20,12 +20,16 @@ import { getEnvVars } from '../../../../environment'
 import { generateGoogleAuthCredential } from '../../../services/firebase/user/generateGoogleAuthCredential'
 import { signinByCredential } from '../../../services/firebase/user/signingByCredential'
 import { AuthContext } from '../../../contexts/AuthContext'
+import { userExists } from '../../../services/firebase/user/userExists'
+import { SocialLoginAlertModal } from '../../../components/_modals/SocialLoginAlertModal'
 
 WebBrowser.maybeCompleteAuthSession()
 const { AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
 
-function SelectAuthMethod({ navigation }: SelectAuthMethodScreenProps) {
+function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 	const { setRemoteUserOnLocal } = useContext(AuthContext)
+
+	const { newUser } = route.params
 
 	const keys = {
 		expoClientId: AUTH_EXPO_CLIENT_ID,
@@ -33,6 +37,8 @@ function SelectAuthMethod({ navigation }: SelectAuthMethodScreenProps) {
 		iosClientId: AUTH_IOS_CLIENT_ID
 	}
 
+	const [authenticatedUser, setAuthenticatedUser] = React.useState({ userId: '', email: '' })
+	const [socialLoginAlertModalIsVisible, setSocialLoginAlertModalIsVisible] = React.useState(false)
 	const [tokenGoogle, setTokenGoogle] = React.useState<string | undefined>()
 	const [request, response, promptAsyncGoogle] = Google.useAuthRequest(keys, {
 		projectNameForProxy: '@corresocial/corresocial'
@@ -55,28 +61,35 @@ function SelectAuthMethod({ navigation }: SelectAuthMethodScreenProps) {
 		try {
 			if (tokenGoogle) {
 				const googleCredential = generateGoogleAuthCredential(tokenGoogle)
-				const { userId, email: loggedEmail } = await signinByCredential(googleCredential)
+				const { userId, email } = await signinByCredential(googleCredential)
 
-				if (userId) {
-					const userLoadedOnContext = await setRemoteUserOnLocal(userId)
+				if (userId && email) {
+					const userAlreadyExists = await userExists(userId)
 
-					console.log(`UserHasAccount: ${userLoadedOnContext}`)
-					if (!userLoadedOnContext) { // if (!userLoadedOnContext) {
-						navigation.navigate('InsertName', {
-							userIdentification: { uid: userId },
-							email: loggedEmail || '',
-							cellNumber: ''
-						})
+					console.log('newUser: ', newUser)
+					console.log('UserAlreadyExists: ', userAlreadyExists)
+
+					if (!newUser && !userAlreadyExists) {
+						console.log('Usuário não está cadastrado, quer cadastrar?')
+						setAuthenticatedUser({ userId, email })
+						toggleSocialLoginAlertModalVisibility()
 						return
 					}
 
-					navigation.reset({
-						index: 0,
-						routes: [{
-							name: 'UserStack',
-							params: { tourPerformed: true }
-						}],
-					})
+					if (newUser && userAlreadyExists) {
+						console.log('Usuário já está cadastrado, quer logar?')
+						setAuthenticatedUser({ userId, email })
+						toggleSocialLoginAlertModalVisibility()
+						return
+					}
+
+					console.log('segue o fluxo')
+
+					if (newUser) {
+						return navigateToCreateNewAccount()
+					}
+
+					await performLoginOnApp()
 				}
 			} else {
 				await promptAsyncGoogle({ projectNameForProxy: '@corresocial/corresocial' })
@@ -86,13 +99,48 @@ function SelectAuthMethod({ navigation }: SelectAuthMethodScreenProps) {
 		}
 	}
 
+	const navigateToCreateNewAccount = async () => {
+		const { userId, email } = authenticatedUser
+		navigation.navigate('InsertName', {
+			userIdentification: { uid: userId },
+			email: email || '',
+			cellNumber: ''
+		})
+	}
+
+	const performLoginOnApp = async () => {
+		const { userId } = authenticatedUser
+
+		const userLoadedOnContext = await setRemoteUserOnLocal(userId)
+
+		if (userLoadedOnContext) {
+			navigation.reset({
+				index: 0,
+				routes: [{
+					name: 'UserStack',
+					params: { tourPerformed: true }
+				}],
+			})
+		}
+	}
+
 	const performSigninWithApple = () => {
 		console.log('performSigninWithApple')
+	}
+
+	const toggleSocialLoginAlertModalVisibility = () => {
+		setSocialLoginAlertModalIsVisible((previousValue) => !previousValue)
 	}
 
 	return (
 		<Container >
 			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<SocialLoginAlertModal
+				visibility={socialLoginAlertModalIsVisible}
+				accountIdentifier={authenticatedUser.email}
+				closeModal={toggleSocialLoginAlertModalVisibility}
+				onPressButton={newUser ? performLoginOnApp : navigateToCreateNewAccount}
+			/>
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized

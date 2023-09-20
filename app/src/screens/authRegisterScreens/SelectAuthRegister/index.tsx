@@ -26,7 +26,7 @@ const presentationTexts = [
 ]
 
 function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps) {
-	const { getUserDataFromSecureStore, setRemoteUserOnLocal, setUserDataOnContext } = useContext(AuthContext)
+	const { getUserDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [termsVisibility, setTermsVisibility] = useState<boolean>(false)
 
@@ -51,12 +51,10 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 	}
 
 	const navigateToAuthFlow = () => {
-		setUserDataOnContext({ newUser: false })
-		navigation.navigate('SelectAuthMethod')
+		navigation.navigate('SelectAuthMethod', { newUser: false })
 	}
 
 	const navigateToRegisterFlow = () => {
-		setUserDataOnContext({ newUser: true })
 		navigation.navigate('AcceptTermsAndConditions')
 	}
 
@@ -124,8 +122,8 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 					)
 				}
 				<OptionButton
-					label={'entrar em outra conta'}
-					highlightedWords={['entrar', 'em', 'outra', 'conta']}
+					label={`entrar em ${hasStoredUser ? 'outra' : 'uma'} conta`}
+					highlightedWords={['entrar', 'em', hasStoredUser ? 'outra' : 'uma', 'conta']}
 					labelSize={16}
 					relativeHeight={hasStoredUser ? '20%' : '30%'}
 					SvgIcon={PhoneDeviceWhiteIcon}
