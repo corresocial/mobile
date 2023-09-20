@@ -6,6 +6,7 @@ import { Body, Description } from './styles'
 import GoogleWhiteIcon from '../../../assets/icons/google-white.svg'
 import ProfileWhiteIcon from '../../../assets/icons/profile-white.svg'
 import AngleLeftWhiteIcon from '../../../assets/icons/angleLeft-white.svg'
+import SmartphoneWhiteIcon from '../../../assets/icons/smartphone-white.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
@@ -17,6 +18,7 @@ import { DescriptionWithLeftTracing } from '../../DescriptionWithLeftTracing'
 
 interface SocialLoginAlertModalProps {
 	visibility: boolean
+	registerMethod?: boolean
 	accountIdentifier?: string
 	closeModal: () => void
 	onPressButton: () => void
@@ -25,6 +27,7 @@ interface SocialLoginAlertModalProps {
 function SocialLoginAlertModal({
 	visibility,
 	accountIdentifier,
+	registerMethod,
 	closeModal,
 	onPressButton
 }: SocialLoginAlertModalProps) {
@@ -40,9 +43,10 @@ function SocialLoginAlertModal({
 				<Description>
 					{
 						showMessageWithHighlight(
-							'parece que não existe uma conta corre. vinculada a essa conta google',
+							`parece que ${registerMethod ? 'já' : 'não'} existe uma conta corre. vinculada a essa conta google`,
 							['corre', 'vinculada', 'conta', 'google', 'a'],
 						)
+
 					}
 				</Description>
 				<VerticalSigh height={relativeScreenHeight(3)} />
@@ -60,12 +64,12 @@ function SocialLoginAlertModal({
 					keyboardHideButton={false}
 					color={theme.green3}
 					labelColor={theme.white3}
-					label={'criar uma \nnova conta'}
-					highlightedWords={['\nnova', 'conta']}
+					label={registerMethod ? 'entrar nessa conta' : 'criar uma \nnova conta'}
+					highlightedWords={['nessa', '\nnova', 'conta']}
 					fontSize={16}
 					textAlign={'left'}
-					SecondSvgIcon={ProfileWhiteIcon}
-					svgIconScale={['40%', '35%']}
+					SecondSvgIcon={registerMethod ? SmartphoneWhiteIcon : ProfileWhiteIcon}
+					svgIconScale={['40%', '30%']}
 					onPress={() => {
 						onPressButton()
 						closeModal()
@@ -76,12 +80,13 @@ function SocialLoginAlertModal({
 					keyboardHideButton={false}
 					color={theme.white3}
 					labelColor={theme.black4}
-					label={'voltar \npara login'}
+					// label={`voltar \npara ${registerMethod ? 'login' : 'cadastro'}`}
+					label={'voltar'}
 					highlightedWords={['\npara', 'login']}
 					fontSize={16}
 					textAlign={'left'}
 					SecondSvgIcon={AngleLeftWhiteIcon}
-					svgIconScale={['40%', '35%']}
+					svgIconScale={['40%', '30%']}
 					onPress={closeModal}
 				/>
 			</Body>

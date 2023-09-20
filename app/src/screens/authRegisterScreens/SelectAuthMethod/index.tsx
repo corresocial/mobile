@@ -49,7 +49,11 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 			const { authentication } = response
 			setTokenGoogle(authentication?.accessToken)
 		}
-	}, [response])
+
+		if (tokenGoogle) {
+			performSigninWithGoogle()
+		}
+	}, [response, tokenGoogle])
 
 	const navigateBackwards = () => navigation.goBack()
 
@@ -86,10 +90,10 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 					console.log('segue o fluxo')
 
 					if (newUser) {
-						return navigateToCreateNewAccount()
+						return navigateToCreateNewAccount({ userId, email })
 					}
 
-					await performLoginOnApp()
+					await performLoginOnApp({ userId })
 				}
 			} else {
 				await promptAsyncGoogle({ projectNameForProxy: '@corresocial/corresocial' })
@@ -99,8 +103,8 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 		}
 	}
 
-	const navigateToCreateNewAccount = async () => {
-		const { userId, email } = authenticatedUser
+	const navigateToCreateNewAccount = async (user?: { userId: string, email: string }) => {
+		const { userId, email } = user || authenticatedUser
 		navigation.navigate('InsertName', {
 			userIdentification: { uid: userId },
 			email: email || '',
@@ -108,8 +112,8 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 		})
 	}
 
-	const performLoginOnApp = async () => {
-		const { userId } = authenticatedUser
+	const performLoginOnApp = async (user?: { userId: string }) => {
+		const { userId } = user || authenticatedUser
 
 		const userLoadedOnContext = await setRemoteUserOnLocal(userId)
 
@@ -138,6 +142,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 			<SocialLoginAlertModal
 				visibility={socialLoginAlertModalIsVisible}
 				accountIdentifier={authenticatedUser.email}
+				registerMethod={newUser}
 				closeModal={toggleSocialLoginAlertModalVisibility}
 				onPressButton={newUser ? performLoginOnApp : navigateToCreateNewAccount}
 			/>
