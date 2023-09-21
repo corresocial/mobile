@@ -292,3 +292,20 @@ const structurePostObject = (record) => {
 
 	return structuredPost
 }
+
+/// ///  checkUserPhoneAlreadyRegistred
+
+exports.checkUserPhoneAlreadyRegistred = functions.https.onRequest(async (req, res) => {
+	const { phoneNumber } = req.body
+
+	admin.auth()
+		.getUserByPhoneNumber(phoneNumber)
+		.then((userRecord) => {
+			console.log(`Successfully fetched user data:  ${userRecord.toJSON()}`)
+			return res.status(200).send(!!userRecord)
+		})
+		.catch((error) => {
+			console.log('Error fetching user data:', error)
+			return res.status(200).send(false)
+		})
+})
