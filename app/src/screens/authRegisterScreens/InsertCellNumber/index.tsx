@@ -20,6 +20,8 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { Loader } from '../../../components/Loader'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { DefaultInput } from '../../../components/_inputs/DefaultInput'
+import { checkUserPhoneAlreadyRegistredCloud } from '../../../services/cloudFunctions/checkUserPhoneAlreadyRegistred'
+import { SocialLoginAlertModal } from '../../../components/_modals/SocialLoginAlertModal'
 
 const firebaseConfig = Firebase ? Firebase.options : undefined
 
@@ -45,8 +47,11 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 
 	const [DDD, setDDD] = useState<string>('')
 	const [cellNumber, setCellNumber] = useState<string>('')
+	const [completeCellNumber, setCompleteCellNumber] = useState<string>('')
 	const [invalidDDDAfterSubmit, setInvalidDDDAfterSubmit] = useState<boolean>(false)
 	const [invalidCellNumberAfterSubmit, setInvalidCellNumberAfterSubmit] = useState<boolean>(false)
+	const [loginAlertModalIsVisible, setLoginAlertModalIsVisible] = React.useState(false)
+
 	const [hasServerSideError, setHasServerSideError] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -54,6 +59,8 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 		DDDInput: useRef<TextInput>(null),
 		cellNumberInput: useRef<TextInput>(null)
 	}
+
+	const { newUser } = route.params
 
 	const validateDDD = (text: string) => {
 		setHasServerSideError(false)
@@ -86,15 +93,24 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 			const DDDIsValid = validateDDD(DDD)
 			const cellNumberIsValid = validateCellNumber(cellNumber)
 
-			const completeCellNumber = `+55${DDD}${cellNumber}`
+			const fullCellNumber = `+55${DDD}${cellNumber}`
 
 			if (DDDIsValid && cellNumberIsValid) {
-				await sendSMS(completeCellNumber, recaptchaVerifier.current)
-					.then((verificationCodeId) => {
-						navigation.navigate('InsertConfirmationCode', {
-							cellNumber: completeCellNumber, verificationCodeId
-						})
-					})
+				setCompleteCellNumber(fullCellNumber)
+				const phoneAlreadyRegistred = await checkUserPhoneAlreadyRegistredCloud(fullCellNumber)
+
+				console.log(`Usuário já registrado: ${phoneAlreadyRegistred}`)
+				if (!newUser && !phoneAlreadyRegistred) {
+					toggleLoginAlertModalVisibility()
+					return
+				}
+
+				if (newUser && phoneAlreadyRegistred) {
+					toggleLoginAlertModalVisibility()
+					return
+				}
+
+				await requestCellNumberVerificationCode(fullCellNumber)
 			} else {
 				!DDDIsValid && setInvalidDDDAfterSubmit(true)
 				!cellNumberIsValid && setInvalidCellNumberAfterSubmit(true)
@@ -105,6 +121,17 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 			console.log(error)
 			setHasServerSideError(true)
 		}
+	}
+
+	const requestCellNumberVerificationCode = async (fullCellNumber?: string) => {
+		const currentCellNumber = fullCellNumber || completeCellNumber
+
+		await sendSMS(currentCellNumber, recaptchaVerifier.current)
+			.then((verificationCodeId) => {
+				navigation.navigate('InsertConfirmationCode', {
+					cellNumber: currentCellNumber, verificationCodeId
+				})
+			})
 	}
 
 	const getHeaderMessage = () => {
@@ -121,6 +148,10 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 
 	const navigateBackwards = () => navigation.goBack()
 
+	const toggleLoginAlertModalVisibility = () => {
+		setLoginAlertModalIsVisible((previousValue) => !previousValue)
+	}
+
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
 		const existsError = someInvalidFieldSubimitted() || hasServerSideError
@@ -133,13 +164,20 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 
 		return headerBackgroundAnimatedValue.current.interpolate({
 			inputRange: [0, 1],
-			outputRange: [theme.purple2, theme.red2],
+			outputRange: [newUser ? theme.purple2 : theme.green2, theme.red2],
 		})
 	}
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : newUser ? theme.purple2 : theme.green2} barStyle={'dark-content'} />
+			<SocialLoginAlertModal
+				visibility={loginAlertModalIsVisible}
+				accountIdentifier={completeCellNumber}
+				registerMethod={newUser}
+				closeModal={toggleLoginAlertModalVisibility}
+				onPressButton={requestCellNumberVerificationCode}
+			/>
 			<FirebaseRecaptchaVerifierModal
 				ref={recaptchaVerifier}
 				firebaseConfig={firebaseConfig}
@@ -166,7 +204,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 						textInputRef={inputRefs.DDDInput}
 						nextInputRef={inputRefs.cellNumberInput}
 						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={theme.purple1}
+						validBackgroundColor={newUser ? theme.purple1 : theme.green1}
 						maxLength={2}
 						invalidTextAfterSubmit={invalidDDDAfterSubmit}
 						placeholder={'12'}
@@ -182,7 +220,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 						textInputRef={inputRefs.cellNumberInput}
 						previousInputRef={inputRefs.DDDInput}
 						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={theme.purple1}
+						validBackgroundColor={newUser ? theme.purple1 : theme.green1}
 						maxLength={9}
 						invalidTextAfterSubmit={invalidCellNumberAfterSubmit}
 						placeholder={'123451234'}

@@ -31,6 +31,21 @@ function SocialLoginAlertModal({
 	closeModal,
 	onPressButton
 }: SocialLoginAlertModalProps) {
+	const getRelativeAlertText = () => {
+		if (accountIdentifier && accountIdentifier?.includes('+55')) {
+			return `parece que ${registerMethod ? 'já' : 'não'} existe uma conta corre. com esse número`
+		}
+
+		return `parece que ${registerMethod ? 'já' : 'não'} existe uma conta corre. vinculada a essa conta google`
+	}
+
+	const getFormatedCellNumber = () => {
+		if (!accountIdentifier) return ''
+		const numbetWithoutCountryCode = accountIdentifier.slice(3)
+		const numberWithDDDSpace = `${numbetWithoutCountryCode.slice(0, 2)} ${numbetWithoutCountryCode.slice(2)}`
+		return numberWithDDDSpace
+	}
+
 	return (
 		<CustomModal
 			visibility={visibility}
@@ -43,10 +58,9 @@ function SocialLoginAlertModal({
 				<Description>
 					{
 						showMessageWithHighlight(
-							`parece que ${registerMethod ? 'já' : 'não'} existe uma conta corre. vinculada a essa conta google`,
-							['corre', 'vinculada', 'conta', 'google', 'a'],
+							getRelativeAlertText(),
+							['corre', 'vinculada', 'conta', 'google', 'a', 'esse', 'número', 'não', 'existe', 'já'],
 						)
-
 					}
 				</Description>
 				<VerticalSigh height={relativeScreenHeight(3)} />
@@ -54,7 +68,7 @@ function SocialLoginAlertModal({
 					accountIdentifier && (
 						<>
 							<DescriptionWithLeftTracing
-								text={accountIdentifier}
+								text={accountIdentifier?.includes('+55') ? getFormatedCellNumber() : accountIdentifier}
 							/>
 							<VerticalSigh height={relativeScreenHeight(3)} />
 						</>
@@ -80,7 +94,6 @@ function SocialLoginAlertModal({
 					keyboardHideButton={false}
 					color={theme.white3}
 					labelColor={theme.black4}
-					// label={`voltar \npara ${registerMethod ? 'login' : 'cadastro'}`}
 					label={'voltar'}
 					highlightedWords={['\npara', 'login']}
 					fontSize={16}

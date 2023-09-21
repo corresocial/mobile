@@ -58,7 +58,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 	const navigateBackwards = () => navigation.goBack()
 
 	const performSigninWithCellNumber = async () => {
-		navigation.navigate('InsertCellNumber')
+		navigation.navigate('InsertCellNumber', { newUser })
 	}
 
 	const performSigninWithGoogle = async () => {
@@ -86,8 +86,6 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 						toggleSocialLoginAlertModalVisibility()
 						return
 					}
-
-					console.log('segue o fluxo')
 
 					if (newUser) {
 						return navigateToCreateNewAccount({ userId, email })
@@ -138,7 +136,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 
 	return (
 		<Container >
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={newUser ? theme.purple2 : theme.green2} barStyle={'dark-content'} />
 			<SocialLoginAlertModal
 				visibility={socialLoginAlertModalIsVisible}
 				accountIdentifier={authenticatedUser.email}
@@ -149,7 +147,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized
-				backgroundColor={theme.purple2}
+				backgroundColor={newUser ? theme.purple2 : theme.green2}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard

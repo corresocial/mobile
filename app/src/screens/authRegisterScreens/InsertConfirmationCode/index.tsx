@@ -157,11 +157,12 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 						const userHasAccount = await setRemoteUserOnLocal(userIdentification.uid)
 
 						setIsLoading(false)
-						if (!userHasAccount) { // TODO Check user exists, this check is useless
+						if (!userHasAccount) {
 							navigation.navigate('InsertName', {
 								cellNumber,
 								userIdentification
 							})
+							return
 						}
 
 						navigation.reset({

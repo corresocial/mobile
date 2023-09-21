@@ -43,7 +43,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 
 	const getUserNameFromLocal = async () => {
 		if (!userDataContext.userId) {
-			navigation.navigate('InsertPhone' as any) // TODO Type
+			navigation.navigate('InsertCellNumber' as any) // TODO Type
 		}
 		setUserName(userDataContext.name || 'amigo')
 	}

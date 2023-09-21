@@ -5,7 +5,7 @@ export type AuthRegisterStackParamList = {
 	SelectAuthRegister: { userId?: string, userName?: string }
 	AcceptTermsAndConditions: undefined
 	SelectAuthMethod: { newUser?: boolean }
-	InsertCellNumber: undefined
+	InsertCellNumber: { newUser?: boolean }
 	InsertConfirmationCode: {
 		cellNumber: string,
 		verificationCodeId: string | void
