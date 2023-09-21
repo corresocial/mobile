@@ -140,7 +140,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 			.catch((err: any) => {
 				console.log(err)
 				switch (err.code) {
-					case 'auth/too-many-requests': throw new Error('Aguarde, no momento você já solicitou muitas vezes!')
+					case 'auth/too-many-requests': throw new Error('auth/too-many-requests')
 					default: throw new Error('Houve um erro ao tentar lhe enviar o código de verificação!')
 				}
 			})

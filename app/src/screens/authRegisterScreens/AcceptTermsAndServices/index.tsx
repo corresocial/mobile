@@ -60,7 +60,7 @@ function AcceptTermsAndConditions({ navigation }: AcceptTermsAndConditionsScreen
 				<InstructionCard
 					message={'termos de serviço \ne privacidade'}
 					highlightedWords={['serviço', 'privacidade']}
-					fontSize={17}
+					fontSize={16}
 				/>
 			</DefaultHeaderContainer>
 			<TermsButtonContainer>

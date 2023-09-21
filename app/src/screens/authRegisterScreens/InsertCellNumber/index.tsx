@@ -30,13 +30,17 @@ const headerMessages = {
 		text: 'passa o seu telefone aí pra gente',
 		highlightedWords: ['telefone']
 	},
+	requestLimits: {
+		text: 'ih! parece que você solicitou um código muitas vezes. \n\ntente novamente \nem alguns instantantes',
+		highlightedWords: ['parece', 'que', 'você', 'solicitou', 'um', 'código', 'muitas', 'vezes']
+	},
 	clientSideError: {
 		text: 'ih, parece que o seu telefone não é válido',
 		highlightedWords: ['telefone', 'não', 'é', 'válido']
 	},
 	serverSideError: {
-		text: 'Opa! parece que algo deu algo errado do nosso lado, tente novamente em alguns instantantes',
-		highlightedWords: ['do', 'nosso', 'lado']
+		text: 'ih! algo deu errado por aqui \n\ntente novamente \nem alguns instantantes',
+		highlightedWords: ['algo', 'deu', 'errado', 'por', 'aqui']
 	}
 }
 
@@ -48,11 +52,13 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 	const [DDD, setDDD] = useState<string>('')
 	const [cellNumber, setCellNumber] = useState<string>('')
 	const [completeCellNumber, setCompleteCellNumber] = useState<string>('')
+
 	const [invalidDDDAfterSubmit, setInvalidDDDAfterSubmit] = useState<boolean>(false)
 	const [invalidCellNumberAfterSubmit, setInvalidCellNumberAfterSubmit] = useState<boolean>(false)
 	const [loginAlertModalIsVisible, setLoginAlertModalIsVisible] = React.useState(false)
-
 	const [hasServerSideError, setHasServerSideError] = useState(false)
+	const [requestLimitsAlert, setRequestLimitsAlert] = useState(false)
+
 	const [isLoading, setIsLoading] = useState(false)
 
 	const inputRefs = {
@@ -88,6 +94,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 
 	const getVeficationCode = async () => {
 		try {
+			setRequestLimitsAlert(false)
 			setIsLoading(true)
 
 			const DDDIsValid = validateDDD(DDD)
@@ -102,11 +109,13 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 				console.log(`Usuário já registrado: ${phoneAlreadyRegistred}`)
 				if (!newUser && !phoneAlreadyRegistred) {
 					toggleLoginAlertModalVisibility()
+					setIsLoading(false)
 					return
 				}
 
 				if (newUser && phoneAlreadyRegistred) {
 					toggleLoginAlertModalVisibility()
+					setIsLoading(false)
 					return
 				}
 
@@ -116,9 +125,14 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 				!cellNumberIsValid && setInvalidCellNumberAfterSubmit(true)
 			}
 			setIsLoading(false)
+			throw new Error('auth/too-many-requests')
 		} catch (error: any) {
 			setIsLoading(false)
-			console.log(error)
+			if (error.message === 'auth/too-many-requests') {
+				setRequestLimitsAlert(true)
+				return
+			}
+
 			setHasServerSideError(true)
 		}
 	}
@@ -135,12 +149,15 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 	}
 
 	const getHeaderMessage = () => {
+		console.log(requestLimitsAlert)
+		if (requestLimitsAlert) return headerMessages.requestLimits.text
 		if (someInvalidFieldSubimitted()) return headerMessages.clientSideError.text
 		if (hasServerSideError) return headerMessages.serverSideError.text
 		return headerMessages.instruction.text
 	}
 
 	const getHeaderHighlightedWords = () => {
+		if (requestLimitsAlert) return headerMessages.requestLimits.highlightedWords
 		if (someInvalidFieldSubimitted()) return headerMessages.clientSideError.highlightedWords
 		if (hasServerSideError) return headerMessages.serverSideError.highlightedWords
 		return headerMessages.instruction.highlightedWords

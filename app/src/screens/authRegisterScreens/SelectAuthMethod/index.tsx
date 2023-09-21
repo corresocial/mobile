@@ -151,8 +151,8 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					message={'como você prefere entrar?'}
-					highlightedWords={['entrar']}
+					message={`como você prefere ${newUser ? 'criar uma conta' : 'entrar'}?`}
+					highlightedWords={newUser ? ['criar', 'uma', 'conta'] : ['entrar']}
 					fontSize={16}
 				/>
 			</DefaultHeaderContainer>
