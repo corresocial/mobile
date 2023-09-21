@@ -298,9 +298,9 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 				<InstructionButtonContainer>
 					<BackButton onPress={navigateBackwards} />
 					<InstructionCard
-						fontSize={16}
 						message={getHeaderMessage()}
 						highlightedWords={getHeaderHighlightedWords()}
+						fontSize={16}
 					/>
 				</InstructionButtonContainer>
 				<VerticalSigh />

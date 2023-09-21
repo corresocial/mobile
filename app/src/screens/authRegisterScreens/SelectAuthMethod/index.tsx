@@ -155,34 +155,37 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 				<InstructionCard
 					message={'como você prefere entrar?'}
 					highlightedWords={['entrar']}
+					fontSize={16}
 				/>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2} justifyContent={'space-around'}>
 				<PrimaryButton
 					color={theme.green3}
 					SecondSvgIcon={SmartphoneWhiteIcon}
-					svgIconScale={['50%', '25%']}
+					svgIconScale={['50%', '30%']}
 					label={'telefone'}
 					highlightedWords={['telefone']}
 					labelColor={theme.white3}
 					onPress={performSigninWithCellNumber}
 				/>
 				<PrimaryButton
-					color={theme.purple3}
+					color={theme.white3}
 					SecondSvgIcon={GoogleWhiteIcon}
-					svgIconScale={['50%', '25%']}
-					labelColor={theme.white3}
-					label={'google'}
-					highlightedWords={['google']}
+					svgIconScale={['50%', '30%']}
+					labelColor={theme.black4}
+					label={`${newUser ? 'entrar' : 'continuar'} \ncom google`}
+					highlightedWords={[newUser ? 'entrar' : 'continuar', '\ncom', 'google']}
+					textAlign={'left'}
 					onPress={performSigninWithGoogle}
 				/>
 				<PrimaryButton
-					color={theme.purple3}
+					color={theme.white3}
 					SecondSvgIcon={AppleWhiteIcon}
-					svgIconScale={['50%', '25%']}
-					labelColor={theme.white3}
-					label={'apple'}
-					highlightedWords={['apple']}
+					svgIconScale={['50%', '30%']}
+					labelColor={theme.black4}
+					label={`${newUser ? 'entrar' : 'continuar'} \ncom apple`}
+					highlightedWords={[newUser ? 'entrar' : 'continuar', '\ncom', 'apple']}
+					textAlign={'left'}
 					onPress={performSigninWithApple}
 				/>
 			</FormContainer>

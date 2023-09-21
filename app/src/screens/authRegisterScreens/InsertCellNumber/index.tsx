@@ -153,9 +153,9 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
-					fontSize={16}
 					message={getHeaderMessage()}
 					highlightedWords={getHeaderHighlightedWords()}
+					fontSize={16}
 				/>
 			</DefaultHeaderContainer>
 			<FormContainer >
