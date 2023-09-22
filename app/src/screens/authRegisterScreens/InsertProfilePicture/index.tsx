@@ -88,10 +88,6 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 			tourPerformed: !!tourPerformed
 		}
 
-		if (userData.email) {
-			userObject.email = userData.email
-		}
-
 		if (!userCreatedAt) {
 			userObject.createdAt = new Date()
 		}

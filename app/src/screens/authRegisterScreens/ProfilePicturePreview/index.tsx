@@ -96,7 +96,6 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 		if (localUser.profilePictureUrl && localUser.profilePictureUrl.length && localUser.profilePictureUrl[0] === profilePicture[0]) {
 			const currentUser: Partial<UserCollection> = {
 				name: userData.userName,
-				email: userData.email,
 				profilePictureUrl: profilePicture,
 				tourPerformed: !!localUser.tourPerformed,
 			}
@@ -106,13 +105,11 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 			}
 
 			await updateUser(userData.userIdentification.uid, currentUser)
-			if (userData.cellNumber) {
-				await updateUserPrivateData(
-					{ cellNumber: userData.cellNumber },
-					userData.userIdentification.uid,
-					'contacts',
-				)
-			}
+			await updateUserPrivateData(
+				{ cellNumber: userData.cellNumber || '', email: userData.email || '' },
+				userData.userIdentification.uid,
+				'contacts',
+			)
 
 			await setRemoteUserOnLocal(userData.userIdentification.uid)
 
@@ -144,9 +141,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 
 									await updateUser(userData.userIdentification.uid, currentUser)
 									await updateUserPrivateData(
-										{
-											cellNumber: userData.cellNumber
-										},
+										{ cellNumber: userData.cellNumber || '', email: userData.email || '' },
 										userData.userIdentification.uid,
 										'contacts',
 									)
