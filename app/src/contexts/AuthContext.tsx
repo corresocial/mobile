@@ -51,7 +51,6 @@ function AuthProvider({ children }: AuthProviderProps) {
 
 			return storedUser
 		} catch (err) {
-			console.log(err)
 			return null
 		}
 	}

@@ -42,6 +42,8 @@ function Splash({ navigation }: SplashScreenProps) {
 
 			if (hasLocalUser) {
 				const localUser = await getUserDataFromSecureStore(true)
+				if (!localUser || (localUser && !localUser.userId)) throw new Error('Autenticação canelada pelo usuário')
+
 				await setRemoteUserOnLocal(localUser.userId, localUser)
 				navigation.reset({
 					index: 0,
