@@ -62,13 +62,13 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 		try {
 			const localUser = await getUserDataFromSecureStore(true, true)
 
-			if (localUser) {
+			if (localUser && localUser.userId) {
 				await setRemoteUserOnLocal(localUser.userId, localUser)
 				navigation.reset({
 					index: 0,
 					routes: [{
 						name: 'UserStack',
-						params: { tourPerformed: localUser.tourPerformed }
+						params: { tourPerformed: !!localUser.tourPerformed }
 					}],
 				})
 			}
