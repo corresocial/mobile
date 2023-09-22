@@ -22,6 +22,7 @@ import { signinByCredential } from '../../../services/firebase/user/signingByCre
 import { AuthContext } from '../../../contexts/AuthContext'
 import { userExists } from '../../../services/firebase/user/userExists'
 import { SocialLoginAlertModal } from '../../../components/_modals/SocialLoginAlertModal'
+import { Loader } from '../../../components/Loader'
 
 WebBrowser.maybeCompleteAuthSession()
 const { AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
@@ -37,8 +38,11 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 		iosClientId: AUTH_IOS_CLIENT_ID
 	}
 
+	const [isLoading, setIsLoading] = React.useState(false)
+	const [hasError, setHasError] = React.useState(false)
+
 	const [authenticatedUser, setAuthenticatedUser] = React.useState({ userId: '', email: '' })
-	const [socialLoginAlertModalIsVisible, setSocialLoginAlertModalIsVisible] = React.useState(false)
+	const [socialLoginAlertModalIsVisible, setSocialLoginAlertModalIsVisible] = React.useState(true)
 	const [tokenGoogle, setTokenGoogle] = React.useState<string | undefined>()
 	const [request, response, promptAsyncGoogle] = Google.useAuthRequest(keys, {
 		projectNameForProxy: '@corresocial/corresocial'
@@ -63,26 +67,24 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 
 	const performSigninWithGoogle = async () => {
 		try {
+			setIsLoading(true)
+			setHasError(false)
 			if (tokenGoogle) {
 				const googleCredential = generateGoogleAuthCredential(tokenGoogle)
 				const { userId, email } = await signinByCredential(googleCredential)
 
 				if (userId && email) {
+					setAuthenticatedUser({ userId, email })
 					const userAlreadyExists = await userExists(userId)
-
-					console.log('newUser: ', newUser)
-					console.log('UserAlreadyExists: ', userAlreadyExists)
 
 					if (!newUser && !userAlreadyExists) {
 						console.log('Usuário não está cadastrado, quer cadastrar?')
-						setAuthenticatedUser({ userId, email })
 						toggleSocialLoginAlertModalVisibility()
 						return
 					}
 
 					if (newUser && userAlreadyExists) {
 						console.log('Usuário já está cadastrado, quer logar?')
-						setAuthenticatedUser({ userId, email })
 						toggleSocialLoginAlertModalVisibility()
 						return
 					}
@@ -98,6 +100,9 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 			}
 		} catch (error) {
 			console.log(error)
+			setHasError(true)
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
@@ -141,6 +146,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 				visibility={socialLoginAlertModalIsVisible}
 				accountIdentifier={authenticatedUser.email}
 				registerMethod={newUser}
+				hasError={hasError}
 				closeModal={toggleSocialLoginAlertModalVisibility}
 				onPressButton={newUser ? performLoginOnApp : navigateToCreateNewAccount}
 			/>
@@ -157,35 +163,43 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 				/>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.white2} justifyContent={'space-around'}>
-				<PrimaryButton
-					color={theme.green3}
-					SecondSvgIcon={SmartphoneWhiteIcon}
-					svgIconScale={['50%', '30%']}
-					label={'telefone'}
-					highlightedWords={['telefone']}
-					labelColor={theme.white3}
-					onPress={performSigninWithCellNumber}
-				/>
-				<PrimaryButton
-					color={theme.white3}
-					SecondSvgIcon={GoogleWhiteIcon}
-					svgIconScale={['50%', '30%']}
-					labelColor={theme.black4}
-					label={`${newUser ? 'entrar' : 'continuar'} \ncom google`}
-					highlightedWords={[newUser ? 'entrar' : 'continuar', '\ncom', 'google']}
-					textAlign={'left'}
-					onPress={performSigninWithGoogle}
-				/>
-				<PrimaryButton
-					color={theme.white3}
-					SecondSvgIcon={AppleWhiteIcon}
-					svgIconScale={['50%', '30%']}
-					labelColor={theme.black4}
-					label={`${newUser ? 'entrar' : 'continuar'} \ncom apple`}
-					highlightedWords={[newUser ? 'entrar' : 'continuar', '\ncom', 'apple']}
-					textAlign={'left'}
-					onPress={performSigninWithApple}
-				/>
+				{
+					isLoading
+						? <Loader />
+						: (
+							<>
+								<PrimaryButton
+									color={theme.green3}
+									SecondSvgIcon={SmartphoneWhiteIcon}
+									svgIconScale={['50%', '30%']}
+									label={'telefone'}
+									highlightedWords={['telefone']}
+									labelColor={theme.white3}
+									onPress={performSigninWithCellNumber}
+								/>
+								<PrimaryButton
+									color={theme.white3}
+									SecondSvgIcon={GoogleWhiteIcon}
+									svgIconScale={['50%', '30%']}
+									labelColor={theme.black4}
+									label={`${newUser ? 'entrar' : 'continuar'} \ncom google`}
+									highlightedWords={[newUser ? 'entrar' : 'continuar', '\ncom', 'google']}
+									textAlign={'left'}
+									onPress={performSigninWithGoogle}
+								/>
+								<PrimaryButton
+									color={theme.white3}
+									SecondSvgIcon={AppleWhiteIcon}
+									svgIconScale={['50%', '30%']}
+									labelColor={theme.black4}
+									label={`${newUser ? 'entrar' : 'continuar'} \ncom apple`}
+									highlightedWords={[newUser ? 'entrar' : 'continuar', '\ncom', 'apple']}
+									textAlign={'left'}
+									onPress={performSigninWithApple}
+								/>
+							</>
+						)
+				}
 			</FormContainer>
 		</Container >
 	)

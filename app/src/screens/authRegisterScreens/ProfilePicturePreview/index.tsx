@@ -54,6 +54,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	}, [])
 
 	const throwServerSideError = (err: any) => {
+		console.log(err)
 		setHasServerSideError(true)
 	}
 
@@ -86,91 +87,89 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	})
 
 	const saveUserData = async () => {
-		const userData = getRouteParams()
-		const localUser = await getUserDataFromSecureStore()
+		try {
+			const userData = getRouteParams()
+			const localUser = await getUserDataFromSecureStore()
 
-		if (!profilePicture.length) return
+			if (!profilePicture.length) return
 
-		setIsLoading(true)
+			setIsLoading(true)
 
-		if (localUser.profilePictureUrl && localUser.profilePictureUrl.length && localUser.profilePictureUrl[0] === profilePicture[0]) {
-			const currentUser: Partial<UserCollection> = {
-				name: userData.userName,
-				profilePictureUrl: profilePicture,
-				tourPerformed: !!localUser.tourPerformed,
-			}
+			if (localUser.profilePictureUrl && localUser.profilePictureUrl.length && localUser.profilePictureUrl[0] === profilePicture[0]) {
+				const currentUser: Partial<UserCollection> = {
+					name: userData.userName,
+					profilePictureUrl: profilePicture,
+					tourPerformed: !!localUser.tourPerformed,
+				}
 
-			if (!localUser.createdAt) {
-				currentUser.createdAt = new Date()
-			}
+				if (!localUser.createdAt) {
+					currentUser.createdAt = new Date()
+				}
 
-			await updateUser(userData.userIdentification.uid, currentUser)
-			await updateUserPrivateData(
-				{ cellNumber: userData.cellNumber || '', email: userData.email || '' },
-				userData.userIdentification.uid,
-				'contacts',
-			)
+				await updateUser(userData.userIdentification.uid, currentUser)
+				await updateUserPrivateData(
+					{ cellNumber: userData.cellNumber || '', email: userData.email || '' },
+					userData.userIdentification.uid,
+					'contacts',
+				)
 
-			await setRemoteUserOnLocal(userData.userIdentification.uid)
+				await setRemoteUserOnLocal(userData.userIdentification.uid)
 
-			setIsLoading(false)
-			navigateToNextScreen(localUser.tourPerformed)
-			return
-		}
-
-		await uploadImage(profilePicture[0], 'users')
-			.then(
-				({ uploadTask, blob }: any) => {
-					uploadTask.on(
-						'state_change',
-						() => { },
-						(err: any) => { throwServerSideError(err) },
-						async () => {
-							blob.close()
-							getDownloadURL(uploadTask.snapshot.ref)
-								.then(async (profilePictureUrl) => {
-									const currentUser: UserCollection = {
-										name: userData.userName,
-										profilePictureUrl: [profilePictureUrl as string],
-										tourPerformed: !!localUser.tourPerformed,
-									}
-
-									if (!localUser.createdAt) {
-										currentUser.createdAt = new Date()
-									}
-
-									await updateUser(userData.userIdentification.uid, currentUser)
-									await updateUserPrivateData(
-										{ cellNumber: userData.cellNumber || '', email: userData.email || '' },
-										userData.userIdentification.uid,
-										'contacts',
-									)
-
-									if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
-										await deleteUserPicture(userDataContext.profilePictureUrl || [])
-										await updateAllOwnerOnPosts(
-											{ ...currentUser },
-											userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
-										)
-									}
-
-									await setRemoteUserOnLocal(userData.userIdentification.uid)
-
-									setIsLoading(false)
-									navigateToNextScreen(localUser.tourPerformed)
-								})
-								.catch((err) => {
-									setIsLoading(false)
-									throwServerSideError(err)
-								})
-						},
-					)
-				},
-			)
-			.catch((err) => {
 				setIsLoading(false)
-				throwServerSideError(err)
-			})
+				navigateToNextScreen(localUser.tourPerformed)
+				return
+			}
+
+			await uploadImage(profilePicture[0], 'users')
+				.then(
+					({ uploadTask, blob }: any) => {
+						uploadTask.on(
+							'state_change',
+							() => { },
+							(err: any) => { throwServerSideError(err) },
+							async () => {
+								blob.close()
+								getDownloadURL(uploadTask.snapshot.ref)
+									.then(async (profilePictureUrl) => {
+										const currentUser: UserCollection = {
+											name: userData.userName,
+											profilePictureUrl: [profilePictureUrl as string],
+											tourPerformed: !!localUser.tourPerformed,
+										}
+
+										if (!localUser.createdAt) {
+											currentUser.createdAt = new Date()
+										}
+
+										await updateUser(userData.userIdentification.uid, currentUser)
+										await updateUserPrivateData(
+											{ cellNumber: userData.cellNumber || '', email: userData.email || '' },
+											userData.userIdentification.uid,
+											'contacts',
+										)
+
+										if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
+											await deleteUserPicture(userDataContext.profilePictureUrl || [])
+											await updateAllOwnerOnPosts(
+												{ ...currentUser },
+												userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
+											)
+										}
+
+										await setRemoteUserOnLocal(userData.userIdentification.uid)
+
+										setIsLoading(false)
+										navigateToNextScreen(localUser.tourPerformed)
+									})
+							},
+						)
+					},
+				)
+		} catch (err) {
+			throwServerSideError(err)
+		} finally {
+			setIsLoading(false)
+		}
 	}
 
 	const navigateBackwards = () => navigation.goBack()
@@ -200,9 +199,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 			<StatusBar backgroundColor={hasServerSideError ? theme.red2 : theme.green2} barStyle={'dark-content'} />
 			<CustomCameraModal
 				cameraOpened={cameraModalVisibility && !profilePicture.length}
-				onClose={() => {
-					setCameraModalVisibility(false)
-				}}
+				onClose={() => { setCameraModalVisibility(false) }}
 				setPictureUri={setPictureUri}
 			/>
 			<DefaultHeaderContainer

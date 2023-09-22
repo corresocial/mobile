@@ -19,6 +19,7 @@ import { DescriptionWithLeftTracing } from '../../DescriptionWithLeftTracing'
 interface SocialLoginAlertModalProps {
 	visibility: boolean
 	registerMethod?: boolean
+	hasError?: boolean
 	accountIdentifier?: string
 	closeModal: () => void
 	onPressButton: () => void
@@ -28,10 +29,13 @@ function SocialLoginAlertModal({
 	visibility,
 	accountIdentifier,
 	registerMethod,
+	hasError,
 	closeModal,
 	onPressButton
 }: SocialLoginAlertModalProps) {
 	const getRelativeAlertText = () => {
+		if (hasError) return 'tivemos um erro ao tentar utilizar essa conta google'
+
 		if (accountIdentifier && accountIdentifier?.includes('+55')) {
 			return `parece que ${registerMethod ? 'já' : 'não'} existe uma conta corre. com esse número`
 		}
@@ -59,7 +63,7 @@ function SocialLoginAlertModal({
 					{
 						showMessageWithHighlight(
 							getRelativeAlertText(),
-							['corre', 'vinculada', 'conta', 'google', 'a', 'esse', 'número', 'não', 'existe', 'já'],
+							['corre', 'vinculada', 'conta', 'google', 'a', 'esse', 'número', 'não', 'existe', 'já', 'erro'],
 						)
 					}
 				</Description>
