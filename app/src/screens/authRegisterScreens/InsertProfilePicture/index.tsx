@@ -99,7 +99,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		await updateUser(userData.userIdentification.uid, userObject)
 
 		await updateUserPrivateData(
-			{ cellNumber: userData.cellNumber },
+			{ cellNumber: userData.cellNumber || '', email: userData.email || '' },
 			userData.userIdentification.uid,
 			'contacts',
 		)
