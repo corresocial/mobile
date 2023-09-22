@@ -61,7 +61,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 
 		try {
 			setIsLoading(true)
-			await saveInFirebase(userData, !!localUser.tourPerformed, localUser.createdAt)
+			await saveInFirebase(userData, true, localUser.createdAt)
 			// await saveOnLocal(userData, localUser)
 			if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
 				await deleteUserPicture(userDataContext.profilePictureUrl || [])
@@ -73,7 +73,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 
 			await setRemoteUserOnLocal(userData.userIdentification.uid)
 			setIsLoading(false)
-			navigateToNextScreen(localUser.tourPerformed)
+			navigateToNextScreen(false)
 		} catch (err) {
 			console.log(err)
 			setIsLoading(false)
@@ -106,9 +106,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 	}
 
 	const navigateToNextScreen = (tourPerformed?: boolean) => {
-		navigation.navigate('UserStack', {
-			tourPerformed
-		})
+		navigation.navigate('UserStack', { tourPerformed })
 	}
 
 	const getHeaderMessage = () => {

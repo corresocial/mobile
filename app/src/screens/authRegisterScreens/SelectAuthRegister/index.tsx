@@ -139,7 +139,7 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 					relativeHeight={hasStoredUser ? '20%' : '30%'}
 					SvgIcon={PlusWhiteIcon}
 					svgIconScale={['45%', '45%']}
-					leftSideColor={theme.yellow3}
+					leftSideColor={theme.purple3}
 					leftSideWidth={'25%'}
 					onPress={navigateToRegisterFlow}
 				/>

@@ -160,7 +160,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 						if (!userHasAccount) {
 							navigation.navigate('InsertName', {
 								cellNumber,
-								userIdentification
+								userIdentification,
 							})
 							return
 						}

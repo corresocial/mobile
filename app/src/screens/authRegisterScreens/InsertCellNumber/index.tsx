@@ -149,7 +149,6 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 	}
 
 	const getHeaderMessage = () => {
-		console.log(requestLimitsAlert)
 		if (requestLimitsAlert) return headerMessages.requestLimits.text
 		if (someInvalidFieldSubimitted()) return headerMessages.clientSideError.text
 		if (hasServerSideError) return headerMessages.serverSideError.text
