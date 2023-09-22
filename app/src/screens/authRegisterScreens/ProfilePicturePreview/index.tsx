@@ -106,11 +106,13 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 			}
 
 			await updateUser(userData.userIdentification.uid, currentUser)
-			await updateUserPrivateData(
-				{ cellNumber: userData.cellNumber },
-				userData.userIdentification.uid,
-				'contacts',
-			)
+			if (userData.cellNumber) {
+				await updateUserPrivateData(
+					{ cellNumber: userData.cellNumber },
+					userData.userIdentification.uid,
+					'contacts',
+				)
+			}
 
 			await setRemoteUserOnLocal(userData.userIdentification.uid)
 
