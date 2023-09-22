@@ -42,7 +42,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 	const [hasError, setHasError] = React.useState(false)
 
 	const [authenticatedUser, setAuthenticatedUser] = React.useState({ userId: '', email: '' })
-	const [socialLoginAlertModalIsVisible, setSocialLoginAlertModalIsVisible] = React.useState(true)
+	const [socialLoginAlertModalIsVisible, setSocialLoginAlertModalIsVisible] = React.useState(false)
 	const [tokenGoogle, setTokenGoogle] = React.useState<string | undefined>()
 	const [request, response, promptAsyncGoogle] = Google.useAuthRequest(keys, {
 		projectNameForProxy: '@corresocial/corresocial'
