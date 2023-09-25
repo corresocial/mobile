@@ -675,7 +675,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 									/>
 									<VerticalSigh />
 									{
-										!!numberOfOfflinePostsStored && (
+										!!numberOfOfflinePostsStored && isLoggedUser && (
 											<PostPadding>
 												<OptionButton
 													label={`você tem ${numberOfOfflinePostsStored} ${numberOfOfflinePostsStored === 1 ? 'post pronto' : 'posts prontos'} `}
