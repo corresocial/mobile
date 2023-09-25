@@ -2,7 +2,7 @@
 	"name": "corre",
 	"version": "0.4.1",
 	"scripts": {
-		"start": "expo start --dev-client",
+		"start": "expo start",
 		"test": "jest --detectOpenHandles",
 		"android": "expo run:android",
 		"ios": "expo run:ios",

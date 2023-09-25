@@ -12,9 +12,7 @@
 			"image": "./assets/splash-screen.png",
 			"resizeMode": "contain",
 			"backgroundColor": "#FA9938",
-			"statusBar": {
-				"style": "dark"
-			}
+			"statusBarStyle": "dark"
 		},
 		"hooks": {
 			"postPublish": [
@@ -39,7 +37,8 @@
 						"compileSdkVersion": 33,
 						"targetSdkVersion": 33,
 						"buildToolsVersion": "31.0.0",
-						"enableProguardInReleaseBuilds": true
+						"enableProguardInReleaseBuilds": true,
+						"extraProguardRules": "-keep public class com.horcrux.svg.** {*;}"
 					}
 				}
 			],
@@ -90,7 +89,7 @@
 			"**/*"
 		],
 		"ios": {
-			"buildNumber": "32",
+			"buildNumber": "33",
 			"infoPlist": {
 				"NSCameraUsageDescription": "Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.",
 				"NSLocationWhenInUseUsageDescription": "Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.",
@@ -105,18 +104,17 @@
 				"backgroundColor": "#FA9938"
 			},
 			"config": {
-				"googleMapsApiKey": "AIzaSyBrGDvR0_6TR9qitGcSjV3bfF4yWzWXXCU"
+				"googleMapsApiKey": "AIzaSyByHEvqex_HGZSlr2Ehu7t813I1ypQLXb0"
 			}
 		},
 		"android": {
-			"versionCode": 32,
+			"versionCode": 33,
 			"package": "com.corresocial.corresocial",
 			"icon": "./assets/icon.png",
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/adaptive-icon-foreground.png",
 				"backgroundColor": "#FA9938"
 			},
-			"googleServicesFile": "./google-services.json",
 			"permissions": [
 				"android.permission.LOCATION",
 				"android.permission.ACCESS_FINE_LOCATION",
@@ -130,7 +128,7 @@
 			],
 			"config": {
 				"googleMaps": {
-					"apiKey": "AIzaSyAlcLXDLUQs4B6cF9yVeqckia8LlEKBfRY"
+					"apiKey": "AIzaSyCtTtFXVIpwlf6QuhaEIJaA20lUatzRSxk"
 				}
 			}
 		},
