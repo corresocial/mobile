@@ -116,6 +116,7 @@ export type UserSubscription = {
 export type UserCollection = {
 	userId?: Id
 	name?: string
+	email?: string
 	description?: string
 	profilePictureUrl?: string[]
 	tourPerformed?: boolean
@@ -125,10 +126,12 @@ export type UserCollection = {
 	verified?: VerifiedType
 	socialMedias?: SocialMedia[]
 	subscription?: UserSubscription
+	newUser?: boolean // local only
 }
 
 export type PrivateUserCollection = {
 	cellNumber: string
+	email: string
 }
 
 export type PrivateAddress = {

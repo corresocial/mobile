@@ -43,6 +43,9 @@ import {
 	FALECONOSCO_WEBHOOK,
 	SENTRY_AUTH_TOKEN,
 	DSN_SENTRY,
+	AUTH_EXPO_CLIENT_ID,
+	AUTH_ANDROID_CLIENT_ID,
+	AUTH_IOS_CLIENT_ID
 } from '@env'
 
 type EnvironmentVars = {
@@ -72,6 +75,9 @@ type EnvironmentVars = {
 	FALECONOSCO_WEBHOOK: string
 	SENTRY_AUTH_TOKEN: string
 	DSN_SENTRY: string
+	AUTH_EXPO_CLIENT_ID: string
+	AUTH_ANDROID_CLIENT_ID: string
+	AUTH_IOS_CLIENT_ID: string
 }
 
 const commonEnvVars = {
@@ -83,7 +89,10 @@ const commonEnvVars = {
 	ERROS_WEBHOOK,
 	FALECONOSCO_WEBHOOK,
 	SENTRY_AUTH_TOKEN,
-	DSN_SENTRY
+	DSN_SENTRY,
+	AUTH_EXPO_CLIENT_ID,
+	AUTH_ANDROID_CLIENT_ID,
+	AUTH_IOS_CLIENT_ID
 }
 
 const ENV = {

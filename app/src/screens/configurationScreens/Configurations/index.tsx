@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Linking, StatusBar } from 'react-native'
 
 import { Body, Container, Header } from './styles'
@@ -25,22 +25,34 @@ import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
 import { share } from '../../../common/share'
+import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const { userDataContext, deleteLocaluser } = useContext(AuthContext)
 	const { removeChatListeners } = useContext(ChatContext)
 
-	const performLogout = () => {
+	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
+
+	const toggleDefaultConfirmationModalVisibility = () => {
+		setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible)
+	}
+
+	const performLogout = async () => {
 		removeChatListeners()
-		getAndUpdateUserToken(userDataContext.userId as Id, null)
-		deleteLocaluser()
+		await getAndUpdateUserToken(userDataContext.userId as Id, null)
+		await deleteLocaluser()
 		navigateToInitialScreen()
 	}
 
 	const navigateToInitialScreen = () => {
 		navigation.reset({
 			index: 0,
-			routes: [{ name: 'AcceptAndContinue' as any }]
+			routes: [{
+				name: 'SelectAuthRegister' as any, // TODO Type
+				params: {
+					userId: ''
+				}
+			}]
 		})
 	}
 
@@ -64,6 +76,15 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<DefaultConfirmationModal
+				visibility={defaultConfirmationModalIsVisible}
+				title={'sair'}
+				text={'você tem certeza que deseja sair da sua conta?'}
+				highlightedWords={['sair', 'da', 'sua', 'conta']}
+				buttonKeyword={'sair'}
+				closeModal={toggleDefaultConfirmationModalVisibility}
+				onPressButton={performLogout}
+			/>
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
@@ -158,7 +179,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					highlightedWords={['sair']}
 					fontSize={20}
 					SvgIcon={XWhiteIcon}
-					onPress={performLogout}
+					onPress={toggleDefaultConfirmationModalVisibility}
 				/>
 				<VerticalSigh height={relativeScreenHeight(8)} />
 			</Body>

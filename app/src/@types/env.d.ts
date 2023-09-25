@@ -31,6 +31,9 @@ declare module '@env' {
 	export const PROD_STRIPE_SECRET_KEY: string
 	export const PROD_STRIPE_API_URL: string
 
+	export const AUTH_EXPO_CLIENT_ID: string
+	export const AUTH_ANDROID_CLIENT_ID: string
+	export const AUTH_IOS_CLIENT_ID: string
 	export const DENUNCIAR_WEBHOOK: string
 	export const ERROS_WEBHOOK: string
 	export const FALECONOSCO_WEBHOOK: string

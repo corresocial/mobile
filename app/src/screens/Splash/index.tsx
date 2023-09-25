@@ -6,12 +6,11 @@ import { relativeScreenWidth, screenHeight } from '../../common/screenDimensions
 import LogoBuildingIcon from '../../assets/icons/logoBuilding.svg'
 
 import { SplashScreenProps } from '../../routes/Stack/AuthRegisterStack/stackScreenProps'
-import { LocalUserData } from '../../contexts/types'
 
 import { AuthContext } from '../../contexts/AuthContext'
 
 function Splash({ navigation }: SplashScreenProps) {
-	const { getDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
+	const { hasValidLocalUser, getUserDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [imagesSvgOpacity] = useState(new Animated.Value(0))
 
@@ -27,43 +26,40 @@ function Splash({ navigation }: SplashScreenProps) {
 		}, 1000)
 	}, [])
 
-	const navigateToInitialScreen = () => {
+	const navigateToInitialScreen = (userId?: string, userName?: string) => {
 		navigation.reset({
 			index: 0,
-			routes: [{ name: 'AcceptAndContinue' as any }]
+			routes: [{
+				name: 'SelectAuthRegister',
+				params: { userId, userName }
+			}],
 		})
 	}
 
 	const redirectToApp = async () => {
 		try {
-			const userJSON = await getDataFromSecureStore('corre.user', true)
+			const hasLocalUser = await hasValidLocalUser()
 
-			if (localUserIsValid(userJSON)) {
-				const userObject: LocalUserData = JSON.parse(userJSON as string)
-				await setRemoteUserOnLocal(userObject.userId, userObject)
-				navigation.navigate('UserStack', {
-					tourPerformed: userObject.tourPerformed
+			if (hasLocalUser) {
+				const localUser = await getUserDataFromSecureStore(true)
+				if (!localUser || (localUser && !localUser.userId)) throw new Error('Autenticação canelada pelo usuário')
+
+				await setRemoteUserOnLocal(localUser.userId, localUser)
+				navigation.reset({
+					index: 0,
+					routes: [{
+						name: 'UserStack',
+						params: { tourPerformed: localUser.tourPerformed }
+					}],
 				})
 			} else {
-				navigateToInitialScreen()
-				// throw 'Usuário não authenticado localmente!' // Faz com que o usuário fique em loop
+				const storedUser = await getUserDataFromSecureStore(false, true)
+				navigateToInitialScreen(storedUser.userId, storedUser.name)
 			}
 		} catch (err) {
-			navigateToInitialScreen()
-			/* setTimeout(() => { // Faz com que o usuário fique em loop
-				redirectToApp()
-			}, 3000) */
-		}
-	}
-
-	const localUserIsValid = (userJSON: any) => {
-		try {
-			if (!userJSON) return false
-			const userObject: LocalUserData = JSON.parse(userJSON as string)
-			return Object.keys(userObject).includes('userId') && Object.keys(userObject).includes('name')
-		} catch (err) {
 			console.log(err)
-			return false
+			const storedUser = await getUserDataFromSecureStore(false, true)
+			navigateToInitialScreen(storedUser.userId, storedUser.name)
 		}
 	}
 

@@ -28,7 +28,7 @@ import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton'
 
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
-	const { userDataContext, getDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
+	const { userDataContext, getUserDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasServerSideError, setHasServerSideError] = useState(false)
@@ -57,12 +57,11 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 
 	const saveUserData = async () => {
 		const userData = getRouteParams()
-		const localUserJSON = await getDataFromSecureStore('corre.user')
-		const localUser = JSON.parse(localUserJSON as string) || {}
+		const localUser = await getUserDataFromSecureStore()
 
 		try {
 			setIsLoading(true)
-			await saveInFirebase(userData, localUser.tourPerformed, localUser.createdAt)
+			await saveInFirebase(userData, true, localUser.createdAt)
 			// await saveOnLocal(userData, localUser)
 			if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
 				await deleteUserPicture(userDataContext.profilePictureUrl || [])
@@ -74,7 +73,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 
 			await setRemoteUserOnLocal(userData.userIdentification.uid)
 			setIsLoading(false)
-			navigateToNextScreen(localUser.tourPerformed)
+			navigateToNextScreen(false)
 		} catch (err) {
 			console.log(err)
 			setIsLoading(false)
@@ -82,8 +81,8 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		}
 	}
 
-	const saveInFirebase = async (userData: RegisterUserData, tourPerformed: boolean, userCreatedAt: Date) => { // TODO Type
-		const userObject: UserCollection = {
+	const saveInFirebase = async (userData: RegisterUserData, tourPerformed: boolean, userCreatedAt?: Date) => { // TODO Type
+		const userObject: Partial<UserCollection> = {
 			name: userData.userName,
 			profilePictureUrl: [],
 			tourPerformed: !!tourPerformed
@@ -96,16 +95,14 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 		await updateUser(userData.userIdentification.uid, userObject)
 
 		await updateUserPrivateData(
-			{ cellNumber: userData.cellNumber },
+			{ cellNumber: userData.cellNumber || '', email: userData.email || '' },
 			userData.userIdentification.uid,
 			'contacts',
 		)
 	}
 
-	const navigateToNextScreen = (tourPerformed: boolean) => {
-		navigation.navigate('UserStack', {
-			tourPerformed
-		})
+	const navigateToNextScreen = (tourPerformed?: boolean) => {
+		navigation.navigate('UserStack', { tourPerformed })
 	}
 
 	const getHeaderMessage = () => {

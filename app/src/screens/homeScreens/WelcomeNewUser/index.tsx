@@ -43,7 +43,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 
 	const getUserNameFromLocal = async () => {
 		if (!userDataContext.userId) {
-			navigation.navigate('InsertPhone' as any) // TODO Type
+			navigation.navigate('InsertCellNumber' as any) // TODO Type
 		}
 		setUserName(userDataContext.name || 'amigo')
 	}
@@ -80,36 +80,33 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 				relativeHeight={'30%'}
 			>
 				<InstructionCard
-					message={`olá, ${userName.split(' ')[0]} \npor que você \ntá no corre.?`}
-					highlightedWords={[userName.split(' ')[0], '\ntá', 'no', 'corre.']}
-					fontSize={24}
-					lineHeight={30}
+					message={`olá, ${userName.split(' ')[0]} \npor que você tá no corre.?`}
+					highlightedWords={[`${userName.split(' ')[0]}`, '\ntá', 'corre.']}
+					fontSize={16}
 				/>
 			</DefaultHeaderContainer>
 			<ContainerButtons>
 				<FormContainer backgroundColor={theme.white2} >
 					<OptionButton
-						color={theme.white3}
-						leftSideColor={theme.orange3}
-						label={'para encontrar'}
-						labelAlign={'left'}
-						description={'Quero encontrar um serviço, item para compra e/ou troca, vagas e cultura.'}
-						highlightedWords={['para', 'encontrar']}
-						SvgIcon={LoupWhiteIcon}
-						svgIconScale={['50%', '60%']}
+						label={'procurando'}
+						highlightedWords={['procurando']}
+						shortDescription={'quero encontrar um serviço, item para compra e/ou troca, vagas e cultura.'}
+						relativeHeight={'30%'}
 						leftSideWidth={'25%'}
+						leftSideColor={theme.orange3}
+						SvgIcon={LoupWhiteIcon}
+						svgIconScale={['40%', '50%']}
 						onPress={goToHome}
 					/>
 					<OptionButton
-						color={theme.white3}
-						leftSideColor={theme.orange3}
-						label={'para postar'}
-						labelAlign={'left'}
-						description={'quero fazer vendas, anunciar meus serviços, vagas, iniciativas sociais ou arte.'}
-						highlightedWords={['para', 'postar']}
-						SvgIcon={SalesCartWhiteIcon}
-						svgIconScale={['50%', '60%']}
+						label={'postando'}
+						highlightedWords={['postando']}
+						shortDescription={'quero fazer vendas, anunciar meus serviços, vagas, iniciativas sociais ou arte.'}
+						relativeHeight={'30%'}
 						leftSideWidth={'25%'}
+						leftSideColor={theme.orange3}
+						svgIconScale={['40%', '50%']}
+						SvgIcon={SalesCartWhiteIcon}
 						onPress={goToProfile}
 					/>
 				</FormContainer>

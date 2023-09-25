@@ -27,14 +27,15 @@ export interface SubscriptionData extends UserSubscription {
 
 export type UserIdentification = {
 	uid: string
-	authTime: string
-	accessToken: string
-	tokenExpirationTime: string
-	refreshToken: string
+	authTime?: string
+	accessToken?: string
+	tokenExpirationTime?: string
+	refreshToken?: string
 }
 
 export type RegisterUserData = {
 	cellNumber: string
+	email?: string
 	userName: string
 	profilePictureUri?: string
 	userIdentification: UserIdentification

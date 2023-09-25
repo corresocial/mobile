@@ -30,7 +30,7 @@ import { Loader } from '../../../components/Loader'
 import { BackButton } from '../../../components/_buttons/BackButton'
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
-	const { setRemoteUserOnLocal, userDataContext, getDataFromSecureStore } = useContext(AuthContext)
+	const { setRemoteUserOnLocal, userDataContext, getUserDataFromSecureStore } = useContext(AuthContext)
 
 	const [cameraModalVisibility, setCameraModalVisibility] = useState<boolean>(true)
 	const [profilePicture, setProfilePicture] = useState<string[]>([])
@@ -54,14 +54,13 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	}, [])
 
 	const throwServerSideError = (err: any) => {
+		console.log(err)
 		setHasServerSideError(true)
 	}
 
-	const navigateToNextScreen = async (tourPerformed: boolean) => {
+	const navigateToNextScreen = async (tourPerformed?: boolean) => {
 		setHasServerSideError(false)
-		return navigation.navigate('UserStack', {
-			tourPerformed
-		})
+		return navigation.navigate('UserStack', { tourPerformed })
 	}
 
 	const backToCustomCamera = () => {
@@ -88,94 +87,89 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 	})
 
 	const saveUserData = async () => {
-		const userData = getRouteParams()
-		const localUserJSON = await getDataFromSecureStore('corre.user')
+		try {
+			const userData = getRouteParams()
+			const localUser = await getUserDataFromSecureStore()
 
-		if (!profilePicture.length) return
-		const localUser = JSON.parse(localUserJSON as string)
-		setIsLoading(true)
-		console.log(localUser)
+			if (!profilePicture.length) return
 
-		if (localUser && localUser.profilePictureUrl && localUser.profilePictureUrl.length && localUser.profilePictureUrl[0] === profilePicture[0]) {
-			const currentUser: UserCollection = {
-				name: userData.userName,
-				profilePictureUrl: profilePicture,
-				tourPerformed: !!localUser.tourPerformed,
-			}
+			setIsLoading(true)
 
-			if (!localUser.createdAt) {
-				currentUser.createdAt = new Date()
-			}
+			if (localUser && localUser.profilePictureUrl && localUser.profilePictureUrl.length && localUser.profilePictureUrl[0] === profilePicture[0]) {
+				const currentUser: Partial<UserCollection> = {
+					name: userData.userName,
+					profilePictureUrl: profilePicture,
+					tourPerformed: !!localUser.tourPerformed,
+				}
 
-			await updateUser(userData.userIdentification.uid, currentUser)
-			await updateUserPrivateData(
-				{ cellNumber: userData.cellNumber },
-				userData.userIdentification.uid,
-				'contacts',
-			)
+				if (!localUser.createdAt) {
+					currentUser.createdAt = new Date()
+				}
 
-			await setRemoteUserOnLocal(userData.userIdentification.uid)
+				await updateUser(userData.userIdentification.uid, currentUser)
+				await updateUserPrivateData(
+					{ cellNumber: userData.cellNumber || '', email: userData.email || '' },
+					userData.userIdentification.uid,
+					'contacts',
+				)
 
-			setIsLoading(false)
-			navigateToNextScreen(localUser.tourPerformed)
-			return
-		}
+				await setRemoteUserOnLocal(userData.userIdentification.uid)
 
-		await uploadImage(profilePicture[0], 'users')
-			.then(
-				({ uploadTask, blob }: any) => {
-					uploadTask.on(
-						'state_change',
-						() => { },
-						(err: any) => { throwServerSideError(err) },
-						async () => {
-							blob.close()
-							getDownloadURL(uploadTask.snapshot.ref)
-								.then(async (profilePictureUrl) => {
-									const currentUser: UserCollection = {
-										name: userData.userName,
-										profilePictureUrl: [profilePictureUrl as string],
-										tourPerformed: !!localUser.tourPerformed,
-									}
-
-									if (!localUser.createdAt) {
-										currentUser.createdAt = new Date()
-									}
-
-									await updateUser(userData.userIdentification.uid, currentUser)
-									await updateUserPrivateData(
-										{
-											cellNumber: userData.cellNumber
-										},
-										userData.userIdentification.uid,
-										'contacts',
-									)
-
-									if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
-										await deleteUserPicture(userDataContext.profilePictureUrl || [])
-										await updateAllOwnerOnPosts(
-											{ ...currentUser },
-											userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
-										)
-									}
-
-									await setRemoteUserOnLocal(userData.userIdentification.uid)
-
-									setIsLoading(false)
-									navigateToNextScreen(localUser.tourPerformed)
-								})
-								.catch((err) => {
-									setIsLoading(false)
-									throwServerSideError(err)
-								})
-						},
-					)
-				},
-			)
-			.catch((err) => {
 				setIsLoading(false)
-				throwServerSideError(err)
-			})
+				navigateToNextScreen(localUser.tourPerformed)
+				return
+			}
+
+			await uploadImage(profilePicture[0], 'users')
+				.then(
+					({ uploadTask, blob }: any) => {
+						uploadTask.on(
+							'state_change',
+							() => { },
+							(err: any) => { throwServerSideError(err) },
+							async () => {
+								blob.close()
+								getDownloadURL(uploadTask.snapshot.ref)
+									.then(async (profilePictureUrl) => {
+										const currentUser: UserCollection = {
+											name: userData.userName,
+											profilePictureUrl: [profilePictureUrl as string],
+											tourPerformed: !!localUser.tourPerformed,
+										}
+
+										if (!localUser.createdAt) {
+											currentUser.createdAt = new Date()
+										}
+
+										await updateUser(userData.userIdentification.uid, currentUser)
+										await updateUserPrivateData(
+											{ cellNumber: userData.cellNumber || '', email: userData.email || '' },
+											userData.userIdentification.uid,
+											'contacts',
+										)
+
+										if (!arrayIsEmpty(userDataContext.profilePictureUrl)) {
+											await deleteUserPicture(userDataContext.profilePictureUrl || [])
+											await updateAllOwnerOnPosts(
+												{ ...currentUser },
+												userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
+											)
+										}
+
+										await setRemoteUserOnLocal(userData.userIdentification.uid)
+
+										setIsLoading(false)
+										navigateToNextScreen(localUser.tourPerformed)
+									})
+							},
+						)
+					},
+				)
+		} catch (err) {
+			throwServerSideError(err)
+		} finally {
+			setIsLoading(false)
+		}
 	}
 
 	const navigateBackwards = () => navigation.goBack()
@@ -205,9 +199,7 @@ function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScree
 			<StatusBar backgroundColor={hasServerSideError ? theme.red2 : theme.green2} barStyle={'dark-content'} />
 			<CustomCameraModal
 				cameraOpened={cameraModalVisibility && !profilePicture.length}
-				onClose={() => {
-					setCameraModalVisibility(false)
-				}}
+				onClose={() => { setCameraModalVisibility(false) }}
 				setPictureUri={setPictureUri}
 			/>
 			<DefaultHeaderContainer
