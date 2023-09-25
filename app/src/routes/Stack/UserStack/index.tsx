@@ -50,6 +50,7 @@ import { SubscriptionProvider } from '../../../contexts/SubscriptionContext'
 import { SelectSubscriptionRange } from '../../../screens/paymentSystemScreens/SelectSubscriptionRange'
 import { EditCurrentSubscription } from '../../../screens/paymentSystemScreens/EditCurrentSubscription'
 import { StripeProvider } from '../../../contexts/StripeContext'
+import { OfflinePostsManagement } from '../../../screens/profileScreens/OfflinePostsManagement'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -83,6 +84,7 @@ export function UserStack({ route }: any) {
 									<Stack.Screen name={'EditUserName'} component={EditUserName} />
 									<Stack.Screen name={'EditUserDescription'} component={EditUserDescription} />
 									<Stack.Screen name={'EditUserPicture'} component={EditUserPicture} />
+									<Stack.Screen name={'OfflinePostsManagement'} component={OfflinePostsManagement} />
 
 									<Stack.Screen name={'EditServicePost'} component={EditServicePost} />
 									<Stack.Screen name={'EditSalePost'} component={EditSalePost} />

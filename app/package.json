@@ -1,8 +1,8 @@
 {
 	"name": "corre",
-	"version": "0.4.0",
+	"version": "0.4.1",
 	"scripts": {
-		"start": "expo start --dev-client",
+		"start": "expo start",
 		"test": "jest --detectOpenHandles",
 		"android": "expo run:android",
 		"ios": "expo run:ios",
@@ -14,6 +14,7 @@
 		"update-staging": "eas update --branch staging --message",
 		"update-prod": "eas update --branch production --message",
 		"build-android-dev": "eas build --platform android --profile development",
+		"build-android-dev-local": "eas build --platform android --profile development --local",
 		"build-ios-dev": "eas build --platform ios --profile development",
 		"build-android-staging": "eas build --platform android --profile staging",
 		"build-ios-staging": "eas build --platform ios --profile staging",
@@ -57,6 +58,7 @@
 		"expo-localization": "^14.0.0",
 		"expo-location": "~15.0.1",
 		"expo-media-library": "~15.0.0",
+		"expo-network": "~5.0.0",
 		"expo-notifications": "~0.17.0",
 		"expo-permissions": "~14.0.0",
 		"expo-secure-store": "~12.0.0",

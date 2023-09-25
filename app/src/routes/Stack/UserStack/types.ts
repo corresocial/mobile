@@ -31,11 +31,12 @@ export type UserStackParamList = {
 	EditUserName: { userName: string, userId: string }
 	EditUserDescription: { userDescription: string, userId: string }
 	EditUserPicture: { profilePictureUrl: string, userId: string }
-	EditServicePost: { postData: ServiceCollectionRemote }
-	EditSalePost: { postData: SaleCollectionRemote }
-	EditVacancyPost: { postData: VacancyCollectionRemote }
-	EditSocialImpactPost: { postData: SocialImpactCollectionRemote }
-	EditCulturePost: { postData: CultureCollectionRemote }
+	EditServicePost: { postData: ServiceCollectionRemote, unsavedPost: boolean, offlinePost?: boolean }
+	EditSalePost: { postData: SaleCollectionRemote, unsavedPost: boolean, offlinePost?: boolean }
+	EditVacancyPost: { postData: VacancyCollectionRemote, unsavedPost: boolean, offlinePost?: boolean }
+	EditSocialImpactPost: { postData: SocialImpactCollectionRemote, unsavedPost: boolean, offlinePost?: boolean }
+	EditCulturePost: { postData: CultureCollectionRemote, unsavedPost: boolean, offlinePost?: boolean }
+	OfflinePostsManagement: undefined
 
 	SocialMediaManagement: { socialMedias: SocialMedia[], isAuthor?: boolean }
 	InsertLinkTitle: { socialMedia?: SocialMedia, index?: number }

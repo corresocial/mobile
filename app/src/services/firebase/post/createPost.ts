@@ -18,8 +18,9 @@ async function createPost(post: PostCollection, user: LocalUserData, postCollect
 			},
 		})
 		return docRef.id
-	} catch (err) {
+	} catch (err: any) {
 		console.log(err)
+		throw new Error(err)
 	}
 }
 

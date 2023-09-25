@@ -41,7 +41,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 	const [locationChangeModalIsVisible, setLocationChangeModalIsVisible] = useState(false)
 	const [postReviewPresentationModalIsVisible, setPostReviewPresentationModalIsVisible] = useState(false)
 
-	const { postData, unsavedPost, showPresentationModal } = route.params
+	const { postData, unsavedPost, offlinePost, showPresentationModal } = route.params
 	const owner: any = { // TODO Type
 		userId: userDataContext.userId,
 		name: userDataContext.name,
@@ -81,6 +81,10 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 
 	const navigateBackwards = () => {
 		navigation.goBack()
+	}
+
+	const navigateToProfile = () => {
+		navigation.navigate('Profile' as any) // TODO Type
 	}
 
 	const navigateToPostView = (vacancyPostData: PostCollection) => {
@@ -184,7 +188,9 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 				owner={owner}
 				backgroundColor={theme.yellow2}
 				unsavedPost={unsavedPost}
+				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
+				navigateToProfile={navigateToProfile}
 				navigateToPostView={navigateToPostView}
 				navigateToSubscriptionContext={navigateToSubscriptionContext}
 				showShareModal={showShareModal}

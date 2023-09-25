@@ -6060,6 +6060,11 @@
     "compare-versions" "^3.4.0"
     "invariant" "^2.2.4"
 
+"expo-network@~5.0.0":
+  "integrity" "sha512-t1pzOdPDBfuMI8SN15IJy+5b6o76YQyvsvBvsuhVp5S02TjFHHygzGekGwbmVYPjMfc8AfQm/8ggGCqlGz2u6g=="
+  "resolved" "https://registry.npmjs.org/expo-network/-/expo-network-5.0.0.tgz"
+  "version" "5.0.0"
+
 "expo-notifications@~0.17.0":
   "integrity" "sha512-PPjV5WaL5iIKAqi/qsNUVf0g4htz+Mx+6tZ/Py7vIurAHbA2PymgV7UPSEB1gUbhzi5PZMGj/DNFJpSZwgqmNg=="
   "resolved" "https://registry.npmjs.org/expo-notifications/-/expo-notifications-0.17.0.tgz"
@@ -9073,15 +9078,10 @@
   dependencies:
     "brace-expansion" "^1.1.7"
 
-"minimatch@^5.0.1":
+"minimatch@^5.0.1", "minimatch@^5.1.0":
   "integrity" "sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g=="
   "resolved" "https://registry.npmjs.org/minimatch/-/minimatch-5.1.6.tgz"
   "version" "5.1.6"
-  dependencies:
-    "brace-expansion" "^2.0.1"
-
-"minimatch@^5.1.0":
-  "version" "5.1.0"
   dependencies:
     "brace-expansion" "^2.0.1"
 
@@ -12736,7 +12736,9 @@
     "signal-exit" "^3.0.2"
 
 "write-file-atomic@^4.0.0", "write-file-atomic@^4.0.1":
-  "version" "4.0.1"
+  "integrity" "sha512-7KxauUdBmSdWnmpaGFg+ppNjKF8uNLry8LyzjauQDOVONfFLNKrKvQOxZ/VuTIcS/gge/YNahf5RIIQWTSarlg=="
+  "resolved" "https://registry.npmjs.org/write-file-atomic/-/write-file-atomic-4.0.2.tgz"
+  "version" "4.0.2"
   dependencies:
     "imurmurhash" "^0.1.4"
     "signal-exit" "^3.0.7"

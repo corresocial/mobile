@@ -29,6 +29,8 @@ import ImpactLabel from '../../../assets/icons/impactLabel.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 import EditIcon from '../../../assets/icons/edit-white.svg'
 import GearIcon from '../../../assets/icons/gear-white.svg'
+import WirelessOffWhiteIcon from '../../../assets/icons/wirelessOff-white.svg'
+import WirelessOnWhiteIcon from '../../../assets/icons/wirelessOn-white.svg'
 
 import { share } from '../../../common/share'
 import { getUser } from '../../../services/firebase/user/getUser'
@@ -67,6 +69,9 @@ import { relativeScreenHeight, relativeScreenWidth } from '../../../common/scree
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { setFreeTrialPlans } from '../../../services/stripe/scripts/setFreeTrialPlans'
 import { StripeContext } from '../../../contexts/StripeContext'
+import { OptionButton } from '../../../components/_buttons/OptionButton'
+import { getNumberOfStoredOfflinePosts } from '../../../utils/offlinePost'
+import { getNetworkStatus } from '../../../utils/deviceNetwork'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -75,10 +80,13 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	const [isLoggedUser, setIsLoggedUser] = useState(false)
 	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
 	const [hostDescriptionIsExpanded, setHostDescriptionIsExpanded] = useState(false)
+
 	const [user, setUser] = useState<LocalUserData>({})
 	const [selectedTags, setSelectedTags] = useState<string[]>([])
 	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
 	const [toggleVerifiedModal, setToggleVerifiedModal] = useState(false)
+	const [numberOfOfflinePostsStored, setNumberOfOfflinePostsStored] = useState(0)
+	const [hasNetworkConnection, setHasNetworkConnection] = useState(false)
 
 	useEffect(() => {
 		if (route.params && route.params.userId) {
@@ -88,6 +96,15 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			setIsLoggedUser(true)
 		}
 	}, [])
+
+	useEffect(() => {
+		const unsubscribe = navigation.addListener('focus', () => {
+			checkNetworkConnection()
+			checkHasOfflinePosts()
+		})
+
+		return unsubscribe
+	}, [navigation])
 
 	const getProfileDataFromRemote = async (userId: string) => {
 		const remoteUser = await getUser(userId)
@@ -111,6 +128,17 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			posts,
 		})
 	}
+
+	const checkHasOfflinePosts = async () => {
+		const numberOfOfflinePosts = await getNumberOfStoredOfflinePosts()
+		setNumberOfOfflinePostsStored(numberOfOfflinePosts)
+	}
+
+	const checkNetworkConnection = async () => {
+		const networkStatus = await getNetworkStatus()
+		setHasNetworkConnection(!!networkStatus.isConnected && !!networkStatus.isInternetReachable)
+	}
+
 	const getUserPostMacroTags = () => {
 		const posts = getUserPosts()
 		const userPostTags = posts.reduce(
@@ -638,6 +666,25 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 										onSelectTag={onSelectTag}
 									/>
 									<VerticalSigh />
+									{
+										!!numberOfOfflinePostsStored && (
+											<PostPadding>
+												<OptionButton
+													label={`você tem ${numberOfOfflinePostsStored} ${numberOfOfflinePostsStored === 1 ? 'post pronto' : 'posts prontos'} `}
+													shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
+													highlightedWords={['posts', 'post']}
+													labelSize={18}
+													relativeHeight={relativeScreenHeight(8)}
+													leftSideWidth={'25%'}
+													leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
+													SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
+													svgIconScale={['60%', '60%']}
+													onPress={() => navigation.navigate('OfflinePostsManagement')}
+												/>
+												<VerticalSigh />
+											</PostPadding>
+										)
+									}
 								</>
 
 							)

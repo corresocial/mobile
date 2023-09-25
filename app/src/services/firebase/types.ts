@@ -119,8 +119,6 @@ export type UserCollection = {
 	description?: string
 	profilePictureUrl?: string[]
 	tourPerformed?: boolean
-	tags?: string[]
-	category?: string
 	createdAt?: Date
 	updatedAt?: Date
 	posts?: PostCollection[]
@@ -154,7 +152,7 @@ export type PrivateAddress = {
 
 export type PostType = 'service' | 'sale' | 'vacancy' | 'socialImpact' | 'culture'
 
-export type PostCollectionType = 'posts' | 'services' | 'sales' | 'vacancies' | 'cultures' | 'socialImpacts' // Post type title
+export type PostCollectionType = 'posts' | 'services' | 'sales' | 'vacancies' | 'cultures' | 'socialImpacts'
 
 export type PostCollection = ServiceCollection | SaleCollection | VacancyCollection | CultureCollection | SocialImpactCollection
 
@@ -169,7 +167,6 @@ export type FeedPosts = {
 export type ServiceCollection = {
 	postId?: string
 	postType: PostType
-	title?: string
 	tags?: string[]
 	description?: string
 	category?: string
@@ -212,7 +209,6 @@ export type ServiceCollection = {
 export type ServiceCollectionRemote = {
 	postId: string
 	postType: PostType
-	title: string
 	description: string
 	tags: string[]
 	category: string
@@ -255,7 +251,6 @@ export type ServiceCollectionRemote = {
 export type SaleCollection = {
 	postId?: string
 	postType?: PostType
-	title?: string
 	description?: string
 	tags?: string[]
 	itemStatus?: ItemStatus
@@ -299,7 +294,6 @@ export type SaleCollection = {
 export type SaleCollectionRemote = {
 	postId: string
 	postType: PostType
-	title: string
 	description: string
 	tags: string[]
 	category: string
@@ -344,7 +338,6 @@ export type VacancyCollection = {
 	postId?: string
 	vacancyPurpose?: VacancyPurpose
 	postType?: PostType
-	title?: string
 	description?: string
 	vacancyType?: VacancyType
 	workplace?: WorkplaceType
@@ -392,7 +385,6 @@ export type VacancyCollectionRemote = {
 	postId: string
 	vacancyPurpose: VacancyPurpose
 	postType: PostType
-	title: string
 	description: string
 	vacancyType: VacancyType
 	workplace: WorkplaceType
@@ -440,7 +432,6 @@ export type CultureCollection = {
 	postId?: string
 	cultureType?: CultureType
 	postType?: PostType
-	title?: string
 	description?: string
 	locationView?: LocationViewType
 	range?: ExhibitionPlaceType
@@ -485,7 +476,6 @@ export type CultureCollectionRemote = {
 	postId: string
 	cultureType: CultureType
 	postType: PostType
-	title: string
 	description: string
 	locationView: LocationViewType
 	range: ExhibitionPlaceType
@@ -530,7 +520,6 @@ export type SocialImpactCollection = {
 	postId?: string
 	socialImpactType?: SocialImpactType
 	postType?: PostType
-	title?: string
 	description?: string
 	tags?: string[]
 	category?: string
@@ -574,7 +563,6 @@ export type SocialImpactCollectionRemote = {
 	postId: string
 	socialImpactType: SocialImpactType
 	postType: PostType
-	title: string
 	description: string
 	tags: string[]
 	category: string

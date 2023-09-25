@@ -17,7 +17,7 @@ type AuthContextType = {
 	localUserIsValidToLogin: (userJSON: any, requireAuthentication?: boolean) => boolean | undefined
 	setDataOnSecureStore: (key: string, data: any) => Promise<boolean>
 	deleteLocaluser: () => Promise<void>
-	setRemoteUserOnLocal: (uid?: string) => Promise<boolean | undefined>
+	setRemoteUserOnLocal: (uid?: string, userData?: UserCollection) => Promise<boolean | undefined>
 	getLastUserPost: () => PostCollection | {}
 	sendSMS: (completeNumber: string, recaptchaVerifier: any) => Promise<string>
 	validateVerificationCode: (verificationCodeId: string, verificationCode: string) => Promise<UserCredential>
@@ -86,30 +86,26 @@ function AuthProvider({ children }: AuthProviderProps) {
 		await SecureStore.deleteItemAsync('corre.user')
 	}
 
-	const setRemoteUserOnLocal = async (uid?: string) => {
+	const setRemoteUserOnLocal = async (uid?: string, localUserData?: UserCollection) => {
 		if (uid) {
 			const currentUser = await getUser(uid)
-			setUserDataContext({
-				...currentUser,
-				userId: uid
-			})
-			await setDataOnSecureStore('corre.user', {
-				...currentUser,
-				userId: uid
-			})
-		} else {
-			const localUserJSON = await getDataFromSecureStore('corre.user')
-			if (localUserJSON) {
-				const localUser = JSON.parse(localUserJSON)
-				const currentUser = await getUser(localUser.identification.uid)
+			if (currentUser && currentUser.userId) {
 				setUserDataContext({
 					...currentUser,
 					userId: uid
 				})
 				await setDataOnSecureStore('corre.user', {
-					...localUser,
-					currentUser
+					...currentUser,
+					userId: uid
 				})
+				return true
+			}
+
+			setUserDataContext({ ...localUserData })
+		} else {
+			if (localUserData?.userId) {
+				const currentUser = { ...localUserData }
+				setUserDataContext({ ...currentUser })
 			} else {
 				console.log('Nenhum usuário local localizado')
 				return false
