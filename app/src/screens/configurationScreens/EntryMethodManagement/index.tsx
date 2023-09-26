@@ -84,19 +84,22 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 		try {
 			setIsLoading(true)
 			setHasError(false)
-			if (tokenGoogle) {
-				const googleCredential = generateGoogleAuthCredential(tokenGoogle)
+			const registredEmail = userPrivateContacts.email
 
-				const registredEmail = userPrivateContacts.email
-
+			if (tokenGoogle || registredEmail) {
 				if (registredEmail) {
 					console.log('Unlink')
-					await unlinkUserCredential(googleCredential)
+
+					await unlinkUserCredential('google.com')
 					await updateUserPrivateData({ email: '' }, userDataContext.userId as Id, 'contacts')
 					setUserPrivateContacts({ ...userPrivateContacts, email: '' })
 					navigateToLinkResultScreen(false, registredEmail)
 				} else {
 					console.log('Link')
+
+					if (!tokenGoogle) return await promptAsyncGoogle({ projectNameForProxy: '@corresocial/corresocial' })
+
+					const googleCredential = generateGoogleAuthCredential(tokenGoogle)
 					const linkedUser: UserCredential['user'] = await linkUserCredential(googleCredential)
 
 					if (!linkedUser) throw new Error('Houve algum erro ao vincular')

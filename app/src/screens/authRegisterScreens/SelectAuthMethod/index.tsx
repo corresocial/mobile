@@ -76,6 +76,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 				if (userId && email) {
 					setAuthenticatedUser({ userId, email })
 					const userAlreadyExists = await userExists(userId)
+					console.log(userAlreadyExists)
 
 					if (!newUser && !userAlreadyExists) {
 						console.log('Usuário não está cadastrado, quer cadastrar?')
