@@ -8,6 +8,7 @@ async function linkUserCredential(credential: AuthCredential) {
 			console.log('Account linking success')
 			return user
 		}).catch((error) => {
+			console.log(error)
 			throw new Error(error.code)
 		})
 }

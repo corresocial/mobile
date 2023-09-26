@@ -53,6 +53,8 @@ import { StripeProvider } from '../../../contexts/StripeContext'
 import { OfflinePostsManagement } from '../../../screens/profileScreens/OfflinePostsManagement'
 import { EntryMethodManagement } from '../../../screens/configurationScreens/EntryMethodManagement'
 import { LinkingAccountResult } from '../../../screens/configurationScreens/LinkingAccountResult'
+import { InsertCellNumberLinkAccount } from '../../../screens/configurationScreens/InsertCellNumberLinkAccount'
+import { InsertConfirmationCodeLinkAccount } from '../../../screens/configurationScreens/InsertConfirmationCodeLinkAccount'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -99,6 +101,8 @@ export function UserStack({ route }: any) {
 									<Stack.Screen name={'InsertLinkValue'} component={InsertLinkValue} />
 									<Stack.Screen name={'Configurations'} component={Configurations} />
 									<Stack.Screen name={'EntryMethodManagement'} component={EntryMethodManagement} />
+									<Stack.Screen name={'InsertCellNumberLinkAccount'} component={InsertCellNumberLinkAccount} />
+									<Stack.Screen name={'InsertConfirmationCodeLinkAccount'} component={InsertConfirmationCodeLinkAccount} />
 									<Stack.Screen name={'LinkingAccountResult'} component={LinkingAccountResult} />
 									<Stack.Screen name={'WhoWeAre'} component={WhoWeAre} />
 									<Stack.Screen name={'WhoWeAreIncome'} component={WhoWeAreIncome} />

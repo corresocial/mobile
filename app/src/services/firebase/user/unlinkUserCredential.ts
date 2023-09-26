@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, OAuthCredential, getAuth, unlink } from 'firebase/auth'
+import { OAuthCredential, getAuth, unlink } from 'firebase/auth'
 
 async function unlinkUserCredential(credential: OAuthCredential) {
 	const auth = getAuth()

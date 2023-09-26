@@ -9,7 +9,7 @@ import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import Firebase from '../../../services/firebase'
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 
-import { InsertCellNumberScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
+import { InsertCellNumberLinkAccountScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
@@ -44,7 +44,7 @@ const headerMessages = {
 	}
 }
 
-export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenProps) {
+export function InsertCellNumberLinkAccount({ route, navigation }: InsertCellNumberLinkAccountScreenProps) {
 	const { sendSMS } = useContext(AuthContext)
 
 	const recaptchaVerifier = React.useRef(null)
@@ -65,8 +65,6 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 		DDDInput: useRef<TextInput>(null),
 		cellNumberInput: useRef<TextInput>(null)
 	}
-
-	const { newUser } = route.params
 
 	const validateDDD = (text: string) => {
 		setHasServerSideError(false)
@@ -107,13 +105,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 				const phoneAlreadyRegistred = await checkUserPhoneAlreadyRegistredCloud(fullCellNumber)
 
 				console.log(`Usuário já registrado: ${phoneAlreadyRegistred}`)
-				if (!newUser && !phoneAlreadyRegistred) {
-					toggleLoginAlertModalVisibility()
-					setIsLoading(false)
-					return
-				}
-
-				if (newUser && phoneAlreadyRegistred) {
+				if (phoneAlreadyRegistred) {
 					toggleLoginAlertModalVisibility()
 					setIsLoading(false)
 					return
@@ -124,15 +116,15 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 				!DDDIsValid && setInvalidDDDAfterSubmit(true)
 				!cellNumberIsValid && setInvalidCellNumberAfterSubmit(true)
 			}
-			setIsLoading(false)
 		} catch (error: any) {
-			setIsLoading(false)
 			if (error.message === 'auth/too-many-requests') {
 				setRequestLimitsAlert(true)
 				return
 			}
 
 			setHasServerSideError(true)
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
@@ -141,7 +133,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 
 		await sendSMS(currentCellNumber, recaptchaVerifier.current)
 			.then((verificationCodeId) => {
-				navigation.navigate('InsertConfirmationCode', {
+				navigation.navigate('InsertConfirmationCodeLinkAccount', {
 					cellNumber: currentCellNumber, verificationCodeId
 				})
 			})
@@ -179,19 +171,20 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 
 		return headerBackgroundAnimatedValue.current.interpolate({
 			inputRange: [0, 1],
-			outputRange: [newUser ? theme.purple2 : theme.green2, theme.red2],
+			outputRange: [theme.orange2, theme.red2],
 		})
 	}
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : newUser ? theme.purple2 : theme.green2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
 			<SocialLoginAlertModal
 				visibility={loginAlertModalIsVisible}
 				accountIdentifier={completeCellNumber}
-				registerMethod={newUser}
+				registerMethod
+				linking
 				closeModal={toggleLoginAlertModalVisibility}
-				onPressButton={requestCellNumberVerificationCode}
+				onPressButton={() => { }}
 			/>
 			<FirebaseRecaptchaVerifierModal
 				ref={recaptchaVerifier}
@@ -219,7 +212,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 						textInputRef={inputRefs.DDDInput}
 						nextInputRef={inputRefs.cellNumberInput}
 						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={newUser ? theme.purple1 : theme.green1}
+						validBackgroundColor={theme.orange1}
 						maxLength={2}
 						invalidTextAfterSubmit={invalidDDDAfterSubmit}
 						placeholder={'12'}
@@ -235,7 +228,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 						textInputRef={inputRefs.cellNumberInput}
 						previousInputRef={inputRefs.DDDInput}
 						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={newUser ? theme.purple1 : theme.green1}
+						validBackgroundColor={theme.orange1}
 						maxLength={9}
 						invalidTextAfterSubmit={invalidCellNumberAfterSubmit}
 						placeholder={'123451234'}

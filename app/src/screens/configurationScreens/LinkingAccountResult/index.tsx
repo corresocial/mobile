@@ -15,10 +15,18 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 
 function LinkingAccountResult({ route, navigation }: LinkingAccountResultScreenProps) {
-	const navigateBackwards = () => navigation.goBack()
-
 	const { accountIdentifier, wasLinked } = route.params
 
+	const navigateBackwards = () => {
+		if (accountIdentifier?.includes('+55')) {
+			navigation.goBack()
+			navigation.goBack()
+			navigation.goBack()
+			return
+		}
+
+		navigation.goBack()
+	}
 	const getAccountIdentifierLinked = () => {
 		if (!accountIdentifier) return ''
 

@@ -10,10 +10,12 @@ import { Container } from './styles'
 import { theme } from '../../../common/theme'
 import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
 import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
+import WithoutWhiteIcon from '../../../assets/icons/empty-white.svg'
 import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 import SmartphoneWhiteIcon from '../../../assets/icons/smartphone-white.svg'
 import GoogleWhiteIcon from '../../../assets/icons/google-white.svg'
 
+import { linkUserCredential } from '../../../services/firebase/user/linkUserCredential'
 import { unlinkUserCredential } from '../../../services/firebase/user/unlinkUserCredential'
 import { EntryMethodManagementScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -24,7 +26,6 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { Id } from '../../../services/firebase/types'
-import { linkUserCredential } from '../../../services/firebase/user/linkUserCredential'
 import { getEnvVars } from '../../../../environment'
 import { generateGoogleAuthCredential } from '../../../services/firebase/user/generateGoogleAuthCredential'
 import { updateUserPrivateData } from '../../../services/firebase/user/updateUserPrivateData'
@@ -56,8 +57,11 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	const [confirmationModalIsVisible, setConfirmationModalIsVisible] = useState(false)
 
 	useEffect(() => {
-		loadPrivateContacts()
-	}, [])
+		const unsubscribe = navigation.addListener('focus', () => {
+			loadPrivateContacts()
+		})
+		return unsubscribe
+	}, [navigation])
 
 	const loadPrivateContacts = async () => {
 		const userContacts = await getPrivateContacts(userDataContext.userId as Id)
@@ -106,7 +110,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			}
 		} catch (error: any) {
 			console.log(error && error.message)
-			if (error && error.message === 'auth/provider-already-linked') {
+			if (error && (error.message === 'auth/provider-already-linked' || error.message === 'auth/credential-already-in-use"')) {
 				toggleSocialLoginAlertModalVisibility()
 				return
 			}
@@ -126,6 +130,10 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 
 	const toggleConfirmationModalVisibility = () => {
 		setConfirmationModalIsVisible(!confirmationModalIsVisible)
+	}
+
+	const navigateToRegisterCellNumberFlow = () => {
+		navigation.navigate('InsertCellNumberLinkAccount')
 	}
 
 	return (
@@ -173,11 +181,11 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 							<>
 								<EditCard // TODO Check edit card behavior
 									title={'número de telefone'}
-									RightIcon={PlusWhiteIcon}
+									RightIcon={!userPrivateContacts.cellNumber ? PlusWhiteIcon : WithoutWhiteIcon}
 									SecondSvgIcon={SmartphoneWhiteIcon}
 									value={userPrivateContacts.cellNumber}
 									pressionable
-									onEdit={() => console.log('press')}
+									onEdit={!userPrivateContacts.cellNumber ? navigateToRegisterCellNumberFlow : undefined}
 								/>
 								<EditCard
 									title={'conta google'}
@@ -185,7 +193,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 									SecondSvgIcon={GoogleWhiteIcon}
 									value={userPrivateContacts.email}
 									pressionable
-									onEdit={toggleConfirmationModalVisibility}
+									onEdit={userPrivateContacts.email ? toggleConfirmationModalVisibility : performSigninWithGoogle}
 								/>
 							</>
 						)
