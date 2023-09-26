@@ -10,13 +10,12 @@ import { Container } from './styles'
 import { theme } from '../../../common/theme'
 import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
 import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
-import WithoutWhiteIcon from '../../../assets/icons/empty-white.svg'
 import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 import SmartphoneWhiteIcon from '../../../assets/icons/smartphone-white.svg'
 import GoogleWhiteIcon from '../../../assets/icons/google-white.svg'
 
-import { linkUserCredential } from '../../../services/firebase/user/linkUserCredential'
-import { unlinkUserCredential } from '../../../services/firebase/user/unlinkUserCredential'
+import { linkAuthProvider } from '../../../services/firebase/user/linkAuthProvider'
+import { unlinkAuthProvider } from '../../../services/firebase/user/unlinkAuthProvider'
 import { EntryMethodManagementScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
@@ -47,14 +46,16 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 
 	const [tokenGoogle, setTokenGoogle] = useState<string | undefined>()
 	const [userPrivateContacts, setUserPrivateContacts] = useState({ cellNumber: '', email: '' })
+	// eslint-disable-next-line no-unused-vars
 	const [request, response, promptAsyncGoogle] = Google.useAuthRequest(keys, {
 		projectNameForProxy: '@corresocial/corresocial'
 	})
 
 	const [isLoading, setIsLoading] = useState(false)
-	const [hasError, setHasError] = useState(false)
+	// const [hasError, setHasError] = useState(false)
 	const [socialLoginAlertModalIsVisible, setSocialLoginAlertModalIsVisible] = useState(false)
-	const [confirmationModalIsVisible, setConfirmationModalIsVisible] = useState(false)
+	const [unlinkPhoneConfirmationModalIsVisible, setUnlinkPhoneConfirmationModalIsVisible] = useState(false)
+	const [unlinkGoogleConfirmationModalIsVisible, setUnlinkGoogleConfirmationModalIsVisible] = useState(false)
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -76,48 +77,100 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 		}
 
 		if (tokenGoogle) {
-			performSigninWithGoogle()
+			linkGoogleProvider()
 		}
 	}, [response, tokenGoogle])
 
-	const performSigninWithGoogle = async () => {
+	const editPhoneProvider = () => {
+		const registredCellNumber = userPrivateContacts.cellNumber
+
+		if (registredCellNumber) {
+			return toggleUnlinkPhoneConfirmationModalVisibility()
+		}
+
+		navigateToLinkPhoneProvider()
+	}
+
+	const navigateToLinkPhoneProvider = () => {
+		navigation.navigate('InsertCellNumberLinkAccount')
+	}
+
+	const unlinkPhoneProvider = async () => {
 		try {
 			setIsLoading(true)
-			setHasError(false)
-			const registredEmail = userPrivateContacts.email
+			// setHasError(false)
+			const registredCellNumber = userPrivateContacts.cellNumber
 
-			if (tokenGoogle || registredEmail) {
-				if (registredEmail) {
-					console.log('Unlink')
+			if (registredCellNumber) {
+				await unlinkAuthProvider('phone')
+				await updateUserPrivateData({ cellNumber: '' }, userDataContext.userId as Id, 'contacts')
+				setUserPrivateContacts({ ...userPrivateContacts, cellNumber: '' })
+				navigateToLinkResultScreen(false, registredCellNumber)
+			}
+		} catch (error: any) {
+			console.log(error)
+			// setHasError(true)
+		} finally {
+			setIsLoading(false)
+		}
+	}
 
-					await unlinkUserCredential('google.com')
-					await updateUserPrivateData({ email: '' }, userDataContext.userId as Id, 'contacts')
-					setUserPrivateContacts({ ...userPrivateContacts, email: '' })
-					navigateToLinkResultScreen(false, registredEmail)
-				} else {
-					console.log('Link')
+	const editGoogleProvider = async () => {
+		const registredGoogleEmail = userPrivateContacts.email
 
-					if (!tokenGoogle) return await promptAsyncGoogle({ projectNameForProxy: '@corresocial/corresocial' })
+		if (registredGoogleEmail) {
+			return toggleUnlinkGoogleConfirmationModalVisibility()
+		}
 
-					const googleCredential = generateGoogleAuthCredential(tokenGoogle)
-					const linkedUser: UserCredential['user'] = await linkUserCredential(googleCredential)
+		await linkGoogleProvider()
+	}
 
-					if (!linkedUser) throw new Error('Houve algum erro ao vincular')
+	const linkGoogleProvider = async () => {
+		try {
+			setIsLoading(true)
+			// setHasError(false)
 
-					await updateUserPrivateData({ email: linkedUser.email || '' }, userDataContext.userId as Id, 'contacts')
-					setUserPrivateContacts({ ...userPrivateContacts, email: linkedUser.email || '' })
-					navigateToLinkResultScreen(true, linkedUser.email)
-				}
+			if (tokenGoogle) {
+				if (!tokenGoogle) return await promptAsyncGoogle({ projectNameForProxy: '@corresocial/corresocial' })
+
+				const googleCredential = generateGoogleAuthCredential(tokenGoogle)
+				const linkedUser: UserCredential['user'] = await linkAuthProvider(googleCredential)
+
+				if (!linkedUser) throw new Error('Houve algum erro ao vincular')
+
+				await updateUserPrivateData({ email: linkedUser.email || '' }, userDataContext.userId as Id, 'contacts')
+				setUserPrivateContacts({ ...userPrivateContacts, email: linkedUser.email || '' })
+				navigateToLinkResultScreen(true, linkedUser.email)
 			} else {
 				await promptAsyncGoogle({ projectNameForProxy: '@corresocial/corresocial' })
 			}
 		} catch (error: any) {
-			console.log(error && error.message)
+			console.log(error)
 			if (error && (error.message === 'auth/provider-already-linked' || error.message === 'auth/credential-already-in-use"')) {
 				toggleSocialLoginAlertModalVisibility()
 				return
 			}
-			setHasError(true)
+			// setHasError(true)
+		} finally {
+			setIsLoading(false)
+		}
+	}
+
+	const unlinkGoogleProvider = async () => {
+		try {
+			setIsLoading(true)
+			// setHasError(false)
+			const registredGoogleEmail = userPrivateContacts.email
+
+			if (registredGoogleEmail) {
+				await unlinkAuthProvider('google.com')
+				await updateUserPrivateData({ email: '' }, userDataContext.userId as Id, 'contacts')
+				setUserPrivateContacts({ ...userPrivateContacts, email: '' })
+				navigateToLinkResultScreen(false, registredGoogleEmail)
+			}
+		} catch (error: any) {
+			console.log(error)
+			// setHasError(true)
 		} finally {
 			setIsLoading(false)
 		}
@@ -131,25 +184,34 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 		setSocialLoginAlertModalIsVisible(!socialLoginAlertModalIsVisible)
 	}
 
-	const toggleConfirmationModalVisibility = () => {
-		setConfirmationModalIsVisible(!confirmationModalIsVisible)
+	const toggleUnlinkPhoneConfirmationModalVisibility = () => {
+		setUnlinkPhoneConfirmationModalIsVisible(!unlinkPhoneConfirmationModalIsVisible)
 	}
 
-	const navigateToRegisterCellNumberFlow = () => {
-		navigation.navigate('InsertCellNumberLinkAccount')
+	const toggleUnlinkGoogleConfirmationModalVisibility = () => {
+		setUnlinkGoogleConfirmationModalIsVisible(!unlinkGoogleConfirmationModalIsVisible)
 	}
 
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<DefaultConfirmationModal
-				visibility={confirmationModalIsVisible}
+				visibility={unlinkPhoneConfirmationModalIsVisible}
 				title={'desvincular'}
 				text={'você tem certeza que deseja desvincular esta conta?'}
 				highlightedWords={['desvincular', 'esta', 'conta']}
 				buttonKeyword={'desvincular'}
-				closeModal={toggleConfirmationModalVisibility}
-				onPressButton={performSigninWithGoogle}
+				closeModal={toggleUnlinkPhoneConfirmationModalVisibility}
+				onPressButton={unlinkPhoneProvider}
+			/>
+			<DefaultConfirmationModal
+				visibility={unlinkGoogleConfirmationModalIsVisible}
+				title={'desvincular'}
+				text={'você tem certeza que deseja desvincular esta conta?'}
+				highlightedWords={['desvincular', 'esta', 'conta']}
+				buttonKeyword={'desvincular'}
+				closeModal={toggleUnlinkGoogleConfirmationModalVisibility}
+				onPressButton={unlinkGoogleProvider}
 			/>
 			<SocialLoginAlertModal
 				visibility={socialLoginAlertModalIsVisible}
@@ -184,11 +246,11 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 							<>
 								<EditCard // TODO Check edit card behavior
 									title={'número de telefone'}
-									RightIcon={!userPrivateContacts.cellNumber ? PlusWhiteIcon : WithoutWhiteIcon}
+									RightIcon={userPrivateContacts.cellNumber ? TrashWhiteIcon : PlusWhiteIcon}
 									SecondSvgIcon={SmartphoneWhiteIcon}
 									value={userPrivateContacts.cellNumber}
 									pressionable
-									onEdit={!userPrivateContacts.cellNumber ? navigateToRegisterCellNumberFlow : undefined}
+									onEdit={editPhoneProvider}
 								/>
 								<EditCard
 									title={'conta google'}
@@ -196,7 +258,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 									SecondSvgIcon={GoogleWhiteIcon}
 									value={userPrivateContacts.email}
 									pressionable
-									onEdit={userPrivateContacts.email ? toggleConfirmationModalVisibility : performSigninWithGoogle}
+									onEdit={editGoogleProvider}
 								/>
 							</>
 						)

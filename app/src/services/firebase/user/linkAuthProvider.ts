@@ -1,6 +1,6 @@
 import { AuthCredential, getAuth, linkWithCredential } from 'firebase/auth'
 
-async function linkUserCredential(credential: AuthCredential) {
+async function linkAuthProvider(credential: AuthCredential) {
 	const auth = getAuth()
 	return linkWithCredential(auth.currentUser as any, credential)
 		.then((usercred) => {
@@ -13,4 +13,4 @@ async function linkUserCredential(credential: AuthCredential) {
 		})
 }
 
-export { linkUserCredential }
+export { linkAuthProvider }

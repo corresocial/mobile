@@ -23,7 +23,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { Id } from '../../../services/firebase/types'
 import Firebase from '../../../services/firebase'
 import { VerticalSigh } from '../../../components/VerticalSigh'
-import { linkUserCredential } from '../../../services/firebase/user/linkUserCredential'
+import { linkAuthProvider } from '../../../services/firebase/user/linkAuthProvider'
 import { updateUserPrivateData } from '../../../services/firebase/user/updateUserPrivateData'
 import { getPhoneAuthCredential } from '../../../services/firebase/user/getPhoneAuthCredential'
 
@@ -143,7 +143,7 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 
 				const phoneAuthCredential = await getPhoneAuthCredential(verificationCodeId, completeCode)
 
-				const linkedUser = await linkUserCredential(phoneAuthCredential)
+				const linkedUser = await linkAuthProvider(phoneAuthCredential)
 				if (!linkedUser) throw new Error('Houve algum erro ao vincular')
 				await updateUserPrivateData({ cellNumber: cellNumber || '' }, userDataContext.userId as Id, 'contacts')
 

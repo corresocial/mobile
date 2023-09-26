@@ -30,7 +30,8 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 
 	const [termsVisibility, setTermsVisibility] = useState<boolean>(false)
 
-	const { userId, userName } = route.params
+	const userId = route.params.userId || ''
+	const userName = route.params.userName || ''
 
 	const hasStoredUser = userId && userName
 

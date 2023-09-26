@@ -44,6 +44,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 	const [authenticatedUser, setAuthenticatedUser] = React.useState({ userId: '', email: '' })
 	const [socialLoginAlertModalIsVisible, setSocialLoginAlertModalIsVisible] = React.useState(false)
 	const [tokenGoogle, setTokenGoogle] = React.useState<string | undefined>()
+	// eslint-disable-next-line no-unused-vars
 	const [request, response, promptAsyncGoogle] = Google.useAuthRequest(keys, {
 		projectNameForProxy: '@corresocial/corresocial'
 	})
@@ -76,7 +77,6 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 				if (userId && email) {
 					setAuthenticatedUser({ userId, email })
 					const userAlreadyExists = await userExists(userId)
-					console.log(userAlreadyExists)
 
 					if (!newUser && !userAlreadyExists) {
 						console.log('Usuário não está cadastrado, quer cadastrar?')

@@ -178,7 +178,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				<OptionButton
 					label={'privacidade \ne segurança'}
 					highlightedWords={['privacidade', 'segurança']}
-					relativeHeight={relativeScreenHeight(10)}
+					relativeHeight={relativeScreenHeight(11)}
 					labelSize={18}
 					SvgIcon={EyeDashedWhiteIcon}
 					svgIconScale={['50%', '50%']}
