@@ -130,8 +130,8 @@ export type UserCollection = {
 }
 
 export type PrivateUserCollection = {
-	cellNumber: string
-	email: string
+	cellNumber?: string
+	email?: string
 }
 
 export type PrivateAddress = {

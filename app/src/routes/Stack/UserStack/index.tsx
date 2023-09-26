@@ -51,6 +51,8 @@ import { SelectSubscriptionRange } from '../../../screens/paymentSystemScreens/S
 import { EditCurrentSubscription } from '../../../screens/paymentSystemScreens/EditCurrentSubscription'
 import { StripeProvider } from '../../../contexts/StripeContext'
 import { OfflinePostsManagement } from '../../../screens/profileScreens/OfflinePostsManagement'
+import { EntryMethodManagement } from '../../../screens/configurationScreens/EntryMethodManagement'
+import { LinkingAccountResult } from '../../../screens/configurationScreens/LinkingAccountResult'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -96,6 +98,8 @@ export function UserStack({ route }: any) {
 									<Stack.Screen name={'InsertLinkTitle'} component={InsertLinkTitle} />
 									<Stack.Screen name={'InsertLinkValue'} component={InsertLinkValue} />
 									<Stack.Screen name={'Configurations'} component={Configurations} />
+									<Stack.Screen name={'EntryMethodManagement'} component={EntryMethodManagement} />
+									<Stack.Screen name={'LinkingAccountResult'} component={LinkingAccountResult} />
 									<Stack.Screen name={'WhoWeAre'} component={WhoWeAre} />
 									<Stack.Screen name={'WhoWeAreIncome'} component={WhoWeAreIncome} />
 									<Stack.Screen name={'WhoWeAreCulture'} component={WhoWeAreCulture} />

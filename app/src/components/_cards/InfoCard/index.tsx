@@ -1,5 +1,6 @@
 import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { SvgProps } from 'react-native-svg'
 
 import { Container, ContainerInner, Description, Title } from './styles'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
@@ -13,6 +14,7 @@ interface InfoCardProps {
 	titleFontSize?: number
 	description?: string
 	highlightedWords: string[]
+	SvgIcon?: React.FC<SvgProps>
 }
 
 function InfoCard({
@@ -21,13 +23,15 @@ function InfoCard({
 	title,
 	titleFontSize = 22,
 	description,
-	highlightedWords
+	highlightedWords,
+	SvgIcon
 }: InfoCardProps) {
 	return (
 		<Container
 			style={{ height }}
 		>
-			<ContainerInner style={{ backgroundColor: color }}>
+			<ContainerInner style={{ backgroundColor: color }} hasSvgIcon={!!SvgIcon}>
+				{SvgIcon && <SvgIcon height={RFValue(40)} width={RFValue(40)} />}
 				<Title
 					style={{
 						fontSize: RFValue(titleFontSize),

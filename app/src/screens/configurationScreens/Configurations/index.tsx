@@ -10,6 +10,7 @@ import HandOnMoneyWhiteIcon from '../../../assets/icons/handOnMoney-white.svg'
 import HandOnHeartWhiteIcon from '../../../assets/icons/handOnHeart-white.svg'
 import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
 import EyeDashedWhiteIcon from '../../../assets/icons/eyeDashed-white.svg'
+import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
 
 import { ConfigurationsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -99,6 +100,18 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				}}
 			>
 				<SubscriptionButton customTitle={'assinatura corre.'} onPress={performUserSubscription} />
+				<VerticalSigh />
+				<OptionButton
+					label={'métodos de entrada'}
+					highlightedWords={['métodos', 'de', 'entrada']}
+					labelSize={18}
+					relativeHeight={relativeScreenHeight(9)}
+					SvgIcon={DescriptionWhiteIcon}
+					svgIconScale={['50%', '50%']}
+					leftSideColor={theme.orange3}
+					leftSideWidth={'22%'}
+					onPress={() => navigation.navigate('EntryMethodManagement')}
+				/>
 				<VerticalSigh />
 				<OptionButton
 					label={'quem somos'}

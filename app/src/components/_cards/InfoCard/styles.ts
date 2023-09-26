@@ -9,8 +9,12 @@ export const Container = styled.View`
 	border-radius: ${RFValue(17)}px;
 `
 
-export const ContainerInner = styled.View`
-    flex: 1;
+interface ContainerInnerProps {
+	hasSvgIcon?: boolean
+}
+
+export const ContainerInner = styled.View<ContainerInnerProps>`
+	flex: 1;
 	width: 98%;
     height:${relativeScreenHeight(10)}px;
     background-color: ${({ theme }) => theme.white3};
@@ -19,10 +23,17 @@ export const ContainerInner = styled.View`
     padding-vertical: ${RFValue(10)}px;
     padding-horizontal: ${RFValue(15)}px;
     justify-content: space-around;
+	${({ hasSvgIcon }) => {
+		if (hasSvgIcon) {
+			return `
+			flex-direction: row;
+			align-items: center;
+		`
+		}
+	}}
 `
 
 export const Title = styled.Text`
-    width: 100%;
     font-family: Arvo_400Regular;
     font-size:  ${RFValue(22)}px;
     color: ${({ theme }) => theme.black4}

@@ -19,6 +19,7 @@ import { DescriptionWithLeftTracing } from '../../DescriptionWithLeftTracing'
 interface SocialLoginAlertModalProps {
 	visibility: boolean
 	registerMethod?: boolean
+	linking?: boolean
 	hasError?: boolean
 	accountIdentifier?: string
 	closeModal: () => void
@@ -29,6 +30,7 @@ function SocialLoginAlertModal({
 	visibility,
 	accountIdentifier,
 	registerMethod,
+	linking,
 	hasError,
 	closeModal,
 	onPressButton
@@ -78,21 +80,25 @@ function SocialLoginAlertModal({
 						</>
 					)
 				}
-				<PrimaryButton
-					keyboardHideButton={false}
-					color={theme.green3}
-					labelColor={theme.white3}
-					label={registerMethod ? 'entrar nessa conta' : 'criar uma \nnova conta'}
-					highlightedWords={['nessa', '\nnova', 'conta']}
-					fontSize={16}
-					textAlign={'left'}
-					SecondSvgIcon={registerMethod ? SmartphoneWhiteIcon : ProfileWhiteIcon}
-					svgIconScale={['40%', '30%']}
-					onPress={() => {
-						onPressButton()
-						closeModal()
-					}}
-				/>
+				{
+					!linking && (
+						<PrimaryButton
+							keyboardHideButton={false}
+							color={theme.green3}
+							labelColor={theme.white3}
+							label={registerMethod ? 'entrar nessa conta' : 'criar uma \nnova conta'}
+							highlightedWords={['nessa', '\nnova', 'conta']}
+							fontSize={16}
+							textAlign={'left'}
+							SecondSvgIcon={registerMethod ? SmartphoneWhiteIcon : ProfileWhiteIcon}
+							svgIconScale={['40%', '30%']}
+							onPress={() => {
+								onPressButton()
+								closeModal()
+							}}
+						/>
+					)
+				}
 				<VerticalSigh height={relativeScreenHeight(2)} />
 				<PrimaryButton
 					keyboardHideButton={false}
