@@ -309,3 +309,13 @@ exports.checkUserPhoneAlreadyRegistred = functions.https.onRequest(async (req, r
 			return res.status(200).send(false)
 		})
 })
+
+// unlinkUserEmailIdentifierOnAuth
+
+exports.unlinkUserEmailIdentifierOnAuth = functions.https.onRequest(async (req, res) => {
+	const { userId } = req.body
+
+	return admin.auth().updateUser(userId, {
+		email: null
+	})
+})
