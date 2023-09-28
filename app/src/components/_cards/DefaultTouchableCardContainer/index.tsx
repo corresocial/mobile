@@ -1,12 +1,10 @@
 import React, { ReactElement, useState } from 'react'
-import { ViewStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, ContainerInner } from './styles'
 
 interface DefaultTouchableCardContainerProps {
 	withoutPadding?: boolean
-	flex?: ViewStyle['flex']
 	pressionable?: boolean
 	children: ReactElement<any, any> | ReactElement<any, any>[] | any
 	onPress?: () => void
@@ -15,7 +13,6 @@ interface DefaultTouchableCardContainerProps {
 function DefaultTouchableCardContainer({
 	pressionable,
 	withoutPadding = false,
-	flex = 0,
 	children,
 	onPress
 }: DefaultTouchableCardContainerProps) {
@@ -41,13 +38,11 @@ function DefaultTouchableCardContainer({
 	}
 
 	const pressionableStyle = {
-		flex,
 		height: cardHeight
 	}
 
 	return (
 		<Container
-			flex={flex}
 			style={pressionable && pressionableStyle}
 			activeOpacity={1}
 			onPressIn={pressionable && pressingButton}
@@ -60,8 +55,7 @@ function DefaultTouchableCardContainer({
 				style={{
 					paddingHorizontal: !withoutPadding ? RFValue(15) : 0,
 					paddingVertical: !withoutPadding ? RFValue(10) : 0,
-					flex,
-					justifyContent: flex ? 'space-around' : 'flex-start',
+					justifyContent: 'flex-start',
 					right: buttonPressed ? 0 : RFValue(5)
 				}}
 			>
