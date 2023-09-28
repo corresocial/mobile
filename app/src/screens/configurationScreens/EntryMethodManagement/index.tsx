@@ -53,7 +53,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	})
 
 	const [isLoading, setIsLoading] = useState(false)
-	// const [hasError, setHasError] = useState(false)
+	const [hasError, setHasError] = useState(false)
 	const [socialLoginAlertModalIsVisible, setSocialLoginAlertModalIsVisible] = useState(false)
 	const [unlinkPhoneConfirmationModalIsVisible, setUnlinkPhoneConfirmationModalIsVisible] = useState(false)
 	const [unlinkGoogleConfirmationModalIsVisible, setUnlinkGoogleConfirmationModalIsVisible] = useState(false)
@@ -64,6 +64,12 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 		})
 		return unsubscribe
 	}, [navigation])
+
+	useEffect(() => {
+		if (hasError) {
+			toggleSocialLoginAlertModalVisibility()
+		}
+	}, [hasError])
 
 	const loadPrivateContacts = async () => {
 		const userContacts = await getPrivateContacts(userDataContext.userId as Id)
@@ -103,7 +109,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	const unlinkPhoneProvider = async () => {
 		try {
 			setIsLoading(true)
-			// setHasError(false)
+			setHasError(false)
 			const registredCellNumber = userPrivateContacts.cellNumber
 
 			if (registredCellNumber) {
@@ -114,7 +120,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			}
 		} catch (error: any) {
 			console.log(error)
-			// setHasError(true)
+			setHasError(true)
 		} finally {
 			setIsLoading(false)
 		}
@@ -134,7 +140,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	const linkGoogleProvider = async () => {
 		try {
 			setIsLoading(true)
-			// setHasError(false)
+			setHasError(false)
 
 			if (tokenGoogle) {
 				if (!tokenGoogle) return await promptAsyncGoogle({ projectNameForProxy: '@corresocial/corresocial' })
@@ -156,7 +162,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 				toggleSocialLoginAlertModalVisibility()
 				return
 			}
-			// setHasError(true)
+			setHasError(true)
 		} finally {
 			setIsLoading(false)
 		}
@@ -165,7 +171,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	const unlinkGoogleProvider = async () => {
 		try {
 			setIsLoading(true)
-			// setHasError(false)
+			setHasError(false)
 			const registredGoogleEmail = userPrivateContacts.email
 
 			if (registredGoogleEmail) {
@@ -176,7 +182,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			}
 		} catch (error: any) {
 			console.log(error)
-			// setHasError(true)
+			setHasError(true)
 		} finally {
 			setIsLoading(false)
 		}
@@ -224,7 +230,11 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 				accountIdentifier={userPrivateContacts.email}
 				registerMethod
 				linking
-				closeModal={toggleSocialLoginAlertModalVisibility}
+				hasError={hasError}
+				closeModal={() => {
+					setHasError(false)
+					toggleSocialLoginAlertModalVisibility()
+				}}
 				onPressButton={() => { }}
 			/>
 			<DefaultHeaderContainer
