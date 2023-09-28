@@ -204,8 +204,8 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			<DefaultConfirmationModal
 				visibility={unlinkPhoneConfirmationModalIsVisible}
 				title={'desvincular'}
-				text={'você tem certeza que deseja desvincular esta conta?'}
-				highlightedWords={['desvincular', 'esta', 'conta']}
+				text={'não poderá mais acessar sua conta utilizando este telefone. \n\nvocê tem certeza que deseja desvincular este telefone da sua conta?'}
+				highlightedWords={['você', 'desvincular', 'este', 'telefone', 'da', 'sua', 'conta', 'desvincular', 'esta', 'conta']}
 				buttonKeyword={'desvincular'}
 				closeModal={toggleUnlinkPhoneConfirmationModalVisibility}
 				onPressButton={unlinkPhoneProvider}
@@ -213,8 +213,8 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			<DefaultConfirmationModal
 				visibility={unlinkGoogleConfirmationModalIsVisible}
 				title={'desvincular'}
-				text={'você tem certeza que deseja desvincular esta conta?'}
-				highlightedWords={['desvincular', 'esta', 'conta']}
+				text={'não poderá mais acessar sua conta utilizando este email. \n\nvocê tem certeza que deseja desvincular este email da sua conta?'}
+				highlightedWords={['você', 'desvincular', 'este', 'email', 'da', 'sua', 'conta', 'desvincular', 'esta', 'conta']}
 				buttonKeyword={'desvincular'}
 				closeModal={toggleUnlinkGoogleConfirmationModalVisibility}
 				onPressButton={unlinkGoogleProvider}
