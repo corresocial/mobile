@@ -9,6 +9,7 @@ import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
 import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
+import EmptyWhiteIcon from '../../../assets/icons/empty-white.svg'
 import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
 import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 import SmartphoneWhiteIcon from '../../../assets/icons/smartphone-white.svg'
@@ -66,7 +67,6 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 
 	const loadPrivateContacts = async () => {
 		const userContacts = await getPrivateContacts(userDataContext.userId as Id)
-		console.log(userContacts)
 		setUserPrivateContacts(userContacts)
 	}
 
@@ -81,10 +81,15 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 		}
 	}, [response, tokenGoogle])
 
+	const canRemoveEntryMethod = () => {
+		return userPrivateContacts && userPrivateContacts.cellNumber && userPrivateContacts.email
+	}
+
 	const editPhoneProvider = () => {
 		const registredCellNumber = userPrivateContacts.cellNumber
 
 		if (registredCellNumber) {
+			if (!canRemoveEntryMethod()) return
 			return toggleUnlinkPhoneConfirmationModalVisibility()
 		}
 
@@ -119,6 +124,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 		const registredGoogleEmail = userPrivateContacts.email
 
 		if (registredGoogleEmail) {
+			if (!canRemoveEntryMethod()) return
 			return toggleUnlinkGoogleConfirmationModalVisibility()
 		}
 
@@ -238,7 +244,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 					SvgIcon={DescriptionWhiteIcon}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.orange2}>
+			<FormContainer backgroundColor={theme.orange2} >
 				{
 					isLoading
 						? <Loader />
@@ -246,7 +252,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 							<>
 								<EditCard // TODO Check edit card behavior
 									title={'número de telefone'}
-									RightIcon={userPrivateContacts.cellNumber ? TrashWhiteIcon : PlusWhiteIcon}
+									RightIcon={userPrivateContacts.cellNumber ? canRemoveEntryMethod() ? TrashWhiteIcon : EmptyWhiteIcon : PlusWhiteIcon}
 									SecondSvgIcon={SmartphoneWhiteIcon}
 									value={userPrivateContacts.cellNumber}
 									pressionable
@@ -254,7 +260,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 								/>
 								<EditCard
 									title={'conta google'}
-									RightIcon={userPrivateContacts.email ? TrashWhiteIcon : PlusWhiteIcon}
+									RightIcon={userPrivateContacts.email ? canRemoveEntryMethod() ? TrashWhiteIcon : EmptyWhiteIcon : PlusWhiteIcon}
 									SecondSvgIcon={GoogleWhiteIcon}
 									value={userPrivateContacts.email}
 									pressionable
