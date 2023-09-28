@@ -17,11 +17,11 @@ export const TouchCloseArea = styled.TouchableOpacity`
 export const Content = styled.View`
     width: 88%;
     background-color: ${({ theme }) => theme.black4}
-    border-radius: ${RFValue(15)}px;
+    border-radius: ${RFValue(30)}px;
     border-width: ${RFValue(5)}px;
     justify-content: space-between;
     border-color: ${({ theme }) => theme.black4}
-    border-right-width: ${RFValue(11)}px;
+    border-right-width: ${RFValue(15)}px;
  `
 
 export const ContentInner = styled.View`
@@ -29,7 +29,7 @@ export const ContentInner = styled.View`
 	background-color: ${({ theme }) => theme.white3}
 	padding: ${RFValue(25)}px;
 	padding-top: ${RFValue(15)}px;
-	border-radius: ${RFValue(10)}px;
+	border-radius: ${RFValue(25)}px;
 	justify-content: space-between;
 `
 
