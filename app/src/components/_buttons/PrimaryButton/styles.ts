@@ -2,35 +2,31 @@ import * as Animatable from 'react-native-animatable'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-export const Container = styled.TouchableWithoutFeedback`
-   width: 100%;
-`
 export const TouchableContainer = styled.TouchableWithoutFeedback`
 	width: 100%;
 	background-color: ${({ theme }) => theme.white2}
 `
 
 export const ContainerBottom = styled(Animatable.View)`
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
+	width: 100%;
+	align-self: flex-end;
+	flex-direction: row;
     border-radius: ${RFValue(18)}px;
     position: relative;
     background-color: ${({ theme }) => theme.black4};
 `
 
 export const ContainerSurface = styled.View`
+	width: 100%;
+	height: 100%;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100%;
-    border-radius: ${RFValue(18)}px;
     border: ${RFValue(3)}px solid black;
+    border-radius: ${RFValue(18)}px;
     padding-horizontal: ${RFValue(20)}px;
     position: absolute;
-	right: ${RFValue(9)}px;
+	left: ${-RFValue(9)}px;
 `
 
 export const ButtonLabel = styled.Text`
