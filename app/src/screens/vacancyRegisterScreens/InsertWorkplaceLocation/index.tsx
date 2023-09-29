@@ -52,7 +52,6 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 		if (!rangeVerified) {
 			setCurrentMarkerCoordinate(coordinates)
 			if (!coordinates) return
-			if (!markerCoordinateIsAccuracy(coordinates as Coordinates)) return
 		}
 
 		const completeAddress = await convertGeocodeToAddress(coordinates?.latitude as number, coordinates?.longitude as number)
@@ -92,8 +91,6 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 			editMode: editModeIsTrue()
 		})
 	}
-
-	const markerCoordinateIsAccuracy = (markerCoordinate: Coordinates) => markerCoordinate?.latitudeDelta as number < 0.0065
 
 	return (
 		<>

@@ -46,15 +46,12 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 		setLocationChangeModalIsVisible(!locationChangeModalIsVisible)
 	}
 
-	const markerCoordinateIsAccuracy = (markerCoordinate: Coordinates) => markerCoordinate?.latitudeDelta as number < 0.0065
-
 	const saveLocation = async (markerCoordinate: Coordinates, rangeVerified?: boolean) => {
 		const coordinates = !rangeVerified ? markerCoordinate : currentMarkerCoodinate
 
 		if (!rangeVerified) {
 			setCurrentMarkerCoordinate(coordinates)
 			if (!coordinates) return
-			if (!markerCoordinateIsAccuracy(coordinates as Coordinates)) return
 		}
 
 		const completeAddress = await convertGeocodeToAddress(coordinates?.latitude as number, coordinates?.longitude as number)
