@@ -143,7 +143,7 @@ function PrimaryButton({
 						flexDirection: flexDirection || 'row',
 						justifyContent: justifyContent || 'center',
 						minHeight: RFValue(minHeight),
-						marginRight: buttonPressed ? RFValue(-7) : 0,
+						marginLeft: buttonPressed ? RFValue(7) : 0
 					}}
 				>
 					{

@@ -9,6 +9,7 @@ import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
 import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
+import EmptyWhiteIcon from '../../../assets/icons/empty-white.svg'
 import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
 import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 import SmartphoneWhiteIcon from '../../../assets/icons/smartphone-white.svg'
@@ -31,6 +32,7 @@ import { updateUserPrivateData } from '../../../services/firebase/user/updateUse
 import { SocialLoginAlertModal } from '../../../components/_modals/SocialLoginAlertModal'
 import { Loader } from '../../../components/Loader'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
+import { VerticalSigh } from '../../../components/VerticalSigh'
 
 WebBrowser.maybeCompleteAuthSession()
 const { AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
@@ -52,7 +54,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	})
 
 	const [isLoading, setIsLoading] = useState(false)
-	// const [hasError, setHasError] = useState(false)
+	const [hasError, setHasError] = useState(false)
 	const [socialLoginAlertModalIsVisible, setSocialLoginAlertModalIsVisible] = useState(false)
 	const [unlinkPhoneConfirmationModalIsVisible, setUnlinkPhoneConfirmationModalIsVisible] = useState(false)
 	const [unlinkGoogleConfirmationModalIsVisible, setUnlinkGoogleConfirmationModalIsVisible] = useState(false)
@@ -64,9 +66,14 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 		return unsubscribe
 	}, [navigation])
 
+	useEffect(() => {
+		if (hasError) {
+			toggleSocialLoginAlertModalVisibility()
+		}
+	}, [hasError])
+
 	const loadPrivateContacts = async () => {
 		const userContacts = await getPrivateContacts(userDataContext.userId as Id)
-		console.log(userContacts)
 		setUserPrivateContacts(userContacts)
 	}
 
@@ -81,10 +88,15 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 		}
 	}, [response, tokenGoogle])
 
+	const canRemoveEntryMethod = () => {
+		return userPrivateContacts && userPrivateContacts.cellNumber && userPrivateContacts.email
+	}
+
 	const editPhoneProvider = () => {
 		const registredCellNumber = userPrivateContacts.cellNumber
 
 		if (registredCellNumber) {
+			if (!canRemoveEntryMethod()) return
 			return toggleUnlinkPhoneConfirmationModalVisibility()
 		}
 
@@ -98,7 +110,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	const unlinkPhoneProvider = async () => {
 		try {
 			setIsLoading(true)
-			// setHasError(false)
+			setHasError(false)
 			const registredCellNumber = userPrivateContacts.cellNumber
 
 			if (registredCellNumber) {
@@ -109,7 +121,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			}
 		} catch (error: any) {
 			console.log(error)
-			// setHasError(true)
+			setHasError(true)
 		} finally {
 			setIsLoading(false)
 		}
@@ -119,6 +131,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 		const registredGoogleEmail = userPrivateContacts.email
 
 		if (registredGoogleEmail) {
+			if (!canRemoveEntryMethod()) return
 			return toggleUnlinkGoogleConfirmationModalVisibility()
 		}
 
@@ -128,7 +141,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	const linkGoogleProvider = async () => {
 		try {
 			setIsLoading(true)
-			// setHasError(false)
+			setHasError(false)
 
 			if (tokenGoogle) {
 				if (!tokenGoogle) return await promptAsyncGoogle({ projectNameForProxy: '@corresocial/corresocial' })
@@ -150,7 +163,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 				toggleSocialLoginAlertModalVisibility()
 				return
 			}
-			// setHasError(true)
+			setHasError(true)
 		} finally {
 			setIsLoading(false)
 		}
@@ -159,7 +172,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	const unlinkGoogleProvider = async () => {
 		try {
 			setIsLoading(true)
-			// setHasError(false)
+			setHasError(false)
 			const registredGoogleEmail = userPrivateContacts.email
 
 			if (registredGoogleEmail) {
@@ -170,7 +183,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			}
 		} catch (error: any) {
 			console.log(error)
-			// setHasError(true)
+			setHasError(true)
 		} finally {
 			setIsLoading(false)
 		}
@@ -198,8 +211,8 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			<DefaultConfirmationModal
 				visibility={unlinkPhoneConfirmationModalIsVisible}
 				title={'desvincular'}
-				text={'você tem certeza que deseja desvincular esta conta?'}
-				highlightedWords={['desvincular', 'esta', 'conta']}
+				text={'não poderá mais acessar sua conta utilizando este telefone. \n\nvocê tem certeza que deseja desvincular este telefone da sua conta?'}
+				highlightedWords={['você', 'desvincular', 'este', 'telefone', 'da', 'sua', 'conta', 'desvincular', 'esta', 'conta']}
 				buttonKeyword={'desvincular'}
 				closeModal={toggleUnlinkPhoneConfirmationModalVisibility}
 				onPressButton={unlinkPhoneProvider}
@@ -207,8 +220,8 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 			<DefaultConfirmationModal
 				visibility={unlinkGoogleConfirmationModalIsVisible}
 				title={'desvincular'}
-				text={'você tem certeza que deseja desvincular esta conta?'}
-				highlightedWords={['desvincular', 'esta', 'conta']}
+				text={'não poderá mais acessar sua conta utilizando este email. \n\nvocê tem certeza que deseja desvincular este email da sua conta?'}
+				highlightedWords={['você', 'desvincular', 'este', 'email', 'da', 'sua', 'conta', 'desvincular', 'esta', 'conta']}
 				buttonKeyword={'desvincular'}
 				closeModal={toggleUnlinkGoogleConfirmationModalVisibility}
 				onPressButton={unlinkGoogleProvider}
@@ -218,7 +231,11 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 				accountIdentifier={userPrivateContacts.email}
 				registerMethod
 				linking
-				closeModal={toggleSocialLoginAlertModalVisibility}
+				hasError={hasError}
+				closeModal={() => {
+					setHasError(false)
+					toggleSocialLoginAlertModalVisibility()
+				}}
 				onPressButton={() => { }}
 			/>
 			<DefaultHeaderContainer
@@ -238,15 +255,16 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 					SvgIcon={DescriptionWhiteIcon}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.orange2}>
+			<FormContainer backgroundColor={theme.orange2} >
 				{
 					isLoading
 						? <Loader />
 						: (
 							<>
-								<EditCard // TODO Check edit card behavior
+								<VerticalSigh />
+								<EditCard
 									title={'número de telefone'}
-									RightIcon={userPrivateContacts.cellNumber ? TrashWhiteIcon : PlusWhiteIcon}
+									RightIcon={userPrivateContacts.cellNumber ? canRemoveEntryMethod() ? TrashWhiteIcon : EmptyWhiteIcon : PlusWhiteIcon}
 									SecondSvgIcon={SmartphoneWhiteIcon}
 									value={userPrivateContacts.cellNumber}
 									pressionable
@@ -254,12 +272,13 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 								/>
 								<EditCard
 									title={'conta google'}
-									RightIcon={userPrivateContacts.email ? TrashWhiteIcon : PlusWhiteIcon}
+									RightIcon={userPrivateContacts.email ? canRemoveEntryMethod() ? TrashWhiteIcon : EmptyWhiteIcon : PlusWhiteIcon}
 									SecondSvgIcon={GoogleWhiteIcon}
 									value={userPrivateContacts.email}
 									pressionable
 									onEdit={editGoogleProvider}
 								/>
+								<VerticalSigh />
 							</>
 						)
 				}

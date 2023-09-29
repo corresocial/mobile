@@ -18,7 +18,7 @@ function LinkingAccountResult({ route, navigation }: LinkingAccountResultScreenP
 	const { accountIdentifier, wasLinked } = route.params
 
 	const navigateBackwards = () => {
-		if (accountIdentifier?.includes('+55')) {
+		if (accountIdentifier?.includes('+55') && wasLinked) {
 			navigation.goBack()
 			navigation.goBack()
 			navigation.goBack()

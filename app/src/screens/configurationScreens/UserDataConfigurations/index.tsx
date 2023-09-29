@@ -21,6 +21,8 @@ import { BeForgottenConfirmationModal } from '../../../components/_modals/BeForg
 import { Loader } from '../../../components/Loader'
 import { CustomModal } from '../../../components/_modals/CustomModal'
 import { ChatContext } from '../../../contexts/ChatContext'
+import { clearOfflinePosts } from '../../../utils/offlinePost'
+import { auth } from '../../../services/firebase'
 
 function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProps) {
 	const { userDataContext, deleteLocaluser } = useContext(AuthContext)
@@ -61,10 +63,11 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 		}
 	}
 
-	const performLogout = () => {
+	const performLogout = async () => {
 		removeChatListeners()
 		deleteLocaluser()
-
+		await clearOfflinePosts()
+		await auth.signOut()
 		navigateToInitialScreen()
 	}
 

@@ -28,6 +28,7 @@ import { SubscriptionButton } from '../../../components/_buttons/SubscriptionBut
 import { share } from '../../../common/share'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 import { auth } from '../../../services/firebase'
+import { clearOfflinePosts } from '../../../utils/offlinePost'
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const { userDataContext, deleteLocaluser } = useContext(AuthContext)
@@ -43,6 +44,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 		removeChatListeners()
 		await getAndUpdateUserToken(userDataContext.userId as Id, null)
 		await deleteLocaluser()
+		await clearOfflinePosts()
 		await auth.signOut()
 		navigateToInitialScreen()
 	}

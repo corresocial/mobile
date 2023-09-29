@@ -45,9 +45,15 @@ const deletePostByDescription = async (description: string) => {
 	return true
 }
 
+const clearOfflinePosts = async () => {
+	await AsyncStorage.removeItem('corre.offlinePosts')
+	return true
+}
+
 export {
 	getOfflinePosts,
 	getNumberOfStoredOfflinePosts,
 	setOfflinePost,
-	deletePostByDescription
+	deletePostByDescription,
+	clearOfflinePosts
 }
