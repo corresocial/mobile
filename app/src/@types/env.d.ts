@@ -26,6 +26,9 @@ declare module '@env' {
 	export const PROD_FIRESTORE_REAL_TIME_DATABASE: string
 	export const PROD_ALGOLIA_ID: string
 	export const PROD_ALGOLIA_KEY: string
+	export const PROD_AUTH_EXPO_CLIENT_ID: string
+	export const PROD_AUTH_ANDROID_CLIENT_ID: string
+	export const PROD_AUTH_IOS_CLIENT_ID: string
 	export const PROD_MAPS_API: string
 	export const PROD_STRIPE_PUBLISHABLE_KEY: string
 	export const PROD_STRIPE_SECRET_KEY: string
