@@ -38,13 +38,12 @@ function InsertServiceDescription({ route, navigation }: InsertServiceDescriptio
 
 	const saveServiceDescription = (inputText: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ title: inputText, description: inputText })
+			addNewUnsavedFieldToEditContext({ description: inputText })
 			navigation.goBack()
 			return
 		}
 
-		// TODO title está mantido apenas para garantir compatibilidade com versão 0.3.4
-		setServiceDataOnContext({ title: inputText, description: inputText })
+		setServiceDataOnContext({ description: inputText })
 		navigation.navigate('SelectServiceRange')
 	}
 
