@@ -57,7 +57,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	const [hasError, setHasError] = useState(false)
 	const [socialLoginAlertModalIsVisible, setSocialLoginAlertModalIsVisible] = useState(false)
 	const [unlinkPhoneConfirmationModalIsVisible, setUnlinkPhoneConfirmationModalIsVisible] = useState(false)
-	const [unlinkGoogleConfirmationModalIsVisible, setUnlinkGoogleConfirmationModalIsVisible] = useState(false)
+	// const [unlinkGoogleConfirmationModalIsVisible, setUnlinkGoogleConfirmationModalIsVisible] = useState(false)
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -128,12 +128,12 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 	}
 
 	const editGoogleProvider = async () => {
-		const registredGoogleEmail = userPrivateContacts.email
+		/* const registredGoogleEmail = userPrivateContacts.email
 
 		if (registredGoogleEmail) {
 			if (!canRemoveEntryMethod()) return
 			return toggleUnlinkGoogleConfirmationModalVisibility()
-		}
+		} */
 
 		await linkGoogleProvider()
 	}
@@ -169,7 +169,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 		}
 	}
 
-	const unlinkGoogleProvider = async () => {
+	/* const unlinkGoogleProvider = async () => { // THis unlink do not remove user auth
 		try {
 			setIsLoading(true)
 			setHasError(false)
@@ -187,7 +187,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 		} finally {
 			setIsLoading(false)
 		}
-	}
+	} */
 
 	const navigateToLinkResultScreen = (wasLinked: boolean, accountIdentifier?: string | null) => {
 		navigation.navigate('LinkingAccountResult', { accountIdentifier, wasLinked })
@@ -201,10 +201,10 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 		setUnlinkPhoneConfirmationModalIsVisible(!unlinkPhoneConfirmationModalIsVisible)
 	}
 
-	const toggleUnlinkGoogleConfirmationModalVisibility = () => {
+	/* const toggleUnlinkGoogleConfirmationModalVisibility = () => {
 		setUnlinkGoogleConfirmationModalIsVisible(!unlinkGoogleConfirmationModalIsVisible)
 	}
-
+ */
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -217,7 +217,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 				closeModal={toggleUnlinkPhoneConfirmationModalVisibility}
 				onPressButton={unlinkPhoneProvider}
 			/>
-			<DefaultConfirmationModal
+			{/* <DefaultConfirmationModal
 				visibility={unlinkGoogleConfirmationModalIsVisible}
 				title={'desvincular'}
 				text={'não poderá mais acessar sua conta utilizando este email. \n\nvocê tem certeza que deseja desvincular este email da sua conta?'}
@@ -225,7 +225,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 				buttonKeyword={'desvincular'}
 				closeModal={toggleUnlinkGoogleConfirmationModalVisibility}
 				onPressButton={unlinkGoogleProvider}
-			/>
+			/> */}
 			<SocialLoginAlertModal
 				visibility={socialLoginAlertModalIsVisible}
 				accountIdentifier={userPrivateContacts.email}
@@ -272,11 +272,11 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 								/>
 								<EditCard
 									title={'conta google'}
-									RightIcon={userPrivateContacts.email ? canRemoveEntryMethod() ? TrashWhiteIcon : EmptyWhiteIcon : PlusWhiteIcon}
+									RightIcon={userPrivateContacts.email ? EmptyWhiteIcon : PlusWhiteIcon}
 									SecondSvgIcon={GoogleWhiteIcon}
 									value={userPrivateContacts.email}
 									pressionable
-									onEdit={editGoogleProvider}
+									onEdit={userPrivateContacts.email ? () => { } : editGoogleProvider}
 								/>
 								<VerticalSigh />
 							</>
