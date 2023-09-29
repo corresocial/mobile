@@ -6,7 +6,6 @@ import * as WebBrowser from 'expo-web-browser'
 import { Container } from './styles'
 import { theme } from '../../../common/theme'
 import GoogleWhiteIcon from '../../../assets/icons/google-white.svg'
-import AppleWhiteIcon from '../../../assets/icons/apple-white.svg'
 import SmartphoneWhiteIcon from '../../../assets/icons/smartphone-white.svg'
 
 import { SelectAuthMethodScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
@@ -23,6 +22,8 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { userExists } from '../../../services/firebase/user/userExists'
 import { SocialLoginAlertModal } from '../../../components/_modals/SocialLoginAlertModal'
 import { Loader } from '../../../components/Loader'
+import { VerticalSigh } from '../../../components/VerticalSigh'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 WebBrowser.maybeCompleteAuthSession()
 const { AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
@@ -132,10 +133,6 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 		}
 	}
 
-	const performSigninWithApple = () => {
-		console.log('performSigninWithApple')
-	}
-
 	const toggleSocialLoginAlertModalVisibility = () => {
 		setSocialLoginAlertModalIsVisible((previousValue) => !previousValue)
 	}
@@ -163,7 +160,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 					fontSize={16}
 				/>
 			</DefaultHeaderContainer>
-			<FormContainer backgroundColor={theme.white2} justifyContent={'space-around'}>
+			<FormContainer backgroundColor={theme.white3} justifyContent={'center'}>
 				{
 					isLoading
 						? <Loader />
@@ -178,6 +175,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 									labelColor={theme.white3}
 									onPress={performSigninWithCellNumber}
 								/>
+								<VerticalSigh height={relativeScreenHeight(5)} />
 								<PrimaryButton
 									color={theme.white3}
 									SecondSvgIcon={GoogleWhiteIcon}
@@ -187,16 +185,6 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 									highlightedWords={[newUser ? 'entrar' : 'continuar', '\ncom', 'google']}
 									textAlign={'left'}
 									onPress={performSigninWithGoogle}
-								/>
-								<PrimaryButton
-									color={theme.white3}
-									SecondSvgIcon={AppleWhiteIcon}
-									svgIconScale={['50%', '30%']}
-									labelColor={theme.black4}
-									label={`${newUser ? 'entrar' : 'continuar'} \ncom apple`}
-									highlightedWords={[newUser ? 'entrar' : 'continuar', '\ncom', 'apple']}
-									textAlign={'left'}
-									onPress={performSigninWithApple}
 								/>
 							</>
 						)
