@@ -57,7 +57,7 @@ function EditCard({
 		<DefaultTouchableCardContainer
 			withoutPadding={!!profilePicturesUrl.length}
 			pressionable={pressionable}
-			onPress={pressionable ? onPress || onEdit : () => { }}
+			onPress={pressionable ? onEdit || onPress : () => { }}
 		>
 			<CardHeader
 				style={{
