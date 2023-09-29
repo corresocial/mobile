@@ -8,6 +8,7 @@ const checkUserPhoneAlreadyRegistredCloud = async (phoneNumber: string) => {
 		.then((res) => res.data)
 		.catch((err) => {
 			console.log(err)
+			throw new Error(err)
 		})
 }
 
