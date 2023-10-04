@@ -50,7 +50,7 @@ function PrimaryButton({
 	labelMarginLeft,
 	highlightedWords,
 	iconName,
-	fontSize = 18,
+	fontSize = 16,
 	textAlign = 'center',
 	timer,
 	SvgIcon,
