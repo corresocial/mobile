@@ -3,7 +3,7 @@ import LottieView from 'lottie-react-native'
 
 import { AnimationContainer, Container } from './styles'
 
-import buildingColorPassingDark from '../../assets/animations/buildingColorPassingLight.json'
+import logoCorreFlow from '../../assets/animations/logoCorreFlow.json'
 
 interface LoaderProps {
 	flex?: boolean
@@ -17,11 +17,10 @@ function Loader({ flex, animationScale }: LoaderProps) {
 		<Container style={{ flex: flex ? 1 : 0 }}>
 			<AnimationContainer animationScale={animationScale}>
 				<LottieView
-					source={buildingColorPassingDark}
+					source={logoCorreFlow}
 					ref={animation}
 					autoPlay
 					loop
-					speed={1.5}
 				/>
 			</AnimationContainer>
 		</Container>
