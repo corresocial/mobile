@@ -1,18 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Animated } from 'react-native'
+import { Alert, Animated } from 'react-native'
+import * as Updates from 'expo-updates'
 
-import { Container, LogoContainer } from './styles'
+import { Container, LogoContainer, SplashInfoText } from './styles'
 import { relativeScreenWidth, screenHeight } from '../../common/screenDimensions'
 import LogoBuildingIcon from '../../assets/icons/logoBuilding.svg'
 
 import { SplashScreenProps } from '../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
 import { AuthContext } from '../../contexts/AuthContext'
+import { Loader } from '../../components/Loader'
+import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
 
 function Splash({ navigation }: SplashScreenProps) {
 	const { hasValidLocalUser, getUserDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [imagesSvgOpacity] = useState(new Animated.Value(0))
+	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
 		Animated.timing(imagesSvgOpacity, {
@@ -21,10 +25,40 @@ function Splash({ navigation }: SplashScreenProps) {
 			useNativeDriver: true
 		}).start()
 
-		setTimeout(() => {
-			redirectToApp()
-		}, 1000)
+		checkUpdates()
 	}, [])
+
+	const checkUpdates = async () => {
+		await onFetchUpdateAsync()
+	}
+
+	const hasUpdates = async () => {
+		return Updates.checkForUpdateAsync()
+	}
+
+	async function onFetchUpdateAsync() {
+		try {
+			const update = await hasUpdates()
+			Alert.alert(`has available update: ${update.isAvailable}`)
+			Alert.alert(`update data: ${update}`)
+
+			if (update.isAvailable) {
+				setIsLoading(true)
+				await Updates.fetchUpdateAsync()
+				setIsLoading(false)
+				setTimeout(() => {
+					Updates.reloadAsync()
+				}, 3000)
+			} else {
+				Alert.alert('Redirect to app')
+				setTimeout(() => {
+					redirectToApp()
+				}, 3000)
+			}
+		} catch (error: any) {
+			Alert.alert('Expo update error: ', error.message)
+		}
+	}
 
 	const navigateToInitialScreen = (userId?: string, userName?: string) => {
 		navigation.reset({
@@ -66,7 +100,20 @@ function Splash({ navigation }: SplashScreenProps) {
 	return (
 		<Container>
 			<LogoContainer style={{ opacity: imagesSvgOpacity }}>
-				<LogoBuildingIcon width={relativeScreenWidth(40)} height={screenHeight} />
+				{
+					isLoading
+						? (
+							<LogoBuildingIcon width={relativeScreenWidth(40)} height={screenHeight} />
+						)
+						: (
+							<>
+								<Loader animationScale={relativeScreenWidth(37)} />
+								<SplashInfoText>
+									{showMessageWithHighlight('um segundo, estamos atualizando o aplicativo', ['estamos', 'atualizando', 'o', 'aplicativo'])}
+								</SplashInfoText>
+							</>
+						)
+				}
 			</LogoContainer>
 		</Container>
 	)

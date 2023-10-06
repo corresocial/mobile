@@ -28,6 +28,12 @@
 		},
 		"plugins": [
 			[
+				"expo-updates",
+				{
+					"username": "corresocial"
+				}
+			],
+			[
 				"expo-build-properties",
 				{
 					"ios": {

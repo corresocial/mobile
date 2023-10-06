@@ -17,6 +17,7 @@
 		"build-android-dev-local": "eas build --platform android --profile development --local",
 		"build-ios-dev": "eas build --platform ios --profile development",
 		"build-android-staging": "eas build --platform android --profile staging",
+		"build-android-staging-local": "eas build --platform android --profile staging --local",
 		"build-ios-staging": "eas build --platform ios --profile staging",
 		"build-android-prod": "eas build --platform android --profile production",
 		"build-ios-prod": "eas build --platform ios --profile production"
