@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal, TextStyle } from 'react-native'
 import { SvgProps } from 'react-native-svg'
 
@@ -81,7 +81,13 @@ function CustomModal({
 	negativeButton,
 	children
 }: CustomModalProps) {
-	const [textInput, setTextInput] = useState(customInput?.initialValue || '')
+	const [textInput, setTextInput] = useState(customInput?.initialValue)
+
+	useEffect(() => {
+		if (customInput) {
+			setTextInput(customInput.initialValue)
+		}
+	}, [customInput?.initialValue])
 
 	const closeModalAfterOnPress = (onPress: (value?: string) => void) => {
 		onPress && onPress(textInput)
