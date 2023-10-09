@@ -26,6 +26,9 @@ function Splash({ navigation }: SplashScreenProps) {
 		}).start()
 
 		checkUpdates()
+		/* setTimeout(() => {
+			redirectToApp()
+		}, 3000) */
 	}, [])
 
 	const checkUpdates = async () => {
@@ -40,20 +43,19 @@ function Splash({ navigation }: SplashScreenProps) {
 		try {
 			const update = await hasUpdates()
 			Alert.alert(`has available update: ${update.isAvailable}`)
-			Alert.alert(`update data: ${update}`)
+			Alert.alert('update data')
+			Alert.alert(JSON.stringify(update))
 
 			if (update.isAvailable) {
 				setIsLoading(true)
 				await Updates.fetchUpdateAsync()
 				setIsLoading(false)
-				setTimeout(() => {
-					Updates.reloadAsync()
-				}, 3000)
+				await Updates.reloadAsync()
 			} else {
-				Alert.alert('Redirect to app')
-				setTimeout(() => {
+				Alert.alert('Redirect to application')
+				/* setTimeout(() => {
 					redirectToApp()
-				}, 3000)
+				}, 3000) */
 			}
 		} catch (error: any) {
 			Alert.alert('Expo update error: ', error.message)
@@ -101,7 +103,7 @@ function Splash({ navigation }: SplashScreenProps) {
 		<Container>
 			<LogoContainer style={{ opacity: imagesSvgOpacity }}>
 				{
-					isLoading
+					!isLoading
 						? (
 							<LogoBuildingIcon width={relativeScreenWidth(40)} height={screenHeight} />
 						)
