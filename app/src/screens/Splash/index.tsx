@@ -2,21 +2,18 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Alert, Animated } from 'react-native'
 import * as Updates from 'expo-updates'
 
-import { Container, LogoContainer, SplashInfoText } from './styles'
+import { Container, LogoContainer } from './styles'
 import { relativeScreenWidth, screenHeight } from '../../common/screenDimensions'
 import LogoBuildingIcon from '../../assets/icons/logoBuilding.svg'
 
 import { SplashScreenProps } from '../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
 import { AuthContext } from '../../contexts/AuthContext'
-import { Loader } from '../../components/Loader'
-import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
 
 function Splash({ navigation }: SplashScreenProps) {
 	const { hasValidLocalUser, getUserDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [imagesSvgOpacity] = useState(new Animated.Value(0))
-	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
 		Animated.timing(imagesSvgOpacity, {
@@ -39,12 +36,13 @@ function Splash({ navigation }: SplashScreenProps) {
 	async function onFetchUpdateAsync() {
 		try {
 			const update = await hasUpdates()
+
 			if (update.isAvailable) {
-				setIsLoading(true)
-				await Updates.fetchUpdateAsync()
-				setIsLoading(false)
-				await Updates.reloadAsync()
+				Alert.alert('Atualização disponível!', '', [
+					{ text: 'Atualizar', onPress: Updates.reloadAsync }
+				])
 			} else {
+				Alert.alert('No updates')
 				setTimeout(() => {
 					redirectToApp()
 				}, 2000)
@@ -94,20 +92,7 @@ function Splash({ navigation }: SplashScreenProps) {
 	return (
 		<Container>
 			<LogoContainer style={{ opacity: imagesSvgOpacity }}>
-				{
-					!isLoading
-						? (
-							<LogoBuildingIcon width={relativeScreenWidth(40)} height={screenHeight} />
-						)
-						: (
-							<>
-								<Loader animationScale={relativeScreenWidth(37)} />
-								<SplashInfoText>
-									{showMessageWithHighlight('um segundo, estamos atualizando o aplicativo', ['estamos', 'atualizando', 'o', 'aplicativo'])}
-								</SplashInfoText>
-							</>
-						)
-				}
+				<LogoBuildingIcon width={relativeScreenWidth(40)} height={screenHeight} />
 			</LogoContainer>
 		</Container>
 	)
