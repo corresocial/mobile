@@ -45,6 +45,7 @@ interface CustomModalProps {
 		highlightedWords?: string[]
 	} | false,
 	listItemText?: string | false
+	withoutStatusBar?: boolean,
 	closeButton?: boolean,
 	closeModalOnPressButton?: boolean,
 	closeModal: () => void
@@ -70,6 +71,7 @@ function CustomModal({
 	title,
 	titleHighlightedWords,
 	TitleIcon,
+	withoutStatusBar,
 	firstParagraph,
 	secondParagraph,
 	listItemText,
@@ -97,7 +99,7 @@ function CustomModal({
 			animationType={'fade'}
 			onRequestClose={closeModal}
 		>
-			<FocusAwareStatusBar backgroundColor={theme.transparence.orange1} barStyle={'dark-content'} />
+			{!withoutStatusBar && <FocusAwareStatusBar backgroundColor={theme.transparence.orange1} barStyle={'dark-content'} />}
 			<Container>
 				<TouchCloseArea onPress={closeModal}></TouchCloseArea>
 				<Content>
@@ -172,7 +174,7 @@ function CustomModal({
 										labelColor={theme.white3}
 										label={affirmativeButton.label}
 										highlightedWords={[...affirmativeButton.label.split(' '), ...affirmativeButton.label.split(', ')]}
-										fontSize={16}
+										fontSize={15}
 										SecondSvgIcon={affirmativeButton.CustomIcon || CheckWhiteIcon}
 										svgIconScale={['40%', '25%']}
 										onPress={() => closeModalAfterOnPress(affirmativeButton.onPress)}
@@ -189,7 +191,7 @@ function CustomModal({
 									labelColor={theme.white3}
 									label={negativeButton.label}
 									highlightedWords={[...negativeButton.label.split(' '), ...negativeButton.label.split(', ')]}
-									fontSize={16}
+									fontSize={15}
 									SvgIcon={negativeButton.CustomIcon || XWhiteIcon}
 									svgIconScale={['40%', '25%']}
 									onPress={() => closeModalAfterOnPress(negativeButton.onPress)}

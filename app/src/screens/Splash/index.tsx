@@ -1,19 +1,23 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, Animated } from 'react-native'
+import { Alert, Animated, StatusBar } from 'react-native'
 import * as Updates from 'expo-updates'
 
 import { Container, LogoContainer } from './styles'
 import { relativeScreenWidth, screenHeight } from '../../common/screenDimensions'
 import LogoBuildingIcon from '../../assets/icons/logoBuilding.svg'
+import SmartphoneWhiteIcon from '../../assets/icons/smartphone-white.svg'
 
 import { SplashScreenProps } from '../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
 import { AuthContext } from '../../contexts/AuthContext'
+import { CustomModal } from '../../components/_modals/CustomModal'
+import { theme } from '../../common/theme'
 
 function Splash({ navigation }: SplashScreenProps) {
 	const { hasValidLocalUser, getUserDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)
 
 	const [imagesSvgOpacity] = useState(new Animated.Value(0))
+	const [confirmationModalIsVisible, setConfirmationModalIsVisible] = useState(false)
 
 	useEffect(() => {
 		Animated.timing(imagesSvgOpacity, {
@@ -30,25 +34,25 @@ function Splash({ navigation }: SplashScreenProps) {
 	}
 
 	const hasUpdates = async () => {
+		// eslint-disable-next-line no-undef
+		if (__DEV__) return { isAvailable: false }
 		return Updates.checkForUpdateAsync()
 	}
 
 	async function onFetchUpdateAsync() {
 		try {
 			const update = await hasUpdates()
-
 			if (update.isAvailable) {
-				Alert.alert('Atualização disponível!', '', [
-					{ text: 'Atualizar', onPress: Updates.reloadAsync }
-				])
+				setConfirmationModalIsVisible(true)
 			} else {
-				Alert.alert('No updates')
 				setTimeout(() => {
 					redirectToApp()
-				}, 2000)
+				}, 3000)
 			}
 		} catch (error: any) {
-			Alert.alert('Erro ao atualizar aplicativo: ', error.message)
+			Alert.alert('Erro ao atualizar aplicativo: ', error.message, [
+				{ text: 'Tentar novamente', onPress: Updates.reloadAsync }
+			])
 		}
 	}
 
@@ -90,7 +94,24 @@ function Splash({ navigation }: SplashScreenProps) {
 	}
 
 	return (
-		<Container>
+		<Container >
+			<StatusBar backgroundColor={theme.orange3} barStyle={'dark-content'} />
+			<CustomModal
+				visibility={confirmationModalIsVisible}
+				title={'atualizar app'}
+				TitleIcon={SmartphoneWhiteIcon}
+				withoutStatusBar
+				closeModal={() => { }}
+				firstParagraph={{
+					text: 'seu app precisa ser atualizado',
+					textAlign: 'center',
+					fontSize: 15
+				}}
+				affirmativeButton={{
+					label: 'atualizar',
+					onPress: Updates.reloadAsync
+				}}
+			/>
 			<LogoContainer style={{ opacity: imagesSvgOpacity }}>
 				<LogoBuildingIcon width={relativeScreenWidth(40)} height={screenHeight} />
 			</LogoContainer>
