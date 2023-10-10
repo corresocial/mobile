@@ -26,9 +26,6 @@ function Splash({ navigation }: SplashScreenProps) {
 		}).start()
 
 		checkUpdates()
-		/* setTimeout(() => {
-			redirectToApp()
-		}, 3000) */
 	}, [])
 
 	const checkUpdates = async () => {
@@ -42,23 +39,18 @@ function Splash({ navigation }: SplashScreenProps) {
 	async function onFetchUpdateAsync() {
 		try {
 			const update = await hasUpdates()
-			Alert.alert(`has available update: ${update.isAvailable}`)
-			Alert.alert('update data')
-			Alert.alert(JSON.stringify(update))
-
 			if (update.isAvailable) {
 				setIsLoading(true)
 				await Updates.fetchUpdateAsync()
 				setIsLoading(false)
 				await Updates.reloadAsync()
 			} else {
-				Alert.alert('Redirect to application')
-				/* setTimeout(() => {
+				setTimeout(() => {
 					redirectToApp()
-				}, 3000) */
+				}, 2000)
 			}
 		} catch (error: any) {
-			Alert.alert('Expo update error: ', error.message)
+			Alert.alert('Erro ao atualizar aplicativo: ', error.message)
 		}
 	}
 
