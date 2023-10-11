@@ -11,6 +11,7 @@ import HandOnHeartWhiteIcon from '../../../assets/icons/handOnHeart-white.svg'
 import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
 import EyeDashedWhiteIcon from '../../../assets/icons/eyeDashed-white.svg'
 import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
+import BellWhiteIcon from '../../../assets/icons/bell-white.svg'
 
 import { ConfigurationsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -106,6 +107,18 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				<SubscriptionButton customTitle={'assinatura corre.'} onPress={performUserSubscription} />
 				<VerticalSigh />
 				<OptionButton
+					label={'notificações'}
+					highlightedWords={['notificações']}
+					labelSize={18}
+					relativeHeight={relativeScreenHeight(9)}
+					SvgIcon={BellWhiteIcon}
+					svgIconScale={['75%', '75%']}
+					leftSideColor={theme.orange3}
+					leftSideWidth={'22%'}
+					onPress={() => navigation.navigate('EntryMethodManagement')}
+				/>
+				<VerticalSigh />
+				<OptionButton
 					label={'métodos de entrada'}
 					highlightedWords={['métodos', 'de', 'entrada']}
 					labelSize={18}
@@ -114,7 +127,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					svgIconScale={['50%', '50%']}
 					leftSideColor={theme.orange3}
 					leftSideWidth={'22%'}
-					onPress={() => navigation.navigate('EntryMethodManagement')}
+					onPress={() => { }}
 				/>
 				<VerticalSigh />
 				<OptionButton

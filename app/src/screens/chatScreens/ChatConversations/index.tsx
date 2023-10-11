@@ -34,6 +34,7 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ConversationCard } from '../../../components/_cards/ConversationCard'
+import { AlertNotificationModal } from '../../../components/_modals/AlertNotificationModal'
 
 function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
