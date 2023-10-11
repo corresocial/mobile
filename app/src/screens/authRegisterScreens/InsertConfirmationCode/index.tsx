@@ -313,7 +313,6 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 						highlightedWords={getFormatedCellNumber().split(' ')}
 
 					>
-						{/* <SmartphoneWhiteIcon width={50} height={50} /> */}
 					</InstructionCard>
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>
