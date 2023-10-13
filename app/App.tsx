@@ -20,6 +20,7 @@ import { AuthRegisterStack } from './src/routes/Stack/AuthRegisterStack'
 import { LoaderProvider } from './src/contexts/LoaderContext'
 import { ErrorBoundaryContainer } from './src/components/_containers/ErrorBoundaryContainer'
 import { LoaderContainer } from './App.styles'
+import { AlertProvider } from './src/contexts/AlertContext/index.tsx'
 
 console.log(__DEV__)
 if (!__DEV__) {
@@ -45,9 +46,11 @@ function App() {
 		<ErrorBoundaryContainer>
 			<NavigationContainer>
 				<ThemeProvider theme={theme}>
-					<LoaderProvider>
-						<AuthRegisterStack />
-					</LoaderProvider>
+					<AlertProvider>
+						<LoaderProvider>
+							<AuthRegisterStack />
+						</LoaderProvider>
+					</AlertProvider>
 				</ThemeProvider>
 			</NavigationContainer>
 		</ErrorBoundaryContainer>

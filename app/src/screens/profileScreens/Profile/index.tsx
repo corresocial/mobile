@@ -591,25 +591,31 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 											}
 
 											{
-												isLoggedUser && arrayIsEmpty(getUserField('socialMedias'))
+												isLoggedUser
 													? (
-														<>
-															<VerticalSigh />
-															<SmallButton
-																label={'adicionar redes'}
-																labelColor={theme.black4}
-																SvgIcon={AtSignWhiteIcon}
-																svgScale={['60%', '20%']}
-																height={relativeScreenHeight(5)}
-																onPress={openSocialMediaManagement}
-															/>
-															<VerticalSigh />
-														</>
-													) : (
-														<HorizontalSocialMediaList
-															socialMedias={getUserField('socialMedias') as SocialMedia[]}
-															onPress={openSocialMediaManagement}
-														/>
+														arrayIsEmpty(getUserField('socialMedias'))
+															? (
+																<>
+																	<VerticalSigh />
+																	<SmallButton
+																		label={'adicionar redes'}
+																		labelColor={theme.black4}
+																		SvgIcon={AtSignWhiteIcon}
+																		svgScale={['60%', '20%']}
+																		height={relativeScreenHeight(5)}
+																		onPress={openSocialMediaManagement}
+																	/>
+																	<VerticalSigh />
+																</>
+															) : (
+																<HorizontalSocialMediaList
+																	socialMedias={getUserField('socialMedias') as SocialMedia[]}
+																	onPress={openSocialMediaManagement}
+																/>
+															)
+													)
+													: (
+														<VerticalSigh />
 													)
 											}
 

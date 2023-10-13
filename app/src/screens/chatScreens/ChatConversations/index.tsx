@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unused-prop-types */
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { formatRelativeDate } from '../../../common/auxiliaryFunctions'
@@ -34,15 +34,20 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ConversationCard } from '../../../components/_cards/ConversationCard'
-import { AlertNotificationModal } from '../../../components/_modals/AlertNotificationModal'
+import { AlertContext } from '../../../contexts/AlertContext/index.tsx'
 
 function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
+	const { showAlertNotificationModal } = useContext(AlertContext)
 	const { chatDataContext } = useContext(ChatContext)
 
 	const [searchText, setSearchText] = useState('')
 	const [filteredChats, setFilteredChats] = useState<Chat[]>([])
 	const [searchMode, setSearchMode] = useState(false)
+
+	useEffect(() => {
+		showAlertNotificationModal()
+	}, [])
 
 	const getLastMessage = (messages: MessageObjects) => {
 		const chatMessages = getFilteredMessages(messages)

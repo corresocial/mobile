@@ -103,7 +103,7 @@ function CustomModal({
 				<Content>
 					<ContentInner>
 						<Header>
-							{TitleIcon && <TitleIcon width={'20%'} height={'100%'} style={iconStyle} />}
+							{TitleIcon && <TitleIcon width={'20%'} style={iconStyle} />}
 							<Title
 								hasHighlightedWords={!!titleHighlightedWords}
 							>

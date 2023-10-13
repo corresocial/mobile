@@ -1,6 +1,6 @@
 import React from 'react'
 
-import WirelessOffWhiteIcon from '../../../assets/icons/wirelessOff-white.svg'
+import BellOffWhiteIcon from '../../../assets/icons/bell-white.svg'
 
 import { CustomModal } from '../CustomModal'
 
@@ -17,7 +17,7 @@ function AlertNotificationModal({
 		<CustomModal
 			visibility={visibility}
 			title={'ativar as notificações'}
-			TitleIcon={WirelessOffWhiteIcon}
+			TitleIcon={BellOffWhiteIcon}
 			firstParagraph={{
 				text: 'com notificações, você fica sabendo sempre que alguém te manda uma mensagem. \n\nassim, você não perde nada!',
 				highlightedWords: ['você', 'fica', 'sabendo', 'sempre', 'que', 'alguém', 'te', 'manda', 'uma', 'mensagem', 'você', 'não', 'perde', 'nada!'],
