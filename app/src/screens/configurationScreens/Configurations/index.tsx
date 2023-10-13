@@ -112,10 +112,10 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					labelSize={18}
 					relativeHeight={relativeScreenHeight(9)}
 					SvgIcon={BellWhiteIcon}
-					svgIconScale={['75%', '75%']}
+					svgIconScale={['50%', '50%']}
 					leftSideColor={theme.orange3}
 					leftSideWidth={'22%'}
-					onPress={() => navigation.navigate('EntryMethodManagement')}
+					onPress={() => navigation.navigate('NotificationSettings')}
 				/>
 				<VerticalSigh />
 				<OptionButton

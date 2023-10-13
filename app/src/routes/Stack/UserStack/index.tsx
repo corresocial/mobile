@@ -55,6 +55,7 @@ import { EntryMethodManagement } from '../../../screens/configurationScreens/Ent
 import { LinkingAccountResult } from '../../../screens/configurationScreens/LinkingAccountResult'
 import { InsertCellNumberLinkAccount } from '../../../screens/configurationScreens/InsertCellNumberLinkAccount'
 import { InsertConfirmationCodeLinkAccount } from '../../../screens/configurationScreens/InsertConfirmationCodeLinkAccount'
+import { NotificationSettings } from '../../../screens/configurationScreens/NotificationtSettings'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -114,6 +115,7 @@ export function UserStack({ route }: any) {
 									<Stack.Screen name={'ContactUsSuccess'} component={ContactUsSuccess} />
 									<Stack.Screen name={'UserDataConfigurations'} component={UserDataConfigurations} />
 									<Stack.Screen name={'PrivacyAndSecurity'} component={PrivacyAndSecurity} />
+									<Stack.Screen name={'NotificationSettings'} component={NotificationSettings} />
 
 									<Stack.Screen name={'ChatMessages'} component={ChatMessages} />
 
