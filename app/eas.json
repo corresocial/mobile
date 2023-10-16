@@ -16,9 +16,11 @@
 			"channel": "development"
 		},
 		"staging": {
-			"distribution": "internal",
 			"ios": {
 				"resourceClass": "m1-medium"
+			},
+			"android": {
+				"buildType": "apk"
 			},
 			"env": {
 				"EAS_BUILD_ENABLE_COCOAPODS_CACHE": "1"

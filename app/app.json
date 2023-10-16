@@ -28,6 +28,12 @@
 		},
 		"plugins": [
 			[
+				"expo-updates",
+				{
+					"username": "wellington-souza-abreu"
+				}
+			],
+			[
 				"expo-build-properties",
 				{
 					"ios": {

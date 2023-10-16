@@ -17,6 +17,7 @@
 		"build-android-dev-local": "eas build --platform android --profile development --local",
 		"build-ios-dev": "eas build --platform ios --profile development",
 		"build-android-staging": "eas build --platform android --profile staging",
+		"build-android-staging-local": "eas build --platform android --profile staging --local",
 		"build-ios-staging": "eas build --platform ios --profile staging",
 		"build-android-prod": "eas build --platform android --profile production",
 		"build-ios-prod": "eas build --platform ios --profile production"
@@ -92,6 +93,7 @@
 		"react-native-responsive-fontsize": "^0.5.1",
 		"react-native-safe-area-context": "4.4.1",
 		"react-native-screens": "^3.18.0",
+		"react-native-start": "^0.2.56",
 		"react-native-svg": "13.4.0",
 		"react-native-web": "~0.18.7",
 		"react-native-webview": "11.23.1",

@@ -11,6 +11,7 @@ import {
 	Arvo_400Regular,
 	Arvo_700Bold,
 } from '@expo-google-fonts/arvo'
+import { ENVIRONMENT } from '@env'
 import { theme } from './src/common/theme'
 
 import { ignoredLogs } from './ignoredLogs'
@@ -22,7 +23,7 @@ import { ErrorBoundaryContainer } from './src/components/_containers/ErrorBounda
 import { LoaderContainer } from './App.styles'
 
 console.log(__DEV__)
-if (!__DEV__) {
+if (!__DEV__ && ENVIRONMENT === 'prod') {
 	Sentry.init(sentryConfig)
 }
 LogBox.ignoreLogs(ignoredLogs)

@@ -126,6 +126,7 @@ export function InsertCellNumber({ route, navigation }: InsertCellNumberScreenPr
 			}
 			setIsLoading(false)
 		} catch (error: any) {
+			console.log(error)
 			setIsLoading(false)
 			if (error.message === 'auth/too-many-requests') {
 				setRequestLimitsAlert(true)
