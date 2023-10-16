@@ -57,6 +57,7 @@
     "escape-string-regexp": "^2.0.0",
     "execa": "^5.1.1",
     "exit": "^0.1.2",
+    "expo-server-sdk": "^3.7.0",
     "fill-range": "^7.0.1",
     "firebase-admin": "^11.5.0",
     "firebase-functions": "^4.2.1",

@@ -1,16 +1,25 @@
 import { onValue, ref } from 'firebase/database'
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { MutableRefObject, createContext, useContext, useEffect, useRef, useState } from 'react'
+import { Alert, Platform } from 'react-native'
+import * as Device from 'expo-device'
+import * as Notifications from 'expo-notifications'
+
 import { Chat, UserDatabase } from '../@types/chat/types'
+import { Id } from '../services/firebase/types'
+
+import { AuthContext } from './AuthContext'
+
 import { realTimeDatabase } from '../services/firebase'
 import { existsOnDatabase } from '../services/firebase/chat/existsOnDatabase'
 import { readFromDatabase } from '../services/firebase/chat/readFromDatabase'
 import { registerNewUser } from '../services/firebase/chat/registerNewUser'
-import { Id } from '../services/firebase/types'
-import { AuthContext } from './AuthContext'
 import { unsubscribeUserChatsListener } from '../services/firebase/chat/unsubscribeUserChatsListener'
 import { unsubscribeChatIdsListener } from '../services/firebase/chat/unsubscribeChatIdsListener'
+import { getAndUpdateUserToken } from '../services/firebase/chat/getAndUpdateUserToken'
 
 type ChatContextType = {
+	pushNotificationEnabled: boolean
+	setPushNotificationState: (state: boolean) => void
 	chatDataContext: Chat[]
 	initUserInstance: (userId?: Id) => void
 	removeChatListeners: () => void
@@ -21,6 +30,8 @@ interface ChatProviderProps {
 }
 
 const initialValue = {
+	pushNotificationEnabled: false,
+	setPushNotificationState: (state: boolean) => { },
 	chatDataContext: [],
 	initUserInstance: (userId?: Id) => { },
 	removeChatListeners: () => { },
@@ -31,12 +42,88 @@ const ChatContext = createContext<ChatContextType>(initialValue)
 function ChatProvider({ children }: ChatProviderProps) {
 	const { userDataContext } = useContext(AuthContext)
 
+	const [pushNotificationEnabled, setPushNotificationEnabled] = useState(false)
 	const [chatDataContext, setChatsOnContext] = useState<Chat[]>([])
 	const [chatIdList, setChatIdList] = useState<string[]>([])
 
+	const [expoPushTokenState, setExpoPushToken] = useState('') // TODO Refactor
+	const [notificationState, setNotification] = useState(false)
+	const notificationListener: MutableRefObject<any> = useRef()
+	const responseListener: MutableRefObject<any> = useRef()
+
 	useEffect(() => {
 		initUserInstance()
+		loadUserNotification()
 	}, [])
+
+	const loadUserNotification = async () => {
+		registerForPushNotificationsAsync().then((token) => setExpoPushToken(token || ''))
+		removeNotificationListeners()
+		addNotificationListeners()
+	}
+
+	const addNotificationListeners = () => {
+		notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
+			setNotification(!!notification)
+		})
+
+		responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
+			console.log(response)
+		})
+	}
+
+	const removeNotificationListeners = () => {
+		Notifications.removeNotificationSubscription(notificationListener.current)
+		Notifications.removeNotificationSubscription(responseListener.current)
+	}
+
+	const registerForPushNotificationsAsync = async () => {
+		try {
+			let token
+
+			Notifications.setNotificationHandler({
+				handleNotification: async () => ({
+					shouldShowAlert: true,
+					shouldPlaySound: false,
+					shouldSetBadge: false,
+				}),
+			})
+
+			if (Platform.OS === 'android') {
+				await Notifications.setNotificationChannelAsync('default', {
+					name: 'default',
+					importance: Notifications.AndroidImportance.MAX,
+					vibrationPattern: [0, 250, 250, 250],
+					lightColor: '#FF231F7C',
+				})
+			}
+
+			Alert.alert(Device.isDevice ? 'é device' : 'não é device')
+
+			if (Device.isDevice) {
+				const { status: existingStatus } = await Notifications.getPermissionsAsync()
+				let finalStatus = existingStatus
+				if (existingStatus !== 'granted') {
+					const { status } = await Notifications.requestPermissionsAsync()
+					finalStatus = status
+				}
+				if (finalStatus !== 'granted') {
+					console.log('não permitiu notificações')
+					await getAndUpdateUserToken(userDataContext.userId as Id, null)
+					return
+				}
+				token = (await Notifications.getExpoPushTokenAsync()).data
+				Alert.alert(token)
+				await getAndUpdateUserToken(userDataContext.userId as Id, token)
+			} else {
+				Alert.alert('Must use physical device for Push Notifications')
+				console.log('Must use physical device for Push Notifications')
+			}
+		} catch (err: any) {
+			console.log()
+			Alert.alert(err && err.message ? err.message : err)
+		}
+	}
 
 	const initUserInstance = async (userId?: Id) => {
 		if (!await existsOnDatabase(userId || userDataContext.userId)) {
@@ -103,6 +190,18 @@ function ChatProvider({ children }: ChatProviderProps) {
 			.filter((filteredChatIds) => filteredChatIds)
 	}
 
+	const setPushNotificationState = async (state: boolean) => {
+		console.log(`Push Notification: ${state}`)
+		if (state === true) {
+			await loadUserNotification()
+			setPushNotificationEnabled(state)
+			return
+		}
+
+		await getAndUpdateUserToken(userDataContext.userId as Id, null)
+		await removeNotificationListeners()
+	}
+
 	const removeChatListeners = () => {
 		unsubscribeUserChatsListener(userDataContext.userId)
 		unsubscribeChatIdsListener(chatIdList)
@@ -111,6 +210,8 @@ function ChatProvider({ children }: ChatProviderProps) {
 	}
 
 	const chatProviderData = ({
+		pushNotificationEnabled,
+		setPushNotificationState,
 		chatDataContext,
 		initUserInstance,
 		removeChatListeners

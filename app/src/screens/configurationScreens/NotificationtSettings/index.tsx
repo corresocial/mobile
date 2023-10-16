@@ -1,5 +1,5 @@
 import { Platform, StatusBar } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 import { Container, HeaderLinkCardContainer } from './styles'
 import { theme } from '../../../common/theme'
@@ -15,11 +15,15 @@ import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { ChatContext } from '../../../contexts/ChatContext'
 
 function NotificationSettings({ route, navigation }: NotificationSettingsScreenProps) {
-	const [notificationIsEnabled, setNotificationIsEnabled] = useState(false)
+	const { pushNotificationEnabled, setPushNotificationState } = useContext(ChatContext)
+
+	const [notificationIsEnabled, setNotificationIsEnabled] = useState(pushNotificationEnabled)
 
 	const toggleNotificationState = async () => {
+		setPushNotificationState(!notificationIsEnabled)
 		setNotificationIsEnabled(!notificationIsEnabled)
 	}
 
