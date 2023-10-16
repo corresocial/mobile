@@ -181,7 +181,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 									SecondSvgIcon={GoogleWhiteIcon}
 									svgIconScale={['50%', '30%']}
 									labelColor={theme.black4}
-									label={`${newUser ? 'entrar' : 'continuar'} \ncom google`}
+									label={'continuar \ncom google'}
 									highlightedWords={[newUser ? 'entrar' : 'continuar', '\ncom', 'google']}
 									textAlign={'left'}
 									onPress={performSigninWithGoogle}

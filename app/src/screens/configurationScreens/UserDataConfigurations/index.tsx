@@ -50,6 +50,7 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 		try {
 			setHasError(false)
 			setIsLoading(true)
+
 			await removeAllUserData(
 				userDataContext.userId as Id,
 				userDataContext.profilePictureUrl || [],
@@ -65,7 +66,7 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 
 	const performLogout = async () => {
 		removeChatListeners()
-		deleteLocaluser()
+		await deleteLocaluser()
 		await clearOfflinePosts()
 		await auth.signOut()
 		navigateToInitialScreen()
