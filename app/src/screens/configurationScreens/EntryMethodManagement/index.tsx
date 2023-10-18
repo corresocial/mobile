@@ -201,10 +201,13 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 		setUnlinkPhoneConfirmationModalIsVisible(!unlinkPhoneConfirmationModalIsVisible)
 	}
 
-	/* const toggleUnlinkGoogleConfirmationModalVisibility = () => {
-		setUnlinkGoogleConfirmationModalIsVisible(!unlinkGoogleConfirmationModalIsVisible)
+	const getFormatedCellNumber = () => {
+		if (!userPrivateContacts.cellNumber) return ''
+		const numbetWithoutCountryCode = userPrivateContacts.cellNumber.slice(3)
+		const numberWithDDDSpace = `${numbetWithoutCountryCode.slice(0, 2)} ${numbetWithoutCountryCode.slice(2)}`
+		return numberWithDDDSpace
 	}
- */
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -266,7 +269,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 									title={'número de telefone'}
 									RightIcon={userPrivateContacts.cellNumber ? canRemoveEntryMethod() ? TrashWhiteIcon : EmptyWhiteIcon : PlusWhiteIcon}
 									SecondSvgIcon={SmartphoneWhiteIcon}
-									value={userPrivateContacts.cellNumber}
+									value={getFormatedCellNumber()}
 									pressionable
 									onEdit={editPhoneProvider}
 								/>
