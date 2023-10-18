@@ -181,8 +181,6 @@ function SelectPostLocation({
 		markerCoordinate && setInvalidAddressAfterSubmit(false)
 	}
 
-	const markerCoordinateIsAccuracy = () => markerCoordinate?.latitudeDelta as number < 0.0065
-
 	const headerBackgroundAnimatedValue = useRef(new Animated.Value(0))
 	const animateDefaultHeaderBackgound = () => {
 		const existsError = someInvalidFieldSubimitted()
@@ -263,7 +261,7 @@ function SelectPostLocation({
 				/>
 			</MapContainer>
 			{
-				markerCoordinate && markerCoordinateIsAccuracy()
+				markerCoordinate
 				&& (
 					<ButtonContainerBottom>
 						<PrimaryButton

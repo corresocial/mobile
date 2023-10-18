@@ -87,8 +87,8 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 		let currentSocialMedias = mergeWithDefaultSocialMedia(userDataContext.socialMedias as SocialMedia[] || []) || [] as SocialMedia[]
 		currentSocialMedias = currentSocialMedias.sort(sortSocialMedias)
 
-		const socialMediaEditableIndex = route.params.index
 		const socialMediaTitle = route.params.socialMedia.title
+		const socialMediaEditableIndex = currentSocialMedias.findIndex((obj) => obj.title === socialMediaTitle) // Obtem novo index
 
 		if (linkValue.slice(0, 3) === 'www') {
 			completeLink = `http://${linkValue}`
@@ -98,7 +98,7 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 			completeLink = socialMediaUrl(socialMediaTitle, linkValue)
 		}
 
-		if (socialMediaEditableIndex || socialMediaEditableIndex === 0) {
+		if (socialMediaEditableIndex >= 0) {
 			currentSocialMedias[socialMediaEditableIndex] = {
 				title: route.params.socialMedia.title,
 				link: completeLink
@@ -113,7 +113,13 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 		}
 
 		return {
-			socialMedias: currentSocialMedias.filter((socialMedia) => socialMedia.link && socialMedia.link !== socialMediaUrl(socialMedia.title, ''))
+			socialMedias: currentSocialMedias.filter((socialMedia) => {
+				if (socialMedia.title === 'instagram') {
+					/* console.log(`Link: ${socialMedia.link}`)
+					console.log(`Default: ${socialMediaUrl(socialMedia.title, '')}`) */
+				}
+				return socialMedia.link && (socialMedia.link !== socialMediaUrl(socialMedia.title, ''))
+			})
 		}
 	}
 

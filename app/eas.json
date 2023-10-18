@@ -16,7 +16,6 @@
 			"channel": "development"
 		},
 		"staging": {
-			"distribution": "internal",
 			"ios": {
 				"resourceClass": "m1-medium"
 			},

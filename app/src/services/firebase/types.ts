@@ -108,7 +108,6 @@ export type UserSubscription = {
 	subscriptionRange?: PostRange
 	subscriptionPlan?: SubscriptionPlan
 	subscriptionPaymentMethod?: SubscriptionPaymentMethod
-	receiptEmail?: string
 	customerId?: Id
 	subscriptionId?: Id
 }
@@ -116,6 +115,7 @@ export type UserSubscription = {
 export type UserCollection = {
 	userId?: Id
 	name?: string
+	email?: string
 	description?: string
 	profilePictureUrl?: string[]
 	tourPerformed?: boolean
@@ -125,10 +125,12 @@ export type UserCollection = {
 	verified?: VerifiedType
 	socialMedias?: SocialMedia[]
 	subscription?: UserSubscription
+	newUser?: boolean // local only
 }
 
 export type PrivateUserCollection = {
-	cellNumber: string
+	cellNumber?: string
+	email?: string
 }
 
 export type PrivateAddress = {

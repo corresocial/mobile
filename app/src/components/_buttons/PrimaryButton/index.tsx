@@ -50,7 +50,7 @@ function PrimaryButton({
 	labelMarginLeft,
 	highlightedWords,
 	iconName,
-	fontSize = 18,
+	fontSize = 16,
 	textAlign = 'center',
 	timer,
 	SvgIcon,
@@ -143,7 +143,7 @@ function PrimaryButton({
 						flexDirection: flexDirection || 'row',
 						justifyContent: justifyContent || 'center',
 						minHeight: RFValue(minHeight),
-						marginRight: buttonPressed ? RFValue(-7) : 0,
+						marginLeft: buttonPressed ? RFValue(7) : 0
 					}}
 				>
 					{

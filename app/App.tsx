@@ -23,7 +23,7 @@ import { ErrorBoundaryContainer } from './src/components/_containers/ErrorBounda
 import { LoaderContainer } from './App.styles'
 
 console.log(__DEV__)
-if (!__DEV__ && ENVIRONMENT !== 'dev') {
+if (!__DEV__ && ENVIRONMENT === 'prod') {
 	Sentry.init(sentryConfig)
 }
 LogBox.ignoreLogs(ignoredLogs)

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Linking, StatusBar } from 'react-native'
 
 import { Body, Container, Header } from './styles'
@@ -10,6 +10,7 @@ import HandOnMoneyWhiteIcon from '../../../assets/icons/handOnMoney-white.svg'
 import HandOnHeartWhiteIcon from '../../../assets/icons/handOnHeart-white.svg'
 import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
 import EyeDashedWhiteIcon from '../../../assets/icons/eyeDashed-white.svg'
+import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
 
 import { ConfigurationsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -25,22 +26,38 @@ import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
 import { share } from '../../../common/share'
+import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
+import { auth } from '../../../services/firebase'
+import { clearOfflinePosts } from '../../../utils/offlinePost'
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const { userDataContext, deleteLocaluser } = useContext(AuthContext)
 	const { removeChatListeners } = useContext(ChatContext)
 
-	const performLogout = () => {
+	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
+
+	const toggleDefaultConfirmationModalVisibility = () => {
+		setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible)
+	}
+
+	const performLogout = async () => {
 		removeChatListeners()
-		getAndUpdateUserToken(userDataContext.userId as Id, null)
-		deleteLocaluser()
+		await getAndUpdateUserToken(userDataContext.userId as Id, null)
+		await deleteLocaluser()
+		await clearOfflinePosts()
+		await auth.signOut()
 		navigateToInitialScreen()
 	}
 
 	const navigateToInitialScreen = () => {
 		navigation.reset({
 			index: 0,
-			routes: [{ name: 'AcceptAndContinue' as any }]
+			routes: [{
+				name: 'SelectAuthRegister' as any, // TODO Type
+				params: {
+					userId: ''
+				}
+			}]
 		})
 	}
 
@@ -64,6 +81,15 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<DefaultConfirmationModal
+				visibility={defaultConfirmationModalIsVisible}
+				title={'sair'}
+				text={'você tem certeza que deseja sair da sua conta?'}
+				highlightedWords={['sair', 'da', 'sua', 'conta']}
+				buttonKeyword={'sair'}
+				closeModal={toggleDefaultConfirmationModalVisibility}
+				onPressButton={performLogout}
+			/>
 			<Header>
 				<DefaultPostViewHeader
 					onBackPress={() => navigation.goBack()}
@@ -78,6 +104,18 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				}}
 			>
 				<SubscriptionButton customTitle={'assinatura corre.'} onPress={performUserSubscription} />
+				<VerticalSigh />
+				<OptionButton
+					label={'métodos de entrada'}
+					highlightedWords={['métodos', 'de', 'entrada']}
+					labelSize={18}
+					relativeHeight={relativeScreenHeight(9)}
+					SvgIcon={DescriptionWhiteIcon}
+					svgIconScale={['50%', '50%']}
+					leftSideColor={theme.orange3}
+					leftSideWidth={'22%'}
+					onPress={() => navigation.navigate('EntryMethodManagement')}
+				/>
 				<VerticalSigh />
 				<OptionButton
 					label={'quem somos'}
@@ -142,7 +180,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				<OptionButton
 					label={'privacidade \ne segurança'}
 					highlightedWords={['privacidade', 'segurança']}
-					relativeHeight={relativeScreenHeight(10)}
+					relativeHeight={relativeScreenHeight(11)}
 					labelSize={18}
 					SvgIcon={EyeDashedWhiteIcon}
 					svgIconScale={['50%', '50%']}
@@ -158,7 +196,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					highlightedWords={['sair']}
 					fontSize={20}
 					SvgIcon={XWhiteIcon}
-					onPress={performLogout}
+					onPress={toggleDefaultConfirmationModalVisibility}
 				/>
 				<VerticalSigh height={relativeScreenHeight(8)} />
 			</Body>

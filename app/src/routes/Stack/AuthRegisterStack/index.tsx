@@ -7,7 +7,7 @@ import { AuthRegisterStackParamList } from './types'
 import { AuthProvider } from '../../../contexts/AuthContext'
 
 import { Splash } from '../../../screens/Splash'
-import { AcceptAndContinue } from '../../../screens/authRegisterScreens/AcceptAndContinue'
+import { SelectAuthRegister } from '../../../screens/authRegisterScreens/SelectAuthRegister'
 import { InsertCellNumber } from '../../../screens/authRegisterScreens/InsertCellNumber'
 import { InsertConfirmationCode } from '../../../screens/authRegisterScreens/InsertConfirmationCode'
 import { InsertName } from '../../../screens/authRegisterScreens/InsertName'
@@ -15,6 +15,7 @@ import { InsertProfilePicture } from '../../../screens/authRegisterScreens/Inser
 import { ProfilePicturePreview } from '../../../screens/authRegisterScreens/ProfilePicturePreview'
 import { UserStack } from '../UserStack'
 import { SelectAuthMethod } from '../../../screens/authRegisterScreens/SelectAuthMethod'
+import { AcceptTermsAndConditions } from '../../../screens/authRegisterScreens/AcceptTermsAndServices'
 
 const Stack = createStackNavigator<AuthRegisterStackParamList>()
 
@@ -31,12 +32,13 @@ export function AuthRegisterStack() {
 			>
 				<Stack.Screen name={'Splash'} component={Splash} />
 				<Stack.Screen
-					name={'AcceptAndContinue'}
-					component={AcceptAndContinue}
+					name={'SelectAuthRegister'}
+					component={SelectAuthRegister}
 					options={{
 						...TransitionPresets.FadeFromBottomAndroid
 					}}
 				/>
+				<Stack.Screen name={'AcceptTermsAndConditions'} component={AcceptTermsAndConditions} />
 				<Stack.Screen name={'SelectAuthMethod'} component={SelectAuthMethod} />
 				<Stack.Screen name={'InsertCellNumber'} component={InsertCellNumber} />
 				<Stack.Screen name={'InsertConfirmationCode'} component={InsertConfirmationCode} />

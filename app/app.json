@@ -2,9 +2,9 @@
 	"expo": {
 		"name": "corre",
 		"owner": "corresocial",
-		"scheme": "corre",
+		"scheme": "com.corresocial.corresocial",
 		"slug": "corresocial",
-		"version": "0.4.1",
+		"version": "0.4.2",
 		"orientation": "portrait",
 		"userInterfaceStyle": "light",
 		"icon": "./assets/icon.png",
@@ -19,14 +19,20 @@
 				{
 					"file": "sentry-expo/upload-sourcemaps",
 					"config": {
-						"organization": "corre",
+						"organization": "corre-dev",
 						"project": "react-native",
-						"authToken": "3b362edd3fb24fddbade3f5ff7b716e464a34d4896ab42b096211200f5a09031"
+						"authToken": "dcc47c828f9af22206ac374d73b5f5a311e4b9dc2bcd659e8ff12675c755ea04"
 					}
 				}
 			]
 		},
 		"plugins": [
+			[
+				"expo-updates",
+				{
+					"username": "wellington-souza-abreu"
+				}
+			],
 			[
 				"expo-build-properties",
 				{
@@ -89,7 +95,7 @@
 			"**/*"
 		],
 		"ios": {
-			"buildNumber": "33",
+			"buildNumber": "48",
 			"infoPlist": {
 				"NSCameraUsageDescription": "Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.",
 				"NSLocationWhenInUseUsageDescription": "Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.",
@@ -108,7 +114,7 @@
 			}
 		},
 		"android": {
-			"versionCode": 33,
+			"versionCode": 48,
 			"package": "com.corresocial.corresocial",
 			"icon": "./assets/icon.png",
 			"adaptiveIcon": {

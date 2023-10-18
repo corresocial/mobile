@@ -37,12 +37,12 @@ function InsertSaleDescription({ route, navigation }: InsertSaleDescriptionScree
 
 	const saveSaleDescription = (inputText: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ title: inputText, description: inputText })
+			addNewUnsavedFieldToEditContext({ description: inputText })
 			navigation.goBack()
 			return
 		}
 
-		setSaleDataOnContext({ title: inputText, description: inputText })
+		setSaleDataOnContext({ description: inputText })
 		navigation.navigate('SelectSaleRange')
 	}
 

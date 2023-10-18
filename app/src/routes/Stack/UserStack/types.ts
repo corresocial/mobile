@@ -42,6 +42,10 @@ export type UserStackParamList = {
 	InsertLinkTitle: { socialMedia?: SocialMedia, index?: number }
 	InsertLinkValue: { socialMedia: SocialMedia, index?: number }
 	Configurations: undefined
+	EntryMethodManagement: undefined
+	InsertCellNumberLinkAccount: undefined
+	InsertConfirmationCodeLinkAccount: { cellNumber: string, verificationCodeId: string }
+	LinkingAccountResult: { accountIdentifier?: string | null, wasLinked: boolean }
 	WhoWeAre: undefined
 	WhoWeAreIncome: undefined
 	WhoWeAreCulture: undefined

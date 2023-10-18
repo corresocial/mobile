@@ -10,6 +10,7 @@ const searchPostsCloud = async (searchText: string, searchParams: SearchParams, 
 		.then((res) => res.data)
 		.catch((err) => {
 			console.log(err)
+			return false
 		})
 }
 

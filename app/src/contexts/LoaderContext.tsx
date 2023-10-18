@@ -32,7 +32,7 @@ function LoaderProvider({ children }: LoaderProviderProps) {
 		setLoaderIsVisible: memoizedSetLoaderIsVisible,
 	}), [loaderIsVisible, memoizedSetLoaderIsVisible])
 
-	const loaderScale = 100
+	const loaderScale = 70
 	const loaderYAxisCenter = relativeScreenHeight(50) - (RFValue(loaderScale) / 2)
 	const loaderXAxisCenter = relativeScreenWidth(50) - (RFValue(loaderScale) / 2)
 

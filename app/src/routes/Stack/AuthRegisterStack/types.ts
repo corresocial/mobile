@@ -1,24 +1,30 @@
+import { UserIdentification } from '../../../contexts/types'
+
 export type AuthRegisterStackParamList = {
 	Splash: undefined
-	AcceptAndContinue: undefined
-	SelectAuthMethod: undefined
-	InsertCellNumber: { authByWhatsapp?: boolean }
+	SelectAuthRegister: { userId?: string, userName?: string }
+	AcceptTermsAndConditions: undefined
+	SelectAuthMethod: { newUser?: boolean }
+	InsertCellNumber: { newUser?: boolean }
 	InsertConfirmationCode: {
 		cellNumber: string,
 		verificationCodeId: string | void
 	}
 	InsertName: {
 		cellNumber: string
+		email?: string
 		userIdentification: UserIdentification
 	}
 	InsertProfilePicture: {
 		cellNumber: string,
+		email?: string
 		userName: string,
 		profilePictureUrl?: string[]
 		userIdentification: UserIdentification
 	}
 	ProfilePicturePreview: {
 		cellNumber: string,
+		email?: string
 		userName: string,
 		profilePictureUrl?: string[]
 		userIdentification: UserIdentification

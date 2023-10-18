@@ -31,6 +31,7 @@ import EditIcon from '../../../assets/icons/edit-white.svg'
 import GearIcon from '../../../assets/icons/gear-white.svg'
 import WirelessOffWhiteIcon from '../../../assets/icons/wirelessOff-white.svg'
 import WirelessOnWhiteIcon from '../../../assets/icons/wirelessOn-white.svg'
+import AtSignWhiteIcon from '../../../assets/icons/atSign-white.svg'
 
 import { share } from '../../../common/share'
 import { getUser } from '../../../services/firebase/user/getUser'
@@ -592,11 +593,18 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 											{
 												isLoggedUser && arrayIsEmpty(getUserField('socialMedias'))
 													? (
-														<VerticalPaddingContainer>
-															<UserDescription>
-																{'Você pode adicionar redes sociais e contatos em "editar".'}
-															</UserDescription>
-														</VerticalPaddingContainer>
+														<>
+															<VerticalSigh />
+															<SmallButton
+																label={'adicionar redes'}
+																labelColor={theme.black4}
+																SvgIcon={AtSignWhiteIcon}
+																svgScale={['60%', '20%']}
+																height={relativeScreenHeight(5)}
+																onPress={openSocialMediaManagement}
+															/>
+															<VerticalSigh />
+														</>
 													) : (
 														<HorizontalSocialMediaList
 															socialMedias={getUserField('socialMedias') as SocialMedia[]}
@@ -667,7 +675,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 									/>
 									<VerticalSigh />
 									{
-										!!numberOfOfflinePostsStored && (
+										!!numberOfOfflinePostsStored && isLoggedUser && (
 											<PostPadding>
 												<OptionButton
 													label={`você tem ${numberOfOfflinePostsStored} ${numberOfOfflinePostsStored === 1 ? 'post pronto' : 'posts prontos'} `}

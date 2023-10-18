@@ -36,12 +36,12 @@ function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpact
 
 	const saveSocialImpactTitle = (inputText: string) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ title: inputText, description: inputText })
+			addNewUnsavedFieldToEditContext({ description: inputText })
 			navigation.goBack()
 			return
 		}
 
-		setSocialImpactDataOnContext({ title: inputText, description: inputText })
+		setSocialImpactDataOnContext({ description: inputText })
 		navigation.navigate('SelectSocialImpactRange')
 	}
 
