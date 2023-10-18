@@ -19,7 +19,7 @@
 				{
 					"file": "sentry-expo/upload-sourcemaps",
 					"config": {
-						"organization": "Aplicar condições para o iOS não fazer login com google",
+						"organization": "corre-dev",
 						"project": "react-native",
 						"authToken": "dcc47c828f9af22206ac374d73b5f5a311e4b9dc2bcd659e8ff12675c755ea04"
 					}
