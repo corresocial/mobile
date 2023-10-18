@@ -20,6 +20,7 @@ function Loader({ flex, animationScale }: LoaderProps) {
 					ref={animation}
 					autoPlay
 					loop
+					speed={1.5}
 				/>
 			</AnimationContainer>
 		</Container>

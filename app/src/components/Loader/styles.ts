@@ -11,6 +11,6 @@ export const Container = styled.View`
 `
 
 export const AnimationContainer = styled.View<LoaderProps>`
-    width: ${({ animationScale }) => RFValue(animationScale || 60)}px;
-    height: ${({ animationScale }) => RFValue(animationScale || 60)}px;
+    width: ${({ animationScale }) => RFValue(animationScale || 85)}px;
+    height: ${({ animationScale }) => RFValue(animationScale || 85)}px;
 `
