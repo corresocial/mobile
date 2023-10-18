@@ -50,9 +50,10 @@ function Splash({ navigation }: SplashScreenProps) {
 				}, 3000)
 			}
 		} catch (error: any) {
-			Alert.alert('Erro ao atualizar aplicativo: ', error.message, [
-				{ text: 'Tentar novamente', onPress: Updates.reloadAsync }
-			])
+			console.log(error)
+			setTimeout(() => {
+				redirectToApp()
+			}, 3000)
 		}
 	}
 
