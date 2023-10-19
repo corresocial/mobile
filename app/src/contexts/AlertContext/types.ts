@@ -5,9 +5,13 @@ export interface AlertProviderProps {
 }
 
 export interface InitialNotificationStateType {
-	notificationAlert: boolean
+	notificationAlertModal: boolean
+	configNotificationButton: boolean
+	configNotificationEntryMethod: boolean
 }
 
 export interface AlertContextProps {
+	notificationState: InitialNotificationStateType
+	updateNotificationState: (newState: InitialNotificationStateType | { [x: string]: boolean }) => void
 	showAlertNotificationModal: () => void
 }

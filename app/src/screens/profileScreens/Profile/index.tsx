@@ -28,7 +28,8 @@ import VerifiedLabel from '../../../assets/icons/verifiedLabel.svg'
 import ImpactLabel from '../../../assets/icons/impactLabel.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 import EditIcon from '../../../assets/icons/edit-white.svg'
-import GearIcon from '../../../assets/icons/gear-white.svg'
+import GearWhiteIcon from '../../../assets/icons/gear-white.svg'
+import GearAlertWhiteIcon from '../../../assets/icons/gear-alert-white.svg'
 import WirelessOffWhiteIcon from '../../../assets/icons/wirelessOff-white.svg'
 import WirelessOnWhiteIcon from '../../../assets/icons/wirelessOn-white.svg'
 import AtSignWhiteIcon from '../../../assets/icons/atSign-white.svg'
@@ -73,8 +74,10 @@ import { StripeContext } from '../../../contexts/StripeContext'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { getNumberOfStoredOfflinePosts } from '../../../utils/offlinePost'
 import { getNetworkStatus } from '../../../utils/deviceNetwork'
+import { AlertContext } from '../../../contexts/AlertContext/index.tsx'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
+	const { notificationState } = useContext(AlertContext)
 	const { userDataContext } = useContext(AuthContext)
 	const { createCustomer, createSubscription, stripeProductsPlans } = useContext(StripeContext)
 
@@ -479,6 +482,16 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		}
 	}
 
+	const getConfigurationIcon = () => {
+		if (isLoggedUser) {
+			if (hasConfigNotification()) return GearAlertWhiteIcon
+			return GearWhiteIcon
+		}
+		return ThreeDotsIcon
+	}
+
+	const hasConfigNotification = () => (notificationState.configNotificationButton || notificationState.configNotificationEntryMethod)
+
 	const getShortDescription = () => {
 		const userDescription = getUserField('description') as string || ''
 		return userDescription.slice(0, 160)
@@ -663,8 +676,9 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 												>
 													<SmallButton
 														color={theme.white3}
-														SvgIcon={isLoggedUser ? GearIcon : ThreeDotsIcon}
+														SvgIcon={getConfigurationIcon()}
 														relativeWidth={relativeScreenWidth(12)}
+														svgScale={hasConfigNotification() ? ['100%', '100%'] : ['50%', '80%']}
 														height={relativeScreenWidth(12)}
 														onPress={openProfileOptions}
 													/>

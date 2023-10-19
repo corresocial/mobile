@@ -4,10 +4,15 @@ import { AlertNotificationModal } from '../../components/_modals/AlertNotificati
 import { AlertContextProps, AlertProviderProps, InitialNotificationStateType } from './types'
 
 const initialNotificationState = { // private
-	notificationAlert: true,
+	notificationAlertModal: true,
+
+	configNotificationButton: true,
+	configNotificationEntryMethod: true
 }
 
 const initialValue: AlertContextProps = {
+	notificationState: initialNotificationState,
+	updateNotificationState: (newState: InitialNotificationStateType | { [x: string]: boolean }) => { },
 	showAlertNotificationModal: () => { },
 }
 
@@ -45,16 +50,18 @@ function AlertProvider({ children }: AlertProviderProps) {
 
 	const showAlertNotificationModal = useCallback(() => {
 		console.log(notificationState)
-		if (notificationState.notificationAlert) setAlertNotificationIsVisible(true)
+		if (notificationState.notificationAlertModal) setAlertNotificationIsVisible(true)
 	}, [notificationState])
 
-	const handleAlertNotification = async () => {
+	const updateNotificationState = async (state: Partial<InitialNotificationStateType>) => {
 		setAlertNotificationIsVisible(false)
-		setNotificationState({ ...notificationState, notificationAlert: false })
-		updateLocalAlertData({ ...notificationState, notificationAlert: false })
+		setNotificationState({ ...notificationState, ...state })
+		updateLocalAlertData({ ...notificationState, ...state })
 	}
 
 	const alertDataProvider = useMemo(() => ({
+		notificationState,
+		updateNotificationState,
 		showAlertNotificationModal
 	}), [notificationState])
 
@@ -62,7 +69,10 @@ function AlertProvider({ children }: AlertProviderProps) {
 		<AlertContext.Provider value={alertDataProvider}>
 			<AlertNotificationModal
 				visibility={alertNotificationModalIsVisible}
-				onPressButton={handleAlertNotification}
+				onPressButton={() => {
+					setAlertNotificationIsVisible(false)
+					updateNotificationState({ notificationAlertModal: false })
+				}}
 			/>
 			{children}
 		</AlertContext.Provider>

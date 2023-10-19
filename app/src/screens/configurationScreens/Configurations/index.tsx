@@ -11,7 +11,9 @@ import HandOnHeartWhiteIcon from '../../../assets/icons/handOnHeart-white.svg'
 import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
 import EyeDashedWhiteIcon from '../../../assets/icons/eyeDashed-white.svg'
 import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
+import DescriptionAlertWhiteIcon from '../../../assets/icons/description-alert-white.svg'
 import BellWhiteIcon from '../../../assets/icons/bell-white.svg'
+import BellAlertWhiteIcon from '../../../assets/icons/bell-alert-white.svg'
 
 import { ConfigurationsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -30,8 +32,11 @@ import { share } from '../../../common/share'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 import { auth } from '../../../services/firebase'
 import { clearOfflinePosts } from '../../../utils/offlinePost'
+import { AlertContext } from '../../../contexts/AlertContext/index.tsx'
+import { UserStackParamList } from '../../../routes/Stack/UserStack/types'
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {
+	const { notificationState, updateNotificationState } = useContext(AlertContext)
 	const { userDataContext, deleteLocaluser } = useContext(AuthContext)
 	const { removeChatListeners } = useContext(ChatContext)
 
@@ -63,7 +68,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 	}
 
 	const performUserSubscription = () => {
-		navigation.navigate('SelectSubscriptionRange')
+		navigateToScreen('SelectSubscriptionRange')
 	}
 
 	const shareMessage = () => {
@@ -77,6 +82,14 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 		} else {
 			console.log('URL inválida')
 		}
+	}
+
+	const navigateToScreen = (screenName: keyof UserStackParamList, alertPropForUpdate?: string) => {
+		if (alertPropForUpdate) {
+			updateNotificationState({ [alertPropForUpdate]: false })
+		}
+
+		navigation.navigate(screenName)
 	}
 
 	return (
@@ -111,11 +124,11 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					highlightedWords={['notificações']}
 					labelSize={18}
 					relativeHeight={relativeScreenHeight(9)}
-					SvgIcon={BellWhiteIcon}
+					SvgIcon={notificationState.configNotificationButton ? BellAlertWhiteIcon : BellWhiteIcon}
 					svgIconScale={['50%', '50%']}
 					leftSideColor={theme.orange3}
 					leftSideWidth={'22%'}
-					onPress={() => navigation.navigate('NotificationSettings')}
+					onPress={() => navigateToScreen('NotificationSettings', 'configNotificationButton')}
 				/>
 				<VerticalSigh />
 				<OptionButton
@@ -123,11 +136,11 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					highlightedWords={['métodos', 'de', 'entrada']}
 					labelSize={18}
 					relativeHeight={relativeScreenHeight(9)}
-					SvgIcon={DescriptionWhiteIcon}
-					svgIconScale={['50%', '50%']}
+					SvgIcon={notificationState.configNotificationEntryMethod ? DescriptionAlertWhiteIcon : DescriptionWhiteIcon}
+					svgIconScale={notificationState.configNotificationEntryMethod ? ['60%', '60%'] : ['50%', '50%']}
 					leftSideColor={theme.orange3}
 					leftSideWidth={'22%'}
-					onPress={() => { }}
+					onPress={() => navigateToScreen('EntryMethodManagement', 'configNotificationEntryMethod')}
 				/>
 				<VerticalSigh />
 				<OptionButton
@@ -139,7 +152,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					svgIconScale={['50%', '50%']}
 					leftSideColor={theme.orange3}
 					leftSideWidth={'22%'}
-					onPress={() => navigation.navigate('WhoWeAre')}
+					onPress={() => navigateToScreen('WhoWeAre')}
 				/>
 				<VerticalSigh />
 				<OptionButton
@@ -151,7 +164,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					svgIconScale={['50%', '50%']}
 					leftSideColor={theme.orange3}
 					leftSideWidth={'22%'}
-					onPress={() => navigation.navigate('ContactUs')}
+					onPress={() => navigateToScreen('ContactUs')}
 				/>
 				<VerticalSigh />
 				<OptionButton
@@ -199,7 +212,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					svgIconScale={['50%', '50%']}
 					leftSideColor={theme.orange3}
 					leftSideWidth={'22%'}
-					onPress={() => navigation.navigate('PrivacyAndSecurity')}
+					onPress={() => navigateToScreen('PrivacyAndSecurity')}
 				/>
 				<VerticalSigh />
 				<PrimaryButton
