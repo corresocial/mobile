@@ -1,15 +1,15 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import { BottomSafeAreaColor, Container, SubscriptionButtonContainer } from './styles'
 import { theme } from '../../../common/theme'
 
 import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
 import HandOnMoneyWhiteIcon from '../../../assets/icons/handOnMoney-white.svg'
-import VacancyWhiteIcon from '../../../assets/icons/vacancy-white.svg'
 import SocialImpactWhiteIcon from '../../../assets/icons/socialImpact-white.svg'
-import ServiceWhiteIcon from '../../../assets/icons/service-white.svg'
-import SaleCartWhiteIcon from '../../../assets/icons/sale-white.svg'
+import CashWhiteIcon from '../../../assets/icons/cash-white.svg'
 import CultureWhiteIcon from '../../../assets/icons/culture-white.svg'
+import WirelessOffWhiteIcon from '../../../assets/icons/wirelessOff-white.svg'
+import WirelessOnWhiteIcon from '../../../assets/icons/wirelessOn-white.svg'
 
 import { SelectPostTypeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -20,11 +20,34 @@ import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
 import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
 import { AuthContext } from '../../../contexts/AuthContext'
+import { getNumberOfStoredOfflinePosts } from '../../../utils/offlinePost'
+import { getNetworkStatus } from '../../../utils/deviceNetwork'
 
 function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 
-	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = React.useState(false)
+	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = useState(false)
+	const [hasNetworkConnection, setHasNetworkConnection] = useState(false)
+	const [numberOfOfflinePostsStored, setNumberOfOfflinePostsStored] = useState(0)
+
+	useEffect(() => {
+		const unsubscribe = navigation.addListener('focus', () => {
+			checkNetworkConnection()
+			checkHasOfflinePosts()
+		})
+
+		return unsubscribe
+	}, [navigation])
+
+	const checkHasOfflinePosts = async () => {
+		const numberOfOfflinePosts = await getNumberOfStoredOfflinePosts()
+		setNumberOfOfflinePostsStored(numberOfOfflinePosts)
+	}
+
+	const checkNetworkConnection = async () => {
+		const networkStatus = await getNetworkStatus()
+		setHasNetworkConnection(!!networkStatus.isConnected && !!networkStatus.isInternetReachable)
+	}
 
 	const navigateToSelectSubscriptionRange = () => {
 		navigation.navigate('SelectSubscriptionRange')
@@ -50,54 +73,29 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 				<FormContainer
 					backgroundColor={theme.orange2}
 				>
+
 					<OptionButton
 						color={theme.white3}
-						label={'um serviço'}
-						highlightedWords={['um', 'serviço']}
+						label={'renda'}
+						highlightedWords={['renda']}
 						labelSize={18}
-						relativeHeight={'17%'}
-						shortDescription={'ofereço um serviço'}
-						SvgIcon={ServiceWhiteIcon}
-						svgIconScale={['75%', '75%']}
-						leftSideColor={theme.purple3}
-						leftSideWidth={'25%'}
-						onPress={() => navigation.navigate('ServiceStack')}
-					/>
-					<OptionButton
-						color={theme.white3}
-						label={'uma venda'}
-						highlightedWords={['uma', 'venda']}
-						labelSize={18}
-						relativeHeight={'17%'}
-						shortDescription={'venda de novos ou usados'}
-						SvgIcon={SaleCartWhiteIcon}
-						svgIconScale={['75%', '75%']}
+						relativeHeight={'20%'}
+						shortDescription={'compra e venda, serviços e vagas'}
+						SvgIcon={CashWhiteIcon}
+						svgIconScale={['80%', '80%']}
 						leftSideColor={theme.green3}
 						leftSideWidth={'25%'}
 						onPress={() => navigation.navigate('SaleStack')}
 					/>
 					<OptionButton
 						color={theme.white3}
-						label={'uma vaga'}
-						highlightedWords={['uma', 'vaga']}
-						labelSize={18}
-						relativeHeight={'17%'}
-						shortDescription={'procurando vaga ou profissional'}
-						SvgIcon={VacancyWhiteIcon}
-						svgIconScale={['75%', '75%']}
-						leftSideColor={theme.yellow3}
-						leftSideWidth={'25%'}
-						onPress={() => navigation.navigate('VacancyStack')}
-					/>
-					<OptionButton
-						color={theme.white3}
 						label={'impacto social'}
 						highlightedWords={['impacto', 'social']}
 						labelSize={18}
-						relativeHeight={'17%'}
+						relativeHeight={'20%'}
 						shortDescription={'iniciativas, doações, etc'}
 						SvgIcon={SocialImpactWhiteIcon}
-						svgIconScale={['75%', '75%']}
+						svgIconScale={['80%', '80%']}
 						leftSideColor={theme.pink3}
 						leftSideWidth={'25%'}
 						onPress={() => navigation.navigate('SocialImpactStack')}
@@ -107,14 +105,30 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 						label={'cultura'}
 						highlightedWords={['cultura']}
 						labelSize={18}
-						relativeHeight={'17%'}
+						relativeHeight={'20%'}
 						shortDescription={'arte, eventos e educação'}
 						SvgIcon={CultureWhiteIcon}
-						svgIconScale={['75%', '75%']}
+						svgIconScale={['80%', '80%']}
 						leftSideColor={theme.blue3}
 						leftSideWidth={'25%'}
 						onPress={() => navigation.navigate('CultureStack')}
 					/>
+					{
+						!!numberOfOfflinePostsStored && (
+							<OptionButton
+								label={`você tem ${numberOfOfflinePostsStored} ${numberOfOfflinePostsStored === 1 ? 'post pronto' : 'posts prontos'} `}
+								shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
+								highlightedWords={['posts', 'post']}
+								labelSize={15}
+								relativeHeight={'20%'}
+								leftSideWidth={'25%'}
+								leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
+								SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
+								svgIconScale={['70%', '70%']}
+								onPress={() => navigation.navigate('OfflinePostsManagement')}
+							/>
+						)
+					}
 				</FormContainer>
 				<SubtitleCard
 					text={'assinar o corre.'}
@@ -124,7 +138,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 				<SubscriptionButtonContainer>
 					<SubscriptionButton onPress={() => setSubscriptionModalIsVisible(true)} />
 				</SubscriptionButtonContainer>
-			</Container>
+			</Container >
 			<BottomSafeAreaColor safeAreaColor={theme.orange2} withoutFlex />
 		</>
 	)
