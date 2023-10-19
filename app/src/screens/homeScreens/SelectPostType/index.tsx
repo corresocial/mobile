@@ -85,7 +85,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 						svgIconScale={['80%', '80%']}
 						leftSideColor={theme.green3}
 						leftSideWidth={'25%'}
-						onPress={() => navigation.navigate('SaleStack')}
+						onPress={() => navigation.navigate('SelectIncomeType')}
 					/>
 					<OptionButton
 						color={theme.white3}

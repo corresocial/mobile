@@ -22,6 +22,7 @@ export type UserStackParamList = {
 	ViewPostsByRange: { postsByRange: PostCollectionRemote[], postRange: PostRange | '', postType?: PostType, searchByRange?: boolean }
 	HomeTab: { tourCompleted?: boolean, showShareModal?: boolean, showsInFirstTab?: boolean } | undefined
 	SelectPostType: undefined
+	SelectIncomeType: undefined
 	ServiceStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	SaleStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	VacancyStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
