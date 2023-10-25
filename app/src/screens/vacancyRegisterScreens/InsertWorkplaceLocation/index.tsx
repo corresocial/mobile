@@ -94,7 +94,7 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<LocationChangeConfirmationModal
 				visibility={locationChangeModalIsVisible}
 				currentPostAddress={getLastPostCity()}
@@ -104,8 +104,8 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 			/>
 
 			<SelectPostLocation
-				backgroundColor={theme.yellow2}
-				validationColor={theme.yellow1}
+				backgroundColor={theme.green2}
+				validationColor={theme.green1}
 				initialValue={editModeIsTrue() ? initialValue : { latitude: 0, longitude: 0 }}
 				navigateBackwards={() => navigation.goBack()}
 				saveLocation={saveLocation}

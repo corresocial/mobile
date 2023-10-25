@@ -241,7 +241,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 				<HorizontalTagList
 					tags={[getCategoryLabel(), ...getPostField('tags')]}
 					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
-					selectedColor={theme.yellow1}
+					selectedColor={theme.green1}
 					onSelectTag={() => { }}
 				/>
 				<Body>
@@ -259,7 +259,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						<>
 							<ImageCarousel
 								picturesUrl={getPostField('picturesUrl') || []}
-								indicatorColor={theme.yellow1}
+								indicatorColor={theme.green1}
 								square
 							/>
 						</>

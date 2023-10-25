@@ -54,10 +54,10 @@ function InsertVacancyValue({ navigation, route }: InsertSaleValueScreenProps) {
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostInputText
-				backgroundColor={theme.yellow2}
-				validationColor={theme.yellow1}
+				backgroundColor={theme.green2}
+				validationColor={theme.green1}
 				customTitle={'quanto paga?'}
 				customHighlight={['quanto']}
 				inputPlaceholder={'ex: 100 reais a diária'}

@@ -145,7 +145,8 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 			currentPost: {
 				...postData,
 				...editDataContext.unsaved,
-				postType: 'vacancy',
+				postType: 'income',
+				incomeType: 'vacancy',
 				createdAt: new Date(),
 				owner: {
 					userId: userDataContext.userId,
@@ -184,9 +185,9 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 			/>
 
 			<EditPost
-				initialPostData={{ ...postData, postType: 'vacancy' }}
+				initialPostData={{ ...postData, postType: 'income', incomeType: 'vacancy' }}
 				owner={owner}
-				backgroundColor={theme.yellow2}
+				backgroundColor={theme.green2}
 				unsavedPost={unsavedPost}
 				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
@@ -219,7 +220,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
 					profilePicturesUrl={getPicturesUrl()}
-					indicatorColor={theme.yellow1}
+					indicatorColor={theme.green1}
 					carousel
 					onEdit={() => navigateToEditScreen('VacancyPicturePreview', 'picturesUrl')}
 				/>

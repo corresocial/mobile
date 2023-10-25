@@ -29,9 +29,9 @@ function VacancyPicturePreview({ route, navigation }: VacancyPicturePreviewScree
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostPicturePreview
-				backgroundColor={theme.yellow2}
+				backgroundColor={theme.green2}
 				editMode={editModeIsTrue()}
 				initialValue={route.params?.initialValue || []}
 				navigateBackwards={() => navigation.goBack()}

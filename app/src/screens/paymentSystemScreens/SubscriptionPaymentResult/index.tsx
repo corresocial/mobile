@@ -69,7 +69,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 			'atenção!',
 			!postReview
 				? 'você tem certeza que deseja desistir da assinatura?'
-				: `você tem certeza que deseja descartar o post "${subscriptionDataContext.currentPost?.title}"?`,
+				: 'você tem certeza que deseja descartar o post?',
 			[
 				{ text: 'Não', style: 'destructive' },
 				{ text: 'Sim', onPress: () => { backToInitialStackScreen() } },
