@@ -247,7 +247,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 				<Body>
 					<VerticalSigh />
 					<VacancyPurposeCard
-						vacancyPurpose={getPostField('vacancyPurpose') || 'findProffessional'}
+						vacancyPurpose={getPostField('vacancyPurpose') || getPostField('lookingFor')}
 					/>
 					<VerticalSigh />
 					<DescriptionCard

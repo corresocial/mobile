@@ -179,6 +179,8 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 		setTimeout(() => setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible), 400)
 	}
 
+	console.log(getPostField('itemStatus'))
+
 	return (
 		<Container>
 			<DefaultConfirmationModal

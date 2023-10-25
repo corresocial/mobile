@@ -200,8 +200,12 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 				editContext={editContext}
 			>
 				<VacancyPurposeCard
-					vacancyPurpose={getPostField('vacancyPurpose') || 'findProffessional'}
-					onEdit={() => navigateToEditScreen('SelectVacancyPurpose', 'vacancyPurpose')}
+					vacancyPurpose={getPostField('vacancyPurpose') || getPostField('lookingFor')}
+					onEdit={() => {
+						getPostField('vacancyPurpose')
+							? navigateToEditScreen('SelectVacancyPurpose', 'vacancyPurpose')
+							: navigateToEditScreen('SelectVacancyPurpose', 'lookingFor')
+					}}
 				/>
 				<VerticalSigh />
 				<EditCard

@@ -120,7 +120,6 @@ const migratePostFields = async (posts: PostCollection[]) => {
 			case 'vacancy': {
 				const currentPost: VacancyCollectionRemote | any = { ...post }
 
-				currentPost.vacancyPurpose = 'findProffessional'
 				// currentPost.picturesUrl = []
 				currentPost.locationView = 'approximate'
 				currentPost.workFrequency = 'someday'

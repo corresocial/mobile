@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 
 import { theme } from '../../../common/theme'
 import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
@@ -13,14 +13,7 @@ import { PostSelectButton } from '../../../components/_onboarding/PostSelectButt
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function SelectSalePurpose({ route, navigation }: SelectSalePurposeScreenProps) {
-	const { isSecondPost, setSaleDataOnContext, getAditionalDataFromLastPost } = useContext(SaleContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
-
-	useEffect(() => {
-		if (!route.params?.editMode) {
-			getAditionalDataFromLastPost()
-		}
-	}, [])
+	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)
 
 	// const editModeIsTrue = () => !!(route.params && route.params.editMode)
 

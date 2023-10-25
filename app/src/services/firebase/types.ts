@@ -352,7 +352,7 @@ export type VacancyCollection = {
 	vacancyPurpose?: VacancyPurpose
 	postType?: PostType
 	description?: string
-	// lookingFor?: boolean
+	lookingFor?: boolean
 	vacancyType?: VacancyType
 	workplace?: WorkplaceType
 	range?: ExhibitionPlaceType
@@ -401,7 +401,7 @@ export type VacancyCollectionRemote = {
 	vacancyPurpose: VacancyPurpose
 	postType: PostType
 	description: string
-	// lookingFor?: boolean // FindProfessional = true || findVacancy = false
+	lookingFor?: boolean // FindProfessional = true || findVacancy = false
 	vacancyType: VacancyType
 	workplace: WorkplaceType
 	range?: ExhibitionPlaceType
