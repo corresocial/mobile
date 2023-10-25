@@ -4,6 +4,7 @@ import { SaleStackParamList } from '../types'
 
 export type SelectSaleCategoryScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectSaleCategory'>
 export type SelectSaleTagsScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectSaleTags'>
+export type SelectSalePurposeScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectSalePurpose'>
 export type SelectItemStatusScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectItemStatus'>
 export type InsertSaleDescriptionScreenProps = NativeStackScreenProps<SaleStackParamList, 'InsertSaleDescription'>
 export type SalePicturePreviewScreenProps = NativeStackScreenProps<SaleStackParamList, 'SalePicturePreview'>

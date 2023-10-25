@@ -35,7 +35,7 @@ function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScr
 
 		setSocialImpactDataOnContext({ socialImpactType })
 
-		navigation.navigate('SelectSocialImpactCategory')
+		navigation.navigate('SelectSocialImpactPurpose')
 	}
 
 	return (

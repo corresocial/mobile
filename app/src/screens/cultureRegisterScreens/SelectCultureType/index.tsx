@@ -32,7 +32,7 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 		}
 
 		setCultureDataOnContext({ cultureType })
-		navigation.navigate('SelectCultureCategory')
+		navigation.navigate('SelectCulturePurpose')
 	}
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)

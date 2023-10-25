@@ -1,11 +1,10 @@
 import React, { useContext, useEffect } from 'react'
 
 import { theme } from '../../../common/theme'
-import UsedLabelWhiteIcon from '../../../assets/icons/usedLabel-white.svg'
-import GiftWhiteIcon from '../../../assets/icons/gift-white.svg'
+import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
+import GiftWhiteIcon from '../../../assets/icons/megaphone-white.svg'
 
-import { SelectItemStatusScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
-import { ItemStatus } from '../../../services/firebase/types'
+import { SelectSalePurposeScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 import { SaleContext } from '../../../contexts/SaleContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -13,7 +12,7 @@ import { EditContext } from '../../../contexts/EditContext'
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
-function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
+function SelectSalePurpose({ route, navigation }: SelectSalePurposeScreenProps) {
 	const { isSecondPost, setSaleDataOnContext, getAditionalDataFromLastPost } = useContext(SaleContext)
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
@@ -23,52 +22,52 @@ function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
 		}
 	}, [])
 
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+	// const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const saveItemStatus = (itemStatus: ItemStatus) => {
-		if (editModeIsTrue()) {
+	const saveSalePurpose = (isAdvertising: boolean) => {
+		/* if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ itemStatus })
 			navigation.goBack()
 			return
-		}
+		} */
 
-		setSaleDataOnContext({ itemStatus })
-		navigation.navigate('SelectSalePurpose')
+		setSaleDataOnContext({ isAdvertising })
+		navigation.navigate('SelectSaleCategory')
 	}
 
 	return (
 		<PostSelectButton
-			title={'é novo ou usado?'}
-			highlightedWords={['novo', 'usado']}
+			title={'você está procurando ou anunciando este item?'}
+			highlightedWords={['procurando', 'anunciando']}
 			headerBackgroundColor={theme.green2}
 			backgroundColor={theme.white3}
-			progress={[1, isSecondPost ? 4 : 5]}
+			progress={[2, isSecondPost ? 4 : 5]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton
-				label={'item usado'}
-				highlightedWords={['usado']}
+				label={'procurando'}
+				highlightedWords={['procurando']}
 				labelSize={18}
 				relativeHeight={'28%'}
-				SvgIcon={UsedLabelWhiteIcon}
-				svgIconScale={['60%', '60%']}
+				SvgIcon={QuestionMarkWhiteIcon}
+				svgIconScale={['40%', '40%']}
 				leftSideColor={theme.green3}
 				leftSideWidth={'25%'}
-				onPress={() => saveItemStatus('used')}
+				onPress={() => saveSalePurpose(false)}
 			/>
 			<OptionButton
-				label={'item novo'}
-				highlightedWords={['novo']}
+				label={'anunciando'}
+				highlightedWords={['anunciando']}
 				labelSize={18}
 				relativeHeight={'28%'}
 				SvgIcon={GiftWhiteIcon}
 				svgIconScale={['60%', '60%']}
 				leftSideColor={theme.green3}
 				leftSideWidth={'25%'}
-				onPress={() => saveItemStatus('new')}
+				onPress={() => saveSalePurpose(true)}
 			/>
 		</PostSelectButton>
 	)
 }
 
-export { SelectItemStatus }
+export { SelectSalePurpose }

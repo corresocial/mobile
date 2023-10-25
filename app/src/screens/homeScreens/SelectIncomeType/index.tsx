@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 import { theme } from '../../../common/theme'
 import SaleWhiteIcon from '../../../assets/icons/sale-white.svg'
@@ -6,17 +6,17 @@ import ServiceWhiteIcon from '../../../assets/icons/service-white.svg'
 import VacancyWhiteIcon from '../../../assets/icons/vacancy-white.svg'
 
 import { SelectIncomeTypeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-/* import { CultureType } from '../../../services/firebase/types'
+import { CultureType } from '../../../services/firebase/types'
 
 import { CultureContext } from '../../../contexts/CultureContext'
-import { EditContext } from '../../../contexts/EditContext' */
+import { EditContext } from '../../../contexts/EditContext'
 
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function SelectIncomeType({ route, navigation }: SelectIncomeTypeScreenProps) {
-	/* const { isSecondPost, setCultureDataOnContext, getAditionalDataFromLastPost } = useContext(CultureContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext) */
+	const { isSecondPost, setCultureDataOnContext, getAditionalDataFromLastPost } = useContext(CultureContext)
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	useEffect(() => {
 		/* if (!route.params?.editMode) {

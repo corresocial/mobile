@@ -3,6 +3,7 @@ import { UserStackParamList } from '../UserStack/types'
 
 export type SocialImpactStackParamList = {
 	SelectSocialImpactType: { editMode: boolean } | undefined
+	SelectSocialImpactPurpose: { editMode: boolean } | undefined
 	InsertSocialImpactDescription: { editMode: boolean, initialValue: string } | undefined
 	SocialImpactPicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectSocialImpactCategory: { editMode: boolean } | undefined

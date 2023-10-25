@@ -3,6 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { SocialImpactStackParamList } from '../types'
 
 export type SelectSocialImpactTypeScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactType'>
+export type SelectSocialImpactPurposeScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactPurpose'>
 export type InsertSocialImpactDescriptionScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactDescription'>
 export type SocialImpactPicturePreviewScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SocialImpactPicturePreview'>
 export type SelectSocialImpactCategoryScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactCategory'>

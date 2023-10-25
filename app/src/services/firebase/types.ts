@@ -172,6 +172,7 @@ export type ServiceCollection = {
 	postType: PostType
 	tags?: string[]
 	description?: string
+	isAdvertising?: boolean
 	category?: string
 	paymentType?: PaymentType
 	saleValue?: string
@@ -213,6 +214,7 @@ export type ServiceCollectionRemote = {
 	postId: string
 	postType: PostType
 	description: string
+	isAdvertising?: boolean
 	tags: string[]
 	category: string
 	paymentType: PaymentType
@@ -255,6 +257,7 @@ export type SaleCollection = {
 	postId?: string
 	postType?: PostType
 	description?: string
+	isAdvertising?: boolean
 	tags?: string[]
 	itemStatus?: ItemStatus
 	category?: string
@@ -298,6 +301,7 @@ export type SaleCollectionRemote = {
 	postId: string
 	postType: PostType
 	description: string
+	isAdvertising?: boolean
 	tags: string[]
 	category: string
 	itemStatus: ItemStatus
@@ -342,6 +346,7 @@ export type VacancyCollection = {
 	vacancyPurpose?: VacancyPurpose
 	postType?: PostType
 	description?: string
+	// isAdvertising?: boolean
 	vacancyType?: VacancyType
 	workplace?: WorkplaceType
 	range?: ExhibitionPlaceType
@@ -389,6 +394,7 @@ export type VacancyCollectionRemote = {
 	vacancyPurpose: VacancyPurpose
 	postType: PostType
 	description: string
+	// isAdvertising?: boolean // FindProfessional = true || findVacancy = false
 	vacancyType: VacancyType
 	workplace: WorkplaceType
 	range?: ExhibitionPlaceType
@@ -436,6 +442,7 @@ export type CultureCollection = {
 	cultureType?: CultureType
 	postType?: PostType
 	description?: string
+	isAdvertising?: boolean
 	locationView?: LocationViewType
 	range?: ExhibitionPlaceType
 	eventPlaceModality?: PlaceModalityType
@@ -480,6 +487,7 @@ export type CultureCollectionRemote = {
 	cultureType: CultureType
 	postType: PostType
 	description: string
+	isAdvertising?: boolean
 	locationView: LocationViewType
 	range: ExhibitionPlaceType
 	eventPlaceModality?: PlaceModalityType
@@ -524,6 +532,7 @@ export type SocialImpactCollection = {
 	socialImpactType?: SocialImpactType
 	postType?: PostType
 	description?: string
+	isAdvertising?: boolean
 	tags?: string[]
 	category?: string
 	locationView?: LocationViewType
@@ -567,6 +576,7 @@ export type SocialImpactCollectionRemote = {
 	socialImpactType: SocialImpactType
 	postType: PostType
 	description: string
+	isAdvertising?: boolean
 	tags: string[]
 	category: string
 	locationView: LocationViewType

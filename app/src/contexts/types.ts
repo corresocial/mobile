@@ -61,6 +61,7 @@ export type LocationData = {
 }
 
 export type ServiceData = {
+	isAdvertising?: boolean
 	description?: string
 	title?: string
 	category?: string
@@ -100,6 +101,7 @@ export type SaleData = {
 	description?: string
 	tags?: string[]
 	category?: string
+	isAdvertising?: boolean
 	itemStatus?: ItemStatus
 	paymentType?: PaymentType
 	saleValue?: string
@@ -132,6 +134,7 @@ export type SaleData = {
 }
 
 export type VacancyData = {
+	isAdvertising?: boolean
 	title?: string
 	description?: string
 	vacancyType?: VacancyType
@@ -172,6 +175,7 @@ export type VacancyData = {
 }
 
 export type CultureData = {
+	isAdvertising?: boolean
 	cultureType?: CultureType
 	title?: string
 	description?: string
@@ -209,6 +213,7 @@ export type CultureData = {
 }
 
 export type SocialImpactData = {
+	isAdvertising?: boolean
 	socialImpactType?: SocialImpactType
 	title?: string
 	description?: string
