@@ -47,6 +47,9 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 			case 'vacancy': {
 				return lightColor ? theme.yellow1 : theme.yellow3
 			}
+			case 'income': {
+				return lightColor ? theme.green1 : theme.green3
+			}
 			case 'socialImpact': {
 				return lightColor ? theme.pink1 : theme.pink3
 			}

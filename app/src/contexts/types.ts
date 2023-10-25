@@ -17,7 +17,8 @@ import {
 	CultureType,
 	PostCollection,
 	UserSubscription,
-	FeedPosts
+	FeedPosts,
+	IncomeType
 } from '../services/firebase/types'
 import { CurrentCategory, SearchParams } from '../services/maps/types'
 
@@ -66,6 +67,7 @@ export type ServiceData = {
 	title?: string
 	category?: string
 	tags?: string[]
+	incomeType?: IncomeType
 	paymentType?: PaymentType
 	saleValue?: string
 	exchangeValue?: string
@@ -101,6 +103,7 @@ export type SaleData = {
 	description?: string
 	tags?: string[]
 	category?: string
+	incomeType? IncomeTi
 	isAdvertising?: boolean
 	itemStatus?: ItemStatus
 	paymentType?: PaymentType

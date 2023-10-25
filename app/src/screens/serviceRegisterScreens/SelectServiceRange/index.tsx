@@ -62,7 +62,7 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<SubscriptionPresentationModal
 				visibility={subscriptionModalIsVisible}
 				profilePictureUri={profilePictureUrl}
@@ -71,8 +71,8 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 				onPressButton={closeSubscriptionPresentationModal}
 			/>
 			<PostRange
-				backgroundColor={theme.purple2}
-				itemsColor={theme.purple3}
+				backgroundColor={theme.green2}
+				itemsColor={theme.green3}
 				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}

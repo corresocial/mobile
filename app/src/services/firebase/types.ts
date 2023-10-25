@@ -53,6 +53,8 @@ export type EventRepeatType = 'unrepeatable' | 'everyDay' | 'weekly' | 'biweekly
 
 export type VacancyPurpose = 'findProffessional' | 'findVacancy'
 
+export type IncomeType = 'sale' | 'service' | 'vacancy'
+
 export type SocialImpactType = 'informative' | 'iniciative' | 'donation'
 
 export type CultureType = 'art' | 'event' | 'education'
@@ -153,7 +155,7 @@ export type PrivateAddress = {
 	geohashCity?: string[]
 }
 
-export type PostType = 'service' | 'sale' | 'vacancy' | 'socialImpact' | 'culture'
+export type PostType = 'service' | 'sale' | 'vacancy' | 'income' | 'socialImpact' | 'culture'
 
 export type PostCollectionType = 'posts' | 'services' | 'sales' | 'vacancies' | 'cultures' | 'socialImpacts'
 
@@ -173,6 +175,7 @@ export type ServiceCollection = {
 	tags?: string[]
 	description?: string
 	isAdvertising?: boolean
+	incomeType?: IncomeType
 	category?: string
 	paymentType?: PaymentType
 	saleValue?: string
@@ -217,6 +220,7 @@ export type ServiceCollectionRemote = {
 	isAdvertising?: boolean
 	tags: string[]
 	category: string
+	incomeType: IncomeType
 	paymentType: PaymentType
 	saleValue?: string
 	exchangeValue?: string
@@ -261,6 +265,7 @@ export type SaleCollection = {
 	tags?: string[]
 	itemStatus?: ItemStatus
 	category?: string
+	incomeType?: IncomeType
 	paymentType?: PaymentType
 	saleValue?: string
 	exchangeValue?: string
@@ -304,6 +309,7 @@ export type SaleCollectionRemote = {
 	isAdvertising?: boolean
 	tags: string[]
 	category: string
+	incomeType: IncomeType
 	itemStatus: ItemStatus
 	paymentType: PaymentType
 	saleValue: string
@@ -363,6 +369,7 @@ export type VacancyCollection = {
 	picturesUrl: string[]
 	tags?: string[]
 	category?: string
+	incomeType?: IncomeType
 	createdAt?: Date
 	locationView?: LocationViewType
 	location?: {
@@ -411,6 +418,7 @@ export type VacancyCollectionRemote = {
 	picturesUrl: string[]
 	tags: string[]
 	category: string
+	incomeType: IncomeType
 	createdAt: Date
 	locationView?: LocationViewType
 	location: {

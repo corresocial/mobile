@@ -49,11 +49,11 @@ function InsertServiceDescription({ route, navigation }: InsertServiceDescriptio
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostInputText
 				multiline
-				backgroundColor={theme.purple2}
-				validationColor={theme.purple1}
+				backgroundColor={theme.green2}
+				validationColor={theme.green1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[2, isSecondPost ? 3 : 4]}
 				keyboardOpened={keyboardOpened}

@@ -263,7 +263,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 				<HorizontalTagList
 					tags={[getCategoryLabel(), ...getPostField('tags')]}
 					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
-					selectedColor={theme.purple1}
+					selectedColor={theme.green1}
 					onSelectTag={() => { }}
 				/>
 				<Body>
@@ -276,7 +276,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						<>
 							<ImageCarousel
 								picturesUrl={getPostField('picturesUrl') || []}
-								indicatorColor={theme.purple1}
+								indicatorColor={theme.green1}
 								square
 							/>
 						</>

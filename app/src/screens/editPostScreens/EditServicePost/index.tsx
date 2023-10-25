@@ -141,7 +141,8 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 			currentPost: {
 				...postData,
 				...editDataContext.unsaved,
-				postType: 'service',
+				postType: 'income',
+				incomeType: 'service',
 				createdAt: new Date(),
 				owner: {
 					userId: userDataContext.userId,
@@ -180,9 +181,9 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 			/>
 
 			<EditPost
-				initialPostData={{ ...postData, postType: 'service' }}
+				initialPostData={{ ...postData, postType: 'income', incomeType: 'service' }}
 				owner={owner}
-				backgroundColor={theme.purple2}
+				backgroundColor={theme.green2}
 				unsavedPost={unsavedPost}
 				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
@@ -211,7 +212,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
 					profilePicturesUrl={getPicturesUrl()}
-					indicatorColor={theme.purple1}
+					indicatorColor={theme.green1}
 					carousel
 					onEdit={() => navigateToEditScreen('ServicePicturePreview', 'picturesUrl')}
 				/>

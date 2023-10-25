@@ -6,17 +6,19 @@ import ServiceWhiteIcon from '../../../assets/icons/service-white.svg'
 import VacancyWhiteIcon from '../../../assets/icons/vacancy-white.svg'
 
 import { SelectIncomeTypeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { CultureType } from '../../../services/firebase/types'
+import { IncomeType } from '../../../services/firebase/types'
 
-import { CultureContext } from '../../../contexts/CultureContext'
-import { EditContext } from '../../../contexts/EditContext'
+import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
+import { SaleContext } from '../../../contexts/SaleContext'
+import { VacancyContext } from '../../../contexts/VacancyContext'
 
 function SelectIncomeType({ route, navigation }: SelectIncomeTypeScreenProps) {
-	const { isSecondPost, setCultureDataOnContext, getAditionalDataFromLastPost } = useContext(CultureContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { setServiceDataOnContext } = useContext(ServiceContext)
+	const { setSaleDataOnContext } = useContext(SaleContext)
+	const { setVacancyDataOnContext } = useContext(VacancyContext)
 
 	useEffect(() => {
 		/* if (!route.params?.editMode) {
@@ -24,16 +26,15 @@ function SelectIncomeType({ route, navigation }: SelectIncomeTypeScreenProps) {
 		} */
 	}, [])
 
-	/* const saveWorkplaceType = (cultureType: CultureType) => {
-		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ cultureType })
+	const saveIncomeType = (routeNavigate: 'SaleStack' | 'ServiceStack' | 'VacancyStack') => {
+		/* if (editModeIsTrue()) {
+			addNewUnsavedFieldToEditContext({ incomeType })
 			navigation.goBack()
 			return
-		}
+		} */
 
-		setCultureDataOnContext({ cultureType })
-		navigation.navigate('SelectCultureCategory')
-	} */
+		navigation.navigate(routeNavigate)
+	}
 
 	// const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
@@ -55,7 +56,7 @@ function SelectIncomeType({ route, navigation }: SelectIncomeTypeScreenProps) {
 				svgIconScale={['70%', '70%']}
 				leftSideColor={theme.green3}
 				leftSideWidth={'25%'}
-				onPress={() => navigation.navigate('SaleStack')}
+				onPress={() => saveIncomeType('SaleStack')}
 			/>
 			<OptionButton
 				label={'serviços'}
@@ -67,7 +68,7 @@ function SelectIncomeType({ route, navigation }: SelectIncomeTypeScreenProps) {
 				svgIconScale={['70%', '70%']}
 				leftSideColor={theme.green3}
 				leftSideWidth={'25%'}
-				onPress={() => navigation.navigate('ServiceStack')}
+				onPress={() => saveIncomeType('ServiceStack')}
 			/>
 			<OptionButton
 				label={'vagas'}
@@ -79,7 +80,7 @@ function SelectIncomeType({ route, navigation }: SelectIncomeTypeScreenProps) {
 				svgIconScale={['70%', '70%']}
 				leftSideColor={theme.green3}
 				leftSideWidth={'25%'}
-				onPress={() => navigation.navigate('VacancyStack')}
+				onPress={() => saveIncomeType('VacancyStack')}
 			/>
 		</PostSelectButton>
 	)

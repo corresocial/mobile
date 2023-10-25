@@ -175,6 +175,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			case 'sale': return 'vendas'
 			case 'service': return 'serviços'
 			case 'vacancy': return 'vagas'
+			case 'income': return 'renda'
 			case 'culture': return 'cultura'
 			case 'socialImpact': return 'impacto social'
 			default: return ''
@@ -194,7 +195,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		}
 	}
 
-	const goToPostView = (item: PostCollection) => {
+	const goToPostView = (item: PostCollection | any) => { // TODO Type
 		const stackLabel = route.params?.stackLabel || 'Home'
 
 		switch (item.postType) {
@@ -223,6 +224,36 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						: ('ViewVacancyPost' as any), // TODO Type
 					{ postData: { ...item, owner: getUserDataOnly() } }
 				)
+				break
+			}
+			case 'income': {
+				if (item.incomeType === 'sale') {
+					return navigation.push(
+						route.params?.userId
+							? `ViewSalePost${stackLabel}`
+							: ('ViewSalePost' as any), // TODO Type
+						{ postData: { ...item, owner: getUserDataOnly() } }
+					)
+				}
+
+				if (item.incomeType === 'service') {
+					return navigation.push(
+						route.params?.userId
+							? `ViewServicePost${stackLabel}`
+							: ('ViewServicePost' as any), // TODO Type
+						{ postData: { ...item, owner: getUserDataOnly() } }
+					)
+				}
+
+				if (item.incomeType === 'vacancy') {
+					return navigation.push(
+						route.params?.userId
+							? `ViewVacancyPost${stackLabel}`
+							: ('ViewVacancyPost' as any), // TODO Type
+						{ postData: { ...item, owner: getUserDataOnly() } }
+					)
+				}
+
 				break
 			}
 			case 'socialImpact': {

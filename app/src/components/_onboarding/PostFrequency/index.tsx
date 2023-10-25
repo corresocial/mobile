@@ -76,7 +76,7 @@ function PostFrequency({
 						SvgIcon={CalendarToday}
 						svgIconScale={['50%', '50%']}
 						leftSideWidth={'25%'}
-						leftSideColor={theme.orange3}
+						leftSideColor={theme.green3}
 						onPress={() => savePostFrequency('today')}
 					/>
 					<OptionButton
@@ -87,7 +87,7 @@ function PostFrequency({
 						SvgIcon={CalendarEveryday}
 						svgIconScale={['50%', '50%']}
 						leftSideWidth={'25%'}
-						leftSideColor={theme.purple3}
+						leftSideColor={theme.green3}
 						onPress={() => savePostFrequency('everyday')}
 					/>
 					<OptionButton
@@ -98,7 +98,7 @@ function PostFrequency({
 						SvgIcon={CalendarSomeday}
 						svgIconScale={['50%', '50%']}
 						leftSideWidth={'25%'}
-						leftSideColor={theme.yellow3}
+						leftSideColor={theme.green3}
 						onPress={() => savePostFrequency('someday')}
 					/>
 					<OptionButton

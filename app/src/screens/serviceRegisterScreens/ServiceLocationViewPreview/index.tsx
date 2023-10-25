@@ -82,14 +82,14 @@ function ServiceLocationViewPreview({ route, navigation }: ServiceLocationViewPr
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostLocationViewPreview
-				backgroundColor={theme.purple2}
+				backgroundColor={theme.green2}
 				saveLocationView={saveLocationView}
 				initialValue={getCurrentMarkerCoordinate()}
 				postRange={getPostRange()}
 				placeName={getPlaceName()}
-				placeColor={theme.transparence.purple3}
+				placeColor={theme.transparence.green3}
 				locationViewSelected={route.params.locationView}
 				navigateBackwards={() => navigation.goBack()}
 			/>

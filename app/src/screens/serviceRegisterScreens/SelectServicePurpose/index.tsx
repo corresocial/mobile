@@ -26,7 +26,7 @@ function SelectServicePurpose({ route, navigation }: SelectServicePurposeScreenP
 
 	const saveServicePurpose = (isAdvertising: boolean) => {
 		/* if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ itemStatus })
+			addNewUnsavedFieldToEditContext({ isAdvertising })
 			navigation.goBack()
 			return
 		} */

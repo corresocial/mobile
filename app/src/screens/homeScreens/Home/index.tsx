@@ -399,7 +399,7 @@ function Home({ navigation }: HomeScreenProps) {
 			<RecentPostsContainer
 				refreshControl={(
 					<RefreshControl
-						colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3, theme.purple3, theme.yellow3, theme.red3]}
+						colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
 						refreshing={feedIsUpdating}
 						progressBackgroundColor={theme.white3}
 						onRefresh={refreshFeedPosts}
