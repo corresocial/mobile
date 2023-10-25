@@ -142,7 +142,8 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 			currentPost: {
 				...postData,
 				...editDataContext.unsaved,
-				postType: 'sale',
+				postType: 'income',
+				incomeType: 'sale',
 				createdAt: new Date(),
 				owner: {
 					userId: userDataContext.userId,
@@ -181,7 +182,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 			/>
 
 			<EditPost
-				initialPostData={{ ...postData, postType: 'sale' }}
+				initialPostData={{ ...postData, postType: 'income', incomeType: 'sale' }}
 				owner={owner}
 				backgroundColor={theme.green2}
 				unsavedPost={unsavedPost}

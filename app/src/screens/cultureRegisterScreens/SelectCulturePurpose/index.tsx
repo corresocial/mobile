@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react'
 
-import { nativeViewGestureHandlerProps } from 'react-native-gesture-handler/lib/typescript/handlers/NativeViewGestureHandler'
 import { theme } from '../../../common/theme'
 import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
 import GiftWhiteIcon from '../../../assets/icons/megaphone-white.svg'
@@ -40,7 +39,7 @@ function SelectCulturePurpose({ route, navigation }: SelectCulturePurposeScreenP
 		<PostSelectButton
 			title={'você está procurando ou anunciando isso?'}
 			highlightedWords={['procurando', 'anunciando']}
-			headerBackgroundColor={theme.green2}
+			headerBackgroundColor={theme.blue2}
 			backgroundColor={theme.white3}
 			progress={[2, isSecondPost ? 4 : 5]}
 			navigateBackwards={() => navigation.goBack()}
@@ -52,7 +51,7 @@ function SelectCulturePurpose({ route, navigation }: SelectCulturePurposeScreenP
 				relativeHeight={'28%'}
 				SvgIcon={QuestionMarkWhiteIcon}
 				svgIconScale={['40%', '40%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.blue3}
 				leftSideWidth={'25%'}
 				onPress={() => saveCulturePurpose(false)}
 			/>
@@ -63,7 +62,7 @@ function SelectCulturePurpose({ route, navigation }: SelectCulturePurposeScreenP
 				relativeHeight={'28%'}
 				SvgIcon={GiftWhiteIcon}
 				svgIconScale={['60%', '60%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.blue3}
 				leftSideWidth={'25%'}
 				onPress={() => saveCulturePurpose(true)}
 			/>

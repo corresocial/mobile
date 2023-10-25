@@ -39,7 +39,7 @@ function SelectSocialImpactPurpose({ route, navigation }: SelectSocialImpactPurp
 		<PostSelectButton
 			title={'você está procurando ou anunciando isso?'}
 			highlightedWords={['procurando', 'anunciando']}
-			headerBackgroundColor={theme.green2}
+			headerBackgroundColor={theme.pink2}
 			backgroundColor={theme.white3}
 			progress={[2, isSecondPost ? 4 : 5]}
 			navigateBackwards={() => navigation.goBack()}
@@ -51,7 +51,7 @@ function SelectSocialImpactPurpose({ route, navigation }: SelectSocialImpactPurp
 				relativeHeight={'28%'}
 				SvgIcon={QuestionMarkWhiteIcon}
 				svgIconScale={['40%', '40%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.pink3}
 				leftSideWidth={'25%'}
 				onPress={() => saveSocialImpactPurpose(false)}
 			/>
@@ -62,7 +62,7 @@ function SelectSocialImpactPurpose({ route, navigation }: SelectSocialImpactPurp
 				relativeHeight={'28%'}
 				SvgIcon={GiftWhiteIcon}
 				svgIconScale={['60%', '60%']}
-				leftSideColor={theme.green3}
+				leftSideColor={theme.pink3}
 				leftSideWidth={'25%'}
 				onPress={() => saveSocialImpactPurpose(true)}
 			/>
