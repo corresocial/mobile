@@ -24,14 +24,14 @@ function SelectCulturePurpose({ route, navigation }: SelectCulturePurposeScreenP
 
 	// const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const saveCulturePurpose = (isAdvertising: boolean) => {
+	const saveCulturePurpose = (lookingFor: boolean) => {
 		/* if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ itemStatus })
 			navigation.goBack()
 			return
 		} */
 
-		setCultureDataOnContext({ isAdvertising })
+		setCultureDataOnContext({ lookingFor })
 		navigation.navigate('SelectCultureCategory')
 	}
 
@@ -53,7 +53,7 @@ function SelectCulturePurpose({ route, navigation }: SelectCulturePurposeScreenP
 				svgIconScale={['40%', '40%']}
 				leftSideColor={theme.blue3}
 				leftSideWidth={'25%'}
-				onPress={() => saveCulturePurpose(false)}
+				onPress={() => saveCulturePurpose(true)}
 			/>
 			<OptionButton
 				label={'divulgando'}
@@ -64,7 +64,7 @@ function SelectCulturePurpose({ route, navigation }: SelectCulturePurposeScreenP
 				svgIconScale={['60%', '60%']}
 				leftSideColor={theme.blue3}
 				leftSideWidth={'25%'}
-				onPress={() => saveCulturePurpose(true)}
+				onPress={() => saveCulturePurpose(false)}
 			/>
 		</PostSelectButton>
 	)

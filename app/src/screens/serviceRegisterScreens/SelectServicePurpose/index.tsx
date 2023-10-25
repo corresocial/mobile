@@ -24,14 +24,14 @@ function SelectServicePurpose({ route, navigation }: SelectServicePurposeScreenP
 
 	// const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const saveServicePurpose = (isAdvertising: boolean) => {
+	const saveServicePurpose = (lookingFor: boolean) => {
 		/* if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ isAdvertising })
+			addNewUnsavedFieldToEditContext({ lookingFor })
 			navigation.goBack()
 			return
 		} */
 
-		setServiceDataOnContext({ isAdvertising })
+		setServiceDataOnContext({ lookingFor })
 		navigation.navigate('SelectServiceCategory')
 	}
 
@@ -53,7 +53,7 @@ function SelectServicePurpose({ route, navigation }: SelectServicePurposeScreenP
 				svgIconScale={['40%', '40%']}
 				leftSideColor={theme.green3}
 				leftSideWidth={'25%'}
-				onPress={() => saveServicePurpose(false)}
+				onPress={() => saveServicePurpose(true)}
 			/>
 			<OptionButton
 				label={'anunciando'}
@@ -64,7 +64,7 @@ function SelectServicePurpose({ route, navigation }: SelectServicePurposeScreenP
 				svgIconScale={['60%', '60%']}
 				leftSideColor={theme.green3}
 				leftSideWidth={'25%'}
-				onPress={() => saveServicePurpose(true)}
+				onPress={() => saveServicePurpose(false)}
 			/>
 		</PostSelectButton>
 	)

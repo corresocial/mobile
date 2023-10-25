@@ -14,7 +14,6 @@ import { PostCategory } from '../../../components/_onboarding/PostCategory'
 
 function SelectServiceCategory({ route, navigation }: SelectServiceCategoryScreenProps) {
 	const { isSecondPost, setServiceDataOnContext, serviceDataContext } = useContext(ServiceContext)
-	console.log(serviceDataContext.isAdvertising)
 
 	const onSelectCategory = (categoryName: ServiceCategories) => {
 		setServiceDataOnContext({ category: categoryName })

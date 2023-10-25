@@ -24,14 +24,14 @@ function SelectSocialImpactPurpose({ route, navigation }: SelectSocialImpactPurp
 
 	// const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const saveSocialImpactPurpose = (isAdvertising: boolean) => {
+	const saveSocialImpactPurpose = (lookingFor: boolean) => {
 		/* if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ itemStatus })
 			navigation.goBack()
 			return
 		} */
 
-		setSocialImpactDataOnContext({ isAdvertising })
+		setSocialImpactDataOnContext({ lookingFor })
 		navigation.navigate('SelectSocialImpactCategory')
 	}
 
@@ -53,7 +53,7 @@ function SelectSocialImpactPurpose({ route, navigation }: SelectSocialImpactPurp
 				svgIconScale={['40%', '40%']}
 				leftSideColor={theme.pink3}
 				leftSideWidth={'25%'}
-				onPress={() => saveSocialImpactPurpose(false)}
+				onPress={() => saveSocialImpactPurpose(true)}
 			/>
 			<OptionButton
 				label={'divulgando'}
@@ -64,7 +64,7 @@ function SelectSocialImpactPurpose({ route, navigation }: SelectSocialImpactPurp
 				svgIconScale={['60%', '60%']}
 				leftSideColor={theme.pink3}
 				leftSideWidth={'25%'}
-				onPress={() => saveSocialImpactPurpose(true)}
+				onPress={() => saveSocialImpactPurpose(false)}
 			/>
 		</PostSelectButton>
 	)

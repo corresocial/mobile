@@ -24,14 +24,14 @@ function SelectSalePurpose({ route, navigation }: SelectSalePurposeScreenProps) 
 
 	// const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const saveSalePurpose = (isAdvertising: boolean) => {
+	const saveSalePurpose = (lookingFor: boolean) => {
 		/* if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ itemStatus })
 			navigation.goBack()
 			return
 		} */
 
-		setSaleDataOnContext({ isAdvertising })
+		setSaleDataOnContext({ lookingFor })
 		navigation.navigate('SelectSaleCategory')
 	}
 
@@ -53,7 +53,7 @@ function SelectSalePurpose({ route, navigation }: SelectSalePurposeScreenProps) 
 				svgIconScale={['40%', '40%']}
 				leftSideColor={theme.green3}
 				leftSideWidth={'25%'}
-				onPress={() => saveSalePurpose(false)}
+				onPress={() => saveSalePurpose(true)}
 			/>
 			<OptionButton
 				label={'anunciando'}
@@ -64,7 +64,7 @@ function SelectSalePurpose({ route, navigation }: SelectSalePurposeScreenProps) 
 				svgIconScale={['60%', '60%']}
 				leftSideColor={theme.green3}
 				leftSideWidth={'25%'}
-				onPress={() => saveSalePurpose(true)}
+				onPress={() => saveSalePurpose(false)}
 			/>
 		</PostSelectButton>
 	)
