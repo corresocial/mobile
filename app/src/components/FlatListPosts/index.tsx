@@ -16,7 +16,6 @@ interface FlatListPostsProps {
 	renderItem: (post: PostCollection) => ReactElement<any, string | JSXElementConstructor<any>> | null
 	onEndReached?: () => void
 	onRefresh?: () => void
-
 }
 
 function FlatListPosts({

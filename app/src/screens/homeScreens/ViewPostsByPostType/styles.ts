@@ -4,7 +4,7 @@ import { relativeScreenHeight, relativeScreenWidth } from '../../../common/scree
 
 export const Container = styled.View`
 	flex: 1;
-	background-color: ${({ theme }) => theme.green2};
+	background-color: ${({ theme }) => theme.white3};
 `
 
 export const Header = styled.View`
@@ -38,17 +38,16 @@ export const Body = styled.ScrollView`
 	padding-bottom: ${relativeScreenHeight(10)}px;
 `
 
-export const MacroCategoryContainer = styled.View`
-	background-color: ${({ theme }) => theme.green2};
+interface MacroCategoryContainerProps {
+	backgroundColor?: string
+}
+
+export const MacroCategoryContainer = styled.View<MacroCategoryContainerProps>`
+	background-color: ${({ theme, backgroundColor }) => backgroundColor || theme.orange2};
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-around;
 	padding-vertical: ${relativeScreenHeight(2)}px;
-`
-
-export const HorizontalSigh = styled.View`
-	height: 20%;
-	width: ${RFValue(10)}px;
 `
 
 export const ContainerPadding = styled.ScrollView`

@@ -1,50 +1,35 @@
 import React, { useContext, useState } from 'react'
-import { FlatList } from 'react-native'
 
-import { RFValue } from 'react-native-responsive-fontsize'
 import { theme } from '../../../common/theme'
-import { Body, Container, ContainerPadding, Header, HorizontalSigh, InputContainer, MacroCategoryContainer } from './styles'
-import LoupIcon from '../../../assets/icons/loup-white.svg'
+import { Body, Container, ContainerPadding, Header, InputContainer, MacroCategoryContainer } from './styles'
+import CashWhiteIcon from '../../../assets/icons/cash-white.svg'
 import SaleWhiteIcon from '../../../assets/icons/sale-white.svg'
 import ServiceWhiteIcon from '../../../assets/icons/service-white.svg'
 import VacancyWhiteIcon from '../../../assets/icons/vacancy-white.svg'
-import CashWhiteIcon from '../../../assets/icons/cash-white.svg'
 
 import { ViewPostsByPostTypeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 import { PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
 
 import { LocationContext } from '../../../contexts/LocationContext'
 
-import { sortArray } from '../../../common/auxiliaryFunctions'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { AuthContext } from '../../../contexts/AuthContext'
 
 import { FlatListPosts } from '../../../components/FlatListPosts'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
-import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
+import { CatalogPostTypeButtons } from '../../../components/CatalogPostTypeButtons'
+import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 
 function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { locationDataContext } = useContext(LocationContext)
 
 	const [searchText, setSearchText] = useState('')
-
-	const feedPosts = [...locationDataContext.feedPosts.nearby, ...locationDataContext.feedPosts.city, ...locationDataContext.feedPosts.country] || []
-
-	const {
-		backgroundColor,
-		categorySvgIcon,
-		categoryName,
-		categoryTags,
-		categoryTitle,
-		inactiveColor
-	} = locationDataContext.currentCategory
 
 	const filterPostsByCategory = () => {
 		return {
@@ -55,45 +40,30 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	}
 
 	const filterPostsByRange = (post: PostCollectionRemote) => {
-		return post.category === categoryName
-			&& post.postType === locationDataContext.searchParams.postType
+		if (!post) return false
+
+		if (locationDataContext.searchParams.postType === 'income'
+			&& (
+				post.postType === 'sale'
+				|| post.postType === 'service'
+				|| post.postType === 'vacancy'
+			)) {
+			return true
+		}
+
+		return post.postType === locationDataContext.searchParams.postType
 			&& !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length
 	}
 
 	const filteredFeedPosts = filterPostsByCategory()
 
-	const getFeedPostsTags = () => {
-		const userPostTags = feedPosts.reduce((acc: any[], current: PostCollection) => {
-			if (!current.tags || current.category !== categoryName) return [...acc]
-			const filtredCurrentTags = current.tags.filter((tag) => !acc.includes(tag))
-			return [...acc, ...filtredCurrentTags as string[]]
-		}, [])
-
-		return userPostTags
-	}
-
-	const getFiltredCategoryTags = () => {
-		const allTags = [...categoryTags, ...getFeedPostsTags()]
-
-		if (!searchText) {
-			return allTags
-				.filter((tag, index, array) => array.indexOf(tag) === index)
-				.sort(sortArray)
-		}
-
-		const filtredTags = allTags
-			.filter((tag) => !!tag.match(new RegExp(`${searchText}`, 'i'))?.length)
-
-		return filtredTags.sort(sortArray)
-	}
-
-	const viewPostsByTag = (tagName: string) => {
+	/* const viewPostsByTag = (tagName: string) => {
 		navigation.navigate('ViewPostsByTag', { currentTagSelected: tagName })
 	}
 
 	const viewAllTags = async () => {
 		navigation.navigate('ViewAllTags')
-	}
+	} */
 
 	const viewPostsByRange = (postRange: PostRange) => {
 		switch (postRange) {
@@ -166,6 +136,60 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 		return items
 	}
 
+	const getRelativeBackgroundColor = () => {
+		switch (locationDataContext.searchParams.postType) {
+			case 'income': return { backgroundColor: theme.green2 }
+			case 'culture': return { backgroundColor: theme.blue2 }
+			case 'socialImpact': return { backgroundColor: theme.pink2 }
+			default: return { backgroundColor: theme.orange2 }
+		}
+	}
+
+	const getRelaticeHeaderIcon = () => {
+		switch (locationDataContext.searchParams.postType) {
+			case 'income': return CashWhiteIcon
+			case 'culture': return CashWhiteIcon
+			case 'socialImpact': return CashWhiteIcon
+			default: return CashWhiteIcon
+		}
+	}
+
+	const getRelaticeHeaderText = () => {
+		switch (locationDataContext.searchParams.postType) {
+			case 'income': return 'renda'
+			case 'culture': return 'cultura'
+			case 'socialImpact': return 'cidadania'
+			default: return 'posts'
+		}
+	}
+
+	const getRelativeCatalogMacroCategoryButtons = () => {
+		switch (locationDataContext.searchParams.postType) {
+			case 'income': return (
+				<CatalogPostTypeButtons
+					buttonLabels={['vendas', 'serviços', 'vagas']}
+					buttonValues={['income', 'service', 'vacancy']}
+					buttonIcons={[SaleWhiteIcon, ServiceWhiteIcon, VacancyWhiteIcon]}
+				/>
+			)
+			case 'culture': return (
+				<CatalogPostTypeButtons
+					buttonLabels={['vendas', 'serviços', 'vagas']}
+					buttonValues={['income', 'service', 'vacancy']}
+					buttonIcons={[SaleWhiteIcon, ServiceWhiteIcon, VacancyWhiteIcon]}
+				/>
+			)
+			case 'socialImpact': return (
+				<CatalogPostTypeButtons
+					buttonLabels={['vendas', 'serviços', 'vagas']}
+					buttonValues={['income', 'service', 'vacancy']}
+					buttonIcons={[SaleWhiteIcon, ServiceWhiteIcon, VacancyWhiteIcon]}
+				/>
+			)
+			default: return <></>
+		}
+	}
+
 	const renderPostItem = (item: PostCollection) => (
 		<ContainerPadding>
 			<PostCard
@@ -177,17 +201,17 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 		</ContainerPadding>
 	)
 
-	/* const hasAnyPost = () => {
+	const hasAnyPost = () => {
 		return (filteredFeedPosts.nearby.length > 0 || filteredFeedPosts.city.length > 0 || filteredFeedPosts.country.length > 0)
-	} */
+	}
 
 	return (
 		<Container>
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
-					text={'renda'}
-					SvgIcon={CashWhiteIcon}
+					text={getRelaticeHeaderText()}
+					SvgIcon={getRelaticeHeaderIcon()}
 					smallIconArea
 					onBackPress={() => navigation.goBack()}
 				/>
@@ -202,63 +226,9 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 					/>
 				</InputContainer>
 			</Header>
-			<Body style={{ backgroundColor }}>
-				<MacroCategoryContainer>
-					<SmallButton
-						relativeWidth={'25%'}
-						height={relativeScreenWidth(15)}
-						color={'white'}
-						fontSize={7.5}
-						onPress={() => { }}
-						label={'vendas'}
-						labelColor={theme.black4}
-						SvgIcon={SaleWhiteIcon}
-						svgScale={['50%', '80%']}
-						flexDirection={'column'}
-					/>
-					<SmallButton
-						relativeWidth={'25%'}
-						height={relativeScreenWidth(15)}
-						color={'white'}
-						fontSize={7.5}
-						onPress={() => { }}
-						label={'serviços'}
-						labelColor={theme.black4}
-						SvgIcon={ServiceWhiteIcon}
-						svgScale={['50%', '80%']}
-						flexDirection={'column'}
-					/>
-					<SmallButton
-						relativeWidth={'25%'}
-						height={relativeScreenWidth(15)}
-						color={'white'}
-						fontSize={7.5}
-						onPress={() => { }}
-						label={'vagas'}
-						labelColor={theme.black4}
-						SvgIcon={VacancyWhiteIcon}
-						svgScale={['50%', '80%']}
-						flexDirection={'column'}
-					/>
-					{/* <FlatList
-						data={getFiltredCategoryTags()}
-						horizontal
-						showsHorizontalScrollIndicator={false}
-						ListHeaderComponent={<HorizontalSigh />}
-						ListHeaderComponentStyle={{ height: 0 }}
-						ItemSeparatorComponent={() => <HorizontalSigh />}
-						ListFooterComponentStyle={{ height: 0 }}
-						ListFooterComponent={<HorizontalSigh />}
-						renderItem={({ item }) => (
-							<CategoryCard
-								hasElements={!!(feedPosts.filter((post) => post.category === categoryName && post.tags.includes(item) && post.postType === locationDataContext.searchParams.postType)).length}
-								inactiveColor={inactiveColor}
-								title={item}
-								withoutMargin
-								onPress={() => viewPostsByTag(item)}
-							/>
-						)}
-					/> */}
+			<Body style={getRelativeBackgroundColor()}>
+				<MacroCategoryContainer backgroundColor={getRelativeBackgroundColor()}>
+					{getRelativeCatalogMacroCategoryButtons()}
 				</MacroCategoryContainer>
 				{
 					(filteredFeedPosts.nearby && filteredFeedPosts.nearby.length)
@@ -278,8 +248,6 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 										</>
 									)}
 									renderItem={renderPostItem}
-								// flatListIsLoading={flatListIsLoading}
-								// onEndReached={refreshFlatlist}
 								/>
 							</>
 						)
@@ -303,8 +271,6 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 										</>
 									)}
 									renderItem={renderPostItem}
-								// flatListIsLoading={flatListIsLoading}
-								// onEndReached={refreshFlatlist}
 								/>
 							</>
 						)
@@ -328,22 +294,20 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 										</>
 									)}
 									renderItem={renderPostItem}
-								// flatListIsLoading={flatListIsLoading}
-								// onEndReached={refreshFlatlist}
 								/>
 							</>
 						)
 						: <></>
 				}
 				<VerticalSigh height={relativeScreenHeight(10)} />
-				{/* {
+				{
 					!hasAnyPost() && (
 						<WithoutPostsMessage
 							title={'opa!'}
 							message={'parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'}
 						/>
 					)
-				} */}
+				}
 			</Body>
 		</Container>
 	)

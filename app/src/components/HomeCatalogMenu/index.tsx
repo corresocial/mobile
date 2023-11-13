@@ -38,7 +38,7 @@ function HomeCatalogMenu({ navigateToScreen }: HomeCatalogProps) {
 					height={relativeScreenWidth(15)}
 					color={'white'}
 					fontSize={7.5}
-					onPress={() => navigateToScreen('sale')}
+					onPress={() => navigateToScreen('income')}
 					label={'comércio'}
 					labelColor={theme.black4}
 					SvgIcon={CommerceIcon}
@@ -62,7 +62,7 @@ function HomeCatalogMenu({ navigateToScreen }: HomeCatalogProps) {
 					height={relativeScreenWidth(15)}
 					color={'white'}
 					fontSize={7.5}
-					onPress={() => navigateToScreen('service')}
+					onPress={() => navigateToScreen('income')}
 					label={'serviços'}
 					labelColor={theme.black4}
 					SvgIcon={ServiceIcon}
@@ -74,7 +74,7 @@ function HomeCatalogMenu({ navigateToScreen }: HomeCatalogProps) {
 					height={relativeScreenWidth(15)}
 					color={'white'}
 					fontSize={7.5}
-					onPress={() => navigateToScreen('vacancy')}
+					onPress={() => navigateToScreen('income')}
 					label={'vagas'}
 					labelColor={theme.black4}
 					SvgIcon={VacancyIcon}

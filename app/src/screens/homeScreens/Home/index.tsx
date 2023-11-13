@@ -312,6 +312,10 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const navigateToPostCategories = (postType: PostType) => {
+		setLocationDataOnContext({
+			searchParams: { ...locationDataContext.searchParams, postType }
+		})
+
 		navigation.navigate('ViewPostsByPostType', { postType })
 		// navigation.navigate('PostCategories', { postType })
 	}
