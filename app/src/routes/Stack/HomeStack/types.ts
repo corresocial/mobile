@@ -10,6 +10,7 @@ export type HomeStackParamList = {
 	ViewSocialImpactPostHome: { postData: PostCollection }
 	ViewCulturePostHome: { postData: PostCollection }
 	PostCategories: { postType: PostType }
+	ViewPostsByPostType: { postType: PostType }
 	PostCategoryDetails: undefined
 	ViewAllTags: undefined
 	ViewPostsByTag: { currentTagSelected: string }

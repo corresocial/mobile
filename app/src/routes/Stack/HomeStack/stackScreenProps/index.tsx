@@ -10,6 +10,7 @@ export type ViewVacancyPostScreenProps = NativeStackScreenProps<HomeStackParamLi
 export type ViewSocialImpactPostScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewSocialImpactPostHome'>
 export type ViewCulturePostScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewCulturePostHome'>
 export type PostCategoriesScreenProps = NativeStackScreenProps<HomeStackParamList, 'PostCategories'>
+export type ViewPostsByPostTypeScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewPostsByPostType'>
 export type PostCategoryDetailsScreenProps = NativeStackScreenProps<HomeStackParamList, 'PostCategoryDetails'>
 export type ViewAllTagsScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewAllTags'>
 export type ViewPostsByTagScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewPostsByTag'>
