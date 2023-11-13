@@ -56,7 +56,7 @@ function InsertSaleDescription({ route, navigation }: InsertSaleDescriptionScree
 				backgroundColor={theme.green2}
 				validationColor={theme.green1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[3, isSecondPost ? 4 : 5]}
+				progress={[4, isSecondPost ? 5 : 6]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateSaleDescription}
 				navigateBackwards={() => navigation.goBack()}

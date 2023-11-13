@@ -55,7 +55,7 @@ function InsertServiceDescription({ route, navigation }: InsertServiceDescriptio
 				backgroundColor={theme.green2}
 				validationColor={theme.green1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
-				progress={[2, isSecondPost ? 3 : 4]}
+				progress={[3, isSecondPost ? 3 : 5]}
 				keyboardOpened={keyboardOpened}
 				validateInputText={validateServiceDescription}
 				navigateBackwards={() => navigation.goBack()}

@@ -77,7 +77,7 @@ function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
-				progress={[3, isSecondPost ? 3 : 4]}
+				progress={[4, isSecondPost ? 3 : 5]}
 			/>
 		</>
 	)

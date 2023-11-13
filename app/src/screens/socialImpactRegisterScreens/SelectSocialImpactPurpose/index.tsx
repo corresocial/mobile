@@ -7,14 +7,13 @@ import GiftWhiteIcon from '../../../assets/icons/megaphone-white.svg'
 import { SelectSocialImpactPurposeScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 import { SocialImpactContext } from '../../../contexts/SocialImpactContext'
-import { EditContext } from '../../../contexts/EditContext'
 
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function SelectSocialImpactPurpose({ route, navigation }: SelectSocialImpactPurposeScreenProps) {
 	const { isSecondPost, setSocialImpactDataOnContext, getAditionalDataFromLastPost } = useContext(SocialImpactContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	// const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	useEffect(() => {
 		if (!route.params?.editMode) {
@@ -41,7 +40,7 @@ function SelectSocialImpactPurpose({ route, navigation }: SelectSocialImpactPurp
 			highlightedWords={['procurando', 'anunciando']}
 			headerBackgroundColor={theme.pink2}
 			backgroundColor={theme.white3}
-			progress={[2, isSecondPost ? 4 : 5]}
+			progress={[1, isSecondPost ? 5 : 6]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton

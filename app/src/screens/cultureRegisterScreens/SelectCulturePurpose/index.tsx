@@ -7,14 +7,13 @@ import GiftWhiteIcon from '../../../assets/icons/megaphone-white.svg'
 import { SelectCulturePurposeScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 import { CultureContext } from '../../../contexts/CultureContext'
-import { EditContext } from '../../../contexts/EditContext'
 
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function SelectCulturePurpose({ route, navigation }: SelectCulturePurposeScreenProps) {
 	const { isSecondPost, setCultureDataOnContext, getAditionalDataFromLastPost } = useContext(CultureContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	// const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	useEffect(() => {
 		if (!route.params?.editMode) {
@@ -41,7 +40,7 @@ function SelectCulturePurpose({ route, navigation }: SelectCulturePurposeScreenP
 			highlightedWords={['procurando', 'anunciando']}
 			headerBackgroundColor={theme.blue2}
 			backgroundColor={theme.white3}
-			progress={[2, isSecondPost ? 4 : 5]}
+			progress={[1, isSecondPost ? 4 : 5]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton

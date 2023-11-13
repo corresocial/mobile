@@ -7,14 +7,13 @@ import GiftWhiteIcon from '../../../assets/icons/megaphone-white.svg'
 import { SelectServicePurposeScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 import { ServiceContext } from '../../../contexts/ServiceContext'
-import { EditContext } from '../../../contexts/EditContext'
 
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 
 function SelectServicePurpose({ route, navigation }: SelectServicePurposeScreenProps) {
 	const { isSecondPost, setServiceDataOnContext, getAditionalDataFromLastPost } = useContext(ServiceContext)
-	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	// const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	useEffect(() => {
 		if (!route.params?.editMode) {
@@ -41,7 +40,7 @@ function SelectServicePurpose({ route, navigation }: SelectServicePurposeScreenP
 			highlightedWords={['procurando', 'anunciando']}
 			headerBackgroundColor={theme.green2}
 			backgroundColor={theme.white3}
-			progress={[1, isSecondPost ? 4 : 5]}
+			progress={[1, isSecondPost ? 5 : 5]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton

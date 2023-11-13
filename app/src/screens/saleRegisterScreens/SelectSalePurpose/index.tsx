@@ -7,7 +7,6 @@ import GiftWhiteIcon from '../../../assets/icons/megaphone-white.svg'
 import { SelectSalePurposeScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 import { SaleContext } from '../../../contexts/SaleContext'
-import { EditContext } from '../../../contexts/EditContext'
 
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
@@ -34,7 +33,7 @@ function SelectSalePurpose({ route, navigation }: SelectSalePurposeScreenProps) 
 			highlightedWords={['procurando', 'anunciando']}
 			headerBackgroundColor={theme.green2}
 			backgroundColor={theme.white3}
-			progress={[2, isSecondPost ? 4 : 5]}
+			progress={[2, isSecondPost ? 5 : 6]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton
