@@ -6,6 +6,9 @@ import { Body, Container, ContainerPadding, Header, InputContainer, SearchInput 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup-white.svg'
+import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
+import CityWhiteIcon from '../../../assets/icons/city-white.svg'
+import CountryWhiteIcon from '../../../assets/icons/brazil-white.svg'
 
 import { PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
 import { ViewPostsByTagScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
@@ -172,6 +175,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 													text={'perto de você'}
 													highlightedText={['perto']}
 													seeMoreText
+													SvgIcon={PinWhiteIcon}
 													onPress={() => viewPostsByRange('near')}
 												/>
 												<VerticalSigh />
@@ -197,6 +201,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 													text={'na cidade'}
 													highlightedText={['cidade']}
 													seeMoreText
+													SvgIcon={CityWhiteIcon}
 													onPress={() => viewPostsByRange('city')}
 												/>
 												<VerticalSigh />
@@ -222,6 +227,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 													text={'no país'}
 													highlightedText={['país']}
 													seeMoreText
+													SvgIcon={CountryWhiteIcon}
 													onPress={() => viewPostsByRange('country')}
 												/>
 												<VerticalSigh />

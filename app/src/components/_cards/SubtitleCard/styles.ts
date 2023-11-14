@@ -7,7 +7,7 @@ interface ContainerProps {
 }
 
 // ghost margin-bottom
-export const Container = styled.TouchableOpacity<ContainerProps>`
+export const Container = styled.View<ContainerProps>`
 	margin-bottom: -1px;
 	flex-direction: row;
 	background-color: ${({ theme }) => theme.white3};
@@ -30,9 +30,4 @@ export const RightArea = styled.View`
 	flex-direction: row;
 	align-items: center;
 	justify-content: flex-end;
-`
-
-export const RightAreaText = styled.Text`
-	font-family: Arvo_400Regular;
-	font-size: ${RFValue(13)}px;
 `

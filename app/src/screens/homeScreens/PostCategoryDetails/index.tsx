@@ -2,9 +2,12 @@ import React, { useContext, useState } from 'react'
 import { FlatList } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
-import LoupIcon from '../../../assets/icons/loup-white.svg'
 import { theme } from '../../../common/theme'
 import { Body, Container, ContainerPadding, Header, HorizontalSigh, InputContainer, SearchInput, TagsContainer } from './styles'
+import LoupIcon from '../../../assets/icons/loup-white.svg'
+import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
+import CityWhiteIcon from '../../../assets/icons/city-white.svg'
+import CountryWhiteIcon from '../../../assets/icons/brazil-white.svg'
 
 import { PostCategoryDetailsScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 import { PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
@@ -241,6 +244,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 												text={'perto de você'}
 												highlightedText={['perto']}
 												seeMoreText
+												SvgIcon={PinWhiteIcon}
 												onPress={() => viewPostsByRange('near')}
 											/>
 											<VerticalSigh />
@@ -266,6 +270,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 												text={'na cidade'}
 												highlightedText={['cidade']}
 												seeMoreText
+												SvgIcon={CityWhiteIcon}
 												onPress={() => viewPostsByRange('city')}
 											/>
 											<VerticalSigh />
@@ -291,6 +296,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 												text={'no país'}
 												highlightedText={['país']}
 												seeMoreText
+												SvgIcon={CountryWhiteIcon}
 												onPress={() => viewPostsByRange('country')}
 											/>
 											<VerticalSigh />

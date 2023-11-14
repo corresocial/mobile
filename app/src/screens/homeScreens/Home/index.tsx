@@ -11,6 +11,9 @@ import {
 	RecentPostsContainer
 } from './styles'
 import { theme } from '../../../common/theme'
+import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
+import CityWhiteIcon from '../../../assets/icons/city-white.svg'
+import CountryWhiteIcon from '../../../assets/icons/brazil-white.svg'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
 import { searchAddressByText } from '../../../services/maps/searchAddressByText'
@@ -430,6 +433,7 @@ function Home({ navigation }: HomeScreenProps) {
 											text={'perto de você'}
 											highlightedText={['perto']}
 											seeMoreText
+											SvgIcon={PinWhiteIcon}
 											onPress={() => viewPostsByRange('near')}
 										/>
 										<VerticalSigh />
@@ -453,6 +457,7 @@ function Home({ navigation }: HomeScreenProps) {
 											text={'na cidade'}
 											highlightedText={['cidade']}
 											seeMoreText
+											SvgIcon={CityWhiteIcon}
 											onPress={() => viewPostsByRange('city')}
 										/>
 										<VerticalSigh />
@@ -477,6 +482,7 @@ function Home({ navigation }: HomeScreenProps) {
 												text={'no país'}
 												highlightedText={['país']}
 												seeMoreText
+												SvgIcon={CountryWhiteIcon}
 												onPress={() => viewPostsByRange('country')}
 											/>
 											<VerticalSigh />
