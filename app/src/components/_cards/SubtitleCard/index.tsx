@@ -2,10 +2,12 @@ import React from 'react'
 
 import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
-import { Container, RightArea, RightAreaText, Title } from './styles'
+import { Container, RightArea, Title } from './styles'
 import AngleRightWhitetIcon from '../../../assets/icons/angleRight-white.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { SmallButton } from '../../_buttons/SmallButton'
+import { theme } from '../../../common/theme'
 
 interface SubtitleCardProps {
 	text: string
@@ -17,11 +19,7 @@ interface SubtitleCardProps {
 
 function SubtitleCard({ text, highlightedText, seeMoreText, SvgIcon, onPress }: SubtitleCardProps) {
 	return (
-		<Container
-			onPress={onPress && onPress}
-			activeOpacity={0.7}
-			hasIcon={!SvgIcon}
-		>
+		<Container hasIcon={!SvgIcon}>
 			{SvgIcon && <SvgIcon width={'15%'} height={RFValue(18)} />}
 			<Title
 				hasIcon={!SvgIcon}
@@ -29,8 +27,19 @@ function SubtitleCard({ text, highlightedText, seeMoreText, SvgIcon, onPress }: 
 				{showMessageWithHighlight(text, highlightedText)}
 			</Title>
 			<RightArea>
-				{seeMoreText && <RightAreaText>{showMessageWithHighlight('ver mais', ['mais'])}</RightAreaText>}
-				{onPress && <AngleRightWhitetIcon width={'40%'} height={RFValue(18)} />}
+				{seeMoreText && (
+					<SmallButton
+						height={RFValue(30)}
+						label={'mais'}
+						labelColor={theme.black4}
+						fontSize={11}
+						SvgIcon={AngleRightWhitetIcon}
+						svgScale={['70%', '15%']}
+						onPress={() => onPress && onPress()}
+					/>
+				)}
+				{/* <RightAreaText>{showMessageWithHighlight('ver mais', ['mais'])}</RightAreaText> */}
+				{/* {onPress && <AngleRightWhitetIcon width={'40%'} height={RFValue(18)} />} */}
 			</RightArea>
 		</Container>
 	)
