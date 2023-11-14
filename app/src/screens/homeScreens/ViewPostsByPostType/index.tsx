@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import { theme } from '../../../common/theme'
 import { Body, Container, ContainerPadding, Header, InputContainer, MacroCategoryContainer } from './styles'
@@ -6,9 +6,20 @@ import CashWhiteIcon from '../../../assets/icons/cash-white.svg'
 import SaleWhiteIcon from '../../../assets/icons/sale-white.svg'
 import ServiceWhiteIcon from '../../../assets/icons/service-white.svg'
 import VacancyWhiteIcon from '../../../assets/icons/vacancy-white.svg'
+import SocialImpactWhiteIcon from '../../../assets/icons/socialImpact-white.svg'
+import CultureWhiteIcon from '../../../assets/icons/culture-white.svg'
+import ColorPaletWhiteIcon from '../../../assets/icons/colorPalet-white.svg'
+import CalendarSomedayWhiteIcon from '../../../assets/icons/calendarSomeday-white.svg'
+import BooksWhiteIcon from '../../../assets/icons/books-white.svg'
+import HandOnHeartWhiteIcon from '../../../assets/icons/handOnHeart-white.svg'
+import HeartAndPersonWhiteIcon from '../../../assets/icons/heartAndPerson-white.svg'
+import PeperInfoWhiteIcon from '../../../assets/icons/paperInfo-white.svg'
+import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
+import CityWhiteIcon from '../../../assets/icons/city-white.svg'
+import CountryWhiteIcon from '../../../assets/icons/brazil-white.svg'
 
 import { ViewPostsByPostTypeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
-import { PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
+import { FeedPosts, PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
 
 import { LocationContext } from '../../../contexts/LocationContext'
 
@@ -30,21 +41,35 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	const { locationDataContext } = useContext(LocationContext)
 
 	const [searchText, setSearchText] = useState('')
+	const [feedPostsByType, setFeedPostsByType] = useState<FeedPosts>({ nearby: [], city: [], country: [] })
+	const [filteredFeedPosts, setFilteredFeedPosts] = useState<FeedPosts>({ nearby: [], city: [], country: [] })
 
-	const filterPostsByCategory = () => {
+	useEffect(() => {
+		const posts = filterPostsByPostType()
+		setFeedPostsByType(posts as any) // TODO Type
+	}, [])
+
+	useEffect(() => {
+		if (searchText) {
+			const posts = filterPostsByText()
+			setFilteredFeedPosts(posts)
+		}
+	}, [searchText])
+
+	const filterPostsByPostType = () => {
 		return {
-			nearby: locationDataContext.feedPosts.nearby.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || [],
-			city: locationDataContext.feedPosts.city.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || [],
-			country: locationDataContext.feedPosts.country.filter((post: PostCollectionRemote) => filterPostsByRange(post)) || []
+			nearby: locationDataContext.feedPosts.nearby.filter((post: PostCollectionRemote) => postBelongContextPostType(post)) || [],
+			city: locationDataContext.feedPosts.city.filter((post: PostCollectionRemote) => postBelongContextPostType(post)) || [],
+			country: locationDataContext.feedPosts.country.filter((post: PostCollectionRemote) => postBelongContextPostType(post)) || []
 		}
 	}
 
-	const filterPostsByRange = (post: PostCollectionRemote) => {
+	const postBelongContextPostType = (post: PostCollectionRemote) => {
 		if (!post) return false
 
 		if (locationDataContext.searchParams.postType === 'income'
 			&& (
-				post.postType === 'sale'
+				post.postType === 'sale' // TODO Temporary
 				|| post.postType === 'service'
 				|| post.postType === 'vacancy'
 			)) {
@@ -52,34 +77,36 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 		}
 
 		return post.postType === locationDataContext.searchParams.postType
-			&& !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length
 	}
 
-	const filteredFeedPosts = filterPostsByCategory()
-
-	/* const viewPostsByTag = (tagName: string) => {
-		navigation.navigate('ViewPostsByTag', { currentTagSelected: tagName })
+	const filterPostsByText = () => {
+		return {
+			nearby: feedPostsByType.nearby.filter((post: PostCollectionRemote) => hasPostDescriptionMatch(post)) || [],
+			city: feedPostsByType.city.filter((post: PostCollectionRemote) => hasPostDescriptionMatch(post)) || [],
+			country: feedPostsByType.country.filter((post: PostCollectionRemote) => hasPostDescriptionMatch(post)) || []
+		}
 	}
 
-	const viewAllTags = async () => {
-		navigation.navigate('ViewAllTags')
-	} */
+	const hasPostDescriptionMatch = (post: PostCollectionRemote) => {
+		if (!post) return false
+		return !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length
+	}
 
 	const viewPostsByRange = (postRange: PostRange) => {
 		switch (postRange) {
 			case 'near': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: filteredFeedPosts.nearby,
+				postsByRange: feedPostsByType.nearby,
 				postRange,
 				postType: locationDataContext.searchParams.postType as PostType
 			})
 			case 'city': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: filteredFeedPosts.city,
+				postsByRange: feedPostsByType.city,
 				postRange,
 				postType: locationDataContext.searchParams.postType as PostType
 
 			})
 			case 'country': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: filteredFeedPosts.country,
+				postsByRange: feedPostsByType.country,
 				postRange,
 				postType: locationDataContext.searchParams.postType as PostType
 			})
@@ -148,8 +175,8 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	const getRelaticeHeaderIcon = () => {
 		switch (locationDataContext.searchParams.postType) {
 			case 'income': return CashWhiteIcon
-			case 'culture': return CashWhiteIcon
-			case 'socialImpact': return CashWhiteIcon
+			case 'culture': return CultureWhiteIcon
+			case 'socialImpact': return SocialImpactWhiteIcon
 			default: return CashWhiteIcon
 		}
 	}
@@ -174,16 +201,16 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 			)
 			case 'culture': return (
 				<CatalogPostTypeButtons
-					buttonLabels={['vendas', 'serviços', 'vagas']}
-					buttonValues={['income', 'service', 'vacancy']}
-					buttonIcons={[SaleWhiteIcon, ServiceWhiteIcon, VacancyWhiteIcon]}
+					buttonLabels={['arte', 'eventos', 'educação']}
+					buttonValues={['art', 'event', 'education']}
+					buttonIcons={[ColorPaletWhiteIcon, CalendarSomedayWhiteIcon, BooksWhiteIcon]}
 				/>
 			)
 			case 'socialImpact': return (
 				<CatalogPostTypeButtons
-					buttonLabels={['vendas', 'serviços', 'vagas']}
-					buttonValues={['income', 'service', 'vacancy']}
-					buttonIcons={[SaleWhiteIcon, ServiceWhiteIcon, VacancyWhiteIcon]}
+					buttonLabels={['informativos', 'iniciativas', 'doações']}
+					buttonValues={['informative', 'iniciative', 'donation']}
+					buttonIcons={[PeperInfoWhiteIcon, HeartAndPersonWhiteIcon, HandOnHeartWhiteIcon]}
 				/>
 			)
 			default: return <></>
@@ -202,7 +229,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	)
 
 	const hasAnyPost = () => {
-		return (filteredFeedPosts.nearby.length > 0 || filteredFeedPosts.city.length > 0 || filteredFeedPosts.country.length > 0)
+		return (feedPostsByType.nearby.length > 0 || feedPostsByType.city.length > 0 || feedPostsByType.country.length > 0)
 	}
 
 	return (
@@ -231,17 +258,18 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 					{getRelativeCatalogMacroCategoryButtons()}
 				</MacroCategoryContainer>
 				{
-					(filteredFeedPosts.nearby && filteredFeedPosts.nearby.length)
+					(feedPostsByType.nearby && feedPostsByType.nearby.length)
 						? (
 							<>
 								<FlatListPosts
-									data={getFirstFiveItems(filteredFeedPosts.nearby)}
+									data={getFirstFiveItems(searchText ? filteredFeedPosts.nearby : feedPostsByType.nearby)}
 									headerComponent={() => (
 										<>
 											<SubtitleCard
 												text={'perto de você'}
 												highlightedText={['perto']}
 												seeMoreText
+												SvgIcon={PinWhiteIcon}
 												onPress={() => viewPostsByRange('near')}
 											/>
 											<VerticalSigh />
@@ -254,17 +282,18 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 						: <></>
 				}
 				{
-					(filteredFeedPosts.city && filteredFeedPosts.city.length)
+					(feedPostsByType.city && feedPostsByType.city.length)
 						? (
 							<>
 								<FlatListPosts
-									data={getFirstFiveItems(filteredFeedPosts.city)}
+									data={getFirstFiveItems(searchText ? filteredFeedPosts.nearby : feedPostsByType.city)}
 									headerComponent={() => (
 										<>
 											<SubtitleCard
 												text={'na cidade'}
 												highlightedText={['cidade']}
 												seeMoreText
+												SvgIcon={CityWhiteIcon}
 												onPress={() => viewPostsByRange('city')}
 											/>
 											<VerticalSigh />
@@ -277,17 +306,18 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 						: <></>
 				}
 				{
-					(filteredFeedPosts.country && filteredFeedPosts.country.length)
+					(feedPostsByType.country && feedPostsByType.country.length)
 						? (
 							<>
 								<FlatListPosts
-									data={getFirstFiveItems(filteredFeedPosts.country)}
+									data={getFirstFiveItems(searchText ? filteredFeedPosts.nearby : feedPostsByType.country)}
 									headerComponent={() => (
 										<>
 											<SubtitleCard
 												text={'no país'}
 												highlightedText={['país']}
 												seeMoreText
+												SvgIcon={CountryWhiteIcon}
 												onPress={() => viewPostsByRange('country')}
 											/>
 											<VerticalSigh />

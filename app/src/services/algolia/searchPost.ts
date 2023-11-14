@@ -85,14 +85,8 @@ function removeDuplicatesByPostId(results: PostCollectionRemote[]) {
 	return results.filter((post, index, self) => index === self.findIndex((p) => p.postId === post.postId))
 }
 
-interface FilteredPosts {
-	nearby: PostCollectionRemote[];
-	city: PostCollectionRemote[];
-	country: PostCollectionRemote[];
-}
-
 const spreadPostsByRange = (posts: PostCollectionRemote[]) => {
-	const result: FilteredPosts = {
+	const result: FeedPosts = {
 		nearby: [],
 		city: [],
 		country: []

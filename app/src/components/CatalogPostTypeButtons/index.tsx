@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { SvgProps } from 'react-native-svg'
+import uuid from 'react-uuid'
 import { theme } from '../../common/theme'
 
 import { SmallButton } from '../_buttons/SmallButton'
@@ -17,6 +18,7 @@ function CatalogPostTypeButtons({ buttonLabels, buttonValues, buttonIcons }: Cat
 		return buttonValues.map((buttonValue, i) => {
 			return (
 				<SmallButton
+					key={uuid()}
 					relativeWidth={'25%'}
 					height={relativeScreenWidth(15)}
 					color={'white'}

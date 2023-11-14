@@ -22,8 +22,12 @@ function SubtitleCard({ text, highlightedText, seeMoreText, SvgIcon, onPress }: 
 			activeOpacity={0.7}
 			hasIcon={!SvgIcon}
 		>
-			{SvgIcon && <SvgIcon width={'15%'} height={'120%'} />}
-			<Title>{showMessageWithHighlight(text, highlightedText)}</Title>
+			{SvgIcon && <SvgIcon width={'15%'} height={RFValue(18)} />}
+			<Title
+				hasIcon={!SvgIcon}
+			>
+				{showMessageWithHighlight(text, highlightedText)}
+			</Title>
 			<RightArea>
 				{seeMoreText && <RightAreaText>{showMessageWithHighlight('ver mais', ['mais'])}</RightAreaText>}
 				{onPress && <AngleRightWhitetIcon width={'40%'} height={RFValue(18)} />}

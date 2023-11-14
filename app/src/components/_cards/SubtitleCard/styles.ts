@@ -18,10 +18,10 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
 	border-color: ${({ theme }) => theme.black4};
 `
 
-export const Title = styled.Text`
-	width: 70%;
+export const Title = styled.Text<ContainerProps>`
+	width: ${({ hasIcon }) => (hasIcon ? '75%' : '60%')};
 	font-family: Arvo_400Regular;
-	font-size: ${RFValue(16)}px;
+	font-size: ${RFValue(14)}px;
 `
 
 export const RightArea = styled.View`
@@ -34,5 +34,5 @@ export const RightArea = styled.View`
 
 export const RightAreaText = styled.Text`
 	font-family: Arvo_400Regular;
-	font-size: ${RFValue(14)}px;
+	font-size: ${RFValue(13)}px;
 `
