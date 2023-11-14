@@ -299,8 +299,6 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 						headerComponent={() => (
 							<VerticalSigh />
 						)}
-					// flatListIsLoading={flatListIsLoading}
-					// onEndReached={refreshFlatlist}
 					/>
 				}
 			</Body>

@@ -251,8 +251,6 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 										</>
 									)}
 									renderItem={renderPostItem}
-								// flatListIsLoading={flatListIsLoading}
-								// onEndReached={refreshFlatlist}
 								/>
 							</>
 						)
@@ -277,8 +275,6 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 										</>
 									)}
 									renderItem={renderPostItem}
-								// flatListIsLoading={flatListIsLoading}
-								// onEndReached={refreshFlatlist}
 								/>
 							</>
 						)
@@ -303,8 +299,6 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 										</>
 									)}
 									renderItem={renderPostItem}
-								// flatListIsLoading={flatListIsLoading}
-								// onEndReached={refreshFlatlist}
 								/>
 							</>
 						)

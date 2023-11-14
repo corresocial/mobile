@@ -280,8 +280,6 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 													)}
 													withoutFooter={!!(resultPosts.city && resultPosts.city.length) && searchByRange}
 													renderItem={renderPostItem}
-												// flatListIsLoading={flatListIsLoading}
-												// onEndReached={refreshFlatlist}
 												/>
 											</>
 										)
@@ -310,8 +308,6 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 													)}
 													withoutFooter={!!(resultPosts.country && resultPosts.country.length) && searchByRange}
 													renderItem={renderPostItem}
-												// flatListIsLoading={flatListIsLoading}
-												// onEndReached={refreshFlatlist}
 												/>
 											</>
 										)
@@ -339,8 +335,6 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 														</>
 													)}
 													renderItem={renderPostItem}
-												// flatListIsLoading={flatListIsLoading}
-												// onEndReached={refreshFlatlist}
 												/>
 											</>
 										)

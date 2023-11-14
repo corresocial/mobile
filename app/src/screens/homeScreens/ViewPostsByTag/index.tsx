@@ -182,8 +182,6 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 											</>
 										)}
 										renderItem={renderPostItem}
-									// flatListIsLoading={flatListIsLoading}
-									// onEndReached={refreshFlatlist}
 									/>
 								</>
 							)
@@ -208,8 +206,6 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 											</>
 										)}
 										renderItem={renderPostItem}
-									// flatListIsLoading={flatListIsLoading}
-									// onEndReached={refreshFlatlist}
 									/>
 								</>
 							)
@@ -234,8 +230,6 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 											</>
 										)}
 										renderItem={renderPostItem}
-									// flatListIsLoading={flatListIsLoading}
-									// onEndReached={refreshFlatlist}
 									/>
 								</>
 							)

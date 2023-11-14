@@ -160,8 +160,6 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 									headerComponent={() => (
 										<VerticalSigh />
 									)}
-								// flatListIsLoading={flatListIsLoading}
-								// onEndReached={refreshFlatlist}
 								/>
 							</>
 						)
