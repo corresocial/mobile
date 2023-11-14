@@ -268,7 +268,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 															{
 																!searchByRange && (
 																	<SubtitleCard
-																		text={'perto de você'}
+																		text={'posts por perto'}
 																		highlightedText={['perto']}
 																		seeMoreText
 																		onPress={() => viewPostsByRange('near')}
@@ -296,7 +296,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 															{
 																!searchByRange && (
 																	<SubtitleCard
-																		text={'na cidade'}
+																		text={'posts na cidade'}
 																		highlightedText={['cidade']}
 																		seeMoreText
 																		onPress={() => viewPostsByRange('city')}
@@ -324,7 +324,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 															{
 																!searchByRange && (
 																	<SubtitleCard
-																		text={'no país'}
+																		text={'posts no país'}
 																		highlightedText={['país']}
 																		seeMoreText
 																		onPress={() => viewPostsByRange('country')}

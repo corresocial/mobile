@@ -241,7 +241,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 									headerComponent={() => (
 										<>
 											<SubtitleCard
-												text={'perto de você'}
+												text={'posts por perto'}
 												highlightedText={['perto']}
 												seeMoreText
 												SvgIcon={PinWhiteIcon}
@@ -265,7 +265,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 									headerComponent={() => (
 										<>
 											<SubtitleCard
-												text={'na cidade'}
+												text={'posts na cidade'}
 												highlightedText={['cidade']}
 												seeMoreText
 												SvgIcon={CityWhiteIcon}
@@ -289,7 +289,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 									headerComponent={() => (
 										<>
 											<SubtitleCard
-												text={'no país'}
+												text={'posts no país'}
 												highlightedText={['país']}
 												seeMoreText
 												SvgIcon={CountryWhiteIcon}

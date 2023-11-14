@@ -97,9 +97,9 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 
 	const getRelativeTitle = () => {
 		switch (postRange) {
-			case 'near': return 'perto de você'
-			case 'city': return 'na cidade'
-			case 'country': return 'no país'
+			case 'near': return 'posts por perto'
+			case 'city': return 'posts na cidade'
+			case 'country': return 'posts no país'
 			default: return 'posts recentes'
 		}
 	}

@@ -430,7 +430,7 @@ function Home({ navigation }: HomeScreenProps) {
 								headerComponent={() => (
 									<>
 										<SubtitleCard
-											text={'perto de você'}
+											text={'posts por perto'}
 											highlightedText={['perto']}
 											seeMoreText
 											SvgIcon={PinWhiteIcon}
@@ -454,7 +454,7 @@ function Home({ navigation }: HomeScreenProps) {
 								headerComponent={() => (
 									<>
 										<SubtitleCard
-											text={'na cidade'}
+											text={'posts na cidade'}
 											highlightedText={['cidade']}
 											seeMoreText
 											SvgIcon={CityWhiteIcon}
@@ -479,7 +479,7 @@ function Home({ navigation }: HomeScreenProps) {
 									headerComponent={() => (
 										<>
 											<SubtitleCard
-												text={'no país'}
+												text={'posts no país'}
 												highlightedText={['país']}
 												seeMoreText
 												SvgIcon={CountryWhiteIcon}

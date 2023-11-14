@@ -20,7 +20,7 @@ interface SubtitleCardProps {
 function SubtitleCard({ text, highlightedText, seeMoreText, SvgIcon, onPress }: SubtitleCardProps) {
 	return (
 		<Container hasIcon={!SvgIcon}>
-			{SvgIcon && <SvgIcon width={'15%'} height={RFValue(18)} />}
+			{SvgIcon && <SvgIcon width={'15%'} height={RFValue(20)} />}
 			<Title
 				hasIcon={!SvgIcon}
 			>
