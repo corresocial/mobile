@@ -59,7 +59,7 @@ function FeedByRange({
 		<Container style={{ backgroundColor }}>
 			{children}
 			{
-				(filteredFeedPosts.nearby && filteredFeedPosts.nearby.length)
+				(filteredFeedPosts.nearby && filteredFeedPosts.nearby.length && (typeof (filteredFeedPosts.nearby.length === 1 && filteredFeedPosts.nearby[0]) !== 'string'))
 					? (
 						<>
 							<FlatListPosts
