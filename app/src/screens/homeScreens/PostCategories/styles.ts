@@ -25,10 +25,6 @@ export const InputContainer = styled.View`
 	justify-content: space-between;
 `
 
-export const Body = styled.ScrollView`
-	flex: 1;
-`
-
 export const CategoryCardContainer = styled.View`
 	flex-direction: row;
 	padding: ${RFValue(10)}px;
@@ -38,8 +34,4 @@ export const CategoryCardContainer = styled.View`
 export const HorizontalSigh = styled.View`
 	height: 20%;
 	width: ${RFValue(10)}px;
-`
-
-export const ContainerPadding = styled.ScrollView`
-	padding-horizontal: ${RFValue(10)}px;
 `

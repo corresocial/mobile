@@ -3,12 +3,9 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import uuid from 'react-uuid'
 
 import { SvgProps } from 'react-native-svg'
-import { Body, CategoryCardContainer, Container, ContainerPadding, Header, HorizontalSigh, InputContainer } from './styles'
+import { CategoryCardContainer, Container, Header, HorizontalSigh, InputContainer } from './styles'
 import { theme } from '../../../common/theme'
-import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
 import OthersWhiteIcon from '../../../assets/icons/categories/others.svg'
-import CityWhiteIcon from '../../../assets/icons/city-white.svg'
-import CountryWhiteIcon from '../../../assets/icons/brazil-white.svg'
 
 import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
 import { saleCategories } from '../../../utils/postsCategories/saleCategories'
@@ -26,13 +23,9 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { VerticalSigh } from '../../../components/VerticalSigh'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
 import { postMacroCategories } from '../../../utils/postMacroCategories'
-import { FlatListPosts } from '../../../components/FlatListPosts'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
-import { PostCard } from '../../../components/_cards/PostCard'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { FeedByRange } from '../../../components/FeedByRange'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
@@ -199,12 +192,6 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 		return categoryList
 	}
 
-	const getFirstFiveItems = (items: any[]) => {
-		if (!items) return []
-		if (items.length >= 5) return items.slice(0, 5)
-		return items
-	}
-
 	const navigateToProfile = (userId: string) => {
 		if (userDataContext.userId === userId) {
 			navigation.navigate('Profile' as any)// TODO Type
@@ -235,28 +222,22 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 		}
 	}
 
-	const goToPostView = (item: PostCollection) => {
-		switch (item.postType) {
-			case 'service': {
-				navigation.navigate('ViewServicePostHome', { postData: { ...item } })
-				break
+	const goToPostView = (post: PostCollection | any) => { // TODO Type
+		switch (post.postType) {
+			case 'income': {
+				switch (post[`${post.postType}Type`]) {
+					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
+					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
+					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
+					default: return false
+				}
 			}
-			case 'sale': {
-				navigation.navigate('ViewSalePostHome', { postData: { ...item } })
-				break
-			}
-			case 'vacancy': {
-				navigation.navigate('ViewVacancyPostHome', { postData: { ...item } })
-				break
-			}
-			case 'socialImpact': {
-				navigation.navigate('ViewSocialImpactPostHome', { postData: { ...item } })
-				break
-			}
-			case 'culture': {
-				navigation.navigate('ViewCulturePostHome', { postData: { ...item } })
-				break
-			}
+
+			case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
+			case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
+			case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
+			case 'socialImpact': return navigation.navigate('ViewSocialImpactPostHome', { postData: { ...post } })
+			case 'culture': return navigation.navigate('ViewCulturePostHome', { postData: { ...post } })
 			default: return false
 		}
 	}
@@ -286,17 +267,6 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 		setSearchText('')
 		navigation.navigate('SearchResult', { searchParams: customSearchParams })
 	}
-
-	const renderPostItem = (item: PostCollection) => (
-		<ContainerPadding>
-			<PostCard
-				post={item}
-				owner={item.owner}
-				navigateToProfile={navigateToProfile}
-				onPress={() => goToPostView(item)}
-			/>
-		</ContainerPadding>
-	)
 
 	return (
 		<Container>

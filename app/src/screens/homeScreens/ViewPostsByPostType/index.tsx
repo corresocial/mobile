@@ -106,28 +106,22 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 		}
 	}
 
-	const goToPostView = (item: PostCollection) => {
-		switch (item.postType) {
-			case 'service': {
-				navigation.navigate('ViewServicePostHome', { postData: { ...item } })
-				break
+	const goToPostView = (post: PostCollection | any) => { // TODO Type
+		switch (post.postType) {
+			case 'income': {
+				switch (post[`${post.postType}Type`]) {
+					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
+					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
+					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
+					default: return false
+				}
 			}
-			case 'sale': {
-				navigation.navigate('ViewSalePostHome', { postData: { ...item } })
-				break
-			}
-			case 'vacancy': {
-				navigation.navigate('ViewVacancyPostHome', { postData: { ...item } })
-				break
-			}
-			case 'socialImpact': {
-				navigation.navigate('ViewSocialImpactPostHome', { postData: { ...item } })
-				break
-			}
-			case 'culture': {
-				navigation.navigate('ViewCulturePostHome', { postData: { ...item } })
-				break
-			}
+
+			case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
+			case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
+			case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
+			case 'socialImpact': return navigation.navigate('ViewSocialImpactPostHome', { postData: { ...post } })
+			case 'culture': return navigation.navigate('ViewCulturePostHome', { postData: { ...post } })
 			default: return false
 		}
 	}
