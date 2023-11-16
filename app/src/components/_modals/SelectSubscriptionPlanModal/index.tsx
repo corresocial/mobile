@@ -4,7 +4,7 @@ import CityWhiteIcon from '../../../assets/icons/city-white.svg'
 import CountryWhiteIcon from '../../../assets/icons/brazil-white.svg'
 
 import { CustomModal } from '../CustomModal'
-import { VerticalSigh } from '../../VerticalSigh'
+import { VerticalSpacing } from '../../_space/VerticalSpacing'
 import { PostRange } from '../../../services/firebase/types'
 import { OptionButton } from '../../_buttons/OptionButton'
 
@@ -22,7 +22,7 @@ function SelectSubscriptionPlanModal({ visibility, closeModal, onSelectPlan }: S
 			closeButton
 			closeModal={closeModal}
 		>
-			<VerticalSigh />
+			<VerticalSpacing />
 			<OptionButton
 				color={theme.white3}
 				label={'cidade'}
@@ -34,7 +34,7 @@ function SelectSubscriptionPlanModal({ visibility, closeModal, onSelectPlan }: S
 				leftSideWidth={'28%'}
 				onPress={() => onSelectPlan('city')}
 			/>
-			<VerticalSigh />
+			<VerticalSpacing />
 			<OptionButton
 				color={theme.white3}
 				label={'país'}

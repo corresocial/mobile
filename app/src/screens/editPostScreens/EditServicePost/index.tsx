@@ -19,7 +19,7 @@ import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
 import { EditCard } from '../../../components/_cards/EditCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
@@ -202,12 +202,12 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					value={formatCategoryAndTags()}
 					onEdit={() => navigateToEditScreen('SelectServiceCategory', 'tags')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertServiceDescription', 'description')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
@@ -216,18 +216,18 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					carousel
 					onEdit={() => navigateToEditScreen('ServicePicturePreview', 'picturesUrl')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<SaleOrExchangeCard
 					saleValue={getPostField('saleValue', true)}
 					exchangeValue={getPostField('exchangeValue', true)}
 					onEdit={() => navigateToEditScreen('SelectPaymentType', 'saleValue')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<PostRangeCard
 					postRange={getPostField('range')}
 					onEdit={() => navigateToEditScreen('SelectServiceRange', 'range')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
@@ -235,12 +235,12 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					location={getPostField('location')}
 					onEdit={checkChangeLocationAlertIsRequired}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DeliveryMethodCard
 					deliveryMethod={getPostField('deliveryMethod')}
 					onEdit={() => navigateToEditScreen('SelectDeliveryMethod', 'deliveryMethod')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DateTimeCard
 					title={'dias da semana'}
 					highlightedWords={['dias']}
@@ -248,7 +248,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					daysOfWeek={getPostField('daysOfWeek', true)}
 					onEdit={() => navigateToEditScreen('SelectServiceFrequency', 'daysOfWeek')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que horas começa'}
 					highlightedWords={['começa']}
@@ -257,7 +257,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertServiceStartHour', 'startHour')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que horas termina'}
 					highlightedWords={['termina']}

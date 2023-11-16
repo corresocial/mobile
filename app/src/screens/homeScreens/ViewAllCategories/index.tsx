@@ -22,7 +22,7 @@ import { socialImpactCategories } from '../../../utils/postsCategories/socialImp
 import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
 import { MacroCategory, PostCollection, PostCollectionRemote } from '../../../services/firebase/types'
 import { postMacroCategories } from '../../../utils/postMacroCategories'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
@@ -159,11 +159,11 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 			<KeyboardAvoidingView style={{ flex: 1 }}>
 				<Body style={{ backgroundColor: locationDataContext.currentCategory.backgroundColor }}>
 					<ScrollView showsVerticalScrollIndicator={false}>
-						<VerticalSigh />
+						<VerticalSpacing />
 						<SelectButtonsContainer backgroundColor={'transparent'} noPadding>
 							{renderFilteredCategories()}
 						</SelectButtonsContainer>
-						<VerticalSigh height={relativeScreenHeight(10)} />
+						<VerticalSpacing height={relativeScreenHeight(10)} />
 					</ScrollView>
 				</Body>
 			</KeyboardAvoidingView>

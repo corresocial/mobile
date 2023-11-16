@@ -23,7 +23,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { Loader } from '../../../components/Loader'
 import { updateAllRangeAndLocation } from '../../../services/firebase/post/updateAllRangeAndLocation'
 import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeChangeConfirmatiomModal'
@@ -244,7 +244,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 									relativeHeight={relativeScreenHeight(10)}
 									onPress={onPressCancelSubscriptionButton}
 								/>
-								<VerticalSigh height={relativeScreenHeight(3)} />
+								<VerticalSpacing height={relativeScreenHeight(3)} />
 								<PrimaryButton
 									color={theme.white3}
 									keyboardHideButton={false}
@@ -259,7 +259,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 								{
 									!leaveFromPaidSubscription && (
 										<>
-											<VerticalSigh height={relativeScreenHeight(3)} />
+											<VerticalSpacing height={relativeScreenHeight(3)} />
 											<PrimaryButton
 												color={theme.green3}
 												keyboardHideButton={false}

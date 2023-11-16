@@ -55,16 +55,6 @@ export const DropdownBody = styled.View`
 	padding: ${RFValue(10)}px;
 `
 
-export const Sigh = styled.View`
-	width: 100%;
-	margin-vertical: ${RFValue(5)}px;
-`
-
-export const BigSigh = styled.View`
-	width: 100%;
-	margin-vertical: ${relativeScreenHeight(20)}px;
-`
-
 export const MyLocationButtonContainer = styled.View`
 	width: 100%;
 	padding-left: ${RFValue(7)}px;

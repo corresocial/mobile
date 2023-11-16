@@ -6,7 +6,7 @@ import { theme } from '../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../common/screenDimensions'
 
 import { FilterButton } from '../_buttons/FilterButton'
-import { HorizontalSpacing } from '../HorizontalSpacing'
+import { HorizontalSpacing } from '../_space/HorizontalSpacing'
 
 interface HorizontalTagListProps {
 	tags: string[]

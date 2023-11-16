@@ -21,7 +21,7 @@ import { SelectButton } from '../../../components/_buttons/SelectButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { HorizontalSpacing } from '../../HorizontalSpacing'
+import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
 import { SmallButton } from '../../_buttons/SmallButton'
 
 interface PostDaysOfWeekProps {

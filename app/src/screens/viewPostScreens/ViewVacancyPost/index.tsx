@@ -33,7 +33,7 @@ import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
 import { ImageCarousel } from '../../../components/ImageCarousel'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
 import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
@@ -184,7 +184,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 					onBackPress={() => navigation.goBack()}
 					text={getPostField('description')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<UserAndValueContainer>
 					<SmallUserIdentification
 						userName={postData.owner ? postData.owner.name : 'usuário do corre.'}
@@ -196,7 +196,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						navigateToProfile={navigateToProfile}
 					/>
 				</UserAndValueContainer>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<OptionsArea>
 					{
 						!isAuthor && (
@@ -237,7 +237,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 				</OptionsArea>
 			</Header>
 			<ScrollView showsVerticalScrollIndicator={false} >
-				<VerticalSigh />
+				<VerticalSpacing />
 				<HorizontalTagList
 					tags={[getCategoryLabel(), ...getPostField('tags')]}
 					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
@@ -245,16 +245,16 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 					onSelectTag={() => { }}
 				/>
 				<Body>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<VacancyPurposeCard
 						vacancyPurpose={getPostField('vacancyPurpose') || getPostField('lookingFor')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<DescriptionCard
 						title={'descrição da vaga'}
 						text={getPostField('description')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					{!arrayIsEmpty(getPostField('picturesUrl')) && (
 						<>
 							<ImageCarousel
@@ -270,11 +270,11 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						placeModality={getPostField('workplace')}
 						isVacancy
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<VacancyTypeCard
 						vacancyType={getPostField('vacancyType')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<SaleOrExchangeCard
 						title={'tipo de remuneração'}
 						hightligtedWords={['tipo', 'remuneração']}
@@ -282,14 +282,14 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						exchangeValue={getPostField('exchangeValue', true)}
 						isPayment
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<LocationViewCard
 						online={getPostField('workplace') === 'homeoffice'}
 						locationView={getPostField('locationView')}
 						withoutMapView={!(getPostField('location') && getPostField('location').coordinates)}
 						location={getPostField('location')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<DateTimeCard
 						weekDaysfrequency={getPostField('workFrequency')}
 						daysOfWeek={getPostField('daysOfWeek', true)}
@@ -298,7 +298,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						startDate={getPostField('startDate', true)}
 						endDate={getPostField('endDate', true)}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					{
 						!!(getPostField('importantPoints') && getPostField('importantPoints').length) && (
 							<ImportantPointsCard
@@ -306,7 +306,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 							/>
 						)
 					}
-					<VerticalSigh bottomNavigatorSpace />
+					<VerticalSpacing bottomNavigatorSpace />
 				</Body>
 			</ScrollView>
 		</Container >

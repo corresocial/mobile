@@ -9,7 +9,7 @@ import CityWhiteIcon from '../../assets/icons/city-white.svg'
 import CountryWhiteIcon from '../../assets/icons/brazil-white.svg'
 
 import { WithoutPostsMessage } from '../WithoutPostsMessage'
-import { VerticalSigh } from '../VerticalSigh'
+import { VerticalSpacing } from '../_space/VerticalSpacing'
 import { SubtitleCard } from '../_cards/SubtitleCard'
 import { FlatListPosts } from '../FlatListPosts'
 import { PostCard } from '../_cards/PostCard'
@@ -76,7 +76,7 @@ function FeedByRange({
 											SvgIcon={PinWhiteIcon}
 											onPress={() => viewPostsByRange('near')}
 										/>
-										<VerticalSigh />
+										<VerticalSpacing />
 									</>
 								)}
 								renderItem={customRenderItem || renderPostItem}
@@ -101,7 +101,7 @@ function FeedByRange({
 											SvgIcon={CityWhiteIcon}
 											onPress={() => viewPostsByRange('city')}
 										/>
-										<VerticalSigh />
+										<VerticalSpacing />
 									</>
 								)}
 								renderItem={renderPostItem}
@@ -126,7 +126,7 @@ function FeedByRange({
 											SvgIcon={CountryWhiteIcon}
 											onPress={() => viewPostsByRange('country')}
 										/>
-										<VerticalSigh />
+										<VerticalSpacing />
 									</>
 								)}
 								renderItem={renderPostItem}
@@ -136,7 +136,7 @@ function FeedByRange({
 					)
 					: <></>
 			}
-			<VerticalSigh height={relativeScreenHeight(10)} />
+			<VerticalSpacing height={relativeScreenHeight(10)} />
 			{
 				!hasAnyPost() && (
 					<WithoutPostsMessage

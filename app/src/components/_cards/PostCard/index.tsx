@@ -25,7 +25,7 @@ import { SaleExchangeValue } from '../../SaleExchangeValue'
 import { SmallUserIdentification } from '../../SmallUserIdentification'
 
 import { theme } from '../../../common/theme'
-import { VerticalSigh } from '../../VerticalSigh'
+import { VerticalSpacing } from '../../_space/VerticalSpacing'
 
 interface PostCardProps {
 	post: PostCollection | any
@@ -127,7 +127,7 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 												/>
 											</SaleValueContainerInner>
 										</SaleValueContainer>
-										{(!arrayIsEmpty(post.picturesUrl)) && <VerticalSigh height={RFValue(8)} />}
+										{(!arrayIsEmpty(post.picturesUrl)) && <VerticalSpacing height={RFValue(8)} />}
 									</>
 								)
 							}
@@ -142,7 +142,7 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 								{post.description}
 							</Title>
 						</TitleContainer>
-						<VerticalSigh />
+						<VerticalSpacing />
 						<SmallUserIdentification
 							userName={renderShortName()}
 							postDate={renderFormatedPostDateTime()}

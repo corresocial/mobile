@@ -20,7 +20,7 @@ import { EditCard } from '../../../components/_cards/EditCard'
 import { theme } from '../../../common/theme'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { VacancyPurposeCard } from '../../../components/_cards/VacancyPurposeCard'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
 import { VacancyTypeCard } from '../../../components/_cards/VacancyTypeCard'
@@ -207,19 +207,19 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 							: navigateToEditScreen('SelectVacancyPurpose', 'lookingFor')
 					}}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'tags do post'}
 					highlightedWords={['tags']}
 					value={formatCategoryAndTags()}
 					onEdit={() => navigateToEditScreen('SelectVacancyCategory', 'tags')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertVacancyDescription', 'description')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
@@ -228,7 +228,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					carousel
 					onEdit={() => navigateToEditScreen('VacancyPicturePreview', 'picturesUrl')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<PlaceModality
 					title={'local de trabalho'}
 					hightligtedWords={['local', 'trabalho']}
@@ -236,12 +236,12 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					isVacancy
 					onEdit={() => navigateToEditScreen('SelectWorkplace', 'workplace')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<VacancyTypeCard
 					vacancyType={getPostField('vacancyType')}
 					onEdit={() => navigateToEditScreen('SelectVacancyType', 'vacancyType')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<SaleOrExchangeCard
 					title={'tipo de remuneração'}
 					hightligtedWords={['tipo', 'remuneração']}
@@ -250,12 +250,12 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					isPayment
 					onEdit={() => navigateToEditScreen('SelectPaymentType', 'saleValue')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<PostRangeCard
 					postRange={getPostField('range')}
 					onEdit={() => navigateToEditScreen('SelectVacancyRange', 'range')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
@@ -264,7 +264,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					withoutMapView={!(getPostField('location') && getPostField('location').coordinates)}
 					onEdit={checkChangeLocationAlertIsRequired}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DateTimeCard
 					title={'dias da semana'}
 					highlightedWords={['dias']}
@@ -272,7 +272,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					daysOfWeek={getPostField('daysOfWeek', true)}
 					onEdit={() => navigateToEditScreen('SelectVacancyFrequency', 'daysOfWeek')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'data de início'}
 					highlightedWords={['início']}
@@ -281,7 +281,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertVacancyStartDate', 'startDate')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'horário de início'}
 					highlightedWords={['início']}
@@ -290,7 +290,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertVacancyStartHour', 'startHour')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'data de fim'}
 					highlightedWords={['fim']}
@@ -299,7 +299,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertVacancyEndDate', 'endDate')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'horário de fim'}
 					highlightedWords={['fim']}
@@ -308,7 +308,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertVacancyEndHour', 'endHour')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<ImportantPointsCard
 					importantPoints={getPostField('importantPoints')}
 					onEdit={() => navigateToEditScreen('InsertVacancyImportantPoints', 'importantPoints')}

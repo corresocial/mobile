@@ -10,13 +10,11 @@ import {
 	Container,
 	ConversationArea,
 	ConversationList,
-	FooterSigh,
 	Header,
 	IconArea,
 	OptionsArea,
 	SearchInput,
 	SearchInputContainer,
-	Sigh,
 	Title
 } from './styles'
 import { theme } from '../../../common/theme'
@@ -35,6 +33,7 @@ import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ConversationCard } from '../../../components/_cards/ConversationCard'
 import { AlertContext } from '../../../contexts/AlertContext/index.tsx'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 
 function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -222,9 +221,9 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 									}
 								}}
 								showsVerticalScrollIndicator={false}
-								ItemSeparatorComponent={() => <Sigh />}
+								ItemSeparatorComponent={() => <VerticalSpacing />}
 								ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
-								ListFooterComponent={<FooterSigh />}
+								ListFooterComponent={<VerticalSpacing height={relativeScreenHeight(10)} />}
 							/>
 						)
 				}

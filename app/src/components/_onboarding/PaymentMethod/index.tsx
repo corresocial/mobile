@@ -16,7 +16,7 @@ import { BackButton } from '../../_buttons/BackButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { OptionButton } from '../../_buttons/OptionButton'
-import { HorizontalSpacing } from '../../HorizontalSpacing'
+import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
 import { SmallButton } from '../../_buttons/SmallButton'
 
 interface PaymentMethodProps {

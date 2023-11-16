@@ -21,7 +21,7 @@ import { Loader } from '../../../components/Loader'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { Id } from '../../../services/firebase/types'
 import Firebase from '../../../services/firebase'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { linkAuthProvider } from '../../../services/firebase/user/linkAuthProvider'
 import { updateUserPrivateData } from '../../../services/firebase/user/updateUserPrivateData'
 import { getPhoneAuthCredential } from '../../../services/firebase/user/getPhoneAuthCredential'
@@ -259,7 +259,7 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 						fontSize={16}
 					/>
 				</InstructionButtonContainer>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<InstructionButtonContainer withPaddingLeft>
 					<InstructionCard
 						fontSize={16}

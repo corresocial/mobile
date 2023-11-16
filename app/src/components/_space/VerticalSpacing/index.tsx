@@ -2,14 +2,14 @@ import React from 'react'
 
 import { Container } from './styles'
 
-import { relativeScreenHeight } from '../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
-interface VerticalSighProps {
+interface VerticalSpacingProps {
 	height?: number
 	bottomNavigatorSpace?: boolean
 }
 
-function VerticalSigh({ height, bottomNavigatorSpace }: VerticalSighProps) {
+function VerticalSpacing({ height, bottomNavigatorSpace }: VerticalSpacingProps) {
 	const customHeight = bottomNavigatorSpace ? relativeScreenHeight(13) : height
 
 	return (
@@ -19,4 +19,4 @@ function VerticalSigh({ height, bottomNavigatorSpace }: VerticalSighProps) {
 	)
 }
 
-export { VerticalSigh }
+export { VerticalSpacing }

@@ -9,11 +9,9 @@ import {
 	DropdownBody,
 	DropdownHeader,
 	DropdownHeaderContainer,
-	Sigh,
 	IconArea,
 	SearchInput,
 	MyLocationButtonContainer,
-	BigSigh
 } from './styles'
 import { theme } from '../../common/theme'
 import { relativeScreenHeight, statusBarHeight } from '../../common/screenDimensions'
@@ -29,6 +27,7 @@ import { DropdownItem } from '../DropdownItem'
 import { SmallButton } from '../_buttons/SmallButton'
 import { PrimaryButton } from '../_buttons/PrimaryButton'
 import { DefaultDropdownHeader } from '../DefaultDropdownHeader'
+import { VerticalSpacing } from '../_space/VerticalSpacing'
 
 interface LocationNearDropdownProps {
 	selectedAddress: SelectedAddressRender
@@ -168,7 +167,7 @@ function LocationNearDropdown({
 							/>
 						)
 					}
-					<Sigh />
+					<VerticalSpacing height={RFValue(5)} />
 					{
 						!searchText.length && (
 							<MyLocationButtonContainer>
@@ -189,7 +188,7 @@ function LocationNearDropdown({
 							</MyLocationButtonContainer>
 						)
 					}
-					<Sigh />
+					<VerticalSpacing height={RFValue(5)} />
 					<FlatList
 						data={!searchText.length ? recentAddresses : addressSuggestions}
 						showsVerticalScrollIndicator={false} // Item
@@ -201,8 +200,8 @@ function LocationNearDropdown({
 								recent={item.recent}
 							/>
 						)}
-						ItemSeparatorComponent={() => <Sigh />}
-						ListFooterComponent={() => <BigSigh />}
+						ItemSeparatorComponent={() => <VerticalSpacing height={RFValue(5)} />}
+						ListFooterComponent={() => <VerticalSpacing height={relativeScreenHeight(20)} />}
 					/>
 				</DropdownBody>
 				{

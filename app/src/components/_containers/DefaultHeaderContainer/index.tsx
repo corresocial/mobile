@@ -5,7 +5,7 @@ import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 import { Container, FooterTextArea } from './styles'
 import { SmallInstructionCard } from '../../SmallInstructionCard'
-import { VerticalSigh } from '../../VerticalSigh'
+import { VerticalSpacing } from '../../_space/VerticalSpacing'
 
 interface DefaultHeaderContainerProps {
 	children: ReactElement | ReactElement[]
@@ -66,7 +66,7 @@ function DefaultHeaderContainer({
 						{
 							footerTextHighlighted && (
 								<>
-									<VerticalSigh />
+									<VerticalSpacing />
 									<SmallInstructionCard text={footerTextHighlighted} highlight />
 								</>
 							)

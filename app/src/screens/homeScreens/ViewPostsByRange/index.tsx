@@ -17,7 +17,7 @@ import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader
 import { PostCard } from '../../../components/_cards/PostCard'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { FlatListPosts } from '../../../components/FlatListPosts'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { SearchParams } from '../../../services/maps/types'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
@@ -153,14 +153,14 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 									data={postsByRange}
 									renderItem={renderPostItem}
 									headerComponent={() => (
-										<VerticalSigh />
+										<VerticalSpacing />
 									)}
 								/>
 							</>
 						)
 						: <></>
 				}
-				<VerticalSigh height={relativeScreenHeight(10)} />
+				<VerticalSpacing height={relativeScreenHeight(10)} />
 			</Body>
 		</Container>
 	)

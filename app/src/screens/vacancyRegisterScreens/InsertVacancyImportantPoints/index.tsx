@@ -19,7 +19,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { DefaultInput } from '../../../components/_inputs/DefaultInput'
-import { HorizontalSpacing } from '../../../components/HorizontalSpacing'
+import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 
 function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImportantPointsScreenProps) {

@@ -28,7 +28,7 @@ import { SearchInput } from '../../../components/_inputs/SearchInput'
 import { postMacroCategories } from '../../../utils/postMacroCategories'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { FeedByRange } from '../../../components/FeedByRange'
-import { HorizontalSpacing } from '../../../components/HorizontalSpacing'
+import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 

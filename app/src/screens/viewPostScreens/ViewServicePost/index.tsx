@@ -42,7 +42,7 @@ import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 
@@ -203,7 +203,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					onBackPress={() => navigation.goBack()}
 					text={getPostField('description')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<UserAndValueContainer>
 					<SmallUserIdentification
 						userName={
@@ -219,7 +219,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						navigateToProfile={navigateToProfile}
 					/>
 				</UserAndValueContainer>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<OptionsArea>
 					{!isAuthor && (
 						<SmallButton
@@ -259,7 +259,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 				</OptionsArea>
 			</Header>
 			<ScrollView showsVerticalScrollIndicator={false}>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<HorizontalTagList
 					tags={[getCategoryLabel(), ...getPostField('tags')]}
 					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
@@ -267,11 +267,11 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					onSelectTag={() => { }}
 				/>
 				<Body>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<DescriptionCard
 						text={getPostField('description')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					{!arrayIsEmpty(getPostField('picturesUrl')) && (
 						<>
 							<ImageCarousel
@@ -288,7 +288,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 									saleValue={getPostField('saleValue', true)}
 									exchangeValue={getPostField('exchangeValue', true)}
 								/>
-								<VerticalSigh />
+								<VerticalSpacing />
 							</>
 						)
 					}
@@ -296,7 +296,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						locationView={getPostField('locationView')}
 						location={getPostField('location')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<DateTimeCard
 						weekDaysfrequency={getPostField('attendanceFrequency')}
 						daysOfWeek={getPostField('daysOfWeek', true)}
@@ -306,14 +306,14 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					{
 						getPostField('deliveryMethod') && (
 							<>
-								<VerticalSigh />
+								<VerticalSpacing />
 								<DeliveryMethodCard
 									deliveryMethod={getPostField('deliveryMethod')}
 								/>
 							</>
 						)
 					}
-					<VerticalSigh bottomNavigatorSpace />
+					<VerticalSpacing bottomNavigatorSpace />
 				</Body >
 			</ScrollView>
 		</Container>

@@ -37,7 +37,7 @@ import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { ItemStatusCard } from '../../../components/_cards/ItemStatusCard'
 import { textHasOnlyNumbers } from '../../../utils/validationFunctions'
@@ -201,7 +201,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					onBackPress={() => navigation.goBack()}
 					text={getPostField('description')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<UserAndValueContainer>
 					<SmallUserIdentification
 						userName={
@@ -217,7 +217,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						navigateToProfile={navigateToProfile}
 					/>
 				</UserAndValueContainer>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<OptionsArea>
 					{!isAuthor && (
 						<SmallButton
@@ -255,7 +255,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 				</OptionsArea>
 			</Header>
 			<ScrollView showsVerticalScrollIndicator={false}>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<HorizontalTagList
 					tags={[getCategoryLabel(), ...getPostField('tags')]}
 					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
@@ -263,15 +263,15 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					onSelectTag={() => { }}
 				/>
 				<Body>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<ItemStatusCard
 						itemStatus={getPostField('itemStatus')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<DescriptionCard
 						text={getPostField('description')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					{!arrayIsEmpty(getPostField('picturesUrl')) && (
 						<>
 							<ImageCarousel
@@ -288,7 +288,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 									saleValue={getPostField('saleValue', true)}
 									exchangeValue={getPostField('exchangeValue', true)}
 								/>
-								<VerticalSigh />
+								<VerticalSpacing />
 							</>
 						)
 					}
@@ -297,7 +297,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						locationView={getPostField('locationView')}
 						location={getPostField('location')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<DateTimeCard
 						weekDaysfrequency={getPostField('attendanceFrequency')}
 						daysOfWeek={getPostField('daysOfWeek', true)}
@@ -307,14 +307,14 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					{
 						getPostField('deliveryMethod') && (
 							<>
-								<VerticalSigh />
+								<VerticalSpacing />
 								<DeliveryMethodCard
 									deliveryMethod={getPostField('deliveryMethod')}
 								/>
 							</>
 						)
 					}
-					<VerticalSigh bottomNavigatorSpace />
+					<VerticalSpacing bottomNavigatorSpace />
 				</Body>
 			</ScrollView>
 		</Container>

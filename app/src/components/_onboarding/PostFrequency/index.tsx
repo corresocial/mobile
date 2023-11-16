@@ -17,7 +17,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import { HorizontalSpacing } from '../../HorizontalSpacing'
+import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
 import { SmallButton } from '../../_buttons/SmallButton'
 
 interface PostFrequencyProps {

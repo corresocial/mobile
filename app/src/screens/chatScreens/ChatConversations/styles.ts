@@ -2,7 +2,7 @@ import Constants from 'expo-constants'
 import { Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
@@ -27,11 +27,6 @@ export const Title = styled.Text`
 
 export const OptionsArea = styled.View`
 	flex-direction: row;
-`
-
-export const OptionSigh = styled.View`
-	height: 100%;
-	width: ${relativeScreenWidth(2)}px;
 `
 
 export const SearchInputContainer = styled.View`
@@ -65,14 +60,4 @@ export const ConversationArea = styled.View`
 
 export const ConversationList = styled.FlatList`
 	padding: ${RFValue(10)}px;
-`
-
-export const Sigh = styled.View`
-	width: 100%;
-	height: ${RFValue(10)}px;
-`
-
-export const FooterSigh = styled.View`
-	width: 100%;
-	height: ${relativeScreenHeight(10)}px;
 `

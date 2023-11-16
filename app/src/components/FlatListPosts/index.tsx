@@ -4,7 +4,7 @@ import { FlatList, Platform, RefreshControl } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { PostCollection } from '../../services/firebase/types'
 
-import { VerticalSigh } from '../VerticalSigh'
+import { VerticalSpacing } from '../_space/VerticalSpacing'
 import { theme } from '../../common/theme'
 import { relativeScreenHeight } from '../../common/screenDimensions'
 
@@ -34,10 +34,10 @@ function FlatListPosts({
 			data={data}
 			renderItem={({ item }) => renderItem(item)}
 			showsVerticalScrollIndicator={false}
-			ItemSeparatorComponent={() => <VerticalSigh />}
+			ItemSeparatorComponent={() => <VerticalSpacing />}
 			ListHeaderComponent={headerComponent}
 			ListHeaderComponentStyle={{ marginBottom: RFValue(0) }}
-			ListFooterComponent={withoutFooter ? <></> : <VerticalSigh height={deviceIsIOS ? relativeScreenHeight(4) : relativeScreenHeight(1.5)} />}
+			ListFooterComponent={withoutFooter ? <></> : <VerticalSpacing height={deviceIsIOS ? relativeScreenHeight(4) : relativeScreenHeight(1.5)} />}
 			onEndReached={onEndReached}
 			refreshControl={(
 				<RefreshControl

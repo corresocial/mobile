@@ -15,12 +15,12 @@ import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { AuthContext } from '../../../contexts/AuthContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
 import { FeedByRange } from '../../../components/FeedByRange'
 import { FlatListItem } from '../../../@types/global/types'
-import { HorizontalSpacing } from '../../../components/HorizontalSpacing'
+import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 
 function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -184,7 +184,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 							seeMoreText
 							onPress={viewAllTags}
 						/>
-						<VerticalSigh />
+						<VerticalSpacing />
 					</>
 				}
 				<TagsContainer>

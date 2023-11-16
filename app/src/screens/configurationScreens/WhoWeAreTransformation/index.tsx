@@ -10,7 +10,7 @@ import { WhoWeAreTransformationScreenProps } from '../../../routes/Stack/UserSta
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { DefaultCardContainer } from '../../../components/_cards/DefaultCardContainer'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function WhoWeAreTransformation({ navigation }: WhoWeAreTransformationScreenProps) {
@@ -33,17 +33,17 @@ function WhoWeAreTransformation({ navigation }: WhoWeAreTransformationScreenProp
 				<DefaultCardContainer flex={1}>
 					<ContainerContent>
 						<Title>{'transformação'}</Title>
-						<VerticalSigh height={relativeScreenHeight(3)} />
+						<VerticalSpacing height={relativeScreenHeight(3)} />
 						<Description>
 							{'colhemos dados em entrevistas, encontros com moradores e enquetes para criar planos de ação e priorizar melhorias nas comunidades de baixa renda.'}
 						</Description>
-						<VerticalSigh height={relativeScreenHeight(3)} />
+						<VerticalSpacing height={relativeScreenHeight(3)} />
 						<Description>
 							{'tudo gerido por líderes locais, que entendem a realidade de onde vem!'}
 						</Description>
 					</ContainerContent>
 				</DefaultCardContainer>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<ButtonContainer>
 					<PrimaryButton
 						color={theme.orange3}

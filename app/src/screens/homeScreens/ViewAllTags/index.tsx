@@ -15,7 +15,7 @@ import { LocationContext } from '../../../contexts/LocationContext'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { PostCollection } from '../../../services/firebase/types'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
@@ -92,11 +92,11 @@ function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 			<KeyboardAvoidingView style={{ flex: 1 }}>
 				<Body style={{ backgroundColor: locationDataContext.currentCategory.backgroundColor }}>
 					<ScrollView showsVerticalScrollIndicator={false}>
-						<VerticalSigh />
+						<VerticalSpacing />
 						<SelectButtonsContainer backgroundColor={'transparent'} noPadding>
 							{renderFiltredCategories()}
 						</SelectButtonsContainer>
-						<VerticalSigh height={relativeScreenHeight(10)} />
+						<VerticalSpacing height={relativeScreenHeight(10)} />
 					</ScrollView>
 				</Body>
 			</KeyboardAvoidingView>

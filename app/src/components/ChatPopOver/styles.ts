@@ -32,7 +32,3 @@ export const UserName = styled.Text`
 	width: 92%;
 	margin-bottom: ${RFValue(15)}px;
 `
-export const Sigh = styled.View`
-	width: 100%;
-	margin-vertical: ${RFValue(5)}px;
-`

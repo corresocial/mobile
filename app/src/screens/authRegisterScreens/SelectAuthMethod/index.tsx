@@ -22,7 +22,7 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { userExists } from '../../../services/firebase/user/userExists'
 import { SocialLoginAlertModal } from '../../../components/_modals/SocialLoginAlertModal'
 import { Loader } from '../../../components/Loader'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 WebBrowser.maybeCompleteAuthSession()
@@ -175,7 +175,7 @@ function SelectAuthMethod({ route, navigation }: SelectAuthMethodScreenProps) {
 									labelColor={theme.white3}
 									onPress={performSigninWithCellNumber}
 								/>
-								<VerticalSigh height={relativeScreenHeight(5)} />
+								<VerticalSpacing height={relativeScreenHeight(5)} />
 								<PrimaryButton
 									color={theme.white3}
 									SecondSvgIcon={GoogleWhiteIcon}

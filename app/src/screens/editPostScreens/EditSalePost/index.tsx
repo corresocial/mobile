@@ -18,7 +18,7 @@ import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
 
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { ItemStatusCard } from '../../../components/_cards/ItemStatusCard'
@@ -202,17 +202,17 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					value={formatCategoryAndTags()}
 					onEdit={() => navigateToEditScreen('SelectSaleCategory', 'tags')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<ItemStatusCard
 					itemStatus={getPostField('itemStatus')}
 					onEdit={() => navigateToEditScreen('SelectItemStatus', 'itemStatus')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertSaleDescription', 'description')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
@@ -221,18 +221,18 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					carousel
 					onEdit={() => navigateToEditScreen('SalePicturePreview', 'picturesUrl')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<SaleOrExchangeCard
 					saleValue={getPostField('saleValue', true)}
 					exchangeValue={getPostField('exchangeValue', true)}
 					onEdit={() => navigateToEditScreen('SelectPaymentType', 'saleValue')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<PostRangeCard
 					postRange={getPostField('range')}
 					onEdit={() => navigateToEditScreen('SelectSaleRange', 'range')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
@@ -240,12 +240,12 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					location={getPostField('location')}
 					onEdit={checkChangeLocationAlertIsRequired}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DeliveryMethodCard
 					deliveryMethod={getPostField('deliveryMethod')}
 					onEdit={() => navigateToEditScreen('SelectDeliveryMethod', 'deliveryMethod')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DateTimeCard
 					title={'dias da semana'}
 					highlightedWords={['dias']}
@@ -253,7 +253,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					daysOfWeek={getPostField('daysOfWeek', true)}
 					onEdit={() => navigateToEditScreen('SelectSaleFrequency', 'daysOfWeek')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que horas começa'}
 					highlightedWords={['começa']}
@@ -262,7 +262,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertSaleStartHour', 'startHour')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que horas termina'}
 					highlightedWords={['termina']}

@@ -20,7 +20,7 @@ import CalendarEmptyIcon from '../../../assets/icons/calendarEmpty-unfilled.svg'
 
 import { EditCard } from '../../../components/_cards/EditCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
@@ -215,19 +215,19 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					cultureType={getPostField('cultureType')}
 					onEdit={() => navigateToEditScreen('SelectCultureType', 'cultureType')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'tags do post'}
 					highlightedWords={['tags']}
 					value={formatCategoryAndTags()}
 					onEdit={() => navigateToEditScreen('SelectCultureCategory', 'tags')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertCultureDescription', 'description')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
@@ -235,12 +235,12 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					carousel
 					onEdit={() => navigateToEditScreen('CulturePicturePreview', 'picturesUrl')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<PostRangeCard
 					postRange={getPostField('range')}
 					onEdit={() => navigateToEditScreen('SelectCultureRange', 'range')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
@@ -248,7 +248,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					location={getPostField('location')}
 					onEdit={checkChangeLocationAlertIsRequired}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<SaleOrExchangeCard
 					title={'custo de entrada'}
 					hightligtedWords={['custo', 'entrada']}
@@ -256,14 +256,14 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					onEdit={() => navigateToEditScreen('InsertEntryValue', 'entryValue')}
 					isCulturePost
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<PlaceModality
 					title={'como participar'}
 					hightligtedWords={['participar']}
 					placeModality={getPostField('eventPlaceModality')}
 					onEdit={() => navigateToEditScreen('SelectCulturePlaceModality', 'eventPlaceModality')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DateTimeCard
 					title={'dias da semana'}
 					highlightedWords={['dias']}
@@ -271,7 +271,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					daysOfWeek={getPostField('daysOfWeek', true)}
 					onEdit={() => navigateToEditScreen('SelectCultureFrequency', 'daysOfWeek')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'repetição'}
 					highlightedWords={['repetição']}
@@ -279,7 +279,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					value={renderCultureRepeat() || '---'}
 					onEdit={() => navigateToEditScreen('SelectEventRepeat', 'repeat')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que dia começa'}
 					highlightedWords={['começa']}
@@ -288,7 +288,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertCultureStartDate', 'startDate')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que horas começa'}
 					highlightedWords={['começa']}
@@ -297,7 +297,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertCultureStartHour', 'startHour')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que dia termina'}
 					highlightedWords={['termina']}
@@ -306,7 +306,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertCultureEndDate', 'endDate')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que horas termina'}
 					highlightedWords={['termina']}
