@@ -100,6 +100,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 
 	const getRelativeBackgroundColor = () => {
 		switch (postType) {
+			case 'income': return theme.green2
 			case 'service': return theme.purple2
 			case 'sale': return theme.green2
 			case 'vacancy': return theme.yellow2
@@ -160,14 +161,6 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 						: <></>
 				}
 				<VerticalSigh height={relativeScreenHeight(10)} />
-				{/* {
-					(!postsByRange || (postsByRange && !postsByRange.length)) && (
-						<WithoutPostsMessage
-						title={'opa!'}
-						message={'parece que não temos nenhum post {perto de você}, nosso time já está sabendo e irá resolver!'}
-						/>
-						)
-					} */}
 			</Body>
 		</Container>
 	)
