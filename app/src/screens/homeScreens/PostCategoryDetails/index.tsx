@@ -163,7 +163,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
-						onSubmitEditing={navigateToResultScreen}
+						onPressKeyboardSubmit={navigateToResultScreen}
 						validBackgroundColor={''}
 					/>
 				</InputContainer>

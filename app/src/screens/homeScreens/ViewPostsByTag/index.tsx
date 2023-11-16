@@ -120,7 +120,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
-						onSubmitEditing={navigateToResultScreen}
+						onPressKeyboardSubmit={navigateToResultScreen}
 						validBackgroundColor={''}
 					/>
 				</InputContainer>

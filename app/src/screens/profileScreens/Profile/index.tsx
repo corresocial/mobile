@@ -578,7 +578,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 														<>
 															<BackButton
 																onPress={navigationToBack}
-																withoutSigh={false}
+																withoutRightSpacing={false}
 															/>
 															<HorizontalSpacing width={relativeScreenWidth(3)} />
 														</>

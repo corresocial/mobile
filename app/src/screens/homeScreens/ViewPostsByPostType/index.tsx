@@ -37,6 +37,8 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	const [filteredFeedPosts, setFilteredFeedPosts] = useState<FeedPosts>({ nearby: [], city: [], country: [] })
 
 	useEffect(() => {
+		setCurrentCategoryColorsOnContext()
+
 		const posts = filterPostsByPostType()
 		setFeedPostsByType(posts as any) // TODO Type
 	}, [])
@@ -47,6 +49,15 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 			setFilteredFeedPosts(posts)
 		}
 	}, [searchText])
+
+	const setCurrentCategoryColorsOnContext = () => {
+		const currentCategory = {
+			backgroundColor: getRelativeBackgroundColor(),
+			inactiveColor: getInactiveCardColor()
+		}
+
+		setLocationDataOnContext({ currentCategory: { ...locationDataContext.currentCategory, ...currentCategory } })
+	}
 
 	const filterPostsByPostType = () => {
 		return {
@@ -127,12 +138,8 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	}
 
 	const navigateToResultScreen = () => {
-		const customSearchParams = {
-			...locationDataContext.searchParams,
-			searchText,
-			category: locationDataContext.currentCategory.categoryName,
-		}
-		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle, })
+		const customSearchParams = { ...locationDataContext.searchParams, searchText }
+		navigation.navigate('SearchResult', { searchParams: customSearchParams })
 	}
 
 	const navigateToProfile = (userId: string) => {
@@ -186,7 +193,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 					buttonLabels={['vendas', 'serviços', 'vagas']}
 					buttonValues={['sale', 'service', 'vacancy']}
 					buttonIcons={[SaleWhiteIcon, ServiceWhiteIcon, VacancyWhiteIcon]}
-					onPress={(macroCategory: string) => navigateToPostSubcatery('income', macroCategory)}
+					onPress={(macroCategory: string) => navigateToPostSubcatery(macroCategory)}
 				/>
 			)
 			case 'culture': return (
@@ -194,7 +201,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 					buttonLabels={['arte', 'eventos', 'educação']}
 					buttonValues={['art', 'event', 'education']}
 					buttonIcons={[ColorPaletWhiteIcon, CalendarSomedayWhiteIcon, BooksWhiteIcon]}
-					onPress={(macroCategory: string) => navigateToPostSubcatery('culture', macroCategory)}
+					onPress={(macroCategory: string) => navigateToPostSubcatery(macroCategory)}
 				/>
 			)
 			case 'socialImpact': return (
@@ -202,23 +209,15 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 					buttonLabels={['informativos', 'iniciativas', 'doações']}
 					buttonValues={['informative', 'iniciative', 'donation']}
 					buttonIcons={[PeperInfoWhiteIcon, HeartAndPersonWhiteIcon, HandOnHeartWhiteIcon]}
-					onPress={(macroCategory: string) => navigateToPostSubcatery('socialImpact', macroCategory)}
+					onPress={(macroCategory: string) => navigateToPostSubcatery(macroCategory)}
 				/>
 			)
 			default: return <></>
 		}
 	}
 
-	const navigateToPostSubcatery = (postType: PostType, macroCategory: string) => {
-		const currentCategory = {
-			backgroundColor: getRelativeBackgroundColor(),
-			inactiveColor: getInactiveCardColor()
-		}
-
-		setLocationDataOnContext({ // TODO Type NOW
-			searchParams: { ...locationDataContext.searchParams, macroCategory },
-			currentCategory: { ...locationDataContext.currentCategory, ...currentCategory }
-		})
+	const navigateToPostSubcatery = (macroCategory: string) => {
+		setLocationDataOnContext({ searchParams: { ...locationDataContext.searchParams, macroCategory } })
 		navigation.navigate('PostCategories')
 	}
 
@@ -238,7 +237,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
-						onSubmitEditing={navigateToResultScreen}
+						onPressKeyboardSubmit={navigateToResultScreen}
 						validBackgroundColor={''}
 					/>
 				</InputContainer>

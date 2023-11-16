@@ -265,8 +265,10 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 		}
 
 		setLocationDataOnContext({ currentCategory: { ...locationDataContext.currentCategory, ...currentCategory } })
+
 		const customSearchParams = { ...locationDataContext.searchParams, searchText }
 		setSearchText('')
+
 		navigation.navigate('SearchResult', { searchParams: customSearchParams })
 	}
 
@@ -285,7 +287,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
-						onSubmitEditing={navigateToResultScreen}
+						onPressKeyboardSubmit={navigateToResultScreen}
 						validBackgroundColor={''}
 					/>
 				</InputContainer>

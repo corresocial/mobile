@@ -8,11 +8,11 @@ import { theme } from '../../../common/theme'
 import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
 
 interface BackButtonProps {
-	withoutSigh?: boolean
+	withoutRightSpacing?: boolean
 	onPress: () => void
 }
 
-function BackButton({ withoutSigh, onPress }: BackButtonProps) {
+function BackButton({ withoutRightSpacing, onPress }: BackButtonProps) {
 	return (
 		<>
 			<SmallButton
@@ -23,7 +23,7 @@ function BackButton({ withoutSigh, onPress }: BackButtonProps) {
 				onPress={onPress}
 				svgScale={['55%', '55%']}
 			/>
-			<HorizontalSpacing width={withoutSigh ? 0 : RFValue(10)} />
+			<HorizontalSpacing width={withoutRightSpacing ? 0 : RFValue(10)} />
 		</>
 	)
 }

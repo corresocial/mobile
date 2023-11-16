@@ -72,11 +72,12 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 
 	const getRelativeTitle = (postType: PostType) => {
 		switch (postType) {
-			case 'service': return 'serviços' as PostType
-			case 'sale': return 'comércio' as PostType
-			case 'vacancy': return 'vagas' as PostType
-			case 'culture': return 'culturas' as PostType
-			case 'socialImpact': return 'impacto social' as PostType
+			case 'income': return 'renda'
+			case 'service': return 'serviços'
+			case 'sale': return 'comércio'
+			case 'vacancy': return 'vagas'
+			case 'culture': return 'culturas'
+			case 'socialImpact': return 'impacto social'
 			default: return 'posts'
 		}
 	}

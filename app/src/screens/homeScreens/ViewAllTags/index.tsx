@@ -67,6 +67,15 @@ function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 		navigation.navigate('ViewPostsByTag', { currentTagSelected: tagName })
 	}
 
+	const navigateToResultScreen = () => {
+		const customSearchParams = {
+			...locationDataContext.searchParams,
+			searchText,
+			category: locationDataContext.currentCategory.categoryName,
+		}
+		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle, })
+	}
+
 	return (
 		<Container>
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -83,9 +92,9 @@ function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 						value={searchText}
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
-						onChangeText={(text: string) => setSearchText(text)}
 						validBackgroundColor={''}
-						onSubmitEditing={() => { }}
+						onChangeText={(text: string) => setSearchText(text)}
+						onPressKeyboardSubmit={navigateToResultScreen}
 					/>
 				</InputContainer>
 			</Header>

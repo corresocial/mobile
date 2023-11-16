@@ -134,6 +134,22 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 		navigation.navigate('PostCategoryDetails')
 	}
 
+	const navigateToResultScreen = () => {
+		const currentCategory = {
+			categoryName: '',
+			categoryTitle: '',
+			categorySvgIcon: null,
+			categoryTags: ['']
+		}
+
+		setLocationDataOnContext({ currentCategory: { ...locationDataContext.currentCategory, ...currentCategory } })
+
+		const customSearchParams = { ...locationDataContext.searchParams, searchText }
+		setSearchText('')
+
+		navigation.navigate('SearchResult', { searchParams: customSearchParams })
+	}
+
 	return (
 		<Container>
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -151,6 +167,7 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
+						onPressKeyboardSubmit={navigateToResultScreen}
 						validBackgroundColor={''}
 						onSubmitEditing={() => { }}
 					/>
