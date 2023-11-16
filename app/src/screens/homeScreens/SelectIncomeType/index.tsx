@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 
 import { theme } from '../../../common/theme'
 import SaleWhiteIcon from '../../../assets/icons/sale-white.svg'
@@ -6,20 +6,11 @@ import ServiceWhiteIcon from '../../../assets/icons/service-white.svg'
 import VacancyWhiteIcon from '../../../assets/icons/vacancy-white.svg'
 
 import { SelectIncomeTypeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { IncomeType } from '../../../services/firebase/types'
-
-import { ServiceContext } from '../../../contexts/ServiceContext'
 
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
-import { SaleContext } from '../../../contexts/SaleContext'
-import { VacancyContext } from '../../../contexts/VacancyContext'
 
-function SelectIncomeType({ route, navigation }: SelectIncomeTypeScreenProps) {
-	const { setServiceDataOnContext } = useContext(ServiceContext)
-	const { setSaleDataOnContext } = useContext(SaleContext)
-	const { setVacancyDataOnContext } = useContext(VacancyContext)
-
+function SelectIncomeType({ navigation }: SelectIncomeTypeScreenProps) {
 	useEffect(() => {
 		/* if (!route.params?.editMode) {
 			getAditionalDataFromLastPost()

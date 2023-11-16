@@ -1,7 +1,6 @@
 import React from 'react'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 
-import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
 import SuitCaseWhiteIcon from '../../../assets/icons/suitCase-white.svg'
 import PersonWithSuitCaseWhiteIcon from '../../../assets/icons/personWithSuitCase-white.svg'
 

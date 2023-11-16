@@ -57,7 +57,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 	}, [])
 
 	const loadUserNotification = async () => {
-		registerForPushNotificationsAsync().then((token) => setExpoPushToken(token || ''))
+		registerForPushNotificationsAsync().then((token) => setExpoPushToken(token || '')) // TODO Type string
 		removeNotificationListeners()
 		addNotificationListeners()
 	}
