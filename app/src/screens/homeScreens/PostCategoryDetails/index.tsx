@@ -1,13 +1,12 @@
 import React, { useContext, useState } from 'react'
 import { FlatList } from 'react-native'
 
-import { RFValue } from 'react-native-responsive-fontsize'
 import { theme } from '../../../common/theme'
-import { Body, Container, ContainerPadding, Header, HorizontalSigh, InputContainer, SearchInput, TagsContainer } from './styles'
-import LoupIcon from '../../../assets/icons/loup-white.svg'
+import { Body, Container, ContainerPadding, Header, HorizontalSigh, InputContainer, TagsContainer } from './styles'
 import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
 import CityWhiteIcon from '../../../assets/icons/city-white.svg'
 import CountryWhiteIcon from '../../../assets/icons/brazil-white.svg'
+import OtherWhiteIcon from '../../../assets/icons/categories/others.svg'
 
 import { PostCategoryDetailsScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 import { PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
@@ -25,6 +24,7 @@ import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { VerticalSigh } from '../../../components/VerticalSigh'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
+import { SearchInput } from '../../../components/_inputs/SearchInput'
 
 function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -189,23 +189,24 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 					onBackPress={() => navigation.goBack()}
 				/>
 				<InputContainer>
-					<LoupIcon width={RFValue(25)} height={RFValue(25)} />
 					<SearchInput
 						value={searchText}
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
 						onSubmitEditing={navigateToResultScreen}
+						validBackgroundColor={''}
 					/>
 				</InputContainer>
 			</Header>
 			<Body style={{ backgroundColor }}>
 				{
 					<>
-						<VerticalSigh />
 						<SubtitleCard
-							text={`todas categorias ${categoryTitle}`}
-							highlightedText={['todas', ...categoryTitle.split(' ')]}
+							text={'tags'}
+							highlightedText={['tags']}
+							SvgIcon={OtherWhiteIcon}
+							seeMoreText
 							onPress={viewAllTags}
 						/>
 						<VerticalSigh />

@@ -30,6 +30,7 @@ export type SearchParams = {
 	range: string
 	city: string
 	country: string
+	macroCategory: string
 	category: string
 	tag: string
 	postType: PostType | string
@@ -38,8 +39,8 @@ export type SearchParams = {
 }
 
 export type CurrentCategory = {
-	backgroundColor: string
-	inactiveColor: string
+	backgroundColor?: string
+	inactiveColor?: string
 	categoryName: string
 	categoryTitle: string
 	categorySvgIcon: React.FC<SvgProps> | null

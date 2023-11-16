@@ -1,11 +1,9 @@
 import React, { useContext, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 
-import { RFValue } from 'react-native-responsive-fontsize'
-import { Body, Container, ContainerPadding, Header, InputContainer, SearchInput } from './styles'
+import { Body, Container, ContainerPadding, Header, InputContainer } from './styles'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import LoupIcon from '../../../assets/icons/loup-white.svg'
 import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
 import CityWhiteIcon from '../../../assets/icons/city-white.svg'
 import CountryWhiteIcon from '../../../assets/icons/brazil-white.svg'
@@ -23,6 +21,8 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 import { FlatListPosts } from '../../../components/FlatListPosts'
 import { VerticalSigh } from '../../../components/VerticalSigh'
+import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
+import { SearchInput } from '../../../components/_inputs/SearchInput'
 
 function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -125,9 +125,9 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 		return items
 	}
 
-	/* const hasAnyPost = () => {
+	const hasAnyPost = () => {
 		return (filteredFeedPosts.nearby.length > 0 || filteredFeedPosts.city.length > 0 || filteredFeedPosts.country.length > 0)
-	} */
+	}
 
 	const renderPostItem = (item: PostCollection) => (
 		<ContainerPadding>
@@ -151,13 +151,13 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 					onBackPress={() => navigation.goBack()}
 				/>
 				<InputContainer>
-					<LoupIcon width={RFValue(25)} height={RFValue(25)} />
 					<SearchInput
 						value={searchText}
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
 						onSubmitEditing={navigateToResultScreen}
+						validBackgroundColor={''}
 					/>
 				</InputContainer>
 			</Header>
@@ -236,7 +236,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 							: <></>
 					}
 					<VerticalSigh height={relativeScreenHeight(10)} />
-					{/* {
+					{
 						!hasAnyPost() && (
 							<WithoutPostsMessage
 								title={'opa!'}
@@ -245,7 +245,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 								}
 							/>
 						)
-					} */}
+					}
 				</Body>
 			</KeyboardAvoidingView>
 		</Container>

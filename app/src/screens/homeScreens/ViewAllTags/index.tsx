@@ -2,10 +2,8 @@ import React, { useContext, useState } from 'react'
 import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import uuid from 'react-uuid'
 
-import { RFValue } from 'react-native-responsive-fontsize'
-import { Body, Container, Header, InputContainer, LastSigh, SearchInput } from './styles'
+import { Body, Container, Header, InputContainer, LastSigh } from './styles'
 import { theme } from '../../../common/theme'
-import LoupIcon from '../../../assets/icons/loup-white.svg'
 
 import { ViewAllTagsScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
@@ -16,6 +14,7 @@ import { sortArray } from '../../../common/auxiliaryFunctions'
 import { LocationContext } from '../../../contexts/LocationContext'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { PostCollection } from '../../../services/firebase/types'
+import { SearchInput } from '../../../components/_inputs/SearchInput'
 
 function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 	const { locationDataContext } = useContext(LocationContext)
@@ -71,17 +70,19 @@ function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
+					textPath={`${locationDataContext.currentCategory.categoryTitle}`}
+					text={'tags'}
+					highlightedWords={['']}
+					path
 					onBackPress={() => navigation.goBack()}
-					text={`categorias ${locationDataContext.currentCategory.categoryTitle}`}
-					highlightedWords={locationDataContext.currentCategory.categoryTitle.split(' ')}
 				/>
 				<InputContainer>
-					<LoupIcon width={RFValue(25)} height={RFValue(25)} />
 					<SearchInput
 						value={searchText}
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
+						validBackgroundColor={''}
 						onSubmitEditing={() => { }}
 					/>
 				</InputContainer>

@@ -50,6 +50,6 @@ export const MacroCategoryContainer = styled.View<MacroCategoryContainerProps>`
 	padding-vertical: ${relativeScreenHeight(2)}px;
 `
 
-export const ContainerPadding = styled.ScrollView`
+export const ContainerPadding = styled.ScrollView<MacroCategoryContainerProps>`
 	padding-horizontal: ${RFValue(10)}px;
 `

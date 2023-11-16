@@ -320,7 +320,6 @@ function Home({ navigation }: HomeScreenProps) {
 		})
 
 		navigation.navigate('ViewPostsByPostType', { postType })
-		// navigation.navigate('PostCategories', { postType })
 	}
 
 	const navigateToProfile = (userId: string) => {

@@ -11,9 +11,10 @@ interface CatalogPostTypeButtonsProps {
 	buttonLabels: string[]
 	buttonValues: string[]
 	buttonIcons: React.FC<SvgProps>[]
+	onPress: (macroCategory: string) => void
 }
 
-function CatalogPostTypeButtons({ buttonLabels, buttonValues, buttonIcons }: CatalogPostTypeButtonsProps) {
+function CatalogPostTypeButtons({ buttonLabels, buttonValues, buttonIcons, onPress }: CatalogPostTypeButtonsProps) {
 	const renderButtons = () => {
 		return buttonValues.map((buttonValue, i) => {
 			return (
@@ -23,7 +24,7 @@ function CatalogPostTypeButtons({ buttonLabels, buttonValues, buttonIcons }: Cat
 					height={relativeScreenWidth(15)}
 					color={'white'}
 					fontSize={9}
-					onPress={() => console.log(buttonValue)}
+					onPress={() => onPress(buttonValue)}
 					label={buttonLabels[i]}
 					labelColor={theme.black4}
 					SvgIcon={buttonIcons[i]}

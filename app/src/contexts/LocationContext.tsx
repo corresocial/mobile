@@ -25,6 +25,7 @@ const initialValue = {
 		searchParams: {
 			searchText: '',
 			range: '',
+			macroCategory: '',
 			category: '',
 			tag: '',
 			city: '',

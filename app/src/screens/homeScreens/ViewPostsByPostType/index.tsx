@@ -38,7 +38,7 @@ import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 
 function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-	const { locationDataContext } = useContext(LocationContext)
+	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
 
 	const [searchText, setSearchText] = useState('')
 	const [feedPostsByType, setFeedPostsByType] = useState<FeedPosts>({ nearby: [], city: [], country: [] })
@@ -163,15 +163,6 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 		return items
 	}
 
-	const getRelativeBackgroundColor = () => {
-		switch (locationDataContext.searchParams.postType) {
-			case 'income': return { backgroundColor: theme.green2 }
-			case 'culture': return { backgroundColor: theme.blue2 }
-			case 'socialImpact': return { backgroundColor: theme.pink2 }
-			default: return { backgroundColor: theme.orange2 }
-		}
-	}
-
 	const getRelaticeHeaderIcon = () => {
 		switch (locationDataContext.searchParams.postType) {
 			case 'income': return CashWhiteIcon
@@ -190,13 +181,32 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 		}
 	}
 
+	const getRelativeBackgroundColor = () => {
+		switch (locationDataContext.searchParams.postType) {
+			case 'income': return theme.green2
+			case 'culture': return theme.blue2
+			case 'socialImpact': return theme.pink2
+			default: return theme.orange2
+		}
+	}
+
+	const getInactiveCardColor = () => {
+		switch (locationDataContext.searchParams.postType) {
+			case 'income': return theme.green1
+			case 'culture': return theme.blue1
+			case 'socialImpact': return theme.pink1
+			default: return theme.orange1
+		}
+	}
+
 	const getRelativeCatalogMacroCategoryButtons = () => {
 		switch (locationDataContext.searchParams.postType) {
 			case 'income': return (
 				<CatalogPostTypeButtons
 					buttonLabels={['vendas', 'serviços', 'vagas']}
-					buttonValues={['income', 'service', 'vacancy']}
+					buttonValues={['sale', 'service', 'vacancy']}
 					buttonIcons={[SaleWhiteIcon, ServiceWhiteIcon, VacancyWhiteIcon]}
+					onPress={(macroCategory: string) => navigateToPostSubcatery('income', macroCategory)}
 				/>
 			)
 			case 'culture': return (
@@ -204,6 +214,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 					buttonLabels={['arte', 'eventos', 'educação']}
 					buttonValues={['art', 'event', 'education']}
 					buttonIcons={[ColorPaletWhiteIcon, CalendarSomedayWhiteIcon, BooksWhiteIcon]}
+					onPress={(macroCategory: string) => navigateToPostSubcatery('culture', macroCategory)}
 				/>
 			)
 			case 'socialImpact': return (
@@ -211,10 +222,24 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 					buttonLabels={['informativos', 'iniciativas', 'doações']}
 					buttonValues={['informative', 'iniciative', 'donation']}
 					buttonIcons={[PeperInfoWhiteIcon, HeartAndPersonWhiteIcon, HandOnHeartWhiteIcon]}
+					onPress={(macroCategory: string) => navigateToPostSubcatery('socialImpact', macroCategory)}
 				/>
 			)
 			default: return <></>
 		}
+	}
+
+	const navigateToPostSubcatery = (postType: PostType, macroCategory: string) => {
+		const currentCategory = {
+			backgroundColor: getRelativeBackgroundColor(),
+			inactiveColor: getInactiveCardColor()
+		}
+
+		setLocationDataOnContext({ // TODO Type NOW
+			searchParams: { ...locationDataContext.searchParams, macroCategory },
+			currentCategory: { ...locationDataContext.currentCategory, ...currentCategory }
+		})
+		navigation.navigate('PostCategories')
 	}
 
 	const renderPostItem = (item: PostCollection) => (
@@ -253,7 +278,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 					/>
 				</InputContainer>
 			</Header>
-			<Body style={getRelativeBackgroundColor()}>
+			<Body style={{ backgroundColor: getRelativeBackgroundColor() }}>
 				<MacroCategoryContainer backgroundColor={getRelativeBackgroundColor()}>
 					{getRelativeCatalogMacroCategoryButtons()}
 				</MacroCategoryContainer>

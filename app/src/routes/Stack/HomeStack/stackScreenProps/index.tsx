@@ -13,6 +13,7 @@ export type PostCategoriesScreenProps = NativeStackScreenProps<HomeStackParamLis
 export type ViewPostsByPostTypeScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewPostsByPostType'>
 export type PostCategoryDetailsScreenProps = NativeStackScreenProps<HomeStackParamList, 'PostCategoryDetails'>
 export type ViewAllTagsScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewAllTags'>
+export type ViewAllCategoriesScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewAllCategories'>
 export type ViewPostsByTagScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewPostsByTag'>
 export type SearchResultScreenProps = NativeStackScreenProps<HomeStackParamList, 'SearchResult'>
 export type ProfileHomeScreenProps = NativeStackScreenProps<HomeStackParamList, 'ProfileHome'>
