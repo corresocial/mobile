@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import uuid from 'react-uuid'
 
-import { Body, Container, Header, InputContainer, LastSigh } from './styles'
+import { Body, Container, Header, InputContainer } from './styles'
 import { theme } from '../../../common/theme'
 
 import { ViewAllTagsScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
@@ -15,6 +15,8 @@ import { LocationContext } from '../../../contexts/LocationContext'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { PostCollection } from '../../../services/firebase/types'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
+import { VerticalSigh } from '../../../components/VerticalSigh'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 	const { locationDataContext } = useContext(LocationContext)
@@ -90,10 +92,11 @@ function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 			<KeyboardAvoidingView style={{ flex: 1 }}>
 				<Body style={{ backgroundColor: locationDataContext.currentCategory.backgroundColor }}>
 					<ScrollView showsVerticalScrollIndicator={false}>
+						<VerticalSigh />
 						<SelectButtonsContainer backgroundColor={'transparent'} noPadding>
 							{renderFiltredCategories()}
 						</SelectButtonsContainer>
-						<LastSigh />
+						<VerticalSigh height={relativeScreenHeight(10)} />
 					</ScrollView>
 				</Body>
 			</KeyboardAvoidingView>

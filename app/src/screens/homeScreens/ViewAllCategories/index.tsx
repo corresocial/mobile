@@ -3,7 +3,7 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import uuid from 'react-uuid'
 
 import { SvgProps } from 'react-native-svg'
-import { Body, Container, Header, InputContainer, LastSigh } from './styles'
+import { Body, Container, Header, InputContainer } from './styles'
 import { theme } from '../../../common/theme'
 
 import { ViewAllCategoriesScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
@@ -22,6 +22,8 @@ import { socialImpactCategories } from '../../../utils/postsCategories/socialImp
 import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
 import { MacroCategory, PostCollection, PostCollectionRemote } from '../../../services/firebase/types'
 import { postMacroCategories } from '../../../utils/postMacroCategories'
+import { VerticalSigh } from '../../../components/VerticalSigh'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 
@@ -157,10 +159,11 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 			<KeyboardAvoidingView style={{ flex: 1 }}>
 				<Body style={{ backgroundColor: locationDataContext.currentCategory.backgroundColor }}>
 					<ScrollView showsVerticalScrollIndicator={false}>
+						<VerticalSigh />
 						<SelectButtonsContainer backgroundColor={'transparent'} noPadding>
 							{renderFilteredCategories()}
 						</SelectButtonsContainer>
-						<LastSigh />
+						<VerticalSigh height={relativeScreenHeight(10)} />
 					</ScrollView>
 				</Body>
 			</KeyboardAvoidingView>
