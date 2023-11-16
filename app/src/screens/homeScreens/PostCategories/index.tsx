@@ -33,6 +33,7 @@ import { FlatListPosts } from '../../../components/FlatListPosts'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { FeedByRange } from '../../../components/FeedByRange'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 
@@ -317,8 +318,14 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 					/>
 				</InputContainer>
 			</Header>
-			<KeyboardAvoidingView style={{ flex: 1 }}>
-				<Body style={{ backgroundColor }}>
+			<KeyboardAvoidingView style={{ flex: 1, backgroundColor }}>
+				<FeedByRange
+					backgroundColor={backgroundColor}
+					filteredFeedPosts={searchText ? { ...filteredFeedPosts } : { ...feedPostsByTypeAndMacroCategory }}
+					viewPostsByRange={viewPostsByRange}
+					navigateToProfile={navigateToProfile}
+					goToPostView={goToPostView}
+				>
 					<SubtitleCard
 						text={'categorias'}
 						highlightedText={['categorias']}
@@ -331,80 +338,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 							{renderCategories()}
 						</CategoryCardContainer>
 					</ScrollView>
-					{
-						(feedPostsByTypeAndMacroCategory.nearby && feedPostsByTypeAndMacroCategory.nearby.length)
-							? (
-								<>
-									<FlatListPosts
-										data={getFirstFiveItems(searchText ? filteredFeedPosts.nearby : feedPostsByTypeAndMacroCategory.nearby)}
-										headerComponent={() => (
-											<>
-												<SubtitleCard
-													text={'posts por perto'}
-													highlightedText={['perto']}
-													seeMoreText
-													SvgIcon={PinWhiteIcon}
-													onPress={() => viewPostsByRange('near')}
-												/>
-												<VerticalSigh />
-											</>
-										)}
-										renderItem={renderPostItem}
-									/>
-								</>
-							)
-							: <></>
-					}
-					{
-						(feedPostsByTypeAndMacroCategory.city && feedPostsByTypeAndMacroCategory.city.length)
-							? (
-								<>
-									<FlatListPosts
-										data={getFirstFiveItems(searchText ? filteredFeedPosts.nearby : feedPostsByTypeAndMacroCategory.city)}
-										headerComponent={() => (
-											<>
-												<SubtitleCard
-													text={'posts na cidade'}
-													highlightedText={['cidade']}
-													seeMoreText
-													SvgIcon={CityWhiteIcon}
-													onPress={() => viewPostsByRange('city')}
-												/>
-												<VerticalSigh />
-											</>
-										)}
-										renderItem={renderPostItem}
-									/>
-								</>
-							)
-							: <></>
-					}
-					{
-						(feedPostsByTypeAndMacroCategory.country && feedPostsByTypeAndMacroCategory.country.length)
-							? (
-								<>
-									<FlatListPosts
-										data={getFirstFiveItems(searchText ? filteredFeedPosts.nearby : feedPostsByTypeAndMacroCategory.country)}
-										headerComponent={() => (
-											<>
-												<SubtitleCard
-													text={'posts no país'}
-													highlightedText={['país']}
-													seeMoreText
-													SvgIcon={CountryWhiteIcon}
-													onPress={() => viewPostsByRange('country')}
-												/>
-												<VerticalSigh />
-											</>
-										)}
-										renderItem={renderPostItem}
-									/>
-								</>
-							)
-							: <></>
-					}
-					<VerticalSigh height={relativeScreenHeight(10)} />
-				</Body>
+				</FeedByRange>
 			</KeyboardAvoidingView>
 		</Container>
 	)

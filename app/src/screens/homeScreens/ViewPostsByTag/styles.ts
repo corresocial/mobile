@@ -24,10 +24,6 @@ export const InputContainer = styled.View`
 	justify-content: space-between;
 `
 
-export const Body = styled.ScrollView`
-	flex: 1;
-`
-
 export const TagsContainer = styled.View`
 	padding-vertical: ${RFValue(15)}px;
 	align-items: center;
@@ -42,8 +38,4 @@ export const HorizontalPadding = styled.View`
 export const HorizontalSigh = styled.View`
 	height: 20%;
 	width: ${RFValue(10)}px;
-`
-
-export const ContainerPadding = styled.ScrollView`
-	padding-horizontal: ${RFValue(10)}px;
 `

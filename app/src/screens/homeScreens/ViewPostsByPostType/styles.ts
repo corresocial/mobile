@@ -33,11 +33,6 @@ export const SearchInput = styled.TextInput`
 	text-align: center;
 `
 
-export const Body = styled.ScrollView`
-	flex: 1;
-	padding-bottom: ${relativeScreenHeight(10)}px;
-`
-
 interface MacroCategoryContainerProps {
 	backgroundColor?: string
 }
@@ -48,8 +43,4 @@ export const MacroCategoryContainer = styled.View<MacroCategoryContainerProps>`
 	align-items: center;
 	justify-content: space-around;
 	padding-vertical: ${relativeScreenHeight(2)}px;
-`
-
-export const ContainerPadding = styled.ScrollView<MacroCategoryContainerProps>`
-	padding-horizontal: ${RFValue(10)}px;
 `

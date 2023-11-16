@@ -1,12 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { KeyboardAvoidingView, Keyboard } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
-import { Body, Container, ContainerPadding, FilterButtons, Header, InputContainer, SearchInput } from './styles'
+import { Container, Header, InputContainer, SearchInput } from './styles'
 import { theme } from '../../../common/theme'
 import LoupIcon from '../../../assets/icons/loup-white.svg'
-import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
-import PaperListIcon from '../../../assets/icons/paperList.svg'
 
 import { FeedPosts, Id, PostCollection, PostRange, PostType } from '../../../services/firebase/types'
 import { SearchResultScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
@@ -16,15 +13,9 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { PostCard } from '../../../components/_cards/PostCard'
-import { SelectButton } from '../../../components/_buttons/SelectButton'
-import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { searchPostsCloud } from '../../../services/cloudFunctions/searchPostsCloud'
-import { FlatListPosts } from '../../../components/FlatListPosts'
-import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { FeedByRange } from '../../../components/FeedByRange'
 
 const initialFeedPosts = {
 	nearby: [],
@@ -39,21 +30,9 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 
 	const [searchText, setSearchText] = useState('')
 	const [resultPosts, setResultPosts] = useState<FeedPosts>(initialFeedPosts)
-	const [resultProfiles] = useState<any[]>([]) // setResultProfiles
-	const [postResultsIsVisible, setPostResultsIsVisible] = useState(true)
-	const [profileResultsIsVisible, setProfileResultsIsVisible] = useState(false)
-
-	const [keyboardOpened, setKeyboardOpened] = useState(false)
 
 	const { searchByRange } = route.params
-
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
+	const { backgroundColor } = locationDataContext.currentCategory
 
 	useEffect(() => {
 		searchPostByText()
@@ -128,18 +107,6 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 		}
 	}
 
-	const getOneToneMoreLight = () => {
-		if (searchByRange) return theme.orange1
-		switch (locationDataContext.searchParams.postType) {
-			case 'service': return theme.purple1
-			case 'sale': return theme.green1
-			case 'vacancy': return theme.yellow1
-			case 'socialImpact': return theme.pink1
-			case 'culture': return theme.blue1
-			default: return theme.orange1
-		}
-	}
-
 	const navigateToProfile = (userId: string) => {
 		if (userDataContext.userId === userId) {
 			navigation.navigate('Profile' as any)// TODO Type
@@ -170,29 +137,6 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 		}
 	}
 
-	const getFirstFiveItems = (items: any[]) => {
-		if (!items) return []
-		if (items.length >= 5) return items.slice(0, 5)
-		return items
-	}
-
-	const renderPostItem = (item: PostCollection) => (
-		<ContainerPadding>
-			<PostCard
-				post={item}
-				owner={item.owner}
-				navigateToProfile={navigateToProfile}
-				onPress={() => goToPostView(item)}
-			/>
-		</ContainerPadding>
-	)
-
-	const hasAnyPost = () => {
-		return ((resultPosts.nearby && resultPosts.nearby.length > 0) || (resultPosts.city && resultPosts.city.length > 0) || (resultPosts.country && resultPosts.country.length > 0))
-	}
-
-	const currentCategoryColorLight = getOneToneMoreLight()
-
 	return (
 		<Container>
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -215,157 +159,13 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 					/>
 				</InputContainer>
 			</Header>
-			<KeyboardAvoidingView style={{ flex: 1 }}>
-				<Body
-					style={{ backgroundColor: searchByRange ? theme.orange2 : locationDataContext.currentCategory.backgroundColor }}
-					showsVerticalScrollIndicator={false}
-				>
-					<FilterButtons>
-						<SelectButton
-							backgroundColor={theme.white3}
-							backgroundSelected={currentCategoryColorLight}
-							label={'posts'}
-							boldLabel
-							noDisplacement
-							height={'100%'}
-							width={'42%'}
-							selected={postResultsIsVisible}
-							SvgIcon={ChatWhiteIcon}
-							svgIconScale={['60%', '25%']}
-							onSelect={() => {
-								setPostResultsIsVisible(true)
-								setProfileResultsIsVisible(false)
-							}}
-						/>
-						<SelectButton
-							backgroundColor={theme.white3}
-							backgroundSelected={currentCategoryColorLight}
-							label={'perfis'}
-							boldLabel
-							noDisplacement
-							height={'100%'}
-							width={'42%'}
-							selected={profileResultsIsVisible}
-							SvgIcon={PaperListIcon}
-							svgIconScale={['60%', '25%']}
-							onSelect={() => {
-								setProfileResultsIsVisible(true)
-								setPostResultsIsVisible(false)
-							}}
-						/>
-					</FilterButtons>
-					{
-						postResultsIsVisible && (
-							<>
-								{
-									(resultPosts.nearby && resultPosts.nearby.length)
-										? (
-											<>
-												<FlatListPosts
-													data={getFirstFiveItems(resultPosts.nearby)}
-													headerComponent={() => (
-														<>
-															{
-																!searchByRange && (
-																	<SubtitleCard
-																		text={'posts por perto'}
-																		highlightedText={['perto']}
-																		seeMoreText
-																		onPress={() => viewPostsByRange('near')}
-																	/>
-																)
-															}
-															<VerticalSigh />
-														</>
-													)}
-													withoutFooter={!!(resultPosts.city && resultPosts.city.length) && searchByRange}
-													renderItem={renderPostItem}
-												/>
-											</>
-										)
-										: <></>
-								}
-								{
-									(resultPosts.city && resultPosts.city.length)
-										? (
-											<>
-												<FlatListPosts
-													data={getFirstFiveItems(resultPosts.city)}
-													headerComponent={() => (
-														<>
-															{
-																!searchByRange && (
-																	<SubtitleCard
-																		text={'posts na cidade'}
-																		highlightedText={['cidade']}
-																		seeMoreText
-																		onPress={() => viewPostsByRange('city')}
-																	/>
-																)
-															}
-															<VerticalSigh />
-														</>
-													)}
-													withoutFooter={!!(resultPosts.country && resultPosts.country.length) && searchByRange}
-													renderItem={renderPostItem}
-												/>
-											</>
-										)
-										: <></>
-								}
-								{
-									(resultPosts.country && resultPosts.country.length)
-										? (
-											<>
-												<FlatListPosts
-													data={getFirstFiveItems(resultPosts.country)}
-													headerComponent={() => (
-														<>
-															{
-																!searchByRange && (
-																	<SubtitleCard
-																		text={'posts no país'}
-																		highlightedText={['país']}
-																		seeMoreText
-																		onPress={() => viewPostsByRange('country')}
-																	/>
-																)
-															}
-															<VerticalSigh />
-														</>
-													)}
-													renderItem={renderPostItem}
-												/>
-											</>
-										)
-										: <></>
-								}
-								<VerticalSigh height={!keyboardOpened ? relativeScreenHeight(12) : relativeScreenHeight(3)} />
-								{
-									!hasAnyPost() && (
-										<WithoutPostsMessage
-											title={'opa!'}
-											message={
-												'parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'
-											}
-										/>
-									)
-								}
-							</>
-						)
-					}
-					{
-						profileResultsIsVisible && (
-							!resultProfiles.length && (
-								<WithoutPostsMessage
-									title={'poxa!'}
-									message={'esse mecanismo ainda não foi implementado no corre., mas logo logo tá aí'}
-								/>
-							)
-						)
-					}
-				</Body>
-			</KeyboardAvoidingView>
+			<FeedByRange
+				backgroundColor={backgroundColor}
+				filteredFeedPosts={resultPosts}
+				viewPostsByRange={viewPostsByRange}
+				navigateToProfile={navigateToProfile}
+				goToPostView={goToPostView}
+			/>
 		</Container>
 	)
 }

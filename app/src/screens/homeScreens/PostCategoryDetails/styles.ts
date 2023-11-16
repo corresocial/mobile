@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
 import { RFValue } from 'react-native-responsive-fontsize'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
@@ -24,22 +24,18 @@ export const InputContainer = styled.View`
 	justify-content: space-between;
 `
 
-export const Body = styled.ScrollView`
-	flex: 1;
-	padding-bottom: ${relativeScreenHeight(10)}px;
-`
-
 export const TagsContainer = styled.View`
 	padding-bottom: ${RFValue(15)}px;
 	align-items: center;
 	justify-content: center;
+	width: 100%;
+`
+
+export const FlatList = styled.FlatList`
+	width: 100%;
 `
 
 export const HorizontalSigh = styled.View`
 	height: 20%;
 	width: ${RFValue(10)}px;
-`
-
-export const ContainerPadding = styled.ScrollView`
-	padding-horizontal: ${RFValue(10)}px;
 `

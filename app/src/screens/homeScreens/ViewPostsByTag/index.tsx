@@ -1,12 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 
-import { Body, Container, ContainerPadding, Header, InputContainer } from './styles'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { Container, Header, InputContainer } from './styles'
 import { theme } from '../../../common/theme'
-import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
-import CityWhiteIcon from '../../../assets/icons/city-white.svg'
-import CountryWhiteIcon from '../../../assets/icons/brazil-white.svg'
 
 import { PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
 import { ViewPostsByTagScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
@@ -15,14 +11,10 @@ import { AuthContext } from '../../../contexts/AuthContext'
 import { LocationContext } from '../../../contexts/LocationContext'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
-import { PostCard } from '../../../components/_cards/PostCard'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
-import { FlatListPosts } from '../../../components/FlatListPosts'
-import { VerticalSigh } from '../../../components/VerticalSigh'
-import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
+import { FeedByRange } from '../../../components/FeedByRange'
 
 function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -119,27 +111,6 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 		}
 	}
 
-	const getFirstFiveItems = (items: any[]) => {
-		if (!items) return []
-		if (items.length >= 5) return items.slice(0, 5)
-		return items
-	}
-
-	const hasAnyPost = () => {
-		return (filteredFeedPosts.nearby.length > 0 || filteredFeedPosts.city.length > 0 || filteredFeedPosts.country.length > 0)
-	}
-
-	const renderPostItem = (item: PostCollection) => (
-		<ContainerPadding>
-			<PostCard
-				post={item}
-				owner={item.owner}
-				navigateToProfile={navigateToProfile}
-				onPress={() => goToPostView(item)}
-			/>
-		</ContainerPadding>
-	)
-
 	return (
 		<Container>
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -161,93 +132,13 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 					/>
 				</InputContainer>
 			</Header>
-			<KeyboardAvoidingView style={{ flex: 1 }}>
-				<Body style={{ backgroundColor }}>
-					{
-						(filteredFeedPosts.nearby && filteredFeedPosts.nearby.length)
-							? (
-								<>
-									<FlatListPosts
-										data={getFirstFiveItems(filteredFeedPosts.nearby)}
-										headerComponent={() => (
-											<>
-												<SubtitleCard
-													text={'posts por perto'}
-													highlightedText={['perto']}
-													seeMoreText
-													SvgIcon={PinWhiteIcon}
-													onPress={() => viewPostsByRange('near')}
-												/>
-												<VerticalSigh />
-											</>
-										)}
-										renderItem={renderPostItem}
-									/>
-								</>
-							)
-							: <></>
-					}
-					{
-						(filteredFeedPosts.city && filteredFeedPosts.city.length)
-							? (
-								<>
-									<FlatListPosts
-										data={getFirstFiveItems(filteredFeedPosts.city)}
-										headerComponent={() => (
-											<>
-												<SubtitleCard
-													text={'posts na cidade'}
-													highlightedText={['cidade']}
-													seeMoreText
-													SvgIcon={CityWhiteIcon}
-													onPress={() => viewPostsByRange('city')}
-												/>
-												<VerticalSigh />
-											</>
-										)}
-										renderItem={renderPostItem}
-									/>
-								</>
-							)
-							: <></>
-					}
-					{
-						(filteredFeedPosts.country && filteredFeedPosts.country.length)
-							? (
-								<>
-									<FlatListPosts
-										data={getFirstFiveItems(filteredFeedPosts.country)}
-										headerComponent={() => (
-											<>
-												<SubtitleCard
-													text={'posts no país'}
-													highlightedText={['país']}
-													seeMoreText
-													SvgIcon={CountryWhiteIcon}
-													onPress={() => viewPostsByRange('country')}
-												/>
-												<VerticalSigh />
-											</>
-										)}
-										renderItem={renderPostItem}
-									/>
-								</>
-							)
-							: <></>
-					}
-					<VerticalSigh height={relativeScreenHeight(10)} />
-					{
-						!hasAnyPost() && (
-							<WithoutPostsMessage
-								title={'opa!'}
-								message={
-									'parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'
-								}
-							/>
-						)
-					}
-				</Body>
-			</KeyboardAvoidingView>
+			<FeedByRange
+				backgroundColor={backgroundColor}
+				filteredFeedPosts={filteredFeedPosts}
+				viewPostsByRange={viewPostsByRange}
+				navigateToProfile={navigateToProfile}
+				goToPostView={goToPostView}
+			/>
 		</Container>
 	)
 }

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 
 import { theme } from '../../../common/theme'
-import { Body, Container, ContainerPadding, Header, InputContainer, MacroCategoryContainer } from './styles'
+import { Container, Header, InputContainer, MacroCategoryContainer } from './styles'
 import CashWhiteIcon from '../../../assets/icons/cash-white.svg'
 import SaleWhiteIcon from '../../../assets/icons/sale-white.svg'
 import ServiceWhiteIcon from '../../../assets/icons/service-white.svg'
@@ -14,9 +14,6 @@ import BooksWhiteIcon from '../../../assets/icons/books-white.svg'
 import HandOnHeartWhiteIcon from '../../../assets/icons/handOnHeart-white.svg'
 import HeartAndPersonWhiteIcon from '../../../assets/icons/heartAndPerson-white.svg'
 import PeperInfoWhiteIcon from '../../../assets/icons/paperInfo-white.svg'
-import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
-import CityWhiteIcon from '../../../assets/icons/city-white.svg'
-import CountryWhiteIcon from '../../../assets/icons/brazil-white.svg'
 
 import { ViewPostsByPostTypeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 import { FeedPosts, PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
@@ -24,17 +21,12 @@ import { FeedPosts, PostCollection, PostCollectionRemote, PostRange, PostType } 
 import { LocationContext } from '../../../contexts/LocationContext'
 
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { PostCard } from '../../../components/_cards/PostCard'
 import { AuthContext } from '../../../contexts/AuthContext'
 
-import { FlatListPosts } from '../../../components/FlatListPosts'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { VerticalSigh } from '../../../components/VerticalSigh'
-import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
 import { CatalogPostTypeButtons } from '../../../components/CatalogPostTypeButtons'
-import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
+import { FeedByRange } from '../../../components/FeedByRange'
 
 function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -157,12 +149,6 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
 	}
 
-	const getFirstFiveItems = (items: any[]) => {
-		if (!items) return []
-		if (items.length >= 5) return items.slice(0, 5)
-		return items
-	}
-
 	const getRelaticeHeaderIcon = () => {
 		switch (locationDataContext.searchParams.postType) {
 			case 'income': return CashWhiteIcon
@@ -242,21 +228,6 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 		navigation.navigate('PostCategories')
 	}
 
-	const renderPostItem = (item: PostCollection) => (
-		<ContainerPadding>
-			<PostCard
-				post={item}
-				owner={item.owner}
-				navigateToProfile={navigateToProfile}
-				onPress={() => goToPostView(item)}
-			/>
-		</ContainerPadding>
-	)
-
-	const hasAnyPost = () => {
-		return (feedPostsByType.nearby.length > 0 || feedPostsByType.city.length > 0 || feedPostsByType.country.length > 0)
-	}
-
 	return (
 		<Container>
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -278,92 +249,17 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 					/>
 				</InputContainer>
 			</Header>
-			<Body style={{ backgroundColor: getRelativeBackgroundColor() }}>
+			<FeedByRange
+				backgroundColor={getRelativeBackgroundColor()}
+				filteredFeedPosts={searchText ? { ...filteredFeedPosts } : { ...feedPostsByType }}
+				viewPostsByRange={viewPostsByRange}
+				navigateToProfile={navigateToProfile}
+				goToPostView={goToPostView}
+			>
 				<MacroCategoryContainer backgroundColor={getRelativeBackgroundColor()}>
 					{getRelativeCatalogMacroCategoryButtons()}
 				</MacroCategoryContainer>
-				{
-					(feedPostsByType.nearby && feedPostsByType.nearby.length)
-						? (
-							<>
-								<FlatListPosts
-									data={getFirstFiveItems(searchText ? filteredFeedPosts.nearby : feedPostsByType.nearby)}
-									headerComponent={() => (
-										<>
-											<SubtitleCard
-												text={'posts por perto'}
-												highlightedText={['perto']}
-												seeMoreText
-												SvgIcon={PinWhiteIcon}
-												onPress={() => viewPostsByRange('near')}
-											/>
-											<VerticalSigh />
-										</>
-									)}
-									renderItem={renderPostItem}
-								/>
-							</>
-						)
-						: <></>
-				}
-				{
-					(feedPostsByType.city && feedPostsByType.city.length)
-						? (
-							<>
-								<FlatListPosts
-									data={getFirstFiveItems(searchText ? filteredFeedPosts.nearby : feedPostsByType.city)}
-									headerComponent={() => (
-										<>
-											<SubtitleCard
-												text={'posts na cidade'}
-												highlightedText={['cidade']}
-												seeMoreText
-												SvgIcon={CityWhiteIcon}
-												onPress={() => viewPostsByRange('city')}
-											/>
-											<VerticalSigh />
-										</>
-									)}
-									renderItem={renderPostItem}
-								/>
-							</>
-						)
-						: <></>
-				}
-				{
-					(feedPostsByType.country && feedPostsByType.country.length)
-						? (
-							<>
-								<FlatListPosts
-									data={getFirstFiveItems(searchText ? filteredFeedPosts.nearby : feedPostsByType.country)}
-									headerComponent={() => (
-										<>
-											<SubtitleCard
-												text={'posts no país'}
-												highlightedText={['país']}
-												seeMoreText
-												SvgIcon={CountryWhiteIcon}
-												onPress={() => viewPostsByRange('country')}
-											/>
-											<VerticalSigh />
-										</>
-									)}
-									renderItem={renderPostItem}
-								/>
-							</>
-						)
-						: <></>
-				}
-				<VerticalSigh height={relativeScreenHeight(10)} />
-				{
-					!hasAnyPost() && (
-						<WithoutPostsMessage
-							title={'opa!'}
-							message={'parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'}
-						/>
-					)
-				}
-			</Body>
+			</FeedByRange>
 		</Container>
 	)
 }

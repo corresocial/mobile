@@ -50,6 +50,7 @@ import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { getReverseGeocodeByMapsApi } from '../../../services/maps/getReverseGeocodeByMapsApi'
 import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
 import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
+import { FeedByRange } from '../../../components/FeedByRange'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -353,9 +354,13 @@ function Home({ navigation }: HomeScreenProps) {
 		navigation.navigate('SelectSubscriptionRange')
 	}
 
+	const userHasPaidSubscription = () => {
+		return !(userDataContext.subscription && userDataContext.subscription.subscriptionRange !== 'near')
+	}
+
 	const renderPostItem = (item: PostCollection) => {
 		if (item as string === 'subscriptionAd') {
-			if (userDataContext.subscription && userDataContext.subscription.subscriptionRange !== 'near') return <></>
+			if (!userHasPaidSubscription()) return <></>
 			return (
 				<ContainerPadding>
 					<SubscriptionButton onPress={() => setSubscriptionModalIsVisible(true)} />
@@ -421,91 +426,15 @@ function Home({ navigation }: HomeScreenProps) {
 						}}
 					/>
 				)}
-				{
-					(feedPosts.nearby && feedPosts.nearby.length)
-						? (
-							<FlatListPosts
-								data={['subscriptionAd', ...getFirstFiveItems(feedPosts.nearby)]}
-								headerComponent={() => (
-									<>
-										<SubtitleCard
-											text={'posts por perto'}
-											highlightedText={['perto']}
-											seeMoreText
-											SvgIcon={PinWhiteIcon}
-											onPress={() => viewPostsByRange('near')}
-										/>
-										<VerticalSigh />
-									</>
-								)}
-								renderItem={renderPostItem}
-								flatListIsLoading={feedIsUpdating}
-							// onEndReached={refreshFeedPosts}
-							/>
-						)
-						: <></>
-				}
-				{
-					(feedPosts.city && feedPosts.city.length)
-						? (
-							<FlatListPosts
-								data={getFirstFiveItems(feedPosts.city)}
-								headerComponent={() => (
-									<>
-										<SubtitleCard
-											text={'posts na cidade'}
-											highlightedText={['cidade']}
-											seeMoreText
-											SvgIcon={CityWhiteIcon}
-											onPress={() => viewPostsByRange('city')}
-										/>
-										<VerticalSigh />
-									</>
-								)}
-								renderItem={renderPostItem}
-								flatListIsLoading={feedIsUpdating}
-							/* onEndReached={refreshFeedPosts} */
-							/>
-						)
-						: <></>
-				}
-				{
-					(feedPosts.country && feedPosts.country.length)
-						? (
-							<>
-								<FlatListPosts
-									data={getFirstFiveItems(feedPosts.country)}
-									headerComponent={() => (
-										<>
-											<SubtitleCard
-												text={'posts no país'}
-												highlightedText={['país']}
-												seeMoreText
-												SvgIcon={CountryWhiteIcon}
-												onPress={() => viewPostsByRange('country')}
-											/>
-											<VerticalSigh />
-										</>
-									)}
-									renderItem={renderPostItem}
-									flatListIsLoading={feedIsUpdating}
-								/* onEndReached={refreshFeedPosts} */
-								/>
-								<VerticalSigh height={relativeScreenHeight(10)} />
-							</>
-						)
-						: <VerticalSigh height={relativeScreenHeight(10)} />
-				}
-				{
-					hasLocationEnable && searchEnded && !hasAnyPost() && (
-						<WithoutPostsMessage
-							title={'opa!'}
-							message={
-								'parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'
-							}
-						/>
-					)
-				}
+				<FeedByRange
+					backgroundColor={theme.orange2}
+					filteredFeedPosts={{ ...feedPosts, nearby: ['subscriptionAd', ...getFirstFiveItems(feedPosts.nearby)] }}
+					flatListIsLoading={feedIsUpdating}
+					customRenderItem={renderPostItem}
+					viewPostsByRange={viewPostsByRange}
+					navigateToProfile={navigateToProfile}
+					goToPostView={goToPostView}
+				/>
 			</RecentPostsContainer>
 		</Container>
 	)
