@@ -5,7 +5,7 @@ import { IconArea } from '../LocationNearDropdown/styles'
 import { AddressSelectedArea, AddressSelectedText, InitialDropdown, InitialDropdownContainer, PresentationText } from './styles'
 import AngleDownWhiteIcon from '../../assets/icons/angleDown-white.svg'
 import AngleUpWhiteIcon from '../../assets/icons/angleUp-white.svg'
-import CityIcon from '../../assets/icons/city-white.svg'
+import CityIcon from '../../assets/icons/mapPoint-white.svg'
 
 interface DefaultDropdownHeaderProps {
 	text?: string
