@@ -3,7 +3,8 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import uuid from 'react-uuid'
 
 import { SvgProps } from 'react-native-svg'
-import { CategoryCardContainer, Container, Header, HorizontalSigh, InputContainer } from './styles'
+import { RFValue } from 'react-native-responsive-fontsize'
+import { CategoryCardContainer, Container, Header, InputContainer } from './styles'
 import { theme } from '../../../common/theme'
 import OthersWhiteIcon from '../../../assets/icons/categories/others.svg'
 
@@ -27,6 +28,7 @@ import { SearchInput } from '../../../components/_inputs/SearchInput'
 import { postMacroCategories } from '../../../utils/postMacroCategories'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { FeedByRange } from '../../../components/FeedByRange'
+import { HorizontalSpacing } from '../../../components/HorizontalSpacing'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 
@@ -167,7 +169,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 						SvgIcon={category[1].SvgIcon}
 						onPress={() => navigateToCategoryDetails(category[1])}
 					/>
-					<HorizontalSigh />
+					<HorizontalSpacing />
 				</>
 			)
 		})

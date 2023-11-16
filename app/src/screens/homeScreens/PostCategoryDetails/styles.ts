@@ -34,8 +34,3 @@ export const TagsContainer = styled.View`
 export const FlatList = styled.FlatList`
 	width: 100%;
 `
-
-export const HorizontalSigh = styled.View`
-	height: 20%;
-	width: ${RFValue(10)}px;
-`

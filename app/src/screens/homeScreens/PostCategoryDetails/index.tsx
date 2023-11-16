@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 
 import { theme } from '../../../common/theme'
-import { Container, FlatList, Header, HorizontalSigh, InputContainer, TagsContainer } from './styles'
+import { Container, FlatList, Header, InputContainer, TagsContainer } from './styles'
 import OtherWhiteIcon from '../../../assets/icons/categories/others.svg'
 
 import { PostCategoryDetailsScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
@@ -20,6 +20,7 @@ import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
 import { FeedByRange } from '../../../components/FeedByRange'
 import { FlatListItem } from '../../../@types/global/types'
+import { HorizontalSpacing } from '../../../components/HorizontalSpacing'
 
 function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -191,11 +192,11 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 						data={getFiltredCategoryTags()}
 						horizontal
 						showsHorizontalScrollIndicator={false}
-						ListHeaderComponent={<HorizontalSigh />}
+						ListHeaderComponent={<HorizontalSpacing />}
 						ListHeaderComponentStyle={{ height: 0 }}
-						ItemSeparatorComponent={() => <HorizontalSigh />}
+						ItemSeparatorComponent={() => <HorizontalSpacing />}
 						ListFooterComponentStyle={{ height: 0 }}
-						ListFooterComponent={<HorizontalSigh />}
+						ListFooterComponent={<HorizontalSpacing />}
 						renderItem={({ item }: FlatListItem<string>) => (
 							<CategoryCard
 								hasElements={!!(feedPosts.filter((post) => post.category === categoryName && post.tags.includes(item) && post.postType === locationDataContext.searchParams.postType)).length}

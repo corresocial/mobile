@@ -13,7 +13,6 @@ import {
 	UserName,
 	ExpandedUserDescription,
 	ExpandedUserDescriptionArea,
-	HorizontalSigh,
 	VerticalPaddingContainer,
 	PostPadding,
 	SafeAreaViewContainer,
@@ -75,6 +74,7 @@ import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { getNumberOfStoredOfflinePosts } from '../../../utils/offlinePost'
 import { getNetworkStatus } from '../../../utils/deviceNetwork'
 import { AlertContext } from '../../../contexts/AlertContext/index.tsx'
+import { HorizontalSpacing } from '../../../components/HorizontalSpacing'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { notificationState } = useContext(AlertContext)
@@ -580,7 +580,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 																onPress={navigationToBack}
 																withoutSigh={false}
 															/>
-															<HorizontalSigh />
+															<HorizontalSpacing width={relativeScreenWidth(3)} />
 														</>
 													)
 												}

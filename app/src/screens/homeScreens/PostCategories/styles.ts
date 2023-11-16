@@ -30,8 +30,3 @@ export const CategoryCardContainer = styled.View`
 	padding: ${RFValue(10)}px;
 	padding-bottom: 0px;
 `
-
-export const HorizontalSigh = styled.View`
-	height: 20%;
-	width: ${RFValue(10)}px;
-`

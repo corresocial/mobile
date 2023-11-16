@@ -34,8 +34,3 @@ export const HorizontalPadding = styled.View`
 	width: 100%;
 	padding-horizontal: ${RFValue(15)}px;
 `
-
-export const HorizontalSigh = styled.View`
-	height: 20%;
-	width: ${RFValue(10)}px;
-`

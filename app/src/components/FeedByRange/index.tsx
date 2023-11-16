@@ -1,15 +1,18 @@
 import React from 'react'
-import { WithoutPostsMessage } from '../WithoutPostsMessage'
-import { VerticalSigh } from '../VerticalSigh'
-import { relativeScreenHeight } from '../../common/screenDimensions'
-import { SubtitleCard } from '../_cards/SubtitleCard'
-import { FlatListPosts } from '../FlatListPosts'
+
 import { FeedPosts, PostCollection, PostRange } from '../../services/firebase/types'
-import { PostCard } from '../_cards/PostCard'
+
+import { relativeScreenHeight } from '../../common/screenDimensions'
 import { Container, PostCardContainer } from './styles'
 import PinWhiteIcon from '../../assets/icons/pin-white.svg'
 import CityWhiteIcon from '../../assets/icons/city-white.svg'
 import CountryWhiteIcon from '../../assets/icons/brazil-white.svg'
+
+import { WithoutPostsMessage } from '../WithoutPostsMessage'
+import { VerticalSigh } from '../VerticalSigh'
+import { SubtitleCard } from '../_cards/SubtitleCard'
+import { FlatListPosts } from '../FlatListPosts'
+import { PostCard } from '../_cards/PostCard'
 
 interface FeedByRangeProps {
 	backgroundColor?: string
