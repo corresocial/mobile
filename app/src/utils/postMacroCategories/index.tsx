@@ -1,3 +1,5 @@
+import { PostMacroCategories } from './types'
+
 import SaleWhiteIcon from '../../assets/icons/sale-white.svg'
 import ServiceWhiteIcon from '../../assets/icons/service-white.svg'
 import VacancyWhiteIcon from '../../assets/icons/vacancy-white.svg'
@@ -8,7 +10,7 @@ import ColorPaletWhiteIcon from '../../assets/icons/colorPalet-white.svg'
 import CalendarSomedayWhiteIcon from '../../assets/icons/calendarSomeday-white.svg'
 import BooksWhiteIcon from '../../assets/icons/books-white.svg'
 
-const postMacroCategories = {
+const postMacroCategories: PostMacroCategories = {
 	income: {
 		sale: {
 			label: 'vendas',

@@ -108,6 +108,7 @@
 				}
 			}
 		] */
+		"dot-notation": "off",
 		"eqeqeq": [
 			"error",
 			"always"

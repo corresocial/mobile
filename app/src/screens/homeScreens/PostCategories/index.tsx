@@ -29,6 +29,7 @@ import { postMacroCategories } from '../../../utils/postMacroCategories'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { FeedByRange } from '../../../components/FeedByRange'
 import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
+import { PostMacroCategories } from '../../../utils/postMacroCategories/types'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 
@@ -133,7 +134,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	}
 
 	const getRelativeTitle = () => {
-		return postMacroCategories[postType][macroCategory].label // TODO Type NOW
+		return postMacroCategories[postType][macroCategory].label // TODO Type Remove Post types unused
 	}
 
 	const getRelativeHeaderIcon = () => {
