@@ -62,7 +62,7 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 	}
 
 	const renderShortName = () => {
-		if (owner.name && owner.name.split(' ').length < 3) return owner.name
+		if (owner.name && owner.name.split(' ').length <= 3) return owner.name
 		const names = owner.name && (owner.name.split(' ') || [])
 		if (!names) return 'usuário do corre.'
 		return `${names[0]} ${names[1]}`

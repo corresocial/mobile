@@ -210,8 +210,8 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 			>
 				<SocialImpactTypeCard
 					title={'tipo de impacto'}
-					socialImpactType={getPostField('socialImpactType')}
-					onEdit={() => navigateToEditScreen('SelectSocialImpactType', 'socialImpactType')}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactType', 'macroCategory')}
 				/>
 				<VerticalSpacing />
 				<EditCard

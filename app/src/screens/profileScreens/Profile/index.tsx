@@ -227,7 +227,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 				break
 			}
 			case 'income': {
-				if (item.incomeType === 'sale') {
+				if (item.macroCategory === 'sale') {
 					return navigation.push(
 						route.params?.userId
 							? `ViewSalePost${stackLabel}`
@@ -236,7 +236,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 					)
 				}
 
-				if (item.incomeType === 'service') {
+				if (item.macroCategory === 'service') {
 					return navigation.push(
 						route.params?.userId
 							? `ViewServicePost${stackLabel}`
@@ -245,7 +245,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 					)
 				}
 
-				if (item.incomeType === 'vacancy') {
+				if (item.macroCategory === 'vacancy') {
 					return navigation.push(
 						route.params?.userId
 							? `ViewVacancyPost${stackLabel}`

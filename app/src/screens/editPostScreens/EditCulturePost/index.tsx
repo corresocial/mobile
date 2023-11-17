@@ -212,8 +212,8 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 			>
 				<CultureTypeCard
 					title={'tipo de cultura'}
-					cultureType={getPostField('cultureType')}
-					onEdit={() => navigateToEditScreen('SelectCultureType', 'cultureType')}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectCultureType', 'macroCategory')}
 				/>
 				<VerticalSpacing />
 				<EditCard

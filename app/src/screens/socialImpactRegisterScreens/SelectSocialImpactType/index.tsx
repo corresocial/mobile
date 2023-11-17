@@ -26,14 +26,14 @@ function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScr
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const saveWorkplaceType = (socialImpactType: SocialImpactType) => {
+	const saveWorkplaceType = (macroCategory: SocialImpactType) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ socialImpactType })
+			addNewUnsavedFieldToEditContext({ macroCategory })
 			navigation.goBack()
 			return
 		}
 
-		setSocialImpactDataOnContext({ socialImpactType })
+		setSocialImpactDataOnContext({ macroCategory })
 
 		navigation.navigate('SelectSocialImpactPurpose')
 	}

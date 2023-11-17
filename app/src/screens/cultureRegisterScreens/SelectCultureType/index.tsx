@@ -24,14 +24,14 @@ function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) 
 		}
 	}, [])
 
-	const saveWorkplaceType = (cultureType: CultureType) => {
+	const saveWorkplaceType = (macroCategory: CultureType) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ cultureType })
+			addNewUnsavedFieldToEditContext({ macroCategory })
 			navigation.goBack()
 			return
 		}
 
-		setCultureDataOnContext({ cultureType })
+		setCultureDataOnContext({ macroCategory })
 		navigation.navigate('SelectCulturePurpose')
 	}
 

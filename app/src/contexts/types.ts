@@ -67,7 +67,7 @@ export type ServiceData = {
 	title?: string
 	category?: string
 	tags?: string[]
-	incomeType?: IncomeType
+	macroCategory?: IncomeType
 	paymentType?: PaymentType
 	saleValue?: string
 	exchangeValue?: string
@@ -103,7 +103,7 @@ export type SaleData = {
 	description?: string
 	tags?: string[]
 	category?: string
-	incomeType?: IncomeType
+	macroCategory?: IncomeType
 	lookingFor?: boolean
 	itemStatus?: ItemStatus
 	paymentType?: PaymentType
@@ -179,7 +179,7 @@ export type VacancyData = {
 
 export type CultureData = {
 	lookingFor?: boolean
-	cultureType?: CultureType
+	macroCategory?: CultureType
 	title?: string
 	description?: string
 	locationView?: LocationViewType
@@ -217,7 +217,7 @@ export type CultureData = {
 
 export type SocialImpactData = {
 	lookingFor?: boolean
-	socialImpactType?: SocialImpactType
+	macroCategory?: SocialImpactType
 	title?: string
 	description?: string
 	tags?: string[]

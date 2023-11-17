@@ -175,7 +175,7 @@ export type ServiceCollection = {
 	tags?: string[]
 	description?: string
 	lookingFor?: boolean
-	incomeType?: IncomeType
+	macroCategory?: IncomeType
 	category?: string
 	paymentType?: PaymentType
 	saleValue?: string
@@ -220,7 +220,7 @@ export type ServiceCollectionRemote = {
 	lookingFor?: boolean
 	tags: string[]
 	category: string
-	incomeType: IncomeType
+	macroCategory: IncomeType
 	paymentType: PaymentType
 	saleValue?: string
 	exchangeValue?: string
@@ -265,7 +265,7 @@ export type SaleCollection = {
 	tags?: string[]
 	itemStatus?: ItemStatus
 	category?: string
-	incomeType?: IncomeType
+	macroCategory?: IncomeType
 	paymentType?: PaymentType
 	saleValue?: string
 	exchangeValue?: string
@@ -309,7 +309,7 @@ export type SaleCollectionRemote = {
 	lookingFor?: boolean
 	tags: string[]
 	category: string
-	incomeType: IncomeType
+	macroCategory: IncomeType
 	itemStatus: ItemStatus
 	paymentType: PaymentType
 	saleValue: string
@@ -369,7 +369,7 @@ export type VacancyCollection = {
 	picturesUrl: string[]
 	tags?: string[]
 	category?: string
-	incomeType?: IncomeType
+	macroCategory?: IncomeType
 	createdAt?: Date
 	locationView?: LocationViewType
 	location?: {
@@ -418,7 +418,7 @@ export type VacancyCollectionRemote = {
 	picturesUrl: string[]
 	tags: string[]
 	category: string
-	incomeType: IncomeType
+	macroCategory: IncomeType
 	createdAt: Date
 	locationView?: LocationViewType
 	location: {
@@ -447,7 +447,7 @@ export type VacancyCollectionRemote = {
 
 export type CultureCollection = {
 	postId?: string
-	cultureType?: CultureType
+	macroCategory?: CultureType
 	postType?: PostType
 	description?: string
 	lookingFor?: boolean
@@ -492,7 +492,7 @@ export type CultureCollection = {
 
 export type CultureCollectionRemote = {
 	postId: string
-	cultureType: CultureType
+	macroCategory: CultureType
 	postType: PostType
 	description: string
 	lookingFor?: boolean
@@ -537,7 +537,7 @@ export type CultureCollectionRemote = {
 
 export type SocialImpactCollection = {
 	postId?: string
-	socialImpactType?: SocialImpactType
+	macroCategory?: SocialImpactType
 	postType?: PostType
 	description?: string
 	lookingFor?: boolean
@@ -581,7 +581,7 @@ export type SocialImpactCollection = {
 
 export type SocialImpactCollectionRemote = {
 	postId: string
-	socialImpactType: SocialImpactType
+	macroCategory: SocialImpactType
 	postType: PostType
 	description: string
 	lookingFor?: boolean

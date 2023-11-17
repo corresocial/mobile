@@ -243,7 +243,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					<VerticalSpacing />
 					<SocialImpactTypeCard
 						title={'tipo de impacto'}
-						socialImpactType={getPostField('socialImpactType')}
+						macroCategory={getPostField('macroCategory')}
 					/>
 					<VerticalSpacing />
 					<DescriptionCard

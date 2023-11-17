@@ -248,7 +248,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					<VerticalSpacing />
 					<CultureTypeCard
 						title={'tipo de cultura'}
-						cultureType={getPostField('cultureType')}
+						macroCategory={getPostField('macroCategory')}
 					/>
 					<VerticalSpacing />
 					<DescriptionCard

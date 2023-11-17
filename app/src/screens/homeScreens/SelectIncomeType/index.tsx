@@ -19,7 +19,7 @@ function SelectIncomeType({ navigation }: SelectIncomeTypeScreenProps) {
 
 	const saveIncomeType = (routeNavigate: 'SaleStack' | 'ServiceStack' | 'VacancyStack') => {
 		/* if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ incomeType })
+			addNewUnsavedFieldToEditContext({ macroCategory })
 			navigation.goBack()
 			return
 		} */
