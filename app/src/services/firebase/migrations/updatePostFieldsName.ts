@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 // VER https://www.notion.so/corre/Atualizar-nomenclatura-dos-campos-no-firestore-74884c0bf0c142ddab7cca66676ab94b
 
 // Erros de tipagem devido a atualização nos tipos
@@ -15,7 +16,7 @@ const updatePostFieldsName = async () => {
 
 	const userSnapshot = await getDocs(usersQuery)
 	userSnapshot.forEach((doc) => {
-		// if (doc.id === 'RMCJAuUhLjSmAu3kgjTzRjjZ2jB2') { // MOCK USER
+		// if (doc.id === 'userId') { // MOCK USER
 		docs.push({ userId: doc.id, ...doc.data() })
 		// }
 	})
@@ -60,181 +61,101 @@ const migratePostFields = async (posts: PostCollection[]) => {
 
 	const updatedPosts = posts.map(((post) => {
 		switch (post.postType) {
+			case 'income': {
+				const currentPost: ServiceCollectionRemote | any = { ...post }
+
+				currentPost.macroCategory = currentPost.incomeType
+
+				return fixPostDateTimes(currentPost)
+			}
 			case 'service': {
 				const currentPost: ServiceCollectionRemote | any = { ...post }
 
-				if (!currentPost.range) currentPost.range = 'near'
-				currentPost.deliveryMethod = currentPost.range || 'unavailable'
-				currentPost.startHour = currentPost.openingHour || currentPost.startHour
-				currentPost.endHour = currentPost.closingHour || currentPost.endHour
-				currentPost.daysOfWeek = currentPost.attendanceWeekDays || currentPost.daysOfWeek
+				currentPost.macroCategory = post.postType
+				// currentPost.postType = 'income'   // TODO RUN After
 
-				Object.entries(currentPost).map((value) => {
-					if (value[1] === undefined || value[1] === '') {
-						// console.log(`${value[0]} is undefined`)
-						delete currentPost[value[0]]
-					}
-
-					return ''
-				})
-
-				delete currentPost.openingHour
-				delete currentPost.closingHour
-				delete currentPost.attendanceWeekDays
-
-				if (currentPost.range === 'unavailable') {
-					currentPost.range = 'near'
-				}
-				return currentPost
+				return fixPostDateTimes(currentPost)
 			}
 			case 'sale': {
 				const currentPost: SaleCollectionRemote | any = { ...post }
 
-				if (!currentPost.itemStatus) currentPost.itemStatus = 'used'
+				currentPost.macroCategory = post.postType
+				// currentPost.postType = 'income' // TODO RUN After
 
-				if (!currentPost.range) currentPost.range = 'near'
-				currentPost.deliveryMethod = currentPost.range || (currentPost.deliveryMethod || 'unavailable')
-				currentPost.startHour = currentPost.openingHour || currentPost.startHour
-				currentPost.endHour = currentPost.closingHour || currentPost.endHour
-				currentPost.daysOfWeek = currentPost.attendanceWeekDays || currentPost.daysOfWeek
-
-				Object.entries(currentPost).map((value) => {
-					if (value[1] === undefined || value[1] === '') {
-						// console.log(`${value[0]} is undefined`)
-						delete currentPost[value[0]]
-					}
-
-					return ''
-				})
-
-				delete currentPost.openingHour
-				delete currentPost.closingHour
-				delete currentPost.attendanceWeekDays
-				delete currentPost.itemName
-
-				if (currentPost.range === 'unavailable') {
-					currentPost.range = 'near'
-				}
-				return currentPost
+				return fixPostDateTimes(currentPost)
 			}
 			case 'vacancy': {
 				const currentPost: VacancyCollectionRemote | any = { ...post }
 
-				// currentPost.picturesUrl = []
-				currentPost.locationView = 'approximate'
-				currentPost.workFrequency = 'someday'
-
-				if (currentPost.questions) currentPost.importantPoints = currentPost.questions
-				currentPost.range = 'near'
-				currentPost.daysOfWeek = currentPost.workWeekdays || currentPost.daysOfWeek
-				currentPost.startDate = currentPost.startWorkDate || currentPost.startDate
-				currentPost.endDate = currentPost.endWorkDate || currentPost.endDate
-				currentPost.startHour = currentPost.startWorkHour || currentPost.startHour
-				currentPost.endHour = currentPost.endWorkHour || currentPost.endHour
-
-				if (currentPost.workplace === 'homeoffice') delete currentPost.location
-
-				Object.entries(currentPost).map((value) => {
-					if (value[1] === undefined || value[1] === '') {
-						// console.log(`${value[0]} is undefined`)
-						delete currentPost[value[0]]
-					}
-
-					return ''
-				})
-
-				delete currentPost.questions
-				delete currentPost.workWeekdays
-				delete currentPost.startWorkDate
-				delete currentPost.endWorkDate
-				delete currentPost.startWorkHour
-				delete currentPost.endWorkHour
-				delete currentPost.companyDescription
-
-				if (currentPost.range === 'unavailable') {
-					currentPost.range = 'near'
+				if (currentPost.vacancyPurpose) {
+					currentPost.lookingFor = currentPost.vacancyPurpose === 'findVacancy'
 				}
-				return currentPost
+				currentPost.macroCategory = post.postType
+				// currentPost.postType = 'income' // TODO RUN After
+
+				// delete currentPost.vacancyPurpose
+
+				return fixPostDateTimes(currentPost)
 			}
 			case 'socialImpact': {
 				const currentPost: SocialImpactCollectionRemote | any = { ...post }
 
-				// currentPost.exhibitionFrequency = ''
-				// currentPost.startDate = ''
-				// currentPost.endDate = ''
-				currentPost.exhibitionPlace = 'city'
-				currentPost.locationView = 'approximate'
+				currentPost.macroCategory = currentPost.socialImpactType
 
-				if (!currentPost.range) currentPost.range = 'near'
-				currentPost.startHour = currentPost.openingHour || currentPost.startHour
-				currentPost.endHour = currentPost.closingHour || currentPost.endHour
-				currentPost.repeat = currentPost.socialImpactRepeat || currentPost.repeat
-				currentPost.exhibitionFrequency = 'someday'
-				currentPost.daysOfWeek = currentPost.exhibitionWeekDays || currentPost.daysOfWeek
-
-				Object.entries(currentPost).map((value) => {
-					if (value[1] === undefined || value[1] === '') {
-						// console.log(`${value[0]} is undefined`)
-						delete currentPost[value[0]]
-					}
-
-					return ''
-				})
-
-				delete currentPost.openingHour
-				delete currentPost.closingHour
-				delete currentPost.socialImpactRepeat
-				delete currentPost.exhibitionWeekDays
-
-				if (currentPost.range === 'unavailable') {
-					currentPost.range = 'near'
-				}
-				return currentPost
+				return fixPostDateTimes(currentPost)
 			}
 			case 'culture': {
 				const currentPost: CultureCollectionRemote | any = { ...post }
 
-				currentPost.exhibitionFrequency = 'someday'
-				currentPost.daysOfWeek = []
+				currentPost.macroCategory = currentPost.cultureType
 
-				if (!currentPost.range) currentPost.range = 'near'
-				if (!currentPost.exhibitionPlace) currentPost.exhibitionPlace = 'near'
-
-				currentPost.repeat = currentPost.eventRepeat || currentPost.repeat
-				currentPost.startDate = currentPost.eventStartDate || currentPost.startDate
-				currentPost.endDate = currentPost.eventEndDate || currentPost.endDate
-				currentPost.startHour = currentPost.eventStartHour || currentPost.startHour
-				currentPost.endHour = currentPost.eventEndHour || currentPost.endHour
-
-				Object.entries(currentPost).map((value) => {
-					if (value[1] === undefined || value[1] === '') {
-						// console.log(`${value[0]} is undefined`)
-						delete currentPost[value[0]]
-					}
-
-					return ''
-				})
-
-				delete currentPost.cultureType
-				delete currentPost.eventRepeat
-				delete currentPost.eventStartDate
-				delete currentPost.eventEndDate
-				delete currentPost.eventStartHour
-				delete currentPost.eventEndHour
-
-				if (currentPost.range === 'unavailable') {
-					currentPost.range = 'near'
-				}
-				return currentPost
+				return fixPostDateTimes(currentPost)
 			}
 			default: {
 				// console.log(`Problema no post de id${post.postId}`)
-				return post
+				return fixPostDateTimes(post)
 			}
 		}
 	}))
 
 	return updatedPosts
+}
+
+const fixPostDateTimes = (post: any) => {
+	const customDateTimes = {} as any
+
+	if (
+		post.createdAt
+		&& typeof (post.createdAt) === 'object'
+		&& (Object.keys(post.createdAt).includes('_seconds')
+			|| Object.keys(post.createdAt).includes('seconds'))) customDateTimes.createdAt = post.createdAt._seconds ? new Date(post.createdAt._seconds * 1000) : new Date(post.createdAt.seconds * 1000)
+	if (
+		post.updatedAt
+		&& typeof (post.updatedAt) === 'object'
+		&& (Object.keys(post.updatedAt).includes('_seconds')
+			|| Object.keys(post.updatedAt).includes('seconds'))) customDateTimes.updatedAt = post.updatedAt._seconds ? new Date(post.updatedAt._seconds * 1000) : new Date(post.updatedAt.seconds * 1000)
+	if (
+		post.startHour
+		&& typeof (post.startHour) === 'object'
+		&& (Object.keys(post.startHour).includes('_seconds')
+			|| Object.keys(post.startHour).includes('seconds'))) customDateTimes.startHour = post.startHour._seconds ? new Date(post.startHour._seconds * 1000) : new Date(post.startHour.seconds * 1000)
+	if (
+		post.endHour
+		&& typeof (post.endHour) === 'object'
+		&& (Object.keys(post.endHour).includes('_seconds')
+			|| Object.keys(post.endHour).includes('seconds'))) customDateTimes.endHour = post.endHour._seconds ? new Date(post.endHour._seconds * 1000) : new Date(post.endHour.seconds * 1000)
+	if (
+		post.startDate
+		&& typeof (post.startDate) === 'object'
+		&& (Object.keys(post.startDate).includes('_seconds')
+			|| Object.keys(post.startDate).includes('seconds'))) customDateTimes.startDate = post.startDate._seconds ? new Date(post.startDate._seconds * 1000) : new Date(post.startDate.seconds * 1000)
+	if (
+		post.endDate
+		&& typeof (post.endDate) === 'object'
+		&& (Object.keys(post.endDate).includes('_seconds')
+			|| Object.keys(post.endDate).includes('seconds'))) customDateTimes.endDate = post.endDate._seconds ? new Date(post.endDate._seconds * 1000) : new Date(post.endDate.seconds * 1000)
+
+	return post
 }
 
 export { updatePostFieldsName }
