@@ -11,6 +11,7 @@ async function searchPosts(searchText: string, searchParams: SearchParams, searc
 			postTypeFilter: '',
 			geohashFilter: '',
 			geohashExceptionFilter: '',
+			macroCategoryFilter: '',
 			categoryFilter: '',
 			tagFilter: '',
 		}
@@ -27,6 +28,7 @@ async function searchPosts(searchText: string, searchParams: SearchParams, searc
 			searchFilters.geohashExceptionFilter = getGeohashFilter(searchParams.geohashes, geohashField, true)
 			searchFilters.cityFilter = getRangeFilter('city', searchParams.city, searchParams.country)
 			searchFilters.countryFilter = getRangeFilter('country', searchParams.country, searchParams.country)
+			searchFilters.macroCategoryFilter = getMacroCategoryFilter(searchParams.macroCategory)
 			searchFilters.categoryFilter = getCategoryFilter(searchParams.category)
 			searchFilters.tagFilter = getTagFilter(searchParams.tag)
 		}
@@ -46,13 +48,13 @@ async function searchPosts(searchText: string, searchParams: SearchParams, searc
 				]
 				: [
 					await postsIndex.search(searchText, { // Near
-						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter} ${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 					}),
 					await postsIndex.search(searchText, { // City
-						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND ${searchFilters.cityFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND ${searchFilters.cityFilter}${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 					}),
 					await postsIndex.search(searchText, { // Country
-						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 					})
 				]
 		)
@@ -106,6 +108,9 @@ const spreadPostsByRange = (posts: PostCollectionRemote[]) => {
 }
 
 const getPostTypeFilter = (postType: string) => {
+	if (postType === 'income') {
+		return `(postType:${postType} OR postType:sale OR postType:service OR postType:vacancy)`
+	}
 	return `postType:${postType}`
 }
 
@@ -122,6 +127,12 @@ const getRangeFilter = (range: string, city: string, country: string) => { // TO
 	if (range === 'nearby' || range === 'city') return `(range:city OR range:country) AND location.city:'${city}'`
 	if (range === 'country') return `range:${range} AND location.country:'${country}'`
 	return ''
+}
+
+const getMacroCategoryFilter = (macroCategory: string) => {
+	console.log(macroCategory)
+	if (!macroCategory) return ''
+	return ` AND macroCategory:${macroCategory}`
 }
 
 const getCategoryFilter = (category: string) => {
