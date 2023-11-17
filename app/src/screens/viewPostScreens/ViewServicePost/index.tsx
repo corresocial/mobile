@@ -25,8 +25,7 @@ import { ViewServicePostScreenProps } from '../../../routes/Stack/ProfileStack/s
 import {
 	PostCollection,
 	ServiceCategories,
-	ServiceCollection,
-	ServiceCollectionRemote,
+	IncomeCollectionRemote
 } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -66,7 +65,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	}
 
 	const isAuthor = loggedUserIsOwner()
-	const { postData } = route.params as { postData: ServiceCollectionRemote }
+	const { postData } = route.params as { postData: IncomeCollectionRemote }
 
 	const renderFormatedPostDateTime = () => {
 		const formatedDate = formatRelativeDate(postData.createdAt)
@@ -172,7 +171,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 		return ''
 	}
 
-	const getPostField = (fieldName: keyof ServiceCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof IncomeCollectionRemote, allowNull?: boolean) => {
 		if (allowNull && editDataContext.saved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}

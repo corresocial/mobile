@@ -25,7 +25,7 @@ import { ViewSalePostScreenProps } from '../../../routes/Stack/ProfileStack/stac
 import { AuthContext } from '../../../contexts/AuthContext'
 import { EditContext } from '../../../contexts/EditContext'
 
-import { PostCollection, SaleCategories, SaleCollection, SaleCollectionRemote } from '../../../services/firebase/types'
+import { PostCollection, SaleCategories, IncomeCollectionRemote } from '../../../services/firebase/types'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
@@ -63,7 +63,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	}
 
 	const isAuthor = loggedUserIsOwner()
-	const { postData } = route.params as { postData: SaleCollectionRemote }
+	const { postData } = route.params as { postData: IncomeCollectionRemote }
 
 	const renderFormatedPostDateTime = () => {
 		const formatedDate = formatRelativeDate(postData.createdAt)
@@ -169,7 +169,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 		return ''
 	}
 
-	const getPostField = (fieldName: keyof SaleCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof IncomeCollectionRemote, allowNull?: boolean) => {
 		if (allowNull && editDataContext.saved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}

@@ -6,7 +6,7 @@
 import { collection, query, getDocs } from 'firebase/firestore'
 import { firestore } from '..'
 import { updatePost } from '../post/updatePost'
-import { CultureCollectionRemote, PostCollection, SaleCollectionRemote, ServiceCollectionRemote, SocialImpactCollectionRemote, VacancyCollectionRemote } from '../types'
+import { CultureCollectionRemote, IncomeCollectionRemote, PostCollection, SocialImpactCollectionRemote, VacancyCollectionRemote } from '../types'
 import { updateUser } from '../user/updateUser'
 
 const updatePostFieldsName = async () => {
@@ -62,14 +62,14 @@ const migratePostFields = async (posts: PostCollection[]) => {
 	const updatedPosts = posts.map(((post) => {
 		switch (post.postType) {
 			case 'income': {
-				const currentPost: ServiceCollectionRemote | any = { ...post }
+				const currentPost: IncomeCollectionRemote | any = { ...post }
 
 				currentPost.macroCategory = currentPost.incomeType
 
 				return fixPostDateTimes(currentPost)
 			}
 			case 'service': {
-				const currentPost: ServiceCollectionRemote | any = { ...post }
+				const currentPost: IncomeCollectionRemote | any = { ...post }
 
 				currentPost.macroCategory = post.postType
 				// currentPost.postType = 'income'   // TODO RUN After
@@ -77,7 +77,7 @@ const migratePostFields = async (posts: PostCollection[]) => {
 				return fixPostDateTimes(currentPost)
 			}
 			case 'sale': {
-				const currentPost: SaleCollectionRemote | any = { ...post }
+				const currentPost: IncomeCollectionRemote | any = { ...post }
 
 				currentPost.macroCategory = post.postType
 				// currentPost.postType = 'income' // TODO RUN After

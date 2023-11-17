@@ -7,7 +7,7 @@ import { StateContext } from '../../../contexts/StateContext'
 
 import { EditSalePostReviewScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 import { SaleStackParamList } from '../../../routes/Stack/SaleStack/types'
-import { PostCollection, SaleCategories, SaleCollection, SaleCollectionRemote } from '../../../services/firebase/types'
+import { PostCollection, SaleCategories, IncomeCollection } from '../../../services/firebase/types'
 
 import { saleCategories } from '../../../utils/postsCategories/saleCategories'
 import { getTextualAddress } from '../../../utils/maps/addressFormatter'
@@ -50,7 +50,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		clearUnsavedEditContext()
 	}, [])
 
-	const getPostField = (fieldName: keyof SaleCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof IncomeCollection, allowNull?: boolean) => {
 		if (allowNull && editDataContext.unsaved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.unsaved[fieldName] || postData[fieldName]
 	}
@@ -88,7 +88,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		navigation.navigate('ViewSalePost' as any, { postData: salePostData }) // TODO Type // xxx
 	}
 
-	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof SaleCollectionRemote) => {
+	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof IncomeCollection) => {
 		let value = getPostField(initialValue)
 
 		if (initialValue === 'picturesUrl') {

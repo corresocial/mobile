@@ -18,7 +18,7 @@ type AuthContextType = {
 	setDataOnSecureStore: (key: string, data: any) => Promise<boolean>
 	deleteLocaluser: () => Promise<void>
 	setRemoteUserOnLocal: (uid?: string, userData?: UserCollection) => Promise<boolean | undefined>
-	getLastUserPost: () => PostCollection | {}
+	getLastUserPost: () => PostCollection
 	sendSMS: (completeNumber: string, recaptchaVerifier: any) => Promise<string>
 	validateVerificationCode: (verificationCodeId: string, verificationCode: string) => Promise<UserCredential>
 }
@@ -169,7 +169,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 			const lastUserPost: PostCollection = userPosts[0]
 			return lastUserPost
 		} catch (err) {
-			return []
+			return {} as PostCollection
 		}
 	}
 

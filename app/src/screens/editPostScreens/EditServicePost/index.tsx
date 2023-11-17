@@ -6,7 +6,7 @@ import { StateContext } from '../../../contexts/StateContext'
 import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
 
 import { EditServicePostReviewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-import { PostCollection, ServiceCategories, ServiceCollection, ServiceCollectionRemote } from '../../../services/firebase/types'
+import { PostCollection, ServiceCategories, IncomeCollection } from '../../../services/firebase/types'
 import { ServiceStackParamList } from '../../../routes/Stack/ServiceStack/types'
 
 import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
@@ -49,7 +49,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		clearUnsavedEditContext()
 	}, [])
 
-	const getPostField = (fieldName: keyof ServiceCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof IncomeCollection, allowNull?: boolean) => {
 		if (allowNull && editDataContext.unsaved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.unsaved[fieldName] || postData[fieldName]
 	}
@@ -87,7 +87,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		navigation.navigate('ViewServicePost' as any, { postData: servicePostData })
 	}
 
-	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof ServiceCollectionRemote) => {
+	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof IncomeCollection) => {
 		let value = getPostField(initialValue)
 
 		if (initialValue === 'picturesUrl') {

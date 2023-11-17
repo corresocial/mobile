@@ -1,4 +1,4 @@
-import { DaysOfWeek, LatLong, LocationViewType, PostRange, SaleCategories, SaleCollectionRemote } from '../../../services/firebase/types'
+import { DaysOfWeek, LatLong, LocationViewType, PostRange, SaleCategories, IncomeCollectionRemote } from '../../../services/firebase/types'
 import { UserStackParamList } from '../UserStack/types'
 
 export type SaleStackParamList = {
@@ -21,5 +21,5 @@ export type SaleStackParamList = {
 	SelectSaleDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
 	InsertSaleStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertSaleEndHour: { editMode: boolean, initialValue: Date } | undefined
-	EditSalePostReview: { postData: SaleCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	EditSalePostReview: { postData: IncomeCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 } & UserStackParamList
