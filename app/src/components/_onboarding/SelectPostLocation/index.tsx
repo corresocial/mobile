@@ -52,7 +52,7 @@ function SelectPostLocation({
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [hasPermission, setHasPermission] = useState(false)
-	const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(null)
+	const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(initialRegion)
 	const [address, setAddress] = useState('')
 
 	const [mapContainerDimensions, setMapContainerDimensions] = useState<LayoutRectangle>({
