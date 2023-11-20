@@ -266,7 +266,12 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 
 		setLocationDataOnContext({ currentCategory: { ...locationDataContext.currentCategory, ...currentCategory } })
 
-		const customSearchParams = { ...locationDataContext.searchParams, searchText }
+		const customSearchParams = {
+			...locationDataContext.searchParams,
+			searchText,
+			category: '',
+			tag: ''
+		}
 		setSearchText('')
 
 		navigation.navigate('SearchResult', { searchParams: customSearchParams })

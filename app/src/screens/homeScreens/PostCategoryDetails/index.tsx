@@ -136,6 +136,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 			searchText,
 			category: locationDataContext.currentCategory.categoryName,
 		}
+
 		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle, })
 	}
 

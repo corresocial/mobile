@@ -138,7 +138,13 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	}
 
 	const navigateToResultScreen = () => {
-		const customSearchParams = { ...locationDataContext.searchParams, searchText }
+		const customSearchParams = {
+			...locationDataContext.searchParams,
+			searchText,
+			macroCategory: '',
+			category: '',
+			tag: ''
+		}
 		navigation.navigate('SearchResult', { searchParams: customSearchParams })
 	}
 
