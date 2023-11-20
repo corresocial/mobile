@@ -23,7 +23,7 @@ import { VacancyPurposeCard } from '../../../components/_cards/VacancyPurposeCar
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
-import { VacancyTypeCard } from '../../../components/_cards/VacancyTypeCard'
+import { MacroCategoryCard } from '../../../components/_cards/MacroCategoryCard'
 import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
@@ -237,10 +237,17 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					onEdit={() => navigateToEditScreen('SelectWorkplace', 'workplace')}
 				/>
 				<VerticalSpacing />
-				<VacancyTypeCard
-					vacancyType={getPostField('vacancyType')}
-					onEdit={() => navigateToEditScreen('SelectVacancyType', 'vacancyType')}
-				/>
+				{
+					getPostField('macroCategory') && (
+						<MacroCategoryCard
+							title={'macrocategoria'}
+							hightligtedWords={['macrocategoria']}
+							postType={getPostField('postType')}
+							macroCategory={getPostField('macroCategory')}
+							onEdit={() => navigateToEditScreen('SelectVacancyType', 'vacancyType')}
+						/>
+					)
+				}
 				<VerticalSpacing />
 				<SaleOrExchangeCard
 					title={'tipo de remuneração'}

@@ -157,6 +157,8 @@ export type PrivateAddress = {
 
 export type PostType = 'service' | 'sale' | 'vacancy' | 'income' | 'socialImpact' | 'culture'
 
+export type NewHomePostType = 'income' | 'socialImpact' | 'culture'
+
 export type PostCollectionType = 'posts' | 'services' | 'sales' | 'vacancies' | 'cultures' | 'socialImpacts'
 
 export type PostCollection = IncomeCollection | VacancyCollection | CultureCollection | SocialImpactCollection

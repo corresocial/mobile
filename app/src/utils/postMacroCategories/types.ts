@@ -1,32 +1,35 @@
 import React from 'react'
 import { SvgProps } from 'react-native-svg'
 
-interface Category {
-	label: string;
-	value: string;
-	SvgIcon: React.FC<SvgProps>; // Pode ajustar conforme necessário
+export interface MacroCategoryObject {
+	label: string
+	value: string
+	SvgIcon: React.FC<SvgProps> // Pode ajustar conforme necessário
 }
 
 interface IncomeCategory {
-	sale: Category;
-	service: Category;
-	vacancy: Category;
+	sale: MacroCategoryObject
+	service: MacroCategoryObject
+	vacancy: MacroCategoryObject
 }
 
 interface SocialImpactCategory {
-	informative: Category;
-	iniciative: Category;
-	donation: Category;
+	informative: MacroCategoryObject
+	iniciative: MacroCategoryObject
+	donation: MacroCategoryObject
 }
 
 interface CultureCategory {
-	art: Category;
-	event: Category;
-	education: Category;
+	art: MacroCategoryObject
+	event: MacroCategoryObject
+	education: MacroCategoryObject
 }
 
+export type MacroCategoriesType = keyof IncomeCategory | keyof SocialImpactCategory | keyof CultureCategory
+export type MacroCategories = IncomeCategory & SocialImpactCategory & CultureCategory
+
 export interface PostMacroCategories {
-	income: IncomeCategory;
-	socialImpact: SocialImpactCategory;
-	culture: CultureCategory;
+	income: IncomeCategory
+	socialImpact: SocialImpactCategory
+	culture: CultureCategory
 }

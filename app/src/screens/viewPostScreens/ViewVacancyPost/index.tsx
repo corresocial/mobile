@@ -37,7 +37,7 @@ import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
 import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
-import { VacancyTypeCard } from '../../../components/_cards/VacancyTypeCard'
+import { MacroCategoryCard } from '../../../components/_cards/MacroCategoryCard'
 import { VacancyPurposeCard } from '../../../components/_cards/VacancyPurposeCard'
 import { ImportantPointsCard } from '../../../components/_cards/ImportantPointsCard'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
@@ -90,7 +90,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('EditVacancyPost' as any, { postData: { ...postData, ...editDataContext.saved } })
+		navigation.navigate('EditVacancyPost', { postData: { ...postData, ...editDataContext.saved } })
 	}
 
 	const backToPreviousScreen = () => {
@@ -271,9 +271,16 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						isVacancy
 					/>
 					<VerticalSpacing />
-					<VacancyTypeCard
-						vacancyType={getPostField('vacancyType')}
-					/>
+					{
+						getPostField('macroCategory') && (
+							<MacroCategoryCard
+								title={'macrocategoria'}
+								hightligtedWords={['macrocategoria']}
+								postType={getPostField('postType')}
+								macroCategory={getPostField('macroCategory')}
+							/>
+						)
+					}
 					<VerticalSpacing />
 					<SaleOrExchangeCard
 						title={'tipo de remuneração'}

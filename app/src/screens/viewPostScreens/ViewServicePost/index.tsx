@@ -44,6 +44,7 @@ import { PostPopOver } from '../../../components/PostPopOver'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
+import { MacroCategoryCard } from '../../../components/_cards/MacroCategoryCard'
 
 function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -105,7 +106,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('EditServicePost' as any, {
+		navigation.navigate('EditServicePost', {
 			postData: { ...postData, ...editDataContext.saved },
 		})
 	}
@@ -270,6 +271,17 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					<DescriptionCard
 						text={getPostField('description')}
 					/>
+					<VerticalSpacing />
+					{
+						getPostField('macroCategory') && (
+							<MacroCategoryCard
+								title={'macrocategoria'}
+								hightligtedWords={['macrocategoria']}
+								postType={getPostField('postType')}
+								macroCategory={getPostField('macroCategory')}
+							/>
+						)
+					}
 					<VerticalSpacing />
 					{!arrayIsEmpty(getPostField('picturesUrl')) && (
 						<>

@@ -42,6 +42,7 @@ import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { ItemStatusCard } from '../../../components/_cards/ItemStatusCard'
 import { textHasOnlyNumbers } from '../../../utils/validationFunctions'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
+import { MacroCategoryCard } from '../../../components/_cards/MacroCategoryCard'
 
 function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -78,7 +79,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('EditSalePost' as any, {
+		navigation.navigate('EditSalePost', {
 			postData: { ...postData, ...editDataContext.saved },
 		})
 	}
@@ -179,8 +180,6 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 		setTimeout(() => setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible), 400)
 	}
 
-	console.log(getPostField('itemStatus'))
-
 	return (
 		<Container>
 			<DefaultConfirmationModal
@@ -271,6 +270,17 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					<DescriptionCard
 						text={getPostField('description')}
 					/>
+					<VerticalSpacing />
+					{
+						getPostField('macroCategory') && (
+							<MacroCategoryCard
+								title={'macrocategoria'}
+								hightligtedWords={['macrocategoria']}
+								postType={getPostField('postType')}
+								macroCategory={getPostField('macroCategory')}
+							/>
+						)
+					}
 					<VerticalSpacing />
 					{!arrayIsEmpty(getPostField('picturesUrl')) && (
 						<>
