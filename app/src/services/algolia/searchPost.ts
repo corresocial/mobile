@@ -130,8 +130,10 @@ const getRangeFilter = (range: string, city: string, country: string) => { // TO
 }
 
 const getMacroCategoryFilter = (macroCategory: string) => {
-	console.log(macroCategory)
 	if (!macroCategory) return ''
+	if (macroCategory === 'income') {
+		return ` AND (macroCategory:${macroCategory} OR macroCategory:sale OR macroCategory:service OR macroCategory:vacancy)`
+	}
 	return ` AND macroCategory:${macroCategory}`
 }
 
