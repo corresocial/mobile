@@ -236,16 +236,20 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					isVacancy
 					onEdit={() => navigateToEditScreen('SelectWorkplace', 'workplace')}
 				/>
-				<VerticalSpacing />
 				{
 					getPostField('macroCategory') && (
-						<MacroCategoryCard
-							title={'macrocategoria'}
-							hightligtedWords={['macrocategoria']}
-							postType={getPostField('postType')}
-							macroCategory={getPostField('macroCategory')}
-							onEdit={() => navigateToEditScreen('SelectVacancyType', 'vacancyType')}
-						/>
+						<>
+							<VerticalSpacing />
+							<MacroCategoryCard
+								title={'macrocategoria'}
+								hightligtedWords={['macrocategoria']}
+								postType={getPostField('postType')}
+								macroCategory={getPostField('macroCategory')}
+								onEdit={() => navigateToEditScreen('SelectVacancyType', 'vacancyType')}
+							/>
+
+						</>
+
 					)
 				}
 				<VerticalSpacing />

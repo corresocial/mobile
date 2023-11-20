@@ -270,15 +270,17 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					<DescriptionCard
 						text={getPostField('description')}
 					/>
-					<VerticalSpacing />
 					{
 						getPostField('macroCategory') && (
-							<MacroCategoryCard
-								title={'macrocategoria'}
-								hightligtedWords={['macrocategoria']}
-								postType={getPostField('postType')}
-								macroCategory={getPostField('macroCategory')}
-							/>
+							<>
+								<VerticalSpacing />
+								<MacroCategoryCard
+									title={'macrocategoria'}
+									hightligtedWords={['macrocategoria']}
+									postType={getPostField('postType')}
+									macroCategory={getPostField('macroCategory')}
+								/>
+							</>
 						)
 					}
 					<VerticalSpacing />

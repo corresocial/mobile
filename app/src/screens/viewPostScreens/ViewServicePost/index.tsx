@@ -271,15 +271,17 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					<DescriptionCard
 						text={getPostField('description')}
 					/>
-					<VerticalSpacing />
 					{
 						getPostField('macroCategory') && (
-							<MacroCategoryCard
-								title={'macrocategoria'}
-								hightligtedWords={['macrocategoria']}
-								postType={getPostField('postType')}
-								macroCategory={getPostField('macroCategory')}
-							/>
+							<>
+								<VerticalSpacing />
+								<MacroCategoryCard
+									title={'macrocategoria'}
+									hightligtedWords={['macrocategoria']}
+									postType={getPostField('postType')}
+									macroCategory={getPostField('macroCategory')}
+								/>
+							</>
 						)
 					}
 					<VerticalSpacing />

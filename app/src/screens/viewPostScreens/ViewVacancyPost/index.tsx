@@ -270,15 +270,17 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						placeModality={getPostField('workplace')}
 						isVacancy
 					/>
-					<VerticalSpacing />
 					{
 						getPostField('macroCategory') && (
-							<MacroCategoryCard
-								title={'macrocategoria'}
-								hightligtedWords={['macrocategoria']}
-								postType={getPostField('postType')}
-								macroCategory={getPostField('macroCategory')}
-							/>
+							<>
+								<VerticalSpacing />
+								<MacroCategoryCard
+									title={'macrocategoria'}
+									hightligtedWords={['macrocategoria']}
+									postType={getPostField('postType')}
+									macroCategory={getPostField('macroCategory')}
+								/>
+							</>
 						)
 					}
 					<VerticalSpacing />
