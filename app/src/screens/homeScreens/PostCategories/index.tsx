@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { Fragment, useContext, useEffect, useState } from 'react'
 import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import uuid from 'react-uuid'
 
@@ -161,17 +161,16 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 
 		return Object.entries(ordenedCategories as CategoryEntries).map((category) => {
 			return (
-				<>
+				<Fragment key={uuid()}>
 					<CategoryCard
 						hasElements={hasPostsOnCategory(category[1].value)}
 						inactiveColor={inactiveColor}
-						key={uuid()}
 						title={category[1].label}
 						SvgIcon={category[1].SvgIcon}
 						onPress={() => navigateToCategoryDetails(category[1])}
 					/>
 					<HorizontalSpacing />
-				</>
+				</Fragment >
 			)
 		})
 	}
