@@ -39,13 +39,13 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 	const defineLabelColor = (lightColor?: boolean) => {
 		switch (post.postType) {
 			case 'service': {
-				return lightColor ? theme.purple1 : theme.purple3
+				return lightColor ? theme.green1 : theme.green3
 			}
 			case 'sale': {
 				return lightColor ? theme.green1 : theme.green3
 			}
 			case 'vacancy': {
-				return lightColor ? theme.yellow1 : theme.yellow3
+				return lightColor ? theme.green1 : theme.green3
 			}
 			case 'income': {
 				return lightColor ? theme.green1 : theme.green3
