@@ -3,7 +3,6 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import uuid from 'react-uuid'
 
 import { SvgProps } from 'react-native-svg'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { CategoryCardContainer, Container, Header, InputContainer } from './styles'
 import { theme } from '../../../common/theme'
 import OthersWhiteIcon from '../../../assets/icons/categories/others.svg'
@@ -16,7 +15,7 @@ import { socialImpactCategories } from '../../../utils/postsCategories/socialImp
 import { sortPostCategories } from '../../../common/auxiliaryFunctions'
 
 import { PostCategoriesScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
-import { FeedPosts, MacroCategory, PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
+import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
 
 import { LocationContext } from '../../../contexts/LocationContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -29,7 +28,7 @@ import { postMacroCategories } from '../../../utils/postMacroCategories'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { FeedByRange } from '../../../components/FeedByRange'
 import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
-import { PostMacroCategories } from '../../../utils/postMacroCategories/types'
+import { MacroCategories } from '../../../utils/postMacroCategories/types'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 
@@ -134,11 +133,17 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	}
 
 	const getRelativeTitle = () => {
-		return postMacroCategories[postType][macroCategory].label // TODO Type Remove Post types unused
+		const customPostType = postType as NewHomePostType
+		const currentPostType = postMacroCategories[customPostType] as MacroCategories
+		const currentMacroCategory = currentPostType[macroCategory]
+		return currentMacroCategory.label
 	}
 
 	const getRelativeHeaderIcon = () => {
-		return postMacroCategories[postType][macroCategory].SvgIcon
+		const customPostType = postType as NewHomePostType
+		const currentPostType = postMacroCategories[customPostType] as MacroCategories
+		const currentMacroCategory = currentPostType[macroCategory]
+		return currentMacroCategory.SvgIcon
 	}
 
 	const renderCategories = () => {
@@ -227,7 +232,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	const goToPostView = (post: PostCollection | any) => { // TODO Type
 		switch (post.postType) {
 			case 'income': {
-				switch (post[`${post.postType}Type`]) {
+				switch (post.macroCategory) {
 					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
 					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
 					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })

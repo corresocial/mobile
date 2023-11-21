@@ -6,12 +6,13 @@ import { theme } from '../../common/theme'
 
 import { SmallButton } from '../_buttons/SmallButton'
 import { relativeScreenWidth } from '../../common/screenDimensions'
+import { MacroCategoriesType } from '../../utils/postMacroCategories/types'
 
 interface CatalogPostTypeButtonsProps {
 	buttonLabels: string[]
 	buttonValues: string[]
 	buttonIcons: React.FC<SvgProps>[]
-	onPress: (macroCategory: string) => void
+	onPress: (macroCategory: MacroCategoriesType) => void
 }
 
 function CatalogPostTypeButtons({ buttonLabels, buttonValues, buttonIcons, onPress }: CatalogPostTypeButtonsProps) {
@@ -24,7 +25,7 @@ function CatalogPostTypeButtons({ buttonLabels, buttonValues, buttonIcons, onPre
 					height={relativeScreenWidth(15)}
 					color={'white'}
 					fontSize={9}
-					onPress={() => onPress(buttonValue)}
+					onPress={() => onPress(buttonValue as MacroCategoriesType)}
 					label={buttonLabels[i]}
 					labelColor={theme.black4}
 					SvgIcon={buttonIcons[i]}

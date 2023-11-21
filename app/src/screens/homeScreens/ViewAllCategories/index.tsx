@@ -20,10 +20,11 @@ import { serviceCategories } from '../../../utils/postsCategories/serviceCategor
 import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'
 import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
 import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
-import { MacroCategory, PostCollection, PostCollectionRemote } from '../../../services/firebase/types'
+import { MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote } from '../../../services/firebase/types'
 import { postMacroCategories } from '../../../utils/postMacroCategories'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { MacroCategories } from '../../../utils/postMacroCategories/types'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 
@@ -69,6 +70,13 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 			case 'socialImpact': return socialImpactCategories
 			default: return null
 		}
+	}
+
+	const getHeaderTextPath = () => {
+		const customPostType = postType as NewHomePostType
+		const currentPostType = postMacroCategories[customPostType] as MacroCategories
+		const currentMacroCategory = currentPostType[macroCategory]
+		return currentMacroCategory.label
 	}
 
 	const renderFilteredCategories = () => {
@@ -160,7 +168,7 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<DefaultPostViewHeader
-					textPath={`${postMacroCategories[postType][macroCategory].label}`}
+					textPath={getHeaderTextPath()}
 					text={'categorias'}
 					highlightedWords={['']}
 					path

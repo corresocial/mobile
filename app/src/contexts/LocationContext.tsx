@@ -5,6 +5,7 @@ import { CurrentCategory, SearchParams } from '../services/maps/types'
 import QuestionMarkIcon from '../assets/icons/questionMark-white.svg'
 
 import { LocationData } from './types'
+import { MacroCategoriesType } from '../utils/postMacroCategories/types'
 
 type LocationContextType = {
 	locationDataContext: {
@@ -25,7 +26,7 @@ const initialValue = {
 		searchParams: {
 			searchText: '',
 			range: '',
-			macroCategory: '',
+			macroCategory: '' as MacroCategoriesType,
 			category: '',
 			tag: '',
 			city: '',

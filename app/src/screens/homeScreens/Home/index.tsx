@@ -273,7 +273,7 @@ function Home({ navigation }: HomeScreenProps) {
 	const goToPostView = (post: PostCollection | any) => { // TODO Type
 		switch (post.postType) {
 			case 'income': {
-				switch (post[`${post.postType}Type`]) {
+				switch (post.macroCategory) {
 					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
 					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
 					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
@@ -334,7 +334,7 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const renderPostItem = (item: PostCollection) => {
-		if (item as string === 'subscriptionAd') {
+		if (item as string | PostCollection === 'subscriptionAd') {
 			if (!userHasPaidSubscription()) return <></>
 			return (
 				<ContainerPadding>

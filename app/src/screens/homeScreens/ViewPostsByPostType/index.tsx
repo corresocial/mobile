@@ -27,6 +27,7 @@ import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader
 import { SearchInput } from '../../../components/_inputs/SearchInput'
 import { CatalogPostTypeButtons } from '../../../components/CatalogPostTypeButtons'
 import { FeedByRange } from '../../../components/FeedByRange'
+import { MacroCategoriesType } from '../../../utils/postMacroCategories/types'
 
 function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -120,7 +121,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	const goToPostView = (post: PostCollection | any) => { // TODO Type
 		switch (post.postType) {
 			case 'income': {
-				switch (post[`${post.postType}Type`]) {
+				switch (post.macroCategory) {
 					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
 					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
 					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
@@ -141,7 +142,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 		const customSearchParams = {
 			...locationDataContext.searchParams,
 			searchText,
-			macroCategory: '',
+			macroCategory: '' as MacroCategoriesType,
 			category: '',
 			tag: ''
 		}
@@ -199,7 +200,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 					buttonLabels={['vendas', 'serviços', 'vagas']}
 					buttonValues={['sale', 'service', 'vacancy']}
 					buttonIcons={[SaleWhiteIcon, ServiceWhiteIcon, VacancyWhiteIcon]}
-					onPress={(macroCategory: string) => navigateToPostSubcatery(macroCategory)}
+					onPress={(macroCategory: MacroCategoriesType) => navigateToPostSubcatery(macroCategory)}
 				/>
 			)
 			case 'culture': return (
@@ -207,7 +208,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 					buttonLabels={['arte', 'eventos', 'educação']}
 					buttonValues={['art', 'event', 'education']}
 					buttonIcons={[ColorPaletWhiteIcon, CalendarSomedayWhiteIcon, BooksWhiteIcon]}
-					onPress={(macroCategory: string) => navigateToPostSubcatery(macroCategory)}
+					onPress={(macroCategory: MacroCategoriesType) => navigateToPostSubcatery(macroCategory)}
 				/>
 			)
 			case 'socialImpact': return (
@@ -215,14 +216,14 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 					buttonLabels={['informativos', 'iniciativas', 'doações']}
 					buttonValues={['informative', 'iniciative', 'donation']}
 					buttonIcons={[PeperInfoWhiteIcon, HeartAndPersonWhiteIcon, HandOnHeartWhiteIcon]}
-					onPress={(macroCategory: string) => navigateToPostSubcatery(macroCategory)}
+					onPress={(macroCategory: MacroCategoriesType) => navigateToPostSubcatery(macroCategory)}
 				/>
 			)
 			default: return <></>
 		}
 	}
 
-	const navigateToPostSubcatery = (macroCategory: string) => {
+	const navigateToPostSubcatery = (macroCategory: MacroCategoriesType) => {
 		setLocationDataOnContext({ searchParams: { ...locationDataContext.searchParams, macroCategory } })
 		navigation.navigate('PostCategories')
 	}

@@ -85,7 +85,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const goToPostView = (post: PostCollection | any) => { // TODO Type
 		switch (post.postType) {
 			case 'income': {
-				switch (post[`${post.postType}Type`]) {
+				switch (post.macroCategory) {
 					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
 					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
 					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })

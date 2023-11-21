@@ -2,6 +2,7 @@ import React from 'react'
 import { SvgProps } from 'react-native-svg'
 
 import { PostType } from '../firebase/types'
+import { MacroCategoriesType } from '../../utils/postMacroCategories/types'
 
 export type AddressSearchResult = {
 	formattedAddress: string
@@ -30,7 +31,7 @@ export type SearchParams = {
 	range: string
 	city: string
 	country: string
-	macroCategory: string
+	macroCategory: MacroCategoriesType
 	category: string
 	tag: string
 	postType: PostType | string
