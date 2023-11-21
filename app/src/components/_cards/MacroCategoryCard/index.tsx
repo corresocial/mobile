@@ -31,18 +31,6 @@ function MacroCategoryCard({ title, postType, macroCategory, hightligtedWords, o
 			console.log(err)
 			return showMessageWithHighlight('tipo indisponível', ['indisponível'])
 		}
-		/* switch (macroCategory) {
-			case 'sale': return showMessageWithHighlight('vendas', ['vendas'])
-			case 'service': return showMessageWithHighlight('um serviço', ['serviço'])
-			case 'vacancy': return showMessageWithHighlight('vaga temporária', ['temporária'])
-			case 'event': return showMessageWithHighlight('um bico', ['bico'])
-			case 'informative': return showMessageWithHighlight('um profissional', ['profissional'])
-			case 'iniciative': return showMessageWithHighlight('vaga temporária', ['temporária'])
-			case 'art': return showMessageWithHighlight('um bico', ['bico'])
-			case 'donation': return showMessageWithHighlight('um profissional', ['profissional'])
-			case 'education': return showMessageWithHighlight('vaga temporária', ['temporária'])
-			default: return showMessageWithHighlight('tipo indisponível', ['indisponível'])
-		} */
 	}
 
 	const getRelativeValueIcon = () => {

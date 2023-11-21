@@ -161,6 +161,7 @@ exports.searchPostsByAlgoliaBeta = functions.https.onRequest(async (req, res) =>
 			postTypeFilter: '',
 			geohashFilter: '',
 			geohashExceptionFilter: '',
+			macroCategoryFilter: '',
 			categoryFilter: '',
 			tagFilter: '',
 		}
@@ -177,6 +178,7 @@ exports.searchPostsByAlgoliaBeta = functions.https.onRequest(async (req, res) =>
 			searchFilters.geohashExceptionFilter = getGeohashFilter(searchParams.geohashes, geohashField, true)
 			searchFilters.cityFilter = getRangeFilter('city', searchParams.city, searchParams.country)
 			searchFilters.countryFilter = getRangeFilter('country', searchParams.country, searchParams.country)
+			searchFilters.macroCategoryFilter = getMacroCategoryFilter(searchParams.macroCategory)
 			searchFilters.categoryFilter = getCategoryFilter(searchParams.category)
 			searchFilters.tagFilter = getTagFilter(searchParams.tag)
 		}
@@ -196,13 +198,13 @@ exports.searchPostsByAlgoliaBeta = functions.https.onRequest(async (req, res) =>
 				]
 				: [
 					await postsIndex.search(searchText, { // Near
-						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter} ${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 					}),
 					await postsIndex.search(searchText, { // City
-						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND ${searchFilters.cityFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND ${searchFilters.cityFilter}${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 					}),
 					await postsIndex.search(searchText, { // Country
-						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 					})
 				]
 		)
@@ -271,6 +273,14 @@ const getRangeFilter = (range, city, country) => {
 	if (range === 'nearby' || range === 'city') return ` (range:city OR range:country) AND location.city:'${city}'`
 	if (range === 'country') return `range:${range} AND location.country:'${country}'`
 	return ''
+}
+
+const getMacroCategoryFilter = (macroCategory) => {
+	if (!macroCategory) return ''
+	if (macroCategory === 'income') {
+		return ` AND (macroCategory:${macroCategory} OR macroCategory:sale OR macroCategory:service OR macroCategory:vacancy)`
+	}
+	return ` AND macroCategory:${macroCategory}`
 }
 
 const getCategoryFilter = (category) => {
@@ -367,7 +377,7 @@ exports.sendNotification = functions.https.onRequest(async (req, res) => {
 						if (value.hasOwnProperty('messages')) {
 							const messageKeys = Object.keys(value.messages)
 							if (!value.messages[messageKeys.at(-1)].readed) {
-								senderId = value.messages[messageKeys.at(-1)].owner
+								const senderId = value.messages[messageKeys.at(-1)].owner
 								if (value.user1.userId === senderId && value.user2.hasOwnProperty('tokenNotification')) {
 									console.log(value.user2.name)
 									enviarNotificacao(value.user2.tokenNotification)

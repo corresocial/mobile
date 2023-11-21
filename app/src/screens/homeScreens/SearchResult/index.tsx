@@ -16,7 +16,6 @@ import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { searchPostsCloud } from '../../../services/cloudFunctions/searchPostsCloud'
 import { FeedByRange } from '../../../components/FeedByRange'
-import { searchPosts } from '../../../services/algolia/searchPost'
 
 const initialFeedPosts = {
 	nearby: [],
@@ -47,8 +46,8 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 		console.log(`SEARCH TEXT: ${algoliaSearchText}`)
 
 		setLoaderIsVisible(true)
-		// await searchPostsCloud(algoliaSearchText, searchParamsFromRoute, searchByRange || false, userDataContext.userId as Id)
-		await searchPosts(algoliaSearchText, searchParamsFromRoute, searchByRange)
+		await searchPostsCloud(algoliaSearchText, searchParamsFromRoute, searchByRange || false, userDataContext.userId as Id)
+			// await searchPosts(algoliaSearchText, searchParamsFromRoute, searchByRange)
 			.then((posts) => {
 				if (!posts) {
 					setResultPosts(initialFeedPosts as FeedPosts)
