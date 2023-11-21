@@ -23,7 +23,6 @@ import { VacancyPurposeCard } from '../../../components/_cards/VacancyPurposeCar
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
-import { MacroCategoryCard } from '../../../components/_cards/MacroCategoryCard'
 import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
@@ -31,6 +30,7 @@ import { ImportantPointsCard } from '../../../components/_cards/ImportantPointsC
 import { EditPost } from '../../../components/EditPost'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
+import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 
 function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -91,7 +91,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 		navigation.navigate('ViewVacancyPost' as any, { postData: vacancyPostData })
 	}
 
-	const navigateToEditScreen = (screenName: keyof VacancyStackParamList, initialValue: keyof VacancyCollectionRemote, especificField?: string) => {
+	const navigateToEditScreen = (screenName: keyof VacancyStackParamList, initialValue: keyof VacancyCollectionRemote, customStack?: string) => {
 		let value = getPostField(initialValue)
 
 		if (initialValue === 'picturesUrl') {
@@ -105,7 +105,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 			}
 		}
 
-		navigation.navigate('VacancyStack', {
+		navigation.navigate(customStack || 'VacancyStack' as any, { // TODO Type
 			screen: screenName,
 			params: {
 				editMode: true,
@@ -200,13 +200,14 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 				editContext={editContext}
 			>
 				<VacancyPurposeCard
-					vacancyPurpose={getPostField('vacancyPurpose') || getPostField('lookingFor')}
+					vacancyPurpose={getPostField('vacancyPurpose' as any) || getPostField('lookingFor')}
 					onEdit={() => {
-						getPostField('vacancyPurpose')
-							? navigateToEditScreen('SelectVacancyPurpose', 'vacancyPurpose')
+						getPostField('vacancyPurpose' as any)
+							? navigateToEditScreen('SelectVacancyPurpose', 'vacancyPurpose' as any)
 							: navigateToEditScreen('SelectVacancyPurpose', 'lookingFor')
 					}}
 				/>
+
 				<VerticalSpacing />
 				<EditCard
 					title={'tags do post'}
@@ -229,6 +230,13 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					onEdit={() => navigateToEditScreen('VacancyPicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />
+				<IncomeTypeCard
+					title={'tipo de renda'}
+					hightligtedWords={['tipo', 'renda']}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
+				/>
+				<VerticalSpacing />
 				<PlaceModality
 					title={'local de trabalho'}
 					hightligtedWords={['local', 'trabalho']}
@@ -236,22 +244,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					isVacancy
 					onEdit={() => navigateToEditScreen('SelectWorkplace', 'workplace')}
 				/>
-				{
-					getPostField('macroCategory') && (
-						<>
-							<VerticalSpacing />
-							<MacroCategoryCard
-								title={'macrocategoria'}
-								hightligtedWords={['macrocategoria']}
-								postType={getPostField('postType')}
-								macroCategory={getPostField('macroCategory')}
-								onEdit={() => navigateToEditScreen('SelectVacancyType', 'vacancyType')}
-							/>
 
-						</>
-
-					)
-				}
 				<VerticalSpacing />
 				<SaleOrExchangeCard
 					title={'tipo de remuneração'}

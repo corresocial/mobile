@@ -28,6 +28,7 @@ import { EditCard } from '../../../components/_cards/EditCard'
 import { EditPost } from '../../../components/EditPost'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
+import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 
 function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
@@ -88,7 +89,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		navigation.navigate('ViewSalePost' as any, { postData: salePostData }) // TODO Type // xxx
 	}
 
-	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof IncomeCollection) => {
+	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof IncomeCollection, customStack?: string) => {
 		let value = getPostField(initialValue)
 
 		if (initialValue === 'picturesUrl') {
@@ -102,7 +103,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 			}
 		}
 
-		navigation.navigate('SaleStack', {
+		navigation.navigate(customStack || 'SaleStack' as any, { // TODO Type
 			screen: screenName,
 			params: {
 				editMode: true,
@@ -211,6 +212,13 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertSaleDescription', 'description')}
+				/>
+				<VerticalSpacing />
+				<IncomeTypeCard
+					title={'tipo de renda'}
+					hightligtedWords={['tipo', 'renda']}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
 				/>
 				<VerticalSpacing />
 				<EditCard

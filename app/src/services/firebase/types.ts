@@ -278,6 +278,7 @@ export interface VacancyCollection extends PostCollectionCommonFields {
 }
 
 export interface VacancyCollectionRemote extends PostCollectionCommonFieldsRemote {
+	macroCategory: IncomeType
 	vacancyType: VacancyType
 	workplace: WorkplaceType
 	workFrequency?: WeekdaysFrequency

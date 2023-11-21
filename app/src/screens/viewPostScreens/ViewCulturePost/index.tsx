@@ -39,7 +39,7 @@ import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
-import { MacroCategoryCard } from '../../../components/_cards/MacroCategoryCard'
+import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
 
 function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -246,24 +246,14 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 				/>
 				<Body>
 					<VerticalSpacing />
+					<CultureTypeCard
+						title={'tipo de cultura'}
+						macroCategory={getPostField('macroCategory')}
+					/>
 					<VerticalSpacing />
 					<DescriptionCard
 						text={getPostField('description')}
 					/>
-					{
-						getPostField('macroCategory') && (
-							<>
-								<VerticalSpacing />
-								<MacroCategoryCard
-									title={'macrocategoria'}
-									hightligtedWords={['macrocategoria']}
-									postType={getPostField('postType')}
-									macroCategory={getPostField('macroCategory')}
-								/>
-
-							</>
-						)
-					}
 					<VerticalSpacing />
 					{
 						!arrayIsEmpty(getPostField('picturesUrl')) && (

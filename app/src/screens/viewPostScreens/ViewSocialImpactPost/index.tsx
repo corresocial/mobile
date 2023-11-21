@@ -33,7 +33,6 @@ import { ExhibitionPlaceCard } from '../../../components/_cards/ExhibitionPlace'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { SocialImpactTypeCard } from '../../../components/_cards/SocialImpactType'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
-import { MacroCategoryCard } from '../../../components/_cards/MacroCategoryCard'
 
 function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -250,19 +249,6 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					<DescriptionCard
 						text={getPostField('description')}
 					/>
-					{
-						getPostField('macroCategory') && (
-							<>
-								<VerticalSpacing />
-								<MacroCategoryCard
-									title={'macrocategoria'}
-									hightligtedWords={['macrocategoria']}
-									postType={getPostField('postType')}
-									macroCategory={getPostField('macroCategory')}
-								/>
-							</>
-						)
-					}
 					<VerticalSpacing />
 					{
 						!arrayIsEmpty(getPostField('picturesUrl')) && (

@@ -26,10 +26,10 @@ import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
 import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
-import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
 import { EditPost } from '../../../components/EditPost'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
+import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
 
 function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -103,7 +103,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		navigation.navigate('ViewCulturePost' as any, { postData: culturePostData })
 	}
 
-	const navigateToEditScreen = (screenName: keyof CultureStackParamList, initialValue: keyof CultureCollectionRemote, especificField?: string) => {
+	const navigateToEditScreen = (screenName: keyof CultureStackParamList, initialValue: keyof CultureCollectionRemote) => {
 		let value = getPostField(initialValue)
 
 		if (initialValue === 'picturesUrl') {
@@ -194,7 +194,6 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				visibility={postReviewPresentationModalIsVisible}
 				onPressButton={togglePostReviewPresentationModalVisibility}
 			/>
-
 			<EditPost
 				initialPostData={{ ...postData, postType: 'culture' }}
 				owner={owner}
@@ -210,6 +209,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				userContext={userContext}
 				editContext={editContext}
 			>
+				<VerticalSpacing />
 				<CultureTypeCard
 					title={'tipo de cultura'}
 					macroCategory={getPostField('macroCategory')}

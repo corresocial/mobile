@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext } from 'react'
 
 import { theme } from '../../../common/theme'
 import SaleWhiteIcon from '../../../assets/icons/sale-white.svg'
@@ -9,25 +9,23 @@ import { SelectIncomeTypeScreenProps } from '../../../routes/Stack/UserStack/sta
 
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
+import { EditContext } from '../../../contexts/EditContext'
+import { MacroCategoriesType } from '../../../utils/postMacroCategories/types'
 
-function SelectIncomeType({ navigation }: SelectIncomeTypeScreenProps) {
-	useEffect(() => {
-		/* if (!route.params?.editMode) {
-			getAditionalDataFromLastPost()
-		} */
-	}, [])
+function SelectIncomeType({ route, navigation }: SelectIncomeTypeScreenProps) {
+	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const saveIncomeType = (routeNavigate: 'SaleStack' | 'ServiceStack' | 'VacancyStack') => {
-		/* if (editModeIsTrue()) {
+	const editModeIsTrue = () => !!(route.params && route.params.editMode)
+
+	const saveIncomeType = (routeNavigate: 'SaleStack' | 'ServiceStack' | 'VacancyStack', macroCategory: MacroCategoriesType) => {
+		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ macroCategory })
 			navigation.goBack()
 			return
-		} */
+		}
 
 		navigation.navigate(routeNavigate)
 	}
-
-	// const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
 	return (
 		<PostSelectButton
@@ -47,7 +45,7 @@ function SelectIncomeType({ navigation }: SelectIncomeTypeScreenProps) {
 				svgIconScale={['70%', '70%']}
 				leftSideColor={theme.green3}
 				leftSideWidth={'25%'}
-				onPress={() => saveIncomeType('SaleStack')}
+				onPress={() => saveIncomeType('SaleStack', 'sale')}
 			/>
 			<OptionButton
 				label={'serviços'}
@@ -59,7 +57,7 @@ function SelectIncomeType({ navigation }: SelectIncomeTypeScreenProps) {
 				svgIconScale={['70%', '70%']}
 				leftSideColor={theme.green3}
 				leftSideWidth={'25%'}
-				onPress={() => saveIncomeType('ServiceStack')}
+				onPress={() => saveIncomeType('ServiceStack', 'service')}
 			/>
 			<OptionButton
 				label={'vagas'}
@@ -71,7 +69,7 @@ function SelectIncomeType({ navigation }: SelectIncomeTypeScreenProps) {
 				svgIconScale={['70%', '70%']}
 				leftSideColor={theme.green3}
 				leftSideWidth={'25%'}
-				onPress={() => saveIncomeType('VacancyStack')}
+				onPress={() => saveIncomeType('VacancyStack', 'vacancy')}
 			/>
 		</PostSelectButton>
 	)

@@ -21,6 +21,8 @@ interface MacroCategoryCardProps {
 	onEdit?: () => void
 }
 
+// [deprecated]
+
 function MacroCategoryCard({ title, postType, macroCategory, hightligtedWords, onEdit }: MacroCategoryCardProps) {
 	const getRelativeMacroCategoryCard = () => {
 		try {
@@ -53,10 +55,15 @@ function MacroCategoryCard({ title, postType, macroCategory, hightligtedWords, o
 					dimensions={30}
 				/>
 			</EditHeaderContainer>
-			<PostInfoRow
-				text={getRelativeMacroCategoryCard()}
-				SvgIcon={getRelativeValueIcon()}
-			/>
+			{
+				macroCategory && (
+					<PostInfoRow
+						text={getRelativeMacroCategoryCard()}
+						SvgIcon={getRelativeValueIcon()}
+					/>
+				)
+			}
+
 		</DefaultCardContainer>
 	)
 }

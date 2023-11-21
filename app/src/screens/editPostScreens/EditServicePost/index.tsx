@@ -27,6 +27,7 @@ import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
 import { EditPost } from '../../../components/EditPost'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
+import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 
 function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps) {
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
@@ -87,7 +88,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		navigation.navigate('ViewServicePost' as any, { postData: servicePostData })
 	}
 
-	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof IncomeCollection) => {
+	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof IncomeCollection, customStack?: string) => {
 		let value = getPostField(initialValue)
 
 		if (initialValue === 'picturesUrl') {
@@ -101,7 +102,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 			}
 		}
 
-		navigation.navigate('ServiceStack', {
+		navigation.navigate(customStack || 'ServiceStack' as any, { // TODO Type
 			screen: screenName,
 			params: {
 				editMode: true,
@@ -206,6 +207,13 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertServiceDescription', 'description')}
+				/>
+				<VerticalSpacing />
+				<IncomeTypeCard
+					title={'tipo de renda'}
+					hightligtedWords={['tipo', 'renda']}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
 				/>
 				<VerticalSpacing />
 				<EditCard

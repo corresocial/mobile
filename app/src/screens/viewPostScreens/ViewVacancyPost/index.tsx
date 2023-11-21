@@ -37,10 +37,10 @@ import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
 import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
-import { MacroCategoryCard } from '../../../components/_cards/MacroCategoryCard'
 import { VacancyPurposeCard } from '../../../components/_cards/VacancyPurposeCard'
 import { ImportantPointsCard } from '../../../components/_cards/ImportantPointsCard'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
+import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -247,7 +247,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 				<Body>
 					<VerticalSpacing />
 					<VacancyPurposeCard
-						vacancyPurpose={getPostField('vacancyPurpose') || getPostField('lookingFor')}
+						vacancyPurpose={getPostField('vacancyPurpose' as any) || getPostField('lookingFor')}
 					/>
 					<VerticalSpacing />
 					<DescriptionCard
@@ -270,19 +270,12 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						placeModality={getPostField('workplace')}
 						isVacancy
 					/>
-					{
-						getPostField('macroCategory') && (
-							<>
-								<VerticalSpacing />
-								<MacroCategoryCard
-									title={'macrocategoria'}
-									hightligtedWords={['macrocategoria']}
-									postType={getPostField('postType')}
-									macroCategory={getPostField('macroCategory')}
-								/>
-							</>
-						)
-					}
+					<VerticalSpacing />
+					<IncomeTypeCard
+						title={'tipo de renda'}
+						hightligtedWords={['tipo', 'renda']}
+						macroCategory={getPostField('macroCategory')}
+					/>
 					<VerticalSpacing />
 					<SaleOrExchangeCard
 						title={'tipo de remuneração'}
