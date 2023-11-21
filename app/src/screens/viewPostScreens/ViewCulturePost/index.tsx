@@ -267,12 +267,18 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 							</>
 						)
 					}
-					<PlaceModality
-						title={'como participar'}
-						hightligtedWords={['participar']}
-						placeModality={getPostField('eventPlaceModality')}
-					/>
-					<VerticalSpacing />
+					{
+						getPostField('eventPlaceModality') && (
+							<>
+								<PlaceModality
+									title={'como participar'}
+									hightligtedWords={['participar']}
+									placeModality={getPostField('eventPlaceModality')}
+								/>
+								<VerticalSpacing />
+							</>
+						)
+					}
 					{
 						getPostField('entryValue', true) && (
 							<>
