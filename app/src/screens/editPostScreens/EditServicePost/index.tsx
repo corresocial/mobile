@@ -209,13 +209,6 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					onEdit={() => navigateToEditScreen('InsertServiceDescription', 'description')}
 				/>
 				<VerticalSpacing />
-				<IncomeTypeCard
-					title={'tipo de renda'}
-					hightligtedWords={['tipo', 'renda']}
-					macroCategory={getPostField('macroCategory')}
-					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
-				/>
-				<VerticalSpacing />
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
@@ -223,6 +216,13 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					indicatorColor={theme.green1}
 					carousel
 					onEdit={() => navigateToEditScreen('ServicePicturePreview', 'picturesUrl')}
+				/>
+				<VerticalSpacing />
+				<IncomeTypeCard
+					title={'tipo de renda'}
+					hightligtedWords={['tipo', 'renda']}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
 				/>
 				<VerticalSpacing />
 				<SaleOrExchangeCard

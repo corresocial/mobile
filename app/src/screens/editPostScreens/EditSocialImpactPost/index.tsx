@@ -208,12 +208,6 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 				userContext={userContext}
 				editContext={editContext}
 			>
-				<SocialImpactTypeCard
-					title={'tipo de impacto'}
-					macroCategory={getPostField('macroCategory')}
-					onEdit={() => navigateToEditScreen('SelectSocialImpactType', 'macroCategory')}
-				/>
-				<VerticalSpacing />
 				<EditCard
 					title={'tags do post'}
 					highlightedWords={['tags']}
@@ -233,6 +227,12 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					indicatorColor={theme.pink1}
 					carousel
 					onEdit={() => navigateToEditScreen('SocialImpactPicturePreview', 'picturesUrl')}
+				/>
+				<VerticalSpacing />
+				<SocialImpactTypeCard
+					title={'tipo de impacto'}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactType', 'macroCategory')}
 				/>
 				<VerticalSpacing />
 				<PostRangeCard
@@ -265,7 +265,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					title={'repetição'}
 					highlightedWords={['repetição']}
 					SecondSvgIcon={RecycleWhiteIcon}
-					value={renderSocialImpactRepeat() || '---'}
+					value={renderSocialImpactRepeat()}
 					onEdit={() => navigateToEditScreen('SelectSocialImpactRepeat', 'repeat')}
 				/>
 				<VerticalSpacing />
@@ -273,7 +273,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					title={'que dia começa'}
 					highlightedWords={['começa']}
 					SecondSvgIcon={CalendarEmptyIcon}
-					value={formatDate(getPostField('startDate', true)) || '---'}
+					value={formatDate(getPostField('startDate', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertSocialImpactStartDate', 'startDate')}
 				/>
@@ -282,7 +282,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					title={'que horas começa'}
 					highlightedWords={['começa']}
 					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('startHour', true)) || '---'}
+					value={formatHour(getPostField('startHour', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertSocialImpactStartHour', 'startHour')}
 				/>
@@ -291,7 +291,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					title={'que dia termina'}
 					highlightedWords={['termina']}
 					SecondSvgIcon={CalendarEmptyIcon}
-					value={formatDate(getPostField('endDate', true)) || '---'}
+					value={formatDate(getPostField('endDate', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertSocialImpactEndDate', 'endDate')}
 				/>
@@ -300,7 +300,7 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					title={'que horas termina'}
 					highlightedWords={['termina']}
 					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('endHour', true)) || '---'}
+					value={formatHour(getPostField('endHour', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertSocialImpactEndHour', 'endHour')}
 				/>

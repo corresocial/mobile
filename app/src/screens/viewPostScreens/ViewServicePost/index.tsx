@@ -20,7 +20,7 @@ import { share } from '../../../common/share'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
 import { textHasOnlyNumbers } from '../../../utils/validationFunctions'
 
-import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
+import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 import { ViewServicePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import {
 	PostCollection,
@@ -163,13 +163,18 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 			userId: postData.owner.userId,
 		}) // TODO Type
 	}
-
+	console.log(postData.category)
 	const getCategoryLabel = () => {
-		const categoryField = getPostField('category') as ServiceCategories
-		if (Object.keys(serviceCategories).includes(categoryField)) {
-			return serviceCategories[categoryField].label
+		try {
+			const categoryField = getPostField('category') as ServiceCategories
+			if (Object.keys(incomeCategories).includes(categoryField)) {
+				return incomeCategories[categoryField].label
+			}
+			return ''
+		} catch (err) {
+			console.log(err)
+			return ''
 		}
-		return ''
 	}
 
 	const getPostField = (fieldName: keyof IncomeCollectionRemote, allowNull?: boolean) => {

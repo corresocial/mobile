@@ -17,7 +17,7 @@ import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import { arrayIsEmpty, formatRelativeDate, getShortText } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
-import { saleCategories } from '../../../utils/postsCategories/saleCategories'
+import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 import { share } from '../../../common/share'
 
 import { ViewSalePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
@@ -163,11 +163,16 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	}
 
 	const getCategoryLabel = () => {
-		const categoryField = getPostField('category') as SaleCategories
-		if (Object.keys(saleCategories).includes(categoryField)) {
-			return saleCategories[categoryField].label
+		try {
+			const categoryField = getPostField('category') as SaleCategories
+			if (Object.keys(incomeCategories).includes(categoryField)) {
+				return incomeCategories[categoryField].label
+			}
+			return ''
+		} catch (err) {
+			console.log(err)
+			return ''
 		}
-		return ''
 	}
 
 	const getPostField = (fieldName: keyof IncomeCollectionRemote, allowNull?: boolean) => {

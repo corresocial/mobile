@@ -214,13 +214,6 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					onEdit={() => navigateToEditScreen('InsertSaleDescription', 'description')}
 				/>
 				<VerticalSpacing />
-				<IncomeTypeCard
-					title={'tipo de renda'}
-					hightligtedWords={['tipo', 'renda']}
-					macroCategory={getPostField('macroCategory')}
-					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
-				/>
-				<VerticalSpacing />
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
@@ -229,6 +222,14 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					carousel
 					onEdit={() => navigateToEditScreen('SalePicturePreview', 'picturesUrl')}
 				/>
+				<VerticalSpacing />
+				<IncomeTypeCard
+					title={'tipo de renda'}
+					hightligtedWords={['tipo', 'renda']}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
+				/>
+
 				<VerticalSpacing />
 				<SaleOrExchangeCard
 					saleValue={getPostField('saleValue', true)}
@@ -266,7 +267,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					title={'que horas começa'}
 					highlightedWords={['começa']}
 					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('startHour', true)) || ' ---'}
+					value={formatHour(getPostField('startHour', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertSaleStartHour', 'startHour')}
 				/>
@@ -275,7 +276,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					title={'que horas termina'}
 					highlightedWords={['termina']}
 					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('endHour', true)) || ' ---'}
+					value={formatHour(getPostField('endHour', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertSaleEndHour', 'endHour')}
 				/>

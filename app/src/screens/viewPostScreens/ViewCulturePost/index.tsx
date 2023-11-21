@@ -150,11 +150,16 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	}
 
 	const getCategoryLabel = () => {
-		const categoryField = getPostField('category') as CultureCategories
-		if (Object.keys(cultureCategories).includes(categoryField)) {
-			return cultureCategories[categoryField].label
+		try {
+			const categoryField = getPostField('category') as CultureCategories
+			if (Object.keys(cultureCategories).includes(categoryField)) {
+				return cultureCategories[categoryField].label
+			}
+			return ''
+		} catch (err) {
+			console.log(err)
+			return ''
 		}
-		return ''
 	}
 
 	const getPostField = (fieldName: keyof CultureCollection, allowNull?: boolean) => {

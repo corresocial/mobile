@@ -12,7 +12,6 @@ import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollection
 import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
 import CalendarEmptyIcon from '../../../assets/icons/calendarEmpty-unfilled.svg'
 
-import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
 import { getTextualAddress } from '../../../utils/maps/addressFormatter'
 import { arrayIsEmpty, formatDate, formatHour } from '../../../common/auxiliaryFunctions'
 
@@ -31,6 +30,7 @@ import { EditPost } from '../../../components/EditPost'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
+import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 
 function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -68,7 +68,13 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 		const category: VacancyCategories = getPostField('category')
 		const tags = getPostField('tags')
 
-		return `	●  ${vacancyCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`
+		try {
+			const categoryAndTagsText = `	●  ${incomeCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`
+			return categoryAndTagsText
+		} catch (err) {
+			console.log(err)
+			return ''
+		}
 	}
 
 	const showShareModal = (visibility: boolean, postTitle?: string, postId?: string) => {
@@ -281,7 +287,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					title={'data de início'}
 					highlightedWords={['início']}
 					SecondSvgIcon={CalendarEmptyIcon}
-					value={formatDate(getPostField('startDate', true)) || '---'}
+					value={formatDate(getPostField('startDate', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertVacancyStartDate', 'startDate')}
 				/>
@@ -290,7 +296,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					title={'horário de início'}
 					highlightedWords={['início']}
 					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('startHour', true)) || '---'}
+					value={formatHour(getPostField('startHour', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertVacancyStartHour', 'startHour')}
 				/>
@@ -299,7 +305,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					title={'data de fim'}
 					highlightedWords={['fim']}
 					SecondSvgIcon={CalendarEmptyIcon}
-					value={formatDate(getPostField('endDate', true)) || '---'}
+					value={formatDate(getPostField('endDate', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertVacancyEndDate', 'endDate')}
 				/>
@@ -308,7 +314,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					title={'horário de fim'}
 					highlightedWords={['fim']}
 					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('endHour', true)) || '---'}
+					value={formatHour(getPostField('endHour', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertVacancyEndHour', 'endHour')}
 				/>

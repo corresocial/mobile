@@ -17,7 +17,6 @@ import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import { arrayIsEmpty, formatRelativeDate, getShortText } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { share } from '../../../common/share'
-import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
 
 import { ViewVacancyPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
@@ -41,6 +40,7 @@ import { VacancyPurposeCard } from '../../../components/_cards/VacancyPurposeCar
 import { ImportantPointsCard } from '../../../components/_cards/ImportantPointsCard'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
+import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -150,11 +150,16 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	}
 
 	const getCategoryLabel = () => {
-		const categoryField = getPostField('category') as VacancyCategories
-		if (Object.keys(vacancyCategories).includes(categoryField)) {
-			return vacancyCategories[categoryField].label
+		try {
+			const categoryField = getPostField('category') as VacancyCategories
+			if (Object.keys(incomeCategories).includes(categoryField)) {
+				return incomeCategories[categoryField].label
+			}
+			return ''
+		} catch (err) {
+			console.log(err)
+			return ''
 		}
-		return ''
 	}
 
 	const getPostField = (fieldName: keyof VacancyCollection, allowNull?: boolean) => {
@@ -277,14 +282,20 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						macroCategory={getPostField('macroCategory')}
 					/>
 					<VerticalSpacing />
-					<SaleOrExchangeCard
-						title={'tipo de remuneração'}
-						hightligtedWords={['tipo', 'remuneração']}
-						saleValue={getPostField('saleValue', true)}
-						exchangeValue={getPostField('exchangeValue', true)}
-						isPayment
-					/>
-					<VerticalSpacing />
+					{
+						(getPostField('saleValue', true) || getPostField('exchangeValue', true)) && (
+							<>
+								<SaleOrExchangeCard
+									title={'tipo de remuneração'}
+									hightligtedWords={['tipo', 'remuneração']}
+									saleValue={getPostField('saleValue', true)}
+									exchangeValue={getPostField('exchangeValue', true)}
+									isPayment
+								/>
+								<VerticalSpacing />
+							</>
+						)
+					}
 					<LocationViewCard
 						online={getPostField('workplace') === 'homeoffice'}
 						locationView={getPostField('locationView')}

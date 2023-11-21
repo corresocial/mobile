@@ -22,7 +22,7 @@ function EditHeaderContainer({ children, RightIcon, onPress }: EditHeaderContain
 						{
 							!RightIcon
 								? <EditWhiteIcon width={RFValue(28)} height={RFValue(28)} />
-								: <RightIcon width={RFValue(22)} height={RFValue(22)} />
+								: <RightIcon width={RFValue(28)} height={RFValue(28)} />
 						}
 					</TouchableOpacity>
 				)

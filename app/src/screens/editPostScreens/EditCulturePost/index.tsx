@@ -210,12 +210,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				editContext={editContext}
 			>
 				<VerticalSpacing />
-				<CultureTypeCard
-					title={'tipo de cultura'}
-					macroCategory={getPostField('macroCategory')}
-					onEdit={() => navigateToEditScreen('SelectCultureType', 'macroCategory')}
-				/>
-				<VerticalSpacing />
+
 				<EditCard
 					title={'tags do post'}
 					highlightedWords={['tags']}
@@ -236,6 +231,12 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					onEdit={() => navigateToEditScreen('CulturePicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />
+				<CultureTypeCard
+					title={'tipo de cultura'}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectCultureType', 'macroCategory')}
+				/>
+				<VerticalSpacing />
 				<PostRangeCard
 					postRange={getPostField('range')}
 					onEdit={() => navigateToEditScreen('SelectCultureRange', 'range')}
@@ -252,7 +253,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				<SaleOrExchangeCard
 					title={'custo de entrada'}
 					hightligtedWords={['custo', 'entrada']}
-					saleValue={getPostField('entryValue', true) || '---'}
+					saleValue={getPostField('entryValue', true)}
 					onEdit={() => navigateToEditScreen('InsertEntryValue', 'entryValue')}
 					isCulturePost
 				/>
@@ -276,7 +277,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					title={'repetição'}
 					highlightedWords={['repetição']}
 					SecondSvgIcon={RecycleWhiteIcon}
-					value={renderCultureRepeat() || '---'}
+					value={renderCultureRepeat()}
 					onEdit={() => navigateToEditScreen('SelectEventRepeat', 'repeat')}
 				/>
 				<VerticalSpacing />
@@ -284,7 +285,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					title={'que dia começa'}
 					highlightedWords={['começa']}
 					SecondSvgIcon={CalendarEmptyIcon}
-					value={formatDate(getPostField('startDate', true)) || '---'}
+					value={formatDate(getPostField('startDate', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertCultureStartDate', 'startDate')}
 				/>
@@ -293,7 +294,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					title={'que horas começa'}
 					highlightedWords={['começa']}
 					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('startHour', true)) || '---'}
+					value={formatHour(getPostField('startHour', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertCultureStartHour', 'startHour')}
 				/>
@@ -302,7 +303,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					title={'que dia termina'}
 					highlightedWords={['termina']}
 					SecondSvgIcon={CalendarEmptyIcon}
-					value={formatDate(getPostField('endDate', true)) || '---'}
+					value={formatDate(getPostField('endDate', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertCultureEndDate', 'endDate')}
 				/>
@@ -311,7 +312,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					title={'que horas termina'}
 					highlightedWords={['termina']}
 					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('endHour', true)) || '---'}
+					value={formatHour(getPostField('endHour', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertCultureEndHour', 'endHour')}
 				/>

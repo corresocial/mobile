@@ -144,11 +144,16 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	}
 
 	const getCategoryLabel = () => {
-		const categoryField = getPostField('category') as SocialImpactCategories
-		if (Object.keys(socialImpactCategories).includes(categoryField)) {
-			return socialImpactCategories[categoryField].label
+		try {
+			const categoryField = getPostField('category') as SocialImpactCategories
+			if (Object.keys(socialImpactCategories).includes(categoryField)) {
+				return socialImpactCategories[categoryField].label
+			}
+			return ''
+		} catch (err) {
+			console.log(err)
+			return ''
 		}
-		return ''
 	}
 
 	const getPostField = (fieldName: keyof SocialImpactCollection, allowNull?: boolean) => {
