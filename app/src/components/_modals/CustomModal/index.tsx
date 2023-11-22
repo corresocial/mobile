@@ -29,6 +29,7 @@ interface CustomModalProps {
 	visibility: boolean
 	title?: string
 	titleHighlightedWords?: string[]
+	titleAlign?: TextStyle['textAlign']
 	TitleIcon?: React.FC<SvgProps>
 	firstParagraph?: {
 		text?: string
@@ -69,6 +70,7 @@ function CustomModal({
 	visibility,
 	title,
 	titleHighlightedWords,
+	titleAlign,
 	TitleIcon,
 	firstParagraph,
 	secondParagraph,
@@ -106,6 +108,7 @@ function CustomModal({
 							{TitleIcon && <TitleIcon width={'20%'} style={iconStyle} />}
 							<Title
 								hasHighlightedWords={!!titleHighlightedWords}
+								textAlign={titleAlign}
 							>
 								{titleHighlightedWords ? showMessageWithHighlight(title || '', titleHighlightedWords) : title}
 
@@ -172,7 +175,7 @@ function CustomModal({
 										labelColor={theme.white3}
 										label={affirmativeButton.label}
 										highlightedWords={[...affirmativeButton.label.split(' '), ...affirmativeButton.label.split(', ')]}
-										fontSize={16}
+										fontSize={15}
 										SecondSvgIcon={affirmativeButton.CustomIcon || CheckWhiteIcon}
 										svgIconScale={['40%', '25%']}
 										onPress={() => closeModalAfterOnPress(affirmativeButton.onPress)}
@@ -189,7 +192,7 @@ function CustomModal({
 									labelColor={theme.white3}
 									label={negativeButton.label}
 									highlightedWords={[...negativeButton.label.split(' '), ...negativeButton.label.split(', ')]}
-									fontSize={16}
+									fontSize={15}
 									SvgIcon={negativeButton.CustomIcon || XWhiteIcon}
 									svgIconScale={['40%', '25%']}
 									onPress={() => closeModalAfterOnPress(negativeButton.onPress)}

@@ -22,7 +22,6 @@ import { SubscriptionPresentationModal } from '../../../components/_modals/Subsc
 import { AuthContext } from '../../../contexts/AuthContext'
 import { getNumberOfStoredOfflinePosts } from '../../../utils/offlinePost'
 import { getNetworkStatus } from '../../../utils/deviceNetwork'
-import { updatePostFieldsName } from '../../../services/firebase/migrations/updatePostFieldsName'
 
 function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -74,7 +73,6 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 				<FormContainer
 					backgroundColor={theme.orange2}
 				>
-
 					<OptionButton
 						color={theme.white3}
 						label={'renda'}
@@ -87,7 +85,6 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 						leftSideColor={theme.green3}
 						leftSideWidth={'25%'}
 						onPress={() => navigation.navigate('SelectIncomeType')}
-					// onPress={updatePostFieldsName}
 					/>
 					<OptionButton
 						color={theme.white3}
