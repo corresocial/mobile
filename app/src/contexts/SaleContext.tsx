@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
 import { SaleData } from './types'
-import { SaleCollectionRemote } from '../services/firebase/types'
+import { IncomeCollectionRemote } from '../services/firebase/types'
 
 import { AuthContext } from './AuthContext'
 
@@ -39,7 +39,7 @@ function SaleProvider({ children }: SaleProviderProps) {
 		const userPosts = userDataContext.posts || []
 		if (!userPosts || (userPosts && !userPosts.length)) return
 
-		const lastUserPost: SaleCollectionRemote | any = getLastUserPost() || {} // TODO Type
+		const lastUserPost: IncomeCollectionRemote | any = getLastUserPost() || {} // TODO Type
 		if (!Object.keys(lastUserPost).length) return
 
 		setSaleDataContext({

@@ -7,6 +7,7 @@ import CalendarToday from '../../../assets/icons/calendarToday-white.svg'
 import CalendarEveryday from '../../../assets/icons/calendarEveryday-white.svg'
 import CalendarSomeday from '../../../assets/icons/calendarSomeday-white.svg'
 import CalendarBusinessDay from '../../../assets/icons/calendarBusinessDay-white.svg'
+import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
 
 import { formatDate, formatHour, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
@@ -157,9 +158,19 @@ function DateTimeCard({
 		}
 	}
 
+	const getCardHeaderIcon = () => {
+		if (!hasAnyValueValid()) {
+			return PlusWhiteIcon
+		}
+	}
+
+	const hasAnyValueValid = () => {
+		return !(!startDate && !endDate && !daysOfWeek?.length && !startTime && !endTime)
+	}
+
 	return (
 		<DefaultCardContainer>
-			<EditHeaderContainer onPress={onEdit}>
+			<EditHeaderContainer onPress={onEdit} RightIcon={getCardHeaderIcon()}>
 				<DefaultHeaderTitle
 					title={title || 'dias e horários'}
 					highlightedWords={highlightedWords || ['dias', 'horários']}
@@ -181,7 +192,7 @@ function DateTimeCard({
 						: <></>
 				}
 				{
-					(!startDate && !endDate && !daysOfWeek?.length && !startTime && !endTime) && (
+					!hasAnyValueValid() && !onEdit && (
 						<PostInfoRow
 							key={uuid()}
 							text={renderInvalidDateTimeWeekMessage()}

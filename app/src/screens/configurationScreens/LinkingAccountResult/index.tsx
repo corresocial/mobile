@@ -9,7 +9,7 @@ import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { LinkingAccountResultScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
@@ -56,7 +56,7 @@ function LinkingAccountResult({ route, navigation }: LinkingAccountResultScreenP
 						fontSize={16}
 					/>
 				</InstructionButtonContainer>
-				<VerticalSigh />
+				<VerticalSpacing />
 				{
 					accountIdentifier
 						? (

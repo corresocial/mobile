@@ -1604,11 +1604,6 @@
   dependencies:
     "cross-spawn" "^7.0.3"
 
-"@expo/vector-icons@^13.0.0":
-  "integrity" "sha512-TI+l71+5aSKnShYclFa14Kum+hQMZ86b95SH6tQUG3qZEmLTarvWpKwqtTwQKqvlJSJrpFiSFu3eCuZokY6zWA=="
-  "resolved" "https://registry.npmjs.org/@expo/vector-icons/-/vector-icons-13.0.0.tgz"
-  "version" "13.0.0"
-
 "@expo/xcpretty@^4.2.1":
   "integrity" "sha512-Lke/geldJqUV0Dfxg5/QIOugOzdqZ/rQ9yHKSgGbjZtG1uiSqWyFwWvXmrdd3/sIdX33eykGvIcf+OrvvcXVUw=="
   "resolved" "https://registry.npmjs.org/@expo/xcpretty/-/xcpretty-4.2.2.tgz"
@@ -6178,7 +6173,6 @@
     "@expo/cli" "0.4.11"
     "@expo/config" "7.0.3"
     "@expo/config-plugins" "5.0.4"
-    "@expo/vector-icons" "^13.0.0"
     "babel-preset-expo" "~9.2.2"
     "cross-spawn" "^6.0.5"
     "expo-application" "~5.0.1"
@@ -9116,10 +9110,15 @@
   dependencies:
     "brace-expansion" "^1.1.7"
 
-"minimatch@^5.0.1", "minimatch@^5.1.0":
+"minimatch@^5.0.1":
   "integrity" "sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g=="
   "resolved" "https://registry.npmjs.org/minimatch/-/minimatch-5.1.6.tgz"
   "version" "5.1.6"
+  dependencies:
+    "brace-expansion" "^2.0.1"
+
+"minimatch@^5.1.0":
+  "version" "5.1.0"
   dependencies:
     "brace-expansion" "^2.0.1"
 
@@ -12814,9 +12813,7 @@
     "signal-exit" "^3.0.2"
 
 "write-file-atomic@^4.0.0", "write-file-atomic@^4.0.1":
-  "integrity" "sha512-7KxauUdBmSdWnmpaGFg+ppNjKF8uNLry8LyzjauQDOVONfFLNKrKvQOxZ/VuTIcS/gge/YNahf5RIIQWTSarlg=="
-  "resolved" "https://registry.npmjs.org/write-file-atomic/-/write-file-atomic-4.0.2.tgz"
-  "version" "4.0.2"
+  "version" "4.0.1"
   dependencies:
     "imurmurhash" "^0.1.4"
     "signal-exit" "^3.0.7"

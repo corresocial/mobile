@@ -1,7 +1,8 @@
-import { LatLong, DaysOfWeek, LocationViewType, ServiceCategories, PostRange, ServiceCollectionRemote } from '../../../services/firebase/types'
+import { LatLong, DaysOfWeek, LocationViewType, ServiceCategories, PostRange, IncomeCollectionRemote } from '../../../services/firebase/types'
 import { UserStackParamList } from '../UserStack/types'
 
 export type ServiceStackParamList = {
+	SelectServicePurpose: { editMode: boolean } | undefined
 	InsertServiceDescription: { editMode: boolean, initialValue: string } | undefined
 	ServicePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectServiceCategory: { editMode: boolean } | undefined
@@ -19,5 +20,5 @@ export type ServiceStackParamList = {
 	SelectServiceDaysOfWeek: { editMode: boolean, initialValue: DaysOfWeek[] } | undefined
 	InsertServiceStartHour: { editMode: boolean, initialValue: Date } | undefined
 	InsertServiceEndHour: { editMode: boolean, initialValue: Date } | undefined
-	EditServicePostReview: { postData: ServiceCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
+	EditServicePostReview: { postData: IncomeCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean, showPresentationModal?: boolean }
 } & UserStackParamList

@@ -33,6 +33,3 @@ export const PostTitle = styled.Text`
 	width: 92%;
 	margin-bottom: ${RFValue(15)}px;
 `
-export const Sigh = styled.View`
-	padding-vertical: ${RFValue(8)}px;
-`

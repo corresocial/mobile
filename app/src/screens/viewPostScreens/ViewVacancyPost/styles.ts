@@ -3,7 +3,7 @@ import { relativeScreenHeight, relativeScreenWidth } from '../../../common/scree
 
 export const Container = styled.View`
 	flex: 1;
-	background-color: ${({ theme }) => theme.yellow2};
+	background-color: ${({ theme }) => theme.green2};
 `
 
 export const Header = styled.View`
@@ -28,6 +28,6 @@ export const OptionsArea = styled.View`
 
 export const Body = styled.View`
 	flex: 1;
-	background-color: ${({ theme }) => theme.yellow2};
+	background-color: ${({ theme }) => theme.green2};
 	padding-horizontal: ${relativeScreenWidth(3)}px;
 `

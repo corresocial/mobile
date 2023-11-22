@@ -10,7 +10,7 @@ import { WhoWeAreCultureScreenProps } from '../../../routes/Stack/UserStack/stac
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { DefaultCardContainer } from '../../../components/_cards/DefaultCardContainer'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function WhoWeAreCulture({ navigation }: WhoWeAreCultureScreenProps) {
@@ -28,21 +28,21 @@ function WhoWeAreCulture({ navigation }: WhoWeAreCultureScreenProps) {
 				<DefaultCardContainer flex={1}>
 					<ContainerContent>
 						<Title>{'gerar cultura.'}</Title>
-						<VerticalSigh height={relativeScreenHeight(3)} />
+						<VerticalSpacing height={relativeScreenHeight(3)} />
 						<Description>
 							{'também digitalizamos seus artistas e cultura locais, não importa de onde. '}
 						</Description>
-						<VerticalSigh height={relativeScreenHeight(3)} />
+						<VerticalSpacing height={relativeScreenHeight(3)} />
 						<Description>
 							{'queremos oferecer uma plataforma gratuita de educação e arte para todos os brasileiros'}
 						</Description>
-						<VerticalSigh height={relativeScreenHeight(3)} />
+						<VerticalSpacing height={relativeScreenHeight(3)} />
 						<Description>
 							{'além de gerar renda, auxiliamos na formação social e cultural de todos.'}
 						</Description>
 					</ContainerContent>
 				</DefaultCardContainer>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<ButtonContainer>
 					<PrimaryButton
 						color={theme.orange3}

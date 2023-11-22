@@ -22,7 +22,7 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { SmallInstructionCard } from '../../../components/SmallInstructionCard'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { getRangeSubscriptionPlanText } from '../../../utils/subscription/commonMessages'
@@ -69,7 +69,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 			'atenção!',
 			!postReview
 				? 'você tem certeza que deseja desistir da assinatura?'
-				: `você tem certeza que deseja descartar o post "${subscriptionDataContext.currentPost?.title}"?`,
+				: 'você tem certeza que deseja descartar o post?',
 			[
 				{ text: 'Não', style: 'destructive' },
 				{ text: 'Sim', onPress: () => { backToInitialStackScreen() } },
@@ -104,9 +104,9 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 					fontSize={20}
 					flex={0}
 				>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<SmallInstructionCard text={getRangeSubscriptionPlanText(subscriptionRange, subscriptionPlan)} />
-					<VerticalSigh />
+					<VerticalSpacing />
 					<SmallInstructionCard text={`r$ ${price},00`} highlight error={!successfulPayment} />
 				</InstructionCard>
 				{
@@ -144,7 +144,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 									fontSize={14}
 									flex={0}
 								>
-									<VerticalSigh />
+									<VerticalSpacing />
 									<SloganHashtag width={relativeScreenWidth(75)} height={relativeScreenWidth(10)} />
 								</InstructionCard>
 							</>

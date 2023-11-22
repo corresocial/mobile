@@ -23,7 +23,7 @@ import { Loader } from '../../../components/Loader'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { Id } from '../../../services/firebase/types'
 import Firebase from '../../../services/firebase'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { DefaultInput } from '../../../components/_inputs/DefaultInput'
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
@@ -304,7 +304,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 						fontSize={16}
 					/>
 				</InstructionButtonContainer>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<InstructionButtonContainer withPaddingLeft>
 					<InstructionCard
 						fontSize={16}

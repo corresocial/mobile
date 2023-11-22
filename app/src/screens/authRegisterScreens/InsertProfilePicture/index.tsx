@@ -23,7 +23,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { Id, PostCollection, UserCollection } from '../../../services/firebase/types'
 import { Loader } from '../../../components/Loader'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton'
 
@@ -161,7 +161,7 @@ function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenP
 									highlightedWords={['não']}
 									onPress={saveUserData}
 								/>
-								<VerticalSigh height={relativeScreenHeight(5)} />
+								<VerticalSpacing height={relativeScreenHeight(5)} />
 								<PrimaryButton
 									color={theme.green3}
 									flexDirection={'row-reverse'}

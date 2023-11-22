@@ -56,6 +56,7 @@ import { LinkingAccountResult } from '../../../screens/configurationScreens/Link
 import { InsertCellNumberLinkAccount } from '../../../screens/configurationScreens/InsertCellNumberLinkAccount'
 import { InsertConfirmationCodeLinkAccount } from '../../../screens/configurationScreens/InsertConfirmationCodeLinkAccount'
 import { NotificationSettings } from '../../../screens/configurationScreens/NotificationtSettings'
+import { SelectIncomeType } from '../../../screens/homeScreens/SelectIncomeType'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -80,6 +81,7 @@ export function UserStack({ route }: any) {
 									<Stack.Screen name={'WelcomeNewUser'} component={WelcomeNewUser} />
 									<Stack.Screen name={'HomeTab'} component={HomeTab} />
 									<Stack.Screen name={'SelectPostType'} component={SelectPostType} />
+									<Stack.Screen name={'SelectIncomeType'} component={SelectIncomeType} />
 									<Stack.Screen name={'ServiceStack'} component={ServiceStack} />
 									<Stack.Screen name={'SaleStack'} component={SaleStack} />
 									<Stack.Screen name={'VacancyStack'} component={VacancyStack} />

@@ -43,12 +43,14 @@ export const Header = styled.View`
 
 interface TitleProps {
 	hasHighlightedWords?: boolean
+	textAlign?: TextStyle['textAlign']
 }
 
 export const Title = styled.Text<TitleProps>`
 	flex: 1;
     font-family: ${({ hasHighlightedWords }) => (hasHighlightedWords ? 'Arvo_400Regular' : 'Arvo_700Bold')};
-    font-size: ${RFValue(22)}px;
+	text-align: ${({ textAlign }) => (textAlign || 'left')};
+    font-size: ${RFValue(20)}px;
     color: ${({ theme }) => theme.black3}
 `
 
@@ -61,7 +63,7 @@ interface DescriptionProps {
 export const Description = styled.Text<DescriptionProps>`
 	margin-bottom: ${RFValue(20)}px;
     font-family: ${({ bolded }) => (bolded ? 'Arvo_700Bold' : 'Arvo_400Regular')};
-    font-size: ${({ fontSize }) => (fontSize ? RFValue(fontSize) : RFValue(17))}px;
+    font-size: ${({ fontSize }) => (fontSize ? RFValue(fontSize) : RFValue(13))}px;
     text-align: ${({ textAlign }) => (textAlign || 'left')};
     color: ${({ theme }) => theme.black3}
 `

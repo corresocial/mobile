@@ -1,11 +1,12 @@
 import React from 'react'
 import uuid from 'react-uuid'
 
-import { Container, HorizontalSigh, ScrollView } from './styles'
+import { Container, ScrollView } from './styles'
 import { theme } from '../../common/theme'
-import { relativeScreenHeight } from '../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../common/screenDimensions'
 
 import { FilterButton } from '../_buttons/FilterButton'
+import { HorizontalSpacing } from '../_space/HorizontalSpacing'
 
 interface HorizontalTagListProps {
 	tags: string[]
@@ -58,7 +59,7 @@ function HorizontalTagList({
 				showsHorizontalScrollIndicator={false}
 			>
 				<Container>
-					<HorizontalSigh />
+					<HorizontalSpacing width={relativeScreenWidth(5)} />
 					{renderTags()}
 				</Container>
 			</ScrollView>

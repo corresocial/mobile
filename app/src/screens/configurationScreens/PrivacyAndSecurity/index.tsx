@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { Container, Sigh } from './styles'
+import { Container } from './styles'
 import { theme } from '../../../common/theme'
 
 import { PrivacyAndSecurityScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -10,6 +10,7 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { TermsOfService } from '../../../components/TermsOfService'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 
 function PrivacyAndSecurity({ navigation }: PrivacyAndSecurityScreenProps) {
 	return (
@@ -21,7 +22,7 @@ function PrivacyAndSecurity({ navigation }: PrivacyAndSecurityScreenProps) {
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
-				<Sigh />
+				<VerticalSpacing />
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={15}

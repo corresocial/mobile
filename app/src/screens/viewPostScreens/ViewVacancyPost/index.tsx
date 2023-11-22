@@ -17,7 +17,6 @@ import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import { arrayIsEmpty, formatRelativeDate, getShortText } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { share } from '../../../common/share'
-import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
 
 import { ViewVacancyPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
@@ -33,14 +32,15 @@ import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
 import { ImageCarousel } from '../../../components/ImageCarousel'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
 import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
-import { VacancyTypeCard } from '../../../components/_cards/VacancyTypeCard'
 import { VacancyPurposeCard } from '../../../components/_cards/VacancyPurposeCard'
 import { ImportantPointsCard } from '../../../components/_cards/ImportantPointsCard'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
+import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
+import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -90,7 +90,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('EditVacancyPost' as any, { postData: { ...postData, ...editDataContext.saved } })
+		navigation.navigate('EditVacancyPost', { postData: { ...postData, ...editDataContext.saved } })
 	}
 
 	const backToPreviousScreen = () => {
@@ -150,11 +150,16 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	}
 
 	const getCategoryLabel = () => {
-		const categoryField = getPostField('category') as VacancyCategories
-		if (Object.keys(vacancyCategories).includes(categoryField)) {
-			return vacancyCategories[categoryField].label
+		try {
+			const categoryField = getPostField('category') as VacancyCategories
+			if (Object.keys(incomeCategories).includes(categoryField)) {
+				return incomeCategories[categoryField].label
+			}
+			return ''
+		} catch (err) {
+			console.log(err)
+			return ''
 		}
-		return ''
 	}
 
 	const getPostField = (fieldName: keyof VacancyCollection, allowNull?: boolean) => {
@@ -184,7 +189,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 					onBackPress={() => navigation.goBack()}
 					text={getPostField('description')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<UserAndValueContainer>
 					<SmallUserIdentification
 						userName={postData.owner ? postData.owner.name : 'usuário do corre.'}
@@ -196,7 +201,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						navigateToProfile={navigateToProfile}
 					/>
 				</UserAndValueContainer>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<OptionsArea>
 					{
 						!isAuthor && (
@@ -237,29 +242,29 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 				</OptionsArea>
 			</Header>
 			<ScrollView showsVerticalScrollIndicator={false} >
-				<VerticalSigh />
+				<VerticalSpacing />
 				<HorizontalTagList
 					tags={[getCategoryLabel(), ...getPostField('tags')]}
 					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
-					selectedColor={theme.yellow1}
+					selectedColor={theme.green1}
 					onSelectTag={() => { }}
 				/>
 				<Body>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<VacancyPurposeCard
-						vacancyPurpose={getPostField('vacancyPurpose') || 'findProffessional'}
+						vacancyPurpose={getPostField('vacancyPurpose' as any) || getPostField('lookingFor')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<DescriptionCard
 						title={'descrição da vaga'}
 						text={getPostField('description')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					{!arrayIsEmpty(getPostField('picturesUrl')) && (
 						<>
 							<ImageCarousel
 								picturesUrl={getPostField('picturesUrl') || []}
-								indicatorColor={theme.yellow1}
+								indicatorColor={theme.green1}
 								square
 							/>
 						</>
@@ -270,26 +275,34 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						placeModality={getPostField('workplace')}
 						isVacancy
 					/>
-					<VerticalSigh />
-					<VacancyTypeCard
-						vacancyType={getPostField('vacancyType')}
+					<VerticalSpacing />
+					<IncomeTypeCard
+						title={'tipo de renda'}
+						hightligtedWords={['tipo', 'renda']}
+						macroCategory={getPostField('macroCategory')}
 					/>
-					<VerticalSigh />
-					<SaleOrExchangeCard
-						title={'tipo de remuneração'}
-						hightligtedWords={['tipo', 'remuneração']}
-						saleValue={getPostField('saleValue', true)}
-						exchangeValue={getPostField('exchangeValue', true)}
-						isPayment
-					/>
-					<VerticalSigh />
+					<VerticalSpacing />
+					{
+						(getPostField('saleValue', true) || getPostField('exchangeValue', true)) && (
+							<>
+								<SaleOrExchangeCard
+									title={'tipo de remuneração'}
+									hightligtedWords={['tipo', 'remuneração']}
+									saleValue={getPostField('saleValue', true)}
+									exchangeValue={getPostField('exchangeValue', true)}
+									isPayment
+								/>
+								<VerticalSpacing />
+							</>
+						)
+					}
 					<LocationViewCard
 						online={getPostField('workplace') === 'homeoffice'}
 						locationView={getPostField('locationView')}
 						withoutMapView={!(getPostField('location') && getPostField('location').coordinates)}
 						location={getPostField('location')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<DateTimeCard
 						weekDaysfrequency={getPostField('workFrequency')}
 						daysOfWeek={getPostField('daysOfWeek', true)}
@@ -298,7 +311,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						startDate={getPostField('startDate', true)}
 						endDate={getPostField('endDate', true)}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					{
 						!!(getPostField('importantPoints') && getPostField('importantPoints').length) && (
 							<ImportantPointsCard
@@ -306,7 +319,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 							/>
 						)
 					}
-					<VerticalSigh bottomNavigatorSpace />
+					<VerticalSpacing bottomNavigatorSpace />
 				</Body>
 			</ScrollView>
 		</Container >

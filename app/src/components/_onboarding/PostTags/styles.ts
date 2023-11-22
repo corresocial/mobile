@@ -36,8 +36,3 @@ export const FloatButtonContainer = styled.View`
     position: absolute;
     bottom: ${relativeScreenHeight(1.4)}px;
 `
-
-export const Sigh = styled.View`
-	height: ${relativeScreenHeight(10)}px;
-    width: 100%;
-`

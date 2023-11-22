@@ -53,6 +53,8 @@ export type EventRepeatType = 'unrepeatable' | 'everyDay' | 'weekly' | 'biweekly
 
 export type VacancyPurpose = 'findProffessional' | 'findVacancy'
 
+export type IncomeType = 'sale' | 'service' | 'vacancy'
+
 export type SocialImpactType = 'informative' | 'iniciative' | 'donation'
 
 export type CultureType = 'art' | 'event' | 'education'
@@ -153,13 +155,15 @@ export type PrivateAddress = {
 	geohashCity?: string[]
 }
 
-export type PostType = 'service' | 'sale' | 'vacancy' | 'socialImpact' | 'culture'
+export type PostType = 'service' | 'sale' | 'vacancy' | 'income' | 'socialImpact' | 'culture'
+
+export type NewHomePostType = 'income' | 'socialImpact' | 'culture'
 
 export type PostCollectionType = 'posts' | 'services' | 'sales' | 'vacancies' | 'cultures' | 'socialImpacts'
 
-export type PostCollection = ServiceCollection | SaleCollection | VacancyCollection | CultureCollection | SocialImpactCollection
+export type PostCollection = IncomeCollection | VacancyCollection | CultureCollection | SocialImpactCollection
 
-export type PostCollectionRemote = ServiceCollectionRemote | SaleCollectionRemote | VacancyCollectionRemote | CultureCollectionRemote | SocialImpactCollectionRemote
+export type PostCollectionRemote = IncomeCollectionRemote | VacancyCollectionRemote | CultureCollectionRemote | SocialImpactCollectionRemote
 
 export type FeedPosts = {
 	nearby: PostCollectionRemote[],
@@ -167,25 +171,21 @@ export type FeedPosts = {
 	country: PostCollectionRemote[],
 }
 
-export type ServiceCollection = {
+export interface PostCollectionCommonFields {
 	postId?: string
-	postType: PostType
+	postType?: PostType
+	category?: string
 	tags?: string[]
 	description?: string
-	category?: string
-	paymentType?: PaymentType
-	saleValue?: string
-	exchangeValue?: string
+	lookingFor?: boolean
 	locationView?: LocationViewType
 	range?: PostRange
-	deliveryMethod?: DeliveryMethod
-	attendanceFrequency?: WeekdaysFrequency
 	daysOfWeek?: DaysOfWeek[]
 	startHour?: Date
 	endHour?: Date
 	picturesUrl?: string[]
 	createdAt?: Date
-	location?: {
+	location: {
 		country?: string
 		state?: string
 		city?: string
@@ -202,30 +202,26 @@ export type ServiceCollection = {
 		geohashNear: string[]
 		geohashCity: string[]
 	}
-	owner?: {
-		userId?: string
-		name?: string
+	owner: {
+		userId: string
+		name: string
 		profilePictureUrl?: string[]
 	}
 }
 
-export type ServiceCollectionRemote = {
+export interface PostCollectionCommonFieldsRemote {
 	postId: string
 	postType: PostType
-	description: string
-	tags: string[]
 	category: string
-	paymentType: PaymentType
-	saleValue?: string
-	exchangeValue?: string
+	tags: string[]
+	description: string
+	lookingFor?: boolean
 	locationView: LocationViewType
-	range?: PostRange
-	deliveryMethod?: DeliveryMethod
-	attendanceFrequency: WeekdaysFrequency
+	range: PostRange
 	daysOfWeek?: DaysOfWeek[]
-	startHour: Date
-	endHour: Date
-	picturesUrl: string[]
+	startHour?: Date
+	endHour?: Date
+	picturesUrl?: string[]
 	createdAt: Date
 	location: {
 		country?: string
@@ -251,358 +247,82 @@ export type ServiceCollectionRemote = {
 	}
 }
 
-export type SaleCollection = {
-	postId?: string
-	postType?: PostType
-	description?: string
-	tags?: string[]
-	itemStatus?: ItemStatus
-	category?: string
-	paymentType?: PaymentType
+export interface IncomeCollection extends PostCollectionCommonFields {
+	macroCategory?: IncomeType
 	saleValue?: string
 	exchangeValue?: string
-	locationView?: LocationViewType
-	range?: PostRange
+	itemStatus: ItemStatus
 	deliveryMethod?: DeliveryMethod
 	attendanceFrequency?: WeekdaysFrequency
-	daysOfWeek?: DaysOfWeek[]
-	startHour?: Date
-	endHour?: Date
-	picturesUrl?: string[]
-	createdAt?: Date
-	location?: {
-		country?: string
-		state?: string
-		city?: string
-		postalCode?: string
-		district?: string
-		street?: string
-		number?: string
-		reference?: string
-		coordinates: {
-			latitude: number
-			longitude: number
-		}
-		geohash: string
-		geohashNear: string[]
-		geohashCity: string[]
-	}
-	owner?: {
-		userId?: string
-		name?: string
-		profilePictureUrl?: string[]
-	}
 }
 
-export type SaleCollectionRemote = {
-	postId: string
-	postType: PostType
-	description: string
-	tags: string[]
-	category: string
-	itemStatus: ItemStatus
-	paymentType: PaymentType
-	saleValue: string
+export interface IncomeCollectionRemote extends PostCollectionCommonFieldsRemote {
+	macroCategory: IncomeType
+	saleValue?: string
 	exchangeValue?: string
-	locationView: LocationViewType
-	range?: PostRange
 	deliveryMethod?: DeliveryMethod
-	attendanceFrequency: WeekdaysFrequency
-	daysOfWeek: DaysOfWeek[]
-	startHour: Date
-	endHour: Date
-	picturesUrl: string[]
-	createdAt: Date
-	location?: {
-		country?: string
-		state?: string
-		city?: string
-		postalCode?: string
-		district?: string
-		street?: string
-		number?: string
-		reference?: string
-		coordinates: {
-			latitude: number
-			longitude: number
-		}
-		geohash: string
-		geohashNear: string[]
-		geohashCity: string[]
-	}
-	owner: {
-		userId: string
-		name: string
-		profilePictureUrl: string[]
-	}
+	attendanceFrequency?: WeekdaysFrequency
+	itemStatus: ItemStatus
 }
 
-export type VacancyCollection = {
-	postId?: string
-	vacancyPurpose?: VacancyPurpose
-	postType?: PostType
-	description?: string
+export interface VacancyCollection extends PostCollectionCommonFields {
+	macroCategory?: IncomeType
 	vacancyType?: VacancyType
 	workplace?: WorkplaceType
-	range?: ExhibitionPlaceType
 	importantPoints?: string[]
 	workFrequency?: WeekdaysFrequency
-	daysOfWeek?: DaysOfWeek[]
 	startDate?: Date
 	endDate?: Date
-	startHour?: Date
-	endHour?: Date
-	paymentType?: PaymentType
 	saleValue?: string
 	exchangeValue?: string
-	picturesUrl: string[]
-	tags?: string[]
-	category?: string
-	createdAt?: Date
-	locationView?: LocationViewType
-	location?: {
-		country?: string
-		state?: string
-		city?: string
-		postalCode?: string
-		district?: string
-		street?: string
-		number?: string
-		reference?: string
-		coordinates?: {
-			latitude?: number
-			longitude?: number
-		}
-		geohash?: string
-		geohashNear?: string[]
-		geohashCity?: string[]
-	}
-	owner?: {
-		userId?: string
-		name?: string
-		profilePictureUrl?: string[]
-	}
 }
 
-export type VacancyCollectionRemote = {
-	postId: string
-	vacancyPurpose: VacancyPurpose
-	postType: PostType
-	description: string
+export interface VacancyCollectionRemote extends PostCollectionCommonFieldsRemote {
+	macroCategory: IncomeType
 	vacancyType: VacancyType
 	workplace: WorkplaceType
-	range?: ExhibitionPlaceType
-	importantPoints: string[]
 	workFrequency?: WeekdaysFrequency
-	daysOfWeek?: DaysOfWeek[]
-	startDate: Date
-	endDate: Date
-	startHour: Date
-	endHour: Date
-	paymentType: PaymentType
+	importantPoints?: string[]
+	startDate?: Date
+	endDate?: Date
 	saleValue?: string
 	exchangeValue?: string
-	picturesUrl: string[]
-	tags: string[]
-	category: string
-	createdAt: Date
-	locationView?: LocationViewType
-	location: {
-		country?: string
-		state?: string
-		city?: string
-		postalCode?: string
-		district?: string
-		street?: string
-		number?: string
-		reference?: string
-		coordinates?: {
-			latitude?: number
-			longitude?: number
-		}
-		geohash?: string
-		geohashNear?: string[]
-		geohashCity?: string[]
-	}
-	owner: {
-		userId: string
-		name: string
-		profilePictureUrl?: string[]
-	}
 }
 
-export type CultureCollection = {
-	postId?: string
-	cultureType?: CultureType
-	postType?: PostType
-	description?: string
-	locationView?: LocationViewType
-	range?: ExhibitionPlaceType
+export interface CultureCollection extends PostCollectionCommonFields {
+	macroCategory: CultureType
 	eventPlaceModality?: PlaceModalityType
 	repeat?: EventRepeatType
 	entryValue?: string
 	exhibitionFrequency?: WeekdaysFrequency
-	daysOfWeek?: DaysOfWeek[]
 	startDate?: Date
 	endDate?: Date
-	startHour?: Date
-	endHour?: Date
-	picturesUrl?: string[]
-	tags?: string[]
-	category?: string
-	createdAt?: Date
-	location?: {
-		country?: string
-		state?: string
-		city?: string
-		postalCode?: string
-		district?: string
-		street?: string
-		number?: string
-		reference?: string
-		coordinates?: {
-			latitude?: number
-			longitude?: number
-		}
-		geohash?: string
-		geohashNear?: string[]
-		geohashCity?: string[]
-	}
-	owner?: {
-		userId?: string
-		name?: string
-		profilePictureUrl?: string[]
-	}
 }
 
-export type CultureCollectionRemote = {
-	postId: string
-	cultureType: CultureType
-	postType: PostType
-	description: string
-	locationView: LocationViewType
-	range: ExhibitionPlaceType
+export interface CultureCollectionRemote extends PostCollectionCommonFieldsRemote {
+	macroCategory: CultureType
 	eventPlaceModality?: PlaceModalityType
-	repeat: EventRepeatType
-	entryValue: string
+	repeat?: EventRepeatType
+	entryValue?: string
 	exhibitionFrequency?: WeekdaysFrequency
-	daysOfWeek?: DaysOfWeek[]
-	startDate: Date
-	endDate: Date
-	startHour: Date
-	endHour: Date
-	picturesUrl: string[]
-	tags: string[]
-	category: string
-	createdAt: Date
-	location?: {
-		country?: string
-		state?: string
-		city?: string
-		postalCode?: string
-		district?: string
-		street?: string
-		number?: string
-		reference?: string
-		coordinates?: {
-			latitude?: number
-			longitude?: number
-		}
-		geohash?: string
-		geohashNear?: string[]
-		geohashCity?: string[]
-	}
-	owner: {
-		userId: string
-		name: string
-		profilePictureUrl?: string[]
-	}
-}
-
-export type SocialImpactCollection = {
-	postId?: string
-	socialImpactType?: SocialImpactType
-	postType?: PostType
-	description?: string
-	tags?: string[]
-	category?: string
-	locationView?: LocationViewType
-	range?: PostRange
-	exhibitionPlace?: ExhibitionPlaceType
-	exhibitionFrequency?: WeekdaysFrequency
-	daysOfWeek?: DaysOfWeek[]
-	repeat?: EventRepeatType,
 	startDate?: Date
 	endDate?: Date
-	startHour?: Date
-	endHour?: Date
-	picturesUrl?: string[]
-	createdAt?: Date
-	location?: {
-		country?: string
-		state?: string
-		city?: string
-		postalCode?: string
-		district?: string
-		street?: string
-		number?: string
-		reference?: string
-		coordinates?: {
-			latitude?: number
-			longitude?: number
-		}
-		geohash?: string
-		geohashNear?: string[]
-		geohashCity?: string[]
-	}
-	owner?: {
-		userId?: string
-		name?: string
-		profilePictureUrl?: string[]
-	}
 }
 
-export type SocialImpactCollectionRemote = {
-	postId: string
-	socialImpactType: SocialImpactType
-	postType: PostType
-	description: string
-	tags: string[]
-	category: string
-	locationView: LocationViewType
-	range?: PostRange
+export interface SocialImpactCollection extends PostCollectionCommonFields {
+	macroCategory?: SocialImpactType
 	exhibitionPlace?: ExhibitionPlaceType
 	exhibitionFrequency?: WeekdaysFrequency
-	daysOfWeek: DaysOfWeek[]
-	repeat: EventRepeatType,
+	repeat?: EventRepeatType
 	startDate?: Date
 	endDate?: Date
-	startHour: Date
-	endHour: Date
-	picturesUrl: string[]
-	createdAt: Date
-	location: {
-		country?: string
-		state?: string
-		city?: string
-		postalCode?: string
-		district?: string
-		street?: string
-		number?: string
-		reference?: string
-		coordinates?: {
-			latitude?: number
-			longitude?: number
-		}
-		geohash?: string
-		geohashNear?: string[]
-		geohashCity?: string[]
-	}
-	owner: {
-		userId: string
-		name: string
-		profilePictureUrl?: string[]
-	}
 }
 
-export type AdsCollection = any
+export interface SocialImpactCollectionRemote extends PostCollectionCommonFieldsRemote {
+	macroCategory?: SocialImpactType
+	exhibitionPlace?: ExhibitionPlaceType
+	exhibitionFrequency?: WeekdaysFrequency
+	repeat?: EventRepeatType
+	startDate?: Date
+	endDate?: Date
+}

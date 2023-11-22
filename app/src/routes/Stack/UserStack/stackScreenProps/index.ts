@@ -7,6 +7,7 @@ export type ViewPostsByRangeScreenProps = NativeStackScreenProps<UserStackParamL
 export type OfflinePostsManagementScreenProps = NativeStackScreenProps<UserStackParamList, 'OfflinePostsManagement'>
 export type HomeTabScreenProps = NativeStackScreenProps<UserStackParamList, 'HomeTab'>
 export type SelectPostTypeScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectPostType'>
+export type SelectIncomeTypeScreenProps = NativeStackScreenProps<UserStackParamList, 'SelectIncomeType'>
 export type TourScreenProps = NativeStackScreenProps<UserStackParamList, 'ServiceStack'>
 export type SaleStackScreenProps = NativeStackScreenProps<UserStackParamList, 'SaleStack'>
 export type VacancyStackScreenProps = NativeStackScreenProps<UserStackParamList, 'VacancyStack'>

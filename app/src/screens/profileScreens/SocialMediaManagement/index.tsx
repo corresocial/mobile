@@ -2,7 +2,7 @@ import React from 'react'
 import { ScrollView, StatusBar, View } from 'react-native'
 import uuid from 'react-uuid'
 
-import { Body, Container, Header, NewLinkButtonContainer, Sigh } from './styles'
+import { Body, Container, Header, NewLinkButtonContainer } from './styles'
 import { theme } from '../../../common/theme'
 import PlusIcon from '../../../assets/icons/plus-white.svg'
 import AngleRightWhitetIcon from '../../../assets/icons/angleRight-white.svg'
@@ -21,7 +21,7 @@ import {
 	openURL,
 	socialMediaUrl,
 } from '../../../utils/socialMedias'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 
 function SocialMediaManagement({ route, navigation }: SocialMediaManagementScreenProps) {
 	const onPressIcon = async (socialMedia: SocialMedia, index: number) => {
@@ -60,7 +60,7 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 						onPress={() => openURL(socialMedia)}
 						onEdit={() => onPressIcon(socialMedia, index)}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 				</View>
 			)
 		}, false)
@@ -92,10 +92,10 @@ function SocialMediaManagement({ route, navigation }: SocialMediaManagementScree
 									/>
 								</NewLinkButtonContainer>
 							)
-							: <Sigh />
+							: <VerticalSpacing />
 					}
 					{renderSocialMedias()}
-					<VerticalSigh height={relativeScreenHeight(4)} />
+					<VerticalSpacing height={relativeScreenHeight(4)} />
 				</ScrollView>
 			</Body>
 		</Container >

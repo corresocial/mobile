@@ -23,7 +23,7 @@ import { ChatContext } from '../../../contexts/ChatContext'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { getAndUpdateUserToken } from '../../../services/firebase/chat/getAndUpdateUserToken'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { Id } from '../../../services/firebase/types'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
@@ -32,7 +32,7 @@ import { share } from '../../../common/share'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 import { auth } from '../../../services/firebase'
 import { clearOfflinePosts } from '../../../utils/offlinePost'
-import { AlertContext } from '../../../contexts/AlertContext/index.tsx'
+import { AlertContext } from '../../../contexts/AlertContext/index'
 import { UserStackParamList } from '../../../routes/Stack/UserStack/types'
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {
@@ -118,7 +118,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				}}
 			>
 				<SubscriptionButton customTitle={'assinatura corre.'} onPress={performUserSubscription} />
-				<VerticalSigh />
+				<VerticalSpacing />
 				<OptionButton
 					label={'notificações'}
 					highlightedWords={['notificações']}
@@ -130,7 +130,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('NotificationSettings', 'configNotificationButton')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<OptionButton
 					label={'métodos de entrada'}
 					highlightedWords={['métodos', 'de', 'entrada']}
@@ -142,7 +142,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('EntryMethodManagement', 'configNotificationEntryMethod')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<OptionButton
 					label={'quem somos'}
 					highlightedWords={['quem', 'somos']}
@@ -154,7 +154,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('WhoWeAre')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<OptionButton
 					label={'fale conosco'}
 					highlightedWords={['fale', 'conosco']}
@@ -166,7 +166,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('ContactUs')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<OptionButton
 					label={'faça uma doação'}
 					highlightedWords={['faça', 'uma', 'doação']}
@@ -178,7 +178,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					leftSideWidth={'22%'}
 					onPress={performUserSubscription}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<OptionButton
 					label={'seja voluntário'}
 					highlightedWords={['seja', 'voluntário']}
@@ -190,7 +190,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					leftSideWidth={'22%'}
 					onPress={() => openLink('https://voluntariado.corre.social/')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<OptionButton
 					label={'compartilhe'}
 					highlightedWords={['compartilhe']}
@@ -202,7 +202,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					leftSideWidth={'22%'}
 					onPress={shareMessage}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<OptionButton
 					label={'privacidade \ne segurança'}
 					highlightedWords={['privacidade', 'segurança']}
@@ -214,7 +214,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('PrivacyAndSecurity')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<PrimaryButton
 					color={theme.red3}
 					labelColor={theme.white3}
@@ -224,7 +224,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					SvgIcon={XWhiteIcon}
 					onPress={toggleDefaultConfirmationModalVisibility}
 				/>
-				<VerticalSigh height={relativeScreenHeight(8)} />
+				<VerticalSpacing height={relativeScreenHeight(8)} />
 			</Body>
 		</Container >
 	)

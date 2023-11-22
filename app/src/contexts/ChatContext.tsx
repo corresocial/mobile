@@ -57,7 +57,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 	}, [])
 
 	const loadUserNotification = async () => {
-		registerForPushNotificationsAsync().then((token) => setExpoPushToken(token || ''))
+		registerForPushNotificationsAsync().then((token) => setExpoPushToken(token || '')) // TODO Type string
 		removeNotificationListeners()
 		addNotificationListeners()
 	}
@@ -73,8 +73,10 @@ function ChatProvider({ children }: ChatProviderProps) {
 	}
 
 	const removeNotificationListeners = () => {
-		Notifications.removeNotificationSubscription(notificationListener.current)
-		Notifications.removeNotificationSubscription(responseListener.current)
+		if (notificationListener && notificationListener.current) {
+			Notifications.removeNotificationSubscription(notificationListener.current)
+			Notifications.removeNotificationSubscription(responseListener.current)
+		}
 	}
 
 	const registerForPushNotificationsAsync = async () => {
@@ -98,8 +100,6 @@ function ChatProvider({ children }: ChatProviderProps) {
 				})
 			}
 
-			Alert.alert(Device.isDevice ? 'é device' : 'não é device')
-
 			if (Device.isDevice) {
 				const { status: existingStatus } = await Notifications.getPermissionsAsync()
 				let finalStatus = existingStatus
@@ -113,10 +113,8 @@ function ChatProvider({ children }: ChatProviderProps) {
 					return
 				}
 				token = (await Notifications.getExpoPushTokenAsync()).data
-				Alert.alert(token)
 				await getAndUpdateUserToken(userDataContext.userId as Id, token)
 			} else {
-				Alert.alert('Must use physical device for Push Notifications')
 				console.log('Must use physical device for Push Notifications')
 			}
 		} catch (err: any) {

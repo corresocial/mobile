@@ -61,10 +61,10 @@ function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenPro
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostInputText
-				backgroundColor={theme.purple2}
-				validationColor={theme.purple1}
+				backgroundColor={theme.green2}
+				validationColor={theme.green1}
 				customTitle={'o que você aceita em troca?'}
 				customHighlight={['o', 'que', 'em', 'troca']}
 				inputPlaceholder={'ex: troco por uma marmita'}

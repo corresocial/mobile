@@ -13,7 +13,6 @@ import {
 	UserName,
 	ExpandedUserDescription,
 	ExpandedUserDescriptionArea,
-	HorizontalSigh,
 	VerticalPaddingContainer,
 	PostPadding,
 	SafeAreaViewContainer,
@@ -68,13 +67,14 @@ import { updateUser } from '../../../services/firebase/user/updateUser'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ProfileVerifiedModal } from '../../../components/_modals/ProfileVerifiedModal'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { setFreeTrialPlans } from '../../../services/stripe/scripts/setFreeTrialPlans'
 import { StripeContext } from '../../../contexts/StripeContext'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { getNumberOfStoredOfflinePosts } from '../../../utils/offlinePost'
 import { getNetworkStatus } from '../../../utils/deviceNetwork'
-import { AlertContext } from '../../../contexts/AlertContext/index.tsx'
+import { AlertContext } from '../../../contexts/AlertContext/index'
+import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { notificationState } = useContext(AlertContext)
@@ -175,6 +175,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			case 'sale': return 'vendas'
 			case 'service': return 'serviços'
 			case 'vacancy': return 'vagas'
+			case 'income': return 'renda'
 			case 'culture': return 'cultura'
 			case 'socialImpact': return 'impacto social'
 			default: return ''
@@ -194,7 +195,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		}
 	}
 
-	const goToPostView = (item: PostCollection) => {
+	const goToPostView = (item: PostCollection | any) => { // TODO Type
 		const stackLabel = route.params?.stackLabel || 'Home'
 
 		switch (item.postType) {
@@ -223,6 +224,36 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						: ('ViewVacancyPost' as any), // TODO Type
 					{ postData: { ...item, owner: getUserDataOnly() } }
 				)
+				break
+			}
+			case 'income': {
+				if (item.macroCategory === 'sale') {
+					return navigation.push(
+						route.params?.userId
+							? `ViewSalePost${stackLabel}`
+							: ('ViewSalePost' as any), // TODO Type
+						{ postData: { ...item, owner: getUserDataOnly() } }
+					)
+				}
+
+				if (item.macroCategory === 'service') {
+					return navigation.push(
+						route.params?.userId
+							? `ViewServicePost${stackLabel}`
+							: ('ViewServicePost' as any), // TODO Type
+						{ postData: { ...item, owner: getUserDataOnly() } }
+					)
+				}
+
+				if (item.macroCategory === 'vacancy') {
+					return navigation.push(
+						route.params?.userId
+							? `ViewVacancyPost${stackLabel}`
+							: ('ViewVacancyPost' as any), // TODO Type
+						{ postData: { ...item, owner: getUserDataOnly() } }
+					)
+				}
+
 				break
 			}
 			case 'socialImpact': {
@@ -547,9 +578,9 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 														<>
 															<BackButton
 																onPress={navigationToBack}
-																withoutSigh={false}
+																withoutRightSpacing={false}
 															/>
-															<HorizontalSigh />
+															<HorizontalSpacing width={relativeScreenWidth(3)} />
 														</>
 													)
 												}
@@ -609,7 +640,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 														arrayIsEmpty(getUserField('socialMedias'))
 															? (
 																<>
-																	<VerticalSigh />
+																	<VerticalSpacing />
 																	<SmallButton
 																		label={'adicionar redes'}
 																		labelColor={theme.black4}
@@ -618,7 +649,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 																		height={relativeScreenHeight(5)}
 																		onPress={openSocialMediaManagement}
 																	/>
-																	<VerticalSigh />
+																	<VerticalSpacing />
 																</>
 															) : (
 																<HorizontalSocialMediaList
@@ -628,7 +659,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 															)
 													)
 													: (
-														<VerticalSigh />
+														<VerticalSpacing />
 													)
 											}
 
@@ -686,14 +717,14 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 											</OptionsArea>
 										</ProfileHeader>
 									</DefaultHeaderContainer>
-									<VerticalSigh />
+									<VerticalSpacing />
 									<HorizontalTagList
 										tags={getUserPostMacroTags()}
 										selectedTags={selectedTags}
 										filterSelectedTags={getRelativeMacroTagLabel}
 										onSelectTag={onSelectTag}
 									/>
-									<VerticalSigh />
+									<VerticalSpacing />
 									{
 										!!numberOfOfflinePostsStored && isLoggedUser && (
 											<PostPadding>
@@ -709,7 +740,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 													svgIconScale={['60%', '60%']}
 													onPress={() => navigation.navigate('OfflinePostsManagement')}
 												/>
-												<VerticalSigh />
+												<VerticalSpacing />
 											</PostPadding>
 										)
 									}
@@ -732,7 +763,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							</PostPadding>
 						)}
 						showsVerticalScrollIndicator={false}
-						ItemSeparatorComponent={() => <VerticalSigh height={relativeScreenHeight(0.8)} />}
+						ItemSeparatorComponent={() => <VerticalSpacing height={relativeScreenHeight(0.8)} />}
 						contentContainerStyle={{ backgroundColor: theme.orange2 }}
 						// ListHeaderComponentStyle={{ marginVertical: relativeScreenHeight(2) }}
 						ListFooterComponent={() => (isLoggedUser && (!userDataContext.posts || userDataContext.posts.length === 0)
@@ -746,7 +777,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 									backgroundColor={theme.yellow1}
 								/>
 							)
-							: <VerticalSigh height={relativeScreenHeight(11)} />
+							: <VerticalSpacing height={relativeScreenHeight(11)} />
 						)}
 					/>
 				</Body>

@@ -26,7 +26,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { SmallInstructionCard } from '../../../components/SmallInstructionCard'
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Loader } from '../../../components/Loader'
@@ -274,7 +274,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 						<Title>{showMessageWithHighlight('resumo de valores', ['resumo'])}</Title>
 					</TitleArea>
 					<SmallInstructionCard text={getRangeSubscriptionPlanText(subscriptionRange, subscriptionPlan)} />
-					<VerticalSigh />
+					<VerticalSpacing />
 					<SmallInstructionCard text={`r$ ${price},00`} highlight />
 
 					<PaymentStatusArea>

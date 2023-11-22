@@ -23,7 +23,7 @@ import TrashWhiteIcon from '../../assets/icons/trash-white.svg'
 import { DefaultPostViewHeader } from '../../components/DefaultPostViewHeader'
 import { PrimaryButton } from '../../components/_buttons/PrimaryButton'
 import { Loader } from '../../components/Loader'
-import { VerticalSigh } from '../../components/VerticalSigh'
+import { VerticalSpacing } from '../_space/VerticalSpacing'
 import { PostCard } from '../../components/_cards/PostCard'
 import { SubtitleCard } from '../../components/_cards/SubtitleCard'
 import { InstructionCard } from '../../components/_cards/InstructionCard'
@@ -576,7 +576,7 @@ function EditPost({
 				{
 					hasError && (
 						<>
-							<VerticalSigh height={relativeScreenHeight(2)} />
+							<VerticalSpacing height={relativeScreenHeight(2)} />
 							<InstructionCard
 								message={'opa! \nalgo deu errado, tente novamente. '}
 								highlightedWords={['\nalgo', 'deu', 'errado']}
@@ -636,7 +636,7 @@ function EditPost({
 				}
 				<BodyPadding backgroundColor={backgroundColor} hasError={hasError} >
 					{children}
-					<VerticalSigh height={relativeScreenHeight(1.5)} />
+					<VerticalSpacing height={relativeScreenHeight(1.5)} />
 				</BodyPadding >
 			</Body>
 		</Container>

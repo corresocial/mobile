@@ -12,7 +12,6 @@ import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollection
 import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
 import CalendarEmptyIcon from '../../../assets/icons/calendarEmpty-unfilled.svg'
 
-import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
 import { getTextualAddress } from '../../../utils/maps/addressFormatter'
 import { arrayIsEmpty, formatDate, formatHour } from '../../../common/auxiliaryFunctions'
 
@@ -20,10 +19,9 @@ import { EditCard } from '../../../components/_cards/EditCard'
 import { theme } from '../../../common/theme'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { VacancyPurposeCard } from '../../../components/_cards/VacancyPurposeCard'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
-import { VacancyTypeCard } from '../../../components/_cards/VacancyTypeCard'
 import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
@@ -31,6 +29,8 @@ import { ImportantPointsCard } from '../../../components/_cards/ImportantPointsC
 import { EditPost } from '../../../components/EditPost'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
+import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
+import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 
 function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -68,7 +68,13 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 		const category: VacancyCategories = getPostField('category')
 		const tags = getPostField('tags')
 
-		return `	●  ${vacancyCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`
+		try {
+			const categoryAndTagsText = `	●  ${incomeCategories[category].label}\n	●  ${tags.map((tag: string) => ` #${tag}`)}`
+			return categoryAndTagsText
+		} catch (err) {
+			console.log(err)
+			return ''
+		}
 	}
 
 	const showShareModal = (visibility: boolean, postTitle?: string, postId?: string) => {
@@ -91,7 +97,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 		navigation.navigate('ViewVacancyPost' as any, { postData: vacancyPostData })
 	}
 
-	const navigateToEditScreen = (screenName: keyof VacancyStackParamList, initialValue: keyof VacancyCollectionRemote, especificField?: string) => {
+	const navigateToEditScreen = (screenName: keyof VacancyStackParamList, initialValue: keyof VacancyCollectionRemote, customStack?: string) => {
 		let value = getPostField(initialValue)
 
 		if (initialValue === 'picturesUrl') {
@@ -105,7 +111,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 			}
 		}
 
-		navigation.navigate('VacancyStack', {
+		navigation.navigate(customStack || 'VacancyStack' as any, { // TODO Type
 			screen: screenName,
 			params: {
 				editMode: true,
@@ -145,7 +151,8 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 			currentPost: {
 				...postData,
 				...editDataContext.unsaved,
-				postType: 'vacancy',
+				postType: 'income',
+				macroCategory: 'vacancy',
 				createdAt: new Date(),
 				owner: {
 					userId: userDataContext.userId,
@@ -184,9 +191,9 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 			/>
 
 			<EditPost
-				initialPostData={{ ...postData, postType: 'vacancy' }}
+				initialPostData={{ ...postData, postType: 'income', macroCategory: 'vacancy' }}
 				owner={owner}
-				backgroundColor={theme.yellow2}
+				backgroundColor={theme.green2}
 				unsavedPost={unsavedPost}
 				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
@@ -199,31 +206,43 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 				editContext={editContext}
 			>
 				<VacancyPurposeCard
-					vacancyPurpose={getPostField('vacancyPurpose') || 'findProffessional'}
-					onEdit={() => navigateToEditScreen('SelectVacancyPurpose', 'vacancyPurpose')}
+					vacancyPurpose={getPostField('vacancyPurpose' as any) || getPostField('lookingFor')}
+					onEdit={() => {
+						getPostField('vacancyPurpose' as any)
+							? navigateToEditScreen('SelectVacancyPurpose', 'vacancyPurpose' as any)
+							: navigateToEditScreen('SelectVacancyPurpose', 'lookingFor')
+					}}
 				/>
-				<VerticalSigh />
+
+				<VerticalSpacing />
 				<EditCard
 					title={'tags do post'}
 					highlightedWords={['tags']}
 					value={formatCategoryAndTags()}
 					onEdit={() => navigateToEditScreen('SelectVacancyCategory', 'tags')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertVacancyDescription', 'description')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
 					profilePicturesUrl={getPicturesUrl()}
-					indicatorColor={theme.yellow1}
+					indicatorColor={theme.green1}
 					carousel
 					onEdit={() => navigateToEditScreen('VacancyPicturePreview', 'picturesUrl')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
+				<IncomeTypeCard
+					title={'tipo de renda'}
+					hightligtedWords={['tipo', 'renda']}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
+				/>
+				<VerticalSpacing />
 				<PlaceModality
 					title={'local de trabalho'}
 					hightligtedWords={['local', 'trabalho']}
@@ -231,12 +250,8 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					isVacancy
 					onEdit={() => navigateToEditScreen('SelectWorkplace', 'workplace')}
 				/>
-				<VerticalSigh />
-				<VacancyTypeCard
-					vacancyType={getPostField('vacancyType')}
-					onEdit={() => navigateToEditScreen('SelectVacancyType', 'vacancyType')}
-				/>
-				<VerticalSigh />
+
+				<VerticalSpacing />
 				<SaleOrExchangeCard
 					title={'tipo de remuneração'}
 					hightligtedWords={['tipo', 'remuneração']}
@@ -245,12 +260,12 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					isPayment
 					onEdit={() => navigateToEditScreen('SelectPaymentType', 'saleValue')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<PostRangeCard
 					postRange={getPostField('range')}
 					onEdit={() => navigateToEditScreen('SelectVacancyRange', 'range')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
@@ -259,7 +274,7 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					withoutMapView={!(getPostField('location') && getPostField('location').coordinates)}
 					onEdit={checkChangeLocationAlertIsRequired}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DateTimeCard
 					title={'dias da semana'}
 					highlightedWords={['dias']}
@@ -267,43 +282,43 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					daysOfWeek={getPostField('daysOfWeek', true)}
 					onEdit={() => navigateToEditScreen('SelectVacancyFrequency', 'daysOfWeek')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'data de início'}
 					highlightedWords={['início']}
 					SecondSvgIcon={CalendarEmptyIcon}
-					value={formatDate(getPostField('startDate', true)) || '---'}
+					value={formatDate(getPostField('startDate', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertVacancyStartDate', 'startDate')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'horário de início'}
 					highlightedWords={['início']}
 					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('startHour', true)) || '---'}
+					value={formatHour(getPostField('startHour', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertVacancyStartHour', 'startHour')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'data de fim'}
 					highlightedWords={['fim']}
 					SecondSvgIcon={CalendarEmptyIcon}
-					value={formatDate(getPostField('endDate', true)) || '---'}
+					value={formatDate(getPostField('endDate', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertVacancyEndDate', 'endDate')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'horário de fim'}
 					highlightedWords={['fim']}
 					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('endHour', true)) || '---'}
+					value={formatHour(getPostField('endHour', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertVacancyEndHour', 'endHour')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<ImportantPointsCard
 					importantPoints={getPostField('importantPoints')}
 					onEdit={() => navigateToEditScreen('InsertVacancyImportantPoints', 'importantPoints')}

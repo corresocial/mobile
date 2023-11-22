@@ -10,7 +10,7 @@ import SmartphoneWhiteIcon from '../../../assets/icons/smartphone-white.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
-import { VerticalSigh } from '../../VerticalSigh'
+import { VerticalSpacing } from '../../_space/VerticalSpacing'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { theme } from '../../../common/theme'
@@ -69,14 +69,14 @@ function SocialLoginAlertModal({
 						)
 					}
 				</Description>
-				<VerticalSigh height={relativeScreenHeight(3)} />
+				<VerticalSpacing height={relativeScreenHeight(3)} />
 				{
 					accountIdentifier && (
 						<>
 							<DescriptionWithLeftTracing
 								text={accountIdentifier?.includes('+55') ? getFormatedCellNumber() : accountIdentifier}
 							/>
-							<VerticalSigh height={relativeScreenHeight(3)} />
+							<VerticalSpacing height={relativeScreenHeight(3)} />
 						</>
 					)
 				}
@@ -99,7 +99,7 @@ function SocialLoginAlertModal({
 						/>
 					)
 				}
-				<VerticalSigh height={relativeScreenHeight(2)} />
+				<VerticalSpacing height={relativeScreenHeight(2)} />
 				<PrimaryButton
 					keyboardHideButton={false}
 					color={theme.white3}

@@ -17,7 +17,7 @@ import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import { arrayIsEmpty, formatRelativeDate, getShortText } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
-import { saleCategories } from '../../../utils/postsCategories/saleCategories'
+import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 import { share } from '../../../common/share'
 
 import { ViewSalePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
@@ -25,7 +25,7 @@ import { ViewSalePostScreenProps } from '../../../routes/Stack/ProfileStack/stac
 import { AuthContext } from '../../../contexts/AuthContext'
 import { EditContext } from '../../../contexts/EditContext'
 
-import { PostCollection, SaleCategories, SaleCollection, SaleCollectionRemote } from '../../../services/firebase/types'
+import { PostCollection, SaleCategories, IncomeCollectionRemote } from '../../../services/firebase/types'
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
@@ -37,11 +37,12 @@ import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { ItemStatusCard } from '../../../components/_cards/ItemStatusCard'
 import { textHasOnlyNumbers } from '../../../utils/validationFunctions'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
+import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 
 function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -63,7 +64,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	}
 
 	const isAuthor = loggedUserIsOwner()
-	const { postData } = route.params as { postData: SaleCollectionRemote }
+	const { postData } = route.params as { postData: IncomeCollectionRemote }
 
 	const renderFormatedPostDateTime = () => {
 		const formatedDate = formatRelativeDate(postData.createdAt)
@@ -78,7 +79,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('EditSalePost' as any, {
+		navigation.navigate('EditSalePost', {
 			postData: { ...postData, ...editDataContext.saved },
 		})
 	}
@@ -162,14 +163,19 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	}
 
 	const getCategoryLabel = () => {
-		const categoryField = getPostField('category') as SaleCategories
-		if (Object.keys(saleCategories).includes(categoryField)) {
-			return saleCategories[categoryField].label
+		try {
+			const categoryField = getPostField('category') as SaleCategories
+			if (Object.keys(incomeCategories).includes(categoryField)) {
+				return incomeCategories[categoryField].label
+			}
+			return ''
+		} catch (err) {
+			console.log(err)
+			return ''
 		}
-		return ''
 	}
 
-	const getPostField = (fieldName: keyof SaleCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof IncomeCollectionRemote, allowNull?: boolean) => {
 		if (allowNull && editDataContext.saved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
@@ -199,7 +205,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					onBackPress={() => navigation.goBack()}
 					text={getPostField('description')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<UserAndValueContainer>
 					<SmallUserIdentification
 						userName={
@@ -215,7 +221,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						navigateToProfile={navigateToProfile}
 					/>
 				</UserAndValueContainer>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<OptionsArea>
 					{!isAuthor && (
 						<SmallButton
@@ -253,7 +259,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 				</OptionsArea>
 			</Header>
 			<ScrollView showsVerticalScrollIndicator={false}>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<HorizontalTagList
 					tags={[getCategoryLabel(), ...getPostField('tags')]}
 					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
@@ -261,15 +267,28 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					onSelectTag={() => { }}
 				/>
 				<Body>
-					<VerticalSigh />
-					<ItemStatusCard
-						itemStatus={getPostField('itemStatus')}
+					<VerticalSpacing />
+					<IncomeTypeCard
+						title={'tipo de renda'}
+						hightligtedWords={['tipo', 'renda']}
+						macroCategory={getPostField('macroCategory')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
+					{
+						getPostField('itemStatus') && (
+							<>
+								<ItemStatusCard
+									itemStatus={getPostField('itemStatus')}
+								/>
+								<VerticalSpacing />
+							</>
+
+						)
+					}
 					<DescriptionCard
 						text={getPostField('description')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					{!arrayIsEmpty(getPostField('picturesUrl')) && (
 						<>
 							<ImageCarousel
@@ -286,7 +305,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 									saleValue={getPostField('saleValue', true)}
 									exchangeValue={getPostField('exchangeValue', true)}
 								/>
-								<VerticalSigh />
+								<VerticalSpacing />
 							</>
 						)
 					}
@@ -295,7 +314,7 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						locationView={getPostField('locationView')}
 						location={getPostField('location')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<DateTimeCard
 						weekDaysfrequency={getPostField('attendanceFrequency')}
 						daysOfWeek={getPostField('daysOfWeek', true)}
@@ -305,14 +324,14 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					{
 						getPostField('deliveryMethod') && (
 							<>
-								<VerticalSigh />
+								<VerticalSpacing />
 								<DeliveryMethodCard
 									deliveryMethod={getPostField('deliveryMethod')}
 								/>
 							</>
 						)
 					}
-					<VerticalSigh bottomNavigatorSpace />
+					<VerticalSpacing bottomNavigatorSpace />
 				</Body>
 			</ScrollView>
 		</Container>

@@ -81,14 +81,14 @@ function VacancyLocationViewPreview({ route, navigation }: VacancyLocationViewPr
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostLocationViewPreview
-				backgroundColor={theme.yellow2}
+				backgroundColor={theme.green2}
 				saveLocationView={saveLocationView}
 				initialValue={getCurrentMarkerCoordinate()}
 				postRange={getPostRange()}
 				placeName={getPlaceName()}
-				placeColor={theme.transparence.yellow3}
+				placeColor={theme.transparence.green3}
 				locationViewSelected={route.params.locationView}
 				navigateBackwards={() => navigation.goBack()}
 			/>

@@ -1,7 +1,6 @@
 import React from 'react'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 
-import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
 import SuitCaseWhiteIcon from '../../../assets/icons/suitCase-white.svg'
 import PersonWithSuitCaseWhiteIcon from '../../../assets/icons/personWithSuitCase-white.svg'
 
@@ -15,7 +14,7 @@ import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 
 interface VacancyPurposeCardProps {
 	title?: string
-	vacancyPurpose?: VacancyPurpose
+	vacancyPurpose?: boolean | VacancyPurpose
 	hightligtedWords?: string[]
 	onEdit?: () => void
 }
@@ -25,7 +24,13 @@ function VacancyPurposeCard({ title, vacancyPurpose, hightligtedWords, onEdit }:
 		switch (vacancyPurpose) {
 			case 'findProffessional': return showMessageWithHighlight('procurando profissional', ['profissional'])
 			case 'findVacancy': return showMessageWithHighlight('procurando vaga', ['vaga'])
-			default: return showMessageWithHighlight('tipo indisponível', ['indisponível'])
+			default: {
+				if (vacancyPurpose) {
+					return showMessageWithHighlight('procurando vaga', ['vaga'])
+				}
+
+				return showMessageWithHighlight('procurando profissional', ['profissional'])
+			}
 		}
 	}
 
@@ -33,7 +38,13 @@ function VacancyPurposeCard({ title, vacancyPurpose, hightligtedWords, onEdit }:
 		switch (vacancyPurpose) {
 			case 'findProffessional': return SuitCaseWhiteIcon
 			case 'findVacancy': return PersonWithSuitCaseWhiteIcon
-			default: return PinWhiteIcon
+			default: {
+				if (vacancyPurpose) {
+					return SuitCaseWhiteIcon
+				}
+
+				return PersonWithSuitCaseWhiteIcon
+			}
 		}
 	}
 

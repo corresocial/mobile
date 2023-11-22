@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { Body, Container, ContainerContent, Header, Sigh, BoldPhrase, ButtonContainer, Description } from './styles'
+import { Body, Container, ContainerContent, Header, BoldPhrase, ButtonContainer, Description } from './styles'
 import { theme } from '../../../common/theme'
 import Logo from '../../../assets/icons/logoBuilding.svg'
 import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
@@ -11,7 +11,8 @@ import { WhoWeAreScreenProps } from '../../../routes/Stack/UserStack/stackScreen
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { DefaultCardContainer } from '../../../components/_cards/DefaultCardContainer'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 function WhoWeAre({ navigation }: WhoWeAreScreenProps) {
 	return (
@@ -31,13 +32,13 @@ function WhoWeAre({ navigation }: WhoWeAreScreenProps) {
 						<BoldPhrase>{'o corre. é trabalho,'}</BoldPhrase>
 						<BoldPhrase>{'o corre. é cultura,'}</BoldPhrase>
 						<BoldPhrase>{'o corre. é transformação'}</BoldPhrase>
-						<Sigh />
+						<VerticalSpacing height={relativeScreenWidth(6)} />
 						<Description>
 							{'somos uma organização social que usa todos os lucros para combater desigualdades sociais nas periferias.'}
 						</Description>
 					</ContainerContent>
 				</DefaultCardContainer>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<ButtonContainer>
 					<PrimaryButton
 						color={theme.orange3}

@@ -6,7 +6,7 @@ import { StateContext } from '../../../contexts/StateContext'
 import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
 
 import { EditServicePostReviewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-import { PostCollection, ServiceCategories, ServiceCollection, ServiceCollectionRemote } from '../../../services/firebase/types'
+import { PostCollection, ServiceCategories, IncomeCollection } from '../../../services/firebase/types'
 import { ServiceStackParamList } from '../../../routes/Stack/ServiceStack/types'
 
 import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
@@ -19,7 +19,7 @@ import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
 import { EditCard } from '../../../components/_cards/EditCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
@@ -27,6 +27,7 @@ import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
 import { EditPost } from '../../../components/EditPost'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
+import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 
 function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps) {
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
@@ -49,7 +50,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		clearUnsavedEditContext()
 	}, [])
 
-	const getPostField = (fieldName: keyof ServiceCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof IncomeCollection, allowNull?: boolean) => {
 		if (allowNull && editDataContext.unsaved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.unsaved[fieldName] || postData[fieldName]
 	}
@@ -87,7 +88,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		navigation.navigate('ViewServicePost' as any, { postData: servicePostData })
 	}
 
-	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof ServiceCollectionRemote) => {
+	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof IncomeCollection, customStack?: string) => {
 		let value = getPostField(initialValue)
 
 		if (initialValue === 'picturesUrl') {
@@ -101,7 +102,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 			}
 		}
 
-		navigation.navigate('ServiceStack', {
+		navigation.navigate(customStack || 'ServiceStack' as any, { // TODO Type
 			screen: screenName,
 			params: {
 				editMode: true,
@@ -141,7 +142,8 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 			currentPost: {
 				...postData,
 				...editDataContext.unsaved,
-				postType: 'service',
+				postType: 'income',
+				macroCategory: 'service',
 				createdAt: new Date(),
 				owner: {
 					userId: userDataContext.userId,
@@ -180,9 +182,9 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 			/>
 
 			<EditPost
-				initialPostData={{ ...postData, postType: 'service' }}
+				initialPostData={{ ...postData, postType: 'income', macroCategory: 'service' }}
 				owner={owner}
-				backgroundColor={theme.purple2}
+				backgroundColor={theme.green2}
 				unsavedPost={unsavedPost}
 				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
@@ -201,32 +203,39 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					value={formatCategoryAndTags()}
 					onEdit={() => navigateToEditScreen('SelectServiceCategory', 'tags')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertServiceDescription', 'description')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
 					profilePicturesUrl={getPicturesUrl()}
-					indicatorColor={theme.purple1}
+					indicatorColor={theme.green1}
 					carousel
 					onEdit={() => navigateToEditScreen('ServicePicturePreview', 'picturesUrl')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
+				<IncomeTypeCard
+					title={'tipo de renda'}
+					hightligtedWords={['tipo', 'renda']}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
+				/>
+				<VerticalSpacing />
 				<SaleOrExchangeCard
 					saleValue={getPostField('saleValue', true)}
 					exchangeValue={getPostField('exchangeValue', true)}
 					onEdit={() => navigateToEditScreen('SelectPaymentType', 'saleValue')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<PostRangeCard
 					postRange={getPostField('range')}
 					onEdit={() => navigateToEditScreen('SelectServiceRange', 'range')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
@@ -234,12 +243,12 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					location={getPostField('location')}
 					onEdit={checkChangeLocationAlertIsRequired}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DeliveryMethodCard
 					deliveryMethod={getPostField('deliveryMethod')}
 					onEdit={() => navigateToEditScreen('SelectDeliveryMethod', 'deliveryMethod')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DateTimeCard
 					title={'dias da semana'}
 					highlightedWords={['dias']}
@@ -247,7 +256,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					daysOfWeek={getPostField('daysOfWeek', true)}
 					onEdit={() => navigateToEditScreen('SelectServiceFrequency', 'daysOfWeek')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que horas começa'}
 					highlightedWords={['começa']}
@@ -256,7 +265,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertServiceStartHour', 'startHour')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que horas termina'}
 					highlightedWords={['termina']}

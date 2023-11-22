@@ -22,7 +22,7 @@ import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { ExhibitionPlaceCard } from '../../../components/_cards/ExhibitionPlace'
 import { SocialImpactTypeCard } from '../../../components/_cards/SocialImpactType'
 import { EditPost } from '../../../components/EditPost'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
@@ -208,24 +208,18 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 				userContext={userContext}
 				editContext={editContext}
 			>
-				<SocialImpactTypeCard
-					title={'tipo de impacto'}
-					socialImpactType={getPostField('socialImpactType')}
-					onEdit={() => navigateToEditScreen('SelectSocialImpactType', 'socialImpactType')}
-				/>
-				<VerticalSigh />
 				<EditCard
 					title={'tags do post'}
 					highlightedWords={['tags']}
 					value={formatCategoryAndTags()}
 					onEdit={() => navigateToEditScreen('SelectSocialImpactCategory', 'tags')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertSocialImpactDescription', 'description')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
@@ -234,12 +228,18 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					carousel
 					onEdit={() => navigateToEditScreen('SocialImpactPicturePreview', 'picturesUrl')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
+				<SocialImpactTypeCard
+					title={'tipo de impacto'}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactType', 'macroCategory')}
+				/>
+				<VerticalSpacing />
 				<PostRangeCard
 					postRange={getPostField('range')}
 					onEdit={() => navigateToEditScreen('SelectSocialImpactRange', 'range')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
@@ -247,12 +247,12 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					location={getPostField('location')}
 					onEdit={checkChangeLocationAlertIsRequired}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<ExhibitionPlaceCard
 					exhibitionPlace={getPostField('exhibitionPlace')}
 					onEdit={() => navigateToEditScreen('SelectSocialImpactExhibitionRange', 'exhibitionPlace')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DateTimeCard
 					title={'dias da semana'}
 					highlightedWords={['dias']}
@@ -260,47 +260,47 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					daysOfWeek={getPostField('daysOfWeek', true)}
 					onEdit={() => navigateToEditScreen('SelectSocialImpactFrequency', 'daysOfWeek')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'repetição'}
 					highlightedWords={['repetição']}
 					SecondSvgIcon={RecycleWhiteIcon}
-					value={renderSocialImpactRepeat() || '---'}
+					value={renderSocialImpactRepeat()}
 					onEdit={() => navigateToEditScreen('SelectSocialImpactRepeat', 'repeat')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que dia começa'}
 					highlightedWords={['começa']}
 					SecondSvgIcon={CalendarEmptyIcon}
-					value={formatDate(getPostField('startDate', true)) || '---'}
+					value={formatDate(getPostField('startDate', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertSocialImpactStartDate', 'startDate')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que horas começa'}
 					highlightedWords={['começa']}
 					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('startHour', true)) || '---'}
+					value={formatHour(getPostField('startHour', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertSocialImpactStartHour', 'startHour')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que dia termina'}
 					highlightedWords={['termina']}
 					SecondSvgIcon={CalendarEmptyIcon}
-					value={formatDate(getPostField('endDate', true)) || '---'}
+					value={formatDate(getPostField('endDate', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertSocialImpactEndDate', 'endDate')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que horas termina'}
 					highlightedWords={['termina']}
 					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('endHour', true)) || '---'}
+					value={formatHour(getPostField('endHour', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertSocialImpactEndHour', 'endHour')}
 				/>
