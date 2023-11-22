@@ -53,7 +53,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 
 	useEffect(() => {
 		initUserInstance()
-		loadUserNotification()
+		// loadUserNotification()
 	}, [])
 
 	const loadUserNotification = async () => {
