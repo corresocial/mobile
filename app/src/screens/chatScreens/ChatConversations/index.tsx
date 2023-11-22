@@ -32,7 +32,7 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ConversationCard } from '../../../components/_cards/ConversationCard'
-import { AlertContext } from '../../../contexts/AlertContext/index.tsx'
+import { AlertContext } from '../../../contexts/AlertContext/index'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 
 function ChatConversations({ navigation }: ChatConversationsScreenProps) {

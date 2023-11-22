@@ -73,7 +73,7 @@ import { StripeContext } from '../../../contexts/StripeContext'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { getNumberOfStoredOfflinePosts } from '../../../utils/offlinePost'
 import { getNetworkStatus } from '../../../utils/deviceNetwork'
-import { AlertContext } from '../../../contexts/AlertContext/index.tsx'
+import { AlertContext } from '../../../contexts/AlertContext/index'
 import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {

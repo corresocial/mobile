@@ -8,13 +8,11 @@ import { VerticalSpacing } from '../../_space/VerticalSpacing'
 
 interface NewHomePresentationModalProps {
 	visibility: boolean
-	closeModal: () => void
 	onPressButton: () => void
 }
 
 function NewHomePresentationModal({
 	visibility,
-	closeModal,
 	onPressButton
 }: NewHomePresentationModalProps) {
 	return (
@@ -23,7 +21,7 @@ function NewHomePresentationModal({
 			title={'nova organização!'}
 			titleHighlightedWords={['nova']}
 			titleAlign={'center'}
-			closeModal={closeModal}
+			closeModal={onPressButton}
 			firstParagraph={{
 				text: 'serviços, vagas e vendas agora formam a nova sessão de renda',
 				highlightedWords: ['serviços', 'vagas', 'vendas', 'renda'],

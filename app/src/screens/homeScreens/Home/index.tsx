@@ -33,6 +33,7 @@ import { HomeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProp
 import { LocationContext } from '../../../contexts/LocationContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
+import { AlertContext } from '../../../contexts/AlertContext'
 
 import { LocationNearDropdown } from '../../../components/LocationNearDropdown'
 import { PostCard } from '../../../components/_cards/PostCard'
@@ -56,6 +57,7 @@ const initialFeedPosts = {
 }
 
 function Home({ navigation }: HomeScreenProps) {
+	const { showNewHomePresentationModal } = useContext(AlertContext)
 	const { userDataContext } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
@@ -72,6 +74,7 @@ function Home({ navigation }: HomeScreenProps) {
 	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = React.useState(false)
 
 	useEffect(() => {
+		showNewHomePresentationModal()
 		requestPermissions()
 		loadRecentAddresses()
 	}, [])

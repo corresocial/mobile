@@ -32,7 +32,7 @@ import { share } from '../../../common/share'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 import { auth } from '../../../services/firebase'
 import { clearOfflinePosts } from '../../../utils/offlinePost'
-import { AlertContext } from '../../../contexts/AlertContext/index.tsx'
+import { AlertContext } from '../../../contexts/AlertContext/index'
 import { UserStackParamList } from '../../../routes/Stack/UserStack/types'
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {
