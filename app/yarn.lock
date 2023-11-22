@@ -1604,11 +1604,6 @@
   dependencies:
     "cross-spawn" "^7.0.3"
 
-"@expo/vector-icons@^13.0.0":
-  "integrity" "sha512-TI+l71+5aSKnShYclFa14Kum+hQMZ86b95SH6tQUG3qZEmLTarvWpKwqtTwQKqvlJSJrpFiSFu3eCuZokY6zWA=="
-  "resolved" "https://registry.npmjs.org/@expo/vector-icons/-/vector-icons-13.0.0.tgz"
-  "version" "13.0.0"
-
 "@expo/xcpretty@^4.2.1":
   "integrity" "sha512-Lke/geldJqUV0Dfxg5/QIOugOzdqZ/rQ9yHKSgGbjZtG1uiSqWyFwWvXmrdd3/sIdX33eykGvIcf+OrvvcXVUw=="
   "resolved" "https://registry.npmjs.org/@expo/xcpretty/-/xcpretty-4.2.2.tgz"
@@ -6178,7 +6173,6 @@
     "@expo/cli" "0.4.11"
     "@expo/config" "7.0.3"
     "@expo/config-plugins" "5.0.4"
-    "@expo/vector-icons" "^13.0.0"
     "babel-preset-expo" "~9.2.2"
     "cross-spawn" "^6.0.5"
     "expo-application" "~5.0.1"
