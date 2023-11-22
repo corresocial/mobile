@@ -9216,6 +9216,11 @@
     "for-in" "^1.0.2"
     "is-extendable" "^1.0.1"
 
+"mkdir-recursive@^0.4.0":
+  "integrity" "sha512-gbTtiEu8P/GSMh1lAa0YYNr8XIfDzFgnWtetw3Hfz9nw6YXySHNYOZF/uUTgyp8GHvFnNw/EG7VhOkD6zfVb6A=="
+  "resolved" "https://registry.npmjs.org/mkdir-recursive/-/mkdir-recursive-0.4.0.tgz"
+  "version" "0.4.0"
+
 "mkdirp-infer-owner@^2.0.0":
   "integrity" "sha512-sdqtiFt3lkOaYvTXSRIUjkIdPTcxgv5+fgqYE/5qgwdw12cOrAuzzgzvVExIkH/ul1oeHN3bCLOWSG3XOqbKKw=="
   "resolved" "https://registry.npmjs.org/mkdirp-infer-owner/-/mkdirp-infer-owner-2.0.0.tgz"
@@ -10737,6 +10742,13 @@
   dependencies:
     "react-freeze" "^1.0.0"
     "warn-once" "^0.1.0"
+
+"react-native-start@^0.2.56":
+  "integrity" "sha512-M0B25KXCCwBvTxLF8wpx3ZhL37toiiepYPoBuByAofz+K36FNAnyhxuUL/TENJSsHesh8vHFBt3vrWRqDOfGNA=="
+  "resolved" "https://registry.npmjs.org/react-native-start/-/react-native-start-0.2.56.tgz"
+  "version" "0.2.56"
+  dependencies:
+    "mkdir-recursive" "^0.4.0"
 
 "react-native-svg-transformer@^1.0.0":
   "integrity" "sha512-ALHU5VvLLyKM/BvyEG7VYJmqglvaXtU7mGRCxrEwwpJO/GBf1ZMUzc4AeJAjSodj7yYtlDYRxNSt9ySWpaa6JQ=="

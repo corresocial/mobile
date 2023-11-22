@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StatusBar } from 'react-native'
+import { Platform, StatusBar } from 'react-native'
 import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser'
 
@@ -201,10 +201,13 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 		setUnlinkPhoneConfirmationModalIsVisible(!unlinkPhoneConfirmationModalIsVisible)
 	}
 
-	/* const toggleUnlinkGoogleConfirmationModalVisibility = () => {
-		setUnlinkGoogleConfirmationModalIsVisible(!unlinkGoogleConfirmationModalIsVisible)
+	const getFormatedCellNumber = () => {
+		if (!userPrivateContacts.cellNumber) return ''
+		const numbetWithoutCountryCode = userPrivateContacts.cellNumber.slice(3)
+		const numberWithDDDSpace = `${numbetWithoutCountryCode.slice(0, 2)} ${numbetWithoutCountryCode.slice(2)}`
+		return numberWithDDDSpace
 	}
- */
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -266,19 +269,23 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 									title={'número de telefone'}
 									RightIcon={userPrivateContacts.cellNumber ? canRemoveEntryMethod() ? TrashWhiteIcon : EmptyWhiteIcon : PlusWhiteIcon}
 									SecondSvgIcon={SmartphoneWhiteIcon}
-									value={userPrivateContacts.cellNumber}
+									value={getFormatedCellNumber()}
 									pressionable
 									onEdit={editPhoneProvider}
 								/>
-								<EditCard
-									title={'conta google'}
-									RightIcon={userPrivateContacts.email ? EmptyWhiteIcon : PlusWhiteIcon}
-									SecondSvgIcon={GoogleWhiteIcon}
-									value={userPrivateContacts.email}
-									pressionable
-									onEdit={userPrivateContacts.email ? () => { } : editGoogleProvider}
-								/>
-								<VerticalSpacing />
+								{
+									Platform.OS !== 'ios' && (
+										<EditCard
+											title={'conta google'}
+											RightIcon={userPrivateContacts.email ? EmptyWhiteIcon : PlusWhiteIcon}
+											SecondSvgIcon={GoogleWhiteIcon}
+											value={userPrivateContacts.email}
+											pressionable
+											onEdit={userPrivateContacts.email ? () => { } : editGoogleProvider}
+										/>
+									)
+								}
+								<VerticalSigh />
 							</>
 						)
 				}

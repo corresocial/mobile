@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -15,7 +15,7 @@ import EditWhiteIcon from '../../../assets/icons/edit-white.svg'
 import { getRangeText } from '../../../utils/subscription/commonMessages'
 import { getTextualAddress } from '../../../utils/maps/addressFormatter'
 
-import { PostCollection, PostCollectionRemote, UserSubscription } from '../../../services/firebase/types'
+import { Id, PostCollection, PostCollectionRemote, UserSubscription } from '../../../services/firebase/types'
 import { EditCurrentSubscriptionScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -29,6 +29,8 @@ import { updateAllRangeAndLocation } from '../../../services/firebase/post/updat
 import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeChangeConfirmatiomModal'
 import { InsertUserEmailModal } from '../../../components/_modals/InsertUserEmailModal'
 import { emailIsValid } from '../../../common/auxiliaryFunctions'
+import { updateUserPrivateData } from '../../../services/firebase/user/updateUserPrivateData'
+import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 
 function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionScreenProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)
@@ -41,12 +43,23 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 	const [rangeChangeModalIsVisible, setRangeChangeModalIsVisible] = useState(false)
 	const [rangeChangeConfirmationModalIsVisible, setRangeChangeConfirmationModalIsVisible] = useState(false)
 
+	const [privateEmail, setPrivateEmail] = useState('')
+
 	const { postRange: currentRangeSubscription, leaveFromPaidSubscription } = route.params
 
 	const owner: PostCollection['owner'] = {
 		userId: userDataContext.userId,
 		name: userDataContext.name,
 		profilePictureUrl: userDataContext.profilePictureUrl
+	}
+
+	useEffect(() => {
+		loadPrivateEmail()
+	}, [])
+
+	const loadPrivateEmail = async () => {
+		const userContacts = await getPrivateContacts(userDataContext.userId as Id)
+		setPrivateEmail(userContacts && userContacts.email ? userContacts.email : '')
 	}
 
 	const userHasAnyPost = () => {
@@ -168,7 +181,12 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 			setIsLoading(true)
 			await sendReceiptByEmail(userDataContext.subscription?.customerId || '', email)
 			await updateStripeCustomer(userDataContext.subscription?.customerId, { email })
-			await updateUserSubscription({ ...userDataContext.subscription, receiptEmail: email })
+			await updateUserPrivateData(
+				{ email },
+				userDataContext.userId as Id,
+				'contacts',
+			)
+			// await updateUserSubscription({ ...userDataContext.subscription/* , receiptEmail: email  */})
 			setIsLoading(false)
 			navigation.goBack()
 		} catch (error: any) {
@@ -202,7 +220,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 				closeModal={toggleRangeChangeConfirmationModalVisibility}
 			/>
 			<InsertUserEmailModal // Second confirmation
-				initialInputValue={userDataContext.subscription?.receiptEmail || ''}
+				initialInputValue={privateEmail}
 				visibility={insertUserEmailModalIsVisible}
 				onPressButton={saveUserEmail}
 				closeModal={toggleInsertUserEmailModalVisibility}

@@ -96,8 +96,8 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 
 	const headerMessages = {
 		instruction: {
-			text: 'passa o código que\nte mandamos no número:',
-			highlightedWords: ['código']
+			text: 'passa o código SMS que\nte mandamos no número:',
+			highlightedWords: ['código', 'SMS']
 		},
 		clientSideError: {
 			text: 'opa! parece que o \ncódigo tá errado',

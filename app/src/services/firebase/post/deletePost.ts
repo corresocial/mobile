@@ -16,7 +16,7 @@ async function deletePost(postId: string, userId: string) {
 		const userData = await getDoc(doc(firestore, 'users', userId)) as UserCollection | any
 		updateDoc(doc(firestore, 'users', userId), {
 			...userData.data(),
-			posts: userData.data().posts.filter((post: PostCollection) => post.postId !== postId),
+			posts: userData.data() ? userData.data().posts.filter((post: PostCollection) => post.postId !== postId) : [],
 			updatedAt: new Date()
 		})
 		return true

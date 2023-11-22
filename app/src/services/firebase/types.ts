@@ -110,7 +110,6 @@ export type UserSubscription = {
 	subscriptionRange?: PostRange
 	subscriptionPlan?: SubscriptionPlan
 	subscriptionPaymentMethod?: SubscriptionPaymentMethod
-	receiptEmail?: string
 	customerId?: Id
 	subscriptionId?: Id
 }

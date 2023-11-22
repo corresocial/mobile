@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { BackHandler, StatusBar } from 'react-native'
+import { BackHandler, Platform, StatusBar } from 'react-native'
 
 import { Container, CarouselItemContainer, Slogan } from './styles'
 import { theme } from '../../../common/theme'
@@ -30,8 +30,8 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 
 	const [termsVisibility, setTermsVisibility] = useState<boolean>(false)
 
-	const userId = route.params.userId || ''
-	const userName = route.params.userName || ''
+	const userId = route.params && route.params.userId ? route.params.userId : ''
+	const userName = route.params && route.params.userName ? route.params.userName : ''
 
 	const hasStoredUser = userId && userName
 
@@ -52,6 +52,11 @@ function SelectAuthRegister({ route, navigation }: SelectAuthRegisterScreenProps
 	}
 
 	const navigateToAuthFlow = () => {
+		if (Platform.OS === 'ios') {
+			navigation.navigate('InsertCellNumber', { newUser: false })
+			return
+		}
+
 		navigation.navigate('SelectAuthMethod', { newUser: false })
 	}
 
