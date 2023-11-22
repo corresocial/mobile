@@ -32,7 +32,7 @@ function PostPicturePreview({
 }: PostPicturePreviewProps) {
 	const [picturesPack, setPicturesPack] = useState<string[]>(initialValue || [])
 	const [pictureIndexSelected, setPictureIndexSelected] = useState<number>(0)
-	const [cameraOpened, setCameraOpened] = useState<boolean>(!editMode || !initialValue)
+	const [cameraOpened, setCameraOpened] = useState<boolean>(!editMode || (!initialValue || (initialValue && !initialValue.length)))
 
 	const setPictureUri = (uri: string) => {
 		const currentPictures = [...picturesPack]
