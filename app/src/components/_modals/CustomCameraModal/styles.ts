@@ -24,13 +24,17 @@ export const FlashButtonContainer = styled.View`
     bottom: ${relativeScreenWidth(48)}px;
 `
 
-export const FlashButton = styled.TouchableOpacity`
-    background-color: ${({ theme }) => theme.white3};
-    min-width: 35px;
-    width: ${relativeScreenWidth(9)}px;
-    min-height: 35px;
-    height: ${relativeScreenWidth(9)}px;
-    border-radius: 5px;
+interface ContainerIconProps {
+	opacity: number
+}
+
+export const ContainerIcon = styled.TouchableOpacity<ContainerIconProps>`
+	opacity: ${({ opacity }) => opacity || 1};
+	min-width: 35px;
+	min-height: 35px;
+	width: ${relativeScreenWidth(12)}px;
+	height: ${relativeScreenWidth(12)}px;
+	background-color: ${({ theme }) => theme.black4};
     align-items: center;
     justify-content: center;
 `
@@ -58,41 +62,6 @@ export const CameraControlsContainer = styled.View`
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-`
-
-export const GaleryButton = styled.TouchableOpacity`
-    background-color: ${({ theme }) => theme.white3};
-    min-width: 35px;
-    width: ${relativeScreenWidth(9)}px;
-    min-height: 35px;
-    height: ${relativeScreenWidth(9)}px;
-    border-radius: 5px;
-    align-items: center;
-    justify-content: center;
-`
-
-export const TakePictureButton = styled.TouchableOpacity`
-    background-color: ${({ theme }) => theme.green2};
-    border-color:${({ theme }) => theme.green5};
-    min-width: 70px;
-    width: ${relativeScreenWidth(9)}px;
-    min-height: 70px;
-    height: ${relativeScreenWidth(9)}px;
-    border-radius: 70px;
-    border-width: 15px;
-    align-items: center;
-    justify-content: center;
-`
-
-export const CameraTypeButton = styled.TouchableOpacity`
-    background-color: ${({ theme }) => theme.white3};
-    min-width: 35px;
-    width: ${relativeScreenWidth(9)}px;
-    min-height: 35px;
-    height: ${relativeScreenWidth(9)}px;
-    border-radius: 5px;
-    align-items: center;
-    justify-content: center;
 `
 
 export const NotPermissionContainer = styled.TouchableOpacity`

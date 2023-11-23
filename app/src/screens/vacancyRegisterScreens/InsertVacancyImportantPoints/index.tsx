@@ -19,7 +19,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { DefaultInput } from '../../../components/_inputs/DefaultInput'
-import { HorizontalSpacing } from '../../../components/HorizontalSpacing'
+import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 
 function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImportantPointsScreenProps) {
@@ -74,7 +74,7 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 				fixedHeight={75}
 				textInputRef={inputRefs.inputCards[index]}
 				defaultBackgroundColor={theme.white2}
-				validBackgroundColor={theme.yellow1}
+				validBackgroundColor={theme.green1}
 				withoutBottomLine
 				multiline
 				lastInput
@@ -136,12 +136,12 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(26)}
 				relativeHeight={relativeScreenHeight(26)}
 				centralized
-				backgroundColor={theme.yellow2}
+				backgroundColor={theme.green2}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
@@ -183,7 +183,7 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 								relativeWidth={'100%'}
 								textInputRef={inputRefs.importantPointTextInput}
 								defaultBackgroundColor={theme.white2}
-								validBackgroundColor={theme.yellow1}
+								validBackgroundColor={theme.green1}
 								withoutBottomLine
 								lastInput
 								multiline

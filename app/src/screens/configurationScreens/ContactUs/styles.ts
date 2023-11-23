@@ -11,8 +11,3 @@ export const ButtonsContainer = styled.View`
    justify-content: space-around;
    padding: ${RFValue(25)}px;
 `
-
-export const Sigh = styled.View`
-   height: 100%;
-   width: ${RFValue(10)}px;
-`

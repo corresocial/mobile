@@ -36,11 +36,6 @@ export const BoldPhrase = styled.Text`
 	font-family: Arvo_700Bold;
 `
 
-export const Sigh = styled.View`
-	width: 100%;
-	height: ${relativeScreenWidth(6)}px;
-`
-
 export const Description = styled.Text`
 	font-family: Arvo_400Regular;
 	line-height: ${RFValue(20)}px;

@@ -17,15 +17,15 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { LineInput } from '../../../components/LineInput'
 import { Loader } from '../../../components/Loader'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { Id } from '../../../services/firebase/types'
 import Firebase from '../../../services/firebase'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { linkAuthProvider } from '../../../services/firebase/user/linkAuthProvider'
 import { updateUserPrivateData } from '../../../services/firebase/user/updateUserPrivateData'
 import { getPhoneAuthCredential } from '../../../services/firebase/user/getPhoneAuthCredential'
+import { DefaultInput } from '../../../components/_inputs/DefaultInput'
 
 function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirmationCodeLinkAccountScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -259,7 +259,7 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 						fontSize={16}
 					/>
 				</InstructionButtonContainer>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<InstructionButtonContainer withPaddingLeft>
 					<InstructionCard
 						fontSize={16}
@@ -279,20 +279,19 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 							const isFirstInput = index === 0
 							const isLastInput = index === inputsConfig.length - 1 && true
 							return (
-								<LineInput
+								<DefaultInput
 									key={inputConfig.key}
 									value={inputConfig.field}
 									relativeWidth={'14%'}
 									textInputRef={inputConfig.ref}
 									lastInput={isLastInput}
+									fontSize={17}
+									hasMultipleInputs
 									previousInputRef={isLastInput ? null : !isFirstInput && inputsConfig[index - 1].ref}
 									nextInputRef={!isLastInput && inputsConfig[index + 1].ref}
 									defaultBackgroundColor={theme.white2}
-									defaultBorderBottomColor={theme.black4}
 									validBackgroundColor={theme.orange1}
-									validBorderBottomColor={theme.orange5}
 									invalidBackgroundColor={getRelativeInputErrorStyle()}
-									invalidBorderBottomColor={theme.black4}
 									maxLength={1}
 									textIsValid={insertedCodeIsValid}
 									invalidTextAfterSubmit={invalidCodeAfterSubmit || expiredCodeAfterSubmit}

@@ -13,7 +13,6 @@ import {
 	UserName,
 	ExpandedUserDescription,
 	ExpandedUserDescriptionArea,
-	HorizontalSigh,
 	VerticalPaddingContainer,
 	PostPadding,
 	SafeAreaViewContainer,
@@ -28,7 +27,8 @@ import VerifiedLabel from '../../../assets/icons/verifiedLabel.svg'
 import ImpactLabel from '../../../assets/icons/impactLabel.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 import EditIcon from '../../../assets/icons/edit-white.svg'
-import GearIcon from '../../../assets/icons/gear-white.svg'
+import GearWhiteIcon from '../../../assets/icons/gear-white.svg'
+import GearAlertWhiteIcon from '../../../assets/icons/gear-alert-white.svg'
 import WirelessOffWhiteIcon from '../../../assets/icons/wirelessOff-white.svg'
 import WirelessOnWhiteIcon from '../../../assets/icons/wirelessOn-white.svg'
 import AtSignWhiteIcon from '../../../assets/icons/atSign-white.svg'
@@ -67,14 +67,17 @@ import { updateUser } from '../../../services/firebase/user/updateUser'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ProfileVerifiedModal } from '../../../components/_modals/ProfileVerifiedModal'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { setFreeTrialPlans } from '../../../services/stripe/scripts/setFreeTrialPlans'
 import { StripeContext } from '../../../contexts/StripeContext'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { getNumberOfStoredOfflinePosts } from '../../../utils/offlinePost'
 import { getNetworkStatus } from '../../../utils/deviceNetwork'
+import { AlertContext } from '../../../contexts/AlertContext/index'
+import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
+	const { notificationState } = useContext(AlertContext)
 	const { userDataContext } = useContext(AuthContext)
 	const { createCustomer, createSubscription, stripeProductsPlans } = useContext(StripeContext)
 
@@ -172,6 +175,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			case 'sale': return 'vendas'
 			case 'service': return 'serviços'
 			case 'vacancy': return 'vagas'
+			case 'income': return 'renda'
 			case 'culture': return 'cultura'
 			case 'socialImpact': return 'impacto social'
 			default: return ''
@@ -191,7 +195,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		}
 	}
 
-	const goToPostView = (item: PostCollection) => {
+	const goToPostView = (item: PostCollection | any) => { // TODO Type
 		const stackLabel = route.params?.stackLabel || 'Home'
 
 		switch (item.postType) {
@@ -220,6 +224,36 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						: ('ViewVacancyPost' as any), // TODO Type
 					{ postData: { ...item, owner: getUserDataOnly() } }
 				)
+				break
+			}
+			case 'income': {
+				if (item.macroCategory === 'sale') {
+					return navigation.push(
+						route.params?.userId
+							? `ViewSalePost${stackLabel}`
+							: ('ViewSalePost' as any), // TODO Type
+						{ postData: { ...item, owner: getUserDataOnly() } }
+					)
+				}
+
+				if (item.macroCategory === 'service') {
+					return navigation.push(
+						route.params?.userId
+							? `ViewServicePost${stackLabel}`
+							: ('ViewServicePost' as any), // TODO Type
+						{ postData: { ...item, owner: getUserDataOnly() } }
+					)
+				}
+
+				if (item.macroCategory === 'vacancy') {
+					return navigation.push(
+						route.params?.userId
+							? `ViewVacancyPost${stackLabel}`
+							: ('ViewVacancyPost' as any), // TODO Type
+						{ postData: { ...item, owner: getUserDataOnly() } }
+					)
+				}
+
 				break
 			}
 			case 'socialImpact': {
@@ -479,6 +513,16 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		}
 	}
 
+	const getConfigurationIcon = () => {
+		if (isLoggedUser) {
+			if (hasConfigNotification()) return GearAlertWhiteIcon
+			return GearWhiteIcon
+		}
+		return ThreeDotsIcon
+	}
+
+	const hasConfigNotification = () => (notificationState.configNotificationButton || notificationState.configNotificationEntryMethod)
+
 	const getShortDescription = () => {
 		const userDescription = getUserField('description') as string || ''
 		return userDescription.slice(0, 160)
@@ -534,9 +578,9 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 														<>
 															<BackButton
 																onPress={navigationToBack}
-																withoutSigh={false}
+																withoutRightSpacing={false}
 															/>
-															<HorizontalSigh />
+															<HorizontalSpacing width={relativeScreenWidth(3)} />
 														</>
 													)
 												}
@@ -591,25 +635,31 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 											}
 
 											{
-												isLoggedUser && arrayIsEmpty(getUserField('socialMedias'))
+												isLoggedUser
 													? (
-														<>
-															<VerticalSigh />
-															<SmallButton
-																label={'adicionar redes'}
-																labelColor={theme.black4}
-																SvgIcon={AtSignWhiteIcon}
-																svgScale={['60%', '20%']}
-																height={relativeScreenHeight(5)}
-																onPress={openSocialMediaManagement}
-															/>
-															<VerticalSigh />
-														</>
-													) : (
-														<HorizontalSocialMediaList
-															socialMedias={getUserField('socialMedias') as SocialMedia[]}
-															onPress={openSocialMediaManagement}
-														/>
+														arrayIsEmpty(getUserField('socialMedias'))
+															? (
+																<>
+																	<VerticalSpacing />
+																	<SmallButton
+																		label={'adicionar redes'}
+																		labelColor={theme.black4}
+																		SvgIcon={AtSignWhiteIcon}
+																		svgScale={['60%', '20%']}
+																		height={relativeScreenHeight(5)}
+																		onPress={openSocialMediaManagement}
+																	/>
+																	<VerticalSpacing />
+																</>
+															) : (
+																<HorizontalSocialMediaList
+																	socialMedias={getUserField('socialMedias') as SocialMedia[]}
+																	onPress={openSocialMediaManagement}
+																/>
+															)
+													)
+													: (
+														<VerticalSpacing />
 													)
 											}
 
@@ -657,8 +707,9 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 												>
 													<SmallButton
 														color={theme.white3}
-														SvgIcon={isLoggedUser ? GearIcon : ThreeDotsIcon}
+														SvgIcon={getConfigurationIcon()}
 														relativeWidth={relativeScreenWidth(12)}
+														svgScale={hasConfigNotification() ? ['100%', '100%'] : ['50%', '80%']}
 														height={relativeScreenWidth(12)}
 														onPress={openProfileOptions}
 													/>
@@ -666,14 +717,14 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 											</OptionsArea>
 										</ProfileHeader>
 									</DefaultHeaderContainer>
-									<VerticalSigh />
+									<VerticalSpacing />
 									<HorizontalTagList
 										tags={getUserPostMacroTags()}
 										selectedTags={selectedTags}
 										filterSelectedTags={getRelativeMacroTagLabel}
 										onSelectTag={onSelectTag}
 									/>
-									<VerticalSigh />
+									<VerticalSpacing />
 									{
 										!!numberOfOfflinePostsStored && isLoggedUser && (
 											<PostPadding>
@@ -689,7 +740,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 													svgIconScale={['60%', '60%']}
 													onPress={() => navigation.navigate('OfflinePostsManagement')}
 												/>
-												<VerticalSigh />
+												<VerticalSpacing />
 											</PostPadding>
 										)
 									}
@@ -712,7 +763,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							</PostPadding>
 						)}
 						showsVerticalScrollIndicator={false}
-						ItemSeparatorComponent={() => <VerticalSigh height={relativeScreenHeight(0.8)} />}
+						ItemSeparatorComponent={() => <VerticalSpacing height={relativeScreenHeight(0.8)} />}
 						contentContainerStyle={{ backgroundColor: theme.orange2 }}
 						// ListHeaderComponentStyle={{ marginVertical: relativeScreenHeight(2) }}
 						ListFooterComponent={() => (isLoggedUser && (!userDataContext.posts || userDataContext.posts.length === 0)
@@ -726,7 +777,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 									backgroundColor={theme.yellow1}
 								/>
 							)
-							: <VerticalSigh height={relativeScreenHeight(11)} />
+							: <VerticalSpacing height={relativeScreenHeight(11)} />
 						)}
 					/>
 				</Body>

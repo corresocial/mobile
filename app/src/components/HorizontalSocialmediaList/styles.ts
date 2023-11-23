@@ -8,7 +8,7 @@ export const ScrollView = styled.ScrollView`
 
 export const Container = styled.View`
     width: 100%;
-	height: ${relativeScreenHeight(8)}px;
+	height: ${relativeScreenHeight(6)}px;
     flex-direction: row;
     align-items: center;
 `

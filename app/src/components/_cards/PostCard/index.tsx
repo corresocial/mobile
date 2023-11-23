@@ -25,7 +25,7 @@ import { SaleExchangeValue } from '../../SaleExchangeValue'
 import { SmallUserIdentification } from '../../SmallUserIdentification'
 
 import { theme } from '../../../common/theme'
-import { VerticalSigh } from '../../VerticalSigh'
+import { VerticalSpacing } from '../../_space/VerticalSpacing'
 
 interface PostCardProps {
 	post: PostCollection | any
@@ -39,13 +39,16 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 	const defineLabelColor = (lightColor?: boolean) => {
 		switch (post.postType) {
 			case 'service': {
-				return lightColor ? theme.purple1 : theme.purple3
+				return lightColor ? theme.green1 : theme.green3
 			}
 			case 'sale': {
 				return lightColor ? theme.green1 : theme.green3
 			}
 			case 'vacancy': {
-				return lightColor ? theme.yellow1 : theme.yellow3
+				return lightColor ? theme.green1 : theme.green3
+			}
+			case 'income': {
+				return lightColor ? theme.green1 : theme.green3
 			}
 			case 'socialImpact': {
 				return lightColor ? theme.pink1 : theme.pink3
@@ -59,7 +62,7 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 	}
 
 	const renderShortName = () => {
-		if (owner.name && owner.name.split(' ').length < 3) return owner.name
+		if (owner.name && owner.name.split(' ').length <= 3) return owner.name
 		const names = owner.name && (owner.name.split(' ') || [])
 		if (!names) return 'usuário do corre.'
 		return `${names[0]} ${names[1]}`
@@ -124,7 +127,7 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 												/>
 											</SaleValueContainerInner>
 										</SaleValueContainer>
-										{(!arrayIsEmpty(post.picturesUrl)) && <VerticalSigh height={RFValue(8)} />}
+										{(!arrayIsEmpty(post.picturesUrl)) && <VerticalSpacing height={RFValue(8)} />}
 									</>
 								)
 							}
@@ -139,7 +142,7 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 								{post.description}
 							</Title>
 						</TitleContainer>
-						<VerticalSigh />
+						<VerticalSpacing />
 						<SmallUserIdentification
 							userName={renderShortName()}
 							postDate={renderFormatedPostDateTime()}

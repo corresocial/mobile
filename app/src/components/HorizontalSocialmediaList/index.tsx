@@ -57,10 +57,12 @@ function HorizontalSocialMediaList({ socialMedias = [], onPress }: HorizontalSoc
 		}
 	}
 
+	if (!socialMedias || (socialMedias && !socialMedias.length)) return <></>
+
 	return (
 		<Container
 			style={{
-				height: socialMedias.length > 0 ? relativeScreenHeight(8) : relativeScreenHeight(2.5)
+				height: socialMedias.length > 0 ? relativeScreenHeight(7) : relativeScreenHeight(2.5)
 			}}
 		>
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>

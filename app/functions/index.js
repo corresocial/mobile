@@ -6,8 +6,11 @@
 
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
+const { ExpoPushMessage, Expo } = require('expo-server-sdk')
 
-admin.initializeApp()
+admin.initializeApp({
+	databaseURL: 'https://corresocialapp-default-rtdb.firebaseio.com',
+})
 
 exports.getFeedPostsBeta = functions.https.onRequest(async (req, res) => { // req. searchParams
 	try {
@@ -158,6 +161,7 @@ exports.searchPostsByAlgoliaBeta = functions.https.onRequest(async (req, res) =>
 			postTypeFilter: '',
 			geohashFilter: '',
 			geohashExceptionFilter: '',
+			macroCategoryFilter: '',
 			categoryFilter: '',
 			tagFilter: '',
 		}
@@ -174,6 +178,7 @@ exports.searchPostsByAlgoliaBeta = functions.https.onRequest(async (req, res) =>
 			searchFilters.geohashExceptionFilter = getGeohashFilter(searchParams.geohashes, geohashField, true)
 			searchFilters.cityFilter = getRangeFilter('city', searchParams.city, searchParams.country)
 			searchFilters.countryFilter = getRangeFilter('country', searchParams.country, searchParams.country)
+			searchFilters.macroCategoryFilter = getMacroCategoryFilter(searchParams.macroCategory)
 			searchFilters.categoryFilter = getCategoryFilter(searchParams.category)
 			searchFilters.tagFilter = getTagFilter(searchParams.tag)
 		}
@@ -193,13 +198,13 @@ exports.searchPostsByAlgoliaBeta = functions.https.onRequest(async (req, res) =>
 				]
 				: [
 					await postsIndex.search(searchText, { // Near
-						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter} ${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 					}),
 					await postsIndex.search(searchText, { // City
-						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND ${searchFilters.cityFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND ${searchFilters.cityFilter}${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 					}),
 					await postsIndex.search(searchText, { // Country
-						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 					})
 				]
 		)
@@ -270,6 +275,14 @@ const getRangeFilter = (range, city, country) => {
 	return ''
 }
 
+const getMacroCategoryFilter = (macroCategory) => {
+	if (!macroCategory) return ''
+	if (macroCategory === 'income') {
+		return ` AND (macroCategory:${macroCategory} OR macroCategory:sale OR macroCategory:service OR macroCategory:vacancy)`
+	}
+	return ` AND macroCategory:${macroCategory}`
+}
+
 const getCategoryFilter = (category) => {
 	if (!category) return ''
 	return ` AND category:${category}`
@@ -312,10 +325,75 @@ exports.checkUserPhoneAlreadyRegistred = functions.https.onRequest(async (req, r
 
 // updateUserEmailIdentifierOnAuth
 
-exports.updateUserEmailIdentifierOnAuth = functions.https.onRequest(async (req, res) => {
-	const { userId } = req.body
+exports.sendNotification = functions.https.onRequest(async (req, res) => {
+	const db = admin.database()
+	const { routeToken } = req.body
+	enviarNotificacao(routeToken)
 
-	return admin.auth().updateUser(userId, {
-		email: null
-	})
+	async function enviarNotificacao(token) {
+		try {
+			if (token) {
+				// Crie a mensagem de notificação
+				const message = {
+					to: token,
+					sound: 'default',
+					title: 'corre.',
+					body: 'tem gente entrando em contato com você!',
+				}
+
+				// Enviar a notificação utilizando o Expo Notifications
+				const expo = new Expo({ accessToken: process.env.EXPO_NOTIFICATIONS_ACCESSTOKEN })
+				const chunks = expo.chunkPushNotifications([message])
+				const tickets = []
+
+				for (const chunk of chunks) {
+					try {
+						const ticketChunk = await expo.sendPushNotificationsAsync(chunk)
+						tickets.push(...ticketChunk)
+					} catch (error) {
+						console.error('Erro ao enviar notificação:', error)
+					}
+				}
+
+				console.log('Notificação enviada com sucesso.')
+				return tickets
+			}
+			console.error('Usuário não possui token de notificação válido.')
+			return null
+		} catch (error) {
+			console.error('Ocorreu um erro ao enviar notificação:', error)
+			throw error
+		}
+	}
+
+	async function sendNotifications() {
+		try {
+			const nodeIdsRef = db.ref()
+			nodeIdsRef.once('value', (snapshot) => {
+				const dbData = snapshot.val()
+				const entries = Object.entries(dbData)
+				entries.forEach(([nodeId, value]) => {
+					if (nodeId.includes('-')) {
+						if (value.hasOwnProperty('messages')) {
+							const messageKeys = Object.keys(value.messages)
+							if (!value.messages[messageKeys.at(-1)].readed) {
+								const senderId = value.messages[messageKeys.at(-1)].owner
+								if (value.user1.userId === senderId && value.user2.hasOwnProperty('tokenNotification')) {
+									console.log(value.user2.name)
+									enviarNotificacao(value.user2.tokenNotification)
+								}
+								if (value.user2.userId === senderId && value.user1.hasOwnProperty('tokenNotification')) {
+									console.log('pode enviar notificação')
+									console.log(value.user1.name)
+									enviarNotificacao(value.user1.tokenNotification)
+								}
+							}
+						}
+					}
+				})
+			})
+		} catch (err) {
+			console.log(err)
+		}
+	}
 })

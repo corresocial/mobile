@@ -19,11 +19,6 @@ export const ProfileInfoContainer = styled.View`
 	align-items: center;
 `
 
-export const HorizontalSigh = styled.View`
-	height: 100%;
-	width: ${relativeScreenWidth(3)}px;
-`
-
 export const InfoArea = styled.View`
 	justify-content: center;
     flex: 1;

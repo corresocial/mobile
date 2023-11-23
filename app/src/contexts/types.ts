@@ -17,7 +17,8 @@ import {
 	CultureType,
 	PostCollection,
 	UserSubscription,
-	FeedPosts
+	FeedPosts,
+	IncomeType
 } from '../services/firebase/types'
 import { CurrentCategory, SearchParams } from '../services/maps/types'
 
@@ -61,10 +62,12 @@ export type LocationData = {
 }
 
 export type ServiceData = {
+	lookingFor?: boolean
 	description?: string
 	title?: string
 	category?: string
 	tags?: string[]
+	macroCategory?: IncomeType
 	paymentType?: PaymentType
 	saleValue?: string
 	exchangeValue?: string
@@ -100,6 +103,8 @@ export type SaleData = {
 	description?: string
 	tags?: string[]
 	category?: string
+	macroCategory?: IncomeType
+	lookingFor?: boolean
 	itemStatus?: ItemStatus
 	paymentType?: PaymentType
 	saleValue?: string
@@ -132,6 +137,7 @@ export type SaleData = {
 }
 
 export type VacancyData = {
+	lookingFor?: boolean
 	title?: string
 	description?: string
 	vacancyType?: VacancyType
@@ -172,7 +178,8 @@ export type VacancyData = {
 }
 
 export type CultureData = {
-	cultureType?: CultureType
+	lookingFor?: boolean
+	macroCategory?: CultureType
 	title?: string
 	description?: string
 	locationView?: LocationViewType
@@ -209,7 +216,8 @@ export type CultureData = {
 }
 
 export type SocialImpactData = {
-	socialImpactType?: SocialImpactType
+	lookingFor?: boolean
+	macroCategory?: SocialImpactType
 	title?: string
 	description?: string
 	tags?: string[]

@@ -80,7 +80,7 @@ function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 				relativeHeight={'30%'}
 			>
 				<InstructionCard
-					message={`olá, ${userName.split(' ')[0]} \npor que você tá no corre.?`}
+					message={`olá, ${userName.split(' ')[0]} ! \npor que você tá no corre.?`}
 					highlightedWords={[`${userName.split(' ')[0]}`, '\ntá', 'corre.']}
 					fontSize={16}
 				/>

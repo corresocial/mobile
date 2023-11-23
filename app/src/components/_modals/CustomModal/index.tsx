@@ -21,7 +21,7 @@ import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { FocusAwareStatusBar } from '../../FocusAwareStatusBar'
-import { VerticalSigh } from '../../VerticalSigh'
+import { VerticalSpacing } from '../../_space/VerticalSpacing'
 import { SmallButton } from '../../_buttons/SmallButton'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 
@@ -29,6 +29,7 @@ interface CustomModalProps {
 	visibility: boolean
 	title?: string
 	titleHighlightedWords?: string[]
+	titleAlign?: TextStyle['textAlign']
 	TitleIcon?: React.FC<SvgProps>
 	firstParagraph?: {
 		text?: string
@@ -70,6 +71,7 @@ function CustomModal({
 	visibility,
 	title,
 	titleHighlightedWords,
+	titleAlign,
 	TitleIcon,
 	withoutStatusBar,
 	firstParagraph,
@@ -111,9 +113,10 @@ function CustomModal({
 				<Content>
 					<ContentInner>
 						<Header>
-							{TitleIcon && <TitleIcon width={'20%'} height={'100%'} style={iconStyle} />}
+							{TitleIcon && <TitleIcon width={'20%'} style={iconStyle} />}
 							<Title
 								hasHighlightedWords={!!titleHighlightedWords}
+								textAlign={titleAlign}
 							>
 								{titleHighlightedWords ? showMessageWithHighlight(title || '', titleHighlightedWords) : title}
 
@@ -185,7 +188,7 @@ function CustomModal({
 										svgIconScale={['40%', '25%']}
 										onPress={() => closeModalAfterOnPress(affirmativeButton.onPress)}
 									/>
-									{negativeButton && <VerticalSigh />}
+									{negativeButton && <VerticalSpacing />}
 								</>
 							)
 						}

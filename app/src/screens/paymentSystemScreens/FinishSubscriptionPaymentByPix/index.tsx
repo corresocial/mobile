@@ -21,7 +21,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { SmallInstructionCard } from '../../../components/SmallInstructionCard'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Timer } from '../../../components/Timer'
@@ -115,7 +115,7 @@ function FinishSubscriptionPaymentByPix({ route, navigation }: FinishSubscriptio
 						<Title>{showMessageWithHighlight('resumo de valores', ['resumo'])}</Title>
 					</TitleArea>
 					<SmallInstructionCard text={getRangeSubscriptionPlanText(subscriptionRange, subscriptionPlan)} />
-					<VerticalSigh />
+					<VerticalSpacing />
 					<SmallInstructionCard text={'r$ 20,00'} highlight />
 
 					<PaymentStatusArea>
@@ -162,7 +162,7 @@ function FinishSubscriptionPaymentByPix({ route, navigation }: FinishSubscriptio
 						SecondSvgIcon={CopyWhiteIcon}
 						onPress={copyToClipboard}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<PrimaryButton
 						color={theme.white2}
 						label={'como funciona?'}

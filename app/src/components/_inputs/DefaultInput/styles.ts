@@ -5,6 +5,7 @@ import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 interface ContainerProps {
 	multiline?: boolean
+	hasMultipleInputs?: boolean
 	multilineInputHeight?: number
 	width?: string
 	height?: number
@@ -19,7 +20,7 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
 
     aling-items: center;
     justify-content: flex-start;
-	padding-horizontal: ${RFValue(20)}px;
+	padding-horizontal: ${({ hasMultipleInputs }) => (hasMultipleInputs ? RFValue(7) : RFValue(20))}px;
 	padding-top: ${RFValue(12)}px;
 	padding-bottom: ${RFValue(20)}px;
 	border-radius: ${RFValue(15)}px;
@@ -71,12 +72,12 @@ export const TextInput = styled.TextInput<TextInputProps>`
 	text-align: ${({ textAlign }) => textAlign};
 	text-align-vertical: ${({ hasMultiline }) => (hasMultiline ? 'top' : 'center')};
 	width: ${({ hasIcon }) => (hasIcon ? '85%' : '100%')};
-	padding-right: ${RFValue(5)}px;
 
     font-family: Arvo_400Regular;
     text-justify: center;
+
 	color: ${({ theme }) => theme.black4};
-    max-Height: ${relativeScreenHeight(25)}px;
+    max-height: ${relativeScreenHeight(25)}px;
 `
 
 export const SideButtonContainer = styled.TouchableOpacity`

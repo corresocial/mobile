@@ -16,14 +16,14 @@ import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 
 interface CultureTypeCardProps {
 	title?: string
-	cultureType?: CultureType
+	macroCategory?: CultureType
 	hightligtedWords?: string[]
 	onEdit?: () => void
 }
 
-function CultureTypeCard({ title, cultureType, hightligtedWords, onEdit }: CultureTypeCardProps) {
+function CultureTypeCard({ title, macroCategory, hightligtedWords, onEdit }: CultureTypeCardProps) {
 	const getRelativeCultureType = () => {
-		switch (cultureType) {
+		switch (macroCategory) {
 			case 'art': return showMessageWithHighlight('postando arte', ['arte'])
 			case 'event': return showMessageWithHighlight('postando evento', ['evento'])
 			case 'education': return showMessageWithHighlight('postando educação', ['educação'])
@@ -32,7 +32,7 @@ function CultureTypeCard({ title, cultureType, hightligtedWords, onEdit }: Cultu
 	}
 
 	const getRelativeValueIcon = () => {
-		switch (cultureType) {
+		switch (macroCategory) {
 			case 'art': return ColorPaletWhiteIcon
 			case 'event': return CalendarEverydayWhiteIcon
 			case 'education': return BooksWhiteIcon

@@ -5,7 +5,6 @@ import PersonWithSuitCaseIcon from '../../../assets/icons/personWithSuitCase-whi
 import SuitCaseIcon from '../../../assets/icons/suitCase-white.svg'
 
 import { SelectVacancyPurposeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
-import { VacancyPurpose } from '../../../services/firebase/types'
 
 import { VacancyContext } from '../../../contexts/VacancyContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -23,14 +22,14 @@ function SelectVacancyPurpose({ route, navigation }: SelectVacancyPurposeScreenP
 		}
 	}, [])
 
-	const saveWorkplaceType = (vacancyPurpose: VacancyPurpose) => {
+	const saveVacancyPurpose = (lookingFor: boolean) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ vacancyPurpose })
+			addNewUnsavedFieldToEditContext({ lookingFor })
 			navigation.goBack()
 			return
 		}
 
-		setVacancyDataOnContext({ vacancyPurpose })
+		setVacancyDataOnContext({ lookingFor })
 
 		navigation.navigate('SelectVacancyCategory')
 	}
@@ -41,7 +40,7 @@ function SelectVacancyPurpose({ route, navigation }: SelectVacancyPurposeScreenP
 		<PostSelectButton
 			title={'você está \nprocurando uma vaga \nou um profissional?'}
 			highlightedWords={['vaga', 'profissional']}
-			headerBackgroundColor={theme.yellow2}
+			headerBackgroundColor={theme.green2}
 			backgroundColor={theme.white3}
 			progress={[1, isSecondPost ? 6 : 7]}
 			navigateBackwards={() => navigation.goBack()}
@@ -53,9 +52,9 @@ function SelectVacancyPurpose({ route, navigation }: SelectVacancyPurposeScreenP
 				relativeHeight={'28%'}
 				SvgIcon={SuitCaseIcon}
 				svgIconScale={['50%', '50%']}
-				leftSideColor={theme.yellow3}
+				leftSideColor={theme.green3}
 				leftSideWidth={'25%'}
-				onPress={() => saveWorkplaceType('findProffessional')}
+				onPress={() => saveVacancyPurpose(false)}
 			/>
 			<OptionButton
 				label={'procurando \nvaga'}
@@ -64,9 +63,9 @@ function SelectVacancyPurpose({ route, navigation }: SelectVacancyPurposeScreenP
 				relativeHeight={'28%'}
 				SvgIcon={PersonWithSuitCaseIcon}
 				svgIconScale={['45%', '45%']}
-				leftSideColor={theme.yellow3}
+				leftSideColor={theme.green3}
 				leftSideWidth={'25%'}
-				onPress={() => saveWorkplaceType('findVacancy')}
+				onPress={() => saveVacancyPurpose(true)}
 			/>
 		</PostSelectButton>
 	)

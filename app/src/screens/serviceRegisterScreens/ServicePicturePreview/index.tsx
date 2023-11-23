@@ -31,9 +31,9 @@ function ServicePicturePreview({ route, navigation }: ServicePicturePreviewScree
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostPicturePreview
-				backgroundColor={theme.purple2}
+				backgroundColor={theme.green2}
 				editMode={editModeIsTrue()}
 				initialValue={route.params?.initialValue || []}
 				navigateBackwards={() => navigation.goBack()}

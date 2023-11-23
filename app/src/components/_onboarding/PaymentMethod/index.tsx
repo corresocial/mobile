@@ -16,7 +16,7 @@ import { BackButton } from '../../_buttons/BackButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { OptionButton } from '../../_buttons/OptionButton'
-import { HorizontalSpacing } from '../../HorizontalSpacing'
+import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
 import { SmallButton } from '../../_buttons/SmallButton'
 
 interface PaymentMethodProps {
@@ -81,7 +81,7 @@ function PaymentMethod({
 						labelSize={18}
 						relativeHeight={'22%'}
 						SvgIcon={isVacancy ? CashWhiteIcon : SalesCartWhiteIcon}
-						svgIconScale={['55%', '55%']}
+						svgIconScale={['70%', '70%']}
 						leftSideColor={itemsColor}
 						leftSideWidth={'25%'}
 						onPress={() => savePaymentMethod('sale')}
@@ -104,7 +104,8 @@ function PaymentMethod({
 						relativeHeight={'23%'}
 						SvgIcon={isVacancy ? CashWhiteIcon : SalesCartWhiteIcon}
 						SecondSvgIcon={ExchangeWhiteIcon}
-						svgIconScale={['45%', '55%']}
+						svgIconScale={['45%', '70%']}
+						secondSvgIconScale={['45%', '55%']}
 						leftSideColor={itemsColor}
 						leftSideWidth={'25%'}
 						onPress={() => savePaymentMethod('both')}

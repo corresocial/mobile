@@ -3,6 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { CultureStackParamList } from '../types'
 
 export type SelectCultureTypeScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureType'>
+export type SelectCulturePurposeScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCulturePurpose'>
 export type InsertCultureDescriptionScreenProps = NativeStackScreenProps<CultureStackParamList, 'InsertCultureDescription'>
 export type CulturePicturePreviewScreenProps = NativeStackScreenProps<CultureStackParamList, 'CulturePicturePreview'>
 export type SelectCultureCategoryScreenProps = NativeStackScreenProps<CultureStackParamList, 'SelectCultureCategory'>

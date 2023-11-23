@@ -8,7 +8,7 @@ import { updatePost } from '../post/updatePost'
 import { PostCollection } from '../types'
 import { updateUser } from '../user/updateUser'
 
-const updatePostFieldsName = async () => {
+const updatePostFieldsDescriptionName = async () => {
 	const docs: any = []
 
 	const usersQuery = query(collection(firestore, 'users'))
@@ -66,4 +66,4 @@ const updatePostFieldsName = async () => {
 	})
 }
 
-export { updatePostFieldsName }
+export { updatePostFieldsDescriptionName }

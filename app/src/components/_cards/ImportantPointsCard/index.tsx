@@ -3,11 +3,13 @@ import uuid from 'react-uuid'
 
 import { ImportantPointsContainer } from './styles'
 import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
+import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { PostInfoRow } from '../../PostInfoRow'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import { arrayIsEmpty } from '../../../common/auxiliaryFunctions'
 
 interface ImportantPointsCardProps {
 	title?: string
@@ -26,9 +28,13 @@ function ImportantPointsCard({ title, importantPoints = [], onEdit }: ImportantP
 		))
 	}
 
+	const getHeaderRightIcon = () => {
+		return arrayIsEmpty(importantPoints) ? PlusWhiteIcon : undefined
+	}
+
 	return (
 		<DefaultCardContainer>
-			<EditHeaderContainer onPress={onEdit}>
+			<EditHeaderContainer onPress={onEdit} RightIcon={getHeaderRightIcon()}>
 				<DefaultHeaderTitle
 					title={title || 'importante'}
 					highlightedWords={['importante']}
@@ -36,9 +42,13 @@ function ImportantPointsCard({ title, importantPoints = [], onEdit }: ImportantP
 					dimensions={32}
 				/>
 			</EditHeaderContainer>
-			<ImportantPointsContainer>
-				{renderImportantPoints()}
-			</ImportantPointsContainer>
+			{
+				!arrayIsEmpty(importantPoints) && (
+					<ImportantPointsContainer>
+						{renderImportantPoints()}
+					</ImportantPointsContainer>
+				)
+			}
 		</DefaultCardContainer >
 	)
 }

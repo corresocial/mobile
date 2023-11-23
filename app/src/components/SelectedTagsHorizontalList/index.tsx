@@ -2,11 +2,12 @@ import React, { useRef } from 'react'
 import { ScrollView } from 'react-native'
 import uuid from 'react-uuid'
 
-import { Sigh, TagsSelectedArea } from './styles'
+import { TagsSelectedArea } from './styles'
 import xBold from '../../assets/icons/x-bold.svg'
 import { relativeScreenWidth } from '../../common/screenDimensions'
 
 import { SelectButton } from '../_buttons/SelectButton'
+import { HorizontalSpacing } from '../_space/HorizontalSpacing'
 
 interface SelectedTagsHorizontalListProps {
 	selectedTags: string[]
@@ -51,7 +52,7 @@ function SelectedTagsHorizontalList({ selectedTags, backgroundSelected, onSelect
 				scrollsToTop
 				contentContainerStyle={{ paddingLeft: relativeScreenWidth(2) }}
 			>
-				<Sigh />
+				<HorizontalSpacing width={relativeScreenWidth(6)} />
 				{renderSelectedTags()}
 			</ScrollView>
 		</TagsSelectedArea>

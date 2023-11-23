@@ -14,7 +14,7 @@ import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { BackButton } from '../../_buttons/BackButton'
-import { HorizontalSpacing } from '../../HorizontalSpacing'
+import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
 import { SmallButton } from '../../_buttons/SmallButton'
 import { DefaultInput } from '../../_inputs/DefaultInput'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { Container, ButtonsContainer, Sigh } from './styles'
+import { Container, ButtonsContainer } from './styles'
 import { theme } from '../../../common/theme'
 
 import { ContactUsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -10,6 +10,7 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 
 function ContactUs({ navigation }: ContactUsScreenProps) {
 	return (
@@ -21,7 +22,7 @@ function ContactUs({ navigation }: ContactUsScreenProps) {
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
-				<Sigh />
+				<VerticalSpacing />
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={15}

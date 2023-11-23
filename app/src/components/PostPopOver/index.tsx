@@ -3,7 +3,7 @@ import { TouchableOpacity, View } from 'react-native'
 import Popover from 'react-native-popover-view'
 
 import { RFValue } from 'react-native-responsive-fontsize'
-import { CloseIcon, Container, ContainerInner, PostTitle, Sigh } from './styles'
+import { CloseIcon, Container, ContainerInner, PostTitle } from './styles'
 import { relativeScreenHeight } from '../../common/screenDimensions'
 import { theme } from '../../common/theme'
 import XWhiteIcon from '../../assets/icons/x-white.svg'
@@ -14,6 +14,7 @@ import DeniedWhiteIcon from '../../assets/icons/denied-white.svg'
 import { PrimaryButton } from '../_buttons/PrimaryButton'
 import { Loader } from '../Loader'
 import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
+import { VerticalSpacing } from '../_space/VerticalSpacing'
 
 interface PostPopOverProps {
 	postTitle?: string
@@ -80,7 +81,7 @@ function PostPopOver({
 										{
 											deletePost && (
 												<>
-													<Sigh />
+													<VerticalSpacing height={RFValue(8)} />
 													<PrimaryButton
 														color={theme.red3}
 														onPress={deletePost}

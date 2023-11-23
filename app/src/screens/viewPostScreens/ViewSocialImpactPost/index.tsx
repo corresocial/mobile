@@ -28,7 +28,7 @@ import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { ExhibitionPlaceCard } from '../../../components/_cards/ExhibitionPlace'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { SocialImpactTypeCard } from '../../../components/_cards/SocialImpactType'
@@ -89,7 +89,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('EditSocialImpactPost' as any, { postData: { ...postData, ...editDataContext.saved } })
+		navigation.navigate('EditSocialImpactPost', { postData: { ...postData, ...editDataContext.saved } })
 	}
 
 	const sharePost = () => {
@@ -144,11 +144,16 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 	}
 
 	const getCategoryLabel = () => {
-		const categoryField = getPostField('category') as SocialImpactCategories
-		if (Object.keys(socialImpactCategories).includes(categoryField)) {
-			return socialImpactCategories[categoryField].label
+		try {
+			const categoryField = getPostField('category') as SocialImpactCategories
+			if (Object.keys(socialImpactCategories).includes(categoryField)) {
+				return socialImpactCategories[categoryField].label
+			}
+			return ''
+		} catch (err) {
+			console.log(err)
+			return ''
 		}
-		return ''
 	}
 
 	const getPostField = (fieldName: keyof SocialImpactCollection, allowNull?: boolean) => {
@@ -178,7 +183,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					onBackPress={() => navigation.goBack()}
 					text={getPostField('description')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<UserAndValueContainer>
 					<SmallUserIdentification
 						userName={postData.owner ? postData.owner.name : 'usuário do corre.'}
@@ -190,7 +195,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						navigateToProfile={navigateToProfile}
 					/>
 				</UserAndValueContainer>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<OptionsArea>
 					{
 						!isAuthor && (
@@ -232,7 +237,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 				</OptionsArea>
 			</Header>
 			<ScrollView showsVerticalScrollIndicator={false}	>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<HorizontalTagList
 					tags={[getCategoryLabel(), ...getPostField('tags')]}
 					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
@@ -240,16 +245,16 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					onSelectTag={() => { }}
 				/>
 				<Body>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<SocialImpactTypeCard
 						title={'tipo de impacto'}
-						socialImpactType={getPostField('socialImpactType')}
+						macroCategory={getPostField('macroCategory')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<DescriptionCard
 						text={getPostField('description')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					{
 						!arrayIsEmpty(getPostField('picturesUrl')) && (
 							<>
@@ -264,12 +269,12 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					<ExhibitionPlaceCard
 						exhibitionPlace={getPostField('exhibitionPlace')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<LocationViewCard
 						locationView={getPostField('locationView')}
 						location={getPostField('location')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<DateTimeCard
 						weekDaysfrequency={getPostField('exhibitionFrequency')}
 						daysOfWeek={getPostField('daysOfWeek', true)}
@@ -279,7 +284,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						endTime={getPostField('endHour', true)}
 						repetition={getPostField('repeat')}
 					/>
-					<VerticalSigh bottomNavigatorSpace />
+					<VerticalSpacing bottomNavigatorSpace />
 				</Body>
 			</ScrollView>
 		</Container >

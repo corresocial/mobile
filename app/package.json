@@ -30,7 +30,6 @@
 	},
 	"dependencies": {
 		"@expo-google-fonts/arvo": "^0.2.2",
-		"@expo/vector-icons": "^13.0.0",
 		"@react-native-async-storage/async-storage": "~1.17.3",
 		"@react-native-community/clipboard": "^1.5.1",
 		"@react-navigation/bottom-tabs": "^6.4.0",

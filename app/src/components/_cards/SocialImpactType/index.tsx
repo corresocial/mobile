@@ -16,14 +16,14 @@ import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 
 interface SocialImpactTypeCardProps {
 	title?: string
-	socialImpactType?: SocialImpactType
+	macroCategory?: SocialImpactType
 	hightligtedWords?: string[]
 	onEdit?: () => void
 }
 
-function SocialImpactTypeCard({ title, socialImpactType, hightligtedWords, onEdit }: SocialImpactTypeCardProps) {
+function SocialImpactTypeCard({ title, macroCategory, hightligtedWords, onEdit }: SocialImpactTypeCardProps) {
 	const getRelativeSocialImpactType = () => {
-		switch (socialImpactType) {
+		switch (macroCategory) {
 			case 'informative': return showMessageWithHighlight('conteúdo informativo', ['informativo'])
 			case 'iniciative': return showMessageWithHighlight('iniciativa social', ['social'])
 			case 'donation': return showMessageWithHighlight('doação ou voluntariado', ['doação', 'voluntariado'])
@@ -32,7 +32,7 @@ function SocialImpactTypeCard({ title, socialImpactType, hightligtedWords, onEdi
 	}
 
 	const getRelativeValueIcon = () => {
-		switch (socialImpactType) {
+		switch (macroCategory) {
 			case 'informative': return PaperInfoWhite
 			case 'iniciative': return HeartAndPersonWhiteIcon
 			case 'donation': return HandOnHeartWhiteIcon

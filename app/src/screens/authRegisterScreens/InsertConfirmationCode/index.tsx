@@ -19,12 +19,12 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { LineInput } from '../../../components/LineInput'
 import { Loader } from '../../../components/Loader'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { Id } from '../../../services/firebase/types'
 import Firebase from '../../../services/firebase'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { DefaultInput } from '../../../components/_inputs/DefaultInput'
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
 	const { validateVerificationCode, setRemoteUserOnLocal, sendSMS } = useContext(AuthContext)
@@ -304,7 +304,7 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 						fontSize={16}
 					/>
 				</InstructionButtonContainer>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<InstructionButtonContainer withPaddingLeft>
 					<InstructionCard
 						fontSize={16}
@@ -313,7 +313,6 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 						highlightedWords={getFormatedCellNumber().split(' ')}
 
 					>
-						{/* <SmartphoneWhiteIcon width={50} height={50} /> */}
 					</InstructionCard>
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>
@@ -324,20 +323,19 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 							const isFirstInput = index === 0
 							const isLastInput = index === inputsConfig.length - 1 && true
 							return (
-								<LineInput
+								<DefaultInput
 									key={inputConfig.key}
 									value={inputConfig.field}
 									relativeWidth={'14%'}
 									textInputRef={inputConfig.ref}
 									lastInput={isLastInput}
+									fontSize={17}
+									hasMultipleInputs
 									previousInputRef={isLastInput ? null : !isFirstInput && inputsConfig[index - 1].ref}
 									nextInputRef={!isLastInput && inputsConfig[index + 1].ref}
 									defaultBackgroundColor={theme.white2}
-									defaultBorderBottomColor={theme.black4}
 									validBackgroundColor={theme.blue1}
-									validBorderBottomColor={theme.blue5}
 									invalidBackgroundColor={getRelativeInputErrorStyle()}
-									invalidBorderBottomColor={theme.black4}
 									maxLength={1}
 									textIsValid={insertedCodeIsValid}
 									invalidTextAfterSubmit={invalidCodeAfterSubmit || expiredCodeAfterSubmit}

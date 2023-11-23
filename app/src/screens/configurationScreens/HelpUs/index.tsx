@@ -3,7 +3,7 @@ import { Linking, StatusBar } from 'react-native'
 
 import { share } from '../../../common/share'
 
-import { Container, ButtonsContainer, Sigh } from './styles'
+import { Container, ButtonsContainer } from './styles'
 import { theme } from '../../../common/theme'
 import HandOnHeartWhiteIcon from '../../../assets/icons/handOnHeart-white.svg'
 import HandOnPersonWhiteIcon from '../../../assets/icons/handOnPerson-white.svg'
@@ -16,6 +16,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 
 function HelpUs({ navigation }: HelpUsScreenProps) {
 	const shareMessage = () => {
@@ -45,7 +46,7 @@ function HelpUs({ navigation }: HelpUsScreenProps) {
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
-				<Sigh />
+				<VerticalSpacing height={relativeScreenHeight(3)} />
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={16}

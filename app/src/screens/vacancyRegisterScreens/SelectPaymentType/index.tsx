@@ -50,10 +50,10 @@ function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) 
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PaymentMethod
-				backgroundColor={theme.yellow2}
-				itemsColor={theme.yellow3}
+				backgroundColor={theme.green2}
+				itemsColor={theme.green3}
 				customTitle={'qual é o tipo de remuneração?'}
 				customHighlight={['tipo', 'de', 'remuneração']}
 				isVacancy

@@ -14,6 +14,7 @@ import { SmallButton } from '../_buttons/SmallButton'
 
 interface DefaultPostViewHeaderProps {
 	text?: string
+	textPath?: string
 	highlightedWords?: string[]
 	path?: boolean
 	showResults?: boolean
@@ -30,6 +31,7 @@ interface DefaultPostViewHeaderProps {
 
 function DefaultPostViewHeader({
 	text = '',
+	textPath = '',
 	highlightedWords = [],
 	path,
 	showResults,
@@ -46,12 +48,17 @@ function DefaultPostViewHeader({
 	const getTitleWidth = () => {
 		if (SvgIcon && path) return '50%'
 		if (SvgIcon && !path) return '65%'
+		if (path && !SvgIcon && textPath) return '30%'
 		if (path && !SvgIcon) return '65%'
 		if (endButton) return '70%'
 		return '85%'
 	}
 
 	const renderSvgIcon = () => {
+		if (path && textPath) {
+			return <PathTitle bold>{textPath}</PathTitle>
+		}
+
 		if (smallIconArea && SvgIcon) {
 			return <SvgIcon width={'20%'} height={'60%'} />
 		}

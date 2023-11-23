@@ -22,8 +22,12 @@ export const Title = styled.Text`
 	width: 85%;
 `
 
-export const PathTitle = styled.Text`
-	font-family: Arvo_400Regular;
+interface PathTitleProps {
+	bold?: boolean
+}
+
+export const PathTitle = styled.Text<PathTitleProps>`
+	font-family: ${({ bold }) => (bold ? 'Arvo_700Bold' : 'Arvo_400Regular')};
 	font-size: ${RFValue(16)}px;
 	padding-horizontal: ${RFValue(10)}px;
 	max-width: 50%;

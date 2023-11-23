@@ -36,10 +36,10 @@ import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
-import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
+import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
 
 function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -150,11 +150,16 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	}
 
 	const getCategoryLabel = () => {
-		const categoryField = getPostField('category') as CultureCategories
-		if (Object.keys(cultureCategories).includes(categoryField)) {
-			return cultureCategories[categoryField].label
+		try {
+			const categoryField = getPostField('category') as CultureCategories
+			if (Object.keys(cultureCategories).includes(categoryField)) {
+				return cultureCategories[categoryField].label
+			}
+			return ''
+		} catch (err) {
+			console.log(err)
+			return ''
 		}
-		return ''
 	}
 
 	const getPostField = (fieldName: keyof CultureCollection, allowNull?: boolean) => {
@@ -184,7 +189,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					onBackPress={() => navigation.goBack()}
 					text={getPostField('description')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<UserAndValueContainer>
 					<SmallUserIdentification
 						userName={postData.owner ? postData.owner.name : 'usuário do corre.'}
@@ -196,7 +201,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						navigateToProfile={navigateToProfile}
 					/>
 				</UserAndValueContainer>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<OptionsArea>
 					{
 						!isAuthor && (
@@ -237,7 +242,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 				</OptionsArea>
 			</Header>
 			<ScrollView showsVerticalScrollIndicator={false} >
-				<VerticalSigh />
+				<VerticalSpacing />
 				<HorizontalTagList
 					tags={[getCategoryLabel(), ...getPostField('tags')]}
 					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
@@ -245,16 +250,16 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					onSelectTag={() => { }}
 				/>
 				<Body>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<CultureTypeCard
 						title={'tipo de cultura'}
-						cultureType={getPostField('cultureType')}
+						macroCategory={getPostField('macroCategory')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<DescriptionCard
 						text={getPostField('description')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					{
 						!arrayIsEmpty(getPostField('picturesUrl')) && (
 							<>
@@ -263,16 +268,22 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 									indicatorColor={theme.blue1}
 									square
 								/>
-								<VerticalSigh />
+								<VerticalSpacing />
 							</>
 						)
 					}
-					<PlaceModality
-						title={'como participar'}
-						hightligtedWords={['participar']}
-						placeModality={getPostField('eventPlaceModality')}
-					/>
-					<VerticalSigh />
+					{
+						getPostField('eventPlaceModality') && (
+							<>
+								<PlaceModality
+									title={'como participar'}
+									hightligtedWords={['participar']}
+									placeModality={getPostField('eventPlaceModality')}
+								/>
+								<VerticalSpacing />
+							</>
+						)
+					}
 					{
 						getPostField('entryValue', true) && (
 							<>
@@ -282,7 +293,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 									saleValue={getPostField('entryValue', true)}
 									isCulturePost
 								/>
-								<VerticalSigh />
+								<VerticalSpacing />
 							</>
 						)
 					}
@@ -291,7 +302,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						locationView={getPostField('locationView')}
 						location={getPostField('location')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<DateTimeCard
 						weekDaysfrequency={getPostField('exhibitionFrequency')}
 						daysOfWeek={getPostField('daysOfWeek', true)}
@@ -301,7 +312,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 						startTime={getPostField('startHour', true)}
 						endTime={getPostField('endHour')}
 					/>
-					<VerticalSigh bottomNavigatorSpace />
+					<VerticalSpacing bottomNavigatorSpace />
 				</Body>
 			</ScrollView>
 		</Container >

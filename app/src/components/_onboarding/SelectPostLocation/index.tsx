@@ -83,12 +83,6 @@ function SelectPostLocation({
 
 	const someInvalidFieldSubimitted = () => invalidAddressAfterSubmit
 
-	/* const validateAddress = (text: string) => {
-		setInvalidAddressAfterSubmit(false)
-		setValidAddress(false)
-		return validAddress
-	} */
-
 	const getCurrentPositionCoordinated = async () => {
 		const permission = await requestLocationPermission()
 		if (!permission) return
