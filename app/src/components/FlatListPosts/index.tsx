@@ -1,12 +1,11 @@
 import React, { JSXElementConstructor, ReactElement } from 'react'
-import { FlatList, Platform, RefreshControl } from 'react-native'
+import { FlatList, RefreshControl } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
 import { PostCollection } from '../../services/firebase/types'
 
 import { VerticalSpacing } from '../_space/VerticalSpacing'
 import { theme } from '../../common/theme'
-import { relativeScreenHeight } from '../../common/screenDimensions'
 
 interface FlatListPostsProps {
 	data: PostCollection[]
@@ -27,8 +26,6 @@ function FlatListPosts({
 	onEndReached,
 	onRefresh
 }: FlatListPostsProps) {
-	const deviceIsIOS = Platform.OS === 'ios'
-
 	return (
 		<FlatList
 			data={data}
@@ -37,7 +34,7 @@ function FlatListPosts({
 			ItemSeparatorComponent={() => <VerticalSpacing />}
 			ListHeaderComponent={headerComponent}
 			ListHeaderComponentStyle={{ marginBottom: RFValue(0) }}
-			ListFooterComponent={withoutFooter ? <></> : <VerticalSpacing height={deviceIsIOS ? relativeScreenHeight(4) : relativeScreenHeight(1.5)} />}
+			ListFooterComponent={withoutFooter ? <></> : <VerticalSpacing />}
 			onEndReached={onEndReached}
 			refreshControl={(
 				<RefreshControl

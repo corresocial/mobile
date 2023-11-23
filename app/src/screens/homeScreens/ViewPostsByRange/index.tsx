@@ -1,11 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { Platform } from 'react-native'
 
-import { RFValue } from 'react-native-responsive-fontsize'
-
-import { Body, Container, ContainerPadding, Header, InputContainer, SearchInput } from './styles'
+import { Body, Container, ContainerPadding, Header, InputContainer } from './styles'
 import { theme } from '../../../common/theme'
-import LoupIcon from '../../../assets/icons/loup-white.svg'
 
 import { PostCollection, PostCollectionRemote } from '../../../services/firebase/types'
 import { ViewPostsByRangeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
@@ -20,6 +17,7 @@ import { FlatListPosts } from '../../../components/FlatListPosts'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { SearchParams } from '../../../services/maps/types'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { SearchInput } from '../../../components/_inputs/SearchInput'
 
 function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -127,15 +125,15 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 			<Header>
 				<DefaultPostViewHeader
 					text={getRelativeTitle()}
-					highlightedWords={['você', 'cidade', 'país', 'recentes']}
+					highlightedWords={['perto', 'cidade', 'país', 'recentes']}
 					onBackPress={() => navigation.goBack()}
 				/>
 				<InputContainer>
-					<LoupIcon width={RFValue(25)} height={RFValue(25)} />
 					<SearchInput
 						value={searchText}
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
+						validBackgroundColor={''}
 						onChangeText={(text: string) => setSearchText(text)}
 						onSubmitEditing={navigateToResultScreen}
 					/>

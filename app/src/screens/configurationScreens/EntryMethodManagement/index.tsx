@@ -285,7 +285,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 										/>
 									)
 								}
-								<VerticalSigh />
+								<VerticalSpacing />
 							</>
 						)
 				}
