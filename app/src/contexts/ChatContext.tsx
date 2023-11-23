@@ -57,9 +57,24 @@ function ChatProvider({ children }: ChatProviderProps) {
 	}, [])
 
 	const loadUserNotification = async () => {
-		registerForPushNotificationsAsync().then((token) => setExpoPushToken(token || '')) // TODO Type string
-		removeNotificationListeners()
-		addNotificationListeners()
+		try {
+			registerForPushNotificationsAsync().then((token) => {
+				Alert.alert(token)
+				setExpoPushToken(token || '')
+			}) // TODO Type string
+			removeNotificationListeners()
+			addNotificationListeners()
+			setPushNotificationState(true)
+		} catch (err) {
+			console.log('Erro em loadUserNotification')
+		}
+	}
+
+	const removeNotificationListeners = () => {
+		if (notificationListener && notificationListener.current) {
+			Notifications.removeNotificationSubscription(notificationListener.current)
+			Notifications.removeNotificationSubscription(responseListener.current)
+		}
 	}
 
 	const addNotificationListeners = () => {
@@ -70,13 +85,6 @@ function ChatProvider({ children }: ChatProviderProps) {
 		responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
 			console.log(response)
 		})
-	}
-
-	const removeNotificationListeners = () => {
-		if (notificationListener && notificationListener.current) {
-			Notifications.removeNotificationSubscription(notificationListener.current)
-			Notifications.removeNotificationSubscription(responseListener.current)
-		}
 	}
 
 	const registerForPushNotificationsAsync = async () => {
@@ -107,16 +115,19 @@ function ChatProvider({ children }: ChatProviderProps) {
 					const { status } = await Notifications.requestPermissionsAsync()
 					finalStatus = status
 				}
+
 				if (finalStatus !== 'granted') {
 					console.log('não permitiu notificações')
 					await getAndUpdateUserToken(userDataContext.userId as Id, null)
 					return
 				}
+
 				token = (await Notifications.getExpoPushTokenAsync()).data
 				await getAndUpdateUserToken(userDataContext.userId as Id, token)
-			} else {
-				console.log('Must use physical device for Push Notifications')
+
+				return token
 			}
+			Alert.alert('Must use physical device for Push Notifications')
 		} catch (err: any) {
 			console.log()
 			Alert.alert(err && err.message ? err.message : err)
