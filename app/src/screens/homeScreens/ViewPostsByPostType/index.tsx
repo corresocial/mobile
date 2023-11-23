@@ -245,7 +245,6 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
 						onPressKeyboardSubmit={navigateToResultScreen}
-						validBackgroundColor={''}
 					/>
 				</InputContainer>
 			</Header>

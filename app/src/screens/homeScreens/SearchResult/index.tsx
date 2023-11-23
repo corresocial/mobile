@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { RFValue } from 'react-native-responsive-fontsize'
-import { Container, Header, InputContainer, SearchInput } from './styles'
+import { Container, Header, InputContainer } from './styles'
 import { theme } from '../../../common/theme'
-import LoupIcon from '../../../assets/icons/loup-white.svg'
 
 import { FeedPosts, Id, PostCollection, PostRange, PostType } from '../../../services/firebase/types'
 import { SearchResultScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
@@ -16,6 +14,7 @@ import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { searchPostsCloud } from '../../../services/cloudFunctions/searchPostsCloud'
 import { FeedByRange } from '../../../components/FeedByRange'
+import { SearchInput } from '../../../components/_inputs/SearchInput'
 
 const initialFeedPosts = {
 	nearby: [],
@@ -46,8 +45,8 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 		console.log(`SEARCH TEXT: ${algoliaSearchText}`)
 
 		setLoaderIsVisible(true)
+		// await searchPosts(algoliaSearchText, searchParamsFromRoute, searchByRange)
 		await searchPostsCloud(algoliaSearchText, searchParamsFromRoute, searchByRange || false, userDataContext.userId as Id)
-			// await searchPosts(algoliaSearchText, searchParamsFromRoute, searchByRange)
 			.then((posts) => {
 				if (!posts) {
 					setResultPosts(initialFeedPosts as FeedPosts)
@@ -138,19 +137,17 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 			<Header>
 				<DefaultPostViewHeader
 					text={searchByRange ? route.params.categoryLabel : getRelativePath()}
-					// SvgIcon={getCategoryIcon()}
 					showResults={!searchByRange}
 					path={!searchByRange}
 					onBackPress={() => navigation.goBack()}
 				/>
 				<InputContainer>
-					<LoupIcon width={RFValue(25)} height={RFValue(25)} />
 					<SearchInput
 						value={searchText}
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
-						onSubmitEditing={searchPostByText}
+						onPressKeyboardSubmit={searchPostByText}
 					/>
 				</InputContainer>
 			</Header>

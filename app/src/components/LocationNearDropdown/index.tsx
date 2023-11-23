@@ -10,7 +10,6 @@ import {
 	DropdownHeader,
 	DropdownHeaderContainer,
 	IconArea,
-	SearchInput,
 	MyLocationButtonContainer,
 } from './styles'
 import { theme } from '../../common/theme'
@@ -28,6 +27,7 @@ import { SmallButton } from '../_buttons/SmallButton'
 import { PrimaryButton } from '../_buttons/PrimaryButton'
 import { DefaultDropdownHeader } from '../DefaultDropdownHeader'
 import { VerticalSpacing } from '../_space/VerticalSpacing'
+import { SearchInput } from '../_inputs/SearchInput'
 
 interface LocationNearDropdownProps {
 	selectedAddress: SelectedAddressRender

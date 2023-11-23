@@ -13,7 +13,6 @@ import {
 	Header,
 	IconArea,
 	OptionsArea,
-	SearchInput,
 	SearchInputContainer,
 	Title
 } from './styles'
@@ -34,6 +33,7 @@ import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ConversationCard } from '../../../components/_cards/ConversationCard'
 import { AlertContext } from '../../../contexts/AlertContext/index'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { SearchInput } from '../../../components/_inputs/SearchInput'
 
 function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

@@ -165,7 +165,6 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
 						onPressKeyboardSubmit={navigateToResultScreen}
-						validBackgroundColor={''}
 					/>
 				</InputContainer>
 			</Header>

@@ -35,16 +35,7 @@ export const SearchInputContainer = styled.View`
 	justify-content: space-between;
 	align-items: center;
 	padding: ${RFValue(5)}px;
-	border-bottom-width: ${RFValue(3)}px;
-	border-bottom-color: ${({ theme }) => theme.black4}
-`
-
-export const SearchInput = styled.TextInput`
-	width: 85%;
-	height: 100%;
-	font-size: ${RFValue(15)}px;
-	font-family: Arvo_400Regular;
-	text-align: left;
+	padding-bottom: 0px;
 `
 
 export const IconArea = styled.View`

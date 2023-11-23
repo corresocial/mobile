@@ -177,7 +177,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			case 'vacancy': return 'vagas'
 			case 'income': return 'renda'
 			case 'culture': return 'cultura'
-			case 'socialImpact': return 'impacto social'
+			case 'socialImpact': return 'cidadania'
 			default: return ''
 		}
 	}

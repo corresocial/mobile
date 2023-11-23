@@ -92,7 +92,6 @@ function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 						value={searchText}
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
-						validBackgroundColor={''}
 						onChangeText={(text: string) => setSearchText(text)}
 						onPressKeyboardSubmit={navigateToResultScreen}
 					/>

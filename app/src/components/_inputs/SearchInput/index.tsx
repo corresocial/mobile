@@ -8,7 +8,7 @@ import XWhiteIcon from '../../../assets/icons/x-white.svg'
 
 interface SearchInputProps extends TextInputProps {
 	value: string
-	validBackgroundColor: string
+	validBackgroundColor?: string
 	validateText?: (text: string) => void
 	onChangeText: (text: string) => void
 	onPressKeyboardSubmit?: () => void

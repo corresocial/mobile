@@ -121,7 +121,6 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
 						onPressKeyboardSubmit={navigateToResultScreen}
-						validBackgroundColor={''}
 					/>
 				</InputContainer>
 			</Header>

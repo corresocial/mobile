@@ -25,14 +25,6 @@ export const InputContainer = styled.View`
 	justify-content: space-between;
 `
 
-export const SearchInput = styled.TextInput`
-	width: 85%;
-	height: 100%;
-	font-size: ${RFValue(16)}px;
-	font-family: Arvo_400Regular;
-	text-align: center;
-`
-
 interface MacroCategoryContainerProps {
 	backgroundColor?: string
 }

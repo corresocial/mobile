@@ -133,9 +133,8 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 						value={searchText}
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
-						validBackgroundColor={''}
 						onChangeText={(text: string) => setSearchText(text)}
-						onSubmitEditing={navigateToResultScreen}
+						onPressKeyboardSubmit={navigateToResultScreen}
 					/>
 				</InputContainer>
 			</Header>
