@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useFocusEffect } from '@react-navigation/native'
 
 import { Platform } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
 import { theme } from '../../../common/theme'
 import HomeWhiteIcon from '../../../assets/icons/home-white.svg'
 import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
@@ -19,11 +20,13 @@ import { ProfileStack } from '../../Stack/ProfileStack'
 import { HomeStack } from '../../Stack/HomeStack'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { ChatStack } from '../../Stack/ChatStack'
+import { AlertContext } from '../../../contexts/AlertContext'
 
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
 export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 	const { stateDataContext, toggleTourModalVisibility, toggleShareModalVisibility } = useContext(StateContext)
+	const { notificationState } = useContext(AlertContext)
 
 	const handlerTourButton = { navigation }
 
@@ -59,6 +62,18 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 			: <ProfileWhiteIcon height={'40%'} width={'100%'} />
 	)
 
+	const getProfileNotification = () => {
+		if (notificationState.configNotificationButton || notificationState.configNotificationEntryMethod) {
+			return '!'
+		}
+		return undefined
+	}
+
+	const getChatNotification = () => {
+		if (notificationState.notificationAlertModal) return '!'
+		return undefined
+	}
+
 	return (
 		<Tab.Navigator
 			initialRouteName={route.params?.showsInFirstTab ? 'HomeStack' : 'ProfileStack'}
@@ -81,11 +96,14 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 					height: relativeScreenHeight(6.5)
 				},
 				tabBarBadgeStyle: {
-					borderRadius: 0,
+					borderRadius: 5,
+					backgroundColor: theme.pink3,
+					fontFamily: 'Arvo_700Bold',
+					fontSize: RFValue(10),
+					margin: RFValue(3),
 				},
 				tabBarActiveBackgroundColor: theme.orange3,
 				tabBarInactiveBackgroundColor: theme.white3,
-
 			}}
 		>
 			<Tab.Screen
@@ -106,7 +124,8 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 				name={'ChatStack'}
 				component={ChatStack}
 				options={{
-					tabBarIcon: ({ focused }) => renderChatIcon(focused)
+					tabBarIcon: ({ focused }) => renderChatIcon(focused),
+					tabBarBadge: getChatNotification()
 				}}
 			/>
 			<Tab.Screen
@@ -114,7 +133,8 @@ export function HomeTab({ route, navigation }: HomeTabScreenProps) {
 				component={ProfileStack}
 				options={{
 					headerTransparent: true,
-					tabBarIcon: ({ focused }) => renderProfileIcon(focused)
+					tabBarIcon: ({ focused }) => renderProfileIcon(focused),
+					tabBarBadge: getProfileNotification()
 				}}
 			/>
 		</ Tab.Navigator>
