@@ -153,7 +153,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 			await registerForPushNotificationsAsync()
 		} catch (err: any) {
 			console.log(err)
-			Alert.alert('erro', err && err.message ? err.message : err)
+			// Alert.alert('erro', err && err.message ? err.message : err)
 		}
 	}
 
@@ -197,7 +197,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 			}
 		} catch (err: any) {
 			console.log(err)
-			Alert.alert('erro', err && err.message ? err.message : err)
+			// Alert.alert('erro', err && err.message ? err.message : err)
 		}
 	}
 
