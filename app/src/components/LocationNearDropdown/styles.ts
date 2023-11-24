@@ -25,6 +25,7 @@ export const DropdownHeaderContainer = styled.View`
 	height: ${relativeScreenHeight(8)}px;
 	border-radius: ${RFValue(13)}px;
 	padding-horizontal: ${RFValue(15)}px;
+	padding-vertical: ${RFValue(10)}px;
 	padding-bottom: 0px;
 `
 
@@ -33,13 +34,6 @@ export const DropdownHeader = styled.TouchableOpacity`
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
-`
-
-export const IconArea = styled.View`
-	align-items: center;
-	justify-content: center;
-	width: 10%;
-	height: 100%;
 `
 
 export const DropdownBody = styled.View`

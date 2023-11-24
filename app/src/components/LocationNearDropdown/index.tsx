@@ -9,13 +9,10 @@ import {
 	DropdownBody,
 	DropdownHeader,
 	DropdownHeaderContainer,
-	IconArea,
 	MyLocationButtonContainer,
 } from './styles'
 import { theme } from '../../common/theme'
 import { relativeScreenHeight, statusBarHeight } from '../../common/screenDimensions'
-import LoupIcon from '../../assets/icons/loup-white.svg'
-import XIcon from '../../assets/icons/x-white.svg'
 import MapIcon from '../../assets/icons/mapPoint-white.svg'
 
 import { setRecentAddressOnStorage } from '../../utils/maps/recentAddresses'
@@ -23,7 +20,6 @@ import { setRecentAddressOnStorage } from '../../utils/maps/recentAddresses'
 import { AddressSearchResult, LatLong, SelectedAddressRender } from '../../services/maps/types'
 
 import { DropdownItem } from '../DropdownItem'
-import { SmallButton } from '../_buttons/SmallButton'
 import { PrimaryButton } from '../_buttons/PrimaryButton'
 import { DefaultDropdownHeader } from '../DefaultDropdownHeader'
 import { VerticalSpacing } from '../_space/VerticalSpacing'
@@ -118,24 +114,6 @@ function LocationNearDropdown({
 						? (
 							<DropdownHeaderContainer>
 								<DropdownHeader>
-									<IconArea>
-										{
-											!searchText.length
-												? <LoupIcon width={RFValue(22)} height={RFValue(22)} />
-												: (
-													<SmallButton
-														height={relativeScreenHeight(5)}
-														relativeWidth={relativeScreenHeight(5)}
-														color={theme.white3}
-														onPress={() => {
-															clearAddressSuggestions()
-															setSearchText('')
-														}}
-														SvgIcon={XIcon}
-													/>
-												)
-										}
-									</IconArea>
 									<SearchInput
 										value={searchText}
 										placeholder={'onde você tá?'}
@@ -144,7 +122,7 @@ function LocationNearDropdown({
 											setSearchText(text)
 											clearAddressSuggestions()
 										}}
-										onSubmitEditing={() => {
+										onPressKeyboardSubmit={() => {
 											findAddressSuggestions(searchText)
 										}}
 									/>
