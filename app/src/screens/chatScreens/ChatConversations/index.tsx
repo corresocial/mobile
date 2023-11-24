@@ -197,8 +197,8 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 							<SearchInputContainer>
 								<IconArea>
 									<SmallButton
-										height={relativeScreenHeight(5)}
-										relativeWidth={relativeScreenHeight(5)}
+										relativeWidth={relativeScreenWidth(12)}
+										height={relativeScreenWidth(12)}
 										color={theme.white3}
 										onPress={() => {
 											setSearchText('')
