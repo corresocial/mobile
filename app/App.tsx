@@ -21,9 +21,12 @@ import { LoaderProvider } from './src/contexts/LoaderContext'
 import { ErrorBoundaryContainer } from './src/components/_containers/ErrorBoundaryContainer'
 import { LoaderContainer } from './App.styles'
 import { AlertProvider } from './src/contexts/AlertContext/index'
+import { getEnvVars } from './environment'
+
+const { ENVIRONMENT } = getEnvVars()
 
 console.log(__DEV__)
-if (!__DEV__) {
+if (!__DEV__ && ENVIRONMENT === 'prod') {
 	Sentry.init(sentryConfig)
 }
 LogBox.ignoreLogs(ignoredLogs)
