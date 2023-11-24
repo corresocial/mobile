@@ -1,6 +1,6 @@
 import { onValue, ref } from 'firebase/database'
 import React, { MutableRefObject, createContext, useContext, useEffect, useRef, useState } from 'react'
-import { Alert, Platform } from 'react-native'
+import { Platform } from 'react-native'
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
 
