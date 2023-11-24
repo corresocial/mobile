@@ -137,7 +137,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 		}
 
 		if (!tokenAlreadyRegistred) {
-			// await getAndUpdateUserToken(userDataContext.userId as Id, null)
+			await getAndUpdateUserToken(userDataContext.userId as Id, null)
 			removeNotificationListeners()
 		}
 	}
