@@ -16,11 +16,13 @@ import { registerNewUser } from '../services/firebase/chat/registerNewUser'
 import { unsubscribeUserChatsListener } from '../services/firebase/chat/unsubscribeUserChatsListener'
 import { unsubscribeChatIdsListener } from '../services/firebase/chat/unsubscribeChatIdsListener'
 import { getAndUpdateUserToken } from '../services/firebase/chat/getAndUpdateUserToken'
+import { getRemoteUser } from '../services/firebase/chat/getRemoteUser'
 
 type ChatContextType = {
-	pushNotificationEnabled: boolean
-	setPushNotificationState: (state: boolean) => void
 	chatDataContext: Chat[]
+	pushNotificationEnabled: boolean
+	setPushNotificationState: (state: boolean) => Promise<void>
+	userHasTokenNotification: () => Promise<boolean>
 	initUserInstance: (userId?: Id) => void
 	removeChatListeners: () => void
 }
@@ -30,9 +32,10 @@ interface ChatProviderProps {
 }
 
 const initialValue = {
-	pushNotificationEnabled: false,
-	setPushNotificationState: (state: boolean) => { },
 	chatDataContext: [],
+	pushNotificationEnabled: false,
+	setPushNotificationState: (state: boolean) => new Promise<void>((resolve, reject) => { }),
+	userHasTokenNotification: () => new Promise<boolean>((resolve, reject) => { }),
 	initUserInstance: (userId?: Id) => { },
 	removeChatListeners: () => { },
 }
@@ -46,93 +49,13 @@ function ChatProvider({ children }: ChatProviderProps) {
 	const [chatDataContext, setChatsOnContext] = useState<Chat[]>([])
 	const [chatIdList, setChatIdList] = useState<string[]>([])
 
-	const [expoPushTokenState, setExpoPushToken] = useState('') // TODO Refactor
-	const [notificationState, setNotification] = useState(false)
 	const notificationListener: MutableRefObject<any> = useRef()
 	const responseListener: MutableRefObject<any> = useRef()
 
 	useEffect(() => {
 		initUserInstance()
-		// loadUserNotification()
+		checkUserRemoteNotificationState()
 	}, [])
-
-	const loadUserNotification = async () => {
-		try {
-			registerForPushNotificationsAsync().then((token) => {
-				Alert.alert(token)
-				setExpoPushToken(token || '')
-			}) // TODO Type string
-			removeNotificationListeners()
-			addNotificationListeners()
-			setPushNotificationState(true)
-		} catch (err) {
-			console.log('Erro em loadUserNotification')
-		}
-	}
-
-	const removeNotificationListeners = () => {
-		if (notificationListener && notificationListener.current) {
-			Notifications.removeNotificationSubscription(notificationListener.current)
-			Notifications.removeNotificationSubscription(responseListener.current)
-		}
-	}
-
-	const addNotificationListeners = () => {
-		notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
-			setNotification(!!notification)
-		})
-
-		responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
-			console.log(response)
-		})
-	}
-
-	const registerForPushNotificationsAsync = async () => {
-		try {
-			let token
-
-			Notifications.setNotificationHandler({
-				handleNotification: async () => ({
-					shouldShowAlert: true,
-					shouldPlaySound: false,
-					shouldSetBadge: false,
-				}),
-			})
-
-			if (Platform.OS === 'android') {
-				await Notifications.setNotificationChannelAsync('default', {
-					name: 'default',
-					importance: Notifications.AndroidImportance.MAX,
-					vibrationPattern: [0, 250, 250, 250],
-					lightColor: '#FF231F7C',
-				})
-			}
-
-			if (Device.isDevice) {
-				const { status: existingStatus } = await Notifications.getPermissionsAsync()
-				let finalStatus = existingStatus
-				if (existingStatus !== 'granted') {
-					const { status } = await Notifications.requestPermissionsAsync()
-					finalStatus = status
-				}
-
-				if (finalStatus !== 'granted') {
-					console.log('não permitiu notificações')
-					await getAndUpdateUserToken(userDataContext.userId as Id, null)
-					return
-				}
-
-				token = (await Notifications.getExpoPushTokenAsync()).data
-				await getAndUpdateUserToken(userDataContext.userId as Id, token)
-
-				return token
-			}
-			Alert.alert('Must use physical device for Push Notifications')
-		} catch (err: any) {
-			console.log()
-			Alert.alert(err && err.message ? err.message : err)
-		}
-	}
 
 	const initUserInstance = async (userId?: Id) => {
 		if (!await existsOnDatabase(userId || userDataContext.userId)) {
@@ -144,6 +67,11 @@ function ChatProvider({ children }: ChatProviderProps) {
 		console.log('CHAT: Usuário ativo...')
 
 		await startUserChatIdsListener(userDataContext.userId as Id)
+	}
+
+	const checkUserRemoteNotificationState = async () => {
+		const notificationAlreadyRegistred = await userHasTokenNotification()
+		await setPushNotificationState(notificationAlreadyRegistred, notificationAlreadyRegistred)
 	}
 
 	const startUserChatIdsListener = async (userId: Id) => {
@@ -199,16 +127,100 @@ function ChatProvider({ children }: ChatProviderProps) {
 			.filter((filteredChatIds) => filteredChatIds)
 	}
 
-	const setPushNotificationState = async (state: boolean) => {
+	const setPushNotificationState = async (state: boolean, tokenAlreadyRegistred?: boolean) => {
 		console.log(`Push Notification: ${state}`)
 		if (state === true) {
 			await loadUserNotification()
 			setPushNotificationEnabled(state)
+			addNotificationListeners()
 			return
 		}
 
-		await getAndUpdateUserToken(userDataContext.userId as Id, null)
-		await removeNotificationListeners()
+		if (!tokenAlreadyRegistred) {
+			// await getAndUpdateUserToken(userDataContext.userId as Id, null)
+			removeNotificationListeners()
+		}
+	}
+
+	const userHasTokenNotification = async () => {
+		const user = await getRemoteUser(userDataContext.userId || '')
+		if (user && user.tokenNotification) return true
+		return false
+	}
+
+	const loadUserNotification = async () => {
+		try {
+			await registerForPushNotificationsAsync()
+		} catch (err: any) {
+			console.log(err)
+			Alert.alert('erro', err && err.message ? err.message : err)
+		}
+	}
+
+	const registerForPushNotificationsAsync = async () => {
+		try {
+			let token
+
+			Notifications.setNotificationHandler({
+				handleNotification: async () => ({
+					shouldShowAlert: true,
+					shouldPlaySound: false,
+					shouldSetBadge: false,
+				}),
+			})
+
+			if (Platform.OS === 'android') {
+				await Notifications.setNotificationChannelAsync('default', {
+					name: 'default',
+					importance: Notifications.AndroidImportance.MAX,
+					vibrationPattern: [0, 250, 250, 250],
+					lightColor: '#FF231F7C',
+				})
+			}
+
+			if (Device.isDevice) {
+				const { status: existingStatus } = await Notifications.getPermissionsAsync()
+				let finalStatus = existingStatus
+				if (existingStatus !== 'granted') {
+					const { status } = await Notifications.requestPermissionsAsync()
+					finalStatus = status
+				}
+
+				if (finalStatus !== 'granted') {
+					console.log('não permitiu notificações')
+					await getAndUpdateUserToken(userDataContext.userId as Id, null)
+					return
+				}
+
+				token = (await Notifications.getExpoPushTokenAsync()).data
+				await getAndUpdateUserToken(userDataContext.userId as Id, token)
+			}
+		} catch (err: any) {
+			console.log(err)
+			Alert.alert('erro', err && err.message ? err.message : err)
+		}
+	}
+
+	const addNotificationListeners = () => {
+		if (notificationListener) {
+			console.log('Add notification Listener')
+			notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
+				// console.log(notification)
+			})
+
+			responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
+				// console.log(response)
+			})
+		}
+	}
+
+	const removeNotificationListeners = () => {
+		if (notificationListener && responseListener.current) {
+			console.log('Remove notification Listener')
+			Notifications.removeNotificationSubscription(notificationListener.current)
+			Notifications.removeNotificationSubscription(responseListener.current)
+			Notifications.removePushTokenSubscription(notificationListener.current)
+		}
 	}
 
 	const removeChatListeners = () => {
@@ -221,6 +233,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 	const chatProviderData = ({
 		pushNotificationEnabled,
 		setPushNotificationState,
+		userHasTokenNotification,
 		chatDataContext,
 		initUserInstance,
 		removeChatListeners

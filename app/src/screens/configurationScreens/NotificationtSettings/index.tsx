@@ -1,5 +1,5 @@
 import { Platform, StatusBar } from 'react-native'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import { Container, HeaderLinkCardContainer } from './styles'
 import { theme } from '../../../common/theme'
@@ -16,18 +16,37 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { ChatContext } from '../../../contexts/ChatContext'
+import { Loader } from '../../../components/Loader'
 
 function NotificationSettings({ route, navigation }: NotificationSettingsScreenProps) {
-	const { pushNotificationEnabled, setPushNotificationState } = useContext(ChatContext)
+	const { pushNotificationEnabled, setPushNotificationState, userHasTokenNotification } = useContext(ChatContext)
 
 	const [notificationIsEnabled, setNotificationIsEnabled] = useState(pushNotificationEnabled)
+	const [isLoading, setIsLoading] = useState(false)
 
-	const toggleNotificationState = async () => {
-		setPushNotificationState(!notificationIsEnabled)
-		setNotificationIsEnabled(!notificationIsEnabled)
-	}
+	useEffect(() => {
+		checkRemoteNotificationState()
+	}, [])
 
 	const navigateBackwards = () => navigation.goBack()
+
+	const checkRemoteNotificationState = async () => {
+		const userNotificationIsEnabled = await userHasTokenNotification()
+		setNotificationIsEnabled(userNotificationIsEnabled)
+	}
+
+	const toggleNotificationState = async () => {
+		try {
+			setIsLoading(true)
+			await setPushNotificationState(!notificationIsEnabled)
+			setNotificationIsEnabled(!notificationIsEnabled)
+			setTimeout(() => {
+				setIsLoading(false)
+			}, 2000)
+		} catch (err) {
+			setIsLoading(false)
+		}
+	}
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -48,17 +67,25 @@ function NotificationSettings({ route, navigation }: NotificationSettingsScreenP
 				</HeaderLinkCardContainer>
 			</DefaultHeaderContainer>
 			<FormContainer backgroundColor={theme.orange2}>
-				<OptionButton
-					label={`${notificationIsEnabled ? 'desligar' : 'ligar'} notificações`}
-					highlightedWords={['notificações', 'ligar', 'desligar']}
-					labelSize={17}
-					relativeHeight={relativeScreenHeight(15)}
-					SvgIcon={notificationIsEnabled ? XWhiteIcon : CheckWhiteIcon}
-					svgIconScale={['50%', '50%']}
-					leftSideColor={notificationIsEnabled ? theme.red3 : theme.green3}
-					leftSideWidth={'22%'}
-					onPress={toggleNotificationState}
-				/>
+				{
+					isLoading
+						? (
+							<Loader />
+						)
+						: (
+							<OptionButton
+								label={`${notificationIsEnabled ? 'desligar' : 'ligar'} notificações`}
+								highlightedWords={['notificações', 'ligar', 'desligar']}
+								labelSize={17}
+								relativeHeight={relativeScreenHeight(15)}
+								SvgIcon={notificationIsEnabled ? XWhiteIcon : CheckWhiteIcon}
+								svgIconScale={['50%', '50%']}
+								leftSideColor={notificationIsEnabled ? theme.red3 : theme.green3}
+								leftSideWidth={'22%'}
+								onPress={toggleNotificationState}
+							/>
+						)
+				}
 			</FormContainer>
 		</Container>
 	)
