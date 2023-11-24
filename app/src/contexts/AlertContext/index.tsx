@@ -1,8 +1,10 @@
 import React, { createContext, useMemo, useState, useCallback, useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useNavigation } from '@react-navigation/native'
 import { AlertNotificationModal } from '../../components/_modals/AlertNotificationModal'
 import { AlertContextProps, AlertProviderProps, InitialNotificationStateType } from './types'
 import { NewHomePresentationModal } from '../../components/_modals/NewHomePresentationModal'
+import { UserStackNavigationProps } from '../../routes/Stack/UserStack/types'
 
 const initialNotificationState = { // private
 	notificationAlertModal: true,
@@ -26,6 +28,8 @@ function AlertProvider({ children }: AlertProviderProps) {
 	const [alertNotificationModalIsVisible, setAlertNotificationIsVisible] = useState(false)
 
 	const [newHomePresentationModalIsVisible, setNewHomePresentationIsVisible] = useState(false)
+
+	const navigation = useNavigation<UserStackNavigationProps>()
 
 	useEffect(() => {
 		// AsyncStorage.removeItem('corre.alert')
@@ -61,6 +65,18 @@ function AlertProvider({ children }: AlertProviderProps) {
 		if (notificationState.newHomePresentationModal) setNewHomePresentationIsVisible(true)
 	}, [notificationState])
 
+	const handlerAlertNotificationModal = () => {
+		setAlertNotificationIsVisible(false)
+		updateNotificationState({ notificationAlertModal: false, configNotificationButton: false })
+		navigation.navigate('Configurations')
+		navigation.navigate('NotificationSettings')
+	}
+
+	const handleNewHomePresentationModal = () => {
+		setNewHomePresentationIsVisible(false)
+		updateNotificationState({ newHomePresentationModal: false })
+	}
+
 	const updateNotificationState = async (state: Partial<InitialNotificationStateType>) => {
 		setAlertNotificationIsVisible(false)
 		setNotificationState({ ...notificationState, ...state })
@@ -78,17 +94,11 @@ function AlertProvider({ children }: AlertProviderProps) {
 		<AlertContext.Provider value={alertDataProvider}>
 			<AlertNotificationModal
 				visibility={alertNotificationModalIsVisible}
-				onPressButton={() => {
-					setAlertNotificationIsVisible(false)
-					updateNotificationState({ notificationAlertModal: false })
-				}}
+				onPressButton={handlerAlertNotificationModal}
 			/>
 			<NewHomePresentationModal
 				visibility={newHomePresentationModalIsVisible}
-				onPressButton={() => {
-					setNewHomePresentationIsVisible(false)
-					updateNotificationState({ newHomePresentationModal: false })
-				}}
+				onPressButton={handleNewHomePresentationModal}
 			/>
 			{children}
 		</AlertContext.Provider>

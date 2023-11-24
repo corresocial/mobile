@@ -133,7 +133,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				<VerticalSpacing />
 				<OptionButton
 					label={'métodos de entrada'}
-					highlightedWords={['métodos', 'de', 'entrada']}
+					highlightedWords={['métodos', 'de', 'login']}
 					labelSize={18}
 					relativeHeight={relativeScreenHeight(9)}
 					SvgIcon={notificationState.configNotificationEntryMethod ? DescriptionAlertWhiteIcon : DescriptionWhiteIcon}
