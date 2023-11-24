@@ -217,9 +217,10 @@ function ChatProvider({ children }: ChatProviderProps) {
 	const removeNotificationListeners = () => {
 		if (notificationListener && responseListener.current) {
 			console.log('Remove notification Listener')
+			Notifications.removePushTokenSubscription(notificationListener.current)
 			Notifications.removeNotificationSubscription(notificationListener.current)
 			Notifications.removeNotificationSubscription(responseListener.current)
-			Notifications.removePushTokenSubscription(notificationListener.current)
+			Notifications.unregisterForNotificationsAsync()
 		}
 	}
 
