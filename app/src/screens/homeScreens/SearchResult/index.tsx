@@ -31,7 +31,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const [resultPosts, setResultPosts] = useState<FeedPosts>(initialFeedPosts)
 
 	const { searchByRange } = route.params
-	const { backgroundColor } = locationDataContext.currentCategory
+	const backgroundColor = searchByRange ? '' : locationDataContext.currentCategory.backgroundColor
 
 	useEffect(() => {
 		searchPostByText()

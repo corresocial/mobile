@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unused-prop-types */
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { ScrollView, TextInput } from 'react-native'
 import { formatRelativeDate } from '../../../common/auxiliaryFunctions'
 import { getLastMessageObjects, sortChatMessages } from '../../../utils/chat'
 
@@ -11,14 +12,16 @@ import {
 	ConversationArea,
 	ConversationList,
 	Header,
+	HorizontalHeaderScroll,
 	IconArea,
 	OptionsArea,
 	SearchInputContainer,
+	SelectPeriodButtonContainer,
 	Title
 } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import XIcon from '../../../assets/icons/x-white.svg'
+import AngleLeftWhiteIcon from '../../../assets/icons/angleLeft-white.svg'
 import LoupIcon from '../../../assets/icons/loup-white.svg'
 
 import { MessageObjects, Chat, UserIdentification, Message } from '../../../@types/chat/types'
@@ -42,7 +45,9 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 
 	const [searchText, setSearchText] = useState('')
 	const [filteredChats, setFilteredChats] = useState<Chat[]>([])
-	const [searchMode, setSearchMode] = useState(false)
+
+	const horizontalScrollViewRef = useRef<ScrollView>()
+	const searchInputRef = useRef<TextInput>()
 
 	useEffect(() => {
 		showAlertNotificationModal()
@@ -112,6 +117,21 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		return user1.profilePictureUrl
 	}
 
+	const showSearchInput = () => {
+		if (horizontalScrollViewRef.current) {
+			horizontalScrollViewRef.current.scrollToEnd({ animated: true })
+			if (searchInputRef && searchInputRef.current) {
+				setTimeout(() => (searchInputRef && searchInputRef.current) && searchInputRef.current.focus(), 300)
+			}
+		}
+	}
+
+	const hideSearchInput = () => {
+		if (horizontalScrollViewRef.current) {
+			horizontalScrollViewRef.current.scrollTo({ y: 0, animated: true })
+		}
+	}
+
 	const navigateToChatMessages = (item: Chat) => {
 		navigation.navigate('ChatMessages', { chat: { ...item } })
 	}
@@ -151,44 +171,54 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		<Container>
 			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
-				{
-					!searchMode ? (
-						<>
-							<Title>{'chats'}</Title>
-							<OptionsArea>
-								<SmallButton
-									color={theme.white3}
-									SvgIcon={LoupIcon}
-									relativeWidth={relativeScreenWidth(12)}
-									height={relativeScreenWidth(12)}
-									onPress={() => setSearchMode(true)}
-								/>
-							</OptionsArea>
-						</>
-					)
-						: (
+				<SearchInputContainer>
+					<HorizontalHeaderScroll
+						horizontal
+						showsHorizontalScrollIndicator={false}
+						pagingEnabled
+						ref={horizontalScrollViewRef}
+						contentContainerStyle={{ justifyContent: 'center', }}
+					>
+						<SelectPeriodButtonContainer>
+							<SearchInputContainer>
+								<Title>{'chats'}</Title>
+								<OptionsArea>
+									<SmallButton
+										color={theme.white3}
+										SvgIcon={LoupIcon}
+										relativeWidth={relativeScreenWidth(12)}
+										height={relativeScreenWidth(12)}
+										onPress={showSearchInput}
+									/>
+								</OptionsArea>
+							</SearchInputContainer>
+						</SelectPeriodButtonContainer>
+						<SelectPeriodButtonContainer>
 							<SearchInputContainer>
 								<IconArea>
 									<SmallButton
-										height={relativeScreenHeight(5)}
-										relativeWidth={relativeScreenHeight(5)}
+										relativeWidth={relativeScreenWidth(12)}
+										height={relativeScreenWidth(12)}
 										color={theme.white3}
 										onPress={() => {
 											setSearchText('')
-											setSearchMode(false)
+											hideSearchInput()
 										}}
-										SvgIcon={XIcon}
+										SvgIcon={AngleLeftWhiteIcon}
 									/>
 								</IconArea>
 								<SearchInput
 									value={searchText}
 									placeholder={'pesquisar conversas...'}
 									returnKeyType={'search'}
+									relativeWidth={'80%'}
+									searchInputRef={searchInputRef}
 									onChangeText={(text: string) => onChangeSearchText(text)}
 								/>
 							</SearchInputContainer>
-						)
-				}
+						</SelectPeriodButtonContainer>
+					</HorizontalHeaderScroll>
+				</SearchInputContainer>
 			</Header>
 			<ConversationArea>
 				{

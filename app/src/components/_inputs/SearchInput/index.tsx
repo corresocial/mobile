@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react'
-import { TextInputProps } from 'react-native'
+import React, { useState } from 'react'
+import { TextInput as TextInputNative, TextInputProps } from 'react-native'
 
 import { useTheme } from 'styled-components'
 import { Container, SideArea, TextInput } from './styles'
@@ -9,6 +9,8 @@ import XWhiteIcon from '../../../assets/icons/x-white.svg'
 interface SearchInputProps extends TextInputProps {
 	value: string
 	validBackgroundColor?: string
+	relativeWidth?: string
+	searchInputRef?: React.MutableRefObject<TextInputNative | undefined>
 	validateText?: (text: string) => void
 	onChangeText: (text: string) => void
 	onPressKeyboardSubmit?: () => void
@@ -20,12 +22,13 @@ function SearchInput({
 	placeholder,
 	keyboardType,
 	validateText,
+	relativeWidth,
+	searchInputRef,
 	onPressKeyboardSubmit,
 	onChangeText,
 	...propsRest
 }: SearchInputProps) {
 	const theme = useTheme()
-	const inputRef = useRef()
 
 	const [focused, setFocused] = useState(false)
 
@@ -39,6 +42,7 @@ function SearchInput({
 			textIsValid={validateText && validateText(value)}
 			validBackgroundColor={validBackgroundColor}
 			focused={focused}
+			relativeWidth={relativeWidth}
 		>
 			{
 				!somethingWasTyped && (
@@ -49,7 +53,7 @@ function SearchInput({
 			}
 			<TextInput
 				{...propsRest}
-				ref={inputRef}
+				ref={searchInputRef}
 				value={value}
 				keyboardType={keyboardType || 'ascii-capable'}
 				placeholder={placeholder || 'buscar'}

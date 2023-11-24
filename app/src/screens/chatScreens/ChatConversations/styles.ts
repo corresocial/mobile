@@ -2,17 +2,16 @@ import Constants from 'expo-constants'
 import { Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
 export const Container = styled.View`
 	flex: 1;
 	background-color: ${({ theme }) => theme.orange2};
 	padding-bottom: ${relativeScreenHeight(10)}px;
-	`
+`
 
 export const Header = styled.View`
 	width: 100%;
-	padding: ${RFValue(12)}px;
 	padding-top:${Platform.OS === 'ios' ? Constants.statusBarHeight : 0}px;
 	flex-direction: row;
 	justify-content: space-between;
@@ -34,8 +33,6 @@ export const SearchInputContainer = styled.View`
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	padding: ${RFValue(5)}px;
-	padding-bottom: 0px;
 `
 
 export const IconArea = styled.View`
@@ -51,4 +48,20 @@ export const ConversationArea = styled.View`
 
 export const ConversationList = styled.FlatList`
 	padding: ${RFValue(10)}px;
+`
+
+// Horizontal slider
+
+export const HorizontalHeaderScroll = styled.ScrollView`
+	width: 100%;
+	padding-bottom: ${RFValue(10)}px;
+`
+
+export const SelectPeriodButtonContainer = styled.View`
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
+	width: ${relativeScreenWidth(100)}px;
+	padding-horizontal: ${RFValue(15)}px;
+	padding-vertical: ${RFValue(5)}px};
 `
