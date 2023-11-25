@@ -1,6 +1,6 @@
 import { onValue, ref } from 'firebase/database'
 import React, { MutableRefObject, createContext, useContext, useEffect, useRef, useState } from 'react'
-import { Platform } from 'react-native'
+import { Alert, Platform } from 'react-native'
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
 
@@ -153,7 +153,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 			await registerForPushNotificationsAsync()
 		} catch (err: any) {
 			console.log(err)
-			// Alert.alert('erro', err && err.message ? err.message : err)
+			Alert.alert('erro', err && err.message ? err.message : err)
 		}
 	}
 
@@ -197,7 +197,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 			}
 		} catch (err: any) {
 			console.log(err)
-			// Alert.alert('erro', err && err.message ? err.message : err)
+			Alert.alert('erro', err && err.message ? err.message : err)
 		}
 	}
 
