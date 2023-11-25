@@ -294,6 +294,7 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const navigateToPostCategories = (postType: PostType) => {
+		if (!hasAnyPost()) return
 		setLocationDataOnContext({
 			searchParams: { ...locationDataContext.searchParams, postType }
 		})
