@@ -181,7 +181,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 					>
 						<SelectPeriodButtonContainer>
 							<SearchInputContainer>
-								<Title>{'chats'}</Title>
+								<Title>{'conversas'}</Title>
 								<OptionsArea>
 									<SmallButton
 										color={theme.white3}

@@ -25,7 +25,7 @@ function Post({ navigation, route }: HomeTabScreenProps) {
 	return (
 		<View style={{
 			flex: 1,
-			marginBottom: relativeScreenHeight(10)
+			marginBottom: relativeScreenHeight(7.5)
 		}}
 		>
 			<FocusAwareStatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
