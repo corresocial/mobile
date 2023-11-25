@@ -146,6 +146,12 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 		return currentMacroCategory.SvgIcon
 	}
 
+	const hasAnyFilteredCategory = () => {
+		const currentCategory = getRelativeCategory()
+		const filteredCategories = filterCategories(currentCategory)
+		return Object.keys(filteredCategories).length
+	}
+
 	const renderCategories = () => {
 		const currentCategory = getRelativeCategory()
 		if (!currentCategory) {
@@ -309,18 +315,26 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 					navigateToProfile={navigateToProfile}
 					goToPostView={goToPostView}
 				>
-					<SubtitleCard
-						text={'categorias'}
-						highlightedText={['categorias']}
-						seeMoreText
-						SvgIcon={OthersWhiteIcon}
-						onPress={() => navigation.navigate('ViewAllCategories')}
-					/>
-					<ScrollView showsVerticalScrollIndicator={false} horizontal >
-						<CategoryCardContainer >
-							{renderCategories()}
-						</CategoryCardContainer>
-					</ScrollView>
+					{
+						(hasAnyFilteredCategory())
+							? (
+								<>
+									<SubtitleCard
+										text={'categorias'}
+										highlightedText={['categorias']}
+										seeMoreText
+										SvgIcon={OthersWhiteIcon}
+										onPress={() => navigation.navigate('ViewAllCategories')}
+									/>
+									<ScrollView showsVerticalScrollIndicator={false} horizontal >
+										<CategoryCardContainer >
+											{renderCategories()}
+										</CategoryCardContainer>
+									</ScrollView>
+								</>
+							)
+							: <></>
+					}
 				</FeedByRange>
 			</KeyboardAvoidingView>
 		</Container>

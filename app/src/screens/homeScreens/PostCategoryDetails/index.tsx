@@ -66,7 +66,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	}
 
 	const getFiltredCategoryTags = () => {
-		const allTags = [...categoryTags, ...getFeedPostsTags()]
+		const allTags = [...categoryTags]
 
 		if (!searchText) {
 			return allTags
@@ -75,9 +75,20 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 		}
 
 		const filtredTags = allTags
-			.filter((tag) => !!tag.match(new RegExp(`${searchText}`, 'i'))?.length)
+			.filter((tag) => filterTag(tag, searchText))
 
 		return filtredTags.sort(sortArray)
+	}
+
+	const hasAnyFilteredCategory = () => {
+		const allTags = [...categoryTags, ...getFeedPostsTags()]
+		const filtredTags = allTags
+			.filter((tag, index, array) => filterTag(tag, searchText) && array.indexOf(tag) === index)
+		return filtredTags.length
+	}
+
+	const filterTag = (tag: string, matchText: string) => {
+		return !!tag.match(new RegExp(`${matchText}`, 'i'))?.length
 	}
 
 	const viewPostsByTag = (tagName: string) => {
@@ -176,38 +187,42 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 				goToPostView={goToPostView}
 			>
 				{
-					<>
-						<SubtitleCard
-							text={'tags'}
-							highlightedText={['tags']}
-							SvgIcon={OtherWhiteIcon}
-							seeMoreText
-							onPress={viewAllTags}
-						/>
-						<VerticalSpacing />
-					</>
+					hasAnyFilteredCategory()
+						? (
+							<>
+								<SubtitleCard
+									text={'tags'}
+									highlightedText={['tags']}
+									SvgIcon={OtherWhiteIcon}
+									seeMoreText
+									onPress={viewAllTags}
+								/>
+								<VerticalSpacing />
+								<TagsContainer>
+									<FlatList
+										data={getFiltredCategoryTags()}
+										horizontal
+										showsHorizontalScrollIndicator={false}
+										ListHeaderComponent={<HorizontalSpacing />}
+										ListHeaderComponentStyle={{ height: 0 }}
+										ItemSeparatorComponent={() => <HorizontalSpacing />}
+										ListFooterComponentStyle={{ height: 0 }}
+										ListFooterComponent={<HorizontalSpacing />}
+										renderItem={({ item }: FlatListItem<string>) => (
+											<CategoryCard
+												hasElements={!!(feedPosts.filter((post) => post.category === categoryName && post.tags.includes(item) && post.postType === locationDataContext.searchParams.postType)).length}
+												inactiveColor={inactiveColor}
+												title={item}
+												withoutMargin
+												onPress={() => viewPostsByTag(item)}
+											/>
+										)}
+									/>
+								</TagsContainer>
+							</>
+						)
+						: <></>
 				}
-				<TagsContainer>
-					<FlatList
-						data={getFiltredCategoryTags()}
-						horizontal
-						showsHorizontalScrollIndicator={false}
-						ListHeaderComponent={<HorizontalSpacing />}
-						ListHeaderComponentStyle={{ height: 0 }}
-						ItemSeparatorComponent={() => <HorizontalSpacing />}
-						ListFooterComponentStyle={{ height: 0 }}
-						ListFooterComponent={<HorizontalSpacing />}
-						renderItem={({ item }: FlatListItem<string>) => (
-							<CategoryCard
-								hasElements={!!(feedPosts.filter((post) => post.category === categoryName && post.tags.includes(item) && post.postType === locationDataContext.searchParams.postType)).length}
-								inactiveColor={inactiveColor}
-								title={item}
-								withoutMargin
-								onPress={() => viewPostsByTag(item)}
-							/>
-						)}
-					/>
-				</TagsContainer>
 			</FeedByRange>
 		</Container>
 	)
