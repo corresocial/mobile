@@ -163,7 +163,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 			userId: postData.owner.userId,
 		}) // TODO Type
 	}
-	console.log(postData.category)
+
 	const getCategoryLabel = () => {
 		try {
 			const categoryField = getPostField('category') as ServiceCategories

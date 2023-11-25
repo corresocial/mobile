@@ -25,7 +25,7 @@ function DescriptionCard({ title, text, hightligtedWords, children, textFontSize
 
 	const showResizeLabel = text.length >= sumarizedSubscriptionSize
 
-	const [escriptionIsExpanded, setDescriptionIsExpanded] = useState(false)
+	const [descriptionIsExpanded, setDescriptionIsExpanded] = useState(false)
 
 	const toggleDescriptionIsExpanded = () => {
 		setDescriptionIsExpanded((previousState) => !previousState)
@@ -35,6 +35,8 @@ function DescriptionCard({ title, text, hightligtedWords, children, textFontSize
 		color: theme.orange3,
 		fontFamily: 'Arvo_700Bold'
 	}
+
+	const customText = text.replaceAll('www.', 'https://www.')
 
 	return (
 		<DefaultCardContainer>
@@ -50,8 +52,8 @@ function DescriptionCard({ title, text, hightligtedWords, children, textFontSize
 			</EditHeaderContainer>
 			<Hyperlink linkDefault linkStyle={linkStyle}>
 				<LongText style={{ fontSize: RFValue(textFontSize) }}>
-					{escriptionIsExpanded && showResizeLabel ? text : getShortText(text, sumarizedSubscriptionSize)}
-					{showResizeLabel && <SeeMoreLabel onPress={toggleDescriptionIsExpanded}>{escriptionIsExpanded ? ' mostrar menos' : 'mostrar mais'}</SeeMoreLabel>}
+					{descriptionIsExpanded && showResizeLabel ? customText : getShortText(customText, sumarizedSubscriptionSize)}
+					{showResizeLabel && <SeeMoreLabel onPress={toggleDescriptionIsExpanded}>{descriptionIsExpanded ? ' mostrar menos' : 'mostrar mais'}</SeeMoreLabel>}
 				</LongText>
 			</Hyperlink>
 			{children}
