@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 
+import { differenceInMinutes } from 'date-fns'
 import { Container } from './styles'
 
 import { theme } from '../../../common/theme'
@@ -36,7 +37,23 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 	const [hasError, setHasError] = useState(false)
 
 	const beForgotten = () => {
+		console.log(`userPerformRecentLogin: ${userPerformRecentLogin()}`)
+		if (!userPerformRecentLogin()) {
+			console.log('show logout modal')
+			showSessionExpiredAlertModal()
+		}
+
 		toggleBeForgottenConfirmationModalVisibility()
+	}
+
+	const userPerformRecentLogin = () => {
+		const { currentUser } = auth
+
+		const lastSignin: Date = new Date(currentUser?.metadata.lastSignInTime || Date.now() + 50000)
+
+		console.log(differenceInMinutes(new Date(), lastSignin))
+
+		return differenceInMinutes(new Date(), lastSignin) < 5
 	}
 
 	const toggleBeForgottenConfirmationModalVisibility = () => {

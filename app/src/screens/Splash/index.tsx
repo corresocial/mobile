@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, Animated, StatusBar } from 'react-native'
+import { Animated, StatusBar } from 'react-native'
 import * as Updates from 'expo-updates'
 
 import { Container, LogoContainer } from './styles'

@@ -154,6 +154,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 		)
 
 		const userCredential = await signInWithCredential(auth, credential)
+		console.log(userCredential)
 		return userCredential
 	}
 
