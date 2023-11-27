@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 
+import { differenceInMinutes } from 'date-fns'
 import { Container } from './styles'
 
 import { theme } from '../../../common/theme'
@@ -30,12 +31,29 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 
 	const [beForgottenConfirmationModalIsVisible, setBeForgottenConfirmationModalIsVisible] = useState(false)
 	const [successModalIsVisible, setSuccessModalIsVisible] = useState(false)
+	const [sessionExpiredAlertModal, setSessionExpiredAlertModal] = useState(false)
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)
 
 	const beForgotten = () => {
+		console.log(`userPerformRecentLogin: ${userPerformRecentLogin()}`)
+		if (!userPerformRecentLogin()) {
+			console.log('show logout modal')
+			showSessionExpiredAlertModal()
+		}
+
 		toggleBeForgottenConfirmationModalVisibility()
+	}
+
+	const userPerformRecentLogin = () => {
+		const { currentUser } = auth
+
+		const lastSignin: Date = new Date(currentUser?.metadata.lastSignInTime || Date.now() + 50000)
+
+		console.log(differenceInMinutes(new Date(), lastSignin))
+
+		return differenceInMinutes(new Date(), lastSignin) < 5
 	}
 
 	const toggleBeForgottenConfirmationModalVisibility = () => {
@@ -57,19 +75,31 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 				userDataContext.posts as PostCollection[]
 			).then(() => toggleSuccessModalVisibility())
 			setIsLoading(false)
-		} catch (error) {
+		} catch (error: any) {
+			if (error.code === 'auth/requires-recent-login') {
+				showSessionExpiredAlertModal()
+			}
 			setHasError(true)
 			console.log(error)
 			setIsLoading(false)
 		}
 	}
 
+	const showSessionExpiredAlertModal = () => {
+		setSessionExpiredAlertModal(true)
+	}
+
 	const performLogout = async () => {
-		removeChatListeners()
-		await deleteLocaluser()
-		await clearOfflinePosts()
-		await auth.signOut()
-		navigateToInitialScreen()
+		try {
+			removeChatListeners()
+			await deleteLocaluser()
+			await clearOfflinePosts()
+			await auth.signOut()
+			navigateToInitialScreen()
+		} catch (error) {
+			console.log('erro ao fazer logout')
+			console.log(error)
+		}
 	}
 
 	const navigateToInitialScreen = () => {
@@ -97,6 +127,19 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 					onPress: performLogout
 				}}
 				closeModal={() => { }}
+			/>
+			<CustomModal
+				visibility={sessionExpiredAlertModal}
+				title={'ops!'}
+				firstParagraph={{
+					text: 'faça login novamente para renovar sua sessão antes de deletar seus dados',
+					highlightedWords: ['faça', 'login', 'novamente', 'deletar', 'seus', 'dados']
+				}}
+				affirmativeButton={{
+					label: 'ir para login',
+					onPress: performLogout
+				}}
+				closeModal={() => setSessionExpiredAlertModal(false)}
 			/>
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(24)}

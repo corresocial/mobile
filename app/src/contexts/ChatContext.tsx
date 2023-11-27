@@ -1,8 +1,10 @@
 import { onValue, ref } from 'firebase/database'
 import React, { MutableRefObject, createContext, useContext, useEffect, useRef, useState } from 'react'
-import { Platform } from 'react-native'
+import { Alert, Platform } from 'react-native'
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
+
+import { getEnvVars } from '../../environment'
 
 import { Chat, UserDatabase } from '../@types/chat/types'
 import { Id } from '../services/firebase/types'
@@ -17,6 +19,8 @@ import { unsubscribeUserChatsListener } from '../services/firebase/chat/unsubscr
 import { unsubscribeChatIdsListener } from '../services/firebase/chat/unsubscribeChatIdsListener'
 import { getAndUpdateUserToken } from '../services/firebase/chat/getAndUpdateUserToken'
 import { getRemoteUser } from '../services/firebase/chat/getRemoteUser'
+
+const { ENVIRONMENT } = getEnvVars()
 
 type ChatContextType = {
 	chatDataContext: Chat[]
@@ -153,7 +157,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 			await registerForPushNotificationsAsync()
 		} catch (err: any) {
 			console.log(err)
-			// Alert.alert('erro', err && err.message ? err.message : err)
+			ENVIRONMENT === 'dev' && Alert.alert('erro', err && err.message ? err.message : err)
 		}
 	}
 
@@ -197,7 +201,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 			}
 		} catch (err: any) {
 			console.log(err)
-			// Alert.alert('erro', err && err.message ? err.message : err)
+			ENVIRONMENT === 'dev' && Alert.alert('erro', err && err.message ? err.message : err)
 		}
 	}
 
