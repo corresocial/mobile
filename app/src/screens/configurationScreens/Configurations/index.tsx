@@ -132,7 +132,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				/>
 				<VerticalSpacing />
 				<OptionButton
-					label={'métodos de entrada'}
+					label={'métodos de login'}
 					highlightedWords={['métodos', 'de', 'login']}
 					labelSize={18}
 					relativeHeight={relativeScreenHeight(9)}

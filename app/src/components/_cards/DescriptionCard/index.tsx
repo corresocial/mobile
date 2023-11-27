@@ -36,7 +36,14 @@ function DescriptionCard({ title, text, hightligtedWords, children, textFontSize
 		fontFamily: 'Arvo_700Bold'
 	}
 
-	const customText = text.replaceAll('www.', 'https://www.')
+	const transformWWWLinks = () => {
+		if (text.indexOf('www.') > -1) {
+			return text.replaceAll('www.', 'https://www.')
+		}
+		return text
+	}
+
+	const customText = transformWWWLinks()
 
 	return (
 		<DefaultCardContainer>

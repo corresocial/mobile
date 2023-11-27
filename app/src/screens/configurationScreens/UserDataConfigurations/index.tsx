@@ -30,6 +30,7 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 
 	const [beForgottenConfirmationModalIsVisible, setBeForgottenConfirmationModalIsVisible] = useState(false)
 	const [successModalIsVisible, setSuccessModalIsVisible] = useState(false)
+	const [sessionExpiredAlertModal, setSessionExpiredAlertModal] = useState(false)
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [hasError, setHasError] = useState(false)
@@ -57,19 +58,31 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 				userDataContext.posts as PostCollection[]
 			).then(() => toggleSuccessModalVisibility())
 			setIsLoading(false)
-		} catch (error) {
+		} catch (error: any) {
+			if (error.code === 'auth/requires-recent-login') {
+				showSessionExpiredAlertModal()
+			}
 			setHasError(true)
 			console.log(error)
 			setIsLoading(false)
 		}
 	}
 
+	const showSessionExpiredAlertModal = () => {
+		setSessionExpiredAlertModal(true)
+	}
+
 	const performLogout = async () => {
-		removeChatListeners()
-		await deleteLocaluser()
-		await clearOfflinePosts()
-		await auth.signOut()
-		navigateToInitialScreen()
+		try {
+			removeChatListeners()
+			await deleteLocaluser()
+			await clearOfflinePosts()
+			await auth.signOut()
+			navigateToInitialScreen()
+		} catch (error) {
+			console.log('erro ao fazer logout')
+			console.log(error)
+		}
 	}
 
 	const navigateToInitialScreen = () => {
@@ -97,6 +110,19 @@ function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProp
 					onPress: performLogout
 				}}
 				closeModal={() => { }}
+			/>
+			<CustomModal
+				visibility={sessionExpiredAlertModal}
+				title={'ops!'}
+				firstParagraph={{
+					text: 'faça login novamente para renovar sua sessão antes de deletar seus dados',
+					highlightedWords: ['faça', 'login', 'novamente', 'deletar', 'seus', 'dados']
+				}}
+				affirmativeButton={{
+					label: 'ir para login',
+					onPress: performLogout
+				}}
+				closeModal={() => setSessionExpiredAlertModal(false)}
 			/>
 			<DefaultHeaderContainer
 				relativeHeight={relativeScreenHeight(24)}

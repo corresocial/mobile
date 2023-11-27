@@ -10,7 +10,7 @@ import { DefaultHeaderContainer } from '../../../components/_containers/DefaultH
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { TermsOfService } from '../../../components/TermsOfService'
 import { BackButton } from '../../../components/_buttons/BackButton'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 
 function PrivacyAndSecurity({ navigation }: PrivacyAndSecurityScreenProps) {
 	return (
@@ -22,9 +22,8 @@ function PrivacyAndSecurity({ navigation }: PrivacyAndSecurityScreenProps) {
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
-				<VerticalSpacing />
+				<HorizontalSpacing />
 				<InstructionCard
-					borderLeftWidth={3}
 					fontSize={15}
 					message={'privacidade e segurança'}
 					highlightedWords={['privacidade', 'segurança']}
