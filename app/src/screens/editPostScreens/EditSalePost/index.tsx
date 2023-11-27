@@ -29,6 +29,7 @@ import { EditPost } from '../../../components/EditPost'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
+import { LinkCard } from '../../../components/_cards/LinkCard'
 
 function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
@@ -181,7 +182,6 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 				visibility={postReviewPresentationModalIsVisible}
 				onPressButton={togglePostReviewPresentationModalVisibility}
 			/>
-
 			<EditPost
 				initialPostData={{ ...postData, postType: 'income', macroCategory: 'sale' }}
 				owner={owner}
@@ -209,6 +209,12 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					onEdit={() => navigateToEditScreen('SelectItemStatus', 'itemStatus')}
 				/>
 				<VerticalSpacing />
+
+				<LinkCard
+					links={getPostField('links')}
+					onEdit={() => navigateToEditScreen('InsertIncomeLinks', 'links')}
+				/>
+				<VerticalSpacing />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertSaleDescription', 'description')}
@@ -229,7 +235,6 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					macroCategory={getPostField('macroCategory')}
 					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
 				/>
-
 				<VerticalSpacing />
 				<SaleOrExchangeCard
 					saleValue={getPostField('saleValue', true)}

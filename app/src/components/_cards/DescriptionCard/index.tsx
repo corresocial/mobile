@@ -44,7 +44,7 @@ function DescriptionCard({ title, text, hightligtedWords, children, textFontSize
 					title={title || 'descrição do post'}
 					highlightedWords={hightligtedWords || ['descrição']}
 					SvgIcon={DescriptionWhiteIcon}
-					dimensions={32}
+					dimensions={28}
 				/>
 			</EditHeaderContainer>
 			<LongText style={{ fontSize: RFValue(textFontSize) }}>

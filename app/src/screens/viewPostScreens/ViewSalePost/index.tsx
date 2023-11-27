@@ -43,6 +43,7 @@ import { ItemStatusCard } from '../../../components/_cards/ItemStatusCard'
 import { textHasOnlyNumbers } from '../../../utils/validationFunctions'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
+import { LinkCard } from '../../../components/_cards/LinkCard'
 
 function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -288,6 +289,16 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 					<DescriptionCard
 						text={getPostField('description')}
 					/>
+					{
+						!arrayIsEmpty(getPostField('links')) && (
+							<>
+								<VerticalSpacing />
+								<LinkCard
+									links={getPostField('links')}
+								/>
+							</>
+						)
+					}
 					<VerticalSpacing />
 					{!arrayIsEmpty(getPostField('picturesUrl')) && (
 						<>
