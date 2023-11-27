@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
-import Hyperlink from 'react-native-hyperlink'
 
-import { LongText, SeeMoreLabel } from './styles'
+import { HyperlinkContainer, LongText, SeeMoreLabel } from './styles'
 import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
@@ -36,15 +35,6 @@ function DescriptionCard({ title, text, hightligtedWords, children, textFontSize
 		fontFamily: 'Arvo_700Bold'
 	}
 
-	const transformWWWLinks = () => {
-		if (text.indexOf('www.') > -1) {
-			return text.replaceAll('www.', 'https://www.')
-		}
-		return text
-	}
-
-	const customText = transformWWWLinks()
-
 	return (
 		<DefaultCardContainer>
 			<EditHeaderContainer
@@ -57,12 +47,16 @@ function DescriptionCard({ title, text, hightligtedWords, children, textFontSize
 					dimensions={32}
 				/>
 			</EditHeaderContainer>
-			<Hyperlink linkDefault linkStyle={linkStyle}>
-				<LongText style={{ fontSize: RFValue(textFontSize) }}>
-					{descriptionIsExpanded && showResizeLabel ? customText : getShortText(customText, sumarizedSubscriptionSize)}
-					{showResizeLabel && <SeeMoreLabel onPress={toggleDescriptionIsExpanded}>{descriptionIsExpanded ? ' mostrar menos' : 'mostrar mais'}</SeeMoreLabel>}
-				</LongText>
-			</Hyperlink>
+			<LongText style={{ fontSize: RFValue(textFontSize) }}>
+				<HyperlinkContainer
+					text={descriptionIsExpanded && showResizeLabel ? text : getShortText(text, sumarizedSubscriptionSize)}
+					linkStyle={linkStyle}
+					fontSize={textFontSize}
+				>
+					{descriptionIsExpanded && showResizeLabel ? text : getShortText(text, sumarizedSubscriptionSize)}
+				</HyperlinkContainer>
+				{showResizeLabel && <SeeMoreLabel onPress={toggleDescriptionIsExpanded}>{descriptionIsExpanded ? ' mostrar menos' : 'mostrar mais'}</SeeMoreLabel>}
+			</LongText>
 			{children}
 		</DefaultCardContainer>
 	)
