@@ -40,6 +40,7 @@ import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
+import { LinkCard } from '../../../components/_cards/LinkCard'
 
 function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -259,6 +260,16 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 					<DescriptionCard
 						text={getPostField('description')}
 					/>
+					{
+						!arrayIsEmpty(getPostField('links')) && (
+							<>
+								<VerticalSpacing />
+								<LinkCard
+									links={getPostField('links')}
+								/>
+							</>
+						)
+					}
 					<VerticalSpacing />
 					{
 						!arrayIsEmpty(getPostField('picturesUrl')) && (

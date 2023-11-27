@@ -30,6 +30,7 @@ import { EditPost } from '../../../components/EditPost'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
 import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
+import { LinkCard } from '../../../components/_cards/LinkCard'
 
 function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -221,6 +222,11 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertCultureDescription', 'description')}
+				/>
+				<VerticalSpacing />
+				<LinkCard
+					links={getPostField('links')}
+					onEdit={() => navigateToEditScreen('InsertIncomeLinks', 'links')}
 				/>
 				<VerticalSpacing />
 				<EditCard

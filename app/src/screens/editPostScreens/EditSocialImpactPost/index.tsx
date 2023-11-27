@@ -29,6 +29,7 @@ import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
 import { theme } from '../../../common/theme'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
+import { LinkCard } from '../../../components/_cards/LinkCard'
 
 function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -218,6 +219,11 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertSocialImpactDescription', 'description')}
+				/>
+				<VerticalSpacing />
+				<LinkCard
+					links={getPostField('links')}
+					onEdit={() => navigateToEditScreen('InsertIncomeLinks', 'links')}
 				/>
 				<VerticalSpacing />
 				<EditCard

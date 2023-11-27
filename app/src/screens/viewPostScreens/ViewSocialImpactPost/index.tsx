@@ -33,6 +33,7 @@ import { ExhibitionPlaceCard } from '../../../components/_cards/ExhibitionPlace'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { SocialImpactTypeCard } from '../../../components/_cards/SocialImpactType'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
+import { LinkCard } from '../../../components/_cards/LinkCard'
 
 function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -254,6 +255,16 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 					<DescriptionCard
 						text={getPostField('description')}
 					/>
+					{
+						!arrayIsEmpty(getPostField('links')) && (
+							<>
+								<VerticalSpacing />
+								<LinkCard
+									links={getPostField('links')}
+								/>
+							</>
+						)
+					}
 					<VerticalSpacing />
 					{
 						!arrayIsEmpty(getPostField('picturesUrl')) && (

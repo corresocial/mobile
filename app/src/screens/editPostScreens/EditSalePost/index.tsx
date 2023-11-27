@@ -209,17 +209,15 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					onEdit={() => navigateToEditScreen('SelectItemStatus', 'itemStatus')}
 				/>
 				<VerticalSpacing />
-
-				<LinkCard
-					links={getPostField('links')}
-					onEdit={() => navigateToEditScreen('InsertIncomeLinks', 'links')}
-				/>
-				<VerticalSpacing />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertSaleDescription', 'description')}
 				/>
 				<VerticalSpacing />
+				<LinkCard
+					links={getPostField('links')}
+					onEdit={() => navigateToEditScreen('InsertIncomeLinks', 'links')}
+				/>
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}

@@ -259,6 +259,16 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 						title={'descrição da vaga'}
 						text={getPostField('description')}
 					/>
+					{
+						!arrayIsEmpty(getPostField('links')) && (
+							<>
+								<VerticalSpacing />
+								<LinkCard
+									links={getPostField('links')}
+								/>
+							</>
+						)
+					}
 					<VerticalSpacing />
 					{!arrayIsEmpty(getPostField('picturesUrl')) && (
 						<>
