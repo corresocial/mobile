@@ -20,6 +20,8 @@ import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 
 interface PostLinksProps {
+	backgroundColor: string
+	lightColor: string
 	initialValue?: string[]
 	keyboardOpened: boolean
 	editMode?: boolean
@@ -27,7 +29,14 @@ interface PostLinksProps {
 	saveLinks: (links: string[]) => void
 }
 
-function PostLinks({ keyboardOpened, initialValue, editMode, navigateBackwards, saveLinks }: PostLinksProps) {
+function PostLinks({
+	backgroundColor,
+	lightColor,
+	keyboardOpened,
+	initialValue,
+	editMode,
+	navigateBackwards,
+	saveLinks }: PostLinksProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [linkText, setLinkText] = useState('')
@@ -63,7 +72,7 @@ function PostLinks({ keyboardOpened, initialValue, editMode, navigateBackwards, 
 				relativeWidth={'100%'}
 				textInputRef={inputRefs.inputCards[index]}
 				defaultBackgroundColor={theme.white2}
-				validBackgroundColor={theme.green1}
+				validBackgroundColor={lightColor}
 				withoutBottomLine
 				multiline
 				lastInput
@@ -125,7 +134,7 @@ function PostLinks({ keyboardOpened, initialValue, editMode, navigateBackwards, 
 				minHeight={relativeScreenHeight(26)}
 				relativeHeight={relativeScreenHeight(26)}
 				centralized
-				backgroundColor={theme.green2}
+				backgroundColor={backgroundColor}
 			>
 				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
@@ -167,7 +176,7 @@ function PostLinks({ keyboardOpened, initialValue, editMode, navigateBackwards, 
 								relativeWidth={'100%'}
 								textInputRef={inputRefs.linkTextInput}
 								defaultBackgroundColor={theme.white2}
-								validBackgroundColor={theme.green1}
+								validBackgroundColor={lightColor}
 								withoutBottomLine
 								lastInput
 								multiline
