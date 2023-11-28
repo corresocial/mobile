@@ -5,6 +5,7 @@ import { SocialImpactStackParamList } from '../types'
 export type SelectSocialImpactTypeScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactType'>
 export type SelectSocialImpactPurposeScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactPurpose'>
 export type InsertSocialImpactDescriptionScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactDescription'>
+export type InsertSocialImpactLinksScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'InsertSocialImpactLinks'>
 export type SocialImpactPicturePreviewScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SocialImpactPicturePreview'>
 export type SelectSocialImpactCategoryScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactCategory'>
 export type SelectSocialImpactTagsScreenProps = NativeStackScreenProps<SocialImpactStackParamList, 'SelectSocialImpactTags'>

@@ -3,7 +3,7 @@ import { Keyboard, Linking, Platform } from 'react-native'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
-import { InsertIncomeLinksScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
+import { InsertSocialImpactLinksScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 import { EditContext } from '../../../contexts/EditContext'
 
@@ -11,7 +11,7 @@ import { theme } from '../../../common/theme'
 
 import { PostLinks } from '../../../components/_onboarding/PostLinks/Index'
 
-function InsertIncomeLinks({ route, navigation }: InsertIncomeLinksScreenProps) {
+function InsertSocialImpactLinks({ route, navigation }: InsertSocialImpactLinksScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -61,8 +61,8 @@ function InsertIncomeLinks({ route, navigation }: InsertIncomeLinksScreenProps) 
 
 	return (
 		<PostLinks
-			backgroundColor={theme.green2}
-			lightColor={theme.green1}
+			backgroundColor={theme.pink2}
+			lightColor={theme.pink1}
 			keyboardOpened={keyboardOpened}
 			initialValue={route.params?.initialValue || []}
 			editMode={editModeIsTrue()}
@@ -72,4 +72,4 @@ function InsertIncomeLinks({ route, navigation }: InsertIncomeLinksScreenProps) 
 	)
 }
 
-export { InsertIncomeLinks }
+export { InsertSocialImpactLinks }
