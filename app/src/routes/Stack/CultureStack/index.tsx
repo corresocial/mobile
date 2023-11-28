@@ -26,6 +26,7 @@ import { InsertCultureEndDate } from '../../../screens/cultureRegisterScreens/In
 import { EditCulturePost } from '../../../screens/editPostScreens/EditCulturePost'
 import { SelectCultureType } from '../../../screens/cultureRegisterScreens/SelectCultureType'
 import { SelectCulturePurpose } from '../../../screens/cultureRegisterScreens/SelectCulturePurpose'
+import { InsertCultureLinks } from '../../../screens/cultureRegisterScreens/InsetCultureLinks'
 
 const Stack = createStackNavigator<CultureStackParamList>()
 
@@ -45,6 +46,7 @@ export function CultureStack() {
 				<Stack.Screen name={'SelectCultureCategory'} component={SelectCultureCategory} />
 				<Stack.Screen name={'SelectCultureTags'} component={SelectCultureTags} />
 				<Stack.Screen name={'InsertCultureDescription'} component={InsertCultureDescription} />
+				<Stack.Screen name={'InsertCultureLinks'} component={InsertCultureLinks} />
 				<Stack.Screen name={'CulturePicturePreview'} component={CulturePicturePreview} />
 				<Stack.Screen name={'InsertEntryValue'} component={InsertEntryValue} />
 				<Stack.Screen name={'SelectCulturePlaceModality'} component={SelectCulturePlaceModality} />

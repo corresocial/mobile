@@ -226,7 +226,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				<VerticalSpacing />
 				<LinkCard
 					links={getPostField('links')}
-					onEdit={() => navigateToEditScreen('InsertIncomeLinks', 'links')}
+					onEdit={() => navigateToEditScreen('InsertCultureLinks', 'links')}
 				/>
 				<VerticalSpacing />
 				<EditCard

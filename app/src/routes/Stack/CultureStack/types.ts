@@ -5,6 +5,7 @@ export type CultureStackParamList = {
 	SelectCultureType: { editMode: boolean } | undefined
 	SelectCulturePurpose: { editMode: boolean } | undefined
 	InsertCultureDescription: { editMode: boolean, initialValue: string } | undefined
+	InsertCultureLinks: { editMode: boolean, initialValue: string[] } | undefined
 	CulturePicturePreview: { editMode: boolean, initialValue: string[] } | undefined
 	SelectCultureCategory: { editMode: boolean } | undefined
 	SelectCultureTags: { categorySelected: CultureCategories, editMode?: boolean }
