@@ -26,7 +26,7 @@ import { getEnvVars } from './environment'
 const { ENVIRONMENT } = getEnvVars()
 
 console.log(__DEV__)
-if (!__DEV__ && ENVIRONMENT === 'prod') {
+if (!__DEV__ && ENVIRONMENT !== 'dev') {
 	Sentry.init(sentryConfig)
 }
 LogBox.ignoreLogs(ignoredLogs)
