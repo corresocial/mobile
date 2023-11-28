@@ -4,6 +4,7 @@ import { VacancyStackParamList } from '../types'
 
 export type SelectVacancyPurposeScreenProps = NativeStackScreenProps<VacancyStackParamList, 'SelectVacancyPurpose'>
 export type InsertVacancyDescriptionScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertVacancyDescription'>
+export type InsertIncomeLinksScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertIncomeLinks'>
 export type InsertVacancyImportantPointsScreenProps = NativeStackScreenProps<VacancyStackParamList, 'InsertVacancyImportantPoints'>
 export type VacancyPicturePreviewScreenProps = NativeStackScreenProps<VacancyStackParamList, 'VacancyPicturePreview'>
 export type SelectWorkplaceScreenProps = NativeStackScreenProps<VacancyStackParamList, 'SelectWorkplace'>

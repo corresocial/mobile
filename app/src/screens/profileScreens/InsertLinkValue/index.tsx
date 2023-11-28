@@ -114,10 +114,6 @@ function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 
 		return {
 			socialMedias: currentSocialMedias.filter((socialMedia) => {
-				if (socialMedia.title === 'instagram') {
-					/* console.log(`Link: ${socialMedia.link}`)
-					console.log(`Default: ${socialMediaUrl(socialMedia.title, '')}`) */
-				}
 				return socialMedia.link && (socialMedia.link !== socialMediaUrl(socialMedia.title, ''))
 			})
 		}

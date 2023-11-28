@@ -7,6 +7,7 @@ export type SelectSaleTagsScreenProps = NativeStackScreenProps<SaleStackParamLis
 export type SelectSalePurposeScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectSalePurpose'>
 export type SelectItemStatusScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectItemStatus'>
 export type InsertSaleDescriptionScreenProps = NativeStackScreenProps<SaleStackParamList, 'InsertSaleDescription'>
+export type InsertIncomeLinksScreenProps = NativeStackScreenProps<SaleStackParamList, 'InsertIncomeLinks'>
 export type SalePicturePreviewScreenProps = NativeStackScreenProps<SaleStackParamList, 'SalePicturePreview'>
 export type SelectPaymentTypeScreenProps = NativeStackScreenProps<SaleStackParamList, 'SelectPaymentType'>
 export type InsertSaleValueScreenProps = NativeStackScreenProps<SaleStackParamList, 'InsertSaleValue'>

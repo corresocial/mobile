@@ -218,6 +218,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					links={getPostField('links')}
 					onEdit={() => navigateToEditScreen('InsertIncomeLinks', 'links')}
 				/>
+				<VerticalSpacing />
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}

@@ -41,6 +41,7 @@ import { ImportantPointsCard } from '../../../components/_cards/ImportantPointsC
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
+import { LinkCard } from '../../../components/_cards/LinkCard'
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)

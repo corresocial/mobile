@@ -183,6 +183,7 @@ export interface PostCollectionCommonFields {
 	startHour?: Date
 	endHour?: Date
 	picturesUrl?: string[]
+	links?: string[]
 	createdAt?: Date
 	location: {
 		country?: string
@@ -221,6 +222,7 @@ export interface PostCollectionCommonFieldsRemote {
 	startHour?: Date
 	endHour?: Date
 	picturesUrl?: string[]
+	links?: string[]
 	createdAt: Date
 	location: {
 		country?: string

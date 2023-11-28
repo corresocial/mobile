@@ -24,6 +24,7 @@ import { ServiceProvider } from '../../../contexts/ServiceContext'
 import { SelectSaleValueType } from '../../../screens/serviceRegisterScreens/SelectSaleValueType'
 import { SelectServiceRange } from '../../../screens/serviceRegisterScreens/SelectServiceRange'
 import { EditServicePost } from '../../../screens/editPostScreens/EditServicePost'
+import { InsertIncomeLinks } from '../../../screens/saleRegisterScreens/InsertIncomeLinks'
 
 const Stack = createStackNavigator<ServiceStackParamList>()
 
@@ -42,6 +43,7 @@ export function ServiceStack() {
 				<Stack.Screen name={'SelectServiceCategory'} component={SelectServiceCategory} />
 				<Stack.Screen name={'SelectServiceTags'} component={SelectServiceTags} />
 				<Stack.Screen name={'InsertServiceDescription'} component={InsertServiceDescription} />
+				<Stack.Screen name={'InsertIncomeLinks'} component={InsertIncomeLinks} />
 				<Stack.Screen name={'ServicePicturePreview'} component={ServicePicturePreview} />
 				<Stack.Screen name={'SelectPaymentType'} component={SelectPaymentType} />
 				<Stack.Screen name={'SelectSaleValueType'} component={SelectSaleValueType} />

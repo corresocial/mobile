@@ -1,5 +1,5 @@
-import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Platform, StatusBar, TextInput } from 'react-native'
+import React, { useContext, useRef, useState } from 'react'
 import uuid from 'react-uuid'
 
 import { ButtonsContainer, Container } from './styles'
@@ -7,9 +7,6 @@ import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
-
-import { InsertVacancyImportantPointsScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 
 import { EditContext } from '../../../contexts/EditContext'
 
@@ -22,12 +19,19 @@ import { DefaultInput } from '../../../components/_inputs/DefaultInput'
 import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 
-function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImportantPointsScreenProps) {
+interface PostLinksProps {
+	initialValue?: string[]
+	keyboardOpened: boolean
+	editMode?: boolean
+	navigateBackwards: () => void
+	saveLinks: (links: string[]) => void
+}
+
+function PostLinks({ keyboardOpened, initialValue, editMode, navigateBackwards, saveLinks }: PostLinksProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
-	const [importantPointText, setImportantPointText] = useState('')
-	const [importantPointsList, setImportantPointsList] = useState<string[]>(route.params?.initialValue || [])
-	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+	const [linkText, setLinkText] = useState('')
+	const [linksList, setLinksList] = useState<string[]>(initialValue || [])
 
 	const inputRefs = {
 		inputCards: [
@@ -35,21 +39,10 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 			useRef<TextInput>(null),
 			useRef<TextInput>(null)
 		],
-		importantPointTextInput: useRef<TextInput>(null),
+		linkTextInput: useRef<TextInput>(null),
 	}
 
-	useEffect(() => {
-		const unsubscribe = navigation.addListener('focus', () => {
-			if (Platform.OS === 'android') removeAllKeyboardEventListeners()
-			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
-			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
-		})
-		return unsubscribe
-	}, [navigation])
-
-	const editModeIsTrue = () => !!(route.params && route.params.editMode)
-
-	const validateVacancyImportantPoints = (text: string) => {
+	const validateVacancyLinks = (text: string) => {
 		const isValid = (text).trim().length >= 1
 		if (isValid && !keyboardOpened) {
 			return true
@@ -58,15 +51,15 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 	}
 
 	const moveToEditableInput = (text: string) => {
-		setImportantPointText(text)
+		setLinkText(text)
 	}
 
-	const renderVacanciesImportantPointsSaved = () => {
-		if (!importantPointsLength() || keyboardOpened) return null
-		return importantPointsList.map((currentImportantPoint, index) => (
+	const renderPostLinksSaved = () => {
+		if (!linksLength() || keyboardOpened) return null
+		return linksList.map((currentLink, index) => (
 			<DefaultInput
 				key={uuid()}
-				value={currentImportantPoint}
+				value={currentLink}
 				relativeWidth={'100%'}
 				textInputRef={inputRefs.inputCards[index]}
 				defaultBackgroundColor={theme.white2}
@@ -78,53 +71,48 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 				uneditableMethod={moveToEditableInput}
 				textAlign={'left'}
 				fontSize={16}
-				keyboardType={'default'}
+				keyboardType={'url'}
+				autoCapitalize={'none'}
+				autoCorrect={false}
 				textIsValid
-				onIconPress={() => removeImportantPoint(index)}
-				validateText={(text: string) => validateVacancyImportantPoints(text)}
+				onIconPress={() => removeLink(index)}
+				validateText={(text: string) => validateVacancyLinks(text)}
 				onChangeText={(text: string) => { }}
 			/>
 		))
 	}
 
-	const importantPointsLength = () => importantPointsList.length
+	const linksLength = () => linksList.length
 
-	const addNewImportantPoint = () => {
-		if (importantPointsLength() === 3 || importantPointText === '') return
-		setImportantPointsList([...importantPointsList, importantPointText])
-		setImportantPointText('')
+	const addNewLink = () => {
+		if (linksLength() === 3 || linkText === '') return
+		setLinksList([...linksList, linkText])
+		setLinkText('')
 	}
 
-	const removeImportantPoint = (index: number) => {
-		const importantPoints = [...importantPointsList]
-		delete importantPoints[index]
-		setImportantPointsList(importantPoints.filter((point) => point))
+	const removeLink = (index: number) => {
+		const links = [...linksList]
+		delete links[index]
+		setLinksList(links.filter((point) => point))
 	}
 
 	const skipScreen = () => {
-		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ importantPoints: [] })
-			navigation.goBack()
-		}
-	}
-
-	const saveVacancyImportantPoints = () => {
-		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ importantPoints: importantPointsList })
-			navigation.goBack()
+		if (editMode) {
+			addNewUnsavedFieldToEditContext({ links: [] })
+			navigateBackwards()
 		}
 	}
 
 	const getPlaceholder = () => {
-		switch (importantPointsLength()) {
+		switch (linksLength()) {
 			case 0: {
-				return 'pontos importantes'
+				return 'ex: www.corre.social'
 			}
 			case 1: {
-				return 'segundo ponto'
+				return 'link'
 			}
 			case 2: {
-				return 'terceiro ponto'
+				return 'link'
 			}
 			default: return false
 		}
@@ -139,11 +127,11 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 				centralized
 				backgroundColor={theme.green2}
 			>
-				<BackButton onPress={() => navigation.goBack()} />
+				<BackButton onPress={navigateBackwards} />
 				<InstructionCard
 					fontSize={16}
-					message={'quer adicionar até 3 pontos importantes?'}
-					highlightedWords={['adicionar', 'até', '3', 'pontos', 'importantes']}
+					message={'só inserir seu link abaixo'}
+					highlightedWords={['link']}
 				/>
 				{
 					skipScreen ? (
@@ -164,20 +152,20 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 			</DefaultHeaderContainer>
 			<FormContainer
 				backgroundColor={theme.white3}
-				justifyContent={importantPointsLength() < 1 ? 'center' : 'space-around'}
+				justifyContent={linksLength() < 1 ? 'center' : 'space-around'}
 			>
 				<>
 					{
-						/* !keyboardOpened && */ renderVacanciesImportantPointsSaved()
+						/* !keyboardOpened && */ renderPostLinksSaved()
 					}
 					{
-						importantPointsLength() < 3
+						linksLength() < 3
 						&& (
 							<DefaultInput
 								key={4}
-								value={importantPointText}
+								value={linkText}
 								relativeWidth={'100%'}
-								textInputRef={inputRefs.importantPointTextInput}
+								textInputRef={inputRefs.linkTextInput}
 								defaultBackgroundColor={theme.white2}
 								validBackgroundColor={theme.green1}
 								withoutBottomLine
@@ -189,24 +177,26 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 								textAlignVertical={'center'}
 								textAlign={'center'}
 								placeholder={getPlaceholder() || ''}
-								keyboardType={'default'}
-								onPressKeyboardSubmit={addNewImportantPoint}
+								keyboardType={'url'}
+								autoCapitalize={'none'}
+								autoCorrect={false}
+								onPressKeyboardSubmit={addNewLink}
 								validateText={(text: string) => false}
-								onChangeText={(text: string) => setImportantPointText(text)}
+								onChangeText={(text: string) => setLinkText(text)}
 							/>
 						)
 					}
 				</>
 				<ButtonsContainer>
 					{
-						(importantPointsLength() > 0 && !keyboardOpened)
+						(linksLength() > 0 && !keyboardOpened)
 						&& (
 							<PrimaryButton
 								color={theme.green3}
 								label={'continuar'}
 								labelColor={theme.white3}
 								SecondSvgIcon={CheckWhiteIcon}
-								onPress={saveVacancyImportantPoints}
+								onPress={() => saveLinks(linksList)}
 							/>
 						)
 					}
@@ -216,4 +206,4 @@ function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImport
 	)
 }
 
-export { InsertVacancyImportantPoints }
+export { PostLinks }
