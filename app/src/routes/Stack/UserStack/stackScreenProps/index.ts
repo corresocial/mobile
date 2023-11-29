@@ -23,6 +23,7 @@ export type EditVacancyPostScreenProps = NativeStackScreenProps<UserStackParamLi
 export type EditSocialImpactPostScreenProps = NativeStackScreenProps<UserStackParamList, 'EditSocialImpactPost'>
 export type EditCulturePostScreenProps = NativeStackScreenProps<UserStackParamList, 'EditCulturePost'>
 
+export type ViewCompletedPostsScreenProps = NativeStackScreenProps<UserStackParamList, 'ViewCompletedPosts'>
 export type SocialMediaManagementScreenProps = NativeStackScreenProps<UserStackParamList, 'SocialMediaManagement'>
 export type InsertLinkTitleScreenProps = NativeStackScreenProps<UserStackParamList, 'InsertLinkTitle'>
 export type InsertLinkValueScreenProps = NativeStackScreenProps<UserStackParamList, 'InsertLinkValue'>

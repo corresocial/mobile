@@ -128,8 +128,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					svgIconScale={notificationState.configNotificationEntryMethod ? ['60%', '60%'] : ['50%', '50%']}
 					leftSideColor={theme.orange3}
 					leftSideWidth={'22%'}
-					// onPress={() => navigateToScreen('ViewCompletedPosts')}
-					onPress={() => { }}
+					onPress={() => navigateToScreen('ViewCompletedPosts')}
 				/>
 				<VerticalSpacing />
 				<OptionButton

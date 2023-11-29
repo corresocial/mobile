@@ -10,7 +10,8 @@ import {
 	IncomeCollectionRemote,
 	SocialImpactCollectionRemote,
 	SocialMedia,
-	VacancyCollectionRemote
+	VacancyCollectionRemote,
+	PostCollection
 } from '../../../services/firebase/types'
 import { ReportedTarget } from '../../../services/types'
 
@@ -38,6 +39,7 @@ export type UserStackParamList = {
 	EditCulturePost: { postData: CultureCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean }
 	OfflinePostsManagement: undefined
 
+	ViewCompletedPosts: undefined
 	SocialMediaManagement: { socialMedias: SocialMedia[], isAuthor?: boolean }
 	InsertLinkTitle: { socialMedia?: SocialMedia, index?: number }
 	InsertLinkValue: { socialMedia: SocialMedia, index?: number }
@@ -67,4 +69,10 @@ export type UserStackParamList = {
 	FinishSubscriptionPaymentByPix: { postReview?: boolean } | undefined
 	FinishSubscriptionPaymentByCard: { postReview?: boolean, editPaymentMethod?: boolean } | undefined
 	SubscriptionPaymentResult: { postReview?: boolean, editPaymentMethod?: boolean, successfulPayment: boolean }
+
+	ViewServicePostUser: { postData: PostCollection }
+	ViewSalePostUser: { postData: PostCollection }
+	ViewVacancyPostUser: { postData: PostCollection }
+	ViewSocialImpactPostUser: { postData: PostCollection }
+	ViewCulturePostUser: { postData: PostCollection }
 }

@@ -57,6 +57,12 @@ import { InsertCellNumberLinkAccount } from '../../../screens/configurationScree
 import { InsertConfirmationCodeLinkAccount } from '../../../screens/configurationScreens/InsertConfirmationCodeLinkAccount'
 import { NotificationSettings } from '../../../screens/configurationScreens/NotificationtSettings'
 import { SelectIncomeType } from '../../../screens/homeScreens/SelectIncomeType'
+import { ViewCompletedPosts } from '../../../screens/configurationScreens/ViewCompletedPosts'
+import { ViewServicePost } from '../../../screens/viewPostScreens/ViewServicePost'
+import { ViewSalePost } from '../../../screens/viewPostScreens/ViewSalePost'
+import { ViewVacancyPost } from '../../../screens/viewPostScreens/ViewVacancyPost'
+import { ViewCulturePost } from '../../../screens/viewPostScreens/ViewCulturePost'
+import { ViewSocialImpactPost } from '../../../screens/viewPostScreens/ViewSocialImpactPost'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -99,6 +105,7 @@ export function UserStack({ route }: any) {
 									<Stack.Screen name={'EditSocialImpactPost'} component={EditSocialImpactPost} />
 									<Stack.Screen name={'EditCulturePost'} component={EditCulturePost} />
 
+									<Stack.Screen name={'ViewCompletedPosts'} component={ViewCompletedPosts} />
 									<Stack.Screen name={'SocialMediaManagement'} component={SocialMediaManagement} />
 									<Stack.Screen name={'InsertLinkTitle'} component={InsertLinkTitle} />
 									<Stack.Screen name={'InsertLinkValue'} component={InsertLinkValue} />
@@ -118,6 +125,12 @@ export function UserStack({ route }: any) {
 									<Stack.Screen name={'UserDataConfigurations'} component={UserDataConfigurations} />
 									<Stack.Screen name={'PrivacyAndSecurity'} component={PrivacyAndSecurity} />
 									<Stack.Screen name={'NotificationSettings'} component={NotificationSettings} />
+
+									<Stack.Screen name={'ViewServicePostUser'} component={ViewServicePost} />
+									<Stack.Screen name={'ViewSalePostUser'} component={ViewSalePost} />
+									<Stack.Screen name={'ViewVacancyPostUser'} component={ViewVacancyPost} />
+									<Stack.Screen name={'ViewCulturePostUser'} component={ViewCulturePost} />
+									<Stack.Screen name={'ViewSocialImpactPostUser'} component={ViewSocialImpactPost} />
 
 									<Stack.Screen name={'ChatMessages'} component={ChatMessages} />
 
