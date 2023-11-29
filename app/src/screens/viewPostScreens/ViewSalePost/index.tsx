@@ -19,6 +19,8 @@ import { deletePost } from '../../../services/firebase/post/deletePost'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
 import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 import { share } from '../../../common/share'
+import { markPostAsComplete } from '../../../services/firebase/post/markPostAsCompleted'
+import { mergeArrayPosts } from '../../../utils/mergeArrayPosts'
 
 import { ViewSalePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
@@ -46,11 +48,12 @@ import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 import { LinkCard } from '../../../components/_cards/LinkCard'
 
 function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { userDataContext, setDataOnSecureStore, setUserDataOnContext } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
+	const [isCompleted, setIsCompleted] = useState(route.params.postData.completed || false)
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 
 	useEffect(() => {
@@ -83,6 +86,28 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 		navigation.navigate('EditSalePost', {
 			postData: { ...postData, ...editDataContext.saved },
 		})
+	}
+
+	const markAsCompleted = async () => {
+		try {
+			const updatedPostData = { ...postData, completed: !isCompleted }
+			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
+
+			markPostAsComplete(
+				userDataContext,
+				postData.postId,
+				updatedPostData,
+				mergedPosts || []
+			)
+
+			setUserDataOnContext({ posts: mergedPosts })
+			setDataOnSecureStore('corre.user', { posts: mergedPosts })
+
+			setIsCompleted(!isCompleted)
+			setPostOptionsIsOpen(false)
+		} catch (err) {
+			console.log(err)
+		}
 	}
 
 	const deleteRemotePost = async () => {
@@ -246,8 +271,10 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
 						isLoading={isLoading}
+						isCompleted={isCompleted}
 						goToComplaint={reportPost}
 						editPost={goToEditPost}
+						markAsCompleted={markAsCompleted}
 						deletePost={toggleDefaultConfirmationModalVisibility}
 					>
 						<SmallButton

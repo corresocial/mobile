@@ -12,6 +12,8 @@ import { arrayIsEmpty, formatRelativeDate, getShortText } from '../../../common/
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
 import { share } from '../../../common/share'
+import { markPostAsComplete } from '../../../services/firebase/post/markPostAsCompleted'
+import { mergeArrayPosts } from '../../../utils/mergeArrayPosts'
 
 import { ViewSocialImpactPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '../../../services/firebase/types'
@@ -36,11 +38,12 @@ import { DefaultConfirmationModal } from '../../../components/_modals/DefaultCon
 import { LinkCard } from '../../../components/_cards/LinkCard'
 
 function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { userDataContext, setDataOnSecureStore, setUserDataOnContext } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
+	const [isCompleted, setIsCompleted] = useState(false)
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 
 	useEffect(() => {
@@ -66,6 +69,28 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 		if (!postData || !postData.owner || !postData.owner.profilePictureUrl) return null
 		if (arrayIsEmpty(postData.owner.profilePictureUrl)) return null
 		return postData.owner.profilePictureUrl[0]
+	}
+
+	const markAsCompleted = async () => {
+		try {
+			const updatedPostData = { ...postData, completed: !isCompleted }
+			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
+
+			markPostAsComplete(
+				userDataContext,
+				postData.postId,
+				updatedPostData,
+				mergedPosts || []
+			)
+
+			setUserDataOnContext({ posts: mergedPosts })
+			setDataOnSecureStore('corre.user', { posts: mergedPosts })
+
+			setIsCompleted(!isCompleted)
+			setPostOptionsIsOpen(false)
+		} catch (err) {
+			console.log(err)
+		}
 	}
 
 	const deleteRemotePost = async () => {
@@ -224,7 +249,9 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
 						isLoading={isLoading}
+						isCompleted={isCompleted}
 						goToComplaint={reportPost}
+						markAsCompleted={markAsCompleted}
 						editPost={goToEditPost}
 						deletePost={toggleDefaultConfirmationModalVisibility}
 					>

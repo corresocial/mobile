@@ -16,6 +16,7 @@ export const ContainerBottom = styled.View`
     border-radius: ${RFValue(12)}px;
     position: relative;
     background-color: ${({ theme }) => theme.black4};
+
 `
 
 export const ContainerSurface = styled.View`

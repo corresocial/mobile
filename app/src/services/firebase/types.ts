@@ -177,6 +177,7 @@ export interface PostCollectionCommonFields {
 	tags?: string[]
 	description?: string
 	lookingFor?: boolean
+	completed?: boolean
 	locationView?: LocationViewType
 	range?: PostRange
 	daysOfWeek?: DaysOfWeek[]
@@ -216,6 +217,7 @@ export interface PostCollectionCommonFieldsRemote {
 	tags: string[]
 	description: string
 	lookingFor?: boolean
+	completed?: boolean
 	locationView: LocationViewType
 	range: PostRange
 	daysOfWeek?: DaysOfWeek[]

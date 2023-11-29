@@ -19,6 +19,8 @@ import { deletePost } from '../../../services/firebase/post/deletePost'
 import { share } from '../../../common/share'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
 import { textHasOnlyNumbers } from '../../../utils/validationFunctions'
+import { markPostAsComplete } from '../../../services/firebase/post/markPostAsCompleted'
+import { mergeArrayPosts } from '../../../utils/mergeArrayPosts'
 
 import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 import { ViewServicePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
@@ -48,11 +50,12 @@ import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 import { LinkCard } from '../../../components/_cards/LinkCard'
 
 function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { userDataContext, setDataOnSecureStore, setUserDataOnContext } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
+	const [isCompleted, setIsCompleted] = useState(route.params.postData.completed || false)
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 
 	useEffect(() => {
@@ -78,6 +81,28 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 		if (!postData || !postData.owner || !postData.owner.profilePictureUrl) { return null }
 		if (arrayIsEmpty(postData.owner.profilePictureUrl)) return null
 		return postData.owner.profilePictureUrl[0]
+	}
+
+	const markAsCompleted = async () => {
+		try {
+			const updatedPostData = { ...postData, completed: !isCompleted }
+			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
+
+			markPostAsComplete(
+				userDataContext,
+				postData.postId,
+				updatedPostData,
+				mergedPosts || []
+			)
+
+			setUserDataOnContext({ posts: mergedPosts })
+			setDataOnSecureStore('corre.user', { posts: mergedPosts })
+
+			setIsCompleted(!isCompleted)
+			setPostOptionsIsOpen(false)
+		} catch (err) {
+			console.log(err)
+		}
 	}
 
 	const deleteRemotePost = async () => {
@@ -250,10 +275,11 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
 						isLoading={isLoading}
+						isCompleted={isCompleted}
 						goToComplaint={reportPost}
 						editPost={goToEditPost}
+						markAsCompleted={markAsCompleted}
 						deletePost={toggleDefaultConfirmationModalVisibility}
-
 					>
 						<SmallButton
 							SvgIcon={ThreeDotsWhiteIcon}
