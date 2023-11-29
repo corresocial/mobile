@@ -128,10 +128,14 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong)
 			}
 
-			const remoteFeedPosts = await getPostsByLocationCloud(
-				searchParams, // Update return of cloud function
-				userDataContext.userId as Id
+			const remoteFeedPosts = await getPostsByLocation(
+				searchParams
 			)
+
+			/* const remoteFeedPosts = await getPostsByLocationCloud(
+				searchParams,
+				userDataContext.userId as Id
+			) */
 
 			// const remoteFeedPosts = await getPostsByLocation(searchParams)
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })

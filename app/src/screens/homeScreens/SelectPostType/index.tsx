@@ -22,6 +22,7 @@ import { SubscriptionPresentationModal } from '../../../components/_modals/Subsc
 import { AuthContext } from '../../../contexts/AuthContext'
 import { getNumberOfStoredOfflinePosts } from '../../../utils/offlinePost'
 import { getNetworkStatus } from '../../../utils/deviceNetwork'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 
 function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -137,6 +138,7 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 				<SubscriptionButtonContainer>
 					<SubscriptionButton onPress={() => setSubscriptionModalIsVisible(true)} />
 				</SubscriptionButtonContainer>
+				<VerticalSpacing />
 			</Container >
 			<BottomSafeAreaColor safeAreaColor={theme.orange2} withoutFlex />
 		</>
