@@ -381,14 +381,16 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	const getUserPosts = () => {
 		if (route.params && route.params.userId) {
 			return user.posts
-				? user.posts.sort(
-					sortPostsByCreatedData as (a: PostCollection, b: PostCollection) => number
-				)
+				? user.posts
+					.filter((post) => !post.completed)
+					.sort(sortPostsByCreatedData as (a: PostCollection, b: PostCollection) => number)
 				: []
 		}
 
 		return userDataContext.posts
-			? userDataContext.posts.sort(sortPostsByCreatedData)
+			? userDataContext.posts
+				.filter((post) => !post.completed)
+				.sort(sortPostsByCreatedData)
 			: []
 	}
 

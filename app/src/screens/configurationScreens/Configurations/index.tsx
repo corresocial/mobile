@@ -120,6 +120,19 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				<SubscriptionButton customTitle={'assinatura corre.'} onPress={performUserSubscription} />
 				<VerticalSpacing />
 				<OptionButton
+					label={'corres concluídos'}
+					highlightedWords={['concluídos']}
+					labelSize={18}
+					relativeHeight={relativeScreenHeight(9)}
+					SvgIcon={notificationState.configNotificationEntryMethod ? DescriptionAlertWhiteIcon : DescriptionWhiteIcon}
+					svgIconScale={notificationState.configNotificationEntryMethod ? ['60%', '60%'] : ['50%', '50%']}
+					leftSideColor={theme.orange3}
+					leftSideWidth={'22%'}
+					// onPress={() => navigateToScreen('ViewCompletedPosts')}
+					onPress={() => { }}
+				/>
+				<VerticalSpacing />
+				<OptionButton
 					label={'notificações'}
 					highlightedWords={['notificações']}
 					labelSize={18}
