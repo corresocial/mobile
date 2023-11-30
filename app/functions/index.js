@@ -12,14 +12,15 @@ const { getNearbyPosts, getCityPosts, getCountryPosts, filterLocation } = requir
 const {
 	removeDuplicatesByPostId,
 	spreadPostsByRange,
+	getPostCompletedFilter,
 	getPostTypeFilter,
 	getGeohashFilter,
 	getRangeFilter,
 	getMacroCategoryFilter,
 	getCategoryFilter,
 	getTagFilter,
-	structurePostObject
-} = require('./src/getFeedPostsBeta')
+	structurePostObject,
+} = require('./src/searchPostsByAlgoliaBeta')
 
 admin.initializeApp()
 
@@ -62,6 +63,7 @@ exports.searchPostsByAlgoliaBeta = functions.https.onRequest(async (req, res) =>
 		const { searchText, searchParams, searchByRange, userId } = req.body
 
 		const searchFilters = {
+			completedFilter: '',
 			cityFilter: '',
 			countryFilter: '',
 			postTypeFilter: '',
@@ -71,6 +73,8 @@ exports.searchPostsByAlgoliaBeta = functions.https.onRequest(async (req, res) =>
 			categoryFilter: '',
 			tagFilter: '',
 		}
+
+		searchFilters.completedFilter = getPostCompletedFilter()
 
 		if (searchByRange) {
 			const geohashField = 'geohashNearby'
@@ -93,24 +97,24 @@ exports.searchPostsByAlgoliaBeta = functions.https.onRequest(async (req, res) =>
 			searchByRange
 				? [
 					searchParams.range === 'near' && await postsIndex.search(searchText, { // Near
-						filters: searchFilters.geohashFilter
+						filters: `${searchFilters.completedFilter}${searchFilters.geohashFilter}`
 					}),
 					searchParams.range === 'city' && await postsIndex.search(searchText, { // City
-						filters: searchFilters.cityFilter
+						filters: `${searchFilters.completedFilter}${searchFilters.cityFilter}`
 					}),
 					searchParams.range === 'country' && await postsIndex.search(searchText, { // Country
-						filters: searchFilters.countryFilter
+						filters: `${searchFilters.completedFilter}${searchFilters.countryFilter}`
 					})
 				]
 				: [
 					await postsIndex.search(searchText, { // Near
-						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter} ${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+						filters: `${searchFilters.completedFilter}${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter} ${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 					}),
 					await postsIndex.search(searchText, { // City
-						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND ${searchFilters.cityFilter}${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+						filters: `${searchFilters.completedFilter}${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND ${searchFilters.cityFilter}${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 					}),
 					await postsIndex.search(searchText, { // Country
-						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+						filters: `${searchFilters.completedFilter}${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 					})
 				]
 		)

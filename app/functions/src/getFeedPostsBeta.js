@@ -106,4 +106,4 @@ const getRandomDetachment = () => {
 	return -(approximateRadius * detachmentRandom)
 }
 
-export { getNearbyPosts, getCityPosts, getCountryPosts, filterLocation }
+module.exports = { getNearbyPosts, getCityPosts, getCountryPosts, filterLocation }

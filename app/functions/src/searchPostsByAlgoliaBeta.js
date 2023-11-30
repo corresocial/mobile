@@ -23,6 +23,10 @@ const spreadPostsByRange = (posts) => {
 	return result
 }
 
+const getPostCompletedFilter = () => {
+	return '(completed:false) AND '
+}
+
 const getPostTypeFilter = (postType) => {
 	return `postType:${postType}`
 }
@@ -73,9 +77,10 @@ const structurePostObject = (record) => {
 	return structuredPost
 }
 
-export {
+module.exports = {
 	removeDuplicatesByPostId,
 	spreadPostsByRange,
+	getPostCompletedFilter,
 	getPostTypeFilter,
 	getGeohashFilter,
 	getRangeFilter,
