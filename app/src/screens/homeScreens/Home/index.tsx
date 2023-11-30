@@ -128,16 +128,11 @@ function Home({ navigation }: HomeScreenProps) {
 				searchParams = await getSearchParams(coordinates as LatLong)
 			}
 
-			const remoteFeedPosts = await getPostsByLocation(
-				searchParams
-			)
-
-			/* const remoteFeedPosts = await getPostsByLocationCloud(
+			const remoteFeedPosts = await getPostsByLocationCloud(
 				searchParams,
 				userDataContext.userId as Id
-			) */
+			)
 
-			// const remoteFeedPosts = await getPostsByLocation(searchParams)
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
 			refresh ? setFeedIsUpdating(false) : setLoaderIsVisible(false)
