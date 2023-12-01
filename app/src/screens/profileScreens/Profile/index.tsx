@@ -174,9 +174,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const getRelativeMacroTagLabel = (macroTag: string): string => {
 		switch (macroTag) {
-			case 'sale': return 'vendas'
-			case 'service': return 'serviços'
-			case 'vacancy': return 'vagas'
 			case 'income': return 'renda'
 			case 'culture': return 'cultura'
 			case 'socialImpact': return 'cidadania'

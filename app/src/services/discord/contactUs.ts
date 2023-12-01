@@ -36,9 +36,7 @@ async function sendContactUsMessageToDiscord({
 
 	const getRelativeReportedTarget = () => {
 		switch (reportedTarget) {
-			case 'service': return 'serviço'
-			case 'sale': return 'venda'
-			case 'vacancy': return 'vaga'
+			case 'income': return 'renda'
 			case 'socialImpact': return 'impacto social'
 			case 'culture': return 'cultura'
 			case 'user': return 'usuário'

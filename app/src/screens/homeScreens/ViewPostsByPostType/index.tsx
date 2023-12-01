@@ -71,16 +71,6 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 
 	const postBelongContextPostType = (post: PostCollectionRemote) => {
 		if (!post) return false
-
-		if (locationDataContext.searchParams.postType === 'income'
-			&& (
-				post.postType === 'sale' // TODO Temporary
-				|| post.postType === 'service'
-				|| post.postType === 'vacancy'
-			)) {
-			return true
-		}
-
 		return post.postType === locationDataContext.searchParams.postType
 	}
 

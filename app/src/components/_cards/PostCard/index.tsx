@@ -38,15 +38,6 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 	const defineLabelColor = (lightColor?: boolean) => {
 		switch (post.postType) {
-			case 'service': {
-				return lightColor ? theme.green1 : theme.green3
-			}
-			case 'sale': {
-				return lightColor ? theme.green1 : theme.green3
-			}
-			case 'vacancy': {
-				return lightColor ? theme.green1 : theme.green3
-			}
 			case 'income': {
 				return lightColor ? theme.green1 : theme.green3
 			}

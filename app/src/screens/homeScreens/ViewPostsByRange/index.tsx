@@ -81,9 +81,6 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 	const getRelativeBackgroundColor = () => {
 		switch (postType) {
 			case 'income': return theme.green2
-			case 'service': return theme.purple2
-			case 'sale': return theme.green2
-			case 'vacancy': return theme.yellow2
 			case 'culture': return theme.blue2
 			case 'socialImpact': return theme.pink2
 			default: return theme.orange2

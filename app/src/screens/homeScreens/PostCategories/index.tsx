@@ -74,16 +74,6 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	const postBelongContextPostType = (post: any) => { // TODO type
 		if (!post) return false
 
-		if (postType === 'income'
-			&& (
-				post.postType === 'sale' // TODO Temporary
-				|| post.postType === 'service'
-				|| post.postType === 'vacancy'
-			)
-			&& post[`${postType}Type`] === macroCategory) {
-			return true
-		}
-
 		return (post.postType === locationDataContext.searchParams.postType
 			&& post[`${postType}Type`] === macroCategory)
 	}
