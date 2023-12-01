@@ -95,23 +95,18 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	}
 
 	const viewPostsByRange = (postRange: PostRange) => {
-		switch (postRange) {
-			case 'near': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: resultPosts.nearby,
-				postRange: searchByRange ? '' : postRange,
-				postType: locationDataContext.searchParams.postType as PostType
-			})
-			case 'city': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: resultPosts.city,
-				postRange: searchByRange ? '' : postRange,
-				postType: locationDataContext.searchParams.postType as PostType
+		const postRangeValue = searchByRange ? '' : postRange
+		const postsByRange = getPostsByRange(postRange)
+		const { postType } = locationDataContext.searchParams
 
-			})
-			case 'country': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: resultPosts.country,
-				postRange: searchByRange ? '' : postRange,
-				postType: locationDataContext.searchParams.postType as PostType
-			})
+		navigation.navigate('ViewPostsByRange', { postsByRange, postRange: postRangeValue, postType })
+	}
+
+	const getPostsByRange = (postRange: PostRange) => {
+		switch (postRange) {
+			case 'near': return resultPosts.nearby || []
+			case 'city': return resultPosts.city || []
+			case 'country': return resultPosts.country || []
 		}
 	}
 

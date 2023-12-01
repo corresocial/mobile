@@ -5,7 +5,7 @@ import { Container, FlatList, Header, InputContainer, TagsContainer } from './st
 import OtherWhiteIcon from '../../../assets/icons/categories/others.svg'
 
 import { PostCategoryDetailsScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
-import { PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
+import { PostCollection, PostCollectionRemote, PostRange } from '../../../services/firebase/types'
 
 import { LocationContext } from '../../../contexts/LocationContext'
 
@@ -101,23 +101,17 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	}
 
 	const viewPostsByRange = (postRange: PostRange) => {
-		switch (postRange) {
-			case 'near': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: filteredFeedPosts.nearby,
-				postRange,
-				postType: locationDataContext.searchParams.postType as PostType
-			})
-			case 'city': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: filteredFeedPosts.city,
-				postRange,
-				postType: locationDataContext.searchParams.postType as PostType
+		const postsByRange = getPostsByRange(postRange)
+		const { postType } = locationDataContext.searchParams
 
-			})
-			case 'country': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: filteredFeedPosts.country,
-				postRange,
-				postType: locationDataContext.searchParams.postType as PostType
-			})
+		navigation.navigate('ViewPostsByRange', { postsByRange, postRange, postType })
+	}
+
+	const getPostsByRange = (postRange: PostRange) => {
+		switch (postRange) {
+			case 'near': return filteredFeedPosts.nearby || []
+			case 'city': return filteredFeedPosts.city || []
+			case 'country': return filteredFeedPosts.country || []
 		}
 	}
 

@@ -16,7 +16,7 @@ import HeartAndPersonWhiteIcon from '../../../assets/icons/heartAndPerson-white.
 import PeperInfoWhiteIcon from '../../../assets/icons/paperInfo-white.svg'
 
 import { ViewPostsByPostTypeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
-import { FeedPosts, PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
+import { FeedPosts, PostCollection, PostCollectionRemote, PostRange } from '../../../services/firebase/types'
 
 import { LocationContext } from '../../../contexts/LocationContext'
 
@@ -98,23 +98,17 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	}
 
 	const viewPostsByRange = (postRange: PostRange) => {
-		switch (postRange) {
-			case 'near': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: feedPostsByType.nearby,
-				postRange,
-				postType: locationDataContext.searchParams.postType as PostType
-			})
-			case 'city': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: feedPostsByType.city,
-				postRange,
-				postType: locationDataContext.searchParams.postType as PostType
+		const postsByRange = getPostsByRange(postRange)
+		const { postType } = locationDataContext.searchParams
 
-			})
-			case 'country': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: feedPostsByType.country,
-				postRange,
-				postType: locationDataContext.searchParams.postType as PostType
-			})
+		navigation.navigate('ViewPostsByRange', { postsByRange, postRange, postType })
+	}
+
+	const getPostsByRange = (postRange: PostRange) => {
+		switch (postRange) {
+			case 'near': return feedPostsByType.nearby || []
+			case 'city': return feedPostsByType.city || []
+			case 'country': return feedPostsByType.country || []
 		}
 	}
 

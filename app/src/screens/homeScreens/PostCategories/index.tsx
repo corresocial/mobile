@@ -15,7 +15,7 @@ import { socialImpactCategories } from '../../../utils/postsCategories/socialImp
 import { sortPostCategories } from '../../../common/auxiliaryFunctions'
 
 import { PostCategoriesScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
-import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
+import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote, PostRange } from '../../../services/firebase/types'
 
 import { LocationContext } from '../../../contexts/LocationContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -215,23 +215,17 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	}
 
 	const viewPostsByRange = (postRange: PostRange) => {
-		switch (postRange) {
-			case 'near': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: feedPostsByTypeAndMacroCategory.nearby,
-				postRange,
-				postType: locationDataContext.searchParams.postType as PostType
-			})
-			case 'city': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: feedPostsByTypeAndMacroCategory.city,
-				postRange,
-				postType: locationDataContext.searchParams.postType as PostType
+		const postsByRange = getPostsByRange(postRange)
+		const { postType: postTypeFromRoute } = locationDataContext.searchParams
 
-			})
-			case 'country': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: feedPostsByTypeAndMacroCategory.country,
-				postRange,
-				postType: locationDataContext.searchParams.postType as PostType
-			})
+		navigation.navigate('ViewPostsByRange', { postsByRange, postRange, postType: postTypeFromRoute })
+	}
+
+	const getPostsByRange = (postRange: PostRange) => {
+		switch (postRange) {
+			case 'near': return feedPostsByTypeAndMacroCategory.nearby || []
+			case 'city': return feedPostsByTypeAndMacroCategory.city || []
+			case 'country': return feedPostsByTypeAndMacroCategory.country || []
 		}
 	}
 

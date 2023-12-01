@@ -170,8 +170,6 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		clearUnsavedEditContext
 	}
 
-	console.log(route.params.postData.macroCategory)
-
 	return (
 		<>
 			<LocationChangeConfirmationModal
