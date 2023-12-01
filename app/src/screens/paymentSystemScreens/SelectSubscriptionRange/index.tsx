@@ -18,7 +18,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { TitleDescriptionButton } from '../../../components/_cards/TitleDescriptionButton'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeChangeConfirmatiomModal'
 import { getRangeText } from '../../../utils/subscription/commonMessages'
 
@@ -119,7 +119,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				return (
 					<React.Fragment key={rangeCard.id}>
 						{rangeCard.component}
-						<VerticalSigh />
+						<VerticalSpacing />
 					</React.Fragment>
 				)
 			}
@@ -189,7 +189,7 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 				<BackButton onPress={() => navigation.goBack()} />
 				<InstructionCard
 					borderLeftWidth={3}
-					fontSize={15}
+					fontSize={14}
 					title={'assinatura corre.'}
 					message={'com uma assinatura você alcança mais clientes E ao mesmo tempo apoia nossa iniciativa social'}
 					highlightedWords={['corre']}

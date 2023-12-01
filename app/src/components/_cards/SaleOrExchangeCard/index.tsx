@@ -6,6 +6,7 @@ import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
 import SalesCartWhiteIcon from '../../../assets/icons/salesCart-white.svg'
 import ExchangeWhiteIcon from '../../../assets/icons/exchange-white.svg'
 import CashWhiteIcon from '../../../assets/icons/cash-white.svg'
+import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { textHasOnlyNumbers } from '../../../utils/validationFunctions'
@@ -77,9 +78,13 @@ function SaleOrExchangeCard({
 		return !isPayment ? SalesCartWhiteIcon : CashWhiteIcon
 	}
 
+	const getHeaderRightIcon = () => {
+		return (!saleValue && !exchangeValue) ? PlusWhiteIcon : undefined
+	}
+
 	return (
 		<DefaultCardContainer>
-			<EditHeaderContainer onPress={onEdit}>
+			<EditHeaderContainer onPress={onEdit} RightIcon={getHeaderRightIcon()}>
 				<DefaultHeaderTitle
 					title={title || getDefaultTitle()}
 					highlightedWords={hightligtedWords || ['venda', 'troca']}

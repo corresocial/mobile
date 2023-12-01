@@ -1,10 +1,8 @@
 import React, { useContext, useState } from 'react'
-import { FlatList } from 'react-native'
 
-import { RFValue } from 'react-native-responsive-fontsize'
-import LoupIcon from '../../../assets/icons/loup-white.svg'
 import { theme } from '../../../common/theme'
-import { Body, Container, ContainerPadding, Header, HorizontalSigh, InputContainer, SearchInput, TagsContainer } from './styles'
+import { Container, FlatList, Header, InputContainer, TagsContainer } from './styles'
+import OtherWhiteIcon from '../../../assets/icons/categories/others.svg'
 
 import { PostCategoryDetailsScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 import { PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
@@ -14,14 +12,15 @@ import { LocationContext } from '../../../contexts/LocationContext'
 import { sortArray } from '../../../common/auxiliaryFunctions'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
-import { PostCard } from '../../../components/_cards/PostCard'
 import { AuthContext } from '../../../contexts/AuthContext'
 
-import { FlatListPosts } from '../../../components/FlatListPosts'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
+import { SearchInput } from '../../../components/_inputs/SearchInput'
+import { FeedByRange } from '../../../components/FeedByRange'
+import { FlatListItem } from '../../../@types/global/types'
+import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 
 function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -67,7 +66,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	}
 
 	const getFiltredCategoryTags = () => {
-		const allTags = [...categoryTags, ...getFeedPostsTags()]
+		const allTags = [...categoryTags]
 
 		if (!searchText) {
 			return allTags
@@ -76,9 +75,20 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 		}
 
 		const filtredTags = allTags
-			.filter((tag) => !!tag.match(new RegExp(`${searchText}`, 'i'))?.length)
+			.filter((tag) => filterTag(tag, searchText))
 
 		return filtredTags.sort(sortArray)
+	}
+
+	const hasAnyFilteredCategory = () => {
+		const allTags = [...categoryTags, ...getFeedPostsTags()]
+		const filtredTags = allTags
+			.filter((tag, index, array) => filterTag(tag, searchText) && array.indexOf(tag) === index)
+		return filtredTags.length
+	}
+
+	const filterTag = (tag: string, matchText: string) => {
+		return !!tag.match(new RegExp(`${matchText}`, 'i'))?.length
 	}
 
 	const viewPostsByTag = (tagName: string) => {
@@ -111,28 +121,22 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 		}
 	}
 
-	const goToPostView = (item: PostCollection) => {
-		switch (item.postType) {
-			case 'service': {
-				navigation.navigate('ViewServicePostHome', { postData: { ...item } })
-				break
+	const goToPostView = (post: PostCollection | any) => { // TODO Type
+		switch (post.postType) {
+			case 'income': {
+				switch (post.macroCategory) {
+					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
+					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
+					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
+					default: return false
+				}
 			}
-			case 'sale': {
-				navigation.navigate('ViewSalePostHome', { postData: { ...item } })
-				break
-			}
-			case 'vacancy': {
-				navigation.navigate('ViewVacancyPostHome', { postData: { ...item } })
-				break
-			}
-			case 'socialImpact': {
-				navigation.navigate('ViewSocialImpactPostHome', { postData: { ...item } })
-				break
-			}
-			case 'culture': {
-				navigation.navigate('ViewCulturePostHome', { postData: { ...item } })
-				break
-			}
+
+			case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
+			case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
+			case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
+			case 'socialImpact': return navigation.navigate('ViewSocialImpactPostHome', { postData: { ...post } })
+			case 'culture': return navigation.navigate('ViewCulturePostHome', { postData: { ...post } })
 			default: return false
 		}
 	}
@@ -143,6 +147,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 			searchText,
 			category: locationDataContext.currentCategory.categoryName,
 		}
+
 		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle, })
 	}
 
@@ -153,27 +158,6 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 		}
 		navigation.navigate('ProfileHome', { userId, stackLabel: '' })
 	}
-
-	const getFirstFiveItems = (items: any[]) => {
-		if (!items) return []
-		if (items.length >= 5) return items.slice(0, 5)
-		return items
-	}
-
-	const renderPostItem = (item: PostCollection) => (
-		<ContainerPadding>
-			<PostCard
-				post={item}
-				owner={item.owner}
-				navigateToProfile={navigateToProfile}
-				onPress={() => goToPostView(item)}
-			/>
-		</ContainerPadding>
-	)
-
-	/* const hasAnyPost = () => {
-		return (filteredFeedPosts.nearby.length > 0 || filteredFeedPosts.city.length > 0 || filteredFeedPosts.country.length > 0)
-	} */
 
 	return (
 		<Container>
@@ -186,134 +170,60 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 					onBackPress={() => navigation.goBack()}
 				/>
 				<InputContainer>
-					<LoupIcon width={RFValue(25)} height={RFValue(25)} />
 					<SearchInput
 						value={searchText}
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
-						onSubmitEditing={navigateToResultScreen}
+						onPressKeyboardSubmit={navigateToResultScreen}
 					/>
 				</InputContainer>
 			</Header>
-			<Body style={{ backgroundColor }}>
+			<FeedByRange
+				backgroundColor={backgroundColor}
+				filteredFeedPosts={filteredFeedPosts}
+				viewPostsByRange={viewPostsByRange}
+				navigateToProfile={navigateToProfile}
+				goToPostView={goToPostView}
+			>
 				{
-					<>
-						<VerticalSigh />
-						<SubtitleCard
-							text={`todas categorias ${categoryTitle}`}
-							highlightedText={['todas', ...categoryTitle.split(' ')]}
-							onPress={viewAllTags}
-						/>
-						<VerticalSigh />
-					</>
-				}
-				<TagsContainer>
-					<FlatList
-						data={getFiltredCategoryTags()}
-						horizontal
-						showsHorizontalScrollIndicator={false}
-						ListHeaderComponent={<HorizontalSigh />}
-						ListHeaderComponentStyle={{ height: 0 }}
-						ItemSeparatorComponent={() => <HorizontalSigh />}
-						ListFooterComponentStyle={{ height: 0 }}
-						ListFooterComponent={<HorizontalSigh />}
-						renderItem={({ item }) => (
-							<CategoryCard
-								hasElements={!!(feedPosts.filter((post) => post.category === categoryName && post.tags.includes(item) && post.postType === locationDataContext.searchParams.postType)).length}
-								inactiveColor={inactiveColor}
-								title={item}
-								withoutMargin
-								onPress={() => viewPostsByTag(item)}
-							/>
-						)}
-					/>
-				</TagsContainer>
-				{
-					(filteredFeedPosts.nearby && filteredFeedPosts.nearby.length)
+					hasAnyFilteredCategory()
 						? (
 							<>
-								<FlatListPosts
-									data={getFirstFiveItems(filteredFeedPosts.nearby)}
-									headerComponent={() => (
-										<>
-											<SubtitleCard
-												text={'perto de você'}
-												highlightedText={['perto']}
-												seeMoreText
-												onPress={() => viewPostsByRange('near')}
-											/>
-											<VerticalSigh />
-										</>
-									)}
-									renderItem={renderPostItem}
-								// flatListIsLoading={flatListIsLoading}
-								// onEndReached={refreshFlatlist}
+								<SubtitleCard
+									text={'tags'}
+									highlightedText={['tags']}
+									SvgIcon={OtherWhiteIcon}
+									seeMoreText
+									onPress={viewAllTags}
 								/>
+								<VerticalSpacing />
+								<TagsContainer>
+									<FlatList
+										data={getFiltredCategoryTags()}
+										horizontal
+										showsHorizontalScrollIndicator={false}
+										ListHeaderComponent={<HorizontalSpacing />}
+										ListHeaderComponentStyle={{ height: 0 }}
+										ItemSeparatorComponent={() => <HorizontalSpacing />}
+										ListFooterComponentStyle={{ height: 0 }}
+										ListFooterComponent={<HorizontalSpacing />}
+										renderItem={({ item }: FlatListItem<string>) => (
+											<CategoryCard
+												hasElements={!!(feedPosts.filter((post) => post.category === categoryName && post.tags.includes(item) && post.postType === locationDataContext.searchParams.postType)).length}
+												inactiveColor={inactiveColor}
+												title={item}
+												withoutMargin
+												onPress={() => viewPostsByTag(item)}
+											/>
+										)}
+									/>
+								</TagsContainer>
 							</>
 						)
 						: <></>
 				}
-				{
-					(filteredFeedPosts.city && filteredFeedPosts.city.length)
-						? (
-							<>
-								<FlatListPosts
-									data={getFirstFiveItems(filteredFeedPosts.city)}
-									headerComponent={() => (
-										<>
-											<SubtitleCard
-												text={'na cidade'}
-												highlightedText={['cidade']}
-												seeMoreText
-												onPress={() => viewPostsByRange('city')}
-											/>
-											<VerticalSigh />
-										</>
-									)}
-									renderItem={renderPostItem}
-								// flatListIsLoading={flatListIsLoading}
-								// onEndReached={refreshFlatlist}
-								/>
-							</>
-						)
-						: <></>
-				}
-				{
-					(filteredFeedPosts.country && filteredFeedPosts.country.length)
-						? (
-							<>
-								<FlatListPosts
-									data={getFirstFiveItems(filteredFeedPosts.country)}
-									headerComponent={() => (
-										<>
-											<SubtitleCard
-												text={'no país'}
-												highlightedText={['país']}
-												seeMoreText
-												onPress={() => viewPostsByRange('country')}
-											/>
-											<VerticalSigh />
-										</>
-									)}
-									renderItem={renderPostItem}
-								// flatListIsLoading={flatListIsLoading}
-								// onEndReached={refreshFlatlist}
-								/>
-							</>
-						)
-						: <></>
-				}
-				<VerticalSigh height={relativeScreenHeight(10)} />
-				{/* {
-					!hasAnyPost() && (
-						<WithoutPostsMessage
-							title={'opa!'}
-							message={'parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'}
-						/>
-					)
-				} */}
-			</Body>
+			</FeedByRange>
 		</Container>
 	)
 }

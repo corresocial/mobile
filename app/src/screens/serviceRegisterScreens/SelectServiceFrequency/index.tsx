@@ -79,7 +79,7 @@ function SelectServiceFrequency({ route, navigation }: SelectServiceFrequencyScr
 		<>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<PostFrequency
-				backgroundColor={theme.purple2}
+				backgroundColor={theme.green2}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
 				savePostFrequency={saveServiceFrequency}

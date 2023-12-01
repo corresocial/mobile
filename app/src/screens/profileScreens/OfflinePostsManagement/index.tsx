@@ -12,7 +12,7 @@ import { PostCollection, PostCollectionRemote } from '../../../services/firebase
 
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { FlatListPosts } from '../../../components/FlatListPosts'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { Body, Container, Header, SaveButtonContainer } from './styles'
@@ -297,10 +297,8 @@ function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScr
 						data={offlinePosts}
 						renderItem={renderPostItem}
 						headerComponent={() => (
-							<VerticalSigh />
+							<VerticalSpacing />
 						)}
-					// flatListIsLoading={flatListIsLoading}
-					// onEndReached={refreshFlatlist}
 					/>
 				}
 			</Body>

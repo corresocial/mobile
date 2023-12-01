@@ -24,11 +24,13 @@ interface DefaultInputProps extends TextInputProps {
 	nextInputRef?: any
 	defaultBackgroundColor: string
 	validBackgroundColor: string
+	invalidBackgroundColor?: string
 	secureTextEntry?: boolean
 	invalidTextAfterSubmit?: boolean
 	fontSize?: number
 	withoutBottomLine?: boolean
 	multiline?: boolean
+	hasMultipleInputs?: boolean
 	editable?: boolean
 	placeholder?: string
 	error?: boolean
@@ -57,6 +59,7 @@ function DefaultInput({
 	nextInputRef,
 	defaultBackgroundColor,
 	validBackgroundColor,
+	invalidBackgroundColor,
 	maxLength,
 	secureTextEntry,
 	invalidTextAfterSubmit = false,
@@ -64,6 +67,7 @@ function DefaultInput({
 	textAlign = 'center',
 	withoutBottomLine,
 	multiline,
+	hasMultipleInputs,
 	editable = true,
 	placeholder,
 	keyboardType,
@@ -141,7 +145,7 @@ function DefaultInput({
 
 		if (invalidTextAfterSubmit || error) {
 			return {
-				backgroundColor: theme.red1,
+				backgroundColor: invalidBackgroundColor || theme.red1,
 			}
 		}
 
@@ -175,6 +179,7 @@ function DefaultInput({
 			width={relativeWidth}
 			height={fixedHeight}
 			multiline={multiline}
+			hasMultipleInputs={hasMultipleInputs}
 			multilineInputHeight={multilineInputHeight}
 			onIconPress={!!onIconPress}
 			style={{ ...generateInputContainerStyle() }}

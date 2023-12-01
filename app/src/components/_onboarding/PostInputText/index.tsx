@@ -14,7 +14,7 @@ import { BackButton } from '../../_buttons/BackButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
 import { ProgressBar } from '../../ProgressBar'
 import { DefaultInput } from '../../_inputs/DefaultInput'
-import { HorizontalSpacing } from '../../HorizontalSpacing'
+import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
 import { SmallButton } from '../../_buttons/SmallButton'
 
 interface PostInputTextProps {

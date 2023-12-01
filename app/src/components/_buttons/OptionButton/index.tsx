@@ -29,6 +29,7 @@ interface OptionButtonProps {
 	SvgIcon?: React.FC<SvgProps>
 	SecondSvgIcon?: React.FC<SvgProps>
 	svgIconScale?: [height: string, width: string]
+	secondSvgIconScale?: [height: string, width: string]
 	leftSideColor?: string
 	leftSideWidth?: string | number
 	leftSideText?: string
@@ -52,6 +53,7 @@ function OptionButton({
 	SvgIcon,
 	SecondSvgIcon,
 	svgIconScale,
+	secondSvgIconScale,
 	leftSideColor = theme.orange2,
 	leftSideWidth,
 	leftSideText,
@@ -105,7 +107,7 @@ function OptionButton({
 						}}
 					>
 						{SvgIcon && <SvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />}
-						{SecondSvgIcon && <SecondSvgIcon height={svgIconScale?.[0]} width={svgIconScale?.[1]} />}
+						{SecondSvgIcon && <SecondSvgIcon height={secondSvgIconScale?.[0] || svgIconScale?.[0]} width={secondSvgIconScale?.[1] || svgIconScale?.[1]} />}
 						{
 							leftSideText && (
 								<LeftSideText leftSideTextColor={leftSideTextColor}>

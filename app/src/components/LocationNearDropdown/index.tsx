@@ -9,26 +9,21 @@ import {
 	DropdownBody,
 	DropdownHeader,
 	DropdownHeaderContainer,
-	Sigh,
-	IconArea,
-	SearchInput,
 	MyLocationButtonContainer,
-	BigSigh
 } from './styles'
 import { theme } from '../../common/theme'
 import { relativeScreenHeight, statusBarHeight } from '../../common/screenDimensions'
-import LoupIcon from '../../assets/icons/loup-white.svg'
-import XIcon from '../../assets/icons/x-white.svg'
-import MapIcon from '../../assets/icons/map.svg'
+import MapIcon from '../../assets/icons/mapPoint-white.svg'
 
 import { setRecentAddressOnStorage } from '../../utils/maps/recentAddresses'
 
 import { AddressSearchResult, LatLong, SelectedAddressRender } from '../../services/maps/types'
 
 import { DropdownItem } from '../DropdownItem'
-import { SmallButton } from '../_buttons/SmallButton'
 import { PrimaryButton } from '../_buttons/PrimaryButton'
 import { DefaultDropdownHeader } from '../DefaultDropdownHeader'
+import { VerticalSpacing } from '../_space/VerticalSpacing'
+import { SearchInput } from '../_inputs/SearchInput'
 
 interface LocationNearDropdownProps {
 	selectedAddress: SelectedAddressRender
@@ -119,24 +114,6 @@ function LocationNearDropdown({
 						? (
 							<DropdownHeaderContainer>
 								<DropdownHeader>
-									<IconArea>
-										{
-											!searchText.length
-												? <LoupIcon width={RFValue(22)} height={RFValue(22)} />
-												: (
-													<SmallButton
-														height={relativeScreenHeight(5)}
-														relativeWidth={relativeScreenHeight(5)}
-														color={theme.white3}
-														onPress={() => {
-															clearAddressSuggestions()
-															setSearchText('')
-														}}
-														SvgIcon={XIcon}
-													/>
-												)
-										}
-									</IconArea>
 									<SearchInput
 										value={searchText}
 										placeholder={'onde você tá?'}
@@ -145,7 +122,7 @@ function LocationNearDropdown({
 											setSearchText(text)
 											clearAddressSuggestions()
 										}}
-										onSubmitEditing={() => {
+										onPressKeyboardSubmit={() => {
 											findAddressSuggestions(searchText)
 										}}
 									/>
@@ -168,7 +145,7 @@ function LocationNearDropdown({
 							/>
 						)
 					}
-					<Sigh />
+					<VerticalSpacing height={RFValue(5)} />
 					{
 						!searchText.length && (
 							<MyLocationButtonContainer>
@@ -189,7 +166,7 @@ function LocationNearDropdown({
 							</MyLocationButtonContainer>
 						)
 					}
-					<Sigh />
+					<VerticalSpacing height={RFValue(5)} />
 					<FlatList
 						data={!searchText.length ? recentAddresses : addressSuggestions}
 						showsVerticalScrollIndicator={false} // Item
@@ -201,8 +178,8 @@ function LocationNearDropdown({
 								recent={item.recent}
 							/>
 						)}
-						ItemSeparatorComponent={() => <Sigh />}
-						ListFooterComponent={() => <BigSigh />}
+						ItemSeparatorComponent={() => <VerticalSpacing height={RFValue(5)} />}
+						ListFooterComponent={() => <VerticalSpacing height={relativeScreenHeight(20)} />}
 					/>
 				</DropdownBody>
 				{

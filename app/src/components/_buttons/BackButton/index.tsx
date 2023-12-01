@@ -1,17 +1,18 @@
 import React from 'react'
 
+import { RFValue } from 'react-native-responsive-fontsize'
 import AngleLeftIcon from '../../../assets/icons/angleLeft-white.svg'
 import { SmallButton } from '../SmallButton'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import { Sigh } from './styles'
+import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
 
 interface BackButtonProps {
-	withoutSigh?: boolean
+	withoutRightSpacing?: boolean
 	onPress: () => void
 }
 
-function BackButton({ withoutSigh, onPress }: BackButtonProps) {
+function BackButton({ withoutRightSpacing, onPress }: BackButtonProps) {
 	return (
 		<>
 			<SmallButton
@@ -22,7 +23,7 @@ function BackButton({ withoutSigh, onPress }: BackButtonProps) {
 				onPress={onPress}
 				svgScale={['55%', '55%']}
 			/>
-			<Sigh withoutSigh={!withoutSigh} />
+			<HorizontalSpacing width={withoutRightSpacing ? 0 : RFValue(10)} />
 		</>
 	)
 }

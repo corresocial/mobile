@@ -1,11 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { Platform } from 'react-native'
 
-import { RFValue } from 'react-native-responsive-fontsize'
-
-import { Body, Container, ContainerPadding, Header, InputContainer, SearchInput } from './styles'
+import { Body, Container, ContainerPadding, Header, InputContainer } from './styles'
 import { theme } from '../../../common/theme'
-import LoupIcon from '../../../assets/icons/loup-white.svg'
 
 import { PostCollection, PostCollectionRemote } from '../../../services/firebase/types'
 import { ViewPostsByRangeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
@@ -17,9 +14,10 @@ import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader
 import { PostCard } from '../../../components/_cards/PostCard'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { FlatListPosts } from '../../../components/FlatListPosts'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { SearchParams } from '../../../services/maps/types'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { SearchInput } from '../../../components/_inputs/SearchInput'
 
 function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -40,28 +38,22 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 
 	const postsByRange = getFilteredPostsBySearch()
 
-	const goToPostView = (item: PostCollection) => {
-		switch (item.postType) {
-			case 'service': {
-				navigation.navigate('ViewServicePostHome', { postData: { ...item } })
-				break
+	const goToPostView = (post: PostCollection | any) => { // TODO Type
+		switch (post.postType) {
+			case 'income': {
+				switch (post.macroCategory) {
+					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
+					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
+					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
+					default: return false
+				}
 			}
-			case 'sale': {
-				navigation.navigate('ViewSalePostHome', { postData: { ...item } })
-				break
-			}
-			case 'vacancy': {
-				navigation.navigate('ViewVacancyPostHome', { postData: { ...item } })
-				break
-			}
-			case 'socialImpact': {
-				navigation.navigate('ViewSocialImpactPostHome', { postData: { ...item } })
-				break
-			}
-			case 'culture': {
-				navigation.navigate('ViewCulturePostHome', { postData: { ...item } })
-				break
-			}
+
+			case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
+			case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
+			case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
+			case 'socialImpact': return navigation.navigate('ViewSocialImpactPostHome', { postData: { ...post } })
+			case 'culture': return navigation.navigate('ViewCulturePostHome', { postData: { ...post } })
 			default: return false
 		}
 	}
@@ -97,15 +89,16 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 
 	const getRelativeTitle = () => {
 		switch (postRange) {
-			case 'near': return 'perto de você'
-			case 'city': return 'na cidade'
-			case 'country': return 'no país'
+			case 'near': return 'posts por perto'
+			case 'city': return 'posts na cidade'
+			case 'country': return 'posts no país'
 			default: return 'posts recentes'
 		}
 	}
 
 	const getRelativeBackgroundColor = () => {
 		switch (postType) {
+			case 'income': return theme.green2
 			case 'service': return theme.purple2
 			case 'sale': return theme.green2
 			case 'vacancy': return theme.yellow2
@@ -132,17 +125,16 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 			<Header>
 				<DefaultPostViewHeader
 					text={getRelativeTitle()}
-					highlightedWords={['você', 'cidade', 'país', 'recentes']}
+					highlightedWords={['perto', 'cidade', 'país', 'recentes']}
 					onBackPress={() => navigation.goBack()}
 				/>
 				<InputContainer>
-					<LoupIcon width={RFValue(25)} height={RFValue(25)} />
 					<SearchInput
 						value={searchText}
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
-						onSubmitEditing={navigateToResultScreen}
+						onPressKeyboardSubmit={navigateToResultScreen}
 					/>
 				</InputContainer>
 			</Header>
@@ -158,24 +150,14 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 									data={postsByRange}
 									renderItem={renderPostItem}
 									headerComponent={() => (
-										<VerticalSigh />
+										<VerticalSpacing />
 									)}
-								// flatListIsLoading={flatListIsLoading}
-								// onEndReached={refreshFlatlist}
 								/>
 							</>
 						)
 						: <></>
 				}
-				<VerticalSigh height={relativeScreenHeight(10)} />
-				{/* {
-					(!postsByRange || (postsByRange && !postsByRange.length)) && (
-						<WithoutPostsMessage
-						title={'opa!'}
-						message={'parece que não temos nenhum post {perto de você}, nosso time já está sabendo e irá resolver!'}
-						/>
-						)
-					} */}
+				<VerticalSpacing height={relativeScreenHeight(10)} />
 			</Body>
 		</Container>
 	)

@@ -54,10 +54,10 @@ function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostInputText
-				backgroundColor={theme.purple2}
-				validationColor={theme.purple1}
+				backgroundColor={theme.green2}
+				validationColor={theme.green1}
 				customTitle={'por quanto você vende?'}
 				customHighlight={['quanto']}
 				inputPlaceholder={'ex: 120 reais a diária'}

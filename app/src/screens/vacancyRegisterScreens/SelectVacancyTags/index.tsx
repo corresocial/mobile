@@ -46,10 +46,10 @@ function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) 
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostTags
-				backgroundColor={theme.yellow2}
-				lightColor={theme.yellow1}
+				backgroundColor={theme.green2}
+				lightColor={theme.green1}
 				currentCategory={vacancyCategories[getVacancyCategorySelected()]}
 				navigateBackwards={() => navigation.goBack()}
 				addNewTag={addNewTag}

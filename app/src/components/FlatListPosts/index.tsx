@@ -1,12 +1,11 @@
 import React, { JSXElementConstructor, ReactElement } from 'react'
-import { FlatList, Platform, RefreshControl } from 'react-native'
+import { FlatList, RefreshControl } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
 import { PostCollection } from '../../services/firebase/types'
 
-import { VerticalSigh } from '../VerticalSigh'
+import { VerticalSpacing } from '../_space/VerticalSpacing'
 import { theme } from '../../common/theme'
-import { relativeScreenHeight } from '../../common/screenDimensions'
 
 interface FlatListPostsProps {
 	data: PostCollection[]
@@ -16,7 +15,6 @@ interface FlatListPostsProps {
 	renderItem: (post: PostCollection) => ReactElement<any, string | JSXElementConstructor<any>> | null
 	onEndReached?: () => void
 	onRefresh?: () => void
-
 }
 
 function FlatListPosts({
@@ -28,21 +26,19 @@ function FlatListPosts({
 	onEndReached,
 	onRefresh
 }: FlatListPostsProps) {
-	const deviceIsIOS = Platform.OS === 'ios'
-
 	return (
 		<FlatList
 			data={data}
 			renderItem={({ item }) => renderItem(item)}
 			showsVerticalScrollIndicator={false}
-			ItemSeparatorComponent={() => <VerticalSigh />}
+			ItemSeparatorComponent={() => <VerticalSpacing />}
 			ListHeaderComponent={headerComponent}
 			ListHeaderComponentStyle={{ marginBottom: RFValue(0) }}
-			ListFooterComponent={withoutFooter ? <></> : <VerticalSigh height={deviceIsIOS ? relativeScreenHeight(4) : relativeScreenHeight(1.5)} />}
+			ListFooterComponent={withoutFooter ? <></> : <VerticalSpacing />}
 			onEndReached={onEndReached}
 			refreshControl={(
 				<RefreshControl
-					colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3, theme.purple3, theme.yellow3, theme.red3]}
+					colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
 					refreshing={/* !!flatListIsLoading */ false}
 					progressBackgroundColor={theme.white3}
 					onRefresh={onRefresh && onRefresh}

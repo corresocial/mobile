@@ -25,6 +25,8 @@ export const DropdownHeaderContainer = styled.View`
 	height: ${relativeScreenHeight(8)}px;
 	border-radius: ${RFValue(13)}px;
 	padding-horizontal: ${RFValue(15)}px;
+	padding-vertical: ${RFValue(10)}px;
+	padding-bottom: 0px;
 `
 
 export const DropdownHeader = styled.TouchableOpacity`
@@ -32,37 +34,10 @@ export const DropdownHeader = styled.TouchableOpacity`
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
-	border-width-color: ${({ theme }) => theme.black4};
-	border-bottom-width: ${RFValue(3)}px;
-`
-
-export const SearchInput = styled.TextInput`
-	width: 85%;
-	height: 100%;
-	font-size: ${RFValue(15)}px;
-	font-family: Arvo_400Regular;
-	text-align: left;
-`
-
-export const IconArea = styled.View`
-	align-items: center;
-	justify-content: center;
-	width: 10%;
-	height: 100%;
 `
 
 export const DropdownBody = styled.View`
 	padding: ${RFValue(10)}px;
-`
-
-export const Sigh = styled.View`
-	width: 100%;
-	margin-vertical: ${RFValue(5)}px;
-`
-
-export const BigSigh = styled.View`
-	width: 100%;
-	margin-vertical: ${relativeScreenHeight(20)}px;
 `
 
 export const MyLocationButtonContainer = styled.View`

@@ -6,10 +6,11 @@ interface ContainerProps {
 	textIsValid?: boolean
 	validBackgroundColor?: string
 	focused: boolean
+	relativeWidth?: string
 }
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
-    width: 100%;
+    width: ${({ relativeWidth }) => relativeWidth || '100%'};
 	min-height: ${RFValue(40)}px;
 	padding-horizontal: ${RFValue(5)}px;
 	background-color: ${({ theme, textIsValid, focused, validBackgroundColor }) => (

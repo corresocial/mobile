@@ -47,10 +47,10 @@ function InsertServiceEndHour({ route, navigation }: InsertServiceEndHourScreenP
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostTime
-				backgroundColor={theme.purple2}
-				validationColor={theme.purple1}
+				backgroundColor={theme.green2}
+				validationColor={theme.green1}
 				customTitle={'que horas termina?'}
 				customHighlight={['horas', 'termina']}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}

@@ -19,6 +19,13 @@ export const InitialDropdown = styled.TouchableOpacity`
 	justify-content: space-between;
 `
 
+export const IconArea = styled.View`
+	align-items: center;
+	justify-content: center;
+	width: 10%;
+	height: 100%;
+`
+
 export const AddressSelectedArea = styled.View`
 	height: 100%;
 	width: 73%;

@@ -7,7 +7,7 @@ interface ContainerProps {
 }
 
 // ghost margin-bottom
-export const Container = styled.TouchableOpacity<ContainerProps>`
+export const Container = styled.View<ContainerProps>`
 	margin-bottom: -1px;
 	flex-direction: row;
 	background-color: ${({ theme }) => theme.white3};
@@ -18,10 +18,10 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
 	border-color: ${({ theme }) => theme.black4};
 `
 
-export const Title = styled.Text`
-	width: 70%;
+export const Title = styled.Text<ContainerProps>`
+	width: ${({ hasIcon }) => (hasIcon ? '75%' : '60%')};
 	font-family: Arvo_400Regular;
-	font-size: ${RFValue(16)}px;
+	font-size: ${RFValue(14)}px;
 `
 
 export const RightArea = styled.View`
@@ -30,9 +30,4 @@ export const RightArea = styled.View`
 	flex-direction: row;
 	align-items: center;
 	justify-content: flex-end;
-`
-
-export const RightAreaText = styled.Text`
-	font-family: Arvo_400Regular;
-	font-size: ${RFValue(14)}px;
 `

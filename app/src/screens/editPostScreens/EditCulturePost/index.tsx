@@ -20,16 +20,16 @@ import CalendarEmptyIcon from '../../../assets/icons/calendarEmpty-unfilled.svg'
 
 import { EditCard } from '../../../components/_cards/EditCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { PostRangeCard } from '../../../components/_cards/PostRangeCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
 import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
-import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
 import { EditPost } from '../../../components/EditPost'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
+import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
 
 function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)
@@ -103,7 +103,7 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 		navigation.navigate('ViewCulturePost' as any, { postData: culturePostData })
 	}
 
-	const navigateToEditScreen = (screenName: keyof CultureStackParamList, initialValue: keyof CultureCollectionRemote, especificField?: string) => {
+	const navigateToEditScreen = (screenName: keyof CultureStackParamList, initialValue: keyof CultureCollectionRemote) => {
 		let value = getPostField(initialValue)
 
 		if (initialValue === 'picturesUrl') {
@@ -194,7 +194,6 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				visibility={postReviewPresentationModalIsVisible}
 				onPressButton={togglePostReviewPresentationModalVisibility}
 			/>
-
 			<EditPost
 				initialPostData={{ ...postData, postType: 'culture' }}
 				owner={owner}
@@ -210,24 +209,20 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				userContext={userContext}
 				editContext={editContext}
 			>
-				<CultureTypeCard
-					title={'tipo de cultura'}
-					cultureType={getPostField('cultureType')}
-					onEdit={() => navigateToEditScreen('SelectCultureType', 'cultureType')}
-				/>
-				<VerticalSigh />
+				<VerticalSpacing />
+
 				<EditCard
 					title={'tags do post'}
 					highlightedWords={['tags']}
 					value={formatCategoryAndTags()}
 					onEdit={() => navigateToEditScreen('SelectCultureCategory', 'tags')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertCultureDescription', 'description')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
@@ -235,12 +230,18 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					carousel
 					onEdit={() => navigateToEditScreen('CulturePicturePreview', 'picturesUrl')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
+				<CultureTypeCard
+					title={'tipo de cultura'}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectCultureType', 'macroCategory')}
+				/>
+				<VerticalSpacing />
 				<PostRangeCard
 					postRange={getPostField('range')}
 					onEdit={() => navigateToEditScreen('SelectCultureRange', 'range')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
@@ -248,22 +249,22 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					location={getPostField('location')}
 					onEdit={checkChangeLocationAlertIsRequired}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<SaleOrExchangeCard
 					title={'custo de entrada'}
 					hightligtedWords={['custo', 'entrada']}
-					saleValue={getPostField('entryValue', true) || '---'}
+					saleValue={getPostField('entryValue', true)}
 					onEdit={() => navigateToEditScreen('InsertEntryValue', 'entryValue')}
 					isCulturePost
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<PlaceModality
 					title={'como participar'}
 					hightligtedWords={['participar']}
 					placeModality={getPostField('eventPlaceModality')}
 					onEdit={() => navigateToEditScreen('SelectCulturePlaceModality', 'eventPlaceModality')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DateTimeCard
 					title={'dias da semana'}
 					highlightedWords={['dias']}
@@ -271,47 +272,47 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					daysOfWeek={getPostField('daysOfWeek', true)}
 					onEdit={() => navigateToEditScreen('SelectCultureFrequency', 'daysOfWeek')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'repetição'}
 					highlightedWords={['repetição']}
 					SecondSvgIcon={RecycleWhiteIcon}
-					value={renderCultureRepeat() || '---'}
+					value={renderCultureRepeat()}
 					onEdit={() => navigateToEditScreen('SelectEventRepeat', 'repeat')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que dia começa'}
 					highlightedWords={['começa']}
 					SecondSvgIcon={CalendarEmptyIcon}
-					value={formatDate(getPostField('startDate', true)) || '---'}
+					value={formatDate(getPostField('startDate', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertCultureStartDate', 'startDate')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que horas começa'}
 					highlightedWords={['começa']}
 					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('startHour', true)) || '---'}
+					value={formatHour(getPostField('startHour', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertCultureStartHour', 'startHour')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que dia termina'}
 					highlightedWords={['termina']}
 					SecondSvgIcon={CalendarEmptyIcon}
-					value={formatDate(getPostField('endDate', true)) || '---'}
+					value={formatDate(getPostField('endDate', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertCultureEndDate', 'endDate')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que horas termina'}
 					highlightedWords={['termina']}
 					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('endHour', true)) || '---'}
+					value={formatHour(getPostField('endHour', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertCultureEndHour', 'endHour')}
 				/>

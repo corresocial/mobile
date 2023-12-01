@@ -44,10 +44,10 @@ function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenPro
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PaymentValueType
-				backgroundColor={theme.yellow2}
-				itemsColor={theme.yellow3}
+				backgroundColor={theme.green2}
+				itemsColor={theme.green3}
 				navigateBackwards={() => navigation.goBack()}
 				savePaymentValueType={saveVacancyValueType}
 			/>

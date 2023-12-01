@@ -10,7 +10,7 @@ import { WhoWeAreIncomeScreenProps } from '../../../routes/Stack/UserStack/stack
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { DefaultCardContainer } from '../../../components/_cards/DefaultCardContainer'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
 function WhoWeAreIncome({ navigation }: WhoWeAreIncomeScreenProps) {
@@ -28,17 +28,17 @@ function WhoWeAreIncome({ navigation }: WhoWeAreIncomeScreenProps) {
 				<DefaultCardContainer flex={1} >
 					<ContainerContent>
 						<Title>{'gerar renda.'}</Title>
-						<VerticalSigh height={relativeScreenHeight(3)} />
+						<VerticalSpacing height={relativeScreenHeight(3)} />
 						<Description>
 							{'vamos até favelas e digitalizamos seus moradores, seus trabalhos e vagas'}
 						</Description>
-						<VerticalSigh height={relativeScreenHeight(3)} />
+						<VerticalSpacing height={relativeScreenHeight(3)} />
 						<Description>
 							{'trabalhamos para que essas pessoas tenham mais visibilidade e consigam se colocar no mercado de trabalho com dignidade.'}
 						</Description>
 					</ContainerContent>
 				</DefaultCardContainer>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<ButtonContainer>
 					<PrimaryButton
 						color={theme.orange3}

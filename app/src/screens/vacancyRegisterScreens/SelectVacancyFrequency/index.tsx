@@ -78,7 +78,7 @@ function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScr
 		<>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<PostFrequency
-				backgroundColor={theme.yellow2}
+				backgroundColor={theme.green2}
 				navigateBackwards={() => navigation.goBack()}
 				skipScreen={skipScreen}
 				savePostFrequency={saveVacancyFrequency}

@@ -9,8 +9,10 @@ export type HomeStackParamList = {
 	ViewVacancyPostHome: { postData: PostCollection }
 	ViewSocialImpactPostHome: { postData: PostCollection }
 	ViewCulturePostHome: { postData: PostCollection }
-	PostCategories: { postType: PostType }
+	PostCategories: undefined
+	ViewPostsByPostType: { postType: PostType }
 	PostCategoryDetails: undefined
+	ViewAllCategories: undefined
 	ViewAllTags: undefined
 	ViewPostsByTag: { currentTagSelected: string }
 	SearchResult: { searchParams: SearchParams, categoryLabel?: string, searchByRange?: boolean }

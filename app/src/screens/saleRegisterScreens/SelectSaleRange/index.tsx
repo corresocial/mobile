@@ -77,7 +77,7 @@ function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}
-				progress={[4, isSecondPost ? 4 : 5]}
+				progress={[5, isSecondPost ? 5 : 6]}
 			/>
 		</>
 	)

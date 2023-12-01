@@ -2,7 +2,7 @@
 import { collection, query, getDocs } from 'firebase/firestore'
 import { firestore } from '..'
 import { createPostWithCustomId } from '../post/createPostWithCustomId'
-import { CultureCollectionRemote, PostCollectionType, SaleCollectionRemote, ServiceCollectionRemote, SocialImpactCollectionRemote, VacancyCollectionRemote } from '../types'
+import { CultureCollectionRemote, PostCollectionType, IncomeCollectionRemote, SocialImpactCollectionRemote, VacancyCollectionRemote } from '../types'
 
 const moveAllPostsByCollection = async (currentCollection: PostCollectionType) => { // Set Collection Name
 	const destinationCollection = 'posts'
@@ -35,11 +35,11 @@ const moveAllPostsByCollection = async (currentCollection: PostCollectionType) =
 const getRelativeAdditionalData = (colletion: PostCollectionType, docData: any) => {
 	switch (colletion) {
 		case 'services': {
-			const postData = { ...docData } as ServiceCollectionRemote | any
+			const postData = { ...docData } as IncomeCollectionRemote | any
 			return { range: postData.deliveryMethod || 'city' }// deliveryMethod is deprecated
 		}
 		case 'sales': {
-			const postData = { ...docData } as SaleCollectionRemote | any
+			const postData = { ...docData } as IncomeCollectionRemote | any
 			return { range: postData.deliveryMethod || 'city' }// deliveryMethod is deprecated
 		}
 		case 'vacancies': {

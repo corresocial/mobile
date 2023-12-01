@@ -11,7 +11,6 @@ import {
 	Arvo_400Regular,
 	Arvo_700Bold,
 } from '@expo-google-fonts/arvo'
-import { ENVIRONMENT } from '@env'
 import { theme } from './src/common/theme'
 
 import { ignoredLogs } from './ignoredLogs'
@@ -21,9 +20,13 @@ import { AuthRegisterStack } from './src/routes/Stack/AuthRegisterStack'
 import { LoaderProvider } from './src/contexts/LoaderContext'
 import { ErrorBoundaryContainer } from './src/components/_containers/ErrorBoundaryContainer'
 import { LoaderContainer } from './App.styles'
+import { AlertProvider } from './src/contexts/AlertContext/index'
+import { getEnvVars } from './environment'
+
+const { ENVIRONMENT } = getEnvVars()
 
 console.log(__DEV__)
-if (!__DEV__ && ENVIRONMENT === 'prod') {
+if (!__DEV__ && ENVIRONMENT !== 'dev') {
 	Sentry.init(sentryConfig)
 }
 LogBox.ignoreLogs(ignoredLogs)
@@ -46,9 +49,11 @@ function App() {
 		<ErrorBoundaryContainer>
 			<NavigationContainer>
 				<ThemeProvider theme={theme}>
-					<LoaderProvider>
-						<AuthRegisterStack />
-					</LoaderProvider>
+					<AlertProvider>
+						<LoaderProvider>
+							<AuthRegisterStack />
+						</LoaderProvider>
+					</AlertProvider>
 				</ThemeProvider>
 			</NavigationContainer>
 		</ErrorBoundaryContainer>

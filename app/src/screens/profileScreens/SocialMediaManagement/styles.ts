@@ -28,8 +28,3 @@ export const NewLinkButtonContainer = styled.View`
 	justify-content: center;
 	padding-horizontal: ${relativeScreenWidth(12)}px;
 `
-
-export const Sigh = styled.View`
-	width: 100%;
-	height: ${relativeScreenHeight(1.3)}px;
-`

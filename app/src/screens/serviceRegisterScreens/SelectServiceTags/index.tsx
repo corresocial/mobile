@@ -46,10 +46,10 @@ function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) 
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.purple2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostTags
-				backgroundColor={theme.purple2}
-				lightColor={theme.purple1}
+				backgroundColor={theme.green2}
+				lightColor={theme.green1}
 				currentCategory={serviceCategories[getServiceCategorySelected()]}
 				navigateBackwards={() => navigation.goBack()}
 				addNewTag={addNewTag}

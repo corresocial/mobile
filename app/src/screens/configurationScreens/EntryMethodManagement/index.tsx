@@ -32,7 +32,7 @@ import { updateUserPrivateData } from '../../../services/firebase/user/updateUse
 import { SocialLoginAlertModal } from '../../../components/_modals/SocialLoginAlertModal'
 import { Loader } from '../../../components/Loader'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 
 WebBrowser.maybeCompleteAuthSession()
 const { AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()
@@ -264,7 +264,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 						? <Loader />
 						: (
 							<>
-								<VerticalSigh />
+								<VerticalSpacing />
 								<EditCard
 									title={'número de telefone'}
 									RightIcon={userPrivateContacts.cellNumber ? canRemoveEntryMethod() ? TrashWhiteIcon : EmptyWhiteIcon : PlusWhiteIcon}
@@ -285,7 +285,7 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 										/>
 									)
 								}
-								<VerticalSigh />
+								<VerticalSpacing />
 							</>
 						)
 				}

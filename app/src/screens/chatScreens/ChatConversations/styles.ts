@@ -8,11 +8,10 @@ export const Container = styled.View`
 	flex: 1;
 	background-color: ${({ theme }) => theme.orange2};
 	padding-bottom: ${relativeScreenHeight(10)}px;
-	`
+`
 
 export const Header = styled.View`
 	width: 100%;
-	padding: ${RFValue(12)}px;
 	padding-top:${Platform.OS === 'ios' ? Constants.statusBarHeight : 0}px;
 	flex-direction: row;
 	justify-content: space-between;
@@ -29,27 +28,11 @@ export const OptionsArea = styled.View`
 	flex-direction: row;
 `
 
-export const OptionSigh = styled.View`
-	height: 100%;
-	width: ${relativeScreenWidth(2)}px;
-`
-
 export const SearchInputContainer = styled.View`
 	width: 100%;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	padding: ${RFValue(5)}px;
-	border-bottom-width: ${RFValue(3)}px;
-	border-bottom-color: ${({ theme }) => theme.black4}
-`
-
-export const SearchInput = styled.TextInput`
-	width: 85%;
-	height: 100%;
-	font-size: ${RFValue(15)}px;
-	font-family: Arvo_400Regular;
-	text-align: left;
 `
 
 export const IconArea = styled.View`
@@ -67,12 +50,18 @@ export const ConversationList = styled.FlatList`
 	padding: ${RFValue(10)}px;
 `
 
-export const Sigh = styled.View`
+// Horizontal slider
+
+export const HorizontalHeaderScroll = styled.ScrollView`
 	width: 100%;
-	height: ${RFValue(10)}px;
+	padding-bottom: ${RFValue(10)}px;
 `
 
-export const FooterSigh = styled.View`
-	width: 100%;
-	height: ${relativeScreenHeight(10)}px;
+export const SelectPeriodButtonContainer = styled.View`
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
+	width: ${relativeScreenWidth(100)}px;
+	padding-horizontal: ${RFValue(15)}px;
+	padding-vertical: ${RFValue(5)}px};
 `

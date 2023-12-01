@@ -17,7 +17,7 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { OptionButton } from '../../_buttons/OptionButton'
-import { VerticalSigh } from '../../VerticalSigh'
+import { VerticalSpacing } from '../../_space/VerticalSpacing'
 
 interface PostRepeatProps {
 	backgroundColor: string
@@ -101,7 +101,7 @@ function PostRepeat({ backgroundColor, itemsColor, savePostRepeat, navigateBackw
 						leftSideWidth={'25%'}
 						onPress={() => savePostRepeat('unrepeatable')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 				</ButtonsContainer>
 			</FormContainer>
 		</Container>

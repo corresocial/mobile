@@ -49,11 +49,11 @@ function InsertVacancyDescription({ route, navigation }: InsertVacancyDescriptio
 
 	return (
 		<>
-			<StatusBar backgroundColor={theme.yellow2} barStyle={'dark-content'} />
+			<StatusBar backgroundColor={theme.green2} barStyle={'dark-content'} />
 			<PostInputText
 				multiline
-				backgroundColor={theme.yellow2}
-				validationColor={theme.yellow1}
+				backgroundColor={theme.green2}
+				validationColor={theme.green1}
 				initialValue={editModeIsTrue() ? route.params?.initialValue : ''}
 				progress={[3, isSecondPost ? 6 : 7]}
 				keyboardOpened={keyboardOpened}

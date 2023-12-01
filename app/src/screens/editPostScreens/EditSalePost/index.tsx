@@ -7,7 +7,7 @@ import { StateContext } from '../../../contexts/StateContext'
 
 import { EditSalePostReviewScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 import { SaleStackParamList } from '../../../routes/Stack/SaleStack/types'
-import { PostCollection, SaleCategories, SaleCollection, SaleCollectionRemote } from '../../../services/firebase/types'
+import { PostCollection, SaleCategories, IncomeCollection } from '../../../services/firebase/types'
 
 import { saleCategories } from '../../../utils/postsCategories/saleCategories'
 import { getTextualAddress } from '../../../utils/maps/addressFormatter'
@@ -18,7 +18,7 @@ import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
 
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { ItemStatusCard } from '../../../components/_cards/ItemStatusCard'
@@ -28,6 +28,7 @@ import { EditCard } from '../../../components/_cards/EditCard'
 import { EditPost } from '../../../components/EditPost'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
+import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 
 function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
@@ -50,7 +51,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		clearUnsavedEditContext()
 	}, [])
 
-	const getPostField = (fieldName: keyof SaleCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof IncomeCollection, allowNull?: boolean) => {
 		if (allowNull && editDataContext.unsaved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.unsaved[fieldName] || postData[fieldName]
 	}
@@ -88,7 +89,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		navigation.navigate('ViewSalePost' as any, { postData: salePostData }) // TODO Type // xxx
 	}
 
-	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof SaleCollectionRemote) => {
+	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof IncomeCollection, customStack?: string) => {
 		let value = getPostField(initialValue)
 
 		if (initialValue === 'picturesUrl') {
@@ -102,7 +103,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 			}
 		}
 
-		navigation.navigate('SaleStack', {
+		navigation.navigate(customStack || 'SaleStack' as any, { // TODO Type
 			screen: screenName,
 			params: {
 				editMode: true,
@@ -142,7 +143,8 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 			currentPost: {
 				...postData,
 				...editDataContext.unsaved,
-				postType: 'sale',
+				postType: 'income',
+				macroCategory: 'sale',
 				createdAt: new Date(),
 				owner: {
 					userId: userDataContext.userId,
@@ -181,7 +183,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 			/>
 
 			<EditPost
-				initialPostData={{ ...postData, postType: 'sale' }}
+				initialPostData={{ ...postData, postType: 'income', macroCategory: 'sale' }}
 				owner={owner}
 				backgroundColor={theme.green2}
 				unsavedPost={unsavedPost}
@@ -201,17 +203,17 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					value={formatCategoryAndTags()}
 					onEdit={() => navigateToEditScreen('SelectSaleCategory', 'tags')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<ItemStatusCard
 					itemStatus={getPostField('itemStatus')}
 					onEdit={() => navigateToEditScreen('SelectItemStatus', 'itemStatus')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertSaleDescription', 'description')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'fotos do post'}
 					highlightedWords={['fotos']}
@@ -220,18 +222,26 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					carousel
 					onEdit={() => navigateToEditScreen('SalePicturePreview', 'picturesUrl')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
+				<IncomeTypeCard
+					title={'tipo de renda'}
+					hightligtedWords={['tipo', 'renda']}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
+				/>
+
+				<VerticalSpacing />
 				<SaleOrExchangeCard
 					saleValue={getPostField('saleValue', true)}
 					exchangeValue={getPostField('exchangeValue', true)}
 					onEdit={() => navigateToEditScreen('SelectPaymentType', 'saleValue')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<PostRangeCard
 					postRange={getPostField('range')}
 					onEdit={() => navigateToEditScreen('SelectSaleRange', 'range')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<LocationViewCard
 					title={'localização'}
 					locationView={getPostField('locationView')}
@@ -239,12 +249,12 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					location={getPostField('location')}
 					onEdit={checkChangeLocationAlertIsRequired}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DeliveryMethodCard
 					deliveryMethod={getPostField('deliveryMethod')}
 					onEdit={() => navigateToEditScreen('SelectDeliveryMethod', 'deliveryMethod')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<DateTimeCard
 					title={'dias da semana'}
 					highlightedWords={['dias']}
@@ -252,21 +262,21 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					daysOfWeek={getPostField('daysOfWeek', true)}
 					onEdit={() => navigateToEditScreen('SelectSaleFrequency', 'daysOfWeek')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que horas começa'}
 					highlightedWords={['começa']}
 					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('startHour', true)) || ' ---'}
+					value={formatHour(getPostField('startHour', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertSaleStartHour', 'startHour')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<EditCard
 					title={'que horas termina'}
 					highlightedWords={['termina']}
 					SecondSvgIcon={ClockWhiteIcon}
-					value={formatHour(getPostField('endHour', true)) || ' ---'}
+					value={formatHour(getPostField('endHour', true))}
 					valueBold
 					onEdit={() => navigateToEditScreen('InsertSaleEndHour', 'endHour')}
 				/>

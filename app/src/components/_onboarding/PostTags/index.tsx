@@ -7,7 +7,6 @@ import {
 	ContainerBottom,
 	FloatButtonContainer,
 	InputTagArea,
-	Sigh,
 	TagsUnselectedArea
 } from './styles'
 import { theme } from '../../../common/theme'
@@ -25,6 +24,7 @@ import { SelectedTagsHorizontalList } from '../../../components/SelectedTagsHori
 import { InfoCard } from '../../../components/_cards/InfoCard'
 import { MacroCategory } from '../../../services/firebase/types'
 import { SearchInput } from '../../_inputs/SearchInput'
+import { VerticalSpacing } from '../../_space/VerticalSpacing'
 
 interface PostTagsProps {
 	backgroundColor: string
@@ -158,7 +158,7 @@ function PostTags({ backgroundColor, lightColor, currentCategory, addNewTag, sav
 							{renderUnselectedTags()}
 						</TagsUnselectedArea>
 
-						<Sigh />
+						<VerticalSpacing height={relativeScreenHeight(10)} />
 					</ScrollView>
 				</SelectButtonsContainer>
 				{

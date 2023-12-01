@@ -4,6 +4,7 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 
 import { ServiceStackParamList } from './types'
 
+import { SelectServicePurpose } from '../../../screens/serviceRegisterScreens/SelectServicePurpose'
 import { SelectServiceCategory } from '../../../screens/serviceRegisterScreens/SelectServiceCategory'
 import { SelectServiceTags } from '../../../screens/serviceRegisterScreens/SelectServiceTags'
 import { InsertServiceDescription } from '../../../screens/serviceRegisterScreens/InsertServiceDescription'
@@ -30,13 +31,14 @@ export function ServiceStack() {
 	return (
 		<ServiceProvider>
 			<Stack.Navigator
-				initialRouteName={'SelectServiceCategory'}
+				initialRouteName={'SelectServicePurpose'}
 				screenOptions={{
 					headerShown: false,
 					gestureEnabled: true,
 					...TransitionPresets.SlideFromRightIOS,
 				}}
 			>
+				<Stack.Screen name={'SelectServicePurpose'} component={SelectServicePurpose} />
 				<Stack.Screen name={'SelectServiceCategory'} component={SelectServiceCategory} />
 				<Stack.Screen name={'SelectServiceTags'} component={SelectServiceTags} />
 				<Stack.Screen name={'InsertServiceDescription'} component={InsertServiceDescription} />

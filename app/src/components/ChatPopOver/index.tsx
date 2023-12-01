@@ -3,7 +3,7 @@ import { TouchableOpacity, View } from 'react-native'
 import Popover from 'react-native-popover-view'
 
 import { RFValue } from 'react-native-responsive-fontsize'
-import { CloseIcon, Container, ContainerInner, Sigh, UserName } from './styles'
+import { CloseIcon, Container, ContainerInner, UserName } from './styles'
 import { relativeScreenHeight } from '../../common/screenDimensions'
 import { theme } from '../../common/theme'
 import XIcon from '../../assets/icons/x-white.svg'
@@ -12,6 +12,7 @@ import TrashIcon from '../../assets/icons/trash-white.svg'
 
 import { PrimaryButton } from '../_buttons/PrimaryButton'
 import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
+import { VerticalSpacing } from '../_space/VerticalSpacing'
 
 interface ChatPopOverProps {
 	userName?: string
@@ -56,7 +57,7 @@ function ChatPopOver({
 						<XIcon width={RFValue(25)} height={RFValue(25)} />
 					</CloseIcon>
 					<UserName>{userName}</UserName>
-					<Sigh />
+					<VerticalSpacing height={RFValue(5)} />
 					<PrimaryButton
 						color={theme.red3}
 						onPress={!userIsBlocked ? blockUser : unblockUser}
@@ -68,7 +69,7 @@ function ChatPopOver({
 						minHeight={20}
 						relativeHeight={relativeScreenHeight(8)}
 					/>
-					<Sigh />
+					<VerticalSpacing height={RFValue(5)} />
 					<PrimaryButton
 						color={theme.red3}
 						onPress={cleanConversation}

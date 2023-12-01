@@ -15,7 +15,9 @@ interface SmallButtonProps {
 	highlightedWords?: string[]
 	fontSize?: number
 	SvgIcon?: React.FC<SvgProps>
+	SecondSvgIcon?: React.FC<SvgProps>
 	svgScale?: [height: string, width: string]
+	secondSvgScale?: [height: string, width: string]
 	relativeWidth?: string | number
 	flexDirection?: ViewStyle['flexDirection']
 	height?: number
@@ -29,7 +31,9 @@ function SmallButton({
 	highlightedWords = [],
 	fontSize = 13,
 	SvgIcon,
+	SecondSvgIcon,
 	svgScale = label ? ['50%', '15%'] : ['50%', '80%'],
+	secondSvgScale = label ? ['50%', '15%'] : ['50%', '80%'],
 	relativeWidth = '100%',
 	height = 30,
 	flexDirection = 'row',
@@ -78,16 +82,29 @@ function SmallButton({
 							/>
 						)
 					}
-					<ButtonLabel
-						style={{
-							fontSize: RFValue(fontSize),
-							marginLeft: label && flexDirection === 'row' ? RFValue(8) : 0,
-							fontFamily: highlightedWords?.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold',
-							color: labelColor
-						}}
-					>
-						{showMessageWithHighlight(label, highlightedWords)}
-					</ButtonLabel>
+					{
+						!!SecondSvgIcon && (
+							<SecondSvgIcon
+								style={{ marginTop: RFValue(4) }}
+								height={secondSvgScale[0]}
+								width={secondSvgScale[1]}
+							/>
+						)
+					}
+					{
+						label && (
+							<ButtonLabel
+								style={{
+									fontSize: RFValue(fontSize),
+									marginLeft: label && flexDirection === 'row' ? RFValue(8) : 0,
+									fontFamily: highlightedWords?.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold',
+									color: labelColor
+								}}
+							>
+								{showMessageWithHighlight(label, highlightedWords)}
+							</ButtonLabel>
+						)
+					}
 				</ContainerSurface>
 			</ContainerBottom>
 		</TouchableContainer>

@@ -29,7 +29,7 @@ import { setChatIdToUsers } from '../../../services/firebase/chat/setChatIdToUse
 import { unblockUserId } from '../../../services/firebase/chat/unblockUser'
 import { unsubscribeMessageListener } from '../../../services/firebase/chat/unsubscribeMessageListener'
 import { getLastMessageObjects } from '../../../utils/chat'
-import { Container, Header, IsBlockedContainer, Sigh } from './styles'
+import { Container, Header, IsBlockedContainer } from './styles'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 
@@ -53,9 +53,9 @@ import { sendMessage } from '../../../services/firebase/chat/sendMessage'
 
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { ChatMessagesScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { HorizontalSigh } from '../../homeScreens/PostCategoryDetails/styles'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -338,7 +338,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					height={'100%'}
 					navigateToProfile={navigateToProfile}
 				/>
-				<HorizontalSigh />
+				<HorizontalSpacing />
 				<ChatPopOver
 					userName={getUserName(
 						currentChat.user1,
@@ -398,7 +398,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				}}
 				estimatedItemSize={71}
 				showsVerticalScrollIndicator={false}
-				ItemSeparatorComponent={() => <Sigh />}
+				ItemSeparatorComponent={() => <VerticalSpacing height={relativeScreenHeight(1)} />}
 				ListFooterComponent={() => {
 					if (isBlockedUser && blockedByOwner) {
 						return (
@@ -416,7 +416,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 							</IsBlockedContainer>
 						)
 					}
-					return <VerticalSigh />
+					return <VerticalSpacing />
 				}}
 				onContentSizeChange={scrollToEnd}
 				onLayout={scrollToEnd}

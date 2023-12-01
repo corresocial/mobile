@@ -1,7 +1,7 @@
 import React, { createContext, useMemo, useState, useContext } from 'react'
 
 import { ServiceData } from './types'
-import { ServiceCollectionRemote } from '../services/firebase/types'
+import { IncomeCollectionRemote } from '../services/firebase/types'
 
 import { AuthContext } from './AuthContext'
 
@@ -36,7 +36,7 @@ function ServiceProvider({ children }: ServiceProviderProps) {
 	}
 
 	const getAditionalDataFromLastPost = () => {
-		const lastUserPost: ServiceCollectionRemote | any = getLastUserPost() || {} // TODO Type
+		const lastUserPost: IncomeCollectionRemote | any = getLastUserPost() || {} // TODO Type
 		if (!Object.keys(lastUserPost).length) return
 
 		setServiceDataContext({

@@ -26,7 +26,7 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { deleteUserPicture } from '../../../services/firebase/user/deleteUserPicture'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { openURL } from '../../../utils/socialMedias'
 
 function EditProfile({ navigation }: EditProfileScreenProps) {
@@ -200,21 +200,21 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			</Header>
 			<Body style={{ backgroundColor: animateDefaultHeaderBackgound() }}	>
 				<ScrollView showsVerticalScrollIndicator={false}>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<EditCard
 						title={'seu nome'}
 						highlightedWords={['nome']}
 						value={editDataContext.unsaved.name || userDataContext.name}
 						onEdit={() => goToEditScreen('EditUserName')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<EditCard
 						title={'sua descrição'}
 						highlightedWords={['descrição']}
 						value={editDataContext.unsaved.description === '' || editDataContext.unsaved.description ? editDataContext.unsaved.description : userDataContext.description}
 						onEdit={() => goToEditScreen('EditUserDescription')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<EditCard
 						title={'links e contato'}
 						highlightedWords={['links', 'contato']}
@@ -222,14 +222,14 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					>
 						<HorizontalSocialMediaList socialMedias={userDataContext.socialMedias} onPress={openURL} />
 					</EditCard>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<EditCard
 						title={'sua foto'}
 						highlightedWords={['foto']}
 						profilePicturesUrl={[getProfilePictureUrl()] || []}
 						onEdit={() => goToEditScreen('EditUserPicture')}
 					/>
-					<VerticalSigh height={relativeScreenHeight(5)} />
+					<VerticalSpacing height={relativeScreenHeight(5)} />
 				</ScrollView>
 			</Body>
 		</Container>

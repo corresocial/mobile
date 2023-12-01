@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { LongText, SeeMoreLabel } from './styles'
+import { HyperlinkContainer, LongText, SeeMoreLabel } from './styles'
 import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 import { getShortText } from '../../../common/auxiliaryFunctions'
+import { theme } from '../../../common/theme'
 
 interface DescriptionCardProps {
 	title?: string
@@ -23,10 +24,15 @@ function DescriptionCard({ title, text, hightligtedWords, children, textFontSize
 
 	const showResizeLabel = text.length >= sumarizedSubscriptionSize
 
-	const [escriptionIsExpanded, setDescriptionIsExpanded] = useState(false)
+	const [descriptionIsExpanded, setDescriptionIsExpanded] = useState(false)
 
 	const toggleDescriptionIsExpanded = () => {
 		setDescriptionIsExpanded((previousState) => !previousState)
+	}
+
+	const linkStyle = {
+		color: theme.orange3,
+		fontFamily: 'Arvo_700Bold'
 	}
 
 	return (
@@ -42,8 +48,14 @@ function DescriptionCard({ title, text, hightligtedWords, children, textFontSize
 				/>
 			</EditHeaderContainer>
 			<LongText style={{ fontSize: RFValue(textFontSize) }}>
-				{escriptionIsExpanded && showResizeLabel ? text : getShortText(text, sumarizedSubscriptionSize)}
-				{showResizeLabel && <SeeMoreLabel onPress={toggleDescriptionIsExpanded}>{escriptionIsExpanded ? ' mostrar menos' : 'mostrar mais'}</SeeMoreLabel>}
+				<HyperlinkContainer
+					text={descriptionIsExpanded && showResizeLabel ? text : getShortText(text, sumarizedSubscriptionSize)}
+					linkStyle={linkStyle}
+					fontSize={textFontSize}
+				>
+					{descriptionIsExpanded && showResizeLabel ? text : getShortText(text, sumarizedSubscriptionSize)}
+				</HyperlinkContainer>
+				{showResizeLabel && <SeeMoreLabel onPress={toggleDescriptionIsExpanded}>{descriptionIsExpanded ? ' mostrar menos' : 'mostrar mais'}</SeeMoreLabel>}
 			</LongText>
 			{children}
 		</DefaultCardContainer>

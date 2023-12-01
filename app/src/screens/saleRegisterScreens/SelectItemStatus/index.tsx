@@ -33,7 +33,7 @@ function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
 		}
 
 		setSaleDataOnContext({ itemStatus })
-		navigation.navigate('SelectSaleCategory')
+		navigation.navigate('SelectSalePurpose')
 	}
 
 	return (
@@ -42,7 +42,7 @@ function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
 			highlightedWords={['novo', 'usado']}
 			headerBackgroundColor={theme.green2}
 			backgroundColor={theme.white3}
-			progress={[1, isSecondPost ? 4 : 5]}
+			progress={[1, isSecondPost ? 5 : 6]}
 			navigateBackwards={() => navigation.goBack()}
 		>
 			<OptionButton

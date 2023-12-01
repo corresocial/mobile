@@ -3,12 +3,14 @@ import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CardHeader, PictureArea, Text, ValueContainer, ProfilePicture } from './styles'
+import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 import { ImageCarousel } from '../../ImageCarousel'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import { arrayIsEmpty } from '../../../common/auxiliaryFunctions'
 
 interface EditCardProps {
 	title: string
@@ -53,6 +55,10 @@ function EditCard({
 		return false
 	}
 
+	const getHeaderRightIcon = () => {
+		return (!arrayIsEmpty(profilePicturesUrl) || value) ? RightIcon : PlusWhiteIcon
+	}
+
 	return (
 		<DefaultTouchableCardContainer
 			withoutPadding={!!profilePicturesUrl.length}
@@ -65,7 +71,7 @@ function EditCard({
 					paddingVertical: profilePicturesUrl.length ? RFValue(10) : 0
 				}}
 			>
-				<EditHeaderContainer onPress={onEdit} RightIcon={RightIcon}>
+				<EditHeaderContainer onPress={onEdit} RightIcon={getHeaderRightIcon()}>
 					<DefaultHeaderTitle
 						title={title}
 						highlightedWords={highlightedWords}

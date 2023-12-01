@@ -1,9 +1,7 @@
 /* eslint-disable no-unused-vars */
-import React, { MutableRefObject, useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import * as Location from 'expo-location'
-import * as Device from 'expo-device'
-import * as Notifications from 'expo-notifications'
-import { Alert, Platform, RefreshControl } from 'react-native'
+import { RefreshControl } from 'react-native'
 import { getLocales } from 'expo-localization'
 
 import {
@@ -35,21 +33,17 @@ import { HomeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProp
 import { LocationContext } from '../../../contexts/LocationContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { LoaderContext } from '../../../contexts/LoaderContext'
+import { AlertContext } from '../../../contexts/AlertContext'
 
 import { LocationNearDropdown } from '../../../components/LocationNearDropdown'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { RequestLocation } from '../../../components/RequestLocation'
-import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
-import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { HomeCatalogMenu } from '../../../components/HomeCatalogMenu'
-import { FlatListPosts } from '../../../components/FlatListPosts'
-import { VerticalSigh } from '../../../components/VerticalSigh'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { getAndUpdateUserToken } from '../../../services/firebase/chat/getAndUpdateUserToken'
 import { getReverseGeocodeByMapsApi } from '../../../services/maps/getReverseGeocodeByMapsApi'
 import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
 import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
+import { FeedByRange } from '../../../components/FeedByRange'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -63,6 +57,7 @@ const initialFeedPosts = {
 }
 
 function Home({ navigation }: HomeScreenProps) {
+	const { showNewHomePresentationModal } = useContext(AlertContext)
 	const { userDataContext } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
@@ -78,12 +73,8 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = React.useState(false)
 
-	const [expoPushTokenState, setExpoPushToken] = useState('') // TODO Refactor
-	const [notificationState, setNotification] = useState(false)
-	const notificationListener: MutableRefObject<any> = useRef()
-	const responseListener: MutableRefObject<any> = useRef()
-
 	useEffect(() => {
+		showNewHomePresentationModal()
 		requestPermissions()
 		loadRecentAddresses()
 	}, [])
@@ -103,64 +94,6 @@ function Home({ navigation }: HomeScreenProps) {
 		}
 		return false
 	}
-
-	async function registerForPushNotificationsAsync() {
-		let token
-
-		if (Platform.OS === 'android') {
-			await Notifications.setNotificationChannelAsync('default', {
-				name: 'default',
-				importance: Notifications.AndroidImportance.MAX,
-				vibrationPattern: [0, 250, 250, 250],
-				lightColor: '#FF231F7C',
-			})
-		}
-
-		if (Device.isDevice) {
-			const { status: existingStatus } = await Notifications.getPermissionsAsync()
-			let finalStatus = existingStatus
-			if (existingStatus !== 'granted') {
-				const { status } = await Notifications.requestPermissionsAsync()
-				finalStatus = status
-			}
-			if (finalStatus !== 'granted') {
-				console.log('não permitiu notificações')
-				await getAndUpdateUserToken(userDataContext.userId as Id, null)
-				return
-			}
-			token = (await Notifications.getExpoPushTokenAsync()).data
-			await getAndUpdateUserToken(userDataContext.userId as Id, token)
-		} else {
-			console.log('Must use physical device for Push Notifications')
-		}
-
-		return token
-	}
-
-	Notifications.setNotificationHandler({
-		handleNotification: async () => ({
-			shouldShowAlert: true,
-			shouldPlaySound: false,
-			shouldSetBadge: false,
-		}),
-	})
-
-	useEffect(() => {
-		registerForPushNotificationsAsync().then((token) => setExpoPushToken(token || ''))
-
-		notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
-			setNotification(!!notification)
-		})
-
-		responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
-			console.log(response)
-		})
-
-		return () => {
-			Notifications.removeNotificationSubscription(notificationListener.current)
-			Notifications.removeNotificationSubscription(responseListener.current)
-		}
-	}, [])
 
 	const locationIsEnable = async () => {
 		const locationEnabled = await Location.hasServicesEnabledAsync()
@@ -340,45 +273,33 @@ function Home({ navigation }: HomeScreenProps) {
 		])
 	}
 
-	const goToPostView = (item: PostCollection) => {
-		switch (item.postType) {
-			case 'service': {
-				navigation.navigate('ViewServicePostHome', {
-					postData: { ...item },
-				})
-				break
+	const goToPostView = (post: PostCollection | any) => { // TODO Type
+		switch (post.postType) {
+			case 'income': {
+				switch (post.macroCategory) {
+					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
+					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
+					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
+					default: return false
+				}
 			}
-			case 'sale': {
-				navigation.navigate('ViewSalePostHome', {
-					postData: { ...item },
-				})
-				break
-			}
-			case 'vacancy': {
-				navigation.navigate('ViewVacancyPostHome', {
-					postData: { ...item },
-				})
-				break
-			}
-			case 'socialImpact': {
-				navigation.navigate('ViewSocialImpactPostHome', {
-					postData: { ...item },
-				})
-				break
-			}
-			case 'culture': {
-				navigation.navigate('ViewCulturePostHome', {
-					postData: { ...item },
-				})
-				break
-			}
-			default:
-				return false
+
+			case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
+			case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
+			case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
+			case 'socialImpact': return navigation.navigate('ViewSocialImpactPostHome', { postData: { ...post } })
+			case 'culture': return navigation.navigate('ViewCulturePostHome', { postData: { ...post } })
+			default: return false
 		}
 	}
 
 	const navigateToPostCategories = (postType: PostType) => {
-		navigation.navigate('PostCategories', { postType })
+		if (!hasAnyPost()) return
+		setLocationDataOnContext({
+			searchParams: { ...locationDataContext.searchParams, postType }
+		})
+
+		navigation.navigate('ViewPostsByPostType', { postType })
 	}
 
 	const navigateToProfile = (userId: string) => {
@@ -412,9 +333,13 @@ function Home({ navigation }: HomeScreenProps) {
 		navigation.navigate('SelectSubscriptionRange')
 	}
 
+	const userHasPaidSubscription = () => {
+		return !(userDataContext.subscription && userDataContext.subscription.subscriptionRange !== 'near')
+	}
+
 	const renderPostItem = (item: PostCollection) => {
-		if (item as string === 'subscriptionAd') {
-			if (userDataContext.subscription && userDataContext.subscription.subscriptionRange !== 'near') return <></>
+		if (item as string | PostCollection === 'subscriptionAd') {
+			if (!userHasPaidSubscription()) return <></>
 			return (
 				<ContainerPadding>
 					<SubscriptionButton onPress={() => setSubscriptionModalIsVisible(true)} />
@@ -465,7 +390,7 @@ function Home({ navigation }: HomeScreenProps) {
 			<RecentPostsContainer
 				refreshControl={(
 					<RefreshControl
-						colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3, theme.purple3, theme.yellow3, theme.red3]}
+						colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
 						refreshing={feedIsUpdating}
 						progressBackgroundColor={theme.white3}
 						onRefresh={refreshFeedPosts}
@@ -480,88 +405,15 @@ function Home({ navigation }: HomeScreenProps) {
 						}}
 					/>
 				)}
-				{
-					(feedPosts.nearby && feedPosts.nearby.length)
-						? (
-							<FlatListPosts
-								data={['subscriptionAd', ...getFirstFiveItems(feedPosts.nearby)]}
-								headerComponent={() => (
-									<>
-										<SubtitleCard
-											text={'perto de você'}
-											highlightedText={['perto']}
-											seeMoreText
-											onPress={() => viewPostsByRange('near')}
-										/>
-										<VerticalSigh />
-									</>
-								)}
-								renderItem={renderPostItem}
-								flatListIsLoading={feedIsUpdating}
-							// onEndReached={refreshFeedPosts}
-							/>
-						)
-						: <></>
-				}
-				{
-					(feedPosts.city && feedPosts.city.length)
-						? (
-							<FlatListPosts
-								data={getFirstFiveItems(feedPosts.city)}
-								headerComponent={() => (
-									<>
-										<SubtitleCard
-											text={'na cidade'}
-											highlightedText={['cidade']}
-											seeMoreText
-											onPress={() => viewPostsByRange('city')}
-										/>
-										<VerticalSigh />
-									</>
-								)}
-								renderItem={renderPostItem}
-								flatListIsLoading={feedIsUpdating}
-							/* onEndReached={refreshFeedPosts} */
-							/>
-						)
-						: <></>
-				}
-				{
-					(feedPosts.country && feedPosts.country.length)
-						? (
-							<>
-								<FlatListPosts
-									data={getFirstFiveItems(feedPosts.country)}
-									headerComponent={() => (
-										<>
-											<SubtitleCard
-												text={'no país'}
-												highlightedText={['país']}
-												seeMoreText
-												onPress={() => viewPostsByRange('country')}
-											/>
-											<VerticalSigh />
-										</>
-									)}
-									renderItem={renderPostItem}
-									flatListIsLoading={feedIsUpdating}
-								/* onEndReached={refreshFeedPosts} */
-								/>
-								<VerticalSigh height={relativeScreenHeight(10)} />
-							</>
-						)
-						: <VerticalSigh height={relativeScreenHeight(10)} />
-				}
-				{
-					hasLocationEnable && searchEnded && !hasAnyPost() && (
-						<WithoutPostsMessage
-							title={'opa!'}
-							message={
-								'parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'
-							}
-						/>
-					)
-				}
+				<FeedByRange
+					backgroundColor={theme.orange2}
+					filteredFeedPosts={{ ...feedPosts, nearby: ['subscriptionAd', ...getFirstFiveItems(feedPosts.nearby)] }}
+					flatListIsLoading={feedIsUpdating}
+					customRenderItem={renderPostItem}
+					viewPostsByRange={viewPostsByRange}
+					navigateToProfile={navigateToProfile}
+					goToPostView={goToPostView}
+				/>
 			</RecentPostsContainer>
 		</Container>
 	)

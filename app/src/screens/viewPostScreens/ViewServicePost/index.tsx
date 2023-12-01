@@ -20,13 +20,12 @@ import { share } from '../../../common/share'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
 import { textHasOnlyNumbers } from '../../../utils/validationFunctions'
 
-import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
+import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 import { ViewServicePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import {
 	PostCollection,
 	ServiceCategories,
-	ServiceCollection,
-	ServiceCollectionRemote,
+	IncomeCollectionRemote
 } from '../../../services/firebase/types'
 
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -42,9 +41,10 @@ import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { PostPopOver } from '../../../components/PostPopOver'
-import { VerticalSigh } from '../../../components/VerticalSigh'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
+import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 
 function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -66,7 +66,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	}
 
 	const isAuthor = loggedUserIsOwner()
-	const { postData } = route.params as { postData: ServiceCollectionRemote }
+	const { postData } = route.params as { postData: IncomeCollectionRemote }
 
 	const renderFormatedPostDateTime = () => {
 		const formatedDate = formatRelativeDate(postData.createdAt)
@@ -106,7 +106,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('EditServicePost' as any, {
+		navigation.navigate('EditServicePost', {
 			postData: { ...postData, ...editDataContext.saved },
 		})
 	}
@@ -165,14 +165,19 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	}
 
 	const getCategoryLabel = () => {
-		const categoryField = getPostField('category') as ServiceCategories
-		if (Object.keys(serviceCategories).includes(categoryField)) {
-			return serviceCategories[categoryField].label
+		try {
+			const categoryField = getPostField('category') as ServiceCategories
+			if (Object.keys(incomeCategories).includes(categoryField)) {
+				return incomeCategories[categoryField].label
+			}
+			return ''
+		} catch (err) {
+			console.log(err)
+			return ''
 		}
-		return ''
 	}
 
-	const getPostField = (fieldName: keyof ServiceCollection, allowNull?: boolean) => {
+	const getPostField = (fieldName: keyof IncomeCollectionRemote, allowNull?: boolean) => {
 		if (allowNull && editDataContext.saved[fieldName] === '' && postData[fieldName]) return ''
 		return editDataContext.saved[fieldName] || postData[fieldName]
 	}
@@ -203,7 +208,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					onBackPress={() => navigation.goBack()}
 					text={getPostField('description')}
 				/>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<UserAndValueContainer>
 					<SmallUserIdentification
 						userName={
@@ -219,7 +224,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						navigateToProfile={navigateToProfile}
 					/>
 				</UserAndValueContainer>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<OptionsArea>
 					{!isAuthor && (
 						<SmallButton
@@ -259,24 +264,30 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 				</OptionsArea>
 			</Header>
 			<ScrollView showsVerticalScrollIndicator={false}>
-				<VerticalSigh />
+				<VerticalSpacing />
 				<HorizontalTagList
 					tags={[getCategoryLabel(), ...getPostField('tags')]}
 					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
-					selectedColor={theme.purple1}
+					selectedColor={theme.green1}
 					onSelectTag={() => { }}
 				/>
 				<Body>
-					<VerticalSigh />
+					<VerticalSpacing />
+					<IncomeTypeCard
+						title={'tipo de renda'}
+						hightligtedWords={['tipo', 'renda']}
+						macroCategory={getPostField('macroCategory')}
+					/>
+					<VerticalSpacing />
 					<DescriptionCard
 						text={getPostField('description')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					{!arrayIsEmpty(getPostField('picturesUrl')) && (
 						<>
 							<ImageCarousel
 								picturesUrl={getPostField('picturesUrl') || []}
-								indicatorColor={theme.purple1}
+								indicatorColor={theme.green1}
 								square
 							/>
 						</>
@@ -288,7 +299,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 									saleValue={getPostField('saleValue', true)}
 									exchangeValue={getPostField('exchangeValue', true)}
 								/>
-								<VerticalSigh />
+								<VerticalSpacing />
 							</>
 						)
 					}
@@ -296,7 +307,7 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 						locationView={getPostField('locationView')}
 						location={getPostField('location')}
 					/>
-					<VerticalSigh />
+					<VerticalSpacing />
 					<DateTimeCard
 						weekDaysfrequency={getPostField('attendanceFrequency')}
 						daysOfWeek={getPostField('daysOfWeek', true)}
@@ -306,14 +317,14 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					{
 						getPostField('deliveryMethod') && (
 							<>
-								<VerticalSigh />
+								<VerticalSpacing />
 								<DeliveryMethodCard
 									deliveryMethod={getPostField('deliveryMethod')}
 								/>
 							</>
 						)
 					}
-					<VerticalSigh bottomNavigatorSpace />
+					<VerticalSpacing bottomNavigatorSpace />
 				</Body >
 			</ScrollView>
 		</Container>

@@ -13,7 +13,7 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { HorizontalListPictures } from '../../../components/HorizontalListPictures'
 import { BackButton } from '../../../components/_buttons/BackButton'
-import { VerticalSigh } from '../../VerticalSigh'
+import { VerticalSpacing } from '../../_space/VerticalSpacing'
 
 interface PostPicturePreviewProps {
 	backgroundColor: string
@@ -32,7 +32,7 @@ function PostPicturePreview({
 }: PostPicturePreviewProps) {
 	const [picturesPack, setPicturesPack] = useState<string[]>(initialValue || [])
 	const [pictureIndexSelected, setPictureIndexSelected] = useState<number>(0)
-	const [cameraOpened, setCameraOpened] = useState<boolean>(!editMode || !initialValue)
+	const [cameraOpened, setCameraOpened] = useState<boolean>(!editMode || (!initialValue || (initialValue && !initialValue.length)))
 
 	const setPictureUri = (uri: string) => {
 		const currentPictures = [...picturesPack]
@@ -77,7 +77,7 @@ function PostPicturePreview({
 						height={relativeScreenWidth(89)}
 						deleteCurrentPicture={deleteCurrentPicture}
 					/>
-					<VerticalSigh height={relativeScreenWidth(7)} />
+					<VerticalSpacing height={relativeScreenWidth(7)} />
 				</PicturePreviewContainer>
 				<HorizontalListPicturesContainer>
 					<HorizontalListPictures

@@ -7,6 +7,7 @@ import ClipWhiteIcon from '../../../assets/icons/clip-white.svg'
 
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 interface HeaderLinkCardProps {
 	title: string
@@ -35,7 +36,7 @@ function HeaderLinkCard({
 			>
 				<DefaultHeaderTitle
 					title={title}
-					fontSize={24}
+					fontSize={20}
 					highlightedWords={highlightedWords}
 					onPressIcon={onEdit}
 					SvgIcon={SvgIcon || ClipWhiteIcon}
@@ -47,11 +48,11 @@ function HeaderLinkCard({
 					value.length < 150
 						? (
 							<Text>
-								{value}
+								{showMessageWithHighlight(value, highlightedWords)}
 							</Text>
 						)
 						: (
-							< Text numberOfLines={4}>{value}</Text>
+							< Text numberOfLines={4}>{showMessageWithHighlight(value, highlightedWords)}</Text>
 						)
 				}
 			</ValueContainer>

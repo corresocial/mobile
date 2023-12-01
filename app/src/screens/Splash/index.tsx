@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, Animated, StatusBar } from 'react-native'
+import { Animated, StatusBar } from 'react-native'
 import * as Updates from 'expo-updates'
 
 import { Container, LogoContainer } from './styles'
@@ -50,9 +50,10 @@ function Splash({ navigation }: SplashScreenProps) {
 				}, 3000)
 			}
 		} catch (error: any) {
-			Alert.alert('Erro ao atualizar aplicativo: ', error.message, [
-				{ text: 'Tentar novamente', onPress: Updates.reloadAsync }
-			])
+			console.log(error)
+			setTimeout(() => {
+				redirectToApp()
+			}, 3000)
 		}
 	}
 

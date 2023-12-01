@@ -25,6 +25,7 @@ import { InsertSaleEndHour } from '../../../screens/saleRegisterScreens/InsertSa
 import { SelectSaleRange } from '../../../screens/saleRegisterScreens/SelectSaleRange'
 import { SelectItemStatus } from '../../../screens/saleRegisterScreens/SelectItemStatus'
 import { EditSalePost } from '../../../screens/editPostScreens/EditSalePost'
+import { SelectSalePurpose } from '../../../screens/saleRegisterScreens/SelectSalePurpose'
 
 const Stack = createStackNavigator<SaleStackParamList>()
 
@@ -39,6 +40,7 @@ export function SaleStack() {
 					...TransitionPresets.SlideFromRightIOS,
 				}}
 			>
+				<Stack.Screen name={'SelectSalePurpose'} component={SelectSalePurpose} />
 				<Stack.Screen name={'SelectItemStatus'} component={SelectItemStatus} />
 				<Stack.Screen name={'SelectSaleCategory'} component={SelectSaleCategory} />
 				<Stack.Screen name={'SelectSaleTags'} component={SelectSaleTags} />

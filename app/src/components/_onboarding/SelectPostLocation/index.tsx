@@ -52,7 +52,7 @@ function SelectPostLocation({
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 
 	const [hasPermission, setHasPermission] = useState(false)
-	const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(null)
+	const [markerCoordinate, setMarkerCoordinate] = useState<Coordinates | null>(initialRegion)
 	const [address, setAddress] = useState('')
 
 	const [mapContainerDimensions, setMapContainerDimensions] = useState<LayoutRectangle>({
@@ -82,12 +82,6 @@ function SelectPostLocation({
 	}
 
 	const someInvalidFieldSubimitted = () => invalidAddressAfterSubmit
-
-	/* const validateAddress = (text: string) => {
-		setInvalidAddressAfterSubmit(false)
-		setValidAddress(false)
-		return validAddress
-	} */
 
 	const getCurrentPositionCoordinated = async () => {
 		const permission = await requestLocationPermission()

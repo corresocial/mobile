@@ -7,8 +7,7 @@ import {
 	PostCollectionRemote,
 	PostRange,
 	PostType,
-	SaleCollectionRemote,
-	ServiceCollectionRemote,
+	IncomeCollectionRemote,
 	SocialImpactCollectionRemote,
 	SocialMedia,
 	VacancyCollectionRemote
@@ -22,6 +21,7 @@ export type UserStackParamList = {
 	ViewPostsByRange: { postsByRange: PostCollectionRemote[], postRange: PostRange | '', postType?: PostType, searchByRange?: boolean }
 	HomeTab: { tourCompleted?: boolean, showShareModal?: boolean, showsInFirstTab?: boolean } | undefined
 	SelectPostType: undefined
+	SelectIncomeType: { editMode: boolean } | undefined
 	ServiceStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	SaleStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
 	VacancyStack: { screen: string, params: { editMode: boolean, initialValue: any } } | undefined
@@ -31,11 +31,11 @@ export type UserStackParamList = {
 	EditUserName: { userName: string, userId: string }
 	EditUserDescription: { userDescription: string, userId: string }
 	EditUserPicture: { profilePictureUrl: string, userId: string }
-	EditServicePost: { postData: ServiceCollectionRemote, unsavedPost: boolean, offlinePost?: boolean }
-	EditSalePost: { postData: SaleCollectionRemote, unsavedPost: boolean, offlinePost?: boolean }
-	EditVacancyPost: { postData: VacancyCollectionRemote, unsavedPost: boolean, offlinePost?: boolean }
-	EditSocialImpactPost: { postData: SocialImpactCollectionRemote, unsavedPost: boolean, offlinePost?: boolean }
-	EditCulturePost: { postData: CultureCollectionRemote, unsavedPost: boolean, offlinePost?: boolean }
+	EditServicePost: { postData: IncomeCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean }
+	EditSalePost: { postData: IncomeCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean }
+	EditVacancyPost: { postData: VacancyCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean }
+	EditSocialImpactPost: { postData: SocialImpactCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean }
+	EditCulturePost: { postData: CultureCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean }
 	OfflinePostsManagement: undefined
 
 	SocialMediaManagement: { socialMedias: SocialMedia[], isAuthor?: boolean }
@@ -56,6 +56,7 @@ export type UserStackParamList = {
 	ContactUsSuccess: { reportType: ReportedTarget } | undefined
 	PrivacyAndSecurity: undefined
 	UserDataConfigurations: undefined
+	NotificationSettings: undefined
 
 	ChatMessages: { chat: Chat }
 
