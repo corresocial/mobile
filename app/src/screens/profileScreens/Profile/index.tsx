@@ -22,9 +22,6 @@ import {
 import { theme } from '../../../common/theme'
 import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
 import ShareIcon from '../../../assets/icons/share-white.svg'
-import LeaderLabel from '../../../assets/icons/leaderLabel.svg'
-import VerifiedLabel from '../../../assets/icons/verifiedLabel.svg'
-import ImpactLabel from '../../../assets/icons/impactLabel.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
 import EditIcon from '../../../assets/icons/edit-white.svg'
 import GearWhiteIcon from '../../../assets/icons/gear-white.svg'
@@ -37,6 +34,7 @@ import { share } from '../../../common/share'
 import { getUser } from '../../../services/firebase/user/getUser'
 import {
 	arrayIsEmpty,
+	getShortText,
 	sortArray,
 	sortPostsByCreatedData,
 } from '../../../common/auxiliaryFunctions'
@@ -77,6 +75,7 @@ import { AlertContext } from '../../../contexts/AlertContext/index'
 import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 import { navigateToPostView } from '../../../routes/auxMethods'
 import { FlatListItem } from '../../../@types/global/types'
+import { userBadges } from '../../../utils/userBadges'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { notificationState } = useContext(AlertContext)
@@ -114,25 +113,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const getProfileDataFromRemote = async (userId: string) => {
 		const remoteUser = await getUser(userId)
-		const {
-			profilePictureUrl,
-			name,
-			posts,
-			description,
-			verified,
-			socialMedias,
-			subscription
-		} = remoteUser as LocalUserData
-		setUser({
-			userId,
-			name,
-			socialMedias,
-			description,
-			profilePictureUrl: profilePictureUrl || [],
-			verified,
-			subscription,
-			posts,
-		})
+		const { profilePictureUrl, name, posts, description, verified, socialMedias, subscription } = remoteUser as LocalUserData
+		setUser({ userId, name, socialMedias, description, profilePictureUrl: profilePictureUrl || [], verified, subscription, posts })
 	}
 
 	const checkHasOfflinePosts = async () => {
@@ -159,6 +141,12 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		)
 
 		return userPostTags.sort(sortArray) as string[]
+	}
+
+	const getFlatlistPosts = () => {
+		return !selectedTags.length
+			? getUserPosts()
+			: filtredUserPosts()
 	}
 
 	const filtredUserPosts = () => {
@@ -279,22 +267,20 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}
 
 	const getUserDataOnly = () => {
+		let currentUser = {} as LocalUserData
 		if (route.params && route.params.userId) {
-			const currentUser = { ...user }
-			delete currentUser.posts
-			delete currentUser.socialMedias
-			return currentUser
+			currentUser = { ...user }
+		} else {
+			currentUser = { ...userDataContext }
 		}
-		const currentUser = { ...userDataContext }
+
 		delete currentUser.posts
 		delete currentUser.socialMedias
 		return currentUser
 	}
 
 	const getProfilePicture = () => {
-		if (route.params && route.params.userId) {
-			return user.profilePictureUrl ? user.profilePictureUrl[0] : ''
-		}
+		if (route.params && route.params.userId) return user.profilePictureUrl ? user.profilePictureUrl[0] : ''
 		return userDataContext.profilePictureUrl
 			? userDataContext.profilePictureUrl[0]
 			: ''
@@ -347,23 +333,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		// user.userId && await getProfileDataFromRemote(user.userId)
 	}
 
-	const renderUserVerifiedType = () => {
-		if (!hasAnyVerifiedUser()) return
-
-		const verifiedLabel = getVerifiedUserType()
-		if (!verifiedLabel) return
-
-		return (
-			<VerticalPaddingContainer>
-				<TouchableOpacity onPress={() => setToggleVerifiedModal(true)}>
-					<ProfileInfoContainer>
-						{getRelativeVerifiedIndentifier(verifiedLabel)}
-					</ProfileInfoContainer>
-				</TouchableOpacity>
-			</VerticalPaddingContainer>
-		)
-	}
-
 	const hasAnyVerifiedUser = () => {
 		return ((userDataContext && userDataContext.verified && isLoggedUser) || (user && user.verified))
 	}
@@ -389,51 +358,52 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		)
 	}
 
+	const userIsVerified = () => {
+		return (
+			!isLoggedUser
+			&& userDataContext.verified
+			&& (userDataContext.verified.type === 'leader' || userDataContext.verified.admin)
+			&& user
+			&& !user.verified
+		)
+	}
+
+	const userIsAdmin = () => {
+		return (
+			userDataContext.verified && userDataContext.verified.admin && (
+				(user.subscription && user.subscription.subscriptionRange === 'near') || !user.subscription)
+		)
+	}
+
+	const renderUserVerifiedType = () => {
+		if (!hasAnyVerifiedUser()) return
+
+		const verifiedLabel = getVerifiedUserType()
+		if (!verifiedLabel) return
+
+		return (
+			<VerticalPaddingContainer>
+				<TouchableOpacity onPress={() => setToggleVerifiedModal(true)}>
+					<ProfileInfoContainer>
+						{getRelativeVerifiedIndentifier(verifiedLabel)}
+					</ProfileInfoContainer>
+				</TouchableOpacity>
+			</VerticalPaddingContainer>
+		)
+	}
+
 	const getRelativeVerifiedIndentifier = (verifiedLabel: VerifiedLabelName) => {
-		switch (verifiedLabel) {
-			case 'default': {
-				return (
-					<>
-						<VerifiedLabel
-							height={RFValue(22)}
-							width={RFValue(22)}
-							style={{ marginRight: RFValue(6) }}
-						/>
-						<UserDescription>
-							{'perfil verificado'}
-						</UserDescription>
-					</>
-				)
-			}
-			case 'impact': {
-				return (
-					<>
-						<ImpactLabel
-							height={RFValue(22)}
-							width={RFValue(22)}
-							style={{ marginRight: RFValue(6) }}
-						/>
-						<UserDescription>
-							{'perfil de impacto'}
-						</UserDescription>
-					</>
-				)
-			}
-			case 'leader': {
-				return (
-					<>
-						<LeaderLabel
-							height={RFValue(22)}
-							width={RFValue(22)}
-							style={{ marginRight: RFValue(6) }}
-						/>
-						<UserDescription>
-							{'líder social'}
-						</UserDescription>
-					</>
-				)
-			}
-			default: return <></>
+		const userBadge = userBadges[verifiedLabel]
+
+		if (userBadge) {
+			return (
+				<>
+					{userBadge.icon}
+					<UserDescription>
+						{userBadge.description}
+					</UserDescription>
+				</>
+			)
 		}
 	}
 
@@ -449,7 +419,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const getShortDescription = () => {
 		const userDescription = getUserField('description') as string || ''
-		return userDescription.slice(0, 160)
+		return getShortText(userDescription, 160)
 	}
 
 	const descriptionIsLarge = () => {
@@ -557,7 +527,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 													</ExpandedUserDescriptionArea>
 												)
 											}
-
 											{
 												isLoggedUser
 													? (
@@ -586,7 +555,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 														<VerticalSpacing />
 													)
 											}
-
 											<OptionsArea>
 												<SmallButton
 													label={isLoggedUser ? 'editar' : 'chat'}
@@ -612,17 +580,8 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 												/>
 												<PopOver
 													title={getUserField('name') as string}
-													isVerifiable={
-														!isLoggedUser
-														&& userDataContext.verified
-														&& (userDataContext.verified.type === 'leader' || userDataContext.verified.admin)
-														&& user
-														&& !user.verified
-													}
-													isAdmin={
-														userDataContext.verified && userDataContext.verified.admin && (
-															(user.subscription && user.subscription.subscriptionRange === 'near') || !user.subscription)
-													}
+													isVerifiable={userIsVerified()}
+													isAdmin={userIsAdmin()}
 													buttonLabel={'denunciar perfil'}
 													popoverVisibility={profileOptionsIsOpen}
 													closePopover={() => setProfileOptionsIsOpen(false)}
@@ -673,11 +632,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 							)
 						}}
-						data={
-							!selectedTags.length
-								? getUserPosts()
-								: filtredUserPosts()
-						}
+						data={getFlatlistPosts()}
 						renderItem={({ item }: FlatListItem<PostCollection>) => (
 							<PostPadding>
 								<PostCard
@@ -690,7 +645,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						showsVerticalScrollIndicator={false}
 						ItemSeparatorComponent={() => <VerticalSpacing height={relativeScreenHeight(0.8)} />}
 						contentContainerStyle={{ backgroundColor: theme.orange2 }}
-						// ListHeaderComponentStyle={{ marginVertical: relativeScreenHeight(2) }}
 						ListFooterComponent={() => (isLoggedUser && (!userDataContext.posts || userDataContext.posts.length === 0)
 							? (
 								<WithoutPostsMessage

@@ -117,7 +117,6 @@ export type UserSubscription = {
 export type UserCollection = {
 	userId?: Id
 	name?: string
-	email?: string
 	description?: string
 	profilePictureUrl?: string[]
 	tourPerformed?: boolean
