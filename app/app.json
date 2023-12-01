@@ -95,7 +95,7 @@
 			"**/*"
 		],
 		"ios": {
-			"buildNumber": "49",
+			"buildNumber": "50",
 			"infoPlist": {
 				"NSCameraUsageDescription": "Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.",
 				"NSLocationWhenInUseUsageDescription": "Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.",
@@ -114,7 +114,7 @@
 			}
 		},
 		"android": {
-			"versionCode": 49,
+			"versionCode": 50,
 			"package": "com.corresocial.corresocial",
 			"icon": "./assets/icon.png",
 			"adaptiveIcon": {
