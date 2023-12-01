@@ -395,6 +395,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	}
 
 	const verifyUserProfile = async (label: VerifiedLabelName) => {
+		setProfileOptionsIsOpen(false)
 		if (user.userId && userDataContext.userId) {
 			await updateUser(user.userId, {
 				verified: {
@@ -406,7 +407,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			})
 			user.userId && await getProfileDataFromRemote(user.userId)
 		}
-		setProfileOptionsIsOpen(false)
 	}
 
 	const setFreeTrialToProfile = async (plan: PostRange) => {
@@ -697,13 +697,14 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 														&& user
 														&& !user.verified
 													}
-													isAdmin={userDataContext.verified && userDataContext.verified.admin && (
-														(user.subscription && user.subscription.subscriptionRange === 'near') || !user.subscription
-													)}
+													isAdmin={
+														userDataContext.verified && userDataContext.verified.admin && (
+															(user.subscription && user.subscription.subscriptionRange === 'near') || !user.subscription)
+													}
 													buttonLabel={'denunciar perfil'}
 													popoverVisibility={profileOptionsIsOpen}
 													closePopover={() => setProfileOptionsIsOpen(false)}
-													onPress={reportUser}
+													reportUser={reportUser}
 													onPressVerify={verifyUserProfile}
 													setFreeTrialToProfile={setFreeTrialToProfile}
 												>
@@ -711,7 +712,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 														color={theme.white3}
 														SvgIcon={getConfigurationIcon()}
 														relativeWidth={relativeScreenWidth(12)}
-														svgScale={hasConfigNotification() ? ['100%', '100%'] : ['50%', '80%']}
+														svgScale={hasConfigNotification() && isLoggedUser ? ['100%', '100%'] : ['50%', '80%']}
 														height={relativeScreenWidth(12)}
 														onPress={openProfileOptions}
 													/>
