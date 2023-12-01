@@ -206,7 +206,7 @@ function EditPost({
 	const savePost = async () => {
 		const hasValidConnection = await checkNetworkStatus()
 
-		const postData = { ...initialPostData, ...editDataContext.unsaved } as PostCollectionRemote
+		const postData = { ...initialPostData, completed: false, ...editDataContext.unsaved } as PostCollectionRemote
 
 		if (offlinePost && !hasValidConnection) return
 

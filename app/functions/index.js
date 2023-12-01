@@ -6,11 +6,25 @@
 
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
-const { ExpoPushMessage, Expo } = require('expo-server-sdk')
+const algoliasearch = require('algoliasearch')
 
-admin.initializeApp({
-	databaseURL: 'https://corresocialapp-default-rtdb.firebaseio.com',
-})
+const { getNearbyPosts, getCityPosts, getCountryPosts, filterLocation } = require('./src/getFeedPostsBeta')
+const {
+	removeDuplicatesByPostId,
+	spreadPostsByRange,
+	getPostCompletedFilter,
+	getPostTypeFilter,
+	getGeohashFilter,
+	getRangeFilter,
+	getMacroCategoryFilter,
+	getCategoryFilter,
+	getTagFilter,
+	structurePostObject,
+} = require('./src/searchPostsByAlgoliaBeta')
+
+admin.initializeApp()
+
+// getFeedPosts
 
 exports.getFeedPostsBeta = functions.https.onRequest(async (req, res) => { // req. searchParams
 	try {
@@ -39,114 +53,7 @@ exports.getFeedPostsBeta = functions.https.onRequest(async (req, res) => { // re
 	}
 })
 
-const getNearbyPosts = async (collectionRef, searchParams) => {
-	const queryNearby = collectionRef
-		.where('location.geohashNearby', 'array-contains-any', searchParams.geohashes)
-		.orderBy('createdAt', 'desc')
-
-	return queryNearby.get()
-		.then((snapshotNearby) => {
-			const posts = []
-			const nearPostIds = []
-
-			snapshotNearby.forEach((doc) => {
-				posts.push({ ...doc.data(), postId: doc.id })
-				nearPostIds.push(doc.id)
-				// console.log(`Nearby: ${doc.data().title} - ${doc.data().range} ------- ${doc.data().postType}`)
-			})
-
-			return { nearbyPosts: posts, nearPostIds }
-		})
-		.catch((err) => {
-			return []
-		})
-}
-
-const getCityPosts = async (collectionRef, searchParams, nearPostIds = []) => {
-	const queryCity = collectionRef
-		.where('location.city', '==', searchParams.city)
-		.where('range', '==', 'city')
-		.orderBy('createdAt', 'desc')
-
-	return queryCity.get()
-		.then((snapshotCity) => {
-			const posts = []
-			const cityPostIds = []
-
-			snapshotCity.forEach((doc) => {
-				if (!nearPostIds.includes(doc.id)) {
-					posts.push({ ...doc.data(), postId: doc.id })
-					cityPostIds.push(doc.id)
-					// console.log(`City: ${doc.data().title} - ${doc.data().range} ------- ${doc.data().postType}`)
-				}
-			})
-
-			return { cityPosts: posts, cityPostIds }
-		})
-		.catch((err) => {
-			console.log(err)
-			return []
-		})
-}
-
-const getCountryPosts = async (
-	collectionRef,
-	searchParams,
-	nearPostIds = [],
-	cityPostIds = []
-) => {
-	const countryQuery = collectionRef
-		.where('location.country', '==', searchParams.country)
-		.where('range', '==', 'country')
-		.orderBy('createdAt', 'desc')
-
-	return countryQuery.get()
-		.then((snapshotCountry) => {
-			const posts = []
-
-			snapshotCountry.forEach((doc) => {
-				if (!nearPostIds.includes(doc.id) && !cityPostIds.includes(doc.id)) {
-					posts.push({ ...doc.data(), postId: doc.id })
-					// console.log(`Country: ${doc.data().title} - ${doc.data().range} ------- ${doc.data().postType}`)
-				}
-			})
-
-			return posts
-		})
-}
-
-const filterLocation = (posts, userId) => {
-	return posts.map((post) => {
-		const currentPost = { ...post }
-		if (post.locationView === 'private' && post.owner.userId !== userId) {
-			delete currentPost.location
-		}
-
-		if (post.locationView === 'approximate') {
-			currentPost.location.coordinates = {
-				latitude: currentPost.location.coordinates.latitude + getRandomDetachment(),
-				longitude: currentPost.location.coordinates.longitude + getRandomDetachment()
-			}
-		}
-
-		return currentPost
-	})
-}
-
-const getRandomDetachment = () => {
-	const approximateRadius = 400
-
-	const binaryRandom = Math.round(Math.random())
-	const detachmentRandom = Math.round(Math.random() * (55 - 10) + 10) / 10000000
-	if (binaryRandom) {
-		return (approximateRadius * detachmentRandom)
-	}
-	return -(approximateRadius * detachmentRandom)
-}
-
 /// ///  SearchByAlgolia
-
-const algoliasearch = require('algoliasearch')
 
 const client = algoliasearch('ALGOLIA_ID', 'ALGOLIA_KEY')
 const postsIndex = client.initIndex('postsIndex')
@@ -156,6 +63,7 @@ exports.searchPostsByAlgoliaBeta = functions.https.onRequest(async (req, res) =>
 		const { searchText, searchParams, searchByRange, userId } = req.body
 
 		const searchFilters = {
+			completedFilter: '',
 			cityFilter: '',
 			countryFilter: '',
 			postTypeFilter: '',
@@ -165,6 +73,8 @@ exports.searchPostsByAlgoliaBeta = functions.https.onRequest(async (req, res) =>
 			categoryFilter: '',
 			tagFilter: '',
 		}
+
+		searchFilters.completedFilter = getPostCompletedFilter()
 
 		if (searchByRange) {
 			const geohashField = 'geohashNearby'
@@ -187,30 +97,30 @@ exports.searchPostsByAlgoliaBeta = functions.https.onRequest(async (req, res) =>
 			searchByRange
 				? [
 					searchParams.range === 'near' && await postsIndex.search(searchText, { // Near
-						filters: searchFilters.geohashFilter
+						filters: `${searchFilters.completedFilter}${searchFilters.geohashFilter}`
 					}),
 					searchParams.range === 'city' && await postsIndex.search(searchText, { // City
-						filters: searchFilters.cityFilter
+						filters: `${searchFilters.completedFilter}${searchFilters.cityFilter}`
 					}),
 					searchParams.range === 'country' && await postsIndex.search(searchText, { // Country
-						filters: searchFilters.countryFilter
+						filters: `${searchFilters.completedFilter}${searchFilters.countryFilter}`
 					})
 				]
 				: [
 					await postsIndex.search(searchText, { // Near
-						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter} ${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+						filters: `${searchFilters.completedFilter}${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter} ${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 					}),
 					await postsIndex.search(searchText, { // City
-						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND ${searchFilters.cityFilter}${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+						filters: `${searchFilters.completedFilter}${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND ${searchFilters.cityFilter}${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 					}),
 					await postsIndex.search(searchText, { // Country
-						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+						filters: `${searchFilters.completedFilter}${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 					})
 				]
 		)
 			.then((responses) => responses.reduce((acc, result) => {
 				if (result && result.hits && result.hits.length > 0) {
-					const structuredPosts = result.hits.map((record, index) => {
+					const structuredPosts = result.hits.map((record) => {
 						const postData = structurePostObject(record)
 						return postData
 					})
@@ -231,80 +141,6 @@ exports.searchPostsByAlgoliaBeta = functions.https.onRequest(async (req, res) =>
 		return res.status(500).send(err)
 	}
 })
-
-function removeDuplicatesByPostId(results) {
-	return results.filter((post, index, self) => index === self.findIndex((p) => p.postId === post.postId))
-}
-
-const spreadPostsByRange = (posts) => {
-	const result = {
-		nearby: [],
-		city: [],
-		country: []
-	}
-
-	posts.forEach((post) => {
-		if (post.range === 'near') {
-			result.nearby.push(post)
-		} else if (post.range === 'city') {
-			result.city.push(post)
-		} else if (post.range === 'country') {
-			result.country.push(post)
-		}
-	})
-
-	return result
-}
-
-const getPostTypeFilter = (postType) => {
-	return `postType:${postType}`
-}
-
-const getGeohashFilter = (geohashes, geohashField, negativeClause) => {
-	return geohashes.reduce((geohashQuery, geohash) => {
-		if (geohash === geohashes[geohashes.length - 1]) {
-			return `(${geohashQuery}${negativeClause ? 'NOT' : ''}location.${geohashField}:${geohash})`
-		}
-		return `${geohashQuery}${negativeClause ? 'NOT' : ''} location.${geohashField}:${geohash} OR `
-	}, '')
-}
-
-const getRangeFilter = (range, city, country) => {
-	if (range === 'nearby' || range === 'city') return ` (range:city OR range:country) AND location.city:'${city}'`
-	if (range === 'country') return `range:${range} AND location.country:'${country}'`
-	return ''
-}
-
-const getMacroCategoryFilter = (macroCategory) => {
-	if (!macroCategory) return ''
-	if (macroCategory === 'income') {
-		return ` AND (macroCategory:${macroCategory} OR macroCategory:sale OR macroCategory:service OR macroCategory:vacancy)`
-	}
-	return ` AND macroCategory:${macroCategory}`
-}
-
-const getCategoryFilter = (category) => {
-	if (!category) return ''
-	return ` AND category:${category}`
-}
-
-const getTagFilter = (tag) => {
-	if (!tag) return ''
-	return ` AND tags:${tag}`
-}
-
-const structurePostObject = (record) => {
-	const structuredPost = {
-		...record,
-		postId: record.objectID,
-	}
-	delete structuredPost.path
-	delete structuredPost.objectID
-	delete structuredPost.lastmodified
-	delete structuredPost._highlightResult
-
-	return structuredPost
-}
 
 /// ///  checkUserPhoneAlreadyRegistred
 

@@ -381,14 +381,16 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	const getUserPosts = () => {
 		if (route.params && route.params.userId) {
 			return user.posts
-				? user.posts.sort(
-					sortPostsByCreatedData as (a: PostCollection, b: PostCollection) => number
-				)
+				? user.posts
+					.filter((post) => !post.completed)
+					.sort(sortPostsByCreatedData as (a: PostCollection, b: PostCollection) => number)
 				: []
 		}
 
 		return userDataContext.posts
-			? userDataContext.posts.sort(sortPostsByCreatedData)
+			? userDataContext.posts
+				.filter((post) => !post.completed)
+				.sort(sortPostsByCreatedData)
 			: []
 	}
 
@@ -770,9 +772,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							? (
 								<WithoutPostsMessage
 									title={'faça uma postagem!'}
-									message={
-										'você precisa fazer um post para que outras pessoas possam te encontrem\ncaso veio aqui apenas para procurar, não se preocupe.'
-									}
+									message={'você precisa fazer um post para que outras pessoas possam te encontrem\ncaso veio aqui apenas para procurar, não se preocupe.'}
 									highlightedWords={['precisa', 'fazer', 'um', 'post', 'outras', 'pessoas', 'possam', 'te', 'encontrar',]}
 									backgroundColor={theme.yellow1}
 								/>

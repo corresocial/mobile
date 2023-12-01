@@ -17,7 +17,6 @@ import { searchAddressByText } from '../../../services/maps/searchAddressByText'
 import { structureAddress, structureExpoLocationAddress } from '../../../utils/maps/addressFormatter'
 import { getLastRecentAddress, getRecentAdressesFromStorage } from '../../../utils/maps/recentAddresses'
 import { getPostsByLocationCloud } from '../../../services/cloudFunctions/getPostsByLocationCloud'
-import { getPostsByLocation } from '../../../services/firebase/post/getPostsByLocation'
 import { getCurrentLocation } from '../../../utils/maps/getCurrentLocation'
 
 import {
@@ -129,11 +128,10 @@ function Home({ navigation }: HomeScreenProps) {
 			}
 
 			const remoteFeedPosts = await getPostsByLocationCloud(
-				searchParams, // Update return of cloud function
+				searchParams,
 				userDataContext.userId as Id
 			)
 
-			// const remoteFeedPosts = await getPostsByLocation(searchParams)
 			setFeedPosts(remoteFeedPosts || { nearby: [], city: [], country: [] })
 
 			refresh ? setFeedIsUpdating(false) : setLoaderIsVisible(false)
@@ -311,12 +309,12 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const viewPostsByRange = (postRange: PostRange) => {
-		switch (postRange) {
-			case 'near': return navigation.navigate('ViewPostsByRange', { postsByRange: feedPosts.nearby, postRange: 'near', searchByRange: true })
-			case 'city': return navigation.navigate('ViewPostsByRange', { postsByRange: feedPosts.city, postRange: 'city', searchByRange: true })
-			case 'country': return navigation.navigate('ViewPostsByRange', { postsByRange: feedPosts.country, postRange: 'country', searchByRange: true })
-			default: return false
+		const rangeConfig = {
+			near: { postsByRange: feedPosts.nearby, postRange: 'near' as PostRange },
+			city: { postsByRange: feedPosts.city, postRange: 'city' as PostRange },
+			country: { postsByRange: feedPosts.country, postRange: 'country' as PostRange }
 		}
+		navigation.navigate('ViewPostsByRange', { ...rangeConfig[postRange], searchByRange: true })
 	}
 
 	const hasAnyPost = () => {

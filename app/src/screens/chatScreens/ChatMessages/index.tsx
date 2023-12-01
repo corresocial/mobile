@@ -374,9 +374,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				)}
 				ListHeaderComponent={() => (
 					<WithoutPostsMessage
-						message={
-							'tome cuidado ao passar informações pessoais e combine compras e trocas em locais seguros. em caso de serviços à domicílio, verifique o perfil de quem você está contratando'
-						}
+						message={'tome cuidado ao passar informações pessoais e combine compras e trocas em locais seguros. em caso de serviços à domicílio, verifique o perfil de quem você está contratando'}
 						highlightedWords={[
 							'passar',
 							'informações',

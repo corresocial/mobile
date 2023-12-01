@@ -13,10 +13,13 @@ import { relativeScreenWidth } from '../../../common/screenDimensions'
 import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
 import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
 import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
+import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
 
 import { arrayIsEmpty, formatRelativeDate, getShortText } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { share } from '../../../common/share'
+import { markPostAsComplete } from '../../../services/firebase/post/markPostAsCompleted'
+import { mergeArrayPosts } from '../../../utils/mergeArrayPosts'
 
 import { ViewVacancyPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
@@ -44,11 +47,12 @@ import { incomeCategories } from '../../../utils/postsCategories/incomeCategorie
 import { LinkCard } from '../../../components/_cards/LinkCard'
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
-	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
+	const { userDataContext, setDataOnSecureStore, setUserDataOnContext } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
+	const [isCompleted, setIsCompleted] = useState(route.params.postData.completed || false)
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 
 	useEffect(() => {
@@ -73,6 +77,28 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 		if (!postData || !postData.owner || !postData.owner.profilePictureUrl) return null
 		if (arrayIsEmpty(postData.owner.profilePictureUrl)) return null
 		return postData.owner.profilePictureUrl[0]
+	}
+
+	const markAsCompleted = async () => {
+		try {
+			const updatedPostData = { ...postData, completed: !isCompleted }
+			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
+
+			markPostAsComplete(
+				userDataContext,
+				postData.postId,
+				updatedPostData,
+				mergedPosts || []
+			)
+
+			setUserDataOnContext({ posts: mergedPosts })
+			setDataOnSecureStore('corre.user', { posts: mergedPosts })
+
+			setIsCompleted(!isCompleted)
+			setPostOptionsIsOpen(false)
+		} catch (err) {
+			console.log(err)
+		}
 	}
 
 	const deleteRemotePost = async () => {
@@ -215,21 +241,38 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 							/>
 						)
 					}
-					<SmallButton
-						color={theme.green3}
-						label={isAuthor ? 'compartilhar' : 'me candidatar'}
-						SvgIcon={isAuthor ? ShareWhiteIcon : ChatWhiteIcon}
-						relativeWidth={isAuthor ? '80%' : '63%'}
-						height={relativeScreenWidth(12)}
-						onPress={isAuthor ? sharePost : openChat}
-					/>
+					{
+						isCompleted
+							? (
+								<SmallButton
+									label={'post foi concluído'}
+									labelColor={theme.black4}
+									SvgIcon={DeniedWhiteIcon}
+									relativeWidth={'80%'}
+									height={relativeScreenWidth(12)}
+									onPress={() => { }}
+								/>
+							)
+							: (
+								<SmallButton
+									color={theme.green3}
+									label={isAuthor ? 'compartilhar' : 'comprar'}
+									SvgIcon={isAuthor ? ShareWhiteIcon : ChatWhiteIcon}
+									relativeWidth={isAuthor ? '80%' : '63%'}
+									height={relativeScreenWidth(12)}
+									onPress={isAuthor ? sharePost : openChat}
+								/>
+							)
+					}
 					<PostPopOver
 						postTitle={getShortText(getPostField('description'), 45) || 'publicação no corre.'}
 						popoverVisibility={postOptionsIsOpen}
 						closePopover={() => setPostOptionsIsOpen(false)}
 						isAuthor={isAuthor || false}
 						isLoading={isLoading}
+						isCompleted={isCompleted}
 						goToComplaint={reportPost}
+						markAsCompleted={markAsCompleted}
 						editPost={goToEditPost}
 						deletePost={toggleDefaultConfirmationModalVisibility}
 					>
