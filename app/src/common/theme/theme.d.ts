@@ -64,5 +64,10 @@ declare module 'styled-components' {
 			blue3: string
 			pink3: string
 		},
+
+		fonts: {
+			arvoRegular: string
+			arvoBold: string
+		}
 	}
 }

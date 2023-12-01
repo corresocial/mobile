@@ -45,6 +45,7 @@ import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
+import { LinkCard } from '../../../components/_cards/LinkCard'
 
 function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)
@@ -282,6 +283,16 @@ function ViewServicePost({ route, navigation }: ViewServicePostScreenProps) {
 					<DescriptionCard
 						text={getPostField('description')}
 					/>
+					{
+						!arrayIsEmpty(getPostField('links')) && (
+							<>
+								<VerticalSpacing />
+								<LinkCard
+									links={getPostField('links')}
+								/>
+							</>
+						)
+					}
 					<VerticalSpacing />
 					{!arrayIsEmpty(getPostField('picturesUrl')) && (
 						<>

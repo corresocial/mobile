@@ -29,6 +29,7 @@ import { InsertVacancyStartHour } from '../../../screens/vacancyRegisterScreens/
 import { InsertVacancyImportantPoints } from '../../../screens/vacancyRegisterScreens/InsertVacancyImportantPoints'
 import { SelectVacancyPurpose } from '../../../screens/vacancyRegisterScreens/SelectVacancyPurpose'
 import { EditVacancyPost } from '../../../screens/editPostScreens/EditVacancyPost'
+import { InsertIncomeLinks } from '../../../screens/saleRegisterScreens/InsertIncomeLinks'
 
 const Stack = createStackNavigator<VacancyStackParamList>()
 
@@ -47,6 +48,7 @@ export function VacancyStack() {
 				<Stack.Screen name={'SelectVacancyCategory'} component={SelectVacancyCategory} />
 				<Stack.Screen name={'SelectVacancyTags'} component={SelectVacancyTags} />
 				<Stack.Screen name={'InsertVacancyDescription'} component={InsertVacancyDescription} />
+				<Stack.Screen name={'InsertIncomeLinks'} component={InsertIncomeLinks} />
 				<Stack.Screen name={'VacancyPicturePreview'} component={VacancyPicturePreview} />
 				<Stack.Screen name={'SelectWorkplace'} component={SelectWorkplace} />
 				<Stack.Screen name={'SelectVacancyType'} component={SelectVacancyType} />

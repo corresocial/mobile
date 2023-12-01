@@ -89,7 +89,7 @@ function SaleOrExchangeCard({
 					title={title || getDefaultTitle()}
 					highlightedWords={hightligtedWords || ['venda', 'troca']}
 					SvgIcon={isCulturePost && CashWhiteIcon}
-					dimensions={32}
+					dimensions={28}
 				/>
 			</EditHeaderContainer>
 			{

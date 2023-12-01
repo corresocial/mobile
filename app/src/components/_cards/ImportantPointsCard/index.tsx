@@ -39,7 +39,7 @@ function ImportantPointsCard({ title, importantPoints = [], onEdit }: ImportantP
 					title={title || 'importante'}
 					highlightedWords={['importante']}
 					SvgIcon={QuestionMarkWhiteIcon}
-					dimensions={32}
+					dimensions={28}
 				/>
 			</EditHeaderContainer>
 			{

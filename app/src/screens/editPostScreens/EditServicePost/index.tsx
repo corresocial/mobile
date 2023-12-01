@@ -28,6 +28,7 @@ import { EditPost } from '../../../components/EditPost'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
+import { LinkCard } from '../../../components/_cards/LinkCard'
 
 function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps) {
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
@@ -207,6 +208,11 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertServiceDescription', 'description')}
+				/>
+				<VerticalSpacing />
+				<LinkCard
+					links={getPostField('links')}
+					onEdit={() => navigateToEditScreen('InsertIncomeLinks', 'links')}
 				/>
 				<VerticalSpacing />
 				<EditCard

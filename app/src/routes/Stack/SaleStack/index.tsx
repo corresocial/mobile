@@ -26,6 +26,7 @@ import { SelectSaleRange } from '../../../screens/saleRegisterScreens/SelectSale
 import { SelectItemStatus } from '../../../screens/saleRegisterScreens/SelectItemStatus'
 import { EditSalePost } from '../../../screens/editPostScreens/EditSalePost'
 import { SelectSalePurpose } from '../../../screens/saleRegisterScreens/SelectSalePurpose'
+import { InsertIncomeLinks } from '../../../screens/saleRegisterScreens/InsertIncomeLinks'
 
 const Stack = createStackNavigator<SaleStackParamList>()
 
@@ -45,6 +46,7 @@ export function SaleStack() {
 				<Stack.Screen name={'SelectSaleCategory'} component={SelectSaleCategory} />
 				<Stack.Screen name={'SelectSaleTags'} component={SelectSaleTags} />
 				<Stack.Screen name={'InsertSaleDescription'} component={InsertSaleDescription} />
+				<Stack.Screen name={'InsertIncomeLinks'} component={InsertIncomeLinks} />
 				<Stack.Screen name={'SalePicturePreview'} component={SalePicturePreview} />
 				<Stack.Screen name={'SelectPaymentType'} component={SelectPaymentType} />
 				<Stack.Screen name={'SelectSaleValueType'} component={SelectSaleValueType} />

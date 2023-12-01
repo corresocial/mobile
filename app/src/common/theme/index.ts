@@ -61,5 +61,10 @@ export const theme: DefaultTheme = { // NOTE: Instale a extenção Color Highlig
 		yellow3: 'rgba(251, 206, 55, 0.25)',
 		blue3: 'rgba(48, 140, 232, 0.25)',
 		pink3: 'rgba(232, 48, 110, 0.25)'
+	},
+
+	fonts: {
+		arvoRegular: 'Arvo_400Regular',
+		arvoBold: 'Arvo_700Bold'
 	}
 }

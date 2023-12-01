@@ -175,7 +175,7 @@ function DateTimeCard({
 					title={title || 'dias e horários'}
 					highlightedWords={highlightedWords || ['dias', 'horários']}
 					SvgIcon={!onEdit ? ClockWhiteIcon : undefined}
-					dimensions={32}
+					dimensions={28}
 				/>
 			</EditHeaderContainer>
 			<DateTimeContainer editable={onEdit}>
