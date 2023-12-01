@@ -29,6 +29,7 @@ import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { FeedByRange } from '../../../components/FeedByRange'
 import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 import { MacroCategories } from '../../../utils/postMacroCategories/types'
+import { navigateToPostView } from '../../../routes/auxMethods'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 
@@ -231,28 +232,11 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 				postRange,
 				postType: locationDataContext.searchParams.postType as PostType
 			})
-			default: return false
 		}
 	}
 
-	const goToPostView = (post: PostCollection | any) => { // TODO Type
-		switch (post.postType) {
-			case 'income': {
-				switch (post.macroCategory) {
-					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-					default: return false
-				}
-			}
-
-			case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-			case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-			case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-			case 'socialImpact': return navigation.navigate('ViewSocialImpactPostHome', { postData: { ...post } })
-			case 'culture': return navigation.navigate('ViewCulturePostHome', { postData: { ...post } })
-			default: return false
-		}
+	const viewPostDetails = (postData: PostCollection) => {
+		navigateToPostView(postData, navigation as any, 'Home') // TODO Type
 	}
 
 	const navigateToCategoryDetails = (categorySelected: MacroCategory) => {
@@ -313,7 +297,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 					filteredFeedPosts={searchText ? { ...filteredFeedPosts } : { ...feedPostsByTypeAndMacroCategory }}
 					viewPostsByRange={viewPostsByRange}
 					navigateToProfile={navigateToProfile}
-					goToPostView={goToPostView}
+					goToPostView={viewPostDetails}
 				>
 					{
 						(hasAnyFilteredCategory())

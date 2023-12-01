@@ -43,6 +43,7 @@ import { getReverseGeocodeByMapsApi } from '../../../services/maps/getReverseGeo
 import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
 import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
 import { FeedByRange } from '../../../components/FeedByRange'
+import { navigateToPostView } from '../../../routes/auxMethods'
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -271,24 +272,8 @@ function Home({ navigation }: HomeScreenProps) {
 		])
 	}
 
-	const goToPostView = (post: PostCollection | any) => { // TODO Type
-		switch (post.postType) {
-			case 'income': {
-				switch (post.macroCategory) {
-					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-					default: return false
-				}
-			}
-
-			case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-			case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-			case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-			case 'socialImpact': return navigation.navigate('ViewSocialImpactPostHome', { postData: { ...post } })
-			case 'culture': return navigation.navigate('ViewCulturePostHome', { postData: { ...post } })
-			default: return false
-		}
+	const viewPostDetails = (postData: PostCollection) => {
+		navigateToPostView(postData, navigation as any, 'Home') // TODO Type
 	}
 
 	const navigateToPostCategories = (postType: PostType) => {
@@ -351,7 +336,7 @@ function Home({ navigation }: HomeScreenProps) {
 					post={item}
 					owner={item.owner}
 					navigateToProfile={navigateToProfile}
-					onPress={() => goToPostView(item)}
+					onPress={() => viewPostDetails(item)}
 				/>
 			</ContainerPadding>
 
@@ -410,7 +395,7 @@ function Home({ navigation }: HomeScreenProps) {
 					customRenderItem={renderPostItem}
 					viewPostsByRange={viewPostsByRange}
 					navigateToProfile={navigateToProfile}
-					goToPostView={goToPostView}
+					goToPostView={viewPostDetails}
 				/>
 			</RecentPostsContainer>
 		</Container>

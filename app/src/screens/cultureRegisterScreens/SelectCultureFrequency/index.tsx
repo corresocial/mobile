@@ -71,7 +71,6 @@ function SelectCultureFrequency({ route, navigation }: SelectCultureFrequencyScr
 
 				break
 			}
-			default: return false
 		}
 	}
 

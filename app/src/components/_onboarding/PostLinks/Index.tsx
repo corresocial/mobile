@@ -123,7 +123,6 @@ function PostLinks({
 			case 2: {
 				return 'link'
 			}
-			default: return false
 		}
 	}
 

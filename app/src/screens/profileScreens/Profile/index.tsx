@@ -75,6 +75,8 @@ import { getNumberOfStoredOfflinePosts } from '../../../utils/offlinePost'
 import { getNetworkStatus } from '../../../utils/deviceNetwork'
 import { AlertContext } from '../../../contexts/AlertContext/index'
 import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
+import { navigateToPostView } from '../../../routes/auxMethods'
+import { FlatListItem } from '../../../@types/global/types'
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { notificationState } = useContext(AlertContext)
@@ -195,88 +197,11 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		}
 	}
 
-	const goToPostView = (item: PostCollection | any) => { // TODO Type
-		const stackLabel = route.params?.stackLabel || 'Home'
+	const viewPostDetails = (post: PostCollection) => {
+		const customStackLabel = route.params?.userId ? 'Home' : route.params?.stackLabel
+		const postData = { ...post, owner: getUserDataOnly() } as PostCollection
 
-		switch (item.postType) {
-			case 'service': {
-				navigation.push(
-					route.params?.userId
-						? `ViewServicePost${stackLabel}`
-						: ('ViewServicePost' as any), // TODO Type
-					{ postData: { ...item, owner: getUserDataOnly() } }
-				)
-				break
-			}
-			case 'sale': {
-				navigation.push(
-					route.params?.userId
-						? `ViewSalePost${stackLabel}`
-						: ('ViewSalePost' as any), // TODO Type
-					{ postData: { ...item, owner: getUserDataOnly() } }
-				)
-				break
-			}
-			case 'vacancy': {
-				navigation.push(
-					route.params?.userId
-						? `ViewVacancyPost${stackLabel}`
-						: ('ViewVacancyPost' as any), // TODO Type
-					{ postData: { ...item, owner: getUserDataOnly() } }
-				)
-				break
-			}
-			case 'income': {
-				if (item.macroCategory === 'sale') {
-					return navigation.push(
-						route.params?.userId
-							? `ViewSalePost${stackLabel}`
-							: ('ViewSalePost' as any), // TODO Type
-						{ postData: { ...item, owner: getUserDataOnly() } }
-					)
-				}
-
-				if (item.macroCategory === 'service') {
-					return navigation.push(
-						route.params?.userId
-							? `ViewServicePost${stackLabel}`
-							: ('ViewServicePost' as any), // TODO Type
-						{ postData: { ...item, owner: getUserDataOnly() } }
-					)
-				}
-
-				if (item.macroCategory === 'vacancy') {
-					return navigation.push(
-						route.params?.userId
-							? `ViewVacancyPost${stackLabel}`
-							: ('ViewVacancyPost' as any), // TODO Type
-						{ postData: { ...item, owner: getUserDataOnly() } }
-					)
-				}
-
-				break
-			}
-			case 'socialImpact': {
-				navigation.push(
-					route.params?.userId
-						? `ViewSocialImpactPost${stackLabel}`
-						: ('ViewSocialImpactPost' as any), // TODO Type
-					{ postData: { ...item, owner: getUserDataOnly() } }
-				)
-				break
-			}
-			case 'culture': {
-				navigation.push(
-					route.params?.userId
-						? `ViewCulturePost${stackLabel}`
-						: ('ViewCulturePost' as any), // TODO Type
-					{ postData: { ...item, owner: getUserDataOnly() } }
-				)
-				break
-			}
-			default:
-				return false
-		}
+		navigateToPostView(postData, navigation, customStackLabel)
 	}
 
 	const openProfileOptions = () => {
@@ -756,12 +681,12 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 								? getUserPosts()
 								: filtredUserPosts()
 						}
-						renderItem={({ item }: any) => ( // TODO type
+						renderItem={({ item }: FlatListItem<PostCollection>) => (
 							<PostPadding>
 								<PostCard
 									post={item}
 									owner={getUserField()}
-									onPress={() => goToPostView(item)}
+									onPress={() => viewPostDetails(item)}
 								/>
 							</PostPadding>
 						)}

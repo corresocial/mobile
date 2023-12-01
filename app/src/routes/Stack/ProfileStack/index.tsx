@@ -6,12 +6,11 @@ import { ProfileStackParamList } from './types'
 
 import { StateProvider } from '../../../contexts/StateContext'
 
-import { ViewServicePost } from '../../../screens/viewPostScreens/ViewServicePost'
-import { ViewSalePost } from '../../../screens/viewPostScreens/ViewSalePost'
 import { ViewVacancyPost } from '../../../screens/viewPostScreens/ViewVacancyPost'
 import { ViewSocialImpactPost } from '../../../screens/viewPostScreens/ViewSocialImpactPost'
 import { ViewCulturePost } from '../../../screens/viewPostScreens/ViewCulturePost'
 import { Profile } from '../../../screens/profileScreens/Profile'
+import { ViewIncomePost } from '../../../screens/viewPostScreens/ViewIncomePost'
 
 const Stack = createStackNavigator<ProfileStackParamList>()
 
@@ -27,8 +26,7 @@ export function ProfileStack({ route }: any) {
 				}}
 			>
 				<Stack.Screen name={'Profile'} component={Profile} />
-				<Stack.Screen name={'ViewServicePost'} component={ViewServicePost} />
-				<Stack.Screen name={'ViewSalePost'} component={ViewSalePost} />
+				<Stack.Screen name={'ViewIncomePost'} component={ViewIncomePost} />
 				<Stack.Screen name={'ViewVacancyPost'} component={ViewVacancyPost} />
 				<Stack.Screen name={'ViewSocialImpactPost'} component={ViewSocialImpactPost} />
 				<Stack.Screen name={'ViewCulturePost'} component={ViewCulturePost} />

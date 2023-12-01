@@ -15,6 +15,7 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { searchPostsCloud } from '../../../services/cloudFunctions/searchPostsCloud'
 import { FeedByRange } from '../../../components/FeedByRange'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
+import { navigateToPostView } from '../../../routes/auxMethods'
 
 const initialFeedPosts = {
 	nearby: [],
@@ -81,24 +82,8 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 		}
 	}
 
-	const goToPostView = (post: PostCollection | any) => { // TODO Type
-		switch (post.postType) {
-			case 'income': {
-				switch (post.macroCategory) {
-					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-					default: return false
-				}
-			}
-
-			case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-			case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-			case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-			case 'socialImpact': return navigation.navigate('ViewSocialImpactPostHome', { postData: { ...post } })
-			case 'culture': return navigation.navigate('ViewCulturePostHome', { postData: { ...post } })
-			default: return false
-		}
+	const viewPostDetails = (postData: PostCollection) => {
+		navigateToPostView(postData, navigation, 'Home')
 	}
 
 	const navigateToProfile = (userId: string) => {
@@ -127,7 +112,6 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 				postRange: searchByRange ? '' : postRange,
 				postType: locationDataContext.searchParams.postType as PostType
 			})
-			default: return false
 		}
 	}
 
@@ -156,7 +140,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 				filteredFeedPosts={resultPosts}
 				viewPostsByRange={viewPostsByRange}
 				navigateToProfile={navigateToProfile}
-				goToPostView={goToPostView}
+				goToPostView={viewPostDetails}
 			/>
 		</Container>
 	)

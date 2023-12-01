@@ -14,31 +14,15 @@ import { PostCollection } from '../../../services/firebase/types'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
+import { navigateToPostView } from '../../../routes/auxMethods'
+import { FlatListItem } from '../../../@types/global/types'
 
 function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 
-	const goToPostView = (item: PostCollection | any) => { // TODO Type
-		switch (item.postType) {
-			case 'income': {
-				switch (item.macroCategory) {
-					case 'sale': return navigation.navigate('ViewSalePostUser', { postData: { ...item, owner: getUserDataOnly() } })
-					case 'service': return navigation.navigate('ViewSalePostUser', { postData: { ...item, owner: getUserDataOnly() } })
-					case 'vacancy': return navigation.navigate('ViewSalePostUser', { postData: { ...item, owner: getUserDataOnly() } })
-					default: return false
-				}
-			}
-			case 'socialImpact': {
-				navigation.navigate('ViewSocialImpactPostUser', { postData: { ...item, owner: getUserDataOnly() } })
-				break
-			}
-			case 'culture': {
-				navigation.navigate('ViewCulturePostUser', { postData: { ...item, owner: getUserDataOnly() } })
-				break
-			}
-			default:
-				return false
-		}
+	const viewPostDetails = (post: PostCollection) => {
+		const postData = { ...post, owner: getUserDataOnly() }
+		navigateToPostView(postData as PostCollection, navigation as any, 'User') // TODO Type
 	}
 
 	const getUserDataOnly = () => {
@@ -71,12 +55,12 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 			>
 				<FlatList
 					data={getCompletedPosts()}
-					renderItem={({ item }: any) => ( // TODO type
+					renderItem={({ item }: FlatListItem<PostCollection>) => (
 						<PostPadding>
 							<PostCard
 								post={item}
 								owner={getUserDataOnly()}
-								onPress={() => goToPostView(item)}
+								onPress={() => viewPostDetails(item)}
 							/>
 						</PostPadding>
 					)}

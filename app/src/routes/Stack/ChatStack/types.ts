@@ -7,8 +7,7 @@ export type ChatStackParamList = {
 	ProfileChat: { userId: Id, stackLabel?: string }
 	ChatMessages: { chat: Chat }
 
-	ViewServicePostChat: { postData: PostCollection }
-	ViewSalePostChat: { postData: PostCollection }
+	ViewIncomePostChat: { postData: PostCollection }
 	ViewVacancyPostChat: { postData: PostCollection }
 	ViewSocialImpactPostChat: { postData: PostCollection }
 	ViewCulturePostChat: { postData: PostCollection }

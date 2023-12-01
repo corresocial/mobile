@@ -28,6 +28,7 @@ import { SearchInput } from '../../../components/_inputs/SearchInput'
 import { CatalogPostTypeButtons } from '../../../components/CatalogPostTypeButtons'
 import { FeedByRange } from '../../../components/FeedByRange'
 import { MacroCategoriesType } from '../../../utils/postMacroCategories/types'
+import { navigateToPostView } from '../../../routes/auxMethods'
 
 function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -114,28 +115,11 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 				postRange,
 				postType: locationDataContext.searchParams.postType as PostType
 			})
-			default: return false
 		}
 	}
 
-	const goToPostView = (post: PostCollection | any) => { // TODO Type
-		switch (post.postType) {
-			case 'income': {
-				switch (post.macroCategory) {
-					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-					default: return false
-				}
-			}
-
-			case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-			case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-			case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-			case 'socialImpact': return navigation.navigate('ViewSocialImpactPostHome', { postData: { ...post } })
-			case 'culture': return navigation.navigate('ViewCulturePostHome', { postData: { ...post } })
-			default: return false
-		}
+	const viewPostViewDetails = (postData: PostCollection) => {
+		navigateToPostView(postData, navigation, 'Home')
 	}
 
 	const navigateToResultScreen = () => {
@@ -253,7 +237,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 				filteredFeedPosts={searchText ? { ...filteredFeedPosts } : { ...feedPostsByType }}
 				viewPostsByRange={viewPostsByRange}
 				navigateToProfile={navigateToProfile}
-				goToPostView={goToPostView}
+				goToPostView={viewPostViewDetails}
 			>
 				<MacroCategoryContainer backgroundColor={getRelativeBackgroundColor()}>
 					{getRelativeCatalogMacroCategoryButtons()}

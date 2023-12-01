@@ -70,8 +70,7 @@ export type UserStackParamList = {
 	FinishSubscriptionPaymentByCard: { postReview?: boolean, editPaymentMethod?: boolean } | undefined
 	SubscriptionPaymentResult: { postReview?: boolean, editPaymentMethod?: boolean, successfulPayment: boolean }
 
-	ViewServicePostUser: { postData: PostCollection }
-	ViewSalePostUser: { postData: PostCollection }
+	ViewIncomePostUser: { postData: PostCollection }
 	ViewVacancyPostUser: { postData: PostCollection }
 	ViewSocialImpactPostUser: { postData: PostCollection }
 	ViewCulturePostUser: { postData: PostCollection }

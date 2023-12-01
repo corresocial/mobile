@@ -21,6 +21,7 @@ import { SearchInput } from '../../../components/_inputs/SearchInput'
 import { FeedByRange } from '../../../components/FeedByRange'
 import { FlatListItem } from '../../../@types/global/types'
 import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
+import { navigateToPostView } from '../../../routes/auxMethods'
 
 function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -117,28 +118,11 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 				postRange,
 				postType: locationDataContext.searchParams.postType as PostType
 			})
-			default: return false
 		}
 	}
 
-	const goToPostView = (post: PostCollection | any) => { // TODO Type
-		switch (post.postType) {
-			case 'income': {
-				switch (post.macroCategory) {
-					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-					default: return false
-				}
-			}
-
-			case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-			case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-			case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-			case 'socialImpact': return navigation.navigate('ViewSocialImpactPostHome', { postData: { ...post } })
-			case 'culture': return navigation.navigate('ViewCulturePostHome', { postData: { ...post } })
-			default: return false
-		}
+	const viewPostDetails = (postData: PostCollection) => {
+		navigateToPostView(postData, navigation as any, 'Home') // TODO Type
 	}
 
 	const navigateToResultScreen = () => {
@@ -184,7 +168,7 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 				filteredFeedPosts={filteredFeedPosts}
 				viewPostsByRange={viewPostsByRange}
 				navigateToProfile={navigateToProfile}
-				goToPostView={goToPostView}
+				goToPostView={viewPostDetails}
 			>
 				{
 					hasAnyFilteredCategory()

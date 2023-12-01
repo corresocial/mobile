@@ -123,6 +123,7 @@
 			}
 		],
 		"react/self-closing-comp": "off",
+		"default-case": "off",
 		"no-tabs": "off",
 		"no-console": "off",
 		"eol-last": "off",

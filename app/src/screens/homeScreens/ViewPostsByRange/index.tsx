@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { Platform } from 'react-native'
 
+import { navigateToPostView } from '../../../routes/auxMethods'
+
 import { Body, Container, ContainerPadding, Header, InputContainer } from './styles'
 import { theme } from '../../../common/theme'
 
@@ -37,26 +39,6 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 	}
 
 	const postsByRange = getFilteredPostsBySearch()
-
-	const goToPostView = (post: PostCollection | any) => { // TODO Type
-		switch (post.postType) {
-			case 'income': {
-				switch (post.macroCategory) {
-					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-					default: return false
-				}
-			}
-
-			case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-			case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-			case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-			case 'socialImpact': return navigation.navigate('ViewSocialImpactPostHome', { postData: { ...post } })
-			case 'culture': return navigation.navigate('ViewCulturePostHome', { postData: { ...post } })
-			default: return false
-		}
-	}
 
 	const navigateToProfile = (userId: string) => {
 		if (userDataContext.userId === userId) {
@@ -108,13 +90,17 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 		}
 	}
 
+	const viewPostDetails = (postData: PostCollection) => {
+		navigateToPostView(postData, navigation, 'Home')
+	}
+
 	const renderPostItem = (item: PostCollection) => (
 		<ContainerPadding>
 			<PostCard
 				post={item}
 				owner={item.owner}
 				navigateToProfile={navigateToProfile}
-				onPress={() => goToPostView(item)}
+				onPress={() => viewPostDetails(item)}
 			/>
 		</ContainerPadding>
 	)

@@ -14,6 +14,7 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 import { SearchInput } from '../../../components/_inputs/SearchInput'
 import { FeedByRange } from '../../../components/FeedByRange'
+import { navigateToPostView } from '../../../routes/auxMethods'
 
 function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -44,24 +45,8 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 
 	const filteredFeedPosts = filterPostsByCategory()
 
-	const goToPostView = (post: PostCollection | any) => { // TODO Type
-		switch (post.postType) {
-			case 'income': {
-				switch (post.macroCategory) {
-					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-					default: return false
-				}
-			}
-
-			case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-			case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-			case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-			case 'socialImpact': return navigation.navigate('ViewSocialImpactPostHome', { postData: { ...post } })
-			case 'culture': return navigation.navigate('ViewCulturePostHome', { postData: { ...post } })
-			default: return false
-		}
+	const viewPostDetails = (postData: PostCollection) => {
+		navigateToPostView(postData, navigation, 'Home')
 	}
 
 	const navigateToProfile = (userId: string) => {
@@ -100,7 +85,6 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 				postRange,
 				postType: locationDataContext.searchParams.postType as PostType
 			})
-			default: return false
 		}
 	}
 
@@ -129,7 +113,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 				filteredFeedPosts={filteredFeedPosts}
 				viewPostsByRange={viewPostsByRange}
 				navigateToProfile={navigateToProfile}
-				goToPostView={goToPostView}
+				goToPostView={viewPostDetails}
 			/>
 		</Container>
 	)

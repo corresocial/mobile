@@ -6,8 +6,6 @@ import { HomeStackParamList } from './types'
 
 import { StateProvider } from '../../../contexts/StateContext'
 
-import { ViewServicePost } from '../../../screens/viewPostScreens/ViewServicePost'
-import { ViewSalePost } from '../../../screens/viewPostScreens/ViewSalePost'
 import { ViewVacancyPost } from '../../../screens/viewPostScreens/ViewVacancyPost'
 import { ViewSocialImpactPost } from '../../../screens/viewPostScreens/ViewSocialImpactPost'
 import { ViewCulturePost } from '../../../screens/viewPostScreens/ViewCulturePost'
@@ -21,6 +19,7 @@ import { Profile } from '../../../screens/profileScreens/Profile'
 import { ViewPostsByRange } from '../../../screens/homeScreens/ViewPostsByRange'
 import { ViewPostsByPostType } from '../../../screens/homeScreens/ViewPostsByPostType'
 import { ViewAllCategories } from '../../../screens/homeScreens/ViewAllCategories'
+import { ViewIncomePost } from '../../../screens/viewPostScreens/ViewIncomePost'
 
 const Stack = createStackNavigator<HomeStackParamList>()
 
@@ -36,8 +35,7 @@ export function HomeStack({ route }: any) {
 				}}
 			>
 				<Stack.Screen name={'Home'} component={Home} />
-				<Stack.Screen name={'ViewServicePostHome'} component={ViewServicePost} />
-				<Stack.Screen name={'ViewSalePostHome'} component={ViewSalePost} />
+				<Stack.Screen name={'ViewIncomePostHome'} component={ViewIncomePost} />
 				<Stack.Screen name={'ViewVacancyPostHome'} component={ViewVacancyPost} />
 				<Stack.Screen name={'ViewPostsByRange'} component={ViewPostsByRange} />
 				<Stack.Screen name={'ViewSocialImpactPostHome'} component={ViewSocialImpactPost} />

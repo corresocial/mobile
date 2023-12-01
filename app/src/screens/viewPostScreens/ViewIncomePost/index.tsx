@@ -23,7 +23,7 @@ import { share } from '../../../common/share'
 import { markPostAsComplete } from '../../../services/firebase/post/markPostAsCompleted'
 import { mergeArrayPosts } from '../../../utils/mergeArrayPosts'
 
-import { ViewSalePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
+import { ViewIncomePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
 import { EditContext } from '../../../contexts/EditContext'
@@ -48,7 +48,7 @@ import { DefaultConfirmationModal } from '../../../components/_modals/DefaultCon
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 import { LinkCard } from '../../../components/_cards/LinkCard'
 
-function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
+function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 	const { userDataContext, setDataOnSecureStore, setUserDataOnContext } = useContext(AuthContext)
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
@@ -84,9 +84,11 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 
 	const goToEditPost = () => {
 		setPostOptionsIsOpen(false)
-		navigation.navigate('EditSalePost', {
-			postData: { ...postData, ...editDataContext.saved },
-		})
+		if (postData.macroCategory === 'sale') {
+			return navigation.navigate('EditSalePost', { postData: { ...postData, ...editDataContext.saved } })
+		}
+
+		navigation.navigate('EditServicePost', { postData: { ...postData, ...editDataContext.saved } })
 	}
 
 	const markAsCompleted = async () => {
@@ -146,6 +148,8 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 		}
 		return ''
 	}
+
+	console.log('income')
 
 	const openChat = async () => {
 		const userId1 = userDataContext.userId
@@ -392,4 +396,4 @@ function ViewSalePost({ route, navigation }: ViewSalePostScreenProps) {
 	)
 }
 
-export { ViewSalePost }
+export { ViewIncomePost }
