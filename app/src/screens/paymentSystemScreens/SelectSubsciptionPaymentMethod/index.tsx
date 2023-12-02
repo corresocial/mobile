@@ -47,7 +47,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 				relativeHeight={relativeScreenHeight(18)}
 				centralized
 				backgroundColor={theme.white3}
-				footerText={getRangeSubscriptionLabelHighlighted(subscriptionRange, subscriptionPlan) as any}
+				footerText={getRangeSubscriptionLabelHighlighted(subscriptionRange, subscriptionPlan)}
 				footerTextHighlighted={`r$ ${price},00`}
 			>
 				<BackButton onPress={() => navigation.goBack()} />

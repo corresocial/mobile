@@ -13,6 +13,6 @@ export interface UiPresentationUtilsInterface {
 	getLocationViewLabel(locationView: LocationViewType): string
 	generateLocationHeaderText(locationView: LocationViewType, range: PostRange | undefined): string
 
-	getPostRangeLabelHiglighted(postRange: PostRange): React.ReactNode | string
+	getPostRangeLabelHiglighted(postRange: PostRange): string | (string | ReactElement<any, string | JSXElementConstructor<any>>)[]
 	getRangeSubscriptionLabelHighlighted(postRange?: PostRange, subscriptionPlan?: SubscriptionPlan): React.ReactNode | string | ReactElement<any, string | JSXElementConstructor<any>>
 }

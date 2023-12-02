@@ -605,7 +605,7 @@ function EditPost({
 										svgIconScale={['40%', '20%']}
 										minHeight={relativeScreenHeight(6)}
 										relativeHeight={relativeScreenHeight(8)}
-										onPress={getHeaderButtonHandler() as any} // TODO Type
+										onPress={getHeaderButtonHandler()} // TODO Type
 									/>
 								</SaveButtonContainer>
 							)

@@ -32,7 +32,7 @@ function SelectSubscriptionPlan({ route, navigation }: SelectSubscriptionPlanScr
 				backgroundColor={theme.orange2}
 				plansAvailable={stripeProductsPlans}
 				postRange={postRange}
-				headerFooterText={getPostRangeLabelHiglighted(postRange) as any} // TODO type ui
+				headerFooterText={getPostRangeLabelHiglighted(postRange)}
 				navigateBackwards={() => navigation.goBack()}
 				saveSubscriptionPlan={saveSubscriptionPlan}
 			/>
