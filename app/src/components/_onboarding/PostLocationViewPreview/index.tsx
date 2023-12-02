@@ -5,15 +5,6 @@ import { ButtonContainerBottom, Container, MapContainer } from './styles'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import {
-	generateLocationHeaderText,
-	getLocationViewDescription,
-	getLocationViewHighlightedWords,
-	getLocationViewIcon,
-	getPossessivePronoun,
-	getRelativeLocationView,
-	getRelativeRange
-} from '../../../utils/locationMessages'
 
 import { LatLong, LocationViewType, PostRange } from '../../../services/firebase/types'
 
@@ -22,6 +13,17 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { CustomMapView } from '../../../components/CustomMapView'
 import { InfoCard } from '../../../components/_cards/InfoCard'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { UiPresentationUtils } from '../../../utils-ui/UiPresentationUtils'
+
+const {
+	getLocationViewDescription,
+	generateLocationHeaderText,
+	getLocationViewHighlightedWords,
+	getLocationViewIcon,
+	getPossessivePronounByRange,
+	getLocationViewLabel,
+	getPostRangeLabel
+} = UiPresentationUtils()
 
 interface PostLocationViewPreviewProps {
 	backgroundColor: string
@@ -58,8 +60,8 @@ function PostLocationViewPreview({
 				<InfoCard
 					title={
 						firstStep
-							? `localização⠀ \n${getRelativeLocationView(locationViewSelected)}`
-							: `seu alcance\n ●  ${getRelativeRange(postRange)}`
+							? `localização⠀ \n${getLocationViewLabel(locationViewSelected)}`
+							: `seu alcance\n ●  ${getPostRangeLabel(postRange)}`
 					}
 					titleFontSize={22}
 					description={
@@ -70,7 +72,7 @@ function PostLocationViewPreview({
 					highlightedWords={
 						firstStep
 							? getLocationViewHighlightedWords(locationViewSelected)
-							: ['alcance\n', getPossessivePronoun(postRange), getRelativeRange(postRange)]
+							: ['alcance\n', getPossessivePronounByRange(postRange), getPostRangeLabel(postRange)]
 					}
 					height={'100%'}
 					color={theme.white3}

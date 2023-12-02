@@ -3,8 +3,6 @@ import { StatusBar } from 'react-native'
 
 import { theme } from '../../../common/theme'
 
-import { getRangePlanText } from '../../../utils/subscription/commonMessages'
-
 import { SelectSubscriptionPlanScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { SubscriptionPlan as SubscriptionPlanType } from '../../../services/firebase/types'
 
@@ -12,6 +10,9 @@ import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
 import { StripeContext } from '../../../contexts/StripeContext'
 
 import { SubscriptionPlan } from '../../../components/_onboarding/SubscriptionPlan'
+import { UiPresentationUtils } from '../../../utils-ui/UiPresentationUtils'
+
+const { getPostRangeLabelHiglighted } = UiPresentationUtils()
 
 function SelectSubscriptionPlan({ route, navigation }: SelectSubscriptionPlanScreenProps) {
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
@@ -31,7 +32,7 @@ function SelectSubscriptionPlan({ route, navigation }: SelectSubscriptionPlanScr
 				backgroundColor={theme.orange2}
 				plansAvailable={stripeProductsPlans}
 				postRange={postRange}
-				headerFooterText={getRangePlanText(postRange)}
+				headerFooterText={getPostRangeLabelHiglighted(postRange) as any} // TODO type ui
 				navigateBackwards={() => navigation.goBack()}
 				saveSubscriptionPlan={saveSubscriptionPlan}
 			/>

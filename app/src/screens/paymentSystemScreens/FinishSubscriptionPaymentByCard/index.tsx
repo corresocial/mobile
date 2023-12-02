@@ -10,7 +10,6 @@ import { Body, BodyScrollable, Container, PaymentStatusArea, PaymentStatusText, 
 import DollarWhiteIcon from '../../../assets/icons/dollar-white.svg'
 import CardWhiteIcon from '../../../assets/icons/card-white.svg'
 
-import { getRangeSubscriptionPlanText } from '../../../utils/subscription/commonMessages'
 import { updateAllRangeAndLocation } from '../../../services/firebase/post/updateAllRangeAndLocation'
 
 import { FinishSubscriptionPaymentByCardScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
@@ -30,7 +29,10 @@ import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Loader } from '../../../components/Loader'
-import { PostCollection, PostCollectionRemote, PostRange, UserSubscription } from '../../../services/firebase/types'
+import { Id, PostCollection, PostCollectionRemote, PostRange, UserSubscription } from '../../../services/firebase/types'
+import { UiPresentationUtils } from '../../../utils-ui/UiPresentationUtils'
+
+const { getRangeSubscriptionLabelHighlighted } = UiPresentationUtils()
 
 type CustomCardDetails = {
 	brand: CardBrand
@@ -120,8 +122,8 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 		const lastUserPost: PostCollection = getLastUserPost()
 
 		const owner: PostCollection['owner'] = {
-			userId: userDataContext.userId,
-			name: userDataContext.name,
+			userId: userDataContext.userId as Id,
+			name: userDataContext.name as string,
 			profilePictureUrl: userDataContext.profilePictureUrl
 		}
 
@@ -273,7 +275,7 @@ function FinishSubscriptionPaymentByCard({ route, navigation }: FinishSubscripti
 						<DollarWhiteIcon width={30} height={30} />
 						<Title>{showMessageWithHighlight('resumo de valores', ['resumo'])}</Title>
 					</TitleArea>
-					<SmallInstructionCard text={getRangeSubscriptionPlanText(subscriptionRange, subscriptionPlan)} />
+					<SmallInstructionCard text={getRangeSubscriptionLabelHighlighted(subscriptionRange, subscriptionPlan)} />
 					<VerticalSpacing />
 					<SmallInstructionCard text={`r$ ${price},00`} highlight />
 

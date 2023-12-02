@@ -12,7 +12,6 @@ import XWhiteIcon from '../../../assets/icons/x-white.svg'
 import AtSignWhiteIcon from '../../../assets/icons/atSign-white.svg'
 import EditWhiteIcon from '../../../assets/icons/edit-white.svg'
 
-import { getRangeText } from '../../../utils/subscription/commonMessages'
 import { getTextualAddress } from '../../../utils/maps/addressFormatter'
 
 import { Id, PostCollection, PostCollectionRemote, UserSubscription } from '../../../services/firebase/types'
@@ -31,6 +30,9 @@ import { InsertUserEmailModal } from '../../../components/_modals/InsertUserEmai
 import { emailIsValid } from '../../../common/auxiliaryFunctions'
 import { updateUserPrivateData } from '../../../services/firebase/user/updateUserPrivateData'
 import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
+import { UiPresentationUtils } from '../../../utils-ui/UiPresentationUtils'
+
+const { getPostRangeLabel } = UiPresentationUtils()
 
 function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionScreenProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)
@@ -48,8 +50,8 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 	const { postRange: currentRangeSubscription, leaveFromPaidSubscription } = route.params
 
 	const owner: PostCollection['owner'] = {
-		userId: userDataContext.userId,
-		name: userDataContext.name,
+		userId: userDataContext.userId as Id,
+		name: userDataContext.name as string,
 		profilePictureUrl: userDataContext.profilePictureUrl
 	}
 
@@ -159,18 +161,18 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 	}
 
 	const getHeaderTitle = () => {
-		if (leaveFromPaidSubscription) return `cancelar \nplano ${getRangeText(leaveFromPaidSubscription)}`
-		return !hasError ? `plano ${getRangeText(currentRangeSubscription)}` : 'opa'
+		if (leaveFromPaidSubscription) return `cancelar \nplano ${getPostRangeLabel(leaveFromPaidSubscription)}`
+		return !hasError ? `plano ${getPostRangeLabel(currentRangeSubscription)}` : 'opa'
 	}
 
 	const getHeaderDescription = () => {
-		if (leaveFromPaidSubscription) return `tem certeza que quer cancelar seu plano ${getRangeText(leaveFromPaidSubscription)} e voltar para plano região?`
+		if (leaveFromPaidSubscription) return `tem certeza que quer cancelar seu plano ${getPostRangeLabel(leaveFromPaidSubscription)} e voltar para plano região?`
 		return !hasError ? 'estas são as opções disponíveis para o seu plano' : 'algo deu errado, \ntente novamente'
 	}
 
 	const getHeaderHighlightedWords = () => {
-		if (leaveFromPaidSubscription) return ['cancelar', 'cancelar', 'seu', 'plano', getRangeText(leaveFromPaidSubscription), 'e', 'voltar', 'para', 'plano', 'região']
-		return !hasError ? [getRangeText(currentRangeSubscription)] : ['opa', 'algo', 'deu', 'errado']
+		if (leaveFromPaidSubscription) return ['cancelar', 'cancelar', 'seu', 'plano', getPostRangeLabel(leaveFromPaidSubscription), 'e', 'voltar', 'para', 'plano', 'região']
+		return !hasError ? [getPostRangeLabel(currentRangeSubscription)] : ['opa', 'algo', 'deu', 'errado']
 	}
 
 	const saveUserEmail = async (email?: string) => {
@@ -253,9 +255,9 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 								<PrimaryButton
 									color={theme.red3}
 									keyboardHideButton={false}
-									label={leaveFromPaidSubscription ? `cancelar plano ${getRangeText(leaveFromPaidSubscription)}` : 'cancelar assinatura'}
+									label={leaveFromPaidSubscription ? `cancelar plano ${getPostRangeLabel(leaveFromPaidSubscription)}` : 'cancelar assinatura'}
 									labelColor={theme.white3}
-									highlightedWords={leaveFromPaidSubscription ? ['cancelar', getRangeText(leaveFromPaidSubscription)] : ['cancelar']}
+									highlightedWords={leaveFromPaidSubscription ? ['cancelar', getPostRangeLabel(leaveFromPaidSubscription)] : ['cancelar']}
 									fontSize={16}
 									SvgIcon={XWhiteIcon}
 									svgIconScale={['40%', '20%']}

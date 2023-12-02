@@ -10,7 +10,6 @@ import CopyWhiteIcon from '../../../assets/icons/copy-white.svg'
 import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-import { getRangeSubscriptionPlanText } from '../../../utils/subscription/commonMessages'
 
 import { FinishSubscriptionPaymentByPixScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -27,6 +26,9 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Timer } from '../../../components/Timer'
 import { CustomQRCode } from '../../../components/CustomQRCode'
 import { Loader } from '../../../components/Loader'
+import { UiPresentationUtils } from '../../../utils-ui/UiPresentationUtils'
+
+const { getRangeSubscriptionLabelHighlighted } = UiPresentationUtils()
 
 function FinishSubscriptionPaymentByPix({ route, navigation }: FinishSubscriptionPaymentByPixScreenProps) {
 	const { subscriptionDataContext, updateUserSubscription } = useContext(SubscriptionContext)
@@ -114,7 +116,7 @@ function FinishSubscriptionPaymentByPix({ route, navigation }: FinishSubscriptio
 						<DollarWhiteIcon width={30} height={30} />
 						<Title>{showMessageWithHighlight('resumo de valores', ['resumo'])}</Title>
 					</TitleArea>
-					<SmallInstructionCard text={getRangeSubscriptionPlanText(subscriptionRange, subscriptionPlan)} />
+					<SmallInstructionCard text={getRangeSubscriptionLabelHighlighted(subscriptionRange, subscriptionPlan)} />
 					<VerticalSpacing />
 					<SmallInstructionCard text={'r$ 20,00'} highlight />
 

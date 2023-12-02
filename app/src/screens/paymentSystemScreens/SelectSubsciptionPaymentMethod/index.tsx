@@ -6,8 +6,6 @@ import { ButtonsContainer } from './styles'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import CardWhiteIcon from '../../../assets/icons/card-white.svg'
 
-import { getRangeSubscriptionPlanText } from '../../../utils/subscription/commonMessages'
-
 import { SelectSubsciptionPaymentMethodScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { SubscriptionPaymentMethod } from '../../../services/firebase/types'
 
@@ -19,6 +17,9 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { StripeContext } from '../../../contexts/StripeContext'
+import { UiPresentationUtils } from '../../../utils-ui/UiPresentationUtils'
+
+const { getRangeSubscriptionLabelHighlighted } = UiPresentationUtils()
 
 function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciptionPaymentMethodScreenProps) {
 	const { subscriptionDataContext, setSubscriptionDataOnContext } = useContext(SubscriptionContext)
@@ -46,7 +47,7 @@ function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciption
 				relativeHeight={relativeScreenHeight(18)}
 				centralized
 				backgroundColor={theme.white3}
-				footerText={getRangeSubscriptionPlanText(subscriptionRange, subscriptionPlan)}
+				footerText={getRangeSubscriptionLabelHighlighted(subscriptionRange, subscriptionPlan) as any}
 				footerTextHighlighted={`r$ ${price},00`}
 			>
 				<BackButton onPress={() => navigation.goBack()} />

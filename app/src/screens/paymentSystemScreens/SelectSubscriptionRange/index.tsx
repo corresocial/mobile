@@ -20,7 +20,9 @@ import { TitleDescriptionButton } from '../../../components/_cards/TitleDescript
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeChangeConfirmatiomModal'
-import { getRangeText } from '../../../utils/subscription/commonMessages'
+import { UiPresentationUtils } from '../../../utils-ui/UiPresentationUtils'
+
+const { getPostRangeLabel } = UiPresentationUtils()
 
 function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenProps) {
 	const { userDataContext, getLastUserPost } = useContext(AuthContext)
@@ -94,9 +96,9 @@ function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenPr
 							height={relativeScreenHeight(13)}
 							color={theme.red3}
 							textColor={theme.white3}
-							title={getRangeText(currentSubscriptionRange)}
+							title={getPostRangeLabel(currentSubscriptionRange)}
 							description={'não conseguimos processar seu pagamento'}
-							highlightedWords={[getRangeText(currentSubscriptionRange), 'não', 'conseguimos', 'processar', 'seu', 'pagamento']}
+							highlightedWords={[getPostRangeLabel(currentSubscriptionRange), 'não', 'conseguimos', 'processar', 'seu', 'pagamento']}
 							// checked={currentSubscriptionRange === rangeCard.id}
 							onPress={() => manageSubscriptionRange('near')}
 						/>
