@@ -10,13 +10,15 @@ import { ViewAllTagsScreenProps } from '../../../routes/Stack/HomeStack/stackScr
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
-import { sortArray } from '../../../common/auxiliaryFunctions'
 import { LocationContext } from '../../../contexts/LocationContext'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { PostCollection } from '../../../services/firebase/types'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { UiUtils } from '../../../utils-ui/UiUtils'
+
+const { sortArray } = UiUtils()
 
 function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 	const { locationDataContext } = useContext(LocationContext)

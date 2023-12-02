@@ -32,12 +32,7 @@ import AtSignWhiteIcon from '../../../assets/icons/atSign-white.svg'
 
 import { share } from '../../../common/share'
 import { getUser } from '../../../services/firebase/user/getUser'
-import {
-	arrayIsEmpty,
-	getShortText,
-	sortArray,
-	sortPostsByCreatedData,
-} from '../../../common/auxiliaryFunctions'
+import { getShortText } from '../../../common/auxiliaryFunctions'
 
 import { LocalUserData } from '../../../contexts/types'
 import {
@@ -76,6 +71,9 @@ import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 import { navigateToPostView } from '../../../routes/auxMethods'
 import { FlatListItem } from '../../../@types/global/types'
 import { userBadges } from '../../../utils/userBadges'
+import { UiUtils } from '../../../utils-ui/UiUtils'
+
+const { sortArray, sortPostsByCreatedData, arrayIsEmpty } = UiUtils()
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { notificationState } = useContext(AlertContext)

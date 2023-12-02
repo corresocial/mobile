@@ -11,7 +11,7 @@ import { SocialImpactStackParamList } from '../../../routes/Stack/SocialImpactSt
 
 import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
 import { getTextualAddress } from '../../../utils/maps/addressFormatter'
-import { arrayIsEmpty, formatDate, formatHour, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
 import CalendarEmptyIcon from '../../../assets/icons/calendarEmpty-unfilled.svg'
@@ -30,6 +30,9 @@ import { theme } from '../../../common/theme'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
 import { LinkCard } from '../../../components/_cards/LinkCard'
+import { UiUtils } from '../../../utils-ui/UiUtils'
+
+const { formatDate, formatHour, arrayIsEmpty } = UiUtils()
 
 function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)

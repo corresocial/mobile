@@ -15,12 +15,13 @@ import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
 import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
 
-import { arrayIsEmpty, formatRelativeDate, getShortText } from '../../../common/auxiliaryFunctions'
+import { getShortText } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { deletePostPictures } from '../../../services/firebase/post/deletePostPictures'
 import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 import { share } from '../../../common/share'
 import { markPostAsComplete } from '../../../services/firebase/post/markPostAsCompleted'
+import { UiUtils } from '../../../utils-ui/UiUtils'
 import { mergeArrayPosts } from '../../../utils/mergeArrayPosts'
 
 import { ViewIncomePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
@@ -43,10 +44,11 @@ import { PostPopOver } from '../../../components/PostPopOver'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { ItemStatusCard } from '../../../components/_cards/ItemStatusCard'
-import { textHasOnlyNumbers } from '../../../utils/validationFunctions'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 import { LinkCard } from '../../../components/_cards/LinkCard'
+
+const { textHasOnlyNumbers, formatRelativeDate, arrayIsEmpty } = UiUtils()
 
 function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 	const { userDataContext, setDataOnSecureStore, setUserDataOnContext } = useContext(AuthContext)

@@ -1,9 +1,12 @@
 import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Container, Decimals, LargeFont, SmallFont, ValueArea, ExchangeArea, ExchangeWord } from './styles'
-import { textHasOnlyNumbers } from '../../utils/validationFunctions'
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
+import { UiUtils } from '../../utils-ui/UiUtils'
+
+import { Container, Decimals, LargeFont, SmallFont, ValueArea, ExchangeArea, ExchangeWord } from './styles'
+
+const { textHasOnlyNumbers } = UiUtils()
 
 interface SaleExchangeValueProps {
 	saleValue?: string | undefined

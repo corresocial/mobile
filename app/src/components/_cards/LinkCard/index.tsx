@@ -2,7 +2,6 @@ import React from 'react'
 import uuid from 'react-uuid'
 
 import { Linking } from 'react-native'
-import { arrayIsEmpty } from '../../../common/auxiliaryFunctions'
 
 import { LinksContainer, LinkContainer, TextLink } from './styles'
 import LinkClipWhiteIcon from '../../../assets/icons/linkClip.svg'
@@ -11,6 +10,9 @@ import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import { UiUtils } from '../../../utils-ui/UiUtils'
+
+const { arrayIsEmpty } = UiUtils()
 
 interface LinkCardProps {
 	title?: string

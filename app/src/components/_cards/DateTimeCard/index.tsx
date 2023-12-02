@@ -9,7 +9,7 @@ import CalendarSomeday from '../../../assets/icons/calendarSomeday-white.svg'
 import CalendarBusinessDay from '../../../assets/icons/calendarBusinessDay-white.svg'
 import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
 
-import { formatDate, formatHour, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 import { DaysOfWeek, EventRepeatType, WeekdaysFrequency } from '../../../services/firebase/types'
 
@@ -17,6 +17,9 @@ import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { PostInfoRow } from '../../PostInfoRow'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import { UiUtils } from '../../../utils-ui/UiUtils'
+
+const { formatDate, formatHour } = UiUtils()
 
 interface DateTimeCardProps {
 	title?: string

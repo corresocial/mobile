@@ -11,7 +11,6 @@ import { PostCollection, SaleCategories, IncomeCollection } from '../../../servi
 
 import { saleCategories } from '../../../utils/postsCategories/saleCategories'
 import { getTextualAddress } from '../../../utils/maps/addressFormatter'
-import { arrayIsEmpty, formatHour } from '../../../common/auxiliaryFunctions'
 
 import { theme } from '../../../common/theme'
 import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
@@ -31,6 +30,9 @@ import { PostReviewPresentationModal } from '../../../components/_modals/PostRev
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 import { LinkCard } from '../../../components/_cards/LinkCard'
 import { navigateToPostView } from '../../../routes/auxMethods'
+import { UiUtils } from '../../../utils-ui/UiUtils'
+
+const { formatHour, arrayIsEmpty } = UiUtils()
 
 function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)

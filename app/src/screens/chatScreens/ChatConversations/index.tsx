@@ -4,7 +4,6 @@ import React, { useState, useContext, useEffect, useRef } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { ScrollView, TextInput } from 'react-native'
-import { formatRelativeDate } from '../../../common/auxiliaryFunctions'
 import { getLastMessageObjects, sortChatMessages } from '../../../utils/chat'
 
 import {
@@ -37,6 +36,9 @@ import { ConversationCard } from '../../../components/_cards/ConversationCard'
 import { AlertContext } from '../../../contexts/AlertContext/index'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
+import { UiUtils } from '../../../utils-ui/UiUtils'
+
+const { formatRelativeDate } = UiUtils()
 
 function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

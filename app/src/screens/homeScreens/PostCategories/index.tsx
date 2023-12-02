@@ -12,7 +12,6 @@ import { saleCategories } from '../../../utils/postsCategories/saleCategories'
 import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
 import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'
 import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
-import { sortPostCategories } from '../../../common/auxiliaryFunctions'
 
 import { PostCategoriesScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote, PostRange } from '../../../services/firebase/types'
@@ -30,8 +29,11 @@ import { FeedByRange } from '../../../components/FeedByRange'
 import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 import { MacroCategories } from '../../../utils/postMacroCategories/types'
 import { navigateToPostView } from '../../../routes/auxMethods'
+import { UiUtils } from '../../../utils-ui/UiUtils'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
+
+const { sortPostCategories } = UiUtils()
 
 function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

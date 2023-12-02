@@ -15,7 +15,7 @@ import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
 import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
 
-import { arrayIsEmpty, formatRelativeDate, getShortText } from '../../../common/auxiliaryFunctions'
+import { getShortText } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { share } from '../../../common/share'
 import { markPostAsComplete } from '../../../services/firebase/post/markPostAsCompleted'
@@ -45,6 +45,9 @@ import { DefaultConfirmationModal } from '../../../components/_modals/DefaultCon
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 import { LinkCard } from '../../../components/_cards/LinkCard'
+import { UiUtils } from '../../../utils-ui/UiUtils'
+
+const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const { userDataContext, setDataOnSecureStore, setUserDataOnContext } = useContext(AuthContext)

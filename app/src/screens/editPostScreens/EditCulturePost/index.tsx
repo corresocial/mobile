@@ -11,7 +11,7 @@ import { CultureCategories, CultureCollection, CultureCollectionRemote, EventRep
 
 import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'
 import { getTextualAddress } from '../../../utils/maps/addressFormatter'
-import { arrayIsEmpty, formatDate, formatHour, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 import { theme } from '../../../common/theme'
 import RecycleWhiteIcon from '../../../assets/icons/recycle-white.svg'
@@ -31,6 +31,9 @@ import { LocationChangeConfirmationModal } from '../../../components/_modals/Loc
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
 import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
 import { LinkCard } from '../../../components/_cards/LinkCard'
+import { UiUtils } from '../../../utils-ui/UiUtils'
+
+const { formatDate, formatHour, arrayIsEmpty } = UiUtils()
 
 function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)

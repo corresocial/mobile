@@ -5,16 +5,6 @@ import EyeTracedWhiteIcon from '../assets/icons/eyeDashed-white.svg'
 
 import { LocationViewType, PostRange } from '../services/firebase/types'
 
-const getLocationViewTitle = (locationView: LocationViewType, error?: boolean) => {
-	if (error) return 'ops!'
-	switch (locationView) {
-		case 'private': return 'localização⠀ \nprivada'
-		case 'approximate': return 'localização \naproximada'
-		case 'public': return 'localização \npública'
-		default: return 'switch option unfount'
-	}
-}
-
 const getLocationViewDescription = (locationView: LocationViewType, error?: boolean, customErrorMessage?: string) => {
 	if (error) return customErrorMessage || 'não foi possível localizar este endereço'
 	switch (locationView) {
@@ -78,7 +68,6 @@ const generateLocationHeaderText = (locationView: LocationViewType, range: PostR
 }
 
 export {
-	getLocationViewTitle,
 	getLocationViewDescription,
 	getLocationViewHighlightedWords,
 	getLocationViewIcon,

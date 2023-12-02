@@ -10,7 +10,9 @@ import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 import { ImageCarousel } from '../../ImageCarousel'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
-import { arrayIsEmpty } from '../../../common/auxiliaryFunctions'
+import { UiUtils } from '../../../utils-ui/UiUtils'
+
+const { arrayIsEmpty } = UiUtils()
 
 interface EditCardProps {
 	title: string

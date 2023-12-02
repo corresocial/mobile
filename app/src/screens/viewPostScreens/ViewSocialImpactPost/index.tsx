@@ -9,7 +9,7 @@ import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
 import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
 
-import { arrayIsEmpty, formatRelativeDate, getShortText } from '../../../common/auxiliaryFunctions'
+import { getShortText } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
 import { share } from '../../../common/share'
@@ -37,6 +37,9 @@ import { HorizontalTagList } from '../../../components/HorizontalTagList'
 import { SocialImpactTypeCard } from '../../../components/_cards/SocialImpactType'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 import { LinkCard } from '../../../components/_cards/LinkCard'
+import { UiUtils } from '../../../utils-ui/UiUtils'
+
+const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 
 function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
 	const { userDataContext, setDataOnSecureStore, setUserDataOnContext } = useContext(AuthContext)

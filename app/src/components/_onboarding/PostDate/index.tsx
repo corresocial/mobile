@@ -8,7 +8,7 @@ import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 
-import { filterLeavingOnlyNumbers, formatDate } from '../../../common/auxiliaryFunctions'
+import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../_containers/FormContainer'
@@ -18,6 +18,9 @@ import { BackButton } from '../../_buttons/BackButton'
 import { DefaultInput } from '../../_inputs/DefaultInput'
 import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
 import { SmallButton } from '../../_buttons/SmallButton'
+import { UiUtils } from '../../../utils-ui/UiUtils'
+
+const { formatDate } = UiUtils()
 
 interface PostDateProps {
 	backgroundColor: string

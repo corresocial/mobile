@@ -15,8 +15,6 @@ import {
 	TitleContainer
 } from './styles'
 
-import { arrayIsEmpty, formatRelativeDate } from '../../../common/auxiliaryFunctions'
-
 import { PostCollection } from '../../../services/firebase/types'
 
 import { relativeScreenWidth } from '../../../common/screenDimensions'
@@ -26,6 +24,9 @@ import { SmallUserIdentification } from '../../SmallUserIdentification'
 
 import { theme } from '../../../common/theme'
 import { VerticalSpacing } from '../../_space/VerticalSpacing'
+import { UiUtils } from '../../../utils-ui/UiUtils'
+
+const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 
 interface PostCardProps {
 	post: PostCollection | any

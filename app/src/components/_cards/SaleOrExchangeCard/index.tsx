@@ -9,11 +9,13 @@ import CashWhiteIcon from '../../../assets/icons/cash-white.svg'
 import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-import { textHasOnlyNumbers } from '../../../utils/validationFunctions'
+import { UiUtils } from '../../../utils-ui/UiUtils'
 
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { PostInfoRow } from '../../PostInfoRow'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+
+const { textHasOnlyNumbers } = UiUtils()
 
 interface SaleOrExchangeCardProps {
 	title?: string

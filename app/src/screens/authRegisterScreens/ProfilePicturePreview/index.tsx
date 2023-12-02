@@ -11,7 +11,6 @@ import AddPictureWhiteIcon from '../../../assets/icons/addPicture-white.svg'
 import { updateUser } from '../../../services/firebase/user/updateUser'
 import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { updateUserPrivateData } from '../../../services/firebase/user/updateUserPrivateData'
-import { arrayIsEmpty } from '../../../common/auxiliaryFunctions'
 import { deleteUserPicture } from '../../../services/firebase/user/deleteUserPicture'
 import { updateAllOwnerOnPosts } from '../../../services/firebase/post/updateAllOwnerOnPosts'
 
@@ -28,6 +27,9 @@ import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal'
 import { Loader } from '../../../components/Loader'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { UiUtils } from '../../../utils-ui/UiUtils'
+
+const { arrayIsEmpty } = UiUtils()
 
 function ProfilePicturePreview({ navigation, route }: ProfilePicturePreviewScreenProps) {
 	const { setRemoteUserOnLocal, userDataContext, getUserDataFromSecureStore } = useContext(AuthContext)
