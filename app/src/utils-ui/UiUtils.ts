@@ -1,10 +1,10 @@
 import { UiUtilsInterface } from './UiUtilsInterface'
-import { formatDate, formatHour, formatRelativeDate } from './date/dateFormat'
 
+import { formatDate, formatHour, formatRelativeDate } from './common/date/dateFormat'
 import { sortArray } from './sort/list'
 import { sortPostCategories, sortPostsByCreatedData } from './sort/posts'
-import { arrayIsEmpty } from './validation/validateArray'
-import { textHasOnlyNumbers } from './validation/validateText'
+import { arrayIsEmpty } from './common/validation/validateArray'
+import { textHasOnlyNumbers } from './common/validation/validateText'
 
 function UiUtils(): UiUtilsInterface {
 	return {

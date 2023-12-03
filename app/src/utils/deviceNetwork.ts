@@ -1,4 +1,4 @@
-import * as Network from 'expo-network'
+import * as Network from 'expo-network' // services/  **clean archtecture
 
 function getNetworkStatus() {
 	if (Network) {

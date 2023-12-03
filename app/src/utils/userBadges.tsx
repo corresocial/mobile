@@ -7,7 +7,7 @@ import LeaderLabel from '../assets/icons/leaderLabel.svg'
 import VerifiedLabel from '../assets/icons/verifiedLabel.svg'
 import ImpactLabel from '../assets/icons/impactLabel.svg'
 
-const defaultBadgeIconSize = RFValue(22)
+const defaultBadgeIconSize = RFValue(22) // TODO Transform in component
 
 const userBadges: Record<VerifiedLabelName, { icon: React.ReactNode; description: string }> = {
 	default: {
