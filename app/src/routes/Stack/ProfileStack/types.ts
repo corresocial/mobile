@@ -1,10 +1,10 @@
 import { PostCollection } from '../../../services/firebase/types'
 import { HomeTabParamList } from '../../Tabs/HomeTab/types'
+import { StackLabelProps } from '../../types'
 
 export type ProfileStackParamList = {
-	Profile: { userId: string, stackLabel: string } | undefined
-	ViewServicePost: { postData: PostCollection }
-	ViewSalePost: { postData: PostCollection }
+	Profile: { userId: string, stackLabel: StackLabelProps } | undefined
+	ViewIncomePost: { postData: PostCollection }
 	ViewVacancyPost: { postData: PostCollection }
 	ViewSocialImpactPost: { postData: PostCollection }
 	ViewCulturePost: { postData: PostCollection }

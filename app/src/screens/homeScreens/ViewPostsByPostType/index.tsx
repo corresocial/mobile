@@ -16,7 +16,7 @@ import HeartAndPersonWhiteIcon from '../../../assets/icons/heartAndPerson-white.
 import PeperInfoWhiteIcon from '../../../assets/icons/paperInfo-white.svg'
 
 import { ViewPostsByPostTypeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
-import { FeedPosts, PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
+import { FeedPosts, PostCollection, PostCollectionRemote, PostRange } from '../../../services/firebase/types'
 
 import { LocationContext } from '../../../contexts/LocationContext'
 
@@ -28,6 +28,7 @@ import { SearchInput } from '../../../components/_inputs/SearchInput'
 import { CatalogPostTypeButtons } from '../../../components/CatalogPostTypeButtons'
 import { FeedByRange } from '../../../components/FeedByRange'
 import { MacroCategoriesType } from '../../../utils/postMacroCategories/types'
+import { navigateToPostView } from '../../../routes/auxMethods'
 
 function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -70,16 +71,6 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 
 	const postBelongContextPostType = (post: PostCollectionRemote) => {
 		if (!post) return false
-
-		if (locationDataContext.searchParams.postType === 'income'
-			&& (
-				post.postType === 'sale' // TODO Temporary
-				|| post.postType === 'service'
-				|| post.postType === 'vacancy'
-			)) {
-			return true
-		}
-
 		return post.postType === locationDataContext.searchParams.postType
 	}
 
@@ -97,45 +88,22 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 	}
 
 	const viewPostsByRange = (postRange: PostRange) => {
-		switch (postRange) {
-			case 'near': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: feedPostsByType.nearby,
-				postRange,
-				postType: locationDataContext.searchParams.postType as PostType
-			})
-			case 'city': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: feedPostsByType.city,
-				postRange,
-				postType: locationDataContext.searchParams.postType as PostType
+		const postsByRange = getPostsByRange(postRange)
+		const { postType } = locationDataContext.searchParams
 
-			})
-			case 'country': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: feedPostsByType.country,
-				postRange,
-				postType: locationDataContext.searchParams.postType as PostType
-			})
-			default: return false
+		navigation.navigate('ViewPostsByRange', { postsByRange, postRange, postType })
+	}
+
+	const getPostsByRange = (postRange: PostRange) => {
+		switch (postRange) {
+			case 'near': return feedPostsByType.nearby || []
+			case 'city': return feedPostsByType.city || []
+			case 'country': return feedPostsByType.country || []
 		}
 	}
 
-	const goToPostView = (post: PostCollection | any) => { // TODO Type
-		switch (post.postType) {
-			case 'income': {
-				switch (post.macroCategory) {
-					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-					default: return false
-				}
-			}
-
-			case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-			case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-			case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-			case 'socialImpact': return navigation.navigate('ViewSocialImpactPostHome', { postData: { ...post } })
-			case 'culture': return navigation.navigate('ViewCulturePostHome', { postData: { ...post } })
-			default: return false
-		}
+	const viewPostViewDetails = (postData: PostCollection) => {
+		navigateToPostView(postData, navigation, 'Home')
 	}
 
 	const navigateToResultScreen = () => {
@@ -253,7 +221,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 				filteredFeedPosts={searchText ? { ...filteredFeedPosts } : { ...feedPostsByType }}
 				viewPostsByRange={viewPostsByRange}
 				navigateToProfile={navigateToProfile}
-				goToPostView={goToPostView}
+				goToPostView={viewPostViewDetails}
 			>
 				<MacroCategoryContainer backgroundColor={getRelativeBackgroundColor()}>
 					{getRelativeCatalogMacroCategoryButtons()}

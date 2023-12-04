@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react'
 import { Container, Header, InputContainer } from './styles'
 import { theme } from '../../../common/theme'
 
-import { PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
+import { PostCollection, PostCollectionRemote, PostRange } from '../../../services/firebase/types'
 import { ViewPostsByTagScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -14,6 +14,7 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 
 import { SearchInput } from '../../../components/_inputs/SearchInput'
 import { FeedByRange } from '../../../components/FeedByRange'
+import { navigateToPostView } from '../../../routes/auxMethods'
 
 function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -44,24 +45,8 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 
 	const filteredFeedPosts = filterPostsByCategory()
 
-	const goToPostView = (post: PostCollection | any) => { // TODO Type
-		switch (post.postType) {
-			case 'income': {
-				switch (post.macroCategory) {
-					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-					default: return false
-				}
-			}
-
-			case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-			case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-			case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-			case 'socialImpact': return navigation.navigate('ViewSocialImpactPostHome', { postData: { ...post } })
-			case 'culture': return navigation.navigate('ViewCulturePostHome', { postData: { ...post } })
-			default: return false
-		}
+	const viewPostDetails = (postData: PostCollection) => {
+		navigateToPostView(postData, navigation, 'Home')
 	}
 
 	const navigateToProfile = (userId: string) => {
@@ -83,24 +68,17 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	}
 
 	const viewPostsByRange = (postRange: PostRange) => {
-		switch (postRange) {
-			case 'near': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: filteredFeedPosts.nearby,
-				postRange,
-				postType: locationDataContext.searchParams.postType as PostType
-			})
-			case 'city': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: filteredFeedPosts.city,
-				postRange,
-				postType: locationDataContext.searchParams.postType as PostType
+		const postsByRange = getPostsByRange(postRange)
+		const { postType } = locationDataContext.searchParams
 
-			})
-			case 'country': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: filteredFeedPosts.country,
-				postRange,
-				postType: locationDataContext.searchParams.postType as PostType
-			})
-			default: return false
+		navigation.navigate('ViewPostsByRange', { postsByRange, postRange, postType })
+	}
+
+	const getPostsByRange = (postRange: PostRange) => {
+		switch (postRange) {
+			case 'near': return filteredFeedPosts.nearby || []
+			case 'city': return filteredFeedPosts.city || []
+			case 'country': return filteredFeedPosts.country || []
 		}
 	}
 
@@ -129,7 +107,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 				filteredFeedPosts={filteredFeedPosts}
 				viewPostsByRange={viewPostsByRange}
 				navigateToProfile={navigateToProfile}
-				goToPostView={goToPostView}
+				goToPostView={viewPostDetails}
 			/>
 		</Container>
 	)

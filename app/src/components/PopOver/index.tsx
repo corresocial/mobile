@@ -26,7 +26,7 @@ interface PopOverProps {
 	popoverVisibility: boolean
 	buttonLabel: string
 	children: React.ReactChild
-	onPress?: () => void
+	reportUser?: () => void
 	onPressVerify: (label: VerifiedLabelName) => void
 	setFreeTrialToProfile: (subscriptionPlan: PostRange) => void
 	goToConfig?: () => void
@@ -40,7 +40,7 @@ function PopOver({
 	popoverVisibility,
 	buttonLabel,
 	children,
-	onPress,
+	reportUser,
 	onPressVerify,
 	goToConfig,
 	setFreeTrialToProfile,
@@ -136,7 +136,6 @@ function PopOver({
 					<VerticalSpacing height={RFValue(5)} />
 					<PrimaryButton
 						color={theme.red3}
-						onPress={onPress && onPress}
 						SvgIcon={DeniedWhiteIcon}
 						label={buttonLabel}
 						highlightedWords={[buttonLabel.split(' ')[0]]}
@@ -144,43 +143,38 @@ function PopOver({
 						fontSize={14}
 						minHeight={20}
 						relativeHeight={relativeScreenHeight(8)}
+						onPress={reportUser && reportUser}
 					/>
-					{isVerifiable && (
-						<>
-							<VerticalSpacing height={RFValue(5)} />
-							<PrimaryButton
-								color={theme.green3}
-								onPress={toggleVerifyUserModal}
-								SecondSvgIcon={VerifiedLabel}
-								label={'verificar perfil'}
-								highlightedWords={['verificar']}
-								labelColor={theme.white3}
-								fontSize={14}
-								minHeight={20}
-								relativeHeight={relativeScreenHeight(8)}
-							/>
-							<VerticalSpacing height={RFValue(5)} />
-							<PrimaryButton
-								color={theme.pink3}
-								onPress={toggleVerifyImpactUserModal}
-								SecondSvgIcon={ImpactLabel}
-								label={'tornar de impacto'}
-								highlightedWords={['tornar', 'impacto']}
-								labelColor={theme.white3}
-								fontSize={14}
-								minHeight={20}
-								relativeHeight={relativeScreenHeight(8)}
-							/>
-
-						</>
-					)}
+					<VerticalSpacing height={RFValue(5)} />
+					<PrimaryButton
+						color={theme.green3}
+						SecondSvgIcon={VerifiedLabel}
+						label={'verificar perfil'}
+						highlightedWords={['verificar']}
+						labelColor={theme.white3}
+						fontSize={14}
+						minHeight={20}
+						relativeHeight={relativeScreenHeight(8)}
+						onPress={toggleVerifyUserModal}
+					/>
+					<VerticalSpacing height={RFValue(5)} />
+					<PrimaryButton
+						color={theme.pink3}
+						SecondSvgIcon={ImpactLabel}
+						label={'tornar de impacto'}
+						highlightedWords={['tornar', 'impacto']}
+						labelColor={theme.white3}
+						fontSize={14}
+						minHeight={20}
+						relativeHeight={relativeScreenHeight(8)}
+						onPress={toggleVerifyImpactUserModal}
+					/>
 					{
 						isAdmin && (
 							<>
 								<VerticalSpacing height={RFValue(5)} />
 								<PrimaryButton
 									color={theme.blue3}
-									onPress={toggleFreeTrialUserModal}
 									SecondSvgIcon={HanOnMoneyWhiteIcon}
 									label={'dar assinatura'}
 									highlightedWords={['assinatura']}
@@ -188,6 +182,7 @@ function PopOver({
 									fontSize={14}
 									minHeight={20}
 									relativeHeight={relativeScreenHeight(8)}
+									onPress={toggleFreeTrialUserModal}
 								/>
 							</>
 						)

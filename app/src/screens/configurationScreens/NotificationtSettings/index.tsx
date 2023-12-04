@@ -9,17 +9,20 @@ import BellWhiteIcon from '../../../assets/icons/bell-white.svg'
 
 import { NotificationSettingsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
+import { AlertContext } from '../../../contexts/AlertContext'
+import { ChatContext } from '../../../contexts/ChatContext'
+
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { ChatContext } from '../../../contexts/ChatContext'
 import { Loader } from '../../../components/Loader'
 
 function NotificationSettings({ route, navigation }: NotificationSettingsScreenProps) {
 	const { pushNotificationEnabled, setPushNotificationState, userHasTokenNotification } = useContext(ChatContext)
+	const { updateNotificationState } = useContext(AlertContext)
 
 	const [notificationIsEnabled, setNotificationIsEnabled] = useState(pushNotificationEnabled)
 	const [isLoading, setIsLoading] = useState(false)
@@ -40,6 +43,7 @@ function NotificationSettings({ route, navigation }: NotificationSettingsScreenP
 			setIsLoading(true)
 			await setPushNotificationState(!notificationIsEnabled)
 			setNotificationIsEnabled(!notificationIsEnabled)
+			updateNotificationState({ configNotificationButton: notificationIsEnabled })
 			setTimeout(() => {
 				setIsLoading(false)
 			}, 2000)

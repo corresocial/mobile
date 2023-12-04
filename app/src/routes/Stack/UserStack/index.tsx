@@ -58,11 +58,10 @@ import { InsertConfirmationCodeLinkAccount } from '../../../screens/configuratio
 import { NotificationSettings } from '../../../screens/configurationScreens/NotificationtSettings'
 import { SelectIncomeType } from '../../../screens/homeScreens/SelectIncomeType'
 import { ViewCompletedPosts } from '../../../screens/configurationScreens/ViewCompletedPosts'
-import { ViewServicePost } from '../../../screens/viewPostScreens/ViewServicePost'
-import { ViewSalePost } from '../../../screens/viewPostScreens/ViewSalePost'
 import { ViewVacancyPost } from '../../../screens/viewPostScreens/ViewVacancyPost'
 import { ViewCulturePost } from '../../../screens/viewPostScreens/ViewCulturePost'
 import { ViewSocialImpactPost } from '../../../screens/viewPostScreens/ViewSocialImpactPost'
+import { ViewIncomePost } from '../../../screens/viewPostScreens/ViewIncomePost'
 
 const Stack = createStackNavigator<UserStackParamList>()
 
@@ -126,8 +125,7 @@ export function UserStack({ route }: any) {
 									<Stack.Screen name={'PrivacyAndSecurity'} component={PrivacyAndSecurity} />
 									<Stack.Screen name={'NotificationSettings'} component={NotificationSettings} />
 
-									<Stack.Screen name={'ViewServicePostUser'} component={ViewServicePost} />
-									<Stack.Screen name={'ViewSalePostUser'} component={ViewSalePost} />
+									<Stack.Screen name={'ViewIncomePostUser'} component={ViewIncomePost} />
 									<Stack.Screen name={'ViewVacancyPostUser'} component={ViewVacancyPost} />
 									<Stack.Screen name={'ViewCulturePostUser'} component={ViewCulturePost} />
 									<Stack.Screen name={'ViewSocialImpactPostUser'} component={ViewSocialImpactPost} />

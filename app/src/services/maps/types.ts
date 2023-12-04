@@ -34,7 +34,7 @@ export type SearchParams = {
 	macroCategory: MacroCategoriesType
 	category: string
 	tag: string
-	postType: PostType | string
+	postType: PostType
 	coordinates: LatLong
 	geohashes: string[]
 }

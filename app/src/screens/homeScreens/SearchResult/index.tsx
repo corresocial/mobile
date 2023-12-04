@@ -15,6 +15,7 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { searchPostsCloud } from '../../../services/cloudFunctions/searchPostsCloud'
 import { FeedByRange } from '../../../components/FeedByRange'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
+import { navigateToPostView } from '../../../routes/auxMethods'
 
 const initialFeedPosts = {
 	nearby: [],
@@ -72,33 +73,14 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	const getRelativeTitle = (postType: PostType) => {
 		switch (postType) {
 			case 'income': return 'renda'
-			case 'service': return 'serviços'
-			case 'sale': return 'comércio'
-			case 'vacancy': return 'vagas'
 			case 'culture': return 'culturas'
 			case 'socialImpact': return 'impacto social'
 			default: return 'posts'
 		}
 	}
 
-	const goToPostView = (post: PostCollection | any) => { // TODO Type
-		switch (post.postType) {
-			case 'income': {
-				switch (post.macroCategory) {
-					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-					default: return false
-				}
-			}
-
-			case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-			case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-			case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-			case 'socialImpact': return navigation.navigate('ViewSocialImpactPostHome', { postData: { ...post } })
-			case 'culture': return navigation.navigate('ViewCulturePostHome', { postData: { ...post } })
-			default: return false
-		}
+	const viewPostDetails = (postData: PostCollection) => {
+		navigateToPostView(postData, navigation, 'Home')
 	}
 
 	const navigateToProfile = (userId: string) => {
@@ -110,24 +92,18 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 	}
 
 	const viewPostsByRange = (postRange: PostRange) => {
-		switch (postRange) {
-			case 'near': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: resultPosts.nearby,
-				postRange: searchByRange ? '' : postRange,
-				postType: locationDataContext.searchParams.postType as PostType
-			})
-			case 'city': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: resultPosts.city,
-				postRange: searchByRange ? '' : postRange,
-				postType: locationDataContext.searchParams.postType as PostType
+		const postRangeValue = searchByRange ? '' : postRange
+		const postsByRange = getPostsByRange(postRange)
+		const { postType } = locationDataContext.searchParams
 
-			})
-			case 'country': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: resultPosts.country,
-				postRange: searchByRange ? '' : postRange,
-				postType: locationDataContext.searchParams.postType as PostType
-			})
-			default: return false
+		navigation.navigate('ViewPostsByRange', { postsByRange, postRange: postRangeValue, postType })
+	}
+
+	const getPostsByRange = (postRange: PostRange) => {
+		switch (postRange) {
+			case 'near': return resultPosts.nearby || []
+			case 'city': return resultPosts.city || []
+			case 'country': return resultPosts.country || []
 		}
 	}
 
@@ -156,7 +132,7 @@ function SearchResult({ route, navigation }: SearchResultScreenProps) {
 				filteredFeedPosts={resultPosts}
 				viewPostsByRange={viewPostsByRange}
 				navigateToProfile={navigateToProfile}
-				goToPostView={goToPostView}
+				goToPostView={viewPostDetails}
 			/>
 		</Container>
 	)

@@ -30,6 +30,7 @@ import { LocationChangeConfirmationModal } from '../../../components/_modals/Loc
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 import { LinkCard } from '../../../components/_cards/LinkCard'
+import { navigateToPostView } from '../../../routes/auxMethods'
 
 function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
@@ -86,8 +87,8 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 		navigation.navigate('Profile' as any) // TODO Type
 	}
 
-	const navigateToPostView = (salePostData: PostCollection) => {
-		navigation.navigate('ViewSalePost' as any, { postData: salePostData }) // TODO Type // xxx
+	const viewPostDetails = (post: PostCollection) => {
+		navigateToPostView(post, navigation)
 	}
 
 	const navigateToEditScreen = (screenName: keyof SaleStackParamList, initialValue: keyof IncomeCollection, customStack?: string) => {
@@ -190,7 +191,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
 				navigateToProfile={navigateToProfile}
-				navigateToPostView={navigateToPostView}
+				navigateToPostView={viewPostDetails}
 				navigateToSubscriptionContext={navigateToSubscriptionContext}
 				showShareModal={showShareModal}
 				getPostField={getPostField}

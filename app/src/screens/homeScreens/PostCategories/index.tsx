@@ -15,7 +15,7 @@ import { socialImpactCategories } from '../../../utils/postsCategories/socialImp
 import { sortPostCategories } from '../../../common/auxiliaryFunctions'
 
 import { PostCategoriesScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
-import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote, PostRange, PostType } from '../../../services/firebase/types'
+import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote, PostRange } from '../../../services/firebase/types'
 
 import { LocationContext } from '../../../contexts/LocationContext'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -29,6 +29,7 @@ import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { FeedByRange } from '../../../components/FeedByRange'
 import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 import { MacroCategories } from '../../../utils/postMacroCategories/types'
+import { navigateToPostView } from '../../../routes/auxMethods'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 
@@ -72,16 +73,6 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 
 	const postBelongContextPostType = (post: any) => { // TODO type
 		if (!post) return false
-
-		if (postType === 'income'
-			&& (
-				post.postType === 'sale' // TODO Temporary
-				|| post.postType === 'service'
-				|| post.postType === 'vacancy'
-			)
-			&& post[`${postType}Type`] === macroCategory) {
-			return true
-		}
 
 		return (post.postType === locationDataContext.searchParams.postType
 			&& post[`${postType}Type`] === macroCategory)
@@ -214,45 +205,22 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 	}
 
 	const viewPostsByRange = (postRange: PostRange) => {
-		switch (postRange) {
-			case 'near': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: feedPostsByTypeAndMacroCategory.nearby,
-				postRange,
-				postType: locationDataContext.searchParams.postType as PostType
-			})
-			case 'city': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: feedPostsByTypeAndMacroCategory.city,
-				postRange,
-				postType: locationDataContext.searchParams.postType as PostType
+		const postsByRange = getPostsByRange(postRange)
+		const { postType: postTypeFromRoute } = locationDataContext.searchParams
 
-			})
-			case 'country': return navigation.navigate('ViewPostsByRange', {
-				postsByRange: feedPostsByTypeAndMacroCategory.country,
-				postRange,
-				postType: locationDataContext.searchParams.postType as PostType
-			})
-			default: return false
+		navigation.navigate('ViewPostsByRange', { postsByRange, postRange, postType: postTypeFromRoute })
+	}
+
+	const getPostsByRange = (postRange: PostRange) => {
+		switch (postRange) {
+			case 'near': return feedPostsByTypeAndMacroCategory.nearby || []
+			case 'city': return feedPostsByTypeAndMacroCategory.city || []
+			case 'country': return feedPostsByTypeAndMacroCategory.country || []
 		}
 	}
 
-	const goToPostView = (post: PostCollection | any) => { // TODO Type
-		switch (post.postType) {
-			case 'income': {
-				switch (post.macroCategory) {
-					case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-					case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-					case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-					default: return false
-				}
-			}
-
-			case 'service': return navigation.navigate('ViewServicePostHome', { postData: { ...post } })
-			case 'sale': return navigation.navigate('ViewSalePostHome', { postData: { ...post } })
-			case 'vacancy': return navigation.navigate('ViewVacancyPostHome', { postData: { ...post } })
-			case 'socialImpact': return navigation.navigate('ViewSocialImpactPostHome', { postData: { ...post } })
-			case 'culture': return navigation.navigate('ViewCulturePostHome', { postData: { ...post } })
-			default: return false
-		}
+	const viewPostDetails = (postData: PostCollection) => {
+		navigateToPostView(postData, navigation as any, 'Home') // TODO Type
 	}
 
 	const navigateToCategoryDetails = (categorySelected: MacroCategory) => {
@@ -313,7 +281,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 					filteredFeedPosts={searchText ? { ...filteredFeedPosts } : { ...feedPostsByTypeAndMacroCategory }}
 					viewPostsByRange={viewPostsByRange}
 					navigateToProfile={navigateToProfile}
-					goToPostView={goToPostView}
+					goToPostView={viewPostDetails}
 				>
 					{
 						(hasAnyFilteredCategory())

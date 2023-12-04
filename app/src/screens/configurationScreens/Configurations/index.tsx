@@ -14,6 +14,7 @@ import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
 import DescriptionAlertWhiteIcon from '../../../assets/icons/description-alert-white.svg'
 import BellWhiteIcon from '../../../assets/icons/bell-white.svg'
 import BellAlertWhiteIcon from '../../../assets/icons/bell-alert-white.svg'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
 import { ConfigurationsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -124,8 +125,8 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					highlightedWords={['concluídos']}
 					labelSize={18}
 					relativeHeight={relativeScreenHeight(9)}
-					SvgIcon={notificationState.configNotificationEntryMethod ? DescriptionAlertWhiteIcon : DescriptionWhiteIcon}
-					svgIconScale={notificationState.configNotificationEntryMethod ? ['60%', '60%'] : ['50%', '50%']}
+					SvgIcon={CheckWhiteIcon}
+					svgIconScale={['50%', '50%']}
 					leftSideColor={theme.orange3}
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('ViewCompletedPosts')}
@@ -140,7 +141,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					svgIconScale={['50%', '50%']}
 					leftSideColor={theme.orange3}
 					leftSideWidth={'22%'}
-					onPress={() => navigateToScreen('NotificationSettings', 'configNotificationButton')}
+					onPress={() => navigateToScreen('NotificationSettings')}
 				/>
 				<VerticalSpacing />
 				<OptionButton

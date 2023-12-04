@@ -4,8 +4,7 @@ import { UserStackParamList } from '../UserStack/types'
 
 export type HomeStackParamList = {
 	Home: { userId?: string }
-	ViewServicePostHome: { postData: PostCollection }
-	ViewSalePostHome: { postData: PostCollection }
+	ViewIncomePostHome: { postData: PostCollection }
 	ViewVacancyPostHome: { postData: PostCollection }
 	ViewSocialImpactPostHome: { postData: PostCollection }
 	ViewCulturePostHome: { postData: PostCollection }

@@ -6,11 +6,10 @@ import { ChatStackParamList } from './types'
 
 import { ChatConversations } from '../../../screens/chatScreens/ChatConversations'
 import { Profile } from '../../../screens/profileScreens/Profile'
-import { ViewServicePost } from '../../../screens/viewPostScreens/ViewServicePost'
-import { ViewSalePost } from '../../../screens/viewPostScreens/ViewSalePost'
 import { ViewVacancyPost } from '../../../screens/viewPostScreens/ViewVacancyPost'
 import { ViewSocialImpactPost } from '../../../screens/viewPostScreens/ViewSocialImpactPost'
 import { ViewCulturePost } from '../../../screens/viewPostScreens/ViewCulturePost'
+import { ViewIncomePost } from '../../../screens/viewPostScreens/ViewIncomePost'
 
 const Stack = createStackNavigator<ChatStackParamList>()
 
@@ -28,8 +27,7 @@ export function ChatStack() {
 			<Stack.Screen name={'ProfileChat'} component={Profile} />
 			{/* <Stack.Screen name={'ChatMessages'} component={ChatMessages} /> */}
 
-			<Stack.Screen name={'ViewServicePostChat'} component={ViewServicePost} />
-			<Stack.Screen name={'ViewSalePostChat'} component={ViewSalePost} />
+			<Stack.Screen name={'ViewIncomePostChat'} component={ViewIncomePost} />
 			<Stack.Screen name={'ViewVacancyPostChat'} component={ViewVacancyPost} />
 			<Stack.Screen name={'ViewSocialImpactPostChat'} component={ViewSocialImpactPost} />
 			<Stack.Screen name={'ViewCulturePostChat'} component={ViewCulturePost} />

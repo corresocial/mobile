@@ -29,6 +29,7 @@ import { LocationChangeConfirmationModal } from '../../../components/_modals/Loc
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 import { LinkCard } from '../../../components/_cards/LinkCard'
+import { navigateToPostView } from '../../../routes/auxMethods'
 
 function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps) {
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)
@@ -85,8 +86,8 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 		navigation.navigate('Profile' as any) // TODO Type
 	}
 
-	const navigateToPostView = (servicePostData: PostCollection) => {
-		navigation.navigate('ViewServicePost' as any, { postData: servicePostData })
+	const viewPostDetails = (post: PostCollection) => {
+		navigateToPostView(post, navigation)
 	}
 
 	const navigateToEditScreen = (screenName: keyof ServiceStackParamList, initialValue: keyof IncomeCollection, customStack?: string) => {
@@ -190,7 +191,7 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 				offlinePost={offlinePost}
 				navigateBackwards={navigateBackwards}
 				navigateToProfile={navigateToProfile}
-				navigateToPostView={navigateToPostView}
+				navigateToPostView={viewPostDetails}
 				navigateToSubscriptionContext={navigateToSubscriptionContext}
 				showShareModal={showShareModal}
 				getPostField={getPostField}
