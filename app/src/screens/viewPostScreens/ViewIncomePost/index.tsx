@@ -22,7 +22,6 @@ import { incomeCategories } from '../../../utils/postsCategories/incomeCategorie
 import { share } from '../../../common/share'
 import { markPostAsComplete } from '../../../services/firebase/post/markPostAsCompleted'
 import { UiUtils } from '../../../utils-ui/UiUtils'
-import { mergeArrayPosts } from '../../../utils/mergeArrayPosts'
 
 import { ViewIncomePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
@@ -47,8 +46,10 @@ import { ItemStatusCard } from '../../../components/_cards/ItemStatusCard'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 import { LinkCard } from '../../../components/_cards/LinkCard'
+import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
 
 const { textHasOnlyNumbers, formatRelativeDate, arrayIsEmpty } = UiUtils()
+const { mergeArrayPosts } = UiPostUtils()
 
 function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 	const { userDataContext, setDataOnSecureStore, setUserDataOnContext } = useContext(AuthContext)

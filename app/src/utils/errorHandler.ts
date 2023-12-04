@@ -4,6 +4,7 @@ import { getEnvVars } from '../../environment'
 
 const { ERROS_WEBHOOK } = getEnvVars()
 
+// infra/service
 export const errorHandler = async (error: Error, stackTrace: any) => {
 	console.log(error)
 	console.log(stackTrace)

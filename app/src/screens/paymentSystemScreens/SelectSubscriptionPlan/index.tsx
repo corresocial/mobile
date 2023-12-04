@@ -10,9 +10,9 @@ import { SubscriptionContext } from '../../../contexts/SubscriptionContext'
 import { StripeContext } from '../../../contexts/StripeContext'
 
 import { SubscriptionPlan } from '../../../components/_onboarding/SubscriptionPlan'
-import { UiPresentationUtils } from '../../../utils-ui/UiPresentationUtils'
+import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 
-const { getPostRangeLabelHiglighted } = UiPresentationUtils()
+const { getPostRangeLabelHiglighted } = UiSubscriptionUtils()
 
 function SelectSubscriptionPlan({ route, navigation }: SelectSubscriptionPlanScreenProps) {
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)

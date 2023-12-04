@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { AddressSearchResult } from '../../services/maps/types'
 
+// data
 const getLastRecentAddress = (recentAddresses: AddressSearchResult[]) => {
 	if (recentAddresses && recentAddresses.length) {
 		return {

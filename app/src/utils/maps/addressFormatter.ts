@@ -2,6 +2,7 @@ import * as Location from 'expo-location'
 import { PostCollection } from '../../services/firebase/types'
 import { GeocodeAddress } from '../../services/maps/types'
 
+// infra
 const convertGeocodeToAddress = async (latitude: number, longitude: number) => {
 	const geocodeAddress = await Location.reverseGeocodeAsync({
 		latitude,

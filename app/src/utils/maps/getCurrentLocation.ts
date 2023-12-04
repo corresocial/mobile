@@ -4,7 +4,8 @@ import * as Location from 'expo-location'
 // Mas a função está apresentando problemas ainda não solucionados
 // https://github.com/expo/expo/issues/10756
 
-async function getCurrentLocation() { // services/  **clean archtecture
+// infra
+async function getCurrentLocation() {
 	const currentLocation = await new Promise((resolve, reject) => {
 		Location.watchPositionAsync({
 			accuracy: Location.Accuracy.Highest,

@@ -10,7 +10,8 @@ import ColorPaletWhiteIcon from '../../assets/icons/colorPalet-white.svg'
 import CalendarSomedayWhiteIcon from '../../assets/icons/calendarSomeday-white.svg'
 import BooksWhiteIcon from '../../assets/icons/books-white.svg'
 
-const postMacroCategories: PostMacroCategories = { // regras de negócio
+// rule
+const postMacroCategories: PostMacroCategories = {
 	income: {
 		sale: {
 			label: 'vendas',

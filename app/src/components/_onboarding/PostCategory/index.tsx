@@ -15,9 +15,9 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { VerticalSpacing } from '../../_space/VerticalSpacing'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
 
-const { sortPostCategories } = UiUtils()
+const { sortPostCategories } = UiPostUtils()
 
 interface PostCategoryProps {
 	backgroundColor: string

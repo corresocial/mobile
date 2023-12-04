@@ -25,9 +25,9 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { PostCard } from '../../../components/_cards/PostCard'
-import { UiPresentationUtils } from '../../../utils-ui/UiPresentationUtils'
+import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 
-const { getRangeSubscriptionLabelHighlighted } = UiPresentationUtils()
+const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()
 
 function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentResultScreenProps) {
 	const { subscriptionDataContext } = useContext(SubscriptionContext)

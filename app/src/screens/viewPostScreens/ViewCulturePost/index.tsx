@@ -20,7 +20,6 @@ import { getShortText } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { share } from '../../../common/share'
 import { markPostAsComplete } from '../../../services/firebase/post/markPostAsCompleted'
-import { mergeArrayPosts } from '../../../utils/mergeArrayPosts'
 
 import { ViewCulturePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
@@ -45,8 +44,10 @@ import { DefaultConfirmationModal } from '../../../components/_modals/DefaultCon
 import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
 import { LinkCard } from '../../../components/_cards/LinkCard'
 import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
 
 const { formatRelativeDate, arrayIsEmpty } = UiUtils()
+const { mergeArrayPosts } = UiPostUtils()
 
 function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const { userDataContext, setDataOnSecureStore, setUserDataOnContext } = useContext(AuthContext)

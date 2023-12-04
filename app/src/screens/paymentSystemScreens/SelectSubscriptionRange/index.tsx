@@ -20,9 +20,9 @@ import { TitleDescriptionButton } from '../../../components/_cards/TitleDescript
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeChangeConfirmatiomModal'
-import { UiPresentationUtils } from '../../../utils-ui/UiPresentationUtils'
+import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 
-const { getPostRangeLabel } = UiPresentationUtils()
+const { getPostRangeLabel } = UiSubscriptionUtils()
 
 function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenProps) {
 	const { userDataContext, getLastUserPost } = useContext(AuthContext)

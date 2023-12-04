@@ -14,7 +14,6 @@ import { deletePost } from '../../../services/firebase/post/deletePost'
 import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
 import { share } from '../../../common/share'
 import { markPostAsComplete } from '../../../services/firebase/post/markPostAsCompleted'
-import { mergeArrayPosts } from '../../../utils/mergeArrayPosts'
 
 import { ViewSocialImpactPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '../../../services/firebase/types'
@@ -38,8 +37,10 @@ import { SocialImpactTypeCard } from '../../../components/_cards/SocialImpactTyp
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 import { LinkCard } from '../../../components/_cards/LinkCard'
 import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
 
 const { formatRelativeDate, arrayIsEmpty } = UiUtils()
+const { mergeArrayPosts } = UiPostUtils()
 
 function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenProps) {
 	const { userDataContext, setDataOnSecureStore, setUserDataOnContext } = useContext(AuthContext)

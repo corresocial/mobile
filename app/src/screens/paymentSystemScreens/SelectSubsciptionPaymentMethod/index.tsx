@@ -17,9 +17,9 @@ import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { StripeContext } from '../../../contexts/StripeContext'
-import { UiPresentationUtils } from '../../../utils-ui/UiPresentationUtils'
+import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 
-const { getRangeSubscriptionLabelHighlighted } = UiPresentationUtils()
+const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()
 
 function SelectSubsciptionPaymentMethod({ route, navigation }: SelectSubsciptionPaymentMethodScreenProps) {
 	const { subscriptionDataContext, setSubscriptionDataOnContext } = useContext(SubscriptionContext)

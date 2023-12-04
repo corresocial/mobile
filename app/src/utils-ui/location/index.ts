@@ -4,7 +4,7 @@ import mapPointApproximateWhiteIcon from '../../assets/icons/pin-white.svg'
 import EyeTracedWhiteIcon from '../../assets/icons/eyeDashed-white.svg'
 
 import { LocationViewType, PostRange } from '../../services/firebase/types'
-import { getPossessivePronounByRange, getPostRangeLabel } from './commonMessages'
+import { getPossessivePronounByRange, getPostRangeLabel } from '../post/commonMessages'
 
 const getLocationViewDescription = (locationView: LocationViewType, error?: boolean, customErrorMessage?: string) => {
 	if (error) return customErrorMessage || 'não foi possível localizar este endereço'

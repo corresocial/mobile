@@ -1,5 +1,6 @@
-import * as Network from 'expo-network' // services/  **clean archtecture
+import * as Network from 'expo-network'
 
+// infra
 function getNetworkStatus() {
 	if (Network) {
 		return Network.getNetworkStateAsync()

@@ -30,9 +30,9 @@ import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Loader } from '../../../components/Loader'
 import { Id, PostCollection, PostCollectionRemote, PostRange, UserSubscription } from '../../../services/firebase/types'
-import { UiPresentationUtils } from '../../../utils-ui/UiPresentationUtils'
+import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 
-const { getRangeSubscriptionLabelHighlighted } = UiPresentationUtils()
+const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()
 
 type CustomCardDetails = {
 	brand: CardBrand

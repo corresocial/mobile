@@ -72,8 +72,10 @@ import { navigateToPostView } from '../../../routes/auxMethods'
 import { FlatListItem } from '../../../@types/global/types'
 import { userBadges } from '../../../utils/userBadges'
 import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
 
-const { sortArray, sortPostsByCreatedData, arrayIsEmpty } = UiUtils()
+const { sortArray, arrayIsEmpty } = UiUtils()
+const { sortPostsByCreatedData } = UiPostUtils()
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { notificationState } = useContext(AlertContext)

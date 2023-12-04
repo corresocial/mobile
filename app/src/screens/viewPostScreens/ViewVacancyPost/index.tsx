@@ -19,7 +19,6 @@ import { getShortText } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { share } from '../../../common/share'
 import { markPostAsComplete } from '../../../services/firebase/post/markPostAsCompleted'
-import { mergeArrayPosts } from '../../../utils/mergeArrayPosts'
 
 import { ViewVacancyPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '../../../services/firebase/types'
@@ -46,8 +45,10 @@ import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 import { LinkCard } from '../../../components/_cards/LinkCard'
 import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
 
 const { formatRelativeDate, arrayIsEmpty } = UiUtils()
+const { mergeArrayPosts } = UiPostUtils()
 
 function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 	const { userDataContext, setDataOnSecureStore, setUserDataOnContext } = useContext(AuthContext)

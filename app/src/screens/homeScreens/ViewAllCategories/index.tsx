@@ -24,11 +24,11 @@ import { postMacroCategories } from '../../../utils/postMacroCategories'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { MacroCategories } from '../../../utils/postMacroCategories/types'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 
-const { sortPostCategories } = UiUtils()
+const { sortPostCategories } = UiPostUtils()
 
 function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)

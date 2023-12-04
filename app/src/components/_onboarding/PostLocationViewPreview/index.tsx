@@ -13,17 +13,17 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { CustomMapView } from '../../../components/CustomMapView'
 import { InfoCard } from '../../../components/_cards/InfoCard'
 import { BackButton } from '../../../components/_buttons/BackButton'
-import { UiPresentationUtils } from '../../../utils-ui/UiPresentationUtils'
+import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 
 const {
+	getPossessivePronounByRange,
+	getPostRangeLabel,
 	getLocationViewDescription,
 	generateLocationHeaderText,
 	getLocationViewHighlightedWords,
 	getLocationViewIcon,
-	getPossessivePronounByRange,
 	getLocationViewLabel,
-	getPostRangeLabel
-} = UiPresentationUtils()
+} = UiLocationUtils()
 
 interface PostLocationViewPreviewProps {
 	backgroundColor: string

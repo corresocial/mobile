@@ -30,9 +30,9 @@ import { InsertUserEmailModal } from '../../../components/_modals/InsertUserEmai
 import { emailIsValid } from '../../../common/auxiliaryFunctions'
 import { updateUserPrivateData } from '../../../services/firebase/user/updateUserPrivateData'
 import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
-import { UiPresentationUtils } from '../../../utils-ui/UiPresentationUtils'
+import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 
-const { getPostRangeLabel } = UiPresentationUtils()
+const { getPostRangeLabel } = UiSubscriptionUtils()
 
 function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionScreenProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)

@@ -26,9 +26,9 @@ import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { Timer } from '../../../components/Timer'
 import { CustomQRCode } from '../../../components/CustomQRCode'
 import { Loader } from '../../../components/Loader'
-import { UiPresentationUtils } from '../../../utils-ui/UiPresentationUtils'
+import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 
-const { getRangeSubscriptionLabelHighlighted } = UiPresentationUtils()
+const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()
 
 function FinishSubscriptionPaymentByPix({ route, navigation }: FinishSubscriptionPaymentByPixScreenProps) {
 	const { subscriptionDataContext, updateUserSubscription } = useContext(SubscriptionContext)
