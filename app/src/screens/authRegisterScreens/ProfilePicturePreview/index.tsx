@@ -27,7 +27,7 @@ import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal'
 import { Loader } from '../../../components/Loader'
 import { BackButton } from '../../../components/_buttons/BackButton'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { arrayIsEmpty } = UiUtils()
 

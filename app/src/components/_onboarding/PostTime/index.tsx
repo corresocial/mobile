@@ -17,7 +17,7 @@ import { BackButton } from '../../_buttons/BackButton'
 import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
 import { SmallButton } from '../../_buttons/SmallButton'
 import { DefaultInput } from '../../_inputs/DefaultInput'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { formatHour } = UiUtils()
 

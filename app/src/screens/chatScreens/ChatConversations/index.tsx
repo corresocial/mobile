@@ -35,7 +35,7 @@ import { ConversationCard } from '../../../components/_cards/ConversationCard'
 import { AlertContext } from '../../../contexts/AlertContext/index'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import { UiChatUtils } from '../../../utils-ui/chat/UiChatUtils'
 
 const { formatRelativeDate } = UiUtils()

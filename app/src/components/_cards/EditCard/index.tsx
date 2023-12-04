@@ -10,7 +10,7 @@ import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 import { ImageCarousel } from '../../ImageCarousel'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { arrayIsEmpty } = UiUtils()
 

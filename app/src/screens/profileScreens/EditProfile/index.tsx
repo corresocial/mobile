@@ -27,7 +27,7 @@ import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { openURL } from '../../../utils/socialMedias'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { arrayIsEmpty } = UiUtils()
 

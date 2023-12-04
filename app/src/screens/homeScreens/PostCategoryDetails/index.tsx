@@ -21,7 +21,7 @@ import { FeedByRange } from '../../../components/FeedByRange'
 import { FlatListItem } from '../../../@types/global/types'
 import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 import { navigateToPostView } from '../../../routes/auxMethods'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { sortArray } = UiUtils()
 

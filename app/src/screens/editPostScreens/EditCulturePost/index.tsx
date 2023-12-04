@@ -31,7 +31,7 @@ import { LocationChangeConfirmationModal } from '../../../components/_modals/Loc
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
 import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
 import { LinkCard } from '../../../components/_cards/LinkCard'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { formatDate, formatHour, arrayIsEmpty } = UiUtils()
 

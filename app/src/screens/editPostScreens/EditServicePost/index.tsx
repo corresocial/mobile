@@ -29,7 +29,7 @@ import { PostReviewPresentationModal } from '../../../components/_modals/PostRev
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 import { LinkCard } from '../../../components/_cards/LinkCard'
 import { navigateToPostView } from '../../../routes/auxMethods'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { formatHour, arrayIsEmpty } = UiUtils()
 

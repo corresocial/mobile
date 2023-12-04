@@ -23,7 +23,7 @@ import { InfoCard } from '../../../components/_cards/InfoCard'
 import { MacroCategory } from '../../../services/firebase/types'
 import { SearchInput } from '../../_inputs/SearchInput'
 import { VerticalSpacing } from '../../_space/VerticalSpacing'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { sortArray } = UiUtils()
 

@@ -43,7 +43,7 @@ import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
 import { LinkCard } from '../../../components/_cards/LinkCard'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
 
 const { formatRelativeDate, arrayIsEmpty } = UiUtils()

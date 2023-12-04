@@ -30,7 +30,7 @@ import { theme } from '../../../common/theme'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
 import { LinkCard } from '../../../components/_cards/LinkCard'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { formatDate, formatHour, arrayIsEmpty } = UiUtils()
 

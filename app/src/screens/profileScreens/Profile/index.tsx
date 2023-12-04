@@ -70,7 +70,7 @@ import { AlertContext } from '../../../contexts/AlertContext/index'
 import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 import { navigateToPostView } from '../../../routes/auxMethods'
 import { FlatListItem } from '../../../@types/global/types'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
 import { VerifiedUserBadge } from '../../../components/VerifiedUserBadge'
 

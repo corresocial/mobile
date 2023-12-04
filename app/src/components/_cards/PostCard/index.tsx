@@ -24,7 +24,7 @@ import { SmallUserIdentification } from '../../SmallUserIdentification'
 
 import { theme } from '../../../common/theme'
 import { VerticalSpacing } from '../../_space/VerticalSpacing'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 

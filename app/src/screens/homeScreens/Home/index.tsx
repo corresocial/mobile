@@ -17,7 +17,6 @@ import { searchAddressByText } from '../../../services/maps/searchAddressByText'
 import { structureAddress, structureExpoLocationAddress } from '../../../utils/maps/addressFormatter'
 import { getLastRecentAddress, getRecentAdressesFromStorage } from '../../../utils/maps/recentAddresses'
 import { getPostsByLocationCloud } from '../../../services/cloudFunctions/getPostsByLocationCloud'
-import { getCurrentLocation } from '../../../utils/maps/getCurrentLocation'
 
 import {
 	SearchParams,
@@ -44,6 +43,9 @@ import { SubscriptionButton } from '../../../components/_buttons/SubscriptionBut
 import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
 import { FeedByRange } from '../../../components/FeedByRange'
 import { navigateToPostView } from '../../../routes/auxMethods'
+import { LocationService } from '../../../services/location/LocationService'
+
+const { getCurrentLocation, convertGeocodeToAddress } = LocationService()
 
 const initialSelectedAddress = {
 	addressHighlighted: '',
@@ -200,16 +202,13 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const getSearchParams = async (coordinates: LatLong) => {
-		const address = await convertGeocodeToAddress(
-			coordinates.lat,
-			coordinates.lon
-		)
+		const geocodeAddress = await checkLanguageAndConvertGeocodeToAddress(coordinates.lat, coordinates.lon)
 
 		const deviceLanguage = getLocales()[0].languageCode
 
 		const structuredAddress = deviceLanguage === 'pt'
-			? structureExpoLocationAddress(address as Location.LocationGeocodedAddress[], coordinates.lat, coordinates.lon)
-			: structureAddress(address as GeocodeAddress, coordinates.lat, coordinates.lon)
+			? structureExpoLocationAddress(geocodeAddress as Location.LocationGeocodedAddress[], coordinates.lat, coordinates.lon)
+			: structureAddress(geocodeAddress as GeocodeAddress, coordinates.lat, coordinates.lon)
 
 		const geohashObject = generateGeohashes(
 			coordinates.lat,
@@ -231,17 +230,11 @@ function Home({ navigation }: HomeScreenProps) {
 		} as SearchParams
 	}
 
-	const convertGeocodeToAddress = async (
-		latitude: number,
-		longitude: number
-	) => {
+	const checkLanguageAndConvertGeocodeToAddress = async (latitude: number, longitude: number) => {
 		const deviceLanguage = getLocales()[0].languageCode
 
 		if (deviceLanguage === 'pt') { // change structure Function
-			const geocodeAddress = await Location.reverseGeocodeAsync({
-				latitude,
-				longitude,
-			})
+			const geocodeAddress = await convertGeocodeToAddress(latitude, longitude)
 			return geocodeAddress
 		}
 

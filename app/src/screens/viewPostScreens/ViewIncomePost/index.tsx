@@ -21,7 +21,7 @@ import { deletePostPictures } from '../../../services/firebase/post/deletePostPi
 import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 import { share } from '../../../common/share'
 import { markPostAsComplete } from '../../../services/firebase/post/markPostAsCompleted'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 import { ViewIncomePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 

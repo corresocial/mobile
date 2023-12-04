@@ -16,7 +16,7 @@ import { PostCollection } from '../../../services/firebase/types'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { sortArray } = UiUtils()
 

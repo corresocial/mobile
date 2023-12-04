@@ -9,7 +9,7 @@ import CashWhiteIcon from '../../../assets/icons/cash-white.svg'
 import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
 
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { PostInfoRow } from '../../PostInfoRow'

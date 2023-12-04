@@ -13,8 +13,11 @@ import { EditContext } from '../../../contexts/EditContext'
 import { AuthContext } from '../../../contexts/AuthContext'
 
 import { SelectPostLocation } from '../../../components/_onboarding/SelectPostLocation'
-import { convertGeocodeToAddress } from '../../../utils/maps/addressFormatter'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
+import { LocationService } from '../../../services/location/LocationService'
+import { structureExpoLocationAddress } from '../../../utils/maps/addressFormatter'
+
+const { convertGeocodeToAddress } = LocationService()
 
 function InsertCultureLocation({ route, navigation }: InsertCultureLocationScreenProps) {
 	const { userDataContext, getLastUserPost } = useContext(AuthContext)
@@ -54,7 +57,8 @@ function InsertCultureLocation({ route, navigation }: InsertCultureLocationScree
 			if (!coordinates) return
 		}
 
-		const completeAddress = await convertGeocodeToAddress(coordinates?.latitude as number, coordinates?.longitude as number)
+		const geocodeAddress = await convertGeocodeToAddress(coordinates?.latitude as number, coordinates?.longitude as number)
+		const completeAddress = structureExpoLocationAddress(geocodeAddress)
 
 		if (!rangeVerified) {
 			if (

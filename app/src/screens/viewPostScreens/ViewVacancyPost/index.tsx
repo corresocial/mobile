@@ -44,7 +44,7 @@ import { DefaultConfirmationModal } from '../../../components/_modals/DefaultCon
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 import { LinkCard } from '../../../components/_cards/LinkCard'
-import { UiUtils } from '../../../utils-ui/UiUtils'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
 
 const { formatRelativeDate, arrayIsEmpty } = UiUtils()
