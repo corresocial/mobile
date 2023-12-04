@@ -57,8 +57,10 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 	}, [])
 
 	const getPostField = (fieldName: keyof SocialImpactCollection, allowNull?: boolean) => {
-		if (allowNull && editDataContext.unsaved[fieldName] === '' && postData[fieldName]) return ''
-		return editDataContext.unsaved[fieldName] || postData[fieldName]
+		const currentPostData = { ...postData, postType: 'socialImpact' }
+
+		if (allowNull && editDataContext.unsaved[fieldName] === '' && currentPostData[fieldName]) return ''
+		return editDataContext.unsaved[fieldName] || currentPostData[fieldName]
 	}
 
 	const getPicturesUrl = () => {

@@ -45,13 +45,13 @@ function CustomMapView({
 	const approximateRadius = 500
 
 	useEffect(() => {
-		getRangeLimits()
 		getRandomCoordinates()
+		getRangeLimits()
 	}, [])
 
 	const getRandomCoordinates = () => {
 		const randomLatLng = generateRandomCoordinateOnRadius()
-		setRandomCoordinates(randomLatLng as any) // TODO Type
+		setRandomCoordinates(randomLatLng as LatLong)
 	}
 
 	const getRangeLimits = async () => {
@@ -130,9 +130,7 @@ function CustomMapView({
 	const generateRandomCoordinateOnRadius = () => {
 		if (!locationView) return null
 
-		const realCoordinates = {
-			...markerCoordinate
-		} as Coordinates
+		const realCoordinates = { ...markerCoordinate } as Coordinates
 
 		const newCoordinates = {
 			latitudeDelta: 0.012,
@@ -141,7 +139,7 @@ function CustomMapView({
 			longitude: realCoordinates.longitude + getRandomDetachment()
 		}
 
-		return newCoordinates as Coordinates
+		return newCoordinates
 	}
 
 	const getRandomDetachment = () => {

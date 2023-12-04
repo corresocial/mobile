@@ -59,7 +59,7 @@ function InsertServicePrestationLocation({ route, navigation }: InsertServicePre
 		}
 
 		const geocodeAddress = await convertGeocodeToAddress(coordinates?.latitude as number, coordinates?.longitude as number)
-		const completeAddress = structureExpoLocationAddress(geocodeAddress)
+		const completeAddress = structureExpoLocationAddress(geocodeAddress, coordinates?.latitude, coordinates?.longitude)
 
 		if (!rangeVerified) {
 			if (

@@ -50,6 +50,10 @@ const updatePostsLocation = async (posts: PostCollection[], newPostRangeLocation
 	const updatedPosts = posts.map((post) => {
 		switch (newPostRangeLocation.range) {
 			case 'near': {
+				if (post.postType === 'socialImpact') {
+					return post
+				}
+
 				return {
 					...post,
 					location: newPostRangeLocation.location || post.location
@@ -77,6 +81,10 @@ const updatePostsRange = async (posts: PostCollection[], newPostRangeLocation: P
 	const updatedPosts = posts.map((post) => {
 		switch (newPostRangeLocation.range) {
 			case 'near': {
+				if (post.postType === 'socialImpact') {
+					return post
+				}
+
 				return {
 					...post,
 					range: newPostRangeLocation.range,

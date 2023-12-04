@@ -480,6 +480,8 @@ function EditPost({
 	const toggleOfflinePostAlertModal = () => setOfflinePostAlertModalIsVisible((previousState) => !previousState)
 
 	const userSubscribeIsValid = () => {
+		if (getPostField('range') === 'city' && getPostField('postType') === 'socialImpact') return true
+
 		if (!userDataContext.subscription) {
 			if (getPostField('range') === 'near') return true
 			return false

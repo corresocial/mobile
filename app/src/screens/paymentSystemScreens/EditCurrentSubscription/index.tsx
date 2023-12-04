@@ -136,10 +136,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 		const userPostsUpdated = await updateAllRangeAndLocation(
 			owner as any, // TODO Type
 			userDataContext.posts || [],
-			{
-				range: 'near',
-				location: lastUserPost.location
-			},
+			{ range: 'near', location: lastUserPost.location },
 			true
 		)
 
