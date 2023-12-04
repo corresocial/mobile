@@ -10,7 +10,7 @@ import ColorPaletWhiteIcon from '../../assets/icons/colorPalet-white.svg'
 import CalendarSomedayWhiteIcon from '../../assets/icons/calendarSomeday-white.svg'
 import BooksWhiteIcon from '../../assets/icons/books-white.svg'
 
-// rule
+// rule / entity
 const postMacroCategories: PostMacroCategories = {
 	income: {
 		sale: {

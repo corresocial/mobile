@@ -1,6 +1,6 @@
 import * as Network from 'expo-network'
 
-// infra
+// infra/service
 function getNetworkStatus() {
 	if (Network) {
 		return Network.getNetworkStateAsync()
