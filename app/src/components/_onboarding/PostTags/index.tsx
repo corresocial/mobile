@@ -13,8 +13,6 @@ import { theme } from '../../../common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import CheckIcon from '../../../assets/icons/check-white.svg'
 
-import { sortArray } from '../../../common/auxiliaryFunctions'
-
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
 import { SelectButton } from '../../../components/_buttons/SelectButton'
@@ -25,6 +23,9 @@ import { InfoCard } from '../../../components/_cards/InfoCard'
 import { MacroCategory } from '../../../services/firebase/types'
 import { SearchInput } from '../../_inputs/SearchInput'
 import { VerticalSpacing } from '../../_space/VerticalSpacing'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
+
+const { sortArray } = UiUtils()
 
 interface PostTagsProps {
 	backgroundColor: string

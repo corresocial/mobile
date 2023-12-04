@@ -9,7 +9,6 @@ import { PostCollection, PostCollectionRemote, PostRange } from '../../../servic
 
 import { LocationContext } from '../../../contexts/LocationContext'
 
-import { sortArray } from '../../../common/auxiliaryFunctions'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -22,6 +21,9 @@ import { FeedByRange } from '../../../components/FeedByRange'
 import { FlatListItem } from '../../../@types/global/types'
 import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 import { navigateToPostView } from '../../../routes/auxMethods'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
+
+const { sortArray } = UiUtils()
 
 function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

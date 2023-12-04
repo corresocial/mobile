@@ -9,7 +9,6 @@ import xWhiteIcon from '../../../assets/icons/x-white.svg'
 import { updateUserPrivateData } from '../../../services/firebase/user/updateUserPrivateData'
 import { updateUser } from '../../../services/firebase/user/updateUser'
 import { deleteUserPicture } from '../../../services/firebase/user/deleteUserPicture'
-import { arrayIsEmpty } from '../../../common/auxiliaryFunctions'
 import { updateAllOwnerOnPosts } from '../../../services/firebase/post/updateAllOwnerOnPosts'
 
 import { RegisterUserData } from '../../../contexts/types'
@@ -26,6 +25,9 @@ import { Loader } from '../../../components/Loader'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
+
+const { arrayIsEmpty } = UiUtils()
 
 function InsertProfilePicture({ navigation, route }: InsertProfilePictureScreenProps) {
 	const { userDataContext, getUserDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)

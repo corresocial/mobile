@@ -11,7 +11,6 @@ import { ViewAllCategoriesScreenProps } from '../../../routes/Stack/HomeStack/st
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
-import { sortPostCategories } from '../../../common/auxiliaryFunctions'
 import { LocationContext } from '../../../contexts/LocationContext'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
@@ -25,8 +24,11 @@ import { postMacroCategories } from '../../../utils/postMacroCategories'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { MacroCategories } from '../../../utils/postMacroCategories/types'
+import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
+
+const { sortPostCategories } = UiPostUtils()
 
 function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)

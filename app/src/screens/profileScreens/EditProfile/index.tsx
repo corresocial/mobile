@@ -9,7 +9,6 @@ import { relativeScreenHeight } from '../../../common/screenDimensions'
 import CheckIcon from '../../../assets/icons/check-white.svg'
 
 import { updateAllOwnerOnPosts } from '../../../services/firebase/post/updateAllOwnerOnPosts'
-import { arrayIsEmpty } from '../../../common/auxiliaryFunctions'
 import { updateUser } from '../../../services/firebase/user/updateUser'
 
 import { UserStackParamList } from '../../../routes/Stack/UserStack/types'
@@ -28,6 +27,9 @@ import { uploadImage } from '../../../services/firebase/common/uploadPicture'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { openURL } from '../../../utils/socialMedias'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
+
+const { arrayIsEmpty } = UiUtils()
 
 function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)

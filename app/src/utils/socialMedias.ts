@@ -12,6 +12,26 @@ import SoundCloudIcon from '../assets/icons/soundcloud.svg'
 
 import { SocialMedia } from '../services/firebase/types'
 
+/*
+src/
+|-- domain/
+|   |-- entities/
+|   |   |-- SocialMediaEntity.ts
+|
+|-- usecases/
+|   |-- SocialMediaUseCase.ts
+|
+|-- infrastructure/
+|   |-- services/
+|   |   |-- LinkingService.ts
+|
+|-- adapters/
+|   |-- SocialMediaAdapter.ts
+|
+|-- app.tsx
+ */
+
+//
 const defaultSocialMedias = [
 	{
 		title: 'instagram',

@@ -1,16 +1,7 @@
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
 import { PostRange, SubscriptionPlan } from '../../services/firebase/types'
 
-const getRangeText = (postRange: PostRange) => {
-	switch (postRange) {
-		case 'near': return 'região'
-		case 'city': return 'cidade'
-		case 'country': return 'brasil'
-		default: return 'indefinido'
-	}
-}
-
-const getRangePlanText = (postRange: PostRange) => {
+const getPostRangeLabelHiglighted = (postRange: PostRange) => {
 	switch (postRange) {
 		case 'near': return showMessageWithHighlight('plano região', ['região'])
 		case 'city': return showMessageWithHighlight('plano cidade', ['cidade'])
@@ -19,7 +10,7 @@ const getRangePlanText = (postRange: PostRange) => {
 	}
 }
 
-const getRangeSubscriptionPlanText = (postRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => {
+const getRangeSubscriptionLabelHighlighted = (postRange?: PostRange, subscriptionPlan?: SubscriptionPlan) => {
 	const subscriptionPlanText = getRelativeSubscriptionPlanText(subscriptionPlan)
 	switch (postRange) {
 		case 'near': return showMessageWithHighlight(`plano região${subscriptionPlanText && ` - ${subscriptionPlanText}`}`, ['região', subscriptionPlanText])
@@ -37,4 +28,4 @@ const getRelativeSubscriptionPlanText = (subscriptionPlan?: SubscriptionPlan) =>
 	}
 }
 
-export { getRangeText, getRangePlanText, getRangeSubscriptionPlanText }
+export { getPostRangeLabelHiglighted, getRangeSubscriptionLabelHighlighted }

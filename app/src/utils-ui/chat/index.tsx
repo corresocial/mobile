@@ -1,6 +1,6 @@
 import { Message, MessageObjects } from '../../@types/chat/types'
 
-const defaultMessageObject = {
+const defaultMessageObject = { // rule
 	message: '',
 	dateTime: Date.now(),
 	readed: true,
@@ -8,13 +8,8 @@ const defaultMessageObject = {
 }
 
 const getLastMessageObjects = (messages: MessageObjects | Message[]) => {
-	if (!messages) {
-		return defaultMessageObject
-	}
-
-	if (Array.isArray(messages)) {
-		return messages[messages.length - 1]
-	}
+	if (!messages) return defaultMessageObject
+	if (Array.isArray(messages)) return messages[messages.length - 1]
 
 	if (typeof (messages) === 'object') {
 		const keys = Object.keys(messages)

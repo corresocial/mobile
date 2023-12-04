@@ -4,7 +4,6 @@ import { StatusBar } from 'react-native'
 import { theme } from '../../../common/theme'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
-import { convertGeocodeToAddress } from '../../../utils/maps/addressFormatter'
 
 import { InsertWorkplaceLocationScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { Coordinates, PostCollection } from '../../../services/firebase/types'
@@ -15,6 +14,11 @@ import { AuthContext } from '../../../contexts/AuthContext'
 
 import { SelectPostLocation } from '../../../components/_onboarding/SelectPostLocation'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
+import { LocationService } from '../../../services/location/LocationService'
+import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
+
+const { convertGeocodeToAddress } = LocationService()
+const { structureExpoLocationAddress } = UiLocationUtils()
 
 function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationScreenProps) {
 	const { userDataContext, getLastUserPost } = useContext(AuthContext)
@@ -54,7 +58,8 @@ function InsertWorkplaceLocation({ route, navigation }: InsertWorkplaceLocationS
 			if (!coordinates) return
 		}
 
-		const completeAddress = await convertGeocodeToAddress(coordinates?.latitude as number, coordinates?.longitude as number)
+		const geocodeAddress = await convertGeocodeToAddress(coordinates?.latitude as number, coordinates?.longitude as number)
+		const completeAddress = structureExpoLocationAddress(geocodeAddress)
 
 		if (!rangeVerified) {
 			if (

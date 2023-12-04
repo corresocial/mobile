@@ -6,7 +6,7 @@ import { theme } from '../../../common/theme'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 
-import { filterLeavingOnlyNumbers, formatHour } from '../../../common/auxiliaryFunctions'
+import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../_containers/FormContainer'
@@ -17,6 +17,9 @@ import { BackButton } from '../../_buttons/BackButton'
 import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
 import { SmallButton } from '../../_buttons/SmallButton'
 import { DefaultInput } from '../../_inputs/DefaultInput'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
+
+const { formatHour } = UiUtils()
 
 interface PostTimeProps {
 	backgroundColor: string

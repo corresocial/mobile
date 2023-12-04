@@ -28,7 +28,6 @@ import { registerNewChat } from '../../../services/firebase/chat/registerNewChat
 import { setChatIdToUsers } from '../../../services/firebase/chat/setChatIdToUsers'
 import { unblockUserId } from '../../../services/firebase/chat/unblockUser'
 import { unsubscribeMessageListener } from '../../../services/firebase/chat/unsubscribeMessageListener'
-import { getLastMessageObjects } from '../../../utils/chat'
 import { Container, Header, IsBlockedContainer } from './styles'
 
 import { AuthContext } from '../../../contexts/AuthContext'
@@ -56,6 +55,9 @@ import { ChatMessagesScreenProps } from '../../../routes/Stack/UserStack/stackSc
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
+import { UiChatUtils } from '../../../utils-ui/chat/UiChatUtils'
+
+const { getLastMessageObjects } = UiChatUtils()
 
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

@@ -1,6 +1,6 @@
-import { PostCollection } from '../services/firebase/types'
+import { PostCollection } from '../../services/firebase/types'
 
-function mergeArrayPosts(posts: PostCollection[] | undefined, postDataToMerge: PostCollection) {
+function mergeArrayPosts(posts: PostCollection[], postDataToMerge: PostCollection) {
 	if (!posts) return posts
 
 	return posts.map((post) => {

@@ -1,19 +1,10 @@
-import MapPointOrange from '../assets/icons/mapPoint-orange.svg'
-import MapPointWhiteIcon from '../assets/icons/mapPoint-white.svg'
-import mapPointApproximateWhiteIcon from '../assets/icons/pin-white.svg'
-import EyeTracedWhiteIcon from '../assets/icons/eyeDashed-white.svg'
+import MapPointOrange from '../../assets/icons/mapPoint-orange.svg'
+import MapPointWhiteIcon from '../../assets/icons/mapPoint-white.svg'
+import mapPointApproximateWhiteIcon from '../../assets/icons/pin-white.svg'
+import EyeTracedWhiteIcon from '../../assets/icons/eyeDashed-white.svg'
 
-import { LocationViewType, PostRange } from '../services/firebase/types'
-
-const getLocationViewTitle = (locationView: LocationViewType, error?: boolean) => {
-	if (error) return 'ops!'
-	switch (locationView) {
-		case 'private': return 'localização⠀ \nprivada'
-		case 'approximate': return 'localização \naproximada'
-		case 'public': return 'localização \npública'
-		default: return 'switch option unfount'
-	}
-}
+import { LocationViewType, PostRange } from '../../services/firebase/types'
+import { getPossessivePronounByRange, getPostRangeLabel } from '../post/commonMessages'
 
 const getLocationViewDescription = (locationView: LocationViewType, error?: boolean, customErrorMessage?: string) => {
 	if (error) return customErrorMessage || 'não foi possível localizar este endereço'
@@ -35,7 +26,7 @@ const getLocationViewHighlightedWords = (locationView: LocationViewType, error?:
 	}
 }
 
-const getLocationViewIcon = (locationView: LocationViewType, error?: boolean) => {
+const getLocationViewIcon = (locationView: LocationViewType) => {
 	switch (locationView) {
 		case 'private': return EyeTracedWhiteIcon
 		case 'approximate': return mapPointApproximateWhiteIcon
@@ -44,7 +35,7 @@ const getLocationViewIcon = (locationView: LocationViewType, error?: boolean) =>
 	}
 }
 
-const getRelativeLocationView = (locationView: LocationViewType) => {
+const getLocationViewLabel = (locationView: LocationViewType) => {
 	switch (locationView) {
 		case 'private': return 'privada'
 		case 'approximate': return 'aproximada'
@@ -53,21 +44,8 @@ const getRelativeLocationView = (locationView: LocationViewType) => {
 	}
 }
 
-const getRelativeRange = (range: PostRange | undefined) => {
-	switch (range) {
-		case 'near': return 'região'
-		case 'city': return 'cidade'
-		case 'country': return 'país'
-		default: return 'local'
-	}
-}
-
-const getPossessivePronoun = (range: PostRange | undefined) => {
-	return range !== 'country' ? 'sua' : 'seu'
-}
-
 const generateLocationHeaderText = (locationView: LocationViewType, range: PostRange | undefined) => {
-	const rangeLabel = `${getPossessivePronoun(range)} ${getRelativeRange(range)}`
+	const rangeLabel = `${getPossessivePronounByRange(range)} ${getPostRangeLabel(range)}`
 
 	switch (locationView) {
 		case 'private': return `seus posts podem ser vistos por pessoas da ${rangeLabel}`
@@ -78,12 +56,9 @@ const generateLocationHeaderText = (locationView: LocationViewType, range: PostR
 }
 
 export {
-	getLocationViewTitle,
 	getLocationViewDescription,
 	getLocationViewHighlightedWords,
 	getLocationViewIcon,
-	getRelativeLocationView,
-	getRelativeRange,
-	getPossessivePronoun,
+	getLocationViewLabel,
 	generateLocationHeaderText
 }

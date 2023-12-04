@@ -18,9 +18,13 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { CustomMapView } from '../../../components/CustomMapView'
 import { InstructionCard } from '../../_cards/InstructionCard'
-import { getCurrentLocation } from '../../../utils/maps/getCurrentLocation'
 import { SearchInput } from '../../_inputs/SearchInput'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+import { LocationService } from '../../../services/location/LocationService'
+import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
+
+const { getCurrentLocation, convertGeocodeToAddress } = LocationService()
+const { structureExpoLocationAddress } = UiLocationUtils()
 
 const initialRegion = {
 	latitude: -13.890303625634541,
@@ -103,7 +107,7 @@ function SelectPostLocation({
 			setValidAddress(false)
 			setAddress('')
 
-			convertGeocodeToAddress(
+			convertAndStructureGeocodeAddress(
 				geolocationCoordinates.latitude,
 				geolocationCoordinates.longitude
 			)
@@ -136,7 +140,7 @@ function SelectPostLocation({
 			...geolocationCoordinates,
 		})
 
-		convertGeocodeToAddress(
+		convertAndStructureGeocodeAddress(
 			addressGeolocation[0].latitude,
 			addressGeolocation[0].longitude
 		)
@@ -144,31 +148,13 @@ function SelectPostLocation({
 		setValidAddress(true)
 	}
 
-	const convertGeocodeToAddress = async (latitude: number, longitude: number) => {
-		const geocodeAddress = await Location.reverseGeocodeAsync({
-			latitude,
-			longitude
-		})
-
+	const convertAndStructureGeocodeAddress = async (latitude: number, longitude: number) => {
+		const geocodeAddress = await convertGeocodeToAddress(latitude, longitude)
 		const structuredAddress = structureExpoLocationAddress(geocodeAddress)
-		setInvalidAddressAfterSubmit(false)
 
+		setInvalidAddressAfterSubmit(false)
 		return structuredAddress
 	}
-
-	const structureExpoLocationAddress = (geocodeAddress: Location.LocationGeocodedAddress[]) => ({
-		country: geocodeAddress[0].country || '',
-		state: geocodeAddress[0].region || '',
-		city: geocodeAddress[0].city || geocodeAddress[0].subregion || '',
-		postalCode: geocodeAddress[0].postalCode || '',
-		street: geocodeAddress[0].street || '',
-		number: geocodeAddress[0].streetNumber || geocodeAddress[0].name || '',
-		district: geocodeAddress[0].district === geocodeAddress[0].subregion ? 'Centro' : geocodeAddress[0].district || '',
-		coordinates: {
-			latitude: markerCoordinate?.latitude,
-			longitude: markerCoordinate?.longitude
-		}
-	})
 
 	const updateMarkerPosition = async (coordinates: Coordinates) => {
 		setMarkerCoordinate(coordinates)

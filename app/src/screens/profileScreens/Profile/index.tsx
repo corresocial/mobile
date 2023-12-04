@@ -32,12 +32,7 @@ import AtSignWhiteIcon from '../../../assets/icons/atSign-white.svg'
 
 import { share } from '../../../common/share'
 import { getUser } from '../../../services/firebase/user/getUser'
-import {
-	arrayIsEmpty,
-	getShortText,
-	sortArray,
-	sortPostsByCreatedData,
-} from '../../../common/auxiliaryFunctions'
+import { getShortText } from '../../../common/auxiliaryFunctions'
 
 import { LocalUserData } from '../../../contexts/types'
 import {
@@ -75,7 +70,12 @@ import { AlertContext } from '../../../contexts/AlertContext/index'
 import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 import { navigateToPostView } from '../../../routes/auxMethods'
 import { FlatListItem } from '../../../@types/global/types'
-import { userBadges } from '../../../utils/userBadges'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
+import { VerifiedUserBadge } from '../../../components/VerifiedUserBadge'
+
+const { sortArray, arrayIsEmpty } = UiUtils()
+const { sortPostsByCreatedData } = UiPostUtils()
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { notificationState } = useContext(AlertContext)
@@ -385,26 +385,11 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			<VerticalPaddingContainer>
 				<TouchableOpacity onPress={() => setToggleVerifiedModal(true)}>
 					<ProfileInfoContainer>
-						{getRelativeVerifiedIndentifier(verifiedLabel)}
+						<VerifiedUserBadge verifiedLabel={verifiedLabel} />
 					</ProfileInfoContainer>
 				</TouchableOpacity>
 			</VerticalPaddingContainer>
 		)
-	}
-
-	const getRelativeVerifiedIndentifier = (verifiedLabel: VerifiedLabelName) => {
-		const userBadge = userBadges[verifiedLabel]
-
-		if (userBadge) {
-			return (
-				<>
-					{userBadge.icon}
-					<UserDescription>
-						{userBadge.description}
-					</UserDescription>
-				</>
-			)
-		}
 	}
 
 	const getConfigurationIcon = () => {

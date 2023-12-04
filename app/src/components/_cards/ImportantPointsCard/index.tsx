@@ -9,7 +9,9 @@ import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 import { PostInfoRow } from '../../PostInfoRow'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
-import { arrayIsEmpty } from '../../../common/auxiliaryFunctions'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
+
+const { arrayIsEmpty } = UiUtils()
 
 interface ImportantPointsCardProps {
 	title?: string

@@ -14,7 +14,7 @@ interface DefaultHeaderContainerProps {
 	centralized?: boolean
 	flexDirection?: ViewStyle['flexDirection']
 	justifyContent?: ViewStyle['justifyContent']
-	footerText?: string | (string | ReactElement<any, string | JSXElementConstructor<any>>)[]
+	footerText?: string | (string | ReactElement<any, string | JSXElementConstructor<any>>)[] | React.ReactNode
 	footerTextHighlighted?: string | (string | ReactElement<any, string | JSXElementConstructor<any>>)[]
 	minHeight?: number
 	borderBottomWidth?: number

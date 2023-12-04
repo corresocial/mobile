@@ -25,7 +25,9 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { PostCard } from '../../../components/_cards/PostCard'
-import { getRangeSubscriptionPlanText } from '../../../utils/subscription/commonMessages'
+import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
+
+const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()
 
 function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentResultScreenProps) {
 	const { subscriptionDataContext } = useContext(SubscriptionContext)
@@ -105,7 +107,7 @@ function SubscriptionPaymentResult({ route, navigation }: SubscriptionPaymentRes
 					flex={0}
 				>
 					<VerticalSpacing />
-					<SmallInstructionCard text={getRangeSubscriptionPlanText(subscriptionRange, subscriptionPlan)} />
+					<SmallInstructionCard text={getRangeSubscriptionLabelHighlighted(subscriptionRange, subscriptionPlan)} />
 					<VerticalSpacing />
 					<SmallInstructionCard text={`r$ ${price},00`} highlight error={!successfulPayment} />
 				</InstructionCard>

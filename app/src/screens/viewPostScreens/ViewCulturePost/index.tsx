@@ -16,11 +16,10 @@ import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
 
 import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'
-import { arrayIsEmpty, formatRelativeDate, getShortText } from '../../../common/auxiliaryFunctions'
+import { getShortText } from '../../../common/auxiliaryFunctions'
 import { deletePost } from '../../../services/firebase/post/deletePost'
 import { share } from '../../../common/share'
 import { markPostAsComplete } from '../../../services/firebase/post/markPostAsCompleted'
-import { mergeArrayPosts } from '../../../utils/mergeArrayPosts'
 
 import { ViewCulturePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
@@ -44,6 +43,11 @@ import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
 import { LinkCard } from '../../../components/_cards/LinkCard'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
+
+const { formatRelativeDate, arrayIsEmpty } = UiUtils()
+const { mergeArrayPosts } = UiPostUtils()
 
 function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const { userDataContext, setDataOnSecureStore, setUserDataOnContext } = useContext(AuthContext)

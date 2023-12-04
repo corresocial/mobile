@@ -10,8 +10,6 @@ import { PostCollection, ServiceCategories, IncomeCollection } from '../../../se
 import { ServiceStackParamList } from '../../../routes/Stack/ServiceStack/types'
 
 import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
-import { getTextualAddress } from '../../../utils/maps/addressFormatter'
-import { arrayIsEmpty, formatHour } from '../../../common/auxiliaryFunctions'
 
 import { theme } from '../../../common/theme'
 import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
@@ -30,6 +28,11 @@ import { PostReviewPresentationModal } from '../../../components/_modals/PostRev
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 import { LinkCard } from '../../../components/_cards/LinkCard'
 import { navigateToPostView } from '../../../routes/auxMethods'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
+
+const { formatHour, arrayIsEmpty } = UiUtils()
+const { getTextualAddress } = UiLocationUtils()
 
 function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps) {
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)

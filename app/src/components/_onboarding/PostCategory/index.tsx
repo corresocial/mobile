@@ -6,8 +6,6 @@ import { Container } from './styles'
 import { theme } from '../../../common/theme'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 
-import { sortPostCategories } from '../../../common/auxiliaryFunctions'
-
 import { PostCategoriesObject, PostCategoriesType } from '../../../services/firebase/types'
 
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
@@ -17,6 +15,9 @@ import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { ProgressBar } from '../../../components/ProgressBar'
 import { VerticalSpacing } from '../../_space/VerticalSpacing'
+import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
+
+const { sortPostCategories } = UiPostUtils()
 
 interface PostCategoryProps {
 	backgroundColor: string

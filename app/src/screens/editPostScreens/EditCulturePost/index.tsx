@@ -10,8 +10,7 @@ import { CultureStackParamList } from '../../../routes/Stack/CultureStack/types'
 import { CultureCategories, CultureCollection, CultureCollectionRemote, EventRepeatType, PostCollection } from '../../../services/firebase/types'
 
 import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'
-import { getTextualAddress } from '../../../utils/maps/addressFormatter'
-import { arrayIsEmpty, formatDate, formatHour, showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 import { theme } from '../../../common/theme'
 import RecycleWhiteIcon from '../../../assets/icons/recycle-white.svg'
@@ -31,6 +30,11 @@ import { LocationChangeConfirmationModal } from '../../../components/_modals/Loc
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
 import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
 import { LinkCard } from '../../../components/_cards/LinkCard'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
+
+const { formatDate, formatHour, arrayIsEmpty } = UiUtils()
+const { getTextualAddress } = UiLocationUtils()
 
 function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)

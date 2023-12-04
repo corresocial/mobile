@@ -4,7 +4,6 @@ import { StatusBar } from 'react-native'
 import { theme } from '../../../common/theme'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
-import { convertGeocodeToAddress } from '../../../utils/maps/addressFormatter'
 
 import { InsertSaleLocationScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
@@ -15,6 +14,11 @@ import { SelectPostLocation } from '../../../components/_onboarding/SelectPostLo
 import { Coordinates, PostCollection } from '../../../services/firebase/types'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
+import { LocationService } from '../../../services/location/LocationService'
+import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
+
+const { convertGeocodeToAddress } = LocationService()
+const { structureExpoLocationAddress } = UiLocationUtils()
 
 function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps) {
 	const { userDataContext, getLastUserPost } = useContext(AuthContext)
@@ -54,7 +58,8 @@ function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps
 			if (!coordinates) return
 		}
 
-		const completeAddress = await convertGeocodeToAddress(coordinates?.latitude as number, coordinates?.longitude as number)
+		const geocodeAddress = await convertGeocodeToAddress(coordinates?.latitude as number, coordinates?.longitude as number)
+		const completeAddress = structureExpoLocationAddress(geocodeAddress)
 
 		if (!rangeVerified) {
 			if (
