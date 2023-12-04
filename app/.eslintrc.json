@@ -5,7 +5,8 @@
 	"plugins": [
 		"@typescript-eslint",
 		"react",
-		"react-native"
+		"react-native",
+		"import-helpers"
 	],
 	"parser": "@typescript-eslint/parser",
 	"ignorePatterns": [
@@ -22,6 +23,87 @@
 		"import/no-default-export": "error",
 		"import/prefer-default-export": "off",
 		"import/extensions": "off",
+		"import/no-extraneous-dependencies": [ // TODO config
+			"off",
+			{
+				"devDependencies": true,
+				"optionalDependencies": false,
+				"peerDependencies": false,
+				"bundledDependencies": false,
+				"packageDir": [
+					"./",
+					"./services/firebase"
+				]
+			}
+		],
+		"import/order": [
+			"off",
+			{
+				"groups": [
+					"index",
+					"sibling",
+					"parent",
+					"internal",
+					"external",
+					"builtin",
+					"object",
+					"type"
+				]
+			}
+		],
+		"import-helpers/order-imports": [
+			"warn",
+			{
+				"newlinesBetween": "always",
+				"groups": [
+					[
+						"/^react/",
+						"/^@react/",
+						"/^@expo/",
+						"/^expo/",
+						"/^styled-components/"
+					],
+					[
+						"module"
+					],
+					[
+						"/^@domain/"
+					],
+					[
+						"/^@data/"
+					],
+					[
+						"/^@contexts/"
+					],
+					[
+						"/^@routes/",
+						"/^@types/",
+						"/types/",
+						"/^@contexts/types/"
+					],
+					[
+						"/^@services/"
+					],
+					[
+						"/^@presentation/common/screenDimensions/",
+						"/^@presentation/common/theme/",
+						"/^@presentation/assets/",
+						"/^./styles/"
+					],
+					[
+						"/^@presentation/adapters/"
+					],
+					[
+						"/^@presentation/components/",
+						"/^@presentation/screens/"
+					]
+				],
+				"alphabetize": {
+					"order": "asc",
+					"ignoreCase": true
+				}
+			}
+		],
 		"react/jsx-filename-extension": [
 			1,
 			{
