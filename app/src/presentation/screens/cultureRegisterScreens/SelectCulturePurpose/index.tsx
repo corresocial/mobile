@@ -2,8 +2,9 @@ import React, { useContext, useEffect } from 'react'
 
 import { CultureContext } from '@contexts/CultureContext'
 
-import GiftWhiteIcon from '../../../assets/icons/megaphone-white.svg'
-import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
+import GiftWhiteIcon from '@assets/icons/megaphone-white.svg'
+import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
+
 import { theme } from '../../../common/theme'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'

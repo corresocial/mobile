@@ -10,10 +10,11 @@ import { StateContext } from '@contexts/StateContext'
 
 import { HomeTabParamList } from './types'
 
-import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
-import HomeWhiteIcon from '../../../assets/icons/home-white.svg'
-import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
-import ProfileWhiteIcon from '../../../assets/icons/profile-white.svg'
+import ChatWhiteIcon from '@assets/icons/chat-white.svg'
+import HomeWhiteIcon from '@assets/icons/home-white.svg'
+import PlusWhiteIcon from '@assets/icons/plus-white.svg'
+import ProfileWhiteIcon from '@assets/icons/profile-white.svg'
+
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import { Post } from '../../../screens/homeScreens/Post'

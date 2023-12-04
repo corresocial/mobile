@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 import {
 	KeyboardTypeOptions,
 	NativeSyntheticEvent,
@@ -7,12 +6,14 @@ import {
 	TextInputKeyPressEventData,
 	TextInputProps,
 } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
 
 import { BottomLine, Container, ContainerInner, SideButtonContainer, TextInput } from './styles'
+import MinusWhiteIcon from '@assets/icons/minus-white.svg'
+import PlusWhiteIcon from '@assets/icons/plus-white.svg'
+
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import MinusWhiteIcon from '../../../assets/icons/minus-white.svg'
-import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
 
 interface DefaultInputProps extends TextInputProps {
 	value: string

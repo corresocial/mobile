@@ -1,9 +1,10 @@
 import React from 'react'
-
 import { useTheme } from 'styled-components/native'
-import LogoOutlinedWhiteIcon from '../../../assets/icons/logo-outlined.svg'
-import { OptionButton } from '../OptionButton'
+
+import LogoOutlinedWhiteIcon from '@assets/icons/logo-outlined.svg'
+
 import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { OptionButton } from '../OptionButton'
 
 interface SubscriptionButtonProps {
 	customTitle?: string

@@ -10,8 +10,8 @@ import { MacroCategories } from '../../../utils/postMacroCategories/types'
 import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
 
 import { CategoryCardContainer, Container, Header, InputContainer } from './styles'
+import OthersWhiteIcon from '@assets/icons/categories/others.svg'
 
-import OthersWhiteIcon from '../../../assets/icons/categories/others.svg'
 import { theme } from '../../../common/theme'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'

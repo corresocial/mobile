@@ -38,16 +38,16 @@ import {
 	OffBounceBackground,
 	SeeMoreLabel,
 } from './styles'
+import AtSignWhiteIcon from '@assets/icons/atSign-white.svg'
+import ChatWhiteIcon from '@assets/icons/chat-white.svg'
+import EditIcon from '@assets/icons/edit-white.svg'
+import GearAlertWhiteIcon from '@assets/icons/gear-alert-white.svg'
+import GearWhiteIcon from '@assets/icons/gear-white.svg'
+import ShareIcon from '@assets/icons/share-white.svg'
+import ThreeDotsIcon from '@assets/icons/threeDots.svg'
+import WirelessOffWhiteIcon from '@assets/icons/wirelessOff-white.svg'
+import WirelessOnWhiteIcon from '@assets/icons/wirelessOn-white.svg'
 
-import AtSignWhiteIcon from '../../../assets/icons/atSign-white.svg'
-import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
-import EditIcon from '../../../assets/icons/edit-white.svg'
-import GearAlertWhiteIcon from '../../../assets/icons/gear-alert-white.svg'
-import GearWhiteIcon from '../../../assets/icons/gear-white.svg'
-import ShareIcon from '../../../assets/icons/share-white.svg'
-import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
-import WirelessOffWhiteIcon from '../../../assets/icons/wirelessOff-white.svg'
-import WirelessOnWhiteIcon from '../../../assets/icons/wirelessOn-white.svg'
 import { getShortText } from '../../../common/auxiliaryFunctions'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { share } from '../../../common/share'
@@ -67,14 +67,12 @@ import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { PopOver } from '../../../components/PopOver'
 import { VerifiedUserBadge } from '../../../components/VerifiedUserBadge'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
+import { navigateToPostView } from '../../../routes/auxMethods'
 import { HomeTabScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
-
-
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
 import { getNetworkStatus } from '../../../utils/deviceNetwork'
 import { getNumberOfStoredOfflinePosts } from '../../../utils/offlinePost'
-import { navigateToPostView } from '../../../routes/auxMethods'
 
 const { sortArray, arrayIsEmpty } = UiUtils()
 const { sortPostsByCreatedData } = UiPostUtils()

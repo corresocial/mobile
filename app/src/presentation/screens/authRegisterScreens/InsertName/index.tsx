@@ -4,8 +4,8 @@ import { Animated, Keyboard, StatusBar, Platform, TextInput } from 'react-native
 import { AuthContext } from '@contexts/AuthContext'
 
 import { ButtonContainer, Container, InputsContainer } from './styles'
+import CheckWhiteIcon from '@assets/icons/check-white.svg'
 
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'

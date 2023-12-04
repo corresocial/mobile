@@ -7,16 +7,15 @@ import {
 	TermsLabel,
 	TermsLabelHighlight
 } from './styles'
+import CheckWhiteIcon from '@assets/icons/check-white.svg'
+
 import { theme } from '../../../common/theme'
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-
-import { AcceptTermsAndConditionsScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
-
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { TermsOfServiceModal } from '../../../components/_modals/TermsOfServiceModal'
+import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { BackButton } from '../../../components/_buttons/BackButton'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { TermsOfServiceModal } from '../../../components/_modals/TermsOfServiceModal'
+import { AcceptTermsAndConditionsScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
 function AcceptTermsAndConditions({ navigation }: AcceptTermsAndConditionsScreenProps) {
 	const [termsVisibility, setTermsVisibility] = useState<boolean>(false)

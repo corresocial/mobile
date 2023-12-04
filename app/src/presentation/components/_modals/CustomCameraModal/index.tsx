@@ -1,8 +1,8 @@
+import { Camera, CameraType, FlashMode } from 'expo-camera'
+import * as ImageManipulator from 'expo-image-manipulator'
+import * as ImagePicker from 'expo-image-picker'
 import React, { useEffect, useState, useRef } from 'react'
 import { ActivityIndicator, Modal, StatusBar, View } from 'react-native'
-import { Camera, CameraType, FlashMode } from 'expo-camera'
-import * as ImagePicker from 'expo-image-picker'
-import * as ImageManipulator from 'expo-image-manipulator'
 
 import {
 	CameraContainer,
@@ -16,15 +16,15 @@ import {
 	ContainerIcon,
 
 } from './styles'
-import { theme } from '../../../common/theme'
-import XButtonOutlined from '../../../assets/icons/xButton-outlined.svg'
-import CameraFlashOutlined from '../../../assets/icons/cameraFlash-outlined.svg'
-import CameraFlashOnOutlined from '../../../assets/icons/cameraFlashOn-outlined.svg'
-import CameraToggleOutlined from '../../../assets/icons/cameraToggle-outlined.svg'
-import AddPictureOutlined from '../../../assets/icons/addPicture-outlined.svg'
+import AddPictureOutlined from '@assets/icons/addPicture-outlined.svg'
+import CameraFlashOutlined from '@assets/icons/cameraFlash-outlined.svg'
+import CameraFlashOnOutlined from '@assets/icons/cameraFlashOn-outlined.svg'
+import CameraToggleOutlined from '@assets/icons/cameraToggle-outlined.svg'
+import XButtonOutlined from '@assets/icons/xButton-outlined.svg'
 
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { TakePictureCameraButton } from '../../_buttons/TakePictureCameraButton'
+import { theme } from '../../../common/theme'
 
 interface CustomCameraModalProps {
 	cameraOpened: boolean;

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import EditWhiteIcon from '../../../assets/icons/edit-white.svg'
+import EditWhiteIcon from '@assets/icons/edit-white.svg'
 
 import { CustomModal } from '../CustomModal'
 

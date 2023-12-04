@@ -14,9 +14,9 @@ import { uploadImage } from '@services/firebase/common/uploadPicture'
 import { createPost } from '@services/firebase/post/createPost'
 
 import { Body, Container, Header, SaveButtonContainer } from './styles'
+import AngleRightWhiteIcon from '@assets/icons/angleRight-white.svg'
+import HandOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
 
-import AngleRightWhiteIcon from '../../../assets/icons/angleRight-white.svg'
-import HandOnMoneyWhiteIcon from '../../../assets/icons/handOnMoney-white.svg'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'

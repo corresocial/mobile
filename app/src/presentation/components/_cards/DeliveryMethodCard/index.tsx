@@ -2,12 +2,13 @@ import React from 'react'
 
 import { DeliveryMethod } from '@services/firebase/types'
 
+import BrazilWhiteIcon from '@assets/icons/brazil-white.svg'
+import CityWhiteIcon from '@assets/icons/city-white.svg'
+import PeopleWhiteIcon from '@assets/icons/people-white.svg'
+import PinWhiteIcon from '@assets/icons/pin-white.svg'
+import TruckWhiteIcon from '@assets/icons/truck-white.svg'
+
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
-import BrazilWhiteIcon from '../../../assets/icons/brazil-white.svg'
-import CityWhiteIcon from '../../../assets/icons/city-white.svg'
-import PeopleWhiteIcon from '../../../assets/icons/people-white.svg'
-import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
-import TruckWhiteIcon from '../../../assets/icons/truck-white.svg'
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'

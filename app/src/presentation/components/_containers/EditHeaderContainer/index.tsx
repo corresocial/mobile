@@ -4,7 +4,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import { Container } from './styles'
-import EditWhiteIcon from '../../../assets/icons/edit-white.svg'
+import EditWhiteIcon from '@assets/icons/edit-white.svg'
 
 interface EditHeaderContainerProps {
 	children: React.ReactNode

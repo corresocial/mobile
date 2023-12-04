@@ -2,9 +2,10 @@ import React from 'react'
 
 import { VacancyPurpose } from '@services/firebase/types'
 
+import PersonWithSuitCaseWhiteIcon from '@assets/icons/personWithSuitCase-white.svg'
+import SuitCaseWhiteIcon from '@assets/icons/suitCase-white.svg'
+
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
-import PersonWithSuitCaseWhiteIcon from '../../../assets/icons/personWithSuitCase-white.svg'
-import SuitCaseWhiteIcon from '../../../assets/icons/suitCase-white.svg'
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'

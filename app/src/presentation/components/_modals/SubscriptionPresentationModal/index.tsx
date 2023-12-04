@@ -1,14 +1,14 @@
 import React from 'react'
 
-import { CustomModal } from '../CustomModal'
-
 import { Body, Description, ImageContainer, ImageDescription, ProfilePictureContainer } from './styles'
-import HandOnCorreWhiteIcon from '../../../assets/icons/handOnCorre.svg'
-import UserNetworkImage from '../../../assets/imgs/userNetwork.png'
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import HandOnCorreWhiteIcon from '@assets/icons/handOnCorre.svg'
+import UserNetworkImage from '@assets/imgs/userNetwork.png'
+
 import { VerticalSpacing } from '../../_space/VerticalSpacing'
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { PhotoPortrait } from '../../PhotoPortrait'
+import { CustomModal } from '../CustomModal'
 
 interface SubscriptionPresentationModalProps {
 	visibility: boolean

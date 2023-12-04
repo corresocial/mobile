@@ -4,8 +4,8 @@ import { relativeScreenWidth } from '../../common/screenDimensions'
 
 import { theme } from '../../common/theme'
 import { Container, InputMessage, SendButtonArea, SendButtonAreaInner } from './styles'
-import AngleRightWhitetIcon from '../../assets/icons/angleRight-white.svg'
-import AngleRightDisabledIcon from '../../assets/icons/angleRight-disabled.svg'
+import AngleRightWhitetIcon from '@assets/icons/angleRight-white.svg'
+import AngleRightDisabledIcon from '@assets/icons/angleRight-disabled.svg'
 
 interface ChatInputProps {
 	submitMessage: (text: string) => void

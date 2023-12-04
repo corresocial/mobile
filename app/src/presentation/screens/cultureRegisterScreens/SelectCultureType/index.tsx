@@ -5,9 +5,10 @@ import { EditContext } from '@contexts/EditContext'
 
 import { CultureType } from '@services/firebase/types'
 
-import BooksWhiteIcon from '../../../assets/icons/books-white.svg'
-import CalendarEverydayWhiteIcon from '../../../assets/icons/calendarSomeday-white.svg'
-import ColorPaletWhiteIcon from '../../../assets/icons/colorPalet-white.svg'
+import BooksWhiteIcon from '@assets/icons/books-white.svg'
+import CalendarEverydayWhiteIcon from '@assets/icons/calendarSomeday-white.svg'
+import ColorPaletWhiteIcon from '@assets/icons/colorPalet-white.svg'
+
 import { theme } from '../../../common/theme'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'

@@ -1,14 +1,14 @@
 import { CultureCategories } from '@services/firebase/types'
 
-import MusicIcon from '../../assets/icons/categories/music.svg'
-import DanceAndBalletIcon from '../../assets/icons/categories/danceAndBallet.svg'
-import CulturePaintingIcon from '../../assets/icons/categories/culturePainting.svg'
-import AudiovisualIcon from '../../assets/icons/categories/audiovisual.svg'
-import ScenicIcon from '../../assets/icons/categories/scenic.svg'
-import TattooAndPiercingIcon from '../../assets/icons/categories/tattooAndPiercing.svg'
-import CraftsmanshipIcon from '../../assets/icons/categories/craftsmanship.svg'
-import DiversityIcon from '../../assets/icons/categories/diversity.svg'
-import OthersIcon from '../../assets/icons/categories/others.svg'
+import MusicIcon from '@assets/icons/categories/music.svg'
+import DanceAndBalletIcon from '@assets/icons/categories/danceAndBallet.svg'
+import CulturePaintingIcon from '@assets/icons/categories/culturePainting.svg'
+import AudiovisualIcon from '@assets/icons/categories/audiovisual.svg'
+import ScenicIcon from '@assets/icons/categories/scenic.svg'
+import TattooAndPiercingIcon from '@assets/icons/categories/tattooAndPiercing.svg'
+import CraftsmanshipIcon from '@assets/icons/categories/craftsmanship.svg'
+import DiversityIcon from '@assets/icons/categories/diversity.svg'
+import OthersIcon from '@assets/icons/categories/others.svg'
 
 export const updateCultureTags = (category: CultureCategories, tag: string) => {
 	cultureCategories[category].tags = [...cultureCategories[category].tags, tag]

@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native'
 import uuid from 'react-uuid'
 
 import { TagsSelectedArea } from './styles'
-import xBold from '../../assets/icons/x-bold.svg'
+import xBold from '@assets/icons/x-bold.svg'
 import { relativeScreenWidth } from '../../common/screenDimensions'
 
 import { SelectButton } from '../_buttons/SelectButton'

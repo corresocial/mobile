@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { CustomModal } from '../CustomModal'
-
 import { Container } from './styles'
-import NewHomePresentationIcon from '../../../assets/imgs/newHomePresentation.svg'
+import NewHomePresentationIcon from '@assets/imgs/newHomePresentation.svg'
+
 import { VerticalSpacing } from '../../_space/VerticalSpacing'
+import { CustomModal } from '../CustomModal'
 
 interface NewHomePresentationModalProps {
 	visibility: boolean

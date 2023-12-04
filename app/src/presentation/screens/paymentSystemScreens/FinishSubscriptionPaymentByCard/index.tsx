@@ -15,9 +15,9 @@ import { CardBrand } from '@stripe/stripe-react-native/lib/typescript/src/types/
 import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRangeAndLocation'
 
 import { Body, BodyScrollable, Container, PaymentStatusArea, PaymentStatusText, Title, TitleArea } from './styles'
+import CardWhiteIcon from '@assets/icons/card-white.svg'
+import DollarWhiteIcon from '@assets/icons/dollar-white.svg'
 
-import CardWhiteIcon from '../../../assets/icons/card-white.svg'
-import DollarWhiteIcon from '../../../assets/icons/dollar-white.svg'
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'

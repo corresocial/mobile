@@ -1,6 +1,6 @@
 import React from 'react'
 
-import BellOffWhiteIcon from '../../../assets/icons/bell-white.svg'
+import BellOffWhiteIcon from '@assets/icons/bell-white.svg'
 
 import { CustomModal } from '../CustomModal'
 

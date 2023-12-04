@@ -1,22 +1,20 @@
 import React from 'react'
 import { Linking, StatusBar } from 'react-native'
 
-import { share } from '../../../common/share'
-
 import { Container, ButtonsContainer } from './styles'
+import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
+import HandOnPersonWhiteIcon from '@assets/icons/handOnPerson-white.svg'
+import ShareWhiteIcon from '@assets/icons/share-white.svg'
+
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { share } from '../../../common/share'
 import { theme } from '../../../common/theme'
-import HandOnHeartWhiteIcon from '../../../assets/icons/handOnHeart-white.svg'
-import HandOnPersonWhiteIcon from '../../../assets/icons/handOnPerson-white.svg'
-import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
-
-import { HelpUsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { HelpUsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function HelpUs({ navigation }: HelpUsScreenProps) {
 	const shareMessage = () => {

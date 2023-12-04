@@ -1,19 +1,18 @@
 import React from 'react'
-import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 
 import { Decimals, SmallFont, SmallFontBold } from './styles'
-import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
-import SalesCartWhiteIcon from '../../../assets/icons/salesCart-white.svg'
-import ExchangeWhiteIcon from '../../../assets/icons/exchange-white.svg'
-import CashWhiteIcon from '../../../assets/icons/cash-white.svg'
-import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
+import CashWhiteIcon from '@assets/icons/cash-white.svg'
+import ChatWhiteIcon from '@assets/icons/chat-white.svg'
+import ExchangeWhiteIcon from '@assets/icons/exchange-white.svg'
+import PlusWhiteIcon from '@assets/icons/plus-white.svg'
+import SalesCartWhiteIcon from '@assets/icons/salesCart-white.svg'
 
+import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
-
-import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
-import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import { DefaultCardContainer } from '../DefaultCardContainer'
 
 const { textHasOnlyNumbers } = UiUtils()
 

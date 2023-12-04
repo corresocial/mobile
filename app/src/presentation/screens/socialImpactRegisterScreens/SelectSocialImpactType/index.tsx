@@ -5,9 +5,10 @@ import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { SocialImpactType } from '@services/firebase/types'
 
-import HandOnHeartWhiteIcon from '../../../assets/icons/handOnHeart-white.svg'
-import HeartAndPersonWhiteIcon from '../../../assets/icons/heartAndPerson-white.svg'
-import PaperInfoWhite from '../../../assets/icons/paperInfo-white.svg'
+import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
+import HeartAndPersonWhiteIcon from '@assets/icons/heartAndPerson-white.svg'
+import PaperInfoWhite from '@assets/icons/paperInfo-white.svg'
+
 import { theme } from '../../../common/theme'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'

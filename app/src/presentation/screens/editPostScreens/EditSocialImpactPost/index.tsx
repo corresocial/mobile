@@ -8,9 +8,10 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 import { SocialImpactStackParamList } from '../../../routes/Stack/SocialImpactStack/types'
 import { EventRepeatType, PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@services/firebase/types'
 
-import CalendarEmptyIcon from '../../../assets/icons/calendarEmpty-unfilled.svg'
-import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
-import RecycleWhiteIcon from '../../../assets/icons/recycle-white.svg'
+import CalendarEmptyIcon from '@assets/icons/calendarEmpty-unfilled.svg'
+import ClockWhiteIcon from '@assets/icons/clock-white.svg'
+import RecycleWhiteIcon from '@assets/icons/recycle-white.svg'
+
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { theme } from '../../../common/theme'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'

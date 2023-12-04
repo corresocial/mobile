@@ -4,7 +4,7 @@ import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
 
 import { theme } from '../../common/theme'
 import { Container, Title, Text } from './styles'
-import MapIcon from '../../assets/icons/map.svg'
+import MapIcon from '@assets/icons/map.svg'
 
 import { PrimaryButton } from '../_buttons/PrimaryButton'
 

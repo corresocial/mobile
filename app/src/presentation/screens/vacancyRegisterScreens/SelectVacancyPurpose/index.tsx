@@ -3,8 +3,9 @@ import React, { useContext, useEffect } from 'react'
 import { EditContext } from '@contexts/EditContext'
 import { VacancyContext } from '@contexts/VacancyContext'
 
-import PersonWithSuitCaseIcon from '../../../assets/icons/personWithSuitCase-white.svg'
-import SuitCaseIcon from '../../../assets/icons/suitCase-white.svg'
+import PersonWithSuitCaseIcon from '@assets/icons/personWithSuitCase-white.svg'
+import SuitCaseIcon from '@assets/icons/suitCase-white.svg'
+
 import { theme } from '../../../common/theme'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'

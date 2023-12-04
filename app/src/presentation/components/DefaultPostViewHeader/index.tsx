@@ -5,7 +5,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { theme } from '../../common/theme'
 import { relativeScreenWidth } from '../../common/screenDimensions'
 import { Container, PathBar, PathTitle, SmallButtonRightSpace, Title } from './styles'
-import XWhiteIcon from '../../assets/icons/x-white.svg'
+import XWhiteIcon from '@assets/icons/x-white.svg'
 
 import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
 

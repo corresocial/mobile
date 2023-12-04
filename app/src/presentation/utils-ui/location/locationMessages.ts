@@ -1,7 +1,7 @@
-import MapPointOrange from '../../assets/icons/mapPoint-orange.svg'
-import MapPointWhiteIcon from '../../assets/icons/mapPoint-white.svg'
-import mapPointApproximateWhiteIcon from '../../assets/icons/pin-white.svg'
-import EyeTracedWhiteIcon from '../../assets/icons/eyeDashed-white.svg'
+import MapPointOrange from '@assets/icons/mapPoint-orange.svg'
+import MapPointWhiteIcon from '@assets/icons/mapPoint-white.svg'
+import mapPointApproximateWhiteIcon from '@assets/icons/pin-white.svg'
+import EyeTracedWhiteIcon from '@assets/icons/eyeDashed-white.svg'
 
 import { LocationViewType, PostRange } from '@services/firebase/types'
 import { getPossessivePronounByRange, getPostRangeLabel } from '../post/commonMessages'

@@ -3,7 +3,7 @@ import QRCode from 'react-native-qrcode-svg'
 
 import { relativeScreenWidth } from '../../common/screenDimensions'
 import { CliboardText, ClipboardArea, Container } from './styles'
-import CheckWhiteIcon from '../../assets/icons/check-white.svg'
+import CheckWhiteIcon from '@assets/icons/check-white.svg'
 
 interface CustomQRCodeProps {
 	value: string

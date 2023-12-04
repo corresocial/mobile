@@ -2,11 +2,12 @@ import React from 'react'
 
 import { SocialImpactType } from '@services/firebase/types'
 
+import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
+import HeartAndPersonWhiteIcon from '@assets/icons/heartAndPerson-white.svg'
+import PaperInfoWhite from '@assets/icons/paperInfo-white.svg'
+import PinWhiteIcon from '@assets/icons/pin-white.svg'
+
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
-import HandOnHeartWhiteIcon from '../../../assets/icons/handOnHeart-white.svg'
-import HeartAndPersonWhiteIcon from '../../../assets/icons/heartAndPerson-white.svg'
-import PaperInfoWhite from '../../../assets/icons/paperInfo-white.svg'
-import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'

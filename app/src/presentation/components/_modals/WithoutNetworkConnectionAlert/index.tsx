@@ -1,6 +1,6 @@
 import React from 'react'
 
-import WirelessOffWhiteIcon from '../../../assets/icons/wirelessOff-white.svg'
+import WirelessOffWhiteIcon from '@assets/icons/wirelessOff-white.svg'
 
 import { CustomModal } from '../CustomModal'
 

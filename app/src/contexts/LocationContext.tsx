@@ -2,7 +2,7 @@ import React, { createContext, useMemo, useState } from 'react'
 import { FeedPosts, PostType } from '@services/firebase/types'
 import { CurrentCategory, SearchParams } from '@services/maps/types'
 
-import QuestionMarkIcon from '../assets/icons/questionMark-white.svg'
+import QuestionMarkIcon from '@assets/icons/questionMark-white.svg'
 
 import { LocationData } from './types'
 import { MacroCategoriesType } from '../presentation/utils/postMacroCategories/types'

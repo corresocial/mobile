@@ -8,8 +8,8 @@ import { checkUserPhoneAlreadyRegistredCloud } from '@services/cloudFunctions/ch
 import Firebase from '@services/firebase'
 
 import { Container, InputsContainer } from './styles'
+import CheckWhiteIcon from '@assets/icons/check-white.svg'
 
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'

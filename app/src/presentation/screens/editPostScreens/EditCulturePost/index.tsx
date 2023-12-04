@@ -8,9 +8,10 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 import { CultureStackParamList } from '../../../routes/Stack/CultureStack/types'
 import { CultureCategories, CultureCollection, CultureCollectionRemote, EventRepeatType, PostCollection } from '@services/firebase/types'
 
-import CalendarEmptyIcon from '../../../assets/icons/calendarEmpty-unfilled.svg'
-import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
-import RecycleWhiteIcon from '../../../assets/icons/recycle-white.svg'
+import CalendarEmptyIcon from '@assets/icons/calendarEmpty-unfilled.svg'
+import ClockWhiteIcon from '@assets/icons/clock-white.svg'
+import RecycleWhiteIcon from '@assets/icons/recycle-white.svg'
+
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { theme } from '../../../common/theme'
 import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'

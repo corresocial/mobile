@@ -1,6 +1,6 @@
 import React from 'react'
 
-import GearWhiteIcon from '../../../assets/icons/gear-white.svg'
+import GearWhiteIcon from '@assets/icons/gear-white.svg'
 
 import { CustomModal } from '../CustomModal'
 

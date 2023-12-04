@@ -12,10 +12,10 @@ import { getPrivateContacts } from '@services/firebase/user/getPrivateContacts'
 import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
 
 import { Container } from './styles'
+import AtSignWhiteIcon from '@assets/icons/atSign-white.svg'
+import EditWhiteIcon from '@assets/icons/edit-white.svg'
+import XWhiteIcon from '@assets/icons/x-white.svg'
 
-import AtSignWhiteIcon from '../../../assets/icons/atSign-white.svg'
-import EditWhiteIcon from '../../../assets/icons/edit-white.svg'
-import XWhiteIcon from '../../../assets/icons/x-white.svg'
 import { emailIsValid } from '../../../common/auxiliaryFunctions'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'

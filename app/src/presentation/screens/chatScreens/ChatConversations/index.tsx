@@ -22,9 +22,9 @@ import {
 	SelectPeriodButtonContainer,
 	Title
 } from './styles'
+import AngleLeftWhiteIcon from '@assets/icons/angleLeft-white.svg'
+import LoupIcon from '@assets/icons/loup-white.svg'
 
-import AngleLeftWhiteIcon from '../../../assets/icons/angleLeft-white.svg'
-import LoupIcon from '../../../assets/icons/loup-white.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import { SmallButton } from '../../../components/_buttons/SmallButton'

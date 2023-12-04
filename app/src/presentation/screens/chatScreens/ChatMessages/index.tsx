@@ -33,20 +33,17 @@ import { registerNewChat } from '@services/firebase/chat/registerNewChat'
 import { sendMessage } from '@services/firebase/chat/sendMessage'
 import { setChatIdToUsers } from '@services/firebase/chat/setChatIdToUsers'
 import { unblockUserId } from '@services/firebase/chat/unblockUser'
-
 import { unsubscribeMessageListener } from '@services/firebase/chat/unsubscribeMessageListener'
+
 import { Container, Header, IsBlockedContainer } from './styles'
+import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
+import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
 
-
-import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
-import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import {
 	relativeScreenHeight,
 	relativeScreenWidth,
 } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-
-
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
@@ -58,7 +55,6 @@ import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { MessageCard } from '../../../components/MessageCard'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
-
 import { ChatMessagesScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { UiChatUtils } from '../../../utils-ui/chat/UiChatUtils'
 

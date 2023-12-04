@@ -16,8 +16,8 @@ import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
 import { updateUser } from '@services/firebase/user/updateUser'
 
 import { Body, Container, Header, SaveButtonContainer } from './styles'
+import CheckIcon from '@assets/icons/check-white.svg'
 
-import CheckIcon from '../../../assets/icons/check-white.svg'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'

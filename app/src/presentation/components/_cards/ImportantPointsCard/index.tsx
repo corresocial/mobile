@@ -2,14 +2,14 @@ import React from 'react'
 import uuid from 'react-uuid'
 
 import { ImportantPointsContainer } from './styles'
-import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
-import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
+import PlusWhiteIcon from '@assets/icons/plus-white.svg'
+import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
 
-import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
-import { DefaultCardContainer } from '../DefaultCardContainer'
-import { PostInfoRow } from '../../PostInfoRow'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
+import { PostInfoRow } from '../../PostInfoRow'
+import { DefaultCardContainer } from '../DefaultCardContainer'
 
 const { arrayIsEmpty } = UiUtils()
 

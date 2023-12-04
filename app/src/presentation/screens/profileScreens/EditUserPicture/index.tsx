@@ -5,10 +5,10 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { Container, InstructionCardContainer } from './styles'
+import ImagePlusIcon from '@assets/icons/addPicture-white.svg'
+import Check from '@assets/icons/check-white.svg'
+import X from '@assets/icons/x-white.svg'
 
-import ImagePlusIcon from '../../../assets/icons/addPicture-white.svg'
-import Check from '../../../assets/icons/check-white.svg'
-import X from '../../../assets/icons/x-white.svg'
 import { screenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'

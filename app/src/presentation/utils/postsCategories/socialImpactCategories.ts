@@ -1,15 +1,15 @@
 import { SocialImpactCategories } from '@services/firebase/types'
 
-import OngsIcon from '../../assets/icons/categories/ongs.svg'
-import PopularIniciativesIcon from '../../assets/icons/categories/popularIniciatives.svg'
-import CharityBazaarsIcon from '../../assets/icons/categories/charityBazaars.svg'
-import AssociationsIcon from '../../assets/icons/categories/associations.svg'
-import CollectiveIcon from '../../assets/icons/categories/collective.svg'
-import SocialProjectsIcon from '../../assets/icons/categories/socialProjects.svg'
-import VolounteeringIcon from '../../assets/icons/categories/volounteering.svg'
-import DonationHeartIcon from '../../assets/icons/categories/donationHeart.svg'
-import DiversityIcon from '../../assets/icons/categories/diversity.svg'
-import OthersIcon from '../../assets/icons/categories/others.svg'
+import OngsIcon from '@assets/icons/categories/ongs.svg'
+import PopularIniciativesIcon from '@assets/icons/categories/popularIniciatives.svg'
+import CharityBazaarsIcon from '@assets/icons/categories/charityBazaars.svg'
+import AssociationsIcon from '@assets/icons/categories/associations.svg'
+import CollectiveIcon from '@assets/icons/categories/collective.svg'
+import SocialProjectsIcon from '@assets/icons/categories/socialProjects.svg'
+import VolounteeringIcon from '@assets/icons/categories/volounteering.svg'
+import DonationHeartIcon from '@assets/icons/categories/donationHeart.svg'
+import DiversityIcon from '@assets/icons/categories/diversity.svg'
+import OthersIcon from '@assets/icons/categories/others.svg'
 
 export const updateSocialImpactTags = (category: SocialImpactCategories, tag: string) => {
 	socialImpactCategories[category].tags = [...socialImpactCategories[category].tags, tag]

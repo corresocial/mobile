@@ -5,6 +5,8 @@ import uuid from 'react-uuid'
 import { EditContext } from '@contexts/EditContext'
 
 import { ButtonsContainer, Container } from './styles'
+import CheckWhiteIcon from '@assets/icons/check-white.svg'
+import TrashWhiteIcon from '@assets/icons/trash-white.svg'
 
 import { BackButton } from '../../_buttons/BackButton'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
@@ -14,8 +16,6 @@ import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer
 import { FormContainer } from '../../_containers/FormContainer'
 import { DefaultInput } from '../../_inputs/DefaultInput'
 import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 

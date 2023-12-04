@@ -2,10 +2,11 @@ import React from 'react'
 
 import { PostRange } from '@services/firebase/types'
 
+import CountryWhiteIcon from '@assets/icons/brazil-white.svg'
+import CityWhiteIcon from '@assets/icons/city-white.svg'
+
 import { OptionButton } from '../../_buttons/OptionButton'
 import { VerticalSpacing } from '../../_space/VerticalSpacing'
-import CountryWhiteIcon from '../../../assets/icons/brazil-white.svg'
-import CityWhiteIcon from '../../../assets/icons/city-white.svg'
 import { theme } from '../../../common/theme'
 import { CustomModal } from '../CustomModal'
 

@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { TextInput as TextInputNative, TextInputProps } from 'react-native'
-
 import { useTheme } from 'styled-components'
+
 import { Container, SideArea, TextInput } from './styles'
-import LoupWhiteIcon from '../../../assets/icons/loup-white.svg'
-import XWhiteIcon from '../../../assets/icons/x-white.svg'
+import LoupWhiteIcon from '@assets/icons/loup-white.svg'
+import XWhiteIcon from '@assets/icons/x-white.svg'
 
 interface SearchInputProps extends TextInputProps {
 	value: string

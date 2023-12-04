@@ -2,7 +2,7 @@ import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, CountValue, IconContainer } from './styles'
-import ChatEmptyWhiteIcon from '../../assets/icons/chatEmpty-white.svg'
+import ChatEmptyWhiteIcon from '@assets/icons/chatEmpty-white.svg'
 
 interface UnseenMessagesCountProps {
 	value: number

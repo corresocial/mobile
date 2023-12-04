@@ -12,9 +12,9 @@ import { updateUser } from '@services/firebase/user/updateUser'
 import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
 
 import { Container } from './styles'
+import AddPictureWhiteIcon from '@assets/icons/addPicture-white.svg'
+import xWhiteIcon from '@assets/icons/x-white.svg'
 
-import AddPictureWhiteIcon from '../../../assets/icons/addPicture-white.svg'
-import xWhiteIcon from '../../../assets/icons/x-white.svg'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'

@@ -1,13 +1,13 @@
 import React from 'react'
-import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { SvgProps } from 'react-native-svg'
 
 import { CardHeader, ValueContainer, Text } from './styles'
-import ClipWhiteIcon from '../../../assets/icons/clip-white.svg'
+import ClipWhiteIcon from '@assets/icons/clip-white.svg'
 
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 interface HeaderLinkCardProps {
 	title: string

@@ -7,8 +7,8 @@ import { FlatListItem } from '../../../../types/global/types'
 import { PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
 
 import { Container, FlatList, Header, InputContainer, TagsContainer } from './styles'
+import OtherWhiteIcon from '@assets/icons/categories/others.svg'
 
-import OtherWhiteIcon from '../../../assets/icons/categories/others.svg'
 import { theme } from '../../../common/theme'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'

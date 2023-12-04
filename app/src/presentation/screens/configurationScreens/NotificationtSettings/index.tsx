@@ -5,10 +5,10 @@ import { AlertContext } from '@contexts/AlertContext'
 import { ChatContext } from '@contexts/ChatContext'
 
 import { Container, HeaderLinkCardContainer } from './styles'
+import BellWhiteIcon from '@assets/icons/bell-white.svg'
+import CheckWhiteIcon from '@assets/icons/check-white.svg'
+import XWhiteIcon from '@assets/icons/x-white.svg'
 
-import BellWhiteIcon from '../../../assets/icons/bell-white.svg'
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-import XWhiteIcon from '../../../assets/icons/x-white.svg'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'

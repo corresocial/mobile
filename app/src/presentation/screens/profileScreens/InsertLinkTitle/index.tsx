@@ -4,8 +4,8 @@ import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 import { SocialMedia } from '@services/firebase/types'
 
 import { ButtonContainer, Container, InputsContainer, HeaderLinkCardContainer } from './styles'
+import CheckWhiteIcon from '@assets/icons/check-white.svg'
 
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'

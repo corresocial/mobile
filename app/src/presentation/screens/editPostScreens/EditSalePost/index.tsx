@@ -8,7 +8,8 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 import { SaleStackParamList } from '../../../routes/Stack/SaleStack/types'
 import { PostCollection, SaleCategories, IncomeCollection } from '@services/firebase/types'
 
-import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
+import ClockWhiteIcon from '@assets/icons/clock-white.svg'
+
 import { theme } from '../../../common/theme'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'

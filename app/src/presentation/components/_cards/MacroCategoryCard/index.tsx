@@ -3,8 +3,9 @@ import React from 'react'
 import { MacroCategories, MacroCategoriesType } from '../../../utils/postMacroCategories/types'
 import { NewHomePostType } from '@services/firebase/types'
 
+import PinWhiteIcon from '@assets/icons/pin-white.svg'
+
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
-import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { postMacroCategories } from '../../../utils/postMacroCategories'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'

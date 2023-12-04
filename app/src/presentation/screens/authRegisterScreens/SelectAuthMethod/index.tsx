@@ -10,10 +10,10 @@ import { signinByCredential } from '@services/firebase/user/signingByCredential'
 import { userExists } from '@services/firebase/user/userExists'
 
 import { Container } from './styles'
+import GoogleWhiteIcon from '@assets/icons/google-white.svg'
+import SmartphoneWhiteIcon from '@assets/icons/smartphone-white.svg'
 
 import { getEnvVars } from '../../../../../environment'
-import GoogleWhiteIcon from '../../../assets/icons/google-white.svg'
-import SmartphoneWhiteIcon from '../../../assets/icons/smartphone-white.svg'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'

@@ -7,8 +7,8 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 import { SubscriptionPaymentMethod } from '@services/firebase/types'
 
 import { ButtonsContainer } from './styles'
+import CardWhiteIcon from '@assets/icons/card-white.svg'
 
-import CardWhiteIcon from '../../../assets/icons/card-white.svg'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'

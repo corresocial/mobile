@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { HyperlinkContainer, LongText, SeeMoreLabel } from './styles'
-import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
+import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
 
-import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
-import { DefaultCardContainer } from '../DefaultCardContainer'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 import { getShortText } from '../../../common/auxiliaryFunctions'
 import { theme } from '../../../common/theme'
+import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
+import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface DescriptionCardProps {
 	title?: string

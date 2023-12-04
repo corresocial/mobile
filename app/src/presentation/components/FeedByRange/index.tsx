@@ -4,9 +4,9 @@ import { FeedPosts, PostCollection, PostRange } from '@services/firebase/types'
 
 import { relativeScreenHeight } from '../../common/screenDimensions'
 import { Container, PostCardContainer } from './styles'
-import PinWhiteIcon from '../../assets/icons/pin-white.svg'
-import CityWhiteIcon from '../../assets/icons/city-white.svg'
-import CountryWhiteIcon from '../../assets/icons/brazil-white.svg'
+import PinWhiteIcon from '@assets/icons/pin-white.svg'
+import CityWhiteIcon from '@assets/icons/city-white.svg'
+import CountryWhiteIcon from '@assets/icons/brazil-white.svg'
 
 import { WithoutPostsMessage } from '../WithoutPostsMessage'
 import { VerticalSpacing } from '../_space/VerticalSpacing'

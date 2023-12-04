@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
+import ShareWhiteIcon from '@assets/icons/share-white.svg'
 
 import { CustomModal } from '../CustomModal'
 

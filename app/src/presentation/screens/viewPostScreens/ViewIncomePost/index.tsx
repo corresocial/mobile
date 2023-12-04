@@ -17,11 +17,11 @@ import {
 	OptionsArea,
 	UserAndValueContainer,
 } from './styles'
+import ChatWhiteIcon from '@assets/icons/chat-white.svg'
+import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
+import ShareWhiteIcon from '@assets/icons/share-white.svg'
+import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
 
-import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
-import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
-import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
-import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import { getShortText } from '../../../common/auxiliaryFunctions'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { share } from '../../../common/share'

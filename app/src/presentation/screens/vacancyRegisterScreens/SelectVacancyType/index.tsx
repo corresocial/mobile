@@ -5,9 +5,10 @@ import { VacancyContext } from '@contexts/VacancyContext'
 
 import { VacancyType } from '@services/firebase/types'
 
-import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
-import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
-import SuitCaseWhiteIcon from '../../../assets/icons/suitCase-white.svg'
+import ChatWhiteIcon from '@assets/icons/chat-white.svg'
+import ClockWhiteIcon from '@assets/icons/clock-white.svg'
+import SuitCaseWhiteIcon from '@assets/icons/suitCase-white.svg'
+
 import { theme } from '../../../common/theme'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'

@@ -2,9 +2,9 @@ import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { AddressSelectedArea, AddressSelectedText, IconArea, InitialDropdown, InitialDropdownContainer, PresentationText } from './styles'
-import AngleDownWhiteIcon from '../../assets/icons/angleDown-white.svg'
-import AngleUpWhiteIcon from '../../assets/icons/angleUp-white.svg'
-import CityIcon from '../../assets/icons/mapPoint-white.svg'
+import AngleDownWhiteIcon from '@assets/icons/angleDown-white.svg'
+import AngleUpWhiteIcon from '@assets/icons/angleUp-white.svg'
+import CityIcon from '@assets/icons/mapPoint-white.svg'
 
 interface DefaultDropdownHeaderProps {
 	text?: string

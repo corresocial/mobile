@@ -5,9 +5,9 @@ import uuid from 'react-uuid'
 import { EditContext } from '@contexts/EditContext'
 
 import { ButtonsContainer, Container } from './styles'
+import CheckWhiteIcon from '@assets/icons/check-white.svg'
+import TrashWhiteIcon from '@assets/icons/trash-white.svg'
 
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'

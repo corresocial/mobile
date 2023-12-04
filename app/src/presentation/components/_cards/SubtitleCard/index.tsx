@@ -1,12 +1,12 @@
 import React from 'react'
-
 import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
-import { Container, RightArea, Title } from './styles'
-import AngleRightWhitetIcon from '../../../assets/icons/angleRight-white.svg'
 
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { Container, RightArea, Title } from './styles'
+import AngleRightWhitetIcon from '@assets/icons/angleRight-white.svg'
+
 import { SmallButton } from '../../_buttons/SmallButton'
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { theme } from '../../../common/theme'
 
 interface SubtitleCardProps {

@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { theme } from '../../../common/theme'
 import { Container, ContainerInner, Description, Footer, LargeStrongFont, SmallStrongFont, SmallThinFont, Title, TitleArea } from './styles'
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import CheckWhiteIcon from '@assets/icons/check-white.svg'
 
 import { SmallButton } from '../../_buttons/SmallButton'
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 
 interface TitleDescriptionButtonProps {
 	height: string | number

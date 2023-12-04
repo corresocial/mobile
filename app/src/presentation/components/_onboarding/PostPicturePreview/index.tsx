@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
 
 import { Container, HorizontalListPicturesContainer, PicturePreviewContainer, TopArea } from './styles'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
-import CheckIcon from '../../../assets/icons/check-white.svg'
+import CheckIcon from '@assets/icons/check-white.svg'
 
+import { BackButton } from '../../_buttons/BackButton'
+import { PrimaryButton } from '../../_buttons/PrimaryButton'
+import { InstructionCard } from '../../_cards/InstructionCard'
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../_containers/FormContainer'
-import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { CustomCameraModal } from '../../_modals/CustomCameraModal'
-import { InstructionCard } from '../../_cards/InstructionCard'
-import { PhotoPortrait } from '../../PhotoPortrait'
-import { HorizontalListPictures } from '../../HorizontalListPictures'
-import { BackButton } from '../../_buttons/BackButton'
 import { VerticalSpacing } from '../../_space/VerticalSpacing'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
+import { HorizontalListPictures } from '../../HorizontalListPictures'
+import { PhotoPortrait } from '../../PhotoPortrait'
 
 interface PostPicturePreviewProps {
 	backgroundColor: string

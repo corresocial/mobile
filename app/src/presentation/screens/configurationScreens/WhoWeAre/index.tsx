@@ -2,17 +2,16 @@ import React from 'react'
 import { StatusBar } from 'react-native'
 
 import { Body, Container, ContainerContent, Header, BoldPhrase, ButtonContainer, Description } from './styles'
+import Logo from '@assets/icons/logoBuilding.svg'
+import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
+
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import Logo from '../../../assets/icons/logoBuilding.svg'
-import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
-
-import { WhoWeAreScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { DefaultCardContainer } from '../../../components/_cards/DefaultCardContainer'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
+import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
+import { WhoWeAreScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function WhoWeAre({ navigation }: WhoWeAreScreenProps) {
 	return (

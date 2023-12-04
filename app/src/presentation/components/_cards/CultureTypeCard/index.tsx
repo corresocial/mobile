@@ -2,11 +2,12 @@ import React from 'react'
 
 import { CultureType } from '@services/firebase/types'
 
+import BooksWhiteIcon from '@assets/icons/books-white.svg'
+import CalendarEverydayWhiteIcon from '@assets/icons/calendarEveryday-white.svg'
+import ColorPaletWhiteIcon from '@assets/icons/colorPalet-white.svg'
+import PinWhiteIcon from '@assets/icons/pin-white.svg'
+
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
-import BooksWhiteIcon from '../../../assets/icons/books-white.svg'
-import CalendarEverydayWhiteIcon from '../../../assets/icons/calendarEveryday-white.svg'
-import ColorPaletWhiteIcon from '../../../assets/icons/colorPalet-white.svg'
-import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'

@@ -1,16 +1,16 @@
 import React, { ReactElement } from 'react'
-import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { SvgProps } from 'react-native-svg'
 
 import { CardHeader, PictureArea, Text, ValueContainer, ProfilePicture } from './styles'
-import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
+import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 
-import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
-import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
-import { ImageCarousel } from '../../ImageCarousel'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
+import { ImageCarousel } from '../../ImageCarousel'
+import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'
 
 const { arrayIsEmpty } = UiUtils()
 

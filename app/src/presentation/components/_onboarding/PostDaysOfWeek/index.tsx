@@ -9,6 +9,9 @@ import {
 	Row,
 	WeekdaysSelectedArea
 } from './styles'
+import CheckWhiteIcon from '@assets/icons/check-white.svg'
+import TrashWhiteIcon from '@assets/icons/trash-white.svg'
+import XBoldIcon from '@assets/icons/x-bold.svg'
 
 import { BackButton } from '../../_buttons/BackButton'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
@@ -18,9 +21,6 @@ import { InstructionCard } from '../../_cards/InstructionCard'
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../_containers/SelectButtonsContainer'
 import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
-import XBoldIcon from '../../../assets/icons/x-bold.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 

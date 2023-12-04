@@ -5,9 +5,10 @@ import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { ExhibitionPlaceType } from '@services/firebase/types'
 
-import BrazilWhiteIcon from '../../../assets/icons/brazil-white.svg'
-import CityWhiteIcon from '../../../assets/icons/city-white.svg'
-import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
+import BrazilWhiteIcon from '@assets/icons/brazil-white.svg'
+import CityWhiteIcon from '@assets/icons/city-white.svg'
+import PinWhiteIcon from '@assets/icons/pin-white.svg'
+
 import { theme } from '../../../common/theme'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'

@@ -2,11 +2,12 @@ import React from 'react'
 
 import { IncomeType } from '@services/firebase/types'
 
+import PinWhiteIcon from '@assets/icons/pin-white.svg'
+import SaleWhiteIcon from '@assets/icons/sale-white.svg'
+import ServiceWhiteIcon from '@assets/icons/service-white.svg'
+import VacancyWhiteIcon from '@assets/icons/vacancy-white.svg'
+
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
-import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
-import SaleWhiteIcon from '../../../assets/icons/sale-white.svg'
-import ServiceWhiteIcon from '../../../assets/icons/service-white.svg'
-import VacancyWhiteIcon from '../../../assets/icons/vacancy-white.svg'
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'

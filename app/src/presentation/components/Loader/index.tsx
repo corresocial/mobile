@@ -1,9 +1,9 @@
 import React, { useRef } from 'react'
+
 import LottieView from 'lottie-react-native'
 
 import { AnimationContainer, Container } from './styles'
-
-import logoCorreFlow from '../../../assets/animations/logoCorreFlow-old.json'
+import logoCorreFlow from '@assets/animations/logoCorreFlow-old.json'
 
 interface LoaderProps {
 	flex?: boolean

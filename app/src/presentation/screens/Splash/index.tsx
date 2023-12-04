@@ -4,8 +4,8 @@ import * as Updates from 'expo-updates'
 
 import { Container, LogoContainer } from './styles'
 import { relativeScreenWidth, screenHeight } from '../../common/screenDimensions'
-import LogoBuildingIcon from '../../assets/icons/logoBuilding.svg'
-import SmartphoneWhiteIcon from '../../assets/icons/smartphone-white.svg'
+import LogoBuildingIcon from '@assets/icons/logoBuilding.svg'
+import SmartphoneWhiteIcon from '@assets/icons/smartphone-white.svg'
 
 import { SplashScreenProps } from '../../routes/Stack/AuthRegisterStack/stackScreenProps'
 

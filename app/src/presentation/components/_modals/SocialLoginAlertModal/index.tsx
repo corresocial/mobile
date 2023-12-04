@@ -1,20 +1,18 @@
 import React from 'react'
 
-import { CustomModal } from '../CustomModal'
-
 import { Body, Description } from './styles'
-import GoogleWhiteIcon from '../../../assets/icons/google-white.svg'
-import ProfileWhiteIcon from '../../../assets/icons/profile-white.svg'
-import AngleLeftWhiteIcon from '../../../assets/icons/angleLeft-white.svg'
-import SmartphoneWhiteIcon from '../../../assets/icons/smartphone-white.svg'
+import AngleLeftWhiteIcon from '@assets/icons/angleLeft-white.svg'
+import GoogleWhiteIcon from '@assets/icons/google-white.svg'
+import ProfileWhiteIcon from '@assets/icons/profile-white.svg'
+import SmartphoneWhiteIcon from '@assets/icons/smartphone-white.svg'
 
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-
-import { VerticalSpacing } from '../../_space/VerticalSpacing'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
+import { VerticalSpacing } from '../../_space/VerticalSpacing'
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import { DescriptionWithLeftTracing } from '../../DescriptionWithLeftTracing'
+import { CustomModal } from '../CustomModal'
 
 interface SocialLoginAlertModalProps {
 	visibility: boolean

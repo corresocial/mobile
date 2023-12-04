@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, TextStyle } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
-import { RFValue } from 'react-native-responsive-fontsize'
 import {
 	Container,
 	ContentInner,
@@ -13,17 +13,16 @@ import {
 	TouchCloseArea,
 	TextInput
 } from './styles'
-import { theme } from '../../../common/theme'
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-import XWhiteIcon from '../../../assets/icons/x-white.svg'
-
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import CheckWhiteIcon from '@assets/icons/check-white.svg'
+import XWhiteIcon from '@assets/icons/x-white.svg'
 
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
-import { FocusAwareStatusBar } from '../../FocusAwareStatusBar'
-import { VerticalSpacing } from '../../_space/VerticalSpacing'
 import { SmallButton } from '../../_buttons/SmallButton'
+import { VerticalSpacing } from '../../_space/VerticalSpacing'
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
+import { FocusAwareStatusBar } from '../../FocusAwareStatusBar'
 
 interface CustomModalProps {
 	visibility: boolean

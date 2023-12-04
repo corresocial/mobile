@@ -1,21 +1,21 @@
-import { Platform } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import { Platform } from 'react-native'
 
 import { ButtonsContainer, Container } from './styles'
-import { theme } from '../../../common/theme'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
+import CheckWhiteIcon from '@assets/icons/check-white.svg'
+import TrashWhiteIcon from '@assets/icons/trash-white.svg'
 
+import { BackButton } from '../../_buttons/BackButton'
+import { PrimaryButton } from '../../_buttons/PrimaryButton'
+import { SmallButton } from '../../_buttons/SmallButton'
+import { InstructionCard } from '../../_cards/InstructionCard'
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../_containers/FormContainer'
-import { PrimaryButton } from '../../_buttons/PrimaryButton'
-import { BackButton } from '../../_buttons/BackButton'
-import { InstructionCard } from '../../_cards/InstructionCard'
-import { ProgressBar } from '../../ProgressBar'
 import { DefaultInput } from '../../_inputs/DefaultInput'
 import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
-import { SmallButton } from '../../_buttons/SmallButton'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
+import { ProgressBar } from '../../ProgressBar'
 
 interface PostInputTextProps {
 	height?: string

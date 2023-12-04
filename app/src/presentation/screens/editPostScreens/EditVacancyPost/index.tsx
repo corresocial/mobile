@@ -8,8 +8,9 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 import { VacancyStackParamList } from '../../../routes/Stack/VacancyStack/types'
 import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@services/firebase/types'
 
-import CalendarEmptyIcon from '../../../assets/icons/calendarEmpty-unfilled.svg'
-import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
+import CalendarEmptyIcon from '@assets/icons/calendarEmpty-unfilled.svg'
+import ClockWhiteIcon from '@assets/icons/clock-white.svg'
+
 import { theme } from '../../../common/theme'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
