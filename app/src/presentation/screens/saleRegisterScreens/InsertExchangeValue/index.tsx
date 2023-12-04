@@ -3,8 +3,9 @@ import { Keyboard, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { theme } from '../../../common/theme'
+import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
+import { theme } from '@common/theme'
+
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 import { InsertExchangeValueScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 

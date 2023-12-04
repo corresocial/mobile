@@ -5,7 +5,8 @@ import { VacancyContext } from '@contexts/VacancyContext'
 
 import { VacancyCategories } from '@services/firebase/types'
 
-import { theme } from '../../../common/theme'
+import { theme } from '@common/theme'
+
 import { PostCategory } from '../../../components/_onboarding/PostCategory'
 import { SelectVacancyCategoryScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'

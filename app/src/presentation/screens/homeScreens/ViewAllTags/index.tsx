@@ -7,9 +7,9 @@ import { LocationContext } from '@contexts/LocationContext'
 import { PostCollection } from '@services/firebase/types'
 
 import { Body, Container, Header, InputContainer } from './styles'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
 import { SearchInput } from '../../../components/_inputs/SearchInput'

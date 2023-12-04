@@ -1,6 +1,6 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { relativeScreenHeight } from '../../common/screenDimensions'
+import { relativeScreenHeight } from '@common/screenDimensions'
 
 export const InitialDropdownContainer = styled.View`
 	background-color: ${({ theme }) => theme.white3};

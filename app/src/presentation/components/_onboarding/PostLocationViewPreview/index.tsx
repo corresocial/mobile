@@ -4,13 +4,13 @@ import { LatLong, LocationViewType, PostRange } from '@services/firebase/types'
 
 import { ButtonContainerBottom, Container, MapContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
 import { BackButton } from '../../_buttons/BackButton'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { InfoCard } from '../../_cards/InfoCard'
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 import { CustomMapView } from '../../CustomMapView'
 

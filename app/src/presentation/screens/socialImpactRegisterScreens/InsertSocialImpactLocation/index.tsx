@@ -9,8 +9,9 @@ import { Coordinates, PostCollection } from '@services/firebase/types'
 
 import { LocationService } from '@services/location/LocationService'
 
-import { generateGeohashes } from '../../../common/generateGeohashes'
-import { theme } from '../../../common/theme'
+import { generateGeohashes } from '@common/generateGeohashes'
+import { theme } from '@common/theme'
+
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 import { SelectPostLocation } from '../../../components/_onboarding/SelectPostLocation'
 import { InsertSocialImpactLocationScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'

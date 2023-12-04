@@ -2,15 +2,14 @@ import React from 'react'
 import { StatusBar } from 'react-native'
 
 import { Container } from './styles'
-import { theme } from '../../../common/theme'
+import { theme } from '@common/theme'
 
-import { PrivacyAndSecurityScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { TermsOfService } from '../../../components/TermsOfService'
 import { BackButton } from '../../../components/_buttons/BackButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
+import { TermsOfService } from '../../../components/TermsOfService'
+import { PrivacyAndSecurityScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function PrivacyAndSecurity({ navigation }: PrivacyAndSecurityScreenProps) {
 	return (

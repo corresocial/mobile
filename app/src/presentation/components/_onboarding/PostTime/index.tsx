@@ -4,6 +4,9 @@ import { Animated, Platform, StatusBar, TextInput } from 'react-native'
 import { ButtonContainer, Container, InputsContainer, TwoPoints } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import TrashWhiteIcon from '@assets/icons/trash-white.svg'
+import { filterLeavingOnlyNumbers } from '@common/auxiliaryFunctions'
+import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
 import { BackButton } from '../../_buttons/BackButton'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
@@ -13,9 +16,6 @@ import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer
 import { FormContainer } from '../../_containers/FormContainer'
 import { DefaultInput } from '../../_inputs/DefaultInput'
 import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { formatHour } = UiUtils()

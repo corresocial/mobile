@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { Container, HorizontalPostTypes } from './styles'
-import { relativeScreenWidth } from '../../common/screenDimensions'
-import { theme } from '../../common/theme'
+import { relativeScreenWidth } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 import SocialImpactWhiteIcon from '@assets/icons/socialImpact-white.svg'
 import CultureWhiteIcon from '@assets/icons/culture-white.svg'
 import CashWhiteIcon from '@assets/icons/cash-white.svg'

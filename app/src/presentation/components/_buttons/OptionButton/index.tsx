@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { TextStyle } from 'react-native'
-import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { SvgProps } from 'react-native-svg'
 
 import {
 	ButtonLabel,
@@ -14,10 +14,9 @@ import {
 	ShortDescription,
 	LeftSideText
 } from './styles'
-import { theme } from '../../../common/theme'
-
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
 interface OptionButtonProps {
 	color?: string

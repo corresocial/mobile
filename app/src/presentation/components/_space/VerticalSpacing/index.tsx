@@ -1,8 +1,7 @@
 import React from 'react'
 
 import { Container } from './styles'
-
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '@common/screenDimensions'
 
 interface VerticalSpacingProps {
 	height?: number

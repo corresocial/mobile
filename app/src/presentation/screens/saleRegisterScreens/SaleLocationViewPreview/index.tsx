@@ -4,7 +4,8 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { SaleContext } from '@contexts/SaleContext'
 
-import { theme } from '../../../common/theme'
+import { theme } from '@common/theme'
+
 import { PostLocationViewPreview } from '../../../components/_onboarding/PostLocationViewPreview'
 import { SaleLocationViewPreviewScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 

@@ -3,9 +3,9 @@ import { TouchableWithoutFeedback } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { ContainerBottom, ContainerSurface, Label } from './styles'
-import { theme } from '../../../common/theme'
+import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
 interface SelectButtonProps {
 	width?: string | number

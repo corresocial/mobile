@@ -5,7 +5,8 @@ import { EditContext } from '@contexts/EditContext'
 
 import { PaymentType } from '@services/firebase/types'
 
-import { theme } from '../../../common/theme'
+import { theme } from '@common/theme'
+
 import { PaymentMethod } from '../../../components/_onboarding/PaymentMethod'
 import { SelectPaymentTypeScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 

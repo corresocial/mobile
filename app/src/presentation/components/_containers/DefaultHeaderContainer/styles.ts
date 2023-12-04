@@ -1,8 +1,9 @@
-import styled from 'styled-components/native'
 import Constants from 'expo-constants'
 import { Animated, Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import styled from 'styled-components/native'
+
+import { relativeScreenHeight } from '@common/screenDimensions'
 
 interface ContainerProps {
 	withoutIOSPadding?: boolean

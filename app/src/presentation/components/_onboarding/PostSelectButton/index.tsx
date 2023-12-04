@@ -1,14 +1,14 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { ButtonsContainer, Container } from './styles'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
-import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../_containers/FormContainer'
 import { BackButton } from '../../_buttons/BackButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
+import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../_containers/FormContainer'
 import { ProgressBar } from '../../ProgressBar'
 
 interface PostSelectButtonProps {

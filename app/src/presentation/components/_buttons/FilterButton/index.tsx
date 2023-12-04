@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { ContainerBottom, ContainerSurface, Label } from './styles'
-import { theme } from '../../../common/theme'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
 interface FilterButtonProps {
 	height?: string | number

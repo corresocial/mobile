@@ -3,8 +3,9 @@ import { Keyboard, Platform, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { theme } from '../../../common/theme'
+import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
+import { theme } from '@common/theme'
+
 import { PostTime } from '../../../components/_onboarding/PostTime'
 import { InsertSaleEndHourScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 

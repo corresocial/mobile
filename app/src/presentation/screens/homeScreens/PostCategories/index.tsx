@@ -11,8 +11,8 @@ import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollecti
 
 import { CategoryCardContainer, Container, Header, InputContainer } from './styles'
 import OthersWhiteIcon from '@assets/icons/categories/others.svg'
+import { theme } from '@common/theme'
 
-import { theme } from '../../../common/theme'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { SearchInput } from '../../../components/_inputs/SearchInput'

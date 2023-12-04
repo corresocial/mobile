@@ -7,8 +7,8 @@ import { PlaceModalityType } from '@services/firebase/types'
 
 import ComputerAndPhoneWhiteIcon from '@assets/icons/computerAndPhone-white.svg'
 import ShopWhiteIcon from '@assets/icons/shop-white.svg'
+import { theme } from '@common/theme'
 
-import { theme } from '../../../common/theme'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
 import { SelectCulturePlaceModalityScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'

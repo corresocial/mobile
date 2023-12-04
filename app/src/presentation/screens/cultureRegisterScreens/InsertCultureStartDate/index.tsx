@@ -3,8 +3,9 @@ import { Keyboard, StatusBar, Platform } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { theme } from '../../../common/theme'
+import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
+import { theme } from '@common/theme'
+
 import { PostDate } from '../../../components/_onboarding/PostDate'
 import { InsertCultureStartDateScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 

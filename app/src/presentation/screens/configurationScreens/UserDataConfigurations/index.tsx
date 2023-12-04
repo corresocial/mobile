@@ -11,9 +11,9 @@ import { auth } from '@services/firebase'
 import { removeAllUserData } from '@services/firebase/user/removeAllUserData'
 
 import { Container } from './styles'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { TitleDescriptionButton } from '../../../components/_cards/TitleDescriptionButton'

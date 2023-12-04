@@ -1,6 +1,7 @@
-import styled from 'styled-components/native'
 import { ViewStyle } from 'react-native'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
+import styled from 'styled-components/native'
+
+import { relativeScreenWidth } from '@common/screenDimensions'
 
 interface ContainerProps {
     backgroundColor?: string

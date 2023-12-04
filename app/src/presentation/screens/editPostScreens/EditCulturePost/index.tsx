@@ -11,9 +11,9 @@ import { CultureCategories, CultureCollection, CultureCollectionRemote, EventRep
 import CalendarEmptyIcon from '@assets/icons/calendarEmpty-unfilled.svg'
 import ClockWhiteIcon from '@assets/icons/clock-white.svg'
 import RecycleWhiteIcon from '@assets/icons/recycle-white.svg'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { theme } from '@common/theme'
 
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-import { theme } from '../../../common/theme'
 import { CultureTypeCard } from '../../../components/_cards/CultureTypeCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'

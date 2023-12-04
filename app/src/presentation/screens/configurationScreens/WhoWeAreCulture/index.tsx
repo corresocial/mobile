@@ -3,9 +3,9 @@ import { StatusBar } from 'react-native'
 
 import { Body, Container, Header, Title, ButtonContainer, ContainerContent, Description } from './styles'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { DefaultCardContainer } from '../../../components/_cards/DefaultCardContainer'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'

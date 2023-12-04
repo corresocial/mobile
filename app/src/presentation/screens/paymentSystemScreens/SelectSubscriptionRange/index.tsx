@@ -7,9 +7,9 @@ import { StripeContext } from '@contexts/StripeContext'
 import { PostCollection, PostRange } from '@services/firebase/types'
 
 import { ScrollContainer, Container, CardArea } from './styles'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'

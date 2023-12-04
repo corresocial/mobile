@@ -12,6 +12,8 @@ import {
 	TagsUnselectedArea
 } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
+import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
 import { BackButton } from '../../_buttons/BackButton'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
@@ -21,8 +23,6 @@ import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer
 import { SelectButtonsContainer } from '../../_containers/SelectButtonsContainer'
 import { SearchInput } from '../../_inputs/SearchInput'
 import { VerticalSpacing } from '../../_space/VerticalSpacing'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import { SelectedTagsHorizontalList } from '../../SelectedTagsHorizontalList'
 

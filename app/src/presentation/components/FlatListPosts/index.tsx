@@ -5,7 +5,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { PostCollection } from '@services/firebase/types'
 
 import { VerticalSpacing } from '../_space/VerticalSpacing'
-import { theme } from '../../common/theme'
+import { theme } from '@common/theme'
 
 interface FlatListPostsProps {
 	data: PostCollection[]

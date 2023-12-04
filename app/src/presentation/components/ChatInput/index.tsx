@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 
-import { relativeScreenWidth } from '../../common/screenDimensions'
+import { relativeScreenWidth } from '@common/screenDimensions'
 
-import { theme } from '../../common/theme'
+import { theme } from '@common/theme'
 import { Container, InputMessage, SendButtonArea, SendButtonAreaInner } from './styles'
 import AngleRightWhitetIcon from '@assets/icons/angleRight-white.svg'
 import AngleRightDisabledIcon from '@assets/icons/angleRight-disabled.svg'

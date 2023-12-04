@@ -7,9 +7,9 @@ import { FlatListItem } from '../../../../types/global/types'
 import { PostCollection } from '@services/firebase/types'
 
 import { Body, Container, Header, PostPadding } from './styles'
+import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'

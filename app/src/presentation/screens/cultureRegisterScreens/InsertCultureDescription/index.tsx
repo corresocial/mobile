@@ -4,8 +4,9 @@ import { Keyboard, StatusBar } from 'react-native'
 import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { theme } from '../../../common/theme'
+import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
+import { theme } from '@common/theme'
+
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 import { InsertCultureDescriptionScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 

@@ -1,6 +1,6 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { relativeScreenHeight, relativeScreenWidth } from '../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 interface ContainerProps {
 	withoutMarginTop?: number

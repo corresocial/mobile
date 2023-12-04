@@ -24,9 +24,9 @@ import {
 } from './styles'
 import AngleLeftWhiteIcon from '@assets/icons/angleLeft-white.svg'
 import LoupIcon from '@assets/icons/loup-white.svg'
+import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { ConversationCard } from '../../../components/_cards/ConversationCard'
 import { SearchInput } from '../../../components/_inputs/SearchInput'

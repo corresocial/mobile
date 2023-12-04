@@ -3,7 +3,7 @@ import { Animated, StatusBar } from 'react-native'
 import * as Updates from 'expo-updates'
 
 import { Container, LogoContainer } from './styles'
-import { relativeScreenWidth, screenHeight } from '../../common/screenDimensions'
+import { relativeScreenWidth, screenHeight } from '@common/screenDimensions'
 import LogoBuildingIcon from '@assets/icons/logoBuilding.svg'
 import SmartphoneWhiteIcon from '@assets/icons/smartphone-white.svg'
 
@@ -11,7 +11,7 @@ import { SplashScreenProps } from '../../routes/Stack/AuthRegisterStack/stackScr
 
 import { AuthContext } from '@contexts/AuthContext'
 import { CustomModal } from '../../components/_modals/CustomModal'
-import { theme } from '../../common/theme'
+import { theme } from '@common/theme'
 
 function Splash({ navigation }: SplashScreenProps) {
 	const { hasValidLocalUser, getUserDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)

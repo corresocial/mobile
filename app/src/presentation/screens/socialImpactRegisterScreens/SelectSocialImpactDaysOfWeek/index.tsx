@@ -5,7 +5,8 @@ import { EditContext } from '@contexts/EditContext'
 
 import { DaysOfWeek } from '@services/firebase/types'
 
-import { theme } from '../../../common/theme'
+import { theme } from '@common/theme'
+
 import { PostDaysOfWeek } from '../../../components/_onboarding/PostDaysOfWeek'
 import { SelectSocialImpactDaysOfWeekScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 

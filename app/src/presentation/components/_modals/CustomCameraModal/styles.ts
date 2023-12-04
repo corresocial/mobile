@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
 
-import { relativeScreenWidth, screenWidth } from '../../../common/screenDimensions'
+import { relativeScreenWidth, screenWidth } from '@common/screenDimensions'
 
 export const Container = styled.View`
     flex: 1;

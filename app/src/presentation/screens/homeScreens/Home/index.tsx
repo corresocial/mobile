@@ -19,7 +19,6 @@ import {
 } from '@services/maps/types'
 
 import { getPostsByLocationCloud } from '@services/cloudFunctions/getPostsByLocationCloud'
-
 import { LocationService } from '@services/location/LocationService'
 import { getReverseGeocodeByMapsApi } from '@services/maps/getReverseGeocodeByMapsApi'
 import { searchAddressByText } from '@services/maps/searchAddressByText'
@@ -30,9 +29,9 @@ import {
 	DropdownContainer,
 	RecentPostsContainer
 } from './styles'
+import { generateGeohashes } from '@common/generateGeohashes'
+import { theme } from '@common/theme'
 
-import { generateGeohashes } from '../../../common/generateGeohashes'
-import { theme } from '../../../common/theme'
 import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'

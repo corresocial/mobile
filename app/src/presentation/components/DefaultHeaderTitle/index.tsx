@@ -2,7 +2,7 @@ import React from 'react'
 import { TouchableOpacity, View, ViewStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
-import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 
 import { Container, Title } from './styles'
 

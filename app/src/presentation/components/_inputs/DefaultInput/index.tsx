@@ -11,9 +11,8 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { BottomLine, Container, ContainerInner, SideButtonContainer, TextInput } from './styles'
 import MinusWhiteIcon from '@assets/icons/minus-white.svg'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
-
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
 interface DefaultInputProps extends TextInputProps {
 	value: string

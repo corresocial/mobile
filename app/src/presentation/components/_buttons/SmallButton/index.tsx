@@ -4,9 +4,8 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import { ButtonLabel, ContainerBottom, ContainerSurface, TouchableContainer } from './styles'
-
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-import { theme } from '../../../common/theme'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { theme } from '@common/theme'
 
 interface SmallButtonProps {
 	color?: string

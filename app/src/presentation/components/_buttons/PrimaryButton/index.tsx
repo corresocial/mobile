@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Keyboard, TextStyle, ViewStyle } from 'react-native'
-import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { SvgProps } from 'react-native-svg'
 
 import {
 	ButtonLabel,
@@ -9,11 +9,11 @@ import {
 	ContainerSurface,
 	ContainerBottom
 } from './styles'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { relativeScreenWidth } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { Timer } from '../../Timer'
-import { theme } from '../../../common/theme'
 
 interface PrimaryButtonProps {
 	relativeWidth?: string

@@ -1,9 +1,10 @@
-import { RFValue } from 'react-native-responsive-fontsize'
-import styled from 'styled-components/native'
-import { SafeAreaViewProps } from 'react-native-safe-area-context'
 import { LinearGradient } from 'expo-linear-gradient'
 import { TextProps } from 'react-native'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { RFValue } from 'react-native-responsive-fontsize'
+import { SafeAreaViewProps } from 'react-native-safe-area-context'
+import styled from 'styled-components/native'
+
+import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 export const Container = styled.View`
     flex: 1;

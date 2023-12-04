@@ -5,7 +5,8 @@ import { SaleContext } from '@contexts/SaleContext'
 
 import { LocationViewType } from '@services/firebase/types'
 
-import { theme } from '../../../common/theme'
+import { theme } from '@common/theme'
+
 import { PostLocationView } from '../../../components/_onboarding/PostLocationView'
 import { SelectLocationViewScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 

@@ -1,7 +1,8 @@
+import { TextStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { TextStyle } from 'react-native'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+
+import { relativeScreenHeight } from '@common/screenDimensions'
 
 interface ContainerProps {
 	multiline?: boolean

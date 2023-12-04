@@ -10,7 +10,7 @@ import {
 } from './styles'
 import AddPictureWhiteIcon from '@assets/icons/addPicture-white.svg'
 import { SmallButton } from '../_buttons/SmallButton'
-import { relativeScreenWidth } from '../../common/screenDimensions'
+import { relativeScreenWidth } from '@common/screenDimensions'
 import { HorizontalSpacing } from '../_space/HorizontalSpacing'
 
 interface HorizontalListPicturesProps {

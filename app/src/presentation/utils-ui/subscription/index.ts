@@ -1,4 +1,4 @@
-import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import { PostRange, SubscriptionPlan } from '@services/firebase/types'
 
 const getPostRangeLabelHiglighted = (postRange: PostRange) => {

@@ -4,7 +4,7 @@ import uuid from 'react-uuid'
 
 import { TagsSelectedArea } from './styles'
 import xBold from '@assets/icons/x-bold.svg'
-import { relativeScreenWidth } from '../../common/screenDimensions'
+import { relativeScreenWidth } from '@common/screenDimensions'
 
 import { SelectButton } from '../_buttons/SelectButton'
 import { HorizontalSpacing } from '../_space/HorizontalSpacing'

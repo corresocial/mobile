@@ -8,7 +8,8 @@ import { VacancyContext } from '@contexts/VacancyContext'
 
 import { PostRange as PostRangeType } from '@services/firebase/types'
 
-import { theme } from '../../../common/theme'
+import { theme } from '@common/theme'
+
 import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
 import { PostRange } from '../../../components/_onboarding/PostRange'
 import { SelectVacancyRangeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'

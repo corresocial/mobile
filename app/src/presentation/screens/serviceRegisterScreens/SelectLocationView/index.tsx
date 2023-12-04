@@ -5,7 +5,8 @@ import { ServiceContext } from '@contexts/ServiceContext'
 
 import { LocationViewType } from '@services/firebase/types'
 
-import { theme } from '../../../common/theme'
+import { theme } from '@common/theme'
+
 import { PostLocationView } from '../../../components/_onboarding/PostLocationView'
 import { SelectLocationViewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 

@@ -38,12 +38,12 @@ import { unsubscribeMessageListener } from '@services/firebase/chat/unsubscribeM
 import { Container, Header, IsBlockedContainer } from './styles'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
-
 import {
 	relativeScreenHeight,
 	relativeScreenWidth,
-} from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
+} from '@common/screenDimensions'
+import { theme } from '@common/theme'
+
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'

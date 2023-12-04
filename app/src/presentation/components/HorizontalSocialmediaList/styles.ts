@@ -1,5 +1,5 @@
 import styled from 'styled-components/native'
-import { relativeScreenHeight } from '../../common/screenDimensions'
+import { relativeScreenHeight } from '@common/screenDimensions'
 
 export const ScrollView = styled.ScrollView`
     width: 100%;

@@ -6,7 +6,8 @@ import { EditContext } from '@contexts/EditContext'
 
 import { EventRepeatType } from '@services/firebase/types'
 
-import { theme } from '../../../common/theme'
+import { theme } from '@common/theme'
+
 import { PostRepeat } from '../../../components/_onboarding/PostRepeat'
 import { SelectEventRepeatScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 

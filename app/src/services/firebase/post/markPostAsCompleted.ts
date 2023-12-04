@@ -1,5 +1,5 @@
 import { LocalUserData } from '@contexts/types'
-import { updateDocField } from '../common/updateDocField'
+import { updateDocField } from '@common/updateDocField'
 import { Id, PostCollection } from '../types'
 import { updatePost } from './updatePost'
 

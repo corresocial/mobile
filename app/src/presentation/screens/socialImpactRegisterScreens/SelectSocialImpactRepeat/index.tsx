@@ -6,7 +6,8 @@ import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { EventRepeatType } from '@services/firebase/types'
 
-import { theme } from '../../../common/theme'
+import { theme } from '@common/theme'
+
 import { PostRepeat } from '../../../components/_onboarding/PostRepeat'
 import { SelectSocialImpactRepeatScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 

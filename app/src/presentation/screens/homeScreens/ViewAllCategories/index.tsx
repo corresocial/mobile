@@ -9,9 +9,9 @@ import { MacroCategories } from '../../../utils/postMacroCategories/types'
 import { MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote } from '@services/firebase/types'
 
 import { Body, Container, Header, InputContainer } from './styles'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
 import { SearchInput } from '../../../components/_inputs/SearchInput'

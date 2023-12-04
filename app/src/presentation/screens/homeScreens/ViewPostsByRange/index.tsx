@@ -8,9 +8,9 @@ import { PostCollection, PostCollectionRemote } from '@services/firebase/types'
 import { SearchParams } from '@services/maps/types'
 
 import { Body, Container, ContainerPadding, Header, InputContainer } from './styles'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { PostCard } from '../../../components/_cards/PostCard'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'

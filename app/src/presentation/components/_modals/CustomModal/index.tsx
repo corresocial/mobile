@@ -15,13 +15,13 @@ import {
 } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import XWhiteIcon from '@assets/icons/x-white.svg'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { relativeScreenWidth } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { SmallButton } from '../../_buttons/SmallButton'
 import { VerticalSpacing } from '../../_space/VerticalSpacing'
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { FocusAwareStatusBar } from '../../FocusAwareStatusBar'
 
 interface CustomModalProps {

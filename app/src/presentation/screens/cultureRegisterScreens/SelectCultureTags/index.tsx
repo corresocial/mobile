@@ -4,7 +4,8 @@ import { StatusBar } from 'react-native'
 import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { theme } from '../../../common/theme'
+import { theme } from '@common/theme'
+
 import { PostTags } from '../../../components/_onboarding/PostTags'
 import { SelectCultureTagsScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { cultureCategories, updateCultureTags } from '../../../utils/postsCategories/cultureCategories'

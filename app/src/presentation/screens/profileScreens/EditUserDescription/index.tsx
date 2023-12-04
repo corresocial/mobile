@@ -3,7 +3,8 @@ import { Keyboard, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { theme } from '../../../common/theme'
+import { theme } from '@common/theme'
+
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
 import { EditUserDescriptionScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 

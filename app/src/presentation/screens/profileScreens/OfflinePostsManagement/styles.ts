@@ -1,5 +1,6 @@
 import styled from 'styled-components/native'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+
+import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 export const PostPadding = styled.View`
 	padding-horizontal: ${relativeScreenWidth(2)}px;

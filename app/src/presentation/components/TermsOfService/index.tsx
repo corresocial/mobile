@@ -1,7 +1,7 @@
 import React from 'react'
 import { Linking } from 'react-native'
 
-import { theme } from '../../common/theme'
+import { theme } from '@common/theme'
 import { Container, LinkButtonsContainer } from './styles'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'

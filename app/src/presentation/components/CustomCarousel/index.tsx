@@ -8,7 +8,7 @@ import {
 	CarouselInactiveIndicatorItem,
 	CarouselIndicatorContainer
 } from './styles'
-import { screenHeight, screenWidth } from '../../common/screenDimensions'
+import { screenHeight, screenWidth } from '@common/screenDimensions'
 
 interface CustomCarouselProps {
 	children: ReactElement[]

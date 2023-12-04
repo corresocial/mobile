@@ -3,9 +3,8 @@ import { ViewStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, Message, MessageTitle } from './styles'
-
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-import { theme } from '../../../common/theme'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { theme } from '@common/theme'
 
 interface InstructionCardProps {
 	message: string

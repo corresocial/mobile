@@ -1,5 +1,5 @@
 import React from 'react'
-import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import { WithoutPostsContainer, WithoutPostsTitle, WithoutPostsText } from './styles'
 
 interface WithoutPostsMessageProps {

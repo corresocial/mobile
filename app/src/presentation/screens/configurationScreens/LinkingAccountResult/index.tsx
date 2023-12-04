@@ -4,8 +4,8 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
+import { theme } from '@common/theme'
 
-import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'

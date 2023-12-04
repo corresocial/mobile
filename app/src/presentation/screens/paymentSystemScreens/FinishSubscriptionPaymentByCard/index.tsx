@@ -17,10 +17,10 @@ import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRang
 import { Body, BodyScrollable, Container, PaymentStatusArea, PaymentStatusText, Title, TitleArea } from './styles'
 import CardWhiteIcon from '@assets/icons/card-white.svg'
 import DollarWhiteIcon from '@assets/icons/dollar-white.svg'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { SmallButton } from '../../../components/_buttons/SmallButton'

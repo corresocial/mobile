@@ -5,6 +5,8 @@ import uuid from 'react-uuid'
 import { PostCategoriesObject, PostCategoriesType } from '@services/firebase/types'
 
 import { Container } from './styles'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
 import { BackButton } from '../../_buttons/BackButton'
 import { SelectButton } from '../../_buttons/SelectButton'
@@ -12,8 +14,6 @@ import { InstructionCard } from '../../_cards/InstructionCard'
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../_containers/SelectButtonsContainer'
 import { VerticalSpacing } from '../../_space/VerticalSpacing'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
 import { ProgressBar } from '../../ProgressBar'
 

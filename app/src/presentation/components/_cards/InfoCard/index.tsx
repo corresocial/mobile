@@ -3,9 +3,8 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
 import { Container, ContainerInner, Description, Title } from './styles'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { relativeScreenHeight } from '@common/screenDimensions'
 
 interface InfoCardProps {
 	height?: string | number

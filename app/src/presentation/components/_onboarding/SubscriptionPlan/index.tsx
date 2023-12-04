@@ -5,6 +5,8 @@ import { StripeProducts } from '@services/stripe/types'
 
 import { ButtonsContainer, Container } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
 import { BackButton } from '../../_buttons/BackButton'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
@@ -12,8 +14,6 @@ import { InstructionCard } from '../../_cards/InstructionCard'
 import { TitleDescriptionButton } from '../../_cards/TitleDescriptionButton'
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../_containers/FormContainer'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 
 interface SubscriptionPlanProps {
 	backgroundColor: string

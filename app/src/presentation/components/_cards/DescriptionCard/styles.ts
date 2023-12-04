@@ -1,7 +1,8 @@
+import Autolink from 'react-native-autolink'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import Autolink from 'react-native-autolink'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+
+import { relativeScreenHeight } from '@common/screenDimensions'
 
 interface DescriptionTextProps {
 	fontSize?: number

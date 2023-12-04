@@ -5,7 +5,8 @@ import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { LocationViewType } from '@services/firebase/types'
 
-import { theme } from '../../../common/theme'
+import { theme } from '@common/theme'
+
 import { PostLocationView } from '../../../components/_onboarding/PostLocationView'
 import { SelectSocialImpactLocationViewScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 

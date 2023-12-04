@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 
 import { Container, HorizontalListPicturesContainer, PicturePreviewContainer, TopArea } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
+import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
 import { BackButton } from '../../_buttons/BackButton'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
@@ -10,8 +12,6 @@ import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer
 import { FormContainer } from '../../_containers/FormContainer'
 import { CustomCameraModal } from '../../_modals/CustomCameraModal'
 import { VerticalSpacing } from '../../_space/VerticalSpacing'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { HorizontalListPictures } from '../../HorizontalListPictures'
 import { PhotoPortrait } from '../../PhotoPortrait'
 

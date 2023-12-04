@@ -1,6 +1,7 @@
 import React from 'react'
 import { Modal, StatusBar } from 'react-native'
-import { theme } from '../../../common/theme'
+
+import { theme } from '@common/theme'
 
 import { TermsOfService } from '../../TermsOfService'
 

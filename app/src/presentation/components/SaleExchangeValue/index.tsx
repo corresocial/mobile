@@ -1,7 +1,7 @@
 import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import { UiUtils } from '../../utils-ui/common/UiUtils'
 
 import { Container, Decimals, LargeFont, SmallFont, ValueArea, ExchangeArea, ExchangeWord } from './styles'

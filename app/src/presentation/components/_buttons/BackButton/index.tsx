@@ -2,10 +2,10 @@ import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import AngleLeftIcon from '@assets/icons/angleLeft-white.svg'
+import { relativeScreenWidth } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
 import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { SmallButton } from '../SmallButton'
 
 interface BackButtonProps {

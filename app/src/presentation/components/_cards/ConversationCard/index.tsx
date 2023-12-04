@@ -1,8 +1,8 @@
 import React,
 { useState } from 'react'
 
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { Container, ContainerInner, LastMessageArea, UserInfo } from './styles'
+import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
 import { SmallUserIdentification } from '../../SmallUserIdentification'
 import { UnseenMessagesCount } from '../../UnseenMessagesCount'

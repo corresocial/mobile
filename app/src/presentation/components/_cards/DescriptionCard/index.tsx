@@ -3,10 +3,10 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { HyperlinkContainer, LongText, SeeMoreLabel } from './styles'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
+import { getShortText } from '@common/auxiliaryFunctions'
+import { theme } from '@common/theme'
 
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
-import { getShortText } from '../../../common/auxiliaryFunctions'
-import { theme } from '../../../common/theme'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 

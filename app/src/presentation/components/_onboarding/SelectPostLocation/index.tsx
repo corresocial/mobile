@@ -12,15 +12,15 @@ import { ButtonContainerBottom, Container, MapContainer, MyLocationButtonContain
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import MapPointOrangeIcon from '@assets/icons/mapPoint-orange.svg'
 import MapPointWhiteIcon from '@assets/icons/mapPoint-white.svg'
+import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
+import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
 import { BackButton } from '../../_buttons/BackButton'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { SearchInput } from '../../_inputs/SearchInput'
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 import { CustomMapView } from '../../CustomMapView'
 

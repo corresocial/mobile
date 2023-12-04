@@ -5,7 +5,8 @@ import { VacancyContext } from '@contexts/VacancyContext'
 
 import { LocationViewType } from '@services/firebase/types'
 
-import { theme } from '../../../common/theme'
+import { theme } from '@common/theme'
+
 import { PostLocationView } from '../../../components/_onboarding/PostLocationView'
 import { SelectVacancyLocationViewScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 

@@ -8,9 +8,9 @@ import { SubscriptionPaymentMethod } from '@services/firebase/types'
 
 import { ButtonsContainer } from './styles'
 import CardWhiteIcon from '@assets/icons/card-white.svg'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'

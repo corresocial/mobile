@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { showMessageWithHighlight } from '../../common/auxiliaryFunctions'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 
-import { theme } from '../../common/theme'
+import { theme } from '@common/theme'
 import { Container, Title, Text } from './styles'
 import MapIcon from '@assets/icons/map.svg'
 

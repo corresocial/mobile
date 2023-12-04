@@ -8,8 +8,8 @@ import { PostCollection, PostCollectionRemote, PostRange } from '@services/fireb
 
 import { Container, FlatList, Header, InputContainer, TagsContainer } from './styles'
 import OtherWhiteIcon from '@assets/icons/categories/others.svg'
+import { theme } from '@common/theme'
 
-import { theme } from '../../../common/theme'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { SearchInput } from '../../../components/_inputs/SearchInput'

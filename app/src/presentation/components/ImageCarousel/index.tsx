@@ -9,7 +9,7 @@ import {
 	CarouselInactiveIndicatorItem,
 	CarouselIndicatorContainer
 } from './styles'
-import { relativeScreenHeight, relativeScreenWidth, screenWidth } from '../../common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth, screenWidth } from '@common/screenDimensions'
 import { PhotoPortrait } from '../PhotoPortrait'
 
 interface ImageCarouselProps {

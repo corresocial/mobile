@@ -6,7 +6,8 @@ import { SaleContext } from '@contexts/SaleContext'
 
 import { DeliveryMethod } from '@services/firebase/types'
 
-import { theme } from '../../../common/theme'
+import { theme } from '@common/theme'
+
 import { PostDeliveryMethod } from '../../../components/_onboarding/PostDeliveryMethod'
 import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 

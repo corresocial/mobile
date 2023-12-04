@@ -4,9 +4,9 @@ import { SvgProps } from 'react-native-svg'
 
 import { CardHeader, PictureArea, Text, ValueContainer, ProfilePicture } from './styles'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
+import { relativeScreenWidth } from '@common/screenDimensions'
 
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { ImageCarousel } from '../../ImageCarousel'

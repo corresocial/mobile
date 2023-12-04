@@ -16,9 +16,9 @@ import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivate
 import { Container, InstructionCardContainer } from './styles'
 import AddPictureWhiteIcon from '@assets/icons/addPicture-white.svg'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
+import { screenWidth } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
-import { screenWidth } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'

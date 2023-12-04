@@ -2,10 +2,10 @@ import React from 'react'
 
 import { SvgProps } from 'react-native-svg'
 import uuid from 'react-uuid'
-import { theme } from '../../common/theme'
+import { theme } from '@common/theme'
 
 import { SmallButton } from '../_buttons/SmallButton'
-import { relativeScreenWidth } from '../../common/screenDimensions'
+import { relativeScreenWidth } from '@common/screenDimensions'
 import { MacroCategoriesType } from '../../utils/postMacroCategories/types'
 
 interface CatalogPostTypeButtonsProps {

@@ -1,11 +1,12 @@
 import React, { JSXElementConstructor, ReactElement } from 'react'
 import { Animated, ViewStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
 
 import { Container, FooterTextArea } from './styles'
-import { SmallInstructionCard } from '../../SmallInstructionCard'
+import { relativeScreenWidth } from '@common/screenDimensions'
+
 import { VerticalSpacing } from '../../_space/VerticalSpacing'
+import { SmallInstructionCard } from '../../SmallInstructionCard'
 
 interface DefaultHeaderContainerProps {
 	children: ReactElement | ReactElement[]

@@ -10,10 +10,10 @@ import { sendContactUsMessageToNotion } from '@services/notion/contactUs'
 
 import { Container } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
+import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
-import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InfoCard } from '../../../components/_cards/InfoCard'

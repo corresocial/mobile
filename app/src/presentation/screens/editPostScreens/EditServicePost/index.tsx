@@ -9,8 +9,8 @@ import { ServiceStackParamList } from '../../../routes/Stack/ServiceStack/types'
 import { PostCollection, ServiceCategories, IncomeCollection } from '@services/firebase/types'
 
 import ClockWhiteIcon from '@assets/icons/clock-white.svg'
+import { theme } from '@common/theme'
 
-import { theme } from '../../../common/theme'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'

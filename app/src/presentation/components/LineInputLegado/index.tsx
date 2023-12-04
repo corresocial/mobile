@@ -12,8 +12,8 @@ import {
 } from 'react-native'
 
 import { Container, TextInput } from './styles'
-import { relativeScreenHeight } from '../../common/screenDimensions'
-import { theme } from '../../common/theme'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
 interface LineInputProps extends TextInputProps {
 	value: string

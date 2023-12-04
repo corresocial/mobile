@@ -9,9 +9,9 @@ import Firebase from '@services/firebase'
 
 import { Container, InputsContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
+import { filterLeavingOnlyNumbers } from '@common/auxiliaryFunctions'
+import { theme } from '@common/theme'
 
-import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
-import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'

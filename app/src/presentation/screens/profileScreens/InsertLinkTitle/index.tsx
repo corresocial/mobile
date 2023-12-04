@@ -5,8 +5,8 @@ import { SocialMedia } from '@services/firebase/types'
 
 import { ButtonContainer, Container, InputsContainer, HeaderLinkCardContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
+import { theme } from '@common/theme'
 
-import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'

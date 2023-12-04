@@ -11,8 +11,8 @@ import {
 	DropdownHeaderContainer,
 	MyLocationButtonContainer,
 } from './styles'
-import { theme } from '../../common/theme'
-import { relativeScreenHeight, statusBarHeight } from '../../common/screenDimensions'
+import { theme } from '@common/theme'
+import { relativeScreenHeight, statusBarHeight } from '@common/screenDimensions'
 import MapIcon from '@assets/icons/mapPoint-white.svg'
 
 import { setRecentAddressOnStorage } from '../../utils/maps/recentAddresses'

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { FeedPosts, PostCollection, PostRange } from '@services/firebase/types'
 
-import { relativeScreenHeight } from '../../common/screenDimensions'
+import { relativeScreenHeight } from '@common/screenDimensions'
 import { Container, PostCardContainer } from './styles'
 import PinWhiteIcon from '@assets/icons/pin-white.svg'
 import CityWhiteIcon from '@assets/icons/city-white.svg'

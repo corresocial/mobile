@@ -6,7 +6,8 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { SubscriptionPlan as SubscriptionPlanType } from '@services/firebase/types'
 
-import { theme } from '../../../common/theme'
+import { theme } from '@common/theme'
+
 import { SubscriptionPlan } from '../../../components/_onboarding/SubscriptionPlan'
 import { SelectSubscriptionPlanScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'

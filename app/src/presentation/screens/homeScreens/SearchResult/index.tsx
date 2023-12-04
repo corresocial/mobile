@@ -9,8 +9,8 @@ import { FeedPosts, Id, PostCollection, PostRange, PostType } from '@services/fi
 import { searchPostsCloud } from '@services/cloudFunctions/searchPostsCloud'
 
 import { Container, Header, InputContainer } from './styles'
+import { theme } from '@common/theme'
 
-import { theme } from '../../../common/theme'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { FeedByRange } from '../../../components/FeedByRange'

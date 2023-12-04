@@ -5,7 +5,8 @@ import { CultureContext } from '@contexts/CultureContext'
 
 import { CultureCategories } from '@services/firebase/types'
 
-import { theme } from '../../../common/theme'
+import { theme } from '@common/theme'
+
 import { PostCategory } from '../../../components/_onboarding/PostCategory'
 import { SelectCultureCategoryScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'

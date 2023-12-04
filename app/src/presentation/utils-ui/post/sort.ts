@@ -1,5 +1,5 @@
 import { MacroCategory, PostCollectionRemote } from '@services/firebase/types'
-import { getNewDate } from '../common/date/dateFormat'
+import { getNewDate } from '@common/date/dateFormat'
 
 const sortPostCategories = (a: MacroCategory, b: MacroCategory) => {
 	if (a.label < b.label) return -1

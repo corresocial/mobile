@@ -10,8 +10,8 @@ import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollection
 
 import CalendarEmptyIcon from '@assets/icons/calendarEmpty-unfilled.svg'
 import ClockWhiteIcon from '@assets/icons/clock-white.svg'
+import { theme } from '@common/theme'
 
-import { theme } from '../../../common/theme'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { EditCard } from '../../../components/_cards/EditCard'

@@ -1,7 +1,7 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { relativeScreenHeight } from '@common/screenDimensions'
 
 export const CardHeader = styled.View`
 	padding-horizontal: ${RFValue(15)}px;
