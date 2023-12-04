@@ -150,7 +150,7 @@ function SelectPostLocation({
 
 	const convertAndStructureGeocodeAddress = async (latitude: number, longitude: number) => {
 		const geocodeAddress = await convertGeocodeToAddress(latitude, longitude)
-		const structuredAddress = structureExpoLocationAddress(geocodeAddress)
+		const structuredAddress = structureExpoLocationAddress(geocodeAddress, latitude, longitude)
 
 		setInvalidAddressAfterSubmit(false)
 		return structuredAddress
