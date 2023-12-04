@@ -163,6 +163,20 @@ export type PostCollection = IncomeCollection | VacancyCollection | CultureColle
 
 export type PostCollectionRemote = IncomeCollectionRemote | VacancyCollectionRemote | CultureCollectionRemote | SocialImpactCollectionRemote
 
+export type CompleteAddress = {
+	country: string
+	state: string
+	city: string
+	postalCode: string
+	district: string
+	street: string
+	number: string
+	coordinates: {
+		latitude?: number
+		longitude?: number
+	}
+}
+
 export type FeedPosts = {
 	nearby: PostCollectionRemote[],
 	city: PostCollectionRemote[],

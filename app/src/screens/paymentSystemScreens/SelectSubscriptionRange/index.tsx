@@ -11,8 +11,6 @@ import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import { ScrollContainer, Container, CardArea } from './styles'
 
-import { getTextualAddress } from '../../../utils/maps/addressFormatter'
-
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
@@ -21,8 +19,10 @@ import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeChangeConfirmatiomModal'
 import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
+import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 
 const { getPostRangeLabel } = UiSubscriptionUtils()
+const { getTextualAddress } = UiLocationUtils()
 
 function SelectSubscriptionRange({ navigation }: SelectSubscriptionRangeScreenProps) {
 	const { userDataContext, getLastUserPost } = useContext(AuthContext)

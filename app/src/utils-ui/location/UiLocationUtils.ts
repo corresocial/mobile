@@ -6,13 +6,18 @@ import {
 	getLocationViewIcon,
 	getLocationViewLabel,
 	generateLocationHeaderText
-} from '.'
+} from './locationMessages'
 import { getPossessivePronounByRange, getPostRangeLabel } from '../post/commonMessages'
+import { getTextualAddress, structureAddress, structureExpoLocationAddress } from './addressFormatter'
 
 function UiLocationUtils(): UiLocationUtilsInterface {
 	return {
 		getPossessivePronounByRange,
 		getPostRangeLabel,
+
+		structureAddress,
+		structureExpoLocationAddress,
+		getTextualAddress,
 
 		getLocationViewDescription,
 		getLocationViewHighlightedWords,

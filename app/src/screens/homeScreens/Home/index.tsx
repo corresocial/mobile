@@ -14,7 +14,6 @@ import { theme } from '../../../common/theme'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
 import { searchAddressByText } from '../../../services/maps/searchAddressByText'
-import { structureAddress, structureExpoLocationAddress } from '../../../utils/maps/addressFormatter'
 import { getLastRecentAddress, getRecentAdressesFromStorage } from '../../../utils/maps/recentAddresses'
 import { getPostsByLocationCloud } from '../../../services/cloudFunctions/getPostsByLocationCloud'
 
@@ -44,8 +43,10 @@ import { SubscriptionPresentationModal } from '../../../components/_modals/Subsc
 import { FeedByRange } from '../../../components/FeedByRange'
 import { navigateToPostView } from '../../../routes/auxMethods'
 import { LocationService } from '../../../services/location/LocationService'
+import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 
 const { getCurrentLocation, convertGeocodeToAddress } = LocationService()
+const { structureAddress, structureExpoLocationAddress } = UiLocationUtils()
 
 const initialSelectedAddress = {
 	addressHighlighted: '',

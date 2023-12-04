@@ -10,7 +10,6 @@ import { SaleStackParamList } from '../../../routes/Stack/SaleStack/types'
 import { PostCollection, SaleCategories, IncomeCollection } from '../../../services/firebase/types'
 
 import { saleCategories } from '../../../utils/postsCategories/saleCategories'
-import { getTextualAddress } from '../../../utils/maps/addressFormatter'
 
 import { theme } from '../../../common/theme'
 import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
@@ -31,8 +30,10 @@ import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 import { LinkCard } from '../../../components/_cards/LinkCard'
 import { navigateToPostView } from '../../../routes/auxMethods'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 
 const { formatHour, arrayIsEmpty } = UiUtils()
+const { getTextualAddress } = UiLocationUtils()
 
 function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 	const { setSubscriptionDataOnContext } = useContext(SubscriptionContext)

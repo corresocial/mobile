@@ -15,9 +15,10 @@ import { Coordinates, PostCollection } from '../../../services/firebase/types'
 import { AuthContext } from '../../../contexts/AuthContext'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
 import { LocationService } from '../../../services/location/LocationService'
-import { structureExpoLocationAddress } from '../../../utils/maps/addressFormatter'
+import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 
 const { convertGeocodeToAddress } = LocationService()
+const { structureExpoLocationAddress } = UiLocationUtils()
 
 function InsertSaleLocation({ route, navigation }: InsertSaleLocationScreenProps) {
 	const { userDataContext, getLastUserPost } = useContext(AuthContext)

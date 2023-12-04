@@ -12,8 +12,6 @@ import XWhiteIcon from '../../../assets/icons/x-white.svg'
 import AtSignWhiteIcon from '../../../assets/icons/atSign-white.svg'
 import EditWhiteIcon from '../../../assets/icons/edit-white.svg'
 
-import { getTextualAddress } from '../../../utils/maps/addressFormatter'
-
 import { Id, PostCollection, PostCollectionRemote, UserSubscription } from '../../../services/firebase/types'
 import { EditCurrentSubscriptionScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
@@ -31,8 +29,10 @@ import { emailIsValid } from '../../../common/auxiliaryFunctions'
 import { updateUserPrivateData } from '../../../services/firebase/user/updateUserPrivateData'
 import { getPrivateContacts } from '../../../services/firebase/user/getPrivateContacts'
 import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
+import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 
 const { getPostRangeLabel } = UiSubscriptionUtils()
+const { getTextualAddress } = UiLocationUtils()
 
 function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionScreenProps) {
 	const { updateUserSubscription } = useContext(SubscriptionContext)

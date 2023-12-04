@@ -12,8 +12,6 @@ import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollection
 import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
 import CalendarEmptyIcon from '../../../assets/icons/calendarEmpty-unfilled.svg'
 
-import { getTextualAddress } from '../../../utils/maps/addressFormatter'
-
 import { EditCard } from '../../../components/_cards/EditCard'
 import { theme } from '../../../common/theme'
 import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
@@ -32,8 +30,10 @@ import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
 import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 import { LinkCard } from '../../../components/_cards/LinkCard'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 
 const { formatDate, formatHour, arrayIsEmpty } = UiUtils()
+const { getTextualAddress } = UiLocationUtils()
 
 function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)

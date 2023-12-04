@@ -10,7 +10,6 @@ import { EventRepeatType, PostCollection, SocialImpactCategories, SocialImpactCo
 import { SocialImpactStackParamList } from '../../../routes/Stack/SocialImpactStack/types'
 
 import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
-import { getTextualAddress } from '../../../utils/maps/addressFormatter'
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
 
 import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
@@ -31,8 +30,10 @@ import { LocationChangeConfirmationModal } from '../../../components/_modals/Loc
 import { PostReviewPresentationModal } from '../../../components/_modals/PostReviewPresentationModal'
 import { LinkCard } from '../../../components/_cards/LinkCard'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 
 const { formatDate, formatHour, arrayIsEmpty } = UiUtils()
+const { getTextualAddress } = UiLocationUtils()
 
 function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewScreenProps) {
 	const { setEditDataOnContext, editDataContext, clearUnsavedEditContext } = useContext(EditContext)

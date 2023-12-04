@@ -21,9 +21,10 @@ import { InstructionCard } from '../../_cards/InstructionCard'
 import { SearchInput } from '../../_inputs/SearchInput'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 import { LocationService } from '../../../services/location/LocationService'
-import { structureExpoLocationAddress } from '../../../utils/maps/addressFormatter'
+import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 
 const { getCurrentLocation, convertGeocodeToAddress } = LocationService()
+const { structureExpoLocationAddress } = UiLocationUtils()
 
 const initialRegion = {
 	latitude: -13.890303625634541,
