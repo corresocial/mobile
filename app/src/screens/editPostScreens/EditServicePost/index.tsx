@@ -56,8 +56,10 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 	}, [])
 
 	const getPostField = (fieldName: keyof IncomeCollection, allowNull?: boolean) => {
-		if (allowNull && editDataContext.unsaved[fieldName] === '' && postData[fieldName]) return ''
-		return editDataContext.unsaved[fieldName] || postData[fieldName]
+		const currentPostData = { ...postData, postType: 'income' }
+
+		if (allowNull && editDataContext.unsaved[fieldName] === '' && currentPostData[fieldName]) return ''
+		return editDataContext.unsaved[fieldName] || currentPostData[fieldName]
 	}
 
 	const getPicturesUrl = () => {
