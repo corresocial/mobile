@@ -1,16 +1,13 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { EditContext } from '@contexts/EditContext'
+import { ServiceContext } from '@contexts/ServiceContext'
+
 import { theme } from '../../../common/theme'
-
-import { serviceCategories, updateServiceTags } from '../../../utils/postsCategories/serviceCategories'
-
-import { SelectServiceTagsScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-
-import { ServiceContext } from '../../../../contexts/ServiceContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
 import { PostTags } from '../../../components/_onboarding/PostTags'
+import { SelectServiceTagsScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
+import { serviceCategories, updateServiceTags } from '../../../utils/postsCategories/serviceCategories'
 
 function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)

@@ -1,22 +1,22 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
-import { theme } from '../../../common/theme'
+import { StripeContext } from '@contexts/StripeContext'
+import { SubscriptionContext } from '@contexts/SubscriptionContext'
+
+import { SubscriptionPaymentMethod } from '@services/firebase/types'
+
 import { ButtonsContainer } from './styles'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+
 import CardWhiteIcon from '../../../assets/icons/card-white.svg'
-
-import { SelectSubsciptionPaymentMethodScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { SubscriptionPaymentMethod } from '../../../../services/firebase/types'
-
-import { SubscriptionContext } from '../../../../contexts/SubscriptionContext'
-
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { FormContainer } from '../../../components/_containers/FormContainer'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
-import { StripeContext } from '../../../../contexts/StripeContext'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { SelectSubsciptionPaymentMethodScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 
 const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()

@@ -1,26 +1,25 @@
 import React, { useContext, useState } from 'react'
 
-import { theme } from '../../../common/theme'
+import { AuthContext } from '@contexts/AuthContext'
+import { LocationContext } from '@contexts/LocationContext'
+
+import { FlatListItem } from '../../../../types/global/types'
+import { PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
+
 import { Container, FlatList, Header, InputContainer, TagsContainer } from './styles'
+
 import OtherWhiteIcon from '../../../assets/icons/categories/others.svg'
-
-import { PostCategoryDetailsScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
-import { PostCollection, PostCollectionRemote, PostRange } from '../../../../services/firebase/types'
-
-import { LocationContext } from '../../../../contexts/LocationContext'
-
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { theme } from '../../../common/theme'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
-import { AuthContext } from '../../../../contexts/AuthContext'
-
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
-import { FeedByRange } from '../../../components/FeedByRange'
-import { FlatListItem } from '../../../../types/global/types'
 import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
+import { FeedByRange } from '../../../components/FeedByRange'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { navigateToPostView } from '../../../routes/auxMethods'
+import { PostCategoryDetailsScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { sortArray } = UiUtils()

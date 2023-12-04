@@ -1,15 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, Platform, StatusBar } from 'react-native'
 
-import { theme } from '../../../common/theme'
+import { EditContext } from '@contexts/EditContext'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-
-import { InsertServiceEndHourScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-
-import { EditContext } from '../../../../contexts/EditContext'
-
+import { theme } from '../../../common/theme'
 import { PostTime } from '../../../components/_onboarding/PostTime'
+import { InsertServiceEndHourScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 function InsertServiceEndHour({ route, navigation }: InsertServiceEndHourScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

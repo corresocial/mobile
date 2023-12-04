@@ -1,43 +1,43 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView } from 'react-native'
 
+import { AuthContext } from '@contexts/AuthContext'
+import { EditContext } from '@contexts/EditContext'
+
+import { PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@services/firebase/types'
+
+import { deletePost } from '@services/firebase/post/deletePost'
+import { deletePostPictures } from '@services/firebase/post/deletePostPictures'
+import { markPostAsComplete } from '@services/firebase/post/markPostAsCompleted'
+
 import { Body, Container, Header, OptionsArea, UserAndValueContainer } from './styles'
-import { theme } from '../../../common/theme'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
-import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
+
 import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
-import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
-
+import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
+import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import { getShortText } from '../../../common/auxiliaryFunctions'
-import { deletePost } from '../../../../services/firebase/post/deletePost'
-import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { share } from '../../../common/share'
-import { markPostAsComplete } from '../../../../services/firebase/post/markPostAsCompleted'
-
-import { ViewSocialImpactPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
-import { PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '../../../../services/firebase/types'
-
-import { AuthContext } from '../../../../contexts/AuthContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
+import { theme } from '../../../common/theme'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
-import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
-import { ImageCarousel } from '../../../components/ImageCarousel'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
-import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
-import { PostPopOver } from '../../../components/PostPopOver'
-import { deletePostPictures } from '../../../../services/firebase/post/deletePostPictures'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { ExhibitionPlaceCard } from '../../../components/_cards/ExhibitionPlace'
-import { HorizontalTagList } from '../../../components/HorizontalTagList'
+import { LinkCard } from '../../../components/_cards/LinkCard'
+import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
 import { SocialImpactTypeCard } from '../../../components/_cards/SocialImpactType'
 import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
-import { LinkCard } from '../../../components/_cards/LinkCard'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
+import { HorizontalTagList } from '../../../components/HorizontalTagList'
+import { ImageCarousel } from '../../../components/ImageCarousel'
+import { PostPopOver } from '../../../components/PostPopOver'
+import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
+import { ViewSocialImpactPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
+import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
 
 const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()

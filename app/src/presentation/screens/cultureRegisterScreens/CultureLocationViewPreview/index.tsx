@@ -1,14 +1,12 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { CultureContext } from '@contexts/CultureContext'
+import { EditContext } from '@contexts/EditContext'
+
 import { theme } from '../../../common/theme'
-
-import { CultureLocationViewPreviewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
-
-import { CultureContext } from '../../../../contexts/CultureContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
 import { PostLocationViewPreview } from '../../../components/_onboarding/PostLocationViewPreview'
+import { CultureLocationViewPreviewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 const defaultDeltaCoordinates = {
 	latitudeDelta: 0.004,

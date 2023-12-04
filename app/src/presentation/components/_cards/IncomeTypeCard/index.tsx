@@ -1,18 +1,16 @@
 import React from 'react'
-import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 
+import { IncomeType } from '@services/firebase/types'
+
+import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
 import SaleWhiteIcon from '../../../assets/icons/sale-white.svg'
 import ServiceWhiteIcon from '../../../assets/icons/service-white.svg'
 import VacancyWhiteIcon from '../../../assets/icons/vacancy-white.svg'
-
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-
-import { IncomeType } from '../../../../services/firebase/types'
-
-import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
-import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface IncomeTypeCardProps {
 	title?: string

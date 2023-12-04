@@ -1,16 +1,14 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
-import { saleCategories } from '../../../utils/postsCategories/saleCategories'
+import { SaleContext } from '@contexts/SaleContext'
+
+import { SaleCategories } from '@services/firebase/types'
 
 import { theme } from '../../../common/theme'
-
-import { SaleCategories } from '../../../../services/firebase/types'
-import { SelectSaleCategoryScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
-
-import { SaleContext } from '../../../../contexts/SaleContext'
-
 import { PostCategory } from '../../../components/_onboarding/PostCategory'
+import { SelectSaleCategoryScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
+import { saleCategories } from '../../../utils/postsCategories/saleCategories'
 
 function SelectSaleCategory({ route, navigation }: SelectSaleCategoryScreenProps) {
 	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)

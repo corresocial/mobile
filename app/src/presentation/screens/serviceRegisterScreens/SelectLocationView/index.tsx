@@ -1,14 +1,13 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { ServiceContext } from '@contexts/ServiceContext'
+
+import { LocationViewType } from '@services/firebase/types'
+
 import { theme } from '../../../common/theme'
-
-import { SelectLocationViewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-import { LocationViewType } from '../../../../services/firebase/types'
-
-import { ServiceContext } from '../../../../contexts/ServiceContext'
-
 import { PostLocationView } from '../../../components/_onboarding/PostLocationView'
+import { SelectLocationViewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 function SelectLocationView({ route, navigation }: SelectLocationViewScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)

@@ -1,20 +1,20 @@
 import React from 'react'
 
+import { DeliveryMethod } from '@services/firebase/types'
+
 import { Container, ButtonsContainer } from './styles'
-import { theme } from '../../../common/theme'
-import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
-import MapPointWhiteIcon from '../../../assets/icons/mapPoint-white.svg'
-import CityWhiteIcon from '../../../assets/icons/city-white.svg'
-import BrazilWhiteIcon from '../../../assets/icons/brazil-white.svg'
 
-import { DeliveryMethod } from '../../../../services/firebase/types'
-
+import { BackButton } from '../../_buttons/BackButton'
+import { OptionButton } from '../../_buttons/OptionButton'
+import { InstructionCard } from '../../_cards/InstructionCard'
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../_containers/FormContainer'
-import { BackButton } from '../../_buttons/BackButton'
-import { InstructionCard } from '../../_cards/InstructionCard'
+import BrazilWhiteIcon from '../../../assets/icons/brazil-white.svg'
+import CityWhiteIcon from '../../../assets/icons/city-white.svg'
+import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
+import MapPointWhiteIcon from '../../../assets/icons/mapPoint-white.svg'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { OptionButton } from '../../_buttons/OptionButton'
+import { theme } from '../../../common/theme'
 
 interface PostDeliveryMethodProps {
 	backgroundColor: string

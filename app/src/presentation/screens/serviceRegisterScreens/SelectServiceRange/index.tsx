@@ -1,18 +1,17 @@
 import React, { useContext, useEffect } from 'react'
 import { StatusBar } from 'react-native'
 
+import { AuthContext } from '@contexts/AuthContext'
+import { EditContext } from '@contexts/EditContext'
+import { ServiceContext } from '@contexts/ServiceContext'
+import { StripeContext } from '@contexts/StripeContext'
+
+import { PostRange as PostRangeType } from '@services/firebase/types'
+
 import { theme } from '../../../common/theme'
-
-import { SelectServiceRangeScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-import { PostRange as PostRangeType } from '../../../../services/firebase/types'
-
-import { ServiceContext } from '../../../../contexts/ServiceContext'
-import { EditContext } from '../../../../contexts/EditContext'
-import { StripeContext } from '../../../../contexts/StripeContext'
-import { AuthContext } from '../../../../contexts/AuthContext'
-
-import { PostRange } from '../../../components/_onboarding/PostRange'
 import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
+import { PostRange } from '../../../components/_onboarding/PostRange'
+import { SelectServiceRangeScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

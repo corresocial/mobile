@@ -3,28 +3,31 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
-import { theme } from '../../../common/theme'
+
+import { AuthContext } from '@contexts/AuthContext'
+import { LocalUserData } from '@contexts/types'
+
+import { PostCollection, PostCollectionRemote } from '@services/firebase/types'
+
+import { updateDocField } from '@services/firebase/common/updateDocField'
+import { uploadImage } from '@services/firebase/common/uploadPicture'
+import { createPost } from '@services/firebase/post/createPost'
+
+import { Body, Container, Header, SaveButtonContainer } from './styles'
+
 import AngleRightWhiteIcon from '../../../assets/icons/angleRight-white.svg'
 import HandOnMoneyWhiteIcon from '../../../assets/icons/handOnMoney-white.svg'
-
-import { OfflinePostsManagementScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { PostCollection, PostCollectionRemote } from '../../../../services/firebase/types'
-
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { FlatListPosts } from '../../../components/FlatListPosts'
-import { PostCard } from '../../../components/_cards/PostCard'
-import { Body, Container, Header, SaveButtonContainer } from './styles'
-import { deletePostByDescription, getOfflinePosts } from '../../../utils/offlinePost'
+import { theme } from '../../../common/theme'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { PostCard } from '../../../components/_cards/PostCard'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
+import { FlatListPosts } from '../../../components/FlatListPosts'
 import { Loader } from '../../../components/Loader'
-import { createPost } from '../../../../services/firebase/post/createPost'
-import { uploadImage } from '../../../../services/firebase/common/uploadPicture'
-import { LocalUserData } from '../../../../contexts/types'
-import { AuthContext } from '../../../../contexts/AuthContext'
+import { OfflinePostsManagementScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { getNetworkStatus } from '../../../utils/deviceNetwork'
-import { updateDocField } from '../../../../services/firebase/common/updateDocField'
+import { deletePostByDescription, getOfflinePosts } from '../../../utils/offlinePost'
 
 function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScreenProps) {
 	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
 import { SaleData } from './types'
-import { IncomeCollectionRemote } from '../services/firebase/types'
+import { IncomeCollectionRemote } from '@services/firebase/types'
 
 import { AuthContext } from './AuthContext'
 

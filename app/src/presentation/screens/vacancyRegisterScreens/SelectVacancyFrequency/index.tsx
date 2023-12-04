@@ -1,12 +1,13 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
-import { DaysOfWeek, WeekdaysFrequency } from '../../../../services/firebase/types'
+import { EditContext } from '@contexts/EditContext'
 
-import { EditContext } from '../../../../contexts/EditContext'
-import { SelectVacancyFrequencyScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
+import { DaysOfWeek, WeekdaysFrequency } from '@services/firebase/types'
+
 import { theme } from '../../../common/theme'
 import { PostFrequency } from '../../../components/_onboarding/PostFrequency'
+import { SelectVacancyFrequencyScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 function SelectVacancyFrequency({ route, navigation }: SelectVacancyFrequencyScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

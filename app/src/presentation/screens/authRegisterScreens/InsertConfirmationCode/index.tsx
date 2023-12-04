@@ -1,30 +1,31 @@
-import { Animated, Platform, StatusBar, TextInput } from 'react-native'
+import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
 import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Animated, Platform, StatusBar, TextInput } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
+
 import { UserCredential } from 'firebase/auth'
 
-import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
-import { RFValue } from 'react-native-responsive-fontsize'
+import { AuthContext } from '@contexts/AuthContext'
+import { UserIdentification } from '@contexts/types'
+
+import { Id } from '@services/firebase/types'
+
+import Firebase from '@services/firebase'
+
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
-import { theme } from '../../../common/theme'
+
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
-
-import { InsertConfirmationCodeScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
-import { UserIdentification } from '../../../../contexts/types'
-
-import { AuthContext } from '../../../../contexts/AuthContext'
-
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
+import { theme } from '../../../common/theme'
+import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { Loader } from '../../../components/Loader'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { Id } from '../../../../services/firebase/types'
-import Firebase from '../../../../services/firebase'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
 import { DefaultInput } from '../../../components/_inputs/DefaultInput'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { Loader } from '../../../components/Loader'
+import { InsertConfirmationCodeScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
 	const { validateVerificationCode, setRemoteUserOnLocal, sendSMS } = useContext(AuthContext)

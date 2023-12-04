@@ -1,15 +1,13 @@
-import { Keyboard, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
+import { Keyboard, StatusBar } from 'react-native'
 
-import { theme } from '../../../common/theme'
+import { CultureContext } from '@contexts/CultureContext'
+import { EditContext } from '@contexts/EditContext'
 
-import { InsertCultureDescriptionScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-
-import { CultureContext } from '../../../../contexts/CultureContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
+import { theme } from '../../../common/theme'
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
+import { InsertCultureDescriptionScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function InsertCultureDescription({ route, navigation }: InsertCultureDescriptionScreenProps) {
 	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)

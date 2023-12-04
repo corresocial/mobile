@@ -1,7 +1,8 @@
 import React from 'react'
 
+import { VerifiedLabelName } from '@services/firebase/types'
+
 import { CustomModal } from '../CustomModal'
-import { VerifiedLabelName } from '../../../../services/firebase/types'
 
 interface ProfileVerifiedModalProps {
 	visibility: boolean;

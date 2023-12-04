@@ -1,13 +1,12 @@
 import React from 'react'
 
-import { theme } from '../../../common/theme'
-import HandOnMoneyWhiteIcon from '../../../assets/icons/handOnMoney-white.svg'
-import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
+import { SaleValueType } from '@services/firebase/types'
 
-import { SaleValueType } from '../../../../services/firebase/types'
-
-import { PostSelectButton } from '../PostSelectButton'
 import { OptionButton } from '../../_buttons/OptionButton'
+import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
+import HandOnMoneyWhiteIcon from '../../../assets/icons/handOnMoney-white.svg'
+import { theme } from '../../../common/theme'
+import { PostSelectButton } from '../PostSelectButton'
 
 interface PaymentValueTypeProps {
 	backgroundColor: string

@@ -1,26 +1,25 @@
-import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 import uuid from 'react-uuid'
 
+import { EditContext } from '@contexts/EditContext'
+
 import { ButtonsContainer, Container } from './styles'
-import { theme } from '../../../common/theme'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
-
-import { InsertVacancyImportantPointsScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-
-import { EditContext } from '../../../../contexts/EditContext'
-
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { SmallButton } from '../../../components/_buttons/SmallButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { DefaultInput } from '../../../components/_inputs/DefaultInput'
 import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
-import { SmallButton } from '../../../components/_buttons/SmallButton'
+import { InsertVacancyImportantPointsScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImportantPointsScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

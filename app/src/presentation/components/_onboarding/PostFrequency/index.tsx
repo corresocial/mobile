@@ -1,24 +1,24 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
+import { WeekdaysFrequency } from '@services/firebase/types'
+
 import { ButtonsContainer, Container } from './styles'
-import { theme } from '../../../common/theme'
-import CalendarToday from '../../../assets/icons/calendarToday-white.svg'
-import CalendarEveryday from '../../../assets/icons/calendarEveryday-white.svg'
-import CalendarSomeday from '../../../assets/icons/calendarSomeday-white.svg'
-import CalendarBusinessDay from '../../../assets/icons/calendarBusinessDay-white.svg'
-import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 
-import { WeekdaysFrequency } from '../../../../services/firebase/types'
-
+import { BackButton } from '../../_buttons/BackButton'
+import { OptionButton } from '../../_buttons/OptionButton'
+import { SmallButton } from '../../_buttons/SmallButton'
+import { InstructionCard } from '../../_cards/InstructionCard'
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../_containers/FormContainer'
-import { BackButton } from '../../_buttons/BackButton'
-import { InstructionCard } from '../../_cards/InstructionCard'
-import { OptionButton } from '../../_buttons/OptionButton'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
 import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
-import { SmallButton } from '../../_buttons/SmallButton'
+import CalendarBusinessDay from '../../../assets/icons/calendarBusinessDay-white.svg'
+import CalendarEveryday from '../../../assets/icons/calendarEveryday-white.svg'
+import CalendarSomeday from '../../../assets/icons/calendarSomeday-white.svg'
+import CalendarToday from '../../../assets/icons/calendarToday-white.svg'
+import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 
 interface PostFrequencyProps {
 	backgroundColor: string

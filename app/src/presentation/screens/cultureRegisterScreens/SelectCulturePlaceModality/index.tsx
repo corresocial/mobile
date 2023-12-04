@@ -1,17 +1,16 @@
 import React, { useContext } from 'react'
 
-import { theme } from '../../../common/theme'
-import ShopWhiteIcon from '../../../assets/icons/shop-white.svg'
+import { CultureContext } from '@contexts/CultureContext'
+import { EditContext } from '@contexts/EditContext'
+
+import { PlaceModalityType } from '@services/firebase/types'
+
 import ComputerAndPhoneWhiteIcon from '../../../assets/icons/computerAndPhone-white.svg'
-
-import { SelectCulturePlaceModalityScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
-import { PlaceModalityType } from '../../../../services/firebase/types'
-
-import { CultureContext } from '../../../../contexts/CultureContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
+import ShopWhiteIcon from '../../../assets/icons/shop-white.svg'
+import { theme } from '../../../common/theme'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import { SelectCulturePlaceModalityScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function SelectCulturePlaceModality({ route, navigation }: SelectCulturePlaceModalityScreenProps) {
 	const { setCultureDataOnContext } = useContext(CultureContext)

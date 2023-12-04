@@ -2,20 +2,19 @@ import React from 'react'
 import { Linking } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { Location, LocationViewType } from '@services/firebase/types'
+
 import { CardHeader, MapArea, NavigationApps, TextAddress, TouchableApp } from './styles'
-import MapPointWhiteIcon from '../../../assets/icons/mapPoint-white.svg'
-import MapPointOrangeIcon from '../../../assets/icons/mapPoint-orange.svg'
-import WazeIcon from '../../../assets/icons/waze.svg'
+
+import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 import GoogleMapsIcon from '../../../assets/icons/googleMaps.svg'
-
+import MapPointOrangeIcon from '../../../assets/icons/mapPoint-orange.svg'
+import MapPointWhiteIcon from '../../../assets/icons/mapPoint-white.svg'
+import WazeIcon from '../../../assets/icons/waze.svg'
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-
-import { Location, LocationViewType } from '../../../../services/firebase/types'
-
+import { CustomMapView } from '../../CustomMapView'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
-import { CustomMapView } from '../../CustomMapView'
-import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 
 interface LocationViewCardProps {
 	title?: string

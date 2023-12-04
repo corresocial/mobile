@@ -1,18 +1,16 @@
 import React from 'react'
-import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 
-import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
+import { PlaceModalityType, WorkplaceType } from '@services/firebase/types'
+
+import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 import ComputerAndPhoneWhiteIcon from '../../../assets/icons/computerAndPhone-white.svg'
 import HandOnPersonWhiteIcon from '../../../assets/icons/handOnPerson-white.svg'
+import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
 import ShopWhiteIcon from '../../../assets/icons/shop-white.svg'
-
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-
-import { PlaceModalityType, WorkplaceType } from '../../../../services/firebase/types'
-
-import { DefaultCardContainer } from '../DefaultCardContainer'
+import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
-import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface PlaceModalityProps {
 	title?: string

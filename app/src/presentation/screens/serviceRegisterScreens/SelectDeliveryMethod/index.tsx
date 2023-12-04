@@ -1,15 +1,14 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { EditContext } from '@contexts/EditContext'
+import { ServiceContext } from '@contexts/ServiceContext'
+
+import { DeliveryMethod } from '@services/firebase/types'
+
 import { theme } from '../../../common/theme'
-
-import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-import { DeliveryMethod } from '../../../../services/firebase/types'
-
-import { ServiceContext } from '../../../../contexts/ServiceContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
 import { PostDeliveryMethod } from '../../../components/_onboarding/PostDeliveryMethod'
+import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)

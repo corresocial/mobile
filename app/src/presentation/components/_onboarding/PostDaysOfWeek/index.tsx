@@ -1,28 +1,28 @@
 import React, { useState } from 'react'
 import { StatusBar } from 'react-native'
 
+import { DaysOfWeek } from '@services/firebase/types'
+
 import {
 	Container,
 	FloatButtonContainer,
 	Row,
 	WeekdaysSelectedArea
 } from './styles'
-import { theme } from '../../../common/theme'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-import XBoldIcon from '../../../assets/icons/x-bold.svg'
 
-import { DaysOfWeek } from '../../../../services/firebase/types'
-
-import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
-import { SelectButtonsContainer } from '../../_containers/SelectButtonsContainer'
-import { SelectButton } from '../../_buttons/SelectButton'
 import { BackButton } from '../../_buttons/BackButton'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
-import { InstructionCard } from '../../_cards/InstructionCard'
-import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
+import { SelectButton } from '../../_buttons/SelectButton'
 import { SmallButton } from '../../_buttons/SmallButton'
+import { InstructionCard } from '../../_cards/InstructionCard'
+import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
+import { SelectButtonsContainer } from '../../_containers/SelectButtonsContainer'
+import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
+import XBoldIcon from '../../../assets/icons/x-bold.svg'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 
 interface PostDaysOfWeekProps {
 	backgroundColor: string

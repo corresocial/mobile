@@ -1,14 +1,12 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { EditContext } from '@contexts/EditContext'
+import { VacancyContext } from '@contexts/VacancyContext'
+
 import { theme } from '../../../common/theme'
-
-import { VacancyLocationViewPreviewScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
-
-import { VacancyContext } from '../../../../contexts/VacancyContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
 import { PostLocationViewPreview } from '../../../components/_onboarding/PostLocationViewPreview'
+import { VacancyLocationViewPreviewScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 const defaultDeltaCoordinates = {
 	latitudeDelta: 0.004,

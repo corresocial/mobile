@@ -1,24 +1,25 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
 import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
-import { updateUser } from '../../../../services/firebase/user/updateUser'
+import { AuthContext } from '@contexts/AuthContext'
+
+import { SocialMedia } from '@services/firebase/types'
+
+import { updateUser } from '@services/firebase/user/updateUser'
 
 import { ButtonContainer, Container, HeaderLinkCardContainer, InputsContainer } from './styles'
-import { theme } from '../../../common/theme'
+
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-
-import { InsertLinkValueScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { SocialMedia } from '../../../../services/firebase/types'
-
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
+import { theme } from '../../../common/theme'
+import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'
-import { AuthContext } from '../../../../contexts/AuthContext'
-import { Loader } from '../../../components/Loader'
-import { isDefaultSocialMedia, mergeWithDefaultSocialMedia, sortSocialMedias, socialMediaUrl } from '../../../utils/socialMedias'
-import { BackButton } from '../../../components/_buttons/BackButton'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
 import { DefaultInput } from '../../../components/_inputs/DefaultInput'
+import { Loader } from '../../../components/Loader'
+import { InsertLinkValueScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { isDefaultSocialMedia, mergeWithDefaultSocialMedia, sortSocialMedias, socialMediaUrl } from '../../../utils/socialMedias'
 
 function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {
 	const { setUserDataOnContext, userDataContext } = useContext(AuthContext)

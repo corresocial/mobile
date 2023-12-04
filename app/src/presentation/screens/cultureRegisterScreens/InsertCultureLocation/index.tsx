@@ -1,20 +1,19 @@
 import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { theme } from '../../../common/theme'
+import { AuthContext } from '@contexts/AuthContext'
+import { CultureContext } from '@contexts/CultureContext'
+import { EditContext } from '@contexts/EditContext'
+
+import { Coordinates, PostCollection } from '@services/firebase/types'
+
+import { LocationService } from '@services/location/LocationService'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
-
-import { InsertCultureLocationScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
-import { Coordinates, PostCollection } from '../../../../services/firebase/types'
-
-import { CultureContext } from '../../../../contexts/CultureContext'
-import { EditContext } from '../../../../contexts/EditContext'
-import { AuthContext } from '../../../../contexts/AuthContext'
-
-import { SelectPostLocation } from '../../../components/_onboarding/SelectPostLocation'
+import { theme } from '../../../common/theme'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
-import { LocationService } from '../../../../services/location/LocationService'
+import { SelectPostLocation } from '../../../components/_onboarding/SelectPostLocation'
+import { InsertCultureLocationScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 
 const { convertGeocodeToAddress } = LocationService()

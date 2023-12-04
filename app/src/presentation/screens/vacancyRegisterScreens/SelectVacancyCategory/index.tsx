@@ -1,16 +1,14 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { VacancyContext } from '@contexts/VacancyContext'
+
+import { VacancyCategories } from '@services/firebase/types'
+
 import { theme } from '../../../common/theme'
-
-import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
-
-import { SelectVacancyCategoryScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
-import { VacancyCategories } from '../../../../services/firebase/types'
-
-import { VacancyContext } from '../../../../contexts/VacancyContext'
-
 import { PostCategory } from '../../../components/_onboarding/PostCategory'
+import { SelectVacancyCategoryScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
+import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
 
 function SelectVacancyCategory({ route, navigation }: SelectVacancyCategoryScreenProps) {
 	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)

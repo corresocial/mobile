@@ -1,6 +1,6 @@
 import React, { createContext, useMemo, useState } from 'react'
-import { FeedPosts, PostType } from '../services/firebase/types'
-import { CurrentCategory, SearchParams } from '../services/maps/types'
+import { FeedPosts, PostType } from '@services/firebase/types'
+import { CurrentCategory, SearchParams } from '@services/maps/types'
 
 import QuestionMarkIcon from '../assets/icons/questionMark-white.svg'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
-import { VerifiedLabelName } from '../../../services/firebase/types'
+import { VerifiedLabelName } from '@services/firebase/types'
 
 import { BadgeLabel } from './styles'
 import LeaderBadgeIcon from '../../assets/icons/leaderLabel.svg'

@@ -2,20 +2,21 @@ import React, { useContext, useState } from 'react'
 import { ScrollView, KeyboardAvoidingView } from 'react-native'
 import uuid from 'react-uuid'
 
+import { LocationContext } from '@contexts/LocationContext'
+
+import { PostCollection } from '@services/firebase/types'
+
 import { Body, Container, Header, InputContainer } from './styles'
+
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-
-import { ViewAllTagsScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
-
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
-import { LocationContext } from '../../../../contexts/LocationContext'
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { PostCollection } from '../../../../services/firebase/types'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { ViewAllTagsScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { sortArray } = UiUtils()

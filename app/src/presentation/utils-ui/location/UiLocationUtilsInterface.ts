@@ -2,8 +2,8 @@ import React from 'react'
 import { SvgProps } from 'react-native-svg'
 import * as Location from 'expo-location'
 
-import { CompleteAddress, LocationViewType, PostCollectionCommonFields, PostRange } from '../../../services/firebase/types'
-import { GeocodeAddress } from '../../../services/maps/types'
+import { CompleteAddress, LocationViewType, PostCollectionCommonFields, PostRange } from '@services/firebase/types'
+import { GeocodeAddress } from '@services/maps/types'
 
 export interface UiLocationUtilsInterface {
 	getPostRangeLabel(range: PostRange): string

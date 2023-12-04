@@ -1,9 +1,14 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unused-prop-types */
 import React, { useState, useContext, useEffect, useRef } from 'react'
+import { ScrollView, TextInput } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { ScrollView, TextInput } from 'react-native'
+import { AlertContext } from '@contexts/AlertContext/index'
+import { AuthContext } from '@contexts/AuthContext'
+import { ChatContext } from '@contexts/ChatContext'
+
+import { MessageObjects, Chat, UserIdentification, Message } from '../../../../types/chat/types'
 
 import {
 	Container,
@@ -17,26 +22,20 @@ import {
 	SelectPeriodButtonContainer,
 	Title
 } from './styles'
-import { theme } from '../../../common/theme'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+
 import AngleLeftWhiteIcon from '../../../assets/icons/angleLeft-white.svg'
 import LoupIcon from '../../../assets/icons/loup-white.svg'
-
-import { MessageObjects, Chat, UserIdentification, Message } from '../../../../types/chat/types'
-import { ChatConversationsScreenProps } from '../../../routes/Stack/ChatStack/stackScreenProps'
-
-import { AuthContext } from '../../../../contexts/AuthContext'
-import { ChatContext } from '../../../../contexts/ChatContext'
-
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
-import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { ConversationCard } from '../../../components/_cards/ConversationCard'
-import { AlertContext } from '../../../../contexts/AlertContext/index'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
-import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
+import { ChatConversationsScreenProps } from '../../../routes/Stack/ChatStack/stackScreenProps'
 import { UiChatUtils } from '../../../utils-ui/chat/UiChatUtils'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { formatRelativeDate } = UiUtils()
 const { getLastMessageObjects, sortChatMessages } = UiChatUtils()

@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { SocialImpactContext } from '@contexts/SocialImpactContext'
+
+import { LocationViewType } from '@services/firebase/types'
+
 import { theme } from '../../../common/theme'
-
-import { SelectSocialImpactLocationViewScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
-import { LocationViewType } from '../../../../services/firebase/types'
-
 import { PostLocationView } from '../../../components/_onboarding/PostLocationView'
-import { SocialImpactContext } from '../../../../contexts/SocialImpactContext'
+import { SelectSocialImpactLocationViewScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 function SelectSocialImpactLocationView({ route, navigation }: SelectSocialImpactLocationViewScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)

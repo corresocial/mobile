@@ -1,15 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, Linking, Platform } from 'react-native'
 
+import { EditContext } from '@contexts/EditContext'
+
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-
-import { InsertIncomeLinksScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
-
-import { EditContext } from '../../../../contexts/EditContext'
-
 import { theme } from '../../../common/theme'
-
 import { PostLinks } from '../../../components/_onboarding/PostLinks/Index'
+import { InsertIncomeLinksScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 function InsertIncomeLinks({ route, navigation }: InsertIncomeLinksScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

@@ -17,7 +17,7 @@ import YoutubeIcon from '../../assets/icons/youtube.svg'
 import SpotifyIcon from '../../assets/icons/spotify.svg'
 import TikTokIcon from '../../assets/icons/tiktok.svg'
 import SoundCloudIcon from '../../assets/icons/soundcloud.svg'
-import { SocialMedia } from '../../../services/firebase/types'
+import { SocialMedia } from '@services/firebase/types'
 import { relativeScreenHeight } from '../../common/screenDimensions'
 import { socialMediaUrl } from '../../utils/socialMedias'
 

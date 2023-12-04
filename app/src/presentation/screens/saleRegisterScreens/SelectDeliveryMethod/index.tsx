@@ -1,15 +1,14 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { EditContext } from '@contexts/EditContext'
+import { SaleContext } from '@contexts/SaleContext'
+
+import { DeliveryMethod } from '@services/firebase/types'
+
 import { theme } from '../../../common/theme'
-
-import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
-import { DeliveryMethod } from '../../../../services/firebase/types'
-
-import { SaleContext } from '../../../../contexts/SaleContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
 import { PostDeliveryMethod } from '../../../components/_onboarding/PostDeliveryMethod'
+import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)

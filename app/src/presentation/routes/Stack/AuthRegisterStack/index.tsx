@@ -1,21 +1,21 @@
 import 'react-native-gesture-handler'
-import React from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
+import React from 'react'
+
+import { AuthProvider } from '@contexts/AuthContext'
 
 import { AuthRegisterStackParamList } from './types'
 
-import { AuthProvider } from '../../../../contexts/AuthContext'
-
-import { Splash } from '../../../screens/Splash'
-import { SelectAuthRegister } from '../../../screens/authRegisterScreens/SelectAuthRegister'
+import { AcceptTermsAndConditions } from '../../../screens/authRegisterScreens/AcceptTermsAndServices'
 import { InsertCellNumber } from '../../../screens/authRegisterScreens/InsertCellNumber'
 import { InsertConfirmationCode } from '../../../screens/authRegisterScreens/InsertConfirmationCode'
 import { InsertName } from '../../../screens/authRegisterScreens/InsertName'
 import { InsertProfilePicture } from '../../../screens/authRegisterScreens/InsertProfilePicture'
 import { ProfilePicturePreview } from '../../../screens/authRegisterScreens/ProfilePicturePreview'
-import { UserStack } from '../UserStack'
 import { SelectAuthMethod } from '../../../screens/authRegisterScreens/SelectAuthMethod'
-import { AcceptTermsAndConditions } from '../../../screens/authRegisterScreens/AcceptTermsAndServices'
+import { SelectAuthRegister } from '../../../screens/authRegisterScreens/SelectAuthRegister'
+import { Splash } from '../../../screens/Splash'
+import { UserStack } from '../UserStack'
 
 const Stack = createStackNavigator<AuthRegisterStackParamList>()
 

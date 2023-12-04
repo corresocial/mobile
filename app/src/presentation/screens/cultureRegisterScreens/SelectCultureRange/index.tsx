@@ -1,19 +1,17 @@
 import React, { useContext, useEffect } from 'react'
 import { StatusBar } from 'react-native'
 
+import { AuthContext } from '@contexts/AuthContext'
+import { CultureContext } from '@contexts/CultureContext'
+import { EditContext } from '@contexts/EditContext'
+import { StripeContext } from '@contexts/StripeContext'
+
+import { PostRange as PostRangeType } from '@services/firebase/types'
+
 import { theme } from '../../../common/theme'
-
-import { SelectCultureRangeScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
-import { PostRange as PostRangeType } from '../../../../services/firebase/types'
-
-import { EditContext } from '../../../../contexts/EditContext'
-import { CultureContext } from '../../../../contexts/CultureContext'
-import { StripeContext } from '../../../../contexts/StripeContext'
-import { AuthContext } from '../../../../contexts/AuthContext'
-
-import { PostRange } from '../../../components/_onboarding/PostRange'
-
 import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
+import { PostRange } from '../../../components/_onboarding/PostRange'
+import { SelectCultureRangeScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function SelectCultureRange({ route, navigation }: SelectCultureRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

@@ -2,9 +2,10 @@ import 'react-native-gesture-handler'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import React from 'react'
 
+import { ServiceProvider } from '@contexts/ServiceContext'
+
 import { ServiceStackParamList } from './types'
 
-import { ServiceProvider } from '../../../../contexts/ServiceContext'
 import { EditServicePost } from '../../../screens/editPostScreens/EditServicePost'
 import { InsertIncomeLinks } from '../../../screens/saleRegisterScreens/InsertIncomeLinks'
 import { InsertExchangeValue } from '../../../screens/serviceRegisterScreens/InsertExchangeValue'
@@ -12,19 +13,19 @@ import { InsertSaleValue } from '../../../screens/serviceRegisterScreens/InsertS
 import { InsertServiceDescription } from '../../../screens/serviceRegisterScreens/InsertServiceDescription'
 import { InsertServiceEndHour } from '../../../screens/serviceRegisterScreens/InsertServiceEndHour'
 import { InsertServicePrestationLocation } from '../../../screens/serviceRegisterScreens/InsertServicePrestationLocation'
+import { InsertServiceStartHour } from '../../../screens/serviceRegisterScreens/InsertServiceStartHour'
+import { SelectDeliveryMethod } from '../../../screens/serviceRegisterScreens/SelectDeliveryMethod'
 import { SelectLocationView } from '../../../screens/serviceRegisterScreens/SelectLocationView'
 import { SelectPaymentType } from '../../../screens/serviceRegisterScreens/SelectPaymentType'
+import { SelectSaleValueType } from '../../../screens/serviceRegisterScreens/SelectSaleValueType'
 import { SelectServiceCategory } from '../../../screens/serviceRegisterScreens/SelectServiceCategory'
+import { SelectServiceDaysOfWeek } from '../../../screens/serviceRegisterScreens/SelectServiceDaysOfWeek'
+import { SelectServiceFrequency } from '../../../screens/serviceRegisterScreens/SelectServiceFrequency'
 import { SelectServicePurpose } from '../../../screens/serviceRegisterScreens/SelectServicePurpose'
 import { SelectServiceRange } from '../../../screens/serviceRegisterScreens/SelectServiceRange'
 import { SelectServiceTags } from '../../../screens/serviceRegisterScreens/SelectServiceTags'
-import { ServicePicturePreview } from '../../../screens/serviceRegisterScreens/ServicePicturePreview'
 import { ServiceLocationViewPreview } from '../../../screens/serviceRegisterScreens/ServiceLocationViewPreview'
-import { SelectDeliveryMethod } from '../../../screens/serviceRegisterScreens/SelectDeliveryMethod'
-import { SelectServiceFrequency } from '../../../screens/serviceRegisterScreens/SelectServiceFrequency'
-import { SelectServiceDaysOfWeek } from '../../../screens/serviceRegisterScreens/SelectServiceDaysOfWeek'
-import { InsertServiceStartHour } from '../../../screens/serviceRegisterScreens/InsertServiceStartHour'
-import { SelectSaleValueType } from '../../../screens/serviceRegisterScreens/SelectSaleValueType'
+import { ServicePicturePreview } from '../../../screens/serviceRegisterScreens/ServicePicturePreview'
 
 const Stack = createStackNavigator<ServiceStackParamList>()
 

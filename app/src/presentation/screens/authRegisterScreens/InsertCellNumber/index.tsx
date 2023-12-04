@@ -2,11 +2,13 @@ import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
 import React, { useContext, useRef, useState } from 'react'
 import { Animated, StatusBar, Platform, TextInput } from 'react-native'
 
+import { AuthContext } from '@contexts/AuthContext'
+
+import { checkUserPhoneAlreadyRegistredCloud } from '@services/cloudFunctions/checkUserPhoneAlreadyRegistred'
+import Firebase from '@services/firebase'
+
 import { Container, InputsContainer } from './styles'
 
-import { AuthContext } from '../../../../contexts/AuthContext'
-import { checkUserPhoneAlreadyRegistredCloud } from '../../../../services/cloudFunctions/checkUserPhoneAlreadyRegistred'
-import Firebase from '../../../../services/firebase'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
 import { theme } from '../../../common/theme'

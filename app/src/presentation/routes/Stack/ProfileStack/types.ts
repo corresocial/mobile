@@ -1,6 +1,6 @@
-import { PostCollection } from '../../../../services/firebase/types'
 import { HomeTabParamList } from '../../Tabs/HomeTab/types'
 import { StackLabelProps } from '../../types'
+import { PostCollection } from '@services/firebase/types'
 
 export type ProfileStackParamList = {
 	Profile: { userId: string, stackLabel: StackLabelProps } | undefined

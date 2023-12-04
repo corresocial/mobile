@@ -1,7 +1,9 @@
 import { StackNavigationProp } from '@react-navigation/stack'
+
+import { LocalUserData } from '@contexts/types'
+
 import { Chat } from '../../../../types/chat/types'
-import { LocalUserData } from '../../../../contexts/types'
-import { ContactUsType } from '../../../../services/discord/types'
+import { ContactUsType } from '@services/discord/types'
 import {
 	CultureCollectionRemote,
 	PostCollectionRemote,
@@ -12,8 +14,8 @@ import {
 	SocialMedia,
 	VacancyCollectionRemote,
 	PostCollection
-} from '../../../../services/firebase/types'
-import { ReportedTarget } from '../../../../services/types'
+} from '@services/firebase/types'
+import { ReportedTarget } from '@services/types'
 
 export type UserStackNavigationProps = StackNavigationProp<UserStackParamList>
 

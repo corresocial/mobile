@@ -2,9 +2,10 @@ import 'react-native-gesture-handler'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import React from 'react'
 
+import { VacancyProvider } from '@contexts/VacancyContext'
+
 import { VacancyStackParamList } from './types'
 
-import { VacancyProvider } from '../../../../contexts/VacancyContext'
 import { EditVacancyPost } from '../../../screens/editPostScreens/EditVacancyPost'
 import { InsertIncomeLinks } from '../../../screens/saleRegisterScreens/InsertIncomeLinks'
 import { InsertExchangeValue } from '../../../screens/vacancyRegisterScreens/InsertExchangeValue'
@@ -16,19 +17,19 @@ import { InsertVacancyImportantPoints } from '../../../screens/vacancyRegisterSc
 import { InsertVacancyStartDate } from '../../../screens/vacancyRegisterScreens/InsertVacancyStartDate'
 import { InsertVacancyStartHour } from '../../../screens/vacancyRegisterScreens/InsertVacancyStartHour'
 import { InsertWorkplaceLocation } from '../../../screens/vacancyRegisterScreens/InsertWorkplaceLocation'
+import { SelectPaymentType } from '../../../screens/vacancyRegisterScreens/SelectPaymentType'
+import { SelectSaleValueType } from '../../../screens/vacancyRegisterScreens/SelectSaleValueType'
 import { SelectVacancyCategory } from '../../../screens/vacancyRegisterScreens/SelectVacancyCategory'
-import { SelectWorkplace } from '../../../screens/vacancyRegisterScreens/SelectWorkplace'
+import { SelectVacancyFrequency } from '../../../screens/vacancyRegisterScreens/SelectVacancyFrequency'
+import { SelectVacancyLocationView } from '../../../screens/vacancyRegisterScreens/SelectVacancyLocationView'
+import { SelectVacancyPurpose } from '../../../screens/vacancyRegisterScreens/SelectVacancyPurpose'
+import { SelectVacancyRange } from '../../../screens/vacancyRegisterScreens/SelectVacancyRange'
 import { SelectVacancyTags } from '../../../screens/vacancyRegisterScreens/SelectVacancyTags'
 import { SelectVacancyType } from '../../../screens/vacancyRegisterScreens/SelectVacancyType'
+import { SelectWorkplace } from '../../../screens/vacancyRegisterScreens/SelectWorkplace'
 import { SelectWorkWeekdays } from '../../../screens/vacancyRegisterScreens/SelectWorkWeekdays'
 import { VacancyLocationViewPreview } from '../../../screens/vacancyRegisterScreens/VacancyLocationViewPreview'
 import { VacancyPicturePreview } from '../../../screens/vacancyRegisterScreens/VacancyPicturePreview'
-import { SelectPaymentType } from '../../../screens/vacancyRegisterScreens/SelectPaymentType'
-import { SelectSaleValueType } from '../../../screens/vacancyRegisterScreens/SelectSaleValueType'
-import { SelectVacancyRange } from '../../../screens/vacancyRegisterScreens/SelectVacancyRange'
-import { SelectVacancyLocationView } from '../../../screens/vacancyRegisterScreens/SelectVacancyLocationView'
-import { SelectVacancyFrequency } from '../../../screens/vacancyRegisterScreens/SelectVacancyFrequency'
-import { SelectVacancyPurpose } from '../../../screens/vacancyRegisterScreens/SelectVacancyPurpose'
 
 const Stack = createStackNavigator<VacancyStackParamList>()
 

@@ -1,15 +1,13 @@
 import React, { useContext, useEffect } from 'react'
 
-import { theme } from '../../../common/theme'
-import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
+import { ServiceContext } from '@contexts/ServiceContext'
+
 import GiftWhiteIcon from '../../../assets/icons/megaphone-white.svg'
-
-import { SelectServicePurposeScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-
-import { ServiceContext } from '../../../../contexts/ServiceContext'
-
-import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
+import { theme } from '../../../common/theme'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
+import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import { SelectServicePurposeScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 function SelectServicePurpose({ route, navigation }: SelectServicePurposeScreenProps) {
 	const { isSecondPost, setServiceDataOnContext, getAditionalDataFromLastPost } = useContext(ServiceContext)

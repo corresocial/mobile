@@ -2,7 +2,7 @@ import React, { JSXElementConstructor, ReactElement } from 'react'
 import { FlatList, RefreshControl } from 'react-native'
 
 import { RFValue } from 'react-native-responsive-fontsize'
-import { PostCollection } from '../../../services/firebase/types'
+import { PostCollection } from '@services/firebase/types'
 
 import { VerticalSpacing } from '../_space/VerticalSpacing'
 import { theme } from '../../common/theme'

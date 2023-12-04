@@ -1,23 +1,23 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
+import { EventRepeatType } from '@services/firebase/types'
+
 import { Container, ButtonsContainer } from './styles'
-import { theme } from '../../../common/theme'
-import CalendarInfinityWhiteIcon from '../../../assets/icons/calendarInfinity-white.svg'
-import CalendarWeeklyWhiteIcon from '../../../assets/icons/calendarWeekly-white.svg'
-import CalendarBiweeklyWhiteIcon from '../../../assets/icons/calendarBiweekly-white.svg'
-import CalendarMonthlyWhiteIcon from '../../../assets/icons/calendarMonthly-white.svg'
-import CalendarXWhiteIcon from '../../../assets/icons/calendarX-white.svg'
 
-import { EventRepeatType } from '../../../../services/firebase/types'
-
+import { BackButton } from '../../_buttons/BackButton'
+import { OptionButton } from '../../_buttons/OptionButton'
+import { InstructionCard } from '../../_cards/InstructionCard'
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../_containers/FormContainer'
-import { BackButton } from '../../_buttons/BackButton'
-import { InstructionCard } from '../../_cards/InstructionCard'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { OptionButton } from '../../_buttons/OptionButton'
 import { VerticalSpacing } from '../../_space/VerticalSpacing'
+import CalendarBiweeklyWhiteIcon from '../../../assets/icons/calendarBiweekly-white.svg'
+import CalendarInfinityWhiteIcon from '../../../assets/icons/calendarInfinity-white.svg'
+import CalendarMonthlyWhiteIcon from '../../../assets/icons/calendarMonthly-white.svg'
+import CalendarWeeklyWhiteIcon from '../../../assets/icons/calendarWeekly-white.svg'
+import CalendarXWhiteIcon from '../../../assets/icons/calendarX-white.svg'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 
 interface PostRepeatProps {
 	backgroundColor: string

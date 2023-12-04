@@ -1,25 +1,24 @@
 import React, { useContext, useState } from 'react'
 import { Platform } from 'react-native'
 
-import { navigateToPostView } from '../../../routes/auxMethods'
+import { AuthContext } from '@contexts/AuthContext'
+import { LocationContext } from '@contexts/LocationContext'
+
+import { PostCollection, PostCollectionRemote } from '@services/firebase/types'
+import { SearchParams } from '@services/maps/types'
 
 import { Body, Container, ContainerPadding, Header, InputContainer } from './styles'
-import { theme } from '../../../common/theme'
 
-import { PostCollection, PostCollectionRemote } from '../../../../services/firebase/types'
-import { ViewPostsByRangeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
-
-import { LocationContext } from '../../../../contexts/LocationContext'
-import { AuthContext } from '../../../../contexts/AuthContext'
-
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { PostCard } from '../../../components/_cards/PostCard'
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { FlatListPosts } from '../../../components/FlatListPosts'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { SearchParams } from '../../../../services/maps/types'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
+import { PostCard } from '../../../components/_cards/PostCard'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
+import { FlatListPosts } from '../../../components/FlatListPosts'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { navigateToPostView } from '../../../routes/auxMethods'
+import { ViewPostsByRangeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

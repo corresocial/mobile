@@ -1,24 +1,23 @@
-import { Platform, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
+import { Platform, StatusBar } from 'react-native'
+
+import { AlertContext } from '@contexts/AlertContext'
+import { ChatContext } from '@contexts/ChatContext'
 
 import { Container, HeaderLinkCardContainer } from './styles'
-import { theme } from '../../../common/theme'
+
+import BellWhiteIcon from '../../../assets/icons/bell-white.svg'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import XWhiteIcon from '../../../assets/icons/x-white.svg'
-import BellWhiteIcon from '../../../assets/icons/bell-white.svg'
-
-import { NotificationSettingsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-
-import { AlertContext } from '../../../../contexts/AlertContext'
-import { ChatContext } from '../../../../contexts/ChatContext'
-
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
 import { Loader } from '../../../components/Loader'
+import { NotificationSettingsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function NotificationSettings({ route, navigation }: NotificationSettingsScreenProps) {
 	const { pushNotificationEnabled, setPushNotificationState, userHasTokenNotification } = useContext(ChatContext)

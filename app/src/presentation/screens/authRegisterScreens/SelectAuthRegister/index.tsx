@@ -1,22 +1,23 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { BackHandler, Platform, StatusBar } from 'react-native'
 
+import { AuthContext } from '@contexts/AuthContext'
+
 import { Container, CarouselItemContainer, Slogan } from './styles'
 
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
-import { AuthContext } from '../../../../contexts/AuthContext'
-import { SelectAuthRegisterScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 import Logo from '../../../assets/icons/logo.svg'
 import PhoneDeviceWhiteIcon from '../../../assets/icons/phoneDevice-white.svg'
 import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
 import UserWhiteIcon from '../../../assets/icons/profile-white.svg'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { TermsOfServiceModal } from '../../../components/_modals/TermsOfServiceModal'
 import { CustomCarousel } from '../../../components/CustomCarousel'
+import { SelectAuthRegisterScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
 const presentationTexts = [
 	'rede social, de verdade',

@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, StatusBar } from 'react-native'
 
+import { EditContext } from '@contexts/EditContext'
+
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
 import { theme } from '../../../common/theme'
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
-import { EditContext } from '../../../../contexts/EditContext'
 import { InsertSaleValueScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 function InsertVacancyValue({ navigation, route }: InsertSaleValueScreenProps) {

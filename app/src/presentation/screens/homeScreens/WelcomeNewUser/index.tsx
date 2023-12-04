@@ -1,23 +1,23 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { BackHandler, StatusBar } from 'react-native'
 
+import { AuthContext } from '@contexts/AuthContext'
+import { StateContext } from '@contexts/StateContext'
+
+import { Id } from '@services/firebase/types'
+
+import { updateUser } from '@services/firebase/user/updateUser'
+
 import { Container, ContainerButtons } from './styles'
-import { theme } from '../../../common/theme'
+
 import LoupWhiteIcon from '../../../assets/icons/loup-white.svg'
 import SalesCartWhiteIcon from '../../../assets/icons/salesCart-white.svg'
-
-import { updateUser } from '../../../../services/firebase/user/updateUser'
-
-import { WelcomeNewUserScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { Id } from '../../../../services/firebase/types'
-
-import { AuthContext } from '../../../../contexts/AuthContext'
-import { StateContext } from '../../../../contexts/StateContext'
-
+import { theme } from '../../../common/theme'
+import { OptionButton } from '../../../components/_buttons/OptionButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { OptionButton } from '../../../components/_buttons/OptionButton'
+import { WelcomeNewUserScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {
 	const { userDataContext, setUserDataOnContext } = useContext(AuthContext)

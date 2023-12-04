@@ -1,14 +1,13 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { EditContext } from '@contexts/EditContext'
+
+import { PaymentType } from '@services/firebase/types'
+
 import { theme } from '../../../common/theme'
-
-import { SelectPaymentTypeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
-import { PaymentType } from '../../../../services/firebase/types'
-
-import { EditContext } from '../../../../contexts/EditContext'
-
 import { PaymentMethod } from '../../../components/_onboarding/PaymentMethod'
+import { SelectPaymentTypeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 function SelectPaymentType({ route, navigation }: SelectPaymentTypeScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

@@ -10,7 +10,7 @@ import SpotifyIcon from '../assets/icons/spotify.svg'
 import TikTokIcon from '../assets/icons/tiktok.svg'
 import SoundCloudIcon from '../assets/icons/soundcloud.svg'
 
-import { SocialMedia } from '../../services/firebase/types'
+import { SocialMedia } from '@services/firebase/types'
 
 /*
 src/

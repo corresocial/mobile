@@ -10,7 +10,7 @@ import IncomeTextWhite from '../../assets/icons/incomeText-white.svg'
 import CitizenshipTextWhite from '../../assets/icons/citizenshipText-white.svg'
 import CultureTextWhite from '../../assets/icons/cultureText-white.svg'
 
-import { PostType } from '../../../services/firebase/types'
+import { PostType } from '@services/firebase/types'
 
 import { SmallButton } from '../_buttons/SmallButton'
 

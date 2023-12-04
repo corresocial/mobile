@@ -1,18 +1,16 @@
 import React from 'react'
-import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 
-import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
-import PaperInfoWhite from '../../../assets/icons/paperInfo-white.svg'
-import HeartAndPersonWhiteIcon from '../../../assets/icons/heartAndPerson-white.svg'
-import HandOnHeartWhiteIcon from '../../../assets/icons/handOnHeart-white.svg'
+import { SocialImpactType } from '@services/firebase/types'
 
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-
-import { SocialImpactType } from '../../../../services/firebase/types'
-
-import { DefaultCardContainer } from '../DefaultCardContainer'
-import { PostInfoRow } from '../../PostInfoRow'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import HandOnHeartWhiteIcon from '../../../assets/icons/handOnHeart-white.svg'
+import HeartAndPersonWhiteIcon from '../../../assets/icons/heartAndPerson-white.svg'
+import PaperInfoWhite from '../../../assets/icons/paperInfo-white.svg'
+import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
+import { PostInfoRow } from '../../PostInfoRow'
+import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface SocialImpactTypeCardProps {
 	title?: string

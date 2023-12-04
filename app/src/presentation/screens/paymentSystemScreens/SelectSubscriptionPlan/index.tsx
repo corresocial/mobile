@@ -1,15 +1,14 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { StripeContext } from '@contexts/StripeContext'
+import { SubscriptionContext } from '@contexts/SubscriptionContext'
+
+import { SubscriptionPlan as SubscriptionPlanType } from '@services/firebase/types'
+
 import { theme } from '../../../common/theme'
-
-import { SelectSubscriptionPlanScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { SubscriptionPlan as SubscriptionPlanType } from '../../../../services/firebase/types'
-
-import { SubscriptionContext } from '../../../../contexts/SubscriptionContext'
-import { StripeContext } from '../../../../contexts/StripeContext'
-
 import { SubscriptionPlan } from '../../../components/_onboarding/SubscriptionPlan'
+import { SelectSubscriptionPlanScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 
 const { getPostRangeLabelHiglighted } = UiSubscriptionUtils()

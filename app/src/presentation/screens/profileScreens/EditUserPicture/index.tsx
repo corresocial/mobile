@@ -1,23 +1,22 @@
 import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
+import { AuthContext } from '@contexts/AuthContext'
+import { EditContext } from '@contexts/EditContext'
+
 import { Container, InstructionCardContainer } from './styles'
-import { screenWidth } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
+
 import ImagePlusIcon from '../../../assets/icons/addPicture-white.svg'
 import Check from '../../../assets/icons/check-white.svg'
 import X from '../../../assets/icons/x-white.svg'
-
-import { EditUserPictureScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-
-import { EditContext } from '../../../../contexts/EditContext'
-import { AuthContext } from '../../../../contexts/AuthContext'
-
+import { screenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
+import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { PhotoPortrait } from '../../../components/PhotoPortrait'
 import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal'
+import { PhotoPortrait } from '../../../components/PhotoPortrait'
+import { EditUserPictureScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

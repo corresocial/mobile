@@ -1,20 +1,19 @@
 import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { theme } from '../../../common/theme'
+import { AuthContext } from '@contexts/AuthContext'
+import { EditContext } from '@contexts/EditContext'
+import { VacancyContext } from '@contexts/VacancyContext'
+
+import { Coordinates, PostCollection } from '@services/firebase/types'
+
+import { LocationService } from '@services/location/LocationService'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
-
-import { InsertWorkplaceLocationScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
-import { Coordinates, PostCollection } from '../../../../services/firebase/types'
-
-import { VacancyContext } from '../../../../contexts/VacancyContext'
-import { EditContext } from '../../../../contexts/EditContext'
-import { AuthContext } from '../../../../contexts/AuthContext'
-
-import { SelectPostLocation } from '../../../components/_onboarding/SelectPostLocation'
+import { theme } from '../../../common/theme'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
-import { LocationService } from '../../../../services/location/LocationService'
+import { SelectPostLocation } from '../../../components/_onboarding/SelectPostLocation'
+import { InsertWorkplaceLocationScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 
 const { convertGeocodeToAddress } = LocationService()

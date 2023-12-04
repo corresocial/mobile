@@ -2,9 +2,10 @@ import 'react-native-gesture-handler'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import React from 'react'
 
+import { CultureProvider } from '@contexts/CultureContext'
+
 import { CultureStackParamList } from './types'
 
-import { CultureProvider } from '../../../../contexts/CultureContext'
 import { CultureLocationViewPreview } from '../../../screens/cultureRegisterScreens/CultureLocationViewPreview'
 import { CulturePicturePreview } from '../../../screens/cultureRegisterScreens/CulturePicturePreview'
 import { InsertCultureDescription } from '../../../screens/cultureRegisterScreens/InsertCultureDescription'
@@ -16,16 +17,16 @@ import { InsertCultureStartHour } from '../../../screens/cultureRegisterScreens/
 import { InsertEntryValue } from '../../../screens/cultureRegisterScreens/InsertEntryValue'
 import { InsertCultureLinks } from '../../../screens/cultureRegisterScreens/InsetCultureLinks'
 import { SelectCultureCategory } from '../../../screens/cultureRegisterScreens/SelectCultureCategory'
+import { SelectCultureDaysOfWeek } from '../../../screens/cultureRegisterScreens/SelectCultureDaysOfWeek'
 import { SelectCultureFrequency } from '../../../screens/cultureRegisterScreens/SelectCultureFrequency'
 import { SelectCultureLocationView } from '../../../screens/cultureRegisterScreens/SelectCultureLocationView'
 import { SelectCulturePlaceModality } from '../../../screens/cultureRegisterScreens/SelectCulturePlaceModality'
-import { SelectCultureTags } from '../../../screens/cultureRegisterScreens/SelectCultureTags'
+import { SelectCulturePurpose } from '../../../screens/cultureRegisterScreens/SelectCulturePurpose'
 import { SelectCultureRange } from '../../../screens/cultureRegisterScreens/SelectCultureRange'
+import { SelectCultureTags } from '../../../screens/cultureRegisterScreens/SelectCultureTags'
 import { SelectCultureType } from '../../../screens/cultureRegisterScreens/SelectCultureType'
 import { SelectEventRepeat } from '../../../screens/cultureRegisterScreens/SelectEventRepeat'
-import { SelectCultureDaysOfWeek } from '../../../screens/cultureRegisterScreens/SelectCultureDaysOfWeek'
 import { EditCulturePost } from '../../../screens/editPostScreens/EditCulturePost'
-import { SelectCulturePurpose } from '../../../screens/cultureRegisterScreens/SelectCulturePurpose'
 
 const Stack = createStackNavigator<CultureStackParamList>()
 

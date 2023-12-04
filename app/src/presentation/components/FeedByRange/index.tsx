@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { FeedPosts, PostCollection, PostRange } from '../../../services/firebase/types'
+import { FeedPosts, PostCollection, PostRange } from '@services/firebase/types'
 
 import { relativeScreenHeight } from '../../common/screenDimensions'
 import { Container, PostCardContainer } from './styles'

@@ -1,16 +1,13 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { EditContext } from '@contexts/EditContext'
+import { SocialImpactContext } from '@contexts/SocialImpactContext'
+
 import { theme } from '../../../common/theme'
-
-import { socialImpactCategories, updateSocialImpactTags } from '../../../utils/postsCategories/socialImpactCategories'
-
-import { SelectSocialImpactTagsScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
-
-import { SocialImpactContext } from '../../../../contexts/SocialImpactContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
 import { PostTags } from '../../../components/_onboarding/PostTags'
+import { SelectSocialImpactTagsScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
+import { socialImpactCategories, updateSocialImpactTags } from '../../../utils/postsCategories/socialImpactCategories'
 
 function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)

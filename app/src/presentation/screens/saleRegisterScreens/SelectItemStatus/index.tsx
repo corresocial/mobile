@@ -1,17 +1,16 @@
 import React, { useContext, useEffect } from 'react'
 
-import { theme } from '../../../common/theme'
-import UsedLabelWhiteIcon from '../../../assets/icons/usedLabel-white.svg'
+import { EditContext } from '@contexts/EditContext'
+import { SaleContext } from '@contexts/SaleContext'
+
+import { ItemStatus } from '@services/firebase/types'
+
 import GiftWhiteIcon from '../../../assets/icons/gift-white.svg'
-
-import { SelectItemStatusScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
-import { ItemStatus } from '../../../../services/firebase/types'
-
-import { SaleContext } from '../../../../contexts/SaleContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
-import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import UsedLabelWhiteIcon from '../../../assets/icons/usedLabel-white.svg'
+import { theme } from '../../../common/theme'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
+import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import { SelectItemStatusScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
 	const { isSecondPost, setSaleDataOnContext, getAditionalDataFromLastPost } = useContext(SaleContext)

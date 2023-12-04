@@ -1,21 +1,21 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
+import { LocationViewType } from '@services/firebase/types'
+
 import { ButtonsContainer, Container } from './styles'
-import { theme } from '../../../common/theme'
-import EyeDashedWhiteIcon from '../../../assets/icons/eyeDashed-white.svg'
-import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
-import EyeWhiteIcon from '../../../assets/icons/eye-white.svg'
 
-import { LocationViewType } from '../../../../services/firebase/types'
-
+import { BackButton } from '../../_buttons/BackButton'
+import { OptionButton } from '../../_buttons/OptionButton'
+import { InstructionCard } from '../../_cards/InstructionCard'
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../_containers/FormContainer'
-import { BackButton } from '../../_buttons/BackButton'
-import { InstructionCard } from '../../_cards/InstructionCard'
-import { ProgressBar } from '../../ProgressBar'
+import EyeWhiteIcon from '../../../assets/icons/eye-white.svg'
+import EyeDashedWhiteIcon from '../../../assets/icons/eyeDashed-white.svg'
+import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { OptionButton } from '../../_buttons/OptionButton'
+import { theme } from '../../../common/theme'
+import { ProgressBar } from '../../ProgressBar'
 
 interface PostLocationViewProps {
 	backgroundColor: string

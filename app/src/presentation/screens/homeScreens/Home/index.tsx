@@ -1,8 +1,28 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext, useEffect, useState } from 'react'
-import * as Location from 'expo-location'
-import { RefreshControl } from 'react-native'
 import { getLocales } from 'expo-localization'
+import * as Location from 'expo-location'
+import React, { useContext, useEffect, useState } from 'react'
+import { RefreshControl } from 'react-native'
+
+import { AlertContext } from '@contexts/AlertContext'
+import { AuthContext } from '@contexts/AuthContext'
+import { LoaderContext } from '@contexts/LoaderContext'
+import { LocationContext } from '@contexts/LocationContext'
+
+import { FeedPosts, Id, PostCollection, PostRange, PostType } from '@services/firebase/types'
+import {
+	SearchParams,
+	LatLong,
+	AddressSearchResult,
+	SelectedAddressRender,
+	GeocodeAddress,
+} from '@services/maps/types'
+
+import { getPostsByLocationCloud } from '@services/cloudFunctions/getPostsByLocationCloud'
+
+import { LocationService } from '@services/location/LocationService'
+import { getReverseGeocodeByMapsApi } from '@services/maps/getReverseGeocodeByMapsApi'
+import { searchAddressByText } from '@services/maps/searchAddressByText'
 
 import {
 	Container,
@@ -10,40 +30,21 @@ import {
 	DropdownContainer,
 	RecentPostsContainer
 } from './styles'
-import { theme } from '../../../common/theme'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
-import { searchAddressByText } from '../../../../services/maps/searchAddressByText'
-import { getLastRecentAddress, getRecentAdressesFromStorage } from '../../../utils/maps/recentAddresses'
-import { getPostsByLocationCloud } from '../../../../services/cloudFunctions/getPostsByLocationCloud'
-
-import {
-	SearchParams,
-	LatLong,
-	AddressSearchResult,
-	SelectedAddressRender,
-	GeocodeAddress,
-} from '../../../../services/maps/types'
-import { FeedPosts, Id, PostCollection, PostRange, PostType } from '../../../../services/firebase/types'
-import { HomeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
-
-import { LocationContext } from '../../../../contexts/LocationContext'
-import { AuthContext } from '../../../../contexts/AuthContext'
-import { LoaderContext } from '../../../../contexts/LoaderContext'
-import { AlertContext } from '../../../../contexts/AlertContext'
-
-import { LocationNearDropdown } from '../../../components/LocationNearDropdown'
-import { PostCard } from '../../../components/_cards/PostCard'
-import { RequestLocation } from '../../../components/RequestLocation'
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { HomeCatalogMenu } from '../../../components/HomeCatalogMenu'
-import { getReverseGeocodeByMapsApi } from '../../../../services/maps/getReverseGeocodeByMapsApi'
+import { theme } from '../../../common/theme'
 import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
+import { PostCard } from '../../../components/_cards/PostCard'
 import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
 import { FeedByRange } from '../../../components/FeedByRange'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { HomeCatalogMenu } from '../../../components/HomeCatalogMenu'
+import { LocationNearDropdown } from '../../../components/LocationNearDropdown'
+import { RequestLocation } from '../../../components/RequestLocation'
 import { navigateToPostView } from '../../../routes/auxMethods'
-import { LocationService } from '../../../../services/location/LocationService'
+import { HomeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
+import { getLastRecentAddress, getRecentAdressesFromStorage } from '../../../utils/maps/recentAddresses'
 
 const { getCurrentLocation, convertGeocodeToAddress } = LocationService()
 const { structureAddress, structureExpoLocationAddress } = UiLocationUtils()

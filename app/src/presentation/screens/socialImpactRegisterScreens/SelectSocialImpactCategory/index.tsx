@@ -1,16 +1,14 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { SocialImpactContext } from '@contexts/SocialImpactContext'
+
+import { SocialImpactCategories } from '@services/firebase/types'
+
 import { theme } from '../../../common/theme'
-
-import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
-
-import { SelectSocialImpactCategoryScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
-import { SocialImpactCategories } from '../../../../services/firebase/types'
-
-import { SocialImpactContext } from '../../../../contexts/SocialImpactContext'
-
 import { PostCategory } from '../../../components/_onboarding/PostCategory'
+import { SelectSocialImpactCategoryScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
+import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
 
 function SelectSocialImpactCategory({ route, navigation }: SelectSocialImpactCategoryScreenProps) {
 	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)

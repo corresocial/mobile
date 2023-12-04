@@ -2,9 +2,10 @@ import 'react-native-gesture-handler'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import React from 'react'
 
+import { SaleProvider } from '@contexts/SaleContext'
+
 import { SaleStackParamList } from './types'
 
-import { SaleProvider } from '../../../../contexts/SaleContext'
 import { EditSalePost } from '../../../screens/editPostScreens/EditSalePost'
 import { InsertExchangeValue } from '../../../screens/saleRegisterScreens/InsertExchangeValue'
 import { InsertIncomeLinks } from '../../../screens/saleRegisterScreens/InsertIncomeLinks'
@@ -15,17 +16,17 @@ import { InsertSaleStartHour } from '../../../screens/saleRegisterScreens/Insert
 import { InsertSaleValue } from '../../../screens/saleRegisterScreens/InsertSaleValue'
 import { SaleLocationViewPreview } from '../../../screens/saleRegisterScreens/SaleLocationViewPreview'
 import { SalePicturePreview } from '../../../screens/saleRegisterScreens/SalePicturePreview'
+import { SelectDeliveryMethod } from '../../../screens/saleRegisterScreens/SelectDeliveryMethod'
+import { SelectItemStatus } from '../../../screens/saleRegisterScreens/SelectItemStatus'
+import { SelectLocationView } from '../../../screens/saleRegisterScreens/SelectLocationView'
 import { SelectPaymentType } from '../../../screens/saleRegisterScreens/SelectPaymentType'
 import { SelectSaleCategory } from '../../../screens/saleRegisterScreens/SelectSaleCategory'
+import { SelectSaleDaysOfWeek } from '../../../screens/saleRegisterScreens/SelectSaleDaysOfWeek'
+import { SelectSaleFrequency } from '../../../screens/saleRegisterScreens/SelectSaleFrequency'
+import { SelectSalePurpose } from '../../../screens/saleRegisterScreens/SelectSalePurpose'
+import { SelectSaleRange } from '../../../screens/saleRegisterScreens/SelectSaleRange'
 import { SelectSaleTags } from '../../../screens/saleRegisterScreens/SelectSaleTags'
 import { SelectSaleValueType } from '../../../screens/saleRegisterScreens/SelectSaleValueType'
-import { SelectLocationView } from '../../../screens/saleRegisterScreens/SelectLocationView'
-import { SelectDeliveryMethod } from '../../../screens/saleRegisterScreens/SelectDeliveryMethod'
-import { SelectSaleFrequency } from '../../../screens/saleRegisterScreens/SelectSaleFrequency'
-import { SelectSaleDaysOfWeek } from '../../../screens/saleRegisterScreens/SelectSaleDaysOfWeek'
-import { SelectSaleRange } from '../../../screens/saleRegisterScreens/SelectSaleRange'
-import { SelectItemStatus } from '../../../screens/saleRegisterScreens/SelectItemStatus'
-import { SelectSalePurpose } from '../../../screens/saleRegisterScreens/SelectSalePurpose'
 
 const Stack = createStackNavigator<SaleStackParamList>()
 

@@ -1,27 +1,27 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
+import { AuthContext } from '@contexts/AuthContext'
+
+import { NotionPage } from '@services/notion/types'
+
+import { sendContactUsMessageToDiscord } from '@services/discord/contactUs'
+import { sendContactUsMessageToNotion } from '@services/notion/contactUs'
+
 import { Container } from './styles'
-import { theme } from '../../../common/theme'
+
 import CheckIcon from '../../../assets/icons/check-white.svg'
-
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { sendContactUsMessageToDiscord } from '../../../../services/discord/contactUs'
-import { sendContactUsMessageToNotion } from '../../../../services/notion/contactUs'
-
-import { ContactUsInsertMessageScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { NotionPage } from '../../../../services/notion/types'
-
-import { AuthContext } from '../../../../contexts/AuthContext'
-
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
+import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InfoCard } from '../../../components/_cards/InfoCard'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { Loader } from '../../../components/Loader'
-import { BackButton } from '../../../components/_buttons/BackButton'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../../components/_containers/FormContainer'
 import { DefaultInput } from '../../../components/_inputs/DefaultInput'
+import { Loader } from '../../../components/Loader'
+import { ContactUsInsertMessageScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

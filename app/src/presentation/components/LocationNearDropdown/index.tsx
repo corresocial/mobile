@@ -17,7 +17,7 @@ import MapIcon from '../../assets/icons/mapPoint-white.svg'
 
 import { setRecentAddressOnStorage } from '../../utils/maps/recentAddresses'
 
-import { AddressSearchResult, LatLong, SelectedAddressRender } from '../../../services/maps/types'
+import { AddressSearchResult, LatLong, SelectedAddressRender } from '@services/maps/types'
 
 import { DropdownItem } from '../DropdownItem'
 import { PrimaryButton } from '../_buttons/PrimaryButton'

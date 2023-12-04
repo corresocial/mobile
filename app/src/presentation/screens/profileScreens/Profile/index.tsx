@@ -2,6 +2,25 @@ import React, { useEffect, useState, useContext } from 'react'
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { AlertContext } from '@contexts/AlertContext/index'
+import { AuthContext } from '@contexts/AuthContext'
+import { StripeContext } from '@contexts/StripeContext'
+import { LocalUserData } from '@contexts/types'
+
+import { FlatListItem } from '../../../../types/global/types'
+import {
+	Id,
+	PostCollection,
+	PostRange,
+	SocialMedia,
+	UserCollection,
+	VerifiedLabelName,
+} from '@services/firebase/types'
+
+import { getUser } from '@services/firebase/user/getUser'
+import { updateUser } from '@services/firebase/user/updateUser'
+import { setFreeTrialPlans } from '@services/stripe/scripts/setFreeTrialPlans'
+
 import {
 	Body,
 	Container,
@@ -19,60 +38,43 @@ import {
 	OffBounceBackground,
 	SeeMoreLabel,
 } from './styles'
-import { theme } from '../../../common/theme'
+
+import AtSignWhiteIcon from '../../../assets/icons/atSign-white.svg'
 import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
+import EditIcon from '../../../assets/icons/edit-white.svg'
+import GearAlertWhiteIcon from '../../../assets/icons/gear-alert-white.svg'
+import GearWhiteIcon from '../../../assets/icons/gear-white.svg'
 import ShareIcon from '../../../assets/icons/share-white.svg'
 import ThreeDotsIcon from '../../../assets/icons/threeDots.svg'
-import EditIcon from '../../../assets/icons/edit-white.svg'
-import GearWhiteIcon from '../../../assets/icons/gear-white.svg'
-import GearAlertWhiteIcon from '../../../assets/icons/gear-alert-white.svg'
 import WirelessOffWhiteIcon from '../../../assets/icons/wirelessOff-white.svg'
 import WirelessOnWhiteIcon from '../../../assets/icons/wirelessOn-white.svg'
-import AtSignWhiteIcon from '../../../assets/icons/atSign-white.svg'
-
-import { share } from '../../../common/share'
-import { getUser } from '../../../../services/firebase/user/getUser'
 import { getShortText } from '../../../common/auxiliaryFunctions'
-
-import { LocalUserData } from '../../../../contexts/types'
-import {
-	Id,
-	PostCollection,
-	PostRange,
-	SocialMedia,
-	UserCollection,
-	VerifiedLabelName,
-} from '../../../../services/firebase/types'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { share } from '../../../common/share'
+import { theme } from '../../../common/theme'
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { OptionButton } from '../../../components/_buttons/OptionButton'
+import { SmallButton } from '../../../components/_buttons/SmallButton'
+import { PostCard } from '../../../components/_cards/PostCard'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { ProfileVerifiedModal } from '../../../components/_modals/ProfileVerifiedModal'
+import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
+import { HorizontalTagList } from '../../../components/HorizontalTagList'
+import { PhotoPortrait } from '../../../components/PhotoPortrait'
+import { PopOver } from '../../../components/PopOver'
+import { VerifiedUserBadge } from '../../../components/VerifiedUserBadge'
+import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { HomeTabScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 
-import { AuthContext } from '../../../../contexts/AuthContext'
 
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { PhotoPortrait } from '../../../components/PhotoPortrait'
-import { SmallButton } from '../../../components/_buttons/SmallButton'
-import { HorizontalTagList } from '../../../components/HorizontalTagList'
-import { PostCard } from '../../../components/_cards/PostCard'
-import { PopOver } from '../../../components/PopOver'
-import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { updateUser } from '../../../../services/firebase/user/updateUser'
-import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
-import { ProfileVerifiedModal } from '../../../components/_modals/ProfileVerifiedModal'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { setFreeTrialPlans } from '../../../../services/stripe/scripts/setFreeTrialPlans'
-import { StripeContext } from '../../../../contexts/StripeContext'
-import { OptionButton } from '../../../components/_buttons/OptionButton'
-import { getNumberOfStoredOfflinePosts } from '../../../utils/offlinePost'
-import { getNetworkStatus } from '../../../utils/deviceNetwork'
-import { AlertContext } from '../../../../contexts/AlertContext/index'
-import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
-import { navigateToPostView } from '../../../routes/auxMethods'
-import { FlatListItem } from '../../../../types/global/types'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
-import { VerifiedUserBadge } from '../../../components/VerifiedUserBadge'
+import { getNetworkStatus } from '../../../utils/deviceNetwork'
+import { getNumberOfStoredOfflinePosts } from '../../../utils/offlinePost'
+import { navigateToPostView } from '../../../routes/auxMethods'
 
 const { sortArray, arrayIsEmpty } = UiUtils()
 const { sortPostsByCreatedData } = UiPostUtils()

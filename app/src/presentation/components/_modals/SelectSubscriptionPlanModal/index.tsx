@@ -1,12 +1,13 @@
 import React from 'react'
-import { theme } from '../../../common/theme'
-import CityWhiteIcon from '../../../assets/icons/city-white.svg'
-import CountryWhiteIcon from '../../../assets/icons/brazil-white.svg'
 
-import { CustomModal } from '../CustomModal'
-import { VerticalSpacing } from '../../_space/VerticalSpacing'
-import { PostRange } from '../../../../services/firebase/types'
+import { PostRange } from '@services/firebase/types'
+
 import { OptionButton } from '../../_buttons/OptionButton'
+import { VerticalSpacing } from '../../_space/VerticalSpacing'
+import CountryWhiteIcon from '../../../assets/icons/brazil-white.svg'
+import CityWhiteIcon from '../../../assets/icons/city-white.svg'
+import { theme } from '../../../common/theme'
+import { CustomModal } from '../CustomModal'
 
 interface SelectSubscriptionPlanModalProps {
 	visibility: boolean

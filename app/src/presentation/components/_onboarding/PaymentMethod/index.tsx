@@ -1,23 +1,23 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
+import { PaymentType } from '@services/firebase/types'
+
 import { ButtonsContainer, Container } from './styles'
-import { theme } from '../../../common/theme'
-import SalesCartWhiteIcon from '../../../assets/icons/salesCart-white.svg'
-import ExchangeWhiteIcon from '../../../assets/icons/exchange-white.svg'
-import CashWhiteIcon from '../../../assets/icons/cash-white.svg'
-import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 
-import { PaymentType } from '../../../../services/firebase/types'
-
+import { BackButton } from '../../_buttons/BackButton'
+import { OptionButton } from '../../_buttons/OptionButton'
+import { SmallButton } from '../../_buttons/SmallButton'
+import { InstructionCard } from '../../_cards/InstructionCard'
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../_containers/FormContainer'
-import { BackButton } from '../../_buttons/BackButton'
-import { InstructionCard } from '../../_cards/InstructionCard'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import { OptionButton } from '../../_buttons/OptionButton'
 import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
-import { SmallButton } from '../../_buttons/SmallButton'
+import CashWhiteIcon from '../../../assets/icons/cash-white.svg'
+import ExchangeWhiteIcon from '../../../assets/icons/exchange-white.svg'
+import SalesCartWhiteIcon from '../../../assets/icons/salesCart-white.svg'
+import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 
 interface PaymentMethodProps {
 	backgroundColor: string

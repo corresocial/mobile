@@ -1,28 +1,27 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { BottomSafeAreaColor, Container, SubscriptionButtonContainer } from './styles'
-import { theme } from '../../../common/theme'
+import { AuthContext } from '@contexts/AuthContext'
 
+import { BottomSafeAreaColor, Container, SubscriptionButtonContainer } from './styles'
+
+import CashWhiteIcon from '../../../assets/icons/cash-white.svg'
+import CultureWhiteIcon from '../../../assets/icons/culture-white.svg'
 import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
 import HandOnMoneyWhiteIcon from '../../../assets/icons/handOnMoney-white.svg'
 import SocialImpactWhiteIcon from '../../../assets/icons/socialImpact-white.svg'
-import CashWhiteIcon from '../../../assets/icons/cash-white.svg'
-import CultureWhiteIcon from '../../../assets/icons/culture-white.svg'
 import WirelessOffWhiteIcon from '../../../assets/icons/wirelessOff-white.svg'
 import WirelessOnWhiteIcon from '../../../assets/icons/wirelessOn-white.svg'
-
-import { SelectPostTypeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-
-import { FormContainer } from '../../../components/_containers/FormContainer'
+import { theme } from '../../../common/theme'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
 import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
+import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
+import { FormContainer } from '../../../components/_containers/FormContainer'
 import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
-import { AuthContext } from '../../../../contexts/AuthContext'
-import { getNumberOfStoredOfflinePosts } from '../../../utils/offlinePost'
-import { getNetworkStatus } from '../../../utils/deviceNetwork'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { SelectPostTypeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { getNetworkStatus } from '../../../utils/deviceNetwork'
+import { getNumberOfStoredOfflinePosts } from '../../../utils/offlinePost'
 
 function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

@@ -1,18 +1,17 @@
 import React, { useContext, useEffect } from 'react'
 import { StatusBar } from 'react-native'
 
+import { AuthContext } from '@contexts/AuthContext'
+import { EditContext } from '@contexts/EditContext'
+import { SocialImpactContext } from '@contexts/SocialImpactContext'
+import { StripeContext } from '@contexts/StripeContext'
+
+import { PostRange as PostRangeType } from '@services/firebase/types'
+
 import { theme } from '../../../common/theme'
-
-import { SelectSocialImpactRangeScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
-import { PostRange as PostRangeType } from '../../../../services/firebase/types'
-
-import { SocialImpactContext } from '../../../../contexts/SocialImpactContext'
-import { EditContext } from '../../../../contexts/EditContext'
-import { StripeContext } from '../../../../contexts/StripeContext'
-import { AuthContext } from '../../../../contexts/AuthContext'
-
-import { PostRange } from '../../../components/_onboarding/PostRange'
 import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
+import { PostRange } from '../../../components/_onboarding/PostRange'
+import { SelectSocialImpactRangeScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

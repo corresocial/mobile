@@ -1,15 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, Platform, StatusBar } from 'react-native'
 
-import { theme } from '../../../common/theme'
+import { EditContext } from '@contexts/EditContext'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-
-import { InsertSocialImpactStartDateScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
-
-import { EditContext } from '../../../../contexts/EditContext'
-
+import { theme } from '../../../common/theme'
 import { PostDate } from '../../../components/_onboarding/PostDate'
+import { InsertSocialImpactStartDateScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 function InsertSocialImpactStartDate({ route, navigation }: InsertSocialImpactStartDateScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

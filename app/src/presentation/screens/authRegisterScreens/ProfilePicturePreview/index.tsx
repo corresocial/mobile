@@ -3,22 +3,22 @@ import { Animated, StatusBar } from 'react-native'
 
 import { getDownloadURL } from 'firebase/storage'
 
-import { Id, PostCollection, UserCollection } from '../../../../services/firebase/types'
+import { AuthContext } from '@contexts/AuthContext'
+
+import { Id, PostCollection, UserCollection } from '@services/firebase/types'
+
+import { uploadImage } from '@services/firebase/common/uploadPicture'
+import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
+import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
+import { updateUser } from '@services/firebase/user/updateUser'
+import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
 
 import { Container, InstructionCardContainer } from './styles'
 
-import { screenWidth } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
-import { AuthContext } from '../../../../contexts/AuthContext'
-import { ProfilePicturePreviewScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
-import { uploadImage } from '../../../../services/firebase/common/uploadPicture'
-import { updateAllOwnerOnPosts } from '../../../../services/firebase/post/updateAllOwnerOnPosts'
-import { deleteUserPicture } from '../../../../services/firebase/user/deleteUserPicture'
-import { updateUser } from '../../../../services/firebase/user/updateUser'
-import { updateUserPrivateData } from '../../../../services/firebase/user/updateUserPrivateData'
-import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import AddPictureWhiteIcon from '../../../assets/icons/addPicture-white.svg'
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import { screenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
@@ -27,6 +27,8 @@ import { FormContainer } from '../../../components/_containers/FormContainer'
 import { CustomCameraModal } from '../../../components/_modals/CustomCameraModal'
 import { Loader } from '../../../components/Loader'
 import { PhotoPortrait } from '../../../components/PhotoPortrait'
+import { ProfilePicturePreviewScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { arrayIsEmpty } = UiUtils()
 

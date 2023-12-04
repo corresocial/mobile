@@ -1,15 +1,13 @@
-import { Keyboard, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
+import { Keyboard, StatusBar } from 'react-native'
 
-import { theme } from '../../../common/theme'
+import { EditContext } from '@contexts/EditContext'
+import { ServiceContext } from '@contexts/ServiceContext'
 
-import { InsertServiceDescriptionScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-
-import { ServiceContext } from '../../../../contexts/ServiceContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
-import { PostInputText } from '../../../components/_onboarding/PostInputText'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
+import { theme } from '../../../common/theme'
+import { PostInputText } from '../../../components/_onboarding/PostInputText'
+import { InsertServiceDescriptionScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 function InsertServiceDescription({ route, navigation }: InsertServiceDescriptionScreenProps) {
 	const { isSecondPost, setServiceDataOnContext } = useContext(ServiceContext)

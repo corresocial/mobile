@@ -1,29 +1,29 @@
 import React, { useState, useContext } from 'react'
 
 import { differenceInMinutes } from 'date-fns'
+
+import { AuthContext } from '@contexts/AuthContext'
+import { ChatContext } from '@contexts/ChatContext'
+
+import { Id, PostCollection } from '@services/firebase/types'
+
+import { auth } from '@services/firebase'
+import { removeAllUserData } from '@services/firebase/user/removeAllUserData'
+
 import { Container } from './styles'
 
-import { theme } from '../../../common/theme'
-
-import { removeAllUserData } from '../../../../services/firebase/user/removeAllUserData'
-
-import { UserDataConfigurationsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { Id, PostCollection } from '../../../../services/firebase/types'
-
-import { AuthContext } from '../../../../contexts/AuthContext'
-
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { FormContainer } from '../../../components/_containers/FormContainer'
 import { TitleDescriptionButton } from '../../../components/_cards/TitleDescriptionButton'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
 import { BeForgottenConfirmationModal } from '../../../components/_modals/BeForgottenConfirmationModal'
-import { Loader } from '../../../components/Loader'
 import { CustomModal } from '../../../components/_modals/CustomModal'
-import { ChatContext } from '../../../../contexts/ChatContext'
+import { Loader } from '../../../components/Loader'
+import { UserDataConfigurationsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { clearOfflinePosts } from '../../../utils/offlinePost'
-import { auth } from '../../../../services/firebase'
 
 function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProps) {
 	const { userDataContext, deleteLocaluser } = useContext(AuthContext)

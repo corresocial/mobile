@@ -2,18 +2,19 @@ import React from 'react'
 import { ScrollView, StatusBar, View } from 'react-native'
 import uuid from 'react-uuid'
 
+import { SocialMedia } from '@services/firebase/types'
+
 import { Body, Container, Header, NewLinkButtonContainer } from './styles'
-import { theme } from '../../../common/theme'
-import PlusIcon from '../../../assets/icons/plus-white.svg'
+
 import AngleRightWhitetIcon from '../../../assets/icons/angleRight-white.svg'
-
-import { SocialMediaManagementScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { SocialMedia } from '../../../../services/firebase/types'
-
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { SmallButton } from '../../../components/_buttons/SmallButton'
+import PlusIcon from '../../../assets/icons/plus-white.svg'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
+import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { EditCard } from '../../../components/_cards/EditCard'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
+import { SocialMediaManagementScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import {
 	getRelativeSocialMediaIcon,
 	isDefaultSocialMedia,
@@ -21,7 +22,6 @@ import {
 	openURL,
 	socialMediaUrl,
 } from '../../../utils/socialMedias'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 
 function SocialMediaManagement({ route, navigation }: SocialMediaManagementScreenProps) {
 	const onPressIcon = async (socialMedia: SocialMedia, index: number) => {

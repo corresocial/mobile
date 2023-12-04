@@ -1,18 +1,17 @@
 import React, { useContext } from 'react'
 
-import { theme } from '../../../common/theme'
-import SuitCaseWhiteIcon from '../../../assets/icons/suitCase-white.svg'
-import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
+import { EditContext } from '@contexts/EditContext'
+import { VacancyContext } from '@contexts/VacancyContext'
+
+import { VacancyType } from '@services/firebase/types'
+
 import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
-
-import { SelectVacancyTypeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
-import { VacancyType } from '../../../../services/firebase/types'
-
-import { VacancyContext } from '../../../../contexts/VacancyContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
-import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
+import SuitCaseWhiteIcon from '../../../assets/icons/suitCase-white.svg'
+import { theme } from '../../../common/theme'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
+import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import { SelectVacancyTypeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) {
 	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)

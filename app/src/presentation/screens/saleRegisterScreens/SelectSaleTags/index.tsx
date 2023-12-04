@@ -1,16 +1,13 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { EditContext } from '@contexts/EditContext'
+import { SaleContext } from '@contexts/SaleContext'
+
 import { theme } from '../../../common/theme'
-
-import { saleCategories, updateSaleTags } from '../../../utils/postsCategories/saleCategories'
-
-import { SelectSaleTagsScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
-
-import { SaleContext } from '../../../../contexts/SaleContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
 import { PostTags } from '../../../components/_onboarding/PostTags'
+import { SelectSaleTagsScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
+import { saleCategories, updateSaleTags } from '../../../utils/postsCategories/saleCategories'
 
 function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)

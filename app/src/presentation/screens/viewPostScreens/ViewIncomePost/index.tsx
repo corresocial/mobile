@@ -1,6 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView } from 'react-native'
 
+import { AuthContext } from '@contexts/AuthContext'
+import { EditContext } from '@contexts/EditContext'
+
+import { PostCollection, SaleCategories, IncomeCollectionRemote } from '@services/firebase/types'
+
+import { deletePost } from '@services/firebase/post/deletePost'
+import { deletePostPictures } from '@services/firebase/post/deletePostPictures'
+import { markPostAsComplete } from '@services/firebase/post/markPostAsCompleted'
+
 import {
 	Body,
 	Container,
@@ -8,45 +17,35 @@ import {
 	OptionsArea,
 	UserAndValueContainer,
 } from './styles'
-import { theme } from '../../../common/theme'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
-import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
+
 import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
-import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
-
+import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
+import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import { getShortText } from '../../../common/auxiliaryFunctions'
-import { deletePost } from '../../../../services/firebase/post/deletePost'
-import { deletePostPictures } from '../../../../services/firebase/post/deletePostPictures'
-import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { share } from '../../../common/share'
-import { markPostAsComplete } from '../../../../services/firebase/post/markPostAsCompleted'
-import { UiUtils } from '../../../utils-ui/common/UiUtils'
-
-import { ViewIncomePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
-
-import { AuthContext } from '../../../../contexts/AuthContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
-import { PostCollection, SaleCategories, IncomeCollectionRemote } from '../../../../services/firebase/types'
-
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
+import { theme } from '../../../common/theme'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
-import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
-import { ImageCarousel } from '../../../components/ImageCarousel'
-import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
 import { DeliveryMethodCard } from '../../../components/_cards/DeliveryMethodCard'
-import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
-import { PostPopOver } from '../../../components/PostPopOver'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { HorizontalTagList } from '../../../components/HorizontalTagList'
-import { ItemStatusCard } from '../../../components/_cards/ItemStatusCard'
-import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
+import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
+import { ItemStatusCard } from '../../../components/_cards/ItemStatusCard'
 import { LinkCard } from '../../../components/_cards/LinkCard'
+import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
+import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
+import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
+import { HorizontalTagList } from '../../../components/HorizontalTagList'
+import { ImageCarousel } from '../../../components/ImageCarousel'
+import { PostPopOver } from '../../../components/PostPopOver'
+import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
+import { ViewIncomePostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
+import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 
 const { textHasOnlyNumbers, formatRelativeDate, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()

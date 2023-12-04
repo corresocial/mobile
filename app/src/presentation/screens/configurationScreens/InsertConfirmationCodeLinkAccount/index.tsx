@@ -1,31 +1,31 @@
-import { Animated, Platform, StatusBar, TextInput } from 'react-native'
-import React, { useContext, useEffect, useRef, useState } from 'react'
-
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Animated, Platform, StatusBar, TextInput } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
+
+import { AuthContext } from '@contexts/AuthContext'
+
+import { Id } from '@services/firebase/types'
+
+import Firebase from '@services/firebase'
+import { getPhoneAuthCredential } from '@services/firebase/user/getPhoneAuthCredential'
+import { linkAuthProvider } from '@services/firebase/user/linkAuthProvider'
+import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
+
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
-import { theme } from '../../../common/theme'
+
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
-
-import { InsertConfirmationCodeLinkAccountScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-
-import { AuthContext } from '../../../../contexts/AuthContext'
-
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
+import { theme } from '../../../common/theme'
+import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { Loader } from '../../../components/Loader'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { Id } from '../../../../services/firebase/types'
-import Firebase from '../../../../services/firebase'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { linkAuthProvider } from '../../../../services/firebase/user/linkAuthProvider'
-import { updateUserPrivateData } from '../../../../services/firebase/user/updateUserPrivateData'
-import { getPhoneAuthCredential } from '../../../../services/firebase/user/getPhoneAuthCredential'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
 import { DefaultInput } from '../../../components/_inputs/DefaultInput'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { Loader } from '../../../components/Loader'
+import { InsertConfirmationCodeLinkAccountScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirmationCodeLinkAccountScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

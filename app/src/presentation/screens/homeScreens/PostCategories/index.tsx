@@ -1,35 +1,34 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react'
 import { ScrollView, KeyboardAvoidingView } from 'react-native'
+import { SvgProps } from 'react-native-svg'
 import uuid from 'react-uuid'
 
-import { SvgProps } from 'react-native-svg'
-import { CategoryCardContainer, Container, Header, InputContainer } from './styles'
-import { theme } from '../../../common/theme'
-import OthersWhiteIcon from '../../../assets/icons/categories/others.svg'
+import { AuthContext } from '@contexts/AuthContext'
+import { LocationContext } from '@contexts/LocationContext'
 
-import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
-import { saleCategories } from '../../../utils/postsCategories/saleCategories'
-import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
-import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'
-import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
-
-import { PostCategoriesScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
-import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote, PostRange } from '../../../../services/firebase/types'
-
-import { LocationContext } from '../../../../contexts/LocationContext'
-import { AuthContext } from '../../../../contexts/AuthContext'
-
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { CategoryCard } from '../../../components/_cards/CategoryCard'
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { SearchInput } from '../../../components/_inputs/SearchInput'
-import { postMacroCategories } from '../../../utils/postMacroCategories'
-import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
-import { FeedByRange } from '../../../components/FeedByRange'
-import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 import { MacroCategories } from '../../../utils/postMacroCategories/types'
+import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
+
+import { CategoryCardContainer, Container, Header, InputContainer } from './styles'
+
+import OthersWhiteIcon from '../../../assets/icons/categories/others.svg'
+import { theme } from '../../../common/theme'
+import { CategoryCard } from '../../../components/_cards/CategoryCard'
+import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
+import { SearchInput } from '../../../components/_inputs/SearchInput'
+import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
+import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
+import { FeedByRange } from '../../../components/FeedByRange'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { navigateToPostView } from '../../../routes/auxMethods'
+import { PostCategoriesScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
+import { postMacroCategories } from '../../../utils/postMacroCategories'
+import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'
+import { saleCategories } from '../../../utils/postsCategories/saleCategories'
+import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
+import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
+import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 

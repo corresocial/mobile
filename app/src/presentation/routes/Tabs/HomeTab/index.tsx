@@ -5,6 +5,9 @@ import React, { useContext } from 'react'
 import { Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { AlertContext } from '@contexts/AlertContext'
+import { StateContext } from '@contexts/StateContext'
+
 import { HomeTabParamList } from './types'
 
 import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
@@ -13,8 +16,6 @@ import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
 import ProfileWhiteIcon from '../../../assets/icons/profile-white.svg'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import { AlertContext } from '../../../../contexts/AlertContext'
-import { StateContext } from '../../../../contexts/StateContext'
 import { Post } from '../../../screens/homeScreens/Post'
 import { ChatStack } from '../../Stack/ChatStack'
 import { HomeStack } from '../../Stack/HomeStack'

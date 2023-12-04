@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
-
 import { RFValue } from 'react-native-responsive-fontsize'
+
+import { LocalUserData } from '@contexts/types'
+
+import { PostCollection } from '@services/firebase/types'
+
 import {
 	Container,
 	ContainerInner,
@@ -15,16 +19,12 @@ import {
 	TitleContainer
 } from './styles'
 
-import { PostCollection } from '../../../../services/firebase/types'
-
+import { VerticalSpacing } from '../../_space/VerticalSpacing'
 import { relativeScreenWidth } from '../../../common/screenDimensions'
-import { LocalUserData } from '../../../../contexts/types'
+import { theme } from '../../../common/theme'
+import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import { SaleExchangeValue } from '../../SaleExchangeValue'
 import { SmallUserIdentification } from '../../SmallUserIdentification'
-
-import { theme } from '../../../common/theme'
-import { VerticalSpacing } from '../../_space/VerticalSpacing'
-import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 

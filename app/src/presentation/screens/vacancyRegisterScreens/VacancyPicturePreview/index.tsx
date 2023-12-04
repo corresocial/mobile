@@ -1,14 +1,12 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { EditContext } from '@contexts/EditContext'
+import { VacancyContext } from '@contexts/VacancyContext'
+
 import { theme } from '../../../common/theme'
-
-import { VacancyPicturePreviewScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
-
-import { VacancyContext } from '../../../../contexts/VacancyContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
 import { PostPicturePreview } from '../../../components/_onboarding/PostPicturePreview'
+import { VacancyPicturePreviewScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 function VacancyPicturePreview({ route, navigation }: VacancyPicturePreviewScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)

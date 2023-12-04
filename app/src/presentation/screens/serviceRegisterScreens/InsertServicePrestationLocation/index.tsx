@@ -1,20 +1,19 @@
 import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { theme } from '../../../common/theme'
+import { AuthContext } from '@contexts/AuthContext'
+import { EditContext } from '@contexts/EditContext'
+import { ServiceContext } from '@contexts/ServiceContext'
+
+import { Coordinates, PostCollection } from '@services/firebase/types'
+
+import { LocationService } from '@services/location/LocationService'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
-
-import { InsertServicePrestationLocationScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-import { Coordinates, PostCollection } from '../../../../services/firebase/types'
-
-import { ServiceContext } from '../../../../contexts/ServiceContext'
-import { AuthContext } from '../../../../contexts/AuthContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
-import { SelectPostLocation } from '../../../components/_onboarding/SelectPostLocation'
+import { theme } from '../../../common/theme'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
-import { LocationService } from '../../../../services/location/LocationService'
+import { SelectPostLocation } from '../../../components/_onboarding/SelectPostLocation'
+import { InsertServicePrestationLocationScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 
 const { convertGeocodeToAddress } = LocationService()

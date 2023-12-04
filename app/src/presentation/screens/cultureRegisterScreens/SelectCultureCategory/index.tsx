@@ -1,16 +1,14 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { CultureContext } from '@contexts/CultureContext'
+
+import { CultureCategories } from '@services/firebase/types'
+
 import { theme } from '../../../common/theme'
-
-import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'
-
-import { SelectCultureCategoryScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
-import { CultureCategories } from '../../../../services/firebase/types'
-
-import { CultureContext } from '../../../../contexts/CultureContext'
-
 import { PostCategory } from '../../../components/_onboarding/PostCategory'
+import { SelectCultureCategoryScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
+import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'
 
 function SelectCultureCategory({ route, navigation }: SelectCultureCategoryScreenProps) {
 	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)

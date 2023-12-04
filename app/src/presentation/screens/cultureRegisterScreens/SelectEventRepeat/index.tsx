@@ -1,15 +1,14 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { CultureContext } from '@contexts/CultureContext'
+import { EditContext } from '@contexts/EditContext'
+
+import { EventRepeatType } from '@services/firebase/types'
+
 import { theme } from '../../../common/theme'
-
-import { SelectEventRepeatScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
-import { EventRepeatType } from '../../../../services/firebase/types'
-
-import { CultureContext } from '../../../../contexts/CultureContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
 import { PostRepeat } from '../../../components/_onboarding/PostRepeat'
+import { SelectEventRepeatScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function SelectEventRepeat({ route, navigation }: SelectEventRepeatScreenProps) {
 	const { setCultureDataOnContext } = useContext(CultureContext)

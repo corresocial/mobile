@@ -4,11 +4,20 @@ import { Animated, ScrollView, StatusBar } from 'react-native'
 import { getDownloadURL } from 'firebase/storage'
 import * as Sentry from 'sentry-expo'
 
+import { AuthContext } from '@contexts/AuthContext'
+import { EditContext } from '@contexts/EditContext'
+
 import { UserStackParamList } from '../../../routes/Stack/UserStack/types'
-import { Id, PostCollection } from '../../../../services/firebase/types'
+import { Id, PostCollection } from '@services/firebase/types'
+
+import { uploadImage } from '@services/firebase/common/uploadPicture'
+import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
+import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
+import { updateUser } from '@services/firebase/user/updateUser'
 
 import { Body, Container, Header, SaveButtonContainer } from './styles'
 
+import CheckIcon from '../../../assets/icons/check-white.svg'
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
@@ -17,16 +26,9 @@ import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { HorizontalSocialMediaList } from '../../../components/HorizontalSocialmediaList'
 import { Loader } from '../../../components/Loader'
-import { AuthContext } from '../../../../contexts/AuthContext'
-import { EditContext } from '../../../../contexts/EditContext'
 import { EditProfileScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { uploadImage } from '../../../../services/firebase/common/uploadPicture'
-import { updateAllOwnerOnPosts } from '../../../../services/firebase/post/updateAllOwnerOnPosts'
-import { deleteUserPicture } from '../../../../services/firebase/user/deleteUserPicture'
-import { updateUser } from '../../../../services/firebase/user/updateUser'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import { openURL } from '../../../utils/socialMedias'
-import CheckIcon from '../../../assets/icons/check-white.svg'
 
 const { arrayIsEmpty } = UiUtils()
 

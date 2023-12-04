@@ -1,27 +1,26 @@
-import { Animated, StatusBar, Platform, TextInput } from 'react-native'
-import React, { useContext, useRef, useState } from 'react'
-
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
+import React, { useContext, useRef, useState } from 'react'
+import { Animated, StatusBar, Platform, TextInput } from 'react-native'
+
+import { AuthContext } from '@contexts/AuthContext'
+
+import { checkUserPhoneAlreadyRegistredCloud } from '@services/cloudFunctions/checkUserPhoneAlreadyRegistred'
+import Firebase from '@services/firebase'
+
 import { Container, InputsContainer } from './styles'
-import { theme } from '../../../common/theme'
+
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-
-import Firebase from '../../../../services/firebase'
 import { filterLeavingOnlyNumbers } from '../../../common/auxiliaryFunctions'
-
-import { InsertCellNumberLinkAccountScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-
-import { AuthContext } from '../../../../contexts/AuthContext'
-
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
+import { theme } from '../../../common/theme'
+import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { Loader } from '../../../components/Loader'
-import { BackButton } from '../../../components/_buttons/BackButton'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
 import { DefaultInput } from '../../../components/_inputs/DefaultInput'
-import { checkUserPhoneAlreadyRegistredCloud } from '../../../../services/cloudFunctions/checkUserPhoneAlreadyRegistred'
 import { SocialLoginAlertModal } from '../../../components/_modals/SocialLoginAlertModal'
+import { Loader } from '../../../components/Loader'
+import { InsertCellNumberLinkAccountScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 const firebaseConfig = Firebase ? Firebase.options : undefined
 

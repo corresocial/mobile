@@ -1,14 +1,12 @@
-import { Keyboard, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
+import { Keyboard, StatusBar } from 'react-native'
 
-import { theme } from '../../../common/theme'
-
-import { EditContext } from '../../../../contexts/EditContext'
+import { EditContext } from '@contexts/EditContext'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { InsertSaleValueScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
-
+import { theme } from '../../../common/theme'
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
+import { InsertSaleValueScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

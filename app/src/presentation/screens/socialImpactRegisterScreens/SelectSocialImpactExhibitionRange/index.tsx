@@ -1,18 +1,17 @@
 import React, { useContext } from 'react'
 
-import { theme } from '../../../common/theme'
-import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
-import CityWhiteIcon from '../../../assets/icons/city-white.svg'
+import { EditContext } from '@contexts/EditContext'
+import { SocialImpactContext } from '@contexts/SocialImpactContext'
+
+import { ExhibitionPlaceType } from '@services/firebase/types'
+
 import BrazilWhiteIcon from '../../../assets/icons/brazil-white.svg'
-
-import { SelectSocialImpactExhibitionRangeScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
-import { ExhibitionPlaceType } from '../../../../services/firebase/types'
-
-import { SocialImpactContext } from '../../../../contexts/SocialImpactContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
+import CityWhiteIcon from '../../../assets/icons/city-white.svg'
+import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
+import { theme } from '../../../common/theme'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
 import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import { SelectSocialImpactExhibitionRangeScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 function SelectSocialImpactExhibitionRange({ route, navigation }: SelectSocialImpactExhibitionRangeScreenProps) {
 	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)

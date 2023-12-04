@@ -2,9 +2,10 @@ import 'react-native-gesture-handler'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import React from 'react'
 
+import { SocialImpactProvider } from '@contexts/SocialImpactContext'
+
 import { SocialImpactStackParamList } from './types'
 
-import { SocialImpactProvider } from '../../../../contexts/SocialImpactContext'
 import { EditSocialImpactPost } from '../../../screens/editPostScreens/EditSocialImpactPost'
 import { InsertSocialImpactDescription } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactDescription'
 import { InsertSocialImpactEndDate } from '../../../screens/socialImpactRegisterScreens/InsertSocialImpactEndDate'
@@ -16,15 +17,15 @@ import { InsertSocialImpactStartHour } from '../../../screens/socialImpactRegist
 import { SelectSocialImpactCategory } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactCategory'
 import { SelectSocialImpactDaysOfWeek } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactDaysOfWeek'
 import { SelectSocialImpactExhibitionRange } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactExhibitionRange'
+import { SelectSocialImpactFrequency } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactFrequency'
 import { SelectSocialImpactLocationView } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactLocationView'
-import { SelectSocialImpactTags } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactTags'
-import { SocialImpactLocationViewPreview } from '../../../screens/socialImpactRegisterScreens/SocialImpactLocationViewPreview'
-import { SocialImpactPicturePreview } from '../../../screens/socialImpactRegisterScreens/SocialImpactPicturePreview'
+import { SelectSocialImpactPurpose } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactPurpose'
 import { SelectSocialImpactRange } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactRange'
 import { SelectSocialImpactRepeat } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactRepeat'
-import { SelectSocialImpactFrequency } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactFrequency'
+import { SelectSocialImpactTags } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactTags'
 import { SelectSocialImpactType } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactType'
-import { SelectSocialImpactPurpose } from '../../../screens/socialImpactRegisterScreens/SelectSocialImpactPurpose'
+import { SocialImpactLocationViewPreview } from '../../../screens/socialImpactRegisterScreens/SocialImpactLocationViewPreview'
+import { SocialImpactPicturePreview } from '../../../screens/socialImpactRegisterScreens/SocialImpactPicturePreview'
 
 const Stack = createStackNavigator<SocialImpactStackParamList>()
 

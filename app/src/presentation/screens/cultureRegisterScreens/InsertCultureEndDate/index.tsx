@@ -1,14 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Keyboard, Platform, StatusBar } from 'react-native'
 
-import { theme } from '../../../common/theme'
+import { EditContext } from '@contexts/EditContext'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-
-import { InsertCultureEndDateScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
-
-import { EditContext } from '../../../../contexts/EditContext'
+import { theme } from '../../../common/theme'
 import { PostDate } from '../../../components/_onboarding/PostDate'
+import { InsertCultureEndDateScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

@@ -1,23 +1,23 @@
-import { Platform, StatusBar, TextInput } from 'react-native'
 import React, { useContext, useRef, useState } from 'react'
+import { Platform, StatusBar, TextInput } from 'react-native'
 import uuid from 'react-uuid'
 
+import { EditContext } from '@contexts/EditContext'
+
 import { ButtonsContainer, Container } from './styles'
-import { theme } from '../../../common/theme'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
 
-import { EditContext } from '../../../../contexts/EditContext'
-
+import { BackButton } from '../../_buttons/BackButton'
+import { PrimaryButton } from '../../_buttons/PrimaryButton'
+import { SmallButton } from '../../_buttons/SmallButton'
+import { InstructionCard } from '../../_cards/InstructionCard'
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { FormContainer } from '../../_containers/FormContainer'
-import { PrimaryButton } from '../../_buttons/PrimaryButton'
-import { BackButton } from '../../_buttons/BackButton'
-import { InstructionCard } from '../../_cards/InstructionCard'
 import { DefaultInput } from '../../_inputs/DefaultInput'
 import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
-import { SmallButton } from '../../_buttons/SmallButton'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import TrashWhiteIcon from '../../../assets/icons/trash-white.svg'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 
 interface PostLinksProps {
 	backgroundColor: string

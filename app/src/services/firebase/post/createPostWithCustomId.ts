@@ -3,7 +3,7 @@ import { firestore } from '..'
 
 import { PostCollectionType, PostCollection, PostType } from '../types'
 
-import { LocalUserData } from '../../../contexts/types'
+import { LocalUserData } from '@contexts/types'
 
 async function createPostWithCustomId(post: PostCollection, user: LocalUserData, postCollection: PostCollectionType, postType: PostType, customId: string) {
 	try {

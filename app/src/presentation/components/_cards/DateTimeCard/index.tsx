@@ -1,23 +1,22 @@
 import React from 'react'
 import uuid from 'react-uuid'
 
+import { DaysOfWeek, EventRepeatType, WeekdaysFrequency } from '@services/firebase/types'
+
 import { DateTimeContainer } from './styles'
-import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
-import CalendarToday from '../../../assets/icons/calendarToday-white.svg'
+
+import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import CalendarBusinessDay from '../../../assets/icons/calendarBusinessDay-white.svg'
 import CalendarEveryday from '../../../assets/icons/calendarEveryday-white.svg'
 import CalendarSomeday from '../../../assets/icons/calendarSomeday-white.svg'
-import CalendarBusinessDay from '../../../assets/icons/calendarBusinessDay-white.svg'
+import CalendarToday from '../../../assets/icons/calendarToday-white.svg'
+import ClockWhiteIcon from '../../../assets/icons/clock-white.svg'
 import PlusWhiteIcon from '../../../assets/icons/plus-white.svg'
-
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-
-import { DaysOfWeek, EventRepeatType, WeekdaysFrequency } from '../../../../services/firebase/types'
-
-import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
-import { DefaultCardContainer } from '../DefaultCardContainer'
-import { PostInfoRow } from '../../PostInfoRow'
-import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
+import { PostInfoRow } from '../../PostInfoRow'
+import { DefaultCardContainer } from '../DefaultCardContainer'
 
 const { formatDate, formatHour } = UiUtils()
 

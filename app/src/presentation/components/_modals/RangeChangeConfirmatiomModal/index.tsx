@@ -1,7 +1,8 @@
 import React from 'react'
 
+import { PostRange } from '@services/firebase/types'
+
 import { CustomModal } from '../CustomModal'
-import { PostRange } from '../../../../services/firebase/types'
 
 interface RangeChangeConfirmationModalProps {
 	visibility: boolean

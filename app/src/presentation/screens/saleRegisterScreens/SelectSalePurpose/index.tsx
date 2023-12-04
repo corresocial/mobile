@@ -1,15 +1,13 @@
 import React, { useContext } from 'react'
 
-import { theme } from '../../../common/theme'
-import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
+import { SaleContext } from '@contexts/SaleContext'
+
 import GiftWhiteIcon from '../../../assets/icons/megaphone-white.svg'
-
-import { SelectSalePurposeScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
-
-import { SaleContext } from '../../../../contexts/SaleContext'
-
-import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
+import { theme } from '../../../common/theme'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
+import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import { SelectSalePurposeScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 function SelectSalePurpose({ route, navigation }: SelectSalePurposeScreenProps) {
 	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)

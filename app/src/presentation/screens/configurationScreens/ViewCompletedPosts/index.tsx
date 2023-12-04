@@ -1,21 +1,21 @@
 import React, { useContext } from 'react'
 import { FlatList, StatusBar } from 'react-native'
 
+import { AuthContext } from '@contexts/AuthContext'
+
+import { FlatListItem } from '../../../../types/global/types'
+import { PostCollection } from '@services/firebase/types'
+
 import { Body, Container, Header, PostPadding } from './styles'
-import { theme } from '../../../common/theme'
 
-import { ViewCompletedPostsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-
-import { AuthContext } from '../../../../contexts/AuthContext'
-
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { PostCollection } from '../../../../services/firebase/types'
 import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 import { PostCard } from '../../../components/_cards/PostCard'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
 import { navigateToPostView } from '../../../routes/auxMethods'
-import { FlatListItem } from '../../../../types/global/types'
+import { ViewCompletedPostsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

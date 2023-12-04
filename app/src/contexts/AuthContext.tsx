@@ -3,10 +3,10 @@ import * as LocalAuthentication from 'expo-local-authentication'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { PhoneAuthProvider, signInWithCredential, UserCredential } from 'firebase/auth'
-import { auth } from '../services/firebase'
-import { getUser } from '../services/firebase/user/getUser'
+import { auth } from '@services/firebase'
+import { getUser } from '@services/firebase/user/getUser'
 
-import { PostCollection, UserCollection } from '../services/firebase/types'
+import { PostCollection, UserCollection } from '@services/firebase/types'
 
 const phoneAuth = new PhoneAuthProvider(auth)
 

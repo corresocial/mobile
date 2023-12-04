@@ -1,18 +1,16 @@
 import React from 'react'
-import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 
-import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
-import ColorPaletWhiteIcon from '../../../assets/icons/colorPalet-white.svg'
-import CalendarEverydayWhiteIcon from '../../../assets/icons/calendarEveryday-white.svg'
-import BooksWhiteIcon from '../../../assets/icons/books-white.svg'
+import { CultureType } from '@services/firebase/types'
 
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-
-import { CultureType } from '../../../../services/firebase/types'
-
-import { DefaultCardContainer } from '../DefaultCardContainer'
-import { PostInfoRow } from '../../PostInfoRow'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import BooksWhiteIcon from '../../../assets/icons/books-white.svg'
+import CalendarEverydayWhiteIcon from '../../../assets/icons/calendarEveryday-white.svg'
+import ColorPaletWhiteIcon from '../../../assets/icons/colorPalet-white.svg'
+import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
+import { PostInfoRow } from '../../PostInfoRow'
+import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface CultureTypeCardProps {
 	title?: string

@@ -1,16 +1,14 @@
 import React from 'react'
-import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 
-import SuitCaseWhiteIcon from '../../../assets/icons/suitCase-white.svg'
-import PersonWithSuitCaseWhiteIcon from '../../../assets/icons/personWithSuitCase-white.svg'
+import { VacancyPurpose } from '@services/firebase/types'
 
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-
-import { VacancyPurpose } from '../../../../services/firebase/types'
-
-import { DefaultCardContainer } from '../DefaultCardContainer'
-import { PostInfoRow } from '../../PostInfoRow'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import PersonWithSuitCaseWhiteIcon from '../../../assets/icons/personWithSuitCase-white.svg'
+import SuitCaseWhiteIcon from '../../../assets/icons/suitCase-white.svg'
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
+import { PostInfoRow } from '../../PostInfoRow'
+import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface VacancyPurposeCardProps {
 	title?: string

@@ -1,15 +1,13 @@
-import { Keyboard, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
+import { Keyboard, StatusBar } from 'react-native'
 
-import { theme } from '../../../common/theme'
+import { EditContext } from '@contexts/EditContext'
+import { VacancyContext } from '@contexts/VacancyContext'
 
-import { InsertVacancyDescriptionScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-
-import { VacancyContext } from '../../../../contexts/VacancyContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
+import { theme } from '../../../common/theme'
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
+import { InsertVacancyDescriptionScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 function InsertVacancyDescription({ route, navigation }: InsertVacancyDescriptionScreenProps) {
 	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)

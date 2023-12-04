@@ -1,31 +1,29 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Clipboard } from 'react-native'
 
-import { theme } from '../../../common/theme'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { SubscriptionContext } from '@contexts/SubscriptionContext'
+
 import { Body, BodyScrollable, Container, PaymentStatusArea, PaymentStatusText, QRCodeArea, TimerArea, Title, TitleArea } from './styles'
+
+import CopyWhiteIcon from '../../../assets/icons/copy-white.svg'
 import DollarWhiteIcon from '../../../assets/icons/dollar-white.svg'
 import PixWhiteIcon from '../../../assets/icons/pix-white.svg'
-import CopyWhiteIcon from '../../../assets/icons/copy-white.svg'
 import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
-
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-
-import { FinishSubscriptionPaymentByPixScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-
-import { SubscriptionContext } from '../../../../contexts/SubscriptionContext'
-
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'
-import { SmallInstructionCard } from '../../../components/SmallInstructionCard'
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { SmallButton } from '../../../components/_buttons/SmallButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { Timer } from '../../../components/Timer'
+import { SmallButton } from '../../../components/_buttons/SmallButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { CustomQRCode } from '../../../components/CustomQRCode'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { Loader } from '../../../components/Loader'
+import { SmallInstructionCard } from '../../../components/SmallInstructionCard'
+import { Timer } from '../../../components/Timer'
+import { FinishSubscriptionPaymentByPixScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 
 const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()

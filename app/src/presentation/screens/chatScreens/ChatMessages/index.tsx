@@ -1,4 +1,3 @@
-import { get, onValue, ref } from 'firebase/database'
 import React, {
 	RefObject,
 	useContext,
@@ -11,26 +10,9 @@ import { Platform } from 'react-native'
 import uuid from 'react-uuid'
 
 import { FlashList } from '@shopify/flash-list'
-import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
-import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
-import {
-	relativeScreenHeight,
-	relativeScreenWidth,
-} from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
-import { realTimeDatabase } from '../../../../services/firebase'
-import { blockUserId } from '../../../../services/firebase/chat/blockUser'
-import { cleanMessages } from '../../../../services/firebase/chat/cleanMessages'
-import { getRemoteChatData } from '../../../../services/firebase/chat/getRemoteChatData'
-import { getRemoteUser } from '../../../../services/firebase/chat/getRemoteUser'
-import { makeAllUserMessagesAsRead } from '../../../../services/firebase/chat/makeAllUserMessagesAsRead'
-import { registerNewChat } from '../../../../services/firebase/chat/registerNewChat'
-import { setChatIdToUsers } from '../../../../services/firebase/chat/setChatIdToUsers'
-import { unblockUserId } from '../../../../services/firebase/chat/unblockUser'
-import { unsubscribeMessageListener } from '../../../../services/firebase/chat/unsubscribeMessageListener'
-import { Container, Header, IsBlockedContainer } from './styles'
+import { get, onValue, ref } from 'firebase/database'
 
-import { AuthContext } from '../../../../contexts/AuthContext'
+import { AuthContext } from '@contexts/AuthContext'
 
 import {
 	Chat,
@@ -39,22 +21,45 @@ import {
 	UserIdentification
 } from '../../../../types/chat/types'
 import { FlatListItem } from '../../../../types/global/types'
-import { Id } from '../../../../services/firebase/types'
+import { Id } from '@services/firebase/types'
 
+import { realTimeDatabase } from '@services/firebase'
+import { blockUserId } from '@services/firebase/chat/blockUser'
+import { cleanMessages } from '@services/firebase/chat/cleanMessages'
+import { getRemoteChatData } from '@services/firebase/chat/getRemoteChatData'
+import { getRemoteUser } from '@services/firebase/chat/getRemoteUser'
+import { makeAllUserMessagesAsRead } from '@services/firebase/chat/makeAllUserMessagesAsRead'
+import { registerNewChat } from '@services/firebase/chat/registerNewChat'
+import { sendMessage } from '@services/firebase/chat/sendMessage'
+import { setChatIdToUsers } from '@services/firebase/chat/setChatIdToUsers'
+import { unblockUserId } from '@services/firebase/chat/unblockUser'
+
+import { unsubscribeMessageListener } from '@services/firebase/chat/unsubscribeMessageListener'
+import { Container, Header, IsBlockedContainer } from './styles'
+
+
+import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
+import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
+import {
+	relativeScreenHeight,
+	relativeScreenWidth,
+} from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
+
+
+import { BackButton } from '../../../components/_buttons/BackButton'
+import { SmallButton } from '../../../components/_buttons/SmallButton'
+import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
+import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { ChatInput } from '../../../components/ChatInput'
 import { ChatPopOver } from '../../../components/ChatPopOver'
 import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { MessageCard } from '../../../components/MessageCard'
 import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
 import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
-import { SmallButton } from '../../../components/_buttons/SmallButton'
-import { sendMessage } from '../../../../services/firebase/chat/sendMessage'
 
-import { BackButton } from '../../../components/_buttons/BackButton'
 import { ChatMessagesScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { HorizontalSpacing } from '../../../components/_space/HorizontalSpacing'
 import { UiChatUtils } from '../../../utils-ui/chat/UiChatUtils'
 
 const { getLastMessageObjects } = UiChatUtils()

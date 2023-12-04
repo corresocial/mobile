@@ -2,9 +2,10 @@ import 'react-native-gesture-handler'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import React from 'react'
 
+import { StateProvider } from '@contexts/StateContext'
+
 import { HomeStackParamList } from './types'
 
-import { StateProvider } from '../../../../contexts/StateContext'
 import { Home } from '../../../screens/homeScreens/Home'
 import { PostCategories } from '../../../screens/homeScreens/PostCategories'
 import { PostCategoryDetails } from '../../../screens/homeScreens/PostCategoryDetails'

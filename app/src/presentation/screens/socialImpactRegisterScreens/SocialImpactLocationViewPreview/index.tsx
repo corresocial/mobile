@@ -1,13 +1,12 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { EditContext } from '@contexts/EditContext'
+import { SocialImpactContext } from '@contexts/SocialImpactContext'
+
 import { theme } from '../../../common/theme'
-
-import { SocialImpactLocationViewPreviewScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
-
-import { SocialImpactContext } from '../../../../contexts/SocialImpactContext'
-import { EditContext } from '../../../../contexts/EditContext'
 import { PostLocationViewPreview } from '../../../components/_onboarding/PostLocationViewPreview'
+import { SocialImpactLocationViewPreviewScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 const defaultDeltaCoordinates = {
 	latitudeDelta: 0.004,

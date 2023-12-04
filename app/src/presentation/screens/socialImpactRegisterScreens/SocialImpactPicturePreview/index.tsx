@@ -1,13 +1,11 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { EditContext } from '@contexts/EditContext'
+
 import { theme } from '../../../common/theme'
-
-import { SocialImpactPicturePreviewScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
-
-import { EditContext } from '../../../../contexts/EditContext'
-
 import { PostPicturePreview } from '../../../components/_onboarding/PostPicturePreview'
+import { SocialImpactPicturePreviewScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 function SocialImpactPicturePreview({ route, navigation }: SocialImpactPicturePreviewScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

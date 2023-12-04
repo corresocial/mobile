@@ -1,18 +1,16 @@
 import React from 'react'
 
+import { ExhibitionPlaceType } from '@services/firebase/types'
+
+import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import BrazilWhiteIcon from '../../../assets/icons/brazil-white.svg'
+import CityWhiteIcon from '../../../assets/icons/city-white.svg'
 import PeopleWhiteIcon from '../../../assets/icons/people-white.svg'
 import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
-import CityWhiteIcon from '../../../assets/icons/city-white.svg'
-import BrazilWhiteIcon from '../../../assets/icons/brazil-white.svg'
-
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-
-import { ExhibitionPlaceType } from '../../../../services/firebase/types'
-
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
-import { DefaultCardContainer } from '../DefaultCardContainer'
 import { PostInfoRow } from '../../PostInfoRow'
-import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface PostRangeCardProps {
 	title?: string

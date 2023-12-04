@@ -15,7 +15,7 @@ import DeniedWhiteIcon from '../../assets/icons/denied-white.svg'
 import { PrimaryButton } from '../_buttons/PrimaryButton'
 import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 import { VerifyUserConfirmationModal } from '../_modals/VerifyUserConfirmationModal'
-import { PostRange, VerifiedLabelName } from '../../../services/firebase/types'
+import { PostRange, VerifiedLabelName } from '@services/firebase/types'
 import { SelectSubscriptionPlanModal } from '../_modals/SelectSubscriptionPlanModal'
 import { VerticalSpacing } from '../_space/VerticalSpacing'
 

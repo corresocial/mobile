@@ -1,17 +1,15 @@
 import React from 'react'
 
-import GiftWhiteIcon from '../../../assets/icons/gift-white.svg'
-import UserLabelWhiteIcon from '../../../assets/icons/usedLabel-white.svg'
-import TruckWhiteIcon from '../../../assets/icons/truck-white.svg'
+import { ItemStatus } from '@services/firebase/types'
 
-import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-
-import { ItemStatus } from '../../../../services/firebase/types'
-
-import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
-import { DefaultCardContainer } from '../DefaultCardContainer'
-import { PostInfoRow } from '../../PostInfoRow'
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import GiftWhiteIcon from '../../../assets/icons/gift-white.svg'
+import TruckWhiteIcon from '../../../assets/icons/truck-white.svg'
+import UserLabelWhiteIcon from '../../../assets/icons/usedLabel-white.svg'
+import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
+import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
+import { PostInfoRow } from '../../PostInfoRow'
+import { DefaultCardContainer } from '../DefaultCardContainer'
 
 interface ItemStatusCardProps {
 	title?: string

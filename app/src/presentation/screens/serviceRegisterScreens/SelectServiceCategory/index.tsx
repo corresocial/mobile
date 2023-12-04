@@ -1,11 +1,12 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
-import { ServiceCategories } from '../../../../services/firebase/types'
+import { ServiceContext } from '@contexts/ServiceContext'
+
+import { ServiceCategories } from '@services/firebase/types'
 
 import { theme } from '../../../common/theme'
 import { PostCategory } from '../../../components/_onboarding/PostCategory'
-import { ServiceContext } from '../../../../contexts/ServiceContext'
 import { SelectServiceCategoryScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
 

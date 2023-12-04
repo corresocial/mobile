@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-unresolved
-import { sendContactUsMessageToNotion } from '../../services/notion/contactUs'
+import { sendContactUsMessageToNotion } from '@services/notion/contactUs'
 import { getEnvVars } from '../../../environment'
 
 const { ERROS_WEBHOOK } = getEnvVars()

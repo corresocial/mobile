@@ -1,14 +1,12 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { EditContext } from '@contexts/EditContext'
+import { SaleContext } from '@contexts/SaleContext'
+
 import { theme } from '../../../common/theme'
-
-import { SalePicturePreviewScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
-
-import { SaleContext } from '../../../../contexts/SaleContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
 import { PostPicturePreview } from '../../../components/_onboarding/PostPicturePreview'
+import { SalePicturePreviewScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 function SalePicturePreview({ route, navigation }: SalePicturePreviewScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)

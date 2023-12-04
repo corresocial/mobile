@@ -1,29 +1,30 @@
-import React, { useContext } from 'react'
-import { StatusBar } from 'react-native'
 import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser'
+import React, { useContext } from 'react'
+import { StatusBar } from 'react-native'
+
+import { AuthContext } from '@contexts/AuthContext'
+
+import { generateGoogleAuthCredential } from '@services/firebase/user/generateGoogleAuthCredential'
+import { signinByCredential } from '@services/firebase/user/signingByCredential'
+import { userExists } from '@services/firebase/user/userExists'
 
 import { Container } from './styles'
-import { theme } from '../../../common/theme'
+
+import { getEnvVars } from '../../../../../environment'
 import GoogleWhiteIcon from '../../../assets/icons/google-white.svg'
 import SmartphoneWhiteIcon from '../../../assets/icons/smartphone-white.svg'
-
-import { SelectAuthMethodScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
-
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
+import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { getEnvVars } from '../../../../../environment'
-import { generateGoogleAuthCredential } from '../../../../services/firebase/user/generateGoogleAuthCredential'
-import { signinByCredential } from '../../../../services/firebase/user/signingByCredential'
-import { AuthContext } from '../../../../contexts/AuthContext'
-import { userExists } from '../../../../services/firebase/user/userExists'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
 import { SocialLoginAlertModal } from '../../../components/_modals/SocialLoginAlertModal'
-import { Loader } from '../../../components/Loader'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { Loader } from '../../../components/Loader'
+import { SelectAuthMethodScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
 WebBrowser.maybeCompleteAuthSession()
 const { AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()

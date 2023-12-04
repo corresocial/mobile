@@ -1,14 +1,12 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { EditContext } from '@contexts/EditContext'
+import { ServiceContext } from '@contexts/ServiceContext'
+
 import { theme } from '../../../common/theme'
-
-import { ServiceLocationViewPreviewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-
-import { ServiceContext } from '../../../../contexts/ServiceContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
 import { PostLocationViewPreview } from '../../../components/_onboarding/PostLocationViewPreview'
+import { ServiceLocationViewPreviewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 const defaultDeltaCoordinates = {
 	latitudeDelta: 0.004,

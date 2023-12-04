@@ -83,6 +83,7 @@
 					],
 					[
 						"/^@services/",
+						"/^./services/",
 						"/^@infrastructure/",
 						"/^@utils/",
 						"/^@utils-ui/"

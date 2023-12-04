@@ -1,27 +1,28 @@
+import * as Location from 'expo-location'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Animated, Keyboard, LayoutChangeEvent, LayoutRectangle, Platform, StatusBar, View } from 'react-native'
-import * as Location from 'expo-location'
 
-import { theme } from '../../../common/theme'
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { LoaderContext } from '@contexts/LoaderContext'
+
+import { Coordinates, LatLong } from '@services/firebase/types'
+
+import { LocationService } from '@services/location/LocationService'
+
 import { ButtonContainerBottom, Container, MapContainer, MyLocationButtonContainer, SearchInputContainer } from './styles'
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
-import MapPointWhiteIcon from '../../../assets/icons/mapPoint-white.svg'
-import MapPointOrangeIcon from '../../../assets/icons/mapPoint-orange.svg'
 
-import { Coordinates, LatLong } from '../../../../services/firebase/types'
-
-import { LoaderContext } from '../../../../contexts/LoaderContext'
-
-import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { BackButton } from '../../_buttons/BackButton'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
-import { CustomMapView } from '../../CustomMapView'
 import { InstructionCard } from '../../_cards/InstructionCard'
+import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { SearchInput } from '../../_inputs/SearchInput'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import MapPointOrangeIcon from '../../../assets/icons/mapPoint-orange.svg'
+import MapPointWhiteIcon from '../../../assets/icons/mapPoint-white.svg'
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-import { LocationService } from '../../../../services/location/LocationService'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
+import { CustomMapView } from '../../CustomMapView'
 
 const { getCurrentLocation, convertGeocodeToAddress } = LocationService()
 const { structureExpoLocationAddress } = UiLocationUtils()

@@ -1,30 +1,31 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ScrollView, KeyboardAvoidingView } from 'react-native'
+import { SvgProps } from 'react-native-svg'
 import uuid from 'react-uuid'
 
-import { SvgProps } from 'react-native-svg'
+import { LocationContext } from '@contexts/LocationContext'
+
+import { MacroCategories } from '../../../utils/postMacroCategories/types'
+import { MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote } from '@services/firebase/types'
+
 import { Body, Container, Header, InputContainer } from './styles'
+
+import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-
-import { ViewAllCategoriesScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
-
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
 import { CategoryCard } from '../../../components/_cards/CategoryCard'
 import { SelectButtonsContainer } from '../../../components/_containers/SelectButtonsContainer'
-import { LocationContext } from '../../../../contexts/LocationContext'
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { SearchInput } from '../../../components/_inputs/SearchInput'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { ViewAllCategoriesScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
+import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
+import { postMacroCategories } from '../../../utils/postMacroCategories'
+import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'
 import { saleCategories } from '../../../utils/postsCategories/saleCategories'
 import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
-import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'
 import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
 import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
-import { MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote } from '../../../../services/firebase/types'
-import { postMacroCategories } from '../../../utils/postMacroCategories'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { MacroCategories } from '../../../utils/postMacroCategories/types'
-import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 

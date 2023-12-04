@@ -1,18 +1,17 @@
 import React, { useContext, useEffect } from 'react'
 import { StatusBar } from 'react-native'
 
+import { AuthContext } from '@contexts/AuthContext'
+import { EditContext } from '@contexts/EditContext'
+import { StripeContext } from '@contexts/StripeContext'
+import { VacancyContext } from '@contexts/VacancyContext'
+
+import { PostRange as PostRangeType } from '@services/firebase/types'
+
 import { theme } from '../../../common/theme'
-
-import { SelectVacancyRangeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
-import { PostRange as PostRangeType } from '../../../../services/firebase/types'
-
-import { VacancyContext } from '../../../../contexts/VacancyContext'
-import { EditContext } from '../../../../contexts/EditContext'
-import { StripeContext } from '../../../../contexts/StripeContext'
-import { AuthContext } from '../../../../contexts/AuthContext'
-
-import { PostRange } from '../../../components/_onboarding/PostRange'
 import { SubscriptionPresentationModal } from '../../../components/_modals/SubscriptionPresentationModal'
+import { PostRange } from '../../../components/_onboarding/PostRange'
+import { SelectVacancyRangeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 function SelectVacancyRange({ route, navigation }: SelectVacancyRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

@@ -1,20 +1,19 @@
 import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { theme } from '../../../common/theme'
+import { AuthContext } from '@contexts/AuthContext'
+import { EditContext } from '@contexts/EditContext'
+import { SaleContext } from '@contexts/SaleContext'
+
+import { Coordinates, PostCollection } from '@services/firebase/types'
+
+import { LocationService } from '@services/location/LocationService'
 
 import { generateGeohashes } from '../../../common/generateGeohashes'
-
-import { InsertSaleLocationScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
-
-import { SaleContext } from '../../../../contexts/SaleContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
-import { SelectPostLocation } from '../../../components/_onboarding/SelectPostLocation'
-import { Coordinates, PostCollection } from '../../../../services/firebase/types'
-import { AuthContext } from '../../../../contexts/AuthContext'
+import { theme } from '../../../common/theme'
 import { LocationChangeConfirmationModal } from '../../../components/_modals/LocationChangeConfirmation'
-import { LocationService } from '../../../../services/location/LocationService'
+import { SelectPostLocation } from '../../../components/_onboarding/SelectPostLocation'
+import { InsertSaleLocationScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 
 const { convertGeocodeToAddress } = LocationService()

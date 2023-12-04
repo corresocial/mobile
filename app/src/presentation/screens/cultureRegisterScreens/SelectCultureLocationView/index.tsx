@@ -1,14 +1,13 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { CultureContext } from '@contexts/CultureContext'
+
+import { LocationViewType } from '@services/firebase/types'
+
 import { theme } from '../../../common/theme'
-
-import { SelectCultureLocationViewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
-import { LocationViewType } from '../../../../services/firebase/types'
-
-import { CultureContext } from '../../../../contexts/CultureContext'
-
 import { PostLocationView } from '../../../components/_onboarding/PostLocationView'
+import { SelectCultureLocationViewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function SelectCultureLocationView({ route, navigation }: SelectCultureLocationViewScreenProps) {
 	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)

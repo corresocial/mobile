@@ -1,19 +1,19 @@
 import React, { JSXElementConstructor, ReactElement, useState } from 'react'
 
+import { PostRange, SubscriptionPlan as SubscriptionPlantype } from '@services/firebase/types'
+import { StripeProducts } from '@services/stripe/types'
+
 import { ButtonsContainer, Container } from './styles'
-import { theme } from '../../../common/theme'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 
-import { PostRange, SubscriptionPlan as SubscriptionPlantype } from '../../../../services/firebase/types'
-import { StripeProducts } from '../../../../services/stripe/types'
-
-import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../_containers/FormContainer'
 import { BackButton } from '../../_buttons/BackButton'
+import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
 import { TitleDescriptionButton } from '../../_cards/TitleDescriptionButton'
-import { PrimaryButton } from '../../_buttons/PrimaryButton'
+import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../_containers/FormContainer'
+import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 
 interface SubscriptionPlanProps {
 	backgroundColor: string

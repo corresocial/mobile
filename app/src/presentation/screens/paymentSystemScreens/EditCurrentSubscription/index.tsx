@@ -1,35 +1,36 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 
-import { AuthContext } from '../../../../contexts/AuthContext'
-import { SubscriptionContext } from '../../../../contexts/SubscriptionContext'
-import { StripeContext } from '../../../../contexts/StripeContext'
+import { AuthContext } from '@contexts/AuthContext'
+import { StripeContext } from '@contexts/StripeContext'
+import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { theme } from '../../../common/theme'
+import { Id, PostCollection, PostCollectionRemote, UserSubscription } from '@services/firebase/types'
+
+import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRangeAndLocation'
+import { getPrivateContacts } from '@services/firebase/user/getPrivateContacts'
+import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
+
 import { Container } from './styles'
-import XWhiteIcon from '../../../assets/icons/x-white.svg'
+
 import AtSignWhiteIcon from '../../../assets/icons/atSign-white.svg'
 import EditWhiteIcon from '../../../assets/icons/edit-white.svg'
-
-import { Id, PostCollection, PostCollectionRemote, UserSubscription } from '../../../../services/firebase/types'
-import { EditCurrentSubscriptionScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import XWhiteIcon from '../../../assets/icons/x-white.svg'
+import { emailIsValid } from '../../../common/auxiliaryFunctions'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 import { BackButton } from '../../../components/_buttons/BackButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { FormContainer } from '../../../components/_containers/FormContainer'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '../../../components/_containers/FormContainer'
+import { InsertUserEmailModal } from '../../../components/_modals/InsertUserEmailModal'
+import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeChangeConfirmatiomModal'
 import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
 import { Loader } from '../../../components/Loader'
-import { updateAllRangeAndLocation } from '../../../../services/firebase/post/updateAllRangeAndLocation'
-import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeChangeConfirmatiomModal'
-import { InsertUserEmailModal } from '../../../components/_modals/InsertUserEmailModal'
-import { emailIsValid } from '../../../common/auxiliaryFunctions'
-import { updateUserPrivateData } from '../../../../services/firebase/user/updateUserPrivateData'
-import { getPrivateContacts } from '../../../../services/firebase/user/getPrivateContacts'
-import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
+import { EditCurrentSubscriptionScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
+import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 
 const { getPostRangeLabel } = UiSubscriptionUtils()
 const { getTextualAddress } = UiLocationUtils()

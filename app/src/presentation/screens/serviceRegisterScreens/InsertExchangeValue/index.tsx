@@ -1,15 +1,12 @@
-import { Keyboard, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
+import { Keyboard, StatusBar } from 'react-native'
 
-import { theme } from '../../../common/theme'
+import { EditContext } from '@contexts/EditContext'
 
 import { removeAllKeyboardEventListeners } from '../../../common/listenerFunctions'
-
-import { InsertExchangeValueScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
-
-import { EditContext } from '../../../../contexts/EditContext'
-
+import { theme } from '../../../common/theme'
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
+import { InsertExchangeValueScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenProps) {
 	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)

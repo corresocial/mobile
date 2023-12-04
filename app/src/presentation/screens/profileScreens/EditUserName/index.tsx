@@ -1,13 +1,11 @@
-import { Keyboard, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
+import { Keyboard, StatusBar } from 'react-native'
+
+import { EditContext } from '@contexts/EditContext'
 
 import { theme } from '../../../common/theme'
-
-import { EditUserNameScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-
-import { EditContext } from '../../../../contexts/EditContext'
-
 import { PostInputText } from '../../../components/_onboarding/PostInputText'
+import { EditUserNameScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function EditUserName({ navigation, route }: EditUserNameScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

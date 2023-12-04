@@ -1,14 +1,13 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { EditContext } from '@contexts/EditContext'
+
+import { DaysOfWeek, WeekdaysFrequency } from '@services/firebase/types'
+
 import { theme } from '../../../common/theme'
-
-import { SelectSocialImpactFrequencyScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
-import { DaysOfWeek, WeekdaysFrequency } from '../../../../services/firebase/types'
-
-import { EditContext } from '../../../../contexts/EditContext'
-
 import { PostFrequency } from '../../../components/_onboarding/PostFrequency'
+import { SelectSocialImpactFrequencyScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 function SelectSocialImpactFrequency({ route, navigation }: SelectSocialImpactFrequencyScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

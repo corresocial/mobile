@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 import { Alert } from 'react-native'
 
-import { updateUser } from '../services/firebase/user/updateUser'
+import { updateUser } from '@services/firebase/user/updateUser'
 import { share } from '../presentation/common/share'
 
-import { Id } from '../services/firebase/types'
+import { Id } from '@services/firebase/types'
 import { StateData } from './types'
 
 import { AuthContext } from './AuthContext'

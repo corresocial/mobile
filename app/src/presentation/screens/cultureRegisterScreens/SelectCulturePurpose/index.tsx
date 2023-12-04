@@ -1,15 +1,13 @@
 import React, { useContext, useEffect } from 'react'
 
-import { theme } from '../../../common/theme'
-import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
+import { CultureContext } from '@contexts/CultureContext'
+
 import GiftWhiteIcon from '../../../assets/icons/megaphone-white.svg'
-
-import { SelectCulturePurposeScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
-
-import { CultureContext } from '../../../../contexts/CultureContext'
-
-import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import QuestionMarkWhiteIcon from '../../../assets/icons/questionMark-white.svg'
+import { theme } from '../../../common/theme'
 import { OptionButton } from '../../../components/_buttons/OptionButton'
+import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import { SelectCulturePurposeScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function SelectCulturePurpose({ route, navigation }: SelectCulturePurposeScreenProps) {
 	const { isSecondPost, setCultureDataOnContext, getAditionalDataFromLastPost } = useContext(CultureContext)

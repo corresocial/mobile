@@ -1,30 +1,28 @@
 import React, { useContext, useEffect } from 'react'
 import { Alert, BackHandler } from 'react-native'
 
-import { SubscriptionContext } from '../../../../contexts/SubscriptionContext'
-import { EditContext } from '../../../../contexts/EditContext'
-import { AuthContext } from '../../../../contexts/AuthContext'
-import { StripeContext } from '../../../../contexts/StripeContext'
+import { AuthContext } from '@contexts/AuthContext'
+import { EditContext } from '@contexts/EditContext'
+import { StripeContext } from '@contexts/StripeContext'
+import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { SubscriptionPaymentResultScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-
-import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
-
-import { theme } from '../../../common/theme'
 import { Body, Container } from './styles'
+
 import CheckWhiteIcon from '../../../assets/icons/check-white.svg'
 import DescriptionWhiteIcon from '../../../assets/icons/description-white.svg'
-import XWhiteIcon from '../../../assets/icons/x-white.svg'
 import PinWhiteIcon from '../../../assets/icons/pin-white.svg'
+import XWhiteIcon from '../../../assets/icons/x-white.svg'
 import SloganHashtag from '../../../assets/imgs/sloganHashtag.svg'
-
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { SmallInstructionCard } from '../../../components/SmallInstructionCard'
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { relativeScreenHeight, relativeScreenWidth } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
 import { PostCard } from '../../../components/_cards/PostCard'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { SmallInstructionCard } from '../../../components/SmallInstructionCard'
+import { SubscriptionPaymentResultScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 
 const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()

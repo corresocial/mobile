@@ -1,25 +1,25 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { StatusBar } from 'react-native'
 
-import { AuthContext } from '../../../../contexts/AuthContext'
-import { StripeContext } from '../../../../contexts/StripeContext'
+import { AuthContext } from '@contexts/AuthContext'
+import { StripeContext } from '@contexts/StripeContext'
 
-import { PostCollection, PostRange } from '../../../../services/firebase/types'
-import { SelectSubscriptionRangeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
+import { PostCollection, PostRange } from '@services/firebase/types'
+
+import { ScrollContainer, Container, CardArea } from './styles'
 
 import { relativeScreenHeight } from '../../../common/screenDimensions'
 import { theme } from '../../../common/theme'
-import { ScrollContainer, Container, CardArea } from './styles'
-
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { BackButton } from '../../../components/_buttons/BackButton'
 import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { TitleDescriptionButton } from '../../../components/_cards/TitleDescriptionButton'
 import { SubtitleCard } from '../../../components/_cards/SubtitleCard'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { TitleDescriptionButton } from '../../../components/_cards/TitleDescriptionButton'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
 import { RangeChangeConfirmationModal } from '../../../components/_modals/RangeChangeConfirmatiomModal'
-import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { SelectSubscriptionRangeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
+import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 
 const { getPostRangeLabel } = UiSubscriptionUtils()
 const { getTextualAddress } = UiLocationUtils()

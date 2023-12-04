@@ -1,16 +1,13 @@
 import React, { useContext } from 'react'
 import { StatusBar } from 'react-native'
 
+import { EditContext } from '@contexts/EditContext'
+import { VacancyContext } from '@contexts/VacancyContext'
+
 import { theme } from '../../../common/theme'
-
-import { vacancyCategories, updateVacancyTags } from '../../../utils/postsCategories/vacancyCategories'
-
-import { SelectVacancyTagsScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
-
-import { VacancyContext } from '../../../../contexts/VacancyContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
 import { PostTags } from '../../../components/_onboarding/PostTags'
+import { SelectVacancyTagsScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
+import { vacancyCategories, updateVacancyTags } from '../../../utils/postsCategories/vacancyCategories'
 
 function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) {
 	const { setVacancyDataOnContext } = useContext(VacancyContext)

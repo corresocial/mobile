@@ -1,6 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { StatusBar, ScrollView } from 'react-native'
 
+import { AuthContext } from '@contexts/AuthContext'
+import { EditContext } from '@contexts/EditContext'
+
+import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@services/firebase/types'
+
+import { deletePost } from '@services/firebase/post/deletePost'
+import { markPostAsComplete } from '@services/firebase/post/markPostAsCompleted'
+
 import {
 	Body,
 	Container,
@@ -8,44 +16,36 @@ import {
 	OptionsArea,
 	UserAndValueContainer,
 } from './styles'
-import { theme } from '../../../common/theme'
-import { relativeScreenWidth } from '../../../common/screenDimensions'
-import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
+
 import ChatWhiteIcon from '../../../assets/icons/chat-white.svg'
-import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import DeniedWhiteIcon from '../../../assets/icons/denied-white.svg'
-
+import ShareWhiteIcon from '../../../assets/icons/share-white.svg'
+import ThreeDotsWhiteIcon from '../../../assets/icons/threeDots.svg'
 import { getShortText } from '../../../common/auxiliaryFunctions'
-import { deletePost } from '../../../../services/firebase/post/deletePost'
+import { relativeScreenWidth } from '../../../common/screenDimensions'
 import { share } from '../../../common/share'
-import { markPostAsComplete } from '../../../../services/firebase/post/markPostAsCompleted'
-
-import { ViewVacancyPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
-import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '../../../../services/firebase/types'
-
-import { AuthContext } from '../../../../contexts/AuthContext'
-import { EditContext } from '../../../../contexts/EditContext'
-
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
+import { theme } from '../../../common/theme'
 import { SmallButton } from '../../../components/_buttons/SmallButton'
-import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { DateTimeCard } from '../../../components/_cards/DateTimeCard'
-import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
-import { PostPopOver } from '../../../components/PostPopOver'
-import { ImageCarousel } from '../../../components/ImageCarousel'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { HorizontalTagList } from '../../../components/HorizontalTagList'
-import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
-import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
-import { VacancyPurposeCard } from '../../../components/_cards/VacancyPurposeCard'
+import { DescriptionCard } from '../../../components/_cards/DescriptionCard'
 import { ImportantPointsCard } from '../../../components/_cards/ImportantPointsCard'
-import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
 import { IncomeTypeCard } from '../../../components/_cards/IncomeTypeCard'
-import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 import { LinkCard } from '../../../components/_cards/LinkCard'
+import { LocationViewCard } from '../../../components/_cards/LocationViewCard'
+import { PlaceModality } from '../../../components/_cards/PlaceModalityCard'
+import { SaleOrExchangeCard } from '../../../components/_cards/SaleOrExchangeCard'
+import { VacancyPurposeCard } from '../../../components/_cards/VacancyPurposeCard'
+import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
+import { HorizontalTagList } from '../../../components/HorizontalTagList'
+import { ImageCarousel } from '../../../components/ImageCarousel'
+import { PostPopOver } from '../../../components/PostPopOver'
+import { SmallUserIdentification } from '../../../components/SmallUserIdentification'
+import { ViewVacancyPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
+import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
 
 const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()

@@ -1,35 +1,36 @@
 import React, { useState, useContext } from 'react'
-
-import { CardForm } from '@stripe/stripe-react-native'
-import { CardBrand } from '@stripe/stripe-react-native/lib/typescript/src/types/Token'
-import { Details } from '@stripe/stripe-react-native/lib/typescript/src/types/components/CardFormView'
 import { Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
-import { theme } from '../../../common/theme'
+
+import { CardForm } from '@stripe/stripe-react-native'
+
+import { AuthContext } from '@contexts/AuthContext'
+import { StripeContext } from '@contexts/StripeContext'
+import { SubscriptionContext } from '@contexts/SubscriptionContext'
+
+import { Id, PostCollection, PostCollectionRemote, PostRange, UserSubscription } from '@services/firebase/types'
+import { Details } from '@stripe/stripe-react-native/lib/typescript/src/types/components/CardFormView'
+import { CardBrand } from '@stripe/stripe-react-native/lib/typescript/src/types/Token'
+
+import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRangeAndLocation'
+
 import { Body, BodyScrollable, Container, PaymentStatusArea, PaymentStatusText, Title, TitleArea } from './styles'
-import DollarWhiteIcon from '../../../assets/icons/dollar-white.svg'
+
 import CardWhiteIcon from '../../../assets/icons/card-white.svg'
-
-import { updateAllRangeAndLocation } from '../../../../services/firebase/post/updateAllRangeAndLocation'
-
-import { FinishSubscriptionPaymentByCardScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
-
-import { SubscriptionContext } from '../../../../contexts/SubscriptionContext'
-import { StripeContext } from '../../../../contexts/StripeContext'
-import { AuthContext } from '../../../../contexts/AuthContext'
-
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { relativeScreenHeight } from '../../../common/screenDimensions'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { SmallInstructionCard } from '../../../components/SmallInstructionCard'
+import DollarWhiteIcon from '../../../assets/icons/dollar-white.svg'
 import { showMessageWithHighlight } from '../../../common/auxiliaryFunctions'
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { SmallButton } from '../../../components/_buttons/SmallButton'
+import { relativeScreenHeight } from '../../../common/screenDimensions'
+import { theme } from '../../../common/theme'
+import { BackButton } from '../../../components/_buttons/BackButton'
 import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
+import { SmallButton } from '../../../components/_buttons/SmallButton'
+import { InstructionCard } from '../../../components/_cards/InstructionCard'
+import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
+import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
 import { Loader } from '../../../components/Loader'
-import { Id, PostCollection, PostCollectionRemote, PostRange, UserSubscription } from '../../../../services/firebase/types'
+import { SmallInstructionCard } from '../../../components/SmallInstructionCard'
+import { FinishSubscriptionPaymentByCardScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 
 const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()

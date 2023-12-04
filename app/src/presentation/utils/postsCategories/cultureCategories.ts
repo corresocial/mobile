@@ -1,4 +1,4 @@
-import { CultureCategories } from '../../../services/firebase/types'
+import { CultureCategories } from '@services/firebase/types'
 
 import MusicIcon from '../../assets/icons/categories/music.svg'
 import DanceAndBalletIcon from '../../assets/icons/categories/danceAndBallet.svg'
