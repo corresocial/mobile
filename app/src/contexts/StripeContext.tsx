@@ -10,10 +10,10 @@ import { updateAllRangeAndLocation } from '../services/firebase/post/updateAllRa
 import { CustomerData, StripeProducts } from '../services/stripe/types'
 import { PostCollection, PostCollectionRemote, PostRange, SubscriptionPlan, UserSubscription } from '../services/firebase/types'
 import { AuthContext } from './AuthContext'
-import { dateHasExpired } from '../common/auxiliaryFunctions'
-import { SubscriptionAlertModal } from '../components/_modals/SubscriptionAlertModal'
+import { dateHasExpired } from '../presentation/common/auxiliaryFunctions'
+import { SubscriptionAlertModal } from '../presentation/components/_modals/SubscriptionAlertModal'
 import { SubscriptionContext } from './SubscriptionContext'
-import { UserStackNavigationProps } from '../routes/Stack/UserStack/types'
+import { UserStackNavigationProps } from '../presentation/routes/Stack/UserStack/types'
 import { getEnvVars } from '../../environment'
 
 interface StripeContextProps {

@@ -5,7 +5,7 @@ import { CurrentCategory, SearchParams } from '../services/maps/types'
 import QuestionMarkIcon from '../assets/icons/questionMark-white.svg'
 
 import { LocationData } from './types'
-import { MacroCategoriesType } from '../utils/postMacroCategories/types'
+import { MacroCategoriesType } from '../presentation/utils/postMacroCategories/types'
 
 type LocationContextType = {
 	locationDataContext: {

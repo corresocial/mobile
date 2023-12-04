@@ -1,8 +1,8 @@
 import React, { createContext, useMemo, useState, useCallback } from 'react'
 import { View } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
-import { Loader } from '../components/Loader'
-import { relativeScreenHeight, relativeScreenWidth } from '../common/screenDimensions'
+import { Loader } from '../presentation/components/Loader'
+import { relativeScreenHeight, relativeScreenWidth } from '../presentation/common/screenDimensions'
 
 type LoaderContextType = {
 	loaderIsVisible: boolean;

@@ -82,20 +82,23 @@
 						"/^@contexts/types/"
 					],
 					[
-						"/^@services/"
+						"/^@services/",
+						"/^@infrastructure/",
+						"/^@utils/",
+						"/^@utils-ui/"
 					],
 					[
-						"/^@presentation/common/screenDimensions/",
-						"/^@presentation/common/theme/",
-						"/^@presentation/assets/",
+						"/^@presentation/",
+						"/^@common/",
+						"/^@assets/",
 						"/^./styles/"
 					],
 					[
-						"/^@presentation/adapters/"
+						"/^@adapters/"
 					],
 					[
-						"/^@presentation/components/",
-						"/^@presentation/screens/"
+						"/^@components/",
+						"/^@screens/"
 					]
 				],
 				"alphabetize": {

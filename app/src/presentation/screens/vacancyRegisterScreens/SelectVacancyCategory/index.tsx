@@ -1,0 +1,37 @@
+import React, { useContext } from 'react'
+import { StatusBar } from 'react-native'
+
+import { theme } from '../../../common/theme'
+
+import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
+
+import { SelectVacancyCategoryScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
+import { VacancyCategories } from '../../../../services/firebase/types'
+
+import { VacancyContext } from '../../../../contexts/VacancyContext'
+
+import { PostCategory } from '../../../components/_onboarding/PostCategory'
+
+function SelectVacancyCategory({ route, navigation }: SelectVacancyCategoryScreenProps) {
+	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)
+
+	const onSelectCategory = (categoryName: VacancyCategories) => {
+		setVacancyDataOnContext({ category: categoryName })
+		navigation.navigate('SelectVacancyTags', { categorySelected: categoryName, ...route.params })
+	}
+
+	return (
+		<>
+			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
+			<PostCategory
+				backgroundColor={theme.green2}
+				categories={vacancyCategories}
+				progress={[2, isSecondPost ? 6 : 7]}
+				navigateBackwards={() => navigation.goBack()}
+				savePostCategory={onSelectCategory}
+			/>
+		</>
+	)
+}
+
+export { SelectVacancyCategory }

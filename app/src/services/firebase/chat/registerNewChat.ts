@@ -1,6 +1,6 @@
 import { ref, set } from 'firebase/database'
 import { realTimeDatabase } from '..'
-import { Chat } from '../../../@types/chat/types'
+import { Chat } from '../../../types/chat/types'
 
 async function registerNewChat(chat: Chat) {
 	const chatWithoutMessages = { ...chat, messages: {} }

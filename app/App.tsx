@@ -1,27 +1,26 @@
 /* eslint-disable no-undef */
 import 'react-native-gesture-handler'
-import * as Sentry from 'sentry-expo'
-import React from 'react'
-import { ThemeProvider } from 'styled-components'
-import { NavigationContainer } from '@react-navigation/native'
-import { ActivityIndicator, LogBox } from 'react-native'
-
 import {
 	useFonts,
 	Arvo_400Regular,
 	Arvo_700Bold,
 } from '@expo-google-fonts/arvo'
-import { theme } from './src/common/theme'
+import { NavigationContainer } from '@react-navigation/native'
+import React from 'react'
+import { ActivityIndicator, LogBox } from 'react-native'
+import { ThemeProvider } from 'styled-components'
 
-import { ignoredLogs } from './ignoredLogs'
-import { sentryConfig } from './src/services/sentry'
+import * as Sentry from 'sentry-expo'
 
-import { AuthRegisterStack } from './src/routes/Stack/AuthRegisterStack'
-import { LoaderProvider } from './src/contexts/LoaderContext'
-import { ErrorBoundaryContainer } from './src/components/_containers/ErrorBoundaryContainer'
 import { LoaderContainer } from './App.styles'
-import { AlertProvider } from './src/contexts/AlertContext/index'
 import { getEnvVars } from './environment'
+import { ignoredLogs } from './ignoredLogs'
+import { AlertProvider } from './src/contexts/AlertContext/index'
+import { LoaderProvider } from './src/contexts/LoaderContext'
+import { theme } from './src/presentation/common/theme'
+import { ErrorBoundaryContainer } from './src/presentation/components/_containers/ErrorBoundaryContainer'
+import { AuthRegisterStack } from './src/presentation/routes/Stack/AuthRegisterStack'
+import { sentryConfig } from './src/services/sentry'
 
 const { ENVIRONMENT } = getEnvVars()
 

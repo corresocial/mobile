@@ -11,13 +11,21 @@ module.exports = function (api) {
 				{
 					root: ['./src'],
 					alias: {
+						'@types': './src/types',
 						'@contexts': './src/contexts',
-						'@routes': './src/routes',
+						'@data': './src/data',
 						'@services': './src/services',
-						'@presentation': './src/presentation',
 						'@domain': './src/domain',
 						'@infrastructure': './src/infrastructure',
-						'@data': './src/data',
+
+						'@presentation': './src/presentation/assets',
+						'@common': './src/presentation/common',
+						'@components': './src/presentation/components',
+						'@routes': './src/presentation/routes',
+						'@screens': './src/presentation/screens',
+						'@utils': './src/presentation/utils',
+						'@utils-ui': './src/presentation/utils-ui',
+						'@adapters': './src/presentation/utils-ui'
 					}
 				}
 			]

@@ -7,14 +7,8 @@
 			"@contexts/*": [
 				"./src/contexts/*"
 			],
-			"@routes/*": [
-				"./src/routes/*"
-			],
 			"@services/*": [
 				"./src/services/*"
-			],
-			"@presentation/*": [
-				"./src/presentation/*"
 			],
 			"@domain/*": [
 				"./src/domain/*"
@@ -26,7 +20,22 @@
 				"./src/data/*"
 			],
 			"@utils/*": [
-				"./src/utils/*"
+				"src/presentation/utils/*"
+			],
+			"@routes/*": [
+				"src/presentation/routes/*"
+			],
+			"@common/*": [
+				"./src/presentation/common/*"
+			],
+			"@assets/*": [
+				"./src/presentation/assets/*"
+			],
+			"@screens/*": [
+				"./src/presentation/screens/*"
+			],
+			"@utils-ui/*": [
+				"./src/presentation/utils-ui/*"
 			],
 		}
 	}

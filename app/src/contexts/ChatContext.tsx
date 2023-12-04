@@ -6,7 +6,7 @@ import * as Notifications from 'expo-notifications'
 
 import { getEnvVars } from '../../environment'
 
-import { Chat, UserDatabase } from '../@types/chat/types'
+import { Chat, UserDatabase } from '../types/chat/types'
 import { Id } from '../services/firebase/types'
 
 import { AuthContext } from './AuthContext'
