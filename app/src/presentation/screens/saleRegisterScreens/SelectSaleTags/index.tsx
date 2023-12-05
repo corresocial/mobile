@@ -6,7 +6,8 @@ import { SaleContext } from '@contexts/SaleContext'
 
 import { theme } from '@common/theme'
 
-import { PostTags } from '../../../components/_onboarding/PostTags'
+import { PostTags } from '@components/_onboarding/PostTags'
+
 import { SelectSaleTagsScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 import { saleCategories, updateSaleTags } from '../../../utils/postsCategories/saleCategories'
 

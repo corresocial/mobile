@@ -7,7 +7,8 @@ import { SaleValueType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
-import { PaymentValueType } from '../../../components/_onboarding/PaymentValueType'
+import { PaymentValueType } from '@components/_onboarding/PaymentValueType'
+
 import { SelectSaleValueTypeScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenProps) {

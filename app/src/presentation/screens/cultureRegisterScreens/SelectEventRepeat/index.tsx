@@ -8,7 +8,8 @@ import { EventRepeatType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
-import { PostRepeat } from '../../../components/_onboarding/PostRepeat'
+import { PostRepeat } from '@components/_onboarding/PostRepeat'
+
 import { SelectEventRepeatScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function SelectEventRepeat({ route, navigation }: SelectEventRepeatScreenProps) {

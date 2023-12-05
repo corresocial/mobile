@@ -8,7 +8,8 @@ import { EventRepeatType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
-import { PostRepeat } from '../../../components/_onboarding/PostRepeat'
+import { PostRepeat } from '@components/_onboarding/PostRepeat'
+
 import { SelectSocialImpactRepeatScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 function SelectSocialImpactRepeat({ route, navigation }: SelectSocialImpactRepeatScreenProps) {

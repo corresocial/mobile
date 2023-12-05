@@ -6,7 +6,8 @@ import { EditContext } from '@contexts/EditContext'
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
-import { PostTime } from '../../../components/_onboarding/PostTime'
+import { PostTime } from '@components/_onboarding/PostTime'
+
 import { InsertServiceStartHourScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 function InsertServiceStartHour({ route, navigation }: InsertServiceStartHourScreenProps) {

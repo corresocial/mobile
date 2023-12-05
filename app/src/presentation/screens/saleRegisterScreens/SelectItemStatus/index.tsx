@@ -9,8 +9,9 @@ import GiftWhiteIcon from '@assets/icons/gift-white.svg'
 import UsedLabelWhiteIcon from '@assets/icons/usedLabel-white.svg'
 import { theme } from '@common/theme'
 
-import { OptionButton } from '../../../components/_buttons/OptionButton'
-import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import { OptionButton } from '@components/_buttons/OptionButton'
+import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
+
 import { SelectItemStatusScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {

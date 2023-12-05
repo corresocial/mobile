@@ -6,12 +6,13 @@ import { Container, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import { theme } from '@common/theme'
 
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { BackButton } from '@components/_buttons/BackButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '@components/_containers/FormContainer'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+
 import { LinkingAccountResultScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function LinkingAccountResult({ route, navigation }: LinkingAccountResultScreenProps) {

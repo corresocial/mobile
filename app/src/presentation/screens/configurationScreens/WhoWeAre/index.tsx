@@ -7,10 +7,11 @@ import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
 import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { DefaultCardContainer } from '../../../components/_cards/DefaultCardContainer'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { DefaultCardContainer } from '@components/_cards/DefaultCardContainer'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
+
 import { WhoWeAreScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function WhoWeAre({ navigation }: WhoWeAreScreenProps) {

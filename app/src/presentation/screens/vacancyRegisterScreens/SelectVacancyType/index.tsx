@@ -10,8 +10,9 @@ import ClockWhiteIcon from '@assets/icons/clock-white.svg'
 import SuitCaseWhiteIcon from '@assets/icons/suitCase-white.svg'
 import { theme } from '@common/theme'
 
-import { OptionButton } from '../../../components/_buttons/OptionButton'
-import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import { OptionButton } from '@components/_buttons/OptionButton'
+import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
+
 import { SelectVacancyTypeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) {

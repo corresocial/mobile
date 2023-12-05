@@ -21,11 +21,12 @@ import SocialImpactWhiteIcon from '@assets/icons/socialImpact-white.svg'
 import VacancyWhiteIcon from '@assets/icons/vacancy-white.svg'
 import { theme } from '@common/theme'
 
-import { SearchInput } from '../../../components/_inputs/SearchInput'
-import { CatalogPostTypeButtons } from '../../../components/CatalogPostTypeButtons'
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { FeedByRange } from '../../../components/FeedByRange'
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { SearchInput } from '@components/_inputs/SearchInput'
+import { CatalogPostTypeButtons } from '@components/CatalogPostTypeButtons'
+import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
+import { FeedByRange } from '@components/FeedByRange'
+import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
+
 import { navigateToPostView } from '../../../routes/auxMethods'
 import { ViewPostsByPostTypeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 

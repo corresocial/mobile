@@ -11,12 +11,13 @@ import XWhiteIcon from '@assets/icons/x-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { OptionButton } from '../../../components/_buttons/OptionButton'
-import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { Loader } from '../../../components/Loader'
+import { BackButton } from '@components/_buttons/BackButton'
+import { OptionButton } from '@components/_buttons/OptionButton'
+import { HeaderLinkCard } from '@components/_cards/HeaderLinkCard'
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '@components/_containers/FormContainer'
+import { Loader } from '@components/Loader'
+
 import { NotificationSettingsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function NotificationSettings({ route, navigation }: NotificationSettingsScreenProps) {

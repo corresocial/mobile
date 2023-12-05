@@ -8,7 +8,8 @@ import { DeliveryMethod } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
-import { PostDeliveryMethod } from '../../../components/_onboarding/PostDeliveryMethod'
+import { PostDeliveryMethod } from '@components/_onboarding/PostDeliveryMethod'
+
 import { SelectDeliveryMethodScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 function SelectDeliveryMethod({ route, navigation }: SelectDeliveryMethodScreenProps) {

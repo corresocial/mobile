@@ -7,7 +7,8 @@ import { DaysOfWeek, WeekdaysFrequency } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
-import { PostFrequency } from '../../../components/_onboarding/PostFrequency'
+import { PostFrequency } from '@components/_onboarding/PostFrequency'
+
 import { SelectCultureFrequencyScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function SelectCultureFrequency({ route, navigation }: SelectCultureFrequencyScreenProps) {

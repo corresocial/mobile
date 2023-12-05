@@ -6,7 +6,8 @@ import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { theme } from '@common/theme'
 
-import { PostTags } from '../../../components/_onboarding/PostTags'
+import { PostTags } from '@components/_onboarding/PostTags'
+
 import { SelectSocialImpactTagsScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 import { socialImpactCategories, updateSocialImpactTags } from '../../../utils/postsCategories/socialImpactCategories'
 

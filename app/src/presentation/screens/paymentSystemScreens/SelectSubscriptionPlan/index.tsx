@@ -8,7 +8,8 @@ import { SubscriptionPlan as SubscriptionPlanType } from '@services/firebase/typ
 
 import { theme } from '@common/theme'
 
-import { SubscriptionPlan } from '../../../components/_onboarding/SubscriptionPlan'
+import { SubscriptionPlan } from '@components/_onboarding/SubscriptionPlan'
+
 import { SelectSubscriptionPlanScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 

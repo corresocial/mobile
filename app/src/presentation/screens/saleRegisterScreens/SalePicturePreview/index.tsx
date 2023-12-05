@@ -6,7 +6,8 @@ import { SaleContext } from '@contexts/SaleContext'
 
 import { theme } from '@common/theme'
 
-import { PostPicturePreview } from '../../../components/_onboarding/PostPicturePreview'
+import { PostPicturePreview } from '@components/_onboarding/PostPicturePreview'
+
 import { SalePicturePreviewScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 function SalePicturePreview({ route, navigation }: SalePicturePreviewScreenProps) {

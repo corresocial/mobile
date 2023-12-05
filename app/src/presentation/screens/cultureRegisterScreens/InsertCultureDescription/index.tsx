@@ -7,7 +7,8 @@ import { EditContext } from '@contexts/EditContext'
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
-import { PostInputText } from '../../../components/_onboarding/PostInputText'
+import { PostInputText } from '@components/_onboarding/PostInputText'
+
 import { InsertCultureDescriptionScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function InsertCultureDescription({ route, navigation }: InsertCultureDescriptionScreenProps) {

@@ -10,7 +10,7 @@ import SmartphoneWhiteIcon from '@assets/icons/smartphone-white.svg'
 import { SplashScreenProps } from '../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
 import { AuthContext } from '@contexts/AuthContext'
-import { CustomModal } from '../../components/_modals/CustomModal'
+import { CustomModal } from '@components/_modals/CustomModal'
 import { theme } from '@common/theme'
 
 function Splash({ navigation }: SplashScreenProps) {

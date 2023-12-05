@@ -8,12 +8,13 @@ import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { DefaultInput } from '../../../components/_inputs/DefaultInput'
+import { BackButton } from '@components/_buttons/BackButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '@components/_containers/FormContainer'
+import { DefaultInput } from '@components/_inputs/DefaultInput'
+
 import { InsertNameScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
 function InsertName({ navigation, route }: InsertNameScreenProps) {

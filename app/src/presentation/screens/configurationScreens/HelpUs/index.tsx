@@ -9,11 +9,12 @@ import { relativeScreenHeight } from '@common/screenDimensions'
 import { share } from '@common/share'
 import { theme } from '@common/theme'
 
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { BackButton } from '@components/_buttons/BackButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+
 import { HelpUsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function HelpUs({ navigation }: HelpUsScreenProps) {

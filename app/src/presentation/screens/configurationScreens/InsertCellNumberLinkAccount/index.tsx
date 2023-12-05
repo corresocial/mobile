@@ -12,14 +12,15 @@ import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import { filterLeavingOnlyNumbers } from '@common/auxiliaryFunctions'
 import { theme } from '@common/theme'
 
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { DefaultInput } from '../../../components/_inputs/DefaultInput'
-import { SocialLoginAlertModal } from '../../../components/_modals/SocialLoginAlertModal'
-import { Loader } from '../../../components/Loader'
+import { BackButton } from '@components/_buttons/BackButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '@components/_containers/FormContainer'
+import { DefaultInput } from '@components/_inputs/DefaultInput'
+import { SocialLoginAlertModal } from '@components/_modals/SocialLoginAlertModal'
+import { Loader } from '@components/Loader'
+
 import { InsertCellNumberLinkAccountScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 const firebaseConfig = Firebase ? Firebase.options : undefined

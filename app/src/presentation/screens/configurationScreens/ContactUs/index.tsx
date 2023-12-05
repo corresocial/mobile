@@ -4,11 +4,12 @@ import { StatusBar } from 'react-native'
 import { Container, ButtonsContainer } from './styles'
 import { theme } from '@common/theme'
 
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
+import { BackButton } from '@components/_buttons/BackButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+
 import { ContactUsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function ContactUs({ navigation }: ContactUsScreenProps) {

@@ -6,7 +6,8 @@ import { EditContext } from '@contexts/EditContext'
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
-import { PostDate } from '../../../components/_onboarding/PostDate'
+import { PostDate } from '@components/_onboarding/PostDate'
+
 import { InsertSocialImpactEndDateScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 function InsertSocialImpactEndDate({ route, navigation }: InsertSocialImpactEndDateScreenProps) {

@@ -5,7 +5,8 @@ import { EditContext } from '@contexts/EditContext'
 
 import { theme } from '@common/theme'
 
-import { PostInputText } from '../../../components/_onboarding/PostInputText'
+import { PostInputText } from '@components/_onboarding/PostInputText'
+
 import { EditUserDescriptionScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function EditUserDescription({ route, navigation }: EditUserDescriptionScreenProps) {

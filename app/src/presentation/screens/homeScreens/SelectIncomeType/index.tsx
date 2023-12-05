@@ -9,8 +9,9 @@ import ServiceWhiteIcon from '@assets/icons/service-white.svg'
 import VacancyWhiteIcon from '@assets/icons/vacancy-white.svg'
 import { theme } from '@common/theme'
 
-import { OptionButton } from '../../../components/_buttons/OptionButton'
-import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import { OptionButton } from '@components/_buttons/OptionButton'
+import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
+
 import { SelectIncomeTypeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function SelectIncomeType({ route, navigation }: SelectIncomeTypeScreenProps) {

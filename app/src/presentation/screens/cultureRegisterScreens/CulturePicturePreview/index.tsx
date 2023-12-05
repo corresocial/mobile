@@ -5,7 +5,8 @@ import { EditContext } from '@contexts/EditContext'
 
 import { theme } from '@common/theme'
 
-import { PostPicturePreview } from '../../../components/_onboarding/PostPicturePreview'
+import { PostPicturePreview } from '@components/_onboarding/PostPicturePreview'
+
 import { CulturePicturePreviewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function CulturePicturePreview({ route, navigation }: CulturePicturePreviewScreenProps) {

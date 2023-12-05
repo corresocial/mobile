@@ -7,7 +7,8 @@ import { LocationViewType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
-import { PostLocationView } from '../../../components/_onboarding/PostLocationView'
+import { PostLocationView } from '@components/_onboarding/PostLocationView'
+
 import { SelectCultureLocationViewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function SelectCultureLocationView({ route, navigation }: SelectCultureLocationViewScreenProps) {

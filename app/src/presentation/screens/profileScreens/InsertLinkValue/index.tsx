@@ -11,13 +11,14 @@ import { ButtonContainer, Container, HeaderLinkCardContainer, InputsContainer } 
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import { theme } from '@common/theme'
 
-import { BackButton } from '../../../components/_buttons/BackButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { HeaderLinkCard } from '../../../components/_cards/HeaderLinkCard'
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
-import { DefaultInput } from '../../../components/_inputs/DefaultInput'
-import { Loader } from '../../../components/Loader'
+import { BackButton } from '@components/_buttons/BackButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { HeaderLinkCard } from '@components/_cards/HeaderLinkCard'
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '@components/_containers/FormContainer'
+import { DefaultInput } from '@components/_inputs/DefaultInput'
+import { Loader } from '@components/Loader'
+
 import { InsertLinkValueScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { isDefaultSocialMedia, mergeWithDefaultSocialMedia, sortSocialMedias, socialMediaUrl } from '../../../utils/socialMedias'
 

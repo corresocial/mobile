@@ -6,7 +6,8 @@ import { EditContext } from '@contexts/EditContext'
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
-import { PostDate } from '../../../components/_onboarding/PostDate'
+import { PostDate } from '@components/_onboarding/PostDate'
+
 import { InsertCultureEndDateScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function InsertCultureEndDate({ route, navigation }: InsertCultureEndDateScreenProps) {

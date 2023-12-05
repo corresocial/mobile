@@ -7,7 +7,8 @@ import { LocationViewType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
-import { PostLocationView } from '../../../components/_onboarding/PostLocationView'
+import { PostLocationView } from '@components/_onboarding/PostLocationView'
+
 import { SelectSocialImpactLocationViewScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 function SelectSocialImpactLocationView({ route, navigation }: SelectSocialImpactLocationViewScreenProps) {

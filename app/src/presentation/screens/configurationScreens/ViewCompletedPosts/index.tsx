@@ -10,10 +10,11 @@ import { Body, Container, Header, PostPadding } from './styles'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { PostCard } from '../../../components/_cards/PostCard'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { WithoutPostsMessage } from '../../../components/WithoutPostsMessage'
+import { PostCard } from '@components/_cards/PostCard'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
+import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
+
 import { navigateToPostView } from '../../../routes/auxMethods'
 import { ViewCompletedPostsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 

@@ -6,7 +6,8 @@ import { EditContext } from '@contexts/EditContext'
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
-import { PostInputText } from '../../../components/_onboarding/PostInputText'
+import { PostInputText } from '@components/_onboarding/PostInputText'
+
 import { InsertSaleValueScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 function InsertSaleValue({ navigation, route }: InsertSaleValueScreenProps) {

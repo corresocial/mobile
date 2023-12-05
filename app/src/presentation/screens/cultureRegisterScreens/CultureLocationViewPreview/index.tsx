@@ -6,7 +6,8 @@ import { EditContext } from '@contexts/EditContext'
 
 import { theme } from '@common/theme'
 
-import { PostLocationViewPreview } from '../../../components/_onboarding/PostLocationViewPreview'
+import { PostLocationViewPreview } from '@components/_onboarding/PostLocationViewPreview'
+
 import { CultureLocationViewPreviewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 const defaultDeltaCoordinates = {

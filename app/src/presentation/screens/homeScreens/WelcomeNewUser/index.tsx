@@ -13,10 +13,11 @@ import LoupWhiteIcon from '@assets/icons/loup-white.svg'
 import SalesCartWhiteIcon from '@assets/icons/salesCart-white.svg'
 import { theme } from '@common/theme'
 
-import { OptionButton } from '../../../components/_buttons/OptionButton'
-import { InstructionCard } from '../../../components/_cards/InstructionCard'
-import { DefaultHeaderContainer } from '../../../components/_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../../components/_containers/FormContainer'
+import { OptionButton } from '@components/_buttons/OptionButton'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '@components/_containers/FormContainer'
+
 import { WelcomeNewUserScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function WelcomeNewUser({ route, navigation }: WelcomeNewUserScreenProps) {

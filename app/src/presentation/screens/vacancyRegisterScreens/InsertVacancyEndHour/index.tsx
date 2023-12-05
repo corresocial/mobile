@@ -6,7 +6,8 @@ import { EditContext } from '@contexts/EditContext'
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
-import { PostTime } from '../../../components/_onboarding/PostTime'
+import { PostTime } from '@components/_onboarding/PostTime'
+
 import { InsertVacancyEndHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 function InsertVacancyEndHour({ route, navigation }: InsertVacancyEndHourScreenProps) {

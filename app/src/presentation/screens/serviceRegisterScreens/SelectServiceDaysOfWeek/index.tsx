@@ -7,7 +7,8 @@ import { DaysOfWeek } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
-import { PostDaysOfWeek } from '../../../components/_onboarding/PostDaysOfWeek'
+import { PostDaysOfWeek } from '@components/_onboarding/PostDaysOfWeek'
+
 import { SelectServiceDaysOfWeekScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 function SelectServiceDaysOfWeek({ route, navigation }: SelectServiceDaysOfWeekScreenProps) {

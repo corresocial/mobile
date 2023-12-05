@@ -17,7 +17,6 @@ module.exports = function (api) {
 						'@services': './src/services',
 						'@domain': './src/domain',
 						'@infrastructure': './src/infrastructure',
-
 						'@presentation': './src/presentation/assets',
 						'@common': './src/presentation/common',
 						'@components': './src/presentation/components',

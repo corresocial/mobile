@@ -10,8 +10,9 @@ import HeartAndPersonWhiteIcon from '@assets/icons/heartAndPerson-white.svg'
 import PaperInfoWhite from '@assets/icons/paperInfo-white.svg'
 import { theme } from '@common/theme'
 
-import { OptionButton } from '../../../components/_buttons/OptionButton'
-import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import { OptionButton } from '@components/_buttons/OptionButton'
+import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
+
 import { SelectSocialImpactTypeScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScreenProps) {

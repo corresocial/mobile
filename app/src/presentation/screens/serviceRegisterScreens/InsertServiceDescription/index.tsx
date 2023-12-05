@@ -7,7 +7,8 @@ import { ServiceContext } from '@contexts/ServiceContext'
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
-import { PostInputText } from '../../../components/_onboarding/PostInputText'
+import { PostInputText } from '@components/_onboarding/PostInputText'
+
 import { InsertServiceDescriptionScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 function InsertServiceDescription({ route, navigation }: InsertServiceDescriptionScreenProps) {

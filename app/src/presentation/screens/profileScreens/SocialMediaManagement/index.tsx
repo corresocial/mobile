@@ -10,10 +10,11 @@ import PlusIcon from '@assets/icons/plus-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { SmallButton } from '../../../components/_buttons/SmallButton'
-import { EditCard } from '../../../components/_cards/EditCard'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
+import { SmallButton } from '@components/_buttons/SmallButton'
+import { EditCard } from '@components/_cards/EditCard'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
+
 import { SocialMediaManagementScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import {
 	getRelativeSocialMediaIcon,

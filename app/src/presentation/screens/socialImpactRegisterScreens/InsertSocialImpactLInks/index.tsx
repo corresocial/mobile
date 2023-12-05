@@ -6,7 +6,8 @@ import { EditContext } from '@contexts/EditContext'
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
-import { PostLinks } from '../../../components/_onboarding/PostLinks/Index'
+import { PostLinks } from '@components/_onboarding/PostLinks/Index'
+
 import { InsertSocialImpactLinksScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 function InsertSocialImpactLinks({ route, navigation }: InsertSocialImpactLinksScreenProps) {

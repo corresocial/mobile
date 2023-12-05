@@ -7,7 +7,8 @@ import { DaysOfWeek, WeekdaysFrequency } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
-import { PostFrequency } from '../../../components/_onboarding/PostFrequency'
+import { PostFrequency } from '@components/_onboarding/PostFrequency'
+
 import { SelectSaleFrequencyScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 function SelectSaleFrequency({ route, navigation }: SelectSaleFrequencyScreenProps) {

@@ -5,7 +5,7 @@ import { StatusBar, View, Text } from 'react-native'
 import { theme } from '@common/theme'
 import HomeTabIconGreen from '@assets/icons/home-green.svg'
 
-import { PrimaryButton } from '../../components/_buttons/PrimaryButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 
 import { styles } from './styles'
 

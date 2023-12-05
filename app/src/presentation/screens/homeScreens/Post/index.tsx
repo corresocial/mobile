@@ -4,7 +4,8 @@ import { View, BackHandler } from 'react-native'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
+
 import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { SelectPostType } from '../SelectPostType'
 

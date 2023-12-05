@@ -6,7 +6,8 @@ import { VacancyContext } from '@contexts/VacancyContext'
 
 import { theme } from '@common/theme'
 
-import { PostPicturePreview } from '../../../components/_onboarding/PostPicturePreview'
+import { PostPicturePreview } from '@components/_onboarding/PostPicturePreview'
+
 import { VacancyPicturePreviewScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 function VacancyPicturePreview({ route, navigation }: VacancyPicturePreviewScreenProps) {

@@ -10,8 +10,9 @@ import CalendarEverydayWhiteIcon from '@assets/icons/calendarSomeday-white.svg'
 import ColorPaletWhiteIcon from '@assets/icons/colorPalet-white.svg'
 import { theme } from '@common/theme'
 
-import { OptionButton } from '../../../components/_buttons/OptionButton'
-import { PostSelectButton } from '../../../components/_onboarding/PostSelectButton'
+import { OptionButton } from '@components/_buttons/OptionButton'
+import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
+
 import { SelectCultureTypeScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) {

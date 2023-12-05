@@ -28,12 +28,13 @@ import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensi
 import { share } from '@common/share'
 import { theme } from '@common/theme'
 
-import { OptionButton } from '../../../components/_buttons/OptionButton'
-import { PrimaryButton } from '../../../components/_buttons/PrimaryButton'
-import { SubscriptionButton } from '../../../components/_buttons/SubscriptionButton'
-import { DefaultConfirmationModal } from '../../../components/_modals/DefaultConfirmationModal'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
+import { OptionButton } from '@components/_buttons/OptionButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { SubscriptionButton } from '@components/_buttons/SubscriptionButton'
+import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
+
 import { ConfigurationsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { clearOfflinePosts } from '../../../utils/offlinePost'
 

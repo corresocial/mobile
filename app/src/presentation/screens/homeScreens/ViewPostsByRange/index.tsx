@@ -11,12 +11,13 @@ import { Body, Container, ContainerPadding, Header, InputContainer } from './sty
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { PostCard } from '../../../components/_cards/PostCard'
-import { SearchInput } from '../../../components/_inputs/SearchInput'
-import { VerticalSpacing } from '../../../components/_space/VerticalSpacing'
-import { DefaultPostViewHeader } from '../../../components/DefaultPostViewHeader'
-import { FlatListPosts } from '../../../components/FlatListPosts'
-import { FocusAwareStatusBar } from '../../../components/FocusAwareStatusBar'
+import { PostCard } from '@components/_cards/PostCard'
+import { SearchInput } from '@components/_inputs/SearchInput'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
+import { FlatListPosts } from '@components/FlatListPosts'
+import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
+
 import { navigateToPostView } from '../../../routes/auxMethods'
 import { ViewPostsByRangeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 

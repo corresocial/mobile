@@ -6,7 +6,8 @@ import { ServiceContext } from '@contexts/ServiceContext'
 
 import { theme } from '@common/theme'
 
-import { PostLocationViewPreview } from '../../../components/_onboarding/PostLocationViewPreview'
+import { PostLocationViewPreview } from '@components/_onboarding/PostLocationViewPreview'
+
 import { ServiceLocationViewPreviewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 const defaultDeltaCoordinates = {
