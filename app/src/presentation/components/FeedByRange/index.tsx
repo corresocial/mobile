@@ -59,6 +59,10 @@ function FeedByRange({
 		)
 	}
 
+	const renderPosts = () => {
+		return filteredFeedPosts.nearby.map((post) => renderPostItem(post))
+	}
+
 	return (
 		<Container backgroundColor={backgroundColor}>
 			{children}
@@ -66,7 +70,7 @@ function FeedByRange({
 				(filteredFeedPosts.nearby && filteredFeedPosts.nearby.length && (typeof (filteredFeedPosts.nearby.length === 1 && filteredFeedPosts.nearby[0]) !== 'string'))
 					? (
 						<>
-							<FlatListPosts
+							{/* <FlatListPosts
 								data={getFirstFiveItems(filteredFeedPosts.nearby)}
 								headerComponent={() => (
 									<>
@@ -82,7 +86,24 @@ function FeedByRange({
 								)}
 								renderItem={customRenderItem || renderPostItem}
 								flatListIsLoading={flatListIsLoading}
+							/> */}
+						</>
+					)
+					: <></>
+			}
+			{
+				(filteredFeedPosts.nearby && filteredFeedPosts.nearby.length && (typeof (filteredFeedPosts.nearby.length === 1 && filteredFeedPosts.nearby[0]) !== 'string'))
+					? (
+						<>
+							<SubtitleCard
+								text={'posts por perto'}
+								highlightedText={['perto']}
+								seeMoreText
+								SvgIcon={PinWhiteIcon}
+								onPress={() => viewPostsByRange('near')}
 							/>
+							<VerticalSpacing />
+							{renderPosts()}
 						</>
 					)
 					: <></>

@@ -81,7 +81,7 @@ function PaymentMethod({
 						labelSize={18}
 						relativeHeight={'22%'}
 						SvgIcon={isVacancy ? CashWhiteIcon : SalesCartWhiteIcon}
-						svgIconScale={['70%', '70%']}
+						svgIconScale={isVacancy ? ['75%', '75%'] : ['55%', '55%']}
 						leftSideColor={itemsColor}
 						leftSideWidth={'25%'}
 						onPress={() => savePaymentMethod('sale')}
@@ -92,7 +92,7 @@ function PaymentMethod({
 						labelSize={18}
 						relativeHeight={'22%'}
 						SvgIcon={isVacancy ? ExchangeWhiteIcon : CashWhiteIcon}
-						svgIconScale={['55%', '55%']}
+						svgIconScale={isVacancy ? ['50%', '50%'] : ['80%', '80%']}
 						leftSideColor={itemsColor}
 						leftSideWidth={'25%'}
 						onPress={() => savePaymentMethod('exchange')}
@@ -103,9 +103,9 @@ function PaymentMethod({
 						labelSize={18}
 						relativeHeight={'23%'}
 						SvgIcon={isVacancy ? CashWhiteIcon : SalesCartWhiteIcon}
-						SecondSvgIcon={ExchangeWhiteIcon}
-						svgIconScale={['45%', '70%']}
-						secondSvgIconScale={['45%', '55%']}
+						SecondSvgIcon={isVacancy ? ExchangeWhiteIcon : CashWhiteIcon}
+						svgIconScale={isVacancy ? ['45%', '70%'] : ['45%', '50%']}
+						secondSvgIconScale={isVacancy ? ['45%', '50%'] : ['45%', '70%']}
 						leftSideColor={itemsColor}
 						leftSideWidth={'25%'}
 						onPress={() => savePaymentMethod('both')}
