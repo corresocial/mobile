@@ -27,7 +27,7 @@ function SelectItemStatus({ route, navigation }: SelectItemStatusScreenProps) {
 
 	const saveItemStatus = (itemStatus: ItemStatus) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ itemStatus })
+			addNewUnsavedFieldToEditContext({ itemStatus, macroCategory: 'sale' })
 			navigation.goBack()
 			return
 		}

@@ -110,7 +110,7 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 			}
 		}
 
-		navigation.navigate(customStack || 'SaleStack' as any, { // TODO Type
+		navigation.push(customStack || 'SaleStack' as any, { // TODO Type
 			screen: screenName,
 			params: {
 				editMode: true,

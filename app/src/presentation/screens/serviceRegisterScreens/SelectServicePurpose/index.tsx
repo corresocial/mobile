@@ -13,7 +13,6 @@ import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectServicePurpose({ route, navigation }: SelectServicePurposeScreenProps) {
 	const { isSecondPost, setServiceDataOnContext, getAditionalDataFromLastPost } = useContext(ServiceContext)
-	// const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	useEffect(() => {
 		if (!route.params?.editMode) {
@@ -21,16 +20,8 @@ function SelectServicePurpose({ route, navigation }: SelectServicePurposeScreenP
 		}
 	}, [])
 
-	// const editModeIsTrue = () => !!(route.params && route.params.editMode)
-
 	const saveServicePurpose = (lookingFor: boolean) => {
-		/* if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ lookingFor })
-			navigation.goBack()
-			return
-		} */
-
-		setServiceDataOnContext({ lookingFor })
+		setServiceDataOnContext({ lookingFor, macroCategory: 'service' })
 		navigation.navigate('SelectServiceCategory')
 	}
 

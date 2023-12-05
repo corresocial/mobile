@@ -26,7 +26,7 @@ function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScr
 
 	const editModeIsTrue = () => !!(route.params && route.params.editMode)
 
-	const saveWorkplaceType = (macroCategory: SocialImpactType) => {
+	const saveMacroCategory = (macroCategory: SocialImpactType) => {
 		if (editModeIsTrue()) {
 			addNewUnsavedFieldToEditContext({ macroCategory })
 			navigation.goBack()
@@ -34,7 +34,6 @@ function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScr
 		}
 
 		setSocialImpactDataOnContext({ macroCategory })
-
 		navigation.navigate('SelectSocialImpactPurpose')
 	}
 
@@ -55,7 +54,7 @@ function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScr
 				svgIconScale={['45%', '45%']}
 				leftSideColor={theme.pink3}
 				leftSideWidth={'25%'}
-				onPress={() => saveWorkplaceType('informative')}
+				onPress={() => saveMacroCategory('informative')}
 			/>
 			<OptionButton
 				label={'iniciativa social'}
@@ -66,7 +65,7 @@ function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScr
 				svgIconScale={['50%', '50%']}
 				leftSideColor={theme.pink3}
 				leftSideWidth={'25%'}
-				onPress={() => saveWorkplaceType('iniciative')}
+				onPress={() => saveMacroCategory('iniciative')}
 			/>
 			<OptionButton
 				label={'doação ou \nvoluntariado'}
@@ -77,7 +76,7 @@ function SelectSocialImpactType({ route, navigation }: SelectSocialImpactTypeScr
 				svgIconScale={['50%', '50%']}
 				leftSideColor={theme.pink3}
 				leftSideWidth={'25%'}
-				onPress={() => saveWorkplaceType('donation')}
+				onPress={() => saveMacroCategory('donation')}
 			/>
 		</PostSelectButton>
 	)
