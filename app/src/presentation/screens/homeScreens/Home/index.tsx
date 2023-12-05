@@ -311,30 +311,7 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const userHasPaidSubscription = () => {
-		return !(userDataContext.subscription && userDataContext.subscription.subscriptionRange !== 'near')
-	}
-
-	const renderPostItem = (item: PostCollection) => {
-		if (item as string | PostCollection === 'subscriptionAd') {
-			if (!userHasPaidSubscription()) return <></>
-			return (
-				<ContainerPadding>
-					<SubscriptionButton onPress={() => setSubscriptionModalIsVisible(true)} />
-				</ContainerPadding>
-			)
-		}
-
-		return (
-			<ContainerPadding>
-				<PostCard
-					post={item}
-					owner={item.owner}
-					navigateToProfile={navigateToProfile}
-					onPress={() => viewPostDetails(item)}
-				/>
-			</ContainerPadding>
-
-		)
+		return (userDataContext.subscription && userDataContext.subscription.subscriptionRange !== 'near')
 	}
 
 	const profilePictureUrl = userDataContext.profilePictureUrl ? userDataContext.profilePictureUrl[0] : ''
@@ -384,9 +361,12 @@ function Home({ navigation }: HomeScreenProps) {
 				)}
 				<FeedByRange
 					backgroundColor={theme.orange2}
-					filteredFeedPosts={{ ...feedPosts, nearby: ['subscriptionAd', ...getFirstFiveItems(feedPosts.nearby)] }}
-					flatListIsLoading={feedIsUpdating}
-					customRenderItem={renderPostItem}
+					filteredFeedPosts={
+						userHasPaidSubscription()
+							? { ...feedPosts }
+							: { ...feedPosts, nearby: ['subscriptionAd', ...getFirstFiveItems(feedPosts.nearby)] }
+					}
+					showSubscriptionModal={() => setSubscriptionModalIsVisible(true)}
 					viewPostsByRange={viewPostsByRange}
 					navigateToProfile={navigateToProfile}
 					goToPostView={viewPostDetails}

@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { LocalUserData } from '@contexts/types'
-
-import { PostCollection } from '@services/firebase/types'
+import { PostCollection, PostCollectionCommonFields } from '@services/firebase/types'
 
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
@@ -32,7 +30,7 @@ const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 
 interface PostCardProps {
 	post: PostCollection | any
-	owner: LocalUserData | any
+	owner: PostCollectionCommonFields['owner']
 	navigateToProfile?: (userId: string) => void
 	onPress: () => void
 }
@@ -41,25 +39,23 @@ function PostCard({ post, owner, navigateToProfile, onPress }: PostCardProps) {
 	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 	const defineLabelColor = (lightColor?: boolean) => {
 		switch (post.postType) {
-			case 'income': {
-				return lightColor ? theme.green1 : theme.green3
-			}
-			case 'socialImpact': {
-				return lightColor ? theme.pink1 : theme.pink3
-			}
-			case 'culture': {
-				return lightColor ? theme.blue1 : theme.blue3
-			}
-			default:
-				return lightColor ? theme.orange1 : theme.orange3
+			case 'income': return lightColor ? theme.green1 : theme.green3
+			case 'socialImpact': return lightColor ? theme.pink1 : theme.pink3
+			case 'culture': return lightColor ? theme.blue1 : theme.blue3
+			default: return lightColor ? theme.orange1 : theme.orange3
 		}
 	}
 
 	const renderShortName = () => {
-		if (owner.name && owner.name.split(' ').length <= 3) return owner.name
-		const names = owner.name && (owner.name.split(' ') || [])
-		if (!names) return 'usuário do corre.'
-		return `${names[0]} ${names[1]}`
+		try {
+			if (owner && owner.name && owner.name.split(' ').length <= 3) return owner.name
+			const names = owner.name && (owner.name.split(' ') || [])
+			if (!names) return 'usuário do corre.'
+			return `${names[0]} ${names[1]}`
+		} catch (err) {
+			console.log(err)
+			return owner.name || 'usuário do corre.'
+		}
 	}
 
 	const renderFormatedPostDateTime = () => {

@@ -151,8 +151,6 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 		return ''
 	}
 
-	console.log('income')
-
 	const openChat = async () => {
 		const userId1 = userDataContext.userId
 		const userId2 = postData.owner.userId
