@@ -3,7 +3,6 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { LocalUserData } from '@contexts/types'
 
 import { Chat } from '@globalTypes/chat/types'
-
 import { ContactUsType } from '@services/discord/types'
 import {
 	CultureCollectionRemote,

@@ -4,6 +4,8 @@ import React from 'react'
 
 import { VacancyProvider } from '@contexts/VacancyContext'
 
+import { VacancyStackParamList } from './types'
+
 import { EditVacancyPost } from '@screens/editPostScreens/EditVacancyPost'
 import { InsertIncomeLinks } from '@screens/saleRegisterScreens/InsertIncomeLinks'
 import { InsertExchangeValue } from '@screens/vacancyRegisterScreens/InsertExchangeValue'
@@ -28,8 +30,6 @@ import { SelectWorkplace } from '@screens/vacancyRegisterScreens/SelectWorkplace
 import { SelectWorkWeekdays } from '@screens/vacancyRegisterScreens/SelectWorkWeekdays'
 import { VacancyLocationViewPreview } from '@screens/vacancyRegisterScreens/VacancyLocationViewPreview'
 import { VacancyPicturePreview } from '@screens/vacancyRegisterScreens/VacancyPicturePreview'
-
-import { VacancyStackParamList } from './types'
 
 const Stack = createStackNavigator<VacancyStackParamList>()
 

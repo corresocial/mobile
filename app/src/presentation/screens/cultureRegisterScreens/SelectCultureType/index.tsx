@@ -4,7 +4,6 @@ import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { SelectCultureTypeScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
-
 import { CultureType } from '@services/firebase/types'
 
 import BooksWhiteIcon from '@assets/icons/books-white.svg'

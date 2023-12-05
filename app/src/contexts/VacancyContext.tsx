@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
+import { VacancyData } from './types'
 import { VacancyCollectionRemote } from '@services/firebase/types'
 
 import { AuthContext } from './AuthContext'
-import { VacancyData } from './types'
 
 type VacancyContextType = {
 	isSecondPost: boolean

@@ -1,8 +1,9 @@
 import React from 'react'
 
 import { NewHomePostType } from '@services/firebase/types'
-import { postMacroCategories } from '@utils/postMacroCategories'
 import { MacroCategories, MacroCategoriesType } from '@utils/postMacroCategories/types'
+
+import { postMacroCategories } from '@utils/postMacroCategories'
 
 import PinWhiteIcon from '@assets/icons/pin-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'

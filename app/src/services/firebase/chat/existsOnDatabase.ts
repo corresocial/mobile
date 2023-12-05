@@ -1,8 +1,8 @@
 import { get, ref } from 'firebase/database'
 
-import { realTimeDatabase } from '..'
-
 import { Id } from '../types'
+
+import { realTimeDatabase } from '@services/firebase'
 
 function existsOnDatabase(id?: Id) {
 	if (!id) return false

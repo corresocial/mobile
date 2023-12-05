@@ -3,6 +3,7 @@ import { ScrollView } from 'react-native'
 import uuid from 'react-uuid'
 
 import { MacroCategory } from '@services/firebase/types'
+
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import {

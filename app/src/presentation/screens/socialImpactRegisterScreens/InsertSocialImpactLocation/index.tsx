@@ -6,8 +6,8 @@ import { EditContext } from '@contexts/EditContext'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { InsertSocialImpactLocationScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
-
 import { Coordinates, PostCollection } from '@services/firebase/types'
+
 import { LocationService } from '@services/location/LocationService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 

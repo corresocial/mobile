@@ -6,9 +6,9 @@ import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
 import { SearchResultScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
+import { FeedPosts, Id, PostCollection, PostRange, PostType } from '@services/firebase/types'
 
 import { searchPostsCloud } from '@services/cloudFunctions/searchPostsCloud'
-import { FeedPosts, Id, PostCollection, PostRange, PostType } from '@services/firebase/types'
 
 import { Container, Header, InputContainer } from './styles'
 import { theme } from '@common/theme'

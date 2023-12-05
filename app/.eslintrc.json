@@ -77,6 +77,8 @@
 					],
 					[
 						"/^@routes/",
+						"/@types/",
+						"/types/",
 						"/@globalType/",
 						"/globalType/",
 						"/globalTypes/",
@@ -91,7 +93,6 @@
 						"/^@utils-ui/"
 					],
 					[
-						"/^@presentation/",
 						"/^@common/",
 						"/^@assets/",
 						"/^./styles/"

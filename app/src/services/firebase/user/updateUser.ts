@@ -1,8 +1,8 @@
 import { doc, setDoc } from 'firebase/firestore'
 
-import { firestore } from '..'
-
 import { UserCollection } from '../types'
+
+import { firestore } from '@services/firebase'
 
 async function updateUser(docId: string, data: UserCollection) {
 	try {

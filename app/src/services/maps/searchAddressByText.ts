@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-import { getEnvVars } from '@infrastructure/environment'
-
 import { AddressSearchResult } from './types'
+
+import { getEnvVars } from '@infrastructure/environment'
 
 const { MAPS_API } = getEnvVars()
 

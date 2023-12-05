@@ -1,8 +1,7 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
-import { PostCollection } from '@services/firebase/types'
-
 import { StackLabelProps } from './types'
+import { PostCollection } from '@services/firebase/types'
 
 const navigateToPostView = (postData: PostCollection, navigation: NativeStackNavigationProp<any>, stackLabel?: StackLabelProps | '') => { // TODO Type
 	switch (postData.postType) {

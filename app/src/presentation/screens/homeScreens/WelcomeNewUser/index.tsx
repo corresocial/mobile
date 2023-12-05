@@ -5,8 +5,8 @@ import { AuthContext } from '@contexts/AuthContext'
 import { StateContext } from '@contexts/StateContext'
 
 import { WelcomeNewUserScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-
 import { Id } from '@services/firebase/types'
+
 import { updateUser } from '@services/firebase/user/updateUser'
 
 import { Container, ContainerButtons } from './styles'

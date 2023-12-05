@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
+import { SocialImpactData } from './types'
 import { SocialImpactCollectionRemote } from '@services/firebase/types'
 
 import { AuthContext } from './AuthContext'
-import { SocialImpactData } from './types'
 
 type SocialImpactContextType = {
 	isSecondPost: boolean,

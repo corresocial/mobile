@@ -4,8 +4,8 @@ import { StatusBar } from 'react-native'
 import { VacancyContext } from '@contexts/VacancyContext'
 
 import { SelectVacancyCategoryScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
-
 import { VacancyCategories } from '@services/firebase/types'
+
 import { vacancyCategories } from '@utils/postsCategories/vacancyCategories'
 
 import { theme } from '@common/theme'

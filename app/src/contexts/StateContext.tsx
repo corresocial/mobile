@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 import { Alert } from 'react-native'
 
+import { StateData } from './types'
 import { Id } from '@services/firebase/types'
+
 import { updateUser } from '@services/firebase/user/updateUser'
 
 import { ShareModal } from '@components/_modals/ShareModal'
@@ -9,7 +11,6 @@ import { TourModal } from '@components/_modals/TourModal'
 
 import { share } from '../presentation/common/share'
 import { AuthContext } from './AuthContext'
-import { StateData } from './types'
 
 type StateContextType = {
 	stateDataContext: StateData

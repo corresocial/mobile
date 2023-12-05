@@ -6,8 +6,8 @@ import { EditContext } from '@contexts/EditContext'
 import { VacancyContext } from '@contexts/VacancyContext'
 
 import { InsertWorkplaceLocationScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
-
 import { Coordinates, PostCollection } from '@services/firebase/types'
+
 import { LocationService } from '@services/location/LocationService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 

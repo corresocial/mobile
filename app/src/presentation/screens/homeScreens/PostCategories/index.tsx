@@ -8,11 +8,11 @@ import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
 import { PostCategoriesScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
-
 import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
+import { MacroCategories } from '@utils/postMacroCategories/types'
+
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { postMacroCategories } from '@utils/postMacroCategories'
-import { MacroCategories } from '@utils/postMacroCategories/types'
 import { cultureCategories } from '@utils/postsCategories/cultureCategories'
 import { saleCategories } from '@utils/postsCategories/saleCategories'
 import { serviceCategories } from '@utils/postsCategories/serviceCategories'

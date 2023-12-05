@@ -4,7 +4,6 @@ import { EditContext } from '@contexts/EditContext'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { SelectSocialImpactExhibitionRangeScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
-
 import { ExhibitionPlaceType } from '@services/firebase/types'
 
 import BrazilWhiteIcon from '@assets/icons/brazil-white.svg'

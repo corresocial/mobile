@@ -2,7 +2,7 @@ import { get, ref } from 'firebase/database'
 
 import { Id } from '../types'
 
-import { realTimeDatabase } from '..'
+import { realTimeDatabase } from '@services/firebase'
 
 async function readFromDatabase(allChatIds: Id[]) {
 	const chats = allChatIds.map(async (chatId) => {

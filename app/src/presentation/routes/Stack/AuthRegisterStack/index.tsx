@@ -4,6 +4,8 @@ import React from 'react'
 
 import { AuthProvider } from '@contexts/AuthContext'
 
+import { AuthRegisterStackParamList } from './types'
+
 import { AcceptTermsAndConditions } from '@screens/authRegisterScreens/AcceptTermsAndServices'
 import { InsertCellNumber } from '@screens/authRegisterScreens/InsertCellNumber'
 import { InsertConfirmationCode } from '@screens/authRegisterScreens/InsertConfirmationCode'
@@ -15,7 +17,6 @@ import { SelectAuthRegister } from '@screens/authRegisterScreens/SelectAuthRegis
 import { Splash } from '@screens/Splash'
 
 import { UserStack } from '../UserStack'
-import { AuthRegisterStackParamList } from './types'
 
 const Stack = createStackNavigator<AuthRegisterStackParamList>()
 

@@ -3,6 +3,7 @@ import MapView, { Circle, Marker, Polygon } from 'react-native-maps'
 import { SvgProps } from 'react-native-svg'
 
 import { Coordinates, LatLong, LocationViewType, PostRange } from '@services/firebase/types'
+
 import { getPlaceLimits } from '@services/maps/getPlaceLimits'
 
 import { relativeScreenWidth } from '@common/screenDimensions'

@@ -5,11 +5,11 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { ViewSocialImpactPostScreenProps } from '@routes/Stack/ProfileStack/stackScreenProps'
+import { PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@services/firebase/types'
 
 import { deletePost } from '@services/firebase/post/deletePost'
 import { deletePostPictures } from '@services/firebase/post/deletePostPictures'
 import { markPostAsComplete } from '@services/firebase/post/markPostAsCompleted'
-import { PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@services/firebase/types'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'

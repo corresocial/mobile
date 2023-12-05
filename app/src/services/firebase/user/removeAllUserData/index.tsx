@@ -1,9 +1,10 @@
 import { deleteUser } from 'firebase/auth'
 
+import { Id, PostCollection } from '../../types'
+
 import { auth } from '../..'
 import { deletePost } from '../../post/deletePost'
 import { deletePostPictures } from '../../post/deletePostPictures'
-import { Id, PostCollection } from '../../types'
 import { deleteUserData } from '../deleteUserData'
 import { deleteUserPicture } from '../deleteUserPicture'
 

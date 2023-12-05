@@ -5,10 +5,11 @@
 
 import { collection, query, getDocs } from 'firebase/firestore'
 
-import { firestore } from '..'
+import { PostCollection } from '../types'
+
+import { firestore } from '@services/firebase'
 
 import { updatePost } from '../post/updatePost'
-import { PostCollection } from '../types'
 import { updateUser } from '../user/updateUser'
 
 const mergePostFields = async () => {

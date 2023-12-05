@@ -3,6 +3,7 @@ import { ScrollView, StatusBar } from 'react-native'
 import uuid from 'react-uuid'
 
 import { PostCategoriesObject, PostCategoriesType } from '@services/firebase/types'
+
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 
 import { Container } from './styles'

@@ -1,10 +1,10 @@
 import { doc, getDoc } from 'firebase/firestore'
 
-import { firestore } from '..'
-
-import { getPostCollectionName } from '@common/dbAuxiliaryFunctions'
-
 import { PostType } from '../types'
+
+import { firestore } from '@services/firebase'
+
+import { getPostCollectionName } from '../common/dbAuxiliaryFunctions'
 
 async function getPrivateAddress(postType: PostType, postId: string) {
 	const postCollection = getPostCollectionName(postType)

@@ -9,6 +9,8 @@ import { StateProvider } from '@contexts/StateContext'
 import { StripeProvider } from '@contexts/StripeContext'
 import { SubscriptionProvider } from '@contexts/SubscriptionContext'
 
+import { UserStackParamList } from './types'
+
 import { ChatMessages } from '@screens/chatScreens/ChatMessages'
 import { Configurations } from '@screens/configurationScreens/Configurations'
 import { ContactUs } from '@screens/configurationScreens/ContactUs'
@@ -61,7 +63,6 @@ import { SaleStack } from '../SaleStack'
 import { ServiceStack } from '../ServiceStack'
 import { SocialImpactStack } from '../SocialImpactStack'
 import { VacancyStack } from '../VacancyStack'
-import { UserStackParamList } from './types'
 
 const Stack = createStackNavigator<UserStackParamList>()
 

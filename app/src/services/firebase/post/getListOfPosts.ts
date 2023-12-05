@@ -1,8 +1,9 @@
 import { collection, documentId, getDocs, query, where } from 'firebase/firestore'
 
-import { firestore } from '..'
-
 import { PostCollection } from '../types'
+
+import { firestore } from '@services/firebase'
+
 import { PostIdentificationItem } from './getPostsByLocation'
 
 type FilterMethod = 'category' | 'tags'

@@ -2,6 +2,7 @@ import React from 'react'
 import uuid from 'react-uuid'
 
 import { DaysOfWeek, EventRepeatType, WeekdaysFrequency } from '@services/firebase/types'
+
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { DateTimeContainer } from './styles'

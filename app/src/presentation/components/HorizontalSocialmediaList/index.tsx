@@ -3,6 +3,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import uuid from 'react-uuid'
 
 import { SocialMedia } from '@services/firebase/types'
+
 import { socialMediaUrl } from '@utils/socialMedias'
 
 import {

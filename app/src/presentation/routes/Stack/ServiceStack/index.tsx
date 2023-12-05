@@ -4,6 +4,8 @@ import React from 'react'
 
 import { ServiceProvider } from '@contexts/ServiceContext'
 
+import { ServiceStackParamList } from './types'
+
 import { EditServicePost } from '@screens/editPostScreens/EditServicePost'
 import { InsertIncomeLinks } from '@screens/saleRegisterScreens/InsertIncomeLinks'
 import { InsertExchangeValue } from '@screens/serviceRegisterScreens/InsertExchangeValue'
@@ -24,8 +26,6 @@ import { SelectServiceRange } from '@screens/serviceRegisterScreens/SelectServic
 import { SelectServiceTags } from '@screens/serviceRegisterScreens/SelectServiceTags'
 import { ServiceLocationViewPreview } from '@screens/serviceRegisterScreens/ServiceLocationViewPreview'
 import { ServicePicturePreview } from '@screens/serviceRegisterScreens/ServicePicturePreview'
-
-import { ServiceStackParamList } from './types'
 
 const Stack = createStackNavigator<ServiceStackParamList>()
 

@@ -4,6 +4,8 @@ import React from 'react'
 
 import { SaleProvider } from '@contexts/SaleContext'
 
+import { SaleStackParamList } from './types'
+
 import { EditSalePost } from '@screens/editPostScreens/EditSalePost'
 import { InsertExchangeValue } from '@screens/saleRegisterScreens/InsertExchangeValue'
 import { InsertIncomeLinks } from '@screens/saleRegisterScreens/InsertIncomeLinks'
@@ -25,8 +27,6 @@ import { SelectSalePurpose } from '@screens/saleRegisterScreens/SelectSalePurpos
 import { SelectSaleRange } from '@screens/saleRegisterScreens/SelectSaleRange'
 import { SelectSaleTags } from '@screens/saleRegisterScreens/SelectSaleTags'
 import { SelectSaleValueType } from '@screens/saleRegisterScreens/SelectSaleValueType'
-
-import { SaleStackParamList } from './types'
 
 const Stack = createStackNavigator<SaleStackParamList>()
 

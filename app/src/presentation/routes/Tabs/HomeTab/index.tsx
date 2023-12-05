@@ -8,6 +8,8 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { AlertContext } from '@contexts/AlertContext'
 import { StateContext } from '@contexts/StateContext'
 
+import { HomeTabParamList } from './types'
+
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
 import HomeWhiteIcon from '@assets/icons/home-white.svg'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
@@ -21,7 +23,6 @@ import { ChatStack } from '../../Stack/ChatStack'
 import { HomeStack } from '../../Stack/HomeStack'
 import { ProfileStack } from '../../Stack/ProfileStack'
 import { HomeTabScreenProps } from '../../Stack/UserStack/stackScreenProps'
-import { HomeTabParamList } from './types'
 
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 

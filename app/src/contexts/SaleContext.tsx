@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 
+import { SaleData } from './types'
 import { IncomeCollectionRemote } from '@services/firebase/types'
 
 import { AuthContext } from './AuthContext'
-import { SaleData } from './types'
 
 type SaleContextType = {
 	isSecondPost: boolean

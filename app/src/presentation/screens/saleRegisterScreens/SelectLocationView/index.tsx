@@ -4,7 +4,6 @@ import { StatusBar } from 'react-native'
 import { SaleContext } from '@contexts/SaleContext'
 
 import { SelectLocationViewScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
-
 import { LocationViewType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'

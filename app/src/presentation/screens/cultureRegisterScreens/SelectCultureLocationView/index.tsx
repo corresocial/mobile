@@ -4,7 +4,6 @@ import { StatusBar } from 'react-native'
 import { CultureContext } from '@contexts/CultureContext'
 
 import { SelectCultureLocationViewScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
-
 import { LocationViewType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'

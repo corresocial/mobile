@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { collection, query, getDocs, doc, getDoc } from 'firebase/firestore'
 
-import { firestore } from '..'
+import { firestore } from '@services/firebase'
 
 import { getPostCollectionName } from '@common/dbAuxiliaryFunctions'
 

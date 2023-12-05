@@ -1,7 +1,8 @@
 import { doc, setDoc } from 'firebase/firestore'
 
-import { firestore } from '../index'
 import { Id } from '../types'
+
+import { firestore } from '../index'
 
 async function updateAllOwnerOnPosts(
 	owner: {

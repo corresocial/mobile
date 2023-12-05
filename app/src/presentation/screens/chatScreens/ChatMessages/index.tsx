@@ -22,6 +22,7 @@ import {
 } from '@globalTypes/chat/types'
 import { FlatListItem } from '@globalTypes/global/types'
 import { ChatMessagesScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { Id } from '@services/firebase/types'
 
 import { realTimeDatabase } from '@services/firebase'
 import { blockUserId } from '@services/firebase/chat/blockUser'
@@ -34,7 +35,6 @@ import { sendMessage } from '@services/firebase/chat/sendMessage'
 import { setChatIdToUsers } from '@services/firebase/chat/setChatIdToUsers'
 import { unblockUserId } from '@services/firebase/chat/unblockUser'
 import { unsubscribeMessageListener } from '@services/firebase/chat/unsubscribeMessageListener'
-import { Id } from '@services/firebase/types'
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
 
 import { Container, Header, IsBlockedContainer } from './styles'

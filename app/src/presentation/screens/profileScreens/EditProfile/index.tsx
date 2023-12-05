@@ -9,10 +9,10 @@ import { EditContext } from '@contexts/EditContext'
 
 import { EditProfileScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { UserStackParamList } from '@routes/Stack/UserStack/types'
+import { Id, PostCollection } from '@services/firebase/types'
 
 import { uploadImage } from '@services/firebase/common/uploadPicture'
 import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
-import { Id, PostCollection } from '@services/firebase/types'
 import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
 import { updateUser } from '@services/firebase/user/updateUser'
 import { UiUtils } from '@utils-ui/common/UiUtils'

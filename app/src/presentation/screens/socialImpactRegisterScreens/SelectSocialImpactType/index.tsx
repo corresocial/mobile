@@ -4,7 +4,6 @@ import { EditContext } from '@contexts/EditContext'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { SelectSocialImpactTypeScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
-
 import { SocialImpactType } from '@services/firebase/types'
 
 import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'

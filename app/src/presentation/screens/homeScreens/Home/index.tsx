@@ -11,12 +11,7 @@ import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
 import { HomeScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
-
-import { getPostsByLocationCloud } from '@services/cloudFunctions/getPostsByLocationCloud'
 import { FeedPosts, Id, PostCollection, PostRange, PostType } from '@services/firebase/types'
-import { LocationService } from '@services/location/LocationService'
-import { getReverseGeocodeByMapsApi } from '@services/maps/getReverseGeocodeByMapsApi'
-import { searchAddressByText } from '@services/maps/searchAddressByText'
 import {
 	SearchParams,
 	LatLong,
@@ -24,6 +19,11 @@ import {
 	SelectedAddressRender,
 	GeocodeAddress,
 } from '@services/maps/types'
+
+import { getPostsByLocationCloud } from '@services/cloudFunctions/getPostsByLocationCloud'
+import { LocationService } from '@services/location/LocationService'
+import { getReverseGeocodeByMapsApi } from '@services/maps/getReverseGeocodeByMapsApi'
+import { searchAddressByText } from '@services/maps/searchAddressByText'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 import { getLastRecentAddress, getRecentAdressesFromStorage } from '@utils/maps/recentAddresses'
 

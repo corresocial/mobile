@@ -4,10 +4,10 @@ import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 import { AuthContext } from '@contexts/AuthContext'
 
 import { ContactUsInsertMessageScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { NotionPage } from '@services/notion/types'
 
 import { sendContactUsMessageToDiscord } from '@services/discord/contactUs'
 import { sendContactUsMessageToNotion } from '@services/notion/contactUs'
-import { NotionPage } from '@services/notion/types'
 
 import { Container } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'

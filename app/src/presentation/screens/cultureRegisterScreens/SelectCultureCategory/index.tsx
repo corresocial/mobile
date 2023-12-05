@@ -4,8 +4,8 @@ import { StatusBar } from 'react-native'
 import { CultureContext } from '@contexts/CultureContext'
 
 import { SelectCultureCategoryScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
-
 import { CultureCategories } from '@services/firebase/types'
+
 import { cultureCategories } from '@utils/postsCategories/cultureCategories'
 
 import { theme } from '@common/theme'

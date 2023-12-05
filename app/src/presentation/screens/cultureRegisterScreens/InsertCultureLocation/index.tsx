@@ -6,8 +6,8 @@ import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { InsertCultureLocationScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
-
 import { Coordinates, PostCollection } from '@services/firebase/types'
+
 import { LocationService } from '@services/location/LocationService'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 

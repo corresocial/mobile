@@ -1,12 +1,11 @@
 import React, { createContext, useMemo, useState } from 'react'
 
+import { MacroCategoriesType } from '../presentation/utils/postMacroCategories/types'
+import { LocationData } from './types'
 import { FeedPosts, PostType } from '@services/firebase/types'
 import { CurrentCategory, SearchParams } from '@services/maps/types'
 
 import QuestionMarkIcon from '@assets/icons/questionMark-white.svg'
-
-import { MacroCategoriesType } from '../presentation/utils/postMacroCategories/types'
-import { LocationData } from './types'
 
 type LocationContextType = {
 	locationDataContext: {

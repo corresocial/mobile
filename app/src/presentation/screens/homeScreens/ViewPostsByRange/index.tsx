@@ -6,7 +6,6 @@ import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
 import { ViewPostsByRangeScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
-
 import { PostCollection, PostCollectionRemote } from '@services/firebase/types'
 import { SearchParams } from '@services/maps/types'
 

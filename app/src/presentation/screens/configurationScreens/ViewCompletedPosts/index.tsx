@@ -6,7 +6,6 @@ import { AuthContext } from '@contexts/AuthContext'
 import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'
 import { ViewCompletedPostsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-
 import { PostCollection } from '@services/firebase/types'
 
 import { Body, Container, Header, PostPadding } from './styles'
@@ -68,6 +67,7 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 					showsVerticalScrollIndicator={false}
 					ItemSeparatorComponent={() => <VerticalSpacing height={relativeScreenHeight(0.8)} />}
 					contentContainerStyle={{ backgroundColor: theme.orange2 }}
+					ListHeaderComponent={<VerticalSpacing />}
 					ListFooterComponent={() => (
 						getCompletedPosts().length === 0
 							? (

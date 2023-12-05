@@ -1,8 +1,8 @@
 import { get, ref, set } from 'firebase/database'
 
-import { realTimeDatabase } from '..'
-
 import { Id } from '../types'
+
+import { realTimeDatabase } from '@services/firebase'
 
 async function setChatIdToUsers(userIds: Id[], chatId: Id) {
 	userIds.forEach(async (userId) => {

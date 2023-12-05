@@ -6,9 +6,9 @@ import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
 import { UserDataConfigurationsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { Id, PostCollection } from '@services/firebase/types'
 
 import { auth } from '@services/firebase'
-import { Id, PostCollection } from '@services/firebase/types'
 import { removeAllUserData } from '@services/firebase/user/removeAllUserData'
 import { clearOfflinePosts } from '@utils/offlinePost'
 

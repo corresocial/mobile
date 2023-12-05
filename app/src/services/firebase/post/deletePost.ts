@@ -5,9 +5,9 @@ import {
 	getDoc,
 } from 'firebase/firestore'
 
-import { firestore } from '..'
-
 import { PostCollection, UserCollection } from '../types'
+
+import { firestore } from '@services/firebase'
 
 async function deletePost(postId: string, userId: string) {
 	try {

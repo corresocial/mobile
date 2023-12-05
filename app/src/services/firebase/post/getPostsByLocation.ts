@@ -8,9 +8,9 @@ import {
 	CollectionReference,
 } from 'firebase/firestore'
 
-import { firestore } from '..'
-
 import { SearchParams } from '../../maps/types'
+
+import { firestore } from '@services/firebase'
 
 export type PostIdentificationItem = {
 	collection: string

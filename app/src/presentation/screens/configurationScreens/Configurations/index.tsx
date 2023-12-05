@@ -7,10 +7,10 @@ import { ChatContext } from '@contexts/ChatContext'
 
 import { ConfigurationsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { UserStackParamList } from '@routes/Stack/UserStack/types'
+import { Id } from '@services/firebase/types'
 
 import { auth } from '@services/firebase'
 import { getAndUpdateUserToken } from '@services/firebase/chat/getAndUpdateUserToken'
-import { Id } from '@services/firebase/types'
 import { clearOfflinePosts } from '@utils/offlinePost'
 
 import { Body, Container, Header } from './styles'

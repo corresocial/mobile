@@ -1,6 +1,5 @@
-import { Chat } from '@globalTypes/chat/types'
-
 import { UserStackParamList } from '../../Stack/UserStack/types'
+import { Chat } from '@globalTypes/chat/types'
 
 export type HomeTabParamList = {
 	HomeStack: undefined

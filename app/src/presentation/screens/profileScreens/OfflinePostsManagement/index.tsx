@@ -8,11 +8,11 @@ import { AuthContext } from '@contexts/AuthContext'
 import { LocalUserData } from '@contexts/types'
 
 import { OfflinePostsManagementScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { PostCollection, PostCollectionRemote } from '@services/firebase/types'
 
 import { updateDocField } from '@services/firebase/common/updateDocField'
 import { uploadImage } from '@services/firebase/common/uploadPicture'
 import { createPost } from '@services/firebase/post/createPost'
-import { PostCollection, PostCollectionRemote } from '@services/firebase/types'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 import { deletePostByDescription, getOfflinePosts } from '@utils/offlinePost'
 

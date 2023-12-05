@@ -7,7 +7,6 @@ import { ServiceContext } from '@contexts/ServiceContext'
 import { StripeContext } from '@contexts/StripeContext'
 
 import { SelectServiceRangeScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
-
 import { PostRange as PostRangeType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'

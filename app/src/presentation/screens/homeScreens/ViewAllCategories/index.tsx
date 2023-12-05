@@ -6,11 +6,11 @@ import uuid from 'react-uuid'
 import { LocationContext } from '@contexts/LocationContext'
 
 import { ViewAllCategoriesScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
-
 import { MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote } from '@services/firebase/types'
+import { MacroCategories } from '@utils/postMacroCategories/types'
+
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { postMacroCategories } from '@utils/postMacroCategories'
-import { MacroCategories } from '@utils/postMacroCategories/types'
 import { cultureCategories } from '@utils/postsCategories/cultureCategories'
 import { saleCategories } from '@utils/postsCategories/saleCategories'
 import { serviceCategories } from '@utils/postsCategories/serviceCategories'

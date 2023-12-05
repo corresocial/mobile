@@ -5,9 +5,9 @@ import { AuthContext } from '@contexts/AuthContext'
 import { RegisterUserData } from '@contexts/types'
 
 import { InsertProfilePictureScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+import { Id, PostCollection, UserCollection } from '@services/firebase/types'
 
 import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
-import { Id, PostCollection, UserCollection } from '@services/firebase/types'
 import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
 import { updateUser } from '@services/firebase/user/updateUser'
 import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'

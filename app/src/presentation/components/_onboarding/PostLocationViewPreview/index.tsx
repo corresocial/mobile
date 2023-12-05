@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { LatLong, LocationViewType, PostRange } from '@services/firebase/types'
+
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 
 import { ButtonContainerBottom, Container, MapContainer } from './styles'

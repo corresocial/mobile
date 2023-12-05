@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { FeedPosts, PostCollectionRemote } from '../firebase/types'
 import { SearchParams } from '../maps/types'
+
 import { postsIndex } from './index'
 
 async function searchPosts(searchText: string, searchParams: SearchParams, searchByRange?: boolean) {

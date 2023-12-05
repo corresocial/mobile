@@ -5,8 +5,8 @@ import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { SelectSubsciptionPaymentMethodScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-
 import { SubscriptionPaymentMethod } from '@services/firebase/types'
+
 import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
 import { ButtonsContainer } from './styles'

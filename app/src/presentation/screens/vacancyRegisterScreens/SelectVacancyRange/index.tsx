@@ -7,7 +7,6 @@ import { StripeContext } from '@contexts/StripeContext'
 import { VacancyContext } from '@contexts/VacancyContext'
 
 import { SelectVacancyRangeScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
-
 import { PostRange as PostRangeType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'

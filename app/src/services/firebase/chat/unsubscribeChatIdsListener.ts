@@ -1,6 +1,6 @@
 import { off, ref } from 'firebase/database'
 
-import { realTimeDatabase } from '..'
+import { realTimeDatabase } from '@services/firebase'
 
 async function unsubscribeChatIdsListener(chatIds: string[]) {
 	if (!chatIds || !chatIds.length) return false

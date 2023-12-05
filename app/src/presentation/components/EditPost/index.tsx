@@ -5,13 +5,14 @@ import { getDownloadURL } from 'firebase/storage'
 
 import { LocalUserData } from '@contexts/types'
 
+import { Id, PostCollection, PostCollectionRemote, UserCollection } from '@services/firebase/types'
+
 import { updateDocField } from '@services/firebase/common/updateDocField'
 import { uploadImage } from '@services/firebase/common/uploadPicture'
 import { createPost } from '@services/firebase/post/createPost'
 import { deletePostPictures } from '@services/firebase/post/deletePostPictures'
 import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRangeAndLocation'
 import { updatePost } from '@services/firebase/post/updatePost'
-import { Id, PostCollection, PostCollectionRemote, UserCollection } from '@services/firebase/types'
 import { getNetworkStatus } from '@utils/deviceNetwork'
 import { deletePostByDescription, setOfflinePost } from '@utils/offlinePost'
 
@@ -176,7 +177,9 @@ function EditPost({
 				await deletePostPictures(picturesAlreadyUploadedToRemove)
 			}
 
+			console.log('before update post')
 			await updatePost('posts', initialPostData.postId, postDataToSave)
+			console.log('afeter update post')
 
 			if (postDataToSave.location) {
 				delete postDataToSave.location.geohashNearby

@@ -4,6 +4,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import uuid from 'react-uuid'
 
 import { AddressSearchResult, LatLong, SelectedAddressRender } from '@services/maps/types'
+
 import { setRecentAddressOnStorage } from '@utils/maps/recentAddresses'
 
 import {

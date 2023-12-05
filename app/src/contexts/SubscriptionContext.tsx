@@ -1,10 +1,11 @@
 import React, { createContext, useCallback, useMemo, useState, useContext } from 'react'
 
+import { SubscriptionData } from './types'
 import { Id, PostRange, UserSubscription } from '@services/firebase/types'
+
 import { updateUser } from '@services/firebase/user/updateUser'
 
 import { AuthContext } from './AuthContext'
-import { SubscriptionData } from './types'
 
 type SubscriptionContextType = {
 	subscriptionDataContext: SubscriptionData

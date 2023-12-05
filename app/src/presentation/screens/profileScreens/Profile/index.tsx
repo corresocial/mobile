@@ -10,7 +10,6 @@ import { LocalUserData } from '@contexts/types'
 import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'
 import { HomeTabScreenProps } from '@routes/Stack/ProfileStack/stackScreenProps'
-
 import {
 	Id,
 	PostCollection,
@@ -19,6 +18,7 @@ import {
 	UserCollection,
 	VerifiedLabelName,
 } from '@services/firebase/types'
+
 import { getUser } from '@services/firebase/user/getUser'
 import { updateUser } from '@services/firebase/user/updateUser'
 import { setFreeTrialPlans } from '@services/stripe/scripts/setFreeTrialPlans'

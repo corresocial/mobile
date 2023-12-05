@@ -5,8 +5,8 @@ import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { SelectSubscriptionPlanScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-
 import { SubscriptionPlan as SubscriptionPlanType } from '@services/firebase/types'
+
 import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
 import { theme } from '@common/theme'

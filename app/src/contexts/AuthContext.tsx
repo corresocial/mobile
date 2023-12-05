@@ -4,8 +4,9 @@ import React, { createContext, useState } from 'react'
 
 import { PhoneAuthProvider, signInWithCredential, UserCredential } from 'firebase/auth'
 
-import { auth } from '@services/firebase'
 import { PostCollection, UserCollection } from '@services/firebase/types'
+
+import { auth } from '@services/firebase'
 import { getUser } from '@services/firebase/user/getUser'
 
 const phoneAuth = new PhoneAuthProvider(auth)

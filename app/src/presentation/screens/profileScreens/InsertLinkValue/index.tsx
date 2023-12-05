@@ -4,8 +4,8 @@ import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 import { AuthContext } from '@contexts/AuthContext'
 
 import { InsertLinkValueScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-
 import { SocialMedia } from '@services/firebase/types'
+
 import { updateUser } from '@services/firebase/user/updateUser'
 import { isDefaultSocialMedia, mergeWithDefaultSocialMedia, sortSocialMedias, socialMediaUrl } from '@utils/socialMedias'
 

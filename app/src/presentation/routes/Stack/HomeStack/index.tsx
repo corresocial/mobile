@@ -4,6 +4,8 @@ import React from 'react'
 
 import { StateProvider } from '@contexts/StateContext'
 
+import { HomeStackParamList } from './types'
+
 import { Home } from '@screens/homeScreens/Home'
 import { PostCategories } from '@screens/homeScreens/PostCategories'
 import { PostCategoryDetails } from '@screens/homeScreens/PostCategoryDetails'
@@ -18,8 +20,6 @@ import { ViewCulturePost } from '@screens/viewPostScreens/ViewCulturePost'
 import { ViewIncomePost } from '@screens/viewPostScreens/ViewIncomePost'
 import { ViewSocialImpactPost } from '@screens/viewPostScreens/ViewSocialImpactPost'
 import { ViewVacancyPost } from '@screens/viewPostScreens/ViewVacancyPost'
-
-import { HomeStackParamList } from './types'
 
 const Stack = createStackNavigator<HomeStackParamList>()
 

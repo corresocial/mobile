@@ -4,6 +4,8 @@ import React from 'react'
 
 import { SocialImpactProvider } from '@contexts/SocialImpactContext'
 
+import { SocialImpactStackParamList } from './types'
+
 import { EditSocialImpactPost } from '@screens/editPostScreens/EditSocialImpactPost'
 import { InsertSocialImpactDescription } from '@screens/socialImpactRegisterScreens/InsertSocialImpactDescription'
 import { InsertSocialImpactEndDate } from '@screens/socialImpactRegisterScreens/InsertSocialImpactEndDate'
@@ -24,8 +26,6 @@ import { SelectSocialImpactTags } from '@screens/socialImpactRegisterScreens/Sel
 import { SelectSocialImpactType } from '@screens/socialImpactRegisterScreens/SelectSocialImpactType'
 import { SocialImpactLocationViewPreview } from '@screens/socialImpactRegisterScreens/SocialImpactLocationViewPreview'
 import { SocialImpactPicturePreview } from '@screens/socialImpactRegisterScreens/SocialImpactPicturePreview'
-
-import { SocialImpactStackParamList } from './types'
 
 const Stack = createStackNavigator<SocialImpactStackParamList>()
 

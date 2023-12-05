@@ -1,8 +1,8 @@
 import { doc, updateDoc, setDoc } from 'firebase/firestore'
 
-import { firestore } from '..'
-
 import { PostCollectionType, PrivateAddress } from '../types'
+
+import { firestore } from '@services/firebase'
 
 async function updatePostPrivateData(data: PrivateAddress, postId: string, postCollection: PostCollectionType, privateField: string = '') {
 	try {
