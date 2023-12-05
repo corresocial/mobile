@@ -14,7 +14,7 @@ import { getStripePlans, getStripeProducts } from '@services/stripe/products'
 
 import { getEnvVars } from '../../environment'
 import { dateHasExpired } from '../presentation/common/auxiliaryFunctions'
-import { SubscriptionAlertModal } from '../presentation/components/_modals/SubscriptionAlertModal'
+import { SubscriptionAlertModal } from '@components/_modals/SubscriptionAlertModal'
 import { AuthContext } from './AuthContext'
 import { SubscriptionContext } from './SubscriptionContext'
 

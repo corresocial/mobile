@@ -4,9 +4,9 @@ import React,
 import { Container, ContainerInner, LastMessageArea, UserInfo } from './styles'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
-import { SmallUserIdentification } from '../../SmallUserIdentification'
-import { UnseenMessagesCount } from '../../UnseenMessagesCount'
-import { LeftLineCard } from '../LeftLineCard'
+import { LeftLineCard } from '@components/_cards/LeftLineCard'
+import { SmallUserIdentification } from '@components/SmallUserIdentification'
+import { UnseenMessagesCount } from '@components/UnseenMessagesCount'
 
 interface ConversationCardProps {
 	userName: string
