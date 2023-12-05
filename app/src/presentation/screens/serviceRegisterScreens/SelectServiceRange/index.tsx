@@ -6,14 +6,13 @@ import { EditContext } from '@contexts/EditContext'
 import { ServiceContext } from '@contexts/ServiceContext'
 import { StripeContext } from '@contexts/StripeContext'
 
+import { SelectServiceRangeScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
 import { PostRange as PostRangeType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
 import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionPresentationModal'
 import { PostRange } from '@components/_onboarding/PostRange'
-
-import { SelectServiceRangeScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 function SelectServiceRange({ route, navigation }: SelectServiceRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

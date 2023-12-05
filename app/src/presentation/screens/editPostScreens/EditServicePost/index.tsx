@@ -5,7 +5,9 @@ import { EditContext } from '@contexts/EditContext'
 import { StateContext } from '@contexts/StateContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { ServiceStackParamList } from '../../../routes/Stack/ServiceStack/types'
+import { navigateToPostView } from '@routes/auxMethods'
+import { EditServicePostReviewScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
+import { ServiceStackParamList } from '@routes/Stack/ServiceStack/types'
 import { PostCollection, ServiceCategories, IncomeCollection } from '@services/firebase/types'
 
 import ClockWhiteIcon from '@assets/icons/clock-white.svg'
@@ -25,8 +27,6 @@ import { PostReviewPresentationModal } from '@components/_modals/PostReviewPrese
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { EditPost } from '@components/EditPost'
 
-import { navigateToPostView } from '../../../routes/auxMethods'
-import { EditServicePostReviewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'

@@ -3,6 +3,7 @@ import React, { useContext, useEffect } from 'react'
 import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
+import { SelectCultureTypeScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
 import { CultureType } from '@services/firebase/types'
 
 import BooksWhiteIcon from '@assets/icons/books-white.svg'
@@ -12,8 +13,6 @@ import { theme } from '@common/theme'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
-
-import { SelectCultureTypeScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function SelectCultureType({ route, navigation }: SelectCultureTypeScreenProps) {
 	const { setCultureDataOnContext, getAditionalDataFromLastPost } = useContext(CultureContext)

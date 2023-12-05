@@ -3,13 +3,13 @@ import { StatusBar } from 'react-native'
 
 import { ServiceContext } from '@contexts/ServiceContext'
 
+import { SelectServiceCategoryScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
 import { ServiceCategories } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
 import { PostCategory } from '@components/_onboarding/PostCategory'
 
-import { SelectServiceCategoryScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
 
 function SelectServiceCategory({ route, navigation }: SelectServiceCategoryScreenProps) {

@@ -4,12 +4,12 @@ import { Keyboard, StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
+import { InsertSocialImpactDescriptionScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
+
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostInputText } from '@components/_onboarding/PostInputText'
-
-import { InsertSocialImpactDescriptionScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 function InsertSocialImpactDescription({ route, navigation }: InsertSocialImpactDescriptionScreenProps) {
 	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)

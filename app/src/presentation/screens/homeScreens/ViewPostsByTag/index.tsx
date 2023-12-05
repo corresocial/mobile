@@ -3,6 +3,8 @@ import React, { useContext, useState } from 'react'
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
+import { navigateToPostView } from '@routes/auxMethods'
+import { ViewPostsByTagScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
 import { PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
 
 import { Container, Header, InputContainer } from './styles'
@@ -12,9 +14,6 @@ import { SearchInput } from '@components/_inputs/SearchInput'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
-
-import { navigateToPostView } from '../../../routes/auxMethods'
-import { ViewPostsByTagScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

@@ -3,13 +3,12 @@ import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
+import { SelectSaleValueTypeScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
 import { SaleValueType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
 import { PaymentValueType } from '@components/_onboarding/PaymentValueType'
-
-import { SelectSaleValueTypeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 function SelectSaleValueType({ route, navigation }: SelectSaleValueTypeScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

@@ -1,6 +1,8 @@
 import React from 'react'
 import { Linking, StatusBar } from 'react-native'
 
+import { HelpUsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+
 import { Container, ButtonsContainer } from './styles'
 import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
 import HandOnPersonWhiteIcon from '@assets/icons/handOnPerson-white.svg'
@@ -14,8 +16,6 @@ import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
-
-import { HelpUsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function HelpUs({ navigation }: HelpUsScreenProps) {
 	const shareMessage = () => {

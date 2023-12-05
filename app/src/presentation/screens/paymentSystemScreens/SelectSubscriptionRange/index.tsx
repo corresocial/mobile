@@ -4,6 +4,7 @@ import { StatusBar } from 'react-native'
 import { AuthContext } from '@contexts/AuthContext'
 import { StripeContext } from '@contexts/StripeContext'
 
+import { SelectSubscriptionRangeScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { PostCollection, PostRange } from '@services/firebase/types'
 
 import { ScrollContainer, Container, CardArea } from './styles'
@@ -18,7 +19,6 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { RangeChangeConfirmationModal } from '@components/_modals/RangeChangeConfirmatiomModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
-import { SelectSubscriptionRangeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 

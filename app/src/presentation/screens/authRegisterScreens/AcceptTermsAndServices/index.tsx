@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { BackHandler, Platform, StatusBar } from 'react-native'
 
+import { AcceptTermsAndConditionsScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+
 import {
 	Container,
 	TermsButtonContainer,
@@ -15,8 +17,6 @@ import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { TermsOfServiceModal } from '@components/_modals/TermsOfServiceModal'
-
-import { AcceptTermsAndConditionsScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
 function AcceptTermsAndConditions({ navigation }: AcceptTermsAndConditionsScreenProps) {
 	const [termsVisibility, setTermsVisibility] = useState<boolean>(false)

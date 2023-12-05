@@ -3,11 +3,11 @@ import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
+import { CulturePicturePreviewScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+
 import { theme } from '@common/theme'
 
 import { PostPicturePreview } from '@components/_onboarding/PostPicturePreview'
-
-import { CulturePicturePreviewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function CulturePicturePreview({ route, navigation }: CulturePicturePreviewScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

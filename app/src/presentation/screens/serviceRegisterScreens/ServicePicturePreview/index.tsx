@@ -4,11 +4,11 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { ServiceContext } from '@contexts/ServiceContext'
 
+import { ServicePicturePreviewScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
+
 import { theme } from '@common/theme'
 
 import { PostPicturePreview } from '@components/_onboarding/PostPicturePreview'
-
-import { ServicePicturePreviewScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 function ServicePicturePreview({ route, navigation }: ServicePicturePreviewScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)

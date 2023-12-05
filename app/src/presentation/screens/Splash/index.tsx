@@ -7,7 +7,7 @@ import { relativeScreenWidth, screenHeight } from '@common/screenDimensions'
 import LogoBuildingIcon from '@assets/icons/logoBuilding.svg'
 import SmartphoneWhiteIcon from '@assets/icons/smartphone-white.svg'
 
-import { SplashScreenProps } from '../../routes/Stack/AuthRegisterStack/stackScreenProps'
+import { SplashScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { CustomModal } from '@components/_modals/CustomModal'

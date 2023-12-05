@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
+import { InsertLinkTitleScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { SocialMedia } from '@services/firebase/types'
 
 import { ButtonContainer, Container, InputsContainer, HeaderLinkCardContainer } from './styles'
@@ -13,8 +14,6 @@ import { HeaderLinkCard } from '@components/_cards/HeaderLinkCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
-
-import { InsertLinkTitleScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function InsertLinkTitle({ route, navigation }: InsertLinkTitleScreenProps) {
 	const [linkTitle, setInputLinkTitle] = useState<string>(route.params.socialMedia?.title || '')

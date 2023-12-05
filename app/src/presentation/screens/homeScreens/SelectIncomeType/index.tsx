@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import { EditContext } from '@contexts/EditContext'
 
 import { MacroCategoriesType } from '../../../utils/postMacroCategories/types'
+import { SelectIncomeTypeScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 
 import SaleWhiteIcon from '@assets/icons/sale-white.svg'
 import ServiceWhiteIcon from '@assets/icons/service-white.svg'
@@ -11,8 +12,6 @@ import { theme } from '@common/theme'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
-
-import { SelectIncomeTypeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function SelectIncomeType({ route, navigation }: SelectIncomeTypeScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

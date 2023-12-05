@@ -2,14 +2,14 @@ import React, { useContext, useEffect } from 'react'
 
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
+import { SelectSocialImpactPurposeScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
+
 import GiftWhiteIcon from '@assets/icons/megaphone-white.svg'
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
 import { theme } from '@common/theme'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
-
-import { SelectSocialImpactPurposeScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 function SelectSocialImpactPurpose({ route, navigation }: SelectSocialImpactPurposeScreenProps) {
 	const { isSecondPost, setSocialImpactDataOnContext, getAditionalDataFromLastPost } = useContext(SocialImpactContext)

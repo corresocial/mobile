@@ -1,6 +1,8 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
+import { PrivacyAndSecurityScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+
 import { Container } from './styles'
 import { theme } from '@common/theme'
 
@@ -9,8 +11,6 @@ import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 import { TermsOfService } from '@components/TermsOfService'
-
-import { PrivacyAndSecurityScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function PrivacyAndSecurity({ navigation }: PrivacyAndSecurityScreenProps) {
 	return (

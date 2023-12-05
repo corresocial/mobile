@@ -3,13 +3,12 @@ import { StatusBar } from 'react-native'
 
 import { SaleContext } from '@contexts/SaleContext'
 
+import { SelectLocationViewScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
 import { LocationViewType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
 import { PostLocationView } from '@components/_onboarding/PostLocationView'
-
-import { SelectLocationViewScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 function SelectLocationView({ route, navigation }: SelectLocationViewScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)

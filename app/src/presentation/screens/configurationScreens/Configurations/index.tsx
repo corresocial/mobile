@@ -5,7 +5,8 @@ import { AlertContext } from '@contexts/AlertContext/index'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
-import { UserStackParamList } from '../../../routes/Stack/UserStack/types'
+import { ConfigurationsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { UserStackParamList } from '@routes/Stack/UserStack/types'
 import { Id } from '@services/firebase/types'
 
 import { auth } from '@services/firebase'
@@ -35,7 +36,6 @@ import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmatio
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
-import { ConfigurationsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { clearOfflinePosts } from '../../../utils/offlinePost'
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {

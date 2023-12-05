@@ -3,12 +3,12 @@ import { Keyboard, StatusBar, Platform } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
+import { InsertCultureEndHourScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostTime } from '@components/_onboarding/PostTime'
-
-import { InsertCultureEndHourScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function InsertCultureEndHour({ route, navigation }: InsertCultureEndHourScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

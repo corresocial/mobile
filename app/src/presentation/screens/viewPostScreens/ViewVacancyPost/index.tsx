@@ -4,6 +4,7 @@ import { StatusBar, ScrollView } from 'react-native'
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
+import { ViewVacancyPostScreenProps } from '@routes/Stack/ProfileStack/stackScreenProps'
 import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@services/firebase/types'
 
 import { deletePost } from '@services/firebase/post/deletePost'
@@ -43,7 +44,6 @@ import { ImageCarousel } from '@components/ImageCarousel'
 import { PostPopOver } from '@components/PostPopOver'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
-import { ViewVacancyPostScreenProps } from '../../../routes/Stack/ProfileStack/stackScreenProps'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
 import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'

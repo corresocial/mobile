@@ -3,12 +3,12 @@ import { Keyboard, StatusBar, Platform } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
+import { InsertVacancyStartHourScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostTime } from '@components/_onboarding/PostTime'
-
-import { InsertVacancyStartHourScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 function InsertVacancyStartHour({ route, navigation }: InsertVacancyStartHourScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

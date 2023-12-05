@@ -4,6 +4,8 @@ import { Platform } from 'react-native'
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
+import { navigateToPostView } from '@routes/auxMethods'
+import { ViewPostsByRangeScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
 import { PostCollection, PostCollectionRemote } from '@services/firebase/types'
 import { SearchParams } from '@services/maps/types'
 
@@ -17,9 +19,6 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FlatListPosts } from '@components/FlatListPosts'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
-
-import { navigateToPostView } from '../../../routes/auxMethods'
-import { ViewPostsByRangeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 
 function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

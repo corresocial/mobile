@@ -3,6 +3,7 @@ import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
 import { AuthContext } from '@contexts/AuthContext'
 
+import { ContactUsInsertMessageScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { NotionPage } from '@services/notion/types'
 
 import { sendContactUsMessageToDiscord } from '@services/discord/contactUs'
@@ -21,8 +22,6 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { Loader } from '@components/Loader'
-
-import { ContactUsInsertMessageScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function ContactUsInsertMessage({ route, navigation }: ContactUsInsertMessageScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

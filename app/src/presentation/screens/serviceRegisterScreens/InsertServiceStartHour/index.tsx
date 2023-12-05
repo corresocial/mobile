@@ -3,12 +3,12 @@ import { Keyboard, Platform, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
+import { InsertServiceStartHourScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
+
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostTime } from '@components/_onboarding/PostTime'
-
-import { InsertServiceStartHourScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 function InsertServiceStartHour({ route, navigation }: InsertServiceStartHourScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

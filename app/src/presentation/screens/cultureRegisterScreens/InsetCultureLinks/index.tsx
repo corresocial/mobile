@@ -3,12 +3,12 @@ import { Keyboard, Linking, Platform } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
+import { InsertCultureLinksScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostLinks } from '@components/_onboarding/PostLinks/Index'
-
-import { InsertCultureLinksScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function InsertCultureLinks({ route, navigation }: InsertCultureLinksScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

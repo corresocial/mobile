@@ -4,12 +4,12 @@ import { Keyboard, StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { SaleContext } from '@contexts/SaleContext'
 
+import { InsertSaleDescriptionScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
+
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostInputText } from '@components/_onboarding/PostInputText'
-
-import { InsertSaleDescriptionScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 function InsertSaleDescription({ route, navigation }: InsertSaleDescriptionScreenProps) {
 	const { isSecondPost, setSaleDataOnContext } = useContext(SaleContext)

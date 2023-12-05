@@ -4,13 +4,12 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
+import { SelectSocialImpactRepeatScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
 import { EventRepeatType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
 import { PostRepeat } from '@components/_onboarding/PostRepeat'
-
-import { SelectSocialImpactRepeatScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 function SelectSocialImpactRepeat({ route, navigation }: SelectSocialImpactRepeatScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)

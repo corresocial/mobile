@@ -5,6 +5,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
+import { InsertCultureLocationScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
 import { Coordinates, PostCollection } from '@services/firebase/types'
 
 import { LocationService } from '@services/location/LocationService'
@@ -15,7 +16,6 @@ import { theme } from '@common/theme'
 import { LocationChangeConfirmationModal } from '@components/_modals/LocationChangeConfirmation'
 import { SelectPostLocation } from '@components/_onboarding/SelectPostLocation'
 
-import { InsertCultureLocationScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 
 const { convertGeocodeToAddress } = LocationService()

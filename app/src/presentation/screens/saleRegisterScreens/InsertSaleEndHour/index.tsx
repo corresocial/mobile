@@ -3,12 +3,12 @@ import { Keyboard, Platform, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
+import { InsertSaleEndHourScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
+
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostTime } from '@components/_onboarding/PostTime'
-
-import { InsertSaleEndHourScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 function InsertSaleEndHour({ route, navigation }: InsertSaleEndHourScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

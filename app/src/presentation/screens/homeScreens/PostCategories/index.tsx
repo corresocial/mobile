@@ -7,6 +7,8 @@ import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
 import { MacroCategories } from '../../../utils/postMacroCategories/types'
+import { navigateToPostView } from '@routes/auxMethods'
+import { PostCategoriesScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
 import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
 
 import { CategoryCardContainer, Container, Header, InputContainer } from './styles'
@@ -21,8 +23,6 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 
-import { navigateToPostView } from '../../../routes/auxMethods'
-import { PostCategoriesScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
 import { postMacroCategories } from '../../../utils/postMacroCategories'
 import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'

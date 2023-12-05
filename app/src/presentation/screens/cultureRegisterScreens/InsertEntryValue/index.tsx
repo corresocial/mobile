@@ -3,12 +3,12 @@ import { Keyboard, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
+import { InsertEntryValueScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostInputText } from '@components/_onboarding/PostInputText'
-
-import { InsertEntryValueScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function InsertEntryValue({ route, navigation }: InsertEntryValueScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

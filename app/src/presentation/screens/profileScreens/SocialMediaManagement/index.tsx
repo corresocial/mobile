@@ -2,6 +2,7 @@ import React from 'react'
 import { ScrollView, StatusBar, View } from 'react-native'
 import uuid from 'react-uuid'
 
+import { SocialMediaManagementScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { SocialMedia } from '@services/firebase/types'
 
 import { Body, Container, Header, NewLinkButtonContainer } from './styles'
@@ -15,7 +16,6 @@ import { EditCard } from '@components/_cards/EditCard'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
-import { SocialMediaManagementScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import {
 	getRelativeSocialMediaIcon,
 	isDefaultSocialMedia,

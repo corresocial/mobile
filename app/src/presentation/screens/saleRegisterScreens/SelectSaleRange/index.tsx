@@ -6,14 +6,13 @@ import { EditContext } from '@contexts/EditContext'
 import { SaleContext } from '@contexts/SaleContext'
 import { StripeContext } from '@contexts/StripeContext'
 
+import { SelectSaleRangeScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
 import { PostRange as PostRangeType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
 import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionPresentationModal'
 import { PostRange } from '@components/_onboarding/PostRange'
-
-import { SelectSaleRangeScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 function SelectSaleRange({ route, navigation }: SelectSaleRangeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

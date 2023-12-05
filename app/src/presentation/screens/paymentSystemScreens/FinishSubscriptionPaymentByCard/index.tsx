@@ -8,6 +8,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
+import { FinishSubscriptionPaymentByCardScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { Id, PostCollection, PostCollectionRemote, PostRange, UserSubscription } from '@services/firebase/types'
 import { Details } from '@stripe/stripe-react-native/lib/typescript/src/types/components/CardFormView'
 import { CardBrand } from '@stripe/stripe-react-native/lib/typescript/src/types/Token'
@@ -31,7 +32,6 @@ import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { Loader } from '@components/Loader'
 import { SmallInstructionCard } from '@components/SmallInstructionCard'
 
-import { FinishSubscriptionPaymentByCardScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 
 const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()

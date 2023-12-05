@@ -3,13 +3,13 @@ import { StatusBar } from 'react-native'
 
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
+import { SelectSocialImpactCategoryScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
 import { SocialImpactCategories } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
 import { PostCategory } from '@components/_onboarding/PostCategory'
 
-import { SelectSocialImpactCategoryScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
 
 function SelectSocialImpactCategory({ route, navigation }: SelectSocialImpactCategoryScreenProps) {

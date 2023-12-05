@@ -5,7 +5,8 @@ import { EditContext } from '@contexts/EditContext'
 import { StateContext } from '@contexts/StateContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { VacancyStackParamList } from '../../../routes/Stack/VacancyStack/types'
+import { EditVacancyPostReviewScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+import { VacancyStackParamList } from '@routes/Stack/VacancyStack/types'
 import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@services/firebase/types'
 
 import CalendarEmptyIcon from '@assets/icons/calendarEmpty-unfilled.svg'
@@ -28,7 +29,6 @@ import { PostReviewPresentationModal } from '@components/_modals/PostReviewPrese
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { EditPost } from '@components/EditPost'
 
-import { EditVacancyPostReviewScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'

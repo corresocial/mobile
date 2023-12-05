@@ -4,11 +4,11 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { VacancyContext } from '@contexts/VacancyContext'
 
+import { VacancyLocationViewPreviewScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+
 import { theme } from '@common/theme'
 
 import { PostLocationViewPreview } from '@components/_onboarding/PostLocationViewPreview'
-
-import { VacancyLocationViewPreviewScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 const defaultDeltaCoordinates = {
 	latitudeDelta: 0.004,

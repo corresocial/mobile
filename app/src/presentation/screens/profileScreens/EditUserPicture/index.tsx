@@ -4,6 +4,8 @@ import { StatusBar } from 'react-native'
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
+import { EditUserPictureScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+
 import { Container, InstructionCardContainer } from './styles'
 import ImagePlusIcon from '@assets/icons/addPicture-white.svg'
 import Check from '@assets/icons/check-white.svg'
@@ -16,8 +18,6 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
 import { PhotoPortrait } from '@components/PhotoPortrait'
-
-import { EditUserPictureScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function EditUserPicture({ route, navigation }: EditUserPictureScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

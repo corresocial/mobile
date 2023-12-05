@@ -5,6 +5,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
+import { InsertSocialImpactLocationScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
 import { Coordinates, PostCollection } from '@services/firebase/types'
 
 import { LocationService } from '@services/location/LocationService'
@@ -15,7 +16,6 @@ import { theme } from '@common/theme'
 import { LocationChangeConfirmationModal } from '@components/_modals/LocationChangeConfirmation'
 import { SelectPostLocation } from '@components/_onboarding/SelectPostLocation'
 
-import { InsertSocialImpactLocationScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 
 const { convertGeocodeToAddress } = LocationService()

@@ -2,6 +2,8 @@ import React from 'react'
 import { StatusBar } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { LinkingAccountResultScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+
 import { Container, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import { theme } from '@common/theme'
@@ -12,8 +14,6 @@ import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
-
-import { LinkingAccountResultScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function LinkingAccountResult({ route, navigation }: LinkingAccountResultScreenProps) {
 	const { accountIdentifier, wasLinked } = route.params

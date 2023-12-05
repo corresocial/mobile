@@ -5,6 +5,8 @@ import { StatusBar } from 'react-native'
 
 import { AuthContext } from '@contexts/AuthContext'
 
+import { SelectAuthMethodScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+
 import { generateGoogleAuthCredential } from '@services/firebase/user/generateGoogleAuthCredential'
 import { signinByCredential } from '@services/firebase/user/signingByCredential'
 import { userExists } from '@services/firebase/user/userExists'
@@ -25,7 +27,6 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
 import { getEnvVars } from '../../../../../environment'
-import { SelectAuthMethodScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
 WebBrowser.maybeCompleteAuthSession()
 const { AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()

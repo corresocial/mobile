@@ -4,6 +4,8 @@ import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
 import { FlatListItem } from '../../../../types/global/types'
+import { navigateToPostView } from '@routes/auxMethods'
+import { PostCategoryDetailsScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
 import { PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
 
 import { Container, FlatList, Header, InputContainer, TagsContainer } from './styles'
@@ -19,8 +21,6 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 
-import { navigateToPostView } from '../../../routes/auxMethods'
-import { PostCategoryDetailsScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { sortArray } = UiUtils()

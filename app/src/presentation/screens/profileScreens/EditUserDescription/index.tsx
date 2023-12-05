@@ -3,11 +3,11 @@ import { Keyboard, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
+import { EditUserDescriptionScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+
 import { theme } from '@common/theme'
 
 import { PostInputText } from '@components/_onboarding/PostInputText'
-
-import { EditUserDescriptionScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function EditUserDescription({ route, navigation }: EditUserDescriptionScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

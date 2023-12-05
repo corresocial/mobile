@@ -5,7 +5,8 @@ import { EditContext } from '@contexts/EditContext'
 import { StateContext } from '@contexts/StateContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
-import { SocialImpactStackParamList } from '../../../routes/Stack/SocialImpactStack/types'
+import { EditSocialImpactPostReviewScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
+import { SocialImpactStackParamList } from '@routes/Stack/SocialImpactStack/types'
 import { EventRepeatType, PostCollection, SocialImpactCategories, SocialImpactCollection, SocialImpactCollectionRemote } from '@services/firebase/types'
 
 import CalendarEmptyIcon from '@assets/icons/calendarEmpty-unfilled.svg'
@@ -27,7 +28,6 @@ import { PostReviewPresentationModal } from '@components/_modals/PostReviewPrese
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { EditPost } from '@components/EditPost'
 
-import { EditSocialImpactPostReviewScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'

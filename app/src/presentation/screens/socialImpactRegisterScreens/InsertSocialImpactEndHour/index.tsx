@@ -3,12 +3,12 @@ import { Keyboard, Platform, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
+import { InsertSocialImpactEndHourScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
+
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostTime } from '@components/_onboarding/PostTime'
-
-import { InsertSocialImpactEndHourScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 function InsertSocialImpactEndHour({ route, navigation }: InsertSocialImpactEndHourScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

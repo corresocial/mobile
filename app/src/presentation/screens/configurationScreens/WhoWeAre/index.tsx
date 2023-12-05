@@ -1,6 +1,8 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
+import { WhoWeAreScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+
 import { Body, Container, ContainerContent, Header, BoldPhrase, ButtonContainer, Description } from './styles'
 import Logo from '@assets/icons/logoBuilding.svg'
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
@@ -11,8 +13,6 @@ import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { DefaultCardContainer } from '@components/_cards/DefaultCardContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
-
-import { WhoWeAreScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function WhoWeAre({ navigation }: WhoWeAreScreenProps) {
 	return (

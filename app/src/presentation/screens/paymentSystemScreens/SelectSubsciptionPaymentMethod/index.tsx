@@ -4,6 +4,7 @@ import { StatusBar } from 'react-native'
 import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
+import { SelectSubsciptionPaymentMethodScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { SubscriptionPaymentMethod } from '@services/firebase/types'
 
 import { ButtonsContainer } from './styles'
@@ -17,7 +18,6 @@ import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
 
-import { SelectSubsciptionPaymentMethodScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 
 const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()

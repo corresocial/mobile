@@ -4,11 +4,11 @@ import { StatusBar } from 'react-native'
 import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
+import { CultureLocationViewPreviewScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+
 import { theme } from '@common/theme'
 
 import { PostLocationViewPreview } from '@components/_onboarding/PostLocationViewPreview'
-
-import { CultureLocationViewPreviewScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 const defaultDeltaCoordinates = {
 	latitudeDelta: 0.004,

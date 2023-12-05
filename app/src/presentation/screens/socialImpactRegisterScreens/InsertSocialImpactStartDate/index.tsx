@@ -3,12 +3,12 @@ import { Keyboard, Platform, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
+import { InsertSocialImpactStartDateScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
+
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostDate } from '@components/_onboarding/PostDate'
-
-import { InsertSocialImpactStartDateScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 function InsertSocialImpactStartDate({ route, navigation }: InsertSocialImpactStartDateScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

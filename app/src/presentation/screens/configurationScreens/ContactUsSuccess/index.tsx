@@ -1,6 +1,8 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
+import { ContactUsSuccessScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+
 import { Container, Body } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
@@ -9,8 +11,6 @@ import { theme } from '@common/theme'
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
-
-import { ContactUsSuccessScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function ContactUsSuccess({ route, navigation }: ContactUsSuccessScreenProps) {
 	const navigateToConfig = () => {

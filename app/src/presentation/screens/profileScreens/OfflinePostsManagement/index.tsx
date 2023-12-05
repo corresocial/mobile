@@ -7,6 +7,7 @@ import { getDownloadURL } from 'firebase/storage'
 import { AuthContext } from '@contexts/AuthContext'
 import { LocalUserData } from '@contexts/types'
 
+import { OfflinePostsManagementScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { PostCollection, PostCollectionRemote } from '@services/firebase/types'
 
 import { updateDocField } from '@services/firebase/common/updateDocField'
@@ -26,7 +27,6 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FlatListPosts } from '@components/FlatListPosts'
 import { Loader } from '@components/Loader'
 
-import { OfflinePostsManagementScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { getNetworkStatus } from '../../../utils/deviceNetwork'
 import { deletePostByDescription, getOfflinePosts } from '../../../utils/offlinePost'
 

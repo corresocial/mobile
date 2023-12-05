@@ -4,6 +4,7 @@ import { Animated, StatusBar } from 'react-native'
 import { AuthContext } from '@contexts/AuthContext'
 import { RegisterUserData } from '@contexts/types'
 
+import { InsertProfilePictureScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
 import { Id, PostCollection, UserCollection } from '@services/firebase/types'
 
 import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
@@ -25,7 +26,6 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
-import { InsertProfilePictureScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { arrayIsEmpty } = UiUtils()

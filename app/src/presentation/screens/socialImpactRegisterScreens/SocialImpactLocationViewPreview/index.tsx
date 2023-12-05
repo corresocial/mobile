@@ -4,11 +4,11 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
+import { SocialImpactLocationViewPreviewScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
+
 import { theme } from '@common/theme'
 
 import { PostLocationViewPreview } from '@components/_onboarding/PostLocationViewPreview'
-
-import { SocialImpactLocationViewPreviewScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 const defaultDeltaCoordinates = {
 	latitudeDelta: 0.004,

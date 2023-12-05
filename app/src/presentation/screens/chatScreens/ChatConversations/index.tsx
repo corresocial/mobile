@@ -9,6 +9,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
 import { MessageObjects, Chat, UserIdentification, Message } from '../../../../types/chat/types'
+import { ChatConversationsScreenProps } from '@routes/Stack/ChatStack/stackScreenProps'
 
 import {
 	Container,
@@ -34,7 +35,6 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
-import { ChatConversationsScreenProps } from '../../../routes/Stack/ChatStack/stackScreenProps'
 import { UiChatUtils } from '../../../utils-ui/chat/UiChatUtils'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 

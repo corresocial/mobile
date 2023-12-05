@@ -8,6 +8,7 @@ import { UserCredential } from 'firebase/auth'
 import { AuthContext } from '@contexts/AuthContext'
 import { UserIdentification } from '@contexts/types'
 
+import { InsertConfirmationCodeScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
 import { Id } from '@services/firebase/types'
 
 import Firebase from '@services/firebase'
@@ -25,8 +26,6 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
-
-import { InsertConfirmationCodeScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
 function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScreenProps) {
 	const { validateVerificationCode, setRemoteUserOnLocal, sendSMS } = useContext(AuthContext)

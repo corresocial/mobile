@@ -5,6 +5,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { AuthContext } from '@contexts/AuthContext'
 
+import { InsertConfirmationCodeLinkAccountScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { Id } from '@services/firebase/types'
 
 import Firebase from '@services/firebase'
@@ -25,8 +26,6 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
-
-import { InsertConfirmationCodeLinkAccountScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirmationCodeLinkAccountScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

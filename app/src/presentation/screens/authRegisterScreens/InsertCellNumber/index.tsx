@@ -4,6 +4,8 @@ import { Animated, StatusBar, Platform, TextInput } from 'react-native'
 
 import { AuthContext } from '@contexts/AuthContext'
 
+import { InsertCellNumberScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+
 import { checkUserPhoneAlreadyRegistredCloud } from '@services/cloudFunctions/checkUserPhoneAlreadyRegistred'
 import Firebase from '@services/firebase'
 
@@ -20,8 +22,6 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { SocialLoginAlertModal } from '@components/_modals/SocialLoginAlertModal'
 import { Loader } from '@components/Loader'
-
-import { InsertCellNumberScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
 const firebaseConfig = Firebase ? Firebase.options : undefined
 

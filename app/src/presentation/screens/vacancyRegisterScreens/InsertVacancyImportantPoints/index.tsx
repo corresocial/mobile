@@ -4,6 +4,8 @@ import uuid from 'react-uuid'
 
 import { EditContext } from '@contexts/EditContext'
 
+import { InsertVacancyImportantPointsScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+
 import { ButtonsContainer, Container } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import TrashWhiteIcon from '@assets/icons/trash-white.svg'
@@ -19,8 +21,6 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
-
-import { InsertVacancyImportantPointsScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 function InsertVacancyImportantPoints({ route, navigation }: InsertVacancyImportantPointsScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

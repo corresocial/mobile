@@ -3,13 +3,12 @@ import { StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
+import { SelectSaleDaysOfWeekScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
 import { DaysOfWeek } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
 import { PostDaysOfWeek } from '@components/_onboarding/PostDaysOfWeek'
-
-import { SelectSaleDaysOfWeekScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 
 function SelectSaleDaysOfWeek({ route, navigation }: SelectSaleDaysOfWeekScreenProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)

@@ -5,6 +5,7 @@ import { differenceInMinutes } from 'date-fns'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
+import { UserDataConfigurationsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { Id, PostCollection } from '@services/firebase/types'
 
 import { auth } from '@services/firebase'
@@ -23,7 +24,6 @@ import { BeForgottenConfirmationModal } from '@components/_modals/BeForgottenCon
 import { CustomModal } from '@components/_modals/CustomModal'
 import { Loader } from '@components/Loader'
 
-import { UserDataConfigurationsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { clearOfflinePosts } from '../../../utils/offlinePost'
 
 function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProps) {

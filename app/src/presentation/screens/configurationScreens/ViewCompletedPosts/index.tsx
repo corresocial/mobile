@@ -4,6 +4,8 @@ import { FlatList, StatusBar } from 'react-native'
 import { AuthContext } from '@contexts/AuthContext'
 
 import { FlatListItem } from '../../../../types/global/types'
+import { navigateToPostView } from '@routes/auxMethods'
+import { ViewCompletedPostsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { PostCollection } from '@services/firebase/types'
 
 import { Body, Container, Header, PostPadding } from './styles'
@@ -14,9 +16,6 @@ import { PostCard } from '@components/_cards/PostCard'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
-
-import { navigateToPostView } from '../../../routes/auxMethods'
-import { ViewCompletedPostsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

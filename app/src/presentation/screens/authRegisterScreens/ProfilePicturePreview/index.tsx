@@ -5,6 +5,7 @@ import { getDownloadURL } from 'firebase/storage'
 
 import { AuthContext } from '@contexts/AuthContext'
 
+import { ProfilePicturePreviewScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
 import { Id, PostCollection, UserCollection } from '@services/firebase/types'
 
 import { uploadImage } from '@services/firebase/common/uploadPicture'
@@ -28,7 +29,6 @@ import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
 import { Loader } from '@components/Loader'
 import { PhotoPortrait } from '@components/PhotoPortrait'
 
-import { ProfilePicturePreviewScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { arrayIsEmpty } = UiUtils()

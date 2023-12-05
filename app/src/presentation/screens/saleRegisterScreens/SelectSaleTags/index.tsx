@@ -4,11 +4,12 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { SaleContext } from '@contexts/SaleContext'
 
+import { SelectSaleTagsScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
+
 import { theme } from '@common/theme'
 
 import { PostTags } from '@components/_onboarding/PostTags'
 
-import { SelectSaleTagsScreenProps } from '../../../routes/Stack/SaleStack/stackScreenProps'
 import { saleCategories, updateSaleTags } from '../../../utils/postsCategories/saleCategories'
 
 function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {

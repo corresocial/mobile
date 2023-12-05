@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { AuthContext } from '@contexts/AuthContext'
 
+import { SelectPostTypeScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+
 import { BottomSafeAreaColor, Container, SubscriptionButtonContainer } from './styles'
 import CashWhiteIcon from '@assets/icons/cash-white.svg'
 import CultureWhiteIcon from '@assets/icons/culture-white.svg'
@@ -20,7 +22,6 @@ import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionP
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 
-import { SelectPostTypeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { getNetworkStatus } from '../../../utils/deviceNetwork'
 import { getNumberOfStoredOfflinePosts } from '../../../utils/offlinePost'
 

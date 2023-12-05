@@ -3,13 +3,12 @@ import { StatusBar } from 'react-native'
 
 import { VacancyContext } from '@contexts/VacancyContext'
 
+import { SelectVacancyLocationViewScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
 import { LocationViewType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
 import { PostLocationView } from '@components/_onboarding/PostLocationView'
-
-import { SelectVacancyLocationViewScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 function SelectVacancyLocationView({ route, navigation }: SelectVacancyLocationViewScreenProps) {
 	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)

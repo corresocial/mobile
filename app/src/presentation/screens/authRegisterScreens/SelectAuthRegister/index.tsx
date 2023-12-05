@@ -3,6 +3,8 @@ import { BackHandler, Platform, StatusBar } from 'react-native'
 
 import { AuthContext } from '@contexts/AuthContext'
 
+import { SelectAuthRegisterScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+
 import { Container, CarouselItemContainer, Slogan } from './styles'
 import Logo from '@assets/icons/logo.svg'
 import PhoneDeviceWhiteIcon from '@assets/icons/phoneDevice-white.svg'
@@ -17,8 +19,6 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { TermsOfServiceModal } from '@components/_modals/TermsOfServiceModal'
 import { CustomCarousel } from '@components/CustomCarousel'
-
-import { SelectAuthRegisterScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
 const presentationTexts = [
 	'rede social, de verdade',

@@ -7,6 +7,7 @@ import { UserCredential } from 'firebase/auth'
 
 import { AuthContext } from '@contexts/AuthContext'
 
+import { EntryMethodManagementScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { Id } from '@services/firebase/types'
 
 import { generateGoogleAuthCredential } from '@services/firebase/user/generateGoogleAuthCredential'
@@ -36,7 +37,6 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
 import { getEnvVars } from '../../../../../environment'
-import { EntryMethodManagementScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 WebBrowser.maybeCompleteAuthSession()
 const { AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()

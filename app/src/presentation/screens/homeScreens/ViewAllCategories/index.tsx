@@ -6,6 +6,7 @@ import uuid from 'react-uuid'
 import { LocationContext } from '@contexts/LocationContext'
 
 import { MacroCategories } from '../../../utils/postMacroCategories/types'
+import { ViewAllCategoriesScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
 import { MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote } from '@services/firebase/types'
 
 import { Body, Container, Header, InputContainer } from './styles'
@@ -19,7 +20,6 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 
-import { ViewAllCategoriesScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
 import { postMacroCategories } from '../../../utils/postMacroCategories'
 import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'

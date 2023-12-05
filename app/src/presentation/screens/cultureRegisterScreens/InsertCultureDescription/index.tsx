@@ -4,12 +4,12 @@ import { Keyboard, StatusBar } from 'react-native'
 import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
+import { InsertCultureDescriptionScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
+
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostInputText } from '@components/_onboarding/PostInputText'
-
-import { InsertCultureDescriptionScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function InsertCultureDescription({ route, navigation }: InsertCultureDescriptionScreenProps) {
 	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)

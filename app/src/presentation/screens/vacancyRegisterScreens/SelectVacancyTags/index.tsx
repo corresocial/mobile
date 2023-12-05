@@ -4,11 +4,12 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 import { VacancyContext } from '@contexts/VacancyContext'
 
+import { SelectVacancyTagsScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+
 import { theme } from '@common/theme'
 
 import { PostTags } from '@components/_onboarding/PostTags'
 
-import { SelectVacancyTagsScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { vacancyCategories, updateVacancyTags } from '../../../utils/postsCategories/vacancyCategories'
 
 function SelectVacancyTags({ route, navigation }: SelectVacancyTagsScreenProps) {

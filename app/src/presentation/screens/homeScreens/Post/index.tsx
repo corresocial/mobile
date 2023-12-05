@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import { View, BackHandler } from 'react-native'
 
+import { HomeTabScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 
-import { HomeTabScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { SelectPostType } from '../SelectPostType'
 
 function Post({ navigation, route }: HomeTabScreenProps) {

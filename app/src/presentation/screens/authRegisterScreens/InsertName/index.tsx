@@ -3,6 +3,8 @@ import { Animated, Keyboard, StatusBar, Platform, TextInput } from 'react-native
 
 import { AuthContext } from '@contexts/AuthContext'
 
+import { InsertNameScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
+
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
@@ -14,8 +16,6 @@ import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
-
-import { InsertNameScreenProps } from '../../../routes/Stack/AuthRegisterStack/stackScreenProps'
 
 function InsertName({ navigation, route }: InsertNameScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

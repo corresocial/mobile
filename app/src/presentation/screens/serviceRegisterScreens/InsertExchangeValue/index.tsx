@@ -3,12 +3,12 @@ import { Keyboard, StatusBar } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
+import { InsertExchangeValueScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
+
 import { removeAllKeyboardEventListeners } from '@common/listenerFunctions'
 import { theme } from '@common/theme'
 
 import { PostInputText } from '@components/_onboarding/PostInputText'
-
-import { InsertExchangeValueScreenProps } from '../../../routes/Stack/ServiceStack/stackScreenProps'
 
 function InsertExchangeValue({ route, navigation }: InsertExchangeValueScreenProps) {
 	const { addNewUnsavedFieldToEditContext, editDataContext } = useContext(EditContext)

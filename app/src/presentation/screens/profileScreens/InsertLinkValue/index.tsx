@@ -3,6 +3,7 @@ import { Keyboard, Platform, StatusBar, TextInput } from 'react-native'
 
 import { AuthContext } from '@contexts/AuthContext'
 
+import { InsertLinkValueScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { SocialMedia } from '@services/firebase/types'
 
 import { updateUser } from '@services/firebase/user/updateUser'
@@ -19,7 +20,6 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { Loader } from '@components/Loader'
 
-import { InsertLinkValueScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { isDefaultSocialMedia, mergeWithDefaultSocialMedia, sortSocialMedias, socialMediaUrl } from '../../../utils/socialMedias'
 
 function InsertLinkValue({ route, navigation }: InsertLinkValueScreenProps) {

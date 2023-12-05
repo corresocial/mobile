@@ -4,6 +4,8 @@ import { Platform, StatusBar } from 'react-native'
 import { AlertContext } from '@contexts/AlertContext'
 import { ChatContext } from '@contexts/ChatContext'
 
+import { NotificationSettingsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+
 import { Container, HeaderLinkCardContainer } from './styles'
 import BellWhiteIcon from '@assets/icons/bell-white.svg'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -17,8 +19,6 @@ import { HeaderLinkCard } from '@components/_cards/HeaderLinkCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
 import { Loader } from '@components/Loader'
-
-import { NotificationSettingsScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function NotificationSettings({ route, navigation }: NotificationSettingsScreenProps) {
 	const { pushNotificationEnabled, setPushNotificationState, userHasTokenNotification } = useContext(ChatContext)

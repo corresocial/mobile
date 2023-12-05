@@ -4,13 +4,12 @@ import { StatusBar } from 'react-native'
 import { CultureContext } from '@contexts/CultureContext'
 import { EditContext } from '@contexts/EditContext'
 
+import { SelectEventRepeatScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
 import { EventRepeatType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
 import { PostRepeat } from '@components/_onboarding/PostRepeat'
-
-import { SelectEventRepeatScreenProps } from '../../../routes/Stack/CultureStack/stackScreenProps'
 
 function SelectEventRepeat({ route, navigation }: SelectEventRepeatScreenProps) {
 	const { setCultureDataOnContext } = useContext(CultureContext)

@@ -4,6 +4,7 @@ import uuid from 'react-uuid'
 
 import { LocationContext } from '@contexts/LocationContext'
 
+import { ViewAllTagsScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
 import { PostCollection } from '@services/firebase/types'
 
 import { Body, Container, Header, InputContainer } from './styles'
@@ -17,7 +18,6 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 
-import { ViewAllTagsScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 
 const { sortArray } = UiUtils()

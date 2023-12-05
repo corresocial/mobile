@@ -7,7 +7,8 @@ import * as Sentry from 'sentry-expo'
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
-import { UserStackParamList } from '../../../routes/Stack/UserStack/types'
+import { EditProfileScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+import { UserStackParamList } from '@routes/Stack/UserStack/types'
 import { Id, PostCollection } from '@services/firebase/types'
 
 import { uploadImage } from '@services/firebase/common/uploadPicture'
@@ -27,7 +28,6 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { HorizontalSocialMediaList } from '@components/HorizontalSocialmediaList'
 import { Loader } from '@components/Loader'
 
-import { EditProfileScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { UiUtils } from '../../../utils-ui/common/UiUtils'
 import { openURL } from '../../../utils/socialMedias'
 

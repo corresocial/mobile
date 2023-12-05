@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import { EditContext } from '@contexts/EditContext'
 import { VacancyContext } from '@contexts/VacancyContext'
 
+import { SelectVacancyTypeScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
 import { VacancyType } from '@services/firebase/types'
 
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
@@ -12,8 +13,6 @@ import { theme } from '@common/theme'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
-
-import { SelectVacancyTypeScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 
 function SelectVacancyType({ route, navigation }: SelectVacancyTypeScreenProps) {
 	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)

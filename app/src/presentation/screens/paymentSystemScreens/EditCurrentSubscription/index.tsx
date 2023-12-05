@@ -5,6 +5,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
+import { EditCurrentSubscriptionScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { Id, PostCollection, PostCollectionRemote, UserSubscription } from '@services/firebase/types'
 
 import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRangeAndLocation'
@@ -29,7 +30,6 @@ import { RangeChangeConfirmationModal } from '@components/_modals/RangeChangeCon
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
-import { EditCurrentSubscriptionScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
 

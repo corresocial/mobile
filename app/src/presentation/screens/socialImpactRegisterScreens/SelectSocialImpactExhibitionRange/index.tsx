@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import { EditContext } from '@contexts/EditContext'
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
+import { SelectSocialImpactExhibitionRangeScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
 import { ExhibitionPlaceType } from '@services/firebase/types'
 
 import BrazilWhiteIcon from '@assets/icons/brazil-white.svg'
@@ -12,8 +13,6 @@ import { theme } from '@common/theme'
 
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
-
-import { SelectSocialImpactExhibitionRangeScreenProps } from '../../../routes/Stack/SocialImpactStack/stackScreenProps'
 
 function SelectSocialImpactExhibitionRange({ route, navigation }: SelectSocialImpactExhibitionRangeScreenProps) {
 	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)

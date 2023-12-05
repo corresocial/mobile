@@ -3,13 +3,13 @@ import { StatusBar } from 'react-native'
 
 import { VacancyContext } from '@contexts/VacancyContext'
 
+import { SelectVacancyCategoryScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
 import { VacancyCategories } from '@services/firebase/types'
 
 import { theme } from '@common/theme'
 
 import { PostCategory } from '@components/_onboarding/PostCategory'
 
-import { SelectVacancyCategoryScreenProps } from '../../../routes/Stack/VacancyStack/stackScreenProps'
 import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
 
 function SelectVacancyCategory({ route, navigation }: SelectVacancyCategoryScreenProps) {

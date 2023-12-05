@@ -9,6 +9,8 @@ import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 import { LocationContext } from '@contexts/LocationContext'
 
+import { navigateToPostView } from '@routes/auxMethods'
+import { HomeScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
 import { FeedPosts, Id, PostCollection, PostRange, PostType } from '@services/firebase/types'
 import {
 	SearchParams,
@@ -41,8 +43,6 @@ import { HomeCatalogMenu } from '@components/HomeCatalogMenu'
 import { LocationNearDropdown } from '@components/LocationNearDropdown'
 import { RequestLocation } from '@components/RequestLocation'
 
-import { navigateToPostView } from '../../../routes/auxMethods'
-import { HomeScreenProps } from '../../../routes/Stack/HomeStack/stackScreenProps'
 import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
 import { getLastRecentAddress, getRecentAdressesFromStorage } from '../../../utils/maps/recentAddresses'
 

@@ -21,6 +21,7 @@ import {
 	UserIdentification
 } from '../../../../types/chat/types'
 import { FlatListItem } from '../../../../types/global/types'
+import { ChatMessagesScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { Id } from '@services/firebase/types'
 
 import { realTimeDatabase } from '@services/firebase'
@@ -56,7 +57,6 @@ import { MessageCard } from '@components/MessageCard'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
-import { ChatMessagesScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 import { UiChatUtils } from '../../../utils-ui/chat/UiChatUtils'
 
 const { getLastMessageObjects } = UiChatUtils()

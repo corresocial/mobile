@@ -1,6 +1,8 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
+import { WhoWeAreIncomeScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+
 import { Body, Container, Header, Title, ButtonContainer, Description, ContainerContent } from './styles'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
@@ -10,8 +12,6 @@ import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { DefaultCardContainer } from '@components/_cards/DefaultCardContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
-
-import { WhoWeAreIncomeScreenProps } from '../../../routes/Stack/UserStack/stackScreenProps'
 
 function WhoWeAreIncome({ navigation }: WhoWeAreIncomeScreenProps) {
 	return (
