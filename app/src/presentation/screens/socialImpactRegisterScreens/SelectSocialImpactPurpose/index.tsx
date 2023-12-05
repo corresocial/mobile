@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 
 import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
@@ -12,24 +12,9 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectSocialImpactPurpose({ route, navigation }: SelectSocialImpactPurposeScreenProps) {
-	const { isSecondPost, setSocialImpactDataOnContext, getAditionalDataFromLastPost } = useContext(SocialImpactContext)
-	// const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
-
-	useEffect(() => {
-		if (!route.params?.editMode) {
-			getAditionalDataFromLastPost()
-		}
-	}, [])
-
-	// const editModeIsTrue = () => !!(route.params && route.params.editMode)
+	const { isSecondPost, setSocialImpactDataOnContext } = useContext(SocialImpactContext)
 
 	const saveSocialImpactPurpose = (lookingFor: boolean) => {
-		/* if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ itemStatus })
-			navigation.goBack()
-			return
-		} */
-
 		setSocialImpactDataOnContext({ lookingFor })
 		navigation.navigate('SelectSocialImpactCategory')
 	}

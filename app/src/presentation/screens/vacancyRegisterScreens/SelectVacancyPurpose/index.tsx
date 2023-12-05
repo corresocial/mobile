@@ -24,7 +24,7 @@ function SelectVacancyPurpose({ route, navigation }: SelectVacancyPurposeScreenP
 
 	const saveVacancyPurpose = (lookingFor: boolean) => {
 		if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ lookingFor })
+			addNewUnsavedFieldToEditContext({ lookingFor, macroCategory: 'sale' })
 			navigation.goBack()
 			return
 		}

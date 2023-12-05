@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 
 import { CultureContext } from '@contexts/CultureContext'
 
@@ -12,24 +12,9 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { PostSelectButton } from '@components/_onboarding/PostSelectButton'
 
 function SelectCulturePurpose({ route, navigation }: SelectCulturePurposeScreenProps) {
-	const { isSecondPost, setCultureDataOnContext, getAditionalDataFromLastPost } = useContext(CultureContext)
-	// const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
-
-	useEffect(() => {
-		if (!route.params?.editMode) {
-			getAditionalDataFromLastPost()
-		}
-	}, [])
-
-	// const editModeIsTrue = () => !!(route.params && route.params.editMode)
+	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)
 
 	const saveCulturePurpose = (lookingFor: boolean) => {
-		/* if (editModeIsTrue()) {
-			addNewUnsavedFieldToEditContext({ itemStatus })
-			navigation.goBack()
-			return
-		} */
-
 		setCultureDataOnContext({ lookingFor })
 		navigation.navigate('SelectCultureCategory')
 	}

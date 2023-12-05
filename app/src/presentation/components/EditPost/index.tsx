@@ -177,9 +177,7 @@ function EditPost({
 				await deletePostPictures(picturesAlreadyUploadedToRemove)
 			}
 
-			console.log('before update post')
 			await updatePost('posts', initialPostData.postId, postDataToSave)
-			console.log('afeter update post')
 
 			if (postDataToSave.location) {
 				delete postDataToSave.location.geohashNearby
