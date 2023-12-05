@@ -70,10 +70,10 @@ import { PopOver } from '@components/PopOver'
 import { VerifiedUserBadge } from '@components/VerifiedUserBadge'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
-import { UiUtils } from '../../../utils-ui/common/UiUtils'
-import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
-import { getNetworkStatus } from '../../../utils/deviceNetwork'
-import { getNumberOfStoredOfflinePosts } from '../../../utils/offlinePost'
+import { UiUtils } from '@utils-ui/common/UiUtils'
+import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
+import { getNetworkStatus } from '@utils/deviceNetwork'
+import { getNumberOfStoredOfflinePosts } from '@utils/offlinePost'
 
 const { sortArray, arrayIsEmpty } = UiUtils()
 const { sortPostsByCreatedData } = UiPostUtils()

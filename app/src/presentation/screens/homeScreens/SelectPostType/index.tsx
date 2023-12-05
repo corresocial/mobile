@@ -22,8 +22,8 @@ import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionP
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 
-import { getNetworkStatus } from '../../../utils/deviceNetwork'
-import { getNumberOfStoredOfflinePosts } from '../../../utils/offlinePost'
+import { getNetworkStatus } from '@utils/deviceNetwork'
+import { getNumberOfStoredOfflinePosts } from '@utils/offlinePost'
 
 function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

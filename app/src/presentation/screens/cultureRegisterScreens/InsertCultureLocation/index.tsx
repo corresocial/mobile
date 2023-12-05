@@ -16,7 +16,7 @@ import { theme } from '@common/theme'
 import { LocationChangeConfirmationModal } from '@components/_modals/LocationChangeConfirmation'
 import { SelectPostLocation } from '@components/_onboarding/SelectPostLocation'
 
-import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
+import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 
 const { convertGeocodeToAddress } = LocationService()
 const { structureExpoLocationAddress } = UiLocationUtils()

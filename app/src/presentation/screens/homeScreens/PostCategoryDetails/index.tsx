@@ -21,7 +21,7 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 
-import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { UiUtils } from '@utils-ui/common/UiUtils'
 
 const { sortArray } = UiUtils()
 

@@ -21,7 +21,7 @@ import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { InstructionCard } from '../../_cards/InstructionCard'
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { SearchInput } from '../../_inputs/SearchInput'
-import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
+import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 import { CustomMapView } from '../../CustomMapView'
 
 const { getCurrentLocation, convertGeocodeToAddress } = LocationService()

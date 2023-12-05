@@ -30,8 +30,8 @@ import { RangeChangeConfirmationModal } from '@components/_modals/RangeChangeCon
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
-import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
-import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
+import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
+import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
 const { getPostRangeLabel } = UiSubscriptionUtils()
 const { getTextualAddress } = UiLocationUtils()

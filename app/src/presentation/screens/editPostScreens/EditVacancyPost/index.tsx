@@ -29,9 +29,9 @@ import { PostReviewPresentationModal } from '@components/_modals/PostReviewPrese
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { EditPost } from '@components/EditPost'
 
-import { UiUtils } from '../../../utils-ui/common/UiUtils'
-import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
-import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
+import { UiUtils } from '@utils-ui/common/UiUtils'
+import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
+import { incomeCategories } from '@utils/postsCategories/incomeCategories'
 
 const { formatDate, formatHour, arrayIsEmpty } = UiUtils()
 const { getTextualAddress } = UiLocationUtils()

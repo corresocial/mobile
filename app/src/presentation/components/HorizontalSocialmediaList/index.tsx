@@ -19,7 +19,7 @@ import TikTokIcon from '@assets/icons/tiktok.svg'
 import SoundCloudIcon from '@assets/icons/soundcloud.svg'
 import { SocialMedia } from '@services/firebase/types'
 import { relativeScreenHeight } from '@common/screenDimensions'
-import { socialMediaUrl } from '../../utils/socialMedias'
+import { socialMediaUrl } from '@utils/socialMedias'
 
 interface HorizontalSocialMediaListProps {
 	socialMedias: SocialMedia[] | undefined

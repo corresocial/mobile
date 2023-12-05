@@ -10,7 +10,7 @@ import { theme } from '@common/theme'
 
 import { PostTags } from '@components/_onboarding/PostTags'
 
-import { saleCategories, updateSaleTags } from '../../../utils/postsCategories/saleCategories'
+import { saleCategories, updateSaleTags } from '@utils/postsCategories/saleCategories'
 
 function SelectSaleTags({ route, navigation }: SelectSaleTagsScreenProps) {
 	const { setSaleDataOnContext } = useContext(SaleContext)

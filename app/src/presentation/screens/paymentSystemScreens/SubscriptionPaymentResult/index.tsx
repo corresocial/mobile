@@ -25,7 +25,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { SmallInstructionCard } from '@components/SmallInstructionCard'
 
-import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
+import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
 const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()
 

@@ -10,7 +10,7 @@ import { theme } from '@common/theme'
 
 import { PostCategory } from '@components/_onboarding/PostCategory'
 
-import { cultureCategories } from '../../../utils/postsCategories/cultureCategories'
+import { cultureCategories } from '@utils/postsCategories/cultureCategories'
 
 function SelectCultureCategory({ route, navigation }: SelectCultureCategoryScreenProps) {
 	const { isSecondPost, setCultureDataOnContext } = useContext(CultureContext)

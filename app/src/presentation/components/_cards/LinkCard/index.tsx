@@ -7,7 +7,7 @@ import LinkClipWhiteIcon from '@assets/icons/linkClip.svg'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
-import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { UiUtils } from '@utils-ui/common/UiUtils'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 

@@ -6,7 +6,7 @@ import { theme } from '@common/theme'
 
 import { SmallButton } from '../_buttons/SmallButton'
 import { relativeScreenWidth } from '@common/screenDimensions'
-import { MacroCategoriesType } from '../../utils/postMacroCategories/types'
+import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 
 interface CatalogPostTypeButtonsProps {
 	buttonLabels: string[]

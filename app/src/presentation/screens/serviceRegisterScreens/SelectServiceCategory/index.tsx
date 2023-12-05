@@ -10,7 +10,7 @@ import { theme } from '@common/theme'
 
 import { PostCategory } from '@components/_onboarding/PostCategory'
 
-import { serviceCategories } from '../../../utils/postsCategories/serviceCategories'
+import { serviceCategories } from '@utils/postsCategories/serviceCategories'
 
 function SelectServiceCategory({ route, navigation }: SelectServiceCategoryScreenProps) {
 	const { isSecondPost, setServiceDataOnContext } = useContext(ServiceContext)

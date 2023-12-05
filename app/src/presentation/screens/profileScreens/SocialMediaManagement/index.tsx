@@ -22,7 +22,7 @@ import {
 	mergeWithDefaultSocialMedia,
 	openURL,
 	socialMediaUrl,
-} from '../../../utils/socialMedias'
+} from '@utils/socialMedias'
 
 function SocialMediaManagement({ route, navigation }: SocialMediaManagementScreenProps) {
 	const onPressIcon = async (socialMedia: SocialMedia, index: number) => {

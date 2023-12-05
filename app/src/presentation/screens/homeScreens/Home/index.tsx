@@ -43,8 +43,8 @@ import { HomeCatalogMenu } from '@components/HomeCatalogMenu'
 import { LocationNearDropdown } from '@components/LocationNearDropdown'
 import { RequestLocation } from '@components/RequestLocation'
 
-import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
-import { getLastRecentAddress, getRecentAdressesFromStorage } from '../../../utils/maps/recentAddresses'
+import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
+import { getLastRecentAddress, getRecentAdressesFromStorage } from '@utils/maps/recentAddresses'
 
 const { getCurrentLocation, convertGeocodeToAddress } = LocationService()
 const { structureAddress, structureExpoLocationAddress } = UiLocationUtils()

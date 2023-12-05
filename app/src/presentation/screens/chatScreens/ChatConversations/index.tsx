@@ -35,8 +35,8 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
-import { UiChatUtils } from '../../../utils-ui/chat/UiChatUtils'
-import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
+import { UiUtils } from '@utils-ui/common/UiUtils'
 
 const { formatRelativeDate } = UiUtils()
 const { getLastMessageObjects, sortChatMessages } = UiChatUtils()

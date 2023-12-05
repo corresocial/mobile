@@ -10,6 +10,10 @@ import { EditSalePostReviewScreenProps } from '@routes/Stack/SaleStack/stackScre
 import { SaleStackParamList } from '@routes/Stack/SaleStack/types'
 import { PostCollection, SaleCategories, IncomeCollection } from '@services/firebase/types'
 
+import { UiUtils } from '@utils-ui/common/UiUtils'
+import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
+import { saleCategories } from '@utils/postsCategories/saleCategories'
+
 import ClockWhiteIcon from '@assets/icons/clock-white.svg'
 import { theme } from '@common/theme'
 
@@ -27,10 +31,6 @@ import { LocationChangeConfirmationModal } from '@components/_modals/LocationCha
 import { PostReviewPresentationModal } from '@components/_modals/PostReviewPresentationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { EditPost } from '@components/EditPost'
-
-import { UiUtils } from '../../../utils-ui/common/UiUtils'
-import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
-import { saleCategories } from '../../../utils/postsCategories/saleCategories'
 
 const { formatHour, arrayIsEmpty } = UiUtils()
 const { getTextualAddress } = UiLocationUtils()

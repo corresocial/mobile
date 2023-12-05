@@ -16,7 +16,7 @@ import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer
 import { FormContainer } from '../../_containers/FormContainer'
 import { DefaultInput } from '../../_inputs/DefaultInput'
 import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
-import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { UiUtils } from '@utils-ui/common/UiUtils'
 
 const { formatDate } = UiUtils()
 

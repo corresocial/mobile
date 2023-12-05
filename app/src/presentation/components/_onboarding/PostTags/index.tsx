@@ -23,7 +23,7 @@ import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer
 import { SelectButtonsContainer } from '../../_containers/SelectButtonsContainer'
 import { SearchInput } from '../../_inputs/SearchInput'
 import { VerticalSpacing } from '../../_space/VerticalSpacing'
-import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { UiUtils } from '@utils-ui/common/UiUtils'
 import { SelectedTagsHorizontalList } from '../../SelectedTagsHorizontalList'
 
 const { sortArray } = UiUtils()

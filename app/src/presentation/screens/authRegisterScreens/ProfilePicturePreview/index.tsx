@@ -29,7 +29,7 @@ import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
 import { Loader } from '@components/Loader'
 import { PhotoPortrait } from '@components/PhotoPortrait'
 
-import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { UiUtils } from '@utils-ui/common/UiUtils'
 
 const { arrayIsEmpty } = UiUtils()
 

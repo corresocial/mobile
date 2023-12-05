@@ -1,13 +1,13 @@
 import React from 'react'
 
-import { MacroCategories, MacroCategoriesType } from '../../../utils/postMacroCategories/types'
+import { MacroCategories, MacroCategoriesType } from '@utils/postMacroCategories/types'
 import { NewHomePostType } from '@services/firebase/types'
 
 import PinWhiteIcon from '@assets/icons/pin-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
-import { postMacroCategories } from '../../../utils/postMacroCategories'
+import { postMacroCategories } from '@utils/postMacroCategories'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
 import { DefaultCardContainer } from '../DefaultCardContainer'

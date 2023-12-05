@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import React, { ReactElement } from 'react'
 import ErrorBoundary from 'react-native-error-boundary'
-import { errorHandler } from '../../../utils/errorHandler'
+import { errorHandler } from '@utils/errorHandler'
 import { ErrorBoundaryFallback } from '../../../screens/ErrorBoundaryFallback'
 
 interface ErrorBoundaryContainerProps {

@@ -28,8 +28,8 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { HorizontalSocialMediaList } from '@components/HorizontalSocialmediaList'
 import { Loader } from '@components/Loader'
 
-import { UiUtils } from '../../../utils-ui/common/UiUtils'
-import { openURL } from '../../../utils/socialMedias'
+import { UiUtils } from '@utils-ui/common/UiUtils'
+import { openURL } from '@utils/socialMedias'
 
 const { arrayIsEmpty } = UiUtils()
 

@@ -57,7 +57,7 @@ import { MessageCard } from '@components/MessageCard'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
-import { UiChatUtils } from '../../../utils-ui/chat/UiChatUtils'
+import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
 
 const { getLastMessageObjects } = UiChatUtils()
 

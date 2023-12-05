@@ -10,7 +10,7 @@ import { theme } from '@common/theme'
 
 import { PostCategory } from '@components/_onboarding/PostCategory'
 
-import { vacancyCategories } from '../../../utils/postsCategories/vacancyCategories'
+import { vacancyCategories } from '@utils/postsCategories/vacancyCategories'
 
 function SelectVacancyCategory({ route, navigation }: SelectVacancyCategoryScreenProps) {
 	const { isSecondPost, setVacancyDataOnContext } = useContext(VacancyContext)

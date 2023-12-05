@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 
 import { EditContext } from '@contexts/EditContext'
 
-import { MacroCategoriesType } from '../../../utils/postMacroCategories/types'
+import { MacroCategoriesType } from '@utils/postMacroCategories/types'
 import { SelectIncomeTypeScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 
 import SaleWhiteIcon from '@assets/icons/sale-white.svg'

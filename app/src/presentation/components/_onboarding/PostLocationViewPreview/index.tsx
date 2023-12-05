@@ -11,7 +11,7 @@ import { BackButton } from '../../_buttons/BackButton'
 import { PrimaryButton } from '../../_buttons/PrimaryButton'
 import { InfoCard } from '../../_cards/InfoCard'
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
-import { UiLocationUtils } from '../../../utils-ui/location/UiLocationUtils'
+import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 import { CustomMapView } from '../../CustomMapView'
 
 const {

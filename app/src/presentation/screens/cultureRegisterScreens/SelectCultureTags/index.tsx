@@ -10,7 +10,7 @@ import { theme } from '@common/theme'
 
 import { PostTags } from '@components/_onboarding/PostTags'
 
-import { cultureCategories, updateCultureTags } from '../../../utils/postsCategories/cultureCategories'
+import { cultureCategories, updateCultureTags } from '@utils/postsCategories/cultureCategories'
 
 function SelectCultureTags({ route, navigation }: SelectCultureTagsScreenProps) {
 	const { setCultureDataOnContext } = useContext(CultureContext)

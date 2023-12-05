@@ -44,9 +44,9 @@ import { ImageCarousel } from '@components/ImageCarousel'
 import { PostPopOver } from '@components/PostPopOver'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
-import { UiUtils } from '../../../utils-ui/common/UiUtils'
-import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
-import { incomeCategories } from '../../../utils/postsCategories/incomeCategories'
+import { UiUtils } from '@utils-ui/common/UiUtils'
+import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
+import { incomeCategories } from '@utils/postsCategories/incomeCategories'
 
 const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()

@@ -36,9 +36,9 @@ import { ImageCarousel } from '@components/ImageCarousel'
 import { PostPopOver } from '@components/PostPopOver'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
-import { UiUtils } from '../../../utils-ui/common/UiUtils'
-import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
-import { socialImpactCategories } from '../../../utils/postsCategories/socialImpactCategories'
+import { UiUtils } from '@utils-ui/common/UiUtils'
+import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
+import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
 
 const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()

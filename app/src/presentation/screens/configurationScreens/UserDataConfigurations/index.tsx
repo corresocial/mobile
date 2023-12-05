@@ -24,7 +24,7 @@ import { BeForgottenConfirmationModal } from '@components/_modals/BeForgottenCon
 import { CustomModal } from '@components/_modals/CustomModal'
 import { Loader } from '@components/Loader'
 
-import { clearOfflinePosts } from '../../../utils/offlinePost'
+import { clearOfflinePosts } from '@utils/offlinePost'
 
 function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProps) {
 	const { userDataContext, deleteLocaluser } = useContext(AuthContext)

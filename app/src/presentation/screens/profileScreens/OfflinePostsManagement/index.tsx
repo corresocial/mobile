@@ -27,8 +27,8 @@ import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FlatListPosts } from '@components/FlatListPosts'
 import { Loader } from '@components/Loader'
 
-import { getNetworkStatus } from '../../../utils/deviceNetwork'
-import { deletePostByDescription, getOfflinePosts } from '../../../utils/offlinePost'
+import { getNetworkStatus } from '@utils/deviceNetwork'
+import { deletePostByDescription, getOfflinePosts } from '@utils/offlinePost'
 
 function OfflinePostsManagement({ route, navigation }: OfflinePostsManagementScreenProps) {
 	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)

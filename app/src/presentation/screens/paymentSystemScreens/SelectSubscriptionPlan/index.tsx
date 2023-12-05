@@ -11,7 +11,7 @@ import { theme } from '@common/theme'
 
 import { SubscriptionPlan } from '@components/_onboarding/SubscriptionPlan'
 
-import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
+import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
 const { getPostRangeLabelHiglighted } = UiSubscriptionUtils()
 

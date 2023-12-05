@@ -14,7 +14,7 @@ import { InstructionCard } from '../../_cards/InstructionCard'
 import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
 import { SelectButtonsContainer } from '../../_containers/SelectButtonsContainer'
 import { VerticalSpacing } from '../../_space/VerticalSpacing'
-import { UiPostUtils } from '../../../utils-ui/post/UiPostUtils'
+import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { ProgressBar } from '../../ProgressBar'
 
 const { sortPostCategories } = UiPostUtils()

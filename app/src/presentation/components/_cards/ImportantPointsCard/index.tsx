@@ -6,7 +6,7 @@ import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
 
 import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
-import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { UiUtils } from '@utils-ui/common/UiUtils'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
 import { DefaultCardContainer } from '../DefaultCardContainer'

@@ -26,7 +26,7 @@ import { Loader } from '@components/Loader'
 import { SmallInstructionCard } from '@components/SmallInstructionCard'
 import { Timer } from '@components/Timer'
 
-import { UiSubscriptionUtils } from '../../../utils-ui/subscription/UiSubscriptionUtils'
+import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
 const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()
 

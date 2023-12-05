@@ -18,7 +18,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 
-import { UiUtils } from '../../../utils-ui/common/UiUtils'
+import { UiUtils } from '@utils-ui/common/UiUtils'
 
 const { sortArray } = UiUtils()
 

@@ -36,7 +36,7 @@ import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmatio
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
-import { clearOfflinePosts } from '../../../utils/offlinePost'
+import { clearOfflinePosts } from '@utils/offlinePost'
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const { notificationState, updateNotificationState } = useContext(AlertContext)
