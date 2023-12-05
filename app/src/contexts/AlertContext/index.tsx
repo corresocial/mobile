@@ -1,10 +1,12 @@
-import React, { createContext, useMemo, useState, useCallback, useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
-import { AlertNotificationModal } from '../../components/_modals/AlertNotificationModal'
+import React, { createContext, useMemo, useState, useCallback, useEffect } from 'react'
+
+import { UserStackNavigationProps } from '../../presentation/routes/Stack/UserStack/types'
 import { AlertContextProps, AlertProviderProps, InitialNotificationStateType } from './types'
-import { NewHomePresentationModal } from '../../components/_modals/NewHomePresentationModal'
-import { UserStackNavigationProps } from '../../routes/Stack/UserStack/types'
+
+import { AlertNotificationModal } from '@components/_modals/AlertNotificationModal'
+import { NewHomePresentationModal } from '@components/_modals/NewHomePresentationModal'
 
 const initialNotificationState = { // private
 	notificationAlertModal: true,

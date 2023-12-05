@@ -4,10 +4,13 @@
 // Erros de tipagem devido a atualização nos tipos
 
 import { collection, query, getDocs } from 'firebase/firestore'
-import { firestore } from '..'
+
+import { PostCollection } from '../types'
+
+import { firestore } from '@services/firebase'
+
 import { updatePost } from '../post/updatePost'
 import { updateUser } from '../user/updateUser'
-import { PostCollection } from '../types'
 
 const mergePostFields = async () => {
 	const docs: any = []

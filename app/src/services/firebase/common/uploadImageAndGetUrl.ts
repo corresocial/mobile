@@ -1,5 +1,6 @@
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
-import { storage } from '..'
+
+import { storage } from '@services/firebase'
 
 type CollectionUpload = 'users' | 'posts'
 

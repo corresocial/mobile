@@ -1,7 +1,10 @@
 import { ref, update } from 'firebase/database'
-import { realTimeDatabase } from '..'
-import { Chat } from '../../../@types/chat/types'
+
 import { Id } from '../types'
+import { Chat } from '@globalTypes/chat/types'
+
+import { realTimeDatabase } from '@services/firebase'
+
 import { readFromDatabase } from './readFromDatabase'
 
 async function makeAllUserMessagesAsRead(chatId: Id, userId: Id) {

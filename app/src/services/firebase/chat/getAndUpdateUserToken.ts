@@ -1,6 +1,8 @@
 import { ref, set } from 'firebase/database'
+
+import { realTimeDatabase } from '@services/firebase'
+
 import { getRemoteUser } from './getRemoteUser'
-import { realTimeDatabase } from '..'
 
 async function getAndUpdateUserToken(userId: string, tokenNotification: string | null) {
 	const remoteUser = await getRemoteUser(userId)

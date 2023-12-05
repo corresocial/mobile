@@ -5,7 +5,7 @@ import { getStorage } from 'firebase/storage'
 import { getFunctions } from 'firebase/functions'
 import { getDatabase } from "firebase/database";
 
-import { getEnvVars } from '../../../environment'
+import { getEnvVars } from '@infrastructure/environment'
 
 const {
 	FIREBASE_apiKey,

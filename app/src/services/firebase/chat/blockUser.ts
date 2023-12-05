@@ -1,6 +1,9 @@
 import { ref, set } from 'firebase/database'
+
 import { Id } from '../types'
-import { realTimeDatabase } from '..'
+
+import { realTimeDatabase } from '@services/firebase'
+
 import { getRemoteUser } from './getRemoteUser'
 
 async function blockUserId(targetUserId: Id, loggedUserId: Id) {

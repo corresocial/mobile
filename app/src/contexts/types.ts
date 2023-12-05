@@ -19,8 +19,8 @@ import {
 	UserSubscription,
 	FeedPosts,
 	IncomeType
-} from '../services/firebase/types'
-import { CurrentCategory, SearchParams } from '../services/maps/types'
+} from '@services/firebase/types'
+import { CurrentCategory, SearchParams } from '@services/maps/types'
 
 export interface SubscriptionData extends UserSubscription {
 	currentPost?: PostCollection

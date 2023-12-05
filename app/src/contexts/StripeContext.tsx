@@ -1,20 +1,23 @@
 /* eslint-disable camelcase */
-import React, { useContext, createContext, useEffect, useState } from 'react'
-import axios from 'axios'
-import { StripeProvider as StripeProviderRaw, confirmPayment, createPaymentMethod } from '@stripe/stripe-react-native'
-
 import { useNavigation } from '@react-navigation/native'
-import { getStripePlans, getStripeProducts } from '../services/stripe/products'
-import { updateAllRangeAndLocation } from '../services/firebase/post/updateAllRangeAndLocation'
+import React, { useContext, createContext, useEffect, useState } from 'react'
 
-import { CustomerData, StripeProducts } from '../services/stripe/types'
-import { PostCollection, PostCollectionRemote, PostRange, SubscriptionPlan, UserSubscription } from '../services/firebase/types'
+import { StripeProvider as StripeProviderRaw, confirmPayment, createPaymentMethod } from '@stripe/stripe-react-native'
+import axios from 'axios'
+
+import { UserStackNavigationProps } from '../presentation/routes/Stack/UserStack/types'
+import { PostCollection, PostCollectionRemote, PostRange, SubscriptionPlan, UserSubscription } from '@services/firebase/types'
+import { CustomerData, StripeProducts } from '@services/stripe/types'
+
+import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRangeAndLocation'
+import { getStripePlans, getStripeProducts } from '@services/stripe/products'
+
+import { SubscriptionAlertModal } from '@components/_modals/SubscriptionAlertModal'
+
+import { getEnvVars } from '../infrastructure/environment'
+import { dateHasExpired } from '../presentation/common/auxiliaryFunctions'
 import { AuthContext } from './AuthContext'
-import { dateHasExpired } from '../common/auxiliaryFunctions'
-import { SubscriptionAlertModal } from '../components/_modals/SubscriptionAlertModal'
 import { SubscriptionContext } from './SubscriptionContext'
-import { UserStackNavigationProps } from '../routes/Stack/UserStack/types'
-import { getEnvVars } from '../../environment'
 
 interface StripeContextProps {
 	children: React.ReactElement

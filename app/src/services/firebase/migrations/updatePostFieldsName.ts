@@ -4,9 +4,12 @@
 // Erros de tipagem devido a atualização nos tipos
 
 import { collection, query, getDocs } from 'firebase/firestore'
-import { firestore } from '..'
-import { updatePost } from '../post/updatePost'
+
 import { CultureCollectionRemote, IncomeCollectionRemote, PostCollection, SocialImpactCollectionRemote, VacancyCollectionRemote } from '../types'
+
+import { firestore } from '@services/firebase'
+
+import { updatePost } from '../post/updatePost'
 import { updateUser } from '../user/updateUser'
 
 const updatePostFieldsName = async () => {

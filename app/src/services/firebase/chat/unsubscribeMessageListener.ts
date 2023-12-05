@@ -1,5 +1,6 @@
 import { off, ref } from 'firebase/database'
-import { realTimeDatabase } from '..'
+
+import { realTimeDatabase } from '@services/firebase'
 
 async function unsubscribeMessageListener(path: string) {
 	if (!path) return false

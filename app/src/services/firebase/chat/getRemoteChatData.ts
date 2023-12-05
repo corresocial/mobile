@@ -1,7 +1,9 @@
 import { get, ref } from 'firebase/database'
-import { realTimeDatabase } from '..'
-import { Chat, UserIdentification } from '../../../@types/chat/types'
+
 import { Id } from '../types'
+import { Chat, UserIdentification } from '@globalTypes/chat/types'
+
+import { realTimeDatabase } from '@services/firebase'
 
 async function getRemoteChatData(userSender: UserIdentification, userReceiver: UserIdentification) {
 	const chatId1 = `${userSender.userId}-${userReceiver.userId}`

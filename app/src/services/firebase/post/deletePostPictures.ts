@@ -1,5 +1,6 @@
 import { deleteObject, ref } from 'firebase/storage'
-import { storage } from '..'
+
+import { storage } from '@services/firebase'
 
 const deletePostPictures = async (pictures: string[]) => {
 	const result = pictures.map(async (pictureUrl: string) => {

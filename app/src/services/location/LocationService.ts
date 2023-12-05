@@ -1,7 +1,6 @@
-import { LocationServiceInterface } from './LocationServiceInterface'
-
-import { getCurrentLocation } from './getCurrentLocation'
 import { convertGeocodeToAddress } from './geocodeConverter'
+import { getCurrentLocation } from './getCurrentLocation'
+import { LocationServiceInterface } from './LocationServiceInterface'
 
 function LocationService(): LocationServiceInterface {
 	return {

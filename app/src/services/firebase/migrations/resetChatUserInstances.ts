@@ -1,5 +1,7 @@
 import { collection, query, getDocs } from 'firebase/firestore'
-import { firestore } from '..'
+
+import { firestore } from '@services/firebase'
+
 import { registerNewUser } from '../chat/registerNewUser'
 
 const resetChatUserInstances = async () => { // Set Collection Name

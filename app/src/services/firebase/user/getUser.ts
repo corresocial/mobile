@@ -1,7 +1,8 @@
 import { doc, getDoc } from 'firebase/firestore'
-import { firestore } from '..'
 
 import { UserCollection } from '../types'
+
+import { firestore } from '@services/firebase'
 
 async function getUser(userId: string) {
 	try {

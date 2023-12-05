@@ -1,5 +1,6 @@
-import { getEnvVars } from '../../../environment'
 import { ContactUsOptions } from './types'
+
+import { getEnvVars } from '@infrastructure/environment'
 
 const { FALECONOSCO_WEBHOOK, ERROS_WEBHOOK, DENUNCIAR_WEBHOOK } = getEnvVars()
 

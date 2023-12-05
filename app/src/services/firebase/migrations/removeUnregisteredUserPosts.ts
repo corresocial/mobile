@@ -1,7 +1,10 @@
 /* eslint-disable no-param-reassign */
 import { collection, query, getDocs, doc, getDoc } from 'firebase/firestore'
-import { firestore } from '..'
-import { getPostCollectionName } from '../common/dbAuxiliaryFunctions'
+
+import { firestore } from '@services/firebase'
+
+import { getPostCollectionName } from '@common/dbAuxiliaryFunctions'
+
 import { updateUser } from '../user/updateUser'
 
 const removeUnregisteredUserPosts = async () => { // Set Collection Name

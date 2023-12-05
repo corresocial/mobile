@@ -1,6 +1,9 @@
-import { LocalUserData } from '../../../contexts/types'
-import { updateDocField } from '../common/updateDocField'
+import { LocalUserData } from '@contexts/types'
+
 import { Id, PostCollection } from '../types'
+
+import { updateDocField } from '@services/firebase/common/updateDocField'
+
 import { updatePost } from './updatePost'
 
 const markPostAsComplete = async (

@@ -1,24 +1,24 @@
-import { onValue, ref } from 'firebase/database'
-import React, { MutableRefObject, createContext, useContext, useEffect, useRef, useState } from 'react'
-import { Alert, Platform } from 'react-native'
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
+import React, { MutableRefObject, createContext, useContext, useEffect, useRef, useState } from 'react'
+import { Alert, Platform } from 'react-native'
 
-import { getEnvVars } from '../../environment'
+import { onValue, ref } from 'firebase/database'
 
-import { Chat, UserDatabase } from '../@types/chat/types'
-import { Id } from '../services/firebase/types'
+import { Chat, UserDatabase } from '@globalTypes/chat/types'
+import { Id } from '@services/firebase/types'
 
+import { realTimeDatabase } from '@services/firebase'
+import { existsOnDatabase } from '@services/firebase/chat/existsOnDatabase'
+import { getAndUpdateUserToken } from '@services/firebase/chat/getAndUpdateUserToken'
+import { getRemoteUser } from '@services/firebase/chat/getRemoteUser'
+import { readFromDatabase } from '@services/firebase/chat/readFromDatabase'
+import { registerNewUser } from '@services/firebase/chat/registerNewUser'
+import { unsubscribeChatIdsListener } from '@services/firebase/chat/unsubscribeChatIdsListener'
+import { unsubscribeUserChatsListener } from '@services/firebase/chat/unsubscribeUserChatsListener'
+
+import { getEnvVars } from '../infrastructure/environment'
 import { AuthContext } from './AuthContext'
-
-import { realTimeDatabase } from '../services/firebase'
-import { existsOnDatabase } from '../services/firebase/chat/existsOnDatabase'
-import { readFromDatabase } from '../services/firebase/chat/readFromDatabase'
-import { registerNewUser } from '../services/firebase/chat/registerNewUser'
-import { unsubscribeUserChatsListener } from '../services/firebase/chat/unsubscribeUserChatsListener'
-import { unsubscribeChatIdsListener } from '../services/firebase/chat/unsubscribeChatIdsListener'
-import { getAndUpdateUserToken } from '../services/firebase/chat/getAndUpdateUserToken'
-import { getRemoteUser } from '../services/firebase/chat/getRemoteUser'
 
 const { ENVIRONMENT } = getEnvVars()
 

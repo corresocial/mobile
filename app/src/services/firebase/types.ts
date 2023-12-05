@@ -1,11 +1,11 @@
 import React from 'react'
 import { SvgProps } from 'react-native-svg'
 
-import { serviceCategories } from '../../utils/postsCategories/serviceCategories'
-import { cultureCategories } from '../../utils/postsCategories/cultureCategories'
-import { saleCategories } from '../../utils/postsCategories/saleCategories'
-import { vacancyCategories } from '../../utils/postsCategories/vacancyCategories'
-import { socialImpactCategories } from '../../utils/postsCategories/socialImpactCategories'
+import { cultureCategories } from '../../presentation/utils/postsCategories/cultureCategories'
+import { saleCategories } from '../../presentation/utils/postsCategories/saleCategories'
+import { serviceCategories } from '../../presentation/utils/postsCategories/serviceCategories'
+import { socialImpactCategories } from '../../presentation/utils/postsCategories/socialImpactCategories'
+import { vacancyCategories } from '../../presentation/utils/postsCategories/vacancyCategories'
 
 export type SaleCategories = keyof typeof saleCategories
 export type ServiceCategories = keyof typeof serviceCategories

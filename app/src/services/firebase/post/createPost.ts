@@ -1,9 +1,10 @@
 import { addDoc, collection } from 'firebase/firestore'
-import { firestore } from '..'
+
+import { LocalUserData } from '@contexts/types'
 
 import { PostCollectionType, PostCollection, PostType } from '../types'
 
-import { LocalUserData } from '../../../contexts/types'
+import { firestore } from '@services/firebase'
 
 async function createPost(post: PostCollection, user: LocalUserData, postCollection: PostCollectionType, postType: PostType) {
 	try {

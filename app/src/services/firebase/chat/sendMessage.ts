@@ -1,7 +1,9 @@
 import { push, ref } from 'firebase/database'
-import { realTimeDatabase } from '..'
-import { Message } from '../../../@types/chat/types'
+
 import { Id } from '../types'
+import { Message } from '@globalTypes/chat/types'
+
+import { realTimeDatabase } from '@services/firebase'
 
 async function sendMessage(newMessage: Message, chatId: Id) {
 	const messagesPath = `${chatId}/messages`
