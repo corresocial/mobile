@@ -1,4 +1,5 @@
 import { doc, setDoc } from 'firebase/firestore'
+
 import { firestore } from '..'
 
 import { UserCollection } from '../types'

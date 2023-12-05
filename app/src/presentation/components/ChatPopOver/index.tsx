@@ -1,18 +1,19 @@
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import Popover from 'react-native-popover-view'
-
 import { RFValue } from 'react-native-responsive-fontsize'
+
 import { CloseIcon, Container, ContainerInner, UserName } from './styles'
-import { relativeScreenHeight } from '@common/screenDimensions'
-import { theme } from '@common/theme'
-import XIcon from '@assets/icons/x-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import TrashIcon from '@assets/icons/trash-white.svg'
+import XIcon from '@assets/icons/x-white.svg'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
-import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+
+import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 
 interface ChatPopOverProps {
 	userName?: string

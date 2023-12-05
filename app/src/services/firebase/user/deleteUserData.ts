@@ -1,4 +1,5 @@
 import { deleteDoc, doc } from 'firebase/firestore'
+
 import { firestore } from '..'
 
 async function deleteUserData(userId: string) {

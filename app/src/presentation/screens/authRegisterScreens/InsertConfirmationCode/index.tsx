@@ -9,9 +9,9 @@ import { AuthContext } from '@contexts/AuthContext'
 import { UserIdentification } from '@contexts/types'
 
 import { InsertConfirmationCodeScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
-import { Id } from '@services/firebase/types'
 
 import Firebase from '@services/firebase'
+import { Id } from '@services/firebase/types'
 
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'

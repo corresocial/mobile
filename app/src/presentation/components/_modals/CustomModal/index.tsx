@@ -22,6 +22,7 @@ import { theme } from '@common/theme'
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+
 import { FocusAwareStatusBar } from '../../FocusAwareStatusBar'
 
 interface CustomModalProps {

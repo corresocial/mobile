@@ -1,6 +1,5 @@
-import { UiChatUtilsInterface } from './UiChatUtilsInterface'
-
 import { defaultMessageObject, getLastMessageObjects, sortChatMessages } from '.'
+import { UiChatUtilsInterface } from './UiChatUtilsInterface'
 
 function UiChatUtils(): UiChatUtilsInterface {
 	return {

@@ -5,9 +5,17 @@ import uuid from 'react-uuid'
 
 import { LocationContext } from '@contexts/LocationContext'
 
-import { MacroCategories } from '@utils/postMacroCategories/types'
 import { ViewAllCategoriesScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
+
 import { MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote } from '@services/firebase/types'
+import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
+import { postMacroCategories } from '@utils/postMacroCategories'
+import { MacroCategories } from '@utils/postMacroCategories/types'
+import { cultureCategories } from '@utils/postsCategories/cultureCategories'
+import { saleCategories } from '@utils/postsCategories/saleCategories'
+import { serviceCategories } from '@utils/postsCategories/serviceCategories'
+import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
+import { vacancyCategories } from '@utils/postsCategories/vacancyCategories'
 
 import { Body, Container, Header, InputContainer } from './styles'
 import { relativeScreenHeight } from '@common/screenDimensions'
@@ -19,14 +27,6 @@ import { SearchInput } from '@components/_inputs/SearchInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
-
-import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
-import { postMacroCategories } from '@utils/postMacroCategories'
-import { cultureCategories } from '@utils/postsCategories/cultureCategories'
-import { saleCategories } from '@utils/postsCategories/saleCategories'
-import { serviceCategories } from '@utils/postsCategories/serviceCategories'
-import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
-import { vacancyCategories } from '@utils/postsCategories/vacancyCategories'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 

@@ -1,17 +1,18 @@
+import * as Updates from 'expo-updates'
 import React, { useContext, useEffect, useState } from 'react'
 import { Animated, StatusBar } from 'react-native'
-import * as Updates from 'expo-updates'
 
-import { Container, LogoContainer } from './styles'
-import { relativeScreenWidth, screenHeight } from '@common/screenDimensions'
-import LogoBuildingIcon from '@assets/icons/logoBuilding.svg'
-import SmartphoneWhiteIcon from '@assets/icons/smartphone-white.svg'
+import { AuthContext } from '@contexts/AuthContext'
 
 import { SplashScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
 
-import { AuthContext } from '@contexts/AuthContext'
-import { CustomModal } from '@components/_modals/CustomModal'
+import { Container, LogoContainer } from './styles'
+import LogoBuildingIcon from '@assets/icons/logoBuilding.svg'
+import SmartphoneWhiteIcon from '@assets/icons/smartphone-white.svg'
+import { relativeScreenWidth, screenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
+
+import { CustomModal } from '@components/_modals/CustomModal'
 
 function Splash({ navigation }: SplashScreenProps) {
 	const { hasValidLocalUser, getUserDataFromSecureStore, setRemoteUserOnLocal } = useContext(AuthContext)

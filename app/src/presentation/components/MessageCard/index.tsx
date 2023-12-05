@@ -1,10 +1,11 @@
 import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { theme } from '@common/theme'
+import { UiUtils } from '@utils-ui/common/UiUtils'
+
 import { Container, DateTimeArea, MessageContainer, MessageContainerInner, RelativeDateTime, TextMessage } from './styles'
 import ArrowRightCircleWhiteIcon from '@assets/icons/arrowRightCircle-white.svg'
-import { UiUtils } from '@utils-ui/common/UiUtils'
+import { theme } from '@common/theme'
 
 const { formatRelativeDate } = UiUtils()
 

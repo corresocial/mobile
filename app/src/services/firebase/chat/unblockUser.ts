@@ -1,8 +1,12 @@
 import { ref, set } from 'firebase/database'
-import { Id } from '../types'
-import { realTimeDatabase } from '..'
-import { getRemoteUser } from './getRemoteUser'
+
 import { UserDatabase } from '@globalTypes/chat/types'
+
+import { Id } from '../types'
+
+import { realTimeDatabase } from '..'
+
+import { getRemoteUser } from './getRemoteUser'
 
 async function unblockUserId(targetUserId: Id, loggedUserId: Id) {
 	const realTimeDatabaseRef = ref(realTimeDatabase, `${loggedUserId}/blockedUsers`)

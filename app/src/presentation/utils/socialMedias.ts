@@ -1,16 +1,17 @@
 import { Linking } from 'react-native'
-import LinkClipIcon from '@assets/icons/linkClip.svg'
-import LinkedinIcon from '@assets/icons/linkedin.svg'
+
+import { SocialMedia } from '@services/firebase/types'
+
 import FacebookIcon from '@assets/icons/facebook.svg'
 import InstagramIcon from '@assets/icons/instagram.svg'
+import LinkClipIcon from '@assets/icons/linkClip.svg'
+import LinkedinIcon from '@assets/icons/linkedin.svg'
+import SoundCloudIcon from '@assets/icons/soundcloud.svg'
+import SpotifyIcon from '@assets/icons/spotify.svg'
+import TikTokIcon from '@assets/icons/tiktok.svg'
 import TwiterIcon from '@assets/icons/twiter.svg'
 import WhatsAppIcon from '@assets/icons/whatsapp.svg'
 import YoutubeIcon from '@assets/icons/youtube.svg'
-import SpotifyIcon from '@assets/icons/spotify.svg'
-import TikTokIcon from '@assets/icons/tiktok.svg'
-import SoundCloudIcon from '@assets/icons/soundcloud.svg'
-
-import { SocialMedia } from '@services/firebase/types'
 
 /*
 src/

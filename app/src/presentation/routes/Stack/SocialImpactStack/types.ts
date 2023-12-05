@@ -1,5 +1,6 @@
-import { UserStackParamList } from '../UserStack/types'
 import { SocialImpactCategories, LocationViewType, LatLong, DaysOfWeek, PostRange, SocialImpactCollectionRemote } from '@services/firebase/types'
+
+import { UserStackParamList } from '../UserStack/types'
 
 export type SocialImpactStackParamList = {
 	SelectSocialImpactType: { editMode: boolean } | undefined

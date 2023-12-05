@@ -1,11 +1,12 @@
 import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
+
 import { VerifiedLabelName } from '@services/firebase/types'
 
 import { BadgeLabel } from './styles'
+import ImpactBadge from '@assets/icons/impactLabel.svg'
 import LeaderBadgeIcon from '@assets/icons/leaderLabel.svg'
 import VerifiedBadgeIcon from '@assets/icons/verifiedLabel.svg'
-import ImpactBadge from '@assets/icons/impactLabel.svg'
 
 interface VerifiedUserBadgeProps {
 	verifiedLabel: VerifiedLabelName

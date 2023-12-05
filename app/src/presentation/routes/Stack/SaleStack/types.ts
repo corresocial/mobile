@@ -1,5 +1,6 @@
-import { UserStackParamList } from '../UserStack/types'
 import { DaysOfWeek, LatLong, LocationViewType, PostRange, SaleCategories, IncomeCollectionRemote } from '@services/firebase/types'
+
+import { UserStackParamList } from '../UserStack/types'
 
 export type SaleStackParamList = {
 	SelectSaleCategory: { editMode: boolean } | undefined

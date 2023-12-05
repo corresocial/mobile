@@ -1,4 +1,5 @@
 import { doc, updateDoc, setDoc } from 'firebase/firestore'
+
 import { firestore } from '..'
 
 import { PrivateUserCollection } from '../types'

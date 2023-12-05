@@ -1,6 +1,7 @@
 import { Animated } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
+
 import { relativeScreenHeight } from '@common/screenDimensions'
 
 export const Container = styled(Animated.View)`

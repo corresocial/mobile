@@ -1,6 +1,8 @@
 import axios from 'axios'
-import { StripeProducts } from './types'
+
 import { getEnvVars } from '@infrastructure/environment'
+
+import { StripeProducts } from './types'
 
 const { STRIPE_SECRET_KEY } = getEnvVars()
 

@@ -6,11 +6,13 @@ import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { EditCurrentSubscriptionScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { Id, PostCollection, PostCollectionRemote, UserSubscription } from '@services/firebase/types'
 
 import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRangeAndLocation'
+import { Id, PostCollection, PostCollectionRemote, UserSubscription } from '@services/firebase/types'
 import { getPrivateContacts } from '@services/firebase/user/getPrivateContacts'
 import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
+import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
+import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
 import { Container } from './styles'
 import AtSignWhiteIcon from '@assets/icons/atSign-white.svg'
@@ -29,9 +31,6 @@ import { InsertUserEmailModal } from '@components/_modals/InsertUserEmailModal'
 import { RangeChangeConfirmationModal } from '@components/_modals/RangeChangeConfirmatiomModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
-
-import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
-import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
 const { getPostRangeLabel } = UiSubscriptionUtils()
 const { getTextualAddress } = UiLocationUtils()

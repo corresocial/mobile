@@ -1,4 +1,5 @@
 import styled from 'styled-components/native'
+
 import { relativeScreenHeight } from '@common/screenDimensions'
 
 export const ScrollView = styled.ScrollView`

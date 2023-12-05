@@ -6,11 +6,11 @@ import { ServiceContext } from '@contexts/ServiceContext'
 
 import { SelectServiceTagsScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
 
+import { serviceCategories, updateServiceTags } from '@utils/postsCategories/serviceCategories'
+
 import { theme } from '@common/theme'
 
 import { PostTags } from '@components/_onboarding/PostTags'
-
-import { serviceCategories, updateServiceTags } from '@utils/postsCategories/serviceCategories'
 
 function SelectServiceTags({ route, navigation }: SelectServiceTagsScreenProps) {
 	const { setServiceDataOnContext } = useContext(ServiceContext)

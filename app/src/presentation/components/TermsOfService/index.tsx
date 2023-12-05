@@ -1,11 +1,11 @@
 import React from 'react'
 import { Linking } from 'react-native'
 
-import { theme } from '@common/theme'
 import { Container, LinkButtonsContainer } from './styles'
-import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
+import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import XWhiteIcon from '@assets/icons/x-white.svg'
+import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 

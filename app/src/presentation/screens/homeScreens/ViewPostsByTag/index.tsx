@@ -5,6 +5,7 @@ import { LocationContext } from '@contexts/LocationContext'
 
 import { navigateToPostView } from '@routes/auxMethods'
 import { ViewPostsByTagScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
+
 import { PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
 
 import { Container, Header, InputContainer } from './styles'

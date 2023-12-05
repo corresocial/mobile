@@ -1,5 +1,7 @@
 import { get, ref } from 'firebase/database'
+
 import { realTimeDatabase } from '..'
+
 import { Id } from '../types'
 
 function existsOnDatabase(id?: Id) {

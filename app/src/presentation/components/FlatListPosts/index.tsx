@@ -1,11 +1,12 @@
 import React, { JSXElementConstructor, ReactElement } from 'react'
 import { FlatList, RefreshControl } from 'react-native'
-
 import { RFValue } from 'react-native-responsive-fontsize'
+
 import { PostCollection } from '@services/firebase/types'
 
-import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { theme } from '@common/theme'
+
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 interface FlatListPostsProps {
 	data: PostCollection[]

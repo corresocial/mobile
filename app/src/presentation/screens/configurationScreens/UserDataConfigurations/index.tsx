@@ -6,10 +6,11 @@ import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
 import { UserDataConfigurationsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { Id, PostCollection } from '@services/firebase/types'
 
 import { auth } from '@services/firebase'
+import { Id, PostCollection } from '@services/firebase/types'
 import { removeAllUserData } from '@services/firebase/user/removeAllUserData'
+import { clearOfflinePosts } from '@utils/offlinePost'
 
 import { Container } from './styles'
 import { relativeScreenHeight } from '@common/screenDimensions'
@@ -23,8 +24,6 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { BeForgottenConfirmationModal } from '@components/_modals/BeForgottenConfirmationModal'
 import { CustomModal } from '@components/_modals/CustomModal'
 import { Loader } from '@components/Loader'
-
-import { clearOfflinePosts } from '@utils/offlinePost'
 
 function UserDataConfigurations({ navigation }: UserDataConfigurationsScreenProps) {
 	const { userDataContext, deleteLocaluser } = useContext(AuthContext)

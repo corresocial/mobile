@@ -5,12 +5,13 @@ import { AuthContext } from '@contexts/AuthContext'
 import { RegisterUserData } from '@contexts/types'
 
 import { InsertProfilePictureScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
-import { Id, PostCollection, UserCollection } from '@services/firebase/types'
 
 import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
+import { Id, PostCollection, UserCollection } from '@services/firebase/types'
 import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
 import { updateUser } from '@services/firebase/user/updateUser'
 import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
+import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { Container } from './styles'
 import AddPictureWhiteIcon from '@assets/icons/addPicture-white.svg'
@@ -25,8 +26,6 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
-
-import { UiUtils } from '@utils-ui/common/UiUtils'
 
 const { arrayIsEmpty } = UiUtils()
 

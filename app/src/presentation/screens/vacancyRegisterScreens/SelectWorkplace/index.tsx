@@ -4,6 +4,7 @@ import { EditContext } from '@contexts/EditContext'
 import { VacancyContext } from '@contexts/VacancyContext'
 
 import { SelectWorkplaceScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+
 import { WorkplaceType } from '@services/firebase/types'
 
 import ComputerAndPhoneWhiteIcon from '@assets/icons/computerAndPhone-white.svg'

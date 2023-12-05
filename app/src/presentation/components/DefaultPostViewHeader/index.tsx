@@ -1,13 +1,12 @@
 import React from 'react'
-import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { SvgProps } from 'react-native-svg'
 
-import { theme } from '@common/theme'
-import { relativeScreenWidth } from '@common/screenDimensions'
 import { Container, PathBar, PathTitle, SmallButtonRightSpace, Title } from './styles'
 import XWhiteIcon from '@assets/icons/x-white.svg'
-
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { relativeScreenWidth } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
 import { BackButton } from '@components/_buttons/BackButton'
 import { SmallButton } from '@components/_buttons/SmallButton'

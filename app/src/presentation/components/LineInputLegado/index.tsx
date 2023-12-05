@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import { RFValue } from 'react-native-responsive-fontsize'
 import { FontAwesome5 } from '@expo/vector-icons'
+import React, { useState } from 'react'
 import {
 	KeyboardTypeOptions,
 	NativeSyntheticEvent,
@@ -10,6 +9,7 @@ import {
 	View,
 	TextInputProps,
 } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
 
 import { Container, TextInput } from './styles'
 import { relativeScreenHeight } from '@common/screenDimensions'

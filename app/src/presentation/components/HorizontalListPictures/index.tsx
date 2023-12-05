@@ -9,8 +9,9 @@ import {
 	Picture,
 } from './styles'
 import AddPictureWhiteIcon from '@assets/icons/addPicture-white.svg'
-import { SmallButton } from '@components/_buttons/SmallButton'
 import { relativeScreenWidth } from '@common/screenDimensions'
+
+import { SmallButton } from '@components/_buttons/SmallButton'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 
 interface HorizontalListPicturesProps {

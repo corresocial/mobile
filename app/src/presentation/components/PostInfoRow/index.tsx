@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react'
-import { SvgProps } from 'react-native-svg'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { SvgProps } from 'react-native-svg'
 
 import { Container, PostInfoText } from './styles'
 

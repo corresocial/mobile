@@ -3,7 +3,15 @@ import { ScrollView, StatusBar, View } from 'react-native'
 import uuid from 'react-uuid'
 
 import { SocialMediaManagementScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+
 import { SocialMedia } from '@services/firebase/types'
+import {
+	getRelativeSocialMediaIcon,
+	isDefaultSocialMedia,
+	mergeWithDefaultSocialMedia,
+	openURL,
+	socialMediaUrl,
+} from '@utils/socialMedias'
 
 import { Body, Container, Header, NewLinkButtonContainer } from './styles'
 import AngleRightWhitetIcon from '@assets/icons/angleRight-white.svg'
@@ -15,14 +23,6 @@ import { SmallButton } from '@components/_buttons/SmallButton'
 import { EditCard } from '@components/_cards/EditCard'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
-
-import {
-	getRelativeSocialMediaIcon,
-	isDefaultSocialMedia,
-	mergeWithDefaultSocialMedia,
-	openURL,
-	socialMediaUrl,
-} from '@utils/socialMedias'
 
 function SocialMediaManagement({ route, navigation }: SocialMediaManagementScreenProps) {
 	const onPressIcon = async (socialMedia: SocialMedia, index: number) => {

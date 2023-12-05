@@ -1,5 +1,7 @@
 import { ref, set } from 'firebase/database'
+
 import { realTimeDatabase } from '..'
+
 import { Chat } from '@globalTypes/chat/types'
 
 async function registerNewChat(chat: Chat) {

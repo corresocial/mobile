@@ -4,6 +4,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { LocalUserData } from '@contexts/types'
 
 import { PostCollection } from '@services/firebase/types'
+import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import {
 	Container,
@@ -22,7 +23,7 @@ import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
-import { UiUtils } from '@utils-ui/common/UiUtils'
+
 import { SaleExchangeValue } from '../../SaleExchangeValue'
 import { SmallUserIdentification } from '../../SmallUserIdentification'
 

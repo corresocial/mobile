@@ -4,6 +4,7 @@ import { EditContext } from '@contexts/EditContext'
 import { VacancyContext } from '@contexts/VacancyContext'
 
 import { SelectVacancyTypeScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+
 import { VacancyType } from '@services/firebase/types'
 
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'

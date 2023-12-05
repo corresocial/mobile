@@ -4,6 +4,7 @@ import {
 	updateDoc,
 	getDoc,
 } from 'firebase/firestore'
+
 import { firestore } from '..'
 
 import { PostCollection, UserCollection } from '../types'

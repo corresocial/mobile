@@ -15,6 +15,7 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
+
 import { ProgressBar } from '../../ProgressBar'
 
 interface PostLocationViewProps {

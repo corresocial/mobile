@@ -8,6 +8,8 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { SubscriptionPaymentResultScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 
+import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
+
 import { Body, Container } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
@@ -24,8 +26,6 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { SmallInstructionCard } from '@components/SmallInstructionCard'
-
-import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
 const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()
 

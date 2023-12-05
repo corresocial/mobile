@@ -7,10 +7,11 @@ import { ChatContext } from '@contexts/ChatContext'
 
 import { ConfigurationsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { UserStackParamList } from '@routes/Stack/UserStack/types'
-import { Id } from '@services/firebase/types'
 
 import { auth } from '@services/firebase'
 import { getAndUpdateUserToken } from '@services/firebase/chat/getAndUpdateUserToken'
+import { Id } from '@services/firebase/types'
+import { clearOfflinePosts } from '@utils/offlinePost'
 
 import { Body, Container, Header } from './styles'
 import BellAlertWhiteIcon from '@assets/icons/bell-alert-white.svg'
@@ -35,8 +36,6 @@ import { SubscriptionButton } from '@components/_buttons/SubscriptionButton'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
-
-import { clearOfflinePosts } from '@utils/offlinePost'
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const { notificationState, updateNotificationState } = useContext(AlertContext)

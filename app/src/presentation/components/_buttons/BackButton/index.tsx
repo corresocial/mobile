@@ -6,6 +6,7 @@ import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
+
 import { SmallButton } from '../SmallButton'
 
 interface BackButtonProps {

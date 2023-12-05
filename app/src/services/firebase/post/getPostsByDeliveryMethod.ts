@@ -1,7 +1,8 @@
 import { collection, getDocs, query, where } from 'firebase/firestore'
-import { firestore } from '..'
-import { SearchParams } from '../../maps/types'
 
+import { firestore } from '..'
+
+import { SearchParams } from '../../maps/types'
 import { PostCollection } from '../types'
 
 async function getPostsByDeliveryMethod(searchParams: SearchParams) {

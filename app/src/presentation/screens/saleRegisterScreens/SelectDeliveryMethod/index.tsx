@@ -5,6 +5,7 @@ import { EditContext } from '@contexts/EditContext'
 import { SaleContext } from '@contexts/SaleContext'
 
 import { SelectDeliveryMethodScreenProps } from '@routes/Stack/SaleStack/stackScreenProps'
+
 import { DeliveryMethod } from '@services/firebase/types'
 
 import { theme } from '@common/theme'

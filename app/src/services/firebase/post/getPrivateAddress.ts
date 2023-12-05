@@ -1,5 +1,7 @@
 import { doc, getDoc } from 'firebase/firestore'
+
 import { firestore } from '..'
+
 import { getPostCollectionName } from '@common/dbAuxiliaryFunctions'
 
 import { PostType } from '../types'

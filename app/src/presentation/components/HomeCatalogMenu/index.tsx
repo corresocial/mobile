@@ -1,16 +1,16 @@
 import React from 'react'
 
+import { PostType } from '@services/firebase/types'
+
 import { Container, HorizontalPostTypes } from './styles'
+import CashWhiteIcon from '@assets/icons/cash-white.svg'
+import CitizenshipTextWhite from '@assets/icons/citizenshipText-white.svg'
+import CultureWhiteIcon from '@assets/icons/culture-white.svg'
+import CultureTextWhite from '@assets/icons/cultureText-white.svg'
+import IncomeTextWhite from '@assets/icons/incomeText-white.svg'
+import SocialImpactWhiteIcon from '@assets/icons/socialImpact-white.svg'
 import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
-import SocialImpactWhiteIcon from '@assets/icons/socialImpact-white.svg'
-import CultureWhiteIcon from '@assets/icons/culture-white.svg'
-import CashWhiteIcon from '@assets/icons/cash-white.svg'
-import IncomeTextWhite from '@assets/icons/incomeText-white.svg'
-import CitizenshipTextWhite from '@assets/icons/citizenshipText-white.svg'
-import CultureTextWhite from '@assets/icons/cultureText-white.svg'
-
-import { PostType } from '@services/firebase/types'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
 

@@ -1,4 +1,5 @@
 import { collection, documentId, getDocs, query, where } from 'firebase/firestore'
+
 import { firestore } from '..'
 
 import { PostCollection } from '../types'

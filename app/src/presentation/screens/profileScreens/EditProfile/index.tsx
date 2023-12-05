@@ -9,12 +9,14 @@ import { EditContext } from '@contexts/EditContext'
 
 import { EditProfileScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { UserStackParamList } from '@routes/Stack/UserStack/types'
-import { Id, PostCollection } from '@services/firebase/types'
 
 import { uploadImage } from '@services/firebase/common/uploadPicture'
 import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
+import { Id, PostCollection } from '@services/firebase/types'
 import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
 import { updateUser } from '@services/firebase/user/updateUser'
+import { UiUtils } from '@utils-ui/common/UiUtils'
+import { openURL } from '@utils/socialMedias'
 
 import { Body, Container, Header, SaveButtonContainer } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
@@ -27,9 +29,6 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { HorizontalSocialMediaList } from '@components/HorizontalSocialmediaList'
 import { Loader } from '@components/Loader'
-
-import { UiUtils } from '@utils-ui/common/UiUtils'
-import { openURL } from '@utils/socialMedias'
 
 const { arrayIsEmpty } = UiUtils()
 

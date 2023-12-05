@@ -7,7 +7,11 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { EditVacancyPostReviewScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
 import { VacancyStackParamList } from '@routes/Stack/VacancyStack/types'
+
 import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@services/firebase/types'
+import { UiUtils } from '@utils-ui/common/UiUtils'
+import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
+import { incomeCategories } from '@utils/postsCategories/incomeCategories'
 
 import CalendarEmptyIcon from '@assets/icons/calendarEmpty-unfilled.svg'
 import ClockWhiteIcon from '@assets/icons/clock-white.svg'
@@ -28,10 +32,6 @@ import { LocationChangeConfirmationModal } from '@components/_modals/LocationCha
 import { PostReviewPresentationModal } from '@components/_modals/PostReviewPresentationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { EditPost } from '@components/EditPost'
-
-import { UiUtils } from '@utils-ui/common/UiUtils'
-import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
-import { incomeCategories } from '@utils/postsCategories/incomeCategories'
 
 const { formatDate, formatHour, arrayIsEmpty } = UiUtils()
 const { getTextualAddress } = UiLocationUtils()

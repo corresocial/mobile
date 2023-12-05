@@ -6,6 +6,7 @@ import { Container, FooterTextArea } from './styles'
 import { relativeScreenWidth } from '@common/screenDimensions'
 
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+
 import { SmallInstructionCard } from '../../SmallInstructionCard'
 
 interface DefaultHeaderContainerProps {

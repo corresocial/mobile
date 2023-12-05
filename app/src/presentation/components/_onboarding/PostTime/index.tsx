@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Animated, Platform, StatusBar, TextInput } from 'react-native'
 
+import { UiUtils } from '@utils-ui/common/UiUtils'
+
 import { ButtonContainer, Container, InputsContainer, TwoPoints } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import TrashWhiteIcon from '@assets/icons/trash-white.svg'
@@ -16,7 +18,6 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
-import { UiUtils } from '@utils-ui/common/UiUtils'
 
 const { formatHour } = UiUtils()
 

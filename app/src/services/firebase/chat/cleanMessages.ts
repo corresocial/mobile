@@ -1,7 +1,10 @@
 import { ref, set, get } from 'firebase/database'
-import { Id } from '../types'
-import { realTimeDatabase } from '..'
+
 import { Message } from '@globalTypes/chat/types'
+
+import { Id } from '../types'
+
+import { realTimeDatabase } from '..'
 
 async function cleanMessages(chatId: Id, userCanView: Id) {
 	const chatMessages = ref(realTimeDatabase, `${chatId}/messages`)

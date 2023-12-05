@@ -1,14 +1,14 @@
-import { PostMacroCategories } from './types'
-
+import BooksWhiteIcon from '@assets/icons/books-white.svg'
+import CalendarSomedayWhiteIcon from '@assets/icons/calendarSomeday-white.svg'
+import ColorPaletWhiteIcon from '@assets/icons/colorPalet-white.svg'
+import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
+import HeartAndPersonWhiteIcon from '@assets/icons/heartAndPerson-white.svg'
+import PaperInfoWhiteIcon from '@assets/icons/paperInfo-white.svg'
 import SaleWhiteIcon from '@assets/icons/sale-white.svg'
 import ServiceWhiteIcon from '@assets/icons/service-white.svg'
 import VacancyWhiteIcon from '@assets/icons/vacancy-white.svg'
-import PaperInfoWhiteIcon from '@assets/icons/paperInfo-white.svg'
-import HeartAndPersonWhiteIcon from '@assets/icons/heartAndPerson-white.svg'
-import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
-import ColorPaletWhiteIcon from '@assets/icons/colorPalet-white.svg'
-import CalendarSomedayWhiteIcon from '@assets/icons/calendarSomeday-white.svg'
-import BooksWhiteIcon from '@assets/icons/books-white.svg'
+
+import { PostMacroCategories } from './types'
 
 // rule / entity
 const postMacroCategories: PostMacroCategories = {

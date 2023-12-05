@@ -1,4 +1,5 @@
 import { OAuthCredential, signInWithCredential } from 'firebase/auth'
+
 import { auth } from '..'
 
 async function signinByCredential(googleCredential: OAuthCredential) {

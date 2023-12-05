@@ -7,7 +7,9 @@ import {
 	orderBy,
 	CollectionReference,
 } from 'firebase/firestore'
+
 import { firestore } from '..'
+
 import { SearchParams } from '../../maps/types'
 
 export type PostIdentificationItem = {

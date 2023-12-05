@@ -4,6 +4,9 @@ import { AuthContext } from '@contexts/AuthContext'
 
 import { SelectPostTypeScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 
+import { getNetworkStatus } from '@utils/deviceNetwork'
+import { getNumberOfStoredOfflinePosts } from '@utils/offlinePost'
+
 import { BottomSafeAreaColor, Container, SubscriptionButtonContainer } from './styles'
 import CashWhiteIcon from '@assets/icons/cash-white.svg'
 import CultureWhiteIcon from '@assets/icons/culture-white.svg'
@@ -21,9 +24,6 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionPresentationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
-
-import { getNetworkStatus } from '@utils/deviceNetwork'
-import { getNumberOfStoredOfflinePosts } from '@utils/offlinePost'
 
 function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 	const { userDataContext } = useContext(AuthContext)

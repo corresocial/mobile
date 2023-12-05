@@ -7,8 +7,8 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { EditCulturePostReviewScreenProps } from '@routes/Stack/CultureStack/stackScreenProps'
 import { CultureStackParamList } from '@routes/Stack/CultureStack/types'
-import { CultureCategories, CultureCollection, CultureCollectionRemote, EventRepeatType, PostCollection } from '@services/firebase/types'
 
+import { CultureCategories, CultureCollection, CultureCollectionRemote, EventRepeatType, PostCollection } from '@services/firebase/types'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 import { cultureCategories } from '@utils/postsCategories/cultureCategories'

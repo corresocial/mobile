@@ -6,10 +6,18 @@ import uuid from 'react-uuid'
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
-import { MacroCategories } from '@utils/postMacroCategories/types'
 import { navigateToPostView } from '@routes/auxMethods'
 import { PostCategoriesScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
+
 import { FeedPosts, MacroCategory, NewHomePostType, PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'
+import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
+import { postMacroCategories } from '@utils/postMacroCategories'
+import { MacroCategories } from '@utils/postMacroCategories/types'
+import { cultureCategories } from '@utils/postsCategories/cultureCategories'
+import { saleCategories } from '@utils/postsCategories/saleCategories'
+import { serviceCategories } from '@utils/postsCategories/serviceCategories'
+import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
+import { vacancyCategories } from '@utils/postsCategories/vacancyCategories'
 
 import { CategoryCardContainer, Container, Header, InputContainer } from './styles'
 import OthersWhiteIcon from '@assets/icons/categories/others.svg'
@@ -22,14 +30,6 @@ import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
-
-import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
-import { postMacroCategories } from '@utils/postMacroCategories'
-import { cultureCategories } from '@utils/postsCategories/cultureCategories'
-import { saleCategories } from '@utils/postsCategories/saleCategories'
-import { serviceCategories } from '@utils/postsCategories/serviceCategories'
-import { socialImpactCategories } from '@utils/postsCategories/socialImpactCategories'
-import { vacancyCategories } from '@utils/postsCategories/vacancyCategories'
 
 type CategoryEntries = [string & { label: string, value: string, SvgIcon: React.FC<SvgProps>, tags: string[] }]
 

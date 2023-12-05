@@ -5,7 +5,9 @@ import uuid from 'react-uuid'
 import { LocationContext } from '@contexts/LocationContext'
 
 import { ViewAllTagsScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
+
 import { PostCollection } from '@services/firebase/types'
+import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { Body, Container, Header, InputContainer } from './styles'
 import { relativeScreenHeight } from '@common/screenDimensions'
@@ -17,8 +19,6 @@ import { SearchInput } from '@components/_inputs/SearchInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
-
-import { UiUtils } from '@utils-ui/common/UiUtils'
 
 const { sortArray } = UiUtils()
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import { SvgProps } from 'react-native-svg'
 
-import { PostType } from '../firebase/types'
 import { MacroCategoriesType } from '../../presentation/utils/postMacroCategories/types'
+import { PostType } from '../firebase/types'
 
 export type AddressSearchResult = {
 	formattedAddress: string

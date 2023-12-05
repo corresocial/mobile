@@ -3,17 +3,18 @@ import { Platform } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CardForm } from '@stripe/stripe-react-native'
+import { Details } from '@stripe/stripe-react-native/lib/typescript/src/types/components/CardFormView'
+import { CardBrand } from '@stripe/stripe-react-native/lib/typescript/src/types/Token'
 
 import { AuthContext } from '@contexts/AuthContext'
 import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { FinishSubscriptionPaymentByCardScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { Id, PostCollection, PostCollectionRemote, PostRange, UserSubscription } from '@services/firebase/types'
-import { Details } from '@stripe/stripe-react-native/lib/typescript/src/types/components/CardFormView'
-import { CardBrand } from '@stripe/stripe-react-native/lib/typescript/src/types/Token'
 
 import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRangeAndLocation'
+import { Id, PostCollection, PostCollectionRemote, PostRange, UserSubscription } from '@services/firebase/types'
+import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
 import { Body, BodyScrollable, Container, PaymentStatusArea, PaymentStatusText, Title, TitleArea } from './styles'
 import CardWhiteIcon from '@assets/icons/card-white.svg'
@@ -31,8 +32,6 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { Loader } from '@components/Loader'
 import { SmallInstructionCard } from '@components/SmallInstructionCard'
-
-import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
 const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()
 

@@ -12,6 +12,7 @@ import WazeIcon from '@assets/icons/waze.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 
 import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer'
+
 import { CustomMapView } from '../../CustomMapView'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+
 import { OutlinedContainer, ShadowButton, TakePictureButtonBottom, TakePictureButtonSurface } from './styles'
 
 interface TakePictureCameraButtonProps {

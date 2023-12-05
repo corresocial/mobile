@@ -4,6 +4,7 @@ import { StatusBar } from 'react-native'
 import { EditContext } from '@contexts/EditContext'
 
 import { SelectPaymentTypeScreenProps } from '@routes/Stack/VacancyStack/stackScreenProps'
+
 import { PaymentType } from '@services/firebase/types'
 
 import { theme } from '@common/theme'

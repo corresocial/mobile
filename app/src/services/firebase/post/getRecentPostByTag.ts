@@ -5,7 +5,9 @@ import {
 	orderBy,
 	getDocs,
 } from 'firebase/firestore'
+
 import { firestore } from '..'
+
 import { PostCollection, PostCollectionType } from '../types'
 
 export type PostIdentificationItem = {

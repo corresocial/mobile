@@ -5,16 +5,16 @@ import React, { useContext, createContext, useEffect, useState } from 'react'
 import { StripeProvider as StripeProviderRaw, confirmPayment, createPaymentMethod } from '@stripe/stripe-react-native'
 import axios from 'axios'
 
-import { UserStackNavigationProps } from '../presentation/routes/Stack/UserStack/types'
+import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRangeAndLocation'
 import { PostCollection, PostCollectionRemote, PostRange, SubscriptionPlan, UserSubscription } from '@services/firebase/types'
+import { getStripePlans, getStripeProducts } from '@services/stripe/products'
 import { CustomerData, StripeProducts } from '@services/stripe/types'
 
-import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRangeAndLocation'
-import { getStripePlans, getStripeProducts } from '@services/stripe/products'
+import { SubscriptionAlertModal } from '@components/_modals/SubscriptionAlertModal'
 
 import { getEnvVars } from '../infrastructure/environment'
 import { dateHasExpired } from '../presentation/common/auxiliaryFunctions'
-import { SubscriptionAlertModal } from '@components/_modals/SubscriptionAlertModal'
+import { UserStackNavigationProps } from '../presentation/routes/Stack/UserStack/types'
 import { AuthContext } from './AuthContext'
 import { SubscriptionContext } from './SubscriptionContext'
 

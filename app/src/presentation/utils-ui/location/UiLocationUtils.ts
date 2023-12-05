@@ -1,5 +1,5 @@
-import { UiLocationUtilsInterface } from './UiLocationUtilsInterface'
-
+import { getPossessivePronounByRange, getPostRangeLabel } from '../post/commonMessages'
+import { getTextualAddress, structureAddress, structureExpoLocationAddress } from './addressFormatter'
 import {
 	getLocationViewDescription,
 	getLocationViewHighlightedWords,
@@ -7,8 +7,7 @@ import {
 	getLocationViewLabel,
 	generateLocationHeaderText
 } from './locationMessages'
-import { getPossessivePronounByRange, getPostRangeLabel } from '../post/commonMessages'
-import { getTextualAddress, structureAddress, structureExpoLocationAddress } from './addressFormatter'
+import { UiLocationUtilsInterface } from './UiLocationUtilsInterface'
 
 function UiLocationUtils(): UiLocationUtilsInterface {
 	return {

@@ -1,7 +1,9 @@
 /* eslint-disable camelcase */
 import uuid from 'react-uuid'
-import { ContactUsOptions } from './types'
+
 import { getEnvVars } from '@infrastructure/environment'
+
+import { ContactUsOptions } from './types'
 
 const { NOTION_FALECONOSCO_ID, NOTION_FALECONOSCO_KEY } = getEnvVars()
 

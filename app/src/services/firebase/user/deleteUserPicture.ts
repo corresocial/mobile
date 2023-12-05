@@ -1,4 +1,5 @@
 import { deleteObject, getMetadata, ref } from 'firebase/storage'
+
 import { storage } from '..'
 
 const deleteUserPicture = async (pictures: string[]) => {

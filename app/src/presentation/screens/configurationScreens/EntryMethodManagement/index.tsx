@@ -8,8 +8,8 @@ import { UserCredential } from 'firebase/auth'
 import { AuthContext } from '@contexts/AuthContext'
 
 import { EntryMethodManagementScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { Id } from '@services/firebase/types'
 
+import { Id } from '@services/firebase/types'
 import { generateGoogleAuthCredential } from '@services/firebase/user/generateGoogleAuthCredential'
 import { getPrivateContacts } from '@services/firebase/user/getPrivateContacts'
 import { linkAuthProvider } from '@services/firebase/user/linkAuthProvider'

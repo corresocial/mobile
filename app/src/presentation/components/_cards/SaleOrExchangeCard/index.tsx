@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { UiUtils } from '@utils-ui/common/UiUtils'
+
 import { Decimals, SmallFont, SmallFontBold } from './styles'
 import CashWhiteIcon from '@assets/icons/cash-white.svg'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
@@ -9,7 +11,7 @@ import SalesCartWhiteIcon from '@assets/icons/salesCart-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 
 import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer'
-import { UiUtils } from '@utils-ui/common/UiUtils'
+
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
 import { DefaultCardContainer } from '../DefaultCardContainer'

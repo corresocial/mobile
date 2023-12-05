@@ -9,6 +9,7 @@ import ShopWhiteIcon from '@assets/icons/shop-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 
 import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer'
+
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
 import { DefaultCardContainer } from '../DefaultCardContainer'

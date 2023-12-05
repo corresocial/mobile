@@ -20,8 +20,8 @@ import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { SearchInput } from '@components/_inputs/SearchInput'
-
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+
 import { DefaultDropdownHeader } from '../DefaultDropdownHeader'
 import { DropdownItem } from '../DropdownItem'
 

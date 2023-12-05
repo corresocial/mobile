@@ -6,6 +6,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'
 import { ViewCompletedPostsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+
 import { PostCollection } from '@services/firebase/types'
 
 import { Body, Container, Header, PostPadding } from './styles'

@@ -1,5 +1,7 @@
 import { doc, setDoc } from 'firebase/firestore'
+
 import { firestore } from '..'
+
 import { PostCollection, PostCollectionType } from '../types'
 
 async function updatePost(postCollection: PostCollectionType, postId: string, data: PostCollection) {

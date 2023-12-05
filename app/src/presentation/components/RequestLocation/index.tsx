@@ -1,10 +1,9 @@
 import React from 'react'
 
-import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
-
-import { theme } from '@common/theme'
 import { Container, Title, Text } from './styles'
 import MapIcon from '@assets/icons/map.svg'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 

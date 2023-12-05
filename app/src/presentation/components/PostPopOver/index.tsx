@@ -3,19 +3,20 @@ import { TouchableOpacity, View } from 'react-native'
 import Popover from 'react-native-popover-view'
 import { RFValue } from 'react-native-responsive-fontsize'
 
-import { relativeScreenHeight } from '@common/screenDimensions'
 import { CloseIcon, Container, ContainerInner, PostTitle } from './styles'
-import { theme } from '@common/theme'
-import XWhiteIcon from '@assets/icons/x-white.svg'
-import EditWhiteIcon from '@assets/icons/edit-white.svg'
-import TrashWhiteIcon from '@assets/icons/trash-white.svg'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
+import EditWhiteIcon from '@assets/icons/edit-white.svg'
+import TrashWhiteIcon from '@assets/icons/trash-white.svg'
+import XWhiteIcon from '@assets/icons/x-white.svg'
+import { relativeScreenHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
-import { Loader } from '../Loader'
-import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+
+import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
+import { Loader } from '../Loader'
 
 interface PostPopOverProps {
 	postTitle?: string

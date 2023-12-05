@@ -2,6 +2,7 @@
 
 import { StyleSheet } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
+
 import { theme } from '@common/theme'
 
 export const styles = StyleSheet.create({

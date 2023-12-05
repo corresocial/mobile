@@ -1,5 +1,7 @@
 import { get, ref } from 'firebase/database'
+
 import { Id } from '../types'
+
 import { realTimeDatabase } from '..'
 
 async function readFromDatabase(allChatIds: Id[]) {

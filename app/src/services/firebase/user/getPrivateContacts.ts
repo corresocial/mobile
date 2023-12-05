@@ -1,4 +1,5 @@
 import { doc, getDoc } from 'firebase/firestore'
+
 import { firestore } from '..'
 
 async function getPrivateContacts(userId: string) {

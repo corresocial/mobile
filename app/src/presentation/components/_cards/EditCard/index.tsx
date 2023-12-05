@@ -2,12 +2,14 @@ import React, { ReactElement } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
+import { UiUtils } from '@utils-ui/common/UiUtils'
+
 import { CardHeader, PictureArea, Text, ValueContainer, ProfilePicture } from './styles'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import { relativeScreenWidth } from '@common/screenDimensions'
 
 import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer'
-import { UiUtils } from '@utils-ui/common/UiUtils'
+
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { ImageCarousel } from '../../ImageCarousel'
 import { DefaultTouchableCardContainer } from '../DefaultTouchableCardContainer'

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { LatLong, LocationViewType, PostRange } from '@services/firebase/types'
+import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 
 import { ButtonContainerBottom, Container, MapContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -11,7 +12,7 @@ import { BackButton } from '@components/_buttons/BackButton'
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { InfoCard } from '@components/_cards/InfoCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
-import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
+
 import { CustomMapView } from '../../CustomMapView'
 
 const {

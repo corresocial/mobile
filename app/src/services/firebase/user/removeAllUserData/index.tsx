@@ -1,10 +1,11 @@
 import { deleteUser } from 'firebase/auth'
-import { Id, PostCollection } from '../../types'
+
+import { auth } from '../..'
 import { deletePost } from '../../post/deletePost'
 import { deletePostPictures } from '../../post/deletePostPictures'
-import { deleteUserPicture } from '../deleteUserPicture'
+import { Id, PostCollection } from '../../types'
 import { deleteUserData } from '../deleteUserData'
-import { auth } from '../..'
+import { deleteUserPicture } from '../deleteUserPicture'
 
 const removeAllUserData = async (userId: Id, userPictureUrl: string[], posts: PostCollection[] = []) => {
 	const user = auth.currentUser

@@ -5,8 +5,8 @@ import { Animated, Keyboard, LayoutChangeEvent, LayoutRectangle, Platform, Statu
 import { LoaderContext } from '@contexts/LoaderContext'
 
 import { Coordinates, LatLong } from '@services/firebase/types'
-
 import { LocationService } from '@services/location/LocationService'
+import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 
 import { ButtonContainerBottom, Container, MapContainer, MyLocationButtonContainer, SearchInputContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -21,7 +21,7 @@ import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { SearchInput } from '@components/_inputs/SearchInput'
-import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
+
 import { CustomMapView } from '../../CustomMapView'
 
 const { getCurrentLocation, convertGeocodeToAddress } = LocationService()

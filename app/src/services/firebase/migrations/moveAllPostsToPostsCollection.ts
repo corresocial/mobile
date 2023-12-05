@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { collection, query, getDocs } from 'firebase/firestore'
+
 import { firestore } from '..'
+
 import { createPostWithCustomId } from '../post/createPostWithCustomId'
 import { CultureCollectionRemote, PostCollectionType, IncomeCollectionRemote, SocialImpactCollectionRemote, VacancyCollectionRemote } from '../types'
 

@@ -8,7 +8,11 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 import { navigateToPostView } from '@routes/auxMethods'
 import { EditServicePostReviewScreenProps } from '@routes/Stack/ServiceStack/stackScreenProps'
 import { ServiceStackParamList } from '@routes/Stack/ServiceStack/types'
+
 import { PostCollection, ServiceCategories, IncomeCollection } from '@services/firebase/types'
+import { UiUtils } from '@utils-ui/common/UiUtils'
+import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
+import { serviceCategories } from '@utils/postsCategories/serviceCategories'
 
 import ClockWhiteIcon from '@assets/icons/clock-white.svg'
 import { theme } from '@common/theme'
@@ -26,10 +30,6 @@ import { LocationChangeConfirmationModal } from '@components/_modals/LocationCha
 import { PostReviewPresentationModal } from '@components/_modals/PostReviewPresentationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { EditPost } from '@components/EditPost'
-
-import { UiUtils } from '@utils-ui/common/UiUtils'
-import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
-import { serviceCategories } from '@utils/postsCategories/serviceCategories'
 
 const { formatHour, arrayIsEmpty } = UiUtils()
 const { getTextualAddress } = UiLocationUtils()

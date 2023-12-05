@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 import { getEnvVars } from '@infrastructure/environment'
 
 const { FIREBASE_CLOUD_URL } = getEnvVars()

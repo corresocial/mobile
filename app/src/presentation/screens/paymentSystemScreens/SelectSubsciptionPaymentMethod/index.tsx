@@ -5,7 +5,9 @@ import { StripeContext } from '@contexts/StripeContext'
 import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { SelectSubsciptionPaymentMethodScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+
 import { SubscriptionPaymentMethod } from '@services/firebase/types'
+import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
 import { ButtonsContainer } from './styles'
 import CardWhiteIcon from '@assets/icons/card-white.svg'
@@ -17,8 +19,6 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
-
-import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
 const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()
 

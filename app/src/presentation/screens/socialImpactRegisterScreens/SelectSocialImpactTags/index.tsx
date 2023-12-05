@@ -6,11 +6,11 @@ import { SocialImpactContext } from '@contexts/SocialImpactContext'
 
 import { SelectSocialImpactTagsScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
 
+import { socialImpactCategories, updateSocialImpactTags } from '@utils/postsCategories/socialImpactCategories'
+
 import { theme } from '@common/theme'
 
 import { PostTags } from '@components/_onboarding/PostTags'
-
-import { socialImpactCategories, updateSocialImpactTags } from '@utils/postsCategories/socialImpactCategories'
 
 function SelectSocialImpactTags({ route, navigation }: SelectSocialImpactTagsScreenProps) {
 	const { setSocialImpactDataOnContext } = useContext(SocialImpactContext)

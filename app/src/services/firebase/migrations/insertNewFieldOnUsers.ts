@@ -1,5 +1,7 @@
 import { collection, query, getDocs } from 'firebase/firestore'
+
 import { firestore } from '..'
+
 import { updateUser } from '../user/updateUser'
 
 const insertNewFieldOnUsers = async () => {

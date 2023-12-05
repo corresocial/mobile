@@ -2,24 +2,25 @@ import React from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 import uuid from 'react-uuid'
 
+import { SocialMedia } from '@services/firebase/types'
+import { socialMediaUrl } from '@utils/socialMedias'
+
 import {
 	Container,
 	ScrollView,
 	TouchableIcon
 } from './styles'
-import LinkClipIcon from '@assets/icons/linkClip.svg'
-import LinkedinIcon from '@assets/icons/linkedin.svg'
 import FacebookIcon from '@assets/icons/facebook.svg'
 import InstagramIcon from '@assets/icons/instagram.svg'
+import LinkClipIcon from '@assets/icons/linkClip.svg'
+import LinkedinIcon from '@assets/icons/linkedin.svg'
+import SoundCloudIcon from '@assets/icons/soundcloud.svg'
+import SpotifyIcon from '@assets/icons/spotify.svg'
+import TikTokIcon from '@assets/icons/tiktok.svg'
 import TwiterIcon from '@assets/icons/twiter.svg'
 import WhatsAppIcon from '@assets/icons/whatsapp.svg'
 import YoutubeIcon from '@assets/icons/youtube.svg'
-import SpotifyIcon from '@assets/icons/spotify.svg'
-import TikTokIcon from '@assets/icons/tiktok.svg'
-import SoundCloudIcon from '@assets/icons/soundcloud.svg'
-import { SocialMedia } from '@services/firebase/types'
 import { relativeScreenHeight } from '@common/screenDimensions'
-import { socialMediaUrl } from '@utils/socialMedias'
 
 interface HorizontalSocialMediaListProps {
 	socialMedias: SocialMedia[] | undefined

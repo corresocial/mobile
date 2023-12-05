@@ -15,6 +15,7 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
+
 import { ProgressBar } from '../../ProgressBar'
 
 interface PostInputTextProps {

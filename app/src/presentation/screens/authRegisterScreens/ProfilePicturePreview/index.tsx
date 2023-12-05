@@ -6,13 +6,14 @@ import { getDownloadURL } from 'firebase/storage'
 import { AuthContext } from '@contexts/AuthContext'
 
 import { ProfilePicturePreviewScreenProps } from '@routes/Stack/AuthRegisterStack/stackScreenProps'
-import { Id, PostCollection, UserCollection } from '@services/firebase/types'
 
 import { uploadImage } from '@services/firebase/common/uploadPicture'
 import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
+import { Id, PostCollection, UserCollection } from '@services/firebase/types'
 import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
 import { updateUser } from '@services/firebase/user/updateUser'
 import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
+import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { Container, InstructionCardContainer } from './styles'
 import AddPictureWhiteIcon from '@assets/icons/addPicture-white.svg'
@@ -28,8 +29,6 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { CustomCameraModal } from '@components/_modals/CustomCameraModal'
 import { Loader } from '@components/Loader'
 import { PhotoPortrait } from '@components/PhotoPortrait'
-
-import { UiUtils } from '@utils-ui/common/UiUtils'
 
 const { arrayIsEmpty } = UiUtils()
 

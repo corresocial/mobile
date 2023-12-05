@@ -5,7 +5,10 @@ import { AuthContext } from '@contexts/AuthContext'
 import { StripeContext } from '@contexts/StripeContext'
 
 import { SelectSubscriptionRangeScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
+
 import { PostCollection, PostRange } from '@services/firebase/types'
+import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
+import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
 import { ScrollContainer, Container, CardArea } from './styles'
 import { relativeScreenHeight } from '@common/screenDimensions'
@@ -18,9 +21,6 @@ import { TitleDescriptionButton } from '@components/_cards/TitleDescriptionButto
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { RangeChangeConfirmationModal } from '@components/_modals/RangeChangeConfirmatiomModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
-
-import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
-import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
 const { getPostRangeLabel } = UiSubscriptionUtils()
 const { getTextualAddress } = UiLocationUtils()

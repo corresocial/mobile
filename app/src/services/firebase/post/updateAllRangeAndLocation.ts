@@ -1,6 +1,6 @@
-import { updatePost } from './updatePost'
-import { updateUser } from '../user/updateUser'
 import { PostCollection, PostCollectionRemote } from '../types'
+import { updateUser } from '../user/updateUser'
+import { updatePost } from './updatePost'
 
 type PostRangeLocation = {
 	range: string

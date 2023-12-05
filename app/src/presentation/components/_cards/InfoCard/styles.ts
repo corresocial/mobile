@@ -24,13 +24,13 @@ export const ContainerInner = styled.View<ContainerInnerProps>`
     padding-horizontal: ${RFValue(15)}px;
     justify-content: space-around;
 	${({ hasSvgIcon }) => {
-        if (hasSvgIcon) {
-            return `
+		if (hasSvgIcon) {
+			return `
 			flex-direction: row;
 			align-items: center;
 		`
-        }
-    }}
+		}
+	}}
 `
 
 export const Title = styled.Text`

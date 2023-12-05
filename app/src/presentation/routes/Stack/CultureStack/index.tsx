@@ -4,8 +4,6 @@ import React from 'react'
 
 import { CultureProvider } from '@contexts/CultureContext'
 
-import { CultureStackParamList } from './types'
-
 import { CultureLocationViewPreview } from '@screens/cultureRegisterScreens/CultureLocationViewPreview'
 import { CulturePicturePreview } from '@screens/cultureRegisterScreens/CulturePicturePreview'
 import { InsertCultureDescription } from '@screens/cultureRegisterScreens/InsertCultureDescription'
@@ -27,6 +25,8 @@ import { SelectCultureTags } from '@screens/cultureRegisterScreens/SelectCulture
 import { SelectCultureType } from '@screens/cultureRegisterScreens/SelectCultureType'
 import { SelectEventRepeat } from '@screens/cultureRegisterScreens/SelectEventRepeat'
 import { EditCulturePost } from '@screens/editPostScreens/EditCulturePost'
+
+import { CultureStackParamList } from './types'
 
 const Stack = createStackNavigator<CultureStackParamList>()
 

@@ -10,6 +10,7 @@ import { LocalUserData } from '@contexts/types'
 import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'
 import { HomeTabScreenProps } from '@routes/Stack/ProfileStack/stackScreenProps'
+
 import {
 	Id,
 	PostCollection,
@@ -18,10 +19,13 @@ import {
 	UserCollection,
 	VerifiedLabelName,
 } from '@services/firebase/types'
-
 import { getUser } from '@services/firebase/user/getUser'
 import { updateUser } from '@services/firebase/user/updateUser'
 import { setFreeTrialPlans } from '@services/stripe/scripts/setFreeTrialPlans'
+import { UiUtils } from '@utils-ui/common/UiUtils'
+import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
+import { getNetworkStatus } from '@utils/deviceNetwork'
+import { getNumberOfStoredOfflinePosts } from '@utils/offlinePost'
 
 import {
 	Body,
@@ -69,11 +73,6 @@ import { PhotoPortrait } from '@components/PhotoPortrait'
 import { PopOver } from '@components/PopOver'
 import { VerifiedUserBadge } from '@components/VerifiedUserBadge'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
-
-import { UiUtils } from '@utils-ui/common/UiUtils'
-import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
-import { getNetworkStatus } from '@utils/deviceNetwork'
-import { getNumberOfStoredOfflinePosts } from '@utils/offlinePost'
 
 const { sortArray, arrayIsEmpty } = UiUtils()
 const { sortPostsByCreatedData } = UiPostUtils()

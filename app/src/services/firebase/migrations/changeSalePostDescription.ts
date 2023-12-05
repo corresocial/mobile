@@ -3,7 +3,9 @@
 // Erros de tipagem devido a atualização nos tipos
 
 import { collection, query, getDocs } from 'firebase/firestore'
+
 import { firestore } from '..'
+
 import { updatePost } from '../post/updatePost'
 import { PostCollection } from '../types'
 import { updateUser } from '../user/updateUser'

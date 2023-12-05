@@ -1,23 +1,25 @@
 import React, { useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import Popover from 'react-native-popover-view'
-
 import { RFValue } from 'react-native-responsive-fontsize'
+
+import { PostRange, VerifiedLabelName } from '@services/firebase/types'
+
 import { CloseIcon, Container, ContainerInner, UserName } from './styles'
+import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
+import HanOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
+import ImpactLabel from '@assets/icons/impactLabel.svg'
+import VerifiedLabel from '@assets/icons/verifiedLabel.svg'
+import XIcon from '@assets/icons/x-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
-import XIcon from '@assets/icons/x-white.svg'
-import VerifiedLabel from '@assets/icons/verifiedLabel.svg'
-import ImpactLabel from '@assets/icons/impactLabel.svg'
-import HanOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
-import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
-import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
-import { VerifyUserConfirmationModal } from '@components/_modals/VerifyUserConfirmationModal'
-import { PostRange, VerifiedLabelName } from '@services/firebase/types'
 import { SelectSubscriptionPlanModal } from '@components/_modals/SelectSubscriptionPlanModal'
+import { VerifyUserConfirmationModal } from '@components/_modals/VerifyUserConfirmationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+
+import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 
 interface PopOverProps {
 	title?: string

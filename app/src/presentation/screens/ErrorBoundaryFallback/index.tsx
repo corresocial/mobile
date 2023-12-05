@@ -2,12 +2,11 @@
 import React from 'react'
 import { StatusBar, View, Text } from 'react-native'
 
-import { theme } from '@common/theme'
+import { styles } from './styles'
 import HomeTabIconGreen from '@assets/icons/home-green.svg'
+import { theme } from '@common/theme'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
-
-import { styles } from './styles'
 
 interface ErrorBoundaryFallbackProps {
 	error: Error,

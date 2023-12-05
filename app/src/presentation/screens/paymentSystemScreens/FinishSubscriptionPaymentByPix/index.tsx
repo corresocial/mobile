@@ -5,6 +5,8 @@ import { SubscriptionContext } from '@contexts/SubscriptionContext'
 
 import { FinishSubscriptionPaymentByPixScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 
+import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
+
 import { Body, BodyScrollable, Container, PaymentStatusArea, PaymentStatusText, QRCodeArea, TimerArea, Title, TitleArea } from './styles'
 import CopyWhiteIcon from '@assets/icons/copy-white.svg'
 import DollarWhiteIcon from '@assets/icons/dollar-white.svg'
@@ -25,8 +27,6 @@ import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { Loader } from '@components/Loader'
 import { SmallInstructionCard } from '@components/SmallInstructionCard'
 import { Timer } from '@components/Timer'
-
-import { UiSubscriptionUtils } from '@utils-ui/subscription/UiSubscriptionUtils'
 
 const { getRangeSubscriptionLabelHighlighted } = UiSubscriptionUtils()
 

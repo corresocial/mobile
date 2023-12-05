@@ -1,15 +1,15 @@
 import 'react-native-gesture-handler'
-import React from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
-
-import { ChatStackParamList } from './types'
+import React from 'react'
 
 import { ChatConversations } from '@screens/chatScreens/ChatConversations'
 import { Profile } from '@screens/profileScreens/Profile'
-import { ViewVacancyPost } from '@screens/viewPostScreens/ViewVacancyPost'
-import { ViewSocialImpactPost } from '@screens/viewPostScreens/ViewSocialImpactPost'
 import { ViewCulturePost } from '@screens/viewPostScreens/ViewCulturePost'
 import { ViewIncomePost } from '@screens/viewPostScreens/ViewIncomePost'
+import { ViewSocialImpactPost } from '@screens/viewPostScreens/ViewSocialImpactPost'
+import { ViewVacancyPost } from '@screens/viewPostScreens/ViewVacancyPost'
+
+import { ChatStackParamList } from './types'
 
 const Stack = createStackNavigator<ChatStackParamList>()
 

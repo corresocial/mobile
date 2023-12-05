@@ -1,4 +1,5 @@
 import { off, ref } from 'firebase/database'
+
 import { realTimeDatabase } from '..'
 
 async function unsubscribeChatIdsListener(chatIds: string[]) {

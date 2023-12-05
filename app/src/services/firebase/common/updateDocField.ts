@@ -1,4 +1,5 @@
 import { arrayUnion, doc, setDoc } from 'firebase/firestore'
+
 import { firestore } from '../index'
 
 async function updateDocField(

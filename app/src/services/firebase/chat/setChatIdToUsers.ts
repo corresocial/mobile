@@ -1,5 +1,7 @@
 import { get, ref, set } from 'firebase/database'
+
 import { realTimeDatabase } from '..'
+
 import { Id } from '../types'
 
 async function setChatIdToUsers(userIds: Id[], chatId: Id) {

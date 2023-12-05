@@ -2,8 +2,8 @@ import React from 'react'
 import uuid from 'react-uuid'
 
 import { Container, ScrollView } from './styles'
-import { theme } from '@common/theme'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
 import { FilterButton } from '@components/_buttons/FilterButton'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'

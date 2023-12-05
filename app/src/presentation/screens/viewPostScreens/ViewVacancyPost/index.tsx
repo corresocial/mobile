@@ -5,10 +5,13 @@ import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { ViewVacancyPostScreenProps } from '@routes/Stack/ProfileStack/stackScreenProps'
-import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@services/firebase/types'
 
 import { deletePost } from '@services/firebase/post/deletePost'
 import { markPostAsComplete } from '@services/firebase/post/markPostAsCompleted'
+import { PostCollection, VacancyCategories, VacancyCollection, VacancyCollectionRemote } from '@services/firebase/types'
+import { UiUtils } from '@utils-ui/common/UiUtils'
+import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
+import { incomeCategories } from '@utils/postsCategories/incomeCategories'
 
 import {
 	Body,
@@ -43,10 +46,6 @@ import { HorizontalTagList } from '@components/HorizontalTagList'
 import { ImageCarousel } from '@components/ImageCarousel'
 import { PostPopOver } from '@components/PostPopOver'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
-
-import { UiUtils } from '@utils-ui/common/UiUtils'
-import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
-import { incomeCategories } from '@utils/postsCategories/incomeCategories'
 
 const { formatRelativeDate, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()
