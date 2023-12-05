@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getEnvVars } from '../../infraestructure/environment'
+import { getEnvVars } from '@infrastructure/environment'
 
 const { MAPS_API } = getEnvVars()
 

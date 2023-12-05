@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Id } from '../firebase/types'
 import { SearchParams } from '../maps/types'
-import { getEnvVars } from '../../infraestructure/environment'
+import { getEnvVars } from '@infrastructure/environment'
 
 const { FIREBASE_CLOUD_URL } = getEnvVars()
 

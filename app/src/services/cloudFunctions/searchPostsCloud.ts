@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-import { getEnvVars } from '../../infraestructure/environment'
+import { getEnvVars } from '@infrastructure/environment'
+
 import { Id } from '../firebase/types'
 import { SearchParams } from '../maps/types'
 

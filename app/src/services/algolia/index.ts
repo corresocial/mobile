@@ -1,5 +1,5 @@
 import algoliasearch from 'algoliasearch'
-import { getEnvVars } from '../../infraestructure/environment'
+import { getEnvVars } from '@infrastructure/environment'
 
 const { ALGOLIA_ID, ALGOLIA_KEY } = getEnvVars()
 

@@ -36,7 +36,7 @@ import { SocialLoginAlertModal } from '@components/_modals/SocialLoginAlertModal
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { Loader } from '@components/Loader'
 
-import { getEnvVars } from '../../../../infraestructure/environment'
+import { getEnvVars } from '../../../../infrastructure/environment'
 
 WebBrowser.maybeCompleteAuthSession()
 const { AUTH_EXPO_CLIENT_ID, AUTH_ANDROID_CLIENT_ID, AUTH_IOS_CLIENT_ID } = getEnvVars()

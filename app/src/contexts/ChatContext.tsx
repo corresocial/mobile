@@ -17,7 +17,7 @@ import { unsubscribeChatIdsListener } from '@services/firebase/chat/unsubscribeC
 import { unsubscribeUserChatsListener } from '@services/firebase/chat/unsubscribeUserChatsListener'
 import { Id } from '@services/firebase/types'
 
-import { getEnvVars } from '../infraestructure/environment'
+import { getEnvVars } from '../infrastructure/environment'
 import { AuthContext } from './AuthContext'
 
 const { ENVIRONMENT } = getEnvVars()
