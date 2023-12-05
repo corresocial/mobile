@@ -4,18 +4,18 @@ import React from 'react'
 
 import { AuthProvider } from '@contexts/AuthContext'
 
-import { AuthRegisterStackParamList } from './types'
+import { AcceptTermsAndConditions } from '@screens/authRegisterScreens/AcceptTermsAndServices'
+import { InsertCellNumber } from '@screens/authRegisterScreens/InsertCellNumber'
+import { InsertConfirmationCode } from '@screens/authRegisterScreens/InsertConfirmationCode'
+import { InsertName } from '@screens/authRegisterScreens/InsertName'
+import { InsertProfilePicture } from '@screens/authRegisterScreens/InsertProfilePicture'
+import { ProfilePicturePreview } from '@screens/authRegisterScreens/ProfilePicturePreview'
+import { SelectAuthMethod } from '@screens/authRegisterScreens/SelectAuthMethod'
+import { SelectAuthRegister } from '@screens/authRegisterScreens/SelectAuthRegister'
+import { Splash } from '@screens/Splash'
 
-import { AcceptTermsAndConditions } from '../../../screens/authRegisterScreens/AcceptTermsAndServices'
-import { InsertCellNumber } from '../../../screens/authRegisterScreens/InsertCellNumber'
-import { InsertConfirmationCode } from '../../../screens/authRegisterScreens/InsertConfirmationCode'
-import { InsertName } from '../../../screens/authRegisterScreens/InsertName'
-import { InsertProfilePicture } from '../../../screens/authRegisterScreens/InsertProfilePicture'
-import { ProfilePicturePreview } from '../../../screens/authRegisterScreens/ProfilePicturePreview'
-import { SelectAuthMethod } from '../../../screens/authRegisterScreens/SelectAuthMethod'
-import { SelectAuthRegister } from '../../../screens/authRegisterScreens/SelectAuthRegister'
-import { Splash } from '../../../screens/Splash'
 import { UserStack } from '../UserStack'
+import { AuthRegisterStackParamList } from './types'
 
 const Stack = createStackNavigator<AuthRegisterStackParamList>()
 

@@ -19,8 +19,8 @@ import {
 	Message,
 	MessageObjects,
 	UserIdentification
-} from '../../../../types/chat/types'
-import { FlatListItem } from '../../../../types/global/types'
+} from '@globalTypes/chat/types'
+import { FlatListItem } from '@globalTypes/global/types'
 import { ChatMessagesScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { Id } from '@services/firebase/types'
 

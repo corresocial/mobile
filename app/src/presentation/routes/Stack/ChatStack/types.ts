@@ -1,6 +1,8 @@
-import { Chat } from '../../../../types/chat/types'
-import { UserStackParamList } from '../UserStack/types'
+import { Chat } from '@globalTypes/chat/types'
+
 import { Id, PostCollection } from '@services/firebase/types'
+
+import { UserStackParamList } from '../UserStack/types'
 
 export type ChatStackParamList = {
 	ChatConversations: undefined

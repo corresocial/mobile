@@ -1,6 +1,6 @@
 import { get, ref } from 'firebase/database'
 import { realTimeDatabase } from '..'
-import { Chat, UserIdentification } from '../../../types/chat/types'
+import { Chat, UserIdentification } from '@globalTypes/chat/types'
 import { Id } from '../types'
 
 async function getRemoteChatData(userSender: UserIdentification, userReceiver: UserIdentification) {

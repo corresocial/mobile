@@ -5,8 +5,7 @@ import { Alert, Platform } from 'react-native'
 
 import { onValue, ref } from 'firebase/database'
 
-import { Chat, UserDatabase } from '../types/chat/types'
-import { Id } from '@services/firebase/types'
+import { Chat, UserDatabase } from '@globalTypes/chat/types'
 
 import { realTimeDatabase } from '@services/firebase'
 import { existsOnDatabase } from '@services/firebase/chat/existsOnDatabase'
@@ -16,6 +15,7 @@ import { readFromDatabase } from '@services/firebase/chat/readFromDatabase'
 import { registerNewUser } from '@services/firebase/chat/registerNewUser'
 import { unsubscribeChatIdsListener } from '@services/firebase/chat/unsubscribeChatIdsListener'
 import { unsubscribeUserChatsListener } from '@services/firebase/chat/unsubscribeUserChatsListener'
+import { Id } from '@services/firebase/types'
 
 import { getEnvVars } from '../../environment'
 import { AuthContext } from './AuthContext'

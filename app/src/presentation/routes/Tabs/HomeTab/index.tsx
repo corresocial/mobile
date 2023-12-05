@@ -17,7 +17,7 @@ import ProfileWhiteIcon from '@assets/icons/profile-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { Post } from '../../../screens/homeScreens/Post'
+import { Post } from '@screens/homeScreens/Post'
 import { ChatStack } from '../../Stack/ChatStack'
 import { HomeStack } from '../../Stack/HomeStack'
 import { ProfileStack } from '../../Stack/ProfileStack'

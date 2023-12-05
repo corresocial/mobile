@@ -77,10 +77,10 @@
 					],
 					[
 						"/^@routes/",
-						"/type/",
-						"/^@type/",
-						"/@types/",
-						"/types/",
+						"/@globalType/",
+						"/globalType/",
+						"/globalTypes/",
+						"/^@globalTypes/",
 						"/^@contexts/types/"
 					],
 					[

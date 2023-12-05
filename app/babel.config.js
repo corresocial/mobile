@@ -11,7 +11,7 @@ module.exports = function (api) {
 				{
 					root: ['./src'],
 					alias: {
-						'@type': './src/types',
+						'@globalTypes': './src/types',
 						'@contexts': './src/contexts',
 						'@data': './src/data',
 						'@services': './src/services',

@@ -7,7 +7,7 @@ import { AuthContext } from '@contexts/AuthContext'
 import { StripeContext } from '@contexts/StripeContext'
 import { LocalUserData } from '@contexts/types'
 
-import { FlatListItem } from '../../../../types/global/types'
+import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'
 import { HomeTabScreenProps } from '@routes/Stack/ProfileStack/stackScreenProps'
 import {

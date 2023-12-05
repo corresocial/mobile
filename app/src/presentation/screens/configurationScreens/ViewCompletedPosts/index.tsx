@@ -3,7 +3,7 @@ import { FlatList, StatusBar } from 'react-native'
 
 import { AuthContext } from '@contexts/AuthContext'
 
-import { FlatListItem } from '../../../../types/global/types'
+import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'
 import { ViewCompletedPostsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { PostCollection } from '@services/firebase/types'

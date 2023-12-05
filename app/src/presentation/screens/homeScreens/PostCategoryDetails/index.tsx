@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react'
 import { AuthContext } from '@contexts/AuthContext'
 import { LocationContext } from '@contexts/LocationContext'
 
-import { FlatListItem } from '../../../../types/global/types'
+import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'
 import { PostCategoryDetailsScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
 import { PostCollection, PostCollectionRemote, PostRange } from '@services/firebase/types'

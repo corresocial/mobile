@@ -1,4 +1,5 @@
 import { doc, setDoc } from 'firebase/firestore'
+
 import { firestore } from '../index'
 import { Id } from '../types'
 

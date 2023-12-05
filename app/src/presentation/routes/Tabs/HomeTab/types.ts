@@ -1,4 +1,5 @@
-import { Chat } from '../../../../types/chat/types'
+import { Chat } from '@globalTypes/chat/types'
+
 import { UserStackParamList } from '../../Stack/UserStack/types'
 
 export type HomeTabParamList = {
