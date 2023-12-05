@@ -19,9 +19,9 @@ import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { PrimaryButton } from '../../_buttons/PrimaryButton'
-import { SmallButton } from '../../_buttons/SmallButton'
-import { VerticalSpacing } from '../../_space/VerticalSpacing'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { SmallButton } from '@components/_buttons/SmallButton'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '../../FocusAwareStatusBar'
 
 interface CustomModalProps {

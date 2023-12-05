@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getEnvVars } from '../../../environment'
+import { getEnvVars } from '../../infraestructure/environment'
 
 const { FIREBASE_CLOUD_URL } = getEnvVars()
 

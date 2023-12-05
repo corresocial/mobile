@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { AddressSearchResult } from './types'
-import { getEnvVars } from '../../../environment'
+import { getEnvVars } from '../../infraestructure/environment'
 
 const { MAPS_API } = getEnvVars()
 

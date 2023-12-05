@@ -12,7 +12,7 @@ import { CustomerData, StripeProducts } from '@services/stripe/types'
 import { updateAllRangeAndLocation } from '@services/firebase/post/updateAllRangeAndLocation'
 import { getStripePlans, getStripeProducts } from '@services/stripe/products'
 
-import { getEnvVars } from '../../environment'
+import { getEnvVars } from '../infraestructure/environment'
 import { dateHasExpired } from '../presentation/common/auxiliaryFunctions'
 import { SubscriptionAlertModal } from '@components/_modals/SubscriptionAlertModal'
 import { AuthContext } from './AuthContext'

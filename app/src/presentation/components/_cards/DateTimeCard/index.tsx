@@ -2,6 +2,7 @@ import React from 'react'
 import uuid from 'react-uuid'
 
 import { DaysOfWeek, EventRepeatType, WeekdaysFrequency } from '@services/firebase/types'
+import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { DateTimeContainer } from './styles'
 import CalendarBusinessDay from '@assets/icons/calendarBusinessDay-white.svg'
@@ -12,8 +13,8 @@ import ClockWhiteIcon from '@assets/icons/clock-white.svg'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 
-import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
-import { UiUtils } from '@utils-ui/common/UiUtils'
+import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer'
+
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
 import { DefaultCardContainer } from '../DefaultCardContainer'

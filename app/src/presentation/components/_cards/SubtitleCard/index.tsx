@@ -7,7 +7,7 @@ import AngleRightWhitetIcon from '@assets/icons/angleRight-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import { theme } from '@common/theme'
 
-import { SmallButton } from '../../_buttons/SmallButton'
+import { SmallButton } from '@components/_buttons/SmallButton'
 
 interface SubtitleCardProps {
 	text: string

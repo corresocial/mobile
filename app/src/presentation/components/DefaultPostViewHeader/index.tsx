@@ -9,8 +9,8 @@ import XWhiteIcon from '@assets/icons/x-white.svg'
 
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 
-import { BackButton } from '../_buttons/BackButton'
-import { SmallButton } from '../_buttons/SmallButton'
+import { BackButton } from '@components/_buttons/BackButton'
+import { SmallButton } from '@components/_buttons/SmallButton'
 
 interface DefaultPostViewHeaderProps {
 	text?: string

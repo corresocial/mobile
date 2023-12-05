@@ -12,10 +12,10 @@ import TrashWhiteIcon from '@assets/icons/trash-white.svg'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 
-import { PrimaryButton } from '../_buttons/PrimaryButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { Loader } from '../Loader'
 import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
-import { VerticalSpacing } from '../_space/VerticalSpacing'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 interface PostPopOverProps {
 	postTitle?: string

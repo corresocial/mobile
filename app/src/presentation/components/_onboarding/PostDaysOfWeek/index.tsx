@@ -15,14 +15,14 @@ import XBoldIcon from '@assets/icons/x-bold.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { BackButton } from '../../_buttons/BackButton'
-import { PrimaryButton } from '../../_buttons/PrimaryButton'
-import { SelectButton } from '../../_buttons/SelectButton'
-import { SmallButton } from '../../_buttons/SmallButton'
-import { InstructionCard } from '../../_cards/InstructionCard'
-import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
-import { SelectButtonsContainer } from '../../_containers/SelectButtonsContainer'
-import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
+import { BackButton } from '@components/_buttons/BackButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { SelectButton } from '@components/_buttons/SelectButton'
+import { SmallButton } from '@components/_buttons/SmallButton'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { SelectButtonsContainer } from '@components/_containers/SelectButtonsContainer'
+import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 
 interface PostDaysOfWeekProps {
 	backgroundColor: string

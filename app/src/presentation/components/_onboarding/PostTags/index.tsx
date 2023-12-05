@@ -3,6 +3,7 @@ import { ScrollView } from 'react-native'
 import uuid from 'react-uuid'
 
 import { MacroCategory } from '@services/firebase/types'
+import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import {
 	Container,
@@ -15,15 +16,15 @@ import CheckIcon from '@assets/icons/check-white.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { BackButton } from '../../_buttons/BackButton'
-import { PrimaryButton } from '../../_buttons/PrimaryButton'
-import { SelectButton } from '../../_buttons/SelectButton'
-import { InfoCard } from '../../_cards/InfoCard'
-import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
-import { SelectButtonsContainer } from '../../_containers/SelectButtonsContainer'
-import { SearchInput } from '../../_inputs/SearchInput'
-import { VerticalSpacing } from '../../_space/VerticalSpacing'
-import { UiUtils } from '@utils-ui/common/UiUtils'
+import { BackButton } from '@components/_buttons/BackButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { SelectButton } from '@components/_buttons/SelectButton'
+import { InfoCard } from '@components/_cards/InfoCard'
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { SelectButtonsContainer } from '@components/_containers/SelectButtonsContainer'
+import { SearchInput } from '@components/_inputs/SearchInput'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+
 import { SelectedTagsHorizontalList } from '../../SelectedTagsHorizontalList'
 
 const { sortArray } = UiUtils()

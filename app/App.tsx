@@ -13,7 +13,7 @@ import { ThemeProvider } from 'styled-components'
 import * as Sentry from 'sentry-expo'
 
 import { LoaderContainer } from './App.styles'
-import { getEnvVars } from './environment'
+import { getEnvVars } from './src/infraestructure/environment'
 import { ignoredLogs } from './ignoredLogs'
 import { AlertProvider } from './src/contexts/AlertContext/index'
 import { LoaderProvider } from './src/contexts/LoaderContext'

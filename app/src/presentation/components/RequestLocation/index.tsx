@@ -6,7 +6,7 @@ import { theme } from '@common/theme'
 import { Container, Title, Text } from './styles'
 import MapIcon from '@assets/icons/map.svg'
 
-import { PrimaryButton } from '../_buttons/PrimaryButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 
 interface RequestLocationProps {
 	getLocationPermissions: () => void

@@ -6,7 +6,8 @@ import ChatWhiteIcon from '@assets/icons/chat-white.svg'
 import HandOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
 import { theme } from '@common/theme'
 
-import { OptionButton } from '../../_buttons/OptionButton'
+import { OptionButton } from '@components/_buttons/OptionButton'
+
 import { PostSelectButton } from '../PostSelectButton'
 
 interface PaymentValueTypeProps {

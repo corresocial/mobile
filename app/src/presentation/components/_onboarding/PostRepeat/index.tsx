@@ -12,12 +12,12 @@ import CalendarXWhiteIcon from '@assets/icons/calendarX-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { BackButton } from '../../_buttons/BackButton'
-import { OptionButton } from '../../_buttons/OptionButton'
-import { InstructionCard } from '../../_cards/InstructionCard'
-import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../_containers/FormContainer'
-import { VerticalSpacing } from '../../_space/VerticalSpacing'
+import { BackButton } from '@components/_buttons/BackButton'
+import { OptionButton } from '@components/_buttons/OptionButton'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '@components/_containers/FormContainer'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 interface PostRepeatProps {
 	backgroundColor: string

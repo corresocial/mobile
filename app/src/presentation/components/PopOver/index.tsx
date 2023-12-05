@@ -12,12 +12,12 @@ import ImpactLabel from '@assets/icons/impactLabel.svg'
 import HanOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 
-import { PrimaryButton } from '../_buttons/PrimaryButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
-import { VerifyUserConfirmationModal } from '../_modals/VerifyUserConfirmationModal'
+import { VerifyUserConfirmationModal } from '@components/_modals/VerifyUserConfirmationModal'
 import { PostRange, VerifiedLabelName } from '@services/firebase/types'
-import { SelectSubscriptionPlanModal } from '../_modals/SelectSubscriptionPlanModal'
-import { VerticalSpacing } from '../_space/VerticalSpacing'
+import { SelectSubscriptionPlanModal } from '@components/_modals/SelectSubscriptionPlanModal'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 interface PopOverProps {
 	title?: string

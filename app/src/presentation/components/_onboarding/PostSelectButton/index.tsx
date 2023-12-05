@@ -5,10 +5,10 @@ import { ButtonsContainer, Container } from './styles'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { BackButton } from '../../_buttons/BackButton'
-import { InstructionCard } from '../../_cards/InstructionCard'
-import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../_containers/FormContainer'
+import { BackButton } from '@components/_buttons/BackButton'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '@components/_containers/FormContainer'
 import { ProgressBar } from '../../ProgressBar'
 
 interface PostSelectButtonProps {

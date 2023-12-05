@@ -4,7 +4,7 @@ import { FlatList, RefreshControl } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { PostCollection } from '@services/firebase/types'
 
-import { VerticalSpacing } from '../_space/VerticalSpacing'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { theme } from '@common/theme'
 
 interface FlatListPostsProps {

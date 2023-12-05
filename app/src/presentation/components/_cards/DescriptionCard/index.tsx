@@ -6,7 +6,8 @@ import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
 import { getShortText } from '@common/auxiliaryFunctions'
 import { theme } from '@common/theme'
 
-import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer'
+
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { DefaultCardContainer } from '../DefaultCardContainer'
 

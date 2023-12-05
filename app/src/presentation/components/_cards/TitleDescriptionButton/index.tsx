@@ -7,7 +7,7 @@ import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { SmallButton } from '../../_buttons/SmallButton'
+import { SmallButton } from '@components/_buttons/SmallButton'
 
 interface TitleDescriptionButtonProps {
 	height: string | number

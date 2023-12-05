@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Animated, FlatList, Platform } from 'react-native'
-import uuid from 'react-uuid'
 import { RFValue } from 'react-native-responsive-fontsize'
+import uuid from 'react-uuid'
+
+import { AddressSearchResult, LatLong, SelectedAddressRender } from '@services/maps/types'
+import { setRecentAddressOnStorage } from '@utils/maps/recentAddresses'
 
 import {
 	Container,
@@ -11,19 +14,16 @@ import {
 	DropdownHeaderContainer,
 	MyLocationButtonContainer,
 } from './styles'
-import { theme } from '@common/theme'
-import { relativeScreenHeight, statusBarHeight } from '@common/screenDimensions'
 import MapIcon from '@assets/icons/mapPoint-white.svg'
+import { relativeScreenHeight, statusBarHeight } from '@common/screenDimensions'
+import { theme } from '@common/theme'
 
-import { setRecentAddressOnStorage } from '@utils/maps/recentAddresses'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { SearchInput } from '@components/_inputs/SearchInput'
 
-import { AddressSearchResult, LatLong, SelectedAddressRender } from '@services/maps/types'
-
-import { DropdownItem } from '../DropdownItem'
-import { PrimaryButton } from '../_buttons/PrimaryButton'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultDropdownHeader } from '../DefaultDropdownHeader'
-import { VerticalSpacing } from '../_space/VerticalSpacing'
-import { SearchInput } from '../_inputs/SearchInput'
+import { DropdownItem } from '../DropdownItem'
 
 interface LocationNearDropdownProps {
 	selectedAddress: SelectedAddressRender

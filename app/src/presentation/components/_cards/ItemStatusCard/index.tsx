@@ -7,7 +7,7 @@ import TruckWhiteIcon from '@assets/icons/truck-white.svg'
 import UserLabelWhiteIcon from '@assets/icons/usedLabel-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 
-import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
 import { DefaultCardContainer } from '../DefaultCardContainer'

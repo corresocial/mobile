@@ -1,4 +1,4 @@
-import { getEnvVars } from '../../../environment'
+import { getEnvVars } from '../../infraestructure/environment'
 
 const { DSN_SENTRY } = getEnvVars()
 

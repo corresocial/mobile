@@ -23,8 +23,8 @@ import CameraToggleOutlined from '@assets/icons/cameraToggle-outlined.svg'
 import XButtonOutlined from '@assets/icons/xButton-outlined.svg'
 import { theme } from '@common/theme'
 
-import { PrimaryButton } from '../../_buttons/PrimaryButton'
-import { TakePictureCameraButton } from '../../_buttons/TakePictureCameraButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { TakePictureCameraButton } from '@components/_buttons/TakePictureCameraButton'
 
 interface CustomCameraModalProps {
 	cameraOpened: boolean;

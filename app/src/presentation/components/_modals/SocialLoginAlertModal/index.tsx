@@ -9,8 +9,8 @@ import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { PrimaryButton } from '../../_buttons/PrimaryButton'
-import { VerticalSpacing } from '../../_space/VerticalSpacing'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DescriptionWithLeftTracing } from '../../DescriptionWithLeftTracing'
 import { CustomModal } from '../CustomModal'
 

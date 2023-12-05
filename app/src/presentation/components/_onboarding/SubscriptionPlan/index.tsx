@@ -8,12 +8,12 @@ import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { BackButton } from '../../_buttons/BackButton'
-import { PrimaryButton } from '../../_buttons/PrimaryButton'
-import { InstructionCard } from '../../_cards/InstructionCard'
-import { TitleDescriptionButton } from '../../_cards/TitleDescriptionButton'
-import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../_containers/FormContainer'
+import { BackButton } from '@components/_buttons/BackButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { TitleDescriptionButton } from '@components/_cards/TitleDescriptionButton'
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '@components/_containers/FormContainer'
 
 interface SubscriptionPlanProps {
 	backgroundColor: string

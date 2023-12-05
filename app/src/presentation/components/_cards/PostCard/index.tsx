@@ -21,7 +21,7 @@ import {
 import { relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { VerticalSpacing } from '../../_space/VerticalSpacing'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { SaleExchangeValue } from '../../SaleExchangeValue'
 import { SmallUserIdentification } from '../../SmallUserIdentification'

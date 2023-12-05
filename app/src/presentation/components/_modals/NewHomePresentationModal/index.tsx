@@ -3,7 +3,7 @@ import React from 'react'
 import { Container } from './styles'
 import NewHomePresentationIcon from '@assets/imgs/newHomePresentation.svg'
 
-import { VerticalSpacing } from '../../_space/VerticalSpacing'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { CustomModal } from '../CustomModal'
 
 interface NewHomePresentationModalProps {

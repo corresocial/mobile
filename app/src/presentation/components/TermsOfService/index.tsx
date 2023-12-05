@@ -7,7 +7,7 @@ import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
 import XWhiteIcon from '@assets/icons/x-white.svg'
 
-import { PrimaryButton } from '../_buttons/PrimaryButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 
 interface TermsOfServiceProps {
 	calledFromConfig?: boolean

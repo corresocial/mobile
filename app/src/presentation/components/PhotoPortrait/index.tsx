@@ -6,7 +6,7 @@ import { relativeScreenWidth } from '@common/screenDimensions'
 import ThashWhiteIcon from '@assets/icons/trash-white.svg'
 import NoPhoto from '@assets/imgs/noPhoto.svg'
 
-import { SmallButton } from '../_buttons/SmallButton'
+import { SmallButton } from '@components/_buttons/SmallButton'
 import { theme } from '@common/theme'
 
 interface PhotoPortraitProps {

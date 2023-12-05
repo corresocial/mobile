@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Animated, Platform, StatusBar, TextInput } from 'react-native'
 
+import { UiUtils } from '@utils-ui/common/UiUtils'
+
 import { ButtonContainer, Container, InputsContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import TrashWhiteIcon from '@assets/icons/trash-white.svg'
@@ -8,15 +10,14 @@ import { filterLeavingOnlyNumbers } from '@common/auxiliaryFunctions'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { BackButton } from '../../_buttons/BackButton'
-import { PrimaryButton } from '../../_buttons/PrimaryButton'
-import { SmallButton } from '../../_buttons/SmallButton'
-import { InstructionCard } from '../../_cards/InstructionCard'
-import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
-import { FormContainer } from '../../_containers/FormContainer'
-import { DefaultInput } from '../../_inputs/DefaultInput'
-import { HorizontalSpacing } from '../../_space/HorizontalSpacing'
-import { UiUtils } from '@utils-ui/common/UiUtils'
+import { BackButton } from '@components/_buttons/BackButton'
+import { PrimaryButton } from '@components/_buttons/PrimaryButton'
+import { SmallButton } from '@components/_buttons/SmallButton'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { FormContainer } from '@components/_containers/FormContainer'
+import { DefaultInput } from '@components/_inputs/DefaultInput'
+import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 
 const { formatDate } = UiUtils()
 

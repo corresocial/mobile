@@ -6,7 +6,8 @@ import PersonWithSuitCaseWhiteIcon from '@assets/icons/personWithSuitCase-white.
 import SuitCaseWhiteIcon from '@assets/icons/suitCase-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 
-import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer'
+
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'
 import { DefaultCardContainer } from '../DefaultCardContainer'

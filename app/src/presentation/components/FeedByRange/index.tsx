@@ -9,10 +9,10 @@ import CityWhiteIcon from '@assets/icons/city-white.svg'
 import CountryWhiteIcon from '@assets/icons/brazil-white.svg'
 
 import { WithoutPostsMessage } from '../WithoutPostsMessage'
-import { VerticalSpacing } from '../_space/VerticalSpacing'
-import { SubtitleCard } from '../_cards/SubtitleCard'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { FlatListPosts } from '../FlatListPosts'
-import { PostCard } from '../_cards/PostCard'
+import { PostCard } from '@components/_cards/PostCard'
 
 interface FeedByRangeProps {
 	backgroundColor?: string

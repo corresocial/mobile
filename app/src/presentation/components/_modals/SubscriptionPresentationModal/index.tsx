@@ -6,7 +6,7 @@ import UserNetworkImage from '@assets/imgs/userNetwork.png'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 
-import { VerticalSpacing } from '../../_space/VerticalSpacing'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { PhotoPortrait } from '../../PhotoPortrait'
 import { CustomModal } from '../CustomModal'
 

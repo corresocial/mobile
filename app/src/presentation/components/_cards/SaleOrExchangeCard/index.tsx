@@ -8,7 +8,7 @@ import PlusWhiteIcon from '@assets/icons/plus-white.svg'
 import SalesCartWhiteIcon from '@assets/icons/salesCart-white.svg'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 
-import { EditHeaderContainer } from '../../_containers/EditHeaderContainer'
+import { EditHeaderContainer } from '@components/_containers/EditHeaderContainer'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { DefaultHeaderTitle } from '../../DefaultHeaderTitle'
 import { PostInfoRow } from '../../PostInfoRow'

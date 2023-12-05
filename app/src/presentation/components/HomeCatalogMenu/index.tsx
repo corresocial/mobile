@@ -12,7 +12,7 @@ import CultureTextWhite from '@assets/icons/cultureText-white.svg'
 
 import { PostType } from '@services/firebase/types'
 
-import { SmallButton } from '../_buttons/SmallButton'
+import { SmallButton } from '@components/_buttons/SmallButton'
 
 interface HomeCatalogProps {
 	navigateToScreen: (postType: PostType) => void

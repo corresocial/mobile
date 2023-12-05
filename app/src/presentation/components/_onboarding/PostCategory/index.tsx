@@ -3,18 +3,19 @@ import { ScrollView, StatusBar } from 'react-native'
 import uuid from 'react-uuid'
 
 import { PostCategoriesObject, PostCategoriesType } from '@services/firebase/types'
+import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 
 import { Container } from './styles'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { BackButton } from '../../_buttons/BackButton'
-import { SelectButton } from '../../_buttons/SelectButton'
-import { InstructionCard } from '../../_cards/InstructionCard'
-import { DefaultHeaderContainer } from '../../_containers/DefaultHeaderContainer'
-import { SelectButtonsContainer } from '../../_containers/SelectButtonsContainer'
-import { VerticalSpacing } from '../../_space/VerticalSpacing'
-import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
+import { BackButton } from '@components/_buttons/BackButton'
+import { SelectButton } from '@components/_buttons/SelectButton'
+import { InstructionCard } from '@components/_cards/InstructionCard'
+import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
+import { SelectButtonsContainer } from '@components/_containers/SelectButtonsContainer'
+import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+
 import { ProgressBar } from '../../ProgressBar'
 
 const { sortPostCategories } = UiPostUtils()
