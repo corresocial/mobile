@@ -51,7 +51,7 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 
 		return feedPosts.filter((post: any) => { // TODO Type
 			if (
-				post[`${postType}Type`] === macroCategory
+				post.macroCategory === macroCategory
 				&& post.postType === postType
 			) {
 				return true

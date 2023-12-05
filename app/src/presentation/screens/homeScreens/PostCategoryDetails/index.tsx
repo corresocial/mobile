@@ -51,8 +51,9 @@ function PostCategoryDetails({ navigation }: PostCategoryDetailsScreenProps) {
 	}
 
 	const filterPostsByRange = (post: PostCollectionRemote) => {
-		return post.category === categoryName
+		return post.macroCategory === locationDataContext.searchParams.macroCategory
 			&& post.postType === locationDataContext.searchParams.postType
+			&& post.category === categoryName
 			&& !!post.description.match(new RegExp(`${searchText}`, 'i'))?.length
 	}
 

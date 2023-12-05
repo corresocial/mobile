@@ -75,9 +75,8 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 
 	const postBelongContextPostType = (post: any) => { // TODO type
 		if (!post) return false
-
 		return (post.postType === locationDataContext.searchParams.postType
-			&& post[`${postType}Type`] === macroCategory)
+			&& post.macroCategory === macroCategory)
 	}
 
 	const filterPostsByTypeAndMacroCategory = () => {
@@ -89,7 +88,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 
 		return feedPosts.filter((post: any) => { // TODO Type
 			if (
-				post[`${postType}Type`] === macroCategory
+				post.macroCategory === macroCategory
 				&& post.postType === postType
 			) {
 				return true
