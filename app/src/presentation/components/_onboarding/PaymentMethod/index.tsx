@@ -71,9 +71,7 @@ function PaymentMethod({
 						: <></>
 				}
 			</DefaultHeaderContainer>
-			<FormContainer
-				backgroundColor={theme.white3}
-			>
+			<FormContainer backgroundColor={theme.white3}>
 				<ButtonsContainer>
 					<OptionButton
 						label={isVacancy ? 'um \npagamento' : 'somente \nvenda'}
