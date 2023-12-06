@@ -90,6 +90,8 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	}
 
 	const onChangeSearchText = (text: string) => {
+		console.log(chatDataContext)
+
 		const lowerCaseText = text.toLowerCase()
 		const filtered = chatDataContext.filter((chat: Chat) => {
 			return chat.user1.name.toLowerCase().includes(lowerCaseText) || chat.user2.name.toLowerCase().includes(lowerCaseText)

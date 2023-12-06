@@ -3,9 +3,9 @@ import * as Notifications from 'expo-notifications'
 import React, { MutableRefObject, createContext, useContext, useEffect, useRef, useState } from 'react'
 import { Alert, Platform } from 'react-native'
 
-import { onValue, ref } from 'firebase/database'
+import { onValue, onChildChanged, ref } from 'firebase/database'
 
-import { Chat, UserDatabase } from '@globalTypes/chat/types'
+import { Chat, MessageObjects, UserDatabase } from '@globalTypes/chat/types'
 import { Id } from '@services/firebase/types'
 
 import { realTimeDatabase } from '@services/firebase'
@@ -19,6 +19,7 @@ import { unsubscribeUserChatsListener } from '@services/firebase/chat/unsubscrib
 
 import { getEnvVars } from '../infrastructure/environment'
 import { AuthContext } from './AuthContext'
+import { arrayIsEmpty } from '@utils-ui/common/validation/validateArray'
 
 const { ENVIRONMENT } = getEnvVars()
 
@@ -56,10 +57,16 @@ function ChatProvider({ children }: ChatProviderProps) {
 	const notificationListener: MutableRefObject<any> = useRef()
 	const responseListener: MutableRefObject<any> = useRef()
 
+	const chatDataContextRef = useRef(chatDataContext)
+
 	useEffect(() => {
 		initUserInstance()
 		checkUserRemoteNotificationState()
 	}, [])
+
+	useEffect(() => {
+		chatDataContextRef.current = chatDataContext;
+	}, [chatDataContext]);
 
 	const initUserInstance = async (userId?: Id) => {
 		if (!await existsOnDatabase(userId || userDataContext.userId)) {
@@ -86,6 +93,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 				// console.log(`Listener userChatIds running... ${userId}`)
 				const newUserChatIds = await loadUserChatIds(userDataContext.userId)
 				setChatIdList(newUserChatIds)
+				await loadChats(newUserChatIds)
 				startChatListener(newUserChatIds)
 			})
 		}
@@ -102,12 +110,12 @@ function ChatProvider({ children }: ChatProviderProps) {
 	}
 
 	const startChatListener = async (chatIds: Id[]) => {
-		chatIds.forEach(async (chatId: string) => {
+		return chatIds.forEach(async (chatId: string) => {
 			const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
 			if (await existsOnDatabase(chatId)) {
-				onValue(realTimeDatabaseRef, async (snapshot) => {
+				onChildChanged(realTimeDatabaseRef, async (snapshot) => {
 					// console.log('Listener chats running...')
-					loadChats(chatIds)
+					updateChatMessages(chatId, snapshot.val(), chatDataContextRef.current)
 				})
 			} else {
 				console.log(`Esse chat não existe: ${chatId}`)
@@ -115,7 +123,20 @@ function ChatProvider({ children }: ChatProviderProps) {
 		})
 	}
 
+	const updateChatMessages = (chatId: Id, messages: MessageObjects, chatMessagesOnContext: Chat[]) => {
+		const chats = chatMessagesOnContext.map((chat: Chat) => {
+			if (chat.chatId === chatId) {
+				chat.messages = messages
+				return chat
+			}
+			return chat
+		})
+
+		setChatsOnContext(chats)
+	}
+
 	const loadChats = async (chatIds: Id[]) => {
+		console.log('Carregando chats')
 		const filteredChatIds = chatIds.filter((chatId) => chatId)
 		if (!filteredChatIds.length) return
 

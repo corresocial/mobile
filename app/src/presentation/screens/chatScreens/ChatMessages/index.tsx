@@ -40,10 +40,7 @@ import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
 import { Container, Header, IsBlockedContainer } from './styles'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
-import {
-	relativeScreenHeight,
-	relativeScreenWidth,
-} from '@common/screenDimensions'
+import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { BackButton } from '@components/_buttons/BackButton'
