@@ -14,6 +14,7 @@ import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 import { WithoutPostsMessage } from '../WithoutPostsMessage'
+import uuid from 'react-uuid'
 
 interface FeedByRangeProps {
 	backgroundColor?: string
@@ -73,7 +74,7 @@ function FeedByRange({
 
 	const renderPostItem = (item: PostCollection) => {
 		return (
-			<PostCardContainer>
+			<PostCardContainer key={uuid()}>
 				<PostCard
 					post={item}
 					owner={item.owner}
