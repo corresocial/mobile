@@ -7,7 +7,7 @@ const defaultMessageObject = { // rule
 	owner: 'any',
 }
 
-const getLastMessageObjects = (messages: MessageObjects | Message[]) => {
+const getLastMessageObject = (messages: MessageObjects | Message[]) => {
 	if (!messages) return defaultMessageObject
 	if (Array.isArray(messages)) return messages[messages.length - 1]
 
@@ -28,6 +28,6 @@ const sortChatMessages = (a: Message, b: Message) => {
 
 export {
 	defaultMessageObject,
-	getLastMessageObjects,
+	getLastMessageObject,
 	sortChatMessages
 }

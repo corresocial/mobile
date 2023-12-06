@@ -1,8 +1,7 @@
 import { ref, set } from 'firebase/database'
 
-import { Id } from '../types'
-
 import { realTimeDatabase } from '@services/firebase'
+import { Id } from '@domain/entities/globalTypes'
 import { UserDatabase } from '@domain/entities/chat/types'
 
 async function registerNewUser(userId: Id, initialUserData: Partial<UserDatabase>) {
@@ -10,6 +9,7 @@ async function registerNewUser(userId: Id, initialUserData: Partial<UserDatabase
 
 	const realTimeDatabaseRef = ref(realTimeDatabase, `${userId}`)
 	set(realTimeDatabaseRef, initialUserData)
+	return true
 }
 
 export { registerNewUser }

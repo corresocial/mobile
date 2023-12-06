@@ -1,11 +1,15 @@
-import { defaultMessageObject, getLastMessageObjects, sortChatMessages } from '.'
+import { defaultMessageObject, getLastMessageObject, sortChatMessages } from '.'
 import { UiChatUtilsInterface } from './UiChatUtilsInterface'
+import { getConversationProfilePicture, getConversationUserId, getConversationUserName } from './getConversationUserData'
 
 function UiChatUtils(): UiChatUtilsInterface {
 	return {
 		defaultMessageObject,
-		getLastMessageObjects,
-		sortChatMessages
+		getLastMessageObject,
+		sortChatMessages,
+		getConversationUserName,
+		getConversationUserId,
+		getConversationProfilePicture
 	}
 }
 

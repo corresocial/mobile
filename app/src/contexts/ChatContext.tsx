@@ -13,13 +13,12 @@ import { existsOnDatabase } from '@services/firebase/chat/existsOnDatabase'
 import { getAndUpdateUserToken } from '@services/firebase/chat/getAndUpdateUserToken'
 import { getRemoteUser } from '@services/firebase/chat/getRemoteUser'
 import { readFromDatabase } from '@services/firebase/chat/readFromDatabase'
-import { registerNewUser } from '@services/firebase/chat/registerNewUser'
 import { unsubscribeChatIdsListener } from '@services/firebase/chat/unsubscribeChatIdsListener'
 import { unsubscribeUserChatsListener } from '@services/firebase/chat/unsubscribeUserChatsListener'
 
 import { getEnvVars } from '../infrastructure/environment'
 import { AuthContext } from './AuthContext'
-import { arrayIsEmpty } from '@utils-ui/common/validation/validateArray'
+import { ChatAdapter } from '@adapters/ChatAdapter'
 
 const { ENVIRONMENT } = getEnvVars()
 
@@ -47,6 +46,8 @@ const initialValue = {
 
 const ChatContext = createContext<ChatContextType>(initialValue)
 
+const { createNewUser } = ChatAdapter()
+
 function ChatProvider({ children }: ChatProviderProps) {
 	const { userDataContext } = useContext(AuthContext)
 
@@ -60,7 +61,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 	const chatDataContextRef = useRef(chatDataContext)
 
 	useEffect(() => {
-		initUserInstance()
+		initUserInstance(userDataContext.userId as Id)
 		checkUserRemoteNotificationState()
 	}, [])
 
@@ -68,13 +69,11 @@ function ChatProvider({ children }: ChatProviderProps) {
 		chatDataContextRef.current = chatDataContext;
 	}, [chatDataContext]);
 
-	const initUserInstance = async (userId?: Id) => {
-		if (!await existsOnDatabase(userId || userDataContext.userId)) {
-			await registerNewUser(userId || userDataContext.userId, {
-				blockedUsers: [''],
-				chatIds: ['']
-			})
+	const initUserInstance = async (userId: Id) => {
+		if (!await existsOnDatabase(userId)) {
+			await createNewUser(userId)
 		}
+
 		console.log('CHAT: Usuário ativo...')
 
 		await startUserChatIdsListener(userDataContext.userId as Id)

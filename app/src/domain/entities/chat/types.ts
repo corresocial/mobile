@@ -1,4 +1,6 @@
-export type Chat = {
+export type Chat = Conversation[]
+
+export type Conversation = {
 	chatId: string
 	user1: {
 		userId: string

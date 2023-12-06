@@ -18,7 +18,7 @@ import {
 	Chat,
 	Message,
 	MessageObjects,
-	UserIdentification
+	ChatUserIdentification
 } from '@globalTypes/chat/types'
 import { FlatListItem } from '@globalTypes/global/types'
 import { ChatMessagesScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
@@ -55,7 +55,7 @@ import { MessageCard } from '@components/MessageCard'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
-const { getLastMessageObjects } = UiChatUtils()
+const { getLastMessageObject } = UiChatUtils()
 
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -64,9 +64,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const [chatOptionsIsOpen, setChatOptionsIsOpen] = useState(false)
 	const [currentChat, setCurrentChat] = useState<Chat>(chatFromRoute)
-	const [messages, setMessages] = useState<MessageObjects>(
-		currentChat.messages
-	)
+	const [messages, setMessages] = useState<MessageObjects>(currentChat.messages)
 	const [listenerHasStarted, setListenerHasStarted] = useState(false)
 	const [isBlockedUser, setIsBlockedUser] = useState(false)
 	const [blockedByOwner, setBlockedByOwner] = useState(false)
@@ -82,10 +80,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	useEffect(() => {
 		loadChatMessages()
-		makeAllUserMessagesAsRead(
-			currentChat.chatId,
-			userDataContext.userId as Id
-		)
+		makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId as Id)
 		return () => {
 			unsubscribeMessageListener(currentChat.chatId)
 			makeAllUserMessagesAsRead(
@@ -96,14 +91,9 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}, [])
 
 	const loadChatMessages = async () => {
-		const remoteChatData = await getRemoteChatData(
-			currentChat.user1,
-			currentChat.user2
-		)
-		setCurrentChat({
-			...remoteChatData,
-			messages: { ...remoteChatData.messages },
-		} as any) // TODO Type
+		const remoteChatData = await getRemoteChatData(currentChat.user1, currentChat.user2)
+
+		setCurrentChat({ ...remoteChatData, messages: { ...remoteChatData.messages }, } as any) // TODO Type
 		setMessages({ ...remoteChatData.messages })
 
 		verifyUsersBlock()
@@ -135,7 +125,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			setListenerHasStarted(true)
 			return onValue(realTimeDatabaseRef, (snapshot) => {
 				const listenerMessages = snapshot.val()
-				if (getLastMessageObjects(listenerMessages).owner !== userDataContext.userId) {
+				if (getLastMessageObject(listenerMessages).owner !== userDataContext.userId) {
 					// console.log('Listener message running...')
 					setMessages(listenerMessages)
 				}
@@ -160,7 +150,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const submitMessage = async (text: string) => {
-		const newMessages = { ...messages, ...generateMessageObject(text) }
 		if (!(await existsOnDatabase(currentChat.chatId))) {
 			await registerNewChat(currentChat)
 			await setChatIdToUsers(
@@ -170,6 +159,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			await startMessagesListener(currentChat.chatId)
 		}
 
+		const newMessages = { ...messages, ...generateMessageObject(text) }
 		setMessages(newMessages)
 
 		const userBlock = await verifyUsersBlock()
@@ -179,8 +169,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					message: text,
 					dateTime: Date.now(),
 					readed: false,
-					owner: userDataContext.userId as Id,
 					justOwner: true,
+					owner: userDataContext.userId as Id,
 				} as any,
 				currentChat.chatId
 			)
@@ -238,28 +228,28 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		}
 	}
 
-	const getReceiverUserId = (user1: UserIdentification, user2: UserIdentification) => {
+	const getReceiverUserId = (user1: ChatUserIdentification, user2: ChatUserIdentification) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.userId
 		}
 		return user1.userId
 	}
 
-	const getUserName = (user1: UserIdentification, user2: UserIdentification) => {
+	const getUserName = (user1: ChatUserIdentification, user2: ChatUserIdentification) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.name
 		}
 		return user1.name
 	}
 
-	const getUserId = (user1: UserIdentification, user2: UserIdentification) => {
+	const getUserId = (user1: ChatUserIdentification, user2: ChatUserIdentification) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.userId
 		}
 		return user1.userId
 	}
 
-	const getProfilePictureUrl = (user1: UserIdentification, user2: UserIdentification) => {
+	const getProfilePictureUrl = (user1: ChatUserIdentification, user2: ChatUserIdentification) => {
 		if (userDataContext.userId === user1.userId) {
 			return user2.profilePictureUrl
 		}

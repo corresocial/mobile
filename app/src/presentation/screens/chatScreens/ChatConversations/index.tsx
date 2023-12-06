@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/no-unused-prop-types */
 import React, { useState, useContext, useEffect, useRef } from 'react'
 import { ScrollView, TextInput } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
@@ -8,7 +6,7 @@ import { AlertContext } from '@contexts/AlertContext/index'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
-import { MessageObjects, Chat, UserIdentification, Message } from '@globalTypes/chat/types'
+import { MessageObjects, Conversation } from '@domain/entities/chat/types'
 import { ChatConversationsScreenProps } from '@routes/Stack/ChatStack/stackScreenProps'
 
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
@@ -37,9 +35,21 @@ import { SearchInput } from '@components/_inputs/SearchInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
+import { ChatAdapter } from '@adapters/ChatAdapter'
+import { FlatListItem, Id } from '@globalTypes/global/types'
+import { ChatUserIdentification } from '@domain/entities/chat/types'
 
 const { formatRelativeDate } = UiUtils()
-const { getLastMessageObjects, sortChatMessages } = UiChatUtils()
+
+const {
+	sortChatMessages,
+	getLastMessageObject,
+	getConversationUserId,
+	getConversationUserName,
+	getConversationProfilePicture
+} = UiChatUtils()
+
+const { filterInvalidMessages, conversationsIsValidToSort } = ChatAdapter()
 
 function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -47,38 +57,38 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	const { chatDataContext } = useContext(ChatContext)
 
 	const [searchText, setSearchText] = useState('')
-	const [filteredChats, setFilteredChats] = useState<Chat[]>([])
+	const [filteredChats, setFilteredChats] = useState<Conversation[]>([])
 
 	const horizontalScrollViewRef = useRef<ScrollView>()
 	const searchInputRef = useRef<TextInput>()
+
+	const authenticatedUserId = userDataContext.userId as Id
 
 	useEffect(() => {
 		showAlertNotificationModal()
 	}, [])
 
 	const getLastMessage = (messages: MessageObjects) => {
-		const chatMessages = getFilteredMessages(messages)
-		const ordenerMessages = Object.values(chatMessages).sort(sortChatMessages)
-		const lastMessage = getLastMessageObjects(ordenerMessages)
+		const lastMessage = getLastObjectMessageFromFilteredSortedList(messages)
 		return lastMessage ? lastMessage.message : ''
 	}
 
 	const getLastMessageDateTime = (messages: MessageObjects, inMiliseconds?: boolean) => {
-		const chatMessages = getFilteredMessages(messages)
-		const ordenerMessages = Object.values(chatMessages).sort(sortChatMessages)
-		const lastMessage = getLastMessageObjects(ordenerMessages as any)
+		const lastMessage = getLastObjectMessageFromFilteredSortedList(messages)
 
-		if (inMiliseconds) {
-			return (lastMessage && lastMessage.dateTime.toString()) || (Date.now() - 31536000000).toString()
-		}
+		if (inMiliseconds) { return (lastMessage && lastMessage.dateTime.toString()) || (Date.now() - 31536000000).toString() }
 		return formatRelativeDate(lastMessage ? lastMessage.dateTime : '')
 	}
 
+	const getLastObjectMessageFromFilteredSortedList = (messages: MessageObjects) => {
+		const chatMessages = filterInvalidMessages(messages, authenticatedUserId)
+		const ordenerMessages = Object.values(chatMessages).sort(sortChatMessages)
+		return getLastMessageObject(ordenerMessages)
+	}
+
 	const getNumberOfUnseenMessages = (messages: MessageObjects) => {
-		const chatMessages = getFilteredMessages(messages)
-		if (!chatMessages) {
-			return 0
-		}
+		const chatMessages = filterInvalidMessages(messages, authenticatedUserId)
+		if (!chatMessages) return 0
 
 		const unseenMessagesCount = Object.values(chatMessages || {}).reduce((total, message) => {
 			if (!message.readed && (userDataContext.userId !== message.owner)) {
@@ -90,36 +100,13 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	}
 
 	const onChangeSearchText = (text: string) => {
-		console.log(chatDataContext)
-
 		const lowerCaseText = text.toLowerCase()
-		const filtered = chatDataContext.filter((chat: Chat) => {
+		const filtered = chatDataContext.filter((chat: Conversation) => {
 			return chat.user1.name.toLowerCase().includes(lowerCaseText) || chat.user2.name.toLowerCase().includes(lowerCaseText)
 		})
 
 		setSearchText(text)
-		setFilteredChats(filtered as Chat[])
-	}
-
-	const getUserName = (user1: UserIdentification, user2: UserIdentification) => {
-		if (userDataContext.userId === user1.userId) {
-			return user2.name
-		}
-		return user1.name
-	}
-
-	const getUserId = (user1: UserIdentification, user2: UserIdentification) => {
-		if (userDataContext.userId === user1.userId) {
-			return user2.userId
-		}
-		return user1.userId
-	}
-
-	const getProfilePictureUrl = (user1: UserIdentification, user2: UserIdentification) => {
-		if (userDataContext.userId === user1.userId) {
-			return user2.profilePictureUrl
-		}
-		return user1.profilePictureUrl
+		setFilteredChats(filtered as Conversation[])
 	}
 
 	const showSearchInput = () => {
@@ -137,28 +124,17 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		}
 	}
 
-	const navigateToChatMessages = (item: Chat) => {
+	const navigateToChatMessages = (item: Conversation) => {
 		navigation.navigate('ChatMessages', { chat: { ...item } })
 	}
 
-	const getFilteredMessages = (messages: MessageObjects) => {
-		return Object.values(messages || {}).filter((message: Message) => (
-			!message.justOwner || (message.justOwner && message.owner === userDataContext.userId))
-			&& (!message.userCanView || message.userCanView === userDataContext.userId))
-	}
-
-	const getOrdenedChatsByDateTime = () => {
-		// chatDataContext.sort(sortChats).map((chat, index) => console.log(`${index} ${chat.user2.name}`))
+	const sortConversationsByDateTime = () => {
 		const currentChatData = [...chatDataContext]
 		return currentChatData.sort(sortChats)
 	}
 
-	const chatsIsValid = (a: Chat, b: Chat) => {
-		return (!a || !b || (a && !Object.keys(a)) || (b && !Object.keys(b)))
-	}
-
-	const sortChats = (a: Chat, b: Chat) => {
-		if (chatsIsValid(a, b)) return -1
+	const sortChats = (a: Conversation, b: Conversation) => {
+		if (conversationsIsValidToSort(a, b)) return -1
 
 		const lastMessageA = getLastMessageDateTime(a.messages, true)
 		const lastMessageB = getLastMessageDateTime(b.messages, true)
@@ -168,8 +144,28 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		return 0
 	}
 
-	const navigateToProfile = (user1: UserIdentification, user2: UserIdentification) => {
-		navigation.navigate('ProfileChat', { userId: getUserId(user1, user2), stackLabel: 'Chat' })
+	const navigateToProfile = (user1: ChatUserIdentification, user2: ChatUserIdentification) => {
+		navigation.navigate('ProfileChat', {
+			userId: getConversationUserId(authenticatedUserId, user1, user2),
+			stackLabel: 'Chat'
+		})
+	}
+
+	const renderConversationListItem = (conversation: Conversation) => {
+		const { user1, user2, chatId, messages } = conversation
+
+		return (
+			<ConversationCard
+				key={chatId}
+				userName={getConversationUserName(authenticatedUserId, user1, user2)}
+				profilePictureUrl={getConversationProfilePicture(authenticatedUserId, user1, user2)}
+				lastMessage={getLastMessage(messages)}
+				lastMessageTime={getLastMessageDateTime(messages) || ''}
+				numberOfUnseenMessages={getNumberOfUnseenMessages(messages)}
+				navigateToProfile={() => navigateToProfile(user1, user2)}
+				onPress={() => navigateToChatMessages(conversation)}
+			/>
+		)
 	}
 
 	return (
@@ -238,23 +234,8 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 						)
 						: (
 							<ConversationList
-								data={!searchText ? getOrdenedChatsByDateTime() : filteredChats}
-								renderItem={({ item }: { item: Chat }) => {
-									if (item) {
-										return (
-											<ConversationCard
-												key={item.chatId}
-												userName={getUserName(item.user1, item.user2)}
-												profilePictureUrl={getProfilePictureUrl(item.user1, item.user2)}
-												lastMessage={getLastMessage(item.messages)}
-												lastMessageTime={getLastMessageDateTime(item.messages) || ''}
-												numberOfUnseenMessages={getNumberOfUnseenMessages(item.messages)}
-												navigateToProfile={() => navigateToProfile(item.user1, item.user2)}
-												onPress={() => navigateToChatMessages(item)}
-											/>
-										)
-									}
-								}}
+								data={!searchText ? sortConversationsByDateTime() : filteredChats}
+								renderItem={({ item }: FlatListItem<Conversation>) => item && renderConversationListItem(item)}
 								showsVerticalScrollIndicator={false}
 								ItemSeparatorComponent={() => <VerticalSpacing />}
 								ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}

@@ -40,6 +40,9 @@
 			"@components/*": [
 				"./src/presentation/components/*"
 			],
+			"@adapters/*": [
+				"./src/presentation/adapters/*"
+			],
 			"@utils-ui/*": [
 				"./src/presentation/utils-ui/*"
 			],
