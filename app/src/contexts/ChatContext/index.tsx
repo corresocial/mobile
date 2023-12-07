@@ -3,15 +3,12 @@ import * as Notifications from 'expo-notifications'
 import React, { MutableRefObject, createContext, useContext, useEffect, useRef, useState } from 'react'
 import { Alert, Platform } from 'react-native'
 
-import { onChildChanged, ref } from 'firebase/database'
-
 import { Conversation } from '@domain/entities/chat/types'
 
 import { ChatContextType, ChatProviderProps } from './types'
 import { Chat, MessageObjects } from '@globalTypes/chat/types'
 import { Id } from '@services/firebase/types'
 
-import { realTimeDatabase } from '@services/firebase'
 import { getAndUpdateUserToken } from '@services/firebase/chat/getAndUpdateUserToken'
 import { unsubscribeChatIdsListener } from '@services/firebase/chat/unsubscribeChatIdsListener'
 import { unsubscribeUserChatsListener } from '@services/firebase/chat/unsubscribeUserChatsListener'
@@ -21,6 +18,16 @@ import { ChatAdapter } from '@adapters/ChatAdapter'
 import { getEnvVars } from '../../infrastructure/environment'
 import { AuthContext } from '../AuthContext'
 
+const { ENVIRONMENT } = getEnvVars()
+
+const {
+	createNewUser,
+	getRemoteUserData,
+	existsOnDatabase,
+	startUserChatIdsListener,
+	startUserChatListeners
+} = ChatAdapter()
+
 const initialValue = {
 	chatDataContext: [],
 	pushNotificationEnabled: false,
@@ -28,17 +35,6 @@ const initialValue = {
 	userHasTokenNotification: () => new Promise<boolean>(() => { }),
 	removeChatListeners: () => { },
 }
-
-const { ENVIRONMENT } = getEnvVars()
-
-const {
-	createNewUser,
-	/* getUserChatIds,
-	getUserChats, */
-	getRemoteUserData,
-	existsOnDatabase,
-	startUserChatIdsListener
-} = ChatAdapter()
 
 const ChatContext = createContext<ChatContextType>(initialValue)
 
@@ -72,7 +68,18 @@ function ChatProvider({ children }: ChatProviderProps) {
 		setChatIdList(chatIds)
 		setChatsOnContext(userChats)
 
-		startChatListener(chatIds)
+		startUserChatListeners(chatIds, chatListenerCallback)
+	}
+
+	const chatListenerCallback = (chatId: Id, messages: MessageObjects) => {
+		updateChatMessages(chatId, messages)
+	}
+
+	const updateChatMessages = (chatId: Id, messages: MessageObjects) => {
+		const chatMessagesOnContext = chatDataContextRef.current
+		const chats = mergeChatMessages(chatId, messages, chatMessagesOnContext)
+
+		setChatsOnContext(chats as Conversation[])
 	}
 
 	const checkUserRemoteNotificationState = async () => {
@@ -92,28 +99,6 @@ function ChatProvider({ children }: ChatProviderProps) {
 			.filter((elem, index) => chatIds.indexOf(elem) === index || !!elem)
 			.filter((filteredChatIds) => filteredChatIds)
 	} */
-
-	const startChatListener = async (chatIds: Id[]) => {
-		return chatIds.forEach(async (chatId: string) => {
-			const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
-			if (await existsOnDatabase(chatId)) {
-				onChildChanged(realTimeDatabaseRef, async (snapshot) => {
-					chatListenerCallback(chatId, snapshot.val(), chatDataContextRef.current)
-				})
-			} else {
-				console.log(`Esse chat não existe: ${chatId}`)
-			}
-		})
-	}
-
-	const chatListenerCallback = (chatId: Id, messages: MessageObjects, chatMessagesOnContext: Chat[]) => {
-		updateChatMessages(chatId, messages, chatMessagesOnContext)
-	}
-
-	const updateChatMessages = (chatId: Id, messages: MessageObjects, chatMessagesOnContext: Chat[]) => {
-		const chats = mergeChatMessages(chatId, messages, chatMessagesOnContext)
-		setChatsOnContext(chats as Conversation[])
-	}
 
 	const mergeChatMessages = (chatId: Id, messages: MessageObjects, chatMessagesOnContext: Chat[]) => {
 		return chatMessagesOnContext.map((chat: Chat) => {

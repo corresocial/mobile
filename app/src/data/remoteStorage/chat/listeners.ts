@@ -1,5 +1,6 @@
-import { onValue, ref } from 'firebase/database'
+import { onChildChanged, onValue, ref } from 'firebase/database'
 
+import { MessageObjects } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
 import { realTimeDatabase } from '@services/firebase'
@@ -15,4 +16,12 @@ function startUserChatIdsListener(userId: Id, callback: (chatIds: Id[]) => void)
 	})
 }
 
-export { startUserChatIdsListener }
+const startUserChatListeners = async (idChat: Id, callback: (chatId: Id, messages: MessageObjects) => void) => {
+	const realTimeDatabaseRef = ref(realTimeDatabase, `${idChat}`)
+
+	onChildChanged(realTimeDatabaseRef, async (snapshot) => {
+		callback(idChat, snapshot.val())
+	})
+}
+
+export { startUserChatIdsListener, startUserChatListeners }

@@ -13,6 +13,8 @@ async function startUserChatIdsListenerUC(userId: Id, callback: (chatIds: Id[], 
 
 	if (await existsOnDatabase(userId)) {
 		startUserChatIdsListener(userId, listenerCallback)
+	} else {
+		console.log(`Esse usuário não existe: ${userId}`)
 	}
 }
 

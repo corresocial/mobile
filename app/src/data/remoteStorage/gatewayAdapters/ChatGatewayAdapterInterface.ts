@@ -1,4 +1,4 @@
-import { Chat, ChatUserData } from '@domain/entities/chat/types'
+import { Chat, ChatUserData, MessageObjects } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
 export interface ChatGatewayAdapterInterface {
@@ -8,4 +8,5 @@ export interface ChatGatewayAdapterInterface {
 	getRemoteUserData(userId: Id): Promise<ChatUserData>
 	existsOnDatabase(nodeId?: Id): Promise<boolean>
 	startUserChatIdsListener(userId: Id, callback: (chatIds: Id[]) => void): void
+	startUserChatListeners(userId: Id, callback: (chatId: Id, messages: MessageObjects) => void): void
 }
