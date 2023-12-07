@@ -1,4 +1,5 @@
 import { registerNewUser } from '../chat/createNewUser'
+import { existsOnDatabase } from '../chat/existsOnDatabase'
 import { getRemoteUserData } from '../chat/getRemoteUserData'
 import { getUserChatIds } from '../chat/getUserChatIds'
 import { getUserChats } from '../chat/getUserChats'
@@ -9,7 +10,8 @@ function ChatGatewayAdapter(): ChatGatewayAdapterInterface {
 		registerNewUser,
 		getUserChatIds,
 		getUserChats,
-		getRemoteUserData
+		getRemoteUserData,
+		existsOnDatabase
 	}
 }
 

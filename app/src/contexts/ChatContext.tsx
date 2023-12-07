@@ -11,7 +11,6 @@ import { Chat, MessageObjects } from '@globalTypes/chat/types'
 import { Id } from '@services/firebase/types'
 
 import { realTimeDatabase } from '@services/firebase'
-import { existsOnDatabase } from '@services/firebase/chat/existsOnDatabase'
 import { getAndUpdateUserToken } from '@services/firebase/chat/getAndUpdateUserToken'
 import { unsubscribeChatIdsListener } from '@services/firebase/chat/unsubscribeChatIdsListener'
 import { unsubscribeUserChatsListener } from '@services/firebase/chat/unsubscribeUserChatsListener'
@@ -20,8 +19,6 @@ import { ChatAdapter } from '@adapters/ChatAdapter'
 
 import { getEnvVars } from '../infrastructure/environment'
 import { AuthContext } from './AuthContext'
-
-const { ENVIRONMENT } = getEnvVars()
 
 type ChatContextType = {
 	chatDataContext: Chat[]
@@ -39,15 +36,23 @@ interface ChatProviderProps {
 const initialValue = {
 	chatDataContext: [],
 	pushNotificationEnabled: false,
-	setPushNotificationState: (state: boolean) => new Promise<void>((resolve, reject) => { }),
-	userHasTokenNotification: () => new Promise<boolean>((resolve, reject) => { }),
+	setPushNotificationState: (state: boolean) => new Promise<void>(() => { }),
+	userHasTokenNotification: () => new Promise<boolean>(() => { }),
 	initUserInstance: (userId?: Id) => { },
 	removeChatListeners: () => { },
 }
 
-const ChatContext = createContext<ChatContextType>(initialValue)
+const { ENVIRONMENT } = getEnvVars()
 
-const { createNewUser, getUserChatIds, getUserChats, getRemoteUserData } = ChatAdapter()
+const {
+	createNewUser,
+	getUserChatIds,
+	getUserChats,
+	getRemoteUserData,
+	existsOnDatabase
+} = ChatAdapter()
+
+const ChatContext = createContext<ChatContextType>(initialValue)
 
 function ChatProvider({ children }: ChatProviderProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -74,9 +79,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 		if (!await existsOnDatabase(userId)) {
 			await createNewUser(userId)
 		}
-
-		console.log('CHAT: Usuário ativo...')
-		await startUserChatIdsListener(userDataContext.userId as Id)
+		await startUserChatIdsListener(userId as Id)
 	}
 
 	const checkUserRemoteNotificationState = async () => {
@@ -86,7 +89,9 @@ function ChatProvider({ children }: ChatProviderProps) {
 
 	const startUserChatIdsListener = async (userId: Id) => {
 		if (!userId) return false
+
 		const realTimeDatabaseRef = ref(realTimeDatabase, `${userId}`)
+
 		if (await existsOnDatabase(userId)) {
 			onValue(realTimeDatabaseRef, async (snapshot) => {
 				// console.log(`Listener userChatIds running... ${userId}`)

@@ -1,5 +1,6 @@
 import { conversationsIsValidToSortUC } from '@domain/chat/rules/validation'
 import { createNewUserUC } from '@domain/chat/useCases/createNewUserUC'
+import { existsOnDatabaseUC } from '@domain/chat/useCases/existsOnDatabaseUC'
 import { filterInvalidMessagesUC } from '@domain/chat/useCases/filterInvalidMessagesUC'
 import { getRemoteUserDataUC } from '@domain/chat/useCases/getRemoteUserDataUC'
 import { getUserChatIdsUC } from '@domain/chat/useCases/getUserChatIdsUC'
@@ -14,7 +15,8 @@ function ChatAdapter(): ChatAdapterInterface {
 		getUserChats: getUserChatsUC,
 		filterInvalidMessages: filterInvalidMessagesUC,
 		conversationsIsValidToSort: conversationsIsValidToSortUC,
-		getRemoteUserData: getRemoteUserDataUC
+		getRemoteUserData: getRemoteUserDataUC,
+		existsOnDatabase: existsOnDatabaseUC
 	}
 }
 

@@ -7,6 +7,7 @@ interface ChatAdapterInterface {
 	getUserChatIds(userId: Id): Promise<Id[]> | Id[]
 	getUserChats(chatIds: Id[]): Promise<Chat[]>
 	getRemoteUserData(userId: Id): Promise<ChatUserData>
+	existsOnDatabase(nodeId?: Id): Promise<boolean>
 	filterInvalidMessages(messages: MessageObjects, authenticatedUserId: Id): Message[]
 	conversationsIsValidToSort(firstConversation: Chat, secondConversation: Chat): boolean
 }
