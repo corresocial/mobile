@@ -5,20 +5,21 @@ import { Alert, Platform } from 'react-native'
 
 import { onValue, onChildChanged, ref } from 'firebase/database'
 
-import { Chat, MessageObjects, UserDatabase } from '@globalTypes/chat/types'
+import { Conversation } from '@domain/entities/chat/types'
+
+import { Chat, MessageObjects } from '@globalTypes/chat/types'
 import { Id } from '@services/firebase/types'
 
 import { realTimeDatabase } from '@services/firebase'
 import { existsOnDatabase } from '@services/firebase/chat/existsOnDatabase'
 import { getAndUpdateUserToken } from '@services/firebase/chat/getAndUpdateUserToken'
-import { getRemoteUser } from '@services/firebase/chat/getRemoteUser'
-import { readFromDatabase } from '@services/firebase/chat/readFromDatabase'
 import { unsubscribeChatIdsListener } from '@services/firebase/chat/unsubscribeChatIdsListener'
 import { unsubscribeUserChatsListener } from '@services/firebase/chat/unsubscribeUserChatsListener'
 
+import { ChatAdapter } from '@adapters/ChatAdapter'
+
 import { getEnvVars } from '../infrastructure/environment'
 import { AuthContext } from './AuthContext'
-import { ChatAdapter } from '@adapters/ChatAdapter'
 
 const { ENVIRONMENT } = getEnvVars()
 
@@ -46,7 +47,7 @@ const initialValue = {
 
 const ChatContext = createContext<ChatContextType>(initialValue)
 
-const { createNewUser } = ChatAdapter()
+const { createNewUser, getUserChatIds, getUserChats, getRemoteUserData } = ChatAdapter()
 
 function ChatProvider({ children }: ChatProviderProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -66,8 +67,8 @@ function ChatProvider({ children }: ChatProviderProps) {
 	}, [])
 
 	useEffect(() => {
-		chatDataContextRef.current = chatDataContext;
-	}, [chatDataContext]);
+		chatDataContextRef.current = chatDataContext
+	}, [chatDataContext])
 
 	const initUserInstance = async (userId: Id) => {
 		if (!await existsOnDatabase(userId)) {
@@ -75,7 +76,6 @@ function ChatProvider({ children }: ChatProviderProps) {
 		}
 
 		console.log('CHAT: Usuário ativo...')
-
 		await startUserChatIdsListener(userDataContext.userId as Id)
 	}
 
@@ -100,12 +100,15 @@ function ChatProvider({ children }: ChatProviderProps) {
 
 	const loadUserChatIds = async (userId?: Id) => {
 		if (!userId) return []
+		const userChatIds = await getUserChatIds(userId)
+		return removeEqualsChatIds(userChatIds)
+	}
 
-		return readFromDatabase([userId])
-			.then((user: UserDatabase[]) => {
-				const filteredChatIds = removeEqualsChatIds(user[0].chatIds)
-				return filteredChatIds
-			})
+	const removeEqualsChatIds = (chatIds: Id[]) => {
+		if (!chatIds || !chatIds.length) return []
+		return chatIds
+			.filter((elem, index) => chatIds.indexOf(elem) === index || !!elem)
+			.filter((filteredChatIds) => filteredChatIds)
 	}
 
 	const startChatListener = async (chatIds: Id[]) => {
@@ -123,15 +126,15 @@ function ChatProvider({ children }: ChatProviderProps) {
 	}
 
 	const updateChatMessages = (chatId: Id, messages: MessageObjects, chatMessagesOnContext: Chat[]) => {
-		const chats = chatMessagesOnContext.map((chat: Chat) => {
-			if (chat.chatId === chatId) {
-				chat.messages = messages
-				return chat
-			}
+		const chats = mergeChatMessages(chatId, messages, chatMessagesOnContext)
+		setChatsOnContext(chats as Conversation[])
+	}
+
+	const mergeChatMessages = (chatId: Id, messages: MessageObjects, chatMessagesOnContext: Chat[]) => {
+		return chatMessagesOnContext.map((chat: Chat) => {
+			if (chat.chatId === chatId) return { ...chat, messages }
 			return chat
 		})
-
-		setChatsOnContext(chats)
 	}
 
 	const loadChats = async (chatIds: Id[]) => {
@@ -139,16 +142,8 @@ function ChatProvider({ children }: ChatProviderProps) {
 		const filteredChatIds = chatIds.filter((chatId) => chatId)
 		if (!filteredChatIds.length) return
 
-		await readFromDatabase(filteredChatIds)
-			.then((remoteChats: Chat[]) => setChatsOnContext(remoteChats))
-			.catch((err) => console.log(err))
-	}
-
-	const removeEqualsChatIds = (chatIds: Id[]) => {
-		if (!chatIds || !chatIds.length) return []
-		return chatIds
-			.filter((elem, index) => chatIds.indexOf(elem) === index || !!elem)
-			.filter((filteredChatIds) => filteredChatIds)
+		const userChats = await getUserChats(chatIds)
+		setChatsOnContext(userChats)
 	}
 
 	const setPushNotificationState = async (state: boolean, tokenAlreadyRegistred?: boolean) => {
@@ -167,9 +162,8 @@ function ChatProvider({ children }: ChatProviderProps) {
 	}
 
 	const userHasTokenNotification = async () => {
-		const user = await getRemoteUser(userDataContext.userId || '')
-		if (user && user.tokenNotification) return true
-		return false
+		const user = await getRemoteUserData(userDataContext.userId as Id)
+		return !!(user && user.tokenNotifications)
 	}
 
 	const loadUserNotification = async () => {

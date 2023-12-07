@@ -1,6 +1,23 @@
-export type Chat = Conversation[]
+import { Id } from '../globalTypes'
 
 export type Conversation = {
+	chatId: string
+	user1: {
+		userId: string
+		name: string
+		profilePictureUrl: string
+		privateMessages?: MessageObjects
+	}
+	user2: {
+		userId: string
+		name: string
+		profilePictureUrl: string
+		privateMessages?: MessageObjects
+	}
+	messages: MessageObjects
+}
+
+export type Chat = {
 	chatId: string
 	user1: {
 		userId: string
@@ -38,13 +55,19 @@ export type MessageObjects = {
 }
 
 export type UserDatabase = {
-	blockedUsers: string[]
-	chatIds: string[]
+	blockedUsers: Id[]
+	chatIds: Id[]
+	tokenNotifications?: string
+}
+
+export type ChatUserData = {
+	blockedUsers: Id[]
+	chatIds: Id[]
 	tokenNotifications?: string
 }
 
 export type ChatUserIdentification = {
-	userId: string
+	userId: Id
 	name: string
 	profilePictureUrl: string
 }

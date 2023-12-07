@@ -2,11 +2,13 @@ import React, { useState, useContext, useEffect, useRef } from 'react'
 import { ScrollView, TextInput } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { MessageObjects, ChatUserIdentification, Chat } from '@domain/entities/chat/types'
+
 import { AlertContext } from '@contexts/AlertContext/index'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
-import { MessageObjects, Conversation } from '@domain/entities/chat/types'
+import { FlatListItem, Id } from '@globalTypes/global/types'
 import { ChatConversationsScreenProps } from '@routes/Stack/ChatStack/stackScreenProps'
 
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
@@ -29,15 +31,14 @@ import LoupIcon from '@assets/icons/loup-white.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
+import { ChatAdapter } from '@adapters/ChatAdapter'
+
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { ConversationCard } from '@components/_cards/ConversationCard'
 import { SearchInput } from '@components/_inputs/SearchInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
-import { ChatAdapter } from '@adapters/ChatAdapter'
-import { FlatListItem, Id } from '@globalTypes/global/types'
-import { ChatUserIdentification } from '@domain/entities/chat/types'
 
 const { formatRelativeDate } = UiUtils()
 
@@ -57,7 +58,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 	const { chatDataContext } = useContext(ChatContext)
 
 	const [searchText, setSearchText] = useState('')
-	const [filteredChats, setFilteredChats] = useState<Conversation[]>([])
+	const [filteredChats, setFilteredChats] = useState<Chat[]>([])
 
 	const horizontalScrollViewRef = useRef<ScrollView>()
 	const searchInputRef = useRef<TextInput>()
@@ -101,12 +102,12 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 
 	const onChangeSearchText = (text: string) => {
 		const lowerCaseText = text.toLowerCase()
-		const filtered = chatDataContext.filter((chat: Conversation) => {
+		const filtered = chatDataContext.filter((chat: Chat) => {
 			return chat.user1.name.toLowerCase().includes(lowerCaseText) || chat.user2.name.toLowerCase().includes(lowerCaseText)
 		})
 
 		setSearchText(text)
-		setFilteredChats(filtered as Conversation[])
+		setFilteredChats(filtered as Chat[])
 	}
 
 	const showSearchInput = () => {
@@ -124,7 +125,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		}
 	}
 
-	const navigateToChatMessages = (item: Conversation) => {
+	const navigateToChatMessages = (item: Chat) => {
 		navigation.navigate('ChatMessages', { chat: { ...item } })
 	}
 
@@ -133,7 +134,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		return currentChatData.sort(sortChats)
 	}
 
-	const sortChats = (a: Conversation, b: Conversation) => {
+	const sortChats = (a: Chat, b: Chat) => {
 		if (conversationsIsValidToSort(a, b)) return -1
 
 		const lastMessageA = getLastMessageDateTime(a.messages, true)
@@ -151,7 +152,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		})
 	}
 
-	const renderConversationListItem = (conversation: Conversation) => {
+	const renderConversationListItem = (conversation: Chat) => {
 		const { user1, user2, chatId, messages } = conversation
 
 		return (
@@ -235,7 +236,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 						: (
 							<ConversationList
 								data={!searchText ? sortConversationsByDateTime() : filteredChats}
-								renderItem={({ item }: FlatListItem<Conversation>) => item && renderConversationListItem(item)}
+								renderItem={({ item }: FlatListItem<Chat>) => item && renderConversationListItem(item)}
 								showsVerticalScrollIndicator={false}
 								ItemSeparatorComponent={() => <VerticalSpacing />}
 								ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}

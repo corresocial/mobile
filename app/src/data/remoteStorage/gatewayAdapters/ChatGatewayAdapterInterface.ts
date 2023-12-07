@@ -1,7 +1,9 @@
-import { UserDatabase } from "@domain/entities/chat/types";
-import { Id } from "@domain/entities/globalTypes";
+import { Chat, ChatUserData } from '@domain/entities/chat/types'
+import { Id } from '@domain/entities/globalTypes'
 
 export interface ChatGatewayAdapterInterface {
-	registerNewUser(userId: Id, initialUserData: Partial<UserDatabase>): Promise<boolean> | boolean
+	registerNewUser(userId: Id, initialUserData: Partial<ChatUserData>): Promise<boolean> | boolean
+	getUserChatIds(userId: Id): Promise<Id[]> | Id[]
+	getUserChats(chatIds: Id[]): Promise<Chat[]>
+	getRemoteUserData(userId: Id): Promise<ChatUserData>
 }
-
