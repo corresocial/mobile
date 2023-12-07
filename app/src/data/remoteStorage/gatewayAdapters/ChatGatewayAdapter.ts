@@ -3,6 +3,7 @@ import { existsOnDatabase } from '../chat/existsOnDatabase'
 import { getRemoteUserData } from '../chat/getRemoteUserData'
 import { getUserChatIds } from '../chat/getUserChatIds'
 import { getUserChats } from '../chat/getUserChats'
+import { startUserChatIdsListener } from '../chat/listeners'
 import { ChatGatewayAdapterInterface } from './ChatGatewayAdapterInterface'
 
 function ChatGatewayAdapter(): ChatGatewayAdapterInterface {
@@ -11,7 +12,8 @@ function ChatGatewayAdapter(): ChatGatewayAdapterInterface {
 		getUserChatIds,
 		getUserChats,
 		getRemoteUserData,
-		existsOnDatabase
+		existsOnDatabase,
+		startUserChatIdsListener
 	}
 }
 

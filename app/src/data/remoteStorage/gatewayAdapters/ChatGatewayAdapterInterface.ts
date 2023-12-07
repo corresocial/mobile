@@ -7,4 +7,5 @@ export interface ChatGatewayAdapterInterface {
 	getUserChats(chatIds: Id[]): Promise<Chat[]>
 	getRemoteUserData(userId: Id): Promise<ChatUserData>
 	existsOnDatabase(nodeId?: Id): Promise<boolean>
+	startUserChatIdsListener(userId: Id, callback: (chatIds: Id[]) => void): void
 }

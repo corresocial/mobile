@@ -5,6 +5,7 @@ import { filterInvalidMessagesUC } from '@domain/chat/useCases/filterInvalidMess
 import { getRemoteUserDataUC } from '@domain/chat/useCases/getRemoteUserDataUC'
 import { getUserChatIdsUC } from '@domain/chat/useCases/getUserChatIdsUC'
 import { getUserChatsUC } from '@domain/chat/useCases/getUserChatsUC'
+import { startUserChatIdsListenerUC } from '@domain/chat/useCases/userChatIdsListenerUC'
 
 import { ChatAdapterInterface } from './ChatAdapterInterface'
 
@@ -13,10 +14,12 @@ function ChatAdapter(): ChatAdapterInterface {
 		createNewUser: createNewUserUC,
 		getUserChatIds: getUserChatIdsUC,
 		getUserChats: getUserChatsUC,
+		getRemoteUserData: getRemoteUserDataUC,
+		existsOnDatabase: existsOnDatabaseUC,
+		startUserChatIdsListener: startUserChatIdsListenerUC,
 		filterInvalidMessages: filterInvalidMessagesUC,
 		conversationsIsValidToSort: conversationsIsValidToSortUC,
-		getRemoteUserData: getRemoteUserDataUC,
-		existsOnDatabase: existsOnDatabaseUC
+
 	}
 }
 

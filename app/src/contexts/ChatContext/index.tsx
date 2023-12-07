@@ -3,10 +3,11 @@ import * as Notifications from 'expo-notifications'
 import React, { MutableRefObject, createContext, useContext, useEffect, useRef, useState } from 'react'
 import { Alert, Platform } from 'react-native'
 
-import { onValue, onChildChanged, ref } from 'firebase/database'
+import { onChildChanged, ref } from 'firebase/database'
 
 import { Conversation } from '@domain/entities/chat/types'
 
+import { ChatContextType, ChatProviderProps } from './types'
 import { Chat, MessageObjects } from '@globalTypes/chat/types'
 import { Id } from '@services/firebase/types'
 
@@ -17,28 +18,14 @@ import { unsubscribeUserChatsListener } from '@services/firebase/chat/unsubscrib
 
 import { ChatAdapter } from '@adapters/ChatAdapter'
 
-import { getEnvVars } from '../infrastructure/environment'
-import { AuthContext } from './AuthContext'
-
-type ChatContextType = {
-	chatDataContext: Chat[]
-	pushNotificationEnabled: boolean
-	setPushNotificationState: (state: boolean) => Promise<void>
-	userHasTokenNotification: () => Promise<boolean>
-	initUserInstance: (userId?: Id) => void
-	removeChatListeners: () => void
-}
-
-interface ChatProviderProps {
-	children: React.ReactNode
-}
+import { getEnvVars } from '../../infrastructure/environment'
+import { AuthContext } from '../AuthContext'
 
 const initialValue = {
 	chatDataContext: [],
 	pushNotificationEnabled: false,
 	setPushNotificationState: (state: boolean) => new Promise<void>(() => { }),
 	userHasTokenNotification: () => new Promise<boolean>(() => { }),
-	initUserInstance: (userId?: Id) => { },
 	removeChatListeners: () => { },
 }
 
@@ -46,10 +33,11 @@ const { ENVIRONMENT } = getEnvVars()
 
 const {
 	createNewUser,
-	getUserChatIds,
-	getUserChats,
+	/* getUserChatIds,
+	getUserChats, */
 	getRemoteUserData,
-	existsOnDatabase
+	existsOnDatabase,
+	startUserChatIdsListener
 } = ChatAdapter()
 
 const ChatContext = createContext<ChatContextType>(initialValue)
@@ -76,10 +64,15 @@ function ChatProvider({ children }: ChatProviderProps) {
 	}, [chatDataContext])
 
 	const initUserInstance = async (userId: Id) => {
-		if (!await existsOnDatabase(userId)) {
-			await createNewUser(userId)
-		}
-		await startUserChatIdsListener(userId as Id)
+		if (!await existsOnDatabase(userId)) await createNewUser(userId)
+		await startUserChatIdsListener(userId, userChatIdsListenerCallback)
+	}
+
+	const userChatIdsListenerCallback = async (chatIds: Id[], userChats: Chat[]) => {
+		setChatIdList(chatIds)
+		setChatsOnContext(userChats)
+
+		startChatListener(chatIds)
 	}
 
 	const checkUserRemoteNotificationState = async () => {
@@ -87,47 +80,34 @@ function ChatProvider({ children }: ChatProviderProps) {
 		await setPushNotificationState(notificationAlreadyRegistred, notificationAlreadyRegistred)
 	}
 
-	const startUserChatIdsListener = async (userId: Id) => {
-		if (!userId) return false
-
-		const realTimeDatabaseRef = ref(realTimeDatabase, `${userId}`)
-
-		if (await existsOnDatabase(userId)) {
-			onValue(realTimeDatabaseRef, async (snapshot) => {
-				// console.log(`Listener userChatIds running... ${userId}`)
-				const newUserChatIds = await loadUserChatIds(userDataContext.userId)
-				setChatIdList(newUserChatIds)
-				await loadChats(newUserChatIds)
-				startChatListener(newUserChatIds)
-			})
-		}
-	}
-
-	const loadUserChatIds = async (userId?: Id) => {
+	/* const loadUserChatIds = async (userId?: Id) => {
 		if (!userId) return []
 		const userChatIds = await getUserChatIds(userId)
 		return removeEqualsChatIds(userChatIds)
-	}
+	} */
 
-	const removeEqualsChatIds = (chatIds: Id[]) => {
+	/* const removeEqualsChatIds = (chatIds: Id[]) => {
 		if (!chatIds || !chatIds.length) return []
 		return chatIds
 			.filter((elem, index) => chatIds.indexOf(elem) === index || !!elem)
 			.filter((filteredChatIds) => filteredChatIds)
-	}
+	} */
 
 	const startChatListener = async (chatIds: Id[]) => {
 		return chatIds.forEach(async (chatId: string) => {
 			const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
 			if (await existsOnDatabase(chatId)) {
 				onChildChanged(realTimeDatabaseRef, async (snapshot) => {
-					// console.log('Listener chats running...')
-					updateChatMessages(chatId, snapshot.val(), chatDataContextRef.current)
+					chatListenerCallback(chatId, snapshot.val(), chatDataContextRef.current)
 				})
 			} else {
 				console.log(`Esse chat não existe: ${chatId}`)
 			}
 		})
+	}
+
+	const chatListenerCallback = (chatId: Id, messages: MessageObjects, chatMessagesOnContext: Chat[]) => {
+		updateChatMessages(chatId, messages, chatMessagesOnContext)
 	}
 
 	const updateChatMessages = (chatId: Id, messages: MessageObjects, chatMessagesOnContext: Chat[]) => {
@@ -142,14 +122,14 @@ function ChatProvider({ children }: ChatProviderProps) {
 		})
 	}
 
-	const loadChats = async (chatIds: Id[]) => {
+	/* const loadChatsToContext = async (chatIds: Id[]) => {
 		console.log('Carregando chats')
 		const filteredChatIds = chatIds.filter((chatId) => chatId)
 		if (!filteredChatIds.length) return
 
 		const userChats = await getUserChats(chatIds)
 		setChatsOnContext(userChats)
-	}
+	} */
 
 	const setPushNotificationState = async (state: boolean, tokenAlreadyRegistred?: boolean) => {
 		console.log(`Push Notification: ${state}`)
@@ -259,7 +239,6 @@ function ChatProvider({ children }: ChatProviderProps) {
 		setPushNotificationState,
 		userHasTokenNotification,
 		chatDataContext,
-		initUserInstance,
 		removeChatListeners
 	})
 
