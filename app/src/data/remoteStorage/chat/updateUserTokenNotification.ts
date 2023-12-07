@@ -5,10 +5,15 @@ import { Id } from '@domain/entities/globalTypes'
 
 import { realTimeDatabase } from '@services/firebase'
 
-async function updateUserTokenNotification(userId: Id, userData: ChatUserData) {
+async function updateUserTokenNotification(userId: Id, tokenNotification: string, getRemoteUserData: (idUser: Id) => Promise<ChatUserData>) {
 	const dbRef = ref(realTimeDatabase, `${userId}`)
-	set(dbRef, userData)
-	return true
+
+	const remoteUser = await getRemoteUserData(userId)
+
+	if (remoteUser.tokenNotification !== tokenNotification) {
+		const updatedRemoteuser = { ...remoteUser, tokenNotification }
+		set(dbRef, updatedRemoteuser)
+	}
 }
 
 export { updateUserTokenNotification }

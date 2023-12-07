@@ -1,7 +1,5 @@
-import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
 import React, { MutableRefObject, createContext, useContext, useEffect, useRef, useState } from 'react'
-import { Alert, Platform } from 'react-native'
 
 import { Conversation } from '@domain/entities/chat/types'
 
@@ -14,10 +12,7 @@ import { unsubscribeUserChatsListener } from '@services/firebase/chat/unsubscrib
 
 import { ChatAdapter } from '@adapters/ChatAdapter'
 
-import { getEnvVars } from '../../infrastructure/environment'
 import { AuthContext } from '../AuthContext'
-
-const { ENVIRONMENT } = getEnvVars()
 
 const {
 	createNewUser,
@@ -25,7 +20,8 @@ const {
 	existsOnDatabase,
 	startUserChatIdsListener,
 	startUserChatListeners,
-	updateUserTokenNotification
+	updateUserTokenNotification,
+	registerPushNotification,
 } = ChatAdapter()
 
 const initialValue = {
@@ -52,7 +48,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 
 	useEffect(() => {
 		initUserInstance(userDataContext.userId as Id)
-		checkUserRemoteNotificationState()
+		checkUserTokenNotificationState()
 	}, [])
 
 	useEffect(() => {
@@ -78,13 +74,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 	const updateChatMessages = (chatId: Id, messages: MessageObjects) => {
 		const chatMessagesOnContext = chatDataContextRef.current
 		const chats = mergeChatMessages(chatId, messages, chatMessagesOnContext)
-
 		setChatsOnContext(chats as Conversation[])
-	}
-
-	const checkUserRemoteNotificationState = async () => {
-		const notificationAlreadyRegistred = await userHasTokenNotification()
-		await setPushNotificationState(notificationAlreadyRegistred, notificationAlreadyRegistred)
 	}
 
 	const mergeChatMessages = (chatId: Id, messages: MessageObjects, chatMessagesOnContext: Chat[]) => {
@@ -94,36 +84,39 @@ function ChatProvider({ children }: ChatProviderProps) {
 		})
 	}
 
-	const setPushNotificationState = async (state: boolean, tokenAlreadyRegistred?: boolean) => {
-		console.log(`Push Notification: ${state}`)
-		if (state === true) {
-			await loadUserNotification()
-			setPushNotificationEnabled(state)
-			addNotificationListeners()
-			return
-		}
+	// Notification
 
-		if (!tokenAlreadyRegistred) {
-			await updateUserTokenNotification(userDataContext.userId as Id, '')
-			removeNotificationListeners()
-		}
+	const checkUserTokenNotificationState = async () => {
+		const hasTokenNotification = await userHasTokenNotification()
+		await setPushNotificationState(hasTokenNotification)
 	}
 
 	const userHasTokenNotification = async () => {
-		const user = await getRemoteUserData(userDataContext.userId as Id)
-		return !!(user && user.tokenNotification)
+		const remoteUser = await getRemoteUserData(userDataContext.userId as Id)
+		return !!(remoteUser && remoteUser.tokenNotification)
 	}
 
-	const loadUserNotification = async () => {
+	const setPushNotificationState = async (state: boolean) => {
+		const authenticatedUserId = userDataContext.userId as Id
+
 		try {
-			await registerForPushNotificationsAsync()
-		} catch (err: any) {
+			setPushNotificationEnabled(state)
+
+			if (state === true) {
+				const tokenNotification = await registerPushNotification()
+				updateUserTokenNotification(authenticatedUserId, tokenNotification)
+				addNotificationListeners()
+			} else {
+				await updateUserTokenNotification(authenticatedUserId, '')
+				removeNotificationListeners()
+			}
+		} catch (err) {
+			setPushNotificationEnabled(!state)
 			console.log(err)
-			ENVIRONMENT === 'dev' && Alert.alert('erro', err && err.message ? err.message : err)
 		}
 	}
 
-	const registerForPushNotificationsAsync = async () => {
+	/* const registerNewPushNotificationAsync = async () => {
 		try {
 			let token
 
@@ -165,7 +158,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 			console.log(err)
 			ENVIRONMENT === 'dev' && Alert.alert('erro', err && err.message ? err.message : err)
 		}
-	}
+	} */
 
 	const addNotificationListeners = () => {
 		if (notificationListener) {
