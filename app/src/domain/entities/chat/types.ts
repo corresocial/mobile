@@ -57,13 +57,13 @@ export type MessageObjects = {
 export type UserDatabase = {
 	blockedUsers: Id[]
 	chatIds: Id[]
-	tokenNotifications?: string
+	tokenNotification?: string
 }
 
 export type ChatUserData = {
 	blockedUsers: Id[]
 	chatIds: Id[]
-	tokenNotifications?: string
+	tokenNotification?: string
 }
 
 export type ChatUserIdentification = {

@@ -9,4 +9,5 @@ export interface ChatGatewayAdapterInterface {
 	existsOnDatabase(nodeId?: Id): Promise<boolean>
 	startUserChatIdsListener(userId: Id, callback: (chatIds: Id[]) => void): void
 	startUserChatListeners(userId: Id, callback: (chatId: Id, messages: MessageObjects) => void): void
+	updateUserTokenNotification(userId: Id, userData: ChatUserData): Promise<boolean>
 }

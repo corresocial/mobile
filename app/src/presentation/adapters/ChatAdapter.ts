@@ -7,6 +7,7 @@ import { getUserChatIdsUC } from '@domain/chat/useCases/getUserChatIdsUC'
 import { getUserChatsUC } from '@domain/chat/useCases/getUserChatsUC'
 import { startUserChatIdsListenerUC } from '@domain/chat/useCases/startUserChatIdsListenerUC'
 import { startUserChatListenersUC } from '@domain/chat/useCases/startUserChatListeners'
+import { updateUserTokenNotificationUC } from '@domain/chat/useCases/updateUserTokenNotificationUC'
 
 import { ChatAdapterInterface } from './ChatAdapterInterface'
 
@@ -19,10 +20,10 @@ function ChatAdapter(): ChatAdapterInterface {
 		existsOnDatabase: existsOnDatabaseUC,
 		startUserChatIdsListener: startUserChatIdsListenerUC,
 		startUserChatListeners: startUserChatListenersUC,
+		updateUserTokenNotification: updateUserTokenNotificationUC,
 
 		filterInvalidMessages: filterInvalidMessagesUC,
 		conversationsIsValidToSort: conversationsIsValidToSortUC,
-
 	}
 }
 

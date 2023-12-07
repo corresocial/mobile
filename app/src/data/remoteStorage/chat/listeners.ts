@@ -17,6 +17,7 @@ function startUserChatIdsListener(userId: Id, callback: (chatIds: Id[]) => void)
 }
 
 const startUserChatListeners = async (idChat: Id, callback: (chatId: Id, messages: MessageObjects) => void) => {
+	if (!idChat) return
 	const realTimeDatabaseRef = ref(realTimeDatabase, `${idChat}`)
 
 	onChildChanged(realTimeDatabaseRef, async (snapshot) => {

@@ -9,7 +9,6 @@ import { ChatContextType, ChatProviderProps } from './types'
 import { Chat, MessageObjects } from '@globalTypes/chat/types'
 import { Id } from '@services/firebase/types'
 
-import { getAndUpdateUserToken } from '@services/firebase/chat/getAndUpdateUserToken'
 import { unsubscribeChatIdsListener } from '@services/firebase/chat/unsubscribeChatIdsListener'
 import { unsubscribeUserChatsListener } from '@services/firebase/chat/unsubscribeUserChatsListener'
 
@@ -25,7 +24,8 @@ const {
 	getRemoteUserData,
 	existsOnDatabase,
 	startUserChatIdsListener,
-	startUserChatListeners
+	startUserChatListeners,
+	updateUserTokenNotification
 } = ChatAdapter()
 
 const initialValue = {
@@ -87,34 +87,12 @@ function ChatProvider({ children }: ChatProviderProps) {
 		await setPushNotificationState(notificationAlreadyRegistred, notificationAlreadyRegistred)
 	}
 
-	/* const loadUserChatIds = async (userId?: Id) => {
-		if (!userId) return []
-		const userChatIds = await getUserChatIds(userId)
-		return removeEqualsChatIds(userChatIds)
-	} */
-
-	/* const removeEqualsChatIds = (chatIds: Id[]) => {
-		if (!chatIds || !chatIds.length) return []
-		return chatIds
-			.filter((elem, index) => chatIds.indexOf(elem) === index || !!elem)
-			.filter((filteredChatIds) => filteredChatIds)
-	} */
-
 	const mergeChatMessages = (chatId: Id, messages: MessageObjects, chatMessagesOnContext: Chat[]) => {
 		return chatMessagesOnContext.map((chat: Chat) => {
 			if (chat.chatId === chatId) return { ...chat, messages }
 			return chat
 		})
 	}
-
-	/* const loadChatsToContext = async (chatIds: Id[]) => {
-		console.log('Carregando chats')
-		const filteredChatIds = chatIds.filter((chatId) => chatId)
-		if (!filteredChatIds.length) return
-
-		const userChats = await getUserChats(chatIds)
-		setChatsOnContext(userChats)
-	} */
 
 	const setPushNotificationState = async (state: boolean, tokenAlreadyRegistred?: boolean) => {
 		console.log(`Push Notification: ${state}`)
@@ -126,14 +104,14 @@ function ChatProvider({ children }: ChatProviderProps) {
 		}
 
 		if (!tokenAlreadyRegistred) {
-			await getAndUpdateUserToken(userDataContext.userId as Id, null)
+			await updateUserTokenNotification(userDataContext.userId as Id, '')
 			removeNotificationListeners()
 		}
 	}
 
 	const userHasTokenNotification = async () => {
 		const user = await getRemoteUserData(userDataContext.userId as Id)
-		return !!(user && user.tokenNotifications)
+		return !!(user && user.tokenNotification)
 	}
 
 	const loadUserNotification = async () => {
@@ -176,12 +154,12 @@ function ChatProvider({ children }: ChatProviderProps) {
 
 				if (finalStatus !== 'granted') {
 					console.log('não permitiu notificações')
-					await getAndUpdateUserToken(userDataContext.userId as Id, null)
+					await updateUserTokenNotification(userDataContext.userId as Id, '')
 					return
 				}
 
 				token = (await Notifications.getExpoPushTokenAsync()).data
-				await getAndUpdateUserToken(userDataContext.userId as Id, token)
+				await updateUserTokenNotification(userDataContext.userId as Id, token)
 			}
 		} catch (err: any) {
 			console.log(err)

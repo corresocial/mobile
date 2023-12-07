@@ -4,6 +4,7 @@ import { getRemoteUserData } from '../chat/getRemoteUserData'
 import { getUserChatIds } from '../chat/getUserChatIds'
 import { getUserChats } from '../chat/getUserChats'
 import { startUserChatIdsListener, startUserChatListeners } from '../chat/listeners'
+import { updateUserTokenNotification } from '../chat/updateUserTokenNotification'
 import { ChatGatewayAdapterInterface } from './ChatGatewayAdapterInterface'
 
 function ChatGatewayAdapter(): ChatGatewayAdapterInterface {
@@ -14,7 +15,8 @@ function ChatGatewayAdapter(): ChatGatewayAdapterInterface {
 		getRemoteUserData,
 		existsOnDatabase,
 		startUserChatIdsListener,
-		startUserChatListeners
+		startUserChatListeners,
+		updateUserTokenNotification
 	}
 }
 
