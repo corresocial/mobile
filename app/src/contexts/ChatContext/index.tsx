@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
 
 import { Conversation } from '@domain/entities/chat/types'
+import { Id } from '@domain/entities/globalTypes'
 
 import { ChatContextType, ChatProviderProps } from './types'
 import { Chat, MessageObjects } from '@globalTypes/chat/types'
-import { Id } from '@services/firebase/types'
 import { MutableObjectReference } from '@services/pushNotification/types'
 
 import { ChatAdapter } from '@adapters/ChatAdapter'

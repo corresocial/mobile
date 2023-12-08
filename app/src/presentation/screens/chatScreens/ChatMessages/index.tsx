@@ -10,7 +10,7 @@ import { Platform } from 'react-native'
 import uuid from 'react-uuid'
 
 import { FlashList } from '@shopify/flash-list'
-import { get, onValue, ref } from 'firebase/database'
+import { onValue, ref } from 'firebase/database'
 
 import { AuthContext } from '@contexts/AuthContext'
 
@@ -28,7 +28,6 @@ import { realTimeDatabase } from '@services/firebase'
 import { blockUserId } from '@services/firebase/chat/blockUser'
 import { cleanMessages } from '@services/firebase/chat/cleanMessages'
 import { getRemoteChatData } from '@services/firebase/chat/getRemoteChatData'
-import { getRemoteUser } from '@services/firebase/chat/getRemoteUser'
 import { makeAllUserMessagesAsRead } from '@services/firebase/chat/makeAllUserMessagesAsRead'
 import { registerNewChat } from '@services/firebase/chat/registerNewChat'
 import { sendMessage } from '@services/firebase/chat/sendMessage'
@@ -57,9 +56,14 @@ import { MessageCard } from '@components/MessageCard'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
-const { getConversationUserId, getLastMessageObject } = UiChatUtils()
+const { getLastMessageObject } = UiChatUtils()
 
-const { getRemoteUserData } = ChatAdapter()
+const { getConversationUserId, getConversationUserName, getConversationProfilePicture } = UiChatUtils()
+
+const {
+	existsOnDatabase,
+	hasBlockedUserOnConversation
+} = ChatAdapter()
 
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -104,23 +108,16 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const verifyUsersBlock = async () => {
-		const { blockedUsers: blockedUsers1 } = await getRemoteUser(
-			currentChat.user1.userId
-		)
-		const { blockedUsers: blockedUsers2 } = await getRemoteUser(
-			currentChat.user2.userId
-		)
-		const blockedUsers = [...blockedUsers1, ...blockedUsers2]
+		const authenticatedUserId = userDataContext.userId
+		const { userId: userId1 } = currentChat.user1
+		const { userId: userId2 } = currentChat.user2
 
-		const userIsBlocked = blockedUsers.includes(currentChat.user1.userId)
-			|| blockedUsers.includes(currentChat.user2.userId)
+		const { hasUserBlocked, userBlockOwnerId } = await hasBlockedUserOnConversation(userId1, userId2)
 
-		const userBlock = blockedUsers1.includes(currentChat.user2.userId)
-			? currentChat.user1.userId
-			: currentChat.user2.userId
-		setBlockedByOwner(userBlock === userDataContext.userId)
-		setIsBlockedUser(userIsBlocked)
-		return userIsBlocked
+		setBlockedByOwner(userBlockOwnerId === authenticatedUserId)
+		setIsBlockedUser(hasUserBlocked)
+
+		return hasUserBlocked
 	}
 
 	const startMessagesListener = async (chatId: Id) => {
@@ -130,7 +127,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			return onValue(realTimeDatabaseRef, (snapshot) => {
 				const listenerMessages = snapshot.val()
 				if (getLastMessageObject(listenerMessages).owner !== userDataContext.userId) {
-					// console.log('Listener message running...')
 					setMessages(listenerMessages)
 				}
 			})
@@ -143,14 +139,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const scrollToEnd = () => {
 		!!(messages && messages.length) && flatListRef.current?.scrollToEnd({ animated: true })
-	}
-
-	const existsOnDatabase = async (chatId: Id) => {
-		if (!chatId) return false
-		const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}`)
-		return get(realTimeDatabaseRef)
-			.then((snapshot: any) => snapshot.exists())
-			.catch((err) => console.log(err))
 	}
 
 	const submitMessage = async (text: string) => {
@@ -167,7 +155,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		setMessages(newMessages)
 
 		const userBlock = await verifyUsersBlock()
-		if (userBlock) {
+		if (userBlock) { // Check loginc
 			sendMessage(
 				{
 					message: text,
@@ -199,7 +187,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			to: remoteUser.tokenNotification,
 			sound: 'default',
 			title: 'corre social poha',
-			body: text
+			body: text,
+			data: { collapseKey: 'corre_social_notification' },
 		}
 
 		await fetch('https://exp.host/--/api/v2/push/send', {
@@ -211,8 +200,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			},
 			body: JSON.stringify(message),
 		})
-	} */
-
+	}
+ */
 	const blockUser = async () => {
 		const targetUserId = getReceiverUserId(
 			currentChat.user1,
@@ -263,25 +252,19 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		return user1.userId
 	}
 
-	const getUserName = (user1: ChatUserIdentification, user2: ChatUserIdentification) => {
-		if (userDataContext.userId === user1.userId) {
-			return user2.name
-		}
-		return user1.name
+	const getRecipientUserName = () => {
+		const { user1, user2 } = currentChat
+		return getConversationUserName(userDataContext.userId as Id, user1, user2)
 	}
 
-	const getUserId = (user1: ChatUserIdentification, user2: ChatUserIdentification) => {
-		if (userDataContext.userId === user1.userId) {
-			return user2.userId
-		}
-		return user1.userId
+	const getRecipientUserId = () => {
+		const { user1, user2 } = currentChat
+		return getConversationUserId(userDataContext.userId as Id, user1, user2)
 	}
 
-	const getProfilePictureUrl = (user1: ChatUserIdentification, user2: ChatUserIdentification) => {
-		if (userDataContext.userId === user1.userId) {
-			return user2.profilePictureUrl
-		}
-		return user1.profilePictureUrl
+	const getProfilePictureUrl = () => {
+		const { user1, user2 } = currentChat
+		return getConversationProfilePicture(userDataContext.userId as Id, user1, user2)
 	}
 
 	const getFilteredMessages = () => {
@@ -295,11 +278,10 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const navigateToProfile = () => {
-		navigation.navigate('ChatStack' as any, {
-			// TODO type
+		navigation.navigate('ChatStack' as any, { // TODO type
 			screen: 'ProfileChat',
 			params: {
-				userId: getUserId(currentChat.user1, currentChat.user2),
+				userId: getRecipientUserId(),
 				stackLabel: 'Chat',
 			},
 		})
@@ -320,8 +302,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			<DefaultConfirmationModal // BLOCK
 				visibility={blockConfirmationModalIsVisible}
 				title={isBlockedUser ? 'desbloquear' : 'bloquear'}
-				text={`você tem certeza que deseja ${isBlockedUser ? 'desbloquear' : 'bloquear'} ${getUserName(currentChat.user1, currentChat.user2)}?`}
-				highlightedWords={[...getUserName(currentChat.user1, currentChat.user2).split(' ')]}
+				text={`você tem certeza que deseja ${isBlockedUser ? 'desbloquear' : 'bloquear'} ${getRecipientUserName()}?`}
+				highlightedWords={[...getRecipientUserName().split(' ')]}
 				buttonKeyword={isBlockedUser ? 'desbloquear' : 'bloquear'}
 				closeModal={toggleBlockConfirmationModalVisibility}
 				onPressButton={isBlockedUser ? unblockUser : blockUser}
@@ -329,8 +311,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			<DefaultConfirmationModal // CLEAR MESSAGES
 				visibility={clearMessagesConfirmationModalIsVisible}
 				title={'apagar'}
-				text={`você tem certeza que deseja apagar as mensagens com ${getUserName(currentChat.user1, currentChat.user2)}?`}
-				highlightedWords={[...getUserName(currentChat.user1, currentChat.user2).split(' ')]}
+				text={`você tem certeza que deseja apagar as mensagens com ${getRecipientUserName()}?`}
+				highlightedWords={[...getRecipientUserName().split(' ')]}
 				buttonKeyword={'apagar'}
 				closeModal={toggleCleanMessagesConfirmationModalVisibility}
 				onPressButton={cleanConversation}
@@ -343,14 +325,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				<BackButton onPress={() => navigation.goBack()} />
 				<SmallUserIdentification
 					pictureDimensions={40}
-					userName={getUserName(
-						currentChat.user1,
-						currentChat.user2
-					)}
-					profilePictureUrl={getProfilePictureUrl(
-						currentChat.user1,
-						currentChat.user2
-					)}
+					userName={getRecipientUserName()}
+					profilePictureUrl={getProfilePictureUrl()}
 					width={'60%'}
 					userNameFontSize={15}
 					height={'100%'}
@@ -358,10 +334,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				/>
 				<HorizontalSpacing />
 				<ChatPopOver
-					userName={getUserName(
-						currentChat.user1,
-						currentChat.user2
-					)}
+					userName={getRecipientUserName()}
 					popoverVisibility={chatOptionsIsOpen}
 					closePopover={() => setChatOptionsIsOpen(false)}
 					blockUser={toggleBlockConfirmationModalVisibility}

@@ -5,6 +5,7 @@ import { filterInvalidMessagesUC } from '@domain/chat/useCases/filterInvalidMess
 import { getRemoteUserDataUC } from '@domain/chat/useCases/getRemoteUserDataUC'
 import { getUserChatIdsUC } from '@domain/chat/useCases/getUserChatIdsUC'
 import { getUserChatsUC } from '@domain/chat/useCases/getUserChatsUC'
+import { hasBlockedUserOnConversationUC } from '@domain/chat/useCases/hasBlockedUserOnConversationUC'
 import { addNotificationListenerUC, removeNotificationListenerUC } from '@domain/chat/useCases/notificationListeners'
 import { registerPushNotificationUC } from '@domain/chat/useCases/registerPushNotification'
 import { startUserChatIdsListenerUC } from '@domain/chat/useCases/startUserChatIdsListenerUC'
@@ -27,6 +28,7 @@ function ChatAdapter(): ChatAdapterInterface {
 		unsubscribeUserChatIdsListener: unsubscribeChatIdsListenerUC,
 		unsubscribeUserChatsListener: unsubscribeUserChatsListenerUC,
 		updateUserTokenNotification: updateUserTokenNotificationUC,
+		hasBlockedUserOnConversation: hasBlockedUserOnConversationUC,
 
 		registerPushNotification: registerPushNotificationUC,
 		addNotificationListener: addNotificationListenerUC,
