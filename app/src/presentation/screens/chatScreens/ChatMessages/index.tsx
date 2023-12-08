@@ -43,6 +43,8 @@ import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
+import { ChatAdapter } from '@adapters/ChatAdapter'
+
 import { BackButton } from '@components/_buttons/BackButton'
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
@@ -55,7 +57,9 @@ import { MessageCard } from '@components/MessageCard'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
-const { getLastMessageObject } = UiChatUtils()
+const { getConversationUserId, getLastMessageObject } = UiChatUtils()
+
+const { getRemoteUserData } = ChatAdapter()
 
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
@@ -183,7 +187,31 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			readed: false,
 			owner: userDataContext.userId as Id,
 		}, currentChat.chatId)
+
+		// await sendPushNotification(text)
 	}
+
+	/* async function sendPushNotification(text: string) {
+		const destinationUserId = getConversationUserId(userDataContext.userId as Id, currentChat.user1, currentChat.user2)
+		const remoteUser = await getRemoteUserData(destinationUserId)
+
+		const message = {
+			to: remoteUser.tokenNotification,
+			sound: 'default',
+			title: 'corre social poha',
+			body: text
+		}
+
+		await fetch('https://exp.host/--/api/v2/push/send', {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Accept-encoding': 'gzip, deflate',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(message),
+		})
+	} */
 
 	const blockUser = async () => {
 		const targetUserId = getReceiverUserId(

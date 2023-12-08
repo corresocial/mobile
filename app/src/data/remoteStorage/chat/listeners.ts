@@ -16,7 +16,7 @@ function startUserChatIdsListener(userId: Id, callback: (chatIds: Id[]) => void)
 	})
 }
 
-const startUserChatListeners = async (idChat: Id, callback: (chatId: Id, messages: MessageObjects) => void) => {
+const startUserChatListener = async (idChat: Id, callback: (chatId: Id, messages: MessageObjects) => void) => {
 	if (!idChat) return
 	const realTimeDatabaseRef = ref(realTimeDatabase, `${idChat}`)
 
@@ -25,4 +25,4 @@ const startUserChatListeners = async (idChat: Id, callback: (chatId: Id, message
 	})
 }
 
-export { startUserChatIdsListener, startUserChatListeners }
+export { startUserChatIdsListener, startUserChatListener }

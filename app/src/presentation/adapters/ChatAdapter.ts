@@ -7,7 +7,9 @@ import { getUserChatIdsUC } from '@domain/chat/useCases/getUserChatIdsUC'
 import { getUserChatsUC } from '@domain/chat/useCases/getUserChatsUC'
 import { registerPushNotificationUC } from '@domain/chat/useCases/registerPushNotification'
 import { startUserChatIdsListenerUC } from '@domain/chat/useCases/startUserChatIdsListenerUC'
-import { startUserChatListenersUC } from '@domain/chat/useCases/startUserChatListeners'
+import { startUserChatListenersUC } from '@domain/chat/useCases/startUserChatListenersUC'
+import { unsubscribeChatIdsListenerUC } from '@domain/chat/useCases/unsubscribeChatIdsListenerUC'
+import { unsubscribeUserChatsListenerUC } from '@domain/chat/useCases/unsubscribeUserChatsListenerUC'
 import { updateUserTokenNotificationUC } from '@domain/chat/useCases/updateUserTokenNotificationUC'
 
 import { ChatAdapterInterface } from './ChatAdapterInterface'
@@ -21,6 +23,8 @@ function ChatAdapter(): ChatAdapterInterface {
 		existsOnDatabase: existsOnDatabaseUC,
 		startUserChatIdsListener: startUserChatIdsListenerUC,
 		startUserChatListeners: startUserChatListenersUC,
+		unsubscribeUserChatIdsListener: unsubscribeChatIdsListenerUC,
+		unsubscribeUserChatsListener: unsubscribeUserChatsListenerUC,
 		updateUserTokenNotification: updateUserTokenNotificationUC,
 		registerPushNotification: registerPushNotificationUC,
 

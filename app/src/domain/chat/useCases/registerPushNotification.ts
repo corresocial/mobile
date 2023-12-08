@@ -42,6 +42,8 @@ async function registerPushNotificationUC() {
 			const tokenNotification = (await Notifications.getExpoPushTokenAsync()).data
 			return tokenNotification
 		}
+
+		return ''
 	} catch (err: any) {
 		console.log(err)
 		ENVIRONMENT === 'dev' && Alert.alert('erro', err && err.message ? err.message : err)

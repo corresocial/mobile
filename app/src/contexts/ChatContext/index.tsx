@@ -7,9 +7,6 @@ import { ChatContextType, ChatProviderProps } from './types'
 import { Chat, MessageObjects } from '@globalTypes/chat/types'
 import { Id } from '@services/firebase/types'
 
-import { unsubscribeChatIdsListener } from '@services/firebase/chat/unsubscribeChatIdsListener'
-import { unsubscribeUserChatsListener } from '@services/firebase/chat/unsubscribeUserChatsListener'
-
 import { ChatAdapter } from '@adapters/ChatAdapter'
 
 import { AuthContext } from '../AuthContext'
@@ -20,6 +17,8 @@ const {
 	existsOnDatabase,
 	startUserChatIdsListener,
 	startUserChatListeners,
+	unsubscribeUserChatIdsListener,
+	unsubscribeUserChatsListener,
 	updateUserTokenNotification,
 	registerPushNotification,
 } = ChatAdapter()
@@ -116,66 +115,15 @@ function ChatProvider({ children }: ChatProviderProps) {
 		}
 	}
 
-	/* const registerNewPushNotificationAsync = async () => {
-		try {
-			let token
-
-			Notifications.setNotificationHandler({
-				handleNotification: async () => ({
-					shouldShowAlert: true,
-					shouldPlaySound: false,
-					shouldSetBadge: false,
-				}),
-			})
-
-			if (Platform.OS === 'android') {
-				await Notifications.setNotificationChannelAsync('default', {
-					name: 'default',
-					importance: Notifications.AndroidImportance.MAX,
-					vibrationPattern: [0, 250, 250, 250],
-					lightColor: '#FF231F7C',
-				})
-			}
-
-			if (Device.isDevice) {
-				const { status: existingStatus } = await Notifications.getPermissionsAsync()
-				let finalStatus = existingStatus
-				if (existingStatus !== 'granted') {
-					const { status } = await Notifications.requestPermissionsAsync()
-					finalStatus = status
-				}
-
-				if (finalStatus !== 'granted') {
-					console.log('não permitiu notificações')
-					await updateUserTokenNotification(userDataContext.userId as Id, '')
-					return
-				}
-
-				token = (await Notifications.getExpoPushTokenAsync()).data
-				await updateUserTokenNotification(userDataContext.userId as Id, token)
-			}
-		} catch (err: any) {
-			console.log(err)
-			ENVIRONMENT === 'dev' && Alert.alert('erro', err && err.message ? err.message : err)
-		}
-	} */
-
 	const addNotificationListeners = () => {
 		if (notificationListener) {
-			console.log('Add notification Listener')
-			notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
-				// console.log(notification)
-			})
-
-			responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
-				// console.log(response)
-			})
+			notificationListener.current = Notifications.addNotificationReceivedListener((notification) => { })
+			responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => { })
 		}
 	}
 
 	const removeNotificationListeners = () => {
 		if (notificationListener && responseListener.current) {
-			console.log('Remove notification Listener')
 			Notifications.removePushTokenSubscription(notificationListener.current)
 			Notifications.removeNotificationSubscription(notificationListener.current)
 			Notifications.removeNotificationSubscription(responseListener.current)
@@ -184,8 +132,9 @@ function ChatProvider({ children }: ChatProviderProps) {
 	}
 
 	const removeChatListeners = () => {
-		unsubscribeUserChatsListener(userDataContext.userId)
-		unsubscribeChatIdsListener(chatIdList)
+		unsubscribeUserChatsListener(chatIdList)
+		unsubscribeUserChatIdsListener(userDataContext.userId as Id)
+		setPushNotificationState(false)
 		setChatIdList([])
 		setChatsOnContext([])
 	}
