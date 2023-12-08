@@ -1,11 +1,11 @@
-import * as Notifications from 'expo-notifications'
-import React, { MutableRefObject, createContext, useContext, useEffect, useRef, useState } from 'react'
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
 
 import { Conversation } from '@domain/entities/chat/types'
 
 import { ChatContextType, ChatProviderProps } from './types'
 import { Chat, MessageObjects } from '@globalTypes/chat/types'
 import { Id } from '@services/firebase/types'
+import { MutableObjectReference } from '@services/pushNotification/types'
 
 import { ChatAdapter } from '@adapters/ChatAdapter'
 
@@ -21,6 +21,8 @@ const {
 	unsubscribeUserChatsListener,
 	updateUserTokenNotification,
 	registerPushNotification,
+	addNotificationListener,
+	removeNotificationListener
 } = ChatAdapter()
 
 const initialValue = {
@@ -40,14 +42,14 @@ function ChatProvider({ children }: ChatProviderProps) {
 	const [chatDataContext, setChatsOnContext] = useState<Chat[]>([])
 	const [chatIdList, setChatIdList] = useState<string[]>([])
 
-	const notificationListener: MutableRefObject<any> = useRef()
-	const responseListener: MutableRefObject<any> = useRef()
+	const notificationListener: MutableObjectReference<any> = useRef()
+	const responseListener: MutableObjectReference<any> = useRef()
 
 	const chatDataContextRef = useRef(chatDataContext)
 
 	useEffect(() => {
 		initUserInstance(userDataContext.userId as Id)
-		checkUserTokenNotificationState()
+		initPushNotificationService()
 	}, [])
 
 	useEffect(() => {
@@ -85,7 +87,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 
 	// Notification
 
-	const checkUserTokenNotificationState = async () => {
+	const initPushNotificationService = async () => {
 		const hasTokenNotification = await userHasTokenNotification()
 		await setPushNotificationState(hasTokenNotification)
 	}
@@ -104,30 +106,14 @@ function ChatProvider({ children }: ChatProviderProps) {
 			if (state === true) {
 				const tokenNotification = await registerPushNotification()
 				updateUserTokenNotification(authenticatedUserId, tokenNotification)
-				addNotificationListeners()
+				addNotificationListener(notificationListener, responseListener)
 			} else {
 				await updateUserTokenNotification(authenticatedUserId, '')
-				removeNotificationListeners()
+				removeNotificationListener(notificationListener, responseListener)
 			}
 		} catch (err) {
 			setPushNotificationEnabled(!state)
 			console.log(err)
-		}
-	}
-
-	const addNotificationListeners = () => {
-		if (notificationListener) {
-			notificationListener.current = Notifications.addNotificationReceivedListener((notification) => { })
-			responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => { })
-		}
-	}
-
-	const removeNotificationListeners = () => {
-		if (notificationListener && responseListener.current) {
-			Notifications.removePushTokenSubscription(notificationListener.current)
-			Notifications.removeNotificationSubscription(notificationListener.current)
-			Notifications.removeNotificationSubscription(responseListener.current)
-			Notifications.unregisterForNotificationsAsync()
 		}
 	}
 

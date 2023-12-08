@@ -1,6 +1,7 @@
 import { Chat, ChatUserData, Message, MessageObjects } from '@domain/entities/chat/types'
+import { Id } from '@domain/entities/globalTypes'
 
-import { Id } from '@services/firebase/types'
+import { MutableObjectReference } from '@services/pushNotification/types'
 
 interface ChatAdapterInterface {
 	createNewUser(userId: Id): Promise<boolean>
@@ -13,7 +14,10 @@ interface ChatAdapterInterface {
 	unsubscribeUserChatIdsListener: (userId: Id) => void
 	unsubscribeUserChatsListener: (chatIds: Id[]) => void
 	updateUserTokenNotification(userId: Id, tokenNotification: string): Promise<void>
+
 	registerPushNotification(): Promise<string>
+	addNotificationListener(listenerReference: MutableObjectReference<any>, responseReference: MutableObjectReference<any>): void
+	removeNotificationListener(listenerReference: MutableObjectReference<any>, responseReference: MutableObjectReference<any>): void
 
 	filterInvalidMessages(messages: MessageObjects, authenticatedUserId: Id): Message[]
 	conversationsIsValidToSort(firstConversation: Chat, secondConversation: Chat): boolean
