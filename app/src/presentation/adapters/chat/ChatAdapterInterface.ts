@@ -20,6 +20,7 @@ interface ChatAdapterInterface {
 	startChatMessagesListener: (chatId: Id, callback: (newMessages: MessageObjects) => void) => void
 	unsubscribeUserChatIdsListener: (userId: Id) => void
 	unsubscribeUserChatsListener: (chatIds: Id[]) => void
+	unsubscribeChatMessagesListener(chatId: Id): void
 	updateUserTokenNotification(userId: Id, tokenNotification: string): Promise<void>
 	hasBlockedUserOnConversation(userId1: Id, userId2: Id): Promise<CheckBlockedUsersResponse>
 

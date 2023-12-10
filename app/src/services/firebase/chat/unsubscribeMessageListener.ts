@@ -2,10 +2,10 @@ import { off, ref } from 'firebase/database'
 
 import { realTimeDatabase } from '@services/firebase'
 
-async function unsubscribeMessageListener(path: string) {
-	if (!path) return false
+async function unsubscribeMessageListener(chatId: string) {
+	if (!chatId) return false
 	try {
-		const listenerRef = ref(realTimeDatabase, `${path}/messages`)
+		const listenerRef = ref(realTimeDatabase, `${chatId}/messages`)
 		off(listenerRef)
 		return true
 	} catch (err) {

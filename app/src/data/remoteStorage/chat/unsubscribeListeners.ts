@@ -14,4 +14,9 @@ async function unsubscribeUserChatListener(chatId: Id) {
 	off(listenerRef)
 }
 
-export { unsubscribeUserChatIdsListener, unsubscribeUserChatListener }
+async function unsubscribeChatMessagesListener(chatId: Id) {
+	const listenerRef = ref(realTimeDatabase, `${chatId}/messages`)
+	off(listenerRef)
+}
+
+export { unsubscribeUserChatIdsListener, unsubscribeUserChatListener, unsubscribeChatMessagesListener }

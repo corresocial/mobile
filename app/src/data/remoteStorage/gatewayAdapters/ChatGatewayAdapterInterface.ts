@@ -16,5 +16,6 @@ export interface ChatGatewayAdapterInterface {
 	startChatMessagesListener(chatId: Id, callback: (newMessages: MessageObjects) => void): void
 	unsubscribeUserChatIdsListener(userId: Id): void
 	unsubscribeUserChatListener(chatId: Id): void
+	unsubscribeChatMessagesListener(chatId: Id): void
 	updateUserTokenNotification(userId: Id, tokenNotification: string, getRemoteUserData: (idUser: Id) => Promise<ChatUserData>): Promise<void>
 }

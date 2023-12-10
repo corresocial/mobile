@@ -16,14 +16,14 @@ import { ChatMessagesScreenProps } from '@routes/Stack/UserStack/stackScreenProp
 import { Id } from '@services/firebase/types'
 
 import { blockUserId } from '@services/firebase/chat/blockUser'
-import { cleanMessages } from '@services/firebase/chat/cleanMessages'
 // import { getRemoteChatData } from '@services/firebase/chat/getRemoteChatData'
 // import { registerNewChat } from '@services/firebase/chat/registerNewChat'
 // import { setChatIdToUsers } from '@services/firebase/chat/setChatIdToUsers'
 // import { sendMessage } from '@services/firebase/chat/sendMessage'
+// import { unsubscribeMessageListener } from '@services/firebase/chat/unsubscribeMessageListener'
+import { cleanMessages } from '@services/firebase/chat/cleanMessages'
 import { makeAllUserMessagesAsRead } from '@services/firebase/chat/makeAllUserMessagesAsRead'
 import { unblockUserId } from '@services/firebase/chat/unblockUser'
-import { unsubscribeMessageListener } from '@services/firebase/chat/unsubscribeMessageListener'
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
 
 import { Container, Header, IsBlockedContainer } from './styles'
@@ -87,7 +87,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		loadChatMessages()
 		makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId as Id)
 		return () => {
-			unsubscribeMessageListener(currentChat.chatId)
 			makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId as Id)
 		}
 	}, [])
