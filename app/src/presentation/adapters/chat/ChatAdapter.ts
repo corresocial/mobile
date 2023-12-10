@@ -11,6 +11,7 @@ import { hasBlockedUserOnConversationUC } from '@domain/chat/useCases/hasBlocked
 import { addNotificationListenerUC, removeNotificationListenerUC } from '@domain/chat/useCases/notificationListenersUC'
 import { registerNewChatUC } from '@domain/chat/useCases/registerNewChatUC'
 import { registerPushNotificationUC } from '@domain/chat/useCases/registerPushNotificationUC'
+import { sendMessageUC } from '@domain/chat/useCases/sendMessageUC'
 import { setChatIdForUsersUC } from '@domain/chat/useCases/setChatIdForUsersUC'
 import { startChatMessagesListenerUC } from '@domain/chat/useCases/startMessagesListenerUC'
 import { startUserChatIdsListenerUC } from '@domain/chat/useCases/startUserChatIdsListenerUC'
@@ -31,6 +32,7 @@ function ChatAdapter(): ChatAdapterInterface {
 		registerNewChat: registerNewChatUC,
 		setChatIdForUsers: setChatIdForUsersUC,
 		generateNewMessageObject: generateNewMessageObjectUC,
+		sendMessage: sendMessageUC,
 		existsOnDatabase: existsOnDatabaseUC,
 		startUserChatIdsListener: startUserChatIdsListenerUC,
 		startUserChatListeners: startUserChatListenersUC,

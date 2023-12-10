@@ -7,6 +7,7 @@ import { getUserChatIds } from '../chat/getUserChatIds'
 import { getUserChats } from '../chat/getUserChats'
 import { startChatMessagesListener, startUserChatIdsListener, startUserChatListener } from '../chat/listeners'
 import { registerNewChat } from '../chat/registerNewChat'
+import { sendMessage } from '../chat/sendMessage'
 import { unsubscribeUserChatIdsListener, unsubscribeUserChatListener } from '../chat/unsubscribeListeners'
 import { updateUserTokenNotification } from '../chat/updateUserTokenNotification'
 import { ChatGatewayAdapterInterface } from './ChatGatewayAdapterInterface'
@@ -20,6 +21,7 @@ function ChatGatewayAdapter(): ChatGatewayAdapterInterface {
 		registerNewUser,
 		registerNewChat,
 		addNewUserChatId,
+		sendMessage,
 		existsOnDatabase,
 		startUserChatIdsListener,
 		startUserChatListener,

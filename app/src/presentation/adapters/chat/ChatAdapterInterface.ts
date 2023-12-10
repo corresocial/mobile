@@ -13,6 +13,7 @@ interface ChatAdapterInterface {
 	registerNewChat(chatData: Chat): Promise<void>
 	setChatIdForUsers(userIds: Id[], chatId: Id): Promise<void>
 	generateNewMessageObject(textMessage: string, userSenderId: Id): MessageObjects
+	sendMessage(message: Message, chatId: Id, recipientUserId: Id): Promise<boolean>
 	existsOnDatabase(nodeId?: Id): Promise<boolean>
 	startUserChatIdsListener(userId: Id, callback: (chatIds: Id[], chats: Chat[]) => void): Promise<void>
 	startUserChatListeners(chatIds: Id[], callback: (chatId: Id, messages: MessageObjects) => void): Promise<void>

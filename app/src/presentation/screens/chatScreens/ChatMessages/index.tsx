@@ -20,8 +20,8 @@ import { cleanMessages } from '@services/firebase/chat/cleanMessages'
 // import { getRemoteChatData } from '@services/firebase/chat/getRemoteChatData'
 // import { registerNewChat } from '@services/firebase/chat/registerNewChat'
 // import { setChatIdToUsers } from '@services/firebase/chat/setChatIdToUsers'
+// import { sendMessage } from '@services/firebase/chat/sendMessage'
 import { makeAllUserMessagesAsRead } from '@services/firebase/chat/makeAllUserMessagesAsRead'
-import { sendMessage } from '@services/firebase/chat/sendMessage'
 import { unblockUserId } from '@services/firebase/chat/unblockUser'
 import { unsubscribeMessageListener } from '@services/firebase/chat/unsubscribeMessageListener'
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
@@ -55,6 +55,7 @@ const {
 	registerNewChat,
 	setChatIdForUsers,
 	generateNewMessageObject,
+	sendMessage,
 	existsOnDatabase,
 	hasBlockedUserOnConversation,
 	startChatMessagesListener
@@ -137,34 +138,13 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		const userBlock = await verifyUsersBlock()
 
 		setMessages(newMessages)
-		sendMessage({ ...newMessageValue, justOwner: !!userBlock }, currentChat.chatId)
-
-		// await sendPushNotification(text)
+		await sendMessage(
+			{ ...newMessageValue, justOwner: !!userBlock },
+			currentChat.chatId,
+			getRecipientUserId()
+		)
 	}
 
-	/* async function sendPushNotification(text: string) {
-		const destinationUserId = getConversationUserId(userDataContext.userId as Id, currentChat.user1, currentChat.user2)
-		const remoteUser = await getRemoteUserData(destinationUserId)
-
-		const message = {
-			to: remoteUser.tokenNotification,
-			sound: 'default',
-			title: 'corre social poha',
-			body: text,
-			data: { collapseKey: 'corre_social_notification' },
-		}
-
-		await fetch('https://exp.host/--/api/v2/push/send', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Accept-encoding': 'gzip, deflate',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(message),
-		})
-	}
-	*/
 	const blockUser = async () => {
 		const targetUserId = getRecipientUserId()
 		await blockUserId(targetUserId, userDataContext.userId as Id)

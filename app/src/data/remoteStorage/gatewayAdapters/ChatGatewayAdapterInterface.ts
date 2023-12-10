@@ -1,4 +1,4 @@
-import { Chat, ChatUserData, MessageObjects } from '@domain/entities/chat/types'
+import { Chat, ChatUserData, Message, MessageObjects } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
 export interface ChatGatewayAdapterInterface {
@@ -9,6 +9,7 @@ export interface ChatGatewayAdapterInterface {
 	registerNewUser(userId: Id, initialUserData: Partial<ChatUserData>): Promise<boolean> | boolean
 	registerNewChat(initialChatData: Partial<Chat>): Promise<void>
 	addNewUserChatId(userId: Id, chatId: Id): Promise<void>
+	sendMessage(message: Message, chatId: Id): Promise<boolean>
 	existsOnDatabase(nodeId?: Id): Promise<boolean>
 	startUserChatIdsListener(userId: Id, callback: (chatIds: Id[]) => void): void
 	startUserChatListener(userId: Id, callback: (chatId: Id, messages: MessageObjects) => void): void

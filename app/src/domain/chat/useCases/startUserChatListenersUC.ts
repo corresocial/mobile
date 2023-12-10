@@ -18,7 +18,8 @@ async function startUserChatListenersUC(chatIds: Id[], callback: (chatId: Id, me
 }
 
 function convertChatIdsToArray(chatIds: ObjectChatIds): Id[] {
-	return Object.values(chatIds).map((chatId) => chatId)
+	return Object.values(chatIds)
+		.map((chatId) => chatId)
 }
 
 export { startUserChatListenersUC }
