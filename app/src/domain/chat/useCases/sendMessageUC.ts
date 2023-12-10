@@ -15,7 +15,7 @@ async function sendMessageUC(message: Message, chatId: Id, recipientUserId: Id) 
 		const recipientUserData = await getRemoteUserData(recipientUserId)
 
 		if (recipientUserData.tokenNotification) {
-			const notificationConfig = getNotificationConfig('ExponentPushToken[cECVWJCifQUxLPoWWdXiwy]' || '', 'corre.', message.message)
+			const notificationConfig = getNotificationConfig(recipientUserData.tokenNotification || '', 'corre.', message.message)
 			await sendPushNotification(notificationConfig)
 		} else {
 			console.log('Usuário sem token de notificação cadastrado')
