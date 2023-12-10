@@ -11,6 +11,7 @@ export interface ChatGatewayAdapterInterface {
 	addNewUserChatId(userId: Id, chatId: Id): Promise<void>
 	sendMessage(message: Message, chatId: Id): Promise<boolean>
 	existsOnDatabase(nodeId?: Id): Promise<boolean>
+	updateBlockedUsersList(userId: Id, blockedUserIds: Id[]): Promise<boolean>
 	startUserChatIdsListener(userId: Id, callback: (chatIds: Id[]) => void): void
 	startUserChatListener(userId: Id, callback: (chatId: Id, messages: MessageObjects) => void): void
 	startChatMessagesListener(chatId: Id, callback: (newMessages: MessageObjects) => void): void

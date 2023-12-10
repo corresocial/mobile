@@ -15,7 +15,6 @@ import { FlatListItem } from '@globalTypes/global/types'
 import { ChatMessagesScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { Id } from '@services/firebase/types'
 
-import { blockUserId } from '@services/firebase/chat/blockUser'
 // import { getRemoteChatData } from '@services/firebase/chat/getRemoteChatData'
 // import { registerNewChat } from '@services/firebase/chat/registerNewChat'
 // import { setChatIdToUsers } from '@services/firebase/chat/setChatIdToUsers'
@@ -23,7 +22,8 @@ import { blockUserId } from '@services/firebase/chat/blockUser'
 // import { unsubscribeMessageListener } from '@services/firebase/chat/unsubscribeMessageListener'
 import { cleanMessages } from '@services/firebase/chat/cleanMessages'
 import { makeAllUserMessagesAsRead } from '@services/firebase/chat/makeAllUserMessagesAsRead'
-import { unblockUserId } from '@services/firebase/chat/unblockUser'
+// import { blockUserId } from '@services/firebase/chat/blockUser'
+// import { unblockUserId } from '@services/firebase/chat/unblockUser'
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
 
 import { Container, Header, IsBlockedContainer } from './styles'
@@ -57,6 +57,8 @@ const {
 	generateNewMessageObject,
 	sendMessage,
 	existsOnDatabase,
+	blockUserById,
+	unblockUserById,
 	hasBlockedUserOnConversation,
 	startChatMessagesListener
 } = ChatAdapter()
@@ -146,7 +148,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const blockUser = async () => {
 		const targetUserId = getRecipientUserId()
-		await blockUserId(targetUserId, userDataContext.userId as Id)
+		await blockUserById(targetUserId, userDataContext.userId as Id)
 
 		setChatOptionsIsOpen(false)
 		setBlockedByOwner(true)
@@ -155,17 +157,14 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const unblockUser = async () => {
 		const blockedUserId = getRecipientUserId()
-		await unblockUserId(blockedUserId, userDataContext.userId as Id)
+		await unblockUserById(blockedUserId, userDataContext.userId as Id)
 
 		setChatOptionsIsOpen(false)
 		setIsBlockedUser(false)
 	}
 
 	const cleanConversation = async () => {
-		await cleanMessages(
-			currentChat.chatId,
-			getRecipientUserId()
-		)
+		await cleanMessages(currentChat.chatId, getRecipientUserId())
 		setMessages({})
 		setChatOptionsIsOpen(false)
 	}
@@ -187,21 +186,15 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const getFilteredMessages = () => {
 		return Object.values(messages || {}).filter(
-			(message: Message) => (!message.justOwner
-				|| (message.justOwner
-					&& message.owner === userDataContext.userId))
-				&& (!message.userCanView
-					|| message.userCanView === userDataContext.userId)
+			(message: Message) => (!message.justOwner || (message.justOwner && message.owner === userDataContext.userId))
+				&& (!message.userCanView || message.userCanView === userDataContext.userId)
 		)
 	}
 
 	const navigateToProfile = () => {
 		navigation.navigate('ChatStack' as any, { // TODO type
 			screen: 'ProfileChat',
-			params: {
-				userId: getRecipientUserId(),
-				stackLabel: 'Chat',
-			},
+			params: { userId: getRecipientUserId(), stackLabel: 'Chat' }
 		})
 	}
 
@@ -215,9 +208,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		setTimeout(() => setCleanMessagesConfirmationModalIsVisible(!clearMessagesConfirmationModalIsVisible), 400)
 	}
 
-	const scrollToEnd = () => {
-		!!(messages && messages.length) && flatListRef.current?.scrollToEnd({ animated: true })
-	}
+	const scrollToEnd = () => { flatListRef && flatListRef.current?.scrollToEnd({ animated: true }) }
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

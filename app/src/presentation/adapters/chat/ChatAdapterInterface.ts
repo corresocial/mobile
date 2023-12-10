@@ -15,6 +15,8 @@ interface ChatAdapterInterface {
 	generateNewMessageObject(textMessage: string, userSenderId: Id): MessageObjects
 	sendMessage(message: Message, chatId: Id, recipientUserId: Id): Promise<boolean>
 	existsOnDatabase(nodeId?: Id): Promise<boolean>
+	blockUserById(targetBlockUserId: Id, ownerBlockUserId: Id): Promise<boolean>
+	unblockUserById(targetBlockUserId: Id, ownerBlockUserId: Id): Promise<boolean>
 	startUserChatIdsListener(userId: Id, callback: (chatIds: Id[], chats: Chat[]) => void): Promise<void>
 	startUserChatListeners(chatIds: Id[], callback: (chatId: Id, messages: MessageObjects) => void): Promise<void>
 	startChatMessagesListener: (chatId: Id, callback: (newMessages: MessageObjects) => void) => void
