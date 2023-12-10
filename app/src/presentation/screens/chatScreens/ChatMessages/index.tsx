@@ -1,12 +1,5 @@
-import React, {
-	RefObject,
-	useContext,
-	useEffect,
-	useRef,
-	useState,
-} from 'react'
+import React, { RefObject, useContext, useEffect, useRef, useState } from 'react'
 import { Platform } from 'react-native'
-import uuid from 'react-uuid'
 
 import { FlashList } from '@shopify/flash-list'
 
@@ -17,7 +10,6 @@ import {
 	Chat,
 	Message,
 	MessageObjects,
-	ChatUserIdentification
 } from '@globalTypes/chat/types'
 import { FlatListItem } from '@globalTypes/global/types'
 import { ChatMessagesScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
@@ -26,10 +18,10 @@ import { Id } from '@services/firebase/types'
 import { blockUserId } from '@services/firebase/chat/blockUser'
 import { cleanMessages } from '@services/firebase/chat/cleanMessages'
 // import { getRemoteChatData } from '@services/firebase/chat/getRemoteChatData'
-import { makeAllUserMessagesAsRead } from '@services/firebase/chat/makeAllUserMessagesAsRead'
 // import { registerNewChat } from '@services/firebase/chat/registerNewChat'
-import { sendMessage } from '@services/firebase/chat/sendMessage'
 // import { setChatIdToUsers } from '@services/firebase/chat/setChatIdToUsers'
+import { makeAllUserMessagesAsRead } from '@services/firebase/chat/makeAllUserMessagesAsRead'
+import { sendMessage } from '@services/firebase/chat/sendMessage'
 import { unblockUserId } from '@services/firebase/chat/unblockUser'
 import { unsubscribeMessageListener } from '@services/firebase/chat/unsubscribeMessageListener'
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
@@ -62,6 +54,7 @@ const {
 	getRemoteChatDataByUser,
 	registerNewChat,
 	setChatIdForUsers,
+	generateNewMessageObject,
 	existsOnDatabase,
 	hasBlockedUserOnConversation,
 	startChatMessagesListener
@@ -76,7 +69,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const [chatOptionsIsOpen, setChatOptionsIsOpen] = useState(false)
 	const [currentChat, setCurrentChat] = useState<Chat>(chatFromRoute)
 	const [messages, setMessages] = useState<MessageObjects | Message[]>(currentChat.messages)
-	// const [listenerHasStarted, setListenerHasStarted] = useState(false)
 	const [isBlockedUser, setIsBlockedUser] = useState(false)
 	const [blockedByOwner, setBlockedByOwner] = useState(false)
 
@@ -84,13 +76,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const [clearMessagesConfirmationModalIsVisible, setCleanMessagesConfirmationModalIsVisible] = useState(false)
 
 	const flatListRef: RefObject<any> = useRef(null)
-
-	/* useLayoutEffect(() => {  // Abordagem listener
-		if (!listenerHasStarted) {
-			startChatMessagesListener(currentChat.chatId, messagesListenerCallback)
-			setListenerHasStarted(true)
-		}
-	}, [currentChat]) */
 
 	useEffect(() => {
 		const updatedChat = chatDataContext.find((chat) => chat.chatId === currentChat.chatId)
@@ -115,7 +100,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const loadChatMessages = async () => {
 		const remoteChatData = await getRemoteChatDataByUser(currentChat.user1, currentChat.user2)
 
-		setCurrentChat({ ...remoteChatData, messages: { ...remoteChatData.messages }, } as any) // TODO Type
+		setCurrentChat({ ...remoteChatData, messages: { ...remoteChatData.messages } }) // TODO Type
 		setMessages({ ...remoteChatData.messages })
 
 		verifyUsersBlock()
@@ -136,35 +121,23 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const isUserOwner = (messageUserId: string) => { return userDataContext.userId === messageUserId }
 
-	const scrollToEnd = () => {
-		!!(messages && messages.length) && flatListRef.current?.scrollToEnd({ animated: true })
-	}
-
 	const submitMessage = async (text: string) => {
-		// gubzWyXdQFeC5xEaWlTtbaR64tT2-D59GWtjY4pRYJSL2kLhDDDuecFH2
-		// blAn4iSfycRaAzg7eyKqiO09cI52-gubzWyXdQFeC5xEaWlTtbaR64tT2
-
 		if (!(await existsOnDatabase(currentChat.chatId))) {
 			await registerNewChat(currentChat)
 			await setChatIdForUsers([currentChat.user1.userId, currentChat.user2.userId], currentChat.chatId)
 			startChatMessagesListener(currentChat.chatId, messagesListenerCallback)
 		}
 
-		const newMessages = { ...messages, ...generateMessageObject(text) }
-		setMessages(newMessages)
+		const authenticatedUserId = userDataContext.userId as Id
+
+		const newMessageObject = generateNewMessageObject(text, authenticatedUserId)
+		const newMessageValue = Object.values(newMessageObject)[0]
+		const newMessages = { ...messages, ...newMessageObject }
 
 		const userBlock = await verifyUsersBlock()
 
-		sendMessage(
-			{
-				message: text,
-				dateTime: Date.now(),
-				readed: false,
-				justOwner: !!userBlock,
-				owner: userDataContext.userId as Id,
-			} as any,
-			currentChat.chatId
-		)
+		setMessages(newMessages)
+		sendMessage({ ...newMessageValue, justOwner: !!userBlock }, currentChat.chatId)
 
 		// await sendPushNotification(text)
 	}
@@ -193,10 +166,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 	*/
 	const blockUser = async () => {
-		const targetUserId = getReceiverUserId(
-			currentChat.user1,
-			currentChat.user2
-		)
+		const targetUserId = getRecipientUserId()
 		await blockUserId(targetUserId, userDataContext.userId as Id)
 
 		setChatOptionsIsOpen(false)
@@ -205,10 +175,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const unblockUser = async () => {
-		const blockedUserId = getReceiverUserId(
-			currentChat.user1,
-			currentChat.user2
-		)
+		const blockedUserId = getRecipientUserId()
 		await unblockUserId(blockedUserId, userDataContext.userId as Id)
 
 		setChatOptionsIsOpen(false)
@@ -218,28 +185,10 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const cleanConversation = async () => {
 		await cleanMessages(
 			currentChat.chatId,
-			getReceiverUserId(currentChat.user1, currentChat.user2)
+			getRecipientUserId()
 		)
 		setMessages({})
 		setChatOptionsIsOpen(false)
-	}
-
-	const generateMessageObject = (text: string) => {
-		return {
-			[uuid()]: {
-				message: text,
-				dateTime: Date.now(),
-				readed: false,
-				owner: userDataContext.userId as Id,
-			},
-		}
-	}
-
-	const getReceiverUserId = (user1: ChatUserIdentification, user2: ChatUserIdentification) => {
-		if (userDataContext.userId === user1.userId) {
-			return user2.userId
-		}
-		return user1.userId
 	}
 
 	const getRecipientUserName = () => {
@@ -285,6 +234,10 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const toggleCleanMessagesConfirmationModalVisibility = () => {
 		setChatOptionsIsOpen(false)
 		setTimeout(() => setCleanMessagesConfirmationModalIsVisible(!clearMessagesConfirmationModalIsVisible), 400)
+	}
+
+	const scrollToEnd = () => {
+		!!(messages && messages.length) && flatListRef.current?.scrollToEnd({ animated: true })
 	}
 
 	return (

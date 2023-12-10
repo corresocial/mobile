@@ -2,6 +2,7 @@ import { PushNotificationService } from '@services/pushNotification/PushNotifica
 
 async function registerPushNotificationUC() {
 	const { registerPushNotification } = PushNotificationService()
+
 	return registerPushNotification()
 }
 

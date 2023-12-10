@@ -1,5 +1,5 @@
-import { Message, MessageObjects } from "@domain/entities/chat/types";
-import { Id } from "@domain/entities/globalTypes";
+import { Message, MessageObjects } from '@domain/entities/chat/types'
+import { Id } from '@domain/entities/globalTypes'
 
 function filterInvalidMessages(messages: MessageObjects, authenticatedUserId: Id) {
 	return Object.values(messages || {}).filter((message: Message) => (
