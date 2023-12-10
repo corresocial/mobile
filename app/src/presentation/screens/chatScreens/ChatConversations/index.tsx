@@ -31,7 +31,7 @@ import LoupIcon from '@assets/icons/loup-white.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { ChatAdapter } from '@adapters/ChatAdapter'
+import { ChatAdapter } from '@adapters/chat/ChatAdapter'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { ConversationCard } from '@components/_cards/ConversationCard'

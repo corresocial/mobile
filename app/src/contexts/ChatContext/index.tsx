@@ -7,7 +7,7 @@ import { ChatContextType, ChatProviderProps } from './types'
 import { Chat, MessageObjects } from '@globalTypes/chat/types'
 import { MutableObjectReference } from '@services/pushNotification/types'
 
-import { ChatAdapter } from '@adapters/ChatAdapter'
+import { ChatAdapter } from '@adapters/chat/ChatAdapter'
 
 import { AuthContext } from '../AuthContext'
 

@@ -2,7 +2,6 @@ import React, {
 	RefObject,
 	useContext,
 	useEffect,
-	useLayoutEffect,
 	useRef,
 	useState,
 } from 'react'
@@ -10,9 +9,9 @@ import { Platform } from 'react-native'
 import uuid from 'react-uuid'
 
 import { FlashList } from '@shopify/flash-list'
-import { onValue, ref } from 'firebase/database'
 
 import { AuthContext } from '@contexts/AuthContext'
+import { ChatContext } from '@contexts/ChatContext'
 
 import {
 	Chat,
@@ -24,14 +23,13 @@ import { FlatListItem } from '@globalTypes/global/types'
 import { ChatMessagesScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { Id } from '@services/firebase/types'
 
-import { realTimeDatabase } from '@services/firebase'
 import { blockUserId } from '@services/firebase/chat/blockUser'
 import { cleanMessages } from '@services/firebase/chat/cleanMessages'
-import { getRemoteChatData } from '@services/firebase/chat/getRemoteChatData'
+// import { getRemoteChatData } from '@services/firebase/chat/getRemoteChatData'
 import { makeAllUserMessagesAsRead } from '@services/firebase/chat/makeAllUserMessagesAsRead'
-import { registerNewChat } from '@services/firebase/chat/registerNewChat'
+// import { registerNewChat } from '@services/firebase/chat/registerNewChat'
 import { sendMessage } from '@services/firebase/chat/sendMessage'
-import { setChatIdToUsers } from '@services/firebase/chat/setChatIdToUsers'
+// import { setChatIdToUsers } from '@services/firebase/chat/setChatIdToUsers'
 import { unblockUserId } from '@services/firebase/chat/unblockUser'
 import { unsubscribeMessageListener } from '@services/firebase/chat/unsubscribeMessageListener'
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
@@ -42,7 +40,7 @@ import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
-import { ChatAdapter } from '@adapters/ChatAdapter'
+import { ChatAdapter } from '@adapters/chat/ChatAdapter'
 
 import { BackButton } from '@components/_buttons/BackButton'
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -61,19 +59,24 @@ const { getLastMessageObject } = UiChatUtils()
 const { getConversationUserId, getConversationUserName, getConversationProfilePicture } = UiChatUtils()
 
 const {
+	getRemoteChatDataByUser,
+	registerNewChat,
+	setChatIdForUsers,
 	existsOnDatabase,
-	hasBlockedUserOnConversation
+	hasBlockedUserOnConversation,
+	startChatMessagesListener
 } = ChatAdapter()
 
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
+	const { chatDataContext } = useContext(ChatContext)
 
 	const chatFromRoute = route.params && route.params.chat
 
 	const [chatOptionsIsOpen, setChatOptionsIsOpen] = useState(false)
 	const [currentChat, setCurrentChat] = useState<Chat>(chatFromRoute)
-	const [messages, setMessages] = useState<MessageObjects>(currentChat.messages)
-	const [listenerHasStarted, setListenerHasStarted] = useState(false)
+	const [messages, setMessages] = useState<MessageObjects | Message[]>(currentChat.messages)
+	// const [listenerHasStarted, setListenerHasStarted] = useState(false)
 	const [isBlockedUser, setIsBlockedUser] = useState(false)
 	const [blockedByOwner, setBlockedByOwner] = useState(false)
 
@@ -82,24 +85,35 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const flatListRef: RefObject<any> = useRef(null)
 
-	useLayoutEffect(() => {
-		!listenerHasStarted && startMessagesListener(currentChat.chatId)
-	}, [currentChat])
+	/* useLayoutEffect(() => {  // Abordagem listener
+		if (!listenerHasStarted) {
+			startChatMessagesListener(currentChat.chatId, messagesListenerCallback)
+			setListenerHasStarted(true)
+		}
+	}, [currentChat]) */
+
+	useEffect(() => {
+		const updatedChat = chatDataContext.find((chat) => chat.chatId === currentChat.chatId)
+		updatedChat && setMessages(updatedChat?.messages)
+	}, [chatDataContext])
 
 	useEffect(() => {
 		loadChatMessages()
 		makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId as Id)
 		return () => {
 			unsubscribeMessageListener(currentChat.chatId)
-			makeAllUserMessagesAsRead(
-				currentChat.chatId,
-				userDataContext.userId as Id
-			)
+			makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId as Id)
 		}
 	}, [])
 
+	const messagesListenerCallback = async (newMessages: MessageObjects) => {
+		if (!isUserOwner(getLastMessageObject(newMessages).owner)) {
+			setMessages(newMessages)
+		}
+	}
+
 	const loadChatMessages = async () => {
-		const remoteChatData = await getRemoteChatData(currentChat.user1, currentChat.user2)
+		const remoteChatData = await getRemoteChatDataByUser(currentChat.user1, currentChat.user2)
 
 		setCurrentChat({ ...remoteChatData, messages: { ...remoteChatData.messages }, } as any) // TODO Type
 		setMessages({ ...remoteChatData.messages })
@@ -120,61 +134,37 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		return hasUserBlocked
 	}
 
-	const startMessagesListener = async (chatId: Id) => {
-		const realTimeDatabaseRef = ref(realTimeDatabase, `${chatId}/messages`)
-		if (await existsOnDatabase(chatId)) {
-			setListenerHasStarted(true)
-			return onValue(realTimeDatabaseRef, (snapshot) => {
-				const listenerMessages = snapshot.val()
-				if (getLastMessageObject(listenerMessages).owner !== userDataContext.userId) {
-					setMessages(listenerMessages)
-				}
-			})
-		}
-	}
-
-	const isUserOwner = (messageUserId: string) => {
-		return userDataContext.userId === messageUserId
-	}
+	const isUserOwner = (messageUserId: string) => { return userDataContext.userId === messageUserId }
 
 	const scrollToEnd = () => {
 		!!(messages && messages.length) && flatListRef.current?.scrollToEnd({ animated: true })
 	}
 
 	const submitMessage = async (text: string) => {
+		// gubzWyXdQFeC5xEaWlTtbaR64tT2-D59GWtjY4pRYJSL2kLhDDDuecFH2
+		// blAn4iSfycRaAzg7eyKqiO09cI52-gubzWyXdQFeC5xEaWlTtbaR64tT2
+
 		if (!(await existsOnDatabase(currentChat.chatId))) {
 			await registerNewChat(currentChat)
-			await setChatIdToUsers(
-				[currentChat.user1.userId, currentChat.user2.userId],
-				currentChat.chatId
-			)
-			await startMessagesListener(currentChat.chatId)
+			await setChatIdForUsers([currentChat.user1.userId, currentChat.user2.userId], currentChat.chatId)
+			startChatMessagesListener(currentChat.chatId, messagesListenerCallback)
 		}
 
 		const newMessages = { ...messages, ...generateMessageObject(text) }
 		setMessages(newMessages)
 
 		const userBlock = await verifyUsersBlock()
-		if (userBlock) { // Check loginc
-			sendMessage(
-				{
-					message: text,
-					dateTime: Date.now(),
-					readed: false,
-					justOwner: true,
-					owner: userDataContext.userId as Id,
-				} as any,
-				currentChat.chatId
-			)
-			return
-		}
 
-		sendMessage({
-			message: text,
-			dateTime: Date.now(),
-			readed: false,
-			owner: userDataContext.userId as Id,
-		}, currentChat.chatId)
+		sendMessage(
+			{
+				message: text,
+				dateTime: Date.now(),
+				readed: false,
+				justOwner: !!userBlock,
+				owner: userDataContext.userId as Id,
+			} as any,
+			currentChat.chatId
+		)
 
 		// await sendPushNotification(text)
 	}
@@ -201,7 +191,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			body: JSON.stringify(message),
 		})
 	}
- */
+	*/
 	const blockUser = async () => {
 		const targetUserId = getReceiverUserId(
 			currentChat.user1,

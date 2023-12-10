@@ -1,17 +1,21 @@
 import { CheckBlockedUsersResponse } from '@domain/entities/chat'
-import { Chat, ChatUserData, Message, MessageObjects } from '@domain/entities/chat/types'
+import { Chat, ChatUserData, ChatUserIdentification, Message, MessageObjects } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
 import { MutableObjectReference } from '@services/pushNotification/types'
 
 interface ChatAdapterInterface {
-	createNewUser(userId: Id): Promise<boolean>
 	getUserChatIds(userId: Id): Promise<Id[]> | Id[]
 	getUserChats(chatIds: Id[]): Promise<Chat[]>
 	getRemoteUserData(userId: Id): Promise<ChatUserData>
+	getRemoteChatDataByUser(user1: ChatUserIdentification, user2: ChatUserIdentification): Promise<Chat>
+	createNewUser(userId: Id): Promise<boolean>
+	registerNewChat(chatData: Chat): Promise<void>
+	setChatIdForUsers(userIds: Id[], chatId: Id): Promise<void>
 	existsOnDatabase(nodeId?: Id): Promise<boolean>
 	startUserChatIdsListener(userId: Id, callback: (chatIds: Id[], chats: Chat[]) => void): Promise<void>
 	startUserChatListeners(chatIds: Id[], callback: (chatId: Id, messages: MessageObjects) => void): Promise<void>
+	startChatMessagesListener: (chatId: Id, callback: (newMessages: MessageObjects) => void) => void
 	unsubscribeUserChatIdsListener: (userId: Id) => void
 	unsubscribeUserChatsListener: (chatIds: Id[]) => void
 	updateUserTokenNotification(userId: Id, tokenNotification: string): Promise<void>
