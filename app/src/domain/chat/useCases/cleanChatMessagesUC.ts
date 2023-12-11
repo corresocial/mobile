@@ -6,7 +6,7 @@ import { ChatGatewayAdapter } from '@data/remoteStorage/gatewayAdapters/ChatGate
 import { updateMessagesCanViewedByUser } from '../rules/userCanViewMessages'
 
 async function cleanChatMessagesUC(chatId: Id, userIdCanView: Id) {
-	const { getRemoteChatData, updateChatMessages } = ChatGatewayAdapter()
+	const { getRemoteChatData, setChatMessages, updateChatMessages } = ChatGatewayAdapter()
 
 	const { messages: chatMessages } = await getRemoteChatData(chatId)
 
@@ -14,7 +14,14 @@ async function cleanChatMessagesUC(chatId: Id, userIdCanView: Id) {
 	const filteredMessages = filterInvalidMessages(removedForSingleUser)
 	const updatedChatMessages = convertArrayMessagesToObjectMessages(filteredMessages)
 
-	updateChatMessages(chatId, updatedChatMessages)
+	if (Object.keys(updatedChatMessages).length === Object.keys(chatMessages).length) {
+		console.log('update')
+		return updateChatMessages(chatId, updatedChatMessages)
+	}
+
+	console.log('set')
+
+	setChatMessages(chatId, updatedChatMessages)
 }
 
 function convertArrayMessagesToObjectMessages(array: MessageObjects[]) {

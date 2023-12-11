@@ -8,6 +8,7 @@ import { getUserChats } from '../chat/getUserChats'
 import { startChatMessagesListener, startUserChatIdsListener, startUserChatListener } from '../chat/listeners'
 import { registerNewChat } from '../chat/registerNewChat'
 import { sendMessage } from '../chat/sendMessage'
+import { setChatMessages } from '../chat/setChatMessages'
 import { unsubscribeChatMessagesListener, unsubscribeUserChatIdsListener, unsubscribeUserChatListener } from '../chat/unsubscribeListeners'
 import { updateBlockedUsersList } from '../chat/updateBlockUsersList'
 import { updateChatMessages } from '../chat/updateChatMessages'
@@ -25,6 +26,7 @@ function ChatGatewayAdapter(): ChatGatewayAdapterInterface {
 		registerNewChat,
 		addNewUserChatId,
 		sendMessage,
+		setChatMessages,
 		updateChatMessages,
 		updateBlockedUsersList,
 		startUserChatIdsListener,
