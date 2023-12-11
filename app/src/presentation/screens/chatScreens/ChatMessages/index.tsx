@@ -42,8 +42,6 @@ import { MessageCard } from '@components/MessageCard'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
-const { getLastMessageObject } = UiChatUtils()
-
 const { getConversationUserId, getConversationUserName, getConversationProfilePicture } = UiChatUtils()
 
 const {
@@ -58,7 +56,6 @@ const {
 	blockUserById,
 	unblockUserById,
 	hasBlockedUserOnConversation,
-	startChatMessagesListener
 } = ChatAdapter()
 
 function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
@@ -91,12 +88,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		}
 	}, [])
 
-	const messagesListenerCallback = async (newMessages: MessageObjects) => {
-		if (!isUserOwner(getLastMessageObject(newMessages).owner)) {
-			setMessages(newMessages)
-		}
-	}
-
 	const loadChatMessages = async () => {
 		const remoteChatData = await getRemoteChatDataByUser(currentChat.user1, currentChat.user2)
 
@@ -121,11 +112,17 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const isUserOwner = (messageUserId: string) => { return userDataContext.userId === messageUserId }
 
+	/* const messagesListenerCallback = async (newMessages: MessageObjects) => {
+		if (!isUserOwner(getLastMessageObject(newMessages).owner)) {
+			setMessages(newMessages)
+		}
+	} */ 			// abordagem listener
+
 	const submitMessage = async (text: string) => {
 		if (!(await existsOnDatabase(currentChat.chatId))) {
 			await registerNewChat(currentChat)
 			await setChatIdForUsers([currentChat.user1.userId, currentChat.user2.userId], currentChat.chatId)
-			startChatMessagesListener(currentChat.chatId, messagesListenerCallback)
+			// startChatMessagesListener(currentChat.chatId, messagesListenerCallback)	// abordagem listener
 		}
 
 		const authenticatedUserId = userDataContext.userId as Id
@@ -137,6 +134,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		const userBlock = await verifyUsersBlock()
 
 		setMessages(newMessages)
+
 		await sendMessage(
 			{ ...newMessageValue, justOwner: !!userBlock },
 			currentChat.chatId,
@@ -206,7 +204,26 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		setTimeout(() => setCleanMessagesConfirmationModalIsVisible(!clearMessagesConfirmationModalIsVisible), 500)
 	}
 
-	const scrollToEnd = () => { (messages && flatListRef) && flatListRef.current?.scrollToEnd({ animated: true }) }
+	const [lastUpdated, setLastUpdated] = useState(0)
+	const [firstScrollCompleted, setFirstScrollCompleted] = useState(false)
+
+	const scrollToEnd = () => {
+		if (firstScrollCompleted) {
+			!!(flatListRef && messages && Object.keys(messages).length) && flatListRef.current?.scrollToEnd({ animated: true })
+			return
+		}
+
+		if ((Date.now() - lastUpdated) < 100 || lastUpdated === 0) {
+			setLastUpdated(Date.now())
+
+			setTimeout(() => {
+				if (Date.now() - lastUpdated > 100) {
+					setFirstScrollCompleted(true)
+					!!(flatListRef && messages && Object.keys(messages).length) && flatListRef.current?.scrollToEnd({ animated: false })
+				}
+			}, 100)
+		}
+	}
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -305,7 +322,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					return <VerticalSpacing />
 				}}
 				onContentSizeChange={scrollToEnd}
-				onLayout={scrollToEnd}
 			/>
 			<ChatInput submitMessage={submitMessage} />
 		</Container>
