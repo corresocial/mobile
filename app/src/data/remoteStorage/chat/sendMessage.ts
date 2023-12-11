@@ -1,8 +1,7 @@
 import { push, ref } from 'firebase/database'
 
+import { Message } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
-
-import { Message } from '@globalTypes/chat/types'
 
 import { realTimeDatabase } from '@services/firebase'
 

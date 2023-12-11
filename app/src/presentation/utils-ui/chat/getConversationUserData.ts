@@ -1,4 +1,5 @@
-import { ChatUserIdentification } from '@globalTypes/chat/types'
+import { ChatUserIdentification } from '@domain/entities/chat/types'
+
 import { Id } from '@globalTypes/global/types'
 
 function getConversationUserName(currentUserId: Id, user1: ChatUserIdentification, user2: ChatUserIdentification) {

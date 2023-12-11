@@ -1,6 +1,5 @@
+import { ChatUserIdentification, Message, MessageObjects } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
-
-import { ChatUserIdentification, Message, MessageObjects } from '@globalTypes/chat/types'
 
 export interface UiChatUtilsInterface {
 	defaultMessageObject: Message

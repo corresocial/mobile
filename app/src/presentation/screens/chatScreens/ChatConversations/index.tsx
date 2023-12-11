@@ -3,12 +3,13 @@ import { ScrollView, TextInput } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import { MessageObjects, ChatUserIdentification, Chat } from '@domain/entities/chat/types'
+import { Id } from '@domain/entities/globalTypes'
 
 import { AlertContext } from '@contexts/AlertContext/index'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
-import { FlatListItem, Id } from '@globalTypes/global/types'
+import { FlatListItem } from '@globalTypes/global/types'
 import { ChatConversationsScreenProps } from '@routes/Stack/ChatStack/stackScreenProps'
 
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'

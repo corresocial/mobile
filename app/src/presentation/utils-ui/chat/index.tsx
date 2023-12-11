@@ -1,4 +1,4 @@
-import { Message, MessageObjects } from '@globalTypes/chat/types'
+import { Message, MessageObjects } from '@domain/entities/chat/types'
 
 const defaultMessageObject = { // rule
 	message: '',
