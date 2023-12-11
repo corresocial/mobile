@@ -6,11 +6,7 @@ import { FlashList } from '@shopify/flash-list'
 import { AuthContext } from '@contexts/AuthContext'
 import { ChatContext } from '@contexts/ChatContext'
 
-import {
-	Chat,
-	Message,
-	MessageObjects,
-} from '@globalTypes/chat/types'
+import { Chat, Message, MessageObjects } from '@globalTypes/chat/types'
 import { FlatListItem } from '@globalTypes/global/types'
 import { ChatMessagesScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { Id } from '@services/firebase/types'
@@ -23,7 +19,7 @@ import { Id } from '@services/firebase/types'
 // import { blockUserId } from '@services/firebase/chat/blockUser'
 // import { unblockUserId } from '@services/firebase/chat/unblockUser'
 // import { makeAllUserMessagesAsRead } from '@services/firebase/chat/makeAllUserMessagesAsRead'
-import { cleanMessages } from '@services/firebase/chat/cleanMessages'
+// import { cleanMessages } from '@services/firebase/chat/cleanMessages'
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
 
 import { Container, Header, IsBlockedContainer } from './styles'
@@ -58,6 +54,7 @@ const {
 	generateNewMessageObject,
 	sendMessage,
 	makeAllUserMessagesAsRead,
+	cleanChatMessages,
 	blockUserById,
 	unblockUserById,
 	hasBlockedUserOnConversation,
@@ -165,7 +162,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const cleanConversation = async () => {
-		await cleanMessages(currentChat.chatId, getRecipientUserId())
+		await cleanChatMessages(currentChat.chatId, getRecipientUserId())
 		setMessages({})
 		setChatOptionsIsOpen(false)
 	}
@@ -201,12 +198,12 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const toggleBlockConfirmationModalVisibility = () => {
 		setChatOptionsIsOpen(false)
-		setTimeout(() => setBlockConfirmationModalIsVisible(!blockConfirmationModalIsVisible), 400)
+		setTimeout(() => setBlockConfirmationModalIsVisible(!blockConfirmationModalIsVisible), 500)
 	}
 
 	const toggleCleanMessagesConfirmationModalVisibility = () => {
 		setChatOptionsIsOpen(false)
-		setTimeout(() => setCleanMessagesConfirmationModalIsVisible(!clearMessagesConfirmationModalIsVisible), 400)
+		setTimeout(() => setCleanMessagesConfirmationModalIsVisible(!clearMessagesConfirmationModalIsVisible), 500)
 	}
 
 	const scrollToEnd = () => { (messages && flatListRef) && flatListRef.current?.scrollToEnd({ animated: true }) }
@@ -280,25 +277,11 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				ListHeaderComponent={() => (
 					<WithoutPostsMessage
 						message={'tome cuidado ao passar informações pessoais e combine compras e trocas em locais seguros. em caso de serviços à domicílio, verifique o perfil de quem você está contratando'}
-						highlightedWords={[
-							'passar',
-							'informações',
-							'pessoais',
-							'combine',
-							'compras',
-							'trocas',
-							'locais',
-							'seguros',
-							'verifique',
-							'o',
-							'perfil',
-						]}
+						highlightedWords={['passar', 'informações', 'pessoais', 'combine', 'compras', 'trocas', 'locais', 'seguros', 'verifique', 'o', 'perfil']}
 						backgroundColor={theme.yellow1}
 					/>
 				)}
-				ListHeaderComponentStyle={{
-					marginBottom: relativeScreenHeight(2),
-				}}
+				ListHeaderComponentStyle={{ marginBottom: relativeScreenHeight(2) }}
 				estimatedItemSize={71}
 				showsVerticalScrollIndicator={false}
 				ItemSeparatorComponent={() => <VerticalSpacing height={relativeScreenHeight(1)} />}
@@ -324,7 +307,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				onContentSizeChange={scrollToEnd}
 				onLayout={scrollToEnd}
 			/>
-
 			<ChatInput submitMessage={submitMessage} />
 		</Container>
 	)

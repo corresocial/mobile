@@ -6,11 +6,11 @@ import { ChatGatewayAdapter } from '@data/remoteStorage/gatewayAdapters/ChatGate
 async function makeAllUserMessagesAsReadUC(chatId: Id, userId: Id) {
 	const { getRemoteChatData, updateChatMessages } = ChatGatewayAdapter()
 
-	if (!chatId || !userId) return false
+	if (!chatId || !userId) return
 
 	const { messages } = await getRemoteChatData(chatId)
 
-	if (!messages || (messages && !Object.values(messages).length)) return false
+	if (!messages || (messages && !Object.values(messages).length)) return
 
 	const readedMessages = updateReadState(messages, userId)
 	const updatedChatMessages = convertArrayMessagesToObjectMessages(readedMessages)
@@ -18,7 +18,7 @@ async function makeAllUserMessagesAsReadUC(chatId: Id, userId: Id) {
 	return updateChatMessages(chatId, updatedChatMessages)
 }
 
-function updateReadState(messages: MessageObjects, ownerUserId: Id) {
+function updateReadState(messages: MessageObjects, ownerUserId: Id) { // TODO rule
 	return Object.entries(messages).map((message) => {
 		if (message[1].owner !== ownerUserId) {
 			return { [message[0]]: { ...message[1], readed: true } }

@@ -1,5 +1,6 @@
 import { conversationsIsValidToSortUC } from '@domain/chat/rules/validation'
 import { blockUserByIdUC } from '@domain/chat/useCases/blockUserByIdUC'
+import { cleanChatMessagesUC } from '@domain/chat/useCases/cleanChatMessagesUC'
 import { createNewUserUC } from '@domain/chat/useCases/createNewUserUC'
 import { existsOnDatabaseUC } from '@domain/chat/useCases/existsOnDatabaseUC'
 import { filterInvalidMessagesUC } from '@domain/chat/useCases/filterInvalidMessagesUC'
@@ -38,6 +39,7 @@ function ChatAdapter(): ChatAdapterInterface {
 		setChatIdForUsers: setChatIdForUsersUC,
 		generateNewMessageObject: generateNewMessageObjectUC,
 		sendMessage: sendMessageUC,
+		cleanChatMessages: cleanChatMessagesUC,
 		makeAllUserMessagesAsRead: makeAllUserMessagesAsReadUC,
 		blockUserById: blockUserByIdUC,
 		unblockUserById: unblockUserByIdUC,

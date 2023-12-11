@@ -15,7 +15,8 @@ interface ChatAdapterInterface {
 	setChatIdForUsers(userIds: Id[], chatId: Id): Promise<void>
 	generateNewMessageObject(textMessage: string, userSenderId: Id): MessageObjects
 	sendMessage(message: Message, chatId: Id, recipientUserId: Id): Promise<boolean>
-	makeAllUserMessagesAsRead(chatId: Id, userId: Id): Promise<boolean>
+	cleanChatMessages(chatId: Id, recipientUserId: Id): Promise<void>
+	makeAllUserMessagesAsRead(chatId: Id, userId: Id): Promise<void>
 	blockUserById(targetBlockUserId: Id, ownerBlockUserId: Id): Promise<boolean>
 	unblockUserById(targetBlockUserId: Id, ownerBlockUserId: Id): Promise<boolean>
 	startUserChatIdsListener(userId: Id, callback: (chatIds: Id[], chats: Chat[]) => void): Promise<void>
