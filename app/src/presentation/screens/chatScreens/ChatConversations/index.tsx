@@ -15,8 +15,10 @@ import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import {
+	CompletedConversationList,
 	Container,
 	ConversationArea,
+	ConversationCardContainer,
 	ConversationList,
 	Header,
 	HorizontalHeaderScroll,
@@ -35,6 +37,7 @@ import { ChatAdapter } from '@adapters/chat/ChatAdapter'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { ConversationCard } from '@components/_cards/ConversationCard'
+import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { SearchInput } from '@components/_inputs/SearchInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
@@ -129,6 +132,16 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		navigation.navigate('ChatMessages', { chat: { ...item } })
 	}
 
+	const getOpenConversations = (chats?: Chat[]) => {
+		const conversations = chats || sortConversationsByDateTime()
+		return conversations.filter((chat: Chat) => !chat.completed)
+	}
+
+	const getCompletedConversations = (chats?: Chat[]) => {
+		const conversations = chats || sortConversationsByDateTime()
+		return conversations.filter((chat: Chat) => chat.completed)
+	}
+
 	const sortConversationsByDateTime = () => {
 		const currentChatData = [...chatDataContext]
 		return currentChatData.sort(sortChats)
@@ -156,16 +169,18 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 		const { user1, user2, chatId, messages } = conversation
 
 		return (
-			<ConversationCard
-				key={chatId}
-				userName={getConversationUserName(authenticatedUserId, user1, user2)}
-				profilePictureUrl={getConversationProfilePicture(authenticatedUserId, user1, user2)}
-				lastMessage={getLastMessage(messages)}
-				lastMessageTime={getLastMessageDateTime(messages) || ''}
-				numberOfUnseenMessages={getNumberOfUnseenMessages(messages)}
-				navigateToProfile={() => navigateToProfile(user1, user2)}
-				onPress={() => navigateToChatMessages(conversation)}
-			/>
+			<ConversationCardContainer>
+				<ConversationCard
+					key={chatId}
+					userName={getConversationUserName(authenticatedUserId, user1, user2)}
+					profilePictureUrl={getConversationProfilePicture(authenticatedUserId, user1, user2)}
+					lastMessage={getLastMessage(messages)}
+					lastMessageTime={getLastMessageDateTime(messages) || ''}
+					numberOfUnseenMessages={getNumberOfUnseenMessages(messages)}
+					navigateToProfile={() => navigateToProfile(user1, user2)}
+					onPress={() => navigateToChatMessages(conversation)}
+				/>
+			</ConversationCardContainer>
 		)
 	}
 
@@ -234,14 +249,40 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 							/>
 						)
 						: (
-							<ConversationList
-								data={!searchText ? sortConversationsByDateTime() : filteredChats}
-								renderItem={({ item }: FlatListItem<Chat>) => item && renderConversationListItem(item)}
-								showsVerticalScrollIndicator={false}
-								ItemSeparatorComponent={() => <VerticalSpacing />}
-								ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
-								ListFooterComponent={<VerticalSpacing height={relativeScreenHeight(10)} />}
-							/>
+							<>
+								<SubtitleCard
+									text={'conversas abertas'}
+									highlightedText={['abertas']}
+								/>
+								<ConversationList
+									data={!searchText ? getOpenConversations() : getOpenConversations(filteredChats)}
+									renderItem={({ item }: FlatListItem<Chat>) => item && renderConversationListItem(item)}
+									showsVerticalScrollIndicator={false}
+									ItemSeparatorComponent={<VerticalSpacing />}
+									ListHeaderComponent={<VerticalSpacing />}
+									ListFooterComponent={getCompletedConversations().length && (
+										() => (
+											<>
+												<VerticalSpacing />
+												<SubtitleCard
+													text={'conversas finalizadas'}
+													highlightedText={['finalizadas']}
+												/>
+												<VerticalSpacing />
+												<CompletedConversationList
+													data={!searchText ? getCompletedConversations() : getCompletedConversations(filteredChats)}
+													renderItem={({ item }: FlatListItem<Chat>) => item && renderConversationListItem(item)}
+													showsVerticalScrollIndicator={false}
+													ItemSeparatorComponent={() => <VerticalSpacing />}
+													ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
+													ListFooterComponent={<VerticalSpacing height={relativeScreenHeight(10)} />}
+												/>
+											</>
+										)
+									)}
+								/>
+
+							</>
 						)
 				}
 			</ConversationArea>

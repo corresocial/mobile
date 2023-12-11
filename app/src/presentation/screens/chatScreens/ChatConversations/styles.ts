@@ -47,9 +47,13 @@ export const ConversationArea = styled.View`
 	background-color: ${({ theme }) => theme.orange2};
 `
 
-export const ConversationList = styled.FlatList`
-	padding: ${RFValue(10)}px;
+export const ConversationCardContainer = styled.View`
+	padding-horizontal: ${RFValue(10)}px;
 `
+
+export const ConversationList = styled.FlatList``
+
+export const CompletedConversationList = styled.FlatList``
 
 // Horizontal slider
 

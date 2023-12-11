@@ -63,6 +63,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const [blockConfirmationModalIsVisible, setBlockConfirmationModalIsVisible] = useState(false)
 	const [clearMessagesConfirmationModalIsVisible, setCleanMessagesConfirmationModalIsVisible] = useState(false)
+	const [markAsCompletedConfirmationModalIsVisible, setMarkAsCompletedConfirmationModalIsVisible] = useState(false)
 
 	const flatListRef: RefObject<any> = useRef(null)
 
@@ -156,6 +157,10 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		setChatOptionsIsOpen(false)
 	}
 
+	const markChatAsCompleted = async () => {
+		console.log('markChatAsCompleted')
+	}
+
 	const getRecipientUserName = () => {
 		const { user1, user2 } = currentChat
 		return getConversationUserName(userDataContext.userId as Id, user1, user2)
@@ -193,6 +198,11 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const toggleCleanMessagesConfirmationModalVisibility = () => {
 		setChatOptionsIsOpen(false)
 		setTimeout(() => setCleanMessagesConfirmationModalIsVisible(!clearMessagesConfirmationModalIsVisible), 500)
+	}
+
+	const toggleMarkAsCompletedConfirmationModalVisibility = () => {
+		setChatOptionsIsOpen(false)
+		setTimeout(() => setMarkAsCompletedConfirmationModalIsVisible(!markAsCompletedConfirmationModalIsVisible), 500)
 	}
 
 	const [lastUpdated, setLastUpdated] = useState(0)
@@ -238,6 +248,15 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				closeModal={toggleCleanMessagesConfirmationModalVisibility}
 				onPressButton={cleanConversation}
 			/>
+			<DefaultConfirmationModal // MARK COMPLETED
+				visibility={markAsCompletedConfirmationModalIsVisible}
+				title={'marcar concluída'}
+				text={`você tem certeza que deseja concluir a conversa com ${getRecipientUserName()}?`}
+				highlightedWords={[...getRecipientUserName().split(' ')]}
+				buttonKeyword={'concluir'}
+				closeModal={toggleMarkAsCompletedConfirmationModalVisibility}
+				onPressButton={markChatAsCompleted}
+			/>
 			<FocusAwareStatusBar
 				backgroundColor={theme.white3}
 				barStyle={'dark-content'}
@@ -262,6 +281,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					unblockUser={toggleBlockConfirmationModalVisibility}
 					userIsBlocked={blockedByOwner && isBlockedUser}
 					cleanConversation={toggleCleanMessagesConfirmationModalVisibility}
+					markAsCompleted={toggleMarkAsCompletedConfirmationModalVisibility}
 				>
 					<SmallButton
 						color={theme.white3}

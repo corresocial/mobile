@@ -7,7 +7,7 @@ export const Container = styled.View`
 	background-color: ${({ theme }) => theme.black4}
 	width: ${relativeScreenWidth(80)}px;
 	border-right-width: ${RFValue(10)}px;
-	border-radius: ${RFValue(8)}px;
+	border-radius: ${RFValue(15)}px;
 `
 
 export const ContainerInner = styled.View`
@@ -18,7 +18,7 @@ export const ContainerInner = styled.View`
 	justify-content: space-between;
 	position: relative;
 	border: ${RFValue(3)}px solid ${({ theme }) => theme.black4};
-	border-radius: ${RFValue(8)}px;
+	border-radius: ${RFValue(15)}px;
 `
 export const CloseIcon = styled.TouchableOpacity`
 	position: absolute;

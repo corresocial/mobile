@@ -5,6 +5,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 
 import { CloseIcon, Container, ContainerInner, UserName } from './styles'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
+import ImpactWhiteIcon from '@assets/icons/impactLabel.svg'
 import TrashIcon from '@assets/icons/trash-white.svg'
 import XIcon from '@assets/icons/x-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
@@ -24,6 +25,7 @@ interface ChatPopOverProps {
 	blockUser: () => void
 	unblockUser: () => void
 	cleanConversation: () => void
+	markAsCompleted: () => void
 }
 
 function ChatPopOver({
@@ -34,14 +36,15 @@ function ChatPopOver({
 	closePopover,
 	blockUser,
 	unblockUser,
-	cleanConversation
+	cleanConversation,
+	markAsCompleted
 }: ChatPopOverProps) {
 	return (
 		<Popover
 			isVisible={popoverVisibility}
 			onRequestClose={closePopover}
 			animationConfig={{ delay: 0, duration: 300 }}
-			popoverStyle={{ backgroundColor: theme.black4, borderRadius: RFValue(8) }}
+			popoverStyle={{ backgroundColor: theme.black4, borderRadius: RFValue(15) }}
 			backgroundStyle={{ backgroundColor: theme.transparence.orange2 }}
 			from={(sourceRef, showPopover) => (
 				<TouchableOpacity onPress={showPopover} >
@@ -61,26 +64,42 @@ function ChatPopOver({
 					<VerticalSpacing height={RFValue(5)} />
 					<PrimaryButton
 						color={theme.red3}
-						onPress={!userIsBlocked ? blockUser : unblockUser}
 						label={`${!userIsBlocked ? 'bloquear' : 'desbloquear'} usuário`}
 						highlightedWords={[`${!userIsBlocked ? 'bloquear' : 'desbloquear'}`, 'usuário']}
 						labelColor={theme.white3}
 						fontSize={13}
 						SvgIcon={DeniedWhiteIcon}
+						justifyContent={'space-around'}
 						minHeight={20}
 						relativeHeight={relativeScreenHeight(8)}
+						onPress={!userIsBlocked ? blockUser : unblockUser}
 					/>
-					<VerticalSpacing height={RFValue(5)} />
+					<VerticalSpacing />
 					<PrimaryButton
 						color={theme.red3}
-						onPress={cleanConversation}
 						label={'apagar conversa'}
 						highlightedWords={['apagar', 'conversa']}
 						labelColor={theme.white3}
 						fontSize={13}
 						SvgIcon={TrashIcon}
+						justifyContent={'space-around'}
 						minHeight={20}
 						relativeHeight={relativeScreenHeight(8)}
+						onPress={cleanConversation}
+					/>
+					<VerticalSpacing />
+					<PrimaryButton
+						color={theme.pink3}
+						label={'marcar como \nfinalizado'}
+						highlightedWords={['marcar', 'como', '\nfinalizado']}
+						labelColor={theme.white3}
+						justifyContent={'space-around'}
+						textAlign={'left'}
+						fontSize={13}
+						SecondSvgIcon={ImpactWhiteIcon}
+						minHeight={20}
+						relativeHeight={relativeScreenHeight(8)}
+						onPress={markAsCompleted}
 					/>
 				</ContainerInner>
 			</Container>

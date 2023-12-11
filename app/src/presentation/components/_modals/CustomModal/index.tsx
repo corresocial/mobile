@@ -183,7 +183,7 @@ function CustomModal({
 										labelColor={theme.white3}
 										label={affirmativeButton.label}
 										highlightedWords={[...affirmativeButton.label.split(' '), ...affirmativeButton.label.split(', ')]}
-										fontSize={15}
+										fontSize={14}
 										SecondSvgIcon={affirmativeButton.CustomIcon || CheckWhiteIcon}
 										svgIconScale={['40%', '25%']}
 										onPress={() => closeModalAfterOnPress(affirmativeButton.onPress)}
@@ -200,7 +200,7 @@ function CustomModal({
 									labelColor={theme.white3}
 									label={negativeButton.label}
 									highlightedWords={[...negativeButton.label.split(' '), ...negativeButton.label.split(', ')]}
-									fontSize={15}
+									fontSize={14}
 									SvgIcon={negativeButton.CustomIcon || XWhiteIcon}
 									svgIconScale={['40%', '25%']}
 									onPress={() => closeModalAfterOnPress(negativeButton.onPress)}
