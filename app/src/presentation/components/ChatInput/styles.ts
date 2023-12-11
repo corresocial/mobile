@@ -12,24 +12,33 @@ export const Container = styled.View`
 	align-items: center;
 	border-top-width: ${RFValue(5)}px;
 	border-top-color: ${({ theme }) => theme.black4};
-	padding: ${RFValue(5)}px;
-	padding-bottom:${Platform.OS === 'ios' ? 10 : RFValue(5)}px;
+	padding-horizontal: ${RFValue(10)}px;
+	padding-vertical: ${RFValue(10)}px;
 	position: ${Platform.OS === 'ios' ? 'relative' : 'absolute'};
 	bottom: 0;
 `
 
-export const SendButtonArea = styled.TouchableOpacity`
+interface SideButtonAreaProps {
+	hasInputMessage: string
+}
+
+export const SideButtonArea = styled.TouchableOpacity<SideButtonAreaProps>`
+	background-color: ${({ theme, hasInputMessage }) => (hasInputMessage ? theme.black4 : theme.white3)};
 	border-radius: ${RFValue(15)}px;
 	border-color: ${({ theme }) => theme.black2};
-	background-color: ${({ theme }) => theme.black4};
-	height: ${relativeScreenHeight(6)}px;
-	width: ${relativeScreenHeight(6)}px;
-	margin-right: ${relativeScreenWidth(3)}px;
+	height: ${RFValue(40)}px;
+	width: ${RFValue(40)}px;
 	justify-content: center;
 	align-items: center;
+	margin-left: ${relativeScreenWidth(3)}px;
 `
 
-export const SendButtonAreaInner = styled.View`
+interface InputButtonProps {
+	hasInputMessage: boolean
+	buttonPressed: boolean
+}
+
+export const SendButtonAreaInner = styled.View<InputButtonProps>`
 	border-radius: ${RFValue(15)}px;
 	border-width: ${RFValue(2.5)}px;
 	border-color: ${({ theme }) => theme.black2};
@@ -38,14 +47,25 @@ export const SendButtonAreaInner = styled.View`
 	justify-content: center;
 	align-items: center;
 	position: absolute;
-	left: ${relativeScreenWidth(2)}px;
+	background-color: ${({ theme, hasInputMessage }) => (hasInputMessage ? theme.green3 : theme.white3)}
+	border-color: ${({ theme, hasInputMessage }) => (hasInputMessage ? theme.black4 : theme.white3)}
+	left: ${({ buttonPressed, hasInputMessage }) => (!hasInputMessage || buttonPressed ? -1 : -relativeScreenWidth(2))}px
 `
 
-export const InputMessage = styled.TextInput`
+interface InputMessageProps {
+	inputFocused: boolean
+}
+
+export const InputMessage = styled.TextInput<InputMessageProps>`
 	flex: 1;
 	height: 100%;
-	background-color: ${({ theme }) => theme.white3};
-	margin: ${RFValue(10)}px;
+	max-height: ${relativeScreenHeight(15)}px;
+	text-align-vertical: center;
+	text-align: center;
+	margin-horizontal: ${RFValue(10)}px;
+	padding-horizontal: ${RFValue(10)}px;
 	font-family: Arvo_400Regular;
 	font-size: ${RFValue(13)}px;
+	border-radius: ${RFValue(50)}px;
+	background-color: ${({ theme, inputFocused }) => (inputFocused ? theme.white3 : theme.white2)};
 `

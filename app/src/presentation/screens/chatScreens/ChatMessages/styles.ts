@@ -29,3 +29,8 @@ export const IsBlockedContainer = styled.View`
 	justify-content: center;
 	align-items: center;
 `
+
+export const BottomSafeAreaColor = styled.SafeAreaView`
+	flex: 0;
+	background-color: ${({ theme }) => theme.white3};
+`

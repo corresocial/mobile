@@ -24,11 +24,7 @@ function Post({ navigation, route }: HomeTabScreenProps) {
 	}
 
 	return (
-		<View style={{
-			flex: 1,
-			marginBottom: relativeScreenHeight(7.5)
-		}}
-		>
+		<View style={{ flex: 1, marginBottom: relativeScreenHeight(7.5) }}>
 			<FocusAwareStatusBar backgroundColor={theme.orange2} barStyle={'dark-content'} />
 			<SelectPostType navigation={navigation as any} route={route as any} />
 		</View >

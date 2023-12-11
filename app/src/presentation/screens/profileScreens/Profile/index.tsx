@@ -418,7 +418,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 				backgroundColor={theme.white3}
 				barStyle={'dark-content'}
 			/>
-			<SafeAreaViewContainer />
 			{
 				hasAnyVerifiedUser()
 				&& (

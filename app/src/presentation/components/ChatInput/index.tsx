@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import { RFValue } from 'react-native-responsive-fontsize'
 
-import { Container, InputMessage, SendButtonArea, SendButtonAreaInner } from './styles'
+import { Container, InputMessage, SendButtonAreaInner, SideButtonArea } from './styles'
 import AngleRightDisabledIcon from '@assets/icons/angleRight-disabled.svg'
 import AngleRightWhitetIcon from '@assets/icons/angleRight-white.svg'
-import { relativeScreenWidth } from '@common/screenDimensions'
+import ImpactLabelWhiteIcon from '@assets/icons/impactLabel.svg'
 import { theme } from '@common/theme'
+
+import { SmallButton } from '@components/_buttons/SmallButton'
 
 interface ChatInputProps {
 	submitMessage: (text: string) => void
@@ -12,7 +15,9 @@ interface ChatInputProps {
 
 function ChatInput({ submitMessage }: ChatInputProps) {
 	const [message, setMessage] = useState('')
-	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
+	const [sendButtonPressed, setSendButtomPressed] = useState<boolean>(false)
+
+	const [messageInputFocused, setMessageInputFocused] = useState<boolean>(false)
 
 	const sendMessage = () => {
 		if (message.trim()) {
@@ -21,42 +26,46 @@ function ChatInput({ submitMessage }: ChatInputProps) {
 		}
 	}
 
-	function pressingButton() {
-		setButtomPressed(true)
-	}
+	function pressingSendButton() { setSendButtomPressed(true) }
 
-	function notPressingButton() {
-		setButtomPressed(false)
-	}
+	function notPressingSendButton() { setSendButtomPressed(false) }
 
-	function releaseButton() {
-		setButtomPressed(false)
+	function releaseSendButton() {
+		setSendButtomPressed(false)
 		sendMessage()
 	}
 
 	return (
 		<Container>
+			<SmallButton
+				color={theme.pink3}
+				relativeWidth={RFValue(40)}
+				height={RFValue(40)}
+				SvgIcon={ImpactLabelWhiteIcon}
+				svgScale={['75%', '75%']}
+				onPress={() => { console.log('show') }}
+			/>
 			<InputMessage
-				placeholder={'escreva sua mensagem...'}
+				style={{ textAlignVertical: 'top' }}
+				placeholder={'mensagem...'}
 				multiline
 				value={message}
+				inputFocused={messageInputFocused || !!message}
+				onFocus={() => setMessageInputFocused(true)}
+				onBlur={() => setMessageInputFocused(false)}
 				onChangeText={(text: string) => setMessage(text)}
 			/>
-			<SendButtonArea
+			<SideButtonArea
+				hasInputMessage={!!message}
 				activeOpacity={1}
-				onPressIn={pressingButton}
-				onPressOut={notPressingButton}
-				onPress={releaseButton}
-				style={{
-					backgroundColor: message ? theme.black4 : theme.white3,
-				}}
+				onPressIn={pressingSendButton}
+				onPressOut={notPressingSendButton}
+				onPress={releaseSendButton}
 			>
 				<SendButtonAreaInner
-					style={{
-						backgroundColor: message ? theme.green3 : theme.white3,
-						borderColor: message ? theme.black4 : theme.white3,
-						left: !message || buttonPressed ? -1 : -relativeScreenWidth(2),
-					}}
+					activeColor={theme.green3}
+					hasInputMessage={!!message}
+					buttonPressed={sendButtonPressed}
 				>
 					{
 						message
@@ -64,7 +73,7 @@ function ChatInput({ submitMessage }: ChatInputProps) {
 							: <AngleRightDisabledIcon width={'45%'} height={'60%'} />
 					}
 				</SendButtonAreaInner>
-			</SendButtonArea>
+			</SideButtonArea>
 		</Container>
 	)
 }

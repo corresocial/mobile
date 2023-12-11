@@ -14,7 +14,7 @@ import { Id } from '@services/firebase/types'
 
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
 
-import { Container, Header, IsBlockedContainer } from './styles'
+import { BottomSafeAreaColor, Container, Header, IsBlockedContainer } from './styles'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import ThreeDotsWhiteIcon from '@assets/icons/threeDots.svg'
 import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
@@ -363,6 +363,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				onLayout={scrollToEnd}
 			/>
 			<ChatInput submitMessage={submitMessage} />
+			{Platform.OS === 'ios' && <BottomSafeAreaColor />}
 		</Container>
 	)
 }

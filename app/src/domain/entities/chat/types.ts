@@ -19,7 +19,7 @@ export type Conversation = {
 
 export type Chat = {
 	chatId: string
-	completed: boolean
+	completed?: boolean
 	user1: {
 		userId: string
 		name: string
