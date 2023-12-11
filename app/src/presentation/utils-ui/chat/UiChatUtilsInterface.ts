@@ -1,4 +1,5 @@
 import { Id } from '@domain/entities/globalTypes'
+
 import { ChatUserIdentification, Message, MessageObjects } from '@globalTypes/chat/types'
 
 export interface UiChatUtilsInterface {

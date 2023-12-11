@@ -11,15 +11,6 @@ import { FlatListItem } from '@globalTypes/global/types'
 import { ChatMessagesScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { Id } from '@services/firebase/types'
 
-// import { getRemoteChatData } from '@services/firebase/chat/getRemoteChatData'
-// import { registerNewChat } from '@services/firebase/chat/registerNewChat'
-// import { setChatIdToUsers } from '@services/firebase/chat/setChatIdToUsers'
-// import { sendMessage } from '@services/firebase/chat/sendMessage'
-// import { unsubscribeMessageListener } from '@services/firebase/chat/unsubscribeMessageListener'
-// import { blockUserId } from '@services/firebase/chat/blockUser'
-// import { unblockUserId } from '@services/firebase/chat/unblockUser'
-// import { makeAllUserMessagesAsRead } from '@services/firebase/chat/makeAllUserMessagesAsRead'
-// import { cleanMessages } from '@services/firebase/chat/cleanMessages'
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
 
 import { Container, Header, IsBlockedContainer } from './styles'
@@ -208,8 +199,10 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const [firstScrollCompleted, setFirstScrollCompleted] = useState(false)
 
 	const scrollToEnd = () => {
+		const flatListMessages = getFilteredMessages()
+
 		if (firstScrollCompleted) {
-			!!(flatListRef && messages && Object.keys(messages).length) && flatListRef.current?.scrollToEnd({ animated: true })
+			!!(flatListRef && flatListMessages && Object.keys(flatListMessages).length) && flatListRef.current?.scrollToEnd({ animated: true })
 			return
 		}
 
@@ -219,7 +212,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			setTimeout(() => {
 				if (Date.now() - lastUpdated > 100) {
 					setFirstScrollCompleted(true)
-					!!(flatListRef && messages && Object.keys(messages).length) && flatListRef.current?.scrollToEnd({ animated: false })
+					!!(flatListRef && flatListMessages && Object.keys(flatListMessages).length) && flatListRef.current?.scrollToEnd({ animated: false })
 				}
 			}, 100)
 		}
@@ -322,6 +315,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					return <VerticalSpacing />
 				}}
 				onContentSizeChange={scrollToEnd}
+				onLayout={scrollToEnd}
 			/>
 			<ChatInput submitMessage={submitMessage} />
 		</Container>
