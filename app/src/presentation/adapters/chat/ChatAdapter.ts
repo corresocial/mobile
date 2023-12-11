@@ -9,6 +9,7 @@ import { getRemoteUserDataUC } from '@domain/chat/useCases/getRemoteUserDataUC'
 import { getUserChatIdsUC } from '@domain/chat/useCases/getUserChatIdsUC'
 import { getUserChatsUC } from '@domain/chat/useCases/getUserChatsUC'
 import { hasBlockedUserOnConversationUC } from '@domain/chat/useCases/hasBlockedUserOnConversationUC'
+import { makeAllUserMessagesAsReadUC } from '@domain/chat/useCases/makeAllMessagesAsReadUC'
 import { addNotificationListenerUC, removeNotificationListenerUC } from '@domain/chat/useCases/notificationListenersUC'
 import { registerNewChatUC } from '@domain/chat/useCases/registerNewChatUC'
 import { registerPushNotificationUC } from '@domain/chat/useCases/registerPushNotificationUC'
@@ -27,6 +28,7 @@ import { ChatAdapterInterface } from './ChatAdapterInterface'
 
 function ChatAdapter(): ChatAdapterInterface {
 	return {
+		existsOnDatabase: existsOnDatabaseUC,
 		getUserChatIds: getUserChatIdsUC,
 		getUserChats: getUserChatsUC,
 		getRemoteUserData: getRemoteUserDataUC,
@@ -36,7 +38,7 @@ function ChatAdapter(): ChatAdapterInterface {
 		setChatIdForUsers: setChatIdForUsersUC,
 		generateNewMessageObject: generateNewMessageObjectUC,
 		sendMessage: sendMessageUC,
-		existsOnDatabase: existsOnDatabaseUC,
+		makeAllUserMessagesAsRead: makeAllUserMessagesAsReadUC,
 		blockUserById: blockUserByIdUC,
 		unblockUserById: unblockUserByIdUC,
 		startUserChatIdsListener: startUserChatIdsListenerUC,

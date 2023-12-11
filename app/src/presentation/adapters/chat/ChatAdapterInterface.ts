@@ -5,6 +5,7 @@ import { Id } from '@domain/entities/globalTypes'
 import { MutableObjectReference } from '@services/pushNotification/types'
 
 interface ChatAdapterInterface {
+	existsOnDatabase(nodeId?: Id): Promise<boolean>
 	getUserChatIds(userId: Id): Promise<Id[]> | Id[]
 	getUserChats(chatIds: Id[]): Promise<Chat[]>
 	getRemoteUserData(userId: Id): Promise<ChatUserData>
@@ -14,7 +15,7 @@ interface ChatAdapterInterface {
 	setChatIdForUsers(userIds: Id[], chatId: Id): Promise<void>
 	generateNewMessageObject(textMessage: string, userSenderId: Id): MessageObjects
 	sendMessage(message: Message, chatId: Id, recipientUserId: Id): Promise<boolean>
-	existsOnDatabase(nodeId?: Id): Promise<boolean>
+	makeAllUserMessagesAsRead(chatId: Id, userId: Id): Promise<boolean>
 	blockUserById(targetBlockUserId: Id, ownerBlockUserId: Id): Promise<boolean>
 	unblockUserById(targetBlockUserId: Id, ownerBlockUserId: Id): Promise<boolean>
 	startUserChatIdsListener(userId: Id, callback: (chatIds: Id[], chats: Chat[]) => void): Promise<void>

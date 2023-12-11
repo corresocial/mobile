@@ -20,10 +20,10 @@ import { Id } from '@services/firebase/types'
 // import { setChatIdToUsers } from '@services/firebase/chat/setChatIdToUsers'
 // import { sendMessage } from '@services/firebase/chat/sendMessage'
 // import { unsubscribeMessageListener } from '@services/firebase/chat/unsubscribeMessageListener'
-import { cleanMessages } from '@services/firebase/chat/cleanMessages'
-import { makeAllUserMessagesAsRead } from '@services/firebase/chat/makeAllUserMessagesAsRead'
 // import { blockUserId } from '@services/firebase/chat/blockUser'
 // import { unblockUserId } from '@services/firebase/chat/unblockUser'
+// import { makeAllUserMessagesAsRead } from '@services/firebase/chat/makeAllUserMessagesAsRead'
+import { cleanMessages } from '@services/firebase/chat/cleanMessages'
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
 
 import { Container, Header, IsBlockedContainer } from './styles'
@@ -51,12 +51,13 @@ const { getLastMessageObject } = UiChatUtils()
 const { getConversationUserId, getConversationUserName, getConversationProfilePicture } = UiChatUtils()
 
 const {
+	existsOnDatabase,
 	getRemoteChatDataByUser,
 	registerNewChat,
 	setChatIdForUsers,
 	generateNewMessageObject,
 	sendMessage,
-	existsOnDatabase,
+	makeAllUserMessagesAsRead,
 	blockUserById,
 	unblockUserById,
 	hasBlockedUserOnConversation,
@@ -208,7 +209,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		setTimeout(() => setCleanMessagesConfirmationModalIsVisible(!clearMessagesConfirmationModalIsVisible), 400)
 	}
 
-	const scrollToEnd = () => { flatListRef && flatListRef.current?.scrollToEnd({ animated: true }) }
+	const scrollToEnd = () => { (messages && flatListRef) && flatListRef.current?.scrollToEnd({ animated: true }) }
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

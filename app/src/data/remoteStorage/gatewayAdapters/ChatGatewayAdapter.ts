@@ -10,11 +10,13 @@ import { registerNewChat } from '../chat/registerNewChat'
 import { sendMessage } from '../chat/sendMessage'
 import { unsubscribeChatMessagesListener, unsubscribeUserChatIdsListener, unsubscribeUserChatListener } from '../chat/unsubscribeListeners'
 import { updateBlockedUsersList } from '../chat/updateBlockUsersList'
+import { updateChatMessages } from '../chat/updateChatMessages'
 import { updateUserTokenNotification } from '../chat/updateUserTokenNotification'
 import { ChatGatewayAdapterInterface } from './ChatGatewayAdapterInterface'
 
 function ChatGatewayAdapter(): ChatGatewayAdapterInterface {
 	return {
+		existsOnDatabase,
 		getUserChatIds,
 		getUserChats,
 		getRemoteUserData,
@@ -23,7 +25,7 @@ function ChatGatewayAdapter(): ChatGatewayAdapterInterface {
 		registerNewChat,
 		addNewUserChatId,
 		sendMessage,
-		existsOnDatabase,
+		updateChatMessages,
 		updateBlockedUsersList,
 		startUserChatIdsListener,
 		startUserChatListener,
