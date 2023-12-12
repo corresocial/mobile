@@ -3,7 +3,7 @@ import { Id } from '../globalTypes'
 interface ImpactReport {
 	dateTime: Date
 	hadImpact: boolean
-	reportMessage: string
+	impactValue: number,
 	usersIdInvolved: Id[]
 }
 

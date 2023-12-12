@@ -3,6 +3,7 @@ import { Id } from '@domain/entities/globalTypes'
 
 export interface UiChatUtilsInterface {
 	defaultMessageObject: Message
+	convertTextToNumber(text: string): number | null
 	getLastMessageObject(messages: MessageObjects | Message[]): Message
 	getConversationUserName(currentUserId: Id, user1: ChatUserIdentification, user2: ChatUserIdentification): string
 	getConversationUserId(currentUserId: Id, user1: ChatUserIdentification, user2: ChatUserIdentification): string

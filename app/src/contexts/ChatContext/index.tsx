@@ -79,7 +79,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 
 	const mergeChatOnContext = (chatId: Id, updatedChat: Chat, chatsOnContext: Chat[]) => {
 		return chatsOnContext.map((chat: Chat) => {
-			if (chat.chatId === chatId) return { ...chat, ...updatedChat, messages: updatedChat.messages || [] }
+			if (chat && chat.chatId === chatId) return { ...chat, ...updatedChat, messages: updatedChat.messages || [] }
 			return chat
 		})
 	}

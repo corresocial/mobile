@@ -4,7 +4,7 @@ import { RFValue } from 'react-native-responsive-fontsize'
 import { Container, InputMessage, SendButtonAreaInner, SideButtonArea } from './styles'
 import AngleRightDisabledIcon from '@assets/icons/angleRight-disabled.svg'
 import AngleRightWhitetIcon from '@assets/icons/angleRight-white.svg'
-import ImpactLabelWhiteIcon from '@assets/icons/impactLabel.svg'
+import CheckLabelWhiteIcon from '@assets/icons/checkLabel-white.svg'
 import { theme } from '@common/theme'
 
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -45,17 +45,16 @@ function ChatInput({ showImpactReportButton, markChatAsCompleted, submitMessage 
 						color={theme.pink3}
 						relativeWidth={RFValue(40)}
 						height={RFValue(40)}
-						SvgIcon={ImpactLabelWhiteIcon}
+						SvgIcon={CheckLabelWhiteIcon}
 						svgScale={['75%', '75%']}
 						onPress={markChatAsCompleted}
 					/>
 				)
 			}
 			<InputMessage
-				style={{ textAlignVertical: 'top' }}
 				placeholder={'mensagem...'}
-				multiline
 				value={message}
+				multiline
 				inputFocused={messageInputFocused || !!message}
 				onFocus={() => setMessageInputFocused(true)}
 				onBlur={() => setMessageInputFocused(false)}

@@ -64,6 +64,7 @@ export const InputMessage = styled.TextInput<InputMessageProps>`
 	text-align: center;
 	margin-horizontal: ${RFValue(10)}px;
 	padding-horizontal: ${RFValue(10)}px;
+	padding-top: ${RFValue(12)}px;
 	font-family: Arvo_400Regular;
 	font-size: ${RFValue(13)}px;
 	border-radius: ${RFValue(50)}px;

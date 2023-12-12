@@ -2,7 +2,7 @@ import { TextInputProps, TextStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
-export const Container = styled.View`
+export const Container = styled.KeyboardAvoidingView`
     height: 100%;
     background-color: ${({ theme }) => theme.transparence.orange1};
 	justify-content: center;
@@ -69,6 +69,7 @@ export const Description = styled.Text<DescriptionProps>`
 `
 
 export const TextInput = styled.TextInput<TextInputProps>`
+	text-align: center;
 	font-family: Arvo_400Regular;
 	font-size: ${RFValue(13)}px;
 	margin: ${RFValue(20)}px 0px;

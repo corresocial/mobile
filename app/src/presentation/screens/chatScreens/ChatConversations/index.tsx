@@ -135,12 +135,12 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 
 	const getOpenConversations = (chats?: Chat[]) => {
 		const conversations = chats || sortConversationsByDateTime()
-		return conversations.filter((chat: Chat) => !chat.completed)
+		return conversations.filter((chat: Chat) => (chat && !chat.completed))
 	}
 
 	const getCompletedConversations = (chats?: Chat[]) => {
 		const conversations = chats || sortConversationsByDateTime()
-		return conversations.filter((chat: Chat) => chat.completed)
+		return conversations.filter((chat: Chat) => (chat && chat.completed))
 	}
 
 	const sortConversationsByDateTime = () => {

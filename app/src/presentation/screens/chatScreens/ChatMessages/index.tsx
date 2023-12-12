@@ -26,6 +26,8 @@ import { ImpactReportAdapter } from '@adapters/impactReport/ImpactReportAdapter'
 import { BackButton } from '@components/_buttons/BackButton'
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
+import { ImpactReportModal } from '@components/_modals/ImpactReportModal'
+import { ImpactReportSuccessModal } from '@components/_modals/ImpactReportSuccessModal'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { ChatInput } from '@components/ChatInput'
@@ -35,7 +37,7 @@ import { MessageCard } from '@components/MessageCard'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
-const { getConversationUserId, getConversationUserName, getConversationProfilePicture } = UiChatUtils()
+const { getConversationUserId, getConversationUserName, getConversationProfilePicture, convertTextToNumber } = UiChatUtils()
 
 const { sendImpactReport } = ImpactReportAdapter()
 
@@ -68,13 +70,13 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const [blockConfirmationModalIsVisible, setBlockConfirmationModalIsVisible] = useState(false)
 	const [clearMessagesConfirmationModalIsVisible, setCleanMessagesConfirmationModalIsVisible] = useState(false)
-	const [markAsCompletedConfirmationModalIsVisible, setMarkAsCompletedConfirmationModalIsVisible] = useState(false)
 	const [impactReportModalIsVisible, setImpactReportModalIsVisible] = useState(false)
+	const [impactReportSuccessModalIsVisible, setImpactReportSuccessModalIsVisible] = useState(false)
 
 	const flatListRef: RefObject<any> = useRef(null)
 
 	useEffect(() => {
-		const updatedChat = chatDataContext.find((chat) => chat.chatId === currentChat.chatId)
+		const updatedChat = chatDataContext.find((chat) => chat && (chat.chatId === currentChat.chatId))
 		updatedChat && setMessages(updatedChat?.messages)
 		chatCompletedStateHasUpdated(updatedChat) && setCurrentChat(updatedChat as Chat)
 	}, [chatDataContext])
@@ -95,7 +97,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const loadChatMessages = async () => {
 		const remoteChatData = await getRemoteChatDataByUser(currentChat.user1, currentChat.user2)
 
-		setCurrentChat({ ...remoteChatData, messages: { ...remoteChatData.messages } }) // TODO Type
+		setCurrentChat({ ...remoteChatData, messages: { ...remoteChatData.messages } })
 		setMessages({ ...remoteChatData.messages })
 
 		verifyUsersBlock()
@@ -171,16 +173,14 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		setChatOptionsIsOpen(false)
 	}
 
-	const markChatAsCompleted = async () => {
+	const saveImpactReport = async (hadImpact: boolean, impactValue: string) => {
+		const numericImpactValue = convertTextToNumber(impactValue) || 0
 		await updateChatCompletedState(currentChat.chatId, true, getRecipientUserId(), userDataContext.name)
-		toggleImpactReportModalVisibility()
-	}
-
-	const saveImpactReport = async (hadImpact: boolean) => {
-		toggleImpactReportModalVisibility()
 
 		const usersIdInvolved = [currentChat.user1.userId, currentChat.user2.userId]
-		await sendImpactReport(usersIdInvolved, hadImpact, '')
+		await sendImpactReport(usersIdInvolved, hadImpact, numericImpactValue)
+
+		toggleImpactReportSuccessModalVisibility()
 	}
 
 	const getRecipientUserName = () => {
@@ -222,14 +222,14 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		setTimeout(() => setCleanMessagesConfirmationModalIsVisible(!clearMessagesConfirmationModalIsVisible), 500)
 	}
 
-	const toggleMarkAsCompletedConfirmationModalVisibility = () => {
-		setChatOptionsIsOpen(false)
-		setTimeout(() => setMarkAsCompletedConfirmationModalIsVisible(!markAsCompletedConfirmationModalIsVisible), 500)
-	}
-
 	const toggleImpactReportModalVisibility = () => {
 		setChatOptionsIsOpen(false)
 		setTimeout(() => setImpactReportModalIsVisible(!impactReportModalIsVisible), 500)
+	}
+
+	const toggleImpactReportSuccessModalVisibility = () => {
+		setChatOptionsIsOpen(false)
+		setTimeout(() => setImpactReportSuccessModalIsVisible(!impactReportSuccessModalIsVisible), 500)
 	}
 
 	const [lastUpdated, setLastUpdated] = useState(0)
@@ -275,24 +275,14 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				closeModal={toggleCleanMessagesConfirmationModalVisibility}
 				onPressButton={cleanConversation}
 			/>
-			<DefaultConfirmationModal // MARK COMPLETED
-				visibility={markAsCompletedConfirmationModalIsVisible}
-				title={'marcar concluída'}
-				text={`você tem certeza que deseja concluir a conversa com ${getRecipientUserName()}?`}
-				highlightedWords={[...getRecipientUserName().split(' ')]}
-				buttonKeyword={'concluir'}
-				closeModal={toggleMarkAsCompletedConfirmationModalVisibility}
-				onPressButton={markChatAsCompleted}
-			/>
-			<DefaultConfirmationModal // IMPACT REPORT
+			<ImpactReportModal // IMPACT REPORT
 				visibility={impactReportModalIsVisible}
-				title={'marcar concluída'}
-				text={'essa conversa te ajudou a ganhar mais dinheiro, visibilidade cultural ou doações/impacto social?'}
-				highlightedWords={['te', 'ajudou']}
-				buttonKeyword={'ajudou'}
-				closeModal={() => { }}
-				onPressNegativeButton={() => saveImpactReport(false)}
-				onPressButton={() => saveImpactReport(true)}
+				closeModal={toggleImpactReportModalVisibility}
+				onPressButton={(impactValue?: string) => saveImpactReport(true, impactValue as string)}
+			/>
+			<ImpactReportSuccessModal // IMPACT REPORT SUCCESS
+				visibility={impactReportSuccessModalIsVisible}
+				closeModal={toggleImpactReportSuccessModalVisibility}
 			/>
 			<FocusAwareStatusBar
 				backgroundColor={theme.white3}
@@ -318,7 +308,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					unblockUser={toggleBlockConfirmationModalVisibility}
 					userIsBlocked={blockedByOwner && isBlockedUser}
 					cleanConversation={toggleCleanMessagesConfirmationModalVisibility}
-					markAsCompleted={toggleMarkAsCompletedConfirmationModalVisibility}
+					markAsCompleted={toggleImpactReportModalVisibility}
 				>
 					<SmallButton
 						color={theme.white3}
@@ -376,7 +366,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			/>
 			<ChatInput
 				showImpactReportButton={!currentChat.completed}
-				markChatAsCompleted={toggleMarkAsCompletedConfirmationModalVisibility}
+				markChatAsCompleted={toggleImpactReportModalVisibility}
 				submitMessage={submitMessage}
 			/>
 			{Platform.OS === 'ios' && <BottomSafeAreaColor />}
