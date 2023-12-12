@@ -11,6 +11,7 @@ import { sendMessage } from '../chat/sendMessage'
 import { setChatMessages } from '../chat/setChatMessages'
 import { unsubscribeChatMessagesListener, unsubscribeUserChatIdsListener, unsubscribeUserChatListener } from '../chat/unsubscribeListeners'
 import { updateBlockedUsersList } from '../chat/updateBlockUsersList'
+import { updateChatCompletedState } from '../chat/updateChatCompletedState'
 import { updateChatMessages } from '../chat/updateChatMessages'
 import { updateUserTokenNotification } from '../chat/updateUserTokenNotification'
 import { ChatGatewayAdapterInterface } from './ChatGatewayAdapterInterface'
@@ -29,6 +30,7 @@ function ChatGatewayAdapter(): ChatGatewayAdapterInterface {
 		setChatMessages,
 		updateChatMessages,
 		updateBlockedUsersList,
+		updateChatCompletedState,
 		startUserChatIdsListener,
 		startUserChatListener,
 		startChatMessagesListener,

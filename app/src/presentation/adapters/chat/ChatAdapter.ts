@@ -23,6 +23,7 @@ import { unblockUserByIdUC } from '@domain/chat/useCases/unblockUserByIdUC'
 import { unsubscribeChatIdsListenerUC } from '@domain/chat/useCases/unsubscribeChatIdsListenerUC'
 import { unsubscribeChatMessagesListenerUC } from '@domain/chat/useCases/unsubscribeChatMessagesListenerUC'
 import { unsubscribeUserChatsListenerUC } from '@domain/chat/useCases/unsubscribeUserChatsListenerUC'
+import { updateChatCompletedStateUC } from '@domain/chat/useCases/updateChatCompletedStateUC'
 import { updateUserTokenNotificationUC } from '@domain/chat/useCases/updateUserTokenNotificationUC'
 
 import { ChatAdapterInterface } from './ChatAdapterInterface'
@@ -41,6 +42,7 @@ function ChatAdapter(): ChatAdapterInterface {
 		sendMessage: sendMessageUC,
 		cleanChatMessages: cleanChatMessagesUC,
 		makeAllUserMessagesAsRead: makeAllUserMessagesAsReadUC,
+		updateChatCompletedState: updateChatCompletedStateUC,
 		blockUserById: blockUserByIdUC,
 		unblockUserById: unblockUserByIdUC,
 		startUserChatIdsListener: startUserChatIdsListenerUC,

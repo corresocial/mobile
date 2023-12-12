@@ -1,10 +1,5 @@
+// Não criar métodos dentro da pasta utils
 
+// Mètodos de utils em migração para utils-ui
 
-Não criar métodos dentro da pasta utils
-
-Mètodos de utils em migração para utils-ui
-
-utils-ui será movida posteriomente para presentation/
-
-
-
+// utils-ui será movida posteriomente para presentation/

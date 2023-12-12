@@ -44,6 +44,7 @@ const {
 	generateNewMessageObject,
 	sendMessage,
 	makeAllUserMessagesAsRead,
+	updateChatCompletedState,
 	cleanChatMessages,
 	blockUserById,
 	unblockUserById,
@@ -58,7 +59,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 
 	const [chatOptionsIsOpen, setChatOptionsIsOpen] = useState(false)
 	const [currentChat, setCurrentChat] = useState<Chat>(chatFromRoute)
-	const [messages, setMessages] = useState<MessageObjects | Message[]>(currentChat.messages)
+	const [messages, setMessages] = useState<MessageObjects>(currentChat.messages)
 	const [isBlockedUser, setIsBlockedUser] = useState(false)
 	const [blockedByOwner, setBlockedByOwner] = useState(false)
 
@@ -72,7 +73,13 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	useEffect(() => {
 		const updatedChat = chatDataContext.find((chat) => chat.chatId === currentChat.chatId)
 		updatedChat && setMessages(updatedChat?.messages)
+		chatCompletedStateHasUpdated(updatedChat) && setCurrentChat(updatedChat as Chat)
 	}, [chatDataContext])
+
+	const chatCompletedStateHasUpdated = (updatedChat: Chat | undefined) => {
+		if (!updatedChat) return false
+		return updatedChat?.completed !== currentChat.completed
+	}
 
 	useEffect(() => {
 		loadChatMessages()
@@ -134,6 +141,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			currentChat.chatId,
 			getRecipientUserId()
 		)
+
+		!!currentChat.completed && updateChatCompletedState(currentChat.chatId, false)
 	}
 
 	const blockUser = async () => {
@@ -160,16 +169,12 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const markChatAsCompleted = async () => {
-		console.log('markChatAsCompleted')
-		// updateChatCompletedState
-
+		await updateChatCompletedState(currentChat.chatId, true, getRecipientUserId(), userDataContext.name)
 		toggleImpactReportModalVisibility()
 	}
 
 	const sendImpactReport = async () => {
 		console.log('sendImpactReport')
-
-		toggleImpactReportModalVisibility()
 	}
 
 	const getRecipientUserName = () => {
@@ -362,7 +367,11 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				onContentSizeChange={scrollToEnd}
 				onLayout={scrollToEnd}
 			/>
-			<ChatInput submitMessage={submitMessage} />
+			<ChatInput
+				showImpactReportButton={!currentChat.completed}
+				markChatAsCompleted={toggleMarkAsCompletedConfirmationModalVisibility}
+				submitMessage={submitMessage}
+			/>
 			{Platform.OS === 'ios' && <BottomSafeAreaColor />}
 		</Container>
 	)

@@ -10,10 +10,12 @@ import { theme } from '@common/theme'
 import { SmallButton } from '@components/_buttons/SmallButton'
 
 interface ChatInputProps {
+	showImpactReportButton: boolean
+	markChatAsCompleted: () => void
 	submitMessage: (text: string) => void
 }
 
-function ChatInput({ submitMessage }: ChatInputProps) {
+function ChatInput({ showImpactReportButton, markChatAsCompleted, submitMessage }: ChatInputProps) {
 	const [message, setMessage] = useState('')
 	const [sendButtonPressed, setSendButtomPressed] = useState<boolean>(false)
 
@@ -37,14 +39,18 @@ function ChatInput({ submitMessage }: ChatInputProps) {
 
 	return (
 		<Container>
-			<SmallButton
-				color={theme.pink3}
-				relativeWidth={RFValue(40)}
-				height={RFValue(40)}
-				SvgIcon={ImpactLabelWhiteIcon}
-				svgScale={['75%', '75%']}
-				onPress={() => { console.log('show') }}
-			/>
+			{
+				showImpactReportButton && (
+					<SmallButton
+						color={theme.pink3}
+						relativeWidth={RFValue(40)}
+						height={RFValue(40)}
+						SvgIcon={ImpactLabelWhiteIcon}
+						svgScale={['75%', '75%']}
+						onPress={markChatAsCompleted}
+					/>
+				)
+			}
 			<InputMessage
 				style={{ textAlignVertical: 'top' }}
 				placeholder={'mensagem...'}

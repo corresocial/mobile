@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
 
-import { Chat, MessageObjects } from '@domain/entities/chat/types'
+import { Chat } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
 import { ChatContextType, ChatProviderProps } from './types'
@@ -67,19 +67,19 @@ function ChatProvider({ children }: ChatProviderProps) {
 		startUserChatListeners(chatIds, chatListenerCallback)
 	}
 
-	const chatListenerCallback = (chatId: Id, messages: MessageObjects) => {
-		updateChatMessages(chatId, messages)
+	const chatListenerCallback = (chatId: Id, updatedChat: Chat) => {
+		updateChatsOnContext(chatId, updatedChat)
 	}
 
-	const updateChatMessages = (chatId: Id, messages: MessageObjects) => {
-		const chatMessagesOnContext = chatDataContextRef.current
-		const chats = mergeChatMessages(chatId, messages, chatMessagesOnContext)
+	const updateChatsOnContext = (chatId: Id, updatedChat: Chat) => {
+		const chatsOnContext = chatDataContextRef.current
+		const chats = mergeChatOnContext(chatId, updatedChat, chatsOnContext)
 		setChatsOnContext(chats as Chat[])
 	}
 
-	const mergeChatMessages = (chatId: Id, messages: MessageObjects, chatMessagesOnContext: Chat[]) => {
-		return chatMessagesOnContext.map((chat: Chat) => {
-			if (chat.chatId === chatId) return { ...chat, messages }
+	const mergeChatOnContext = (chatId: Id, updatedChat: Chat, chatsOnContext: Chat[]) => {
+		return chatsOnContext.map((chat: Chat) => {
+			if (chat.chatId === chatId) return { ...chat, ...updatedChat, messages: updatedChat.messages || [] }
 			return chat
 		})
 	}

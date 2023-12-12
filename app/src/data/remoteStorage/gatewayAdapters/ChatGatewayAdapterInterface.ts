@@ -14,8 +14,9 @@ export interface ChatGatewayAdapterInterface {
 	setChatMessages(chatId: Id, messages: MessageObjects): Promise<void>
 	updateChatMessages(chatId: Id, messages: MessageObjects): Promise<void>
 	updateBlockedUsersList(userId: Id, blockedUserIds: Id[]): Promise<boolean>
+	updateChatCompletedState(chatId: Id, completedState: boolean): Promise<boolean>
 	startUserChatIdsListener(userId: Id, callback: (chatIds: Id[]) => void): void
-	startUserChatListener(userId: Id, callback: (chatId: Id, messages: MessageObjects) => void): void
+	startUserChatListener(userId: Id, callback: (chatId: Id, updatedChat: Chat) => void): void
 	startChatMessagesListener(chatId: Id, callback: (newMessages: MessageObjects) => void): void
 	unsubscribeUserChatIdsListener(userId: Id): void
 	unsubscribeUserChatListener(chatId: Id): void

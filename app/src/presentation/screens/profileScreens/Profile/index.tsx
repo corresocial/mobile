@@ -13,6 +13,7 @@ import { HomeTabScreenProps } from '@routes/Stack/ProfileStack/stackScreenProps'
 import {
 	Id,
 	PostCollection,
+	PostCollectionCommonFields,
 	PostRange,
 	SocialMedia,
 	UserCollection,
@@ -40,7 +41,6 @@ import {
 	ExpandedUserDescriptionArea,
 	VerticalPaddingContainer,
 	PostPadding,
-	SafeAreaViewContainer,
 	OffBounceBackground,
 	SeeMoreLabel,
 } from './styles'
@@ -621,7 +621,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							<PostPadding>
 								<PostCard
 									post={item}
-									owner={getUserField()}
+									owner={getUserField() as PostCollectionCommonFields['owner']}
 									onPress={() => viewPostDetails(item)}
 								/>
 							</PostPadding>
