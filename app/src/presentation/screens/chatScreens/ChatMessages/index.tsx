@@ -13,6 +13,7 @@ import { ChatMessagesScreenProps } from '@routes/Stack/UserStack/stackScreenProp
 import { Id } from '@services/firebase/types'
 
 import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
+import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import { BottomSafeAreaColor, Container, Header, IsBlockedContainer } from './styles'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
@@ -37,7 +38,8 @@ import { MessageCard } from '@components/MessageCard'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
-const { getConversationUserId, getConversationUserName, getConversationProfilePicture, convertTextToNumber } = UiChatUtils()
+const { getConversationUserId, getConversationUserName, getConversationProfilePicture } = UiChatUtils()
+const { convertTextToNumber } = UiUtils()
 
 const { sendImpactReport } = ImpactReportAdapter()
 
@@ -174,9 +176,9 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const saveImpactReport = async (hadImpact: boolean, impactValue: string) => {
-		const numericImpactValue = convertTextToNumber(impactValue) || 0
 		await updateChatCompletedState(currentChat.chatId, true, getRecipientUserId(), userDataContext.name)
 
+		const numericImpactValue = convertTextToNumber(impactValue) || 0
 		const usersIdInvolved = [currentChat.user1.userId, currentChat.user2.userId]
 		await sendImpactReport(usersIdInvolved, hadImpact, numericImpactValue)
 
@@ -228,7 +230,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const toggleImpactReportSuccessModalVisibility = () => {
-		setChatOptionsIsOpen(false)
 		setTimeout(() => setImpactReportSuccessModalIsVisible(!impactReportSuccessModalIsVisible), 500)
 	}
 
@@ -303,6 +304,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				<ChatPopOver
 					userName={getRecipientUserName()}
 					popoverVisibility={chatOptionsIsOpen}
+					impactReportButtonVisibility={!currentChat.completed}
 					closePopover={() => setChatOptionsIsOpen(false)}
 					blockUser={toggleBlockConfirmationModalVisibility}
 					unblockUser={toggleBlockConfirmationModalVisibility}

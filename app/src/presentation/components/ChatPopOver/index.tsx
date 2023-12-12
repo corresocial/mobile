@@ -19,6 +19,7 @@ import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 interface ChatPopOverProps {
 	userName?: string
 	popoverVisibility: boolean
+	impactReportButtonVisibility: boolean
 	userIsBlocked: boolean
 	children: React.ReactChild
 	closePopover: () => void
@@ -31,6 +32,7 @@ interface ChatPopOverProps {
 function ChatPopOver({
 	userName,
 	popoverVisibility,
+	impactReportButtonVisibility,
 	userIsBlocked,
 	children,
 	closePopover,
@@ -87,20 +89,26 @@ function ChatPopOver({
 						relativeHeight={relativeScreenHeight(8)}
 						onPress={cleanConversation}
 					/>
-					<VerticalSpacing />
-					<PrimaryButton
-						color={theme.pink3}
-						label={'marcar como \nfinalizado'}
-						highlightedWords={['marcar', 'como', '\nfinalizado']}
-						labelColor={theme.white3}
-						justifyContent={'space-around'}
-						textAlign={'left'}
-						fontSize={13}
-						SecondSvgIcon={ImpactWhiteIcon}
-						minHeight={20}
-						relativeHeight={relativeScreenHeight(8)}
-						onPress={markAsCompleted}
-					/>
+					{
+						impactReportButtonVisibility && (
+							<>
+								<VerticalSpacing />
+								<PrimaryButton
+									color={theme.pink3}
+									label={'marcar como \nfinalizado'}
+									highlightedWords={['marcar', 'como', '\nfinalizado']}
+									labelColor={theme.white3}
+									justifyContent={'space-around'}
+									textAlign={'left'}
+									fontSize={13}
+									SecondSvgIcon={ImpactWhiteIcon}
+									minHeight={20}
+									relativeHeight={relativeScreenHeight(8)}
+									onPress={markAsCompleted}
+								/>
+							</>
+						)
+					}
 				</ContainerInner>
 			</Container>
 		</Popover >
