@@ -1,7 +1,7 @@
 import { Message } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapter } from '@data/remoteStorage/gatewayAdapters/ChatGatewayAdapter'
+import { ChatGatewayAdapter } from '@data/remoteStorage/chat/gatewayAdapter/ChatGatewayAdapter'
 
 import { PushNotificationService } from '@services/pushNotification/PushNotificationService'
 

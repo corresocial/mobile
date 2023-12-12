@@ -1,7 +1,7 @@
 import { MessageObjects } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapter } from '@data/remoteStorage/gatewayAdapters/ChatGatewayAdapter'
+import { ChatGatewayAdapter } from '@data/remoteStorage/chat/gatewayAdapter/ChatGatewayAdapter'
 
 async function makeAllUserMessagesAsReadUC(chatId: Id, userId: Id) {
 	const { getRemoteChatData, updateChatMessages } = ChatGatewayAdapter()

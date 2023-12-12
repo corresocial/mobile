@@ -1,7 +1,7 @@
 import { MessageObjects } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
-import { ChatGatewayAdapter } from '@data/remoteStorage/gatewayAdapters/ChatGatewayAdapter'
+import { ChatGatewayAdapter } from '@data/remoteStorage/chat/gatewayAdapter/ChatGatewayAdapter'
 
 async function startChatMessagesListenerUC(chatId: Id, callback: (newMessages: MessageObjects) => void) {
 	const { existsOnDatabase, startChatMessagesListener } = ChatGatewayAdapter()

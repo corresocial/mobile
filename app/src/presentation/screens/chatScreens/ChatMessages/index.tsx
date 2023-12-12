@@ -21,6 +21,7 @@ import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensi
 import { theme } from '@common/theme'
 
 import { ChatAdapter } from '@adapters/chat/ChatAdapter'
+import { ImpactReportAdapter } from '@adapters/impactReport/ImpactReportAdapter'
 
 import { BackButton } from '@components/_buttons/BackButton'
 import { SmallButton } from '@components/_buttons/SmallButton'
@@ -35,6 +36,8 @@ import { SmallUserIdentification } from '@components/SmallUserIdentification'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
 const { getConversationUserId, getConversationUserName, getConversationProfilePicture } = UiChatUtils()
+
+const { sendImpactReport } = ImpactReportAdapter()
 
 const {
 	existsOnDatabase,
@@ -173,8 +176,11 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		toggleImpactReportModalVisibility()
 	}
 
-	const sendImpactReport = async () => {
-		console.log('sendImpactReport')
+	const saveImpactReport = async (hadImpact: boolean) => {
+		toggleImpactReportModalVisibility()
+
+		const usersIdInvolved = [currentChat.user1.userId, currentChat.user2.userId]
+		await sendImpactReport(usersIdInvolved, hadImpact, '')
 	}
 
 	const getRecipientUserName = () => {
@@ -284,8 +290,9 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				text={'essa conversa te ajudou a ganhar mais dinheiro, visibilidade cultural ou doações/impacto social?'}
 				highlightedWords={['te', 'ajudou']}
 				buttonKeyword={'ajudou'}
-				closeModal={toggleImpactReportModalVisibility}
-				onPressButton={sendImpactReport}
+				closeModal={() => { }}
+				onPressNegativeButton={() => saveImpactReport(false)}
+				onPressButton={() => saveImpactReport(true)}
 			/>
 			<FocusAwareStatusBar
 				backgroundColor={theme.white3}
