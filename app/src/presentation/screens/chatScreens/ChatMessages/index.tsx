@@ -69,6 +69,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const [messages, setMessages] = useState<MessageObjects>(currentChat.messages)
 	const [isBlockedUser, setIsBlockedUser] = useState(false)
 	const [blockedByOwner, setBlockedByOwner] = useState(false)
+	const [firstRender, setFirstRender] = useState(true)
 
 	const [blockConfirmationModalIsVisible, setBlockConfirmationModalIsVisible] = useState(false)
 	const [clearMessagesConfirmationModalIsVisible, setCleanMessagesConfirmationModalIsVisible] = useState(false)
@@ -94,6 +95,12 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		return () => {
 			makeAllUserMessagesAsRead(currentChat.chatId, userDataContext.userId as Id)
 		}
+	}, [])
+
+	useEffect(() => {
+		setTimeout(() => {
+			setFirstRender(false)
+		}, 500)
 	}, [])
 
 	const loadChatMessages = async () => {
@@ -233,27 +240,8 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		setTimeout(() => setImpactReportSuccessModalIsVisible(!impactReportSuccessModalIsVisible), 500)
 	}
 
-	const [lastUpdated, setLastUpdated] = useState(0)
-	const [firstScrollCompleted, setFirstScrollCompleted] = useState(false)
-
-	const scrollToEnd = () => {
-		const flatListMessages = getFilteredMessages()
-
-		if (firstScrollCompleted) {
-			!!(flatListRef && flatListMessages && Object.keys(flatListMessages).length) && flatListRef.current?.scrollToEnd({ animated: true })
-			return
-		}
-
-		if ((Date.now() - lastUpdated) < 100 || lastUpdated === 0) {
-			setLastUpdated(Date.now())
-
-			setTimeout(() => {
-				if (Date.now() - lastUpdated > 100) {
-					setFirstScrollCompleted(true)
-					!!(flatListRef && flatListMessages && Object.keys(flatListMessages).length) && flatListRef.current?.scrollToEnd({ animated: false })
-				}
-			}, 100)
-		}
+	const scrollToEnd = (animated: boolean) => {
+		!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToEnd({ animated })
 	}
 
 	return (
@@ -322,6 +310,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				</ChatPopOver>
 			</Header>
 			<FlashList
+				initialScrollIndex={messages && getFilteredMessages().length - 1}
 				ref={flatListRef}
 				data={Object.values(messages || {}) ? getFilteredMessages() : []}
 				renderItem={({ item }: FlatListItem<Message>) => (
@@ -363,8 +352,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					}
 					return <VerticalSpacing />
 				}}
-				onContentSizeChange={scrollToEnd}
-				onLayout={scrollToEnd}
+				onContentSizeChange={() => (firstRender ? scrollToEnd(false) : scrollToEnd(true))}
 			/>
 			<ChatInput
 				showImpactReportButton={!currentChat.completed}
