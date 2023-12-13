@@ -1,4 +1,5 @@
 import React from 'react'
+import uuid from 'react-uuid'
 
 import { FeedPosts, PostCollection, PostRange } from '@services/firebase/types'
 
@@ -14,7 +15,6 @@ import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 import { WithoutPostsMessage } from '../WithoutPostsMessage'
-import uuid from 'react-uuid'
 
 interface FeedByRangeProps {
 	backgroundColor?: string

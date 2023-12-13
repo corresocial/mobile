@@ -7,7 +7,7 @@ import { SelectPostTypeScreenProps } from '@routes/Stack/UserStack/stackScreenPr
 import { getNetworkStatus } from '@utils/deviceNetwork'
 import { getNumberOfStoredOfflinePosts } from '@utils/offlinePost'
 
-import { BottomSafeAreaColor, Container, SubscriptionButtonContainer } from './styles'
+import { Container, SubscriptionButtonContainer } from './styles'
 import CashWhiteIcon from '@assets/icons/cash-white.svg'
 import CultureWhiteIcon from '@assets/icons/culture-white.svg'
 import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
@@ -141,7 +141,6 @@ function SelectPostType({ navigation }: SelectPostTypeScreenProps) {
 				</SubscriptionButtonContainer>
 				<VerticalSpacing />
 			</Container >
-			<BottomSafeAreaColor safeAreaColor={theme.orange2} withoutFlex />
 		</>
 	)
 }

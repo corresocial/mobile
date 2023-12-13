@@ -1,3 +1,4 @@
+import { convertTextToNumber } from './convertion'
 import { formatDate, formatHour, formatRelativeDate } from './date/dateFormat'
 import { sortArray } from './sort/list'
 import { UiUtilsInterface } from './UiUtilsInterface'
@@ -7,6 +8,7 @@ import { textHasOnlyNumbers } from './validation/validateText'
 function UiUtils(): UiUtilsInterface {
 	return {
 		textHasOnlyNumbers,
+		convertTextToNumber,
 		formatDate,
 		formatHour,
 		formatRelativeDate,

@@ -9,10 +9,7 @@ interface AlertNotificationModalProps {
 	onPressButton: () => void
 }
 
-function AlertNotificationModal({
-	visibility,
-	onPressButton
-}: AlertNotificationModalProps) {
+function AlertNotificationModal({ visibility, onPressButton }: AlertNotificationModalProps) {
 	return (
 		<CustomModal
 			visibility={visibility}
@@ -29,7 +26,9 @@ function AlertNotificationModal({
 				label: 'ok, entendi',
 				onPress: onPressButton
 			}}
-		/>
+		>
+
+		</CustomModal>
 	)
 }
 

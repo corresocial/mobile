@@ -25,7 +25,7 @@ module.exports = function (api) {
 						'@screens': './src/presentation/screens',
 						'@utils': './src/presentation/utils',
 						'@utils-ui': './src/presentation/utils-ui',
-						'@adapters': './src/presentation/utils-ui'
+						'@adapters': './src/presentation/adapters'
 					}
 				}
 			]

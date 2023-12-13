@@ -10,7 +10,6 @@ import { UserStackParamList } from '@routes/Stack/UserStack/types'
 import { Id } from '@services/firebase/types'
 
 import { auth } from '@services/firebase'
-import { getAndUpdateUserToken } from '@services/firebase/chat/getAndUpdateUserToken'
 import { clearOfflinePosts } from '@utils/offlinePost'
 
 import { Body, Container, Header } from './styles'
@@ -30,12 +29,16 @@ import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensi
 import { share } from '@common/share'
 import { theme } from '@common/theme'
 
+import { ChatAdapter } from '@adapters/chat/ChatAdapter'
+
 import { OptionButton } from '@components/_buttons/OptionButton'
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { SubscriptionButton } from '@components/_buttons/SubscriptionButton'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
+
+const { updateUserTokenNotification } = ChatAdapter()
 
 function Configurations({ navigation }: ConfigurationsScreenProps) {
 	const { notificationState, updateNotificationState } = useContext(AlertContext)
@@ -50,7 +53,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 
 	const performLogout = async () => {
 		removeChatListeners()
-		await getAndUpdateUserToken(userDataContext.userId as Id, null)
+		await updateUserTokenNotification(userDataContext.userId as Id, '')
 		await deleteLocaluser()
 		await clearOfflinePosts()
 		await auth.signOut()

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, TextStyle } from 'react-native'
+import { Modal, Platform, TextInputProps, TextStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
@@ -46,13 +46,15 @@ interface CustomModalProps {
 		highlightedWords?: string[]
 	} | false,
 	listItemText?: string | false
+	TextSvg?: React.FC<SvgProps>
 	withoutStatusBar?: boolean,
 	closeButton?: boolean,
 	closeModalOnPressButton?: boolean,
 	closeModal: () => void
 	customInput?: {
 		placeholder: string
-		initialValue: string
+		initialValue?: string
+		keyboardType?: TextInputProps['keyboardType']
 	}
 	affirmativeButton?: {
 		label: string
@@ -77,6 +79,7 @@ function CustomModal({
 	firstParagraph,
 	secondParagraph,
 	listItemText,
+	TextSvg,
 	customInput,
 	closeButton,
 	closeModalOnPressButton = true,
@@ -85,11 +88,11 @@ function CustomModal({
 	negativeButton,
 	children
 }: CustomModalProps) {
-	const [textInput, setTextInput] = useState(customInput?.initialValue)
+	const [textInput, setTextInput] = useState(customInput?.initialValue || '')
 
 	useEffect(() => {
 		if (customInput) {
-			setTextInput(customInput.initialValue)
+			setTextInput(customInput.initialValue || '')
 		}
 	}, [customInput?.initialValue])
 
@@ -108,7 +111,7 @@ function CustomModal({
 			onRequestClose={closeModal}
 		>
 			{!withoutStatusBar && <FocusAwareStatusBar backgroundColor={theme.transparence.orange1} barStyle={'dark-content'} />}
-			<Container>
+			<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 				<TouchCloseArea onPress={closeModal}></TouchCloseArea>
 				<Content>
 					<ContentInner>
@@ -158,6 +161,7 @@ function CustomModal({
 								<Description
 									bolded={secondParagraph.bolded}
 									fontSize={secondParagraph.fontSize}
+									textAlign={secondParagraph.textAlign}
 								>
 									{showMessageWithHighlight(secondParagraph.text || '', secondParagraph.highlightedWords)}
 								</Description>
@@ -166,7 +170,7 @@ function CustomModal({
 						{
 							customInput && (
 								<TextInput
-									keyboardType={'email-address'}
+									keyboardType={customInput.keyboardType || 'email-address'}
 									placeholder={customInput.placeholder}
 									value={textInput}
 									onChangeText={(text: string) => setTextInput(text.trim().toLowerCase())}
@@ -174,16 +178,20 @@ function CustomModal({
 							)
 						}
 
+						{TextSvg && <TextSvg width={'100%'} height={RFValue(40)} />}
+						<VerticalSpacing />
+
 						{
 							affirmativeButton && (
 								<>
 									<PrimaryButton
 										keyboardHideButton={false}
 										color={theme.green3}
+										labelMarginLeft={RFValue(10)}
 										labelColor={theme.white3}
 										label={affirmativeButton.label}
 										highlightedWords={[...affirmativeButton.label.split(' '), ...affirmativeButton.label.split(', ')]}
-										fontSize={15}
+										fontSize={14}
 										SecondSvgIcon={affirmativeButton.CustomIcon || CheckWhiteIcon}
 										svgIconScale={['40%', '25%']}
 										onPress={() => closeModalAfterOnPress(affirmativeButton.onPress)}
@@ -200,7 +208,7 @@ function CustomModal({
 									labelColor={theme.white3}
 									label={negativeButton.label}
 									highlightedWords={[...negativeButton.label.split(' '), ...negativeButton.label.split(', ')]}
-									fontSize={15}
+									fontSize={14}
 									SvgIcon={negativeButton.CustomIcon || XWhiteIcon}
 									svgIconScale={['40%', '25%']}
 									onPress={() => closeModalAfterOnPress(negativeButton.onPress)}

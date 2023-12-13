@@ -8,8 +8,9 @@ interface DefaultConfirmationModalProps {
 	text?: string
 	highlightedWords?: string[]
 	buttonKeyword?: string
-	closeModal: () => void
 	onPressButton: () => void
+	closeModal?: () => void
+	onPressNegativeButton?: () => void
 }
 
 function DefaultConfirmationModal({
@@ -18,7 +19,8 @@ function DefaultConfirmationModal({
 	text,
 	highlightedWords,
 	buttonKeyword,
-	closeModal,
+	closeModal = () => { },
+	onPressNegativeButton,
 	onPressButton
 }: DefaultConfirmationModalProps) {
 	return (
@@ -36,7 +38,7 @@ function DefaultConfirmationModal({
 			}}
 			negativeButton={{
 				label: 'não, cancelar',
-				onPress: closeModal
+				onPress: onPressNegativeButton || closeModal
 			}}
 		/>
 	)

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { VerifiedLabelName } from '@services/firebase/types'
 
-import { CustomModal } from '../CustomModal'
+import { CustomModal } from '../CustomModal';
 
 interface ProfileVerifiedModalProps {
 	visibility: boolean;

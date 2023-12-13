@@ -1,11 +1,18 @@
-import { defaultMessageObject, getLastMessageObjects, sortChatMessages } from '.'
+import { convertTextToNumber } from '@utils-ui/common/convertion'
+
+import { defaultMessageObject, getLastMessageObject, sortChatMessages } from '.'
+import { getConversationProfilePicture, getConversationUserId, getConversationUserName } from './getConversationUserData'
 import { UiChatUtilsInterface } from './UiChatUtilsInterface'
 
 function UiChatUtils(): UiChatUtilsInterface {
 	return {
 		defaultMessageObject,
-		getLastMessageObjects,
-		sortChatMessages
+		convertTextToNumber,
+		getLastMessageObject,
+		sortChatMessages,
+		getConversationUserName,
+		getConversationUserId,
+		getConversationProfilePicture
 	}
 }
 

@@ -98,7 +98,7 @@
 						"/^./styles/"
 					],
 					[
-						"/^@adapters/"
+						"/@adapters/"
 					],
 					[
 						"/^@components/",

@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView } from 'react-native'
 
+import { Id } from '@domain/entities/globalTypes'
+import { ReportContext } from '@domain/entities/impactReport/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
@@ -30,6 +33,8 @@ import { relativeScreenWidth } from '@common/screenDimensions'
 import { share } from '@common/share'
 import { theme } from '@common/theme'
 
+import { ImpactReportAdapter } from '@adapters/impactReport/ImpactReportAdapter'
+
 import { SmallButton } from '@components/_buttons/SmallButton'
 import { DateTimeCard } from '@components/_cards/DateTimeCard'
 import { DeliveryMethodCard } from '@components/_cards/DeliveryMethodCard'
@@ -40,6 +45,8 @@ import { LinkCard } from '@components/_cards/LinkCard'
 import { LocationViewCard } from '@components/_cards/LocationViewCard'
 import { SaleOrExchangeCard } from '@components/_cards/SaleOrExchangeCard'
 import { DefaultConfirmationModal } from '@components/_modals/DefaultConfirmationModal'
+import { ImpactReportModal } from '@components/_modals/ImpactReportModal'
+import { ImpactReportSuccessModal } from '@components/_modals/ImpactReportSuccessModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 import { HorizontalTagList } from '@components/HorizontalTagList'
@@ -47,8 +54,9 @@ import { ImageCarousel } from '@components/ImageCarousel'
 import { PostPopOver } from '@components/PostPopOver'
 import { SmallUserIdentification } from '@components/SmallUserIdentification'
 
-const { textHasOnlyNumbers, formatRelativeDate, arrayIsEmpty } = UiUtils()
+const { textHasOnlyNumbers, convertTextToNumber, formatRelativeDate, arrayIsEmpty } = UiUtils()
 const { mergeArrayPosts } = UiPostUtils()
+const { sendImpactReport } = ImpactReportAdapter()
 
 function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 	const { userDataContext, setDataOnSecureStore, setUserDataOnContext } = useContext(AuthContext)
@@ -57,8 +65,10 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 	const [postOptionsIsOpen, setPostOptionsIsOpen] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 	const [isCompleted, setIsCompleted] = useState(route.params.postData.completed || false)
-	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 
+	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
+	const [impactReportModalIsVisible, setImpactReportModalIsVisible] = useState(false)
+	const [impactReportSuccessModalIsVisible, setImpactReportSuccessModalIsVisible] = useState(false)
 	useEffect(() => {
 		return () => {
 			clearEditContext()
@@ -93,26 +103,32 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 		navigation.navigate('EditServicePost', { postData: { ...postData, ...editDataContext.saved } })
 	}
 
-	const markAsCompleted = async () => {
+	const markAsCompleted = async (hadImpact: boolean, impactValue: string) => {
 		try {
 			const updatedPostData = { ...postData, completed: !isCompleted }
 			const mergedPosts = mergeArrayPosts(userDataContext.posts, updatedPostData)
 
-			markPostAsComplete(
-				userDataContext,
-				postData.postId,
-				updatedPostData,
-				mergedPosts || []
-			)
+			markPostAsComplete(userDataContext, postData.postId, updatedPostData, mergedPosts || [])
 
 			setUserDataOnContext({ posts: mergedPosts })
 			setDataOnSecureStore('corre.user', { posts: mergedPosts })
 
-			setIsCompleted(!isCompleted)
 			setPostOptionsIsOpen(false)
+
+			!isCompleted && saveImpactReport(hadImpact, impactValue)
+
+			setIsCompleted(!isCompleted)
 		} catch (err) {
 			console.log(err)
 		}
+	}
+
+	const saveImpactReport = async (hadImpact: boolean, impactValue: string) => {
+		const numericImpactValue = convertTextToNumber(impactValue) || 0
+		const usersIdInvolved = [userDataContext.userId as Id]
+		await sendImpactReport(usersIdInvolved, hadImpact, numericImpactValue, postData.postType as ReportContext)
+
+		toggleImpactReportSuccessModalVisibility()
 	}
 
 	const deleteRemotePost = async () => {
@@ -185,8 +201,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 
 	const navigateToProfile = () => {
 		if (userDataContext.userId === postData.owner.userId) {
-			navigation.navigate('Profile')
-			return
+			return navigation.navigate('Profile')
 		}
 		navigation.navigate('ProfileHome' as any, {
 			userId: postData.owner.userId,
@@ -216,6 +231,15 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 		setTimeout(() => setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible), 400)
 	}
 
+	const toggleImpactReportModalVisibility = () => {
+		setPostOptionsIsOpen(false)
+		setTimeout(() => setImpactReportModalIsVisible(!impactReportModalIsVisible), 500)
+	}
+
+	const toggleImpactReportSuccessModalVisibility = () => {
+		setTimeout(() => setImpactReportSuccessModalIsVisible(!impactReportSuccessModalIsVisible), 500)
+	}
+
 	return (
 		<Container>
 			<DefaultConfirmationModal
@@ -226,6 +250,15 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 				buttonKeyword={'apagar'}
 				closeModal={toggleDefaultConfirmationModalVisibility}
 				onPressButton={deleteRemotePost}
+			/>
+			<ImpactReportModal // IMPACT REPORT
+				visibility={impactReportModalIsVisible}
+				closeModal={toggleImpactReportModalVisibility}
+				onPressButton={(impactValue?: string) => markAsCompleted(true, impactValue as string)}
+			/>
+			<ImpactReportSuccessModal // IMPACT REPORT SUCCESS
+				visibility={impactReportSuccessModalIsVisible}
+				closeModal={toggleImpactReportSuccessModalVisibility}
 			/>
 			<StatusBar
 				backgroundColor={theme.white3}
@@ -294,7 +327,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 						isCompleted={isCompleted}
 						goToComplaint={reportPost}
 						editPost={goToEditPost}
-						markAsCompleted={markAsCompleted}
+						markAsCompleted={!isCompleted ? toggleImpactReportModalVisibility : markAsCompleted as any} // TODO Type
 						deletePost={toggleDefaultConfirmationModalVisibility}
 					>
 						<SmallButton

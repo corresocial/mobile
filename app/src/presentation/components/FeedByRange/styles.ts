@@ -9,6 +9,6 @@ export const Container = styled.ScrollView<ContainerProps>`
 	flex: 1;
 	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.orange2};)}
 `
-export const PostCardContainer = styled.ScrollView`
+export const PostCardContainer = styled.View`
 	padding-horizontal: ${RFValue(10)}px;
 `
