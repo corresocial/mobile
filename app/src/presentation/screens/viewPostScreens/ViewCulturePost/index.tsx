@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StatusBar, ScrollView } from 'react-native'
 
+import { ReportContext } from '@domain/entities/impactReport/types'
+
 import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
@@ -113,7 +115,7 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 	const saveImpactReport = async (hadImpact: boolean, impactValue: string) => {
 		const numericImpactValue = convertTextToNumber(impactValue) || 0
 		const usersIdInvolved = [userDataContext.userId as Id]
-		await sendImpactReport(usersIdInvolved, hadImpact, numericImpactValue)
+		await sendImpactReport(usersIdInvolved, hadImpact, numericImpactValue, postData.postType as ReportContext)
 
 		toggleImpactReportSuccessModalVisibility()
 	}
