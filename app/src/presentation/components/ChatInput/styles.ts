@@ -10,8 +10,6 @@ export const Container = styled.View`
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	border-top-width: ${RFValue(5)}px;
-	border-top-color: ${({ theme }) => theme.black4};
 	padding-horizontal: ${RFValue(10)}px;
 	padding-vertical: ${RFValue(10)}px;
 	position: ${Platform.OS === 'ios' ? 'relative' : 'absolute'};
@@ -65,6 +63,7 @@ export const InputMessage = styled.TextInput<InputMessageProps>`
 	margin-horizontal: ${RFValue(10)}px;
 	padding-horizontal: ${RFValue(10)}px;
 	padding-top: ${RFValue(12)}px;
+	padding-bottom: ${RFValue(12)}px;
 	font-family: Arvo_400Regular;
 	font-size: ${RFValue(13)}px;
 	border-radius: ${RFValue(50)}px;

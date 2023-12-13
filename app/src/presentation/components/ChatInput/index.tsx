@@ -45,6 +45,7 @@ function ChatInput({ showImpactReportButton, markChatAsCompleted, submitMessage 
 						color={theme.pink3}
 						relativeWidth={RFValue(40)}
 						height={RFValue(40)}
+						rounded
 						SvgIcon={CheckLabelWhiteIcon}
 						svgScale={['75%', '75%']}
 						onPress={markChatAsCompleted}

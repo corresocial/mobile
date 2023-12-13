@@ -18,8 +18,9 @@ interface SmallButtonProps {
 	svgScale?: [height: string, width: string]
 	secondSvgScale?: [height: string, width: string]
 	relativeWidth?: string | number
-	flexDirection?: ViewStyle['flexDirection']
 	height?: number
+	rounded?: boolean
+	flexDirection?: ViewStyle['flexDirection']
 	onPress: () => void
 }
 
@@ -35,6 +36,7 @@ function SmallButton({
 	secondSvgScale = label ? ['50%', '15%'] : ['50%', '80%'],
 	relativeWidth = '100%',
 	height = 30,
+	rounded,
 	flexDirection = 'row',
 	onPress
 }: SmallButtonProps) {
@@ -60,34 +62,24 @@ function SmallButton({
 			onPress={releaseButton}
 		>
 			<ContainerBottom
-				style={{
-					width: typeof (relativeWidth) === 'string' ? relativeWidth : relativeWidth,
-					height
-				}}
+				relativeWidth={relativeWidth}
+				height={height}
+				rounded={rounded}
 			>
 				<ContainerSurface
-					style={{
-						backgroundColor: color || theme.white3,
-						marginRight: buttonPressed ? RFValue(-4) : 0,
-						height,
-						flexDirection,
-					}}
+					backgroundColor={color}
+					buttonPressed={buttonPressed}
+					flexDirection={flexDirection}
+					rounded={rounded}
 				>
 					{
 						!!SvgIcon && (
-							<SvgIcon
-								height={svgScale[0]}
-								width={svgScale[1]}
-							/>
+							<SvgIcon height={svgScale[0]} width={svgScale[1]} />
 						)
 					}
 					{
 						!!SecondSvgIcon && (
-							<SecondSvgIcon
-								style={{ marginTop: RFValue(4) }}
-								height={secondSvgScale[0]}
-								width={secondSvgScale[1]}
-							/>
+							<SecondSvgIcon height={secondSvgScale[0]} width={secondSvgScale[1]} style={{ marginTop: RFValue(4) }} />
 						)
 					}
 					{
