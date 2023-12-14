@@ -36,13 +36,13 @@ interface ConainerSurfaceProps {
 
 export const ContainerSurface = styled.View<ConainerSurfaceProps>`
 	height: 100%;
-    flex-direction: row;
     align-items: center;
     justify-content: center;
     width: 100%;
     border: ${RFValue(2.5)}px solid black;
     position: absolute;
 	right: ${RFValue(5)}px;
+    flex-direction: ${({ flexDirection }) => flexDirection || 'row'};
 	margin-right: ${({ buttonPressed }) => (buttonPressed ? RFValue(-4) : 0)}px;
 	background-color: ${({ theme, backgroundColor }) => backgroundColor || theme.white3};
 	border-radius: ${({ rounded }) => (rounded ? 500 : RFValue(12))}px;
