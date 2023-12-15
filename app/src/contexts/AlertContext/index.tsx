@@ -41,11 +41,11 @@ function AlertProvider({ children }: AlertProviderProps) {
 	const loadAlertLocalData = async () => {
 		const localAlertData = await AsyncStorage.getItem('corre.alert')
 		if (localAlertData) {
-			console.log('has local data')
-			console.log(localAlertData)
-			setNotificationState(JSON.parse(localAlertData))
+			const localAlertDataObject = JSON.parse(localAlertData)
+			const newLocalAlertData = { ...initialNotificationState, ...localAlertDataObject }
+			updateLocalAlertData(localAlertDataObject)
+			setNotificationState(newLocalAlertData)
 		} else {
-			console.log('not has local data')
 			await setAlertLocalDataStructure()
 		}
 	}

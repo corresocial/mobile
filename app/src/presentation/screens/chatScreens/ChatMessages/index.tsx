@@ -1,7 +1,9 @@
 import React, { RefObject, useContext, useEffect, useRef, useState } from 'react'
-import { Platform } from 'react-native'
+import { Keyboard, Platform } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
 
 import { FlashList } from '@shopify/flash-list'
+import _ from 'lodash'
 
 import { Chat, Message, MessageObjects } from '@domain/entities/chat/types'
 
@@ -98,9 +100,16 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}, [])
 
 	useEffect(() => {
+		const unsubscribe = navigation.addListener('focus', () => {
+			Keyboard.addListener('keyboardDidShow', () => scrollToEnd(true))
+			Keyboard.addListener('keyboardDidHide', () => scrollToEnd(true))
+		})
+		return unsubscribe
+	}, [navigation])
+	useEffect(() => {
 		setTimeout(() => {
 			setFirstRender(false)
-		}, 500)
+		}, 1000)
 	}, [])
 
 	const loadChatMessages = async () => {
@@ -240,9 +249,26 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		setTimeout(() => setImpactReportSuccessModalIsVisible(!impactReportSuccessModalIsVisible), 500)
 	}
 
-	const scrollToEnd = (animated: boolean) => {
-		!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToEnd({ animated })
-	}
+	const [numberOfMessages, setNumberOfMessages] = useState(0)
+
+	const scrollToEnd = _.throttle((animated: boolean, height?: number) => {
+		console.log(height)
+		if (firstRender) {
+			if (height) {
+				!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToOffset({ offset: height, animated: false })
+				return
+			}
+
+			!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToEnd({ animated })
+			return
+		}
+		const currentNumberOfMessages = getFilteredMessages().length
+		// console.log(numberOfMessages, currentNumberOfMessages)
+		if (numberOfMessages < currentNumberOfMessages) {
+			setNumberOfMessages(getFilteredMessages().length)
+			!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToOffset({ offset: height, animated })
+		}
+	}, 500)
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -273,10 +299,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				visibility={impactReportSuccessModalIsVisible}
 				closeModal={toggleImpactReportSuccessModalVisibility}
 			/>
-			<FocusAwareStatusBar
-				backgroundColor={theme.white3}
-				barStyle={'dark-content'}
-			/>
+			<FocusAwareStatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
 			<Header>
 				<BackButton onPress={() => navigation.goBack()} />
 				<SmallUserIdentification
@@ -314,13 +337,16 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				ref={flatListRef}
 				data={Object.values(messages || {}) ? getFilteredMessages() : []}
 				renderItem={({ item }: FlatListItem<Message>) => (
-					<MessageCard
-						message={item.message}
-						dateTime={item.dateTime}
-						owner={isUserOwner(item.owner)}
-						errorSending={false}
-						sendAgain={() => console.log('sendAgain')}
-					/>
+					<>
+						<MessageCard
+							message={item.message}
+							dateTime={item.dateTime}
+							owner={isUserOwner(item.owner)}
+							errorSending={false}
+							sendAgain={() => console.log('sendAgain')}
+						/>
+						<VerticalSpacing height={RFValue(3)} />
+					</>
 				)}
 				ListHeaderComponent={() => (
 					<WithoutPostsMessage
@@ -332,7 +358,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				ListHeaderComponentStyle={{ marginBottom: relativeScreenHeight(2) }}
 				estimatedItemSize={71}
 				showsVerticalScrollIndicator={false}
-				ItemSeparatorComponent={() => <VerticalSpacing height={relativeScreenHeight(1)} />}
 				ListFooterComponent={() => {
 					if (isBlockedUser && blockedByOwner) {
 						return (
@@ -352,7 +377,9 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					}
 					return <VerticalSpacing />
 				}}
-				onContentSizeChange={() => (firstRender ? scrollToEnd(false) : scrollToEnd(true))}
+				onContentSizeChange={(width, height) => {
+					return (firstRender ? scrollToEnd(false, height) : scrollToEnd(true, height))
+				}}
 			/>
 			<ChatInput
 				showImpactReportButton={!currentChat.completed}

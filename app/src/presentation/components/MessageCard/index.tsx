@@ -14,7 +14,7 @@ interface MessageCardProps {
 	dateTime: Date | number
 	owner: boolean
 	errorSending?: boolean
-	sendAgain: () => void
+	sendAgain?: () => void
 }
 
 function MessageCard({ message, dateTime, owner, errorSending, sendAgain }: MessageCardProps) {
@@ -36,7 +36,7 @@ function MessageCard({ message, dateTime, owner, errorSending, sendAgain }: Mess
 			<MessageContainer
 				style={borderStyles.out}
 				activeOpacity={!errorSending ? 1 : 0.7}
-				onPress={() => (errorSending ? sendAgain() : () => { })}
+				onPress={() => (errorSending ? sendAgain && sendAgain() : () => { })}
 			>
 				<MessageContainerInner style={[
 					borderStyles.inner,

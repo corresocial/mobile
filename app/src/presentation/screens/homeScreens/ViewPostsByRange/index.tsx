@@ -139,7 +139,7 @@ function ViewPostsByRange({ route, navigation }: ViewPostsByRangeScreenProps) {
 						)
 						: <></>
 				}
-				<VerticalSpacing height={relativeScreenHeight(10)} />
+				<VerticalSpacing height={relativeScreenHeight(8)} />
 			</Body>
 		</Container>
 	)
