@@ -23,6 +23,8 @@ import CheckIcon from '@assets/icons/check-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
+import { ChatAdapter } from '@adapters/chat/ChatAdapter'
+
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { EditCard } from '@components/_cards/EditCard'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
@@ -31,6 +33,7 @@ import { HorizontalSocialMediaList } from '@components/HorizontalSocialmediaList
 import { Loader } from '@components/Loader'
 
 const { arrayIsEmpty } = UiUtils()
+const { updateProfilePictureOnConversations } = ChatAdapter()
 
 function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { userDataContext, setUserDataOnContext, setDataOnSecureStore } = useContext(AuthContext)
@@ -110,6 +113,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 			)
 
 			setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved })
+
 			await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved })
 
 			setIsLoading(false)
@@ -138,6 +142,8 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 									if (!arrayIsEmpty(userDataContext)) {
 										await deleteUserPicture(userDataContext.profilePictureUrl || [])
 									}
+
+									await updateProfilePictureOnConversations(userDataContext.userId as Id, profilePictureUrl)
 
 									setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })
 									await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved, profilePictureUrl: [profilePictureUrl] })

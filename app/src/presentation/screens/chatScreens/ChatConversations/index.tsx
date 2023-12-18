@@ -251,7 +251,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 							<>
 								<ScrollView>
 									{
-										getOpenConversations().length && (
+										getOpenConversations().length ? (
 											<>
 												<SubtitleCard
 													text={'conversas abertas'}
@@ -266,10 +266,10 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 													ListFooterComponent={<VerticalSpacing />}
 												/>
 											</>
-										)
+										) : <></>
 									}
 									{
-										getCompletedConversations().length && (
+										getCompletedConversations().length ? (
 											<>
 												<SubtitleCard
 													text={'conversas finalizadas'}
@@ -284,7 +284,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 													ListFooterComponent={<VerticalSpacing height={relativeScreenHeight(10)} />}
 												/>
 											</>
-										)
+										) : <></>
 									}
 								</ScrollView>
 							</>

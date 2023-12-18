@@ -62,7 +62,7 @@ function FeedByRange({
 		return firstFivePosts.map((post) => {
 			if (post as string | PostCollection === 'subscriptionAd') {
 				return (
-					<PostCardContainer>
+					<PostCardContainer key={uuid()}>
 						<SubscriptionButton onPress={() => showSubscriptionModal && showSubscriptionModal()} />
 						<VerticalSpacing />
 					</PostCardContainer>
