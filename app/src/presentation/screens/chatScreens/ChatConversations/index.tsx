@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
 import { ScrollView, TextInput } from 'react-native'
-import { RFValue } from 'react-native-responsive-fontsize'
 
 import { MessageObjects, ChatUserIdentification, Chat } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
@@ -16,7 +15,6 @@ import { UiChatUtils } from '@utils-ui/chat/UiChatUtils'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 
 import {
-	CompletedConversationList,
 	Container,
 	ConversationArea,
 	ConversationCardContainer,
@@ -251,38 +249,44 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 						)
 						: (
 							<>
-								<SubtitleCard
-									text={'conversas abertas'}
-									highlightedText={['abertas']}
-								/>
-								<ConversationList
-									data={!searchText ? getOpenConversations() : getOpenConversations(filteredChats)}
-									renderItem={({ item }: FlatListItem<Chat>) => item && renderConversationListItem(item)}
-									showsVerticalScrollIndicator={false}
-									ItemSeparatorComponent={<VerticalSpacing />}
-									ListHeaderComponent={<VerticalSpacing />}
-									ListFooterComponent={getCompletedConversations().length && (
-										() => (
+								<ScrollView>
+									{
+										getOpenConversations().length && (
 											<>
-												<VerticalSpacing />
+												<SubtitleCard
+													text={'conversas abertas'}
+													highlightedText={['abertas']}
+												/>
+												<ConversationList
+													data={!searchText ? getOpenConversations() : getOpenConversations(filteredChats)}
+													renderItem={({ item }: FlatListItem<Chat>) => item && renderConversationListItem(item)}
+													showsVerticalScrollIndicator={false}
+													ItemSeparatorComponent={<VerticalSpacing />}
+													ListHeaderComponent={<VerticalSpacing />}
+													ListFooterComponent={<VerticalSpacing />}
+												/>
+											</>
+										)
+									}
+									{
+										getCompletedConversations().length && (
+											<>
 												<SubtitleCard
 													text={'conversas finalizadas'}
 													highlightedText={['finalizadas']}
 												/>
-												<VerticalSpacing />
-												<CompletedConversationList
+												<ConversationList
 													data={!searchText ? getCompletedConversations() : getCompletedConversations(filteredChats)}
 													renderItem={({ item }: FlatListItem<Chat>) => item && renderConversationListItem(item)}
 													showsVerticalScrollIndicator={false}
-													ItemSeparatorComponent={() => <VerticalSpacing />}
-													ListHeaderComponentStyle={{ marginBottom: RFValue(15) }}
+													ItemSeparatorComponent={<VerticalSpacing />}
+													ListHeaderComponent={<VerticalSpacing />}
 													ListFooterComponent={<VerticalSpacing height={relativeScreenHeight(10)} />}
 												/>
 											</>
 										)
-									)}
-								/>
-
+									}
+								</ScrollView>
 							</>
 						)
 				}
