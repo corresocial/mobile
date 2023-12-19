@@ -73,7 +73,8 @@ function SelectSocialImpactRange({ route, navigation }: SelectSocialImpactRangeS
 			<PostRange
 				backgroundColor={theme.pink2}
 				itemsColor={theme.pink3}
-				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'near'}
+				userSubscriptionRange={userDataContext.subscription?.subscriptionRange || 'city'}
+				cityPlanIsFree
 				plansAvailable={stripeProductsPlans}
 				navigateBackwards={() => navigation.goBack()}
 				savePostRange={savePostRange}

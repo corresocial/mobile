@@ -17,6 +17,7 @@ interface ChatAdapterInterface {
 	sendMessage(message: Message, chatId: Id, recipientUserId: Id): Promise<boolean>
 	cleanChatMessages(chatId: Id, recipientUserId: Id): Promise<void>
 	makeAllUserMessagesAsRead(chatId: Id, userId: Id): Promise<void>
+	updateProfilePictureOnConversations(chatId: Id, profilePictureUrl: string): Promise<void>
 	blockUserById(targetBlockUserId: Id, ownerBlockUserId: Id): Promise<boolean>
 	unblockUserById(targetBlockUserId: Id, ownerBlockUserId: Id): Promise<boolean>
 	updateChatCompletedState(chatId: Id, currentCompletedState?: boolean, recipientUserId?: Id, senderUserName?: string): Promise<void>

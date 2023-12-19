@@ -1,4 +1,4 @@
-import { Chat, ChatUserData, Message, MessageObjects } from '@domain/entities/chat/types'
+import { Chat, ChatUserData, ChatUserIdentification, Message, MessageObjects } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
 export interface ChatGatewayAdapterInterface {
@@ -14,6 +14,7 @@ export interface ChatGatewayAdapterInterface {
 	setChatMessages(chatId: Id, messages: MessageObjects): Promise<void>
 	updateChatMessages(chatId: Id, messages: MessageObjects): Promise<void>
 	updateBlockedUsersList(userId: Id, blockedUserIds: Id[]): Promise<boolean>
+	updateUserChatProfilePicture(chatId: Id, chatUsers: { user1: ChatUserIdentification, user2: ChatUserIdentification }): Promise<void>
 	updateChatCompletedState(chatId: Id, completedState: boolean): Promise<boolean>
 	startUserChatIdsListener(userId: Id, callback: (chatIds: Id[]) => void): void
 	startUserChatListener(userId: Id, callback: (chatId: Id, updatedChat: Chat) => void): void

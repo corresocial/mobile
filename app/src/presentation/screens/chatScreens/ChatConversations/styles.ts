@@ -53,8 +53,6 @@ export const ConversationCardContainer = styled.View`
 
 export const ConversationList = styled.FlatList``
 
-export const CompletedConversationList = styled.FlatList``
-
 // Horizontal slider
 
 export const HorizontalHeaderScroll = styled.ScrollView`

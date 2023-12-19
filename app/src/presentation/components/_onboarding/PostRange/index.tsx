@@ -22,6 +22,7 @@ interface PostRangeProps {
 	backgroundColor: string
 	itemsColor: string
 	isVacancy?: boolean
+	cityPlanIsFree?: boolean
 	plansAvailable: StripeProducts
 	userSubscriptionRange: PostRangeType
 	progress: [value: number, range: number]
@@ -29,7 +30,7 @@ interface PostRangeProps {
 	navigateBackwards: () => void
 }
 
-function PostRange({ backgroundColor, itemsColor, isVacancy, plansAvailable, userSubscriptionRange, progress, savePostRange, navigateBackwards }: PostRangeProps) {
+function PostRange({ backgroundColor, itemsColor, isVacancy, cityPlanIsFree, plansAvailable, userSubscriptionRange, progress, savePostRange, navigateBackwards }: PostRangeProps) {
 	const getRelativeFooterValue = (range: PostRangeType) => {
 		switch (range) {
 			case 'near': {
@@ -37,7 +38,7 @@ function PostRange({ backgroundColor, itemsColor, isVacancy, plansAvailable, use
 				return 'plano \ngrátis'
 			}
 			case 'city': {
-				if (userSubscriptionRange === 'country') return 'incluso \nno plano'
+				if (userSubscriptionRange === 'country' || cityPlanIsFree) return 'incluso \nno plano'
 				if (userSubscriptionRange === 'city') return 'seu \nplano'
 				return `r$ ${plansAvailable.cityMonthly.price},00 \n/ mês` || 'indisponível'
 			}

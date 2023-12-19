@@ -14,7 +14,7 @@ async function updateChatCompletedStateUC(chatId: Id, currentCompletedState: boo
 		const recipientUserData = await getRemoteUserData(recipientUserId)
 
 		if (recipientUserData.tokenNotification) {
-			const customMessage = `${senderUserName || 'um corredor'} marcou uma conversa com você como finalizado`
+			const customMessage = `${senderUserName || 'um corredor'} marcou uma conversa com você como finalizada`
 			const notificationConfig = getNotificationConfig(recipientUserData.tokenNotification || '', 'corre.', customMessage)
 			await sendPushNotification(notificationConfig)
 		} else {

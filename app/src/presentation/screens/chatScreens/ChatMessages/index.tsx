@@ -252,7 +252,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const [numberOfMessages, setNumberOfMessages] = useState(0)
 
 	const scrollToEnd = _.throttle((animated: boolean, height?: number) => {
-		console.log(height)
 		if (firstRender) {
 			if (height) {
 				!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToOffset({ offset: height, animated: false })

@@ -89,7 +89,7 @@ function PostPopOver({
 											color={theme.yellow3}
 											label={isCompleted ? 'não concluído' : 'marcar concluído'}
 											highlightedWords={['concluído']}
-											SecondSvgIcon={CheckWhiteIcon}
+											SecondSvgIcon={isCompleted ? XWhiteIcon : CheckWhiteIcon}
 											fontSize={14}
 											minHeight={20}
 											relativeHeight={relativeScreenHeight(8)}

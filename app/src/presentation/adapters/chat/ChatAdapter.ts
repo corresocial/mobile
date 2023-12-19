@@ -24,6 +24,7 @@ import { unsubscribeChatIdsListenerUC } from '@domain/chat/useCases/unsubscribeC
 import { unsubscribeChatMessagesListenerUC } from '@domain/chat/useCases/unsubscribeChatMessagesListenerUC'
 import { unsubscribeUserChatsListenerUC } from '@domain/chat/useCases/unsubscribeUserChatsListenerUC'
 import { updateChatCompletedStateUC } from '@domain/chat/useCases/updateChatCompletedStateUC'
+import { updateProfilePictureOnConversationsUC } from '@domain/chat/useCases/updateProfilePictureOnConversations'
 import { updateUserTokenNotificationUC } from '@domain/chat/useCases/updateUserTokenNotificationUC'
 
 import { ChatAdapterInterface } from './ChatAdapterInterface'
@@ -42,6 +43,7 @@ function ChatAdapter(): ChatAdapterInterface {
 		sendMessage: sendMessageUC,
 		cleanChatMessages: cleanChatMessagesUC,
 		makeAllUserMessagesAsRead: makeAllUserMessagesAsReadUC,
+		updateProfilePictureOnConversations: updateProfilePictureOnConversationsUC,
 		updateChatCompletedState: updateChatCompletedStateUC,
 		blockUserById: blockUserByIdUC,
 		unblockUserById: unblockUserByIdUC,

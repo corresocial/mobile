@@ -13,6 +13,7 @@ import { unsubscribeChatMessagesListener, unsubscribeUserChatIdsListener, unsubs
 import { updateBlockedUsersList } from '../updateBlockUsersList'
 import { updateChatCompletedState } from '../updateChatCompletedState'
 import { updateChatMessages } from '../updateChatMessages'
+import { updateUserChatProfilePicture } from '../updateUserChatProfilePicture'
 import { updateUserTokenNotification } from '../updateUserTokenNotification'
 import { ChatGatewayAdapterInterface } from './ChatGatewayAdapterInterface'
 
@@ -29,6 +30,7 @@ function ChatGatewayAdapter(): ChatGatewayAdapterInterface {
 		sendMessage,
 		setChatMessages,
 		updateChatMessages,
+		updateUserChatProfilePicture,
 		updateBlockedUsersList,
 		updateChatCompletedState,
 		startUserChatIdsListener,
