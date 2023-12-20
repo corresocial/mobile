@@ -17,6 +17,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '../FocusAwareStatusBar'
 
 interface ChatPopOverProps {
+	hasMessages?: boolean
 	userName?: string
 	popoverVisibility: boolean
 	impactReportButtonVisibility: boolean
@@ -30,6 +31,7 @@ interface ChatPopOverProps {
 }
 
 function ChatPopOver({
+	hasMessages,
 	userName,
 	popoverVisibility,
 	impactReportButtonVisibility,
@@ -76,19 +78,25 @@ function ChatPopOver({
 						relativeHeight={relativeScreenHeight(8)}
 						onPress={!userIsBlocked ? blockUser : unblockUser}
 					/>
-					<VerticalSpacing />
-					<PrimaryButton
-						color={theme.red3}
-						label={'apagar conversa'}
-						highlightedWords={['apagar', 'conversa']}
-						labelColor={theme.white3}
-						fontSize={13}
-						SvgIcon={TrashIcon}
-						justifyContent={'space-around'}
-						minHeight={20}
-						relativeHeight={relativeScreenHeight(8)}
-						onPress={cleanConversation}
-					/>
+					{
+						hasMessages && (
+							<>
+								<VerticalSpacing />
+								<PrimaryButton
+									color={theme.red3}
+									label={'apagar conversa'}
+									highlightedWords={['apagar', 'conversa']}
+									labelColor={theme.white3}
+									fontSize={13}
+									SvgIcon={TrashIcon}
+									justifyContent={'space-around'}
+									minHeight={20}
+									relativeHeight={relativeScreenHeight(8)}
+									onPress={cleanConversation}
+								/>
+							</>
+						)
+					}
 					{
 						impactReportButtonVisibility && (
 							<>

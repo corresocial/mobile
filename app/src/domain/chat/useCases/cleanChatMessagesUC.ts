@@ -15,11 +15,8 @@ async function cleanChatMessagesUC(chatId: Id, userIdCanView: Id) {
 	const updatedChatMessages = convertArrayMessagesToObjectMessages(filteredMessages)
 
 	if (Object.keys(updatedChatMessages).length === Object.keys(chatMessages).length) {
-		console.log('update')
 		return updateChatMessages(chatId, updatedChatMessages)
 	}
-
-	console.log('set')
 
 	setChatMessages(chatId, updatedChatMessages)
 }

@@ -252,6 +252,10 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	const [numberOfMessages, setNumberOfMessages] = useState(0)
 
 	const scrollToEnd = _.throttle((animated: boolean, height?: number) => {
+		const currentNumberOfMessages = getFilteredMessages().length
+
+		if (currentNumberOfMessages <= 0) return
+
 		if (firstRender) {
 			if (height) {
 				!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToOffset({ offset: height, animated: false })
@@ -261,7 +265,6 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 			!!(flatListRef && flatListRef.current) && flatListRef.current?.scrollToEnd({ animated })
 			return
 		}
-		const currentNumberOfMessages = getFilteredMessages().length
 		// console.log(numberOfMessages, currentNumberOfMessages)
 		if (numberOfMessages < currentNumberOfMessages) {
 			setNumberOfMessages(getFilteredMessages().length)
@@ -312,6 +315,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				/>
 				<HorizontalSpacing />
 				<ChatPopOver
+					hasMessages={!!getFilteredMessages().length || false}
 					userName={getRecipientUserName()}
 					popoverVisibility={chatOptionsIsOpen}
 					impactReportButtonVisibility={!currentChat.completed}
