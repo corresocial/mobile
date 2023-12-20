@@ -211,31 +211,17 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 				userContext={userContext}
 				editContext={editContext}
 			>
-				<VacancyPurposeCard
-					vacancyPurpose={getPostField('vacancyPurpose' as any) || getPostField('lookingFor')}
-					onEdit={() => {
-						getPostField('vacancyPurpose' as any)
-							? navigateToEditScreen('SelectVacancyPurpose', 'vacancyPurpose' as any)
-							: navigateToEditScreen('SelectVacancyPurpose', 'lookingFor')
-					}}
-				/>
 
-				<VerticalSpacing />
-				<EditCard
-					title={'tags do post'}
-					highlightedWords={['tags']}
-					value={formatCategoryAndTags()}
-					onEdit={() => navigateToEditScreen('SelectVacancyCategory', 'tags')}
+				<IncomeTypeCard
+					title={'tipo de renda'}
+					hightligtedWords={['tipo', 'renda']}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
 				/>
 				<VerticalSpacing />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertVacancyDescription', 'description')}
-				/>
-				<VerticalSpacing />
-				<LinkCard
-					links={getPostField('links')}
-					onEdit={() => navigateToEditScreen('InsertIncomeLinks', 'links')}
 				/>
 				<VerticalSpacing />
 				<EditCard
@@ -247,11 +233,25 @@ function EditVacancyPost({ route, navigation }: EditVacancyPostReviewScreenProps
 					onEdit={() => navigateToEditScreen('VacancyPicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />
-				<IncomeTypeCard
-					title={'tipo de renda'}
-					hightligtedWords={['tipo', 'renda']}
-					macroCategory={getPostField('macroCategory')}
-					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
+				<LinkCard
+					links={getPostField('links')}
+					onEdit={() => navigateToEditScreen('InsertIncomeLinks', 'links')}
+				/>
+				<VerticalSpacing />
+				<EditCard
+					title={'tags do post'}
+					highlightedWords={['tags']}
+					value={formatCategoryAndTags()}
+					onEdit={() => navigateToEditScreen('SelectVacancyCategory', 'tags')}
+				/>
+				<VerticalSpacing />
+				<VacancyPurposeCard
+					vacancyPurpose={getPostField('vacancyPurpose' as any) || getPostField('lookingFor')}
+					onEdit={() => {
+						getPostField('vacancyPurpose' as any)
+							? navigateToEditScreen('SelectVacancyPurpose', 'vacancyPurpose' as any)
+							: navigateToEditScreen('SelectVacancyPurpose', 'lookingFor')
+					}}
 				/>
 				<VerticalSpacing />
 				<PlaceModality

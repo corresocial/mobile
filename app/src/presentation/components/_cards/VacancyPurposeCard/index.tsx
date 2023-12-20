@@ -52,8 +52,8 @@ function VacancyPurposeCard({ title, vacancyPurpose, hightligtedWords, onEdit }:
 		<DefaultCardContainer>
 			<EditHeaderContainer onPress={onEdit}>
 				<DefaultHeaderTitle
-					title={title || 'tipo de post'}
-					highlightedWords={hightligtedWords || ['tipo']}
+					title={title || 'propósito da vaga'}
+					highlightedWords={hightligtedWords || ['propósito']}
 					dimensions={30}
 				/>
 			</EditHeaderContainer>

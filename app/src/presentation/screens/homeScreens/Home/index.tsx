@@ -60,7 +60,6 @@ const initialFeedPosts = {
 }
 
 function Home({ navigation }: HomeScreenProps) {
-	const { showNewHomePresentationModal } = useContext(AlertContext)
 	const { userDataContext } = useContext(AuthContext)
 	const { setLoaderIsVisible } = useContext(LoaderContext)
 	const { locationDataContext, setLocationDataOnContext } = useContext(LocationContext)
@@ -77,7 +76,6 @@ function Home({ navigation }: HomeScreenProps) {
 	const [subscriptionModalIsVisible, setSubscriptionModalIsVisible] = React.useState(false)
 
 	useEffect(() => {
-		showNewHomePresentationModal()
 		requestPermissions()
 		loadRecentAddresses()
 	}, [])

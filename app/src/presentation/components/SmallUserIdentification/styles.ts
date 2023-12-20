@@ -11,7 +11,8 @@ export const UserPictureArea = styled.View`
 	border-radius: ${RFValue(8)}px;
 	margin-left: ${RFValue(5)}px;
 	position: relative;
-	background-color: ${({ theme }) => theme.black4}
+	background-color: ${({ theme }) => theme.black4};
+	width: 100%;
 `
 
 export const UserPictureAreaInner = styled.TouchableOpacity`
@@ -33,6 +34,7 @@ export const MiniaturePortrait = styled.Image`
 
 export const UserInfo = styled.View`
 	padding-horizontal: ${RFValue(8)}px;
+	width: 85%;
 `
 
 export const TouchableArea = styled.TouchableOpacity`

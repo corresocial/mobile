@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Keyboard, Linking, Platform } from 'react-native'
+import { Keyboard, Platform } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
@@ -29,7 +29,7 @@ function InsertIncomeLinks({ route, navigation }: InsertIncomeLinksScreenProps) 
 	const navigateBackwards = () => navigation.goBack()
 
 	const saveLinks = async (links: string[]) => {
-		const formatedLinks = await formatToValidLinks(links)
+		const formatedLinks = formatToValidLinks(links)
 		const validLinks = removeInvalidLinks(formatedLinks)
 
 		if (editModeIsTrue() && validLinks.length) {
@@ -38,20 +38,15 @@ function InsertIncomeLinks({ route, navigation }: InsertIncomeLinksScreenProps) 
 		}
 	}
 
-	const formatToValidLinks = async (links: string[]) => {
-		return Promise.all(
-			links.map(async (link: string) => {
-				const cleanLink = link.trim()
-				const linkCanOpened = await Linking.canOpenURL(cleanLink)
-				console.log(`linkCanOpened: ${linkCanOpened}`)
+	const formatToValidLinks = (links: string[]) => {
+		return links.map((link: string) => {
+			const cleanLink = link.trim()
+			if (!cleanLink || (cleanLink && !cleanLink.length)) return ''
 
-				if (!cleanLink || (cleanLink && !cleanLink.length) || !linkCanOpened) return ''
-
-				return cleanLink.slice(0, 3) === 'www' || cleanLink.slice(0, 4) !== 'http'
-					? `http://${link}`
-					: cleanLink
-			})
-		)
+			return cleanLink.slice(0, 3) === 'www' || cleanLink.slice(0, 4) !== 'http'
+				? `http://${link}`
+				: cleanLink
+		})
 	}
 
 	const removeInvalidLinks = (links: string[]) => {

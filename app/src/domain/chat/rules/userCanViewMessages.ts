@@ -9,7 +9,8 @@ function updateMessagesCanViewedByUser(messages: MessageObjects, userIdCanView: 
 		if (message[1].userCanView !== userIdCanView) {
 			return false
 		}
-		return message
+
+		return { [message[0]]: { ...message[1] } }
 	})
 
 	return updatedMessages as MessageObjects[]

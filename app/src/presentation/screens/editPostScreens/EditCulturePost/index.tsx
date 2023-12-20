@@ -217,22 +217,15 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 				editContext={editContext}
 			>
 				<VerticalSpacing />
-
-				<EditCard
-					title={'tags do post'}
-					highlightedWords={['tags']}
-					value={formatCategoryAndTags()}
-					onEdit={() => navigateToEditScreen('SelectCultureCategory', 'tags')}
+				<CultureTypeCard
+					title={'tipo de cultura'}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectCultureType', 'macroCategory')}
 				/>
 				<VerticalSpacing />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertCultureDescription', 'description')}
-				/>
-				<VerticalSpacing />
-				<LinkCard
-					links={getPostField('links')}
-					onEdit={() => navigateToEditScreen('InsertCultureLinks', 'links')}
 				/>
 				<VerticalSpacing />
 				<EditCard
@@ -243,10 +236,16 @@ function EditCulturePost({ route, navigation }: EditCulturePostReviewScreenProps
 					onEdit={() => navigateToEditScreen('CulturePicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />
-				<CultureTypeCard
-					title={'tipo de cultura'}
-					macroCategory={getPostField('macroCategory')}
-					onEdit={() => navigateToEditScreen('SelectCultureType', 'macroCategory')}
+				<LinkCard
+					links={getPostField('links')}
+					onEdit={() => navigateToEditScreen('InsertCultureLinks', 'links')}
+				/>
+				<VerticalSpacing />
+				<EditCard
+					title={'tags do post'}
+					highlightedWords={['tags']}
+					value={formatCategoryAndTags()}
+					onEdit={() => navigateToEditScreen('SelectCultureCategory', 'tags')}
 				/>
 				<VerticalSpacing />
 				<PostRangeCard

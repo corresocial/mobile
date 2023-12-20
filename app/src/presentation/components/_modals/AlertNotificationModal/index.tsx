@@ -6,10 +6,11 @@ import { CustomModal } from '../CustomModal'
 
 interface AlertNotificationModalProps {
 	visibility: boolean
+	closeModal: () => void
 	onPressButton: () => void
 }
 
-function AlertNotificationModal({ visibility, onPressButton }: AlertNotificationModalProps) {
+function AlertNotificationModal({ visibility, closeModal, onPressButton }: AlertNotificationModalProps) {
 	return (
 		<CustomModal
 			visibility={visibility}
@@ -21,7 +22,7 @@ function AlertNotificationModal({ visibility, onPressButton }: AlertNotification
 				fontSize: 14,
 				textAlign: 'center'
 			}}
-			closeModal={() => { }}
+			closeModal={closeModal}
 			affirmativeButton={{
 				label: 'ok, entendi',
 				onPress: onPressButton

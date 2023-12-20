@@ -203,22 +203,16 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 				userContext={userContext}
 				editContext={editContext}
 			>
-
-				<EditCard
-					title={'tags do post'}
-					highlightedWords={['tags']}
-					value={formatCategoryAndTags()}
-					onEdit={() => navigateToEditScreen('SelectServiceCategory', 'tags')}
+				<IncomeTypeCard
+					title={'tipo de renda'}
+					hightligtedWords={['tipo', 'renda']}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
 				/>
 				<VerticalSpacing />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertServiceDescription', 'description')}
-				/>
-				<VerticalSpacing />
-				<LinkCard
-					links={getPostField('links')}
-					onEdit={() => navigateToEditScreen('InsertIncomeLinks', 'links')}
 				/>
 				<VerticalSpacing />
 				<EditCard
@@ -230,13 +224,19 @@ function EditServicePost({ route, navigation }: EditServicePostReviewScreenProps
 					onEdit={() => navigateToEditScreen('ServicePicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />
-				<IncomeTypeCard
-					title={'tipo de renda'}
-					hightligtedWords={['tipo', 'renda']}
-					macroCategory={getPostField('macroCategory')}
-					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
+				<LinkCard
+					links={getPostField('links')}
+					onEdit={() => navigateToEditScreen('InsertIncomeLinks', 'links')}
 				/>
 				<VerticalSpacing />
+				<EditCard
+					title={'tags do post'}
+					highlightedWords={['tags']}
+					value={formatCategoryAndTags()}
+					onEdit={() => navigateToEditScreen('SelectServiceCategory', 'tags')}
+				/>
+				<VerticalSpacing />
+
 				<SaleOrExchangeCard
 					saleValue={getPostField('saleValue', true)}
 					exchangeValue={getPostField('exchangeValue', true)}

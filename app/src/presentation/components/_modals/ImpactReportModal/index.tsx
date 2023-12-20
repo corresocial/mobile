@@ -41,6 +41,10 @@ function ImpactReportModal({
 				label: 'finalizar',
 				onPress: onPressButton
 			}}
+			negativeButton={{
+				label: 'cancelar',
+				onPress: closeModal
+			}}
 		/>
 	)
 }

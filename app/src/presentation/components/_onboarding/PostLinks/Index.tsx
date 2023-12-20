@@ -36,7 +36,8 @@ function PostLinks({
 	initialValue,
 	editMode,
 	navigateBackwards,
-	saveLinks }: PostLinksProps) {
+	saveLinks
+}: PostLinksProps) {
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 
 	const [linkText, setLinkText] = useState('')
