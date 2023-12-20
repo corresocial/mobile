@@ -133,12 +133,18 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 
 	const getOpenConversations = (chats?: Chat[]) => {
 		const conversations = chats || sortConversationsByDateTime()
-		return conversations.filter((chat: Chat) => ((chat && !chat.completed)))
+		return conversations.filter((chat: Chat) => ((chat && !chat.completed) && hasVisibleMessagesOnChat(chat)))
 	}
 
 	const getCompletedConversations = (chats?: Chat[]) => {
 		const conversations = chats || sortConversationsByDateTime()
-		return conversations.filter((chat: Chat) => ((chat && chat.completed)))
+		return conversations.filter((chat: Chat) => ((chat && chat.completed) && hasVisibleMessagesOnChat(chat)))
+	}
+
+	const hasVisibleMessagesOnChat = (chat: Chat) => {
+		if (!chat.messages) return false
+		const visibleMessages = Object.values(chat.messages).filter((message) => (!message.userCanView && !message.justOwner) || (message.userCanView === userDataContext.userId || (message.justOwner && message.owner === userDataContext.userId)))
+		return !!visibleMessages.length
 	}
 
 	const sortConversationsByDateTime = () => {
