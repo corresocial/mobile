@@ -43,7 +43,6 @@ function InsertSocialImpactLinks({ route, navigation }: InsertSocialImpactLinksS
 			links.map(async (link: string) => {
 				const cleanLink = link.trim()
 				const linkCanOpened = await Linking.canOpenURL(cleanLink)
-				console.log(`linkCanOpened: ${linkCanOpened}`)
 
 				if (!cleanLink || (cleanLink && !cleanLink.length) || !linkCanOpened) return ''
 
