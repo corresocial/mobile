@@ -215,21 +215,15 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 				userContext={userContext}
 				editContext={editContext}
 			>
-				<EditCard
-					title={'tags do post'}
-					highlightedWords={['tags']}
-					value={formatCategoryAndTags()}
-					onEdit={() => navigateToEditScreen('SelectSocialImpactCategory', 'tags')}
+				<SocialImpactTypeCard
+					title={'tipo de impacto'}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactType', 'macroCategory')}
 				/>
 				<VerticalSpacing />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertSocialImpactDescription', 'description')}
-				/>
-				<VerticalSpacing />
-				<LinkCard
-					links={getPostField('links')}
-					onEdit={() => navigateToEditScreen('InsertSocialImpactLinks', 'links')}
 				/>
 				<VerticalSpacing />
 				<EditCard
@@ -241,10 +235,16 @@ function EditSocialImpactPost({ route, navigation }: EditSocialImpactPostReviewS
 					onEdit={() => navigateToEditScreen('SocialImpactPicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />
-				<SocialImpactTypeCard
-					title={'tipo de impacto'}
-					macroCategory={getPostField('macroCategory')}
-					onEdit={() => navigateToEditScreen('SelectSocialImpactType', 'macroCategory')}
+				<LinkCard
+					links={getPostField('links')}
+					onEdit={() => navigateToEditScreen('InsertSocialImpactLinks', 'links')}
+				/>
+				<VerticalSpacing />
+				<EditCard
+					title={'tags do post'}
+					highlightedWords={['tags']}
+					value={formatCategoryAndTags()}
+					onEdit={() => navigateToEditScreen('SelectSocialImpactCategory', 'tags')}
 				/>
 				<VerticalSpacing />
 				<PostRangeCard

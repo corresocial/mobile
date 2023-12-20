@@ -203,26 +203,16 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 				userContext={userContext}
 				editContext={editContext}
 			>
-				<EditCard
-					title={'tags do post'}
-					highlightedWords={['tags']}
-					value={formatCategoryAndTags()}
-					onEdit={() => navigateToEditScreen('SelectSaleCategory', 'tags')}
-				/>
-				<VerticalSpacing />
-				<ItemStatusCard
-					itemStatus={getPostField('itemStatus')}
-					onEdit={() => navigateToEditScreen('SelectItemStatus', 'itemStatus')}
+				<IncomeTypeCard
+					title={'tipo de renda'}
+					hightligtedWords={['tipo', 'renda']}
+					macroCategory={getPostField('macroCategory')}
+					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
 				/>
 				<VerticalSpacing />
 				<DescriptionCard
 					text={getPostField('description')}
 					onEdit={() => navigateToEditScreen('InsertSaleDescription', 'description')}
-				/>
-				<VerticalSpacing />
-				<LinkCard
-					links={getPostField('links')}
-					onEdit={() => navigateToEditScreen('InsertIncomeLinks', 'links')}
 				/>
 				<VerticalSpacing />
 				<EditCard
@@ -234,11 +224,21 @@ function EditSalePost({ route, navigation }: EditSalePostReviewScreenProps) {
 					onEdit={() => navigateToEditScreen('SalePicturePreview', 'picturesUrl')}
 				/>
 				<VerticalSpacing />
-				<IncomeTypeCard
-					title={'tipo de renda'}
-					hightligtedWords={['tipo', 'renda']}
-					macroCategory={getPostField('macroCategory')}
-					onEdit={() => navigateToEditScreen('SelectIncomeType', 'macroCategory', 'UserStack')}
+				<LinkCard
+					links={getPostField('links')}
+					onEdit={() => navigateToEditScreen('InsertIncomeLinks', 'links')}
+				/>
+				<VerticalSpacing />
+				<EditCard
+					title={'tags do post'}
+					highlightedWords={['tags']}
+					value={formatCategoryAndTags()}
+					onEdit={() => navigateToEditScreen('SelectSaleCategory', 'tags')}
+				/>
+				<VerticalSpacing />
+				<ItemStatusCard
+					itemStatus={getPostField('itemStatus')}
+					onEdit={() => navigateToEditScreen('SelectItemStatus', 'itemStatus')}
 				/>
 				<VerticalSpacing />
 				<SaleOrExchangeCard

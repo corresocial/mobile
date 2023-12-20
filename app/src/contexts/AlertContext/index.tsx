@@ -96,6 +96,7 @@ function AlertProvider({ children }: AlertProviderProps) {
 		<AlertContext.Provider value={alertDataProvider}>
 			<AlertNotificationModal
 				visibility={alertNotificationModalIsVisible}
+				closeModal={() => setAlertNotificationIsVisible(false)}
 				onPressButton={handlerAlertNotificationModal}
 			/>
 			<NewHomePresentationModal
