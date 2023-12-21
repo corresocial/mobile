@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Keyboard, Linking, Platform } from 'react-native'
+import { Keyboard, Platform } from 'react-native'
 
 import { EditContext } from '@contexts/EditContext'
 
@@ -28,8 +28,8 @@ function InsertSocialImpactLinks({ route, navigation }: InsertSocialImpactLinksS
 
 	const navigateBackwards = () => navigation.goBack()
 
-	const saveLinks = async (links: string[]) => {
-		const formatedLinks = await formatToValidLinks(links)
+	const saveLinks = (links: string[]) => {
+		const formatedLinks = formatToValidLinks(links)
 		const validLinks = removeInvalidLinks(formatedLinks)
 
 		if (editModeIsTrue() && validLinks.length) {
@@ -38,19 +38,15 @@ function InsertSocialImpactLinks({ route, navigation }: InsertSocialImpactLinksS
 		}
 	}
 
-	const formatToValidLinks = async (links: string[]) => {
-		return Promise.all(
-			links.map(async (link: string) => {
-				const cleanLink = link.trim()
-				const linkCanOpened = await Linking.canOpenURL(cleanLink)
+	const formatToValidLinks = (links: string[]) => {
+		return links.map((link: string) => {
+			const cleanLink = link.trim()
+			if (!cleanLink || (cleanLink && !cleanLink.length)) return ''
 
-				if (!cleanLink || (cleanLink && !cleanLink.length) || !linkCanOpened) return ''
-
-				return cleanLink.slice(0, 3) === 'www' || cleanLink.slice(0, 4) !== 'http'
-					? `http://${link}`
-					: cleanLink
-			})
-		)
+			return cleanLink.slice(0, 3) === 'www' || cleanLink.slice(0, 4) !== 'http'
+				? `http://${link}`
+				: cleanLink
+		})
 	}
 
 	const removeInvalidLinks = (links: string[]) => {

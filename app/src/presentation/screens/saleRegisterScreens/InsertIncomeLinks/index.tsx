@@ -28,7 +28,7 @@ function InsertIncomeLinks({ route, navigation }: InsertIncomeLinksScreenProps) 
 
 	const navigateBackwards = () => navigation.goBack()
 
-	const saveLinks = async (links: string[]) => {
+	const saveLinks = (links: string[]) => {
 		const formatedLinks = formatToValidLinks(links)
 		const validLinks = removeInvalidLinks(formatedLinks)
 
