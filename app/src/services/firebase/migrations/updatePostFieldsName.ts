@@ -4,9 +4,12 @@
 // Erros de tipagem devido a atualização nos tipos
 
 import { collection, query, getDocs } from 'firebase/firestore'
-import { firestore } from '..'
-import { updatePost } from '../post/updatePost'
+
 import { CultureCollectionRemote, IncomeCollectionRemote, PostCollection, SocialImpactCollectionRemote, VacancyCollectionRemote } from '../types'
+
+import { firestore } from '@services/firebase'
+
+import { updatePost } from '../post/updatePost'
 import { updateUser } from '../user/updateUser'
 
 const updatePostFieldsName = async () => {
@@ -23,14 +26,18 @@ const updatePostFieldsName = async () => {
 
 	docs.map(async (doc: any) => {
 		console.log(`\n\nanalisando... ${doc.userId} ------------------------------------------------------------------`)
-		let userPosts = [...doc.posts]
+		const userPosts = [...doc.posts]
 
 		if (!userPosts) return console.log(doc.userId, 'não possui posts')
 
-		userPosts = await migratePostFields(userPosts)
+		const updatedUserPosts = await migratePostFields(userPosts)
 
-		userPosts.map(async (post) => {
-			// if (post.postId === 'postId') { // MOCK POST
+		/* updatedUserPosts.map((post) => {
+			console.log(post.postId, post.macroCategory)
+		}) */
+
+		updatedUserPosts.map(async (post) => {
+			// if (post.postId === 'userPost') { // MOCK POST
 			await updatePost('posts', post.postId, {
 				...post,
 				owner: {
@@ -43,11 +50,11 @@ const updatePostFieldsName = async () => {
 				.catch((err: any) => {
 					console.log(err)
 				})
-			// }
+			//  }
 		})
 
-		await updateUser(doc.userId, { posts: userPosts as PostCollection[] })
-			.then(() => console.log(`success userPosts: ${doc.userId}`))
+		await updateUser(doc.userId, { posts: updatedUserPosts as PostCollection[] })
+			.then(() => console.log(`success updatedUserPosts: ${doc.userId}`))
 			.catch((err: any) => {
 				console.log(err)
 			})
@@ -59,27 +66,31 @@ const updatePostFieldsName = async () => {
 const migratePostFields = async (posts: PostCollection[]) => {
 	if (!posts) return []
 
-	const updatedPosts = posts.map(((post) => {
+	const updatedPosts = posts.map(((postData) => {
+		const post = { ...postData }
+
+		post.completed = !!post.completed
+
 		switch (post.postType) {
 			case 'income': {
 				const currentPost: IncomeCollectionRemote | any = { ...post }
 
-				currentPost.macroCategory = currentPost.incomeType
+				currentPost.macroCategory = currentPost.incomeType || 'income'
 
 				return fixPostDateTimes(currentPost)
 			}
 			case 'service': {
 				const currentPost: IncomeCollectionRemote | any = { ...post }
 
-				currentPost.macroCategory = post.postType
-				// currentPost.postType = 'income'   // TODO RUN After
+				// currentPost.macroCategory = post.postType || 'service'
+				currentPost.postType = 'income' // TODO RUN After
 
 				return fixPostDateTimes(currentPost)
 			}
 			case 'sale': {
 				const currentPost: IncomeCollectionRemote | any = { ...post }
 
-				currentPost.macroCategory = post.postType
+				currentPost.macroCategory = post.postType || 'sale'
 				// currentPost.postType = 'income' // TODO RUN After
 
 				return fixPostDateTimes(currentPost)
@@ -90,24 +101,22 @@ const migratePostFields = async (posts: PostCollection[]) => {
 				if (currentPost.vacancyPurpose) {
 					currentPost.lookingFor = currentPost.vacancyPurpose === 'findVacancy'
 				}
-				currentPost.macroCategory = post.postType
+				currentPost.macroCategory = post.postType || 'vacancy'
 				// currentPost.postType = 'income' // TODO RUN After
-
-				// delete currentPost.vacancyPurpose
 
 				return fixPostDateTimes(currentPost)
 			}
 			case 'socialImpact': {
 				const currentPost: SocialImpactCollectionRemote | any = { ...post }
 
-				currentPost.macroCategory = currentPost.socialImpactType
+				currentPost.macroCategory = currentPost.socialImpactType || currentPost.macroCategory || 'iniciative'
 
 				return fixPostDateTimes(currentPost)
 			}
 			case 'culture': {
 				const currentPost: CultureCollectionRemote | any = { ...post }
 
-				currentPost.macroCategory = currentPost.cultureType
+				currentPost.macroCategory = currentPost.cultureType || currentPost.macroCategory || 'event'
 
 				return fixPostDateTimes(currentPost)
 			}

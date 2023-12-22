@@ -1,8 +1,8 @@
 import React from 'react'
 import { SvgProps } from 'react-native-svg'
 
+import { MacroCategoriesType } from '../../presentation/utils/postMacroCategories/types'
 import { PostType } from '../firebase/types'
-import { MacroCategoriesType } from '../../utils/postMacroCategories/types'
 
 export type AddressSearchResult = {
 	formattedAddress: string
@@ -12,13 +12,13 @@ export type AddressSearchResult = {
 }
 
 export type GeocodeAddress = {
-	city?: string;
-	country?: string;
-	street?: string;
-	number?: string;
-	state?: string;
-	district?: string;
-	postalCode?: string;
+	city?: string
+	country?: string
+	street?: string
+	number?: string
+	state?: string
+	district?: string
+	postalCode?: string
 }
 
 export type LatLong = {
@@ -34,7 +34,7 @@ export type SearchParams = {
 	macroCategory: MacroCategoriesType
 	category: string
 	tag: string
-	postType: PostType | string
+	postType: PostType
 	coordinates: LatLong
 	geohashes: string[]
 }

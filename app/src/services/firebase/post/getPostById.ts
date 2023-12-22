@@ -1,7 +1,8 @@
 import { doc, getDoc } from 'firebase/firestore'
-import { firestore } from '..'
 
 import { PostCollection, PostCollectionType } from '../types'
+
+import { firestore } from '@services/firebase'
 
 async function getPostById(postId: string, postCollection: PostCollectionType) {
 	try {

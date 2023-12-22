@@ -1,5 +1,6 @@
-import { getEnvVars } from '../../../environment'
 import { ContactUsOptions } from './types'
+
+import { getEnvVars } from '@infrastructure/environment'
 
 const { FALECONOSCO_WEBHOOK, ERROS_WEBHOOK, DENUNCIAR_WEBHOOK } = getEnvVars()
 
@@ -36,9 +37,7 @@ async function sendContactUsMessageToDiscord({
 
 	const getRelativeReportedTarget = () => {
 		switch (reportedTarget) {
-			case 'service': return 'serviço'
-			case 'sale': return 'venda'
-			case 'vacancy': return 'vaga'
+			case 'income': return 'renda'
 			case 'socialImpact': return 'impacto social'
 			case 'culture': return 'cultura'
 			case 'user': return 'usuário'

@@ -1,6 +1,7 @@
-import { updatePost } from './updatePost'
-import { updateUser } from '../user/updateUser'
 import { PostCollection, PostCollectionRemote } from '../types'
+
+import { updateUser } from '../user/updateUser'
+import { updatePost } from './updatePost'
 
 type PostRangeLocation = {
 	range: string
@@ -50,6 +51,10 @@ const updatePostsLocation = async (posts: PostCollection[], newPostRangeLocation
 	const updatedPosts = posts.map((post) => {
 		switch (newPostRangeLocation.range) {
 			case 'near': {
+				if (post.postType === 'socialImpact') {
+					return post
+				}
+
 				return {
 					...post,
 					location: newPostRangeLocation.location || post.location
@@ -77,6 +82,10 @@ const updatePostsRange = async (posts: PostCollection[], newPostRangeLocation: P
 	const updatedPosts = posts.map((post) => {
 		switch (newPostRangeLocation.range) {
 			case 'near': {
+				if (post.postType === 'socialImpact') {
+					return post
+				}
+
 				return {
 					...post,
 					range: newPostRangeLocation.range,

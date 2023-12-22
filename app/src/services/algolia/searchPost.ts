@@ -1,11 +1,13 @@
 /* eslint-disable no-underscore-dangle */
 import { FeedPosts, PostCollectionRemote } from '../firebase/types'
 import { SearchParams } from '../maps/types'
+
 import { postsIndex } from './index'
 
 async function searchPosts(searchText: string, searchParams: SearchParams, searchByRange?: boolean) {
 	try {
 		const searchFilters = {
+			completedFilter: '',
 			cityFilter: '',
 			countryFilter: '',
 			postTypeFilter: '',
@@ -15,6 +17,8 @@ async function searchPosts(searchText: string, searchParams: SearchParams, searc
 			categoryFilter: '',
 			tagFilter: '',
 		}
+
+		searchFilters.completedFilter = getPostCompletedFilter()
 
 		if (searchByRange) {
 			const geohashField = 'geohashNearby'
@@ -37,24 +41,24 @@ async function searchPosts(searchText: string, searchParams: SearchParams, searc
 			searchByRange
 				? [
 					searchParams.range === 'near' && await postsIndex.search(searchText, { // Near
-						filters: searchFilters.geohashFilter
+						filters: `${searchFilters.completedFilter}${searchFilters.geohashFilter}`
 					}),
 					searchParams.range === 'city' && await postsIndex.search(searchText, { // City
-						filters: searchFilters.cityFilter
+						filters: `${searchFilters.completedFilter}${searchFilters.cityFilter}`
 					}),
 					searchParams.range === 'country' && await postsIndex.search(searchText, { // Country
-						filters: searchFilters.countryFilter
+						filters: `${searchFilters.completedFilter}${searchFilters.countryFilter}`
 					})
 				]
 				: [
 					await postsIndex.search(searchText, { // Near
-						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter} ${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+						filters: `${searchFilters.completedFilter}${searchFilters.postTypeFilter} AND ${searchFilters.geohashFilter} ${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 					}),
 					await postsIndex.search(searchText, { // City
-						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND ${searchFilters.cityFilter}${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+						filters: `${searchFilters.completedFilter}${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND ${searchFilters.cityFilter}${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 					}),
 					await postsIndex.search(searchText, { // Country
-						filters: `${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
+						filters: `${searchFilters.completedFilter}${searchFilters.postTypeFilter} AND ${searchFilters.geohashExceptionFilter} AND  ${searchFilters.countryFilter}${searchFilters.macroCategoryFilter}${searchFilters.categoryFilter}${searchFilters.tagFilter}`
 					})
 				]
 		)
@@ -105,6 +109,10 @@ const spreadPostsByRange = (posts: PostCollectionRemote[]) => {
 	})
 
 	return result
+}
+
+const getPostCompletedFilter = () => {
+	return '(completed:false) AND '
 }
 
 const getPostTypeFilter = (postType: string) => {

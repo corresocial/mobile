@@ -7,8 +7,10 @@ import {
 	orderBy,
 	CollectionReference,
 } from 'firebase/firestore'
-import { firestore } from '..'
+
 import { SearchParams } from '../../maps/types'
+
+import { firestore } from '@services/firebase'
 
 export type PostIdentificationItem = {
 	collection: string
@@ -52,6 +54,7 @@ const getNearbyPosts = async (collectionRef: CollectionReference<DocumentData>, 
 
 	const queryNearby = query(
 		collectionRef,
+		where('completed', '==', false),
 		where('location.geohashNearby', 'array-contains-any', searchParams.geohashes),
 		orderBy('createdAt', 'desc')
 	)
@@ -73,6 +76,7 @@ const getCityPosts = async (collectionRef: CollectionReference<DocumentData>, se
 
 	const queryCity = query(
 		collectionRef,
+		where('completed', '==', false),
 		where('location.city', '==', searchParams.city),
 		where('range', '==', 'city'),
 		orderBy('createdAt', 'desc')
@@ -101,6 +105,7 @@ const getCountryPosts = async (
 
 	const countryQuery = query(
 		collectionRef,
+		where('completed', '==', false),
 		where('location.country', '==', searchParams.country),
 		where('range', '==', 'country'),
 		orderBy('createdAt', 'desc')

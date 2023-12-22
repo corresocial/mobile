@@ -1,10 +1,12 @@
-import React, { createContext, useMemo, useState, useCallback, useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
-import { AlertNotificationModal } from '../../components/_modals/AlertNotificationModal'
+import React, { createContext, useMemo, useState, useCallback, useEffect } from 'react'
+
+import { UserStackNavigationProps } from '../../presentation/routes/Stack/UserStack/types'
 import { AlertContextProps, AlertProviderProps, InitialNotificationStateType } from './types'
-import { NewHomePresentationModal } from '../../components/_modals/NewHomePresentationModal'
-import { UserStackNavigationProps } from '../../routes/Stack/UserStack/types'
+
+import { AlertNotificationModal } from '@components/_modals/AlertNotificationModal'
+import { NewHomePresentationModal } from '@components/_modals/NewHomePresentationModal'
 
 const initialNotificationState = { // private
 	notificationAlertModal: true,
@@ -39,11 +41,11 @@ function AlertProvider({ children }: AlertProviderProps) {
 	const loadAlertLocalData = async () => {
 		const localAlertData = await AsyncStorage.getItem('corre.alert')
 		if (localAlertData) {
-			console.log('has local data')
-			console.log(localAlertData)
-			setNotificationState(JSON.parse(localAlertData))
+			const localAlertDataObject = JSON.parse(localAlertData)
+			const newLocalAlertData = { ...initialNotificationState, ...localAlertDataObject }
+			updateLocalAlertData(localAlertDataObject)
+			setNotificationState(newLocalAlertData)
 		} else {
-			console.log('not has local data')
 			await setAlertLocalDataStructure()
 		}
 	}
@@ -94,6 +96,7 @@ function AlertProvider({ children }: AlertProviderProps) {
 		<AlertContext.Provider value={alertDataProvider}>
 			<AlertNotificationModal
 				visibility={alertNotificationModalIsVisible}
+				closeModal={() => setAlertNotificationIsVisible(false)}
 				onPressButton={handlerAlertNotificationModal}
 			/>
 			<NewHomePresentationModal

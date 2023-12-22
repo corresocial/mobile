@@ -1,9 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { collection, query, getDocs } from 'firebase/firestore'
-import { firestore } from '..'
+
+import { PostCollectionType } from '../types'
+
+import { firestore } from '@services/firebase'
+
 import { getPrivateAddress } from '../post/getPrivateAddress'
 import { updatePost } from '../post/updatePost'
-import { PostCollectionType } from '../types'
 
 const migratePostLocationAddressData = async (currentCollection: PostCollectionType) => { // Set Collection Name
 	const docs: any = []

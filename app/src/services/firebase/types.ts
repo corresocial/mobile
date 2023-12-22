@@ -1,11 +1,11 @@
 import React from 'react'
 import { SvgProps } from 'react-native-svg'
 
-import { serviceCategories } from '../../utils/postsCategories/serviceCategories'
-import { cultureCategories } from '../../utils/postsCategories/cultureCategories'
-import { saleCategories } from '../../utils/postsCategories/saleCategories'
-import { vacancyCategories } from '../../utils/postsCategories/vacancyCategories'
-import { socialImpactCategories } from '../../utils/postsCategories/socialImpactCategories'
+import { cultureCategories } from '../../presentation/utils/postsCategories/cultureCategories'
+import { saleCategories } from '../../presentation/utils/postsCategories/saleCategories'
+import { serviceCategories } from '../../presentation/utils/postsCategories/serviceCategories'
+import { socialImpactCategories } from '../../presentation/utils/postsCategories/socialImpactCategories'
+import { vacancyCategories } from '../../presentation/utils/postsCategories/vacancyCategories'
 
 export type SaleCategories = keyof typeof saleCategories
 export type ServiceCategories = keyof typeof serviceCategories
@@ -117,7 +117,6 @@ export type UserSubscription = {
 export type UserCollection = {
 	userId?: Id
 	name?: string
-	email?: string
 	description?: string
 	profilePictureUrl?: string[]
 	tourPerformed?: boolean
@@ -164,6 +163,20 @@ export type PostCollection = IncomeCollection | VacancyCollection | CultureColle
 
 export type PostCollectionRemote = IncomeCollectionRemote | VacancyCollectionRemote | CultureCollectionRemote | SocialImpactCollectionRemote
 
+export type CompleteAddress = {
+	country: string
+	state: string
+	city: string
+	postalCode: string
+	district: string
+	street: string
+	number: string
+	coordinates: {
+		latitude?: number
+		longitude?: number
+	}
+}
+
 export type FeedPosts = {
 	nearby: PostCollectionRemote[],
 	city: PostCollectionRemote[],
@@ -177,12 +190,14 @@ export interface PostCollectionCommonFields {
 	tags?: string[]
 	description?: string
 	lookingFor?: boolean
+	completed?: boolean
 	locationView?: LocationViewType
 	range?: PostRange
 	daysOfWeek?: DaysOfWeek[]
 	startHour?: Date
 	endHour?: Date
 	picturesUrl?: string[]
+	links?: string[]
 	createdAt?: Date
 	location: {
 		country?: string
@@ -215,12 +230,14 @@ export interface PostCollectionCommonFieldsRemote {
 	tags: string[]
 	description: string
 	lookingFor?: boolean
+	completed?: boolean
 	locationView: LocationViewType
 	range: PostRange
 	daysOfWeek?: DaysOfWeek[]
 	startHour?: Date
 	endHour?: Date
 	picturesUrl?: string[]
+	links?: string[]
 	createdAt: Date
 	location: {
 		country?: string

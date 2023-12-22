@@ -5,7 +5,8 @@
 */
 
 import axios from 'axios'
-import { getEnvVars } from '../../../environment'
+
+import { getEnvVars } from '@infrastructure/environment'
 
 const { NOTION_APPICONS_ID, NOTION_APPICONS_KEY } = getEnvVars()
 

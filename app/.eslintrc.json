@@ -5,7 +5,8 @@
 	"plugins": [
 		"@typescript-eslint",
 		"react",
-		"react-native"
+		"react-native",
+		"import-helpers"
 	],
 	"parser": "@typescript-eslint/parser",
 	"ignorePatterns": [
@@ -22,6 +23,94 @@
 		"import/no-default-export": "error",
 		"import/prefer-default-export": "off",
 		"import/extensions": "off",
+		"import/no-extraneous-dependencies": [ // TODO config
+			"off",
+			{
+				"devDependencies": true,
+				"optionalDependencies": false,
+				"peerDependencies": false,
+				"bundledDependencies": false,
+				"packageDir": [
+					"./",
+					"./services/firebase"
+				]
+			}
+		],
+		"import/order": [
+			"off",
+			{
+				"groups": [
+					"index",
+					"sibling",
+					"parent",
+					"internal",
+					"external",
+					"builtin",
+					"object",
+					"type"
+				]
+			}
+		],
+		"import-helpers/order-imports": [
+			"warn",
+			{
+				"newlinesBetween": "always",
+				"groups": [
+					[
+						"/^react/",
+						"/^@react/",
+						"/^@expo/",
+						"/^expo/",
+						"/^styled-components/"
+					],
+					[
+						"module"
+					],
+					[
+						"/^@domain/"
+					],
+					[
+						"/^@data/"
+					],
+					[
+						"/^@contexts/"
+					],
+					[
+						"/^@routes/",
+						"/@types/",
+						"/types/",
+						"/@globalType/",
+						"/globalType/",
+						"/globalTypes/",
+						"/^@globalTypes/",
+						"/^@contexts/types/"
+					],
+					[
+						"/^@services/",
+						"/^./services/",
+						"/^@infrastructure/",
+						"/^@utils/",
+						"/^@utils-ui/"
+					],
+					[
+						"/^@common/",
+						"/^@assets/",
+						"/^./styles/"
+					],
+					[
+						"/@adapters/"
+					],
+					[
+						"/^@components/",
+						"/^@screens/"
+					]
+				],
+				"alphabetize": {
+					"order": "asc",
+					"ignoreCase": true
+				}
+			}
+		],
 		"react/jsx-filename-extension": [
 			1,
 			{
@@ -123,6 +212,7 @@
 			}
 		],
 		"react/self-closing-comp": "off",
+		"default-case": "off",
 		"no-tabs": "off",
 		"no-console": "off",
 		"eol-last": "off",

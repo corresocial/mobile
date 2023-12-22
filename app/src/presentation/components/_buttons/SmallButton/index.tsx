@@ -1,0 +1,105 @@
+import React, { useState } from 'react'
+import { ViewStyle } from 'react-native'
+import { RFValue } from 'react-native-responsive-fontsize'
+import { SvgProps } from 'react-native-svg'
+
+import { ButtonLabel, ContainerBottom, ContainerSurface, TouchableContainer } from './styles'
+import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
+import { theme } from '@common/theme'
+
+interface SmallButtonProps {
+	color?: string
+	label?: string
+	labelColor?: string
+	highlightedWords?: string[]
+	fontSize?: number
+	SvgIcon?: React.FC<SvgProps>
+	SecondSvgIcon?: React.FC<SvgProps>
+	svgScale?: [height: string, width: string]
+	secondSvgScale?: [height: string, width: string]
+	relativeWidth?: string | number
+	height?: number
+	rounded?: boolean
+	flexDirection?: ViewStyle['flexDirection']
+	onPress: () => void
+}
+
+function SmallButton({
+	color,
+	label = '',
+	labelColor = theme.white3,
+	highlightedWords = [],
+	fontSize = 13,
+	SvgIcon,
+	SecondSvgIcon,
+	svgScale = label ? ['50%', '15%'] : ['50%', '80%'],
+	secondSvgScale = label ? ['50%', '15%'] : ['50%', '80%'],
+	relativeWidth = '100%',
+	height = 30,
+	rounded,
+	flexDirection = 'row',
+	onPress
+}: SmallButtonProps) {
+	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
+
+	function pressingButton() {
+		setButtomPressed(true)
+	}
+
+	function notPressingButton() {
+		setButtomPressed(false)
+	}
+
+	function releaseButton() {
+		setButtomPressed(false)
+		onPress()
+	}
+
+	return (
+		<TouchableContainer
+			onPressIn={pressingButton}
+			onPressOut={notPressingButton}
+			onPress={releaseButton}
+		>
+			<ContainerBottom
+				relativeWidth={relativeWidth}
+				height={height}
+				rounded={rounded}
+			>
+				<ContainerSurface
+					backgroundColor={color}
+					buttonPressed={buttonPressed}
+					flexDirection={flexDirection}
+					rounded={rounded}
+				>
+					{
+						!!SvgIcon && (
+							<SvgIcon height={svgScale[0]} width={svgScale[1]} />
+						)
+					}
+					{
+						!!SecondSvgIcon && (
+							<SecondSvgIcon height={secondSvgScale[0]} width={secondSvgScale[1]} style={{ marginTop: RFValue(4) }} />
+						)
+					}
+					{
+						label && (
+							<ButtonLabel
+								style={{
+									fontSize: RFValue(fontSize),
+									marginLeft: label && flexDirection === 'row' ? RFValue(8) : 0,
+									fontFamily: highlightedWords?.length > 0 ? 'Arvo_400Regular' : 'Arvo_700Bold',
+									color: labelColor
+								}}
+							>
+								{showMessageWithHighlight(label, highlightedWords)}
+							</ButtonLabel>
+						)
+					}
+				</ContainerSurface>
+			</ContainerBottom>
+		</TouchableContainer>
+	)
+}
+
+export { SmallButton }
