@@ -1,3 +1,5 @@
+import { isArray } from 'lodash'
+
 import { Chat } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
@@ -7,8 +9,17 @@ async function startUserChatIdsListenerUC(userId: Id, callback: (chatIds: Id[], 
 	const { existsOnDatabase, getUserChats, startUserChatIdsListener } = ChatGatewayAdapter()
 
 	const listenerCallback = async (chatIds: Id[]) => {
-		const userChats = await getUserChats(chatIds)
-		callback(chatIds, userChats)
+		let chatIdsList = chatIds
+
+		if (!isArray(chatIds)) {
+			chatIdsList = Object.values(chatIds)
+		}
+
+		const filteredChatIds = chatIdsList.filter((chatId) => chatId !== '')
+		if (!filteredChatIds || (filteredChatIds && !filteredChatIds.length)) return
+
+		const userChats = await getUserChats(filteredChatIds)
+		callback(filteredChatIds, userChats)
 	}
 
 	if (await existsOnDatabase(userId)) {
