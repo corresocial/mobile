@@ -163,7 +163,8 @@ exports.checkUserPhoneAlreadyRegistred = functions.https.onRequest(async (req, r
 
 exports.cloudBackupStorage = functions.storage.object().onFinalize(async (object) => {
 	async function performBackup(filePath, file) {
-		const backupBucket = admin.storage().bucket('gs://corresocialapp-backup')
+		const backupBucketName = 'BUCKET_NAME' // get in firebase console
+		const backupBucket = admin.storage().bucket(`gs://${backupBucketName}`)
 
 		await file.copy(backupBucket.file(filePath))
 
