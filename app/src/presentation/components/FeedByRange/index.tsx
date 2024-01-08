@@ -9,7 +9,6 @@ import CityWhiteIcon from '@assets/icons/city-white.svg'
 import PinWhiteIcon from '@assets/icons/pin-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
 
-import { SubscriptionButton } from '@components/_buttons/SubscriptionButton'
 import { PostCard } from '@components/_cards/PostCard'
 import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
@@ -20,7 +19,6 @@ interface FeedByRangeProps {
 	backgroundColor?: string
 	filteredFeedPosts: FeedPosts
 	children?: React.ReactElement | React.ReactElement[]
-	showSubscriptionModal?: () => void
 	viewPostsByRange: (postRange: PostRange) => void
 	navigateToProfile: (userId: string) => void
 	goToPostView: (post: PostCollection) => void
@@ -30,7 +28,6 @@ function FeedByRange({
 	backgroundColor,
 	filteredFeedPosts,
 	children,
-	showSubscriptionModal,
 	viewPostsByRange,
 	navigateToProfile,
 	goToPostView
@@ -60,14 +57,6 @@ function FeedByRange({
 	const renderPosts = (range: keyof FeedPosts) => {
 		const firstFivePosts = getFirstFiveItems(filteredFeedPosts[range])
 		return firstFivePosts.map((post) => {
-			if (post as string | PostCollection === 'subscriptionAd') {
-				return (
-					<PostCardContainer key={uuid()}>
-						<SubscriptionButton onPress={() => showSubscriptionModal && showSubscriptionModal()} />
-						<VerticalSpacing />
-					</PostCardContainer>
-				)
-			}
 			return post.owner && renderPostItem(post)
 		})
 	}

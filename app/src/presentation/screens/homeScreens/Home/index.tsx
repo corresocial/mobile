@@ -4,7 +4,6 @@ import * as Location from 'expo-location'
 import React, { useContext, useEffect, useState } from 'react'
 import { RefreshControl } from 'react-native'
 
-import { AlertContext } from '@contexts/AlertContext'
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -29,16 +28,14 @@ import { getLastRecentAddress, getRecentAdressesFromStorage } from '@utils/maps/
 
 import {
 	Container,
-	ContainerPadding,
 	DropdownContainer,
 	RecentPostsContainer
 } from './styles'
 import { generateGeohashes } from '@common/generateGeohashes'
 import { theme } from '@common/theme'
 
-import { SubscriptionButton } from '@components/_buttons/SubscriptionButton'
-import { PostCard } from '@components/_cards/PostCard'
 import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionPresentationModal'
+import { AdsCarousel } from '@components/AdsCarousel'
 import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { HomeCatalogMenu } from '@components/HomeCatalogMenu'
@@ -338,7 +335,6 @@ function Home({ navigation }: HomeScreenProps) {
 					findAddressSuggestions={findAddressSuggestions}
 				/>
 			</DropdownContainer>
-			<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
 			<RecentPostsContainer
 				refreshControl={(
 					<RefreshControl
@@ -349,6 +345,11 @@ function Home({ navigation }: HomeScreenProps) {
 					/>
 				)}
 			>
+				<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
+				<AdsCarousel
+					onPressCorreAd={() => !userHasPaidSubscription() && setSubscriptionModalIsVisible(true)}
+					onPressPublicServicesAd={() => { }}
+				/>
 				{!hasLocationEnable && !hasAnyPost() && (
 					<RequestLocation
 						getLocationPermissions={() => {
@@ -359,12 +360,7 @@ function Home({ navigation }: HomeScreenProps) {
 				)}
 				<FeedByRange
 					backgroundColor={theme.orange2}
-					filteredFeedPosts={
-						userHasPaidSubscription()
-							? { ...feedPosts }
-							: { ...feedPosts, nearby: ['subscriptionAd', ...getFirstFiveItems(feedPosts.nearby)] }
-					}
-					showSubscriptionModal={() => setSubscriptionModalIsVisible(true)}
+					filteredFeedPosts={feedPosts}
 					viewPostsByRange={viewPostsByRange}
 					navigateToProfile={navigateToProfile}
 					goToPostView={viewPostDetails}

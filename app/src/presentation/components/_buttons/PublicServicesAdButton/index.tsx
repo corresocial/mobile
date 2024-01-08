@@ -6,29 +6,30 @@ import { relativeScreenHeight } from '@common/screenDimensions'
 
 import { OptionButton } from '../OptionButton'
 
-interface SubscriptionButtonProps {
+interface PublicServicesAdButtonProps {
 	customTitle?: string
 	onPress: () => void
 }
 
-function SubscriptionButton({ customTitle = '', onPress }: SubscriptionButtonProps) {
+function PublicServicesAdButton({ customTitle = '', onPress }: PublicServicesAdButtonProps) {
 	const theme = useTheme()
 
 	return (
 		<OptionButton
 			color={theme.white3}
-			label={customTitle || 'apoie o corre.'}
-			highlightedWords={[...customTitle.split(' '), 'apoie', 'o', 'corre']}
+			label={customTitle || 'serviços públicos'}
+			highlightedWords={[...customTitle.split(' '), 'serviços', 'públicos']}
 			labelSize={17}
 			relativeHeight={relativeScreenHeight(12)}
-			shortDescription={'com uma assinatura mensal você alcança muito mais clientes e ajuda cidadãos do nosso país'}
+			shortDescription={'aqui você pode consultar seu benefício emergencial'}
+			shortDescriptionHighlightedWords={['benefício', 'emergencial']}
 			SvgIcon={LogoOutlinedWhiteIcon}
 			svgIconScale={['65%', '65%']}
-			leftSideColor={theme.orange3}
+			leftSideColor={theme.pink3}
 			leftSideWidth={'25%'}
 			onPress={onPress}
 		/>
 	)
 }
 
-export { SubscriptionButton }
+export { PublicServicesAdButton }
