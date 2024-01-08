@@ -3,6 +3,7 @@ import { StatusBar } from 'react-native'
 
 import { SelectPublicServiceScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
 
+import { Container, Header } from './styles'
 import PublicServicesWhiteIcon from '@assets/icons/publicServices-white.svg'
 import { theme } from '@common/theme'
 
@@ -10,8 +11,6 @@ import { OptionButton } from '@components/_buttons/OptionButton'
 import { FormContainer } from '@components/_containers/FormContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
-
-import { Container, Header } from '../styles'
 
 function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
 	return (
@@ -34,7 +33,7 @@ function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.pink3}
 					leftSideWidth={'25%'}
-					onPress={() => { }}
+					onPress={() => navigation.navigate('PublicServicesStack')}
 				/>
 				<OptionButton
 					label={'consultar \nBolsa Família'}

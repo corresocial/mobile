@@ -59,6 +59,7 @@ import { ViewVacancyPost } from '@screens/viewPostScreens/ViewVacancyPost'
 
 import { HomeTab } from '../../Tabs/HomeTab'
 import { CultureStack } from '../CultureStack'
+import { PublicServicesStack } from '../PublicServicesStack'
 import { SaleStack } from '../SaleStack'
 import { ServiceStack } from '../ServiceStack'
 import { SocialImpactStack } from '../SocialImpactStack'
@@ -144,6 +145,8 @@ export function UserStack({ route }: any) {
 									/>
 									<Stack.Screen name={'SelectSubscriptionRange'} component={SelectSubscriptionRange} />
 									<Stack.Screen name={'EditCurrentSubscription'} component={EditCurrentSubscription} />
+
+									<Stack.Screen name={'PublicServicesStack'} component={PublicServicesStack} />
 								</Stack.Navigator>
 							</LocationProvider>
 						</StripeProvider>

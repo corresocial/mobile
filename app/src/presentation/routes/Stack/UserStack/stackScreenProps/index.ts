@@ -53,3 +53,5 @@ export type FinishSubscriptionPaymentByPixScreenProps = NativeStackScreenProps<U
 export type FinishSubscriptionPaymentByCardScreenProps = NativeStackScreenProps<UserStackParamList, 'FinishSubscriptionPaymentByCard'>
 export type SubscriptionPaymentResultScreenProps = NativeStackScreenProps<UserStackParamList, 'SubscriptionPaymentResult'>
 export type EditCurrentSubscriptionScreenProps = NativeStackScreenProps<UserStackParamList, 'EditCurrentSubscription'>
+
+export type PublicServicesStackScreenProps = NativeStackScreenProps<UserStackParamList, 'PublicServicesStack'>
