@@ -335,7 +335,9 @@ function Home({ navigation }: HomeScreenProps) {
 					findAddressSuggestions={findAddressSuggestions}
 				/>
 			</DropdownContainer>
+			<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
 			<RecentPostsContainer
+				showsVerticalScrollIndicator={false}
 				refreshControl={(
 					<RefreshControl
 						colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
@@ -345,7 +347,6 @@ function Home({ navigation }: HomeScreenProps) {
 					/>
 				)}
 			>
-				<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
 				<AdsCarousel
 					onPressCorreAd={() => !userHasPaidSubscription() && setSubscriptionModalIsVisible(true)}
 					onPressPublicServicesAd={() => { }}

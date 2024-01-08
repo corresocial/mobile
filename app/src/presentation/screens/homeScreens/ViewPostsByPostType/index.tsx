@@ -17,6 +17,7 @@ import CultureWhiteIcon from '@assets/icons/culture-white.svg'
 import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
 import HeartAndPersonWhiteIcon from '@assets/icons/heartAndPerson-white.svg'
 import PeperInfoWhiteIcon from '@assets/icons/paperInfo-white.svg'
+import PublicServicesWhiteIcon from '@assets/icons/publicServices-white.svg'
 import SaleWhiteIcon from '@assets/icons/sale-white.svg'
 import ServiceWhiteIcon from '@assets/icons/service-white.svg'
 import SocialImpactWhiteIcon from '@assets/icons/socialImpact-white.svg'
@@ -180,9 +181,9 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 			)
 			case 'socialImpact': return (
 				<CatalogPostTypeButtons
-					buttonLabels={['informativos', 'iniciativas', 'doações']}
-					buttonValues={['informative', 'iniciative', 'donation']}
-					buttonIcons={[PeperInfoWhiteIcon, HeartAndPersonWhiteIcon, HandOnHeartWhiteIcon]}
+					buttonLabels={['serviços públicos', 'informativos', 'iniciativas', 'doações']}
+					buttonValues={['publicServices', 'informative', 'iniciative', 'donation']}
+					buttonIcons={[PublicServicesWhiteIcon, PeperInfoWhiteIcon, HeartAndPersonWhiteIcon, HandOnHeartWhiteIcon]}
 					onPress={(macroCategory: MacroCategoriesType) => navigateToPostSubcatery(macroCategory)}
 				/>
 			)
@@ -190,7 +191,12 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 		}
 	}
 
-	const navigateToPostSubcatery = (macroCategory: MacroCategoriesType) => {
+	const navigateToPostSubcatery = (macroCategory: MacroCategoriesType | 'publicServices') => {
+		if (macroCategory === 'publicServices') {
+			navigation.navigate('SelectPublicService')
+			return
+		}
+
 		setLocationDataOnContext({ searchParams: { ...locationDataContext.searchParams, macroCategory } })
 		navigation.navigate('PostCategories')
 	}
