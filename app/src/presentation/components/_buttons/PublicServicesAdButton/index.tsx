@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTheme } from 'styled-components/native'
 
-import LogoOutlinedWhiteIcon from '@assets/icons/logo-outlined.svg'
+import PublicServicesWhiteIcon from '@assets/icons/publicServices-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
 
 import { OptionButton } from '../OptionButton'
@@ -23,7 +23,7 @@ function PublicServicesAdButton({ customTitle = '', onPress }: PublicServicesAdB
 			relativeHeight={relativeScreenHeight(12)}
 			shortDescription={'aqui você pode consultar seu benefício emergencial'}
 			shortDescriptionHighlightedWords={['benefício', 'emergencial']}
-			SvgIcon={LogoOutlinedWhiteIcon}
+			SvgIcon={PublicServicesWhiteIcon}
 			svgIconScale={['65%', '65%']}
 			leftSideColor={theme.pink3}
 			leftSideWidth={'25%'}
