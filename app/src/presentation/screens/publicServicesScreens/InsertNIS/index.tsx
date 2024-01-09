@@ -13,13 +13,16 @@ import { PostInputText } from '@components/_onboarding/PostInputText'
 const { validateNIS } = PublicServicesAdapter()
 
 function InsertNIS({ route, navigation }: InsertNISScreenProps) {
+	const { smasService } = route.params
+
 	const saveNIS = (NISValue: string) => {
 		const cleanValue = NISValue.trim()
 		console.log(cleanValue)
+
+		navigation.navigate('QueryResult')
 	}
 
 	const getContextTitle = () => {
-		const { smasService } = route.params
 		switch (smasService) {
 			case 'beneficioEmergencial': return 'consultar benefício emergencial'
 			case 'bolsaFamilia': return 'consultar bolsa família'
@@ -28,7 +31,6 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 	}
 
 	const getContextHighlightedWords = () => {
-		const { smasService } = route.params
 		switch (smasService) {
 			case 'beneficioEmergencial': return ['benefício', 'emergencial']
 			case 'bolsaFamilia': return ['bolsa', 'família']
