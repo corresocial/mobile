@@ -295,14 +295,12 @@ function Home({ navigation }: HomeScreenProps) {
 		return feedPosts.nearby.length > 0 || feedPosts.city.length > 0 || feedPosts.country.length > 0
 	}
 
-	const getFirstFiveItems = (items: any[]) => {
-		if (!items) return []
-		if (items.length >= 5) return items.slice(0, 5)
-		return items
-	}
-
 	const navigateToSelectSubscriptionRange = () => {
 		navigation.navigate('SelectSubscriptionRange')
+	}
+
+	const navigateToPublicServices = () => {
+		navigation.navigate('SelectPublicService')
 	}
 
 	const userHasPaidSubscription = () => {
@@ -349,7 +347,7 @@ function Home({ navigation }: HomeScreenProps) {
 			>
 				<AdsCarousel
 					onPressCorreAd={() => !userHasPaidSubscription() && setSubscriptionModalIsVisible(true)}
-					onPressPublicServicesAd={() => { }}
+					onPressPublicServicesAd={navigateToPublicServices}
 				/>
 				{!hasLocationEnable && !hasAnyPost() && (
 					<RequestLocation
@@ -360,6 +358,7 @@ function Home({ navigation }: HomeScreenProps) {
 					/>
 				)}
 				<FeedByRange
+					searchEnded={searchEnded}
 					backgroundColor={theme.orange2}
 					filteredFeedPosts={feedPosts}
 					viewPostsByRange={viewPostsByRange}
