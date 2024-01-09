@@ -349,7 +349,7 @@ function Home({ navigation }: HomeScreenProps) {
 					onPressCorreAd={() => !userHasPaidSubscription() && setSubscriptionModalIsVisible(true)}
 					onPressPublicServicesAd={navigateToPublicServices}
 				/>
-				{!hasLocationEnable && !hasAnyPost() && (
+				{!hasLocationEnable && !hasAnyPost() && searchEnded && (
 					<RequestLocation
 						getLocationPermissions={() => {
 							requestPermissions()
