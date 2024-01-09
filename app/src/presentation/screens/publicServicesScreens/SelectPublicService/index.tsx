@@ -1,7 +1,9 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { SelectPublicServiceScreenProps } from '@routes/Stack/HomeStack/stackScreenProps'
+import { SMASService } from '@domain/entities/smas/types'
+
+import { SelectPublicServiceScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
 
 import { Container, Header } from './styles'
 import PublicServicesWhiteIcon from '@assets/icons/publicServices-white.svg'
@@ -13,6 +15,10 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
 function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
+	const navigateToSMASServices = (smasService: SMASService) => {
+		navigation.navigate('InsertNIS', { smasService })
+	}
+
 	return (
 		<Container>
 			<StatusBar backgroundColor={theme.white3} barStyle={'dark-content'} />
@@ -23,7 +29,8 @@ function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
 					onBackPress={() => navigation.goBack()}
 				/>
 			</Header>
-			<FormContainer backgroundColor={theme.pink2}>
+			<FormContainer backgroundColor={theme.pink2} >
+				<VerticalSpacing />
 				<OptionButton
 					label={'benefício eventual emergencial'}
 					highlightedWords={['benefício', 'emergencial']}
@@ -33,7 +40,7 @@ function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.pink3}
 					leftSideWidth={'25%'}
-					onPress={() => navigation.navigate('PublicServicesStack')}
+					onPress={() => navigateToSMASServices('beneficioEmergencial')}
 				/>
 				<OptionButton
 					label={'consultar \nBolsa Família'}
@@ -44,7 +51,7 @@ function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.pink3}
 					leftSideWidth={'25%'}
-					onPress={() => { }}
+					onPress={() => navigateToSMASServices('bolsaFamilia')}
 				/>
 				<OptionButton
 					label={'consultar \nCadÚnico'}
@@ -55,7 +62,7 @@ function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.pink3}
 					leftSideWidth={'25%'}
-					onPress={() => { }}
+					onPress={() => navigateToSMASServices('cadUnico')}
 				/>
 				<VerticalSpacing />
 			</FormContainer>

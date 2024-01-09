@@ -300,7 +300,7 @@ function Home({ navigation }: HomeScreenProps) {
 	}
 
 	const navigateToPublicServices = () => {
-		navigation.navigate('SelectPublicService')
+		navigation.navigate('PublicServicesStack')
 	}
 
 	const userHasPaidSubscription = () => {

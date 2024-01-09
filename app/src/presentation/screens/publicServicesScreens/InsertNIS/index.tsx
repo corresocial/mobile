@@ -19,7 +19,21 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 	}
 
 	const getContextTitle = () => {
-		return 'consultar bolsa família'
+		const { smasService } = route.params
+		switch (smasService) {
+			case 'beneficioEmergencial': return 'consultar benefício emergencial'
+			case 'bolsaFamilia': return 'consultar bolsa família'
+			case 'cadUnico': return 'veja se seu cadastro único está atualizado'
+		}
+	}
+
+	const getContextHighlightedWords = () => {
+		const { smasService } = route.params
+		switch (smasService) {
+			case 'beneficioEmergencial': return ['benefício', 'emergencial']
+			case 'bolsaFamilia': return ['bolsa', 'família']
+			case 'cadUnico': return ['cadastro', 'único', 'atualizado']
+		}
 	}
 
 	return (
@@ -28,13 +42,13 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 				customTitle={'nos informe seu NIS'}
 				customHighlight={['NIS']}
 				contextTitle={getContextTitle()}
+				contextHighlightedWords={getContextHighlightedWords()}
 				backgroundColor={theme.pink2}
 				height={'45%'}
 				inputPlaceholder={'12345678910'}
 				keyboardType={'number-pad'}
 				validationColor={theme.pink1}
 				validateInputText={validateNIS}
-				progress={[1, 3]}
 				navigateBackwards={() => navigation.goBack()}
 				saveTextData={saveNIS}
 			>

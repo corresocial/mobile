@@ -16,6 +16,4 @@ export type HomeStackParamList = {
 	ViewPostsByTag: { currentTagSelected: string }
 	SearchResult: { searchParams: SearchParams, categoryLabel?: string, searchByRange?: boolean }
 	ProfileHome: { userId: string, stackLabel?: string }
-
-	SelectPublicService: undefined
 } & UserStackParamList

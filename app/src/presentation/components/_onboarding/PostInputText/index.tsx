@@ -27,6 +27,7 @@ interface PostInputTextProps {
 	customTitle?: string
 	customHighlight?: string[]
 	contextTitle?: string
+	contextHighlightedWords?: string[]
 	multiline?: boolean
 	inputPlaceholder?: string
 	keyboardType?: TextInputProps['keyboardType']
@@ -47,6 +48,7 @@ function PostInputText({
 	customTitle,
 	customHighlight,
 	contextTitle,
+	contextHighlightedWords,
 	multiline,
 	inputPlaceholder,
 	keyboardType,
@@ -85,7 +87,7 @@ function PostInputText({
 									borderLeftWidth={5}
 									fontSize={16}
 									message={contextTitle || ''}
-									highlightedWords={customHighlight}
+									highlightedWords={contextHighlightedWords || []}
 								/>
 							</InstructionButtonContainer>
 							<VerticalSpacing />
