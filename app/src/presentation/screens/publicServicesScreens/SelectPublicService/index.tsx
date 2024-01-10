@@ -1,7 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
 
-import { SMASService } from '@domain/entities/smas/types'
+import { SmasService } from '@domain/entities/smas/types'
 
 import { SelectPublicServiceScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
 
@@ -15,7 +15,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
 
 function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
-	const navigateToSMASServices = (smasService: SMASService) => {
+	const navigateToSmasServices = (smasService: SmasService) => {
 		navigation.navigate('InsertNIS', { smasService })
 	}
 
@@ -40,7 +40,7 @@ function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.pink3}
 					leftSideWidth={'25%'}
-					onPress={() => navigateToSMASServices('beneficioEmergencial')}
+					onPress={() => navigateToSmasServices('beneficioEmergencial')}
 				/>
 				<OptionButton
 					label={'consultar \nBolsa Família'}
@@ -51,7 +51,7 @@ function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.pink3}
 					leftSideWidth={'25%'}
-					onPress={() => navigateToSMASServices('bolsaFamilia')}
+					onPress={() => navigateToSmasServices('bolsaFamilia')}
 				/>
 				<OptionButton
 					label={'consultar \nCadÚnico'}
@@ -62,7 +62,7 @@ function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.pink3}
 					leftSideWidth={'25%'}
-					onPress={() => navigateToSMASServices('cadUnico')}
+					onPress={() => navigateToSmasServices('cadUnico')}
 				/>
 				<VerticalSpacing />
 			</FormContainer>

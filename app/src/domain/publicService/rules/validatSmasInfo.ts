@@ -4,4 +4,9 @@ const validateNIS = (NISValue: string) => {
 	return NISNumbers ? NISNumbers.join('').length === 11 : false
 }
 
-export { validateNIS }
+const validateName = (NISValue: string) => {
+	const cleanName = NISValue.replace(/[^a-zA-Z]/g, '')
+	return /^[a-zA-Z]+$/.test(cleanName)
+}
+
+export { validateNIS, validateName }

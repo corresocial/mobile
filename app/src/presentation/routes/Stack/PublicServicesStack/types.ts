@@ -1,11 +1,11 @@
-import { SMASService } from '@domain/entities/smas/types'
+import { SmasService } from '@domain/entities/smas/types'
 
 import { HomeTabParamList } from '../../Tabs/HomeTab/types'
 
 export type PublicServiceStackParamList = {
 	SelectPublicService: undefined
 	QueryResult: {
-		smasService: SMASService
+		smasService: SmasService
 		NIS: string
 		status: string // TODO Type
 		grantDate: string
@@ -13,6 +13,6 @@ export type PublicServiceStackParamList = {
 		familyBagName: string
 		familyBagValue: string
 	}
-	InsertNIS: { smasService: SMASService }
+	InsertNIS: { smasService: SmasService }
 	InsertNameNIS: undefined
 } & HomeTabParamList

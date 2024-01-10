@@ -2,6 +2,8 @@ import 'react-native-gesture-handler'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import React from 'react'
 
+import { SmasProvider } from '@contexts/SmasContext'
+
 import { PublicServiceStackParamList } from './types'
 
 import { InsertNameNIS } from '@screens/publicServicesScreens/InsertNameNIS'
@@ -13,18 +15,20 @@ const Stack = createStackNavigator<PublicServiceStackParamList>()
 
 export function PublicServicesStack({ route }: any) {
 	return (
-		<Stack.Navigator
-			initialRouteName={'SelectPublicService'}
-			screenOptions={{
-				headerShown: false,
-				gestureEnabled: false,
-				...TransitionPresets.SlideFromRightIOS,
-			}}
-		>
-			<Stack.Screen name={'SelectPublicService'} component={SelectPublicService} />
-			<Stack.Screen name={'InsertNIS'} component={InsertNIS} />
-			<Stack.Screen name={'InsertNameNIS'} component={InsertNameNIS} />
-			<Stack.Screen name={'QueryResult'} component={QueryResult} />
-		</Stack.Navigator>
+		<SmasProvider>
+			<Stack.Navigator
+				initialRouteName={'SelectPublicService'}
+				screenOptions={{
+					headerShown: false,
+					gestureEnabled: false,
+					...TransitionPresets.SlideFromRightIOS,
+				}}
+			>
+				<Stack.Screen name={'SelectPublicService'} component={SelectPublicService} />
+				<Stack.Screen name={'InsertNIS'} component={InsertNIS} />
+				<Stack.Screen name={'InsertNameNIS'} component={InsertNameNIS} />
+				<Stack.Screen name={'QueryResult'} component={QueryResult} />
+			</Stack.Navigator>
+		</SmasProvider>
 	)
 }

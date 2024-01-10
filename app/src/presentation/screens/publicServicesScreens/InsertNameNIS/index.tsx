@@ -1,4 +1,7 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { Keyboard, StatusBar } from 'react-native'
+
+import { SmasContext } from '@contexts/SmasContext'
 
 import { InsertNameNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
 
@@ -8,15 +11,33 @@ import { PublicServicesAdapter } from '@adapters/publicService/PublicServiceAdap
 
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
-const { validateNIS } = PublicServicesAdapter()
+const { validateName } = PublicServicesAdapter()
 
 function InsertNameNIS({ route, navigation }: InsertNameNISScreenProps) {
-	const saveNIS = async (NISValue: string) => {
+	const { setSmasDataOnContext } = useContext(SmasContext)
 
+	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+
+	useEffect(() => {
+		const unsubscribe = navigation.addListener('focus', () => {
+			Keyboard.addListener('keyboardDidShow', () => setKeyboardOpened(true))
+			Keyboard.addListener('keyboardDidHide', () => setKeyboardOpened(false))
+		})
+		return unsubscribe
+	}, [navigation])
+
+	const validateInputName = (name: string) => {
+		const isValid = validateName(name)
+		return isValid && !keyboardOpened
+	}
+
+	const saveNIS = async (name: string) => {
+		setSmasDataOnContext({ name })
 	}
 
 	return (
 		<>
+			<StatusBar backgroundColor={theme.pink2} barStyle={'dark-content'} />
 			<PostInputText
 				customTitle={'nos informe seu nome completo sem acentos'}
 				customHighlight={['nome', 'completo', 'sem', 'acentos']}
@@ -25,8 +46,9 @@ function InsertNameNIS({ route, navigation }: InsertNameNISScreenProps) {
 				backgroundColor={theme.pink2}
 				height={'45%'}
 				inputPlaceholder={'ex: Maria Candida'}
-				validationColor={theme.pink1}
-				validateInputText={validateNIS}
+				keyboardOpened={keyboardOpened}
+				validationColor={keyboardOpened ? theme.white2 : theme.pink1}
+				validateInputText={validateInputName}
 				navigateBackwards={() => navigation.goBack()}
 				saveTextData={saveNIS}
 			/>

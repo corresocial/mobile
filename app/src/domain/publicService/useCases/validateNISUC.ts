@@ -1,4 +1,4 @@
-import { validateNIS } from '../rules/validateNIS'
+import { validateNIS } from '../rules/validatSmasInfo'
 
 const validateNISUC = (NISValue: string) => {
 	return validateNIS(NISValue)

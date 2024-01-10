@@ -17,8 +17,8 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 
 	const saveNIS = async (NISValue: string) => {
 		const cleanValue = NISValue.trim()
-
-		const response = await makeQueryOnSmasService(NISValue)
+		// validação
+		const response = await makeQueryOnSmasService(cleanValue)
 
 		navigation.navigate('QueryResult', { ...response } as any) // TODO type correctly
 	}
