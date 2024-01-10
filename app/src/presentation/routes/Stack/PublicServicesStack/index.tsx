@@ -9,6 +9,7 @@ import { PublicServiceStackParamList } from './types'
 import { InsertNameNIS } from '@screens/publicServicesScreens/InsertNameNIS'
 import { InsertNIS } from '@screens/publicServicesScreens/InsertNIS'
 import { QueryResult } from '@screens/publicServicesScreens/QueryResult'
+import { SelectNISQueryData } from '@screens/publicServicesScreens/SelectNISQueryData'
 import { SelectPublicService } from '@screens/publicServicesScreens/SelectPublicService'
 
 const Stack = createStackNavigator<PublicServiceStackParamList>()
@@ -25,9 +26,10 @@ export function PublicServicesStack({ route }: any) {
 				}}
 			>
 				<Stack.Screen name={'SelectPublicService'} component={SelectPublicService} />
+				<Stack.Screen name={'QueryResult'} component={QueryResult} />
 				<Stack.Screen name={'InsertNIS'} component={InsertNIS} />
 				<Stack.Screen name={'InsertNameNIS'} component={InsertNameNIS} />
-				<Stack.Screen name={'QueryResult'} component={QueryResult} />
+				<Stack.Screen name={'SelectNISQueryData'} component={SelectNISQueryData} />
 			</Stack.Navigator>
 		</SmasProvider>
 	)

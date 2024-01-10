@@ -13,7 +13,7 @@ import { PostInputText } from '@components/_onboarding/PostInputText'
 
 const { validateName } = PublicServicesAdapter()
 
-function InsertNameNIS({ route, navigation }: InsertNameNISScreenProps) {
+function InsertNameNIS({ navigation }: InsertNameNISScreenProps) {
 	const { setSmasDataOnContext } = useContext(SmasContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
@@ -33,6 +33,7 @@ function InsertNameNIS({ route, navigation }: InsertNameNISScreenProps) {
 
 	const saveNIS = async (name: string) => {
 		setSmasDataOnContext({ name })
+		navigation.navigate('SelectNISQueryData')
 	}
 
 	return (
@@ -44,9 +45,10 @@ function InsertNameNIS({ route, navigation }: InsertNameNISScreenProps) {
 				contextTitle={'consultar NIS'}
 				contextHighlightedWords={['NIS']}
 				backgroundColor={theme.pink2}
-				height={'45%'}
+				height={'50%'}
 				inputPlaceholder={'ex: Maria Candida'}
 				keyboardOpened={keyboardOpened}
+				progress={[1, 3]}
 				validationColor={keyboardOpened ? theme.white2 : theme.pink1}
 				validateInputText={validateInputName}
 				navigateBackwards={() => navigation.goBack()}
