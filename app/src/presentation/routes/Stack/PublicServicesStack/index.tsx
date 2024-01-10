@@ -4,6 +4,7 @@ import React from 'react'
 
 import { PublicServiceStackParamList } from './types'
 
+import { InsertNameNIS } from '@screens/publicServicesScreens/InsertNameNIS'
 import { InsertNIS } from '@screens/publicServicesScreens/InsertNIS'
 import { QueryResult } from '@screens/publicServicesScreens/QueryResult'
 import { SelectPublicService } from '@screens/publicServicesScreens/SelectPublicService'
@@ -22,6 +23,7 @@ export function PublicServicesStack({ route }: any) {
 		>
 			<Stack.Screen name={'SelectPublicService'} component={SelectPublicService} />
 			<Stack.Screen name={'InsertNIS'} component={InsertNIS} />
+			<Stack.Screen name={'InsertNameNIS'} component={InsertNameNIS} />
 			<Stack.Screen name={'QueryResult'} component={QueryResult} />
 		</Stack.Navigator>
 	)

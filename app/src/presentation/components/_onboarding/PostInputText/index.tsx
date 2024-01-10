@@ -82,7 +82,8 @@ function PostInputText({
 				{
 					contextTitle ? (
 						<>
-							<InstructionButtonContainer withPaddingLeft>
+							<InstructionButtonContainer >
+								<BackButton onPress={navigateBackwards} />
 								<InstructionCard
 									borderLeftWidth={5}
 									fontSize={16}
@@ -94,8 +95,8 @@ function PostInputText({
 						</>
 					) : <></>
 				}
-				<InstructionButtonContainer>
-					<BackButton onPress={navigateBackwards} />
+				<InstructionButtonContainer withPaddingLeft={contextTitle}>
+					{!contextTitle && <BackButton onPress={navigateBackwards} />}
 					<InstructionCard
 						fontSize={16}
 						message={customTitle || 'fala tudo sobre o que você tá postando'}

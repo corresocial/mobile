@@ -15,21 +15,21 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
-function QueryResult({ navigation }: QueryResultScreenProps) {
+function QueryResult({ route, navigation }: QueryResultScreenProps) {
 	/*
 	const resultState = {
 		beneficioEmergencial: {
-			concedido: data de concessão e data prevista de liberação
-			nãoConcedido: null
-			emAnálise: null,
+			granted: data de concessão e data prevista de liberação
+			notGranted: null
+			inAnalysis: null,
 
 			algoErradoCOmNIS: mensagem de erro, mostrar botões de retry
 			nãoLocalizada: mensagem de erro
 		},
 		bolsaFamilia: {
-			liberado: valor liberado, nome e NIS
+			granted: valor liberado, nome e NIS
 
-			nâoLocalizado: NIS, mensagem de erro
+			notFound: NIS, mensagem de erro
 			erroDesconhecido: mensagem de erro, NIS e nome
 		},
 		cadUnico: {
@@ -38,19 +38,42 @@ function QueryResult({ navigation }: QueryResultScreenProps) {
 	}
 	 */
 
-	const grantDate = 'xx/xx/xxxx'
-	const expectedDate = 'xx/xx/xxxx'
-
-	const routeObject = {
-		title: 'benefício eventual emergencial',
-		titleHighlightedWords: ['benefício', 'emergencial'],
-		responseText: `benefício cartão alimentação foi concedido na data: \n\n${grantDate} \n\nprevisão de liberação até: \n\n${expectedDate} ou ${expectedDate} \n\n por favor, consulte sua conta bancária`,
-		responseHighlightedWords: ['cartão', 'alimentação', 'foi', 'concedido', '\n\nprevisão', 'de', 'liberação', 'consulte', 'sua', 'conta', 'bancária']
-	}
-
-	const { title, titleHighlightedWords, responseText, responseHighlightedWords } = routeObject
+	const { smasService, NIS, status, grantDate, expectedDate, familyBagName, familyBagValue } = route.params
 
 	const navigateBackwards = () => navigation.goBack()
+
+	const getCustomTitle = () => {
+		switch (smasService) {
+			case 'beneficioEmergencial': return 'benefício eventual emergencial'
+			case 'bolsaFamilia': return 'consultar bolsa família'
+			case 'cadUnico': return 'veja se seu cadastro único está atualizado'
+		}
+	}
+
+	const getTitleHighlightedWords = () => {
+		switch (smasService) {
+			case 'beneficioEmergencial': return ['benefício', 'emergencial']
+			case 'bolsaFamilia': return ['bolsa', 'família']
+			case 'cadUnico': return ['cadastro', 'único', 'atualizado']
+		}
+	}
+
+	// Estes texts são domain/rules
+	const getCustomResponseText = () => {
+		switch (smasService) {
+			case 'beneficioEmergencial': return `benefício cartão alimentação foi concedido na data: \n\n${grantDate} \n\nprevisão de liberação até: \n\n${expectedDate} ou ${expectedDate} \n\n por favor, consulte sua conta bancária`
+			case 'bolsaFamilia': return `benefício liberado no valor de: ${familyBagValue} para ${familyBagName}, ao NIS ${NIS}`
+			case 'cadUnico': return `Desde a data deste sistema ${grantDate}, o cadastro consta como ${status ? 'ATUALIZADO' : 'DESATUALIZADO'}. \n\nCaso já tenha comparecido a uma unidade após esta data, ligue para central: \n\n (43) 33780476`
+		}
+	}
+
+	const getResponseHighlightedWords = () => {
+		switch (smasService) {
+			case 'beneficioEmergencial': return ['cartão', 'alimentação', 'emergencial', 'foi', 'concedido', `\n\n${grantDate}`, '\n\nprevisão', 'de', 'liberação', expectedDate]
+			case 'bolsaFamilia': return ['benefício', 'liberado', grantDate, 'NIS', NIS, ...familyBagName.split(' '), familyBagValue]
+			case 'cadUnico': return [grantDate, status ? 'ATUALIZADO' : 'DESATUALIZADO', 'ligue', 'para', 'central:', '(43)', '33780476']
+		}
+	}
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
@@ -58,7 +81,7 @@ function QueryResult({ navigation }: QueryResultScreenProps) {
 				minHeight={relativeScreenHeight(80)}
 				relativeHeight={relativeScreenHeight(80)}
 				centralized
-				backgroundColor={theme.pink2}
+				backgroundColor={status !== 'granted' ? theme.red2 : theme.pink2}
 				flexDirection={'column'}
 			>
 				<InstructionButtonContainer >
@@ -66,16 +89,16 @@ function QueryResult({ navigation }: QueryResultScreenProps) {
 					<InstructionCard
 						borderLeftWidth={5}
 						fontSize={16}
-						message={title}
-						highlightedWords={titleHighlightedWords}
+						message={getCustomTitle()}
+						highlightedWords={getTitleHighlightedWords()}
 					/>
 				</InstructionButtonContainer>
 				<VerticalSpacing />
 				<InstructionButtonContainer withPaddingLeft >
 					<InstructionCard
 						fontSize={16}
-						message={responseText}
-						highlightedWords={responseHighlightedWords}
+						message={getCustomResponseText()}
+						highlightedWords={getResponseHighlightedWords()}
 					/>
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>

@@ -15,11 +15,37 @@ const { validateNIS } = PublicServicesAdapter()
 function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 	const { smasService } = route.params
 
-	const saveNIS = (NISValue: string) => {
+	const saveNIS = async (NISValue: string) => {
 		const cleanValue = NISValue.trim()
-		console.log(cleanValue)
 
-		navigation.navigate('QueryResult')
+		const response = await makeQueryOnSmasService(NISValue)
+
+		navigation.navigate('QueryResult', { ...response } as any) // TODO type correctly
+	}
+
+	const makeQueryOnSmasService = async (NIS: string) => {
+		switch (smasService) {
+			case 'beneficioEmergencial': return {
+				smasService,
+				NIS,
+				status: 'granted',
+				grantDate: 'xx/xx/xxxx',
+				expectedDate: 'xx/xx/xxxx'
+			}
+			case 'bolsaFamilia': return {
+				smasService,
+				NIS,
+				status: 'granted',
+				familyBagName: 'Leandro Pereira', // TODO fix types
+				familyBagValue: 'R$500,00'
+			}
+			case 'cadUnico': return {
+				smasService,
+				NIS,
+				status: 'granted',
+				grantDate: 'xx/xx/xxxx'
+			}
+		}
 	}
 
 	const getContextTitle = () => {
@@ -38,6 +64,10 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 		}
 	}
 
+	const navigateToQueryNIS = () => {
+		navigation.navigate('InsertNameNIS')
+	}
+
 	return (
 		<>
 			<PostInputText
@@ -48,6 +78,7 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 				backgroundColor={theme.pink2}
 				height={'45%'}
 				inputPlaceholder={'12345678910'}
+				// initialValue={'11223312341'}
 				keyboardType={'number-pad'}
 				validationColor={theme.pink1}
 				validateInputText={validateNIS}
@@ -59,7 +90,7 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 					highlightedWords={['NIS']}
 					color={theme.yellow3}
 					SecondSvgIcon={QuestionMarkWhiteIcon}
-					onPress={() => console.log('navigateTONãoSEIMEUNIS')}
+					onPress={navigateToQueryNIS}
 				/>
 			</PostInputText>
 		</>

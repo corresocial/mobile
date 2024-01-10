@@ -4,6 +4,15 @@ import { HomeTabParamList } from '../../Tabs/HomeTab/types'
 
 export type PublicServiceStackParamList = {
 	SelectPublicService: undefined
+	QueryResult: {
+		smasService: SMASService
+		NIS: string
+		status: string // TODO Type
+		grantDate: string
+		expectedDate: string
+		familyBagName: string
+		familyBagValue: string
+	}
 	InsertNIS: { smasService: SMASService }
-	QueryResult: undefined
+	InsertNameNIS: undefined
 } & HomeTabParamList
