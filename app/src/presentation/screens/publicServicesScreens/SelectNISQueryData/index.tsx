@@ -21,7 +21,7 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 function SelectNISQueryData({ navigation }: SelectNISQueryDataScreenProps) {
-	const { smasDataContext } = useContext(SmasContext)
+	const { smasDataContext, getNumberOfMissingInfo } = useContext(SmasContext)
 
 	const navigateBackwards = () => navigation.goBack()
 
@@ -30,10 +30,7 @@ function SelectNISQueryData({ navigation }: SelectNISQueryDataScreenProps) {
 	}
 
 	const numberOfMissingInfoRequested = () => {
-		const storagedInfo = [smasDataContext.motherName, smasDataContext.dateOfBirth, smasDataContext.anonymizedCpf]
-		const numberOfMissingInfo = storagedInfo.filter((data) => data).length
-
-		return numberOfMissingInfo === 2 ? 'uma informação adicional' : 'duas informações adicionais'
+		return getNumberOfMissingInfo() === 2 ? 'uma informação adicional' : 'duas informações adicionais'
 	}
 
 	return (
@@ -71,7 +68,7 @@ function SelectNISQueryData({ navigation }: SelectNISQueryDataScreenProps) {
 							label={'nome da mãe'}
 							labelColor={theme.white3}
 							SecondSvgIcon={DescriptionWhiteIcon}
-							onPress={() => navigateToInputScreen('SelectNISQueryData')}
+							onPress={() => navigateToInputScreen('InsertMotherNameNIS')}
 						/>
 					)
 				}

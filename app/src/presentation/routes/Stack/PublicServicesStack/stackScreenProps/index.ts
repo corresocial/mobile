@@ -7,3 +7,4 @@ export type QueryResultScreenProps = NativeStackScreenProps<PublicServiceStackPa
 export type InsertNISScreenProps = NativeStackScreenProps<PublicServiceStackParamList, 'InsertNIS'>
 export type InsertNameNISScreenProps = NativeStackScreenProps<PublicServiceStackParamList, 'InsertNameNIS'>
 export type SelectNISQueryDataScreenProps = NativeStackScreenProps<PublicServiceStackParamList, 'SelectNISQueryData'>
+export type InsertMotherNameNISScreenProps = NativeStackScreenProps<PublicServiceStackParamList, 'InsertMotherNameNIS'>

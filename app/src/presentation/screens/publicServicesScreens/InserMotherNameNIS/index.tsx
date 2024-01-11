@@ -3,7 +3,7 @@ import { Keyboard, StatusBar } from 'react-native'
 
 import { SmasContext } from '@contexts/SmasContext'
 
-import { InsertNameNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
+import { InsertMotherNameNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
 
 import { theme } from '@common/theme'
 
@@ -13,8 +13,8 @@ import { PostInputText } from '@components/_onboarding/PostInputText'
 
 const { validateName } = PublicServicesAdapter()
 
-function InsertNameNIS({ navigation }: InsertNameNISScreenProps) {
-	const { setSmasDataOnContext } = useContext(SmasContext)
+function InsertMotherNameNIS({ navigation }: InsertMotherNameNISScreenProps) {
+	const { setSmasDataOnContext, getNumberOfMissingInfo } = useContext(SmasContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -31,9 +31,15 @@ function InsertNameNIS({ navigation }: InsertNameNISScreenProps) {
 		return isValid && !keyboardOpened
 	}
 
-	const saveNIS = async (name: string) => {
-		setSmasDataOnContext({ name })
-		navigation.navigate('SelectNISQueryData')
+	const saveNIS = async (motherName: string) => {
+		setSmasDataOnContext({ motherName })
+		navigation.push('SelectNISQueryData')
+	}
+
+	const getProgressBarState = () => {
+		console.log(getNumberOfMissingInfo())
+		if (!getNumberOfMissingInfo()) return 3
+		return 5 - getNumberOfMissingInfo()
 	}
 
 	return (
@@ -42,13 +48,13 @@ function InsertNameNIS({ navigation }: InsertNameNISScreenProps) {
 			<PostInputText
 				contextTitle={'consultar seu NIS'}
 				contextHighlightedWords={['NIS']}
-				customTitle={'nos informe seu nome completo sem acentos'}
-				customHighlight={['nome', 'completo', 'sem', 'acentos']}
+				customTitle={'precisamos do nome completo da sua mãe'}
+				customHighlight={['nome', 'completo', 'mãe']}
 				backgroundColor={theme.pink2}
 				height={'50%'}
-				inputPlaceholder={'ex: João Pereira'}
+				inputPlaceholder={'ex: Maria Candida'}
 				keyboardOpened={keyboardOpened}
-				progress={[1, 3]}
+				progress={[getProgressBarState(), 3]}
 				validationColor={keyboardOpened ? theme.white2 : theme.pink1}
 				validateInputText={validateInputName}
 				navigateBackwards={() => navigation.goBack()}
@@ -58,4 +64,4 @@ function InsertNameNIS({ navigation }: InsertNameNISScreenProps) {
 	)
 }
 
-export { InsertNameNIS }
+export { InsertMotherNameNIS }

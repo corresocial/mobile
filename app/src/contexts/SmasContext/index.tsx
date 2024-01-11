@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from 'react'
+import React, { createContext, useCallback, useMemo, useState } from 'react'
 
 import { SmasContextType, SmasProviderProps } from './types'
 
@@ -9,6 +9,7 @@ const initialValue = {
 		dateOfBirth: '',
 		anonymizedCpf: ''
 	},
+	getNumberOfMissingInfo: () => 0,
 	setSmasDataOnContext: (data: Partial<SmasContextType['smasDataContext']>) => { },
 }
 
@@ -21,8 +22,14 @@ function SmasProvider({ children }: SmasProviderProps) {
 		setSmasDataContext({ ...smasDataContext, ...data })
 	}
 
+	const getNumberOfMissingInfo = useCallback(() => {
+		const storagedInfo = [smasDataContext.motherName, smasDataContext.dateOfBirth, smasDataContext.anonymizedCpf]
+		return 3 - storagedInfo.filter((data) => data).length
+	}, [smasDataContext])
+
 	const smasProviderData = useMemo(() => ({
 		smasDataContext,
+		getNumberOfMissingInfo,
 		setSmasDataOnContext,
 	}), [smasDataContext])
 
