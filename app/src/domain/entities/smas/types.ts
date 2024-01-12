@@ -3,6 +3,6 @@ export type SmasService = 'beneficioEmergencial' | 'bolsaFamilia' | 'cadUnico'
 export type SmasRecoveryNISData = {
 	name: string
 	motherName: string
-	dateOfBirth: string
+	dateOfBirth: Date
 	anonymizedCpf: string
 }

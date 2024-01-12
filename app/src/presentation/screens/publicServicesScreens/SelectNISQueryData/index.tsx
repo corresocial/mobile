@@ -26,7 +26,7 @@ function SelectNISQueryData({ navigation }: SelectNISQueryDataScreenProps) {
 	const navigateBackwards = () => navigation.goBack()
 
 	const navigateToInputScreen = (inputScreenName: keyof PublicServiceStackParamList) => {
-		navigation.navigate(inputScreenName)
+		navigation.push(inputScreenName)
 	}
 
 	const numberOfMissingInfoRequested = () => {
@@ -79,7 +79,7 @@ function SelectNISQueryData({ navigation }: SelectNISQueryDataScreenProps) {
 							label={'data de nascimento'}
 							labelColor={theme.white3}
 							SecondSvgIcon={CalendarTodayWhiteIcon}
-							onPress={() => navigateToInputScreen('SelectNISQueryData')}
+							onPress={() => navigateToInputScreen('InsertDateOfBirthNIS')}
 						/>
 					)
 				}

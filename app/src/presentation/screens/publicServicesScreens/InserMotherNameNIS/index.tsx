@@ -31,7 +31,7 @@ function InsertMotherNameNIS({ navigation }: InsertMotherNameNISScreenProps) {
 		return isValid && !keyboardOpened
 	}
 
-	const saveNIS = async (motherName: string) => {
+	const saveMotherNameNIS = async (motherName: string) => {
 		setSmasDataOnContext({ motherName })
 		navigation.push('SelectNISQueryData')
 	}
@@ -58,7 +58,7 @@ function InsertMotherNameNIS({ navigation }: InsertMotherNameNISScreenProps) {
 				validationColor={keyboardOpened ? theme.white2 : theme.pink1}
 				validateInputText={validateInputName}
 				navigateBackwards={() => navigation.goBack()}
-				saveTextData={saveNIS}
+				saveTextData={saveMotherNameNIS}
 			/>
 		</>
 	)

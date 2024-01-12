@@ -9,6 +9,7 @@ import { PublicServiceStackParamList } from './types'
 import { InsertMotherNameNIS } from '@screens/publicServicesScreens/InserMotherNameNIS'
 import { InsertNameNIS } from '@screens/publicServicesScreens/InsertNameNIS'
 import { InsertNIS } from '@screens/publicServicesScreens/InsertNIS'
+import { InsertDateOfBirthNIS } from '@screens/publicServicesScreens/InsetDateOfBirthNIS'
 import { QueryResult } from '@screens/publicServicesScreens/QueryResult'
 import { SelectNISQueryData } from '@screens/publicServicesScreens/SelectNISQueryData'
 import { SelectPublicService } from '@screens/publicServicesScreens/SelectPublicService'
@@ -32,6 +33,7 @@ export function PublicServicesStack({ route }: any) {
 				<Stack.Screen name={'InsertNameNIS'} component={InsertNameNIS} />
 				<Stack.Screen name={'SelectNISQueryData'} component={SelectNISQueryData} />
 				<Stack.Screen name={'InsertMotherNameNIS'} component={InsertMotherNameNIS} />
+				<Stack.Screen name={'InsertDateOfBirthNIS'} component={InsertDateOfBirthNIS} />
 			</Stack.Navigator>
 		</SmasProvider>
 	)
