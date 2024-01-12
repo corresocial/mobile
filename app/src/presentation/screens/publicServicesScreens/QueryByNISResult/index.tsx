@@ -1,7 +1,7 @@
 import React from 'react'
 import { Platform } from 'react-native'
 
-import { QueryResultScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
+import { QueryByNISResultScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
 
 import { Container, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -15,7 +15,7 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
-function QueryResult({ route, navigation }: QueryResultScreenProps) {
+function QueryByNISResult({ route, navigation }: QueryByNISResultScreenProps) {
 	/*
 	const resultState = {
 		beneficioEmergencial: {
@@ -118,4 +118,4 @@ function QueryResult({ route, navigation }: QueryResultScreenProps) {
 	)
 }
 
-export { QueryResult }
+export { QueryByNISResult }

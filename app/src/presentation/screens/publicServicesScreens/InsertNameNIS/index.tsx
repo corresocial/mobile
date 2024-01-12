@@ -14,9 +14,16 @@ import { PostInputText } from '@components/_onboarding/PostInputText'
 const { validateName } = PublicServicesAdapter()
 
 function InsertNameNIS({ navigation }: InsertNameNISScreenProps) {
-	const { setSmasDataOnContext } = useContext(SmasContext)
+	const { setSmasDataOnContext, clearSmasDataContext } = useContext(SmasContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+
+	useEffect(() => {
+		const unsubscribe = navigation.addListener('focus', () => {
+			clearSmasDataContext()
+		})
+		return unsubscribe
+	})
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {

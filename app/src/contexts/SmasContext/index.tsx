@@ -9,6 +9,7 @@ const initialValue = {
 		dateOfBirth: '',
 		anonymizedCpf: ''
 	},
+	clearSmasDataContext: () => { },
 	getNumberOfMissingInfo: () => 0,
 	setSmasDataOnContext: (data: Partial<SmasContextType['smasDataContext']>) => { },
 }
@@ -27,8 +28,13 @@ function SmasProvider({ children }: SmasProviderProps) {
 		return 3 - storagedInfo.filter((data) => data).length
 	}, [smasDataContext])
 
+	const clearSmasDataContext = useCallback(() => {
+		setSmasDataContext(initialValue.smasDataContext)
+	}, [])
+
 	const smasProviderData = useMemo(() => ({
 		smasDataContext,
+		clearSmasDataContext,
 		getNumberOfMissingInfo,
 		setSmasDataOnContext,
 	}), [smasDataContext])

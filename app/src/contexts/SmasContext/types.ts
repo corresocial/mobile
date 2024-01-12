@@ -8,6 +8,7 @@ export interface SmasProviderProps {
 
 export type SmasContextType = {
 	smasDataContext: SmasRecoveryNISData
+	clearSmasDataContext: () => void
 	getNumberOfMissingInfo: () => number
 	setSmasDataOnContext: (data: Partial<SmasRecoveryNISData>) => void
 }

@@ -21,7 +21,7 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { ProgressBar } from '@components/ProgressBar'
 
 function InsertAnonymizedCpfNIS({ navigation }: InsertAnonymizedCpfNISScreenProps) {
-	const { getNumberOfMissingInfo } = useContext(SmasContext)
+	const { getNumberOfMissingInfo, setSmasDataOnContext } = useContext(SmasContext)
 
 	const [firstCpfValues, setFirstCpfValues] = useState('')
 	const [lastCpfValues, setLastCpfValues] = useState('')
@@ -44,9 +44,6 @@ function InsertAnonymizedCpfNIS({ navigation }: InsertAnonymizedCpfNISScreenProp
 	}, [navigation])
 
 	useEffect(() => {
-		console.log('refreshed ---------- ')
-		console.log(validateFirstCpfValues(firstCpfValues))
-		console.log(validateLastCpfValues(lastCpfValues))
 		setFirstCpfValuesIsValid(validateFirstCpfValues(firstCpfValues))
 		setLastCpfValuesIsValid(validateLastCpfValues(lastCpfValues))
 	}, [firstCpfValues, lastCpfValues, keyboardOpened])
@@ -66,8 +63,13 @@ function InsertAnonymizedCpfNIS({ navigation }: InsertAnonymizedCpfNISScreenProp
 		if (anonymizedCpf.length !== 5) return
 
 		// setSmasDataOnContext({ anonymizedCpf })
-		if (getNumberOfMissingInfo() < 2) {
-			return navigation.push('SelectNISQueryData')
+
+		if (getNumberOfMissingInfo() === 2) {
+			// Make request
+			return navigation.push('QueryNISResult', {
+				success: true,
+				NIS: '123456123454'
+			})
 		}
 		navigation.push('SelectNISQueryData')
 	}
