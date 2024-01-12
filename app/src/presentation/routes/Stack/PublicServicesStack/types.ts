@@ -18,4 +18,5 @@ export type PublicServiceStackParamList = {
 	SelectNISQueryData: undefined
 	InsertMotherNameNIS: undefined
 	InsertDateOfBirthNIS: undefined
+	InsertAnonymizedCpfNIS: undefined
 } & HomeTabParamList

@@ -37,7 +37,6 @@ function InsertMotherNameNIS({ navigation }: InsertMotherNameNISScreenProps) {
 	}
 
 	const getProgressBarState = () => {
-		console.log(getNumberOfMissingInfo())
 		if (!getNumberOfMissingInfo()) return 3
 		return 5 - getNumberOfMissingInfo()
 	}

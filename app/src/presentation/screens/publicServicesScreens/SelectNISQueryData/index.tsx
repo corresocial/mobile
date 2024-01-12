@@ -91,7 +91,7 @@ function SelectNISQueryData({ navigation }: SelectNISQueryDataScreenProps) {
 							labelColor={theme.white3}
 							SecondSvgIcon={EyeDashedWhiteIcon}
 							svgIconScale={['35%', '30%']}
-							onPress={() => navigateToInputScreen('SelectNISQueryData')}
+							onPress={() => navigateToInputScreen('InsertAnonymizedCpfNIS')}
 						/>
 					)
 				}

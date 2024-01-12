@@ -7,6 +7,7 @@ import { SmasProvider } from '@contexts/SmasContext'
 import { PublicServiceStackParamList } from './types'
 
 import { InsertMotherNameNIS } from '@screens/publicServicesScreens/InserMotherNameNIS'
+import { InsertAnonymizedCpfNIS } from '@screens/publicServicesScreens/InsertAnonymizedCpfNIS'
 import { InsertNameNIS } from '@screens/publicServicesScreens/InsertNameNIS'
 import { InsertNIS } from '@screens/publicServicesScreens/InsertNIS'
 import { InsertDateOfBirthNIS } from '@screens/publicServicesScreens/InsetDateOfBirthNIS'
@@ -34,6 +35,7 @@ export function PublicServicesStack({ route }: any) {
 				<Stack.Screen name={'SelectNISQueryData'} component={SelectNISQueryData} />
 				<Stack.Screen name={'InsertMotherNameNIS'} component={InsertMotherNameNIS} />
 				<Stack.Screen name={'InsertDateOfBirthNIS'} component={InsertDateOfBirthNIS} />
+				<Stack.Screen name={'InsertAnonymizedCpfNIS'} component={InsertAnonymizedCpfNIS} />
 			</Stack.Navigator>
 		</SmasProvider>
 	)

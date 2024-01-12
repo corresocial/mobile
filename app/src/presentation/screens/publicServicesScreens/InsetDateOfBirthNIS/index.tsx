@@ -8,7 +8,6 @@ import { InsertDateOfBirthNISScreenProps } from '@routes/Stack/PublicServicesSta
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import { filterLeavingOnlyNumbers } from '@common/auxiliaryFunctions'
-import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { BackButton } from '@components/_buttons/BackButton'
@@ -18,9 +17,10 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { ProgressBar } from '@components/ProgressBar'
 
 function InsertDateOfBirthNIS({ navigation }: InsertDateOfBirthNISScreenProps) {
-	const { setSmasDataOnContext } = useContext(SmasContext)
+	const { setSmasDataOnContext, getNumberOfMissingInfo } = useContext(SmasContext)
 
 	const [day, setDay] = useState<string>('')
 	const [month, setMonth] = useState<string>('')
@@ -100,12 +100,16 @@ function InsertDateOfBirthNIS({ navigation }: InsertDateOfBirthNISScreenProps) {
 
 	const navigateBackwards = () => navigation.goBack()
 
+	const getProgressBarState = () => {
+		if (!getNumberOfMissingInfo()) return 3
+		return 5 - getNumberOfMissingInfo()
+	}
+
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 			<StatusBar backgroundColor={invalidDateAfterSubmit ? theme.red2 : theme.pink2} barStyle={'dark-content'} />
 			<DefaultHeaderContainer
-				minHeight={relativeScreenHeight(30)}
-				relativeHeight={relativeScreenHeight(30)}
+				relativeHeight={'45%'}
 				centralized
 				flexDirection={'column'}
 				backgroundColor={theme.pink2}
@@ -125,7 +129,9 @@ function InsertDateOfBirthNIS({ navigation }: InsertDateOfBirthNISScreenProps) {
 						fontSize={16}
 						message={'por favor nos informe sua data de nascimento'}
 						highlightedWords={['sua', 'data', 'de', 'nascimento']}
-					/>
+					>
+						<ProgressBar value={getProgressBarState()} range={3} />
+					</InstructionCard>
 				</InstructionButtonContainer>
 			</DefaultHeaderContainer>
 			<FormContainer
