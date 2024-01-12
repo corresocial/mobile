@@ -4,6 +4,7 @@ import { SmasContextType, SmasProviderProps } from './types'
 
 const initialValue = {
 	smasDataContext: {
+		NIS: '',
 		name: '',
 		motherName: '',
 		dateOfBirth: '',

@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { Platform } from 'react-native'
+
+import { SmasContext } from '@contexts/SmasContext'
 
 import { QueryNISResultScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
 
@@ -17,6 +19,10 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
+	const { setSmasDataOnContext } = useContext(SmasContext)
+
+	const [nisIsSaved, setNisIsSaved] = useState(false)
+
 	const { success, NIS } = route.params
 
 	const navigateBackwards = () => navigation.goBack()
@@ -25,12 +31,24 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 		navigation.navigate('SelectPublicService')
 	}
 
+	const saveNis = () => {
+		if (nisIsSaved) {
+			return backToInicialStackScreen()
+		}
+		setSmasDataOnContext({ NIS })
+		setNisIsSaved(true)
+	}
+
 	const getCustomResponseText = () => {
+		if (nisIsSaved) return 'seu NIS foi salvo!'
+
 		if (success) return `seu NIS é: ${NIS} \n\ngostaria de salvar seu NIS aqui no aplicativo?`
 		return 'não encontramos seu NIS, confira os dados ou procure a unidade de CRAS mais próxima de sua residência'
 	}
 
 	const getCustomHighlightedWords = () => {
+		if (nisIsSaved) return ['NIS']
+
 		if (success) return ['NIS', 'salvar', 'no', 'aplicativo', NIS]
 		return ['não', 'encontramos', 'seu', 'NIS', 'CRAS']
 	}
@@ -70,7 +88,7 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 							label={'não, obrigado'}
 							labelColor={theme.white3}
 							SvgIcon={XWhiteIcon}
-							onPress={() => { }}
+							onPress={backToInicialStackScreen}
 						/>
 					)
 				}
@@ -79,7 +97,7 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 					label={success ? 'sim, salvar' : 'concluir'}
 					labelColor={theme.white3}
 					SecondSvgIcon={CheckWhiteIcon}
-					onPress={backToInicialStackScreen}
+					onPress={success ? saveNis : backToInicialStackScreen}
 				/>
 			</FormContainer>
 		</Container>

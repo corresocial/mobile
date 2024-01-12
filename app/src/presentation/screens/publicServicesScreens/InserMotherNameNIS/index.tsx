@@ -33,6 +33,15 @@ function InsertMotherNameNIS({ navigation }: InsertMotherNameNISScreenProps) {
 
 	const saveMotherNameNIS = async (motherName: string) => {
 		setSmasDataOnContext({ motherName })
+
+		if (getNumberOfMissingInfo() === 2) {
+			// Make request
+			return navigation.push('QueryNISResult', {
+				success: true,
+				NIS: '123456123454'
+			})
+		}
+
 		navigation.push('SelectNISQueryData')
 	}
 

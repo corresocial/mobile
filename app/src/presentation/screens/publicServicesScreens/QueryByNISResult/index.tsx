@@ -42,6 +42,11 @@ function QueryByNISResult({ route, navigation }: QueryByNISResultScreenProps) {
 
 	const navigateBackwards = () => navigation.goBack()
 
+	const backToInitialStackScreen = () => {
+		navigation.goBack()
+		navigation.goBack()
+	}
+
 	const getCustomTitle = () => {
 		switch (smasService) {
 			case 'beneficioEmergencial': return 'benefício eventual emergencial'
@@ -111,7 +116,7 @@ function QueryByNISResult({ route, navigation }: QueryByNISResultScreenProps) {
 					label={'continuar'}
 					labelColor={theme.white3}
 					SecondSvgIcon={CheckWhiteIcon}
-					onPress={() => { }}
+					onPress={backToInitialStackScreen}
 				/>
 			</FormContainer>
 		</Container>

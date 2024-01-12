@@ -62,7 +62,7 @@ function InsertAnonymizedCpfNIS({ navigation }: InsertAnonymizedCpfNISScreenProp
 		const anonymizedCpf = `${firstCpfValues}${lastCpfValues}`
 		if (anonymizedCpf.length !== 5) return
 
-		// setSmasDataOnContext({ anonymizedCpf })
+		setSmasDataOnContext({ anonymizedCpf })
 
 		if (getNumberOfMissingInfo() === 2) {
 			// Make request

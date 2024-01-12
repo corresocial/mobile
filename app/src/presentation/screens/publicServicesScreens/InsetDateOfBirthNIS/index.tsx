@@ -57,27 +57,15 @@ function InsertDateOfBirthNIS({ navigation }: InsertDateOfBirthNISScreenProps) {
 	}, [day, month, year, keyboardOpened])
 
 	const validateDay = (text: string) => {
-		const isValid = text.length === 2 && parseInt(text) <= 31 && parseInt(text) > 0
-		if (isValid) {
-			return true
-		}
-		return false
+		return text.length === 2 && parseInt(text) <= 31 && parseInt(text) > 0
 	}
 
 	const validateMonth = (text: string) => {
-		const isValid = text.length === 2 && parseInt(text) <= 12 && parseInt(text) > 0
-		if (isValid) {
-			return true
-		}
-		return false
+		return text.length === 2 && parseInt(text) <= 12 && parseInt(text) > 0
 	}
 
 	const validateYear = (text: string) => {
-		const isValid = text.length === 4
-		if (isValid) {
-			return true
-		}
-		return false
+		return text.length === 4
 	}
 
 	const allFiedsIsValid = () => (dayIsValid && monthIsValid && yearIsValid)
@@ -93,8 +81,17 @@ function InsertDateOfBirthNIS({ navigation }: InsertDateOfBirthNISScreenProps) {
 	}
 
 	const saveDateOfBirthNIS = async () => {
-		const formatedDate = new Date(`${year}-${month}-${day}T12:00:00`)
-		setSmasDataOnContext({ dateOfBirth: formatedDate })
+		const formatedDate = `${year}-${month}-${day}T12:00:00`
+		setSmasDataOnContext({ dateOfBirth: formatedDate }) // save string
+
+		if (getNumberOfMissingInfo() === 2) {
+			// Make request
+			return navigation.push('QueryNISResult', {
+				success: true,
+				NIS: '123456123454'
+			})
+		}
+
 		navigation.push('SelectNISQueryData')
 	}
 

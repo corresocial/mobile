@@ -1,6 +1,7 @@
 export type SmasService = 'beneficioEmergencial' | 'bolsaFamilia' | 'cadUnico'
 
-export type SmasRecoveryNISData = {
+export interface SmasRecoveryNISData {
+	NIS: string
 	name: string
 	motherName: string
 	dateOfBirth: string
