@@ -312,7 +312,6 @@ function InsertConfirmationCode({ navigation, route }: InsertConfirmationCodeScr
 						borderLeftWidth={RFValue(4)}
 						message={getFormatedCellNumber()}
 						highlightedWords={getFormatedCellNumber().split(' ')}
-
 					>
 					</InstructionCard>
 				</InstructionButtonContainer>

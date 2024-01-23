@@ -9,18 +9,18 @@ export const Container = styled.KeyboardAvoidingView`
 export const InputsContainer = styled.View`
     width: 100%;
     min-height: 52px;
-    flex-direction: column;
-    justify-content:center;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
+    margin-bottom: 50px;
 `
 
-export const ButtonsContainer = styled.View`
-    margin-top: 40px;
+export const ButtonContainer = styled.View`
     width: 100%;
 `
 
 interface InstructionButtonContainerProps {
-	withPaddingLeft?: boolean
+    withPaddingLeft?: boolean
 }
 
 export const InstructionButtonContainer = styled.View<InstructionButtonContainerProps>`

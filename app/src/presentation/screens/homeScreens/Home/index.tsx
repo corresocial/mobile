@@ -4,7 +4,6 @@ import * as Location from 'expo-location'
 import React, { useContext, useEffect, useState } from 'react'
 import { RefreshControl } from 'react-native'
 
-import { AlertContext } from '@contexts/AlertContext'
 import { AuthContext } from '@contexts/AuthContext'
 import { LoaderContext } from '@contexts/LoaderContext'
 import { LocationContext } from '@contexts/LocationContext'
@@ -29,16 +28,14 @@ import { getLastRecentAddress, getRecentAdressesFromStorage } from '@utils/maps/
 
 import {
 	Container,
-	ContainerPadding,
 	DropdownContainer,
 	RecentPostsContainer
 } from './styles'
 import { generateGeohashes } from '@common/generateGeohashes'
 import { theme } from '@common/theme'
 
-import { SubscriptionButton } from '@components/_buttons/SubscriptionButton'
-import { PostCard } from '@components/_cards/PostCard'
 import { SubscriptionPresentationModal } from '@components/_modals/SubscriptionPresentationModal'
+import { AdsCarousel } from '@components/AdsCarousel'
 import { FeedByRange } from '@components/FeedByRange'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { HomeCatalogMenu } from '@components/HomeCatalogMenu'
@@ -298,14 +295,12 @@ function Home({ navigation }: HomeScreenProps) {
 		return feedPosts.nearby.length > 0 || feedPosts.city.length > 0 || feedPosts.country.length > 0
 	}
 
-	const getFirstFiveItems = (items: any[]) => {
-		if (!items) return []
-		if (items.length >= 5) return items.slice(0, 5)
-		return items
-	}
-
 	const navigateToSelectSubscriptionRange = () => {
 		navigation.navigate('SelectSubscriptionRange')
+	}
+
+	const navigateToPublicServices = () => {
+		navigation.navigate('PublicServicesStack')
 	}
 
 	const userHasPaidSubscription = () => {
@@ -340,6 +335,7 @@ function Home({ navigation }: HomeScreenProps) {
 			</DropdownContainer>
 			<HomeCatalogMenu navigateToScreen={navigateToPostCategories} />
 			<RecentPostsContainer
+				showsVerticalScrollIndicator={false}
 				refreshControl={(
 					<RefreshControl
 						colors={[theme.orange3, theme.pink3, theme.green3, theme.blue3]}
@@ -349,7 +345,11 @@ function Home({ navigation }: HomeScreenProps) {
 					/>
 				)}
 			>
-				{!hasLocationEnable && !hasAnyPost() && (
+				<AdsCarousel
+					onPressCorreAd={() => !userHasPaidSubscription() && setSubscriptionModalIsVisible(true)}
+					onPressPublicServicesAd={navigateToPublicServices}
+				/>
+				{!hasLocationEnable && !hasAnyPost() && searchEnded && (
 					<RequestLocation
 						getLocationPermissions={() => {
 							requestPermissions()
@@ -358,13 +358,9 @@ function Home({ navigation }: HomeScreenProps) {
 					/>
 				)}
 				<FeedByRange
+					searchEnded={searchEnded}
 					backgroundColor={theme.orange2}
-					filteredFeedPosts={
-						userHasPaidSubscription()
-							? { ...feedPosts }
-							: { ...feedPosts, nearby: ['subscriptionAd', ...getFirstFiveItems(feedPosts.nearby)] }
-					}
-					showSubscriptionModal={() => setSubscriptionModalIsVisible(true)}
+					filteredFeedPosts={feedPosts}
 					viewPostsByRange={viewPostsByRange}
 					navigateToProfile={navigateToProfile}
 					goToPostView={viewPostDetails}

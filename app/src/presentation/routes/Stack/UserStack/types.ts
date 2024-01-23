@@ -77,4 +77,6 @@ export type UserStackParamList = {
 	ViewVacancyPostUser: { postData: PostCollection }
 	ViewSocialImpactPostUser: { postData: PostCollection }
 	ViewCulturePostUser: { postData: PostCollection }
+
+	PublicServicesStack: undefined
 }

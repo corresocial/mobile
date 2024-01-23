@@ -11,16 +11,17 @@ import {
 import { screenHeight, screenWidth } from '@common/screenDimensions'
 
 interface CustomCarouselProps {
+	activeIndicatorColor?: string
 	children: ReactElement[]
 }
 
-function CustomCarousel({ children }: CustomCarouselProps) {
+function CustomCarousel({ activeIndicatorColor, children }: CustomCarouselProps) {
 	const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
 
 	const renderCarouselIndicators = () => children.map((_, index) => (
 		index === currentCarouselIndex
-			? <CarouselActiveIndicatorItem key={uuid()}></CarouselActiveIndicatorItem>
-			: <CarouselInactiveIndicatorItem key={uuid()}></CarouselInactiveIndicatorItem>
+			? <CarouselActiveIndicatorItem key={uuid()} activeIndicatorColor={activeIndicatorColor} />
+			: <CarouselInactiveIndicatorItem key={uuid()} />
 	))
 
 	return (
