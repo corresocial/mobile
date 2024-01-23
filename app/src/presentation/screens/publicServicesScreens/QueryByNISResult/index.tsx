@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { Platform } from 'react-native'
+
+import { ChatContext } from '@contexts/ChatContext'
 
 import { QueryByNISResultScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
 
@@ -13,9 +15,13 @@ import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
+import { AlertNotificationModal } from '@components/_modals/AlertNotificationModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 function QueryByNISResult({ route, navigation }: QueryByNISResultScreenProps) {
+	const { userHasTokenNotification } = useContext(ChatContext)
+	const [notificationModalIsVisible, setNotificationModalIsVisible] = useState(false)
+
 	/*
 	const resultState = {
 		beneficioEmergencial: {
@@ -45,6 +51,24 @@ function QueryByNISResult({ route, navigation }: QueryByNISResultScreenProps) {
 	const backToInitialStackScreen = () => {
 		navigation.goBack()
 		navigation.goBack()
+	}
+
+	const navigateToConfigScreen = () => {
+		setNotificationModalIsVisible(false)
+		navigation.navigate('NotificationSettings')
+	}
+
+	const handleContinueButton = async () => {
+		setNotificationModalIsVisible(true)
+
+		console.log(await userHasTokenNotification())
+
+		if (await userHasTokenNotification()) {
+			console.log('back to inicital screen')
+			// backToInitialStackScreen()
+		}
+
+		setNotificationModalIsVisible(true)
 	}
 
 	const getCustomTitle = () => {
@@ -81,7 +105,16 @@ function QueryByNISResult({ route, navigation }: QueryByNISResultScreenProps) {
 	}
 
 	return (
-		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
+		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+			<AlertNotificationModal
+				visibility={notificationModalIsVisible}
+				affirmativeConfigButton
+				customAlertText={'ative suas notificações e \nnão perca seus benefícios'}
+				customAlertTextHighlighted={['\nnão', 'perca', 'seus', 'benefícios']}
+				closeModal={backToInitialStackScreen}
+				onCloseModal={() => setNotificationModalIsVisible(false)}
+				onPressButton={navigateToConfigScreen}
+			/>
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(80)}
 				relativeHeight={relativeScreenHeight(80)}
@@ -116,10 +149,10 @@ function QueryByNISResult({ route, navigation }: QueryByNISResultScreenProps) {
 					label={'continuar'}
 					labelColor={theme.white3}
 					SecondSvgIcon={CheckWhiteIcon}
-					onPress={backToInitialStackScreen}
+					onPress={handleContinueButton}
 				/>
 			</FormContainer>
-		</Container>
+		</Container >
 	)
 }
 
