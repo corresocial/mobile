@@ -11,3 +11,5 @@ export type InsertDateOfBirthNISScreenProps = NativeStackScreenProps<PublicServi
 export type InsertAnonymizedCpfNISScreenProps = NativeStackScreenProps<PublicServiceStackParamList, 'InsertAnonymizedCpfNIS'>
 export type QueryByNISResultScreenProps = NativeStackScreenProps<PublicServiceStackParamList, 'QueryByNISResult'>
 export type QueryNISResultScreenProps = NativeStackScreenProps<PublicServiceStackParamList, 'QueryNISResult'>
+export type QueryPbfByNISResultScreenProps = NativeStackScreenProps<PublicServiceStackParamList, 'QueryPbfByNISResult'>
+export type QueryCadunicoByNISResultScreenProps = NativeStackScreenProps<PublicServiceStackParamList, 'QueryCadunicoByNISResult'>

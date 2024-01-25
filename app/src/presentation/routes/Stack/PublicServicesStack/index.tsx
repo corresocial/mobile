@@ -12,7 +12,9 @@ import { InsertNameNIS } from '@screens/publicServicesScreens/InsertNameNIS'
 import { InsertNIS } from '@screens/publicServicesScreens/InsertNIS'
 import { InsertDateOfBirthNIS } from '@screens/publicServicesScreens/InsetDateOfBirthNIS'
 import { QueryByNISResult } from '@screens/publicServicesScreens/QueryByNISResult'
+import { QueryCadunicoByNISResult } from '@screens/publicServicesScreens/QueryCadunicoByNISResult'
 import { QueryNISResult } from '@screens/publicServicesScreens/QueryNISResult'
+import { QueryPbfByNISResult } from '@screens/publicServicesScreens/QueryPbfByNISResult'
 import { SelectNISQueryData } from '@screens/publicServicesScreens/SelectNISQueryData'
 import { SelectPublicService } from '@screens/publicServicesScreens/SelectPublicService'
 
@@ -38,6 +40,8 @@ export function PublicServicesStack({ route }: any) {
 				<Stack.Screen name={'InsertAnonymizedCpfNIS'} component={InsertAnonymizedCpfNIS} />
 				<Stack.Screen name={'QueryByNISResult'} component={QueryByNISResult} />
 				<Stack.Screen name={'QueryNISResult'} component={QueryNISResult} />
+				<Stack.Screen name={'QueryPbfByNISResult'} component={QueryPbfByNISResult} />
+				<Stack.Screen name={'QueryCadunicoByNISResult'} component={QueryCadunicoByNISResult} />
 			</Stack.Navigator>
 		</SmasProvider>
 	)

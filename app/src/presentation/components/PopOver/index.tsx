@@ -93,19 +93,21 @@ function PopOver({
 			<VerifyUserConfirmationModal
 				visibility={verifyUserModal}
 				title={'verificar perfil'}
+				subject={'verificar'}
 				onPressButton={() => onPressVerify('default')}
 				closeModal={toggleVerifyUserModal}
 			/>
 			<VerifyUserConfirmationModal
 				visibility={verifyImpactUserModal}
 				title={'tornar de impacto'}
+				subject={'tornar de impacto'}
 				onPressButton={() => onPressVerify('impact')}
 				closeModal={toggleVerifyImpactUserModal}
 			/>
 			<VerifyUserConfirmationModal
 				visibility={freeTrielUserModal}
 				title={'dar assinatura'}
-				subject={'dar assinatura gratuita'}
+				subject={'dar assinatura gratuita para'}
 				onPressButton={toggleSelectSubscriptionPlanModal}
 				closeModal={toggleFreeTrialUserModal}
 			/>

@@ -10,7 +10,7 @@ const getUserSmasData = async (nis: string, smasService: SmasService) => {
 	return axios.post(`${FIREBASE_CLOUD_URL}/smasAPI`, { nis, queryType: smasService })
 		.then((res) => res.data)
 		.catch((err) => {
-			console.log(err)
+			console.log(err.status)
 			return false
 		})
 }
