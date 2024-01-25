@@ -8,7 +8,7 @@ import { getEnvVars } from '@infrastructure/environment'
 const { FIREBASE_CLOUD_URL } = getEnvVars()
 
 const getPostsByLocationCloud = async (searchParams: SearchParams, userId: Id) => {
-	return axios.post(`${FIREBASE_CLOUD_URL}/getFeedPostsBeta`, { searchParams, userId })
+	return axios.post(`${FIREBASE_CLOUD_URL}/getFeedPosts`, { searchParams, userId })
 		.then((res) => res.data)
 		.catch((err) => {
 			console.log(err)
