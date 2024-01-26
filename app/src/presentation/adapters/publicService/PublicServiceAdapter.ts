@@ -1,3 +1,4 @@
+import { treatSmasApiResponseUC } from '@domain/publicService/useCases/treatSmasApiResponse'
 import { validateNameUC } from '@domain/publicService/useCases/validateNameUC'
 import { validateNISUC } from '@domain/publicService/useCases/validateNISUC'
 
@@ -7,6 +8,7 @@ function PublicServicesAdapter(): PublicServiceAdapterInterface {
 	return {
 		validateNIS: validateNISUC,
 		validateName: validateNameUC,
+		treatSmasApiResponse: treatSmasApiResponseUC
 	}
 }
 

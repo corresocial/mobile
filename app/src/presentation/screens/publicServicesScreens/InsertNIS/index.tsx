@@ -2,6 +2,8 @@ import React from 'react'
 
 import { InsertNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
 
+import { getUserSmasData } from '@services/cloudFunctions/getUserSmasData'
+
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
 import { theme } from '@common/theme'
 
@@ -12,55 +14,34 @@ import { PostInputText } from '@components/_onboarding/PostInputText'
 
 const { validateNIS } = PublicServicesAdapter()
 
+const { treatSmasApiResponse } = PublicServicesAdapter()
+
 function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 	const { smasService } = route.params
 
 	const saveNIS = async (NISValue: string) => {
-		const cleanValue = NISValue.trim()
-		// validação
-		const response = await makeQueryOnSmasService(cleanValue)
+		const response = await getUserSmasData(NISValue.trim(), smasService)
 
-		navigation.navigate('QueryByNISResult', { ...response } as any) // TODO type correctly
-	}
+		const queryResult = treatSmasApiResponse(response, smasService)
 
-	const makeQueryOnSmasService = async (NIS: string) => {
-		switch (smasService) {
-			case 'beneficioEmergencial': return {
-				smasService,
-				NIS,
-				status: 'granted',
-				grantDate: 'xx/xx/xxxx',
-				expectedDate: 'xx/xx/xxxx'
-			}
-			case 'bolsaFamilia': return {
-				smasService,
-				NIS,
-				status: 'granted',
-				familyBagName: 'Leandro Pereira', // TODO fix types
-				familyBagValue: 'R$500,00'
-			}
-			case 'cadUnico': return {
-				smasService,
-				NIS,
-				status: 'granted',
-				grantDate: 'xx/xx/xxxx'
-			}
-		}
+		if (smasService === 'BEE') return navigation.navigate('QueryBeeByNISResult', { ...queryResult })
+		if (smasService === 'PBF') return navigation.navigate('QueryPbfByNISResult', { ...queryResult, NIS: NISValue })
+		if (smasService === 'CADUNICO') return navigation.navigate('QueryCadunicoByNISResult', { ...queryResult, NIS: NISValue })
 	}
 
 	const getContextTitle = () => {
 		switch (smasService) {
-			case 'beneficioEmergencial': return 'consultar benefício emergencial'
-			case 'bolsaFamilia': return 'consultar bolsa família'
-			case 'cadUnico': return 'veja se seu cadastro único está atualizado'
+			case 'BEE': return 'consultar benefício emergencial'
+			case 'PBF': return 'consultar bolsa família'
+			case 'CADUNICO': return 'veja se seu cadastro único está atualizado'
 		}
 	}
 
 	const getContextHighlightedWords = () => {
 		switch (smasService) {
-			case 'beneficioEmergencial': return ['benefício', 'emergencial']
-			case 'bolsaFamilia': return ['bolsa', 'família']
-			case 'cadUnico': return ['cadastro', 'único', 'atualizado']
+			case 'BEE': return ['benefício', 'emergencial']
+			case 'PBF': return ['bolsa', 'família']
+			case 'CADUNICO': return ['cadastro', 'único', 'atualizado']
 		}
 	}
 

@@ -40,7 +40,7 @@ function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.pink3}
 					leftSideWidth={'25%'}
-					onPress={() => navigateToSmasServices('beneficioEmergencial')}
+					onPress={() => navigateToSmasServices('BEE')}
 				/>
 				<OptionButton
 					label={'consultar \nBolsa Família'}
@@ -51,7 +51,7 @@ function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.pink3}
 					leftSideWidth={'25%'}
-					onPress={() => navigateToSmasServices('bolsaFamilia')}
+					onPress={() => navigateToSmasServices('PBF')}
 				/>
 				<OptionButton
 					label={'consultar \nCadÚnico'}
@@ -62,7 +62,7 @@ function SelectPublicService({ navigation }: SelectPublicServiceScreenProps) {
 					svgIconScale={['60%', '60%']}
 					leftSideColor={theme.pink3}
 					leftSideWidth={'25%'}
-					onPress={() => navigateToSmasServices('cadUnico')}
+					onPress={() => navigateToSmasServices('CADUNICO')}
 				/>
 				<VerticalSpacing />
 			</FormContainer>
