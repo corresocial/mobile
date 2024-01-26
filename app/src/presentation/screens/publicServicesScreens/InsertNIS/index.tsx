@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult } from '@domain/entities/smas/types'
+
 import { InsertNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
 
 import { getUserSmasData } from '@services/cloudFunctions/getUserSmasData'
@@ -24,9 +26,9 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 
 		const queryResult = treatSmasApiResponse(response, smasService)
 
-		if (smasService === 'BEE') return navigation.navigate('QueryBeeByNISResult', { ...queryResult })
-		if (smasService === 'PBF') return navigation.navigate('QueryPbfByNISResult', { ...queryResult, NIS: NISValue })
-		if (smasService === 'CADUNICO') return navigation.navigate('QueryCadunicoByNISResult', { ...queryResult, NIS: NISValue })
+		if (smasService === 'BEE') return navigation.navigate('QueryBeeByNISResult', { ...queryResult } as QueryBeeResult)
+		if (smasService === 'PBF') return navigation.navigate('QueryPbfByNISResult', { ...queryResult, NIS: NISValue } as QueryPbfResult)
+		if (smasService === 'CADUNICO') return navigation.navigate('QueryCadunicoByNISResult', { ...queryResult, NIS: NISValue } as QueryCadunicoResult)
 	}
 
 	const getContextTitle = () => {

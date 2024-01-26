@@ -14,6 +14,7 @@ const treatSmasApiResponseUC = (apiResponse: any, smasService: SmasService) => {
 		case 'BEE': return structureBeeObject(responseData)
 		case 'PBF': return structurePbfObject(responseData)
 		case 'CADUNICO': return structureCadunicoObject(responseData)
+		default: return { nisNotFound: true }
 	}
 }
 
