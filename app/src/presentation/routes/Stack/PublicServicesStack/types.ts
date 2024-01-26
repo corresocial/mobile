@@ -10,8 +10,8 @@ export type PublicServiceStackParamList = {
 	InsertMotherNameNIS: undefined
 	InsertDateOfBirthNIS: undefined
 	InsertAnonymizedCpfNIS: undefined
+	QueryNISResult: { NIS: string, success: boolean }
 	QueryBeeByNISResult: QueryBeeResult
 	QueryPbfByNISResult: QueryPbfResult
 	QueryCadunicoByNISResult: QueryCadunicoResult
-	QueryNISResult: { NIS: string, success: boolean }
 } & HomeTabParamList

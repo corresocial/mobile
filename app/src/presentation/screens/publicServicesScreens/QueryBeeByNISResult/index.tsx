@@ -24,7 +24,6 @@ function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenPro
 	const [notificationModalIsVisible, setNotificationModalIsVisible] = useState(false)
 
 	const { nisNotFound, benefitRequested, benefitGranted, inAnalysis, grantDate, expectedDate } = route.params
-	console.log(route.params)
 
 	const navigateBackwards = () => navigation.goBack()
 
@@ -51,7 +50,7 @@ function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenPro
 	}
 
 	const getCustomResponseText = () => {
-		return `benefício ${benefitGranted} foi concedido na data: \n\n${grantDate} \n\nprevisão de liberação até: \n\n${expectedDate} ou ${expectedDate} \n\npor favor, consulte ${benefitGranted === 'cartão alimentação' ? 'o aplicativo BKBanking' : 'sua conta bancária'}`
+		return `benefício ${benefitGranted} foi concedido na data: \n\n${grantDate} \n\nprevisão de liberação até: \n\n${expectedDate}  \n\npor favor, consulte ${benefitGranted === 'cartão alimentação' ? 'o aplicativo BKBanking' : 'sua conta bancária'}`
 	}
 
 	const getResponseHighlightedWords = () => {
