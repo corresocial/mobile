@@ -23,7 +23,7 @@ function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenPro
 	const { userHasTokenNotification } = useContext(ChatContext)
 	const [notificationModalIsVisible, setNotificationModalIsVisible] = useState(false)
 
-	const { nisNotFound, benefitRequested, benefitGranted, inAnalysis, grantDate, expectedDate } = route.params
+	const { nisNotFound, serverError, benefitRequested, benefitGranted, inAnalysis, grantDate, expectedDate } = route.params
 
 	const navigateBackwards = () => navigation.goBack()
 
@@ -58,6 +58,7 @@ function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenPro
 	}
 
 	const getBenefitStatusMessage = () => {
+		if (serverError) return 'opa! \n\nalgo deu errado ao realizar a busca, verifique sua conexão com a internet e tente novamente em alguns instantes'
 		if (nisNotFound) return 'opa! \n\ntem algo errado com esse NIS'
 		if (!benefitRequested) return 'solicitação não foi localizada'
 		if (inAnalysis) return 'sua solicitação ainda está sendo analisada'
@@ -67,12 +68,13 @@ function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenPro
 	}
 
 	const getBenefitStatusMessageHighlighted = () => {
+		if (serverError) return ['opa!', 'de', 'verifique', 'sua', 'conexão', 'com', 'a', 'internet']
 		if (nisNotFound) return ['algo', 'de', 'errado', 'NIS']
 		if (!benefitRequested) return ['solicitação', 'não', 'foi', 'localizada']
 		if (inAnalysis) return ['ainda', 'está', 'sendo', 'analisada']
 		if (!benefitGranted) return ['não foi concedido']
 
-		if (nisNotFound) return ['algo', 'de', 'errado', 'NIS']
+		return ['algo', 'de', 'errado', 'NIS']
 	}
 
 	const checkResponseStatus = () => {

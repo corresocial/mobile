@@ -1,7 +1,7 @@
 function checkSmasApiResponseStatus(apiResponse: any) {
 	console.log(apiResponse)
 	if (apiResponse === 404) return [{ nisNotFound: true }, true]
-	if (apiResponse === 500) return [{ nisNotFound: true }, true] // serverError
+	if (apiResponse === 500) return [{ serverError: true }, true]
 
 	return [{ ...apiResponse }, false]
 }

@@ -21,7 +21,7 @@ function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenPro
 	const { userHasTokenNotification } = useContext(ChatContext)
 	const [notificationModalIsVisible, setNotificationModalIsVisible] = useState(false)
 
-	const { status, NIS, nisNotFound, familyBagName, familyBagValue } = route.params
+	const { status, NIS, nisNotFound, serverError, familyBagName, familyBagValue } = route.params
 
 	const navigateBackwards = () => navigation.goBack()
 
@@ -44,6 +44,7 @@ function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenPro
 	}
 
 	const getCustomResponseText = () => {
+		if (serverError) return 'opa! \n\nalgo deu errado ao realizar a busca, verifique sua conexão com a internet e tente novamente em alguns instantes'
 		if (nisNotFound) return `este NIS(${NIS}) não consta na folha de pagamento de Londrina \n\nconsulte o aplicativo do bolsa família \n\nlink`
 		if (status === 'Liberado') return `benefício ${status.toUpperCase()} no valor de: ${familyBagValue} para ${familyBagName}, ao NIS ${NIS}`
 		if (status === 'Bloqueado' || status === 'Suspenso') return `benefício ${status.toUpperCase()} \n\n ${familyBagName} \n ${NIS} \n\nconsulte o aplicativo do bolsa família \n\nlink`
@@ -52,6 +53,7 @@ function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenPro
 	}
 
 	const getResponseHighlightedWords = () => {
+		if (serverError) return ['opa!', 'de', 'verifique', 'sua', 'conexão', 'com', 'a', 'internet']
 		if (nisNotFound) return [`NIS(${NIS})`, 'não', 'consta', 'na', 'folha', 'de', 'pagamento', 'de', 'Londrina', 'aplicativo', 'do', 'bolsa', 'família']
 		if (status === 'Liberado') return ['benefício', status.toUpperCase(), 'NIS', NIS, ...familyBagName.split(' '), familyBagValue]
 		if (status === 'Bloqueado' || status === 'Suspenso') return [status.toUpperCase(), ...familyBagName.split(' '), `${NIS}`, 'aplicativo', 'do', 'bolsa', 'família']
