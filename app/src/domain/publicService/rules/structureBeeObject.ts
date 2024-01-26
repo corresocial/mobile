@@ -22,9 +22,11 @@ function structureBeeObject(responseData: BEE) {
 		benefitRequested: benefitWasRequested(responseData.solicitacao_beneficio),
 		benefitGranted: getBenefitGranted(responseData.cartao_alimentacao_concedido, responseData.deposito_conta),
 		inAnalysis: benefitUnderAnalysis(responseData.beneficio_nao_concedido, responseData.cartao_alimentacao_concedido, responseData.deposito_conta),
-		grantDate: 'xx/xx/xxxx',
-		expectedDate: 'xx/xx/xxxx'
+		grantDate: responseData.data_concedido || 'xx/xx/xxxx',
+		expectedDate: responseData.data_concedido || 'xx/xx/xxxx',
 	}
 }
+
+// feat(smas): Adiciona tratativa data de concessão e data de liberação de benefício emergencial
 
 export { structureBeeObject }

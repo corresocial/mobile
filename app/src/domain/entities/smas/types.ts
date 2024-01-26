@@ -12,6 +12,7 @@ export type BEE = {
 	deposito_conta: Binary
 	cartao_alimentacao_concedido: Binary
 	beneficio_nao_concedido: Binary
+	data_concedido: string
 }
 
 export type PBF = {
