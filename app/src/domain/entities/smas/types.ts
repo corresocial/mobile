@@ -9,7 +9,7 @@ export type BEE = {
 	nis: string
 	nome: string
 	solicitacao_beneficio: Binary
-	deposito_conta: Binary
+	deposito_conta_concedido: Binary
 	cartao_alimentacao_concedido: Binary
 	beneficio_nao_concedido: Binary
 	data_concedido: string

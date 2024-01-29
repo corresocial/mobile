@@ -54,7 +54,7 @@ function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenPro
 	}
 
 	const getResponseHighlightedWords = () => {
-		return ['cartão', 'alimentação', 'depósito', 'em', 'conta', 'emergencial', 'foi', 'concedido', `\n\n${grantDate}`, '\n\nprevisão', 'de', 'liberação', expectedDate, 'consulte', 'cartão alimentação', 'o', 'aplicativo', 'BKBanking', 'sua', 'conta', 'bancária']
+		return ['cartão', 'alimentação', 'depósito', 'em', 'conta', 'emergencial', 'foi', 'concedido', `\n\n${grantDate}`, '\n\nprevisão', 'de', 'liberação', `\n\n${expectedDate}`, 'consulte', 'cartão alimentação', 'o', 'aplicativo', 'BKBanking', 'sua', 'conta', 'bancária']
 	}
 
 	const getBenefitStatusMessage = () => {
