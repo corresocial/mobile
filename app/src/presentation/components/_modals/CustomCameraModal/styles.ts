@@ -7,7 +7,7 @@ export const Container = styled.View`
     padding: 50px 0px;
     align-items: center;
     justify-content: space-between;
-    background-color: ${({ theme }) => theme.black4}
+    background-color: ${({ theme }) => theme.black4};
 `
 
 export const CameraContainer = styled.View`
@@ -18,7 +18,7 @@ export const CameraContainer = styled.View`
 export const FlashButtonContainer = styled.View`
     width: 100%;
     height: 10%;
-    alignItems: center;
+    align-items: center;
     justifyContent: center;
     position: absolute;
     bottom: ${relativeScreenWidth(48)}px;
