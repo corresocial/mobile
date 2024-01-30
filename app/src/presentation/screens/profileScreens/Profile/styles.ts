@@ -63,7 +63,7 @@ export const SafeAreaViewContainer = styled.SafeAreaView<SafeAreaViewProps>`
 `
 
 export const VerticalPaddingContainer = styled.View`
-	padding-vertical: ${relativeScreenHeight(1)}px;
+	padding: ${relativeScreenHeight(1)}px 0px;
 `
 
 export const OffBounceBackground = styled(LinearGradient as any)`

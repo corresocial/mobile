@@ -14,7 +14,7 @@ export const ContainerBottom = styled.View`
 export const ContainerSurface = styled.View`
 	border-radius: ${RFValue(20)}px;
 	border: ${RFValue(3.5)}px solid ${({ theme }) => theme.black4};
-	padding-vertical: 5px;
+	padding: 5px 0px;
     align-items: center;
     justify-content: center;
     height: 100%;

@@ -34,5 +34,5 @@ export const MacroCategoryContainer = styled.View<MacroCategoryContainerProps>`
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-around;
-	padding-vertical: ${relativeScreenHeight(2)}px;
+	padding: ${relativeScreenHeight(2)}px 0px;
 `

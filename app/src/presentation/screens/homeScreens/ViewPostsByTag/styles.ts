@@ -25,7 +25,7 @@ export const InputContainer = styled.View`
 `
 
 export const TagsContainer = styled.View`
-	padding-vertical: ${RFValue(15)}px;
+	padding: ${RFValue(15)}px 0px;
 	align-items: center;
 	justify-content: center;
 `
