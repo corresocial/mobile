@@ -20,7 +20,7 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
 			: focused ? theme.white3 : theme.white2
 	)};
     height: ${relativeScreenWidth(14)}px;
-    aling-items: center;
+    align-items: center;
     justify-content: center;
 	flex-direction: row;
 	border-radius: ${relativeScreenWidth(100)}px;
