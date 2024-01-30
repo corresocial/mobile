@@ -59,19 +59,19 @@ export const SmallThinFont = styled.Text`
 	text-align: right;
     font-family: Arvo_400Regular;
     font-size:  ${RFValue(18)}px;
-    color: ${({ theme }) => theme.black4}
+    color: ${({ theme }) => theme.black4};
 `
 
 export const SmallStrongFont = styled.Text`
 	text-align: right;
     font-family: Arvo_700Bold;
     font-size:  ${RFValue(18)}px;
-    color: ${({ theme }) => theme.black4}
+    color: ${({ theme }) => theme.black4};
 `
 
 export const LargeStrongFont = styled.Text`
 	text-align: right;
     font-family: Arvo_700Bold;
     font-size:  ${RFValue(25)}px;
-    color: ${({ theme }) => theme.black4}
+    color: ${({ theme }) => theme.black4};
 `
