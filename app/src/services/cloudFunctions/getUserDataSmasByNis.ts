@@ -6,7 +6,7 @@ import { getEnvVars } from '@infrastructure/environment'
 
 const { FIREBASE_CLOUD_URL } = getEnvVars()
 
-const getUserSmasData = async (nis: string, smasService: SmasService) => {
+const getUserDataSmasByNis = async (nis: string, smasService: SmasService) => {
 	return axios.post(`${FIREBASE_CLOUD_URL}/smasAPI`, { nis, queryType: smasService })
 		.then((res) => {
 			return res.data
@@ -18,4 +18,4 @@ const getUserSmasData = async (nis: string, smasService: SmasService) => {
 		})
 }
 
-export { getUserSmasData }
+export { getUserDataSmasByNis }

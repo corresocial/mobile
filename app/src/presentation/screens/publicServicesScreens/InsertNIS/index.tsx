@@ -4,7 +4,7 @@ import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult } from '@domain/ent
 
 import { InsertNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
 
-import { getUserSmasData } from '@services/cloudFunctions/getUserSmasData'
+import { getUserDataSmasByNis } from '@services/cloudFunctions/getUserDataSmasByNis'
 
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
 import { theme } from '@common/theme'
@@ -26,7 +26,7 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 	const saveNIS = async (NISValue: string) => {
 		try {
 			setIsLoading(true)
-			const response = await getUserSmasData(NISValue.trim(), smasService)
+			const response = await getUserDataSmasByNis(NISValue.trim(), smasService)
 
 			const queryResult = treatSmasApiResponse(response, smasService)
 
