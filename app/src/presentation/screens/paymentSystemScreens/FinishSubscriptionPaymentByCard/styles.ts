@@ -30,7 +30,7 @@ export const Title = styled.Text`
 
 export const PaymentStatusArea = styled.View`
 	flex-direction: row;
-	margin-vertical: ${RFValue(20)}px;
+	margin: ${RFValue(20)}px 0px;
 	align-items:center;
 `
 

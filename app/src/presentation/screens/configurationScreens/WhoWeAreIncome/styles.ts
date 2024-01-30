@@ -39,6 +39,6 @@ export const Description = styled.Text`
 `
 
 export const ButtonContainer = styled.View`
-	margin-vertical: ${relativeScreenHeight(2)}px;
+	margin: ${relativeScreenHeight(2)}px 0px;
 	width: 100%;
 `

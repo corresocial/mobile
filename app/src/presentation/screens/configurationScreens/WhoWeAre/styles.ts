@@ -43,6 +43,6 @@ export const Description = styled.Text`
 
 export const ButtonContainer = styled.View`
 	align-self: flex-end;
-	margin-vertical: ${relativeScreenHeight(2)}px;
+	margin: ${relativeScreenHeight(2)}px 0px;
 	width: 100%;
 `
