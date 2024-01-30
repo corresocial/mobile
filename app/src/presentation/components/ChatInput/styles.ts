@@ -59,7 +59,7 @@ export const InputMessage = styled.TextInput<InputMessageProps>`
 	max-height: ${relativeScreenHeight(15)}px;
 	text-align-vertical: center;
 	text-align: center;
-	margin-horizontal: ${RFValue(10)}px;
+	margin: 0px ${RFValue(10)}px;
 	padding: 0px ${RFValue(10)}px;
 	padding-top: ${RFValue(12)}px;
 	padding-bottom: ${RFValue(12)}px;
