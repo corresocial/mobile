@@ -21,7 +21,7 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
 
     aling-items: center;
     justify-content: flex-start;
-	padding-horizontal: ${({ hasMultipleInputs }) => (hasMultipleInputs ? RFValue(7) : RFValue(20))}px;
+	padding: 0px ${({ hasMultipleInputs }) => (hasMultipleInputs ? RFValue(7) : RFValue(20))}px;
 	padding-top: ${RFValue(12)}px;
 	padding-bottom: ${RFValue(20)}px;
 	border-radius: ${RFValue(15)}px;

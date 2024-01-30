@@ -15,12 +15,12 @@ export const Header = styled.View`
 
 export const SaveButtonContainer = styled.View`
 	width: 100%;
-	padding-horizontal: ${relativeScreenWidth(3)}px;
+	padding: 0px ${relativeScreenWidth(3)}px;
 	padding-top: ${relativeScreenHeight(3)}px;
  `
 
 export const Body = styled(Animated.View)`
 	flex: 1;
-	background-color: ${({ theme }) => theme.orange2}
-	padding-horizontal: ${relativeScreenWidth(3.5)}px;
+	background-color: ${({ theme }) => theme.orange2};
+	padding: 0px ${relativeScreenWidth(3.5)}px;
  `

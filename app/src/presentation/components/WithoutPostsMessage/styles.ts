@@ -5,8 +5,7 @@ import { relativeScreenWidth } from '@common/screenDimensions'
 
 export const WithoutPostsContainer = styled.View`
 	background-color: ${({ theme }) => theme.white3};
-	padding-horizontal: ${RFValue(30)}px;
-	padding-vertical: ${RFValue(15)}px;
+	padding: ${RFValue(15)}px ${RFValue(30)}px;
 	border-left-width: ${relativeScreenWidth(1.4)}px;
 	border-left-color: ${({ theme }) => theme.black4};
 `

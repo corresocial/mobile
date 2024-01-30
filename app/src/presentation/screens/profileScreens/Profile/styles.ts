@@ -23,7 +23,7 @@ export const ProfileInfoContainer = styled.View`
 export const InfoArea = styled.View`
 	justify-content: center;
     flex: 1;
-    padding-horizontal: ${RFValue(16)}px;
+    padding: 0px ${RFValue(16)}px;
 `
 
 export const UserName = styled.Text`
@@ -77,5 +77,5 @@ export const Body = styled.SafeAreaView`
 `
 
 export const PostPadding = styled.View`
-	padding-horizontal: ${relativeScreenWidth(2)}px;
+	padding: 0px ${relativeScreenWidth(2)}px;
 `

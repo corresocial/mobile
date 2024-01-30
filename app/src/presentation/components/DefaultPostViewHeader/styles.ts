@@ -29,7 +29,7 @@ interface PathTitleProps {
 export const PathTitle = styled.Text<PathTitleProps>`
 	font-family: ${({ bold }) => (bold ? 'Arvo_700Bold' : 'Arvo_400Regular')};
 	font-size: ${RFValue(16)}px;
-	padding-horizontal: ${RFValue(10)}px;
+	padding: 0px ${RFValue(10)}px;
 	max-width: 50%;
 `
 

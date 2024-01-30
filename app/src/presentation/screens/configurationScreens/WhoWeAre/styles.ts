@@ -19,8 +19,7 @@ export const Header = styled.View`
 	justify-content: space-between;
 	width: 100%;
 	background-color: ${({ theme }) => theme.white3};
-	padding-vertical: ${relativeScreenHeight(2)}px;
-	padding-horizontal: ${relativeScreenWidth(3.5)}px;
+	padding: ${relativeScreenHeight(2)}px ${relativeScreenWidth(3.5)}px;
 `
 
 export const Body = styled.View`
@@ -28,8 +27,7 @@ export const Body = styled.View`
 	align-items: center;
 	justify-content: center;
 	background-color: ${({ theme }) => theme.orange2};
-	padding-horizontal: ${relativeScreenWidth(7)}px;
-	padding-vertical:  ${relativeScreenWidth(4)}px;
+	padding: ${relativeScreenWidth(4)}px ${relativeScreenWidth(7)}px;
 `
 
 export const BoldPhrase = styled.Text`

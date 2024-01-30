@@ -14,12 +14,11 @@ export const ContainerBottom = styled.View`
 
 export const InputTagArea = styled.View`
     width: 100%;
-    padding-horizontal: ${relativeScreenWidth(4)}px;
-    padding-vertical: ${relativeScreenHeight(2)}px;
+    padding: ${relativeScreenHeight(2)}px ${relativeScreenWidth(4)}px;
 `
 
 export const TagsUnselectedArea = styled.View`
-	padding-horizontal: ${relativeScreenWidth(3)}px;
+	padding: 0px ${relativeScreenWidth(3)}px;
     width: 100%;
     align-items: center;
     justify-content: space-between;

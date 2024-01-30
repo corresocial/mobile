@@ -4,8 +4,7 @@ import styled from 'styled-components/native'
 import { relativeScreenHeight } from '@common/screenDimensions'
 
 export const CardHeader = styled.View`
-	padding-horizontal: ${RFValue(15)}px;
-	padding-vertical: ${RFValue(10)}px;
+	padding: ${RFValue(10)}px ${RFValue(15)}px;
 `
 
 export const TextAddress = styled.Text`

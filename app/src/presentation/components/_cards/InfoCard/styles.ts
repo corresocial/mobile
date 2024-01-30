@@ -20,8 +20,7 @@ export const ContainerInner = styled.View<ContainerInnerProps>`
     background-color: ${({ theme }) => theme.white3};
     border-radius: ${RFValue(17)}px;
     border: ${RFValue(3.2)}px solid ${({ theme }) => theme.black4};
-    padding-vertical: ${RFValue(10)}px;
-    padding-horizontal: ${RFValue(15)}px;
+    padding: ${RFValue(10)}px ${RFValue(15)}px;
     justify-content: space-around;
 	${({ hasSvgIcon }) => {
 		if (hasSvgIcon) {

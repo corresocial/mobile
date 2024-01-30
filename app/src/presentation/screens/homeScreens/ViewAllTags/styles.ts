@@ -18,8 +18,7 @@ export const Header = styled.View`
 export const InputContainer = styled.View`
 	margin-vertical: ${relativeScreenWidth(5)}px;
 	height: ${RFValue(50)}px;
-	padding-horizontal: ${relativeScreenWidth(2)}px;
-	padding-vertical: ${relativeScreenWidth(2)}px;
+	padding: ${relativeScreenWidth(2)}px ${relativeScreenWidth(2)}px;
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
@@ -27,5 +26,5 @@ export const InputContainer = styled.View`
 
 export const Body = styled.View`
 	flex: 1;
-	padding-horizontal: ${RFValue(15)}px;
+	padding: 0px ${RFValue(15)}px;
 `

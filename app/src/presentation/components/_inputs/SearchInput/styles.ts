@@ -13,7 +13,7 @@ interface ContainerProps {
 export const Container = styled.TouchableOpacity<ContainerProps>`
     width: ${({ relativeWidth }) => relativeWidth || '100%'};
 	min-height: ${RFValue(40)}px;
-	padding-horizontal: ${RFValue(5)}px;
+	padding: ${RFValue(5)}px;
 	background-color: ${({ theme, textIsValid, focused, validBackgroundColor }) => (
 		textIsValid && validBackgroundColor
 			? validBackgroundColor
