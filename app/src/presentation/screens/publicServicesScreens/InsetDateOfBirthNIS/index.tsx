@@ -5,6 +5,8 @@ import { SmasContext } from '@contexts/SmasContext'
 
 import { InsertDateOfBirthNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
 
+import { CloudFunctionService } from '@services/cloudFunctions/CloudFunctionService'
+
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import { filterLeavingOnlyNumbers } from '@common/auxiliaryFunctions'
@@ -19,8 +21,10 @@ import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { ProgressBar } from '@components/ProgressBar'
 
+const { getNisByUserData } = CloudFunctionService()
+
 function InsertDateOfBirthNIS({ navigation }: InsertDateOfBirthNISScreenProps) {
-	const { setSmasDataOnContext, getNumberOfMissingInfo } = useContext(SmasContext)
+	const { smasDataContext, setSmasDataOnContext, getNumberOfMissingInfo } = useContext(SmasContext)
 
 	const [day, setDay] = useState<string>('')
 	const [month, setMonth] = useState<string>('')
@@ -85,11 +89,8 @@ function InsertDateOfBirthNIS({ navigation }: InsertDateOfBirthNISScreenProps) {
 		setSmasDataOnContext({ dateOfBirth: formatedDate }) // save string
 
 		if (getNumberOfMissingInfo() === 2) {
-			// Make request
-			return navigation.push('QueryNISResult', {
-				success: true,
-				NIS: '123456123454'
-			})
+			const res = await getNisByUserData({ ...smasDataContext, dateOfBirth: formatedDate }, 'ANONIMIZADO')
+			return navigation.push('QueryNISResult', res)
 		}
 
 		navigation.push('SelectNISQueryData')

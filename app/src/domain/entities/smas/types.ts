@@ -1,4 +1,4 @@
-export type SmasService = 'BEE' | 'PBF' | 'CADUNICO'
+export type SmasService = 'BEE' | 'PBF' | 'CADUNICO' | 'ANONIMIZADO'
 
 export type Binary = '0' | '1'
 type BeeType = 'cartão alimentação' | 'depósito em conta'

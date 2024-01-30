@@ -23,7 +23,7 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 
 	const [nisIsSaved, setNisIsSaved] = useState(false)
 
-	const { success, NIS } = route.params
+	const { status, NIS } = route.params
 
 	const navigateBackwards = () => navigation.goBack()
 
@@ -41,15 +41,15 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 
 	const getCustomResponseText = () => {
 		if (nisIsSaved) return 'seu NIS foi salvo!'
-
-		if (success) return `seu NIS é: ${NIS} \n\ngostaria de salvar seu NIS aqui no aplicativo?`
-		return 'não encontramos seu NIS, confira os dados ou procure a unidade de CRAS mais próxima de sua residência'
+		if (status === 200) return `seu NIS é: ${NIS} \n\ngostaria de salvar seu NIS aqui no aplicativo?`
+		if (status === 404) return 'não encontramos seu NIS, confira os dados ou procure a unidade de CRAS mais próxima de sua residência'
+		return ''
 	}
 
 	const getCustomHighlightedWords = () => {
 		if (nisIsSaved) return ['NIS']
-
-		if (success) return ['NIS', 'salvar', 'no', 'aplicativo', NIS]
+		if (status === 200) return ['NIS', 'salvar', 'no', 'aplicativo', `${NIS}`]
+		if (status === 404) return ['não', 'encontramos', 'seu', 'NIS', 'CRAS']
 		return ['não', 'encontramos', 'seu', 'NIS', 'CRAS']
 	}
 
@@ -59,7 +59,7 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 				minHeight={relativeScreenHeight(70)}
 				relativeHeight={relativeScreenHeight(70)}
 				centralized
-				backgroundColor={success ? theme.pink2 : theme.red2}
+				backgroundColor={status === 200 ? theme.pink2 : theme.red2}
 				flexDirection={'column'}
 			>
 				<InstructionButtonContainer >
@@ -82,7 +82,7 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 			</DefaultHeaderContainer>
 			< FormContainer backgroundColor={theme.white3}>
 				{
-					success && (
+					status === 200 && (
 						<PrimaryButton
 							color={theme.red3}
 							label={'não, obrigado'}
@@ -94,10 +94,10 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 				}
 				<PrimaryButton
 					color={theme.green3}
-					label={success ? 'sim, salvar' : 'concluir'}
+					label={status === 200 ? 'sim, salvar' : 'concluir'}
 					labelColor={theme.white3}
 					SecondSvgIcon={CheckWhiteIcon}
-					onPress={success ? saveNis : backToInicialStackScreen}
+					onPress={status === 200 ? saveNis : backToInicialStackScreen}
 				/>
 			</FormContainer>
 		</Container>

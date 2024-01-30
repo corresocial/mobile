@@ -5,6 +5,8 @@ import { SmasContext } from '@contexts/SmasContext'
 
 import { InsertMotherNameNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
 
+import { CloudFunctionService } from '@services/cloudFunctions/CloudFunctionService'
+
 import { theme } from '@common/theme'
 
 import { PublicServicesAdapter } from '@adapters/publicService/PublicServiceAdapter'
@@ -13,8 +15,10 @@ import { PostInputText } from '@components/_onboarding/PostInputText'
 
 const { validateName } = PublicServicesAdapter()
 
+const { getNisByUserData } = CloudFunctionService()
+
 function InsertMotherNameNIS({ navigation }: InsertMotherNameNISScreenProps) {
-	const { setSmasDataOnContext, getNumberOfMissingInfo } = useContext(SmasContext)
+	const { smasDataContext, setSmasDataOnContext, getNumberOfMissingInfo } = useContext(SmasContext)
 
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
@@ -35,11 +39,8 @@ function InsertMotherNameNIS({ navigation }: InsertMotherNameNISScreenProps) {
 		setSmasDataOnContext({ motherName })
 
 		if (getNumberOfMissingInfo() === 2) {
-			// Make request
-			return navigation.push('QueryNISResult', {
-				success: true,
-				NIS: '123456123454'
-			})
+			const res = await getNisByUserData({ ...smasDataContext, motherName }, 'ANONIMIZADO')
+			return navigation.push('QueryNISResult', res)
 		}
 
 		navigation.push('SelectNISQueryData')

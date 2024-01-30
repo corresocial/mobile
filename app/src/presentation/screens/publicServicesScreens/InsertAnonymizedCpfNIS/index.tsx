@@ -5,6 +5,8 @@ import { SmasContext } from '@contexts/SmasContext'
 
 import { InsertAnonymizedCpfNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
 
+import { CloudFunctionService } from '@services/cloudFunctions/CloudFunctionService'
+
 import { ButtonContainer, Container, InputsContainer, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import { filterLeavingOnlyNumbers } from '@common/auxiliaryFunctions'
@@ -20,8 +22,10 @@ import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { ProgressBar } from '@components/ProgressBar'
 
+const { getNisByUserData } = CloudFunctionService()
+
 function InsertAnonymizedCpfNIS({ navigation }: InsertAnonymizedCpfNISScreenProps) {
-	const { getNumberOfMissingInfo, setSmasDataOnContext } = useContext(SmasContext)
+	const { smasDataContext, getNumberOfMissingInfo, setSmasDataOnContext } = useContext(SmasContext)
 
 	const [firstCpfValues, setFirstCpfValues] = useState('')
 	const [lastCpfValues, setLastCpfValues] = useState('')
@@ -65,11 +69,8 @@ function InsertAnonymizedCpfNIS({ navigation }: InsertAnonymizedCpfNISScreenProp
 		setSmasDataOnContext({ anonymizedCpf })
 
 		if (getNumberOfMissingInfo() === 2) {
-			// Make request
-			return navigation.push('QueryNISResult', {
-				success: true,
-				NIS: '123456123454'
-			})
+			const res = await getNisByUserData({ ...smasDataContext, anonymizedCpf }, 'ANONIMIZADO')
+			return navigation.push('QueryNISResult', res)
 		}
 		navigation.push('SelectNISQueryData')
 	}
