@@ -29,18 +29,18 @@ export const ContainerInner = styled.View<ContainerInnerProps>`
 			align-items: center;
 		`
 		}
-	}}
+	}};
 `
 
 export const Title = styled.Text`
     font-family: Arvo_400Regular;
     font-size:  ${RFValue(22)}px;
-    color: ${({ theme }) => theme.black4}
+    color: ${({ theme }) => theme.black4};
 `
 
 export const Description = styled.Text`
     width: 100%;
     font-family: Arvo_400Regular;
     font-size:  ${RFValue(13)}px;
-    color: ${({ theme }) => theme.black4}
+    color: ${({ theme }) => theme.black4};
 `

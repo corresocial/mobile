@@ -24,7 +24,7 @@ export const TagsUnselectedArea = styled.View`
     justify-content: space-between;
     flex-direction: row;
     margin-bottom: ${relativeScreenHeight(5)}px;
-    flexWrap: wrap;
+    flex-wrap: wrap;
 `
 
 export const FloatButtonContainer = styled.View`
