@@ -19,7 +19,7 @@ export const FlashButtonContainer = styled.View`
     width: 100%;
     height: 10%;
     align-items: center;
-    justifyContent: center;
+    justify-content: center;
     position: absolute;
     bottom: ${relativeScreenWidth(48)}px;
 `
