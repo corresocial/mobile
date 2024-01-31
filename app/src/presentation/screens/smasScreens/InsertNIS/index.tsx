@@ -9,14 +9,14 @@ import { getUserDataSmasByNis } from '@services/cloudFunctions/getUserDataSmasBy
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
 import { theme } from '@common/theme'
 
-import { PublicServicesAdapter } from '@adapters/publicService/PublicServiceAdapter'
+import { SmasAdapter } from '@adapters/smas/SmasAdapter'
 
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
-const { validateNIS } = PublicServicesAdapter()
+const { validateNIS } = SmasAdapter()
 
-const { treatSmasApiResponse } = PublicServicesAdapter()
+const { treatSmasApiResponse } = SmasAdapter()
 
 function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 	const [isLoading, setIsLoading] = React.useState(false)

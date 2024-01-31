@@ -7,11 +7,11 @@ import { InsertNameNISScreenProps } from '@routes/Stack/PublicServicesStack/stac
 
 import { theme } from '@common/theme'
 
-import { PublicServicesAdapter } from '@adapters/publicService/PublicServiceAdapter'
+import { SmasAdapter } from '@adapters/smas/SmasAdapter'
 
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
-const { validateName } = PublicServicesAdapter()
+const { validateName } = SmasAdapter()
 
 function InsertNameNIS({ navigation }: InsertNameNISScreenProps) {
 	const { setSmasDataOnContext, clearSmasDataContext } = useContext(SmasContext)
@@ -53,7 +53,7 @@ function InsertNameNIS({ navigation }: InsertNameNISScreenProps) {
 				customHighlight={['nome', 'completo', 'sem', 'acentos']}
 				backgroundColor={theme.pink2}
 				height={'50%'}
-				inputPlaceholder={'ex: João Pereira'}
+				inputPlaceholder={'ex: Joao Pereira'}
 				keyboardOpened={keyboardOpened}
 				progress={[1, 3]}
 				validationColor={keyboardOpened ? theme.white2 : theme.pink1}

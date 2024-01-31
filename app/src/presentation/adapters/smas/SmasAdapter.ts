@@ -2,9 +2,9 @@ import { treatSmasApiResponseUC } from '@domain/publicService/useCases/treatSmas
 import { validateNameUC } from '@domain/publicService/useCases/validateNameUC'
 import { validateNISUC } from '@domain/publicService/useCases/validateNISUC'
 
-import { PublicServiceAdapterInterface } from './PublicServiceAdapterInterface'
+import { SmasAdapterInterface } from './SmasAdapterInterface'
 
-function PublicServicesAdapter(): PublicServiceAdapterInterface {
+function SmasAdapter(): SmasAdapterInterface {
 	return {
 		validateNIS: validateNISUC,
 		validateName: validateNameUC,
@@ -12,4 +12,4 @@ function PublicServicesAdapter(): PublicServiceAdapterInterface {
 	}
 }
 
-export { PublicServicesAdapter }
+export { SmasAdapter }

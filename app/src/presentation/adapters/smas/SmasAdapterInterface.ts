@@ -1,9 +1,9 @@
 import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult, SmasService } from '@domain/entities/smas/types'
 
-interface PublicServiceAdapterInterface {
+interface SmasAdapterInterface {
 	validateNIS: (NISValue: string) => boolean
 	validateName: (name: string) => boolean
 	treatSmasApiResponse: (apiResponse: any, smasService: SmasService) => QueryBeeResult | QueryPbfResult | QueryCadunicoResult | { nisNotFound: boolean }
 }
 
-export { PublicServiceAdapterInterface }
+export { SmasAdapterInterface }

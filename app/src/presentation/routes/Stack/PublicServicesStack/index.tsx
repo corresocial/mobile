@@ -6,17 +6,17 @@ import { SmasProvider } from '@contexts/SmasContext'
 
 import { PublicServiceStackParamList } from './types'
 
-import { InsertMotherNameNIS } from '@screens/publicServicesScreens/InserMotherNameNIS'
-import { InsertAnonymizedCpfNIS } from '@screens/publicServicesScreens/InsertAnonymizedCpfNIS'
-import { InsertNameNIS } from '@screens/publicServicesScreens/InsertNameNIS'
-import { InsertNIS } from '@screens/publicServicesScreens/InsertNIS'
-import { InsertDateOfBirthNIS } from '@screens/publicServicesScreens/InsetDateOfBirthNIS'
-import { QueryBeeByNISResult } from '@screens/publicServicesScreens/QueryBeeByNISResult'
-import { QueryCadunicoByNISResult } from '@screens/publicServicesScreens/QueryCadunicoByNISResult'
-import { QueryNISResult } from '@screens/publicServicesScreens/QueryNISResult'
-import { QueryPbfByNISResult } from '@screens/publicServicesScreens/QueryPbfByNISResult'
-import { SelectNISQueryData } from '@screens/publicServicesScreens/SelectNISQueryData'
-import { SelectPublicService } from '@screens/publicServicesScreens/SelectPublicService'
+import { InsertMotherNameNIS } from '@screens/smasScreens/InserMotherNameNIS'
+import { InsertAnonymizedCpfNIS } from '@screens/smasScreens/InsertAnonymizedCpfNIS'
+import { InsertNameNIS } from '@screens/smasScreens/InsertNameNIS'
+import { InsertNIS } from '@screens/smasScreens/InsertNIS'
+import { InsertDateOfBirthNIS } from '@screens/smasScreens/InsetDateOfBirthNIS'
+import { QueryBeeByNISResult } from '@screens/smasScreens/QueryBeeByNISResult'
+import { QueryCadunicoByNISResult } from '@screens/smasScreens/QueryCadunicoByNISResult'
+import { QueryNISResult } from '@screens/smasScreens/QueryNISResult'
+import { QueryPbfByNISResult } from '@screens/smasScreens/QueryPbfByNISResult'
+import { SelectNISQueryData } from '@screens/smasScreens/SelectNISQueryData'
+import { SelectPublicService } from '@screens/smasScreens/SelectPublicService'
 
 const Stack = createStackNavigator<PublicServiceStackParamList>()
 

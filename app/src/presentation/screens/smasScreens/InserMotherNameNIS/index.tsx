@@ -9,11 +9,11 @@ import { CloudFunctionService } from '@services/cloudFunctions/CloudFunctionServ
 
 import { theme } from '@common/theme'
 
-import { PublicServicesAdapter } from '@adapters/publicService/PublicServiceAdapter'
+import { SmasAdapter } from '@adapters/smas/SmasAdapter'
 
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
-const { validateName } = PublicServicesAdapter()
+const { validateName } = SmasAdapter()
 
 const { getNisByUserData } = CloudFunctionService()
 
