@@ -85,11 +85,12 @@ function InsertDateOfBirthNIS({ navigation }: InsertDateOfBirthNISScreenProps) {
 	}
 
 	const saveDateOfBirthNIS = async () => {
-		const formatedDate = `${year}-${month}-${day}T12:00:00`
-		setSmasDataOnContext({ dateOfBirth: formatedDate }) // save string
+		const formatedDate = `${day}/${month}/${year}`
+		setSmasDataOnContext({ dateOfBirth: formatedDate })
 
 		if (getNumberOfMissingInfo() === 2) {
 			const res = await getNisByUserData({ ...smasDataContext, dateOfBirth: formatedDate }, 'ANONIMIZADO')
+			console.log(res)
 			return navigation.push('QueryNISResult', res)
 		}
 

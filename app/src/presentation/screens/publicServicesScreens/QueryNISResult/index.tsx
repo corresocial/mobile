@@ -42,6 +42,7 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 	const getCustomResponseText = () => {
 		if (nisIsSaved) return 'seu NIS foi salvo!'
 		if (status === 200) return `seu NIS é: ${NIS} \n\ngostaria de salvar seu NIS aqui no aplicativo?`
+		if (status === 500) return 'opa! \n\nalgo deu errado ao realizar a busca, verifique sua conexão com a internet e tente novamente em alguns instantes'
 		if (status === 404) return 'não encontramos seu NIS, confira os dados ou procure a unidade de CRAS mais próxima de sua residência'
 		return ''
 	}
@@ -50,6 +51,7 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 		if (nisIsSaved) return ['NIS']
 		if (status === 200) return ['NIS', 'salvar', 'no', 'aplicativo', `${NIS}`]
 		if (status === 404) return ['não', 'encontramos', 'seu', 'NIS', 'CRAS']
+		if (status === 500) return ['opa!', 'de', 'verifique', 'sua', 'conexão', 'com', 'a', 'internet']
 		return ['não', 'encontramos', 'seu', 'NIS', 'CRAS']
 	}
 
