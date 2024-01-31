@@ -8,7 +8,7 @@ export const Container = styled.View`
  `
 
 export const Header = styled.View`
-	background-color: ${({ theme }) => theme.white3}
+	background-color: ${({ theme }) => theme.white3};
 	width: 100%;
  	padding: ${relativeScreenWidth(4)}px;
  `

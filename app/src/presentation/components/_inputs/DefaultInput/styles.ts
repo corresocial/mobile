@@ -19,7 +19,6 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
 	min-height: ${RFValue(42)}px;
 	min-width: ${RFValue(42)}px;
 
-    align-items: center;
     justify-content: flex-start;
 	padding: 0px ${({ hasMultipleInputs }) => (hasMultipleInputs ? RFValue(7) : RFValue(20))}px;
 	padding-top: ${RFValue(12)}px;
