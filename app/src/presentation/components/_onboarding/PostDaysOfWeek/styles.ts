@@ -12,7 +12,7 @@ export const WeekdaysSelectedArea = styled.View`
     justify-content: space-between;
     flex-direction: row;
     margin-bottom: 30px;
-    flexWrap: wrap;
+    flex-wrap: wrap;
 `
 
 export const Row = styled.View`

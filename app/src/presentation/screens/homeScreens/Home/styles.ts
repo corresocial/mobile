@@ -9,9 +9,9 @@ export const Container = styled.View`
 `
 
 export const DropdownContainer = styled.View`
+	padding: 0px ${RFValue(10)}px;
 	padding-top:${Platform.OS === 'ios' ? Constants.statusBarHeight : 0}px;
 	margin-top: ${RFValue(5)}px;
-	padding-horizontal: ${RFValue(10)}px;
 `
 
 export const RecentPostsContainer = styled.ScrollView`
@@ -19,6 +19,6 @@ export const RecentPostsContainer = styled.ScrollView`
 `
 
 export const ContainerPadding = styled.View`
-	padding-horizontal: ${RFValue(10)}px;
+	padding: 0px ${RFValue(10)}px;
 	align-items: flex-end;
 `

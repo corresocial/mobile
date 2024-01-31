@@ -16,7 +16,7 @@ export const ButtonContainerBottom = styled.View`
     height: ${RFValue(150)}px;
     width: 100%;
     justify-content: flex-end;
-    padding-horizontal: ${RFValue(20)}px;
+    padding: 0px ${RFValue(20)}px;
     position: absolute;
     bottom: ${relativeScreenHeight(4)}px;
     z-index: 1;

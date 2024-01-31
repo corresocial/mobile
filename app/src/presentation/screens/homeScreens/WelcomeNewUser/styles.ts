@@ -8,5 +8,5 @@ export const Container = styled.View`
 export const ContainerButtons = styled.View`
     flex: 1;
     justify-content: space-around;
-    padding-vertical: ${RFValue(40)}px;
+    padding: ${RFValue(40)}px 0px;
 `

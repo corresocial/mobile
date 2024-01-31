@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 
 export const Container = styled.View`
 	border-left-width: ${RFValue(5)}px;
-	padding-horizontal:  ${RFValue(15)}px;
+	padding: 0px ${RFValue(15)}px;
 	justify-content: center;
 `
 

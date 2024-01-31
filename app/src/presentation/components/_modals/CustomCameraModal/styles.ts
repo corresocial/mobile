@@ -4,10 +4,10 @@ import { relativeScreenWidth, screenWidth } from '@common/screenDimensions'
 
 export const Container = styled.View`
     flex: 1;
-    padding-vertical: 50px;
+    padding: 50px 0px;
     align-items: center;
     justify-content: space-between;
-    background-color: ${({ theme }) => theme.black4}
+    background-color: ${({ theme }) => theme.black4};
 `
 
 export const CameraContainer = styled.View`
@@ -18,8 +18,8 @@ export const CameraContainer = styled.View`
 export const FlashButtonContainer = styled.View`
     width: 100%;
     height: 10%;
-    alignItems: center;
-    justifyContent: center;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     bottom: ${relativeScreenWidth(48)}px;
 `

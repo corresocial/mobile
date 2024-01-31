@@ -8,6 +8,6 @@ export const Container = styled.View`
 `
 
 export const SubscriptionAdContainer = styled.View`
-	padding-horizontal: ${RFValue(10)}px;
+	padding: 0px ${RFValue(10)}px;
 	padding-bottom: ${RFValue(10)}px;
 `

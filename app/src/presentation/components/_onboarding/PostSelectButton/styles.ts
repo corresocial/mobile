@@ -9,13 +9,13 @@ interface ButtonsContainerProps {
 }
 
 export const ButtonsContainer = styled.View<ButtonsContainerProps>`
-	padding-vertical: ${({ numberOfChildrens }) => {
+	padding: ${({ numberOfChildrens }) => {
 		switch (numberOfChildrens) {
 			case 2: return '20%'
 			case 3: return '10%'
 			default: return '10%'
 		}
-	}};
+	}} 0px;
 	width: 100%;
 	height: 100%;
 	justify-content: space-around;

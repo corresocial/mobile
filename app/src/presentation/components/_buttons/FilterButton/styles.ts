@@ -7,11 +7,11 @@ export const ContainerBottom = styled.View`
 `
 
 export const ContainerSurface = styled.View`
-    border: ${RFValue(2)}px solid ${({ theme }) => theme.black4}
+    border: ${RFValue(2)}px solid ${({ theme }) => theme.black4};
     border-radius: ${RFValue(8)}px;
     align-items: center;
     justify-content: center;
-	padding-horizontal: ${RFValue(7)}px;
+	padding: 0px ${RFValue(7)}px;
 
     height: 100%;
     right: ${RFValue(5)}px;

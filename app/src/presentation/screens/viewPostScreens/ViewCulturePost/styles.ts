@@ -11,8 +11,7 @@ export const Header = styled.View`
 	justify-content: space-between;
 	width: 100%;
 	background-color: ${({ theme }) => theme.white3};
-	padding-vertical: ${relativeScreenHeight(2)}px;
-	padding-horizontal: ${relativeScreenWidth(3)}px;
+	padding: ${relativeScreenHeight(2)}px ${relativeScreenWidth(3)}px;
 `
 
 export const UserAndValueContainer = styled.View`
@@ -30,5 +29,5 @@ export const OptionsArea = styled.View`
 export const Body = styled.View`
 	flex: 1;
 	background-color: ${({ theme }) => theme.blue2};
-	padding-horizontal: ${relativeScreenWidth(3)}px;
+	padding: 0px ${relativeScreenWidth(3)}px;
 `

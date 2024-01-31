@@ -7,8 +7,8 @@ interface ContainerProps {
 
 export const Container = styled.ScrollView<ContainerProps>`
 	flex: 1;
-	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.orange2};)}
+	background-color: ${({ backgroundColor, theme }) => backgroundColor || theme.orange2};
 `
 export const PostCardContainer = styled.View`
-	padding-horizontal: ${RFValue(10)}px;
+	padding: 0px ${RFValue(10)}px;
 `

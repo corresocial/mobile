@@ -19,9 +19,8 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
 	min-height: ${RFValue(42)}px;
 	min-width: ${RFValue(42)}px;
 
-    aling-items: center;
     justify-content: flex-start;
-	padding-horizontal: ${({ hasMultipleInputs }) => (hasMultipleInputs ? RFValue(7) : RFValue(20))}px;
+	padding: 0px ${({ hasMultipleInputs }) => (hasMultipleInputs ? RFValue(7) : RFValue(20))}px;
 	padding-top: ${RFValue(12)}px;
 	padding-bottom: ${RFValue(20)}px;
 	border-radius: ${RFValue(15)}px;
@@ -35,7 +34,7 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
 				padding-bottom: ${RFValue(5)}px;
 			`)
 		}
-	}}
+	}};
 `
 
 interface ContainerInnerProps {
@@ -49,7 +48,7 @@ ${({ hasIcon }) => hasIcon && (
 		`flex-direction: row;
 		align-items: center;
 		justify-content: space-between;`
-	)}
+	)};
 `
 
 export const BottomLine = styled.View<ContainerInnerProps>`

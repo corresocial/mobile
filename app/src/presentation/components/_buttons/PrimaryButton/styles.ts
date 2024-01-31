@@ -4,10 +4,10 @@ import styled from 'styled-components/native'
 
 export const TouchableContainer = styled.TouchableWithoutFeedback`
 	width: 100%;
-	background-color: ${({ theme }) => theme.white2}
+	background-color: ${({ theme }) => theme.white2};
 `
 
-export const ContainerBottom = styled(Animatable.View)`
+export const ContainerBottom = styled(Animatable.View as any)`
 	width: 100%;
 	align-self: flex-end;
 	flex-direction: row;
@@ -24,7 +24,7 @@ export const ContainerSurface = styled.View`
     justify-content: center;
     border: ${RFValue(3)}px solid black;
     border-radius: ${RFValue(18)}px;
-    padding-horizontal: ${RFValue(20)}px;
+    padding: 0px ${RFValue(20)}px;
     position: absolute;
 	left: ${-RFValue(9)}px;
 `

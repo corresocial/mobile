@@ -7,7 +7,7 @@ export const InitialDropdownContainer = styled.View`
 	background-color: ${({ theme }) => theme.white3};
 	width: 100%;
 	height: ${relativeScreenHeight(10)}px;
-	padding-horizontal: ${RFValue(10)}px;
+	padding: 0px ${RFValue(10)}px;
 	border-radius: ${RFValue(13)}px;
 	overflow: hidden;
 `

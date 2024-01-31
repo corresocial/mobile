@@ -64,8 +64,7 @@ export const SaleValueContainer = styled.View`
 export const SaleValueContainerInner = styled.View`
 	border-color: ${({ theme }) => theme.black4};
 	border-radius: ${RFValue(5)}px;
-	padding-horizontal: ${RFValue(4)}px;
-	padding-vertical: ${RFValue(1)}px;
+	padding: ${RFValue(1)}px ${RFValue(4)}px; 
 	background-color: ${({ theme }) => theme.white3};
 `
 
@@ -75,7 +74,7 @@ export const LeftSideLabel = styled.View`
 
 export const TitleContainer = styled.View`
 	border-left-width: ${RFValue(2.5)}px;
-	padding-horizontal: ${RFValue(6)}px;
+	padding: 0px ${RFValue(6)}px;
 	overflow: hidden;
 	border-color: ${({ theme }) => theme.black4};
 `
@@ -89,8 +88,7 @@ export const RightArea = styled.View<Omit<SideAreaProps, 'backgroundColor'>>`
 	width: ${({ hasPictureOrSaleValue }) => (hasPictureOrSaleValue ? '67%' : '98%')};
 	height: 100%;
 	background-color: ${({ theme }) => theme.white3};
-	padding-horizontal: ${RFValue(7)}px;
-	padding-vertical: ${RFValue(7)}px;
+	padding: ${RFValue(7)}px ${RFValue(7)}px;
 `
 
 export const RightAreaLimits = styled.View`

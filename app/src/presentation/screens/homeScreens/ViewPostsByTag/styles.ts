@@ -16,22 +16,21 @@ export const Header = styled.View`
 `
 
 export const InputContainer = styled.View`
-	margin-vertical: ${relativeScreenWidth(5)}px;
+	margin: ${relativeScreenWidth(5)}px 0px;
 	height: ${RFValue(50)}px;
-	padding-horizontal: ${relativeScreenWidth(2)}px;
-	padding-vertical: ${relativeScreenWidth(2)}px;
+	padding:  ${relativeScreenWidth(2)}px ${relativeScreenWidth(2)}px;
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
 `
 
 export const TagsContainer = styled.View`
-	padding-vertical: ${RFValue(15)}px;
+	padding: ${RFValue(15)}px 0px;
 	align-items: center;
 	justify-content: center;
 `
 
 export const HorizontalPadding = styled.View`
 	width: 100%;
-	padding-horizontal: ${RFValue(15)}px;
+	padding: 0px ${RFValue(15)}px;
 `
