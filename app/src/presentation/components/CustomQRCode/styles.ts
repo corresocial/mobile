@@ -21,7 +21,6 @@ export const ClipboardArea = styled.View<ClipboardProps>`
 	border-width: ${RFValue(2.5)}px;
 	border-color: ${({ theme }) => theme.black4};
 	justify-content: center;
-	transform
 `
 
 export const CliboardText = styled.Text<ClipboardProps>`
