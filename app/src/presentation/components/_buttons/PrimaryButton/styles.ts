@@ -7,7 +7,7 @@ export const TouchableContainer = styled.TouchableWithoutFeedback`
 	background-color: ${({ theme }) => theme.white2};
 `
 
-export const ContainerBottom = styled(Animatable.View)`
+export const ContainerBottom = styled(Animatable.View as any)`
 	width: 100%;
 	align-self: flex-end;
 	flex-direction: row;
