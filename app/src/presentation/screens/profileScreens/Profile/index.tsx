@@ -512,31 +512,28 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 												)
 											}
 											{
-												isLoggedUser
-													? (
-														arrayIsEmpty(getUserField('socialMedias'))
-															? (
-																<>
-																	<VerticalSpacing />
-																	<SmallButton
-																		label={'adicionar redes'}
-																		labelColor={theme.black4}
-																		SvgIcon={AtSignWhiteIcon}
-																		svgScale={['60%', '20%']}
-																		height={relativeScreenHeight(5)}
-																		onPress={openSocialMediaManagement}
-																	/>
-																	<VerticalSpacing />
-																</>
-															) : (
-																<HorizontalSocialMediaList
-																	socialMedias={getUserField('socialMedias') as SocialMedia[]}
+												arrayIsEmpty(getUserField('socialMedias'))
+													? isLoggedUser
+														? (
+															<>
+																<VerticalSpacing />
+																<SmallButton
+																	label={'adicionar redes'}
+																	labelColor={theme.black4}
+																	SvgIcon={AtSignWhiteIcon}
+																	svgScale={['60%', '20%']}
+																	height={relativeScreenHeight(5)}
 																	onPress={openSocialMediaManagement}
 																/>
-															)
-													)
+																<VerticalSpacing />
+															</>
+														)
+														: <VerticalSpacing />
 													: (
-														<VerticalSpacing />
+														<HorizontalSocialMediaList
+															socialMedias={getUserField('socialMedias') as SocialMedia[]}
+															onPress={openSocialMediaManagement}
+														/>
 													)
 											}
 											<OptionsArea>
@@ -613,7 +610,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 										)
 									}
 								</>
-
 							)
 						}}
 						data={getFlatlistPosts()}
