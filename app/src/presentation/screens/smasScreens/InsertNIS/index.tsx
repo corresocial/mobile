@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult } from '@domain/entities/smas/types'
+
+import { SmasRepositoryAdapter } from '@data/user/SmasRepositoryAdapter'
 
 import { InsertNISScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
 
@@ -14,14 +16,28 @@ import { SmasAdapter } from '@adapters/smas/SmasAdapter'
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { PostInputText } from '@components/_onboarding/PostInputText'
 
-const { validateNIS } = SmasAdapter()
-
-const { treatSmasApiResponse } = SmasAdapter()
+const { getNisFromLocalRepository, treatSmasApiResponse, validateNIS } = SmasAdapter()
 
 function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 	const [isLoading, setIsLoading] = React.useState(false)
+	const [storagedNis, setStoragedNis] = React.useState<string>('')
 
 	const { smasService } = route.params
+
+	useEffect(() => {
+		const unsubscribe = navigation.addListener('focus', () => {
+			loadStoragedNis()
+		})
+		return unsubscribe
+	}, [navigation])
+
+	const loadStoragedNis = async () => {
+		const nis = await getNisFromLocalRepository(SmasRepositoryAdapter)
+		if (nis) {
+			storagedNis !== nis && setStoragedNis('')
+			setStoragedNis(nis)
+		}
+	}
 
 	const saveNIS = async (NISValue: string) => {
 		try {
@@ -71,7 +87,7 @@ function InsertNIS({ route, navigation }: InsertNISScreenProps) {
 				height={'45%'}
 				inputPlaceholder={'12345678910'}
 				isLoading={isLoading}
-				// initialValue={'11223312341'}
+				initialValue={storagedNis}
 				keyboardType={'number-pad'}
 				validationColor={theme.pink1}
 				validateInputText={validateNIS}

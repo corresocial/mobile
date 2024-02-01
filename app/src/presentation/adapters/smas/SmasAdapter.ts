@@ -1,6 +1,8 @@
-import { treatSmasApiResponseUC } from '@domain/publicService/useCases/treatSmasApiResponse'
-import { validateNameUC } from '@domain/publicService/useCases/validateNameUC'
-import { validateNISUC } from '@domain/publicService/useCases/validateNISUC'
+import { getNisFromLocalRepositoryUC } from '@domain/useCases/smas/getNisFromLocalRepositoryUC'
+import { setNisOnLocalRepositoryUC } from '@domain/useCases/smas/setNisOnLocalRepositoryUC'
+import { treatSmasApiResponseUC } from '@domain/useCases/smas/treatSmasApiResponseUC'
+import { validateNameUC } from '@domain/useCases/smas/validateNameUC'
+import { validateNISUC } from '@domain/useCases/smas/validateNISUC'
 
 import { SmasAdapterInterface } from './SmasAdapterInterface'
 
@@ -8,7 +10,9 @@ function SmasAdapter(): SmasAdapterInterface {
 	return {
 		validateNIS: validateNISUC,
 		validateName: validateNameUC,
-		treatSmasApiResponse: treatSmasApiResponseUC
+		treatSmasApiResponse: treatSmasApiResponseUC,
+		setNisOnLocalRepository: setNisOnLocalRepositoryUC,
+		getNisFromLocalRepository: getNisFromLocalRepositoryUC
 	}
 }
 

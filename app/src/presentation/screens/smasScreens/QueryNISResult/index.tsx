@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { Platform } from 'react-native'
 
+import { SmasRepositoryAdapter } from '@data/user/SmasRepositoryAdapter'
+
 import { SmasContext } from '@contexts/SmasContext'
 
 import { QueryNISResultScreenProps } from '@routes/Stack/PublicServicesStack/stackScreenProps'
@@ -11,12 +13,16 @@ import XWhiteIcon from '@assets/icons/x-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
+import { SmasAdapter } from '@adapters/smas/SmasAdapter'
+
 import { BackButton } from '@components/_buttons/BackButton'
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+
+const { setNisOnLocalRepository } = SmasAdapter()
 
 function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 	const { setSmasDataOnContext } = useContext(SmasContext)
@@ -28,14 +34,17 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 	const navigateBackwards = () => navigation.goBack()
 
 	const backToInicialStackScreen = () => {
-		navigation.navigate('SelectPublicService')
+		navigation.pop(6)
 	}
 
 	const saveNis = () => {
 		if (nisIsSaved) {
 			return backToInicialStackScreen()
 		}
+
 		setSmasDataOnContext({ NIS })
+		setNisOnLocalRepository(NIS, SmasRepositoryAdapter)
+		console.log('setNisOnLocalRepository')
 		setNisIsSaved(true)
 	}
 
@@ -84,7 +93,7 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 			</DefaultHeaderContainer>
 			< FormContainer backgroundColor={theme.white3}>
 				{
-					status === 200 && (
+					status === 200 && !nisIsSaved && (
 						<PrimaryButton
 							color={theme.red3}
 							label={'não, obrigado'}
@@ -96,7 +105,7 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 				}
 				<PrimaryButton
 					color={theme.green3}
-					label={status === 200 ? 'sim, salvar' : 'concluir'}
+					label={status === 200 && !nisIsSaved ? 'sim, salvar' : 'concluir'}
 					labelColor={theme.white3}
 					SecondSvgIcon={CheckWhiteIcon}
 					onPress={status === 200 ? saveNis : backToInicialStackScreen}

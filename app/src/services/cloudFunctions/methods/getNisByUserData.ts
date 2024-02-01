@@ -10,7 +10,7 @@ async function getNisByUserData(searchParams: SmasRecoveryNISData, smasService: 
 	console.log({ ...searchParams, queryType: smasService })
 	return axios.post(`${FIREBASE_CLOUD_URL}/smasAPI`, { ...searchParams, queryType: smasService })
 		.then((res) => {
-			return { NIS: res.data, status: 200 }
+			return { NIS: res.data.toString(), status: 200 }
 		})
 		.catch((err) => {
 			if (err.response.status === 404) return { NIS: '', status: 404 }

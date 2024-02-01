@@ -1,9 +1,9 @@
 import { SmasService } from '@domain/entities/smas/types'
 
-import { checkSmasApiResponseStatus } from '../rules/checkSmasApiResponseStatus'
-import { structureBeeObject } from '../rules/structureBeeObject'
-import { structureCadunicoObject } from '../rules/structureCadunicoObject'
-import { structurePbfObject } from '../rules/structurePbfObject'
+import { checkSmasApiResponseStatus } from '../../rules/smas/checkSmasApiResponseStatus'
+import { structureBeeObject } from '../../rules/smas/structureBeeObject'
+import { structureCadunicoObject } from '../../rules/smas/structureCadunicoObject'
+import { structurePbfObject } from '../../rules/smas/structurePbfObject'
 
 const treatSmasApiResponseUC = (apiResponse: any, smasService: SmasService) => {
 	const [responseData, hasError] = checkSmasApiResponseStatus(apiResponse)

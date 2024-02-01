@@ -53,6 +53,4 @@ function structureBeeObject(responseData: BEE) {
 	}
 }
 
-// feat(smas): Adiciona tratativa data de concessão e data de liberação de benefício emergencial
-
 export { structureBeeObject }

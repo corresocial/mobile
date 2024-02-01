@@ -69,6 +69,10 @@ function PostInputText({
 	const textInputRef = useRef()
 
 	useEffect(() => {
+		setInputText(initialValue || '')
+	}, [initialValue])
+
+	useEffect(() => {
 		const validation = validateInputText(inputText)
 		setInputTextIsValid(validation)
 	}, [inputText, keyboardOpened])

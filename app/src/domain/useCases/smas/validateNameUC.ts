@@ -1,4 +1,4 @@
-import { validateName } from '../rules/validatSmasInfo'
+import { validateName } from '../../rules/smas/validatSmasInfo'
 
 const validateNameUC = (NISValue: string) => {
 	return validateName(NISValue)
