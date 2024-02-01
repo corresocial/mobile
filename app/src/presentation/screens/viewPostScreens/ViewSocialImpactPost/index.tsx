@@ -287,7 +287,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 							: (
 								<SmallButton
 									color={theme.green3}
-									label={isAuthor ? 'compartilhar' : 'comprar'}
+									label={isAuthor ? 'compartilhar' : 'fortalecer'}
 									SvgIcon={isAuthor ? ShareWhiteIcon : ChatWhiteIcon}
 									relativeWidth={isAuthor ? '80%' : '63%'}
 									height={relativeScreenWidth(12)}
