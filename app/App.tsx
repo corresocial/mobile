@@ -24,7 +24,7 @@ import { sentryConfig } from './src/services/sentry'
 
 const { ENVIRONMENT } = getEnvVars()
 
-console.log(__DEV__)
+console.log(`Dev Mode: ${__DEV__}`)
 if (!__DEV__ && ENVIRONMENT !== 'dev') {
 	Sentry.init(sentryConfig)
 }

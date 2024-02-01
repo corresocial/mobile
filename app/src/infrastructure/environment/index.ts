@@ -168,8 +168,8 @@ const ENV = {
 	}
 }
 
+console.log(`ENVIRONMENT: ${ENVIRONMENT}`)
 const getEnvVars = () => {
-	console.log(ENVIRONMENT)
 	if (ENVIRONMENT === 'dev' || !ENVIRONMENT) {
 		return ENV.dev as EnvironmentVars
 	} if (ENVIRONMENT === 'staging') {

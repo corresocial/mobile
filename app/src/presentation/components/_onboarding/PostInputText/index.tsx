@@ -16,6 +16,7 @@ import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { Loader } from '@components/Loader'
 
 import { ProgressBar } from '../../ProgressBar'
 
@@ -29,6 +30,7 @@ interface PostInputTextProps {
 	contextTitle?: string
 	contextHighlightedWords?: string[]
 	multiline?: boolean
+	isLoading?: boolean
 	inputPlaceholder?: string
 	keyboardType?: TextInputProps['keyboardType']
 	initialValue?: string
@@ -49,6 +51,7 @@ function PostInputText({
 	customHighlight,
 	contextTitle,
 	contextHighlightedWords,
+	isLoading,
 	multiline,
 	inputPlaceholder,
 	keyboardType,
@@ -64,6 +67,10 @@ function PostInputText({
 	const [inputTextIsValid, setInputTextIsValid] = useState<boolean>(false)
 
 	const textInputRef = useRef()
+
+	useEffect(() => {
+		setInputText(initialValue || '')
+	}, [initialValue])
 
 	useEffect(() => {
 		const validation = validateInputText(inputText)
@@ -149,18 +156,20 @@ function PostInputText({
 				/>
 				<ButtonsContainer>
 					{
-						inputTextIsValid && !keyboardOpened
-							? (
-								<PrimaryButton
-									flexDirection={'row-reverse'}
-									color={theme.green3}
-									label={'continuar'}
-									labelColor={theme.white3}
-									SvgIcon={CheckWhiteIcon}
-									onPress={() => saveTextData(inputText.trim())}
-								/>
-							)
-							: children && children
+						isLoading
+							? <Loader />
+							: inputTextIsValid && !keyboardOpened
+								? (
+									<PrimaryButton
+										flexDirection={'row-reverse'}
+										color={theme.green3}
+										label={'continuar'}
+										labelColor={theme.white3}
+										SvgIcon={CheckWhiteIcon}
+										onPress={() => saveTextData(inputText.trim())}
+									/>
+								)
+								: children && children
 					}
 				</ButtonsContainer>
 			</FormContainer>

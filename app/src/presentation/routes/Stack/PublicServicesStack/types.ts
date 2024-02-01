@@ -1,4 +1,4 @@
-import { SmasService } from '@domain/entities/smas/types'
+import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult, SmasService } from '@domain/entities/smas/types'
 
 import { HomeTabParamList } from '../../Tabs/HomeTab/types'
 
@@ -10,14 +10,8 @@ export type PublicServiceStackParamList = {
 	InsertMotherNameNIS: undefined
 	InsertDateOfBirthNIS: undefined
 	InsertAnonymizedCpfNIS: undefined
-	QueryByNISResult: {
-		smasService: SmasService
-		NIS: string
-		status: string // TODO Type
-		grantDate: string
-		expectedDate: string
-		familyBagName: string
-		familyBagValue: string
-	}
-	QueryNISResult: { NIS: string, success: boolean }
+	QueryNISResult: { NIS: string, status: number }
+	QueryBeeByNISResult: QueryBeeResult
+	QueryPbfByNISResult: QueryPbfResult
+	QueryCadunicoByNISResult: QueryCadunicoResult
 } & HomeTabParamList
