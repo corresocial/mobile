@@ -44,7 +44,6 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 
 		setSmasDataOnContext({ NIS })
 		setNisOnLocalRepository(NIS, SmasRepositoryAdapter)
-		console.log('setNisOnLocalRepository')
 		setNisIsSaved(true)
 	}
 
