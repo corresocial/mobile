@@ -19,6 +19,7 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { Loader } from '@components/Loader'
 import { ProgressBar } from '@components/ProgressBar'
 
 const { getNisByUserData } = CloudFunctionService()
@@ -35,13 +36,14 @@ function InsertDateOfBirthNIS({ navigation }: InsertDateOfBirthNISScreenProps) {
 	const [yearIsValid, setYearIsValid] = useState<boolean>(false)
 	const [invalidDateAfterSubmit, setInvalidDateAfterSubmit] = useState<boolean>(false)
 
+	const [isLoading, setIsLoading] = useState(false)
+	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
+
 	const inputRefs = {
 		dayInput: useRef<TextInput>(null),
 		monthInput: useRef<TextInput>(null),
 		yearInput: useRef<TextInput>(null)
 	}
-
-	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	useEffect(() => {
 		const unsubscribe = navigation.addListener('focus', () => {
@@ -85,16 +87,23 @@ function InsertDateOfBirthNIS({ navigation }: InsertDateOfBirthNISScreenProps) {
 	}
 
 	const saveDateOfBirthNIS = async () => {
-		const formatedDate = `${day}/${month}/${year}`
-		setSmasDataOnContext({ dateOfBirth: formatedDate })
+		try {
+			const formatedDate = `${day}/${month}/${year}`
+			setSmasDataOnContext({ dateOfBirth: formatedDate })
 
-		if (getNumberOfMissingInfo() === 2) {
-			const res = await getNisByUserData({ ...smasDataContext, dateOfBirth: formatedDate }, 'ANONIMIZADO')
-			console.log(res)
-			return navigation.push('QueryNISResult', res)
+			if (getNumberOfMissingInfo() === 2) {
+				setIsLoading(true)
+				const res = await getNisByUserData({ ...smasDataContext, dateOfBirth: formatedDate }, 'ANONIMIZADO')
+				setIsLoading(false)
+
+				return navigation.push('QueryNISResult', res)
+			}
+
+			navigation.push('SelectNISQueryData')
+		} catch (err) {
+			console.log(err)
+			setIsLoading(false)
 		}
-
-		navigation.push('SelectNISQueryData')
 	}
 
 	const navigateBackwards = () => navigation.goBack()
@@ -200,16 +209,18 @@ function InsertDateOfBirthNIS({ navigation }: InsertDateOfBirthNISScreenProps) {
 				</InputsContainer>
 				<ButtonContainer>
 					{
-						allFiedsIsValid() && !keyboardOpened && existsThisDayOnMonth()
-						&& (
-							<PrimaryButton
-								color={theme.green3}
-								label={'continuar'}
-								labelColor={theme.white3}
-								SecondSvgIcon={CheckWhiteIcon}
-								onPress={saveDateOfBirthNIS}
-							/>
-						)
+						isLoading
+							? <Loader />
+							: allFiedsIsValid() && !keyboardOpened && existsThisDayOnMonth()
+							&& (
+								<PrimaryButton
+									color={theme.green3}
+									label={'continuar'}
+									labelColor={theme.white3}
+									SecondSvgIcon={CheckWhiteIcon}
+									onPress={saveDateOfBirthNIS}
+								/>
+							)
 					}
 				</ButtonContainer>
 			</FormContainer>

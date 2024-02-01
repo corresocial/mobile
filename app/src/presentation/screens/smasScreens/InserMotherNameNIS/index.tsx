@@ -20,6 +20,7 @@ const { getNisByUserData } = CloudFunctionService()
 function InsertMotherNameNIS({ navigation }: InsertMotherNameNISScreenProps) {
 	const { smasDataContext, setSmasDataOnContext, getNumberOfMissingInfo } = useContext(SmasContext)
 
+	const [isLoading, setIsLoading] = React.useState(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	useEffect(() => {
@@ -36,14 +37,22 @@ function InsertMotherNameNIS({ navigation }: InsertMotherNameNISScreenProps) {
 	}
 
 	const saveMotherNameNIS = async (motherName: string) => {
-		setSmasDataOnContext({ motherName })
+		try {
+			setSmasDataOnContext({ motherName })
 
-		if (getNumberOfMissingInfo() === 2) {
-			const res = await getNisByUserData({ ...smasDataContext, motherName }, 'ANONIMIZADO')
-			return navigation.push('QueryNISResult', res)
+			if (getNumberOfMissingInfo() === 2) {
+				setIsLoading(true)
+				const res = await getNisByUserData({ ...smasDataContext, motherName }, 'ANONIMIZADO')
+				setIsLoading(false)
+
+				return navigation.push('QueryNISResult', res)
+			}
+
+			navigation.push('SelectNISQueryData')
+		} catch (err) {
+			console.log(err)
+			setIsLoading(false)
 		}
-
-		navigation.push('SelectNISQueryData')
 	}
 
 	const getProgressBarState = () => {
@@ -61,6 +70,7 @@ function InsertMotherNameNIS({ navigation }: InsertMotherNameNISScreenProps) {
 				customHighlight={['nome', 'completo', 'mãe']}
 				backgroundColor={theme.pink2}
 				height={'50%'}
+				isLoading={isLoading}
 				inputPlaceholder={'ex: Maria Candida'}
 				keyboardOpened={keyboardOpened}
 				progress={[getProgressBarState(), 3]}

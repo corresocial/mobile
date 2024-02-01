@@ -20,6 +20,7 @@ import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderCon
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { Loader } from '@components/Loader'
 import { ProgressBar } from '@components/ProgressBar'
 
 const { getNisByUserData } = CloudFunctionService()
@@ -32,6 +33,7 @@ function InsertAnonymizedCpfNIS({ navigation }: InsertAnonymizedCpfNISScreenProp
 	const [firstCpfValuesIsValid, setFirstCpfValuesIsValid] = useState<boolean>(false)
 	const [lastCpfValuesIsValid, setLastCpfValuesIsValid] = useState<boolean>(false)
 
+	const [isLoading, setIsLoading] = React.useState(false)
 	const [keyboardOpened, setKeyboardOpened] = useState<boolean>(false)
 
 	const inputRefs = {
@@ -63,16 +65,24 @@ function InsertAnonymizedCpfNIS({ navigation }: InsertAnonymizedCpfNISScreenProp
 	}
 
 	const saveDateOfBirthNIS = async () => {
-		const anonymizedCpf = `${firstCpfValues}${lastCpfValues}`
-		if (anonymizedCpf.length !== 5) return
+		try {
+			const anonymizedCpf = `${firstCpfValues}${lastCpfValues}`
+			if (anonymizedCpf.length !== 5) return
 
-		setSmasDataOnContext({ anonymizedCpf })
+			setSmasDataOnContext({ anonymizedCpf })
 
-		if (getNumberOfMissingInfo() === 2) {
-			const res = await getNisByUserData({ ...smasDataContext, anonymizedCpf }, 'ANONIMIZADO')
-			return navigation.push('QueryNISResult', res)
+			if (getNumberOfMissingInfo() === 2) {
+				setIsLoading(true)
+				const res = await getNisByUserData({ ...smasDataContext, anonymizedCpf }, 'ANONIMIZADO')
+				setIsLoading(false)
+
+				return navigation.push('QueryNISResult', res)
+			}
+			navigation.push('SelectNISQueryData')
+		} catch (err) {
+			console.log(err)
+			setIsLoading(false)
 		}
-		navigation.push('SelectNISQueryData')
 	}
 
 	const navigateBackwards = () => navigation.goBack()
@@ -151,17 +161,19 @@ function InsertAnonymizedCpfNIS({ navigation }: InsertAnonymizedCpfNISScreenProp
 				</InputsContainer>
 				<ButtonContainer>
 					{
-						firstCpfValuesIsValid && lastCpfValuesIsValid && !keyboardOpened && (
-							<PrimaryButton
-								startsHidden
-								keyboardHideButton={false}
-								color={theme.green3}
-								label={'continuar'}
-								labelColor={theme.white3}
-								SecondSvgIcon={CheckWhiteIcon}
-								onPress={saveDateOfBirthNIS}
-							/>
-						)
+						isLoading
+							? <Loader />
+							: firstCpfValuesIsValid && lastCpfValuesIsValid && !keyboardOpened && (
+								<PrimaryButton
+									startsHidden
+									keyboardHideButton={false}
+									color={theme.green3}
+									label={'continuar'}
+									labelColor={theme.white3}
+									SecondSvgIcon={CheckWhiteIcon}
+									onPress={saveDateOfBirthNIS}
+								/>
+							)
 					}
 				</ButtonContainer>
 			</FormContainer>
