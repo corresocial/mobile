@@ -360,6 +360,7 @@ function Home({ navigation }: HomeScreenProps) {
 					/>
 				)}
 				<FeedByRange
+					searchEnded={searchEnded}
 					backgroundColor={theme.orange2}
 					filteredFeedPosts={feedPosts}
 					viewPostsByRange={viewPostsByRange}
