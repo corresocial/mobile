@@ -18,7 +18,7 @@ import { AlertNotificationModal } from '@components/_modals/AlertNotificationMod
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenProps) {
-	const { userHasTokenNotification } = useContext(ChatContext)
+	const { chatUserHasTokenNotification } = useContext(ChatContext)
 	const [notificationModalIsVisible, setNotificationModalIsVisible] = useState(false)
 
 	const { status, NIS, nisNotFound, serverError, familyBagName, familyBagValue } = route.params
@@ -36,7 +36,7 @@ function QueryPbfByNISResult({ route, navigation }: QueryPbfByNISResultScreenPro
 	}
 
 	const handleContinueButton = async () => {
-		if (await userHasTokenNotification()) {
+		if (await chatUserHasTokenNotification()) {
 			return backToInitialStackScreen()
 		}
 

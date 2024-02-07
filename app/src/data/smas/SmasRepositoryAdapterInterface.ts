@@ -5,7 +5,8 @@ interface SmasRepositoryAdapterInterface {
 		clearStoragedNis: () => Promise<boolean>
 	}
 	remote: {
-
+		getNotificationTokenByNis: (nis: string) => Promise<string>
+		updateSmasTokenNotification: (nis: string, tokenNotification: string) => Promise<void>
 	}
 }
 

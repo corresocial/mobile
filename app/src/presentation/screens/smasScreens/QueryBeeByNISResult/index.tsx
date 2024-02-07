@@ -20,7 +20,7 @@ import { AlertNotificationModal } from '@components/_modals/AlertNotificationMod
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenProps) {
-	const { userHasTokenNotification } = useContext(ChatContext)
+	const { chatUserHasTokenNotification } = useContext(ChatContext)
 	const [notificationModalIsVisible, setNotificationModalIsVisible] = useState(false)
 
 	const { nisNotFound, serverError, benefitRequested, benefitGranted, inAnalysis, grantDate, expectedDate } = route.params
@@ -38,7 +38,7 @@ function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenPro
 	}
 
 	const handleContinueButton = async () => {
-		if (await userHasTokenNotification()) {
+		if (await chatUserHasTokenNotification()) {
 			return backToInitialStackScreen()
 		}
 

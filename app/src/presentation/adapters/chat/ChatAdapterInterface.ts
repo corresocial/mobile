@@ -2,6 +2,8 @@ import { CheckBlockedUsersResponse } from '@domain/entities/chat'
 import { Chat, ChatUserData, ChatUserIdentification, Message, MessageObjects } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
+import { ChatGatewayAdapterInterface as ChatRepositoryAdapterInterface } from '@data/remoteStorage/chat/gatewayAdapter/ChatGatewayAdapterInterface'
+
 import { MutableObjectReference } from '@services/pushNotification/types'
 
 interface ChatAdapterInterface {
@@ -27,6 +29,7 @@ interface ChatAdapterInterface {
 	unsubscribeUserChatIdsListener: (userId: Id) => void
 	unsubscribeUserChatsListener: (chatIds: Id[]) => void
 	unsubscribeChatMessagesListener(chatId: Id): void
+	chatUserHasTokenNotification(userId: Id, ChatRepositoryAdapter: () => ChatRepositoryAdapterInterface): Promise<boolean>
 	updateUserTokenNotification(userId: Id, tokenNotification: string): Promise<void>
 	hasBlockedUserOnConversation(userId1: Id, userId2: Id): Promise<CheckBlockedUsersResponse>
 

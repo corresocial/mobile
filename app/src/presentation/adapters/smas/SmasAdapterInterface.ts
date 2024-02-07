@@ -1,6 +1,8 @@
 import { QueryBeeResult, QueryCadunicoResult, QueryPbfResult, SmasService } from '@domain/entities/smas/types'
 
-import { SmasRepositoryAdapterInterface } from '@data/user/SmasRepositoryAdapterInterface'
+import { SmasRepositoryAdapterInterface } from '@data/smas/SmasRepositoryAdapterInterface'
+
+import { PushNotificationServiceInterface } from '@services/pushNotification/PushNotificationServiceInterface'
 
 interface SmasAdapterInterface {
 	validateNIS: (NISValue: string) => boolean
@@ -8,6 +10,8 @@ interface SmasAdapterInterface {
 	treatSmasApiResponse: (apiResponse: any, smasService: SmasService) => QueryBeeResult | QueryPbfResult | QueryCadunicoResult | { nisNotFound: boolean }
 	setNisOnLocalRepository: (nis: string, SmasRepositoryAdapter: () => SmasRepositoryAdapterInterface) => Promise<boolean>
 	getNisFromLocalRepository: (SmasRepositoryAdapter: () => SmasRepositoryAdapterInterface) => Promise<string>
+	smasUserHasTokenNotification: (nis: string, SmasRepositoryAdapter: () => SmasRepositoryAdapterInterface) => Promise<boolean>
+	setSmasPushNotificationState: (state: boolean, userId: string, SmasRepositoryAdapter: () => SmasRepositoryAdapterInterface, PushNotificationService: () => PushNotificationServiceInterface) => Promise<void>
 }
 
 export { SmasAdapterInterface }

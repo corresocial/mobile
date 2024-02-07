@@ -1,4 +1,4 @@
-import { SmasRepositoryAdapterInterface } from '@data/user/SmasRepositoryAdapterInterface'
+import { SmasRepositoryAdapterInterface } from '@data/smas/SmasRepositoryAdapterInterface'
 
 async function setNisOnLocalRepositoryUC(nis: string, SmasRepositoryAdapter: () => SmasRepositoryAdapterInterface) {
 	const { local } = SmasRepositoryAdapter()

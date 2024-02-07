@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Platform } from 'react-native'
 
-import { SmasRepositoryAdapter } from '@data/user/SmasRepositoryAdapter'
+import { SmasRepositoryAdapter } from '@data/smas/SmasRepositoryAdapter'
 
 import { SmasContext } from '@contexts/SmasContext'
 

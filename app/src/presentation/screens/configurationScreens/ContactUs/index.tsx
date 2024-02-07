@@ -10,7 +10,7 @@ import { BackButton } from '@components/_buttons/BackButton'
 import { PrimaryButton } from '@components/_buttons/PrimaryButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
-import { VerticalSpacing } from '@components/_space/VerticalSpacing'
+import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 
 function ContactUs({ navigation }: ContactUsScreenProps) {
 	return (
@@ -22,7 +22,7 @@ function ContactUs({ navigation }: ContactUsScreenProps) {
 				backgroundColor={theme.white3}
 			>
 				<BackButton onPress={() => navigation.goBack()} />
-				<VerticalSpacing />
+				<HorizontalSpacing />
 				<InstructionCard
 					borderLeftWidth={3}
 					fontSize={15}
