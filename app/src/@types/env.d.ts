@@ -3,12 +3,13 @@ declare module '@env' {
 
 	export const FIREBASE_apiKey: string
 	export const FIREBASE_authDomain: string
-	export const FIREBASE_databaseURL: string
 	export const FIREBASE_projectId: string
 	export const FIREBASE_storageBucket: string
 	export const FIREBASE_messagingSenderId: string
 	export const FIREBASE_appId: string
 	export const FIREBASE_measurementId: string
+	export const FIREBASE_databaseURL: string
+	export const FIREBASE_smas_databaseURL: string
 	export const FIREBASE_CLOUD_URL: string
 	export const MAPS_API: string
 	export const ALGOLIA_ID: string
@@ -23,7 +24,6 @@ declare module '@env' {
 	export const PROD_FIREBASE_appId: string
 	export const PROD_FIREBASE_measurementId: string
 	export const PROD_FIREBASE_CLOUD_URL: string
-	export const PROD_FIRESTORE_REAL_TIME_DATABASE: string
 	export const PROD_ALGOLIA_ID: string
 	export const PROD_ALGOLIA_KEY: string
 	export const PROD_AUTH_EXPO_CLIENT_ID: string
@@ -44,7 +44,6 @@ declare module '@env' {
 	export const NOTION_FALECONOSCO_ID: string
 	export const NOTION_APPICONS_ID: string
 	export const NOTION_APPICONS_KEY: string
-	export const FIRESTORE_REAL_TIME_DATABASE: string
 	export const DSN_SENTRY: string
 	export const STRIPE_PUBLISHABLE_KEY: string
 	export const STRIPE_SECRET_KEY: string
