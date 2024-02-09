@@ -98,6 +98,7 @@ function ViewAllTags({ navigation }: ViewAllTagsScreenProps) {
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
 						onPressKeyboardSubmit={navigateToResultScreen}
+						clearOnSubmit
 					/>
 				</InputContainer>
 			</Header>

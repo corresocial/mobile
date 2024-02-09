@@ -223,7 +223,6 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 										height={relativeScreenWidth(12)}
 										color={theme.white3}
 										onPress={() => {
-											setSearchText('')
 											hideSearchInput()
 										}}
 										SvgIcon={AngleLeftWhiteIcon}
@@ -236,6 +235,7 @@ function ChatConversations({ navigation }: ChatConversationsScreenProps) {
 									relativeWidth={'80%'}
 									searchInputRef={searchInputRef}
 									onChangeText={(text: string) => onChangeSearchText(text)}
+									clearOnSubmit
 								/>
 							</SearchInputContainer>
 						</SelectPeriodButtonContainer>

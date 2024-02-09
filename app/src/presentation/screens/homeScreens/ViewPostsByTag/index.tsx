@@ -63,6 +63,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 			category: locationDataContext.currentCategory.categoryName,
 			tag: route.params.currentTagSelected
 		}
+
 		navigation.navigate('SearchResult', { searchParams: customSearchParams, categoryLabel: locationDataContext.currentCategory.categoryTitle, })
 	}
 
@@ -98,6 +99,7 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
 						onPressKeyboardSubmit={navigateToResultScreen}
+						clearOnSubmit
 					/>
 				</InputContainer>
 			</Header>

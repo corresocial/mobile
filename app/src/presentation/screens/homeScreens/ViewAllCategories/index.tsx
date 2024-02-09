@@ -162,7 +162,6 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 			category: '',
 			tag: ''
 		}
-		setSearchText('')
 
 		navigation.navigate('SearchResult', { searchParams: customSearchParams })
 	}
@@ -186,6 +185,7 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 						onChangeText={(text: string) => setSearchText(text)}
 						onPressKeyboardSubmit={navigateToResultScreen}
 						onSubmitEditing={() => { }}
+						clearOnSubmit
 					/>
 				</InputContainer>
 			</Header>

@@ -113,6 +113,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 			category: '',
 			tag: ''
 		}
+		
 		navigation.navigate('SearchResult', { searchParams: customSearchParams })
 	}
 
@@ -217,6 +218,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 						returnKeyType={'search'}
 						onChangeText={(text: string) => setSearchText(text)}
 						onPressKeyboardSubmit={navigateToResultScreen}
+						clearOnSubmit
 					/>
 				</InputContainer>
 			</Header>
