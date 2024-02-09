@@ -7,6 +7,6 @@ interface ContainerProps {
 }
 
 export const Container = styled.View<ContainerProps>`
-	width: 100 %;
+	width: 100%;
 	height: ${({ height }) => height || relativeScreenHeight(1.25)}px;
 `
