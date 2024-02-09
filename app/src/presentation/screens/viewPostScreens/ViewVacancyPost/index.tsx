@@ -293,7 +293,7 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 							: (
 								<SmallButton
 									color={theme.green3}
-									label={isAuthor ? 'compartilhar' : 'negociar'}
+									label={isAuthor ? 'compartilhar' : 'conversar'}
 									SvgIcon={isAuthor ? ShareWhiteIcon : ChatWhiteIcon}
 									relativeWidth={isAuthor ? '80%' : '63%'}
 									height={relativeScreenWidth(12)}
