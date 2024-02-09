@@ -182,10 +182,10 @@ function ViewAllCategories({ navigation }: ViewAllCategoriesScreenProps) {
 						value={searchText}
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
+						clearOnSubmit
 						onChangeText={(text: string) => setSearchText(text)}
 						onPressKeyboardSubmit={navigateToResultScreen}
 						onSubmitEditing={() => { }}
-						clearOnSubmit
 					/>
 				</InputContainer>
 			</Header>

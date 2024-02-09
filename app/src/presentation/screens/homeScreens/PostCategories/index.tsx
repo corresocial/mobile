@@ -252,7 +252,7 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 			category: '',
 			tag: ''
 		}
-		
+
 		navigation.navigate('SearchResult', { searchParams: customSearchParams })
 	}
 
@@ -270,9 +270,9 @@ function PostCategories({ navigation }: PostCategoriesScreenProps) {
 						value={searchText}
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
+						clearOnSubmit
 						onChangeText={(text: string) => setSearchText(text)}
 						onPressKeyboardSubmit={navigateToResultScreen}
-						clearOnSubmit
 					/>
 				</InputContainer>
 			</Header>

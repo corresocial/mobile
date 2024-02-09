@@ -97,9 +97,9 @@ function ViewPostsByTag({ route, navigation }: ViewPostsByTagScreenProps) {
 						value={searchText}
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
+						clearOnSubmit
 						onChangeText={(text: string) => setSearchText(text)}
 						onPressKeyboardSubmit={navigateToResultScreen}
-						clearOnSubmit
 					/>
 				</InputContainer>
 			</Header>
