@@ -16,6 +16,7 @@ import { ViewPostsByPostType } from '@screens/homeScreens/ViewPostsByPostType'
 import { ViewPostsByRange } from '@screens/homeScreens/ViewPostsByRange'
 import { ViewPostsByTag } from '@screens/homeScreens/ViewPostsByTag'
 import { Profile } from '@screens/profileScreens/Profile'
+import { SelectPublicService } from '@screens/publicServicesScreens/SelectPublicService'
 import { ViewCulturePost } from '@screens/viewPostScreens/ViewCulturePost'
 import { ViewIncomePost } from '@screens/viewPostScreens/ViewIncomePost'
 import { ViewSocialImpactPost } from '@screens/viewPostScreens/ViewSocialImpactPost'
@@ -48,6 +49,8 @@ export function HomeStack({ route }: any) {
 				<Stack.Screen name={'ViewPostsByTag'} component={ViewPostsByTag} />
 				<Stack.Screen name={'SearchResult'} component={SearchResult} />
 				<Stack.Screen name={'ProfileHome'} component={Profile} />
+
+				<Stack.Screen name={'SelectPublicService'} component={SelectPublicService} />
 			</Stack.Navigator>
 		</StateProvider>
 	)

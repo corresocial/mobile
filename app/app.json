@@ -4,7 +4,7 @@
 		"owner": "corresocial",
 		"scheme": "com.corresocial.corresocial",
 		"slug": "corresocial",
-		"version": "0.6.0",
+		"version": "0.6.1",
 		"orientation": "portrait",
 		"userInterfaceStyle": "light",
 		"icon": "./assets/icon.png",
@@ -95,7 +95,7 @@
 			"**/*"
 		],
 		"ios": {
-			"buildNumber": "51",
+			"buildNumber": "53",
 			"infoPlist": {
 				"NSCameraUsageDescription": "Você precisa permitir o acesso a câmera para tirar fotos de perfil e posts.",
 				"NSLocationWhenInUseUsageDescription": "Você precisa permitir o acesso a localização para encontrar posts e perfis perto de você.",
@@ -114,7 +114,7 @@
 			}
 		},
 		"android": {
-			"versionCode": 51,
+			"versionCode": 53,
 			"package": "com.corresocial.corresocial",
 			"icon": "./assets/icon.png",
 			"adaptiveIcon": {

@@ -16,3 +16,5 @@ export type ViewAllCategoriesScreenProps = NativeStackScreenProps<HomeStackParam
 export type ViewPostsByTagScreenProps = NativeStackScreenProps<HomeStackParamList, 'ViewPostsByTag'>
 export type SearchResultScreenProps = NativeStackScreenProps<HomeStackParamList, 'SearchResult'>
 export type ProfileHomeScreenProps = NativeStackScreenProps<HomeStackParamList, 'ProfileHome'>
+
+export type SelectPublicServiceScreenProps = NativeStackScreenProps<HomeStackParamList, 'SelectPublicService'>

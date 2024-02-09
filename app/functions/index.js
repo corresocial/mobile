@@ -4,9 +4,9 @@
 	CONFIGURE ALGOLIA_ID & ALGOLIA_KEY MANUALMENTE DE ACORDO COM O AMBIENTE
 */
 
-const functions = require('firebase-functions')
-const admin = require('firebase-admin')
 const algoliasearch = require('algoliasearch')
+const admin = require('firebase-admin')
+const functions = require('firebase-functions')
 
 const { getNearbyPosts, getCityPosts, getCountryPosts, filterLocation } = require('./src/getFeedPostsBeta')
 const {
@@ -157,4 +157,30 @@ exports.checkUserPhoneAlreadyRegistred = functions.https.onRequest(async (req, r
 			console.log('Error fetching user data:', error)
 			return res.status(200).send(false)
 		})
+})
+
+/// cloudStorageBackup
+
+exports.cloudBackupStorage = functions.storage.object().onFinalize(async (object) => {
+	async function performBackup(filePath, file) {
+		const backupBucketName = 'BUCKET_NAME' // get in firebase console
+		const backupBucket = admin.storage().bucket(`gs://${backupBucketName}`)
+
+		await file.copy(backupBucket.file(filePath))
+
+		console.log(`Backup realizado para: ${filePath} no outro bucket.`)
+	}
+
+	try {
+		const filePath = object.name
+		const bucket = admin.storage().bucket(object.bucket)
+		const file = bucket.file(filePath)
+
+		await performBackup(filePath, file)
+
+		console.log(`Backup realizado para: ${filePath}`)
+		return null
+	} catch (err) {
+		console.log(err)
+	}
 })

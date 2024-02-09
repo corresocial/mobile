@@ -22,7 +22,7 @@ function CatalogPostTypeButtons({ buttonLabels, buttonValues, buttonIcons, onPre
 			return (
 				<SmallButton
 					key={uuid()}
-					relativeWidth={'25%'}
+					relativeWidth={'21%'}
 					height={relativeScreenWidth(15)}
 					color={'white'}
 					fontSize={9}

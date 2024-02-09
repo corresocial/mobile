@@ -9,7 +9,6 @@ import CityWhiteIcon from '@assets/icons/city-white.svg'
 import PinWhiteIcon from '@assets/icons/pin-white.svg'
 import { relativeScreenHeight } from '@common/screenDimensions'
 
-import { SubscriptionButton } from '@components/_buttons/SubscriptionButton'
 import { PostCard } from '@components/_cards/PostCard'
 import { SubtitleCard } from '@components/_cards/SubtitleCard'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
@@ -18,9 +17,9 @@ import { WithoutPostsMessage } from '../WithoutPostsMessage'
 
 interface FeedByRangeProps {
 	backgroundColor?: string
+	searchEnded?: boolean
 	filteredFeedPosts: FeedPosts
 	children?: React.ReactElement | React.ReactElement[]
-	showSubscriptionModal?: () => void
 	viewPostsByRange: (postRange: PostRange) => void
 	navigateToProfile: (userId: string) => void
 	goToPostView: (post: PostCollection) => void
@@ -28,9 +27,9 @@ interface FeedByRangeProps {
 
 function FeedByRange({
 	backgroundColor,
+	searchEnded,
 	filteredFeedPosts,
 	children,
-	showSubscriptionModal,
 	viewPostsByRange,
 	navigateToProfile,
 	goToPostView
@@ -60,14 +59,6 @@ function FeedByRange({
 	const renderPosts = (range: keyof FeedPosts) => {
 		const firstFivePosts = getFirstFiveItems(filteredFeedPosts[range])
 		return firstFivePosts.map((post) => {
-			if (post as string | PostCollection === 'subscriptionAd') {
-				return (
-					<PostCardContainer key={uuid()}>
-						<SubscriptionButton onPress={() => showSubscriptionModal && showSubscriptionModal()} />
-						<VerticalSpacing />
-					</PostCardContainer>
-				)
-			}
 			return post.owner && renderPostItem(post)
 		})
 	}
@@ -141,7 +132,7 @@ function FeedByRange({
 			}
 			<VerticalSpacing height={relativeScreenHeight(10)} />
 			{
-				!hasAnyPost() && (
+				searchEnded && !hasAnyPost() && (
 					<WithoutPostsMessage
 						title={'opa!'}
 						message={'parece que não temos nenhum post perto de você, nosso time já está sabendo e irá resolver!'}

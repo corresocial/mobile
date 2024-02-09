@@ -113,6 +113,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 			category: '',
 			tag: ''
 		}
+
 		navigation.navigate('SearchResult', { searchParams: customSearchParams })
 	}
 
@@ -190,7 +191,12 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 		}
 	}
 
-	const navigateToPostSubcatery = (macroCategory: MacroCategoriesType) => {
+	const navigateToPostSubcatery = (macroCategory: MacroCategoriesType | 'publicServices') => {
+		if (macroCategory === 'publicServices') {
+			navigation.navigate('SelectPublicService')
+			return
+		}
+
 		setLocationDataOnContext({ searchParams: { ...locationDataContext.searchParams, macroCategory } })
 		navigation.navigate('PostCategories')
 	}
@@ -210,6 +216,7 @@ function ViewPostsByPostType({ navigation }: ViewPostsByPostTypeScreenProps) {
 						value={searchText}
 						placeholder={'pesquisar'}
 						returnKeyType={'search'}
+						clearOnSubmit
 						onChangeText={(text: string) => setSearchText(text)}
 						onPressKeyboardSubmit={navigateToResultScreen}
 					/>
