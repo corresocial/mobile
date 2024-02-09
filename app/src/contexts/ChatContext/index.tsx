@@ -3,10 +3,13 @@ import React, { createContext, useContext, useEffect, useRef, useState } from 'r
 import { Chat } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
+import { SmasRepositoryAdapter } from '@data/smas/SmasRepositoryAdapter'
+
 import { ChatContextType, ChatProviderProps } from './types'
 import { MutableObjectReference } from '@services/pushNotification/types'
 
 import { ChatAdapter } from '@adapters/chat/ChatAdapter'
+import { SmasAdapter } from '@adapters/smas/SmasAdapter'
 
 import { AuthContext } from '../AuthContext'
 
@@ -24,11 +27,13 @@ const {
 	removeNotificationListener
 } = ChatAdapter()
 
+const { setSmasPushNotificationState } = SmasAdapter()
+
 const initialValue = {
 	chatDataContext: [],
 	pushNotificationEnabled: false,
 	setPushNotificationState: (state: boolean) => new Promise<void>(() => { }),
-	userHasTokenNotification: () => new Promise<boolean>(() => { }),
+	chatUserHasTokenNotification: () => new Promise<boolean>(() => { }),
 	removeChatListeners: () => { },
 }
 
@@ -87,11 +92,11 @@ function ChatProvider({ children }: ChatProviderProps) {
 	// Notification
 
 	const initPushNotificationService = async () => {
-		const hasTokenNotification = await userHasTokenNotification()
+		const hasTokenNotification = await chatUserHasTokenNotification()
 		await setPushNotificationState(hasTokenNotification)
 	}
 
-	const userHasTokenNotification = async () => {
+	const chatUserHasTokenNotification = async () => {
 		const remoteUser = await getRemoteUserData(userDataContext.userId as Id)
 		return !!(remoteUser && remoteUser.tokenNotification)
 	}
@@ -105,9 +110,11 @@ function ChatProvider({ children }: ChatProviderProps) {
 			if (state === true) {
 				const tokenNotification = await registerPushNotification()
 				updateUserTokenNotification(authenticatedUserId, tokenNotification)
+				await setSmasPushNotificationState(state, '', authenticatedUserId, SmasRepositoryAdapter)
 				addNotificationListener(notificationListener, responseListener)
 			} else {
 				await updateUserTokenNotification(authenticatedUserId, '')
+				await setSmasPushNotificationState(state, '', '', SmasRepositoryAdapter)
 				removeNotificationListener(notificationListener, responseListener)
 			}
 		} catch (err) {
@@ -127,7 +134,7 @@ function ChatProvider({ children }: ChatProviderProps) {
 	const chatProviderData = ({
 		pushNotificationEnabled,
 		setPushNotificationState,
-		userHasTokenNotification,
+		chatUserHasTokenNotification,
 		chatDataContext,
 		removeChatListeners
 	})

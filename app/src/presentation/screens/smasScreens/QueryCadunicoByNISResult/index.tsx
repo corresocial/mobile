@@ -20,7 +20,7 @@ import { AlertNotificationModal } from '@components/_modals/AlertNotificationMod
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 function QueryCadunicoByNISResult({ route, navigation }: QueryCadunicoByNISResultScreenProps) {
-	const { userHasTokenNotification } = useContext(ChatContext)
+	const { chatUserHasTokenNotification } = useContext(ChatContext)
 	const [notificationModalIsVisible, setNotificationModalIsVisible] = useState(false)
 
 	const { status, serverError, nisNotFound, lastUpdate } = route.params
@@ -42,7 +42,7 @@ function QueryCadunicoByNISResult({ route, navigation }: QueryCadunicoByNISResul
 	}
 
 	const handleContinueButton = async () => {
-		if (await userHasTokenNotification()) {
+		if (await chatUserHasTokenNotification()) {
 			return backToInitialStackScreen()
 		}
 
