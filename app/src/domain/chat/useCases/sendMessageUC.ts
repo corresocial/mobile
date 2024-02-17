@@ -8,7 +8,7 @@ async function sendMessageUC(message: Message, chatId: Id, recipientUserId: Id) 
 
 	return sendMessage(message, chatId)
 
-	/* if (messageSent) { // Migrated to google cloud
+	/* if (messageSent) { // Migrated to google cloud listener
 		const recipientUserData = await getRemoteUserData(recipientUserId)
 
 		if (recipientUserData.tokenNotification) {
