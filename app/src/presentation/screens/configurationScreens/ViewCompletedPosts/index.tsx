@@ -6,10 +6,10 @@ import { AuthContext } from '@contexts/AuthContext'
 import { FlatListItem } from '@globalTypes/global/types'
 import { navigateToPostView } from '@routes/auxMethods'
 import { ViewCompletedPostsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
-import { PostCollection } from '@services/firebase/types'
+import { PostCollection, PostCollectionCommonFields } from '@services/firebase/types'
 
 import { Body, Container, Header, PostPadding } from './styles'
-import { relativeScreenHeight, relativeScreenWidth } from '@common/screenDimensions'
+import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
 import { PostCard } from '@components/_cards/PostCard'
@@ -29,7 +29,7 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 		return {
 			userId: userDataContext.userId,
 			name: userDataContext.name,
-			profilePicture: userDataContext.profilePictureUrl
+			profilePictureUrl: userDataContext.profilePictureUrl
 		}
 	}
 
@@ -47,19 +47,14 @@ function ViewCompletedPosts({ route, navigation }: ViewCompletedPostsScreenProps
 					text={'corres concluídos'}
 				/>
 			</Header>
-			<Body
-				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{
-					paddingVertical: relativeScreenWidth(4),
-				}}
-			>
+			<Body>
 				<FlatList
 					data={getCompletedPosts()}
 					renderItem={({ item }: FlatListItem<PostCollection>) => (
 						<PostPadding>
 							<PostCard
 								post={item}
-								owner={getUserDataOnly()}
+								owner={getUserDataOnly() as PostCollectionCommonFields['owner']}
 								onPress={() => viewPostDetails(item)}
 							/>
 						</PostPadding>
