@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -74,6 +74,8 @@ import { PopOver } from '@components/PopOver'
 import { VerifiedUserBadge } from '@components/VerifiedUserBadge'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
+import { useViewController } from './index.controller'
+
 const { sortArray, arrayIsEmpty } = UiUtils()
 const { sortPostsByCreatedData } = UiPostUtils()
 
@@ -82,16 +84,17 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { createCustomer, createSubscription, stripeProductsPlans } = useContext(StripeContext)
 
-	const [isLoggedUser, setIsLoggedUser] = useState(false)
-	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
-	const [hostDescriptionIsExpanded, setHostDescriptionIsExpanded] = useState(false)
-
-	const [user, setUser] = useState<LocalUserData>({})
-	const [selectedTags, setSelectedTags] = useState<string[]>([])
-	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
-	const [toggleVerifiedModal, setToggleVerifiedModal] = useState(false)
-	const [numberOfOfflinePostsStored, setNumberOfOfflinePostsStored] = useState(0)
-	const [hasNetworkConnection, setHasNetworkConnection] = useState(false)
+	const {
+		user, setUser,
+		isLoggedUser, setIsLoggedUser,
+		userDescriptionIsExpanded, setUserDescriptionIsExpanded,
+		hostDescriptionIsExpanded, setHostDescriptionIsExpanded,
+		selectedTags, setSelectedTags,
+		profileOptionsIsOpen, setProfileOptionsIsOpen,
+		toggleVerifiedModal, setToggleVerifiedModal,
+		numberOfOfflinePostsStored, setNumberOfOfflinePostsStored,
+		hasNetworkConnection, setHasNetworkConnection,
+	} = useViewController()
 
 	useEffect(() => {
 		if (route.params && route.params.userId) {
@@ -471,7 +474,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 												/>
 												<InfoArea>
 													<UserName numberOfLines={3}>
-														{getUserField('name')}
+														{getUserField('name') as string}
 													</UserName>
 													{
 														renderUserVerifiedType()
@@ -483,7 +486,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 																	&& setUserDescriptionIsExpanded(true)}
 															>
 																<UserDescription numberOfLines={3}>
-																	{getUserField('description') || 'você pode adicionar uma descrição em "editar".'}
+																	{getUserField('description') as string || 'você pode adicionar uma descrição em "editar".'}
 																</UserDescription>
 															</TouchableOpacity>
 														)
