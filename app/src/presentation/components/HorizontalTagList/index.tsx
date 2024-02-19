@@ -54,10 +54,7 @@ function HorizontalTagList({
 
 	return (
 		<Container >
-			<ScrollView
-				horizontal
-				showsHorizontalScrollIndicator={false}
-			>
+			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				<Container>
 					<HorizontalSpacing width={relativeScreenWidth(5)} />
 					{renderTags()}
