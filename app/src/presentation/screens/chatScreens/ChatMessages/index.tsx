@@ -162,7 +162,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		await sendMessage(
 			{ ...newMessageValue, justOwner: !!userBlock },
 			currentChat.chatId,
-			getRecipientUserId()
+			getRecipientUserName()
 		)
 
 		!!currentChat.completed && updateChatCompletedState(currentChat.chatId, false)

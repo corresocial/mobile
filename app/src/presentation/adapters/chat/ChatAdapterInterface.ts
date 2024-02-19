@@ -16,7 +16,7 @@ interface ChatAdapterInterface {
 	registerNewChat(chatData: Chat): Promise<void>
 	setChatIdForUsers(userIds: Id[], chatId: Id): Promise<void>
 	generateNewMessageObject(textMessage: string, userSenderId: Id): MessageObjects
-	sendMessage(message: Message, chatId: Id, recipientUserId: Id): Promise<boolean>
+	sendMessage(message: Message, chatId: Id, recipientUserName: string): Promise<boolean>
 	cleanChatMessages(chatId: Id, recipientUserId: Id): Promise<void>
 	makeAllUserMessagesAsRead(chatId: Id, userId: Id): Promise<void>
 	updateProfilePictureOnConversations(chatId: Id, profilePictureUrl: string): Promise<void>

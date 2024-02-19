@@ -3,10 +3,10 @@ import { Id } from '@domain/entities/globalTypes'
 
 import { ChatGatewayAdapter } from '@data/remoteStorage/chat/gatewayAdapter/ChatGatewayAdapter'
 
-async function sendMessageUC(message: Message, chatId: Id, recipientUserId: Id) {
+async function sendMessageUC(message: Message, chatId: Id, recipientUserName: string) {
 	const { sendMessage } = ChatGatewayAdapter()
 
-	return sendMessage(message, chatId)
+	return sendMessage({ ...message, metadata: { title: recipientUserName } }, chatId)
 
 	/* if (messageSent) { // Migrated to google cloud listener
 		const recipientUserData = await getRemoteUserData(recipientUserId)
