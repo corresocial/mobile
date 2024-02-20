@@ -1,4 +1,4 @@
-import { TextInputProps, TextStyle } from 'react-native'
+import { TextStyle } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
 
@@ -66,13 +66,4 @@ export const Description = styled.Text<DescriptionProps>`
     font-size: ${({ fontSize }) => (fontSize ? RFValue(fontSize) : RFValue(13))}px;
     text-align: ${({ textAlign }) => (textAlign || 'left')};
     color: ${({ theme }) => theme.black3};
-`
-
-export const TextInput = styled.TextInput<TextInputProps>`
-	text-align: center;
-	font-family: Arvo_400Regular;
-	font-size: ${RFValue(13)}px;
-	margin: ${RFValue(20)}px 0px;
-	padding: ${RFValue(10)}px;
-	border-bottom-width: ${RFValue(5)}px;
 `

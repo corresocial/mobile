@@ -219,7 +219,7 @@ function EditCurrentSubscription({ route, navigation }: EditCurrentSubscriptionS
 				onPressButton={handleCancelSubscription}
 				closeModal={toggleRangeChangeConfirmationModalVisibility}
 			/>
-			<InsertUserEmailModal // Second confirmation
+			<InsertUserEmailModal
 				initialInputValue={privateEmail}
 				visibility={insertUserEmailModalIsVisible}
 				onPressButton={saveUserEmail}

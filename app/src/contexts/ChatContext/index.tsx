@@ -3,13 +3,10 @@ import React, { createContext, useContext, useEffect, useRef, useState } from 'r
 import { Chat } from '@domain/entities/chat/types'
 import { Id } from '@domain/entities/globalTypes'
 
-import { SmasRepositoryAdapter } from '@data/smas/SmasRepositoryAdapter'
-
 import { ChatContextType, ChatProviderProps } from './types'
 import { MutableObjectReference } from '@services/pushNotification/types'
 
 import { ChatAdapter } from '@adapters/chat/ChatAdapter'
-import { SmasAdapter } from '@adapters/smas/SmasAdapter'
 
 import { AuthContext } from '../AuthContext'
 
@@ -26,8 +23,6 @@ const {
 	addNotificationListener,
 	removeNotificationListener
 } = ChatAdapter()
-
-const { setSmasPushNotificationState } = SmasAdapter()
 
 const initialValue = {
 	chatDataContext: [],
@@ -110,11 +105,9 @@ function ChatProvider({ children }: ChatProviderProps) {
 			if (state === true) {
 				const tokenNotification = await registerPushNotification()
 				updateUserTokenNotification(authenticatedUserId, tokenNotification)
-				await setSmasPushNotificationState(state, '', authenticatedUserId, SmasRepositoryAdapter)
 				addNotificationListener(notificationListener, responseListener)
 			} else {
 				await updateUserTokenNotification(authenticatedUserId, '')
-				await setSmasPushNotificationState(state, '', '', SmasRepositoryAdapter)
 				removeNotificationListener(notificationListener, responseListener)
 			}
 		} catch (err) {
