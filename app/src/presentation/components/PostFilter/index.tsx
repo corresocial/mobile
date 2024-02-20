@@ -94,7 +94,7 @@ function PostFilter({ posts, setHasPostFilter, setFilteredPosts }: PostFilterPro
 		return filterPosts.map((postType: PostType) => (
 			<FilterButton
 				key={uuid()}
-				height={relativeScreenHeight(3.5)}
+				height={relativeScreenHeight(4.5)}
 				backgroundColor={theme.white3}
 				backgroundSelected={theme.orange1}
 				marginRight={10}
@@ -127,12 +127,12 @@ function PostFilter({ posts, setHasPostFilter, setFilteredPosts }: PostFilterPro
 			return (
 				<FilterButton
 					key={uuid()}
-					height={relativeScreenHeight(2.5)}
+					height={relativeScreenHeight(3.5)}
 					backgroundColor={theme.white3}
 					backgroundSelected={theme.orange1}
 					marginRight={10}
 					label={macroCategoryObject.label}
-					fontSize={13}
+					fontSize={11}
 					selected={selectedMacroCategories.includes(macroCategory)}
 					onSelect={() => toggleSelectedMacroCategories(macroCategory)}
 				/>
