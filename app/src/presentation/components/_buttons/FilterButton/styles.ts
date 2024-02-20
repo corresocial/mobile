@@ -3,15 +3,15 @@ import styled from 'styled-components/native'
 
 export const ContainerBottom = styled.View`
     background-color: ${({ theme }) => theme.black4};
-    border-radius: ${RFValue(8)}px;
+    border-radius: ${RFValue(20)}px;
 `
 
 export const ContainerSurface = styled.View`
-    border: ${RFValue(2)}px solid ${({ theme }) => theme.black4};
-    border-radius: ${RFValue(8)}px;
+    border: ${RFValue(2.2)}px solid ${({ theme }) => theme.black4};
+    border-radius: ${RFValue(20)}px;
     align-items: center;
     justify-content: center;
-	padding: 0px ${RFValue(7)}px;
+	padding: 5px ${RFValue(14)}px;
 
     height: 100%;
     right: ${RFValue(5)}px;
