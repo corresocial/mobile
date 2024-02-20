@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useMemo, useState } from 'react'
+import React, { createContext, useCallback, useState } from 'react'
 
 import { SmasContextType, SmasProviderProps } from './types'
 
@@ -33,12 +33,12 @@ function SmasProvider({ children }: SmasProviderProps) {
 		setSmasDataContext(initialValue.smasDataContext)
 	}, [])
 
-	const smasProviderData = useMemo(() => ({
+	const smasProviderData = {
 		smasDataContext,
 		clearSmasDataContext,
 		getNumberOfMissingInfo,
 		setSmasDataOnContext,
-	}), [smasDataContext])
+	}
 
 	return (
 		<SmasContext.Provider value={smasProviderData} >
