@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Platform, TextInputProps } from 'react-native'
+import { Platform, StatusBar, TextInputProps } from 'react-native'
 
 import { ButtonsContainer, Container, InstructionButtonContainer } from './styles'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -79,6 +79,7 @@ function PostInputText({
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+			<StatusBar backgroundColor={backgroundColor} barStyle={'dark-content'}/>
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(28)}
 				relativeHeight={height || relativeScreenHeight(28)}
@@ -102,7 +103,7 @@ function PostInputText({
 						</>
 					) : <></>
 				}
-				<InstructionButtonContainer withPaddingLeft={contextTitle}>
+				<InstructionButtonContainer withPaddingLeft={!!contextTitle}>
 					{!contextTitle && <BackButton onPress={navigateBackwards} />}
 					<InstructionCard
 						fontSize={16}
