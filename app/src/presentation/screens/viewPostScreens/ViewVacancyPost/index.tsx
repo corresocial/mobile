@@ -328,7 +328,6 @@ function ViewVacancyPost({ route, navigation }: ViewVacancyPostScreenProps) {
 					tags={[getCategoryLabel(), ...getPostField('tags')]}
 					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
 					selectedColor={theme.green1}
-					onSelectTag={() => { }}
 				/>
 				<Body>
 					<VerticalSpacing />

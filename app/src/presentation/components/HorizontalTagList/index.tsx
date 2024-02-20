@@ -12,26 +12,17 @@ interface HorizontalTagListProps {
 	tags: string[]
 	selectedColor?: string
 	selectedTags?: string[]
-	filterSelectedTags?: (tag: string) => string
-	onSelectTag: (tag: string) => void
 }
 
 function HorizontalTagList({
 	tags,
 	selectedColor,
 	selectedTags = [],
-	filterSelectedTags,
-	onSelectTag,
 }: HorizontalTagListProps) {
 	const renderTags = () => {
 		const ordenedSelectedTags = tags.filter((tag) => selectedTags.includes(tag))
-		const ordenedUnselectedTags = tags.filter((tag) => !selectedTags.includes(tag))
 
-		let ordenedTags = [...ordenedSelectedTags, ...ordenedUnselectedTags]
-
-		if (filterSelectedTags) {
-			ordenedTags = ordenedTags.map((tag) => filterSelectedTags(tag))
-		}
+		const ordenedTags = [...ordenedSelectedTags]
 
 		return ordenedTags.map((tag) => {
 			const customTag = tag.length !== 3 ? tag : ` ${tag} `
@@ -39,14 +30,13 @@ function HorizontalTagList({
 			return (
 				< FilterButton
 					key={uuid()}
-					height={relativeScreenHeight(3.5)}
+					height={relativeScreenHeight(4)}
 					backgroundColor={theme.white3}
 					backgroundSelected={selectedColor || theme.orange1}
 					marginRight={10}
 					label={customTag}
 					fontSize={13}
 					selected={selectedTags.includes(tag)}
-					onSelect={() => onSelectTag && onSelectTag(tag)}
 				/>
 			)
 		})

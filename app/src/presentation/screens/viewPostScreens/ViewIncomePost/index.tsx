@@ -345,7 +345,6 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 					tags={[getCategoryLabel(), ...getPostField('tags')]}
 					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
 					selectedColor={theme.green1}
-					onSelectTag={() => { }}
 				/>
 				<Body>
 					<VerticalSpacing />
