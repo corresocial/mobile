@@ -75,3 +75,8 @@ export const Body = styled.ScrollView`
 export const PostPadding = styled.View`
 	padding: 0px ${relativeScreenWidth(2)}px;
 `
+
+export const FlatlistContainer = styled.View`
+	height: ${relativeScreenHeight(70)}px;
+	background-color: ${({ theme }) => theme.orange2};
+`

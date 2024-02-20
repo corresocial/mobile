@@ -42,7 +42,8 @@ import {
 	VerticalPaddingContainer,
 	PostPadding,
 	SeeMoreLabel,
-	SafeAreaViewContainer
+	SafeAreaViewContainer,
+	FlatlistContainer
 } from './styles'
 import AtSignWhiteIcon from '@assets/icons/atSign-white.svg'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
@@ -529,12 +530,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							</OptionsArea>
 						</ProfileHeader>
 					</DefaultHeaderContainer>
-					<PostFilter
-						posts={getUserPosts()}
-						setHasPostFilter={setHasPostFilter}
-						setFilteredPosts={setFilteredPosts}
-					/>
-					<VerticalSpacing />
 					{
 						!!numberOfOfflinePostsStored && isLoggedUser && (
 							<PostPadding>
@@ -554,34 +549,42 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 							</PostPadding>
 						)
 					}
-					<FlatList
-						ListHeaderComponent={<VerticalSpacing />}
-						data={getFlatlistPosts()}
-						ListFooterComponentStyle={{ height: '100%' }}
-						renderItem={({ item }: FlatListItem<PostCollection>) => (
-							<PostPadding>
-								<PostCard
-									post={item}
-									owner={getUserField() as PostCollectionCommonFields['owner']}
-									onPress={() => viewPostDetails(item)}
-								/>
-							</PostPadding>
-						)}
-						showsVerticalScrollIndicator={false}
-						ItemSeparatorComponent={() => <VerticalSpacing height={relativeScreenHeight(0.8)} />}
-						contentContainerStyle={{ backgroundColor: theme.orange2 }}
-						ListFooterComponent={() => (isLoggedUser && (!userDataContext.posts || userDataContext.posts.length === 0)
-							? (
-								<WithoutPostsMessage
-									title={'faça uma postagem!'}
-									message={'você precisa fazer um post para que outras pessoas possam te encontrem\ncaso veio aqui apenas para procurar, não se preocupe.'}
-									highlightedWords={['precisa', 'fazer', 'um', 'post', 'outras', 'pessoas', 'possam', 'te', 'encontrar',]}
-									backgroundColor={theme.yellow1}
-								/>
-							)
-							: <VerticalSpacing height={relativeScreenHeight(11)} />
-						)}
-					/>
+					<FlatlistContainer>
+						<VerticalSpacing />
+						<PostFilter
+							posts={getUserPosts()}
+							setHasPostFilter={setHasPostFilter}
+							setFilteredPosts={setFilteredPosts}
+						/>
+						<FlatList
+							ListHeaderComponent={<VerticalSpacing />}
+							data={getFlatlistPosts()}
+							ListFooterComponentStyle={{ height: '100%' }}
+							renderItem={({ item }: FlatListItem<PostCollection>) => (
+								<PostPadding>
+									<PostCard
+										post={item}
+										owner={getUserField() as PostCollectionCommonFields['owner']}
+										onPress={() => viewPostDetails(item)}
+									/>
+								</PostPadding>
+							)}
+							showsVerticalScrollIndicator={false}
+							ItemSeparatorComponent={() => <VerticalSpacing height={relativeScreenHeight(0.8)} />}
+							contentContainerStyle={{ backgroundColor: theme.orange2 }}
+							ListFooterComponent={() => (isLoggedUser && (!userDataContext.posts || userDataContext.posts.length === 0)
+								? (
+									<WithoutPostsMessage
+										title={'faça uma postagem!'}
+										message={'você precisa fazer um post para que outras pessoas possam te encontrem\ncaso veio aqui apenas para procurar, não se preocupe.'}
+										highlightedWords={['precisa', 'fazer', 'um', 'post', 'outras', 'pessoas', 'possam', 'te', 'encontrar',]}
+										backgroundColor={theme.yellow1}
+									/>
+								)
+								: <VerticalSpacing height={relativeScreenHeight(10)} />
+							)}
+						/>
+					</FlatlistContainer>
 				</Body>
 			</SafeAreaViewContainer>
 		</Container >
