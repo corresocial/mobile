@@ -76,7 +76,7 @@ export const PostPadding = styled.View`
 	padding: 0px ${relativeScreenWidth(2)}px;
 `
 
-export const FlatlistContainer = styled.View`
-	height: ${relativeScreenHeight(70)}px;
+export const PostFilterContainer = styled.View`
+	padding: ${relativeScreenHeight(1.25)}px 0px;
 	background-color: ${({ theme }) => theme.orange2};
 `

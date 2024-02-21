@@ -94,7 +94,7 @@ function PostFilter({ posts, setHasPostFilter, setFilteredPosts }: PostFilterPro
 		return filterPosts.map((postType: PostType) => (
 			<FilterButton
 				key={uuid()}
-				height={relativeScreenHeight(4.5)}
+				height={relativeScreenHeight(4)}
 				backgroundColor={theme.white3}
 				backgroundSelected={theme.orange1}
 				marginRight={10}

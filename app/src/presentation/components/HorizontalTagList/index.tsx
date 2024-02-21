@@ -14,11 +14,7 @@ interface HorizontalTagListProps {
 	selectedTags?: string[]
 }
 
-function HorizontalTagList({
-	tags,
-	selectedColor,
-	selectedTags = [],
-}: HorizontalTagListProps) {
+function HorizontalTagList({ tags, selectedColor, selectedTags = [] }: HorizontalTagListProps) {
 	const renderTags = () => {
 		const ordenedSelectedTags = tags.filter((tag) => selectedTags.includes(tag))
 
