@@ -19,12 +19,11 @@ function HorizontalTagList({ tags, selectedColor }: HorizontalTagListProps) {
 			const customTag = tag.length !== 3 ? tag : ` ${tag} `
 
 			return (
-				< FilterButton
+				<FilterButton
 					key={uuid()}
 					height={relativeScreenHeight(4)}
 					backgroundColor={theme.white3}
 					backgroundSelected={selectedColor || theme.orange1}
-					marginRight={10}
 					label={customTag}
 					fontSize={13}
 					selected

@@ -97,7 +97,6 @@ function PostFilter({ posts, setHasPostFilter, setFilteredPosts }: PostFilterPro
 				height={relativeScreenHeight(4)}
 				backgroundColor={theme.white3}
 				backgroundSelected={theme.orange1}
-				marginRight={10}
 				label={getRelativeMacroTagLabel(postType)}
 				fontSize={13}
 				selected={selectedPostType === postType}
@@ -130,7 +129,6 @@ function PostFilter({ posts, setHasPostFilter, setFilteredPosts }: PostFilterPro
 					height={relativeScreenHeight(3.5)}
 					backgroundColor={theme.white3}
 					backgroundSelected={theme.orange1}
-					marginRight={10}
 					label={macroCategoryObject.label}
 					fontSize={11}
 					selected={selectedMacroCategories.includes(macroCategory)}
