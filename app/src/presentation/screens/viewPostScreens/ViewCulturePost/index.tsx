@@ -326,7 +326,6 @@ function ViewCulturePost({ route, navigation }: ViewCulturePostScreenProps) {
 				<VerticalSpacing />
 				<HorizontalTagList
 					tags={[getCategoryLabel(), ...getPostField('tags')]}
-					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
 					selectedColor={theme.blue1}
 				/>
 				<Body>

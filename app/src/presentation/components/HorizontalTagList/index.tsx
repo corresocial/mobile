@@ -11,16 +11,11 @@ import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 interface HorizontalTagListProps {
 	tags: string[]
 	selectedColor?: string
-	selectedTags?: string[]
 }
 
-function HorizontalTagList({ tags, selectedColor, selectedTags = [] }: HorizontalTagListProps) {
+function HorizontalTagList({ tags, selectedColor }: HorizontalTagListProps) {
 	const renderTags = () => {
-		const ordenedSelectedTags = tags.filter((tag) => selectedTags.includes(tag))
-
-		const ordenedTags = [...ordenedSelectedTags]
-
-		return ordenedTags.map((tag) => {
+		return tags.map((tag) => {
 			const customTag = tag.length !== 3 ? tag : ` ${tag} `
 
 			return (
@@ -32,7 +27,7 @@ function HorizontalTagList({ tags, selectedColor, selectedTags = [] }: Horizonta
 					marginRight={10}
 					label={customTag}
 					fontSize={13}
-					selected={selectedTags.includes(tag)}
+					selected
 				/>
 			)
 		})

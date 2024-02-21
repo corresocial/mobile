@@ -337,7 +337,6 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 				<VerticalSpacing />
 				<HorizontalTagList
 					tags={[getCategoryLabel(), ...getPostField('tags')]}
-					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
 					selectedColor={theme.green1}
 				/>
 				<Body>
