@@ -85,13 +85,13 @@ function PostFilter({ posts, setHasPostFilter, setFilteredPosts }: PostFilterPro
 	}
 
 	const renderPostTypes = () => {
-		let filterPosts = getPostTypes()
+		let postTypes = getPostTypes()
 
 		if (selectedPostType) {
-			filterPosts = [selectedPostType]
+			postTypes = [selectedPostType]
 		}
 
-		return filterPosts.map((postType: PostType) => (
+		return postTypes.map((postType: PostType) => (
 			<FilterButton
 				key={uuid()}
 				height={relativeScreenHeight(4)}
