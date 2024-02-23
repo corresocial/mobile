@@ -23,7 +23,7 @@ export const Title = styled.Text`
 
 export const CancelContainer = styled.View`
 	position: absolute;
-	left: 8;
+	left: 8px;
 	justify-content: center;
 `
 
@@ -35,10 +35,10 @@ export const Content = styled.View`
 
 export const LoaderContainer = styled.View`
 	position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
 	padding-top: 20px;
 	justify-content: flex-start;
 	align-items: center;

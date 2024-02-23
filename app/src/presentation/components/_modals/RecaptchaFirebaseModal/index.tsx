@@ -12,7 +12,7 @@ import { StyleSheet, Modal, ActivityIndicator } from 'react-native'
 
 import { CancelButton, CancelContainer, Container, ContainerModal, Content, Header, LoaderContainer, Title } from './styles'
 
-import { CustomRecaptcha } from './CusomRecaptcha'
+import { CustomRecaptcha } from './CustomRecaptcha'
 
 interface FirebaseAuthApplicationVerifier {
 	readonly type: string;
@@ -40,7 +40,7 @@ class CustomRecaptchaModal
 	extends React.Component<Props, State>
 	implements FirebaseAuthApplicationVerifier {
 	static defaultProps = {
-		title: 'reCAPTCHA',
+		title: 'Solucione o reCaptcha',
 		cancelLabel: 'Cancelar',
 	}
 

@@ -7,7 +7,6 @@ import { AuthContext } from '@contexts/AuthContext'
 import { InsertConfirmationCodeLinkAccountScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { Id } from '@services/firebase/types'
 
-import Firebase from '@services/firebase'
 import { getPhoneAuthCredential } from '@services/firebase/user/getPhoneAuthCredential'
 import { linkAuthProvider } from '@services/firebase/user/linkAuthProvider'
 import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
@@ -28,9 +27,6 @@ import { Loader } from '@components/Loader'
 
 function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirmationCodeLinkAccountScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
-
-	const recaptchaVerifier = React.useRef(null)
-	const firebaseConfig = Firebase ? Firebase.options : undefined
 
 	const [inputCode01, setInputCode01] = useState<string>('')
 	const [inputCode02, setInputCode02] = useState<string>('')
@@ -238,12 +234,6 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
-			{/* <FirebaseRecaptchaVerifierModal
-				ref={recaptchaVerifier}
-				firebaseConfig={firebaseConfig}
-				languageCode={'pt-BR'}
-				attemptInvisibleVerification
-			/> */}
 			<DefaultHeaderContainer
 				flexDirection={'column'}
 				relativeHeight={'55%'}

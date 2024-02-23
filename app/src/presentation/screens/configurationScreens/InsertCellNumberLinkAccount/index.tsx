@@ -19,6 +19,7 @@ import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
+import { CustomRecaptchaModal } from '@components/_modals/RecaptchaFirebaseModal'
 import { SocialLoginAlertModal } from '@components/_modals/SocialLoginAlertModal'
 import { Loader } from '@components/Loader'
 
@@ -185,12 +186,11 @@ export function InsertCellNumberLinkAccount({ route, navigation }: InsertCellNum
 				closeModal={toggleLoginAlertModalVisibility}
 				onPressButton={() => { }}
 			/>
-			{/* <FirebaseRecaptchaVerifierModal
+			<CustomRecaptchaModal
 				ref={recaptchaVerifier}
 				firebaseConfig={firebaseConfig}
 				languageCode={'pt-BR'}
-				attemptInvisibleVerification
-			/> */}
+			/>
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized
