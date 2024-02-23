@@ -1,4 +1,3 @@
-import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
 import React, { useContext, useRef, useState } from 'react'
 import { Animated, StatusBar, Platform, TextInput } from 'react-native'
 
@@ -186,12 +185,12 @@ export function InsertCellNumberLinkAccount({ route, navigation }: InsertCellNum
 				closeModal={toggleLoginAlertModalVisibility}
 				onPressButton={() => { }}
 			/>
-			<FirebaseRecaptchaVerifierModal
+			{/* <FirebaseRecaptchaVerifierModal
 				ref={recaptchaVerifier}
 				firebaseConfig={firebaseConfig}
 				languageCode={'pt-BR'}
 				attemptInvisibleVerification
-			/>
+			/> */}
 			<DefaultHeaderContainer
 				relativeHeight={'55%'}
 				centralized

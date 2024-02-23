@@ -1,4 +1,3 @@
-import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Animated, Platform, StatusBar, TextInput } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
@@ -239,12 +238,12 @@ function InsertConfirmationCodeLinkAccount({ navigation, route }: InsertConfirma
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
 			<StatusBar backgroundColor={someInvalidFieldSubimitted() || hasServerSideError ? theme.red2 : theme.orange2} barStyle={'dark-content'} />
-			<FirebaseRecaptchaVerifierModal
+			{/* <FirebaseRecaptchaVerifierModal
 				ref={recaptchaVerifier}
 				firebaseConfig={firebaseConfig}
 				languageCode={'pt-BR'}
 				attemptInvisibleVerification
-			/>
+			/> */}
 			<DefaultHeaderContainer
 				flexDirection={'column'}
 				relativeHeight={'55%'}
