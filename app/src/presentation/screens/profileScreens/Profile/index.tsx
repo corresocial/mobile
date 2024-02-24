@@ -441,60 +441,59 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			>
 				<Body>
 					<FlatList
-						ListHeaderComponent={() => {
-							return (
-								<>
-									<DefaultHeaderContainer
-										backgroundColor={theme.white3}
-										centralized={false}
-										grow
-										withoutIOSPadding
-										borderBottomWidth={0}
-										paddingVertical={15}
-									>
-										<ProfileHeader>
-											<ProfileInfoContainer>
+						ListHeaderComponent={(
+							<>
+								<DefaultHeaderContainer
+									backgroundColor={theme.white3}
+									centralized={false}
+									grow
+									withoutIOSPadding
+									borderBottomWidth={0}
+									paddingVertical={15}
+								>
+									<ProfileHeader>
+										<ProfileInfoContainer>
+											{
+												!isLoggedUser && (
+													<>
+														<BackButton
+															onPress={navigationToBack}
+															withoutRightSpacing={false}
+														/>
+														<HorizontalSpacing width={relativeScreenWidth(3)} />
+													</>
+												)
+											}
+											<PhotoPortrait
+												height={isLoggedUser ? RFValue(95) : RFValue(65)}
+												width={isLoggedUser ? RFValue(100) : RFValue(70)}
+												borderWidth={3}
+												borderRightWidth={8}
+												pictureUri={getProfilePicture()}
+											/>
+											<InfoArea>
+												<UserName numberOfLines={3}>
+													{getUserField('name') as string}
+												</UserName>
 												{
-													!isLoggedUser && (
-														<>
-															<BackButton
-																onPress={navigationToBack}
-																withoutRightSpacing={false}
-															/>
-															<HorizontalSpacing width={relativeScreenWidth(3)} />
-														</>
+													renderUserVerifiedType()
+												}
+												{
+													!userDescriptionIsExpanded && isLoggedUser && (
+														<TouchableOpacity
+															onPress={() => getUserField('description')
+																	&& setUserDescriptionIsExpanded(true)}
+														>
+															<UserDescription numberOfLines={3}>
+																{getUserField('description') as string || 'você pode adicionar uma descrição em "editar".'}
+															</UserDescription>
+														</TouchableOpacity>
 													)
 												}
-												<PhotoPortrait
-													height={isLoggedUser ? RFValue(95) : RFValue(65)}
-													width={isLoggedUser ? RFValue(100) : RFValue(70)}
-													borderWidth={3}
-													borderRightWidth={8}
-													pictureUri={getProfilePicture()}
-												/>
-												<InfoArea>
-													<UserName numberOfLines={3}>
-														{getUserField('name') as string}
-													</UserName>
-													{
-														renderUserVerifiedType()
-													}
-													{
-														!userDescriptionIsExpanded && isLoggedUser && (
-															<TouchableOpacity
-																onPress={() => getUserField('description')
-																	&& setUserDescriptionIsExpanded(true)}
-															>
-																<UserDescription numberOfLines={3}>
-																	{getUserField('description') as string || 'você pode adicionar uma descrição em "editar".'}
-																</UserDescription>
-															</TouchableOpacity>
-														)
-													}
-												</InfoArea>
-											</ProfileInfoContainer>
-											{
-												(userDescriptionIsExpanded || !isLoggedUser)
+											</InfoArea>
+										</ProfileInfoContainer>
+										{
+											(userDescriptionIsExpanded || !isLoggedUser)
 												&& getUserField('description')
 												&& (
 													<ExpandedUserDescriptionArea>
@@ -513,108 +512,107 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 														</ScrollView>
 													</ExpandedUserDescriptionArea>
 												)
-											}
-											{
-												arrayIsEmpty(getUserField('socialMedias'))
-													? isLoggedUser
-														? (
-															<>
-																<VerticalSpacing />
-																<SmallButton
-																	label={'adicionar redes'}
-																	labelColor={theme.black4}
-																	SvgIcon={AtSignWhiteIcon}
-																	svgScale={['60%', '20%']}
-																	height={relativeScreenHeight(5)}
-																	onPress={openSocialMediaManagement}
-																/>
-																<VerticalSpacing />
-															</>
-														)
-														: <VerticalSpacing />
-													: (
-														<HorizontalSocialMediaList
-															socialMedias={getUserField('socialMedias') as SocialMedia[]}
-															onPress={openSocialMediaManagement}
-														/>
+										}
+										{
+											arrayIsEmpty(getUserField('socialMedias'))
+												? isLoggedUser
+													? (
+														<>
+															<VerticalSpacing />
+															<SmallButton
+																label={'adicionar redes'}
+																labelColor={theme.black4}
+																SvgIcon={AtSignWhiteIcon}
+																svgScale={['60%', '20%']}
+																height={relativeScreenHeight(5)}
+																onPress={openSocialMediaManagement}
+															/>
+															<VerticalSpacing />
+														</>
 													)
-											}
-											<OptionsArea>
-												<SmallButton
-													label={isLoggedUser ? 'editar' : 'chat'}
-													labelColor={theme.black4}
-													SvgIcon={isLoggedUser ? EditIcon : ChatWhiteIcon}
-													svgScale={['85%', '25%']}
-													relativeWidth={'28%'}
-													height={relativeScreenWidth(12)}
-													onPress={isLoggedUser ? goToEditProfile : openChat}
-												/>
-												<SmallButton
-													color={theme.orange3}
-													label={'compartilhar'}
-													labelColor={theme.black4}
-													highlightedWords={
-														isLoggedUser ? ['compartilhar'] : []
-													}
-													fontSize={12}
-													SvgIcon={ShareIcon}
-													relativeWidth={isLoggedUser ? '50%' : '45%'}
-													height={relativeScreenWidth(12)}
-													onPress={shareProfile}
-												/>
-												<PopOver
-													title={getUserField('name') as string}
-													isVerifiable={userIsVerified()}
-													isAdmin={userIsAdmin()}
-													buttonLabel={'denunciar perfil'}
-													popoverVisibility={profileOptionsIsOpen}
-													closePopover={() => setProfileOptionsIsOpen(false)}
-													reportUser={reportUser}
-													onPressVerify={verifyUserProfile}
-													setFreeTrialToProfile={setFreeTrialToProfile}
-												>
-													<SmallButton
-														color={theme.white3}
-														SvgIcon={getConfigurationIcon()}
-														relativeWidth={relativeScreenWidth(12)}
-														svgScale={hasConfigNotification() && isLoggedUser ? ['100%', '100%'] : ['50%', '80%']}
-														height={relativeScreenWidth(12)}
-														onPress={openProfileOptions}
+													: <VerticalSpacing />
+												: (
+													<HorizontalSocialMediaList
+														socialMedias={getUserField('socialMedias') as SocialMedia[]}
+														onPress={openSocialMediaManagement}
 													/>
-												</PopOver>
-											</OptionsArea>
-										</ProfileHeader>
-									</DefaultHeaderContainer>
-									<VerticalSpacing />
-									<HorizontalTagList
-										tags={getUserPostMacroTags()}
-										selectedTags={selectedTags}
-										filterSelectedTags={getRelativeMacroTagLabel}
-										onSelectTag={onSelectTag}
-									/>
-									<VerticalSpacing />
-									{
-										!!numberOfOfflinePostsStored && isLoggedUser && (
-											<PostPadding>
-												<OptionButton
-													label={`você tem ${numberOfOfflinePostsStored} ${numberOfOfflinePostsStored === 1 ? 'post pronto' : 'posts prontos'} `}
-													shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
-													highlightedWords={['posts', 'post']}
-													labelSize={18}
-													relativeHeight={relativeScreenHeight(8)}
-													leftSideWidth={'25%'}
-													leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
-													SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
-													svgIconScale={['60%', '60%']}
-													onPress={() => navigation.navigate('OfflinePostsManagement')}
+												)
+										}
+										<OptionsArea>
+											<SmallButton
+												label={isLoggedUser ? 'editar' : 'chat'}
+												labelColor={theme.black4}
+												SvgIcon={isLoggedUser ? EditIcon : ChatWhiteIcon}
+												svgScale={['85%', '25%']}
+												relativeWidth={'28%'}
+												height={relativeScreenWidth(12)}
+												onPress={isLoggedUser ? goToEditProfile : openChat}
+											/>
+											<SmallButton
+												color={theme.orange3}
+												label={'compartilhar'}
+												labelColor={theme.black4}
+												highlightedWords={
+													isLoggedUser ? ['compartilhar'] : []
+												}
+												fontSize={12}
+												SvgIcon={ShareIcon}
+												relativeWidth={isLoggedUser ? '50%' : '45%'}
+												height={relativeScreenWidth(12)}
+												onPress={shareProfile}
+											/>
+											<PopOver
+												title={getUserField('name') as string}
+												isVerifiable={userIsVerified()}
+												isAdmin={userIsAdmin()}
+												buttonLabel={'denunciar perfil'}
+												popoverVisibility={profileOptionsIsOpen}
+												closePopover={() => setProfileOptionsIsOpen(false)}
+												reportUser={reportUser}
+												onPressVerify={verifyUserProfile}
+												setFreeTrialToProfile={setFreeTrialToProfile}
+											>
+												<SmallButton
+													color={theme.white3}
+													SvgIcon={getConfigurationIcon()}
+													relativeWidth={relativeScreenWidth(12)}
+													svgScale={hasConfigNotification() && isLoggedUser ? ['100%', '100%'] : ['50%', '80%']}
+													height={relativeScreenWidth(12)}
+													onPress={openProfileOptions}
 												/>
-												<VerticalSpacing />
-											</PostPadding>
-										)
-									}
-								</>
-							)
-						}}
+											</PopOver>
+										</OptionsArea>
+									</ProfileHeader>
+								</DefaultHeaderContainer>
+								<VerticalSpacing />
+								<HorizontalTagList
+									tags={getUserPostMacroTags()}
+									selectedTags={selectedTags}
+									filterSelectedTags={getRelativeMacroTagLabel}
+									onSelectTag={onSelectTag}
+								/>
+								<VerticalSpacing />
+								{
+									!!numberOfOfflinePostsStored && isLoggedUser && (
+										<PostPadding>
+											<OptionButton
+												label={`você tem ${numberOfOfflinePostsStored} ${numberOfOfflinePostsStored === 1 ? 'post pronto' : 'posts prontos'} `}
+												shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
+												highlightedWords={['posts', 'post']}
+												labelSize={18}
+												relativeHeight={relativeScreenHeight(8)}
+												leftSideWidth={'25%'}
+												leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
+												SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
+												svgIconScale={['60%', '60%']}
+												onPress={() => navigation.navigate('OfflinePostsManagement')}
+											/>
+											<VerticalSpacing />
+										</PostPadding>
+									)
+								}
+							</>
+						)}
 						data={getFlatlistPosts()}
 						renderItem={({ item }: FlatListItem<PostCollection>) => (
 							<PostPadding>

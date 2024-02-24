@@ -74,7 +74,6 @@ export const TextInput = styled.TextInput<TextInputProps>`
 	width: ${({ hasIcon }) => (hasIcon ? '85%' : '100%')};
 
     font-family: Arvo_400Regular;
-    text-justify: center;
 
 	color: ${({ theme }) => theme.black4};
     max-height: ${relativeScreenHeight(25)}px;
