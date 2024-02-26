@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient'
 import { TextProps } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { SafeAreaViewProps } from 'react-native-safe-area-context'
@@ -60,6 +61,10 @@ export const SafeAreaViewContainer = styled.SafeAreaView<SafeAreaViewProps>`
 	flex: 1;
 	background-color: ${({ theme }) => theme.white3};
 	overflow: visible;
+`
+
+export const OffBounceBackground = styled(LinearGradient as any)`
+	flex: 1;
 `
 
 export const VerticalPaddingContainer = styled.View`
