@@ -53,11 +53,18 @@ function PostFilter({ posts, setHasPostFilter, setFilteredPosts }: PostFilterPro
 		setHasPostFilter(false)
 	}
 
+	const sortWithCustomOrder = (a: string, b: string) => {
+		const customSort = ['income', 'socialImpact', 'culture']
+		return customSort.indexOf(a) - customSort.indexOf(b)
+	}
+
 	const getPostTypes = () => {
-		return posts.reduce((acc: any[], current: PostCollection) => { // TODO Type
+		const postTypes = posts.reduce((acc: any[], current: PostCollection) => { // TODO Type
 			if (acc.includes(current.postType)) { return [...acc] }
 			return [...acc, current.postType]
 		}, [])
+
+		return postTypes.sort(sortWithCustomOrder)
 	}
 
 	const getPostMacroCategories = (postType: PostType): MacroCategoriesType[] => {
