@@ -24,11 +24,16 @@ import { sentryConfig } from './src/services/sentry'
 
 const { ENVIRONMENT } = getEnvVars()
 
-console.log(`Dev Mode: ${__DEV__}`)
-if (!__DEV__ && ENVIRONMENT !== 'dev') {
-	Sentry.init(sentryConfig)
-}
 LogBox.ignoreLogs(ignoredLogs)
+
+const startSentry = () => {
+	console.log(`Dev Mode: ${__DEV__}`)
+	if (!__DEV__ && ENVIRONMENT !== 'dev') {
+		Sentry.init(sentryConfig)
+	}
+}
+
+startSentry()
 
 function App() {
 	const [fontsLoaded]: boolean[] = useFonts({

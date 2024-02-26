@@ -1,6 +1,6 @@
 import { SmasRepositoryAdapterInterface } from '@data/smas/SmasRepositoryAdapterInterface'
 
-async function smasUserHasTokenNotificationUC(nis: string, SmasRepositoryAdapter: () => SmasRepositoryAdapterInterface) {
+async function smasNisHasLinkedWithUserUC(nis: string, SmasRepositoryAdapter: () => SmasRepositoryAdapterInterface) {
 	const { local, remote } = SmasRepositoryAdapter()
 
 	const linkedNis = nis || await local.getNisFromStorage()
@@ -11,4 +11,4 @@ async function smasUserHasTokenNotificationUC(nis: string, SmasRepositoryAdapter
 	return !!smasTokenNotification
 }
 
-export { smasUserHasTokenNotificationUC }
+export { smasNisHasLinkedWithUserUC }

@@ -178,6 +178,7 @@
 		],
 		"object-curly-spacing": "warn",
 		"object-curly-newline": "off",
+		"object-property-newline": "off",
 		"arrow-body-style": "off",
 		/* [
 			"error",

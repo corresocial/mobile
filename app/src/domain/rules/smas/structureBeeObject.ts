@@ -20,7 +20,7 @@ function benefitUnderAnalysis(benefitNotGranted: Binary, foodCardGranted: Binary
 
 function generateExpectReleaseDate(dateStr: string, daysAhead?: boolean) {
 	try {
-		const { addDays, format, getDayOfWeek } = DateFnsAdapter()
+		const { addDays, format } = DateFnsAdapter()
 
 		const regex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/
 		const match = dateStr.match(regex)
@@ -31,9 +31,8 @@ function generateExpectReleaseDate(dateStr: string, daysAhead?: boolean) {
 		const formatedMonth = mes < 10 ? `0${mes}` : mes.toString()
 		const formatedStringDate = `${formatedDay}/${formatedMonth}/${ano}`
 
-		const date = new Date(`${formatedMonth}/${formatedDay}/${ano}`)
-		const daysUntilFriday = (5 - getDayOfWeek(date) + 7) % 7
-		const newDate = addDays(date, daysUntilFriday + 10)
+		const date = new Date(`${ano}-${formatedMonth}-${formatedDay}`)
+		const newDate = addDays(date, 10)
 		const newDateStr = format(newDate, 'dd/MM/yyyy')
 		return daysAhead ? newDateStr : formatedStringDate
 	} catch (err) {
@@ -48,8 +47,8 @@ function structureBeeObject(responseData: BEE) {
 		benefitRequested: benefitWasRequested(responseData.solicitacao_beneficio),
 		benefitGranted: getBenefitGranted(responseData.cartao_alimentacao_concedido, responseData.deposito_conta_concedido),
 		inAnalysis: benefitUnderAnalysis(responseData.beneficio_nao_concedido, responseData.cartao_alimentacao_concedido, responseData.deposito_conta_concedido),
-		grantDate: generateExpectReleaseDate(responseData.data_concedido) || 'xx/xx/xxxx',
-		expectedDate: generateExpectReleaseDate(responseData.data_concedido, true) || 'xx/xx/xxxx',
+		grantDate: generateExpectReleaseDate(responseData.data_concedido) || responseData || 'data indisponível',
+		expectedDate: generateExpectReleaseDate(responseData.data_concedido, true) || 'data indisponível',
 	}
 }
 

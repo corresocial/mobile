@@ -1,7 +1,7 @@
 import { getNisFromLocalRepositoryUC } from '@domain/useCases/smas/getNisFromLocalRepositoryUC'
 import { setNisOnLocalRepositoryUC } from '@domain/useCases/smas/setNisOnLocalRepositoryUC'
 import { setSmasPushNotificationStateUC } from '@domain/useCases/smas/setSmasPushNotificationStateUC'
-import { smasUserHasTokenNotificationUC } from '@domain/useCases/smas/smasUserHasTokenNotificationUC'
+import { smasNisHasLinkedWithUserUC } from '@domain/useCases/smas/smasNisHasLinkedWithUser'
 import { treatSmasApiResponseUC } from '@domain/useCases/smas/treatSmasApiResponseUC'
 import { validateNameUC } from '@domain/useCases/smas/validateNameUC'
 import { validateNISUC } from '@domain/useCases/smas/validateNISUC'
@@ -15,7 +15,7 @@ function SmasAdapter(): SmasAdapterInterface {
 		treatSmasApiResponse: treatSmasApiResponseUC,
 		setNisOnLocalRepository: setNisOnLocalRepositoryUC,
 		getNisFromLocalRepository: getNisFromLocalRepositoryUC,
-		smasUserHasTokenNotification: smasUserHasTokenNotificationUC,
+		smasNisHasLinkedWithUser: smasNisHasLinkedWithUserUC,
 		setSmasPushNotificationState: setSmasPushNotificationStateUC
 	}
 }
