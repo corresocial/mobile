@@ -41,8 +41,9 @@ import {
 	ExpandedUserDescriptionArea,
 	VerticalPaddingContainer,
 	PostPadding,
-	OffBounceBackground,
 	SeeMoreLabel,
+	SafeAreaViewContainer,
+	PostFilterContainer
 } from './styles'
 import AtSignWhiteIcon from '@assets/icons/atSign-white.svg'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
@@ -68,15 +69,13 @@ import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { FocusAwareStatusBar } from '@components/FocusAwareStatusBar'
 import { HorizontalSocialMediaList } from '@components/HorizontalSocialmediaList'
-import { HorizontalTagList } from '@components/HorizontalTagList'
 import { PhotoPortrait } from '@components/PhotoPortrait'
 import { PopOver } from '@components/PopOver'
+import { PostFilter } from '@components/PostFilter'
 import { VerifiedUserBadge } from '@components/VerifiedUserBadge'
 import { WithoutPostsMessage } from '@components/WithoutPostsMessage'
 
-import { useViewController } from './index.controller'
-
-const { sortArray, arrayIsEmpty } = UiUtils()
+const { arrayIsEmpty } = UiUtils()
 const { sortPostsByCreatedData } = UiPostUtils()
 
 function Profile({ route, navigation }: HomeTabScreenProps) {
@@ -84,17 +83,17 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 	const { userDataContext } = useContext(AuthContext)
 	const { createCustomer, createSubscription, stripeProductsPlans } = useContext(StripeContext)
 
-	const {
-		user, setUser,
-		isLoggedUser, setIsLoggedUser,
-		userDescriptionIsExpanded, setUserDescriptionIsExpanded,
-		hostDescriptionIsExpanded, setHostDescriptionIsExpanded,
-		selectedTags, setSelectedTags,
-		profileOptionsIsOpen, setProfileOptionsIsOpen,
-		toggleVerifiedModal, setToggleVerifiedModal,
-		numberOfOfflinePostsStored, setNumberOfOfflinePostsStored,
-		hasNetworkConnection, setHasNetworkConnection,
-	} = useViewController()
+	const [isLoggedUser, setIsLoggedUser] = useState(false)
+	const [userDescriptionIsExpanded, setUserDescriptionIsExpanded] = useState(false)
+	const [hostDescriptionIsExpanded, setHostDescriptionIsExpanded] = useState(false)
+	const [filteredPosts, setFilteredPosts] = useState<PostCollection[]>([])
+	const [hasPostFilter, setHasPostFilter] = useState(false)
+
+	const [user, setUser] = useState<LocalUserData>({})
+	const [profileOptionsIsOpen, setProfileOptionsIsOpen] = useState(false)
+	const [toggleVerifiedModal, setToggleVerifiedModal] = useState(false)
+	const [numberOfOfflinePostsStored, setNumberOfOfflinePostsStored] = useState(0)
+	const [hasNetworkConnection, setHasNetworkConnection] = useState(false)
 
 	useEffect(() => {
 		if (route.params && route.params.userId) {
@@ -130,60 +129,13 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		setHasNetworkConnection(!!networkStatus.isConnected && !!networkStatus.isInternetReachable)
 	}
 
-	const getUserPostMacroTags = () => {
-		const posts = getUserPosts()
-		const userPostTags = posts.reduce(
-			(acc: any[], current: PostCollection) => {
-				if (acc.includes(current.postType)) {
-					return [...acc]
-				}
-
-				return [...acc, current.postType]
-			},
-			[]
-		)
-
-		return userPostTags.sort(sortArray) as string[]
-	}
-
 	const getFlatlistPosts = () => {
-		return !selectedTags.length
+		return !hasPostFilter
 			? getUserPosts()
-			: filtredUserPosts()
+			: getFilteredUserPosts()
 	}
 
-	const filtredUserPosts = () => {
-		const posts = getUserPosts()
-		return posts.filter((post: any) => {
-			const matchs = selectedTags.map((tag: string) => {
-				if (getRelativeMacroTagLabel(post.postType) === tag) return true
-				return false
-			}, [])
-			return !!matchs.includes(true)
-		})
-	}
-
-	const getRelativeMacroTagLabel = (macroTag: string): string => {
-		switch (macroTag) {
-			case 'income': return 'renda'
-			case 'culture': return 'cultura'
-			case 'socialImpact': return 'cidadania'
-			default: return ''
-		}
-	}
-
-	const onSelectTag = (tagName: string) => {
-		const currentSelectedTags = [...selectedTags]
-		if (currentSelectedTags.includes(tagName)) {
-			const selectedTagsFiltred = currentSelectedTags.filter(
-				(tag) => tag !== tagName
-			)
-			setSelectedTags(selectedTagsFiltred)
-		} else {
-			currentSelectedTags.push(tagName)
-			setSelectedTags(currentSelectedTags)
-		}
-	}
+	const getFilteredUserPosts = () => filteredPosts || []
 
 	const viewPostDetails = (post: PostCollection) => {
 		const customStackLabel = route.params?.userId ? 'Home' : route.params?.stackLabel
@@ -512,108 +464,107 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 														</ScrollView>
 													</ExpandedUserDescriptionArea>
 												)
-										}
-										{
-											arrayIsEmpty(getUserField('socialMedias'))
-												? isLoggedUser
-													? (
-														<>
-															<VerticalSpacing />
-															<SmallButton
-																label={'adicionar redes'}
-																labelColor={theme.black4}
-																SvgIcon={AtSignWhiteIcon}
-																svgScale={['60%', '20%']}
-																height={relativeScreenHeight(5)}
-																onPress={openSocialMediaManagement}
-															/>
-															<VerticalSpacing />
-														</>
-													)
-													: <VerticalSpacing />
-												: (
-													<HorizontalSocialMediaList
-														socialMedias={getUserField('socialMedias') as SocialMedia[]}
-														onPress={openSocialMediaManagement}
-													/>
-												)
-										}
-										<OptionsArea>
-											<SmallButton
-												label={isLoggedUser ? 'editar' : 'chat'}
-												labelColor={theme.black4}
-												SvgIcon={isLoggedUser ? EditIcon : ChatWhiteIcon}
-												svgScale={['85%', '25%']}
-												relativeWidth={'28%'}
-												height={relativeScreenWidth(12)}
-												onPress={isLoggedUser ? goToEditProfile : openChat}
-											/>
-											<SmallButton
-												color={theme.orange3}
-												label={'compartilhar'}
-												labelColor={theme.black4}
-												highlightedWords={
-													isLoggedUser ? ['compartilhar'] : []
-												}
-												fontSize={12}
-												SvgIcon={ShareIcon}
-												relativeWidth={isLoggedUser ? '50%' : '45%'}
-												height={relativeScreenWidth(12)}
-												onPress={shareProfile}
-											/>
-											<PopOver
-												title={getUserField('name') as string}
-												isVerifiable={userIsVerified()}
-												isAdmin={userIsAdmin()}
-												buttonLabel={'denunciar perfil'}
-												popoverVisibility={profileOptionsIsOpen}
-												closePopover={() => setProfileOptionsIsOpen(false)}
-												reportUser={reportUser}
-												onPressVerify={verifyUserProfile}
-												setFreeTrialToProfile={setFreeTrialToProfile}
-											>
+							}
+							{
+								arrayIsEmpty(getUserField('socialMedias'))
+									? isLoggedUser
+										? (
+											<>
+												<VerticalSpacing />
 												<SmallButton
-													color={theme.white3}
-													SvgIcon={getConfigurationIcon()}
-													relativeWidth={relativeScreenWidth(12)}
-													svgScale={hasConfigNotification() && isLoggedUser ? ['100%', '100%'] : ['50%', '80%']}
-													height={relativeScreenWidth(12)}
-													onPress={openProfileOptions}
+													label={'adicionar redes'}
+													labelColor={theme.black4}
+													SvgIcon={AtSignWhiteIcon}
+													svgScale={['60%', '20%']}
+													height={relativeScreenHeight(5)}
+													onPress={openSocialMediaManagement}
 												/>
-											</PopOver>
-										</OptionsArea>
-									</ProfileHeader>
-								</DefaultHeaderContainer>
-								<VerticalSpacing />
-								<HorizontalTagList
-									tags={getUserPostMacroTags()}
-									selectedTags={selectedTags}
-									filterSelectedTags={getRelativeMacroTagLabel}
-									onSelectTag={onSelectTag}
+												<VerticalSpacing />
+											</>
+										)
+										: <VerticalSpacing />
+									: (
+										<HorizontalSocialMediaList
+											socialMedias={getUserField('socialMedias') as SocialMedia[]}
+											onPress={openSocialMediaManagement}
+										/>
+									)
+							}
+							<OptionsArea>
+								<SmallButton
+									label={isLoggedUser ? 'editar' : 'chat'}
+									labelColor={theme.black4}
+									SvgIcon={isLoggedUser ? EditIcon : ChatWhiteIcon}
+									svgScale={['85%', '25%']}
+									relativeWidth={'28%'}
+									height={relativeScreenWidth(12)}
+									onPress={isLoggedUser ? goToEditProfile : openChat}
+								/>
+								<SmallButton
+									color={theme.orange3}
+									label={'compartilhar'}
+									labelColor={theme.black4}
+									highlightedWords={
+										isLoggedUser ? ['compartilhar'] : []
+									}
+									fontSize={12}
+									SvgIcon={ShareIcon}
+									relativeWidth={isLoggedUser ? '50%' : '45%'}
+									height={relativeScreenWidth(12)}
+									onPress={shareProfile}
+								/>
+								<PopOver
+									title={getUserField('name') as string}
+									isVerifiable={userIsVerified()}
+									isAdmin={userIsAdmin()}
+									buttonLabel={'denunciar perfil'}
+									popoverVisibility={profileOptionsIsOpen}
+									closePopover={() => setProfileOptionsIsOpen(false)}
+									reportUser={reportUser}
+									onPressVerify={verifyUserProfile}
+									setFreeTrialToProfile={setFreeTrialToProfile}
+								>
+									<SmallButton
+										color={theme.white3}
+										SvgIcon={getConfigurationIcon()}
+										relativeWidth={relativeScreenWidth(12)}
+										svgScale={hasConfigNotification() && isLoggedUser ? ['100%', '100%'] : ['50%', '80%']}
+										height={relativeScreenWidth(12)}
+										onPress={openProfileOptions}
+									/>
+								</PopOver>
+							</OptionsArea>
+						</ProfileHeader>
+					</DefaultHeaderContainer>
+					{
+						!!numberOfOfflinePostsStored && isLoggedUser && (
+							<PostPadding>
+								<OptionButton
+									label={`você tem ${numberOfOfflinePostsStored} ${numberOfOfflinePostsStored === 1 ? 'post pronto' : 'posts prontos'} `}
+									shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
+									highlightedWords={['posts', 'post']}
+									labelSize={18}
+									relativeHeight={relativeScreenHeight(8)}
+									leftSideWidth={'25%'}
+									leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
+									SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
+									svgIconScale={['60%', '60%']}
+									onPress={() => navigation.navigate('OfflinePostsManagement')}
 								/>
 								<VerticalSpacing />
-								{
-									!!numberOfOfflinePostsStored && isLoggedUser && (
-										<PostPadding>
-											<OptionButton
-												label={`você tem ${numberOfOfflinePostsStored} ${numberOfOfflinePostsStored === 1 ? 'post pronto' : 'posts prontos'} `}
-												shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
-												highlightedWords={['posts', 'post']}
-												labelSize={18}
-												relativeHeight={relativeScreenHeight(8)}
-												leftSideWidth={'25%'}
-												leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
-												SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
-												svgIconScale={['60%', '60%']}
-												onPress={() => navigation.navigate('OfflinePostsManagement')}
-											/>
-											<VerticalSpacing />
-										</PostPadding>
-									)
-								}
-							</>
-						)}
+							</PostPadding>
+						)
+					}
+					<PostFilterContainer>
+						<PostFilter
+							posts={getUserPosts()}
+							setHasPostFilter={setHasPostFilter}
+							setFilteredPosts={setFilteredPosts}
+						/>
+					</PostFilterContainer>
+					<FlatList
 						data={getFlatlistPosts()}
+						ListFooterComponentStyle={{ height: relativeScreenHeight(50) }}
 						renderItem={({ item }: FlatListItem<PostCollection>) => (
 							<PostPadding>
 								<PostCard
@@ -639,7 +590,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 						)}
 					/>
 				</Body>
-			</OffBounceBackground>
+			</SafeAreaViewContainer>
 		</Container >
 	)
 }

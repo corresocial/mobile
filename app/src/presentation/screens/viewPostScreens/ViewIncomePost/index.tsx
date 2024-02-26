@@ -17,13 +17,7 @@ import { UiUtils } from '@utils-ui/common/UiUtils'
 import { UiPostUtils } from '@utils-ui/post/UiPostUtils'
 import { incomeCategories } from '@utils/postsCategories/incomeCategories'
 
-import {
-	Body,
-	Container,
-	Header,
-	OptionsArea,
-	UserAndValueContainer,
-} from './styles'
+import { Body,	Container,	Header,	OptionsArea,	UserAndValueContainer } from './styles'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
 import DeniedWhiteIcon from '@assets/icons/denied-white.svg'
 import ShareWhiteIcon from '@assets/icons/share-white.svg'
@@ -343,9 +337,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 				<VerticalSpacing />
 				<HorizontalTagList
 					tags={[getCategoryLabel(), ...getPostField('tags')]}
-					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
 					selectedColor={theme.green1}
-					onSelectTag={() => { }}
 				/>
 				<Body>
 					<VerticalSpacing />

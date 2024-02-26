@@ -320,9 +320,7 @@ function ViewSocialImpactPost({ route, navigation }: ViewSocialImpactPostScreenP
 				<VerticalSpacing />
 				<HorizontalTagList
 					tags={[getCategoryLabel(), ...getPostField('tags')]}
-					selectedTags={[getCategoryLabel(), ...getPostField('tags')]}
 					selectedColor={theme.pink1}
-					onSelectTag={() => { }}
 				/>
 				<Body>
 					<VerticalSpacing />
