@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -387,65 +387,59 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 					/>
 				)
 			}
-			<OffBounceBackground
-				colors={[theme.white3, theme.orange2, theme.orange2, theme.orange2]}
-				locations={[0.25, 0.25, 0.25, 0.25]}
-			>
-				<Body>
-					<FlatList
-						ListHeaderComponent={(
-							<>
-								<DefaultHeaderContainer
-									backgroundColor={theme.white3}
-									centralized={false}
-									grow
-									withoutIOSPadding
-									borderBottomWidth={0}
-									paddingVertical={15}
-								>
-									<ProfileHeader>
-										<ProfileInfoContainer>
-											{
-												!isLoggedUser && (
-													<>
-														<BackButton
-															onPress={navigationToBack}
-															withoutRightSpacing={false}
-														/>
-														<HorizontalSpacing width={relativeScreenWidth(3)} />
-													</>
-												)
-											}
-											<PhotoPortrait
-												height={isLoggedUser ? RFValue(95) : RFValue(65)}
-												width={isLoggedUser ? RFValue(100) : RFValue(70)}
-												borderWidth={3}
-												borderRightWidth={8}
-												pictureUri={getProfilePicture()}
+			<SafeAreaViewContainer>
+				<Body showsVerticalScrollIndicator={false}>
+					<DefaultHeaderContainer
+						backgroundColor={theme.white3}
+						centralized={false}
+						grow
+						withoutIOSPadding
+						borderBottomWidth={0}
+						paddingVertical={15}
+					>
+						<ProfileHeader>
+							<ProfileInfoContainer>
+								{
+									!isLoggedUser && (
+										<>
+											<BackButton
+												onPress={navigationToBack}
+												withoutRightSpacing={false}
 											/>
-											<InfoArea>
-												<UserName numberOfLines={3}>
-													{getUserField('name') as string}
-												</UserName>
-												{
-													renderUserVerifiedType()
-												}
-												{
-													!userDescriptionIsExpanded && isLoggedUser && (
-														<TouchableOpacity
-															onPress={() => getUserField('description')
+											<HorizontalSpacing width={relativeScreenWidth(3)} />
+										</>
+									)
+								}
+								<PhotoPortrait
+									height={isLoggedUser ? RFValue(95) : RFValue(65)}
+									width={isLoggedUser ? RFValue(100) : RFValue(70)}
+									borderWidth={3}
+									borderRightWidth={8}
+									pictureUri={getProfilePicture()}
+								/>
+								<InfoArea>
+									<UserName numberOfLines={3}>
+										{getUserField('name') as string}
+									</UserName>
+									{
+										renderUserVerifiedType()
+									}
+									{
+										!userDescriptionIsExpanded && isLoggedUser && (
+											<TouchableOpacity
+												onPress={() => getUserField('description')
 																	&& setUserDescriptionIsExpanded(true)}
-														>
-															<UserDescription numberOfLines={3}>
-																{getUserField('description') as string || 'você pode adicionar uma descrição em "editar".'}
-															</UserDescription>
-														</TouchableOpacity>
-													)
-												}
-											</InfoArea>
-										</ProfileInfoContainer>
-										{
-											(userDescriptionIsExpanded || !isLoggedUser)
+											>
+												<UserDescription numberOfLines={3}>
+													{getUserField('description')as string || 'você pode adicionar uma descrição em "editar".' }
+												</UserDescription>
+											</TouchableOpacity>
+										)
+									}
+								</InfoArea>
+							</ProfileInfoContainer>
+							{
+								(userDescriptionIsExpanded || !isLoggedUser)
 												&& getUserField('description')
 												&& (
 													<ExpandedUserDescriptionArea>

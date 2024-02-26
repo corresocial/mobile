@@ -42,6 +42,7 @@ function FilterButton({
 
 	return (
 		<TouchableOpacity
+			activeOpacity={1}
 			onPressIn={pressingButton}
 			onPressOut={notPressingButton}
 			onPress={releaseButton}
