@@ -46,6 +46,7 @@ import { SubscriptionPaymentResult } from '@screens/paymentSystemScreens/Subscri
 import { SelectPostType } from '@screens/postScreens/SelectPostType'
 import { EditProfile } from '@screens/profileScreens/EditProfile'
 import { EditUserDescription } from '@screens/profileScreens/EditUserDescription'
+import { EditUserLocation } from '@screens/profileScreens/EditUserLocation'
 import { EditUserName } from '@screens/profileScreens/EditUserName'
 import { EditUserPicture } from '@screens/profileScreens/EditUserPicture'
 import { InsertLinkTitle } from '@screens/profileScreens/InsertLinkTitle'
@@ -97,6 +98,7 @@ export function UserStack({ route }: any) {
 									<Stack.Screen name={'EditProfile'} component={EditProfile} />
 									<Stack.Screen name={'EditUserName'} component={EditUserName} />
 									<Stack.Screen name={'EditUserDescription'} component={EditUserDescription} />
+									<Stack.Screen name={'EditUserLocation'} component={EditUserLocation} />
 									<Stack.Screen name={'EditUserPicture'} component={EditUserPicture} />
 									<Stack.Screen name={'OfflinePostsManagement'} component={OfflinePostsManagement} />
 

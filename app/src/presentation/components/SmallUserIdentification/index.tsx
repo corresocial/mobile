@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { RFValue } from 'react-native-responsive-fontsize'
 
+import { defaultUserProfilePicture } from '@utils/defaultUserProfilePicture'
+
 import {
 	Container,
 	MiniaturePortrait,
@@ -71,7 +73,7 @@ function SmallUserIdentification({
 				>
 					<MiniaturePortrait
 						source={{
-							uri: profilePictureUrl || 'https://www.softdownload.com.br/wp-content/uploads/2018/03/como_trocar_foto_perfil_facebook.jpg',
+							uri: profilePictureUrl || defaultUserProfilePicture,
 						}}
 					/>
 				</UserPictureAreaInner>

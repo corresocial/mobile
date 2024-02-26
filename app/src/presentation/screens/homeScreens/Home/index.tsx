@@ -301,6 +301,7 @@ function Home({ navigation }: HomeScreenProps) {
 
 	const navigateToEditUserLocation = () => {
 		navigation.navigate('EditProfile', { user: userDataContext })
+		navigation.navigate('EditUserLocation')
 	}
 
 	const navigateToPublicServices = () => {

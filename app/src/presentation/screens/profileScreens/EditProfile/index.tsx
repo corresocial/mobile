@@ -15,11 +15,13 @@ import { uploadImage } from '@services/firebase/common/uploadPicture'
 import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
 import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
 import { updateUser } from '@services/firebase/user/updateUser'
+import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { openURL } from '@utils/socialMedias'
 
 import { Body, Container, Header, SaveButtonContainer } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
+import { getShortText } from '@common/auxiliaryFunctions'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -62,6 +64,10 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					userDescription: editDataContext.unsaved.description || userDataContext.description || '',
 					userId: userDataContext.userId || ''
 				})
+				break
+			}
+			case 'EditUserLocation': {
+				navigation.navigate('EditUserLocation')
 				break
 			}
 			case 'SocialMediaManagement': {
@@ -112,9 +118,16 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 				userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
 			)
 
+			await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved })
 			setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved })
 
-			await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved })
+			if (editDataContext.unsaved && editDataContext.unsaved.location) {
+				await updateUserPrivateData(
+					editDataContext.unsaved.location,
+					userDataContext.userId as Id,
+					'location',
+				)
+			}
 
 			setIsLoading(false)
 			navigation.goBack()
@@ -214,28 +227,40 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 						title={'seu nome'}
 						highlightedWords={['nome']}
 						value={editDataContext.unsaved.name || userDataContext.name}
+						pressionable
 						onEdit={() => goToEditScreen('EditUserName')}
 					/>
 					<VerticalSpacing />
 					<EditCard
 						title={'sua descrição'}
 						highlightedWords={['descrição']}
-						value={editDataContext.unsaved.description === '' || editDataContext.unsaved.description ? editDataContext.unsaved.description : userDataContext.description}
+						value={editDataContext.unsaved.description === '' || editDataContext.unsaved.description ? getShortText(editDataContext.unsaved.description, 140) : getShortText(userDataContext.description, 140)}
+						pressionable
 						onEdit={() => goToEditScreen('EditUserDescription')}
 					/>
 					<VerticalSpacing />
 					<EditCard
 						title={'links e contato'}
 						highlightedWords={['links', 'contato']}
+						pressionable
 						onEdit={() => goToEditScreen('SocialMediaManagement')}
 					>
 						<HorizontalSocialMediaList socialMedias={userDataContext.socialMedias} onPress={openURL} />
 					</EditCard>
 					<VerticalSpacing />
 					<EditCard
+						title={'região de moradia'}
+						highlightedWords={['moradia']}
+						pressionable
+						value={'localização utilizada para envio de notificações da prefeitura'}
+						onEdit={() => goToEditScreen('EditUserLocation')}
+					/>
+					<VerticalSpacing />
+					<EditCard
 						title={'sua foto'}
 						highlightedWords={['foto']}
 						profilePicturesUrl={[getProfilePictureUrl()] || []}
+						pressionable
 						onEdit={() => goToEditScreen('EditUserPicture')}
 					/>
 					<VerticalSpacing height={relativeScreenHeight(5)} />
