@@ -299,6 +299,10 @@ function Home({ navigation }: HomeScreenProps) {
 		navigation.navigate('SelectSubscriptionRange')
 	}
 
+	const navigateToEditUserLocation = () => {
+		navigation.navigate('EditProfile', { user: userDataContext })
+	}
+
 	const navigateToPublicServices = () => {
 		navigation.navigate('PublicServicesStack')
 	}
@@ -347,6 +351,7 @@ function Home({ navigation }: HomeScreenProps) {
 			>
 				<AdsCarousel
 					onPressCorreAd={() => !userHasPaidSubscription() && setSubscriptionModalIsVisible(true)}
+					onPressUserLocationAd={navigateToEditUserLocation}
 					onPressPublicServicesAd={navigateToPublicServices}
 				/>
 				{!hasLocationEnable && !hasAnyPost() && searchEnded && (
