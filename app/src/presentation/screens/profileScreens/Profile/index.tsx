@@ -43,7 +43,8 @@ import {
 	PostPadding,
 	SeeMoreLabel,
 	SafeAreaViewContainer,
-	PostFilterContainer
+	PostFilterContainer,
+	OffBounceBackground
 } from './styles'
 import AtSignWhiteIcon from '@assets/icons/atSign-white.svg'
 import ChatWhiteIcon from '@assets/icons/chat-white.svg'
@@ -388,58 +389,62 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 				)
 			}
 			<SafeAreaViewContainer>
-				<Body showsVerticalScrollIndicator={false}>
-					<DefaultHeaderContainer
-						backgroundColor={theme.white3}
-						centralized={false}
-						grow
-						withoutIOSPadding
-						borderBottomWidth={0}
-						paddingVertical={15}
-					>
-						<ProfileHeader>
-							<ProfileInfoContainer>
-								{
-									!isLoggedUser && (
-										<>
-											<BackButton
-												onPress={navigationToBack}
-												withoutRightSpacing={false}
-											/>
-											<HorizontalSpacing width={relativeScreenWidth(3)} />
-										</>
-									)
-								}
-								<PhotoPortrait
-									height={isLoggedUser ? RFValue(95) : RFValue(65)}
-									width={isLoggedUser ? RFValue(100) : RFValue(70)}
-									borderWidth={3}
-									borderRightWidth={8}
-									pictureUri={getProfilePicture()}
-								/>
-								<InfoArea>
-									<UserName numberOfLines={3}>
-										{getUserField('name') as string}
-									</UserName>
+				<OffBounceBackground
+					colors={[theme.white3, theme.orange2, theme.orange2, theme.orange2]}
+					locations={[0.25, 0.25, 0.25, 0.25]}
+				>
+					<Body showsVerticalScrollIndicator={false}>
+						<DefaultHeaderContainer
+							backgroundColor={theme.white3}
+							centralized={false}
+							grow
+							withoutIOSPadding
+							borderBottomWidth={0}
+							paddingVertical={15}
+						>
+							<ProfileHeader>
+								<ProfileInfoContainer>
 									{
-										renderUserVerifiedType()
-									}
-									{
-										!userDescriptionIsExpanded && isLoggedUser && (
-											<TouchableOpacity
-												onPress={() => getUserField('description')
-																	&& setUserDescriptionIsExpanded(true)}
-											>
-												<UserDescription numberOfLines={3}>
-													{getUserField('description')as string || 'você pode adicionar uma descrição em "editar".' }
-												</UserDescription>
-											</TouchableOpacity>
+										!isLoggedUser && (
+											<>
+												<BackButton
+													onPress={navigationToBack}
+													withoutRightSpacing={false}
+												/>
+												<HorizontalSpacing width={relativeScreenWidth(3)} />
+											</>
 										)
 									}
-								</InfoArea>
-							</ProfileInfoContainer>
-							{
-								(userDescriptionIsExpanded || !isLoggedUser)
+									<PhotoPortrait
+										height={isLoggedUser ? RFValue(95) : RFValue(65)}
+										width={isLoggedUser ? RFValue(100) : RFValue(70)}
+										borderWidth={3}
+										borderRightWidth={8}
+										pictureUri={getProfilePicture()}
+									/>
+									<InfoArea>
+										<UserName numberOfLines={3}>
+											{getUserField('name') as string}
+										</UserName>
+										{
+											renderUserVerifiedType()
+										}
+										{
+											!userDescriptionIsExpanded && isLoggedUser && (
+												<TouchableOpacity
+													onPress={() => getUserField('description')
+																	&& setUserDescriptionIsExpanded(true)}
+												>
+													<UserDescription numberOfLines={3}>
+														{getUserField('description')as string || 'você pode adicionar uma descrição em "editar".' }
+													</UserDescription>
+												</TouchableOpacity>
+											)
+										}
+									</InfoArea>
+								</ProfileInfoContainer>
+								{
+									(userDescriptionIsExpanded || !isLoggedUser)
 												&& getUserField('description')
 												&& (
 													<ExpandedUserDescriptionArea>
@@ -458,132 +463,132 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 														</ScrollView>
 													</ExpandedUserDescriptionArea>
 												)
-							}
-							{
-								arrayIsEmpty(getUserField('socialMedias'))
-									? isLoggedUser
-										? (
-											<>
-												<VerticalSpacing />
-												<SmallButton
-													label={'adicionar redes'}
-													labelColor={theme.black4}
-													SvgIcon={AtSignWhiteIcon}
-													svgScale={['60%', '20%']}
-													height={relativeScreenHeight(5)}
-													onPress={openSocialMediaManagement}
-												/>
-												<VerticalSpacing />
-											</>
+								}
+								{
+									arrayIsEmpty(getUserField('socialMedias'))
+										? isLoggedUser
+											? (
+												<>
+													<VerticalSpacing />
+													<SmallButton
+														label={'adicionar redes'}
+														labelColor={theme.black4}
+														SvgIcon={AtSignWhiteIcon}
+														svgScale={['60%', '20%']}
+														height={relativeScreenHeight(5)}
+														onPress={openSocialMediaManagement}
+													/>
+													<VerticalSpacing />
+												</>
+											)
+											: <VerticalSpacing />
+										: (
+											<HorizontalSocialMediaList
+												socialMedias={getUserField('socialMedias') as SocialMedia[]}
+												onPress={openSocialMediaManagement}
+											/>
 										)
-										: <VerticalSpacing />
-									: (
-										<HorizontalSocialMediaList
-											socialMedias={getUserField('socialMedias') as SocialMedia[]}
-											onPress={openSocialMediaManagement}
-										/>
-									)
-							}
-							<OptionsArea>
-								<SmallButton
-									label={isLoggedUser ? 'editar' : 'chat'}
-									labelColor={theme.black4}
-									SvgIcon={isLoggedUser ? EditIcon : ChatWhiteIcon}
-									svgScale={['85%', '25%']}
-									relativeWidth={'28%'}
-									height={relativeScreenWidth(12)}
-									onPress={isLoggedUser ? goToEditProfile : openChat}
-								/>
-								<SmallButton
-									color={theme.orange3}
-									label={'compartilhar'}
-									labelColor={theme.black4}
-									highlightedWords={
-										isLoggedUser ? ['compartilhar'] : []
-									}
-									fontSize={12}
-									SvgIcon={ShareIcon}
-									relativeWidth={isLoggedUser ? '50%' : '45%'}
-									height={relativeScreenWidth(12)}
-									onPress={shareProfile}
-								/>
-								<PopOver
-									title={getUserField('name') as string}
-									isVerifiable={userIsVerified()}
-									isAdmin={userIsAdmin()}
-									buttonLabel={'denunciar perfil'}
-									popoverVisibility={profileOptionsIsOpen}
-									closePopover={() => setProfileOptionsIsOpen(false)}
-									reportUser={reportUser}
-									onPressVerify={verifyUserProfile}
-									setFreeTrialToProfile={setFreeTrialToProfile}
-								>
+								}
+								<OptionsArea>
 									<SmallButton
-										color={theme.white3}
-										SvgIcon={getConfigurationIcon()}
-										relativeWidth={relativeScreenWidth(12)}
-										svgScale={hasConfigNotification() && isLoggedUser ? ['100%', '100%'] : ['50%', '80%']}
+										label={isLoggedUser ? 'editar' : 'chat'}
+										labelColor={theme.black4}
+										SvgIcon={isLoggedUser ? EditIcon : ChatWhiteIcon}
+										svgScale={['85%', '25%']}
+										relativeWidth={'28%'}
 										height={relativeScreenWidth(12)}
-										onPress={openProfileOptions}
+										onPress={isLoggedUser ? goToEditProfile : openChat}
 									/>
-								</PopOver>
-							</OptionsArea>
-						</ProfileHeader>
-					</DefaultHeaderContainer>
-					{
-						!!numberOfOfflinePostsStored && isLoggedUser && (
-							<PostPadding>
-								<OptionButton
-									label={`você tem ${numberOfOfflinePostsStored} ${numberOfOfflinePostsStored === 1 ? 'post pronto' : 'posts prontos'} `}
-									shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
-									highlightedWords={['posts', 'post']}
-									labelSize={18}
-									relativeHeight={relativeScreenHeight(8)}
-									leftSideWidth={'25%'}
-									leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
-									SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
-									svgIconScale={['60%', '60%']}
-									onPress={() => navigation.navigate('OfflinePostsManagement')}
-								/>
-								<VerticalSpacing />
-							</PostPadding>
-						)
-					}
-					<PostFilterContainer>
-						<PostFilter
-							posts={getUserPosts()}
-							setHasPostFilter={setHasPostFilter}
-							setFilteredPosts={setFilteredPosts}
-						/>
-					</PostFilterContainer>
-					<FlatList
-						data={getFlatlistPosts()}
-						ListFooterComponentStyle={{ height: relativeScreenHeight(50) }}
-						renderItem={({ item }: FlatListItem<PostCollection>) => (
-							<PostPadding>
-								<PostCard
-									post={item}
-									owner={getUserField() as PostCollectionCommonFields['owner']}
-									onPress={() => viewPostDetails(item)}
-								/>
-							</PostPadding>
-						)}
-						showsVerticalScrollIndicator={false}
-						ItemSeparatorComponent={() => <VerticalSpacing height={relativeScreenHeight(0.8)} />}
-						contentContainerStyle={{ backgroundColor: theme.orange2 }}
-						ListFooterComponent={() => (isLoggedUser && (!userDataContext.posts || userDataContext.posts.length === 0)
-							? (
-								<WithoutPostsMessage
-									title={'faça uma postagem!'}
-									message={'você precisa fazer um post para que outras pessoas possam te encontrem\ncaso veio aqui apenas para procurar, não se preocupe.'}
-									highlightedWords={['precisa', 'fazer', 'um', 'post', 'outras', 'pessoas', 'possam', 'te', 'encontrar',]}
-									backgroundColor={theme.yellow1}
-								/>
+									<SmallButton
+										color={theme.orange3}
+										label={'compartilhar'}
+										labelColor={theme.black4}
+										highlightedWords={
+											isLoggedUser ? ['compartilhar'] : []
+										}
+										fontSize={12}
+										SvgIcon={ShareIcon}
+										relativeWidth={isLoggedUser ? '50%' : '45%'}
+										height={relativeScreenWidth(12)}
+										onPress={shareProfile}
+									/>
+									<PopOver
+										title={getUserField('name') as string}
+										isVerifiable={userIsVerified()}
+										isAdmin={userIsAdmin()}
+										buttonLabel={'denunciar perfil'}
+										popoverVisibility={profileOptionsIsOpen}
+										closePopover={() => setProfileOptionsIsOpen(false)}
+										reportUser={reportUser}
+										onPressVerify={verifyUserProfile}
+										setFreeTrialToProfile={setFreeTrialToProfile}
+									>
+										<SmallButton
+											color={theme.white3}
+											SvgIcon={getConfigurationIcon()}
+											relativeWidth={relativeScreenWidth(12)}
+											svgScale={hasConfigNotification() && isLoggedUser ? ['100%', '100%'] : ['50%', '80%']}
+											height={relativeScreenWidth(12)}
+											onPress={openProfileOptions}
+										/>
+									</PopOver>
+								</OptionsArea>
+							</ProfileHeader>
+						</DefaultHeaderContainer>
+						{
+							!!numberOfOfflinePostsStored && isLoggedUser && (
+								<PostPadding>
+									<OptionButton
+										label={`você tem ${numberOfOfflinePostsStored} ${numberOfOfflinePostsStored === 1 ? 'post pronto' : 'posts prontos'} `}
+										shortDescription={hasNetworkConnection ? 'você já pode postá-los' : 'esperando conexão com internet'}
+										highlightedWords={['posts', 'post']}
+										labelSize={18}
+										relativeHeight={relativeScreenHeight(8)}
+										leftSideWidth={'25%'}
+										leftSideColor={hasNetworkConnection ? theme.green3 : theme.yellow3}
+										SvgIcon={hasNetworkConnection ? WirelessOnWhiteIcon : WirelessOffWhiteIcon}
+										svgIconScale={['60%', '60%']}
+										onPress={() => navigation.navigate('OfflinePostsManagement')}
+									/>
+									<VerticalSpacing />
+								</PostPadding>
 							)
-							: <VerticalSpacing height={relativeScreenHeight(11)} />
-						)}
-					/>
-				</Body>
+						}
+						<PostFilterContainer>
+							<PostFilter
+								posts={getUserPosts()}
+								setHasPostFilter={setHasPostFilter}
+								setFilteredPosts={setFilteredPosts}
+							/>
+						</PostFilterContainer>
+						<FlatList
+							data={getFlatlistPosts()}
+							renderItem={({ item }: FlatListItem<PostCollection>) => (
+								<PostPadding>
+									<PostCard
+										post={item}
+										owner={getUserField() as PostCollectionCommonFields['owner']}
+										onPress={() => viewPostDetails(item)}
+									/>
+								</PostPadding>
+							)}
+							showsVerticalScrollIndicator={false}
+							ItemSeparatorComponent={() => <VerticalSpacing height={relativeScreenHeight(0.8)} />}
+							contentContainerStyle={{ backgroundColor: theme.orange2 }}
+							ListFooterComponent={() => (isLoggedUser && (!userDataContext.posts || userDataContext.posts.length === 0)
+								? (
+									<WithoutPostsMessage
+										title={'faça uma postagem!'}
+										message={'você precisa fazer um post para que outras pessoas possam te encontrem\ncaso veio aqui apenas para procurar, não se preocupe.'}
+										highlightedWords={['precisa', 'fazer', 'um', 'post', 'outras', 'pessoas', 'possam', 'te', 'encontrar',]}
+										backgroundColor={theme.yellow1}
+									/>
+								)
+								: <VerticalSpacing height={relativeScreenHeight(11)} />
+							)}
+						/>
+					</Body>
+				</OffBounceBackground>
 			</SafeAreaViewContainer>
 		</Container >
 	)
