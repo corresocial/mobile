@@ -10,9 +10,6 @@
 			"ios": {
 				"resourceClass": "m1-medium"
 			},
-			"android": {
-				"buildType": "apk"
-			},
 			"channel": "development"
 		},
 		"staging": {
