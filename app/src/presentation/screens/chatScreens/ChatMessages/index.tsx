@@ -201,6 +201,10 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 		toggleImpactReportSuccessModalVisibility()
 	}
 
+	const hasCorreSmasProfile = () => {
+		return getRecipientUserId() === 'correSmas'
+	}
+
 	const getRecipientUserName = () => {
 		const { user1, user2 } = currentChat
 		return getConversationUserName(userDataContext.userId as Id, user1, user2)
@@ -224,9 +228,10 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 	}
 
 	const navigateToProfile = () => {
+		const recipientUserId = getRecipientUserName() !== 'corre.' ? getRecipientUserId() : 'gubzWyXdQFeC5xEaWlTtbaR64tT2'
 		navigation.navigate('ChatStack' as any, { // TODO type
 			screen: 'ProfileChat',
-			params: { userId: getRecipientUserId(), stackLabel: 'Chat' }
+			params: { userId: recipientUserId, stackLabel: 'Chat' }
 		})
 	}
 
@@ -318,7 +323,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 					hasMessages={!!getFilteredMessages().length || false}
 					userName={getRecipientUserName()}
 					popoverVisibility={chatOptionsIsOpen}
-					impactReportButtonVisibility={!currentChat.completed}
+					impactReportButtonVisibility={!currentChat.completed && !hasCorreSmasProfile()}
 					closePopover={() => setChatOptionsIsOpen(false)}
 					blockUser={toggleBlockConfirmationModalVisibility}
 					unblockUser={toggleBlockConfirmationModalVisibility}
@@ -385,7 +390,7 @@ function ChatMessages({ route, navigation }: ChatMessagesScreenProps) {
 				}}
 			/>
 			<ChatInput
-				showImpactReportButton={!currentChat.completed}
+				showImpactReportButton={!currentChat.completed && !hasCorreSmasProfile()}
 				markChatAsCompleted={toggleImpactReportModalVisibility}
 				submitMessage={submitMessage}
 			/>

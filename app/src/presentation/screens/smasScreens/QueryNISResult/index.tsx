@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Platform } from 'react-native'
+import { Platform, StatusBar } from 'react-native'
 
 import { SmasRepositoryAdapter } from '@data/smas/SmasRepositoryAdapter'
 
@@ -65,6 +65,7 @@ function QueryNISResult({ route, navigation }: QueryNISResultScreenProps) {
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
+			<StatusBar backgroundColor={status === 200 ? theme.pink2 : theme.red2}/>
 			<DefaultHeaderContainer
 				minHeight={relativeScreenHeight(70)}
 				relativeHeight={relativeScreenHeight(70)}

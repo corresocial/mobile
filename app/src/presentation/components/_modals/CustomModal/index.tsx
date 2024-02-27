@@ -55,6 +55,7 @@ interface CustomModalProps {
 		placeholder: string
 		initialValue?: string
 		keyboardType?: TextInputProps['keyboardType']
+		maxLength?: number
 		validateText?: (value: string) => boolean
 	}
 	affirmativeButton?: {
@@ -173,6 +174,7 @@ function CustomModal({
 								<>
 									<VerticalSpacing/>
 									<DefaultInput
+										{...customInput}
 										defaultBackgroundColor={theme.white2}
 										validBackgroundColor={theme.orange1}
 										fontSize={15}
