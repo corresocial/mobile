@@ -260,6 +260,12 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 
 	const verifyUserProfile = async (label: VerifiedLabelName) => {
 		setProfileOptionsIsOpen(false)
+		console.log({
+			type: label,
+			by: userDataContext.userId,
+			at: new Date(),
+			name: userDataContext.name || ''
+		})
 		if (user.userId && userDataContext.userId) {
 			await updateUser(user.userId, {
 				verified: {
@@ -314,7 +320,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		)
 	}
 
-	const userIsVerified = () => {
+	/* const userIsVerified = () => {
 		return (
 			!isLoggedUser
 			&& userDataContext.verified
@@ -322,7 +328,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 			&& user
 			&& !user.verified
 		)
-	}
+	} */
 
 	const userIsAdmin = () => {
 		return (
@@ -394,7 +400,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 					locations={[0.25, 0.25, 0.25, 0.25]}
 				>
 					<Body >
-
 						<FlatList
 							ListHeaderComponent={(
 								<>
@@ -518,7 +523,6 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 												/>
 												<PopOver
 													title={getUserField('name') as string}
-													isVerifiable={userIsVerified()}
 													isAdmin={userIsAdmin()}
 													buttonLabel={'denunciar perfil'}
 													popoverVisibility={profileOptionsIsOpen}
