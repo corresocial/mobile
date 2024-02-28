@@ -303,6 +303,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 		if (verifiedUserTypeIs('default')) return 'default'
 		if (verifiedUserTypeIs('impact')) return 'impact'
 		if (verifiedUserTypeIs('leader')) return 'leader'
+		if (verifiedUserTypeIs('government')) return 'government'
 		return ''
 	}
 
