@@ -71,7 +71,7 @@ export const VerticalPaddingContainer = styled.View`
 	padding: ${relativeScreenHeight(1)}px 0px;
 `
 
-export const Body = styled.ScrollView`
+export const Body = styled.View`
     flex: 1;
 	height: ${relativeScreenHeight(70)}px;
 	overflow: visible;
