@@ -1,5 +1,5 @@
+import * as ScreenOrientation from 'expo-screen-orientation'
 import React, { useEffect, useRef, useState } from 'react'
-import { View } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -33,6 +33,8 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [hideElements, setHideElements] = useState(false)
 
+	const [orientation, setOrientation] = useState('PORTRAIT')
+
 	const [screenDimensions, setScreenDimensions] = useState({
 		screenWidth: relativeScreenWidth(100),
 		screenHeight: relativeScreenHeight(100)
@@ -40,6 +42,32 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 
 	const carouselRef = useRef<any>(null)
 	const thumbnailListRef = useRef<any>(null)
+
+	useEffect(() => {
+		const enableRotation = async () => {
+			await ScreenOrientation.unlockAsync()
+		}
+
+		const updateOrientation = async () => {
+			const { orientationInfo } = await ScreenOrientation.getOrientationAsync()
+			setOrientation(orientationInfo.orientation)
+		}
+
+		enableRotation()
+		updateOrientation()
+
+		const orientationSubscription = ScreenOrientation.addOrientationChangeListener(({ orientationInfo }) => {
+			setOrientation(orientationInfo.orientation)
+		})
+
+		return () => {
+			orientationSubscription.remove()
+			const blockRotation = async () => {
+				await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
+			}
+			blockRotation()
+		}
+	}, [])
 
 	useEffect(() => {
 		if (thumbnailListRef.current && picturesUrl.length > 0) {
