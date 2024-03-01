@@ -30,6 +30,7 @@
 	},
 	"dependencies": {
 		"@expo-google-fonts/arvo": "^0.2.2",
+		"@likashefqet/react-native-image-zoom": "^2.2.0",
 		"@react-native-async-storage/async-storage": "1.18.2",
 		"@react-native-community/clipboard": "^1.5.1",
 		"@react-navigation/bottom-tabs": "^6.4.0",

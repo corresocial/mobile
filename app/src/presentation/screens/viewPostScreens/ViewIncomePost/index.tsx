@@ -43,6 +43,7 @@ import { ImpactReportModal } from '@components/_modals/ImpactReportModal'
 import { ImpactReportSuccessModal } from '@components/_modals/ImpactReportSuccessModal'
 import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 import { DefaultPostViewHeader } from '@components/DefaultPostViewHeader'
+import { Gallery } from '@components/Gallery'
 import { HorizontalTagList } from '@components/HorizontalTagList'
 import { ImageCarousel } from '@components/ImageCarousel'
 import { PostPopOver } from '@components/PostPopOver'
@@ -340,6 +341,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 					selectedColor={theme.green1}
 				/>
 				<Body>
+					<Gallery showGallery imagesToShow={getPostField('picturesUrl')}/>
 					<VerticalSpacing />
 					<IncomeTypeCard
 						title={'tipo de renda'}
@@ -381,6 +383,7 @@ function ViewIncomePost({ route, navigation }: ViewIncomePostScreenProps) {
 							/>
 						</>
 					)}
+					
 					{
 						(getPostField('saleValue') || getPostField('exchangeValue')) && (
 							<>
