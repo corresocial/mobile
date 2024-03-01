@@ -1,54 +1,38 @@
-import React, { useEffect, useRef } from 'react'
-
-import { ListRenderItem } from '@shopify/flash-list'
+import React, { Ref } from 'react'
+import { FlatList, ListRenderItem } from 'react-native'
 
 import { ThumbnailFlatList } from './styles'
 
-import { Thumbnail } from '../Thumbnail'
+import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
+import { Thumbnail } from '@components/Thumbnail'
 
 interface ThumbnailProps {
-    thumbnailListRef: any,
-    images: any[]
-    currentIndex: number 
+    thumbnailListRef: Ref<FlatList>,
+    picturesUrl: string[]
+    currentIndex: number
     onThumbnailPressed: (id: number) => void
 }
 
-function ThumbnailList({ thumbnailListRef, images, currentIndex, onThumbnailPressed }: ThumbnailProps) {
-	const handleImagePressed = (id: number) => {
-		onThumbnailPressed(id)
-	}
+function ThumbnailList({ thumbnailListRef, picturesUrl, currentIndex, onThumbnailPressed }: ThumbnailProps) {
+	const handleImagePressed = (id: number) => onThumbnailPressed(id)
 
-	useEffect(() => {
-		console.log('thumbnailListRef')
-	}, [thumbnailListRef])
-    
-	useEffect(() => {
-		console.log('images')
-	}, [images])
-
-	useEffect(() => {
-		console.log('currentIndex')
-	}, [currentIndex])
-
-	useEffect(() => {
-		console.log('onThumbnailPressed')
-	}, [onThumbnailPressed])
+	const renderThumbnailItem: ListRenderItem<string> = ({ item, index }) => (
+		<Thumbnail
+			onPress={handleImagePressed}
+			active={currentIndex === index}
+			imageId={index}
+			pictureUrl={item}
+		/>
+	)
 
 	return (
 		<ThumbnailFlatList
-			ref={thumbnailListRef} // TODO type error      
+			ref={thumbnailListRef}
 			horizontal
 			showsHorizontalScrollIndicator={false}
-			data={images}
-			renderItem={({ item, index }) => (
-				<Thumbnail 
-					onPress={handleImagePressed} 
-					active={currentIndex === index} 
-					imageId={index} 
-					image={item}
-				>
-				</Thumbnail>
-			)}
+			data={picturesUrl}
+			ListHeaderComponent={<HorizontalSpacing/>}
+			renderItem={renderThumbnailItem as ListRenderItem<unknown>}
 		/>
 	)
 }
