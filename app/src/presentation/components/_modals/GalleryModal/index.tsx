@@ -1,5 +1,6 @@
 import * as ScreenOrientation from 'expo-screen-orientation'
 import React, { useEffect, useRef, useState } from 'react'
+import { Dimensions } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -32,42 +33,29 @@ interface GalleryProps {
 function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [hideElements, setHideElements] = useState(false)
-
-	const [orientation, setOrientation] = useState('PORTRAIT')
-
-	const [screenDimensions, setScreenDimensions] = useState({
-		screenWidth: relativeScreenWidth(100),
-		screenHeight: relativeScreenHeight(100)
-	})
+	const [isLandscapeMode, setIsLandscapeMode] = useState(false)
+	const [isPressingCloseButton, setIsPressingCloseButton] = useState(false)
 
 	const carouselRef = useRef<any>(null)
 	const thumbnailListRef = useRef<any>(null)
 
 	useEffect(() => {
-		const enableRotation = async () => {
-			await ScreenOrientation.unlockAsync()
-		}
-
-		const updateOrientation = async () => {
-			const { orientationInfo } = await ScreenOrientation.getOrientationAsync()
-			setOrientation(orientationInfo.orientation)
-		}
-
-		enableRotation()
-		updateOrientation()
-
-		const orientationSubscription = ScreenOrientation.addOrientationChangeListener(({ orientationInfo }) => {
-			setOrientation(orientationInfo.orientation)
-		})
-
-		return () => {
-			orientationSubscription.remove()
-			const blockRotation = async () => {
+		if (showGallery) {
+			const enableRotation = async () => {
+				await ScreenOrientation.unlockAsync()
+			}
+			enableRotation()
+			ScreenOrientation.addOrientationChangeListener(({ orientationInfo }) => {
+				setIsLandscapeMode((orientationInfo.orientation !== 1))
+			})
+		} else {
+			const disableRotation = async () => {
 				await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
 			}
-			blockRotation()
+	
+			disableRotation()
 		}
-	}, [])
+	}, [showGallery])
 
 	useEffect(() => {
 		if (thumbnailListRef.current && picturesUrl.length > 0) {
@@ -98,14 +86,16 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 		goToIndex(id)
 	}
 
+	const closeButtonHandler = () => onClose()
+
 	return (
 		<GalleryModalContainer animationType={'slide'} visible={showGallery}>
 			<GalleryContainer>
 				<Carousel
 					ref={carouselRef}
 					loop={false}
-					width={screenDimensions.screenWidth}
-					height={screenDimensions.screenHeight}
+					width={relativeScreenWidth(100)}
+					height={isLandscapeMode ? relativeScreenHeight(70) : relativeScreenHeight(100)}
 					data={picturesUrl}
 					onSnapToItem={(id) => setCurrentIndex(id)}
 					renderItem={({ item }) => (
@@ -125,13 +115,15 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 			{
 				!hideElements && (
 					<>
-						<CloseButtonArea>
+						<CloseButtonArea isPressing={isPressingCloseButton}>
 							<SmallButton
 								color={theme.red3}
 								SvgIcon={CloseIcon}
 								relativeWidth={relativeScreenWidth(12)}
 								height={relativeScreenWidth(12)}
-								onPress={onClose}
+								onPress={closeButtonHandler}
+								onPressStart={() => setIsPressingCloseButton(true)}
+								onPressRelease={() => setIsPressingCloseButton(false)}
 							/>
 						</CloseButtonArea>
 
