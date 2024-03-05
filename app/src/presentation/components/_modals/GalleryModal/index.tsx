@@ -1,6 +1,6 @@
 import * as ScreenOrientation from 'expo-screen-orientation'
 import React, { useEffect, useRef, useState } from 'react'
-import { Dimensions } from 'react-native'
+import { StatusBar } from 'react-native'
 import Carousel from 'react-native-reanimated-carousel'
 import { RFValue } from 'react-native-responsive-fontsize'
 
@@ -36,6 +36,11 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 	const [isLandscapeMode, setIsLandscapeMode] = useState(false)
 	const [isPressingCloseButton, setIsPressingCloseButton] = useState(false)
 
+	const [screenSizes, setScreenSizes] = useState({
+		width: relativeScreenWidth(100),
+		height: relativeScreenHeight(100)
+	})
+
 	const carouselRef = useRef<any>(null)
 	const thumbnailListRef = useRef<any>(null)
 
@@ -52,10 +57,24 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 			const disableRotation = async () => {
 				await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
 			}
-	
+
 			disableRotation()
 		}
 	}, [showGallery])
+
+	useEffect(() => {
+		if (isLandscapeMode) {
+			setScreenSizes({
+				width: relativeScreenHeight(100),
+				height: relativeScreenWidth(100)
+			})
+		} else {
+			setScreenSizes({
+				width: relativeScreenWidth(100),
+				height: relativeScreenHeight(100)
+			})
+		}
+	}, [isLandscapeMode])
 
 	useEffect(() => {
 		if (thumbnailListRef.current && picturesUrl.length > 0) {
@@ -90,12 +109,13 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 
 	return (
 		<GalleryModalContainer animationType={'slide'} visible={showGallery}>
+			<StatusBar backgroundColor={theme.black4} />
 			<GalleryContainer>
 				<Carousel
 					ref={carouselRef}
 					loop={false}
-					width={relativeScreenWidth(100)}
-					height={isLandscapeMode ? relativeScreenHeight(70) : relativeScreenHeight(100)}
+					width={screenSizes.width}
+					height={screenSizes.height}
 					data={picturesUrl}
 					onSnapToItem={(id) => setCurrentIndex(id)}
 					renderItem={({ item }) => (
