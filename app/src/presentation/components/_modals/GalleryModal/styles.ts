@@ -17,6 +17,7 @@ export const ImageContainer = styled.TouchableOpacity`
 
 export const GalleryContainer = styled.View`
     justify-content: center;
+    align-items: center;
     flex: 1;
     background-color: black;
 `
@@ -27,14 +28,19 @@ export const ThumbnailListContainer = styled.View`
     bottom: 5%;
 `
 
-export const CloseButtonArea = styled.TouchableOpacity`
+interface CloseButtonAreaProps{
+    isPressing: boolean
+}
+
+export const CloseButtonArea = styled.View<CloseButtonAreaProps>`
     top: 5%;
     right: 5%;
     position: absolute;
     z-index: 2;
-    background-color: white;
     padding: 2px;
     border-radius: 16px;
+    background-color:  white;
+
 `
 
 export const LeftButton = styled.TouchableOpacity`
@@ -42,7 +48,8 @@ export const LeftButton = styled.TouchableOpacity`
 	padding: ${relativeScreenWidth(10)}px ${relativeScreenWidth(1)}px;
 	padding-right: ${relativeScreenWidth(3)}px;
     z-index: 2;
-    top: 43%;
+    top: 50%;
+    transform: translateY(${-relativeScreenWidth(18)}px);
     left: 3%;
 `
 
@@ -51,6 +58,7 @@ export const RightButton = styled.TouchableOpacity`
     padding: ${relativeScreenWidth(10)}px ${relativeScreenWidth(1)}px;
 	padding-right: ${relativeScreenWidth(3)}px;
     z-index: 2;
-    top: 43%;
+    top: 50%;
+    transform: translateY(${-relativeScreenWidth(18)}px);
     right: 3%;
 `
