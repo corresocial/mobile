@@ -28,8 +28,8 @@ export const ThumbnailListContainer = styled.View`
     bottom: 5%;
 `
 
-interface CloseButtonAreaProps{
-    isPressing: boolean
+interface CloseButtonAreaProps {
+	isPressing: boolean
 }
 
 export const CloseButtonArea = styled.View<CloseButtonAreaProps>`
@@ -39,7 +39,6 @@ export const CloseButtonArea = styled.View<CloseButtonAreaProps>`
     z-index: 2;
     padding: 2px;
     border-radius: 16px;
-    background-color:  white;
 
 `
 
