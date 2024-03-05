@@ -50,6 +50,14 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 		}
 	}, [])
 
+	const getUserAddress = () => {
+		if (editDataContext.unsaved && editDataContext.unsaved.location) {
+			const userLocation = editDataContext.unsaved.location
+			return `${userLocation.city} - ${userLocation.district}`
+		}
+		return null
+	}
+
 	const goToEditScreen = (screenName: keyof UserStackParamList) => {
 		switch (screenName) {
 			case 'EditUserName': {
@@ -118,8 +126,8 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 				userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
 			)
 
-			await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved })
-			setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved })
+			await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved, location: {} })
+			setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, location: {} })
 
 			if (editDataContext.unsaved && editDataContext.unsaved.location) {
 				await updateUserPrivateData(
@@ -252,7 +260,7 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 						title={'região de moradia'}
 						highlightedWords={['moradia']}
 						pressionable
-						value={'localização utilizada para envio de notificações da prefeitura'}
+						value={getUserAddress() || 'localização utilizada para envio de notificações da prefeitura'}
 						onEdit={() => goToEditScreen('EditUserLocation')}
 					/>
 					<VerticalSpacing />

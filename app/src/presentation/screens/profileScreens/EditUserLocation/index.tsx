@@ -7,15 +7,14 @@ import { EditContext } from '@contexts/EditContext'
 import { EditUserLocationScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { PostCollectionCommonFields } from '@services/firebase/types'
 
-import { LocationService } from '@services/location/LocationService'
+import { getReverseGeocodeByMapsApi } from '@services/maps/getReverseGeocodeByMapsApi'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 
 import { generateGeohashes } from '@common/generateGeohashes'
 
 import { SelectPostLocation } from '@components/_onboarding/SelectPostLocation'
 
-const { convertGeocodeToAddress } = LocationService()
-const { structureExpoLocationAddress } = UiLocationUtils()
+const { structureAddress /* googleMapsApi */ } = UiLocationUtils() // NOTE This is a service
 
 function EditUserLocation({ navigation }: EditUserLocationScreenProps) {
 	const theme = useTheme()
@@ -27,15 +26,13 @@ function EditUserLocation({ navigation }: EditUserLocationScreenProps) {
 		try {
 			setIsLoading(true)
 
-			const geocodeAddress = await convertGeocodeToAddress(coordinates?.latitude as number, coordinates?.longitude as number)
-			const completeAddress = structureExpoLocationAddress(geocodeAddress, coordinates?.latitude, coordinates?.longitude)
-			const geohashObject = generateGeohashes(completeAddress.coordinates.latitude, completeAddress.coordinates.longitude)
+			const geocodeAddress = await getReverseGeocodeByMapsApi(coordinates?.latitude as number, coordinates?.longitude as number)
+			console.log(geocodeAddress)
+			const addressObject = structureAddress(geocodeAddress, coordinates?.latitude, coordinates?.longitude)
+			const { geohashNearby } = generateGeohashes(coordinates.latitude, coordinates.longitude)
 
 			addNewUnsavedFieldToEditContext({
-				location: {
-					...completeAddress,
-					...geohashObject
-				}
+				location: { ...addressObject, geohashNearby }
 			})
 
 			setIsLoading(false)
