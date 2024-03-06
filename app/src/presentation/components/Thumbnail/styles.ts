@@ -5,21 +5,21 @@ interface ContainerProps {
 }
 
 export const ThumbnailContainer = styled.TouchableOpacity<ContainerProps>`
-    display:flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     margin-left: 7px;
     margin-right: 7px;
     width: 70px;
     height: 70px;
-    border-radius: 22px;
-    background-color: ${(props) => (props.active ? 'white' : 'black')};
+    border-radius: 23px;
+    border-width: 3px;
+    border-color: ${(props) => (props.active ? 'white' : 'transparent')};
+    background-color: transparent;
 `
 
 export const ThumbnailImage = styled.Image`
-    width: 96%;
-    height: 96%;
-    border-radius: 20px;
-    border-color: black;
-    border-width: 4px;
+    width: 85%;
+    height: 85%;
+    border-radius: 16px;    
 `
