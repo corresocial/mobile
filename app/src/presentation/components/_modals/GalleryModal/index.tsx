@@ -35,6 +35,7 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 	const [hideElements, setHideElements] = useState(false)
 	const [isLandscapeMode, setIsLandscapeMode] = useState(false)
 	const [isPressingCloseButton, setIsPressingCloseButton] = useState(false)
+	const [carouselEnabled, setCarouselEnabled] = useState(true)
 
 	const [screenSizes, setScreenSizes] = useState({
 		width: relativeScreenWidth(100),
@@ -107,11 +108,17 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 
 	const closeButtonHandler = () => onClose()
 
+	const imageZoomHandler = (isZooming: boolean) => {
+		setHideElements(isZooming)
+		setCarouselEnabled(!isZooming)
+	}
+
 	return (
 		<GalleryModalContainer animationType={'slide'} visible={showGallery}>
 			<StatusBar backgroundColor={theme.black4} />
 			<GalleryContainer>
 				<Carousel
+					enabled={carouselEnabled}
 					ref={carouselRef}
 					loop={false}
 					width={screenSizes.width}
@@ -121,8 +128,8 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 					renderItem={({ item }) => (
 						<ImageContainer activeOpacity={1} onPress={imagePressHandler}>
 							<ImageZoom
-								onInteractionEnd={() => setHideElements(false)}
-								onInteractionStart={() => setHideElements(true)}
+								onInteractionEnd={() => imageZoomHandler(false)}
+								onInteractionStart={() => imageZoomHandler(true)}
 								uri={item}
 								resizeMode={'contain'}
 							/>
