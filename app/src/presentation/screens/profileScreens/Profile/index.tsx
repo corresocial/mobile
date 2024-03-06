@@ -436,9 +436,7 @@ function Profile({ route, navigation }: HomeTabScreenProps) {
 													<UserName numberOfLines={3}>
 														{getUserField('name') as string}
 													</UserName>
-													{
-														renderUserVerifiedType()
-													}
+													{renderUserVerifiedType()}
 													{
 														!userDescriptionIsExpanded && isLoggedUser && (
 															<TouchableOpacity
