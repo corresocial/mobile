@@ -5,8 +5,10 @@ import { getDownloadURL } from 'firebase/storage'
 
 import { LocalUserData } from '@contexts/types'
 
+import { SearchParams } from '@services/cloudFunctions/types'
 import { Id, PostCollection, PostCollectionRemote, UserCollection } from '@services/firebase/types'
 
+import { CloudFunctionService } from '@services/cloudFunctions/CloudFunctionService'
 import { updateDocField } from '@services/firebase/common/updateDocField'
 import { uploadImage } from '@services/firebase/common/uploadPicture'
 import { createPost } from '@services/firebase/post/createPost'
@@ -36,6 +38,8 @@ import { VerticalSpacing } from '@components/_space/VerticalSpacing'
 
 import { DefaultPostViewHeader } from '../DefaultPostViewHeader'
 import { Loader } from '../Loader'
+
+const { notifyUsersOnLocation } = CloudFunctionService()
 
 type UserContextFragment = {
 	userDataContext: UserCollection;
@@ -266,6 +270,16 @@ function EditPost({
 
 				clearTimeout(timeoutId)
 				deleteOfflinePostByDescription(postData.description)
+				await notifyUsersOnLocation({
+					state: postData.location.state as string,
+					city: postData.location.city as string,
+					district: postData.location.district as string,
+					postRange: postData.range as SearchParams['postRange']
+				}, {
+					postDescription: postData.description,
+					userId: localUser.userId,
+					userName: localUser.name as string
+				})
 				return
 			}
 
@@ -300,6 +314,16 @@ function EditPost({
 
 												clearTimeout(timeoutId)
 												deleteOfflinePostByDescription(postData.description)
+												await notifyUsersOnLocation({
+													state: postData.location.state as string,
+													city: postData.location.city as string,
+													district: postData.location.district as string,
+													postRange: postData.range as SearchParams['postRange']
+												}, {
+													postDescription: postData.description,
+													userId: localUser.userId as Id,
+													userName: localUser.name as string
+												})
 												setIsLoading(false)
 											}
 										},
