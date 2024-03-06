@@ -58,7 +58,6 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 			const disableRotation = async () => {
 				await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
 			}
-
 			disableRotation()
 		}
 	}, [showGallery])
@@ -75,6 +74,10 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 				height: relativeScreenHeight(100)
 			})
 		}
+
+		setTimeout(() => {
+			goToIndex(currentIndex)
+		}, 200)
 	}, [isLandscapeMode])
 
 	useEffect(() => {
@@ -93,7 +96,7 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 		goToIndex(nextIndex)
 	}
 
-	const goToIndex = (index: number) => {
+	const goToIndex = (index: number, animate?: boolean) => {
 		carouselRef.current?.scrollTo({ index, animated: true })
 	}
 
@@ -118,6 +121,7 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 			<StatusBar backgroundColor={theme.black4} />
 			<GalleryContainer>
 				<Carousel
+					onProgressChange={(progress) => console.log(progress)}
 					enabled={carouselEnabled}
 					ref={carouselRef}
 					loop={false}
@@ -165,7 +169,7 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 				)
 			}
 
-			<ThumbnailListContainer style={{ opacity: hideElements ? 0 : 1 }}>
+			<ThumbnailListContainer key={isLandscapeMode ? 'landscape' : 'portrait'} style={{ opacity: hideElements ? 0 : 1 }}>
 				<ThumbnailList
 					thumbnailListRef={thumbnailListRef}
 					currentIndex={currentIndex}
