@@ -28,6 +28,10 @@ function VerifiedUserBadge({ verifiedLabel }: VerifiedUserBadgeProps) {
 			icon: <LeaderBadgeIcon height={defaultBadgeIconSize} width={defaultBadgeIconSize} style={{ marginRight: RFValue(6) }} />,
 			description: 'líder social',
 		},
+		government: {
+			icon: <VerifiedBadgeIcon height={defaultBadgeIconSize} width={defaultBadgeIconSize} style={{ marginRight: RFValue(6) }} />,
+			description: 'perfil governamental',
+		},
 	}
 
 	const userBadge = userBadges[verifiedLabel]

@@ -96,7 +96,7 @@ export type SocialMedia = {
 	link: string
 }
 
-export type VerifiedLabelName = 'leader' | 'impact' | 'default'
+export type VerifiedLabelName = 'government' | 'leader' | 'impact' | 'default'
 
 export type VerifiedType = {
 	type: VerifiedLabelName
