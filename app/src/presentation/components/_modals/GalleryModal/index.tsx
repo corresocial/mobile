@@ -35,7 +35,6 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 	const [hideElements, setHideElements] = useState(false)
 	const [isLandscapeMode, setIsLandscapeMode] = useState(false)
 	const [isPressingCloseButton, setIsPressingCloseButton] = useState(false)
-	const [carouselEnabled, setCarouselEnabled] = useState(true)
 
 	const [screenSizes, setScreenSizes] = useState({
 		width: relativeScreenWidth(100),
@@ -58,6 +57,7 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 			const disableRotation = async () => {
 				await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
 			}
+
 			disableRotation()
 		}
 	}, [showGallery])
@@ -75,19 +75,12 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 			})
 		}
 
-		setTimeout(() => {
-			goToIndex(currentIndex)
-		}, 200)
+		setTimeout(() => { // Nota: Correççao temporária para o problema de redimensionamento ao mudar a orientação do dispositivo
+			if (carouselRef.current) {
+				goToIndex(currentIndex)
+			}
+		}, 50)
 	}, [isLandscapeMode])
-
-	useEffect(() => {
-		if (thumbnailListRef.current && picturesUrl.length > 0) {
-			thumbnailListRef.current.scrollToIndex({
-				index: currentIndex,
-				animated: true
-			})
-		}
-	}, [currentIndex])
 
 	const goToNext = (direction: number) => {
 		const { length } = picturesUrl
@@ -96,7 +89,8 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 		goToIndex(nextIndex)
 	}
 
-	const goToIndex = (index: number, animate?: boolean) => {
+	const goToIndex = (index: number) => {
+		// console.log(`goToIndex(${index})`)
 		carouselRef.current?.scrollTo({ index, animated: true })
 	}
 
@@ -111,29 +105,23 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 
 	const closeButtonHandler = () => onClose()
 
-	const imageZoomHandler = (isZooming: boolean) => {
-		setHideElements(isZooming)
-		setCarouselEnabled(!isZooming)
-	}
-
 	return (
 		<GalleryModalContainer animationType={'slide'} visible={showGallery}>
 			<StatusBar backgroundColor={theme.black4} />
 			<GalleryContainer>
 				<Carousel
-					onProgressChange={(progress) => console.log(progress)}
-					enabled={carouselEnabled}
 					ref={carouselRef}
 					loop={false}
 					width={screenSizes.width}
 					height={screenSizes.height}
 					data={picturesUrl}
 					onSnapToItem={(id) => setCurrentIndex(id)}
+					windowSize={10}
 					renderItem={({ item }) => (
 						<ImageContainer activeOpacity={1} onPress={imagePressHandler}>
 							<ImageZoom
-								onInteractionEnd={() => imageZoomHandler(false)}
-								onInteractionStart={() => imageZoomHandler(true)}
+								onInteractionEnd={() => setHideElements(false)}
+								onInteractionStart={() => setHideElements(true)}
 								uri={item}
 								resizeMode={'contain'}
 							/>
@@ -169,7 +157,7 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 				)
 			}
 
-			<ThumbnailListContainer key={isLandscapeMode ? 'landscape' : 'portrait'} style={{ opacity: hideElements ? 0 : 1 }}>
+			<ThumbnailListContainer style={{ opacity: hideElements ? 0 : 1 }}>
 				<ThumbnailList
 					thumbnailListRef={thumbnailListRef}
 					currentIndex={currentIndex}
