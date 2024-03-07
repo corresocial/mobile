@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
 
+import { AuthContext } from '@contexts/AuthContext'
 import { EditContext } from '@contexts/EditContext'
 
 import { EditUserLocationScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
@@ -19,6 +20,7 @@ const { structureAddress /* googleMapsApi */ } = UiLocationUtils() // NOTE This 
 function EditUserLocation({ navigation }: EditUserLocationScreenProps) {
 	const theme = useTheme()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
+	const { userDataContext } = useContext(AuthContext)
 
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -32,7 +34,7 @@ function EditUserLocation({ navigation }: EditUserLocationScreenProps) {
 			const { geohashNearby } = generateGeohashes(coordinates.latitude, coordinates.longitude)
 
 			addNewUnsavedFieldToEditContext({
-				location: { ...addressObject, geohashNearby }
+				location: { ...addressObject, geohashNearby, userId: userDataContext.userId }
 			})
 
 			setIsLoading(false)
