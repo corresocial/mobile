@@ -19,6 +19,7 @@ import { getNetworkStatus } from '@utils/deviceNetwork'
 import { deletePostByDescription, setOfflinePost } from '@utils/offlinePost'
 
 import { Body, BodyPadding, Container, Header, PostCardContainer, SaveButtonContainer } from './styles'
+import BellWhiteIcon from '@assets/icons/bell-white.svg'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
 import HandOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
 import PlusWhiteIcon from '@assets/icons/plus-white.svg'
@@ -94,6 +95,7 @@ function EditPost({
 	const [defaultConfirmationModalIsVisible, setDefaultConfirmationModalIsVisible] = useState(false)
 	const [offlinePostAlertModalIsVisible, setOfflinePostAlertModalIsVisible] = useState(false)
 	const [networkConnectionIsValid, setNetworkConnectionIsValid] = useState(false)
+	const [notifyUsersEnabled, setNotifyUsersEnabled] = useState(false)
 
 	const { editDataContext } = editContext
 	const { userDataContext } = userContext
@@ -270,16 +272,19 @@ function EditPost({
 
 				clearTimeout(timeoutId)
 				deleteOfflinePostByDescription(postData.description)
-				await notifyUsersOnLocation({
-					state: postData.location.state as string,
-					city: postData.location.city as string,
-					district: postData.location.district as string,
-					postRange: postData.range as SearchParams['postRange']
-				}, {
-					postDescription: postData.description,
-					userId: localUser.userId,
-					userName: localUser.name as string
-				})
+				if (notifyUsersEnabled) {
+					await notifyUsersOnLocation({
+						state: postData.location.state as string,
+						city: postData.location.city as string,
+						district: postData.location.district as string,
+						postRange: postData.range as SearchParams['postRange']
+					}, {
+						postDescription: postData.description,
+						userId: localUser.userId,
+						userName: localUser.name as string
+					})
+				}
+
 				return
 			}
 
@@ -314,16 +319,20 @@ function EditPost({
 
 												clearTimeout(timeoutId)
 												deleteOfflinePostByDescription(postData.description)
-												await notifyUsersOnLocation({
-													state: postData.location.state as string,
-													city: postData.location.city as string,
-													district: postData.location.district as string,
-													postRange: postData.range as SearchParams['postRange']
-												}, {
-													postDescription: postData.description,
-													userId: localUser.userId as Id,
-													userName: localUser.name as string
-												})
+
+												if (notifyUsersEnabled) {
+													await notifyUsersOnLocation({
+														state: postData.location.state as string,
+														city: postData.location.city as string,
+														district: postData.location.district as string,
+														postRange: postData.range as SearchParams['postRange']
+													}, {
+														postDescription: postData.description,
+														userId: localUser.userId as Id,
+														userName: localUser.name as string
+													})
+												}
+
 												setIsLoading(false)
 											}
 										},
@@ -408,6 +417,11 @@ function EditPost({
 
 	const allPicturesAlreadyUploaded = () => {
 		return editDataContext.unsaved.picturesUrl.filter((url: string) => url.includes('https://')).length === editDataContext.unsaved.picturesUrl.length
+	}
+
+	const userHasGovernmentProfileSeal = () => {
+		return userDataContext.verified
+		&& (userDataContext.verified.type === 'government' || userDataContext.verified.admin)
 	}
 
 	const performPicturesUpload = async (postsUpdated?: PostCollection[]) => {
@@ -504,7 +518,13 @@ function EditPost({
 		setDefaultConfirmationModalIsVisible(!defaultConfirmationModalIsVisible)
 	}
 
-	const toggleOfflinePostAlertModal = () => setOfflinePostAlertModalIsVisible((previousState) => !previousState)
+	const toggleOfflinePostAlertModal = () => {
+		setOfflinePostAlertModalIsVisible((previousState) => !previousState)
+	}
+
+	const toggleNotifyUsers = () => {
+		setNotifyUsersEnabled(!notifyUsersEnabled)
+	}
 
 	const userSubscribeIsValid = () => {
 		if (getPostField('range') === 'city' && getPostField('postType') === 'socialImpact') return true
@@ -624,17 +644,35 @@ function EditPost({
 							? <Loader />
 							: (
 								<SaveButtonContainer>
+									{
+										userHasGovernmentProfileSeal() && unsavedPost && (
+											<PrimaryButton
+												color={notifyUsersEnabled ? theme.orange1 : theme.white3}
+												label={'   notificar \n   usuários'}
+												labelColor={theme.black4}
+												highlightedWords={['notificar', 'usuários']}
+												fontSize={12}
+												SecondSvgIcon={BellWhiteIcon}
+												svgIconScale={['70%', '30%']}
+												minHeight={relativeScreenHeight(4)}
+												relativeHeight={relativeScreenHeight(6)}
+												relativeWidth={'40%'}
+												onPress={toggleNotifyUsers}
+											/>
+										)
+									}
 									<PrimaryButton
 										color={networkConnectionIsValid ? theme.green3 : theme.yellow3}
 										label={getHeaderButtonLabel()}
 										labelColor={networkConnectionIsValid ? theme.white3 : theme.black4}
 										highlightedWords={getHeaderButtonLabelHighlightedWords()}
-										fontSize={16}
+										fontSize={13}
 										SecondSvgIcon={getHeaderButtonIcon()}
-										svgIconScale={['40%', '20%']}
-										minHeight={relativeScreenHeight(6)}
-										relativeHeight={relativeScreenHeight(8)}
-										onPress={getHeaderButtonHandler()} // TODO Type
+										svgIconScale={['50%', '30%']}
+										minHeight={relativeScreenHeight(4)}
+										relativeHeight={relativeScreenHeight(6)}
+										relativeWidth={userHasGovernmentProfileSeal() && unsavedPost ? '55%' : '100%'}
+										onPress={getHeaderButtonHandler()}
 									/>
 								</SaveButtonContainer>
 							)
