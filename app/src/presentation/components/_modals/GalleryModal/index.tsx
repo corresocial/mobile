@@ -63,6 +63,10 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 	}, [showGallery])
 
 	useEffect(() => {
+		setTimeout(() => {
+			goToIndex(0)
+		}, 100)
+
 		if (isLandscapeMode) {
 			setScreenSizes({
 				width: relativeScreenHeight(100),
@@ -74,10 +78,6 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 				height: relativeScreenHeight(100)
 			})
 		}
-
-		setTimeout(() => {
-			goToIndex(currentIndex)
-		}, 200)
 	}, [isLandscapeMode])
 
 	useEffect(() => {
@@ -121,7 +121,6 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 			<StatusBar backgroundColor={theme.black4} />
 			<GalleryContainer>
 				<Carousel
-					onProgressChange={(progress) => console.log(progress)}
 					enabled={carouselEnabled}
 					ref={carouselRef}
 					loop={false}
@@ -130,8 +129,12 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 					data={picturesUrl}
 					onSnapToItem={(id) => setCurrentIndex(id)}
 					renderItem={({ item }) => (
-						<ImageContainer activeOpacity={1} onPress={imagePressHandler}>
+						<ImageContainer
+							activeOpacity={1}
+							onPress={imagePressHandler}
+						>
 							<ImageZoom
+								height={relativeScreenHeight(100)}
 								onInteractionEnd={() => imageZoomHandler(false)}
 								onInteractionStart={() => imageZoomHandler(true)}
 								uri={item}
