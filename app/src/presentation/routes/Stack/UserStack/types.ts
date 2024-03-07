@@ -63,6 +63,7 @@ export type UserStackParamList = {
 	PrivacyAndSecurity: undefined
 	UserDataConfigurations: undefined
 	NotificationSettings: undefined
+	NotificationPublicServicesSettings: undefined
 
 	ChatMessages: { chat: Chat }
 

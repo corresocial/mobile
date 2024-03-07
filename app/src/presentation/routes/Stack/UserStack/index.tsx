@@ -21,6 +21,7 @@ import { HelpUs } from '@screens/configurationScreens/HelpUs'
 import { InsertCellNumberLinkAccount } from '@screens/configurationScreens/InsertCellNumberLinkAccount'
 import { InsertConfirmationCodeLinkAccount } from '@screens/configurationScreens/InsertConfirmationCodeLinkAccount'
 import { LinkingAccountResult } from '@screens/configurationScreens/LinkingAccountResult'
+import { NotificationPublicServicesSettings } from '@screens/configurationScreens/NotificationPublicServicesSettings'
 import { NotificationSettings } from '@screens/configurationScreens/NotificationtSettings'
 import { PrivacyAndSecurity } from '@screens/configurationScreens/PrivacyAndSecurity'
 import { UserDataConfigurations } from '@screens/configurationScreens/UserDataConfigurations'
@@ -128,6 +129,7 @@ export function UserStack({ route }: any) {
 									<Stack.Screen name={'UserDataConfigurations'} component={UserDataConfigurations} />
 									<Stack.Screen name={'PrivacyAndSecurity'} component={PrivacyAndSecurity} />
 									<Stack.Screen name={'NotificationSettings'} component={NotificationSettings} />
+									<Stack.Screen name={'NotificationPublicServicesSettings'} component={NotificationPublicServicesSettings} />
 
 									<Stack.Screen name={'ViewIncomePostUser'} component={ViewIncomePost} />
 									<Stack.Screen name={'ViewVacancyPostUser'} component={ViewVacancyPost} />
