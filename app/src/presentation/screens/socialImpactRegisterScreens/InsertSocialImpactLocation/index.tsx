@@ -8,7 +8,7 @@ import { SocialImpactContext } from '@contexts/SocialImpactContext'
 import { InsertSocialImpactLocationScreenProps } from '@routes/Stack/SocialImpactStack/stackScreenProps'
 import { Coordinates, PostCollection } from '@services/firebase/types'
 
-import { LocationService } from '@services/location/LocationService'
+import { getReverseGeocodeByMapsApi } from '@services/maps/getReverseGeocodeByMapsApi'
 import { UiLocationUtils } from '@utils-ui/location/UiLocationUtils'
 
 import { generateGeohashes } from '@common/generateGeohashes'
@@ -17,8 +17,7 @@ import { theme } from '@common/theme'
 import { LocationChangeConfirmationModal } from '@components/_modals/LocationChangeConfirmation'
 import { SelectPostLocation } from '@components/_onboarding/SelectPostLocation'
 
-const { convertGeocodeToAddress } = LocationService()
-const { structureExpoLocationAddress } = UiLocationUtils()
+const { structureAddress } = UiLocationUtils()
 
 function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLocationScreenProps) {
 	const { userDataContext, getLastUserPost } = useContext(AuthContext)
@@ -58,8 +57,8 @@ function InsertSocialImpactLocation({ route, navigation }: InsertSocialImpactLoc
 			if (!coordinates) return
 		}
 
-		const geocodeAddress = await convertGeocodeToAddress(coordinates?.latitude as number, coordinates?.longitude as number)
-		const completeAddress = structureExpoLocationAddress(geocodeAddress, coordinates?.latitude, coordinates?.longitude)
+		const geocodeAddress = await getReverseGeocodeByMapsApi(coordinates?.latitude as number, coordinates?.longitude as number)
+		const completeAddress = structureAddress(geocodeAddress, coordinates?.latitude, coordinates?.longitude)
 
 		if (!rangeVerified) {
 			if (

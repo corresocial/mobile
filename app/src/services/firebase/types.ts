@@ -96,7 +96,7 @@ export type SocialMedia = {
 	link: string
 }
 
-export type VerifiedLabelName = 'leader' | 'impact' | 'default'
+export type VerifiedLabelName = 'government' | 'leader' | 'impact' | 'default'
 
 export type VerifiedType = {
 	type: VerifiedLabelName
@@ -130,8 +130,11 @@ export type UserCollection = {
 }
 
 export type PrivateUserCollection = {
-	cellNumber?: string
-	email?: string
+	contacts: {
+		cellNumber?: string
+		email?: string
+	},
+	location: PrivateAddress & { visibleToGovernment: boolean }
 }
 
 export type PrivateAddress = {
@@ -149,7 +152,6 @@ export type PrivateAddress = {
 	coordinates?: { lat: number, lng: number }
 	geohash?: string
 	geohashNear?: string[]
-	geohashes?: string[]
 	geohashCity?: string[]
 }
 

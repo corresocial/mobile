@@ -9,17 +9,20 @@ import { EditContext } from '@contexts/EditContext'
 
 import { EditProfileScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 import { UserStackParamList } from '@routes/Stack/UserStack/types'
-import { Id, PostCollection } from '@services/firebase/types'
+import { Id, Location, PostCollection } from '@services/firebase/types'
 
 import { uploadImage } from '@services/firebase/common/uploadPicture'
 import { updateAllOwnerOnPosts } from '@services/firebase/post/updateAllOwnerOnPosts'
 import { deleteUserPicture } from '@services/firebase/user/deleteUserPicture'
+import { getPrivateLocation } from '@services/firebase/user/getPrivateLocation'
 import { updateUser } from '@services/firebase/user/updateUser'
+import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
 import { UiUtils } from '@utils-ui/common/UiUtils'
 import { openURL } from '@utils/socialMedias'
 
 import { Body, Container, Header, SaveButtonContainer } from './styles'
 import CheckIcon from '@assets/icons/check-white.svg'
+import { getShortText } from '@common/auxiliaryFunctions'
 import { relativeScreenHeight } from '@common/screenDimensions'
 import { theme } from '@common/theme'
 
@@ -40,13 +43,33 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 	const { editDataContext, clearEditContext } = useContext(EditContext)
 
 	const [hasUpdateError, setHasUpdateError] = useState(false)
+	const [privateUserLocation, setPrivateUserLocation] = useState<Location>()
 	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
+		loadPrivateUserLocation()
 		return () => {
 			clearEditContext()
 		}
 	}, [])
+
+	const loadPrivateUserLocation = async () => {
+		const userLocation = await getPrivateLocation(userDataContext.userId as string)
+		setPrivateUserLocation(userLocation)
+	}
+
+	const getUserAddress = () => {
+		if (editDataContext.unsaved && editDataContext.unsaved.location) {
+			const userLocation = editDataContext.unsaved.location
+			return `${userLocation.city} - ${userLocation.district}`
+		}
+
+		if (privateUserLocation) {
+			return `${privateUserLocation.city} - ${privateUserLocation.district}`
+		}
+
+		return null
+	}
 
 	const goToEditScreen = (screenName: keyof UserStackParamList) => {
 		switch (screenName) {
@@ -62,6 +85,10 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 					userDescription: editDataContext.unsaved.description || userDataContext.description || '',
 					userId: userDataContext.userId || ''
 				})
+				break
+			}
+			case 'EditUserLocation': {
+				navigation.navigate('EditUserLocation', { initialCoordinates: privateUserLocation?.coordinates || null })
 				break
 			}
 			case 'SocialMediaManagement': {
@@ -112,9 +139,16 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 				userDataContext.posts?.map((post: PostCollection) => post.postId) as Id[]
 			)
 
-			setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved })
+			await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved, location: {} })
+			setUserDataOnContext({ ...userDataContext, ...editDataContext.unsaved, location: {} })
 
-			await setDataOnSecureStore('corre.user', { ...userDataContext, ...editDataContext.unsaved })
+			if (editDataContext.unsaved && editDataContext.unsaved.location) {
+				await updateUserPrivateData(
+					editDataContext.unsaved.location,
+					userDataContext.userId as Id,
+					'location',
+				)
+			}
 
 			setIsLoading(false)
 			navigation.goBack()
@@ -214,28 +248,40 @@ function EditProfile({ navigation }: EditProfileScreenProps) {
 						title={'seu nome'}
 						highlightedWords={['nome']}
 						value={editDataContext.unsaved.name || userDataContext.name}
+						pressionable
 						onEdit={() => goToEditScreen('EditUserName')}
 					/>
 					<VerticalSpacing />
 					<EditCard
 						title={'sua descrição'}
 						highlightedWords={['descrição']}
-						value={editDataContext.unsaved.description === '' || editDataContext.unsaved.description ? editDataContext.unsaved.description : userDataContext.description}
+						value={editDataContext.unsaved.description === '' || editDataContext.unsaved.description ? getShortText(editDataContext.unsaved.description, 140) : getShortText(userDataContext.description, 140)}
+						pressionable
 						onEdit={() => goToEditScreen('EditUserDescription')}
 					/>
 					<VerticalSpacing />
 					<EditCard
 						title={'links e contato'}
 						highlightedWords={['links', 'contato']}
+						pressionable
 						onEdit={() => goToEditScreen('SocialMediaManagement')}
 					>
 						<HorizontalSocialMediaList socialMedias={userDataContext.socialMedias} onPress={openURL} />
 					</EditCard>
 					<VerticalSpacing />
 					<EditCard
+						title={'região de moradia'}
+						highlightedWords={['moradia']}
+						pressionable
+						value={getUserAddress() || 'localização utilizada para envio de notificações da prefeitura'}
+						onEdit={() => goToEditScreen('EditUserLocation')}
+					/>
+					<VerticalSpacing />
+					<EditCard
 						title={'sua foto'}
 						highlightedWords={['foto']}
 						profilePicturesUrl={[getProfilePictureUrl()] || []}
+						pressionable
 						onEdit={() => goToEditScreen('EditUserPicture')}
 					/>
 					<VerticalSpacing height={relativeScreenHeight(5)} />

@@ -277,18 +277,14 @@ function EntryMethodManagement({ navigation }: EntryMethodManagementScreenProps)
 									pressionable
 									onEdit={editPhoneProvider}
 								/>
-								{
-									Platform.OS !== 'ios' && (
-										<EditCard
-											title={'conta google'}
-											RightIcon={userPrivateContacts.email ? EmptyWhiteIcon : PlusWhiteIcon}
-											SecondSvgIcon={GoogleWhiteIcon}
-											value={userPrivateContacts.email}
-											pressionable
-											onEdit={userPrivateContacts.email ? () => { } : editGoogleProvider}
-										/>
-									)
-								}
+								<EditCard
+									title={'conta google'}
+									RightIcon={userPrivateContacts.email ? EmptyWhiteIcon : PlusWhiteIcon}
+									SecondSvgIcon={GoogleWhiteIcon}
+									value={userPrivateContacts.email}
+									pressionable
+									onEdit={userPrivateContacts.email ? () => { } : editGoogleProvider}
+								/>
 								<VerticalSpacing />
 							</>
 						)

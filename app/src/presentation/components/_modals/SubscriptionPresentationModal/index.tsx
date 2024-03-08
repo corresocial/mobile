@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { defaultUserProfilePicture } from '@utils/defaultUserProfilePicture'
+
 import { Body, Description, ImageContainer, ImageDescription, ProfilePictureContainer } from './styles'
 import HandOnCorreWhiteIcon from '@assets/icons/handOnCorre.svg'
 import UserNetworkImage from '@assets/imgs/userNetwork.png'
@@ -54,7 +56,7 @@ function SubscriptionPresentationModal({
 							imageStyle={{ resizeMode: 'contain' }}
 						>
 							<PhotoPortrait
-								pictureUri={profilePictureUri || 'https://www.softdownload.com.br/wp-content/uploads/2018/03/como_trocar_foto_perfil_facebook.jpg'}
+								pictureUri={profilePictureUri || defaultUserProfilePicture}
 								height={relativeScreenWidth(11)}
 								width={relativeScreenWidth(13)}
 								resizeMode={'cover'}
