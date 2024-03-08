@@ -14,7 +14,8 @@ import {
 	SocialImpactCollectionRemote,
 	SocialMedia,
 	VacancyCollectionRemote,
-	PostCollection
+	PostCollection,
+	LatLong
 } from '@services/firebase/types'
 import { ReportedTarget } from '@services/types'
 
@@ -34,7 +35,7 @@ export type UserStackParamList = {
 	EditProfile: { user: LocalUserData }
 	EditUserName: { userName: string, userId: string }
 	EditUserDescription: { userDescription: string, userId: string }
-	EditUserLocation: undefined
+	EditUserLocation: { initialCoordinates: LatLong }
 	EditUserPicture: { profilePictureUrl: string, userId: string }
 	EditServicePost: { postData: IncomeCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean }
 	EditSalePost: { postData: IncomeCollectionRemote, unsavedPost?: boolean, offlinePost?: boolean }

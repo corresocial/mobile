@@ -17,7 +17,7 @@ import { SelectPostLocation } from '@components/_onboarding/SelectPostLocation'
 
 const { structureAddress /* googleMapsApi */ } = UiLocationUtils() // NOTE This is a service
 
-function EditUserLocation({ navigation }: EditUserLocationScreenProps) {
+function EditUserLocation({ route, navigation }: EditUserLocationScreenProps) {
 	const theme = useTheme()
 	const { addNewUnsavedFieldToEditContext } = useContext(EditContext)
 	const { userDataContext } = useContext(AuthContext)
@@ -45,6 +45,12 @@ function EditUserLocation({ navigation }: EditUserLocationScreenProps) {
 		}
 	}
 
+	const getInitialCoordinateValue = () => {
+		if (route.params && route.params.initialCoordinates) {
+			return route.params.initialCoordinates
+		}
+	}
+
 	const navigateBackwards = () => navigation.goBack()
 
 	return (
@@ -53,6 +59,7 @@ function EditUserLocation({ navigation }: EditUserLocationScreenProps) {
 			<SelectPostLocation
 				backgroundColor={theme.orange2}
 				validationColor={theme.orange1}
+				initialValue={getInitialCoordinateValue()}
 				isLoading={isLoading}
 				headerDescription={'Localização utilizada para envio de notificações da prefeitura. \nessa informação não será divulgada publicamente'}
 				headerDescriptionHighlightedWords={['\nessa', 'informação', 'não', 'será', 'divulgada', 'publicamente']}
