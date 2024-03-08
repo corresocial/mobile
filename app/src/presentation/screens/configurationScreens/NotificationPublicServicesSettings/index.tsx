@@ -117,7 +117,7 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 			setGovernmentNotificationIsEnabled(newNotificationState)
 			setIsLoading(false)
 
-			if (newNotificationState) {
+			if (newNotificationState && !notificationIsEnabled) {
 				showAlertNotificationModal()
 			}
 		} catch (err) {
