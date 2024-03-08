@@ -11,6 +11,9 @@ import { ChatContext } from '@contexts/ChatContext'
 
 import { NotificationPublicServicesSettingsScreenProps } from '@routes/Stack/UserStack/stackScreenProps'
 
+import { getPrivateLocation } from '@services/firebase/user/getPrivateLocation'
+import { updateUserPrivateData } from '@services/firebase/user/updateUserPrivateData'
+
 import { Container, HeaderLinkCardContainer } from './styles'
 import BellWhiteIcon from '@assets/icons/bell-white.svg'
 import CheckWhiteIcon from '@assets/icons/check-white.svg'
@@ -31,9 +34,9 @@ import { Loader } from '@components/Loader'
 const { validateNIS, smasNisHasLinkedWithUser, getNisFromLocalRepository, setNisOnLocalRepository, setSmasPushNotificationState } = SmasAdapter()
 
 function NotificationPublicServicesSettings({ navigation }: NotificationPublicServicesSettingsScreenProps) {
-	const { pushNotificationEnabled, setPushNotificationState, chatUserHasTokenNotification } = useContext(ChatContext)
+	const { pushNotificationEnabled, chatUserHasTokenNotification } = useContext(ChatContext)
 
-	const { updateNotificationState } = useContext(AlertContext)
+	const { showAlertNotificationModal } = useContext(AlertContext)
 	const { userDataContext } = useContext(AuthContext)
 
 	const [userNis, setUserNis] = useState('')
@@ -71,23 +74,8 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 	}
 
 	const checkGovernmentNotificationState = async () => {
-		// Consulta estato das notificações na localização do usuário
-	}
-
-	const toggleGovernmentNotifications = async () => {
-		try {
-			setIsLoading(true)
-
-			setGovernmentNotificationIsEnabled(!governmentNotificationIsEnabled)
-			setIsLoading(false)
-
-			if (!notificationIsEnabled) {
-				console.log('show notification modal')
-			}
-		} catch (err) {
-			console.log(err)
-			setIsLoading(false)
-		}
+		const privateUserLocation = await getPrivateLocation(userDataContext.userId as string)
+		setGovernmentNotificationIsEnabled(privateUserLocation && privateUserLocation.visibleToGovernment)
 	}
 
 	const toggleMessagesSmasState = async (inputedNis?: string) => {
@@ -115,15 +103,25 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 		}
 	}
 
-	const toggleNotificationState = async () => {
+	const toggleGovernmentNotifications = async () => {
 		try {
 			setIsLoading(true)
-			await setPushNotificationState(!notificationIsEnabled)
-			updateNotificationState({ configNotificationButton: notificationIsEnabled })
-			setTimeout(() => {
-				setIsLoading(false)
-			}, 1000)
+			const newNotificationState = !governmentNotificationIsEnabled
+
+			await updateUserPrivateData(
+				{ visibleToGovernment: newNotificationState },
+				userDataContext.userId as Id,
+				'location'
+			)
+
+			setGovernmentNotificationIsEnabled(newNotificationState)
+			setIsLoading(false)
+
+			if (newNotificationState) {
+				showAlertNotificationModal()
+			}
 		} catch (err) {
+			console.log(err)
 			setIsLoading(false)
 		}
 	}
@@ -148,9 +146,9 @@ function NotificationPublicServicesSettings({ navigation }: NotificationPublicSe
 				<BackButton onPress={navigateBackwards} />
 				<HeaderLinkCardContainer>
 					<HeaderLinkCard
-						title={'notificações⠀'}
-						value={'aqui você gerencia suas notificações de serviços relacionados ao seu governo'}
-						highlightedWords={[governmentNotificationIsEnabled ? 'ativadas' : 'desativadas', 'notificações⠀']}
+						title={'serviços públicos'}
+						value={'aqui você gerencia suas notificações relacionados ao seu governo'}
+						highlightedWords={[governmentNotificationIsEnabled ? 'ativadas' : 'desativadas', 'serviços', 'públicos']}
 						SvgIcon={BellWhiteIcon}
 					/>
 				</HeaderLinkCardContainer>
