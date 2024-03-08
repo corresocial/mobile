@@ -30,6 +30,7 @@ function InsertNisModal({
 				placeholder: 'ex: 12345632165',
 				initialValue: initialInputValue,
 				keyboardType: 'numeric',
+				maxLength: 11,
 				validateText: validateNis
 			}}
 			firstParagraph={{

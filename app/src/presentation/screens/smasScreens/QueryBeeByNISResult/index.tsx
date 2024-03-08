@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Platform } from 'react-native'
+import { Platform, StatusBar } from 'react-native'
 
 import { ChatContext } from '@contexts/ChatContext'
 
@@ -83,6 +83,7 @@ function QueryBeeByNISResult({ route, navigation }: QueryBeeByNISResultScreenPro
 
 	return (
 		<Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+			<StatusBar backgroundColor={checkResponseStatus() ? theme.pink2 : theme.red2}/>
 			<AlertNotificationModal
 				visibility={notificationModalIsVisible}
 				affirmativeConfigButton
