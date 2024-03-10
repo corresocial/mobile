@@ -16,6 +16,7 @@ import { SmallButton } from '@components/_buttons/SmallButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
+import { DataVisualizerInput } from '@components/_inputs/DataVisualizerInput'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 
@@ -145,7 +146,8 @@ function PostTime({
 				justifyContent={'center'}
 			>
 				<InputsContainer>
-					<DefaultInput
+					<DataVisualizerInput></DataVisualizerInput>
+					{/* <DefaultInput
 						value={hours}
 						relativeWidth={'40%'}
 						textInputRef={inputRefs.hoursInput}
@@ -164,27 +166,7 @@ function PostTime({
 							invalidTimeAfterSubmit && setInvalidTimeAfterSubmit(false)
 						}}
 					/>
-					<TwoPoints>{':'}</TwoPoints>
-					<DefaultInput
-						value={minutes}
-						relativeWidth={'40%'}
-						textInputRef={inputRefs.minutesInput}
-						previousInputRef={inputRefs.hoursInput}
-						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={validationColor}
-						maxLength={2}
-						fontSize={22}
-						placeholder={'00'}
-						keyboardType={'decimal-pad'}
-						lastInput
-						invalidTextAfterSubmit={invalidTimeAfterSubmit}
-						filterText={filterLeavingOnlyNumbers}
-						validateText={(text: string) => validateMinutes(text)}
-						onChangeText={(text: string) => {
-							setMinutes(text)
-							invalidTimeAfterSubmit && setInvalidTimeAfterSubmit(false)
-						}}
-					/>
+					<TwoPoints>{':'}</TwoPoints> */}
 
 				</InputsContainer>
 				<ButtonContainer>
