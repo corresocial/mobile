@@ -22,9 +22,8 @@ export const PictureItemButtom = styled.TouchableOpacity<PicturePortraitProps>`
 	justify-content: center;
 	border-radius: ${RFValue(15)}px;
 
-	opacity: ${({ pictureSelected }) => (pictureSelected ? 1 : 0.5)};
-	borderWidth: ${({ pictureSelected }) => (pictureSelected ? RFValue(2) : RFValue(3))}px;
-	borderRightWidth: ${({ pictureSelected }) => (pictureSelected ? RFValue(3) : RFValue(6))}px;
+	border-width: ${({ pictureSelected }) => (pictureSelected ? RFValue(2) : RFValue(3))}px;
+	border-right-width: ${({ pictureSelected }) => (pictureSelected ? RFValue(3) : RFValue(6))}px;
 `
 
 interface PicturePortraitProps {
@@ -39,6 +38,7 @@ export const PicturePortrait = styled.View<PicturePortraitProps>`
 	border-radius: ${RFValue(12)}px;
 	align-items: center;
 	justify-content: center;
+	opacity: ${({ pictureSelected }) => (pictureSelected ? 1 : 0.5)};
 
 	overflow: hidden;
 `
