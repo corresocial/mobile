@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
-import { ViewStyle } from 'react-native'
+import { ViewStyle, View } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { SvgProps } from 'react-native-svg'
 
-import { ButtonLabel, ContainerBottom, ContainerSurface, TouchableContainer } from './styles'
+import { 
+	ButtonLabel,
+	ContainerBottom, 
+	ContainerSurface, 
+	TouchableContainer,
+} from './styles'
 import { showMessageWithHighlight } from '@common/auxiliaryFunctions'
 import { theme } from '@common/theme'
 
@@ -21,11 +26,13 @@ interface SmallButtonProps {
 	height?: number
 	rounded?: boolean
 	flexDirection?: ViewStyle['flexDirection']
-	onPress: () => void
+	onPress: () => void,
+	onPressStart?: () => void,
+	onPressRelease?: () => void
 }
 
 function SmallButton({
-	color,
+	color = 'white',
 	label = '',
 	labelColor = theme.white3,
 	highlightedWords = [],
@@ -36,18 +43,22 @@ function SmallButton({
 	secondSvgScale = label ? ['50%', '15%'] : ['50%', '80%'],
 	relativeWidth = '100%',
 	height = 30,
-	rounded,
+	rounded = false,
 	flexDirection = 'row',
-	onPress
+	onPress,
+	onPressStart,
+	onPressRelease
 }: SmallButtonProps) {
-	const [buttonPressed, setButtomPressed] = useState<Boolean>(false)
+	const [buttonPressed, setButtomPressed] = useState<boolean>(false)
 
 	function pressingButton() {
 		setButtomPressed(true)
+		onPressStart?.()
 	}
 
 	function notPressingButton() {
 		setButtomPressed(false)
+		onPressRelease?.()
 	}
 
 	function releaseButton() {

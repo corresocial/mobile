@@ -43,7 +43,7 @@ export const ContainerSurface = styled.View<ConainerSurfaceProps>`
     position: absolute;
 	right: ${RFValue(5)}px;
     flex-direction: ${({ flexDirection }) => flexDirection || 'row'};
-	margin-right: ${({ buttonPressed }) => (buttonPressed ? RFValue(-4) : 0)}px;
+	transform: ${({ buttonPressed }) => (buttonPressed ? 'translateX(5px)' : 'translateX(0px)')};
 	background-color: ${({ theme, backgroundColor }) => backgroundColor || theme.white3};
 	border-radius: ${({ rounded }) => (rounded ? 500 : RFValue(12))}px;
 `

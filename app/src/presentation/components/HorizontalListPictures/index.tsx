@@ -24,6 +24,7 @@ interface HorizontalListPicturesProps {
 function HorizontalListPictures({ picturesUri, pictureUriSelected, onSelectPicture, openCamera }: HorizontalListPicturesProps) {
 	const renderPictures = () => picturesUri.map((pictureUri, index) => (
 		<PictureItemButtom
+			activeOpacity={1}
 			pictureSelected={pictureUriSelected === index}
 			key={uuid()}
 			onPress={() => onSelectPicture(index)}
