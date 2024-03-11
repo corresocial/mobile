@@ -63,10 +63,6 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 	}, [showGallery])
 
 	useEffect(() => {
-		setTimeout(() => {
-			goToIndex(0)
-		}, 100)
-
 		if (isLandscapeMode) {
 			setScreenSizes({
 				width: relativeScreenHeight(100),
@@ -78,6 +74,15 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 				height: relativeScreenHeight(100)
 			})
 		}
+
+		setTimeout(() => {
+			if (currentIndex === picturesUrl.length - 1) {
+				goToIndex(currentIndex)
+				carouselRef.current.next()
+				return
+			}
+			goToIndex(currentIndex)
+		}, 50)
 	}, [isLandscapeMode])
 
 	useEffect(() => {
