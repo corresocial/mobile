@@ -33,6 +33,9 @@ export const SaveButtonContainer = styled.View`
 	width: 100%;
 	padding: 0px ${relativeScreenWidth(3)}px;
 	padding-top: ${relativeScreenHeight(3)}px;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
  `
 
 export const PostCardContainer = styled.View<EditPostStyleProps>`

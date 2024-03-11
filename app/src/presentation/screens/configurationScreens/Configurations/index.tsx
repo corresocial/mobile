@@ -22,6 +22,7 @@ import DescriptionWhiteIcon from '@assets/icons/description-white.svg'
 import EyeDashedWhiteIcon from '@assets/icons/eyeDashed-white.svg'
 import HandOnHeartWhiteIcon from '@assets/icons/handOnHeart-white.svg'
 import HandOnMoneyWhiteIcon from '@assets/icons/handOnMoney-white.svg'
+import PublicServicesWhiteIcon from '@assets/icons/publicServices-white.svg'
 import QuestionMarkWhiteIcon from '@assets/icons/questionMark-white.svg'
 import ShareWhiteIcon from '@assets/icons/share-white.svg'
 import XWhiteIcon from '@assets/icons/x-white.svg'
@@ -94,7 +95,7 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 			updateNotificationState({ [alertPropForUpdate]: false })
 		}
 
-		navigation.navigate(screenName)
+		navigation.navigate(screenName as any) // TODO Type
 	}
 
 	return (
@@ -146,6 +147,18 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 					leftSideColor={theme.orange3}
 					leftSideWidth={'22%'}
 					onPress={() => navigateToScreen('NotificationSettings')}
+				/>
+				<VerticalSpacing />
+				<OptionButton
+					label={'serviços públicos'}
+					highlightedWords={['serviços', 'públicos']}
+					labelSize={18}
+					relativeHeight={relativeScreenHeight(9)}
+					SvgIcon={PublicServicesWhiteIcon}
+					svgIconScale={['50%', '50%']}
+					leftSideColor={theme.orange3}
+					leftSideWidth={'22%'}
+					onPress={() => navigateToScreen('NotificationPublicServicesSettings')}
 				/>
 				<VerticalSpacing />
 				<OptionButton

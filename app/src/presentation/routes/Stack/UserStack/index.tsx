@@ -21,6 +21,7 @@ import { HelpUs } from '@screens/configurationScreens/HelpUs'
 import { InsertCellNumberLinkAccount } from '@screens/configurationScreens/InsertCellNumberLinkAccount'
 import { InsertConfirmationCodeLinkAccount } from '@screens/configurationScreens/InsertConfirmationCodeLinkAccount'
 import { LinkingAccountResult } from '@screens/configurationScreens/LinkingAccountResult'
+import { NotificationPublicServicesSettings } from '@screens/configurationScreens/NotificationPublicServicesSettings'
 import { NotificationSettings } from '@screens/configurationScreens/NotificationtSettings'
 import { PrivacyAndSecurity } from '@screens/configurationScreens/PrivacyAndSecurity'
 import { UserDataConfigurations } from '@screens/configurationScreens/UserDataConfigurations'
@@ -46,6 +47,7 @@ import { SubscriptionPaymentResult } from '@screens/paymentSystemScreens/Subscri
 import { SelectPostType } from '@screens/postScreens/SelectPostType'
 import { EditProfile } from '@screens/profileScreens/EditProfile'
 import { EditUserDescription } from '@screens/profileScreens/EditUserDescription'
+import { EditUserLocation } from '@screens/profileScreens/EditUserLocation'
 import { EditUserName } from '@screens/profileScreens/EditUserName'
 import { EditUserPicture } from '@screens/profileScreens/EditUserPicture'
 import { InsertLinkTitle } from '@screens/profileScreens/InsertLinkTitle'
@@ -97,6 +99,7 @@ export function UserStack({ route }: any) {
 									<Stack.Screen name={'EditProfile'} component={EditProfile} />
 									<Stack.Screen name={'EditUserName'} component={EditUserName} />
 									<Stack.Screen name={'EditUserDescription'} component={EditUserDescription} />
+									<Stack.Screen name={'EditUserLocation'} component={EditUserLocation} />
 									<Stack.Screen name={'EditUserPicture'} component={EditUserPicture} />
 									<Stack.Screen name={'OfflinePostsManagement'} component={OfflinePostsManagement} />
 
@@ -126,6 +129,7 @@ export function UserStack({ route }: any) {
 									<Stack.Screen name={'UserDataConfigurations'} component={UserDataConfigurations} />
 									<Stack.Screen name={'PrivacyAndSecurity'} component={PrivacyAndSecurity} />
 									<Stack.Screen name={'NotificationSettings'} component={NotificationSettings} />
+									<Stack.Screen name={'NotificationPublicServicesSettings'} component={NotificationPublicServicesSettings} />
 
 									<Stack.Screen name={'ViewIncomePostUser'} component={ViewIncomePost} />
 									<Stack.Screen name={'ViewVacancyPostUser'} component={ViewVacancyPost} />
