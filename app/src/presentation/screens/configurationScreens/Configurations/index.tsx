@@ -150,18 +150,6 @@ function Configurations({ navigation }: ConfigurationsScreenProps) {
 				/>
 				<VerticalSpacing />
 				<OptionButton
-					label={'serviços públicos'}
-					highlightedWords={['serviços', 'públicos']}
-					labelSize={18}
-					relativeHeight={relativeScreenHeight(9)}
-					SvgIcon={PublicServicesWhiteIcon}
-					svgIconScale={['50%', '50%']}
-					leftSideColor={theme.orange3}
-					leftSideWidth={'22%'}
-					onPress={() => navigateToScreen('NotificationPublicServicesSettings')}
-				/>
-				<VerticalSpacing />
-				<OptionButton
 					label={'métodos de login'}
 					highlightedWords={['métodos', 'de', 'login']}
 					labelSize={18}
