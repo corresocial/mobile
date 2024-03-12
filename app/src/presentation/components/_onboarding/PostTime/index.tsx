@@ -146,7 +146,13 @@ function PostTime({
 				justifyContent={'center'}
 			>
 				<InputsContainer>
-					<DataVisualizerInput></DataVisualizerInput>
+					<DataVisualizerInput
+						openPickerOnTouch
+						pickerType={'time'}
+						fields={['hora', 'minuto']}
+						defaultBackgroundColor={theme.white2}
+						validBackgroundColor={validationColor}
+					/>
 					{/* <DefaultInput
 						value={hours}
 						relativeWidth={'40%'}

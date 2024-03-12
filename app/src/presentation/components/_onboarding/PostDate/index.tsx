@@ -16,6 +16,7 @@ import { SmallButton } from '@components/_buttons/SmallButton'
 import { InstructionCard } from '@components/_cards/InstructionCard'
 import { DefaultHeaderContainer } from '@components/_containers/DefaultHeaderContainer'
 import { FormContainer } from '@components/_containers/FormContainer'
+import { DataVisualizerInput } from '@components/_inputs/DataVisualizerInput'
 import { DefaultInput } from '@components/_inputs/DefaultInput'
 import { HorizontalSpacing } from '@components/_space/HorizontalSpacing'
 
@@ -183,64 +184,12 @@ function PostDate({
 				justifyContent={'center'}
 			>
 				<InputsContainer>
-					<DefaultInput
-						value={day}
-						relativeWidth={'28%'}
-						textInputRef={inputRefs.dayInput}
-						nextInputRef={inputRefs.monthInput}
+					<DataVisualizerInput
+						openPickerOnTouch
+						pickerType={'date'}
+						fields={['dia', 'mês', 'ano']}
 						defaultBackgroundColor={theme.white2}
 						validBackgroundColor={validationColor}
-						maxLength={2}
-						fontSize={22}
-						placeholder={'dia'}
-						keyboardType={'decimal-pad'}
-						filterText={filterLeavingOnlyNumbers}
-						invalidTextAfterSubmit={invalidDateAfterSubmit || !existsThisDayOnMonth()}
-						validateText={(text: string) => validateDay(text)}
-						onChangeText={(text: string) => {
-							setDay(text)
-							invalidDateAfterSubmit && setInvalidDateAfterSubmit(false)
-						}}
-					/>
-					<DefaultInput
-						value={month}
-						relativeWidth={'30%'}
-						previousInputRef={inputRefs.dayInput}
-						textInputRef={inputRefs.monthInput}
-						nextInputRef={inputRefs.yearInput}
-						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={validationColor}
-						maxLength={2}
-						fontSize={22}
-						placeholder={'mês'}
-						keyboardType={'decimal-pad'}
-						filterText={filterLeavingOnlyNumbers}
-						invalidTextAfterSubmit={invalidDateAfterSubmit}
-						validateText={(text: string) => validateMonth(text)}
-						onChangeText={(text: string) => {
-							setMonth(text)
-							invalidDateAfterSubmit && setInvalidDateAfterSubmit(false)
-						}}
-					/>
-					<DefaultInput
-						value={year}
-						relativeWidth={'35%'}
-						previousInputRef={inputRefs.monthInput}
-						textInputRef={inputRefs.yearInput}
-						defaultBackgroundColor={theme.white2}
-						validBackgroundColor={validationColor}
-						maxLength={4}
-						fontSize={22}
-						placeholder={'ano'}
-						keyboardType={'decimal-pad'}
-						lastInput
-						filterText={filterLeavingOnlyNumbers}
-						invalidTextAfterSubmit={invalidDateAfterSubmit}
-						validateText={(text: string) => validateYear(text)}
-						onChangeText={(text: string) => {
-							setYear(text)
-							invalidDateAfterSubmit && setInvalidDateAfterSubmit(false)
-						}}
 					/>
 				</InputsContainer>
 				<ButtonContainer>
