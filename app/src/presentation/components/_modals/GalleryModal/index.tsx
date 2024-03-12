@@ -78,11 +78,13 @@ function GalleryModal({ picturesUrl, showGallery, onClose }: GalleryProps) {
 		setTimeout(() => {
 			if (currentIndex === picturesUrl.length - 1) {
 				goToIndex(currentIndex)
-				carouselRef.current.next()
+				if (carouselRef.current) {
+					isLandscapeMode ? carouselRef.current.next() : carouselRef.current.prev()
+				}
 				return
 			}
 			goToIndex(currentIndex)
-		}, 50)
+		}, 500)
 	}, [isLandscapeMode])
 
 	useEffect(() => {
