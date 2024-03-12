@@ -4,8 +4,8 @@ import styled from 'styled-components/native'
 import { relativeScreenHeight } from '@common/screenDimensions'
 
 interface InputContainerProps{
-    inputColor: string,
-    validColor?: string,
+    defaultColor: string,
+    validColor: string,
     valid?: boolean 
 }
 
@@ -16,7 +16,7 @@ export const InputContainer = styled.TouchableOpacity<InputContainerProps>`
     justify-content: space-between;
     width: 100%;
     height: ${relativeScreenHeight(9)}px;
-    background-color: ${({inputColor})}
+    background-color: ${(props) => (props.valid ? props.validColor : props.defaultColor)};
     border-radius: ${RFValue(14)}px;
 `
 
