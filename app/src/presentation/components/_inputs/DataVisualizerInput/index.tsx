@@ -30,18 +30,17 @@ function DataVisualizerInput({
 }: DataVisualizerInputProps) {
 	type InputValuesType = {id: number, value: string}
 	
-	const [isValid, setIsValid] = useState(false)
+	const [isValid, setIsValid] = useState(!!initialValue)
 	const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
 	const [inputValues, setInputValues] = useState<InputValuesType[]>([])
 
 	useEffect(() => {
-		// console.log(!initialValue === false)
-		// if (initialValue) {
-		// 	const newDate = getNewDate(initialValue)
-		// 	const formattedValues = convertDateTimeToArrayValues(newDate)
-		// 	populateInputValues(formattedValues)
-		// 	return
-		// }
+		if (initialValue) {
+			const newDate = getNewDate(initialValue)
+			const formattedValues = convertDateTimeToArrayValues(newDate)
+			populateInputValues(formattedValues)
+			return
+		}
 		populateInputValues(fields)
 	}, [])
 
@@ -124,7 +123,6 @@ function DataVisualizerInput({
 			<DateTimePickerModal
 				isVisible={isDatePickerVisible}
 				mode={pickerType}
-				date={getNewDate(initialValue)}
 				textColor={'black'}
 				onConfirm={onPickerConfirmHandler}
 				onCancel={onPickerCancelHandler}
